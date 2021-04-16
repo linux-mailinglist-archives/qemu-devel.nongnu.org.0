@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80CC362880
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:19:18 +0200 (CEST)
-Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC69362898
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:27:33 +0200 (CEST)
+Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXTzp-0003c0-QT
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50710)
+	id 1lXU7o-0005rC-VW
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXTiD-00046c-Ec
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:01:05 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34330)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lXTz9-00039H-Jp
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:18:35 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXThf-0004W5-Mc
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:01:04 -0400
-Received: by mail-pl1-x629.google.com with SMTP id t22so14153224ply.1
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 12:00:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lXTz5-0005aW-So
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:18:35 -0400
+Received: by mail-ed1-x535.google.com with SMTP id z1so33551047edb.8
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 12:18:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Sur9/JZybq5xVkGAS9I0yc1/ThRv4l764lANHeDVf88=;
- b=on1k2vf5G4Nx0xIg2DtfIG3D/oabpkqS+D0rI2KXDgx4ppDZNlgW8cDBjiQfP0InmB
- Th4tPlGBmBPZ/5Q/9P8Zv146QycNLlmlFzPGbK3tJ9Y/dUW6VVMTLHLbEyxVpwQbZLkP
- YwbCBTX1OcvVUhIjqdNjn0C1xXKVnWQ3rlYQkDhGm3WCELDVnBh3KrL+KxejzuyLV0go
- Fo2vf/8oTbWDWZA2a9jtGS0As9IVtn8HcdI9PRJ3QoIAeTr8vKQrbvY6P1efdVA+3tKQ
- OQAXiJWqIFt7G7xq/5clfJ2ocZ+3OwBK1EdFijfe6YSbEJIs+siwoiuiZr+WiXmEb/4F
- rEYw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xQ50nJfYxuKPsva+LWRGT805gpOlHHQSE1O39nYKRhE=;
+ b=Qr837y6VSXTYrV7k6basXyn5xKHal2tSEKpEhXvrbuQbwY1Hk7QsWwreLypc6TegOz
+ ElSz2cTqDvv+R4yNmAllhSfockOAcjR2FGLLn9qP+DXcBSno0YpWnISRnNBDUtu79fn/
+ EvnWjLPkuKy9+Kss/VVVZMv7n68LyzW73h27Y7y0lmwtyUxNtFsaPMJR79Uxk9UNEFRS
+ XmwaKUzmI/VeOGha8KScexvrR7P47I7oTY8WC0cogJ7dpfY33rNeVSqDs0iLOdBwG26f
+ YeYjX4OJsWvqGS/JYeD6SNmrXCmN7Q1Cj1HAZ+Fle12B9Pbd9DGLbd+VZg/nG9HSsoWY
+ hcvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Sur9/JZybq5xVkGAS9I0yc1/ThRv4l764lANHeDVf88=;
- b=RwnChH5NTA6REt3D0lLwdaO36v07DC6PtGKhDgE5RsTh9FywgqGp2lc8EOT6V+Fd2U
- HXcdR7cSZ6DtouySr7sS7Yr59WbZLcvLnbpqUvLfEWKk1JOFQxgT3ErWGhRDxGR5KWYi
- mHBaVsWMdcdI5OxOwA/Zhw2W4HzXMhZJULZiDUZOq0w7vx/wbz7AQqhPqkkT92Yzl1a3
- V6hT3GHs75Ccw0Of6o+NfFW3NH0RZ2jbEX4qnBuEpgtJV/O1ddBjm4FsKA0f9twbFF/3
- cR5a9eWw0RSB4Z4Dsp3joTNgLuXX4pIHcCU4FUxo8pD99hyPWdI9gvwsDJa1vpgj/NOQ
- UagQ==
-X-Gm-Message-State: AOAM532gvSWqbLgsb3lWEIUV/OEA44K8GLm9cu2s0YFIelxHQqllcExt
- 1D5tpw5fbMoE61aSU+ff/6ABun4FayrWiA==
-X-Google-Smtp-Source: ABdhPJyMVx4P1oPQsXsvftA5bvIHsjIicFpSnk0yS65UdYuHU7t2/VWpCLOaIbw409D51hRQ8LGMkQ==
-X-Received: by 2002:a17:90a:a389:: with SMTP id
- x9mr10964450pjp.232.1618599630294; 
- Fri, 16 Apr 2021 12:00:30 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id d7sm1988337pfv.197.2021.04.16.12.00.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 12:00:29 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 30/30] target/arm: Enforce alignment for sve LD1R
-Date: Fri, 16 Apr 2021 11:59:59 -0700
-Message-Id: <20210416185959.1520974-31-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210416185959.1520974-1-richard.henderson@linaro.org>
-References: <20210416185959.1520974-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xQ50nJfYxuKPsva+LWRGT805gpOlHHQSE1O39nYKRhE=;
+ b=FWLy5ZIrn0cajmpJk9cwb3ycuc0nC4mLlK1n+iQn2MeNIiw8WR3Rwh7aiDAgGenPIx
+ QNbYEknlx+PNt4jHfIiraR7R7vFc9ymBFtQ2iSAx5tRnLhW0+6D4c/Fdj78tTlbgbMBX
+ uqIbZSWG2ne9e3p8mZQNWcf/U/61RGTEY38rm1yr5BKWib7hn6juiLIXfKXcNFE1eX50
+ OaT5zHb0I5XNHjV20SEie2wvmc3sA+4qQw9Uje3JTnNPfdpHe3649wZMWhTG6NjoxyHL
+ yju0BKYBckYvMmW5Tvy2Ezt+f8cbXlnIh1S27k1Dg5MEWx8kyvZeq7GUJPKmgnR3MN4B
+ r7lw==
+X-Gm-Message-State: AOAM530mBLNTOS+drEWe4Zb3epwBqVf8G1IhOoQ5I/DQmEletSwf9lpG
+ DMyNp3I19oAAHPcB+eHDGElpNg4dDdOz0WDUY1+uKg==
+X-Google-Smtp-Source: ABdhPJzkUKsQ8Y7NTLLC8zBFvoE1cqSJAPJwxTQY8RKrHwZZc2ylB/AN/kX50TdxGl+pPRBqBpg/97ozDDNlsSv6Fq8=
+X-Received: by 2002:a05:6402:2746:: with SMTP id
+ z6mr12022678edd.146.1618600710140; 
+ Fri, 16 Apr 2021 12:18:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+References: <20210416185959.1520974-1-richard.henderson@linaro.org>
+In-Reply-To: <20210416185959.1520974-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Apr 2021 20:17:41 +0100
+Message-ID: <CAFEAcA94XeExOTYxF8owHUjKN_dbpXx19OonuEMGGTNBksPg2Q@mail.gmail.com>
+Subject: Re: [PATCH v4 for-6.1 00/39] target/arm: enforce alignment
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,30 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-sve.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 16 Apr 2021 at 20:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Based-on: 20210416183106.1516563-1-richard.henderson@linaro.org
+> ("[PATCH v5 for-6.1 0/9] target/arm mte fixes")
 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 584c4d047c..864ed669c4 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -5001,7 +5001,7 @@ static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
-     clean_addr = gen_mte_check1(s, temp, false, true, msz);
- 
-     tcg_gen_qemu_ld_i64(temp, clean_addr, get_mem_index(s),
--                        s->be_data | dtype_mop[a->dtype]);
-+                        finalize_memop(s, dtype_mop[a->dtype]));
- 
-     /* Broadcast to *all* elements.  */
-     tcg_gen_gvec_dup_i64(esz, vec_full_reg_offset(s, a->rd),
--- 
-2.25.1
+Subject says 00/39 but...
 
+> Richard Henderson (30):
+
+...only 30 patches actually sent. Are some missing ?
+
+thanks
+-- PMM
 
