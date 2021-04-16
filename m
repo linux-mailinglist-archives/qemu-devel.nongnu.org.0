@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E648361DDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:22:00 +0200 (CEST)
-Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C51E361DD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:16:17 +0200 (CEST)
+Received: from localhost ([::1]:57586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXLbr-0006Qo-9M
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53236)
+	id 1lXLWK-0004BI-6D
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXLao-0005f5-P6
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:20:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXLak-0001H5-I3
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:20:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lXLaf-0004vs-SD
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:20:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BC9AE2E8162
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:20:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lXLUT-0003mG-8V
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:14:21 -0400
+Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:36603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lXLUQ-0005fR-OZ
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:14:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 69BC828188D;
+ Fri, 16 Apr 2021 12:14:15 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Apr
+ 2021 12:14:14 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003e4ebc384-c693-41be-b8a3-d9bc6f3e22b6,
+ 98643AE5B40D77660504470F9E4DE59E1F602129) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [EXTERNAL] Re: [PULL 18/23] accel/tcg: re-factor non-RAM
+ execution code
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210218094706.23038-1-alex.bennee@linaro.org>
+ <20210218094706.23038-19-alex.bennee@linaro.org>
+ <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
+ <CAFEAcA9G-WabAM_EdgMzd0Xv6z8xRYjw57DiEqB6Z_Wbj=X1Eg@mail.gmail.com>
+ <87blaflit2.fsf@linaro.org>
+ <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
+ <b989ebfe-1294-5eef-53a2-9599421e0069@amsat.org>
+ <6597cb54-44d9-0798-0786-098286001fe0@kaod.org>
+ <CAFEAcA-x-eNaH=JROoSgF-ruWJDC2++qLNxz3ZEtziyUO-3aEQ@mail.gmail.com>
+ <959e497c-7873-f449-c3d8-546479cccace@kaod.org> <8735vqlhdm.fsf@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <9c14e634-cd3e-d984-b24f-2abc99536aa0@kaod.org>
+Date: Fri, 16 Apr 2021 12:14:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <8735vqlhdm.fsf@linaro.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Apr 2021 10:10:17 -0000
-From: Peter Maydell <1923861@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ml-0 pmaydell
-X-Launchpad-Bug-Reporter: ml-0 (ml-0)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
-Message-Id: <161856781762.8790.12240976625650730674.malone@gac.canonical.com>
-Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 2551cbb354603e21433dc459cf5785ea3ffc7505
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 680aa972-0ea7-4df2-ae35-9db0e4586151
+X-Ovh-Tracer-Id: 7166915861118880617
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudelhedgvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,53 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, MVE is next on my todo list; it will probably be in 6.2, or maybe
-7.0 depending how long it takes to implement it all.
+On 4/16/21 11:14 AM, Alex Bennée wrote:
+> 
+> Cédric Le Goater <clg@kaod.org> writes:
+> 
+>> On 4/15/21 7:34 PM, Peter Maydell wrote:
+>>> On Thu, 15 Apr 2021 at 18:18, Cédric Le Goater <clg@kaod.org> wrote:
+>>>>
+>>>> On 4/15/21 5:55 PM, Philippe Mathieu-Daudé wrote:
+>>>>> On 4/15/21 4:54 PM, Peter Maydell wrote:
+>>>>>> On Thu, 15 Apr 2021 at 15:32, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>>>>>> --8<---------------cut here---------------start------------->8---
+>>>>>>> accel/tcg: avoid re-translating one-shot instructions
+>>>>>>>
+>>>>>>> By definition a single instruction is capable of being an IO
+>>>>>>> instruction. This avoids a problem of triggering a cpu_io_recompile on
+>>>>>>> a non-cached translation which would only do exactly this anyway.
+>>>>>>>
+>>>>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>>>>>
+>>>>>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>> accel/tcg/translate-all.c | 2 +-
+>>>>>>>
+>>>>>>> modified   accel/tcg/translate-all.c
+>>>>>>> @@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>>>>>>>
+>>>>>>>      if (phys_pc == -1) {
+>>>>>>>          /* Generate a one-shot TB with 1 insn in it */
+>>>>>>> -        cflags = (cflags & ~CF_COUNT_MASK) | 1;
+>>>>>>> +        cflags = (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
+>>>>>>>      }
+>>>>>>>
+>>>>>>>      max_insns = cflags & CF_COUNT_MASK;
+>>>>>>> --8<---------------cut here---------------end--------------->8---
+>>>>>>
+>>>>>> Yes, this fixes the problem. Do we want to put this in for 6.0? My
+>>>>>> feeling is that executing from non-RAM is pretty niche, so maybe
+>>>>>> if we need an rc4 anyway, but this isn't important enough to cause an
+>>>>>> rc4 itself.
+>>>>>
+>>>>> Isn't it the default for Aspeed machines (with U-Boot)? (Cc'ing Cédric).
+>>>>
+>>>> You need to set the 'execute-in-place' machine option to load/execute the
+>>>> instructions from the AHB window of CE0. It's not on by default because
+>>>> boot can be really slow with some recent u-boot which heavily trash the TBs.
+>>>>
+>>>> But this seems to work fine with -rc3.
+>>>
+>>> Triggering the bug requires both execute-in-place and -icount -- did
+>>> you test with -icount enabled?
+>>
+>> It crashes.
+> 
+> 
+> Without the above patch? I've re-posted as a proper patch here:
+> 
+>   Subject: [RFC PATCH] accel/tcg: avoid re-translating one-shot instructions
+>   Date: Thu, 15 Apr 2021 17:24:53 +0100
+>   Message-Id: <20210415162454.22056-1-alex.bennee@linaro.org>
+> 
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923861
+This patch does not fix the crash for the aspeed machines.
 
-Title:
-  Hardfault when accessing FPSCR register
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU release version: v6.0.0-rc2
-
-  command line:
-  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
-semihosting -semihosting-config enable=3Don,target=3Dnative
-
-  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
-  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
-  GNU/Linux
-
-  guest operating system: none (bare metal)
-
-  Observation:
-  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
-47 machine. In the startup code I am accessing the FPSCR core register:
-
-  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
-  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
-  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
-
-  where the register access functions __get_FPSCR() and
-  __set_FPSCR(fpscr) are taken from CMSIS_5 at
-  ./CMSIS/Core/include/cmsis_gcc.h
-
-  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
-  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
+C.
 
