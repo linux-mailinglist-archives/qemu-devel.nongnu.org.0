@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C13B362599
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:23:13 +0200 (CEST)
-Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDDAA36259F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:26:36 +0200 (CEST)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRFP-0005gM-Um
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44066)
+	id 1lXRIh-0007vz-L4
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lXREc-0005Cs-OC
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:22:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lXREa-0006sn-1p
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:22:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618590138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/be2flijRMrqu3LzEmuXpCudrTbxo2cZaiHsp29hkxg=;
- b=CTh75L0nh/KqigVXXHSbyltkbDy/xkAW8XsHZnT6lVMxMrMNObycy33bAWTqNV9DSiAC9M
- CPJyzqFKKPi4ka7sLv+bfTBusLyJmfu+wt+ldOSozuTm+Ekj6fTnO/x7PvObHGXeFOXVVo
- NJrQW3XoE2unYqiXrb72et9GtW0UElo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-C19G9ZJGN0ONlAfANgEZXQ-1; Fri, 16 Apr 2021 12:22:16 -0400
-X-MC-Unique: C19G9ZJGN0ONlAfANgEZXQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- x21-20020a1709064bd5b029037c44cb861cso2194647ejv.4
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 09:22:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3Qrp5YAcKCqccLUabYLNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--venture.bounces.google.com>)
+ id 1lXRGp-0006xl-RN
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:24:39 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:50620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3Qrp5YAcKCqccLUabYLNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--venture.bounces.google.com>)
+ id 1lXRGn-0007rl-6X
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:24:39 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id v2so6730563ybc.17
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 09:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=G5qTrKtWflOMOAHzpRZ3MGKi+kEZJpERJ2RBhE2G/zY=;
+ b=YXo0IROMRBoAQ18/O86PVaGAZueeOEALr/AvRltdYYJWvZjjG7z4/2sYDlkqafWsxK
+ +KxnhgJtJH7P5h5wN4j8N7Z7BI8A340Hsh5ek3hhsVppSpvwKnmk8M79PqxIAMwgcZB2
+ 8HOiG6WrcNod+Q2rzhd50Hz937KWhVPAAP0c1PEJ/gPioCqPXHvU0efdwDxC7rmH6jo8
+ LjlZGgwJ/HbPtNED8K5O3sMkyyuPFZ126hbTbNVprBqrNC64vmnjh06tihmJnM2HkXv3
+ SkOBts7QO9ZVpWO9GEJTAbAROA1LB6uSATff+r+cbOzJ5nMSVJwzveRxd8O3/IgUMoOj
+ P/Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/be2flijRMrqu3LzEmuXpCudrTbxo2cZaiHsp29hkxg=;
- b=jFf+QwRf6ZTEdGJMLMugnfLZPefNYo3sjfFZh99bKK92VPHnAd3GL0N+jWk6zTKu8H
- CpPbVLM69mgJ+IvC+BlyP0nDxqcnmWm7LZC9KSNS0Yg7nqkDkEWc/HjDNzC+HP5oTCEP
- Qj75Yg8rqtWRGLRw0A+jeTHzR/2n8QH0sJRwzCvhEVuRzpAjBIOzO0rGdUEdKWeJ2N39
- GsUoRUD8+5ISOx3dmDC0xrv/W6hVn7+dDnxKlz7A4y2pdEgvELOSOzam2c96sQCAKyDJ
- D+z9rA72fklEM+at2ZAtN4x+2Lw5JHtkuVmTdNjy7KBBvZNPdbNBjm2mV9rBD9Wy818p
- C5RA==
-X-Gm-Message-State: AOAM530tePSol/dTd0CjfpZhYp0xgPjPrBEpq8R7FVyYdqDN2c59qWU4
- P14zzv4gA/mtTsdHA4yFLxiMAQQyPHjPqbVFpn6pnUDXJw7csYFXHMVVc/UrPTtC0gZceHzYfs6
- +KrSsP+wlDWbSUHk=
-X-Received: by 2002:a17:906:314f:: with SMTP id
- e15mr9119776eje.30.1618590135003; 
- Fri, 16 Apr 2021 09:22:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzX41bN5OprOfWtTHyOXZqUthMR6C4tkEycOHiAELjN+hW/ghCNeOR5jq3z4tawL/uSlUwgg==
-X-Received: by 2002:a17:906:314f:: with SMTP id
- e15mr9119749eje.30.1618590134803; 
- Fri, 16 Apr 2021 09:22:14 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id la24sm4876318ejb.71.2021.04.16.09.22.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 09:22:14 -0700 (PDT)
-Subject: Re: [PATCH 0/8] Tests: introduce custom jobs
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210415215141.1865467-1-crosa@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ad6d0dda-ba29-d9e5-1ca9-d849ef28eb66@redhat.com>
-Date: Fri, 16 Apr 2021 18:22:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <20210415215141.1865467-1-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=G5qTrKtWflOMOAHzpRZ3MGKi+kEZJpERJ2RBhE2G/zY=;
+ b=X0AqNgXyuZAA9K9o8VRgpjRJUdagXtE8Srdx6CVIChp1Inb8PDGNW44/z9lFQFVuHx
+ hNdGkfXVYK/gtQ111Z6V2E8Tea2yLDEoRuYdw4TQFe15Ed8jHupLchAjO1cZabOPOtoN
+ Hk26Ayr8YAA6XyrxqNMwQLo2ZmA3+cn1M8uoIXbHe6tUFy4HoU4LifA+Gbxphw9cvHPY
+ LtaHQu/bNxOxhoqSP6+rl/F3nPJYd8Vftp5nvPJTwWFnAc/U7EhaRsVypkbhaXrP6UTr
+ 1ZLILsVi3rEiXsWT5b5hR4eVfFfKSXFKh7LyBmaTIOwEf8HiscwbB4c+XxZsQYuh5h/z
+ rPMg==
+X-Gm-Message-State: AOAM532iT2cXpsK7pnYD75KCEJRNGotVSKHRM1kGKF8oLOjATSnzPwk/
+ 16rSYpB/CcpoyLKe2yWy27IEiXeR631K
+X-Google-Smtp-Source: ABdhPJwV6g0aOms7eXQMrAIR4aE6zSNdj+OUe+fJD7ShNh6W5uED7LuBna+XhoMvVB9HZgXSf0nlM5Aouk20
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:87b7:e98a:2eda:186])
+ (user=venture job=sendgmr) by 2002:a25:cf08:: with SMTP id
+ f8mr12960591ybg.88.1618590274476; Fri, 16 Apr 2021 09:24:34 -0700 (PDT)
+Date: Fri, 16 Apr 2021 09:24:25 -0700
+Message-Id: <20210416162426.3217033-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
+Subject: [PATCH] aspeed: Add support for the quanta-q7l1-bmc board
+From: Patrick Venture <venture@google.com>
+To: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3Qrp5YAcKCqccLUabYLNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,47 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/04/21 23:51, Cleber Rosa wrote:
-> Different users (or even companies) have different interests, and
-> may want to run a reduced set of tests during development, or a
-> larger set of tests during QE.
-> 
-> To cover these use cases, this introduces some example (but
-> functional) jobs.
-> 
-> It's expected that some common jobs will come up from common
-> requirements for different users (and maybe be added to a common
-> location such as tests/jobs), and that very specific jobs will be
-> added to directories specific to certain groups, say
-> "contrib/com.redhat/jobs" or the like.
-> 
-> This series does*not*  add new jobs to GitLab CI pipeline, but this is
-> expected to be done later on custom runners.  That is, custom runners
-> could be used for custom jobs.  Anyway, a GitLab CI pipeline can be
-> seen here:
-> 
->   https://gitlab.com/cleber.gnu/qemu/-/pipelines/287210066
-> 
-> This is based on the Avocado version bump patch:
-> 
->   https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02391.html
+The Quanta-Q71l BMC board is a board supported by OpenBMC.
 
-I admit I haven't even having read the patches (only the diffstat), but 
-still: documentation please.
+Tested: Booted quanta-q71l firmware.
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+---
+ hw/arm/aspeed.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-Paolo
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a17b75f494..4611996d21 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -138,6 +138,19 @@ struct AspeedMachineState {
+ /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
+ #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
+ 
++/* Quanta-Q71l hardware value */
++#define QUANTA_Q71L_BMC_HW_STRAP1 (                                     \
++        SCU_AST2400_HW_STRAP_DRAM_SIZE(DRAM_SIZE_128MB) |               \
++        SCU_AST2400_HW_STRAP_DRAM_CONFIG(2/* DDR3 with CL=6, CWL=5 */) | \
++        SCU_AST2400_HW_STRAP_ACPI_DIS |                                 \
++        SCU_AST2400_HW_STRAP_SET_CLK_SOURCE(AST2400_CLK_24M_IN) |       \
++        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
++        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_PASS_THROUGH) |          \
++        SCU_AST2400_HW_STRAP_SET_CPU_AHB_RATIO(AST2400_CPU_AHB_RATIO_2_1) | \
++        SCU_HW_STRAP_SPI_WIDTH |                                        \
++        SCU_HW_STRAP_VGA_SIZE_SET(VGA_8M_DRAM) |                        \
++        SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
++
+ /* AST2600 evb hardware value */
+ #define AST2600_EVB_HW_STRAP1 0x000000C0
+ #define AST2600_EVB_HW_STRAP2 0x00000003
+@@ -433,6 +446,34 @@ static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
+     object_property_set_int(OBJECT(dev), "temperature3", 110000, &error_abort);
+ }
+ 
++static void quanta_q71l_bmc_i2c_init(AspeedMachineState *bmc)
++{
++    AspeedSoCState *soc = &bmc->soc;
++
++    /*
++     * The quanta-q71l platform expects tmp75s which are compatible with
++     * tmp105s.
++     */
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4c);
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4e);
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4f);
++
++    /* TODO: i2c-1: Add baseboard FRU eeprom@54 24c64 */
++    /* TODO: i2c-1: Add Frontpanel FRU eeprom@57 24c64 */
++    /* TODO: Add Memory Riser i2c mux and eeproms. */
++
++    /* TODO: i2c-2: pca9546@74 */
++    /* TODO: i2c-2: pca9548@77 */
++    /* TODO: i2c-3: Add BIOS FRU eeprom@56 24c64 */
++    /* TODO: i2c-7: Add pca9546@70 */
++    /*        - i2c@0: pmbus@59 */
++    /*        - i2c@1: pmbus@58 */
++    /*        - i2c@2: pmbus@58 */
++    /*        - i2c@3: pmbus@59 */
++    /* TODO: i2c-7: Add PDB FRU eeprom@52 */
++    /* TODO: i2c-8: Add BMC FRU eeprom@50 */
++}
++
+ static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+@@ -728,6 +769,23 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
+         aspeed_soc_num_cpus(amc->soc_name);
+ };
+ 
++static void aspeed_machine_quanta_q71l_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc       = "Quanta-Q71l BMC (ARM926EJ-S)";
++    amc->soc_name  = "ast2400-a1";
++    amc->hw_strap1 = QUANTA_Q71L_BMC_HW_STRAP1;
++    amc->fmc_model = "n25q256a";
++    amc->spi_model = "mx25l25635e";
++    amc->num_cs    = 1;
++    amc->i2c_init  = quanta_q71l_bmc_i2c_init;
++    mc->default_ram_size       = 128 * MiB;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++}
++
+ static void aspeed_machine_supermicrox11_bmc_class_init(ObjectClass *oc,
+                                                         void *data)
+ {
+@@ -927,6 +985,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("g220a-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_g220a_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("quanta-q71l-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_quanta_q71l_class_init,
+     }, {
+         .name          = TYPE_ASPEED_MACHINE,
+         .parent        = TYPE_MACHINE,
+-- 
+2.31.1.368.gbe11c130af-goog
 
 
