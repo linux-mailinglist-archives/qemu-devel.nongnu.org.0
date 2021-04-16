@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E203D362C40
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 02:08:00 +0200 (CEST)
-Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3187362C2A
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 02:02:15 +0200 (CEST)
+Received: from localhost ([::1]:32894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXYVE-0007ww-05
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 20:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42154)
+	id 1lXYPe-0008Py-UG
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 20:02:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXYND-0005T0-Iw
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 19:59:43 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33552)
+ id 1lXYNE-0005VN-I0
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 19:59:44 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXYNA-0005hC-FN
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 19:59:43 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id h11so1712876pfn.0
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 16:59:40 -0700 (PDT)
+ id 1lXYNB-0005iY-KU
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 19:59:44 -0400
+Received: by mail-pg1-x530.google.com with SMTP id z16so20219115pga.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 16:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lVASvtsBblbStSZNmfD5xxhqdPNt/cEmCqHJFLMXkbU=;
- b=kT0LB1G54jAa8Yn10rPBR9qz5Mb6gGVMh08NZg5ypwrvmDZA7WV2SUBkJWc1HaZoU1
- WBSuv/AuqgZs75/PldwqNqqGELDI+wSVI87buQsY7W5a35lJgNaO5RJ3S0FY86sgGnS2
- koHVDVvgbfnhdaGquecpbfhMu+Wh0Np8pxqnU4UmwzSatK1j0Cx45VA+ClAWP7Mi+bWM
- tTDK0U7j7m5IQFxLR8NcA4DG6TThF1CAf42dghfV7jh4jCsyTt7p6LrJ3XqU+5OWyh75
- SCXy7xcWj5tY8a95GEKPdCIyYjKOcAY6S/OJ623l25h74f6jbBJPdkbSPITQw0cpC1AD
- PF/w==
+ bh=Gt+d8J8/Jeqw9COlXsH+/eB2+q3ZGydi93ujUMo44n4=;
+ b=nTxDb1C3/Aj0+G0+UZI87ScCA7g9YnYfKaasUIeveuH1+OkDJTFXIrr0VDpmpj879o
+ yh+dYeaEYfoR+ZN9REIrQwmgri43EBPmGGWpJV4vPTYwleIXlfXrAuFT6sAljTCx80tz
+ 3SzsgLHObOAq0wfgUEpO/BOIan3GWVV/XkPg6+YKmn9fyI+BExQzEsQW/zXdc8HZqq1b
+ geJNLtXbScTGJB7X++ox6GMvPuqyiZcYiNCbgI8gmS7iuBI8Hr4KZFsShfGN1dTqSAmA
+ MxZoaaKb3K9+OZxRDmiKBLJMq8n/9ObvaWDjRAbPzOXuh3TQ2X29TrjpFzCxhWOyTWqU
+ qu+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lVASvtsBblbStSZNmfD5xxhqdPNt/cEmCqHJFLMXkbU=;
- b=r58ws/6qsdDSkL1LQDlaHkK8muDzS+kfDWEIWZ1DU8nyxKlpKKGfa94h+0pEQmxwZ5
- qs0lWTRTAuMsrAi+lIj3nWEfv5Ks7cgNl2ApjYWSS7At6Hik9H5vuusLA+psSLJqr3hI
- sLELjsmMCZxdixsWfSOpOoIa4HZesDWP7tGUSspzzCHWCyA3DfMYI5POH2uuL7a/hkPj
- Iix75udJPRzICvAiyuy9smO4gtDJ+C3tIcwUxCK5xre0D/eNSF3FmjPoxlVAl/LWT9GF
- 7U3LPbPHX4+aBGmpVdvy2YNRxNNOmdri7MzX+X/EFsyD9vM6awvBz7oc/dGt0QvYjksc
- swGw==
-X-Gm-Message-State: AOAM530DCrdADsriWSLS2Iq0eKI87payjR3KtZgcyNwfUx1GD1Jm38aG
- ylu/dtZbxczDcECwui3rzPAsZErHi0u0iw==
-X-Google-Smtp-Source: ABdhPJw5m/6dVrdloBHVCZJfYBv1nPjmsiHgIQ1hEde2vzWLmkdhGv7LSz1NtmHkxYkytJf6n5gkNg==
-X-Received: by 2002:a63:1347:: with SMTP id 7mr1269321pgt.112.1618617579236;
- Fri, 16 Apr 2021 16:59:39 -0700 (PDT)
+ bh=Gt+d8J8/Jeqw9COlXsH+/eB2+q3ZGydi93ujUMo44n4=;
+ b=X7n8mG3Cdzqlzfln9uGAlS35SrS/kXaqjeE9GetPMxCx8CecEJ1vTRJ7vyWqFId7vj
+ hL4ZW06UyWZ2Qc1bPIx1/692dS+7PBIwhR5n2kbU6gKHwLqY0Aldb8zoXVu7UgQIcV10
+ ywss1SQBBLSVYet+SzQOipxv3mbvpOteP9TvIyAzA2hcEZYcyeZPD1jGYhx3efpmwBwv
+ kA+uJXYiJO48fqbYE7mlgOq9DRoTtrHOTrnCKvgTYP/PHD9neZVEEQHFzZ4+ws2CylKK
+ XHdy40kVqQwX4FEqNvfXWvEjDhOeoi/yFxudJqyAo/8PtvYmT1iips7uHootXSEOpTOX
+ BCxQ==
+X-Gm-Message-State: AOAM5324O30GG7Y4kbo6VIqIZ3n4L5rUDhPF+CjpoOv0BG8isJS5sUS9
+ 8anpyd4pZMotXeVUukrVrqoF9BnGyLBRag==
+X-Google-Smtp-Source: ABdhPJwyObesdKPkl/njvW5J/SswArEAmN19p18ed1mUh4Z8ibqMh6rx01vP+sR59UkgSuRQR/XQJg==
+X-Received: by 2002:a65:560d:: with SMTP id l13mr1298302pgs.49.1618617580273; 
+ Fri, 16 Apr 2021 16:59:40 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id d71sm560853pfd.83.2021.04.16.16.59.38
+ by smtp.gmail.com with ESMTPSA id d71sm560853pfd.83.2021.04.16.16.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 16:59:38 -0700 (PDT)
+ Fri, 16 Apr 2021 16:59:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/11] target/arm: Implement bfloat widening fma (vector)
-Date: Fri, 16 Apr 2021 16:59:26 -0700
-Message-Id: <20210416235928.1631788-10-richard.henderson@linaro.org>
+Subject: [PATCH v1 10/11] target/arm: Implement bfloat widening fma (indexed)
+Date: Fri, 16 Apr 2021 16:59:27 -0700
+Message-Id: <20210416235928.1631788-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210416235928.1631788-1-richard.henderson@linaro.org>
 References: <20210416235928.1631788-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,102 +91,105 @@ and VFMA{B,T}.BF16 for AArch32 NEON.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.h             |  3 +++
- target/arm/neon-shared.decode   |  3 +++
- target/arm/sve.decode           |  3 +++
- target/arm/translate-a64.c      | 13 +++++++++----
+ target/arm/helper.h             |  2 ++
+ target/arm/neon-shared.decode   |  2 ++
+ target/arm/sve.decode           |  2 ++
+ target/arm/translate-a64.c      | 15 ++++++++++++++-
  target/arm/translate-sve.c      | 30 ++++++++++++++++++++++++++++++
- target/arm/vec_helper.c         | 16 ++++++++++++++++
- target/arm/translate-neon.c.inc |  9 +++++++++
- 7 files changed, 73 insertions(+), 4 deletions(-)
+ target/arm/vec_helper.c         | 22 ++++++++++++++++++++++
+ target/arm/translate-neon.c.inc | 10 ++++++++++
+ 7 files changed, 82 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 74f8bc766f..2c6f0cecfa 100644
+index 2c6f0cecfa..cbcaab2ce0 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -1011,6 +1011,9 @@ DEF_HELPER_FLAGS_5(gvec_bfdot_idx, TCG_CALL_NO_RWG,
- DEF_HELPER_FLAGS_5(gvec_bfmmla, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
+@@ -1013,6 +1013,8 @@ DEF_HELPER_FLAGS_5(gvec_bfmmla, TCG_CALL_NO_RWG,
  
-+DEF_HELPER_FLAGS_6(gvec_bfmlal, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_6(gvec_bfmlal, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(gvec_bfmlal_idx, TCG_CALL_NO_RWG,
 +                   void, ptr, ptr, ptr, ptr, ptr, i32)
-+
+ 
  #ifdef TARGET_AARCH64
  #include "helper-a64.h"
- #include "helper-sve.h"
 diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
-index 4e0a25d27c..b61addd98b 100644
+index b61addd98b..df80e6ebf6 100644
 --- a/target/arm/neon-shared.decode
 +++ b/target/arm/neon-shared.decode
-@@ -70,6 +70,9 @@ VUSMMLA        1111 1100 1.10 .... .... 1100 .1.0 .... \
- VMMLA_b16      1111 1100 0.00 .... .... 1100 .1.0 .... \
-                vm=%vm_dp vn=%vn_dp vd=%vd_dp
- 
-+VFMA_b16       1111 110 0 0.11 .... .... 1000 . q:1 . 1 .... \
-+               vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+
- VCMLA_scalar   1111 1110 0 . rot:2 .... .... 1000 . q:1 index:1 0 vm:4 \
-                vn=%vn_dp vd=%vd_dp size=1
- VCMLA_scalar   1111 1110 1 . rot:2 .... .... 1000 . q:1 . 0 .... \
+@@ -95,3 +95,5 @@ VFML_scalar    1111 1110 0 . 0 s:1 .... .... 1000 . 0 . 1 index:1 ... \
+                rm=%vfml_scalar_q0_rm vn=%vn_sp vd=%vd_dp q=0
+ VFML_scalar    1111 1110 0 . 0 s:1 .... .... 1000 . 1 . 1 . rm:3 \
+                index=%vfml_scalar_q1_index vn=%vn_dp vd=%vd_dp q=1
++VFMA_b16_scal  1111 1110 0.11 .... .... 1000 . q:1 . 1 . vm:3 \
++               index=%vfml_scalar_q1_index vn=%vn_dp vd=%vd_dp
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index aa8d5e4b8f..322bef24cf 100644
+index 322bef24cf..69f979fb47 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1578,6 +1578,9 @@ FMLALT_zzzw     01100100 10 1 ..... 10 0 00 1 ..... .....  @rda_rn_rm_e0
- FMLSLB_zzzw     01100100 10 1 ..... 10 1 00 0 ..... .....  @rda_rn_rm_e0
- FMLSLT_zzzw     01100100 10 1 ..... 10 1 00 1 ..... .....  @rda_rn_rm_e0
+@@ -1589,6 +1589,8 @@ FMLALB_zzxw     01100100 10 1 ..... 0100.0 ..... .....     @rrxr_3a esz=2
+ FMLALT_zzxw     01100100 10 1 ..... 0100.1 ..... .....     @rrxr_3a esz=2
+ FMLSLB_zzxw     01100100 10 1 ..... 0110.0 ..... .....     @rrxr_3a esz=2
+ FMLSLT_zzxw     01100100 10 1 ..... 0110.1 ..... .....     @rrxr_3a esz=2
++BFMLALB_zzxw    01100100 11 1 ..... 0100.0 ..... .....     @rrxr_3a esz=2
++BFMLALT_zzxw    01100100 11 1 ..... 0100.1 ..... .....     @rrxr_3a esz=2
  
-+BFMLALB_zzzw    01100100 11 1 ..... 10 0 00 0 ..... .....  @rda_rn_rm_e0
-+BFMLALT_zzzw    01100100 11 1 ..... 10 0 00 1 ..... .....  @rda_rn_rm_e0
-+
- ### SVE2 floating-point bfloat16 dot-product
- BFDOT_zzzz      01100100 01 1 ..... 10 0 00 0 ..... .....  @rda_rn_rm_e0
- 
+ ### SVE2 floating-point bfloat16 dot-product (indexed)
+ BFDOT_zzxz      01100100 01 1 ..... 010000 ..... .....     @rrxr_2 esz=2
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 8636eac4a8..74794e3da3 100644
+index 74794e3da3..7842dd51be 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -12250,9 +12250,10 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
-         }
-         feature = dc_isar_feature(aa64_bf16, s);
-         break;
--    case 0x1f: /* BFDOT */
-+    case 0x1f:
-         switch (size) {
--        case 1:
-+        case 1: /* BFDOT */
-+        case 3: /* BFMLAL{B,T} */
-             feature = dc_isar_feature(aa64_bf16, s);
+@@ -13480,18 +13480,27 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
+                 unallocated_encoding(s);
+                 return;
+             }
++            size = MO_32;
              break;
-         default:
-@@ -12346,11 +12347,15 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
-     case 0xd: /* BFMMLA */
-         gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, 0, gen_helper_gvec_bfmmla);
-         return;
--    case 0xf: /* BFDOT */
-+    case 0xf:
-         switch (size) {
--        case 1:
-+        case 1: /* BFDOT */
-             gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, 0, gen_helper_gvec_bfdot);
-             break;
-+        case 3: /* BFMLAL{B,T} */
-+            gen_gvec_op4_fpst(s, 1, rd, rn, rm, rd, false, is_q,
-+                              gen_helper_gvec_bfmlal);
+         case 1: /* BFDOT */
+             if (is_scalar || !dc_isar_feature(aa64_bf16, s)) {
+                 unallocated_encoding(s);
+                 return;
+             }
++            size = MO_32;
 +            break;
++        case 3: /* BFMLAL{B,T} */
++            if (is_scalar || !dc_isar_feature(aa64_bf16, s)) {
++                unallocated_encoding(s);
++                return;
++            }
++            /* can't set is_fp without other incorrect size checks */
++            size = MO_16;
+             break;
          default:
-             g_assert_not_reached();
+             unallocated_encoding(s);
+             return;
          }
+-        size = MO_32;
+         break;
+     case 0x11: /* FCMLA #0 */
+     case 0x13: /* FCMLA #90 */
+@@ -13621,6 +13630,10 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
+             gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
+                              gen_helper_gvec_usdot_idx_b);
+             return;
++        case 3: /* BFMLAL{B,T} */
++            gen_gvec_op4_fpst(s, 1, rd, rn, rm, rd, 0, (index << 1) | is_q,
++                              gen_helper_gvec_bfmlal_idx);
++            return;
+         }
+         g_assert_not_reached();
+     case 0x11: /* FCMLA #0 */
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 9ade521705..3af980caba 100644
+index 3af980caba..7f33bc4682 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8622,3 +8622,33 @@ static bool trans_BFMMLA(DisasContext *s, arg_rrrr_esz *a)
-     }
-     return true;
+@@ -8652,3 +8652,33 @@ static bool trans_BFMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
+ {
+     return do_BFMLAL_zzzw(s, a, true);
  }
 +
-+static bool do_BFMLAL_zzzw(DisasContext *s, arg_rrrr_esz *a, bool sel)
++static bool do_BFMLAL_zzxw(DisasContext *s, arg_rrxr_esz *a, bool sel)
 +{
 +    if (!dc_isar_feature(aa64_sve_bf16, s)) {
 +        return false;
@@ -199,62 +202,69 @@ index 9ade521705..3af980caba 100644
 +                           vec_full_reg_offset(s, a->rn),
 +                           vec_full_reg_offset(s, a->rm),
 +                           vec_full_reg_offset(s, a->ra),
-+                           status, vsz, vsz, sel,
-+                           gen_helper_gvec_bfmlal);
++                           status, vsz, vsz, (a->index << 1) | sel,
++                           gen_helper_gvec_bfmlal_idx);
 +        tcg_temp_free_ptr(status);
 +    }
 +    return true;
 +}
 +
-+static bool trans_BFMLALB_zzzw(DisasContext *s, arg_rrrr_esz *a)
++static bool trans_BFMLALB_zzxw(DisasContext *s, arg_rrxr_esz *a)
 +{
-+    return do_BFMLAL_zzzw(s, a, false);
++    return do_BFMLAL_zzxw(s, a, false);
 +}
 +
-+static bool trans_BFMLALT_zzzw(DisasContext *s, arg_rrrr_esz *a)
++static bool trans_BFMLALT_zzxw(DisasContext *s, arg_rrxr_esz *a)
 +{
-+    return do_BFMLAL_zzzw(s, a, true);
++    return do_BFMLAL_zzxw(s, a, true);
 +}
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 623a0872f3..646a364c94 100644
+index 646a364c94..0906c5c148 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -2755,3 +2755,19 @@ void HELPER(gvec_bfmmla)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+@@ -2771,3 +2771,25 @@ void HELPER(gvec_bfmlal)(void *vd, void *vn, void *vm, void *va,
      }
      clear_tail(d, opr_sz, simd_maxsz(desc));
  }
 +
-+void HELPER(gvec_bfmlal)(void *vd, void *vn, void *vm, void *va,
-+                         void *stat, uint32_t desc)
++void HELPER(gvec_bfmlal_idx)(void *vd, void *vn, void *vm,
++                             void *va, void *stat, uint32_t desc)
 +{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    intptr_t sel = simd_data(desc);
++    intptr_t i, j, opr_sz = simd_oprsz(desc);
++    intptr_t sel = extract32(desc, SIMD_DATA_SHIFT, 1);
++    intptr_t index = extract32(desc, SIMD_DATA_SHIFT + 1, 3);
++    intptr_t elements = opr_sz / 4;
++    intptr_t eltspersegment = MIN(16 / 4, elements);
 +    float32 *d = vd, *a = va;
 +    bfloat16 *n = vn, *m = vm;
 +
-+    for (i = 0; i < opr_sz / 4; ++i) {
-+        float32 nn = n[H2(i * 2 + sel)] << 16;
-+        float32 mm = m[H2(i * 2 + sel)] << 16;
-+        d[H4(i)] = float32_muladd(nn, mm, a[H4(i)], 0, stat);
++    for (i = 0; i < elements; i += eltspersegment) {
++        float32 m_idx = m[H2(2 * i + index)] << 16;
++
++        for (j = i; j < i + eltspersegment; j++) {
++            float32 n_j = n[H2(2 * j + sel)] << 16;
++            d[H4(j)] = float32_muladd(n_j, m_idx, a[H4(j)], 0, stat);
++        }
 +    }
 +    clear_tail(d, opr_sz, simd_maxsz(desc));
 +}
 diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 7ce65f691f..dd710c8450 100644
+index dd710c8450..bd1068e4d4 100644
 --- a/target/arm/translate-neon.c.inc
 +++ b/target/arm/translate-neon.c.inc
-@@ -4126,3 +4126,12 @@ static bool trans_VMMLA_b16(DisasContext *s, arg_VMMLA_b16 *a)
-     return do_neon_ddda(s, 7, a->vd, a->vn, a->vm, 0,
-                         gen_helper_gvec_bfmmla);
+@@ -4135,3 +4135,13 @@ static bool trans_VFMA_b16(DisasContext *s, arg_VFMA_b16 *a)
+     return do_neon_ddda_fpst(s, 7, a->vd, a->vn, a->vm, a->q, FPST_STD,
+                              gen_helper_gvec_bfmlal);
  }
 +
-+static bool trans_VFMA_b16(DisasContext *s, arg_VFMA_b16 *a)
++static bool trans_VFMA_b16_scal(DisasContext *s, arg_VFMA_b16_scal *a)
 +{
 +    if (!dc_isar_feature(aa32_bf16, s)) {
 +        return false;
 +    }
-+    return do_neon_ddda_fpst(s, 7, a->vd, a->vn, a->vm, a->q, FPST_STD,
-+                             gen_helper_gvec_bfmlal);
++    return do_neon_ddda_fpst(s, 6, a->vd, a->vn, a->vm,
++                             (a->index << 1) | a->q, FPST_STD,
++                             gen_helper_gvec_bfmlal_idx);
 +}
 -- 
 2.25.1
