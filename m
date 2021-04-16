@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FE8361905
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:53:37 +0200 (CEST)
-Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79062361906
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:55:00 +0200 (CEST)
+Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXGU4-0007fs-Dz
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55040)
+	id 1lXGVP-0000MX-Jw
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lXGTH-00075j-Hk; Fri, 16 Apr 2021 00:52:47 -0400
-Received: from ozlabs.org ([203.11.71.1]:51453)
+ id 1lXGTH-00075i-FT; Fri, 16 Apr 2021 00:52:47 -0400
+Received: from ozlabs.org ([203.11.71.1]:40335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lXGTF-0003sf-H7; Fri, 16 Apr 2021 00:52:47 -0400
+ id 1lXGTE-0003se-Vi; Fri, 16 Apr 2021 00:52:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FM3jg0K8Dz9sVb; Fri, 16 Apr 2021 14:52:38 +1000 (AEST)
+ id 4FM3jg0kvZz9sV5; Fri, 16 Apr 2021 14:52:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1618548759;
- bh=M5DRCjE7+W1oq12uc54aAKXTf/vzdlt/VNay/318hMY=;
+ bh=xzDjLcE+Vp35WNszZszf3jflZGkgZOi88sfHa2aTpkY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T6AMjwzWtZw+i2G+1ebnCNUb10qPSDcZcBRS/jelrDBK7NqAIhvw3Hrix1VB01NlD
- w5dRGTgCqWXOunw0GNe/pLYM8vsgDXesdqx+8F4G3Wdcgfvs9uHEs64Q8XRGQLfqY/
- KlJJ0f/vlTDiaaBPGSLloyS3waXgiyRrT+fL1thk=
-Date: Fri, 16 Apr 2021 14:33:12 +1000
+ b=l7iXB19ZTtOdUk+xJxfb2pIE+wJ3Atb1DGTYPd9PF+RRceaEH4G3YB9QaKrmljAcV
+ SUV91KS2tJ3eY4MIcny8dzTgBgBMUsOD+G1mzfKFb19J2zAVLxjoFj44/cao/v+4Ry
+ LZ8Y3b7REOWOiqbWTXhOiHxPMKxTiDdubUo3DTcg=
+Date: Fri, 16 Apr 2021 14:52:31 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 09/12] qtest/migration-test: Skip tests if KVM not
- builtin on s390x/ppc64
-Message-ID: <YHkTiCE5RNBvue2/@yekko.fritz.box>
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-10-philmd@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [RFC PATCH v2 1/6] device_tree: Add qemu_fdt_add_path
+Message-ID: <YHkYD+cCl9/GCxwJ@yekko.fritz.box>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-2-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="M/U5VjhaaYHsyIdB"
+ protocol="application/pgp-signature"; boundary="bpxvPzcUlgYJX94H"
 Content-Disposition: inline
-In-Reply-To: <20210415163304.4120052-10-philmd@redhat.com>
+In-Reply-To: <20210413080745.33004-2-wangyanan55@huawei.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -59,73 +58,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ prime.zeng@hisilicon.com, yangyicong@huawei.com, yuzenghui@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---M/U5VjhaaYHsyIdB
-Content-Type: text/plain; charset=iso-8859-1
+--bpxvPzcUlgYJX94H
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 15, 2021 at 06:33:01PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> We might have a s390x/ppc64 QEMU binary built without the KVM
-> accelerator (configured with --disable-kvm).
-> Checking for /dev/kvm accessibility isn't enough, also check for the
-> accelerator in the binary.
+On Tue, Apr 13, 2021 at 04:07:40PM +0800, Yanan Wang wrote:
+> From: Andrew Jones <drjones@redhat.com>
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: qemu-ppc@nongnu.org
-> Cc: qemu-s390x@nongnu.org
-> ---
->  tests/qtest/migration-test.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except
+> it also adds any missing subnodes in the path. We also tweak
+> an error message of qemu_fdt_add_subnode().
 >=20
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 3a711bb4929..c32a2aa30a2 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1408,7 +1408,7 @@ int main(int argc, char **argv)
->       */
->      if (g_str_equal(qtest_get_arch(), "ppc64") &&
->          (access("/sys/module/kvm_hv", F_OK) ||
-> -         access("/dev/kvm", R_OK | W_OK))) {
-> +         access("/dev/kvm", R_OK | W_OK) || !qtest_has_accel("kvm"))) {
->          g_test_message("Skipping test: kvm_hv not available");
->          return g_test_run();
+> We'll make use of this new function in a coming patch.
+>=20
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  include/sysemu/device_tree.h |  1 +
+>  softmmu/device_tree.c        | 45 ++++++++++++++++++++++++++++++++++--
+>  2 files changed, 44 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> index 8a2fe55622..ef060a9759 100644
+> --- a/include/sysemu/device_tree.h
+> +++ b/include/sysemu/device_tree.h
+> @@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *=
+path);
+>  uint32_t qemu_fdt_alloc_phandle(void *fdt);
+>  int qemu_fdt_nop_node(void *fdt, const char *node_path);
+>  int qemu_fdt_add_subnode(void *fdt, const char *name);
+> +int qemu_fdt_add_path(void *fdt, const char *path);
+> =20
+>  #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)           =
+      \
+>      do {                                                                =
+      \
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index 2691c58cf6..8592c7aa1b 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -541,8 +541,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+> =20
+>      retval =3D fdt_add_subnode(fdt, parent, basename);
+>      if (retval < 0) {
+> -        error_report("FDT: Failed to create subnode %s: %s", name,
+> -                     fdt_strerror(retval));
+> +        error_report("%s: Failed to create subnode %s: %s",
+> +                     __func__, name, fdt_strerror(retval));
+>          exit(1);
 >      }
-> @@ -1419,7 +1419,7 @@ int main(int argc, char **argv)
->       */
->      if (g_str_equal(qtest_get_arch(), "s390x")) {
->  #if defined(HOST_S390X)
-> -        if (access("/dev/kvm", R_OK | W_OK)) {
-> +        if (access("/dev/kvm", R_OK | W_OK) || !qtest_has_accel("kvm")) {
->              g_test_message("Skipping test: kvm not available");
->              return g_test_run();
->          }
+> =20
+> @@ -550,6 +550,47 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+>      return retval;
+>  }
+> =20
+> +/*
+> + * Like qemu_fdt_add_subnode(), but will add all missing
+> + * subnodes in the path.
+> + */
+> +int qemu_fdt_add_path(void *fdt, const char *path)
+> +{
+> +    char *dupname, *basename, *p;
+> +    int parent, retval =3D -1;
+> +
+> +    if (path[0] !=3D '/') {
+> +        return retval;
+> +    }
+> +
+> +    parent =3D fdt_path_offset(fdt, "/");
+
+Getting the offset for "/" is never needed - it's always 0.
+
+> +    p =3D dupname =3D g_strdup(path);
+
+You shouldn't need the strdup(), see below.
+
+> +
+> +    while (p) {
+> +        *p =3D '/';
+> +        basename =3D p + 1;
+> +        p =3D strchr(p + 1, '/');
+> +        if (p) {
+> +            *p =3D '\0';
+> +        }
+> +        retval =3D fdt_path_offset(fdt, dupname);
+
+The fdt_path_offset_namelen() function exists *exactly* so that you
+can look up partial parths without having to mangle your input
+string.  Just set the namelen right, and it will ignore anything to
+the right of that.
+
+> +        if (retval < 0 && retval !=3D -FDT_ERR_NOTFOUND) {
+> +            error_report("%s: Invalid path %s: %s",
+> +                         __func__, path, fdt_strerror(retval));
+
+If you're getting an error other than FDT_ERR_NOTFOUND here, chances
+are it's not an invalid path, but a corrupted fdt blob or something
+else.
+
+> +            exit(1);
+> +        } else if (retval =3D=3D -FDT_ERR_NOTFOUND) {
+> +            retval =3D fdt_add_subnode(fdt, parent, basename);
+> +            if (retval < 0) {
+> +                break;
+> +            }
+> +        }
+> +        parent =3D retval;
+> +    }
+> +
+> +    g_free(dupname);
+> +    return retval;
+> +}
+> +
+>  void qemu_fdt_dumpdtb(void *fdt, int size)
+>  {
+>      const char *dumpdtb =3D current_machine->dumpdtb;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -133,25 +192,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---M/U5VjhaaYHsyIdB
+--bpxvPzcUlgYJX94H
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB5E4gACgkQbDjKyiDZ
-s5Kdqg//dPzb8NSIKOPBAchx4fQfNNlRvAN0QOVihtWc5shsO3LZL0cuWL9ut0eJ
-RQm2dzJhT6kOfy+y+9o+5hA56wvI6X2uxY8HULQJqrN9nQJmSxXMhWv5N/UwM43U
-4wfEzR2da9SMo8ZpjrO8PcIPGsekU5B7myBV7enxYyIdwMMkOVX41MW3xIh3r5KF
-YHsqJgWxlTL2B1fwdm+sINce3qZFlJBgDNHyptdduovZ9JDrD7XysNZmBRjD26QK
-I5Q1VW6BARlls3t35WFkmqgJ3Z6ACMFnqKwAbO09VYIuh8jw3qgUBsXWIanQoZGp
-VTptfbQZJSrUs7mJ4RFxnDmHUr4QVP2JzE1Hee8xgpQJxyucDpLiW93QSehdgNQG
-+HDxkLctqvF2NrRjqc+oDRbLh26QX2F3XmlZvOhxHhNanLnaahPnYxIp4pPLJcWR
-qJ83jf6UswNywT83ttwLx6nZSFRB6+WWVxTFfV3o3S0lXtFMP/dX7TCKTuhhsUJ6
-KRlS6zKk6zlfPX92uINMlHocpTZ3f/JL//i+nuomZwat4S0780ZUH0frCpzCLfAY
-nhSVafRDZCAKvn+7tWIa7NKCVE8gEcf7epOHxh/t1nAWDNLi7AOz6v2VaWwgL/f3
-llQiQp5oh6U1pxuVhQGCUfoSHzqJ38thy7zx4dvmq4OsUXsrcuI=
-=NVHN
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB5GA0ACgkQbDjKyiDZ
+s5LXeg//WsVtzYGhSyod/Dl72fGuT/4ta3YGMnJvZNPTAyywNIVuHjw15N5P9Zc1
+FWlUAy4ZmvrPV9KwECvcCQe1cXErjIjRsEn86kqt1o++v01I9UU+56hmkufNGSeB
+7SEqkPoJDcfht+H2SSfk6SppzLG1sGo4pr3E7liLTPWNhP1oVwDSqRhvpXR6tUN7
+CXdPehhcbLSS+K/vii0atlrCWnrOu9TjR+HBJ/5ACFJOLiAOqMifvkxhxkY6GpNw
+zM16XayBu5+09L3QPPVfid4xbSqPFjgmCzlCBddkzxalDUcjuON+WQxf+sSMljKq
+mIGUw7OcVbfRlS82NxcZxZ/VBxIs7lEfp+LIyoaUyI/RKWXzPBG0oa91ybzvDktE
+VSN74anWHnNMujCPfCI+MBl2nQLf8A49rTySpusagnON503jsY63I3CW3QQns6W9
+fS45CWb25UtHmBp4t+V7B3CjcJ40NPko0mLPcw6s81iIGVPzaxodrb2kg/2bP4yO
+TDHQfZzy9aYCqmIfXxMu3qKeOP/LMMGRLFZf/lTzal1YnmNTCqHEqWIUKwoCugg5
+ro5nh/kUf4H5YcUQFc4F47X5Jitgl5jBZVpaY44Ql/TKFviih0Qqj/50+QHqZsNE
+BU9qU9WWfDAyS4NXSzCKRes2eFbReROhcCMnCOS6pV9tbpBdYrQ=
+=FoGC
 -----END PGP SIGNATURE-----
 
---M/U5VjhaaYHsyIdB--
+--bpxvPzcUlgYJX94H--
 
