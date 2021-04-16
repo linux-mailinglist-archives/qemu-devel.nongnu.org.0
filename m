@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9227361A72
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 09:24:41 +0200 (CEST)
-Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E28C361A6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 09:21:22 +0200 (CEST)
+Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXIqG-0002bX-Pa
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 03:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
+	id 1lXIn2-0001Ng-U8
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 03:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lXIpQ-0002AS-8I
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:23:48 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33484)
+ id 1lXIlq-0000eA-To
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:20:06 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:39558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lXIpO-0004M4-B5
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:23:47 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- q123-20020a1c43810000b029012c7d852459so4957167wma.0
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 00:23:45 -0700 (PDT)
+ id 1lXIlp-000237-Cw
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:20:06 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id k25so26788931iob.6
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 00:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K8Lefpo8nZP0gFggoWqcmXp4/ZG5K0orSkYHqPpyME4=;
- b=o+bOXMIJggQpKNVUZ9MLFY2Ea0tGke2F/v2ET75uMSzyTEnepYooBGTYKQSQtxJ8e6
- HhLKVhFgZ3YpkkxqDfC8XO1l6Mri+OiP4ukr3OcZnaqCKAuD8jnANKN05uAxuMYjhzRv
- evVJmIEQGnkBxVrAjFAYx4TmaKdpnEO1fdBqr6coPxZfST+eBRO2eizBR7sZNdzIe1Ln
- wRN2z5Mlr0gkVUbJXjTdxGs+vxFqGq4xB10yEbWVF0UQC2SzvMC71J4c0x5ZjzpHzdaV
- hCYZ4tKKXd9EZH6UXPRpGnP1NqYDfnrhYnmSeE72479MUYTX0ZKWD09L4fUVbDu2TVQh
- Ll+w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ADiw8Cb9kGFadSJO6r6KTURpqHVJjIh40dMqKiduRdY=;
+ b=CXcxxOCsbzoDs2xl4c7PgQJ6lYh615ooW9hfMZpzod9e85jx+B8piNIhbOb5KZo7vm
+ sjP7eRONIwekT7Bv3yMfud4T3ymAXODgFYxmiwPT1IfOwUIEUSqMq+uc+iW+21KW9jtF
+ wljMDMjAujrfOefGXN3lG3fM9EgVUDNVsDAnd1Docr195Yht2+v+/r1Mgx4gAQxzQy+1
+ pJTcc/cRh8ofcDGgVSnV/O5x/sXQ3NSLKRmKZkXAU2TFcyslvDv5fGCK8J05CHMYJCLd
+ sdmso8VR8/RSU6scuKeNq+jHZ359XpJs/8IJr/X1b8dKKs7jRIOuHoCPov9a9JOI8bXs
+ svvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K8Lefpo8nZP0gFggoWqcmXp4/ZG5K0orSkYHqPpyME4=;
- b=npLdE0ywivId7UQHekiRteEPYfsppmcya1IPzM8KlrB7bJbQSWrxN0oaOb1tyQ2nUp
- RMvUVQZZeEkk40xvp5F1KnZEY4g8zRWGEeSna4Ux7he2vl/CX1rYF1IsITveQwbCE2Hu
- +ES8FrPjTswn3gfp+qv/Xkc2lSRJoYbfdDLC7Lh2XdBVC6+rxThlyBzTDxr9un7W7oBe
- mMgoYBurCMIUY6lyGhpFaGtBbjhLgoWxVcs739pfoWb7MpRja+ho+xaW3akhQdWCKiGr
- 4m4DIgM1v/O62pQvTTb0699INNE2okKj5ishT/dCh8kVX41xvNhFrROMh0CKNLNITtVz
- shKg==
-X-Gm-Message-State: AOAM530A+U0phdujHPtDLyr49wZqC6eWPeM+brugAlTJVAbF+JAGeoVF
- X/kAiL66fZKb3iuISVyzK9L1BI16x/o=
-X-Google-Smtp-Source: ABdhPJx51iLS3oBZYmwvIhwSx2Yw9NipehwJgEA8myV3gCxPccORK33hnEh3HjWJDxhUp2O7OJZi5Q==
-X-Received: by 2002:a05:600c:4f03:: with SMTP id
- l3mr6766006wmq.149.1618557824556; 
- Fri, 16 Apr 2021 00:23:44 -0700 (PDT)
-Received: from localhost.localdomain ([41.36.15.230])
- by smtp.googlemail.com with ESMTPSA id n3sm7484674wmi.7.2021.04.16.00.23.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 00:23:44 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] plugins/syscall: Added a table-like summary output
-Date: Fri, 16 Apr 2021 09:17:39 +0200
-Message-Id: <20210416071740.3393-1-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ADiw8Cb9kGFadSJO6r6KTURpqHVJjIh40dMqKiduRdY=;
+ b=O0W/oLuyAEo0O0Orv9GtuJqcFnbnMT4MJhw1wpLaR/Yu1YpbaKrAYdB+RJp6LgmPP7
+ eU/vMaw+jpC27sk8oa7+rnfgdyG/Jd3Taw+yLktJoKsyaU3WsQXvcRPwANzPhZ3ar2eG
+ KQfsgnH98ahrgSqVXdlcPEwKEKd1n0X7JXHyyVRWeFYUt5eZYwrDHaX6ZWeDVGpqny/t
+ uXq8oEUGsdhIicEy7ZdFLONqCUF3oNwJR0tHJt083hFROxrhv/BIXZChpbHxnRvztdCG
+ nAaTivgBKhpsG926jZmAYqF4Dl42pPigzOnHrxREmlZV8I/O3BfXh0Epe48RiLvb+5mG
+ S1dQ==
+X-Gm-Message-State: AOAM530zKYAtPj9YL53+E53qUa92XetYU31d23w/RdLTxc/W996pZXZP
+ emRoIGt/Sj5HbrbNq8NRgcA7gxGrRw7YDaHct0Q4oQsdMzM=
+X-Google-Smtp-Source: ABdhPJwB+mI8n/p/WeawAG2KG37Av6JV+wtCMNgpAn+JApp9TfPUuQCC26eEb26chzkpaKFZCWmlqd7j6HMYdSYEYm0=
+X-Received: by 2002:a05:6638:258e:: with SMTP id
+ s14mr2900028jat.28.1618557603841; 
+ Fri, 16 Apr 2021 00:20:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32f.google.com
+References: <20210415151849.26740-1-ma.mandourr@gmail.com>
+ <CAD-LL6h1Q5QuccmPoR9jTesM8axLFRN2Hy+Hm85fcXYRPR0KTw@mail.gmail.com>
+In-Reply-To: <CAD-LL6h1Q5QuccmPoR9jTesM8axLFRN2Hy+Hm85fcXYRPR0KTw@mail.gmail.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Fri, 16 Apr 2021 09:19:53 +0200
+Message-ID: <CAD-LL6jDxVBx_Cj9=FydPrOWfXs3aJCNnkKuvWMQLfc+1=8LuA@mail.gmail.com>
+Subject: Re: [PATCH] plugins/syscall: Added a table-like summary output
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000068a9f05c011cf6d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,149 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a table-like output which contains the total number of calls
-for each used syscall along with the number of errors that occurred.
+--000000000000068a9f05c011cf6d
+Content-Type: text/plain; charset="UTF-8"
 
-Per-call tracing is still available through supplying the argument
-``print`` to the plugin.
+On Fri, Apr 16, 2021 at 8:54 AM Mahmoud Mandour <ma.mandourr@gmail.com>
+wrote:
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
-v1: https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02623.html
-v1 -> v2: Removed debugging code in the on-return from syscall callback 
-          that was silently existent.
+> On Thu, Apr 15, 2021 at 5:20 PM Mahmoud Mandour <ma.mandourr@gmail.com>
+> wrote:
+>
+>>
+>> Hello. I just realized that this hunk:
+>
+> static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+>>                               int64_t num, int64_t ret)
+>> +{
+>> +        // ......
+>> +        if (!syscall_entry) {
+>> +            qemu_plugin_outs(g_strdup_printf("%" PRIi64 "\n", num));
+>> +        }
+>>
+>
+> Is completely superfluous. I think I had it for debugging purposes.
+> Should I resend without it or can you omit it from the patch?
+>
+>
+Nevermind, I sent a v2 patch.
 
- tests/plugin/syscall.c | 91 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 85 insertions(+), 6 deletions(-)
+Yours,
+Mahmoud
 
-diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
-index 53ee2ab6c4..b66a930635 100644
---- a/tests/plugin/syscall.c
-+++ b/tests/plugin/syscall.c
-@@ -16,32 +16,111 @@
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
- 
-+typedef struct {
-+    int64_t calls;
-+    int64_t errors;
-+} SyscallStats;
-+
-+static GHashTable *syscalls_statistics;
-+
-+static bool percall_print;
-+
- static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
-                          int64_t num, uint64_t a1, uint64_t a2,
-                          uint64_t a3, uint64_t a4, uint64_t a5,
-                          uint64_t a6, uint64_t a7, uint64_t a8)
- {
--    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
--    qemu_plugin_outs(out);
-+    if (!percall_print) {
-+        SyscallStats *syscall_entry;
-+
-+        syscall_entry =
-+            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
-+                                                  GINT_TO_POINTER(num));
-+
-+        if (!syscall_entry) {
-+            syscall_entry = g_new(SyscallStats, 1);
-+            syscall_entry->calls = 1;
-+            syscall_entry->errors = 0;
-+
-+            g_hash_table_insert(syscalls_statistics, GINT_TO_POINTER(num),
-+                                (gpointer) syscall_entry);
-+        } else {
-+            syscall_entry->calls++;
-+        }
-+    } else {
-+        g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
-+        qemu_plugin_outs(out);
-+    }
- }
- 
- static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
-                              int64_t num, int64_t ret)
-+{
-+    if (!percall_print) {
-+        SyscallStats *syscall_entry;
-+
-+        syscall_entry =
-+            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
-+                                                  GINT_TO_POINTER(num));
-+        if (ret < 0) {
-+            syscall_entry->errors++;
-+        }
-+    } else {
-+        g_autofree gchar *out;
-+        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
-+                num, ret);
-+        qemu_plugin_outs(out);
-+    }
-+}
-+
-+/* ************************************************************************* */
-+
-+void print_entry(gpointer key, gpointer val, gpointer user_data)
- {
-     g_autofree gchar *out;
--    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
--            num, ret);
-+    int64_t syscall_num = (int64_t) key;
-+    SyscallStats *syscall_entry = (SyscallStats *) val;
-+    out = g_strdup_printf(
-+        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
-+        syscall_num, syscall_entry->calls, syscall_entry->errors);
-     qemu_plugin_outs(out);
- }
- 
--/* ************************************************************************* */
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    if (!percall_print) {
-+        qemu_plugin_outs("syscall no.  calls  errors\n");
-+        g_hash_table_foreach(syscalls_statistics, &print_entry, NULL);
-+    }
-+}
- 
--static void plugin_exit(qemu_plugin_id_t id, void *p) {}
-+void free_entry(gpointer entry)
-+{
-+    g_free(entry);
-+}
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                                            const qemu_info_t *info,
-                                            int argc, char **argv)
- {
-+    int i;
-+
-+    for (i = 0; i < argc; i++) {
-+        char *opt = argv[i];
-+        if (g_strcmp0(opt, "print") == 0) {
-+            percall_print = true;
-+        } else {
-+            fprintf(stderr, "unsupported argument: %s\n", opt);
-+            return -1;
-+        }
-+    }
-+
-+    if (!percall_print) {
-+        syscalls_statistics =
-+            g_hash_table_new_full(g_direct_hash, g_direct_equal,
-+                    NULL, &free_entry);
-+    }
-+
-     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
-     qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
--- 
-2.25.1
+--000000000000068a9f05c011cf6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 16, 2021 at =
+8:54 AM Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.man=
+dourr@gmail.com</a>&gt; wrote:</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"l=
+tr"><div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Thu, Apr 15, 2021 at 5:20 PM Mahmoud Mandour &lt;<a href=3D"m=
+ailto:ma.mandourr@gmail.com" target=3D"_blank">ma.mandourr@gmail.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br></b=
+lockquote><div>Hello. I just realized that this hunk:=C2=A0</div><div><div>=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">static void vcp=
+u_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t num, int64_t ret)<br>
++{<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 // ......<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!syscall_entry) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(g_strdup_printf=
+(&quot;%&quot; PRIi64 &quot;\n&quot;, num));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>Is compl=
+etely superfluous. I think I had it for debugging purposes.</div></div><div=
+>Should I resend without it or can you omit it from the patch?</div><div><b=
+r></div></div></div></div></div></div></div></blockquote><div>=C2=A0<br></d=
+iv>Nevermind, I sent a v2 patch.<div><br></div><div>Yours,</div><div>Mahmou=
+d=C2=A0</div></div></div></div>
+
+--000000000000068a9f05c011cf6d--
 
