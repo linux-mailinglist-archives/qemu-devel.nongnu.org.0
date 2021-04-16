@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA803625BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:35:00 +0200 (CEST)
-Received: from localhost ([::1]:55764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9203625AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:31:56 +0200 (CEST)
+Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRQp-0001jG-RX
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
+	id 1lXRNr-0005na-Nu
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRJO-0001Ef-TE
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:27:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48943)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRJM-0000mW-Mq
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:27:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618590436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EZTLKHS8GpVSpMvvPbevaU1I8uT5taP2UwFJWjJFOOw=;
- b=JsbBrgQXMsiQiMRRjKVvOG5BQWIKrR3QhNaqCPvrGrs7SX8gpaCjacEZz/xJOkOh6WjD+q
- 77Brj1Q+IcR7whI86fP02oxDdixzBCj/znM+bX5QWRhAglnNJSbNMbblVjC+WW4DUvrolX
- 8mFr/1qr2X5d1pO620osD+ucUGgahFw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-7WaIehmUOsCugWFJTSl4FQ-1; Fri, 16 Apr 2021 12:27:11 -0400
-X-MC-Unique: 7WaIehmUOsCugWFJTSl4FQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC893CC621;
- Fri, 16 Apr 2021 16:27:10 +0000 (UTC)
-Received: from localhost (ovpn-116-207.rdu2.redhat.com [10.10.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B7A35D9E3;
- Fri, 16 Apr 2021 16:27:10 +0000 (UTC)
-Date: Fri, 16 Apr 2021 12:17:26 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 5/8] tests/acceptance/cpu_queries.py: use the proper
- logging channels
-Message-ID: <20210416161726.GD1914548@amachine.somewhere>
-References: <20210415215141.1865467-1-crosa@redhat.com>
- <20210415215141.1865467-6-crosa@redhat.com>
- <28f2fd45-4ccd-2c9c-29d6-2de5f52bbc4c@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lXRIv-0000c4-9i
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:26:50 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lXRIp-0000X4-Aw
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:26:48 -0400
+Received: by mail-ed1-x536.google.com with SMTP id m3so32958862edv.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 09:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ty2SD7IjeSr9QDR/9c87oQs5nY+pWIjgkAHFkzmgIQ0=;
+ b=J1kjXd9Zjaq7MN6JYMshfW6ipAubvQBwwbxEBGgGd3+6L7fHUrBMZtWwMaxj9MSUg2
+ PKcpoXLUn0dtEls7Np0v8g8Dzz2/2PuqXAj/yQ9zBUTXFgV8bBjtB96HAiN8hns9rDJN
+ Z7ZtZTCDyEehX3uxZZn1k3TZmD1uxvYPZ4Q207AEoaUDybckIszsTf9iYmGuwsNWiIg6
+ JGwLcQ6T+icRJILkkftHZMXY4rW1wAlWlND5FvszrwcmdakGRNhy/gCSII0wn2PIOH0b
+ r7gmoizHfNJRjcdgjOFGKgtj364aJBSeuf2Y+y5PRAl9LgD09on38aSWj+rTLytv+3Tu
+ Q4GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ty2SD7IjeSr9QDR/9c87oQs5nY+pWIjgkAHFkzmgIQ0=;
+ b=BA9IaHceoY3HONelH2vPkpmquzjvWPOPyTBFn2f3GxYSOf54qvArN2PGUpYGTMvNZ/
+ LZDbdxlSVDE5pTHJNiqVcd2VfAw666c7f/cgzpkWf6AzAuhcRI2wtitJKWeenvXAyg82
+ 0FKf4nMKOZDt8Zdq7PsQCMMEAHRKWPIeK2w4pxS7VLIq4bkWX33yxQB6VZyr5Fbq8V2K
+ roVxeDWoSbmvLm8FuxIe6RlPuSOQY7VzJ0B7aBPP5MpFckD5oTp7vomQ6WhRkOMRZxfk
+ +xfR30oGP0vAlFflTTTIoBPFrY0dLDhCHs0BTQlG9eEdO/8mqaaI9vI7zZhCBdisTJa+
+ LJ9A==
+X-Gm-Message-State: AOAM5325fcHhgySbTTKrc/A/2B5HH7IQluLAZMbNZmdBUkiDxg1dIM+V
+ YN1rDKCb+QvQICUGyimOq/eM/DGqiKeyYEkHVrIAII2A7So=
+X-Google-Smtp-Source: ABdhPJxUsTLVs+UOPvlLpdr8t6fLBgvh7AnZH6miHnvpHy3xu9F/GMCYcmBQ6brwb36aukXymBgoBgnSYYg8Z2yjg5Q=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr10790124edu.100.1618590400147; 
+ Fri, 16 Apr 2021 09:26:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <28f2fd45-4ccd-2c9c-29d6-2de5f52bbc4c@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="k4f25fnPtRuIRUb3"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210416135543.20382-1-peter.maydell@linaro.org>
+ <20210416135543.20382-5-peter.maydell@linaro.org>
+ <afc0e5bf-3d4f-e4c6-cd1e-f90f3686d2f1@redhat.com>
+In-Reply-To: <afc0e5bf-3d4f-e4c6-cd1e-f90f3686d2f1@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Apr 2021 17:25:51 +0100
+Message-ID: <CAFEAcA_evQmf+k_-ub+phiatw1=FJdnYonrDV48bZhNEPw-a1g@mail.gmail.com>
+Subject: Re: [PATCH for-6.0? 4/6] osdep: Make os-win32.h and os-posix.h handle
+ 'extern "C"' themselves
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,69 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---k4f25fnPtRuIRUb3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Apr 16, 2021 at 07:15:07AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 4/15/21 11:51 PM, Cleber Rosa wrote:
-> > The test contains methods for the proper log of test related
->=20
-> "The Test class ..."?
+On Fri, 16 Apr 2021 at 17:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-
-Yes, good catch!
-
-> > information.  Let's use that and remove the print and the unused
-> > logging import.
-> >=20
-> > Reference: https://avocado-framework.readthedocs.io/en/87.0/api/test/av=
-ocado.html#avocado.Test.log
->=20
-> This test predates Avocado 87.0 :) Maybe mention this is an update
-> to the recent API?
+> On 16/04/21 15:55, Peter Maydell wrote:
+> >   #ifdef _WIN32
+> >   #include "sysemu/os-win32.h"
+> >   #endif
+> > @@ -143,6 +139,10 @@ extern "C" {
+> >   #include "sysemu/os-posix.h"
+> >   #endif
+> >
+> > +#ifdef __cplusplus
+> > +extern "C" {
+> > +#endif
+> > +
+> >   #include "qemu/typedefs.h"
+> >
+> >   /*
+> > diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
+> > index 629c8c648b7..2edf33658a4 100644
+> > --- a/include/sysemu/os-posix.h
+> > +++ b/include/sysemu/os-posix.h
+> > @@ -38,6 +38,10 @@
+> >   #include <sys/sysmacros.h>
+> >   #endif
+> >
+> > +#ifdef __cplusplus
+> > +extern "C" {
+> > +#endif
+> > +
 >
+> include/sysemu/ is also the wrong directory to have these headers, which
+> probably should be split into a qemu/osdep-{win32,posix}.h part and an
+> actual sysemu/os-{win32,posix}.h part.  But this is good enough for now.
 
-In fact, that API is *ages* old.  I just happened to post a link to
-the latest stable release, because the build of ancient versions are
-disable on readthedocs.io.
+Yeah, I thought as I was writing this that it was odd that these are
+in sysemu/ but osdep itself is in qemu/...
 
-Regards,
-- Cleber.
-
---k4f25fnPtRuIRUb3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmB5uJYACgkQZX6NM6Xy
-CfM2GQ/+MdhrHaw33c4mv42TdEAJ/EJFpHon31uTBAll8fbPGj/U2lW/ta3YkXsY
-/bSnNmi42z3mYIPt6MqCLcfmUc/5j8FZkQ8K289Md0IaQ6RUqSjZOR4pXP1Ds487
-exrb5/lGDtRrFEkbBNMw7d7C9K+v87rtrpOOtr7yGkTyYC6sgTTJh4ZUoVNzH2OB
-MU+kbnijTPwYb5bUKq08ogiJdu98ccfv2usqBFuXliCftfAF0EwlCZHdEbKbzpLg
-FxprqStgPesvjNxvsCQ7zXWUwixAKZb0w5qgm9w8brJJSh1zbyg+iKhFa4VGfmj7
-cNx612Ikg8aKT2cp60JBLdUqqwFyNnOUFEd/sEGWh9hzMcSe9sXc/D3wZ8WRYit8
-uHPSX44d99We5dl3kcv5xmWXHbeR4vwHZVX3Or/xrr+70Hdvmbx7VGLWNJ2SF56Z
-kInE9yKa8CNFaxJ+dHznmU+E8ni0vGlrH79VZt3AWPInxlT5aK+8jakdEFJgTJFe
-RC1OEixmn6V/t5JgDLB2xoJR87T0isHVRM56ovxkrPl90+tQK/9AhO641te4yoZL
-B+FjqlR67UJDyXMacZmp9Y8MDvUDGfqHNe3cTpX2m7KYHMIQs51+foIHOyfkADQa
-J3OAw7xHs4rLEQJeNrQ3wjubIDu3Nrrpbka9p1hhL9vVWVGq0hE=
-=H+zI
------END PGP SIGNATURE-----
-
---k4f25fnPtRuIRUb3--
-
+thanks
+-- PMM
 
