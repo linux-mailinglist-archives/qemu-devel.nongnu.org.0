@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC10362643
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:03:15 +0200 (CEST)
-Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E24A362655
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:07:33 +0200 (CEST)
+Received: from localhost ([::1]:44808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRsA-000459-88
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:03:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
+	id 1lXRwK-0008TV-2c
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLG-0004Mn-Pz
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:14 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44702)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLH-0004NZ-Ii
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:15 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL6-0001Ux-19
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:14 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL6-0001V4-2X
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:15 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B05F5B2F4;
- Fri, 16 Apr 2021 16:28:43 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 254FAB2EC;
+ Fri, 16 Apr 2021 16:28:44 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 38/80] target/arm: rename handle_semihosting to
- tcg_handle_semihosting
-Date: Fri, 16 Apr 2021 18:27:42 +0200
-Message-Id: <20210416162824.25131-39-cfontana@suse.de>
+Subject: [RFC v14 39/80] target/arm: replace CONFIG_TCG with tcg_enabled
+Date: Fri, 16 Apr 2021 18:27:43 +0200
+Message-Id: <20210416162824.25131-40-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
@@ -61,54 +60,56 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-make it clearer from the name that this is a tcg-only function.
+for "all" builds (tcg + kvm), we want to avoid doing
+the psci and semihosting checks if tcg is built-in, but not enabled.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/tcg/tcg-cpu.h        | 2 +-
- target/arm/cpu-sysemu.c         | 2 +-
- target/arm/tcg/sysemu/tcg-cpu.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ target/arm/cpu-sysemu.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
-index 0ee8ba073b..7e62f92d16 100644
---- a/target/arm/tcg/tcg-cpu.h
-+++ b/target/arm/tcg/tcg-cpu.h
-@@ -24,7 +24,7 @@
- 
- #ifndef CONFIG_USER_ONLY
- /* Do semihosting call and set the appropriate return value. */
--void handle_semihosting(CPUState *cs);
-+void tcg_handle_semihosting(CPUState *cs);
- 
- #endif /* !CONFIG_USER_ONLY */
- 
 diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
-index 0e872b2e55..7569241339 100644
+index 7569241339..e83d55b9f7 100644
 --- a/target/arm/cpu-sysemu.c
 +++ b/target/arm/cpu-sysemu.c
-@@ -1153,7 +1153,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
-      * must be handled here.
-      */
-     if (cs->exception_index == EXCP_SEMIHOST) {
--        handle_semihosting(cs);
-+        tcg_handle_semihosting(cs);
-         return;
+@@ -1141,22 +1141,22 @@ void arm_cpu_do_interrupt(CPUState *cs)
+                       env->exception.syndrome);
      }
- #endif /* CONFIG_TCG */
-diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index af9d3905d7..2c395f47e7 100644
---- a/target/arm/tcg/sysemu/tcg-cpu.c
-+++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -52,7 +52,7 @@
-  * We only see semihosting exceptions in TCG only as they are not
-  * trapped to the hypervisor in KVM.
-  */
--void handle_semihosting(CPUState *cs)
-+void tcg_handle_semihosting(CPUState *cs)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-     CPUARMState *env = &cpu->env;
+ 
+-#ifdef CONFIG_TCG
+-    if (arm_is_psci_call(cpu, cs->exception_index)) {
+-        arm_handle_psci_call(cpu);
+-        qemu_log_mask(CPU_LOG_INT, "...handled as PSCI call\n");
+-        return;
+-    }
+-    /*
+-     * Semihosting semantics depend on the register width of the code
+-     * that caused the exception, not the target exception level, so
+-     * must be handled here.
+-     */
+-    if (cs->exception_index == EXCP_SEMIHOST) {
+-        tcg_handle_semihosting(cs);
+-        return;
++    if (tcg_enabled()) {
++        if (arm_is_psci_call(cpu, cs->exception_index)) {
++            arm_handle_psci_call(cpu);
++            qemu_log_mask(CPU_LOG_INT, "...handled as PSCI call\n");
++            return;
++        }
++        /*
++         * Semihosting semantics depend on the register width of the code
++         * that caused the exception, not the target exception level, so
++         * must be handled here.
++         */
++        if (cs->exception_index == EXCP_SEMIHOST) {
++            tcg_handle_semihosting(cs);
++            return;
++        }
+     }
+-#endif /* CONFIG_TCG */
+     /*
+      * Hooks may change global state so BQL should be held, also the
+      * BQL needs to be held for any modification of
 -- 
 2.26.2
 
