@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459193621F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:18:47 +0200 (CEST)
-Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6419E3622B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:49:51 +0200 (CEST)
+Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXPJ0-0003A9-8e
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
+	id 1lXPn4-00033T-1H
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lXPEJ-0001Hs-56; Fri, 16 Apr 2021 10:13:55 -0400
-Received: from [201.28.113.2] (port=19358 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lXPEH-0007Dg-B8; Fri, 16 Apr 2021 10:13:54 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 16 Apr 2021 11:13:49 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id DE8AA8005F0;
- Fri, 16 Apr 2021 11:13:48 -0300 (-03)
-Subject: Re: [RFC PATCH 0/3] tests/tcg/ppc64le: paddi tests
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210415214138.563795-1-matheus.ferst@eldorado.org.br>
- <YHkJ52c/ysoS00qk@yekko.fritz.box>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <338d679e-6619-4f60-5620-24de3ed3bf6d@eldorado.org.br>
-Date: Fri, 16 Apr 2021 11:13:48 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <emmanuel.blot@sifive.com>)
+ id 1lXPHf-0003eD-Nj
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:17:24 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <emmanuel.blot@sifive.com>)
+ id 1lXPHZ-0000rS-G8
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:17:23 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id u20so9860513wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 07:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:references:mime-version;
+ bh=Y0NFtQ7GKxg+D8+yBeQkxP4F6jq+pOWGtjppThGe8Zw=;
+ b=QOhS4zTDUkT9aNKwfO9XwNXCpwJE1qn8CQbzc2PCu49Pe01i0HMobm90nXPMDqRKUL
+ q70atWKX9yu3EOXPqwed1b5nOBAaeU6DmLFHqH9aVPpQ4s9twqmJM7DdhOd3rOQsHhZU
+ vzAq26YWJ2Q5HT1mUMPIybn/+6T1IzS0x0K68D0ceqzDsOH87bhpvLlmlfp2p+XVyXrB
+ vq829zJ1obRPuAHezj4ejJghTMnyYN7nToGsOre5ug0jyUFDTkhlovvlhJ6qjPO9NZ33
+ e8hlv/W/BTwxxAnEJctUYqjrjKK81JPp/sqDuaUzMOvr82RnRAppR/Sv0rd6qWQzdn+5
+ 4qbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+ :mime-version;
+ bh=Y0NFtQ7GKxg+D8+yBeQkxP4F6jq+pOWGtjppThGe8Zw=;
+ b=Z+RVxLTuJdhwHZ/2FZvPSMIotHY2oW0agPoK3p5dSw3EN2njt8l5iKjC7lbl93BWzk
+ 7vjTE5oVeBKP4MxdxZyv0nDiUysyfgDa4ivU6iS8m2fuwJdvzfgUMhMn8sR3tFasYdjz
+ rZ7huldl8ZMBkrjJ/wUSdNGN0DCs2d55bCekJxxWCaSyEwMXfw/CGgyAHxuv4I1S6piu
+ GqcRt69lkJg9IS3aXTL/8FeceoDCZdUlXAqQZfEEaaocoF97504Bj31c836SEx0E8wRh
+ 4PznXhGAan/cIPHIdaOewBMEItFhVAgqllJKEUzEUce+2hMkIl9TDNIkEE1k0NRY6Rfs
+ a5sg==
+X-Gm-Message-State: AOAM533/i6l922mGQRkFk0szO22EgMxIkyZ5Uw68Cq00VeHJffpPLJNb
+ icyh1iz8yJktAL4+9jt356q8tHRAnQ7yrQ==
+X-Google-Smtp-Source: ABdhPJwuJ5WmJoib9ITY2Z/8wXvu/NIInfsOmhF38B7XuSzNc4eiDh8IVqE+M1jwW4dB/gdw2IYrdg==
+X-Received: by 2002:a05:600c:203:: with SMTP id 3mr662394wmi.140.1618582633219; 
+ Fri, 16 Apr 2021 07:17:13 -0700 (PDT)
+Received: from [192.168.83.193] (lfbn-tln-1-134-231.w90-119.abo.wanadoo.fr.
+ [90.119.102.231])
+ by smtp.gmail.com with ESMTPSA id l9sm10511421wrz.7.2021.04.16.07.17.12
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 16 Apr 2021 07:17:12 -0700 (PDT)
+From: "Emmanuel Blot" <emmanuel.blot@sifive.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/riscv: fix exception index on instruction access fault
+Date: Fri, 16 Apr 2021 16:17:11 +0200
+X-Mailer: MailMate (1.14r5757)
+Message-ID: <FB9EA197-B018-4879-AB0F-922C2047A08B@sifive.com>
+References: <20210415134128.32670-1-emmanuel.blot@sifive.com>
 MIME-Version: 1.0
-In-Reply-To: <YHkJ52c/ysoS00qk@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 16 Apr 2021 14:13:49.0383 (UTC)
- FILETIME=[B8ACBD70:01D732CA]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; format=flowed
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=emmanuel.blot@sifive.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 16 Apr 2021 10:48:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,66 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, gustavo.romero@protonmail.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, f4bug@amsat.org, luis.pires@eldorado.org.br,
- qemu-ppc@nongnu.org, alex.bennee@linaro.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/04/2021 00:52, David Gibson wrote:
-> On Thu, Apr 15, 2021 at 06:41:35PM -0300, matheus.ferst@eldorado.org.br wrote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>
->> Based-on: <20210413211129.457272-1-luis.pires@eldorado.org.br>
-> 
-> First things first: it's unclear to me if this is testing stuff that's
-> already merged, or it's speculative tests for the in-progress prefixed
-> instruction stuff.  i.e. If these tests are applied right now, will
-> they pass?
+When no MMU is used and the guest code attempts to fetch an instruction
+from an invalid memory location, the exception index defaults to a data
+load access fault, rather an instruction access fault.
 
-GCC-10 images can be used to test already merged Power10 instructions, 
-such as brh/brw/brd, but I haven't writen tests for them (yet?). Both 
-tests are targeting paddi, whose implementation is in-progress, so 
-applying them now will fail. Maybe I should split the series? Patch 1 
-for now, and Patch 2 and 3 when paddi are merged?
+Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
 
->> This series adds gcc-10 based images to enable the build of tests with Power10
->> instructions. Then two tests for paddi are added:
->> - The first one checks a weird behavior observed on POWER10 Functional Simulator
->>    1.1.0, where the 34-bit immediate is treated as a 32-bits one;
->> - The second one exercises the R=1 path of paddi, where CIA is used instead of RA.
->>    The test is failing with the current implementation because we use cpu_nip,
->>    which is not updated all the time. Luis already has the fix, it should be
->>    applied on the next version of his patch series.
->>
->> The main reason to submit this patch as an RFC first is the docker part. I would
->> lie if I tell you that I understand half of what is going on there.
->>   - 'make docker-test-tcg' fails, but apparently on unrelated things;
->>   - 'make docker-run-test-tcg@debian-ppc64el-cross' passes, but it looks
->>     like the test is skipped?
->>   - 'make check-tcg' runs the test and passes (with the fix in place for the
->>     second).
-> 
-> What sort of host was that on?  Unfortunately 'make check-tcg' has
-> been broken on a POWER host for some time, and I've never had time to
-> look into it.
-> 
+---
+  target/riscv/cpu_helper.c | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
 
-I'm testing on amd64, but I can also try on ppc64le.
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 21c54ef5613..4e107b1bd23 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -691,8 +691,10 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, 
+hwaddr physaddr,
 
->>
->> Finally, get_maintainer.pl found no maintainers for
->> tests/tcg/ppc64{,le}/Makefile.target. Would it be Mr. Gibson?
-> 
-> Uh... sorta?  I also don't know much about what's going on here, but
-> I'm probably maintainer by default.
-> 
+      if (access_type == MMU_DATA_STORE) {
+          cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
+-    } else {
++    } else if (access_type == MMU_DATA_LOAD) {
+          cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
++    } else {
++        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
+      }
 
-So, should I update MAINTAINERS in this series?
-
+      env->badaddr = addr;
 -- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+2.31.1
 
