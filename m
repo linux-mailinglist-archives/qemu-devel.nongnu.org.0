@@ -2,65 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FF4361E43
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:52:30 +0200 (CEST)
-Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81259361E45
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:54:28 +0200 (CEST)
+Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXM5L-00058O-Av
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1lXM7H-00064Y-LE
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXM3j-0004hb-V1
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:50:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXM3h-0002ET-0z
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:50:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lXM3e-0007z0-Pz
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:50:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C3BD42E8050
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:50:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lXM6I-0005d0-8b
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:53:26 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:54318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lXM6D-0003jp-51
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:53:26 -0400
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20210416105314epoutp03c53f67a4914fe91d7a52fe9ee2115ade~2UTK9uLlg1170711707epoutp03j
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:53:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20210416105314epoutp03c53f67a4914fe91d7a52fe9ee2115ade~2UTK9uLlg1170711707epoutp03j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1618570394;
+ bh=FkAX3IOZTFAhEGWMl8ZXGo5DDtyvNp+iO8Rnjr7ou2A=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=YS9kc84dRaVoB6aL1ExK0ZcTR5fYMiCkaEm4ot6VZWz7VFG7MQY3WEP9eJFxAPH98
+ ydylgIN9Gbva1sM4UqET/wwGm/KIrubaIteBLqWmnk9UNyqyCrIiYIF7/l0tEz7Amk
+ IxiVTURULiVLrzWewoCUxqGuMS5LaQgBbfBiWWEs=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+ 20210416105314epcas5p3550bb6d91d43bc184397ee4d5ad84625~2UTKpVi-U0435804358epcas5p35;
+ Fri, 16 Apr 2021 10:53:14 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 8A.3F.15682.99C69706; Fri, 16 Apr 2021 19:53:13 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210416105256epcas5p21ba81ec010fd980eb9e99e5ad92c35d5~2US51pGXJ2504425044epcas5p2S;
+ Fri, 16 Apr 2021 10:52:56 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210416105256epsmtrp2d266ed1d403e8c8bd06d50e2ef5a52f5~2US50bxKm2903729037epsmtrp2N;
+ Fri, 16 Apr 2021 10:52:56 +0000 (GMT)
+X-AuditID: b6c32a49-8d5ff70000013d42-04-60796c99bf76
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 28.B1.08745.78C69706; Fri, 16 Apr 2021 19:52:55 +0900 (KST)
+Received: from 2030045822 (unknown [107.99.42.33]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20210416105254epsmtip27ad389002bff0907d6a41865b0fb2074~2US4i-3vj2124121241epsmtip2c;
+ Fri, 16 Apr 2021 10:52:54 +0000 (GMT)
+Date: Fri, 16 Apr 2021 16:20:05 +0530
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 2/2] hw/block/nvme: fix lbaf formats initialization
+Message-ID: <20210416105005.GA26920@2030045822>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Apr 2021 10:43:03 -0000
-From: Peter Maydell <1923861@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ml-0 pmaydell
-X-Launchpad-Bug-Reporter: ml-0 (ml-0)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
-Message-Id: <161856978331.8931.16686838459061592837.malone@gac.canonical.com>
-Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: b93ecf27cfe5c34eae26a4d945fc848354562dee
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YHlPUMYBcnl/Newj@apples.localdomain>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTYRjG+3Z2zo6r5edm+KZGsC6glHZnlWiE4MwMiwizYA49eWnOtaNp
+ lrCMmFtZamW5QgosyTLNap6MMueNkhSvXcwy04xSs9bFSizdUfC/33t7nvf9+GhCWki603Ha
+ JEavVWvklFhorfHyWp6vORS5ovuZn6K9qhkpqqp/kopcWydSFLYwioJXixSWYSOlaMjihIrP
+ uf/ITbRytMlIKZu4ZpGyvNhEKfs67wiUXx51UGFkhNgvmtHEHWT0vv6R4thB6wtKV7QgtXGk
+ gjSgJ65m5EQDXgM5X3pIMxLTUvwAwdWOPCEffEPwsjlTxAd2BCXXzwqnR2wl5xFfqERwy5hL
+ 8MEAgq6uDEeXEC+B/rd15CRTeBVcHBpEk+yKF0P/+EOHB4FzEHBZY5QZ0bQMB0Fnr/dkjwT7
+ Qubn5yTPLvAkv8+h6TShc6LX6NCZhxfBY2uDYFIHsImG8hMcwa8XCAXGNhHPMvjUcHeK3cE+
+ /HDCSzTBh6FGz49mIqhvK6P4lgAY/5Dn0CdwLBiqPkxdvADOPb0l4PNzIetvn4DPS4ArmOal
+ cPnVrykrT8gf6yJ5VgLXW+/IS/EQgpZ2z2y00DLjNMsMO543gGkkg7RMvAqBPaBonObRC0or
+ fS8jshjNZ3RsQgzDrtWt1DIpPqw6gU3WxvhEJSaUI8dH8g7mUHfPiI8NCWhkQ0ATclfJalNq
+ pFQSrT6UxugTVfpkDcPakActlLtJuBU9KimOUScx+xlGx+inqwLayd0giEqVtyTNss4XWYtb
+ Au8Rod3mY19LSp2xy97xxAj/d40e6eE37Vs2WipCLggGKt6vdw9X78muC9tcPqprPFVURgQP
+ npbOlo+lBw+I969f0tS1zZ49fEDbemzr7urN/bfZdZKTdYvf+L8OZVN+BbyMvla2LiNm3oMo
+ l5OakAyl27lTRq6h9l18MeGc3mYIdwsfzsF5a6/eSzpS/fGryrKvcPvRgKzg0t07rwypUE36
+ kRv9QWlE3PI2VYTMfkAW7Rc6Bzf/TAk09ZbV+quH+rp/tO56O9fgXGq6kqOVfQuL/15VOxoS
+ 6RuiEmmD4pMvtf6uv7+s8HjgjjMvEoKupZWYKs1/5EI2Vr3Sm9Cz6v/DV+4KtwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrELMWRmVeSWpSXmKPExsWy7bCSvG57TmWCwcMec4sr+88zWuw/+I3V
+ YtKha4wWSy6mWsy7pWwx6107m8Xx3h0sFq8n/Wd14PD4ca6dzePcjvPsHptWdbJ5PLm2mcnj
+ /b6rbAGsUVw2Kak5mWWpRfp2CVwZV+5cYym4KVWx9e8K9gbGqUJdjJwcEgImEofWTmfsYuTi
+ EBLYwSjxZUM3E0RCRuLXqanMELawxMp/z9khip4ySuzsfM8GkmARUJV4ev8oK4jNJmAkMfvt
+ G0YQW0RAReLpv70sIA3MAhMZJXb0/gFq4OAQFnCXuPZIC6SGV0BfouP1dVaIoW8ZJe49WcEI
+ kRCUODnzCQuIzSxgJjFv80NmkF5mAWmJ5f84QMKcQLu6H7WDlYsKKEsc2HacaQKj4Cwk3bOQ
+ dM9C6F7AyLyKUTK1oDg3PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM4GrS0djDuWfVB7xAjEwfj
+ IUYJDmYlEV7jzooEId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwXuk7GCwmkJ5akZqemFqQWwWSZ
+ ODilGpgU1y29yRt8Wrv/a+Sy4K9dWle1Pb9Yrzg87aO8bobdHqEAA6M/j48c8X9j+Oq+ktWM
+ h6sPX9s6QTezVP/Qt7VzprSYWaQfSHyUqHZf77p35nuB9feE5/ow+orXL7s4w+hawbPXF2Yr
+ 9fyylQy7y/1r+qybBwuUmK4KXTht7DbDT8Pz8uIDsaKu5Y1dljsU9SOqX2/Te37JfKtGZWqb
+ hqJDSqiht/v8yvx/t1NPlXglc75ac8XVaG71e8+q9QvXhbw4Ole7ymk5R89eobgznFbP2d0m
+ RtmX7EmdtGzplKuSk2zUp6b+PbtTa0XLrt9aP0/JfNevUZd96K02Rbk1uGGNXqSH9kd2wQWP
+ pHXOX5dWYinOSDTUYi4qTgQA/AY9k/UCAAA=
+X-CMS-MailID: 20210416105256epcas5p21ba81ec010fd980eb9e99e5ad92c35d5
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_903e3_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210416072544epcas5p26bf011c82ad4b60693cfaac32bc9e36f
+References: <20210416072234.25732-1-anaidu.gollu@samsung.com>
+ <CGME20210416072544epcas5p26bf011c82ad4b60693cfaac32bc9e36f@epcas5p2.samsung.com>
+ <20210416072234.25732-2-anaidu.gollu@samsung.com>
+ <YHlPUMYBcnl/Newj@apples.localdomain>
+Received-SPF: pass client-ip=203.254.224.33;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout3.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,54 +125,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://patchew.org/QEMU/20210416104010.13228-1-peter.maydell@linaro.org/
-should fix the "not actually an M55" bug which will then give you the
-double-precision and FP16 (and the right FPSCR value).
+------9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_903e3_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
--- =
+On Fri, Apr 16, 2021 at 10:48:16AM +0200, Klaus Jensen wrote:
+>On Apr 16 12:52, Gollu Appalanaidu wrote:
+>>Currently LBAF formats are being intialized based on metadata
+>>size if and only if nvme-ns "ms" parameter is non-zero value.
+>>Since FormatNVM command being supported device parameter "ms"
+>>may not be the criteria to initialize the supported LBAFs.
+>>
+>>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>>---
+>>hw/block/nvme-ns.c | 48 ++++++++++++++++++----------------------------
+>>1 file changed, 19 insertions(+), 29 deletions(-)
+>>
+>>diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+>>index 7bb618f182..573dbb5a9d 100644
+>>--- a/hw/block/nvme-ns.c
+>>+++ b/hw/block/nvme-ns.c
+>>@@ -85,38 +85,28 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+>>    ds = 31 - clz32(ns->blkconf.logical_block_size);
+>>    ms = ns->params.ms;
+>>
+>>-    if (ns->params.ms) {
+>>-        id_ns->mc = 0x3;
+>>+    id_ns->mc = 0x3;
+>>
+>>-        if (ns->params.mset) {
+>>-            id_ns->flbas |= 0x10;
+>>-        }
+>>+    if (ms && ns->params.mset) {
+>>+        id_ns->flbas |= 0x10;
+>>+    }
+>>
+>>-        id_ns->dpc = 0x1f;
+>>-        id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+>>-
+>>-        NvmeLBAF lbaf[16] = {
+>>-            [0] = { .ds =  9           },
+>>-            [1] = { .ds =  9, .ms =  8 },
+>>-            [2] = { .ds =  9, .ms = 16 },
+>>-            [3] = { .ds =  9, .ms = 64 },
+>>-            [4] = { .ds = 12           },
+>>-            [5] = { .ds = 12, .ms =  8 },
+>>-            [6] = { .ds = 12, .ms = 16 },
+>>-            [7] = { .ds = 12, .ms = 64 },
+>>-        };
+>>-
+>>-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>>-        id_ns->nlbaf = 7;
+>>-    } else {
+>>-        NvmeLBAF lbaf[16] = {
+>>-            [0] = { .ds =  9 },
+>>-            [1] = { .ds = 12 },
+>>-        };
+>>+    id_ns->dpc = 0x1f;
+>>+    id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+>
+>While nvme_ns_check_constraints() will error out if pi is set and the 
+>metadata bytes are insufficient, I don't think this should set bit 3 
+>unless both metadata and pi is enabled. It's not against the spec, but 
+>it's just slightly weird.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923861
+okay, will modify current "ms" and "pi" constraint check like this:
+if (ns->params.ms < 8) {
+        if (ns->params.pi || ns->params.pil || ns->params.mset) {
+            error_setg(errp, "at least 8 bytes of metadata required to enable "
+                    "protection information, protection information location and "
+                    "metadata settings");
+            return -1;
+        }
+}
+and "mset" is set will set directly without checing "ms" in nvme_ns_init()
+>
+>>
+>>-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>>-        id_ns->nlbaf = 1;
+>>-    }
+>>+    NvmeLBAF lbaf[16] = {
+>>+        [0] = { .ds =  9           },
+>>+        [1] = { .ds =  9, .ms =  8 },
+>>+        [2] = { .ds =  9, .ms = 16 },
+>>+        [3] = { .ds =  9, .ms = 64 },
+>>+        [4] = { .ds = 12           },
+>>+        [5] = { .ds = 12, .ms =  8 },
+>>+        [6] = { .ds = 12, .ms = 16 },
+>>+        [7] = { .ds = 12, .ms = 64 },
+>>+    };
+>>+
+>>+    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>>+    id_ns->nlbaf = 7;
+>>
+>>    for (i = 0; i <= id_ns->nlbaf; i++) {
+>>        NvmeLBAF *lbaf = &id_ns->lbaf[i];
+>>-- 
+>>2.17.1
+>>
+>>
+>
 
-Title:
-  Hardfault when accessing FPSCR register
 
-Status in QEMU:
-  New
 
-Bug description:
-  QEMU release version: v6.0.0-rc2
+------9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_903e3_
+Content-Type: text/plain; charset="utf-8"
 
-  command line:
-  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
-semihosting -semihosting-config enable=3Don,target=3Dnative
 
-  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
-  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
-  GNU/Linux
-
-  guest operating system: none (bare metal)
-
-  Observation:
-  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
-47 machine. In the startup code I am accessing the FPSCR core register:
-
-  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
-  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
-  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
-
-  where the register access functions __get_FPSCR() and
-  __set_FPSCR(fpscr) are taken from CMSIS_5 at
-  ./CMSIS/Core/include/cmsis_gcc.h
-
-  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
-  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
+------9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_903e3_--
 
