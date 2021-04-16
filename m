@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F045362AE5
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 00:16:12 +0200 (CEST)
-Received: from localhost ([::1]:34856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C822B362AB9
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 00:06:59 +0200 (CEST)
+Received: from localhost ([::1]:33688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXWl1-0003yg-BI
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 18:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45400)
+	id 1lXWc6-0008B0-Sz
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 18:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXVdl-0006Oj-Na
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:37 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:43933)
+ id 1lXVdq-0006aG-6h
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:42 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:39692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXVdV-0001m3-I9
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:37 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- x21-20020a17090a5315b029012c4a622e4aso15261742pjh.2
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:04:19 -0700 (PDT)
+ id 1lXVdV-0001mL-Ua
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:41 -0400
+Received: by mail-pf1-x436.google.com with SMTP id c17so19148060pfn.6
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qR0OQ59R49nnoUzy7pA6/SiglCGIjRHKKV8eiOZlkXE=;
- b=cIYXI12vVi39ByHfWisobA8+8MDkNomudNmJBnCK0iWJvNR1TjkMFyliUYHY75yBYF
- C47FayMc0REbR44t1oXEUPWAKOudcZoXRU9qkFXDm2pKlrmgloPqk0q7rtjBXzGopdjf
- So7y7i3kzzOhp2kFo5v+ncLrDX2XdzAho9AWwNRSIwZk57HCSriOCiNaepyjuIjhYx5C
- KOKzJPm3/zWPKO0PxI4TQdlfnRMheiU1v1W6uMax0CKa+W83EoDv+LwDWPGFB9BgAwyW
- KnAYWnFhlP9dzxBWteC1vBuVXq8cOJglZ1XeQBgI57MFo2er/A4BG7bvqanBxqC1zHrY
- hzBw==
+ bh=EnSyPCZmyd4z3y6dSeIzgcP6+JdzBQ6BgXyeRXzNj2k=;
+ b=XDNKqLCXgaWN9hVZRw4eOItipgPOL+l5D2RKjGcPFUTgyDk7z6jcQ5ktHKnIhLIe1u
+ sWnIYWMhADRyMwox5iU22xVDz78rrHrny/9HrEII8nWUvFBIFxU89O9PU0m5wqkNTI/a
+ V6kP9apnS6cwPjmJ7Ff3c418p6LdVLW3wSpNLB5fel4V5CEhjLmj/36+0I5bPHIb6EgQ
+ tQKDDGJwGMvsZ5TjAms9XNKGXJ8W064ex5Yq4v7CzcJHSuHAIvEptNw16fbstOeJiKdG
+ Im5Ylfrdru08Qxp9FvkPwARVXagByHpTs+lzOHjynN0lHEQFwc9Q1XPRCbNCfkCh6v38
+ jkKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qR0OQ59R49nnoUzy7pA6/SiglCGIjRHKKV8eiOZlkXE=;
- b=aTVfKrxvBnwsaoZDEUkjdeRwv0riXs4gb3Nzourb9mC1V5vDk350xnhs1hYjMBk5nX
- Ge1o5WG7c9RGP96LEkC87IzW/hzwLQFdyZpA2zrZYNw7O1tcqAgk/2HhoX6W/1AWE+24
- mM9prhdKjpDbC6U9ZQCBKvvboqaz4oYPhAbfq7jTM91oOx8fElBnPL0qGtHlttRDH3rx
- QkS9hPWuBoGphMfLPYwATZL6Z4q73m/pJB3m81tSVSTZHB5Jh1aCVamNCS6hfg/RqPFq
- nT6cBP0JJM2l3DKl1NZlmxAxjtppA18lJQMx/Q/woRLMNXzVYmygPqirsV+K1FNeQGU3
- x/Ig==
-X-Gm-Message-State: AOAM531AZoTvQ6gSNPFokv/BL1myZbOL/GNjKqYY65k9NpcfhnTnhcOB
- IK630Im1o95Vq4UA2+sH8Jp99buzFJB5pA==
-X-Google-Smtp-Source: ABdhPJz3L2rPC22DXOVp/Mm+qd4KP9gA8Lph5EU8iCO1i7fVb9MW4DHRwY9FzYHCxnv5Y0oRaKzLpg==
-X-Received: by 2002:a17:90b:4c47:: with SMTP id
- np7mr11281761pjb.26.1618607058907; 
- Fri, 16 Apr 2021 14:04:18 -0700 (PDT)
+ bh=EnSyPCZmyd4z3y6dSeIzgcP6+JdzBQ6BgXyeRXzNj2k=;
+ b=cTixCkWW3fcuZKEjMSeVC62d9AOQXiGXK4+HzdU875rrygDMwD8ecJe3Jf4yF4Eop5
+ bnvPKLSivYGzWhjdDRdBNpmvD7itFd1qN3rhgqfRDKvbe9c8nLmoN+YSK2Y+ilNrQ54x
+ +eqIgVU3ymtMMTA+qjule9GkOxrF8e+ORe9+3ikaF86JuILqYgECuXDaCNmvl9hC8Rnn
+ vXEiMvWfIE9DcjcwvkRSVTtEh5+KlPHROj+5oA8gFnxCPaTQ2Q3XH66RR/CwgMah5mjL
+ vny/fO1VGzqzkQNtZ1s2Zz6Un4abYlEQpZitMCJsRZXK6DPPK/KxNSZL5pFQgD/gmPEL
+ bH9Q==
+X-Gm-Message-State: AOAM5336X3HoQT/Dnn8KFx41x9/gFlo3fUTZYaYpNHnXA+Rtovm8Go7t
+ sDKGYUt4yPj9frG+VccHERGClmgDQ/1XOg==
+X-Google-Smtp-Source: ABdhPJzDDXCbsa4HfslnoM8NZvnFRO/2QqyGjt8ANkayfb/7Wc2+XSRTruR1BZnKYwiQsiK34q/jBw==
+X-Received: by 2002:a63:d755:: with SMTP id w21mr867382pgi.400.1618607060694; 
+ Fri, 16 Apr 2021 14:04:20 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id m9sm5766734pgt.65.2021.04.16.14.04.18
+ by smtp.gmail.com with ESMTPSA id m9sm5766734pgt.65.2021.04.16.14.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 14:04:18 -0700 (PDT)
+ Fri, 16 Apr 2021 14:04:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 68/81] target/arm: Implement SVE2 FLOGB
-Date: Fri, 16 Apr 2021 14:02:27 -0700
-Message-Id: <20210416210240.1591291-69-richard.henderson@linaro.org>
+Subject: [PATCH v5 70/81] target/arm: Implement SVE2 LD1RO
+Date: Fri, 16 Apr 2021 14:02:29 -0700
+Message-Id: <20210416210240.1591291-71-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210416210240.1591291-1-richard.henderson@linaro.org>
 References: <20210416210240.1591291-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,143 +82,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Stephen Long <steplong@quicinc.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
-
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200430191405.21641-1-steplong@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fixed esz index and c++ comments
-v3: Fixed denormal arithmetic and raise invalid.
----
- target/arm/helper-sve.h    |  4 +++
- target/arm/sve.decode      |  3 +++
- target/arm/sve_helper.c    | 52 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c | 24 ++++++++++++++++++
- 4 files changed, 83 insertions(+)
+ target/arm/sve.decode      |  4 ++
+ target/arm/translate-sve.c | 97 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 30b6dc49c8..96bd200e73 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2713,3 +2713,7 @@ DEF_HELPER_FLAGS_5(sve2_fcvtlt_hs, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_fcvtlt_sd, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 46153d6a84..17adb393ff 100644
+index 17adb393ff..df870ce23b 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1539,3 +1539,6 @@ FCVTNT_sh       01100100 10 0010 00 101 ... ..... .....  @rd_pg_rn_e0
- FCVTLT_hs       01100100 10 0010 01 101 ... ..... .....  @rd_pg_rn_e0
- FCVTNT_ds       01100100 11 0010 10 101 ... ..... .....  @rd_pg_rn_e0
- FCVTLT_sd       01100100 11 0010 11 101 ... ..... .....  @rd_pg_rn_e0
-+
-+### SVE2 floating-point convert to integer
-+FLOGB           01100101 00 011 esz:2 0101 pg:3 rn:5 rd:5  &rpr_esz
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 2684f40a62..754301a3a6 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4575,6 +4575,58 @@ DO_ZPZ_FP(sve_ucvt_dh, uint64_t,     , uint64_to_float16)
- DO_ZPZ_FP(sve_ucvt_ds, uint64_t,     , uint64_to_float32)
- DO_ZPZ_FP(sve_ucvt_dd, uint64_t,     , uint64_to_float64)
+@@ -1077,11 +1077,15 @@ LD_zpri         1010010 .. nreg:2 0.... 111 ... ..... .....     @rpri_load_msz
+ # SVE load and broadcast quadword (scalar plus scalar)
+ LD1RQ_zprr      1010010 .. 00 ..... 000 ... ..... ..... \
+                 @rprr_load_msz nreg=0
++LD1RO_zprr      1010010 .. 01 ..... 000 ... ..... ..... \
++                @rprr_load_msz nreg=0
  
-+static int16_t do_float16_logb_as_int(float16 a, float_status *s)
-+{
-+    if (float16_is_normal(a)) {
-+        return extract16(a, 10, 5) - 15;
-+    } else if (float16_is_infinity(a)) {
-+        return INT16_MAX;
-+    } else if (float16_is_any_nan(a) || float16_is_zero(a)) {
-+        float_raise(float_flag_invalid, s);
-+        return INT16_MIN;
-+    } else {
-+        /*
-+         * denormal: bias - fractional_zeros
-+         *         = bias + masked_zeros - uint32_zeros
-+         */
-+        return -15 + 22 - clz32(extract16(a, 0, 10));
-+    }
-+}
-+
-+static int32_t do_float32_logb_as_int(float32 a, float_status *s)
-+{
-+    if (float32_is_normal(a)) {
-+        return extract32(a, 23, 8) - 127;
-+    } else if (float32_is_infinity(a)) {
-+        return INT32_MAX;
-+    } else if (float32_is_any_nan(a) || float32_is_zero(a)) {
-+        float_raise(float_flag_invalid, s);
-+        return INT32_MIN;
-+    } else {
-+        /* denormal (see above) */
-+        return -127 + 9 - clz32(extract32(a, 0, 23));
-+    }
-+}
-+
-+static int64_t do_float64_logb_as_int(float64 a, float_status *s)
-+{
-+    if (float64_is_normal(a)) {
-+        return extract64(a, 52, 11) - 1023;
-+    } else if (float64_is_infinity(a)) {
-+        return INT64_MAX;
-+    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
-+        float_raise(float_flag_invalid, s);
-+        return INT64_MIN;
-+    } else {
-+        /* denormal (see above) */
-+        return -1023 + 12 - clz64(extract64(a, 0, 52));
-+    }
-+}
-+
-+DO_ZPZ_FP(flogb_h, float16, H1_2, do_float16_logb_as_int)
-+DO_ZPZ_FP(flogb_s, float32, H1_4, do_float32_logb_as_int)
-+DO_ZPZ_FP(flogb_d, float64,     , do_float64_logb_as_int)
-+
- #undef DO_ZPZ_FP
+ # SVE load and broadcast quadword (scalar plus immediate)
+ # LD1RQB, LD1RQH, LD1RQS, LD1RQD
+ LD1RQ_zpri      1010010 .. 00 0.... 001 ... ..... ..... \
+                 @rpri_load_msz nreg=0
++LD1RO_zpri      1010010 .. 01 0.... 001 ... ..... ..... \
++                @rpri_load_msz nreg=0
  
- static void do_fmla_zpzzz_h(void *vd, void *vn, void *vm, void *va, void *vg,
+ # SVE 32-bit gather prefetch (scalar plus 32-bit scaled offsets)
+ PRF             1000010 00 -1 ----- 0-- --- ----- 0 ----
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 5b78298777..fe8f87d55e 100644
+index 04efa037f2..1cc98a1447 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8231,3 +8231,27 @@ static bool trans_FCVTXNT_ds(DisasContext *s, arg_rpr_esz *a)
-     }
-     return do_frint_mode(s, a, float_round_to_odd, gen_helper_sve2_fcvtnt_ds);
+@@ -5586,6 +5586,103 @@ static bool trans_LD1RQ_zpri(DisasContext *s, arg_rpri_load *a)
+     return true;
  }
-+
-+static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
+ 
++static void do_ldro(DisasContext *s, int zt, int pg, TCGv_i64 addr, int dtype)
 +{
-+    static gen_helper_gvec_3_ptr * const fns[] = {
-+        NULL,               gen_helper_flogb_h,
-+        gen_helper_flogb_s, gen_helper_flogb_d
-+    };
++    unsigned vsz = vec_full_reg_size(s);
++    unsigned vsz_r32;
++    TCGv_ptr t_pg;
++    TCGv_i32 t_desc;
++    int desc, poff, doff;
 +
-+    if (!dc_isar_feature(aa64_sve2, s) || fns[a->esz] == NULL) {
++    if (vsz < 32) {
++        /*
++         * Note that this UNDEFINED check comes after CheckSVEEnabled()
++         * in the ARM pseudocode, which is the sve_access_check() done
++         * in our caller.  We should not now return false from the caller.
++         */
++        unallocated_encoding(s);
++        return;
++    }
++
++    /* Load the first octaword using the normal predicated load helpers.  */
++
++    poff = pred_full_reg_offset(s, pg);
++    if (vsz > 32) {
++        /*
++         * Zero-extend the first 32 bits of the predicate into a temporary.
++         * This avoids triggering an assert making sure we don't have bits
++         * set within a predicate beyond VQ, but we have lowered VQ to 2
++         * for this load operation.
++         */
++        TCGv_i64 tmp = tcg_temp_new_i64();
++#ifdef HOST_WORDS_BIGENDIAN
++        poff += 4;
++#endif
++        tcg_gen_ld32u_i64(tmp, cpu_env, poff);
++
++        poff = offsetof(CPUARMState, vfp.preg_tmp);
++        tcg_gen_st_i64(tmp, cpu_env, poff);
++        tcg_temp_free_i64(tmp);
++    }
++
++    t_pg = tcg_temp_new_ptr();
++    tcg_gen_addi_ptr(t_pg, cpu_env, poff);
++
++    desc = simd_desc(32, 32, zt);
++    t_desc = tcg_const_i32(desc);
++
++    gen_helper_gvec_mem *fn
++        = ldr_fns[s->mte_active[0]][s->be_data == MO_BE][dtype][0];
++    fn(cpu_env, t_pg, addr, t_desc);
++
++    tcg_temp_free_ptr(t_pg);
++    tcg_temp_free_i32(t_desc);
++
++    /*
++     * Replicate that first octaword.
++     * The replication happens in units of 32; if the full vector size
++     * is not a multiple of 32, the final bits are zeroed.
++     */
++    doff = vec_full_reg_offset(s, zt);
++    vsz_r32 = QEMU_ALIGN_DOWN(vsz, 32);
++    if (vsz >= 64) {
++        tcg_gen_gvec_dup_mem(5, doff + 32, doff, vsz_r32 - 32, vsz - 32);
++    } else if (vsz > vsz_r32) {
++        /* Nop move, with side effect of clearing the tail. */
++        tcg_gen_gvec_mov(MO_64, doff, doff, vsz_r32, vsz);
++    }
++}
++
++static bool trans_LD1RO_zprr(DisasContext *s, arg_rprr_load *a)
++{
++    if (!dc_isar_feature(aa64_sve2_f64mm, s)) {
++        return false;
++    }
++    if (a->rm == 31) {
 +        return false;
 +    }
 +    if (sve_access_check(s)) {
-+        TCGv_ptr status =
-+            fpstatus_ptr(a->esz == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
-+        unsigned vsz = vec_full_reg_size(s);
-+
-+        tcg_gen_gvec_3_ptr(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           pred_full_reg_offset(s, a->pg),
-+                           status, vsz, vsz, 0, fns[a->esz]);
-+        tcg_temp_free_ptr(status);
++        TCGv_i64 addr = new_tmp_a64(s);
++        tcg_gen_shli_i64(addr, cpu_reg(s, a->rm), dtype_msz(a->dtype));
++        tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, a->rn));
++        do_ldro(s, a->rd, a->pg, addr, a->dtype);
 +    }
 +    return true;
 +}
++
++static bool trans_LD1RO_zpri(DisasContext *s, arg_rpri_load *a)
++{
++    if (!dc_isar_feature(aa64_sve2_f64mm, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        TCGv_i64 addr = new_tmp_a64(s);
++        tcg_gen_addi_i64(addr, cpu_reg_sp(s, a->rn), a->imm * 32);
++        do_ldro(s, a->rd, a->pg, addr, a->dtype);
++    }
++    return true;
++}
++
+ /* Load and broadcast element.  */
+ static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
+ {
 -- 
 2.25.1
 
