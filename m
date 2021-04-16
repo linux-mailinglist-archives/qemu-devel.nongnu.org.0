@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D953362727
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:47:53 +0200 (CEST)
-Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E40362746
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:57:33 +0200 (CEST)
+Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSZM-0003WM-AG
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
+	id 1lXSii-0001Fm-SW
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lXRWT-0000Cq-Sw; Fri, 16 Apr 2021 12:40:50 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:60845)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRYM-0001Kn-OB
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:42:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lXRWL-0006Yn-06; Fri, 16 Apr 2021 12:40:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.58])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 37CBE9AD5B91;
- Fri, 16 Apr 2021 18:40:36 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Apr
- 2021 18:40:35 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002b11849c2-2740-452e-9983-4ab8ddb79c9f,
- 98643AE5B40D77660504470F9E4DE59E1F602129) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.73.13
-Subject: Re: [PATCH] aspeed: Add support for the quanta-q7l1-bmc board
-To: Patrick Venture <venture@google.com>, <peter.maydell@linaro.org>,
- <andrew@aj.id.au>, <joel@jms.id.au>
-References: <20210416162426.3217033-1-venture@google.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <4e5592b1-ea5b-0ef6-c837-1c7ac1476696@kaod.org>
-Date: Fri, 16 Apr 2021 18:40:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRYK-0007fd-D1
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:42:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618591363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PfLZn06GCpWd2sD/kQWoasE4+SqYa8RYjXnZgdDZcZ0=;
+ b=DK/ZrkWLSA/T+zT1oI1/ln1Uo3EyjhHUEf0FEHjarWQUhcaPFLaun1ekAgPpZfp0SqFaaW
+ CIm1lptOyDQ8VA+Tk0ijmToStUEDww5ZtVOLEk5dsFhAnPgEDoKa5vgbBLzttP0tWCBryN
+ G0h1g7bWoxqZADsdGYMwgnowO+yvVvo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-h4MXXkxTNOCZ9unr-w6ECw-1; Fri, 16 Apr 2021 12:42:41 -0400
+X-MC-Unique: h4MXXkxTNOCZ9unr-w6ECw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56887107ACC7;
+ Fri, 16 Apr 2021 16:42:40 +0000 (UTC)
+Received: from localhost (ovpn-116-207.rdu2.redhat.com [10.10.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 497C660BE5;
+ Fri, 16 Apr 2021 16:42:30 +0000 (UTC)
+Date: Fri, 16 Apr 2021 12:42:20 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/8] Tests: introduce custom jobs
+Message-ID: <20210416164220.GF1914548@amachine.somewhere>
+References: <20210415215141.1865467-1-crosa@redhat.com>
+ <ad6d0dda-ba29-d9e5-1ca9-d849ef28eb66@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416162426.3217033-1-venture@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c1b53316-44f5-4c77-8917-19b5c97873be
-X-Ovh-Tracer-Id: 13692068769463503721
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudelhedguddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehvvghnthhurhgvsehgohhoghhlvgdrtghomh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <ad6d0dda-ba29-d9e5-1ca9-d849ef28eb66@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Wb5NtZlyOqqy58h0"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,134 +77,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patrick,
+--Wb5NtZlyOqqy58h0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 4/16/21 6:24 PM, Patrick Venture wrote:
-> The Quanta-Q71l BMC board is a board supported by OpenBMC.
-> 
-> Tested: Booted quanta-q71l firmware.
-> Signed-off-by: Patrick Venture <venture@google.com>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+On Fri, Apr 16, 2021 at 06:22:12PM +0200, Paolo Bonzini wrote:
+> On 15/04/21 23:51, Cleber Rosa wrote:
+> > Different users (or even companies) have different interests, and
+> > may want to run a reduced set of tests during development, or a
+> > larger set of tests during QE.
+> >=20
+> > To cover these use cases, this introduces some example (but
+> > functional) jobs.
+> >=20
+> > It's expected that some common jobs will come up from common
+> > requirements for different users (and maybe be added to a common
+> > location such as tests/jobs), and that very specific jobs will be
+> > added to directories specific to certain groups, say
+> > "contrib/com.redhat/jobs" or the like.
+> >=20
+> > This series does*not*  add new jobs to GitLab CI pipeline, but this is
+> > expected to be done later on custom runners.  That is, custom runners
+> > could be used for custom jobs.  Anyway, a GitLab CI pipeline can be
+> > seen here:
+> >=20
+> >   https://gitlab.com/cleber.gnu/qemu/-/pipelines/287210066
+> >=20
+> > This is based on the Avocado version bump patch:
+> >=20
+> >   https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02391.html
+>=20
+> I admit I haven't even having read the patches (only the diffstat), but
+> still: documentation please.
+>=20
+> Paolo
+>=20
 
-This looks good. 
+Hi Paolo,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Absolutely, formal docs are very much needed and will be provided.
 
-Some comments below, 
+For now, please refer to patch 8's commit message.  It contains basic
+usage information for these jobs, and pointers to external
+documentation.
 
-
-> ---
->  hw/arm/aspeed.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index a17b75f494..4611996d21 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -138,6 +138,19 @@ struct AspeedMachineState {
->  /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
->  #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
->  
-> +/* Quanta-Q71l hardware value */
-> +#define QUANTA_Q71L_BMC_HW_STRAP1 (                                     \
-> +        SCU_AST2400_HW_STRAP_DRAM_SIZE(DRAM_SIZE_128MB) |               \
-> +        SCU_AST2400_HW_STRAP_DRAM_CONFIG(2/* DDR3 with CL=6, CWL=5 */) | \
-> +        SCU_AST2400_HW_STRAP_ACPI_DIS |                                 \
-> +        SCU_AST2400_HW_STRAP_SET_CLK_SOURCE(AST2400_CLK_24M_IN) |       \
-> +        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
-> +        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_PASS_THROUGH) |          \
-> +        SCU_AST2400_HW_STRAP_SET_CPU_AHB_RATIO(AST2400_CPU_AHB_RATIO_2_1) | \
-> +        SCU_HW_STRAP_SPI_WIDTH |                                        \
-> +        SCU_HW_STRAP_VGA_SIZE_SET(VGA_8M_DRAM) |                        \
-> +        SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
-> +
->  /* AST2600 evb hardware value */
->  #define AST2600_EVB_HW_STRAP1 0x000000C0
->  #define AST2600_EVB_HW_STRAP2 0x00000003
-> @@ -433,6 +446,34 @@ static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
->      object_property_set_int(OBJECT(dev), "temperature3", 110000, &error_abort);
->  }
->  
-> +static void quanta_q71l_bmc_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    /*
-> +     * The quanta-q71l platform expects tmp75s which are compatible with
-> +     * tmp105s.
-> +     */
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4c);
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4e);
-> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105", 0x4f);
-> +
-> +    /* TODO: i2c-1: Add baseboard FRU eeprom@54 24c64 */
-
-Why not add the eeprom devices ? 
-
-> +    /* TODO: i2c-1: Add Frontpanel FRU eeprom@57 24c64 */
-> +    /* TODO: Add Memory Riser i2c mux and eeproms. */
-> +
-> +    /* TODO: i2c-2: pca9546@74 */
-> +    /* TODO: i2c-2: pca9548@77 */
-> +    /* TODO: i2c-3: Add BIOS FRU eeprom@56 24c64 */
-> +    /* TODO: i2c-7: Add pca9546@70 */
-> +    /*        - i2c@0: pmbus@59 */
-> +    /*        - i2c@1: pmbus@58 */
-> +    /*        - i2c@2: pmbus@58 */
-> +    /*        - i2c@3: pmbus@59 */
-> +    /* TODO: i2c-7: Add PDB FRU eeprom@52 */
-> +    /* TODO: i2c-8: Add BMC FRU eeprom@50 */
-> +}
-> +
->  static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
->  {
->      AspeedSoCState *soc = &bmc->soc;
-> @@ -728,6 +769,23 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
->          aspeed_soc_num_cpus(amc->soc_name);
->  };
->  
-> +static void aspeed_machine_quanta_q71l_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc       = "Quanta-Q71l BMC (ARM926EJ-S)";
-> +    amc->soc_name  = "ast2400-a1";
-> +    amc->hw_strap1 = QUANTA_Q71L_BMC_HW_STRAP1;
-> +    amc->fmc_model = "n25q256a";
-> +    amc->spi_model = "mx25l25635e";
-> +    amc->num_cs    = 1;
-> +    amc->i2c_init  = quanta_q71l_bmc_i2c_init;
-> +    mc->default_ram_size       = 128 * MiB;
-
-I thought the board had more RAM ? 
+PS: I'm very much interested in knowing what are user's first
+questions or use cases, so that I can tune the documentation
+accordingly.  Questions and ideas like the one from Phil (about a YAML
+config file) would definitely help me to write a more relevant set of
+docs.
 
 Thanks,
+- Cleber.
 
-C.
+--Wb5NtZlyOqqy58h0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +}
-> +
->  static void aspeed_machine_supermicrox11_bmc_class_init(ObjectClass *oc,
->                                                          void *data)
->  {
-> @@ -927,6 +985,10 @@ static const TypeInfo aspeed_machine_types[] = {
->          .name          = MACHINE_TYPE_NAME("g220a-bmc"),
->          .parent        = TYPE_ASPEED_MACHINE,
->          .class_init    = aspeed_machine_g220a_class_init,
-> +    }, {
-> +        .name          = MACHINE_TYPE_NAME("quanta-q71l-bmc"),
-> +        .parent        = TYPE_ASPEED_MACHINE,
-> +        .class_init    = aspeed_machine_quanta_q71l_class_init,
->      }, {
->          .name          = TYPE_ASPEED_MACHINE,
->          .parent        = TYPE_MACHINE,
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmB5vmYACgkQZX6NM6Xy
+CfNEIg/+KpPfFWBVLXdQxsWHqUo0+vZs2fmJOiLqFcgqW/OjXm/5DPLl8FVavs/3
+OSjSLiKR8TfvKOFK3aqXl0chtB8BeWKtUCPgNyTwEgxM3XLBtRudySHbSOg4u9OS
+yNJZ5SwidxPTOIgvHMBArYeTPv5I60U/7ny1tOc6ht1u8+Fc7yBr+v+bLaFFvbu3
+v7Xck46+Vpbel3Dam5Q3YOv3LUiydNB6kgTWRjiiH7Rl4vIwlWSIRIM/MzhALHY7
+V93WHGRImG6g82J/OK3t2AztcNCsxnD/21jYjNkGNKjUhm3w6TQrgBlpT6eXE6R/
+fNoMwH45DDuJqY2zzMhlZaJgAtsuA82WQHTXPXVfjtyjBMcMHgYwWeOnJpW39vEQ
+E0fdS3VHpkBVp4k5j3QKlN7/nvkoVMSxuwpoqTMHsaH9drTCilcu/E7uMzvzl0+R
+8r7lkQ+AGM77AxSA/AJf45C+Ff+lIg+9NyTDaWWbdx+3fDyi9429VJk9eKV2T85Z
+T9UwiIhQKzTHMRyyh0tDUE0rBGlpaY6UTV6UlZal993PJI0NmWmT3UHWZiGUgNKg
+YFxlC6nsIoIc6cTAQL0zlCSln9N/DDVgkQZVfMLTMf/R3DUJSXmxYKoSbGeOB4/L
+r92GEYp+b5gSd8+1Am4Om9z/8OimC2VZ9XhMHB6iyzHceNI9GGQ=
+=jbBv
+-----END PGP SIGNATURE-----
+
+--Wb5NtZlyOqqy58h0--
 
 
