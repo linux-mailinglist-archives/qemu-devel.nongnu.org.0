@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15F7361CE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:03:20 +0200 (CEST)
-Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37AE8361CE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:03:18 +0200 (CEST)
+Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXLJn-00008w-SD
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50178)
+	id 1lXLJk-0008Ve-PX
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:03:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXLHq-0007fd-2A
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:01:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59766)
+ id 1lXLHn-0007eK-Px
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:01:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXLHl-0006FB-NC
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:01:17 -0400
+ id 1lXLHl-0006FP-NC
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:01:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lXLHj-0001ZI-9Z
+ id 1lXLHj-0001um-He
  for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:01:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 045262E8161
+ by loganberry.canonical.com (Postfix) with ESMTP id 842362E8162
  for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:01:11 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Apr 2021 09:53:13 -0000
-From: ml-0 <1923861@bugs.launchpad.net>
+Date: Fri, 16 Apr 2021 09:53:14 -0000
+From: Peter Maydell <1923861@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -39,16 +39,16 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ml-0 pmaydell
 X-Launchpad-Bug-Reporter: ml-0 (ml-0)
-X-Launchpad-Bug-Modifier: ml-0 (ml-0)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
-Message-Id: <161856679399.29084.14217039528355745107.malone@soybean.canonical.com>
+Message-Id: <161856679452.8694.17113843335062562507.malone@gac.canonical.com>
 Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 3a15a4b22a4b90d2ed436aafb4a681b1f1e2d696
+X-Launchpad-Hash: 0f35a1231111f16fb53da8add9f5cab1d5b0ed6f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,10 +73,8 @@ Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I changed the compile options to single precision, only. Then, my small
-FP example works. Ok for my purposes, I don't need double.
-
-But I would need MVE. Are there any plans to implement MVE?
+Oops -- we were giving the AN547 a Cortex-M33 rather than the -M55 it
+ought to have :-(
 
 -- =
 
