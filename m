@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC463630EB
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 17:38:01 +0200 (CEST)
-Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CEA436320E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:48:19 +0200 (CEST)
+Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXn1D-0005NT-To
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 11:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48340)
+	id 1lXqvS-0006Uv-LW
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:48:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lXn0L-0004ue-74
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 11:37:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:56341)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lXn0J-00016N-FQ
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 11:37:04 -0400
-Received: from [192.168.100.1] ([82.142.18.94]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MJmX3-1lDnJB0Sr3-00K54C; Sat, 17 Apr 2021 17:36:56 +0200
-Subject: Re: [PATCH v2 2/2] hw/elf_ops: clear uninitialized segment space
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-References: <20210415100409.3977971-1-philmd@redhat.com>
- <20210415100409.3977971-3-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <60cdb1d4-225e-b61b-8e58-19933e03d4fb@vivier.eu>
-Date: Sat, 17 Apr 2021 17:36:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lXqpY-0007sx-QE
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:12 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lXqpW-0008AR-0z
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:12 -0400
+Received: by mail-wr1-x430.google.com with SMTP id g9so13923956wrx.0
+ for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 12:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fJZf4EpsHvFbqlvRa5QjsrvKAC2y+Hv24E/qLw9S6Y0=;
+ b=cYCTqOCf01Am/qFFvbHpS/ZWnGw1xKbuKs2bRuCSb6QOpjU7O1Qi4cKJdSmjFBC3iV
+ yjHdQXP+Q0FMAlJhjyqSdPugBg3gs45Ba657B8w6iXw+qQA4uOZm/DsPu8bxE2twr2IW
+ 9DFGCOmKisuKsN9O1+swYEA580WjqezdcW9BprKj+8BX8JqnjYKIMzrX0b2JFLvYx2Di
+ UCyeXnJie88/oZzS3h2wbsE/ZYxdMGuz88N2NLoShuKpmomwtL+0iPqUjGcu2erTb5FT
+ Anz1XcMuZ5eElIM008kCMq1Vg4t0tRTN1YyPOYEo0QGqF3mU/TtzO0KVO7oLBF8AuyIU
+ mzbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fJZf4EpsHvFbqlvRa5QjsrvKAC2y+Hv24E/qLw9S6Y0=;
+ b=jY9CoNhVDmof4pVVfjnV+SZVlp71lth5lsMfTR+yJ90kvq4JG4STlN/YnCMlSjm5Uq
+ f6UVUNtb/Pe1dkUB21Xxd4qPxCwAJar+lMf368pQ5iVSQ60bC5qwiq0umlXMP3S4hRQA
+ DjraK+aEgdc/4+HV8rQ10l79WZ6QpV6pWdhaDmG8zBtLlgJa8zqMJZ0CGwBg8c1bV/AI
+ t4Naasw4EFLNlFWP0HcH67XdQv1VDg9Vuetx15m9XNAVk7PiqdkbotipKiVbhRc8ajtV
+ BTRFqN0UBe0ku+SGlwmxl82Wg4kSmZPUQ4BSM9nDanspiV/atv5hcmdlUaa51egVws7D
+ jsYw==
+X-Gm-Message-State: AOAM530pz3pmKeCDRFjvntTMU+Z0hVjCxiBZKZxabiZbhtiJpUqf7+iP
+ lmKxtkRXt1uxYvr8sVEgDEBOC6OpZLSjSsaP
+X-Google-Smtp-Source: ABdhPJx45DrUtZgrN21gAyyko+VAVSHIqekcneDDSbrAP9v1vScRj/ITBlcrk5zgJGnmS+hLS6jAYw==
+X-Received: by 2002:adf:f510:: with SMTP id q16mr5611247wro.343.1618688527958; 
+ Sat, 17 Apr 2021 12:42:07 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c12sm17304374wro.6.2021.04.17.12.42.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Apr 2021 12:42:07 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] queue of proposed rc4 fixes
+Date: Sat, 17 Apr 2021 20:41:58 +0100
+Message-Id: <20210417194205.17057-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210415100409.3977971-3-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:a/fTdk7X89SH5FF89oTaVA4193L5yYKwR/Thaknkcl1ZE+Mi56V
- Mqx0fcEkNkvSNK3kKbDF0+ILO71QbpGT8gDS+R0GxlE0W90Swz3Svn4w1Bi5UmCzelRp+Yp
- xj3Sce6R2JQqE4aqOPJ7W87TEPTsDc5fktqSp74UEn4P0NyqlcmeR3Gqu0nGDmTJmmCqZQb
- bVzAPauYoEw8pzDyUd22A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BcaGt+sWKps=:rGNF6H/GlpntzPXaAWlO2B
- pAQ7PdnXdJXB6zNPCONCzva1Qk9XWpoo1DbqVOH9mwP9NU53hHpyf2d3OsmV7rCxragYzH6Fe
- GteN615SjuHW0RY8V9T7vtqWxKUwQX6hdGcMDYIAzN10x8sl0Rr4jZ5EJewzYfQyZ3ihssaRi
- YYY/8ou0AEsxEAnjMRMz2XMDV5OcADry0yhnZiuSSDlWGTbVII5TOqZ1jjH3YKFGiA4xZTQOK
- 7KyF8hkmulH6i99zc8sQd5zyEhHmhr2N3MuJoPj54IoBHlSWL6b4rP2VLV6+WxlpHPVyHHU2V
- B0yMvvzUnGSiIgD181v6yseNMFUZKy9JFi0pIEjI89lLN7CChm2Y1Ij6HzIf3MeFrJTUsAnwV
- +uHWt6GZZQM6OpPVnXkBlgaFIXU9P7eB9vzC+xlMH2ZHUtg7Q/6LbG37N5WWNEf0PnoyYp1vY
- WeTklu2D5a0qGHWde8fEsJUHkW9mXfNbhWzTQRp38aCkdTf+2bGhIICHIOl/XDftKMmH7azaD
- RmkS/gWJqJAU1IaT4eRM3I=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,79 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/04/2021 à 12:04, Philippe Mathieu-Daudé a écrit :
-> From: Laurent Vivier <laurent@vivier.eu>
-> 
-> When the mem_size of the segment is bigger than the file_size,
-> and if this space doesn't overlap another segment, it needs
-> to be cleared.
-> 
-> This bug is very similar to the one we had for linux-user,
-> 22d113b52f41 ("linux-user: Fix loading of BSS segments"),
-> where .bss section is encoded as an extension of the the data
-> one by setting the segment p_memsz > p_filesz.
-> 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> Message-Id: <20210414105838.205019-1-laurent@vivier.eu>
-> [PMD: Use recently added address_space_set()]
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/hw/elf_ops.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-> index 6ee458e7bc3..29f4c43e231 100644
-> --- a/include/hw/elf_ops.h
-> +++ b/include/hw/elf_ops.h
-> @@ -562,6 +562,19 @@ static int glue(load_elf, SZ)(const char *name, int fd,
->                      if (res != MEMTX_OK) {
->                          goto fail;
->                      }
-> +                    /*
-> +                     * We need to zero'ify the space that is not copied
-> +                     * from file
-> +                     */
-> +                    if (file_size < mem_size) {
-> +                        res = address_space_set(as ? as : &address_space_memory,
-> +                                                addr + file_size, 0,
-> +                                                mem_size - file_size,
-> +                                                MEMTXATTRS_UNSPECIFIED);
-> +                        if (res != MEMTX_OK) {
-> +                            goto fail;
-> +                        }
-> +                    }
->                  }
->              }
->  
-> 
+This pullreq contains fixes for the remaining "not fixed yet" issues
+in the 6.0 Planning page:
+ * Fix compile failures of C++ files with new glib headers
+ * mps3-an547: Use correct Cortex-M55 CPU and don't disable its FPU
+ * accel/tcg: Fix assertion failure executing from non-RAM with -icount
 
-It seems we need also the same kind of operation with the other branch of the if
-(rom_add_elf_program()), but I'm not sure where to do it:
+None of these are 100% rc4-worthy on their own, but taken all together
+I think they justify rolling another release candidate.
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index d3e5f3b423f6..8146fdcbb7a0 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1146,9 +1146,13 @@ static void rom_reset(void *unused)
-         if (rom->mr) {
-             void *host = memory_region_get_ram_ptr(rom->mr);
-             memcpy(host, rom->data, rom->datasize);
-+            memset(host + rom->datasize, 0, rom->romsize - rom->datasize);
-         } else {
-             address_space_write_rom(rom->as, rom->addr, MEMTXATTRS_UNSPECIFIED,
-                                     rom->data, rom->datasize);
-+            address_space_set(rom->as, rom->addr + rom->datasize, 0,
-+                              rom->romsize - rom->datasize,
-+                              MEMTXATTRS_UNSPECIFIED);
-         }
-         if (rom->isrom) {
-             /* rom needs to be written only once */
+thanks
+-- PMM
 
-Thanks,
-Laurent
+The following changes since commit 8fe9f1f891eff4e37f82622b7480ee748bf4af74:
+
+  Update version for v6.0.0-rc3 release (2021-04-14 22:06:18 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210417
+
+for you to fetch changes up to 277aed998ac2cd3649bf0e13b22f47769519eb61:
+
+  accel/tcg: avoid re-translating one-shot instructions (2021-04-17 18:51:14 +0100)
+
+----------------------------------------------------------------
+Fixes for rc4:
+ * Fix compile failures of C++ files with new glib headers
+ * mps3-an547: Use correct Cortex-M55 CPU and don't disable its FPU
+ * accel/tcg: Fix assertion failure executing from non-RAM with -icount
+
+----------------------------------------------------------------
+Alex Bennée (2):
+      target/arm: drop CF_LAST_IO/dc->condjump check
+      accel/tcg: avoid re-translating one-shot instructions
+
+Paolo Bonzini (2):
+      osdep: include glib-compat.h before other QEMU headers
+      osdep: protect qemu/osdep.h with extern "C"
+
+Peter Maydell (3):
+      include/qemu/osdep.h: Move system includes to top
+      hw/arm/armsse: Give SSE-300 its own Property array
+      hw/arm/armsse: Make SSE-300 use Cortex-M55
+
+ include/qemu/compiler.h   |  6 ++++++
+ include/qemu/osdep.h      | 38 +++++++++++++++++++++++++++++---------
+ accel/tcg/translate-all.c |  2 +-
+ hw/arm/armsse.c           | 24 +++++++++++++++++++-----
+ target/arm/translate.c    |  5 -----
+ disas/arm-a64.cc          |  2 +-
+ disas/nanomips.cpp        |  2 +-
+ 7 files changed, 57 insertions(+), 22 deletions(-)
 
