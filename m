@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A875362F47
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 12:37:50 +0200 (CEST)
-Received: from localhost ([::1]:36968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B63A362F46
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 12:36:45 +0200 (CEST)
+Received: from localhost ([::1]:33056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXiKi-0001RX-Am
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 06:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58744)
+	id 1lXiJg-0007h5-9J
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 06:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXiEI-0001q5-PK; Sat, 17 Apr 2021 06:31:11 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46612)
+ id 1lXiEN-0001uA-LZ; Sat, 17 Apr 2021 06:31:15 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXiEG-0000zk-Vw; Sat, 17 Apr 2021 06:31:10 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c15so20075330wro.13;
- Sat, 17 Apr 2021 03:31:07 -0700 (PDT)
+ id 1lXiEL-00012X-Uy; Sat, 17 Apr 2021 06:31:15 -0400
+Received: by mail-wr1-x432.google.com with SMTP id a4so29043374wrr.2;
+ Sat, 17 Apr 2021 03:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L5A08oqJfnwHuu4IIvHVyo2CuhBx8oIfeNWXxwFL7uE=;
- b=QvJcVwgjwo/yqaRENhIL6JYzDNYm0QfGCfHXA36JgYq698gGRG+bGZ98BrpmcbPNen
- 9odV19fsxLa5woaotQsV3fOExc/BH1OAuBeBFw9QzsTmvda50Sf/6FDp3vQzzY7y6LRP
- R+0eFzWsDEyJT6Ytd17YwAgDxYM4TIwtYVSZT5wiQIwi8rB6a/YJSHvaDwWMDF4XPzUx
- Fe91kag1X1/M4+sm2NrLWGTohS82XGvrTulAE/E1/kdlpcliBPm61JzWF/iHOqcIa5qr
- qGE2TeEUWovktEIt4IFjuc09jrlBFV+13jHwPApoB5Kc3jVyx6gycNo91+Ma5UKvm3wj
- H03A==
+ bh=cT/Vrzb6/GOtxumkXOhTgGmRp7jm4YS4nNjhVoL+0R8=;
+ b=I7Sv3v0v6goLZQBTBwy61vr+YsJG2YDxR+mwyoDdBx26bH58MG0S5sUdNpi1BRhepU
+ +eHEr+FtDBaXJid1tXh/LiZPViT6HJwPwwhcvRTxXyIt8rhe7OTFUkfwIhEQjv1SQdbd
+ DxtgFcwzmUpwe+s4y+d7O36kYvjCHUm1uXOkkQXHWpTvmxm8r2Pd44bnO+WTuq9ZxsYi
+ y6lUBYOwYjgW8hqTyW9ipQXjbRuDwraL7Eob+pXC1nMRKJyhq5CWVNWjtLXBJ75Hbmf0
+ Od7P0VdTl+C/91fo8/9gepLPAdFM++/a2KWdHbZ519HT9UvhssVCjGJpb4upRHRtj6Ch
+ 9YqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L5A08oqJfnwHuu4IIvHVyo2CuhBx8oIfeNWXxwFL7uE=;
- b=qfQ7tgeLlgRDcDy2DB8D8tFvnHs4yGsvKCouNQ3CnVh9nkZkYQ8V5NIgAlLqsaOoSG
- yDwKf9Tz2twsBQl7YKUXkJE7cmMpPA6DSyvg9Qq52+9fqhfP/ETXPqCOMdbI5QxsCG/q
- 6SF5MjxVLqUFJzpETQqWSm9h6D+Nd3F28JAmTlVdJBh3jB6D9CFbLmkdr/dk0t58k2nm
- ithrQzQdbIoxjDRW4fv8Lg/VQmL/a0YUt/EPBQCSyjKi97nXa9vxyJvwkRRis2H/0G+F
- sw6sC9x4oKMGyBNzX5NEMJfx3Ql+gHTBHDMbHll4E3fVUKKq55ujZ+3hXX7GaWbPJJxx
- orew==
-X-Gm-Message-State: AOAM530yhmDyr3kpe7KMCFAu2D2fjgsGJKg3owYF/b4D+R8BSS9aW2OT
- MFRpKIU+hHwDv4j5a1ath/o2yNxlFQs=
-X-Google-Smtp-Source: ABdhPJzvD0QAKxHmespnrW3MzoXZhd7Of64fnGKfU8KE/1YYIcN2qgkVDpZqmJeEsJ42UFwUfxZzJQ==
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr3655698wrj.339.1618655466854; 
- Sat, 17 Apr 2021 03:31:06 -0700 (PDT)
+ bh=cT/Vrzb6/GOtxumkXOhTgGmRp7jm4YS4nNjhVoL+0R8=;
+ b=IjcoTH5KEvsD8TDWFb8NQqMMVO0Ilth/ysoRv5317UPQvs3PhBs0ndO4du1LzMRBCJ
+ X1dPIsl3apviCN1SyQszOPG4v6zRp/E5KzINB0po8U8qRWP4wb9oD83WL+G9LiKg0QET
+ YOzVwTSKC8vvVX3NRXadqkVkdFQgYOWHBKHCKPTZjPox+g6LV/aQ1DDzjDTv5oy5fZT3
+ WoYrqptFDr4jkW6pnqxBrcbPsJ2XGXZPI8+Ox1WNo4rFCxszhLQr0D9oXJafQcFx9RuJ
+ AG5vCwofJfT+Jc++T/iemo3yeo0kZmZAg+7ErqNgQWyr7jwyLf6eSGIDK4pbBkbFt3Ui
+ T6Tg==
+X-Gm-Message-State: AOAM532wBv2lzrcBvw4yi6QgyL9uWi9JXqMZ3jQ+aCy3yIx8L87xk4iD
+ ClQbqsE+HmD/m83d0Xq+qekMHthrojs=
+X-Google-Smtp-Source: ABdhPJwtaeBHEUhbEHb92jZ9d32OnQp18zwnWAGYOSOj27FqY5AgQL9TmpyRCkuU1P8UFZusrZTjTw==
+X-Received: by 2002:adf:f106:: with SMTP id r6mr3677206wro.214.1618655471739; 
+ Sat, 17 Apr 2021 03:31:11 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id n9sm11795815wmo.27.2021.04.17.03.31.05
+ by smtp.gmail.com with ESMTPSA id n9sm14395212wrq.86.2021.04.17.03.31.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 03:31:06 -0700 (PDT)
+ Sat, 17 Apr 2021 03:31:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/11] hw/pci-host/raven: Use MR alias for AS root,
- not sysbus mapped MR
-Date: Sat, 17 Apr 2021 12:30:24 +0200
-Message-Id: <20210417103028.601124-8-f4bug@amsat.org>
+Subject: [RFC PATCH v2 08/11] hw/pci-host/raven: Remove pointless alias
+ mapping onto system bus
+Date: Sat, 17 Apr 2021 12:30:25 +0200
+Message-Id: <20210417103028.601124-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210417103028.601124-1-f4bug@amsat.org>
 References: <20210417103028.601124-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,89 +94,127 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PCI I/O region is exposed as AddressSpace. AddressSpaces must
-not be sysbus-mapped (to be zero-based), therefore map the region
-using an alias.
+The 'pci-io' alias (mapped with priority 0) ends up masked by
+the 'pci-io-non-contiguous' I/O region (mapped with priority 1).
 
-As the new AdressSpace root memory region is now zero-based, we do not
-need anymore to add the PCI I/O base address to the MemoryRegionOps
-handlers. Update the temporary assertion and its comment.
+The flatview rendering is ('pci-io-non-contiguous' is written
+'pci-io-nc'):
+
+(base addr) [               MemoryRegion               ]        [   FlatView   ]
+
+           +----------------------------+---------------+
+           |         priority 0         |   priority 1  |
+           +----------------------------+---------------+
+
+8000.0000  +-            +--------------+---------------+      +---------------+
+                         |   "pci-io"   |  "pci-io-nc"  |      |  "pci-io-nc"  |
+                         |              |               |      |               |
+                         | / - isadev   |               |      |               |
+                         | | - isadev   |               |      |               |
+                         | | - isadev   |               +----> |               |
+                         | \ - isadev   |               |      |               |
+                         |              |               |      |               |
+                         |              |               |      |               |
+                         |              |               |      |               |
+8080.0000  +-------------+              +---------------+      +---------------+
+           |   "pciio"   |              |                      |    "pciio"    |
+           |             |              |                      |               |
+           |             |              |                      |               |
+           |             +  -  -  -  -  |--------------------> |               |
+           |             |              |                      |               |
+           |             |              |                      |               |
+           |             |              |                      |               |
+80c0.0000  +-------------+              |                      +---------------+
+                         |              |                       +-------------+
+                         |              |                       |    "???"    |
+                         |              |                       |             |
+                         |              |        ???????----->  | unassigned? |
+                         |              |                       |             |
+                         |              |                       |             |
+                         |              |                       |             |
+bf80.0000  +-            +--------------+                       +-------------+
+
+The before/after this commit memory tree diff is:
+
+  (qemu) info mtree
+  memory-region: system
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-0000000001ffffff (prio 0, ram): simm.0
+      0000000002000000-0000000003ffffff (prio 1, ram): simm.1
+      0000000004000000-0000000005ffffff (prio 2, ram): simm.2
+      0000000006000000-0000000007ffffff (prio 3, ram): simm.3
+      0000000080000000-00000000807fffff (prio 1, i/o): pci-io-non-contiguous
+-     0000000080000000-00000000bf7fffff (prio 0, i/o): alias pci-io @pci-io 0000000000000000-000000003f7fffff
+      0000000080800000-0000000080bfffff (prio 0, i/o): pciio
+      00000000bfffeff0-00000000bfffeff3 (prio 0, i/o): ppc-parity
+      00000000bffffff0-00000000bffffff0 (prio 0, i/o): pci-intack
+      00000000c0000000-00000000feffffff (prio 0, i/o): pci-memory
+        00000000c00a0000-00000000c00bffff (prio 1, i/o): vga-lowmem
+      00000000f0000510-00000000f0000511 (prio 0, i/o): fwcfg.ctl
+      00000000f0000512-00000000f0000512 (prio 0, i/o): fwcfg.data
+      00000000fff00000-00000000ffffffff (prio 0, rom): bios
+
+We can see it in the monitor, before/after this patch, the
+flatview rendering is left unchanged (note the unassigned
+80c0.0000-bf7f.ffff range):
+
+  (qemu) info mtree  -f
+  FlatView #1
+   AS "memory", root: system
+   AS "cpu-memory-0", root: system
+   Root memory region: system
+    0000000000000000-0000000001ffffff (prio 0, ram): simm.0
+    0000000002000000-0000000003ffffff (prio 1, ram): simm.1
+    0000000004000000-0000000005ffffff (prio 2, ram): simm.2
+    0000000006000000-0000000007ffffff (prio 3, ram): simm.3
+    0000000080000000-00000000807fffff (prio 1, i/o): pci-io-non-contiguous
+    0000000080800000-0000000080bfffff (prio 0, i/o): pciio
+    00000000bfffeff0-00000000bfffeff3 (prio 0, i/o): ppc-parity
+    00000000bffffff0-00000000bffffff0 (prio 0, i/o): pci-intack
+    00000000c00a0000-00000000c00bffff (prio 1, i/o): vga-lowmem
+    00000000f0000510-00000000f0000511 (prio 0, i/o): fwcfg.ctl
+    00000000f0000512-00000000f0000512 (prio 0, i/o): fwcfg.data
+    00000000fff00000-00000000ffffffff (prio 0, rom): bios
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/raven.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+RFC because I can't justify the unassigned 80c0.0000-bf7f.ffff range.
+---
+ hw/pci-host/raven.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
-index 36652122424..7bbb7ef0a29 100644
+index 7bbb7ef0a29..f9c92b83770 100644
 --- a/hw/pci-host/raven.c
 +++ b/hw/pci-host/raven.c
-@@ -67,6 +67,7 @@ struct PRePPCIState {
+@@ -67,7 +67,6 @@ struct PRePPCIState {
      PCIBus pci_bus;
      AddressSpace pci_io_as;
      MemoryRegion pci_io;
-+    MemoryRegion pci_io_alias;
+-    MemoryRegion pci_io_alias;
      MemoryRegion pci_io_non_contiguous;
      MemoryRegion pci_memory;
      MemoryRegion pci_intack;
-@@ -143,14 +144,13 @@ static inline hwaddr raven_io_address(PREPPCIState *s,
- {
-     /*
-      * We shouldn't access AddressSpace internals. However this assert
--     * is temporarily introduced to prove a subtle inconsistency from
--     * commit 1ae1dc5ba24 ("raven: Set a correct PCI I/O memory region"):
--     * AddressSpace root region must be zero-based, but the Raven use is not.
-+     * is temporarily used to prove a subtle inconsistency from commit
-+     * 1ae1dc5ba24 ("raven: Set a correct PCI I/O memory region") which
-+     * expected the PCI I/O root region base address to be 0x80000000.
-      *
--     * Assert the root region is based on physical address 0x80000000
--     * until the issue is fixed.
-+     * We now use an alias memory region as root, which is zero-based.
-      */
--    assert(s->pci_io_as.root->addr == PCI_IO_BASE_ADDR);
-+    assert(s->pci_io_as.root->addr == 0);
- 
-     if (s->contiguous_map == 0) {
-         /* 64 KB contiguous space for IOs */
-@@ -172,8 +172,7 @@ static uint64_t raven_io_read(void *opaque, hwaddr addr,
-     uint8_t buf[4];
- 
-     addr = raven_io_address(s, addr);
--    address_space_read(&s->pci_io_as, addr + PCI_IO_BASE_ADDR,
--                       MEMTXATTRS_UNSPECIFIED, buf, size);
-+    address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, buf, size);
- 
-     if (size == 1) {
-         return buf[0];
-@@ -204,8 +203,7 @@ static void raven_io_write(void *opaque, hwaddr addr,
-         g_assert_not_reached();
-     }
- 
--    address_space_write(&s->pci_io_as, addr + PCI_IO_BASE_ADDR,
--                        MEMTXATTRS_UNSPECIFIED, buf, size);
-+    address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, buf, size);
- }
- 
- static const MemoryRegionOps raven_io_ops = {
-@@ -301,6 +299,8 @@ static void raven_pcihost_initfn(Object *obj)
+@@ -299,8 +298,6 @@ static void raven_pcihost_initfn(Object *obj)
      DeviceState *pci_dev;
  
      memory_region_init(&s->pci_io, obj, "pci-io", 0x3f800000);
-+    memory_region_init_alias(&s->pci_io_alias, obj, "pci-io",
-+                             &s->pci_io, 0, memory_region_size(&s->pci_io));
+-    memory_region_init_alias(&s->pci_io_alias, obj, "pci-io",
+-                             &s->pci_io, 0, memory_region_size(&s->pci_io));
      memory_region_init_io(&s->pci_io_non_contiguous, obj, &raven_io_ops, s,
                            "pci-io-non-contiguous", 0x00800000);
      memory_region_init(&s->pci_memory, obj, "pci-memory", 0x3f000000);
-@@ -308,7 +308,7 @@ static void raven_pcihost_initfn(Object *obj)
+@@ -308,9 +305,7 @@ static void raven_pcihost_initfn(Object *obj)
  
      /* CPU address space */
      memory_region_add_subregion(address_space_mem, PCI_IO_BASE_ADDR,
--                                &s->pci_io);
-+                                &s->pci_io_alias);
-     memory_region_add_subregion_overlap(address_space_mem, PCI_IO_BASE_ADDR,
-                                         &s->pci_io_non_contiguous, 1);
+-                                &s->pci_io_alias);
+-    memory_region_add_subregion_overlap(address_space_mem, PCI_IO_BASE_ADDR,
+-                                        &s->pci_io_non_contiguous, 1);
++                                &s->pci_io_non_contiguous);
      memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci_memory);
+     pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj), NULL,
+                              &s->pci_memory, &s->pci_io, 0, TYPE_PCI_BUS);
 -- 
 2.26.3
 
