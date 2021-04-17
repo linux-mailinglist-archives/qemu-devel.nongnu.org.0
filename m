@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92915362F40
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 12:33:24 +0200 (CEST)
-Received: from localhost ([::1]:51378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F777362F42
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 12:34:21 +0200 (CEST)
+Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXiGR-0003Np-C4
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 06:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
+	id 1lXiHM-00048N-73
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 06:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXiDu-0001SM-3z; Sat, 17 Apr 2021 06:30:46 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52865)
+ id 1lXiDy-0001Tk-R2; Sat, 17 Apr 2021 06:30:51 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:43656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXiDs-0000mn-1t; Sat, 17 Apr 2021 06:30:45 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id y204so14148626wmg.2;
- Sat, 17 Apr 2021 03:30:42 -0700 (PDT)
+ id 1lXiDx-0000ox-BU; Sat, 17 Apr 2021 06:30:50 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ u5-20020a7bcb050000b029010e9316b9d5so15433446wmj.2; 
+ Sat, 17 Apr 2021 03:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kF/aV6qxhEEC7EHoDNvMenC0A38A0IZfHiqIOjgg71A=;
- b=DobbvUqA35+9kB1+MeSnWxw7nXURePdOwwkPQQA4JSO2GGux7pJHOVn5wp7nVsfIbk
- MZo7gt6QtAFh3OfuTD+n8G5vGx5/pe3yUULKtj5n++ZjZzxU1hB5BLxvwiLsRg52tm2/
- d/B/pDKY9dMq39w7yWxVNyx2Gz7f2w4ZR9rXLWbED/yopVd7m1/Zt+Ooto0EkH2yxYyE
- V1MN0b9J9Df3p76lizDy9ZI0mqjb9FRmSKKpMwsFI5xotEyB2nHASZN6yld2YQFNBU0s
- o1cZ/rv8bO7Uls/fnG7eMzXfQi4O8+njSKf/VtcoX0ykSWP7OyFNL3VH9KaBabtiyn26
- y0yQ==
+ bh=YqA3p/T6rcC/vVj1HlfKqNVV1sNmO1FDscy1JV4DYeo=;
+ b=XI7cLY00hk+yXTbKsmzHu/oYlxDQQudJzwQwG/hcVHrLJn4wjSHjyhSWTAjNoFYuLm
+ L62JpBkacfuh/kDvtxF2qpEpmiO4QT+ryMz7V17W0nksdqYlhJS6a/81r30rC7IPTyKT
+ 40oCZLHrDhuDlKjMNBmvtuPGp1lQi/PSizj2aYJypM/Lo5Z5LiBPASpWWec1JmynZwZ4
+ nWeqv0QH3ppLJrdPfv4+ePy2/dOxuDDkl9Dcf6o/Jd1Cy/iz3D8F2D31ovASvesEXPxm
+ 6x1/rO+U6vfW1vf8dO+4zzyym4ZLtlfg6hCWG79N0N4w8nFDV5c1yNVHuYUz2P5O+dzL
+ PJHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kF/aV6qxhEEC7EHoDNvMenC0A38A0IZfHiqIOjgg71A=;
- b=N7Ca9UNehgm8BZOuPEK4CDK4j3SlA7wUi0nKCviENiOrGZr92sxn67ldCuPWquoOTv
- yRFoVrKcJBoQGTT/XkvqY7Hx4xPRVYuRvvYCNKv4LVI1/a/LNySsv69iV6IX10q1y8rr
- ObynyYvdPZ/j4clI3I5gvXL42WqgRjqVGoFkZeivX5UKzYDrTctz8MwsqC9ZMWv9pyqb
- CR/w4BHnLTrJKuEy7e4urtQ0uYSPsPfbm3bBFw18GUh4g5FNT3MH+HzD0dFWt/VazIS+
- Hv/oBJJjhWfuHv9qYZeYVbU6stB8U4sAVVtlw1ODdgcvHNa13doqXiw9Sc8f3C6v6THu
- 8upw==
-X-Gm-Message-State: AOAM5315x+JCFZ/O3xsB/l7KSqeOQ8LxB8uIHYbBvE8dVqK9Hf4Kh0eC
- 0ytff5JCe+V7/7/b1IzShgLKTxMEy5k=
-X-Google-Smtp-Source: ABdhPJw18Y79CyTqdwhK3G8j+fklRqnjpDS7m3jTSAVnOIq1dGLlZ4s9Zb88OlasQ352TjHTnNeihA==
-X-Received: by 2002:a1c:f305:: with SMTP id q5mr12212974wmq.96.1618655441662; 
- Sat, 17 Apr 2021 03:30:41 -0700 (PDT)
+ bh=YqA3p/T6rcC/vVj1HlfKqNVV1sNmO1FDscy1JV4DYeo=;
+ b=qb6qoUWX4k0f+0fllzoZsE4BsII7mCpcuvYEaKv04Y4oFWug/dxBZ8fiHmxlBbi8xk
+ QKMvnMpFM8ikkm8JSEloPCmrn4uIhwjLZjH8TZLDZrgMf6oX88PTaZSV7nyM7rdgi7Yu
+ 2o/J9afaf4mBlIrLZWdmFqOsuR9td3IAtSDcGoShzmDmpHCqu2BgjOt/UzSI6IaME2JT
+ IAij5VmtwQCDK6SlZJwSrNEZoBB/vWppYhXx4tifHJ8nfgHHbIBL6LSYNOzxhSDRNk6I
+ talEWYpYjf7XWTuYUIomYjJMeLhv9K6f+smc9QBBFa8ij17zMchDAkzO5N5ky9AJE3UM
+ xW/A==
+X-Gm-Message-State: AOAM532RcZX9squRN5RdvhVaNqc0OP08BHnlusWnQcyuaCpCyqN+2Vfw
+ ahtaFvAafuxP0zQLMAg24SMbKcGCxdk=
+X-Google-Smtp-Source: ABdhPJxucS85w39EI6XBhb6Lg/u6tG6gQyirJ0OQ/luTscbm6jHhfaA04KZn/0WwWJqXRz5Pwewurw==
+X-Received: by 2002:a7b:cb42:: with SMTP id v2mr11996034wmj.120.1618655446702; 
+ Sat, 17 Apr 2021 03:30:46 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b15sm3794006wrt.57.2021.04.17.03.30.40
+ by smtp.gmail.com with ESMTPSA id y17sm14860403wrq.76.2021.04.17.03.30.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 03:30:41 -0700 (PDT)
+ Sat, 17 Apr 2021 03:30:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/11] hw/aspeed/smc: Use the RAM memory region for DMAs
-Date: Sat, 17 Apr 2021 12:30:19 +0200
-Message-Id: <20210417103028.601124-3-f4bug@amsat.org>
+Subject: [PATCH v2 03/11] hw/arm/aspeed: Do not sysbus-map mmio flash region
+ directly, use alias
+Date: Sat, 17 Apr 2021 12:30:20 +0200
+Message-Id: <20210417103028.601124-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210417103028.601124-1-f4bug@amsat.org>
 References: <20210417103028.601124-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,50 +97,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+The flash mmio region is exposed as an AddressSpace.
+AddressSpaces must not be sysbus-mapped, therefore map
+the region using an alias.
 
-Instead of passing the memory address space region, simply use the RAM
-memory region instead. This simplifies RAM accesses.
-
-This patch breaks migration compatibility.
-
-Fixes: c4e1f0b48322 ("aspeed/smc: Add support for DMAs")
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[ clg : Fix DMA_FLASH_ADDR() ]
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210407171637.777743-2-clg@kaod.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20210312182851.1922972-3-f4bug@amsat.org>
 ---
- hw/arm/aspeed.c     | 2 +-
- hw/ssi/aspeed_smc.c | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ include/hw/ssi/aspeed_smc.h | 1 +
+ hw/ssi/aspeed_smc.c         | 7 ++++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index daeef5b32a2..4033ffd314c 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -328,7 +328,7 @@ static void aspeed_machine_init(MachineState *machine)
-     object_property_set_int(OBJECT(&bmc->soc), "num-cs", amc->num_cs,
-                             &error_abort);
-     object_property_set_link(OBJECT(&bmc->soc), "dram",
--                             OBJECT(&bmc->ram_container), &error_abort);
-+                             OBJECT(machine->ram), &error_abort);
-     if (machine->kernel_filename) {
-         /*
-          * When booting with a -kernel command line there is no u-boot
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index 16c03fe64f3..e3c96cecbd8 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -84,6 +84,7 @@ struct AspeedSMCState {
+ 
+     MemoryRegion mmio;
+     MemoryRegion mmio_flash;
++    MemoryRegion mmio_flash_alias;
+ 
+     qemu_irq irq;
+     int irqline;
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 16addee4dc8..6f72fb028e5 100644
+index 6f72fb028e5..e06a3b0c5bd 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -178,8 +178,7 @@
-  *   0: 4 bytes
+@@ -179,8 +179,7 @@
   *   0x7FFFFF: 32M bytes
   */
--#define DMA_DRAM_ADDR(s, val)   ((s)->sdram_base | \
--                                 ((val) & (s)->ctrl->dma_dram_mask))
-+#define DMA_DRAM_ADDR(s, val)   ((val) & (s)->ctrl->dma_dram_mask)
- #define DMA_FLASH_ADDR(s, val)  ((s)->ctrl->flash_window_base | \
-                                 ((val) & (s)->ctrl->dma_flash_mask))
+ #define DMA_DRAM_ADDR(s, val)   ((val) & (s)->ctrl->dma_dram_mask)
+-#define DMA_FLASH_ADDR(s, val)  ((s)->ctrl->flash_window_base | \
+-                                ((val) & (s)->ctrl->dma_flash_mask))
++#define DMA_FLASH_ADDR(s, val)  ((val) & (s)->ctrl->dma_flash_mask)
  #define DMA_LENGTH(val)         ((val) & 0x01FFFFFC)
+ 
+ /* Flash opcodes. */
+@@ -1385,7 +1384,9 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
+     memory_region_init_io(&s->mmio_flash, OBJECT(s),
+                           &aspeed_smc_flash_default_ops, s, name,
+                           s->ctrl->flash_window_size);
+-    sysbus_init_mmio(sbd, &s->mmio_flash);
++    memory_region_init_alias(&s->mmio_flash_alias, OBJECT(s), name,
++                             &s->mmio_flash, 0, s->ctrl->flash_window_size);
++    sysbus_init_mmio(sbd, &s->mmio_flash_alias);
+ 
+     s->flashes = g_new0(AspeedSMCFlash, s->ctrl->max_peripherals);
+ 
 -- 
 2.26.3
 
