@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699CB362E64
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 09:52:00 +0200 (CEST)
-Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25A9362E74
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 10:04:45 +0200 (CEST)
+Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXfkF-0001Gs-1e
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 03:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37842)
+	id 1lXfwa-0003IB-Al
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 04:04:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXfjH-0000rw-5p
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 03:50:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXfjD-0003xC-AX
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 03:50:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lXfjA-000775-OC
- for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 07:50:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B56872E8161
- for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 07:50:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXfuw-0002kJ-Ea
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 04:03:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXfus-0002uw-U2
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 04:03:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618646577;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oPuwQCDjs7ggorWrjSMZWihT5Ey9m3bmdsr0dWOWdI0=;
+ b=OjtxZeFeyodIAfm5NaWCTNKC/bC82laPLFukmHzy3721MI2wKMteLGmOCW8ICbNeRurX6u
+ GWGeO5fvNyZ8WbSzv+zufoOrxBkZ/8K2POiNpPdQVtt4O6Eel82BaAmCKbZCXcZ+bsK0M7
+ YAgjnZRs5ZXfrugzU5fYBvWbmjzhuiE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-M0pd02VtP-WP2uUhsXHvjA-1; Sat, 17 Apr 2021 04:02:53 -0400
+X-MC-Unique: M0pd02VtP-WP2uUhsXHvjA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29CCB1006C80;
+ Sat, 17 Apr 2021 08:02:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD9B05E1A8;
+ Sat, 17 Apr 2021 08:02:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5681E113525D; Sat, 17 Apr 2021 10:02:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCHv2 1/1] Support monitor chardev hotswap with QMP
+References: <20210413213459.629963-1-li.zhang@cloud.ionos.com>
+ <875z0m4733.fsf@dusky.pond.sub.org>
+ <CAJ+F1CKFzgp=ndDER4p4v-_uz0gf0ydzYcxtay7Zz7wwUQUueg@mail.gmail.com>
+ <CAJ+F1CLW1rCV1rnxxhtAMEoVttA+nbWetbQkd7C3G16NTR2NRw@mail.gmail.com>
+Date: Sat, 17 Apr 2021 10:02:50 +0200
+In-Reply-To: <CAJ+F1CLW1rCV1rnxxhtAMEoVttA+nbWetbQkd7C3G16NTR2NRw@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Fri, 16 Apr 2021
+ 19:28:19 +0400")
+Message-ID: <87blad2v9x.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 17 Apr 2021 07:40:25 -0000
-From: Vladislav Yaroshchuk <1922102@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: macos net network tap tap-net
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: shchukovl
-X-Launchpad-Bug-Reporter: Vladislav Yaroshchuk (shchukovl)
-X-Launchpad-Bug-Modifier: Vladislav Yaroshchuk (shchukovl)
-References: <161720333927.2408.17717907169331715630.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161864522592.26424.18042645132978918884.launchpad@gac.canonical.com>
-Subject: [Bug 1922102] Re: Broken tap networking on macOS host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
-X-Launchpad-Hash: 5a48d6b1dfbb88398655655c7c5f43db66505d94
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,139 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922102 <1922102@bugs.launchpad.net>
+Cc: Li Zhang <li.zhang@cloud.ionos.com>, Li Zhang <zhlcindy@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>, Pankaj Gupta <pankaj.gupta@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-  Building QEMU with GLib newer than 2.58.3 corrupts tap networking on macO=
-S hosts.
-  Tap device was provided by Tun/Tap kernel extension installed from brew:
-  =C2=A0=C2=A0brew install tuntap
-  =
+> Hi
+>
+> On Fri, Apr 16, 2021 at 6:59 PM Marc-Andr=C3=A9 Lureau <
+> marcandre.lureau@gmail.com> wrote:
+>
+>> Hi
+>>
+>> On Fri, Apr 16, 2021 at 6:51 PM Markus Armbruster <armbru@redhat.com>
+>> wrote:
+>>
+>>> Marc-Andr=C3=A9, I'd like your opinion for this one, in particular the =
+use of
+>>> g_source_remove().
+>>>
+>>
+>> My opinion isn't really worth much, my review would have a bit more valu=
+e.
+>>
+>> GSource has indeed some peculiar lifetime management, that I got wrong i=
+n
+>> the past. So I would be extra careful.
+>>
+>> But before spending time on review, I would also clarify the motivation
+>> and ask for testing.
+>>
+>> Markus, hot-adding/removing monitors isn't supported?
+>>
+>>
+> I realize you answered my question below. That's surprising me. Wouldn't =
+it
+> make more sense to support it rather than having a pre-opened null-based
+> monitor that can have its chardev swapped?
 
-  Checked revisions:
-  =C2=A0=C2=A0553032d (v5.2.0)
-  =C2=A0=C2=A06d40ce0 (v6.0.0-rc1)
-  =
+Yes, it would.  Patches welcome.
 
-  Host:
-  =C2=A0MacBook Pro (Retina, 15-inch, Mid 2015)
-  =C2=A0macOS Catalina 10.15.6 (19G2021)
-  =
+This patch is a somewhat ham-fisted and limited solution to the problem
+stated in the commit message.  However, it might *also* be a reasonable
+improvement to chardev-change on its own.  Not for me to judge.
 
-  Guest:
-  =C2=A0=C2=A0Linux Ubuntu 4.4.0-206-generic x86_64
-  =C2=A0=C2=A0Also tested macOS Catalina 10.15.7 as a guest, the behaviour =
-is the same.
-  =
+chardev-change comes with a number of restrictions.  Let's have a closer
+look.  It fails
 
-  QEMU command line:
-  =
+1. when no such character device exists (d'oh)
 
-  qemu-system-x86_64 \
-  =C2=A0=C2=A0-drive file=3Dhdd.qcow2,if=3Dvirtio,format=3Dqcow2 \
-  =C2=A0=C2=A0-m 3G \
-  =C2=A0=C2=A0-nic tap,script=3Dtap-up.sh
-  =
+2. for chardev-mux devices
 
-  tap-up.sh:
-  =
+3. in record/replay mode
 
-  =C2=A0#!/bin/sh
-  =
+4. when a backend is connected that doesn't implement the chr_be_change()
+   method
 
-  =C2=A0TAPDEV=3D"$1"
-  =C2=A0BRIDGEDEV=3D"bridge0"
-  =
+5. when chr_be_change() fails
 
-  =C2=A0ifconfig "$BRIDGEDEV" addm "$TAPDEV"
-  =
+6. when creating the new chardev fails[*]
 
-  Enabling/disabling Hypervisor.Framework acceleration (`-accel hvf`) has
-  no effect.
-  =
+Items 2, 3, 4 are restrictions.  I figure 2 and 4 are simply not
+implemented, yet.  I'm not sure about 3.
 
-  How to reproduce:
-- =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7, 2.60.7)
-+ =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7)
-  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib > 2.58.3
-- =C2=A0=C2=A03. Boot any guest any guest with tap networking enabled
-+ =C2=A0=C2=A03. Boot any guest with tap networking enabled
-  =C2=A0=C2=A04. See that the external network is inaccessible
-  =
+Whether we want to accept patches lifting restrictions is up to the
+chardev maintainers.
 
-  Hotfix:
-  =C2=A0=C2=A01. Build & install GLib 2.58.3
-  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib 2.58.3
-  =C2=A0=C2=A03. Boot any guest with tap networking enabled
-  =C2=A0=C2=A04. See that the external network is accessible, everything is=
- working as expected
+This patch lifts restriction 4 for QMP monitor backends.  Its monitor
+part looks acceptable to me, but I dislike its code duplication.  Before
+we spend time on cleaning that up (or on deciding to clean it up later),
+I'd like to hear the chardev mantainers' judgement, because that's about
+more serious matters than cleanliness.
 
--- =
+Do I make sense?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922102
+[...]
 
-Title:
-  Broken tap networking on macOS host
 
-Status in QEMU:
-  New
+[*] The code for creating the new chardev in the "no backend connected"
+case
 
-Bug description:
-  Building QEMU with GLib newer than 2.58.3 corrupts tap networking on macO=
-S hosts.
-  Tap device was provided by Tun/Tap kernel extension installed from brew:
-  =C2=A0=C2=A0brew install tuntap
+    be =3D chr->be;
+    if (!be) {
+        /* easy case */
+        object_unparent(OBJECT(chr));
+        return qmp_chardev_add(id, backend, errp);
+    }
 
-  Checked revisions:
-  =C2=A0=C2=A0553032d (v5.2.0)
-  =C2=A0=C2=A06d40ce0 (v6.0.0-rc1)
+is problematic: when qmp_chardev_add() fails, we already destroyed the
+old chardev.  It should destroy the old chardev only when it can create
+its replacement.
 
-  Host:
-  =C2=A0MacBook Pro (Retina, 15-inch, Mid 2015)
-  =C2=A0macOS Catalina 10.15.6 (19G2021)
-
-  Guest:
-  =C2=A0=C2=A0Linux Ubuntu 4.4.0-206-generic x86_64
-  =C2=A0=C2=A0Also tested macOS Catalina 10.15.7 as a guest, the behaviour =
-is the same.
-
-  QEMU command line:
-
-  qemu-system-x86_64 \
-  =C2=A0=C2=A0-drive file=3Dhdd.qcow2,if=3Dvirtio,format=3Dqcow2 \
-  =C2=A0=C2=A0-m 3G \
-  =C2=A0=C2=A0-nic tap,script=3Dtap-up.sh
-
-  tap-up.sh:
-
-  =C2=A0#!/bin/sh
-
-  =C2=A0TAPDEV=3D"$1"
-  =C2=A0BRIDGEDEV=3D"bridge0"
-
-  =C2=A0ifconfig "$BRIDGEDEV" addm "$TAPDEV"
-
-  Enabling/disabling Hypervisor.Framework acceleration (`-accel hvf`)
-  has no effect.
-
-  How to reproduce:
-  =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7)
-  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib > 2.58.3
-  =C2=A0=C2=A03. Boot any guest with tap networking enabled
-  =C2=A0=C2=A04. See that the external network is inaccessible
-
-  Hotfix:
-  =C2=A0=C2=A01. Build & install GLib 2.58.3
-  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib 2.58.3
-  =C2=A0=C2=A03. Boot any guest with tap networking enabled
-  =C2=A0=C2=A04. See that the external network is accessible, everything is=
- working as expected
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922102/+subscriptions
 
