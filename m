@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D77362D33
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 05:32:34 +0200 (CEST)
-Received: from localhost ([::1]:39732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699CB362E64
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 09:52:00 +0200 (CEST)
+Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXbhB-00041z-4j
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 23:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
+	id 1lXfkF-0001Gs-1e
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 03:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lXbgA-0003bQ-Cf; Fri, 16 Apr 2021 23:31:31 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:33788)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lXfjH-0000rw-5p
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 03:50:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lXbg1-0000pq-0R; Fri, 16 Apr 2021 23:31:28 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id n10so3814445plc.0;
- Fri, 16 Apr 2021 20:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:subject:to:cc:references:in-reply-to:mime-version
- :message-id:content-transfer-encoding;
- bh=JjTTb2jwAv4hx8Evuu9M4WvzhLMRZvsUK2U10/F93Uc=;
- b=rzUXde9HMHyR4mz5a5U2BQ7S+hWtAsT3b/OEGkHBfWRGXn/iUc06iukJkkWAHMag0P
- YmULkcimKUVajRBybAN73UQWJEG7mGfxOu2i+iX6XZNsuzuuSJbjS3Bl7C86wJ010ptC
- VLB9/ao+u21hLKS5kuEqZFml+0317PIGN3EoGVEF1TatT3rKRn+Z0qZcyHpfoArleO4O
- u3aaZ1J9rGG++HhxLhzghMA2M8hw9WoHIStXIo6ggGgN6NUmG8GqpYD6hKXu01DkeFUS
- pQprUlEz/WOtmJD/I8APwxC8b8OfNteXpmHt0IMH9u7s3joFi/sKPszXbfjrBP5h4S6Z
- QonA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
- :mime-version:message-id:content-transfer-encoding;
- bh=JjTTb2jwAv4hx8Evuu9M4WvzhLMRZvsUK2U10/F93Uc=;
- b=ul3D5c0tdNaf4TZnj04EidG/IDGgWbbJUtbRul+1NV1ElOTWKM3/QfmqfQjxUzw9kc
- 8fBlFOIeYS2V0HKQmr7TmrNGIBjuaAS8Xgxt0Ov5DMAKFuyRWaO393rvnOMVM141s7xA
- Wvyawu7Yl4/UFAqgLfjFx660AwRahNogpPMPcrD1iwpULlYr6bg62Y5ru/MKk6yLjXxJ
- IxekCCDFvIK+M3uFqRYejAxLwVbV7eEUitfTZe3MyfsLxSK7LcmsOVdlcmVRL+NTDsPT
- 8BoGxnr4F+hc5W5zl8qAWxcMMQbCWqiZgMPg+R5otqxMSPGmsFHQDtERrku9HDWo/E5L
- QVIQ==
-X-Gm-Message-State: AOAM5313Z+XXg7N7qKuXVdsHZauegWUoLGzpzhmyejRCvT3vuttkqGV7
- Uno8cZc3VsqWhf8+Kzp0448=
-X-Google-Smtp-Source: ABdhPJwh3LrWtAtzYvR+SlvCeiot2bm6rk6GdDgoRvxj2z42yFEH21y8hZepvSTxs6DyJnqpZL1LFQ==
-X-Received: by 2002:a17:902:8ec1:b029:e9:998d:91f3 with SMTP id
- x1-20020a1709028ec1b02900e9998d91f3mr12293539plo.59.1618630279213; 
- Fri, 16 Apr 2021 20:31:19 -0700 (PDT)
-Received: from localhost (193-116-90-211.tpgi.com.au. [193.116.90.211])
- by smtp.gmail.com with ESMTPSA id a7sm5459759pfg.65.2021.04.16.20.31.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 20:31:18 -0700 (PDT)
-Date: Sat, 17 Apr 2021 13:31:13 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v2 4/4] target/ppc: Add POWER10 exception model
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210415054227.1793812-1-npiggin@gmail.com>
- <20210415054227.1793812-5-npiggin@gmail.com>
- <YHkSiZD/LncmrKeX@yekko.fritz.box>
-In-Reply-To: <YHkSiZD/LncmrKeX@yekko.fritz.box>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lXfjD-0003xC-AX
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 03:50:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lXfjA-000775-OC
+ for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 07:50:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B56872E8161
+ for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 07:50:52 +0000 (UTC)
 MIME-Version: 1.0
-Message-Id: <1618629454.ok8dh0opzx.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sat, 17 Apr 2021 07:40:25 -0000
+From: Vladislav Yaroshchuk <1922102@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: macos net network tap tap-net
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: shchukovl
+X-Launchpad-Bug-Reporter: Vladislav Yaroshchuk (shchukovl)
+X-Launchpad-Bug-Modifier: Vladislav Yaroshchuk (shchukovl)
+References: <161720333927.2408.17717907169331715630.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161864522592.26424.18042645132978918884.launchpad@gac.canonical.com>
+Subject: [Bug 1922102] Re: Broken tap networking on macOS host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
+X-Launchpad-Hash: 5a48d6b1dfbb88398655655c7c5f43db66505d94
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,179 +70,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, =?iso-8859-1?q?C=E9dric?= Le Goater <clg@fr.ibm.com>,
- qemu-ppc@nongnu.org, =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>,
- Fabiano Rosas <farosas@linux.ibm.com>
+Reply-To: Bug 1922102 <1922102@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Excerpts from David Gibson's message of April 16, 2021 2:28 pm:
-> On Thu, Apr 15, 2021 at 03:42:27PM +1000, Nicholas Piggin wrote:
->> POWER10 adds a new bit that modifies interrupt behaviour, LPCR[HAIL],
->> and it removes support for the LPCR[AIL]=3D0b10 mode.
->>=20
->> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
->> Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
->> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
->> ---
->>  hw/ppc/spapr_hcall.c            |  7 ++++-
->>  target/ppc/cpu-qom.h            |  2 ++
->>  target/ppc/cpu.h                |  5 ++--
->>  target/ppc/excp_helper.c        | 51 +++++++++++++++++++++++++++++++--
->>  target/ppc/translate.c          |  3 +-
->>  target/ppc/translate_init.c.inc |  2 +-
->>  6 files changed, 62 insertions(+), 8 deletions(-)
->>=20
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index 2fbe04a689..6802cd4dc8 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1396,7 +1396,12 @@ static target_ulong h_set_mode_resource_addr_tran=
-s_mode(PowerPCCPU *cpu,
->>      }
->> =20
->>      if (mflags =3D=3D 1) {
->> -        /* AIL=3D1 is reserved */
->> +        /* AIL=3D1 is reserved in POWER8/POWER9 */
->> +        return H_UNSUPPORTED_FLAG;
->> +    }
->> +
->> +    if (mflags =3D=3D 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
->> +        /* AIL=3D2 is also reserved in POWER10 (ISA v3.1) */
->>          return H_UNSUPPORTED_FLAG;
->>      }
->> =20
->> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
->> index 118baf8d41..06b6571bc9 100644
->> --- a/target/ppc/cpu-qom.h
->> +++ b/target/ppc/cpu-qom.h
->> @@ -116,6 +116,8 @@ enum powerpc_excp_t {
->>      POWERPC_EXCP_POWER8,
->>      /* POWER9 exception model           */
->>      POWERPC_EXCP_POWER9,
->> +    /* POWER10 exception model           */
->> +    POWERPC_EXCP_POWER10,
->>  };
->> =20
->>  /**********************************************************************=
-*******/
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 5200a16d23..9d35cdfa92 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -354,10 +354,11 @@ typedef struct ppc_v3_pate_t {
->>  #define LPCR_PECE_U_SHIFT (63 - 19)
->>  #define LPCR_PECE_U_MASK  (0x7ull << LPCR_PECE_U_SHIFT)
->>  #define LPCR_HVEE         PPC_BIT(17) /* Hypervisor Virt Exit Enable */
->> -#define LPCR_RMLS_SHIFT   (63 - 37)
->> +#define LPCR_RMLS_SHIFT   (63 - 37)   /* RMLS (removed in ISA v3.0) */
->>  #define LPCR_RMLS         (0xfull << LPCR_RMLS_SHIFT)
->> +#define LPCR_HAIL         PPC_BIT(37) /* ISA v3.1 HV AIL=3D3 equivalent=
- */
->>  #define LPCR_ILE          PPC_BIT(38)
->> -#define LPCR_AIL_SHIFT    (63 - 40)      /* Alternate interrupt locatio=
-n */
->> +#define LPCR_AIL_SHIFT    (63 - 40)   /* Alternate interrupt location *=
-/
->>  #define LPCR_AIL          (3ull << LPCR_AIL_SHIFT)
->>  #define LPCR_UPRT         PPC_BIT(41) /* Use Process Table */
->>  #define LPCR_EVIRT        PPC_BIT(42) /* Enhanced Virtualisation */
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 964a58cfdc..38a1482519 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -170,7 +170,27 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPP=
-CState *env, int excp,
->>   * +-------------------------------------------------------+
->>   *
->>   * The difference with POWER9 being that MSR[HV] 0->1 interrupts can be=
- sent to
->> - * the hypervisor in AIL mode if the guest is radix.
->> + * the hypervisor in AIL mode if the guest is radix. This is good for
->> + * performance but allows the guest to influence the AIL of hypervisor
->> + * interrupts using its MSR, and also the hypervisor must disallow gues=
-t
->> + * interrupts (MSR[HV] 0->0) from using AIL if the hypervisor does not =
-want to
->> + * use AIL for its MSR[HV] 0->1 interrupts.
->> + *
->> + * POWER10 addresses those issues with a new LPCR[HAIL] bit that is app=
-lied to
->> + * interrupts that begin execution with MSR[HV]=3D1 (so both MSR[HV] 0-=
->1 and
->> + * MSR[HV] 1->1).
->> + *
->> + * HAIL=3D1 is equivalent to AIL=3D3, for interrupts delivered with MSR=
-[HV]=3D1.
->> + *
->> + * POWER10 behaviour is
->> + * | LPCR[AIL] | LPCR[HAIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL=
- |
->> + * +-----------+------------+-------------+---------+-------------+----=
--+
->> + * | a         | h          | 00/01/10    | 0       | 0           | 0  =
- |
->> + * | a         | h          | 11          | 0       | 0           | a  =
- |
->> + * | a         | h          | x           | 0       | 1           | h  =
- |
->> + * | a         | h          | 00/01/10    | 1       | 1           | 0  =
- |
->> + * | a         | h          | 11          | 1       | 1           | h  =
- |
->> + * +-------------------------------------------------------------------=
--+
->>   */
->>  static inline void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, =
-int excp,
->>                                        target_ulong msr,
->> @@ -210,6 +230,29 @@ static inline void ppc_excp_apply_ail(PowerPCCPU *c=
-pu, int excp_model, int excp,
->>              /* AIL=3D1 is reserved */
->>              return;
->>          }
->> +
->> +    } else if (excp_model =3D=3D POWERPC_EXCP_POWER10) {
->> +        if (!mmu_all_on && !hv_escalation) {
->> +            /*
->> +             * AIL works for HV interrupts even with guest MSR[IR/DR] d=
-isabled.
->> +             * Guest->guest and HV->HV interrupts do require MMU on.
->> +             */
->> +            return;
->> +        }
->> +
->> +        if (*new_msr & MSR_HVB) {
->> +            if (!(env->spr[SPR_LPCR] & LPCR_HAIL)) {
->> +                /* HV interrupts depend on LPCR[HAIL] */
->> +                return;
->> +            }
->> +            ail =3D 3; /* HAIL=3D1 gives AIL=3D3 behaviour for HV inter=
-rupts */
->> +        } else {
->> +            ail =3D (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
->> +        }
->> +        if (ail !=3D 3) {
->> +            /* AIL=3D1 and AIL=3D2 are reserved */
->> +            return;
->=20
-> As with POWER9, I wonder if we should actuall filter this at LPCR
-> write time and assert() here.
+** Description changed:
 
-Could do. The processor is allowed to read back reserved bits as 0. I=20
-can't quite see how reserved values in multi bit fields are treated
-though. Neither bits are reserved but the value 2 is. If you write 3
-then 2, would the second write also clear bit 0, or would it ignore
-the write and leave bit 1 set? I don't see either being explicitly
-allowed so it might retain the value 2 I suspect.
+  Building QEMU with GLib newer than 2.58.3 corrupts tap networking on macO=
+S hosts.
+  Tap device was provided by Tun/Tap kernel extension installed from brew:
+  =C2=A0=C2=A0brew install tuntap
+  =
 
-> On actual hardware, what will happen if you attempt to write a bad AIL
-> to the LPCR?
+  Checked revisions:
+  =C2=A0=C2=A0553032d (v5.2.0)
+  =C2=A0=C2=A06d40ce0 (v6.0.0-rc1)
+  =
 
-Good question, I don't know. We don't have an easy way to place a
-interrupt handler at 0x17000 in Linux I think. I'll see if I can
-get some data.
+  Host:
+  =C2=A0MacBook Pro (Retina, 15-inch, Mid 2015)
+  =C2=A0macOS Catalina 10.15.6 (19G2021)
+  =
 
-Thanks,
-Nick
+  Guest:
+  =C2=A0=C2=A0Linux Ubuntu 4.4.0-206-generic x86_64
+  =C2=A0=C2=A0Also tested macOS Catalina 10.15.7 as a guest, the behaviour =
+is the same.
+  =
+
+  QEMU command line:
+  =
+
+  qemu-system-x86_64 \
+  =C2=A0=C2=A0-drive file=3Dhdd.qcow2,if=3Dvirtio,format=3Dqcow2 \
+  =C2=A0=C2=A0-m 3G \
+  =C2=A0=C2=A0-nic tap,script=3Dtap-up.sh
+  =
+
+  tap-up.sh:
+  =
+
+  =C2=A0#!/bin/sh
+  =
+
+  =C2=A0TAPDEV=3D"$1"
+  =C2=A0BRIDGEDEV=3D"bridge0"
+  =
+
+  =C2=A0ifconfig "$BRIDGEDEV" addm "$TAPDEV"
+  =
+
+  Enabling/disabling Hypervisor.Framework acceleration (`-accel hvf`) has
+  no effect.
+  =
+
+  How to reproduce:
+- =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7, 2.60.7)
++ =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7)
+  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib > 2.58.3
+- =C2=A0=C2=A03. Boot any guest any guest with tap networking enabled
++ =C2=A0=C2=A03. Boot any guest with tap networking enabled
+  =C2=A0=C2=A04. See that the external network is inaccessible
+  =
+
+  Hotfix:
+  =C2=A0=C2=A01. Build & install GLib 2.58.3
+  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib 2.58.3
+  =C2=A0=C2=A03. Boot any guest with tap networking enabled
+  =C2=A0=C2=A04. See that the external network is accessible, everything is=
+ working as expected
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922102
+
+Title:
+  Broken tap networking on macOS host
+
+Status in QEMU:
+  New
+
+Bug description:
+  Building QEMU with GLib newer than 2.58.3 corrupts tap networking on macO=
+S hosts.
+  Tap device was provided by Tun/Tap kernel extension installed from brew:
+  =C2=A0=C2=A0brew install tuntap
+
+  Checked revisions:
+  =C2=A0=C2=A0553032d (v5.2.0)
+  =C2=A0=C2=A06d40ce0 (v6.0.0-rc1)
+
+  Host:
+  =C2=A0MacBook Pro (Retina, 15-inch, Mid 2015)
+  =C2=A0macOS Catalina 10.15.6 (19G2021)
+
+  Guest:
+  =C2=A0=C2=A0Linux Ubuntu 4.4.0-206-generic x86_64
+  =C2=A0=C2=A0Also tested macOS Catalina 10.15.7 as a guest, the behaviour =
+is the same.
+
+  QEMU command line:
+
+  qemu-system-x86_64 \
+  =C2=A0=C2=A0-drive file=3Dhdd.qcow2,if=3Dvirtio,format=3Dqcow2 \
+  =C2=A0=C2=A0-m 3G \
+  =C2=A0=C2=A0-nic tap,script=3Dtap-up.sh
+
+  tap-up.sh:
+
+  =C2=A0#!/bin/sh
+
+  =C2=A0TAPDEV=3D"$1"
+  =C2=A0BRIDGEDEV=3D"bridge0"
+
+  =C2=A0ifconfig "$BRIDGEDEV" addm "$TAPDEV"
+
+  Enabling/disabling Hypervisor.Framework acceleration (`-accel hvf`)
+  has no effect.
+
+  How to reproduce:
+  =C2=A0=C2=A01. Build & install GLib > 2.58.3 (tested 2.60.7)
+  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib > 2.58.3
+  =C2=A0=C2=A03. Boot any guest with tap networking enabled
+  =C2=A0=C2=A04. See that the external network is inaccessible
+
+  Hotfix:
+  =C2=A0=C2=A01. Build & install GLib 2.58.3
+  =C2=A0=C2=A02. Build qemu-system-x86_64 with GLib 2.58.3
+  =C2=A0=C2=A03. Boot any guest with tap networking enabled
+  =C2=A0=C2=A04. See that the external network is accessible, everything is=
+ working as expected
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922102/+subscriptions
 
