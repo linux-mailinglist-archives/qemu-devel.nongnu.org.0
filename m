@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC7A363085
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 16:03:58 +0200 (CEST)
-Received: from localhost ([::1]:36172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C448936308A
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 16:10:24 +0200 (CEST)
+Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXlYC-0007ar-Ud
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 10:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33992)
+	id 1lXleR-0001zD-AU
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 10:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXlWY-0006iD-5R
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 10:02:15 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35419)
+ id 1lXldE-0001EZ-Jw
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 10:09:08 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXlWV-00057y-1Q
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 10:02:13 -0400
-Received: by mail-wr1-x433.google.com with SMTP id a4so29370370wrr.2
- for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 07:02:10 -0700 (PDT)
+ id 1lXldD-0000nH-03
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 10:09:08 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id m9so16613267wrx.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 07:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mG2CetGzS7CKTUwI5wgYD0g3r71RIHSxkx0UQfTG4DQ=;
- b=D/K8VfWZoBVEdljcXWaCU+Mjfboezn4VExREeLxxIv4OHdkTFueyfjMet7Sg0SJGlT
- cnYjjkWp8yfSzTyVT+v6oMTpIkVzNPmuHmCbzUdG2rDQRgTovneADjE09JcfrXKVwpBD
- nXEEc8b9sqaq5eJtkOfeIidNk5QqfjC5u+PQ9RV04tT760kb0csVd2KUndRbpC/VgnF4
- QLyVfj38npid2AeTve0HyR0TsUUhfFp8ICDnSkD0n8D26M6tWFbCb9DC/i479JcMzYkc
- IruFmoiIg6IfPFmORAiRAHrqEdUh1ELrr1Lg+A1lM1+BUKXwRZcNUGP0plYGH2SsjOG1
- 16mw==
+ bh=LuLkmyssT6Xg6qDeKETGDqI87aMBd3atyc1rUywcRKk=;
+ b=h/IRTLGICuWYWeSh2yzAj8z162VjsI0WhE8Fb+j0A9zaEMsnzpKlIK62Vy3SVz+bp2
+ d5cH9b9HgHt/BqcZsZEdJIC3o+bYrOHS4vhvUvs8e9cZUxNAirq9idjs1NOOrDIp8CPG
+ V0pMIfoF/5Bfc8E46jrfzf8FvYoIRU0yRosMrxe2LEF94kf8XUz54kEFjI8rUlqBbTRw
+ KYM8tuQ3QLDFXwOVXspwbK6iG9w+lbq5FkP1gdOEvERLQxYrFK+6ft4MobOtleP4TxGC
+ bi67LmmHzuosdODXMTOyX+iKP86MvZ7tsATyOC9SQJ6DQgkZBG4hAuLxvAxvs9kKcQ20
+ myww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=mG2CetGzS7CKTUwI5wgYD0g3r71RIHSxkx0UQfTG4DQ=;
- b=kHzMXbTiwDcOyippa1jvlzttIVQtj5PlrnkVXc/C7sOU+lYwYjm2DMD/VRftM51w13
- s/pOE5yAKp84WqfGi71GBr+NxO0wUKgTLhtTXA6UwFZwQmYhbSG2I/rDHSwrc5XRYrCa
- Qo18EyL4enRir3qdsRbDeLB8xVZGrnfAdlkPoDINyT0EvLv7gL/6qaMOxt+TMiyqgE21
- +pCuY14raUDFdtF8fwmmed21CJlcrJPDBIelOJmRzfS3tdnTq41DmYkrNWtFwmWUQEFA
- IH3aRoLh18gEinGRK0l0sTG9J/jSg1nAEv0MMv1xw/du0RaOq8widwUSzQ9OR/o2NuUV
- d5gw==
-X-Gm-Message-State: AOAM532YaEGx288h3DzdB5eNWjlENBkwsLUtv7d3pBkbrVsklqnS19uA
- NP92AtVZo74q81nc2/vUDfgo7FP0Pj8=
-X-Google-Smtp-Source: ABdhPJx1O4Boc38ZtAeU5ygI3n14EmywJT7vh9eFyjptL4vmBBmgrFT62CtVRxrZj9J4IDpjwbFepA==
-X-Received: by 2002:a5d:564a:: with SMTP id j10mr4563257wrw.108.1618668128757; 
- Sat, 17 Apr 2021 07:02:08 -0700 (PDT)
+ bh=LuLkmyssT6Xg6qDeKETGDqI87aMBd3atyc1rUywcRKk=;
+ b=C3Ihuz/PXirrJ+N90uwOr6Z/896HEQQ7nw2NmdkSa9QUglRH2Q8pFkN4SINKZNM3XY
+ 1GXr64Et/wfe4h/9/iM3LQFilHQvPNGcez5WBn5oZcN9/kwTPN6cofCDpZoxl8rWBq45
+ IgUe1/Um70g0zTwHI44pHDJ4QBYM6Eh78/EHo/60yBnpjCRmyrWaZhxlSYPxmgYCipJN
+ At1FtYZz6LyrkUdBV74gZLqvudV0NUkj+fPJH2NjEX9O4YvNDDANb6sW3fB4K/UVADyH
+ EKjFOeGqKwZD6mo/MwIyL59MER6/7AcHE3aJJ7Zbk2hnCnwwRn7fa7diJLLmkqHycU/l
+ Fdeg==
+X-Gm-Message-State: AOAM531/0Q2GSTDBTbpZwSx4gOIVb4wuEg1YTwQvswTnuvgeyRI+buO7
+ iUCDsYfSmXMga5A++4SXgPxw/lEzTTg=
+X-Google-Smtp-Source: ABdhPJw1qHPPufnBuf2I0W4LFRRH+tRTJSPxQtQOBXMoq0Uz6+iOQ4KomoVhIfvz7Llprmt5AdGx6w==
+X-Received: by 2002:a05:6000:1ac7:: with SMTP id
+ i7mr4588156wry.9.1618668544829; 
+ Sat, 17 Apr 2021 07:09:04 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id v4sm11835991wme.14.2021.04.17.07.02.07
+ by smtp.gmail.com with ESMTPSA id a8sm16451802wrh.91.2021.04.17.07.09.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 07:02:08 -0700 (PDT)
+ Sat, 17 Apr 2021 07:09:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] memory: Directly dispatch alias accesses on origin memory
- region
-Date: Sat, 17 Apr 2021 16:02:06 +0200
-Message-Id: <20210417140206.673885-1-f4bug@amsat.org>
+Subject: [PATCH v2] memory: Initialize MemoryRegionOps for RAM memory regions
+Date: Sat, 17 Apr 2021 16:09:02 +0200
+Message-Id: <20210417140902.677295-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,83 +87,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>
+ Peter Xu <peterx@redhat.com>, Prasad J Pandit <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
-regions"), all newly created regions are assigned with
-unassigned_mem_ops (which might be then overwritten).
+There is an issue when using memory_region_dispatch_read() or
+memory_region_dispatch_write() on RAM memory regions.
 
-When using aliased container regions, and there is no region mapped
-at address 0 in the container, the memory_region_dispatch_read()
-and memory_region_dispatch_write() calls incorrectly return the
-container unassigned_mem_ops, because the alias offset is not used.
+RAM memory regions are initialized as:
 
-The memory_region_init_alias() flow is:
-
-  memory_region_init_alias()
-  -> memory_region_init()
-     -> object_initialize(TYPE_MEMORY_REGION)
-        -> memory_region_initfn()
-           -> mr->ops = &unassigned_mem_ops;
+  memory_region_init_ram()
+  -> memory_region_init_ram_nomigrate()
+     -> memory_region_init_ram_shared_nomigrate()
+        -> memory_region_init()
+           -> object_initialize(TYPE_MEMORY_REGION)
+              -> memory_region_initfn()
+                 -> mr->ops = &unassigned_mem_ops;
 
 Later when accessing the alias, the memory_region_dispatch_read()
 flow is:
 
-  memory_region_dispatch_read(offset)
-  -> memory_region_access_valid(mr)   <- offset is ignored
-     -> mr->ops->valid.accepts()
-        -> unassigned_mem_accepts()
-        <- false
-     <- false
-   <- MEMTX_DECODE_ERROR
+  memory_region_dispatch_read()
+  -> memory_region_dispatch_read1()
+     -> if (mr->ops->read) { /* not taken */ } else ...
+        -> access_with_adjusted_size
+           -> memory_region_read_with_attrs_accessor
+              -> memory_region_dispatch_read
+                 -> unassigned_mem_read
+              <- MEMTX_DECODE_ERROR
 
 The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+(Similar flow with memory_region_dispatch_write).
 
-Fix by dispatching aliases recusirvely, accessing its origin region
-after adding the alias offset.
+Fix by initializing the MemoryRegionOps to ram_device_mem_ops,
+this way the memory accesses are properly dispatched using
+memory_region_ram_device_read() / memory_region_ram_device_write().
 
+Fixes: 4a2e242bbb ("memory: Don't use memcpy for ram_device regions")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3:
-- reworded, mentioning the "alias to container" case
-- use recursive call instead of while(), because easier when debugging
-  therefore reset Richard R-b tag.
-v2:
-- use while()
+Since v1: Corrected description (PJP)
 ---
  softmmu/memory.c | 10 ++++++++++
  1 file changed, 10 insertions(+)
 
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index d4493ef9e43..23bdbfac079 100644
+index 23bdbfac079..99886886a22 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -1442,6 +1442,11 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-     unsigned size = memop_size(op);
-     MemTxResult r;
- 
-+    if (mr->alias) {
-+        return memory_region_dispatch_read(mr->alias,
-+                                           addr + mr->alias_offset,
-+                                           pval, op, attrs);
-+    }
-     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-         *pval = unassigned_mem_read(mr, addr, size);
-         return MEMTX_DECODE_ERROR;
-@@ -1486,6 +1491,11 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+@@ -1556,6 +1556,8 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+     Error *err = NULL;
+     memory_region_init(mr, owner, name, size);
+     mr->ram = true;
++    mr->ops = &ram_device_mem_ops;
++    mr->opaque = mr;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
+     mr->ram_block = qemu_ram_alloc(size, share, mr, &err);
+@@ -1579,6 +1581,8 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
+     Error *err = NULL;
+     memory_region_init(mr, owner, name, size);
+     mr->ram = true;
++    mr->ops = &ram_device_mem_ops;
++    mr->opaque = mr;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
+     mr->ram_block = qemu_ram_alloc_resizeable(size, max_size, resized,
+@@ -1604,6 +1608,8 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+     Error *err = NULL;
+     memory_region_init(mr, owner, name, size);
+     mr->ram = true;
++    mr->ops = &ram_device_mem_ops;
++    mr->opaque = mr;
+     mr->readonly = readonly;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
+@@ -1629,6 +1635,8 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+     Error *err = NULL;
+     memory_region_init(mr, owner, name, size);
+     mr->ram = true;
++    mr->ops = &ram_device_mem_ops;
++    mr->opaque = mr;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
+     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+@@ -1650,6 +1658,8 @@ void memory_region_init_ram_ptr(MemoryRegion *mr,
  {
-     unsigned size = memop_size(op);
+     memory_region_init(mr, owner, name, size);
+     mr->ram = true;
++    mr->ops = &ram_device_mem_ops;
++    mr->opaque = mr;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
  
-+    if (mr->alias) {
-+        return memory_region_dispatch_write(mr->alias,
-+                                            addr + mr->alias_offset,
-+                                            data, op, attrs);
-+    }
-     if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
-         unassigned_mem_write(mr, addr, data, size);
-         return MEMTX_DECODE_ERROR;
 -- 
 2.26.3
 
