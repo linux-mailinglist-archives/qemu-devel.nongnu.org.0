@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AF4363209
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:46:21 +0200 (CEST)
-Received: from localhost ([::1]:45912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F1C363202
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:43:54 +0200 (CEST)
+Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXqtY-0004iG-4I
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39398)
+	id 1lXqrB-0001N2-2v
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXqpa-0007uE-Lt
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:14 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53863)
+ id 1lXqpb-0007ur-7Z
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:15 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXqpY-0008D3-Pm
+ id 1lXqpZ-0008DG-Dv
  for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:14 -0400
-Received: by mail-wm1-x335.google.com with SMTP id w186so11506388wmg.3
- for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 12:42:12 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id j5so28992870wrn.4
+ for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 12:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7day9DhC61WQqaXafSI9VSAm85w5/UtVfa1WqeTXupw=;
- b=QbDNFdC3L8zX+Qk9Hk/Wk8i5E1dvv+J227eA9xmlaMO6LVl+NyUmMPRw/2RX99QPyr
- B0xGXJQPl+BEfnBre4aehoDKJgu1Zm4/QIJ5QdGkMzH4YeLgvT+lBQEXpngD0lYwl44F
- FbBOfQMkypTlyXLc3uwCEQDVu8W+4KKi8barw4dOz9xybi7TWNii3B1uIlzKix51/C6D
- pBvUAYIuvTm0Xt55gJHyirC4jHCFqRGwvDFJ0RUSidpBTt0vAC26Fvlf7cZrQdlJPdYh
- zAfEft8bnBri1vc+ZAOqU/4ADrWRUzIr9zu/9UQN8VFGB+hEw2JnIUewKVF/f5uB85zs
- 4DyA==
+ bh=OsduZ2xQ+Lw5uRJgQER79kAjHAwxJHgC9H74uOAy+j0=;
+ b=K2F99WZkFh6erpATeaoTv09rQDaHrIiO6AC5Iw+6iNjPUUt/sbTHo2AurudMHShoHL
+ vp4CUJ1VjN9076bTCXqOsDGgLewrfhaDzkFrG0BUQUaBW43oN/EjMZ18aRV8+HeijFyl
+ g8i+JjqX7OyDe7mENMbG1TmgyehM9AaUk8lOKW7hPR4SvP28LVV6DsFZ2xLGImfAI/R9
+ Ppe290ZP4T/hYtPhoPOod42morIAuflnyU9l4y+joyLHzksX8iCc1O/J6EXfgAXz5zG9
+ fvmlDZTHfr5JOx/vR3xGyCv/4ZHC7EdssWbq+gv7KAWi3NY+AONQ7NTdQ/6izYtm0ogY
+ MCXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7day9DhC61WQqaXafSI9VSAm85w5/UtVfa1WqeTXupw=;
- b=pk9qkSZwq6ShDKNVBeEdXYDe4BTsUF5Odl0GUUWD3IWhzY0USp5q/UxO4KEtQsSyHi
- CMzOXcX2b2TnTxzvEkJrZVB33wvSBhx+1Q1BQMza7EMgVclPFRwmfe4WyKhagj06tiVj
- WriFdNISw8QrMQpzCcGCkmsOqr83jajqWvlbFYQuVRlxUEz4nZ4LzwyXbs3m4hrU7PFi
- Nhvvl1M4DQO2zg5F0CLgyPI7nJ+fGd3HNQJvleP9ZGvAtw6crRv+YVeV3GIFuYhAM/ES
- jhOd+wJA3x+0BHaj3YY/GEJpKVT8PhP+nVzMTfMMhmS0/7dMOsWIaQWMnuahOdfutb0V
- 8ScQ==
-X-Gm-Message-State: AOAM5311LDMvt2qbb75XCT185THEIqK4u6ro04FBCZ5H4GfiWUfmBsp5
- tXXLTC9siGXNIgKNV/9GYkG5o69Wu1pTF+Om
-X-Google-Smtp-Source: ABdhPJwvVAkrd6f6FzJf4DNM3y9t3ZFEHc0nwfFN3biafSZ0bwJtbX8scvP7a/+Wtl+G77SB+mWgVw==
-X-Received: by 2002:a1c:457:: with SMTP id 84mr13589219wme.38.1618688531516;
- Sat, 17 Apr 2021 12:42:11 -0700 (PDT)
+ bh=OsduZ2xQ+Lw5uRJgQER79kAjHAwxJHgC9H74uOAy+j0=;
+ b=baZHxbBXI4vyAro9gIseR50k7zADcuOW4SvCFSPAB0ox4vr3VENaPDQJsh8yyTO7ZZ
+ +tUZJJ7FP9Nvt0hwXzptTS8g/D7QqVVD71ul4gRfCgc+n5CP/SbHcaWtcqGhzdEv3TkQ
+ 9Cg9VSwZEQaOHWkfd+eJIMpchn3CrMUoIOaIdzDRD3tzM1H7FY7rYpeV0RzKDSWtEimy
+ xeqc7iu2gIt+cvfqaph4SXpPt9UtTTufMVBNjdBgLwC6zO0853g5tBptTmOZF1zhIkae
+ YgZxUJx4p5AIUpo8w1fgjipGsuxPE9E4HUUAtmsy4SHth5ZUQ7Q4EeD5sSXr9yZBq9BZ
+ 6X0w==
+X-Gm-Message-State: AOAM533+T77crBaY8GiryTosNwOHZAb6jHEMkJi0qaDeqq5LOtp4ZgDK
+ +nfW4ALII2HJGZb3WqvGt6yyqAQXk7IajCx7
+X-Google-Smtp-Source: ABdhPJx1llMiCWU1gyDFXslBEwhHrshcVycE7668ylpKUI75ZRHsv0MHe3mPCLSd0luK93R6lnRbSg==
+X-Received: by 2002:a05:6000:1848:: with SMTP id
+ c8mr5726085wri.210.1618688532175; 
+ Sat, 17 Apr 2021 12:42:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c12sm17304374wro.6.2021.04.17.12.42.10
+ by smtp.gmail.com with ESMTPSA id c12sm17304374wro.6.2021.04.17.12.42.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 17 Apr 2021 12:42:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] hw/arm/armsse: Make SSE-300 use Cortex-M55
-Date: Sat, 17 Apr 2021 20:42:03 +0100
-Message-Id: <20210417194205.17057-6-peter.maydell@linaro.org>
+Subject: [PULL 6/7] target/arm: drop CF_LAST_IO/dc->condjump check
+Date: Sat, 17 Apr 2021 20:42:04 +0100
+Message-Id: <20210417194205.17057-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210417194205.17057-1-peter.maydell@linaro.org>
 References: <20210417194205.17057-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,67 +89,64 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SSE-300 has a Cortex-M55 (which was the whole reason for us
-modelling it), but we forgot to actually update the code to let it
-have a different CPU type from the IoTKit and SSE-200.  Add CPU type
-as a field for ARMSSEInfo instead of hardcoding it to always use a
-Cortex-M33.
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1923861
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is a left over erroneous check from the days front-ends handled
+io start/end themselves. Regardless just because IO could be performed
+on the last instruction doesn't obligate the front end to do so.
+
+This fixes an abort faced by the aspeed execute-in-place support which
+will necessarily trigger this state (even before the one-shot
+CF_LAST_IO fix). The test still seems to hang once it attempts to boot
+the Linux kernel but I suspect this is an unrelated issue with icount
+and the timer handling code.
+
+The original intention of the cpu_abort (added in commit 2e70f6efa8b9
+when the icount stuff was first added) seems to have been to act as
+an assert() to catch an unhandled corner case where the generated code
+would be something like:
+    conditional branch to condlabel if its cc failed
+    implementation of the insn (a conditional branch or trap)
+    code emitted by gen_io_end()
+ condlabel:
+    gen_goto_tb or equivalent thing to go to next insn
+
+At runtime the cc-failed case would skip over the code emitted by
+gen_io_end(), leaving the can_do_io flag incorrectly set.
+
+In commit ba3e7926691ed33 we switched to an implementation which
+always clears can_do_io at the start of the following TB instead
+of trying to clear it at the end of a TB that did IO. So the corner
+case that this cpu_abort() was trying to flag is no longer possible,
+because the gen_io_end() call has been deleted. We can therefore
+safely remove the no-longer-valid assertion.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210416104010.13228-1-peter.maydell@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20210416170207.12504-1-alex.bennee@linaro.org
+Cc: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/armsse.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ target/arm/translate.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 170dea8632d..2e5d0679e7b 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -56,6 +56,7 @@ typedef struct ARMSSEDeviceInfo {
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 62b1c2081b6..7103da2d7ab 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9199,11 +9199,6 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
  
- struct ARMSSEInfo {
-     const char *name;
-+    const char *cpu_type;
-     uint32_t sse_version;
-     int sram_banks;
-     int num_cpus;
-@@ -501,6 +502,7 @@ static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_IOTKIT,
-         .sse_version = ARMSSE_IOTKIT,
-+        .cpu_type = ARM_CPU_TYPE_NAME("cortex-m33"),
-         .sram_banks = 1,
-         .num_cpus = 1,
-         .sys_version = 0x41743,
-@@ -519,6 +521,7 @@ static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_SSE200,
-         .sse_version = ARMSSE_SSE200,
-+        .cpu_type = ARM_CPU_TYPE_NAME("cortex-m33"),
-         .sram_banks = 4,
-         .num_cpus = 2,
-         .sys_version = 0x22041743,
-@@ -537,6 +540,7 @@ static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_SSE300,
-         .sse_version = ARMSSE_SSE300,
-+        .cpu_type = ARM_CPU_TYPE_NAME("cortex-m55"),
-         .sram_banks = 2,
-         .num_cpus = 1,
-         .sys_version = 0x7e00043b,
-@@ -719,8 +723,7 @@ static void armsse_init(Object *obj)
-         name = g_strdup_printf("armv7m%d", i);
-         object_initialize_child(OBJECT(&s->cluster[i]), name, &s->armv7m[i],
-                                 TYPE_ARMV7M);
--        qdev_prop_set_string(DEVICE(&s->armv7m[i]), "cpu-type",
--                             ARM_CPU_TYPE_NAME("cortex-m33"));
-+        qdev_prop_set_string(DEVICE(&s->armv7m[i]), "cpu-type", info->cpu_type);
-         g_free(name);
-         name = g_strdup_printf("arm-sse-cpu-container%d", i);
-         memory_region_init(&s->cpu_container[i], obj, name, UINT64_MAX);
+-    if (tb_cflags(dc->base.tb) & CF_LAST_IO && dc->condjmp) {
+-        /* FIXME: This can theoretically happen with self-modifying code. */
+-        cpu_abort(cpu, "IO on conditional branch instruction");
+-    }
+-
+     /* At this stage dc->condjmp will only be set when the skipped
+        instruction was a conditional branch or trap, and the PC has
+        already been written.  */
 -- 
 2.20.1
 
