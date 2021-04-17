@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9336936320F
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:48:21 +0200 (CEST)
-Received: from localhost ([::1]:50268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959FD363211
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:49:49 +0200 (CEST)
+Received: from localhost ([::1]:53650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXqvU-0006Yy-LO
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39412)
+	id 1lXqwu-0007yp-Nk
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXqpd-0007yO-6v
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:17 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34777)
+ id 1lXquT-0006Mh-F0
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:47:17 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXqpa-0008DQ-5X
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:16 -0400
-Received: by mail-wr1-x433.google.com with SMTP id r7so17942269wrm.1
- for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 12:42:13 -0700 (PDT)
+ id 1lXquR-0002kQ-Gh
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:47:17 -0400
+Received: by mail-ej1-x634.google.com with SMTP id w3so47004332ejc.4
+ for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 12:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uRd4G6zXJmrKRNM9MFZAOKSesHEb4XI8oeHJ2++RWXE=;
- b=xDM3I2PjjUlwm8ktPC4sOfMYbZleTjX5OVLylB55cWvt/x5b3Zi6QTH9OKm5NK0XcW
- 71/lnD/bK3bZdeFUNPXChPqTVd/UW8jkl+9InX5BLrLy7/VDK634tBUc39gYp5X0GtId
- d0PrBI/9MiGkWXP2peoQNEW2Q6xy85+vYhhkDwIH1pfu1aMonzotb3FBduY0iIyUG1qK
- lX3oLETVMpvaK/5hRfdzGWo+6z+Woh5wJQr4EZXk/ugl7jlNgPHvdrhKtL8fhBd+pkUy
- fN9TR0aczU74UevQDMHaZ+q2iion8fnEZi0M1WL953aVFydoZ5KtmydzFS6wTRwPuL3l
- xzqA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a/matZ63spxyatcX29luFXmEu2YcgWEHnCxOBCfvZRw=;
+ b=Xbtz6aDrItohZB5xBt3ifmJsXFsaqUTx8FXnMkxFrTVvrqEnRLPyUA2Bv5VCYC2WTU
+ F9vyVne0JVYKGgVy0D1ftTZC3Kqhuk56i+PYYYLaCkbnhTUr03WubR7UV+Hk+czoXB3Z
+ ilqXbBO46kxC6vhCwnWe81WV0mRBt3ScDILCQLeliWScjqAz03OLeSdqIIJmUlmb0MXM
+ BE1tmtVwOt9oottZ/YUECLOYUBiPAXdv5BC/jelrZA/xoi7USbZKS6qL+8ucYKFnwjTH
+ yovwf4ZnAQCT4rMdhom4/X/2kMPdBakAqdd4jF/B1EFBKD5poUuT6uZOFjEjIFFHbvNR
+ cKAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uRd4G6zXJmrKRNM9MFZAOKSesHEb4XI8oeHJ2++RWXE=;
- b=mlmB6oGAan3QtDhEyTbRIuuz31yje1fPi3lGQmwI7KELjz4Q7h7cdmosZN2+2+UaBe
- Yv4rteQlS1zoPVmJDn2kC5j/bgtdIS9wPsE0GkG2lhBeVsyxPAuvAKsqW4s45ObymEBn
- xkB3QDe90/iaIarbEcR0A9GdsWkf2yGCAJ14Np75RWDMiuLDmTf586AS1pUnhptMQraA
- wiKofm8LylfuxdPJnbp4zeho++8rEJQw6bb0IhKX+GwaOGQRn1J2wuOAdbZ6u2ycaoAT
- UL6nyxXESCpftvVtKW8NHN/OmsvMxY09VNi1/4EX15MP7rCcejlpg5rLjiHkoAdPe0sv
- 0d+g==
-X-Gm-Message-State: AOAM532ZiLNOmE2kJAFOFDAnoD3rpgX+/NWdmolJyWmLVm3SaSzhP2kW
- x/Qy0K7rWjEpl6jX28CSSRrq37X45MlAJ/EY
-X-Google-Smtp-Source: ABdhPJwqsJUKYSxAvMltak/Rh9db+hi/IxKNdLDKtOx84CrFZKKndJaqeAAzCNPeHbBuYnzQIUzbfg==
-X-Received: by 2002:a5d:55d2:: with SMTP id i18mr5416745wrw.280.1618688532870; 
- Sat, 17 Apr 2021 12:42:12 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c12sm17304374wro.6.2021.04.17.12.42.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 12:42:12 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] accel/tcg: avoid re-translating one-shot instructions
-Date: Sat, 17 Apr 2021 20:42:05 +0100
-Message-Id: <20210417194205.17057-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210417194205.17057-1-peter.maydell@linaro.org>
-References: <20210417194205.17057-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a/matZ63spxyatcX29luFXmEu2YcgWEHnCxOBCfvZRw=;
+ b=i72xgpF8DBgla8JoIRqGmeSTEsZyAwDzu6xzDLH5h1mddaSdxoNGm9Z+TEQ7ef8lWh
+ 2IvBfzKIURmxmYEET+yPOQzB8JXT/CqMI/QM/K5PfG5MJB/6nGZW5zHInHV1ThH5oqAH
+ WHgXM2sbDQqVedrvm5Oxdmda9DKxYgIV4zjQUbAZ1TQdH0n/YD46LJE34kf4+Yl8ymSc
+ DvkLAv4ogBXOYp8/a18i2wcP4e/wFTNWMaWaT1CgwfJSXbSS0w4p2EOjNm1JjsfVpof0
+ x2T2v/IkC4wtTpWQDXF53LLkwODynOFGHPP+3fT5mcqOOLAoc3WJLLyjsesl+FmkgkcY
+ NxRw==
+X-Gm-Message-State: AOAM530mzZ0dMg1PDfPgBoRKLWEhf8NFnRLkzT8a7+YvyYk6lfRL2vOp
+ +tQQyOGRiairCGHH/zv8Wv25pCO2YfvXiGyXxkpWDQ==
+X-Google-Smtp-Source: ABdhPJwq4wNaBcCqmNlvNPjg7M04VMcMmZmdo/N5HtIT6jUIFe9oGqwDHDmYdD21bogal8RVXkgyomQ/EJVf1N26tqM=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr14252363ejh.4.1618688833938; 
+ Sat, 17 Apr 2021 12:47:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
+ <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
+ <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
+In-Reply-To: <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 17 Apr 2021 20:46:24 +0100
+Message-ID: <CAFEAcA9Q7q5eoE+qBOY9LYQnnaccSfMux=fOzb3+BtRWjXm6gw@mail.gmail.com>
+Subject: Re: any remaining for-6.0 issues?
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,48 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+On Wed, 14 Apr 2021 at 14:58, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> On 14/04/2021 13:48, Thomas Huth wrote:
+> > I've seen some intermittend, non-reproducible crashes with usermode QEMU in some of
+> > my CI runs, e.g.:
+> >
+> > https://gitlab.com/thuth/qemu/-/jobs/1178256498#L3876
+> >
+> > https://gitlab.com/thuth/qemu/-/jobs/1146276208#L3241
+> >
+> > This was only with ccache enabled, so I thought that it might be related to my
+> > work-in-progress ccache patches...
+> >
+> > ... but now Cornelia reported that she has seen such a crash in one of her branches,
+> > too (which is completely unrelated to my ccache patches):
+> >
+> > https://gitlab.com/cohuck/qemu/-/jobs/1178860927#L3867
+> >
+> > That makes me wonder whether we currently have a real problem with user-mode in the
+> > master branch? Did anybody else see such problems?
+>
+> I've definitely seen the same issue as Cornelia in my Gitlab CI builds for the ESP
+> security fixes (first version of which appeared just before rc0). The user builds
+> always fail on "run-tcg-tests-s390x-linux-user" for me.
 
-By definition a single instruction is capable of being an IO
-instruction. This avoids a problem of triggering a cpu_io_recompile on
-a non-recorded translation which then fails because it expects
-tcg_tb_lookup() to succeed unconditionally. The normal use case
-requires a TB to be able to resolve machine state.
+Do we have any better understanding yet of the cause here?
+(I ask because I think we're going to need an rc4 for other reasons,
+so if there's a ready-to-go fix then we could consider it.)
 
-The other users of tcg_tb_lookup() are able to tolerate a missing TB
-if the machine state has been resolved by other means - which in the
-single-shot case is always true because machine state is synced at the
-start of a block.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210415162454.22056-1-alex.bennee@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- accel/tcg/translate-all.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ba6ab09790e..b12d0898d0a 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- 
-     if (phys_pc == -1) {
-         /* Generate a one-shot TB with 1 insn in it */
--        cflags = (cflags & ~CF_COUNT_MASK) | 1;
-+        cflags = (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
-     }
- 
-     max_insns = cflags & CF_COUNT_MASK;
--- 
-2.20.1
-
+thanks
+-- PMM
 
