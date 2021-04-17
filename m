@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FEB5363203
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:43:54 +0200 (CEST)
-Received: from localhost ([::1]:37784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4069D363201
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 21:43:52 +0200 (CEST)
+Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXqrB-0001MT-Aq
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39410)
+	id 1lXqr9-0001ID-Aa
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 15:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXqpb-0007vV-L1
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:15 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46709)
+ id 1lXqpZ-0007t8-SF
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:13 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXqpX-0008C1-Iy
- for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:15 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id c15so20997969wro.13
+ id 1lXqpY-0008CW-27
+ for qemu-devel@nongnu.org; Sat, 17 Apr 2021 15:42:13 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id k128so16030100wmk.4
  for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 12:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X+yX84qon75IWnfGBV9DoIC7IAiy08A30WrHnxDcNWA=;
- b=mDbxqx9JoIiNtPO0HHXqoQjuCUGAk4XWnDx81AURiK98JIvzmcGbjzojgLh/wndUGk
- T++17PQRxN90walHNLvZKA6EjtKTa/KtlXXRpnjPWdZtyZ89pQAWeZg7Z6j4RPFNaAlb
- //gp4dVr1/zj2SKj4mf+RbvB/Tvh+3x/mi5/VBPFOHAr4KZxBK1xryDBJWjrI8YljZ31
- azBboIErl3ZBoAvLlsmZwNAyH5McXZFSgkz1MYOBth2A9UuJymEaGkyN5YNGHrpviyi/
- KGGYMWw85rHzMswwoqJgRG/mcpR+pGx7BDQuaO9iuKfPHy5oYCTxCtZVr6gDvXhI5nrx
- YPhQ==
+ bh=IAZoteJHBoKPc9HxfjcxRcYAAmgdep69zycNRvL7CZk=;
+ b=akPuLYc8y86JRQhtgA3Gz0LLwkC0/ohC1gFaB8yzTwy94dagdltBgVhpqwEf3vj/Gj
+ tdM7OQNhy53vu1W7cWxubOV21ahXVuTnDnGANcTK3vJkamVZuDOwE1c+kpVi8i2UzRrd
+ pmJTne5Mh10z09yUUzYKXqF6OzGveLGzeaJTfiHwpQTaeF7005v5ahj+TSd2vm9VuKHk
+ C8BdQkDVMwEiKHBvHc47D1oZvyjZS8zSFF6EXx8Qx7Qz/Kd6m3lSEL0y5k3kwdECDjYl
+ 8Vb6Pz6lZ1Nq181gXIGPCiAJwED/lcidDhUywSuVVZQ7w9waoqFgyER9NfQCObD3hIjX
+ 9vVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X+yX84qon75IWnfGBV9DoIC7IAiy08A30WrHnxDcNWA=;
- b=sVEJeY/L8Y//VOeQZn7o7pYoaJkpgYzibtA0DeigcFhUX46guYXZYfypdbtVKn33fB
- TpQaf+dm/I9cR0rtYK7xsEU7Bcni0e/F/4GPswtGj6RXcj8v5ycOsNHRTceWcQQaLquF
- CWtuRVWGSrFr1WC53r4jKadrWjscByRdHICwEtUcrEq/9LEaqEO2a0XCwLeEWQQUqrNU
- NgXAS0ThdyYXnEzLuMzoO4TKCJO82jMdFYUven65frdTnU/FmE8y2sgF5R3Htqfi3yhc
- cfQkkMx2PE3ZBMjDU7q+XzxPcUMTKseq9uISaDrQFyKv0HSWVqAt50cN0eO/ubiL9MQc
- 7OyQ==
-X-Gm-Message-State: AOAM530XMEOk+Qdorpih+wQxOqrjyfCG0SYOaDFoKODwf7grk62tOIFC
- Y1MmaR/joCyzI/eImTHqXvt8khtn/ivnjoYG
-X-Google-Smtp-Source: ABdhPJwjrbc+5Dy0dnoaaNo0SfncUHuQC02KKga6dqmIbldFdoAFzRfFKLiYZdS/HZ+GF8Qkiu6n8w==
-X-Received: by 2002:a5d:4c88:: with SMTP id z8mr5692000wrs.154.1618688530097; 
+ bh=IAZoteJHBoKPc9HxfjcxRcYAAmgdep69zycNRvL7CZk=;
+ b=mLMBwSLWh5F3rhSy33E7aFIQTfUK9MSGvKByDrDknu4qu/Es45Lp7tp21i5ATI7m+T
+ znRRZS8OAeKrVfa27e2ojUi9mn6X4DDYyqBVYjd/QBzH/zkf7d5Md32GmItNbKp2bYgI
+ 5MQvkuT+yhw9pQrl54AGsBbTCRF9F/mIZ/3jPqFfHMOnSa3qQbqKLC4P0YN3cRYv2Axz
+ 3+Q+j6C90v+qwHVSKVYKC6xn3lCbbTunFD/n6mxZHZIplXM/lHIJabw01h/SQddz/2/z
+ d4HZikpCGpWXsS5eduZyONb/+RGqc8CfFy0lURQVRZn6GIuzb+aZ727kLOP39deEwAhy
+ JnjA==
+X-Gm-Message-State: AOAM532HMcGhKUOfi3wcoEXNe8amIvR5iWlUWTn5gnmDMQ8VzdULuCkU
+ c9Tk3oquvdfU6rhdq0+OJ9wD1Y3nJIk8GNwi
+X-Google-Smtp-Source: ABdhPJwVGIgvuewwBDrIyCvjS+vC2nATn9c5wSlBR6kN3+s5r1OeuCUgC/qirpixL5Rf8gvishMJFg==
+X-Received: by 2002:a1c:b002:: with SMTP id z2mr13697928wme.121.1618688530869; 
  Sat, 17 Apr 2021 12:42:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c12sm17304374wro.6.2021.04.17.12.42.09
+ by smtp.gmail.com with ESMTPSA id c12sm17304374wro.6.2021.04.17.12.42.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 12:42:09 -0700 (PDT)
+ Sat, 17 Apr 2021 12:42:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] include/qemu/osdep.h: Move system includes to top
-Date: Sat, 17 Apr 2021 20:42:01 +0100
-Message-Id: <20210417194205.17057-4-peter.maydell@linaro.org>
+Subject: [PULL 4/7] hw/arm/armsse: Give SSE-300 its own Property array
+Date: Sat, 17 Apr 2021 20:42:02 +0100
+Message-Id: <20210417194205.17057-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210417194205.17057-1-peter.maydell@linaro.org>
 References: <20210417194205.17057-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,82 +88,73 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly osdep.h puts the system includes at the top of the file; but
-there are a couple of exceptions where we include a system header
-halfway through the file.  Move these up to the top with the rest
-so that all the system headers we include are included before
-we include os-win32.h or os-posix.h.
+SSE-300 currently shares the SSE-200 Property array. This is
+bad principally because the default values of the CPU0_FPU
+and CPU0_DSP properties disable the FPU and DSP on the CPU.
+That is correct for the SSE-200 but not the SSE-300.
+Give the SSE-300 its own Property array with the correct
+SSE-300 specific settings:
+ * SSE-300 has only one CPU, so no CPU1* properties
+ * SSE-300 CPU has FPU and DSP
 
+Buglink: https://bugs.launchpad.net/qemu/+bug/1923861
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210416135543.20382-4-peter.maydell@linaro.org
-Message-id: 20210414184343.26235-1-peter.maydell@linaro.org
+Message-id: 20210415182353.8173-1-peter.maydell@linaro.org
 ---
- include/qemu/osdep.h | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ hw/arm/armsse.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 6d8562eaf40..cb2a07e472e 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -104,6 +104,15 @@ QEMU_EXTERN_C int daemon(int, int);
- #include <setjmp.h>
- #include <signal.h>
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index e5aeb9e485f..170dea8632d 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -84,7 +84,7 @@ static Property iotkit_properties[] = {
+     DEFINE_PROP_END_OF_LIST()
+ };
  
-+#ifdef CONFIG_IOVEC
-+#include <sys/uio.h>
-+#endif
+-static Property armsse_properties[] = {
++static Property sse200_properties[] = {
+     DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+     DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+@@ -97,6 +97,17 @@ static Property armsse_properties[] = {
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
++static Property sse300_properties[] = {
++    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
++                     MemoryRegion *),
++    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
++    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
++    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
++    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
++    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], true),
++    DEFINE_PROP_END_OF_LIST()
++};
 +
-+#if defined(__linux__) && defined(__sparc__)
-+/* The SPARC definition of QEMU_VMALLOC_ALIGN needs SHMLBA */
-+#include <sys/shm.h>
-+#endif
-+
- #ifndef _WIN32
- #include <sys/wait.h>
- #else
-@@ -111,6 +120,10 @@ QEMU_EXTERN_C int daemon(int, int);
- #define WEXITSTATUS(x) (x)
- #endif
- 
-+#ifdef __APPLE__
-+#include <AvailabilityMacros.h>
-+#endif
-+
- /*
-  * This is somewhat like a system header; it must be outside any extern "C"
-  * block because it includes system headers itself, including glib.h,
-@@ -130,10 +143,6 @@ extern "C" {
- #include "sysemu/os-posix.h"
- #endif
- 
--#ifdef __APPLE__
--#include <AvailabilityMacros.h>
--#endif
--
- #include "qemu/typedefs.h"
- 
- /*
-@@ -469,7 +478,6 @@ void qemu_anon_ram_free(void *ptr, size_t size);
-    /* Use 1 MiB (segment size) alignment so gmap can be used by KVM. */
- #  define QEMU_VMALLOC_ALIGN (256 * 4096)
- #elif defined(__linux__) && defined(__sparc__)
--#include <sys/shm.h>
- #  define QEMU_VMALLOC_ALIGN MAX(qemu_real_host_page_size, SHMLBA)
- #else
- #  define QEMU_VMALLOC_ALIGN qemu_real_host_page_size
-@@ -549,8 +557,6 @@ struct iovec {
- 
- ssize_t readv(int fd, const struct iovec *iov, int iov_cnt);
- ssize_t writev(int fd, const struct iovec *iov, int iov_cnt);
--#else
--#include <sys/uio.h>
- #endif
- 
- #ifdef _WIN32
+ static const ARMSSEDeviceInfo iotkit_devices[] = {
+     {
+         .name = "timer0",
+@@ -519,7 +530,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .has_cpuid = true,
+         .has_cpu_pwrctrl = false,
+         .has_sse_counter = false,
+-        .props = armsse_properties,
++        .props = sse200_properties,
+         .devinfo = sse200_devices,
+         .irq_is_common = sse200_irq_is_common,
+     },
+@@ -537,7 +548,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .has_cpuid = true,
+         .has_cpu_pwrctrl = true,
+         .has_sse_counter = true,
+-        .props = armsse_properties,
++        .props = sse300_properties,
+         .devinfo = sse300_devices,
+         .irq_is_common = sse300_irq_is_common,
+     },
 -- 
 2.20.1
 
