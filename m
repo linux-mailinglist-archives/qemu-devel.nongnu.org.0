@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBE4362F48
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 12:39:42 +0200 (CEST)
-Received: from localhost ([::1]:44256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDFB362F45
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 12:36:40 +0200 (CEST)
+Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXiMX-0004Pk-5T
-	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 06:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
+	id 1lXiJb-0007aF-IA
+	for lists+qemu-devel@lfdr.de; Sat, 17 Apr 2021 06:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXiE8-0001dY-Oj; Sat, 17 Apr 2021 06:31:00 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39590)
+ id 1lXiED-0001nR-K4; Sat, 17 Apr 2021 06:31:06 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:41703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXiE6-0000tZ-SJ; Sat, 17 Apr 2021 06:31:00 -0400
-Received: by mail-wr1-x434.google.com with SMTP id s7so28926148wru.6;
- Sat, 17 Apr 2021 03:30:57 -0700 (PDT)
+ id 1lXiEC-0000wo-2h; Sat, 17 Apr 2021 06:31:05 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ o21-20020a1c4d150000b029012e52898006so5802357wmh.0; 
+ Sat, 17 Apr 2021 03:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PdnzmuhsTLw4wdID7+EL8uOV5BaW8a1hwDqQzxQSeJ0=;
- b=hSqDwzKh64y708YkvLg3y0px7fNMVmIgZ87o384zCIyj/bvt0rxsvOTBeGJO+FnW7d
- 4XRsU76R6wKADEyo/hpfAjNWGRmpddcoTliMsJGJ9VPRZnb95dsw/UgxnvRN+oZ5Sa6n
- Mv4Q0uNd2QdRQ7G31kef6enuBOU4pDX9m9OuDB3mwx+MtigifWDu7Z3w1J17F+9EpK0R
- yU9mB6I9EE4Hi2gxXa3yQWXuknScHBSnBtaDBbjW7znGl3y9oryOp9BTazPX9vAmnPl2
- MWddrw2FqZ1+6mNAIcACwrVX17mdaTRfoemOT2vQMWbu2g5PkRYEZQMycTS11shloP0V
- f+fw==
+ bh=VLE3I1k3IJfuJNE04qzx4N5NNPVf33qPSjT+93d2QLc=;
+ b=tmfZs3MCmYdxjGh6o1UJtIaEBHAP6sNCG2Pym2EeygJzUNuuHqg37NV06C7ByB9rhK
+ sbLxZueophscqQkRKCL0ipo0l70IShlxrF0bE4GwaHR6bmIttzXHaWJNSCIET70V+RR9
+ udp2vCPfw5Up8Oh5t51v2+taCF9FQzfEdDaJa+RK9cOE+Bu9qFGc34hk/cDhuWbv1LSL
+ mEpT3hVYxoA5s5eV+G9njyERm3r2yrgtWVIRmBgVDLUyNJi2IvlbgOx0j4iM9ajaofAz
+ TAKfKge8Gkc9nr6rqiBMV/XWDGEtwylmu3gOJc05V1liom0CKQwXgtOrG7SzHeTlfaJh
+ lnVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PdnzmuhsTLw4wdID7+EL8uOV5BaW8a1hwDqQzxQSeJ0=;
- b=k3SE0oCSwqTDlwApd+2sxIos1gDNiZRn07zEzrkzih4YmAcqpDmGsgQC9bq4E3tWgl
- LVu2jg3dLLpfakxaHftADiliPWMn4rVtTIvh/lbeRNquer402blo6PgSVgasgJ5vtopk
- 60nDghT9dAng9uufLx4g3CfqzGm/X+GRMRHwwcrgBe6s2S+fxHHpK/+8Cztj3quDO+v9
- zne4WBRPNbzQx4NUFzvoU1QJj9bzxXDhk+rqPAOtb64uaI2ymgS7eydgWkFhx9SlVDFD
- j7rGh4gI7NnOHsEu59SvYqEnwNCfsyTuSpWZcA04wPV7sld0oPib+EVEbo3EbR54zWCM
- 3q3g==
-X-Gm-Message-State: AOAM531u8lvDTT3m2hO3A2iX0AbnGM0kJAawy0QP6xncwvz/npiDBRMG
- gYDAF9F7AKsUdBjp3PgFf+whkARsc5Q=
-X-Google-Smtp-Source: ABdhPJyG9lVl3E9j8Dn9ghsQfNozVY8AKsTsQYSW1++kRRv0s5UP7NiwTBVYB54nHUKSaZD07KVV1w==
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr3654992wrj.339.1618655456749; 
- Sat, 17 Apr 2021 03:30:56 -0700 (PDT)
+ bh=VLE3I1k3IJfuJNE04qzx4N5NNPVf33qPSjT+93d2QLc=;
+ b=M87CJg7W72Axk6bQ5VCpHVG+qSDdZU/Pl0OMHEmoo+1JS1BGlxzq9QjULyljDgkE8B
+ eZogQLvqJQgFqmtNnhiUz0IO3w685zvxfQ5oCzeavLQsaozMlrpQUKkQk/gjSL67hbQx
+ z8xzwsB24sKqZ92RdosrAplUY67U24WRpogBGcfYuj/lmtCOrTR3CujxclHs87N51/pQ
+ Cpmc/QHtUcQyUHogm3eYgMZpXmJzjnTq3iHp9k0PDRXgl+NgEGZDI6LN+1J21Gwoax/d
+ 8t6vQFTHZgTzAPTQ8ydF7BRohJQnqJRRYJtjbz0damF7SOwrZffq+pbD/mPJ6zv5hpHD
+ YVdQ==
+X-Gm-Message-State: AOAM533hoJctQEau9YAhwZSryOO6JjI/Y2y1iN7GOzwLjCqoNV9sBSGR
+ B1LJefofzqiI21y/phohpeOPJxq1PDQ=
+X-Google-Smtp-Source: ABdhPJzw1E06YjdNsiB2yEdIaN4rYV7HJHzKHamdey1Mv8Ni9ANAOFK6szhDiyuj33hghT+iCDdNVQ==
+X-Received: by 2002:a05:600c:4f4f:: with SMTP id
+ m15mr12113042wmq.29.1618655461755; 
+ Sat, 17 Apr 2021 03:31:01 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id n14sm12291808wmk.5.2021.04.17.03.30.55
+ by smtp.gmail.com with ESMTPSA id m11sm13996085wri.44.2021.04.17.03.31.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 03:30:56 -0700 (PDT)
+ Sat, 17 Apr 2021 03:31:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/11] hw/pci-host/raven: Add PCI_IO_BASE_ADDR definition
-Date: Sat, 17 Apr 2021 12:30:22 +0200
-Message-Id: <20210417103028.601124-6-f4bug@amsat.org>
+Subject: [PATCH v2 06/11] hw/pci-host/raven: Assert PCI I/O AddressSpace is
+ based at 0x80000000
+Date: Sat, 17 Apr 2021 12:30:23 +0200
+Message-Id: <20210417103028.601124-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210417103028.601124-1-f4bug@amsat.org>
 References: <20210417103028.601124-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,57 +96,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than using the magic 0x80000000 number for the PCI I/O BAR
-physical address on the main system bus, use a definition.
+Commit 1ae1dc5ba24 ("raven: Set a correct PCI I/O memory region")
+abused an AddressSpace API weakness which allows set non-zero base
+address to AddressSpace root region. We will fix that in the next
+commit. First add an assertion to ensure no regression is introduced.
+As raven_io_address() is called by both MemoryRegionOps handlers, it
+is a good place for such assert call.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/raven.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/pci-host/raven.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
-index 0a9162fba97..730f31a8931 100644
+index 730f31a8931..36652122424 100644
 --- a/hw/pci-host/raven.c
 +++ b/hw/pci-host/raven.c
-@@ -82,6 +82,8 @@ struct PRePPCIState {
- 
- #define BIOS_SIZE (1 * MiB)
- 
-+#define PCI_IO_BASE_ADDR    0x80000000  /* Physical address on main bus */
-+
- static inline uint32_t raven_pci_io_config(hwaddr addr)
+@@ -141,6 +141,17 @@ static const MemoryRegionOps raven_intack_ops = {
+ static inline hwaddr raven_io_address(PREPPCIState *s,
+                                       hwaddr addr)
  {
-     int i;
-@@ -159,7 +161,7 @@ static uint64_t raven_io_read(void *opaque, hwaddr addr,
-     uint8_t buf[4];
- 
-     addr = raven_io_address(s, addr);
--    address_space_read(&s->pci_io_as, addr + 0x80000000,
-+    address_space_read(&s->pci_io_as, addr + PCI_IO_BASE_ADDR,
-                        MEMTXATTRS_UNSPECIFIED, buf, size);
- 
-     if (size == 1) {
-@@ -191,7 +193,7 @@ static void raven_io_write(void *opaque, hwaddr addr,
-         g_assert_not_reached();
-     }
- 
--    address_space_write(&s->pci_io_as, addr + 0x80000000,
-+    address_space_write(&s->pci_io_as, addr + PCI_IO_BASE_ADDR,
-                         MEMTXATTRS_UNSPECIFIED, buf, size);
- }
- 
-@@ -294,8 +296,9 @@ static void raven_pcihost_initfn(Object *obj)
-     address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
- 
-     /* CPU address space */
--    memory_region_add_subregion(address_space_mem, 0x80000000, &s->pci_io);
--    memory_region_add_subregion_overlap(address_space_mem, 0x80000000,
-+    memory_region_add_subregion(address_space_mem, PCI_IO_BASE_ADDR,
-+                                &s->pci_io);
-+    memory_region_add_subregion_overlap(address_space_mem, PCI_IO_BASE_ADDR,
-                                         &s->pci_io_non_contiguous, 1);
-     memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci_memory);
-     pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj), NULL,
++    /*
++     * We shouldn't access AddressSpace internals. However this assert
++     * is temporarily introduced to prove a subtle inconsistency from
++     * commit 1ae1dc5ba24 ("raven: Set a correct PCI I/O memory region"):
++     * AddressSpace root region must be zero-based, but the Raven use is not.
++     *
++     * Assert the root region is based on physical address 0x80000000
++     * until the issue is fixed.
++     */
++    assert(s->pci_io_as.root->addr == PCI_IO_BASE_ADDR);
++
+     if (s->contiguous_map == 0) {
+         /* 64 KB contiguous space for IOs */
+         addr &= 0xFFFF;
 -- 
 2.26.3
 
