@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA59436387A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:12:10 +0200 (CEST)
-Received: from localhost ([::1]:52978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F3136387C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:14:54 +0200 (CEST)
+Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYGaH-0000GY-VZ
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40220)
+	id 1lYGcv-0002yT-N5
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGI0-0005H7-V9
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:53:17 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39881)
+ id 1lYGHs-0004xP-Ka
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:53:08 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:43582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGHl-00018i-IZ
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:53:16 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id s7so31942899wru.6
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:53:01 -0700 (PDT)
+ id 1lYGHq-0001A9-AX
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:53:08 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ u5-20020a7bcb050000b029010e9316b9d5so17043280wmj.2
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:53:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6nG8poRcj1wDu49/3j5kVXCk3FjBmpdwDvVGl0DoGNs=;
- b=F3D7/F2a8Mk535rS9siQa7ObZYNUszQqR4Zp69KVj11Xk/qgCoaWnpnnNIKpmaSm5x
- 2kbKIWkeJF6CscKDVn7WCOvjRB5A0QkZMVXkhWylreHZqrIwFwxfTQtOKakNIfpJzVF4
- IoiLi7AbffKHaH/BJyVggOpuzN9jfEIPxoIetPxdfT3dSV2yvGBjbPnOCmkwex4tL97O
- Qma1O/AbxohMKzRKnFBU/VIDk2UKUb67vqIhAkYidDDri7RG5VUGrie1H8uyjtCbFiTe
- ROvLNs/9inYEaa+35BIeli4Uf8COG6srv/KYP3Ds9Q6VpagGsFOjI2/0OxveIA85aArb
- 6KeQ==
+ bh=b7B2r8MngKg5MsGtmNycyg6sG5mdHfGJzIr6HUIH8KE=;
+ b=RyrgXoN5CcUf7UiijwMzr8VGdTnaVv7qx/0w1t3wVZoNwsYeKSNXRqH46W5ifFCvRE
+ xBgBt6ybPsiRgV6LyOlzT12AETy6cbMpXA/Z4tuifSQm/Fa/UO/39024EF36PvoT5QTe
+ l/RliCdSV6HkuLTF3dxxjcRoMOQgJck0G4f4mQJjY+8iap8MUj9/zbH0Ahvr/YEG922M
+ aJAV0OuzjVJD4uHv1B6Ny+A98+3Aj1m24yp6z/NFjemEUUIUC8p5b/eRHWL3xx88lu4M
+ jFFqh5Kzx3xiysUMKsg1aSo2cLZ/6EFEGJqyGyeSBwoVopM1PBSzTPl682skINfYH22y
+ 9jEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6nG8poRcj1wDu49/3j5kVXCk3FjBmpdwDvVGl0DoGNs=;
- b=ZuXMR6wzbIrlY4jNoEEPWyYNSMSv8aaBlxg/gHfA4x5gBVR/Vvql2hScZZrdsmsDsF
- uZhs4ybfyMRatukVIIpCX6KhnVivt5zUte1l97mz4o8vuxjLo4FHE88Ak2xZgPW1BcA5
- ydKEKFCcHdMN5p79vkncrOpFWsxPZSV8dTHijOl+V8k0MkNJDNoETRxL2YB2FcjI8Z0J
- 1XpR04geeSGyxa7q7lYyH+IrXnStLSTlFpFYAYsa7Vt2FXFL/Bk2aWmFdwWrJ/my5jl2
- wuHC1m5ACdj3+/BSfeMG0rElldY++Li6lqT0I7qc6lPEOOe9sK1j3A6mdqYiqxO9TXyl
- A8gA==
-X-Gm-Message-State: AOAM532tESYmDqffIWOLQRxpmo5BkhNtoOPNbREGgeW2RB4ddLsfs7i6
- 0OI0F0qMACK23SLt1KPGWygLTbuYOyTMaQ==
-X-Google-Smtp-Source: ABdhPJwC0edc6blBmRvvcpBmN8gBR71onah937l7jSHSQfFB2pRGtViRLbT6k0kxEfkRipBV/xcklg==
-X-Received: by 2002:a5d:55d2:: with SMTP id i18mr10706123wrw.280.1618786379976; 
- Sun, 18 Apr 2021 15:52:59 -0700 (PDT)
+ bh=b7B2r8MngKg5MsGtmNycyg6sG5mdHfGJzIr6HUIH8KE=;
+ b=qWx9VeDUUerN9TXsyPo/ina8QgekiBbqYwE1lYfKdu1F1+dzZeUOZXURXjiUYWBJ4h
+ BI/W/uBzjbVJOrpwWdYyuBeKegoYQOa1QYqZGjisOV+VZzI/eFBfrw69HZxDiAl1ha+D
+ ay3C92KfZlg/99gH3zjP3KoJFszKwAlrwWO/20DqZCD5sRz5NJujzdChgLKarhFcC3wC
+ aXe9lKVbuhFWIMWp8n4SmsV1X89AkljzieA+b5SKQTGq0XUqGjF9O1HWuIBVV8T5ajsI
+ hfVPUkuza+vAtuxqs+xob/ioWtUfD9USS3Nd66DQaQzegA1kAXD0/FSRVqhJ1mflJzlt
+ klPQ==
+X-Gm-Message-State: AOAM53341771S/aLqTJyvJqpCgl3QgKBfQs0sJQ2LboavdA6OwakYSFb
+ W/ejRtqbWnGAZtaBUwI79/gnlBHzHrvkYQ==
+X-Google-Smtp-Source: ABdhPJw3yAZPoFS2mxN/G35cCs6IEtvoc/ZIJkXC1TxXklcctjPms70V4nX601n3c8NsrIJBI9hl0A==
+X-Received: by 2002:a1c:7311:: with SMTP id d17mr18152032wmb.183.1618786384693; 
+ Sun, 18 Apr 2021 15:53:04 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id l7sm22140880wrb.35.2021.04.18.15.52.59
+ by smtp.gmail.com with ESMTPSA id z14sm21823622wrt.54.2021.04.18.15.53.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 15:52:59 -0700 (PDT)
+ Sun, 18 Apr 2021 15:53:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 25/29] target/mips: Move exception management code to
- exception.c
-Date: Mon, 19 Apr 2021 00:50:54 +0200
-Message-Id: <20210418225058.1257014-26-f4bug@amsat.org>
+Subject: [PATCH v2 26/29] target/mips: Move CP0 helpers to sysemu/cp0.c
+Date: Mon, 19 Apr 2021 00:50:55 +0200
+Message-Id: <20210418225058.1257014-27-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418225058.1257014-1-f4bug@amsat.org>
 References: <20210418225058.1257014-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,224 +94,168 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Opcodes accessing Coprocessor 0 are privileged.
+Move the CP0 helpers to sysemu/ and simplify the #ifdef'ry.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h         |  13 ---
- target/mips/tcg/tcg-internal.h |  14 +++
- target/mips/cpu.c              | 113 ----------------------
- target/mips/exception.c        | 169 +++++++++++++++++++++++++++++++++
- target/mips/op_helper.c        |  37 --------
- target/mips/meson.build        |   1 +
- 6 files changed, 184 insertions(+), 163 deletions(-)
- create mode 100644 target/mips/exception.c
+ target/mips/internal.h         |   9 +--
+ target/mips/cpu.c              | 103 ---------------------------
+ target/mips/sysemu/cp0.c       | 123 +++++++++++++++++++++++++++++++++
+ target/mips/sysemu/meson.build |   1 +
+ 4 files changed, 129 insertions(+), 107 deletions(-)
+ create mode 100644 target/mips/sysemu/cp0.c
 
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 88020e22365..8158078b08b 100644
+index 8158078b08b..588e89cfcda 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -80,7 +80,6 @@ extern const char fregnames[32][4];
- extern const struct mips_def_t mips_defs[];
- extern const int mips_defs_number;
- 
--bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
- int mips_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int mips_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-@@ -411,16 +410,4 @@ void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
- void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
- void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
- 
--const char *mips_exception_name(int32_t exception);
--
--void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env, uint32_t exception,
--                                          int error_code, uintptr_t pc);
--
--static inline void QEMU_NORETURN do_raise_exception(CPUMIPSState *env,
--                                                    uint32_t exception,
--                                                    uintptr_t pc)
--{
--    do_raise_exception_err(env, exception, 0, pc);
--}
--
- #endif
-diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
-index e507dd1630f..70f0d5da436 100644
---- a/target/mips/tcg/tcg-internal.h
-+++ b/target/mips/tcg/tcg-internal.h
-@@ -14,11 +14,25 @@
- #include "hw/core/cpu.h"
- #include "cpu.h"
- 
-+void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
- void mips_cpu_do_interrupt(CPUState *cpu);
-+bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
- bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
- 
-+const char *mips_exception_name(int32_t exception);
+@@ -156,6 +156,11 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     MMUAccessType access_type,
+                                     int mmu_idx, MemTxAttrs attrs,
+                                     MemTxResult response, uintptr_t retaddr);
 +
-+void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env, uint32_t exception,
-+                                          int error_code, uintptr_t pc);
++void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
++void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
++void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
 +
-+static inline void QEMU_NORETURN do_raise_exception(CPUMIPSState *env,
-+                                                    uint32_t exception,
-+                                                    uintptr_t pc)
-+{
-+    do_raise_exception_err(env, exception, 0, pc);
-+}
-+
- #if !defined(CONFIG_USER_ONLY)
+ extern const VMStateDescription vmstate_mips_cpu;
  
- void mmu_init(CPUMIPSState *env, const mips_def_t *def);
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 949b8ef94ea..61d0dd69751 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -218,112 +218,12 @@ static void mips_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ #endif /* !CONFIG_USER_ONLY */
+@@ -406,8 +411,4 @@ static inline void compute_hflags(CPUMIPSState *env)
      }
  }
  
--static const char * const excp_names[EXCP_LAST + 1] = {
--    [EXCP_RESET] = "reset",
--    [EXCP_SRESET] = "soft reset",
--    [EXCP_DSS] = "debug single step",
--    [EXCP_DINT] = "debug interrupt",
--    [EXCP_NMI] = "non-maskable interrupt",
--    [EXCP_MCHECK] = "machine check",
--    [EXCP_EXT_INTERRUPT] = "interrupt",
--    [EXCP_DFWATCH] = "deferred watchpoint",
--    [EXCP_DIB] = "debug instruction breakpoint",
--    [EXCP_IWATCH] = "instruction fetch watchpoint",
--    [EXCP_AdEL] = "address error load",
--    [EXCP_AdES] = "address error store",
--    [EXCP_TLBF] = "TLB refill",
--    [EXCP_IBE] = "instruction bus error",
--    [EXCP_DBp] = "debug breakpoint",
--    [EXCP_SYSCALL] = "syscall",
--    [EXCP_BREAK] = "break",
--    [EXCP_CpU] = "coprocessor unusable",
--    [EXCP_RI] = "reserved instruction",
--    [EXCP_OVERFLOW] = "arithmetic overflow",
--    [EXCP_TRAP] = "trap",
--    [EXCP_FPE] = "floating point",
--    [EXCP_DDBS] = "debug data break store",
--    [EXCP_DWATCH] = "data watchpoint",
--    [EXCP_LTLBL] = "TLB modify",
--    [EXCP_TLBL] = "TLB load",
--    [EXCP_TLBS] = "TLB store",
--    [EXCP_DBE] = "data bus error",
--    [EXCP_DDBL] = "debug data break load",
--    [EXCP_THREAD] = "thread",
--    [EXCP_MDMX] = "MDMX",
--    [EXCP_C2E] = "precise coprocessor 2",
--    [EXCP_CACHE] = "cache error",
--    [EXCP_TLBXI] = "TLB execute-inhibit",
--    [EXCP_TLBRI] = "TLB read-inhibit",
--    [EXCP_MSADIS] = "MSA disabled",
--    [EXCP_MSAFPE] = "MSA floating point",
--};
+-void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
+-void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
+-void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
 -
--const char *mips_exception_name(int32_t exception)
--{
--    if (exception < 0 || exception > EXCP_LAST) {
--        return "unknown";
--    }
--    return excp_names[exception];
--}
--
- void cpu_set_exception_base(int vp_index, target_ulong address)
- {
-     MIPSCPU *vp = MIPS_CPU(qemu_get_cpu(vp_index));
-     vp->env.exception_base = address;
- }
+ #endif
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 61d0dd69751..9dec912af98 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -42,109 +42,6 @@ const char regnames[32][4] = {
+     "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
+ };
  
--target_ulong exception_resume_pc(CPUMIPSState *env)
--{
--    target_ulong bad_pc;
--    target_ulong isa_mode;
+-#if !defined(CONFIG_USER_ONLY)
 -
--    isa_mode = !!(env->hflags & MIPS_HFLAG_M16);
--    bad_pc = env->active_tc.PC | isa_mode;
--    if (env->hflags & MIPS_HFLAG_BMASK) {
--        /*
--         * If the exception was raised from a delay slot, come back to
--         * the jump.
--         */
--        bad_pc -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
+-/* Called for updates to CP0_Status.  */
+-void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc)
+-{
+-    int32_t tcstatus, *tcst;
+-    uint32_t v = cpu->CP0_Status;
+-    uint32_t cu, mx, asid, ksu;
+-    uint32_t mask = ((1 << CP0TCSt_TCU3)
+-                       | (1 << CP0TCSt_TCU2)
+-                       | (1 << CP0TCSt_TCU1)
+-                       | (1 << CP0TCSt_TCU0)
+-                       | (1 << CP0TCSt_TMX)
+-                       | (3 << CP0TCSt_TKSU)
+-                       | (0xff << CP0TCSt_TASID));
+-
+-    cu = (v >> CP0St_CU0) & 0xf;
+-    mx = (v >> CP0St_MX) & 0x1;
+-    ksu = (v >> CP0St_KSU) & 0x3;
+-    asid = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
+-
+-    tcstatus = cu << CP0TCSt_TCU0;
+-    tcstatus |= mx << CP0TCSt_TMX;
+-    tcstatus |= ksu << CP0TCSt_TKSU;
+-    tcstatus |= asid;
+-
+-    if (tc == cpu->current_tc) {
+-        tcst = &cpu->active_tc.CP0_TCStatus;
+-    } else {
+-        tcst = &cpu->tcs[tc].CP0_TCStatus;
 -    }
 -
--    return bad_pc;
+-    *tcst &= ~mask;
+-    *tcst |= tcstatus;
+-    compute_hflags(cpu);
 -}
 -
--bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+-void cpu_mips_store_status(CPUMIPSState *env, target_ulong val)
 -{
--    if (interrupt_request & CPU_INTERRUPT_HARD) {
--        MIPSCPU *cpu = MIPS_CPU(cs);
--        CPUMIPSState *env = &cpu->env;
+-    uint32_t mask = env->CP0_Status_rw_bitmask;
+-    target_ulong old = env->CP0_Status;
 -
--        if (cpu_mips_hw_interrupts_enabled(env) &&
--            cpu_mips_hw_interrupts_pending(env)) {
--            /* Raise it */
--            cs->exception_index = EXCP_EXT_INTERRUPT;
--            env->error_code = 0;
--            mips_cpu_do_interrupt(cs);
--            return true;
+-    if (env->insn_flags & ISA_MIPS_R6) {
+-        bool has_supervisor = extract32(mask, CP0St_KSU, 2) == 0x3;
+-#if defined(TARGET_MIPS64)
+-        uint32_t ksux = (1 << CP0St_KX) & val;
+-        ksux |= (ksux >> 1) & val; /* KX = 0 forces SX to be 0 */
+-        ksux |= (ksux >> 1) & val; /* SX = 0 forces UX to be 0 */
+-        val = (val & ~(7 << CP0St_UX)) | ksux;
+-#endif
+-        if (has_supervisor && extract32(val, CP0St_KSU, 2) == 0x3) {
+-            mask &= ~(3 << CP0St_KSU);
+-        }
+-        mask &= ~(((1 << CP0St_SR) | (1 << CP0St_NMI)) & val);
+-    }
+-
+-    env->CP0_Status = (old & ~mask) | (val & mask);
+-#if defined(TARGET_MIPS64)
+-    if ((env->CP0_Status ^ old) & (old & (7 << CP0St_UX))) {
+-        /* Access to at least one of the 64-bit segments has been disabled */
+-        tlb_flush(env_cpu(env));
+-    }
+-#endif
+-    if (ase_mt_available(env)) {
+-        sync_c0_status(env, env, env->current_tc);
+-    } else {
+-        compute_hflags(env);
+-    }
+-}
+-
+-void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
+-{
+-    uint32_t mask = 0x00C00300;
+-    uint32_t old = env->CP0_Cause;
+-    int i;
+-
+-    if (env->insn_flags & ISA_MIPS_R2) {
+-        mask |= 1 << CP0Ca_DC;
+-    }
+-    if (env->insn_flags & ISA_MIPS_R6) {
+-        mask &= ~((1 << CP0Ca_WP) & val);
+-    }
+-
+-    env->CP0_Cause = (env->CP0_Cause & ~mask) | (val & mask);
+-
+-    if ((old ^ env->CP0_Cause) & (1 << CP0Ca_DC)) {
+-        if (env->CP0_Cause & (1 << CP0Ca_DC)) {
+-            cpu_mips_stop_count(env);
+-        } else {
+-            cpu_mips_start_count(env);
 -        }
 -    }
--    return false;
+-
+-    /* Set/reset software interrupts */
+-    for (i = 0 ; i < 2 ; i++) {
+-        if ((old ^ env->CP0_Cause) & (1 << (CP0Ca_IP + i))) {
+-            cpu_mips_soft_irq(env, i, env->CP0_Cause & (1 << (CP0Ca_IP + i)));
+-        }
+-    }
 -}
 -
--void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
--                                          uint32_t exception,
--                                          int error_code,
--                                          uintptr_t pc)
--{
--    CPUState *cs = env_cpu(env);
+-#endif /* !CONFIG_USER_ONLY */
 -
--    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s) %d\n",
--                  __func__, exception, mips_exception_name(exception),
--                  error_code);
--    cs->exception_index = exception;
--    env->error_code = error_code;
--
--    cpu_loop_exit_restore(cs, pc);
--}
--
- static void mips_cpu_set_pc(CPUState *cs, vaddr value)
+ static void fpu_dump_fpr(fpr_t *fpr, FILE *f, bool is_fpu64)
  {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-@@ -331,19 +231,6 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
-     mips_cpu_set_error_pc(&cpu->env, value);
- }
- 
--#ifdef CONFIG_TCG
--static void mips_cpu_synchronize_from_tb(CPUState *cs,
--                                         const TranslationBlock *tb)
--{
--    MIPSCPU *cpu = MIPS_CPU(cs);
--    CPUMIPSState *env = &cpu->env;
--
--    env->active_tc.PC = tb->pc;
--    env->hflags &= ~MIPS_HFLAG_BMASK;
--    env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
--}
--#endif /* CONFIG_TCG */
--
- static bool mips_cpu_has_work(CPUState *cs)
- {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-diff --git a/target/mips/exception.c b/target/mips/exception.c
+     if (is_fpu64) {
+diff --git a/target/mips/sysemu/cp0.c b/target/mips/sysemu/cp0.c
 new file mode 100644
-index 00000000000..ee8319c4e43
+index 00000000000..bae37f515bf
 --- /dev/null
-+++ b/target/mips/exception.c
-@@ -0,0 +1,169 @@
++++ b/target/mips/sysemu/cp0.c
+@@ -0,0 +1,123 @@
 +/*
-+ *  MIPS Exceptions processing helpers for QEMU.
++ * QEMU MIPS CPU
 + *
-+ *  Copyright (c) 2004-2005 Jocelyn Mayer
++ * Copyright (c) 2012 SUSE LINUX Products GmbH
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -323,226 +268,124 @@ index 00000000000..ee8319c4e43
 + * Lesser General Public License for more details.
 + *
 + * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
 + */
 +
 +#include "qemu/osdep.h"
 +#include "cpu.h"
 +#include "internal.h"
-+#include "exec/helper-proto.h"
 +#include "exec/exec-all.h"
 +
-+target_ulong exception_resume_pc(CPUMIPSState *env)
++/* Called for updates to CP0_Status.  */
++void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc)
 +{
-+    target_ulong bad_pc;
-+    target_ulong isa_mode;
++    int32_t tcstatus, *tcst;
++    uint32_t v = cpu->CP0_Status;
++    uint32_t cu, mx, asid, ksu;
++    uint32_t mask = ((1 << CP0TCSt_TCU3)
++                       | (1 << CP0TCSt_TCU2)
++                       | (1 << CP0TCSt_TCU1)
++                       | (1 << CP0TCSt_TCU0)
++                       | (1 << CP0TCSt_TMX)
++                       | (3 << CP0TCSt_TKSU)
++                       | (0xff << CP0TCSt_TASID));
 +
-+    isa_mode = !!(env->hflags & MIPS_HFLAG_M16);
-+    bad_pc = env->active_tc.PC | isa_mode;
-+    if (env->hflags & MIPS_HFLAG_BMASK) {
-+        /*
-+         * If the exception was raised from a delay slot, come back to
-+         * the jump.
-+         */
-+        bad_pc -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
++    cu = (v >> CP0St_CU0) & 0xf;
++    mx = (v >> CP0St_MX) & 0x1;
++    ksu = (v >> CP0St_KSU) & 0x3;
++    asid = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++
++    tcstatus = cu << CP0TCSt_TCU0;
++    tcstatus |= mx << CP0TCSt_TMX;
++    tcstatus |= ksu << CP0TCSt_TKSU;
++    tcstatus |= asid;
++
++    if (tc == cpu->current_tc) {
++        tcst = &cpu->active_tc.CP0_TCStatus;
++    } else {
++        tcst = &cpu->tcs[tc].CP0_TCStatus;
 +    }
 +
-+    return bad_pc;
++    *tcst &= ~mask;
++    *tcst |= tcstatus;
++    compute_hflags(cpu);
 +}
 +
-+void helper_raise_exception_err(CPUMIPSState *env, uint32_t exception,
-+                                int error_code)
++void cpu_mips_store_status(CPUMIPSState *env, target_ulong val)
 +{
-+    do_raise_exception_err(env, exception, error_code, 0);
++    uint32_t mask = env->CP0_Status_rw_bitmask;
++    target_ulong old = env->CP0_Status;
++
++    if (env->insn_flags & ISA_MIPS_R6) {
++        bool has_supervisor = extract32(mask, CP0St_KSU, 2) == 0x3;
++#if defined(TARGET_MIPS64)
++        uint32_t ksux = (1 << CP0St_KX) & val;
++        ksux |= (ksux >> 1) & val; /* KX = 0 forces SX to be 0 */
++        ksux |= (ksux >> 1) & val; /* SX = 0 forces UX to be 0 */
++        val = (val & ~(7 << CP0St_UX)) | ksux;
++#endif
++        if (has_supervisor && extract32(val, CP0St_KSU, 2) == 0x3) {
++            mask &= ~(3 << CP0St_KSU);
++        }
++        mask &= ~(((1 << CP0St_SR) | (1 << CP0St_NMI)) & val);
++    }
++
++    env->CP0_Status = (old & ~mask) | (val & mask);
++#if defined(TARGET_MIPS64)
++    if ((env->CP0_Status ^ old) & (old & (7 << CP0St_UX))) {
++        /* Access to at least one of the 64-bit segments has been disabled */
++        tlb_flush(env_cpu(env));
++    }
++#endif
++    if (ase_mt_available(env)) {
++        sync_c0_status(env, env, env->current_tc);
++    } else {
++        compute_hflags(env);
++    }
 +}
 +
-+void helper_raise_exception(CPUMIPSState *env, uint32_t exception)
++void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
 +{
-+    do_raise_exception(env, exception, GETPC());
-+}
++    uint32_t mask = 0x00C00300;
++    uint32_t old = env->CP0_Cause;
++    int i;
 +
-+void helper_raise_exception_debug(CPUMIPSState *env)
-+{
-+    do_raise_exception(env, EXCP_DEBUG, 0);
-+}
++    if (env->insn_flags & ISA_MIPS_R2) {
++        mask |= 1 << CP0Ca_DC;
++    }
++    if (env->insn_flags & ISA_MIPS_R6) {
++        mask &= ~((1 << CP0Ca_WP) & val);
++    }
 +
-+static void raise_exception(CPUMIPSState *env, uint32_t exception)
-+{
-+    do_raise_exception(env, exception, 0);
-+}
++    env->CP0_Cause = (env->CP0_Cause & ~mask) | (val & mask);
 +
-+void helper_wait(CPUMIPSState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->halted = 1;
-+    cpu_reset_interrupt(cs, CPU_INTERRUPT_WAKE);
-+    /*
-+     * Last instruction in the block, PC was updated before
-+     * - no need to recover PC and icount.
-+     */
-+    raise_exception(env, EXCP_HLT);
-+}
-+
-+void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb)
-+{
-+    MIPSCPU *cpu = MIPS_CPU(cs);
-+    CPUMIPSState *env = &cpu->env;
-+
-+    env->active_tc.PC = tb->pc;
-+    env->hflags &= ~MIPS_HFLAG_BMASK;
-+    env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
-+}
-+
-+bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-+{
-+    if (interrupt_request & CPU_INTERRUPT_HARD) {
-+        MIPSCPU *cpu = MIPS_CPU(cs);
-+        CPUMIPSState *env = &cpu->env;
-+
-+        if (cpu_mips_hw_interrupts_enabled(env) &&
-+            cpu_mips_hw_interrupts_pending(env)) {
-+            /* Raise it */
-+            cs->exception_index = EXCP_EXT_INTERRUPT;
-+            env->error_code = 0;
-+            mips_cpu_do_interrupt(cs);
-+            return true;
++    if ((old ^ env->CP0_Cause) & (1 << CP0Ca_DC)) {
++        if (env->CP0_Cause & (1 << CP0Ca_DC)) {
++            cpu_mips_stop_count(env);
++        } else {
++            cpu_mips_start_count(env);
 +        }
 +    }
-+    return false;
-+}
 +
-+static const char * const excp_names[EXCP_LAST + 1] = {
-+    [EXCP_RESET] = "reset",
-+    [EXCP_SRESET] = "soft reset",
-+    [EXCP_DSS] = "debug single step",
-+    [EXCP_DINT] = "debug interrupt",
-+    [EXCP_NMI] = "non-maskable interrupt",
-+    [EXCP_MCHECK] = "machine check",
-+    [EXCP_EXT_INTERRUPT] = "interrupt",
-+    [EXCP_DFWATCH] = "deferred watchpoint",
-+    [EXCP_DIB] = "debug instruction breakpoint",
-+    [EXCP_IWATCH] = "instruction fetch watchpoint",
-+    [EXCP_AdEL] = "address error load",
-+    [EXCP_AdES] = "address error store",
-+    [EXCP_TLBF] = "TLB refill",
-+    [EXCP_IBE] = "instruction bus error",
-+    [EXCP_DBp] = "debug breakpoint",
-+    [EXCP_SYSCALL] = "syscall",
-+    [EXCP_BREAK] = "break",
-+    [EXCP_CpU] = "coprocessor unusable",
-+    [EXCP_RI] = "reserved instruction",
-+    [EXCP_OVERFLOW] = "arithmetic overflow",
-+    [EXCP_TRAP] = "trap",
-+    [EXCP_FPE] = "floating point",
-+    [EXCP_DDBS] = "debug data break store",
-+    [EXCP_DWATCH] = "data watchpoint",
-+    [EXCP_LTLBL] = "TLB modify",
-+    [EXCP_TLBL] = "TLB load",
-+    [EXCP_TLBS] = "TLB store",
-+    [EXCP_DBE] = "data bus error",
-+    [EXCP_DDBL] = "debug data break load",
-+    [EXCP_THREAD] = "thread",
-+    [EXCP_MDMX] = "MDMX",
-+    [EXCP_C2E] = "precise coprocessor 2",
-+    [EXCP_CACHE] = "cache error",
-+    [EXCP_TLBXI] = "TLB execute-inhibit",
-+    [EXCP_TLBRI] = "TLB read-inhibit",
-+    [EXCP_MSADIS] = "MSA disabled",
-+    [EXCP_MSAFPE] = "MSA floating point",
-+};
-+
-+const char *mips_exception_name(int32_t exception)
-+{
-+    if (exception < 0 || exception > EXCP_LAST) {
-+        return "unknown";
++    /* Set/reset software interrupts */
++    for (i = 0 ; i < 2 ; i++) {
++        if ((old ^ env->CP0_Cause) & (1 << (CP0Ca_IP + i))) {
++            cpu_mips_soft_irq(env, i, env->CP0_Cause & (1 << (CP0Ca_IP + i)));
++        }
 +    }
-+    return excp_names[exception];
 +}
-+
-+void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
-+                                          uint32_t exception,
-+                                          int error_code,
-+                                          uintptr_t pc)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s) %d\n",
-+                  __func__, exception, mips_exception_name(exception),
-+                  error_code);
-+    cs->exception_index = exception;
-+    env->error_code = error_code;
-+
-+    cpu_loop_exit_restore(cs, pc);
-+}
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index c6373d1de3f..94b03be0ea9 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -26,30 +26,6 @@
- #include "exec/memop.h"
- #include "fpu_helper.h"
- 
--/*****************************************************************************/
--/* Exceptions processing helpers */
--
--void helper_raise_exception_err(CPUMIPSState *env, uint32_t exception,
--                                int error_code)
--{
--    do_raise_exception_err(env, exception, error_code, 0);
--}
--
--void helper_raise_exception(CPUMIPSState *env, uint32_t exception)
--{
--    do_raise_exception(env, exception, GETPC());
--}
--
--void helper_raise_exception_debug(CPUMIPSState *env)
--{
--    do_raise_exception(env, EXCP_DEBUG, 0);
--}
--
--static void raise_exception(CPUMIPSState *env, uint32_t exception)
--{
--    do_raise_exception(env, exception, 0);
--}
--
- /* 64 bits arithmetic for 32 bits hosts */
- static inline uint64_t get_HILO(CPUMIPSState *env)
- {
-@@ -400,19 +376,6 @@ void helper_pmon(CPUMIPSState *env, int function)
-     }
- }
- 
--void helper_wait(CPUMIPSState *env)
--{
--    CPUState *cs = env_cpu(env);
--
--    cs->halted = 1;
--    cpu_reset_interrupt(cs, CPU_INTERRUPT_WAKE);
--    /*
--     * Last instruction in the block, PC was updated before
--     * - no need to recover PC and icount.
--     */
--    raise_exception(env, EXCP_HLT);
--}
--
- #if !defined(CONFIG_USER_ONLY)
- 
- void mips_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index ff5eb210dfd..e08077bfc18 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -24,6 +24,7 @@
- mips_tcg_ss.add(gen)
- mips_tcg_ss.add(files(
-   'dsp_helper.c',
-+  'exception.c',
-   'fpu_helper.c',
-   'ldst_helper.c',
-   'lmmi_helper.c',
+diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
+index 925ceeaa449..cefc2275828 100644
+--- a/target/mips/sysemu/meson.build
++++ b/target/mips/sysemu/meson.build
+@@ -1,5 +1,6 @@
+ mips_softmmu_ss.add(files(
+   'addr.c',
++  'cp0.c',
+   'cp0_timer.c',
+   'machine.c',
+   'physaddr.c',
 -- 
 2.26.3
 
