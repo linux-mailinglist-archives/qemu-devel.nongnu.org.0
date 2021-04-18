@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529363636D6
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:50:44 +0200 (CEST)
-Received: from localhost ([::1]:56536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087C93636CF
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:47:13 +0200 (CEST)
+Received: from localhost ([::1]:48088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYAd9-0002Jz-A2
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:50:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43480)
+	id 1lYAZk-00076K-2Y
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYALk-0003OG-Hu
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:44 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46856)
+ id 1lYALn-0003Pf-Np
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:49 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYALh-0004gv-PI
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:44 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id c15so22553854wro.13
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:32:40 -0700 (PDT)
+ id 1lYALl-0004hr-DL
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:47 -0400
+Received: by mail-wr1-x433.google.com with SMTP id e5so2843664wrg.7
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NIsi822bMMuzY0ClUxKqT1adRaz2kyzQG16pu95t3kA=;
- b=jtyKz53sYt2daZGsRObr/z7s3XBmdGnTze3IEbNxkrVHSyIYl4nQTbvAeL0GKhFJGA
- 8fefuQArtjeioASs6Iq2ecJfOlPu3zU5z539A4jxC3jnCCF4pjTJsPgwdj0QJnQKEwUC
- y8URH6XHui/1tqL/cvtQf/MJQMkraIcjglIWG+vs+SUl1PkaTSrKLTw2epuUNB1dv49V
- tu/kVhjzw7wMBU7wToJkUruPPI7fz0ZHZZTKwM9MFbAMHTu6BdiUFH/r5lI4FbOnz0OZ
- /JAUbfbyfM1xYikcikwOn9kjJVeBIvLE6Nx0r2EuyUkrZK8JhWVhQp8hVIA9mXvisfKK
- 8zfQ==
+ bh=3QSdjZPBkyJ6FqSaRthyncYNHDdrgyyU6EiNpdq4e+4=;
+ b=l/Nw+egHeP96/M6GJ4dlO/6ovab5emWf8JGNLQsiWFDXFoNujZy04EtKMINeLU4aSv
+ x4nD7TH00VM92iLlYTGeTBA0GBduKElGB3Mhjt3/bI+eYEDmn4teoyR41f69054e17cK
+ 5bpgCioYUQMy1EE0G676C9raiCRN2TOLkJfH/ax2CEh6+f46vtRNXgMuGnNJbfZiqEGM
+ L2+VSDyLIyMk1hAxxvzLi27HbGefAW+oysH9BbvjlD/5SaFzj4cfs9z68+YrEZINiTUN
+ gKV3qiBIkR6n/cJ7/e71Wamf9TwLt2bRDN2PBAcI1vaU6Z01gC57FvQWytXmPAgi6FPA
+ 1ikQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NIsi822bMMuzY0ClUxKqT1adRaz2kyzQG16pu95t3kA=;
- b=qWrSxIjeW8QyV55wo4sViKdS+g1uZFEZ6anDlUF1Gnxd9z+/0zjCQGZqT2iagMw3jR
- zbQo+LGiX1/TB2U9CjKWSs82rva2XQjKhYG1nvikMcscUA95M8izbc/hRe7Ftc7tryHx
- ZT9xmvJy6UEkaBUCfjBTK4sAuAnwz71Lf7r15hFKUMj2fpwHlbWFoUL7Ob9D1euuRqAl
- CNcM4EQGb71qDpKIwaXF1OqoCKL0I7lFpPyzWk9cFFTsZqzPBJxGvIBz5rs9DBVWBz7F
- tdcx0K0PaYOruqGQx3Zm1pPS8Zz21y4CxJOmzqmLs4AouQ8o0dMX4sua5SBXX15o5qN3
- 3qgA==
-X-Gm-Message-State: AOAM532QNywUsp6wT8/KUcj2JeWmZZxvrZiiUIAMvG8GZJdUpaKNU0rQ
- 8iGzhD9JsG9ykdU28bGFgJJXrpzv53Hv4Q==
-X-Google-Smtp-Source: ABdhPJw0ZCMs4/o6Iv0385Kjd4XROUDvEd/xzWrpMyk3bArjyz6Z1Sj0JLb3cVd1tgxT/ggdvst7xA==
-X-Received: by 2002:adf:e747:: with SMTP id c7mr9805374wrn.220.1618763558825; 
- Sun, 18 Apr 2021 09:32:38 -0700 (PDT)
+ bh=3QSdjZPBkyJ6FqSaRthyncYNHDdrgyyU6EiNpdq4e+4=;
+ b=TFMwG3mwRAVbVQ2RQU4KGQ/91k0qK7PnA630ZkzEjROKFjgw0Q2vxdydPOxvNNreyN
+ 4oFYg3blsGTFPUls9nbOKyVVYX0GRn38B5pk9Ktfx9ziZSNuFn/cKgOrpACXwwQuaRuG
+ 5jeNTSYGOSNE7NdgeXSJx+rkT9GJ1SSv52byAH41WHfmj2+loghC0aQhzJUYqThtlp3P
+ jNI+v/AcVkDuXJaS8m2gHXvsMawyfJZ3DYMeRbYYX217kihDUleuoODJdYiC7rqINUru
+ 9ffa2GXklEAkkjZbVDqnHhhYEMxjyoDAS1bS/GYvbqKVFfTbeWHzKbKOEFazRGW/PX1k
+ KbIA==
+X-Gm-Message-State: AOAM532G6Ade1oyD45HSVbyzu/Ri5SoIPEI8V4PgPXLIS/QpGD4xWggf
+ KyD1CO9zMKtIBl6lMGmv+YQGg+fDvzFNOg==
+X-Google-Smtp-Source: ABdhPJwEhJy+iyWlgqQ1xARh+1Gb0Du6S/eJ+Po5ppipZi+4T+CWQ2se+qVBN00kioRZ0Gh4e/bRbA==
+X-Received: by 2002:a5d:4a48:: with SMTP id v8mr9901023wrs.204.1618763563539; 
+ Sun, 18 Apr 2021 09:32:43 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a15sm18725962wrr.53.2021.04.18.09.32.37
+ by smtp.gmail.com with ESMTPSA id e10sm2134743wrw.20.2021.04.18.09.32.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 09:32:38 -0700 (PDT)
+ Sun, 18 Apr 2021 09:32:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/26] target/mips: Move code related to physical addressing
- to sysemu/phys.c
-Date: Sun, 18 Apr 2021 18:31:21 +0200
-Message-Id: <20210418163134.1133100-14-f4bug@amsat.org>
+Subject: [PATCH 14/26] target/mips: Move sysemu TCG-specific code to
+ tcg/sysemu/ subfolder
+Date: Sun, 18 Apr 2021 18:31:22 +0200
+Message-Id: <20210418163134.1133100-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418163134.1133100-1-f4bug@amsat.org>
 References: <20210418163134.1133100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,614 +94,483 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Declare get_physical_address() with local scope and move it along
-with mips_cpu_get_phys_page_debug() to sysemu/phys.c new file.
+Declare cpu_mips_get_random() and update_pagemask() on local scope,
+and move cp0_helper.c and mips-semi.c to the new tcg/sysemu/ folder,
+adapting the Meson machinery.
+
+Move the opcode definitions to tcg/sysemu_helper.h.inc.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h         |  25 +++-
- target/mips/sysemu/physaddr.c  | 257 +++++++++++++++++++++++++++++++++
- target/mips/tlb_helper.c       | 254 --------------------------------
- target/mips/sysemu/meson.build |   1 +
- 4 files changed, 282 insertions(+), 255 deletions(-)
- create mode 100644 target/mips/sysemu/physaddr.c
+ target/mips/helper.h                      | 166 +--------------------
+ target/mips/internal.h                    |   4 -
+ target/mips/tcg/tcg-internal.h            |   9 ++
+ target/mips/tcg/sysemu_helper.h.inc       | 168 ++++++++++++++++++++++
+ target/mips/{ => tcg/sysemu}/cp0_helper.c |   0
+ target/mips/{ => tcg/sysemu}/mips-semi.c  |   0
+ target/mips/meson.build                   |   5 -
+ target/mips/tcg/meson.build               |   3 +
+ target/mips/tcg/sysemu/meson.build        |   4 +
+ 9 files changed, 188 insertions(+), 171 deletions(-)
+ create mode 100644 target/mips/tcg/sysemu_helper.h.inc
+ rename target/mips/{ => tcg/sysemu}/cp0_helper.c (100%)
+ rename target/mips/{ => tcg/sysemu}/mips-semi.c (100%)
+ create mode 100644 target/mips/tcg/sysemu/meson.build
 
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index 709494445dd..bc308e5db13 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -2,10 +2,6 @@ DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
+ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+ DEF_HELPER_1(raise_exception_debug, noreturn, env)
+ 
+-#ifndef CONFIG_USER_ONLY
+-DEF_HELPER_1(do_semihosting, void, env)
+-#endif
+-
+ #ifdef TARGET_MIPS64
+ DEF_HELPER_4(sdl, void, env, tl, tl, int)
+ DEF_HELPER_4(sdr, void, env, tl, tl, int)
+@@ -42,164 +38,6 @@ DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+ 
+ DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
+ 
+-#ifndef CONFIG_USER_ONLY
+-/* CP0 helpers */
+-DEF_HELPER_1(mfc0_mvpcontrol, tl, env)
+-DEF_HELPER_1(mfc0_mvpconf0, tl, env)
+-DEF_HELPER_1(mfc0_mvpconf1, tl, env)
+-DEF_HELPER_1(mftc0_vpecontrol, tl, env)
+-DEF_HELPER_1(mftc0_vpeconf0, tl, env)
+-DEF_HELPER_1(mfc0_random, tl, env)
+-DEF_HELPER_1(mfc0_tcstatus, tl, env)
+-DEF_HELPER_1(mftc0_tcstatus, tl, env)
+-DEF_HELPER_1(mfc0_tcbind, tl, env)
+-DEF_HELPER_1(mftc0_tcbind, tl, env)
+-DEF_HELPER_1(mfc0_tcrestart, tl, env)
+-DEF_HELPER_1(mftc0_tcrestart, tl, env)
+-DEF_HELPER_1(mfc0_tchalt, tl, env)
+-DEF_HELPER_1(mftc0_tchalt, tl, env)
+-DEF_HELPER_1(mfc0_tccontext, tl, env)
+-DEF_HELPER_1(mftc0_tccontext, tl, env)
+-DEF_HELPER_1(mfc0_tcschedule, tl, env)
+-DEF_HELPER_1(mftc0_tcschedule, tl, env)
+-DEF_HELPER_1(mfc0_tcschefback, tl, env)
+-DEF_HELPER_1(mftc0_tcschefback, tl, env)
+-DEF_HELPER_1(mfc0_count, tl, env)
+-DEF_HELPER_1(mfc0_saar, tl, env)
+-DEF_HELPER_1(mfhc0_saar, tl, env)
+-DEF_HELPER_1(mftc0_entryhi, tl, env)
+-DEF_HELPER_1(mftc0_status, tl, env)
+-DEF_HELPER_1(mftc0_cause, tl, env)
+-DEF_HELPER_1(mftc0_epc, tl, env)
+-DEF_HELPER_1(mftc0_ebase, tl, env)
+-DEF_HELPER_2(mftc0_configx, tl, env, tl)
+-DEF_HELPER_1(mfc0_lladdr, tl, env)
+-DEF_HELPER_1(mfc0_maar, tl, env)
+-DEF_HELPER_1(mfhc0_maar, tl, env)
+-DEF_HELPER_2(mfc0_watchlo, tl, env, i32)
+-DEF_HELPER_2(mfc0_watchhi, tl, env, i32)
+-DEF_HELPER_2(mfhc0_watchhi, tl, env, i32)
+-DEF_HELPER_1(mfc0_debug, tl, env)
+-DEF_HELPER_1(mftc0_debug, tl, env)
+-#ifdef TARGET_MIPS64
+-DEF_HELPER_1(dmfc0_tcrestart, tl, env)
+-DEF_HELPER_1(dmfc0_tchalt, tl, env)
+-DEF_HELPER_1(dmfc0_tccontext, tl, env)
+-DEF_HELPER_1(dmfc0_tcschedule, tl, env)
+-DEF_HELPER_1(dmfc0_tcschefback, tl, env)
+-DEF_HELPER_1(dmfc0_lladdr, tl, env)
+-DEF_HELPER_1(dmfc0_maar, tl, env)
+-DEF_HELPER_2(dmfc0_watchlo, tl, env, i32)
+-DEF_HELPER_2(dmfc0_watchhi, tl, env, i32)
+-DEF_HELPER_1(dmfc0_saar, tl, env)
+-#endif /* TARGET_MIPS64 */
+-
+-DEF_HELPER_2(mtc0_index, void, env, tl)
+-DEF_HELPER_2(mtc0_mvpcontrol, void, env, tl)
+-DEF_HELPER_2(mtc0_vpecontrol, void, env, tl)
+-DEF_HELPER_2(mttc0_vpecontrol, void, env, tl)
+-DEF_HELPER_2(mtc0_vpeconf0, void, env, tl)
+-DEF_HELPER_2(mttc0_vpeconf0, void, env, tl)
+-DEF_HELPER_2(mtc0_vpeconf1, void, env, tl)
+-DEF_HELPER_2(mtc0_yqmask, void, env, tl)
+-DEF_HELPER_2(mtc0_vpeopt, void, env, tl)
+-DEF_HELPER_2(mtc0_entrylo0, void, env, tl)
+-DEF_HELPER_2(mtc0_tcstatus, void, env, tl)
+-DEF_HELPER_2(mttc0_tcstatus, void, env, tl)
+-DEF_HELPER_2(mtc0_tcbind, void, env, tl)
+-DEF_HELPER_2(mttc0_tcbind, void, env, tl)
+-DEF_HELPER_2(mtc0_tcrestart, void, env, tl)
+-DEF_HELPER_2(mttc0_tcrestart, void, env, tl)
+-DEF_HELPER_2(mtc0_tchalt, void, env, tl)
+-DEF_HELPER_2(mttc0_tchalt, void, env, tl)
+-DEF_HELPER_2(mtc0_tccontext, void, env, tl)
+-DEF_HELPER_2(mttc0_tccontext, void, env, tl)
+-DEF_HELPER_2(mtc0_tcschedule, void, env, tl)
+-DEF_HELPER_2(mttc0_tcschedule, void, env, tl)
+-DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
+-DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
+-DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
+-DEF_HELPER_2(mtc0_context, void, env, tl)
+-DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
+-DEF_HELPER_2(mtc0_pagemask, void, env, tl)
+-DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
+-DEF_HELPER_2(mtc0_segctl0, void, env, tl)
+-DEF_HELPER_2(mtc0_segctl1, void, env, tl)
+-DEF_HELPER_2(mtc0_segctl2, void, env, tl)
+-DEF_HELPER_2(mtc0_pwfield, void, env, tl)
+-DEF_HELPER_2(mtc0_pwsize, void, env, tl)
+-DEF_HELPER_2(mtc0_wired, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf0, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf1, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf2, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf3, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf4, void, env, tl)
+-DEF_HELPER_2(mtc0_hwrena, void, env, tl)
+-DEF_HELPER_2(mtc0_pwctl, void, env, tl)
+-DEF_HELPER_2(mtc0_count, void, env, tl)
+-DEF_HELPER_2(mtc0_saari, void, env, tl)
+-DEF_HELPER_2(mtc0_saar, void, env, tl)
+-DEF_HELPER_2(mthc0_saar, void, env, tl)
+-DEF_HELPER_2(mtc0_entryhi, void, env, tl)
+-DEF_HELPER_2(mttc0_entryhi, void, env, tl)
+-DEF_HELPER_2(mtc0_compare, void, env, tl)
+-DEF_HELPER_2(mtc0_status, void, env, tl)
+-DEF_HELPER_2(mttc0_status, void, env, tl)
+-DEF_HELPER_2(mtc0_intctl, void, env, tl)
+-DEF_HELPER_2(mtc0_srsctl, void, env, tl)
+-DEF_HELPER_2(mtc0_cause, void, env, tl)
+-DEF_HELPER_2(mttc0_cause, void, env, tl)
+-DEF_HELPER_2(mtc0_ebase, void, env, tl)
+-DEF_HELPER_2(mttc0_ebase, void, env, tl)
+-DEF_HELPER_2(mtc0_config0, void, env, tl)
+-DEF_HELPER_2(mtc0_config2, void, env, tl)
+-DEF_HELPER_2(mtc0_config3, void, env, tl)
+-DEF_HELPER_2(mtc0_config4, void, env, tl)
+-DEF_HELPER_2(mtc0_config5, void, env, tl)
+-DEF_HELPER_2(mtc0_lladdr, void, env, tl)
+-DEF_HELPER_2(mtc0_maar, void, env, tl)
+-DEF_HELPER_2(mthc0_maar, void, env, tl)
+-DEF_HELPER_2(mtc0_maari, void, env, tl)
+-DEF_HELPER_3(mtc0_watchlo, void, env, tl, i32)
+-DEF_HELPER_3(mtc0_watchhi, void, env, tl, i32)
+-DEF_HELPER_3(mthc0_watchhi, void, env, tl, i32)
+-DEF_HELPER_2(mtc0_xcontext, void, env, tl)
+-DEF_HELPER_2(mtc0_framemask, void, env, tl)
+-DEF_HELPER_2(mtc0_debug, void, env, tl)
+-DEF_HELPER_2(mttc0_debug, void, env, tl)
+-DEF_HELPER_2(mtc0_performance0, void, env, tl)
+-DEF_HELPER_2(mtc0_errctl, void, env, tl)
+-DEF_HELPER_2(mtc0_taglo, void, env, tl)
+-DEF_HELPER_2(mtc0_datalo, void, env, tl)
+-DEF_HELPER_2(mtc0_taghi, void, env, tl)
+-DEF_HELPER_2(mtc0_datahi, void, env, tl)
+-
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_2(dmtc0_entrylo0, void, env, i64)
+-DEF_HELPER_2(dmtc0_entrylo1, void, env, i64)
+-#endif
+-
+-/* MIPS MT functions */
+-DEF_HELPER_2(mftgpr, tl, env, i32)
+-DEF_HELPER_2(mftlo, tl, env, i32)
+-DEF_HELPER_2(mfthi, tl, env, i32)
+-DEF_HELPER_2(mftacx, tl, env, i32)
+-DEF_HELPER_1(mftdsp, tl, env)
+-DEF_HELPER_3(mttgpr, void, env, tl, i32)
+-DEF_HELPER_3(mttlo, void, env, tl, i32)
+-DEF_HELPER_3(mtthi, void, env, tl, i32)
+-DEF_HELPER_3(mttacx, void, env, tl, i32)
+-DEF_HELPER_2(mttdsp, void, env, tl)
+-DEF_HELPER_0(dmt, tl)
+-DEF_HELPER_0(emt, tl)
+-DEF_HELPER_1(dvpe, tl, env)
+-DEF_HELPER_1(evpe, tl, env)
+-
+-/* R6 Multi-threading */
+-DEF_HELPER_1(dvp, tl, env)
+-DEF_HELPER_1(evp, tl, env)
+-#endif /* !CONFIG_USER_ONLY */
+-
+ /* microMIPS functions */
+ DEF_HELPER_4(lwm, void, env, tl, tl, i32)
+ DEF_HELPER_4(swm, void, env, tl, tl, i32)
+@@ -783,4 +621,8 @@ DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
+ 
+ DEF_HELPER_3(cache, void, env, tl, i32)
+ 
++#ifndef CONFIG_USER_ONLY
++#include "tcg/sysemu_helper.h.inc"
++#endif /* !CONFIG_USER_ONLY */
++
+ #include "msa_helper.h.inc"
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 294560c9d2f..51a45bd397a 100644
+index 51a45bd397a..59c2c22cd0a 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -81,15 +81,38 @@ extern const struct mips_def_t mips_defs[];
- extern const int mips_defs_number;
+@@ -165,7 +165,6 @@ void r4k_helper_tlbr(CPUMIPSState *env);
+ void r4k_helper_tlbinv(CPUMIPSState *env);
+ void r4k_helper_tlbinvf(CPUMIPSState *env);
+ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
+-uint32_t cpu_mips_get_random(CPUMIPSState *env);
  
- bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
--hwaddr mips_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int mips_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int mips_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-                                   MMUAccessType access_type,
-                                   int mmu_idx, uintptr_t retaddr);
+ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     vaddr addr, unsigned size,
+@@ -237,9 +236,6 @@ void cpu_mips_stop_count(CPUMIPSState *env);
+ /* helper.c */
+ void mmu_init(CPUMIPSState *env, const mips_def_t *def);
  
-+#define USEG_LIMIT      ((target_ulong)(int32_t)0x7FFFFFFFUL)
-+#define KSEG0_BASE      ((target_ulong)(int32_t)0x80000000UL)
-+#define KSEG1_BASE      ((target_ulong)(int32_t)0xA0000000UL)
-+#define KSEG2_BASE      ((target_ulong)(int32_t)0xC0000000UL)
-+#define KSEG3_BASE      ((target_ulong)(int32_t)0xE0000000UL)
-+
-+#define KVM_KSEG0_BASE  ((target_ulong)(int32_t)0x40000000UL)
-+#define KVM_KSEG2_BASE  ((target_ulong)(int32_t)0x60000000UL)
-+
- #if !defined(CONFIG_USER_ONLY)
+-/* op_helper.c */
+-void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+-
+ static inline void restore_pamask(CPUMIPSState *env)
+ {
+     if (env->hflags & MIPS_HFLAG_ELPA) {
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+index 24438667f47..b65580af211 100644
+--- a/target/mips/tcg/tcg-internal.h
++++ b/target/mips/tcg/tcg-internal.h
+@@ -11,10 +11,19 @@
+ #define MIPS_TCG_INTERNAL_H
  
-+enum {
-+    TLBRET_XI = -6,
-+    TLBRET_RI = -5,
-+    TLBRET_DIRTY = -4,
-+    TLBRET_INVALID = -3,
-+    TLBRET_NOMATCH = -2,
-+    TLBRET_BADADDR = -1,
-+    TLBRET_MATCH = 0
-+};
+ #include "hw/core/cpu.h"
++#include "cpu.h"
+ 
+ void mips_cpu_do_interrupt(CPUState *cpu);
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+ 
++#if !defined(CONFIG_USER_ONLY)
 +
-+int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-+                         int *prot, target_ulong real_address,
-+                         MMUAccessType access_type, int mmu_idx);
-+hwaddr mips_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
 +
- typedef struct r4k_tlb_t r4k_tlb_t;
- struct r4k_tlb_t {
-     target_ulong VPN;
-diff --git a/target/mips/sysemu/physaddr.c b/target/mips/sysemu/physaddr.c
++uint32_t cpu_mips_get_random(CPUMIPSState *env);
++
++#endif /* !CONFIG_USER_ONLY */
++
+ #endif
+diff --git a/target/mips/tcg/sysemu_helper.h.inc b/target/mips/tcg/sysemu_helper.h.inc
 new file mode 100644
-index 00000000000..1918633aa1c
+index 00000000000..d136c4160a7
 --- /dev/null
-+++ b/target/mips/sysemu/physaddr.c
-@@ -0,0 +1,257 @@
++++ b/target/mips/tcg/sysemu_helper.h.inc
+@@ -0,0 +1,168 @@
 +/*
-+ * MIPS TLB (Translation lookaside buffer) helpers.
++ *  QEMU MIPS sysemu helpers
 + *
 + *  Copyright (c) 2004-2005 Jocelyn Mayer
++ *  Copyright (c) 2006 Marius Groeger (FPU operations)
++ *  Copyright (c) 2006 Thiemo Seufer (MIPS32R2 support)
++ *  Copyright (c) 2009 CodeSourcery (MIPS16 and microMIPS support)
 + *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ * SPDX-License-Identifier: LGPL-2.1-or-later
 + */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "../internal.h"
 +
-+static int is_seg_am_mapped(unsigned int am, bool eu, int mmu_idx)
-+{
-+    /*
-+     * Interpret access control mode and mmu_idx.
-+     *           AdE?     TLB?
-+     *      AM  K S U E  K S U E
-+     * UK    0  0 1 1 0  0 - - 0
-+     * MK    1  0 1 1 0  1 - - !eu
-+     * MSK   2  0 0 1 0  1 1 - !eu
-+     * MUSK  3  0 0 0 0  1 1 1 !eu
-+     * MUSUK 4  0 0 0 0  0 1 1 0
-+     * USK   5  0 0 1 0  0 0 - 0
-+     * -     6  - - - -  - - - -
-+     * UUSK  7  0 0 0 0  0 0 0 0
-+     */
-+    int32_t adetlb_mask;
++DEF_HELPER_1(do_semihosting, void, env)
 +
-+    switch (mmu_idx) {
-+    case 3: /* ERL */
-+        /* If EU is set, always unmapped */
-+        if (eu) {
-+            return 0;
-+        }
-+        /* fall through */
-+    case MIPS_HFLAG_KM:
-+        /* Never AdE, TLB mapped if AM={1,2,3} */
-+        adetlb_mask = 0x70000000;
-+        goto check_tlb;
++/* CP0 helpers */
++DEF_HELPER_1(mfc0_mvpcontrol, tl, env)
++DEF_HELPER_1(mfc0_mvpconf0, tl, env)
++DEF_HELPER_1(mfc0_mvpconf1, tl, env)
++DEF_HELPER_1(mftc0_vpecontrol, tl, env)
++DEF_HELPER_1(mftc0_vpeconf0, tl, env)
++DEF_HELPER_1(mfc0_random, tl, env)
++DEF_HELPER_1(mfc0_tcstatus, tl, env)
++DEF_HELPER_1(mftc0_tcstatus, tl, env)
++DEF_HELPER_1(mfc0_tcbind, tl, env)
++DEF_HELPER_1(mftc0_tcbind, tl, env)
++DEF_HELPER_1(mfc0_tcrestart, tl, env)
++DEF_HELPER_1(mftc0_tcrestart, tl, env)
++DEF_HELPER_1(mfc0_tchalt, tl, env)
++DEF_HELPER_1(mftc0_tchalt, tl, env)
++DEF_HELPER_1(mfc0_tccontext, tl, env)
++DEF_HELPER_1(mftc0_tccontext, tl, env)
++DEF_HELPER_1(mfc0_tcschedule, tl, env)
++DEF_HELPER_1(mftc0_tcschedule, tl, env)
++DEF_HELPER_1(mfc0_tcschefback, tl, env)
++DEF_HELPER_1(mftc0_tcschefback, tl, env)
++DEF_HELPER_1(mfc0_count, tl, env)
++DEF_HELPER_1(mfc0_saar, tl, env)
++DEF_HELPER_1(mfhc0_saar, tl, env)
++DEF_HELPER_1(mftc0_entryhi, tl, env)
++DEF_HELPER_1(mftc0_status, tl, env)
++DEF_HELPER_1(mftc0_cause, tl, env)
++DEF_HELPER_1(mftc0_epc, tl, env)
++DEF_HELPER_1(mftc0_ebase, tl, env)
++DEF_HELPER_2(mftc0_configx, tl, env, tl)
++DEF_HELPER_1(mfc0_lladdr, tl, env)
++DEF_HELPER_1(mfc0_maar, tl, env)
++DEF_HELPER_1(mfhc0_maar, tl, env)
++DEF_HELPER_2(mfc0_watchlo, tl, env, i32)
++DEF_HELPER_2(mfc0_watchhi, tl, env, i32)
++DEF_HELPER_2(mfhc0_watchhi, tl, env, i32)
++DEF_HELPER_1(mfc0_debug, tl, env)
++DEF_HELPER_1(mftc0_debug, tl, env)
++#ifdef TARGET_MIPS64
++DEF_HELPER_1(dmfc0_tcrestart, tl, env)
++DEF_HELPER_1(dmfc0_tchalt, tl, env)
++DEF_HELPER_1(dmfc0_tccontext, tl, env)
++DEF_HELPER_1(dmfc0_tcschedule, tl, env)
++DEF_HELPER_1(dmfc0_tcschefback, tl, env)
++DEF_HELPER_1(dmfc0_lladdr, tl, env)
++DEF_HELPER_1(dmfc0_maar, tl, env)
++DEF_HELPER_2(dmfc0_watchlo, tl, env, i32)
++DEF_HELPER_2(dmfc0_watchhi, tl, env, i32)
++DEF_HELPER_1(dmfc0_saar, tl, env)
++#endif /* TARGET_MIPS64 */
 +
-+    case MIPS_HFLAG_SM:
-+        /* AdE if AM={0,1}, TLB mapped if AM={2,3,4} */
-+        adetlb_mask = 0xc0380000;
-+        goto check_ade;
++DEF_HELPER_2(mtc0_index, void, env, tl)
++DEF_HELPER_2(mtc0_mvpcontrol, void, env, tl)
++DEF_HELPER_2(mtc0_vpecontrol, void, env, tl)
++DEF_HELPER_2(mttc0_vpecontrol, void, env, tl)
++DEF_HELPER_2(mtc0_vpeconf0, void, env, tl)
++DEF_HELPER_2(mttc0_vpeconf0, void, env, tl)
++DEF_HELPER_2(mtc0_vpeconf1, void, env, tl)
++DEF_HELPER_2(mtc0_yqmask, void, env, tl)
++DEF_HELPER_2(mtc0_vpeopt, void, env, tl)
++DEF_HELPER_2(mtc0_entrylo0, void, env, tl)
++DEF_HELPER_2(mtc0_tcstatus, void, env, tl)
++DEF_HELPER_2(mttc0_tcstatus, void, env, tl)
++DEF_HELPER_2(mtc0_tcbind, void, env, tl)
++DEF_HELPER_2(mttc0_tcbind, void, env, tl)
++DEF_HELPER_2(mtc0_tcrestart, void, env, tl)
++DEF_HELPER_2(mttc0_tcrestart, void, env, tl)
++DEF_HELPER_2(mtc0_tchalt, void, env, tl)
++DEF_HELPER_2(mttc0_tchalt, void, env, tl)
++DEF_HELPER_2(mtc0_tccontext, void, env, tl)
++DEF_HELPER_2(mttc0_tccontext, void, env, tl)
++DEF_HELPER_2(mtc0_tcschedule, void, env, tl)
++DEF_HELPER_2(mttc0_tcschedule, void, env, tl)
++DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
++DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
++DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
++DEF_HELPER_2(mtc0_context, void, env, tl)
++DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
++DEF_HELPER_2(mtc0_pagemask, void, env, tl)
++DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
++DEF_HELPER_2(mtc0_segctl0, void, env, tl)
++DEF_HELPER_2(mtc0_segctl1, void, env, tl)
++DEF_HELPER_2(mtc0_segctl2, void, env, tl)
++DEF_HELPER_2(mtc0_pwfield, void, env, tl)
++DEF_HELPER_2(mtc0_pwsize, void, env, tl)
++DEF_HELPER_2(mtc0_wired, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf0, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf1, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf2, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf3, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf4, void, env, tl)
++DEF_HELPER_2(mtc0_hwrena, void, env, tl)
++DEF_HELPER_2(mtc0_pwctl, void, env, tl)
++DEF_HELPER_2(mtc0_count, void, env, tl)
++DEF_HELPER_2(mtc0_saari, void, env, tl)
++DEF_HELPER_2(mtc0_saar, void, env, tl)
++DEF_HELPER_2(mthc0_saar, void, env, tl)
++DEF_HELPER_2(mtc0_entryhi, void, env, tl)
++DEF_HELPER_2(mttc0_entryhi, void, env, tl)
++DEF_HELPER_2(mtc0_compare, void, env, tl)
++DEF_HELPER_2(mtc0_status, void, env, tl)
++DEF_HELPER_2(mttc0_status, void, env, tl)
++DEF_HELPER_2(mtc0_intctl, void, env, tl)
++DEF_HELPER_2(mtc0_srsctl, void, env, tl)
++DEF_HELPER_2(mtc0_cause, void, env, tl)
++DEF_HELPER_2(mttc0_cause, void, env, tl)
++DEF_HELPER_2(mtc0_ebase, void, env, tl)
++DEF_HELPER_2(mttc0_ebase, void, env, tl)
++DEF_HELPER_2(mtc0_config0, void, env, tl)
++DEF_HELPER_2(mtc0_config2, void, env, tl)
++DEF_HELPER_2(mtc0_config3, void, env, tl)
++DEF_HELPER_2(mtc0_config4, void, env, tl)
++DEF_HELPER_2(mtc0_config5, void, env, tl)
++DEF_HELPER_2(mtc0_lladdr, void, env, tl)
++DEF_HELPER_2(mtc0_maar, void, env, tl)
++DEF_HELPER_2(mthc0_maar, void, env, tl)
++DEF_HELPER_2(mtc0_maari, void, env, tl)
++DEF_HELPER_3(mtc0_watchlo, void, env, tl, i32)
++DEF_HELPER_3(mtc0_watchhi, void, env, tl, i32)
++DEF_HELPER_3(mthc0_watchhi, void, env, tl, i32)
++DEF_HELPER_2(mtc0_xcontext, void, env, tl)
++DEF_HELPER_2(mtc0_framemask, void, env, tl)
++DEF_HELPER_2(mtc0_debug, void, env, tl)
++DEF_HELPER_2(mttc0_debug, void, env, tl)
++DEF_HELPER_2(mtc0_performance0, void, env, tl)
++DEF_HELPER_2(mtc0_errctl, void, env, tl)
++DEF_HELPER_2(mtc0_taglo, void, env, tl)
++DEF_HELPER_2(mtc0_datalo, void, env, tl)
++DEF_HELPER_2(mtc0_taghi, void, env, tl)
++DEF_HELPER_2(mtc0_datahi, void, env, tl)
 +
-+    case MIPS_HFLAG_UM:
-+        /* AdE if AM={0,1,2,5}, TLB mapped if AM={3,4} */
-+        adetlb_mask = 0xe4180000;
-+        /* fall through */
-+    check_ade:
-+        /* does this AM cause AdE in current execution mode */
-+        if ((adetlb_mask << am) < 0) {
-+            return TLBRET_BADADDR;
-+        }
-+        adetlb_mask <<= 8;
-+        /* fall through */
-+    check_tlb:
-+        /* is this AM mapped in current execution mode */
-+        return ((adetlb_mask << am) < 0);
-+    default:
-+        assert(0);
-+        return TLBRET_BADADDR;
-+    };
-+}
-+
-+static int get_seg_physical_address(CPUMIPSState *env, hwaddr *physical,
-+                                    int *prot, target_ulong real_address,
-+                                    MMUAccessType access_type, int mmu_idx,
-+                                    unsigned int am, bool eu,
-+                                    target_ulong segmask,
-+                                    hwaddr physical_base)
-+{
-+    int mapped = is_seg_am_mapped(am, eu, mmu_idx);
-+
-+    if (mapped < 0) {
-+        /* is_seg_am_mapped can report TLBRET_BADADDR */
-+        return mapped;
-+    } else if (mapped) {
-+        /* The segment is TLB mapped */
-+        return env->tlb->map_address(env, physical, prot, real_address,
-+                                     access_type);
-+    } else {
-+        /* The segment is unmapped */
-+        *physical = physical_base | (real_address & segmask);
-+        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        return TLBRET_MATCH;
-+    }
-+}
-+
-+static int get_segctl_physical_address(CPUMIPSState *env, hwaddr *physical,
-+                                       int *prot, target_ulong real_address,
-+                                       MMUAccessType access_type, int mmu_idx,
-+                                       uint16_t segctl, target_ulong segmask)
-+{
-+    unsigned int am = (segctl & CP0SC_AM_MASK) >> CP0SC_AM;
-+    bool eu = (segctl >> CP0SC_EU) & 1;
-+    hwaddr pa = ((hwaddr)segctl & CP0SC_PA_MASK) << 20;
-+
-+    return get_seg_physical_address(env, physical, prot, real_address,
-+                                    access_type, mmu_idx, am, eu, segmask,
-+                                    pa & ~(hwaddr)segmask);
-+}
-+
-+int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-+                         int *prot, target_ulong real_address,
-+                         MMUAccessType access_type, int mmu_idx)
-+{
-+    /* User mode can only access useg/xuseg */
 +#if defined(TARGET_MIPS64)
-+    int user_mode = mmu_idx == MIPS_HFLAG_UM;
-+    int supervisor_mode = mmu_idx == MIPS_HFLAG_SM;
-+    int kernel_mode = !user_mode && !supervisor_mode;
-+    int UX = (env->CP0_Status & (1 << CP0St_UX)) != 0;
-+    int SX = (env->CP0_Status & (1 << CP0St_SX)) != 0;
-+    int KX = (env->CP0_Status & (1 << CP0St_KX)) != 0;
++DEF_HELPER_2(dmtc0_entrylo0, void, env, i64)
++DEF_HELPER_2(dmtc0_entrylo1, void, env, i64)
 +#endif
-+    int ret = TLBRET_MATCH;
-+    /* effective address (modified for KVM T&E kernel segments) */
-+    target_ulong address = real_address;
 +
-+    if (mips_um_ksegs_enabled()) {
-+        /* KVM T&E adds guest kernel segments in useg */
-+        if (real_address >= KVM_KSEG0_BASE) {
-+            if (real_address < KVM_KSEG2_BASE) {
-+                /* kseg0 */
-+                address += KSEG0_BASE - KVM_KSEG0_BASE;
-+            } else if (real_address <= USEG_LIMIT) {
-+                /* kseg2/3 */
-+                address += KSEG2_BASE - KVM_KSEG2_BASE;
-+            }
-+        }
-+    }
++/* MIPS MT functions */
++DEF_HELPER_2(mftgpr, tl, env, i32)
++DEF_HELPER_2(mftlo, tl, env, i32)
++DEF_HELPER_2(mfthi, tl, env, i32)
++DEF_HELPER_2(mftacx, tl, env, i32)
++DEF_HELPER_1(mftdsp, tl, env)
++DEF_HELPER_3(mttgpr, void, env, tl, i32)
++DEF_HELPER_3(mttlo, void, env, tl, i32)
++DEF_HELPER_3(mtthi, void, env, tl, i32)
++DEF_HELPER_3(mttacx, void, env, tl, i32)
++DEF_HELPER_2(mttdsp, void, env, tl)
++DEF_HELPER_0(dmt, tl)
++DEF_HELPER_0(emt, tl)
++DEF_HELPER_1(dvpe, tl, env)
++DEF_HELPER_1(evpe, tl, env)
 +
-+    if (address <= USEG_LIMIT) {
-+        /* useg */
-+        uint16_t segctl;
-+
-+        if (address >= 0x40000000UL) {
-+            segctl = env->CP0_SegCtl2;
-+        } else {
-+            segctl = env->CP0_SegCtl2 >> 16;
-+        }
-+        ret = get_segctl_physical_address(env, physical, prot,
-+                                          real_address, access_type,
-+                                          mmu_idx, segctl, 0x3FFFFFFF);
-+#if defined(TARGET_MIPS64)
-+    } else if (address < 0x4000000000000000ULL) {
-+        /* xuseg */
-+        if (UX && address <= (0x3FFFFFFFFFFFFFFFULL & env->SEGMask)) {
-+            ret = env->tlb->map_address(env, physical, prot,
-+                                        real_address, access_type);
-+        } else {
-+            ret = TLBRET_BADADDR;
-+        }
-+    } else if (address < 0x8000000000000000ULL) {
-+        /* xsseg */
-+        if ((supervisor_mode || kernel_mode) &&
-+            SX && address <= (0x7FFFFFFFFFFFFFFFULL & env->SEGMask)) {
-+            ret = env->tlb->map_address(env, physical, prot,
-+                                        real_address, access_type);
-+        } else {
-+            ret = TLBRET_BADADDR;
-+        }
-+    } else if (address < 0xC000000000000000ULL) {
-+        /* xkphys */
-+        if ((address & 0x07FFFFFFFFFFFFFFULL) <= env->PAMask) {
-+            /* KX/SX/UX bit to check for each xkphys EVA access mode */
-+            static const uint8_t am_ksux[8] = {
-+                [CP0SC_AM_UK]    = (1u << CP0St_KX),
-+                [CP0SC_AM_MK]    = (1u << CP0St_KX),
-+                [CP0SC_AM_MSK]   = (1u << CP0St_SX),
-+                [CP0SC_AM_MUSK]  = (1u << CP0St_UX),
-+                [CP0SC_AM_MUSUK] = (1u << CP0St_UX),
-+                [CP0SC_AM_USK]   = (1u << CP0St_SX),
-+                [6]              = (1u << CP0St_KX),
-+                [CP0SC_AM_UUSK]  = (1u << CP0St_UX),
-+            };
-+            unsigned int am = CP0SC_AM_UK;
-+            unsigned int xr = (env->CP0_SegCtl2 & CP0SC2_XR_MASK) >> CP0SC2_XR;
-+
-+            if (xr & (1 << ((address >> 59) & 0x7))) {
-+                am = (env->CP0_SegCtl1 & CP0SC1_XAM_MASK) >> CP0SC1_XAM;
-+            }
-+            /* Does CP0_Status.KX/SX/UX permit the access mode (am) */
-+            if (env->CP0_Status & am_ksux[am]) {
-+                ret = get_seg_physical_address(env, physical, prot,
-+                                               real_address, access_type,
-+                                               mmu_idx, am, false, env->PAMask,
-+                                               0);
-+            } else {
-+                ret = TLBRET_BADADDR;
-+            }
-+        } else {
-+            ret = TLBRET_BADADDR;
-+        }
-+    } else if (address < 0xFFFFFFFF80000000ULL) {
-+        /* xkseg */
-+        if (kernel_mode && KX &&
-+            address <= (0xFFFFFFFF7FFFFFFFULL & env->SEGMask)) {
-+            ret = env->tlb->map_address(env, physical, prot,
-+                                        real_address, access_type);
-+        } else {
-+            ret = TLBRET_BADADDR;
-+        }
-+#endif
-+    } else if (address < KSEG1_BASE) {
-+        /* kseg0 */
-+        ret = get_segctl_physical_address(env, physical, prot, real_address,
-+                                          access_type, mmu_idx,
-+                                          env->CP0_SegCtl1 >> 16, 0x1FFFFFFF);
-+    } else if (address < KSEG2_BASE) {
-+        /* kseg1 */
-+        ret = get_segctl_physical_address(env, physical, prot, real_address,
-+                                          access_type, mmu_idx,
-+                                          env->CP0_SegCtl1, 0x1FFFFFFF);
-+    } else if (address < KSEG3_BASE) {
-+        /* sseg (kseg2) */
-+        ret = get_segctl_physical_address(env, physical, prot, real_address,
-+                                          access_type, mmu_idx,
-+                                          env->CP0_SegCtl0 >> 16, 0x1FFFFFFF);
-+    } else {
-+        /*
-+         * kseg3
-+         * XXX: debug segment is not emulated
-+         */
-+        ret = get_segctl_physical_address(env, physical, prot, real_address,
-+                                          access_type, mmu_idx,
-+                                          env->CP0_SegCtl0, 0x1FFFFFFF);
-+    }
-+    return ret;
-+}
-+
-+hwaddr mips_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-+{
-+    MIPSCPU *cpu = MIPS_CPU(cs);
-+    CPUMIPSState *env = &cpu->env;
-+    hwaddr phys_addr;
-+    int prot;
-+
-+    if (get_physical_address(env, &phys_addr, &prot, addr, MMU_DATA_LOAD,
-+                             cpu_mmu_index(env, false)) != 0) {
-+        return -1;
-+    }
-+    return phys_addr;
-+}
-diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index bb4b503ff72..2304fff4c42 100644
---- a/target/mips/tlb_helper.c
-+++ b/target/mips/tlb_helper.c
-@@ -25,16 +25,6 @@
- #include "exec/log.h"
- #include "hw/mips/cpudevs.h"
++/* R6 Multi-threading */
++DEF_HELPER_1(dvp, tl, env)
++DEF_HELPER_1(evp, tl, env)
+diff --git a/target/mips/cp0_helper.c b/target/mips/tcg/sysemu/cp0_helper.c
+similarity index 100%
+rename from target/mips/cp0_helper.c
+rename to target/mips/tcg/sysemu/cp0_helper.c
+diff --git a/target/mips/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+similarity index 100%
+rename from target/mips/mips-semi.c
+rename to target/mips/tcg/sysemu/mips-semi.c
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 9a507937ece..a55af1cd6cf 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -47,11 +47,6 @@
  
--enum {
--    TLBRET_XI = -6,
--    TLBRET_RI = -5,
--    TLBRET_DIRTY = -4,
--    TLBRET_INVALID = -3,
--    TLBRET_NOMATCH = -2,
--    TLBRET_BADADDR = -1,
--    TLBRET_MATCH = 0
--};
--
- #if !defined(CONFIG_USER_ONLY)
+ mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
  
- /* no MMU emulation */
-@@ -166,236 +156,6 @@ void mmu_init(CPUMIPSState *env, const mips_def_t *def)
-     }
- }
+-mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+-  'cp0_helper.c',
+-  'mips-semi.c',
+-))
+-
+ mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
  
--static int is_seg_am_mapped(unsigned int am, bool eu, int mmu_idx)
--{
--    /*
--     * Interpret access control mode and mmu_idx.
--     *           AdE?     TLB?
--     *      AM  K S U E  K S U E
--     * UK    0  0 1 1 0  0 - - 0
--     * MK    1  0 1 1 0  1 - - !eu
--     * MSK   2  0 0 1 0  1 1 - !eu
--     * MUSK  3  0 0 0 0  1 1 1 !eu
--     * MUSUK 4  0 0 0 0  0 1 1 0
--     * USK   5  0 0 1 0  0 0 - 0
--     * -     6  - - - -  - - - -
--     * UUSK  7  0 0 0 0  0 0 0 0
--     */
--    int32_t adetlb_mask;
--
--    switch (mmu_idx) {
--    case 3: /* ERL */
--        /* If EU is set, always unmapped */
--        if (eu) {
--            return 0;
--        }
--        /* fall through */
--    case MIPS_HFLAG_KM:
--        /* Never AdE, TLB mapped if AM={1,2,3} */
--        adetlb_mask = 0x70000000;
--        goto check_tlb;
--
--    case MIPS_HFLAG_SM:
--        /* AdE if AM={0,1}, TLB mapped if AM={2,3,4} */
--        adetlb_mask = 0xc0380000;
--        goto check_ade;
--
--    case MIPS_HFLAG_UM:
--        /* AdE if AM={0,1,2,5}, TLB mapped if AM={3,4} */
--        adetlb_mask = 0xe4180000;
--        /* fall through */
--    check_ade:
--        /* does this AM cause AdE in current execution mode */
--        if ((adetlb_mask << am) < 0) {
--            return TLBRET_BADADDR;
--        }
--        adetlb_mask <<= 8;
--        /* fall through */
--    check_tlb:
--        /* is this AM mapped in current execution mode */
--        return ((adetlb_mask << am) < 0);
--    default:
--        assert(0);
--        return TLBRET_BADADDR;
--    };
--}
--
--static int get_seg_physical_address(CPUMIPSState *env, hwaddr *physical,
--                                    int *prot, target_ulong real_address,
--                                    MMUAccessType access_type, int mmu_idx,
--                                    unsigned int am, bool eu,
--                                    target_ulong segmask,
--                                    hwaddr physical_base)
--{
--    int mapped = is_seg_am_mapped(am, eu, mmu_idx);
--
--    if (mapped < 0) {
--        /* is_seg_am_mapped can report TLBRET_BADADDR */
--        return mapped;
--    } else if (mapped) {
--        /* The segment is TLB mapped */
--        return env->tlb->map_address(env, physical, prot, real_address,
--                                     access_type);
--    } else {
--        /* The segment is unmapped */
--        *physical = physical_base | (real_address & segmask);
--        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--        return TLBRET_MATCH;
--    }
--}
--
--static int get_segctl_physical_address(CPUMIPSState *env, hwaddr *physical,
--                                       int *prot, target_ulong real_address,
--                                       MMUAccessType access_type, int mmu_idx,
--                                       uint16_t segctl, target_ulong segmask)
--{
--    unsigned int am = (segctl & CP0SC_AM_MASK) >> CP0SC_AM;
--    bool eu = (segctl >> CP0SC_EU) & 1;
--    hwaddr pa = ((hwaddr)segctl & CP0SC_PA_MASK) << 20;
--
--    return get_seg_physical_address(env, physical, prot, real_address,
--                                    access_type, mmu_idx, am, eu, segmask,
--                                    pa & ~(hwaddr)segmask);
--}
--
--static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
--                                int *prot, target_ulong real_address,
--                                MMUAccessType access_type, int mmu_idx)
--{
--    /* User mode can only access useg/xuseg */
--#if defined(TARGET_MIPS64)
--    int user_mode = mmu_idx == MIPS_HFLAG_UM;
--    int supervisor_mode = mmu_idx == MIPS_HFLAG_SM;
--    int kernel_mode = !user_mode && !supervisor_mode;
--    int UX = (env->CP0_Status & (1 << CP0St_UX)) != 0;
--    int SX = (env->CP0_Status & (1 << CP0St_SX)) != 0;
--    int KX = (env->CP0_Status & (1 << CP0St_KX)) != 0;
--#endif
--    int ret = TLBRET_MATCH;
--    /* effective address (modified for KVM T&E kernel segments) */
--    target_ulong address = real_address;
--
--#define USEG_LIMIT      ((target_ulong)(int32_t)0x7FFFFFFFUL)
--#define KSEG0_BASE      ((target_ulong)(int32_t)0x80000000UL)
--#define KSEG1_BASE      ((target_ulong)(int32_t)0xA0000000UL)
--#define KSEG2_BASE      ((target_ulong)(int32_t)0xC0000000UL)
--#define KSEG3_BASE      ((target_ulong)(int32_t)0xE0000000UL)
--
--#define KVM_KSEG0_BASE  ((target_ulong)(int32_t)0x40000000UL)
--#define KVM_KSEG2_BASE  ((target_ulong)(int32_t)0x60000000UL)
--
--    if (mips_um_ksegs_enabled()) {
--        /* KVM T&E adds guest kernel segments in useg */
--        if (real_address >= KVM_KSEG0_BASE) {
--            if (real_address < KVM_KSEG2_BASE) {
--                /* kseg0 */
--                address += KSEG0_BASE - KVM_KSEG0_BASE;
--            } else if (real_address <= USEG_LIMIT) {
--                /* kseg2/3 */
--                address += KSEG2_BASE - KVM_KSEG2_BASE;
--            }
--        }
--    }
--
--    if (address <= USEG_LIMIT) {
--        /* useg */
--        uint16_t segctl;
--
--        if (address >= 0x40000000UL) {
--            segctl = env->CP0_SegCtl2;
--        } else {
--            segctl = env->CP0_SegCtl2 >> 16;
--        }
--        ret = get_segctl_physical_address(env, physical, prot,
--                                          real_address, access_type,
--                                          mmu_idx, segctl, 0x3FFFFFFF);
--#if defined(TARGET_MIPS64)
--    } else if (address < 0x4000000000000000ULL) {
--        /* xuseg */
--        if (UX && address <= (0x3FFFFFFFFFFFFFFFULL & env->SEGMask)) {
--            ret = env->tlb->map_address(env, physical, prot,
--                                        real_address, access_type);
--        } else {
--            ret = TLBRET_BADADDR;
--        }
--    } else if (address < 0x8000000000000000ULL) {
--        /* xsseg */
--        if ((supervisor_mode || kernel_mode) &&
--            SX && address <= (0x7FFFFFFFFFFFFFFFULL & env->SEGMask)) {
--            ret = env->tlb->map_address(env, physical, prot,
--                                        real_address, access_type);
--        } else {
--            ret = TLBRET_BADADDR;
--        }
--    } else if (address < 0xC000000000000000ULL) {
--        /* xkphys */
--        if ((address & 0x07FFFFFFFFFFFFFFULL) <= env->PAMask) {
--            /* KX/SX/UX bit to check for each xkphys EVA access mode */
--            static const uint8_t am_ksux[8] = {
--                [CP0SC_AM_UK]    = (1u << CP0St_KX),
--                [CP0SC_AM_MK]    = (1u << CP0St_KX),
--                [CP0SC_AM_MSK]   = (1u << CP0St_SX),
--                [CP0SC_AM_MUSK]  = (1u << CP0St_UX),
--                [CP0SC_AM_MUSUK] = (1u << CP0St_UX),
--                [CP0SC_AM_USK]   = (1u << CP0St_SX),
--                [6]              = (1u << CP0St_KX),
--                [CP0SC_AM_UUSK]  = (1u << CP0St_UX),
--            };
--            unsigned int am = CP0SC_AM_UK;
--            unsigned int xr = (env->CP0_SegCtl2 & CP0SC2_XR_MASK) >> CP0SC2_XR;
--
--            if (xr & (1 << ((address >> 59) & 0x7))) {
--                am = (env->CP0_SegCtl1 & CP0SC1_XAM_MASK) >> CP0SC1_XAM;
--            }
--            /* Does CP0_Status.KX/SX/UX permit the access mode (am) */
--            if (env->CP0_Status & am_ksux[am]) {
--                ret = get_seg_physical_address(env, physical, prot,
--                                               real_address, access_type,
--                                               mmu_idx, am, false, env->PAMask,
--                                               0);
--            } else {
--                ret = TLBRET_BADADDR;
--            }
--        } else {
--            ret = TLBRET_BADADDR;
--        }
--    } else if (address < 0xFFFFFFFF80000000ULL) {
--        /* xkseg */
--        if (kernel_mode && KX &&
--            address <= (0xFFFFFFFF7FFFFFFFULL & env->SEGMask)) {
--            ret = env->tlb->map_address(env, physical, prot,
--                                        real_address, access_type);
--        } else {
--            ret = TLBRET_BADADDR;
--        }
--#endif
--    } else if (address < KSEG1_BASE) {
--        /* kseg0 */
--        ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          access_type, mmu_idx,
--                                          env->CP0_SegCtl1 >> 16, 0x1FFFFFFF);
--    } else if (address < KSEG2_BASE) {
--        /* kseg1 */
--        ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          access_type, mmu_idx,
--                                          env->CP0_SegCtl1, 0x1FFFFFFF);
--    } else if (address < KSEG3_BASE) {
--        /* sseg (kseg2) */
--        ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          access_type, mmu_idx,
--                                          env->CP0_SegCtl0 >> 16, 0x1FFFFFFF);
--    } else {
--        /*
--         * kseg3
--         * XXX: debug segment is not emulated
--         */
--        ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          access_type, mmu_idx,
--                                          env->CP0_SegCtl0, 0x1FFFFFFF);
--    }
--    return ret;
--}
--
- void cpu_mips_tlb_flush(CPUMIPSState *env)
- {
-     /* Flush qemu's TLB and discard all shadowed entries.  */
-@@ -482,20 +242,6 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
-     env->error_code = error_code;
- }
- 
--hwaddr mips_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
--{
--    MIPSCPU *cpu = MIPS_CPU(cs);
--    CPUMIPSState *env = &cpu->env;
--    hwaddr phys_addr;
--    int prot;
--
--    if (get_physical_address(env, &phys_addr, &prot, addr, MMU_DATA_LOAD,
--                             cpu_mmu_index(env, false)) != 0) {
--        return -1;
--    }
--    return phys_addr;
--}
--
- #if !defined(TARGET_MIPS64)
- 
- /*
-diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
-index f2a1ff46081..925ceeaa449 100644
---- a/target/mips/sysemu/meson.build
-+++ b/target/mips/sysemu/meson.build
-@@ -2,4 +2,5 @@
-   'addr.c',
-   'cp0_timer.c',
-   'machine.c',
-+  'physaddr.c',
- ))
+ target_arch += {'mips': mips_ss}
+diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
+index b74fa04303e..2cffc5a5ac6 100644
+--- a/target/mips/tcg/meson.build
++++ b/target/mips/tcg/meson.build
+@@ -1,3 +1,6 @@
+ if have_user
+   subdir('user')
+ endif
++if have_system
++  subdir('sysemu')
++endif
+diff --git a/target/mips/tcg/sysemu/meson.build b/target/mips/tcg/sysemu/meson.build
+new file mode 100644
+index 00000000000..5c3024e7760
+--- /dev/null
++++ b/target/mips/tcg/sysemu/meson.build
+@@ -0,0 +1,4 @@
++mips_softmmu_ss.add(files(
++  'cp0_helper.c',
++  'mips-semi.c',
++))
 -- 
 2.26.3
 
