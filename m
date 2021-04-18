@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9531A36379F
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 23:00:14 +0200 (CEST)
-Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9093637C4
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 23:12:20 +0200 (CEST)
+Received: from localhost ([::1]:43482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYEWb-0001yt-Ls
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 17:00:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
+	id 1lYEiI-0005u9-Vy
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 17:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYEUv-0000ur-J7
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:58:29 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:39461)
+ id 1lYEgH-0005TK-IO
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 17:10:13 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:42560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYEUt-00070s-59
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:58:29 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id er3so7490652qvb.6
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 13:58:26 -0700 (PDT)
+ id 1lYEgF-0004f4-Rn
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 17:10:13 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id 30so15984193qva.9
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 14:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jhqUozIDvDehLM+B8cLPQOkkrC3HkT7tiUqrzLjMVw4=;
- b=zQS1ByWevXhcji21uePCoGzV50+o8PHlG2s+vj6pYpBaoONzBxXUG5OODD5VPkZJYM
- OmwN+FJ4NQC5VJ/r4V8kwCw087T+UJF1/BLi5/GziDORJvfSEf5SGciE+rkqlNkcya1j
- 5f8bwZbfam7c4V3pqvnSun1ToW7HMiH+Mijeo/bD4d3dBa9j/uyxi8WASwYeSGDaOYGy
- a0gbSQ18jHywg/99N681EVggSjZVJrqYSerAI1QZjr7iqxFQHB9gOm+ZKv7nVXr+qVfr
- De9D90T75ZuzNed59IRhNwF550pIaKLZvOGz/lwSvnjuFv7wFkdVF9SmSIJZGwcgDdN4
- kTyQ==
+ bh=N2CXJVTyfvgtt92SSw1+GOHARdtnFC3toLPms0bQQr0=;
+ b=yYkWihV43kgOjOZr+FiGcel7sfScK6x2Y/q1VA8vLftyJ2oiwlMow4/xewQ3YRPYAq
+ uCI54RoiVf8E5+L/QOHjSWwGCxcjrEwDJ/FNTNADoo27T/mCkEPDgOQQvk83XOwQVio0
+ Na19bUtTfbYuzPmSEsFeDZSf1pa+wozIg5pXuK8qkXrf+vU64yivOnRELAvKxeChVpge
+ hZx8z+txjOfd9LBQ5moHRVd8K/Vr8ijwAoMkrSkgelu0GFtoExVElqZpIlg2FbUaQ6hd
+ F1smvw+OOeqmbcY3mlmoX1KeyhzDxHMJZ5qjdtNlwIBaW6vqot1K9SK5exL+oqEH56qE
+ p1ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jhqUozIDvDehLM+B8cLPQOkkrC3HkT7tiUqrzLjMVw4=;
- b=PQjCQkP4fszOBs84J43QPkjmguWbnXGUDEPGYWyiWqEmXNSM+tcrHRCwQb0vE0JkW4
- smUH6iaJBBsTIKJDpfIfXPZobPVC01caUvHHqZdf7qADZu6g/cVgtPMzJRShz6an/Ayp
- H8FVZa2P0CRsZRt82RADHVq3fjdxdKH0cWCeFXRiojMwC3AS2+CH04M0W4LfgaeeOiUS
- Mf9rUI9cNo2golfxBmFXHJjBNuvFyFM1gyVMUT1TuhfCGB2wIIl2Eddyhl/SukO40RNl
- HwhDBiUua8UvNxQbyWzs3IaXQaKhCohylGz5SPLz9NhL07r8HzDFwnmrFdW1MXf1wAze
- bxkw==
-X-Gm-Message-State: AOAM533/CE2UMw4lvYzMJdS2fYaAL9AY7d+sP63DvLxNpEMyRp31vtps
- eKzFhIPxej/M4kc45I0txuRkWw==
-X-Google-Smtp-Source: ABdhPJyZXqLBxCi9RzmlEQbeHcHgdgVafhXiaTnPaYTMMPu6lxgkTrcOg3An9KR+HISrqU6YrXNe0Q==
-X-Received: by 2002:a05:6214:a8d:: with SMTP id
- ev13mr18251827qvb.28.1618779506055; 
- Sun, 18 Apr 2021 13:58:26 -0700 (PDT)
+ bh=N2CXJVTyfvgtt92SSw1+GOHARdtnFC3toLPms0bQQr0=;
+ b=fwZ5jl4qvYOxViShdrLQQqzu2w6j56c9Bhqx4SCP7089Dhq5VQGBPZ9Jb4+d3k60OE
+ a3AJR8VSkSofH/U9Pr7kzAonAO7MSZrg4f/1IA1zLXww5AORlg3xsIJXMqq+zXbUM91D
+ X2s7AxwyQUC9k6KSIeMYVITk8sslCBw51Lg+jAWQNWZYHLp1d6122VLd/NsU7PBE3QxW
+ ot7kPZP6icILE+eJuFak1XtKbnxaxwjNunbrRQUG4E3Bz9AH+m0GPKUa7W1XOyU+xr8i
+ CYrghYR8ZACkGuxExxImtmy0O24rX6nHDd/0K/rxJIm3fCUVH3VDp8Z1jSpxo5B4VFx1
+ OOog==
+X-Gm-Message-State: AOAM532X/zHD2wTK2TQDMndFau8YJCUyffFw2Y3mu2Iz+rM5lfGj3uYm
+ poV4Z5w/fUgOIOCN2LpBk2IxeQ==
+X-Google-Smtp-Source: ABdhPJw0RaI/rXRIzRpZRj8H5PpJ9ajfR+a2c1oiCt0778oB9IKciPb0lrpWKac1JDazoHE/RXZ/tw==
+X-Received: by 2002:a0c:e601:: with SMTP id z1mr18623535qvm.62.1618780210877; 
+ Sun, 18 Apr 2021 14:10:10 -0700 (PDT)
 Received: from ?IPv6:2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3?
  ([2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3])
- by smtp.gmail.com with ESMTPSA id n16sm8228213qtl.48.2021.04.18.13.58.24
+ by smtp.gmail.com with ESMTPSA id f14sm8502565qka.54.2021.04.18.14.10.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Apr 2021 13:58:25 -0700 (PDT)
-Subject: Re: [PATCH v4 02/12] target/hexagon: update MAINTAINERS for
- idef-parser
+ Sun, 18 Apr 2021 14:10:10 -0700 (PDT)
+Subject: Re: [PATCH v4 04/12] target/hexagon: make slot number an unsigned
 To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
 References: <20210415163455.3839169-1-ale.qemu@rev.ng>
- <20210415163455.3839169-3-ale.qemu@rev.ng>
+ <20210415163455.3839169-5-ale.qemu@rev.ng>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8b281352-ce62-e583-00df-3aff6c0ac41f@linaro.org>
-Date: Sun, 18 Apr 2021 13:58:22 -0700
+Message-ID: <0acaf98a-e9c6-d9d3-fedc-60d8dd9b352e@linaro.org>
+Date: Sun, 18 Apr 2021 14:10:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210415163455.3839169-3-ale.qemu@rev.ng>
+In-Reply-To: <20210415163455.3839169-5-ale.qemu@rev.ng>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,14 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/15/21 9:34 AM, Alessandro Di Federico wrote:
-> From: Alessandro Di Federico<ale@rev.ng>
+> From: Paolo Montesel<babush@rev.ng>
 > 
 > Signed-off-by: Alessandro Di Federico<ale@rev.ng>
+> Signed-off-by: Paolo Montesel<babush@rev.ng>
 > ---
->   MAINTAINERS | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   target/hexagon/genptr.c | 6 ++++--
+>   target/hexagon/macros.h | 2 +-
+>   2 files changed, 5 insertions(+), 3 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
