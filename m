@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD8336389B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:51:22 +0200 (CEST)
-Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F055363897
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:48:11 +0200 (CEST)
+Received: from localhost ([::1]:43122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYHCD-0006NU-V1
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1lYH98-0004Et-CN
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGxK-0001TE-MI
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 19:35:58 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39751)
+ id 1lYGxP-0001b5-Nc
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 19:36:03 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGxJ-0003UI-4g
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 19:35:58 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- i21-20020a05600c3555b029012eae2af5d4so7565809wmq.4
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 16:35:56 -0700 (PDT)
+ id 1lYGxO-0003Wh-4T
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 19:36:03 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h4so23047681wrt.12
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 16:36:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rPpdvyQdnjV1hyP8p6HQlY/fim5Hnf4QrSAGX3smJ5Y=;
- b=bV/GjduJ/QxCmctnK6WULgr46i8cn0yymikRkP1QL/nXLrj3mJc13NzPi8bqLltY8C
- 5C4uqeKVx3Jn6lEB8RfeLTY2O1EgghoFSqdPkkCjJCno0ghmYXjNOmZya1040djrIkWK
- 5Xd4z8SZPD1KEPrrA9TcjFIMU3HZRVd8W1IbP/7wP1a8livd/1c6Dfv6WhLIlGxc8RgE
- aSYh/6UIE7Etk6/ZO2mHyzsBHtugyjCyfIOiRODRMJ8B1om/NTTnyN9aOBBwod7VTetN
- hpOZFsv2CAA1S43wkS1InJaTOieHgVq+frgbPQivhTUievLumMltzfBWLeUN/0Li0n1Y
- RonA==
+ bh=T8BFfTvY4m5j6dkvWFL9bHoXXUlACw5KgYibCTJPKfE=;
+ b=KECAzo4PStC4QmVUws8joqGntRt0CzRGmyeriXfUGsW2Rp4FDvTMeb3qblEy2dpGWc
+ sVe8C+48r4JwYAbFR8EQoV0zh71DT60QP0alHk1gQ4sJijO1ZN//w3aQah8xgtcJlLkX
+ 8sF0RczNoYtUICMcSMeQBQlsIPIcd/ekHKb4a+q/tAYxql4fxkipJpjh+Xkr1QMI7HQ0
+ dHqNGGFSLEko2IATvJsuudkDpaoo+VyebFArly5nT+PDbnqqUcDXCO2qoEhT5rddogKO
+ aDJG1BbUE2OC/440imrcxlCj8FoM+C/XHnA57oKnG6g47JvmkfxLq5ixKzBmCuJsUmeY
+ X3NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rPpdvyQdnjV1hyP8p6HQlY/fim5Hnf4QrSAGX3smJ5Y=;
- b=M56Q0tEv7gSM7DNkAnN12H7Um6s98rPRQ00CGRVh7r8W2Zs1dyNH66f1niPpCxhfuS
- dTWV6exTtwf7Hu3JjIPw/Co3V17p0hOh6okc+eZ16dGshdgedz7+hMe0ytJ233Qa8PZF
- U+v/GyYP0wSsepXlfnQ+hiu0ECh+fHi69URaUBP/VCU3qux6dOqsEJ1cb3hgwspFaeN7
- dWaoocoUAEGFfhvX0S9J1G1gMUz74sGa7lv1/YMST8pcrioHevBKxceFQCxi3VWMspyU
- 0daMfiToq4dymQEz9ZvLyVjuHmoe4YCtjLpCnWfbo+DEOJRtyfqRdHsqFTWwNvApkz7B
- 86lw==
-X-Gm-Message-State: AOAM531kQBiPEzYwQL3OgSE2/OJmcr3qRrQN+ndUxtChBSFTBe7GCIbd
- L2Ni3Sv4sJIuYZzcsSp8X+r6kV/MGF5Z/g==
-X-Google-Smtp-Source: ABdhPJzkdZU6p+WmffXJEnhHazwwC2JQnWLxBOkYMurbmu/Sh4eUKMY4v/UghzUMMH7M0+gEr9ePbg==
-X-Received: by 2002:a1c:9dd1:: with SMTP id g200mr18981645wme.60.1618788955710; 
- Sun, 18 Apr 2021 16:35:55 -0700 (PDT)
+ bh=T8BFfTvY4m5j6dkvWFL9bHoXXUlACw5KgYibCTJPKfE=;
+ b=dTA+ovaG3ePSTFeKpYq9/lsOswa906/Nqi0+91UqwWvswJhiJFGwkdfTorZeUMZM9p
+ S9tbDzRx2m27MAuGzKlCV+edG9WCIOiCidHT1FHbAC9HqzhE/122ThxTlNhuIC1HQUe8
+ wVU5Ifx2vfVGSRvVOKuM0iJY6Z3jYvtifSMSsXAyQIB18CEgZc4GcUCqDQ/cx7vxzX9m
+ LhiM3fZWVNtJ7Ynx3wYUqmaG+hPAMZT9OewGiSMtNG6MD3aH5neyA0J62z5GQ2NhWQ70
+ EGgfT7TvLdc/PraX0SF5nrFmUlYR49/n/7CRBSzTpqweZQHyKzzQwBCRONxWES6nfsgr
+ bJbA==
+X-Gm-Message-State: AOAM5312tntPy/kmOruNNxi+fKnx/wSCBj92Z8TxxwgIG34diwmBafQ8
+ LKOpW6jSEEX6traJNP9UY+wKN/Sp1QURJQ==
+X-Google-Smtp-Source: ABdhPJxKiKasbtPDMgubFBvX3xBtC524VvxPj7cx33k438Exr0ZqGJT0Q/Zrs9eU5/6h7vFJoml8xQ==
+X-Received: by 2002:a05:6000:154e:: with SMTP id
+ 14mr11332072wry.24.1618788960772; 
+ Sun, 18 Apr 2021 16:36:00 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a72sm17050210wme.29.2021.04.18.16.35.54
+ by smtp.gmail.com with ESMTPSA id l20sm17925605wmg.33.2021.04.18.16.35.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 16:35:55 -0700 (PDT)
+ Sun, 18 Apr 2021 16:36:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 13/15] gitlab-ci: Switch to dynamically generated pipelines
-Date: Mon, 19 Apr 2021 01:34:46 +0200
-Message-Id: <20210418233448.1267991-14-f4bug@amsat.org>
+Subject: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of jobs
+Date: Mon, 19 Apr 2021 01:34:47 +0200
+Message-Id: <20210418233448.1267991-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418233448.1267991-1-f4bug@amsat.org>
 References: <20210418233448.1267991-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,42 +97,39 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch to the dynamically generated pipeline scheme described in:
-https://docs.gitlab.com/ee/ci/parent_child_pipelines.html#dynamic-child-pipelines
+Forks run the same jobs than mainstream, which might be overkill.
+Allow them to easily rebase their custom set, while keeping using
+the mainstream templates, and ability to pick specific jobs from
+the mainstream set.
+
+To switch to your set, simply add your .gitlab-ci.yml as
+.gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
+is your gitlab 'namespace', usually username). This file will be
+used instead of the default mainstream set.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.yml | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ .gitlab-ci.yml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 533a7e61339..718c8e004be 100644
+index 718c8e004be..35fd35075db 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -1,2 +1,21 @@
--include:
--  - local: '/.gitlab-ci.d/qemu-project.yml'
-+# Dynamic child pipelines
-+# https://docs.gitlab.com/ee/ci/parent_child_pipelines.html#dynamic-child-pipelines
-+
-+generate-config:
-+  stage: build
-+  variables:
-+    GIT_SUBMODULE_STRATEGY: none
-+  artifacts:
-+    paths:
-+      - generated-config.yml
-+  script:
-+    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
-+
-+generate-pipeline:
-+  stage: test
-+  variables:
-+    GIT_SUBMODULE_STRATEGY: none
-+  trigger:
-+    include:
-+      - artifact: generated-config.yml
-+        job: generate-config
+@@ -9,7 +9,12 @@ generate-config:
+     paths:
+       - generated-config.yml
+   script:
+-    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
++    - if test -e .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml ;
++      then
++        cp .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml generated-config.yml ;
++      else
++        cp .gitlab-ci.d/qemu-project.yml generated-config.yml ;
++      fi
+ 
+ generate-pipeline:
+   stage: test
 -- 
 2.26.3
 
