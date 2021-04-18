@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FDA3636D4
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:50:23 +0200 (CEST)
-Received: from localhost ([::1]:54960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAF13636B2
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:43:12 +0200 (CEST)
+Received: from localhost ([::1]:39028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYAco-0001fN-40
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
+	id 1lYAVr-0003Cl-Je
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYALL-0003Bz-Bg
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:20 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33678)
+ id 1lYALP-0003E8-KQ
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:23 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYALJ-0004ZK-QK
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:19 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id g9so15480847wrx.0
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:32:16 -0700 (PDT)
+ id 1lYALN-0004b8-PQ
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:23 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id h4so22460175wrt.12
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6Zv2jNWA3uTLnu+d0xF3gtwB2+QTD96AaWLMNqFM0mc=;
- b=mdGNVdLAZm4AuD/rWIwIAA54RUX4ymwngLstIxV3daBLAbNaURPU5m43YRctU0JcJ2
- zGcUDT+twsAB/XjulKbCxozv64qBz6uUEL/kv2TvKtiCEFcnEXDxQBjVA2CNslL8pb2s
- WDVDra/Nr9pezs/iKZdIvvRu/jLwFOcde0opt2NTM+a21qLiQ34/Jaq03juEtYrhX6nk
- a/4r8OX2dnNcoqgZCk+E5/icYrl4ov4pVtbdiqClz64GoKOMo26YubIhtnz/YJxYzKem
- 5EFQTO/alCpsLMgd6d4ZKJ0VPa7pDkRtIG60GiL1G06XAKnXu+ca6MeXCmPdxzol4Fuc
- Yt3w==
+ bh=w5WfxDGXh3zjHU+4KPiy4BoSQhRKvTpCGcGCvU4/FiU=;
+ b=qkvpaT3ETwKilUD5RzkInps2WUDBImMUjHEvt2XI0pgbjOV0G2a+LP6hFoowqvFcuS
+ ST6BqUWoCv34aE+53MEQqFzSBhRhvx5H1VAdwP6X30AOYuhmq31OmH5uNTVFyF61olCY
+ s1kknYe5/wq6HVUChVLV+dqhqxWmkxq5Hkhn1mr4rYEwSYYGMyEKPVhDIFVEyCSctRZ5
+ r7K3FrXQMoOoyeMbxWcFxDzUKoYdgYtPpfQXbTmsGmsj6LmuK5yanGB2ZIwbYEAyBpN2
+ TGC5phrL14xmCckRrG4GrnNnf9Wel5/Gukzd5nw4C88Qcos3D3zaIXk8LuQRL3w4mofP
+ tNAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6Zv2jNWA3uTLnu+d0xF3gtwB2+QTD96AaWLMNqFM0mc=;
- b=d+lVHz5SoTryJV7Pef47NmKpqEopB23uNfoB2w2S3lFr39//9RZQTlFj4oLbIHIqyK
- BtOXKif1aeBHZcSMYlEzn42/ap94wT7aKOtJrRz1Kwj9R1aF/kPmuDLAptjy019WyF6E
- ezRyROLuMFzzrLcG1p0H6lGGSr0uQStmwmguiioeDwXuGCwcPd2dPxsWTxGRQZhfM4Q9
- m4DWo9xtEc0hGwVBY0/l8isqkHr1NRMVgSfm1g4DjCSddsZ+e71CEOhpDB6+iqK45jov
- j2b38ksqrf2aeg9Vgvtp31aK4v3tYH6Qyzg6Znxn37Mq0Wjzf33YMuTHOiAI8Df0xOEP
- c8tQ==
-X-Gm-Message-State: AOAM530vH2Z7B1u/CzTwBisVtze2CJORUC3ZNW/ZadxuA0ihwPsRmml8
- k+QU3h+bWTSBEL9t+0l4V222TzZmGv9Jyw==
-X-Google-Smtp-Source: ABdhPJwi95P0/hFOtSfzKR2k84GVwYvWeWi6M4TXGS4Wchs+LPDvu/+dequYeX8J6nDRzbr3A/ZYdw==
-X-Received: by 2002:adf:ed0a:: with SMTP id a10mr9807063wro.61.1618763535056; 
- Sun, 18 Apr 2021 09:32:15 -0700 (PDT)
+ bh=w5WfxDGXh3zjHU+4KPiy4BoSQhRKvTpCGcGCvU4/FiU=;
+ b=ZmjaG6aqCsBAn1rqAZ/ReSc8F1bFMk5Ci8PymSbumQN2qM9MwNO+qsxL+eKueaL0QM
+ 8p1sUTFFOMdp0ryK2b7O+iMjct2WWVs+h8uHi+S7mzyz4MLHf8KqJO64k2bd189oqbON
+ Yy3g4NWNWbBtwPEgAWR5QzUgsWzXE2iyvYW+mySKlknd94NmVKV9wW6fTBE7/o2Cnz84
+ qa/SetsWqxxfgSLPSF6yebFq0AHJTm3z+rTHpdDS4LbnzAbbwya5ruypHnAPGCuVAc/d
+ RwTOIYgTIoY0H7mgI9Hp123dQGpv6rgNA3qhXKXiHAgm/i854I+ZV20Lc5prdBapbH7F
+ C5zw==
+X-Gm-Message-State: AOAM532fsBxHinEoOIBssIPVVgtJA2G1EAjfcsX7LOL0Q9Yeue3mn9HU
+ RJjzH7OQlpBzETKncdLIQ6wNG6QbXWLOgQ==
+X-Google-Smtp-Source: ABdhPJwFkQpX/vMsgYTgiwGt2NOTafcRRgRaOYy1mseoDq6D0OxxFLCc0H4ohT95bk2o5tu90KOG3A==
+X-Received: by 2002:adf:fa49:: with SMTP id y9mr9914423wrr.229.1618763539899; 
+ Sun, 18 Apr 2021 09:32:19 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id r2sm19163534wrt.79.2021.04.18.09.32.14
+ by smtp.gmail.com with ESMTPSA id m17sm22167703wrq.63.2021.04.18.09.32.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 09:32:14 -0700 (PDT)
+ Sun, 18 Apr 2021 09:32:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/26] target/mips: Introduce tcg-internal.h for TCG specific
- declarations
-Date: Sun, 18 Apr 2021 18:31:16 +0200
-Message-Id: <20210418163134.1133100-9-f4bug@amsat.org>
+Subject: [PATCH 09/26] target/mips: Add simple user-mode
+ mips_cpu_do_interrupt()
+Date: Sun, 18 Apr 2021 18:31:17 +0200
+Message-Id: <20210418163134.1133100-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418163134.1133100-1-f4bug@amsat.org>
 References: <20210418163134.1133100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,76 +94,132 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will gradually move TCG-specific declarations to a new local
-header: "tcg-internal.h". To keep review simple, first add this
-header with 2 TCG prototypes, which we are going to move in the
-next 2 commits.
+The #ifdef'ry hides that the user-mode implementation of
+mips_cpu_do_interrupt() simply sets exception_index = EXCP_NONE.
+
+Add this simple implementation to tcg/user/helper.c, and the
+corresponding Meson machinery to build this file when user
+emulation is configured.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h         |  7 +++----
- target/mips/tcg/tcg-internal.h | 20 ++++++++++++++++++++
- 2 files changed, 23 insertions(+), 4 deletions(-)
- create mode 100644 target/mips/tcg/tcg-internal.h
+ target/mips/tcg/user/helper.c    | 28 ++++++++++++++++++++++++++++
+ target/mips/tlb_helper.c         |  5 -----
+ target/mips/meson.build          |  5 +++++
+ target/mips/tcg/meson.build      |  3 +++
+ target/mips/tcg/user/meson.build |  3 +++
+ 5 files changed, 39 insertions(+), 5 deletions(-)
+ create mode 100644 target/mips/tcg/user/helper.c
+ create mode 100644 target/mips/tcg/meson.build
+ create mode 100644 target/mips/tcg/user/meson.build
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 1c5674935aa..b3427fcc517 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -9,6 +9,9 @@
- #define MIPS_INTERNAL_H
- 
- #include "exec/memattrs.h"
-+#ifdef CONFIG_TCG
-+#include "tcg/tcg-internal.h"
-+#endif
- 
- /*
-  * MMU types, the first four entries have the same layout as the
-@@ -77,7 +80,6 @@ extern const char * const fregnames[32];
- extern const struct mips_def_t mips_defs[];
- extern const int mips_defs_number;
- 
--void mips_cpu_do_interrupt(CPUState *cpu);
- bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
- hwaddr mips_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int mips_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-@@ -212,9 +214,6 @@ void cpu_mips_stop_count(CPUMIPSState *env);
- 
- /* helper.c */
- void mmu_init(CPUMIPSState *env, const mips_def_t *def);
--bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr);
- 
- /* op_helper.c */
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
-diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+diff --git a/target/mips/tcg/user/helper.c b/target/mips/tcg/user/helper.c
 new file mode 100644
-index 00000000000..24438667f47
+index 00000000000..453b9e9b930
 --- /dev/null
-+++ b/target/mips/tcg/tcg-internal.h
-@@ -0,0 +1,20 @@
++++ b/target/mips/tcg/user/helper.c
+@@ -0,0 +1,28 @@
 +/*
-+ * MIPS internal definitions and helpers (TCG accelerator)
++ * MIPS TLB (Translation lookaside buffer) helpers.
 + *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ *  Copyright (c) 2004-2005 Jocelyn Mayer
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
++#include "qemu/osdep.h"
 +
-+#ifndef MIPS_TCG_INTERNAL_H
-+#define MIPS_TCG_INTERNAL_H
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "internal.h"
 +
-+#include "hw/core/cpu.h"
-+
-+void mips_cpu_do_interrupt(CPUState *cpu);
-+bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
-+
-+#endif
++void mips_cpu_do_interrupt(CPUState *cs)
++{
++    cs->exception_index = EXCP_NONE;
++}
+diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+index 8d3ea497803..46e9555c9ab 100644
+--- a/target/mips/tlb_helper.c
++++ b/target/mips/tlb_helper.c
+@@ -964,11 +964,8 @@ static inline void set_badinstr_registers(CPUMIPSState *env)
+     }
+ }
+ 
+-#endif /* !CONFIG_USER_ONLY */
+-
+ void mips_cpu_do_interrupt(CPUState *cs)
+ {
+-#if !defined(CONFIG_USER_ONLY)
+     MIPSCPU *cpu = MIPS_CPU(cs);
+     CPUMIPSState *env = &cpu->env;
+     bool update_badinstr = 0;
+@@ -1271,11 +1268,9 @@ void mips_cpu_do_interrupt(CPUState *cs)
+                  env->CP0_Status, env->CP0_Cause, env->CP0_BadVAddr,
+                  env->CP0_DEPC);
+     }
+-#endif
+     cs->exception_index = EXCP_NONE;
+ }
+ 
+-#if !defined(CONFIG_USER_ONLY)
+ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
+ {
+     CPUState *cs = env_cpu(env);
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 15c2f835c68..ca3cc62cf7a 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -6,6 +6,7 @@
+   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
+ ]
+ 
++mips_user_ss = ss.source_set()
+ mips_ss = ss.source_set()
+ mips_ss.add(files(
+   'cpu.c',
+@@ -34,6 +35,9 @@
+ ), if_false: files(
+   'mxu_translate.c',
+ ))
++if 'CONFIG_TCG' in config_all
++  subdir('tcg')
++endif
+ 
+ mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+ 
+@@ -52,3 +56,4 @@
+ 
+ target_arch += {'mips': mips_ss}
+ target_softmmu_arch += {'mips': mips_softmmu_ss}
++target_user_arch += {'mips': mips_user_ss}
+diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
+new file mode 100644
+index 00000000000..b74fa04303e
+--- /dev/null
++++ b/target/mips/tcg/meson.build
+@@ -0,0 +1,3 @@
++if have_user
++  subdir('user')
++endif
+diff --git a/target/mips/tcg/user/meson.build b/target/mips/tcg/user/meson.build
+new file mode 100644
+index 00000000000..2fe2062a73b
+--- /dev/null
++++ b/target/mips/tcg/user/meson.build
+@@ -0,0 +1,3 @@
++mips_user_ss.add(files(
++  'helper.c',
++))
 -- 
 2.26.3
 
