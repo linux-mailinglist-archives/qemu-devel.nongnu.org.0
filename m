@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C60F363745
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 21:11:49 +0200 (CEST)
-Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5201E363746
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 21:15:51 +0200 (CEST)
+Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYCpg-00043Q-Il
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 15:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36238)
+	id 1lYCta-00078R-45
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 15:15:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYCo1-0003Qr-CM
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 15:10:05 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:37846)
+ id 1lYCr6-0005kY-TE
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 15:13:16 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:43793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYCnz-0000g8-F7
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 15:10:05 -0400
-Received: by mail-qt1-x830.google.com with SMTP id o2so11213188qtr.4
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 12:10:03 -0700 (PDT)
+ id 1lYCr5-0002hp-4R
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 15:13:16 -0400
+Received: by mail-qt1-x836.google.com with SMTP id a18so882803qtj.10
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 12:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VyAJlx5Tcgp1hXXI0TJVc4yJgvVt+wMjjbktfFPWSOY=;
- b=Y62GwEcnCMT5xy++UFdRf8yEIHwsJZfG9FD7m8umylbDaHuW01OyMp5J44qGhaPb2/
- 9Hp2dsoiqEmosGVDuIoTdKmNec3D50sS8+lQx9dxMgXYDLXI0QbCuJ70C2N1qWDfYAPe
- aX2vdWod+buhHdorf5waQsQIywuiFlPFuRB0OhcDaeqoHgClb11hT8i1Czhf5H5Bg8QV
- LAsuJygFQExSXC0c6JhauuDYaa9z7AQmsXPzSq5Y0Y7fV2VBf8P4cpSbyL2SFMpv+YHa
- Vv+0LamUO+ROOOSIv0qvoITWA515IzNjXSx59+bcPyAOh5q5ZnsIyy5sCm/AQRQRrUbI
- BSWQ==
+ bh=C4AvwS2nSyHdhgRgoyMBHEdd8P9cOUedKrm/y/fSVa8=;
+ b=V4vutwTI54nJpMFUuhC7sBNokd5rR17RGiEFTdDknRKIgIYTd1U1tas2CU07YzzPeI
+ A2dJvfmOLiJOxS4D6SuBxmUWFCFNRu+L9WZV3uJpf1RuhbNF6PQrD3WpQmjK+uTUli7L
+ nn/p5n7SbO/UeCXMnbs7NXgXJDgPR/os9/qGd176mYwEMjm6ikA+B0By6ahzhGezgbLW
+ MwRZgo2UKfPdStvUqYLfY2DtFjJ4XYQ5YcZtK2El7NSBnT/TEMGtmhR/UyRYssj6Vapd
+ 8Vd8RFWFNrv9fE3InirVZSDnZh6ALoVXIGnSHuiqbfgXCfMs+OdJ2SkSvLoy2klZa+oD
+ RqDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VyAJlx5Tcgp1hXXI0TJVc4yJgvVt+wMjjbktfFPWSOY=;
- b=ioa9VLUpvhAQjjnFMl22quRmMJb/8jxqd5o4XBrhXJpusenycC9KFV36hjOWOSB8UV
- izNJ5KBfW6vrsS1es/9ESfPq9PUFD2kDcP/85GlSXwGueY3+S9k8yTFzFeKI2rh5kXAk
- fkNfIgwlIeYVsewrWRsXg7mMyoiivtuyIV7fJwT5FOxcmntWfX3fPPMkg9ooWlR9+HPS
- pXMuLZP08nwjpMypGSJExmc5kyG/NjrpaVEDcoewxGSOgms1MlI+hG4/V8lUuSRPP8hc
- u/GItSI/bVoiVqWJoo1qyj/UEy37NRQHgoVwjThx/1zOTEFPn7M3+SaLlyGZirwSIgAE
- VwIA==
-X-Gm-Message-State: AOAM533RVXeFtd65SZdpODeipmrRReGc4Cj2NCLehhLIiqnULDR1NRA2
- npi2REp6cYFhe1wDLfHMFyTadg==
-X-Google-Smtp-Source: ABdhPJyfBxS7WTTNiYGasRiZJ1Zzwk90rLjER4bE4PnZNgVJonOs90r2BaAox6sA9KuQkg8YyZlv8A==
-X-Received: by 2002:ac8:5847:: with SMTP id h7mr8725694qth.108.1618773002469; 
- Sun, 18 Apr 2021 12:10:02 -0700 (PDT)
+ bh=C4AvwS2nSyHdhgRgoyMBHEdd8P9cOUedKrm/y/fSVa8=;
+ b=sriEJFrekMtXXIOjB5vZ00+L2Bh29OASRAK9rKlI2YC/5OJbsbslKEPrN/F/KTbDgv
+ TdXi2qLK1oiLYk0U9pv7PU4POeYO+UnEdstzzo1r4fIbh/shH7N+d4Brsk7yMoIHkqu7
+ CwgNF0++sZRxenrR5tmlQn4CdTraZ0RAGF82Eqx9+tmAl/+TZI/WWbgr/Iqb6FYj+aDJ
+ 8Zi4FhGKYOaewKjsZ++7UapRuKYZH57ugNeGfgEIYLY/TgNcJbaWOhLALE1qft1vio0T
+ V9o0osCarkAxtlXvbidZMN47SM+ywb0D7VVqu2kTX3D/fTqKMho1QV53P86VS2LEo713
+ MK5w==
+X-Gm-Message-State: AOAM530KutSCOrBOQPLhuUDnWM/zN5xbXqF0auoYMo6b64flFQcy1hbB
+ rQe3Vkp4o12L9u0d5ue8C1rzJQ==
+X-Google-Smtp-Source: ABdhPJxb96ApBAjXa7xY6zqDAczDRzlHWzWBr5nZCMARjpJQHbjULyZbrAgUkxMg0NuyOBtD/5fZAA==
+X-Received: by 2002:a05:622a:2cd:: with SMTP id
+ a13mr8825289qtx.226.1618773193758; 
+ Sun, 18 Apr 2021 12:13:13 -0700 (PDT)
 Received: from ?IPv6:2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3?
  ([2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3])
- by smtp.gmail.com with ESMTPSA id f12sm7885660qtq.84.2021.04.18.12.10.00
+ by smtp.gmail.com with ESMTPSA id n18sm1911051qtv.87.2021.04.18.12.13.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Apr 2021 12:10:02 -0700 (PDT)
-Subject: Re: [PATCH 07/26] meson: Introduce meson_user_arch source set for
- arch-specific user-mode
+ Sun, 18 Apr 2021 12:13:13 -0700 (PDT)
+Subject: Re: [PATCH 11/26] target/mips: Move cpu_signal_handler definition
+ around
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210418163134.1133100-1-f4bug@amsat.org>
- <20210418163134.1133100-8-f4bug@amsat.org>
+ <20210418163134.1133100-12-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0bd8bce6-3d79-99c8-01e4-2352ba30a88f@linaro.org>
-Date: Sun, 18 Apr 2021 12:09:57 -0700
+Message-ID: <437b5def-10de-c49a-5979-bec66e51bc41@linaro.org>
+Date: Sun, 18 Apr 2021 12:13:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210418163134.1133100-8-f4bug@amsat.org>
+In-Reply-To: <20210418163134.1133100-12-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,56 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/18/21 9:31 AM, Philippe Mathieu-Daudé wrote:
-> Similarly to the 'target_softmmu_arch' source set which allows
-> to restrict target-specific sources to system emulation, add
-> the equivalent 'meson_user_arch' set for user emulation.
+> We have 2 blocks guarded with #ifdef for sysemu, which
+> are simply separated by the cpu_signal_handler definition.
+> 
+> To simplify the following commits which involve various
+> changes in internal.h, first join the sysemu-guarded blocks.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/mips/internal.h | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
 
-You didn't call it meson_user_arch in the end.  Last minute change?
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
 r~
-
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   meson.build | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/meson.build b/meson.build
-> index d8bb1ec5aa9..1ffdc9e6c4e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1751,6 +1751,7 @@
->   hw_arch = {}
->   target_arch = {}
->   target_softmmu_arch = {}
-> +target_user_arch = {}
->   
->   ###############
->   # Trace files #
-> @@ -2168,6 +2169,11 @@
->       abi = config_target['TARGET_ABI_DIR']
->       target_type='user'
->       qemu_target_name = 'qemu-' + target_name
-> +    if arch in target_user_arch
-> +      t = target_user_arch[arch].apply(config_target, strict: false)
-> +      arch_srcs += t.sources()
-> +      arch_deps += t.dependencies()
-> +    endif
->       if 'CONFIG_LINUX_USER' in config_target
->         base_dir = 'linux-user'
->         target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
-> 
 
 
