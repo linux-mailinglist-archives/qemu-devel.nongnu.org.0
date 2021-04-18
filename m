@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF693635EA
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 16:42:25 +0200 (CEST)
-Received: from localhost ([::1]:56054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C55363677
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 17:56:16 +0200 (CEST)
+Received: from localhost ([::1]:52802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lY8cy-0005Xh-Fg
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 10:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
+	id 1lY9mR-0006Lo-3k
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 11:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lY8bS-000500-Te
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 10:40:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41958)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lY9kL-0005Vf-4K
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 11:54:06 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lY8bQ-0007nM-Hj
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 10:40:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lY8bO-0003g4-HX
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 14:40:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 74D092E8157
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 14:40:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lY9kI-0006id-AR
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 11:54:04 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id y3so1490204eds.5
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 08:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0410E8YDLGjYDuWOVtKswfrd+h8nhQJtSWIfB77K3+8=;
+ b=GR+01nZfFTx/HuncZyA/x6NXKUitP3X9Zon4GLwwNUF8hs0hhJ+2eVlYIN9dQGcJ6+
+ pCxqZzJlJJtZoxxOi2AyySn7A68jI3ye9AdeJ8D7FlZxlzYX0L8GRLEQqu3iuiq/0UyZ
+ PK2aBtwb+ncgWZfvTxzBbzuKHJHG4iEtY8rX5/B2+GUkuxfp4VyyqfGrc8BKkhBaI8Vl
+ +okCUEArJ8n4EkzuJDuBxVDAt1DQGv8Hth1n+1RyNOv25IEyra+VYFL3zWMj6aVDswJX
+ UNQBYM9vxsEOIZK/+Kult9CmXOJPEz6eXJ153JfQBny2bfyLndnkjiMry2wM3jlv7ToO
+ KPXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0410E8YDLGjYDuWOVtKswfrd+h8nhQJtSWIfB77K3+8=;
+ b=kqJ8tA5qcQ0uOW592bg5wWM1R8ttUZFWjjhE3Yjfg3f6p13rsmun2sYcxlmyGlP30d
+ aEblhr7jInSs3QWq7DAN8f3U4L1E456yRHbqT+6r2Qw5T9MpbbbKFuvrbOflznUPp9uX
+ tZbYZW/ieoi/4CQma10+Ld7IXqzx8WlEbSy1egqh/2rO/oxljy2I/sucTvMsycxzXEGd
+ Lr5ycykdYkEqhsY2FjhwbK82xOrhrRIvxGuZZqE4TaxYGNwc+UQ94w13WQrfjv8cXCQ2
+ aswqWq9bLL17iRBSqpigJXviDkDi5h+noT4f+YmNpkdMdVsjCdg0xviQUuW2zs4etxue
+ 2o0g==
+X-Gm-Message-State: AOAM533jpYMWMEHJ6Kca3eiBDRRihcRBpkXpON4A/bXKAu4roIXP/V8E
+ +n4ZYucG96+1Ck9tdRGXOBFmLrAXsmFNEW1PBUTU3w==
+X-Google-Smtp-Source: ABdhPJxnEGJ2EJO1SFSmUk6yIcyRXFzkvMWyaf5EeMBALRlc2Kv/OlfsrJc4s/G7rQlGhNBbEt9ChnvRsREOaq02vVQ=
+X-Received: by 2002:a50:fb0a:: with SMTP id d10mr7977870edq.146.1618761240019; 
+ Sun, 18 Apr 2021 08:54:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 18 Apr 2021 14:34:17 -0000
-From: =?utf-8?q?kleines_Filmr=C3=B6llchen?= <1924912@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kleinesfilmroellchen ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: =?utf-8?q?kleines_Filmr=C3=B6llchen_=28kleinesfil?=
- =?utf-8?q?mroellchen=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?kleines_Filmr=C3=B6llchen_=28kleinesfil?=
- =?utf-8?q?mroellchen=29?=
-References: <161875180735.23175.14682430598239905387.malonedeb@wampee.canonical.com>
-Message-Id: <161875645795.6320.1996793877758730269.malone@soybean.canonical.com>
-Subject: [Bug 1924912] Re: VirtIO drivers don't work on Windows: "GLib: Too
- many handles to wait for!" crash
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
-X-Launchpad-Hash: fbcbcb7fa0fb7483518288e2d0c55456891e5388
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210415154402.28424-1-vkuznets@redhat.com>
+In-Reply-To: <20210415154402.28424-1-vkuznets@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 18 Apr 2021 16:53:09 +0100
+Message-ID: <CAFEAcA-u0XDFBuTaw2AcoP1NLSYNCSAEutXi+gfhb-qU=_UBGg@mail.gmail.com>
+Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
+ unless '--no-migration' was specified
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,96 +77,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924912 <1924912@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I used the pre-built binaries with the versions described above. I did
-not change any install options so this can be reproduced after using the
-official install binaries for each version.
+On Thu, 15 Apr 2021 at 16:46, Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+> When a migration blocker is added nothing is reported to the user,
+> inability to migrate such guest may come as a late surprise. As a bare
+> minimum, we can print a warning. To not pollute the output for those, who
+> have no intention to migrate their guests, introduce '--no-migration'
+> option which both block the migration and eliminates warning from
 
--- =
+I'm not a fan. For a lot of people and configurations this
+is going to be "add an extra complaint from QEMU to a previously
+working configuration". We add too many of those already.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924912
-
-Title:
-  VirtIO drivers don't work on Windows: "GLib: Too many handles to wait
-  for!" crash
-
-Status in QEMU:
-  New
-
-Bug description:
-  I ran SerenityOS <https://github.com/SerenityOS/serenity> out of WSL2
-  with native Windows QEMU. The system runs fine on the Linux QEMU (with
-  Windows X-Server). However, with Windows QEMU I get a hard crash after
-  the following output:
-
-  ```
-  [#0 colonel(0:0)]: Scheduler[0]: idle loop running
-  [init_stage2(2:2)]: PCI [0000:00:00:00] PCI::ID [8086:1237]
-  [init_stage2(2:2)]: PCI [0000:00:01:00] PCI::ID [8086:7000]
-  [init_stage2(2:2)]: PCI [0000:00:01:01] PCI::ID [8086:7010]
-  [init_stage2(2:2)]: PCI [0000:00:01:02] PCI::ID [8086:7020]
-  [init_stage2(2:2)]: PCI [0000:00:01:03] PCI::ID [8086:7113]
-  [init_stage2(2:2)]: PCI [0000:00:02:00] PCI::ID [1234:1111]
-  [init_stage2(2:2)]: PCI [0000:00:03:00] PCI::ID [8086:2922]
-  [init_stage2(2:2)]: PCI [0000:00:04:00] PCI::ID [1af4:1003]
-  [init_stage2(2:2)]: PCI [0000:00:05:00] PCI::ID [1af4:1005]
-  [init_stage2(2:2)]: PCI [0000:00:06:00] PCI::ID [8086:100e]
-  [#0 init_stage2(2:2)]: BXVGA: framebuffer @ P0xf8000000
-  [#0 init_stage2(2:2)]: BXVGADevice resolution set to 1024x768 (pitch=3D40=
-96)
-  [init_stage2(2:2)]: UHCI: Controller found PCI::ID [8086:7020] @ PCI [000=
-0:00:01:02]
-  [init_stage2(2:2)]: UHCI: I/O base IO c080
-  [init_stage2(2:2)]: UHCI: Interrupt line: 11
-  [#0 init_stage2(2:2)]: UHCI: Allocated framelist at physical address P0x0=
-0e40000
-  [#0 init_stage2(2:2)]: UHCI: Framelist is at virtual address V0xc115d000
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f000) @ 14946304: link_ptr=3D149463=
-38, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f020) @ 14946336: link_ptr=3D149463=
-70, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f040) @ 14946368: link_ptr=3D149464=
-02, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f060) @ 14946400: link_ptr=3D149464=
-34, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f080) @ 14946432: link_ptr=3D149585=
-93, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: Reset completed
-  [#0 init_stage2(2:2)]: UHCI: Started
-  [#0 init_stage2(2:2)]: DMIExpose: SMBIOS 32bit Entry point @ P0x000f5870
-  [#0 init_stage2(2:2)]: DMIExpose: Data table @ P0x000f5890
-  [#0 init_stage2(2:2)]: VirtIOConsole: Found @ PCI [0000:00:04:00]
-  [#0 init_stage2(2:2)]: Trying to unregister unused handler (?)
-  [#0 init_stage2(2:2)]: VirtIOConsole: Multi port is not yet supported!
-  [#0 init_stage2(2:2)]: VirtIOConsole: cols: 0, rows: 0, max nr ports 0
-  qemu-system-i386.exe: warning: GLib: Too many handles to wait for!
-  ```
-
-  The lines starting with [ are SerenityOS output; QEMU warns "GLib: Too
-  many handles to wait for!" and crashes right after (can't even Ctrl-C
-  in the WSL command line, force-close in Windows necessary). A window
-  is still spawned but as the OS already switched out of text mode, just
-  a black screen is visible as QEMU crashes.
-
-  I first thought this to be an issue with SerenityOS and reported it
-  over there: <https://github.com/SerenityOS/serenity/issues/6422>. The
-  kernel devs pointed out that this seems to be a VirtIO driver/device
-  issue on the Windows build of QEMU, because the Serenity kernel tries
-  to initialize VirtIO devices which apparently crashes QEMU. There will
-  be mitigations from the SerenityOS side (by allowing to disable VirtIO
-  on boot) but it would of course be great if QEMU handled this
-  properly.
-
-  Version info: Both QEMU 6.0.0-rc3 and 5.2.0 exhibit this issue.
-  Windows release is 20H2, WSL2 is running Debian 10.9. SerenityOS has
-  no proper version but it was reproduced on the most current commits as
-  of 18/04/2021.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924912/+subscriptions
+thanks
+-- PMM
 
