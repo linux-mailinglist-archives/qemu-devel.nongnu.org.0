@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1816E363866
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:02:01 +0200 (CEST)
-Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4F136386F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:05:44 +0200 (CEST)
+Received: from localhost ([::1]:34596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYGQS-0006Zj-5E
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:02:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
+	id 1lYGU3-0000oF-HD
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:05:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGGK-0002j7-Vx
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:33 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41499)
+ id 1lYGGd-00034W-Aj
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:51 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGGJ-0000UK-2a
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:32 -0400
-Received: by mail-wr1-x430.google.com with SMTP id k26so15621645wrc.8
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:51:30 -0700 (PDT)
+ id 1lYGGb-0000eM-UK
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:51 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ n10-20020a05600c4f8ab0290130f0d3cba3so4186031wmq.1
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HEDVE1BH0ASPFbPC+pm0317mb0q/DhypvkeSRH/j5kw=;
- b=j5HMviWXgiuhhePk44fGd+vYX7jcoJRUn5ZXvkhDX7s+OXYrBn7JFrOWyWOEoUdtL2
- HPGvSHw7vhlB7D0QyG6rQdevt9fDSXBi5VqQ43mTomyaLPjoOAvjVdC45eZRyuDBimJJ
- hhHZlTAtW3fEsY9HPBOBrk2BOXvUqIUAjI2HH6u+Gni5hbs6MaNZ7j3Ktq6AYL1B/sGr
- YZ353PoWxu4yurhOPuBJ+DZL9kVwVjW3lHt5pOLIaT3/hG0fTvkU7ZIT0BllU2U6UNq6
- rFT2ivpbrovllw0wzIk9RIu0bnlfvx0A+Pykfx8j/Q15Kiqv9hl34QwEY1Yo6MRW82VJ
- MDrQ==
+ bh=cJdBKLIJjo1FmzN1QJg7i4Ge0av2J5mMxKO6UU2xPVo=;
+ b=oLru24v/zcZWzUaNRH1jCGVsMjsheo/erIlq+h/g0NMuvdm4JbgxexJMzOxBboW5kc
+ MI+u4m3l9CCsDiy0/boI3SLc67qzl82pR1zdT7YM/hwzt4GA0H40ez5Q9E8QklwrqEL5
+ BJdjpJtWRz8Uv70lLkCVZdplG54IBfyyrV8zFyuKQU6zujlsnR9ng1fHKCLNI3TMMHht
+ hd0KRgtMg8IuK6G0anYRGNxW1bJ75XiM/E0MnupehQby4v9jH0eebqEDHsvSBgIPDJeW
+ NmONNKJSXOKA1n6GWTy3oVV4vRp+0ts73RHVcZK2ot9N2NH0iFFbV8Y/Lcl9htB4YNx5
+ IW7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HEDVE1BH0ASPFbPC+pm0317mb0q/DhypvkeSRH/j5kw=;
- b=T+dm9+VgQKs1L6uocwOTaVJFEcf9iMuciuy0OJfLUq0zCrFxxY7al3+MooEOPJoSwT
- aUt4vpWiglizwqrtctcN94AXh1o+h6cPUHu5u/uNZhdHHeQP5zBNJOatyXmEW4CtlO6H
- qlLZ3GGfOEGZrJXOjwp3t/HLdceD4oGf09BZIDJMdH++SyKQbEdv9Z5tgYa7YI2WvLQ9
- FhPZAm3xYB+y1c8tH8efRSH0wkp0OX9zDwRc7NVv0oEzHb2YkqlRAx4ccLe4MOYgG952
- 8IVGTZGrLHmQYUfcj0UlabcUletd+ZI+XaQ6vOdPrz39L0a3FC6mItXEqQFGTkKYf6nP
- IBIQ==
-X-Gm-Message-State: AOAM531dKK+hmHX19z7H51fBSWRNVPIj/zbwAgo4Syp4COebieIXcLGi
- CO+rkmCo5sg+PdyNXYhgYFjQaD0C7pjLBA==
-X-Google-Smtp-Source: ABdhPJxT/Ou/uWSCn05FrAaV0TAMsbpi9XvJysW0xZzOilGB45gu8driS+bsolC95SPFb6D5lONHGg==
-X-Received: by 2002:adf:f3c1:: with SMTP id g1mr11118156wrp.344.1618786289368; 
- Sun, 18 Apr 2021 15:51:29 -0700 (PDT)
+ bh=cJdBKLIJjo1FmzN1QJg7i4Ge0av2J5mMxKO6UU2xPVo=;
+ b=K/YXMehczczI9XAf0fUrvFmAqj2O69XkQkQojtAg/dZ/YCnnK9eG45ALxX+PMy7uZH
+ DG6HfuEQpl70rGDDpxN/AFKf2cBp2Lo4hVOa9Aqch/R+Nw0Zo9r+Lr7Rnoj7NxFhtVOR
+ iP61JqpOvGNf4hJiVrrO2PZcqGmr+HPdI0nPRR94gwQves8oOodxw4OSQtO0nKKMyLzT
+ GcACGCABIuKuR37jZAvvcJ1yqsDPcBy2Dj3hAaBqIrQT+unKTK4Fqjc03kOtS25OgI+k
+ FrMDOQCg4CsVmynzJqOdyg+s4lFE9em7AF6aREmCUBnatHn3H87lZIGcWADxuVjZ86Qu
+ dBwA==
+X-Gm-Message-State: AOAM533NQni/ulq9ft2Hx2fn7HOoGiHAFDcpL711U057+OW2DvsEp7Fq
+ DbZB2pHh12YpZnyEGr3NHDmQTjkxoWd5bg==
+X-Google-Smtp-Source: ABdhPJxZw8CHQt0JuPprvDTIQus1iPDp13zHWwYjySmSpmEySKmc5fteRKbBr6Np7dGG5G2NDpzCWw==
+X-Received: by 2002:a1c:23d0:: with SMTP id j199mr18698947wmj.74.1618786308414; 
+ Sun, 18 Apr 2021 15:51:48 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id v2sm20823806wrr.26.2021.04.18.15.51.28
+ by smtp.gmail.com with ESMTPSA id u6sm19127327wml.23.2021.04.18.15.51.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 15:51:28 -0700 (PDT)
+ Sun, 18 Apr 2021 15:51:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/29] target/mips: Restrict mips_cpu_dump_state() to cpu.c
-Date: Mon, 19 Apr 2021 00:50:35 +0200
-Message-Id: <20210418225058.1257014-7-f4bug@amsat.org>
+Subject: [PATCH v2 10/29] meson: Introduce meson_user_arch source set for
+ arch-specific user-mode
+Date: Mon, 19 Apr 2021 00:50:39 +0200
+Message-Id: <20210418225058.1257014-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418225058.1257014-1-f4bug@amsat.org>
 References: <20210418225058.1257014-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,212 +91,48 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As mips_cpu_dump_state() is only used once to initialize the
-CPUClass::dump_state handler, we can move it to cpu.c to keep
-it symbol local.
-Beside, this handler is used by all accelerators, while the
-translate.c file targets TCG.
+Similarly to the 'target_softmmu_arch' source set which allows
+to restrict target-specific sources to system emulation, add
+the equivalent 'target_user_arch' set for user emulation.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h  |  1 -
- target/mips/cpu.c       | 77 +++++++++++++++++++++++++++++++++++++++++
- target/mips/translate.c | 77 -----------------------------------------
- 3 files changed, 77 insertions(+), 78 deletions(-)
+v2: meson_user_arch -> target_user_arch in description (rth)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 37f54a8b3fc..57072a941e7 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -79,7 +79,6 @@ extern const int mips_defs_number;
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index d8bb1ec5aa9..1ffdc9e6c4e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1751,6 +1751,7 @@
+ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
++target_user_arch = {}
  
- void mips_cpu_do_interrupt(CPUState *cpu);
- bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
--void mips_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- hwaddr mips_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int mips_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int mips_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index ed9552ebeb7..232f701b836 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -145,6 +145,83 @@ void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
- 
- #endif /* !CONFIG_USER_ONLY */
- 
-+static void fpu_dump_state(CPUMIPSState *env, FILE *f, int flags)
-+{
-+    int i;
-+    int is_fpu64 = !!(env->hflags & MIPS_HFLAG_F64);
-+
-+#define printfpr(fp)                                                    \
-+    do {                                                                \
-+        if (is_fpu64)                                                   \
-+            qemu_fprintf(f, "w:%08x d:%016" PRIx64                      \
-+                         " fd:%13g fs:%13g psu: %13g\n",                \
-+                         (fp)->w[FP_ENDIAN_IDX], (fp)->d,               \
-+                         (double)(fp)->fd,                              \
-+                         (double)(fp)->fs[FP_ENDIAN_IDX],               \
-+                         (double)(fp)->fs[!FP_ENDIAN_IDX]);             \
-+        else {                                                          \
-+            fpr_t tmp;                                                  \
-+            tmp.w[FP_ENDIAN_IDX] = (fp)->w[FP_ENDIAN_IDX];              \
-+            tmp.w[!FP_ENDIAN_IDX] = ((fp) + 1)->w[FP_ENDIAN_IDX];       \
-+            qemu_fprintf(f, "w:%08x d:%016" PRIx64                      \
-+                         " fd:%13g fs:%13g psu:%13g\n",                 \
-+                         tmp.w[FP_ENDIAN_IDX], tmp.d,                   \
-+                         (double)tmp.fd,                                \
-+                         (double)tmp.fs[FP_ENDIAN_IDX],                 \
-+                         (double)tmp.fs[!FP_ENDIAN_IDX]);               \
-+        }                                                               \
-+    } while (0)
-+
-+
-+    qemu_fprintf(f,
-+                 "CP1 FCR0 0x%08x  FCR31 0x%08x  SR.FR %d  fp_status 0x%02x\n",
-+                 env->active_fpu.fcr0, env->active_fpu.fcr31, is_fpu64,
-+                 get_float_exception_flags(&env->active_fpu.fp_status));
-+    for (i = 0; i < 32; (is_fpu64) ? i++ : (i += 2)) {
-+        qemu_fprintf(f, "%3s: ", fregnames[i]);
-+        printfpr(&env->active_fpu.fpr[i]);
-+    }
-+
-+#undef printfpr
-+}
-+
-+static void mips_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-+{
-+    MIPSCPU *cpu = MIPS_CPU(cs);
-+    CPUMIPSState *env = &cpu->env;
-+    int i;
-+
-+    qemu_fprintf(f, "pc=0x" TARGET_FMT_lx " HI=0x" TARGET_FMT_lx
-+                 " LO=0x" TARGET_FMT_lx " ds %04x "
-+                 TARGET_FMT_lx " " TARGET_FMT_ld "\n",
-+                 env->active_tc.PC, env->active_tc.HI[0], env->active_tc.LO[0],
-+                 env->hflags, env->btarget, env->bcond);
-+    for (i = 0; i < 32; i++) {
-+        if ((i & 3) == 0) {
-+            qemu_fprintf(f, "GPR%02d:", i);
-+        }
-+        qemu_fprintf(f, " %s " TARGET_FMT_lx,
-+                     regnames[i], env->active_tc.gpr[i]);
-+        if ((i & 3) == 3) {
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
-+
-+    qemu_fprintf(f, "CP0 Status  0x%08x Cause   0x%08x EPC    0x"
-+                 TARGET_FMT_lx "\n",
-+                 env->CP0_Status, env->CP0_Cause, env->CP0_EPC);
-+    qemu_fprintf(f, "    Config0 0x%08x Config1 0x%08x LLAddr 0x%016"
-+                 PRIx64 "\n",
-+                 env->CP0_Config0, env->CP0_Config1, env->CP0_LLAddr);
-+    qemu_fprintf(f, "    Config2 0x%08x Config3 0x%08x\n",
-+                 env->CP0_Config2, env->CP0_Config3);
-+    qemu_fprintf(f, "    Config4 0x%08x Config5 0x%08x\n",
-+                 env->CP0_Config4, env->CP0_Config5);
-+    if ((flags & CPU_DUMP_FPU) && (env->hflags & MIPS_HFLAG_FPU)) {
-+        fpu_dump_state(env, f, flags);
-+    }
-+}
-+
- static const char * const excp_names[EXCP_LAST + 1] = {
-     [EXCP_RESET] = "reset",
-     [EXCP_SRESET] = "soft reset",
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index f99d4d4016d..8702f9220be 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -25579,83 +25579,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     translator_loop(&mips_tr_ops, &ctx.base, cs, tb, max_insns);
- }
- 
--static void fpu_dump_state(CPUMIPSState *env, FILE * f, int flags)
--{
--    int i;
--    int is_fpu64 = !!(env->hflags & MIPS_HFLAG_F64);
--
--#define printfpr(fp)                                                    \
--    do {                                                                \
--        if (is_fpu64)                                                   \
--            qemu_fprintf(f, "w:%08x d:%016" PRIx64                      \
--                         " fd:%13g fs:%13g psu: %13g\n",                \
--                         (fp)->w[FP_ENDIAN_IDX], (fp)->d,               \
--                         (double)(fp)->fd,                              \
--                         (double)(fp)->fs[FP_ENDIAN_IDX],               \
--                         (double)(fp)->fs[!FP_ENDIAN_IDX]);             \
--        else {                                                          \
--            fpr_t tmp;                                                  \
--            tmp.w[FP_ENDIAN_IDX] = (fp)->w[FP_ENDIAN_IDX];              \
--            tmp.w[!FP_ENDIAN_IDX] = ((fp) + 1)->w[FP_ENDIAN_IDX];       \
--            qemu_fprintf(f, "w:%08x d:%016" PRIx64                      \
--                         " fd:%13g fs:%13g psu:%13g\n",                 \
--                         tmp.w[FP_ENDIAN_IDX], tmp.d,                   \
--                         (double)tmp.fd,                                \
--                         (double)tmp.fs[FP_ENDIAN_IDX],                 \
--                         (double)tmp.fs[!FP_ENDIAN_IDX]);               \
--        }                                                               \
--    } while (0)
--
--
--    qemu_fprintf(f,
--                 "CP1 FCR0 0x%08x  FCR31 0x%08x  SR.FR %d  fp_status 0x%02x\n",
--                 env->active_fpu.fcr0, env->active_fpu.fcr31, is_fpu64,
--                 get_float_exception_flags(&env->active_fpu.fp_status));
--    for (i = 0; i < 32; (is_fpu64) ? i++ : (i += 2)) {
--        qemu_fprintf(f, "%3s: ", fregnames[i]);
--        printfpr(&env->active_fpu.fpr[i]);
--    }
--
--#undef printfpr
--}
--
--void mips_cpu_dump_state(CPUState *cs, FILE *f, int flags)
--{
--    MIPSCPU *cpu = MIPS_CPU(cs);
--    CPUMIPSState *env = &cpu->env;
--    int i;
--
--    qemu_fprintf(f, "pc=0x" TARGET_FMT_lx " HI=0x" TARGET_FMT_lx
--                 " LO=0x" TARGET_FMT_lx " ds %04x "
--                 TARGET_FMT_lx " " TARGET_FMT_ld "\n",
--                 env->active_tc.PC, env->active_tc.HI[0], env->active_tc.LO[0],
--                 env->hflags, env->btarget, env->bcond);
--    for (i = 0; i < 32; i++) {
--        if ((i & 3) == 0) {
--            qemu_fprintf(f, "GPR%02d:", i);
--        }
--        qemu_fprintf(f, " %s " TARGET_FMT_lx,
--                     regnames[i], env->active_tc.gpr[i]);
--        if ((i & 3) == 3) {
--            qemu_fprintf(f, "\n");
--        }
--    }
--
--    qemu_fprintf(f, "CP0 Status  0x%08x Cause   0x%08x EPC    0x"
--                 TARGET_FMT_lx "\n",
--                 env->CP0_Status, env->CP0_Cause, env->CP0_EPC);
--    qemu_fprintf(f, "    Config0 0x%08x Config1 0x%08x LLAddr 0x%016"
--                 PRIx64 "\n",
--                 env->CP0_Config0, env->CP0_Config1, env->CP0_LLAddr);
--    qemu_fprintf(f, "    Config2 0x%08x Config3 0x%08x\n",
--                 env->CP0_Config2, env->CP0_Config3);
--    qemu_fprintf(f, "    Config4 0x%08x Config5 0x%08x\n",
--                 env->CP0_Config4, env->CP0_Config5);
--    if ((flags & CPU_DUMP_FPU) && (env->hflags & MIPS_HFLAG_FPU)) {
--        fpu_dump_state(env, f, flags);
--    }
--}
--
- void mips_tcg_init(void)
- {
-     int i;
+ ###############
+ # Trace files #
+@@ -2168,6 +2169,11 @@
+     abi = config_target['TARGET_ABI_DIR']
+     target_type='user'
+     qemu_target_name = 'qemu-' + target_name
++    if arch in target_user_arch
++      t = target_user_arch[arch].apply(config_target, strict: false)
++      arch_srcs += t.sources()
++      arch_deps += t.dependencies()
++    endif
+     if 'CONFIG_LINUX_USER' in config_target
+       base_dir = 'linux-user'
+       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
 -- 
 2.26.3
 
