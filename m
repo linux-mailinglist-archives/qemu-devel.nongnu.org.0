@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4663A3636DF
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:55:14 +0200 (CEST)
-Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA6E3636DD
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:54:22 +0200 (CEST)
+Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYAhV-0007jT-C5
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
+	id 1lYAgf-0005yx-CP
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYAMQ-0003tp-Ed
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:33:26 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:43004)
+ id 1lYAMX-0003ux-PI
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:33:33 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYAMN-0004rs-Nd
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:33:25 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- y5-20020a05600c3645b0290132b13aaa3bso5030617wmq.1
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:33:23 -0700 (PDT)
+ id 1lYAMT-0004tn-90
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:33:33 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id m9so18749137wrx.3
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:33:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9aVDjscrzB3ow8BOCfGrETyqSXdEWr7eXbOjIPWKjdA=;
- b=b4zOcCQRrtkeLGa0bIT8BNcXq783RM20kWG6KvBZP1OFRzP+ldT/g53Dnp0H3hEp0m
- YAx3cAJLG+EeCt1KLDziKR44YUZB5AezTsA8QqwGwsmLhaUmUijz9dh8nbhqoOafL5/H
- TWXZs5ASnaB0xdeCtwyey3a5duykf4Km7plkHKpMRsYt/apgHEhVTfROjJwpAXv2YGdG
- IFuyz9Y1VZyw8z7wff6sm2erJOiJqhLBDQ9cGM4SS8ZoPHMPj5R/7mo/uOblSbRjkC04
- o9QTwhl1+VleM+TwQEAlPGzJCa1RWIIP8plp2TA/czbL6YusEUAi/s14j6tEBv7uufje
- MKYQ==
+ bh=GH739aFnB2Kko4GX0bYPCtlcY6ntf31cBdgRc305Xiw=;
+ b=V32ULxVDxTGGjay7oebOde04L4YlEiG2TR6stOvYiSUPN2NobyNfiomtPwFF49KyqB
+ z23WlG7fyJVB+zqw9dv0kSJOCWqqhRWqLn+z0MECk26/p/2V3lZEXAUovH1Zm4qgpDWb
+ D4KY7+Q84WocfvBTj6AMotch4KDGlMJ7kuOOMfkJVOL5Gs4ySl6YYYTY1oXHHgrOG7Ey
+ sHhZdGCed/vowhLDlEYQnNNP38sseBuwu5UmfLmeziSKyqyAf+Yl9tgsE/DCxGOnNj8i
+ 7VApStfjeY8j4uzdBU3HyqlRNTfN2WkF1Nnn64o4njVslfabCl9fL6Vj4d707V5M8Vx4
+ 1Kig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9aVDjscrzB3ow8BOCfGrETyqSXdEWr7eXbOjIPWKjdA=;
- b=D45/dh8+UT6vAJo8u7hXY8Zd0IEeHUk5fUEgnxxBju5odMN9XFmTeQpFsRNMOdt2AG
- S8XE4IIfyuLjeI0/8YNUmVA+r+HXQUwez24d8PEhOh6E1Ns/IxNaRjN8AsxfZAwkHPuT
- 0n3n3gDKerfuG+pZi845axxdkjv3rXnKnWQecVL/pj5yKh26fM6YMZkBb8WNHGoPJs7q
- xOzkL+LCoVa5aTytQT2CCHLpee6hkPixDqK4rbB/WzjXxbXNQLNKJQKyp58wVfacFJNA
- a5GMOsZPtR0oF0Kh22xiSTJEuuEX2RtYDbIde20+s2g6tn/B0b1d6u7SDiLde6Kl7vni
- qafw==
-X-Gm-Message-State: AOAM530vkFEh/bfyesOHtRhTHfQXiAIpf4YVfe34CYzvj7wfCMcldBs4
- TXPNSBCAOrQY4u0Ss0TbT7PyBP7S2gNeWQ==
-X-Google-Smtp-Source: ABdhPJyUd4C1QhxwMB3eYvSsZ0o+0OeNh7MslYDzHCDIuz60cpViLmyrwIe73d+G9e9xHEkja3lRvw==
-X-Received: by 2002:a1c:2541:: with SMTP id l62mr17655746wml.188.1618763602001; 
- Sun, 18 Apr 2021 09:33:22 -0700 (PDT)
+ bh=GH739aFnB2Kko4GX0bYPCtlcY6ntf31cBdgRc305Xiw=;
+ b=TzRetDP8FCY9wJ0PFrsIbU2PxHe1wp20Q12z4VJDaoZIYSnvNmMUNzhNKFH9tAHrx1
+ GBB8B8h8nciTHcgTqJ/6iofalDr2v4brSNH9i/z7AaoZPd0W/W/dst2ylSNr/i95MXj9
+ DLFdSMsWyBSbRZ+KcGoR0d5ctdH4OkUi9XOStA9t5PcPbZJ4SbkDI7ZV5k4z7zjeKaeL
+ v/IaQuea5etdh7Bs5f/cGrAHcUraHLKQghVM9h/u+6f8wr7iAFlGvP8b/t5WtzHDLkkh
+ ZqdNlAOR73+TScIPoMsTYtDIbtO82hav3GnxxSeJTMu207DcwbQI21IKynupXmvG8xIk
+ wDrg==
+X-Gm-Message-State: AOAM531bGibiVvdWbdinfnBbpmYLzAwJgO4bRq2m+Ei6iFo+FCdCdzps
+ ckUJDo3i6uI2FSslVeCJcW4lF6oBKAdNcw==
+X-Google-Smtp-Source: ABdhPJy/J8B1q7AB1boKd/lTFDbQG+8F3A5d5w9bMK7ntOe15t2Zg0jjcMf/tn/mBFRpMj83h0uW0g==
+X-Received: by 2002:adf:dc8d:: with SMTP id r13mr9788960wrj.339.1618763606925; 
+ Sun, 18 Apr 2021 09:33:26 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id p14sm19488676wrn.49.2021.04.18.09.33.21
+ by smtp.gmail.com with ESMTPSA id m67sm19286065wme.27.2021.04.18.09.33.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 09:33:21 -0700 (PDT)
+ Sun, 18 Apr 2021 09:33:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/26] target/mips: Move CP0 helpers to sysemu/cp0.c
-Date: Sun, 18 Apr 2021 18:31:30 +0200
-Message-Id: <20210418163134.1133100-23-f4bug@amsat.org>
+Subject: [PATCH 23/26] target/mips: Move helper.h -> tcg/helper.h.inc
+Date: Sun, 18 Apr 2021 18:31:31 +0200
+Message-Id: <20210418163134.1133100-24-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418163134.1133100-1-f4bug@amsat.org>
 References: <20210418163134.1133100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,297 +93,1258 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Opcodes accessing Coprocessor 0 are privileged.
-Move the CP0 helpers to sysemu/ and simplify the #ifdef'ry.
+TCG frontend "exec/helper-head.h" expects each target to declare
+its helpers in 'target/$TARGET/helper.h'. To ease maintenance we
+rather to have all TCG specific files under our tcg/ sub directory.
+
+Move the current 'helper.h' there, and add a one-line 'helper.h'
+which re-include it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h         |   9 +--
- target/mips/cpu.c              | 103 ---------------------------
- target/mips/sysemu/cp0.c       | 123 +++++++++++++++++++++++++++++++++
- target/mips/sysemu/meson.build |   1 +
- 4 files changed, 129 insertions(+), 107 deletions(-)
- create mode 100644 target/mips/sysemu/cp0.c
+ target/mips/helper.h         | 614 +----------------------------------
+ target/mips/tcg/helper.h.inc | 613 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 614 insertions(+), 613 deletions(-)
+ create mode 100644 target/mips/tcg/helper.h.inc
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 1e085b0625c..57eec83384a 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -156,6 +156,11 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                     MMUAccessType access_type,
-                                     int mmu_idx, MemTxAttrs attrs,
-                                     MemTxResult response, uintptr_t retaddr);
-+
-+void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
-+void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
-+void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
-+
- extern const VMStateDescription vmstate_mips_cpu;
- 
- #endif /* !CONFIG_USER_ONLY */
-@@ -395,8 +400,4 @@ static inline void compute_hflags(CPUMIPSState *env)
-     }
- }
- 
--void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
--void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
--void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index 8f2ba0a92f8..8cd8dbd956a 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -1,613 +1 @@
+-DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
+-DEF_HELPER_2(raise_exception, noreturn, env, i32)
+-DEF_HELPER_1(raise_exception_debug, noreturn, env)
 -
- #endif
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 38328ba0927..aa42f1e5647 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -42,109 +42,6 @@ const char * const regnames[32] = {
-     "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
- };
- 
--#if !defined(CONFIG_USER_ONLY)
--
--/* Called for updates to CP0_Status.  */
--void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc)
--{
--    int32_t tcstatus, *tcst;
--    uint32_t v = cpu->CP0_Status;
--    uint32_t cu, mx, asid, ksu;
--    uint32_t mask = ((1 << CP0TCSt_TCU3)
--                       | (1 << CP0TCSt_TCU2)
--                       | (1 << CP0TCSt_TCU1)
--                       | (1 << CP0TCSt_TCU0)
--                       | (1 << CP0TCSt_TMX)
--                       | (3 << CP0TCSt_TKSU)
--                       | (0xff << CP0TCSt_TASID));
--
--    cu = (v >> CP0St_CU0) & 0xf;
--    mx = (v >> CP0St_MX) & 0x1;
--    ksu = (v >> CP0St_KSU) & 0x3;
--    asid = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
--
--    tcstatus = cu << CP0TCSt_TCU0;
--    tcstatus |= mx << CP0TCSt_TMX;
--    tcstatus |= ksu << CP0TCSt_TKSU;
--    tcstatus |= asid;
--
--    if (tc == cpu->current_tc) {
--        tcst = &cpu->active_tc.CP0_TCStatus;
--    } else {
--        tcst = &cpu->tcs[tc].CP0_TCStatus;
--    }
--
--    *tcst &= ~mask;
--    *tcst |= tcstatus;
--    compute_hflags(cpu);
--}
--
--void cpu_mips_store_status(CPUMIPSState *env, target_ulong val)
--{
--    uint32_t mask = env->CP0_Status_rw_bitmask;
--    target_ulong old = env->CP0_Status;
--
--    if (env->insn_flags & ISA_MIPS_R6) {
--        bool has_supervisor = extract32(mask, CP0St_KSU, 2) == 0x3;
--#if defined(TARGET_MIPS64)
--        uint32_t ksux = (1 << CP0St_KX) & val;
--        ksux |= (ksux >> 1) & val; /* KX = 0 forces SX to be 0 */
--        ksux |= (ksux >> 1) & val; /* SX = 0 forces UX to be 0 */
--        val = (val & ~(7 << CP0St_UX)) | ksux;
+-#ifdef TARGET_MIPS64
+-DEF_HELPER_4(sdl, void, env, tl, tl, int)
+-DEF_HELPER_4(sdr, void, env, tl, tl, int)
 -#endif
--        if (has_supervisor && extract32(val, CP0St_KSU, 2) == 0x3) {
--            mask &= ~(3 << CP0St_KSU);
--        }
--        mask &= ~(((1 << CP0St_SR) | (1 << CP0St_NMI)) & val);
--    }
+-DEF_HELPER_4(swl, void, env, tl, tl, int)
+-DEF_HELPER_4(swr, void, env, tl, tl, int)
 -
--    env->CP0_Status = (old & ~mask) | (val & mask);
--#if defined(TARGET_MIPS64)
--    if ((env->CP0_Status ^ old) & (old & (7 << CP0St_UX))) {
--        /* Access to at least one of the 64-bit segments has been disabled */
--        tlb_flush(env_cpu(env));
--    }
+-#ifndef CONFIG_USER_ONLY
+-DEF_HELPER_3(ll, tl, env, tl, int)
+-#ifdef TARGET_MIPS64
+-DEF_HELPER_3(lld, tl, env, tl, int)
 -#endif
--    if (ase_mt_available(env)) {
--        sync_c0_status(env, env, env->current_tc);
--    } else {
--        compute_hflags(env);
--    }
--}
+-#endif
 -
--void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
--{
--    uint32_t mask = 0x00C00300;
--    uint32_t old = env->CP0_Cause;
--    int i;
+-DEF_HELPER_3(muls, tl, env, tl, tl)
+-DEF_HELPER_3(mulsu, tl, env, tl, tl)
+-DEF_HELPER_3(macc, tl, env, tl, tl)
+-DEF_HELPER_3(maccu, tl, env, tl, tl)
+-DEF_HELPER_3(msac, tl, env, tl, tl)
+-DEF_HELPER_3(msacu, tl, env, tl, tl)
+-DEF_HELPER_3(mulhi, tl, env, tl, tl)
+-DEF_HELPER_3(mulhiu, tl, env, tl, tl)
+-DEF_HELPER_3(mulshi, tl, env, tl, tl)
+-DEF_HELPER_3(mulshiu, tl, env, tl, tl)
+-DEF_HELPER_3(macchi, tl, env, tl, tl)
+-DEF_HELPER_3(macchiu, tl, env, tl, tl)
+-DEF_HELPER_3(msachi, tl, env, tl, tl)
+-DEF_HELPER_3(msachiu, tl, env, tl, tl)
 -
--    if (env->insn_flags & ISA_MIPS_R2) {
--        mask |= 1 << CP0Ca_DC;
--    }
--    if (env->insn_flags & ISA_MIPS_R6) {
--        mask &= ~((1 << CP0Ca_WP) & val);
--    }
+-DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+-#ifdef TARGET_MIPS64
+-DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+-#endif
 -
--    env->CP0_Cause = (env->CP0_Cause & ~mask) | (val & mask);
+-DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
 -
--    if ((old ^ env->CP0_Cause) & (1 << CP0Ca_DC)) {
--        if (env->CP0_Cause & (1 << CP0Ca_DC)) {
--            cpu_mips_stop_count(env);
--        } else {
--            cpu_mips_start_count(env);
--        }
--    }
+-/* microMIPS functions */
+-DEF_HELPER_4(lwm, void, env, tl, tl, i32)
+-DEF_HELPER_4(swm, void, env, tl, tl, i32)
+-#ifdef TARGET_MIPS64
+-DEF_HELPER_4(ldm, void, env, tl, tl, i32)
+-DEF_HELPER_4(sdm, void, env, tl, tl, i32)
+-#endif
 -
--    /* Set/reset software interrupts */
--    for (i = 0 ; i < 2 ; i++) {
--        if ((old ^ env->CP0_Cause) & (1 << (CP0Ca_IP + i))) {
--            cpu_mips_soft_irq(env, i, env->CP0_Cause & (1 << (CP0Ca_IP + i)));
--        }
--    }
--}
+-DEF_HELPER_2(fork, void, tl, tl)
+-DEF_HELPER_2(yield, tl, env, tl)
 -
+-/* CP1 functions */
+-DEF_HELPER_2(cfc1, tl, env, i32)
+-DEF_HELPER_4(ctc1, void, env, tl, i32, i32)
+-
+-DEF_HELPER_2(float_cvtd_s, i64, env, i32)
+-DEF_HELPER_2(float_cvtd_w, i64, env, i32)
+-DEF_HELPER_2(float_cvtd_l, i64, env, i64)
+-DEF_HELPER_2(float_cvtps_pw, i64, env, i64)
+-DEF_HELPER_2(float_cvtpw_ps, i64, env, i64)
+-DEF_HELPER_2(float_cvts_d, i32, env, i64)
+-DEF_HELPER_2(float_cvts_w, i32, env, i32)
+-DEF_HELPER_2(float_cvts_l, i32, env, i64)
+-DEF_HELPER_2(float_cvts_pl, i32, env, i32)
+-DEF_HELPER_2(float_cvts_pu, i32, env, i32)
+-
+-DEF_HELPER_3(float_addr_ps, i64, env, i64, i64)
+-DEF_HELPER_3(float_mulr_ps, i64, env, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(float_class_s, TCG_CALL_NO_RWG_SE, i32, env, i32)
+-DEF_HELPER_FLAGS_2(float_class_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
+-
+-#define FOP_PROTO(op)                                     \
+-DEF_HELPER_4(float_ ## op ## _s, i32, env, i32, i32, i32) \
+-DEF_HELPER_4(float_ ## op ## _d, i64, env, i64, i64, i64)
+-FOP_PROTO(maddf)
+-FOP_PROTO(msubf)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                                \
+-DEF_HELPER_3(float_ ## op ## _s, i32, env, i32, i32) \
+-DEF_HELPER_3(float_ ## op ## _d, i64, env, i64, i64)
+-FOP_PROTO(max)
+-FOP_PROTO(maxa)
+-FOP_PROTO(min)
+-FOP_PROTO(mina)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                            \
+-DEF_HELPER_2(float_ ## op ## _l_s, i64, env, i32) \
+-DEF_HELPER_2(float_ ## op ## _l_d, i64, env, i64) \
+-DEF_HELPER_2(float_ ## op ## _w_s, i32, env, i32) \
+-DEF_HELPER_2(float_ ## op ## _w_d, i32, env, i64)
+-FOP_PROTO(cvt)
+-FOP_PROTO(round)
+-FOP_PROTO(trunc)
+-FOP_PROTO(ceil)
+-FOP_PROTO(floor)
+-FOP_PROTO(cvt_2008)
+-FOP_PROTO(round_2008)
+-FOP_PROTO(trunc_2008)
+-FOP_PROTO(ceil_2008)
+-FOP_PROTO(floor_2008)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                            \
+-DEF_HELPER_2(float_ ## op ## _s, i32, env, i32)  \
+-DEF_HELPER_2(float_ ## op ## _d, i64, env, i64)
+-FOP_PROTO(sqrt)
+-FOP_PROTO(rsqrt)
+-FOP_PROTO(recip)
+-FOP_PROTO(rint)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                       \
+-DEF_HELPER_1(float_ ## op ## _s, i32, i32)  \
+-DEF_HELPER_1(float_ ## op ## _d, i64, i64)  \
+-DEF_HELPER_1(float_ ## op ## _ps, i64, i64)
+-FOP_PROTO(abs)
+-FOP_PROTO(chs)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                            \
+-DEF_HELPER_2(float_ ## op ## _s, i32, env, i32)  \
+-DEF_HELPER_2(float_ ## op ## _d, i64, env, i64)  \
+-DEF_HELPER_2(float_ ## op ## _ps, i64, env, i64)
+-FOP_PROTO(recip1)
+-FOP_PROTO(rsqrt1)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                                  \
+-DEF_HELPER_3(float_ ## op ## _s, i32, env, i32, i32)   \
+-DEF_HELPER_3(float_ ## op ## _d, i64, env, i64, i64)   \
+-DEF_HELPER_3(float_ ## op ## _ps, i64, env, i64, i64)
+-FOP_PROTO(add)
+-FOP_PROTO(sub)
+-FOP_PROTO(mul)
+-FOP_PROTO(div)
+-FOP_PROTO(recip2)
+-FOP_PROTO(rsqrt2)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                                      \
+-DEF_HELPER_4(float_ ## op ## _s, i32, env, i32, i32, i32)  \
+-DEF_HELPER_4(float_ ## op ## _d, i64, env, i64, i64, i64)  \
+-DEF_HELPER_4(float_ ## op ## _ps, i64, env, i64, i64, i64)
+-FOP_PROTO(madd)
+-FOP_PROTO(msub)
+-FOP_PROTO(nmadd)
+-FOP_PROTO(nmsub)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op)                                    \
+-DEF_HELPER_4(cmp_d_ ## op, void, env, i64, i64, int)     \
+-DEF_HELPER_4(cmpabs_d_ ## op, void, env, i64, i64, int)  \
+-DEF_HELPER_4(cmp_s_ ## op, void, env, i32, i32, int)     \
+-DEF_HELPER_4(cmpabs_s_ ## op, void, env, i32, i32, int)  \
+-DEF_HELPER_4(cmp_ps_ ## op, void, env, i64, i64, int)    \
+-DEF_HELPER_4(cmpabs_ps_ ## op, void, env, i64, i64, int)
+-FOP_PROTO(f)
+-FOP_PROTO(un)
+-FOP_PROTO(eq)
+-FOP_PROTO(ueq)
+-FOP_PROTO(olt)
+-FOP_PROTO(ult)
+-FOP_PROTO(ole)
+-FOP_PROTO(ule)
+-FOP_PROTO(sf)
+-FOP_PROTO(ngle)
+-FOP_PROTO(seq)
+-FOP_PROTO(ngl)
+-FOP_PROTO(lt)
+-FOP_PROTO(nge)
+-FOP_PROTO(le)
+-FOP_PROTO(ngt)
+-#undef FOP_PROTO
+-
+-#define FOP_PROTO(op) \
+-DEF_HELPER_3(r6_cmp_d_ ## op, i64, env, i64, i64) \
+-DEF_HELPER_3(r6_cmp_s_ ## op, i32, env, i32, i32)
+-FOP_PROTO(af)
+-FOP_PROTO(un)
+-FOP_PROTO(eq)
+-FOP_PROTO(ueq)
+-FOP_PROTO(lt)
+-FOP_PROTO(ult)
+-FOP_PROTO(le)
+-FOP_PROTO(ule)
+-FOP_PROTO(saf)
+-FOP_PROTO(sun)
+-FOP_PROTO(seq)
+-FOP_PROTO(sueq)
+-FOP_PROTO(slt)
+-FOP_PROTO(sult)
+-FOP_PROTO(sle)
+-FOP_PROTO(sule)
+-FOP_PROTO(or)
+-FOP_PROTO(une)
+-FOP_PROTO(ne)
+-FOP_PROTO(sor)
+-FOP_PROTO(sune)
+-FOP_PROTO(sne)
+-#undef FOP_PROTO
+-
+-DEF_HELPER_1(rdhwr_cpunum, tl, env)
+-DEF_HELPER_1(rdhwr_synci_step, tl, env)
+-DEF_HELPER_1(rdhwr_cc, tl, env)
+-DEF_HELPER_1(rdhwr_ccres, tl, env)
+-DEF_HELPER_1(rdhwr_performance, tl, env)
+-DEF_HELPER_1(rdhwr_xnp, tl, env)
+-DEF_HELPER_2(pmon, void, env, int)
+-DEF_HELPER_1(wait, void, env)
+-
+-/* Loongson multimedia functions.  */
+-DEF_HELPER_FLAGS_2(paddsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(paddush, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(paddh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(paddw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(paddsb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(paddusb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(paddb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(psubsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psubush, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psubh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psubw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psubsb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psubusb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psubb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(pshufh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(packsswh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(packsshb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(packushb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(punpcklhw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(punpckhhw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(punpcklbh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(punpckhbh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(punpcklwd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(punpckhwd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(pavgh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pavgb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pmaxsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pminsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pmaxub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pminub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(pcmpeqw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pcmpgtw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pcmpeqh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pcmpgth, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pcmpeqb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pcmpgtb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(psllw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psllh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psrlw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psrlh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psraw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(psrah, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(pmullh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pmulhh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pmulhuh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_2(pmaddhw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-
+-DEF_HELPER_FLAGS_2(pasubub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-DEF_HELPER_FLAGS_1(biadd, TCG_CALL_NO_RWG_SE, i64, i64)
+-DEF_HELPER_FLAGS_1(pmovmskb, TCG_CALL_NO_RWG_SE, i64, i64)
+-
+-/*** MIPS DSP ***/
+-/* DSP Arithmetic Sub-class insns */
+-DEF_HELPER_FLAGS_3(addq_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addq_s_ph, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(addq_qh, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addq_s_qh, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(addq_s_w, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(addq_pw, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addq_s_pw, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(addu_qb, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addu_s_qb, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(adduh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(adduh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(addu_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addu_s_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(addqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(addqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(addqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(addqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(addu_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addu_s_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(adduh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(adduh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(addu_qh, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addu_s_qh, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(subq_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subq_s_ph, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(subq_qh, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subq_s_qh, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(subq_s_w, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(subq_pw, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subq_s_pw, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(subu_qb, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subu_s_qb, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(subuh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(subuh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(subu_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subu_s_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(subqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(subqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(subqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(subqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(subu_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subu_s_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(subuh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(subuh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(subu_qh, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(subu_s_qh, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(addsc, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(addwc, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(modsub, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_1(raddu_w_qb, TCG_CALL_NO_RWG_SE, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_1(raddu_l_ob, TCG_CALL_NO_RWG_SE, tl, tl)
+-#endif
+-DEF_HELPER_FLAGS_2(absq_s_qb, 0, tl, tl, env)
+-DEF_HELPER_FLAGS_2(absq_s_ph, 0, tl, tl, env)
+-DEF_HELPER_FLAGS_2(absq_s_w, 0, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_2(absq_s_ob, 0, tl, tl, env)
+-DEF_HELPER_FLAGS_2(absq_s_qh, 0, tl, tl, env)
+-DEF_HELPER_FLAGS_2(absq_s_pw, 0, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_2(precr_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(precrq_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(precr_sra_ph_w, TCG_CALL_NO_RWG_SE,
+-                   tl, i32, tl, tl)
+-DEF_HELPER_FLAGS_3(precr_sra_r_ph_w, TCG_CALL_NO_RWG_SE,
+-                   tl, i32, tl, tl)
+-DEF_HELPER_FLAGS_2(precrq_ph_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(precrq_rs_ph_w, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_2(precr_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(precr_sra_qh_pw,
+-                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
+-DEF_HELPER_FLAGS_3(precr_sra_r_qh_pw,
+-                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
+-DEF_HELPER_FLAGS_2(precrq_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(precrq_qh_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(precrq_rs_qh_pw,
+-                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(precrq_pw_l, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#endif
+-DEF_HELPER_FLAGS_3(precrqu_s_qb_ph, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(precrqu_s_ob_qh,
+-                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
+-
+-DEF_HELPER_FLAGS_1(preceq_pw_qhl, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceq_pw_qhr, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceq_pw_qhla, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceq_pw_qhra, TCG_CALL_NO_RWG_SE, tl, tl)
+-#endif
+-DEF_HELPER_FLAGS_1(precequ_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(precequ_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(precequ_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(precequ_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_1(precequ_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(precequ_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(precequ_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(precequ_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
+-#endif
+-DEF_HELPER_FLAGS_1(preceu_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceu_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceu_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceu_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_1(preceu_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceu_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceu_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_1(preceu_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
+-#endif
+-
+-/* DSP GPR-Based Shift Sub-class insns */
+-DEF_HELPER_FLAGS_3(shll_qb, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(shll_ob, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(shll_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(shll_s_ph, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(shll_qh, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(shll_s_qh, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(shll_s_w, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(shll_pw, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(shll_s_pw, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_2(shrl_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_2(shrl_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shrl_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#endif
+-DEF_HELPER_FLAGS_2(shra_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_2(shra_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#endif
+-DEF_HELPER_FLAGS_2(shra_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_2(shra_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_r_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(shra_r_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#endif
+-
+-/* DSP Multiply Sub-class insns */
+-DEF_HELPER_FLAGS_3(muleu_s_ph_qbl, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(muleu_s_ph_qbr, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(muleu_s_qh_obl, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(muleu_s_qh_obr, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(mulq_rs_ph, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(mulq_rs_qh, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(muleq_s_w_phl, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(muleq_s_w_phr, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(muleq_s_pw_qhl, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(muleq_s_pw_qhr, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpau_h_qbl, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dpau_h_qbr, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpau_h_obl, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(dpau_h_obr, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpsu_h_qbl, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dpsu_h_qbr, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpsu_h_obl, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(dpsu_h_obr, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpa_w_ph, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpa_w_qh, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpax_w_ph, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dpaq_s_w_ph, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpaq_s_w_qh, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpaqx_s_w_ph, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dpaqx_sa_w_ph, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dps_w_ph, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dps_w_qh, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpsx_w_ph, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dpsq_s_w_ph, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpsq_s_w_qh, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpsqx_s_w_ph, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(dpsqx_sa_w_ph, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(mulsaq_s_w_ph, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(mulsaq_s_w_qh, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpaq_sa_l_w, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpaq_sa_l_pw, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(dpsq_sa_l_w, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(dpsq_sa_l_pw, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(mulsaq_s_l_pw, 0, void, tl, tl, i32, env)
+-#endif
+-DEF_HELPER_FLAGS_4(maq_s_w_phl, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(maq_s_w_phr, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(maq_sa_w_phl, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_4(maq_sa_w_phr, 0, void, i32, tl, tl, env)
+-DEF_HELPER_FLAGS_3(mul_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(mul_s_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(mulq_s_ph, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(mulq_s_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(mulq_rs_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_4(mulsa_w_ph, 0, void, i32, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_4(maq_s_w_qhll, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_s_w_qhlr, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_s_w_qhrl, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_s_w_qhrr, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_sa_w_qhll, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_sa_w_qhlr, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_sa_w_qhrl, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_sa_w_qhrr, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_s_l_pwl, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(maq_s_l_pwr, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(dmadd, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(dmaddu, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(dmsub, 0, void, tl, tl, i32, env)
+-DEF_HELPER_FLAGS_4(dmsubu, 0, void, tl, tl, i32, env)
+-#endif
+-
+-/* DSP Bit/Manipulation Sub-class insns */
+-DEF_HELPER_FLAGS_1(bitrev, TCG_CALL_NO_RWG_SE, tl, tl)
+-DEF_HELPER_FLAGS_3(insv, 0, tl, env, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(dinsv, 0, tl, env, tl, tl)
+-#endif
+-
+-/* DSP Compare-Pick Sub-class insns */
+-DEF_HELPER_FLAGS_3(cmpu_eq_qb, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpu_lt_qb, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpu_le_qb, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_2(cmpgu_eq_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(cmpgu_lt_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(cmpgu_le_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(cmp_eq_ph, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_lt_ph, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_le_ph, 0, void, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(cmpu_eq_ob, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpu_lt_ob, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpu_le_ob, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpgdu_eq_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpgdu_lt_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmpgdu_le_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_2(cmpgu_eq_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(cmpgu_lt_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(cmpgu_le_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_3(cmp_eq_qh, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_lt_qh, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_le_qh, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_eq_pw, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_lt_pw, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_3(cmp_le_pw, 0, void, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(pick_qb, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(pick_ph, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(pick_ob, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(pick_qh, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(pick_pw, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_2(packrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_2(packrl_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-#endif
+-
+-/* DSP Accumulator and DSPControl Access Sub-class insns */
+-DEF_HELPER_FLAGS_3(extr_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(extr_r_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(extr_rs_w, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(dextr_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(dextr_r_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(dextr_rs_w, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(dextr_l, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(dextr_r_l, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(dextr_rs_l, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(extr_s_h, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(dextr_s_h, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(extp, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(extpdp, 0, tl, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(dextp, 0, tl, tl, tl, env)
+-DEF_HELPER_FLAGS_3(dextpdp, 0, tl, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(shilo, 0, void, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(dshilo, 0, void, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(mthlip, 0, void, tl, tl, env)
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_FLAGS_3(dmthlip, 0, void, tl, tl, env)
+-#endif
+-DEF_HELPER_FLAGS_3(wrdsp, 0, void, tl, tl, env)
+-DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
+-
+-DEF_HELPER_3(cache, void, env, tl, i32)
+-
+-#ifndef CONFIG_USER_ONLY
+-#include "tcg/sysemu_helper.h.inc"
 -#endif /* !CONFIG_USER_ONLY */
 -
- static void fpu_dump_state(CPUMIPSState *env, FILE * f, int flags)
- {
-     int i;
-diff --git a/target/mips/sysemu/cp0.c b/target/mips/sysemu/cp0.c
+-#include "msa_helper.h.inc"
++#include "tcg/helper.h.inc"
+diff --git a/target/mips/tcg/helper.h.inc b/target/mips/tcg/helper.h.inc
 new file mode 100644
-index 00000000000..bae37f515bf
+index 00000000000..8f2ba0a92f8
 --- /dev/null
-+++ b/target/mips/sysemu/cp0.c
-@@ -0,0 +1,123 @@
-+/*
-+ * QEMU MIPS CPU
-+ *
-+ * Copyright (c) 2012 SUSE LINUX Products GmbH
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
++++ b/target/mips/tcg/helper.h.inc
+@@ -0,0 +1,613 @@
++DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
++DEF_HELPER_2(raise_exception, noreturn, env, i32)
++DEF_HELPER_1(raise_exception_debug, noreturn, env)
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "exec/exec-all.h"
-+
-+/* Called for updates to CP0_Status.  */
-+void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc)
-+{
-+    int32_t tcstatus, *tcst;
-+    uint32_t v = cpu->CP0_Status;
-+    uint32_t cu, mx, asid, ksu;
-+    uint32_t mask = ((1 << CP0TCSt_TCU3)
-+                       | (1 << CP0TCSt_TCU2)
-+                       | (1 << CP0TCSt_TCU1)
-+                       | (1 << CP0TCSt_TCU0)
-+                       | (1 << CP0TCSt_TMX)
-+                       | (3 << CP0TCSt_TKSU)
-+                       | (0xff << CP0TCSt_TASID));
-+
-+    cu = (v >> CP0St_CU0) & 0xf;
-+    mx = (v >> CP0St_MX) & 0x1;
-+    ksu = (v >> CP0St_KSU) & 0x3;
-+    asid = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+
-+    tcstatus = cu << CP0TCSt_TCU0;
-+    tcstatus |= mx << CP0TCSt_TMX;
-+    tcstatus |= ksu << CP0TCSt_TKSU;
-+    tcstatus |= asid;
-+
-+    if (tc == cpu->current_tc) {
-+        tcst = &cpu->active_tc.CP0_TCStatus;
-+    } else {
-+        tcst = &cpu->tcs[tc].CP0_TCStatus;
-+    }
-+
-+    *tcst &= ~mask;
-+    *tcst |= tcstatus;
-+    compute_hflags(cpu);
-+}
-+
-+void cpu_mips_store_status(CPUMIPSState *env, target_ulong val)
-+{
-+    uint32_t mask = env->CP0_Status_rw_bitmask;
-+    target_ulong old = env->CP0_Status;
-+
-+    if (env->insn_flags & ISA_MIPS_R6) {
-+        bool has_supervisor = extract32(mask, CP0St_KSU, 2) == 0x3;
-+#if defined(TARGET_MIPS64)
-+        uint32_t ksux = (1 << CP0St_KX) & val;
-+        ksux |= (ksux >> 1) & val; /* KX = 0 forces SX to be 0 */
-+        ksux |= (ksux >> 1) & val; /* SX = 0 forces UX to be 0 */
-+        val = (val & ~(7 << CP0St_UX)) | ksux;
++#ifdef TARGET_MIPS64
++DEF_HELPER_4(sdl, void, env, tl, tl, int)
++DEF_HELPER_4(sdr, void, env, tl, tl, int)
 +#endif
-+        if (has_supervisor && extract32(val, CP0St_KSU, 2) == 0x3) {
-+            mask &= ~(3 << CP0St_KSU);
-+        }
-+        mask &= ~(((1 << CP0St_SR) | (1 << CP0St_NMI)) & val);
-+    }
++DEF_HELPER_4(swl, void, env, tl, tl, int)
++DEF_HELPER_4(swr, void, env, tl, tl, int)
 +
-+    env->CP0_Status = (old & ~mask) | (val & mask);
-+#if defined(TARGET_MIPS64)
-+    if ((env->CP0_Status ^ old) & (old & (7 << CP0St_UX))) {
-+        /* Access to at least one of the 64-bit segments has been disabled */
-+        tlb_flush(env_cpu(env));
-+    }
++#ifndef CONFIG_USER_ONLY
++DEF_HELPER_3(ll, tl, env, tl, int)
++#ifdef TARGET_MIPS64
++DEF_HELPER_3(lld, tl, env, tl, int)
 +#endif
-+    if (ase_mt_available(env)) {
-+        sync_c0_status(env, env, env->current_tc);
-+    } else {
-+        compute_hflags(env);
-+    }
-+}
++#endif
 +
-+void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
-+{
-+    uint32_t mask = 0x00C00300;
-+    uint32_t old = env->CP0_Cause;
-+    int i;
++DEF_HELPER_3(muls, tl, env, tl, tl)
++DEF_HELPER_3(mulsu, tl, env, tl, tl)
++DEF_HELPER_3(macc, tl, env, tl, tl)
++DEF_HELPER_3(maccu, tl, env, tl, tl)
++DEF_HELPER_3(msac, tl, env, tl, tl)
++DEF_HELPER_3(msacu, tl, env, tl, tl)
++DEF_HELPER_3(mulhi, tl, env, tl, tl)
++DEF_HELPER_3(mulhiu, tl, env, tl, tl)
++DEF_HELPER_3(mulshi, tl, env, tl, tl)
++DEF_HELPER_3(mulshiu, tl, env, tl, tl)
++DEF_HELPER_3(macchi, tl, env, tl, tl)
++DEF_HELPER_3(macchiu, tl, env, tl, tl)
++DEF_HELPER_3(msachi, tl, env, tl, tl)
++DEF_HELPER_3(msachiu, tl, env, tl, tl)
 +
-+    if (env->insn_flags & ISA_MIPS_R2) {
-+        mask |= 1 << CP0Ca_DC;
-+    }
-+    if (env->insn_flags & ISA_MIPS_R6) {
-+        mask &= ~((1 << CP0Ca_WP) & val);
-+    }
++DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
++#ifdef TARGET_MIPS64
++DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
++#endif
 +
-+    env->CP0_Cause = (env->CP0_Cause & ~mask) | (val & mask);
++DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
 +
-+    if ((old ^ env->CP0_Cause) & (1 << CP0Ca_DC)) {
-+        if (env->CP0_Cause & (1 << CP0Ca_DC)) {
-+            cpu_mips_stop_count(env);
-+        } else {
-+            cpu_mips_start_count(env);
-+        }
-+    }
++/* microMIPS functions */
++DEF_HELPER_4(lwm, void, env, tl, tl, i32)
++DEF_HELPER_4(swm, void, env, tl, tl, i32)
++#ifdef TARGET_MIPS64
++DEF_HELPER_4(ldm, void, env, tl, tl, i32)
++DEF_HELPER_4(sdm, void, env, tl, tl, i32)
++#endif
 +
-+    /* Set/reset software interrupts */
-+    for (i = 0 ; i < 2 ; i++) {
-+        if ((old ^ env->CP0_Cause) & (1 << (CP0Ca_IP + i))) {
-+            cpu_mips_soft_irq(env, i, env->CP0_Cause & (1 << (CP0Ca_IP + i)));
-+        }
-+    }
-+}
-diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
-index 925ceeaa449..cefc2275828 100644
---- a/target/mips/sysemu/meson.build
-+++ b/target/mips/sysemu/meson.build
-@@ -1,5 +1,6 @@
- mips_softmmu_ss.add(files(
-   'addr.c',
-+  'cp0.c',
-   'cp0_timer.c',
-   'machine.c',
-   'physaddr.c',
++DEF_HELPER_2(fork, void, tl, tl)
++DEF_HELPER_2(yield, tl, env, tl)
++
++/* CP1 functions */
++DEF_HELPER_2(cfc1, tl, env, i32)
++DEF_HELPER_4(ctc1, void, env, tl, i32, i32)
++
++DEF_HELPER_2(float_cvtd_s, i64, env, i32)
++DEF_HELPER_2(float_cvtd_w, i64, env, i32)
++DEF_HELPER_2(float_cvtd_l, i64, env, i64)
++DEF_HELPER_2(float_cvtps_pw, i64, env, i64)
++DEF_HELPER_2(float_cvtpw_ps, i64, env, i64)
++DEF_HELPER_2(float_cvts_d, i32, env, i64)
++DEF_HELPER_2(float_cvts_w, i32, env, i32)
++DEF_HELPER_2(float_cvts_l, i32, env, i64)
++DEF_HELPER_2(float_cvts_pl, i32, env, i32)
++DEF_HELPER_2(float_cvts_pu, i32, env, i32)
++
++DEF_HELPER_3(float_addr_ps, i64, env, i64, i64)
++DEF_HELPER_3(float_mulr_ps, i64, env, i64, i64)
++
++DEF_HELPER_FLAGS_2(float_class_s, TCG_CALL_NO_RWG_SE, i32, env, i32)
++DEF_HELPER_FLAGS_2(float_class_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
++
++#define FOP_PROTO(op)                                     \
++DEF_HELPER_4(float_ ## op ## _s, i32, env, i32, i32, i32) \
++DEF_HELPER_4(float_ ## op ## _d, i64, env, i64, i64, i64)
++FOP_PROTO(maddf)
++FOP_PROTO(msubf)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                                \
++DEF_HELPER_3(float_ ## op ## _s, i32, env, i32, i32) \
++DEF_HELPER_3(float_ ## op ## _d, i64, env, i64, i64)
++FOP_PROTO(max)
++FOP_PROTO(maxa)
++FOP_PROTO(min)
++FOP_PROTO(mina)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                            \
++DEF_HELPER_2(float_ ## op ## _l_s, i64, env, i32) \
++DEF_HELPER_2(float_ ## op ## _l_d, i64, env, i64) \
++DEF_HELPER_2(float_ ## op ## _w_s, i32, env, i32) \
++DEF_HELPER_2(float_ ## op ## _w_d, i32, env, i64)
++FOP_PROTO(cvt)
++FOP_PROTO(round)
++FOP_PROTO(trunc)
++FOP_PROTO(ceil)
++FOP_PROTO(floor)
++FOP_PROTO(cvt_2008)
++FOP_PROTO(round_2008)
++FOP_PROTO(trunc_2008)
++FOP_PROTO(ceil_2008)
++FOP_PROTO(floor_2008)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                            \
++DEF_HELPER_2(float_ ## op ## _s, i32, env, i32)  \
++DEF_HELPER_2(float_ ## op ## _d, i64, env, i64)
++FOP_PROTO(sqrt)
++FOP_PROTO(rsqrt)
++FOP_PROTO(recip)
++FOP_PROTO(rint)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                       \
++DEF_HELPER_1(float_ ## op ## _s, i32, i32)  \
++DEF_HELPER_1(float_ ## op ## _d, i64, i64)  \
++DEF_HELPER_1(float_ ## op ## _ps, i64, i64)
++FOP_PROTO(abs)
++FOP_PROTO(chs)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                            \
++DEF_HELPER_2(float_ ## op ## _s, i32, env, i32)  \
++DEF_HELPER_2(float_ ## op ## _d, i64, env, i64)  \
++DEF_HELPER_2(float_ ## op ## _ps, i64, env, i64)
++FOP_PROTO(recip1)
++FOP_PROTO(rsqrt1)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                                  \
++DEF_HELPER_3(float_ ## op ## _s, i32, env, i32, i32)   \
++DEF_HELPER_3(float_ ## op ## _d, i64, env, i64, i64)   \
++DEF_HELPER_3(float_ ## op ## _ps, i64, env, i64, i64)
++FOP_PROTO(add)
++FOP_PROTO(sub)
++FOP_PROTO(mul)
++FOP_PROTO(div)
++FOP_PROTO(recip2)
++FOP_PROTO(rsqrt2)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                                      \
++DEF_HELPER_4(float_ ## op ## _s, i32, env, i32, i32, i32)  \
++DEF_HELPER_4(float_ ## op ## _d, i64, env, i64, i64, i64)  \
++DEF_HELPER_4(float_ ## op ## _ps, i64, env, i64, i64, i64)
++FOP_PROTO(madd)
++FOP_PROTO(msub)
++FOP_PROTO(nmadd)
++FOP_PROTO(nmsub)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op)                                    \
++DEF_HELPER_4(cmp_d_ ## op, void, env, i64, i64, int)     \
++DEF_HELPER_4(cmpabs_d_ ## op, void, env, i64, i64, int)  \
++DEF_HELPER_4(cmp_s_ ## op, void, env, i32, i32, int)     \
++DEF_HELPER_4(cmpabs_s_ ## op, void, env, i32, i32, int)  \
++DEF_HELPER_4(cmp_ps_ ## op, void, env, i64, i64, int)    \
++DEF_HELPER_4(cmpabs_ps_ ## op, void, env, i64, i64, int)
++FOP_PROTO(f)
++FOP_PROTO(un)
++FOP_PROTO(eq)
++FOP_PROTO(ueq)
++FOP_PROTO(olt)
++FOP_PROTO(ult)
++FOP_PROTO(ole)
++FOP_PROTO(ule)
++FOP_PROTO(sf)
++FOP_PROTO(ngle)
++FOP_PROTO(seq)
++FOP_PROTO(ngl)
++FOP_PROTO(lt)
++FOP_PROTO(nge)
++FOP_PROTO(le)
++FOP_PROTO(ngt)
++#undef FOP_PROTO
++
++#define FOP_PROTO(op) \
++DEF_HELPER_3(r6_cmp_d_ ## op, i64, env, i64, i64) \
++DEF_HELPER_3(r6_cmp_s_ ## op, i32, env, i32, i32)
++FOP_PROTO(af)
++FOP_PROTO(un)
++FOP_PROTO(eq)
++FOP_PROTO(ueq)
++FOP_PROTO(lt)
++FOP_PROTO(ult)
++FOP_PROTO(le)
++FOP_PROTO(ule)
++FOP_PROTO(saf)
++FOP_PROTO(sun)
++FOP_PROTO(seq)
++FOP_PROTO(sueq)
++FOP_PROTO(slt)
++FOP_PROTO(sult)
++FOP_PROTO(sle)
++FOP_PROTO(sule)
++FOP_PROTO(or)
++FOP_PROTO(une)
++FOP_PROTO(ne)
++FOP_PROTO(sor)
++FOP_PROTO(sune)
++FOP_PROTO(sne)
++#undef FOP_PROTO
++
++DEF_HELPER_1(rdhwr_cpunum, tl, env)
++DEF_HELPER_1(rdhwr_synci_step, tl, env)
++DEF_HELPER_1(rdhwr_cc, tl, env)
++DEF_HELPER_1(rdhwr_ccres, tl, env)
++DEF_HELPER_1(rdhwr_performance, tl, env)
++DEF_HELPER_1(rdhwr_xnp, tl, env)
++DEF_HELPER_2(pmon, void, env, int)
++DEF_HELPER_1(wait, void, env)
++
++/* Loongson multimedia functions.  */
++DEF_HELPER_FLAGS_2(paddsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(paddush, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(paddh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(paddw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(paddsb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(paddusb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(paddb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(psubsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psubush, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psubh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psubw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psubsb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psubusb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psubb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(pshufh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(packsswh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(packsshb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(packushb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(punpcklhw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(punpckhhw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(punpcklbh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(punpckhbh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(punpcklwd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(punpckhwd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(pavgh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pavgb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pmaxsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pminsh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pmaxub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pminub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(pcmpeqw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pcmpgtw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pcmpeqh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pcmpgth, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pcmpeqb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pcmpgtb, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(psllw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psllh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psrlw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psrlh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psraw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(psrah, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(pmullh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pmulhh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pmulhuh, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(pmaddhw, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++
++DEF_HELPER_FLAGS_2(pasubub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_1(biadd, TCG_CALL_NO_RWG_SE, i64, i64)
++DEF_HELPER_FLAGS_1(pmovmskb, TCG_CALL_NO_RWG_SE, i64, i64)
++
++/*** MIPS DSP ***/
++/* DSP Arithmetic Sub-class insns */
++DEF_HELPER_FLAGS_3(addq_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addq_s_ph, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(addq_qh, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addq_s_qh, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(addq_s_w, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(addq_pw, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addq_s_pw, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(addu_qb, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addu_s_qb, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(adduh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(adduh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(addu_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addu_s_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(addqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(addqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(addqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(addqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(addu_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addu_s_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(adduh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(adduh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(addu_qh, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addu_s_qh, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(subq_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subq_s_ph, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(subq_qh, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subq_s_qh, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(subq_s_w, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(subq_pw, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subq_s_pw, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(subu_qb, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subu_s_qb, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(subuh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(subuh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(subu_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subu_s_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(subqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(subqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(subqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(subqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(subu_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subu_s_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(subuh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(subuh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(subu_qh, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(subu_s_qh, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(addsc, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(addwc, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(modsub, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_1(raddu_w_qb, TCG_CALL_NO_RWG_SE, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_1(raddu_l_ob, TCG_CALL_NO_RWG_SE, tl, tl)
++#endif
++DEF_HELPER_FLAGS_2(absq_s_qb, 0, tl, tl, env)
++DEF_HELPER_FLAGS_2(absq_s_ph, 0, tl, tl, env)
++DEF_HELPER_FLAGS_2(absq_s_w, 0, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_2(absq_s_ob, 0, tl, tl, env)
++DEF_HELPER_FLAGS_2(absq_s_qh, 0, tl, tl, env)
++DEF_HELPER_FLAGS_2(absq_s_pw, 0, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_2(precr_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(precrq_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(precr_sra_ph_w, TCG_CALL_NO_RWG_SE,
++                   tl, i32, tl, tl)
++DEF_HELPER_FLAGS_3(precr_sra_r_ph_w, TCG_CALL_NO_RWG_SE,
++                   tl, i32, tl, tl)
++DEF_HELPER_FLAGS_2(precrq_ph_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(precrq_rs_ph_w, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_2(precr_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(precr_sra_qh_pw,
++                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
++DEF_HELPER_FLAGS_3(precr_sra_r_qh_pw,
++                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
++DEF_HELPER_FLAGS_2(precrq_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(precrq_qh_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(precrq_rs_qh_pw,
++                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(precrq_pw_l, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#endif
++DEF_HELPER_FLAGS_3(precrqu_s_qb_ph, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(precrqu_s_ob_qh,
++                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
++
++DEF_HELPER_FLAGS_1(preceq_pw_qhl, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceq_pw_qhr, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceq_pw_qhla, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceq_pw_qhra, TCG_CALL_NO_RWG_SE, tl, tl)
++#endif
++DEF_HELPER_FLAGS_1(precequ_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(precequ_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(precequ_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(precequ_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_1(precequ_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(precequ_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(precequ_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(precequ_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
++#endif
++DEF_HELPER_FLAGS_1(preceu_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceu_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceu_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceu_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_1(preceu_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceu_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceu_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_1(preceu_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
++#endif
++
++/* DSP GPR-Based Shift Sub-class insns */
++DEF_HELPER_FLAGS_3(shll_qb, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(shll_ob, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(shll_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(shll_s_ph, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(shll_qh, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(shll_s_qh, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(shll_s_w, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(shll_pw, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(shll_s_pw, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_2(shrl_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_2(shrl_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shrl_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#endif
++DEF_HELPER_FLAGS_2(shra_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_2(shra_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#endif
++DEF_HELPER_FLAGS_2(shra_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_2(shra_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_r_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(shra_r_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#endif
++
++/* DSP Multiply Sub-class insns */
++DEF_HELPER_FLAGS_3(muleu_s_ph_qbl, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(muleu_s_ph_qbr, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(muleu_s_qh_obl, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(muleu_s_qh_obr, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(mulq_rs_ph, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(mulq_rs_qh, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(muleq_s_w_phl, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(muleq_s_w_phr, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(muleq_s_pw_qhl, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(muleq_s_pw_qhr, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_4(dpau_h_qbl, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dpau_h_qbr, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpau_h_obl, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(dpau_h_obr, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpsu_h_qbl, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dpsu_h_qbr, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpsu_h_obl, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(dpsu_h_obr, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpa_w_ph, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpa_w_qh, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpax_w_ph, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dpaq_s_w_ph, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpaq_s_w_qh, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpaqx_s_w_ph, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dpaqx_sa_w_ph, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dps_w_ph, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dps_w_qh, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpsx_w_ph, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dpsq_s_w_ph, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpsq_s_w_qh, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpsqx_s_w_ph, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(dpsqx_sa_w_ph, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(mulsaq_s_w_ph, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(mulsaq_s_w_qh, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpaq_sa_l_w, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpaq_sa_l_pw, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(dpsq_sa_l_w, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(dpsq_sa_l_pw, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(mulsaq_s_l_pw, 0, void, tl, tl, i32, env)
++#endif
++DEF_HELPER_FLAGS_4(maq_s_w_phl, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(maq_s_w_phr, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(maq_sa_w_phl, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_4(maq_sa_w_phr, 0, void, i32, tl, tl, env)
++DEF_HELPER_FLAGS_3(mul_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(mul_s_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(mulq_s_ph, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(mulq_s_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(mulq_rs_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_4(mulsa_w_ph, 0, void, i32, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_4(maq_s_w_qhll, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_s_w_qhlr, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_s_w_qhrl, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_s_w_qhrr, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_sa_w_qhll, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_sa_w_qhlr, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_sa_w_qhrl, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_sa_w_qhrr, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_s_l_pwl, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(maq_s_l_pwr, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(dmadd, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(dmaddu, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(dmsub, 0, void, tl, tl, i32, env)
++DEF_HELPER_FLAGS_4(dmsubu, 0, void, tl, tl, i32, env)
++#endif
++
++/* DSP Bit/Manipulation Sub-class insns */
++DEF_HELPER_FLAGS_1(bitrev, TCG_CALL_NO_RWG_SE, tl, tl)
++DEF_HELPER_FLAGS_3(insv, 0, tl, env, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(dinsv, 0, tl, env, tl, tl)
++#endif
++
++/* DSP Compare-Pick Sub-class insns */
++DEF_HELPER_FLAGS_3(cmpu_eq_qb, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpu_lt_qb, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpu_le_qb, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_2(cmpgu_eq_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(cmpgu_lt_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(cmpgu_le_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(cmp_eq_ph, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_lt_ph, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_le_ph, 0, void, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(cmpu_eq_ob, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpu_lt_ob, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpu_le_ob, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpgdu_eq_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpgdu_lt_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmpgdu_le_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_2(cmpgu_eq_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(cmpgu_lt_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(cmpgu_le_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_3(cmp_eq_qh, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_lt_qh, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_le_qh, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_eq_pw, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_lt_pw, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_3(cmp_le_pw, 0, void, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(pick_qb, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(pick_ph, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(pick_ob, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(pick_qh, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(pick_pw, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_2(packrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_2(packrl_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++#endif
++
++/* DSP Accumulator and DSPControl Access Sub-class insns */
++DEF_HELPER_FLAGS_3(extr_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(extr_r_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(extr_rs_w, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(dextr_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(dextr_r_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(dextr_rs_w, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(dextr_l, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(dextr_r_l, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(dextr_rs_l, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(extr_s_h, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(dextr_s_h, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(extp, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(extpdp, 0, tl, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(dextp, 0, tl, tl, tl, env)
++DEF_HELPER_FLAGS_3(dextpdp, 0, tl, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(shilo, 0, void, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(dshilo, 0, void, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(mthlip, 0, void, tl, tl, env)
++#if defined(TARGET_MIPS64)
++DEF_HELPER_FLAGS_3(dmthlip, 0, void, tl, tl, env)
++#endif
++DEF_HELPER_FLAGS_3(wrdsp, 0, void, tl, tl, env)
++DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
++
++DEF_HELPER_3(cache, void, env, tl, i32)
++
++#ifndef CONFIG_USER_ONLY
++#include "tcg/sysemu_helper.h.inc"
++#endif /* !CONFIG_USER_ONLY */
++
++#include "msa_helper.h.inc"
 -- 
 2.26.3
 
