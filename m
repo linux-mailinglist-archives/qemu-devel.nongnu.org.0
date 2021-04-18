@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0434363874
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:09:05 +0200 (CEST)
-Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC7B363878
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 01:09:34 +0200 (CEST)
+Received: from localhost ([::1]:47684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYGXJ-0005mF-2P
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
+	id 1lYGXl-0006Oy-Im
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 19:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGHZ-0004Cu-7m
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:52:49 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37787)
+ id 1lYGHd-0004NX-FN
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:52:53 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGHX-00012u-0e
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:52:48 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id j5so31086449wrn.4
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:52:46 -0700 (PDT)
+ id 1lYGHb-00014J-LG
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:52:53 -0400
+Received: by mail-wm1-x334.google.com with SMTP id y204so15758224wmg.2
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hYy/t7i6kODzY1BSbB9g1s+o8ye/dmGSCHqvaGwnVBI=;
- b=pqkg2yYpEB6FPdtT3wWXVWsiroIWoApa8S+eB73xP9fhRMhq2p8CPCaJev52cJdneH
- VHm7dpI+Ln+jNZm38np/LH9q7+v0Dbm1rjjpkSkJfSw+b/CBSsxs19ScawTg3S7oMQZt
- WAzIInk3jFZhzrchgHybofb1zxyqa1IGA+b4uqOwZVI2eekB2g8uLYESqXT2LazN4R9a
- TfPsMsD6EOxSgf1LTpEHPsKxae+BCnF9FV5qYetZpA6Bv4ytMaopXPaZ23JbuOUHY2er
- p8WWgKjIR96tCkdCSsyGp2KLRVpMrKyknova1Xz8cCpbfmjMOuibB+Ml8RRnHDoJnTJi
- jgOQ==
+ bh=DEUZZa6TPysdlpTKdZmp6fZ5ZT/Oyxs4IvMyuZ4EHDg=;
+ b=vWPM4ToF+41u0SsYslxiZ+Forynw77xHcxDWuZc/LGgnMgCplxGd0JBpxj5wo6tQsu
+ OpdUSi1Xryc4IWw+K5DYmc1km3SQKXTnnFUDIoAwis00CcwzaAmY2JEjMuLj1reSLtw2
+ 5/Ee5CTOCjrYcdhIIf2G20HxvkGhSi8UhvRYXG9Kqj7270+nWUSRVjIQcgwNdetJgOMK
+ ntVlJ48ZlMV2cBK6ya3H+5cpn75m27DAzzqNwgL4XVaay7YoV/tJ4Ue3BxooSygaDGI7
+ H8uNDy4FxBQy4ITKtV9DSswMlJ0/Wuw7AecQoaAPy6D4eWVQw/yb4//zMEiuXFB2EHTo
+ 3jgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hYy/t7i6kODzY1BSbB9g1s+o8ye/dmGSCHqvaGwnVBI=;
- b=gjFjE/r9x9I1j2ecGgLPtsTZCSb5v8NBgLX84+VXYgk7pEU+s3+5YCbItLNpewU6m6
- actMLqx9PJ2U3La4t5vKAZPmPnMhLbuEyYaaoQ9zVER9fTng3A9y52BSxKWkinBcBsY7
- JF4FLeeGiN38jFk6rIzvM+KwwNXXa3IaDUdW+czwrcR8DeMSZcQxo+1WkPbCJGZnBCh8
- PeLrgfyVT0LxI284KYWDJ1degm/O6gHjkWF9irnnA6GtE/u3BXFDRSqJLFVVVh+cJUB3
- ikVlI0X9vRyWXgvz4ANJ7f2pIE5iR9kKpCWzO0SaubfXsfmWoTy7rRV9RFvCQQ3mOLYv
- UxRw==
-X-Gm-Message-State: AOAM530tQuI32m0W0tmZg6QL5dk7JPJ2Ow2sj7jVcSapE7ghTr/Ec4jT
- +KfIPvQC7tvghyNMR2uA6ItxaW+q15otiQ==
-X-Google-Smtp-Source: ABdhPJzOifIpAGHkor6g2ToVSiBji2hV7OH1qjwm+PGlK6mSjV+8kfv6f+DnE2P5d0yH0veJOlicFQ==
-X-Received: by 2002:a05:6000:18cd:: with SMTP id
- w13mr10952329wrq.20.1618786365400; 
- Sun, 18 Apr 2021 15:52:45 -0700 (PDT)
+ bh=DEUZZa6TPysdlpTKdZmp6fZ5ZT/Oyxs4IvMyuZ4EHDg=;
+ b=N3XF//AMuw2QKYOEjFMAoMdoSAOjXNZJ6m8nWbyixpke/QBd8PdTrR+EFtKlYdGpPP
+ wcffYZcAGhO/jQZZH2t3UPpCdL/ZoDAlfNPn/fbY66liHuDvTWHtjtyptejUa6Bha25n
+ 2q98SOUHmqXen+x8pyt+x4IKGluCKaY4s1Vpuo3Qs4uKpXzpCIAPCFrP9mpxxVNaGdoi
+ IhSeZpbzL6xxxpUhVy9pZFHkGaEV/FGGgNfoYbVckIbR/qkXc57dNdqS3hIY2358ngdv
+ FyClcO3d5TxEEFLFZTcZxncH3Z58tjl6KMeM1zthdYXkFXTi3IYdBfr0ozLRRrJgdUCT
+ xiHg==
+X-Gm-Message-State: AOAM532CVa1vI2x02vf4fqSLzuur4PymBTNXVtB6Vc76rhW3zZqpp7hb
+ XJ+YyCgMuQi9cZXFpF7KdM5yf3cOS0no7A==
+X-Google-Smtp-Source: ABdhPJxZ/SaP1wbaY9daa7O+e33yi5Ta3NnpnTQMxMPx6sOY0upYMVO8dYLoIpEuXQkQkyEqW1WPfg==
+X-Received: by 2002:a05:600c:3544:: with SMTP id
+ i4mr18070036wmq.38.1618786370272; 
+ Sun, 18 Apr 2021 15:52:50 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id s64sm17722275wmf.2.2021.04.18.15.52.44
+ by smtp.gmail.com with ESMTPSA id i20sm16062364wmq.29.2021.04.18.15.52.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 15:52:44 -0700 (PDT)
+ Sun, 18 Apr 2021 15:52:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/29] target/mips: Move Special opcodes to
+Subject: [PATCH v2 23/29] target/mips: Move helper_cache() to
  tcg/sysemu/special_helper.c
-Date: Mon, 19 Apr 2021 00:50:51 +0200
-Message-Id: <20210418225058.1257014-23-f4bug@amsat.org>
+Date: Mon, 19 Apr 2021 00:50:52 +0200
+Message-Id: <20210418225058.1257014-24-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418225058.1257014-1-f4bug@amsat.org>
 References: <20210418225058.1257014-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,373 +95,154 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the Special opcodes helpers to tcg/sysemu/special_helper.c.
+Move helper_cache() to tcg/sysemu/special_helper.c.
 
-Since mips_io_recompile_replay_branch() is set as
-CPUClass::io_recompile_replay_branch handler in cpu.c,
-we need to declare its prototype in "tcg-internal.h".
+The CACHE opcode is privileged and is not accessible in user
+emulation. However we get a link failure when restricting the
+symbol to sysemu. For now, add a stub helper to satisfy linking,
+which abort if ever called.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/helper.h                    |   5 -
- target/mips/tcg/tcg-internal.h          |   3 +
- target/mips/tcg/sysemu_helper.h.inc     |   7 ++
- target/mips/cpu.c                       |  17 ---
- target/mips/op_helper.c                 | 100 -----------------
- target/mips/tcg/sysemu/special_helper.c | 140 ++++++++++++++++++++++++
- target/mips/tcg/sysemu/meson.build      |   1 +
- 7 files changed, 151 insertions(+), 122 deletions(-)
- create mode 100644 target/mips/tcg/sysemu/special_helper.c
+v2: Use STUB_HELPER() :) (rth)
+---
+ target/mips/helper.h                    |  2 --
+ target/mips/tcg/sysemu_helper.h.inc     |  1 +
+ target/mips/op_helper.c                 | 35 -------------------------
+ target/mips/tcg/sysemu/special_helper.c | 33 +++++++++++++++++++++++
+ target/mips/translate.c                 | 13 +++++++++
+ 5 files changed, 47 insertions(+), 37 deletions(-)
 
 diff --git a/target/mips/helper.h b/target/mips/helper.h
-index bc308e5db13..4ee7916d8b2 100644
+index 4ee7916d8b2..d49620f9282 100644
 --- a/target/mips/helper.h
 +++ b/target/mips/helper.h
-@@ -210,11 +210,6 @@ DEF_HELPER_1(tlbp, void, env)
- DEF_HELPER_1(tlbr, void, env)
- DEF_HELPER_1(tlbinv, void, env)
- DEF_HELPER_1(tlbinvf, void, env)
--DEF_HELPER_1(di, tl, env)
--DEF_HELPER_1(ei, tl, env)
--DEF_HELPER_1(eret, void, env)
--DEF_HELPER_1(eretnc, void, env)
--DEF_HELPER_1(deret, void, env)
- DEF_HELPER_3(ginvt, void, env, tl, i32)
+@@ -614,8 +614,6 @@ DEF_HELPER_FLAGS_3(dmthlip, 0, void, tl, tl, env)
+ DEF_HELPER_FLAGS_3(wrdsp, 0, void, tl, tl, env)
+ DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
+ 
+-DEF_HELPER_3(cache, void, env, tl, i32)
+-
+ #ifndef CONFIG_USER_ONLY
+ #include "tcg/sysemu_helper.h.inc"
  #endif /* !CONFIG_USER_ONLY */
- DEF_HELPER_1(rdhwr_cpunum, tl, env)
-diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
-index 6615151cba2..e507dd1630f 100644
---- a/target/mips/tcg/tcg-internal.h
-+++ b/target/mips/tcg/tcg-internal.h
-@@ -10,6 +10,7 @@
- #ifndef MIPS_TCG_INTERNAL_H
- #define MIPS_TCG_INTERNAL_H
- 
-+#include "tcg/tcg.h"
- #include "hw/core/cpu.h"
- #include "cpu.h"
- 
-@@ -27,6 +28,8 @@ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
- void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
- uint32_t cpu_mips_get_random(CPUMIPSState *env);
- 
-+bool mips_io_recompile_replay_branch(CPUState *cs, const TranslationBlock *tb);
-+
- hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
-                                   MMUAccessType access_type);
- void cpu_mips_tlb_flush(CPUMIPSState *env);
 diff --git a/target/mips/tcg/sysemu_helper.h.inc b/target/mips/tcg/sysemu_helper.h.inc
-index d136c4160a7..38e55cbf118 100644
+index 38e55cbf118..1ccbf687237 100644
 --- a/target/mips/tcg/sysemu_helper.h.inc
 +++ b/target/mips/tcg/sysemu_helper.h.inc
-@@ -166,3 +166,10 @@ DEF_HELPER_1(evpe, tl, env)
- /* R6 Multi-threading */
- DEF_HELPER_1(dvp, tl, env)
- DEF_HELPER_1(evp, tl, env)
-+
-+/* Special */
-+DEF_HELPER_1(di, tl, env)
-+DEF_HELPER_1(ei, tl, env)
-+DEF_HELPER_1(eret, void, env)
-+DEF_HELPER_1(eretnc, void, env)
-+DEF_HELPER_1(deret, void, env)
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index acc149aa573..949b8ef94ea 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -342,23 +342,6 @@ static void mips_cpu_synchronize_from_tb(CPUState *cs,
-     env->hflags &= ~MIPS_HFLAG_BMASK;
-     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
- }
--
--# ifndef CONFIG_USER_ONLY
--static bool mips_io_recompile_replay_branch(CPUState *cs,
--                                            const TranslationBlock *tb)
--{
--    MIPSCPU *cpu = MIPS_CPU(cs);
--    CPUMIPSState *env = &cpu->env;
--
--    if ((env->hflags & MIPS_HFLAG_BMASK) != 0
--        && env->active_tc.PC != tb->pc) {
--        env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
--        env->hflags &= ~MIPS_HFLAG_BMASK;
--        return true;
--    }
--    return false;
--}
--# endif /* !CONFIG_USER_ONLY */
- #endif /* CONFIG_TCG */
- 
- static bool mips_cpu_has_work(CPUState *cs)
+@@ -173,3 +173,4 @@ DEF_HELPER_1(ei, tl, env)
+ DEF_HELPER_1(eret, void, env)
+ DEF_HELPER_1(eretnc, void, env)
+ DEF_HELPER_1(deret, void, env)
++DEF_HELPER_3(cache, void, env, tl, i32)
 diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 9b6f570c897..3903545831f 100644
+index 3903545831f..659c4d15668 100644
 --- a/target/mips/op_helper.c
 +++ b/target/mips/op_helper.c
-@@ -656,106 +656,6 @@ void helper_ginvt(CPUMIPSState *env, target_ulong arg, uint32_t type)
+@@ -789,38 +789,3 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
      }
  }
- 
--/* Specials */
--target_ulong helper_di(CPUMIPSState *env)
--{
--    target_ulong t0 = env->CP0_Status;
--
--    env->CP0_Status = t0 & ~(1 << CP0St_IE);
--    return t0;
--}
--
--target_ulong helper_ei(CPUMIPSState *env)
--{
--    target_ulong t0 = env->CP0_Status;
--
--    env->CP0_Status = t0 | (1 << CP0St_IE);
--    return t0;
--}
--
--static void debug_pre_eret(CPUMIPSState *env)
--{
--    if (qemu_loglevel_mask(CPU_LOG_EXEC)) {
--        qemu_log("ERET: PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx,
--                env->active_tc.PC, env->CP0_EPC);
--        if (env->CP0_Status & (1 << CP0St_ERL)) {
--            qemu_log(" ErrorEPC " TARGET_FMT_lx, env->CP0_ErrorEPC);
--        }
--        if (env->hflags & MIPS_HFLAG_DM) {
--            qemu_log(" DEPC " TARGET_FMT_lx, env->CP0_DEPC);
--        }
--        qemu_log("\n");
--    }
--}
--
--static void debug_post_eret(CPUMIPSState *env)
--{
--    if (qemu_loglevel_mask(CPU_LOG_EXEC)) {
--        qemu_log("  =>  PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx,
--                env->active_tc.PC, env->CP0_EPC);
--        if (env->CP0_Status & (1 << CP0St_ERL)) {
--            qemu_log(" ErrorEPC " TARGET_FMT_lx, env->CP0_ErrorEPC);
--        }
--        if (env->hflags & MIPS_HFLAG_DM) {
--            qemu_log(" DEPC " TARGET_FMT_lx, env->CP0_DEPC);
--        }
--        switch (cpu_mmu_index(env, false)) {
--        case 3:
--            qemu_log(", ERL\n");
--            break;
--        case MIPS_HFLAG_UM:
--            qemu_log(", UM\n");
--            break;
--        case MIPS_HFLAG_SM:
--            qemu_log(", SM\n");
--            break;
--        case MIPS_HFLAG_KM:
--            qemu_log("\n");
--            break;
--        default:
--            cpu_abort(env_cpu(env), "Invalid MMU mode!\n");
--            break;
--        }
--    }
--}
--
--static inline void exception_return(CPUMIPSState *env)
--{
--    debug_pre_eret(env);
--    if (env->CP0_Status & (1 << CP0St_ERL)) {
--        mips_cpu_set_error_pc(env, env->CP0_ErrorEPC);
--        env->CP0_Status &= ~(1 << CP0St_ERL);
--    } else {
--        mips_cpu_set_error_pc(env, env->CP0_EPC);
--        env->CP0_Status &= ~(1 << CP0St_EXL);
--    }
--    compute_hflags(env);
--    debug_post_eret(env);
--}
--
--void helper_eret(CPUMIPSState *env)
--{
--    exception_return(env);
--    env->CP0_LLAddr = 1;
--    env->lladdr = 1;
--}
--
--void helper_eretnc(CPUMIPSState *env)
--{
--    exception_return(env);
--}
--
--void helper_deret(CPUMIPSState *env)
--{
--    debug_pre_eret(env);
--
--    env->hflags &= ~MIPS_HFLAG_DM;
--    compute_hflags(env);
--
--    mips_cpu_set_error_pc(env, env->CP0_DEPC);
--
--    debug_post_eret(env);
--}
  #endif /* !CONFIG_USER_ONLY */
- 
- static inline void check_hwrena(CPUMIPSState *env, int reg, uintptr_t pc)
+-
+-void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
+-{
+-#ifndef CONFIG_USER_ONLY
+-    static const char *const type_name[] = {
+-        "Primary Instruction",
+-        "Primary Data or Unified Primary",
+-        "Tertiary",
+-        "Secondary"
+-    };
+-    uint32_t cache_type = extract32(op, 0, 2);
+-    uint32_t cache_operation = extract32(op, 2, 3);
+-    target_ulong index = addr & 0x1fffffff;
+-
+-    switch (cache_operation) {
+-    case 0b010: /* Index Store Tag */
+-        memory_region_dispatch_write(env->itc_tag, index, env->CP0_TagLo,
+-                                     MO_64, MEMTXATTRS_UNSPECIFIED);
+-        break;
+-    case 0b001: /* Index Load Tag */
+-        memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
+-                                    MO_64, MEMTXATTRS_UNSPECIFIED);
+-        break;
+-    case 0b000: /* Index Invalidate */
+-    case 0b100: /* Hit Invalidate */
+-    case 0b110: /* Hit Writeback */
+-        /* no-op */
+-        break;
+-    default:
+-        qemu_log_mask(LOG_UNIMP, "cache operation:%u (type: %s cache)\n",
+-                      cache_operation, type_name[cache_type]);
+-        break;
+-    }
+-#endif
+-}
 diff --git a/target/mips/tcg/sysemu/special_helper.c b/target/mips/tcg/sysemu/special_helper.c
-new file mode 100644
-index 00000000000..927a640d076
---- /dev/null
+index 927a640d076..ffd5d0086b6 100644
+--- a/target/mips/tcg/sysemu/special_helper.c
 +++ b/target/mips/tcg/sysemu/special_helper.c
-@@ -0,0 +1,140 @@
+@@ -138,3 +138,36 @@ void helper_deret(CPUMIPSState *env)
+ 
+     debug_post_eret(env);
+ }
++
++void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
++{
++    static const char *const type_name[] = {
++        "Primary Instruction",
++        "Primary Data or Unified Primary",
++        "Tertiary",
++        "Secondary"
++    };
++    uint32_t cache_type = extract32(op, 0, 2);
++    uint32_t cache_operation = extract32(op, 2, 3);
++    target_ulong index = addr & 0x1fffffff;
++
++    switch (cache_operation) {
++    case 0b010: /* Index Store Tag */
++        memory_region_dispatch_write(env->itc_tag, index, env->CP0_TagLo,
++                                     MO_64, MEMTXATTRS_UNSPECIFIED);
++        break;
++    case 0b001: /* Index Load Tag */
++        memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
++                                    MO_64, MEMTXATTRS_UNSPECIFIED);
++        break;
++    case 0b000: /* Index Invalidate */
++    case 0b100: /* Hit Invalidate */
++    case 0b110: /* Hit Writeback */
++        /* no-op */
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "cache operation:%u (type: %s cache)\n",
++                      cache_operation, type_name[cache_type]);
++        break;
++    }
++}
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 8702f9220be..c2e60178d05 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -39,6 +39,19 @@
+ #include "fpu_helper.h"
+ #include "translate.h"
+ 
 +/*
-+ *  QEMU MIPS emulation: Special opcode helpers
-+ *
-+ *  Copyright (c) 2004-2005 Jocelyn Mayer
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
++ * Many sysemu-only helpers are not reachable for user-only.
++ * Define stub generators here, so that we need not either sprinkle
++ * ifdefs through the translator, nor provide the helper function.
 + */
++#define STUB_HELPER(NAME, ...) \
++    static inline void gen_helper_##NAME(__VA_ARGS__) \
++    { qemu_build_not_reached(); }
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+#include "exec/exec-all.h"
-+#include "internal.h"
++#ifdef CONFIG_USER_ONLY
++STUB_HELPER(cache, TCGv_env env, TCGv val, TCGv_i32 reg)
++#endif
 +
-+/* Specials */
-+target_ulong helper_di(CPUMIPSState *env)
-+{
-+    target_ulong t0 = env->CP0_Status;
-+
-+    env->CP0_Status = t0 & ~(1 << CP0St_IE);
-+    return t0;
-+}
-+
-+target_ulong helper_ei(CPUMIPSState *env)
-+{
-+    target_ulong t0 = env->CP0_Status;
-+
-+    env->CP0_Status = t0 | (1 << CP0St_IE);
-+    return t0;
-+}
-+
-+static void debug_pre_eret(CPUMIPSState *env)
-+{
-+    if (qemu_loglevel_mask(CPU_LOG_EXEC)) {
-+        qemu_log("ERET: PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx,
-+                env->active_tc.PC, env->CP0_EPC);
-+        if (env->CP0_Status & (1 << CP0St_ERL)) {
-+            qemu_log(" ErrorEPC " TARGET_FMT_lx, env->CP0_ErrorEPC);
-+        }
-+        if (env->hflags & MIPS_HFLAG_DM) {
-+            qemu_log(" DEPC " TARGET_FMT_lx, env->CP0_DEPC);
-+        }
-+        qemu_log("\n");
-+    }
-+}
-+
-+static void debug_post_eret(CPUMIPSState *env)
-+{
-+    if (qemu_loglevel_mask(CPU_LOG_EXEC)) {
-+        qemu_log("  =>  PC " TARGET_FMT_lx " EPC " TARGET_FMT_lx,
-+                env->active_tc.PC, env->CP0_EPC);
-+        if (env->CP0_Status & (1 << CP0St_ERL)) {
-+            qemu_log(" ErrorEPC " TARGET_FMT_lx, env->CP0_ErrorEPC);
-+        }
-+        if (env->hflags & MIPS_HFLAG_DM) {
-+            qemu_log(" DEPC " TARGET_FMT_lx, env->CP0_DEPC);
-+        }
-+        switch (cpu_mmu_index(env, false)) {
-+        case 3:
-+            qemu_log(", ERL\n");
-+            break;
-+        case MIPS_HFLAG_UM:
-+            qemu_log(", UM\n");
-+            break;
-+        case MIPS_HFLAG_SM:
-+            qemu_log(", SM\n");
-+            break;
-+        case MIPS_HFLAG_KM:
-+            qemu_log("\n");
-+            break;
-+        default:
-+            cpu_abort(env_cpu(env), "Invalid MMU mode!\n");
-+            break;
-+        }
-+    }
-+}
-+
-+bool mips_io_recompile_replay_branch(CPUState *cs, const TranslationBlock *tb)
-+{
-+    MIPSCPU *cpu = MIPS_CPU(cs);
-+    CPUMIPSState *env = &cpu->env;
-+
-+    if ((env->hflags & MIPS_HFLAG_BMASK) != 0
-+        && env->active_tc.PC != tb->pc) {
-+        env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
-+        env->hflags &= ~MIPS_HFLAG_BMASK;
-+        return true;
-+    }
-+    return false;
-+}
-+
-+static inline void exception_return(CPUMIPSState *env)
-+{
-+    debug_pre_eret(env);
-+    if (env->CP0_Status & (1 << CP0St_ERL)) {
-+        mips_cpu_set_error_pc(env, env->CP0_ErrorEPC);
-+        env->CP0_Status &= ~(1 << CP0St_ERL);
-+    } else {
-+        mips_cpu_set_error_pc(env, env->CP0_EPC);
-+        env->CP0_Status &= ~(1 << CP0St_EXL);
-+    }
-+    compute_hflags(env);
-+    debug_post_eret(env);
-+}
-+
-+void helper_eret(CPUMIPSState *env)
-+{
-+    exception_return(env);
-+    env->CP0_LLAddr = 1;
-+    env->lladdr = 1;
-+}
-+
-+void helper_eretnc(CPUMIPSState *env)
-+{
-+    exception_return(env);
-+}
-+
-+void helper_deret(CPUMIPSState *env)
-+{
-+    debug_pre_eret(env);
-+
-+    env->hflags &= ~MIPS_HFLAG_DM;
-+    compute_hflags(env);
-+
-+    mips_cpu_set_error_pc(env, env->CP0_DEPC);
-+
-+    debug_post_eret(env);
-+}
-diff --git a/target/mips/tcg/sysemu/meson.build b/target/mips/tcg/sysemu/meson.build
-index 73ab9571ba6..4da2c577b20 100644
---- a/target/mips/tcg/sysemu/meson.build
-+++ b/target/mips/tcg/sysemu/meson.build
-@@ -1,5 +1,6 @@
- mips_softmmu_ss.add(files(
-   'cp0_helper.c',
-   'mips-semi.c',
-+  'special_helper.c',
-   'tlb_helper.c',
- ))
+ enum {
+     /* indirect opcode tables */
+     OPC_SPECIAL  = (0x00 << 26),
 -- 
 2.26.3
 
