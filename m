@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0D63633EB
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 07:59:12 +0200 (CEST)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C5936342C
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 08:48:29 +0200 (CEST)
+Received: from localhost ([::1]:34154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lY0Sd-0000v5-2i
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 01:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44950)
+	id 1lY1EK-00080O-2M
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 02:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lY0Qn-0000Td-CK
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 01:57:17 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39439)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lY1Bi-0007Ln-VB
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 02:45:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lY0Qj-0001AJ-3I
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 01:57:15 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id s7so30529952wru.6
- for <qemu-devel@nongnu.org>; Sat, 17 Apr 2021 22:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EQnokyzPBUlpkcCtUGe9E3DY+cuW/2ENBpzEnBucWls=;
- b=CyiBziCLsWmWzdYC3QkD+h5za0C7dtBR501NODUruEZSZP2nmDqydKftLY5LGg272w
- vdyiNWMuUi91UFzEccUusE3Oz5cD0PX3kiUVjZyd4sdkG392H8MUTiCQXHhBSeco5f5X
- 2+p0slpcsk2DLuxODrrUytdGm5PVCUC9nJv4bbuCzZvbMe/KoTTw1KzEhGDIP226rHmQ
- hOmqPHf2UNn7r4eL6VuW6026LosoLIryeSSKouO8u/8N1vcSJMLm2+dU/TcfxP0f6m6Q
- isqus1kuo2tlkA7vt3WA1kJLOlCLX3tv24u9KwN0JLmdPc38wTNqJ/MHvAp7w/CG9YXq
- EaRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=EQnokyzPBUlpkcCtUGe9E3DY+cuW/2ENBpzEnBucWls=;
- b=boBzkraSLayBmLXOxIuNwPftLFOddw3m5kBT/LwX6hJD2mP+qu67aXIxH6gcBRvohY
- P81VnU5HI8Y7rEvexszQmdnpFZBt6SvZECL7pFZB4SrsMlj9p9bDMmODSKVFOP7ORpW2
- pjDYEyvX8MqJFUnFPm5lEUD7fOCVMcQrIlDxPhO2yKqP5cib3SBFQvhGtg9xynfYOTea
- VGWn9wdAV/bE3QKJEP6vWDwwXJYeGUs0oiW5qY9FqE+6/d7+B+2G4b11wgZKSgMo5Kfr
- 8p1/suf6SYNS6pJiRON6TGbQ0eYomJLLeoemPdHOoqOZ/rhi8Th+2GX3PI7GCfNkIWPq
- b89g==
-X-Gm-Message-State: AOAM533+1x2ECC1XSc21a/MrB81rwiy5kmJIOWRjL99+Q7bamkHbk580
- iJ1Hg5waAVc8SyE61+cHxTxfib7zHC4f6w==
-X-Google-Smtp-Source: ABdhPJwaOF+9AWnNtyUXab99V0KwNOmwNxUZezjlrOIgpHyFEJ9HkpDFpVR++2T9efyyfSC+fLXR0Q==
-X-Received: by 2002:adf:ea09:: with SMTP id q9mr7610564wrm.235.1618725431164; 
- Sat, 17 Apr 2021 22:57:11 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id u2sm15058744wmc.22.2021.04.17.22.57.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Apr 2021 22:57:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4] memory: Directly dispatch alias accesses on origin memory
- region
-Date: Sun, 18 Apr 2021 07:57:08 +0200
-Message-Id: <20210418055708.820980-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lY1Bf-0003Hl-Pv
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 02:45:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lY1Bc-00041V-OG
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 06:45:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7A9152E8010
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 06:45:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 18 Apr 2021 06:37:26 -0000
+From: Teodori Serge <1923197@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: riscv64
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 teodori-serge
+X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
+X-Launchpad-Bug-Modifier: Teodori Serge (teodori-serge)
+References: <161797335493.30650.12922009005165891710.malonedeb@gac.canonical.com>
+ <161871776377.26098.9701102541297124152.malone@chaenomeles.canonical.com>
+Message-Id: <CANUt7sqtqUCMttUBXL=90Eb6ANjx-4HbLYWAPxCH=+RhJwWSgQ@mail.gmail.com>
+Subject: Re: [Bug 1923197] Re: RISC-V priviledged instruction error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
+X-Launchpad-Hash: dfd97bb022f00fadd9899f44968f16951d176c3e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,117 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>
+Reply-To: Bug 1923197 <1923197@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
-regions"), all newly created regions are assigned with
-unassigned_mem_ops (which might be then overwritten).
+Hello Francis,
 
-When using aliased container regions, and there is no region mapped
-at address 0 in the container, the memory_region_dispatch_read()
-and memory_region_dispatch_write() calls incorrectly return the
-container unassigned_mem_ops, because the alias offset is not used.
+Yes thank you. I added code to setup a basic PMP and it works now. Thank
+you and best regards,
 
-Consider the following setup:
+Teodori Serge
 
-    +--------------------+ < - - - - - - - - - - - +
-    |     Container      |  mr
-    |  (unassigned_mem)  |                         |
-    |                    |
-    |                    |                         |
-    |                    |  alias_offset
-    +                    + <- - - - - - +----------+---------+
-    | +----------------+ |              |                    |
-    | |  MemoryRegion0 | |              |                    |
-    | +----------------+ |              |       Alias        |  addr1
-    | |  MemoryRegion1 | | <~ ~  ~  ~ ~ |                    | <~~~~~~
-    | +----------------+ |              |                    |
-    |                    |              +--------------------+
-    |                    |
-    |                    |
-    |                    |
-    |                    |
-    | +----------------+ |
-    | |  MemoryRegionX | |
-    | +----------------+ |
-    | |  MemoryRegionY | |
-    | +----------------+ |
-    | |  MemoryRegionZ | |
-    | +----------------+ |
-    +--------------------+
+On Sun, 18 Apr 2021, 05:55 Alistair Francis, <1923197@bugs.launchpad.net>
+wrote:
 
-The memory_region_init_alias() flow is:
+> We fixed a bug to make QEMU act more like hardware, which now means that
+> PMP must be configured in M-mode.
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1923197
+>
+> Title:
+>   RISC-V priviledged instruction error
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1923197/+subscriptions
+>
 
-  memory_region_init_alias()
-  -> memory_region_init()
-     -> object_initialize(TYPE_MEMORY_REGION)
-        -> memory_region_initfn()
-           -> mr->ops = &unassigned_mem_ops;
+-- =
 
-Later when accessing offset=addr1 via the alias, we expect to hit
-MemoryRegion1. The memory_region_dispatch_read() flow is:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923197
 
-  memory_region_dispatch_read(addr1)
-  -> memory_region_access_valid(mr)   <- addr1 offset is ignored
-     -> mr->ops->valid.accepts()
-        -> unassigned_mem_accepts()
-        <- false
-     <- false
-   <- MEMTX_DECODE_ERROR
+Title:
+  RISC-V priviledged instruction error
 
-The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+Status in QEMU:
+  Invalid
 
-Fix by dispatching aliases recursively, accessing its origin region
-after adding the alias offset.
+Bug description:
+  Hello when performing an MRET with MPP set to something else than 0b11
+  in MSTATUS, 'Invalid Instruction' exception will be triggered. The
+  problem appeared in code after version 5.2.0. Use following code to
+  test.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v4:
-- added ASCII schema
-v3:
-- reworded, mentioning the "alias to container" case
-- use recursive call instead of while(), because easier when debugging
-  therefore reset Richard R-b tag.
-v2:
-- use while()
----
- softmmu/memory.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+  =C2=A0=C2=A0# setup interrupt handling for monitor mode
+  =C2=A0=C2=A0la t0, entry_loop
+  =C2=A0=C2=A0la t1, entry_trap
+  =C2=A0=C2=A0li t2, 0x888
+  =C2=A0=C2=A0li t3, 0x1880
+  =C2=A0=C2=A0csrw mepc, t0
+  =C2=A0=C2=A0csrw mtvec, t1
+  =C2=A0=C2=A0csrs mie, t2
+  =C2=A0=C2=A0csrs mstatus, t3
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index d4493ef9e43..b899ca6a6b7 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1442,6 +1442,11 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-     unsigned size = memop_size(op);
-     MemTxResult r;
- 
-+    if (mr->alias) {
-+        return memory_region_dispatch_read(mr->alias,
-+                                           mr->alias_offset + addr,
-+                                           pval, op, attrs);
-+    }
-     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-         *pval = unassigned_mem_read(mr, addr, size);
-         return MEMTX_DECODE_ERROR;
-@@ -1486,6 +1491,11 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
- {
-     unsigned size = memop_size(op);
- 
-+    if (mr->alias) {
-+        return memory_region_dispatch_write(mr->alias,
-+                                            mr->alias_offset + addr,
-+                                            data, op, attrs);
-+    }
-     if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
-         unassigned_mem_write(mr, addr, data, size);
-         return MEMTX_DECODE_ERROR;
--- 
-2.26.3
+  =C2=A0=C2=A0# if supervisor mode not supported, then loop forever
+  =C2=A0=C2=A0csrr t0, misa
+  =C2=A0=C2=A0li t1, 0x40000
+  =C2=A0=C2=A0and t2, t1, t0
+  =C2=A0=C2=A0beqz t2, 1f
 
+  =C2=A0=C2=A0# setup interrupt i& exception delegation for supervisor mode
+  =C2=A0=C2=A0li t0, 0xc0000000 # 3 GiB (entry address of supervisor)
+  =C2=A0=C2=A0li t1, 0x1000
+  =C2=A0=C2=A0li t2, 0x300
+  =C2=A0=C2=A0li t3, 0x222
+  =C2=A0=C2=A0csrw mepc, t0
+  =C2=A0=C2=A0csrc mstatus, t1
+  =C2=A0=C2=A0csrs medeleg, t2
+  =C2=A0=C2=A0csrs mideleg, t3
+
+  =C2=A0=C2=A0# pass mhartid as first parameter to supervisor
+  =C2=A0=C2=A0csrr a0, mhartid
+
+  1:
+  =C2=A0=C2=A0mret
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923197/+subscriptions
 
