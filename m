@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8298C3636BA
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:46:09 +0200 (CEST)
-Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FDA3636D4
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 18:50:23 +0200 (CEST)
+Received: from localhost ([::1]:54960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYAYi-0006KW-IU
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
+	id 1lYAco-0001fN-40
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 12:50:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYALF-00039u-E3
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:13 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35479)
+ id 1lYALL-0003Bz-Bg
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:20 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYALD-0004YC-UG
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:13 -0400
-Received: by mail-wr1-x432.google.com with SMTP id a4so31517405wrr.2
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:32:11 -0700 (PDT)
+ id 1lYALJ-0004ZK-QK
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 12:32:19 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id g9so15480847wrx.0
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 09:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/Sr8nTDroetZqZndBjXDWbbfb5wBJI092fFAFOodnfE=;
- b=uKpQbqHNOHJjqvNkvrLIFC4qAC22q0eTLb4fJtYTyc0H0dgJ72+RtpPqmItWnU6Zok
- v3txRWk09w3n1So0D90yDaOszK/u5f61lOxPNBzVQQ1UO9vROmukWj1t6m/8BaWJEg5j
- 8qIm3FzF+ZkUZev74oQQWAYl406jKy22f+26np+sc0Y2usmhqP3ncxCiU+eJ67YP692T
- py/6EV59bg1BojKXWGHYhcwqj5uoBYEQVLhO4VGaGWRsbOfrg/hmJMM+NbIiIJuOB4VV
- tqznwehR8iDieYkteU/7rdecBlj6k5t4LHF2wEPFyUT4/MO9JrotMLkV+u6eRDPGggk+
- PLyA==
+ bh=6Zv2jNWA3uTLnu+d0xF3gtwB2+QTD96AaWLMNqFM0mc=;
+ b=mdGNVdLAZm4AuD/rWIwIAA54RUX4ymwngLstIxV3daBLAbNaURPU5m43YRctU0JcJ2
+ zGcUDT+twsAB/XjulKbCxozv64qBz6uUEL/kv2TvKtiCEFcnEXDxQBjVA2CNslL8pb2s
+ WDVDra/Nr9pezs/iKZdIvvRu/jLwFOcde0opt2NTM+a21qLiQ34/Jaq03juEtYrhX6nk
+ a/4r8OX2dnNcoqgZCk+E5/icYrl4ov4pVtbdiqClz64GoKOMo26YubIhtnz/YJxYzKem
+ 5EFQTO/alCpsLMgd6d4ZKJ0VPa7pDkRtIG60GiL1G06XAKnXu+ca6MeXCmPdxzol4Fuc
+ Yt3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/Sr8nTDroetZqZndBjXDWbbfb5wBJI092fFAFOodnfE=;
- b=ezvuyEGjEBrNxmtswrrVYE/iFIWeWBuWMOKeK4uKnqEKh5LuILfQxWnpZW86DckEzG
- juz3TFKR2vG7RfDD1Q8mXLlAjsFb1gfnwhrMldNlURMGRxDKOepln604O1MC5aJdDcv5
- fx6IGAskiB+RsL2ZzdkPtjj2e1yWjlPEDptrVdHoFK1+ZgLkANqTQUHZHHnG2h2cPVS0
- ZmZ3/kr2giPfNWBy6rDS7o3dU+JZgFClolVBKm8bcyOaWYBpIHDDsafbHeRhE/COk7Ma
- vaYL6qlPzyhphyfRh11lay8qdMnoDNVoYBBx1AFQp/O31iYgtkmQftcGOxD7A109fJJO
- mA4Q==
-X-Gm-Message-State: AOAM53245F9Kyt0aTQUHzSeWdrrkV0T4EPisgLkUcKox9BrXzBXHEXNk
- P0FMfVxd9K9IbrvoLaAYisqlpt9BM4JzUQ==
-X-Google-Smtp-Source: ABdhPJy7i46suQAUOOlD7i6Tc8DN1LQMeOtoG9YPtZUq+ByShKhREQhKx4Zdn3uXbPHSNAbZWd4zng==
-X-Received: by 2002:a5d:4a48:: with SMTP id v8mr9898923wrs.204.1618763530489; 
- Sun, 18 Apr 2021 09:32:10 -0700 (PDT)
+ bh=6Zv2jNWA3uTLnu+d0xF3gtwB2+QTD96AaWLMNqFM0mc=;
+ b=d+lVHz5SoTryJV7Pef47NmKpqEopB23uNfoB2w2S3lFr39//9RZQTlFj4oLbIHIqyK
+ BtOXKif1aeBHZcSMYlEzn42/ap94wT7aKOtJrRz1Kwj9R1aF/kPmuDLAptjy019WyF6E
+ ezRyROLuMFzzrLcG1p0H6lGGSr0uQStmwmguiioeDwXuGCwcPd2dPxsWTxGRQZhfM4Q9
+ m4DWo9xtEc0hGwVBY0/l8isqkHr1NRMVgSfm1g4DjCSddsZ+e71CEOhpDB6+iqK45jov
+ j2b38ksqrf2aeg9Vgvtp31aK4v3tYH6Qyzg6Znxn37Mq0Wjzf33YMuTHOiAI8Df0xOEP
+ c8tQ==
+X-Gm-Message-State: AOAM530vH2Z7B1u/CzTwBisVtze2CJORUC3ZNW/ZadxuA0ihwPsRmml8
+ k+QU3h+bWTSBEL9t+0l4V222TzZmGv9Jyw==
+X-Google-Smtp-Source: ABdhPJwi95P0/hFOtSfzKR2k84GVwYvWeWi6M4TXGS4Wchs+LPDvu/+dequYeX8J6nDRzbr3A/ZYdw==
+X-Received: by 2002:adf:ed0a:: with SMTP id a10mr9807063wro.61.1618763535056; 
+ Sun, 18 Apr 2021 09:32:15 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id f7sm16490729wrp.48.2021.04.18.09.32.09
+ by smtp.gmail.com with ESMTPSA id r2sm19163534wrt.79.2021.04.18.09.32.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 09:32:10 -0700 (PDT)
+ Sun, 18 Apr 2021 09:32:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/26] meson: Introduce meson_user_arch source set for
- arch-specific user-mode
-Date: Sun, 18 Apr 2021 18:31:15 +0200
-Message-Id: <20210418163134.1133100-8-f4bug@amsat.org>
+Subject: [PATCH 08/26] target/mips: Introduce tcg-internal.h for TCG specific
+ declarations
+Date: Sun, 18 Apr 2021 18:31:16 +0200
+Message-Id: <20210418163134.1133100-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418163134.1133100-1-f4bug@amsat.org>
 References: <20210418163134.1133100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,45 +90,80 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to the 'target_softmmu_arch' source set which allows
-to restrict target-specific sources to system emulation, add
-the equivalent 'meson_user_arch' set for user emulation.
+We will gradually move TCG-specific declarations to a new local
+header: "tcg-internal.h". To keep review simple, first add this
+header with 2 TCG prototypes, which we are going to move in the
+next 2 commits.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/mips/internal.h         |  7 +++----
+ target/mips/tcg/tcg-internal.h | 20 ++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 4 deletions(-)
+ create mode 100644 target/mips/tcg/tcg-internal.h
 
-diff --git a/meson.build b/meson.build
-index d8bb1ec5aa9..1ffdc9e6c4e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1751,6 +1751,7 @@
- hw_arch = {}
- target_arch = {}
- target_softmmu_arch = {}
-+target_user_arch = {}
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 1c5674935aa..b3427fcc517 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -9,6 +9,9 @@
+ #define MIPS_INTERNAL_H
  
- ###############
- # Trace files #
-@@ -2168,6 +2169,11 @@
-     abi = config_target['TARGET_ABI_DIR']
-     target_type='user'
-     qemu_target_name = 'qemu-' + target_name
-+    if arch in target_user_arch
-+      t = target_user_arch[arch].apply(config_target, strict: false)
-+      arch_srcs += t.sources()
-+      arch_deps += t.dependencies()
-+    endif
-     if 'CONFIG_LINUX_USER' in config_target
-       base_dir = 'linux-user'
-       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
+ #include "exec/memattrs.h"
++#ifdef CONFIG_TCG
++#include "tcg/tcg-internal.h"
++#endif
+ 
+ /*
+  * MMU types, the first four entries have the same layout as the
+@@ -77,7 +80,6 @@ extern const char * const fregnames[32];
+ extern const struct mips_def_t mips_defs[];
+ extern const int mips_defs_number;
+ 
+-void mips_cpu_do_interrupt(CPUState *cpu);
+ bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ hwaddr mips_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int mips_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+@@ -212,9 +214,6 @@ void cpu_mips_stop_count(CPUMIPSState *env);
+ 
+ /* helper.c */
+ void mmu_init(CPUMIPSState *env, const mips_def_t *def);
+-bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr);
+ 
+ /* op_helper.c */
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+new file mode 100644
+index 00000000000..24438667f47
+--- /dev/null
++++ b/target/mips/tcg/tcg-internal.h
+@@ -0,0 +1,20 @@
++/*
++ * MIPS internal definitions and helpers (TCG accelerator)
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef MIPS_TCG_INTERNAL_H
++#define MIPS_TCG_INTERNAL_H
++
++#include "hw/core/cpu.h"
++
++void mips_cpu_do_interrupt(CPUState *cpu);
++bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr);
++
++#endif
 -- 
 2.26.3
 
