@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8A4363768
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 21:54:34 +0200 (CEST)
-Received: from localhost ([::1]:37272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F84A363776
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 22:07:37 +0200 (CEST)
+Received: from localhost ([::1]:47066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYDV3-0001B0-Ph
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 15:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
+	id 1lYDhg-0005yC-1c
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 16:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYDTg-0000LQ-Aw
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 15:53:08 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:46711)
+ id 1lYDgU-0005Fe-Dn
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:06:22 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:38824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYDTc-0000vR-SN
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 15:53:07 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id v7so5898989qkj.13
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 12:53:03 -0700 (PDT)
+ id 1lYDgS-0000NB-Fl
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:06:22 -0400
+Received: by mail-qk1-x729.google.com with SMTP id s5so25227115qkj.5
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 13:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/Ga4FPIjrGQ7Ez8XZ+Eve+MsVH9tg7Co2JQmdp5bIlE=;
- b=GzTLVxGVehhxBvVrQE8YOkxEiJ95vLyaB7A8etzwZgy/94kHlwfLyxOlLEOHCS6Yfy
- f8EEYeEUJ+Wemx2PW4Hrjd7QFgmUAuu9qQB/H2ml7Cz0YkEj9s/8a3AVS9nvr5E6oQl8
- yn/GR+dtFEX7co/iql9l7gnmgFtPUFEBCaMza9BVB3frfwOl5PTAftovOy5W5gytsy/1
- 6wRG2ISx4qRyTrgqwXSD3s7CSx4DKDG/0yOjBBYMmQ5sregx15OAhyYuaN/t/QtWzV3G
- UIIFViHqpalK+DyIte6m7RN22p7TmdORr+jDa42gyhb+64nd3J5tZCNh3wr5MdiuRoqa
- DBig==
+ bh=RWSCiMR7GPL1xpArRur4JeQWRCJotJHhtsP4hu2EEK4=;
+ b=J6nCj2ENv1eiHg0vzjpHvT+ZeKV/rp1+sc7ke4izyob4hgRPRcac1tiA2nC7/MwCFn
+ FDAtZCUi1GKaT7ongCId93kWye6rGLlHN6UmsmlQIKihgydeGI3fFCLOAGFBlo+a5GJ+
+ PM6bMLBZREOqZ3awu6QzIQZH9rN2Xt+HWE/61n+yIxji0+NiWi0LTMqukTTpDOjdlJmN
+ euRflA2BqE+A1LlwN+JiMa9Hkl3cLKYQwC93ki9HHt4j2iw6qc5NUNpCfJwcUlXhJWLW
+ nhs1gVrLthaIfhQ9ab3evFK+OR0chd5A0LWYbPg+sNy9jfsTtD+9cOXGS8M3fg3dt508
+ OLqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/Ga4FPIjrGQ7Ez8XZ+Eve+MsVH9tg7Co2JQmdp5bIlE=;
- b=keTOZ66EZWhJ2JFyrhy08wyFZ1b8G6vuuQqBO3zuNcY3LYO8Ty4HP6ioO3whiQaQDU
- 22PrIrqsWo2HqGEcEVdtXoIgfSSLfjivIMkQ+zEi+Vfk13a+4ATSojnO8M+EjPXsTD5f
- 1xsrEUcevV6DYkmswz/mZU0kXeYNmFFSkxqth28jIfJ+Z0rVY8we9xgyJiRE5PEm9Y7Z
- D1y5ASAap87UxJR9oHrk2dhCIQgpOFWmNGk0NaVGBSCMKrEfxPokqD/wKT9eIpOYQsZn
- 4ochRQv4kRx/3SIk9JLAnsbnOFWniJiwSiu7mTZyJ2fX1e85glIvMEZt3odJXpmxQ88u
- APgQ==
-X-Gm-Message-State: AOAM532H/x9Pj4PRlxtAQZNtxHVzaUSp/YB2nRq0S54xHyIhmSYtG+7E
- DR4h+GUlh9I+qVk7rD2i8N9rjA==
-X-Google-Smtp-Source: ABdhPJyZMMntkhf6ue/Y5nGIjf9Brv9TIgcG0kveVqc8re2knIupLkMNWATwc9QD2DsPq4EVJA8k8A==
-X-Received: by 2002:a05:620a:16a1:: with SMTP id
- s1mr8883336qkj.109.1618775583361; 
- Sun, 18 Apr 2021 12:53:03 -0700 (PDT)
+ bh=RWSCiMR7GPL1xpArRur4JeQWRCJotJHhtsP4hu2EEK4=;
+ b=V+CWFZu2Z2FB6e5SsN5abth9vegJaiSWCxp5qgPtkgEWzc5ekbZz/08wRT874fByqW
+ XVUVkweBYXsRRHgDFil6GBhcdYDD1O8/FCZrzHZeaTd2NOQxtnnNRCwEDQJ2htBe0emw
+ 1X8Rum7EqNfd61VIGJuE7ViMCeQ21srR06KXMxAN49qP8bfuh5HaM6quPjr1byQBZSml
+ ZdjOJobbM/i1rzqprxAzTyjxnc4QYJGoaRyar5ISw6Egvx2Cj0V3sy7Qcx+DiwvsFL0R
+ RWZL9BdlW755G+FfB+AboT9Rs/mE/GwIhVftnWpKHdph1TT9UsPm0tUHPR+FZkqmNCMO
+ AZVw==
+X-Gm-Message-State: AOAM533x5dYNVlcH8XfMb30bWT5qFfBtKmFR4qgQBQ9Q15wMZPaOUQfz
+ YoEcgAFqKjhGE7XmIWULIhpQDQ==
+X-Google-Smtp-Source: ABdhPJzBXYjfqt3ho62kuwFaJbe8H09RCB/X9hsLn64AtVpGOyKiC94iiP9+H/XstBdmevYzkonmBw==
+X-Received: by 2002:a37:b206:: with SMTP id b6mr9061036qkf.275.1618776379379; 
+ Sun, 18 Apr 2021 13:06:19 -0700 (PDT)
 Received: from ?IPv6:2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3?
  ([2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3])
- by smtp.gmail.com with ESMTPSA id u21sm7791894qtq.11.2021.04.18.12.53.01
+ by smtp.gmail.com with ESMTPSA id g1sm4951652qtp.41.2021.04.18.13.06.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Apr 2021 12:53:03 -0700 (PDT)
-Subject: Re: [PATCH 19/26] target/mips: Move helper_cache() to
- tcg/sysemu/special_helper.c
+ Sun, 18 Apr 2021 13:06:19 -0700 (PDT)
+Subject: Re: [PATCH 20/26] target/mips: Move TLB management helpers to
+ tcg/sysemu/tlb_helper.c
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210418163134.1133100-1-f4bug@amsat.org>
- <20210418163134.1133100-20-f4bug@amsat.org>
+ <20210418163134.1133100-21-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9ac752b7-8cab-2324-7086-41f1dfe17c85@linaro.org>
-Date: Sun, 18 Apr 2021 12:52:58 -0700
+Message-ID: <88a3a6a3-8fb7-d1df-9f0d-ef3c980e1a73@linaro.org>
+Date: Sun, 18 Apr 2021 13:06:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210418163134.1133100-20-f4bug@amsat.org>
+In-Reply-To: <20210418163134.1133100-21-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,26 +96,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/18/21 9:31 AM, Philippe Mathieu-Daudé wrote:
-> Move helper_cache() to tcg/sysemu/special_helper.c.
-> 
-> The CACHE opcode is privileged and is not accessible in user
-> emulation. However we get a link failure when restricting the
-> symbol to sysemu. For now, add a stub to satisfy linking, which
-> abort if ever called.
+> Move TLB management helpers to tcg/sysemu/tlb_helper.c.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/mips/op_helper.c                 | 35 -------------------------
->   target/mips/tcg/sysemu/special_helper.c | 33 +++++++++++++++++++++++
->   target/mips/tcg/user/stubs.c            | 29 ++++++++++++++++++++
->   target/mips/tcg/user/meson.build        |  1 +
->   4 files changed, 63 insertions(+), 35 deletions(-)
->   create mode 100644 target/mips/tcg/user/stubs.c
+> 4 checkpatch errors:
+> 
+>    ERROR: space prohibited after that '&' (ctx:WxW)
+>    #414: FILE: target/mips/tcg/sysemu/tlb_helper.c:71:
+>    +    tlb->XI0 = (env->CP0_EntryLo0 >> CP0EnLo_XI) & 1;
+>                                                      ^
+> 
+>    ERROR: space prohibited after that '&' (ctx:WxW)
+>    #415: FILE: target/mips/tcg/sysemu/tlb_helper.c:72:
+>    +    tlb->RI0 = (env->CP0_EntryLo0 >> CP0EnLo_RI) & 1;
+>                                                      ^
+> 
+>    ERROR: space prohibited after that '&' (ctx:WxW)
+>    #420: FILE: target/mips/tcg/sysemu/tlb_helper.c:77:
+>    +    tlb->XI1 = (env->CP0_EntryLo1 >> CP0EnLo_XI) & 1;
+>                                                      ^
+> 
+>    ERROR: space prohibited after that '&' (ctx:WxW)
+>    #421: FILE: target/mips/tcg/sysemu/tlb_helper.c:78:
+>    +    tlb->RI1 = (env->CP0_EntryLo1 >> CP0EnLo_RI) & 1;
+>                                                      ^
 
-You could add a different stub to translate.c instead.  See
+Wow, that's amazingly bogus.  I'm amazed that no one has re-written checkpatch 
+in e.g. sparse...
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08595.html
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
