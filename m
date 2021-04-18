@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9771363796
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 22:43:57 +0200 (CEST)
-Received: from localhost ([::1]:50748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42592363797
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Apr 2021 22:43:58 +0200 (CEST)
+Received: from localhost ([::1]:50786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYEGq-0004Gv-N7
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 16:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52782)
+	id 1lYEGr-0004Hf-8r
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 16:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYEEX-00036y-6E
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:41:33 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44729)
+ id 1lYEFG-0003RQ-2u
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:42:18 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYEES-0005Li-5F
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:41:32 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id y1so971663plg.11
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 13:41:27 -0700 (PDT)
+ id 1lYEFD-0005mk-LW
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 16:42:17 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ b8-20020a17090a5508b029014d0fbe9b64so19157320pji.5
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 13:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RKwN5wbPd4Q4vo7q+I/dmTOQQZy2/RuuZpdBPLp1Cek=;
- b=Pk0EXMgYvoyAaiM3uxqJClGww1ErZWtfeq46K+QCLOhWBNNUNZe+K+1+4909IaGB4W
- n0VQgtUUz1piiO+y+aisZxRSDjfnG1m40ZcQdc2OWMx38Gzmei4sD0N4jw2/ZlcwXA3F
- hHRPqiHAYrXH1V7dKAnBY5keN9PKC6P/JunVh+9CXx6Hb4Qd7Um2F82HNml5zmjG9AdD
- bkGBiVyJCyNd1co3Mo2UN24HABfNDJXPOlpDAZwiPn3FwzH4/NodYrSfd2N4h9R7LGU2
- REy6aFSkpRihwhGI0zOngns+p6bGESMhUbg/drZlLnEDVs2WK6HTwVgm7IhRJ43DMnRn
- tolQ==
+ bh=2DqqlLOlZNThx7SGzeDvBLTRukxHya7bJsf7c79TTcM=;
+ b=L9bWAfI2l1KcErFcQjs8HnkSnegykcBKJHhuZxsNS+95j6G+zShUHJ4p6YiLWEOrMe
+ OIJx3hnws1kWNk5FWQuUijp73xieVMqzn+4N/JzPXloHNN4e2zygfh8ta9dunB4hDOu2
+ KRB+Rgj5/JZfYUJK+rXZVVYg9uxL+z3r9gdcYsJ6LBVvlXJSQ1T0R7qI97W4lskKcKlP
+ qASQHrz4kfpub8HrAnxTUiQHLi1G5JEAzSxrYkHeEjVwJzivq21Mlv+NieyGvcMR+Nse
+ UGOye82bmz36AcFfXmjN1GJXwUbs4ZmB1RNt0B4e9C7CRWvqdPZ7Gdrb/1jUOmZl2m8h
+ ZVhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RKwN5wbPd4Q4vo7q+I/dmTOQQZy2/RuuZpdBPLp1Cek=;
- b=ivj+ZwBAs9+dR2fkxGIkTTOj/G8AobLr4covxKI8wMkPCnJM1/lfBhEzsXuDu6tiGh
- raAb22xiEZXQs2htQQvNslafTsLtCd0NF9+VRAJCVEhWnjTIOKmFeJs6W6M6YvfEA/26
- M0e5J4JJl0B6+Vv3RfKA1kesyIvEpMreWHvRh9PWXoV7+7FdBAI56SBKl3nBDiPEs08L
- 7giAR+4zobtSwv5vn5ciL+HLg++B4VcZlP3Ql2YMkXOMd6EJA71ioLFset/zCLTypQ22
- nUOt0FtvdSd8VaQUAncifZsaS2JXX+Aw6UIX+DEEO3d1tKKB6ih701vxK+rBcL9gCN9N
- DYsQ==
-X-Gm-Message-State: AOAM533DNPrOB9JaoDDc4CFdv+gbnb58gZ6I1/d7HLeCwU3OHLD6BMUE
- FGP9yCP0QLzvuDdohR8RcEwUzQ==
-X-Google-Smtp-Source: ABdhPJwn7qvNRSxmAD2KPhU/732cO2233aLzuvuNOKoX5xmAB0es+LFoiQPyuT5R0MVZRJfKAznwnA==
-X-Received: by 2002:a17:903:2285:b029:eb:d7b:7687 with SMTP id
- b5-20020a1709032285b02900eb0d7b7687mr19489478plh.82.1618778486734; 
- Sun, 18 Apr 2021 13:41:26 -0700 (PDT)
+ bh=2DqqlLOlZNThx7SGzeDvBLTRukxHya7bJsf7c79TTcM=;
+ b=BiypNPatf3c5hSVJNm1VQYUdftGNN7yP61VWxg9iFXIufp23yfFFSzuzZArPa31OVg
+ HhfTuk8f++fF4ZXRSnqCQtXcWBQvbIrxi78+NhNtlLo77CUqsrNs21NqK9TvAyl0HDmL
+ FRV4pPiME0GcDLki+ysD0AB3DaOilRhXb/9V/KWE+G2dcUB8o6W4jSHj6XV74CIUy5pa
+ wHu0PQqZqtBgD/HECqBCjPuELankDC4PzoR82/zrTc4afPoOPJ6wphsKs5DmOZB3oA1B
+ RM0OfwC95qWReUuO7iYx/3F8XEX4Y3Sb1oP+o5bqFoijpBlv6/eC4UtLyKdP4s+Av8k+
+ 166A==
+X-Gm-Message-State: AOAM530MKaRSp9040Z/6dP1FxAXt+jhssZfVAS8seXUn78eOOI/EPGOl
+ BeP/jI7mjbrl2o456gxszN2Eiw==
+X-Google-Smtp-Source: ABdhPJwzEfYYQyd+9xzjDH6bWAoG47vFIYF88ydd9wzE/rXJxrpIiznl+KWUsDY68a9rZ+LPuFcMUA==
+X-Received: by 2002:a17:902:cec3:b029:eb:5441:9897 with SMTP id
+ d3-20020a170902cec3b02900eb54419897mr19452642plg.48.1618778533083; 
+ Sun, 18 Apr 2021 13:42:13 -0700 (PDT)
 Received: from ?IPv6:2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3?
  ([2607:fb90:80c6:1fb0:d9de:a301:99b4:6cf3])
- by smtp.gmail.com with ESMTPSA id c21sm10520014pfo.91.2021.04.18.13.41.25
+ by smtp.gmail.com with ESMTPSA id i126sm10081594pfc.20.2021.04.18.13.42.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Apr 2021 13:41:26 -0700 (PDT)
-Subject: Re: [PATCH 25/26] hw/mips: Restrict non-virtualized machines to TCG
+ Sun, 18 Apr 2021 13:42:12 -0700 (PDT)
+Subject: Re: [PATCH 26/26] gitlab-ci: Add KVM mips64el cross-build jobs
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210418163134.1133100-1-f4bug@amsat.org>
- <20210418163134.1133100-26-f4bug@amsat.org>
+ <20210418163134.1133100-27-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e993b531-925b-e58b-e65b-71ff0c90a930@linaro.org>
-Date: Sun, 18 Apr 2021 13:41:23 -0700
+Message-ID: <863ce89a-b8fd-e6bd-0d3e-2ccd8e862169@linaro.org>
+Date: Sun, 18 Apr 2021 13:42:09 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210418163134.1133100-26-f4bug@amsat.org>
+In-Reply-To: <20210418163134.1133100-27-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,26 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/18/21 9:31 AM, Philippe Mathieu-Daudé wrote:
-> Only the malta and loongson3-virt machines support KVM.
+> Add a new job to cross-build the mips64el target without
+> the TCG accelerator (IOW: only KVM accelerator enabled).
 > 
-> Restrict the other machines to TCG:
-> 
->   - mipssim
->   - magnum
->   - pica61
->   - fuloong2e
->   - boston
+> Only build the mips64el target which is known to work
+> and has users.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/mips/meson.build | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
+>   .gitlab-ci.d/crossbuilds.yml | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
