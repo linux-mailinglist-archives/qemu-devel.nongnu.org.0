@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78F436385F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 00:59:32 +0200 (CEST)
-Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D8F363854
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 00:56:11 +0200 (CEST)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYGO3-0003Ve-V1
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 18:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39826)
+	id 1lYGKo-0007It-7Z
+	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 18:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGG6-0002Q6-0l
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:18 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41491)
+ id 1lYGGA-0002UT-Jn
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:24 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYGG4-0000Os-A5
- for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:17 -0400
-Received: by mail-wr1-x429.google.com with SMTP id k26so15621383wrc.8
- for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:51:15 -0700 (PDT)
+ id 1lYGG9-0000Qa-54
+ for qemu-devel@nongnu.org; Sun, 18 Apr 2021 18:51:22 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id j5so31084952wrn.4
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 15:51:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yMxvZRcRgCBUS8Ws91rPcuJR47xd/yHVMPRhORw6260=;
- b=ODjZoLxLlysxUamMLDw02jG4DUkqXVeCcPjRv7BZafYPcaysSeNe1RFriK99inXbQp
- 8N+5rptK4ZKrEuO44c291Gf4liUZc0vWBvrfSBz12OHZ1SP/jm8QhIRfm2VeR+PWmDrc
- ft7nKhYB6DkEfbq7DUMFPua4tFyT97Etjtb2VHapqYeqSoToRTM9/GYo1P+qtt6PmM1/
- ObCtVWSeZ8KGw3+0X/goCTlR3J97SIu3phdVYywTK4B5gSdzk+c79IdYRiS2kpBtDZDx
- IksmvOSDfRgMpK95B7P3Ns7v4WC+n8cpGN+cTy+NMoOHQscQ/X53JOKcf0vRVhCaTkm7
- C+Mw==
+ bh=JdLEvydvbX477BhH/ZmKV47FrIUBwZZqHvybwivTF10=;
+ b=iJyETAjg7rFPWYhSshdHjxskFOSBgaHXqN6AGZ5xh6YL4h+2fpjQ+czNUjAJx4Kxc6
+ RxMoBDuoxaD/Qgbn5cdnudZDOIS19/6f7qMzPstXacvgDn8Icr3sby/OxyDrT90lRgUZ
+ ahimevfwqw32sySf05QnwRbqRWxn6WiM+ykd4vbrbdEWSPOQn10Nk1YK/7wM/GPPmAXj
+ AUgrWZKO408nEiagWeNOBr6i8MHLEU6IpIZ9X2yhQIsvM6phjYdntOE3Jdy4roAVr60v
+ 3DZdtuRn44VnhpzWxZORVYWTNhV4SP77GEk/gKSBGhTwjvFghXQeVSpQiFN1HpGF0ZO3
+ CPRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yMxvZRcRgCBUS8Ws91rPcuJR47xd/yHVMPRhORw6260=;
- b=sik9U6iQ71hgj4k0KRp9UHljFrxr5sBD5jwX5molf0nluNWw2QfHXKluP0W9KkLng5
- tKjHFK6dbBqEdC/zyOFBlOWZZEynWQpbSl3slw9D8JTmWVv3wUZzAMBEwHw7uIRwE7FI
- kKHT8ynxHlAexoRAsZYckCOD2kFMZQV8R51dlI9ZPRu9Lfrk+fdUGGDwGcz5H2P1dGsf
- JM9GtFx78xtNlUSPzgSyj78x2SP9S+Q4ogztulycppnmY8QubXzhfwBK2uAYUupOwlLQ
- nMChIfMJxkxZ26lXXuT9Lat7TuKAp2Mk7+f5NXQiEbDMVSJ090NnA9Vw5Ar7LuG+KrYb
- LPYQ==
-X-Gm-Message-State: AOAM532vEP5XOYaCKMg9RZnP9YARFASuhF1HwBVz67s0NTeiC9TZo+U2
- GD9nGT3h2lGxcYNLKMq3wwH8vmlVCAE5fg==
-X-Google-Smtp-Source: ABdhPJySJtW1YVVo4B57X0LsGyoPI557oaU8NxIUR5rJE43n5jtYYlZMMA7FDv/SBS96mjRJW7cAfQ==
-X-Received: by 2002:a5d:524e:: with SMTP id k14mr10784308wrc.282.1618786274763; 
- Sun, 18 Apr 2021 15:51:14 -0700 (PDT)
+ bh=JdLEvydvbX477BhH/ZmKV47FrIUBwZZqHvybwivTF10=;
+ b=NwLR5YF0wNM/vKjg/WIpVe/c7/I5PTVKtpEtG87tui0ht6geOgrpHqnswm8fmACQmN
+ HfpVrNEtAY2K683ITFPTPed5QbLPhIZ72Ol84zXOLuoJ/HAMDsRD7vv/q+2lHLGZ0eRU
+ wdA1CCAL7QxGd5nRBkBpc8uElYthgCl33nGGmzYGGYNgYNVTHV8MdaZcW0PYAzbUN/lg
+ OVgq0kdu2XiY6CWMvvupTnw3GqFd5/jRr835XFmmSVdEB/B244bmOHKTYEnPzR7fkjZ/
+ CtbJ0HFy+8kFhNSvirFViKbXoOrCCNH7+YnfF1GKxuiYK54fe5EQVRBEtLzlbfo3Qibr
+ QSJw==
+X-Gm-Message-State: AOAM532rXbl+3WRTBSt628Nf1eNv6T+I4wOMAKhgXV1k6oDBcJpRKJdv
+ yq9yz3pBgNeGvs0G8m5QQShqx51FeFOEwg==
+X-Google-Smtp-Source: ABdhPJxEZHDe9gBlfvjpwWO9JdaHzT3mcQBpzxXsJDMNZ4rjASRBt8V5otHHRFMp7cFuOD5BvXscRA==
+X-Received: by 2002:a05:6000:1084:: with SMTP id
+ y4mr11069734wrw.364.1618786279626; 
+ Sun, 18 Apr 2021 15:51:19 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id e10sm2909692wrw.20.2021.04.18.15.51.13
+ by smtp.gmail.com with ESMTPSA id q10sm17322390wmc.31.2021.04.18.15.51.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 15:51:14 -0700 (PDT)
+ Sun, 18 Apr 2021 15:51:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/29] target/mips: Move msa_reset() to new source file
-Date: Mon, 19 Apr 2021 00:50:32 +0200
-Message-Id: <20210418225058.1257014-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/29] target/mips: Make CPU/FPU regnames[] arrays global
+Date: Mon, 19 Apr 2021 00:50:33 +0200
+Message-Id: <20210418225058.1257014-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210418225058.1257014-1-f4bug@amsat.org>
 References: <20210418225058.1257014-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,144 +94,102 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mips_cpu_reset() is used by all accelerators, and calls
-msa_reset(), which is defined in msa_helper.c.
+The CPU/FPU regnames[] arrays is used in mips_tcg_init() and
+mips_cpu_dump_state(), which while being in translate.c is
+not specific to TCG.
 
-Beside msa_reset(), the rest of msa_helper.c is only useful
-to the TCG accelerator. To be able to restrict this helper
-file to TCG, we need to move msa_reset() out of it.
+To be able to move mips_cpu_dump_state() to cpu.c, which is
+compiled for all accelerator, we need to make the regnames[]
+arrays global to target/mips/ by declaring them in "internal.h".
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/msa.c        | 60 ++++++++++++++++++++++++++++++++++++++++
- target/mips/msa_helper.c | 36 ------------------------
- target/mips/meson.build  |  1 +
- 3 files changed, 61 insertions(+), 36 deletions(-)
- create mode 100644 target/mips/msa.c
+ target/mips/internal.h  |  3 +++
+ target/mips/cpu.c       |  7 +++++++
+ target/mips/fpu.c       |  7 +++++++
+ target/mips/translate.c | 14 --------------
+ 4 files changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/target/mips/msa.c b/target/mips/msa.c
-new file mode 100644
-index 00000000000..61f1a9a5936
---- /dev/null
-+++ b/target/mips/msa.c
-@@ -0,0 +1,60 @@
-+/*
-+ * MIPS SIMD Architecture Module Instruction emulation helpers for QEMU.
-+ *
-+ * Copyright (c) 2014 Imagination Technologies
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 99264b8bf6a..a8644f754a6 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -71,6 +71,9 @@ struct mips_def_t {
+     int32_t SAARP;
+ };
+ 
++extern const char * const regnames[32];
++extern const char * const fregnames[32];
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "fpu/softfloat.h"
-+#include "fpu_helper.h"
+ extern const struct mips_def_t mips_defs[];
+ extern const int mips_defs_number;
+ 
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index dce1e166bde..f354d18aec4 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -35,6 +35,13 @@
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "fpu_helper.h"
+ 
++const char * const regnames[32] = {
++    "r0", "at", "v0", "v1", "a0", "a1", "a2", "a3",
++    "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
++    "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
++    "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
++};
 +
-+void msa_reset(CPUMIPSState *env)
-+{
-+    if (!ase_msa_available(env)) {
-+        return;
-+    }
+ #if !defined(CONFIG_USER_ONLY)
+ 
+ /* Called for updates to CP0_Status.  */
+diff --git a/target/mips/fpu.c b/target/mips/fpu.c
+index 39a2f7fd22e..1447dba3fa3 100644
+--- a/target/mips/fpu.c
++++ b/target/mips/fpu.c
+@@ -16,3 +16,10 @@ const FloatRoundMode ieee_rm[4] = {
+     float_round_up,
+     float_round_down
+ };
 +
-+#ifdef CONFIG_USER_ONLY
-+    /* MSA access enabled */
-+    env->CP0_Config5 |= 1 << CP0C5_MSAEn;
-+    env->CP0_Status |= (1 << CP0St_CU1) | (1 << CP0St_FR);
-+#endif
-+
-+    /*
-+     * MSA CSR:
-+     * - non-signaling floating point exception mode off (NX bit is 0)
-+     * - Cause, Enables, and Flags are all 0
-+     * - round to nearest / ties to even (RM bits are 0)
-+     */
-+    env->active_tc.msacsr = 0;
-+
-+    restore_msa_fp_status(env);
-+
-+    /* tininess detected after rounding.*/
-+    set_float_detect_tininess(float_tininess_after_rounding,
-+                              &env->active_tc.msa_fp_status);
-+
-+    /* clear float_status exception flags */
-+    set_float_exception_flags(0, &env->active_tc.msa_fp_status);
-+
-+    /* clear float_status nan mode */
-+    set_default_nan_mode(0, &env->active_tc.msa_fp_status);
-+
-+    /* set proper signanling bit meaning ("1" means "quiet") */
-+    set_snan_bit_is_one(0, &env->active_tc.msa_fp_status);
-+}
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 4caefe29ad7..04af54f66d1 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -8595,39 +8595,3 @@ void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
-     cpu_stq_data(env, addr + (1 << DF_DOUBLE), pwd->d[1]);
- #endif
- }
++const char * const fregnames[32] = {
++    "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
++    "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
++    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
++    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
++};
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 71fa5ec1973..f99d4d4016d 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -1267,13 +1267,6 @@ TCGv_i64 fpu_f64[32];
+ #define DISAS_STOP       DISAS_TARGET_0
+ #define DISAS_EXIT       DISAS_TARGET_1
+ 
+-static const char * const regnames[] = {
+-    "r0", "at", "v0", "v1", "a0", "a1", "a2", "a3",
+-    "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
+-    "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
+-    "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
+-};
 -
--void msa_reset(CPUMIPSState *env)
--{
--    if (!ase_msa_available(env)) {
--        return;
--    }
+ static const char * const regnames_HI[] = {
+     "HI0", "HI1", "HI2", "HI3",
+ };
+@@ -1282,13 +1275,6 @@ static const char * const regnames_LO[] = {
+     "LO0", "LO1", "LO2", "LO3",
+ };
+ 
+-static const char * const fregnames[] = {
+-    "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
+-    "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
+-    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
+-    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
+-};
 -
--#ifdef CONFIG_USER_ONLY
--    /* MSA access enabled */
--    env->CP0_Config5 |= 1 << CP0C5_MSAEn;
--    env->CP0_Status |= (1 << CP0St_CU1) | (1 << CP0St_FR);
--#endif
--
--    /*
--     * MSA CSR:
--     * - non-signaling floating point exception mode off (NX bit is 0)
--     * - Cause, Enables, and Flags are all 0
--     * - round to nearest / ties to even (RM bits are 0)
--     */
--    env->active_tc.msacsr = 0;
--
--    restore_msa_fp_status(env);
--
--    /* tininess detected after rounding.*/
--    set_float_detect_tininess(float_tininess_after_rounding,
--                              &env->active_tc.msa_fp_status);
--
--    /* clear float_status exception flags */
--    set_float_exception_flags(0, &env->active_tc.msa_fp_status);
--
--    /* clear float_status nan mode */
--    set_default_nan_mode(0, &env->active_tc.msa_fp_status);
--
--    /* set proper signanling bit meaning ("1" means "quiet") */
--    set_snan_bit_is_one(0, &env->active_tc.msa_fp_status);
--}
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 5fcb211ca9a..daf5f1d55bc 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -11,6 +11,7 @@
-   'cpu.c',
-   'fpu.c',
-   'gdbstub.c',
-+  'msa.c',
- ))
- mips_tcg_ss = ss.source_set()
- mips_tcg_ss.add(gen)
+ /* General purpose registers moves. */
+ void gen_load_gpr(TCGv t, int reg)
+ {
 -- 
 2.26.3
 
