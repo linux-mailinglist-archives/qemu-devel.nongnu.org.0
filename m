@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E284364834
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:29:07 +0200 (CEST)
-Received: from localhost ([::1]:51746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6F336483F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:31:22 +0200 (CEST)
+Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYWlm-0007Wh-8l
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:29:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39542)
+	id 1lYWnx-0000dA-8J
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:31:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYWkU-0006Zb-ER
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:27:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40399)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lYWlB-0007W0-BV
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:28:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYWkQ-0003vf-BE
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:27:46 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lYWl6-0004G3-M9
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:28:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618849661;
+ s=mimecast20190719; t=1618849703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oC5whbFnSn2JK26u1Q1AfzFurYxQU/N/G6i+yedU1PE=;
- b=PHYlEpfClVHbcnaKNCY31GOneRJ8Zbhwo+viGHgi9ZIs4a6lH4wwslWShZ7DZ4h8fPtstm
- F2+8SAHgY3z+gZpYEU2k+KpiMQb4JatrlQmU0RexZ72QbXaJwLREKHrKCF703JVEug+cuD
- NCSUG5KxksqTIR5WtiKZqXKcn+Mr5/4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-qlgcuSTIM2uogoxLkCMvFg-1; Mon, 19 Apr 2021 12:27:39 -0400
-X-MC-Unique: qlgcuSTIM2uogoxLkCMvFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76548107ACCA;
- Mon, 19 Apr 2021 16:27:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 606A15D72E;
- Mon, 19 Apr 2021 16:27:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DE3E9113525D; Mon, 19 Apr 2021 18:27:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0] migration: Drop redundant query-migrate result
- @blocked
-Date: Mon, 19 Apr 2021 18:27:32 +0200
-Message-Id: <20210419162732.766055-1-armbru@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=OZ3IPSZAwNbgoqHGqDjFX7BXxDtqQb9MB1oZEKbzacA=;
+ b=Nsx2pWH4wlTOEnKkDnTmgZved7GltXDTagSiDnMhxUtJTM/TnIlx79cclDrCebVT006QEi
+ mBU7CyA6/XVcgO9QAK6/n1Mj0GklWxSDcSkN8cWSlP4i4RXfltnwx3ByP9WHMZwJQ/Uoc3
+ fNHS0iIngz/BCnkYPe3VTIJaX9+QMPk=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-qZeEOYBHM56ROJg0Z7VwjQ-1; Mon, 19 Apr 2021 12:28:21 -0400
+X-MC-Unique: qZeEOYBHM56ROJg0Z7VwjQ-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ a14-20020a2e7f0e0000b02900b9011db00cso6420730ljd.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:28:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OZ3IPSZAwNbgoqHGqDjFX7BXxDtqQb9MB1oZEKbzacA=;
+ b=BrBn8bmd2/vq2s189hm+bUwWPSKx6mTnsOm6UuomCh+TM2xZN1OdkaWVFDZ1EOumsz
+ IJaNNFmocslkvernLJFuwvBKX/Z2NVKHCis8+ldOGNVmgfh3W1oFEWsPwZBemHhN+CxR
+ P9PrU6aCiIkPUDvFRCy7X4czI85vtKELUxECYnLxx0ArmiLBfuNtxX7AqtC8OuPy6R9A
+ BN/ooOCFsKvrsOayoDz9c+hx316ni61uyJu5EdG9FXZzDfpJ9A1a3KmW3SCwQC404u3e
+ d1sf8vl2XLbt0XFQZt/4udZvVAE7cRqGbj9VW9WD35WuXhxWYtedbO+JBMyz0hb/MfmI
+ 2K+g==
+X-Gm-Message-State: AOAM532s0q8ZRaugQnWvqNjIOQxPOdn3sY/oHnfFKsEVUxQm5qOPI4oH
+ N1YSOKRFSap9mK7iN7zLzxd2xVcRbY++IC30L/fEY1TRKnQaQcbo77daqiA+ZiSrrs4iiwInLb+
+ xcWF4N6BgaEl3pE9pDZ8b1pqffFpWYeU=
+X-Received: by 2002:a05:6512:3618:: with SMTP id
+ f24mr13188341lfs.34.1618849700290; 
+ Mon, 19 Apr 2021 09:28:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9VIpyjAH9G6ljTHY8jOTydTxkeVRFEMZ+1h+W5HthPSfYsSDBtIU4BQfbEIM7ISWfwjYXedfChIjv09pmMMY=
+X-Received: by 2002:a05:6512:3618:: with SMTP id
+ f24mr13188327lfs.34.1618849700077; 
+ Mon, 19 Apr 2021 09:28:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210415154402.28424-1-vkuznets@redhat.com>
+ <CAFEAcA-u0XDFBuTaw2AcoP1NLSYNCSAEutXi+gfhb-qU=_UBGg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-u0XDFBuTaw2AcoP1NLSYNCSAEutXi+gfhb-qU=_UBGg@mail.gmail.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
+Date: Mon, 19 Apr 2021 12:28:04 -0400
+Message-ID: <CAOpTY_oCNcPjB6aHn6kp6Pb=TJSYKLuTOWyLD+1LP24w3F_c=A@mail.gmail.com>
+Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
+ unless '--no-migration' was specified
+To: Peter Maydell <peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,105 +92,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, dgilbert@redhat.com, peterx@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Result @blocked is true when and only when result @blocked-reasons is
-present.  It's always non-empty when present.  @blocked is redundant;
-drop.
+On Sun, Apr 18, 2021 at 11:54 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 15 Apr 2021 at 16:46, Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+> > When a migration blocker is added nothing is reported to the user,
+> > inability to migrate such guest may come as a late surprise. As a bare
+> > minimum, we can print a warning. To not pollute the output for those, who
+> > have no intention to migrate their guests, introduce '--no-migration'
+> > option which both block the migration and eliminates warning from
+>
+> I'm not a fan. For a lot of people and configurations this
+> is going to be "add an extra complaint from QEMU to a previously
+> working configuration". We add too many of those already.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/migration.json   |  7 +++----
- migration/migration.c | 29 +++++++++++++----------------
- monitor/hmp-cmds.c    |  2 +-
- 3 files changed, 17 insertions(+), 21 deletions(-)
+I agree that warning with machine types that never supported live
+migration would be useless noise, but warning if using an explicit
+versioned machine type sounds like a reasonable default (as long as
+the warnings includes clear instructions on how to silence them).
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 9bf0bc4d25..7a5bdf9a0d 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -224,9 +224,9 @@
- #        only returned if VFIO device is present, migration is supported by all
- #        VFIO devices and status is 'active' or 'completed' (since 5.2)
- #
--# @blocked: True if outgoing migration is blocked (since 6.0)
--#
--# @blocked-reasons: A list of reasons an outgoing migration is blocked (since 6.0)
-+# @blocked-reasons: A list of reasons an outgoing migration is blocked.
-+#                   Present and non-empty when migration is blocked.
-+#                   (since 6.0)
- #
- # Since: 0.14
- ##
-@@ -241,7 +241,6 @@
-            '*setup-time': 'int',
-            '*cpu-throttle-percentage': 'int',
-            '*error-desc': 'str',
--           'blocked': 'bool',
-            '*blocked-reasons': ['str'],
-            '*postcopy-blocktime' : 'uint32',
-            '*postcopy-vcpu-blocktime': ['uint32'],
-diff --git a/migration/migration.c b/migration/migration.c
-index 8ca034136b..fdadee290e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1073,27 +1073,24 @@ static void populate_vfio_info(MigrationInfo *info)
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-+    GSList *cur_blocker = migration_blockers;
- 
--    info->blocked = migration_is_blocked(NULL);
--    info->has_blocked_reasons = info->blocked;
-     info->blocked_reasons = NULL;
--    if (info->blocked) {
--        GSList *cur_blocker = migration_blockers;
- 
--        /*
--         * There are two types of reasons a migration might be blocked;
--         * a) devices marked in VMState as non-migratable, and
--         * b) Explicit migration blockers
--         * We need to add both of them here.
--         */
--        qemu_savevm_non_migratable_list(&info->blocked_reasons);
-+    /*
-+     * There are two types of reasons a migration might be blocked;
-+     * a) devices marked in VMState as non-migratable, and
-+     * b) Explicit migration blockers
-+     * We need to add both of them here.
-+     */
-+    qemu_savevm_non_migratable_list(&info->blocked_reasons);
- 
--        while (cur_blocker) {
--            QAPI_LIST_PREPEND(info->blocked_reasons,
--                              g_strdup(error_get_pretty(cur_blocker->data)));
--            cur_blocker = g_slist_next(cur_blocker);
--        }
-+    while (cur_blocker) {
-+        QAPI_LIST_PREPEND(info->blocked_reasons,
-+                          g_strdup(error_get_pretty(cur_blocker->data)));
-+        cur_blocker = g_slist_next(cur_blocker);
-     }
-+    info->has_blocked_reasons = info->blocked_reasons != NULL;
- 
-     switch (s->state) {
-     case MIGRATION_STATUS_NONE:
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 0ad5b77477..d9bef63373 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -224,7 +224,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
- 
-     migration_global_dump(mon);
- 
--    if (info->blocked) {
-+    if (info->blocked_reasons) {
-         strList *reasons = info->blocked_reasons;
-         monitor_printf(mon, "Outgoing migration blocked:\n");
-         while (reasons) {
--- 
-2.26.3
+--
+Eduardo
 
 
