@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448B9364B16
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:20:44 +0200 (CEST)
-Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7C9364B1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:24:19 +0200 (CEST)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYaNu-0003UB-SW
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60956)
+	id 1lYaRO-0007th-0q
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYaLr-0002Nm-Vz
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:18:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYaLp-0000W5-2B
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:18:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618863510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4W6KsSm7y1wlp98ib+qDBJ87BKikdt5BesRxLZohR78=;
- b=MDjbZXjAsETURXjYYudfySscyrh/0HWhcBpvXocEiz+EpXh6OJiqDMY4jxRlqjDLhAoynP
- Jq6g8b56718nltC6z6WbKgWOU9kwk5LeXWqZ71NavRnF3G6r1AnLWjEmUePoWsOfrWGH+e
- ZE4OyUr3ulxgTJALVlQhX1f+bxbC7xU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-sEfDunhiNDKoj0HNOwrAMA-1; Mon, 19 Apr 2021 16:18:27 -0400
-X-MC-Unique: sEfDunhiNDKoj0HNOwrAMA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D708A18397A5;
- Mon, 19 Apr 2021 20:18:26 +0000 (UTC)
-Received: from localhost (unknown [10.22.10.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A03A5D9C0;
- Mon, 19 Apr 2021 20:18:26 +0000 (UTC)
-Date: Mon, 19 Apr 2021 16:18:25 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Subject: Re: [PATCH v5] i386/cpu_dump: support AVX512 ZMM regs dump
-Message-ID: <20210419201825.43ejc5d4xaj7ebj3@habkost.net>
-References: <1618538904-93433-1-git-send-email-robert.hu@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lYaQC-0006bx-41
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:04 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:45644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lYaQA-0002Mk-BY
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:03 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id d19so1475738qkk.12
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 13:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S8pTxmjqmypJlm05IkYCrfC0EqI2gnIIgQU/dMJ+5k4=;
+ b=brNsas9Pj2zSnHW4u1AA1t+49kwNjsJG8Eo7Y7RPkYAnPMaTWA3MqNzCsGWExA2Sim
+ pJWtvEL/QcyqVi4/5SwW4QHhoEdWLPQHaw+OQRQcBJrwBDuwl0A/APrPsyJ2csLVP9qk
+ IZ46apmog29qt9vf4ale8AFz3372mTYb1RYeiLJm19KcfoDARUWcdkWHfnKR7U/5wV92
+ GeftJhZkHt3peS2vOM9GH5MbLy8oz2oYGpbgqyIHW/UpeVa9MiuP138t/hQAZ4ZF8W1m
+ cbP0GUOC52B9niHcla9FV9roklm7coVTCk6UGT72Z+ZMxsvvEQ9XI/NehOGkNpeXYNXT
+ axqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S8pTxmjqmypJlm05IkYCrfC0EqI2gnIIgQU/dMJ+5k4=;
+ b=kUnEdZSivsopJ5tuUa0Khk/QNykdmufKsuFRwQk2mfmHIC5nzNOpVArA4oNZi4oSSw
+ BH/vLc5khiJfAIs5T5OWpTMPdRFjjH8a8xQ+bKe/9lotp6KmU9MQKU7oOfi+vU806JBq
+ iuWFVKXV9v+u53oZrm+1iIfrLD7UMbDYLjmcEHLCSHQLpa72vSmlg7b/XV/bGB0yfOwm
+ fSyVDi9jKQWzzc4i5UwJcJmZ56r+/bNIMH/RFpQIsD6EqoHZNvgdsMoEI03BcXLLLG7I
+ Qu5qb8fCi/wcc+WfJMSm8OiNGGh6Y9QPy4VgSP5CHhKgbAFyiwwpKPJV9S3Vc/qBWAdy
+ MPPA==
+X-Gm-Message-State: AOAM531HCt96cZlD7zndvEsUqtIDgbOYkg4CTXYge6nTnX8azsM5VkUy
+ mg0L6VfIT1tJ3gAeCQMx/8TAuEmJuPewFQ==
+X-Google-Smtp-Source: ABdhPJy3GWJFFQ2qMCoq3REetznyMu7+rsZNVyEk5OobQERIrBCoim2iX7OwGWo7HkouHZK0Q2gBQA==
+X-Received: by 2002:a37:6508:: with SMTP id z8mr657133qkb.159.1618863781241;
+ Mon, 19 Apr 2021 13:23:01 -0700 (PDT)
+Received: from localhost.localdomain ([2607:fb90:80c7:aba4:3594:91a:8889:c77a])
+ by smtp.gmail.com with ESMTPSA id c23sm10007835qtm.46.2021.04.19.13.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Apr 2021 13:23:01 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/31] target/arm: enforce alignment
+Date: Mon, 19 Apr 2021 13:22:26 -0700
+Message-Id: <20210419202257.161730-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <1618538904-93433-1-git-send-email-robert.hu@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,25 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 10:08:24AM +0800, Robert Hoo wrote:
-> Since commit fa4518741e (target-i386: Rename struct XMMReg to ZMMReg),
-> CPUX86State.xmm_regs[] has already been extended to 512bit to support
-> AVX512.
-> Also, other qemu level supports for AVX512 registers are there for
-> years.
-> But in x86_cpu_dump_state(), still only dump XMM registers no matter
-> YMM/ZMM is enabled.
-> This patch is to complement this, let it dump XMM/YMM/ZMM accordingly.
-> 
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+Based-on: 20210416183106.1516563-1-richard.henderson@linaro.org
+("[PATCH v5 for-6.1 0/9] target/arm mte fixes")
 
-Queued for 6.1, thanks!
+Changes for v5:
+  * Address review issues.
+  * Use cpu_abort in assert_hflags_rebuild_correctly
+
+The only patch lacking review is the new one:
+07-target-arm-Use-cpu_abort-in-assert_hflags_rebuild.patch
+
+
+r~
+
+
+Richard Henderson (31):
+  target/arm: Fix decode of align in VLDST_single
+  target/arm: Rename TBFLAG_A32, SCTLR_B
+  target/arm: Rename TBFLAG_ANY, PSTATE_SS
+  target/arm: Add wrapper macros for accessing tbflags
+  target/arm: Introduce CPUARMTBFlags
+  target/arm: Move mode specific TB flags to tb->cs_base
+  target/arm: Use cpu_abort in assert_hflags_rebuild_correctly
+  target/arm: Move TBFLAG_AM32 bits to the top
+  target/arm: Move TBFLAG_ANY bits to the bottom
+  target/arm: Add ALIGN_MEM to TBFLAG_ANY
+  target/arm: Adjust gen_aa32_{ld,st}_i32 for align+endianness
+  target/arm: Merge gen_aa32_frob64 into gen_aa32_ld_i64
+  target/arm: Fix SCTLR_B test for TCGv_i64 load/store
+  target/arm: Adjust gen_aa32_{ld,st}_i64 for align+endianness
+  target/arm: Enforce word alignment for LDRD/STRD
+  target/arm: Enforce alignment for LDA/LDAH/STL/STLH
+  target/arm: Enforce alignment for LDM/STM
+  target/arm: Enforce alignment for RFE
+  target/arm: Enforce alignment for SRS
+  target/arm: Enforce alignment for VLDM/VSTM
+  target/arm: Enforce alignment for VLDR/VSTR
+  target/arm: Enforce alignment for VLDn (all lanes)
+  target/arm: Enforce alignment for VLDn/VSTn (multiple)
+  target/arm: Enforce alignment for VLDn/VSTn (single)
+  target/arm: Use finalize_memop for aa64 gpr load/store
+  target/arm: Use finalize_memop for aa64 fpr load/store
+  target/arm: Enforce alignment for aa64 load-acq/store-rel
+  target/arm: Use MemOp for size + endian in aa64 vector ld/st
+  target/arm: Enforce alignment for aa64 vector LDn/STn (multiple)
+  target/arm: Enforce alignment for aa64 vector LDn/STn (single)
+  target/arm: Enforce alignment for sve LD1R
+
+ target/arm/cpu.h                | 105 ++++++++-----
+ target/arm/translate.h          |  38 +++++
+ target/arm/neon-ls.decode       |   4 +-
+ target/arm/helper-a64.c         |   2 +-
+ target/arm/helper.c             | 163 ++++++++++----------
+ target/arm/translate-a64.c      | 214 +++++++++++++-------------
+ target/arm/translate-sve.c      |   2 +-
+ target/arm/translate.c          | 258 +++++++++++++++++---------------
+ target/arm/translate-neon.c.inc | 117 ++++++++++++---
+ target/arm/translate-vfp.c.inc  |  20 +--
+ 10 files changed, 556 insertions(+), 367 deletions(-)
 
 -- 
-Eduardo
+2.25.1
 
 
