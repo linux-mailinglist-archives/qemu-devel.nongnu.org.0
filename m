@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6F336483F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:31:22 +0200 (CEST)
-Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB6E364847
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:33:32 +0200 (CEST)
+Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYWnx-0000dA-8J
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:31:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39718)
+	id 1lYWq3-0002BU-BN
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:33:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYWlB-0007W0-BV
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:28:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYWl6-0004G3-M9
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:28:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618849703;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OZ3IPSZAwNbgoqHGqDjFX7BXxDtqQb9MB1oZEKbzacA=;
- b=Nsx2pWH4wlTOEnKkDnTmgZved7GltXDTagSiDnMhxUtJTM/TnIlx79cclDrCebVT006QEi
- mBU7CyA6/XVcgO9QAK6/n1Mj0GklWxSDcSkN8cWSlP4i4RXfltnwx3ByP9WHMZwJQ/Uoc3
- fNHS0iIngz/BCnkYPe3VTIJaX9+QMPk=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-qZeEOYBHM56ROJg0Z7VwjQ-1; Mon, 19 Apr 2021 12:28:21 -0400
-X-MC-Unique: qZeEOYBHM56ROJg0Z7VwjQ-1
-Received: by mail-lj1-f198.google.com with SMTP id
- a14-20020a2e7f0e0000b02900b9011db00cso6420730ljd.8
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:28:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYWmH-0008VT-I0
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:29:37 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:46832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYWmD-0004nB-RC
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:29:37 -0400
+Received: by mail-ed1-x529.google.com with SMTP id h10so41457047edt.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zXwnwN5tqNWAFfi0o6dM6Hf1uRXNTzIRfAoMwRurihE=;
+ b=ZJx2OJSdB1Bwsvb7MbWEpqv5ozXM2o//Nb1co1wg/qT+bi+PZCezcSzRU2XeOxh23A
+ LVEOsapLydkuurXUOYHpd/88udYBU1Rs78t3B1TztxricutXCzK353D+S4ISg4T8T3W7
+ mxe/3Gm44EThtG15AyHvDbiO0m5uqLwyfhEaytIYRnnuO+laiV13tzbU2LWaeX4v0NME
+ tc7zILsRLqQaF33KdWQiZPx9McRfg3pLij2JMDT7oeNQQxitXybONLbKeR65qDCzbeW2
+ nWUi+/Go5kPYb1/lp6vBUJF1Qwo7t1wuzjFJDT8b4dGSq+TRyUoOAYniY2b5+VTR/R+f
+ xUCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OZ3IPSZAwNbgoqHGqDjFX7BXxDtqQb9MB1oZEKbzacA=;
- b=BrBn8bmd2/vq2s189hm+bUwWPSKx6mTnsOm6UuomCh+TM2xZN1OdkaWVFDZ1EOumsz
- IJaNNFmocslkvernLJFuwvBKX/Z2NVKHCis8+ldOGNVmgfh3W1oFEWsPwZBemHhN+CxR
- P9PrU6aCiIkPUDvFRCy7X4czI85vtKELUxECYnLxx0ArmiLBfuNtxX7AqtC8OuPy6R9A
- BN/ooOCFsKvrsOayoDz9c+hx316ni61uyJu5EdG9FXZzDfpJ9A1a3KmW3SCwQC404u3e
- d1sf8vl2XLbt0XFQZt/4udZvVAE7cRqGbj9VW9WD35WuXhxWYtedbO+JBMyz0hb/MfmI
- 2K+g==
-X-Gm-Message-State: AOAM532s0q8ZRaugQnWvqNjIOQxPOdn3sY/oHnfFKsEVUxQm5qOPI4oH
- N1YSOKRFSap9mK7iN7zLzxd2xVcRbY++IC30L/fEY1TRKnQaQcbo77daqiA+ZiSrrs4iiwInLb+
- xcWF4N6BgaEl3pE9pDZ8b1pqffFpWYeU=
-X-Received: by 2002:a05:6512:3618:: with SMTP id
- f24mr13188341lfs.34.1618849700290; 
- Mon, 19 Apr 2021 09:28:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9VIpyjAH9G6ljTHY8jOTydTxkeVRFEMZ+1h+W5HthPSfYsSDBtIU4BQfbEIM7ISWfwjYXedfChIjv09pmMMY=
-X-Received: by 2002:a05:6512:3618:: with SMTP id
- f24mr13188327lfs.34.1618849700077; 
- Mon, 19 Apr 2021 09:28:20 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zXwnwN5tqNWAFfi0o6dM6Hf1uRXNTzIRfAoMwRurihE=;
+ b=TURa7LEHW19bywwxPyui5E4FeGqKwfxfsNiBXhBwLPRSqhbd/xOj0LxeiX8aQhipd3
+ ZxzdcpzmdO8CzQhltCN7hJ2pLVM8r2Du2BGwsgSO7/v1OuVBzBFhKRQeAZ6nDplIic3Z
+ YBALj5Qhfb93ux+LoEK5c75Ifq9gysZC337uKRY/st/XK5c9GAk4eARun283g0aPEMr0
+ lH/ESr8C0DiqWCGPi/TYslfn10zLMLeXonHEVuBRcziq9v/UOOtKXnW0RJZcQxS6kfWG
+ ImsBzgDsFVCa8B2BDSQNiW0HuSVgu1zOVCGDQESIYuwurF4QdMQi6p16EdV9ixGX0R3+
+ TCnA==
+X-Gm-Message-State: AOAM531AHvFIw4LthfmrvZ44qbVR7CgoRvhF72l5WL48R7Ast5oOxx3Y
+ ys5G83RD1FsL/TOJUrHoxpzfofde+Tme7CjaefUbVfUSYyE=
+X-Google-Smtp-Source: ABdhPJyiGTIML/Gv3B28xxBMtgpOrE8EKFJF9rWEM1Wwmbm13CGBgdumCYsismHABvIcHD3iConQJAxaPA/ntfdOi24=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr26616620edb.204.1618849772296; 
+ Mon, 19 Apr 2021 09:29:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210415154402.28424-1-vkuznets@redhat.com>
- <CAFEAcA-u0XDFBuTaw2AcoP1NLSYNCSAEutXi+gfhb-qU=_UBGg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-u0XDFBuTaw2AcoP1NLSYNCSAEutXi+gfhb-qU=_UBGg@mail.gmail.com>
-From: Eduardo Habkost <ehabkost@redhat.com>
-Date: Mon, 19 Apr 2021 12:28:04 -0400
-Message-ID: <CAOpTY_oCNcPjB6aHn6kp6Pb=TJSYKLuTOWyLD+1LP24w3F_c=A@mail.gmail.com>
-Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
- unless '--no-migration' was specified
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210416183106.1516563-1-richard.henderson@linaro.org>
+ <20210416183106.1516563-3-richard.henderson@linaro.org>
+In-Reply-To: <20210416183106.1516563-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Apr 2021 17:28:40 +0100
+Message-ID: <CAFEAcA-jjNAx-zZdLRS6CYb+1w8UsezEGc+YzqvKj9-MKWrdcw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/9] target/arm: Split out mte_probe_int
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,32 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 18, 2021 at 11:54 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Fri, 16 Apr 2021 at 19:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Thu, 15 Apr 2021 at 16:46, Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > When a migration blocker is added nothing is reported to the user,
-> > inability to migrate such guest may come as a late surprise. As a bare
-> > minimum, we can print a warning. To not pollute the output for those, who
-> > have no intention to migrate their guests, introduce '--no-migration'
-> > option which both block the migration and eliminates warning from
+> Split out a helper function from mte_checkN to perform
+> all of the checking and address manpulation.  So far,
+> just use this in mte_checkN itself.
 >
-> I'm not a fan. For a lot of people and configurations this
-> is going to be "add an extra complaint from QEMU to a previously
-> working configuration". We add too many of those already.
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/mte_helper.c | 52 +++++++++++++++++++++++++++++++----------
+>  1 file changed, 40 insertions(+), 12 deletions(-)
 
-I agree that warning with machine types that never supported live
-migration would be useless noise, but warning if using an explicit
-versioned machine type sounds like a reasonable default (as long as
-the warnings includes clear instructions on how to silence them).
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
---
-Eduardo
-
+thanks
+-- PMM
 
