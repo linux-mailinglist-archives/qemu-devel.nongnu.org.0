@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF5C3646DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:14:53 +0200 (CEST)
-Received: from localhost ([::1]:48412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CB13646C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:10:51 +0200 (CEST)
+Received: from localhost ([::1]:36208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVbw-00024J-Gb
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46574)
+	id 1lYVY2-0005R8-El
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:10:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVQL-0004Kb-Sf
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:02:54 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40894)
+ id 1lYVQR-0004N5-P5
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:03:00 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVQG-0002vB-06
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:02:53 -0400
-Received: by mail-wr1-x429.google.com with SMTP id e5so5742790wrg.7
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 08:02:47 -0700 (PDT)
+ id 1lYVQA-0002sm-Mp
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:02:59 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so20764863wmy.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 08:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=msEx9ljlWhDf1/vW/dw/1Ljno8pnteuQokqwLzYCJNA=;
- b=IpLd9meRf9w6v1P5LtqUJs9g/+u9/g55yG3QeivpTfD38R8eetqZCxmgtVbzKUgG2C
- ITAUvZiX2il3VJQ+3JJjIMaGiPyvGAwtSPnVRzyU5k+sjK/mFcYZlPx/0LU43yE8bzs5
- lAkQz8nSkksn+ZAlDezNQYdWlojEGYO/N1LqR8C8q3FAEi9tHafi+i5URahj/blR1Oe8
- pAQqMxX82MRvNSCbjtuAdvfarr4JGaJqoW/++nE8v2SZoB0uHXUyszJAzDbwf5YOXohR
- KUHXlcUMeq0z7Dr790JXhc0fAubH4pLHYNweA4Qk353fJowq02Nsn1WbDKihvW0JxKxB
- cNdg==
+ bh=np1gaZVZhTNvKxm8FNo3UyxZzlTNbaBL/YyqUBHfOqM=;
+ b=SxQkKmejjrh82xAAnnveYZbNZp2etX6wmRTgjfujuuYpKU6bM7RJewQlYnvrQbuoIu
+ x+t0f3JnATfhUjc5eBev8A1CcC8QGhI9A3wezovENS90ZgFMCv42IJQjeFZ5j01zo3zu
+ xqE2YZbIbf3gdAcsgQq4UV1+F+mEkuP3apPWigWerFbJtLnSfHs2G0oLh2t/iiWlnlY0
+ TdmRXMr0WBQ5y1DpTgsVt2zb4ych0LLUFvhiWJgLTAAt6y5eydB2DZPtRnoRFiTvmH47
+ XR8ULJmfBcUNgn9KTlcsQ89hFXmGCespSsL14oHdGgPjE20cc/r15ovsUEbwb+8KZFW2
+ sDew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=msEx9ljlWhDf1/vW/dw/1Ljno8pnteuQokqwLzYCJNA=;
- b=uQMUqnriKm1cs1KVz5gcWH6+Vyb4wjIwhxuKelZ+Z/Gu/8X3eUYm4PhPpBnZjC42dZ
- TEIRe+YuPbtLyx6phXWU3GLFqRk8U9w7omyuzj+/pgMw1Y8KPfZmht9cU6zumJy62do0
- VJ3MMeMhAskRW5NlY64rvOYCW4sSDeTDkEw5TUCGjzrvU44Ofk6ULcops9y7pj5DGf4f
- NZvxgAdsrjFeh2djfh7f+NPIevWWVY/QkeJNvyjWI5WSon2mOqlRqVgmOyW++V+Zfv1O
- 2unuJSC/HCnUbZTSctNZgfMMMGp2ewTCQ/MvpI8cJUHjXemPGBS2emVZnvXPJ3EDxp3B
- djsw==
-X-Gm-Message-State: AOAM533HMVsbD7Z3qiDcnHTCHfTkuqo4CeGlSSifNUdm/MKM5sZDUa3C
- odGk2U1IuFbNlAZGLmoK2DbOOw==
-X-Google-Smtp-Source: ABdhPJzcOQRLFGstVtbtdEYUjHGOz2uz7mAOnTtsi6BmA15ruy8dxG5WaFyIfdc5FWB6efdgF/QYwA==
-X-Received: by 2002:adf:9d88:: with SMTP id p8mr6827005wre.138.1618844566516; 
- Mon, 19 Apr 2021 08:02:46 -0700 (PDT)
+ bh=np1gaZVZhTNvKxm8FNo3UyxZzlTNbaBL/YyqUBHfOqM=;
+ b=MKt0GXtY2+Rb9SGnqTumggWvmYkB8pmtIYmDu16sLbu75ESax3MT0cehJjZ9q3hsjs
+ voi4LCR8GqUTTtMHYDLZPlEraVW43Axi5OGfRjrRCD49ePNH3C7nM4mNnujF5lBwjywd
+ usxfAT4l4kv7jbSlZT99gdstoYd+n6LU3xMHdkD891Nl3u7CjZr/7GMUUIISrbGhV2Ca
+ +3rKmphvPxWwb8nucBA6FHtQ1wOPPMDSKB7yFb+kOnLgOmMOpkiW5/yqa+8KYu9NU2Z0
+ ks1d1Nkj4GHBxn93PLsX96jjiv7eutsLGoUkgtZHoJdT9ae3S0ayiojVnm+Oo2yDqne1
+ TMKQ==
+X-Gm-Message-State: AOAM533VLQ/QAD2vAodaLfzDJCnCHlOSeNAAvKjkFMSbWpYPdvf07IJR
+ KANt6au0X9Ya6kCflNivAImraw==
+X-Google-Smtp-Source: ABdhPJxLpJh8e9dfL2LoIN6D4GGkMqQJnFa7+8RS+yDwHpLTBbqTNOEAOaGDedF91Sfw/SFMJgtuLA==
+X-Received: by 2002:a05:600c:4f54:: with SMTP id
+ m20mr21632058wmq.58.1618844561317; 
+ Mon, 19 Apr 2021 08:02:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 24sm22309029wmk.18.2021.04.19.08.02.38
+ by smtp.gmail.com with ESMTPSA id i4sm24076195wrx.56.2021.04.19.08.02.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 08:02:44 -0700 (PDT)
+ Mon, 19 Apr 2021 08:02:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7D6ED1FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id 9573C1FFA9;
  Mon, 19 Apr 2021 15:54:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 19/25] tests/tcg/tricore: Add dvstep test
-Date: Mon, 19 Apr 2021 15:54:29 +0100
-Message-Id: <20210419145435.14083-20-alex.bennee@linaro.org>
+Subject: [PATCH  v1 20/25] tests/tcg/tricore: Add fadd test
+Date: Mon, 19 Apr 2021 15:54:30 +0100
+Message-Id: <20210419145435.14083-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210419145435.14083-1-alex.bennee@linaro.org>
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,73 +100,30 @@ From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-10-kbastian@mail.uni-paderborn.de>
+Message-Id: <20210305170045.869437-11-kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/tricore/macros.h                    | 29 ++++++++++++++++++-
- tests/tcg/tricore/Makefile.softmmu-target     |  1 +
- .../tcg/tricore/Makefile.softmmu-target.orig  |  1 +
- tests/tcg/tricore/test_dvstep.S               | 15 ++++++++++
- 4 files changed, 45 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/tricore/test_dvstep.S
+ tests/tcg/tricore/Makefile.softmmu-target      |  1 +
+ tests/tcg/tricore/Makefile.softmmu-target.orig |  1 +
+ tests/tcg/tricore/test_fadd.S                  | 16 ++++++++++++++++
+ 3 files changed, 18 insertions(+)
+ create mode 100644 tests/tcg/tricore/test_fadd.S
 
-diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
-index 52aa936c56..59b4b9a352 100644
---- a/tests/tcg/tricore/macros.h
-+++ b/tests/tcg/tricore/macros.h
-@@ -19,6 +19,18 @@
- 
- #define DREG_DEV_ADDR %a15
- 
-+#define EREG_RS1 %e6
-+#define EREG_RS1_LO %d6
-+#define EREG_RS1_HI %d7
-+#define EREG_RS2 %e8
-+#define EREG_RS2_LO %d8
-+#define EREG_RS2_HI %d9
-+#define EREG_CALC_RESULT %e8
-+#define EREG_CALC_RESULT_HI %d9
-+#define EREG_CALC_RESULT_LO %d8
-+#define EREG_CORRECT_RESULT_LO %d0
-+#define EREG_CORRECT_RESULT_HI %d1
-+
- /* Test case wrappers */
- #define TEST_CASE(num, testreg, correct, code...) \
- test_ ## num:                                     \
-@@ -27,6 +39,15 @@ test_ ## num:                                     \
-     mov DREG_TEST_NUM, num;                       \
-     jne testreg, DREG_CORRECT_RESULT, fail        \
- 
-+#define TEST_CASE_E(num, correct_lo, correct_hi, code...)  \
-+test_ ## num:                                              \
-+    code;                                                  \
-+    mov DREG_TEST_NUM, num;                                \
-+    LI(EREG_CORRECT_RESULT_LO, correct_lo)                 \
-+    jne EREG_CALC_RESULT_LO, EREG_CORRECT_RESULT_LO, fail; \
-+    LI(EREG_CORRECT_RESULT_HI, correct_hi)                 \
-+    jne EREG_CALC_RESULT_HI, EREG_CORRECT_RESULT_HI, fail;
-+
- #define TEST_CASE_PSW(num, testreg, correct, correct_psw, code...) \
- test_ ## num:                                                      \
-     code;                                                          \
-@@ -57,7 +78,13 @@ test_ ## num:                                                      \
-     insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2;          \
-     )
- 
--
-+#define TEST_E_ED(insn, num, res_hi, res_lo, rs1_hi, rs1_lo, rs2) \
-+    TEST_CASE_E(num, res_lo, res_hi,                              \
-+    LI(EREG_RS1_LO, rs1_lo);                                      \
-+    LI(EREG_RS1_HI, rs1_hi);                                      \
-+    LI(DREG_RS2, rs2);                                            \
-+    insn EREG_CALC_RESULT, EREG_RS1, DREG_RS2;                    \
-+    )
- 
- /* Pass/Fail handling part */
- #define TEST_PASSFAIL                       \
 diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index a9b81545e2..799b51191e 100644
+index 799b51191e..e7adb16af9 100644
 --- a/tests/tcg/tricore/Makefile.softmmu-target
 +++ b/tests/tcg/tricore/Makefile.softmmu-target
+@@ -7,6 +7,7 @@ TESTS += test_abs.tst
+ TESTS += test_bmerge.tst
+ TESTS += test_clz.tst
+ TESTS += test_dvstep.tst
++TESTS += test_fadd.tst
+ 
+ QEMU_OPTS += -M tricore_testboard -nographic -kernel
+ 
+diff --git a/tests/tcg/tricore/Makefile.softmmu-target.orig b/tests/tcg/tricore/Makefile.softmmu-target.orig
+index a9b81545e2..799b51191e 100644
+--- a/tests/tcg/tricore/Makefile.softmmu-target.orig
++++ b/tests/tcg/tricore/Makefile.softmmu-target.orig
 @@ -6,6 +6,7 @@ ASFLAGS =
  TESTS += test_abs.tst
  TESTS += test_bmerge.tst
@@ -173,36 +132,25 @@ index a9b81545e2..799b51191e 100644
  
  QEMU_OPTS += -M tricore_testboard -nographic -kernel
  
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target.orig b/tests/tcg/tricore/Makefile.softmmu-target.orig
-index de6a2cc88e..a9b81545e2 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target.orig
-+++ b/tests/tcg/tricore/Makefile.softmmu-target.orig
-@@ -5,6 +5,7 @@ ASFLAGS =
- 
- TESTS += test_abs.tst
- TESTS += test_bmerge.tst
-+TESTS += test_clz.tst
- 
- QEMU_OPTS += -M tricore_testboard -nographic -kernel
- 
-diff --git a/tests/tcg/tricore/test_dvstep.S b/tests/tcg/tricore/test_dvstep.S
+diff --git a/tests/tcg/tricore/test_fadd.S b/tests/tcg/tricore/test_fadd.S
 new file mode 100644
-index 0000000000..858dbc62dd
+index 0000000000..1a65054803
 --- /dev/null
-+++ b/tests/tcg/tricore/test_dvstep.S
-@@ -0,0 +1,15 @@
++++ b/tests/tcg/tricore/test_fadd.S
+@@ -0,0 +1,16 @@
 +#include "macros.h"
 +.text
 +.global _start
 +_start:
-+    #                              Result                   RS1            RS2
-+    TEST_E_ED(dvstep,   1, 0x000001ff, 0xfffe5cff, 0x00000001, 0xfffffe5c, 0x0)
-+    TEST_E_ED(dvstep,   2, 0x00000000, 0x000000ff, 0x00000000, 0x00000000, 0x0)
-+    TEST_E_ED(dvstep,   3, 0x0000f000, 0x000000fd, 0x010000f0, 0x00000000, 0x0)
-+    TEST_E_ED(dvstep,   4, 0xfffff000, 0x00000000, 0x7ffffff0, 0x00000000, 0x0)
-+    TEST_E_ED(dvstep.u, 5, 0xffffff00, 0x100008ff, 0xffffffff, 0x00100008, 0x0)
-+    TEST_E_ED(dvstep.u, 6, 0x00000100, 0x00000000, 0x08000001, 0x00000000, \
-+                           0xffffff2d)
++    TEST_D_DD_PSW(add.f, 1, 0x7fc00000, 0x00000b80, 0xffffff85, 0x00001234)
++    TEST_D_DD_PSW(add.f, 2, 0xf9c00000, 0x00000b80, 0xf9400000, 0xf9400000)
++    TEST_D_DD_PSW(add.f, 3, 0x8bb858ca, 0x00000b80, 0x8b3858ca, 0x8b3858ca)
++    TEST_D_DD_PSW(add.f, 4, 0x00000000, 0x00000b80, 0x000000ff, 0x00000000)
++    TEST_D_DD_PSW(add.f, 5, 0x7fc00000, 0x00000b80, 0xfffffe52, 0x0a4cf70c)
++    TEST_D_DD_PSW(add.f, 6, 0x9e6d5076, 0x84000b80, 0x9ded50ec, 0x9ded4fff)
++    TEST_D_DD_PSW(add.f, 7, 0x00000000, 0x04000b80, 0x0000e8bd, 0x00000000)
++    TEST_D_DD_PSW(add.f, 8, 0x7fc00000, 0xc4000b80, 0xffad546e, 0xffad546e)
++    TEST_D_DD_PSW(add.f, 9, 0x7fc00000, 0x04000b80, 0xfffe0000, 0x08130000)
 +
 +    TEST_PASSFAIL
 +
