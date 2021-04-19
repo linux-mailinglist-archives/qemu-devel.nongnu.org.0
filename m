@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C7F364835
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E284364834
 	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:29:07 +0200 (CEST)
-Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYWln-0007Wn-2D
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:29:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39516)
+	id 1lYWlm-0007Wh-8l
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:29:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYWkQ-0006Y7-I8
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:27:43 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYWkM-0003ty-C6
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:27:42 -0400
-Received: by mail-ej1-x631.google.com with SMTP id l4so53837612ejc.10
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:27:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iXiln74EBli/4LWl4e3OhhlR3ZGOoKOSfNhbioF1XjE=;
- b=Owqwbfl0BJC6gdRwWPFWh7YzhhA16+IcVekGwcad/EheKFr/EnrZDgQ+ZQLDozqsDa
- uxLyh2Twz7TQuW4ZG+spG7FzGWZD7vUqVSyd6aDgTk5b9ZOPZboe6hlN/74GrH7GodaA
- PNi1L+scx5iwT1GLjui4c2bdQKj9ApMd3NNWpiBYlQg3r2cU8wnxRo5pUGrBjbY2FKmx
- YPC4fiHmdPfVupQOS0tvu8cKMDgnTXcgPIM9/tOMp67fsHiFjNE3TRUPn6UtFGX/7Apv
- xOZzjbZ5pOdniY4gw+tN6rK8ffx9F3TwMOFlyuN3z8vYMBnEDwEBwFJ0QYUjF7YNs6Ge
- IKSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iXiln74EBli/4LWl4e3OhhlR3ZGOoKOSfNhbioF1XjE=;
- b=aeDq2OVRQVQB6549qqsQ9tp6FQMT/jbrJjY/C4qe9Y1T9EXucGEpPyEz5Qg2LYFh5L
- JWi4+isxVcLj+TNPa7fLHUf/mYOWQD1yUn6xst4/AYzFX4HKRaRa66oxAehC8vCGAFnM
- OrjGsGylDNxjX6BM1cbw78advnspWo17xv0D80Bg2mHKVAVqFo6KsYAcPm+oCN6FDYmN
- KfOU2Mjh1UdkPmmXRR8+3WmurNpws7qHzvMm9B1HJVqEpgrjzxTQQ1eQvyMjYGanD4Y9
- H7Hk2bjOho3Q+ZJKNutfsDZvDVQtDR491Ja8ryZC3gOHmdyEUN5nwv5HN4eB0w7D4VAQ
- +G6A==
-X-Gm-Message-State: AOAM531jx/Ur1qgBcgRAw3BRjEyerBSmmhnv7kRmmW0eTBE1on/VDER0
- rayBok2WUp2Yyc2ROFdzqfllekUaG941s9IF2GcDxQ==
-X-Google-Smtp-Source: ABdhPJxbxe6sEwvsHdSeHyJ1bQr4DxHpMyIH5TaST8DOiE6MV8PDFM4gyvurhlHJdoDL2KDY0JwKfdSoF334gfp4EBo=
-X-Received: by 2002:a17:907:629e:: with SMTP id
- nd30mr22765469ejc.407.1618849656555; 
- Mon, 19 Apr 2021 09:27:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYWkU-0006Zb-ER
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:27:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYWkQ-0003vf-BE
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:27:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618849661;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oC5whbFnSn2JK26u1Q1AfzFurYxQU/N/G6i+yedU1PE=;
+ b=PHYlEpfClVHbcnaKNCY31GOneRJ8Zbhwo+viGHgi9ZIs4a6lH4wwslWShZ7DZ4h8fPtstm
+ F2+8SAHgY3z+gZpYEU2k+KpiMQb4JatrlQmU0RexZ72QbXaJwLREKHrKCF703JVEug+cuD
+ NCSUG5KxksqTIR5WtiKZqXKcn+Mr5/4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-qlgcuSTIM2uogoxLkCMvFg-1; Mon, 19 Apr 2021 12:27:39 -0400
+X-MC-Unique: qlgcuSTIM2uogoxLkCMvFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76548107ACCA;
+ Mon, 19 Apr 2021 16:27:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 606A15D72E;
+ Mon, 19 Apr 2021 16:27:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DE3E9113525D; Mon, 19 Apr 2021 18:27:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.0] migration: Drop redundant query-migrate result
+ @blocked
+Date: Mon, 19 Apr 2021 18:27:32 +0200
+Message-Id: <20210419162732.766055-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20210416183106.1516563-1-richard.henderson@linaro.org>
- <20210416183106.1516563-2-richard.henderson@linaro.org>
-In-Reply-To: <20210416183106.1516563-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Apr 2021 17:26:44 +0100
-Message-ID: <CAFEAcA_XdxxuDSi7nwwB2JPMYFDxJYWv7fv1f-ySuwWnTmVaLg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/9] target/arm: Fix mte_checkN
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,130 +77,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, dgilbert@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 16 Apr 2021 at 19:31, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We were incorrectly assuming that only the first byte of an MTE access
-> is checked against the tags.  But per the ARM, unaligned accesses are
-> pre-decomposed into single-byte accesses.  So by the time we reach the
-> actual MTE check in the ARM pseudocode, all accesses are aligned.
->
-> Therefore, the first failure is always either the first byte of the
-> access, or the first byte of the granule.
->
-> In addition, some of the arithmetic is off for last-first -> count.
-> This does not become directly visible until a later patch that passes
-> single bytes into this function, so ptr == ptr_last.
->
-> Buglink: https://bugs.launchpad.net/bugs/1921948
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/mte_helper.c | 38 +++++++++++++++++---------------------
->  1 file changed, 17 insertions(+), 21 deletions(-)
->
-> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-> index 8be17e1b70..c87717127c 100644
-> --- a/target/arm/mte_helper.c
-> +++ b/target/arm/mte_helper.c
-> @@ -757,10 +757,10 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
->                      uint64_t ptr, uintptr_t ra)
->  {
->      int mmu_idx, ptr_tag, bit55;
-> -    uint64_t ptr_last, ptr_end, prev_page, next_page;
-> -    uint64_t tag_first, tag_end;
-> -    uint64_t tag_byte_first, tag_byte_end;
-> -    uint32_t esize, total, tag_count, tag_size, n, c;
-> +    uint64_t ptr_last, prev_page, next_page;
-> +    uint64_t tag_first, tag_last;
-> +    uint64_t tag_byte_first, tag_byte_last;
-> +    uint32_t total, tag_count, tag_size, n, c;
->      uint8_t *mem1, *mem2;
->      MMUAccessType type;
->
-> @@ -779,29 +779,27 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
->
->      mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
->      type = FIELD_EX32(desc, MTEDESC, WRITE) ? MMU_DATA_STORE : MMU_DATA_LOAD;
-> -    esize = FIELD_EX32(desc, MTEDESC, ESIZE);
->      total = FIELD_EX32(desc, MTEDESC, TSIZE);
->
->      /* Find the addr of the end of the access, and of the last element. */
-> -    ptr_end = ptr + total;
-> -    ptr_last = ptr_end - esize;
-> +    ptr_last = ptr + total - 1;
+Result @blocked is true when and only when result @blocked-reasons is
+present.  It's always non-empty when present.  @blocked is redundant;
+drop.
 
-Code change means the comment needs updating, since we're no longer
-finding two things. Change to just
- /* Find the addr of the end of the access */
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/migration.json   |  7 +++----
+ migration/migration.c | 29 +++++++++++++----------------
+ monitor/hmp-cmds.c    |  2 +-
+ 3 files changed, 17 insertions(+), 21 deletions(-)
 
-?
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 9bf0bc4d25..7a5bdf9a0d 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -224,9 +224,9 @@
+ #        only returned if VFIO device is present, migration is supported by all
+ #        VFIO devices and status is 'active' or 'completed' (since 5.2)
+ #
+-# @blocked: True if outgoing migration is blocked (since 6.0)
+-#
+-# @blocked-reasons: A list of reasons an outgoing migration is blocked (since 6.0)
++# @blocked-reasons: A list of reasons an outgoing migration is blocked.
++#                   Present and non-empty when migration is blocked.
++#                   (since 6.0)
+ #
+ # Since: 0.14
+ ##
+@@ -241,7 +241,6 @@
+            '*setup-time': 'int',
+            '*cpu-throttle-percentage': 'int',
+            '*error-desc': 'str',
+-           'blocked': 'bool',
+            '*blocked-reasons': ['str'],
+            '*postcopy-blocktime' : 'uint32',
+            '*postcopy-vcpu-blocktime': ['uint32'],
+diff --git a/migration/migration.c b/migration/migration.c
+index 8ca034136b..fdadee290e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1073,27 +1073,24 @@ static void populate_vfio_info(MigrationInfo *info)
+ static void fill_source_migration_info(MigrationInfo *info)
+ {
+     MigrationState *s = migrate_get_current();
++    GSList *cur_blocker = migration_blockers;
+ 
+-    info->blocked = migration_is_blocked(NULL);
+-    info->has_blocked_reasons = info->blocked;
+     info->blocked_reasons = NULL;
+-    if (info->blocked) {
+-        GSList *cur_blocker = migration_blockers;
+ 
+-        /*
+-         * There are two types of reasons a migration might be blocked;
+-         * a) devices marked in VMState as non-migratable, and
+-         * b) Explicit migration blockers
+-         * We need to add both of them here.
+-         */
+-        qemu_savevm_non_migratable_list(&info->blocked_reasons);
++    /*
++     * There are two types of reasons a migration might be blocked;
++     * a) devices marked in VMState as non-migratable, and
++     * b) Explicit migration blockers
++     * We need to add both of them here.
++     */
++    qemu_savevm_non_migratable_list(&info->blocked_reasons);
+ 
+-        while (cur_blocker) {
+-            QAPI_LIST_PREPEND(info->blocked_reasons,
+-                              g_strdup(error_get_pretty(cur_blocker->data)));
+-            cur_blocker = g_slist_next(cur_blocker);
+-        }
++    while (cur_blocker) {
++        QAPI_LIST_PREPEND(info->blocked_reasons,
++                          g_strdup(error_get_pretty(cur_blocker->data)));
++        cur_blocker = g_slist_next(cur_blocker);
+     }
++    info->has_blocked_reasons = info->blocked_reasons != NULL;
+ 
+     switch (s->state) {
+     case MIGRATION_STATUS_NONE:
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 0ad5b77477..d9bef63373 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -224,7 +224,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+ 
+     migration_global_dump(mon);
+ 
+-    if (info->blocked) {
++    if (info->blocked_reasons) {
+         strList *reasons = info->blocked_reasons;
+         monitor_printf(mon, "Outgoing migration blocked:\n");
+         while (reasons) {
+-- 
+2.26.3
 
->
->      /* Round the bounds to the tag granule, and compute the number of tags. */
->      tag_first = QEMU_ALIGN_DOWN(ptr, TAG_GRANULE);
-> -    tag_end = QEMU_ALIGN_UP(ptr_last, TAG_GRANULE);
-> -    tag_count = (tag_end - tag_first) / TAG_GRANULE;
-> +    tag_last = QEMU_ALIGN_DOWN(ptr_last, TAG_GRANULE);
-> +    tag_count = ((tag_last - tag_first) / TAG_GRANULE) + 1;
->
->      /* Round the bounds to twice the tag granule, and compute the bytes. */
->      tag_byte_first = QEMU_ALIGN_DOWN(ptr, 2 * TAG_GRANULE);
-> -    tag_byte_end = QEMU_ALIGN_UP(ptr_last, 2 * TAG_GRANULE);
-> +    tag_byte_last = QEMU_ALIGN_DOWN(ptr_last, 2 * TAG_GRANULE);
->
->      /* Locate the page boundaries. */
->      prev_page = ptr & TARGET_PAGE_MASK;
->      next_page = prev_page + TARGET_PAGE_SIZE;
->
-> -    if (likely(tag_end - prev_page <= TARGET_PAGE_SIZE)) {
-> +    if (likely(tag_last - prev_page <= TARGET_PAGE_SIZE)) {
->          /* Memory access stays on one page. */
-> -        tag_size = (tag_byte_end - tag_byte_first) / (2 * TAG_GRANULE);
-> +        tag_size = ((tag_byte_last - tag_byte_first) / (2 * TAG_GRANULE)) + 1;
->          mem1 = allocation_tag_mem(env, mmu_idx, ptr, type, total,
->                                    MMU_DATA_LOAD, tag_size, ra);
->          if (!mem1) {
-> @@ -815,9 +813,9 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
->          mem1 = allocation_tag_mem(env, mmu_idx, ptr, type, next_page - ptr,
->                                    MMU_DATA_LOAD, tag_size, ra);
->
-> -        tag_size = (tag_byte_end - next_page) / (2 * TAG_GRANULE);
-> +        tag_size = ((tag_byte_last - next_page) / (2 * TAG_GRANULE)) + 1;
->          mem2 = allocation_tag_mem(env, mmu_idx, next_page, type,
-> -                                  ptr_end - next_page,
-> +                                  ptr_last - next_page + 1,
->                                    MMU_DATA_LOAD, tag_size, ra);
->
->          /*
-> @@ -838,15 +836,13 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
->      }
->
->      /*
-> -     * If we failed, we know which granule.  Compute the element that
-> -     * is first in that granule, and signal failure on that element.
-> +     * If we failed, we know which granule.  For the first granule, the
-> +     * failure address is @ptr, the first byte accessed.  Otherwise the
-> +     * failure address is the first byte of the nth granule.
->       */
->      if (unlikely(n < tag_count)) {
-> -        uint64_t fail_ofs;
-> -
-> -        fail_ofs = tag_first + n * TAG_GRANULE - ptr;
-> -        fail_ofs = ROUND_UP(fail_ofs, esize);
-> -        mte_check_fail(env, desc, ptr + fail_ofs, ra);
-> +        uint64_t fault = (n == 0 ? ptr : tag_first + n * TAG_GRANULE);
-> +        mte_check_fail(env, desc, fault, ra);
->      }
->
-
-This pointer arithmetic makes my head hurt. But I think it's right now.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
