@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B608C364A8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:26:54 +0200 (CEST)
-Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E364364A80
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:23:49 +0200 (CEST)
+Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYZXp-0006bu-IT
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48370)
+	id 1lYZUp-00030l-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZQ0-0006Mu-AW
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:48 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38773)
+ id 1lYZQ4-0006Ur-AP
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:52 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZPy-00015o-33
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:47 -0400
-Received: by mail-wr1-x436.google.com with SMTP id w4so31453477wrt.5
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:18:45 -0700 (PDT)
+ id 1lYZQ2-00017r-Q5
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:51 -0400
+Received: by mail-wr1-x429.google.com with SMTP id k26so18752730wrc.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JdLEvydvbX477BhH/ZmKV47FrIUBwZZqHvybwivTF10=;
- b=deltvGSS5dyc4th/Or9JYeoc8/sBGeL14V7j1CHjJmRPBMYszO9We6SAGbR/1Q7gd1
- f6OitR3u0xZonZuaAZr+f2qYIMyJqj3CH9YVqHPNhv67K/KQjQvoDclc7su8WohW/39l
- hWcgFUvKA/YHDUOBOkIPtvc9TgJxOYgN4hozmP3KewS8ZpeKnd/dRHN3EEvi91LykHIJ
- +7yhZYMMAwe60PseXkCS62kTwgAtYYA0CQ0f+VDfK4zrbPNK5oQet6K5DdDFA1G0R1+a
- 1S3iMm7EHdnqHp3zAcEgJgNfc60ncbRTE3pYdzNGXhmrbhe6pzJ1twAK/17RAQW2oJSo
- LC9w==
+ bh=jK+gaco4qgdVhboeMerJ/bnvg6dnQ6kpU1z6QqW9e3M=;
+ b=Nhj2vqKHQdKioneDnC2EAcLaGuo4ppKDS7DnZs0P4Y1GYs3G8/QYQ1nzi9ikCy4UqO
+ pi68PN+GO8kKLVf+P/lJGhQF9pid9b7u4NMNEJy20PS3IUKboHLxfZIyUbDTAU7nKNWJ
+ onVpf5KW3Y0c8GPma/s1iyIAUN657nV0LTd0sWUoYD9cEjLrdQ9CcrAxuJKbsAz6DpeE
+ fQSOhkiskJdlLq3GkcpMHO2vNQ9Cbcheh1t85RxMGzH1BKEuwcRUmdQI6XEJxlJWppdI
+ zRmNY7bDUqUKVisU01nHl51E8O71rErT51Iu3prLh967zKW4qavJZGNM6QqwT6IgdhUt
+ 9X3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JdLEvydvbX477BhH/ZmKV47FrIUBwZZqHvybwivTF10=;
- b=dHmlpWYZFGOcmmJ5q+Qb0bZ2gG2eyxdBNnHBbGpdoG59h1VqB7HTo3oq1KRxBPjfHa
- g3H80INoy3NBOxXCKwBQhZoGLWXAqZpSPvhbcTH3FyTJd/5zwhxJ0q3PdAsMLpj2zoPZ
- fr122BSW9RXrJOEDtYKe9dfk+rrLp04GW1JzHXXR18+tW6EbkALBAGJ8CiT/OYfhK44R
- /4CwE3g/Y/fq7sVszCuueKt41/qWSYXC2D5OQZPbPtvq0KYBKUuUrhcmc6b4EfqDEuoh
- v6RD9MwOSX/IXSyeu9TvS0cV+by9148zCRp508TE1mHGrkkbE8WmR4smJbpQzv6FF1+a
- bInA==
-X-Gm-Message-State: AOAM530MBJpUKqWNgTxzzb33gs5N/6gOSUoH61S+H6ZiyA0ntPB804sC
- EgqLOgHsvfT8A+Rt8WWJDX2nnn3g9x8d5A==
-X-Google-Smtp-Source: ABdhPJxsQPEgEeJQ62/ux3atd5vqJj3q0umH9oqJYDF5uwzLlq0fo1W+0H1alfWC1Q4oMf+/TgFe4w==
-X-Received: by 2002:a5d:4405:: with SMTP id z5mr16594720wrq.313.1618859924495; 
- Mon, 19 Apr 2021 12:18:44 -0700 (PDT)
+ bh=jK+gaco4qgdVhboeMerJ/bnvg6dnQ6kpU1z6QqW9e3M=;
+ b=tBY0SBY8LtpavNI3pSzTP33SjWB+UySvt3F+JiNFFOEy5oC0YOiEgSaNcfEY9ngt9v
+ 7wL0Y5g9SH7swFMdYJcLAAkC5WCtTNpwki+S1YmC3CKwUzA4f9imWhAQcQi3DcxhkYDT
+ gxCiDd2Ko5sQL7oIPDfG5uw3SBGhGuqzdxzfRYQKnLAHkdU9qE6UaMSkP008T6wxcPN9
+ U/su/I5TmsX4ydt2M+vdFsoESmuE3n9VA8idwgphvP4J4cDuo/rYAdtzRHbi1vOK63zE
+ y//ubnJsVC9PYnZQl5X5ouJ2+0G1a93HOTBviw69B0ccbT7qg+T7baTIa9EcnGfaQA+f
+ T24g==
+X-Gm-Message-State: AOAM532Cze9/e40WMLuQsJtLhCwvPUPFL8HVis+AOhef7Tz8njn4l1BC
+ vH2FYIs2WtgO2CZKpS3oWnq32lf7MXFvxw==
+X-Google-Smtp-Source: ABdhPJzLoFi4JNVy2b0YsHmsILZ3ie5xTYyHpk45C+EBbhLqTsmhAjW4A5vaEi2iUhqteEASdl3Xog==
+X-Received: by 2002:a5d:6b50:: with SMTP id x16mr16090532wrw.379.1618859929386; 
+ Mon, 19 Apr 2021 12:18:49 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id l14sm522342wmq.4.2021.04.19.12.18.43
+ by smtp.gmail.com with ESMTPSA id c1sm23538279wrx.89.2021.04.19.12.18.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 12:18:44 -0700 (PDT)
+ Mon, 19 Apr 2021 12:18:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/30] target/mips: Make CPU/FPU regnames[] arrays global
-Date: Mon, 19 Apr 2021 21:17:57 +0200
-Message-Id: <20210419191823.1555482-5-f4bug@amsat.org>
+Subject: [PATCH v3 05/30] target/mips: Optimize CPU/FPU regnames[] arrays
+Date: Mon, 19 Apr 2021 21:17:58 +0200
+Message-Id: <20210419191823.1555482-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210419191823.1555482-1-f4bug@amsat.org>
 References: <20210419191823.1555482-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,102 +93,59 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPU/FPU regnames[] arrays is used in mips_tcg_init() and
-mips_cpu_dump_state(), which while being in translate.c is
-not specific to TCG.
+Since all entries are no more than 4 bytes (including nul
+terminator), can save space and pie runtime relocations by
+declaring regnames[] as array of 4 const char.
 
-To be able to move mips_cpu_dump_state() to cpu.c, which is
-compiled for all accelerator, we need to make the regnames[]
-arrays global to target/mips/ by declaring them in "internal.h".
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h  |  3 +++
- target/mips/cpu.c       |  7 +++++++
- target/mips/fpu.c       |  7 +++++++
- target/mips/translate.c | 14 --------------
- 4 files changed, 17 insertions(+), 14 deletions(-)
+ target/mips/internal.h | 4 ++--
+ target/mips/cpu.c      | 2 +-
+ target/mips/fpu.c      | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 99264b8bf6a..a8644f754a6 100644
+index a8644f754a6..37f54a8b3fc 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -71,6 +71,9 @@ struct mips_def_t {
+@@ -71,8 +71,8 @@ struct mips_def_t {
      int32_t SAARP;
  };
  
-+extern const char * const regnames[32];
-+extern const char * const fregnames[32];
-+
+-extern const char * const regnames[32];
+-extern const char * const fregnames[32];
++extern const char regnames[32][4];
++extern const char fregnames[32][4];
+ 
  extern const struct mips_def_t mips_defs[];
  extern const int mips_defs_number;
- 
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index dce1e166bde..f354d18aec4 100644
+index f354d18aec4..ed9552ebeb7 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -35,6 +35,13 @@
+@@ -35,7 +35,7 @@
  #include "qapi/qapi-commands-machine-target.h"
  #include "fpu_helper.h"
  
-+const char * const regnames[32] = {
-+    "r0", "at", "v0", "v1", "a0", "a1", "a2", "a3",
-+    "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
-+    "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
-+    "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
-+};
-+
- #if !defined(CONFIG_USER_ONLY)
- 
- /* Called for updates to CP0_Status.  */
+-const char * const regnames[32] = {
++const char regnames[32][4] = {
+     "r0", "at", "v0", "v1", "a0", "a1", "a2", "a3",
+     "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
+     "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
 diff --git a/target/mips/fpu.c b/target/mips/fpu.c
-index 39a2f7fd22e..1447dba3fa3 100644
+index 1447dba3fa3..c7c487c1f9f 100644
 --- a/target/mips/fpu.c
 +++ b/target/mips/fpu.c
-@@ -16,3 +16,10 @@ const FloatRoundMode ieee_rm[4] = {
-     float_round_up,
+@@ -17,7 +17,7 @@ const FloatRoundMode ieee_rm[4] = {
      float_round_down
  };
-+
-+const char * const fregnames[32] = {
-+    "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
-+    "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
-+    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
-+    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
-+};
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 71fa5ec1973..f99d4d4016d 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -1267,13 +1267,6 @@ TCGv_i64 fpu_f64[32];
- #define DISAS_STOP       DISAS_TARGET_0
- #define DISAS_EXIT       DISAS_TARGET_1
  
--static const char * const regnames[] = {
--    "r0", "at", "v0", "v1", "a0", "a1", "a2", "a3",
--    "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
--    "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
--    "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
--};
--
- static const char * const regnames_HI[] = {
-     "HI0", "HI1", "HI2", "HI3",
- };
-@@ -1282,13 +1275,6 @@ static const char * const regnames_LO[] = {
-     "LO0", "LO1", "LO2", "LO3",
- };
- 
--static const char * const fregnames[] = {
--    "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
--    "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
--    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
--    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
--};
--
- /* General purpose registers moves. */
- void gen_load_gpr(TCGv t, int reg)
- {
+-const char * const fregnames[32] = {
++const char fregnames[32][4] = {
+     "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
+     "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
+     "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
 -- 
 2.26.3
 
