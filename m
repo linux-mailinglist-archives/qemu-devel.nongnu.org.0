@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954AB363B17
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 07:44:41 +0200 (CEST)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E39C363B20
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 07:49:23 +0200 (CEST)
+Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYMi3-0005zK-93
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 01:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37986)
+	id 1lYMmg-00013w-JN
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 01:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMfy-0004ne-QT
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:42:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43882)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMlu-0000YM-F7
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:48:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMfv-0008MR-TY
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:42:26 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMls-0003fe-96
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:48:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618810943;
+ s=mimecast20190719; t=1618811311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cl2492zONjg4h5F3S2einEnzdv5tgeQe+tJOHWyFVpQ=;
- b=KIhVfU/JpB8oD3/AaxAD9w5/SoJzJ6OTwbmpOKHxInCXO/I1Ie4RwTqCo25aKBmjlOq0H2
- fuXQXUR1bGco8KXgbksSSbcEzu3rPH3vc8h3d7izBoao5eAAPCnNjgaw2OlXxVoUy8m4nQ
- i+zVSTWO7XBCrQF+8EoJznaWTWqqHB0=
+ bh=txr77UfUkVeuFh+/hj0O9+ywOhg0cKQ6DbH05eh71bk=;
+ b=JQkBB3sqs3mFWKhAT6f2np5TrYqZZgGdj+9bUebX468L7IVmWVqih0KPY8lViSpGv136PV
+ W2vud5EFlE4FqE0EwgctMCiy1VnVklRQJ62KcXK1/TO36cUhj5pU6m7FpmJNB2S+iG1NoV
+ DKg4FEFvE4TVU3EMCc15RRm/qrH3oA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-B5QsZ2iPPHunWK78f7PLdQ-1; Mon, 19 Apr 2021 01:42:21 -0400
-X-MC-Unique: B5QsZ2iPPHunWK78f7PLdQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-456-uTs1iSNTN56L8jGiftM23g-1; Mon, 19 Apr 2021 01:48:27 -0400
+X-MC-Unique: uTs1iSNTN56L8jGiftM23g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6099A6414C;
- Mon, 19 Apr 2021 05:42:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4122087A826;
+ Mon, 19 Apr 2021 05:48:26 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A25425C5FD;
- Mon, 19 Apr 2021 05:42:11 +0000 (UTC)
-Subject: Re: [PATCH 11/15] gitlab-ci: Extract core container jobs to
- container-core.yml
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E02C5D71D;
+ Mon, 19 Apr 2021 05:48:17 +0000 (UTC)
+Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
+ jobs
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210418233448.1267991-1-f4bug@amsat.org>
- <20210418233448.1267991-12-f4bug@amsat.org>
+ <20210418233448.1267991-15-f4bug@amsat.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b141ee10-25d0-9574-bd28-2404ce0535c5@redhat.com>
-Date: Mon, 19 Apr 2021 07:42:10 +0200
+Message-ID: <1f1ec642-90f4-ec33-1ce1-a1a76b0259ec@redhat.com>
+Date: Mon, 19 Apr 2021 07:48:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210418233448.1267991-12-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210418233448.1267991-15-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,18 +93,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19/04/2021 01.34, Philippe Mathieu-Daudé wrote:
-> It is not possible to use the previously extracted templates
-> without this set of core containers. Extract them into a new
-> file (container-core.yml) to be able to build them without
-> having to build all the other containers by default.
+> Forks run the same jobs than mainstream, which might be overkill.
+> Allow them to easily rebase their custom set, while keeping using
+> the mainstream templates, and ability to pick specific jobs from
+> the mainstream set.
+> 
+> To switch to your set, simply add your .gitlab-ci.yml as
+> .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
+> is your gitlab 'namespace', usually username). This file will be
+> used instead of the default mainstream set.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   .gitlab-ci.d/container-core.yml | 17 +++++++++++++++++
->   .gitlab-ci.d/containers.yml     | 16 +---------------
->   2 files changed, 18 insertions(+), 15 deletions(-)
->   create mode 100644 .gitlab-ci.d/container-core.yml
+>   .gitlab-ci.yml | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 718c8e004be..35fd35075db 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -9,7 +9,12 @@ generate-config:
+>       paths:
+>         - generated-config.yml
+>     script:
+> -    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
+> +    - if test -e .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml ;
+> +      then
+> +        cp .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml generated-config.yml ;
+> +      else
+> +        cp .gitlab-ci.d/qemu-project.yml generated-config.yml ;
+> +      fi
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I think you could merge this with the previous patch, since the previous 
+patch is not very useful on its own.
+
+Anyway, I like the idea, that could be useful for downstream, indeed!
+
+  Thomas
 
 
