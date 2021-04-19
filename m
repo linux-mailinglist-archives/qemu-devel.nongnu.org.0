@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E024B364AE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:58:56 +0200 (CEST)
-Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FAA364AF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:06:31 +0200 (CEST)
+Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYa2o-0005ER-HR
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52476)
+	id 1lYaAA-0000yA-Ln
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYZfr-0007kT-SA
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:35:11 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:33767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYZff-00082t-R6
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:35:11 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id ef17so11809620qvb.0
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vtweZXpFmSQUe1OgksQa+q9EUyKuQCXyIFzv9judwik=;
- b=H1GViRaVv+GoI2VYONWZQLWlbyzgxOE7AmSn5fI2Whnjpq4PX6hkGM+LqLuj7fuTor
- b84bLapteWUwVXuI+1Q2CcRLSKgOY8vmx92Te72KyameUbJDSFG6ldVJnsK/xDWOXvQR
- 2OGmBHiOd1xQrCBY4FKm4jtIIJKyXP/p817mqjZYgrNWimzrhF0yqnQLw5hHBWPQlN5f
- nIEsaZGSJasOE0yrMps9Gu6HWhpKBGm8LdEk+2EFQAfJ/+TcOEcsf3HNBRyoFFUCgNu4
- TBFqem8jbzw/FdgQGIJoNFpXhuzGdEVvHATIg7OHahwMuPaoZCB/uOkTbyCKRpxCdfLQ
- 74Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vtweZXpFmSQUe1OgksQa+q9EUyKuQCXyIFzv9judwik=;
- b=Uk8r2jvNtNHOkezRgCn5unvQyhOBDai61jJdfQHAe/YZNw3bPtvgjNciMJdQM09GJb
- plFAle1djbi0Ps/96ZYxigWrSVQAOnbzswVo10KRyt7iowyOhKDxhDt8F8R//WrX3g6/
- rkxra7CoaCd9vfVHBxBLjm1e6coQ2PPC1ebGfq59PGb3EzXmaRvGHze54afO/euwv23b
- n2MwrrBEj5LcHNWV6E65zryeW1RQN7c48nTi5XL5ltiAdq9vz65O9q04D0wp8rcTZz70
- Bw75SjFvaxQ4qePMSXB+AkYXEyoyvejte1+scbejV6W2eXwG6gqnqcsFlxo9qo35hSBA
- rK5Q==
-X-Gm-Message-State: AOAM531t3dNGWIOl12vl/N9g8Qfhj7wKv3FxHGCE6Msa2U6zzIcduMDj
- uQcB5RGwEdr3IQAzleOYCNF23Q==
-X-Google-Smtp-Source: ABdhPJxceptJBKPSoyqlSoK0bj34cIAIF0L7L6PI3Ug8q8Me/5p5xDfHkvVcHH6ZRNh1PM/CO5R7qg==
-X-Received: by 2002:ad4:4e45:: with SMTP id eb5mr11598135qvb.12.1618860898129; 
- Mon, 19 Apr 2021 12:34:58 -0700 (PDT)
-Received: from ?IPv6:2607:fb90:80c7:aba4:3594:91a:8889:c77a?
- ([2607:fb90:80c7:aba4:3594:91a:8889:c77a])
- by smtp.gmail.com with ESMTPSA id l16sm10492884qkg.91.2021.04.19.12.34.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Apr 2021 12:34:57 -0700 (PDT)
-Subject: Re: [PATCH v3 19/30] target/mips: Move sysemu TCG-specific code to
- tcg/sysemu/ subfolder
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210419191823.1555482-1-f4bug@amsat.org>
- <20210419191823.1555482-20-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2f088e2c-f599-309e-8806-582b10509e8f@linaro.org>
-Date: Mon, 19 Apr 2021 12:34:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lYZZ6-0000IT-Lv; Mon, 19 Apr 2021 15:28:12 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:34535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lYZZ4-0005Fz-6y; Mon, 19 Apr 2021 15:28:12 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 2053721AF;
+ Mon, 19 Apr 2021 15:28:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 19 Apr 2021 15:28:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
+ ryhggh5Gs1vDGYb8gAh76mQ5+l9r52BROyJo5AfAq/8=; b=ZyvmIq3RW+vP2efi
+ DVOzB1nC0jqUumGCsQDAc/Cz6tGaMBs2wkRJWXDU29TlFMwt8I5FvEZvZaKzcJe4
+ J8IlZft9fEBCpNOwPVvJIMRXQ/ebqt3kEGN5ObCC7MQVMhOlifoixHYUz8H3imf1
+ QDJNhCNwIaG4THhiVpNrQLbAm8RV7jvUzOxZRdLRq8QQ6WRDCVPZOFtHJF67yI8F
+ KNHyTGM7OVBp6poUYVaUpxZmIegFGEwA2Ayc5MHE73CuASwAUAQfjogKj39TcqzI
+ 2zH0RlEEtDHxOK15j7saYt7zNRP8uWQEhtyvYolA2pfvsjrpbLjLvm5d/Bu0ABns
+ 0Y8K5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=ryhggh5Gs1vDGYb8gAh76mQ5+l9r52BROyJo5AfAq
+ /8=; b=NgqcP6PQ6YPdkWykFH0fHgvwcaifEYjjQ5voK1uoNtmYu1XTEVqmc95be
+ O9BQI/d/HX0UI99qugxuXdfj/VzlpKFh1i19VEuiTFh8AF0vWD9owZuAiPW+iNwZ
+ JKM5cUSPY0DxN7FDMqeWm0+VBQxCQjPTLOI4v1NgtCguXMj+AIRRJKVQyjuHP5mZ
+ cg0OdSdo+DHga98hqZO1Un7e/jkXnGjqT64BilDh12kaYR+FOG7RwTQGtNI3wFVD
+ QkMnzKrTybDQ5Wl5UQcqY8YXMxXj/+5TawjKoReze2ma0I6hrfHTJtLjT3zI5uJI
+ Vuo591hEpInVWo+hHymU7YL0T9vPQ==
+X-ME-Sender: <xms:x9l9YMqPHd7kMl_C7dBm4omHwjmoxW_4fDaQrphxn6OdxHJPF-GSxg>
+ <xme:x9l9YMRnkrf6bOrnLkJ7i1qLj4cmjB5sW3BRSN6VUR7vjDCGNgxIHhi4GudsO8GLu
+ _jSRZcbQTqr0Aqr96k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtgedgudeflecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfh
+ ffdtgeenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:x9l9YBM-EgXsoxkG4xDUDODX4uBO_arzLJeMVTNqi98xUsWirtz7Yg>
+ <xmx:x9l9YHOIi3SAegAB5Z2DR23EHYaOS1lPmAcIvU_cR-lR3hEs7X5P5w>
+ <xmx:x9l9YJvuzmjXJy1X4Kmj-PS6w-rXqvpBvxJqxqfrf_ncHtfgCuc4Vw>
+ <xmx:x9l9YOndNfEQ5N37V1xMKGQlmEvOW9QKiFjzV6Ok4i8ta4Xamg0Lqw>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2517E1080066;
+ Mon, 19 Apr 2021 15:28:06 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 02/14] hw/block/nvme: rename __nvme_advance_zone_wp
+Date: Mon, 19 Apr 2021 21:27:49 +0200
+Message-Id: <20210419192801.62255-3-its@irrelevant.dk>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210419192801.62255-1-its@irrelevant.dk>
+References: <20210419192801.62255-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20210419191823.1555482-20-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,34 +94,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/21 12:18 PM, Philippe Mathieu-Daudé wrote:
-> Move cp0_helper.c and mips-semi.c to the new tcg/sysemu/ folder,
-> adapting the Meson machinery.
-> 
-> Move the opcode definitions to tcg/sysemu_helper.h.inc.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/helper.h                      | 166 +--------------------
->   target/mips/tcg/sysemu_helper.h.inc       | 168 ++++++++++++++++++++++
->   target/mips/{ => tcg/sysemu}/cp0_helper.c |   0
->   target/mips/{ => tcg/sysemu}/mips-semi.c  |   0
->   target/mips/meson.build                   |   5 -
->   target/mips/tcg/meson.build               |   3 +
->   target/mips/tcg/sysemu/meson.build        |   4 +
->   7 files changed, 179 insertions(+), 167 deletions(-)
->   create mode 100644 target/mips/tcg/sysemu_helper.h.inc
->   rename target/mips/{ => tcg/sysemu}/cp0_helper.c (100%)
->   rename target/mips/{ => tcg/sysemu}/mips-semi.c (100%)
->   create mode 100644 target/mips/tcg/sysemu/meson.build
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Get rid of the (reserved) double underscore use.
 
-r~
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 002c0672b397..d1b94e36c6fb 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1745,8 +1745,8 @@ static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
+     return nvme_zrm_open_flags(ns, zone, 0);
+ }
+ 
+-static void __nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
+-                                   uint32_t nlb)
++static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
++                                 uint32_t nlb)
+ {
+     zone->d.wp += nlb;
+ 
+@@ -1766,7 +1766,7 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
+     nlb = le16_to_cpu(rw->nlb) + 1;
+     zone = nvme_get_zone_by_slba(ns, slba);
+ 
+-    __nvme_advance_zone_wp(ns, zone, nlb);
++    nvme_advance_zone_wp(ns, zone, nlb);
+ }
+ 
+ static inline bool nvme_is_write(NvmeRequest *req)
+@@ -2155,7 +2155,7 @@ out:
+         uint64_t sdlba = le64_to_cpu(copy->sdlba);
+         NvmeZone *zone = nvme_get_zone_by_slba(ns, sdlba);
+ 
+-        __nvme_advance_zone_wp(ns, zone, ctx->nlb);
++        nvme_advance_zone_wp(ns, zone, ctx->nlb);
+     }
+ 
+     g_free(ctx->bounce);
+-- 
+2.31.1
 
 
