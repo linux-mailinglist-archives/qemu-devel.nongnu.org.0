@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA13363FA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:34:26 +0200 (CEST)
-Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B271E363FB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:38:54 +0200 (CEST)
+Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYREX-0007o3-PS
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32876)
+	id 1lYRIr-0004Hq-FB
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR3L-0003yU-65
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:51 -0400
+ id 1lYR3X-0004Pj-OZ
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:03 -0400
 Received: from mga17.intel.com ([192.55.52.151]:24099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR3H-00025K-T3
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:50 -0400
-IronPort-SDR: h7EgDDUtWy9GE/sHX4+p6EduwDxZh14Y/CMsSgVJdCwZQ4hBaCwct5QT7iCJhc18znGU9bcVkM
- Kjh8sIjKV1mA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409278"
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409278"
+ id 1lYR3V-00025K-Jf
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:03 -0400
+IronPort-SDR: gALupNN2A12tUhEj/13m5sJR7tuC0urZCJIqJcIbRQVf5GnJVltOPXbNnB1B6l2X9FQvZw1MKK
+ F3wCh9SKt9jQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409284"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409284"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:22:44 -0700
-IronPort-SDR: ygO3AN2B1ONgyWrwGmIZhJmMYdSLVHwhNtw0+hQWcctU01eQFj10nng+UyLy6vuFUNFO99qLzG
- vw30oNWl+AVQ==
+ 19 Apr 2021 03:22:50 -0700
+IronPort-SDR: WPOySmXJUMq+HGI8d0bWFNFfdlOIKCuEizxcUKhNvzxGlwE27fZKYT5409laXCrmCDKYVZPBzD
+ XTfo7PCIULgg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947352"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947386"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:43 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:48 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/32] i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
-Date: Mon, 19 Apr 2021 18:01:33 +0800
-Message-Id: <20210419100156.53504-10-yang.zhong@intel.com>
+Subject: [PATCH 12/32] i386: Update SGX CPUID info according to
+ hardware/KVM/user input
+Date: Mon, 19 Apr 2021 18:01:36 +0800
+Message-Id: <20210419100156.53504-13-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210419100156.53504-1-yang.zhong@intel.com>
 References: <20210419100156.53504-1-yang.zhong@intel.com>
@@ -68,85 +69,168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-CPUID leaf 12_1_EAX is an Intel-defined feature bits leaf enumerating
-the platform's SGX capabilities that may be utilized by an enclave, e.g.
-whether or not an enclave can gain access to the provision key.
-Currently there are six capabilities:
+Expose SGX to the guest if and only if KVM is enabled and supports
+virtualization of SGX.  While the majority of ENCLS can be emulated to
+some degree, because SGX uses a hardware-based root of trust, the
+attestation aspects of SGX cannot be emulated in software, i.e.
+ultimately emulation will fail as software cannot generate a valid
+quote/report.  The complexity of partially emulating SGX in Qemu far
+outweighs the value added, e.g. an SGX specific simulator for userspace
+applications can emulate SGX for development and testing purposes.
 
-  - INIT: set when the enclave has has been initialized by EINIT.  Cannot
-          be set by software, i.e. forced to zero in CPUID.
-  - DEBUG: permits a debugger to read/write into the enclave.
-  - MODE64BIT: the enclave runs in 64-bit mode
-  - PROVISIONKEY: grants has access to the provision key
-  - EINITTOKENKEY: grants access to the EINIT token key, i.e. the
-                   enclave can generate EINIT tokens
-  - KSS: Key Separation and Sharing enabled for the enclave.
-
-Note that the entirety of CPUID.0x12.0x1, i.e. all registers, enumerates
-the allowed ATTRIBUTES (128 bits), but only bits 31:0 are directly
-exposed to the user (via FEAT_12_1_EAX).  Bits 63:32 are currently all
-reserved and bits 127:64 correspond to the allowed XSAVE Feature Request
-Mask, which is calculated based on other CPU features, e.g. XSAVE, MPX,
-AVX, etc... and is not exposed to the user.
+Note, access to the PROVISIONKEY is not yet advertised to the guest as
+KVM blocks access to the PROVISIONKEY by default and requires userspace
+to provide additional credentials (via ioctl()) to expose PROVISIONKEY.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/cpu.c | 21 +++++++++++++++++++++
- target/i386/cpu.h |  1 +
- 2 files changed, 22 insertions(+)
+ hw/i386/sgx-epc.c         | 17 +++++++++
+ include/hw/i386/sgx-epc.h |  2 +
+ target/i386/cpu.c         | 77 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+)
 
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index 0858819a71..d5ba7bb68c 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -173,6 +173,23 @@ static void sgx_epc_register_types(void)
+ 
+ type_init(sgx_epc_register_types)
+ 
++int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
++{
++    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
++    SGXEPCDevice *epc;
++
++    if (pcms->sgx_epc == NULL || pcms->sgx_epc->nr_sections <= section_nr) {
++        return 1;
++    }
++
++    epc = pcms->sgx_epc->sections[section_nr];
++
++    *addr = epc->addr;
++    *size = memory_device_get_region_size(MEMORY_DEVICE(epc), &error_fatal);
++
++    return 0;
++}
++
+ 
+ static int sgx_epc_set_property(void *opaque, const char *name,
+                                 const char *value, Error **errp)
+diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
+index 1f7dd17c17..8d80b34fb7 100644
+--- a/include/hw/i386/sgx-epc.h
++++ b/include/hw/i386/sgx-epc.h
+@@ -57,4 +57,6 @@ typedef struct SGXEPCState {
+ 
+ extern int sgx_epc_enabled;
+ 
++int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
++
+ #endif
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e723f52e22..ec12e12a33 100644
+index 43e6fdf162..e630e57f03 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -678,6 +678,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
- #define TCG_14_0_ECX_FEATURES 0
- #define TCG_SGX_12_0_EAX_FEATURES 0
- #define TCG_SGX_12_0_EBX_FEATURES 0
-+#define TCG_SGX_12_1_EAX_FEATURES 0
+@@ -60,6 +60,7 @@
+ #include "exec/address-spaces.h"
+ #include "hw/i386/apic_internal.h"
+ #include "hw/boards.h"
++#include "hw/i386/sgx-epc.h"
+ #endif
  
- typedef enum FeatureWordType {
-    CPUID_FEATURE_WORD,
-@@ -1366,6 +1367,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .tcg_features = TCG_SGX_12_0_EBX_FEATURES,
-     },
+ #include "disas/capstone.h"
+@@ -5807,6 +5808,25 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                 *ecx |= CPUID_7_0_ECX_OSPKE;
+             }
+             *edx = env->features[FEAT_7_0_EDX]; /* Feature flags */
 +
-+    [FEAT_SGX_12_1_EAX] = {
-+        .type = CPUID_FEATURE_WORD,
-+        .feat_names = {
-+            NULL, "sgx-debug", "sgx-mode64", NULL,
-+            "sgx-provisionkey", "sgx-tokenkey", NULL, "sgx-kss",
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+        },
-+        .cpuid = {
-+            .eax = 0x12,
-+            .needs_ecx = true, .ecx = 1,
-+            .reg = R_EAX,
-+        },
-+        .tcg_features = TCG_SGX_12_1_EAX_FEATURES,
-+    },
- };
- 
- typedef struct FeatureMask {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 4ab3bc4fac..51b5968c88 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -551,6 +551,7 @@ typedef enum FeatureWord {
-     FEAT_14_0_ECX,
-     FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
-     FEAT_SGX_12_0_EBX,  /* CPUID[EAX=0x12,ECX=0].EBX (SGX MISCSELECT[31:0]) */
-+    FEAT_SGX_12_1_EAX,  /* CPUID[EAX=0x12,ECX=1].EAX (SGX ATTRIBUTES[31:0]) */
-     FEATURE_WORDS,
- } FeatureWord;
- 
++            /*
++             * SGX cannot be emulated in software.  If hardware does not
++             * support enabling SGX and/or SGX flexible launch control,
++             * then we need to update the VM's CPUID values accordingly.
++             */
++            if ((*ebx & CPUID_7_0_EBX_SGX) &&
++                (!kvm_enabled() ||
++                 !(kvm_arch_get_supported_cpuid(cs->kvm_state, 0x7, 0, R_EBX) &
++                    CPUID_7_0_EBX_SGX))) {
++                *ebx &= ~CPUID_7_0_EBX_SGX;
++            }
++
++            if ((*ecx & CPUID_7_0_ECX_SGX_LC) &&
++                (!(*ebx & CPUID_7_0_EBX_SGX) || !kvm_enabled() ||
++                 !(kvm_arch_get_supported_cpuid(cs->kvm_state, 0x7, 0, R_ECX) &
++                    CPUID_7_0_ECX_SGX_LC))) {
++                *ecx &= ~CPUID_7_0_ECX_SGX_LC;
++            }
+         } else if (count == 1) {
+             *eax = env->features[FEAT_7_1_EAX];
+             *ebx = 0;
+@@ -5942,6 +5962,63 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         }
+         break;
+     }
++    case 0x12:
++#ifndef CONFIG_USER_ONLY
++        if (!kvm_enabled() ||
++            !(env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_SGX)) {
++            *eax = *ebx = *ecx = *edx = 0;
++            break;
++        }
++
++        /*
++         * SGX sub-leafs CPUID.0x12.{0x2..N} enumerate EPC sections.  Retrieve
++         * the EPC properties, e.g. confidentiality and integrity, from the
++         * host's first EPC section, i.e. assume there is one EPC section or
++         * that all EPC sections have the same security properties.
++         */
++        if (count > 1) {
++            uint64_t epc_addr, epc_size;
++
++            if (sgx_epc_get_section(count - 2, &epc_addr, &epc_size)) {
++                *eax = *ebx = *ecx = *edx = 0;
++                break;
++            }
++            host_cpuid(index, 2, eax, ebx, ecx, edx);
++            *eax = (uint32_t)(epc_addr & 0xfffff000) | 0x1;
++            *ebx = (uint32_t)(epc_addr >> 32);
++            *ecx = (uint32_t)(epc_size & 0xfffff000) | (*ecx & 0xf);
++            *edx = (uint32_t)(epc_size >> 32);
++            break;
++        }
++
++        /*
++         * SGX sub-leafs CPUID.0x12.{0x0,0x1} are heavily dependent on hardware
++         * and KVM, i.e. QEMU cannot emulate features to override what KVM
++         * supports.  Features can be further restricted by userspace, but not
++         * made more permissive.
++         */
++        *eax = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_EAX);
++        *ebx = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_EBX);
++        *ecx = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_ECX);
++        *edx = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_EDX);
++
++        if (count == 0) {
++            *eax &= env->features[FEAT_SGX_12_0_EAX];
++            *ebx &= env->features[FEAT_SGX_12_0_EBX];
++        } else {
++            *eax &= env->features[FEAT_SGX_12_1_EAX];
++            *ebx &= 0; /* ebx reserve */
++            *ecx &= env->features[FEAT_XSAVE_COMP_LO];
++            *edx &= env->features[FEAT_XSAVE_COMP_HI];
++
++            /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
++            *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
++
++            /* Access to PROVISIONKEY requires additional credentials. */
++            *eax &= ~(1U << 4);
++        }
++#endif
++        break;
+     case 0x14: {
+         /* Intel Processor Trace Enumeration */
+         *eax = 0;
 -- 
 2.29.2.334.gfaefdd61ec
 
