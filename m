@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0618363C22
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:08:09 +0200 (CEST)
-Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9260363C5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:18:57 +0200 (CEST)
+Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYO0v-0004xV-34
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
+	id 1lYOBM-00080p-Bv
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYNyy-0003g3-74
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 03:06:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31729)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lYO9y-0007S8-EW; Mon, 19 Apr 2021 03:17:30 -0400
+Received: from smtpout1.mo3005.mail-out.ovh.net ([79.137.123.220]:39041
+ helo=smtpout1.3005.mail-out.ovh.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYNys-0000yF-FW
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 03:06:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618815960;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ih7mqqcs/idY/1fdQqD/7arLltDPgItBZMlPpPhPDvk=;
- b=bbo7QG9+CtfwGrD8Kee5iNh04yyI5ONjBURWqFa13Ei4Y4TSFWLI2bmA3qAFnGcH6ot+fD
- 49/cbVSUS3smCWKrT0FZN8UG4rFHgrO1dPt6Y7lP2ij5ls6Q+VQ0WllAL1i8bF4dyhKkzz
- FMPP2M8WB2KxDd8hWMKYtSN7RkMgyQE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-qI0E4DrYPGmjD2NolMaS1Q-1; Mon, 19 Apr 2021 03:05:57 -0400
-X-MC-Unique: qI0E4DrYPGmjD2NolMaS1Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD8287A83E;
- Mon, 19 Apr 2021 07:05:56 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-200.ams2.redhat.com
- [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B2D75C237;
- Mon, 19 Apr 2021 07:05:53 +0000 (UTC)
-Date: Mon, 19 Apr 2021 09:05:51 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: any remaining for-6.0 issues?
-Message-ID: <20210419090551.4a3ae4eb.cohuck@redhat.com>
-In-Reply-To: <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
-References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
- <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
- <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
- <CAFEAcA9Q7q5eoE+qBOY9LYQnnaccSfMux=fOzb3+BtRWjXm6gw@mail.gmail.com>
- <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lYO9w-0008C6-J3; Mon, 19 Apr 2021 03:17:30 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 3F8DA141499;
+ Mon, 19 Apr 2021 07:17:15 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 19 Apr
+ 2021 09:17:14 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0013b55a660-cce4-4c33-8d3c-d01e140dab68,
+ B4D035A2DC807FE66533091DC87546D0F6B6CAAF) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH v2 00/11] memory: Forbid mapping AddressSpace root
+ MemoryRegion
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ <qemu-devel@nongnu.org>
+References: <20210417103028.601124-1-f4bug@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <e5e7bf9a-690f-d728-4415-97cba5bd0fe3@kaod.org>
+Date: Mon, 19 Apr 2021 09:17:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+In-Reply-To: <20210417103028.601124-1-f4bug@amsat.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2dc0ce4f-50b9-41f2-85d1-06504cc3ba3b
+X-Ovh-Tracer-Id: 3349270751280073519
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddtfedgudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelleeuveelvdejvdegtddugfdvkeejueehvdejuefgleeivdduhfduteffgeeinecuffhomhgrihhnpehmrghilhdqrghrtghhihhvvgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehfgegsuhhgsegrmhhsrghtrdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.3005.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,54 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alex =?UTF-8?B?QmVu?= =?UTF-8?B?bsOpZQ==?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
+ qemu-arm@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Apr 2021 11:38:09 +0100
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
+Hello,
 
-> On 17/04/2021 20:46, Peter Maydell wrote:
+On 4/17/21 12:30 PM, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> >> On 14/04/2021 13:48, Thomas Huth wrote:  
-> >>> I've seen some intermittend, non-reproducible crashes with usermode QEMU in some of
-> >>> my CI runs, e.g.:
-> >>>
-> >>> https://gitlab.com/thuth/qemu/-/jobs/1178256498#L3876
-> >>>
-> >>> https://gitlab.com/thuth/qemu/-/jobs/1146276208#L3241
-> >>>
-> >>> This was only with ccache enabled, so I thought that it might be related to my
-> >>> work-in-progress ccache patches...
-> >>>
-> >>> ... but now Cornelia reported that she has seen such a crash in one of her branches,
-> >>> too (which is completely unrelated to my ccache patches):
-> >>>
-> >>> https://gitlab.com/cohuck/qemu/-/jobs/1178860927#L3867
-> >>>
-> >>> That makes me wonder whether we currently have a real problem with user-mode in the
-> >>> master branch? Did anybody else see such problems?  
-> >>
-> >> I've definitely seen the same issue as Cornelia in my Gitlab CI builds for the ESP
-> >> security fixes (first version of which appeared just before rc0). The user builds
-> >> always fail on "run-tcg-tests-s390x-linux-user" for me.  
-> > 
-> > Do we have any better understanding yet of the cause here?
-> > (I ask because I think we're going to need an rc4 for other reasons,
-> > so if there's a ready-to-go fix then we could consider it.)  
+> This series is the result of a long thread with Peter:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg788366.html
+> and IRC chats...
 > 
-> I don't think so. I tried a run with a possible candidate patch reverted (see 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02345.html) but Cornelia's 
-> response indicates that the result is still inconclusive :(
+> AddressSpace are physical address view and shouldn't be using
+> non-zero base address. The correct way to map a MR used as AS
+> root is to use a MR alias.
+> 
+> Fix the current incorrect uses, then forbid further use.
+> 
+> Since v1:
+> - Split the Raven patch in multiple changes, easier to follow/review
+>   (https://www.mail-archive.com/qemu-devel@nongnu.org/msg791116.html)
+> 
+> Note, the Aspeed patches are already queued in Cédric tree. I had
+> to cherry-pick them from his tree to have the series pass CI.
 
-That patch seems to be our best candidate so far, but the intermittent
-nature of the failures make it hard to pin down... I don't see anything
-obviously wrong with the patch, maybe some linux-user experts have a
-better idea?
+So I will wait for this patchset to be merged before sending the 
+aspeed queue. Are there any blocking aspects to it ? 
+
+Thanks,
+
+C.  
 
 
