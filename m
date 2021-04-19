@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7126363F9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:31:08 +0200 (CEST)
-Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754B4363F9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:31:09 +0200 (CEST)
+Received: from localhost ([::1]:38258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYRBL-0004AW-Si
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32834)
+	id 1lYRBM-0004E3-Fy
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:31:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR3F-0003wR-EG
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:45 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24096)
+ id 1lYR3H-0003xT-IG
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:49 -0400
+Received: from mga17.intel.com ([192.55.52.151]:24099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR3C-000256-4C
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:45 -0400
-IronPort-SDR: TKh9lfkUF4NCJLljv0mThN9RGp5SohAkt9YGUtyblYaCbkXGZCNcaTCkL7jjkHiKgz8roxnbsh
- Idu1WCdFxyUw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409257"
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409257"
+ id 1lYR3E-00025K-53
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:47 -0400
+IronPort-SDR: 0/5guTeO0dcDmW67WBl/1ToEx7sas2Oq5bspY0RZLOsP07s7CICNupu2PvLyzGu9fSBR8xmIms
+ 7bzDTwKJekSA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409267"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409267"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:22:36 -0700
-IronPort-SDR: tBq1txY2zanqTwlaYWl+6ko2pw3VQo32FEeZUOU3ZeHyjLQnYdZfAiSzlSOhTPA2EsMEYRrnMs
- nD4BXPuzoqaw==
+ 19 Apr 2021 03:22:39 -0700
+IronPort-SDR: U8ZRwwND6nnQW98R5fF59erlZZzWC/KR60nFA3Y5lmtmNIWX8qdKGqmk+ftd4wAe/48P7lLBsj
+ rkfhF4ene0NA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947308"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947328"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:34 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:38 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/32] i386: Add 'sgx-epc' device to expose EPC sections to
- guest
-Date: Mon, 19 Apr 2021 18:01:28 +0800
-Message-Id: <20210419100156.53504-5-yang.zhong@intel.com>
+Subject: [PATCH 06/32] i386: Add primary SGX CPUID and MSR defines
+Date: Mon, 19 Apr 2021 18:01:30 +0800
+Message-Id: <20210419100156.53504-7-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210419100156.53504-1-yang.zhong@intel.com>
 References: <20210419100156.53504-1-yang.zhong@intel.com>
@@ -69,255 +68,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be
-realized prior to realizing the vCPUs themselves, which occurs long
-before generic devices are parsed and realized.  Because of this,
-do not allow 'sgx-epc' devices to be instantiated after vCPUS have
-been created.
-
-The 'sgx-epc' device is essentially a placholder at this time, it will
-be fully implemented in a future patch along with a dedicated command
-to create 'sgx-epc' devices.
+Add CPUID defines for SGX and SGX Launch Control (LC), as well as
+defines for their associated FEATURE_CONTROL MSR bits.  Define the
+Launch Enclave Public Key Hash MSRs (LE Hash MSRs), which exist
+when SGX LC is present (in CPUID), and are writable when SGX LC is
+enabled (in FEATURE_CONTROL).
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/meson.build       |   1 +
- hw/i386/sgx-epc.c         | 161 ++++++++++++++++++++++++++++++++++++++
- include/hw/i386/sgx-epc.h |  44 +++++++++++
- 3 files changed, 206 insertions(+)
- create mode 100644 hw/i386/sgx-epc.c
- create mode 100644 include/hw/i386/sgx-epc.h
+ target/i386/cpu.c |  4 ++--
+ target/i386/cpu.h | 12 ++++++++++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index e5d109f5c6..087426c75c 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -5,6 +5,7 @@ i386_ss.add(files(
-   'e820_memory_layout.c',
-   'multiboot.c',
-   'x86.c',
-+  'sgx-epc.c',
- ))
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ad99cad0e7..544d7be43c 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -938,7 +938,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+     [FEAT_7_0_EBX] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+-            "fsgsbase", "tsc-adjust", NULL, "bmi1",
++            "fsgsbase", "tsc-adjust", "sgx", "bmi1",
+             "hle", "avx2", NULL, "smep",
+             "bmi2", "erms", "invpcid", "rtm",
+             NULL, NULL, "mpx", NULL,
+@@ -964,7 +964,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "la57", NULL, NULL, NULL,
+             NULL, NULL, "rdpid", NULL,
+             "bus-lock-detect", "cldemote", NULL, "movdiri",
+-            "movdir64b", NULL, NULL, "pks",
++            "movdir64b", NULL, "sgxlc", "pks",
+         },
+         .cpuid = {
+             .eax = 7,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 570f916878..f074a315d1 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -360,9 +360,17 @@ typedef enum X86Seg {
+ #define MSR_IA32_PKRS                   0x6e1
  
- i386_ss.add(when: 'CONFIG_X86_IOMMU', if_true: files('x86-iommu.c'),
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-new file mode 100644
-index 0000000000..aa487dea79
---- /dev/null
-+++ b/hw/i386/sgx-epc.c
-@@ -0,0 +1,161 @@
-+/*
-+ * SGX EPC device
-+ *
-+ * Copyright (C) 2019 Intel Corporation
-+ *
-+ * Authors:
-+ *   Sean Christopherson <sean.j.christopherson@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "hw/i386/pc.h"
-+#include "hw/i386/sgx-epc.h"
-+#include "hw/mem/memory-device.h"
-+#include "hw/qdev-properties.h"
-+#include "monitor/qdev.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "qemu/config-file.h"
-+#include "qemu/error-report.h"
-+#include "qemu/option.h"
-+#include "qemu/units.h"
-+#include "target/i386/cpu.h"
-+#include "exec/address-spaces.h"
+ #define FEATURE_CONTROL_LOCKED                    (1<<0)
++#define FEATURE_CONTROL_VMXON_ENABLED_INSIDE_SMX  (1 << 1)
+ #define FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX (1<<2)
++#define FEATURE_CONTROL_SGX_LC                    (1 << 17)
++#define FEATURE_CONTROL_SGX                       (1 << 18)
+ #define FEATURE_CONTROL_LMCE                      (1<<20)
+ 
++#define MSR_IA32_SGXLEPUBKEYHASH0       0x8c
++#define MSR_IA32_SGXLEPUBKEYHASH1       0x8d
++#define MSR_IA32_SGXLEPUBKEYHASH2       0x8e
++#define MSR_IA32_SGXLEPUBKEYHASH3       0x8f
 +
-+static Property sgx_epc_properties[] = {
-+    DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
-+    DEFINE_PROP_LINK(SGX_EPC_MEMDEV_PROP, SGXEPCDevice, hostmem,
-+                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void sgx_epc_get_size(Object *obj, Visitor *v, const char *name,
-+                             void *opaque, Error **errp)
-+{
-+    Error *local_err = NULL;
-+    uint64_t value;
-+
-+    value = memory_device_get_region_size(MEMORY_DEVICE(obj), &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    visit_type_uint64(v, name, &value, errp);
-+}
-+
-+static void sgx_epc_init(Object *obj)
-+{
-+    object_property_add(obj, SGX_EPC_SIZE_PROP, "uint64", sgx_epc_get_size,
-+                        NULL, NULL, NULL);
-+}
-+
-+static void sgx_epc_realize(DeviceState *dev, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    X86MachineState *x86ms = X86_MACHINE(pcms);
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    const char *path;
-+
-+    if (x86ms->boot_cpus != 0) {
-+        error_setg(errp, "'" TYPE_SGX_EPC "' can't be created after vCPUs,"
-+                         "e.g. via -device");
-+        return;
-+    }
-+
-+    if (!epc->hostmem) {
-+        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    } else if (host_memory_backend_is_mapped(epc->hostmem)) {
-+        path = object_get_canonical_path_component(OBJECT(epc->hostmem));
-+        error_setg(errp, "can't use already busy memdev: %s", path);
-+        return;
-+    }
-+
-+    error_setg(errp, "'" TYPE_SGX_EPC "' not supported");
-+}
-+
-+static void sgx_epc_unrealize(DeviceState *dev)
-+{
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+
-+    host_memory_backend_set_mapped(epc->hostmem, false);
-+}
-+
-+static uint64_t sgx_epc_md_get_addr(const MemoryDeviceState *md)
-+{
-+    const SGXEPCDevice *epc = SGX_EPC(md);
-+
-+    return epc->addr;
-+}
-+
-+static void sgx_epc_md_set_addr(MemoryDeviceState *md, uint64_t addr,
-+                                Error **errp)
-+{
-+    object_property_set_uint(OBJECT(md), SGX_EPC_ADDR_PROP, addr, errp);
-+}
-+
-+static uint64_t sgx_epc_md_get_plugged_size(const MemoryDeviceState *md,
-+                                            Error **errp)
-+{
-+    return 0;
-+}
-+
-+static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
-+                                                  Error **errp)
-+{
-+    SGXEPCDevice *epc = SGX_EPC(md);
-+
-+    if (!epc->hostmem) {
-+        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
-+        return NULL;
-+    }
-+
-+    return host_memory_backend_get_memory(epc->hostmem);
-+}
-+
-+static void sgx_epc_md_fill_device_info(const MemoryDeviceState *md,
-+                                        MemoryDeviceInfo *info)
-+{
-+    /* TODO */
-+}
-+
-+static void sgx_epc_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
-+
-+    dc->hotpluggable = false;
-+    dc->realize = sgx_epc_realize;
-+    dc->unrealize = sgx_epc_unrealize;
-+    dc->desc = "SGX EPC section";
-+    device_class_set_props(dc, sgx_epc_properties);
-+
-+    mdc->get_addr = sgx_epc_md_get_addr;
-+    mdc->set_addr = sgx_epc_md_set_addr;
-+    mdc->get_plugged_size = sgx_epc_md_get_plugged_size;
-+    mdc->get_memory_region = sgx_epc_md_get_memory_region;
-+    mdc->fill_device_info = sgx_epc_md_fill_device_info;
-+}
-+
-+static TypeInfo sgx_epc_info = {
-+    .name          = TYPE_SGX_EPC,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(SGXEPCDevice),
-+    .instance_init = sgx_epc_init,
-+    .class_init    = sgx_epc_class_init,
-+    .class_size    = sizeof(DeviceClass),
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_MEMORY_DEVICE },
-+        { }
-+    },
-+};
-+
-+static void sgx_epc_register_types(void)
-+{
-+    type_register_static(&sgx_epc_info);
-+}
-+
-+type_init(sgx_epc_register_types)
-diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-new file mode 100644
-index 0000000000..5fd9ae2d0c
---- /dev/null
-+++ b/include/hw/i386/sgx-epc.h
-@@ -0,0 +1,44 @@
-+/*
-+ * SGX EPC device
-+ *
-+ * Copyright (C) 2019 Intel Corporation
-+ *
-+ * Authors:
-+ *   Sean Christopherson <sean.j.christopherson@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_SGX_EPC_H
-+#define QEMU_SGX_EPC_H
-+
-+#include "sysemu/hostmem.h"
-+
-+#define TYPE_SGX_EPC "sgx-epc"
-+#define SGX_EPC(obj) \
-+    OBJECT_CHECK(SGXEPCDevice, (obj), TYPE_SGX_EPC)
-+#define SGX_EPC_CLASS(oc) \
-+    OBJECT_CLASS_CHECK(SGXEPCDeviceClass, (oc), TYPE_SGX_EPC)
-+#define SGX_EPC_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(SGXEPCDeviceClass, (obj), TYPE_SGX_EPC)
-+
-+#define SGX_EPC_ADDR_PROP "addr"
-+#define SGX_EPC_SIZE_PROP "size"
-+#define SGX_EPC_MEMDEV_PROP "memdev"
-+
-+/**
-+ * SGXEPCDevice:
-+ * @addr: starting guest physical address, where @SGXEPCDevice is mapped.
-+ *         Default value: 0, means that address is auto-allocated.
-+ * @hostmem: host memory backend providing memory for @SGXEPCDevice
-+ */
-+typedef struct SGXEPCDevice {
-+    /* private */
-+    DeviceState parent_obj;
-+
-+    /* public */
-+    uint64_t addr;
-+    HostMemoryBackend *hostmem;
-+} SGXEPCDevice;
-+
-+#endif
+ #define MSR_P6_PERFCTR0                 0xc1
+ 
+ #define MSR_IA32_SMBASE                 0x9e
+@@ -689,6 +697,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ 
+ /* Support RDFSBASE/RDGSBASE/WRFSBASE/WRGSBASE */
+ #define CPUID_7_0_EBX_FSGSBASE          (1U << 0)
++/* Support SGX */
++#define CPUID_7_0_EBX_SGX               (1U << 2)
+ /* 1st Group of Advanced Bit Manipulation Extensions */
+ #define CPUID_7_0_EBX_BMI1              (1U << 3)
+ /* Hardware Lock Elision */
+@@ -776,6 +786,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_ECX_MOVDIRI           (1U << 27)
+ /* Move 64 Bytes as Direct Store Instruction */
+ #define CPUID_7_0_ECX_MOVDIR64B         (1U << 28)
++/* Support SGX Launch Control */
++#define CPUID_7_0_ECX_SGX_LC            (1U << 30)
+ /* Protection Keys for Supervisor-mode Pages */
+ #define CPUID_7_0_ECX_PKS               (1U << 31)
+ 
 -- 
 2.29.2.334.gfaefdd61ec
 
