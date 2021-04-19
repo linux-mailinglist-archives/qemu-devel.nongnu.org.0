@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8083936461F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:30:21 +0200 (CEST)
-Received: from localhost ([::1]:45764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545BB364644
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:37:20 +0200 (CEST)
+Received: from localhost ([::1]:55542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYUuq-0005Ug-JN
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:30:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
+	id 1lYV1b-0001TM-FS
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYUtT-0004X1-DD
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:28:55 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43921)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYV02-0000te-Ip
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:35:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYUtM-0008Ek-G8
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:28:55 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id l4so53206030ejc.10
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Vn8ttxvU1uZLhGd3j4uqhbl/CWQ5aFOsoM4eJo5C9+Q=;
- b=LowJQSAzVkeRhtYWECzgOJIv0dr09A2fuEwh0l2ejE566KPWwh7BUXBIoMUR63s0VF
- kAypN6nK/JyIdi/S0M5DormS2euOIJ6wJ5qZ532ZK+bQgviLShzPr8Domrnfv6j+eCK4
- 1qXH29dMCBHB9znaI/NqFNJKCdWknFS3cG47fgEy8Q4DO3Refia3wnyIwdQxKmT4be8L
- 0IjFlFESVWEufOtgyskREfnwpM4qiStfejbMggVi9AzYglMj2Sj530cCkd74qTUTV7Aj
- r0BuuHuSoxXC0VT2hFKrtVosJDx/2KHw6NuIGqfH7kZpV2j2Qc28MgBcfdBiMoMlO12t
- 0kXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Vn8ttxvU1uZLhGd3j4uqhbl/CWQ5aFOsoM4eJo5C9+Q=;
- b=PIW4hQB1zIU/FuauHocZCRrEFyVAkUCqdQaqN6vvtRKrVcxduA166X8t8T4L9XAb1N
- wIPZPq6kzWgZXw6tIJZBQH6Dk+03qeVtCM2iT9uDai/pUngAlTgx6+Y34i7kboFjMrPE
- AKm7CS7weBSE1AYjGx19+lKSNnQAMNWlNQsOqfOn4u6BMxoR4EWGLVUP1NBd4fCVX5Gh
- Fmrfw8Si3JyVUC5FAfR9/HDU7lPQtjNoHQZJOMO5quywYE6VkozddlNZiuJ93wtGFPq1
- F0ms4/8aLlqP1LtlyEC+1ML0N5+4eCkRx5S9btXM0Gsj2WARv/f7LyJHFjxiFXoWLgwG
- ghsQ==
-X-Gm-Message-State: AOAM533MDHOZ9fbhqisEaD5GLk2hkkidRltaa3EA1ZyaNK2PSqI/xPQd
- +cMR4EwoRWiScd0YRFsOocT4BU/f8fnLSmaHJRJLFA==
-X-Google-Smtp-Source: ABdhPJzecfrBMqUkB/tohreopPEzypK7hqfjeatl6xjTPWVVapJ3jYLrkWPJ8d2tlij/dZPgcEluUpV9xkB0XhRXOyA=
-X-Received: by 2002:a17:906:953:: with SMTP id
- j19mr22696665ejd.56.1618842526949; 
- Mon, 19 Apr 2021 07:28:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYV00-0003lx-DK
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:35:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lYUzy-0002Qn-Cq
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 14:35:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5CCCE2E8024
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 14:35:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210409062401.2350436-1-f4bug@amsat.org>
- <20210409062401.2350436-10-f4bug@amsat.org>
-In-Reply-To: <20210409062401.2350436-10-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Apr 2021 15:27:55 +0100
-Message-ID: <CAFEAcA8-Nd7MNU1pWB0JvnaiHN_o2_iQqhL+j8B_5DVBDh9nSw@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-6.1 9/9] hw/core/machine: Reset machine clocks
- using qemu_register_reset()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Mon, 19 Apr 2021 14:30:23 -0000
+From: Laurent Vivier <1924912@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kleinesfilmroellchen laurent-vivier ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: =?utf-8?q?kleines_Filmr=C3=B6llchen_=28kleinesfil?=
+ =?utf-8?q?mroellchen=29?=
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <161875180735.23175.14682430598239905387.malonedeb@wampee.canonical.com>
+Message-Id: <b48d2719-d334-2c16-be32-f3df52d415c7@vivier.eu>
+Subject: Re: [Bug 1924912] VirtIO drivers don't work on Windows: "GLib: Too
+ many handles to wait for!" crash
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
+X-Launchpad-Hash: 5000f3cede0e68f297e00a541ac19541fe2b2c4c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,63 +72,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1924912 <1924912@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Apr 2021 at 07:24, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> While the documentation mentions:
->
->   Note that if you are creating a clock with a fixed period which
->   will never change (for example the main clock source of a board),
->   then you'll have nothing else to do. This value will be propagated
->   to other clocks when connecting the clocks together and devices
->   will fetch the right value during the first reset.
->
-> the clocks created in machine_init() aren't propagating their value
-> because they are never reset (not part of the reset tree, such
-> TYPE_DEVICE).
->
-> Register a generic reset handler to have them properly reset.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/core/machine.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index e8bdcd10854..2817fe6a567 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1234,6 +1234,13 @@ void machine_run_board_init(MachineState *machine)
->      phase_advance(PHASE_MACHINE_INITIALIZED);
->  }
->
-> +static void constant_clock_reset(void *opaque)
-> +{
-> +    Clock *clk =3D opaque;
-> +
-> +    clock_propagate(clk);
-> +}
-> +
->  Clock *machine_create_constant_clock(MachineState *machine,
->                                       const char *name, unsigned freq_hz)
->  {
-> @@ -1241,6 +1248,7 @@ Clock *machine_create_constant_clock(MachineState *=
-machine,
->
->      clk =3D clock_new(OBJECT(machine), name);
->      clock_set_hz(clk, freq_hz);
-> +    qemu_register_reset(constant_clock_reset, clk);
+Le 19/04/2021 =C3=A0 12:39, Stefan Weil a =C3=A9crit=C2=A0:
+> I can confirm the issue also with latest official QEMU sources.
+> =
 
-You mention this in the cover letter, but I agree that this
-isn't really very nice. The machine's reset method ought to
-reset the clocks (either explicitly or maybe some day implicitly).
+> Related issue URLs:
+> =
 
-thanks
--- PMM
+> https://github.com/tesseract-ocr/tesseract/issues/2838
+> =
+
+> https://bugs.launchpad.net/qemu/+bug/1924912
+> =
+
+> Instructions and files required to reproduce the issue:
+> =
+
+> https://qemu.weilnetz.de/test/bugs/1924912/
+> =
+
+> Michael, Laurent, maybe you have an idea how to narrow down this issue?
+
+Could it be related to the number of file descriptors that can differ
+between linux an windows?
+
+We have a series of patches that sets the number of queues to the number
+of vCPU:
+
+a4eef0711b2c vhost-user-blk-pci: default num_queues to -smp N
+9445e1e15e66 virtio-blk-pci: default num_queues to -smp N
+6a558822849f virtio-scsi-pci: default num_queues to -smp N
+4e5163bd8444 virtio-scsi: introduce a constant for fixed virtqueues
+1436f32a84c3 virtio-pci: add virtio_pci_optimal_num_queues() helper
+
+And I think it can have inpact on the number of open file descriptors.
+
+You can try by specifiying "num_queues=3D1" with the virtio interfaces on t=
+he QEMU command line.
+(ot choose a machine type earlier than 5.2)
+
+Thanks,
+Laurent
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1924912
+
+Title:
+  VirtIO drivers don't work on Windows: "GLib: Too many handles to wait
+  for!" crash
+
+Status in QEMU:
+  New
+
+Bug description:
+  I ran SerenityOS <https://github.com/SerenityOS/serenity> out of WSL2
+  with native Windows QEMU. The system runs fine on the Linux QEMU (with
+  Windows X-Server). However, with Windows QEMU I get a hard crash after
+  the following output:
+
+  ```
+  [#0 colonel(0:0)]: Scheduler[0]: idle loop running
+  [init_stage2(2:2)]: PCI [0000:00:00:00] PCI::ID [8086:1237]
+  [init_stage2(2:2)]: PCI [0000:00:01:00] PCI::ID [8086:7000]
+  [init_stage2(2:2)]: PCI [0000:00:01:01] PCI::ID [8086:7010]
+  [init_stage2(2:2)]: PCI [0000:00:01:02] PCI::ID [8086:7020]
+  [init_stage2(2:2)]: PCI [0000:00:01:03] PCI::ID [8086:7113]
+  [init_stage2(2:2)]: PCI [0000:00:02:00] PCI::ID [1234:1111]
+  [init_stage2(2:2)]: PCI [0000:00:03:00] PCI::ID [8086:2922]
+  [init_stage2(2:2)]: PCI [0000:00:04:00] PCI::ID [1af4:1003]
+  [init_stage2(2:2)]: PCI [0000:00:05:00] PCI::ID [1af4:1005]
+  [init_stage2(2:2)]: PCI [0000:00:06:00] PCI::ID [8086:100e]
+  [#0 init_stage2(2:2)]: BXVGA: framebuffer @ P0xf8000000
+  [#0 init_stage2(2:2)]: BXVGADevice resolution set to 1024x768 (pitch=3D40=
+96)
+  [init_stage2(2:2)]: UHCI: Controller found PCI::ID [8086:7020] @ PCI [000=
+0:00:01:02]
+  [init_stage2(2:2)]: UHCI: I/O base IO c080
+  [init_stage2(2:2)]: UHCI: Interrupt line: 11
+  [#0 init_stage2(2:2)]: UHCI: Allocated framelist at physical address P0x0=
+0e40000
+  [#0 init_stage2(2:2)]: UHCI: Framelist is at virtual address V0xc115d000
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f000) @ 14946304: link_ptr=3D149463=
+38, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f020) @ 14946336: link_ptr=3D149463=
+70, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f040) @ 14946368: link_ptr=3D149464=
+02, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f060) @ 14946400: link_ptr=3D149464=
+34, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f080) @ 14946432: link_ptr=3D149585=
+93, element_link_ptr=3D1
+  [#0 init_stage2(2:2)]: UHCI: Reset completed
+  [#0 init_stage2(2:2)]: UHCI: Started
+  [#0 init_stage2(2:2)]: DMIExpose: SMBIOS 32bit Entry point @ P0x000f5870
+  [#0 init_stage2(2:2)]: DMIExpose: Data table @ P0x000f5890
+  [#0 init_stage2(2:2)]: VirtIOConsole: Found @ PCI [0000:00:04:00]
+  [#0 init_stage2(2:2)]: Trying to unregister unused handler (?)
+  [#0 init_stage2(2:2)]: VirtIOConsole: Multi port is not yet supported!
+  [#0 init_stage2(2:2)]: VirtIOConsole: cols: 0, rows: 0, max nr ports 0
+  qemu-system-i386.exe: warning: GLib: Too many handles to wait for!
+  ```
+
+  The lines starting with [ are SerenityOS output; QEMU warns "GLib: Too
+  many handles to wait for!" and crashes right after (can't even Ctrl-C
+  in the WSL command line, force-close in Windows necessary). A window
+  is still spawned but as the OS already switched out of text mode, just
+  a black screen is visible as QEMU crashes.
+
+  I first thought this to be an issue with SerenityOS and reported it
+  over there: <https://github.com/SerenityOS/serenity/issues/6422>. The
+  kernel devs pointed out that this seems to be a VirtIO driver/device
+  issue on the Windows build of QEMU, because the Serenity kernel tries
+  to initialize VirtIO devices which apparently crashes QEMU. There will
+  be mitigations from the SerenityOS side (by allowing to disable VirtIO
+  on boot) but it would of course be great if QEMU handled this
+  properly.
+
+  Version info: Both QEMU 6.0.0-rc3 and 5.2.0 exhibit this issue.
+  Windows release is 20H2, WSL2 is running Debian 10.9. SerenityOS has
+  no proper version but it was reproduced on the most current commits as
+  of 18/04/2021.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1924912/+subscriptions
 
