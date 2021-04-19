@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCED364815
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:18:34 +0200 (CEST)
-Received: from localhost ([::1]:33676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB0F364818
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:19:40 +0200 (CEST)
+Received: from localhost ([::1]:38144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYWbZ-00081a-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37606)
+	id 1lYWcd-0001Tj-OC
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:19:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lYWZe-0006NM-07
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:16:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48705)
+ id 1lYWbQ-0000gf-68
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:18:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lYWZa-0006lQ-Re
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:16:33 -0400
+ id 1lYWbN-0007bC-Rn
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:18:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618848989;
+ s=mimecast20190719; t=1618849101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Z1U7BQ95yR722fxpjSi6lJ0uf1DA+L3y42eboTbEPJM=;
- b=C1FBaR2XhDNgCLW5AIp6DMua/cEnll8GwdbGgQyb6Mn1KCrR5WE8TODkEeTvs9tjxHX3l9
- 56aASTNZ1zWnElPjkYP1rfhFgrB5yuQ8OWiq+cuDCiRUJiaaP3YtO1vBU+NGpa9hD5/gRM
- 6s1IQGk0RE1hsAy3mEagR4BFm2I5rqE=
+ bh=8Subzume6O2uKTAm8d0PUroSTBs7N2OFBfcUDNkDvLg=;
+ b=NwUHEi2a/5i50R2k0uj+YiWm/ZRROP+Nrsk3uDjIYGtz0nmbNPhbSH9FoLPcZKmt3jtawp
+ U6PKrkz2JF/lte6FX+LGQVH56I9KJsCj2IWEV1YhZbnrAHNFs79OAiie+ZQBATgJIIzlpH
+ MVLxGMQLWwEYXzTdSr1vn+bq5R4sGEA=
 Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
  [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-GIRCQUfeO62G8vL7sDJnmQ-1; Mon, 19 Apr 2021 12:16:27 -0400
-X-MC-Unique: GIRCQUfeO62G8vL7sDJnmQ-1
+ us-mta-345-n5b-gqElPLie8z2RLHsyHQ-1; Mon, 19 Apr 2021 12:18:19 -0400
+X-MC-Unique: n5b-gqElPLie8z2RLHsyHQ-1
 Received: by mail-vs1-f70.google.com with SMTP id
- q4-20020a67cc040000b02902221bedbe6bso480218vsl.8
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:16:27 -0700 (PDT)
+ a24-20020a67ca980000b02902078c4153f6so3844413vsl.16
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:18:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Z1U7BQ95yR722fxpjSi6lJ0uf1DA+L3y42eboTbEPJM=;
- b=B9jjTj5iIHwQyLr236m5YqmSVD5GinFP2oeJigPafPp42zBdcud0yH1KQ+hyYgSIE7
- At5oZErUhQW6BWU966YQp488Q0bQEjlwsZPyr2gnt7qkP6HZ1MVIByFl5VG31/M0OWJT
- ZrOUbO1C9ovsNMe8lnO5efDVGP++upB5UyQl2BX+ElY1wyVL7/gNZ3JQeYry/ab5EnR1
- MUQJA+3Fjaz8TmphskEQs/DJxGZGsypc8hQF8rxDdqy2kXUKSA+bukYVyhLR4iw3v90l
- iD8aPwLicrGJarDuchICsEzX243In/w5svoERCp0eXTg7U5UxBkTh0hkXAoYwM0adwfo
- VFdw==
-X-Gm-Message-State: AOAM530Qq+QDLLXQby5OQxZBpvZ78ykLvVv7QHxzeEAWYclG+9nWE9sX
- 69A8ENthhJfUZvcaMoAX7k4Y5mxYb1O3OfiV0W9xHv2oybrpG9ZwaEKYwJ3PMbidqwNpDAaMLf3
- b0O/wX0+1hZntqoRgGzdFhiw0aFoxyPs=
-X-Received: by 2002:a67:27c2:: with SMTP id n185mr15454473vsn.39.1618848987520; 
- Mon, 19 Apr 2021 09:16:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLcSxUTiI0dbVVRoN/YABIoYmajflbcU0K4aMCtSKYGrnCuRKCnxCR0HCSxsoOdrgcku3Uk0Ror/qHQbUYthA=
-X-Received: by 2002:a67:27c2:: with SMTP id n185mr15454457vsn.39.1618848987370; 
- Mon, 19 Apr 2021 09:16:27 -0700 (PDT)
+ bh=8Subzume6O2uKTAm8d0PUroSTBs7N2OFBfcUDNkDvLg=;
+ b=au0+L/EMCH6GxZfKGZwoJNSl/90TITIR750yhis4Gp2Wg426jcH11wP/ChlwQp4e8Z
+ JSmezI/WkzO9dGqTkK28O5sjzph+d2wj25GedHxBxQLzoERT4XaoBLffWeRJeS5UnIJE
+ TPHoMeVDkf7q+n6TCXT4fX7dFgAPiLzVh7ac9vI0AWkgLNTLR1pEJzUxOrU1XljYHM+/
+ ZOq+hLVZWuBlsjXlh5ptaH6aesX7nYQCqXVFdI6X8rXwsw2vDHI9hrjZsaV/piwszlLA
+ PvOvE2YV/btzU1QauR/H+gBJp1B//WN/ar2TZFSZ3nxMDxXgIGZWY8AJOYlI/aSndqVK
+ fEmg==
+X-Gm-Message-State: AOAM532G79dhsgV2qPbTEbCjTjMNzWua17ki8Nk5S6H6Ruxah5+DSQm9
+ aSQyHZwokIa7co/nYtdQVEz7AIUbF8YnVXlU1XffMS0Hrao/iA+OnxgHyO5eKmhOCK5qmtvNkwY
+ M4J7Use+xiwJuqEZSo0WdiNmWEJgq8zY=
+X-Received: by 2002:ab0:3750:: with SMTP id i16mr7585811uat.113.1618849098544; 
+ Mon, 19 Apr 2021 09:18:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNiO5YNT5ZppplkLLIM0PqfjjETaA6VwhVWM6E9YAtWUY9Ab8a+XCCsWKqCC0e1PAKurIcSjGRRTMvYjx6ZTI=
+X-Received: by 2002:ab0:3750:: with SMTP id i16mr7585792uat.113.1618849098418; 
+ Mon, 19 Apr 2021 09:18:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210414221457.1653745-1-crosa@redhat.com>
- <20210414221457.1653745-4-crosa@redhat.com>
-In-Reply-To: <20210414221457.1653745-4-crosa@redhat.com>
+ <20210414221457.1653745-2-crosa@redhat.com>
+In-Reply-To: <20210414221457.1653745-2-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 19 Apr 2021 13:16:00 -0300
-Message-ID: <CAKJDGDaFROB8unUOn4Qqh-DhgM1a1VdbAFhEa-+ac2kVLiBW5Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Acceptance Tests: support choosing specific distro
- and version
+Date: Mon, 19 Apr 2021 13:17:52 -0300
+Message-ID: <CAKJDGDbrWf0gJt+589BLCryoyirb7cdXMLc4k5UMkh3K4N92yQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Acceptance Tests: rename attribute holding the distro
+ image checksum
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -102,29 +102,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, Apr 14, 2021 at 7:15 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> The tests based on the LinuxTest class give the test writer a ready to
-> use guest operating system, currently pinned to Fedora 31.
+> This renames the attribute that holds the checksum for the image Linux
+> distribution image used.
 >
-> With this change, it's now possible to choose different distros and
-> versions, similar to how other tags and parameter can be set for the
-> target arch, accelerator, etc.
->
-> One of the reasons for this work, is that some development features
-> depend on updates on the guest side.  For instance the tests on
-> virtiofs_submounts.py, require newer kernels, and may benefit from
-> running, say on Fedora 34, without the need for a custom kernel.
->
-> Please notice that the pre-caching of the Fedora 31 images done during
-> the early stages of `make check-acceptance` (before the tests are
-> actually executed) are not expanded here to cover every new image
-> added.  But, the tests will download other needed images (and cache
-> them) during the first execution.
+> The current name of the attribute is not very descriptive.  Also, in
+> preparation for making the distribution used configurable, which will
+> add distro related parameters, attributes and tags, let's make the
+> naming of those more uniform.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  docs/devel/testing.rst                    | 65 +++++++++++++++++++++++
->  tests/acceptance/avocado_qemu/__init__.py | 47 ++++++++++++----
->  2 files changed, 102 insertions(+), 10 deletions(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 4 ++--
+>  tests/acceptance/boot_linux.py            | 8 ++++----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
