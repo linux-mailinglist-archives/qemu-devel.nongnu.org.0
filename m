@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4BD364AD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:56:10 +0200 (CEST)
-Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1A8364AE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:59:21 +0200 (CEST)
+Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYa0A-0002X3-1r
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
+	id 1lYa3E-0005Xm-Lz
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYZVs-0005I5-8a
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:24:56 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:44728)
+ id 1lYZY9-0007mI-P0
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:27:14 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYZVq-0003oE-MM
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:24:52 -0400
-Received: by mail-pl1-x634.google.com with SMTP id y1so2658955plg.11
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:24:50 -0700 (PDT)
+ id 1lYZY6-0004tV-VE
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:27:13 -0400
+Received: by mail-pg1-x535.google.com with SMTP id p2so9511605pgh.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=H+F2tg60gt1jnwrgUQxbFckjakOCoyuWK9JfX5LVYMA=;
- b=nldsGLnMnchHCG/n9LTI3XGvnYu2v4zz7G9wkUefSaEZrqehYKgymFL2ObX45Asr+b
- vFXZ1rJo3Yz5+Pnjicj0ZdU+t+xgNeaF9sdu6KFIEh/cPNuSIAgKVJGTuWwrv4Ti4EZr
- bJuCi5BF4d2GcF+6YYFw4Fg2HeDJw+DA3ApyiqRXit5iGBdu60UvXuogoId4T4pwPaLC
- 7tw1INxmsybdB1OQscaiFQmcqLxMLAYPHtt+npVBspVP7KAyJgEOXb6Tm09Cv3icrisW
- QlA773OfFdxQ+5vHdTmE1Ja74yOhMZx5ghLCbbwCmbxGt/8AM02S3z1SeNmTMYydM+yc
- aOYg==
+ bh=i87gjY+BbDm+l4usvNn3WDnQ6RJlpPfWEzNRztXtlXM=;
+ b=toFjPYEglaErKbVichqahJJnnaV9jbUED162o8jChGz5V3DqHIALOfBM0RVzbwfc2Y
+ fqBKmlLs/w+H1v7kq5L+MOx/yOQAf91DFnS5D5+NyeqOnq12E+oyGYumkt7VyZSmyeKP
+ iPAWW02OwEapl53ug/z+BstDxrPubQOW+KB5AqfVOuVMOvbi7voITAe9RxNekzcKjf5v
+ qRIVjBi7zmW6lISKqnEmH+XvYBhiLQrr+ler1N6eK8iLM3caYNS2mKcmvAsqPeD62mhh
+ 2qhZEK6qZw42kPl6HOloqfkUV7LZHxoIyVfL1V7mYualDSoTx9Q/gDyRDdeqPn7AgEVG
+ l/BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=H+F2tg60gt1jnwrgUQxbFckjakOCoyuWK9JfX5LVYMA=;
- b=WmaYL+NgwRotlmJqpk7HfxCCqWe5TVJUcnjprG17cpaeQJcvTewcgAONq3gdZdQqWH
- HD+G0SdJL3q/8uZF1lggrdsjTBU9BxGT2JMPVwb5IDMK0dxRzrf3+rmnRReRKeA9Mbf1
- W6nb72veZ/QTWCIL3ng+41BgHuyEInMystDWAC8LpgbTJk2OxOaNmEcV1ln+f5Uc0BRV
- Xr/kmWhIszRutVU7ZB2M0tS4z7ag+SwQjqRx0pbiRI/7X6vyUNIfQr99Bpr+qCc3i1zN
- pUmAqM9VkKkxd0ykbgh35rEPyEX7MzcSPQGVnNk1dENj1pywFfhJ4zSpArZOQ5/53RxX
- 2xzg==
-X-Gm-Message-State: AOAM5300DmFTliQ9PB5bWd/tnfsiWxfmnnQ5pQG3xOE8qDUAdHXxSqqt
- CZYU4BFomsNLRQWC6VCjWTsyAg==
-X-Google-Smtp-Source: ABdhPJxzwFDNUJ9WYSh8M7RzyebuSN99smObEuPHPMfOPugHN3Y3/v6JcJNFLd4WtN57WMuPZXlzVw==
-X-Received: by 2002:a17:902:b08a:b029:ec:af20:5602 with SMTP id
- p10-20020a170902b08ab02900ecaf205602mr3487429plr.71.1618860289238; 
- Mon, 19 Apr 2021 12:24:49 -0700 (PDT)
+ bh=i87gjY+BbDm+l4usvNn3WDnQ6RJlpPfWEzNRztXtlXM=;
+ b=Vl1be1jp4SpWT1Y+Nplxn9PROXLgZM2hC2mnQ4qsjxq4I9wes7MN4Yda/kuLAhokoX
+ ufq6VuJ/6JGEmgpHOgpNl7vn8h4l+v44BnoVQ1Fbj84/EOvT/fch+6nbZss8CmuR/ATq
+ VuZFn7GaTYeQEOmp8CndPDsoofrujPpfp882o2oPncz2pP2oeGFQVAJl3lHlE8rNtNfW
+ 6fUPvHCfxOeZd5c0kIz7igwB+b9D5585ffv7ELfei+IEAUeUeHlB3u3PcHLyiMBANjNM
+ drkefbiDx1LPHABU6v+Q1bnJxqR4MviqMpT9L2rG5HJ3vd7Sk4k8z793NUPxdIru9Att
+ WwVQ==
+X-Gm-Message-State: AOAM533SutkY5IltbJ7r+IX+pRFtOczwg7+jF9l2coMVFX6zTd7elABz
+ /27xuHYZ/HoU6stPdAJynpVIow==
+X-Google-Smtp-Source: ABdhPJzvVTMP80hwlO+SY3rauxvTsiakAAqx9giX5rBTyOsR7wVlYkXR6n0M/J4PzgUk+8+CMCXMYA==
+X-Received: by 2002:a63:f506:: with SMTP id w6mr12987142pgh.367.1618860429507; 
+ Mon, 19 Apr 2021 12:27:09 -0700 (PDT)
 Received: from ?IPv6:2607:fb90:80c7:aba4:3594:91a:8889:c77a?
  ([2607:fb90:80c7:aba4:3594:91a:8889:c77a])
- by smtp.gmail.com with ESMTPSA id z8sm7678803pfq.30.2021.04.19.12.24.48
+ by smtp.gmail.com with ESMTPSA id c16sm3903180pgl.79.2021.04.19.12.27.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Apr 2021 12:24:48 -0700 (PDT)
-Subject: Re: [PATCH v3 07/30] target/mips: Turn printfpr() macro into a proper
- function
+ Mon, 19 Apr 2021 12:27:09 -0700 (PDT)
+Subject: Re: [PATCH v3 08/30] target/mips: Declare mips_cpu_set_error_pc()
+ inlined in "internal.h"
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210419191823.1555482-1-f4bug@amsat.org>
- <20210419191823.1555482-8-f4bug@amsat.org>
+ <20210419191823.1555482-9-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d993afbb-6977-b4d2-e594-1731faad2eb5@linaro.org>
-Date: Mon, 19 Apr 2021 12:24:46 -0700
+Message-ID: <5ff019aa-00c5-f600-eb2a-4c8d3e3a0dd1@linaro.org>
+Date: Mon, 19 Apr 2021 12:27:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210419191823.1555482-8-f4bug@amsat.org>
+In-Reply-To: <20210419191823.1555482-9-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,20 +96,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/19/21 12:18 PM, Philippe Mathieu-Daudé wrote:
-> +static void fpu_dump_fpr(fpr_t *fpr, FILE *f, bool is_fpu64)
+> Rename set_pc() as mips_cpu_set_error_pc(), declare it inlined
+> and use it in cpu.c and op_helper.c.
 
-If you're going to use bool here,
+Why "error_pc"?  The usage in mips_cpu_set_pc certainly isn't in response to 
+any kind of error...
 
->   static void fpu_dump_state(CPUMIPSState *env, FILE *f, int flags)
->   {
->       int i;
->       int is_fpu64 = !!(env->hflags & MIPS_HFLAG_F64);
-
-... you should probably use it here too.  Otherwise,
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-
 
