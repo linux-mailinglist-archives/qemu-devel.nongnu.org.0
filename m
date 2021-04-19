@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C4E364BE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:46:59 +0200 (CEST)
-Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95F3364B42
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:39:24 +0200 (CEST)
+Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYanJ-0004wM-RI
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51120)
+	id 1lYafz-0004JM-G9
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lYZZf-000104-Ip; Mon, 19 Apr 2021 15:28:50 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:54445)
+ id 1lYZZe-000102-Nx; Mon, 19 Apr 2021 15:28:50 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:47087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lYZZb-0005J5-3x; Mon, 19 Apr 2021 15:28:47 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 4559A21DD;
- Mon, 19 Apr 2021 15:28:18 -0400 (EDT)
+ id 1lYZZb-0005JG-5D; Mon, 19 Apr 2021 15:28:46 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 8CD6721E0;
+ Mon, 19 Apr 2021 15:28:20 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 19 Apr 2021 15:28:18 -0400
+ by compute3.internal (MEProxy); Mon, 19 Apr 2021 15:28:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=mvqUgeg/XfHZQ
- G07x034masACDqpUR9bp1eNIgWqhqA=; b=3NmfPu04Xo252kHxBAGBOVqb9SNHr
- zRXxycKl2NMwtqA6Y+S07gbt4/NOYUoxwbEHblT01Owk0DjhTHyyu520HbdX6hai
- ubIShoBuuWEm4GdA3n2Uu5lLfAmMJjMS4AVAN1ZozEeAR2IAkYyUvXBr/M3ulr7n
- h3bGQE+qbtqZhwbACDlAsSMOQmGiCUPUbjthOCnK9BoCb7CQWmNbhtFJ/AN/Mgmb
- 00/A642UOa5X2xyZlsAgbfJkK0AUeBpfNBeZ8yjt2wiqHOtm92HhVQnt1NJ9y6wZ
- fnAvFjYuHJtmOZ/dua5PTeXRG3xjJ1lhAW8z7SYOWjnwL5XhLHZjhxUnw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=St0xHPCxhgNl0
+ y3EzysLOR6jGtY8wtwks7ZgZHpVGDg=; b=ILa+VYWcghrCeoR3JVOzrRYH4aNpZ
+ AAxoOQsubSPNMpCI92LLGZ96a91zWsI3WoiRZ4r2bPFXFH2L1SLbCA6So8HBp7XI
+ RRor9yfZoXP0mQLHymUs7hHbGrX8zrSoh/kBWkmRGZlawxyxSWg51f3/6oMoSF2n
+ GdfpRzbPwk1GCorrMGd5GuP0ynK/bvEQaHs3XjsN9fOjDCzUpbpcv/Qx6pUX36o4
+ RtSgCaI4N03tpF0sZVfEus3glGekJig8Vfo5k60Vo4GFMYbyyXe0L//rzyB9GEe6
+ tf5NUG56ycmOlccnhZXOFuP0RU7uYcKURdjSBTlIEwGPPMYc8RX6C/ZjQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=mvqUgeg/XfHZQG07x034masACDqpUR9bp1eNIgWqhqA=; b=XUyIyBkP
- ZzXtQ5EdqPPiLIKHa5+lvIZE5R/WawRECsNVh4hjKPgLHnxUh4DFx5bQcGJeOvvz
- pXs8NzMSnl4JxRR371We0wnjFlZEp3L4BnEfPw87gk+YgaeBEJtTUN+Lh8U3ahKb
- CYXx//JmJJfyv4oMLV3YCxzsGcx15beq+Kov3O9dlg5PMS+ohPbyxwU4/jsj2O0w
- hCNqLTGLTXVGf+b0+1ECRUGDOiA344KwnxWzp7jHBdLjr/Sar3yoZen4nTXLksRa
- IelcIh4ShRb2x1vHTEUKZg/Kn158Zz0iIh0n3D+7AMdw16VzAO8ptqlAkZZ+fpUq
- PkNkRbtSCJlHqw==
-X-ME-Sender: <xms:0dl9YDFiU0ml95PPjNAPIyfv8Wa7RNrTkjt3nvATgbBjje700x7fJQ>
- <xme:0dl9YJ-HeQFV6m5PHIOFzNUhVaSfqFwVn4pO1fWqai1sLnpqfOq6qqPoxmXNUDhbx
- H-fonXaRiGc5SjnsXg>
+ fm2; bh=St0xHPCxhgNl0y3EzysLOR6jGtY8wtwks7ZgZHpVGDg=; b=qPWn/ubm
+ DFn1k62aOobdy6Hej1BsI+gYnuK25/i0q6T3oI0p03VHSsDbvBPmOcNA3Mc+4WBP
+ FaDxrparvX+YFRzO1Xlv1Zu+ULU5esCVfMIlasyxqQHNK6MeUNxQ1y1H+rp9r0B6
+ UQhBdml29DgUXw0RxeXFa8bIaanZ+NP/fWW80Jz1Ow/DzW//VPx3bxXQzd/9qQ57
+ 3smEc1Mg1fTKYpBDVTEgfQkyFuDlaQFjcBUmdC+TIGQi4oITBMHos469vFBPjNL8
+ g+chMtHqrrFtb4b5ghmNjmoWCW7qhAgB7BMbvoVZSvDhWjJgSkTYiAHA5pB2HRR4
+ FoFzEh7GcZ3UYQ==
+X-ME-Sender: <xms:1Nl9YLGLWF0ULrg5IDGMLmYNF-5lOvs-TkdJhIAbfr32tdYwziWDBQ>
+ <xme:1Nl9YNNzsZMelbDt3hPYfMRWxKm_Q7mcw-b-zuqs9Ttg8GlIdmSPh1IEKq3izra0m
+ fnj6GuF_NMd1m-pj8k>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtgedgudeflecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepge
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:0dl9YFKQ_WoufTniEx3JcWDX81_ClyS0CIq1JlBW9uMQ0V_o2Qvdgg>
- <xmx:0dl9YEYntrnACVCbSraMb2dEwLOcuiKHFuyHsWjiQMdVSKQ610VuiA>
- <xmx:0dl9YHIgKot5iwb3CXXJ9Ghs73IKD_Ms8fm-uGRo1fWEgsXjE3uZYw>
- <xmx:0dl9YPASZZMRZRZ42uNRD0TgKMeGNaj4ZY8EicGyxxgy6Yqn2hTlVA>
+X-ME-Proxy: <xmx:1Nl9YKvzTWm12P81ebLaRHhh2BCs5nwD7RKVH8n84A1SC688oFA-iw>
+ <xmx:1Nl9YLIxY9cFVGymg-RNW4hLR_S-Yit4XlA2MPDLzlyo5cf27MquwA>
+ <xmx:1Nl9YAduQpy5V4rBD_jEHiO-U6TTgEUCTNmApNcT6SHI2fd6myZA0Q>
+ <xmx:1Nl9YOUfWydpYpswdyPkucv0XrSXrUWHYkEDSgPOuujTDSO-NjxMYg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E964E1080064;
- Mon, 19 Apr 2021 15:28:16 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3A452108005C;
+ Mon, 19 Apr 2021 15:28:19 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/14] hw/block/nvme: remove num_namespaces member
-Date: Mon, 19 Apr 2021 21:27:58 +0200
-Message-Id: <20210419192801.62255-12-its@irrelevant.dk>
+Subject: [PATCH 13/14] hw/block/nvme: move zoned constraints checks
+Date: Mon, 19 Apr 2021 21:28:00 +0200
+Message-Id: <20210419192801.62255-14-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210419192801.62255-1-its@irrelevant.dk>
 References: <20210419192801.62255-1-its@irrelevant.dk>
@@ -100,168 +100,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The NvmeCtrl num_namespaces member is just an indirection for the
-NVME_MAX_NAMESPACES constant.
-
-Remove the indirection.
+Validation of the max_active and max_open zoned parameters are
+independent of any other state, so move them to the early
+nvme_ns_check_constraints parameter checks.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.h |  1 -
- hw/block/nvme.c | 30 +++++++++++++++---------------
- 2 files changed, 15 insertions(+), 16 deletions(-)
+ hw/block/nvme-ns.c | 52 +++++++++++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 24 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index ac3f0a886735..fb028d81d16f 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -401,7 +401,6 @@ typedef struct NvmeCtrl {
-     uint16_t    cqe_size;
-     uint16_t    sqe_size;
-     uint32_t    reg_size;
--    uint32_t    num_namespaces;
-     uint32_t    max_q_ents;
-     uint8_t     outstanding_aers;
-     uint32_t    irq_status;
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 0b96936129d6..60424d9b19ea 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -382,7 +382,8 @@ static int nvme_addr_write(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 2041d8138420..861b87f22bd8 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -210,30 +210,6 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
+         return -1;
+     }
  
- static bool nvme_nsid_valid(NvmeCtrl *n, uint32_t nsid)
- {
--    return nsid && (nsid == NVME_NSID_BROADCAST || nsid <= n->num_namespaces);
-+    return nsid &&
-+        (nsid == NVME_NSID_BROADCAST || nsid <= NVME_MAX_NAMESPACES);
+-    if (ns->params.max_active_zones) {
+-        if (ns->params.max_open_zones > ns->params.max_active_zones) {
+-            error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
+-                       ns->params.max_open_zones, ns->params.max_active_zones);
+-            return -1;
+-        }
+-
+-        if (!ns->params.max_open_zones) {
+-            ns->params.max_open_zones = ns->params.max_active_zones;
+-        }
+-    }
+-
+-    if (ns->params.zd_extension_size) {
+-        if (ns->params.zd_extension_size & 0x3f) {
+-            error_setg(errp,
+-                "zone descriptor extension size must be a multiple of 64B");
+-            return -1;
+-        }
+-        if ((ns->params.zd_extension_size >> 6) > 0xff) {
+-            error_setg(errp, "zone descriptor extension size is too large");
+-            return -1;
+-        }
+-    }
+-
+     return 0;
  }
  
- static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
-@@ -2865,7 +2866,7 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
-     /* 1-initialize; see comment in nvme_dsm */
-     *num_flushes = 1;
- 
--    for (int i = 1; i <= n->num_namespaces; i++) {
-+    for (int i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             continue;
-@@ -3835,7 +3836,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     } else {
-         int i;
- 
--        for (i = 1; i <= n->num_namespaces; i++) {
-+        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-             ns = nvme_ns(n, i);
-             if (!ns) {
-                 continue;
-@@ -4332,7 +4333,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
-         return NVME_INVALID_NSID | NVME_DNR;
-     }
- 
--    for (i = 1; i <= n->num_namespaces; i++) {
-+    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             if (!active) {
-@@ -4380,7 +4381,7 @@ static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req,
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
- 
--    for (i = 1; i <= n->num_namespaces; i++) {
-+    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             if (!active) {
-@@ -4646,7 +4647,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-         goto out;
-     case NVME_VOLATILE_WRITE_CACHE:
-         result = 0;
--        for (i = 1; i <= n->num_namespaces; i++) {
-+        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-             ns = nvme_ns(n, i);
-             if (!ns) {
-                 continue;
-@@ -4796,7 +4797,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-         break;
-     case NVME_ERROR_RECOVERY:
-         if (nsid == NVME_NSID_BROADCAST) {
--            for (i = 1; i <= n->num_namespaces; i++) {
-+            for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-                 ns = nvme_ns(n, i);
- 
-                 if (!ns) {
-@@ -4817,7 +4818,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+@@ -403,6 +379,34 @@ static int nvme_ns_check_constraints(NvmeCtrl *n, NvmeNamespace *ns,
          }
-         break;
-     case NVME_VOLATILE_WRITE_CACHE:
--        for (i = 1; i <= n->num_namespaces; i++) {
-+        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-             ns = nvme_ns(n, i);
-             if (!ns) {
-                 continue;
-@@ -5110,7 +5111,7 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-             req->status = status;
-         }
-     } else {
--        for (i = 1; i <= n->num_namespaces; i++) {
-+        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-             ns = nvme_ns(n, i);
-             if (!ns) {
-                 continue;
-@@ -5221,7 +5222,7 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
-     NvmeNamespace *ns;
-     int i;
- 
--    for (i = 1; i <= n->num_namespaces; i++) {
-+    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             continue;
-@@ -5263,7 +5264,7 @@ static void nvme_ctrl_shutdown(NvmeCtrl *n)
-         memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
      }
  
--    for (i = 1; i <= n->num_namespaces; i++) {
-+    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             continue;
-@@ -5278,7 +5279,7 @@ static void nvme_select_iocs(NvmeCtrl *n)
-     NvmeNamespace *ns;
-     int i;
++    if (ns->params.zoned) {
++        if (ns->params.max_active_zones) {
++            if (ns->params.max_open_zones > ns->params.max_active_zones) {
++                error_setg(errp, "max_open_zones (%u) exceeds "
++                           "max_active_zones (%u)", ns->params.max_open_zones,
++                           ns->params.max_active_zones);
++                return -1;
++            }
++
++            if (!ns->params.max_open_zones) {
++                ns->params.max_open_zones = ns->params.max_active_zones;
++            }
++        }
++
++        if (ns->params.zd_extension_size) {
++            if (ns->params.zd_extension_size & 0x3f) {
++                error_setg(errp, "zone descriptor extension size must be a "
++                           "multiple of 64B");
++                return -1;
++            }
++            if ((ns->params.zd_extension_size >> 6) > 0xff) {
++                error_setg(errp,
++                           "zone descriptor extension size is too large");
++                return -1;
++            }
++        }
++    }
++
+     return 0;
+ }
  
--    for (i = 1; i <= n->num_namespaces; i++) {
-+    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             continue;
-@@ -5905,7 +5906,6 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
- 
- static void nvme_init_state(NvmeCtrl *n)
- {
--    n->num_namespaces = NVME_MAX_NAMESPACES;
-     /* add one to max_ioqpairs to account for the admin queue pair */
-     n->reg_size = pow2ceil(sizeof(NvmeBar) +
-                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
-@@ -6086,7 +6086,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- 
-     id->sqes = (0x6 << 4) | 0x6;
-     id->cqes = (0x4 << 4) | 0x4;
--    id->nn = cpu_to_le32(n->num_namespaces);
-+    id->nn = cpu_to_le32(NVME_MAX_NAMESPACES);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES | NVME_ONCS_DSM |
-                            NVME_ONCS_COMPARE | NVME_ONCS_COPY);
-@@ -6205,7 +6205,7 @@ static void nvme_exit(PCIDevice *pci_dev)
- 
-     nvme_ctrl_reset(n);
- 
--    for (i = 1; i <= n->num_namespaces; i++) {
-+    for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-         ns = nvme_ns(n, i);
-         if (!ns) {
-             continue;
 -- 
 2.31.1
 
