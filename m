@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4132364257
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 15:07:05 +0200 (CEST)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128213642B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 15:12:13 +0200 (CEST)
+Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYTcG-0001fX-7F
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 09:07:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41664)
+	id 1lYThD-0003V7-So
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 09:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYTau-00018h-UD
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 09:05:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYTat-0006Dy-2e
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 09:05:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYTar-0005aW-6r
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 13:05:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2E3912E8073
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 13:05:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lYTg3-0002jY-Tj
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 09:11:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lYTg0-0001EL-Et
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 09:10:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618837855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FsUOY1RP2tWzVVH7yKC8RsisDY0W2sVCkziyB/AOtHU=;
+ b=OeJUSXU1vpMaDpQWz6TR0aNM7DTsz+gqckfkmpfPwHkx6b0AZ83y6JNqtIGqKCR0Vd3E5c
+ EX1bCQ8Hj/z5ePR2T80VjnwrfycQa3qInbrk94NU4TqCDou8lxhi+ggbgq8/9TOqShEMSc
+ dFy2yXRQXBM9D0YqwVC9VTINhJ1ovQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-8n6Ab4QgNxmEZMJqUWOrPQ-1; Mon, 19 Apr 2021 09:10:53 -0400
+X-MC-Unique: 8n6Ab4QgNxmEZMJqUWOrPQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 547DBCF987;
+ Mon, 19 Apr 2021 13:10:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-178.ams2.redhat.com
+ [10.36.112.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EF0859469;
+ Mon, 19 Apr 2021 13:10:52 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 935541800383; Mon, 19 Apr 2021 15:10:50 +0200 (CEST)
+Date: Mon, 19 Apr 2021 15:10:50 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
+Subject: Re: Fwd: VirtioSound device emulation implementation
+Message-ID: <20210419131050.bltknubbkd4du6ti@sirius.home.kraxel.org>
+References: <CAAQ-SiNRykBeMFRvjumJ1hbcT3vjuL2bcGU=RBLpksNJNGYm+Q@mail.gmail.com>
+ <20210128112541.qjpve3qbjy46ofkk@sirius.home.kraxel.org>
+ <CAAQ-SiOYkxRMw=OjnPb5tFD0aNb+ZQykLVfAjOGmwFa2Lzc26w@mail.gmail.com>
+ <20210128163001.jjptft2t5fbdlvyn@sirius.home.kraxel.org>
+ <CAAQ-SiOU5vkcVODOvBEf=PXzRDQbhzJC6ZU3wLpnRzhD58cuGg@mail.gmail.com>
+ <CAAQ-SiMpZZ3yVCRjapCuResP38HFmtykFuLvpwH_23kEPg6v_w@mail.gmail.com>
+ <20210215143934.sz6tdtoaaffkvla7@sirius.home.kraxel.org>
+ <CAAQ-SiO_cTe3bQKDQ-tyeUU-DqTSf=1kRUcc+a=tktZb0ZhVog@mail.gmail.com>
+ <20210416113252.km4w72vnruv6s2oi@sirius.home.kraxel.org>
+ <CAAQ-SiOSw9u=yFrakjjjTvozpAW3nxhC+QeW7wswMSzSeZ_AVg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Apr 2021 12:59:13 -0000
-From: Peter Maydell <1923861@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ml-0 pmaydell
-X-Launchpad-Bug-Reporter: ml-0 (ml-0)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
-Message-Id: <161883715374.2532.1616882740571558279.malone@gac.canonical.com>
-Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
-X-Launchpad-Hash: cca852bbd027023d4eae8c7c4166f9b38b7f05dc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAAQ-SiOSw9u=yFrakjjjTvozpAW3nxhC+QeW7wswMSzSeZ_AVg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,57 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These fixes are now in master and will be in rc4 and the eventual 6.0
-release.
+> > AUD_write returns the number of bytes actually accepted.
+> >
+> > In case the audio backend consumed the complete buffer you can go ahead
+> > as described.  Otherwise stop here and resume (try AUD_write() the
+> > remaining data) when the callback is called again.
+> >
+> The callback that is supposed to write the buffers to HWVoiceOut has to
+> do it such that it only writes the buffers for the streams that it was
+> called by. The tx
+> virtqueue is going to have buffers for all the streams. How do I handle
+> this situation?
 
+Well, maybe splitting the streams is a good job for the tx handler, i.e.
+take the queue element out of the queue, check stream, stick into a
+stream-specific buffer list.
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+The have the AUD_write callback check the stream buffer list.
+instead of the virt queue.
 
--- =
+Make sure you only complete the virtqueue elements after the buffers
+have been passed to the qemu audiodev completely.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923861
+Yes, it is perfectly fine to process multiple virtqueue elements at the
+same time, and out-of-order completion is fine too.
 
-Title:
-  Hardfault when accessing FPSCR register
+HTH,
+  Gerd
 
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  QEMU release version: v6.0.0-rc2
-
-  command line:
-  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
-semihosting -semihosting-config enable=3Don,target=3Dnative
-
-  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
-  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
-  GNU/Linux
-
-  guest operating system: none (bare metal)
-
-  Observation:
-  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
-47 machine. In the startup code I am accessing the FPSCR core register:
-
-  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
-  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
-  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
-
-  where the register access functions __get_FPSCR() and
-  __set_FPSCR(fpscr) are taken from CMSIS_5 at
-  ./CMSIS/Core/include/cmsis_gcc.h
-
-  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
-  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
 
