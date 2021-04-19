@@ -2,53 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EECE363FCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:46:55 +0200 (CEST)
-Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB40363FF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:54:05 +0200 (CEST)
+Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYRQc-0005ZZ-N3
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
+	id 1lYRXX-0003uV-0K
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR54-0006lU-OB
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:24:42 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24096)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR4w-000256-CF
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:24:38 -0400
-IronPort-SDR: zhz/tT+ewaidbo0DI8nCATmmNYxi8KksoqeSmUlmQn/wHEJiCl4aYjS1WUUXyEK48jN4gbLLM9
- VdJq5GcNuAzQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409348"
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409348"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:23:24 -0700
-IronPort-SDR: 3S1/xd3LKvhybMjZsi4W1hyJMOliaaMsfYt5FZvgLhXW+7C9qUc1nyccgE+DZPcKdmbo3Nx01B
- VtajtXgVd+IA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947578"
-Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:23:22 -0700
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 32/32] doc: Add the SGX doc
-Date: Mon, 19 Apr 2021 18:01:56 +0800
-Message-Id: <20210419100156.53504-33-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
-In-Reply-To: <20210419100156.53504-1-yang.zhong@intel.com>
-References: <20210419100156.53504-1-yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lYRHn-0004QN-0r
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:37:47 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lYRHk-0001pu-T4
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:37:46 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id w186so13360985wmg.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 03:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=srymAYRzhj5zIEa340DmYlGR4IEUW+bg+daCCBpoBqc=;
+ b=wXX41+SySlNyZgpyNjPI1XftkwJlkkGDL3IEJtEDuF1PcQKxSrpv7UVFDKJi+m1q62
+ GQj/svx3o+V3zpCW3C6S2wBNYiEr/KhBV+3yf6daJsY7TNch5AdhFO9t34lvwL/shWXs
+ lJ6Mj+f2Ne8uZpISm3Queqzs3UJyxXREGUq4lXbjFpZQ1Ypk8ZGDpIjZXpwPM28jbQgb
+ pjFuQVWGylT69bLPuZ5Xb73Y3w+oLutWK9eb3oYkd5pnFv4kkI9Xz9VDzGLhTSEi05gS
+ CSLBmvn8/eapb5vAdE5pDRejcYzGo4V70y/sV5hyljeUEFbomEfrCIexigAe5KlB9PFE
+ eQxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=srymAYRzhj5zIEa340DmYlGR4IEUW+bg+daCCBpoBqc=;
+ b=RBwwm8XkaX1vTgOUn8EQiYEBJM3ldgGwfOncqDPBR+3Nu9e9MnqNfGm6osTIszv9ss
+ pAhz7NidIT0Ol6yGVDkmxtKJMqRzwOenTsNnQ3t5rjCS4ev5PHltFgqC3F3hcvdsO78c
+ N49EnHWPfEShpouOi8scak7AU4PiG2gQ/A8JkonNyJfC4j581/hgIO9lYXGqsvwhXUMt
+ pG+tKVh1I3WjsGUi53etaRFx/zpNPvcRVhmiCqaw/T+m3kfEFjRZBXlP6bFZdNfr+g9K
+ /7c6fSnDUvGkkwJnGODGyPP830PppIVI7zYRFynyyjiedqf4OEKfAkZJQF2G8olv6ryX
+ t62A==
+X-Gm-Message-State: AOAM530noKjkXhYQU5ysR8ltI8xIgJwALP7Gw9RUoRII+L0VU8CjTm+t
+ UbCLUt/ECw8omARxZGHdTuTuxw==
+X-Google-Smtp-Source: ABdhPJwtbfnMmLZtd7wYPCb2dJWEyk+UOnDTXoVvGmeBCJXloVdnENCtBAMHhMRcsSztwJdvxQY2yw==
+X-Received: by 2002:a1c:454:: with SMTP id 81mr20892868wme.186.1618828663127; 
+ Mon, 19 Apr 2021 03:37:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x2sm24593227wrg.31.2021.04.19.03.37.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Apr 2021 03:37:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 202481FF7E;
+ Mon, 19 Apr 2021 11:37:41 +0100 (BST)
+References: <20210416071740.3393-1-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH v2] plugins/syscall: Added a table-like summary output
+Date: Mon, 19 Apr 2021 11:23:30 +0100
+In-reply-to: <20210416071740.3393-1-ma.mandourr@gmail.com>
+Message-ID: <87czuqa7be.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,200 +86,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
- seanjc@google.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- docs/intel-sgx.txt | 173 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 173 insertions(+)
- create mode 100644 docs/intel-sgx.txt
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-diff --git a/docs/intel-sgx.txt b/docs/intel-sgx.txt
-new file mode 100644
-index 0000000000..4fc3fd3564
---- /dev/null
-+++ b/docs/intel-sgx.txt
-@@ -0,0 +1,173 @@
-+===============================
-+Software Guard eXtensions (SGX)
-+===============================
-+
-+Overview
-+========
-+
-+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
-+for memory accesses in order to provide security accesses for sensitive
-+applications and data. SGX allows an application to use it's pariticular
-+address space as an *enclave*, which is a protected area provides confidentiality
-+and integrity even in the presence of privileged malware. Accesses to the
-+enclave memory area from any software not resident in the enclave are prevented,
-+including those from privileged software.
-+
-+Virtual SGX
-+===========
-+
-+SGX feature is exposed to guest via SGX CPUID. Looking at SGX CPUID, we can
-+report the same CPUID info to guest as on host for most of SGX CPUID. With
-+reporting the same CPUID guest is able to use full capacity of SGX, and KVM
-+doesn't need to emulate those info.
-+
-+The guest's EPC base and size are determined by Qemu, and KVM needs Qemu to
-+notify such info to it before it can initialize SGX for guest.
-+
-+Virtual EPC
-+-----------
-+
-+By default, Qemu does not assign EPC to a VM, i.e. fully enabling SGX in a VM
-+requires explicit allocation of EPC to the VM. Similar to other specialized
-+memory types, e.g. hugetlbfs, EPC is exposed as a memory backend. For a number
-+of reasons, a EPC memory backend can only be realized via an 'sgx-epc' device.
-+Standard memory backend options such as prealloc are supported by EPC.
-+
-+SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be realized
-+prior to realizing the vCPUs themselves, which occurs long before generic
-+devices are parsed and realized.  Because of this, 'sgx-epc' devices must be
-+created via the dedicated -sgx-epc command, i.e. cannot be created through
-+the generic -devices command.  On the plus side, this limitation means that
-+EPC does not require -maxmem as EPC is not treated as {cold,hot}plugged memory.
-+
-+Qemu does not artificially restrict the number of EPC sections exposed to a
-+guest, e.g. Qemu will happily allow you to create 64 1M EPC sections. Be aware
-+that some kernels may not recognize all EPC sections, e.g. the Linux SGX driver
-+is hardwired to support only 8 EPC sections.
-+
-+The following Qemu snippet creates two EPC sections, with 64M pre-allocated
-+to the VM and an additional 28M mapped but not allocated:
-+
-+ -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+ -sgx-epc id=epc1,memdev=mem1 \
-+ -object memory-backend-epc,id=mem2,size=28M \
-+ -sgx-epc id=epc2,memdev=mem2
-+
-+Note:
-+
-+The size and location of the virtual EPC are far less restricted compared
-+to physical EPC. Because physical EPC is protected via range registers,
-+the size of the physical EPC must be a power of two (though software sees
-+a subset of the full EPC, e.g. 92M or 128M) and the EPC must be naturally
-+aligned.  KVM SGX's virtual EPC is purely a software construct and only
-+requires the size and location to be page aligned. Qemu enforces the EPC
-+size is a multiple of 4k and will ensure the base of the EPC is 4k aligned.
-+To simplify the implementation, EPC is always located above 4g in the guest
-+physical address space.
-+
-+Migration
-+---------
-+
-+Qemu/KVM doesn't prevent live migrating SGX VMs, although from hardware's
-+perspective, SGX doesn't support live migration, since both EPC and the SGX
-+key hierarchy are bound to the physical platform. However live migration
-+can be supported in the sense if guest software stack can support recreating
-+enclaves when it suffers sudden lose of EPC; and if guest enclaves can detect
-+SGX keys being changed, and handle gracefully. For instance, when ERESUME fails
-+with #PF.SGX, guest software can gracefully detect it and recreate enclaves;
-+and when enclave fails to unseal sensitive information from outside, it can
-+detect such error and sensitive information can be provisioned to it again.
-+
-+CPUID
-+-----
-+
-+Due to its myriad dependencies, SGX is currently not listed as supported
-+in any of Qemu's built-in CPU configuration. To expose SGX (and SGX Launch
-+Control) to a guest, you must either use `-cpu host` to pass-through the
-+host CPU model, or explicitly enable SGX when using a built-in CPU model,
-+e.g. via `-cpu <model>,+sgx` or `-cpu <model>,+sgx,+sgxlc`.
-+
-+All SGX sub-features enumerated through CPUID, e.g. SGX2, MISCSELECT,
-+ATTRIBUTES, etc... can be restricted via CPUID flags. Be aware that enforcing
-+restriction of MISCSELECT, ATTRIBUTES and XFRM requires intercepting ECREATE,
-+i.e. may marginally reduce SGX performance in the guest. All SGX sub-features
-+controlled via -cpu are prefixed with "sgx", e.g.:
-+
-+$ qemu-system-x86_64 -cpu help | xargs printf "%s\n" | grep sgx
-+  sgx
-+  sgx-debug
-+  sgx-encls-c
-+  sgx-enclv
-+  sgx-exinfo
-+  sgx-kss
-+  sgx-mode64
-+  sgx-provisionkey
-+  sgx-tokenkey
-+  sgx1
-+  sgx2
-+  sgxlc
-+
-+The following Qemu snippet passes through the host CPU (and host physical
-+address width) but restricts access to the provision and EINIT token keys:
-+
-+ -cpu host,host-phys-bits,-sgx-provisionkey,-sgx-tokenkey
-+
-+Note:
-+
-+SGX sub-features cannot be emulated, i.e. sub-features that are not present
-+in hardware cannot be forced on via '-cpu'.
-+
-+Virtualize SGX Launch Control
-+-----------------------------
-+
-+Qemu SGX support for Launch Control (LC) is passive, in the sense that it
-+does not actively change the LC configuration.  Qemu SGX provides the user
-+the ability to set/clear the CPUID flag (and by extension the associated
-+IA32_FEATURE_CONTROL MSR bit in fw_cfg) and saves/restores the LE Hash MSRs
-+when getting/putting guest state, but Qemu does not add new controls to
-+directly modify the LC configuration.  Similar to hardware behavior, locking
-+the LC configuration to a non-Intel value is left to guest firmware.  Unlike
-+host bios setting for SGX launch control(LC), there is no special bios setting
-+for SGX guest by our design. If host is in locked mode, we can still allow
-+creating VM with SGX.
-+
-+Feature Control
-+---------------
-+
-+Qemu SGX updates the `etc/msr_feature_control` fw_cfg entry to set the SGX
-+(bit 18) and SGX LC (bit 17) flags based on their respective CPUID support,
-+i.e. existing guest firmware will automatically set SGX and SGX LC accordingly,
-+assuming said firmware supports fw_cfg.msr_feature_control.
-+
-+Launch a guest
-+==============
-+
-+To launch a SGX guest
-+${QEMU} \
-+   -cpu host,+sgx-provisionkey \
-+   -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+   -sgx-epc id=epc1,memdev=mem1 \
-+   -object memory-backend-epc,id=mem2,size=28M \
-+   -sgx-epc id=epc2,memdev=mem2
-+
-+Utilizing SGX in the guest requires a kernel/OS with SGX support.
-+
-+The support can be determined in guest by:
-+$ grep sgx /proc/cpuinfo
-+
-+Check the SGX epc info in the Guest:
-+$ dmesg | grep sgx
-+[    1.242142] sgx: EPC section 0x180000000-0x181bfffff
-+[    1.242319] sgx: EPC section 0x181c00000-0x1837fffff
-+
-+References
-+==========
-+
-+SGX Homepage:
-+https://software.intel.com/sgx
-+
-+SGX SDK:
-+https://github.com/intel/linux-sgx.git
-+
-+SGX SPEC:
-+Intel SDM Volume 3
--- 
-2.29.2.334.gfaefdd61ec
+> Added a table-like output which contains the total number of calls
+> for each used syscall along with the number of errors that occurred.
+>
+> Per-call tracing is still available through supplying the argument
+> ``print`` to the plugin.
+>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02623.html
+> v1 -> v2: Removed debugging code in the on-return from syscall callback=20
+>           that was silently existent.
+>
+>  tests/plugin/syscall.c | 91 +++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 85 insertions(+), 6 deletions(-)
+>
+> diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+> index 53ee2ab6c4..b66a930635 100644
+> --- a/tests/plugin/syscall.c
+> +++ b/tests/plugin/syscall.c
+> @@ -16,32 +16,111 @@
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+>=20=20
+> +typedef struct {
+> +    int64_t calls;
+> +    int64_t errors;
+> +} SyscallStats;
+> +
+> +static GHashTable *syscalls_statistics;
+> +
+> +static bool percall_print;
+> +
+>  static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
+>                           int64_t num, uint64_t a1, uint64_t a2,
+>                           uint64_t a3, uint64_t a4, uint64_t a5,
+>                           uint64_t a6, uint64_t a7, uint64_t a8)
+>  {
+> -    g_autofree gchar *out =3D g_strdup_printf("syscall #%" PRIi64 "\n", =
+num);
+> -    qemu_plugin_outs(out);
+> +    if (!percall_print) {
 
+I think you could eliminate the percall_print global and just invert the
+test and have if (syscall_statisitics)
+
+> +        SyscallStats *syscall_entry;
+> +
+> +        syscall_entry =3D
+> +            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
+> +                                                  GINT_TO_POINTER(num));
+> +
+> +        if (!syscall_entry) {
+> +            syscall_entry =3D g_new(SyscallStats, 1);
+> +            syscall_entry->calls =3D 1;
+> +            syscall_entry->errors =3D 0;
+> +
+> +            g_hash_table_insert(syscalls_statistics, GINT_TO_POINTER(num=
+),
+> +                                (gpointer) syscall_entry);
+
+You you wrap up the entry creation into a helper it would make the code
+less cluttered here, e.g.:
+
+     syscall_entry =3D get_or_create_entry();
+     syscall_entry->calls++;
+
+> +        } else {
+> +            syscall_entry->calls++;
+> +        }
+> +    } else {
+> +        g_autofree gchar *out =3D g_strdup_printf("syscall #%" PRIi64 "\=
+n", num);
+> +        qemu_plugin_outs(out);
+> +    }
+>  }
+>=20=20
+>  static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+>                               int64_t num, int64_t ret)
+> +{
+> +    if (!percall_print) {
+> +        SyscallStats *syscall_entry;
+> +
+> +        syscall_entry =3D
+> +            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
+> +                                                  GINT_TO_POINTER(num));
+> +        if (ret < 0) {
+> +            syscall_entry->errors++;
+> +        }
+> +    } else {
+> +        g_autofree gchar *out;
+> +        out =3D g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRI=
+i64 "\n",
+> +                num, ret);
+> +        qemu_plugin_outs(out);
+> +    }
+
+ditto.
+
+> +}
+> +
+> +/* *********************************************************************=
+**** */
+> +
+> +void print_entry(gpointer key, gpointer val, gpointer user_data)
+>  {
+>      g_autofree gchar *out;
+> -    out =3D g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 =
+"\n",
+> -            num, ret);
+> +    int64_t syscall_num =3D (int64_t) key;
+> +    SyscallStats *syscall_entry =3D (SyscallStats *) val;
+> +    out =3D g_strdup_printf(
+> +        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
+> +        syscall_num, syscall_entry->calls, syscall_entry->errors);
+>      qemu_plugin_outs(out);
+>  }
+>=20=20
+> -/* *********************************************************************=
+**** */
+> +static void plugin_exit(qemu_plugin_id_t id, void *p)
+> +{
+> +    if (!percall_print) {
+> +        qemu_plugin_outs("syscall no.  calls  errors\n");
+> +        g_hash_table_foreach(syscalls_statistics, &print_entry,
+> NULL);
+
+Sorting the hash list by calls would be a nice improvement - see howvec
+for an example of how to use g_hash_table_get_values/g_list_sort.
+
+For cleanliness you should also clean-up the syscall_statisitics hash
+table and deallocation although in practice it doesn't really matter as
+use space is about to exit anyway.
+
+> +    }
+> +}
+>=20=20
+> -static void plugin_exit(qemu_plugin_id_t id, void *p) {}
+> +void free_entry(gpointer entry)
+> +{
+> +    g_free(entry);
+> +}
+>=20=20
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+>                                             const qemu_info_t *info,
+>                                             int argc, char **argv)
+>  {
+> +    int i;
+> +
+> +    for (i =3D 0; i < argc; i++) {
+> +        char *opt =3D argv[i];
+> +        if (g_strcmp0(opt, "print") =3D=3D 0) {
+> +            percall_print =3D true;
+
+So this would be a local now and or even:
+
+  if (argc =3D=3D 0) {
+      syscalls_statistics =3D g_hash_table_new_full(g_direct_hash, g_direct=
+_equal,  NULL, &free_entry);
+  } else {
+      for (i =3D 0; i < argc; i++) {
+          ...
+
+> +        } else {
+> +            fprintf(stderr, "unsupported argument: %s\n", opt);
+> +            return -1;
+> +        }
+> +    }
+> +
+> +    if (!percall_print) {
+> +        syscalls_statistics =3D
+> +            g_hash_table_new_full(g_direct_hash, g_direct_equal,
+> +                    NULL, &free_entry);
+
+For a simple non-nested structure you might even get away with a plain g_ha=
+sh_table_new()
+
+> +    }
+> +
+>      qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
+>      qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
+>      qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+
+
+--=20
+Alex Benn=C3=A9e
 
