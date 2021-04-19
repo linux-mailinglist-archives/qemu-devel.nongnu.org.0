@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06C2364821
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:22:21 +0200 (CEST)
-Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AAA364824
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:23:48 +0200 (CEST)
+Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYWfE-0002um-VF
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:22:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38160)
+	id 1lYWgd-0003vD-IO
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:23:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYWdc-0002LE-HW
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:20:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45962)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lYWfU-0003Q7-Jj
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:22:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYWdZ-0000UX-PL
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:20:40 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lYWfS-0001SZ-MC
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:22:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618849236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1618849353;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kxqE6/o4B7WczNp4hGx+ttlVUvgURFjGdid4nX+fQ/M=;
- b=HexNQednHMePatEcihDmVy3BnCfz22egDjOPF90+Jc+/Bx8c2s5hTNVwdr2++nQrzgYUgv
- Dl1fqJruv4JImKWxzb4ZnWbEarqaGryRYjCyQS1uhI0hSNT46ytk3ooQ7z4zpjaL0eLpxk
- 8iEoh3eldInY7rkd9HmCdC/bf4hLqyA=
+ bh=+tkwInV8kiOfqxYOM3e+UKlDbWFGIpfOEOjsclAlHdA=;
+ b=aDdF/is4q+l4ioYOmycpkP8G0BDVKQ6jy7iFqirCqMYlKlHk5LT+MnywgSJQTxwTV0Vpjm
+ 1Dn97H4690LTc5nEq2WtnJmL4EXKtxymT5fqJcb4HD3bDkBUUgWOuZKMB2N8oaM9MyrYLs
+ +0/GkdtjHvRpaBV4/nY9DcfS+VUsjZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-jndoQJiHPZCt1BRyhFnOig-1; Mon, 19 Apr 2021 12:20:33 -0400
-X-MC-Unique: jndoQJiHPZCt1BRyhFnOig-1
+ us-mta-194-WzzSS9GdOfKMGrQDckeRVw-1; Mon, 19 Apr 2021 12:22:30 -0400
+X-MC-Unique: WzzSS9GdOfKMGrQDckeRVw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1BBA6D246;
- Mon, 19 Apr 2021 16:20:31 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-200.ams2.redhat.com
- [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1999610013D7;
- Mon, 19 Apr 2021 16:20:25 +0000 (UTC)
-Date: Mon, 19 Apr 2021 18:20:23 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v1 1/5] hw/s390x: only build qemu-tod from the CONFIG_TCG
- build
-Message-ID: <20210419182023.3b44e114.cohuck@redhat.com>
-In-Reply-To: <0eecb78f-c521-f217-1ea5-e570dc080a15@suse.de>
-References: <20210322191551.25752-1-cfontana@suse.de>
- <20210322191551.25752-2-cfontana@suse.de>
- <20210331130756.20971c8a.cohuck@redhat.com>
- <4eaf4c51-b940-66df-7ef7-61782b0cf31d@suse.de>
- <0eecb78f-c521-f217-1ea5-e570dc080a15@suse.de>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECB91801971;
+ Mon, 19 Apr 2021 16:22:29 +0000 (UTC)
+Received: from redhat.com (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D6BB10013D7;
+ Mon, 19 Apr 2021 16:22:27 +0000 (UTC)
+Date: Mon, 19 Apr 2021 17:22:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
+ jobs
+Message-ID: <YH2uQADHTM4pBMi1@redhat.com>
+References: <20210418233448.1267991-1-f4bug@amsat.org>
+ <20210418233448.1267991-15-f4bug@amsat.org>
+ <877dky9rqt.fsf@linaro.org>
 MIME-Version: 1.0
+In-Reply-To: <877dky9rqt.fsf@linaro.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,46 +84,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Apr 2021 18:12:48 +0200
-Claudio Fontana <cfontana@suse.de> wrote:
+On Mon, Apr 19, 2021 at 04:57:55PM +0100, Alex Bennée wrote:
+> 
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+> > Forks run the same jobs than mainstream, which might be overkill.
+> > Allow them to easily rebase their custom set, while keeping using
+> > the mainstream templates, and ability to pick specific jobs from
+> > the mainstream set.
+> >
+> > To switch to your set, simply add your .gitlab-ci.yml as
+> > .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
+> > is your gitlab 'namespace', usually username). This file will be
+> > used instead of the default mainstream set.
+> >
+> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > ---
+> >  .gitlab-ci.yml | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> > index 718c8e004be..35fd35075db 100644
+> > --- a/.gitlab-ci.yml
+> > +++ b/.gitlab-ci.yml
+> > @@ -9,7 +9,12 @@ generate-config:
+> >      paths:
+> >        - generated-config.yml
+> >    script:
+> > -    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
+> > +    - if test -e .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml ;
+> > +      then
+> > +        cp .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml generated-config.yml ;
+> > +      else
+> > +        cp .gitlab-ci.d/qemu-project.yml generated-config.yml ;
+> > +      fi
+> 
+> This is going to be a little clunky. I can see a use for the static
+> forks that Danial proposes but I guess what is needed is a little
+> expressiveness. So how to express things like:
+> 
+>  - I've only touched stuff in linux-user, so run only linux-user tests
 
-> On 4/19/21 11:11 AM, Claudio Fontana wrote:
-> > Hi Cornelia,
-> > 
-> > On 3/31/21 1:07 PM, Cornelia Huck wrote:  
-> >> On Mon, 22 Mar 2021 20:15:47 +0100
-> >> Claudio Fontana <cfontana@suse.de> wrote:
+This can be done with "rules" matching on files, but *only* if the
+pipeline trigger is a merge request - specifically not a git branch
+push, as the latter doesn't have the semantics you expect wrt
+determining the "ancestor" to compare against. It only looks at commits
+in the push, not those which may already have previously been pushed
+on the branch.
 
-> >>> @@ -25,6 +24,10 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
-> >>>    's390-stattrib-kvm.c',
-> >>>    'pv.c',
-> >>>  ))
-> >>> +s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
-> >>> +  'tod-qemu.c',  
-> >>
-> >> Should we rename this to tod-tcg.c?  
-> > 
-> > I think so.  
+>  - I'm working on KVM, run all KVM enabled builds and tests
 > 
-> Here we are a bit limited though by the fact that the object is currently called:
+>  - I've changed the core TCG code, run everything that exercises that
 > 
-> include/hw/s390x/tod.h:26:#define TYPE_QEMU_S390_TOD TYPE_S390_TOD "-qemu"
-> 
-> So there might be a compatibility issue in trying to make this consistent, which would mean to replace this with:
-> 
-> #define TYPE_TCG_S390_TOD TYPE_S390_TOD "-tcg"
-> 
-> What do you think?
+>  - I'm working on ARM, only build and run jobs that have ARM targets
 
-How visible is this? I don't think the TOD objects are instantiable by
-the user.
+If the stuff you work on is fairly static, we could potentially
+allow env variables to be set by the user in their fork, which
+the CI jobs use to filter jobs.
+
+> I think we should define a minimum set of lightweight smoke tests that
+> get the most bang for buck for catching sillies. I think checkpatch and
+> dco checking should probably be in there - and maybe one of the bog
+> standard build everything builds (maybe a random ../configure; make;
+> make check on one of the supported LTS targets).
+
+Could we have allow an env var  "QEMU_CI_SMOKE_TEST=1" which can be
+set when pushing:
+
+   git push  -o ci.variable="QEMU_CI_SMOKE_TEST=1"
+
+
+which causes it to only do the minimum neccessary.
+
+Alternatively, invert this, so do minimum smoke test by default
+and require an env to run the full test. QEMU_CI_MAX=1
+
+Potentially allow also  "QEMU_CI_EXTRA_JOBS=foo,bar,wizz"
+to match against job jnames ?
+
+> Then there is the question of defaults. Should we default to a minimised
+> set unless asked or should the default be the full fat run everything?
+
+With the direction gitlab is taking towards limiting CI minuts, it is
+probably a safer bet to do a minimal smoke test by default and only
+do the full test when definitely needed.
+
+> We could I guess only switch to running everything for the staging
+> branch and anything that is associated with a tag or a branch that has
+> pull in the name?
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
