@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467A63646B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:06:08 +0200 (CEST)
-Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED07E3646A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:03:20 +0200 (CEST)
+Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVTS-0007Mw-V5
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44674)
+	id 1lYVQl-0003Qb-Od
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIf-0003ae-RP
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:57 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41837)
+ id 1lYVIb-0003Ra-Sn
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:53 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVId-00071c-Fo
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:57 -0400
-Received: by mail-wr1-x430.google.com with SMTP id k26so17947799wrc.8
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:55 -0700 (PDT)
+ id 1lYVIZ-0006zW-Ul
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:53 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ t14-20020a05600c198eb029012eeb3edfaeso8412290wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CZjHpqmQVfyllOgB0pstF9mycrIGXTBaomG1IDBZIiM=;
- b=tSIgzlJqTDQpyeLkMoEWrEsQVroCZhkCPOTfKD7bS21kJ5+HRfwII+q22nN6UXp66S
- bMyX2g1RJqS7g+j552M3W56YQuaFdZpt8Y8da300ruCDgVodFBByIqYiCMOg+fy/5PpR
- 5DGttnnKoJ8XiGNrwZ8GrQw/W6tRfjPb9/HEannFo3NuyyEUZJLGrZwFfQlMKxGM53gd
- 89quO/+eHw48Glg2p/4GcNhClEpFJ/Awf+RX1o0AVpAbpTA2XUPypqNDUXZd+pA/CE+W
- gdYtlnAhpBy5VOUEljOJ5b+rZFduI7XEHN1w0N5O3tWf2SVoMD3h3S5YlkS7a5JXcavW
- OA2A==
+ bh=xhD95M88KH2ZeEX/qKVoo6UaDmfYvhnT/tyZbT8agKM=;
+ b=zTpkU3y22tMs+VRG/IJIOkstb1jp3pocZQa0q5NgQduYmMv5rGluuxWAUDWGZ39wMd
+ eA56SBB4OdyQdBALW8G8oxxusbzlKGC2UKueLDFY1mDwXdtxR8EJ4jh3v1LDy/6KzI8N
+ 0Ky/GQCUWRqxPWh4I30N4cbFm6+twCl3R5pafrzlqFCqOq6ag4qAskgUwkd12Nc1hpA1
+ RSyagI/HlxLLrtSbkoE0jMy9AZO87dAM6/7eoNkhkcofLmoTNFXAFO8w6o8/JxwYWzvo
+ 5T+q+KB5z5xLZYCJ5Cz8QVk8JBRJzJdBFspcTDqVp+FL3sS0c3Ec1MI/zWi9up8iDxXL
+ m4aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CZjHpqmQVfyllOgB0pstF9mycrIGXTBaomG1IDBZIiM=;
- b=jBH8aFFhebF67JPT7ioo7RvSJt3DF+3PrAuKoM2oqt6dz41P06Y2dlJEGQ4/Xua0bQ
- uhw00lScXPr7jzMpyrQJJyFDamHqBl33z5arAc13+MbwtYOBhmr7729IPyvdq5zPV2w1
- pvhNl3BO9XSsg/1ae8TNKs56AEAfa19uJ9HlVk6dIJRJmyQ7j1N1zbRXw++cB5GEhI0y
- K/lCUSjXLh+N14uixKJxt6ax9cpdDK9OPwZBtAVWGd6YBTDT70n/urmdW98WWaBYNVLE
- 0KeNLAm6Lr7DNpE2GPIGKr5hXDxwYOfG1LBB5wMNkbE1z2gC2u6tQi9Ef0VumC2K/VRp
- LrZA==
-X-Gm-Message-State: AOAM532QBgoxSt11U4Y5h8zDEBquPh/FM4qBINM/4tkhgWSWHA9AfQQa
- XjdE1E4PZbfNuKBkyHLerMWOJQ==
-X-Google-Smtp-Source: ABdhPJwW/9VLqRDiLh/GdI8JVt59ACnWfBEf/fdRpc1mCQTJRLXrxriRiEKU5/wkdmuODWJpdOsvMg==
-X-Received: by 2002:adf:f04d:: with SMTP id t13mr14964778wro.52.1618844094158; 
- Mon, 19 Apr 2021 07:54:54 -0700 (PDT)
+ bh=xhD95M88KH2ZeEX/qKVoo6UaDmfYvhnT/tyZbT8agKM=;
+ b=iJgv0GcK34ViFraCVWIjGFsJHP2XjkoahnSKVs8iaFU2Ud7plOjKTxeIxXQNVYRlSI
+ Sx0PpwoJE4LokIuZBuLRjs7v/ZVFep56EP6gZecrrnA9oc545LBK2iux+EqkHyPAAHQ5
+ BQhuYBCiwfrFyDg9cGJAra2ZYhJAW1+tfo4zr6jwxETfkbdKV4SKIv3P8uuK8fqE1lld
+ jd8O+hwwiuWyqA0WdDlZHvmgT5a9hhL5CXVu3MhGUkPCx8TrUs0HEIMVAHcVhA4nryZw
+ FcH7FA2REOga1iEw3q4OcXCrxILNwyrYqiv9VcK2bagir2CJjrJyiVR50fHkGuxc7y29
+ FLHw==
+X-Gm-Message-State: AOAM530tACdKGF4HPOnl9v0lHBhjIdcBxjcpjFcWDJbQq76DclJzXxTN
+ R67kIsB83vsVW3jhioeT5TrqMb8NdSnihA==
+X-Google-Smtp-Source: ABdhPJzUpmbN0BROpNKYJG1hV5UgvrzkCxNf0FHKQt0UZVmtRP44WLLIJnirhAOOtZK2dxovGh04Dw==
+X-Received: by 2002:a05:600c:b47:: with SMTP id
+ k7mr21715856wmr.109.1618844090584; 
+ Mon, 19 Apr 2021 07:54:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d5sm20249272wrx.15.2021.04.19.07.54.40
+ by smtp.gmail.com with ESMTPSA id i15sm21817006wrr.73.2021.04.19.07.54.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Apr 2021 07:54:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 735801FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 8DC221FF99;
  Mon, 19 Apr 2021 15:54:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/25] tests/tcg: don't iterate through other arch compilers
-Date: Mon, 19 Apr 2021 15:54:19 +0100
-Message-Id: <20210419145435.14083-10-alex.bennee@linaro.org>
+Subject: [PATCH v1 10/25] tests/docker: Added libbpf library to the docker
+ files.
+Date: Mon, 19 Apr 2021 15:54:20 +0100
+Message-Id: <20210419145435.14083-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210419145435.14083-1-alex.bennee@linaro.org>
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,198 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, Andrew Melnychenko <andrew@daynix.com>, berrange@redhat.com,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ Thomas Huth <thuth@redhat.com>, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There should only be one compiler per architecture. Those cases where
-the same compiler can deal with a different architecture should be
-explicitly set for both cross_cc and docker configurations. Otherwise
-you get strangeness like:
+From: Andrew Melnychenko <andrew@daynix.com>
 
-  --cross-cc-aarch64=/bin/false
+The series of patches for eBPF RSS adds libbpf dependency for qemu.
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08887.html
 
-causing the logic to attempt to use a locally available
-arm-linux-gnueabihf-gcc rather than forcing the use of the docker
-image which is what is implied by the command line option.
+With this patch, libbpf added:
+  Alpine - added libbpf-dev
+  Centos 8 - added libbpf-devel
+  Fedora - added libbpf-devel
 
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210406082947.672708-2-andrew@daynix.com>
 ---
- tests/tcg/configure.sh | 148 ++++++++++++++++-------------------------
- 1 file changed, 59 insertions(+), 89 deletions(-)
+ tests/docker/dockerfiles/alpine.docker  | 1 +
+ tests/docker/dockerfiles/centos8.docker | 1 +
+ tests/docker/dockerfiles/fedora.docker  | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 8b97cc9a19..bfe9619217 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -74,35 +74,6 @@ fi
- 
- for target in $target_list; do
-   arch=${target%%-*}
--  case $arch in
--    arm|armeb)
--      arches=arm
--      ;;
--    aarch64|aarch64_be)
--      arches="aarch64 arm"
--      ;;
--    mips*)
--      arches=mips
--      ;;
--    ppc*)
--      arches=ppc
--      ;;
--    sh4|sh4eb)
--      arches=sh4
--      ;;
--    x86_64)
--      arches="x86_64 i386"
--      ;;
--    xtensa|xtensaeb)
--      arches=xtensa
--      ;;
--    alpha|cris|hexagon|hppa|i386|lm32|microblaze|microblazeel|m68k|openrisc|riscv64|s390x|sh4|sparc64)
--      arches=$target
--      ;;
--    *)
--      continue
--      ;;
--  esac
- 
-   container_image=
-   case $target in
-@@ -235,70 +206,69 @@ for target in $target_list; do
-   echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
- 
-   got_cross_cc=no
--  for i in $arch $arches; do
--    if eval test "x\${cross_cc_$i+yes}" != xyes; then
--      continue
--    fi
- 
--    eval "target_compiler=\${cross_cc_$i}"
--    if ! has $target_compiler; then
--      continue
--    fi
--    write_c_skeleton
--    if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC -static ; then
--      # For host systems we might get away with building without -static
--      if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC ; then
--        continue
--      fi
--      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
--    else
--      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
--    fi
--    echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
-+  if eval test "x\${cross_cc_$arch}" != xyes; then
-+      eval "target_compiler=\${cross_cc_$arch}"
- 
--    # Test for compiler features for optional tests. We only do this
--    # for cross compilers because ensuring the docker containers based
--    # compilers is a requirememt for adding a new test that needs a
--    # compiler feature.
--    case $target in
--        aarch64-*)
--            if do_compiler "$target_compiler" $target_compiler_cflags \
--               -march=armv8.1-a+sve -o $TMPE $TMPC; then
--                echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
--            fi
--            if do_compiler "$target_compiler" $target_compiler_cflags \
--               -march=armv8.3-a -o $TMPE $TMPC; then
--                echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
--            fi
--            if do_compiler "$target_compiler" $target_compiler_cflags \
--               -mbranch-protection=standard -o $TMPE $TMPC; then
--                echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
--            fi
--            if do_compiler "$target_compiler" $target_compiler_cflags \
--               -march=armv8.5-a+memtag -o $TMPE $TMPC; then
--                echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
--            fi
--        ;;
--        ppc*)
--            if do_compiler "$target_compiler" $target_compiler_cflags \
--               -mpower8-vector -o $TMPE $TMPC; then
--                echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
--            fi
--        ;;
--        i386-linux-user)
--            if do_compiler "$target_compiler" $target_compiler_cflags \
--                -Werror -fno-pie -o $TMPE $TMPC; then
--                echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
--            fi
--        ;;
--    esac
-+      if has $target_compiler; then
-+          write_c_skeleton
-+          if ! do_compiler "$target_compiler" $target_compiler_cflags \
-+                 -o $TMPE $TMPC -static ; then
-+              # For host systems we might get away with building without -static
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                     -o $TMPE $TMPC ; then
-+                  got_cross_cc=yes
-+                  echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
-+                  echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
-+              fi
-+          else
-+              got_cross_cc=yes
-+              echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
-+              echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
-+          fi
-+      fi
-+  fi
- 
--    enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
--    got_cross_cc=yes
--    break
--  done
-+  if test $got_cross_cc = yes; then
-+      # Test for compiler features for optional tests. We only do this
-+      # for cross compilers because ensuring the docker containers based
-+      # compilers is a requirememt for adding a new test that needs a
-+      # compiler feature.
- 
--  if test $got_cross_cc = no && test "$container" != no && test -n "$container_image"; then
-+      case $target in
-+          aarch64-*)
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                             -march=armv8.1-a+sve -o $TMPE $TMPC; then
-+                  echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
-+              fi
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                             -march=armv8.3-a -o $TMPE $TMPC; then
-+                  echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
-+              fi
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                             -mbranch-protection=standard -o $TMPE $TMPC; then
-+                  echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
-+              fi
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                             -march=armv8.5-a+memtag -o $TMPE $TMPC; then
-+                  echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
-+              fi
-+              ;;
-+          ppc*)
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                             -mpower8-vector -o $TMPE $TMPC; then
-+                  echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
-+              fi
-+              ;;
-+          i386-linux-user)
-+              if do_compiler "$target_compiler" $target_compiler_cflags \
-+                             -Werror -fno-pie -o $TMPE $TMPC; then
-+                  echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
-+              fi
-+              ;;
-+      esac
-+  elif test $got_cross_cc = no && test "$container" != no && \
-+          test -n "$container_image"; then
-       for host in $container_hosts; do
-           if test "$host" = "$ARCH"; then
-               echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index d63a269aef..998a7584ed 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -19,6 +19,7 @@ ENV PACKAGES \
+ 	gnutls-dev \
+ 	gtk+3.0-dev \
+ 	libaio-dev \
++	libbpf-dev \
+ 	libcap-ng-dev \
+ 	libjpeg-turbo-dev \
+ 	libnfs-dev \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index a8c6c528b0..efc1349cc8 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -14,6 +14,7 @@ ENV PACKAGES \
+     git \
+     glib2-devel \
+     libaio-devel \
++    libbpf-devel \
+     libepoxy-devel \
+     libfdt-devel \
+     libgcrypt-devel \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 915fdc1845..483f2d9f83 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -32,6 +32,7 @@ ENV PACKAGES \
+     libcurl-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libbpf-devel \
+     libiscsi-devel \
+     libjpeg-devel \
+     libpmem-devel \
 -- 
 2.20.1
 
