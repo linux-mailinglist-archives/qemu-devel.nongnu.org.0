@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43D5364891
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:53:00 +0200 (CEST)
-Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D245364898
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:55:52 +0200 (CEST)
+Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYX8t-0006ga-SZ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44322)
+	id 1lYXBf-0007iy-KY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYX5P-0005Bd-Ku
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:49:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58735)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYX5L-0005te-UB
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:49:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618850958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8B6a+dKbS047P2NmzOtXOLiXIt/SIKkazxsqvRf7bpU=;
- b=Kr5nSJZ75kCl9HvigYzvD5fdzCrVl/q7/p1hGz/p2hMTT8KRE9lJybtR/axLiEW4iysleS
- 36ZCCtzjx9hAqfyiOMfwPnjhwmkBnmr4vcFfcrfMKxdjoarEYHYAxJh2dnlIVi44oOAHEK
- d1m6OeBD0Yz5AtdhjqsB6xOUnCkSppU=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-2Pa6bon_OW-o0sN9IA4RHg-1; Mon, 19 Apr 2021 12:49:16 -0400
-X-MC-Unique: 2Pa6bon_OW-o0sN9IA4RHg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- r30-20020a2e575e0000b02900bab4d6b74bso6477229ljd.14
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:49:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYXAI-0007IN-Er
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:54:26 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:37779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYXAD-0008Bi-6R
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:54:26 -0400
+Received: by mail-ej1-x631.google.com with SMTP id w3so54042850ejc.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:54:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OeBQrZzyHdHbSQKiWYF6tRI+fW9FBcukjlpMbe6G5tM=;
+ b=ziVQtxoTG2BBSq1QBrdVngELmoebccpGkYm/dB4JZTDBiYItsPUJ4iqCO6XNQ8vEq3
+ FjS1o066nKsL6WkLnb6UW+KpFiwVQY4g+icTb3hlpXqAvaGvPGDDWgV75G28Rb7lzYXj
+ SQyJ3Xg6nZNRnMgqRLI9WvPRQe9SzEbPP4xI7Nit0oFUsXKbDyfxEMD9EVS5OEEKzwOW
+ nIBx8P8KEp9owa36FnjpNMl1kSyz4D+pWu3MtM9t6GCgq9COgeekz2qULrWws8YAQUUk
+ 9VKbILdIudwv8K7eFUfvECMptyS9HlxVl/zz1VdXjYmd5a5bsWA3jfLgLNgRocpRed5R
+ UagA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=8B6a+dKbS047P2NmzOtXOLiXIt/SIKkazxsqvRf7bpU=;
- b=j0Mr5Nr1xp/pBXIUeoKTj1u6xD+AATBARJsBEgp+NyDbe0vCFChdcNcDRyiioLwWeE
- cgCRQR0uM3z8p4iAPay2OMOtCH3m6QF8mWE8Wxv/jpE1yywyvuDLUjGJQWqHg6gyb4Us
- 8s/xe2KXCltjpfVGlpoCOCDF1rTKPqm6njXLoLW22wiSairfhEk5dvwPhf2LUT2ju+9T
- XnZKAmaBVaRsv2LDmdmtUtirz6UetvNsGcQfihTeoEvyZ6Ct0BIzltY1+9DtXDAuV4lL
- Slewq0a9c5zPELmDwqVHQIxfDhjQdElud9YaB8czkMZDsRIDNtnRnnhFzNq/ktAmYvYJ
- nYIQ==
-X-Gm-Message-State: AOAM533XTlttVhNvUjtc3kVQ9+6vYKtRnydXfO/faIgl0SyME0ZOEABs
- fWVQAokyUgqY4G+qOlgosLwxpr8cNubL+fy9ARttmy+PDvzyqUcpFUM2wk/4py4PKOf1vp7PIC6
- P1qFls27Ntf/HFiiBqh8IfknF6R9dQ94=
-X-Received: by 2002:a05:6512:3c96:: with SMTP id
- h22mr6961984lfv.574.1618850954338; 
- Mon, 19 Apr 2021 09:49:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9gCIg9mzpU3Uada8LrrzDZ4ZiaT8VqikEbIhSS5h0a0XgKx/nCiR91VEWRVEID/G3wlkISkXudPEtYmUkgYU=
-X-Received: by 2002:a05:6512:3c96:: with SMTP id
- h22mr6961966lfv.574.1618850954042; 
- Mon, 19 Apr 2021 09:49:14 -0700 (PDT)
+ bh=OeBQrZzyHdHbSQKiWYF6tRI+fW9FBcukjlpMbe6G5tM=;
+ b=GXtLaRtuDDawaRXlg7KRwfpO6DsjzwygyHrh2KpE9Z57f12PYu8M7ZBrJICbqTZiEn
+ 9pZsaLlPXOGnXJBpmquzM0bCTIW+xYtho0iWLjoghsRY6eh0ECDyaK3hzFg2mKWqZEDV
+ X+8KDPlvoXD/tdkNcnSYQzWadyB2K8/h+8x/cLOcQeliiZqu5cirNY+UklLyR7E4kBpw
+ tWNpainkyaV/dsTmZf8wvwaLLrD5SInNEAo5ap+KobEqloot8Vl4sddXc1NNqBr1+rQJ
+ Ny5NZLFSZvSl864DExRunt2DjezZ0A6QLvAem/aHUXntoH9aAkSPEQNt9bP+0k6jK9Ec
+ Ol8Q==
+X-Gm-Message-State: AOAM5320kuUOv+PEU/G+XqhYmy09whyWLa3iB2SD8P617i9Pjrbcm2U9
+ DKOT75g4xqKUtuuhIfSeYbFMtQBzo+dDQm4ZHkV5hA==
+X-Google-Smtp-Source: ABdhPJwGE2plvsVj4P2lkhvy6Q7n5j816EPa4EtfIi5zRNRJOs+LJogZe+R6ZtpzkAE5rr/diGWV1/+SclMvcgXwYZk=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr22876684ejc.407.1618851259050; 
+ Mon, 19 Apr 2021 09:54:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210415154402.28424-1-vkuznets@redhat.com>
- <YHhj/bo883jJ9ocy@redhat.com>
- <YHh3trxdMQ85NRTh@work-vm> <874kg68z07.fsf@vitty.brq.redhat.com>
- <20210416162801.zluqlbvyipoanedw@habkost.net> <YH2y47x19jbTApg8@redhat.com>
-In-Reply-To: <YH2y47x19jbTApg8@redhat.com>
-From: Eduardo Habkost <ehabkost@redhat.com>
-Date: Mon, 19 Apr 2021 12:48:58 -0400
-Message-ID: <CAOpTY_q9-RbYgvbmLNisjMWuw8azwNPF6viQGfbs3bP62EzLUw@mail.gmail.com>
-Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
- unless '--no-migration' was specified
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210418080345.926981-1-f4bug@amsat.org>
+In-Reply-To: <20210418080345.926981-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Apr 2021 17:53:27 +0100
+Message-ID: <CAFEAcA-5yjOFpn15-OiBuF4DxyOde=rmZ=ZzypgNtHF1DgeXRw@mail.gmail.com>
+Subject: Re: [PATCH-for-6.0] target/mips: Correct the license text
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,135 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 19, 2021 at 12:42 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
+On Sun, 18 Apr 2021 at 09:03, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> On Fri, Apr 16, 2021 at 12:28:01PM -0400, Eduardo Habkost wrote:
-> > On Fri, Apr 16, 2021 at 09:33:28AM +0200, Vitaly Kuznetsov wrote:
-> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
-> > >
-> > > > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > > >> On Thu, Apr 15, 2021 at 05:44:02PM +0200, Vitaly Kuznetsov wrote:
-> > > >> > When a migration blocker is added nothing is reported to the use=
-r,
-> > > >> > inability to migrate such guest may come as a late surprise. As =
-a bare
-> > > >> > minimum, we can print a warning. To not pollute the output for t=
-hose, who
-> > > >> > have no intention to migrate their guests, introduce '--no-migra=
-tion'
-> > > >> > option which both block the migration and eliminates warning fro=
-m
-> > > >>
-> > > >> I wonder how this is actually going to work in practice ?
-> > > >>
-> > > >> At the time libvirt starts a guest, it has no idea whether the gue=
-st
-> > > >> is likely to need migration 3, 6, 12, 24 months in to the future.
-> > > >>
-> > > >> IOW, we can't use a --no-migration flag and will be stuck with the=
-se
-> > > >> warnings no mtter what.
-> > > >>
-> > > >> Is it possible to query the migration blockers via QMP ?
-> > > >
-> > > > It's possible to query the currently active ones, as of 6.0; from m=
-y
-> > > > commit  3af8554bd068576b0399087583df48518a2a98f6 it appears in the
-> > > > output of query-migrate in the 'blocked-reasons' list.
-> > > >
-> > > > The HMP equivalent is a64aec725ea0b26fa4e44f8b8b8c72be9aaa4230 show=
-ing:
-> > > >
-> > > >     (qemu) info migrate
-> > > >     globals:
-> > > >     store-global-state: on
-> > > >     only-migratable: off
-> > > >     send-configuration: on
-> > > >     send-section-footer: on
-> > > >     decompress-error-check: on
-> > > >     clear-bitmap-shift: 18
-> > > >     Outgoing migration blocked:
-> > > >       Migration is disabled when VirtFS export path '/home' is moun=
-ted in the guest using mount_tag 'fs'
-> > > >       non-migratable device: 0000:00:01.2/1/usb-serial
-> > > >
-> > >
-> > > FWIW, this patch makes '--no-migration' an 'ultimate big hammer' so n=
-ot
-> > > matter how many blockers are there, the output will look like:
-> > >
-> > > (qemu) info migrate
-> > > globals:
-> > > store-global-state: on
-> > > only-migratable: off
-> > > send-configuration: on
-> > > send-section-footer: on
-> > > decompress-error-check: on
-> > > clear-bitmap-shift: 18
-> > > Outgoing migration blocked:
-> > >   Guest is not migratable ('--no-migration' used)
-> >
-> > I would change that.  I expect "--no-migration" to only mean
-> > "live migration not really needed", not "live migration should be
-> > blocked".
-> >
-> > However, I still don't think libvirt should say "live migration
-> > not needed" unconditionally (because this isn't always true).  In
-> > that case, we would need a different mechanism to silence the
-> > warnings somehow.
-> >
-> > I would make live migration policy an enum, just to make sure
-> > we are explicit about the requirements:
-> >
-> > - UNKNOWN: this is the current state in QEMU 6.0, where we don't
-> >   really know what the user expects.
-> >   This can be the default on existing versioned machine types,
-> >   just for compatibility.
-> >   I suggest making this print warnings for every migration
-> >   blocker (like this patch does).
-> >   I suggest deprecating this behavior as soon as we can.
-> >
-> > - PREFERRED: try to make the VM migratable when possible, but
-> >   don't print a warning or error out if migration is blocked.
-> >   This seems to be the behavior expected by libvirt today.
-> >
-> > - NOT_NEEDED: live migration is not needed, and QEMU is free to
-> >   enable features that block live migration or change guest ABI.
-> >   We can probably make this the default on machine types that
-> >   never supported live migration.
-> >
-> > - REQUIRED: live migration is required, and adding a migration
-> >   blocker would be a fatal error.
-> >   This is already implemented by --only-migratable.
-> >   I suggest making this the default on versioned machine types
-> >   after a few releases, and after deprecating UNKNOWN.
+> The license is the 'GNU General Public License v2.0 or later',
+> not 'and':
 >
-> I'm not a fan of tieing migration behaviour to machine type
-> versioning as they are independant concepts. It is valid to
-> want to use versioned machine types even if you never migrate,
-> in order to keep stable guest ABI to avoid license activation
-> checks in guest OS.
+>   This program is free software; you can redistribute it and/ori
+>   modify it under the terms of the GNU General Public License as
+>   published by the Free Software Foundation; either version 2 of
+>   the License, or (at your option) any later version.
 >
-> Changing --only-migratable to a "--migration-policy preferred|required|no=
-ne"
-> is reasonable, but I think we should just have a fixed global default for
-> it rather than trying to second-guess intentions.
+> Fix the license comment.
+>
+> Fixes: 3f7a927847a ("target/mips: LSA/DLSA R6 decodetree helpers")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Commit introduced after 5.2 release, during the 6.0 cycle.
+> Harmless and useful for 6.0-rc4 IMHO.
+> ---
+>  target/mips/rel6_translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/mips/rel6_translate.c b/target/mips/rel6_translate.c
+> index 139a7524eea..c5843cbc5e2 100644
+> --- a/target/mips/rel6_translate.c
+> +++ b/target/mips/rel6_translate.c
+> @@ -6,7 +6,7 @@
+>   *  Copyright (c) 2006 Thiemo Seufer (MIPS32R2 support)
+>   *  Copyright (c) 2020 Philippe Mathieu-Daud=C3=A9
+>   *
+> - * This code is licensed under the GNU GPLv2 and later.
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+>   */
+>
+>  #include "qemu/osdep.h"
 
-Right, if we agree to make it opt-in we probably don't even need a
-warning mode. `--only-migratable` should be enough. This means UNKNOWN
-from my list above wouldn't exist, and the existing default is already
-PREFERRED (which is the one expected by libvirt today).
+I find this file's copyright/license comment a little confusing.
+Looking at the actual commits, it seems to be entirely your work,
+in which case you can put any (compatible) license you like on it.
+But the comment header suggests it includes some code copied from
+other files in target/mips and thus copyright by Thiemo and others:
+if that's so then it would seem more logical that this file be
+under the LGPL as older files like translate.c are.
 
---
-Eduardo
-
+thanks
+-- PMM
 
