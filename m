@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9655E364CFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 23:24:30 +0200 (CEST)
-Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BE9364D0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 23:28:00 +0200 (CEST)
+Received: from localhost ([::1]:55360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYbNd-0007HJ-MR
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 17:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
+	id 1lYbR2-0000lm-4V
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 17:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYbBZ-0007Wo-Ob
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 17:12:01 -0400
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:34584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYbBX-0006Tk-L6
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 17:12:01 -0400
-Received: by mail-ot1-f41.google.com with SMTP id
- k14-20020a9d7dce0000b02901b866632f29so33949631otn.1
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 14:11:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kDsJKbfL827linO16y9rPMNM61oDBjde5y3ctg5wNl4=;
- b=evnuB1PHM/WPUYLD7s/XTCc8sRD8zt4LRpWwA8vFdLp0wZTsXZIAsPRPo7CU2R+Jh/
- SA9hS1l/by1QLQJA83PNBJG5AbZ9xNzrwkja6prpKLAFm2ds/06dYBPJjVSuEA2MdSvv
- QYLmck5hfHAgUdHVJwNW8PNh5ETMxZehrAIEZLJSTuAL9ekEs7G0BfIoIqQ0/U9KPSJ/
- O6I3Ao72QkRhcS2Swgiex5dpIDmgN0OEwgSmJ20vtIAz25dubMQfdgBK2438Qh5S6SaA
- OMj4LH9D6B/4WL8W5u6ctDr8xE32z5OFdemzpk9DuK6s6VT3IoqiHc75iocSPZrmEAvz
- mung==
-X-Gm-Message-State: AOAM5311wywDOPaZJrpf+q4+ztO2FYms7IqH6T/lgStlDpFKywePSljy
- h1NJqYy1D80/T6Ae95laPNvWqF5mJJYmtVNZQ0g=
-X-Google-Smtp-Source: ABdhPJzUbjshu/1pgFf5ytlZpSURs7rgpdRaX2GfYnCNLTcxAd6CkC1Vi+OqakujsCE4UB7qy4sFEvtlXHHvvfvrNAc=
-X-Received: by 2002:a05:6830:2241:: with SMTP id
- t1mr16360373otd.126.1618866718504; 
- Mon, 19 Apr 2021 14:11:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lYbPb-0000Fm-8r; Mon, 19 Apr 2021 17:26:31 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.219]:21190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lYbPV-0004Yx-TP; Mon, 19 Apr 2021 17:26:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618867575; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=kpDk7Ai/90MPX04nI0/09mLb88ZDXe3lVd4FkcWd1cOXEG4gZrGZ5TG/u5+lE9pGD3
+ xVJsBi337M9qd3eT0nk3vPzUWwTRW+DjP4quj6UFdoETKZb3hwkVWKmjQbnZ48SQwjOn
+ w5qyLc5kbx7CUZPqpB6hS6Aawr0S9bTriF8GUK2dxCFTVudQ2vwEytkiRpMH/S2PpqQD
+ hBVFl7VpqJx7TlgBv2KlzOZ5Nd+hBA72ujX72Epk8Q/Oqz1hchz846WoKOLlZhaH4VmU
+ PC4Btn9GoObmRI3xXndCrgBO4+XQXolc2JkbXf8fHYlWRC5l+SdPIOAiAp1e9OPa7fIi
+ F3EQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1618867575;
+ s=strato-dkim-0002; d=strato.com;
+ h=Date:Message-ID:Subject:From:Cc:References:To:Cc:Date:From:Subject:
+ Sender; bh=wxo1ovHERLm79wzEmHpOZuFSJ1XrUo6J+MTm/AhYyvM=;
+ b=IYpcEGpn7mcmkfMhu8tf88nQMPeeSdHh/qAsUkquvad/W6Cay+PEWoZ2MBc9Tw7zP+
+ +D/bXJ9rOiZd5EXRDdGwJquwZDAVIQbHvNLyhhRVxU357BSOuijyQEwzeQjQEIMRXst4
+ 7KFwnOBZq1eFQlnYjqjbn6qrXFaYsajZOl6Xm+ybN0PVD/3xQKCEtFc1EHds/RFH0ynG
+ Ko381YtlG7zsiN1wfun3ir1fXqund37LhddHtjdPScJGxG/9pJIZhIdXdZCmlevgSr3p
+ an+2yNd3pqdnlqJwV711+ZVc1AdLciawncguMH8JsfOGTeuOhgoJNhFcLhCHC7znXuAT
+ xXlA==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JSSHyzkN3ON0Uun6F+zrkVqc/ZmTClqC4x8TtiRZHkgvdiKE9vpOcNvUp/CcHtmvnEw=="
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2003:c3:9710:2300:1761:34f8:11a8:6e99]
+ by smtp.strato.de (RZmta 47.24.3 AUTH)
+ with ESMTPSA id U051a9x3JLQEGfh
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 19 Apr 2021 23:26:14 +0200 (CEST)
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: 
+From: Alexander Wagner <alexander.wagner@ulal.de>
+Subject: Re: [PATCH] hw/riscv: Fix OT IBEX reset vector
+Message-ID: <59b1b2ac-dd6a-46aa-9b48-6afa7eb41c0a@ulal.de>
+Date: Mon, 19 Apr 2021 23:26:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210417140206.673885-1-f4bug@amsat.org>
- <8f59bd60-3588-3be0-c44c-1ebfbefd78bd@ilande.co.uk>
- <67955dd0-dfc7-271f-009f-cf7247f3b6c2@amsat.org>
-In-Reply-To: <67955dd0-dfc7-271f-009f-cf7247f3b6c2@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 19 Apr 2021 23:11:47 +0200
-Message-ID: <CAAdtpL5EtysZp17DotHXRzthHVkKft6OmVCVUKdaVKrkTxnCtA@mail.gmail.com>
-Subject: Re: [PATCH v3] memory: Directly dispatch alias accesses on origin
- memory region
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.210.41;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f41.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=81.169.146.219;
+ envelope-from=alexander.wagner@ulal.de; helo=mo4-p00-ob.smtp.rzone.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,165 +79,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 19, 2021 at 10:58 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
-> On 4/19/21 10:13 PM, Mark Cave-Ayland wrote:
-> > On 17/04/2021 15:02, Philippe Mathieu-Daud=C3=A9 wrote:
-> >
-> >> Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
-> >> regions"), all newly created regions are assigned with
-> >> unassigned_mem_ops (which might be then overwritten).
-> >>
-> >> When using aliased container regions, and there is no region mapped
-> >> at address 0 in the container, the memory_region_dispatch_read()
-> >> and memory_region_dispatch_write() calls incorrectly return the
-> >> container unassigned_mem_ops, because the alias offset is not used.
-> >>
-> >> The memory_region_init_alias() flow is:
-> >>
-> >>    memory_region_init_alias()
-> >>    -> memory_region_init()
-> >>       -> object_initialize(TYPE_MEMORY_REGION)
-> >>          -> memory_region_initfn()
-> >>             -> mr->ops =3D &unassigned_mem_ops;
-> >>
-> >> Later when accessing the alias, the memory_region_dispatch_read()
-> >> flow is:
-> >>
-> >>    memory_region_dispatch_read(offset)
-> >>    -> memory_region_access_valid(mr)   <- offset is ignored
-> >>       -> mr->ops->valid.accepts()
-> >>          -> unassigned_mem_accepts()
-> >>          <- false
-> >>       <- false
-> >>     <- MEMTX_DECODE_ERROR
-> >>
-> >> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
-> >>
-> >> Fix by dispatching aliases recusirvely, accessing its origin region
-> >> after adding the alias offset.
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >> ---
-> >> v3:
-> >> - reworded, mentioning the "alias to container" case
-> >> - use recursive call instead of while(), because easier when debugging
-> >>    therefore reset Richard R-b tag.
-> >> v2:
-> >> - use while()
-> >> ---
-> >>   softmmu/memory.c | 10 ++++++++++
-> >>   1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> >> index d4493ef9e43..23bdbfac079 100644
-> >> --- a/softmmu/memory.c
-> >> +++ b/softmmu/memory.c
-> >> @@ -1442,6 +1442,11 @@ MemTxResult
-> >> memory_region_dispatch_read(MemoryRegion *mr,
-> >>       unsigned size =3D memop_size(op);
-> >>       MemTxResult r;
-> >>   +    if (mr->alias) {
-> >> +        return memory_region_dispatch_read(mr->alias,
-> >> +                                           addr + mr->alias_offset,
-> >> +                                           pval, op, attrs);
-> >> +    }
-> >>       if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-> >>           *pval =3D unassigned_mem_read(mr, addr, size);
-> >>           return MEMTX_DECODE_ERROR;
-> >> @@ -1486,6 +1491,11 @@ MemTxResult
-> >> memory_region_dispatch_write(MemoryRegion *mr,
-> >>   {
-> >>       unsigned size =3D memop_size(op);
-> >>   +    if (mr->alias) {
-> >> +        return memory_region_dispatch_write(mr->alias,
-> >> +                                            addr + mr->alias_offset,
-> >> +                                            data, op, attrs);
-> >> +    }
-> >>       if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
-> >>           unassigned_mem_write(mr, addr, data, size);
-> >>           return MEMTX_DECODE_ERROR;
-> >
-> > Whilst working on my q800 patches I realised that this was a similar
-> > problem to the one I had with my macio.alias implementation at [1]:
-> > except that in my case the unassigned_mem_ops mr->ops->valid.accepts()
-> > function was being invoked on a ROM memory region instead of an alias. =
-I
-> > think this is exactly the same issue that you are attempting to fix wit=
-h
-> > your related patch at
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg03190.html
-> > ("memory: Initialize MemoryRegionOps for RAM memory regions").
->
-> So if 2 contributors hit similar issues, there is something wrong with
-> the API. I don't see your use case or mine as forbidded by the
-> documentation in "exec/memory.h".
->
-> My patch might not be the proper fix, but we need to figure out how
-> to avoid others to hit the same problem, as it is very hard to debug.
->
-> At least an assertion and a comment.
+Hi,
 
-Something like:
+I just wanted to check if the patch [1] is missing anything to be=20
+merged? If so, please let me know.
 
--- >8 --
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index d4493ef9e43..e031ac6e074 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1442,6 +1442,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion =
-*mr,
-    unsigned size =3D memop_size(op);
-    MemTxResult r;
+Regards
 
-+    assert(!(mr->alias && !mr>alias_offset)); /* Use AddressSpace API
-instead */
-    if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-        *pval =3D unassigned_mem_read(mr, addr, size);
-        return MEMTX_DECODE_ERROR;
+Alex
 
----
 
-> > I eventually realised that I needed functions that could dispatch
-> > reads/writes to both IO memory regions and ROM memory regions, and that
-> > functionality is covered by the address_space_*() access functions.
-> > Using the address_space_*() functions I was then able to come up with
-> > the working implementation at [2] that handles accesses to both IO
-> > memory regions and ROM memory regions correctly.
-> >
-> > The reason I initially used the
-> > memory_region_dispatch_read()/memory_region_dispatch_write() functions
-> > was because I could see that was how the virtio devices dispatched
-> > accesses through the proxy. However I'm wondering now if this API can
-> > only be used for terminating IO memory regions, and so the alias_offset
-> > that you're applying above should actually be applied elsewhere instead=
-.
->
-> I figured out the AddressSpace API make these cases simpler, but IIRC
-> there is some overhead, some function tries to resolve / update
-> something and iterate over a list. While from the MemoryRegion API we
-> already know which region we want to access.
->
-> I Cc'ed Peter considering him expert in this area, but don't know else
-> who to ask for help on this topic...
->
-> > ATB,
-> >
-> > Mark.
-> >
-> > [1]
-> > https://github.com/mcayland/qemu/commit/56f8639fbecb8a8e323ce486e20cbe3=
-09e807419
-> >
-> >
-> > [2]
-> > https://github.com/mcayland/qemu/commit/c1fa32da188bb2ce23faf1728228c17=
-14672270d
-> >
-> >
+[1]=20
+https://patchew.org/QEMU/20210310221208.167990-1-alexander.wagner@ulal.de=
+/
+
+
 
