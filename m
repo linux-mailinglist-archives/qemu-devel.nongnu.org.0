@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6A0363B18
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 07:44:46 +0200 (CEST)
-Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954AB363B17
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 07:44:41 +0200 (CEST)
+Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYMiD-0006Jy-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 01:44:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38040)
+	id 1lYMi3-0005zK-93
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 01:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lYMgA-0004yw-Ma; Mon, 19 Apr 2021 01:42:38 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40751 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMfy-0004ne-QT
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:42:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lYMg7-0008Qp-1d; Mon, 19 Apr 2021 01:42:38 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FNwgp5YVBz9vFb; Mon, 19 Apr 2021 15:42:30 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1618810950;
- bh=4EEpCrzMuD4Pmue6nINo2FTbv8bhfMMPKAivl9Rjytc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ItVVZ89c7jXJ8IefHSFZ7prN3hqHGEo4XiMz0IZkVJEsA74XpLjqWcPxtB/SNaa/Z
- w7RSI4drS0jMht0OTJCTrU9RIgyeGaHigwmeLhKV1OEwjuO4Vxvdv7nY+S6uf/FH3Y
- Jzul/o+xLGnD3iC29m8LTSz4gFB81o9OQGPkzwWA=
-Date: Mon, 19 Apr 2021 15:41:51 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 2/2] spapr.h: increase FDT_MAX_SIZE
-Message-ID: <YH0YHyqiyeobJC6U@yekko.fritz.box>
-References: <20210408204049.221802-1-danielhb413@gmail.com>
- <20210408204049.221802-3-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMfv-0008MR-TY
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:42:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618810943;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cl2492zONjg4h5F3S2einEnzdv5tgeQe+tJOHWyFVpQ=;
+ b=KIhVfU/JpB8oD3/AaxAD9w5/SoJzJ6OTwbmpOKHxInCXO/I1Ie4RwTqCo25aKBmjlOq0H2
+ fuXQXUR1bGco8KXgbksSSbcEzu3rPH3vc8h3d7izBoao5eAAPCnNjgaw2OlXxVoUy8m4nQ
+ i+zVSTWO7XBCrQF+8EoJznaWTWqqHB0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-B5QsZ2iPPHunWK78f7PLdQ-1; Mon, 19 Apr 2021 01:42:21 -0400
+X-MC-Unique: B5QsZ2iPPHunWK78f7PLdQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6099A6414C;
+ Mon, 19 Apr 2021 05:42:20 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-129.ams2.redhat.com [10.36.112.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A25425C5FD;
+ Mon, 19 Apr 2021 05:42:11 +0000 (UTC)
+Subject: Re: [PATCH 11/15] gitlab-ci: Extract core container jobs to
+ container-core.yml
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210418233448.1267991-1-f4bug@amsat.org>
+ <20210418233448.1267991-12-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b141ee10-25d0-9574-bd28-2404ce0535c5@redhat.com>
+Date: Mon, 19 Apr 2021 07:42:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lHmmi43Xv4t9AX1C"
-Content-Disposition: inline
-In-Reply-To: <20210408204049.221802-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210418233448.1267991-12-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,78 +83,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---lHmmi43Xv4t9AX1C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 08, 2021 at 05:40:49PM -0300, Daniel Henrique Barboza wrote:
-> Certain SMP topologies stress, e.g. 1 thread/core, 2048 cores and
-> 1 socket, stress the current maximum size of the pSeries FDT:
->=20
-> Calling ibm,client-architecture-support...qemu-system-ppc64: error
-> creating device tree: (fdt_setprop(fdt, offset,
-> "ibm,processor-segment-sizes", segs, sizeof(segs))): FDT_ERR_NOSPACE
->=20
-> 2048 is the default NR_CPUS value for the pSeries kernel. It's expected
-> that users will want QEMU to be able to handle this kind of
-> configuration.
->=20
-> Bumping FDT_MAX_SIZE to 2MB is enough for these setups to be created.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-Applied to ppc-for-6.1, thanks.
-
+On 19/04/2021 01.34, Philippe Mathieu-Daudé wrote:
+> It is not possible to use the previously extracted templates
+> without this set of core containers. Extract them into a new
+> file (container-core.yml) to be able to build them without
+> having to build all the other containers by default.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  include/hw/ppc/spapr.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index bf7cab7a2c..3deb382678 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -95,7 +95,7 @@ typedef enum {
->  #define SPAPR_CAP_FIXED_CCD             0x03
->  #define SPAPR_CAP_FIXED_NA              0x10 /* Lets leave a bit of a ga=
-p... */
-> =20
-> -#define FDT_MAX_SIZE                    0x100000
-> +#define FDT_MAX_SIZE                    0x200000
-> =20
->  /*
->   * NUMA related macros. MAX_DISTANCE_REF_POINTS was taken
+>   .gitlab-ci.d/container-core.yml | 17 +++++++++++++++++
+>   .gitlab-ci.d/containers.yml     | 16 +---------------
+>   2 files changed, 18 insertions(+), 15 deletions(-)
+>   create mode 100644 .gitlab-ci.d/container-core.yml
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
---lHmmi43Xv4t9AX1C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB9GB8ACgkQbDjKyiDZ
-s5In4RAAn7mCOhNW3wMs1xLz2v+1T84p20vFoF1z5avIrdGays45I77LQVh0y22j
-w9BcpExudvohBBQu+lvPc65Jnxvg60zln5M+mJPN5EVDxWLIQiqudk5UPuJTBkir
-txvLRIqTISKxENNKQyORtyW/hlkrxGr9zvZeghkHpxXQUo0rF7BLrBT+DcOz2eyp
-SG+f0F3QaQJcumyHrziTQlwaWaiRcITDCyPIiCjj4xJhpJzXWovlHCnhewEmuXT7
-hT5D3buCWNPEFWSpXZapey/BtSHkgOZ9jNHSytCZCHmVPPSG4pQbS3YKlDxCT4rR
-GCGgfVdXNYNnWycL2rwof9pwIZBuNYEprnO9v9fdhAVhg97N+UANH9geoMuiUGcn
-aeimZVHzofpvyokUKSQoAEF4napbARq6238kCHs6zJJpqZvcs4MHD8kSf64XAdYi
-hZHFaKUEU4q24n4o5uS4GYPRSfxno6yzlHhUVBZtTc6mKnK9a8/q+6FXUKUZIbis
-seY/thlQ3INn3f8Lovlj4oKgFhK2GAFT2KIQFFZm92NSTQBKMug5YODPXfshUGcl
-Cdh2ro2fBoztvgXJZ5oZVbizpgROI2CA43mhLTxD/xZ2clS8n3mzfAF7cyX82VH8
-QOj4F/tyM5Arv5YpsT+YWiisRAITy/WLRtKiGNpN0KPv0T2/kf8=
-=+4Iu
------END PGP SIGNATURE-----
-
---lHmmi43Xv4t9AX1C--
 
