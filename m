@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB434364A92
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:29:25 +0200 (CEST)
-Received: from localhost ([::1]:49778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD75364A9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:34:11 +0200 (CEST)
+Received: from localhost ([::1]:60870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYZaG-0000Tv-VB
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48610)
+	id 1lYZes-0005As-Mw
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZQw-0007c3-OG
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:46 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54914)
+ id 1lYZPh-0005mR-7P
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:29 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZQv-0001UY-2A
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:46 -0400
-Received: by mail-wm1-x329.google.com with SMTP id k128so18819923wmk.4
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:19:44 -0700 (PDT)
+ id 1lYZPf-0000va-4j
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:28 -0400
+Received: by mail-wr1-x434.google.com with SMTP id p6so28471062wrn.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xKUW8gAMAxhtFOb8uojubp49vr/t6a7goYqTsVJzhpA=;
- b=SBSCySL3R4vmKpg0/lpqQJjH/a9RjJQZx/4vdL0NHIslnaxxbCm7jy8BOUCGNYCYvZ
- 3EnDbHbpFuEa0uJheAhE/tDHdkmv8q4E5V4/No4HuBqSK1rswWBzsUfuV+PEuZE2i0XQ
- z3kGEfE0uyz1j2ugu3LglV8WkE+RcKSXDQhXj2Fu2jXtNpo+a2n0WTqFcnxFnB74z03Z
- OUgcUKxwsQKQQ2n1BFphDFLvJrA0D8vkAx+pi9tqBfqbTz2DE4xnYv3gDYTCm8T2bvbw
- 5gyCcWGeeRtJ65CqWh/b1eHw0rKzFdFL5hXSW8MF3gzBE8WotWtvbE1dTUFg3IEcNFfH
- hOBw==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S/oWxVJzYryy6UuvDUbLpXclOy4R3wFcK9vqiSAcj3s=;
+ b=YwBwjaAJrTO6wHC71ylW437kdKdYEzTjbsERYvQizZggtvGkNCFDoKM2L9DFgzyOkF
+ tZGQSwVF/QYo8io1M1eYEUJu95v4cXEsO8kyI9vNLeTiP1N9oZyvXnSUtAuauvx5I14I
+ O8R0WXBHYO4SpUza4xC1yQcrRh+/LAt1X6ENmDeSBUHOYfo37iDFS09eb/ljMGbv+150
+ 0O2h3lW+lrhqRnLWLF4M16Hh1CxQe+1XKyfpG7EvNTLEknkkBSXRtqYbnhV9UvK9Xwvx
+ 9t0hj0XzBHExSrgSWWK4B1Es7FtVRRpg6+Wnde3IQWaCKvsevXSaoQ9o8cgUKH4/BpMM
+ golg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xKUW8gAMAxhtFOb8uojubp49vr/t6a7goYqTsVJzhpA=;
- b=P0x9M3zjOZIOqBCHZyh1CKLB+m3fu/OLV6w+d+n1C6mCNJXZ6B/cKZgVTiZ4lcXrU0
- ca6rZwPPvRe20JxcQ/yEHliKJqjW8/8U3wjPPlyJ/4pD8h7F7WsxLSW/hn4kNg1g2YAI
- J8ONbSF/uLPpLebMY1A8wDy2saeLOMyu4RujEnuDWz+IqWlYnKB0TW3jB85K19kszX2o
- cuHNHJ+Q4n0akYGsv29XXxZ/2L9qZPrhYcoRIpcG2toCcNx/y994wVm7Ag+gNoizwZ0i
- /xSn4HzAl4QA08rNmk4Gbk0v1dZ2IUHiSq0yUG43DnkdHZEQGK6VeUIonPZ6zLsk2uM/
- c3Tw==
-X-Gm-Message-State: AOAM531zYq1r8X62JmJPn9tci4lRwfltkkoddOuceBTEt4PKauOUMWJ7
- eig4yv5WHvRDlGso/5mGQ5VUZkczDRDuHw==
-X-Google-Smtp-Source: ABdhPJwpEUjFo1w72G+ZkdlzI5RZOgSAAvYzSgVtdZDTpFV6aZDt0nFzBfJtlVOXYX6TeZe3pNbYmA==
-X-Received: by 2002:a1c:658a:: with SMTP id z132mr556286wmb.39.1618859983551; 
- Mon, 19 Apr 2021 12:19:43 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=S/oWxVJzYryy6UuvDUbLpXclOy4R3wFcK9vqiSAcj3s=;
+ b=OlzB+Z1FA0nY0D/SMUb4W9kRagoO1pTg1Y4Y9dbAfXULj7stTHTW1pcT5SMxGPir46
+ BItCRJwMFG0sqCgUycnYyHCZ+fbLuwhPcAJ6dS09YOR6rAZTxvk/cpLhf7sxPoyyzID6
+ zUm8VtpsCq54LtPpc7dNx/3TrIDadCO8LWuMnA7U4pWY7MYbBQOHWhXFw2IlYLsKrJzr
+ RSx5I3omxfmQKTmc91Yz675eClmFTjOTZfZr5IO7EbVykgTLGrRVc+Q+grD1MnTe13Hl
+ Vjj9GNiW7Aw/W+jo0fMB3TZsRYpPunOjcWxtTmIxmHizdC1MHgbNj5We4stn7r+m4zga
+ D5wA==
+X-Gm-Message-State: AOAM530RgB7IcJKxdLiSMd5Sti56h5IE5sbOvnJ0JQHSLQd4XpW0TMHO
+ pXeSRv1+xiTi+zFs0ejvsZmlw7iQDCGNGQ==
+X-Google-Smtp-Source: ABdhPJxbkNc2mtlPerQwSH2LWwUpVOSIIpMisxUysgJ5rF+MyYHayUweQWmFiie8xj0EDLdS67GSTA==
+X-Received: by 2002:a05:6000:2ad:: with SMTP id
+ l13mr15903869wry.417.1618859905207; 
+ Mon, 19 Apr 2021 12:18:25 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id 61sm25889949wrm.52.2021.04.19.12.19.42
+ by smtp.gmail.com with ESMTPSA id f8sm534840wmc.8.2021.04.19.12.18.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 12:19:43 -0700 (PDT)
+ Mon, 19 Apr 2021 12:18:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/30] target/mips: Move sysemu specific files under
- sysemu/ subfolder
-Date: Mon, 19 Apr 2021 21:18:09 +0200
-Message-Id: <20210419191823.1555482-17-f4bug@amsat.org>
+Subject: [PATCH v3 00/30] target/mips: Re-org to allow KVM-only builds
+Date: Mon, 19 Apr 2021 21:17:53 +0200
+Message-Id: <20210419191823.1555482-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210419191823.1555482-1-f4bug@amsat.org>
-References: <20210419191823.1555482-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,102 +92,172 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move sysemu-specific files under the new sysemu/ subfolder
-and adapt the Meson machinery.
-Update the KVM MIPS entry in MAINTAINERS.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2: Update MAINTAINERS
----
- target/mips/{ => sysemu}/addr.c      |  0
- target/mips/{ => sysemu}/cp0_timer.c |  0
- target/mips/{ => sysemu}/machine.c   |  0
- MAINTAINERS                          |  3 ++-
- target/mips/meson.build              | 12 ++++++------
- target/mips/sysemu/meson.build       |  5 +++++
- 6 files changed, 13 insertions(+), 7 deletions(-)
- rename target/mips/{ => sysemu}/addr.c (100%)
- rename target/mips/{ => sysemu}/cp0_timer.c (100%)
- rename target/mips/{ => sysemu}/machine.c (100%)
- create mode 100644 target/mips/sysemu/meson.build
-
-diff --git a/target/mips/addr.c b/target/mips/sysemu/addr.c
-similarity index 100%
-rename from target/mips/addr.c
-rename to target/mips/sysemu/addr.c
-diff --git a/target/mips/cp0_timer.c b/target/mips/sysemu/cp0_timer.c
-similarity index 100%
-rename from target/mips/cp0_timer.c
-rename to target/mips/sysemu/cp0_timer.c
-diff --git a/target/mips/machine.c b/target/mips/sysemu/machine.c
-similarity index 100%
-rename from target/mips/machine.c
-rename to target/mips/sysemu/machine.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36055f14c59..0620326544e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -404,7 +404,8 @@ F: target/arm/kvm.c
- MIPS KVM CPUs
- M: Huacai Chen <chenhuacai@kernel.org>
- S: Odd Fixes
--F: target/mips/kvm.c
-+F: target/mips/kvm*
-+F: target/mips/sysemu/
- 
- PPC KVM CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index ca3cc62cf7a..9a507937ece 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -7,6 +7,7 @@
- ]
- 
- mips_user_ss = ss.source_set()
-+mips_softmmu_ss = ss.source_set()
- mips_ss = ss.source_set()
- mips_ss.add(files(
-   'cpu.c',
-@@ -14,6 +15,11 @@
-   'gdbstub.c',
-   'msa.c',
- ))
-+
-+if have_system
-+  subdir('sysemu')
-+endif
-+
- mips_tcg_ss = ss.source_set()
- mips_tcg_ss.add(gen)
- mips_tcg_ss.add(files(
-@@ -41,12 +47,6 @@
- 
- mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
- 
--mips_softmmu_ss = ss.source_set()
--mips_softmmu_ss.add(files(
--  'addr.c',
--  'cp0_timer.c',
--  'machine.c',
--))
- mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'cp0_helper.c',
-   'mips-semi.c',
-diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
-new file mode 100644
-index 00000000000..f2a1ff46081
---- /dev/null
-+++ b/target/mips/sysemu/meson.build
-@@ -0,0 +1,5 @@
-+mips_softmmu_ss.add(files(
-+  'addr.c',
-+  'cp0_timer.c',
-+  'machine.c',
-+))
--- 
-2.26.3
-
+TL;DR:=0D
+=0D
+This series restrict TCG-specific objects by moving them to=0D
+the tcg/ subdir. Code is moved around to satisfy 3 cases:=0D
+{ generic sysemu / tcg sysemu / tcg user}.=0D
+=0D
+Since v2:=0D
+- Merge do_translate_address into cpu_mips_translate_address=0D
+- Added Thomas & Willian tags=0D
+=0D
+Since v1:=0D
+- Addressed Richard review comments=0D
+- Added Richard R-b tag=0D
+=0D
+Missing review: 5, 7, 8, 9, 18, 19, 24=0D
+=0D
+Hi,=0D
+=0D
+This series move the MIPS TCG files under target/mips/tcg/.=0D
+tcg/ is split into {sysemu and user}, and code common to=0D
+both user/sysemu is left under tcg/ root.=0D
+=0D
+Non-user code is moved to sysemu/ (common to TCG and KVM).=0D
+=0D
+- Patches 1 & 11 are Meson generic=0D
+- Patches 2 to 10 move generic symbols around to satisfly KVM linking=0D
+- Patch 12 introduces tcg-internal.h where we'll move TCG specific=0D
+  prototypes from the current big internal.h=0D
+- Patches 13-28 move code by topic (first user, then sysemu, then tcg)=0D
+- Patch 29 restrict TCG specific machines to TCG (to actually=0D
+  only build malta/loongson3-virt machines when restricted to KVM)=0D
+- Patch 30 finally add a CI job with "KVM-only" config:=0D
+  https://gitlab.com/philmd/qemu/-/jobs/1189874868 (12min 5sec)=0D
+=0D
+Diffstat is not that bad, and many #ifdef'ry removed.=0D
+=0D
+Please review,=0D
+=0D
+Phil.=0D
+=0D
+Based-on: <20210413081008.3409459-1-f4bug@amsat.org>=0D
+          "exec: Remove accel/tcg/ from include paths"=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (30):=0D
+  target/mips: Simplify meson TCG rules=0D
+  target/mips: Move IEEE rounding mode array to new source file=0D
+  target/mips: Move msa_reset() to new source file=0D
+  target/mips: Make CPU/FPU regnames[] arrays global=0D
+  target/mips: Optimize CPU/FPU regnames[] arrays=0D
+  target/mips: Restrict mips_cpu_dump_state() to cpu.c=0D
+  target/mips: Turn printfpr() macro into a proper function=0D
+  target/mips: Declare mips_cpu_set_error_pc() inlined in "internal.h"=0D
+  target/mips: Merge do_translate_address into=0D
+    cpu_mips_translate_address=0D
+  target/mips: Extract load/store helpers to ldst_helper.c=0D
+  meson: Introduce meson_user_arch source set for arch-specific=0D
+    user-mode=0D
+  target/mips: Introduce tcg-internal.h for TCG specific declarations=0D
+  target/mips: Add simple user-mode mips_cpu_do_interrupt()=0D
+  target/mips: Add simple user-mode mips_cpu_tlb_fill()=0D
+  target/mips: Move cpu_signal_handler definition around=0D
+  target/mips: Move sysemu specific files under sysemu/ subfolder=0D
+  target/mips: Move physical addressing code to sysemu/physaddr.c=0D
+  target/mips: Restrict cpu_mips_get_random() / update_pagemask() to TCG=0D
+  target/mips: Move sysemu TCG-specific code to tcg/sysemu/ subfolder=0D
+  target/mips: Restrict mmu_init() to TCG=0D
+  target/mips: Move tlb_helper.c to tcg/sysemu/=0D
+  target/mips: Restrict CPUMIPSTLBContext::map_address() handlers scope=0D
+  target/mips: Move Special opcodes to tcg/sysemu/special_helper.c=0D
+  target/mips: Move helper_cache() to tcg/sysemu/special_helper.c=0D
+  target/mips: Move TLB management helpers to tcg/sysemu/tlb_helper.c=0D
+  target/mips: Move exception management code to exception.c=0D
+  target/mips: Move CP0 helpers to sysemu/cp0.c=0D
+  target/mips: Move TCG source files under tcg/ sub directory=0D
+  hw/mips: Restrict non-virtualized machines to TCG=0D
+  gitlab-ci: Add KVM mips64el cross-build jobs=0D
+=0D
+ meson.build                                  |    6 +=0D
+ target/mips/helper.h                         |  183 +--=0D
+ target/mips/internal.h                       |  106 +-=0D
+ target/mips/tcg/tcg-internal.h               |   64 +=0D
+ target/mips/{ =3D> tcg}/msa_helper.h.inc       |    0=0D
+ target/mips/tcg/sysemu_helper.h.inc          |  185 +++=0D
+ target/mips/{ =3D> tcg}/mips32r6.decode        |    0=0D
+ target/mips/{ =3D> tcg}/mips64r6.decode        |    0=0D
+ target/mips/{ =3D> tcg}/msa32.decode           |    0=0D
+ target/mips/{ =3D> tcg}/msa64.decode           |    0=0D
+ target/mips/{ =3D> tcg}/tx79.decode            |    0=0D
+ target/mips/cpu.c                            |  311 ++---=0D
+ target/mips/fpu.c                            |   25 +=0D
+ target/mips/msa.c                            |   60 +=0D
+ target/mips/op_helper.c                      | 1210 ------------------=0D
+ target/mips/{ =3D> sysemu}/addr.c              |    0=0D
+ target/mips/sysemu/cp0.c                     |  123 ++=0D
+ target/mips/{ =3D> sysemu}/cp0_timer.c         |    0=0D
+ target/mips/{ =3D> sysemu}/machine.c           |    0=0D
+ target/mips/sysemu/physaddr.c                |  257 ++++=0D
+ target/mips/{ =3D> tcg}/dsp_helper.c           |    0=0D
+ target/mips/tcg/exception.c                  |  167 +++=0D
+ target/mips/{ =3D> tcg}/fpu_helper.c           |    8 -=0D
+ target/mips/tcg/ldst_helper.c                |  288 +++++=0D
+ target/mips/{ =3D> tcg}/lmmi_helper.c          |    0=0D
+ target/mips/{ =3D> tcg}/msa_helper.c           |   36 -=0D
+ target/mips/{ =3D> tcg}/msa_translate.c        |    0=0D
+ target/mips/{ =3D> tcg}/mxu_translate.c        |    0=0D
+ target/mips/tcg/op_helper.c                  |  420 ++++++=0D
+ target/mips/{ =3D> tcg}/rel6_translate.c       |    0=0D
+ target/mips/{ =3D> tcg/sysemu}/cp0_helper.c    |    0=0D
+ target/mips/{ =3D> tcg/sysemu}/mips-semi.c     |    0=0D
+ target/mips/tcg/sysemu/special_helper.c      |  173 +++=0D
+ target/mips/{ =3D> tcg/sysemu}/tlb_helper.c    |  623 +++++----=0D
+ target/mips/{ =3D> tcg}/translate.c            |  104 +-=0D
+ target/mips/{ =3D> tcg}/translate_addr_const.c |    0=0D
+ target/mips/{ =3D> tcg}/tx79_translate.c       |    0=0D
+ target/mips/{ =3D> tcg}/txx9_translate.c       |    0=0D
+ target/mips/tcg/user/tlb_helper.c            |   64 +=0D
+ .gitlab-ci.d/crossbuilds.yml                 |    8 +=0D
+ MAINTAINERS                                  |    3 +-=0D
+ hw/mips/meson.build                          |   11 +-=0D
+ target/mips/meson.build                      |   55 +-=0D
+ target/mips/sysemu/meson.build               |    7 +=0D
+ target/mips/tcg/meson.build                  |   35 +=0D
+ target/mips/tcg/sysemu/meson.build           |    6 +=0D
+ target/mips/tcg/user/meson.build             |    3 +=0D
+ 47 files changed, 2394 insertions(+), 2147 deletions(-)=0D
+ create mode 100644 target/mips/tcg/tcg-internal.h=0D
+ rename target/mips/{ =3D> tcg}/msa_helper.h.inc (100%)=0D
+ create mode 100644 target/mips/tcg/sysemu_helper.h.inc=0D
+ rename target/mips/{ =3D> tcg}/mips32r6.decode (100%)=0D
+ rename target/mips/{ =3D> tcg}/mips64r6.decode (100%)=0D
+ rename target/mips/{ =3D> tcg}/msa32.decode (100%)=0D
+ rename target/mips/{ =3D> tcg}/msa64.decode (100%)=0D
+ rename target/mips/{ =3D> tcg}/tx79.decode (100%)=0D
+ create mode 100644 target/mips/fpu.c=0D
+ create mode 100644 target/mips/msa.c=0D
+ delete mode 100644 target/mips/op_helper.c=0D
+ rename target/mips/{ =3D> sysemu}/addr.c (100%)=0D
+ create mode 100644 target/mips/sysemu/cp0.c=0D
+ rename target/mips/{ =3D> sysemu}/cp0_timer.c (100%)=0D
+ rename target/mips/{ =3D> sysemu}/machine.c (100%)=0D
+ create mode 100644 target/mips/sysemu/physaddr.c=0D
+ rename target/mips/{ =3D> tcg}/dsp_helper.c (100%)=0D
+ create mode 100644 target/mips/tcg/exception.c=0D
+ rename target/mips/{ =3D> tcg}/fpu_helper.c (99%)=0D
+ create mode 100644 target/mips/tcg/ldst_helper.c=0D
+ rename target/mips/{ =3D> tcg}/lmmi_helper.c (100%)=0D
+ rename target/mips/{ =3D> tcg}/msa_helper.c (99%)=0D
+ rename target/mips/{ =3D> tcg}/msa_translate.c (100%)=0D
+ rename target/mips/{ =3D> tcg}/mxu_translate.c (100%)=0D
+ create mode 100644 target/mips/tcg/op_helper.c=0D
+ rename target/mips/{ =3D> tcg}/rel6_translate.c (100%)=0D
+ rename target/mips/{ =3D> tcg/sysemu}/cp0_helper.c (100%)=0D
+ rename target/mips/{ =3D> tcg/sysemu}/mips-semi.c (100%)=0D
+ create mode 100644 target/mips/tcg/sysemu/special_helper.c=0D
+ rename target/mips/{ =3D> tcg/sysemu}/tlb_helper.c (76%)=0D
+ rename target/mips/{ =3D> tcg}/translate.c (99%)=0D
+ rename target/mips/{ =3D> tcg}/translate_addr_const.c (100%)=0D
+ rename target/mips/{ =3D> tcg}/tx79_translate.c (100%)=0D
+ rename target/mips/{ =3D> tcg}/txx9_translate.c (100%)=0D
+ create mode 100644 target/mips/tcg/user/tlb_helper.c=0D
+ create mode 100644 target/mips/sysemu/meson.build=0D
+ create mode 100644 target/mips/tcg/meson.build=0D
+ create mode 100644 target/mips/tcg/sysemu/meson.build=0D
+ create mode 100644 target/mips/tcg/user/meson.build=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
