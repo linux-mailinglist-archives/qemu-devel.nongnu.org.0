@@ -2,59 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D6B363C11
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:04:30 +0200 (CEST)
-Received: from localhost ([::1]:53618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85AC5363C18
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:06:53 +0200 (CEST)
+Received: from localhost ([::1]:56064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYNxN-0002uP-IJ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49432)
+	id 1lYNzg-00045B-IJ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lYNw3-0002Mo-Vj; Mon, 19 Apr 2021 03:03:08 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lYNvy-0007RD-Cc; Mon, 19 Apr 2021 03:03:07 -0400
-Received: from DGGEML402-HUB.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FNyPl5hs3z5qNQ;
- Mon, 19 Apr 2021 15:00:27 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- DGGEML402-HUB.china.huawei.com (10.3.17.38) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 19 Apr 2021 15:02:48 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 19 Apr 2021 15:02:47 +0800
-Subject: Re: [RFC PATCH v2 1/6] device_tree: Add qemu_fdt_add_path
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210413080745.33004-1-wangyanan55@huawei.com>
- <20210413080745.33004-2-wangyanan55@huawei.com>
- <YHkYD+cCl9/GCxwJ@yekko.fritz.box>
- <cd3408c2-6025-7a44-bbf6-d675467c5749@huawei.com>
- <YHzZJvH/9CiYWia4@yekko.fritz.box>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <85a55b54-e5c2-4a4c-2a51-ebae841d6c4f@huawei.com>
-Date: Mon, 19 Apr 2021 15:02:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lYNys-0003aR-Ig; Mon, 19 Apr 2021 03:06:02 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:44941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lYNyq-0000xH-RS; Mon, 19 Apr 2021 03:06:02 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id v72so16827046ybe.11;
+ Mon, 19 Apr 2021 00:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IvVm0n/cRnATjd07kY2L9vTcCjtvxeLIC2DYlMsqMYA=;
+ b=LknTDXtnUAHJA0KnZirkqJx7NC9TB+kiZsKABENO4ySvy0FcDr5bLOZdZ//AfZvWpx
+ x7V91CbrGgA+aQ/67geZxr81+l4tfU9Dhk/5UZ0MvbFc6ZLBiYf3n0ov05OH+IOBNAbJ
+ RASjL9OHGRsXNLgTHsMNYLHQSDXZKjrpTr03gd5pYw2WJY3y1r6YMlJk6w6Kade7jsF/
+ RDoAQiuN9LhSWVARKa5EE5MYT//e3/OYIeuZPHS4ZI6wfkUh4+vpaV1aWhy0frdzSY7W
+ uOXS2+snXh9N+9ZY9XAFQAiYgkpaT/8xwX3bBW68w888+tUvGUQoMcQKfCZOwUNadjr0
+ dbjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IvVm0n/cRnATjd07kY2L9vTcCjtvxeLIC2DYlMsqMYA=;
+ b=I+TsMMFPfu6I7Nv6KaKMC583OrBgqCh57ek1ZtuWvSVi4dQaWVR/foH66lDf3jQ12H
+ u6GA4k12kZizzpO67bHX7hhNeNKcvO0Ke1LcmvZWa4FwdoUkXrxxf+hcMgnGieFS88Uh
+ Rm632K/CM+mdLWkUWciszXoRI7Qr59VFZVzUMyoQSi3p0LLYRJh4Td5L54BDKtSCI40Z
+ uWMGAaELs61f4eCwy5WwIIc3AQVO9kpYd+WtlL6QxqMuDFrMavuUQyb2nksfGcxn5TI0
+ yqRXKocx0ykTOxUnyca6mOIrqXphseF02dunUBQMUQgFzO2lqlMDLvB+5jfKEPFzf4OR
+ KETg==
+X-Gm-Message-State: AOAM531oy58OKiMRHok6U0hjRTHtaUU0M9XrFkweaHiKpv9o2pA5ly4w
+ 60lEOggyX6tjW5AeZ8LOt4CIAYiHpjMRO6jlp6o=
+X-Google-Smtp-Source: ABdhPJwK9wWrsjBN6LwO41aq8JgIO6Q1jV+aPfVHi31qPhUwebev2LWgUp1LpQkbNDJS49cs542kHthGSmBzHDjauCE=
+X-Received: by 2002:a25:bd03:: with SMTP id f3mr15335448ybk.152.1618815958907; 
+ Mon, 19 Apr 2021 00:05:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YHzZJvH/9CiYWia4@yekko.fritz.box>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <cover.1618812899.git.alistair.francis@wdc.com>
+ <fef23b885f9649a4d54e7c98b168bdec5d297bb1.1618812899.git.alistair.francis@wdc.com>
+In-Reply-To: <fef23b885f9649a4d54e7c98b168bdec5d297bb1.1618812899.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 19 Apr 2021 15:05:47 +0800
+Message-ID: <CAEUhbmXb1dYso8weAcydB=+v5BpXfyhY+v2r88_71hNiPQDNAQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/8] target/riscv: Implementation of enhanced PMP (ePMP)
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,155 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair
- Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- yangyicong@huawei.com, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
-
-On 2021/4/19 9:13, David Gibson wrote:
-> On Sat, Apr 17, 2021 at 10:36:20AM +0800, wangyanan (Y) wrote:
->> Hi David,
->>
->> On 2021/4/16 12:52, David Gibson wrote:
->>> On Tue, Apr 13, 2021 at 04:07:40PM +0800, Yanan Wang wrote:
->>>> From: Andrew Jones <drjones@redhat.com>
->>>>
->>>> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except
->>>> it also adds any missing subnodes in the path. We also tweak
->>>> an error message of qemu_fdt_add_subnode().
->>>>
->>>> We'll make use of this new function in a coming patch.
->>>>
->>>> Signed-off-by: Andrew Jones <drjones@redhat.com>
->>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->>>> ---
->>>>    include/sysemu/device_tree.h |  1 +
->>>>    softmmu/device_tree.c        | 45 ++++++++++++++++++++++++++++++++++--
->>>>    2 files changed, 44 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
->>>> index 8a2fe55622..ef060a9759 100644
->>>> --- a/include/sysemu/device_tree.h
->>>> +++ b/include/sysemu/device_tree.h
->>>> @@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
->>>>    uint32_t qemu_fdt_alloc_phandle(void *fdt);
->>>>    int qemu_fdt_nop_node(void *fdt, const char *node_path);
->>>>    int qemu_fdt_add_subnode(void *fdt, const char *name);
->>>> +int qemu_fdt_add_path(void *fdt, const char *path);
->>>>    #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
->>>>        do {                                                                      \
->>>> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
->>>> index 2691c58cf6..8592c7aa1b 100644
->>>> --- a/softmmu/device_tree.c
->>>> +++ b/softmmu/device_tree.c
->>>> @@ -541,8 +541,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->>>>        retval = fdt_add_subnode(fdt, parent, basename);
->>>>        if (retval < 0) {
->>>> -        error_report("FDT: Failed to create subnode %s: %s", name,
->>>> -                     fdt_strerror(retval));
->>>> +        error_report("%s: Failed to create subnode %s: %s",
->>>> +                     __func__, name, fdt_strerror(retval));
->>>>            exit(1);
->>>>        }
->>>> @@ -550,6 +550,47 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->>>>        return retval;
->>>>    }
->>>> +/*
->>>> + * Like qemu_fdt_add_subnode(), but will add all missing
->>>> + * subnodes in the path.
->>>> + */
->>>> +int qemu_fdt_add_path(void *fdt, const char *path)
->>>> +{
->>>> +    char *dupname, *basename, *p;
->>>> +    int parent, retval = -1;
->>>> +
->>>> +    if (path[0] != '/') {
->>>> +        return retval;
->>>> +    }
->>>> +
->>>> +    parent = fdt_path_offset(fdt, "/");
->>> Getting the offset for "/" is never needed - it's always 0.
->> Thanks, will fix it.
->>>> +    p = dupname = g_strdup(path);
->>> You shouldn't need the strdup(), see below.
->>>
->>>> +
->>>> +    while (p) {
->>>> +        *p = '/';
->>>> +        basename = p + 1;
->>>> +        p = strchr(p + 1, '/');
->>>> +        if (p) {
->>>> +            *p = '\0';
->>>> +        }
->>>> +        retval = fdt_path_offset(fdt, dupname);
->>> The fdt_path_offset_namelen() function exists *exactly* so that you
->>> can look up partial parths without having to mangle your input
->>> string.  Just set the namelen right, and it will ignore anything to
->>> the right of that.
->> Function fdt_path_offset_namelen() seems more reasonable.
->>
->> After we call qemu_fdt_add_path() to add "/cpus/cpu-map/socket0/core0"
->> successfully,
->> if we want to add another path like "/cpus/cpu-map/socket0/core1" we will
->> get the error
->> -FDT_ERR_NOTFOUND for each partial path. But actually
->> "/cpus/cpu-map/socket0"
->> already exists, so by using fdt_path_offset_namelen() with right namelen we
->> can avoid
->> the error retval for this part.
-> I don't quite follow what you're saying here.  AFAICT your logic was
-> correct - it just involved a lot of mangling the given path (adding
-> and removing \0s) which becomes unnecessary with
-> fdt_path_offset_namelen().
-Right.
->>>> +        if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
->>>> +            error_report("%s: Invalid path %s: %s",
->>>> +                         __func__, path, fdt_strerror(retval));
->>> If you're getting an error other than FDT_ERR_NOTFOUND here, chances
->>> are it's not an invalid path, but a corrupted fdt blob or something
->>> else.
->> Right, there can be variable reasons for the fail in addition to the invalid
->> path.
->>
->>>> +            exit(1);
->>>> +        } else if (retval == -FDT_ERR_NOTFOUND) {
->>>> +            retval = fdt_add_subnode(fdt, parent, basename);
->>>> +            if (retval < 0) {
->>>> +                break;
->>>> +            }
->> I found another question here. If path "/cpus/cpu-map/socket0/core0" has
->> already
->> been added, when we want to add another path "/cpus/cpu-map/socket0/core1"
->> and go here with retval = fdt_add_subnode(fdt, parent, "cpus"), then retval
->> will
->> be -FDT_ERR_EXISTS, but we can't just break the loop in this case.
->>
->> Am I right of the explanation ?
-> Not exactly.  If you called that fdt_add_subnode() in that case you
-> would get FDT_ERR_EXISTS.  However, because the previous
-> fdt_path_offset() has returned -FDT_ERR_NOTFOUND, you've already
-> established that the partial path doesn't exist, so if you got an
-> FDT_ERR_EXISTS here something has gone very strangely wrong (such as
-> concurrent access to the flat tree, which would very likely corrupt
-> it).
-Thanks for the analysis, I was wrong...
-> Note that the repeated use of fdt_path_offset() in this function will
-> repeatedly rescan the whole fdt from the beginning.  If you're
-> concerned about performance (which you might well not be), then a more
-> efficient approach would be to take your input path component by
-> component and use fdt_subnode_offset() directly.
-I will try to address your comments and have some rework for this patch 
-in next version.
-
-Thanks,
-Yanan
+On Mon, Apr 19, 2021 at 2:17 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
+> From: Hou Weiying <weiying_hou@outlook.com>
+>
+> This commit adds support for ePMP v0.9.1.
+>
+> The ePMP spec can be found in:
+> https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
+>
+> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+> Message-Id: <SG2PR02MB263462CCDBCBBAD36983C2CD93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
+> [ Changes by AF:
+>  - Rebase on master
+>  - Update to latest spec
+>  - Use a switch case to handle ePMP MML permissions
+>  - Fix a few bugs
+> ]
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/pmp.c | 154 ++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 146 insertions(+), 8 deletions(-)
+>
+
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
