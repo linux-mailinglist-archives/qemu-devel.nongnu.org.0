@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED07E3646A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:03:20 +0200 (CEST)
-Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573FD3646A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:03:21 +0200 (CEST)
+Received: from localhost ([::1]:41970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVQl-0003Qb-Od
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44628)
+	id 1lYVQm-0003RS-8S
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIb-0003Ra-Sn
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:53 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37557)
+ id 1lYVId-0003Ur-5V
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:55 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIZ-0006zW-Ul
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:53 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- t14-20020a05600c198eb029012eeb3edfaeso8412290wmq.2
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:51 -0700 (PDT)
+ id 1lYVIa-00070B-Nb
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:54 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ y5-20020a05600c3645b0290132b13aaa3bso6496189wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xhD95M88KH2ZeEX/qKVoo6UaDmfYvhnT/tyZbT8agKM=;
- b=zTpkU3y22tMs+VRG/IJIOkstb1jp3pocZQa0q5NgQduYmMv5rGluuxWAUDWGZ39wMd
- eA56SBB4OdyQdBALW8G8oxxusbzlKGC2UKueLDFY1mDwXdtxR8EJ4jh3v1LDy/6KzI8N
- 0Ky/GQCUWRqxPWh4I30N4cbFm6+twCl3R5pafrzlqFCqOq6ag4qAskgUwkd12Nc1hpA1
- RSyagI/HlxLLrtSbkoE0jMy9AZO87dAM6/7eoNkhkcofLmoTNFXAFO8w6o8/JxwYWzvo
- 5T+q+KB5z5xLZYCJ5Cz8QVk8JBRJzJdBFspcTDqVp+FL3sS0c3Ec1MI/zWi9up8iDxXL
- m4aA==
+ bh=iizzfPGhkn8lyZo+/wpl/UTbuqCuTImLvD1b5kAGalE=;
+ b=YUZww2364DApKUBOOFecZAlH3Cjw0njXUMJB/SSvPzE+crGVZ1JzpBkcv0NC9H/5Jj
+ u+b+9tw4yH7BDB1cSFhbLwfYY30aAMduALfJdpcfPZr8m6UQdoUf0urf2vO8yuU+IokW
+ tooPV0yY3XHdTgywrbl/D6gZg6rhUZsGzANMeOD+k9iEwyxcK50RGkmddNk1HzO6wShs
+ Jrpsp1yp7mVU4bO6ohT/RKuJGsWfSiu2lPBHql95w8wIxjej4SgGy2ttShLw+jUDGmww
+ n+bvOhCi4jdvvpmbEErIfxvc4E9CUHBftx9+icXhlwtIA9JNaatELaWzTIMzrq3DAUyo
+ vnVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xhD95M88KH2ZeEX/qKVoo6UaDmfYvhnT/tyZbT8agKM=;
- b=iJgv0GcK34ViFraCVWIjGFsJHP2XjkoahnSKVs8iaFU2Ud7plOjKTxeIxXQNVYRlSI
- Sx0PpwoJE4LokIuZBuLRjs7v/ZVFep56EP6gZecrrnA9oc545LBK2iux+EqkHyPAAHQ5
- BQhuYBCiwfrFyDg9cGJAra2ZYhJAW1+tfo4zr6jwxETfkbdKV4SKIv3P8uuK8fqE1lld
- jd8O+hwwiuWyqA0WdDlZHvmgT5a9hhL5CXVu3MhGUkPCx8TrUs0HEIMVAHcVhA4nryZw
- FcH7FA2REOga1iEw3q4OcXCrxILNwyrYqiv9VcK2bagir2CJjrJyiVR50fHkGuxc7y29
- FLHw==
-X-Gm-Message-State: AOAM530tACdKGF4HPOnl9v0lHBhjIdcBxjcpjFcWDJbQq76DclJzXxTN
- R67kIsB83vsVW3jhioeT5TrqMb8NdSnihA==
-X-Google-Smtp-Source: ABdhPJzUpmbN0BROpNKYJG1hV5UgvrzkCxNf0FHKQt0UZVmtRP44WLLIJnirhAOOtZK2dxovGh04Dw==
-X-Received: by 2002:a05:600c:b47:: with SMTP id
- k7mr21715856wmr.109.1618844090584; 
- Mon, 19 Apr 2021 07:54:50 -0700 (PDT)
+ bh=iizzfPGhkn8lyZo+/wpl/UTbuqCuTImLvD1b5kAGalE=;
+ b=YQ59wmSwAjKuukjxnx7HaGcspgZI1EhfQlxueWPKbedjP/sQpxAiF4QFmKWJK8+ft+
+ yCmIcg9CjngEShfwjA5xeYeCUOBAPLlacMfctln5BHyaUYtoQACaTRgN8Uw2kCghXTtQ
+ yx4CKwBIMX3cKzFdyvvGrbj9OqbBjKilKsBwxOSglpdZufJfg3dcVCKEvdQi2n65BLCf
+ pxy0Ytr6RPCBjHcgYWfNUt3ym5oWAO+6t3jW3v1/pDmi5pb7ryiwQ7qnlo/nOBgO01PK
+ IC929rK2fyZTB7kJqoQDI1LTXnYzZh290M9QepEwSKtFiysOfqQq80CYQXYUxwBOh9iw
+ Itbg==
+X-Gm-Message-State: AOAM530ICS0UylD61Mr7rtEkbLe7qKidKDuYxrGZZwyRFknO8d7HpB+X
+ lxoHW5uuNMAlcDnWyr0fJRVPSQ==
+X-Google-Smtp-Source: ABdhPJzoiOR6QO8/4AOlZEzxr+Of8Vu2QRstzFsPouBgF6H92bO54nV7ybusSriJEY9fjP2ysChCxw==
+X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr21577263wmd.54.1618844091428; 
+ Mon, 19 Apr 2021 07:54:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i15sm21817006wrr.73.2021.04.19.07.54.40
+ by smtp.gmail.com with ESMTPSA id 186sm20132107wme.10.2021.04.19.07.54.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Apr 2021 07:54:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8DC221FF99;
+ by zen.linaroharston (Postfix) with ESMTP id A41E21FF9A;
  Mon, 19 Apr 2021 15:54:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 10/25] tests/docker: Added libbpf library to the docker
- files.
-Date: Mon, 19 Apr 2021 15:54:20 +0100
-Message-Id: <20210419145435.14083-11-alex.bennee@linaro.org>
+Subject: [PATCH  v1 11/25] tests/tcg: Add docker_as and docker_ld cmds
+Date: Mon, 19 Apr 2021 15:54:21 +0100
+Message-Id: <20210419145435.14083-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210419145435.14083-1-alex.bennee@linaro.org>
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,69 +87,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Andrew Melnychenko <andrew@daynix.com>, berrange@redhat.com,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- Thomas Huth <thuth@redhat.com>, pbonzini@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-The series of patches for eBPF RSS adds libbpf dependency for qemu.
-https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08887.html
+At least for the TriCore target no easily available c compiler exists.
+Thus we need to rely on "as" and "ld". This allows us to run them
+through the docker image. We don't test the generation capabilities of
+docker images as they are assumed to work.
 
-With this patch, libbpf added:
-  Alpine - added libbpf-dev
-  Centos 8 - added libbpf-devel
-  Fedora - added libbpf-devel
-
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+[AJB: fix quoting, only handle docker & clear, test -n, tweak commit msg]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210406082947.672708-2-andrew@daynix.com>
 ---
- tests/docker/dockerfiles/alpine.docker  | 1 +
- tests/docker/dockerfiles/centos8.docker | 1 +
- tests/docker/dockerfiles/fedora.docker  | 1 +
- 3 files changed, 3 insertions(+)
+ tests/tcg/Makefile.qemu | 15 +++++++++++++++
+ tests/tcg/configure.sh  | 17 ++++++++++++++++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index d63a269aef..998a7584ed 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -19,6 +19,7 @@ ENV PACKAGES \
- 	gnutls-dev \
- 	gtk+3.0-dev \
- 	libaio-dev \
-+	libbpf-dev \
- 	libcap-ng-dev \
- 	libjpeg-turbo-dev \
- 	libnfs-dev \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index a8c6c528b0..efc1349cc8 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -14,6 +14,7 @@ ENV PACKAGES \
-     git \
-     glib2-devel \
-     libaio-devel \
-+    libbpf-devel \
-     libepoxy-devel \
-     libfdt-devel \
-     libgcrypt-devel \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 915fdc1845..483f2d9f83 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -32,6 +32,7 @@ ENV PACKAGES \
-     libcurl-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libbpf-devel \
-     libiscsi-devel \
-     libjpeg-devel \
-     libpmem-devel \
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index a56564660c..2c4617516b 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -22,6 +22,8 @@ quiet-@ = $(if $(V),,@)
+ quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+ 
+ CROSS_CC_GUEST:=
++CROSS_AS_GUEST:=
++CROSS_LD_GUEST:=
+ DOCKER_IMAGE:=
+ 
+ -include tests/tcg/config-$(TARGET).mak
+@@ -42,6 +44,7 @@ cross-build-guest-tests:
+ 	$(call quiet-command, \
+ 	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+ 	    $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC="$(CROSS_CC_GUEST)" \
++			AS="$(CROSS_AS_GUEST)" LD="$(CROSS_LD_GUEST)" \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
+ 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
+ 	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
+@@ -59,11 +62,23 @@ DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
+ 		-i qemu/$(DOCKER_IMAGE) \
+ 		-s $(SRC_PATH) -- "
+ 
++DOCKER_AS_CMD="$(DOCKER_SCRIPT) cc \
++		--cc $(DOCKER_CROSS_AS_GUEST) \
++		-i qemu/$(DOCKER_IMAGE) \
++		-s $(SRC_PATH) -- "
++
++DOCKER_LD_CMD="$(DOCKER_SCRIPT) cc \
++		--cc $(DOCKER_CROSS_LD_GUEST) \
++		-i qemu/$(DOCKER_IMAGE) \
++		-s $(SRC_PATH) -- "
++
++
+ .PHONY: docker-build-guest-tests
+ docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
+ 	$(call quiet-command, \
+ 	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+ 	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
++			AS=$(DOCKER_AS_CMD) LD=$(DOCKER_LD_CMD) \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
+ 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
+ 	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index bfe9619217..9f304b6c5a 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -75,7 +75,13 @@ fi
+ for target in $target_list; do
+   arch=${target%%-*}
+ 
++  # reset all container fields
+   container_image=
++  container_hosts=
++  container_cross_cc=
++  container_cross_as=
++  container_cross_ld=
++
+   case $target in
+     aarch64-*)
+       # We don't have any bigendian build tools so we only use this for AArch64
+@@ -272,7 +278,16 @@ for target in $target_list; do
+       for host in $container_hosts; do
+           if test "$host" = "$ARCH"; then
+               echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
+-              echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
++              echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> \
++                   $config_target_mak
++              if test -n "$container_cross_as"; then
++                  echo "DOCKER_CROSS_AS_GUEST=$container_cross_as" >> \
++                      $config_target_mak
++              fi
++              if test -n "$container_cross_ld"; then
++                  echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> \
++                      $config_target_mak
++              fi
+           fi
+       done
+   fi
 -- 
 2.20.1
 
