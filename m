@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517C5363E6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:20:33 +0200 (CEST)
-Received: from localhost ([::1]:39380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7723C363E79
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:28:58 +0200 (CEST)
+Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYQ51-0000ii-9a
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
+	id 1lYQDB-0004eZ-1h
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYQ3X-0000Hm-C7
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:18:59 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYQ3S-0005sR-BR
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:18:58 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id r12so51804070ejr.5
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 02:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Xqxo4dkLef72zkgngAHolqf5qMhHwtMCTBSEolKZspM=;
- b=g5KudRU/27uCPVep7yKVRoZz5Krw4tI9c19KGRL+ahD20/p047vxU8YlW+zrdu2H/m
- qC+2O1jvajIwuKCguUHfN+WCvghpcZS2N+OmiJJqV5JGXJcUGfWAgeDsLeJdix2Q8nMK
- HvbBhy7CI6xiPmyAd1XxG2J3AXgiD4AwQbT1hG7VOgIouxCUhpxxwWOzRxbqt2XasHQO
- AiB2jrPvB/IvE23xiVLqgUorwCpwxhlAhUTySTV9N7bKxgJ1ZBZ9XOLzYP5qrO66ipOW
- ab3OSeDMyScUF4DOpObHgSv46dZIbYxPYIUjTDjKsi4+3HMEdNY1FlhrmjYaL0t0xlnh
- Lvjg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYQBP-0003jW-I3
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:27:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYQBM-0002PF-Bf
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:27:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618824421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wN7YUQUTvQjaxepjX4XgZ3QY22n5WY6FRo9R3KRL5Oc=;
+ b=N8F240IMmuPrrWL+uMotXwWeta8JQGr5Dpw5VQdGDhaQgF0MoRt3gm5kZsqkS41wbcyPHL
+ DbEiPBALBm3pC1dKXmWBo79/Y5z/IdHVW0QwlFylf8pwdDH/T67HOQViOPIq5STCfMfKOe
+ /gWFyIaFeOYB9z/Vg5YjO6vDk35L1zE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88--BSwRkYmMg-qIfXQWAclwA-1; Mon, 19 Apr 2021 05:26:59 -0400
+X-MC-Unique: -BSwRkYmMg-qIfXQWAclwA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 65-20020adf94c70000b0290106f90d4e1bso4459277wrr.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 02:26:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Xqxo4dkLef72zkgngAHolqf5qMhHwtMCTBSEolKZspM=;
- b=EGzdfc2WpUNwjuCnbbh02u7R7jqE/nRStlwDbhaEWaNfdl4NQ1RHilksDUzA5usFr5
- IyY9gwRAibRK1yEzGHezj2AwNE9IKJvBQ1blndybtcJSYtj81sOMg7jnwHtvezSSnclp
- 5kqBgraenqxjJj1WM5oK3AfSXGWVZbxlRKoPSP50XN2H2Z2Zv2EqJ44N7Qh++Md6xU4B
- YW9GBNLHmJiqGF67gUiAOCD2cEDFeMvHZQ8Hh5bMf00Lv+UCK2wsXtft50eHChPMIAvE
- 3A7gZzA2BSwaxKOx9wQSfRO2+XrXhwuLVO5FDwMJnR/S7sd/pY/fmrBvgUywsbqjWQ29
- rh4A==
-X-Gm-Message-State: AOAM5304/h7di8HmqecMYUsoZiCdyCWNxh5s7dSpaHWuq7eTYd658xdP
- Gd2UX9J1Fu82Tjx2PIfENY6y3Jj+dknu6tzP4LTTrA==
-X-Google-Smtp-Source: ABdhPJxUZU5iu6zihfC1DtoasAsJF/2K5JEULvi5SPBcc9iE/zfp190OwJfei7zgG/IqAO9zXT7J2ZFc08CYNMQzXjA=
-X-Received: by 2002:a17:907:629e:: with SMTP id
- nd30mr20897016ejc.407.1618823932157; 
- Mon, 19 Apr 2021 02:18:52 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wN7YUQUTvQjaxepjX4XgZ3QY22n5WY6FRo9R3KRL5Oc=;
+ b=bPJFryYWi5TzPahE4RE1b7dqEDrSFpA/3UAr4XzXZbDitIUgoBvUgOhLiHOgzxyiQe
+ CEdkjCv9UpHkW+EFziYuPRM5ovJT5pOIrbr3bDCiFobatUWd6LvcMvWwO5y5gOBD3SHo
+ /2wsaXKDPTv38qB/Jnk/XZvCbKRR2/p6kXsjIzzxbQrE8UNDogEVTYzGmW6VWK6Quc0N
+ SN7R04KFsITEvZIMQva46GkZtunXaPFh2HI897zYwil9bveCBKoqlBRlicshyah+3rfu
+ 728TmEDzLfAYjx2eC4e2ELQRgU+wUCGrmKHBABpvWRDLDIUtYLIBMWHyz3V7vcQnoUs3
+ TI+A==
+X-Gm-Message-State: AOAM533K7//rcXPRe4mXIlVW3IN+i8OHPb4V9Bix8b4i37hXluiNGWL+
+ bGik0egbL60916oqF8L0j0MyGR7B/DnlHYxrI0p5BypkXjruCZSFwJBHNpzIYiYjbaDgnbR77QO
+ O0h24elPAxtn1eys=
+X-Received: by 2002:adf:f787:: with SMTP id q7mr13367421wrp.351.1618824418745; 
+ Mon, 19 Apr 2021 02:26:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxp840VO6cj8XifHni/g5jbdz07bnjYwKG6IXTA4x4CqaJlY1eGYjGr1FzbpFCnHMQ4L2dF2A==
+X-Received: by 2002:adf:f787:: with SMTP id q7mr13367408wrp.351.1618824418594; 
+ Mon, 19 Apr 2021 02:26:58 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id d133sm18834467wmf.9.2021.04.19.02.26.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Apr 2021 02:26:58 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1 0/2] hw/block/pflash_cfi02: Do not create aliases
+ when not necessary
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210325120921.858993-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0e4a419a-fcab-5d29-9f34-38acb0ded8cd@redhat.com>
+Date: Mon, 19 Apr 2021 11:26:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210417194205.17057-1-peter.maydell@linaro.org>
- <87tuo38sgg.fsf@linaro.org>
-In-Reply-To: <87tuo38sgg.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Apr 2021 10:18:01 +0100
-Message-ID: <CAFEAcA8EBz4JAkyYn-iEabh7ByceOw62sN7LYCZg_gneg2w64g@mail.gmail.com>
-Subject: Re: [PULL 0/7] queue of proposed rc4 fixes
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210325120921.858993-1-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,34 +100,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Apr 2021 at 17:31, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > This pullreq contains fixes for the remaining "not fixed yet" issues
-> > in the 6.0 Planning page:
-> >  * Fix compile failures of C++ files with new glib headers
-> >  * mps3-an547: Use correct Cortex-M55 CPU and don't disable its FPU
-> >  * accel/tcg: Fix assertion failure executing from non-RAM with -icount
-> >
-> > None of these are 100% rc4-worthy on their own, but taken all together
-> > I think they justify rolling another release candidate.
->
-> If you are rolling it would be nice to include:
->
->   checkpatch: Fix use of uninitialized value
->   Message-Id: <161786467973.295167.5612704777283969903.stgit@bahia.lan>
->
-> just to avoid the messy warning in the CI checkpatch check.
+On 3/25/21 1:09 PM, Philippe Mathieu-Daudé wrote:
+> Simplify memory layout when no pflash_cfi02 mapping requested.
 
-I always ignore the CI checkpatch check in the github UI anyway :-)
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   hw/block/pflash_cfi02: Set romd mode in pflash_cfi02_realize()
+>   hw/block/pflash_cfi02: Do not create aliases when not necessary
 
--- PMM
+Thanks, series applied to pflash-next tree.
+
 
