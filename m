@@ -2,48 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC069363E51
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:13:52 +0200 (CEST)
-Received: from localhost ([::1]:58702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7331363E5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:15:38 +0200 (CEST)
+Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYPyZ-0005Di-Tg
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45320)
+	id 1lYQ0H-0006g6-Ng
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:15:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lYPvv-0004Gy-C9; Mon, 19 Apr 2021 05:11:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49952)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lYPyJ-0005i2-EI; Mon, 19 Apr 2021 05:13:37 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:58536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lYPvt-0001G2-DT; Mon, 19 Apr 2021 05:11:07 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 53464ACBF;
- Mon, 19 Apr 2021 09:11:02 +0000 (UTC)
-Subject: Re: [RFC v1 1/5] hw/s390x: only build qemu-tod from the CONFIG_TCG
- build
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20210322191551.25752-1-cfontana@suse.de>
- <20210322191551.25752-2-cfontana@suse.de>
- <20210331130756.20971c8a.cohuck@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <4eaf4c51-b940-66df-7ef7-61782b0cf31d@suse.de>
-Date: Mon, 19 Apr 2021 11:11:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210331130756.20971c8a.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lYPyC-0002d8-7q; Mon, 19 Apr 2021 05:13:32 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [172.20.250.51] ([172.20.250.51])
+ (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+ Mon, 19 Apr 2021 11:13:18 +0200
+From: Peter Lieven <pl@kamp.de>
+Message-Id: <AD190B98-4F27-4170-94BE-D0E3DB2A3EB3@kamp.de>
+Content-Type: multipart/alternative;
+ boundary="Apple-Mail=_F32F7893-6956-43CF-8A1A-2C0C5DA09F3C"
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [RFC PATCH 0/2] qemu-img convert: Fix sparseness detection
+Date: Mon, 19 Apr 2021 11:13:22 +0200
+In-Reply-To: <07747AB5-5BCE-49EE-A3AB-03AA7B6211F8@kamp.de>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210415152214.279844-1-kwolf@redhat.com>
+ <07747AB5-5BCE-49EE-A3AB-03AA7B6211F8@kamp.de>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,103 +53,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cornelia,
 
-On 3/31/21 1:07 PM, Cornelia Huck wrote:
-> On Mon, 22 Mar 2021 20:15:47 +0100
-> Claudio Fontana <cfontana@suse.de> wrote:
-> 
->> this allows to remove unneeded stubs for target/s390x.
-> 
-> This patch doesn't seem to remove any, though?
+--Apple-Mail=_F32F7893-6956-43CF-8A1A-2C0C5DA09F3C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-The next patch does... I'll split more the patches so it becomes clearer.
 
-> 
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  hw/s390x/tod.c       | 9 ++++++++-
->>  hw/s390x/meson.build | 5 ++++-
->>  2 files changed, 12 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
->> index 3c2979175e..322732d7fd 100644
->> --- a/hw/s390x/tod.c
->> +++ b/hw/s390x/tod.c
->> @@ -14,6 +14,8 @@
->>  #include "qemu/error-report.h"
->>  #include "qemu/module.h"
->>  #include "sysemu/kvm.h"
->> +#include "sysemu/tcg.h"
->> +#include "sysemu/qtest.h"
->>  #include "migration/qemu-file-types.h"
->>  #include "migration/register.h"
->>  
->> @@ -23,8 +25,13 @@ void s390_init_tod(void)
->>  
->>      if (kvm_enabled()) {
->>          obj = object_new(TYPE_KVM_S390_TOD);
->> -    } else {
->> +    } else if (tcg_enabled()) {
->>          obj = object_new(TYPE_QEMU_S390_TOD);
->> +    } else if (qtest_enabled()) {
->> +        return;
->> +    } else {
->> +        warn_report("current accelerator not handled in s390_init_tod!");
->> +        return;
-> 
-> I'm wondering whether this should be a fatal error.
 
-I would agree with that.
+> Am 19.04.2021 um 10:36 schrieb Peter Lieven <pl@kamp.de>:
+>=20
+>=20
+>=20
+>> Am 15.04.2021 um 17:22 schrieb Kevin Wolf <kwolf@redhat.com>:
+>>=20
+>> Peter, three years ago you changed 'qemu-img convert' to sacrifice =
+some
+>> sparsification in order to get aligned requests on the target image. =
+At
+>> the time, I thought the impact would be small, but it turns out that
+>> this can end up wasting gigabytes of storagee (like converting a =
+fully
+>> zeroed 10 GB image taking 2.8 GB instead of a few kilobytes).
+>>=20
+>> https://bugzilla.redhat.com/show_bug.cgi?id=3D1882917
+>>=20
+>> I'm not entirely sure how to attack this best since this is a =
+tradeoff,
+>> but maybe the approach in this series is still good enough for the =
+case
+>> that you wanted to fix back then?
+>>=20
+>> Of course, it would be possible to have a more complete fix like =
+looking
+>> forward a few blocks more before writing data, but that would =
+probably
+>> not be entirely trivial because you would have to merge blocks with =
+ZERO
+>> block status with DATA blocks that contain only zeros. I'm not sure =
+if
+>> it's worth this complication of the code.
+>=20
+> I will try to look into this asap.
 
-> 
->>      }
->>      object_property_add_child(qdev_get_machine(), TYPE_S390_TOD, obj);
->>      object_unref(obj);
->> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
->> index 91495b5631..7f31f9e5d5 100644
->> --- a/hw/s390x/meson.build
->> +++ b/hw/s390x/meson.build
->> @@ -16,7 +16,6 @@ s390x_ss.add(files(
->>    'sclp.c',
->>    'sclpcpu.c',
->>    'sclpquiesce.c',
->> -  'tod-qemu.c',
->>    'tod.c',
->>  ))
->>  s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
->> @@ -25,6 +24,10 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
->>    's390-stattrib-kvm.c',
->>    'pv.c',
->>  ))
->> +s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
->> +  'tod-qemu.c',
-> 
-> Should we rename this to tod-tcg.c?
+Besides from the reproducer described in the ticket, I retried my old =
+conversion test in our environment:
 
-I think so.
+Before commit 8dcd3c9b91: reads 4608 writes 14959
+After commit 8dcd3c9b91: reads 0 writes 14924
+With Kevins patch: reads 110 writes 14924
 
-> 
->> +))
->> +
->>  s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
->>  s390x_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('3270-ccw.c'))
->>  s390x_ss.add(when: 'CONFIG_VFIO', if_true: files('s390-pci-vfio.c'))
-> 
-> 
+I think this is a good result if it avoids other issues.
 
-Will prepare a new version,
+Peter
 
-Thanks,
 
-Claudio
+--Apple-Mail=_F32F7893-6956-43CF-8A1A-2C0C5DA09F3C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
+class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D"">Am 19.04.2021 um 10:36 schrieb Peter Lieven &lt;<a =
+href=3D"mailto:pl@kamp.de" class=3D"">pl@kamp.de</a>&gt;:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div class=3D""><br =
+class=3D""><br class=3D""><blockquote type=3D"cite" class=3D"">Am =
+15.04.2021 um 17:22 schrieb Kevin Wolf &lt;<a =
+href=3D"mailto:kwolf@redhat.com" class=3D"">kwolf@redhat.com</a>&gt;:<br =
+class=3D""><br class=3D"">Peter, three years ago you changed 'qemu-img =
+convert' to sacrifice some<br class=3D"">sparsification in order to get =
+aligned requests on the target image. At<br class=3D"">the time, I =
+thought the impact would be small, but it turns out that<br =
+class=3D"">this can end up wasting gigabytes of storagee (like =
+converting a fully<br class=3D"">zeroed 10 GB image taking 2.8 GB =
+instead of a few kilobytes).<br class=3D""><br class=3D""><a =
+href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1882917" =
+class=3D"">https://bugzilla.redhat.com/show_bug.cgi?id=3D1882917</a><br =
+class=3D""><br class=3D"">I'm not entirely sure how to attack this best =
+since this is a tradeoff,<br class=3D"">but maybe the approach in this =
+series is still good enough for the case<br class=3D"">that you wanted =
+to fix back then?<br class=3D""><br class=3D"">Of course, it would be =
+possible to have a more complete fix like looking<br class=3D"">forward =
+a few blocks more before writing data, but that would probably<br =
+class=3D"">not be entirely trivial because you would have to merge =
+blocks with ZERO<br class=3D"">block status with DATA blocks that =
+contain only zeros. I'm not sure if<br class=3D"">it's worth this =
+complication of the code.<br class=3D""></blockquote><br class=3D"">I =
+will try to look into this asap.<br =
+class=3D""></div></div></blockquote><div><br class=3D""></div><div>Besides=
+ from the reproducer described in the ticket, I retried my old =
+conversion test in our environment:</div><div><br =
+class=3D""></div><div>Before commit&nbsp;<span style=3D"color: rgb(0, 0, =
+0); font-family: Menlo; font-size: 11px;" =
+class=3D"">8dcd3c9b91:&nbsp;</span><span style=3D"color: rgb(0, 0, 0); =
+font-family: Menlo; font-size: 11px;" class=3D"">reads 4608 writes =
+14959</span></div><div><span style=3D"color: rgb(0, 0, 0); font-family: =
+Menlo; font-size: 11px;" class=3D"">After commit&nbsp;</span><span =
+style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: =
+Menlo; font-size: 11px;" class=3D"">8dcd3c9b91:&nbsp;</span><span =
+style=3D"color: rgb(0, 0, 0); font-family: Menlo; font-size: 11px;" =
+class=3D"">reads 0 writes 14924</span></div><div><span style=3D"color: =
+rgb(0, 0, 0); font-family: Menlo; font-size: 11px;" class=3D"">With =
+Kevins patch:&nbsp;</span><span style=3D"color: rgb(0, 0, 0); =
+font-family: Menlo; font-size: 11px;" class=3D"">reads 110 writes =
+14924</span></div><div><span style=3D"color: rgb(0, 0, 0); font-family: =
+Menlo; font-size: 11px;" class=3D""><br class=3D""></span></div><div><span=
+ style=3D"color: rgb(0, 0, 0); font-family: Menlo; font-size: 11px;" =
+class=3D"">I think this is a good result if it avoids other =
+issues.</span></div><div><span style=3D"color: rgb(0, 0, 0); =
+font-family: Menlo; font-size: 11px;" class=3D""><br =
+class=3D""></span></div><div><span style=3D"color: rgb(0, 0, 0); =
+font-family: Menlo; font-size: 11px;" =
+class=3D"">Peter</span></div><div><br =
+class=3D""></div></div></body></html>=
+
+--Apple-Mail=_F32F7893-6956-43CF-8A1A-2C0C5DA09F3C--
+
 
