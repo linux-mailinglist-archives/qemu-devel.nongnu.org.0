@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F2C363FBC
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:43:32 +0200 (CEST)
-Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A52363FE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:50:13 +0200 (CEST)
+Received: from localhost ([::1]:35644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYRNL-0001wB-S2
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33202)
+	id 1lYRTo-0001P0-QD
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:50:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR4Q-0005jb-Va
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:58 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24099)
+ id 1lYR4R-0005m8-Tv
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:59 -0400
+Received: from mga17.intel.com ([192.55.52.151]:24095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR4P-00025K-0J
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:58 -0400
-IronPort-SDR: v5rgptbHQmlscMEGYOlX4s9eQnAmGZ1i01xqnKsLfayKUC+Iqo823VCBfdMss1CLzGPRPZPh9F
- 6y+ppx0Jldgw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409325"
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409325"
+ id 1lYR4P-00023F-IG
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:59 -0400
+IronPort-SDR: BBt6fpWYebaxAmUb17D9mWoiua8whiyYWRka89FWezj6t7X/xrXuezL83lRTsUaDIsxpw2WHfs
+ DqHxBGT6JTeg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409327"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409327"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:23:10 -0700
-IronPort-SDR: mqEIN4xGtnXkTMVmHzLyWirWBvtV0zzYGHJxkvJuD2dnThjtT3UC/0V/I2vrGaGJJWyr0ABadT
- bZrGj9TYLXiA==
+ 19 Apr 2021 03:23:12 -0700
+IronPort-SDR: BW5SY/dDQFmNkMA9gg0yA5gi7cniiZ9FuMYh/7kFars5LLQXRs7iptDdhmbQ0dP0Km/X/c8gEf
+ ph8ODCd4JaoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947484"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947495"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:23:08 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:23:10 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/32] sgx-epc: Add the reset interface for sgx-epc virt device
-Date: Mon, 19 Apr 2021 18:01:48 +0800
-Message-Id: <20210419100156.53504-25-yang.zhong@intel.com>
+Subject: [PATCH 25/32] qmp: Add query-sgx command
+Date: Mon, 19 Apr 2021 18:01:49 +0800
+Message-Id: <20210419100156.53504-26-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210419100156.53504-1-yang.zhong@intel.com>
 References: <20210419100156.53504-1-yang.zhong@intel.com>
@@ -66,141 +66,92 @@ Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the VM is reset, we need make sure sgx virt epc in clean status.
-Once the VM is reset, and sgx epc virt device will be reseted by
-reset callback registered by qemu_register_reset(). Since this epc
-virt device depend on backend, this reset will call backend reset
-interface to re-mmap epc to guest.
+This QMP query command can be used by some userspaces to retrieve
+the SGX information when SGX is enabled on Intel platform.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/sgx-epc.c | 94 ++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 81 insertions(+), 13 deletions(-)
+ monitor/qmp-cmds.c         |  6 ++++++
+ qapi/misc.json             | 42 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/qmp-cmd-test.c |  1 +
+ 3 files changed, 49 insertions(+)
 
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index d5ba7bb68c..fbacec6e00 100644
---- a/hw/i386/sgx-epc.c
-+++ b/hw/i386/sgx-epc.c
-@@ -23,6 +23,9 @@
- #include "qemu/units.h"
- #include "target/i386/cpu.h"
- #include "exec/address-spaces.h"
-+#include "sysemu/reset.h"
-+
-+uint32_t epc_num;
- 
- static Property sgx_epc_properties[] = {
-     DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
-@@ -52,12 +55,84 @@ static void sgx_epc_init(Object *obj)
-                         NULL, NULL, NULL);
- }
- 
-+static void sgx_epc_del_subregion(DeviceState *dev)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCState *sgx_epc = pcms->sgx_epc;
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+
-+    /* del subregion and related operations */
-+    memory_region_del_subregion(&sgx_epc->mr,
-+                                host_memory_backend_get_memory(epc->hostmem));
-+    host_memory_backend_set_mapped(epc->hostmem, false);
-+    g_free(sgx_epc->sections);
-+    sgx_epc->sections = NULL;
-+
-+    /* multiple epc devices, only zero the first time */
-+    if (epc_num == sgx_epc->nr_sections) {
-+        sgx_epc->size = 0;
-+        sgx_epc->nr_sections = 0;
-+    }
-+}
-+
-+static void sgx_epc_initialization(DeviceState *dev)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCState *sgx_epc = pcms->sgx_epc;
-+    MemoryDeviceState *md = MEMORY_DEVICE(dev);
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    Error *errp = NULL;
-+
-+    if (!epc->hostmem) {
-+        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+
-+    epc->addr = sgx_epc->base + sgx_epc->size;
-+
-+    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
-+                                host_memory_backend_get_memory(epc->hostmem));
-+
-+    host_memory_backend_set_mapped(epc->hostmem, true);
-+
-+    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
-+                                sgx_epc->nr_sections + 1);
-+    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
-+
-+    sgx_epc->size += memory_device_get_region_size(md, &errp);
-+}
-+
-+static void sgx_epc_reset(void *opaque)
-+{
-+    DeviceState *dev = opaque;
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    Error *errp = NULL;
-+    int fd;
-+
-+    if (!epc->hostmem) {
-+        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+
-+    /* delete subregion and related operations */
-+    sgx_epc_del_subregion(dev);
-+
-+    /* reset sgx backend */
-+    fd = memory_region_get_fd(host_memory_backend_get_memory(epc->hostmem));
-+    sgx_memory_backend_reset(epc->hostmem, fd, &errp);
-+    if (errp) {
-+        error_setg(&errp, "failed to call sgx_memory_backend_reset");
-+        return;
-+    }
-+
-+    /* re-add subregion and related operations */
-+    sgx_epc_initialization(dev);
-+}
-+
- static void sgx_epc_realize(DeviceState *dev, Error **errp)
- {
-     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    MemoryDeviceState *md = MEMORY_DEVICE(dev);
--    SGXEPCState *sgx_epc = pcms->sgx_epc;
-     SGXEPCDevice *epc = SGX_EPC(dev);
-     const char *path;
- 
-@@ -76,18 +151,11 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
-         return;
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index f7d64a6457..d63d59149f 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -351,3 +351,9 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
+         abort();
      }
- 
--    epc->addr = sgx_epc->base + sgx_epc->size;
--
--    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
--                                host_memory_backend_get_memory(epc->hostmem));
--
--    host_memory_backend_set_mapped(epc->hostmem, true);
--
--    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
--                                sgx_epc->nr_sections + 1);
--    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
-+    sgx_epc_initialization(dev);
-+    epc_num++;
- 
--    sgx_epc->size += memory_device_get_region_size(md, errp);
-+    /* register the reset callback for sgx reset */
-+    qemu_register_reset(sgx_epc_reset, dev);
  }
- 
- static void sgx_epc_unrealize(DeviceState *dev)
++
++SGXInfo *qmp_query_sgx(Error **errp)
++{
++    error_setg(errp, QERR_FEATURE_DISABLED, "query-sgx");
++    return NULL;
++}
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 156f98203e..112a2f71cf 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -519,3 +519,45 @@
+  'data': { '*option': 'str' },
+  'returns': ['CommandLineOptionInfo'],
+  'allow-preconfig': true }
++
++##
++# @SGXInfo:
++#
++# Information about intel Safe Guard eXtension (SGX) support
++#
++# @sgx: true if SGX is support
++#
++# @sgx1: true if SGX1 is support
++#
++# @sgx2: true if SGX2 is support
++#
++# @flc: true if FLC is support
++#
++# @section-size: The EPC section size for guest
++#
++# Since: 5.1
++##
++{ 'struct': 'SGXInfo',
++  'data': { 'sgx': 'bool',
++            'sgx1': 'bool',
++            'sgx2': 'bool',
++            'flc': 'bool',
++            'section-size': 'uint64'}}
++
++##
++# @query-sgx:
++#
++# Returns information about SGX
++#
++# Returns: @SGXInfo
++#
++# Since: 5.1
++#
++# Example:
++#
++# -> { "execute": "query-sgx" }
++# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
++#                  "flc": true, "section-size" : 0 } }
++#
++##
++{ 'command': 'query-sgx', 'returns': 'SGXInfo' }
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index c98b78d033..b75f3364f3 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -100,6 +100,7 @@ static bool query_is_ignored(const char *cmd)
+         /* Success depends on Host or Hypervisor SEV support */
+         "query-sev",
+         "query-sev-capabilities",
++        "query-sgx",
+         NULL
+     };
+     int i;
 -- 
 2.29.2.334.gfaefdd61ec
 
