@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A367C36460A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:24:47 +0200 (CEST)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BFD364610
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:27:18 +0200 (CEST)
+Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYUpS-0007ji-HZ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35890)
+	id 1lYUrt-0002C7-LZ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYUoC-0006v0-VW
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:23:29 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35536)
+ id 1lYUpk-0000Mv-Fb
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:25:04 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:44705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYUoA-00053a-Vk
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:23:28 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id u17so53247832ejk.2
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:23:26 -0700 (PDT)
+ id 1lYUph-0005x0-MP
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:25:04 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id z5so4452626edr.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=i9Cn3lfbkqaD/dPPAyj9Yc5qoRrNICqZvpNKjWddS3E=;
- b=TpzS0APIfLIyXpDz2ZhMZFB1XHWqB1TU1KRq46sgssks7FFZIFTa3LoxqzY0x3m4rv
- EDwGmvSHaS/BmiwZbiwRMbqy3P3jvb6qZ5yP/OkwBbOsZ+tcnjMV4hKvSB84M0lVS38R
- YxKzUcE+7EuIeWk8Ld7MVkqzVXaKVULMX3xAaorpkVOq/SGGk2FaefUZCDL+dPlf4+Ok
- gSVdJejg2mJaBY4oGptCVlPlWqZql8sg34VcAqs1WjrsIfTXo3yczGyqDlmiV1NEjNc8
- jprHufqP9VAmtNYZSqQnWQC8V41ZgiKdxCyqfCst/6McEuEqDcvvJTPvU58bemxzOXQT
- 7Vcw==
+ bh=iXXZWAhOOrpJ8BYjcBkRZ0IFA2CqQ4SmTJKguoltUyU=;
+ b=yqiQtJlx+9xXKNceGg53yWnBlb1VGkmXdqSn5LB7NVRgXz4dDAnjDqbmNTCQSpF+MT
+ JUnd2x/pNe9/JMIhzhPVZOYqTqpb2b7RvTqZi0CzTDxbJYkKgU5hIM4FSGuWtMzRrkpP
+ nCNAr6i7h084HaZQacV+cJw5lrzd2bjh93jgzZ3yy8dnEcGuNQlda4MQkFtv1KcvX/mg
+ dyAA91DsceIexNDi8JJGzfcPmMcL2s3XJ83oz5iedMPmh10Q95jV6Uq+N5Umqpgc0py1
+ PdD4gMGe8YUEnXOqvBdAF0Vv3GwrfOAszLPRhdghCN2g7uvpqsSlpTyrqBgSCVo520Q3
+ ELrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=i9Cn3lfbkqaD/dPPAyj9Yc5qoRrNICqZvpNKjWddS3E=;
- b=Qfw8GQtPvH6ZBK3pZOME3qLnp+XOkFJYxzlu93j+EaEgj5NzMLUcCzNcN3w+4VouIW
- Gk3Si7HzGJszdSYy5q762DBNtf0O5/LmIY/oV6AKWqRW4M7/WjVUfkuS0Jim/IFk1AFv
- D2Ftzn8RuAeHIWMFxGqzJsZ4GwxVRYwAHuMqkQ4qYvRWDTLAQJl5zKxRTv0PtOLJ5d5V
- n9Eu7kUar3OEJeJjudVwOcCmA5yuLWhBzSJjtKU/0uC2kkdVcsPAKIrRBC7clvUS/GHZ
- gWAFtAXh8bjn2XaYX1Ju8xP1lN8Ii61SGl/7qH2y3PJInM/MsSMXWBTbna8crm9y11Su
- DRzw==
-X-Gm-Message-State: AOAM530flBjkUD3iElaCWE0hCNGq5xVOSmPIapxyzaCpTU4YYlsLeDQe
- lmiah3tSHRYFA7sfVjFivC3QUa5bKn+hdKQfuktRfQ==
-X-Google-Smtp-Source: ABdhPJyZnuJuz1kHuHOrRG14KXegf9UTSi2hS/aZv6jmDtrM4/0h/PLFWopc9vvyrliR5hI9/+k2liL5mJxNqAIDbQs=
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr22287316ejh.4.1618842205480; 
- Mon, 19 Apr 2021 07:23:25 -0700 (PDT)
+ bh=iXXZWAhOOrpJ8BYjcBkRZ0IFA2CqQ4SmTJKguoltUyU=;
+ b=Y1YQu2nnAb/sddWgUnCWbvC05qvONPP3tFSUbLYlVTli87FAn11VULBds+5kZr+Xvo
+ uiIqIU6gXOm/X7q9wpz5Y6WjLyyDTEmIBK+hlJQo72IdPXVkf9Qfyqc+YWrKttiGGEt3
+ Di+iLJ99i5kkWkkKj8RKoNszmoNa8rnKefHHrpZ/a7+nxBQMkMcMbcAojqC818L/1UJR
+ eJcL96me1sbPKJqPA5vgEUJNWExNlHwxhEJLEF0sojilCUhlfwygOenM6rvAS77l9A5U
+ CVxFON7J8ShsiYkxr9hEBkP2JZ3WO5tXBB+ZDqKtXp1z01E0sAZc57ZGamgoD8nkwJ9C
+ 77iQ==
+X-Gm-Message-State: AOAM531Lam36VhICYJazXcY3w8oQ1ttYdYNAszF1HbMAkmslmAgCxzo2
+ SLHrKYDrK19IpJT8DH97KJJb4KiLfIz1iaO3QwBN9g==
+X-Google-Smtp-Source: ABdhPJwEk9H5GRCBp+v+rRTfTohQoi75W65RfvfYp41PT0COqX85M7DRWUabbdlzO7apexb/pD/AI4DKRuAzFb+0sgY=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr25943089edt.36.1618842300147; 
+ Mon, 19 Apr 2021 07:25:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210409062401.2350436-1-f4bug@amsat.org>
- <20210409062401.2350436-6-f4bug@amsat.org>
-In-Reply-To: <20210409062401.2350436-6-f4bug@amsat.org>
+ <20210409062401.2350436-8-f4bug@amsat.org>
+In-Reply-To: <20210409062401.2350436-8-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Apr 2021 15:22:34 +0100
-Message-ID: <CAFEAcA-5mv8B=CWO9g5M2GmQhz2m0PCV1g1wt4XNwSh0bUThGw@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-6.1 5/9] hw/core/qdev-clock: Add
- qdev_ground_clock() helper
+Date: Mon, 19 Apr 2021 15:24:08 +0100
+Message-ID: <CAFEAcA_-qNzAnEQv3PW2bxNWXxtV5AZRP+mv+vBVJ6dX=nm_XQ@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-6.1 7/9] hw/misc/bcm2835_cprman: Feed 'xosc' from
+ the board
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,8 +82,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
  Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -92,64 +90,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 9 Apr 2021 at 07:24, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
 wrote:
 >
-> Clocks are rarely left unconnected, but rather connected to ground
-> plane to avoid noise. When representing the clock tree, we want to
-> see such ground clock. As we might reuse this clock on various
-> boards, introduce the qdev_ground_clock() which return a singleton
-> ground clock.
+> The XOsc signal isn't a part of the CPRMAN, but comes from a
+> crystal oscillator external to the SoC.
+>
+> Create the oscillator on the board, and propagate it to the
+> CPRMAN.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  include/hw/qdev-clock.h |  9 +++++++++
->  hw/core/qdev-clock.c    | 11 +++++++++++
->  2 files changed, 20 insertions(+)
->
-> diff --git a/include/hw/qdev-clock.h b/include/hw/qdev-clock.h
-> index ffa0f7ba09e..2f2d2da6cd6 100644
-> --- a/include/hw/qdev-clock.h
-> +++ b/include/hw/qdev-clock.h
-> @@ -161,4 +161,13 @@ typedef struct ClockPortInitElem ClockPortInitArray[=
-];
->   */
->  void qdev_init_clocks(DeviceState *dev, const ClockPortInitArray clocks)=
-;
->
-> +/**
-> + * qdev_ground_clock:
-> + * @returns: a pointer to the ground clock
-> + *
-> + * Get the special 'ground' clock. This clock can be used as input
-> + * (unclocked) or output.
-> + */
-> +Clock *qdev_ground_clock(void);
-> +
->  #endif /* QDEV_CLOCK_H */
-> diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
-> index 117f4c6ea4a..a46384a84b7 100644
-> --- a/hw/core/qdev-clock.c
-> +++ b/hw/core/qdev-clock.c
-> @@ -210,3 +210,14 @@ void qdev_connect_clock_in(DeviceState *dev, const c=
-har *name, Clock *source)
->      assert(!dev->realized);
->      clock_set_source(qdev_get_clock_in(dev, name), source);
->  }
-> +
-> +Clock *qdev_ground_clock(void)
-> +{
-> +    static Clock *gnd_clk;
-> +
-> +    if (!gnd_clk) {
-> +        gnd_clk =3D clock_new(qdev_get_machine(), "gnd");
-> +    }
-> +
-> +    return gnd_clk;
-> +}
 
-I'm not really convinced that we need this, given that we have
-exactly one user of it in the tree. I think if you happen to want
-a fixed-frequency-0Hz clock it's not a big deal to just create
-it like any other clock. If we had half a dozen users in the tree
-I might feel differently.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
