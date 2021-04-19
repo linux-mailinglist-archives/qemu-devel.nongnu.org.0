@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7217936399C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 05:09:06 +0200 (CEST)
-Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF6F363A1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 06:10:24 +0200 (CEST)
+Received: from localhost ([::1]:46542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYKHZ-0007an-0x
-	for lists+qemu-devel@lfdr.de; Sun, 18 Apr 2021 23:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44580)
+	id 1lYLEt-00037Y-9n
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 00:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lYKGN-0006qs-RA; Sun, 18 Apr 2021 23:07:51 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58043 helo=ozlabs.org)
+ id 1lYLDd-0002cv-Nw; Mon, 19 Apr 2021 00:09:05 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:54207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lYKGL-00051d-Sn; Sun, 18 Apr 2021 23:07:51 -0400
+ id 1lYLDb-0008KL-Fh; Mon, 19 Apr 2021 00:09:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FNsFD2tT7z9vFg; Mon, 19 Apr 2021 13:07:44 +1000 (AEST)
+ id 4FNtbs0VnQz9vGP; Mon, 19 Apr 2021 14:08:56 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1618801664;
- bh=d+Xa0ZclWhI9lnfInhVHvRiV4xBLA9Ar1Y3wOC532rE=;
+ d=gibson.dropbear.id.au; s=201602; t=1618805337;
+ bh=PD0/FeYoIvA+36Kg8ODLFUUeBgs8YaUV0EphIUWsS5E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FTi+zYkM1rcS4RMs8Zx8eG75AptBsXi5WaZ86dA3/0aw0N6ZmN/d46dv6C9YJee/j
- Qoj+ULg3pwRaWoLXpdNltpl3Osh7UlNUFFW9NF1b6pk6H95ZLgeIaCehJuSxDoqrdN
- Gj65j8S9wx0E+4mATptu3USem7DQNBAzhIf+KJ7k=
-Date: Mon, 19 Apr 2021 11:14:30 +1000
+ b=BQjf/X7swGnaJrDKXxBAM7j8PNHiFkJkrbrEWuKvr3stHHqwIyzuqlOjbGPw8GEmZ
+ 3CGZnoC7WIcTXW+0tgC/jeMQO1vIkZqGeOiUYkSlfmaEJiAWW9I2auaQncx8at4BHk
+ bSPcuoQD4KtWUWKu+hzICCR9OArigfzAGkOUdgc4=
+Date: Mon, 19 Apr 2021 14:08:46 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Subject: Re: [RFC PATCH 0/3] tests/tcg/ppc64le: paddi tests
-Message-ID: <YHzZdqK4zeeaz2fh@yekko.fritz.box>
-References: <20210415214138.563795-1-matheus.ferst@eldorado.org.br>
- <YHkJ52c/ysoS00qk@yekko.fritz.box>
- <338d679e-6619-4f60-5620-24de3ed3bf6d@eldorado.org.br>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/1] spapr_drc.c: handle hotunplug errors in
+ drc_unisolate_logical()
+Message-ID: <YH0CToT0lEcvmtxy@yekko.fritz.box>
+References: <20210416210941.381119-1-danielhb413@gmail.com>
+ <20210416210941.381119-2-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RxAfEhJzqKi5IYqc"
+ protocol="application/pgp-signature"; boundary="6UcFtMAAqDzqWEW5"
 Content-Disposition: inline
-In-Reply-To: <338d679e-6619-4f60-5620-24de3ed3bf6d@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210416210941.381119-2-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,85 +59,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, gustavo.romero@protonmail.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, f4bug@amsat.org, luis.pires@eldorado.org.br,
- qemu-ppc@nongnu.org, alex.bennee@linaro.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---RxAfEhJzqKi5IYqc
+--6UcFtMAAqDzqWEW5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 16, 2021 at 11:13:48AM -0300, Matheus K. Ferst wrote:
-> On 16/04/2021 00:52, David Gibson wrote:
-> > On Thu, Apr 15, 2021 at 06:41:35PM -0300, matheus.ferst@eldorado.org.br=
- wrote:
-> > > From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> > >=20
-> > > Based-on: <20210413211129.457272-1-luis.pires@eldorado.org.br>
-> >=20
-> > First things first: it's unclear to me if this is testing stuff that's
-> > already merged, or it's speculative tests for the in-progress prefixed
-> > instruction stuff.  i.e. If these tests are applied right now, will
-> > they pass?
->=20
-> GCC-10 images can be used to test already merged Power10 instructions, su=
-ch
-> as brh/brw/brd, but I haven't writen tests for them (yet?). Both tests are
-> targeting paddi, whose implementation is in-progress, so applying them now
-> will fail. Maybe I should split the series? Patch 1 for now, and Patch 2 =
-and
-> 3 when paddi are merged?
+On Fri, Apr 16, 2021 at 06:09:41PM -0300, Daniel Henrique Barboza wrote:
+> The Linux kernel will call set-indicator to move a DRC to 'unisolate' in
+> the case a device removal fails. Setting a DRC that is already
 
-That sounds reasonable, as long as patch 1 does *something* visible
-now (e.g. running existing tests with the new compiler).
+Only issue I have with this patch is that this isn't quite accurate
+yet.  Can you reword this to include some of the rationale from the
+cover letters about how a previous no-op is a safe choice to allow
+guest->hv error signalling and that we expect the Linux kernel to use
+it at some point.
 
+> unisolated or configured to 'unisolate' is a no-op for the current
+> hypervisors that supports pSeries guests, namely QEMU and phyp, and is
+> being used to signal hotunplug errors if the hypervisor has the code for
+> it.
 >=20
-> > > This series adds gcc-10 based images to enable the build of tests wit=
-h Power10
-> > > instructions. Then two tests for paddi are added:
-> > > - The first one checks a weird behavior observed on POWER10 Functiona=
-l Simulator
-> > >    1.1.0, where the 34-bit immediate is treated as a 32-bits one;
-> > > - The second one exercises the R=3D1 path of paddi, where CIA is used=
- instead of RA.
-> > >    The test is failing with the current implementation because we use=
- cpu_nip,
-> > >    which is not updated all the time. Luis already has the fix, it sh=
-ould be
-> > >    applied on the next version of his patch series.
-> > >=20
-> > > The main reason to submit this patch as an RFC first is the docker pa=
-rt. I would
-> > > lie if I tell you that I understand half of what is going on there.
-> > >   - 'make docker-test-tcg' fails, but apparently on unrelated things;
-> > >   - 'make docker-run-test-tcg@debian-ppc64el-cross' passes, but it lo=
-oks
-> > >     like the test is skipped?
-> > >   - 'make check-tcg' runs the test and passes (with the fix in place =
-for the
-> > >     second).
-> >=20
-> > What sort of host was that on?  Unfortunately 'make check-tcg' has
-> > been broken on a POWER host for some time, and I've never had time to
-> > look into it.
-> >=20
+> This patch changes drc_unisolate_logical() to implement in the pSeries
+> machine. For CPUs it's a simple matter of setting drc->unplug_requested
+> to 'false', while for LMBs the process is similar to the rollback that
+> is done in rtas_ibm_configure_connector(). Although at this moment the
+> Linux kernel is only reporting CPU removal errors, let's get the code
+> ready to handle LMBs as well.
 >=20
-> I'm testing on amd64, but I can also try on ppc64le.
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+Otherwise,
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/ppc/spapr_drc.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 >=20
-> > >=20
-> > > Finally, get_maintainer.pl found no maintainers for
-> > > tests/tcg/ppc64{,le}/Makefile.target. Would it be Mr. Gibson?
-> >=20
-> > Uh... sorta?  I also don't know much about what's going on here, but
-> > I'm probably maintainer by default.
-> >=20
->=20
-> So, should I update MAINTAINERS in this series?
->=20
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 9e16505fa1..6918e0c9d1 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -151,9 +151,32 @@ static uint32_t drc_isolate_logical(SpaprDrc *drc)
+> =20
+>  static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+>  {
+> +    SpaprMachineState *spapr =3D NULL;
+> +
+>      switch (drc->state) {
+>      case SPAPR_DRC_STATE_LOGICAL_UNISOLATE:
+>      case SPAPR_DRC_STATE_LOGICAL_CONFIGURED:
+> +        /*
+> +         * Unisolating a logical DRC that was marked for unplug
+> +         * means that the kernel is refusing the removal.
+> +         */
+> +        if (drc->unplug_requested && drc->dev) {
+> +            if (spapr_drc_type(drc) =3D=3D SPAPR_DR_CONNECTOR_TYPE_LMB) {
+> +                spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +
+> +                spapr_memory_unplug_rollback(spapr, drc->dev);
+> +            }
+> +
+> +            drc->unplug_requested =3D false;
+> +            error_report("Device hotunplug rejected by the guest "
+> +                         "for device %s", drc->dev->id);
+> +
+> +            /*
+> +             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
+> +             * it is implemented.
+> +             */
+> +        }
+> +
+>          return RTAS_OUT_SUCCESS; /* Nothing to do */
+>      case SPAPR_DRC_STATE_LOGICAL_AVAILABLE:
+>          break; /* see below */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -145,25 +145,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---RxAfEhJzqKi5IYqc
+--6UcFtMAAqDzqWEW5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB82XUACgkQbDjKyiDZ
-s5JEWA//e+aylgEZGA4akUdiCkR4xt3O0nbntbZGsghCknsHU9/OSOd16VaBanPI
-uGUSQAPiwxk6sSOKcUm8+nsX2A5H4urCW8rDIXwyd2hSMrq7yd6fcmZaKLHI4yzl
-t5XUEbjDbFAzHe9UTNcLNn5OxkgKeVsPzw1zPLXkC2N12af+cUOGlgqoJ0AMW68A
-pk4bCeEUtZNjbwtExGInysH6AI0LVkkF2MGowr2WDEJlPkY4srUgZlR9LJAgM5mu
-yTKBjQ3qM6447W+I0ZTPsqA0oxXU55dprp2gnXXx+UEpMH+BcmvPx1LNmNjd3KLU
-BCJzLP3i5e38hlax0tucQPFTmKm+pgjVOD8qH79Ywciq5u9UNGCrD5QDGqxxdS12
-y4MIq25xDPPPyJfxpnxo1XmOsGRamhMTZdIubvSqqoMaShGodzG6Bt+s0tj0sY4i
-a6uEVkDrZ8jhjmwtRYDSiut26R+COisNfU6hh2bnKLwI/gfodm+cmzPHK8zPGqnp
-CpFYCC3mk+0d+AqiNg+zJe10phgEMQwRA/vOdVodHJ73kkoXB7huJ4kftcI+uo9p
-n/5Y3o9jRGsZt+1MCtPRKCPnmi3nO/3x8aINakz9oGWwBQ6ieeZIbfgtY9LQKCVZ
-V0swrGm2gptpcKOY0BXMD1TDiFbaCp3zDDd+JCXpwmz1oJsDk5g=
-=IPTA
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB9Ak4ACgkQbDjKyiDZ
+s5JWgA/9HmZiYz0I1p123y2lYF6BPCM35l0U/WpvsBzXkvtFjkDqL2tTtt1/jnVJ
+2inych2JiZ8m1Epua9HMA/r2bJnXMmgIC9kBpwC+K7GZ0SPA5HaUGVjCfNfAd3ng
+J0GllJq1+E+LVV51JoGu23Cobe58fTJWrTpIY1ZsMtOjA9PZdSN6A0SDZYcwhTBi
+WF5yJB1YJ7jGhcwmjiYP3xEJW6zQ6voH+JkJgXo0/qLxehmLCx7BoPQs2eLpFOGN
+VAF4JZqMpJh6jYvZTprEgfIegCYTSTNuqjwTFHPvxUCdxMSwl58akZIQfxYRnlR9
+Mlmj4aPE30AlkyvhfwRMKTe62bQqkxBIzrBs1zGGXSDMPRQYIRFJjCC7QiGBFd/x
+O2/wWNpjha8vXdyGopgItWn/ZtzkpOKYXLa8iTMQluo6tbnpKkiHVrGmrvVGD59c
+GswXCvcN0PCx2bMcap3209X/k10u1YVNof1z7Iyudm6fpFmQEYWBL2gS6gfWK624
+ukWjvkAqDA31A9SD5LptvyMLlN71tdiA2E7rBofKqB4oeF43cv1g9qEpRBLNAWv5
+f8TqXs/dya02bBSIO+cueA/vDwUBBZ4/aI2ZBrHEGg2eYGz+v99uTrirYvIKtwb7
+K3r2be7lQzu9/XQKg3iFQF8bgr1G6B26TOKg2zHzQVQpIoJr2/w=
+=7UVB
 -----END PGP SIGNATURE-----
 
---RxAfEhJzqKi5IYqc--
+--6UcFtMAAqDzqWEW5--
 
