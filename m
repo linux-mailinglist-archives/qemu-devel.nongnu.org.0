@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544AC364AE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:02:11 +0200 (CEST)
-Received: from localhost ([::1]:42730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF18364AF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:04:26 +0200 (CEST)
+Received: from localhost ([::1]:46868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYa5y-0007kF-Ce
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53110)
+	id 1lYa89-0000zO-A1
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lYZip-0003MT-6C
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:38:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:53972
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1lYZjL-0003fQ-RI; Mon, 19 Apr 2021 15:38:48 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:38784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lYZim-00014K-KQ
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:38:14 -0400
-Received: from host86-132-83-131.range86-132.btcentralplus.com
- ([86.132.83.131] helo=[192.168.1.110])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lYZj2-0003l1-UK; Mon, 19 Apr 2021 20:38:29 +0100
-To: Cornelia Huck <cohuck@redhat.com>
-References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
- <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
- <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
- <CAFEAcA9Q7q5eoE+qBOY9LYQnnaccSfMux=fOzb3+BtRWjXm6gw@mail.gmail.com>
- <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
- <20210419090551.4a3ae4eb.cohuck@redhat.com>
- <20210419190224.33408d0e.cohuck@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <666985ba-349f-bbdf-10fd-ec1becb64cd7@ilande.co.uk>
-Date: Mon, 19 Apr 2021 20:38:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1lYZjI-0001FL-Ux; Mon, 19 Apr 2021 15:38:47 -0400
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 09342C602E6;
+ Mon, 19 Apr 2021 21:38:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1618861120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0OjnwcJPbwVPbe2ImHKCwLE35rVyNGSXOVVDYhYEYm0=;
+ b=EErzK9VcBuZGqfilX4HTUnBteaoSl4q06AQD8tyLM3ZMXR27ESfQrpBh0Ws5O2zxiC0WB8
+ EISFQ5JaLYA/4I0Ql/vihaQ+Sw9zIl2KP/bt0odTr9MVFK+syzJEfswJeQoabjbwNVsHjZ
+ f4U6Y+6XLZLNI7/mWCSK/jp4P69iqnAhAeWtKNLwrLoOTdDDRv973nHJHa56wfX7Yzm/h+
+ 0dXAk3ItPO4rtkLfmyuGJuxbNUnYxjaO01P4QbkrJc0fCS72D+hNQ/gJUw94lJu9puzB1I
+ wzwip8HLjt6E0Avvy9sZVpVjmUSk1sRNWxnkUIXeCmn/5FoTOQdL+BY3awGQ8w==
+Date: Mon, 19 Apr 2021 21:39:47 +0200
+From: Luc Michel <luc@lmichel.fr>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
+ clock propagation
+Message-ID: <20210419193947.lc6nyxubrtxwpiy3@sekoia-pc.home.lmichel.fr>
+References: <20210409062401.2350436-1-f4bug@amsat.org>
+ <20210410131932.i6no5tvvaldyomvp@sekoia-pc.home.lmichel.fr>
+ <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210419190224.33408d0e.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.83.131
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: any remaining for-6.0 issues?
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,34 +66,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/04/2021 18:02, Cornelia Huck wrote:
-
->> That patch seems to be our best candidate so far, but the intermittent
->> nature of the failures make it hard to pin down... I don't see anything
->> obviously wrong with the patch, maybe some linux-user experts have a
->> better idea?
+On 15:53 Sat 10 Apr     , Philippe Mathieu-Daudé wrote:
+> Hi Luc,
 > 
-> FWIW, I tried reproducing the issue on some local systems (no luck),
-> and on code pushed out to gitlab (where it works most of the time, and
-> the user builds where it fails are unpredictable.)
+> On 4/10/21 3:19 PM, Luc Michel wrote:
+> > On 08:23 Fri 09 Apr     , Philippe Mathieu-Daudé wrote:
+> >> I've been debugging some odd issue with the clocks:
+> >> a clock created in the machine (IOW, not a qdev clock) isn't
+> >> always resetted, thus propagating its value.
+> >> "not always" is the odd part. In the MPS2 board, the machine
+> >> clock is propagated. Apparently because the peripherals are
+> >> created directly in the machine_init() handler. When moving
+> >> them out in a SoC QOM container, the clock isn't... I'm still
+> >> having hard time to understand what is going on.
+> > 
+> > I think there is a misunderstanding on how the clock API works. If I
+> > understand correctly your issue, you expect the callback of an input
+> > clock connected to your constant "main oscillator" clock to be called on
+> > machine reset.
+> > 
+> > If I'm not mistaken this is not the way the API has been designed. The
+> > callback is called only when the clock period changes. A constant clock
+> > does not change on reset, so the callback of child clocks should not be
+> > called.
 > 
-> I fear the best we can do right now is stare at the code and try to
-> figure out what might be wrong :(
+> They why the children of a clock tree fed with constant clock stay with
+> a clock of 0? Who is responsible of setting their clock to the constant
+> value?
 
-Is there any particular reason why the unsigned long cast was removed from the front? 
-Could that have an effect?
+I think we expect the child to be set when we call clock_set_source. In
+this function the child period is set to the parent one. Maybe you have
+a case where clock_set_source is called before clock_set on the parent?
 
-
-ATB,
-
-Mark.
+-- 
+Luc
 
