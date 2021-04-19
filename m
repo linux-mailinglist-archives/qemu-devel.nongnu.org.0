@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3EC364B19
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:23:00 +0200 (CEST)
-Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 544AC364AE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:02:11 +0200 (CEST)
+Received: from localhost ([::1]:42730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYaQ7-000632-Nm
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
+	id 1lYa5y-0007kF-Ce
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lYZgZ-0008MJ-Rz
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:35:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27968)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lYZip-0003MT-6C
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:38:16 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:53972
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lYZgW-0008J0-8Q
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:35:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618860951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ev10w6+tWgOOgZDrVXuocF4yKptTqy1/dsiI/LxuVlE=;
- b=eIuIfCrTtty0UzWM+6noBG9bnZGSEWNKCuMANAhyggH84VxI2ZoukFKdd4qT9WxI7H0TbX
- 9e6im+avRYyJFKBqwxTr9Q3XqXu72FNOkf38MaXlIS+Ye3twuFM0jZHwrUfUI5YyTGUThX
- smQlhnFJA8CWZQoi50UUFPqgnTi06Vs=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-ucQf5KisPU63TGKqUMnOag-1; Mon, 19 Apr 2021 15:35:49 -0400
-X-MC-Unique: ucQf5KisPU63TGKqUMnOag-1
-Received: by mail-vk1-f199.google.com with SMTP id
- y70-20020a1f32490000b02901df8c87c514so4952333vky.4
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:35:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ev10w6+tWgOOgZDrVXuocF4yKptTqy1/dsiI/LxuVlE=;
- b=tAjhY/o4UcEyfnsSnDu8XgSqZVHrcPGJltKBNJHWgmiMCWx2Ds8OELXT3c9jiP11pD
- UAocvGnlIz1VNfktNI/itr3MYXA23HD2aKpzCLHFTnR2j3Az025mpQNx6v/jt0vj5iP1
- t0sFS1fAEiIBkRffSkMvjFmBAObOiguFNBJlCjrSXzXX7xrUpAQbeuRIB03d5JdQF+nV
- KZ4oP9mRFvQgPPoT/8kuR/brKwxthjwvMp1X8WZrpGK4SSxB4WoBT+H7h0Fk1qDcvKLC
- pqlsKKdyLjL7L+ClccXuNPnkbN6/5fjvwyNd2W0N8zxdq2c4i9yWBfKvZPPw/oFNSxq/
- ctLA==
-X-Gm-Message-State: AOAM533Egba+HrcfY9f91JVc+u4SfnVODvINT6duaxv+AdDxfSZQFk8k
- zJx52xoGTCR1tjJVI244K9QfULfYvOTleQ2REx0BZa5EgogHbB2neqrYaMqMsWRDxxaAy8Tv0h8
- dC2STNj/Qk7KpaSlSrmgNiXI0NURlXOw=
-X-Received: by 2002:a9f:2069:: with SMTP id 96mr9527784uam.110.1618860949144; 
- Mon, 19 Apr 2021 12:35:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTylWLOFMgKBz/1PFyR16ohEnc+q1mcz+FFbn4r+HxdB/jowcI3aLHMNxlDwpPbjxC81tk6twaCnuTL6ypzWU=
-X-Received: by 2002:a9f:2069:: with SMTP id 96mr9527764uam.110.1618860948965; 
- Mon, 19 Apr 2021 12:35:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lYZim-00014K-KQ
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:38:14 -0400
+Received: from host86-132-83-131.range86-132.btcentralplus.com
+ ([86.132.83.131] helo=[192.168.1.110])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lYZj2-0003l1-UK; Mon, 19 Apr 2021 20:38:29 +0100
+To: Cornelia Huck <cohuck@redhat.com>
+References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
+ <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
+ <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
+ <CAFEAcA9Q7q5eoE+qBOY9LYQnnaccSfMux=fOzb3+BtRWjXm6gw@mail.gmail.com>
+ <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
+ <20210419090551.4a3ae4eb.cohuck@redhat.com>
+ <20210419190224.33408d0e.cohuck@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <666985ba-349f-bbdf-10fd-ec1becb64cd7@ilande.co.uk>
+Date: Mon, 19 Apr 2021 20:38:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <20210415215141.1865467-1-crosa@redhat.com>
- <20210415215141.1865467-8-crosa@redhat.com>
-In-Reply-To: <20210415215141.1865467-8-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 19 Apr 2021 16:35:23 -0300
-Message-ID: <CAKJDGDZnyHyoMrn31f9pQ7rqFai3TGKtzCBVV1VKx+rP+318mg@mail.gmail.com>
-Subject: Re: [PATCH 7/8] tests/acceptance/migration.py: cancel test on s390x
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210419190224.33408d0e.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.132.83.131
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: any remaining for-6.0 issues?
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,34 +69,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Auger Eric <eric.auger@redhat.com>,
- "open list:S390 Virtio-ccw" <qemu-s390x@nongnu.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 15, 2021 at 6:52 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> Because s390x targets it can not currently migrate without a guest
-> running.
->
-> Future work may provide a proper guest, but for now, it's safer to
-> cancel the test.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/migration.py | 6 ++++++
->  1 file changed, 6 insertions(+)
->
+On 19/04/2021 18:02, Cornelia Huck wrote:
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+>> That patch seems to be our best candidate so far, but the intermittent
+>> nature of the failures make it hard to pin down... I don't see anything
+>> obviously wrong with the patch, maybe some linux-user experts have a
+>> better idea?
+> 
+> FWIW, I tried reproducing the issue on some local systems (no luck),
+> and on code pushed out to gitlab (where it works most of the time, and
+> the user builds where it fails are unpredictable.)
+> 
+> I fear the best we can do right now is stare at the code and try to
+> figure out what might be wrong :(
 
+Is there any particular reason why the unsigned long cast was removed from the front? 
+Could that have an effect?
+
+
+ATB,
+
+Mark.
 
