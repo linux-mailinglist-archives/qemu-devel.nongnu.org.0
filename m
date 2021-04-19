@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0D83648B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:59:57 +0200 (CEST)
-Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CB13648BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 19:06:21 +0200 (CEST)
+Received: from localhost ([::1]:42314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYXFc-0000vg-Mw
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46274)
+	id 1lYXLo-0003x2-7F
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 13:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lYXES-0000Le-JA
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:58:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60262)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYXIG-0001wx-36
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 13:02:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lYXEQ-00020W-O7
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:58:44 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYXID-0003dL-ET
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 13:02:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618851522;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1618851755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mu2M5lwdvZL907fz+B+0BiC7VljxEHSJaLnzxjcx/8g=;
- b=ZSpDnbDBcIT5VV5esCAs8L8N4sS3u6UgM8BZVV9qnaHeE2kK3UXrPf9X8NRE8rWg8b3+ZX
- DTYhzOI/cqNDw4TmY8F5RcrbtQJvaNE6hpCNVIGEo6pT5pRodC7pWmKLDGlI8uEv2ngjp1
- UVerg5W/OlsX/GB0HFQY9+PnPr+XqEI=
+ bh=Vlh2wNl4q0GnfZU1K25YvwbcmB0F2MncFAX7+4cbfgQ=;
+ b=CPfRQmyxv/CWOE2QdhnAe1Ltqb2CioDI8Bu250tSOQuCgskkd8mDScsU8LAPEFXPW3P+PB
+ IG7Q8ZdCwyGfpuGBMLHSFdhdw5IoQVxrSxlmXB6DjXSBX0YDrS7B2j87vEOW1j8tx0YA7U
+ ACu9hm5BbChAchX1GvK5k6ePoPKHInE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-ECOjVUtOPqWCqx0ECD8TKQ-1; Mon, 19 Apr 2021 12:58:36 -0400
-X-MC-Unique: ECOjVUtOPqWCqx0ECD8TKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-463-UzP5K-tzO-yH29Gnbegitg-1; Mon, 19 Apr 2021 13:02:29 -0400
+X-MC-Unique: UzP5K-tzO-yH29Gnbegitg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55AEF8DFFD5;
- Mon, 19 Apr 2021 16:58:35 +0000 (UTC)
-Received: from redhat.com (ovpn-114-178.ams2.redhat.com [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34CC619C79;
- Mon, 19 Apr 2021 16:58:17 +0000 (UTC)
-Date: Mon, 19 Apr 2021 17:58:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
- jobs
-Message-ID: <YH22p6fcgMcVjUOz@redhat.com>
-References: <20210418233448.1267991-1-f4bug@amsat.org>
- <20210418233448.1267991-15-f4bug@amsat.org>
- <877dky9rqt.fsf@linaro.org> <YH2uQADHTM4pBMi1@redhat.com>
- <534d7a2c-9377-01b6-cc9f-cd1f5aaaac00@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AA906D249;
+ Mon, 19 Apr 2021 17:02:28 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-200.ams2.redhat.com
+ [10.36.113.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED92360843;
+ Mon, 19 Apr 2021 17:02:26 +0000 (UTC)
+Date: Mon, 19 Apr 2021 19:02:24 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: any remaining for-6.0 issues?
+Message-ID: <20210419190224.33408d0e.cohuck@redhat.com>
+In-Reply-To: <20210419090551.4a3ae4eb.cohuck@redhat.com>
+References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
+ <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
+ <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
+ <CAFEAcA9Q7q5eoE+qBOY9LYQnnaccSfMux=fOzb3+BtRWjXm6gw@mail.gmail.com>
+ <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
+ <20210419090551.4a3ae4eb.cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <534d7a2c-9377-01b6-cc9f-cd1f5aaaac00@amsat.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,113 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alex =?UTF-8?B?QmVu?= =?UTF-8?B?bsOpZQ==?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 19, 2021 at 06:46:49PM +0200, Philippe Mathieu-Daudé wrote:
-> On 4/19/21 6:22 PM, Daniel P. Berrangé wrote:
-> > On Mon, Apr 19, 2021 at 04:57:55PM +0100, Alex Bennée wrote:
-> >>
-> >> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> >>
-> >>> Forks run the same jobs than mainstream, which might be overkill.
-> >>> Allow them to easily rebase their custom set, while keeping using
-> >>> the mainstream templates, and ability to pick specific jobs from
-> >>> the mainstream set.
-> >>>
-> >>> To switch to your set, simply add your .gitlab-ci.yml as
-> >>> .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
-> >>> is your gitlab 'namespace', usually username). This file will be
-> >>> used instead of the default mainstream set.
-> >>>
-> >>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> >>> ---
-> >>>  .gitlab-ci.yml | 7 ++++++-
-> >>>  1 file changed, 6 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> >>> index 718c8e004be..35fd35075db 100644
-> >>> --- a/.gitlab-ci.yml
-> >>> +++ b/.gitlab-ci.yml
-> >>> @@ -9,7 +9,12 @@ generate-config:
-> >>>      paths:
-> >>>        - generated-config.yml
-> >>>    script:
-> >>> -    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
-> >>> +    - if test -e .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml ;
-> >>> +      then
-> >>> +        cp .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml generated-config.yml ;
-> >>> +      else
-> >>> +        cp .gitlab-ci.d/qemu-project.yml generated-config.yml ;
-> >>> +      fi
-> >>
-> >> This is going to be a little clunky. I can see a use for the static
-> >> forks that Danial proposes but I guess what is needed is a little
-> >> expressiveness. So how to express things like:
-> >>
-> >>  - I've only touched stuff in linux-user, so run only linux-user tests
-> > 
-> > This can be done with "rules" matching on files, but *only* if the
-> > pipeline trigger is a merge request - specifically not a git branch
-> > push, as the latter doesn't have the semantics you expect wrt
-> > determining the "ancestor" to compare against. It only looks at commits
-> > in the push, not those which may already have previously been pushed
-> > on the branch.
-> > 
-> >>  - I'm working on KVM, run all KVM enabled builds and tests
-> >>
-> >>  - I've changed the core TCG code, run everything that exercises that
-> >>
-> >>  - I'm working on ARM, only build and run jobs that have ARM targets
-> > 
-> > If the stuff you work on is fairly static, we could potentially
-> > allow env variables to be set by the user in their fork, which
-> > the CI jobs use to filter jobs.
-> > 
-> >> I think we should define a minimum set of lightweight smoke tests that
-> >> get the most bang for buck for catching sillies. I think checkpatch and
-> >> dco checking should probably be in there - and maybe one of the bog
-> >> standard build everything builds (maybe a random ../configure; make;
-> >> make check on one of the supported LTS targets).
-> > 
-> > Could we have allow an env var  "QEMU_CI_SMOKE_TEST=1" which can be
-> > set when pushing:
-> > 
-> >    git push  -o ci.variable="QEMU_CI_SMOKE_TEST=1"
-> > 
-> > 
-> > which causes it to only do the minimum neccessary.
-> > 
-> > Alternatively, invert this, so do minimum smoke test by default
-> > and require an env to run the full test. QEMU_CI_MAX=1
-> > 
-> > Potentially allow also  "QEMU_CI_EXTRA_JOBS=foo,bar,wizz"
-> > to match against job jnames ?
+On Mon, 19 Apr 2021 09:05:51 +0200
+Cornelia Huck <cohuck@redhat.com> wrote:
+
+> On Sun, 18 Apr 2021 11:38:09 +0100
+> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
 > 
-> Is that what you mean?
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg758340.html
+> > On 17/04/2021 20:46, Peter Maydell wrote:
+> >   
+> > >> On 14/04/2021 13:48, Thomas Huth wrote:    
+> > >>> I've seen some intermittend, non-reproducible crashes with usermode QEMU in some of
+> > >>> my CI runs, e.g.:
+> > >>>
+> > >>> https://gitlab.com/thuth/qemu/-/jobs/1178256498#L3876
+> > >>>
+> > >>> https://gitlab.com/thuth/qemu/-/jobs/1146276208#L3241
+> > >>>
+> > >>> This was only with ccache enabled, so I thought that it might be related to my
+> > >>> work-in-progress ccache patches...
+> > >>>
+> > >>> ... but now Cornelia reported that she has seen such a crash in one of her branches,
+> > >>> too (which is completely unrelated to my ccache patches):
+> > >>>
+> > >>> https://gitlab.com/cohuck/qemu/-/jobs/1178860927#L3867
+> > >>>
+> > >>> That makes me wonder whether we currently have a real problem with user-mode in the
+> > >>> master branch? Did anybody else see such problems?    
+> > >>
+> > >> I've definitely seen the same issue as Cornelia in my Gitlab CI builds for the ESP
+> > >> security fixes (first version of which appeared just before rc0). The user builds
+> > >> always fail on "run-tcg-tests-s390x-linux-user" for me.    
+> > > 
+> > > Do we have any better understanding yet of the cause here?
+> > > (I ask because I think we're going to need an rc4 for other reasons,
+> > > so if there's a ready-to-go fix then we could consider it.)    
+> > 
+> > I don't think so. I tried a run with a possible candidate patch reverted (see 
+> > https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02345.html) but Cornelia's 
+> > response indicates that the result is still inconclusive :(  
+> 
+> That patch seems to be our best candidate so far, but the intermittent
+> nature of the failures make it hard to pin down... I don't see anything
+> obviously wrong with the patch, maybe some linux-user experts have a
+> better idea?
 
-Sort of - this is more implementing high level tags - I was actally
-suggesting the explicit job names here.
+FWIW, I tried reproducing the issue on some local systems (no luck),
+and on code pushed out to gitlab (where it works most of the time, and
+the user builds where it fails are unpredictable.)
 
-eg if I see that my pull request to peter has failed on  job "foo",
-then when testing fixes it is easier if I can just say run job "foo",
-instead of trying to figure out which high level tag happens to pull
-in job "foo".
-
-The two approaches probably aren't mutually exclusive though.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I fear the best we can do right now is stare at the code and try to
+figure out what might be wrong :(
 
 
