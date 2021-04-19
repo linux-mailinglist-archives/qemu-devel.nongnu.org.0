@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CAED363F91
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:28:10 +0200 (CEST)
-Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7126363F9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:31:08 +0200 (CEST)
+Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYR8T-0001Ff-2T
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
+	id 1lYRBL-0004AW-Si
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYR3g-0004UK-BA
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42535)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lYR3F-0003wR-EG
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:45 -0400
+Received: from mga17.intel.com ([192.55.52.151]:24096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYR3d-0002Oo-8f
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618827788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nYq3QW1MDnJs5zq84qvaKW5Gk+t0mY7KCvLlo4OLNv8=;
- b=Qaq0ov8yOInYCuQ6kb1Wo7u2ZJbYozDpUOchoNwzZIYLZNORT7DzAWugBTf0ONu8mNWvOE
- 2OKbi7rtqYvr4EO/+nvmqF+q+4YTEk0unyX/3LJlrhZPtOBB7shixwsQ/LovAQHUgrlXPh
- aHt1+ZyqPRcbBAJPAh/qWfkLp+lUNZk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-mrzkgKsZNRSoihK2jtp7dw-1; Mon, 19 Apr 2021 06:23:06 -0400
-X-MC-Unique: mrzkgKsZNRSoihK2jtp7dw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 461168030A0;
- Mon, 19 Apr 2021 10:23:03 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCD6760C5F;
- Mon, 19 Apr 2021 10:23:00 +0000 (UTC)
-Subject: Re: [RFC v14 52/80] tests: device-introspect-test: cope with ARM
- TCG-only devices
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210416162824.25131-1-cfontana@suse.de>
- <20210416162824.25131-53-cfontana@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <75c0236b-a8f1-c462-355b-945e509d90f5@redhat.com>
-Date: Mon, 19 Apr 2021 12:22:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lYR3C-000256-4C
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:22:45 -0400
+IronPort-SDR: TKh9lfkUF4NCJLljv0mThN9RGp5SohAkt9YGUtyblYaCbkXGZCNcaTCkL7jjkHiKgz8roxnbsh
+ Idu1WCdFxyUw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409257"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409257"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2021 03:22:36 -0700
+IronPort-SDR: tBq1txY2zanqTwlaYWl+6ko2pw3VQo32FEeZUOU3ZeHyjLQnYdZfAiSzlSOhTPA2EsMEYRrnMs
+ nD4BXPuzoqaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947308"
+Received: from icx-2s.bj.intel.com ([10.240.192.119])
+ by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:34 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 04/32] i386: Add 'sgx-epc' device to expose EPC sections to
+ guest
+Date: Mon, 19 Apr 2021 18:01:28 +0800
+Message-Id: <20210419100156.53504-5-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
+In-Reply-To: <20210419100156.53504-1-yang.zhong@intel.com>
+References: <20210419100156.53504-1-yang.zhong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416162824.25131-53-cfontana@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,67 +62,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
+ seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/04/2021 18.27, Claudio Fontana wrote:
-> Skip the test_device_intro_concrete for now for ARM KVM-only build,
-> as on ARM we currently build devices for ARM that are not
-> compatible with a KVM-only build.
-> 
-> We can remove this workaround when we fix this in KConfig etc,
-> and we only list and build machines that are compatible with KVM
-> for KVM-only builds.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   tests/qtest/device-introspect-test.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
-> 
-> diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
-> index bbec166dbc..1ff15e2247 100644
-> --- a/tests/qtest/device-introspect-test.c
-> +++ b/tests/qtest/device-introspect-test.c
-> @@ -329,12 +329,30 @@ int main(int argc, char **argv)
->       qtest_add_func("device/introspect/none", test_device_intro_none);
->       qtest_add_func("device/introspect/abstract", test_device_intro_abstract);
->       qtest_add_func("device/introspect/abstract-interfaces", test_abstract_interfaces);
-> +
-> +    /*
-> +     * XXX currently we build also boards for ARM that are incompatible with KVM.
-> +     * We therefore need to check this explicitly, and only test virt for kvm-only
-> +     * arm builds.
-> +     * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
-> +     * are built for the kvm-only build, we could remove this.
-> +     */
-> +#ifndef CONFIG_TCG
-> +    {
-> +        const char *arch = qtest_get_arch();
-> +        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
-> +            goto add_machine_test_done;
-> +        }
-> +    }
-> +#endif /* !CONFIG_TCG */
->       if (g_test_quick()) {
->           qtest_add_data_func("device/introspect/concrete/defaults/none",
->                               g_strdup(common_args), test_device_intro_concrete);
->       } else {
->           qtest_cb_for_every_machine(add_machine_test_case, true);
->       }
-> +    goto add_machine_test_done;
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-That last goto does not make much sense, since the label is right below.
+SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be
+realized prior to realizing the vCPUs themselves, which occurs long
+before generic devices are parsed and realized.  Because of this,
+do not allow 'sgx-epc' devices to be instantiated after vCPUS have
+been created.
 
-  Thomas
+The 'sgx-epc' device is essentially a placholder at this time, it will
+be fully implemented in a future patch along with a dedicated command
+to create 'sgx-epc' devices.
 
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+---
+ hw/i386/meson.build       |   1 +
+ hw/i386/sgx-epc.c         | 161 ++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/sgx-epc.h |  44 +++++++++++
+ 3 files changed, 206 insertions(+)
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 include/hw/i386/sgx-epc.h
 
-> + add_machine_test_done:
->       return g_test_run();
->   }
-> 
+diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+index e5d109f5c6..087426c75c 100644
+--- a/hw/i386/meson.build
++++ b/hw/i386/meson.build
+@@ -5,6 +5,7 @@ i386_ss.add(files(
+   'e820_memory_layout.c',
+   'multiboot.c',
+   'x86.c',
++  'sgx-epc.c',
+ ))
+ 
+ i386_ss.add(when: 'CONFIG_X86_IOMMU', if_true: files('x86-iommu.c'),
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+new file mode 100644
+index 0000000000..aa487dea79
+--- /dev/null
++++ b/hw/i386/sgx-epc.c
+@@ -0,0 +1,161 @@
++/*
++ * SGX EPC device
++ *
++ * Copyright (C) 2019 Intel Corporation
++ *
++ * Authors:
++ *   Sean Christopherson <sean.j.christopherson@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#include "qemu/osdep.h"
++#include "hw/i386/pc.h"
++#include "hw/i386/sgx-epc.h"
++#include "hw/mem/memory-device.h"
++#include "hw/qdev-properties.h"
++#include "monitor/qdev.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "qemu/config-file.h"
++#include "qemu/error-report.h"
++#include "qemu/option.h"
++#include "qemu/units.h"
++#include "target/i386/cpu.h"
++#include "exec/address-spaces.h"
++
++static Property sgx_epc_properties[] = {
++    DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
++    DEFINE_PROP_LINK(SGX_EPC_MEMDEV_PROP, SGXEPCDevice, hostmem,
++                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void sgx_epc_get_size(Object *obj, Visitor *v, const char *name,
++                             void *opaque, Error **errp)
++{
++    Error *local_err = NULL;
++    uint64_t value;
++
++    value = memory_device_get_region_size(MEMORY_DEVICE(obj), &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    visit_type_uint64(v, name, &value, errp);
++}
++
++static void sgx_epc_init(Object *obj)
++{
++    object_property_add(obj, SGX_EPC_SIZE_PROP, "uint64", sgx_epc_get_size,
++                        NULL, NULL, NULL);
++}
++
++static void sgx_epc_realize(DeviceState *dev, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
++    X86MachineState *x86ms = X86_MACHINE(pcms);
++    SGXEPCDevice *epc = SGX_EPC(dev);
++    const char *path;
++
++    if (x86ms->boot_cpus != 0) {
++        error_setg(errp, "'" TYPE_SGX_EPC "' can't be created after vCPUs,"
++                         "e.g. via -device");
++        return;
++    }
++
++    if (!epc->hostmem) {
++        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
++        return;
++    } else if (host_memory_backend_is_mapped(epc->hostmem)) {
++        path = object_get_canonical_path_component(OBJECT(epc->hostmem));
++        error_setg(errp, "can't use already busy memdev: %s", path);
++        return;
++    }
++
++    error_setg(errp, "'" TYPE_SGX_EPC "' not supported");
++}
++
++static void sgx_epc_unrealize(DeviceState *dev)
++{
++    SGXEPCDevice *epc = SGX_EPC(dev);
++
++    host_memory_backend_set_mapped(epc->hostmem, false);
++}
++
++static uint64_t sgx_epc_md_get_addr(const MemoryDeviceState *md)
++{
++    const SGXEPCDevice *epc = SGX_EPC(md);
++
++    return epc->addr;
++}
++
++static void sgx_epc_md_set_addr(MemoryDeviceState *md, uint64_t addr,
++                                Error **errp)
++{
++    object_property_set_uint(OBJECT(md), SGX_EPC_ADDR_PROP, addr, errp);
++}
++
++static uint64_t sgx_epc_md_get_plugged_size(const MemoryDeviceState *md,
++                                            Error **errp)
++{
++    return 0;
++}
++
++static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
++                                                  Error **errp)
++{
++    SGXEPCDevice *epc = SGX_EPC(md);
++
++    if (!epc->hostmem) {
++        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
++        return NULL;
++    }
++
++    return host_memory_backend_get_memory(epc->hostmem);
++}
++
++static void sgx_epc_md_fill_device_info(const MemoryDeviceState *md,
++                                        MemoryDeviceInfo *info)
++{
++    /* TODO */
++}
++
++static void sgx_epc_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
++
++    dc->hotpluggable = false;
++    dc->realize = sgx_epc_realize;
++    dc->unrealize = sgx_epc_unrealize;
++    dc->desc = "SGX EPC section";
++    device_class_set_props(dc, sgx_epc_properties);
++
++    mdc->get_addr = sgx_epc_md_get_addr;
++    mdc->set_addr = sgx_epc_md_set_addr;
++    mdc->get_plugged_size = sgx_epc_md_get_plugged_size;
++    mdc->get_memory_region = sgx_epc_md_get_memory_region;
++    mdc->fill_device_info = sgx_epc_md_fill_device_info;
++}
++
++static TypeInfo sgx_epc_info = {
++    .name          = TYPE_SGX_EPC,
++    .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(SGXEPCDevice),
++    .instance_init = sgx_epc_init,
++    .class_init    = sgx_epc_class_init,
++    .class_size    = sizeof(DeviceClass),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_MEMORY_DEVICE },
++        { }
++    },
++};
++
++static void sgx_epc_register_types(void)
++{
++    type_register_static(&sgx_epc_info);
++}
++
++type_init(sgx_epc_register_types)
+diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
+new file mode 100644
+index 0000000000..5fd9ae2d0c
+--- /dev/null
++++ b/include/hw/i386/sgx-epc.h
+@@ -0,0 +1,44 @@
++/*
++ * SGX EPC device
++ *
++ * Copyright (C) 2019 Intel Corporation
++ *
++ * Authors:
++ *   Sean Christopherson <sean.j.christopherson@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#ifndef QEMU_SGX_EPC_H
++#define QEMU_SGX_EPC_H
++
++#include "sysemu/hostmem.h"
++
++#define TYPE_SGX_EPC "sgx-epc"
++#define SGX_EPC(obj) \
++    OBJECT_CHECK(SGXEPCDevice, (obj), TYPE_SGX_EPC)
++#define SGX_EPC_CLASS(oc) \
++    OBJECT_CLASS_CHECK(SGXEPCDeviceClass, (oc), TYPE_SGX_EPC)
++#define SGX_EPC_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(SGXEPCDeviceClass, (obj), TYPE_SGX_EPC)
++
++#define SGX_EPC_ADDR_PROP "addr"
++#define SGX_EPC_SIZE_PROP "size"
++#define SGX_EPC_MEMDEV_PROP "memdev"
++
++/**
++ * SGXEPCDevice:
++ * @addr: starting guest physical address, where @SGXEPCDevice is mapped.
++ *         Default value: 0, means that address is auto-allocated.
++ * @hostmem: host memory backend providing memory for @SGXEPCDevice
++ */
++typedef struct SGXEPCDevice {
++    /* private */
++    DeviceState parent_obj;
++
++    /* public */
++    uint64_t addr;
++    HostMemoryBackend *hostmem;
++} SGXEPCDevice;
++
++#endif
+-- 
+2.29.2.334.gfaefdd61ec
 
 
