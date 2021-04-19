@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFE5363E0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 10:57:46 +0200 (CEST)
-Received: from localhost ([::1]:33074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D76E363E14
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 10:59:31 +0200 (CEST)
+Received: from localhost ([::1]:41286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYPiz-0002K2-Sn
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 04:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
+	id 1lYPkg-0005bX-GK
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 04:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lYPhK-0000Zt-5Q
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 04:56:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31059)
+ id 1lYPhP-0000ny-L4
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 04:56:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lYPhI-0000vw-K5
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 04:56:01 -0400
+ id 1lYPhN-0000yl-Uf
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 04:56:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618822560;
+ s=mimecast20190719; t=1618822565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F7NwFsCFY1ZCxrd9bRPmNUOXiKGCgh0XcDto2jSEUCQ=;
- b=i7fDYh0d95vWOWQfukIOZNs7wAqgRWFDVBMLe8WVhq3gRlGRcpk7k9K17VmDELrcK1xm/7
- oQPqErrlQlvwmkd9malBUk3huj7h4ZlMQAtXXHq9l61+3brl1W9RpXkUja308yzh8G72yd
- 4f7Y/LSC38fB5YTl/jHBWrpuo7E999I=
+ bh=Q7e3ACKik/9Tt3fAfsgsQlAWRQdjxhC03g6iQjWjbOg=;
+ b=Zs1MADo7T9lfMfLbZAxiNlTswSWSFsmmRJfzdIXGxDHWKl18epEAafr/XGcBEPTJJu3yEA
+ 3VJyYUh/ddhXSnwCAqdHj7LS7ne2kPLRNJk2zu9WWkG9FMQ3OV8A3f6jhiqPtYUJSiu/HJ
+ dH8zTj3L+IpmciHPQ2beWZJJoz8c3Fg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-cxtm6m-yN_uXk7RBST2ShA-1; Mon, 19 Apr 2021 04:55:58 -0400
-X-MC-Unique: cxtm6m-yN_uXk7RBST2ShA-1
+ us-mta-159-37hii6YUNGyykaSM_9xJtw-1; Mon, 19 Apr 2021 04:56:01 -0400
+X-MC-Unique: 37hii6YUNGyykaSM_9xJtw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F579107ACF6;
- Mon, 19 Apr 2021 08:55:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E36387A82A;
+ Mon, 19 Apr 2021 08:56:00 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-195.ams2.redhat.com
  [10.36.114.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93B5C5D742;
- Mon, 19 Apr 2021 08:55:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF93C5D742;
+ Mon, 19 Apr 2021 08:55:57 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/8] block: protect write threshold QMP commands from
- concurrent requests
-Date: Mon, 19 Apr 2021 10:55:35 +0200
-Message-Id: <20210419085541.22310-3-eesposit@redhat.com>
+Subject: [PATCH v2 3/8] util: use RCU accessors for notifiers
+Date: Mon, 19 Apr 2021 10:55:36 +0200
+Message-Id: <20210419085541.22310-4-eesposit@redhat.com>
 In-Reply-To: <20210419085541.22310-1-eesposit@redhat.com>
 References: <20210419085541.22310-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,43 +87,81 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For simplicity, use bdrv_drained_begin/end to avoid concurrent
-writes to the write threshold, or reading it while it is being set.
-qmp_block_set_write_threshold is protected by the BQL.
+Note that calling rcu_read_lock() is left to the caller.  In fact,
+if the notifier is really only used within the BQL, it's unnecessary.
+
+Even outside the BQL, RCU accessors can also be used with any API that has
+the same contract as synchronize_rcu, i.e. it stops until all concurrent
+readers complete, no matter how "readers" are defined.  In the next patch,
+for example, synchronize_rcu's role is taken by bdrv_drain (which is a
+superset of synchronize_rcu, since it also blocks new incoming readers).
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/write-threshold.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ util/notify.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/block/write-threshold.c b/block/write-threshold.c
-index 63040fa4f2..77c74bdaa7 100644
---- a/block/write-threshold.c
-+++ b/block/write-threshold.c
-@@ -111,7 +111,6 @@ void qmp_block_set_write_threshold(const char *node_name,
-                                    Error **errp)
+diff --git a/util/notify.c b/util/notify.c
+index 76bab212ae..529f1d121e 100644
+--- a/util/notify.c
++++ b/util/notify.c
+@@ -15,6 +15,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/notify.h"
++#include "qemu/rcu_queue.h"
+ 
+ void notifier_list_init(NotifierList *list)
  {
-     BlockDriverState *bs;
--    AioContext *aio_context;
+@@ -23,19 +24,19 @@ void notifier_list_init(NotifierList *list)
  
-     bs = bdrv_find_node(node_name);
-     if (!bs) {
-@@ -119,10 +118,8 @@ void qmp_block_set_write_threshold(const char *node_name,
-         return;
-     }
- 
--    aio_context = bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
--
-+    /* Avoid a concurrent write_threshold_disable.  */
-+    bdrv_drained_begin(bs);
-     bdrv_write_threshold_set(bs, threshold_bytes);
--
--    aio_context_release(aio_context);
-+    bdrv_drained_end(bs);
+ void notifier_list_add(NotifierList *list, Notifier *notifier)
+ {
+-    QLIST_INSERT_HEAD(&list->notifiers, notifier, node);
++    QLIST_INSERT_HEAD_RCU(&list->notifiers, notifier, node);
  }
+ 
+ void notifier_remove(Notifier *notifier)
+ {
+-    QLIST_REMOVE(notifier, node);
++    QLIST_REMOVE_RCU(notifier, node);
+ }
+ 
+ void notifier_list_notify(NotifierList *list, void *data)
+ {
+     Notifier *notifier, *next;
+ 
+-    QLIST_FOREACH_SAFE(notifier, &list->notifiers, node, next) {
++    QLIST_FOREACH_SAFE_RCU(notifier, &list->notifiers, node, next) {
+         notifier->notify(notifier, data);
+     }
+ }
+@@ -53,12 +54,12 @@ void notifier_with_return_list_init(NotifierWithReturnList *list)
+ void notifier_with_return_list_add(NotifierWithReturnList *list,
+                                    NotifierWithReturn *notifier)
+ {
+-    QLIST_INSERT_HEAD(&list->notifiers, notifier, node);
++    QLIST_INSERT_HEAD_RCU(&list->notifiers, notifier, node);
+ }
+ 
+ void notifier_with_return_remove(NotifierWithReturn *notifier)
+ {
+-    QLIST_REMOVE(notifier, node);
++    QLIST_REMOVE_RCU(notifier, node);
+ }
+ 
+ int notifier_with_return_list_notify(NotifierWithReturnList *list, void *data)
+@@ -66,7 +67,7 @@ int notifier_with_return_list_notify(NotifierWithReturnList *list, void *data)
+     NotifierWithReturn *notifier, *next;
+     int ret = 0;
+ 
+-    QLIST_FOREACH_SAFE(notifier, &list->notifiers, node, next) {
++    QLIST_FOREACH_SAFE_RCU(notifier, &list->notifiers, node, next) {
+         ret = notifier->notify(notifier, data);
+         if (ret != 0) {
+             break;
 -- 
 2.30.2
 
