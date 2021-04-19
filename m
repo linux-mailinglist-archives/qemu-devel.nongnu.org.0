@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5335C363F73
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:22:17 +0200 (CEST)
-Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAED363F91
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:28:10 +0200 (CEST)
+Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYR2l-0003N1-29
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1lYR8T-0001Ff-2T
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYR1n-0002sJ-BS
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:21:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39554)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYR3g-0004UK-BA
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYR1i-000162-Or
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:21:14 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYR3d-0002Oo-8f
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618827669;
+ s=mimecast20190719; t=1618827788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fdq6SwY6L3BPvIg6OegodS0VBZbxgOIfwrgGJhVo7zQ=;
- b=Ogh91JEDC3gMPH1CBPWyxcAdjlp6lLpv4k1IK1AiJHnhoUcifSeCnDRocUSvQgaN6zWTtD
- R6agZZcz7k0MX8M+JYIVW2fPuxCsYcNNhKE9KR6jnNDYb9DjyfD2haoTx/QVGpIRdAdAhG
- W8c9UXJgke0iFF43DNloXkj1OuWF0Fs=
+ bh=nYq3QW1MDnJs5zq84qvaKW5Gk+t0mY7KCvLlo4OLNv8=;
+ b=Qaq0ov8yOInYCuQ6kb1Wo7u2ZJbYozDpUOchoNwzZIYLZNORT7DzAWugBTf0ONu8mNWvOE
+ 2OKbi7rtqYvr4EO/+nvmqF+q+4YTEk0unyX/3LJlrhZPtOBB7shixwsQ/LovAQHUgrlXPh
+ aHt1+ZyqPRcbBAJPAh/qWfkLp+lUNZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-iQGFgrb5MMiIQD50XUchVA-1; Mon, 19 Apr 2021 06:21:06 -0400
-X-MC-Unique: iQGFgrb5MMiIQD50XUchVA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-187-mrzkgKsZNRSoihK2jtp7dw-1; Mon, 19 Apr 2021 06:23:06 -0400
+X-MC-Unique: mrzkgKsZNRSoihK2jtp7dw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF38B87A840;
- Mon, 19 Apr 2021 10:21:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 461168030A0;
+ Mon, 19 Apr 2021 10:23:03 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2408B5D741;
- Mon, 19 Apr 2021 10:20:55 +0000 (UTC)
-To: Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210418233448.1267991-1-f4bug@amsat.org>
- <20210418233448.1267991-15-f4bug@amsat.org> <YH1QJZGYQXc6x9Et@redhat.com>
- <YH1XLd34h7OXXqYR@nautilus.local>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCD6760C5F;
+ Mon, 19 Apr 2021 10:23:00 +0000 (UTC)
+Subject: Re: [RFC v14 52/80] tests: device-introspect-test: cope with ARM
+ TCG-only devices
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210416162824.25131-1-cfontana@suse.de>
+ <20210416162824.25131-53-cfontana@suse.de>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
- jobs
-Message-ID: <1140e403-fbb0-8021-f2b6-9528247dfbc7@redhat.com>
-Date: Mon, 19 Apr 2021 12:20:55 +0200
+Message-ID: <75c0236b-a8f1-c462-355b-945e509d90f5@redhat.com>
+Date: Mon, 19 Apr 2021 12:22:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <YH1XLd34h7OXXqYR@nautilus.local>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210416162824.25131-53-cfontana@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,52 +86,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/04/2021 12.10, Erik Skultety wrote:
-> On Mon, Apr 19, 2021 at 10:40:53AM +0100, Daniel P. Berrangé wrote:
->> On Mon, Apr 19, 2021 at 01:34:47AM +0200, Philippe Mathieu-Daudé wrote:
->>> Forks run the same jobs than mainstream, which might be overkill.
->>> Allow them to easily rebase their custom set, while keeping using
->>> the mainstream templates, and ability to pick specific jobs from
->>> the mainstream set.
->>>
->>> To switch to your set, simply add your .gitlab-ci.yml as
->>> .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
->>> is your gitlab 'namespace', usually username). This file will be
->>> used instead of the default mainstream set.
->>
->> I find this approach undesirable, because AFAICT, it means you have
->> to commit this extra file to any of your downstream branches that
->> you want this to be used for.  Then you have to be either delete it
->> again before sending patches upstream, or tell git-publish to
->> exclude the commit that adds this.
->>
->> IMHO any per-contributor overhead needs to not involve committing
->> stuff to their git branches, that isn't intended to go upstream.
+On 16/04/2021 18.27, Claudio Fontana wrote:
+> Skip the test_device_intro_concrete for now for ARM KVM-only build,
+> as on ARM we currently build devices for ARM that are not
+> compatible with a KVM-only build.
 > 
-> Not just that, ideally, they should also run all the upstream workloads before
-> submitting a PR or posting patches because they'd have to respin because of a
-> potential failure in upstream pipelines anyway.
+> We can remove this workaround when we fix this in KConfig etc,
+> and we only list and build machines that are compatible with KVM
+> for KVM-only builds.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   tests/qtest/device-introspect-test.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
+> index bbec166dbc..1ff15e2247 100644
+> --- a/tests/qtest/device-introspect-test.c
+> +++ b/tests/qtest/device-introspect-test.c
+> @@ -329,12 +329,30 @@ int main(int argc, char **argv)
+>       qtest_add_func("device/introspect/none", test_device_intro_none);
+>       qtest_add_func("device/introspect/abstract", test_device_intro_abstract);
+>       qtest_add_func("device/introspect/abstract-interfaces", test_abstract_interfaces);
+> +
+> +    /*
+> +     * XXX currently we build also boards for ARM that are incompatible with KVM.
+> +     * We therefore need to check this explicitly, and only test virt for kvm-only
+> +     * arm builds.
+> +     * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
+> +     * are built for the kvm-only build, we could remove this.
+> +     */
+> +#ifndef CONFIG_TCG
+> +    {
+> +        const char *arch = qtest_get_arch();
+> +        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
+> +            goto add_machine_test_done;
+> +        }
+> +    }
+> +#endif /* !CONFIG_TCG */
+>       if (g_test_quick()) {
+>           qtest_add_data_func("device/introspect/concrete/defaults/none",
+>                               g_strdup(common_args), test_device_intro_concrete);
+>       } else {
+>           qtest_cb_for_every_machine(add_machine_test_case, true);
+>       }
+> +    goto add_machine_test_done;
 
-It's pretty clear that you want to run the full QEMU CI before submitting 
-patches to the QEMU project, but I think we are rather talking about forks 
-here that are meant not meant for immediately contributing to upstream 
-again, like RHEL where we only build the KVM-related targets and certainly 
-do not want to test other things like CPUs that are not capable of KVM, or a 
-branch where Philippe only wants to check his MIPS-related work during 
-development.
-For contributing patches to upstream, you certainly have to run the full CI, 
-but for other things, it's sometimes really useful to cut down the CI 
-machinery (I'm also doing this in my development branches manually some 
-times to speed up the CI), so I think this series make sense, indeed.
+That last goto does not make much sense, since the label is right below.
 
   Thomas
+
+
+> + add_machine_test_done:
+>       return g_test_run();
+>   }
+> 
 
 
