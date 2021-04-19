@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FEB3648DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 19:13:33 +0200 (CEST)
-Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF96B3648E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 19:14:16 +0200 (CEST)
+Received: from localhost ([::1]:41204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYXSm-0005Jc-Ui
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 13:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48366)
+	id 1lYXTT-0007DR-V6
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 13:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYXNR-0007oz-Ou
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 13:08:02 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45781)
+ id 1lYXNc-0007ui-NJ
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 13:08:12 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYXNK-0005hV-C0
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 13:08:01 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id bx20so40497876edb.12
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 10:07:53 -0700 (PDT)
+ id 1lYXNZ-0005la-E6
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 13:08:12 -0400
+Received: by mail-ej1-x635.google.com with SMTP id sd23so45414951ejb.12
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 10:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vSbnsjrrEEPFiTgvryEudcdqG6b1KYpQL8pftH3WNcI=;
- b=mtdAEz7FucSPgBCVpU0kTLuAlKR0P572S5FGp4UBUQpzp0cw9FRXdUvcgd6gbGYyVR
- iiHVXdjw6xhjX1iZIiNi6AWzXV6flk3YRUNpjrCFJsG1D/k2uoQBvQc4GJEOLVShPKTy
- VCg1pIxsA2OPLErhwQPyKTOImEIJqzvXGZZ0Ci5yVmIgoIlQ4twTalqiwuSq8yqvAY/y
- iCpkDSI2dxXfTNtiIHRSPqme8IKVx0Nrwc7xgMMBwsJeaeJpKn/MMeom6hf7EzmTdzUR
- QRo0Ud4vfiXcE3SHn8+WDeUDE5cgtLq5RINKCdxPvwzbgMRUnkBA8zbYbgav6y7EnQb3
- +UjQ==
+ :cc; bh=t5uPwcKsAdunKOwcaweoVJ0FF6sGOTcKPCOauwpHWTA=;
+ b=E2kXBa2uOrSgWawkDUUpVO6/fJDbEhGG3eoDkid5m0XS+3h3xVfTLMcOwHTw+e86iE
+ uPvgXLVzTMQ6ocqnO0e5ulUywF3Efq2YSRF3rQtOIPTvP0qvY/uvO/w/TcC+/QBsIK5A
+ AvBfroOBqcJjUd7zPW5VveSFa0bWHSJuX6KmEf/5E6t1OI0HSFzfV4uga3dph8ZngLr2
+ PMvhs+eH1669sgE6hosPn2ul3OFzlIUGdXYpnjwlOargqpl0ZvXtS3a5kB6SaHx16hU1
+ dfI5qRbXrlNdgYbKofW/88t7F1Rp7qLKhnX80tNtbhx17DAylT6Tyl/soyD/xueJwi/x
+ oF0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vSbnsjrrEEPFiTgvryEudcdqG6b1KYpQL8pftH3WNcI=;
- b=l6WkuWFM0u+rIS3Wg14D7gLHWL0H5gn0MM2JbYGPJyl7v+DxcXqDWJRKZU9Eiim+vN
- l0og1RbJWG821XoHWc9vm0WKvrJH2geZ3EfwdEz86PnsVNfUq9441V0s8owTAg+urPnH
- VFpy0QjgEAZ9pIMcM+nkIiN6VYq+yg9b8w8LlpedqEIe+u2AmqJXHBkRolauVRuOx4bQ
- CrW3A5KJ8NlvUX7Ncgsk+qS7CFs13Y1KrfJdCmlcm03H+PKJ0QPOPAD5J4T5VOZZMSJb
- T7CMuAnDW7QbvXTEH/lLR9igdREqmtX7rfV7WdwMlIrjZvDYPkrTs68/evfarNdF/WAu
- jxjg==
-X-Gm-Message-State: AOAM532iMg/o1CC/WQ0lTIfOyBqtUiS/RfR28DIM44ecZa5R7wRjXGaV
- 2xTV2dS0op0Kx8eHPw3MoA/rCCTj7DSgv8DeiwFE3g==
-X-Google-Smtp-Source: ABdhPJxmSra1hUed8YbNjw3DpjgjTpcBLbN7GOP4qFFtkcAEZhNSgwVT/dAQ+7JFLt21DifcOsKBLB9RRwBKOKT0bC8=
-X-Received: by 2002:a50:fb0a:: with SMTP id d10mr13937192edq.146.1618852072842; 
- Mon, 19 Apr 2021 10:07:52 -0700 (PDT)
+ bh=t5uPwcKsAdunKOwcaweoVJ0FF6sGOTcKPCOauwpHWTA=;
+ b=Sq09gFaw/mZ0URz75h/Y4AZ/L33XTTujdu/afDorW/brOtsRrKak7xZbFg8RUcp7mQ
+ 5/l1iFJIbl0O3UHEELPpHmZX28kJGjvdZJmC1/7iV2J5sGbCKvirllaGrdGPzWIJJRei
+ QD47OXH7KzuJlv51MBgCh7Y+Q/EBa4N+AoGJdN0/WTd9e7JiYdJPrzJ6f4KYOnN3sLAJ
+ Rbla5oI/2nPw340xrEoexDfzQVwZoFun3E9RrZ3L/DDmPwSQ2RVlpfHsj+Hs27VeOl+7
+ IR8OU/fTyIOGh5lAcElP3UZjfw38wAwoOqS5u7IYWdkAQZx5ijlDiMkGGQgsUo4MbCHg
+ 5f1Q==
+X-Gm-Message-State: AOAM533yeWRjsgqcILFp0cnwtx+5PgK5RavJhdTugRaDnRtee85hmCC2
+ FnCHKP2pjni7sefHQKigz5nk6knA0u5GtLPeRYSEfA==
+X-Google-Smtp-Source: ABdhPJyvNPbOs0yR0uEpErLqUyUR+qaD/n8YJan9KlZghDP8RvizWeL9Bg81BsauqQKkJ6Pzplq4GazlKniBCEqX3V0=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr22942091ejc.407.1618852088017; 
+ Mon, 19 Apr 2021 10:08:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210416185959.1520974-1-richard.henderson@linaro.org>
- <20210416185959.1520974-8-richard.henderson@linaro.org>
-In-Reply-To: <20210416185959.1520974-8-richard.henderson@linaro.org>
+ <20210416185959.1520974-10-richard.henderson@linaro.org>
+In-Reply-To: <20210416185959.1520974-10-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Apr 2021 18:07:01 +0100
-Message-ID: <CAFEAcA83dN54S6C+NaZuz7B6fbHY-mQ9iucZAH==j8M8TrnU_w@mail.gmail.com>
-Subject: Re: [PATCH v4 07/30] target/arm: Move TBFLAG_AM32 bits to the top
+Date: Mon, 19 Apr 2021 18:07:16 +0100
+Message-ID: <CAFEAcA9S4LT1O12p7N4Ry5fWu9tFjoWxcMYRpkguWQO09GWa3w@mail.gmail.com>
+Subject: Re: [PATCH v4 09/30] target/arm: Add ALIGN_MEM to TBFLAG_ANY
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,18 +82,14 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 16 Apr 2021 at 20:06, Richard Henderson
+On Fri, 16 Apr 2021 at 20:08, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Now that these bits have been moved out of tb->flags,
-> where TBFLAG_ANY was filling from the top, move AM32
-> to fill from the top, and A32 and M32 to fill from the
-> bottom.  This means fewer changes when adding new bits.
+> Use this to signal when memory access alignment is required.
+> This value comes from the CCR register for M-profile, and
+> from the SCTLR register for A-profile.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h | 42 +++++++++++++++++++++---------------------
->  1 file changed, 21 insertions(+), 21 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
