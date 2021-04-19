@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E658A36470C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:25:15 +0200 (CEST)
-Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7650364716
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:27:01 +0200 (CEST)
+Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVly-0006P5-W5
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51506)
+	id 1lYVng-0000ia-TF
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYVjS-0004re-Ui
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:22:42 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:56082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYVjQ-0004Q8-Ro
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:22:38 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id n127so6644175wmb.5
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 08:22:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wb3y094hwKiX7HNlaH2jkPQ4ZtwmhtZRsVUru0ameTQ=;
- b=T373dFZNxvUjMsbePKXG2YnLgOiuRmRUIooVJg4G3iywnP/YVH9MO3yWJG/nv8i14l
- fDMlcwTTJc/12eqy0UY4J11DiDhkBY0XXrQSz3A+/EdkIPOSH0WbLeAj1ovX0xsSTSgu
- 4ybnrWxDOBWx0EaZ+GX6j5SXcNQ4AU0eMZgDNgybqPPsfgprwBf3I8TIfbYVpUsa4qkJ
- U0O08d4bXcDx9yEyrrRjdP95mCNYAJQhggbe+iZFccNdippb6EpQk1DsAvpn8Ac+7mNZ
- 0EP/JUGDBsAq8SPDBba6qrlLU3PQSASeO9bfQ6ORRjKv3aw5QKhdsPovs+9EwB+SbqnV
- DOWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wb3y094hwKiX7HNlaH2jkPQ4ZtwmhtZRsVUru0ameTQ=;
- b=KaLpg37nv2nl4yTo80CcnIiPawYxBK30Euj/SPJTu0Dn+VeOcnU0UWYCyFnvfykHZY
- C2T1fLy2HEtjvqBXwtQ2sRwUxcwKc5nG6M85KjqJGsaUePxAIlCL0Yv2yMkODthPTkE6
- xPFvYg+vN2vgU9K2SgVv7HBcbWbilJZ6G+b2nDaJYh/h6InPUhXGMa0sVSQKV3N1+H3Z
- RwBDLp6nvd0Y9Iq93bMhNWaLOyXgAjPcpQj1ipN+H6vXyf0xsqWUfqbflVeppW4QInWU
- mR8c9PFTe0cIMiOEwo01fY+4TFB7/6aFC5xQJ8FrP5PJnh4sbl3HQz/j0VvJSQqRyLVd
- uVYw==
-X-Gm-Message-State: AOAM532VXyH0FHznO9ccRNyk1Avb8NP/auPLWXFq5u5pkGED8swBRGMn
- Jc0HBvG+h7on6e21I0i7ojs=
-X-Google-Smtp-Source: ABdhPJygQQojsiYSjG/7fuargcL9ellfBlAgl8h5uBnjmbeLdZ6QkqvxIdqywsimuwq7oNqrPOcNPg==
-X-Received: by 2002:a05:600c:2247:: with SMTP id
- a7mr22609337wmm.133.1618845755471; 
- Mon, 19 Apr 2021 08:22:35 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id z14sm25507603wrt.54.2021.04.19.08.22.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Apr 2021 08:22:34 -0700 (PDT)
-Subject: Re: [PATCH v3 04/11] Acceptance Tests: move useful ssh methods to
- base class
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lYVlY-00079O-R0
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:24:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lYVlO-0005IE-Ia
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:24:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618845875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u9K3h/GTugAx8CghYlFwHClFPBHN2GnzYbaIthaFvjs=;
+ b=HnHmIDSsllU/7FgkzffOx8eHLaaLoQP0Fzj1GEfegJ8DXIIVtiMiYFvj9Q2dHpblyFViqp
+ doGrEF3fZOekk+uOvb4mGdTnht5eFIUFerap4BvOL9lcsXxLIV8OXgONliYp1mSzAp4zZO
+ PyW4dDgI5X9OOLhnGjeF9hH3Enx5+Gk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-YYRKeG-MMMa74ep2qG6_7w-1; Mon, 19 Apr 2021 11:24:32 -0400
+X-MC-Unique: YYRKeG-MMMa74ep2qG6_7w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFBEC1006C80;
+ Mon, 19 Apr 2021 15:24:31 +0000 (UTC)
+Received: from [10.36.113.132] (ovpn-113-132.ams2.redhat.com [10.36.113.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F345060C5C;
+ Mon, 19 Apr 2021 15:24:24 +0000 (UTC)
+Subject: Re: [PATCH 1/3] Acceptance Tests: rename attribute holding the distro
+ image checksum
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210412044644.55083-1-crosa@redhat.com>
- <20210412044644.55083-5-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <da84ade4-6d66-7728-7edd-3d128aa43f0f@amsat.org>
-Date: Mon, 19 Apr 2021 17:22:32 +0200
+References: <20210414221457.1653745-1-crosa@redhat.com>
+ <20210414221457.1653745-2-crosa@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <7ba40366-d242-444e-3378-6b5acf06fcea@redhat.com>
+Date: Mon, 19 Apr 2021 17:24:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210412044644.55083-5-crosa@redhat.com>
+In-Reply-To: <20210414221457.1653745-2-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,187 +85,100 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Eric Auger <eric.auger@redhat.com>,
  Willian Rampazzo <wrampazz@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/21 6:46 AM, Cleber Rosa wrote:
-> Both the virtiofs submounts and the linux ssh mips malta tests
-> contains useful methods related to ssh that deserve to be made
-> available to other tests.  Let's move them to an auxiliary, mix-in
-> class that will be used on the base LinuxTest class.
+Hi Cleber,
+
+On 4/15/21 12:14 AM, Cleber Rosa wrote:
+> This renames the attribute that holds the checksum for the image Linux
+> distribution image used.
 > 
-> The method that helps with setting up an ssh connection will now
-> support both key and password based authentication, defaulting to key
-> based.
+> The current name of the attribute is not very descriptive.  Also, in
+> preparation for making the distribution used configurable, which will
+user configurable
+> add distro related parameters, attributes and tags, let's make the
+> naming of those more uniform.
 > 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks
+
+Eric
+
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 48 ++++++++++++++++++++++-
->  tests/acceptance/linux_ssh_mips_malta.py  | 40 ++-----------------
->  tests/acceptance/virtiofs_submounts.py    | 37 -----------------
->  3 files changed, 50 insertions(+), 75 deletions(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 4 ++--
+>  tests/acceptance/boot_linux.py            | 8 ++++----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 > 
 > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 83b1741ec85..67f75f66e56 100644
+> index 1062a851b9..aae1e5bbc9 100644
 > --- a/tests/acceptance/avocado_qemu/__init__.py
 > +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -307,7 +307,7 @@ class LinuxTest(Test, LinuxSSHMixIn):
+>      """
+>  
+>      timeout = 900
+> -    chksum = None
+> +    distro_checksum = None
+>      username = 'root'
+>      password = 'password'
+>  
+> @@ -355,7 +355,7 @@ def download_boot(self):
+>          try:
+>              boot = vmimage.get(
+>                  'fedora', arch=image_arch, version='31',
+> -                checksum=self.chksum,
+> +                checksum=self.distro_checksum,
+>                  algorithm='sha256',
+>                  cache_dir=self.cache_dirs[0],
+>                  snapshot_dir=self.workdir)
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+> index 314370fd1f..c7bc3a589e 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -20,7 +20,7 @@ class BootLinuxX8664(LinuxTest):
+>      :avocado: tags=arch:x86_64
+>      """
+>  
+> -    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
+> +    distro_checksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
+>  
+>      def test_pc_i440fx_tcg(self):
+>          """
+> @@ -66,7 +66,7 @@ class BootLinuxAarch64(LinuxTest):
+>      :avocado: tags=machine:gic-version=2
+>      """
+>  
+> -    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
+> +    distro_checksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
+>  
+>      def add_common_args(self):
+>          self.vm.add_args('-bios',
+> @@ -119,7 +119,7 @@ class BootLinuxPPC64(LinuxTest):
+>      :avocado: tags=arch:ppc64
+>      """
+>  
+> -    chksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
+> +    distro_checksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
+>  
+>      def test_pseries_tcg(self):
+>          """
+> @@ -136,7 +136,7 @@ class BootLinuxS390X(LinuxTest):
+>      :avocado: tags=arch:s390x
+>      """
+>  
+> -    chksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
+> +    distro_checksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
+>  
+>      @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>      def test_s390_ccw_virtio_tcg(self):
+> 
 
-Don't we need to update the copyright in this file?
-I ask because I'm never sure how that works.... In my patches
-when I move code which is in a copyrighted file, I add the same
-copyright lines to the copied file.
-
-> @@ -20,6 +20,7 @@
->  from avocado.utils import cloudinit
->  from avocado.utils import datadrainer
->  from avocado.utils import network
-> +from avocado.utils import ssh
->  from avocado.utils import vmimage
->  from avocado.utils.path import find_command
->  
-> @@ -43,6 +44,8 @@
->  from qemu.accel import kvm_available
->  from qemu.accel import tcg_available
->  from qemu.machine import QEMUMachine
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
->  
->  def is_readable_executable_file(path):
->      return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
-> @@ -253,7 +256,50 @@ def fetch_asset(self, name,
->                          cancel_on_missing=cancel_on_missing)
->  
->  
-> -class LinuxTest(Test):
-> +class LinuxSSHMixIn:
-> +    """Contains utility methods for interacting with a guest via SSH."""
-> +
-> +    def ssh_connect(self, username, credential, credential_is_key=True):
-> +        self.ssh_logger = logging.getLogger('ssh')
-> +        res = self.vm.command('human-monitor-command',
-> +                              command_line='info usernet')
-> +        port = get_info_usernet_hostfwd_port(res)
-> +        self.assertIsNotNone(port)
-> +        self.assertGreater(port, 0)
-> +        self.log.debug('sshd listening on port: %d', port)
-> +        if credential_is_key:
-> +            self.ssh_session = ssh.Session('127.0.0.1', port=port,
-> +                                           user=username, key=credential)
-> +        else:
-> +            self.ssh_session = ssh.Session('127.0.0.1', port=port,
-> +                                           user=username, password=credential)
-> +        for i in range(10):
-> +            try:
-> +                self.ssh_session.connect()
-> +                return
-> +            except:
-> +                time.sleep(4)
-> +                pass
-> +        self.fail('ssh connection timeout')
-> +
-> +    def ssh_command(self, command):
-> +        self.ssh_logger.info(command)
-> +        result = self.ssh_session.cmd(command)
-> +        stdout_lines = [line.rstrip() for line
-> +                        in result.stdout_text.splitlines()]
-> +        for line in stdout_lines:
-> +            self.ssh_logger.info(line)
-> +        stderr_lines = [line.rstrip() for line
-> +                        in result.stderr_text.splitlines()]
-> +        for line in stderr_lines:
-> +            self.ssh_logger.warning(line)
-> +
-> +        self.assertEqual(result.exit_status, 0,
-> +                         f'Guest command failed: {command}')
-> +        return stdout_lines, stderr_lines
-> +
-> +
-> +class LinuxTest(Test, LinuxSSHMixIn):
->      """Facilitates having a cloud-image Linux based available.
->  
->      For tests that indend to interact with guests, this is a better choice
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index 052008f02d4..61c9079d047 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -12,16 +12,14 @@
->  import time
->  
->  from avocado import skipUnless
-> -from avocado_qemu import Test
-> +from avocado_qemu import Test, LinuxSSHMixIn
->  from avocado_qemu import wait_for_console_pattern
->  from avocado.utils import process
->  from avocado.utils import archive
->  from avocado.utils import ssh
->  
-> -from qemu.utils import get_info_usernet_hostfwd_port
->  
-> -
-> -class LinuxSSH(Test):
-> +class LinuxSSH(Test, LinuxSSHMixIn):
->  
->      timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
->  
-> @@ -72,41 +70,9 @@ def get_kernel_info(self, endianess, wordsize):
->      def setUp(self):
->          super(LinuxSSH, self).setUp()
->  
-> -    def ssh_connect(self, username, password):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        res = self.vm.command('human-monitor-command',
-> -                              command_line='info usernet')
-> -        port = get_info_usernet_hostfwd_port(res)
-> -        if not port:
-> -            self.cancel("Failed to retrieve SSH port")
-> -        self.log.debug("sshd listening on port:" + port)
-> -        self.ssh_session = ssh.Session(self.VM_IP, port=int(port),
-> -                                       user=username, password=password)
-> -        for i in range(10):
-> -            try:
-> -                self.ssh_session.connect()
-> -                return
-> -            except:
-> -                time.sleep(4)
-> -                pass
-> -        self.fail("ssh connection timeout")
-> -
->      def ssh_disconnect_vm(self):
->          self.ssh_session.quit()
->  
-> -    def ssh_command(self, command, is_root=True):
-> -        self.ssh_logger.info(command)
-> -        result = self.ssh_session.cmd(command)
-> -        stdout_lines = [line.rstrip() for line
-> -                        in result.stdout_text.splitlines()]
-> -        for line in stdout_lines:
-> -            self.ssh_logger.info(line)
-> -        stderr_lines = [line.rstrip() for line
-> -                        in result.stderr_text.splitlines()]
-> -        for line in stderr_lines:
-> -            self.ssh_logger.warning(line)
-> -        return stdout_lines, stderr_lines
-> -
->      def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
->          image_url, image_hash = self.get_image_info(endianess)
->          image_path = self.fetch_asset(image_url, asset_hash=image_hash)
-> @@ -127,7 +93,7 @@ def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
->          wait_for_console_pattern(self, console_pattern, 'Oops')
->          self.log.info('sshd ready')
->  
-> -        self.ssh_connect('root', 'root')
-> +        self.ssh_connect('root', 'root', False)
->  
->      def shutdown_via_ssh(self):
->          self.ssh_command('poweroff')
 
