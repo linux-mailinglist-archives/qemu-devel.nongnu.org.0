@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87374363B3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 08:03:17 +0200 (CEST)
-Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C19363B3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 08:03:24 +0200 (CEST)
+Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYN08-00052a-JY
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 02:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40726)
+	id 1lYN0A-000565-2Q
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 02:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYMyB-0003tN-Cd
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 02:01:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40706)
+ id 1lYMyF-0003uY-Si
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 02:01:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYMy9-0003j6-0i
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 02:01:15 -0400
+ id 1lYMyB-0003kw-Ek
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 02:01:19 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYMy7-0004X1-2A
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 06:01:11 +0000
+ id 1lYMy9-0004Yw-V5
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 06:01:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 08E132E8157
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 06:01:11 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E81032E8050
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 06:01:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Apr 2021 05:52:40 -0000
-From: Thomas Huth <1919036@bugs.launchpad.net>
+Date: Mon, 19 Apr 2021 05:53:17 -0000
+From: Thomas Huth <1919035@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
@@ -42,16 +42,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr cwmyung mark-cave-ayland mauro-cascella
 X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161565757658.18021.4101884325766858864.malonedeb@soybean.canonical.com>
-Message-Id: <161881156181.2572.13267486357883895453.launchpad@gac.canonical.com>
-Subject: [Bug 1919036] Re: Assertion failure in fifo8_push_all() through
+References: <161565639689.3429.408017997346111219.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161881159830.25012.10842518860482309555.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1919035] Re: Assertion failure in fifo8_pop_buf() through
  am53c974
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
-X-Launchpad-Hash: 65cb09c0859b12c1ddc9e985be5d4faf3bf95415
+X-Launchpad-Hash: 82d76a056692f050a3b81d39d603ae8ba5696e6c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1919036 <1919036@bugs.launchpad.net>
+Reply-To: Bug 1919035 <1919035@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,10 +83,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1919036
+https://bugs.launchpad.net/bugs/1919035
 
 Title:
-  Assertion failure in fifo8_push_all() through am53c974
+  Assertion failure in fifo8_pop_buf() through am53c974
 
 Status in QEMU:
   Fix Committed
@@ -105,70 +105,69 @@ Bug description:
   =
 
   ```
-  qemu-system-i386: ../util/fifo8.c:43: fifo8_push_all: Assertion `fifo->nu=
-m + num <=3D fifo->capacity' failed.
+  qemu-system-i386: ../util/fifo8.c:73: fifo8_pop_buf: Assertion `max > 0 &=
+& max <=3D fifo->num' failed.
 
   #0  0x00007ffff0218fb7 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
 s/unix/sysv/linux/raise.c:51
   #1  0x00007ffff021a921 in __GI_abort () at abort.c:79
   #2  0x00007ffff020a48a in __assert_fail_base (fmt=3D0x7ffff0391750 "%s%s%=
 s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5555=
-58ed2400 "fifo->num + num <=3D fifo->capacity", file=3Dfile@entry=3D0x55555=
-8ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x2b, function=3Dfunction@en=
-try=3D0x555558ed2560 <__PRETTY_FUNCTION__.16583> "fifo8_push_all")
-      at assert.c:92
+58ed24a0 "max > 0 && max <=3D fifo->num", file=3Dfile@entry=3D0x555558ed238=
+0 "../util/fifo8.c", line=3Dline@entry=3D0x49, function=3Dfunction@entry=3D=
+0x555558ed24e0 <__PRETTY_FUNCTION__.16603> "fifo8_pop_buf") at assert.c:92
   #3  0x00007ffff020a502 in __GI___assert_fail (assertion=3Dassertion@entry=
-=3D0x555558ed2400 "fifo->num + num <=3D fifo->capacity", file=3Dfile@entry=
-=3D0x555558ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x2b, function=3Df=
-unction@entry=3D0x555558ed2560 <__PRETTY_FUNCTION__.16583> "fifo8_push_all"=
-) at assert.c:101
-  #4  0x00005555587749c4 in fifo8_push_all (fifo=3Dfifo@entry=3D0x61f000005=
-200, data=3Ddata@entry=3D0x7fff72bfa640 "", num=3Dnum@entry=3D0x24) at ../u=
-til/fifo8.c:43
-  #5  0x00005555572bd13e in esp_do_dma (s=3Ds@entry=3D0x61f000005088) at ..=
-/hw/scsi/esp.c:577
-  #6  0x00005555572bfc8f in handle_ti (s=3D0x61f000005088) at ../hw/scsi/es=
-p.c:845
-  #7  0x00005555572c419c in esp_reg_write (s=3D0x61f000005088, saddr=3Dsadd=
-r@entry=3D0x3, val=3D<optimized out>)
-      at ../hw/scsi/esp.c:987
-  #8  0x0000555557bb916a in esp_pci_io_write (opaque=3D0x61f000004680, addr=
+=3D0x555558ed24a0 "max > 0 && max <=3D fifo->num", file=3Dfile@entry=3D0x55=
+5558ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x49, function=3Dfunction=
+@entry=3D0x555558ed24e0 <__PRETTY_FUNCTION__.16603> "fifo8_pop_buf") at ass=
+ert.c:101
+  #4  0x000055555877519a in fifo8_pop_buf (fifo=3Dfifo@entry=3D0x61f0000052=
+00, max=3Dmax@entry=3D0xff, num=3Dnum@entry=3D0x7fff72bfa550) at ../util/fi=
+fo8.c:73
+  #5  0x00005555572b7d9a in do_cmd (s=3Ds@entry=3D0x61f000005088) at ../hw/=
+scsi/esp.c:328
+  #6  0x00005555572b879a in esp_do_nodma (s=3Ds@entry=3D0x61f000005088) at =
+../hw/scsi/esp.c:701
+  #7  0x00005555572bfd79 in handle_ti (s=3D0x61f000005088) at ../hw/scsi/es=
+p.c:848
+  #8  0x00005555572c419c in esp_reg_write (s=3D0x61f000005088, saddr=3Dsadd=
+r@entry=3D0x3, val=3D<optimized out>) at ../hw/scsi/esp.c:987
+  #9  0x0000555557bb916a in esp_pci_io_write (opaque=3D0x61f000004680, addr=
 =3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at ../hw=
 /scsi/esp-pci.c:214
-  #9  0x000055555817ea28 in memory_region_write_accessor (mr=3D0x61f000004f=
+  #10 0x000055555817ea28 in memory_region_write_accessor (mr=3D0x61f000004f=
 70, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>=
 , shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at ../softm=
 mu/memory.c:491
-  #10 0x0000555558176671 in access_with_adjusted_size (addr=3Daddr@entry=3D=
+  #11 0x0000555558176671 in access_with_adjusted_size (addr=3Daddr@entry=3D=
 0xc, value=3Dvalue@entry=3D0x7fff72bfb2a8, size=3Dsize@entry=3D0x1, access_=
 size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D
       0x55555817e7c0 <memory_region_write_accessor>, mr=3D0x61f000004f70, a=
 ttrs=3D...) at ../softmmu/memory.c:552
-  #11 0x00005555581892aa in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
+  #12 0x00005555581892aa in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
 x61f000004f70, addr=3D<optimized out>, data=3D<optimized out>, data@entry=
-=3D0xffffff90, op=3Dop@entry=3DMO_8, attrs=3D..., attrs@entry=3D...) at ../=
-softmmu/memory.c:1508
-  #12 0x0000555558024b66 in address_space_stb (as=3D<optimized out>, addr=
+=3D0x10, op=3Dop@entry=3DMO_8, attrs=3D..., attrs@entry=3D...) at ../softmm=
+u/memory.c:1508
+  #13 0x0000555558024b66 in address_space_stb (as=3D<optimized out>, addr=
 =3D<optimized out>, val=3D<optimized out>, attrs=3D..., result=3D0x0) at /h=
 ome/cwmyung/prj/hyfuzz/src/qemu-master/memory_ldst.c.inc:382
-  #13 0x00007fff9323641c in code_gen_buffer ()
-  #14 0x0000555557e793bb in cpu_tb_exec (tb_exit=3D<optimized out>, itb=3D<=
-optimized out>, cpu=3D0x62e0000004b4)
-      at ../accel/tcg/cpu-exec.c:190
-  #15 0x0000555557e793bb in cpu_loop_exec_tb (tb_exit=3D<optimized out>, la=
+  #14 0x00007fff93236d3c in code_gen_buffer ()
+  #15 0x0000555557e793bb in cpu_tb_exec (tb_exit=3D<optimized out>, itb=3D<=
+optimized out>, cpu=3D0x62e0000004b4) at ../accel/tcg/cpu-exec.c:190
+  #16 0x0000555557e793bb in cpu_loop_exec_tb (tb_exit=3D<optimized out>, la=
 st_tb=3D<optimized out>, tb=3D<optimized out>, cpu=3D0x62e0000004b4) at ../=
 accel/tcg/cpu-exec.c:673
-  #16 0x0000555557e793bb in cpu_exec (cpu=3Dcpu@entry=3D0x62e000000400) at =
+  #17 0x0000555557e793bb in cpu_exec (cpu=3Dcpu@entry=3D0x62e000000400) at =
 ../accel/tcg/cpu-exec.c:798
-  #17 0x0000555557f5fc5a in tcg_cpus_exec (cpu=3Dcpu@entry=3D0x62e000000400=
+  #18 0x0000555557f5fc5a in tcg_cpus_exec (cpu=3Dcpu@entry=3D0x62e000000400=
 ) at ../accel/tcg/tcg-accel-ops.c:68
-  #18 0x00005555582260af in mttcg_cpu_thread_fn (arg=3Darg@entry=3D0x62e000=
+  #19 0x00005555582260af in mttcg_cpu_thread_fn (arg=3Darg@entry=3D0x62e000=
 000400) at ../accel/tcg/tcg-accel-ops-mttcg.c:70
-  #19 0x0000555558777b05 in qemu_thread_start (args=3D<optimized out>) at .=
+  #20 0x0000555558777b05 in qemu_thread_start (args=3D<optimized out>) at .=
 ./util/qemu-thread-posix.c:521
-  #20 0x00007ffff05d26db in start_thread (arg=3D0x7fff72bff700) at pthread_=
+  #21 0x00007ffff05d26db in start_thread (arg=3D0x7fff72bff700) at pthread_=
 create.c:463
-  #21 0x00007ffff02fb71f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+  #22 0x00007ffff02fb71f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
 lone.S:95
   ```
 
@@ -193,5 +192,5 @@ g command line.
   - Cheolwoo, Myung (Seoul National University)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1919036/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1919035/+subscriptions
 
