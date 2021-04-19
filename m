@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63543645AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:10:07 +0200 (CEST)
-Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F723645D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:17:33 +0200 (CEST)
+Received: from localhost ([::1]:51056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYUbG-0002Ez-1E
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
+	id 1lYUiS-0004E2-23
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangjie88@huawei.com>)
- id 1lYUaC-0001og-Tf
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:09:00 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangjie88@huawei.com>)
- id 1lYUa8-000407-1s
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:09:00 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FP7rM06jkzPp24;
- Mon, 19 Apr 2021 22:05:39 +0800 (CST)
-Received: from [10.174.148.103] (10.174.148.103) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 19 Apr 2021 22:08:32 +0800
-To: <pbonzini@redhat.com>
-From: "wangjie (P)" <wangjie88@huawei.com>
-Subject: [Question] a qemu core occurs when the storage is disconnected.
-Message-ID: <6fb46c78-1a48-12da-ce9a-eb0836076c44@huawei.com>
-Date: Mon, 19 Apr 2021 22:08:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYUhD-0003er-I8
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:16:15 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:44576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYUh9-0000RN-9h
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:16:15 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id z5so4414346edr.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:16:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4J5sr6PwANRancW/ie4I7xlz0adNZGtOCEgqzGoDJlg=;
+ b=kGpIg4JsScFv39USW8WPcgvZKIZt3OTvpj49d0Hjr4ifg2S2xLNEksptwmJq/+b4LO
+ EQd3Et2Ywn4MxHArBEmSXAJUJqDgJXmwV2r3XAMiai99fJSuW6ud8z4swnQLYQxzMQh/
+ RVaqs7ptnD1TlnU9ER6Z/Ox43QOk5Be2N9O3A0n4NmcoroljtQgwBx74yRNHJWwvjftq
+ 2/v2YluXnT1tVTI5AY+GSbg87+Av1BOFfTaSimn9YAW7YQDx1svDZhMUvLVRNGFElrh6
+ 3/nJ9GlxD0VIxR62eLh8zPhxjepLInr/+ly+ZrPTSa19I7B1yOr+vDaIo/daetIaIN6U
+ IgPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4J5sr6PwANRancW/ie4I7xlz0adNZGtOCEgqzGoDJlg=;
+ b=pw7L5rN6H8wfLMgAkFr8XkJ/JcuXQgevdh11ftaEwXbvXSNHz20JKYX8atWN1PATFb
+ CuUoFGbm8oloPDMzVhn3nJpgQl52RwXMBKrVFs1/PIl7d5Fn5Vs9jETWeF3QpOafJeLZ
+ 3aiakJCIYC+OYJzkllqe2KqbfI3fVSJP711DVyHG8O2Tjyz1dn4Zcomz+YSPZ4aMAU6i
+ ubIASIOQCeYFbdmA7x8niIxNWHJ1NzfcY4ukU24AT1S01v5b1QBr34KnoX20CUNsfvFQ
+ RTHEDud6Y2wsTzvwOn1WHGlqcWRlmQYGBqz/oTW2UR0xHaEUD04Vrw8ve6tUqsc1WLAx
+ HjjQ==
+X-Gm-Message-State: AOAM530WN6sDRpGqpNSsDsC+x6fXStJhpsIAU74GDlYACzmLd+qBMBUp
+ K+9o7Bz1QoZSo7T6M5rnXdrDPkNdS41u5dRBfWZcBw==
+X-Google-Smtp-Source: ABdhPJxFx/WWYRpjYVMRGZT37w4TVj6AUhha8/1MKPwDcCzc9tIKixmj+qoYCBVhiX6gAqPK045SRknhicO29zPPZ3Q=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr25502887edu.100.1618841769353; 
+ Mon, 19 Apr 2021 07:16:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.103]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=wangjie88@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210331064713.1782-1-jiangkunkun@huawei.com>
+ <480ded69-5141-9eed-9326-365260d05fe0@redhat.com>
+In-Reply-To: <480ded69-5141-9eed-9326-365260d05fe0@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Apr 2021 15:15:18 +0100
+Message-ID: <CAFEAcA8AMX3DEMND-4ZUnDuOOE4EoG8f3z_jwyeUZgiRKKJJLQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/smmuv3: Support 16K translation granule
+To: Auger Eric <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,35 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: weidong.huang@huawei.com, qemu-devel@nongnu.org, wangjie88@huawei.com
+Cc: Kunkun Jiang <jiangkunkun@huawei.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "open list:ARM SMMU" <qemu-arm@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On Wed, 7 Apr 2021 at 09:41, Auger Eric <eric.auger@redhat.com> wrote:
+>
+> Hi Kunkun,
+>
+> On 3/31/21 8:47 AM, Kunkun Jiang wrote:
+> > The driver can query some bits in SMMUv3 IDR5 to learn which
+> > translation granules are supported. Arm recommends that SMMUv3
+> > implementations support at least 4K and 64K granules. But in
+> > the vSMMUv3, there seems to be no reason not to support 16K
+> > translation granule. In addition, if 16K is not supported,
+> > vSVA will failed to be enabled in the future for 16K guest
+> > kernel. So it'd better to support it.
+> >
+> > Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>
+> Looks good to me.
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Tested-by: Eric Auger <eric.auger@redhat.com>
 
-Recently, I did some convergence tests of VM lifecycles and storage anomalies. Here is a question about the qemu core.
-The VM configure disk of IP SAN storage device.
 
-Call trace：
-#0  0x00007fbe9151877b in raise () from /usr/lib64/libc.so.6
-#1  0x00007fbe91519aa1 in abort () from /usr/lib64/libc.so.6
-#2  0x00007fbe9151103a in ?? () from /usr/lib64/libc.so.6
-#3  0x00007fbe915110b2 in __assert_fail () from /usr/lib64/libc.so.6
-#4  0x00007fbe9029baf8 in scsi_parse_sense_buf (in_buf=in_buf@entry=0x7fbe18002870 "p", in_len=<optimized out>) at /usr/src/debug/qemu-4.1.0-102.x86_64/scsi/utils.c:100
-#5  0x00007fbe902a3980 in scsi_read_complete (opaque=0x7fbe18002800, ret=<optimized out>) at /usr/src/debug/qemu-4.1.0-102.x86_64/hw/scsi/scsi-generic.c:260
-#6  0x00007fbe903227c7 in blk_aio_complete (acb=0x7fbe18003350) at /usr/src/debug/qemu-4.1.0-102.x86_64/block/block-backend.c:1319
-#7  0x00007fbe912a79b4 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>) at /usr/src/debug/qemu-4.1.0-102.x86_64/util/coroutine-ucontext.c:115
-#8  0x00007fbe9152ce80 in ?? () from /usr/lib64/libc.so.6
-#9  0x00007fbe29ffa4a0 in ?? ()
-#10 0x0000000000000000 in ?? ()
-Backtrace stopped: Cannot access memory at address 0x7fbdf1e00000
 
-The scsi cmd requested in the core is inqury, the cmd is to call " handle_aiocb_ioctl(void *opaque) ".
-When the network is abnormal, the senses may not be obtained. This will cause " r->io_header.sb_len_wr " is 0, qemu core occurs.
+Applied to target-arm.next (for 6.1), thanks.
 
-We can fix this bug by deleting " assert(in_len > 0); ".
-Any better suggestion?
-
-Thanks
-
+-- PMM
 
