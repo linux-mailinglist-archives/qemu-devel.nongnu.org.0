@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1D4364BEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:47:37 +0200 (CEST)
-Received: from localhost ([::1]:56854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474BD364CB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 23:02:22 +0200 (CEST)
+Received: from localhost ([::1]:37896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYanw-0007qN-OM
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
+	id 1lYb2D-0006MF-2H
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 17:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYaQr-0007t6-DI
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49075)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lYa3x-0007JP-Nk
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:00:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYaQo-0002iR-Kt
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:44 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lYa3u-0001cP-Uu
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:00:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618863821;
+ s=mimecast20190719; t=1618862401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XpXVKhKTGEUmzz1ciagOjxC1nasAVaIB801aKeNt3lA=;
- b=CSE6NZDqoAXKZ0PeMwvOY8B2mCfjpqI75uf8k5CsDb8TMfNJurYCwetQqXbyxqZqqHpTs1
- r7uzbnTixrOvvGBLmNoIw/WDNY1vpDs/j3vqIoiD/3YilEKPhcvMSsWSl/ourTKBVWbQBc
- 9kxtvG3SwQ57QEczIdskK2w/aUlCgT0=
+ bh=ut2RNpWs+JrFuqbsXvPjtk/a2CcslYKBYD0MumwQSuw=;
+ b=gfE1eCHtfjf3LhDCBytxgr1JQYdmiKz0Is8G6eR3vtb2UUrfsEDefwL05K5JJ6aBfFFmpo
+ HLVJfaOb1SCNYxkWm8Z+glrBO8eNp3sCdI1p+2qV8du2zY11D/tsaJGLBGVRKSfxpab2Pl
+ 2OeQD36KlBGiP1zHreK5dWf/L3tfqM4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-yFR0yzIxOFeknRpQnY9-Jg-1; Mon, 19 Apr 2021 16:23:39 -0400
-X-MC-Unique: yFR0yzIxOFeknRpQnY9-Jg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-517-YPyrc67UONWn2IAJjs74Ag-1; Mon, 19 Apr 2021 15:59:59 -0400
+X-MC-Unique: YPyrc67UONWn2IAJjs74Ag-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B480E801984;
- Mon, 19 Apr 2021 20:23:37 +0000 (UTC)
-Received: from localhost (unknown [10.22.10.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5519A610F1;
- Mon, 19 Apr 2021 20:23:37 +0000 (UTC)
-Date: Mon, 19 Apr 2021 16:23:36 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3] qapi: introduce 'query-cpu-model-cpuid' action
-Message-ID: <20210419202336.shf3yo7lmr7tmzvp@habkost.net>
-References: <20210326173000.18750-1-valeriy.vdovin@virtuozzo.com>
- <YGGb9ohT/EztzFbr@redhat.com>
- <20210329112153.GA413337@dhcp-172-16-24-191.sw.ru>
- <YGG+k2PMJjc2yX2g@redhat.com>
- <15924dba-1618-0b7e-fbc3-42e4f02d8176@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B9789F931;
+ Mon, 19 Apr 2021 19:59:58 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-35.rdu2.redhat.com [10.10.116.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16D885C1CF;
+ Mon, 19 Apr 2021 19:59:50 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 9ED3B22054F; Mon, 19 Apr 2021 15:59:49 -0400 (EDT)
+Date: Mon, 19 Apr 2021 15:59:49 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Connor Kuehl <ckuehl@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 2/2] virtiofsd: Add help for -o xattr-mapping
+Message-ID: <20210419195949.GF1472665@redhat.com>
+References: <20210414201207.3612432-3-jose.carlos.venegas.munoz@intel.com>
+ <CANRX0ORJA43.22ADKWIJW7DI0@redhat>
+ <20210419190753.GE1472665@redhat.com>
+ <81c49957-0287-37f9-e310-5f9f21d03062@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <15924dba-1618-0b7e-fbc3-42e4f02d8176@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <81c49957-0287-37f9-e310-5f9f21d03062@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,49 +80,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: virtio-fs@redhat.com, Carlos Venegas <jose.carlos.venegas.munoz@intel.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 03:41:34PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 29.03.2021 14:48, Daniel P. Berrangé wrote:
-[...]
-> > > > There's feels like there's a lot of conceptual overlap with the
-> > > > query-cpu-model-expansion command. That reports in a arch independant
-> > > > format, but IIUC the property data it returns can be mapped into
-> > > > CPUID leaf values. Is it not possible for you to use this existing
-> > > > command and maintain a mapping of property names -> CPUID leaves ?
-> > > As already stated in the use-case description above, having this method
-> > > around, helps us in a way that we can just take values and return them
-> > > to containers. QEMU code already does a great job, generating CPUID
-> > > responses, we don't want to do the same in our own code.
+On Mon, Apr 19, 2021 at 02:21:11PM -0500, Connor Kuehl wrote:
+> On 4/19/21 2:07 PM, Vivek Goyal wrote:
+> >> This is a helpful note, but it doesn't tell the whole story. I think
+> >> it'd be helpful to add one last note to this option which is to
+> >> recommend reading the virtiofsd(1) man-page for more information on
+> >> xattrmap rules.
 > > 
-> > This is asking QEMU to maintain a new QAPI command which does not appear
-> > to have a use case / benefit for QEMU mgmt. It isn't clear to me that
-> > this should be considered in scope for QMP.
-> > 
+> > Is there a virtiofsd man page as well? All I see is
+> > docs/tools/virtiofsd.rst.
 > 
-> Hmm. On the other hand,
-> 
-> 1. The command just exports some information, like a lot of other qmp query- commands, it doesn't look as something alien in the QEMU interface.
-> 
-> 2. We do have a use-case. Not a VM use-case, but a use-case of cpu handling subsystem.
-> 
-> Isn't it enough?
-> 
-> We want to handle cpu configurations in a compatible with QEMU way. The simplest thing for it is just generate needed information with help of QEMU. Note, that's not the only usage of QEMU binary for not-VM-running. QEMU binary may be used for different block-jobs and manipulating bitmaps in disk images (yes, now we also have qemu-storage-daemon, but still).
-> 
-> Do you have an idea how our task could be solved an a better way?
+> Yes, it's generated from that file. Should be located in
+> qemu/build/docs/virtiofsd.1 after building QEMU.
 
-The new command would also be useful for writing automated tests
-for the x86 CPUID compatibility code.  I don't object to its
-inclusion.
+Ok thanks. I guess that gets build only if I pass option --enable-docs. 
 
--- 
-Eduardo
+Thanks
+Vivek
 
 
