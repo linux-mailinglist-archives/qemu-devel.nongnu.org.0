@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5093646F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:18:15 +0200 (CEST)
-Received: from localhost ([::1]:60454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB4B36471A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:27:39 +0200 (CEST)
+Received: from localhost ([::1]:59068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVfC-0007E9-EY
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:18:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48712)
+	id 1lYVoI-0001fs-KG
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lYVZX-0000p1-Vo
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:12:24 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:45780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lYVZW-0008DN-9z
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:12:23 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-Lc1nq3W_OmW9HJXOJbF-ow-1; Mon, 19 Apr 2021 11:12:08 -0400
-X-MC-Unique: Lc1nq3W_OmW9HJXOJbF-ow-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2BD0100A5F1;
- Mon, 19 Apr 2021 15:12:06 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61FB75C1CF;
- Mon, 19 Apr 2021 15:12:05 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [for-6.1 2/2] virtiofsd: Add support for FUSE_SYNCFS request
-Date: Mon, 19 Apr 2021 17:11:42 +0200
-Message-Id: <20210419151142.276439-3-groug@kaod.org>
-In-Reply-To: <20210419151142.276439-1-groug@kaod.org>
-References: <20210419151142.276439-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYVmQ-00007q-9t
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYVmN-0005w6-N7
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 11:25:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lYVmL-0008OG-Pe
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 15:25:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BF6122E8031
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 15:25:37 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Date: Mon, 19 Apr 2021 15:16:05 -0000
+From: Diego Viola <1924914@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: diego-viola
+X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
+X-Launchpad-Bug-Modifier: Diego Viola (diego-viola)
+References: <161875281831.22652.8172907256269796216.malonedeb@wampee.canonical.com>
+Message-Id: <161884536591.2525.15092451639161348364.malone@gac.canonical.com>
+Subject: [Bug 1924914] Re: Running sway in a QEMU VM results in a GPU hang of
+ the guest (virtio-gpu driver)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="26785e5a6adccabf68a42300ea7053912615013e"; Instance="production"
+X-Launchpad-Hash: 1b42538918e1ef65bafb56efd083f2e6cda18ba9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,161 +70,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Reply-To: Bug 1924914 <1924914@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Honor the expected behavior of syncfs() to synchronously flush all
-data and metadata on linux systems. Like the ->sync_fs() superblock
-operation in the linux kernel, FUSE_SYNCFS has a 'wait' argument that
-tells whether the server should wait for outstanding I/Os to complete
-before replying to the client. Anything virtiofsd can do to flush
-the caches implies blocking syscalls, so nothing is done if waiting
-isn't requested.
+I can't reproduce it with weston.
 
-Flushing is done with syncfs(). This is suboptimal as it will also
-flush writes performed by any other process on the same file system,
-and thus add an unbounded time penalty to syncfs(). This may be
-optimized in the future, but enforce correctness first.
+-- =
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tools/virtiofsd/fuse_lowlevel.c       | 19 ++++++++++++++++++
- tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++++++
- tools/virtiofsd/passthrough_ll.c      | 29 +++++++++++++++++++++++++++
- tools/virtiofsd/passthrough_seccomp.c |  1 +
- 4 files changed, 62 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1924914
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 58e32fc96369..2d0c47a7a60e 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1870,6 +1870,24 @@ static void do_lseek(fuse_req_t req, fuse_ino_t node=
-id,
-     }
- }
-=20
-+static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
-+                      struct fuse_mbuf_iter *iter)
-+{
-+    struct fuse_syncfs_in *arg;
-+
-+    arg =3D fuse_mbuf_iter_advance(iter, sizeof(*arg));
-+    if (!arg) {
-+        fuse_reply_err(req, EINVAL);
-+        return;
-+    }
-+
-+    if (req->se->op.syncfs) {
-+        req->se->op.syncfs(req, arg->wait);
-+    } else {
-+        fuse_reply_err(req, ENOSYS);
-+    }
-+}
-+
- static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-                     struct fuse_mbuf_iter *iter)
- {
-@@ -2267,6 +2285,7 @@ static struct {
-     [FUSE_RENAME2] =3D { do_rename2, "RENAME2" },
-     [FUSE_COPY_FILE_RANGE] =3D { do_copy_file_range, "COPY_FILE_RANGE" },
-     [FUSE_LSEEK] =3D { do_lseek, "LSEEK" },
-+    [FUSE_SYNCFS] =3D { do_syncfs, "SYNCFS" },
- };
-=20
- #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
-l.h
-index 3bf786b03485..b5ac42c31799 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1225,6 +1225,19 @@ struct fuse_lowlevel_ops {
-      */
-     void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
-                   struct fuse_file_info *fi);
-+
-+    /**
-+     * Synchronize file system content
-+     *
-+     * If this request is answered with an error code of ENOSYS,
-+     * this is treated as success and future calls to syncfs() will
-+     * succeed automatically without being sent to the filesystem
-+     * process.
-+     *
-+     * @param req request handle
-+     * @param wait whether to wait for outstanding I/Os to complete
-+     */
-+    void (*syncfs)(fuse_req_t req, int wait);
- };
-=20
- /**
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 1553d2ef454f..6b66f3208be0 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3124,6 +3124,34 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
- off_t off, int whence,
-     }
- }
-=20
-+static void lo_syncfs(fuse_req_t req, int wait)
-+{
-+    if (wait) {
-+        struct lo_data *lo =3D lo_data(req);
-+        int fd, ret;
-+
-+        fd =3D lo_inode_open(lo, &lo->root, O_RDONLY);
-+        if (fd < 0) {
-+            fuse_reply_err(req, errno);
-+            return;
-+        }
-+
-+        /*
-+         * FIXME: this is suboptimal because it will also flush unrelated
-+         *        writes not coming from the client. This can dramatically
-+         *        increase the time spent in syncfs() if some process is
-+         *        writing lots of data on the same filesystem as virtiofsd=
-.
-+         */
-+        ret =3D syncfs(fd);
-+        /* syncfs() never fails on a valid fd */
-+        assert(ret =3D=3D 0);
-+
-+        close(fd);
-+    }
-+
-+    fuse_reply_err(req, 0);
-+}
-+
- static void lo_destroy(void *userdata)
- {
-     struct lo_data *lo =3D (struct lo_data *)userdata;
-@@ -3184,6 +3212,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-     .copy_file_range =3D lo_copy_file_range,
- #endif
-     .lseek =3D lo_lseek,
-+    .syncfs =3D lo_syncfs,
-     .destroy =3D lo_destroy,
- };
-=20
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passth=
-rough_seccomp.c
-index 62441cfcdb95..343188447901 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -107,6 +107,7 @@ static const int syscall_allowlist[] =3D {
-     SCMP_SYS(set_robust_list),
-     SCMP_SYS(setxattr),
-     SCMP_SYS(symlinkat),
-+    SCMP_SYS(syncfs),
-     SCMP_SYS(time), /* Rarely needed, except on static builds */
-     SCMP_SYS(tgkill),
-     SCMP_SYS(unlinkat),
---=20
-2.26.3
+Title:
+  Running sway in a QEMU VM results in a GPU hang of the guest (virtio-
+  gpu driver)
 
+Status in QEMU:
+  New
+
+Bug description:
+  System is Arch Linux (guest and host OS).
+
+  Problem:
+
+  Basically, when using sway on a guest and running certain applications
+  via Xwayland (on the guest), the GUI will freeze and won't be usable
+  anymore, I can still ssh to the guest and run commands.
+
+  This is the command I use to run my guest:
+
+  qemu-system-x86_64 -enable-kvm -cdrom
+  ~/Downloads/linux/archlinux/archlinux-2021.04.01-x86_64.iso -m 4G -vga
+  virtio -nic user,hostfwd=3Dtcp::10022-:22
+
+  This doesn't happen when I use X with i3-wm.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1924914/+subscriptions
 
