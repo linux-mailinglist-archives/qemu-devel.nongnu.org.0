@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AAA364824
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:23:48 +0200 (CEST)
-Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC1136482C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 18:26:20 +0200 (CEST)
+Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYWgd-0003vD-IO
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:23:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38572)
+	id 1lYWj5-0005nK-ON
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 12:26:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lYWfU-0003Q7-Jj
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:22:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lYWfS-0001SZ-MC
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:22:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618849353;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+tkwInV8kiOfqxYOM3e+UKlDbWFGIpfOEOjsclAlHdA=;
- b=aDdF/is4q+l4ioYOmycpkP8G0BDVKQ6jy7iFqirCqMYlKlHk5LT+MnywgSJQTxwTV0Vpjm
- 1Dn97H4690LTc5nEq2WtnJmL4EXKtxymT5fqJcb4HD3bDkBUUgWOuZKMB2N8oaM9MyrYLs
- +0/GkdtjHvRpaBV4/nY9DcfS+VUsjZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-WzzSS9GdOfKMGrQDckeRVw-1; Mon, 19 Apr 2021 12:22:30 -0400
-X-MC-Unique: WzzSS9GdOfKMGrQDckeRVw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECB91801971;
- Mon, 19 Apr 2021 16:22:29 +0000 (UTC)
-Received: from redhat.com (ovpn-114-178.ams2.redhat.com [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D6BB10013D7;
- Mon, 19 Apr 2021 16:22:27 +0000 (UTC)
-Date: Mon, 19 Apr 2021 17:22:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
- jobs
-Message-ID: <YH2uQADHTM4pBMi1@redhat.com>
-References: <20210418233448.1267991-1-f4bug@amsat.org>
- <20210418233448.1267991-15-f4bug@amsat.org>
- <877dky9rqt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lYWhu-0004rM-1P
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:25:06 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lYWhs-0002aY-1M
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 12:25:05 -0400
+Received: by mail-wr1-x436.google.com with SMTP id x7so34658420wrw.10
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 09:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=2IEVMMmjvSqcQfvawzed72ofqrNQJLYwE1FD7NLKTHQ=;
+ b=qmxDCFcLnrEeeHQw+kvCEQrxx9mvbfmTEbqNhT/xKgKbl4jfZMhz9BM0lIO3qfepyk
+ CXPa5+2ib2y9Dc8LrMc0hkwuptdqae7f+qIUMvFVeSYip5M+un/irGY4mj72qq399CoC
+ UcadyqibEayJA0JUhVHGouQ191Eboj6bjBgn3mktGkJDZVP9tIruo7C3XdX+kP51bwWW
+ 8zJaazjsSAeQXCruwJwM5qNcjhPLoni3niGXs2BJWPLdk6Eo8HwglUSl/NY7NGHbZnQP
+ ciYbGH/YbKmXdEOWRjRFosh2W0QS19i2Bg+7M2Gx3zvFIizSWxHCakJsxzI0kcgesRkP
+ S2nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=2IEVMMmjvSqcQfvawzed72ofqrNQJLYwE1FD7NLKTHQ=;
+ b=fr1vXdDP7tuHHi/N/DYkTupUJdO/jZOsq3A/jAzaP0ppwvkaHJfRJ7uwaTXbrJlCR6
+ 185NFcSyz0sIpRMeMHxLsjkM2rITKMrhdPrBzfqRg3bJb5MbIWXMfEUYogoIT2IWZ0wn
+ Uh4bEzB6wxA4QERV1ss1TQSZliB3WNSDLgLVT0/MesX6dEJZIYXlncBX53tcxytBG2Oi
+ 3mqHmdbwkHUKAMckFgpE+BTeltZfDSpP1OgmwlSPovFtNIhBi0l2Vp+sE+KP6/aTUq0x
+ DuAxqnMeR/a7X5wuSl+bwcg6Hx/0frXus1U0PTjC8pJ83mRvHpTKlMOIjR3aL81QfKQ2
+ wRxQ==
+X-Gm-Message-State: AOAM532pWcKPd9HjQVoxPw577DolLZJnUbHiJMyclvzCtyb4bvqyn9t9
+ C6b90bRZvdVmcEEHtgurfoU5hLx2tOcrlw==
+X-Google-Smtp-Source: ABdhPJz6tlBO/C4r8ErWIld/G5DyDMOUqJFQRkL1k37aUmHea8oZVnaXMZrR50X+O/FqbT/BEDYduw==
+X-Received: by 2002:a5d:4006:: with SMTP id n6mr15575576wrp.240.1618849501997; 
+ Mon, 19 Apr 2021 09:25:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o12sm14363892wmq.21.2021.04.19.09.25.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Apr 2021 09:25:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 461AB1FF7E;
+ Mon, 19 Apr 2021 17:25:00 +0100 (BST)
+References: <20210401144152.1031282-1-mlevitsk@redhat.com>
+ <20210401144152.1031282-2-mlevitsk@redhat.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 1/2] kvm: update kernel headers for
+ KVM_GUESTDBG_BLOCKEVENTS
+Date: Mon, 19 Apr 2021 17:22:56 +0100
+In-reply-to: <20210401144152.1031282-2-mlevitsk@redhat.com>
+Message-ID: <874kg29r8j.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <877dky9rqt.fsf@linaro.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,109 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 19, 2021 at 04:57:55PM +0100, Alex Bennée wrote:
-> 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
-> > Forks run the same jobs than mainstream, which might be overkill.
-> > Allow them to easily rebase their custom set, while keeping using
-> > the mainstream templates, and ability to pick specific jobs from
-> > the mainstream set.
-> >
-> > To switch to your set, simply add your .gitlab-ci.yml as
-> > .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
-> > is your gitlab 'namespace', usually username). This file will be
-> > used instead of the default mainstream set.
-> >
-> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > ---
-> >  .gitlab-ci.yml | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> > index 718c8e004be..35fd35075db 100644
-> > --- a/.gitlab-ci.yml
-> > +++ b/.gitlab-ci.yml
-> > @@ -9,7 +9,12 @@ generate-config:
-> >      paths:
-> >        - generated-config.yml
-> >    script:
-> > -    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
-> > +    - if test -e .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml ;
-> > +      then
-> > +        cp .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml generated-config.yml ;
-> > +      else
-> > +        cp .gitlab-ci.d/qemu-project.yml generated-config.yml ;
-> > +      fi
-> 
-> This is going to be a little clunky. I can see a use for the static
-> forks that Danial proposes but I guess what is needed is a little
-> expressiveness. So how to express things like:
-> 
->  - I've only touched stuff in linux-user, so run only linux-user tests
 
-This can be done with "rules" matching on files, but *only* if the
-pipeline trigger is a merge request - specifically not a git branch
-push, as the latter doesn't have the semantics you expect wrt
-determining the "ancestor" to compare against. It only looks at commits
-in the push, not those which may already have previously been pushed
-on the branch.
+Maxim Levitsky <mlevitsk@redhat.com> writes:
 
->  - I'm working on KVM, run all KVM enabled builds and tests
-> 
->  - I've changed the core TCG code, run everything that exercises that
-> 
->  - I'm working on ARM, only build and run jobs that have ARM targets
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 
-If the stuff you work on is fairly static, we could potentially
-allow env variables to be set by the user in their fork, which
-the CI jobs use to filter jobs.
+Generally it's a good idea to reference where these are coming from, is
+it a current kernel patch in flight or from an release we haven't synced
+up to yet?
 
-> I think we should define a minimum set of lightweight smoke tests that
-> get the most bang for buck for catching sillies. I think checkpatch and
-> dco checking should probably be in there - and maybe one of the bog
-> standard build everything builds (maybe a random ../configure; make;
-> make check on one of the supported LTS targets).
+Usually linux header updates are done with semi-regular runs on
+./scripts/update-linux-headers.sh but obviously it's OK to include
+standalone patches during the review process.
 
-Could we have allow an env var  "QEMU_CI_SMOKE_TEST=1" which can be
-set when pushing:
-
-   git push  -o ci.variable="QEMU_CI_SMOKE_TEST=1"
+> ---
+>  linux-headers/asm-x86/kvm.h | 2 ++
+>  linux-headers/linux/kvm.h   | 1 +
+>  2 files changed, 3 insertions(+)
+>
+> diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+> index 8e76d3701d..33878cdc34 100644
+> --- a/linux-headers/asm-x86/kvm.h
+> +++ b/linux-headers/asm-x86/kvm.h
+> @@ -281,6 +281,8 @@ struct kvm_debug_exit_arch {
+>  #define KVM_GUESTDBG_USE_HW_BP		0x00020000
+>  #define KVM_GUESTDBG_INJECT_DB		0x00040000
+>  #define KVM_GUESTDBG_INJECT_BP		0x00080000
+> +#define KVM_GUESTDBG_BLOCKIRQ		0x00100000
+> +
+>=20=20
+>  /* for KVM_SET_GUEST_DEBUG */
+>  struct kvm_guest_debug_arch {
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 020b62a619..2ded7a0630 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+>  #define KVM_CAP_SYS_HYPERV_CPUID 191
+>  #define KVM_CAP_DIRTY_LOG_RING 192
+> +#define KVM_CAP_SET_GUEST_DEBUG2 195
+>=20=20
+>  #ifdef KVM_CAP_IRQ_ROUTING
 
 
-which causes it to only do the minimum neccessary.
-
-Alternatively, invert this, so do minimum smoke test by default
-and require an env to run the full test. QEMU_CI_MAX=1
-
-Potentially allow also  "QEMU_CI_EXTRA_JOBS=foo,bar,wizz"
-to match against job jnames ?
-
-> Then there is the question of defaults. Should we default to a minimised
-> set unless asked or should the default be the full fat run everything?
-
-With the direction gitlab is taking towards limiting CI minuts, it is
-probably a safer bet to do a minimal smoke test by default and only
-do the full test when definitely needed.
-
-> We could I guess only switch to running everything for the staging
-> branch and anything that is associated with a tag or a branch that has
-> pull in the name?
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
