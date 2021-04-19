@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382E5364CF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 23:19:24 +0200 (CEST)
-Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86604364CB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 23:03:14 +0200 (CEST)
+Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYbIh-0004H5-BG
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 17:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34452)
+	id 1lYb33-0007TU-Jj
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 17:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYaR2-00088f-Ck
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:56 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:35374)
+ id 1lYaR4-0008Dj-SD
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:58 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:37846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYaR0-0002pI-MP
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:56 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id h13so18508849qka.2
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 13:23:54 -0700 (PDT)
+ id 1lYaR2-0002qo-4a
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:23:58 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id o2so13700590qtr.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 13:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zsvdYXq6ehB6Yi/U879OLLmvPBBL5YJ5lhH9C+FI0w0=;
- b=VgSQCETwH1hPhJrsiqoBUf834UQ4mGnh3h8me3d+Y3CM/3XekpbRiX2i3/QBHENlAN
- NVXKjpRO/SBpEFFk/2e+sUji0hbNnWwM649Rig7oqXURNW5EhYOXUSCywWDpsarQFsyJ
- /Dxs5cLw3NG+hWY+W/Jc+7LY0xlLFIm35DeMh4CoiBKysRCGk8PFF5LRx8zCSR3URSpb
- tFu+mT3bSnmRKpG7rPzG4tLYFFhPlb7AsS/SMI6FairLFhueHC3S95yrlQ+jR4HoXiJ7
- tV8G3FPAtWeSsfVRWy8Gxhf1y+HnZ0s0jnjk4KavLwDW5sqrei5GH+0J7KklnxsZ2gLV
- kMzQ==
+ bh=Sur9/JZybq5xVkGAS9I0yc1/ThRv4l764lANHeDVf88=;
+ b=XDUsdbSak/GS0x2v6QYq6AGcprdt8d0R7yZZ+Quly9i+bySRPxbZFp5A8/CZYmkjyL
+ s/UEfmjYZ5VusqiFoKalcYXbBXSs2I1xzzenZCjSXk3xVm3QnPVXH1M303d7uo/qs9gZ
+ RRrOHsik9zOeVskI64YaYu18eU7mjwQJP0e/H07qCu/VcdqBd/5VQ4oBfNbOYzb2gttI
+ uCYrGSoeveaGekiWES0v3YnP1MiIKbKo1bRG7bhwDyuTHBa+SUtgGsyWCs4K2nDAywO4
+ E2U5jneDWeWZ5M8guEhuyGYjGzti7DXsqQHPn+ZQHFCSP7CV8fPdXTlLYYn/LMkqry3Z
+ 1nzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zsvdYXq6ehB6Yi/U879OLLmvPBBL5YJ5lhH9C+FI0w0=;
- b=Rpjb3kcvgQ4ox1cHn+yt+Xb8XYNcyW0bQQXSw+XbSlk4jABhlhIdGsFnbqZ+8bbTNe
- UDyuMNUmxb7uuITXuPzXUnxC41HE30wEP4j8DpFe+QZbpauNZt3Y0v4oDmJpu6S/AQ4x
- jmJXvuMHKNstmWHzBjh0MrJGyd3sQxEsaPK6NF9Zilus6a/2ng5/QAiJw2Z8+UKiQY6W
- 5SvcL9ijFT6GEccbeAN5BLgVPOoFPACjMq2+/gU8rJwr5T7wp0h6CHTzDhWioxehf+SR
- FHSLsQhxMekV/fg8ui73m8LyhfOW7uIO8EUsBYMNuN4N0T9fwl09SI7Iyx30VBf49F0j
- OK8Q==
-X-Gm-Message-State: AOAM530RVzEe/2nUfn/WKQUnozOrlhv3lb4PBmXwnU3LnK7aEiicUK4/
- 8lShmL+tuUvrnazg958T/sLNd9stdwA63y8U
-X-Google-Smtp-Source: ABdhPJyvKc6pp1ALz5YkQeHgaWMg+sficNisAWm3/POAWJuFKysE/xYmUzjeMLdeUqp5dVJOuyKe1Q==
-X-Received: by 2002:a37:9607:: with SMTP id y7mr14026801qkd.25.1618863833808; 
- Mon, 19 Apr 2021 13:23:53 -0700 (PDT)
+ bh=Sur9/JZybq5xVkGAS9I0yc1/ThRv4l764lANHeDVf88=;
+ b=D44RaPpIy1KEWTe+zCvITe5HhANQkHNgk52Kp/lLMkKLJK6FxoUs8cNZd4BNiAtj0Q
+ aJNfyRMbuX6zIahiqOryEBHScTEoiOxEWlWd/rREAspZn40WYuhAy8pFdo6Y0PfheHVz
+ Q6twtryss4kYnTEKrvbkq2JDJk0YfeQfYQs0OL2o4OUOBRfzbOWZtonDes4UtAcj6WVW
+ k/gAVmCLlG/Dtbr+SlXwmmSb1L4IOePWPNUfi8+llAuNnQjeiVX2yQfJNjKs+NuJF58t
+ 5yhDmJRfofKZSg+5QadzHHqZf+ucrUyEB580/UiKlhRvXOeDTNANSYosffNv/fFBquyD
+ rjBg==
+X-Gm-Message-State: AOAM531gVJRYt8mdZDw53EcYAFvQA9h4En5WhRvZ50ya+iH5TzL2aGjR
+ egsGTj29uOQkR3w8govQe0GDxt0jUCMxGk09
+X-Google-Smtp-Source: ABdhPJz8d+LjA6BXJCCgJqUXG0nD90MsS3zxKvjygUJGb55zzQGzBr2R5Du1QE8kDblSCXNztbqbKQ==
+X-Received: by 2002:a05:622a:100f:: with SMTP id
+ d15mr13862247qte.2.1618863835257; 
+ Mon, 19 Apr 2021 13:23:55 -0700 (PDT)
 Received: from localhost.localdomain ([2607:fb90:80c7:aba4:3594:91a:8889:c77a])
- by smtp.gmail.com with ESMTPSA id c23sm10007835qtm.46.2021.04.19.13.23.52
+ by smtp.gmail.com with ESMTPSA id c23sm10007835qtm.46.2021.04.19.13.23.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 13:23:53 -0700 (PDT)
+ Mon, 19 Apr 2021 13:23:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 30/31] target/arm: Enforce alignment for aa64 vector
- LDn/STn (single)
-Date: Mon, 19 Apr 2021 13:22:56 -0700
-Message-Id: <20210419202257.161730-31-richard.henderson@linaro.org>
+Subject: [PATCH v5 31/31] target/arm: Enforce alignment for sve LD1R
+Date: Mon, 19 Apr 2021 13:22:57 -0700
+Message-Id: <20210419202257.161730-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210419202257.161730-1-richard.henderson@linaro.org>
 References: <20210419202257.161730-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,51 +90,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ target/arm/translate-sve.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 2a82dbbd6d..95897e63af 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -3815,6 +3815,7 @@ static void disas_ldst_single_struct(DisasContext *s, uint32_t insn)
-     int index = is_q << 3 | S << 2 | size;
-     int xs, total;
-     TCGv_i64 clean_addr, tcg_rn, tcg_ebytes;
-+    MemOp mop;
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 584c4d047c..864ed669c4 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -5001,7 +5001,7 @@ static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
+     clean_addr = gen_mte_check1(s, temp, false, true, msz);
  
-     if (extract32(insn, 31, 1)) {
-         unallocated_encoding(s);
-@@ -3876,6 +3877,7 @@ static void disas_ldst_single_struct(DisasContext *s, uint32_t insn)
+     tcg_gen_qemu_ld_i64(temp, clean_addr, get_mem_index(s),
+-                        s->be_data | dtype_mop[a->dtype]);
++                        finalize_memop(s, dtype_mop[a->dtype]));
  
-     clean_addr = gen_mte_checkN(s, tcg_rn, !is_load, is_postidx || rn != 31,
-                                 total);
-+    mop = finalize_memop(s, scale);
- 
-     tcg_ebytes = tcg_const_i64(1 << scale);
-     for (xs = 0; xs < selem; xs++) {
-@@ -3883,8 +3885,7 @@ static void disas_ldst_single_struct(DisasContext *s, uint32_t insn)
-             /* Load and replicate to all elements */
-             TCGv_i64 tcg_tmp = tcg_temp_new_i64();
- 
--            tcg_gen_qemu_ld_i64(tcg_tmp, clean_addr,
--                                get_mem_index(s), s->be_data + scale);
-+            tcg_gen_qemu_ld_i64(tcg_tmp, clean_addr, get_mem_index(s), mop);
-             tcg_gen_gvec_dup_i64(scale, vec_full_reg_offset(s, rt),
-                                  (is_q + 1) * 8, vec_full_reg_size(s),
-                                  tcg_tmp);
-@@ -3892,9 +3893,9 @@ static void disas_ldst_single_struct(DisasContext *s, uint32_t insn)
-         } else {
-             /* Load/store one element per register */
-             if (is_load) {
--                do_vec_ld(s, rt, index, clean_addr, scale | s->be_data);
-+                do_vec_ld(s, rt, index, clean_addr, mop);
-             } else {
--                do_vec_st(s, rt, index, clean_addr, scale | s->be_data);
-+                do_vec_st(s, rt, index, clean_addr, mop);
-             }
-         }
-         tcg_gen_add_i64(clean_addr, clean_addr, tcg_ebytes);
+     /* Broadcast to *all* elements.  */
+     tcg_gen_gvec_dup_i64(esz, vec_full_reg_offset(s, a->rd),
 -- 
 2.25.1
 
