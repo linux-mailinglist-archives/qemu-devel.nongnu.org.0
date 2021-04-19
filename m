@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AC5363C18
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:06:53 +0200 (CEST)
-Received: from localhost ([::1]:56064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0618363C22
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:08:09 +0200 (CEST)
+Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYNzg-00045B-IJ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49736)
+	id 1lYO0v-0004xV-34
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lYNys-0003aR-Ig; Mon, 19 Apr 2021 03:06:02 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:44941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lYNyq-0000xH-RS; Mon, 19 Apr 2021 03:06:02 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id v72so16827046ybe.11;
- Mon, 19 Apr 2021 00:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IvVm0n/cRnATjd07kY2L9vTcCjtvxeLIC2DYlMsqMYA=;
- b=LknTDXtnUAHJA0KnZirkqJx7NC9TB+kiZsKABENO4ySvy0FcDr5bLOZdZ//AfZvWpx
- x7V91CbrGgA+aQ/67geZxr81+l4tfU9Dhk/5UZ0MvbFc6ZLBiYf3n0ov05OH+IOBNAbJ
- RASjL9OHGRsXNLgTHsMNYLHQSDXZKjrpTr03gd5pYw2WJY3y1r6YMlJk6w6Kade7jsF/
- RDoAQiuN9LhSWVARKa5EE5MYT//e3/OYIeuZPHS4ZI6wfkUh4+vpaV1aWhy0frdzSY7W
- uOXS2+snXh9N+9ZY9XAFQAiYgkpaT/8xwX3bBW68w888+tUvGUQoMcQKfCZOwUNadjr0
- dbjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IvVm0n/cRnATjd07kY2L9vTcCjtvxeLIC2DYlMsqMYA=;
- b=I+TsMMFPfu6I7Nv6KaKMC583OrBgqCh57ek1ZtuWvSVi4dQaWVR/foH66lDf3jQ12H
- u6GA4k12kZizzpO67bHX7hhNeNKcvO0Ke1LcmvZWa4FwdoUkXrxxf+hcMgnGieFS88Uh
- Rm632K/CM+mdLWkUWciszXoRI7Qr59VFZVzUMyoQSi3p0LLYRJh4Td5L54BDKtSCI40Z
- uWMGAaELs61f4eCwy5WwIIc3AQVO9kpYd+WtlL6QxqMuDFrMavuUQyb2nksfGcxn5TI0
- yqRXKocx0ykTOxUnyca6mOIrqXphseF02dunUBQMUQgFzO2lqlMDLvB+5jfKEPFzf4OR
- KETg==
-X-Gm-Message-State: AOAM531oy58OKiMRHok6U0hjRTHtaUU0M9XrFkweaHiKpv9o2pA5ly4w
- 60lEOggyX6tjW5AeZ8LOt4CIAYiHpjMRO6jlp6o=
-X-Google-Smtp-Source: ABdhPJwK9wWrsjBN6LwO41aq8JgIO6Q1jV+aPfVHi31qPhUwebev2LWgUp1LpQkbNDJS49cs542kHthGSmBzHDjauCE=
-X-Received: by 2002:a25:bd03:: with SMTP id f3mr15335448ybk.152.1618815958907; 
- Mon, 19 Apr 2021 00:05:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYNyy-0003g3-74
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 03:06:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lYNys-0000yF-FW
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 03:06:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618815960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ih7mqqcs/idY/1fdQqD/7arLltDPgItBZMlPpPhPDvk=;
+ b=bbo7QG9+CtfwGrD8Kee5iNh04yyI5ONjBURWqFa13Ei4Y4TSFWLI2bmA3qAFnGcH6ot+fD
+ 49/cbVSUS3smCWKrT0FZN8UG4rFHgrO1dPt6Y7lP2ij5ls6Q+VQ0WllAL1i8bF4dyhKkzz
+ FMPP2M8WB2KxDd8hWMKYtSN7RkMgyQE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-qI0E4DrYPGmjD2NolMaS1Q-1; Mon, 19 Apr 2021 03:05:57 -0400
+X-MC-Unique: qI0E4DrYPGmjD2NolMaS1Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD8287A83E;
+ Mon, 19 Apr 2021 07:05:56 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-200.ams2.redhat.com
+ [10.36.113.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B2D75C237;
+ Mon, 19 Apr 2021 07:05:53 +0000 (UTC)
+Date: Mon, 19 Apr 2021 09:05:51 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: any remaining for-6.0 issues?
+Message-ID: <20210419090551.4a3ae4eb.cohuck@redhat.com>
+In-Reply-To: <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
+References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
+ <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
+ <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
+ <CAFEAcA9Q7q5eoE+qBOY9LYQnnaccSfMux=fOzb3+BtRWjXm6gw@mail.gmail.com>
+ <b7912545-96b8-70b7-21b2-578808051f14@ilande.co.uk>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <cover.1618812899.git.alistair.francis@wdc.com>
- <fef23b885f9649a4d54e7c98b168bdec5d297bb1.1618812899.git.alistair.francis@wdc.com>
-In-Reply-To: <fef23b885f9649a4d54e7c98b168bdec5d297bb1.1618812899.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 19 Apr 2021 15:05:47 +0800
-Message-ID: <CAEUhbmXb1dYso8weAcydB=+v5BpXfyhY+v2r88_71hNiPQDNAQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/8] target/riscv: Implementation of enhanced PMP (ePMP)
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,38 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alex =?UTF-8?B?QmVu?= =?UTF-8?B?bsOpZQ==?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 19, 2021 at 2:17 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> From: Hou Weiying <weiying_hou@outlook.com>
->
-> This commit adds support for ePMP v0.9.1.
->
-> The ePMP spec can be found in:
-> https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
->
-> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
-> Message-Id: <SG2PR02MB263462CCDBCBBAD36983C2CD93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
-> [ Changes by AF:
->  - Rebase on master
->  - Update to latest spec
->  - Use a switch case to handle ePMP MML permissions
->  - Fix a few bugs
-> ]
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/pmp.c | 154 ++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 146 insertions(+), 8 deletions(-)
->
+On Sun, 18 Apr 2021 11:38:09 +0100
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> On 17/04/2021 20:46, Peter Maydell wrote:
+> 
+> >> On 14/04/2021 13:48, Thomas Huth wrote:  
+> >>> I've seen some intermittend, non-reproducible crashes with usermode QEMU in some of
+> >>> my CI runs, e.g.:
+> >>>
+> >>> https://gitlab.com/thuth/qemu/-/jobs/1178256498#L3876
+> >>>
+> >>> https://gitlab.com/thuth/qemu/-/jobs/1146276208#L3241
+> >>>
+> >>> This was only with ccache enabled, so I thought that it might be related to my
+> >>> work-in-progress ccache patches...
+> >>>
+> >>> ... but now Cornelia reported that she has seen such a crash in one of her branches,
+> >>> too (which is completely unrelated to my ccache patches):
+> >>>
+> >>> https://gitlab.com/cohuck/qemu/-/jobs/1178860927#L3867
+> >>>
+> >>> That makes me wonder whether we currently have a real problem with user-mode in the
+> >>> master branch? Did anybody else see such problems?  
+> >>
+> >> I've definitely seen the same issue as Cornelia in my Gitlab CI builds for the ESP
+> >> security fixes (first version of which appeared just before rc0). The user builds
+> >> always fail on "run-tcg-tests-s390x-linux-user" for me.  
+> > 
+> > Do we have any better understanding yet of the cause here?
+> > (I ask because I think we're going to need an rc4 for other reasons,
+> > so if there's a ready-to-go fix then we could consider it.)  
+> 
+> I don't think so. I tried a run with a possible candidate patch reverted (see 
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02345.html) but Cornelia's 
+> response indicates that the result is still inconclusive :(
+
+That patch seems to be our best candidate so far, but the intermittent
+nature of the failures make it hard to pin down... I don't see anything
+obviously wrong with the patch, maybe some linux-user experts have a
+better idea?
+
 
