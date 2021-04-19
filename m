@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10480364AB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:39:55 +0200 (CEST)
-Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105D7364A9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:33:54 +0200 (CEST)
+Received: from localhost ([::1]:60758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYZkQ-0003qn-4L
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48452)
+	id 1lYZea-00058A-1e
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZQJ-0006pg-1w
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:07 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38774)
+ id 1lYZQO-0006tz-5V
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:12 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZQH-0001EU-JC
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:06 -0400
-Received: by mail-wr1-x434.google.com with SMTP id w4so31454249wrt.5
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:19:05 -0700 (PDT)
+ id 1lYZQM-0001GT-FC
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:11 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h4so26140410wrt.12
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eApDsHd46Y+IQH1RVKAdhqg7h/PQQ2n3i/53YZQWS2A=;
- b=edhyp5qg0Q7oudOcQoIIa2uDYJ0zoV4CQHKIgy1nJN2lqUGkH8XkCsQDdwjyzqo/I/
- PeVKADO8ChahDVncMTX32gZeMwlEKz1EwRaOtdrr6wPiN0M1PFvF0hm9b2gq7rRCc4mg
- sY201XuuPuoy0d+tZ/V+Fq6vT26AjLzmp8tjBKV8Gm9rIF3lbC+2OWPd3Dzx5eAQltbq
- Kmpo5PCeD/jh+8VXMqffUiyPMSmjpi7Ma7zIX+MSLOpFM/BhxSMEnZzhPKHD18C0w8oW
- RUsSiRxMT+aE7a+KfpL6jCHZqBeW9XmYAOTjRcsTVuN0xOAQwwgqJeO2Pylehemu8T0W
- 0+hQ==
+ bh=9idQeRNSVgpcYg4jC2bsnFCTDNB04ha1mM3lDtmDX/g=;
+ b=P5yDUNz8mNDAqz0rIZlRpo2axmEAWEY3qKoo3bdVRneKgLv2e7rzKd/QsCBUbNH9Ta
+ ZaFtJIqF3R+yE51h99H1284ogezoZOJFVFsDG//eI8L43OeFDkVdtC7bBG4FIZLU+FQr
+ P/pcEz3mrJMU7SYUFNNZndBA6NiBmmzHAf4mVHwPhMOzDfEW+kI0269ADRdRhp1+Wd02
+ 9FFtrnxAymmH4R4RmHz9NxUFH6uhk1w6m8S+wrzNBuRQgUCEEbjhG/wVSCnczZqYkZM/
+ Qk6qL16jjT2xmOshw045ZZZTabVOfguvKKUZgfLvfA1o0c6rHNJBAXDom7iYPyEZAtDY
+ d1aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eApDsHd46Y+IQH1RVKAdhqg7h/PQQ2n3i/53YZQWS2A=;
- b=SoV01v00+nCB4yhihba+NUV5+EMDNv0fir1GqydttPVTW+c5xqwlNjC9k4oN65ZBBY
- uTmTNiE0m3CnU9tnInwh6gbIADxTuDg7pBUqHOQnbmvAlsqZUY1WnQeTC0OGqzqxPmkG
- GXuycqqCt1LIkO8TvfhQl9+vBIetaVK+ZV1h26er9W5XTkekGNYvEZqPM4u4Btu/dla5
- F8zsLdTc7avTprg0kBcBY/l7809RVxpuHdlO2AwuNlUXe5G9JK4Hyx9p9AAr8xbvpfEX
- RKtknAJYtMr8crCMvVNMI+COrvhgcOtGK0QG0PLXBgKr4wprfys9P4SYO+ydel9AM2uH
- 1yxw==
-X-Gm-Message-State: AOAM530xAD7lBSHVNBuv1yia4PrpxyaxQvHMtYpUSLFBRFp/zBRoJj1j
- l2oQsr1HUfHAwynleBUKa/UxaF3VOl+Fqw==
-X-Google-Smtp-Source: ABdhPJxTi2NZ3EwXZS6MM7YlXgd0kM4dgGHlWbws3huczX9hs7weFKms+6SU53TZDBjMiU/MOpWJUg==
-X-Received: by 2002:adf:fdcd:: with SMTP id i13mr15875447wrs.185.1618859944079; 
- Mon, 19 Apr 2021 12:19:04 -0700 (PDT)
+ bh=9idQeRNSVgpcYg4jC2bsnFCTDNB04ha1mM3lDtmDX/g=;
+ b=Bthggaib/0m4jsg1t3uxscljuVtSMzFK/vklz6WCwWhxs1PM6BK2pBzyc9eILJzxcZ
+ ydyx87p10qm/nPakBLo2nnzULiGDp9k2dUGBgZrdlaE5ZSC9rwlVDVub7PAQjbiUqBm6
+ Iuj771QxkutBcXetxj6V6wiqAFKG9Ar4QrWMSuVb7T/JUMw/w5q1/8+Yi8sQBmJWkGRu
+ Hkzzsgjz+pnGpjvbxkuib+ebPyvQbEKoT4jCTUe2enlNT2WBSSnvRB1E2n6Sj/smKeyB
+ 28DklsKXX7gaaXdojgrHPgX4QdyG/KC1rBiuTizg1hT1tgVsbOCmJFU89mFR+aL9XwNq
+ 41BA==
+X-Gm-Message-State: AOAM531D2E09eIeOefV7DBP9XMw4bApc4CLyowkbLJ5YjCdwDB0uXzvi
+ 7A+P5nuqwVRqth46MOSKOMuJGXsLpMR+og==
+X-Google-Smtp-Source: ABdhPJxH580qYZZS1oehqGPSKisZxVPPVdfdkSMzcmMSlYLGXGNCohYz1jpsw4Pzkr4yNftBfR70PA==
+X-Received: by 2002:adf:f106:: with SMTP id r6mr15982021wro.214.1618859948967; 
+ Mon, 19 Apr 2021 12:19:08 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id g12sm25363768wru.47.2021.04.19.12.19.03
+ by smtp.gmail.com with ESMTPSA id l20sm510160wmg.33.2021.04.19.12.19.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 12:19:03 -0700 (PDT)
+ Mon, 19 Apr 2021 12:19:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/30] target/mips: Declare mips_cpu_set_error_pc() inlined
- in "internal.h"
-Date: Mon, 19 Apr 2021 21:18:01 +0200
-Message-Id: <20210419191823.1555482-9-f4bug@amsat.org>
+Subject: [PATCH v3 09/30] target/mips: Merge do_translate_address into
+ cpu_mips_translate_address
+Date: Mon, 19 Apr 2021 21:18:02 +0200
+Message-Id: <20210419191823.1555482-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210419191823.1555482-1-f4bug@amsat.org>
 References: <20210419191823.1555482-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,99 +94,107 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename set_pc() as mips_cpu_set_error_pc(), declare it inlined
-and use it in cpu.c and op_helper.c.
+Currently cpu_mips_translate_address() calls raise_mmu_exception(),
+and do_translate_address() calls cpu_loop_exit_restore().
+
+This API split is dangerous, we could call cpu_mips_translate_address
+without returning to the main loop.
+
+As there is only one caller, it is trivial (and safer) to merge
+do_translate_address() back to cpu_mips_translate_address().
 
 Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h  | 11 +++++++++++
- target/mips/cpu.c       |  8 +-------
- target/mips/op_helper.c | 16 +++-------------
- 3 files changed, 15 insertions(+), 20 deletions(-)
+ target/mips/internal.h   |  2 +-
+ target/mips/op_helper.c  | 20 ++------------------
+ target/mips/tlb_helper.c | 11 ++++++-----
+ 3 files changed, 9 insertions(+), 24 deletions(-)
 
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 57072a941e7..81671d567d0 100644
+index 81671d567d0..806d39fa6c3 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -219,6 +219,17 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- /* op_helper.c */
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+@@ -148,7 +148,7 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     int mmu_idx, MemTxAttrs attrs,
+                                     MemTxResult response, uintptr_t retaddr);
+ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
+-                                  MMUAccessType access_type);
++                                  MMUAccessType access_type, uintptr_t retaddr);
+ #endif
  
-+static inline void mips_cpu_set_error_pc(CPUMIPSState *env,
-+                                         target_ulong error_pc)
-+{
-+    env->active_tc.PC = error_pc & ~(target_ulong)1;
-+    if (error_pc & 1) {
-+        env->hflags |= MIPS_HFLAG_M16;
-+    } else {
-+        env->hflags &= ~(MIPS_HFLAG_M16);
-+    }
-+}
-+
- static inline void restore_pamask(CPUMIPSState *env)
- {
-     if (env->hflags & MIPS_HFLAG_ELPA) {
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 90ae232c8b8..fcbf95c85b9 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -327,14 +327,8 @@ void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
- static void mips_cpu_set_pc(CPUState *cs, vaddr value)
- {
-     MIPSCPU *cpu = MIPS_CPU(cs);
--    CPUMIPSState *env = &cpu->env;
- 
--    env->active_tc.PC = value & ~(target_ulong)1;
--    if (value & 1) {
--        env->hflags |= MIPS_HFLAG_M16;
--    } else {
--        env->hflags &= ~(MIPS_HFLAG_M16);
--    }
-+    mips_cpu_set_error_pc(&cpu->env, value);
- }
- 
- #ifdef CONFIG_TCG
+ #define cpu_signal_handler cpu_mips_signal_handler
 diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index b80e8f75401..f7da8c83aee 100644
+index f7da8c83aee..fdae5a3d687 100644
 --- a/target/mips/op_helper.c
 +++ b/target/mips/op_helper.c
-@@ -993,24 +993,14 @@ static void debug_post_eret(CPUMIPSState *env)
-     }
- }
+@@ -287,23 +287,6 @@ target_ulong helper_rotx(target_ulong rs, uint32_t shift, uint32_t shiftx,
  
--static void set_pc(CPUMIPSState *env, target_ulong error_pc)
+ #ifndef CONFIG_USER_ONLY
+ 
+-static inline hwaddr do_translate_address(CPUMIPSState *env,
+-                                          target_ulong address,
+-                                          MMUAccessType access_type,
+-                                          uintptr_t retaddr)
 -{
--    env->active_tc.PC = error_pc & ~(target_ulong)1;
--    if (error_pc & 1) {
--        env->hflags |= MIPS_HFLAG_M16;
+-    hwaddr paddr;
+-    CPUState *cs = env_cpu(env);
+-
+-    paddr = cpu_mips_translate_address(env, address, access_type);
+-
+-    if (paddr == -1LL) {
+-        cpu_loop_exit_restore(cs, retaddr);
 -    } else {
--        env->hflags &= ~(MIPS_HFLAG_M16);
+-        return paddr;
 -    }
 -}
 -
- static inline void exception_return(CPUMIPSState *env)
+ #define HELPER_LD_ATOMIC(name, insn, almask, do_cast)                         \
+ target_ulong helper_##name(CPUMIPSState *env, target_ulong arg, int mem_idx)  \
+ {                                                                             \
+@@ -313,7 +296,8 @@ target_ulong helper_##name(CPUMIPSState *env, target_ulong arg, int mem_idx)  \
+         }                                                                     \
+         do_raise_exception(env, EXCP_AdEL, GETPC());                          \
+     }                                                                         \
+-    env->CP0_LLAddr = do_translate_address(env, arg, MMU_DATA_LOAD, GETPC()); \
++    env->CP0_LLAddr = cpu_mips_translate_address(env, arg, MMU_DATA_LOAD,     \
++                                                 GETPC());                    \
+     env->lladdr = arg;                                                        \
+     env->llval = do_cast cpu_##insn##_mmuidx_ra(env, arg, mem_idx, GETPC());  \
+     return env->llval;                                                        \
+diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+index 8d3ea497803..1ffdc1f8304 100644
+--- a/target/mips/tlb_helper.c
++++ b/target/mips/tlb_helper.c
+@@ -904,21 +904,22 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ 
+ #ifndef CONFIG_USER_ONLY
+ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
+-                                  MMUAccessType access_type)
++                                  MMUAccessType access_type, uintptr_t retaddr)
  {
-     debug_pre_eret(env);
-     if (env->CP0_Status & (1 << CP0St_ERL)) {
--        set_pc(env, env->CP0_ErrorEPC);
-+        mips_cpu_set_error_pc(env, env->CP0_ErrorEPC);
-         env->CP0_Status &= ~(1 << CP0St_ERL);
-     } else {
--        set_pc(env, env->CP0_EPC);
-+        mips_cpu_set_error_pc(env, env->CP0_EPC);
-         env->CP0_Status &= ~(1 << CP0St_EXL);
+     hwaddr physical;
+     int prot;
+     int ret = 0;
++    CPUState *cs = env_cpu(env);
+ 
+     /* data access */
+     ret = get_physical_address(env, &physical, &prot, address, access_type,
+                                cpu_mmu_index(env, false));
+-    if (ret != TLBRET_MATCH) {
+-        raise_mmu_exception(env, address, access_type, ret);
+-        return -1LL;
+-    } else {
++    if (ret == TLBRET_MATCH) {
+         return physical;
      }
-     compute_hflags(env);
-@@ -1036,7 +1026,7 @@ void helper_deret(CPUMIPSState *env)
-     env->hflags &= ~MIPS_HFLAG_DM;
-     compute_hflags(env);
- 
--    set_pc(env, env->CP0_DEPC);
-+    mips_cpu_set_error_pc(env, env->CP0_DEPC);
- 
-     debug_post_eret(env);
++
++    raise_mmu_exception(env, address, access_type, ret);
++    cpu_loop_exit_restore(cs, retaddr);
  }
+ 
+ static void set_hflags_for_handler(CPUMIPSState *env)
 -- 
 2.26.3
 
