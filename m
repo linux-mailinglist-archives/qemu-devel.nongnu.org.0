@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD143363B7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 08:33:41 +0200 (CEST)
-Received: from localhost ([::1]:43566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D6B363C11
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 09:04:30 +0200 (CEST)
+Received: from localhost ([::1]:53618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYNTY-0005Jl-KZ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 02:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45488)
+	id 1lYNxN-0002uP-IJ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 03:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <0xc0de0125@gmail.com>)
- id 1lYNRn-0004pK-Ud; Mon, 19 Apr 2021 02:31:53 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:52188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <0xc0de0125@gmail.com>)
- id 1lYNRe-0004yf-A1; Mon, 19 Apr 2021 02:31:51 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id lt13so8459677pjb.1;
- Sun, 18 Apr 2021 23:31:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xIStX6wva8JwVZdtQnb+vPV9tifir+PIoCS80CmConE=;
- b=gvekoU/VkijIEMszx+xTHxuGoMfBAjBrnQDeJWM1ZE46VYZ1X+4MWsQt6o3p9x2DQZ
- Z3qzUDT94a+TZkwz/RqYobjYBNG7YTb+n9FG3VtSU56u24uQVUtml68mbFS1V8Px9vbA
- 57hBOhI9RCgDZAKrc2GG0BcFSgQTVHtZRL2zTUT/Yo35wTaJCn78tVJWAmKSkL2TAMFu
- K0YlWWXHv0K6IYZp+ac7gsxb2BCXTFH9zvqVJK0uDhile7PjoIDqUkKhBzDjk2swABLd
- vXY44q2IPkc5AETe0vgGUFlJLKha7Kqz7+5N2BRiruUL9Hc+A2mrljg38fvwtRxjIDf2
- NJ1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xIStX6wva8JwVZdtQnb+vPV9tifir+PIoCS80CmConE=;
- b=dfoESpLss4ORKdbGDCh/HIICLiArYeogegxrumfjBFap53ASnftlyZoj/VWrUfZKrr
- mDZHvsOqwE5xBbCKEtC890ABQM6/VC8ByEaC0WQM0hMNWdtLTdALQPRHs1w/Fy7IfEq5
- lhRHJGP97Eqi5tCS15CrhiS0eh3443yo4YawqkGmDAQJDRzholydGqljmFY7Ms90vBg6
- D4sYnFQWPQzGxxy3jbTjJU5mkTHTb3aDNfSxb8odw/Rm9VB/MF0bk1cZiFqR+Pwzj7y2
- +WAtWP3xSZ+/er+XF3U4jumBuXa54P/NbZ4MX6LSS7MFPfPX3quxhLrjhSqvEtQo5X08
- T+uw==
-X-Gm-Message-State: AOAM532VK+40KdnSlHXyyquLnXMOgoznBAsh2VC2RGG6WoGvEiK5hz5P
- EGqYkcLCtxNYX44hfjdA/rsEtw6oyKZ/g4zOuts=
-X-Google-Smtp-Source: ABdhPJzQioMICJsTo7rcF/rFunqXWJ/D0UrQ7skQEcCGCtUpbv1UePJUZDbE2G1z7s01REYT1Io60Vlct5IE1WaMgSE=
-X-Received: by 2002:a17:902:c407:b029:ec:aeb7:667f with SMTP id
- k7-20020a170902c407b02900ecaeb7667fmr222340plk.9.1618813899545; Sun, 18 Apr
- 2021 23:31:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lYNw3-0002Mo-Vj; Mon, 19 Apr 2021 03:03:08 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lYNvy-0007RD-Cc; Mon, 19 Apr 2021 03:03:07 -0400
+Received: from DGGEML402-HUB.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FNyPl5hs3z5qNQ;
+ Mon, 19 Apr 2021 15:00:27 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ DGGEML402-HUB.china.huawei.com (10.3.17.38) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Mon, 19 Apr 2021 15:02:48 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 19 Apr 2021 15:02:47 +0800
+Subject: Re: [RFC PATCH v2 1/6] device_tree: Add qemu_fdt_add_path
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-2-wangyanan55@huawei.com>
+ <YHkYD+cCl9/GCxwJ@yekko.fritz.box>
+ <cd3408c2-6025-7a44-bbf6-d675467c5749@huawei.com>
+ <YHzZJvH/9CiYWia4@yekko.fritz.box>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <85a55b54-e5c2-4a4c-2a51-ebae841d6c4f@huawei.com>
+Date: Mon, 19 Apr 2021 15:02:46 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20210419060145.11152-1-frank.chang@sifive.com>
- <CAKmqyKOwZeqbbeZxQ2uGiKxGWZrBUk5Xq93kAeQecrFy9p718g@mail.gmail.com>
-In-Reply-To: <CAKmqyKOwZeqbbeZxQ2uGiKxGWZrBUk5Xq93kAeQecrFy9p718g@mail.gmail.com>
-From: Frank Chang <0xc0de0125@gmail.com>
-Date: Mon, 19 Apr 2021 14:31:28 +0800
-Message-ID: <CANzO1D2sRnzezeae89J4P+dBw_h0NSTX2SQUEStNo1K8dyquTQ@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix vssub.vv saturation bug
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000709ed705c04d7bd3"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=0xc0de0125@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YHzZJvH/9CiYWia4@yekko.fritz.box>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,232 +68,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair
+ Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ yangyicong@huawei.com, yuzenghui@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000709ed705c04d7bd3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi David,
 
-Alistair Francis <alistair23@gmail.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=8819=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:28=E5=AF=AB=E9=81=93=EF=BC=
-=9A
+On 2021/4/19 9:13, David Gibson wrote:
+> On Sat, Apr 17, 2021 at 10:36:20AM +0800, wangyanan (Y) wrote:
+>> Hi David,
+>>
+>> On 2021/4/16 12:52, David Gibson wrote:
+>>> On Tue, Apr 13, 2021 at 04:07:40PM +0800, Yanan Wang wrote:
+>>>> From: Andrew Jones <drjones@redhat.com>
+>>>>
+>>>> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except
+>>>> it also adds any missing subnodes in the path. We also tweak
+>>>> an error message of qemu_fdt_add_subnode().
+>>>>
+>>>> We'll make use of this new function in a coming patch.
+>>>>
+>>>> Signed-off-by: Andrew Jones <drjones@redhat.com>
+>>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>>>> ---
+>>>>    include/sysemu/device_tree.h |  1 +
+>>>>    softmmu/device_tree.c        | 45 ++++++++++++++++++++++++++++++++++--
+>>>>    2 files changed, 44 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+>>>> index 8a2fe55622..ef060a9759 100644
+>>>> --- a/include/sysemu/device_tree.h
+>>>> +++ b/include/sysemu/device_tree.h
+>>>> @@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
+>>>>    uint32_t qemu_fdt_alloc_phandle(void *fdt);
+>>>>    int qemu_fdt_nop_node(void *fdt, const char *node_path);
+>>>>    int qemu_fdt_add_subnode(void *fdt, const char *name);
+>>>> +int qemu_fdt_add_path(void *fdt, const char *path);
+>>>>    #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
+>>>>        do {                                                                      \
+>>>> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+>>>> index 2691c58cf6..8592c7aa1b 100644
+>>>> --- a/softmmu/device_tree.c
+>>>> +++ b/softmmu/device_tree.c
+>>>> @@ -541,8 +541,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+>>>>        retval = fdt_add_subnode(fdt, parent, basename);
+>>>>        if (retval < 0) {
+>>>> -        error_report("FDT: Failed to create subnode %s: %s", name,
+>>>> -                     fdt_strerror(retval));
+>>>> +        error_report("%s: Failed to create subnode %s: %s",
+>>>> +                     __func__, name, fdt_strerror(retval));
+>>>>            exit(1);
+>>>>        }
+>>>> @@ -550,6 +550,47 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+>>>>        return retval;
+>>>>    }
+>>>> +/*
+>>>> + * Like qemu_fdt_add_subnode(), but will add all missing
+>>>> + * subnodes in the path.
+>>>> + */
+>>>> +int qemu_fdt_add_path(void *fdt, const char *path)
+>>>> +{
+>>>> +    char *dupname, *basename, *p;
+>>>> +    int parent, retval = -1;
+>>>> +
+>>>> +    if (path[0] != '/') {
+>>>> +        return retval;
+>>>> +    }
+>>>> +
+>>>> +    parent = fdt_path_offset(fdt, "/");
+>>> Getting the offset for "/" is never needed - it's always 0.
+>> Thanks, will fix it.
+>>>> +    p = dupname = g_strdup(path);
+>>> You shouldn't need the strdup(), see below.
+>>>
+>>>> +
+>>>> +    while (p) {
+>>>> +        *p = '/';
+>>>> +        basename = p + 1;
+>>>> +        p = strchr(p + 1, '/');
+>>>> +        if (p) {
+>>>> +            *p = '\0';
+>>>> +        }
+>>>> +        retval = fdt_path_offset(fdt, dupname);
+>>> The fdt_path_offset_namelen() function exists *exactly* so that you
+>>> can look up partial parths without having to mangle your input
+>>> string.  Just set the namelen right, and it will ignore anything to
+>>> the right of that.
+>> Function fdt_path_offset_namelen() seems more reasonable.
+>>
+>> After we call qemu_fdt_add_path() to add "/cpus/cpu-map/socket0/core0"
+>> successfully,
+>> if we want to add another path like "/cpus/cpu-map/socket0/core1" we will
+>> get the error
+>> -FDT_ERR_NOTFOUND for each partial path. But actually
+>> "/cpus/cpu-map/socket0"
+>> already exists, so by using fdt_path_offset_namelen() with right namelen we
+>> can avoid
+>> the error retval for this part.
+> I don't quite follow what you're saying here.  AFAICT your logic was
+> correct - it just involved a lot of mangling the given path (adding
+> and removing \0s) which becomes unnecessary with
+> fdt_path_offset_namelen().
+Right.
+>>>> +        if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
+>>>> +            error_report("%s: Invalid path %s: %s",
+>>>> +                         __func__, path, fdt_strerror(retval));
+>>> If you're getting an error other than FDT_ERR_NOTFOUND here, chances
+>>> are it's not an invalid path, but a corrupted fdt blob or something
+>>> else.
+>> Right, there can be variable reasons for the fail in addition to the invalid
+>> path.
+>>
+>>>> +            exit(1);
+>>>> +        } else if (retval == -FDT_ERR_NOTFOUND) {
+>>>> +            retval = fdt_add_subnode(fdt, parent, basename);
+>>>> +            if (retval < 0) {
+>>>> +                break;
+>>>> +            }
+>> I found another question here. If path "/cpus/cpu-map/socket0/core0" has
+>> already
+>> been added, when we want to add another path "/cpus/cpu-map/socket0/core1"
+>> and go here with retval = fdt_add_subnode(fdt, parent, "cpus"), then retval
+>> will
+>> be -FDT_ERR_EXISTS, but we can't just break the loop in this case.
+>>
+>> Am I right of the explanation ?
+> Not exactly.  If you called that fdt_add_subnode() in that case you
+> would get FDT_ERR_EXISTS.  However, because the previous
+> fdt_path_offset() has returned -FDT_ERR_NOTFOUND, you've already
+> established that the partial path doesn't exist, so if you got an
+> FDT_ERR_EXISTS here something has gone very strangely wrong (such as
+> concurrent access to the flat tree, which would very likely corrupt
+> it).
+Thanks for the analysis, I was wrong...
+> Note that the repeated use of fdt_path_offset() in this function will
+> repeatedly rescan the whole fdt from the beginning.  If you're
+> concerned about performance (which you might well not be), then a more
+> efficient approach would be to take your input path component by
+> component and use fdt_subnode_offset() directly.
+I will try to address your comments and have some rework for this patch 
+in next version.
 
-> On Mon, Apr 19, 2021 at 4:02 PM <frank.chang@sifive.com> wrote:
-> >
-> > From: Frank Chang <frank.chang@sifive.com>
-> >
-> > Doing a negate (0x0 =E2=80=93 0x80000000) using vssub.vv produces
-> > an incorrect result of 0x80000000 (should saturate to 0x7fffffff)
-> >
-> > Fix this bug by treating zero as a positive number.
-> >
-> > Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Thanks,
+Yanan
 >
-> Thanks for the patch!
->
-> A similar fix is already in the riscv-to-apply.next queue
->
->    target/riscv: Fixup saturate subtract function
->
->    The overflow predication ((a - b) ^ a) & (a ^ b) & INT64_MIN is right.
->    However, when the predication is ture and a is 0, it should return
-> maximum.
->
->    Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->    Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->    Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->    Message-id: 20210212150256.885-4-zhiwei_liu@c-sky.com
->    Message-Id: <20210212150256.885-4-zhiwei_liu@c-sky.com>
->
->
-> Alistair
->
-
-Thanks, I might missed that patch.
-Frank Chang
-
-
->
-> > ---
-> >  target/riscv/vector_helper.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.=
-c
-> > index a156573d281..356cef8a090 100644
-> > --- a/target/riscv/vector_helper.c
-> > +++ b/target/riscv/vector_helper.c
-> > @@ -2451,7 +2451,7 @@ static inline int8_t ssub8(CPURISCVState *env, in=
-t
-> vxrm, int8_t a, int8_t b)
-> >  {
-> >      int8_t res =3D a - b;
-> >      if ((res ^ a) & (a ^ b) & INT8_MIN) {
-> > -        res =3D a > 0 ? INT8_MAX : INT8_MIN;
-> > +        res =3D a >=3D 0 ? INT8_MAX : INT8_MIN;
-> >          env->vxsat =3D 0x1;
-> >      }
-> >      return res;
-> > @@ -2461,7 +2461,7 @@ static inline int16_t ssub16(CPURISCVState *env,
-> int vxrm, int16_t a, int16_t b)
-> >  {
-> >      int16_t res =3D a - b;
-> >      if ((res ^ a) & (a ^ b) & INT16_MIN) {
-> > -        res =3D a > 0 ? INT16_MAX : INT16_MIN;
-> > +        res =3D a >=3D 0 ? INT16_MAX : INT16_MIN;
-> >          env->vxsat =3D 0x1;
-> >      }
-> >      return res;
-> > @@ -2471,7 +2471,7 @@ static inline int32_t ssub32(CPURISCVState *env,
-> int vxrm, int32_t a, int32_t b)
-> >  {
-> >      int32_t res =3D a - b;
-> >      if ((res ^ a) & (a ^ b) & INT32_MIN) {
-> > -        res =3D a > 0 ? INT32_MAX : INT32_MIN;
-> > +        res =3D a >=3D 0 ? INT32_MAX : INT32_MIN;
-> >          env->vxsat =3D 0x1;
-> >      }
-> >      return res;
-> > @@ -2481,7 +2481,7 @@ static inline int64_t ssub64(CPURISCVState *env,
-> int vxrm, int64_t a, int64_t b)
-> >  {
-> >      int64_t res =3D a - b;
-> >      if ((res ^ a) & (a ^ b) & INT64_MIN) {
-> > -        res =3D a > 0 ? INT64_MAX : INT64_MIN;
-> > +        res =3D a >=3D 0 ? INT64_MAX : INT64_MIN;
-> >          env->vxsat =3D 0x1;
-> >      }
-> >      return res;
-> > --
-> > 2.17.1
-> >
-> >
->
-
---000000000000709ed705c04d7bd3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Alistair Francis &lt;<a href=3D"mailto:al=
-istair23@gmail.com">alistair23@gmail.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=
-=E6=9C=8819=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:28=E5=AF=AB=E9=
-=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">On Mon, Apr 19, 2021 at 4:02 PM &lt;<a href=3D"m=
-ailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&=
-gt; wrote:<br>
-&gt;<br>
-&gt; From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" target=
-=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-&gt;<br>
-&gt; Doing a negate (0x0 =E2=80=93 0x80000000) using vssub.vv produces<br>
-&gt; an incorrect result of 0x80000000 (should saturate to 0x7fffffff)<br>
-&gt;<br>
-&gt; Fix this bug by treating zero as a positive number.<br>
-&gt;<br>
-&gt; Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.co=
-m" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-Thanks for the patch!<br>
-<br>
-A similar fix is already in the riscv-to-apply.next queue<br>
-<br>
-=C2=A0 =C2=A0target/riscv: Fixup saturate subtract function<br>
-<br>
-=C2=A0 =C2=A0The overflow predication ((a - b) ^ a) &amp; (a ^ b) &amp; INT=
-64_MIN is right.<br>
-=C2=A0 =C2=A0However, when the predication is ture and a is 0, it should re=
-turn maximum.<br>
-<br>
-=C2=A0 =C2=A0Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@c-s=
-ky.com" target=3D"_blank">zhiwei_liu@c-sky.com</a>&gt;<br>
-=C2=A0 =C2=A0Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.h=
-enderson@linaro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;=
-<br>
-=C2=A0 =C2=A0Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.f=
-rancis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-=C2=A0 =C2=A0Message-id: <a href=3D"mailto:20210212150256.885-4-zhiwei_liu@=
-c-sky.com" target=3D"_blank">20210212150256.885-4-zhiwei_liu@c-sky.com</a><=
-br>
-=C2=A0 =C2=A0Message-Id: &lt;<a href=3D"mailto:20210212150256.885-4-zhiwei_=
-liu@c-sky.com" target=3D"_blank">20210212150256.885-4-zhiwei_liu@c-sky.com<=
-/a>&gt;<br>
-<br>
-<br>
-Alistair<br></blockquote><div><br></div><div>Thanks, I might missed that pa=
-tch.</div><div>Frank Chang</div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-&gt; ---<br>
-&gt;=C2=A0 target/riscv/vector_helper.c | 8 ++++----<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper=
-.c<br>
-&gt; index a156573d281..356cef8a090 100644<br>
-&gt; --- a/target/riscv/vector_helper.c<br>
-&gt; +++ b/target/riscv/vector_helper.c<br>
-&gt; @@ -2451,7 +2451,7 @@ static inline int8_t ssub8(CPURISCVState *env, i=
-nt vxrm, int8_t a, int8_t b)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int8_t res =3D a - b;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if ((res ^ a) &amp; (a ^ b) &amp; INT8_MIN) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt; 0 ? INT8_MAX : INT8_MIN;<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt;=3D 0 ? INT8_MAX : INT8_MIN=
-;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vxsat =3D 0x1;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return res;<br>
-&gt; @@ -2461,7 +2461,7 @@ static inline int16_t ssub16(CPURISCVState *env,=
- int vxrm, int16_t a, int16_t b)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int16_t res =3D a - b;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if ((res ^ a) &amp; (a ^ b) &amp; INT16_MIN) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt; 0 ? INT16_MAX : INT16_MIN;=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt;=3D 0 ? INT16_MAX : INT16_M=
-IN;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vxsat =3D 0x1;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return res;<br>
-&gt; @@ -2471,7 +2471,7 @@ static inline int32_t ssub32(CPURISCVState *env,=
- int vxrm, int32_t a, int32_t b)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int32_t res =3D a - b;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if ((res ^ a) &amp; (a ^ b) &amp; INT32_MIN) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt; 0 ? INT32_MAX : INT32_MIN;=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt;=3D 0 ? INT32_MAX : INT32_M=
-IN;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vxsat =3D 0x1;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return res;<br>
-&gt; @@ -2481,7 +2481,7 @@ static inline int64_t ssub64(CPURISCVState *env,=
- int vxrm, int64_t a, int64_t b)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int64_t res =3D a - b;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if ((res ^ a) &amp; (a ^ b) &amp; INT64_MIN) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt; 0 ? INT64_MAX : INT64_MIN;=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D a &gt;=3D 0 ? INT64_MAX : INT64_M=
-IN;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vxsat =3D 0x1;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return res;<br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-&gt;=C2=A0<br></blockquote></div></div>
-
---000000000000709ed705c04d7bd3--
 
