@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E18363F2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:50:13 +0200 (CEST)
-Received: from localhost ([::1]:45966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D11F363F2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:50:56 +0200 (CEST)
+Received: from localhost ([::1]:47732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYQXk-0007pM-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52412)
+	id 1lYQYR-00006x-E9
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYQRl-0002Jq-3X; Mon, 19 Apr 2021 05:44:01 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54060)
+ id 1lYQRp-0002Mt-CJ; Mon, 19 Apr 2021 05:44:05 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYQRj-00039e-Gf; Mon, 19 Apr 2021 05:44:00 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id w186so13269766wmg.3;
- Mon, 19 Apr 2021 02:43:57 -0700 (PDT)
+ id 1lYQRn-0003Bl-9f; Mon, 19 Apr 2021 05:44:04 -0400
+Received: by mail-wr1-x429.google.com with SMTP id x7so33245390wrw.10;
+ Mon, 19 Apr 2021 02:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wGahhPByYM3/GV4I+MipmLSfFtBrhhdK0pNeulGHnOg=;
- b=rLqVoY70nGRtxd4t+4gNmXqpZ501xpYtqx0+gTRHJl+q/TDR0WKwomF7AX+z/GnYA3
- hYIIroyGfy1UEKVnpKE2dozXwLhPy/JGv6lODL5jR3R0IKk1me304GZUXefeZRN5ll3w
- JhCLWCg52Zq6fAw+a40LxUlS70mJH4wCU7DkUM3pSxtd1ddcrX0OCosPT90ToBHqg71P
- I0v1Kqv63i0qqZc+qUJfpn2HZ9qwpW3kMm/c0QpWzsO4Wen4vrnPlyq+CuYXHGpefi2v
- XIUkSK5DWAtjycgzK/L476Z10jjjxoGs5Cl4m1qiqGFpatAWa1sU61l1wnIBc68RHNWO
- levw==
+ bh=XqJkbva3nWlGVisZauccBxQqniG/+dNtVwIMgiK+D8E=;
+ b=ScDU8W3y7FWGoQwe6oNdG5PGWV26vCKPJnrM+JgNAUKVEuVFzwDxoiErhqOeddpMXz
+ Bt+TGbJbU8jZm16KP7/u/54rFLelgE7a12kYy18rePaqQzXY57IDKH6T9Xir35akER8C
+ UPrU+6zZNeviPglxy45BrGBImFJfcWeBTU778i1B7HFA8l18Syqgs9KWTxXDtzEcjyl/
+ kxIKir0YIyEBzazSOQgKNOmpLSZLypvU/cKJ5rqqHZsLeFUb1I4ijt13n1hpEnUQGmzw
+ V4k82i4zarLfotUa0pT3Int1Swy7XMg34nUplr7QqQrOhiEbn0KiyLIdK08r5iDHeP67
+ X1bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wGahhPByYM3/GV4I+MipmLSfFtBrhhdK0pNeulGHnOg=;
- b=iNHCqYnyNZmy0cz1FYFq+9A+/Z4wgzdT95bZKXKncVZi62jFHKuDDcIQpQ5q6F3BfU
- ZkO5EARnvEn9krpT6cZE+dsRIZg1VzdkYhaZGV14Bia86lDwcbz+yvE65SfHO0oATxea
- r83quTQVOx+Zda7unhqVYwwDGyCkc1Bnr1k5CQm7TH1GAe8AuWZcW+DJ2175ZhCyW0XD
- oKAD7Sl4cb9t55rTVN8sH7iZnZFIe7K6nhPW8Ko61BJuCLpBUACiYuVS501M6Abn3IIZ
- 05lN2XlgtVNDTpdcA0UUns55OusDKKhzwGr84SDYtzjJCFba8JrdyWcspyvrKSFXI3xy
- jOHw==
-X-Gm-Message-State: AOAM533WiDsgUAZjW7xrGDwAxeecrXayfWljhCt3JeDxJpawSBgXXIq3
- SqmVbyO3cigMUNqsa690gTLXxIfGIcUSJQ==
-X-Google-Smtp-Source: ABdhPJwyl3Kv8/bu34lp44ExPoJfa7wZXEs40FRUbTvz4VoCDL6IJT4GpScDCUg8QveyKI/+c4Ho6g==
-X-Received: by 2002:a7b:ce09:: with SMTP id m9mr20924525wmc.150.1618825436271; 
- Mon, 19 Apr 2021 02:43:56 -0700 (PDT)
+ bh=XqJkbva3nWlGVisZauccBxQqniG/+dNtVwIMgiK+D8E=;
+ b=Ow7ur6dpXD8AFZ0aYACCRseJaFbcOATHgzw5w5obz8w+eSRQnhpBSVOnSg01ZtrEGt
+ KQ9iG7DT0Wvf8Uc2Q2z3ArH578YL7d2UBQKNJ3cHfWLTQCFCe280DxAf9/WtGkJk2sAm
+ Mn+qj6jBq7zLG9CRLIIzW/Lo7QSSkQk0uWiqEjlJtTOm5mIDFpeA7+5B+bK+ytjHiCHY
+ Wdv53J3LN6GXq/PbU8xg4M9en3owoN8sPolXIbZuZCSK8e1diENw2zKXOGDEUMwP8Fn2
+ kLRnj4xeE+ndhLLilIxt4gCcPs7Aj0H+aRYHjXltO51WoBUJvET7Ivy1AdYQTw+DOxD4
+ wmqA==
+X-Gm-Message-State: AOAM531jyPKbZFNMh5ykDonoIT1qrZGvqmv1rvdbLNwwNai5sMU64c8S
+ jg9yX/opI1GqDcUxXV3EwRVdJLWHB5YVsA==
+X-Google-Smtp-Source: ABdhPJxDNzAie/xkljMs8nVK1paL6FhtNGmapR42BXWOW/csOVeM4tGLEh01VW+IjzMId+CHcQLnOA==
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr13740886wrr.118.1618825441124; 
+ Mon, 19 Apr 2021 02:44:01 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id d10sm8780039wri.41.2021.04.19.02.43.55
+ by smtp.gmail.com with ESMTPSA id h17sm21813663wru.67.2021.04.19.02.44.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 02:43:55 -0700 (PDT)
+ Mon, 19 Apr 2021 02:44:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] hw/arm/digic: Map flash using
- memory_region_add_subregion_aliased()
-Date: Mon, 19 Apr 2021 11:43:27 +0200
-Message-Id: <20210419094329.1402767-6-f4bug@amsat.org>
+Subject: [PATCH v2 6/7] hw/block/pflash_cfi02: Remove pflash_setup_mappings()
+Date: Mon, 19 Apr 2021 11:43:28 +0200
+Message-Id: <20210419094329.1402767-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210419094329.1402767-1-f4bug@amsat.org>
 References: <20210419094329.1402767-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,105 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Edmondson <david.edmondson@oracle.com>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>
+ Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using a device specific feature for mapping the
-flash memory multiple times over a wider region, use the
-generic memory_region_add_subregion_aliased() helper.
+All boards calling pflash_cfi02_register() use nb_mappings=1,
+which does not do any mapping:
 
-There is no change in the memory layout.
+  $ git grep -wl pflash_cfi02_register hw/
+  hw/arm/xilinx_zynq.c
+  hw/block/pflash_cfi02.c
+  hw/lm32/lm32_boards.c
+  hw/ppc/ppc405_boards.c
+  hw/sh4/r2d.c
 
-* before:
+We can remove this now unneeded code.
 
-  $ qemu-system-arm -M canon-a1100 -S -monitor stdio
-  QEMU 5.2.90 monitor - type 'help' for more information
-  (qemu) info mtree
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000003ffffff (prio 0, ram): ram
-      00000000c0210000-00000000c02100ff (prio 0, i/o): digic-timer
-      00000000c0210100-00000000c02101ff (prio 0, i/o): digic-timer
-      00000000c0210200-00000000c02102ff (prio 0, i/o): digic-timer
-      00000000c0800000-00000000c0800017 (prio 0, i/o): digic-uart
-      00000000f8000000-00000000ffffffff (prio 0, i/o): pflash
-        00000000f8000000-00000000f83fffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-        00000000f8400000-00000000f87fffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-        00000000f8800000-00000000f8bfffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-        ...
-        00000000ff400000-00000000ff7fffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-        00000000ff800000-00000000ffbfffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-        00000000ffc00000-00000000ffffffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-
-* after:
-
-  (qemu) info mtree
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000003ffffff (prio 0, ram): ram
-      00000000c0210000-00000000c02100ff (prio 0, i/o): digic-timer
-      00000000c0210100-00000000c02101ff (prio 0, i/o): digic-timer
-      00000000c0210200-00000000c02102ff (prio 0, i/o): digic-timer
-      00000000c0800000-00000000c0800017 (prio 0, i/o): digic-uart
-      00000000f8000000-00000000ffffffff (prio 0, i/o): masked pflash [span of 4 MiB]
-        00000000f8000000-00000000f83fffff (prio 0, romd): alias pflash [#0/32] @pflash 0000000000000000-00000000003fffff
-        00000000f8400000-00000000f87fffff (prio 0, romd): alias pflash [#1/32] @pflash 0000000000000000-00000000003fffff
-        00000000f8800000-00000000f8bfffff (prio 0, romd): alias pflash [#2/32] @pflash 0000000000000000-00000000003fffff
-        ...
-        00000000ff400000-00000000ff7fffff (prio 0, romd): alias pflash [#29/32] @pflash 0000000000000000-00000000003fffff
-        00000000ff800000-00000000ffbfffff (prio 0, romd): alias pflash [#30/32] @pflash 0000000000000000-00000000003fffff
-        00000000ffc00000-00000000ffffffff (prio 0, romd): alias pflash [#31/32] @pflash 0000000000000000-00000000003fffff
-
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/digic_boards.c | 8 +++++---
- hw/arm/Kconfig        | 1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ hw/block/pflash_cfi02.c | 35 ++---------------------------------
+ 1 file changed, 2 insertions(+), 33 deletions(-)
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index fc4a671b2e1..293402b1240 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -128,8 +128,7 @@ static void digic4_add_k8p3215uqb_rom(DigicState *s, hwaddr addr,
-                          FLASH_K8P3215UQB_SIZE / FLASH_K8P3215UQB_SECTOR_SIZE);
-     qdev_prop_set_uint32(dev, "sector-length", FLASH_K8P3215UQB_SECTOR_SIZE);
-     qdev_prop_set_uint8(dev, "width", 4); /* 32-bit */
--    qdev_prop_set_uint8(dev, "mappings",
--                        DIGIC4_ROM_MAX_SIZE / FLASH_K8P3215UQB_SIZE);
-+    qdev_prop_set_uint8(dev, "mappings", 0);
-     qdev_prop_set_uint8(dev, "big-endian", 0);
-     qdev_prop_set_uint16(dev, "id0", 0x00ec);
-     qdev_prop_set_uint16(dev, "id1", 0x007e);
-@@ -140,7 +139,10 @@ static void digic4_add_k8p3215uqb_rom(DigicState *s, hwaddr addr,
-     qdev_prop_set_string(dev, "name", "pflash");
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-+    memory_region_add_subregion_aliased(get_system_memory(),
-+                            addr, DIGIC4_ROM_MAX_SIZE,
-+                            sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0),
-+                            FLASH_K8P3215UQB_SIZE);
- 
-     digic_load_rom(s, addr, FLASH_K8P3215UQB_SIZE, filename);
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index 02c514fb6e0..6f4b3e3c3fe 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -75,7 +75,6 @@ struct PFlashCFI02 {
+     uint32_t nb_blocs[PFLASH_MAX_ERASE_REGIONS];
+     uint32_t sector_len[PFLASH_MAX_ERASE_REGIONS];
+     uint32_t chip_len;
+-    uint8_t mappings;
+     uint8_t width;
+     uint8_t be;
+     int wcycle; /* if 0, the flash is read normally */
+@@ -92,13 +91,6 @@ struct PFlashCFI02 {
+     uint16_t unlock_addr1;
+     uint8_t cfi_table[0x4d];
+     QEMUTimer timer;
+-    /*
+-     * The device replicates the flash memory across its memory space.  Emulate
+-     * that by having a container (.mem) filled with an array of aliases
+-     * (.mem_mappings) pointing to the flash memory (.orig_mem).
+-     */
+-    MemoryRegion mem;
+-    MemoryRegion *mem_mappings;    /* array; one per mapping */
+     MemoryRegion orig_mem;
+     bool rom_mode;
+     int read_counter; /* used for lazy switch-back to rom mode */
+@@ -158,23 +150,6 @@ static inline void toggle_dq2(PFlashCFI02 *pfl)
+     pfl->status ^= 0x04;
  }
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index aa8553b3cd3..1a7b9724d6c 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -42,6 +42,7 @@ config DIGIC
-     bool
-     select PTIMER
-     select PFLASH_CFI02
-+    select ALIASED_REGION
  
- config EXYNOS4
-     bool
+-/*
+- * Set up replicated mappings of the same region.
+- */
+-static void pflash_setup_mappings(PFlashCFI02 *pfl)
+-{
+-    unsigned i;
+-    hwaddr size = memory_region_size(&pfl->orig_mem);
+-
+-    memory_region_init(&pfl->mem, OBJECT(pfl), "pflash", pfl->mappings * size);
+-    pfl->mem_mappings = g_new(MemoryRegion, pfl->mappings);
+-    for (i = 0; i < pfl->mappings; ++i) {
+-        memory_region_init_alias(&pfl->mem_mappings[i], OBJECT(pfl),
+-                                 "pflash-alias", &pfl->orig_mem, 0, size);
+-        memory_region_add_subregion(&pfl->mem, i * size, &pfl->mem_mappings[i]);
+-    }
+-}
+-
+ static void pflash_reset_state_machine(PFlashCFI02 *pfl)
+ {
+     trace_pflash_reset(pfl->name);
+@@ -917,12 +892,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+     pfl->sector_erase_map = bitmap_new(pfl->total_sectors);
+ 
+     pfl->rom_mode = true;
+-    if (pfl->mappings > 1) {
+-        pflash_setup_mappings(pfl);
+-        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
+-    } else {
+-        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->orig_mem);
+-    }
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->orig_mem);
+ 
+     timer_init_ns(&pfl->timer, QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+     pfl->status = 0;
+@@ -950,7 +920,6 @@ static Property pflash_cfi02_properties[] = {
+     DEFINE_PROP_UINT32("num-blocks3", PFlashCFI02, nb_blocs[3], 0),
+     DEFINE_PROP_UINT32("sector-length3", PFlashCFI02, sector_len[3], 0),
+     DEFINE_PROP_UINT8("width", PFlashCFI02, width, 0),
+-    DEFINE_PROP_UINT8("mappings", PFlashCFI02, mappings, 0),
+     DEFINE_PROP_UINT8("big-endian", PFlashCFI02, be, 0),
+     DEFINE_PROP_UINT16("id0", PFlashCFI02, ident0, 0),
+     DEFINE_PROP_UINT16("id1", PFlashCFI02, ident1, 0),
+@@ -1008,6 +977,7 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
+ {
+     DeviceState *dev = qdev_new(TYPE_PFLASH_CFI02);
+ 
++    assert(nb_mappings <= 1);
+     if (blk) {
+         qdev_prop_set_drive(dev, "drive", blk);
+     }
+@@ -1015,7 +985,6 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
+     qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+     qdev_prop_set_uint32(dev, "sector-length", sector_len);
+     qdev_prop_set_uint8(dev, "width", width);
+-    qdev_prop_set_uint8(dev, "mappings", nb_mappings);
+     qdev_prop_set_uint8(dev, "big-endian", !!be);
+     qdev_prop_set_uint16(dev, "id0", id0);
+     qdev_prop_set_uint16(dev, "id1", id1);
 -- 
 2.26.3
 
