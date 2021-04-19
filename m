@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E39C363B20
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 07:49:23 +0200 (CEST)
-Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0FA363B2B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 07:57:14 +0200 (CEST)
+Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYMmg-00013w-JN
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 01:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38766)
+	id 1lYMuH-0002oG-SM
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 01:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMlu-0000YM-F7
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:48:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lYMls-0003fe-96
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:48:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618811311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=txr77UfUkVeuFh+/hj0O9+ywOhg0cKQ6DbH05eh71bk=;
- b=JQkBB3sqs3mFWKhAT6f2np5TrYqZZgGdj+9bUebX468L7IVmWVqih0KPY8lViSpGv136PV
- W2vud5EFlE4FqE0EwgctMCiy1VnVklRQJ62KcXK1/TO36cUhj5pU6m7FpmJNB2S+iG1NoV
- DKg4FEFvE4TVU3EMCc15RRm/qrH3oA8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-uTs1iSNTN56L8jGiftM23g-1; Mon, 19 Apr 2021 01:48:27 -0400
-X-MC-Unique: uTs1iSNTN56L8jGiftM23g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4122087A826;
- Mon, 19 Apr 2021 05:48:26 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E02C5D71D;
- Mon, 19 Apr 2021 05:48:17 +0000 (UTC)
-Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
- jobs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210418233448.1267991-1-f4bug@amsat.org>
- <20210418233448.1267991-15-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1f1ec642-90f4-ec33-1ce1-a1a76b0259ec@redhat.com>
-Date: Mon, 19 Apr 2021 07:48:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <20210418233448.1267991-15-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1lYMtT-0002La-4K
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:56:23 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:56101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1lYMtQ-0000OO-Oj
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 01:56:22 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id s14so12416792pjl.5
+ for <qemu-devel@nongnu.org>; Sun, 18 Apr 2021 22:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=gcqCCC6OKs+bYQSdPy1A/MAjJhQLH5ZK4FDiW+OtHh4=;
+ b=m7i3QgsaJ96KVn7aEBZPm1CPlxiTNpQ2UaD+eMH7mEHsNgW3DGyS1LaFFVZPX7DW0Z
+ OVDqNtEz5f8O7zENBeRQzK8hz5X3QE26pj/HmnoXoV0ArTGMPKPh4hUy3MIwtuFrlrz2
+ f0nXtIdwiibdxew3gct4E6euBJAHv82ACk+XcXjhhtdzrcz3b72mh6p+veVJLDfHETed
+ TCH2onH9qNkTazJ8tcXpXsVHzMaGCZe8teav3DhnMqVRiBddvss6uZCTH0HofB8UcUW8
+ y3LbdZxC5cMnf1+XcypFCmsiEf+oELsZfexwzR2qPWRWnPrpboXaGAYlDL9kWfaDs+mD
+ fD/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=gcqCCC6OKs+bYQSdPy1A/MAjJhQLH5ZK4FDiW+OtHh4=;
+ b=Hd1S6rnFOr6k5uGgr/DfJZsQaYExHDwFGkoB3kvX2/HMsjUMZa17xOwerJ7AuF2sip
+ e4ZjGC3s7cO/vKLnFLQE+F+k/CqvdPh8JZNrzEzZ9IqK23Hs6SouoxM9aefxi/shqW5R
+ VBL7CjNCWQRZn4ngrsDvUv0nBYw1FRo2acxEmAm0o0nU65bc0faC5cQRwZVx2gRB2m0R
+ MEU7Bd7ZMQ7bgdupYcd2JAIkCzx/hhuGK/y2iL6v55MapzM1Q0j9m9zb0D6/sbXIMbvN
+ E3Nj375M5pAAkj/4P1Dazf9VFDLkl+Kp2MiLawX3T68Lpo4dLa/jJPzJsGLFM8BzXJuX
+ BTmw==
+X-Gm-Message-State: AOAM533aW8Qmjf4NhnrSnrIAe24nG9GrwrvQpdOivc9QLL8vmCH5sWXn
+ S3Jo2EyhI/6Ofsj9SfLavlTMAIfLJYMjGtVb
+X-Google-Smtp-Source: ABdhPJx17sDxZtPdvUJ2wbvaO84l1FKVtm0RwtreNhH8rbfswHqqK5451HtWRDWd28pUFsy1dSBt6A==
+X-Received: by 2002:a17:902:a406:b029:e6:78c4:71c8 with SMTP id
+ p6-20020a170902a406b02900e678c471c8mr21157220plq.17.1618811778196; 
+ Sun, 18 Apr 2021 22:56:18 -0700 (PDT)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id q63sm14066788pjq.17.2021.04.18.22.56.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 18 Apr 2021 22:56:17 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] fpu/softfloat: set invalid excp flag for RISC-V muladd
+ instructions
+Date: Mon, 19 Apr 2021 13:56:10 +0800
+Message-Id: <20210419055614.28361-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,52 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Erik Skultety <eskultet@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/04/2021 01.34, Philippe Mathieu-Daudé wrote:
-> Forks run the same jobs than mainstream, which might be overkill.
-> Allow them to easily rebase their custom set, while keeping using
-> the mainstream templates, and ability to pick specific jobs from
-> the mainstream set.
-> 
-> To switch to your set, simply add your .gitlab-ci.yml as
-> .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
-> is your gitlab 'namespace', usually username). This file will be
-> used instead of the default mainstream set.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.yml | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 718c8e004be..35fd35075db 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -9,7 +9,12 @@ generate-config:
->       paths:
->         - generated-config.yml
->     script:
-> -    - cp .gitlab-ci.d/qemu-project.yml generated-config.yml
-> +    - if test -e .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml ;
-> +      then
-> +        cp .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml generated-config.yml ;
-> +      else
-> +        cp .gitlab-ci.d/qemu-project.yml generated-config.yml ;
-> +      fi
+From: Frank Chang <frank.chang@sifive.com>
 
-I think you could merge this with the previous patch, since the previous 
-patch is not very useful on its own.
+In IEEE 754-2008 spec:
+  Invalid operation exception is signaled when doing:
+  fusedMultiplyAdd(0, Inf, c) or fusedMultiplyAdd(Inf, 0, c)
+  unless c is a quiet NaN; if c is a quiet NaN then it is
+  implementation defined whether the invalid operation exception
+  is signaled.
 
-Anyway, I like the idea, that could be useful for downstream, indeed!
+In RISC-V Unprivileged ISA spec:
+  The fused multiply-add instructions must set the invalid
+  operation exception flag when the multiplicands are Inf and
+  zero, even when the addend is a quiet NaN.
 
-  Thomas
+This commit set invalid operation execption flag for RISC-V when
+multiplicands of muladd instructions are Inf and zero.
+
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ fpu/softfloat-specialize.c.inc | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+index c2f87addb25..9c37265e20b 100644
+--- a/fpu/softfloat-specialize.c.inc
++++ b/fpu/softfloat-specialize.c.inc
+@@ -624,6 +624,23 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass b_cls, FloatClass c_cls,
+     } else {
+         return 1;
+     }
++#elif defined(TARGET_RISCV)
++    /*
++     * For RISC-V, InvalidOp is set when multiplicands are Inf and zero
++     * and returns default NaN.
++     */
++    if (infzero) {
++        float_raise(float_flag_invalid, status);
++        return 3;
++    }
++
++    if (is_nan(a_cls)) {
++        return 0;
++    } else if (is_nan(b_cls)) {
++        return 1;
++    } else {
++        return 2;
++    }
+ #elif defined(TARGET_XTENSA)
+     /*
+      * For Xtensa, the (inf,zero,nan) case sets InvalidOp and returns
+-- 
+2.17.1
 
 
