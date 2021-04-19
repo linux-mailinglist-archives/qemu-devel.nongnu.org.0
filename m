@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6D6364DA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 00:29:43 +0200 (CEST)
-Received: from localhost ([::1]:55654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F69C364E79
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 01:12:24 +0200 (CEST)
+Received: from localhost ([::1]:42312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYcOj-0007jY-K8
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 18:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
+	id 1lYd42-00087F-VY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 19:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lYcNc-0007IG-GD
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 18:28:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lYcNZ-0007Qj-9h
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 18:28:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618871307;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZzwzCqCP+aM33wJLrf7XhAPpLuEUhse8LqiN9fqbC3w=;
- b=dcH7YTA5M0lkxg438gtGJX8XxGnuTdBprsURm/wrc/EUQQv66eWX/Pfs8gi5e3ex6N0uKy
- ZGjxhbIb4UlvyMVhHwhF/mTFnhNnmKFx5COzHQcqJUSqc0zp44qM1hIwIHqC4PeG+wMUtb
- 6Oit+4GG1uPH+WxZCABUzr8KW3uMfco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-n5xZRKIAN6GAAFa0g8o88g-1; Mon, 19 Apr 2021 18:28:23 -0400
-X-MC-Unique: n5xZRKIAN6GAAFa0g8o88g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5FAF501EC;
- Mon, 19 Apr 2021 22:28:22 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-102.gru2.redhat.com
- [10.97.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7852860CED;
- Mon, 19 Apr 2021 22:28:14 +0000 (UTC)
-Subject: Re: [PATCH 2/3] Acceptance Tests: move definition of distro checksums
- to the framework
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210414221457.1653745-1-crosa@redhat.com>
- <20210414221457.1653745-3-crosa@redhat.com>
- <bc2b4167-4f4a-3c21-0283-3bf8b32a63b2@redhat.com>
- <20210419183532.GA2114760@amachine.somewhere>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <cdc621ec-a42d-a4c7-500e-4cdec44747ab@redhat.com>
-Date: Mon, 19 Apr 2021 19:28:11 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYd2j-0007cA-1M
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 19:11:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYd2g-0002Jl-RH
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 19:11:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lYd2e-0007Qe-2a
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 23:10:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0B4832E800F
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 23:10:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210419183532.GA2114760@amachine.somewhere>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Apr 2021 23:03:15 -0000
+From: Robie Basak <1749393@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user qemu-20.10
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor
+ laurent-vivier paelzer peterogden pmaydell racb rth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
+X-Launchpad-Bug-Modifier: Robie Basak (racb)
+References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161887339531.5204.20410931485897879.malone@soybean.canonical.com>
+Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
+ PIE-compiled binary?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
+X-Launchpad-Hash: 1dbae7cde9f7da72b2851eebafcd6c100af6d57b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,129 +79,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Auger Eric <eric.auger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+There's a request for a backport of this fix to be made to Ubuntu 20.04
+in duplicate bug 1924231, so I'm adding a task for that.
 
-On 4/19/21 3:35 PM, Cleber Rosa wrote:
-> On Mon, Apr 19, 2021 at 12:25:44PM -0300, Wainer dos Santos Moschetta wrote:
->> Hi,
->>
->> On 4/14/21 7:14 PM, Cleber Rosa wrote:
->>> Instead of having, by default, the checksum in the tests, and the
->>> definition of tests in the framework, let's keep them together.
->>>
->>> A central definition for distributions is available, and it should
->>> allow other known distros to be added more easily.
->>>
->>> No behavior change is expected here, and tests can still define
->>> a distro_checksum value if for some reason they want to override
->>> the known distribution information.
->>>
->>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>> ---
->>>    tests/acceptance/avocado_qemu/__init__.py | 34 +++++++++++++++++++++--
->>>    tests/acceptance/boot_linux.py            |  8 ------
->>>    2 files changed, 32 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
->>> index aae1e5bbc9..97093614d9 100644
->>> --- a/tests/acceptance/avocado_qemu/__init__.py
->>> +++ b/tests/acceptance/avocado_qemu/__init__.py
->>> @@ -299,6 +299,30 @@ def ssh_command(self, command):
->>>            return stdout_lines, stderr_lines
->>> +#: A collection of known distros and their respective image checksum
->>> +KNOWN_DISTROS = {
->> Do you plan to expand that mapping to record values other than checksums?
->> Otherwise it could be named KNOWN_DISTROS_CHECKSUMS.
->>
-> Let's just say I had an intuition about it being used for other
-> purposes.  Talking to Eric Auger earlier this morning, he will expand
-> this mapping with default kernel args distros, so that he can *add*
-> to the common args.
-Ok
->
->>> +    'fedora': {
->>> +        '31': {
->>> +            'x86_64':
->>> +            {'checksum': 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
->>> +            'aarch64':
->>> +            {'checksum': '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
->>> +            'ppc64':
->>> +            {'checksum': '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
->>> +            's390x':
->>> +            {'checksum': '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'},
->>> +            }
->>> +        }
->>> +    }
->>> +
->>> +
->>> +def get_known_distro_checksum(distro, distro_version, arch):
->>> +    try:
->>> +        return KNOWN_DISTROS.get(distro).get(distro_version).get(arch).get('checksum')
->>> +    except AttributeError:
->>> +        return None
->>> +
->>> +
->> Currently we have a few loose methods on avocado_qemu/__init__.py, and I'm
->> about to send a series to wrap them in a mixin class. This series will
->> introduce more loose code on the file; so would you consider moving
->> KNOWN_DISTROS and get_known_distro_checksum() to the LinuxTest class, and
->> possibly making the latest a class method?
->>
-> Some of our experience in "avocado.Test" revealed that users would:
->
->    1) find it confusing to have so many methods in the class that are not useful
->       to them
->
->    2) would conflict with variables/attributes of their own
->
-> About #2, we end up turning a lot of variables atttributes into
-> properties so that errors would be explicit when users tried to
-> overwrite them unknowingly.
->
-> But, in the specific example of KNOWN_DISTROS and its expansion I
-> mentioned before, it may indeed make sense to have a Test or LinuxTest
-> method that test writers can use.  It'd probably need to be a bit more
-> generic and evolved than this current version though.
->
-> Maybe wait for Eric's input based on real world use case here?
-Sure, we can wait on Eric's input.
->
->>>    class LinuxTest(Test, LinuxSSHMixIn):
->>>        """Facilitates having a cloud-image Linux based available.
->>> @@ -348,14 +372,20 @@ def download_boot(self):
->>>            vmimage.QEMU_IMG = qemu_img
->>>            self.log.info('Downloading/preparing boot image')
->>> +        distro = 'fedora'
->>> +        distro_version = '31'
->>> +        known_distro_checksum = get_known_distro_checksum(distro,
->>> +                                                          distro_version,
->>> +                                                          self.arch)
->>> +        distro_checksum = self.distro_checksum or known_distro_checksum
->>
->> distro_checksum may be None. In this case vmimage.get() will silently skip
->> the check? I suggest to log a warn message.
->>
->>
-> Yes, good point.  But, I think adding that warning to Avocado's
-> vmimage.get() method itself is even better.  What do you think?
+** Also affects: qemu (Ubuntu Focal)
+   Importance: Undecided
+       Status: New
 
-I like the idea. IMHO avocado_qemu should be a thin layer upon Avocado, 
-so such as kind of code should live on avocado's side.
+** Changed in: qemu (Ubuntu Focal)
+       Status: New =3D> Confirmed
 
-I just opened the PR: https://github.com/avocado-framework/avocado/pull/4539
+** Changed in: qemu (Ubuntu Focal)
+       Status: Confirmed =3D> Triaged
 
-- Wainer
+** Changed in: qemu (Ubuntu Focal)
+   Importance: Undecided =3D> Medium
 
->
-> Thanks for the review!
-> - Cleber.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1749393
+
+Title:
+  sbrk() not working under qemu-user with a PIE-compiled binary?
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Triaged
+
+Bug description:
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being
+  broken when run under qemu-user (for all target architectures, host
+  being amd64 for me).
+
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
+
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
+
+  When we disable this internal implementation and rely on glibc's
+  malloc, then everything is fine. But it might be that glibc has a
+  fallback when sbrk() is not working properly and it might hide the
+  underlying problem in qemu-user.
+
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
+
+  The version of qemu I have been using is 2.11 (Debian package qemu-
+  user-static version 1:2.11+dfsg-1) but I have had reports that the
+  problem is reproducible with older versions (back to 2.8 at least).
+
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
+
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
 
