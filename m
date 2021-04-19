@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69428364B28
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:31:51 +0200 (CEST)
-Received: from localhost ([::1]:40976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7658364B2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:34:36 +0200 (CEST)
+Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYaYg-0005yP-8e
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:31:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1lYabL-0000XA-WE
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:34:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYZcT-0003oK-Sn
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:31:41 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:45775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYZcS-0006rY-1P
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:31:41 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id i190so23879698pfc.12
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a4wEgIbJvIvSn621BVtatAoY5ABmsDtKCc0FX8VxaOg=;
- b=fHkJGw5l1yNO4kM8QqcKr35eubj1Ry72c9CdB12mIpphGrAAjGVSex54t8CGMQpOhu
- Px6yuNb6yMqPGe2LCYnZhEvlnvffW4bXrSkiZLpKC36UfMVle98c8uc4jJz4VY3uvpuC
- sk56MzaF4dLIvgE9h55YQeZ6c/G5RwRDhp7bqyuseJ6F1+p2TeAgzPd+fhw8WVT7Ie6/
- 3ORBxQqynNZ82zn3erZa5vUY/XHG+WlbsaFpgvBnKU0tuLYXkAT9OL3FOAjVMNweZQbQ
- FD2hnBsfZphY2j/XscEKW/WPOry6WZ1u1nNi4EfR+y4oK19YBIUDsNQVQH/UEBqicu5/
- 2yOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a4wEgIbJvIvSn621BVtatAoY5ABmsDtKCc0FX8VxaOg=;
- b=GamETLxYDX0sXsItUEPjiHD8Ky0ANRFqbkUzA34LfOUQonxqBFtLTsjWWLIn5QvxVr
- B9SNL0U2J6JhG9Z2dHdyVe6Gi0ecyY6C7VaUXzraMLMWMojQXxChSursOvyTtOEOodjd
- PCejy5LWtDqzzAdHNFcf8rKCl05cZJlqeVB1F99x/tCAYyLBVx6mG5MSE9M3P1o4y/AR
- +hWaWhitejbHENthyLVMYSw827d8y8Q1pM73X7f3XlEedE0J7IJZSTKElkiGPdKemoJf
- Cu/FNvEbrvA9hEz2dZLKlMA833xTm4LHOZP3FgRrKS0+4mkkhTOjRH/wWqEs/+LuRn/G
- 8P2g==
-X-Gm-Message-State: AOAM5319XS/xE5LPVtWToy6WyOv/dYokfCEG9C8N8ETnW8P52odlj+Fo
- 8Kv95WTurtexM69sLMIEQhuUsnyuUTqIhA==
-X-Google-Smtp-Source: ABdhPJwDjcqmdom7+qsIP0nqLgtSyjVSUMcqp+GX89I6U6OOXMv0XPt4upD9a9EJb2Py7a8h45n5mw==
-X-Received: by 2002:a63:e515:: with SMTP id r21mr13231678pgh.412.1618860698389; 
- Mon, 19 Apr 2021 12:31:38 -0700 (PDT)
-Received: from ?IPv6:2607:fb90:80c7:aba4:3594:91a:8889:c77a?
- ([2607:fb90:80c7:aba4:3594:91a:8889:c77a])
- by smtp.gmail.com with ESMTPSA id x2sm12863055pfx.41.2021.04.19.12.31.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Apr 2021 12:31:38 -0700 (PDT)
-Subject: Re: [PATCH v3 09/30] target/mips: Merge do_translate_address into
- cpu_mips_translate_address
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210419191823.1555482-1-f4bug@amsat.org>
- <20210419191823.1555482-10-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a73c5b2c-5211-a388-b791-a91f4522fb47@linaro.org>
-Date: Mon, 19 Apr 2021 12:31:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lYZdT-000534-B7
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:32:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lYZdO-0007GW-Ui
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:32:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618860756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hqdH5Lnzr0JmeTE6xkJLoKGgbLn/k+A7nKWbWmdOiaQ=;
+ b=UhsTT0/TlpZlG1Mw7RMo8i4J0SIMy16LSNaOYVtsF0+hWc9ImujH/d0Jb8VEYQzZNv2vxU
+ +lu6ck/POftO2gsmsVrKMO4uTsX+Ddql2LeHsjp76GkQ3DoAdFrFbRw9iyxBV62g1Arw5B
+ BjWrwbJ7anKYRFXJ2fKkDQCcn2OEAuU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-xuaRryRZO0WRrSm3d_a0gw-1; Mon, 19 Apr 2021 15:32:34 -0400
+X-MC-Unique: xuaRryRZO0WRrSm3d_a0gw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1D041006708
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 19:32:33 +0000 (UTC)
+Received: from localhost (unknown [10.22.10.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E2785D9CA;
+ Mon, 19 Apr 2021 19:32:29 +0000 (UTC)
+Date: Mon, 19 Apr 2021 15:32:28 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
+ unless '--no-migration' was specified
+Message-ID: <20210419193228.q5e6vdnqwygh22bq@habkost.net>
+References: <20210415154402.28424-1-vkuznets@redhat.com>
+ <YHhj/bo883jJ9ocy@redhat.com> <YHh3trxdMQ85NRTh@work-vm>
+ <874kg68z07.fsf@vitty.brq.redhat.com>
+ <20210416162801.zluqlbvyipoanedw@habkost.net>
+ <YH2509yA7qkYFJ0p@work-vm> <YH26x8TkpT5zsgst@redhat.com>
+ <YH27H6VmKGXdA4H7@redhat.com> <YH3QRs7VUapXZaTj@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20210419191823.1555482-10-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <YH3QRs7VUapXZaTj@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,31 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/21 12:18 PM, Philippe Mathieu-Daudé wrote:
-> Currently cpu_mips_translate_address() calls raise_mmu_exception(),
-> and do_translate_address() calls cpu_loop_exit_restore().
+On Mon, Apr 19, 2021 at 07:47:34PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Mon, Apr 19, 2021 at 06:15:56PM +0100, Daniel P. Berrangé wrote:
+> > > On Mon, Apr 19, 2021 at 06:11:47PM +0100, Dr. David Alan Gilbert wrote:
+> > > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > > I would make live migration policy an enum, just to make sure
+> > > > > we are explicit about the requirements:
+> > > > > 
+> > > > > - UNKNOWN: this is the current state in QEMU 6.0, where we don't
+> > > > >   really know what the user expects.
+> > > > >   This can be the default on existing versioned machine types,
+> > > > >   just for compatibility.
+> > > > >   I suggest making this print warnings for every migration
+> > > > >   blocker (like this patch does).
+> > > > >   I suggest deprecating this behavior as soon as we can.
+> > > > > 
+> > > > > - PREFERRED: try to make the VM migratable when possible, but
+> > > > >   don't print a warning or error out if migration is blocked.
+> > > > >   This seems to be the behavior expected by libvirt today.
+> > > > > 
+> > > > > - NOT_NEEDED: live migration is not needed, and QEMU is free to
+> > > > >   enable features that block live migration or change guest ABI.
+> > > > >   We can probably make this the default on machine types that
+> > > > >   never supported live migration.
+> > > > 
+> > > > I suggest you could do this by adding:
+> > > >   -warn-none-migratable
+> > > >   -no-warn-none-migratable
+> > > > 
+> > > > and then argue about defaults another time.
+> > > 
+> > > If we're going to add new args, lets at least future proof our
+> > > approach with an extensible option that we can wire into QMP
+> > > too later
+> > > 
+> > >   -migratable  none|preferred|required 
+> > > 
+> > > and letting us add extra key/value pairs to tune it if desired.
+> > 
+> > Having said that, we potentially don't need a dedicated arg if we
+> > just make  'migratable=none|preferred|required' be a property of
+> > the machine type and hook everything off that
 > 
-> This API split is dangerous, we could call cpu_mips_translate_address
-> without returning to the main loop.
-> 
-> As there is only one caller, it is trivial (and safer) to merge
-> do_translate_address() back to cpu_mips_translate_address().
-> 
-> Reported-by: Richard Henderson<richard.henderson@linaro.org>
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/internal.h   |  2 +-
->   target/mips/op_helper.c  | 20 ++------------------
->   target/mips/tlb_helper.c | 11 ++++++-----
->   3 files changed, 9 insertions(+), 24 deletions(-)
+> I think my only difficulty with that is that I don't find any of those
+> 3 words 'obvious'.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Any suggestions of replacements for those 3 words?
 
-r~
+Would the descriptions below be enough to clarify their meaning
+in documentation?
+
+- NONE: live migration is not needed, and device or machine code
+  is allowed to enable features that block live migration or
+  change guest ABI.
+  (Not implemented yet)
+
+- PREFERRED: machine and device code should try to make the VM
+  migratable when possible, but won't emit a warning or error out
+  if migration is blocked.
+  (Current default behavior)
+
+- REQUIRED: live migration support is required, and adding a
+  migration blocker will be an error.
+  (Implemented today by --only-migratable)
+
+-- 
+Eduardo
+
 
