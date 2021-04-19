@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B454F36468F
+	by mail.lfdr.de (Postfix) with ESMTPS id A014536468E
 	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 16:59:17 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVMq-0008BV-NH
+	id 1lYVMq-0008C4-Ig
 	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 10:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44570)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIV-0003B9-Cu
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:47 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:45901)
+ id 1lYVIW-0003DE-71
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:48 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIT-0006w7-Rm
+ id 1lYVIU-0006wD-IK
  for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:47 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- n4-20020a05600c4f84b029013151278decso7029356wmq.4
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:45 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id r7so22359638wrm.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RbxDIMfGuk4jyYqFSJ3FeoHclrUhVHd7ZrGgUd6bcYQ=;
- b=g1+DkCbmXu//AkXBCmYTkjWYOO4LUh5AF2gnTYT1QBmuGNDOz8xQieQhdlU0rbbYO8
- L7pCVt33dklKjIYpOUiBYMMw+hir0yukXt2vo8mJkVXgIzeJNtlWqLpWXKnw1w1arSID
- xY7SYa7l6wRTj1QWWjBjWpr6ve/Pv01G0Szdumj7U1cHCdaz1EWWCcMJ3dJE1K5oQt3z
- aN2DWzZjtfD1QHr6xuUUZ07wAyhjfSSVwBFKJrw5FntgDp/0GWA2/zCQw5G0+++Z7fAu
- W2EeitlKpqABbKETDPmeMo1JJlnZciy0M5yDWaNGGsfHTxYBas0lGYIl9/lJ/DG9PNUZ
- Ubdw==
+ bh=NfQWLdBWIgKsNWC8ZCEGrHzxCbu+vjdpX5KlljKYAME=;
+ b=CEWgJ2Jy92P6I+GlQNN/qs8k0s1Rk1JG+HOm+SfHbdzOGPDMIUmZ4im9d4QoRUeDFZ
+ d5w/r3enlVDnS1dj7U9ZxQiU3bHCFzp3mW7yB9r8hTAHjdpUVFsMMmZut1AUV7xYSJ+9
+ /rkPnUTv6vspDC0Phsl51JoICd71Uhdu4jn7SaZo+WucoSGqBRVJTK6OVBYHl85KCVks
+ m0HM2aGr3V6ziZbtpZzFpXlODFh9/pTfbkZfDDOou0MXTPSxe+a3oEWf8p9Uk5xvQz9g
+ tDmu7dtck6DsagIm2moMMwFHKsOsw1wewsadv6dM9aeh1BUJmGDl39TURts76u8NRbSY
+ 3Pjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RbxDIMfGuk4jyYqFSJ3FeoHclrUhVHd7ZrGgUd6bcYQ=;
- b=CxQlybPavQw6NWdoT8u7LG9J5mo4FMrc3SM8PsnldMS0PdWE7BGqVKc4HnqbP0r4nN
- zlNymrTSCSLH3KMGMJnFQdRBuw65261FtQqvCauQMjy+GTwNajCaeHp0yjuB6QDUWUcS
- a34Dk1RjNzm6uGW8N77ONlkPOwpXXLoTunrsmvIS7eiSVAaSATGItZdhQ3ZwkTdTfKGs
- 2tS+2B3e2uIOKNCKvdE0qIyYoCa3Pud9MF3m2fElpr3Szq+B30mJecQ3rCtX11iwnszM
- V+K1ZSpVzx3hdt705LuahOqvLVJROj6ihwhkTLMsYH0daKOMVmhYvRDAHqB7lwMathHQ
- WIUw==
-X-Gm-Message-State: AOAM531TnadIO5zETouzY28lfJQjJ2RTUN2QUpwnCUo5HPJTn1+KbhZP
- BUVtJe2rkTwdjCwU483XA2XZNA==
-X-Google-Smtp-Source: ABdhPJwJWYo6noWwwBfYU4ZbO3yxXM4GkTYgjuJquKWnaecpO/QWpb4slVxiM7j09V442Z+m3G7lOQ==
-X-Received: by 2002:a05:600c:19d3:: with SMTP id
- u19mr9942266wmq.80.1618844084435; 
- Mon, 19 Apr 2021 07:54:44 -0700 (PDT)
+ bh=NfQWLdBWIgKsNWC8ZCEGrHzxCbu+vjdpX5KlljKYAME=;
+ b=LK+7vAXNocw3BvnFRiiZyxSV2BnAmxKzswS5H6AeZ2uvt29fiOvUirG7e0id4tSYV5
+ PSKmCJTfV3sXQJxD/iM6ZptQ2xwxeOA7nQE9UNPeEH7CQtblXg7TXud4Fjw690NAB6ei
+ UiLOSL3vPWkTOSlwYcBdPPp2tckjLGpFDagve0C1StZ9t9MCeWIZHg6yeVk6Fjwlj+V+
+ lrC76bDEjJ+3gK+kl9wnBxMlDYsrZflSHuwsRVdQ1Jl04u+U7p6IKwbDIJWfVEIrHB62
+ ggGhnFx0JLdBkEyj1asHGysMBDwzEkTu+0YeFhTsP2PiV86M8QIlBC3OIIPtcTkzuFpW
+ cjRQ==
+X-Gm-Message-State: AOAM532GcOZ4aXZ83/89Wzus4HB8DKIzwEu1o+lNSvdnLJkAXFyMcPaR
+ yg3HoFlDNHgmpcJUHt/XqBVkQw==
+X-Google-Smtp-Source: ABdhPJzYg9g0qH4xZt52YoSdxkokzx7kINkpjTLyztMrwuO1RTtS9meCfjxs6UWl1kMaSFIdZnQm/A==
+X-Received: by 2002:adf:dd51:: with SMTP id u17mr14866933wrm.32.1618844085235; 
+ Mon, 19 Apr 2021 07:54:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o17sm3780411wrg.80.2021.04.19.07.54.37
+ by smtp.gmail.com with ESMTPSA id b12sm24738406wrn.18.2021.04.19.07.54.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Apr 2021 07:54:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 13BF81FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 46E7C1FF93;
  Mon, 19 Apr 2021 15:54:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 05/25] tests/docker: add "fetch" sub-command
-Date: Mon, 19 Apr 2021 15:54:15 +0100
-Message-Id: <20210419145435.14083-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 07/25] tests/tcg: Use Hexagon Docker image
+Date: Mon, 19 Apr 2021 15:54:17 +0100
+Message-Id: <20210419145435.14083-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210419145435.14083-1-alex.bennee@linaro.org>
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,50 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, Alessandro Di Federico <ale@rev.ng>, berrange@redhat.com,
+ f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simply wraps up fetching a build from the registry and tagging it
-as the local build.
+From: Alessandro Di Federico <ale@rev.ng>
 
+[PMD: Split from 'Add Hexagon Docker image' patch]
+
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210228222314.304787-5-f4bug@amsat.org>
+Message-Id: <20210305092328.31792-6-alex.bennee@linaro.org>
 ---
- tests/docker/docker.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ tests/tcg/configure.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 7a14058801..4d9bb7c7ed 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -515,6 +515,23 @@ def run(self, args, argv):
- 
-         return 0
- 
-+class FetchCommand(SubCommand):
-+    """ Fetch a docker image from the registry. Args: <tag> <registry>"""
-+    name = "fetch"
-+
-+    def args(self, parser):
-+        parser.add_argument("tag",
-+                            help="Local tag for image")
-+        parser.add_argument("registry",
-+                            help="Docker registry")
-+
-+    def run(self, args, argv):
-+        dkr = Docker()
-+        dkr.command(cmd="pull", quiet=args.quiet,
-+                    argv=["%s/%s" % (args.registry, args.tag)])
-+        dkr.command(cmd="tag", quiet=args.quiet,
-+                    argv=["%s/%s" % (args.registry, args.tag), args.tag])
-+
- 
- class UpdateCommand(SubCommand):
-     """ Update a docker image. Args: <tag> <actions>"""
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index fa1a4261a4..8b97cc9a19 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -128,6 +128,10 @@ for target in $target_list; do
+       container_image=fedora-cris-cross
+       container_cross_cc=cris-linux-gnu-gcc
+       ;;
++    hexagon-*)
++      container_image=debian-hexagon-cross
++      container_cross_cc=hexagon-unknown-linux-musl-clang
++      ;;
+     hppa-*)
+       container_hosts=x86_64
+       container_image=debian-hppa-cross
 -- 
 2.20.1
 
