@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD75364A9E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:34:11 +0200 (CEST)
-Received: from localhost ([::1]:60870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71A8364AA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 21:37:06 +0200 (CEST)
+Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYZes-0005As-Mw
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48260)
+	id 1lYZhh-0000Hq-QU
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 15:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZPh-0005mR-7P
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:29 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42914)
+ id 1lYZQE-0006nR-3u
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:03 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYZPf-0000va-4j
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:18:28 -0400
-Received: by mail-wr1-x434.google.com with SMTP id p6so28471062wrn.9
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:18:26 -0700 (PDT)
+ id 1lYZQC-0001CQ-Ln
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 15:19:01 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ i21-20020a05600c3555b029012eae2af5d4so9268731wmq.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 12:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=S/oWxVJzYryy6UuvDUbLpXclOy4R3wFcK9vqiSAcj3s=;
- b=YwBwjaAJrTO6wHC71ylW437kdKdYEzTjbsERYvQizZggtvGkNCFDoKM2L9DFgzyOkF
- tZGQSwVF/QYo8io1M1eYEUJu95v4cXEsO8kyI9vNLeTiP1N9oZyvXnSUtAuauvx5I14I
- O8R0WXBHYO4SpUza4xC1yQcrRh+/LAt1X6ENmDeSBUHOYfo37iDFS09eb/ljMGbv+150
- 0O2h3lW+lrhqRnLWLF4M16Hh1CxQe+1XKyfpG7EvNTLEknkkBSXRtqYbnhV9UvK9Xwvx
- 9t0hj0XzBHExSrgSWWK4B1Es7FtVRRpg6+Wnde3IQWaCKvsevXSaoQ9o8cgUKH4/BpMM
- golg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fTQ5LbmfBKa+DkChI03N3lX+fZBlTslCfIb2OafYz+c=;
+ b=tvgYuzTtjo05RsirAdOmxuKSV8+x6wwgBpV9Cbj3IIkCLGff0vPgZ4wK5WKhDmxaa7
+ kqFNuEtRfma0l71izVu5OKPF+2Bjat279FgV3wJ4gS3Zsqs6H6LDMJvA7u6L8ZUT9tCD
+ 0ILbDIqR6/YyKFgb1oXR6E6y6FIov72P0gwmW+siy+BxwHGSa84GWHZ3C2L4bKnUY+CA
+ AVjbv1AEi/H1rMu1uumMx25GjJ17356vuqY4UTOOmOmMfhg7CVG95jWu7KKzdWrJlDQS
+ CMmO79n4dEDfJAfhTNwHP8ed82FgJ4RyDdx9nU199SB+8477vvcMgMsiJMAE2d2+T78D
+ IdfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=S/oWxVJzYryy6UuvDUbLpXclOy4R3wFcK9vqiSAcj3s=;
- b=OlzB+Z1FA0nY0D/SMUb4W9kRagoO1pTg1Y4Y9dbAfXULj7stTHTW1pcT5SMxGPir46
- BItCRJwMFG0sqCgUycnYyHCZ+fbLuwhPcAJ6dS09YOR6rAZTxvk/cpLhf7sxPoyyzID6
- zUm8VtpsCq54LtPpc7dNx/3TrIDadCO8LWuMnA7U4pWY7MYbBQOHWhXFw2IlYLsKrJzr
- RSx5I3omxfmQKTmc91Yz675eClmFTjOTZfZr5IO7EbVykgTLGrRVc+Q+grD1MnTe13Hl
- Vjj9GNiW7Aw/W+jo0fMB3TZsRYpPunOjcWxtTmIxmHizdC1MHgbNj5We4stn7r+m4zga
- D5wA==
-X-Gm-Message-State: AOAM530RgB7IcJKxdLiSMd5Sti56h5IE5sbOvnJ0JQHSLQd4XpW0TMHO
- pXeSRv1+xiTi+zFs0ejvsZmlw7iQDCGNGQ==
-X-Google-Smtp-Source: ABdhPJxbkNc2mtlPerQwSH2LWwUpVOSIIpMisxUysgJ5rF+MyYHayUweQWmFiie8xj0EDLdS67GSTA==
-X-Received: by 2002:a05:6000:2ad:: with SMTP id
- l13mr15903869wry.417.1618859905207; 
- Mon, 19 Apr 2021 12:18:25 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=fTQ5LbmfBKa+DkChI03N3lX+fZBlTslCfIb2OafYz+c=;
+ b=NEjsoRJIJjyXBZ+x1dG7b4UCEtdeYLN7ebSPJq05tMyfaTc4aBABhHVofIIjE3X8+/
+ xy/IfPNsz7Na5+m/SkgMIakSF6irNWZBIFYqCNPAQNxXavxxjUwuco8cSem+x9h5gu2z
+ syVGaSIKyR/WL+KdKg+PFS5bQbABn5gAM8GtrrwrZjlgvRA0RDyrIIUfKekbsle1YFXm
+ Ca0VuXhC4UxvhZZizc+FdQTsXRHYXMRdzQsAgEEtqjBxMr4r97WeZBBTajaDtrJjLO09
+ D69E7ZZcRR7bncgxLf5RG1H+Dgp7oGuCVhxydJJJ6cr59YFczWI1sO5uthuV/Jnxfe6H
+ 5Omw==
+X-Gm-Message-State: AOAM533DSwvxUW8So/3PZDoSQCdQIoSAy2zTDTYerpBEsInNgbw19dkA
+ ePtPQfPElPix/O51WCSEd5IIM1BHWZZWFg==
+X-Google-Smtp-Source: ABdhPJwAXQEzFiWtuarEgZ+SNGdpcgPjXTR/1xEAOLiTz/kdMakXyagXWC1UijTbqfvRLj8idzxX3w==
+X-Received: by 2002:a1c:7c08:: with SMTP id x8mr580525wmc.130.1618859939153;
+ Mon, 19 Apr 2021 12:18:59 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id f8sm534840wmc.8.2021.04.19.12.18.23
+ by smtp.gmail.com with ESMTPSA id c6sm1858039wmr.0.2021.04.19.12.18.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 12:18:24 -0700 (PDT)
+ Mon, 19 Apr 2021 12:18:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/30] target/mips: Re-org to allow KVM-only builds
-Date: Mon, 19 Apr 2021 21:17:53 +0200
-Message-Id: <20210419191823.1555482-1-f4bug@amsat.org>
+Subject: [PATCH v3 07/30] target/mips: Turn printfpr() macro into a proper
+ function
+Date: Mon, 19 Apr 2021 21:18:00 +0200
+Message-Id: <20210419191823.1555482-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210419191823.1555482-1-f4bug@amsat.org>
+References: <20210419191823.1555482-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,172 +95,86 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TL;DR:=0D
-=0D
-This series restrict TCG-specific objects by moving them to=0D
-the tcg/ subdir. Code is moved around to satisfy 3 cases:=0D
-{ generic sysemu / tcg sysemu / tcg user}.=0D
-=0D
-Since v2:=0D
-- Merge do_translate_address into cpu_mips_translate_address=0D
-- Added Thomas & Willian tags=0D
-=0D
-Since v1:=0D
-- Addressed Richard review comments=0D
-- Added Richard R-b tag=0D
-=0D
-Missing review: 5, 7, 8, 9, 18, 19, 24=0D
-=0D
-Hi,=0D
-=0D
-This series move the MIPS TCG files under target/mips/tcg/.=0D
-tcg/ is split into {sysemu and user}, and code common to=0D
-both user/sysemu is left under tcg/ root.=0D
-=0D
-Non-user code is moved to sysemu/ (common to TCG and KVM).=0D
-=0D
-- Patches 1 & 11 are Meson generic=0D
-- Patches 2 to 10 move generic symbols around to satisfly KVM linking=0D
-- Patch 12 introduces tcg-internal.h where we'll move TCG specific=0D
-  prototypes from the current big internal.h=0D
-- Patches 13-28 move code by topic (first user, then sysemu, then tcg)=0D
-- Patch 29 restrict TCG specific machines to TCG (to actually=0D
-  only build malta/loongson3-virt machines when restricted to KVM)=0D
-- Patch 30 finally add a CI job with "KVM-only" config:=0D
-  https://gitlab.com/philmd/qemu/-/jobs/1189874868 (12min 5sec)=0D
-=0D
-Diffstat is not that bad, and many #ifdef'ry removed.=0D
-=0D
-Please review,=0D
-=0D
-Phil.=0D
-=0D
-Based-on: <20210413081008.3409459-1-f4bug@amsat.org>=0D
-          "exec: Remove accel/tcg/ from include paths"=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (30):=0D
-  target/mips: Simplify meson TCG rules=0D
-  target/mips: Move IEEE rounding mode array to new source file=0D
-  target/mips: Move msa_reset() to new source file=0D
-  target/mips: Make CPU/FPU regnames[] arrays global=0D
-  target/mips: Optimize CPU/FPU regnames[] arrays=0D
-  target/mips: Restrict mips_cpu_dump_state() to cpu.c=0D
-  target/mips: Turn printfpr() macro into a proper function=0D
-  target/mips: Declare mips_cpu_set_error_pc() inlined in "internal.h"=0D
-  target/mips: Merge do_translate_address into=0D
-    cpu_mips_translate_address=0D
-  target/mips: Extract load/store helpers to ldst_helper.c=0D
-  meson: Introduce meson_user_arch source set for arch-specific=0D
-    user-mode=0D
-  target/mips: Introduce tcg-internal.h for TCG specific declarations=0D
-  target/mips: Add simple user-mode mips_cpu_do_interrupt()=0D
-  target/mips: Add simple user-mode mips_cpu_tlb_fill()=0D
-  target/mips: Move cpu_signal_handler definition around=0D
-  target/mips: Move sysemu specific files under sysemu/ subfolder=0D
-  target/mips: Move physical addressing code to sysemu/physaddr.c=0D
-  target/mips: Restrict cpu_mips_get_random() / update_pagemask() to TCG=0D
-  target/mips: Move sysemu TCG-specific code to tcg/sysemu/ subfolder=0D
-  target/mips: Restrict mmu_init() to TCG=0D
-  target/mips: Move tlb_helper.c to tcg/sysemu/=0D
-  target/mips: Restrict CPUMIPSTLBContext::map_address() handlers scope=0D
-  target/mips: Move Special opcodes to tcg/sysemu/special_helper.c=0D
-  target/mips: Move helper_cache() to tcg/sysemu/special_helper.c=0D
-  target/mips: Move TLB management helpers to tcg/sysemu/tlb_helper.c=0D
-  target/mips: Move exception management code to exception.c=0D
-  target/mips: Move CP0 helpers to sysemu/cp0.c=0D
-  target/mips: Move TCG source files under tcg/ sub directory=0D
-  hw/mips: Restrict non-virtualized machines to TCG=0D
-  gitlab-ci: Add KVM mips64el cross-build jobs=0D
-=0D
- meson.build                                  |    6 +=0D
- target/mips/helper.h                         |  183 +--=0D
- target/mips/internal.h                       |  106 +-=0D
- target/mips/tcg/tcg-internal.h               |   64 +=0D
- target/mips/{ =3D> tcg}/msa_helper.h.inc       |    0=0D
- target/mips/tcg/sysemu_helper.h.inc          |  185 +++=0D
- target/mips/{ =3D> tcg}/mips32r6.decode        |    0=0D
- target/mips/{ =3D> tcg}/mips64r6.decode        |    0=0D
- target/mips/{ =3D> tcg}/msa32.decode           |    0=0D
- target/mips/{ =3D> tcg}/msa64.decode           |    0=0D
- target/mips/{ =3D> tcg}/tx79.decode            |    0=0D
- target/mips/cpu.c                            |  311 ++---=0D
- target/mips/fpu.c                            |   25 +=0D
- target/mips/msa.c                            |   60 +=0D
- target/mips/op_helper.c                      | 1210 ------------------=0D
- target/mips/{ =3D> sysemu}/addr.c              |    0=0D
- target/mips/sysemu/cp0.c                     |  123 ++=0D
- target/mips/{ =3D> sysemu}/cp0_timer.c         |    0=0D
- target/mips/{ =3D> sysemu}/machine.c           |    0=0D
- target/mips/sysemu/physaddr.c                |  257 ++++=0D
- target/mips/{ =3D> tcg}/dsp_helper.c           |    0=0D
- target/mips/tcg/exception.c                  |  167 +++=0D
- target/mips/{ =3D> tcg}/fpu_helper.c           |    8 -=0D
- target/mips/tcg/ldst_helper.c                |  288 +++++=0D
- target/mips/{ =3D> tcg}/lmmi_helper.c          |    0=0D
- target/mips/{ =3D> tcg}/msa_helper.c           |   36 -=0D
- target/mips/{ =3D> tcg}/msa_translate.c        |    0=0D
- target/mips/{ =3D> tcg}/mxu_translate.c        |    0=0D
- target/mips/tcg/op_helper.c                  |  420 ++++++=0D
- target/mips/{ =3D> tcg}/rel6_translate.c       |    0=0D
- target/mips/{ =3D> tcg/sysemu}/cp0_helper.c    |    0=0D
- target/mips/{ =3D> tcg/sysemu}/mips-semi.c     |    0=0D
- target/mips/tcg/sysemu/special_helper.c      |  173 +++=0D
- target/mips/{ =3D> tcg/sysemu}/tlb_helper.c    |  623 +++++----=0D
- target/mips/{ =3D> tcg}/translate.c            |  104 +-=0D
- target/mips/{ =3D> tcg}/translate_addr_const.c |    0=0D
- target/mips/{ =3D> tcg}/tx79_translate.c       |    0=0D
- target/mips/{ =3D> tcg}/txx9_translate.c       |    0=0D
- target/mips/tcg/user/tlb_helper.c            |   64 +=0D
- .gitlab-ci.d/crossbuilds.yml                 |    8 +=0D
- MAINTAINERS                                  |    3 +-=0D
- hw/mips/meson.build                          |   11 +-=0D
- target/mips/meson.build                      |   55 +-=0D
- target/mips/sysemu/meson.build               |    7 +=0D
- target/mips/tcg/meson.build                  |   35 +=0D
- target/mips/tcg/sysemu/meson.build           |    6 +=0D
- target/mips/tcg/user/meson.build             |    3 +=0D
- 47 files changed, 2394 insertions(+), 2147 deletions(-)=0D
- create mode 100644 target/mips/tcg/tcg-internal.h=0D
- rename target/mips/{ =3D> tcg}/msa_helper.h.inc (100%)=0D
- create mode 100644 target/mips/tcg/sysemu_helper.h.inc=0D
- rename target/mips/{ =3D> tcg}/mips32r6.decode (100%)=0D
- rename target/mips/{ =3D> tcg}/mips64r6.decode (100%)=0D
- rename target/mips/{ =3D> tcg}/msa32.decode (100%)=0D
- rename target/mips/{ =3D> tcg}/msa64.decode (100%)=0D
- rename target/mips/{ =3D> tcg}/tx79.decode (100%)=0D
- create mode 100644 target/mips/fpu.c=0D
- create mode 100644 target/mips/msa.c=0D
- delete mode 100644 target/mips/op_helper.c=0D
- rename target/mips/{ =3D> sysemu}/addr.c (100%)=0D
- create mode 100644 target/mips/sysemu/cp0.c=0D
- rename target/mips/{ =3D> sysemu}/cp0_timer.c (100%)=0D
- rename target/mips/{ =3D> sysemu}/machine.c (100%)=0D
- create mode 100644 target/mips/sysemu/physaddr.c=0D
- rename target/mips/{ =3D> tcg}/dsp_helper.c (100%)=0D
- create mode 100644 target/mips/tcg/exception.c=0D
- rename target/mips/{ =3D> tcg}/fpu_helper.c (99%)=0D
- create mode 100644 target/mips/tcg/ldst_helper.c=0D
- rename target/mips/{ =3D> tcg}/lmmi_helper.c (100%)=0D
- rename target/mips/{ =3D> tcg}/msa_helper.c (99%)=0D
- rename target/mips/{ =3D> tcg}/msa_translate.c (100%)=0D
- rename target/mips/{ =3D> tcg}/mxu_translate.c (100%)=0D
- create mode 100644 target/mips/tcg/op_helper.c=0D
- rename target/mips/{ =3D> tcg}/rel6_translate.c (100%)=0D
- rename target/mips/{ =3D> tcg/sysemu}/cp0_helper.c (100%)=0D
- rename target/mips/{ =3D> tcg/sysemu}/mips-semi.c (100%)=0D
- create mode 100644 target/mips/tcg/sysemu/special_helper.c=0D
- rename target/mips/{ =3D> tcg/sysemu}/tlb_helper.c (76%)=0D
- rename target/mips/{ =3D> tcg}/translate.c (99%)=0D
- rename target/mips/{ =3D> tcg}/translate_addr_const.c (100%)=0D
- rename target/mips/{ =3D> tcg}/tx79_translate.c (100%)=0D
- rename target/mips/{ =3D> tcg}/txx9_translate.c (100%)=0D
- create mode 100644 target/mips/tcg/user/tlb_helper.c=0D
- create mode 100644 target/mips/sysemu/meson.build=0D
- create mode 100644 target/mips/tcg/meson.build=0D
- create mode 100644 target/mips/tcg/sysemu/meson.build=0D
- create mode 100644 target/mips/tcg/user/meson.build=0D
-=0D
--- =0D
-2.26.3=0D
-=0D
+Turn printfpr() macro into a proper function: fpu_dump_fpr().
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/cpu.c | 48 ++++++++++++++++++++++-------------------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
+
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 232f701b836..90ae232c8b8 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -145,44 +145,40 @@ void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
+ 
+ #endif /* !CONFIG_USER_ONLY */
+ 
++static void fpu_dump_fpr(fpr_t *fpr, FILE *f, bool is_fpu64)
++{
++    if (is_fpu64) {
++        qemu_fprintf(f, "w:%08x d:%016" PRIx64 " fd:%13g fs:%13g psu: %13g\n",
++                     fpr->w[FP_ENDIAN_IDX], fpr->d,
++                     (double)fpr->fd,
++                     (double)fpr->fs[FP_ENDIAN_IDX],
++                     (double)fpr->fs[!FP_ENDIAN_IDX]);
++    } else {
++        fpr_t tmp;
++
++        tmp.w[FP_ENDIAN_IDX] = fpr->w[FP_ENDIAN_IDX];
++        tmp.w[!FP_ENDIAN_IDX] = (fpr + 1)->w[FP_ENDIAN_IDX];
++        qemu_fprintf(f, "w:%08x d:%016" PRIx64 " fd:%13g fs:%13g psu:%13g\n",
++                     tmp.w[FP_ENDIAN_IDX], tmp.d,
++                     (double)tmp.fd,
++                     (double)tmp.fs[FP_ENDIAN_IDX],
++                     (double)tmp.fs[!FP_ENDIAN_IDX]);
++    }
++}
++
+ static void fpu_dump_state(CPUMIPSState *env, FILE *f, int flags)
+ {
+     int i;
+     int is_fpu64 = !!(env->hflags & MIPS_HFLAG_F64);
+ 
+-#define printfpr(fp)                                                    \
+-    do {                                                                \
+-        if (is_fpu64)                                                   \
+-            qemu_fprintf(f, "w:%08x d:%016" PRIx64                      \
+-                         " fd:%13g fs:%13g psu: %13g\n",                \
+-                         (fp)->w[FP_ENDIAN_IDX], (fp)->d,               \
+-                         (double)(fp)->fd,                              \
+-                         (double)(fp)->fs[FP_ENDIAN_IDX],               \
+-                         (double)(fp)->fs[!FP_ENDIAN_IDX]);             \
+-        else {                                                          \
+-            fpr_t tmp;                                                  \
+-            tmp.w[FP_ENDIAN_IDX] = (fp)->w[FP_ENDIAN_IDX];              \
+-            tmp.w[!FP_ENDIAN_IDX] = ((fp) + 1)->w[FP_ENDIAN_IDX];       \
+-            qemu_fprintf(f, "w:%08x d:%016" PRIx64                      \
+-                         " fd:%13g fs:%13g psu:%13g\n",                 \
+-                         tmp.w[FP_ENDIAN_IDX], tmp.d,                   \
+-                         (double)tmp.fd,                                \
+-                         (double)tmp.fs[FP_ENDIAN_IDX],                 \
+-                         (double)tmp.fs[!FP_ENDIAN_IDX]);               \
+-        }                                                               \
+-    } while (0)
+-
+-
+     qemu_fprintf(f,
+                  "CP1 FCR0 0x%08x  FCR31 0x%08x  SR.FR %d  fp_status 0x%02x\n",
+                  env->active_fpu.fcr0, env->active_fpu.fcr31, is_fpu64,
+                  get_float_exception_flags(&env->active_fpu.fp_status));
+     for (i = 0; i < 32; (is_fpu64) ? i++ : (i += 2)) {
+         qemu_fprintf(f, "%3s: ", fregnames[i]);
+-        printfpr(&env->active_fpu.fpr[i]);
++        fpu_dump_fpr(&env->active_fpu.fpr[i], f, is_fpu64);
+     }
+-
+-#undef printfpr
+ }
+ 
+ static void mips_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-- 
+2.26.3
+
 
