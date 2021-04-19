@@ -2,97 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C1E364AF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:07:56 +0200 (CEST)
-Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E8B364B08
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 22:14:53 +0200 (CEST)
+Received: from localhost ([::1]:60136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYaBX-0003I8-U1
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58202)
+	id 1lYaIG-0007C4-K2
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 16:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@bsdio.com>)
- id 1lYa9H-0002Ew-Ka; Mon, 19 Apr 2021 16:05:35 -0400
-Received: from out03.mta.xmission.com ([166.70.13.233]:49514)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lYaGl-0006QA-5g
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:13:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54054
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@bsdio.com>)
- id 1lYa9F-0003mx-SG; Mon, 19 Apr 2021 16:05:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=bsdio.com;
- s=xmission; h=Subject:Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:Reply-To:Content-ID
- :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
- Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
- :List-Post:List-Owner:List-Archive;
- bh=H4h1DjIrtL0Fa0Yb5MbMUk1vUd2pdYsnrYWOLJ1HKeY=; b=BFGrf8NJgqM+wqT/Rnn7dmSL3V
- bUDCGs2Rh5MoWcVv7aZt6tSOLTGFYC6DgdUDIiZtDKjFacDX9pIwRWOkF7owmhTlvqCq1CWUKFRr7
- pfK8N0CyrgZlm7MlAFZWxLARgGmSoq0HI8xFoO1eY8YSR9ok0YBREPSup1GuTjg1lLP0=;
-Received: from in02.mta.xmission.com ([166.70.13.52])
- by out03.mta.xmission.com with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <rebecca@bsdio.com>)
- id 1lYa8w-00H0Mp-OS; Mon, 19 Apr 2021 14:05:14 -0600
-Received: from mta5.zcs.xmission.com ([166.70.13.69])
- by in02.mta.xmission.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <rebecca@bsdio.com>)
- id 1lYa8n-004OAv-At; Mon, 19 Apr 2021 14:05:14 -0600
-Received: from localhost (localhost [127.0.0.1])
- by mta5.zcs.xmission.com (Postfix) with ESMTP id 27C0C1281072;
- Mon, 19 Apr 2021 14:05:05 -0600 (MDT)
-X-Amavis-Modified: Mail body modified (using disclaimer) -
- mta5.zcs.xmission.com
-Received: from mta5.zcs.xmission.com ([127.0.0.1])
- by localhost (mta5.zcs.xmission.com [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id UWHD52ZwvfEy; Mon, 19 Apr 2021 14:05:05 -0600 (MDT)
-Received: from [10.0.10.120] (c-174-52-16-57.hsd1.ut.comcast.net
- [174.52.16.57])
- by mta5.zcs.xmission.com (Postfix) with ESMTPSA id D12C9128131C;
- Mon, 19 Apr 2021 14:05:04 -0600 (MDT)
-To: Rebecca Cran <rebecca@nuviainc.com>, peter.maydell@linaro.org,
- richard.henderson@linaro.org
-References: <20210414203231.824-1-rebecca@nuviainc.com>
-From: Rebecca Cran <rebecca@bsdio.com>
-Message-ID: <9f0792fd-3b5a-3315-26bd-7c8307e7dae0@bsdio.com>
-Date: Mon, 19 Apr 2021 14:05:04 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lYaGi-0006st-Il
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 16:13:18 -0400
+Received: from host86-132-83-131.range86-132.btcentralplus.com
+ ([86.132.83.131] helo=[192.168.1.110])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lYaGu-0003y7-1a; Mon, 19 Apr 2021 21:13:33 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210417140206.673885-1-f4bug@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <8f59bd60-3588-3be0-c44c-1ebfbefd78bd@ilande.co.uk>
+Date: Mon, 19 Apr 2021 21:13:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210414203231.824-1-rebecca@nuviainc.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210417140206.673885-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-XM-SPF: eid=1lYa8n-004OAv-At; ; ;
- mid=<9f0792fd-3b5a-3315-26bd-7c8307e7dae0@bsdio.com>; ; ;
- hst=in02.mta.xmission.com; ; ; ip=166.70.13.69; ; ; frm=rebecca@bsdio.com; ; ;
- spf=none
-X-SA-Exim-Connect-IP: 166.70.13.69
-X-SA-Exim-Mail-From: rebecca@bsdio.com
-X-Spam-DCC: XMission; sa05 1397; IP=ok Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: *; Rebecca Cran <rebecca@nuviainc.com>, peter.maydell@linaro.org,
- richard.henderson@linaro.org
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 9000 ms - load_scoreonly_sql: 0.16 (0.0%),
- signal_user_changed: 14 (0.2%), b_tie_ro: 11 (0.1%), parse: 2.2 (0.0%),
- extract_message_metadata: 23 (0.3%), get_uri_detail_list: 2.1 (0.0%),
- tests_pri_-1000: 7 (0.1%), tests_pri_-950: 2.1 (0.0%), tests_pri_-900:
- 1.64 (0.0%), tests_pri_-90: 60 (0.7%), check_bayes: 57 (0.6%),
- b_tokenize: 9 (0.1%), b_tok_get_all: 7 (0.1%), b_comp_prob: 3.2 (0.0%),
- b_tok_touch_all: 34 (0.4%), b_finish: 1.17 (0.0%), tests_pri_0: 848
- (9.4%), check_dkim_signature: 0.90 (0.0%), check_dkim_adsp: 97 (1.1%),
- poll_dns_idle: 8099 (90.0%), tests_pri_10: 2.3 (0.0%), tests_pri_500:
- 8036 (89.3%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v7 0/4] Add support for FEAT_TLBIOS and FEAT_TLBIRANGE
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
-Received-SPF: none client-ip=166.70.13.233; envelope-from=rebecca@bsdio.com;
- helo=out03.mta.xmission.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.132.83.131
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3] memory: Directly dispatch alias accesses on origin
+ memory region
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,54 +65,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On 17/04/2021 15:02, Philippe Mathieu-Daudé wrote:
+
+> Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
+> regions"), all newly created regions are assigned with
+> unassigned_mem_ops (which might be then overwritten).
+> 
+> When using aliased container regions, and there is no region mapped
+> at address 0 in the container, the memory_region_dispatch_read()
+> and memory_region_dispatch_write() calls incorrectly return the
+> container unassigned_mem_ops, because the alias offset is not used.
+> 
+> The memory_region_init_alias() flow is:
+> 
+>    memory_region_init_alias()
+>    -> memory_region_init()
+>       -> object_initialize(TYPE_MEMORY_REGION)
+>          -> memory_region_initfn()
+>             -> mr->ops = &unassigned_mem_ops;
+> 
+> Later when accessing the alias, the memory_region_dispatch_read()
+> flow is:
+> 
+>    memory_region_dispatch_read(offset)
+>    -> memory_region_access_valid(mr)   <- offset is ignored
+>       -> mr->ops->valid.accepts()
+>          -> unassigned_mem_accepts()
+>          <- false
+>       <- false
+>     <- MEMTX_DECODE_ERROR
+> 
+> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+> 
+> Fix by dispatching aliases recusirvely, accessing its origin region
+> after adding the alias offset.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> v3:
+> - reworded, mentioning the "alias to container" case
+> - use recursive call instead of while(), because easier when debugging
+>    therefore reset Richard R-b tag.
+> v2:
+> - use while()
+> ---
+>   softmmu/memory.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index d4493ef9e43..23bdbfac079 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1442,6 +1442,11 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
+>       unsigned size = memop_size(op);
+>       MemTxResult r;
+>   
+> +    if (mr->alias) {
+> +        return memory_region_dispatch_read(mr->alias,
+> +                                           addr + mr->alias_offset,
+> +                                           pval, op, attrs);
+> +    }
+>       if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
+>           *pval = unassigned_mem_read(mr, addr, size);
+>           return MEMTX_DECODE_ERROR;
+> @@ -1486,6 +1491,11 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+>   {
+>       unsigned size = memop_size(op);
+>   
+> +    if (mr->alias) {
+> +        return memory_region_dispatch_write(mr->alias,
+> +                                            addr + mr->alias_offset,
+> +                                            data, op, attrs);
+> +    }
+>       if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
+>           unassigned_mem_write(mr, addr, data, size);
+>           return MEMTX_DECODE_ERROR;
+
+Whilst working on my q800 patches I realised that this was a similar problem to the 
+one I had with my macio.alias implementation at [1]: except that in my case the 
+unassigned_mem_ops mr->ops->valid.accepts() function was being invoked on a ROM 
+memory region instead of an alias. I think this is exactly the same issue that you 
+are attempting to fix with your related patch at 
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg03190.html ("memory: 
+Initialize MemoryRegionOps for RAM memory regions").
+
+I eventually realised that I needed functions that could dispatch reads/writes to 
+both IO memory regions and ROM memory regions, and that functionality is covered by 
+the address_space_*() access functions. Using the address_space_*() functions I was 
+then able to come up with the working implementation at [2] that handles accesses to 
+both IO memory regions and ROM memory regions correctly.
+
+The reason I initially used the 
+memory_region_dispatch_read()/memory_region_dispatch_write() functions was because I 
+could see that was how the virtio devices dispatched accesses through the proxy. 
+However I'm wondering now if this API can only be used for terminating IO memory 
+regions, and so the alias_offset that you're applying above should actually be 
+applied elsewhere instead.
 
 
-Could you review this patch series again please?
+ATB,
 
-I've fixed several issues recently, and am interested to know if it's 
-ready to commit or would need further changes.
+Mark.
 
+[1] https://github.com/mcayland/qemu/commit/56f8639fbecb8a8e323ce486e20cbe309e807419
 
--- 
-
-Rebecca Cran
-
-
-On 4/14/2021 2:32 PM, Rebecca Cran wrote:
-> ARMv8.4 adds the mandatory FEAT_TLBIOS and FEAT_TLBIRANGE.
-> They provides TLBI maintenance instructions that extend to the Outer
-> Shareable domain and that apply to a range of input addresses.
->
-> Changes from v6 to v7:
->
-> o Fixed the tlbi_aa64_rvae1_write the tlbi_aa64_rvae1is_write functions
->    to pass the correct value into functions which use an ARMMMUIdx.
->
-> o Fixed comments in helper.c which referred to non-existent instructions.
->
-> Testing:
->
-> o Booted Linux 5.11 - verified the previous assert failure in qemu is
->    resolved.
-> o Ran checkpatch.pl.
->
-> Rebecca Cran (4):
->    accel/tcg: Add TLB invalidation support for ranges of addresses
->    target/arm: Add support for FEAT_TLBIRANGE
->    target/arm: Add support for FEAT_TLBIOS
->    target/arm: set ID_AA64ISAR0.TLB to 2 for max AARCH64 CPU type
->
->   accel/tcg/cputlb.c      | 130 ++++++-
->   include/exec/exec-all.h |  46 +++
->   target/arm/cpu.h        |  10 +
->   target/arm/cpu64.c      |   1 +
->   target/arm/helper.c     | 371 ++++++++++++++++++++
->   5 files changed, 555 insertions(+), 3 deletions(-)
->
-
+[2] https://github.com/mcayland/qemu/commit/c1fa32da188bb2ce23faf1728228c1714672270d
 
