@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15595363EA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:36:46 +0200 (CEST)
-Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B89363F09
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 11:43:15 +0200 (CEST)
+Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYQKi-0007xd-Dw
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
+	id 1lYQR0-0001Kc-UR
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 05:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lYQJJ-0007Id-Gh
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:35:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49059)
+ id 1lYQPD-0000hG-DE
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:41:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lYQJH-0006tR-Qe
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:35:17 -0400
+ id 1lYQP1-0001lR-Cl
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 05:41:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618824914;
+ s=mimecast20190719; t=1618825269;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8E5K3evNARUlrEMHX6BzNvRHeQxSPV3b+iXXb0XRkrQ=;
- b=RkK2dKinYv3k4gFzWKTmHAXCsjlAkq0XbK4G4wmfBmUQlvdZU49L4sNttWCC9OcpS3kxYX
- rc+ru+lyjXvnjaoEAPR8cVrwDguH3FozSdXHts90fT3KZzVgbB+qfaNt1MXaI4P53+WsPw
- GZLqEl7H11DGywFa05JiPpC+zYwsers=
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZqPk6/QLxuCEQH3v/z1B5DzLdOMpyhLq1W7j8kIGhPI=;
+ b=EDkip8Hfl+qXvwJRdvcgL7vQOioYmHvXDqjIdFwJdT+rU0uli3wY3T9DHNEAfbW4k/Sow7
+ kFRcmsrxxzCp00RPp2tBteSQHj74emsDlwxLAkWftkUGM13qO5i6JQNtKAVGYFmC25X08s
+ 0AshWdHeT7u69EGnq4nozVm+Vcrp4qQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-komq4ZIoMzOILt7fvj2gAg-1; Mon, 19 Apr 2021 05:35:01 -0400
-X-MC-Unique: komq4ZIoMzOILt7fvj2gAg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-162-dsya9c5kPBuQVzudfbQRjg-1; Mon, 19 Apr 2021 05:41:07 -0400
+X-MC-Unique: dsya9c5kPBuQVzudfbQRjg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC75887A841;
- Mon, 19 Apr 2021 09:34:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B51110054F6;
+ Mon, 19 Apr 2021 09:41:06 +0000 (UTC)
 Received: from redhat.com (ovpn-114-178.ams2.redhat.com [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9243362A6F;
- Mon, 19 Apr 2021 09:34:52 +0000 (UTC)
-Date: Mon, 19 Apr 2021 10:34:49 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76C7160937;
+ Mon, 19 Apr 2021 09:40:56 +0000 (UTC)
+Date: Mon, 19 Apr 2021 10:40:53 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 21/33] qemu-socket: pass monitor link to socket_get_fd
- directly
-Message-ID: <YH1OuUYuLYkHY2ni@redhat.com>
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-22-vsementsov@virtuozzo.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
+ jobs
+Message-ID: <YH1QJZGYQXc6x9Et@redhat.com>
+References: <20210418233448.1267991-1-f4bug@amsat.org>
+ <20210418233448.1267991-15-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210416080911.83197-22-vsementsov@virtuozzo.com>
+In-Reply-To: <20210418233448.1267991-15-f4bug@amsat.org>
 User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -67,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,59 +84,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, rvkagan@yandex-team.ru, Gerd Hoffmann <kraxel@redhat.com>,
- den@openvz.org
+Cc: Thomas Huth <thuth@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 11:08:59AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Detecting monitor by current coroutine works bad when we are not in
-> coroutine context. And that's exactly so in nbd reconnect code, where
-> qio_channel_socket_connect_sync() is called from thread.
+On Mon, Apr 19, 2021 at 01:34:47AM +0200, Philippe Mathieu-Daudé wrote:
+> Forks run the same jobs than mainstream, which might be overkill.
+> Allow them to easily rebase their custom set, while keeping using
+> the mainstream templates, and ability to pick specific jobs from
+> the mainstream set.
 > 
-> Add a possibility to pass monitor by hand, to be used in the following
-> commit.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/io/channel-socket.h    | 20 ++++++++++++++++++++
->  include/qemu/sockets.h         |  2 +-
->  io/channel-socket.c            | 17 +++++++++++++----
->  tests/unit/test-util-sockets.c | 16 ++++++++--------
->  util/qemu-sockets.c            | 10 +++++-----
->  5 files changed, 47 insertions(+), 18 deletions(-)
-> 
-> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> index e747e63514..6d0915420d 100644
-> --- a/include/io/channel-socket.h
-> +++ b/include/io/channel-socket.h
-> @@ -78,6 +78,23 @@ qio_channel_socket_new_fd(int fd,
->                            Error **errp);
->  
->  
-> +/**
-> + * qio_channel_socket_connect_sync_mon:
-> + * @ioc: the socket channel object
-> + * @addr: the address to connect to
-> + * @mon: current monitor. If NULL, it will be detected by
-> + *       current coroutine.
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Attempt to connect to the address @addr. This method
-> + * will run in the foreground so the caller will not regain
-> + * execution control until the connection is established or
-> + * an error occurs.
-> + */
-> +int qio_channel_socket_connect_sync_mon(QIOChannelSocket *ioc,
-> +                                        SocketAddress *addr,
-> +                                        Monitor *mon,
-> +                                        Error **errp);
+> To switch to your set, simply add your .gitlab-ci.yml as
+> .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where CI_PROJECT_NAMESPACE
+> is your gitlab 'namespace', usually username). This file will be
+> used instead of the default mainstream set.
 
-I don't really like exposing the concept of the QEMU monitor in
-the IO layer APIs. IMHO these ought to remain completely separate
-subsystems from the API pov, and we ought to fix this problem by
-making monitor_cur() work better in the scenario required.
+I find this approach undesirable, because AFAICT, it means you have
+to commit this extra file to any of your downstream branches that
+you want this to be used for.  Then you have to be either delete it
+again before sending patches upstream, or tell git-publish to
+exclude the commit that adds this.
+
+IMHO any per-contributor overhead needs to not involve committing
+stuff to their git branches, that isn't intended to go upstream.
+
 
 Regards,
 Daniel
