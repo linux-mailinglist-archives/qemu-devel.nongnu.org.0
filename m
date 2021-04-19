@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90853646A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:03:24 +0200 (CEST)
-Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9A03646BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:08:48 +0200 (CEST)
+Received: from localhost ([::1]:59446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVQp-0003ag-RY
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44598)
+	id 1lYVW3-0003G5-NO
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIY-0003Ih-FD
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:50 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36691)
+ id 1lYVIk-0003lI-5q
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:55:02 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIW-0006xZ-MD
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:50 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id m9so21618228wrx.3
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:48 -0700 (PDT)
+ id 1lYVIg-00073o-Li
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:55:01 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id w4so30647654wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VsOEBZtB0HF2JImaMnITvaw+tRLQeXiNM3E9i7SwoP8=;
- b=GFN1+Rn29/ViShAWf0FgNR5ErIat2oYslMJfj8B6eKs5YtjBg1izAALZNgsZr+1T8l
- IL6x85VQyVaKjWnyBfIC+yjSDaHlxlKmCTA/s+SS/+PsHHjMM36iDdVNxa2LcQJjK2bk
- dj2jeJRBtElWcewQIp6qh5MoUef9IG+7kfOxkqVoQscopsGCpBcI/Uzren2zAn9GmGlm
- zIphi4mPF0CN5fBz5IOdoJHO7nT1/A1lfzW3yrNCg7TqEdBb50sTv27VNSGyvslP9FZ1
- yMbp616g+CEauDWhEkBuXfFalZMW/Rt6YC8l+k8JsIYWupNzGoR2rH7hyH0z97wRZz4B
- 6QiQ==
+ bh=7rjRZMpfOjz06kT3DXo4AnrGU+LQX663aqbqm3FCMKI=;
+ b=IynC/fJ80YSxZXmXMrNzVTu6fdQxPn/f0tdQ0OPOfzimHJSum2ulZ1Jiiw+gs4k6pB
+ hMGaFhM7l4gS71yGulc49QWcz+3GD7TgIjfPN9V5odIlveHKgl1b+ntkRfk14OOy2de3
+ HFUPKnQpu1chiMix6nU0qmq32cLx3gN3x0LPU+2XPFpT8tOi8zSkD1KbHd+NWLZwxlrn
+ /Ot7n114HsmxsgtK4E7rHWM/hOZaJOCH89cnyhvssAFmwdMHIK+m5FzSBQv17ZBjmoyj
+ f/mubiGtlCYBmraUmt7olJQctCLwkGICJrKDJ3dfHM2S8Czy6DiJUxPa8fBCaIw5IDbn
+ 54XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VsOEBZtB0HF2JImaMnITvaw+tRLQeXiNM3E9i7SwoP8=;
- b=E9KRkin/U02Ezk2OvBCm5ajmfcFQeKNEeeeURMIqCXqFyKSLLElXqvCvSY1S0De1YV
- ++wBRaMJ8TERYOh3KIMR9uBXouyRAO6Ec5pR1Z4mZaHiBL8DgWFTWleUhAkiFnThcdMZ
- +NMIi0sVHIZdHzkU+Eam5Jx8sN9yTHA1DseXzlwkXwKPE/oPIoIDJMVM296D05GJVJdd
- S5OwpyGmhzktgOiS59oYucYKkEG6+NlXAqxOX2MD3lB05vgBn7uKx50HA1dUNOwOR5B5
- FoAjkidfVy50qQQgBii7xSq+g3RbKw8+Hp8jM0WrlvLq23p57casJVBqX/92Za8JlwHk
- iSMQ==
-X-Gm-Message-State: AOAM530PVqGJKuEsswH/3AHYGwzlSXttt4q/FdK+KMaF6UMaVDpByHdM
- lnhUANoOzKgMTT1oKwRtVN9eHw==
-X-Google-Smtp-Source: ABdhPJxu5ieH9wMljB0q4uOzAxCzIxMVCmsBi3qcZLZgN++XgkzcBXyNLESWP2nQUe43AXo+6HzXdg==
-X-Received: by 2002:adf:e650:: with SMTP id b16mr14764273wrn.273.1618844087330; 
- Mon, 19 Apr 2021 07:54:47 -0700 (PDT)
+ bh=7rjRZMpfOjz06kT3DXo4AnrGU+LQX663aqbqm3FCMKI=;
+ b=Xb7XYwmVRxsNGZ43lcTGto21Yq4z8WcvNzglLxeXFvxpvqxrmWOPJv61gdFyOKqlRm
+ ut7LDwXgz2UhnPuh48UJM37WgwYe/0N4TawmE43zoexduR7k6ktc3vk71OGen5km+TJT
+ TBffdqrwCvznHLp37ndAwNIgX0kq6M+lLTJzOZZiDhPNhIlEvFOBFmB/qo+4pGQp2G93
+ JB6bFRHWVdgYEYlv3CD5Y9jLkLLlF4VGAjCZs+qi9LGvYWEBzmUgX0/RVEdptnUx9wnh
+ pCc7n8NgEbn4aQk4ufqfLwkjG1tLN/XF1vMGsUA6jpcxvApG+ySX8u1HGpx8SQPYFb36
+ s/gA==
+X-Gm-Message-State: AOAM532t34BRK0XIQTq7Zntt8kszYzfo8oDSGI/CM0QFct9mTKPL3msY
+ uW2Lcz1QyPUZcLb66nk7BCVkCQ==
+X-Google-Smtp-Source: ABdhPJxkm4c+Qpz6GixVuuarSttRhNsijoHcMiZh4feJZ9EOlxRqw/ibGW0o+RPL+7nuu1TOv7Nahg==
+X-Received: by 2002:a5d:65c4:: with SMTP id e4mr14898372wrw.287.1618844097021; 
+ Mon, 19 Apr 2021 07:54:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 66sm23752239wmb.36.2021.04.19.07.54.41
+ by smtp.gmail.com with ESMTPSA id o62sm2669742wme.5.2021.04.19.07.54.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Apr 2021 07:54:42 -0700 (PDT)
+ Mon, 19 Apr 2021 07:54:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BAECA1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id D73191FF9C;
  Mon, 19 Apr 2021 15:54:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 12/25] tests/tcg: Run timeout cmds using --foreground
-Date: Mon, 19 Apr 2021 15:54:22 +0100
-Message-Id: <20210419145435.14083-13-alex.bennee@linaro.org>
+Subject: [PATCH  v1 13/25] hw/tricore: Add testdevice for tests in tests/tcg/
+Date: Mon, 19 Apr 2021 15:54:23 +0100
+Message-Id: <20210419145435.14083-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210419145435.14083-1-alex.bennee@linaro.org>
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,39 +95,199 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-when trying to run successful short tests from the Makefile timeout would not
-terminate. Rather it would wait until the time runs out. Excerpt from the
-manpage:
+this device is used to verify the correctness of regression tests by
+allowing guests to write their exit status to this device. This is then
+used by qemu to exit using the written status.
 
---foreground
-    when not running timeout directly from a shell prompt,
-    allow COMMAND to read from the TTY and get TTY signals; in this mode, chil‐
-    dren of COMMAND will not be timed out
-
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-3-kbastian@mail.uni-paderborn.de>
+Message-Id: <20210305170045.869437-4-kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/Makefile.target | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/hw/tricore/tricore_testdevice.h | 38 ++++++++++++
+ hw/tricore/tricore_testboard.c          |  8 +++
+ hw/tricore/tricore_testdevice.c         | 82 +++++++++++++++++++++++++
+ hw/tricore/meson.build                  |  1 +
+ 4 files changed, 129 insertions(+)
+ create mode 100644 include/hw/tricore/tricore_testdevice.h
+ create mode 100644 hw/tricore/tricore_testdevice.c
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index cab8c6b3a2..b29fae4630 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -43,9 +43,10 @@ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+diff --git a/include/hw/tricore/tricore_testdevice.h b/include/hw/tricore/tricore_testdevice.h
+new file mode 100644
+index 0000000000..2c56c51bcb
+--- /dev/null
++++ b/include/hw/tricore/tricore_testdevice.h
+@@ -0,0 +1,38 @@
++/*
++ *  Copyright (c) 2018-2021  Bastian Koppelmann Paderborn University
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++
++#ifndef HW_TRICORE_TESTDEV_H
++#define HW_TRICORE_TESTDEV_H
++
++#include "hw/sysbus.h"
++#include "hw/hw.h"
++
++#define TYPE_TRICORE_TESTDEVICE "tricore_testdevice"
++#define TRICORE_TESTDEVICE(obj) \
++    OBJECT_CHECK(TriCoreTestDeviceState, (obj), TYPE_TRICORE_TESTDEVICE)
++
++typedef struct {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion iomem;
++
++} TriCoreTestDeviceState;
++
++#endif
+diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
+index 12ea1490fd..9791986a3e 100644
+--- a/hw/tricore/tricore_testboard.c
++++ b/hw/tricore/tricore_testboard.c
+@@ -28,6 +28,7 @@
+ #include "exec/address-spaces.h"
+ #include "elf.h"
+ #include "hw/tricore/tricore.h"
++#include "hw/tricore/tricore_testdevice.h"
+ #include "qemu/error-report.h"
  
- # $1 = test name, $2 = cmd, $3 = desc
- ifdef CONFIG_USER_ONLY
--run-test = $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST",$3)
-+run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
-+	"TEST",$3)
- else
--run-test = $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
-+run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"TEST",$3)
- endif
  
- # $1 = test name, $2 = reference
+@@ -57,6 +58,7 @@ static void tricore_testboard_init(MachineState *machine, int board_id)
+ {
+     TriCoreCPU *cpu;
+     CPUTriCoreState *env;
++    TriCoreTestDeviceState *test_dev;
+ 
+     MemoryRegion *sysmem = get_system_memory();
+     MemoryRegion *ext_cram = g_new(MemoryRegion, 1);
+@@ -88,6 +90,12 @@ static void tricore_testboard_init(MachineState *machine, int board_id)
+     memory_region_add_subregion(sysmem, 0xf0050000, pcp_data);
+     memory_region_add_subregion(sysmem, 0xf0060000, pcp_text);
+ 
++    test_dev = g_new(TriCoreTestDeviceState, 1);
++    object_initialize(test_dev, sizeof(TriCoreTestDeviceState),
++                      TYPE_TRICORE_TESTDEVICE);
++    memory_region_add_subregion(sysmem, 0xf0000000, &test_dev->iomem);
++
++
+     tricoretb_binfo.ram_size = machine->ram_size;
+     tricoretb_binfo.kernel_filename = machine->kernel_filename;
+ 
+diff --git a/hw/tricore/tricore_testdevice.c b/hw/tricore/tricore_testdevice.c
+new file mode 100644
+index 0000000000..a1563aa568
+--- /dev/null
++++ b/hw/tricore/tricore_testdevice.c
+@@ -0,0 +1,82 @@
++/*
++ *  Copyright (c) 2018-2021 Bastian Koppelmann Paderborn University
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "hw/qdev-properties.h"
++#include "hw/tricore/tricore_testdevice.h"
++
++static void tricore_testdevice_write(void *opaque, hwaddr offset,
++                                      uint64_t value, unsigned size)
++{
++    exit(value);
++}
++
++static uint64_t tricore_testdevice_read(void *opaque, hwaddr offset,
++                                         unsigned size)
++{
++    return 0xdeadbeef;
++}
++
++static void tricore_testdevice_reset(DeviceState *dev)
++{
++}
++
++static const MemoryRegionOps tricore_testdevice_ops = {
++    .read = tricore_testdevice_read,
++    .write = tricore_testdevice_write,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void tricore_testdevice_init(Object *obj)
++{
++    TriCoreTestDeviceState *s = TRICORE_TESTDEVICE(obj);
++   /* map memory */
++    memory_region_init_io(&s->iomem, OBJECT(s), &tricore_testdevice_ops, s,
++                          "tricore_testdevice", 0x4);
++}
++
++static Property tricore_testdevice_properties[] = {
++    DEFINE_PROP_END_OF_LIST()
++};
++
++static void tricore_testdevice_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, tricore_testdevice_properties);
++    dc->reset = tricore_testdevice_reset;
++}
++
++static const TypeInfo tricore_testdevice_info = {
++    .name          = TYPE_TRICORE_TESTDEVICE,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(TriCoreTestDeviceState),
++    .instance_init = tricore_testdevice_init,
++    .class_init    = tricore_testdevice_class_init,
++};
++
++static void tricore_testdevice_register_types(void)
++{
++    type_register_static(&tricore_testdevice_info);
++}
++
++type_init(tricore_testdevice_register_types)
+diff --git a/hw/tricore/meson.build b/hw/tricore/meson.build
+index 77ff6fd137..47e36bb077 100644
+--- a/hw/tricore/meson.build
++++ b/hw/tricore/meson.build
+@@ -1,5 +1,6 @@
+ tricore_ss = ss.source_set()
+ tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testboard.c'))
++tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testdevice.c'))
+ tricore_ss.add(when: 'CONFIG_TRIBOARD', if_true: files('triboard.c'))
+ tricore_ss.add(when: 'CONFIG_TC27X_SOC', if_true: files('tc27x_soc.c'))
+ 
 -- 
 2.20.1
 
