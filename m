@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EB6363FA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:31:49 +0200 (CEST)
-Received: from localhost ([::1]:39742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCED0363FB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 12:41:26 +0200 (CEST)
+Received: from localhost ([::1]:39044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYRC0-0004oh-4O
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33034)
+	id 1lYRLJ-0007tE-Tc
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 06:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR3l-0004X7-5U
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:17 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24096)
+ id 1lYR3o-0004f3-RL
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:20 -0400
+Received: from mga17.intel.com ([192.55.52.151]:24095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYR3j-000256-EV
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:16 -0400
-IronPort-SDR: NwOPEG12Yc7uM8q+u7uf5d7fMxcArzlbeSMRmS0xIXkbLFOrGxoVowxU3KStqzB125ELnotuHL
- sjE1mdqPe7kg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409296"
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409296"
+ id 1lYR3n-00023F-5Z
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 06:23:20 -0400
+IronPort-SDR: 2nk6BSMH2J17IiWFltnlfRK32KsYXfE57Oi1m0EgJfWWFzBNcsNq7Vt61rkwazXymTrVa+1B4P
+ ZplTtID676+w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175409301"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="175409301"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 03:22:54 -0700
-IronPort-SDR: yDT/zROi3UOJX7KPVtGvC8H0cjAzrzXvAaY5EueuFid9Pm/y8qFFJuQgYUWcdKCthTsXEzMhjB
- 0Athe4xrzm3Q==
+ 19 Apr 2021 03:22:57 -0700
+IronPort-SDR: oK02lIhE0kp3n3zu68r5FCb7ihBbxDc9JKR7MiejqBapD3UgIqsdn2RXLC5CD/Gw06WkAOsBln
+ 79mhVhxcRTnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947407"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; d="scan'208";a="419947414"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:53 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2021 03:22:54 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/32] i386: Propagate SGX CPUID sub-leafs to KVM
-Date: Mon, 19 Apr 2021 18:01:39 +0800
-Message-Id: <20210419100156.53504-16-yang.zhong@intel.com>
+Subject: [PATCH 16/32] Adjust min CPUID level to 0x12 when SGX is enabled
+Date: Mon, 19 Apr 2021 18:01:40 +0800
+Message-Id: <20210419100156.53504-17-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210419100156.53504-1-yang.zhong@intel.com>
 References: <20210419100156.53504-1-yang.zhong@intel.com>
@@ -68,48 +68,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-The SGX sub-leafs are enumerated at CPUID 0x12.  Indices 0 and 1 are
-always present when SGX is supported, and enumerate SGX features and
-capabilities.  Indices >=2 are directly correlated with the platform's
-EPC sections.  Because the number of EPC sections is dynamic and user
-defined, the number of SGX sub-leafs is "NULL" terminated.
+SGX capabilities are enumerated through CPUID_0x12.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/kvm/kvm.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ target/i386/cpu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 648cccd7c2..67770b01cb 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1615,6 +1615,25 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             }
-             break;
-         case 0x7:
-+        case 0x12:
-+            for (j = 0; ; j++) {
-+                c->function = i;
-+                c->flags = KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
-+                c->index = j;
-+                cpu_x86_cpuid(env, i, j, &c->eax, &c->ebx, &c->ecx, &c->edx);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 63253bf606..41050960c5 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6741,6 +6741,11 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+         if (sev_enabled()) {
+             x86_cpu_adjust_level(cpu, &env->cpuid_min_xlevel, 0x8000001F);
+         }
 +
-+                if (j > 1 && (c->eax & 0xf) != 1) {
-+                    break;
-+                }
-+
-+                if (cpuid_i == KVM_MAX_CPUID_ENTRIES) {
-+                    fprintf(stderr, "cpuid_data is full, no space for "
-+                                "cpuid(eax:0x12,ecx:0x%x)\n", j);
-+                    abort();
-+                }
-+                c = &cpuid_data.entries[cpuid_i++];
-+            }
-+            break;
-         case 0x14: {
-             uint32_t times;
++        /* SGX requires CPUID[0x12] for EPC enumeration */
++        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_SGX) {
++            x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x12);
++        }
+     }
  
+     /* Set cpuid_*level* based on cpuid_min_*level, if not explicitly set */
 -- 
 2.29.2.334.gfaefdd61ec
 
