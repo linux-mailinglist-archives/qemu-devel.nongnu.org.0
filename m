@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573FD3646A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:03:21 +0200 (CEST)
-Received: from localhost ([::1]:41970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E90853646A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Apr 2021 17:03:24 +0200 (CEST)
+Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYVQm-0003RS-8S
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
+	id 1lYVQp-0003ag-RY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 11:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVId-0003Ur-5V
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:55 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42593)
+ id 1lYVIY-0003Ih-FD
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:50 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYVIa-00070B-Nb
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:54 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- y5-20020a05600c3645b0290132b13aaa3bso6496189wmq.1
- for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:52 -0700 (PDT)
+ id 1lYVIW-0006xZ-MD
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 10:54:50 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id m9so21618228wrx.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 07:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iizzfPGhkn8lyZo+/wpl/UTbuqCuTImLvD1b5kAGalE=;
- b=YUZww2364DApKUBOOFecZAlH3Cjw0njXUMJB/SSvPzE+crGVZ1JzpBkcv0NC9H/5Jj
- u+b+9tw4yH7BDB1cSFhbLwfYY30aAMduALfJdpcfPZr8m6UQdoUf0urf2vO8yuU+IokW
- tooPV0yY3XHdTgywrbl/D6gZg6rhUZsGzANMeOD+k9iEwyxcK50RGkmddNk1HzO6wShs
- Jrpsp1yp7mVU4bO6ohT/RKuJGsWfSiu2lPBHql95w8wIxjej4SgGy2ttShLw+jUDGmww
- n+bvOhCi4jdvvpmbEErIfxvc4E9CUHBftx9+icXhlwtIA9JNaatELaWzTIMzrq3DAUyo
- vnVA==
+ bh=VsOEBZtB0HF2JImaMnITvaw+tRLQeXiNM3E9i7SwoP8=;
+ b=GFN1+Rn29/ViShAWf0FgNR5ErIat2oYslMJfj8B6eKs5YtjBg1izAALZNgsZr+1T8l
+ IL6x85VQyVaKjWnyBfIC+yjSDaHlxlKmCTA/s+SS/+PsHHjMM36iDdVNxa2LcQJjK2bk
+ dj2jeJRBtElWcewQIp6qh5MoUef9IG+7kfOxkqVoQscopsGCpBcI/Uzren2zAn9GmGlm
+ zIphi4mPF0CN5fBz5IOdoJHO7nT1/A1lfzW3yrNCg7TqEdBb50sTv27VNSGyvslP9FZ1
+ yMbp616g+CEauDWhEkBuXfFalZMW/Rt6YC8l+k8JsIYWupNzGoR2rH7hyH0z97wRZz4B
+ 6QiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iizzfPGhkn8lyZo+/wpl/UTbuqCuTImLvD1b5kAGalE=;
- b=YQ59wmSwAjKuukjxnx7HaGcspgZI1EhfQlxueWPKbedjP/sQpxAiF4QFmKWJK8+ft+
- yCmIcg9CjngEShfwjA5xeYeCUOBAPLlacMfctln5BHyaUYtoQACaTRgN8Uw2kCghXTtQ
- yx4CKwBIMX3cKzFdyvvGrbj9OqbBjKilKsBwxOSglpdZufJfg3dcVCKEvdQi2n65BLCf
- pxy0Ytr6RPCBjHcgYWfNUt3ym5oWAO+6t3jW3v1/pDmi5pb7ryiwQ7qnlo/nOBgO01PK
- IC929rK2fyZTB7kJqoQDI1LTXnYzZh290M9QepEwSKtFiysOfqQq80CYQXYUxwBOh9iw
- Itbg==
-X-Gm-Message-State: AOAM530ICS0UylD61Mr7rtEkbLe7qKidKDuYxrGZZwyRFknO8d7HpB+X
- lxoHW5uuNMAlcDnWyr0fJRVPSQ==
-X-Google-Smtp-Source: ABdhPJzoiOR6QO8/4AOlZEzxr+Of8Vu2QRstzFsPouBgF6H92bO54nV7ybusSriJEY9fjP2ysChCxw==
-X-Received: by 2002:a1c:1dd0:: with SMTP id d199mr21577263wmd.54.1618844091428; 
- Mon, 19 Apr 2021 07:54:51 -0700 (PDT)
+ bh=VsOEBZtB0HF2JImaMnITvaw+tRLQeXiNM3E9i7SwoP8=;
+ b=E9KRkin/U02Ezk2OvBCm5ajmfcFQeKNEeeeURMIqCXqFyKSLLElXqvCvSY1S0De1YV
+ ++wBRaMJ8TERYOh3KIMR9uBXouyRAO6Ec5pR1Z4mZaHiBL8DgWFTWleUhAkiFnThcdMZ
+ +NMIi0sVHIZdHzkU+Eam5Jx8sN9yTHA1DseXzlwkXwKPE/oPIoIDJMVM296D05GJVJdd
+ S5OwpyGmhzktgOiS59oYucYKkEG6+NlXAqxOX2MD3lB05vgBn7uKx50HA1dUNOwOR5B5
+ FoAjkidfVy50qQQgBii7xSq+g3RbKw8+Hp8jM0WrlvLq23p57casJVBqX/92Za8JlwHk
+ iSMQ==
+X-Gm-Message-State: AOAM530PVqGJKuEsswH/3AHYGwzlSXttt4q/FdK+KMaF6UMaVDpByHdM
+ lnhUANoOzKgMTT1oKwRtVN9eHw==
+X-Google-Smtp-Source: ABdhPJxu5ieH9wMljB0q4uOzAxCzIxMVCmsBi3qcZLZgN++XgkzcBXyNLESWP2nQUe43AXo+6HzXdg==
+X-Received: by 2002:adf:e650:: with SMTP id b16mr14764273wrn.273.1618844087330; 
+ Mon, 19 Apr 2021 07:54:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 186sm20132107wme.10.2021.04.19.07.54.41
+ by smtp.gmail.com with ESMTPSA id 66sm23752239wmb.36.2021.04.19.07.54.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Apr 2021 07:54:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A41E21FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id BAECA1FF9B;
  Mon, 19 Apr 2021 15:54:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 11/25] tests/tcg: Add docker_as and docker_ld cmds
-Date: Mon, 19 Apr 2021 15:54:21 +0100
-Message-Id: <20210419145435.14083-12-alex.bennee@linaro.org>
+Subject: [PATCH  v1 12/25] tests/tcg: Run timeout cmds using --foreground
+Date: Mon, 19 Apr 2021 15:54:22 +0100
+Message-Id: <20210419145435.14083-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210419145435.14083-1-alex.bennee@linaro.org>
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,100 +95,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-At least for the TriCore target no easily available c compiler exists.
-Thus we need to rely on "as" and "ld". This allows us to run them
-through the docker image. We don't test the generation capabilities of
-docker images as they are assumed to work.
+when trying to run successful short tests from the Makefile timeout would not
+terminate. Rather it would wait until the time runs out. Excerpt from the
+manpage:
+
+--foreground
+    when not running timeout directly from a shell prompt,
+    allow COMMAND to read from the TTY and get TTY signals; in this mode, chil‐
+    dren of COMMAND will not be timed out
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-[AJB: fix quoting, only handle docker & clear, test -n, tweak commit msg]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210305170045.869437-3-kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/Makefile.qemu | 15 +++++++++++++++
- tests/tcg/configure.sh  | 17 ++++++++++++++++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ tests/tcg/Makefile.target | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-index a56564660c..2c4617516b 100644
---- a/tests/tcg/Makefile.qemu
-+++ b/tests/tcg/Makefile.qemu
-@@ -22,6 +22,8 @@ quiet-@ = $(if $(V),,@)
- quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index cab8c6b3a2..b29fae4630 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -43,9 +43,10 @@ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
  
- CROSS_CC_GUEST:=
-+CROSS_AS_GUEST:=
-+CROSS_LD_GUEST:=
- DOCKER_IMAGE:=
+ # $1 = test name, $2 = cmd, $3 = desc
+ ifdef CONFIG_USER_ONLY
+-run-test = $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST",$3)
++run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
++	"TEST",$3)
+ else
+-run-test = $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
++run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"TEST",$3)
+ endif
  
- -include tests/tcg/config-$(TARGET).mak
-@@ -42,6 +44,7 @@ cross-build-guest-tests:
- 	$(call quiet-command, \
- 	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
- 	    $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC="$(CROSS_CC_GUEST)" \
-+			AS="$(CROSS_AS_GUEST)" LD="$(CROSS_LD_GUEST)" \
- 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
- 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
- 	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
-@@ -59,11 +62,23 @@ DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
- 		-i qemu/$(DOCKER_IMAGE) \
- 		-s $(SRC_PATH) -- "
- 
-+DOCKER_AS_CMD="$(DOCKER_SCRIPT) cc \
-+		--cc $(DOCKER_CROSS_AS_GUEST) \
-+		-i qemu/$(DOCKER_IMAGE) \
-+		-s $(SRC_PATH) -- "
-+
-+DOCKER_LD_CMD="$(DOCKER_SCRIPT) cc \
-+		--cc $(DOCKER_CROSS_LD_GUEST) \
-+		-i qemu/$(DOCKER_IMAGE) \
-+		-s $(SRC_PATH) -- "
-+
-+
- .PHONY: docker-build-guest-tests
- docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
- 	$(call quiet-command, \
- 	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
- 	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
-+			AS=$(DOCKER_AS_CMD) LD=$(DOCKER_LD_CMD) \
- 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
- 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
- 	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index bfe9619217..9f304b6c5a 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -75,7 +75,13 @@ fi
- for target in $target_list; do
-   arch=${target%%-*}
- 
-+  # reset all container fields
-   container_image=
-+  container_hosts=
-+  container_cross_cc=
-+  container_cross_as=
-+  container_cross_ld=
-+
-   case $target in
-     aarch64-*)
-       # We don't have any bigendian build tools so we only use this for AArch64
-@@ -272,7 +278,16 @@ for target in $target_list; do
-       for host in $container_hosts; do
-           if test "$host" = "$ARCH"; then
-               echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
--              echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
-+              echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> \
-+                   $config_target_mak
-+              if test -n "$container_cross_as"; then
-+                  echo "DOCKER_CROSS_AS_GUEST=$container_cross_as" >> \
-+                      $config_target_mak
-+              fi
-+              if test -n "$container_cross_ld"; then
-+                  echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> \
-+                      $config_target_mak
-+              fi
-           fi
-       done
-   fi
+ # $1 = test name, $2 = reference
 -- 
 2.20.1
 
