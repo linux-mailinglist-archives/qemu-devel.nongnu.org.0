@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51833651C7
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F783651C8
 	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 07:20:32 +0200 (CEST)
-Received: from localhost ([::1]:35196 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYioJ-0000eh-Ab
+	id 1lYioJ-0000dc-Eu
 	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 01:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYinC-0008Fr-7I
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYinC-0008Fq-7t
  for qemu-devel@nongnu.org; Tue, 20 Apr 2021 01:19:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23083)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYin7-0008S3-Gy
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYin7-0008Rl-IA
  for qemu-devel@nongnu.org; Tue, 20 Apr 2021 01:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618895956;
+ s=mimecast20190719; t=1618895955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=ZhCa7l2wiQmUTGU224g+Kh7PEm05KfAd05S38f/j5q8=;
- b=fk4mokWgBOU2Vo9kbUlnMdjXAZrppvMCxI2xFUwWBENVPOIYgX4rNeRzstbk5lAkw5PlAU
- jOoTu5lgWiuAI/FA7kjzP8h584xWFok3uX2OgBFWuRZvRM0JzirPXGDuxgOhpau+YEkg/d
- Po+pBdgQSYQUJqbNjvrLjXbm3nge/u0=
+ bh=JmbkSfsf932U5SG2R7undRiy1Jhh9f34M98lYf8xeUQ=;
+ b=WenN9pGo1EmoVXhZW8nMhALDr6k0tE/JDfuT402celhnCuWlcNabHS5alE4C/XY+gHSqXf
+ JYUiCBAXLnCExYsfeG/FQjGJCJcetnyLGhEkGYopwX4U6O+YX9muwG21keVpxXEAwkFYSM
+ eTWeml/DyUa4afaHhhshKqnKCCp1xXs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-mRH4ujwgN_Gi0lZyKYCjQw-1; Tue, 20 Apr 2021 01:19:12 -0400
-X-MC-Unique: mRH4ujwgN_Gi0lZyKYCjQw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-369-67_2W81xOEO3OY6tyJbeEA-1; Tue, 20 Apr 2021 01:19:13 -0400
+X-MC-Unique: 67_2W81xOEO3OY6tyJbeEA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D65A501EC;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 195E38030D0;
  Tue, 20 Apr 2021 05:19:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C91C8614F5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C916E2B1A2;
  Tue, 20 Apr 2021 05:19:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 59350113525D; Tue, 20 Apr 2021 07:19:07 +0200 (CEST)
+ id 5D9DD113525E; Tue, 20 Apr 2021 07:19:07 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] migration: Deprecate redundant query-migrate result @blocked
-Date: Tue, 20 Apr 2021 07:19:06 +0200
-Message-Id: <20210420051907.891470-1-armbru@redhat.com>
+Subject: [PATCH v2] migration: Drop redundant query-migrate result @blocked
+Date: Tue, 20 Apr 2021 07:19:07 +0200
+Message-Id: <20210420051907.891470-2-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,48 +84,101 @@ Result @blocked is true when and only when result @blocked-reasons is
 present.  It's always non-empty when present.  @blocked is redundant.
 It was introduced in commit 3af8554bd0 "migration: Add blocker
 information", and has not been released.  This gives us a chance to
-fix the interface with minimal fuss.
-
-Unfortunately, we're already too close to the release to risk dropping
-it.  Deprecate it instead.
+fix the interface with minimal fuss: drop @blocked.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
-This is alternative to "[PATCH v2] migration: Drop redundant
+This is alternative to "[PATCH] migration: Deprecate redundant
 query-migrate result @blocked".
 
- qapi/migration.json | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ qapi/migration.json   |  7 +++----
+ migration/migration.c | 29 +++++++++++++----------------
+ monitor/hmp-cmds.c    |  2 +-
+ 3 files changed, 17 insertions(+), 21 deletions(-)
 
 diff --git a/qapi/migration.json b/qapi/migration.json
-index 9bf0bc4d25..0b17cce46b 100644
+index 9bf0bc4d25..7a5bdf9a0d 100644
 --- a/qapi/migration.json
 +++ b/qapi/migration.json
-@@ -224,9 +224,14 @@
+@@ -224,9 +224,9 @@
  #        only returned if VFIO device is present, migration is supported by all
  #        VFIO devices and status is 'active' or 'completed' (since 5.2)
  #
+-# @blocked: True if outgoing migration is blocked (since 6.0)
+-#
+-# @blocked-reasons: A list of reasons an outgoing migration is blocked (since 6.0)
 +# @blocked-reasons: A list of reasons an outgoing migration is blocked.
 +#                   Present and non-empty when migration is blocked.
 +#                   (since 6.0)
-+#
- # @blocked: True if outgoing migration is blocked (since 6.0)
- #
--# @blocked-reasons: A list of reasons an outgoing migration is blocked (since 6.0)
-+# Features:
-+# @deprecated: Member @blocked is deprecated.  Use @blocked-reasons instead.
  #
  # Since: 0.14
  ##
-@@ -241,7 +246,7 @@
+@@ -241,7 +241,6 @@
             '*setup-time': 'int',
             '*cpu-throttle-percentage': 'int',
             '*error-desc': 'str',
 -           'blocked': 'bool',
-+           'blocked': { 'type': 'bool', 'features': [ 'deprecated' ] },
             '*blocked-reasons': ['str'],
             '*postcopy-blocktime' : 'uint32',
             '*postcopy-vcpu-blocktime': ['uint32'],
+diff --git a/migration/migration.c b/migration/migration.c
+index 8ca034136b..fdadee290e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1073,27 +1073,24 @@ static void populate_vfio_info(MigrationInfo *info)
+ static void fill_source_migration_info(MigrationInfo *info)
+ {
+     MigrationState *s = migrate_get_current();
++    GSList *cur_blocker = migration_blockers;
+ 
+-    info->blocked = migration_is_blocked(NULL);
+-    info->has_blocked_reasons = info->blocked;
+     info->blocked_reasons = NULL;
+-    if (info->blocked) {
+-        GSList *cur_blocker = migration_blockers;
+ 
+-        /*
+-         * There are two types of reasons a migration might be blocked;
+-         * a) devices marked in VMState as non-migratable, and
+-         * b) Explicit migration blockers
+-         * We need to add both of them here.
+-         */
+-        qemu_savevm_non_migratable_list(&info->blocked_reasons);
++    /*
++     * There are two types of reasons a migration might be blocked;
++     * a) devices marked in VMState as non-migratable, and
++     * b) Explicit migration blockers
++     * We need to add both of them here.
++     */
++    qemu_savevm_non_migratable_list(&info->blocked_reasons);
+ 
+-        while (cur_blocker) {
+-            QAPI_LIST_PREPEND(info->blocked_reasons,
+-                              g_strdup(error_get_pretty(cur_blocker->data)));
+-            cur_blocker = g_slist_next(cur_blocker);
+-        }
++    while (cur_blocker) {
++        QAPI_LIST_PREPEND(info->blocked_reasons,
++                          g_strdup(error_get_pretty(cur_blocker->data)));
++        cur_blocker = g_slist_next(cur_blocker);
+     }
++    info->has_blocked_reasons = info->blocked_reasons != NULL;
+ 
+     switch (s->state) {
+     case MIGRATION_STATUS_NONE:
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 0ad5b77477..d9bef63373 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -224,7 +224,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+ 
+     migration_global_dump(mon);
+ 
+-    if (info->blocked) {
++    if (info->blocked_reasons) {
+         strList *reasons = info->blocked_reasons;
+         monitor_printf(mon, "Outgoing migration blocked:\n");
+         while (reasons) {
 -- 
 2.26.3
 
