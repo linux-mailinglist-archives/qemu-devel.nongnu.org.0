@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B09365913
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:40:09 +0200 (CEST)
-Received: from localhost ([::1]:54494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1014C365935
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:48:07 +0200 (CEST)
+Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYpfk-0007bz-8C
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36470)
+	id 1lYpnS-0003WO-3I
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYpeQ-0006KD-BQ; Tue, 20 Apr 2021 08:38:46 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46995)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYpfj-0008HO-DM
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:40:07 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:41841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYpeO-0007bx-1D; Tue, 20 Apr 2021 08:38:46 -0400
-Received: by mail-wr1-x432.google.com with SMTP id c15so28506371wro.13;
- Tue, 20 Apr 2021 05:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QDfUWm6ArMkkLd9FeexkNhzK7FO1CREc449yv08LUmE=;
- b=Vg/qkQ8SfdaPbyRTl43RKYhsjRFSIsyuK+AcEg11UputRHCAJqfV3CX6kDRh0MFmqQ
- LtTtKyUYWm8bimnF15BwX2KJkZRxpUe+olQou6I7fYy1vvyInhOVafpcQ72tPXPedCtq
- +jTqO+EguotZSnALku0bzVXlqYoQroSKyaXGrEOrCF27sY6g+wUE6RJar+bsut4Lp1d8
- fNTiewgCLSjtH8luggOgzHqIGTOxh/hjFtQOX1aQww7286Z4DjirWE9Yo0VuPdR+QIjX
- murMFPCUoUlnchoRfndH7uVufNhUuDKLdBiVRzwSqt2FPBWgPOzPOmp0NZDWtx1uaxRM
- eP6A==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYpfh-0008OU-PD
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:40:07 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id j7so7966526eds.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 05:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a2XHWKLD5lxI17OV8Z1HMszFDbeXH9zC+F+5aHYxxkQ=;
+ b=l2XA9RYv2G02YbXrJqDm9D2SCgYZail6i4sIayFdac10+RNHVxgTGMI35tMKhE8pgx
+ jioiWJk1v42PoZNockDV88o8plnN890BQrCA4iFkLEoZj+PGijuMTxi5mN5amR5fwlAL
+ d9Lv16ZYJtKCdY7FXtghuDjAWvTZVbmKKxmEyahJmvy5L8afxS6k6tX5WvyGYklONgvY
+ JoGJQRYk7cL+2qhysrlwMG/GZpD7QBTHitfdNVg0oGY4RAK8qjnjyZUZeE14+6pEe4XY
+ OtRSOTiBC8UG1pvJTKjaQepymjbYmOpKG0vn0/c68+LWL1M9q8+ToPfwC6S4WPdVARU0
+ afSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QDfUWm6ArMkkLd9FeexkNhzK7FO1CREc449yv08LUmE=;
- b=KZSThd/UZ5ji7G1yZ6MVRtWGIY0m1b7FRXhneaGhU/I89jMWJwWjwiShgWMvkYJTEI
- 0Wab++yzTxXTqBUj+ZNwpPnlRo5vW3ydIANOuvbTMRaRls27qEjfwKZGVFf66kHe3NER
- /YrnoviHM3HMB5JZMdiwHwXO/fbXK0tbQ8kz57lfABV06gKNINY0mQa8TWq9ZeGe004P
- E9A9gOinQAVcBo1cbAUymqU2ebqOx0QHepLRs/fn4Gp8YTgT4cm5IwYHdzNZHyuS8I7W
- QoicGCrK3lJzYclklxfzp0vr226oAPZ2LC02Eroy3eiri42o/gMtGhtYr4K6CxfRjrXA
- 7TNg==
-X-Gm-Message-State: AOAM533SrAfxpTn8dcxuReJw75pnR4Dc2FNdoSf3bcOh9QLckLOo25n7
- 4+37T+segIPOpp86W0UMqSPf6xOweRxLEA==
-X-Google-Smtp-Source: ABdhPJy893wqEa3RxUUffEzuRBioosci3Tk1vo2QGINb8XQFmsUG+BfgLdtBRHN9O7rsxJ1xZEzdLA==
-X-Received: by 2002:a5d:4443:: with SMTP id x3mr19744938wrr.319.1618922321925; 
- Tue, 20 Apr 2021 05:38:41 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b15sm16847104wrt.57.2021.04.20.05.38.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 05:38:41 -0700 (PDT)
-Subject: Re: [PATCH] target/arm: Flush correct TLBs in tlbi_aa64_vae2is_write()
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?R=c3=a9mi_Denis-Courmont?= <remi.denis.courmont@huawei.com>
-References: <20210420123106.10861-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <04691b00-6d28-d9f6-e98b-b8ca3f963030@amsat.org>
-Date: Tue, 20 Apr 2021 14:38:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a2XHWKLD5lxI17OV8Z1HMszFDbeXH9zC+F+5aHYxxkQ=;
+ b=L/EKcEebhMq7yr+N08xiUHCfaEwbMI+Ixh3+Iuj0IwHb/Yijv9i7Hx5Xq04cwTPE/h
+ 8a9B9/Hz/l/xmLNIh3JZPJ44ZCcuX1Sk5EVIDQvoz265WoGcAS1pUQlqo6ZYjkUFotm9
+ tKHH8C/yYOxAmOWKC5cq/aSQH2GqZ5t2+E3GVoXFopscxhb9sdfzb86yd1kE4Wkb0R7Z
+ OuQr64oQEk5Tw78plVc8o1bk6NbF71n1+vRpuD/yXxhgSIL6YEG/b6Lo4oQXo8hAhJJ4
+ LlAcPOWdqauYzvF+cnezsxxe6RXgwI8KJL8Aw2nW8wHc5jEW4o+BuYAgTX/U83z4WCzu
+ 1Leg==
+X-Gm-Message-State: AOAM531tXuUYNbzS0vWRWt+7ealAU779UVmTnY4L6mFtVPCSnv5keJ2I
+ O1thBfvlXksvjkA5Ax65ox0nG/3oFhXHgXURTvZyyA==
+X-Google-Smtp-Source: ABdhPJwr4zeKCKwKqFzaoXTkzNyDwXl8FtQFzpBN+kC59ZqAI/bWI4D4L+mwFJqVLRN2PFup5gWTpJtoQ7FogA8Gsrg=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr31792707edv.44.1618922404127; 
+ Tue, 20 Apr 2021 05:40:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210420123106.10861-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20210325163315.27724-1-peter.maydell@linaro.org>
+ <20210420062357-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210420062357-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Apr 2021 13:39:12 +0100
+Message-ID: <CAFEAcA8Cye=jxLX+wKFimov8bo=F_6VF=tFbjskDo3Qe=6O8+Q@mail.gmail.com>
+Subject: Re: [PATCH v2 for-6.0?] hw/pci-host/gpex: Don't fault for unmapped
+ parts of MMIO and PIO windows
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,41 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Cc: Arnd Bergmann <arnd@arndb.de>, qemu-arm <qemu-arm@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Rémi
+On Tue, 20 Apr 2021 at 11:24, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Thu, Mar 25, 2021 at 04:33:15PM +0000, Peter Maydell wrote:
+> > Currently the gpex PCI controller implements no special behaviour for
+> > guest accesses to areas of the PIO and MMIO where it has not mapped
+> > any PCI devices, which means that for Arm you end up with a CPU
+> > exception due to a data abort.
+> >
+> > Most host OSes expect "like an x86 PC" behaviour, where bad accesses
+> > like this return -1 for reads and ignore writes.  In the interests of
+> > not being surprising, make host CPU accesses to these windows behave
+> > as -1/discard where there's no mapped PCI device.
+> >
+> > The old behaviour generally didn't cause any problems, because
+> > almost always the guest OS will map the PCI devices and then only
+> > access where it has mapped them. One corner case where you will see
+> > this kind of access is if Linux attempts to probe legacy ISA
+> > devices via a PIO window access. So far the only case where we've
+> > seen this has been via the syzkaller fuzzer.
+> >
+> > Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> > Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+>
+> Looks ok superficially
+>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> Peter pls merge if appropriate.
 
-On 4/20/21 2:31 PM, Peter Maydell wrote:
-> In tlbi_aa64_vae2is_write() the calculation
->   bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_E2 : ARMMMUIdx_SE2,
->                             pageaddr)
-> 
-> has the two arms of the ?: expression reversed. Fix the bug.
-> 
-> Fixes: b6ad6062f1e5
-> Reported-by: Rebecca Cran <rebecca@nuviainc.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index d9220be7c5a..957f4247010 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -4742,7 +4742,7 @@ static void tlbi_aa64_vae2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
->      uint64_t pageaddr = sextract64(value << 12, 0, 56);
->      bool secure = arm_is_secure_below_el3(env);
->      int mask = secure ? ARMMMUIdxBit_SE2 : ARMMMUIdxBit_E2;
-> -    int bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_E2 : ARMMMUIdx_SE2,
-> +    int bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_SE2 : ARMMMUIdx_E2,
->                                    pageaddr);
->  
->      tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr, mask, bits);
-> 
+Thanks; I'll take it via target-arm.next for 6.1 (it'll need
+a tweak to use hw_compat_6_0 rather than hw_compat_5_2 so it might
+need to wait until the patch adding hw_compat_6_0 hits master.)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-- PMM
 
