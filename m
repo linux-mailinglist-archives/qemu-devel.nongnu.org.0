@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5323655EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:09:48 +0200 (CEST)
-Received: from localhost ([::1]:57964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788893655DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:07:50 +0200 (CEST)
+Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYnKF-00081B-KW
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:09:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46042)
+	id 1lYnIL-0005JY-HX
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lYnFG-0003Kk-DK
+ id 1lYnFG-0003Km-Gj
  for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:04:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43474)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lYnF7-0001mt-Lv
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:04:35 -0400
+ id 1lYnF7-0001nG-Tk
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:04:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1618913069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T/My3AtkkpcT9ANcA2UNoa81j7RQLAySsD3JTR+u7XY=;
- b=A/yq6aqVh4XIb+7tvuVDzZwtp4GKvSy+yET0J6gA+5Y7PcX879g1KZqxNPJXrQp7D95bq3
- 8WCBYexs5ezFq2QUzfen8DMat/mexarCLtByNW718MU3bfKTEx1MuTXlx1MfB3Ap50J+RT
- QS3wpIYnRim2bBZKvqooQU+X4fdhuFk=
+ bh=5u4JVveU4wPN9ljUDLIMTGg2w9O2wvYyLwnAdertfl8=;
+ b=caKfySEVd3MSCSFe2Ude2D+E/q/ZYgMFle50NMmtzUAhXR2SjvL9bhbZckPL4LuWF+k10o
+ bL4pnh1cHcr4+CBCkx35Yvac0rGavStyNpWYN5Ev3A3K3y3KN9IhNABv4vaQaJ6GuQJjcu
+ TTM6JNVEE5V+LCnZrYmd1RZ5BrXEWOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-_EYQY6B9PHSoSKiDocGoGw-1; Tue, 20 Apr 2021 06:04:25 -0400
-X-MC-Unique: _EYQY6B9PHSoSKiDocGoGw-1
+ us-mta-77-GLQgPmX1M56Tzl9WzXXVBA-1; Tue, 20 Apr 2021 06:04:27 -0400
+X-MC-Unique: GLQgPmX1M56Tzl9WzXXVBA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 431431922960;
- Tue, 20 Apr 2021 10:04:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A81C581744F;
+ Tue, 20 Apr 2021 10:04:26 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-20.ams2.redhat.com
  [10.36.114.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 676115C1C4;
- Tue, 20 Apr 2021 10:04:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E7E25C1C4;
+ Tue, 20 Apr 2021 10:04:24 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 1/3] block-copy: improve documentation for BlockCopyTask
- type and functions
-Date: Tue, 20 Apr 2021 12:04:14 +0200
-Message-Id: <20210420100416.30713-2-eesposit@redhat.com>
+Subject: [RFC PATCH 2/3] block-copy: add a CoMutex to the BlockCopyTask list
+Date: Tue, 20 Apr 2021 12:04:15 +0200
+Message-Id: <20210420100416.30713-3-eesposit@redhat.com>
 In-Reply-To: <20210420100416.30713-1-eesposit@redhat.com>
 References: <20210420100416.30713-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -67,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,68 +87,97 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As done in BlockCopyCallState, categorize BlockCopyTask
-in IN, State and OUT fields. This is just to understand
-which field has to be protected with a lock.
-
-Also add coroutine_fn attribute to block_copy_task_create,
-because it is only usedn block_copy_dirty_clusters, a coroutine
-function itself.
+Because the list of tasks is only modified by coroutine
+functions, add a CoMutex in order to protect the list of tasks.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/block-copy.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ block/block-copy.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 39ae481c8b..03df50a354 100644
+index 03df50a354..e785ac57e0 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -48,25 +48,32 @@ typedef struct BlockCopyCallState {
-     QLIST_ENTRY(BlockCopyCallState) list;
- 
-     /* State */
--    int ret;
-     bool finished;
-     QemuCoSleepState *sleep_state;
-     bool cancelled;
- 
-     /* OUT parameters */
-+    int ret;
-     bool error_is_read;
- } BlockCopyCallState;
- 
- typedef struct BlockCopyTask {
-+    /* IN parameters. Initialized in block_copy_task_create()
-+     * and never changed.
-+     */
-     AioTask task;
--
+@@ -65,7 +65,9 @@ typedef struct BlockCopyTask {
      BlockCopyState *s;
      BlockCopyCallState *call_state;
-+
-+    /* State */
+ 
+-    /* State */
++    /* State. These fields are protected by the tasks_lock
++     * in BlockCopyState
++     */
      int64_t offset;
      int64_t bytes;
      bool zeroes;
--    QLIST_ENTRY(BlockCopyTask) list;
-     CoQueue wait_queue; /* coroutines blocked on this task */
+@@ -95,6 +97,8 @@ typedef struct BlockCopyState {
+     bool use_copy_range;
+     int64_t copy_size;
+     uint64_t len;
 +
-+    /* To reference all call states from BlockCopyTask */
-+    QLIST_ENTRY(BlockCopyTask) list;
-+
- } BlockCopyTask;
++    CoMutex tasks_lock;
+     QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
+     QLIST_HEAD(, BlockCopyCallState) calls;
  
- static int64_t task_end(BlockCopyTask *task)
-@@ -153,7 +160,7 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
-  * Search for the first dirty area in offset/bytes range and create task at
-  * the beginning of it.
-  */
--static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
-+static BlockCopyTask *coroutine_fn block_copy_task_create(BlockCopyState *s,
-                                              BlockCopyCallState *call_state,
-                                              int64_t offset, int64_t bytes)
+@@ -124,6 +128,7 @@ typedef struct BlockCopyState {
+     RateLimit rate_limit;
+ } BlockCopyState;
+ 
++/* Called with lock held */
+ static BlockCopyTask *find_conflicting_task(BlockCopyState *s,
+                                             int64_t offset, int64_t bytes)
  {
+@@ -145,13 +150,19 @@ static BlockCopyTask *find_conflicting_task(BlockCopyState *s,
+ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+                                              int64_t bytes)
+ {
+-    BlockCopyTask *task = find_conflicting_task(s, offset, bytes);
++    BlockCopyTask *task;
++
++    qemu_co_mutex_lock(&s->tasks_lock);
++    task = find_conflicting_task(s, offset, bytes);
+ 
+     if (!task) {
++        qemu_co_mutex_unlock(&s->tasks_lock);
+         return false;
+     }
+ 
+-    qemu_co_queue_wait(&task->wait_queue, NULL);
++    qemu_co_queue_wait(&task->wait_queue, &s->tasks_lock);
++
++    qemu_co_mutex_unlock(&s->tasks_lock);
+ 
+     return true;
+ }
+@@ -178,7 +189,9 @@ static BlockCopyTask *coroutine_fn block_copy_task_create(BlockCopyState *s,
+     bytes = QEMU_ALIGN_UP(bytes, s->cluster_size);
+ 
+     /* region is dirty, so no existent tasks possible in it */
++    qemu_co_mutex_lock(&s->tasks_lock);
+     assert(!find_conflicting_task(s, offset, bytes));
++    qemu_co_mutex_unlock(&s->tasks_lock);
+ 
+     bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
+     s->in_flight_bytes += bytes;
+@@ -192,8 +205,9 @@ static BlockCopyTask *coroutine_fn block_copy_task_create(BlockCopyState *s,
+         .bytes = bytes,
+     };
+     qemu_co_queue_init(&task->wait_queue);
++    qemu_co_mutex_lock(&s->tasks_lock);
+     QLIST_INSERT_HEAD(&s->tasks, task, list);
+-
++    qemu_co_mutex_unlock(&s->tasks_lock);
+     return task;
+ }
+ 
+@@ -297,6 +311,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+     }
+ 
+     QLIST_INIT(&s->tasks);
++    qemu_co_mutex_init(&s->tasks_lock);
+     QLIST_INIT(&s->calls);
+ 
+     return s;
 -- 
 2.30.2
 
