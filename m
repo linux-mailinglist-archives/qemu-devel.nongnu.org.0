@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7192364F5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 02:12:58 +0200 (CEST)
-Received: from localhost ([::1]:59802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A298D364FA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 02:51:22 +0200 (CEST)
+Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYe0f-0001no-A3
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 20:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50248)
+	id 1lYebp-0007O1-6M
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 20:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lYdz6-0001FV-T1; Mon, 19 Apr 2021 20:11:21 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55705 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lYeaG-0006oM-Es; Mon, 19 Apr 2021 20:49:44 -0400
+Received: from out28-52.mail.aliyun.com ([115.124.28.52]:40267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lYdz4-0004XD-Bv; Mon, 19 Apr 2021 20:11:20 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FPPH31gNgz9vDc; Tue, 20 Apr 2021 10:11:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1618877471;
- bh=oAA0sgrm7jSx1Cxr/nlWM5dP+TKPCCIi8oIy2rAUf2Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nWwUjvTtJwQpJCKBxARtQRaessfCIkt8GXdjVqVs7CZa0oeo5skCW1AScGM4Rtl7a
- wIdO0EekayjcoFYVcyZM35ib55v4pXAVTjjnyUhfavDcbEa72thd/HsCf8d8DOXAOk
- CvFiDGuJj/+NlzjGjPSNZy2ooPHAITi/rjQJsDQ0=
-Date: Tue, 20 Apr 2021 10:09:18 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Subject: Re: target/ppc: sPAPR invalid function calls when compiling without
- TCG
-Message-ID: <YH4brgX7Qmo0Ak+8@yekko.fritz.box>
-References: <RO1PR80MB5610B3195A7C36B3878E8C68CE499@RO1PR80MB5610.lamprd80.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lYeaD-0004af-Kj; Mon, 19 Apr 2021 20:49:44 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436578|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.544769-0.00030017-0.454931;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047212; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.K0i2-2U_1618879770; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.K0i2-2U_1618879770)
+ by smtp.aliyun-inc.com(10.147.41.231);
+ Tue, 20 Apr 2021 08:49:31 +0800
+Subject: Re: [RFC PATCH 01/11] target/riscv: Add CLIC CSR mintstatus
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
+ <20210409074857.166082-2-zhiwei_liu@c-sky.com>
+ <CAKmqyKMc4TiKgJKM8nUpGR+hWAyUAdjh8bG7chBAdsXq57-V5A@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <20304ba9-6f87-f7b9-a24d-15d4b3d3f75a@c-sky.com>
+Date: Tue, 20 Apr 2021 08:49:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="00llom3lU7/rY16i"
-Content-Disposition: inline
-In-Reply-To: <RO1PR80MB5610B3195A7C36B3878E8C68CE499@RO1PR80MB5610.lamprd80.prod.outlook.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <CAKmqyKMc4TiKgJKM8nUpGR+hWAyUAdjh8bG7chBAdsXq57-V5A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.52; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-52.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,80 +62,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---00llom3lU7/rY16i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2021/4/20 上午7:23, Alistair Francis wrote:
+> On Fri, Apr 9, 2021 at 5:52 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> CSR mintstatus holds the active interrupt level for each supported
+>> privilege mode. sintstatus, and user, uintstatus, provide restricted
+>> views of mintstatus.
+>>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>> ---
+>>   target/riscv/cpu.h      |  2 ++
+>>   target/riscv/cpu_bits.h | 11 +++++++++++
+>>   target/riscv/csr.c      | 26 ++++++++++++++++++++++++++
+>>   3 files changed, 39 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 0a33d387ba..1a44ca62c7 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -159,6 +159,7 @@ struct CPURISCVState {
+>>       target_ulong mip;
+>>
+>>       uint32_t miclaim;
+>> +    uint32_t mintstatus; /* clic-spec */
+>>
+>>       target_ulong mie;
+>>       target_ulong mideleg;
+>> @@ -243,6 +244,7 @@ struct CPURISCVState {
+>>
+>>       /* Fields from here on are preserved across CPU reset. */
+>>       QEMUTimer *timer; /* Internal timer */
+>> +    void *clic;       /* clic interrupt controller */
+> This should be the CLIC type.
 
-On Mon, Apr 19, 2021 at 07:04:34PM +0000, Lucas Mateus Martins Araujo e Cas=
-tro wrote:
->=20
->=20
-> >> spapr_hcall.c:
-> >>     function h_enter call ppc_hash64_hpte_page_shift_noslb, ppc_hash64=
-_map_hptes and ppc_hash64_unmap_hptes
-> >>     function remove_hpte call ppc_hash64_map_hptes, ppc_hash64_unmap_h=
-ptes and ppc_hash64_tlb_flush_hpte
-> >>     function h_protect call ppc_hash64_map_hptes, ppc_hash64_unmap_hpt=
-es and ppc_hash64_tlb_flush_hpte
-> >>     function h_read call ppc_hash64_map_hptes and ppc_hash64_unmap_hpt=
-es
-> >>     function rehash_hpte call ppc_hash64_hpte_page_shift_noslb
-> >>     function rehash_hpt call ppc_hash64_map_hptes and ppc_hash64_unmap=
-_hptes
->=20
-> >h_enter, remove_hpte, h_protect, h_read and rehash_hpte should never
-> >be called for a KVM guest (KVM will intercept the relevant hcalls
-> >before they reach qemu).  I think it would make sense to split of a
-> >TCG only portion of spapr_hcall.c into a new file.  You'll then
-> >probably need !TCG stubs for those hypercalls, which should trip a
-> >fatal error (if KVM hasn't handled the calls, there's nothing we can
-> >do that will salvage the situation).
->=20
-> These functions are static, so I thought about turning them into non-stat=
-ic functions and creating the prototype in
-> internal.h and changing hw/ppc/meson.build to add the correct .c file but=
- hw/ppc/ doesn't have an internal.h
->=20
-> What is the best way to handle this static functions?
+OK.
 
-They're static because their only direct use is passing to
-spapr_register_hypercall() in hypercall_register_types().  You can put
-your own register types function in the new KVM-only file, with those
-calls, so everything will stay static.
+Actually there are many versions of CLIC in my branch as different 
+devices. But it is better to use CLIC type for the upstream version.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+>
+>>   };
+>>
+>>   OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index caf4599207..c4ce6ec3d9 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -165,6 +165,7 @@
+>>   #define CSR_MCAUSE          0x342
+>>   #define CSR_MTVAL           0x343
+>>   #define CSR_MIP             0x344
+>> +#define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
+>>
+>>   /* Legacy Machine Trap Handling (priv v1.9.1) */
+>>   #define CSR_MBADADDR        0x343
+>> @@ -183,6 +184,7 @@
+>>   #define CSR_SCAUSE          0x142
+>>   #define CSR_STVAL           0x143
+>>   #define CSR_SIP             0x144
+>> +#define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
+>>
+>>   /* Legacy Supervisor Trap Handling (priv v1.9.1) */
+>>   #define CSR_SBADADDR        0x143
+>> @@ -585,6 +587,15 @@
+>>   #define SIP_STIP                           MIP_STIP
+>>   #define SIP_SEIP                           MIP_SEIP
+>>
+>> +/* mintstatus */
+>> +#define MINTSTATUS_MIL                     0xff000000 /* mil[7:0] */
+>> +#define MINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
+>> +#define MINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
+>> +
+>> +/* sintstatus */
+>> +#define SINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
+>> +#define SINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
+> The bit fields in the comments are out of date.
 
---00llom3lU7/rY16i
-Content-Type: application/pgp-signature; name="signature.asc"
+I didn't notice it.   Fix it in next version.
 
------BEGIN PGP SIGNATURE-----
+Thanks.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB+G6wACgkQbDjKyiDZ
-s5LbmA//SLYTqFdGvWL+pNrowX+nZQQgOGbR08p+tXQNGaCXaFreUD3ZnvE+8gv+
-F5Vrd2rNV2hgKDah2ng/4v0+1V9kr/cBoV6tzTm9FTuyY8KNXiKQEac6ZtoNs/mA
-9E0y18KGDSp163//od7HIyusB0pq2D2+H0t4DyfRNqgbRpxF8LGLUAiiQJVSA3/m
-davMyEcRsD13PzHw0Vudu9I+C83ytt+5SLdP4gzTDxiGHxXlJj9UpHD4SIr0tTaK
-7w17WlxQQM98kAL+oH7ZB0wYWJ1Q3qZHoeghQ4xI8qDdl8qtmBhoH3qN+J1/91yW
-gL9L2JeRMF4BqLTbriAYYcxqUcbiTSoL4KTE3KJS3pN/usogv8eS4t+C00mnUL7h
-5TUSHVTQy180bpFlHZ6UBH+j+CMUEvEPXvBYE2LaKPyZ7moiG4QGZS5Clb1gwcQp
-FwS1U2DFzudXiGB/+HEC0pYUQQuOc+l1patJWyP23FgQHGj1m+BOoubyx+YFowPL
-5v6/sZzFxAtjCRxrftYbxtXboyFXsBCT90njqjxNX1LV7e76sxXrTWsH9j7uh6Ej
-hAgElmt1IypmsEwl99IdB+DHZpfhEcorJ5S77rpD+d9A9Z3hxri4XlI/E9pVpivj
-QLjnDxWDCgAtemKGENfhJnutKCDrQEQ5owNNGbhk3y5vbp4Knvc=
-=D8sR
------END PGP SIGNATURE-----
+Zhiwei
 
---00llom3lU7/rY16i--
+>
+> Alistair
+>
+>> +
+>>   /* MIE masks */
+>>   #define MIE_SEIE                           (1 << IRQ_S_EXT)
+>>   #define MIE_UEIE                           (1 << IRQ_U_EXT)
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index d2585395bf..320b18ab60 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -188,6 +188,12 @@ static int pmp(CPURISCVState *env, int csrno)
+>>   {
+>>       return -!riscv_feature(env, RISCV_FEATURE_PMP);
+>>   }
+>> +
+>> +static int clic(CPURISCVState *env, int csrno)
+>> +{
+>> +    return !!env->clic;
+>> +}
+>> +
+>>   #endif
+>>
+>>   /* User Floating-Point CSRs */
+>> @@ -734,6 +740,12 @@ static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+>>       return 0;
+>>   }
+>>
+>> +static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong *val)
+>> +{
+>> +    *val = env->mintstatus;
+>> +    return 0;
+>> +}
+>> +
+>>   /* Supervisor Trap Setup */
+>>   static int read_sstatus(CPURISCVState *env, int csrno, target_ulong *val)
+>>   {
+>> @@ -893,6 +905,13 @@ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+>>       return ret;
+>>   }
+>>
+>> +static int read_sintstatus(CPURISCVState *env, int csrno, target_ulong *val)
+>> +{
+>> +    target_ulong mask = SINTSTATUS_SIL | SINTSTATUS_UIL;
+>> +    *val = env->mintstatus & mask;
+>> +    return 0;
+>> +}
+>> +
+>>   /* Supervisor Protection and Translation */
+>>   static int read_satp(CPURISCVState *env, int csrno, target_ulong *val)
+>>   {
+>> @@ -1644,5 +1663,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>>       [CSR_MHPMCOUNTER29H] = { "mhpmcounter29h", any32,  read_zero },
+>>       [CSR_MHPMCOUNTER30H] = { "mhpmcounter30h", any32,  read_zero },
+>>       [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", any32,  read_zero },
+>> +
+>> +    /* Machine Mode Core Level Interrupt Controller */
+>> +    [CSR_MINTSTATUS] = { "mintstatus", clic,  read_mintstatus },
+>> +
+>> +    /* Supervisor Mode Core Level Interrupt Controller */
+>> +    [CSR_SINTSTATUS] = { "sintstatus", clic,  read_sintstatus },
+>> +
+>>   #endif /* !CONFIG_USER_ONLY */
+>>   };
+>> --
+>> 2.25.1
+>>
+>>
 
