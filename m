@@ -2,130 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AD5366173
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 23:17:00 +0200 (CEST)
-Received: from localhost ([::1]:40566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DD7366165
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 23:10:30 +0200 (CEST)
+Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYxjw-0004fJ-2P
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 17:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
+	id 1lYxdd-00038b-7A
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 17:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1lYxin-0004DT-Vk
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 17:15:49 -0400
-Received: from mail-mw2nam12on2060.outbound.protection.outlook.com
- ([40.107.244.60]:10393 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lYxck-0002eQ-5d
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 17:09:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1lYxik-0004DA-Kr
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 17:15:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MGZTfAMgfNhGBnmST44CvAzZDGbi+2WCdQvROoSjmyZYes1BkyoNUvo1cfY4/tnA7RhvQPI7rpyTrc0oj/mEHPPCQ+YSRVdcuyjIBBqBpzpZOtJlV9eFC/xZpbH5rlx1Plg6/44krFxm7rxWYP0JZncjZT92/JFosnEJbU7xYS8jXSzv85Lwa+lfxA+U3wjk32fntfWZ+nyPX0JE9iW/957zrF77y9ITA/mNb9sZ8tgYQrRblsG+ezs3vNoJn4MiVYnUd1eLoP8gE1zYXrCjf1CBhgFNK1v+A6aIitkXwe142qJOj5rjtjLSdPmUVlE0r/cVZ2c6sdEy857wgA/HBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B0MC6ilJHGJ1ahkssx4PhiOFAXixH5lhuYbqZ4fIfpQ=;
- b=bLCeZa7orPGpId9gvAIXxLpdEzTEnPdbjOYjSx5T44XXn45YKqKPjvCIMhslclKmlC4DuJCIK6ejrs4z+6jnhpB6nIP2+XsFbRSbxiaK3CZKtcNWnPdHI/YpZqSdeqOolGThr+49jKk3+g3rTSc96rxGuJg/Q3JQzDrDhzeEKeoKrt1ldViiWyvrt71BUBDuQb70oLFEdVTFylSbH7I44Kx3SexOMcmguIj4oUAKT/PpNHB+3mZMlCIl7vHMndZzviJNDYhGg1l0BOEGv92H20Ko2Cm/KVImRhZls/olZNa0F6HNkLL8dEOgrPJ+0iOFk95OGzkvdGcrGCAaAQIpRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B0MC6ilJHGJ1ahkssx4PhiOFAXixH5lhuYbqZ4fIfpQ=;
- b=EKyp0ufzPckjNXEwQGu5pa83aoI3pGhhJHm480xNWudSvKqdged6bpNpGxcq/ZvEZNJBwIlAEYkld5FEiLsIp5B8Iv+tVoEUKjnK5UneuTeRmmyRR7UHoV/xPB7U+pMM3lZdj/V6lDf82Fd5SpbsIYJ2EwaZMk67Ncqfgi6CVAA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB3845.namprd12.prod.outlook.com (2603:10b6:610:29::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.23; Tue, 20 Apr
- 2021 21:00:36 +0000
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::929:2a80:f737:86fa]) by CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::929:2a80:f737:86fa%6]) with mapi id 15.20.4042.024; Tue, 20 Apr 2021
- 21:00:36 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 6.0.0-rc4 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 20 Apr 2021 16:00:29 -0500
-Message-ID: <161895242935.457779.1922093097237292290@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [76.251.165.188]
-X-ClientProxiedBy: SA9PR13CA0097.namprd13.prod.outlook.com
- (2603:10b6:806:24::12) To CH2PR12MB4133.namprd12.prod.outlook.com
- (2603:10b6:610:7a::13)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lYxcg-0000X3-R6
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 17:09:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618952969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IXhKrvG9jXbBNhoFMu+UP383ahQTk2sF8XCVkNR6kNE=;
+ b=ZYmJvfQt6v9nDbzE6Y2XPxTeQ1PUc0ruq5FcleXZhEgimE0lSBtsVgW1sSFTuRxVajom2u
+ XfTgEMXCHMhO7uzz34NKGyUzgOhSZTytCex/nYy73Um7riLz17HW+0Xn4cBLeEbooEw4SD
+ RLwqrNYvIYJisCdrHaAuIylCreZlZpE=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-gcY34flNM-6S8AdPsgT7ig-1; Tue, 20 Apr 2021 17:08:53 -0400
+X-MC-Unique: gcY34flNM-6S8AdPsgT7ig-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ b8-20020a05622a0208b02901b5b18f4f91so8982892qtx.18
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 14:08:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IXhKrvG9jXbBNhoFMu+UP383ahQTk2sF8XCVkNR6kNE=;
+ b=EP5oUo4j0qTjb+OiUliND9strMkLRX2Scr7B4rbAJNuS5QxUrouD9Ts39LXhpsHbG8
+ mWTGwmzVcLr3xsJVz9UMK9DR+QrzRO9Pn8E0ZLkMRWWnhV45+FQyLF1XD81RoEqHDT1U
+ wxsuqSWg2BGaSrM6u0E7V0RX6ZcaeGG0TJudVEhkb8rRpm1JAv3/avL17EDwRHq4S4E4
+ FNduk+ZeIBXSaQNemUD5K+wHe6ZQpPwBoAZkOVb18l7xLq1fyfptm6l8ijr3yZm5xvf1
+ oIOVQjdFTtb6A3DTjjv/Sg10kev8Erj7qViZDJaT9DUq2LnKPOtfwCWfjmWIxxdVmc1U
+ hbEA==
+X-Gm-Message-State: AOAM532P/DdQq+xArABW6tHAxVec/QTqfDMZdJjEvq7duK0LZJ8S/BmW
+ jCYGXl61totHKEHDnTaBZaCzIAU9xEhsc19d98HlAdcfd+zH/5v394zqT/nhCSpVu7RGWUJHoCR
+ mnI3hyN0XgXq3WUc=
+X-Received: by 2002:a05:620a:b0a:: with SMTP id
+ t10mr18991955qkg.103.1618952932898; 
+ Tue, 20 Apr 2021 14:08:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUGxQ4R27VbBfGrEa8cen/RCCKlmKmI/9CVeYTqx22cuMrv4qyu0yWuadkNnBO4n34EJjsMQ==
+X-Received: by 2002:a05:620a:b0a:: with SMTP id
+ t10mr18991939qkg.103.1618952932696; 
+ Tue, 20 Apr 2021 14:08:52 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-88-174-93-75-154.dsl.bell.ca.
+ [174.93.75.154])
+ by smtp.gmail.com with ESMTPSA id t63sm290549qkh.6.2021.04.20.14.08.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Apr 2021 14:08:52 -0700 (PDT)
+Date: Tue, 20 Apr 2021 17:08:50 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4] memory: Directly dispatch alias accesses on origin
+ memory region
+Message-ID: <20210420210850.GG4440@xz-x1>
+References: <20210418055708.820980-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (76.251.165.188) by
- SA9PR13CA0097.namprd13.prod.outlook.com (2603:10b6:806:24::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.6 via Frontend Transport; Tue, 20 Apr 2021 21:00:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 651dab32-7e20-4016-653a-08d9043f580d
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3845:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB384560A80168F58FBA6FCFBB95489@CH2PR12MB3845.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bQhTfvcfASpvZ9XIhxi69PP2Y4NE/q5mylDuH/EXZpGTLGm4+F8rxBbq3T+r97z6ykGtYNyBopiWi/Lj0R3yXp4SbPAxAdBCH6KZktrgi1XjVQ/FBfth+L7ydku1e/kNiGbHFOMvqsxDTlWRHaA1k0/K3N4f7uMa1otaMp3d6ifwh1RRpG920s1ppxADtLvhU7dYRO9BpGSrlBt8PB3ZQverERVhopF7zyXX0nWmK5To4DKKIUJE7N7SoikEPexcI6dDdefZKhPGXETb2cjGTnzs6RS0RgdltxQrUi2GMDaIqOMvR1c67PYtWwPGaOyxwsMulNHm1/2SMyYeBnuBdRR29ohzfhkDLbeNIhJOmPEt4ibthtrCsPjCphzpm5SDUSWomK8ZRo2YWtXmdW3S5TomtN1dVow5JcO0mkLDQyOHrXHKe9z8Oo81qacCWlfcLfhpx69MjHbmeNFlk8qbJXLyLv1cD0ZR0U2IFMoXXiLAQsqNQL1ncbB/4f76cyIFBkc/kiX9ZMauyIsORbgWM+dYWZmN/ogILWU5wPyX0z39ERBjElGMWAeg/nqxrUl5A/VtzsRRD/5yflwdCyBGvV8VM9fjazk3u95QJF6c1KRSheSe9fULzkVgWtdK2K8ZsoqGCWMTRhqxa+7BfCJ44pTbiCX6ZfpRSfD0g9SS5zaIrfYiQUVwyIJIQ1Ll8ZMIa6lzijz/c/6+JtIDyVnzByBF5onBPVQi75O+WVEr6Js=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(136003)(366004)(376002)(346002)(316002)(38350700002)(38100700002)(8936002)(26005)(6666004)(86362001)(2906002)(83380400001)(16526019)(2616005)(186003)(956004)(8676002)(36756003)(6916009)(66946007)(6496006)(6486002)(52116002)(5660300002)(66476007)(966005)(66574015)(4326008)(44832011)(66556008)(478600001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QUMrb0h6eThNZzIxeGVSb1drR3FGZkluaTY0V2NnMGJ3YVBUZFNSR2MvM09E?=
- =?utf-8?B?Y0tKV0JiekR5eDdVMjVDM1oweXZDczlwRm5CalA1KzFNK2ZBaHJHM1Vnd2xH?=
- =?utf-8?B?SlB4a2RsVnI1N29xckpURzNGV05wQ1NoOWwxdHl4NDhTNlpjZnlwNG1ZSTVh?=
- =?utf-8?B?K1RQUnF6UEZUVC9FaWNjZTZQN2pVTWxpdGJUTDh5ZmNOWGk1WmFRV3QxY3RX?=
- =?utf-8?B?enVhRytoSHJGNGJVcUxMVXVaQnEwdlBheGtKUUNMUjgzYUJ4aTVwY2cxMXhx?=
- =?utf-8?B?S0xobVFuU1hhUS9seWd2V3FVY3FlVjF0U2ErZ2hXSjNSbUlISUpJUm1tNjhK?=
- =?utf-8?B?WDhmWW0wUXpMV3Jrdm9NQjZsTGRjREZjSXkvWnpHR09QYy9xU2grUE53dEVj?=
- =?utf-8?B?UWo1eUdjbXlBcU1McHhXa1NJQ1lGUDdLTFYvb0ppLzB3dk90a3dKa1M1U0lZ?=
- =?utf-8?B?bG5WMjNab1lJdXJjYmhYamFkc2ZMNEVQNVl5Q2padFJSZTJUTEJDRVlBZnhD?=
- =?utf-8?B?bHFwYTVaUGFIQ0NDZWwvWDBoTy9KMnRMQ3VZZkU0Qmg4YjNaWVZDNk5reU1K?=
- =?utf-8?B?ZkIrTWozdU5sa0lBK0xGVlEvQ1FZU0pLenRvUVF1VDhpdDZndHBrQ053T3pB?=
- =?utf-8?B?Z3RVSlhWWjVaeGFFTG9Nd1BleU5aMlUyTUdMT0dLTWRxYmNNVXBQQWllWHRE?=
- =?utf-8?B?UmozUXlNWVpRVW5KMW5WRkQyeWpGZ2xiMVBkSmRaS281RXduTmhEeW90eFVn?=
- =?utf-8?B?ekNocmkvV1ZnZFNxY1BVaFh3OExJVnFHYzZySnVBeFQ4OEFiU1puSXBPQUEz?=
- =?utf-8?B?eWZYOE1jK3VGUzgyV0daUGttdVplaUcvOFNRUzJsaEpQWklFRmJMdXVJM0I4?=
- =?utf-8?B?R3VWMHZnQ2hEWUxHZHdicmpVS3NkM1FYSHdtMllHL3E4YXB6SXVCVFRwc0x1?=
- =?utf-8?B?UGh0U0Myc0VuTHVIU3RjRWVIVVBmYUFQekxubW02dzlmYnJBK2RJekpvb0FO?=
- =?utf-8?B?dlV5R3pFeHM2Q05YSmg4SWxtVEpkWXVXOWJObEZsUk0xelVDZE8yY3BwSnh3?=
- =?utf-8?B?UnJPUmZ1VlZxOUpCYzcxOTFzTXp5cTZpSUJ2NnV5VUxDZWVhTWJIbnVpVkNZ?=
- =?utf-8?B?WktnVUQxT3d1akFRVkxtaTA3cWVqZkNqaWZmWC9Wek5IRkU3V1JDOE9ucTJC?=
- =?utf-8?B?cjhEQWRJY0ppSVF4bHE5L1BWcHlTdGxNWUdkaUJkc2xKb203SWFtY1Y3Qjlu?=
- =?utf-8?B?U056Ukh3ZUdOUVFia0J0WUxNMUpqY0xQMnl4QWg5bjZWZnRGZ2Yxc2VYVDRI?=
- =?utf-8?B?VDkrd3hLTERrcWhmV01iYzJ1UllYWnB1L1dGU0hweldKSFlRVkI0S2NaeEtI?=
- =?utf-8?B?bElISDZTdXExbWlKbWdkbVBEcllFbHR2dERoRVhSaGMwQ08xQzdNSmM4bVFj?=
- =?utf-8?B?VnFwRHliUGo5YkYvR1lwYXBJQ1ZLdW1qRzNUTTFYNGhqUW8vYTBxTWdDRmhE?=
- =?utf-8?B?MHliSHVQdjluM0FBVkxLdld2TXRkV3BkdlBTaFZPeUpFYzFla255V2x0aUVO?=
- =?utf-8?B?SUFrRGptV1BTTzN2dCtyRys1TlBPM0hPRHd3aTB0MSthK3p2a244cE1PODRF?=
- =?utf-8?B?MjJPQ25ybTJRTXhaQ2V2ZFY2VGpIVGU1Wjk2MUFubTNETVhkVkovbVZJZ21P?=
- =?utf-8?B?MzY4UFNMQ3l0UmhuN0xQeVBVcERwVFVqUFF4MlhnSTZhc0JMcDdLck5wdXBX?=
- =?utf-8?Q?d0+rQTv9GEMLCRKWEbg56IuOwlbyUPPLOuRJ0nO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 651dab32-7e20-4016-653a-08d9043f580d
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2021 21:00:35.7803 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4gK1EDcRb7g+4/0Cs0q+H1izIBTiHFOUVBECNvnTz9V546DAFOy5MOlk7nniohwNLCXafEYZG4QhxL6Fj6W0zw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3845
-Received-SPF: softfail client-ip=40.107.244.60;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210418055708.820980-1-f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,62 +98,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Sun, Apr 18, 2021 at 07:57:08AM +0200, Philippe Mathieu-Daudé wrote:
+> Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
+> regions"), all newly created regions are assigned with
+> unassigned_mem_ops (which might be then overwritten).
+> 
+> When using aliased container regions, and there is no region mapped
+> at address 0 in the container, the memory_region_dispatch_read()
+> and memory_region_dispatch_write() calls incorrectly return the
+> container unassigned_mem_ops, because the alias offset is not used.
+> 
+> Consider the following setup:
+> 
+>     +--------------------+ < - - - - - - - - - - - +
+>     |     Container      |  mr
+>     |  (unassigned_mem)  |                         |
+>     |                    |
+>     |                    |                         |
+>     |                    |  alias_offset
+>     +                    + <- - - - - - +----------+---------+
+>     | +----------------+ |              |                    |
+>     | |  MemoryRegion0 | |              |                    |
+>     | +----------------+ |              |       Alias        |  addr1
+>     | |  MemoryRegion1 | | <~ ~  ~  ~ ~ |                    | <~~~~~~
+>     | +----------------+ |              |                    |
+>     |                    |              +--------------------+
+>     |                    |
+>     |                    |
+>     |                    |
+>     |                    |
+>     | +----------------+ |
+>     | |  MemoryRegionX | |
+>     | +----------------+ |
+>     | |  MemoryRegionY | |
+>     | +----------------+ |
+>     | |  MemoryRegionZ | |
+>     | +----------------+ |
+>     +--------------------+
+> 
+> The memory_region_init_alias() flow is:
+> 
+>   memory_region_init_alias()
+>   -> memory_region_init()
+>      -> object_initialize(TYPE_MEMORY_REGION)
+>         -> memory_region_initfn()
+>            -> mr->ops = &unassigned_mem_ops;
+> 
+> Later when accessing offset=addr1 via the alias, we expect to hit
+> MemoryRegion1. The memory_region_dispatch_read() flow is:
+> 
+>   memory_region_dispatch_read(addr1)
+>   -> memory_region_access_valid(mr)   <- addr1 offset is ignored
+>      -> mr->ops->valid.accepts()
+>         -> unassigned_mem_accepts()
+>         <- false
+>      <- false
+>    <- MEMTX_DECODE_ERROR
+> 
+> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+> 
+> Fix by dispatching aliases recursively, accessing its origin region
+> after adding the alias offset.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-fifth release candidate for the QEMU 6.0 release. This release is meant
-for testing purposes and should not be used in a production environment.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-  http://download.qemu-project.org/qemu-6.0.0-rc4.tar.xz
-  http://download.qemu-project.org/qemu-6.0.0-rc4.tar.xz.sig
+-- 
+Peter Xu
 
-A note from the maintainer:
-
-  We had to roll an rc4 because of a few late-breaking bugs; we hope
-  to be able to release 6.0 next week, on the 27th.
-
-You can help improve the quality of the QEMU 6.0 release by testing this
-release and reporting bugs on Launchpad:
-
-  https://bugs.launchpad.net/qemu/
-
-The release plan, as well a documented known issues for release
-candidates, are available at:
-
-  http://wiki.qemu.org/Planning/6.0
-
-Please add entries to the ChangeLog for the 6.0 release below:
-
-  http://wiki.qemu.org/ChangeLog/6.0
-
-Thank you to everyone involved!
-
-Changes since rc3:
-
-b1cffefa1b: Update version for v6.0.0-rc4 release (Peter Maydell)
-bac9b87bd2: qga: fix guest-get-disks regression (Marc-Andr=C3=A9 Lureau)
-ef71c1bc81: target/mips/rel6_translate: Change license to GNU LGPL v2.1 (or=
- later) (Philippe Mathieu-Daud=C3=A9)
-e11ce6c065: migration: Deprecate redundant query-migrate result @blocked (M=
-arkus Armbruster)
-3791642c8d: mptsas: Remove unused MPTSASState 'pending' field (CVE-2021-339=
-2) (Michael Tokarev)
-0c5393a134: Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target=
--arm-20210417' into staging (Peter Maydell)
-277aed998a: accel/tcg: avoid re-translating one-shot instructions (Alex Ben=
-n=C3=A9e)
-c57b27ea89: target/arm: drop CF_LAST_IO/dc->condjump check (Alex Benn=C3=A9=
-e)
-330ef14e6e: hw/arm/armsse: Make SSE-300 use Cortex-M55 (Peter Maydell)
-1df0878cff: hw/arm/armsse: Give SSE-300 its own Property array (Peter Mayde=
-ll)
-ec63ca2d35: include/qemu/osdep.h: Move system includes to top (Peter Maydel=
-l)
-875df03b22: osdep: protect qemu/osdep.h with extern "C" (Paolo Bonzini)
-af1bb59c07: osdep: include glib-compat.h before other QEMU headers (Paolo B=
-onzini)
 
