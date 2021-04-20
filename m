@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08413365D80
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 18:37:29 +0200 (CEST)
-Received: from localhost ([::1]:50496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E3B365D9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 18:44:14 +0200 (CEST)
+Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYtNP-0007ev-Ju
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 12:37:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39850)
+	id 1lYtTx-0002Gp-DB
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 12:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYtL4-0006oQ-N2
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 12:35:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57037)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lYtSy-0001p5-3r
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 12:43:12 -0400
+Resent-Date: Tue, 20 Apr 2021 12:43:12 -0400
+Resent-Message-Id: <E1lYtSy-0001p5-3r@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lYtKr-0001oc-7S
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 12:35:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618936486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gl+E9IP+e5+LU0nxoOVtz+cvMycobvT48vlQJu0LYPQ=;
- b=Hlz+fKm0RppQRLtjomnv9XSUX6437m6G593ePRytWKdrwHURPuLjauZdIW1HItSe2sM5Nm
- Zf3+BNub5m0zh8MT2jn/3Kr69I+DYmhwRNdROM7XBef3cjstqaLqFR/Hr40c2doS59S0/B
- gbf08BunE6eVCXUyd9zPifWBl4V1TJg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316--hpQFDFGPH2LSooeX30Dfg-1; Tue, 20 Apr 2021 12:34:35 -0400
-X-MC-Unique: -hpQFDFGPH2LSooeX30Dfg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41A6E817470;
- Tue, 20 Apr 2021 16:34:18 +0000 (UTC)
-Received: from localhost (ovpn-118-208.rdu2.redhat.com [10.10.118.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7ECE5D6A1;
- Tue, 20 Apr 2021 16:34:17 +0000 (UTC)
-Date: Tue, 20 Apr 2021 12:34:17 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: Re: [PATCH v2] i386: Add ratelimit for bus locks acquired in guest
-Message-ID: <20210420163417.lbns24ypfqz7icxg@habkost.net>
-References: <20210420093736.17613-1-chenyi.qiang@intel.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lYtSt-0005o8-3a
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 12:43:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618936970; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=V/doHG3zYzmfw0rB9JsjsdFa3dHh9gpEHHwN1wC/i1jLtJLq3s+Z3fZA1g8D+fYcEk2IqdV+Au3hVq5/VcIIPaxy1Kkn4+9BWs/GukLlE4JLU8RU1p2kYIbK0tT36YvXRQIdlA8+NpSswGnSUceO3QueWo05KpSIjLGjdebsfT8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618936970;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=g64ms/s92oFrl/0e6t/rSztV/MBdlY5EzwZTlmQfs48=; 
+ b=lFj3f/DJaN2sqgV0rIrzIaZyc1H3MWusivCx4ZpRyi5k5hvy3oGDDJQL7yaQJ723bn3kJ/u+4dSZ2EAx2XV236BA9nCnVtIpXjnEzzprmdpj4LBXT3vV9bEgOoGp4l5I4I7XA73HXodE1FeOG3F/p/H7UdCI2+CsbxSc689Y6/o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618936968277268.9489368010212;
+ Tue, 20 Apr 2021 09:42:48 -0700 (PDT)
+In-Reply-To: <20210420161940.24306-1-valeriy.vdovin@virtuozzo.com>
+Subject: Re: [PATCH v6] qapi: introduce 'query-cpu-model-cpuid' action
+Message-ID: <161893696658.26703.7219930353671192082@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <20210420093736.17613-1-chenyi.qiang@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: valeriy.vdovin@virtuozzo.com
+Date: Tue, 20 Apr 2021 09:42:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,212 +67,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Xiaoyao Li <xiaoyao.li@intel.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, ehabkost@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, armbru@redhat.com, valeriy.vdovin@virtuozzo.com,
+ den@openvz.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-Thanks for the patch.  Comments below:
-
-On Tue, Apr 20, 2021 at 05:37:36PM +0800, Chenyi Qiang wrote:
-> Virtual Machines can exploit bus locks to degrade the performance of
-> system. To address this kind of performance DOS attack, bus lock VM exit
-> is introduced in KVM and it will report the bus locks detected in guest,
-> which can help userspace to enforce throttling policies.
-> 
-
-Is there anything today that would protect the system from
-similar attacks from userspace with access to /dev/kvm?
-
-
-> The availability of bus lock VM exit can be detected through the
-> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
-> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
-> bitmap is the only supported strategy at present. It indicates that KVM
-> will exit to userspace to handle the bus locks.
-> 
-> This patch adds a ratelimit on the bus locks acquired in guest as a
-> mitigation policy.
-> 
-> Introduce a new field "bld" to record the limited speed of bus locks in
-> target VM. The user can specify it through the "bus-lock-detection"
-> as a machine property. In current implementation, the default value of
-> the speed is 0 per second, which means no restriction on the bus locks.
-> 
-> Ratelimit enforced in data transmission uses a time slice of 100ms to
-> get smooth output during regular operations in block jobs. As for
-> ratelimit on bus lock detection, simply set the ratelimit interval to 1s
-> and restrict the quota of bus lock occurrence to the value of "bld". A
-> potential alternative is to introduce the time slice as a property
-> which can help the user achieve more precise control.
-> 
-> The detail of Bus lock VM exit can be found in spec:
-> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
-> 
-> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-> 
-> ---
-> Changes from RFC v1:
->   - Remove the rip info output, as the rip can't reflect the bus lock
->     position correctly.
->   - RFC v1: https://lore.kernel.org/qemu-devel/20210317084709.15605-1-chenyi.qiang@intel.com/
-> ---
->  hw/i386/x86.c         |  6 ++++++
->  include/hw/i386/x86.h |  7 +++++++
->  target/i386/kvm/kvm.c | 42 ++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 55 insertions(+)
-> 
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index ed796fe6ba..42d10857a6 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -1256,6 +1256,12 @@ static void x86_machine_initfn(Object *obj)
->      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
->      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
->      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-> +    x86ms->bld = 0;
-> +
-> +    object_property_add_uint64_ptr(obj, "bus-lock-detection",
-> +                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
-> +    object_property_set_description(obj, "bus-lock-detection",
-> +            "Bus lock detection ratelimit");
-
-I suggest using a name that indicates this is a rate limit (e.g.
-"bus-lock-rate-limit").  "bus-lock-detection" sounds like a
-boolean option to just enable/disable detection.
-
-Please register a class property at x86_machine_class_init()
-instead.  The plan is to eventually stop using instance
-properties wherever possible, as class properties make property
-introspection simpler.
-
-See machine_class_init() for some examples of integer class
-properties.  Unfortunately object_class_property_add_uint64_ptr()
-is not very useful currently, so you'll need to write your own
-getter/setter function.
-
-
->  }
->  
->  static void x86_machine_class_init(ObjectClass *oc, void *data)
-> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> index c09b648dff..d6e198b228 100644
-> --- a/include/hw/i386/x86.h
-> +++ b/include/hw/i386/x86.h
-> @@ -74,6 +74,13 @@ struct X86MachineState {
->       * will be translated to MSI messages in the address space.
->       */
->      AddressSpace *ioapic_as;
-> +
-> +    /*
-> +     * ratelimit enforced on detected bus locks, the default value
-> +     * is 0 per second
-> +     */
-
-I suggest documenting here that 0 means no limit.
-
-> +    uint64_t bld;
-> +    RateLimit bld_limit;
->  };
->  
->  #define X86_MACHINE_SMM              "smm"
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 7fe9f52710..a75fac0404 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
->  static struct kvm_cpuid2 *cpuid_cache;
->  static struct kvm_msr_list *kvm_feature_msrs;
->  
-> +#define SLICE_TIME 1000000000ULL /* ns */
-> +
-
-"slice time" is a very generic name.  I suggest "BLD_SLICE_TIME"
-or "BUS_LOCK_SLICE_TIME".
-
->  int kvm_has_pit_state2(void)
->  {
->      return has_pit_state2;
-> @@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->          }
->      }
->  
-> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
-> +        X86MachineState *x86ms = X86_MACHINE(ms);
-> +
-> +        if (x86ms->bld > 0) {
-> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
-> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
-> +                error_report("kvm: bus lock detection unsupported");
-> +                return -ENOTSUP;
-> +            }
-> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
-> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
-> +            if (ret < 0) {
-> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
-> +                             strerror(-ret));
-> +                return ret;
-> +            }
-> +
-> +            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
-> +        }
-> +    }
-> +
->      return 0;
->  }
->  
-> @@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
->      }
->  }
->  
-> +static void kvm_rate_limit_on_bus_lock(void)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    X86MachineState *x86ms = X86_MACHINE(ms);
-> +
-> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
-> +
-
-This doesn't look thread safe.  Isn't this going to run from the
-VCPU thread with no locks acquired?
-
-> +    if (delay_ns) {
-> +        g_usleep(delay_ns / SCALE_US);
-> +    }
-> +}
-> +
->  MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->  {
->      X86CPU *x86_cpu = X86_CPU(cpu);
-> @@ -4236,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->      } else {
->          env->eflags &= ~IF_MASK;
->      }
-> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
-> +        kvm_rate_limit_on_bus_lock();
-> +    }
->  
->      /* We need to protect the apic state against concurrent accesses from
->       * different threads in case the userspace irqchip is used. */
-> @@ -4594,6 +4632,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->          ioapic_eoi_broadcast(run->eoi.vector);
->          ret = 0;
->          break;
-> +    case KVM_EXIT_X86_BUS_LOCK:
-> +        /* already handled in kvm_arch_post_run */
-> +        ret = 0;
-> +        break;
->      default:
->          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->          ret = -1;
-> -- 
-> 2.17.1
-> 
-
--- 
-Eduardo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyMDE2MTk0MC4yNDMw
+Ni0xLXZhbGVyaXkudmRvdmluQHZpcnR1b3p6by5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDQyMDE2
+MTk0MC4yNDMwNi0xLXZhbGVyaXkudmRvdmluQHZpcnR1b3p6by5jb20KU3ViamVjdDogW1BBVENI
+IHY2XSBxYXBpOiBpbnRyb2R1Y2UgJ3F1ZXJ5LWNwdS1tb2RlbC1jcHVpZCcgYWN0aW9uCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
+ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
+IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3
+ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
+LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNDIwMTYxOTQw
+LjI0MzA2LTEtdmFsZXJpeS52ZG92aW5AdmlydHVvenpvLmNvbSAtPiBwYXRjaGV3LzIwMjEwNDIw
+MTYxOTQwLjI0MzA2LTEtdmFsZXJpeS52ZG92aW5AdmlydHVvenpvLmNvbQpTd2l0Y2hlZCB0byBh
+IG5ldyBicmFuY2ggJ3Rlc3QnCjllZTFmYjUgcWFwaTogaW50cm9kdWNlICdxdWVyeS1jcHUtbW9k
+ZWwtY3B1aWQnIGFjdGlvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IHN1c3BlY3QgY29k
+ZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDQsIDYpCiMzOTM6IEZJTEU6IHRh
+cmdldC9pMzg2L2NwdS5jOjUyOTg6CisgICAgaWYgKCFtcyB8fCAhbXMtPnBvc3NpYmxlX2NwdXMp
+IHsKKyAgICAgIGVycm9yX3NldGcoZXJycCwgIk5vdGhpbmcgdG8gcmVwb3J0Iik7Cgp0b3RhbDog
+MSBlcnJvcnMsIDAgd2FybmluZ3MsIDQ3NiBsaW5lcyBjaGVja2VkCgpDb21taXQgOWVlMWZiNWEz
+OTUzIChxYXBpOiBpbnRyb2R1Y2UgJ3F1ZXJ5LWNwdS1tb2RlbC1jcHVpZCcgYWN0aW9uKSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
+eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8yMDIxMDQyMDE2MTk0MC4yNDMwNi0xLXZhbGVyaXkudmRvdmluQHZp
+cnR1b3p6by5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
