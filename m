@@ -2,76 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF37C365F04
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 20:08:09 +0200 (CEST)
-Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1553C365F82
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 20:36:14 +0200 (CEST)
+Received: from localhost ([::1]:45422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYunA-00071M-Eb
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 14:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
+	id 1lYvEL-0004xL-1M
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 14:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lYum8-0006Ed-5E
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 14:07:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48494)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1lYv6C-000316-4l; Tue, 20 Apr 2021 14:27:49 -0400
+Received: from mail-eopbgr800108.outbound.protection.outlook.com
+ ([40.107.80.108]:13952 helo=NAM03-DM3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lYulw-0001JR-9a
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 14:07:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618942011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LFVx3eyCNOGgMlo16fx29TWuYsND60JxaxaPrTl/faQ=;
- b=O3YZ+v3RCBMXCgsk/8BYwuWjN3VtRwXcmUCKfhSWMhwhVZbPbVLKKCyiRehJqyl+9zeS9W
- vvrT33ezkkWMqABBly/my7xS75xDJSrTiPpy3oiHLj6brA7Xlw/mqsCY4SeV+7r8NS3Rha
- e7ue6mJC7snd/I1gwKR8ZuGK0cWtPKA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-f7gWXTJVMoCyc8z1Gi7vuw-1; Tue, 20 Apr 2021 14:06:49 -0400
-X-MC-Unique: f7gWXTJVMoCyc8z1Gi7vuw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 717A718B9F85;
- Tue, 20 Apr 2021 18:06:48 +0000 (UTC)
-Received: from [10.10.118.219] (ovpn-118-219.rdu2.redhat.com [10.10.118.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9EDA31007604;
- Tue, 20 Apr 2021 18:06:47 +0000 (UTC)
-Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for comments
- and docstrings
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-3-jsnow@redhat.com>
- <878s5i5rgm.fsf@dusky.pond.sub.org>
- <929a61e6-dde7-597a-d741-79b6be44ff14@redhat.com>
- <87fszp18u4.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <e214622a-739c-126d-5899-b3cd433bfd9d@redhat.com>
-Date: Tue, 20 Apr 2021 14:06:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <87fszp18u4.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1lYv68-0003nt-GN; Tue, 20 Apr 2021 14:27:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=drJ89hWSbAm9ZAV0W1D+NElIqhc9pSiEoOKvI7m/Ols5aHpSN0DVEoeYm1b2xcwbY1gFreygtlboOZJi/6sC/N5NGsO2FSh1eeg6/Rb/7NT0ukYXifivmpC+qW1Iw6E/f5KpOZpaIzS77ga4esrhsYeJ8qcRirlDZv1Sl2kLze4IJppMoEaAVD3s073srUzVfKZ0idtg57G1eo51XtZQYRPIM6fU3GFtRO3j/ug+FIhvEMTWCkW9PPSoE6Mds/MUbfqG4otegcN+CvGpQ1Q2vqRUrAguX6iQ5ozmy8oCytLkrYNcICGhGmg0a37jMpZ+R++K4+zPmcrkceK29Qkkqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K4+bAADtHE6BMMSN/Xb5DWAhQ0uIGFtTy3CstviHa3U=;
+ b=V8bZLVwWQ3xLqPNx6f4/WGVBW+Nin8IHAA2c5UPu4xO8ZXocKVsxJXqPdYY+jzB5o4wmWNi4xVbslrmJb1FNOTUSLp2txl/vkUZJW8r4QgovCagu/K3pREbBXwQKoGBzaXDR2OBxh0e/1uWnIu3c3WC5qjipItlhlZCaiEZwy7yeJhi8Z8NvRer7y6bV06PMo/jA6lCGjYl+OQ0+DUrjCvVmeM++parPTIwgbAGqyJpCoGsHgf/MMz9NBxwvr4Im5coztkVA/mGWRMYEtLnJ926r/r4RqGniMwiHToufCZ7HWJ/PqhOFm8HCBJYoyy7EZopIKsRrO8jBnehbUgjYyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
+ header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K4+bAADtHE6BMMSN/Xb5DWAhQ0uIGFtTy3CstviHa3U=;
+ b=RubQwMdAfSwHSl//j9fpWeRGXNdOVcxnpyyvHVCAMYUzlRLHwEh3mgI2MfoRGxAgTQ8h3HtAYPdjM8rfyTq8T1qNmuJX84n3Ex2X3qeUL+FvlWF0XnncImWV2DafIbKZevPCjjPIYA6wi7LIp0IE39MLCK8RbUULHrls6OGfQMX7mp1wyFs9jPsOvr9i8fl60q7ayZZ/zK0PSL0iDVOo/DtoQdWopQWJTKVWH+caVK4X/asa9h5LqFcSvCkYm4G4nZCqwvc4vKM6d35FIRhx/pCaZWfMyMUzaHjZS3NfvFNs8ImZUvjiAKov8GxCgvakEU3VPRz0fUTrr3TCe6jHBA==
+Received: from RO1PR80MB5610.lamprd80.prod.outlook.com (2603:10d6:4:b::11) by
+ RO1PR80MB5788.lamprd80.prod.outlook.com (2603:10d6:4:c::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.21; Tue, 20 Apr 2021 18:27:38 +0000
+Received: from RO1PR80MB5610.lamprd80.prod.outlook.com
+ ([fe80::80c8:6be4:9ced:38bf]) by RO1PR80MB5610.lamprd80.prod.outlook.com
+ ([fe80::80c8:6be4:9ced:38bf%12]) with mapi id 15.20.4042.024; Tue, 20 Apr
+ 2021 18:27:38 +0000
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: target/ppc: sPAPR invalid function calls when compiling without
+ TCG
+Thread-Topic: target/ppc: sPAPR invalid function calls when compiling without
+ TCG
+Thread-Index: AQHXNg/KpvodGXAHTEe7WCf/a4WmMw==
+Date: Tue, 20 Apr 2021 18:27:38 +0000
+Message-ID: <RO1PR80MB561024219A35A26C418CF51BCE489@RO1PR80MB5610.lamprd80.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gibson.dropbear.id.au; dkim=none (message not signed)
+ header.d=none; gibson.dropbear.id.au;
+ dmarc=none action=none header.from=eldorado.org.br;
+x-originating-ip: [2804:14d:8084:88a2:39d5:2a6f:42d8:e085]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a0bbfdc8-9650-4903-d545-08d90429fa01
+x-ms-traffictypediagnostic: RO1PR80MB5788:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <RO1PR80MB5788E2E2CB7140BBF52F2A53CE489@RO1PR80MB5788.lamprd80.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: a4tj0Fidi2YcSfzTBagon4VSvgJui8rp9jJ9f7yXBntWG3VMKufPTMplOQ5QzIqoQ+cTGt1dYw3ZKM/owedjxT5vTBKyFsw3RAKHFUycKy3PBXG60gn1Qk5O2nOcxZ1C4zwZw2scxrIbK90qbs79XZ3zvLt6dgJnKMDr3q/FG5BLPEIZakdKEn96RtO+mhE66/frCojvHgORtZ+5r9kLySQFL9bmYfSUVsmM32nl3wX2NUZERqqLp98GZQ8iRb3ITGR1ZrL/isvFVPZLLsSDCaXZyYkScfZ4GhP68C0TDhdiu6wnjEEed5LEh94akBmyhy6jDLWuM944j89FxSL+KfB9iyzh+1hJQsnGfdrG+7O8Lm/EWDoAzTrI6HDn6Yayjyu8ouAu8Ecp4jKqGD+5d+o+7/qpZ+GEm24AHR8HsuTXEvK91FfLoR7Lcelze2N0GXkl++268xtFhyfzWDUSeI2EeE2FCH6UrTIqN4f8hgDlbIeXIJIEacWpir1MXDbHpimfg44xOtblK89wFFNoosYaQuQpWkxHfMOqEQSdqlsKLForw3WvB+AOADGdQfqsKfKOGF5gVBAk+xvshblV/k2GzfR2LACbbKyiIryka9M=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:RO1PR80MB5610.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(366004)(376002)(346002)(39850400004)(396003)(19627405001)(6916009)(478600001)(5660300002)(2906002)(33656002)(86362001)(8676002)(54906003)(71200400001)(122000001)(55016002)(76116006)(7696005)(6506007)(66946007)(66476007)(64756008)(316002)(66556008)(66446008)(9686003)(8936002)(52536014)(4326008)(186003)(38100700002)(91956017);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?uvqYvJjXw39u6IbedioCEeih/0t6qs870siJ0JDtPQfyvcrCtfMkqJ0ARv?=
+ =?iso-8859-1?Q?0eqlS0hqiR/zbSVQgmCrjBXoNWLQ8Hb6X7wkH2qkSb7CSmuKj/HXXJcVSd?=
+ =?iso-8859-1?Q?Gqwxv8cJ/1sF2gPZP+2oPPgeAW2eBTxlm9P2GP66ocmuS3niK1cnW+WsYo?=
+ =?iso-8859-1?Q?XSk5QVsTkUPOzKyBLza02Gbo1zHTsv11DRRIyvnYPEHl5fxEFbrW+XDast?=
+ =?iso-8859-1?Q?K1JbvOuwhMUVoT/KochdQE5Dde3a3Zzmti3G9G2kXnQ9jZOjvfWwJI3yyG?=
+ =?iso-8859-1?Q?1sN1AzIq2HnFnkgdFOrZY+pIW5/qu5URN3teGuH8LTB/bCDe1UELOtLu24?=
+ =?iso-8859-1?Q?q3hipFIjONp69bzRVgo5SFb71GKuW91RqEJqejYoYqI2lQJsprWbB5wHQN?=
+ =?iso-8859-1?Q?gM2CmimUZQnEWzC5hALmWe8+9yrwQtOJoTELW+CJfqzfbCjoBr7QF0cCAP?=
+ =?iso-8859-1?Q?DfLKJgMN6sallA9U/LWqNIxgzgJgXShbeFd57ubJ3td7ug6vn6B62uSr6k?=
+ =?iso-8859-1?Q?l88NQbg+U3DyVHXLIXoO8vJIc2y6ZhZ/ZgB9cMTlePHh6AR7atwcEnxDUD?=
+ =?iso-8859-1?Q?vaoBekUKqLsdbKyda+NhuADMc96Tul+L74HZiEUVfjMJ5oUeupg39CgiWg?=
+ =?iso-8859-1?Q?jIy8BBlItztw2JalFtYmXfi8NMfRUH7F9I+4h+ROe/uejzsNMFWo+Q1hkD?=
+ =?iso-8859-1?Q?CCL7ifmYGfVJ5XZE8Tlk0q8wcb5jDOOR1Ra4zQeEvhnyWlHjDqj6TX1+Yk?=
+ =?iso-8859-1?Q?63PZpy+Xi3BWaVdGnAw3V8D2SYUWCBvO5NRU4JaquziaN4PIkHy+Us9WR6?=
+ =?iso-8859-1?Q?md46kvAGH1fc6mg8AbwhSm5kAPZfCNDPmTvx6yEyKQQbmTaNLEvJynPZ8m?=
+ =?iso-8859-1?Q?DiZP2JG5Hrjb09127bx5Y3A27WbxZNkGn79DCdY2JAlvScHHl17Aewvji+?=
+ =?iso-8859-1?Q?5vkd/ZPPxv/VuM3uGR/3sgAu4ptcqrueeLNECQpjgqH0VpdsozHBY+7Idt?=
+ =?iso-8859-1?Q?GwlLlNkR/pLJDT74EMLBkeKJWibO6iiDFurWFLtHGEAlozmvz9N0w9Phqm?=
+ =?iso-8859-1?Q?1W0/PIUUeFpYOx1K0Uq2fAre7MkAwXmpTKX7l67AX/PSZEhTns+NaMsatD?=
+ =?iso-8859-1?Q?CZSijnFDMZtJrawCN9Tou0KN1/jOfCl1my3baXKamQO+vrSNVl8CrDBJil?=
+ =?iso-8859-1?Q?XdXOxQmeti7P7bBmC2+bAfsvGUk1G1aF8+iafLhcLOd5Ke/7VX7bzW6xc2?=
+ =?iso-8859-1?Q?W7hHFjmDXb8d4gHM7goWVXS1xOZbxzST9Norj+KarCgG0TGXeli/TT4jp+?=
+ =?iso-8859-1?Q?9ViJUm1z/8+kiW8ueHYqZnM3cFilUiTSjv/dyXi9rlz1S1HD0y7nbp5dt+?=
+ =?iso-8859-1?Q?HIVVWgfCoi8/WxXktCP8hAjJAYYejMjpxwS7ZzjVgN2S8YUVFCLDGs/C56?=
+ =?iso-8859-1?Q?CXFv14LbQffUHA4S?=
+Content-Type: multipart/alternative;
+ boundary="_000_RO1PR80MB561024219A35A26C418CF51BCE489RO1PR80MB5610lamp_"
+MIME-Version: 1.0
+X-OriginatorOrg: eldorado.org.br
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: RO1PR80MB5610.lamprd80.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0bbfdc8-9650-4903-d545-08d90429fa01
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2021 18:27:38.2970 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oMLoP/N+lY6AlJTv96i86tgk/NJK0XH0nQeHb//AThGXTKQntR/6JBdFoiOOJ2p7TPeVwJReQo2oW+SaSJe9+WTRz8y2W8yJYeepDT6h94Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: RO1PR80MB5788
+Received-SPF: pass client-ip=40.107.80.108;
+ envelope-from=lucas.araujo@eldorado.org.br;
+ helo=NAM03-DM3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,113 +132,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/17/21 6:52 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
->> On 4/16/21 8:44 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
+--_000_RO1PR80MB561024219A35A26C418CF51BCE489RO1PR80MB5610lamp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
->> It will be an eventual thing, though: I think we need to agree on a
->> style guide document and in that same series, fix up the instances of
->> defying that guide. I think it's important to pair that work, because
->> the ease of finding and fixing those style deviations will help inform
->> how pragmatic the style guide is.
-> 
-> Makes sense.
-> 
-> The introduction of "sphinxy" doc strings (starting with commit
-> adcb9b36c) may have been premature.
-> 
 
-Somewhat premature, but what other format is there? It would have been 
-worse to adopt Numpy or google style.
 
-We'll dial it in over time, it will be fine.
 
->> I feel like it's something I want to do very soon, but not right now.
->> Maybe during the next freeze we can tackle it?
-> 
-> Whenever you're ready.
-> 
-> Until then, I feel we should try to minimize doc string churn.  Leave
-> existing doc strings alone unless they're harmful.  Add new ones only
-> when we believe they're helpful enough to justify some churn later.
-> 
+________________________________
 
-OK. After the expr comments, I actually didn't add very many. I think I 
-add one or two for the parser because I had trouble understanding at a 
-glance how it worked, but most of the tiny functions and helpers I left 
-alone.
+>> spapr_hcall.c:
+>>     function h_enter call ppc_hash64_hpte_page_shift_noslb, ppc_hash64_m=
+ap_hptes and ppc_hash64_unmap_hptes
+>>     function remove_hpte call ppc_hash64_map_hptes, ppc_hash64_unmap_hpt=
+es and ppc_hash64_tlb_flush_hpte
+>>     function h_protect call ppc_hash64_map_hptes, ppc_hash64_unmap_hptes=
+ and ppc_hash64_tlb_flush_hpte
+>>     function h_read call ppc_hash64_map_hptes and ppc_hash64_unmap_hptes
+>>     function rehash_hpte call ppc_hash64_hpte_page_shift_noslb
+>>     function rehash_hpt call ppc_hash64_map_hptes and ppc_hash64_unmap_h=
+ptes
+>
+>h_enter, remove_hpte, h_protect, h_read and rehash_hpte should never
+>be called for a KVM guest (KVM will intercept the relevant hcalls
+>before they reach qemu).  I think it would make sense to split of a
+>TCG only portion of spapr_hcall.c into a new file.  You'll then
+>probably need !TCG stubs for those hypercalls, which should trip a
+>fatal error (if KVM hasn't handled the calls, there's nothing we can
+>do that will salvage the situation).
 
-I barely touched schema.py, because it was complex and I had some 
-visions of refactoring it a little to make some of the typing better later.
+Besides the aforementioned functions, will all spapr hypercalls beginning w=
+ith H_* be intercepted
+(and therefore, should trip a fatal error in the KVM-only file) or only a s=
+ubset of these functions will
+be intercepted? If the latter is there an interval of opcodes that'll be in=
+tercepted?
 
->>> Improvement, but mind PEP 8's "You should use two spaces after a
->>> sentence-ending period in multi-sentence comments".
->>>
->>
->> How important is this, and why? My existing prejudice is that it's only
->> a superficial detail of writing with no real impact.
-> 
-> Holy wars have been fought over less.
-> 
+--_000_RO1PR80MB561024219A35A26C418CF51BCE489RO1PR80MB5610lamp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-:)
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div>
+<div><br>
+</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0);">
+<br>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%;">
+&nbsp;</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">&gt;&gt; spapr_hcall.c:<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; function h_enter call ppc_hash64_hpte_page=
+_shift_noslb, ppc_hash64_map_hptes and ppc_hash64_unmap_hptes<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; function remove_hpte call ppc_hash64_map_h=
+ptes, ppc_hash64_unmap_hptes and ppc_hash64_tlb_flush_hpte<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; function h_protect call ppc_hash64_map_hpt=
+es, ppc_hash64_unmap_hptes and ppc_hash64_tlb_flush_hpte<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; function h_read call ppc_hash64_map_hptes =
+and ppc_hash64_unmap_hptes<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; function rehash_hpte call ppc_hash64_hpte_=
+page_shift_noslb<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; function rehash_hpt call ppc_hash64_map_hp=
+tes and ppc_hash64_unmap_hptes<br>
+&gt;<br>
+&gt;h_enter, remove_hpte, h_protect, h_read and rehash_hpte should never<br=
+>
+&gt;be called for a KVM guest (KVM will intercept the relevant hcalls<br>
+&gt;before they reach qemu).&nbsp; I think it would make sense to split of =
+a<br>
+&gt;TCG only portion of spapr_hcall.c into a new file.&nbsp; You'll then<br=
+>
+&gt;probably need !TCG stubs for those hypercalls, which should trip a<br>
+&gt;fatal error (if KVM hasn't handled the calls, there's nothing we can<br=
+>
+&gt;do that will salvage the situation).<br>
+<br>
+</div>
+<div class=3D"PlainText">Besides the aforementioned functions, will all spa=
+pr hypercalls beginning with H_* be intercepted&nbsp;</div>
+<div class=3D"PlainText">(and therefore, should trip a fatal error in the K=
+VM-only file) or only a subset of these functions will</div>
+<div class=3D"PlainText">be intercepted? If the latter is there an interval=
+ of opcodes that'll be intercepted?</div>
+</span></font></div>
+</div>
+</body>
+</html>
 
->> (Of course, a single space typist WOULD believe that, wouldn't they?
->> Those single-space typists are all the same!)
-> 
-> I offer three reasons:
-> 
-> * Local consistency
-> 
-> * Stick to PEP 8 unless you have good reason not to.
-> 
-> * It makes Emacs sentence commands work by default.
-> 
-
-For me, it's another thing in the category of "I don't actually mind 
-either way", and can foresee myself accepting a patch using either style 
-without comment. Inconsistency here doesn't really bother me unless it's 
-inconsistent within a single docstring.
-
-For QAPI, since you're the maintainer, I can adhere to your style. For 
-the purposes of all Python code, though, I am not sure I want to bother 
-enforcing it myself.
-
-You're always welcome to post-edit anything I've written for 
-typographical consistency as you see fit, I genuinely won't mind. (It 
-saves me the trouble of having to copy-edit for something I am visually 
-blind to.)
-
-That said, I'll try to match your preferred style for QAPI at a minimum. 
-I notice that emacs' reflow command does not always insert two spaces if 
-a paragraph already sneaks in under the column limit; is there a way to 
-*force* it to add two spaces?
-
->> Unfortunately, omitting it from flake8 means I'll probably also miss
->> cases where I or someone else have gone slightly over the limit for
->> docstrings, and doubt it will be enforced consistently.
-> 
-> I'm happy to correct the occasional minor style issue manually.
-> 
-
-If you accept that burden then I have no leg to stand on, I suppose :)
-
->>> 1.2. you may drop it.  I can pick it up and take care of it.
->>
->> This one, please!
-> 
-> You got it.
-> 
-
-Thanks! You can do that whenever, it won't interfere with anything in 
-the interim.
-
---js
-
+--_000_RO1PR80MB561024219A35A26C418CF51BCE489RO1PR80MB5610lamp_--
 
