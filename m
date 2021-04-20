@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B856E365446
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:39:11 +0200 (CEST)
-Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DB9365430
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:33:24 +0200 (CEST)
+Received: from localhost ([::1]:43070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYluY-0001OR-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48300)
+	id 1lYloy-0004VD-0C
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:33:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlit-0004op-Ve
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59108)
+ id 1lYlit-0004oK-Nf
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlio-0002bu-Hk
+ id 1lYlio-0002bx-Fd
  for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:07 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYlim-000281-5t
+ id 1lYlil-00028c-QK
  for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:27:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 111F52E818D
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A26CC2E8189
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Apr 2021 07:57:08 -0000
-From: Thomas Huth <1809144@bugs.launchpad.net>
+Date: Tue, 20 Apr 2021 08:02:21 -0000
+From: Thomas Huth <1809684@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth thebabush
-X-Launchpad-Bug-Reporter: Paolo Montesel (thebabush)
+X-Launchpad-Bug-Commenters: kb9vqf th-huth
+X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154524068665.20249.14759163527388138129.malonedeb@wampee.canonical.com>
-Message-Id: <161890542854.17207.8673648549081585294.malone@wampee.canonical.com>
-Subject: [Bug 1809144] Re: SVM instructions fail with SVME bit enabled
+References: <154569397586.26258.18132613460124027534.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161890574172.10441.5759869930863391216.malone@chaenomeles.canonical.com>
+Subject: [Bug 1809684] Re: amdgpu passthrough on POWER9 (ppc64el) not working
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
-X-Launchpad-Hash: 91193f038136851d2e470242bd9aeb6078ebb2f4
+X-Launchpad-Hash: 5097942dd394010ce79a4c63daeaadb0e6fa3c78
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1809144 <1809144@bugs.launchpad.net>
+Reply-To: Bug 1809684 <1809684@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,54 +90,52 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1809144
+https://bugs.launchpad.net/bugs/1809684
 
 Title:
-  SVM instructions fail with SVME bit enabled
+  amdgpu passthrough on POWER9 (ppc64el) not working
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I was trying to use QEMU/TCG to emulate some stuff that uses SVM.
-  I know SVM is only partially implemented but I gave it a try anyway.
+  When attempting to pass a Vega 56 GPU to a virtualized guest using
+  QEMU 3.1 on ppc64el (POWER9), the guest is unable to initialize the
+  GPU.  Further digging reveals the driver attempting to allocate a
+  large BAR, which then fails:
 
-  I found that if SVM is enabled in the same basic block in which there's a=
- call to VMSAVE/etc,
-  the call fails as illegal op because the flags don't get updated correctl=
-y.
-
-  The pseudocode for the asm I'm running is:
-
-  ```
-  EFER |=3D SVME; set the appropriate bit with wrmsr
-  vmsave
-  ```
-
-  This is an example of the relevant translate.c code:
-
-  ```
-              if (!(s->flags & HF_SVME_MASK) || !s->pe) {
-                  goto illegal_op;
-              }
-              if (s->cpl !=3D 0) {
-                  gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
-                  break;
-              }
-  ```
-
-  s->flags doesn't get updated after the wrmsr instruction and so QEMU
-  raises an illegal opcode interrupt.
-
-  A quick fix is to make the tb end after `wrmsr` instructions, but it's an=
- hack afaik.
-  I'm not too comfortable with QEMU's code, so I don't know what a proper f=
-ix would be.
-
-  Cheers,
-
-  thebabush
+  [    6.058544] [drm] PCI I/O BAR is not found.
+  <snip uninteresting bits>
+  [    6.679193] amdgpu 0000:00:03.0: BAR 2: releasing [mem 0x210400000000-=
+0x2104001fffff pref]
+  [    6.679306] amdgpu 0000:00:03.0: BAR 0: releasing [mem 0x210200000000-=
+0x2103ffffffff pref]
+  [    6.679361] amdgpu 0000:00:03.0: BAR 0: no space for [mem size 0x20000=
+0000 pref]
+  [    6.679403] amdgpu 0000:00:03.0: BAR 0: failed to assign [mem size 0x2=
+00000000 pref]
+  [    6.679444] amdgpu 0000:00:03.0: BAR 2: assigned [mem 0x200080200000-0=
+x2000803fffff pref]
+  [    6.681420] amdgpu 0000:00:03.0: VRAM: 8176M 0x000000F400000000 - 0x00=
+0000F5FEFFFFFF (8176M used)
+  [    6.681507] amdgpu 0000:00:03.0: GART: 512M 0x0000000000000000 - 0x000=
+000001FFFFFFF
+  [    6.681594] amdgpu 0000:00:03.0: AGP: 267419648M 0x000000F800000000 - =
+0x0000FFFFFFFFFFFF
+  [    6.681653] [drm] Detected VRAM RAM=3D8176M, BAR=3D0M
+  [    6.681688] [drm] RAM width 2048bits HBM
+  [    6.681885] [TTM] Zone  kernel: Available graphics memory: 4176288 kiB
+  [    6.681978] [TTM] Zone   dma32: Available graphics memory: 2097152 kiB
+  [    6.682043] [TTM] Initializing pool allocator
+  [    6.682159] [drm] amdgpu: 8176M of VRAM memory ready
+  [    6.682249] [drm] amdgpu: 6117M of GTT memory ready.
+  [    6.682387] [drm] GART: num cpu pages 8192, num gpu pages 131072
+  [    6.682466] amdgpu 0000:00:03.0: (-22) kernel bo map failed
+  [    6.682539] [drm:amdgpu_device_init [amdgpu]] *ERROR* amdgpu_vram_scra=
+tch_init failed -22
+  [    6.682592] amdgpu 0000:00:03.0: amdgpu_device_ip_init failed
+  [    6.682636] amdgpu 0000:00:03.0: Fatal error during GPU init
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1809144/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1809684/+subscriptions
 
