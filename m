@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E3C365BF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:16:17 +0200 (CEST)
-Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C10A365C13
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:23:26 +0200 (CEST)
+Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYs6p-0001Jo-Sq
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
+	id 1lYsDl-0004pW-66
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:23:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lYs2u-0000iO-J8; Tue, 20 Apr 2021 11:12:12 -0400
-Received: from [201.28.113.2] (port=63402 helo=outlook.eldorado.org.br)
+ id 1lYs3c-0000yy-Gf; Tue, 20 Apr 2021 11:12:56 -0400
+Received: from [201.28.113.2] (port=13848 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lYs2s-0006j9-It; Tue, 20 Apr 2021 11:12:12 -0400
+ id 1lYs3a-0007D3-VA; Tue, 20 Apr 2021 11:12:56 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 20 Apr 2021 12:12:07 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 20 Apr 2021 12:12:53 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 100AE8010EF;
- Tue, 20 Apr 2021 12:12:06 -0300 (-03)
+ by power9a (Postfix) with ESMTP id D5BF58010EF;
+ Tue, 20 Apr 2021 12:12:52 -0300 (-03)
 Subject: Re: [PATCH 2/2] tests/tcg/ppc64le: tests for brh/brw/brd
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
  <20210420013308.813323-3-matheus.ferst@eldorado.org.br>
- <4bb0154c-f809-384a-c4dd-a1a109558693@linaro.org>
+ <b2d3f35e-e796-8751-3b15-9a45cdd58266@linaro.org>
 From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <c4b151da-7402-d76a-5c3e-e161b05fe4c3@eldorado.org.br>
-Date: Tue, 20 Apr 2021 12:12:06 -0300
+Message-ID: <da36265b-6941-b252-c7ca-98481db8f830@eldorado.org.br>
+Date: Tue, 20 Apr 2021 12:12:52 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <4bb0154c-f809-384a-c4dd-a1a109558693@linaro.org>
+In-Reply-To: <b2d3f35e-e796-8751-3b15-9a45cdd58266@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 Apr 2021 15:12:07.0808 (UTC)
- FILETIME=[878D0800:01D735F7]
+X-OriginalArrivalTime: 20 Apr 2021 15:12:53.0268 (UTC)
+ FILETIME=[A2A5AD40:01D735F7]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -68,18 +68,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 20/04/2021 11:58, Richard Henderson wrote:
 > On 4/19/21 6:33 PM, matheus.ferst@eldorado.org.br wrote:
->> +    var = 0xFEDCBA9876543210;
->> +    asm("brh %0, %0" : "=r"(var));
->> +    assert(var == 0xDCFE98BA54761032);
+>> +#include <stdio.h>
+>> +#include <assert.h>
+>> +
+>> +int main(void)
+>> +{
 > 
-> Incorrect inline assembly, you are not declaring an input.
-> Use "+r" for in/out argument.
+> Oh, also, there's nothing in here that requires stdio.h.
 > 
 > 
 > r~
 
-Fixed, thanks!
+Forgot to remove. Will be fixed in the next version.
 
+Thanks,
 Matheus K. Ferst
 Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
 Analista de Software Júnior
