@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F053656EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:53:31 +0200 (CEST)
-Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A3D3656F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:57:26 +0200 (CEST)
+Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYo0Y-0000oC-T0
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54440)
+	id 1lYo4L-0003qJ-Le
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnoY-0007Vf-U0
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:41:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24624)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYntJ-0004kP-LE
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:46:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnoU-0006iR-Lr
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:41:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYntG-00012P-Sw
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:46:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618915261;
+ s=mimecast20190719; t=1618915554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YUOEYxp3D7AajGd2RmV1614DyyF+50BJqUT675+p+FI=;
- b=Lkjk1YTrWy2/XFM86qPRQH3BXbPmB3G4k1Ej2xauCVS9i83TN8N5w5VPGPdbNF1tvBBS6X
- kv6V9swZGxXMBpHeQ/nV0T2v1Q6ePiC62wWbTu+IlvfIsuUlpdcgq7AasI3R+OOsKavJPA
- hdjW3K6ZgaxaJuwXQtzrr1pY4FWNMVw=
+ bh=0VrRlOLqL+egLgP6+Ay0HwWT+JD0UdzVq2cUtZ1gv2E=;
+ b=Cnj4LxtVQ7+aSmHXanBBDbvcEzwOK7+R8oVGOBwd1pGvYaXTS2KffTFKvawdcMA+5vqJHw
+ 5Yw3tak3X6FXdmG13bqnZlGQyX29hOz6A/UYY88112yF4f3JNbxk9v1v9WeChgcx1lRqcS
+ cpfWXryMFCB8LKKPltYcpvw3O/gTgdo=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-eXb_UU0fNLKvlb0C-H593w-1; Tue, 20 Apr 2021 06:41:00 -0400
-X-MC-Unique: eXb_UU0fNLKvlb0C-H593w-1
+ us-mta-474-18d8y-xBMeimFlORI65bcQ-1; Tue, 20 Apr 2021 06:45:52 -0400
+X-MC-Unique: 18d8y-xBMeimFlORI65bcQ-1
 Received: by mail-wr1-f70.google.com with SMTP id
- v2-20020a0560001622b0290106e28f8af8so8063393wrb.9
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:41:00 -0700 (PDT)
+ y13-20020adfdf0d0000b02901029a3bf796so10689972wrl.15
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:45:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YUOEYxp3D7AajGd2RmV1614DyyF+50BJqUT675+p+FI=;
- b=efhDTBuwAJ8+acnWApAh0kSslh1DCCxW9/eDzv7GDLQ335vTEKu/XUVHNG3YZjrz04
- r4TeD4W0jNsyrlS7/VZEe+/muVz+JIalVUqqh+PRv4V0xf30TQLAyfo/o3WLMGyFRCHW
- uXP9Wiqw6V6mj2EDViSgRVjWpO8bCAR345/71w3vtnXT24pnNZcUwgSsKVXsorqfQOkB
- 5IEQ41O4Nrvi9RewuuJh+x5W5AOhfZhifhsSDp0Q+YWUQBrxOC4Ga0pCwps/SHPzrwMu
- ULM45CVt2KY0bj0frfcm/E221+q0pcW1AbJioXulq+G8YR3sCnh3znCXa0GyS99OuBzl
- fNwA==
-X-Gm-Message-State: AOAM531ywvHqZZ8dg/B1uitsxFF+YSNqpRFTtGgT1b4D7IbzQZoU20mt
- 3VJ5x4HhHwfq3f86UYDDrM/AqJYs2JJWKyvalQ1T0Yzoy5cRNwcfgGwGQvUSU9SheHvr3M7Jq2C
- jEWx3wPYQX6H8PD0=
-X-Received: by 2002:a1c:2786:: with SMTP id n128mr3864368wmn.82.1618915259242; 
- Tue, 20 Apr 2021 03:40:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtihl2IVF1QYfoFmRNWnbLqI4VjTkTW8kpPlslWQ/R9AJ53uSwrkr53BmWYt4OExZy8S5MVg==
-X-Received: by 2002:a1c:2786:: with SMTP id n128mr3864342wmn.82.1618915258977; 
- Tue, 20 Apr 2021 03:40:58 -0700 (PDT)
+ bh=0VrRlOLqL+egLgP6+Ay0HwWT+JD0UdzVq2cUtZ1gv2E=;
+ b=XxGzDRSm5cQxNjVwErGmUh8ALTL+jRy3shxoU64uML8RqGOm/BZ0qn3huCATdyv9PC
+ 1XO+2tP/VOtcwd02tUGgRR4rXqNSWiOzVc/ZTcXzT/3kQOCxdkJM2yu2lSTf3jfIfYQB
+ e2vqsXtHThpaijI6MNt18lzgv/coprPrJKT/YBtqzaPzcThoVI8roDNViVirppRBSweN
+ DkJe+ts8gSTPVaVZ6N3gbEI1Y1NPXk6i0pXJPVfZOC5R4XAB0fnRr6BpEjPidO4s8ch6
+ 8j+bQajnLN3dYdfetM+CmcZJ2RF2ZQIhYBwvkmXMwCUKqXH5YbDkFuyZ0/mZ6dZavBjw
+ zaSA==
+X-Gm-Message-State: AOAM533aPQkOG3995i+f4+NZvDZ6TUNiLfJf6Kq3Om6Ek+sYSjffREMx
+ U4YKmeWinwQz1uqpboOliX8OKYpcRBZwsJkldTBFC3+nvPh1H3yi7iUvmLyaBH8VYpEH+g9oGep
+ wvJsePQ7/xxIlLr0=
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr3953776wmk.112.1618915551624; 
+ Tue, 20 Apr 2021 03:45:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyKCL3/Cy3teniNVq2HSNW4uHrbwSdcYGFiA8qC64r0oHGvAvVhRLt2dwHfBOg/tazCxrTfog==
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr3953759wmk.112.1618915551436; 
+ Tue, 20 Apr 2021 03:45:51 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id u3sm2895261wmg.48.2021.04.20.03.40.57
+ by smtp.gmail.com with ESMTPSA id q7sm14304696wrr.62.2021.04.20.03.45.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 03:40:58 -0700 (PDT)
-Subject: Re: [PATCH v5 05/14] softmmu/memory: Pass ram_flags to
- memory_region_init_ram_shared_nomigrate()
+ Tue, 20 Apr 2021 03:45:51 -0700 (PDT)
+Subject: Re: [PATCH v5 04/14] softmmu/memory: Pass ram_flags to
+ qemu_ram_alloc_from_fd()
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210413091421.7707-1-david@redhat.com>
- <20210413091421.7707-6-david@redhat.com>
- <34931ee0-1bde-16f5-d929-1c9d9157f45a@redhat.com>
- <ce266bac-0bfa-4b45-0159-af3e7b17a234@redhat.com>
+ <20210413091421.7707-5-david@redhat.com>
+ <83201a21-7f05-88dd-abc7-59576bce2fe9@redhat.com>
+ <6ab168bd-113c-6fcb-658a-70f71aca4ab0@redhat.com>
+ <063387fa-0123-5260-dfb5-caf482dfcd05@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f298a62c-59e5-b562-63d1-8bdd2a44f7fe@redhat.com>
-Date: Tue, 20 Apr 2021 12:40:57 +0200
+Message-ID: <32d08d3a-1c81-10a1-31d5-1db842c85535@redhat.com>
+Date: Tue, 20 Apr 2021 12:45:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <ce266bac-0bfa-4b45-0159-af3e7b17a234@redhat.com>
+In-Reply-To: <063387fa-0123-5260-dfb5-caf482dfcd05@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -112,134 +113,59 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/21 12:27 PM, David Hildenbrand wrote:
-> On 20.04.21 12:20, Philippe Mathieu-Daudé wrote:
+On 4/20/21 12:36 PM, David Hildenbrand wrote:
+> On 20.04.21 12:18, Philippe Mathieu-Daudé wrote:
 >> Hi David,
 >>
->> On 4/13/21 11:14 AM, David Hildenbrand wrote:
->>> Let's forward ram_flags instead, renaming
->>> memory_region_init_ram_shared_nomigrate() into
->>> memory_region_init_ram_flags_nomigrate(). Forward flags to
->>> qemu_ram_alloc() and qemu_ram_alloc_internal().
+>> On 4/20/21 11:52 AM, Philippe Mathieu-Daudé wrote:
+>>> On 4/13/21 11:14 AM, David Hildenbrand wrote:
+>>>> Let's pass in ram flags just like we do with
+>>>> qemu_ram_alloc_from_file(),
+>>>> to clean up and prepare for more flags.
+>>>>
+>>>> Simplify the documentation of passed ram flags: Looking at our
+>>>> documentation of RAM_SHARED and RAM_PMEM is sufficient, no need to be
+>>>> repetitive.
+>>>>
+>>>> Reviewed-by: Peter Xu <peterx@redhat.com>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>   backends/hostmem-memfd.c | 7 ++++---
+>>>>   hw/misc/ivshmem.c        | 5 ++---
+>>>>   include/exec/memory.h    | 9 +++------
+>>>>   include/exec/ram_addr.h  | 6 +-----
+>>>>   softmmu/memory.c         | 7 +++----
+>>>>   5 files changed, 13 insertions(+), 21 deletions(-)
 >>>
->>> Reviewed-by: Peter Xu <peterx@redhat.com>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>>   backends/hostmem-ram.c                        |  6 +++--
->>>   hw/m68k/next-cube.c                           |  4 ++--
->>>   include/exec/memory.h                         | 24 +++++++++----------
->>>   include/exec/ram_addr.h                       |  2 +-
->>>   .../memory-region-housekeeping.cocci          |  8 +++----
->>>   softmmu/memory.c                              | 20 ++++++++--------
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>
 >>
->> OK up to here, but the qemu_ram_alloc_internal() changes
->> in softmmu/physmem.c belong to a different patch (except
->> the line adding "new_block->flags = ram_flags").
->> Do you mind splitting it?
+>> Actually it would be clearer to define the 0 value, maybe:
+>>
+>> #define RAM_NOFLAG     (0 << 0)
 >>
 > 
-> Can you elaborate? Temporarily passing both "ram_flags" and "bool
-> resizeable, bool share" to qemu_ram_alloc_internal()?
+> This will also turn some code into
 > 
-> I don't see a big benefit in doing that besides even more effective
-> changes in two individual patches. But maybe if you elaborate, i can see
-> what you would like to see :)
+> ram_flags = backend->share ? RAM_SHARED : RAM_NOFLAG;
+> ram_flags |= backend->reserve ? RAM_NOFLAG : RAM_NORESERVE;
 
-In this patch I see
+This is the callee view, withing the API, where you have all
+the context.
 
-1/ change a parameter and propagate it
-2/ adapt assertions
+> Looking at other flag users, I barely see any such usage.
+> XKB_CONTEXT_NO_FLAGS, ALLOC_NO_FLAGS, and MEM_AFFINITY_NOFLAGS seem to
+> be the only ones. That's why I tend to not do it unless there are strong
+> opinions.
 
-I'd rather review the assertions modified / cleaned in another patch,
-simply because it required me 2 different mental efforts to review the
-first part and the second part. But maybe it is not possible, so I'll
-review the 2nd part here.
+I'm more concerned about the caller perspective. What means this
+magic '0' in the arguments? Then I have to check the prototype.
+If the caller uses RAM_NO_FLAGS, I directly understand what is passed.
 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index cc59f05593..fdcd38ba61 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2108,12 +2108,14 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t
-size, ram_addr_t max_size,
->                                    void (*resized)(const char*,
->                                                    uint64_t length,
->                                                    void *host),
-> -                                  void *host, bool resizeable, bool
-share,
-> +                                  void *host, uint32_t ram_flags,
->                                    MemoryRegion *mr, Error **errp)
->  {
->      RAMBlock *new_block;
->      Error *local_err = NULL;
->
+Anyway my comment fits the usual "can be cleaned later" case.
 
-Maybe also:
+Thanks,
 
-       assert(!host || (ram_flags & RAM_PREALLOC));
-
-> +    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE)) == 0);
-> +
->      size = HOST_PAGE_ALIGN(size);
->      max_size = HOST_PAGE_ALIGN(max_size);
->      new_block = g_malloc0(sizeof(*new_block));
-> @@ -2125,15 +2127,10 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t
-size, ram_addr_t max_size,
->      new_block->fd = -1;
->      new_block->page_size = qemu_real_host_page_size;
->      new_block->host = host;
-> +    new_block->flags = ram_flags;
->      if (host) {
->          new_block->flags |= RAM_PREALLOC;
->      }
-
-We could also remove this statement ...
-
-> -    if (share) {
-> -        new_block->flags |= RAM_SHARED;
-> -    }
-> -    if (resizeable) {
-> -        new_block->flags |= RAM_RESIZEABLE;
-> -    }
->      ram_block_add(new_block, &local_err);
->      if (local_err) {
->          g_free(new_block);
-> @@ -2146,15 +2143,14 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t
-size, ram_addr_t max_size,
->  RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
->                                     MemoryRegion *mr, Error **errp)
->  {
-> -    return qemu_ram_alloc_internal(size, size, NULL, host, false,
-> -                                   false, mr, errp);
-
-... by passing RAM_PREALLOC here.
-
-> +    return qemu_ram_alloc_internal(size, size, NULL, host, 0, mr, errp);
->  }
->
-> -RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share,
-> +RAMBlock *qemu_ram_alloc(ram_addr_t size, uint32_t ram_flags,
->                           MemoryRegion *mr, Error **errp)
->  {
-> -    return qemu_ram_alloc_internal(size, size, NULL, NULL, false,
-> -                                   share, mr, errp);
-> +    assert((ram_flags & ~RAM_SHARED) == 0);
-> +    return qemu_ram_alloc_internal(size, size, NULL, NULL, ram_flags,
-mr, errp);
->  }
->
->  RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t maxsz,
-> @@ -2163,8 +2159,8 @@ RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t
-size, ram_addr_t maxsz,
->                                                       void *host),
->                                       MemoryRegion *mr, Error **errp)
->  {
-> -    return qemu_ram_alloc_internal(size, maxsz, resized, NULL, true,
-> -                                   false, mr, errp);
-> +    return qemu_ram_alloc_internal(size, maxsz, resized, NULL,
-> +                                   RAM_RESIZEABLE, mr, errp);
->  }
->
->  static void reclaim_ramblock(RAMBlock *block)
->
+Phil.
 
 
