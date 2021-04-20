@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B7F3650B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 05:13:31 +0200 (CEST)
-Received: from localhost ([::1]:50716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E393650A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 05:07:27 +0200 (CEST)
+Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYgpO-0001LT-Ib
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 23:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
+	id 1lYgjV-0006Lg-V5
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 23:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYgnF-0000ra-TU
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:11:17 -0400
-Received: from mga07.intel.com ([134.134.136.100]:4162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lYgnD-0005HP-Or
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:11:17 -0400
-IronPort-SDR: LJ39gZB8rwQTowldS59c59BKBy0ubQnyNd/wv1a4W1BCuYV9eAR91JjFN1LQEJPA+KH3UnYI5N
- iXyx0nkTPhMg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="259391656"
-X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; d="scan'208";a="259391656"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2021 20:11:09 -0700
-IronPort-SDR: JFBK22EzqxGysM7/3nkyQmlihIUaH3rfpAqZ4YhTu8uHoQyIJeCip8umJao3xo8lKDpNvFZUUt
- X0vl/2W4TEdQ==
-X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; d="scan'208";a="420233938"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 19 Apr 2021 20:11:07 -0700
-Date: Tue, 20 Apr 2021 10:58:48 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Subject: Re: [PATCH 13/32] linux-headers: Add placeholder for
- KVM_CAP_SGX_ATTRIBUTE
-Message-ID: <20210420025848.GA10152@yangzhon-Virtual>
-References: <20210419100156.53504-1-yang.zhong@intel.com>
- <20210419100156.53504-14-yang.zhong@intel.com>
- <7439eb6198e095e3e8a354b7d22be4ab298e435b.camel@intel.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lYgig-0005tu-JU
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:06:34 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:42813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lYgid-0002XV-R8
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:06:34 -0400
+Received: by mail-il1-x12d.google.com with SMTP id c4so4353577ilq.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 20:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y35mqOo76xF7yaiOAyonFPjLSbiL8Bl6wHBwjwp5eJ8=;
+ b=DzlZJ5o+fTDmLA/b48nppzKkBVyv7hBh2NalmwrnkxkXQd/PEmlIRsavKZ9dOqaNZF
+ 89HWeBre8GqZPjHNwu7J9VN1C22lfNMpj2Jh55XzcamRFsVGLk+2z0Ml4JlAuZ83f9Hu
+ 23DYyQ43TTwPQJQDhErN6NwbbSYTVfmj0Wz+bf6s1FdIr+F+j56i890NJkkctnbJU0Fn
+ nYBlqLRfW+llceDVwQi+huVNhI4Kw1HnO5KAO1lJdB3W8y6larAzYGMOj/VWDPzcVpxe
+ b2Z7VcwQD9UGDiKdOqtczkPgjnSpfJn+M1uievpps8Px73lMcfNRvzsimFi+wD5Eo4cb
+ NbFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y35mqOo76xF7yaiOAyonFPjLSbiL8Bl6wHBwjwp5eJ8=;
+ b=Mcj12asrUvjLXXRWi/L6WhbjAESLsWEPCN96JYBCxriyceZgq0AoxNuUnWClYidc8T
+ f9NlC71XJG5PNdRRFDjlP79/7c14gv6ZfN9eVDfczSnBXIwjL+65ynrmo/yPBYRf0ylH
+ qlAGbf5EWcj32+UDzZzNGMIbDff1NWPelwwgEKmNc81LY2yPlLNTlu2nuciK3Vyksoq9
+ yPJLjvqGUjI1pO+MxD2EHenz3Fc9QopMJsYjP09IFbaxqSyqct22iizBtNlsfLuJaAqQ
+ gnqcBwFAdkhUMBkDKixSVDDsBfWnmrcu2wAEoQ2i9KkSDED08z7PzX61xQyRos5xElbs
+ FgRQ==
+X-Gm-Message-State: AOAM530YD7Cw6Grk6gW9LeSo/fKBkvhl59KEj8aNCOCWI3XUcH6HaPJ8
+ SHJDQhA2VRMkl+B+UQe4xtJurXRb7pRMTf7ewYo=
+X-Google-Smtp-Source: ABdhPJyKzT4GF/n96LKfUhQZ/DriJ/WYmGY3Cf4f9ojCOeeRPB8HKMT8zPkKT9PGLOcLmfgQqzWYl7Fow4fLZSRUXyQ=
+X-Received: by 2002:a92:d90f:: with SMTP id s15mr19927414iln.227.1618887989862; 
+ Mon, 19 Apr 2021 20:06:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7439eb6198e095e3e8a354b7d22be4ab298e435b.camel@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=yang.zhong@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210415134128.32670-1-emmanuel.blot@sifive.com>
+ <FB9EA197-B018-4879-AB0F-922C2047A08B@sifive.com>
+ <CAKmqyKNxMWpfQDGxxXLk=reAwv8+ky72YrrX=m5-eF_p_848Hg@mail.gmail.com>
+In-Reply-To: <CAKmqyKNxMWpfQDGxxXLk=reAwv8+ky72YrrX=m5-eF_p_848Hg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 20 Apr 2021 13:06:03 +1000
+Message-ID: <CAKmqyKPVYqZdfvn22U+UwS5afJhH00DtTFb5YqESUNYKjK3Jzg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix exception index on instruction access
+ fault
+To: Emmanuel Blot <emmanuel.blot@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,40 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- seanjc@google.com
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 20, 2021 at 02:08:44PM +1200, Kai Huang wrote:
-> On Mon, 2021-04-19 at 18:01 +0800, Yang Zhong wrote:
-> > From: Sean Christopherson <sean.j.christopherson@intel.com>
-> > 
-> > KVM_CAP_SGX_ATTRIBUTE is a proposed capability for Intel SGX that can be
-> > used by userspace to enable privileged attributes, e.g. access to the
-> > PROVISIONKEY.
-> > 
-> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  linux-headers/linux/kvm.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> > index 020b62a619..0961b03007 100644
-> > --- a/linux-headers/linux/kvm.h
-> > +++ b/linux-headers/linux/kvm.h
-> > @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
-> >  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
-> >  #define KVM_CAP_SYS_HYPERV_CPUID 191
-> >  #define KVM_CAP_DIRTY_LOG_RING 192
-> > +#define KVM_CAP_SGX_ATTRIBUTE 195
-> >  
-> > 
-> This needs to be changed to 196, since KVM SGX code has changed to 196.
+On Tue, Apr 20, 2021 at 10:56 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
-  Justly double confirmed from the sgx code in the kvm queue branch, i will
-  change this value in the next version, thanks!
+> On Sat, Apr 17, 2021 at 12:48 AM Emmanuel Blot <emmanuel.blot@sifive.com> wrote:
+> >
+> > When no MMU is used and the guest code attempts to fetch an instruction
+> > from an invalid memory location, the exception index defaults to a data
+> > load access fault, rather an instruction access fault.
+> >
+> > Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-  Yang  
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+> Alistair
+>
+> >
+> > ---
+> >   target/riscv/cpu_helper.c | 4 +++-
+> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 21c54ef5613..4e107b1bd23 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -691,8 +691,10 @@ void riscv_cpu_do_transaction_failed(CPUState *cs,
+> > hwaddr physaddr,
+> >
+> >       if (access_type == MMU_DATA_STORE) {
+> >           cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
+> > -    } else {
+> > +    } else if (access_type == MMU_DATA_LOAD) {
+> >           cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
+> > +    } else {
+> > +        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
+> >       }
+> >
+> >       env->badaddr = addr;
+> > --
+> > 2.31.1
+> >
 
