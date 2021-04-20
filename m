@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BAC3656E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:52:42 +0200 (CEST)
-Received: from localhost ([::1]:52212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8CD3656ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:56:40 +0200 (CEST)
+Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYnzl-00006j-Fr
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56302)
+	id 1lYo3c-0003M0-10
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnwk-00076O-Sg
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:49:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35385)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1lYnyt-00007v-Gv
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:51:47 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:38476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnwY-0002hS-Ac
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:49:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618915758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mZniG6MbAE018d366J7RPHmF5Rm1HTiUh5EnbkYsiJk=;
- b=M4fjuVU7iclqis48pMvKo+MCWkRk9NKFq1Cw8cUyG6DNiD2kcH8jq83osxG+kyJV7PjKnF
- ufp3uN3HgLPuWnKvxaDxREk3MgxUHHoc5tbENaimf8wnUBdOeN3AFlXD6ycq/1+01LrYo5
- gpT+8ZBEKg8JFAO+0fU3rDRRX2z+gLk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-xaeo9-1GOfW701HVkQp0Hw-1; Tue, 20 Apr 2021 06:49:11 -0400
-X-MC-Unique: xaeo9-1GOfW701HVkQp0Hw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- t18-20020adfdc120000b02900ffe4432d8bso10699082wri.6
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:49:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mZniG6MbAE018d366J7RPHmF5Rm1HTiUh5EnbkYsiJk=;
- b=sXWXc11Anvjg36GnpgeQYUykkNFG2R9GOwHhX+lzXF7L5NBFZGRIr2z/uwWHCu+3yc
- D4XoM2AfUOhx6NqLsKZFRuTF3Z3hdPPaJf5kyqmwzknSG+DBQNONDbtpsUu02muJezEs
- lvqNQZwDVLV3cSgV6XsUZdGThX4ZKGh6LcD3CfXwukny11/JtslD5gY4qC+JYBhrM6bM
- gCxH7ndFm3EDBS3oBn1q3erkG6co5ogLjTGSJxV5zHGFls+et5zjrsg8Q1ZUxywDV+kM
- 9l1bUzt4Jyf8I14fa5zgp1OIB+PxIPc555UdP8224yXeIg1fBPDhrapXsAAzbkamXYVl
- J6rg==
-X-Gm-Message-State: AOAM530Me4esw8B4KFU7gLnMCIEEyObV9eiDwxAci/ozJlWXw/e0JjTZ
- lRTyNXtBbSIEpZrPzZqRhMdSw62drzeNAGCM7ct2f3SHLVCkwWq84HeyEbThTPZPoBK3bbrgqRs
- +qTgFMqtdpZ8rTRE=
-X-Received: by 2002:a1c:6382:: with SMTP id x124mr3822764wmb.142.1618915750756; 
- Tue, 20 Apr 2021 03:49:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwK6wlRu7r2+cF41e6emIcwUSz5vBVnbqSnh4Tyv9ZpAHP3Y5AX9vdnD26r6XfCiBFN6Q8DDw==
-X-Received: by 2002:a1c:6382:: with SMTP id x124mr3822758wmb.142.1618915750647; 
- Tue, 20 Apr 2021 03:49:10 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id n9sm2714129wmo.27.2021.04.20.03.49.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 03:49:10 -0700 (PDT)
-Subject: Re: [PATCH v5 14/14] hmp: Print "reserve" property of memory backends
- with "info memdev"
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210413091421.7707-1-david@redhat.com>
- <20210413091421.7707-15-david@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1a3b5533-1652-9a28-26de-fc85406cd9bd@redhat.com>
-Date: Tue, 20 Apr 2021 12:49:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1lYnyo-00042l-Cr
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:51:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1618915902;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=r2GvvTFs1FzifLgk5G62sYYj93zFWYsDLtHCLOMWAdY=;
+ b=c8sTzrCnZ33suJMWnwKtxpX+HRnlDqtDId7gS9GYgIGtA2eVjS8mj3OP
+ KRzZp8/A4+JDPi9FvhWB4Exk+yUieviNzu07/p4SG7P8nVbJDTDXK/bRj
+ uuBrxMkNzfYMP9QhuoD/j0V9ZKkIXzA7xy1QKZ2LA+GViX/ewYbixn2Q/ Q=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: FGkKX9wB4UugATYgZTNpiMY0igFSNGJREYzTy8bX5Fq3sWrChHI1kBFJDL3KdgfNqExizNhDtJ
+ odIvYaRELlNyMbmnLZ/t0YM9G4IxFNX6qOQ+5QGxc1lUu7mKzt3fNb72c1sJIu+qtSBRR8Z4Uy
+ YeQ262k6swB3JX8WjSHWz40WgFR0mIC0MHWWZf4/8Uvx1FyD+h2Z4B2zz7ZFfJJNFyif+Dgua5
+ lTz0J5OBKzXb8whXhfxX+L2zZ5187Db8Q+LSPVcuHa6npgNcKV9eD+zzRkqx/I7KAKe0k4ugJo
+ QdU=
+X-SBRS: 5.1
+X-MesageID: 41799571
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+IronPort-HdrOrdr: A9a23:GMsmdqpM5h64NcpKirjuIAcaV5q6eYIsi2QD101hICF9WObwra
+ GTtd4c0gL5jytUdXE7gNabOLSBR3S0z+8T3aA6O7C+UA76/Fa5NY0K1/qH/xTMEzDzn9Qw6Y
+ 5OaK57YeeeMXFbioLA7BC8A5IcxrC8gcaVrMP/61socg1wcaFn6G5Ce2OmO2l7XhNPC5Z8NL
+ f03LslmxOadX4abtu2CxA+NoCpzbD2vanrbhIcCxks5BPmt0LL1JfAHwWFxRBbajtTwN4ZgB
+ H4ujbk7aauuezT8H/h/lLUhq45pOfc
+X-IronPort-AV: E=Sophos;i="5.82,236,1613451600"; d="scan'208";a="41799571"
+Date: Tue, 20 Apr 2021 11:51:35 +0100
+To: Igor Druzhinin <igor.druzhinin@citrix.com>
+CC: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>,
+ <sstabellini@kernel.org>, <paul@xen.org>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <pbonzini@redhat.com>,
+ <richard.henderson@linaro.org>, <ehabkost@redhat.com>
+Subject: Re: [PATCH] xen-mapcache: avoid a race on memory map while using
+ MAP_FIXED
+Message-ID: <YH6yNxOtvuFcuQsy@perard>
+References: <161888998361.15979.8661085658302494664@72b6d80f974b>
+ <91dc07bd-fc34-56fa-4c3e-684626a2e8d5@citrix.com>
 MIME-Version: 1.0
-In-Reply-To: <20210413091421.7707-15-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <91dc07bd-fc34-56fa-4c3e-684626a2e8d5@citrix.com>
+Received-SPF: pass client-ip=216.71.155.168;
+ envelope-from=anthony.perard@citrix.com; helo=esa5.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,29 +81,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-On 4/13/21 11:14 AM, David Hildenbrand wrote:
-> Let's print the new property.
+On Tue, Apr 20, 2021 at 10:51:47AM +0100, Igor Druzhinin wrote:
+> On 20/04/2021 04:39, no-reply@patchew.org wrote:
+> > === OUTPUT BEGIN ===
+> > ERROR: Author email address is mangled by the mailing list
+> > #2:
+> > Author: Igor Druzhinin via <qemu-devel@nongnu.org>
+> > 
+> > total: 1 errors, 0 warnings, 21 lines checked
+> > 
 > 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/core/machine-hmp-cmds.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Anthony,
+> 
+> Is there any action required from me here? I don't completely understand how
+> that happened. But I found this:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+No action, I just need to remember to fix the patch's author before
+submitting a pull request.
 
+Citrix's policy is just too strict and don't even allow space changes in
+some headers.
+
+-- 
+Anthony PERARD
 
