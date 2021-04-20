@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8B0364FFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 03:47:09 +0200 (CEST)
-Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60ADE36501C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 04:10:21 +0200 (CEST)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYfTo-0001Wu-Ek
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 21:47:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1lYfqG-0005fg-1S
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 22:10:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lYfRx-0000sJ-Mk; Mon, 19 Apr 2021 21:45:13 -0400
-Received: from out28-221.mail.aliyun.com ([115.124.28.221]:57008)
+ (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
+ id 1lYfoz-0004yK-9I
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 22:09:01 -0400
+Received: from mga05.intel.com ([192.55.52.43]:59459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lYfRu-0003j5-Ir; Mon, 19 Apr 2021 21:45:13 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08855618|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0382446-0.000266983-0.961488;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.K0kQM6V_1618883101; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.K0kQM6V_1618883101)
- by smtp.aliyun-inc.com(10.147.42.198);
- Tue, 20 Apr 2021 09:45:01 +0800
-Subject: Re: [RFC PATCH 00/11] RISC-V: support clic v0.9 specification
-To: Alistair Francis <alistair23@gmail.com>, michaeljclark@mac.com
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <CAKmqyKPtV0PFdEfO0B5YFGC2i21OAmvBsY0ovUVdQwn3ttpcQA@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <beb2e320-60fb-db42-e4d6-3b4d5cb82a95@c-sky.com>
-Date: Tue, 20 Apr 2021 09:44:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
+ id 1lYfov-00062c-NK
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 22:09:00 -0400
+IronPort-SDR: 9InAMpiOzaoqNdaGqnoaPGBCFJYDAHuWIv8Znzaxi/nEsgu8/BUtglsHbiIpeTqGy2RHD6yJY8
+ 0CWB0OuQ3loA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="280755131"
+X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; d="scan'208";a="280755131"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2021 19:08:48 -0700
+IronPort-SDR: i7Q/akWPMVfB+vmHUp+s8+6gY/c7pjA77JqzFId9MQpZQCat3KZ1BsdWjT7figLg90ccgke5zC
+ yjmu9fN7Skfw==
+X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; d="scan'208";a="616769126"
+Received: from hburk-mobl2.amr.corp.intel.com ([10.212.231.158])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2021 19:08:47 -0700
+Message-ID: <7439eb6198e095e3e8a354b7d22be4ab298e435b.camel@intel.com>
+Subject: Re: [PATCH 13/32] linux-headers: Add placeholder for
+ KVM_CAP_SGX_ATTRIBUTE
+From: Kai Huang <kai.huang@intel.com>
+To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
+Date: Tue, 20 Apr 2021 14:08:44 +1200
+In-Reply-To: <20210419100156.53504-14-yang.zhong@intel.com>
+References: <20210419100156.53504-1-yang.zhong@intel.com>
+ <20210419100156.53504-14-yang.zhong@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKPtV0PFdEfO0B5YFGC2i21OAmvBsY0ovUVdQwn3ttpcQA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.221; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-221.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=kai.huang@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,98 +64,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: pbonzini@redhat.com, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/4/20 上午7:30, Alistair Francis wrote:
-> On Fri, Apr 9, 2021 at 5:56 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->> This patch set gives an implementation of "RISC-V Core-Local Interrupt
->> Controller(CLIC) Version 0.9-draft-20210217". It comes from [1], where
->> you can find the pdf format or the source code.
->>
->> I take over the job from Michael Clark, who gave the first implementation
->> of clic-v0.7 specification. If there is any copyright question, please
->> let me know.
-> You need to make sure you leave all original copyright notices and SoB in place.
-
-OK.
-
-Is it OK that keep the original copyright notices for new files and  
-your SoB in every patch,  Michael?
-
->
->> Features:
->> 1. support four kinds of trigger types.
->> 2. Preserve the CSR WARL/WPRI semantics.
->> 3. Option to select different modes, such as M/S/U or M/U.
->> 4. At most 4096 interrupts.
->> 5. At most 1024 apertures.
->>
->> Todo:
->> 1. Encode the interrupt trigger information to exccode.
->> 2. Support complete CSR mclicbase when its number is fixed.
->> 3. Gave each aperture an independend address.
->>
->> It have passed my qtest case and freertos test. Welcome to have a try
->> for your hardware.
-> It doesn't seem to be connected to any machine. How are you testing this?
-
-There is a machine called SMARTL in my repository[1].  The qtest case 
-is  tests/qtest/test-riscv32-clic.c. If it's better, I can upstream the 
-machine together next version.
-
-Zhiwei
-
-[1]https://github.com/romanheros/qemu, branch: riscv-clic-upstream-rfc
+On Mon, 2021-04-19 at 18:01 +0800, Yang Zhong wrote:
+> From: Sean Christopherson <sean.j.christopherson@intel.com>
+> 
+> KVM_CAP_SGX_ATTRIBUTE is a proposed capability for Intel SGX that can be
+> used by userspace to enable privileged attributes, e.g. access to the
+> PROVISIONKEY.
+> 
+> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> ---
+>  linux-headers/linux/kvm.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 020b62a619..0961b03007 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+>  #define KVM_CAP_SYS_HYPERV_CPUID 191
+>  #define KVM_CAP_DIRTY_LOG_RING 192
+> +#define KVM_CAP_SGX_ATTRIBUTE 195
+>  
+> 
+This needs to be changed to 196, since KVM SGX code has changed to 196.
 
 
->
-> Alistair
->
->> Any advice is welcomed. Thanks very much.
->>
->> Zhiwei
->>
->> [1] specification website: https://github.com/riscv/riscv-fast-interrupt.
->> [2] Michael Clark origin work: https://github.com/sifive/riscv-qemu/tree/sifive-clic.
->>
->>
->> LIU Zhiwei (11):
->>    target/riscv: Add CLIC CSR mintstatus
->>    target/riscv: Update CSR xintthresh in CLIC mode
->>    hw/intc: Add CLIC device
->>    target/riscv: Update CSR xie in CLIC mode
->>    target/riscv: Update CSR xip in CLIC mode
->>    target/riscv: Update CSR xtvec in CLIC mode
->>    target/riscv: Update CSR xtvt in CLIC mode
->>    target/riscv: Update CSR xnxti in CLIC mode
->>    target/riscv: Update CSR mclicbase in CLIC mode
->>    target/riscv: Update interrupt handling in CLIC mode
->>    target/riscv: Update interrupt return in CLIC mode
->>
->>   default-configs/devices/riscv32-softmmu.mak |   1 +
->>   default-configs/devices/riscv64-softmmu.mak |   1 +
->>   hw/intc/Kconfig                             |   3 +
->>   hw/intc/meson.build                         |   1 +
->>   hw/intc/riscv_clic.c                        | 836 ++++++++++++++++++++
->>   include/hw/intc/riscv_clic.h                | 103 +++
->>   target/riscv/cpu.h                          |   9 +
->>   target/riscv/cpu_bits.h                     |  32 +
->>   target/riscv/cpu_helper.c                   | 117 ++-
->>   target/riscv/csr.c                          | 247 +++++-
->>   target/riscv/op_helper.c                    |  25 +
->>   11 files changed, 1363 insertions(+), 12 deletions(-)
->>   create mode 100644 hw/intc/riscv_clic.c
->>   create mode 100644 include/hw/intc/riscv_clic.h
->>
->> --
->> 2.25.1
->>
->>
 
