@@ -2,57 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD656365C36
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:28:47 +0200 (CEST)
-Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB27365C0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:21:55 +0200 (CEST)
+Received: from localhost ([::1]:60228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYsIw-0003kP-OI
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
+	id 1lYsCI-0004j5-CH
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lYsCh-0005ko-Mp
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:22:20 -0400
-Received: from mga05.intel.com ([192.55.52.43]:37580)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lYsAu-00043P-Al
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:20:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lYsCb-0004eD-2p
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:22:19 -0400
-IronPort-SDR: ptioplYskxzkeWG+fIyUAVh0o4W66OKDHnwpf/gP6lgmDX0UQYXC659WwwERLBgWsgq1oFBzMH
- hfC3+Clutf0Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="280854248"
-X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="280854248"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 08:22:11 -0700
-IronPort-SDR: k8OF5vJ5zPnD8ok00oIOmxpMmxNIigYmv56hI5pVp1A3TqaoaxW5mSODPv+8jVHMGfYcTAKjRP
- VIK2DRl3bXlg==
-X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="523846771"
-Received: from unknown (HELO tkid-nvme.lan) ([10.239.13.19])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 08:22:08 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH V6 6/6] net/net.c: Add handler for COLO passthrough connection
-Date: Tue, 20 Apr 2021 23:15:37 +0800
-Message-Id: <20210420151537.64360-7-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210420151537.64360-1-chen.zhang@intel.com>
-References: <20210420151537.64360-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lYsAi-0003TS-6k
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:20:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618932012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4ubl9qwL3Y+dqyae1iZlSqKoeE0lHArlEayAUKR5+zs=;
+ b=K7kku8HxE1sIUrieHf7WdikQkjWLntnfa3IDSnOg62MGa/IUtJiBghzZOyAWs5qQmLSFPc
+ qdf9lGnuk82UUe2au4CG/KZBb9wwzz2FHcgrRyJHBtsIAJ3iFwIt9pqpngXbfpfjCF7xeT
+ K351jwoDCknCcd5CGJly+IfkarUt4yE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-lxqmU1FFPPKOhNOYRbkMtA-1; Tue, 20 Apr 2021 11:20:10 -0400
+X-MC-Unique: lxqmU1FFPPKOhNOYRbkMtA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 150D38542C8
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 15:20:10 +0000 (UTC)
+Received: from localhost (ovpn-118-208.rdu2.redhat.com [10.10.118.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BACC819D80;
+ Tue, 20 Apr 2021 15:20:09 +0000 (UTC)
+Date: Tue, 20 Apr 2021 11:20:09 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
+ unless '--no-migration' was specified
+Message-ID: <20210420152009.imao3srwmskpcmbw@habkost.net>
+References: <874kg68z07.fsf@vitty.brq.redhat.com>
+ <20210416162801.zluqlbvyipoanedw@habkost.net>
+ <YH2509yA7qkYFJ0p@work-vm> <YH26x8TkpT5zsgst@redhat.com>
+ <YH27H6VmKGXdA4H7@redhat.com> <YH3QRs7VUapXZaTj@work-vm>
+ <20210419193228.q5e6vdnqwygh22bq@habkost.net>
+ <YH7ATwO6DIbKIR4i@work-vm>
+ <20210420134811.o2ypiw3y4fr73udb@habkost.net>
+ <YH7g5CdYGGCgHGpR@work-vm>
 MIME-Version: 1.0
+In-Reply-To: <YH7g5CdYGGCgHGpR@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,204 +87,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use connection protocol,src port,dst port,src ip,dst ip as the key
-to bypass certain network traffic in COLO compare.
+On Tue, Apr 20, 2021 at 03:10:44PM +0100, Dr. David Alan Gilbert wrote:
+> * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > On Tue, Apr 20, 2021 at 12:51:43PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > On Mon, Apr 19, 2021 at 07:47:34PM +0100, Dr. David Alan Gilbert wrote:
+> > > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > > > On Mon, Apr 19, 2021 at 06:15:56PM +0100, Daniel P. Berrangé wrote:
+> > > > > > > On Mon, Apr 19, 2021 at 06:11:47PM +0100, Dr. David Alan Gilbert wrote:
+> > > > > > > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > > > > > > I would make live migration policy an enum, just to make sure
+> > > > > > > > > we are explicit about the requirements:
+> > > > > > > > > 
+> > > > > > > > > - UNKNOWN: this is the current state in QEMU 6.0, where we don't
+> > > > > > > > >   really know what the user expects.
+> > > > > > > > >   This can be the default on existing versioned machine types,
+> > > > > > > > >   just for compatibility.
+> > > > > > > > >   I suggest making this print warnings for every migration
+> > > > > > > > >   blocker (like this patch does).
+> > > > > > > > >   I suggest deprecating this behavior as soon as we can.
+> > > > > > > > > 
+> > > > > > > > > - PREFERRED: try to make the VM migratable when possible, but
+> > > > > > > > >   don't print a warning or error out if migration is blocked.
+> > > > > > > > >   This seems to be the behavior expected by libvirt today.
+> > > > > > > > > 
+> > > > > > > > > - NOT_NEEDED: live migration is not needed, and QEMU is free to
+> > > > > > > > >   enable features that block live migration or change guest ABI.
+> > > > > > > > >   We can probably make this the default on machine types that
+> > > > > > > > >   never supported live migration.
+> > > > > > > > 
+> > > > > > > > I suggest you could do this by adding:
+> > > > > > > >   -warn-none-migratable
+> > > > > > > >   -no-warn-none-migratable
+> > > > > > > > 
+> > > > > > > > and then argue about defaults another time.
+> > > > > > > 
+> > > > > > > If we're going to add new args, lets at least future proof our
+> > > > > > > approach with an extensible option that we can wire into QMP
+> > > > > > > too later
+> > > > > > > 
+> > > > > > >   -migratable  none|preferred|required 
+> > > > > > > 
+> > > > > > > and letting us add extra key/value pairs to tune it if desired.
+> > > > > > 
+> > > > > > Having said that, we potentially don't need a dedicated arg if we
+> > > > > > just make  'migratable=none|preferred|required' be a property of
+> > > > > > the machine type and hook everything off that
+> > > > > 
+> > > > > I think my only difficulty with that is that I don't find any of those
+> > > > > 3 words 'obvious'.
+> > > > 
+> > > > Any suggestions of replacements for those 3 words?
+> > > > 
+> > > > Would the descriptions below be enough to clarify their meaning
+> > > > in documentation?
+> > > 
+> > > I prefer things that are fairly obvious without needing to look at the
+> > > documentation until you want the detail.
+> > > 
+> > > > - NONE: live migration is not needed, and device or machine code
+> > > >   is allowed to enable features that block live migration or
+> > > >   change guest ABI.
+> > > >   (Not implemented yet)
+> > > > 
+> > > > - PREFERRED: machine and device code should try to make the VM
+> > > >   migratable when possible, but won't emit a warning or error out
+> > > >   if migration is blocked.
+> > > >   (Current default behavior)
+> > > > 
+> > > > - REQUIRED: live migration support is required, and adding a
+> > > >   migration blocker will be an error.
+> > > >   (Implemented today by --only-migratable)
+> > > 
+> > > How about
+> > >   -migratable blocked
+> > >      Live migration is not allowed; an outbound migration will fail
+> > 
+> > "none" and NOT_NEEDED above were about letting QEMU automatically
+> > enable features that block live migration or change guest ABI.
+> > 
+> > If that's implied by "blocked", I'd like to get that documented
+> > explicitly.  If that's not implied by "blocked", I don't
+> > understand what's the use case for "blocked".
+> 
+> My 'blocked' is stronger - migration is hard disabled by a blocker
+> always; it's for (rare) cases where the user wants to stop a migration
+> happening, even if qemu believes it can do it.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/net.c | 160 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 158 insertions(+), 2 deletions(-)
+The main point of my "not_needed" suggestion was to get
+convenient defaults for use cases where live migration and guest
+ABI stability is not needed.
 
-diff --git a/net/net.c b/net/net.c
-index 2a6e5f3886..9b0de0f332 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -56,6 +56,8 @@
- #include "sysemu/sysemu.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "net/colo-compare.h"
-+#include "qom/object_interfaces.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -1196,14 +1198,168 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
- }
- 
-+static CompareState *colo_passthrough_check(IPFlowSpec *spec, Error **errp)
-+{
-+    Object *container;
-+    Object *obj;
-+    CompareState *s;
-+
-+    if (!spec->object_name) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "object-name",
-+                   "Need input colo-compare object name");
-+        return NULL;
-+    }
-+
-+    container = object_get_objects_root();
-+    obj = object_resolve_path_component(container, spec->object_name);
-+    if (!obj) {
-+        error_setg(errp, "colo-compare '%s' not found", spec->object_name);
-+        return NULL;
-+    }
-+
-+    s = COLO_COMPARE(obj);
-+
-+    if (!getprotobyname(spec->protocol)) {
-+        error_setg(errp, "COLO pass through get wrong protocol");
-+        return NULL;
-+    }
-+
-+    if ((spec->source->host && !qemu_isdigit(spec->source->host[0])) ||
-+        (spec->destination->host &&
-+        !qemu_isdigit(spec->destination->host[0]))) {
-+        error_setg(errp, "COLO pass through get wrong IP");
-+        return NULL;
-+    }
-+
-+    if (atoi(spec->source->port) > 65536 || atoi(spec->source->port) < 0 ||
-+        atoi(spec->destination->port) > 65536 ||
-+        atoi(spec->destination->port) < 0) {
-+        error_setg(errp, "COLO pass through get wrong port");
-+        return NULL;
-+    }
-+
-+    return s;
-+}
-+
-+static void compare_passthrough_add(CompareState *s,
-+                                    IPFlowSpec *spec,
-+                                    Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL, *next = NULL, *origin = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    pass->l4_protocol = getprotobyname(spec->protocol);
-+    pass->src_port = atoi(spec->source->port);
-+    pass->dst_port = atoi(spec->destination->port);
-+
-+    if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+        pass->src_ip.s_addr = 0;
-+    }
-+
-+    if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+        pass->dst_ip.s_addr = 0;
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+    if (!QLIST_EMPTY(&s->passthroughlist)) {
-+        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-+            if ((pass->l4_protocol->p_proto == origin->l4_protocol->p_proto) &&
-+                (pass->src_port == origin->src_port) &&
-+                (pass->dst_port == origin->dst_port) &&
-+                (pass->src_ip.s_addr == origin->src_ip.s_addr) &&
-+                (pass->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-+                error_setg(errp, "The pass through connection already exists");
-+                g_free(pass);
-+                qemu_mutex_unlock(&s->passthroughlist_mutex);
-+                return;
-+            }
-+        }
-+    }
-+
-+    QLIST_INSERT_HEAD(&s->passthroughlist, pass, node);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+static void compare_passthrough_del(CompareState *s,
-+                                    IPFlowSpec *spec,
-+                                    Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL, *next = NULL, *origin = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    pass->l4_protocol = getprotobyname(spec->protocol);
-+    pass->src_port = atoi(spec->source->port);
-+    pass->dst_port = atoi(spec->destination->port);
-+
-+    if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+        pass->src_ip.s_addr = 0;
-+    }
-+
-+    if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+        pass->dst_ip.s_addr = 0;
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+    if (!QLIST_EMPTY(&s->passthroughlist)) {
-+        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-+            if ((pass->l4_protocol->p_proto == origin->l4_protocol->p_proto) &&
-+                (pass->src_port == origin->src_port) &&
-+                (pass->dst_port == origin->dst_port) &&
-+                (pass->src_ip.s_addr == origin->src_ip.s_addr) &&
-+                (pass->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-+                QLIST_REMOVE(origin, node);
-+                g_free(origin);
-+                g_free(pass);
-+                qemu_mutex_unlock(&s->passthroughlist_mutex);
-+                return;
-+            }
-+        }
-+        error_setg(errp, "The pass through list can't find the connection");
-+    } else {
-+        error_setg(errp, "The pass through connection list is empty");
-+    }
-+
-+    g_free(pass);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+
- void qmp_colo_passthrough_add(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement setup passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = colo_passthrough_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    compare_passthrough_add(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- void qmp_colo_passthrough_del(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement delete passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = colo_passthrough_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    compare_passthrough_del(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+I don't know yet if that's an implicit feature of your definition
+of "blocked", or not.
+
+> 
+> > > 
+> > >   -migratable allowed
+> > >      Live migration is allowed, but some devices/options may block
+> > >      it if they're unable to migrate [current default]
+> > 
+> > "preferred" above was about QEMU trying to keep live migration
+> > working as much as possible.  That's something we all expect QEMU
+> > to do, but it's not documented anywhere.
+> > 
+> > If that's implied by "allowed", I'd like to get that documented
+> > explicitly.  If that's not implied by "allowed", then we have a
+> > problem.
+> 
+> My difficulty by your definition is I don't understand what
+> 'working as much as possible' means - that's the current behaviour
+> as I understand it.   I think mine is more explicit.
+
+There's something I don't see documented in your proposal, which
+I've tried to describe it as "try to keep live migration working
+as much as possible".  I'll try a more detailed description:
+
+  - Live migration will be possible unless some specific devices
+    or features are enabled.
+  - Devices or features that block live migration won't be
+    enabled by default.
+  - Devices or features that break guest ABI won't be enabled by
+    default.
+  - If an existing configuration allows live migration on a given
+    QEMU version, the same configuration will allow live
+    migration in newer QEMU versions.
+  - If an existing configuration allows live migration with a
+    given machine type version, the same configuration will allow
+    live migration in a newer version of that machine type.
+
+If all of the above is implied by "allowed", I'd like to get this
+documented explicitly.  If it's not, we still have a problem.
+
 -- 
-2.25.1
+Eduardo
 
 
