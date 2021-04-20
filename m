@@ -2,61 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24B1366373
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:49:42 +0200 (CEST)
-Received: from localhost ([::1]:43236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2393D366489
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 06:26:32 +0200 (CEST)
+Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ1zp-0005HA-T6
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
+	id 1lZ4Rb-0007L4-8A
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 00:26:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lZ1yg-0004pz-16
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:48:30 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:55807
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lZ1yc-0005GL-MZ
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:48:29 -0400
-HMM_SOURCE_IP: 172.18.0.218:39800.227570461
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.21?logid-67a16bb4459e4173a5088eca03c7c3f3
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 230AD280072;
- Wed, 21 Apr 2021 09:48:23 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 67a16bb4459e4173a5088eca03c7c3f3 for
- dgilbert@redhat.com; Wed Apr 21 09:48:21 2021
-X-Transaction-ID: 67a16bb4459e4173a5088eca03c7c3f3
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v1] tests/migration: introduce multifd into guestperf
-From: Hyman Huang <huangy81@chinatelecom.cn>
-To: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <cover.1616171924.git.huangy81@chinatelecom.cn>
- <cfeeb04d17ad932c42a9871294058b77429ad1b7.1616171924.git.huangy81@chinatelecom.cn>
- <4a492050-4a4a-724a-b328-6d69643e86b4@chinatelecom.cn>
-Message-ID: <e8233048-ceb6-fa2f-76f8-523073ff29da@chinatelecom.cn>
-Date: Wed, 21 Apr 2021 09:48:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <4a492050-4a4a-724a-b328-6d69643e86b4@chinatelecom.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lZ4Hs-00018F-D4
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:16:28 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:25633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lZ4Hm-0004Db-I6
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:16:28 -0400
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210421041610epoutp016b653d5180327b813c17132442f7a4c3~3xG6kUsGA2575125751epoutp014
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 04:16:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210421041610epoutp016b653d5180327b813c17132442f7a4c3~3xG6kUsGA2575125751epoutp014
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1618978570;
+ bh=O9cna9EIV/tbE6hUQY7W8RoStCXm0BKHoL1CW+/yc/4=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=RrXEF+6FpDg+/p8b/noHvG366mugRVZuAMg2c4KxF8pYf8qx1zr69+1mhwgDudKUD
+ 8HXfWwCMUAsmEhFwNBt6M8hOWaDOvBUbfGgAD2yO18N57qrXJhCDdV3pBXvWsdsXS4
+ Q171/X3xjjF6+1qC2GnaUBYnbebiLaouEfdA0Zug=
+Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210421041609epcas5p2ae37618a22eac0de2af2bbbc8e2de7b1~3xG5v56Ew2137321373epcas5p2M;
+ Wed, 21 Apr 2021 04:16:09 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 01.EA.09835.907AF706; Wed, 21 Apr 2021 13:16:09 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20210420192552epcas5p4d48e9f845a34bd1881ab1b297ed5d780~3p351VHN-2030720307epcas5p46;
+ Tue, 20 Apr 2021 19:25:52 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210420192552epsmtrp26e65b2ef8cc0688db6c26d2695c4b8db~3p35zxitC1789717897epsmtrp2V;
+ Tue, 20 Apr 2021 19:25:52 +0000 (GMT)
+X-AuditID: b6c32a4b-7c9ff7000000266b-31-607fa70918c2
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ EB.C7.08163.0CA2F706; Wed, 21 Apr 2021 04:25:52 +0900 (KST)
+Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
+ [107.99.42.33]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210420192550epsmtip2cd431667b83496258ac0118002fca938~3p34SV2EK2419924199epsmtip2S;
+ Tue, 20 Apr 2021 19:25:50 +0000 (GMT)
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/block/nvme: function formatting fix
+Date: Wed, 21 Apr 2021 00:52:59 +0530
+Message-Id: <20210420192259.21447-1-anaidu.gollu@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7bCmli7n8voEg9+P5C1e7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsEroxdfT+YCiayVmz8/J+5gfEHcxcjJ4eE
+ gInEjOVHGUFsIYHdjBJH+gMh7E+MEpeeSXUxcgHZnxklXp6ZwA7TcLN9HSNEYhdQ0cZjbBBO
+ G5PEluWfWECq2ASMJGa/fQM2VkRAUuJ312mwdcwgK77N1QGxhQXMJQ6s2ssKYrMIqEqs2tXO
+ BGLzCthKTP13DWqbvMTqDQeYQRZICBxjl1hw6gBUwkWif8luKFtY4tXxLVC2lMTnd3uBLmIH
+ sqslDhdBtHYwShy7vIENosRe4t+zaUC3cQDdoymxfpc+RFhWYuqpdUwQZ/JJ9P5+wgQR55XY
+ MQ/GVpNYcOs71CYZiZl/brNC2B4SL27/YQMZKSQQK3HwtdQERtlZCAsWMDKuYpRMLSjOTU8t
+ Ni0wzkst1ytOzC0uzUvXS87P3cQITgda3jsYHz34oHeIkYmD8RCjBAezkgjv/dqaBCHelMTK
+ qtSi/Pii0pzU4kOM0hwsSuK8gs7VCUIC6YklqdmpqQWpRTBZJg5OqQamBLeGIhZ2Nye2CbbG
+ hpUfJ7e3tBQvmyJgbnlct/8Vw7/e9lI9lb08X9ddUM6fKX+vJ7zuoNk1qe64ghX5L9KssiKm
+ X86UZ8ppeHdJVSrzpNG/5yZbxItsDCZv+th2lcuS+7VWepydfcTjOWY3nViUGeQu76xdMJF1
+ n9xLv8lxWenlC5Z3PvkcvukN51Xj6oKeq1uvNv7e2SK+zPbEDvkLPZ1H+G6viY/71+xWGCd9
+ wX82p9XVg+H77OS+uT7epXj/j1BWjtaeZzsfh9nOZvbqualYz38qonS7pYOfya/p/becns70
+ OCJ9qi6wb2Gv5NwZlpdYdnzr7zrspjNffa38j7tzm9dr/dNl+Wk4h0mJpTgj0VCLuag4EQAr
+ vngXdgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupjluLIzCtJLcpLzFFi42LZdlhJXveAVn2CQfsHCYvXO48zW1zZf57R
+ Yv/Bb6wWkw5dY7RYcjHVYt4tZYtZ79rZLI737mCxeD3pP6sDp8ePc+1sHud2nGf32LSqk83j
+ ybXNTB7v911l8+jbsooxgC2KyyYlNSezLLVI3y6BK2NX3w+mgomsFRs//2duYPzB3MXIySEh
+ YCJxs30dYxcjF4eQwA5GiaVfPjFCJGQkfp2aClUkLLHy33N2iKIWJolzW5uZQBJsAkYSs9++
+ AWsQEZCU+N11mhmkiFngKKPE5fbJLCAJYQFziQOr9rKC2CwCqhKrdrWDNfMK2EpM/XeNHWKD
+ vMTqDQeYJzDyLGBkWMUomVpQnJueW2xYYJSXWq5XnJhbXJqXrpecn7uJERxkWlo7GPes+qB3
+ iJGJg/EQowQHs5II7/3amgQh3pTEyqrUovz4otKc1OJDjNIcLErivBe6TsYLCaQnlqRmp6YW
+ pBbBZJk4OKUamA4caNoVdXvquQ+CAbJ+aj1v7hlFu89aNG3G1JULQvoefer+Esn+0/z4pFCu
+ hmM8e8/9jesL+S135HxjxqGNFU/PXzKp2/mo55Wc3OnIk4bmBvycnGt//5YO6+gqSvMPYFNt
+ /cNsWN58KjxEP69MqOblhMmnet0+zfuSICN0K/dN1Ku1NWcui6lt//JD9MPGlKO3T4tc2rjM
+ cLb7i+4FR3pc/l89zq0V/0HsXS/HmrZZ6h4H/J/OYZQTr0xr6lseeWa7qwPz8x/uXBr6Xysk
+ Pi9IzNnNpzzpi2WuzuatCuFP0/YF5vRsjT0zbaPom8DXMw/84XrSF/9Vco1coMO6w5fmZ+qF
+ VJ3JWtnVmtUoLKLEUpyRaKjFXFScCAAhCEPkoQIAAA==
+X-CMS-MailID: 20210420192552epcas5p4d48e9f845a34bd1881ab1b297ed5d780
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210420192552epcas5p4d48e9f845a34bd1881ab1b297ed5d780
+References: <CGME20210420192552epcas5p4d48e9f845a34bd1881ab1b297ed5d780@epcas5p4.samsung.com>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,175 +118,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
+ its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+nvme_map_addr_pmr function arguments not aligned, fix that.
 
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+---
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-在 2021/3/24 9:18, Hyman Huang 写道:
-> cc thuth@redhat.com and berrange@redhat.com
-> 
-> Please review, thanks
-> 
-> 在 2021/3/20 1:04, huangy81@chinatelecom.cn 写道:
->> From: Hyman <huangy81@chinatelecom.cn>
->>
->> Guestperf tool does not cover the multifd-enabled migration
->> currently, it is worth supporting so that developers can
->> analysis the migration performance with all kinds of
->> migration.
->>
->> To request that multifd is enabled, with 4 channels:
->> $ ./tests/migration/guestperf.py \
->>      --multifd --multifd-channels 4 --output output.json
->>
->> To run the entire standardized set of multifd-enabled
->> comparisons, with unix migration:
->> $ ./tests/migration/guestperf-batch.py \
->>      --dst-host localhost --transport unix \
->>      --filter compr-multifd* --output outputdir
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> ---
->>   tests/migration/guestperf/comparison.py | 14 ++++++++++++++
->>   tests/migration/guestperf/engine.py     | 16 ++++++++++++++++
->>   tests/migration/guestperf/scenario.py   | 12 ++++++++++--
->>   tests/migration/guestperf/shell.py      | 10 +++++++++-
->>   4 files changed, 49 insertions(+), 3 deletions(-)
->>
->> diff --git a/tests/migration/guestperf/comparison.py 
->> b/tests/migration/guestperf/comparison.py
->> index ba2edbe..c03b3f6 100644
->> --- a/tests/migration/guestperf/comparison.py
->> +++ b/tests/migration/guestperf/comparison.py
->> @@ -121,4 +121,18 @@ def __init__(self, name, scenarios):
->>           Scenario("compr-xbzrle-cache-50",
->>                    compression_xbzrle=True, compression_xbzrle_cache=50),
->>       ]),
->> +
->> +
->> +    # Looking at effect of multifd with
->> +    # varying numbers of channels
->> +    Comparison("compr-multifd", scenarios = [
->> +        Scenario("compr-multifd-channels-4",
->> +                 multifd=True, multifd_channels=2),
->> +        Scenario("compr-multifd-channels-8",
->> +                 multifd=True, multifd_channels=8),
->> +        Scenario("compr-multifd-channels-32",
->> +                 multifd=True, multifd_channels=32),
->> +        Scenario("compr-multifd-channels-64",
->> +                 multifd=True, multifd_channels=64),
->> +    ]),
->>   ]
->> diff --git a/tests/migration/guestperf/engine.py 
->> b/tests/migration/guestperf/engine.py
->> index e399447..fab3957 100644
->> --- a/tests/migration/guestperf/engine.py
->> +++ b/tests/migration/guestperf/engine.py
->> @@ -188,6 +188,22 @@ def _migrate(self, hardware, scenario, src, dst, 
->> connect_uri):
->>                                      1024 * 1024 * 1024 / 100 *
->>                                      scenario._compression_xbzrle_cache))
->> +        if scenario._multifd:
->> +            resp = src.command("migrate-set-capabilities",
->> +                               capabilities = [
->> +                                   { "capability": "multifd",
->> +                                     "state": True }
->> +                               ])
->> +            resp = src.command("migrate-set-parameters",
->> +                               
->> multifd_channels=scenario._multifd_channels)
->> +            resp = dst.command("migrate-set-capabilities",
->> +                               capabilities = [
->> +                                   { "capability": "multifd",
->> +                                     "state": True }
->> +                               ])
->> +            resp = dst.command("migrate-set-parameters",
->> +                               
->> multifd_channels=scenario._multifd_channels)
->> +
->>           resp = src.command("migrate", uri=connect_uri)
->>           post_copy = False
->> diff --git a/tests/migration/guestperf/scenario.py 
->> b/tests/migration/guestperf/scenario.py
->> index 28ef36c..de70d9b 100644
->> --- a/tests/migration/guestperf/scenario.py
->> +++ b/tests/migration/guestperf/scenario.py
->> @@ -29,7 +29,8 @@ def __init__(self, name,
->>                    post_copy=False, post_copy_iters=5,
->>                    auto_converge=False, auto_converge_step=10,
->>                    compression_mt=False, compression_mt_threads=1,
->> -                 compression_xbzrle=False, compression_xbzrle_cache=10):
->> +                 compression_xbzrle=False, compression_xbzrle_cache=10,
->> +                 multifd=False, multifd_channels=2):
->>           self._name = name
->> @@ -56,6 +57,9 @@ def __init__(self, name,
->>           self._compression_xbzrle = compression_xbzrle
->>           self._compression_xbzrle_cache = compression_xbzrle_cache # 
->> percentage of guest RAM
->> +        self._multifd = multifd
->> +        self._multifd_channels = multifd_channels
->> +
->>       def serialize(self):
->>           return {
->>               "name": self._name,
->> @@ -73,6 +77,8 @@ def serialize(self):
->>               "compression_mt_threads": self._compression_mt_threads,
->>               "compression_xbzrle": self._compression_xbzrle,
->>               "compression_xbzrle_cache": self._compression_xbzrle_cache,
->> +            "multifd": self._multifd,
->> +            "multifd_channels": self._multifd_channels,
->>           }
->>       @classmethod
->> @@ -92,4 +98,6 @@ def deserialize(cls, data):
->>               data["compression_mt"],
->>               data["compression_mt_threads"],
->>               data["compression_xbzrle"],
->> -            data["compression_xbzrle_cache"])
->> +            data["compression_xbzrle_cache"],
->> +            data["multifd"],
->> +            data["multifd_channels"])
->> diff --git a/tests/migration/guestperf/shell.py 
->> b/tests/migration/guestperf/shell.py
->> index f838888..8a809e3 100644
->> --- a/tests/migration/guestperf/shell.py
->> +++ b/tests/migration/guestperf/shell.py
->> @@ -122,6 +122,11 @@ def __init__(self):
->>           parser.add_argument("--compression-xbzrle", 
->> dest="compression_xbzrle", default=False, action="store_true")
->>           parser.add_argument("--compression-xbzrle-cache", 
->> dest="compression_xbzrle_cache", default=10, type=int)
->> +        parser.add_argument("--multifd", dest="multifd", default=False,
->> +                            action="store_true")
->> +        parser.add_argument("--multifd-channels", 
->> dest="multifd_channels",
->> +                            default=2, type=int)
->> +
->>       def get_scenario(self, args):
->>           return Scenario(name="perfreport",
->>                           downtime=args.downtime,
->> @@ -142,7 +147,10 @@ def get_scenario(self, args):
->>                           
->> compression_mt_threads=args.compression_mt_threads,
->>                           compression_xbzrle=args.compression_xbzrle,
->> -                        
->> compression_xbzrle_cache=args.compression_xbzrle_cache)
->> +                        
->> compression_xbzrle_cache=args.compression_xbzrle_cache,
->> +
->> +                        multifd=args.multifd,
->> +                        multifd_channels=args.multifd_channels)
->>       def run(self, argv):
->>           args = self._parser.parse_args(argv)
->>
-> 
-
-Ping - Hi, What would you think about this patch ? :)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 624a1431d0..63ceeb47bd 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -574,7 +574,7 @@ static uint16_t nvme_map_addr_cmb(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
+ }
+ 
+ static uint16_t nvme_map_addr_pmr(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
+-    size_t len)
++                                  size_t len)
+ {
+     if (!len) {
+         return NVME_SUCCESS;
 -- 
-Best regard
+2.17.1
 
-Hyman Huang(黄勇)
 
