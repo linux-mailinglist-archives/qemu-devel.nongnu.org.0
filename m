@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C4136605E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 21:42:27 +0200 (CEST)
-Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA8D36606D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 21:52:00 +0200 (CEST)
+Received: from localhost ([::1]:59468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYwGQ-000790-VB
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 15:42:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
+	id 1lYwPf-00013w-J5
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 15:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYw9d-0002ek-E9
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:35:25 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYw9b-00028E-TR
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:35:25 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id e7so29926428wrs.11
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 12:35:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4PT5Y6ov+2VF6b9NVW6HMDZLzrmuqv0s6fxsfwWds0M=;
- b=te1x1VsaDHdYsoReH6cMGlN0FJqfawxBOSse8FozIpwViTCWIsV6uFSltHhWr3kIld
- mEWCh97+HDig0YWrORnxEnuTAelZFOnldyC/ZENUCpOkpaxIN8X2toI7UotqMoHmRVuq
- AxMGFbdN5pP6o0bNClFiGvuhL7er2NdUOT3VRxDwutyaQb1BlYS3qxdfV/VpPQiIBkmv
- KnDnRmeYOS39827PMVBfdXp6i1tFf+DiPoM4H8xX2s5UFqs4wbRnGVM/R7wYtawh0KYn
- RKm04sOj7RWWqtd6rzBG2MwQVuHYATyxztgXIDxpJwulyd+GhK7Y4L2hYwaUeHSG649J
- iduw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4PT5Y6ov+2VF6b9NVW6HMDZLzrmuqv0s6fxsfwWds0M=;
- b=T8vHCFSbMdzzmq2AEVnHu9rfQMGFxVZYqlh4E0x0wuQfq3XTswshjFH4d5TpNdCb4L
- cjImsZg7r6abVxelUmsIoVidFcXSUV+aWT3Yrm1Zx2kXT2RmIF0iD1nXKwBYplKOj3va
- /104A3vFrclDg4bdu8RGbn3i/VAKj0BwfY3OFt/ZyYPPPl+OV7erSR8a/6GFolHcV95g
- 7wnNHcHGWJztBGNQNMJ75M2HsE0P9giUsprSJCmr2ODUNI2dbX8g1QmruiLwmGi3Utwa
- DDvGlaC6xaP5l6YjZfnOSQrpmphC9n0SyyXvvswDn5mVhf6SOw8fW+KBb8CCmPR2H6/8
- sjVQ==
-X-Gm-Message-State: AOAM531bpMJAgJ3/cqI7EufHjjufkCvaQaZbdECygiqrBHg2HOvOhGsh
- C04suOIR5qND5PZ6P6TgGpEw7esRVNqRlg==
-X-Google-Smtp-Source: ABdhPJxuE9V5fiIJa11MOKycx2t46NqSY7pv99tVLwmpG/pp/YTdiGaLq1VRxX48zGfmSKjVZztFMg==
-X-Received: by 2002:adf:de08:: with SMTP id b8mr21935320wrm.279.1618947319361; 
- Tue, 20 Apr 2021 12:35:19 -0700 (PDT)
-Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id s8sm28872403wrn.97.2021.04.20.12.35.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 12:35:18 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 5/5] target/mips: Restrict EVA opcodes to system emulation
-Date: Tue, 20 Apr 2021 21:34:53 +0200
-Message-Id: <20210420193453.1913810-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210420193453.1913810-1-f4bug@amsat.org>
-References: <20210420193453.1913810-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lYwL4-0000RK-78; Tue, 20 Apr 2021 15:47:14 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:43323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lYwL1-0000Mg-Hf; Tue, 20 Apr 2021 15:47:13 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 7A57A2332;
+ Tue, 20 Apr 2021 15:47:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 20 Apr 2021 15:47:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=G372cxz5MNJc7mW3v3ngH438YU8
+ xGdC2g0FNmj+23ZE=; b=ZShs3CA2FUaJd7bwzypDKcDDdYEdrJpbGikAeyqSI27
+ pkU27wxvkaV6UVmqywSerEvghfrMHcUqq+FrEkMTnGfu/8cH3urtnxrChzsoQTAZ
+ 7kKPGC1PBrMqfxyA06J/BbEockAoeirU2pUNl+O/k0f6JbEg8XOq/0lAvpgvKtuf
+ iVrIIWf+MMZsGkifHxgZNqybXTeGDLM9gWW02n6Ro9jbJPkX+eoZu3hxmltlyHoR
+ BGV6J2Qj5DZ0zV4tnJM+9HbPmXmrc1y/dJqD7TO6W4N2crvATGd4X0fMXw3ffq4c
+ 5lExcX5DnPaowETn2f7AIpzrVNsoHTTzw7T9/atUNrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=G372cx
+ z5MNJc7mW3v3ngH438YU8xGdC2g0FNmj+23ZE=; b=tOUWwycriPBIrYypDDIJz4
+ aukk7reBu9nxGZ/savgPaU+3RI4jqKhv6xppHHOaN4iVn9f6DI9hrP+++Jeu1GTR
+ 5hXNO8+hVArycSgaHbDbb6/KEiUkhPhhawssjkws+hTlJHzkvbyUn5dbe/BZXcz0
+ TghfrA2zeQP3GLvAH4NuHPcBdV0UMeX/ID4cc9+1lmzAEBP0ctgMkdlAGM9DhiAg
+ BFuMT+/Kzj7Qe25Pl6P0XfnWDAUksNU06L3NszXW5H1kARJPURyU76wJ669ig9k9
+ f2GpxcU8q7Z3yYiGU7P39lJxjY/YA9wLyJxq4ypz8xahRSX2AVJiZgw+fLLT6d0A
+ ==
+X-ME-Sender: <xms:uC9_YJmMN9PygWesr_X2znM2UxEP6Xc2luv0kmWO_jxSPRPX95SkQA>
+ <xme:uC9_YE1v-mlk7qbl79__7pPZ9-GhA1QmASfl17-Kfl5CGXHgv9sHE9fHjqFSm_yjQ
+ DTg0WsMmASn26E2r1c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtiedgudeggecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
+ etveejudeileduffefjeegfffhuddvudffkeenucfkphepkedtrdduieejrdelkedrudel
+ tdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:uC9_YPrp_HcveiEqOq8POpXBZ0aOyiv-X5Yo_vu2Ewh0sU4THYiJUw>
+ <xmx:uC9_YJmnQRSJ35rQk0qJFSufGVshOSrai8S3vLN5Sfb48rMTTuVJRA>
+ <xmx:uC9_YH2W1wejMhcoygVLF2jkoO6RJVbhGssLhjv2rWGJZ8dSsEMuVQ>
+ <xmx:ui9_YBpK9dBUj4AUZyP0D3rjbX67ZT-N12eqm-J4kx2TjM5m_fvpoQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 55B551080064;
+ Tue, 20 Apr 2021 15:47:03 -0400 (EDT)
+Date: Tue, 20 Apr 2021 21:47:00 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH v3] hw/block/nvme: fix lbaf formats initialization
+Message-ID: <YH8vtPtI2OkOAkOw@apples.localdomain>
+References: <CGME20210416120324epcas5p354e2f196cc68680aba45341f385b59ed@epcas5p3.samsung.com>
+ <20210416115907.30625-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nUNvbsyanRzwtxd+"
+Content-Disposition: inline
+In-Reply-To: <20210416115907.30625-1-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,87 +94,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enhanced Virtual Address (EVA) instructions are restricted
-to Kernel execution mode, thus not available on user emulation.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-RFC because I'd rather not use such #ifdef'ry again.
-TODO: have the compiler elide this code.
+--nUNvbsyanRzwtxd+
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- target/mips/translate.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+On Apr 16 17:29, Gollu Appalanaidu wrote:
+>Currently LBAF formats are being intialized based on metadata
+>size if and only if nvme-ns "ms" parameter is non-zero value.
+>Since FormatNVM command being supported device parameter "ms"
+>may not be the criteria to initialize the supported LBAFs.
+>
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+>-v3: Remove "mset" constraint  check if ms < 8, "mset" can be
+> set even when ms < 8 and non-zero.
+>
+>-v2: Addressing review comments (Klaus)
+> Change the current "pi" and "ms" constraint check such that it
+> will throw the error if ms < 8 and if namespace protection info,
+> location and metadata settings are set.
+> Splitting this from compare fix patch series.
+>
+> hw/block/nvme-ns.c | 58 ++++++++++++++++++++--------------------------
+> 1 file changed, 25 insertions(+), 33 deletions(-)
+>
+>diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+>index 7bb618f182..594b0003cf 100644
+>--- a/hw/block/nvme-ns.c
+>+++ b/hw/block/nvme-ns.c
+>@@ -85,38 +85,28 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **err=
+p)
+>     ds =3D 31 - clz32(ns->blkconf.logical_block_size);
+>     ms =3D ns->params.ms;
+>
+>-    if (ns->params.ms) {
+>-        id_ns->mc =3D 0x3;
+>+    id_ns->mc =3D 0x3;
+>
+>-        if (ns->params.mset) {
+>-            id_ns->flbas |=3D 0x10;
+>-        }
+>+    if (ms && ns->params.mset) {
+>+        id_ns->flbas |=3D 0x10;
+>+    }
+>
+>-        id_ns->dpc =3D 0x1f;
+>-        id_ns->dps =3D ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+>-
+>-        NvmeLBAF lbaf[16] =3D {
+>-            [0] =3D { .ds =3D  9           },
+>-            [1] =3D { .ds =3D  9, .ms =3D  8 },
+>-            [2] =3D { .ds =3D  9, .ms =3D 16 },
+>-            [3] =3D { .ds =3D  9, .ms =3D 64 },
+>-            [4] =3D { .ds =3D 12           },
+>-            [5] =3D { .ds =3D 12, .ms =3D  8 },
+>-            [6] =3D { .ds =3D 12, .ms =3D 16 },
+>-            [7] =3D { .ds =3D 12, .ms =3D 64 },
+>-        };
+>-
+>-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>-        id_ns->nlbaf =3D 7;
+>-    } else {
+>-        NvmeLBAF lbaf[16] =3D {
+>-            [0] =3D { .ds =3D  9 },
+>-            [1] =3D { .ds =3D 12 },
+>-        };
+>+    id_ns->dpc =3D 0x1f;
+>+    id_ns->dps =3D ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+>
+>-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>-        id_ns->nlbaf =3D 1;
+>-    }
+>+    NvmeLBAF lbaf[16] =3D {
+>+        [0] =3D { .ds =3D  9           },
+>+        [1] =3D { .ds =3D  9, .ms =3D  8 },
+>+        [2] =3D { .ds =3D  9, .ms =3D 16 },
+>+        [3] =3D { .ds =3D  9, .ms =3D 64 },
+>+        [4] =3D { .ds =3D 12           },
+>+        [5] =3D { .ds =3D 12, .ms =3D  8 },
+>+        [6] =3D { .ds =3D 12, .ms =3D 16 },
+>+        [7] =3D { .ds =3D 12, .ms =3D 64 },
+>+    };
+>+
+>+    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>+    id_ns->nlbaf =3D 7;
+>
+>     for (i =3D 0; i <=3D id_ns->nlbaf; i++) {
+>         NvmeLBAF *lbaf =3D &id_ns->lbaf[i];
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index dfa26569077..77115721a97 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -15245,8 +15245,11 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
-     uint16_t insn;
-     int rt, rs, rd, rr;
-     int16_t imm;
--    uint32_t op, minor, minor2, mips32_op;
-+    uint32_t op, minor, mips32_op;
-     uint32_t cond, fmt, cc;
-+#ifndef CONFIG_USER_ONLY
-+    uint32_t minor2;
-+#endif /* !CONFIG_USER_ONLY */
- 
-     insn = translator_lduw(env, ctx->base.pc_next + 2);
-     ctx->opcode = (ctx->opcode << 16) | insn;
-@@ -16205,6 +16208,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
-             gen_st_cond(ctx, rt, rs, offset, MO_TEQ, false);
-             break;
- #endif
-+#ifndef CONFIG_USER_ONLY
-         case LD_EVA:
-             if (!ctx->eva) {
-                 MIPS_INVAL("pool32c ld-eva");
-@@ -16294,6 +16298,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
-                 goto do_st_lr;
-             };
-             break;
-+#endif /* !CONFIG_USER_ONLY */
-         case PREF:
-             /* Treat as no-op */
-             if ((ctx->insn_flags & ISA_MIPS_R6) && (rt >= 24)) {
-@@ -24486,16 +24491,18 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
- {
-     int rs, rt, rd, sa;
-     uint32_t op1, op2;
--    int16_t imm;
- 
-     rs = (ctx->opcode >> 21) & 0x1f;
-     rt = (ctx->opcode >> 16) & 0x1f;
-     rd = (ctx->opcode >> 11) & 0x1f;
-     sa = (ctx->opcode >> 6) & 0x1f;
--    imm = sextract32(ctx->opcode, 7, 9);
- 
-     op1 = MASK_SPECIAL3(ctx->opcode);
- 
-+#ifndef CONFIG_USER_ONLY
-+    int16_t imm;
-+
-+    imm = sextract32(ctx->opcode, 7, 9);
-     /*
-      * EVA loads and stores overlap Loongson 2E instructions decoded by
-      * decode_opc_special3_legacy(), so be careful to allow their decoding when
-@@ -24537,6 +24544,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-             return;
-         }
-     }
-+#endif /* !CONFIG_USER_ONLY */
- 
-     switch (op1) {
-     case OPC_EXT:
--- 
-2.26.3
+This part LGTM.
 
+>@@ -395,10 +385,12 @@ static int nvme_ns_check_constraints(NvmeCtrl *n, Nv=
+meNamespace *ns,
+>         return -1;
+>     }
+>
+>-    if (ns->params.pi && ns->params.ms < 8) {
+>-        error_setg(errp, "at least 8 bytes of metadata required to enable=
+ "
+>-                   "protection information");
+>-        return -1;
+>+    if (ns->params.ms < 8) {
+>+        if (ns->params.pi || ns->params.pil) {
+>+            error_setg(errp, "at least 8 bytes of metadata required to en=
+able "
+>+                    "protection information, protection information locat=
+ion");
+>+            return -1;
+>+        }
+>     }
+>
+
+If you do this additional check, then you should maybe also check that=20
+pil is only set if pi is. But if pi is not enabled, then the value of=20
+pil is irrelevant (even though it ends up in FLBAS). In other words, if=20
+you want to validate all possible parameter configurations, then we have=20
+a lot more checking to do!
+
+Currently, the approach taken by the parameter validation code is to=20
+error out on *invalid* configurations that causes invariants to not=20
+hold, and I'd prefer that we stick with that to keep the check logic as=20
+simple as possible.
+
+So, (without this unnecessary check):
+
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--nUNvbsyanRzwtxd+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmB/L7AACgkQTeGvMW1P
+DekRLQgAo+y2UcwV28J0PhrkXpJ4d8VbzxHXrKJCOrt8OJ/OkmKPXcQ3IY8jGdq/
+0qiV4iqbg5T3c8lar8t4CG7rJIIDX7jg2rbVQxuqh1QvRQVy4Zcukkw3nf5huAmD
+5WnlJdbWguDCRg0Yxi5wmmjzpNULCjBedwkbXaMl+8WLFxNaWyHQnevRyETQMnYE
+Eex2C4/z5FfGz/3OL+XpmqibtWUUL6fw4pWHQsCsKx51OU7d7CyE6BT6ZTKhxYcR
+QtFYPrjYd4aCGJ+Ow2sHUBVaSWPxdmnoBBiPWE8/kBK46Y+liMTL5lyOXeiZSyJq
+g4dzHvI/q0OUHe0VfrRK8AOot0Mggg==
+=b6ig
+-----END PGP SIGNATURE-----
+
+--nUNvbsyanRzwtxd+--
 
