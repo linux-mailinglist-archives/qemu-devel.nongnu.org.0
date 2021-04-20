@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545F6365414
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:28:49 +0200 (CEST)
-Received: from localhost ([::1]:54958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABBB365413
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:28:48 +0200 (CEST)
+Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYlkW-0006GZ-9U
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
+	id 1lYlkV-0006Eq-6h
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:28:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlio-0004jZ-UZ
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58920)
+ id 1lYliq-0004jq-HF
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlim-0002Zf-O9
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:02 -0400
+ id 1lYlim-0002ZK-O9
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYlik-000281-2c
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:58 +0000
+ id 1lYlij-00028H-OJ
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F1F62E8196
+ by loganberry.canonical.com (Postfix) with ESMTP id 050772E8189
  for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Apr 2021 08:17:19 -0000
-From: Thomas Huth <1814343@bugs.launchpad.net>
+Date: Tue, 20 Apr 2021 08:19:00 -0000
+From: Thomas Huth <1814381@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: riscv
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fintelia th-huth
-X-Launchpad-Bug-Reporter: Jonathan Behrens (fintelia)
+X-Launchpad-Bug-Commenters: rjones-redhat th-huth
+X-Launchpad-Bug-Reporter: Richard Jones (rjones-redhat)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154905879413.25667.2843143192142684785.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161890663913.10316.11233402937462725259.malone@chaenomeles.canonical.com>
-Subject: [Bug 1814343] Re: Initrd not loaded on riscv32
+References: <154911433612.20173.9806415794048827550.malonedeb@wampee.canonical.com>
+Message-Id: <161890674072.6478.10905083508244272314.malone@soybean.canonical.com>
+Subject: [Bug 1814381] Re: qemu can't resolve ::1 when no network is available
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
-X-Launchpad-Hash: 2802bae1ee68f03242722edbe872acb2ba6f7d64
+X-Launchpad-Hash: 64d81ed8c763b892283ed717cd9daa08fd0727bd
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1814343 <1814343@bugs.launchpad.net>
+Reply-To: Bug 1814381 <1814381@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,62 +84,51 @@ ved with a newer version of QEMU already. Thank you and sorry for the incon=
 venience.
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Incomplete
-
-** Tags added: riscv
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1814343
+https://bugs.launchpad.net/bugs/1814381
 
 Title:
-  Initrd not loaded on riscv32
+  qemu can't resolve ::1 when no network is available
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I attempted to run qemu with a ram disk. However, when reading the
-  contents of the disk from within the VM I only get back zeros.
+  I'm not sure if this is a qemu thing or a getaddrinfo/glibc thing, or
+  even just something about my laptop.  However we have a test failure
+  in nbdkit which only occurs when my laptop is not connected to wifi or
+  other networking.  It boils down to:
 
-  I was able to trace the issue to a mismatch of expectations on line 93
-  of hw/riscv/virt.c. Specifically, when running in 32-bit mode the
-  value of kernel_entry is sign extended to 64-bits, but
-  load_image_targphys expects the start address to not be sign extended.
+  =C2=A0=C2=A0$ qemu-img info --image-opts "file.driver=3Dnbd,file.host=3D:=
+:1,file.port=3D1234"
+  =C2=A0=C2=A0qemu-img: Could not open 'file.driver=3Dnbd,file.host=3D::1,f=
+ile.port=3D1234': address resolution failed for ::1:1234: Address family fo=
+r hostname not supported
 
-  Straw man patch (works for 32-bit but would probably break 64-bit
-  VMs?):
+  In a successful case it should connect to a local NBD server on port
+  1234, but if you don't have that you will see:
 
-  diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-  index e7f0716fb6..32216f993c 100644
-  --- a/hw/riscv/virt.c
-  +++ b/hw/riscv/virt.c
-  @@ -90,7 +90,7 @@ static hwaddr load_initrd(const char *filename, uint64_=
-t mem_size,
-        * halfway into RAM, and for boards with 256MB of RAM or more we put
-        * the initrd at 128MB.
-        */
-  -    *start =3D kernel_entry + MIN(mem_size / 2, 128 * MiB);
-  +    *start =3D (kernel_entry & 0xffffffff) + MIN(mem_size / 2, 128 * MiB=
-);
-   =
+  =C2=A0=C2=A0qemu-img: Could not open
+  'file.driver=3Dnbd,file.host=3D::1,file.port=3D1234': Failed to connect
+  socket: Connection refused
 
-       size =3D load_ramdisk(filename, *start, mem_size - *start);
-       if (size =3D=3D -1) {
+  I can =E2=80=98ping6 ::1=E2=80=99 fine.
 
-  =
+  It also works if I replace =E2=80=98::1=E2=80=99 with =E2=80=98localhost6=
+=E2=80=99.
 
-  Run command:
+  My /etc/hosts contains:
 
-  $ qemu/build/riscv32-softmmu/qemu-system-riscv32 -machine virt -kernel
-  mykernel.elf -nographic -initrd payload
-
-  Commit hash:
-
-  3a183e330dbd7dbcac3841737ac874979552cca2
+  127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdo=
+main4
+  ::1         localhost localhost.localdomain localhost6 localhost6.localdo=
+main6
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1814343/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1814381/+subscriptions
 
