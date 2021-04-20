@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25148365BD7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:05:26 +0200 (CEST)
-Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76767365BDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:06:19 +0200 (CEST)
+Received: from localhost ([::1]:45200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYrwL-000422-6W
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44584)
+	id 1lYrxC-0005LO-J4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:06:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYruN-0003Wu-Mj
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:03:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31829)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lYrvT-000473-0a
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:04:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYruE-0000hs-KD
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:03:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lYrvJ-0001Kv-B2
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:04:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618930993;
+ s=mimecast20190719; t=1618931056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WYdZiTMoV10/mAfw1mxykHyo7wD0NAG9K2gC/DLVhDk=;
- b=EQo7QqLt0Imtu/G35OxkeH5WmRcsmV6WrSFhSr6CoESBFv2my6OiJVgo+uDQpoU0eqgXTm
- pZs1pKMvKGWi6QoZElgyRDv1T7NvFNNNqt71n5IEwz1+hSDnwYs8eYJ6o/CSX3pkraYzHs
- 8IDznayIuBxIyuQIlNN3sG3VDznnTD0=
+ bh=5FK0Fx02DGF3319NZ3ezHf/gnEsXiXoiwzDPJbhcG/g=;
+ b=PoAu+0XcvjcE+FHZ3FKXMm+35zxe7Mnun5OcMWB+XzhUYcI+rOpUtHjjw5SqGxPMUqhdDL
+ avv2Zb34l9r26CWk1geCJRqJfr0+VbzjQmUfNCESJYWWrPC77r5rOpbYMv1Db0zEPvB9l0
+ cdfNtjcprsI0cbIa3vHgs1nBtm1tTOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-3YJ91Yl4NUOjOCRSPdiDGg-1; Tue, 20 Apr 2021 11:03:11 -0400
-X-MC-Unique: 3YJ91Yl4NUOjOCRSPdiDGg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-159-9zlvN684O6aIzKOo1P-ipw-1; Tue, 20 Apr 2021 11:04:14 -0400
+X-MC-Unique: 9zlvN684O6aIzKOo1P-ipw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF8F364165;
- Tue, 20 Apr 2021 15:03:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21015510ED;
- Tue, 20 Apr 2021 15:03:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AF43A113525D; Tue, 20 Apr 2021 17:03:00 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH for-6.0?] qga: fix guest-get-disks regression
-References: <20210420125831.233092-1-marcandre.lureau@redhat.com>
-Date: Tue, 20 Apr 2021 17:03:00 +0200
-In-Reply-To: <20210420125831.233092-1-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 20 Apr 2021 16:58:31 +0400")
-Message-ID: <8735vl578b.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A2396D59B;
+ Tue, 20 Apr 2021 15:04:13 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-62.ams2.redhat.com [10.36.113.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C17A101E5AF;
+ Tue, 20 Apr 2021 15:04:12 +0000 (UTC)
+Date: Tue, 20 Apr 2021 17:04:10 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [RFC PATCH 2/2] qemu-img convert: Fix sparseness detection
+Message-ID: <YH7tah47XxdYs3VW@merkur.fritz.box>
+References: <20210415152214.279844-1-kwolf@redhat.com>
+ <20210415152214.279844-3-kwolf@redhat.com>
+ <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,41 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: pl@kamp.de, qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+Am 20.04.2021 um 16:31 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 15.04.2021 18:22, Kevin Wolf wrote:
+> > In order to avoid RMW cycles, is_allocated_sectors() treats zeroed areas
+> > like non-zero data if the end of the checked area isn't aligned. This
+> > can improve the efficiency of the conversion and was introduced in
+> > commit 8dcd3c9b91a.
+> > 
+> > However, it comes with a correctness problem: qemu-img convert is
+> > supposed to sparsify areas that contain only zeros, which it doesn't do
+> > any more. It turns out that this even happens when not only the
+> > unaligned area is zeroed, but also the blocks before and after it. In
+> > the bug report, conversion of a fragmented 10G image containing only
+> > zeros resulted in an image consuming 2.82 GiB even though the expected
+> > size is only 4 KiB.
+> > 
+> > As a tradeoff between both, let's ignore zeroed sectors only after
+> > non-zero data to fix the alignment, but if we're only looking at zeros,
+> > keep them as such, even if it may mean additional RMW cycles.
+> > 
+> 
+> Hmm.. If I understand correctly, we are going to do unaligned
+> write-zero. And that helps.
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Commit 54aa3de72 ("qapi: Use QAPI_LIST_PREPEND() where possible")
-> inadvertently removed the has_dependencies from the partition disk
-> info, resulting in empty list being returned.
->
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1950833
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  qga/commands-posix.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 4299ebd96f..75dbaab68e 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1376,6 +1376,7 @@ static GuestDiskInfoList *get_disk_partitions(
->          partition =3D g_new0(GuestDiskInfo, 1);
->          partition->name =3D dev_name;
->          partition->partition =3D true;
-> +        partition->has_dependencies =3D true;
->          /* Add parent disk as dependent for easier tracking of hierarchy=
- */
->          QAPI_LIST_PREPEND(partition->dependencies, g_strdup(disk_dev));
+This can happen (mostly raw images on block devices, I think?), but
+usually it just means skipping the write because we know that the target
+image is already zeroed.
 
-This is a recent regression, and the fix is as safe as they get.  Please
-apply for 6.0.
+What it does mean is that if the next part is data, we'll have an
+unaligned data write.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Doesn't that mean that alignment is wrongly detected?
+
+The problem is that you can have bdrv_block_status_above() return the
+same allocation status multiple times in a row, but *pnum can be
+unaligned for the conversion.
+
+We only look at a single range returned by it when detecting the
+alignment, so it could be that we have zero buffers for both 0-11 and
+12-16 and detect two misaligned ranges, when both together are a
+perfectly aligned zeroed range.
+
+In theory we could try to do some lookahead and merge ranges where
+possible, which should give us the perfect result, but it would make the
+code considerably more complicated. (Whether we want to merge them
+doesn't only depend on the block status, but possibly also on the
+content of a DATA range.)
+
+Kevin
 
 
