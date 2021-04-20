@@ -2,46 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E07F364FF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 03:42:44 +0200 (CEST)
-Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8B0364FFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 03:47:09 +0200 (CEST)
+Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYfPX-0008Tk-EK
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 21:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
+	id 1lYfTo-0001Wu-Ek
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 21:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lYfGY-0004X8-92; Mon, 19 Apr 2021 21:33:26 -0400
-Received: from [201.28.113.2] (port=21420 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lYfGW-0007Au-OR; Mon, 19 Apr 2021 21:33:26 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 19 Apr 2021 22:33:13 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 0DEAF801107;
- Mon, 19 Apr 2021 22:33:13 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tests/tcg/ppc64le: tests for brh/brw/brd
-Date: Mon, 19 Apr 2021 22:33:08 -0300
-Message-Id: <20210420013308.813323-3-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
-References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lYfRx-0000sJ-Mk; Mon, 19 Apr 2021 21:45:13 -0400
+Received: from out28-221.mail.aliyun.com ([115.124.28.221]:57008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lYfRu-0003j5-Ir; Mon, 19 Apr 2021 21:45:13 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08855618|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0382446-0.000266983-0.961488;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.K0kQM6V_1618883101; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.K0kQM6V_1618883101)
+ by smtp.aliyun-inc.com(10.147.42.198);
+ Tue, 20 Apr 2021 09:45:01 +0800
+Subject: Re: [RFC PATCH 00/11] RISC-V: support clic v0.9 specification
+To: Alistair Francis <alistair23@gmail.com>, michaeljclark@mac.com
+References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
+ <CAKmqyKPtV0PFdEfO0B5YFGC2i21OAmvBsY0ovUVdQwn3ttpcQA@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <beb2e320-60fb-db42-e4d6-3b4d5cb82a95@c-sky.com>
+Date: Tue, 20 Apr 2021 09:44:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAKmqyKPtV0PFdEfO0B5YFGC2i21OAmvBsY0ovUVdQwn3ttpcQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 Apr 2021 01:33:13.0399 (UTC)
- FILETIME=[21293470:01D73585]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.221; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-221.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,86 +60,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>,
- gustavo.romero@protonmail.com, f4bug@amsat.org, qemu-ppc@nongnu.org,
- bruno.larsen@eldorado.org.br, alex.bennee@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Tests for Byte-Reverse Halfword, Word and Doubleword
+On 2021/4/20 上午7:30, Alistair Francis wrote:
+> On Fri, Apr 9, 2021 at 5:56 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> This patch set gives an implementation of "RISC-V Core-Local Interrupt
+>> Controller(CLIC) Version 0.9-draft-20210217". It comes from [1], where
+>> you can find the pdf format or the source code.
+>>
+>> I take over the job from Michael Clark, who gave the first implementation
+>> of clic-v0.7 specification. If there is any copyright question, please
+>> let me know.
+> You need to make sure you leave all original copyright notices and SoB in place.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- tests/tcg/ppc64/Makefile.target   |  7 +++++++
- tests/tcg/ppc64le/Makefile.target |  7 +++++++
- tests/tcg/ppc64le/byte_reverse.c  | 22 ++++++++++++++++++++++
- 3 files changed, 36 insertions(+)
- create mode 100644 tests/tcg/ppc64le/byte_reverse.c
+OK.
 
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 0c6a4585fc..55c690c8ad 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -10,4 +10,11 @@ PPC64_TESTS=bcdsub
- endif
- bcdsub: CFLAGS += -mpower8-vector
- 
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+POWER10_TESTS=byte_reverse
-+RUN_POWER10_TESTS=$(patsubst %, run-%, $(POWER10_TESTS))
-+$(RUN_POWER10_TESTS): QEMU_OPTS+=-cpu POWER10
-+PPC64_TESTS += $(POWER10_TESTS)
-+endif
-+
- TESTS += $(PPC64_TESTS)
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 1acfcff94a..517d290b1a 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -9,4 +9,11 @@ PPC64LE_TESTS=bcdsub
- endif
- bcdsub: CFLAGS += -mpower8-vector
- 
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+POWER10_TESTS=byte_reverse
-+RUN_POWER10_TESTS=$(patsubst %, run-%, $(POWER10_TESTS))
-+$(RUN_POWER10_TESTS): QEMU_OPTS+=-cpu POWER10
-+PPC64LE_TESTS += $(POWER10_TESTS)
-+endif
-+
- TESTS += $(PPC64LE_TESTS)
-diff --git a/tests/tcg/ppc64le/byte_reverse.c b/tests/tcg/ppc64le/byte_reverse.c
-new file mode 100644
-index 0000000000..553b9870ae
---- /dev/null
-+++ b/tests/tcg/ppc64le/byte_reverse.c
-@@ -0,0 +1,22 @@
-+#include <stdio.h>
-+#include <assert.h>
-+
-+int main(void)
-+{
-+    unsigned long var;
-+
-+    var = 0xFEDCBA9876543210;
-+    asm("brh %0, %0" : "=r"(var));
-+    assert(var == 0xDCFE98BA54761032);
-+
-+    var = 0xFEDCBA9876543210;
-+    asm("brw %0, %0" : "=r"(var));
-+    assert(var == 0x98BADCFE10325476);
-+
-+    var = 0xFEDCBA9876543210;
-+    asm("brd %0, %0" : "=r"(var));
-+    assert(var == 0x1032547698BADCFE);
-+
-+    return 0;
-+}
-+
--- 
-2.25.1
+Is it OK that keep the original copyright notices for new files and  
+your SoB in every patch,  Michael?
 
+>
+>> Features:
+>> 1. support four kinds of trigger types.
+>> 2. Preserve the CSR WARL/WPRI semantics.
+>> 3. Option to select different modes, such as M/S/U or M/U.
+>> 4. At most 4096 interrupts.
+>> 5. At most 1024 apertures.
+>>
+>> Todo:
+>> 1. Encode the interrupt trigger information to exccode.
+>> 2. Support complete CSR mclicbase when its number is fixed.
+>> 3. Gave each aperture an independend address.
+>>
+>> It have passed my qtest case and freertos test. Welcome to have a try
+>> for your hardware.
+> It doesn't seem to be connected to any machine. How are you testing this?
+
+There is a machine called SMARTL in my repository[1].  The qtest case 
+is  tests/qtest/test-riscv32-clic.c. If it's better, I can upstream the 
+machine together next version.
+
+Zhiwei
+
+[1]https://github.com/romanheros/qemu, branch: riscv-clic-upstream-rfc
+
+
+>
+> Alistair
+>
+>> Any advice is welcomed. Thanks very much.
+>>
+>> Zhiwei
+>>
+>> [1] specification website: https://github.com/riscv/riscv-fast-interrupt.
+>> [2] Michael Clark origin work: https://github.com/sifive/riscv-qemu/tree/sifive-clic.
+>>
+>>
+>> LIU Zhiwei (11):
+>>    target/riscv: Add CLIC CSR mintstatus
+>>    target/riscv: Update CSR xintthresh in CLIC mode
+>>    hw/intc: Add CLIC device
+>>    target/riscv: Update CSR xie in CLIC mode
+>>    target/riscv: Update CSR xip in CLIC mode
+>>    target/riscv: Update CSR xtvec in CLIC mode
+>>    target/riscv: Update CSR xtvt in CLIC mode
+>>    target/riscv: Update CSR xnxti in CLIC mode
+>>    target/riscv: Update CSR mclicbase in CLIC mode
+>>    target/riscv: Update interrupt handling in CLIC mode
+>>    target/riscv: Update interrupt return in CLIC mode
+>>
+>>   default-configs/devices/riscv32-softmmu.mak |   1 +
+>>   default-configs/devices/riscv64-softmmu.mak |   1 +
+>>   hw/intc/Kconfig                             |   3 +
+>>   hw/intc/meson.build                         |   1 +
+>>   hw/intc/riscv_clic.c                        | 836 ++++++++++++++++++++
+>>   include/hw/intc/riscv_clic.h                | 103 +++
+>>   target/riscv/cpu.h                          |   9 +
+>>   target/riscv/cpu_bits.h                     |  32 +
+>>   target/riscv/cpu_helper.c                   | 117 ++-
+>>   target/riscv/csr.c                          | 247 +++++-
+>>   target/riscv/op_helper.c                    |  25 +
+>>   11 files changed, 1363 insertions(+), 12 deletions(-)
+>>   create mode 100644 hw/intc/riscv_clic.c
+>>   create mode 100644 include/hw/intc/riscv_clic.h
+>>
+>> --
+>> 2.25.1
+>>
+>>
 
