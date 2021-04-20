@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ACD36566B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:42:52 +0200 (CEST)
-Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99178365651
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:40:35 +0200 (CEST)
+Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYnqF-0008Ua-1w
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53410)
+	id 1lYno2-0005mV-LV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lYnk8-0000Fw-7y; Tue, 20 Apr 2021 06:36:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37832)
+ id 1lYnk8-0000GM-MA; Tue, 20 Apr 2021 06:36:32 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lYnjx-0003nM-CH; Tue, 20 Apr 2021 06:36:31 -0400
+ id 1lYnjx-0003nv-BA; Tue, 20 Apr 2021 06:36:32 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9ECE0B1C5;
- Tue, 20 Apr 2021 10:36:18 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3E21CB4A4;
+ Tue, 20 Apr 2021 10:36:19 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [RFC v2 02/13] hw/s390x: rename tod-qemu.c to tod-tcg.c
-Date: Tue, 20 Apr 2021 12:36:05 +0200
-Message-Id: <20210420103616.32731-3-cfontana@suse.de>
+Subject: [RFC v2 03/13] hw/s390x: tod: make explicit checks for accelerators
+ when initializing
+Date: Tue, 20 Apr 2021 12:36:06 +0200
+Message-Id: <20210420103616.32731-4-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210420103616.32731-1-cfontana@suse.de>
 References: <20210420103616.32731-1-cfontana@suse.de>
@@ -39,7 +40,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,33 +60,44 @@ Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-we stop short of renaming the actual qom object though,
-so type remains TYPE_QEMU_S390_TOD, ie "s390-tod-qemu".
+replace general "else" with specific checks for each possible accelerator.
+
+Handle qtest as a NOP,
+and error out for an unknown accelerator used in combination with tod.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- hw/s390x/{tod-qemu.c => tod-tcg.c} | 0
- hw/s390x/meson.build               | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename hw/s390x/{tod-qemu.c => tod-tcg.c} (100%)
+ hw/s390x/tod.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/hw/s390x/tod-qemu.c b/hw/s390x/tod-tcg.c
-similarity index 100%
-rename from hw/s390x/tod-qemu.c
-rename to hw/s390x/tod-tcg.c
-diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-index a4d355b4db..72f48635cb 100644
---- a/hw/s390x/meson.build
-+++ b/hw/s390x/meson.build
-@@ -25,7 +25,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
-   'pv.c',
- ))
- s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
--  'tod-qemu.c',
-+  'tod-tcg.c',
- ))
+diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
+index 3c2979175e..fd5a36bf24 100644
+--- a/hw/s390x/tod.c
++++ b/hw/s390x/tod.c
+@@ -14,6 +14,8 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/tcg.h"
++#include "sysemu/qtest.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/register.h"
  
- s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
+@@ -23,8 +25,13 @@ void s390_init_tod(void)
+ 
+     if (kvm_enabled()) {
+         obj = object_new(TYPE_KVM_S390_TOD);
+-    } else {
++    } else if (tcg_enabled()) {
+         obj = object_new(TYPE_QEMU_S390_TOD);
++    } else if (qtest_enabled()) {
++        return;
++    } else {
++        error_report("current accelerator not handled in s390_init_tod!");
++        abort();
+     }
+     object_property_add_child(qdev_get_machine(), TYPE_S390_TOD, obj);
+     object_unref(obj);
 -- 
 2.26.2
 
