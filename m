@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D89E366001
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 21:05:46 +0200 (CEST)
-Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92791366007
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 21:08:46 +0200 (CEST)
+Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYvgv-0004AP-Ep
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 15:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44586)
+	id 1lYvjp-00064v-Lt
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 15:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lYvey-0003ZT-Ug
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:03:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52537)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lYviP-0005Py-0m
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:07:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lYvex-0008KS-6j
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:03:44 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lYviN-00023j-6i
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:07:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618945422;
+ s=mimecast20190719; t=1618945634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zVdPnvSxfUK7BAGiz+KPF1pjX7ufMZfaqyAIMQlvZE0=;
- b=UuO7AxZVUoy+imeqoFRTjuk26cI+H+m9w0dko1ZQQoFqKNFb+QrGw5goaOv26vt1MDzBTC
- SOk32QXaCSPUoO7UAmEovegfTUjfGDPMGlpoAB5a7F2M6Ereq6Bf76cOGghs6CusqSmqmu
- ryZ6x0F5EPPRCwLnZxvdPq46S6nepHY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-LMx6uoU5MVKoEzbbvB289Q-1; Tue, 20 Apr 2021 15:03:40 -0400
-X-MC-Unique: LMx6uoU5MVKoEzbbvB289Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 771DB1B18BC0;
- Tue, 20 Apr 2021 19:03:38 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-119-80.rdu2.redhat.com [10.10.119.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F6E119C95;
- Tue, 20 Apr 2021 19:03:34 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 2E3F322054F; Tue, 20 Apr 2021 15:03:34 -0400 (EDT)
-Date: Tue, 20 Apr 2021 15:03:34 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [Virtio-fs] [PATCH v2 1/7] virtiofsd: Changed allocations of
- fuse_req to GLib functions
-Message-ID: <20210420190334.GE1529659@redhat.com>
-References: <20210420154643.58439-1-ma.mandourr@gmail.com>
- <20210420154643.58439-2-ma.mandourr@gmail.com>
+ bh=Z+GqaHEE98VpsfTBpc6n0WESBAyIBmrUSF4SZxsZHMI=;
+ b=JjS2LJcWMIM8/yc58bgDJvpvjP1APNW2UcVjly3q/Wawlf8SnCuhSZl50nLvCX2lwHwBv5
+ Eg0dJ/OldgWiKeVjFIdrjmRKdifkLLaC+ZSMtyoCXyLY+TEoXYi4fglYxtrXHVsO+t031j
+ p8BYr1cEbNEoYmBHvODZLFLkKT3Ibck=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-JmCbYR1pMuKV-dUoFIBCyA-1; Tue, 20 Apr 2021 15:07:12 -0400
+X-MC-Unique: JmCbYR1pMuKV-dUoFIBCyA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ h22-20020a05620a13f6b02902e3e9aad4bdso3714303qkl.14
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 12:07:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Z+GqaHEE98VpsfTBpc6n0WESBAyIBmrUSF4SZxsZHMI=;
+ b=hMNjn9gHgc/Dr4NgINiNf26X3sWjZDGoH7aH+bsFdFmXnBCP6lW9MTlaNQDVVWgjR0
+ hwT84RBeDtCRv/rLYe6j4wQOo0nhF+tcfdA3L9hBtADMRZsu6mXqAD3+lcuTrh1UDeFe
+ OGO2YOOZYLhi42Ib090z0k7vup6IhupBUAPl/m7o01cPqAMfiR/LMBbr0v1sh2tjJ7Jc
+ qg0Hu8X8zU5DT2rvrLs4AaZRH33mDvLMPMDe39ilD/40et5xqkKPFBXn3QtCTtqVkbx7
+ m/2bm8OsXrtManMk5PHwk9E0op7d5Et5A9QkzCwMgOzIUqc6+d5jXIxXK45+tcmFBcxd
+ Woxw==
+X-Gm-Message-State: AOAM53116vsBEg4OIchKDooNs7+lWYsW/o4stNLE/R4r0pgHPvIQ8FFx
+ vyXwbZDCyAZwXJiwORa6zqY0l8uWuX4ZUJXebuoN8BA9q3ZC8hCaT2QZvdyiuI5FwGbpLkCs/CQ
+ kqUm+EFHwm4XgyNE=
+X-Received: by 2002:a0c:9b82:: with SMTP id o2mr28862696qve.47.1618945632100; 
+ Tue, 20 Apr 2021 12:07:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxa7fPuDKZnmd6bWkxJsJZuoSkEzyb/xueVB0ux7EfEUNFS/DbLuUjf/W/FMenZIaqm0WfquQ==
+X-Received: by 2002:a0c:9b82:: with SMTP id o2mr28862675qve.47.1618945631831; 
+ Tue, 20 Apr 2021 12:07:11 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-88-174-93-75-154.dsl.bell.ca.
+ [174.93.75.154])
+ by smtp.gmail.com with ESMTPSA id h193sm3024624qke.90.2021.04.20.12.07.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Apr 2021 12:07:11 -0700 (PDT)
+Date: Tue, 20 Apr 2021 15:07:09 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 00/11] memory: Forbid mapping AddressSpace root
+ MemoryRegion
+Message-ID: <20210420190709.GE4440@xz-x1>
+References: <20210417103028.601124-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210420154643.58439-2-ma.mandourr@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210417103028.601124-1-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,66 +96,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:virtiofs" <virtio-fs@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 20, 2021 at 05:46:36PM +0200, Mahmoud Mandour wrote:
-> Replaced the allocation and deallocation of fuse_req structs
-> using calloc()/free() call pairs to a GLib's g_try_new0()
-> and g_free().
+On Sat, Apr 17, 2021 at 12:30:17PM +0200, Philippe Mathieu-Daudé wrote:
+> AddressSpace are physical address view and shouldn't be using
+> non-zero base address. The correct way to map a MR used as AS
+> root is to use a MR alias.
 
-Hi,
+Today when I rethink this, I figured another way (maybe easier?) to fix the
+issue.
 
-What's the context of these patches. I see all of them are switching
-to glib functions. Why to do that? What's the advantage.
+The major problem so far we had is that mr->addr can be anything for a root mr
+if it's added as subregion of another mr.
 
-Vivek
+E.g. in current implementation of mtree_print_mr() MR.addr is constantly used
+as an offset value:
 
-> 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 58e32fc963..812cef6ef6 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -106,7 +106,7 @@ static void list_add_req(struct fuse_req *req, struct fuse_req *next)
->  static void destroy_req(fuse_req_t req)
->  {
->      pthread_mutex_destroy(&req->lock);
-> -    free(req);
-> +    g_free(req);
->  }
->  
->  void fuse_free_req(fuse_req_t req)
-> @@ -130,7 +130,7 @@ static struct fuse_req *fuse_ll_alloc_req(struct fuse_session *se)
->  {
->      struct fuse_req *req;
->  
-> -    req = (struct fuse_req *)calloc(1, sizeof(struct fuse_req));
-> +    req = g_try_new0(struct fuse_req, 1);
->      if (req == NULL) {
->          fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate request\n");
->      } else {
-> @@ -1684,7 +1684,7 @@ static struct fuse_req *check_interrupt(struct fuse_session *se,
->          if (curr->u.i.unique == req->unique) {
->              req->interrupted = 1;
->              list_del_req(curr);
-> -            free(curr);
-> +            g_free(curr);
->              return NULL;
->          }
->      }
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
+    cur_start = base + mr->addr;
+
+However afaict mr->addr is defined as "relative offset of this mr to its
+container", as in memory_region_add_subregion_common().  Say, mr->addr is
+undefined from that pov if mr->container==NULL, as this MR belongs to nobody.
+And if it's defined, it's only meaning is in its container's context (or say,
+address space) only.
+
+That said, when we do mtree_print_mr(), another solution could be as simple as,
+not referencing mr->addr if we _know_ we're working on the root mr, as this is
+definitely _not_ in the context of the mr's container, even if it has one
+container after all:
+
+---8<---
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index d4493ef9e43..d71fb8ecc89 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2940,7 +2940,7 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
+         return;
+     }
+ 
+-    cur_start = base + mr->addr;
++    cur_start = base + (level == 1) ? 0 : mr->addr;
+     cur_end = cur_start + MR_SIZE(mr->size);
+ 
+     /*
+---8<---
+
+Phil, do you think it'll work too to fix the strange offset value dumped in
+"info mtree"?
+
+I don't know (even if it works, perhaps I've missed something) which is better,
+as current series seems cleaner, then any mr will either belong to a AS or a MR
+(never both!), but just raise it up.
+
+Thanks,
+
+--
+Peter Xu
 
 
