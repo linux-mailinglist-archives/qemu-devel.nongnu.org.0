@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED883661B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 23:38:17 +0200 (CEST)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3175366246
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 00:48:03 +0200 (CEST)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYy4V-0001la-J7
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 17:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51138)
+	id 1lYzA2-0003P6-DK
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 18:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
- id 1lYy3P-0001HE-Dw; Tue, 20 Apr 2021 17:37:07 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55185)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYz7q-0002xx-2F
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 18:45:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
- id 1lYy3M-00086r-3X; Tue, 20 Apr 2021 17:37:07 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id k128so21026896wmk.4;
- Tue, 20 Apr 2021 14:37:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NiarVI2UPmohGl8NptVjaONITpylJtqWNmCvSdE+14k=;
- b=FNNBXCUNim9W65EW2v+Hps+DwmEPYfLDNJLUBfK8C/cVygQfvXUeqJ0ivNJWfUH+QC
- vvvKYZnfhQwta0tBYKs0YM8JqEuP7inrAlV8QYbUrc2Jl7mWObiNcxIO8GSwsQV9+6Cj
- 1NREMuMX+yPS8TYqXHNhKEWIWjBLjT/WD6D2HBGFCCeDdGoVHektLyIEKvcbWRscfhEX
- OGquG2jwtn64mZyCPLiNgVJMHDcae+DhcHTg74xaRnzx1AIE7gdtsyQFNQCqKrOt5Uo0
- 1Wkgo4YGGfU+VeAZKx2vEyP3CRD6LjAM6Jixr46MKmDtu+F74MapPcpBAAf7vlkbwTTj
- a12g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NiarVI2UPmohGl8NptVjaONITpylJtqWNmCvSdE+14k=;
- b=KEfsqFFO0/t5Ffzt04jYWlUmAQE2BJujOAQq3uKIr7lztdgBgldUsBZrlj/8iN4KHo
- vmg04KRJiC/SnGNHlcKpP+IgVb0mitebsRqDu7k9KQrsdZmwk7iqByfKC7dDZXYcLVk7
- ZLjm3lK8gWu2ribyqNFYYX3OOYrVMlyO77C94Wy8x1t4vRSc8fm17ik6s1b/gTnBZ+4R
- IvQYpzCyJMVUVpcAm16BdNxtF64MaEqTLG+CUo+BYfG9IBBzHKvWzuGuJ/wqF5nIZvmN
- TrMitKoYRuprvfcWzsd9lkiEK8C5euUv6Mokub2V6YzIj1mami5Pe3g9V5LfsfrL+XAK
- Ccgg==
-X-Gm-Message-State: AOAM530/ueeAN+1F18SiCVIrQdNnnkSdKfZS6heqWfZTG9UiC0VHnqPQ
- mk7UNDcfhimhzWBUmzK3uuUYKfvn61D2I6Qw
-X-Google-Smtp-Source: ABdhPJw3bNdPGOiyuNr1lrA2uySpPp07keEEJcyk/2SwZ+CiJCzdAiwuCrh19S4mA22R2+q2RVpQ0A==
-X-Received: by 2002:a7b:c5c8:: with SMTP id n8mr6385186wmk.63.1618954620237;
- Tue, 20 Apr 2021 14:37:00 -0700 (PDT)
-Received: from localhost.localdomain (a89-152-76-22.cpe.netcabo.pt.
- [89.152.76.22])
- by smtp.gmail.com with ESMTPSA id o17sm329280wrv.16.2021.04.20.14.36.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 14:36:59 -0700 (PDT)
-From: Jose Martins <josemartins90@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/riscv: fix wfi exception behavior
-Date: Tue, 20 Apr 2021 22:36:56 +0100
-Message-Id: <20210420213656.85148-1-josemartins90@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYz7l-0008VH-PX
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 18:45:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lYz7j-0006qX-Ma
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 22:45:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A88DA2E8041
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 22:45:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=josemartins90@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Apr 2021 22:38:45 -0000
+From: Eric <1923689@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: egernst stefanha
+X-Launchpad-Bug-Reporter: Eric (egernst)
+X-Launchpad-Bug-Modifier: Eric (egernst)
+References: <161836314384.22942.13267689865674610996.malonedeb@soybean.canonical.com>
+Message-Id: <161895832544.9266.13440486153939581600.malone@wampee.canonical.com>
+Subject: [Bug 1923689] Re: sig-abort / coredump observed from aio_ctx_finalize
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: d166267426d1ec67b4632c8a8e146ac720e82451
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,83 +70,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Jose Martins <josemartins90@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Reply-To: Bug 1923689 <1923689@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The wfi exception trigger behavior should take into account user mode,
-hstatus.vtw, and the fact the an wfi might raise different types of
-exceptions depending on various factors:
+Thanks to Stefan for the help -- IRL we debugged this to the following asse=
+rt failure: =
 
-If supervisor mode is not present:
+    assert(QSIMPLEQ_EMPTY(&ctx->bh_slice_list));
 
-- an illegal instruction exception should be generated if user mode
-executes and wfi instruction and mstatus.tw = 1.
+This has been resolved upstream in
+https://github.com/qemu/qemu/commit/c81219a7dd36a815bd85beed9932fc973d4f5d51
 
-If supervisor mode is present:
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-- when a wfi instruction is executed, an illegal exception should be triggered
-if either the current mode is user or the mode is supervisor and mstatus.tw is
-set.
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Committed
 
-Plus, if the hypervisor extensions are enabled:
+-- =
 
-- a virtual instruction exception should be raised when a wfi is executed from
-virtual-user or virtual-supervisor and hstatus.vtw is set.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923689
 
-Signed-off-by: Jose Martins <josemartins90@gmail.com>
----
-Alistair, I hope you've agreed with my argumentis for the previous version      
-of the patch. As promised, I submit this version which takes into account M/U 
-only harts. It checks for the presence of the RVS extension. If it is         
-not present mstatus.tw takes effect over the exection of wfi in user          
-mode.                                                                         
+Title:
+  sig-abort / coredump observed from aio_ctx_finalize
 
- target/riscv/cpu_bits.h  |  1 +
- target/riscv/op_helper.c | 11 ++++++++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
+Status in QEMU:
+  Fix Committed
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 24b24c69c5..ed8b97c788 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -436,6 +436,7 @@
- #define HSTATUS_HU           0x00000200
- #define HSTATUS_VGEIN        0x0003F000
- #define HSTATUS_VTVM         0x00100000
-+#define HSTATUS_VTW          0x00200000
- #define HSTATUS_VTSR         0x00400000
- #if defined(TARGET_RISCV64)
- #define HSTATUS_VSXL        0x300000000
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index d55def76cf..15982a7a33 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -173,10 +173,15 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
- void helper_wfi(CPURISCVState *env)
- {
-     CPUState *cs = env_cpu(env);
-+    bool rvs = riscv_has_ext(env, RVS);
-+    bool prv_u = env->priv == PRV_U;
-+    bool prv_s = env->priv == PRV_S;
- 
--    if ((env->priv == PRV_S &&
--        get_field(env->mstatus, MSTATUS_TW)) ||
--        riscv_cpu_virt_enabled(env)) {
-+    if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
-+        (rvs && prv_u && !riscv_cpu_virt_enabled(env))) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    } else if (riscv_cpu_virt_enabled(env) && (prv_u ||
-+        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     } else {
-         cs->halted = 1;
--- 
-2.25.1
+Bug description:
+  Observing occasional sig-abort based on v5.2.0 (tag) of QEMU. The VMM
+  is configured for Kata use case, launching with a nvdimm/pmem based
+  rootfs, and a set of workloads which are heavily utilizing virtio-fs.
 
+  Sample qemu-cmdline:
+  /usr/bin/qemu-kata-system-x86_64
+  -name sandbox-9dc314445bbb2cd02e6d30126ea8355a4f8acd36c866ea32171486931dc=
+2b99c
+  -uuid cd58d78d-ad44-4d26-9eab-66efab3fb23b
+  -machine pc,accel=3Dkvm,kernel_irqchip,nvdimm=3Don
+  -cpu host,pmu=3Doff
+  -qmp unix:/run/vc/vm/9dc314445bbb2cd02e6d30126ea8355a4f8acd36c866ea321714=
+86931dc2b99c/qmp.sock,server,nowait
+  -m 2048M,slots=3D10,maxmem=3D386381M
+  -device pci-bridge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don=
+,addr=3D2,romfile=3D
+  -device virtio-serial-pci,disable-modern=3Dfalse,id=3Dserial0,romfile=3D,=
+max_ports=3D2
+  -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0
+  -chardev socket,id=3Dcharconsole0,path=3D/run/vc/vm/9dc314445bbb2cd02e6d3=
+0126ea8355a4f8acd36c866ea32171486931dc2b99c/console.sock,server,nowait
+  -device nvdimm,id=3Dnv0,memdev=3Dmem0
+  -object memory-backend-file,id=3Dmem0,mem-path=3D/usr/share/kata-containe=
+rs/kata-containers.img,size=3D536870912
+  -object rng-random,id=3Drng0,filename=3D/dev/urandom
+  -device virtio-rng-pci,rng=3Drng0,romfile=3D
+  -device vhost-vsock-pci,disable-modern=3Dfalse,vhostfd=3D3,id=3Dvsock-305=
+4067214,guest-cid=3D3054067214,romfile=3D
+  -chardev socket,id=3Dchar-770bb156466e8ed5,path=3D/run/vc/vm/9dc314445bbb=
+2cd02e6d30126ea8355a4f8acd36c866ea32171486931dc2b99c/vhost-fs.sock
+  -device vhost-user-fs-pci,chardev=3Dchar-770bb156466e8ed5,tag=3DkataShare=
+d,romfile=3D
+  -netdev tap,id=3Dnetwork-0,vhost=3Don,vhostfds=3D4,fds=3D5
+  -device driver=3Dvirtio-net-pci,netdev=3Dnetwork-0,mac=3D9e:ad:0c:d1:58:e=
+0,disable-modern=3Dfalse,mq=3Don,vectors=3D4,romfile=3D
+  -rtc base=3Dutc,driftfix=3Dslew,clock=3Dhost
+  -global kvm-pit.lost_tick_policy=3Ddiscard
+  -vga none
+  -no-user-config
+  -nodefaults
+  -nographic
+  --no-reboot
+  -daemonize
+  -object memory-backend-file,id=3Ddimm1,size=3D2048M,mem-path=3D/dev/shm,s=
+hare=3Don
+  -numa node,memdev=3Ddimm1
+  -kernel /usr/share/kata-containers/vmlinuz
+  -append tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=3D1 i8042.di=
+rect=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 noreplace-smp re=
+boot=3Dk console=3Dhvc0 console=3Dhvc1 cryptomgr.notests net.ifnames=3D0 pc=
+i=3Dlastbus=3D0 root=3D/dev/pmem0p1 rootflags=3Ddax,data=3Dordered,errors=
+=3Dremount-ro ro rootfstype=3Dext4 quiet systemd.show_status=3Dfalse panic=
+=3D1 nr_cpus=3D32 systemd.unit=3Dkata-containers.target systemd.mask=3Dsyst=
+emd-networkd.service systemd.mask=3Dsystemd-networkd.socket
+  -pidfile /run/vc/vm/9dc314445bbb2cd02e6d30126ea8355a4f8acd36c866ea3217148=
+6931dc2b99c/pid
+  -smp 1,cores=3D1,threads=3D1,sockets=3D32,maxcpus=3D32
+
+  From the core file I was able to obtain a backtrace:
+
+  ```
+  (gdb) info thread
+    Id   Target Id         Frame
+    6    Thread 0x7f92feffd700 (LWP 14678) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    5    Thread 0x7f92fffff700 (LWP 13860) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    4    Thread 0x7f930dcff700 (LWP 13572) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    3    Thread 0x7f92ff7fe700 (LWP 14179) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    2    Thread 0x7f93aed03700 (LWP 13565) 0x00007f93b20bfd19 in syscall ()=
+ from /lib64/libc.so.6
+  * 1    Thread 0x7f93c718dcc0 (LWP 13564) 0x00007f93b1ffd3d7 in raise () f=
+rom /lib64/libc.so.6
+  (gdb) bt trace
+  No symbol table is loaded.  Use the "file" command.
+  (gdb) bt
+  #0  0x00007f93b1ffd3d7 in raise () from /lib64/libc.so.6
+  #1  0x00007f93b1ffeac8 in abort () from /lib64/libc.so.6
+  #2  0x00007f93b1ff61a6 in __assert_fail_base () from /lib64/libc.so.6
+  #3  0x00007f93b1ff6252 in __assert_fail () from /lib64/libc.so.6
+  #4  0x00000000007c6955 in aio_ctx_finalize ()
+  #5  0x00007f93c64223d1 in g_source_unref_internal () from /lib64/libglib-=
+2.0.so.0
+  #6  0x00007f93c64225f5 in g_source_iter_next () from /lib64/libglib-2.0.s=
+o.0
+  #7  0x00007f93c642362d in g_main_context_unref () from /lib64/libglib-2.0=
+.so.0
+  #8  0x00007f93c6425628 in g_main_loop_unref () from /lib64/libglib-2.0.so=
+.0
+  #9  0x00000000006dbaa0 in iothread_instance_finalize ()
+  #10 0x00000000006c01e9 in object_unref ()
+  #11 0x00000000006be647 in object_property_del_child ()
+  #12 0x000000000075ad79 in monitor_cleanup ()
+  #13 0x0000000000630635 in qemu_cleanup ()
+  #14 0x000000000040fed3 in main ()
+  ```
+
+  I *think* we're hitting this assert: https://github.com/qemu/qemu/blob/ma=
+ster/util/async.c#L339 based on =
+
+  ```
+  (gdb) up
+  #4  0x00000000007c6955 in aio_ctx_finalize ()
+  ```
+
+  The error is relatively infrequent, but a catastrophic core dump none
+  the less.
+
+  Please let me know if there's more I can pull from the core, or more
+  info I can share to help facilitate debugging this error.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923689/+subscriptions
 
