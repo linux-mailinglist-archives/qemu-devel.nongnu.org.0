@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFBE3656EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:53:24 +0200 (CEST)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BAC3656E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:52:42 +0200 (CEST)
+Received: from localhost ([::1]:52212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYo0R-0000bz-PK
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55690)
+	id 1lYnzl-00006j-Fr
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnub-0005Vr-Mk
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:47:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34061)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnwk-00076O-Sg
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:49:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnuV-0001ko-AF
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:47:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnwY-0002hS-Ac
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:49:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618915633;
+ s=mimecast20190719; t=1618915758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JWGNaeSTQ2CCaeoVZGEDKKRF2Oa/xnJ890yRhS7WIQs=;
- b=QJW9yJha3apdWzhC5mOmu2PhPfMlg4+fN/ielXxcBRXEMUrfXYlApzDYoa6idPYx9w8+vx
- nuPayKvUkqtUHQZoEmX9JN9QcW+0rvE771bDdMsC1lEZGCbAbMr+357HFgxUGHPmQFdyjy
- ligQ98bkVpKANif3Sh5j+QyU7PVnh5o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-GD7FOvu9M3W9ck4oMs8vhA-1; Tue, 20 Apr 2021 06:47:09 -0400
-X-MC-Unique: GD7FOvu9M3W9ck4oMs8vhA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 93-20020adf80e60000b0290106fab45006so6150153wrl.20
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:47:09 -0700 (PDT)
+ bh=mZniG6MbAE018d366J7RPHmF5Rm1HTiUh5EnbkYsiJk=;
+ b=M4fjuVU7iclqis48pMvKo+MCWkRk9NKFq1Cw8cUyG6DNiD2kcH8jq83osxG+kyJV7PjKnF
+ ufp3uN3HgLPuWnKvxaDxREk3MgxUHHoc5tbENaimf8wnUBdOeN3AFlXD6ycq/1+01LrYo5
+ gpT+8ZBEKg8JFAO+0fU3rDRRX2z+gLk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-526-xaeo9-1GOfW701HVkQp0Hw-1; Tue, 20 Apr 2021 06:49:11 -0400
+X-MC-Unique: xaeo9-1GOfW701HVkQp0Hw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t18-20020adfdc120000b02900ffe4432d8bso10699082wri.6
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:49:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JWGNaeSTQ2CCaeoVZGEDKKRF2Oa/xnJ890yRhS7WIQs=;
- b=H4aSTHo8hU8YyM9qSEfYjNxbbSKXbpY8tBWMwNF5soJd3PpMxWqGKhqKSmaDJ2RZk8
- iop1E7RzMtvfrlaB7+V1Rbx9lS0OLkfAEufLXnvQ44LgDJ+77E8ouE78/XRyg/B5h6YR
- bPUxYa5cJDSMJs9boMdZJuSDIRY9J0oLHNKPQ5qR+9QIecftdOzWWqj3KnPza8THUj4n
- 6aZXJ+wEIB29NCeMhmGNGBcxtcyExfLMuNISNXjE4eoCXSGa3oRxzcdALtwY/LL4G+UK
- Ic8B6uDkmj5BAzkuAajukjl+ArI2dvnl2v4LPk5ypyPzYtj3qBkTtXEkk07ardf+AJ55
- XxLg==
-X-Gm-Message-State: AOAM532TeCYnQTvPgvrJGBqxOy+hWkjq0pcUp1dUO1iPgdX7lD1MAW/8
- KzYH9G6NiwJQ62ChxWFaFNjgrKoNzb0OHEfWk52Pq8Tm25Yjo9L4MAvKwfI0/ZZMl4GMCtSqxOj
- A31fUAyxIWkADPZk=
-X-Received: by 2002:a05:600c:d5:: with SMTP id
- u21mr3752529wmm.153.1618915628683; 
- Tue, 20 Apr 2021 03:47:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/YrIWe2FWWBqWXKfG9kn4f78idThYIW5pOV1buiCbgm1laWgwXx96DFF12lj8ci8Pwo3B5w==
-X-Received: by 2002:a05:600c:d5:: with SMTP id
- u21mr3752517wmm.153.1618915628525; 
- Tue, 20 Apr 2021 03:47:08 -0700 (PDT)
+ bh=mZniG6MbAE018d366J7RPHmF5Rm1HTiUh5EnbkYsiJk=;
+ b=sXWXc11Anvjg36GnpgeQYUykkNFG2R9GOwHhX+lzXF7L5NBFZGRIr2z/uwWHCu+3yc
+ D4XoM2AfUOhx6NqLsKZFRuTF3Z3hdPPaJf5kyqmwzknSG+DBQNONDbtpsUu02muJezEs
+ lvqNQZwDVLV3cSgV6XsUZdGThX4ZKGh6LcD3CfXwukny11/JtslD5gY4qC+JYBhrM6bM
+ gCxH7ndFm3EDBS3oBn1q3erkG6co5ogLjTGSJxV5zHGFls+et5zjrsg8Q1ZUxywDV+kM
+ 9l1bUzt4Jyf8I14fa5zgp1OIB+PxIPc555UdP8224yXeIg1fBPDhrapXsAAzbkamXYVl
+ J6rg==
+X-Gm-Message-State: AOAM530Me4esw8B4KFU7gLnMCIEEyObV9eiDwxAci/ozJlWXw/e0JjTZ
+ lRTyNXtBbSIEpZrPzZqRhMdSw62drzeNAGCM7ct2f3SHLVCkwWq84HeyEbThTPZPoBK3bbrgqRs
+ +qTgFMqtdpZ8rTRE=
+X-Received: by 2002:a1c:6382:: with SMTP id x124mr3822764wmb.142.1618915750756; 
+ Tue, 20 Apr 2021 03:49:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwK6wlRu7r2+cF41e6emIcwUSz5vBVnbqSnh4Tyv9ZpAHP3Y5AX9vdnD26r6XfCiBFN6Q8DDw==
+X-Received: by 2002:a1c:6382:: with SMTP id x124mr3822758wmb.142.1618915750647; 
+ Tue, 20 Apr 2021 03:49:10 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b1sm30126547wru.90.2021.04.20.03.47.07
+ by smtp.gmail.com with ESMTPSA id n9sm2714129wmo.27.2021.04.20.03.49.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 03:47:08 -0700 (PDT)
-Subject: Re: [PATCH v5 13/14] qmp: Include "reserve" property of memory
- backends
+ Tue, 20 Apr 2021 03:49:10 -0700 (PDT)
+Subject: Re: [PATCH v5 14/14] hmp: Print "reserve" property of memory backends
+ with "info memdev"
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210413091421.7707-1-david@redhat.com>
- <20210413091421.7707-14-david@redhat.com>
+ <20210413091421.7707-15-david@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <17b0219e-096b-1d7e-7377-90e8f047cc03@redhat.com>
-Date: Tue, 20 Apr 2021 12:47:06 +0200
+Message-ID: <1a3b5533-1652-9a28-26de-fc85406cd9bd@redhat.com>
+Date: Tue, 20 Apr 2021 12:49:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210413091421.7707-14-david@redhat.com>
+In-Reply-To: <20210413091421.7707-15-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -114,16 +112,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/13/21 11:14 AM, David Hildenbrand wrote:
-> Let's include the new property.
+> Let's print the new property.
 > 
-> Cc: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Eric Blake <eblake@redhat.com>
 > Cc: Igor Mammedov <imammedo@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  hw/core/machine-qmp-cmds.c | 1 +
->  qapi/machine.json          | 4 ++++
->  2 files changed, 5 insertions(+)
+>  hw/core/machine-hmp-cmds.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
