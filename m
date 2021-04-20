@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640CD3652ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:09:51 +0200 (CEST)
-Received: from localhost ([::1]:41364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B715B3652DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:08:40 +0200 (CEST)
+Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYkW6-0000j3-8u
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59538)
+	id 1lYkUx-0006yZ-Ig
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lYkSH-0003EC-5L
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:05:53 -0400
-Received: from mga17.intel.com ([192.55.52.151]:17751)
+ id 1lYkSE-00037n-6G
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:05:50 -0400
+Received: from mga17.intel.com ([192.55.52.151]:17757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lYkSE-0002hb-MW
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:05:52 -0400
-IronPort-SDR: SdQ1YoVOcTTA/HIPWP0oBQ+miIKvhYkycXwRqkRo7Vhkp+rzxPChLGEHbh+rkK3gaie4P+eZGD
- pe8cTn2tdSSQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="175563724"
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="175563724"
+ id 1lYkSC-0002nI-95
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:05:49 -0400
+IronPort-SDR: d/W0tJ+dk+zJOVTUGIYEZZCOx3nNAo0rh6tYmDzZrrZNGUUNmazAyYxS0KPVsIsc7IcK+UtN8h
+ DzzoVj7hITKg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="175563725"
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="175563725"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Apr 2021 00:05:37 -0700
-IronPort-SDR: n04eybpKJ6g48wauMHmOcV3SCNpqecXTh5E+fuSx4swGxFVwYmWhhrUmUbBO6krxyx8L2nn5TK
- 2zIL5qYLOkiw==
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="420293118"
+IronPort-SDR: mnHR2dqWKjE1Hp0w+TKAI/VVxSIGpIjMcm7btsoaf2pUYXbb4AkGmOiSdM0pqWLY1GfPju3190
+ s1D3MtACyp5w==
+X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="420293120"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Apr 2021 00:05:36 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/12] virtio-gpu: Add udmabuf helpers
-Date: Mon, 19 Apr 2021 23:53:37 -0700
-Message-Id: <20210420065347.2685768-3-vivek.kasireddy@intel.com>
+Subject: [PATCH v2 03/12] virtio-gpu: Add virtio_gpu_find_check_resource
+Date: Mon, 19 Apr 2021 23:53:38 -0700
+Message-Id: <20210420065347.2685768-4-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210420065347.2685768-1-vivek.kasireddy@intel.com>
 References: <20210420065347.2685768-1-vivek.kasireddy@intel.com>
@@ -66,321 +66,136 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add helper functions to create a dmabuf for a resource and mmap it.
-To be able to create a dmabuf using the udmabuf driver, Qemu needs
-to be lauched with the memfd memory backend like this:
-
-qemu-system-x86_64 -m 8192m -object memory-backend-memfd,id=mem1,size=8192M
--machine memory-backend=mem1
+Move finding the resource and validating its backing storage into one
+function.
 
 Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/meson.build                   |   2 +-
- hw/display/virtio-gpu-udmabuf.c          | 183 +++++++++++++++++++++++
- include/hw/virtio/virtio-gpu.h           |  10 ++
- include/standard-headers/linux/udmabuf.h |  32 ++++
- scripts/update-linux-headers.sh          |   3 +
- 5 files changed, 229 insertions(+), 1 deletion(-)
- create mode 100644 hw/display/virtio-gpu-udmabuf.c
- create mode 100644 include/standard-headers/linux/udmabuf.h
+ hw/display/virtio-gpu.c | 66 +++++++++++++++++++++++++++++------------
+ 1 file changed, 47 insertions(+), 19 deletions(-)
 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 9d79e3951d..e0fa88d62f 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -56,7 +56,7 @@ softmmu_ss.add(when: [pixman, 'CONFIG_ATI_VGA'], if_true: files('ati.c', 'ati_2d
- if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   virtio_gpu_ss = ss.source_set()
-   virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
--                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c'), pixman, virgl])
-+                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c', 'virtio-gpu-udmabuf.c'), pixman, virgl])
-   virtio_gpu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL'],
-                     if_true: [files('virtio-gpu-3d.c'), pixman, virgl])
-   virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
-diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
-new file mode 100644
-index 0000000000..2c0e7b2455
---- /dev/null
-+++ b/hw/display/virtio-gpu-udmabuf.c
-@@ -0,0 +1,183 @@
-+/*
-+ * Virtio GPU Device
-+ *
-+ * Copyright Red Hat, Inc. 2013-2014
-+ *
-+ * Authors:
-+ *     Dave Airlie <airlied@redhat.com>
-+ *     Gerd Hoffmann <kraxel@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qemu-common.h"
-+#include "qemu/iov.h"
-+#include "ui/console.h"
-+#include "hw/virtio/virtio-gpu.h"
-+#include "hw/virtio/virtio-gpu-pixman.h"
-+#include "trace.h"
-+
-+#ifdef CONFIG_LINUX
-+
-+#include "exec/ramblock.h"
-+#include "sysemu/hostmem.h"
-+#include <sys/fcntl.h>
-+#include <sys/ioctl.h>
-+#include <linux/memfd.h>
-+#include "standard-headers/linux/udmabuf.h"
-+
-+static void virtio_gpu_create_udmabuf(struct virtio_gpu_simple_resource *res)
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index c9f5e36fd0..de7462a515 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -35,6 +35,10 @@
+ 
+ static struct virtio_gpu_simple_resource*
+ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
++static struct virtio_gpu_simple_resource *
++virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
++                               bool require_backing,
++                               const char *caller, uint32_t *error);
+ 
+ static void virtio_gpu_cleanup_mapping(VirtIOGPU *g,
+                                        struct virtio_gpu_simple_resource *res);
+@@ -63,7 +67,8 @@ static void update_cursor_data_simple(VirtIOGPU *g,
+     struct virtio_gpu_simple_resource *res;
+     uint32_t pixels;
+ 
+-    res = virtio_gpu_find_resource(g, resource_id);
++    res = virtio_gpu_find_check_resource(g, resource_id, false,
++                                         __func__, NULL);
+     if (!res) {
+         return;
+     }
+@@ -158,6 +163,37 @@ virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id)
+     return NULL;
+ }
+ 
++static struct virtio_gpu_simple_resource *
++virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
++                               bool require_backing,
++                               const char *caller, uint32_t *error)
 +{
-+    struct udmabuf_create_list *list;
-+    RAMBlock *rb;
-+    ram_addr_t offset;
-+    int udmabuf, i;
++    struct virtio_gpu_simple_resource *res;
 +
-+    udmabuf = udmabuf_fd();
-+    if (udmabuf < 0) {
-+        return;
-+    }
-+
-+    list = g_malloc0(sizeof(struct udmabuf_create_list) +
-+                     sizeof(struct udmabuf_create_item) * res->iov_cnt);
-+
-+    for (i = 0; i < res->iov_cnt; i++) {
-+        rcu_read_lock();
-+        rb = qemu_ram_block_from_host(res->iov[i].iov_base, false, &offset);
-+        rcu_read_unlock();
-+
-+        if (!rb || rb->fd < 0) {
-+            g_free(list);
-+            return;
++    res = virtio_gpu_find_resource(g, resource_id);
++    if (!res) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid resource specified %d\n",
++                      caller, resource_id);
++        if (error) {
++            *error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
 +        }
-+
-+        list->list[i].memfd  = rb->fd;
-+        list->list[i].offset = offset;
-+        list->list[i].size   = res->iov[i].iov_len;
++        return NULL;
 +    }
 +
-+    list->count = res->iov_cnt;
-+    list->flags = UDMABUF_FLAGS_CLOEXEC;
-+
-+    res->dmabuf_fd = ioctl(udmabuf, UDMABUF_CREATE_LIST, list);
-+    if (res->dmabuf_fd < 0) {
-+        warn_report("%s: UDMABUF_CREATE_LIST: %s", __func__,
-+                    strerror(errno));
-+    }
-+    g_free(list);
-+}
-+
-+static void virtio_gpu_remap_udmabuf(struct virtio_gpu_simple_resource *res)
-+{
-+    res->remapsz = res->width * res->height * 4;
-+    res->remapsz = QEMU_ALIGN_UP(res->remapsz, qemu_real_host_page_size);
-+
-+    res->remapped = mmap(NULL, res->remapsz, PROT_READ,
-+                         MAP_SHARED, res->dmabuf_fd, 0);
-+    if (res->remapped == MAP_FAILED) {
-+        warn_report("%s: dmabuf mmap failed: %s", __func__,
-+                    strerror(errno));
-+        res->remapped = NULL;
-+    }
-+}
-+
-+static void virtio_gpu_destroy_udmabuf(struct virtio_gpu_simple_resource *res)
-+{
-+    if (res->remapped) {
-+        munmap(res->remapped, res->remapsz);
-+        res->remapped = NULL;
-+    }
-+    if (res->dmabuf_fd >= 0) {
-+        close(res->dmabuf_fd);
-+        res->dmabuf_fd = -1;
-+    }
-+}
-+
-+static int find_memory_backend_type(Object *obj, void *opaque)
-+{
-+    bool *memfd_backend = opaque;
-+    int ret;
-+
-+    if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND)) {
-+        HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-+        RAMBlock *rb = backend->mr.ram_block;
-+
-+        if (rb && rb->fd > 0) {
-+            ret = fcntl(rb->fd, F_GET_SEALS);
-+            if (ret > 0) {
-+                *memfd_backend = true;
++    if (require_backing) {
++        if (!res->iov || !res->image) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: no backing storage %d\n",
++                          caller, resource_id);
++            if (error) {
++                *error = VIRTIO_GPU_RESP_ERR_UNSPEC;
 +            }
++            return NULL;
 +        }
 +    }
 +
-+    return 0;
++    return res;
 +}
 +
-+bool virtio_gpu_have_udmabuf(void)
-+{
-+    Object *memdev_root;
-+    int udmabuf;
-+    bool memfd_backend = false;
-+
-+    udmabuf = udmabuf_fd();
-+    if (udmabuf < 0) {
-+        return false;
-+    }
-+
-+    memdev_root = object_resolve_path("/objects", NULL);
-+    object_child_foreach(memdev_root, find_memory_backend_type, &memfd_backend);
-+
-+    return memfd_backend;
-+}
-+
-+void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
-+{
-+    void *pdata = NULL;
-+
-+    res->dmabuf_fd = -1;
-+    if (res->iov_cnt == 1) {
-+        pdata = res->iov[0].iov_base;
-+    } else {
-+        virtio_gpu_create_udmabuf(res);
-+        if (res->dmabuf_fd < 0) {
-+            return;
-+        }
-+        virtio_gpu_remap_udmabuf(res);
-+        if (!res->remapped) {
-+            return;
-+        }
-+        pdata = res->remapped;
-+    }
-+
-+    (void) pdata;
-+}
-+
-+void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
-+{
-+    if (res->remapped) {
-+        virtio_gpu_destroy_udmabuf(res);
-+    }
-+}
-+
-+#else
-+
-+bool virtio_gpu_have_udmabuf(void)
-+{
-+    /* nothing (stub) */
-+    return false;
-+}
-+
-+void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res)
-+{
-+    /* nothing (stub) */
-+}
-+
-+void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
-+{
-+    /* nothing (stub) */
-+}
-+
-+#endif
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index fae149235c..a4b7738d8a 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -47,6 +47,11 @@ struct virtio_gpu_simple_resource {
-     uint32_t scanout_bitmask;
-     pixman_image_t *image;
-     uint64_t hostmem;
-+
-+    int dmabuf_fd;
-+    size_t remapsz;
-+    uint8_t *remapped;
-+
-     QTAILQ_ENTRY(virtio_gpu_simple_resource) next;
- };
+ void virtio_gpu_ctrl_response(VirtIOGPU *g,
+                               struct virtio_gpu_ctrl_command *cmd,
+                               struct virtio_gpu_ctrl_hdr *resp,
+@@ -396,11 +432,9 @@ static void virtio_gpu_transfer_to_host_2d(VirtIOGPU *g,
+     virtio_gpu_t2d_bswap(&t2d);
+     trace_virtio_gpu_cmd_res_xfer_toh_2d(t2d.resource_id);
  
-@@ -214,6 +219,11 @@ void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
-                                     struct iovec *iov, uint32_t count);
- void virtio_gpu_process_cmdq(VirtIOGPU *g);
+-    res = virtio_gpu_find_resource(g, t2d.resource_id);
+-    if (!res || !res->iov) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, t2d.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
++    res = virtio_gpu_find_check_resource(g, t2d.resource_id, true,
++                                         __func__, &cmd->error);
++    if (!res) {
+         return;
+     }
  
-+/* virtio-gpu-udmabuf.c */
-+bool virtio_gpu_have_udmabuf(void);
-+void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res);
-+void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res);
-+
- /* virtio-gpu-3d.c */
- void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-                                   struct virtio_gpu_ctrl_command *cmd);
-diff --git a/include/standard-headers/linux/udmabuf.h b/include/standard-headers/linux/udmabuf.h
-new file mode 100644
-index 0000000000..e19eb5b5ce
---- /dev/null
-+++ b/include/standard-headers/linux/udmabuf.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _LINUX_UDMABUF_H
-+#define _LINUX_UDMABUF_H
-+
-+#include "standard-headers/linux/types.h"
-+
-+#define UDMABUF_FLAGS_CLOEXEC	0x01
-+
-+struct udmabuf_create {
-+	uint32_t memfd;
-+	uint32_t flags;
-+	uint64_t offset;
-+	uint64_t size;
-+};
-+
-+struct udmabuf_create_item {
-+	uint32_t memfd;
-+	uint32_t __pad;
-+	uint64_t offset;
-+	uint64_t size;
-+};
-+
-+struct udmabuf_create_list {
-+	uint32_t flags;
-+	uint32_t count;
-+	struct udmabuf_create_item list[];
-+};
-+
-+#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
-+#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
-+
-+#endif /* _LINUX_UDMABUF_H */
-diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
-index 1050e36169..fea4d6eb65 100755
---- a/scripts/update-linux-headers.sh
-+++ b/scripts/update-linux-headers.sh
-@@ -34,6 +34,7 @@ cp_portable() {
-     if
-         grep '#include' "$f" | grep -v -e 'linux/virtio' \
-                                      -e 'linux/types' \
-+                                     -e 'linux/ioctl' \
-                                      -e 'stdint' \
-                                      -e 'linux/if_ether' \
-                                      -e 'input-event-codes' \
-@@ -66,6 +67,7 @@ cp_portable() {
-         -e 's/__BITS_PER_LONG/HOST_LONG_BITS/' \
-         -e '/\"drm.h\"/d' \
-         -e '/sys\/ioctl.h/d' \
-+        -e '/linux\/ioctl.h/d' \
-         -e 's/SW_MAX/SW_MAX_/' \
-         -e 's/atomic_t/int/' \
-         -e 's/__kernel_long_t/long/' \
-@@ -190,6 +192,7 @@ for i in "$tmpdir"/include/linux/*virtio*.h \
-          "$tmpdir/include/linux/fuse.h" \
-          "$tmpdir/include/linux/input.h" \
-          "$tmpdir/include/linux/input-event-codes.h" \
-+         "$tmpdir/include/linux/udmabuf.h" \
-          "$tmpdir/include/linux/pci_regs.h" \
-          "$tmpdir/include/linux/ethtool.h" \
-          "$tmpdir/include/linux/const.h" \
+@@ -454,11 +488,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+     trace_virtio_gpu_cmd_res_flush(rf.resource_id,
+                                    rf.r.width, rf.r.height, rf.r.x, rf.r.y);
+ 
+-    res = virtio_gpu_find_resource(g, rf.resource_id);
++    res = virtio_gpu_find_check_resource(g, rf.resource_id, false,
++                                         __func__, &cmd->error);
+     if (!res) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, rf.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
+         return;
+     }
+ 
+@@ -541,11 +573,9 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
+     }
+ 
+     /* create a surface for this scanout */
+-    res = virtio_gpu_find_resource(g, ss.resource_id);
++    res = virtio_gpu_find_check_resource(g, ss.resource_id, true,
++                                         __func__, &cmd->error);
+     if (!res) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, ss.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
+         return;
+     }
+ 
+@@ -737,11 +767,9 @@ virtio_gpu_resource_detach_backing(VirtIOGPU *g,
+     virtio_gpu_bswap_32(&detach, sizeof(detach));
+     trace_virtio_gpu_cmd_res_back_detach(detach.resource_id);
+ 
+-    res = virtio_gpu_find_resource(g, detach.resource_id);
+-    if (!res || !res->iov) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal resource specified %d\n",
+-                      __func__, detach.resource_id);
+-        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
++    res = virtio_gpu_find_check_resource(g, detach.resource_id, true,
++                                         __func__, &cmd->error);
++    if (!res) {
+         return;
+     }
+     virtio_gpu_cleanup_mapping(g, res);
 -- 
 2.26.2
 
