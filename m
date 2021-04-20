@@ -2,72 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F8036583B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 13:57:49 +0200 (CEST)
-Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF2536585F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:05:48 +0200 (CEST)
+Received: from localhost ([::1]:49688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYp0m-0006sQ-Ig
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 07:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46378)
+	id 1lYp8V-0000WI-R0
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lYoyI-0004ez-5q
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 07:55:14 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lYoyG-0007s6-41
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 07:55:13 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- q123-20020a1c43810000b029012c7d852459so984496wma.0
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 04:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6Zswqg/DPPjP7WK8h0lEiepIzXbXIZn7hEfxlod0OEE=;
- b=R/LLn6+Aw15kfJcKOTlEBeyWF18JyMec2pseyhGDjPde2zKVBJ1h1op/aGGEzOrTPL
- qgdduStcV6ZoeVGJjHASvmFlAG4ULtN0Hxt+om0DQ3tESl5gI+ihWdtSYt3O4JDs0k47
- pFDXrtxqlhSZgov5zTjpg79FV4RG0PkWNoYNRhM1YN0ek3vWX/EJDRHCvJWM6gj8ZIRt
- 07kCSP+NDZudUahODYJTcIGNiDDU/c8vqKJWov1tqyuMfvpmsD7H+beghzwP6UdFP4+i
- awkm5wKHt2+Zddx7S+Rc/CmAZhTVxqWWmr5lQY/ye9ovmOh5ib+KX8oN1iu+loIEHesm
- 1l8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6Zswqg/DPPjP7WK8h0lEiepIzXbXIZn7hEfxlod0OEE=;
- b=V27CWHz4eBiFpIs/uFZBPDqByMatRJ3/Ab/4Kw2ZB4L0lE3j8/I9nSnRTr1c+MNiAa
- BP65X0G5d/Y0Azh04d1OO5TFBKpAoM8F3QQ8atTgm9GQ/LfqBOsl1zYVCKgrHEA2iJmi
- SUzYzpkVwiyeqAONG+Nc/WXOSAMzKJx2KIZ9Dqhoi4P0A9m9DV1dPavUK2yp3i2uodwH
- gIubfySZDem//fJBSr2qK99AlqQeqs9zwvhqbeYFv5yDP/Xver2FwF5+I3OsoBHMxvYG
- DDUFFLpe9MKy486TN0ZTgxLVFDQ3JWwANfDwJ1HCMt4wTl9220FRDBYFRZA94SecgXg1
- ZhzQ==
-X-Gm-Message-State: AOAM5318R0aJWOO0NGoMPMiFx3a33Lj+J/6A5OFK4KTjAGgqoHQ8XIQ8
- dVEEBYsgBSk68c0s68eoGG4bEKnqzEE=
-X-Google-Smtp-Source: ABdhPJx3hJk4BKyiKa0xdrx+eZp+sSw06D3pVX8yl7EvO4WthefsoTf5X3njFKJPxvW5w1izREo1ig==
-X-Received: by 2002:a1c:65c2:: with SMTP id z185mr4143724wmb.2.1618919709669; 
- Tue, 20 Apr 2021 04:55:09 -0700 (PDT)
-Received: from localhost.localdomain ([197.61.162.183])
- by smtp.googlemail.com with ESMTPSA id i133sm3080407wmi.40.2021.04.20.04.55.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 04:55:08 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] plugins/syscall: Added a table-like summary output
-Date: Tue, 20 Apr 2021 13:54:33 +0200
-Message-Id: <20210420115433.12148-1-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lYp65-0008N0-QW; Tue, 20 Apr 2021 08:03:17 -0400
+Received: from mail-eopbgr00091.outbound.protection.outlook.com
+ ([40.107.0.91]:11742 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lYp62-0004p6-IP; Tue, 20 Apr 2021 08:03:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ifJJ+NTmUw0xnM/+BR9Q/jybKtiQqIwK7ZMA8X6tMHwG8yHBtK/9EXdD84M+VzCtR9OYLm592pMCLGyRK9mj167JoiGuCNhGvukbyooqJ5YRuwDxOOrlBFCGGP/6bzjG9aXdDRwGI7V+rtWDG8XvNDBdhuMGwVgffQUs4pi/V2EeAM2Td5+LpgnxeJfW+D2bC2MStlbEne4FSwHlYoj5v8ndiOzI5jbedZCacf0nNp2m6S2wHoJ83yTClaeqpu/z+pR0rjLhsHVgg59CKsRE9zRw092K38At/EWEx1pTaDOm9Xq91w3cYuxKuVqe8i4DvtcPK9XFjoSJiOJOntdn3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/W2sYuKnmiGZnaK4hriTvj/0C91h3dRjQNkvqTwq5BA=;
+ b=EM+/pME85WFjKobtyAc97decESeIfuiVEB1+uSpOQ7iZaw25D9OkV3mgqpDrNcyX5cO6V1fnxWmn+crswEFWr5yuvb5xEKMyyjdxwVmKTAoz64DvIEchyUK0JGI1Jrq7WdOGg8/zuaQ98kGsBtwsvzKoW4p/njwdA1OEVGOt+ArjYMFBCrRcg/quDiSNA/S9kZ+/qhWakRLruWezT654pOIrMOPZIBSBECuNxgAD7ZZDaY8kwONV2bu9GRP4zO/iKBRobeE0HF5udMnuYGHOg2S9CH07Vwuul5cLtGzIvfWHilIAmbMoUi+jmSCuENq1Hp0sTG5ktCmAitAmq7AYFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/W2sYuKnmiGZnaK4hriTvj/0C91h3dRjQNkvqTwq5BA=;
+ b=DEcenkF5PgbFc228BtYg50cDNldUfBrWw1nUbbp0S8XbZ2oKYjg6lrbArBEF/WGseYzyBjHNb3u9V+B4wQuLQTwr/Alz/6bFQmDMUrjfCHESvbMTEwroyfXSCxRE7hXtt0RKGW2wPdNY4GPf/1IkxWNxjbCXwXYueb4r3+B58nE=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB2034.eurprd08.prod.outlook.com (2603:10a6:203:4b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Tue, 20 Apr
+ 2021 12:03:10 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4042.024; Tue, 20 Apr 2021
+ 12:03:10 +0000
+Subject: Re: [RFC PATCH 1/3] block-copy: improve documentation for
+ BlockCopyTask type and functions
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210420100416.30713-1-eesposit@redhat.com>
+ <20210420100416.30713-2-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <9576b9d5-c40b-14d4-399f-4d14473433bb@virtuozzo.com>
+Date: Tue, 20 Apr 2021 15:03:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
+In-Reply-To: <20210420100416.30713-2-eesposit@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.222]
+X-ClientProxiedBy: PR1P264CA0012.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19e::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32c.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.222) by
+ PR1P264CA0012.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19e::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.16 via Frontend Transport; Tue, 20 Apr 2021 12:03:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1157a7e8-3069-461b-f764-08d903f44431
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB2034:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB20345E4A0B21823D7A0CBD1BC1489@AM5PR0801MB2034.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0KIyPlQkcCRUyUGGIYGfIyPaXX71bL1VrKxzHE/8bmkCbddj7J7wlZOgCKvYhAmIFTMcEkjWcWV96pVtD82ETO7AeTwUH0hiGM6m7L0v8n/1edf8xRTj29EXa/0g6DAGFJE8AQHo2HVxeeihVPRukATsJj3LYuOVGxirFoF2K3eQEbH4fNEVt63F8XU8WW0NAVpZTUdMgsd1TW0nEq95xWm0Llgr/I/vybNZKtlkI83U+Qrs+JcaJLssdsyoTRw5SQVhvjAqXY5H741RUNvqAcc2mlOUKGgHt4FIIRQobxJ3Zn/9k/j0rCT2DwYRI2aE8KJw7zMVk/jKjZPyFKzQAAorcdNLv2/cqYo9LaRtvBb+7i+PqOcoFBYuNSJdFS2LJPQ3gwWwHS5IqopRKbXcG2j28p3po7A81D4WH0nLHR9b9HcMqkSeeoDCS4qAl3LVa7IVtmU5ySC3K9XkBXOqEVR3E+qxpufR1tIIv+vEqQNBUPmOCpQOA19infnbaF0E3gJz52fVkJqHauQPqKtcIc9Bw/IXBiutaF6ATT92n5q9F6krBh27iq51wUwX7ymdKV7y0hcQz/xezVIfAOYO8QAASUnwg/Doe5bOxW1rqK//28nUTjgZVX6ObFP8ieKcdQT6XekkQ7hio2ZxUX8Gc79wDXvrJ2+gyCVY+l2tX3kVznClk2rWhMu/IMDTE/wr7M4Zv3upyLZefEvIEuN9LD8cStQNWGUYwZWCXZFEzpE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(346002)(366004)(39840400004)(396003)(16576012)(478600001)(66946007)(186003)(16526019)(316002)(83380400001)(52116002)(2906002)(8936002)(36756003)(26005)(8676002)(54906003)(956004)(86362001)(38100700002)(2616005)(66476007)(38350700002)(66556008)(5660300002)(31696002)(4326008)(31686004)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SC80OHp2L0k2elVnWUI3VWl4clhtVE5hNjdMKzBlQm84TnpCMTc1Y2JmUkVW?=
+ =?utf-8?B?bUEvd0Zqb0EzbklUMnJGbGxVREdnQUJtUE9kNm5saGtOU0Z1Z0hrMXY5T3d4?=
+ =?utf-8?B?NVQzT1RjU1E5Y2xvVXlxbXNCMkVTZXI0TFFuWkIxYkt5SHdLSVZQME03WnB3?=
+ =?utf-8?B?eWVVNjNWa1JpbnZTZTlNTkZYSE1aQzRScnlBcGErNUx4RFpjelFXMnhDdU5E?=
+ =?utf-8?B?Y0tpa2ExbkN4ZDVvVEV0cnRQUTVtVkhvamhWeHoyK3k5U1ZLZ2JtRlhNRDJl?=
+ =?utf-8?B?TXJzZ3F1QXNFcjBDVi9tb2RTKzZYVlphaWZvUklibUtTaW9xQjJBZlZteDQx?=
+ =?utf-8?B?Q0o1T1NOZXRqUlYvOHlUcHp5U25BNUNlVjQ5ODM3MlA4dTBoSGFEeXRaZzll?=
+ =?utf-8?B?YmNBTFVIQVcxc3RXcERzYzVOY3VOVXZUbVlFRHNsWlVFMTFBQ3VLVzVTaktY?=
+ =?utf-8?B?ckJuWkpjM2VEZmhsVVV3enJxRWNVYVFEeUVPTkdVWUlzRUNMOUQvZWc3bWNS?=
+ =?utf-8?B?Ni9SYjduU21Gd2xUVVJnZG1kNTEwQ3VKc0RLM2hGNjVyR0tzRG5kMGpuQ3hn?=
+ =?utf-8?B?NTY1Q1VmU01pRTJTZ3ZacXVHc1RDbFR6ZitnZTdKUDVwWGtNdlBnTXh3Z1ZN?=
+ =?utf-8?B?amtwUEkxdUxRbSs3SHZ4WmxBT3pnL2VzakRoTWw1VDBvUExBV2E0TkdEY1Jh?=
+ =?utf-8?B?cG4rSm1pR04zNDA1YUIweE5ic01hanR0Q0JoRzdHVTNiWmNtdWdWbGxTQWFz?=
+ =?utf-8?B?SFVaY0ZvZ3lxVmJZc0I3QWtha0czOXNFZEZENkp2YXQrbWlEN1pVZEFFQnVr?=
+ =?utf-8?B?QzZuNDVqS3l5Y3ovTlQ1L3ZjVW80QnBsaEVFaDhLRkFnaDlCYmpUMGZteVM3?=
+ =?utf-8?B?QUZtc0pvMytkYU5XL3BEZDhNemszSGhaQ21MVktSMS9IVlpYTWlzN2tLa3RL?=
+ =?utf-8?B?VFFRcmQ3eGVnaXJhLzlYd2JwR2REOElSOHhvWVZRNFp4bDlGMmsyOXM2RFlB?=
+ =?utf-8?B?dzNRRTFQU21JTms2bUlNR2pVajlhalpMWTkwVCtZbEM4dDJZUFpTR2NGbzdE?=
+ =?utf-8?B?UEdQVy9DVi9aVitBNUNxSmtxK1FmaEVva2FpTkhSRVd1dG5vbkFkMHMwWkNa?=
+ =?utf-8?B?c2RyREZsYzhQQ0tvTGE2bVdMZWhMS1d2bmRsUnEzNXlmbUNKd0ZWSG9xZFZY?=
+ =?utf-8?B?b2ZzTkRsUmEzQysxdGRheFRZL1FSSzRMQ3J6K0F5Q3c4ZXg5Q3hocGNqdld5?=
+ =?utf-8?B?OFljMkRXNWlOalZOVTZ4Unozc0JGZjFrb0dGWlFETkthajM4VWplUzBxSllW?=
+ =?utf-8?B?RndHcnZqWURqY2hhSlVrV3FGSHlENzhoSEpMTk45dkNmdXM3VjF6YWwwWTBP?=
+ =?utf-8?B?TGdOK2VCTWlwRXRQRnN1SXUyZ2d1eWxDcExxeCthVDV3WGFTN255LzFqclVD?=
+ =?utf-8?B?cjlTMUpmeUtzeXFpdGp2RnBlZzBtSlIwdDAxU3hQR2VXSm5uOUcrWWVrTERn?=
+ =?utf-8?B?RyttR2pjd1M1N0loUXBUdDI2dFlzNFFJZ2RYOExWTmcrMGRuWElhRWxJNTBz?=
+ =?utf-8?B?TXBsM3NLNW1RMmQrL1ZCUVpXc3FLdGszdG5XdDk5WC82ZmJnaWVQeng5eTcv?=
+ =?utf-8?B?cDZpcisvTE94Y3JzMzFXRmlrSXlwUmpPeWdVcEp6VWdUdDBYNDhrd1IraDF6?=
+ =?utf-8?B?Wm80dWRlWGV2QkgzSk52aExRbGdRVE1vUHd6c0wvS1VkVWtOeXJVT1B0MUJh?=
+ =?utf-8?Q?ym0GJGwB1TRp8gsmfR4t7ZjA3IshpkO9HGsoVk9?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1157a7e8-3069-461b-f764-08d903f44431
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2021 12:03:10.2048 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BoBObsBaDSUiMdI4K90AA26hhP2QvI6V8u+8KTxatgHsf4ANB8wRLxamEE1+bEzbh3pLy0PPNIC+QtIV7FVp3p01/LsgDBEVEyGMx6AkE5M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2034
+Received-SPF: pass client-ip=40.107.0.91;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,163 +146,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a table-like output which contains the total number of calls
-for each used syscall along with the number of errors that occurred.
+20.04.2021 13:04, Emanuele Giuseppe Esposito wrote:
+> As done in BlockCopyCallState, categorize BlockCopyTask
+> in IN, State and OUT fields. This is just to understand
+> which field has to be protected with a lock.
+> 
+> Also add coroutine_fn attribute to block_copy_task_create,
+> because it is only usedn block_copy_dirty_clusters, a coroutine
+> function itself.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   block/block-copy.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/block-copy.c b/block/block-copy.c
+> index 39ae481c8b..03df50a354 100644
+> --- a/block/block-copy.c
+> +++ b/block/block-copy.c
+> @@ -48,25 +48,32 @@ typedef struct BlockCopyCallState {
+>       QLIST_ENTRY(BlockCopyCallState) list;
+>   
+>       /* State */
+> -    int ret;
+>       bool finished;
+>       QemuCoSleepState *sleep_state;
+>       bool cancelled;
+>   
+>       /* OUT parameters */
+> +    int ret;
 
-Per-call tracing is still available through supplying the argument
-``print`` to the plugin.
+Hmm. Somehow, ret may be considered is part of state too.. But I don't really care. Here it looks not bad. Will see how and what you are going protect by new lock.
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
-v2 -> v3: * Locked shared hash-table to protect access across multiple
-          callback invocations.
-          * Used better variable names for the hash table and entries.
-          * Factored the creation and looking-up for hash table entries.
-          * Eliminated the usage of a global boolean and checked against
-          the existence of the ``statistics`` hash-table. (it's allocated
-          only if the plugin in the summary(default) mode.
-          * Removed the function ``free_entry`` and passed ``g_free``
-          directly to ``g_hash_table_new_full()``.
+Note, that ret is concurently set in block_copy_task_entry..
 
- tests/plugin/syscall.c | 98 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 93 insertions(+), 5 deletions(-)
+>       bool error_is_read;
+>   } BlockCopyCallState;
+>   
+>   typedef struct BlockCopyTask {
+> +    /* IN parameters. Initialized in block_copy_task_create()
+> +     * and never changed.
+> +     */
 
-diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
-index 53ee2ab6c4..7b856f2fe2 100644
---- a/tests/plugin/syscall.c
-+++ b/tests/plugin/syscall.c
-@@ -16,32 +16,120 @@
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
- 
-+typedef struct {
-+    int64_t num;
-+    int64_t calls;
-+    int64_t errors;
-+} SyscallStats;
-+
-+static GMutex lock;
-+static GHashTable *statistics;
-+
-+static SyscallStats *get_or_create_entry(int64_t num)
-+{
-+    SyscallStats *entry =
-+        (SyscallStats *) g_hash_table_lookup(statistics, GINT_TO_POINTER(num));
-+
-+    if (!entry) {
-+        entry = g_new0(SyscallStats, 1);
-+        entry->num = num;
-+        g_hash_table_insert(statistics, GINT_TO_POINTER(num), (gpointer) entry);
-+    }
-+
-+    return entry;
-+}
-+
- static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
-                          int64_t num, uint64_t a1, uint64_t a2,
-                          uint64_t a3, uint64_t a4, uint64_t a5,
-                          uint64_t a6, uint64_t a7, uint64_t a8)
- {
--    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
--    qemu_plugin_outs(out);
-+    if (statistics) {
-+        SyscallStats *entry;
-+        g_mutex_lock(&lock);
-+        entry = get_or_create_entry(num);
-+        entry->calls++;
-+        g_mutex_unlock(&lock);
-+    } else {
-+        g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
-+        qemu_plugin_outs(out);
-+    }
- }
- 
- static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
-                              int64_t num, int64_t ret)
-+{
-+    if (statistics) {
-+        SyscallStats *entry;
-+
-+        g_mutex_lock(&lock);
-+        /* Should always return an existent entry. */
-+        entry = get_or_create_entry(num);
-+        if (ret < 0) {
-+            entry->errors++;
-+        }
-+        g_mutex_unlock(&lock);
-+    } else {
-+        g_autofree gchar *out;
-+        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
-+                num, ret);
-+        qemu_plugin_outs(out);
-+    }
-+}
-+
-+void print_entry(gpointer val, gpointer user_data)
- {
-     g_autofree gchar *out;
--    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
--            num, ret);
-+    SyscallStats *entry = (SyscallStats *) val;
-+    int64_t syscall_num = entry->num;
-+    out = g_strdup_printf(
-+        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
-+        syscall_num, entry->calls, entry->errors);
-     qemu_plugin_outs(out);
- }
- 
-+static gint comp_func(gconstpointer ea, gconstpointer eb)
-+{
-+    SyscallStats *ent_a = (SyscallStats *) ea;
-+    SyscallStats *ent_b = (SyscallStats *) eb;
-+
-+    return ent_a->calls > ent_b->calls ? -1 : 1;
-+}
-+
- /* ************************************************************************* */
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    if (!statistics) {
-+        return;
-+    }
-+
-+    g_mutex_lock(&lock);
-+    GList *entries = g_hash_table_get_values(statistics);
-+    entries = g_list_sort(entries, comp_func);
-+    qemu_plugin_outs("syscall no.  calls  errors\n");
- 
--static void plugin_exit(qemu_plugin_id_t id, void *p) {}
-+    g_list_foreach(entries, print_entry, NULL);
-+
-+    g_list_free(entries);
-+    g_hash_table_destroy(statistics);
-+    g_mutex_unlock(&lock);
-+}
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-                                            const qemu_info_t *info,
-                                            int argc, char **argv)
- {
-+    if (argc == 0) {
-+        statistics = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
-+    } else {
-+        for (int i = 0; i < argc; i++) {
-+            if (g_strcmp0(argv[i], "print") != 0) {
-+                fprintf(stderr, "unsupported argument: %s\n", argv[i]);
-+                return -1;
-+            }
-+        }
-+    }
-+
-     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
-     qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
-     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+It's wrong about task field, as it has "ret" inside.
+
+>       AioTask task;
+> -
+>       BlockCopyState *s;
+>       BlockCopyCallState *call_state;
+> +
+> +    /* State */
+>       int64_t offset;
+
+I think, offset is never changed after block_copy_task_create()..
+
+>       int64_t bytes;
+>       bool zeroes;
+> -    QLIST_ENTRY(BlockCopyTask) list;
+>       CoQueue wait_queue; /* coroutines blocked on this task */
+> +
+> +    /* To reference all call states from BlockCopyTask */
+
+Amm.. Actually,
+
+To reference all tasks from BlockCopyState
+
+> +    QLIST_ENTRY(BlockCopyTask) list;
+> +
+>   } BlockCopyTask;
+>   
+>   static int64_t task_end(BlockCopyTask *task)
+> @@ -153,7 +160,7 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+>    * Search for the first dirty area in offset/bytes range and create task at
+>    * the beginning of it.
+>    */
+> -static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+> +static BlockCopyTask *coroutine_fn block_copy_task_create(BlockCopyState *s,
+>                                                BlockCopyCallState *call_state,
+>                                                int64_t offset, int64_t bytes)
+>   {
+> 
+
+We mark by "coroutine_fn" functions that can be called _only_ from coroutine context. block_copy_task_create() may be called from any context, both coroutine and non-coroutine. So, it shouldn't have this mark.
+
+
 -- 
-2.25.1
-
+Best regards,
+Vladimir
 
