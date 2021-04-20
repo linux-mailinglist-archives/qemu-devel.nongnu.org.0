@@ -2,87 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7382B365318
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:20:40 +0200 (CEST)
-Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3FC365328
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:21:59 +0200 (CEST)
+Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYkgZ-0008R8-Dw
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33586)
+	id 1lYkhl-0001Jr-IW
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:21:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lYkcb-0007qK-6o; Tue, 20 Apr 2021 03:16:33 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:44883)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lYkgl-0000e2-GS; Tue, 20 Apr 2021 03:20:51 -0400
+Received: from out28-4.mail.aliyun.com ([115.124.28.4]:52944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lYkcZ-0000d8-0x; Tue, 20 Apr 2021 03:16:32 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 652381FF1;
- Tue, 20 Apr 2021 03:16:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 20 Apr 2021 03:16:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=8fwTo7vvRUSSZKluh7mOwAVqbG6
- ePTzEYsu/BJ6mue4=; b=x3bOpL3TEXCe4JgtvHV+ML4KnHEPspzDgxaeTswvKfm
- 7Nrf4Usic7N3W8vphMN3RZadUrzWdK38T460vnbp+OcZeoXNxsVJzSgqyiUXwG/k
- TTpjvR34K69HSju8SXQrhOYDBnNidSczyKTsuEpE7KyvcsRPzuTiTKAEDMjY4FY3
- bwrVLjJpL7M7T6/UetMSWztE657uROE2NjqpPlTVoV4OukEntqMnEPaM/wR9YsvL
- naLhjWWu+aSGXHAC++aEaap0yLlXMNC1dt61RSEd5xEwwrgdt4CdL5n49uLTHUst
- s7ZVB3GzXGSVAuRu49a7a17jc4BzD8E4YR3Zxbgb6cA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=8fwTo7
- vvRUSSZKluh7mOwAVqbG6ePTzEYsu/BJ6mue4=; b=ATyCqshzJ1u9A9kB97rlM6
- +g9mnyVZDJIG+v5gmOx7QdO3er/vpETG2aSoXvwdvm2u5C8xc81nrFgwZZkC7IYC
- 4ZzqJZRUG+G6WOXUIeBF52pxUXpMX+CmRefyUkPu5UEgb+spdKOvbpi+5tl3rj1o
- 4644SA8oLVmOtjgchHf5isVMMYwnD8fov2VIpwtOZqC4uOJqaUH3T4imh+8Tf5X9
- bY2axc6pBPGXvvhRzr+I+PrtMnSzgFrcca5B4HXNMQT9OM7GkNXahg8MqsIoYOS9
- Kob+dvqMJoRN5Cio9xNMkbkKEF0loEeq0uHmhieMKxpqPx1FIRebSx15dLcJ+2Wg
- ==
-X-ME-Sender: <xms:y39-YE1hQQVnhhq9Bep5odD0hMs_VcRVIFzCKZbIyvhtr2KxyHI9og>
- <xme:y39-YPG3M7uOk_7_gax5hyWOlXGSDK7TklfUu-_f6ydEeOJdNydJR7RQ9J7293WEH
- SUxiCi_7AKClPaBN1s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddthedguddulecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:y39-YM4v1LMVqPc6daYdQZYpKSlCVSkIST9DBtKJ9-t3mMRMbsGQRg>
- <xmx:y39-YN3aFi-CDZhGrh8C4E2Q1aAbF9bYIMP5d8p1HQ6OMX57fZU_AQ>
- <xmx:y39-YHGCXTuDaMvhLwD8cxilQcVRG0uAghEaYPRE4Qw3Lt7_EvLHNw>
- <xmx:zH9-YM6zrXoTguWtyDKTWOvgiJ8e-jDrO-ziITKUD_qYw50VGQXVqA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id D263E1080063;
- Tue, 20 Apr 2021 03:16:25 -0400 (EDT)
-Date: Tue, 20 Apr 2021 09:16:24 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 01/14] hw/block/nvme: rename __nvme_zrm_open
-Message-ID: <YH5/yApW64VaIs/H@apples.localdomain>
-References: <20210419192801.62255-1-its@irrelevant.dk>
- <20210419192801.62255-2-its@irrelevant.dk>
- <485ad94d-67fa-32a4-c783-975cca188816@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lYkgg-0003Bu-SU; Tue, 20 Apr 2021 03:20:51 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07513881|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0400275-0.000205803-0.959767;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047204; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.K0vmQ6x_1618903241; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.K0vmQ6x_1618903241) by smtp.aliyun-inc.com(10.147.40.7);
+ Tue, 20 Apr 2021 15:20:41 +0800
+Subject: Re: [RFC PATCH 00/11] RISC-V: support clic v0.9 specification
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
+ <CAKmqyKPtV0PFdEfO0B5YFGC2i21OAmvBsY0ovUVdQwn3ttpcQA@mail.gmail.com>
+ <beb2e320-60fb-db42-e4d6-3b4d5cb82a95@c-sky.com>
+ <CAKmqyKN2JNRygh5aScLwQZYgmQF7-bpj=aCq=gx2TxxLpCgCrQ@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <89137bb9-4312-ac27-5c63-c0bab0f4c139@c-sky.com>
+Date: Tue, 20 Apr 2021 15:20:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="j2DwJVitRsZcpjBn"
-Content-Disposition: inline
-In-Reply-To: <485ad94d-67fa-32a4-c783-975cca188816@redhat.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKmqyKN2JNRygh5aScLwQZYgmQF7-bpj=aCq=gx2TxxLpCgCrQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.4; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-4.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,55 +61,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, michaeljclark@mac.com,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---j2DwJVitRsZcpjBn
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Apr 20 07:53, Thomas Huth wrote:
->On 19/04/2021 21.27, Klaus Jensen wrote:
->>From: Klaus Jensen <k.jensen@samsung.com>
+On 2021/4/20 下午2:26, Alistair Francis wrote:
+> On Tue, Apr 20, 2021 at 11:45 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >>
->>Get rid of the (reserved) double underscore use.
+>> On 2021/4/20 上午7:30, Alistair Francis wrote:
+>>> On Fri, Apr 9, 2021 at 5:56 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>>> This patch set gives an implementation of "RISC-V Core-Local Interrupt
+>>>> Controller(CLIC) Version 0.9-draft-20210217". It comes from [1], where
+>>>> you can find the pdf format or the source code.
+>>>>
+>>>> I take over the job from Michael Clark, who gave the first implementation
+>>>> of clic-v0.7 specification. If there is any copyright question, please
+>>>> let me know.
+>>> You need to make sure you leave all original copyright notices and SoB in place.
+>> OK.
 >>
->>Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>Cc: Thomas Huth <thuth@redhat.com>
->>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>---
->>  hw/block/nvme.c | 16 ++++++++++------
->>  1 file changed, 10 insertions(+), 6 deletions(-)
+>> Is it OK that keep the original copyright notices for new files and
+>> your SoB in every patch,  Michael?
+>>
+>>>> Features:
+>>>> 1. support four kinds of trigger types.
+>>>> 2. Preserve the CSR WARL/WPRI semantics.
+>>>> 3. Option to select different modes, such as M/S/U or M/U.
+>>>> 4. At most 4096 interrupts.
+>>>> 5. At most 1024 apertures.
+>>>>
+>>>> Todo:
+>>>> 1. Encode the interrupt trigger information to exccode.
+>>>> 2. Support complete CSR mclicbase when its number is fixed.
+>>>> 3. Gave each aperture an independend address.
+>>>>
+>>>> It have passed my qtest case and freertos test. Welcome to have a try
+>>>> for your hardware.
+>>> It doesn't seem to be connected to any machine. How are you testing this?
+>> There is a machine called SMARTL in my repository[1].  The qtest case
+>> is  tests/qtest/test-riscv32-clic.c. If it's better, I can upstream the
+>> machine together next version.
+> I don't really want to add a new hardware device when it isn't
+> connected to a machine. It would be great if we could connect it to a
+> machine. If not SMARTL maybe we could add it as an option to the virt
+> machine?
+Currently it is good to  connect CLIC to virt machine.  I can fix it in 
+the next version if it is OK for you.
+> What is SMARTL? Is that a publically available board?
+
+SMARTL is a fpga evaluation board.  We usually use it  to debug programs 
+for XuanTie CPU serials.
+It has a 32bit CPU, 1 UART,  4 timers, and the CLIC interrupt 
+controller. I will give  a detailed documentation
+when I upstream it.
+
+There are still many other  RISC-V boards, but more complex. I plan to 
+upstream the XuanTie CPU
+and  some widely used boards after the P extension and CLIC.
+
+Zhiwei
+
 >
->I think it would be good to mention the change with NVME_ZRM_AUTO in=20
->the patch description, too.
+> Alistair
 >
->Apart from that:
->Reviewed-by: Thomas Huth <thuth@redhat.com>
->
-
-Makes sense, thanks!
-
---j2DwJVitRsZcpjBn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmB+f8UACgkQTeGvMW1P
-DenRxwf/ZG13KjQ0m1XnhnWYeOgFxjxsb22fB5yXuFMVZU9D5Rj8ic5TC1U6d33A
-BmxMFSav5W/1fl4by4t0CoPtC64DbBsXcySofCWNgBOF2tf/ZkswDb+lg1aJ0d+b
-XlSyRSm2wrSexzioelM1NznrjsvfWJrfbN1y7JG4Edoab0T+baufGO1HdZo+1SLV
-8SCjh7Fymnv5nIbIPH0ZMDrl5TM89p+jNj3NfcZk+EXYe3A1fRXIyX4YB9XDs5in
-BzUKYnqMAZYzmcG2/BGmHYVyBsLUemnnxL5QnHcgSwH6AHBzlHX3Hpld/VgKiPAb
-w9E5mmEKDBn0YslC5B1V2WjsWiDZ8A==
-=6MvX
------END PGP SIGNATURE-----
-
---j2DwJVitRsZcpjBn--
+>> Zhiwei
+>>
+>> [1]https://github.com/romanheros/qemu, branch: riscv-clic-upstream-rfc
+>>
+>>
+>>> Alistair
+>>>
+>>>> Any advice is welcomed. Thanks very much.
+>>>>
+>>>> Zhiwei
+>>>>
+>>>> [1] specification website: https://github.com/riscv/riscv-fast-interrupt.
+>>>> [2] Michael Clark origin work: https://github.com/sifive/riscv-qemu/tree/sifive-clic.
+>>>>
+>>>>
+>>>> LIU Zhiwei (11):
+>>>>     target/riscv: Add CLIC CSR mintstatus
+>>>>     target/riscv: Update CSR xintthresh in CLIC mode
+>>>>     hw/intc: Add CLIC device
+>>>>     target/riscv: Update CSR xie in CLIC mode
+>>>>     target/riscv: Update CSR xip in CLIC mode
+>>>>     target/riscv: Update CSR xtvec in CLIC mode
+>>>>     target/riscv: Update CSR xtvt in CLIC mode
+>>>>     target/riscv: Update CSR xnxti in CLIC mode
+>>>>     target/riscv: Update CSR mclicbase in CLIC mode
+>>>>     target/riscv: Update interrupt handling in CLIC mode
+>>>>     target/riscv: Update interrupt return in CLIC mode
+>>>>
+>>>>    default-configs/devices/riscv32-softmmu.mak |   1 +
+>>>>    default-configs/devices/riscv64-softmmu.mak |   1 +
+>>>>    hw/intc/Kconfig                             |   3 +
+>>>>    hw/intc/meson.build                         |   1 +
+>>>>    hw/intc/riscv_clic.c                        | 836 ++++++++++++++++++++
+>>>>    include/hw/intc/riscv_clic.h                | 103 +++
+>>>>    target/riscv/cpu.h                          |   9 +
+>>>>    target/riscv/cpu_bits.h                     |  32 +
+>>>>    target/riscv/cpu_helper.c                   | 117 ++-
+>>>>    target/riscv/csr.c                          | 247 +++++-
+>>>>    target/riscv/op_helper.c                    |  25 +
+>>>>    11 files changed, 1363 insertions(+), 12 deletions(-)
+>>>>    create mode 100644 hw/intc/riscv_clic.c
+>>>>    create mode 100644 include/hw/intc/riscv_clic.h
+>>>>
+>>>> --
+>>>> 2.25.1
+>>>>
+>>>>
 
