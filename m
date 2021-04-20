@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CFD365565
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 11:30:32 +0200 (CEST)
-Received: from localhost ([::1]:46110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E148F36556F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 11:31:48 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYmiF-0006AB-RT
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 05:30:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35498)
+	id 1lYmjT-0007I4-LY
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 05:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYmfU-0004np-56; Tue, 20 Apr 2021 05:27:44 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37876)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYme8-0003xT-LW
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 05:26:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYmfS-0004OP-N7; Tue, 20 Apr 2021 05:27:39 -0400
-Received: by mail-wr1-x432.google.com with SMTP id j5so35887425wrn.4;
- Tue, 20 Apr 2021 02:27:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VxwcDm3t/hwTT2d5JXzT6X0NF/ww5PIXjlcSJSzU3KU=;
- b=ETWzlpo26xNysnybPIaq6N3DuEKUaxhIuSvjqZ5dGctut6zOhxl/i1w34kihzss5Ky
- LgeLdX80VuOITfOzTQxPWA+AG5FocSvb8yIwZ2iPwUp4oQyomExIxubudCjar89epbed
- S0VSgtUp2+Lebmam4nxxBkSNQ5zHeVNtPVadvY3D5PLriP8hIakDJSE9St7XlNrNDPpC
- PNY1FFrCo3B88a38QZqV35O2DfxJSAl6A0HaXOg7l0Dl55rfBfgsexEFd2hl45/Ki0uo
- pDfE6h535h9N5oTzbMYlpo6RkMwZ+FgzI0urH97vp73HLjfxCTO5d+UZH9NUtxNCuQ6W
- dNcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VxwcDm3t/hwTT2d5JXzT6X0NF/ww5PIXjlcSJSzU3KU=;
- b=V5mLCDQFP9yVBn3aqPhG7Q2wcPbEBIY55/7TvYUdboJRplzn9KyC6EttlgDjrY60MF
- hzFExSpPAAG327MHGXMz1rmp3FxzcGyDc3wnxI1QrLxvv+LWQgGx4EJ73FfGu+WlDcaB
- 8n/uJIzu398+ilZA/qKOD/Zy/gaVBqx11awqbBD0S1h2kBsroEbgiOKf3unkyyonw5LN
- srlrWN18ETGj3nJOqM+UwqYZ1jqjsxYTLXIDuaxz18qBt9mMTNeFeCVsHfY5n7olvy8X
- tmJCJP0mWPzrRqnYcB+Z29fdSXJkCpuxdLbzWW5jSplfvP5LnGjvlggIvkvjiAZAF1nl
- xL2Q==
-X-Gm-Message-State: AOAM531kAmntP9r8koHUMCQgQllJwDCE4xCDXLnX+eZzYLMwbeATHSFc
- lWSiDYjFvrmkAMpXnDgZXrU=
-X-Google-Smtp-Source: ABdhPJwjp8+krHotCxe5qfOfQFoOsAexkX9w7VW1Spn5/KTv4gudJ/bMJHrkwgC6E98nzSU49QWHDA==
-X-Received: by 2002:a5d:534e:: with SMTP id t14mr19131063wrv.239.1618910856392; 
- Tue, 20 Apr 2021 02:27:36 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b15sm16180965wrt.57.2021.04.20.02.27.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 02:27:35 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-6.1 8/9] hw/clock: Declare clock_new() internally
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210409062401.2350436-1-f4bug@amsat.org>
- <20210409062401.2350436-9-f4bug@amsat.org>
- <CAFEAcA9s2hJdRrpa6-qBTaWs6v2AmhyjhOSs7kFrtE28+oFmWA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <42b1385f-c264-a6ce-0dba-ab9edbfef5d3@amsat.org>
-Date: Tue, 20 Apr 2021 11:27:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYme4-0003jO-Kb
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 05:26:16 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lYmdx-0003iY-J7
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 09:26:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DDBB82E81B7
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 09:25:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9s2hJdRrpa6-qBTaWs6v2AmhyjhOSs7kFrtE28+oFmWA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Apr 2021 09:16:32 -0000
+From: Peter Maydell <1805913@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user syscall-abi
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dflogeras2 likan manuel-reimer marcin-konarski+u1
+ philippe-vaucher pmaydell schneiderit th-huth
+ wolletd
+X-Launchpad-Bug-Reporter: Kan Li (likan)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <154353638253.10384.17899256838547579767.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161891019283.10217.14297973480552093714.malone@chaenomeles.canonical.com>
+Subject: [Bug 1805913] Re: readdir() returns NULL (errno=EOVERFLOW) for 32-bit
+ user-static qemu on 64-bit host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
+X-Launchpad-Hash: e945bb749335e9318f225f44982ef6dd15dceeab
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,42 +74,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Luc Michel <luc@lmichel.fr>
+Reply-To: Bug 1805913 <1805913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/21 4:26 PM, Peter Maydell wrote:
-> On Fri, 9 Apr 2021 at 07:24, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> To enforce correct API usage, restrict the clock creation to
->> hw/core/. The only possible ways to create a clock are:
->>
->> - Constant clock at the board level
->>   Using machine_create_constant_clock() in machine_init()
->>
->> - Propagated clock in QDev
->>   Using qdev_init_clock_in() or qdev_init_clock_out() in
->>   TYPE_DEVICE instance_init().
-> 
-> Why isn't it OK to have a constant clock inside a device ?
+This is still a bug, and still blocked on the kernel providing APIs to QEMU=
+ to request 32-bit directory entries. Linus Walleij proposed a kernel patch=
+ to add a suitable fcntl flag but as far as I'm aware it didn't get in so f=
+ar:
+ https://lore.kernel.org/qemu-devel/20201117233928.255671-1-linus.walleij@l=
+inaro.org/
 
-I'm not an electronic engineer, so I guessed because I never used
-a component which generate a clock source without being externally
-excited by a crystal or oscillator. Such exciters are components
-on the board. I might be wrong.
 
-Using clock source out of qdev is giving us headache... So I'm
-trying to enforce all clocks being used via qdev. Looking at the
-resting cases and thinking about hardware, my understanding is
-what's left belong to the "(constant) clock source on the board",
-added this machine_create_constant_clock() method to complete the
-enforced API.
+** Changed in: qemu
+       Status: Incomplete =3D> Confirmed
 
-Maybe what I'm trying to fix is a side-effect of the non-qdev reset
-problem, and if we get a QOM tree reset, then a clock on a non-qdev
-object would properly propagate its constant value to its children.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805913
+
+Title:
+  readdir() returns NULL (errno=3DEOVERFLOW) for 32-bit user-static qemu
+  on 64-bit host
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  This can be simply reproduced by compiling and running the attached C
+  code (readdir-bug.c) under 32-bit user-static qemu, such as qemu-arm-
+  static:
+
+  # Setup docker for user-static binfmt
+  docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  # Compile the code and run (readdir for / is fine, so create a new direct=
+ory /test).
+  docker run -v /path/to/qemu-arm-static:/usr/bin/qemu-arm-static -v /path/=
+to/readdir-bug.c:/tmp/readdir-bug.c -it --rm arm32v7/ubuntu:18.10 bash -c '=
+{ apt update && apt install -y gcc; } >&/dev/null && mkdir -p /test && cd /=
+test && gcc /tmp/readdir-bug.c && ./a.out'
+  dir=3D0xff5b4150
+  readdir(dir)=3D(nil)
+  errno=3D75: Value too large for defined data type
+
+  Do remember to replace the /path/to/qemu-arm-static and /path/to
+  /readdir-bug.c to the actual paths of the files.
+
+  The root cause is in glibc:
+  https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
+linux/getdents.c;h=3D6d09a5be7057e2792be9150d3a2c7b293cf6fc34;hb=3Da5275ba5=
+378c9256d18e582572b4315e8edfcbfb#l87
+
+  By C standard, the return type of readdir() is DIR*, in which the
+  inode number and offset are 32-bit integers, therefore, glibc calls
+  getdents64() and check if the inode number and offset fits the 32-bit
+  range, and reports EOVERFLOW if not.
+
+  The problem here is for 32-bit user-static qemu running on 64-bit
+  host, getdents64 simply passing through the inode number and offset
+  from underlying getdents64 syscall (from 64-bit kernel), which is very
+  likely to not fit into 32-bit range. On real hardware, the 32-bit
+  kernel creates 32-bit inode numbers, therefore works properly.
+
+  The glibc code makes sense to do the check to be conformant with C
+  standard, therefore ideally it should be a fix on qemu side. I admit
+  this is difficult because qemu has to maintain a mapping between
+  underlying 64-bit inode numbers and 32-bit inode numbers, which would
+  severely hurt the performance. I don't expect this could be fix
+  anytime soon (or even there would be a fix), but it would be
+  worthwhile to surface this issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1805913/+subscriptions
 
