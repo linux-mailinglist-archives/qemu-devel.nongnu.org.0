@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF9E365442
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:38:55 +0200 (CEST)
-Received: from localhost ([::1]:54846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CCA365444
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:38:57 +0200 (CEST)
+Received: from localhost ([::1]:55034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYluI-00012b-5R
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:38:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50270)
+	id 1lYluK-00016y-Kj
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlre-0007jm-Fg
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:36:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33890)
+ id 1lYlri-0007mf-FL
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:36:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlrZ-0007mW-UY
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:36:09 -0400
+ id 1lYlra-0007mf-GN
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:36:14 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYlrX-0004uh-Gi
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:36:03 +0000
+ id 1lYlrX-0004va-Sv
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:36:04 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C23F42E81A0
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:36:00 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3752A2E8165
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:36:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Apr 2021 08:23:43 -0000
+Date: Tue, 20 Apr 2021 08:24:29 -0000
 From: Thomas Huth <1818122@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: ddosolitary pmaydell th-huth
 X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <155137392124.31316.11495671074765014993.malonedeb@wampee.canonical.com>
-Message-Id: <161890702319.27359.16858310115448458968.malone@gac.canonical.com>
+Message-Id: <161890706920.26756.16157986965371930689.malone@gac.canonical.com>
 Subject: [Bug 1818122] Re: QEMU 3.1 makes libxslt to crash on ppc64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
-X-Launchpad-Hash: 2b9c3283e2cd71547b81579eb8d51fa2f5b11096
+X-Launchpad-Hash: e856ccef604cd2957bae109cb7b39e21a7f48df1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,12 +75,7 @@ Reply-To: Bug 1818122 <1818122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU, like most open source projects, relies on contributors who have
-motivation, skills and available time to work on implementing particular
-features. They naturally tend to focus on features that result in the
-greatest benefit to their own use cases. Thus simply declaring that an
-open source project, must support something won't magically make it
-happen.
+sorry for the previous post, posted the wrong text into this bug :-(
 
 -- =
 
