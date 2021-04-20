@@ -2,98 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F433657D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 13:46:22 +0200 (CEST)
-Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9374A365822
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 13:53:54 +0200 (CEST)
+Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYoph-0000zt-9J
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 07:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43334)
+	id 1lYowz-0002eR-G7
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 07:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lYonX-0000Wz-2E
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 07:44:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25227)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lYonS-0001N8-TZ
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 07:44:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618919041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FMY6fHBC3GmdWQFzcP9p4cgLJFBRNr6nfn7Za578m5I=;
- b=O9WTZaAlc3IQODQvvwDffi83pzZtrvSVgQ2+4y4YhqHeLCcydeHPHqN9D6NaO0a9YcyrL4
- WRNxypL2L0lg19D3G56UPP+99V7eI82to0CAFyR6ZVxRvdE7pWadBsEdfBGwj8XpF1/vyg
- UoPqOK6mcytmT2DGR/HDqC/y8rp/UMo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-Mx59rS6EOpakk42kArfG6Q-1; Tue, 20 Apr 2021 07:43:57 -0400
-X-MC-Unique: Mx59rS6EOpakk42kArfG6Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- y13-20020adfdf0d0000b02901029a3bf796so10760837wrl.15
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 04:43:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYov5-0001rv-IE
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 07:51:55 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:39920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYov3-00060J-Rm
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 07:51:55 -0400
+Received: by mail-ej1-x629.google.com with SMTP id v6so56535721ejo.6
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 04:51:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ls/mWbl/L6KF7uI4URSMGx2X4UsBf+c4NIxbAp5nduw=;
+ b=nGN6qscAzwtlZCOa6JPE6BkYxHAYZIF7FiSEuAegzU7n9IJsN78JKKilT/OiJzzdrb
+ IdjHyjF5lQs/JwuOMHDprdoxVDN8HtKF3EUORdOOq/kwSmSq80ilOn6Elq8dcI51Uvpy
+ xJ1n59pe0FVNvwkm3/QKvnySBMVzE7RrFqOcsny9eZY/puF5UXnbXnUL1klGfBfEqQZ+
+ amjzXHpSxJ8aPgTtijcIyLYEMykS1SUFNEIPgcdSE98yJD0/az5bGk3/PDYpYwR2vFul
+ 2B7e/bvvR2l7wJv1iQ0UyB38qxwaiD7CXtmgQ6CCS1Tg5KWKoESSWCimJUnL4l3M2MWi
+ 4rxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=FMY6fHBC3GmdWQFzcP9p4cgLJFBRNr6nfn7Za578m5I=;
- b=LBnTkQFcQr31TqzemmInaJ24JPLUgn5hbkqL0ydw7hUGASaPyLc9jhEzfuW7DSuYdA
- rSAJDDtofdhYDB6ahNV53j5ocwvfMFSQt9DDJ0sOEW407uHx7+1W4f7CiTcCAILelGwL
- FhiwDYBpG7o60AHeWjRZ6O1gQSHeaUM2rb00hMDctR5d7FjygZFL2mb8q6jTB9KfQChu
- xsQOFla6Mh7uQL/Ukn0Set3OIqrn6ovdL1/RelHV6OLB15nUUfCmvhXVoclI29r6S/44
- XTm9HPnh/hjOfCO4BBI5c7QueUhxXeyzfuDEN0rFvGAJOoDLn8zAO1x4bxnQjH5Lg/Tj
- RWlw==
-X-Gm-Message-State: AOAM532uCWKuFBSOQppt0mSSe4PXyGaMcPfw39M355Udtz9mrX11zbU6
- WOoX5JF6WHgpFnv+Ol+xco9KMadO7pCsf2CJTzSyLSBQQZtE8ILPxVZ1piyIP99wnQdqwZCJctU
- dF69yY5QTrDe5hY0=
-X-Received: by 2002:a05:600c:2211:: with SMTP id
- z17mr3994302wml.41.1618919036336; 
- Tue, 20 Apr 2021 04:43:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwUlwu6S9aWrXlm78O9rjTbUzDaPQktwFOirfnrB0krQMzpicVW3ueRE8ZDBA01CwtCLS+nFw==
-X-Received: by 2002:a05:600c:2211:: with SMTP id
- z17mr3994268wml.41.1618919036078; 
- Tue, 20 Apr 2021 04:43:56 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff2390a.dip0.t-ipconnect.de. [79.242.57.10])
- by smtp.gmail.com with ESMTPSA id
- x23sm3020921wmj.43.2021.04.20.04.43.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 04:43:55 -0700 (PDT)
-Subject: Re: [PATCH v5 05/14] softmmu/memory: Pass ram_flags to
- memory_region_init_ram_shared_nomigrate()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210413091421.7707-1-david@redhat.com>
- <20210413091421.7707-6-david@redhat.com>
- <34931ee0-1bde-16f5-d929-1c9d9157f45a@redhat.com>
- <ce266bac-0bfa-4b45-0159-af3e7b17a234@redhat.com>
- <f298a62c-59e5-b562-63d1-8bdd2a44f7fe@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <4fe7a33f-f230-1c43-b05a-d53e98b78b19@redhat.com>
-Date: Tue, 20 Apr 2021 13:43:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ls/mWbl/L6KF7uI4URSMGx2X4UsBf+c4NIxbAp5nduw=;
+ b=dsPq0RN2M30NY3BmUJ4Mi5gBIkXjF3ZZXmcLd9yfQU6Q0lZ9TNpNk250bJCKC/Gk7F
+ l06HUJBgKch/lVH4yHU8QlsYJ9Cqphn3FmnseMuaIVG83UIGVfZWcP1HTDh+soxo/Id0
+ 8LJuiUdIxLGiNKa6LrLjrvAcKgsuNF75SiIPrrZifeLSmeoop37JUkCibsNZegNKUrrn
+ xj32XaNYGprcwXOMVs8COoAjc6hFqpReGcAeJtrB6w0RSIKY7SPdDRa4f6Vd5K3DZA03
+ WjLwoPdKCrehB6JV9zGFWh8Z8yamzlcl+JtUbTRGuMpYN5h8FkhbIjbzFfyGcxARG0rv
+ 8cCg==
+X-Gm-Message-State: AOAM533j8mebMau5y1sYlKGvkPJ0dVGDYraP1sdliK7typWPfLNFFVF4
+ IOgyZzPcwcArEwcrwf6mSiMsF+Uxa310iY5bVoGLOw==
+X-Google-Smtp-Source: ABdhPJxH7O6hdQbkFIfm5nt3ofv7xBKh9dRXHhHdXcEET82NktaCmJI7+RJcsZzIImNlUkoXeWdzuowtRHCG3VQ3lJA=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr26975598ejc.407.1618919508363; 
+ Tue, 20 Apr 2021 04:51:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f298a62c-59e5-b562-63d1-8bdd2a44f7fe@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210420051907.891470-1-armbru@redhat.com>
+ <YH6Q+mnnzkx8lloR@redhat.com> <YH6d+LUPKqstoLHP@work-vm>
+In-Reply-To: <YH6d+LUPKqstoLHP@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Apr 2021 12:50:56 +0100
+Message-ID: <CAFEAcA8ARLDBXPL1kDYN8QXw_dC5t9vHEb=T06d2gX7tSkKFJA@mail.gmail.com>
+Subject: Re: [PATCH] migration: Deprecate redundant query-migrate result
+ @blocked
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,61 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.04.21 12:40, Philippe Mathieu-Daudé wrote:
-> On 4/20/21 12:27 PM, David Hildenbrand wrote:
->> On 20.04.21 12:20, Philippe Mathieu-Daudé wrote:
->>> Hi David,
->>>
->>> On 4/13/21 11:14 AM, David Hildenbrand wrote:
->>>> Let's forward ram_flags instead, renaming
->>>> memory_region_init_ram_shared_nomigrate() into
->>>> memory_region_init_ram_flags_nomigrate(). Forward flags to
->>>> qemu_ram_alloc() and qemu_ram_alloc_internal().
->>>>
->>>> Reviewed-by: Peter Xu <peterx@redhat.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>    backends/hostmem-ram.c                        |  6 +++--
->>>>    hw/m68k/next-cube.c                           |  4 ++--
->>>>    include/exec/memory.h                         | 24 +++++++++----------
->>>>    include/exec/ram_addr.h                       |  2 +-
->>>>    .../memory-region-housekeeping.cocci          |  8 +++----
->>>>    softmmu/memory.c                              | 20 ++++++++--------
->>>
->>> OK up to here, but the qemu_ram_alloc_internal() changes
->>> in softmmu/physmem.c belong to a different patch (except
->>> the line adding "new_block->flags = ram_flags").
->>> Do you mind splitting it?
->>>
->>
->> Can you elaborate? Temporarily passing both "ram_flags" and "bool
->> resizeable, bool share" to qemu_ram_alloc_internal()?
->>
->> I don't see a big benefit in doing that besides even more effective
->> changes in two individual patches. But maybe if you elaborate, i can see
->> what you would like to see :)
-> 
-> In this patch I see
-> 
-> 1/ change a parameter and propagate it
-> 2/ adapt assertions
+On Tue, 20 Apr 2021 at 10:25, Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > On Tue, Apr 20, 2021 at 07:19:06AM +0200, Markus Armbruster wrote:
+> > > Result @blocked is true when and only when result @blocked-reasons is
+> > > present.  It's always non-empty when present.  @blocked is redundant.
+> > > It was introduced in commit 3af8554bd0 "migration: Add blocker
+> > > information", and has not been released.  This gives us a chance to
+> > > fix the interface with minimal fuss.
+> > >
+> > > Unfortunately, we're already too close to the release to risk droppin=
+g
+> > > it.  Deprecate it instead.
+> > >
+> > > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > > ---
+> > > This is alternative to "[PATCH v2] migration: Drop redundant
+> > > query-migrate result @blocked".
+> > >
+> > >  qapi/migration.json | 9 +++++++--
+> > >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
+> Yes,
+>
+>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
+> Peter: Do you want to pick that up directly ?
 
-FWIW, I'll separate the qemu_ram_alloc*() changes from the 
-memory_region_init_ram_shared_nomigrate() changes.
+Yep; applied to master for 6.0.
 
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
