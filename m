@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A3D3656F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:57:26 +0200 (CEST)
-Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFBE3656EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:53:24 +0200 (CEST)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYo4L-0003qJ-Le
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55368)
+	id 1lYo0R-0000bz-PK
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYntJ-0004kP-LE
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:46:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41546)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnub-0005Vr-Mk
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:47:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYntG-00012P-Sw
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:46:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lYnuV-0001ko-AF
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:47:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618915554;
+ s=mimecast20190719; t=1618915633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0VrRlOLqL+egLgP6+Ay0HwWT+JD0UdzVq2cUtZ1gv2E=;
- b=Cnj4LxtVQ7+aSmHXanBBDbvcEzwOK7+R8oVGOBwd1pGvYaXTS2KffTFKvawdcMA+5vqJHw
- 5Yw3tak3X6FXdmG13bqnZlGQyX29hOz6A/UYY88112yF4f3JNbxk9v1v9WeChgcx1lRqcS
- cpfWXryMFCB8LKKPltYcpvw3O/gTgdo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-18d8y-xBMeimFlORI65bcQ-1; Tue, 20 Apr 2021 06:45:52 -0400
-X-MC-Unique: 18d8y-xBMeimFlORI65bcQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- y13-20020adfdf0d0000b02901029a3bf796so10689972wrl.15
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:45:52 -0700 (PDT)
+ bh=JWGNaeSTQ2CCaeoVZGEDKKRF2Oa/xnJ890yRhS7WIQs=;
+ b=QJW9yJha3apdWzhC5mOmu2PhPfMlg4+fN/ielXxcBRXEMUrfXYlApzDYoa6idPYx9w8+vx
+ nuPayKvUkqtUHQZoEmX9JN9QcW+0rvE771bDdMsC1lEZGCbAbMr+357HFgxUGHPmQFdyjy
+ ligQ98bkVpKANif3Sh5j+QyU7PVnh5o=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-GD7FOvu9M3W9ck4oMs8vhA-1; Tue, 20 Apr 2021 06:47:09 -0400
+X-MC-Unique: GD7FOvu9M3W9ck4oMs8vhA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 93-20020adf80e60000b0290106fab45006so6150153wrl.20
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:47:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0VrRlOLqL+egLgP6+Ay0HwWT+JD0UdzVq2cUtZ1gv2E=;
- b=XxGzDRSm5cQxNjVwErGmUh8ALTL+jRy3shxoU64uML8RqGOm/BZ0qn3huCATdyv9PC
- 1XO+2tP/VOtcwd02tUGgRR4rXqNSWiOzVc/ZTcXzT/3kQOCxdkJM2yu2lSTf3jfIfYQB
- e2vqsXtHThpaijI6MNt18lzgv/coprPrJKT/YBtqzaPzcThoVI8roDNViVirppRBSweN
- DkJe+ts8gSTPVaVZ6N3gbEI1Y1NPXk6i0pXJPVfZOC5R4XAB0fnRr6BpEjPidO4s8ch6
- 8j+bQajnLN3dYdfetM+CmcZJ2RF2ZQIhYBwvkmXMwCUKqXH5YbDkFuyZ0/mZ6dZavBjw
- zaSA==
-X-Gm-Message-State: AOAM533aPQkOG3995i+f4+NZvDZ6TUNiLfJf6Kq3Om6Ek+sYSjffREMx
- U4YKmeWinwQz1uqpboOliX8OKYpcRBZwsJkldTBFC3+nvPh1H3yi7iUvmLyaBH8VYpEH+g9oGep
- wvJsePQ7/xxIlLr0=
-X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr3953776wmk.112.1618915551624; 
- Tue, 20 Apr 2021 03:45:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKCL3/Cy3teniNVq2HSNW4uHrbwSdcYGFiA8qC64r0oHGvAvVhRLt2dwHfBOg/tazCxrTfog==
-X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr3953759wmk.112.1618915551436; 
- Tue, 20 Apr 2021 03:45:51 -0700 (PDT)
+ bh=JWGNaeSTQ2CCaeoVZGEDKKRF2Oa/xnJ890yRhS7WIQs=;
+ b=H4aSTHo8hU8YyM9qSEfYjNxbbSKXbpY8tBWMwNF5soJd3PpMxWqGKhqKSmaDJ2RZk8
+ iop1E7RzMtvfrlaB7+V1Rbx9lS0OLkfAEufLXnvQ44LgDJ+77E8ouE78/XRyg/B5h6YR
+ bPUxYa5cJDSMJs9boMdZJuSDIRY9J0oLHNKPQ5qR+9QIecftdOzWWqj3KnPza8THUj4n
+ 6aZXJ+wEIB29NCeMhmGNGBcxtcyExfLMuNISNXjE4eoCXSGa3oRxzcdALtwY/LL4G+UK
+ Ic8B6uDkmj5BAzkuAajukjl+ArI2dvnl2v4LPk5ypyPzYtj3qBkTtXEkk07ardf+AJ55
+ XxLg==
+X-Gm-Message-State: AOAM532TeCYnQTvPgvrJGBqxOy+hWkjq0pcUp1dUO1iPgdX7lD1MAW/8
+ KzYH9G6NiwJQ62ChxWFaFNjgrKoNzb0OHEfWk52Pq8Tm25Yjo9L4MAvKwfI0/ZZMl4GMCtSqxOj
+ A31fUAyxIWkADPZk=
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr3752529wmm.153.1618915628683; 
+ Tue, 20 Apr 2021 03:47:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/YrIWe2FWWBqWXKfG9kn4f78idThYIW5pOV1buiCbgm1laWgwXx96DFF12lj8ci8Pwo3B5w==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr3752517wmm.153.1618915628525; 
+ Tue, 20 Apr 2021 03:47:08 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id q7sm14304696wrr.62.2021.04.20.03.45.50
+ by smtp.gmail.com with ESMTPSA id b1sm30126547wru.90.2021.04.20.03.47.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 03:45:51 -0700 (PDT)
-Subject: Re: [PATCH v5 04/14] softmmu/memory: Pass ram_flags to
- qemu_ram_alloc_from_fd()
+ Tue, 20 Apr 2021 03:47:08 -0700 (PDT)
+Subject: Re: [PATCH v5 13/14] qmp: Include "reserve" property of memory
+ backends
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210413091421.7707-1-david@redhat.com>
- <20210413091421.7707-5-david@redhat.com>
- <83201a21-7f05-88dd-abc7-59576bce2fe9@redhat.com>
- <6ab168bd-113c-6fcb-658a-70f71aca4ab0@redhat.com>
- <063387fa-0123-5260-dfb5-caf482dfcd05@redhat.com>
+ <20210413091421.7707-14-david@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <32d08d3a-1c81-10a1-31d5-1db842c85535@redhat.com>
-Date: Tue, 20 Apr 2021 12:45:49 +0200
+Message-ID: <17b0219e-096b-1d7e-7377-90e8f047cc03@redhat.com>
+Date: Tue, 20 Apr 2021 12:47:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <063387fa-0123-5260-dfb5-caf482dfcd05@redhat.com>
+In-Reply-To: <20210413091421.7707-14-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,6 +104,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
  Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
@@ -113,59 +113,18 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/21 12:36 PM, David Hildenbrand wrote:
-> On 20.04.21 12:18, Philippe Mathieu-Daudé wrote:
->> Hi David,
->>
->> On 4/20/21 11:52 AM, Philippe Mathieu-Daudé wrote:
->>> On 4/13/21 11:14 AM, David Hildenbrand wrote:
->>>> Let's pass in ram flags just like we do with
->>>> qemu_ram_alloc_from_file(),
->>>> to clean up and prepare for more flags.
->>>>
->>>> Simplify the documentation of passed ram flags: Looking at our
->>>> documentation of RAM_SHARED and RAM_PMEM is sufficient, no need to be
->>>> repetitive.
->>>>
->>>> Reviewed-by: Peter Xu <peterx@redhat.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>   backends/hostmem-memfd.c | 7 ++++---
->>>>   hw/misc/ivshmem.c        | 5 ++---
->>>>   include/exec/memory.h    | 9 +++------
->>>>   include/exec/ram_addr.h  | 6 +-----
->>>>   softmmu/memory.c         | 7 +++----
->>>>   5 files changed, 13 insertions(+), 21 deletions(-)
->>>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>
->>
->> Actually it would be clearer to define the 0 value, maybe:
->>
->> #define RAM_NOFLAG     (0 << 0)
->>
+On 4/13/21 11:14 AM, David Hildenbrand wrote:
+> Let's include the new property.
 > 
-> This will also turn some code into
-> 
-> ram_flags = backend->share ? RAM_SHARED : RAM_NOFLAG;
-> ram_flags |= backend->reserve ? RAM_NOFLAG : RAM_NORESERVE;
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/core/machine-qmp-cmds.c | 1 +
+>  qapi/machine.json          | 4 ++++
+>  2 files changed, 5 insertions(+)
 
-This is the callee view, withing the API, where you have all
-the context.
-
-> Looking at other flag users, I barely see any such usage.
-> XKB_CONTEXT_NO_FLAGS, ALLOC_NO_FLAGS, and MEM_AFFINITY_NOFLAGS seem to
-> be the only ones. That's why I tend to not do it unless there are strong
-> opinions.
-
-I'm more concerned about the caller perspective. What means this
-magic '0' in the arguments? Then I have to check the prototype.
-If the caller uses RAM_NO_FLAGS, I directly understand what is passed.
-
-Anyway my comment fits the usual "can be cleaned later" case.
-
-Thanks,
-
-Phil.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
