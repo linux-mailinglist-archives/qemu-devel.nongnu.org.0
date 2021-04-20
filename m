@@ -2,70 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D0236525B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 08:29:01 +0200 (CEST)
-Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E2B365271
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 08:41:35 +0200 (CEST)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYjsa-0006Kv-8H
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 02:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50290)
+	id 1lYk4i-0000M9-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 02:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lYjqm-0005qx-UV; Tue, 20 Apr 2021 02:27:09 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:37760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lYjqj-0008Tq-SY; Tue, 20 Apr 2021 02:27:08 -0400
-Received: by mail-il1-x12b.google.com with SMTP id j12so17270684ils.4;
- Mon, 19 Apr 2021 23:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rhP9r90/gQEc/nvGZ3taOiYT974pv63qDQj4cfC2s/U=;
- b=sskJg7TddiCrl3s8ngWWRr1s2gFtZcMBsQe8di6pfRPm1D+qWEMabGc1TPsdNpB5ma
- OgVizwnwM9htws9UpIZcCbY17b1N2ln6gi+YBzK+mii68E68bwJzlIWqfRPzgPmsQPJS
- GDyjT4+p1QPdnaUC6jwRA6UxKsgDQZRF02aiRwrrKO+avQM9XrYxPzpvuWsHbQ911xV2
- S92Ng7xk24u3rDYuiydzZTNLyvTXgk6vSA4xGHpWvKw9bho8Krn7lxn4DthrtAQPxO2B
- uqWUu7AvonKgTABApdk0mJxhN6GZSVIpgyJUoOIHRFOknV5UTmeI0TJE8G6jIy7YjK40
- SjaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rhP9r90/gQEc/nvGZ3taOiYT974pv63qDQj4cfC2s/U=;
- b=Ty+NCyI47OlFAUVaGb404Mzfo1aVNMFFcbD4OX0RxZ/XkAkvePuLp6NMfMCp28wi+D
- iivmDIglYB8JGl21NrrWSadNo0c3tLpZFIPwr0+v9ErZ2Ex+sOXsZFH2Sh7qxkFujCe1
- njl6JHrp+1KgF8pkaZPDcCvw+28WoekzTKgGtGbgy1FZyA/rM3NMQvdpVM2b4H51hMg1
- qhGu/P+S21CQE1TwHDyV+n9+n3k5NuWpV/SAmYFAS4rKwg40zFFCjySi2fJSJwFO4jhp
- andn6WkOWg3Pp/KN2IpiyZeZSJF4IPi67zvRWK5TBR6+xbrWEHyyUWBEO0Rr/Fb0m7Wv
- 9kJQ==
-X-Gm-Message-State: AOAM532rixBpPuhYNiRtgHADp85dcq73fTaxhd/U7fSg93Qo5md5PAWI
- jO14XQq+BF2+0zb5752o/OhO1waoUnauhWL18AA=
-X-Google-Smtp-Source: ABdhPJyA1BdPvTocfwoTxiQ8DG3NIeUFMGaMkXnLaHykUqRub0nN6uuyoZB8ZqlLsx0/JXeSy/TCHmn3Dn4AXZOzcg0=
-X-Received: by 2002:a92:d68a:: with SMTP id p10mr20500547iln.40.1618900023752; 
- Mon, 19 Apr 2021 23:27:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lYk3F-0008Fg-LK
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 02:40:01 -0400
+Received: from rev.ng ([5.9.113.41]:35071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lYk3A-0004Pm-Cg
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 02:40:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ZBbI+1i/DR2w9q0qZmigGRiy/QwmoAJAG2AtLTsWVcY=; b=h0G6nAew1bK0y6oOHBcLqlMIkO
+ qt6qScMgOC30ipVYsGkrfgKHVvgSMbOZGcbCHEAF5u7h4HW7OvrEpz+5yLMD4aV81+4fVZlzxkSsV
+ I7Vklk2TOU9zmG3gPckydG2suSBXg6d6JrG2igHz0PtPV5hboqV6zFDTHbrjsRpvssEY=;
+Date: Tue, 20 Apr 2021 08:39:38 +0200
+To: Taylor Simpson <tsimpson@quicinc.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Brian Cain
+ <bcain@quicinc.com>, "babush@rev.ng" <babush@rev.ng>, "nizzo@rev.ng"
+ <nizzo@rev.ng>, "philmd@redhat.com" <philmd@redhat.com>
+Subject: Re: [PATCH v4 06/12] target/hexagon: introduce new helper functions
+Message-ID: <20210420083938.4edd565c@orange>
+In-Reply-To: <BYAPR02MB4886545B4B093744B7B4885DDE499@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <20210415163455.3839169-1-ale.qemu@rev.ng>
+ <20210415163455.3839169-7-ale.qemu@rev.ng>
+ <b36337c6-f6d0-45b1-be11-b998d8579c4c@linaro.org>
+ <BYAPR02MB4886545B4B093744B7B4885DDE499@BYAPR02MB4886.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <CAKmqyKPtV0PFdEfO0B5YFGC2i21OAmvBsY0ovUVdQwn3ttpcQA@mail.gmail.com>
- <beb2e320-60fb-db42-e4d6-3b4d5cb82a95@c-sky.com>
-In-Reply-To: <beb2e320-60fb-db42-e4d6-3b4d5cb82a95@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 20 Apr 2021 16:26:37 +1000
-Message-ID: <CAKmqyKN2JNRygh5aScLwQZYgmQF7-bpj=aCq=gx2TxxLpCgCrQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/11] RISC-V: support clic v0.9 specification
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,116 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, michaeljclark@mac.com,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
+From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Tue, Apr 20, 2021 at 11:45 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
->
-> On 2021/4/20 =E4=B8=8A=E5=8D=887:30, Alistair Francis wrote:
-> > On Fri, Apr 9, 2021 at 5:56 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> >> This patch set gives an implementation of "RISC-V Core-Local Interrupt
-> >> Controller(CLIC) Version 0.9-draft-20210217". It comes from [1], where
-> >> you can find the pdf format or the source code.
-> >>
-> >> I take over the job from Michael Clark, who gave the first implementat=
-ion
-> >> of clic-v0.7 specification. If there is any copyright question, please
-> >> let me know.
-> > You need to make sure you leave all original copyright notices and SoB =
-in place.
->
-> OK.
->
-> Is it OK that keep the original copyright notices for new files and
-> your SoB in every patch,  Michael?
->
-> >
-> >> Features:
-> >> 1. support four kinds of trigger types.
-> >> 2. Preserve the CSR WARL/WPRI semantics.
-> >> 3. Option to select different modes, such as M/S/U or M/U.
-> >> 4. At most 4096 interrupts.
-> >> 5. At most 1024 apertures.
-> >>
-> >> Todo:
-> >> 1. Encode the interrupt trigger information to exccode.
-> >> 2. Support complete CSR mclicbase when its number is fixed.
-> >> 3. Gave each aperture an independend address.
-> >>
-> >> It have passed my qtest case and freertos test. Welcome to have a try
-> >> for your hardware.
-> > It doesn't seem to be connected to any machine. How are you testing thi=
-s?
->
-> There is a machine called SMARTL in my repository[1].  The qtest case
-> is  tests/qtest/test-riscv32-clic.c. If it's better, I can upstream the
-> machine together next version.
+On Mon, 19 Apr 2021 15:00:17 +0000
+Taylor Simpson <tsimpson@quicinc.com> wrote:
 
-I don't really want to add a new hardware device when it isn't
-connected to a machine. It would be great if we could connect it to a
-machine. If not SMARTL maybe we could add it as an option to the virt
-machine?
+> Once this patch series is merged, many load/store instructions will
+> have manual overrides.  I can easily provide overrides for the
+> remainder.  Then, we could skip them in the idef-parser.  At a
+> minimum, you should skip the ones that are part of that series
+> - circular addressing
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01355.html
+> - bit reverse addressing
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01354.html
+> - load and unpack bytes
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01353.html
+> 			
+> - load into shifted register
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01359.html
+> 
+> Alessandro, what do you think?
 
-What is SMARTL? Is that a publically available board?
+If, for an instruction, all idef-parse does is calling an helper, yeah,
+it makes sense to exclude them.
 
-Alistair
+I'll look into this again once your patchset is in.
 
->
-> Zhiwei
->
-> [1]https://github.com/romanheros/qemu, branch: riscv-clic-upstream-rfc
->
->
-> >
-> > Alistair
-> >
-> >> Any advice is welcomed. Thanks very much.
-> >>
-> >> Zhiwei
-> >>
-> >> [1] specification website: https://github.com/riscv/riscv-fast-interru=
-pt.
-> >> [2] Michael Clark origin work: https://github.com/sifive/riscv-qemu/tr=
-ee/sifive-clic.
-> >>
-> >>
-> >> LIU Zhiwei (11):
-> >>    target/riscv: Add CLIC CSR mintstatus
-> >>    target/riscv: Update CSR xintthresh in CLIC mode
-> >>    hw/intc: Add CLIC device
-> >>    target/riscv: Update CSR xie in CLIC mode
-> >>    target/riscv: Update CSR xip in CLIC mode
-> >>    target/riscv: Update CSR xtvec in CLIC mode
-> >>    target/riscv: Update CSR xtvt in CLIC mode
-> >>    target/riscv: Update CSR xnxti in CLIC mode
-> >>    target/riscv: Update CSR mclicbase in CLIC mode
-> >>    target/riscv: Update interrupt handling in CLIC mode
-> >>    target/riscv: Update interrupt return in CLIC mode
-> >>
-> >>   default-configs/devices/riscv32-softmmu.mak |   1 +
-> >>   default-configs/devices/riscv64-softmmu.mak |   1 +
-> >>   hw/intc/Kconfig                             |   3 +
-> >>   hw/intc/meson.build                         |   1 +
-> >>   hw/intc/riscv_clic.c                        | 836 ++++++++++++++++++=
-++
-> >>   include/hw/intc/riscv_clic.h                | 103 +++
-> >>   target/riscv/cpu.h                          |   9 +
-> >>   target/riscv/cpu_bits.h                     |  32 +
-> >>   target/riscv/cpu_helper.c                   | 117 ++-
-> >>   target/riscv/csr.c                          | 247 +++++-
-> >>   target/riscv/op_helper.c                    |  25 +
-> >>   11 files changed, 1363 insertions(+), 12 deletions(-)
-> >>   create mode 100644 hw/intc/riscv_clic.c
-> >>   create mode 100644 include/hw/intc/riscv_clic.h
-> >>
-> >> --
-> >> 2.25.1
-> >>
-> >>
+-- 
+Alessandro Di Federico
+rev.ng
 
