@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D152A365055
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 04:28:10 +0200 (CEST)
-Received: from localhost ([::1]:33832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BFC365073
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 04:47:11 +0200 (CEST)
+Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYg7V-0008Mp-Ek
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 22:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42384)
+	id 1lYgPt-0002LE-PW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 22:47:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lYg6B-0007wh-Nt
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 22:26:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35175)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lYg68-0005Ht-2G
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 22:26:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618885602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fed1aZbNag5WaKzt3QKqvDyJ4GTz94CMVdS00tOpGR4=;
- b=Vjmp8j5BEQRGuZWTZyY+25wZd0qKJ+wXJf0I1Y1LAT/jom+UYImeXBAqJHfFibE5WW2qix
- xjSZk852XqxvmGokZ8gygAhiSD9iDGlOYrr5noWi39G6Wo+tmR9kakTo8Gr7h8cSzV9xIY
- Y+w+uqVSs1RQcrTjwGnkVuw6pmM8Mno=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-iP93iX_sMNKI3Qb88zvn7Q-1; Mon, 19 Apr 2021 22:26:40 -0400
-X-MC-Unique: iP93iX_sMNKI3Qb88zvn7Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08E9D102CB6D
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 02:26:40 +0000 (UTC)
-Received: from [10.10.118.219] (ovpn-118-219.rdu2.redhat.com [10.10.118.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9B765C1C4;
- Tue, 20 Apr 2021 02:26:34 +0000 (UTC)
-Subject: Re: [PATCH RFC 0/7] RFC: Asynchronous QMP Draft
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210413155553.2660523-1-jsnow@redhat.com>
- <YHaN5JPvjK2Wq6su@stefanha-x1.localdomain>
- <79eb174a-8e08-aac8-6a0c-e0c7b03eb782@redhat.com>
- <YHgMy+Yc5nRDVlGM@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <19a736c7-aced-39d3-e1fb-c0dd5031b2ff@redhat.com>
-Date: Mon, 19 Apr 2021 22:26:34 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYgOW-0001tS-0D
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 22:45:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lYgOT-0006qr-U5
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 22:45:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lYgOS-000419-7n
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 02:45:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 363272E8041
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 02:45:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YHgMy+Yc5nRDVlGM@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Apr 2021 02:38:06 -0000
+From: hjiayz <1925109@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hjiayz163
+X-Launchpad-Bug-Reporter: hjiayz (hjiayz163)
+X-Launchpad-Bug-Modifier: hjiayz (hjiayz163)
+Message-Id: <161888628706.6044.6118190110754714311.malonedeb@soybean.canonical.com>
+Subject: [Bug 1925109] [NEW] usbredirparser: bulk transfer length exceeds
+ limits
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
+X-Launchpad-Hash: c4419b8acae3a365c77c4c233baa9650c435a4f6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,170 +69,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Reply-To: Bug 1925109 <1925109@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 5:52 AM, Stefan Hajnoczi wrote:
-> Yeah, it seems very nice for allowing multiple event listeners that
-> don't steal each other's events. I like it.
-> 
-> qmp.event_listener() could take a sequence of QMP event names to trigger
-> on. If the sequence is empty then all QMP events will be reported.
+Public bug reported:
 
-I made something like this:
+2021-04-20T01:26:36.662244Z qemu-system-x86_64: usbredirparser: bulk transf=
+er length exceeds limits 131072 > 65536
+2021-04-20T01:26:36.662276Z qemu-system-x86_64: usbredirparser: error usbre=
+dirparser_send_* call invalid params, please report!!
+2021-04-20T01:26:57.670412Z qemu-system-x86_64: usbredirparser: bulk transf=
+er length exceeds limits 131072 > 65536
+2021-04-20T01:26:57.670445Z qemu-system-x86_64: usbredirparser: error usbre=
+dirparser_send_* call invalid params, please report!!
+2021-04-20T01:37:01.920613Z qemu-system-x86_64: usbredirparser: bulk transf=
+er length exceeds limits 131072 > 65536
+2021-04-20T01:37:01.920624Z qemu-system-x86_64: usbredirparser: error usbre=
+dirparser_send_* call invalid params, please report!!
+host:
+Linux version 5.11.15-arch1-2 (linux@archlinux) (gcc (GCC) 10.2.0, GNU ld (=
+GNU Binutils) 2.36.1) #1 SMP PREEMPT Sat, 17 Apr 2021 00:22:30 +0000
+guest:
+win10 20H2
+usb device:
+Bus 002 Device 007: ID 0781:55ab SanDisk Corp.  SanDisk 3.2Gen1
+size 250G
 
+https://gitlab.freedesktop.org/spice/usbredir/-/blob/master/usbredirparser/=
+usbredirparser.c#L32
 
-# Example 1
-with qmp.listener('STOP') as listener:
-     await qmp.execute('stop')
-     await listener.get()
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+-- =
 
-# Example 2
-with qmp.listener('JOB_STATUS_CHANGE') as listener:
-     await qmp.execute('blockdev-create', ...)
-     async for event in listener:
-         if event['data']['status'] == 'concluded':
-             break
-     await qmp.execute('job-dismiss', ...)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1925109
 
+Title:
+  usbredirparser: bulk transfer length exceeds limits
 
-# Example 3 - all events
-with qmp.listener() as events:
-     async for event in events:
-         print(f"got '{event['event']}' event!")
+Status in QEMU:
+  New
 
+Bug description:
+  2021-04-20T01:26:36.662244Z qemu-system-x86_64: usbredirparser: bulk tran=
+sfer length exceeds limits 131072 > 65536
+  2021-04-20T01:26:36.662276Z qemu-system-x86_64: usbredirparser: error usb=
+redirparser_send_* call invalid params, please report!!
+  2021-04-20T01:26:57.670412Z qemu-system-x86_64: usbredirparser: bulk tran=
+sfer length exceeds limits 131072 > 65536
+  2021-04-20T01:26:57.670445Z qemu-system-x86_64: usbredirparser: error usb=
+redirparser_send_* call invalid params, please report!!
+  2021-04-20T01:37:01.920613Z qemu-system-x86_64: usbredirparser: bulk tran=
+sfer length exceeds limits 131072 > 65536
+  2021-04-20T01:37:01.920624Z qemu-system-x86_64: usbredirparser: error usb=
+redirparser_send_* call invalid params, please report!!
+  host:
+  Linux version 5.11.15-arch1-2 (linux@archlinux) (gcc (GCC) 10.2.0, GNU ld=
+ (GNU Binutils) 2.36.1) #1 SMP PREEMPT Sat, 17 Apr 2021 00:22:30 +0000
+  guest:
+  win10 20H2
+  usb device:
+  Bus 002 Device 007: ID 0781:55ab SanDisk Corp.  SanDisk 3.2Gen1
+  size 250G
 
-# Example 4 - several events on one listener
-job_events = (
-     'JOB_STATUS_CHANGE', 'BLOCK_JOB_COMPLETED', 'BLOCK_JOB_CANCELLED',
-     'BLOCK_JOB_ERROR', 'BLOCK_JOB_READY', 'BLOCK_JOB_PENDING'
-)
-with qmp.listener(job_events) as events:
-     ...
+  https://gitlab.freedesktop.org/spice/usbredir/-/blob/master/usbredirparse=
+r/usbredirparser.c#L32
 
-
-There is a *post-filtering* syntax available to EventListener.get(). It 
-will filter events out using a very simplistic syntax.
-
-
-# Example 5 -- a short-hand form of Example 2.
-with qmp.listener('JOB_STATUS_CHANGE') as job_events:
-     await qmp.execute('blockdev-create', ...)
-     await job_events.get(status='concluded')
-     await qmp.execute('job-dismiss', ...)
-
-
-
-A shortcoming with this interface is that it's easy to create a listener 
-that hears multiple events, but it's not easy to create *several 
-listeners*. I am not sure what syntax will be the nicest for this, but I 
-tried by allowing the manual creation of listeners:
-
-
-# Example 6
-listener1 = EventListener('JOB_STATUS_CHANGE')
-listener2 = EventListener(job_events)
-
-# Note the use of listen() instead of listener()
-with qmp.listen(listener1, listener2) as (ev1, ev2):
-     # listeners are now active.
-     ...
-# listeners are now inactive.
-# The context manager clears any stale events in the listener(s).
-
-
-I thought this might be nicer than trying to extend the listener syntax:
-
-with qmp.listeners(
-     'JOB_STATUS_CHANGE',
-     (job_events)
-) as (
-     listener1,
-     listener2,
-):
-     ...
-
-especially because it might get confusing when trying to separate "one 
-listener with multiple events" vs "several listeners with one event 
-each, and it makes things a little ambiguous:
-
-with qmp.listeners('STOP') as (stop_events,):
-     ...
-
-And this isn't any prettier, and also likely to confuse:
-
-with qmp.listeners('STOP', 'RESUME') as (stops, resumes):
-     ...
-
-because it's only so very subtly different from this:
-
-with qmp.listeners(('STOP', 'RESUME')) as (runstate_events,):
-     ...
-
-This also doesn't begin to address one of the worst headaches of writing 
-iotests where transactions are involved: accidentally eating events 
-meant for other jobs.
-
-I prototyped something where it's possible to create an EventListener 
-with an optional pre-filter, but it's a little bulky:
-
-
-# Example 7
-listener = EventListener('JOB_STATUS_CHANGE',
-                          lambda e: e['data']['id'] == 'job0')
-
-with qmp.listen(listener):
-     await qmp.execute('blockdev-create', arguments={'job-id': 'job0'})
-     await listener.get(status='created')
-     ...
-
-
-Some thoughts on this:
-- Pre-filters are powerful, but involve a lot of boilerplate.
-- Accepting two kinds of parameters, name(s) and filter both, makes it 
-even trickier to write concise context blocks; especially with multiple 
-jobs.
-
-
-Here's a final example of something you may very well want to do in 
-iotest code:
-
-
-# Example 8
-
-def job_filter(job_id: str) -> EventFilter:
-     def filter(event: Message) -> bool:
-         return event.get('data', {}).get('id') == job_id
-     return filter
-
-listener1 = EventListener('JOB_STATUS_CHANGE', job_filter('job0'))
-listener2 = EventListener('JOB_STATUS_CHANGE', job_filter('job1'))
-
-with qmp.listen(listener1, listener2) as (job0, job1):
-     await asyncio.gather(
-         qmp.execute('blockdev-create', arguments={'job-id': 'job0'}),
-         qmp.execute('blockdev-create', arguments={'job-id': 'job1'}),
-         job0.get(status='concluded'),
-         job1.get(status='concluded')
-     )
-
-(Note: gather isn't required here. You could write the execute and get 
-statements individually and in whichever order you wanted, as long as 
-the execute statement for a given job appears prior to the corresponding 
-wait!)
-
-The difficulty I have here is extending that backwards to the "create 
-listener on the fly" syntax, for the reasons stated above with making it 
-ambiguous as to whether we're creating one or two listeners, etc. Trying 
-to minimize boilerplate while leaving the interfaces generic and 
-powerful is tough.
-
-I'm still playing around with different options and solutions, but your 
-feedback/input is welcome.
-
---js
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1925109/+subscriptions
 
