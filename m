@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CA53652C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:02:45 +0200 (CEST)
-Received: from localhost ([::1]:49114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E2A3652D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:06:13 +0200 (CEST)
+Received: from localhost ([::1]:56058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYkPE-0008MO-28
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58294)
+	id 1lYkSa-0002sS-Ou
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lYkN0-00077q-89
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:00:27 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54722
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lYkMw-0008B2-I7
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:00:26 -0400
-Received: from host86-132-83-131.range86-132.btcentralplus.com
- ([86.132.83.131] helo=[192.168.1.110])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lYkN6-0000AD-QX; Tue, 20 Apr 2021 08:00:38 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20210417140206.673885-1-f4bug@amsat.org>
- <8f59bd60-3588-3be0-c44c-1ebfbefd78bd@ilande.co.uk>
- <67955dd0-dfc7-271f-009f-cf7247f3b6c2@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <efea7689-15c6-44bf-77a8-3d6ee945d097@ilande.co.uk>
-Date: Tue, 20 Apr 2021 08:00:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1lYkQN-0001uX-Ng
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:03:55 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1lYkQI-0001eE-JY
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:03:55 -0400
+Received: by mail-wr1-x431.google.com with SMTP id g9so20388953wrx.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 00:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:subject:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=z0qlnC9FQLAYaUfbzjwveKndRqxMBnneIPTllI02ItA=;
+ b=hCCPYMXGdUsCAS6vyVjzwk4D/dBhqlKrvFqivZmP6ldu0r5XUM9lfCzwo+R0aqTra4
+ Fp1SbxXbpiYGidu1zBLZJ3uo1eKKsUylIVVz1mVX4OVkQcKWMN2W7SVmtElqLgEWRa5h
+ FDgBoPKwIwp5++UNE2GKjQcuLTzlrVry+ptJFl4GBOtwZnHf3T9d+l8dB+lsDoIwBsop
+ 9D0uj8TGXhOf6ytsyqHgh4neU6YJFJFctT2ZFU/VKYv6mrpiZrPEY4KdOqloO1JgikiM
+ o2zsjFMKpm+xWR/h9bcVgQXfik1OwsCjxNYjqwgotz1fON1m2qKLwEf7BhTtu26Odae8
+ li7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:reply-to:subject:to:cc:references
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=z0qlnC9FQLAYaUfbzjwveKndRqxMBnneIPTllI02ItA=;
+ b=uY+KZ87TdZ6wg1xZ8mC3zVIMbSt5rO5KBBcGuR5YygC6PLFxo0m4UW/LFjF4QEaAie
+ oDiBqktVIfkkEWLmoTXQGhMEBSbEPzYh9xV/tbkq07kahO4P1QR4/ebyMt9a66Dk2o57
+ drCilO+0q9bHgBglmOXScFBZQHt6YzVuvI8oDeP/HALe1SEgaGp+7xmQxoEG23PUw7Bq
+ jQJ6Soxhfs1dolevZSF8t1w1/SfWDOjxqgoJu5llHAO7kT6TxhpSQXva/QH9WeMJWl31
+ IDCPf9S4zH8r4BR74RFsD5fXacV5+TbPp8Ei4G9qvNW76uC33U3vhgYkqCdws9skFs1F
+ pKAA==
+X-Gm-Message-State: AOAM531ZCi3ZAQ65IEFnwcqm/VYIgGExC+5ZPubBZxIwa1SHvtpDQ+a8
+ vRtIiFAodDsRIDBKSJyp6Hg=
+X-Google-Smtp-Source: ABdhPJwZlSRYmjIazA6Om37onLUUl6ivvSf7z8zRum+4Pjxaj9lJNZiWZW4i5AzFsakd4iL8sDqYag==
+X-Received: by 2002:adf:e483:: with SMTP id i3mr19436550wrm.286.1618902225921; 
+ Tue, 20 Apr 2021 00:03:45 -0700 (PDT)
+Received: from [192.168.1.186]
+ (host86-180-176-157.range86-180.btcentralplus.com. [86.180.176.157])
+ by smtp.gmail.com with ESMTPSA id n9sm25761566wrq.86.2021.04.20.00.03.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Apr 2021 00:03:45 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Subject: Re: [PATCH] xen-mapcache: avoid a race on memory map while using
+ MAP_FIXED
+To: Igor Druzhinin <igor.druzhinin@citrix.com>, qemu-devel@nongnu.org,
+ xen-devel@lists.xenproject.org
+References: <1618889702-13104-1-git-send-email-igor.druzhinin@citrix.com>
+Message-ID: <37547f5e-5b75-d31a-f973-f8ccedbe4167@xen.org>
+Date: Tue, 20 Apr 2021 08:03:44 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <67955dd0-dfc7-271f-009f-cf7247f3b6c2@amsat.org>
+In-Reply-To: <1618889702-13104-1-git-send-email-igor.druzhinin@citrix.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.83.131
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3] memory: Directly dispatch alias accesses on origin
- memory region
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,145 +90,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>
+Reply-To: paul@xen.org
+Cc: sstabellini@kernel.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, anthony.perard@citrix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/04/2021 21:58, Philippe Mathieu-Daudé wrote:
-
-> Hi Mark,
+On 20/04/2021 04:35, Igor Druzhinin wrote:
+> When we're replacing the existing mapping there is possibility of a race
+> on memory map with other threads doing mmap operations - the address being
+> unmapped/re-mapped could be occupied by another thread in between.
 > 
-> On 4/19/21 10:13 PM, Mark Cave-Ayland wrote:
->> On 17/04/2021 15:02, Philippe Mathieu-Daudé wrote:
->>
->>> Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
->>> regions"), all newly created regions are assigned with
->>> unassigned_mem_ops (which might be then overwritten).
->>>
->>> When using aliased container regions, and there is no region mapped
->>> at address 0 in the container, the memory_region_dispatch_read()
->>> and memory_region_dispatch_write() calls incorrectly return the
->>> container unassigned_mem_ops, because the alias offset is not used.
->>>
->>> The memory_region_init_alias() flow is:
->>>
->>>     memory_region_init_alias()
->>>     -> memory_region_init()
->>>        -> object_initialize(TYPE_MEMORY_REGION)
->>>           -> memory_region_initfn()
->>>              -> mr->ops = &unassigned_mem_ops;
->>>
->>> Later when accessing the alias, the memory_region_dispatch_read()
->>> flow is:
->>>
->>>     memory_region_dispatch_read(offset)
->>>     -> memory_region_access_valid(mr)   <- offset is ignored
->>>        -> mr->ops->valid.accepts()
->>>           -> unassigned_mem_accepts()
->>>           <- false
->>>        <- false
->>>      <- MEMTX_DECODE_ERROR
->>>
->>> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
->>>
->>> Fix by dispatching aliases recusirvely, accessing its origin region
->>> after adding the alias offset.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>> v3:
->>> - reworded, mentioning the "alias to container" case
->>> - use recursive call instead of while(), because easier when debugging
->>>     therefore reset Richard R-b tag.
->>> v2:
->>> - use while()
->>> ---
->>>    softmmu/memory.c | 10 ++++++++++
->>>    1 file changed, 10 insertions(+)
->>>
->>> diff --git a/softmmu/memory.c b/softmmu/memory.c
->>> index d4493ef9e43..23bdbfac079 100644
->>> --- a/softmmu/memory.c
->>> +++ b/softmmu/memory.c
->>> @@ -1442,6 +1442,11 @@ MemTxResult
->>> memory_region_dispatch_read(MemoryRegion *mr,
->>>        unsigned size = memop_size(op);
->>>        MemTxResult r;
->>>    +    if (mr->alias) {
->>> +        return memory_region_dispatch_read(mr->alias,
->>> +                                           addr + mr->alias_offset,
->>> +                                           pval, op, attrs);
->>> +    }
->>>        if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
->>>            *pval = unassigned_mem_read(mr, addr, size);
->>>            return MEMTX_DECODE_ERROR;
->>> @@ -1486,6 +1491,11 @@ MemTxResult
->>> memory_region_dispatch_write(MemoryRegion *mr,
->>>    {
->>>        unsigned size = memop_size(op);
->>>    +    if (mr->alias) {
->>> +        return memory_region_dispatch_write(mr->alias,
->>> +                                            addr + mr->alias_offset,
->>> +                                            data, op, attrs);
->>> +    }
->>>        if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
->>>            unassigned_mem_write(mr, addr, data, size);
->>>            return MEMTX_DECODE_ERROR;
->>
->> Whilst working on my q800 patches I realised that this was a similar
->> problem to the one I had with my macio.alias implementation at [1]:
->> except that in my case the unassigned_mem_ops mr->ops->valid.accepts()
->> function was being invoked on a ROM memory region instead of an alias. I
->> think this is exactly the same issue that you are attempting to fix with
->> your related patch at
->> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg03190.html
->> ("memory: Initialize MemoryRegionOps for RAM memory regions").
+> Linux mmap man page recommends keeping the existing mappings in place to
+> reserve the place and instead utilize the fact that the next mmap operation
+> with MAP_FIXED flag passed will implicitly destroy the existing mappings
+> behind the chosen address. This behavior is guaranteed by POSIX / BSD and
+> therefore is portable.
 > 
-> So if 2 contributors hit similar issues, there is something wrong with
-> the API. I don't see your use case or mine as forbidded by the
-> documentation in "exec/memory.h".
+> Note that it wouldn't make the replacement atomic for parallel accesses to
+> the replaced region - those might still fail with SIGBUS due to
+> xenforeignmemory_map not being atomic. So we're still not expecting those.
 > 
-> My patch might not be the proper fix, but we need to figure out how
-> to avoid others to hit the same problem, as it is very hard to debug.
+> Tested-by: Anthony PERARD <anthony.perard@citrix.com>
+> Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
 
-I agree with this sentiment: it has taken me a while to figure out what was 
-happening, and that was only because I spotted accesses being rejected with -d 
-guest_errors.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
- From my perspective the names memory_region_dispatch_read() and 
-memory_region_dispatch_write() were the misleading part, although I remember thinking 
-it odd whilst trying to use them that I had to start delving into sections etc. just 
-to recurse a memory access.
-
-> At least an assertion and a comment.
+> ---
+>   hw/i386/xen/xen-mapcache.c | 15 ++++++++++++++-
+>   1 file changed, 14 insertions(+), 1 deletion(-)
 > 
->> I eventually realised that I needed functions that could dispatch
->> reads/writes to both IO memory regions and ROM memory regions, and that
->> functionality is covered by the address_space_*() access functions.
->> Using the address_space_*() functions I was then able to come up with
->> the working implementation at [2] that handles accesses to both IO
->> memory regions and ROM memory regions correctly.
->>
->> The reason I initially used the
->> memory_region_dispatch_read()/memory_region_dispatch_write() functions
->> was because I could see that was how the virtio devices dispatched
->> accesses through the proxy. However I'm wondering now if this API can
->> only be used for terminating IO memory regions, and so the alias_offset
->> that you're applying above should actually be applied elsewhere instead.
+> diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
+> index 5b120ed..e82b7dc 100644
+> --- a/hw/i386/xen/xen-mapcache.c
+> +++ b/hw/i386/xen/xen-mapcache.c
+> @@ -171,7 +171,20 @@ static void xen_remap_bucket(MapCacheEntry *entry,
+>           if (!(entry->flags & XEN_MAPCACHE_ENTRY_DUMMY)) {
+>               ram_block_notify_remove(entry->vaddr_base, entry->size);
+>           }
+> -        if (munmap(entry->vaddr_base, entry->size) != 0) {
+> +
+> +        /*
+> +         * If an entry is being replaced by another mapping and we're using
+> +         * MAP_FIXED flag for it - there is possibility of a race for vaddr
+> +         * address with another thread doing an mmap call itself
+> +         * (see man 2 mmap). To avoid that we skip explicit unmapping here
+> +         * and allow the kernel to destroy the previous mappings by replacing
+> +         * them in mmap call later.
+> +         *
+> +         * Non-identical replacements are not allowed therefore.
+> +         */
+> +        assert(!vaddr || (entry->vaddr_base == vaddr && entry->size == size));
+> +
+> +        if (!vaddr && munmap(entry->vaddr_base, entry->size) != 0) {
+>               perror("unmap fails");
+>               exit(-1);
+>           }
 > 
-> I figured out the AddressSpace API make these cases simpler, but IIRC
-> there is some overhead, some function tries to resolve / update
-> something and iterate over a list. While from the MemoryRegion API we
-> already know which region we want to access.
-> 
-> I Cc'ed Peter considering him expert in this area, but don't know else
-> who to ask for help on this topic...
 
-Yeah possibly Paolo, otherwise it's a dig through the git history of memory.c :/
-
-
-ATB,
-
-Mark.
 
