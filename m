@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66120364FEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 03:38:07 +0200 (CEST)
-Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E07F364FF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 03:42:44 +0200 (CEST)
+Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYfL4-0006Je-F3
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 21:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
+	id 1lYfPX-0008Tk-EK
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 21:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lYfGV-0004Ui-C9; Mon, 19 Apr 2021 21:33:23 -0400
+ id 1lYfGY-0004X8-92; Mon, 19 Apr 2021 21:33:26 -0400
 Received: from [201.28.113.2] (port=21420 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lYfGP-0007Au-Lf; Mon, 19 Apr 2021 21:33:22 -0400
+ id 1lYfGW-0007Au-OR; Mon, 19 Apr 2021 21:33:26 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 19 Apr 2021 22:33:12 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 19 Apr 2021 22:33:13 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 12510801107;
- Mon, 19 Apr 2021 22:33:12 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 0DEAF801107;
+ Mon, 19 Apr 2021 22:33:13 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] tests/docker: gcc-10 based images for ppc64{,le} tests
-Date: Mon, 19 Apr 2021 22:33:07 -0300
-Message-Id: <20210420013308.813323-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 2/2] tests/tcg/ppc64le: tests for brh/brw/brd
+Date: Mon, 19 Apr 2021 22:33:08 -0300
+Message-Id: <20210420013308.813323-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
 References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 Apr 2021 01:33:12.0446 (UTC)
- FILETIME=[2097C9E0:01D73585]
+X-OriginalArrivalTime: 20 Apr 2021 01:33:13.0399 (UTC)
+ FILETIME=[21293470:01D73585]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,92 +63,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-A newer compiler is needed to build tests for Power10 instructions. As
-done for arm64 on c729a99d2701, a new '-test-cross' image is created for
-ppc64 and ppc64le. As done on 936fda4d771f, a test for compiler support
-is added to verify that the toolchain in use has '-mpower10'.
+Tests for Byte-Reverse Halfword, Word and Doubleword
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- tests/docker/Makefile.include                   |  2 ++
- .../debian-powerpc-test-cross.docker            | 17 +++++++++++++++++
- tests/tcg/configure.sh                          | 12 ++++++++----
- 3 files changed, 27 insertions(+), 4 deletions(-)
- create mode 100644 tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+ tests/tcg/ppc64/Makefile.target   |  7 +++++++
+ tests/tcg/ppc64le/Makefile.target |  7 +++++++
+ tests/tcg/ppc64le/byte_reverse.c  | 22 ++++++++++++++++++++++
+ 3 files changed, 36 insertions(+)
+ create mode 100644 tests/tcg/ppc64le/byte_reverse.c
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 9f464cb92c..f1dbcc639f 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -152,10 +152,12 @@ docker-image-debian-sparc64-cross: docker-image-debian10
- docker-image-debian-tricore-cross: docker-image-debian10
- docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-arm64-test-cross: docker-image-debian11
-+docker-image-debian-power-test-cross: docker-image-debian11
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 0c6a4585fc..55c690c8ad 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -10,4 +10,11 @@ PPC64_TESTS=bcdsub
+ endif
+ bcdsub: CFLAGS += -mpower8-vector
  
- # These images may be good enough for building tests but not for test builds
- DOCKER_PARTIAL_IMAGES += debian-alpha-cross
- DOCKER_PARTIAL_IMAGES += debian-arm64-test-cross
-+DOCKER_PARTIAL_IMAGES += debian-power-test-cross
- DOCKER_PARTIAL_IMAGES += debian-hppa-cross
- DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
- DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
-diff --git a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
++POWER10_TESTS=byte_reverse
++RUN_POWER10_TESTS=$(patsubst %, run-%, $(POWER10_TESTS))
++$(RUN_POWER10_TESTS): QEMU_OPTS+=-cpu POWER10
++PPC64_TESTS += $(POWER10_TESTS)
++endif
++
+ TESTS += $(PPC64_TESTS)
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 1acfcff94a..517d290b1a 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -9,4 +9,11 @@ PPC64LE_TESTS=bcdsub
+ endif
+ bcdsub: CFLAGS += -mpower8-vector
+ 
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
++POWER10_TESTS=byte_reverse
++RUN_POWER10_TESTS=$(patsubst %, run-%, $(POWER10_TESTS))
++$(RUN_POWER10_TESTS): QEMU_OPTS+=-cpu POWER10
++PPC64LE_TESTS += $(POWER10_TESTS)
++endif
++
+ TESTS += $(PPC64LE_TESTS)
+diff --git a/tests/tcg/ppc64le/byte_reverse.c b/tests/tcg/ppc64le/byte_reverse.c
 new file mode 100644
-index 0000000000..36b336f709
+index 0000000000..553b9870ae
 --- /dev/null
-+++ b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
-@@ -0,0 +1,17 @@
-+#
-+# Docker powerpc/ppc64/ppc64le cross-compiler target
-+#
-+# This docker target builds on the debian Bullseye base image.
-+#
-+FROM qemu/debian11
++++ b/tests/tcg/ppc64le/byte_reverse.c
+@@ -0,0 +1,22 @@
++#include <stdio.h>
++#include <assert.h>
 +
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt install -y --no-install-recommends \
-+        gcc-powerpc-linux-gnu \
-+        libc6-dev-powerpc-cross \
-+        gcc-10-powerpc64-linux-gnu \
-+        libc6-dev-ppc64-cross \
-+        gcc-10-powerpc64le-linux-gnu \
-+        libc6-dev-ppc64el-cross
++int main(void)
++{
++    unsigned long var;
 +
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index fa1a4261a4..a0be066499 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -170,13 +170,13 @@ for target in $target_list; do
-       ;;
-     ppc64-*)
-       container_hosts=x86_64
--      container_image=debian-ppc64-cross
--      container_cross_cc=powerpc64-linux-gnu-gcc
-+      container_image=debian-powerpc-test-cross
-+      container_cross_cc=powerpc64-linux-gnu-gcc-10
-       ;;
-     ppc64le-*)
-       container_hosts=x86_64
--      container_image=debian-ppc64el-cross
--      container_cross_cc=powerpc64le-linux-gnu-gcc
-+      container_image=debian-powerpc-test-cross
-+      container_cross_cc=powerpc64le-linux-gnu-gcc-10
-       ;;
-     riscv64-*)
-       container_hosts=x86_64
-@@ -280,6 +280,10 @@ for target in $target_list; do
-                -mpower8-vector -o $TMPE $TMPC; then
-                 echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
-             fi
-+            if do_compiler "$target_compiler" $target_compiler_cflags \
-+               -mpower10 -o $TMPE $TMPC; then
-+                echo "CROSS_CC_HAS_POWER10=y" >> $config_target_mak
-+            fi
-         ;;
-         i386-linux-user)
-             if do_compiler "$target_compiler" $target_compiler_cflags \
++    var = 0xFEDCBA9876543210;
++    asm("brh %0, %0" : "=r"(var));
++    assert(var == 0xDCFE98BA54761032);
++
++    var = 0xFEDCBA9876543210;
++    asm("brw %0, %0" : "=r"(var));
++    assert(var == 0x98BADCFE10325476);
++
++    var = 0xFEDCBA9876543210;
++    asm("brd %0, %0" : "=r"(var));
++    assert(var == 0x1032547698BADCFE);
++
++    return 0;
++}
++
 -- 
 2.25.1
 
