@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFC23658FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:33:44 +0200 (CEST)
-Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6B23658FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:33:46 +0200 (CEST)
+Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYpZX-00012g-9E
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
+	id 1lYpZZ-00015H-GT
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYpX9-0008J3-0i
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:31:15 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44560)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lYpXD-0008Li-6k; Tue, 20 Apr 2021 08:31:20 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYpX4-00033p-E2
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:31:14 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id e7so28456300wrs.11
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 05:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=c2oZS2Tl5B0ndAM3GGIWJ8vO0djFNZfzyu4Gas/2FyI=;
- b=S2umNBC9XacFHKm3V3QsrbOwdrXbwufgH6PBgmH3MRHgq2NLm5aXb9FhRrxa1RasYJ
- T5myZ3lkrkIeiR+4agRm2MGorFptbHIbl0Apcb21ovua4pZQqRkMbJvqDXPNiYuy+C9Z
- CTT4W7qJ73hpkevdgExb7PtY964fB3+Y7chd/bfZIJhuiExtYZFYKc37FMT+glcB2h+W
- xKarRFj8/NhSdH6aRDZMN5kKMW5B4nZC8IZ6b4PpyOC3gthn9M+nUuHtU035yIMZ0rZM
- HCI5nzDSFQ0VAWk0wjuhJeaRiksBNJTEC00hcHU/EQAheROEbHKAziNEGOy4mwUT8Q7G
- jylg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lYpX9-00036o-Q4; Tue, 20 Apr 2021 08:31:17 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a4so37441455wrr.2;
+ Tue, 20 Apr 2021 05:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rVjx/Xnx63tt3dCW3hg+ziU5euDLjd9Szvgxqz74n7Q=;
+ b=kwuRy94tlJjkQhFMrLhx6SNoHma864mu/fDl/kF1tLX7ppcmSOFaYm4ifKXzSWN7X6
+ u0zQ6gEZic6lxElRv8CS6z56yMxnwrLZS3z7ZVC9XS6JgcyDyQ16GXu/n2dYa0Me/329
+ CMkDwkEZVL0RYkONvogrY/4AtkxWA+a+HpdA4QtxgI9iBrGMEDhmCk+NbVXyHjdecfNF
+ 3gU1CcAZLegPFlljI3uFicjUnQo149o89f4BOAlsvn4y6gKXK6LKgyagG82Hl3tfK5ik
+ JGBKIwjxJ0h6Ha4Z5c85x1iAfjFYcK+SI22fjVSo69mF9/MlYcvPiuTTf+URZZ81FS4b
+ urWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=c2oZS2Tl5B0ndAM3GGIWJ8vO0djFNZfzyu4Gas/2FyI=;
- b=qk+zWu6SDusmmyxlOWHOlfRSf9lHqHtQRhiRwDDGX+JJqTWK9iRULi4vK95QmiAGLi
- en/0QnbEiL2vAN4Y7oe0+yBQcBq86SWcOnTD9nwrlJoCTJrT5p6dda7be9G2Rkd5qsK1
- wjhV2AEmRDdkyMCClY6R9iSJQyQd2IPK5GDm6OJcb8/f6Fu8Poq/OlOLX1GMM+f5BE/X
- ubdQim7/zf6rzYHPPtYlTOnI8exfCJE5MIgwljZ9OFRNjO2PxiXtVSZ1VnDIAtNzhedB
- ZP4pfhuw9v4m1A7FSvZCGpcV8Xhgy/mrMMvhyfyLC+WbQy3YgN9MrCdOfEs/zXGt5LjN
- rFFw==
-X-Gm-Message-State: AOAM533XGNiKLAwU2JwVl8+JC5R/U6g2cnBc3LBec/w2WiDsDbL+d3rc
- lqsKN93ufByYUScMZYGbKSku7A==
-X-Google-Smtp-Source: ABdhPJyUwL/mfcvEFqPfuBp4tpLt/cFpk2uyYEKcBwIf0jg1gUdtxFYGjvrdCSxLhTGm/01DZoeCSg==
-X-Received: by 2002:adf:f106:: with SMTP id r6mr20082012wro.214.1618921868757; 
- Tue, 20 Apr 2021 05:31:08 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a15sm26647252wrr.53.2021.04.20.05.31.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 05:31:08 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Flush correct TLBs in tlbi_aa64_vae2is_write()
-Date: Tue, 20 Apr 2021 13:31:06 +0100
-Message-Id: <20210420123106.10861-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=rVjx/Xnx63tt3dCW3hg+ziU5euDLjd9Szvgxqz74n7Q=;
+ b=aeHZAzdw6gwkrnrNZ6ydFDvgvyBnOvSYhYgaNOMkB8yvmGQCMtWmxI9Wep8inr5RcI
+ Y0n7saZmN/kPlDy02IkO9NwyPr9YRHCZ59bSfBg9NtY44jKgzrW8ho2pbV1CRIp8YkFJ
+ EHCenvbfmLAP1OYhfC6YwIJVV5vn6tDjstauozmTKHxMEzbAcVyWnZ0B8l0hSb4gn3/8
+ 3d9wKge8XbUyOTY0mPGEF14TPaVO98D4UrVkeRP+dJKdqd6SXtBQMw2/DzpXhRoTdDyB
+ vhgFY1KSQs3RHZJ4L7bhEtx6hCb+LdjLwZTn2L4ziFPDc3PhaaCwIEq08YmbdjvR4iUe
+ /I5Q==
+X-Gm-Message-State: AOAM531OYitCe7ItAYx1qtpoLh+pyti2S/r2IzCTAVaEfGWicsBvFfwD
+ T2RY/TF5VuUPnJGZ/iklLBg=
+X-Google-Smtp-Source: ABdhPJx/9tOY22LwBAKr5wJQ3xFAn8NDejYpzQ4vUgwlp+Cv6lV61E/NnE7S++Epenbl9VfW6u9cpQ==
+X-Received: by 2002:a05:6000:184c:: with SMTP id
+ c12mr20705146wri.125.1618921873690; 
+ Tue, 20 Apr 2021 05:31:13 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id a13sm20796781wrs.78.2021.04.20.05.31.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Apr 2021 05:31:12 -0700 (PDT)
+Subject: Re: [PATCH v2 for-6.0?] hw/pci-host/gpex: Don't fault for unmapped
+ parts of MMIO and PIO windows
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20210325163315.27724-1-peter.maydell@linaro.org>
+ <1df78911-9858-b747-b22b-7e5254cd3cac@amsat.org>
+ <CAFEAcA_TuKCJ31xsv_j49oQfOFuEipmMnsNb2czPZRMPTN=wxg@mail.gmail.com>
+ <bb3cc932-5111-c388-2770-3c1110dbc89f@amsat.org>
+ <CAK8P3a3zeYC0wiT2Or3RicPbVBY4TJCOTa6ZN3rT=e4XGR-eCA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2ab20805-cd19-b628-00c3-e8b601c323db@amsat.org>
+Date: Tue, 20 Apr 2021 14:31:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <CAK8P3a3zeYC0wiT2Or3RicPbVBY4TJCOTa6ZN3rT=e4XGR-eCA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +92,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rebecca Cran <rebecca@nuviainc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In tlbi_aa64_vae2is_write() the calculation
-  bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_E2 : ARMMMUIdx_SE2,
-                            pageaddr)
+On 4/20/21 2:26 PM, Arnd Bergmann wrote:
+> On Tue, Apr 20, 2021 at 1:52 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>> On 4/19/21 3:42 PM, Peter Maydell wrote:
+>>>>
+>>>> I suspect PCI-ISA bridges to provide an EISA bus.
+>>>
+>>> I'm not sure what you mean here -- there isn't an ISA bridge
+>>> or an EISA bus involved here. This is purely about the behaviour
+>>> of the memory window the PCI host controller exposes to the CPU
+>>> (and in particular the window for when a PCI device's BAR is
+>>> set to "IO" rather than "MMIO"), though we change both here.
+>>
+>> I guess I always interpreted the IO BAR were here to address ISA
+>> backward compatibility. I don't know well PCI so I'll study it
+>> more. Sorry for my confused comment.
+> 
+> It is mostly for compatibility, but there are many layers of it:
+> 
+> - PCI supports actual ISA/EISA/VLB/PCMCIA/LPC/PC104/... style
+>   devices behind a bridge, using I/O ports at their native address.
+> 
+> - PCI devices themselves can have fixed I/O ports at well-known
+>   addresses, e.g. VGA or IDE/ATA adapters
+> 
+> - PCI devices can behave like legacy devices using port I/O
+>   but use PCI resource assignment to pick an arbitrary port
+>   number outside of the legacy range
+> 
+> - PCIe can support all of the above by virtue of being backwards
+>   compatible with PCI and allowing PCI buses behind bridges,
+>   though port I/O is deprecated here and often not supported at all
+> 
+> The first two are very rare these days, but Linux still support them
+> in order to run on old hardware, and any driver for these that
+> assumes a hardcoded port number can crash the kernel if the
+> PCI host bridge causes an asynchronous external abort or
+> similar.
 
-has the two arms of the ?: expression reversed. Fix the bug.
-
-Fixes: b6ad6062f1e5
-Reported-by: Rebecca Cran <rebecca@nuviainc.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d9220be7c5a..957f4247010 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4742,7 +4742,7 @@ static void tlbi_aa64_vae2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     uint64_t pageaddr = sextract64(value << 12, 0, 56);
-     bool secure = arm_is_secure_below_el3(env);
-     int mask = secure ? ARMMMUIdxBit_SE2 : ARMMMUIdxBit_E2;
--    int bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_E2 : ARMMMUIdx_SE2,
-+    int bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_SE2 : ARMMMUIdx_E2,
-                                   pageaddr);
- 
-     tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr, mask, bits);
--- 
-2.20.1
-
+Thanks for the clarification and enumeration Arnd!
 
