@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64614365BA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:00:21 +0200 (CEST)
-Received: from localhost ([::1]:37426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25148365BD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:05:26 +0200 (CEST)
+Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYrrQ-0001St-FT
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43302)
+	id 1lYrwL-000422-6W
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYrpy-0000CL-Iz
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 10:58:50 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYrpw-0006Nv-PJ
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 10:58:50 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id lt13so11129297pjb.1
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MwFLhjJ98Jxl0NSak8+vovFDLDfoeRwLqXzPPtAlpX0=;
- b=I0x9M3DiA4FBZypxcHjmTr3P7U2QPmN5Fh+urjvROrZcULbmZudF6GFfmsfx5GtLkI
- WPUdzKUxRqzFzssZU0j0Oeq8c1w0uaL7A3Bmmy73nypOgM8eQQJ2EMtsCZAi2q4NSIAt
- W4Do35SK1HTzNvBH5iXENz+Jsc344yQjqAbLUwRrmqFRJkSZ2wmJAmOTdu3Q64brg3OX
- +5JR6NzD5m4wFD6yp7eruC5znzl9okM4yMhqG82RR3XftpUhysyKPzvoncke1NDBbGwB
- XRFiYuu5fI8jse8XWNVFK9fxOdR2PP3aZgvBhCU2P17HsqRTWoA3Vzi/v3w2JCro0Yfl
- m/Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MwFLhjJ98Jxl0NSak8+vovFDLDfoeRwLqXzPPtAlpX0=;
- b=NIOnkd+T6Zig7skqyZzASXI2D59dKUdeJ/AiXDJmhLQdfZIOYnL6XaBusmLcMQFq1o
- V415uGSjMAN3M3nH93PT+89NOYFYbpRa8pKJFBSZQowqqrlzzrpxYj97Fov7RGG40/Du
- XpFC+uRYKjYxdUCnpeyzZ4rQxmP7NASfcuh3KPTiSgTUm3145Wy6+D4XMtjtUhq85nmt
- bNvhK2Qzr9xvcH3hg/goHxMo+To8VPjyeUw9N4iK1XjITWOEtx0OI0WETO0mBXZPu/un
- sFSWcPOUP85YM7c/7rABZPXSIrVjz4P1nocG6O+Zft1B4PAC30e6aoQMagjSoIPZ4g8j
- +ocA==
-X-Gm-Message-State: AOAM5324rA4ZUD3xUvxX7jy9xS6MePpBZOpKcQ+rCgMUc0XN55jXUD6F
- nbE4iuT1KgidDnTUSwMVmruClw==
-X-Google-Smtp-Source: ABdhPJwSj/t6Bn4eksv9mVxBobiXzjTCiOciTCQs/YbhZGx59fV4D90/Ka2DbQ0KQS2OaEnDzLsZtg==
-X-Received: by 2002:a17:902:d112:b029:ec:9f20:3438 with SMTP id
- w18-20020a170902d112b02900ec9f203438mr13456606plw.7.1618930727483; 
- Tue, 20 Apr 2021 07:58:47 -0700 (PDT)
-Received: from ?IPv6:2607:fb90:80c9:59f9:3594:91a:8889:c77a?
- ([2607:fb90:80c9:59f9:3594:91a:8889:c77a])
- by smtp.gmail.com with ESMTPSA id l132sm7818696pga.39.2021.04.20.07.58.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 07:58:47 -0700 (PDT)
-Subject: Re: [PATCH 2/2] tests/tcg/ppc64le: tests for brh/brw/brd
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org
-References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
- <20210420013308.813323-3-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b2d3f35e-e796-8751-3b15-9a45cdd58266@linaro.org>
-Date: Tue, 20 Apr 2021 07:58:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYruN-0003Wu-Mj
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:03:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lYruE-0000hs-KD
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:03:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618930993;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WYdZiTMoV10/mAfw1mxykHyo7wD0NAG9K2gC/DLVhDk=;
+ b=EQo7QqLt0Imtu/G35OxkeH5WmRcsmV6WrSFhSr6CoESBFv2my6OiJVgo+uDQpoU0eqgXTm
+ pZs1pKMvKGWi6QoZElgyRDv1T7NvFNNNqt71n5IEwz1+hSDnwYs8eYJ6o/CSX3pkraYzHs
+ 8IDznayIuBxIyuQIlNN3sG3VDznnTD0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-3YJ91Yl4NUOjOCRSPdiDGg-1; Tue, 20 Apr 2021 11:03:11 -0400
+X-MC-Unique: 3YJ91Yl4NUOjOCRSPdiDGg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF8F364165;
+ Tue, 20 Apr 2021 15:03:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21015510ED;
+ Tue, 20 Apr 2021 15:03:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AF43A113525D; Tue, 20 Apr 2021 17:03:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH for-6.0?] qga: fix guest-get-disks regression
+References: <20210420125831.233092-1-marcandre.lureau@redhat.com>
+Date: Tue, 20 Apr 2021 17:03:00 +0200
+In-Reply-To: <20210420125831.233092-1-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 20 Apr 2021 16:58:31 +0400")
+Message-ID: <8735vl578b.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210420013308.813323-3-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,21 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@protonmail.com, f4bug@amsat.org, qemu-ppc@nongnu.org,
- bruno.larsen@eldorado.org.br, alex.bennee@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/21 6:33 PM, matheus.ferst@eldorado.org.br wrote:
-> +#include <stdio.h>
-> +#include <assert.h>
-> +
-> +int main(void)
-> +{
+marcandre.lureau@redhat.com writes:
 
-Oh, also, there's nothing in here that requires stdio.h.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Commit 54aa3de72 ("qapi: Use QAPI_LIST_PREPEND() where possible")
+> inadvertently removed the has_dependencies from the partition disk
+> info, resulting in empty list being returned.
+>
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1950833
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  qga/commands-posix.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 4299ebd96f..75dbaab68e 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -1376,6 +1376,7 @@ static GuestDiskInfoList *get_disk_partitions(
+>          partition =3D g_new0(GuestDiskInfo, 1);
+>          partition->name =3D dev_name;
+>          partition->partition =3D true;
+> +        partition->has_dependencies =3D true;
+>          /* Add parent disk as dependent for easier tracking of hierarchy=
+ */
+>          QAPI_LIST_PREPEND(partition->dependencies, g_strdup(disk_dev));
 
+This is a recent regression, and the fix is as safe as they get.  Please
+apply for 6.0.
 
-r~
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
