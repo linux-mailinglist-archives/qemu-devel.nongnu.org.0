@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF13366057
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 21:40:10 +0200 (CEST)
-Received: from localhost ([::1]:50032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7414F36605D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 21:42:02 +0200 (CEST)
+Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYwED-00059k-4g
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 15:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51924)
+	id 1lYwG1-0006y6-IU
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 15:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYw9M-0002M4-In
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:35:08 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33642)
+ id 1lYw9R-0002TG-1o
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:35:13 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lYw9K-0001yt-Uf
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:35:08 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id g9so22870275wrx.0
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 12:35:06 -0700 (PDT)
+ id 1lYw9P-00022g-HH
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 15:35:12 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id s7so38809011wru.6
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 12:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v/jch+x5fbHSlYAP492qo4ieSnFpYCmcLlzP1woMe5g=;
- b=SQ/YZd2/QPWD2zEgQSFyfFGlDpAs0O6FQlPkAmqvtyClzPENQ/oJb209qlU1foDRdd
- 41xwsKFUhJj6OtpL1PlLVv1w/qz2s0x6MHPm9jHAcDmKHJiM8FhCqLSLCtSIZ6kiNJkW
- 5S9Fkfuw1VCLmefuoUgyhtNfPJsbpKAd4wIVa5hcPjahnw0ixC150M07QQyZUMucd8Bf
- aJCFHtNDgSBQGfVhJ16K2EPke8/UbTnHadIaCiQc0t9i1cvT2OtJjcX1KqyI3rDehtXT
- 73cfZY6z9GJxJy5jPOR2Mrfx0VwXD1/0wibasW5Stj38nLJi1f6ftIkP2J0JBGID1ZY1
- yBTA==
+ bh=X+55Q796uaAhfzBrSTXh6Pi3XW8Ee7SvRz64BnVsSu0=;
+ b=tzuie9k1b6yi+8tNHC1UvX08zRwWeuS+LztPkT1Ep+Ks6wPz6sm+DX8Xcfs4sTxziq
+ LAl3wnWg3YNQFjyzyh1oAeNyCVYkBqcT15SplvPqZU0do9fb0n0lSyMAdDNi+xIqqFmH
+ susiYQo4hifjpQRWryIZIbLTRk5E6TyU+bcVWYWfteq3dhYXawk/7Pdjj5k6KryqMFf2
+ UovJ09hf8tyI5dR5ncHt58y9rG/ASyeRLG3QLyk//9OWckPOuYAjCMN8uxNZN4ybzFZY
+ +DtHa5a+clR5Rs7yh0MX+hSH3Xz9TmC7bpFW8DeNMYLYiBTJKb7XZoH5RmViP4kneM3R
+ bo7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v/jch+x5fbHSlYAP492qo4ieSnFpYCmcLlzP1woMe5g=;
- b=ZYemlrH0GiHG2J5ZUi6m5cWFHVEZ+5n2K1+4JQWPdWoelF/lYJ1CvrZeOK+lg5OS8N
- hn+BaLVrRC6bo2cpEVrf27+DGYc/FMGKzAf2w/50n7jZZPBTey65I9/uaH3GQYte/xxV
- C7aoVOl5CsgZFcG2TJkCP9V++gd8uAjxtpVW3X0V2v33X91/+8IhmdPt3KuZt0zSKHeY
- 8DbZpT0WaqoREo2A5PLiUA9c9M7Nc45VMSbvxFLbvDlABSlSUSI0Xt7OyKh/Ay9yGC7u
- ZzTYbRqZyevopMjfawkEtEFSGADQKH/YljqIkNPcYZ3UK8r3JnvcTvIRR0cU/iR3erVc
- qdkw==
-X-Gm-Message-State: AOAM531TOpl71iZuU9Nc33QOs+Vw+u236EEP3xNPy0lQagKUjt7ujTvY
- 2e9DrYLD60HpWzUMO52GewgToUkVQa2Xbg==
-X-Google-Smtp-Source: ABdhPJw1TTuxVm409ql8MquDA/Qigto69Hw1EPNo9ctIzNLv8VKpDYiZTOuP4RBjW6s/wfafF+qjJw==
-X-Received: by 2002:a5d:6983:: with SMTP id g3mr21935671wru.415.1618947305254; 
- Tue, 20 Apr 2021 12:35:05 -0700 (PDT)
+ bh=X+55Q796uaAhfzBrSTXh6Pi3XW8Ee7SvRz64BnVsSu0=;
+ b=IANyNO4hJyyCKLpT/SGf26lWdf5tQx0oiJMLm2gYUUIcP51NAYuPSspWma+kjNjtzp
+ hUaKhPisQcKXhqRFPVUCBfGjySRykzPZgNXVTia64STsCxreL/m3mBX10roFf7wuL+nv
+ X0gk1C3vHoGFiZg+zYXFvpw4gTcJQxcch+elVmNeqdZjlMeygbNHbSFT8y0BFmhtE7Aq
+ a4vt1lPnAgq51JtNQ07Ooffw5j6tBMhWADuTQt8AI89sQpa8ev8v4W9jU/xsf4dnXq0e
+ bzfBAiR7cKuXRFEwWjbjzH4XmwhXKG97Glh3H4QGd+yQtskjql5TEnOgG56Uvh2OlZo0
+ i2dg==
+X-Gm-Message-State: AOAM531zhm5fjM4Olqsnt0fgiXTESoQ99GU8s0znO9imCVkf4l9zlF2p
+ JNJ2kCBtlp8gGvtPVLotcm7PtBsdy5g0Ww==
+X-Google-Smtp-Source: ABdhPJyAJuJ54yi8kLKwYfom9mAeb8bKlk/RIxBakQXzH09YKm1VZn3kWfPq5l+MfS17DqMdvOoTOg==
+X-Received: by 2002:adf:fec5:: with SMTP id q5mr22728629wrs.168.1618947310054; 
+ Tue, 20 Apr 2021 12:35:10 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c2sm4279989wmr.22.2021.04.20.12.35.04
+ by smtp.gmail.com with ESMTPSA id e33sm4023247wmp.43.2021.04.20.12.35.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 12:35:04 -0700 (PDT)
+ Tue, 20 Apr 2021 12:35:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] target/mips: Simplify CP0 check in nanoMIPS P.LS.E0 EVA
- pool
-Date: Tue, 20 Apr 2021 21:34:50 +0200
-Message-Id: <20210420193453.1913810-3-f4bug@amsat.org>
+Subject: [PATCH 3/5] target/mips: Make check_cp0_enabled() return a boolean
+Date: Tue, 20 Apr 2021 21:34:51 +0200
+Message-Id: <20210420193453.1913810-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210420193453.1913810-1-f4bug@amsat.org>
 References: <20210420193453.1913810-1-f4bug@amsat.org>
@@ -93,116 +92,54 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nanoMIPS P.LS.E0 pool contains the EVA instructions,
-which are privileged. Simplify by moving the CP0 check
-at the top of the pool swich case.
+To avoid callers to emit dead code if check_cp0_enabled()
+raise an exception, let it return a boolean value, whether
+CP0 is enabled or not.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ target/mips/translate.h | 7 ++++++-
+ target/mips/translate.c | 4 +++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/target/mips/translate.h b/target/mips/translate.h
+index 2b3c7a69ec6..61442590340 100644
+--- a/target/mips/translate.h
++++ b/target/mips/translate.h
+@@ -120,7 +120,12 @@ void gen_reserved_instruction(DisasContext *ctx);
+ 
+ void check_insn(DisasContext *ctx, uint64_t flags);
+ void check_mips_64(DisasContext *ctx);
+-void check_cp0_enabled(DisasContext *ctx);
++/**
++ * check_cp0_enabled:
++ * Return %true if CP0 is enabled, otherwise return %false
++ * and emit a 'coprocessor unusable' exception.
++ */
++bool check_cp0_enabled(DisasContext *ctx);
+ void check_cp1_enabled(DisasContext *ctx);
+ void check_cp1_64bitmode(DisasContext *ctx);
+ void check_cp1_registers(DisasContext *ctx, int regs);
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9acca6ef045..03fb67f6f22 100644
+index 03fb67f6f22..be5382b41f2 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -20906,27 +20906,24 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                 }
-                 break;
-             case NM_P_LS_E0:
-+                check_cp0_enabled(ctx);
-                 switch (extract32(ctx->opcode, 11, 4)) {
-                 case NM_LBE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_ld(ctx, OPC_LBE, rt, rs, s);
-                     break;
-                 case NM_SBE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_st(ctx, OPC_SBE, rt, rs, s);
-                     break;
-                 case NM_LBUE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_ld(ctx, OPC_LBUE, rt, rs, s);
-                     break;
-                 case NM_P_PREFE:
-                     if (rt == 31) {
-                         /* case NM_SYNCIE */
-                         check_eva(ctx);
--                        check_cp0_enabled(ctx);
-                         /*
-                          * Break the TB to be able to sync copied instructions
-                          * immediately.
-@@ -20935,39 +20932,32 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                     } else {
-                         /* case NM_PREFE */
-                         check_eva(ctx);
--                        check_cp0_enabled(ctx);
-                         /* Treat as NOP. */
-                     }
-                     break;
-                 case NM_LHE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_ld(ctx, OPC_LHE, rt, rs, s);
-                     break;
-                 case NM_SHE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_st(ctx, OPC_SHE, rt, rs, s);
-                     break;
-                 case NM_LHUE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_ld(ctx, OPC_LHUE, rt, rs, s);
-                     break;
-                 case NM_CACHEE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     check_nms_dl_il_sl_tl_l2c(ctx);
-                     gen_cache_operation(ctx, rt, rs, s);
-                     break;
-                 case NM_LWE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_ld(ctx, OPC_LWE, rt, rs, s);
-                     break;
-                 case NM_SWE:
-                     check_eva(ctx);
--                    check_cp0_enabled(ctx);
-                     gen_st(ctx, OPC_SWE, rt, rs, s);
-                     break;
-                 case NM_P_LLE:
-@@ -20975,13 +20965,11 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                     case NM_LLE:
-                         check_xnp(ctx);
-                         check_eva(ctx);
--                        check_cp0_enabled(ctx);
-                         gen_ld(ctx, OPC_LLE, rt, rs, s);
-                         break;
-                     case NM_LLWPE:
-                         check_xnp(ctx);
-                         check_eva(ctx);
--                        check_cp0_enabled(ctx);
-                         gen_llwp(ctx, rs, 0, rt, extract32(ctx->opcode, 3, 5));
-                         break;
-                     default:
-@@ -20994,13 +20982,11 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                     case NM_SCE:
-                         check_xnp(ctx);
-                         check_eva(ctx);
--                        check_cp0_enabled(ctx);
-                         gen_st_cond(ctx, rt, rs, s, MO_TESL, true);
-                         break;
-                     case NM_SCWPE:
-                         check_xnp(ctx);
-                         check_eva(ctx);
--                        check_cp0_enabled(ctx);
-                         gen_scwp(ctx, rs, 0, rt, extract32(ctx->opcode, 3, 5),
-                                  true);
-                         break;
+@@ -1572,11 +1572,13 @@ void gen_move_high32(TCGv ret, TCGv_i64 arg)
+ #endif
+ }
+ 
+-void check_cp0_enabled(DisasContext *ctx)
++bool check_cp0_enabled(DisasContext *ctx)
+ {
+     if (unlikely(!(ctx->hflags & MIPS_HFLAG_CP0))) {
+         generate_exception_end(ctx, EXCP_CpU);
++        return false;
+     }
++    return true;
+ }
+ 
+ void check_cp1_enabled(DisasContext *ctx)
 -- 
 2.26.3
 
