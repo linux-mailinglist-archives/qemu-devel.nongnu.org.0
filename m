@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088D036594C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:54:14 +0200 (CEST)
-Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0885A36594A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:53:56 +0200 (CEST)
+Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYptN-0000Yb-2d
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44032)
+	id 1lYpt5-0000Vc-2e
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lYpqd-0006YZ-Ne
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:51:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40149)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lYprU-0007a7-UU
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:52:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lYpqQ-0006iM-EQ
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:51:20 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lYprR-0007DQ-A6
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:52:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618923069;
+ s=mimecast20190719; t=1618923132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WxGF8yi5Ux/7E2tPpmi5y4GVPasPhKynEybJj56mVig=;
- b=I7MY0DmjwQTPJFDZEx2maZwX7ojO0rvnGUMRwepp0Fso2XFLiUc/nRmdAbWz5LfU7dPalw
- IkXKec/9mdplzh9v7Ei2lf5EVyeqE76EjRkOEW2doUg2VwtyHV4CVrOlmMdWv3r/OM4PkT
- 8tE6YxoXw6m0V790pjgLubt2MQVrV4U=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-A86Iev19MXaG2QfKjVijHg-1; Tue, 20 Apr 2021 08:51:07 -0400
-X-MC-Unique: A86Iev19MXaG2QfKjVijHg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- cz7-20020a0564021ca7b02903853d41d8adso3759518edb.17
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 05:51:07 -0700 (PDT)
+ bh=ZYeq+TMGy+NPGepti79Kpxo6RUPmeA/T7Pnd4pE1X3c=;
+ b=Mb0/OmrkSrIwVC3E4i5xw3c0iwvxsB3qEs+dXIJPmtzzAFQ+ExRUxqvdRHo/1RwA/SwaJx
+ sOoQ36yEuUmHizVYcr3vnWJbpmLouEsd2eaU20PoBxdY6AuTY1xPI8lgj+eQG3/LvBsbsG
+ WpjP1OIgtAZ4Ls7/hIKgiMWYUZ+XiAg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-mvmE4sGsNHSVcDdYY09Mdw-1; Tue, 20 Apr 2021 08:52:10 -0400
+X-MC-Unique: mvmE4sGsNHSVcDdYY09Mdw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v2-20020a0560001622b0290106e28f8af8so8227553wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 05:52:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WxGF8yi5Ux/7E2tPpmi5y4GVPasPhKynEybJj56mVig=;
- b=jr2FXz+AZybq2nm/n+xtIZujxbCzAYFe+sL6ggKoqFRgy3aSHBXvYiIJFtz9xF3Bp6
- RzTYu08lE2b9ONixoVQcmt1Yg9lK/c9Jv6OWCpyIQRLxzO2dcG05nw+nQN/EY8aYw5C0
- AKPGUJia9wOECN782SwmJvU8E9Jpv4MzGK490lVjbE19MHadKdIwXSDq4HfhH8oiP6El
- fdv2rZHLmfZXezXTf5aTdN//gyNFTpHEB7fr881tUZiPZ3SbnrVVOdQPaprrIkmvDdJz
- ucKd4+v/lsCp7M/2tOxOUkDXXqTgQlSMdpZZNCST+nznloEMjumTpqloV57q+YJ2B4pc
- 6eDg==
-X-Gm-Message-State: AOAM532wTO2ukXr52B6nckW/PJrvHbXhjkumggzjwGkpZYyASqt4w961
- VvV2qhdkc1YJG0b7ooyVKlVCk4+F+lkl9mwGmyY/0+Z4DTFgnrkzQKCVAq8LLzkqwyaycg83fvn
- ZrUh0Mh5hXFM2WOx9kaFGHd6zzE46OmJMAgsdQQDbg7SLVPsMwQq3aXS1asyJuDmSv/0=
-X-Received: by 2002:a05:6402:1741:: with SMTP id
- v1mr32017881edx.127.1618923065853; 
- Tue, 20 Apr 2021 05:51:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwFRfjrOoJJqnvUNH8JVfbDOun0I9Av8jJMp5XWu2RwHuhxeOOUrn1+oPfpgkjCF973L9ME9Q==
-X-Received: by 2002:a05:6402:1741:: with SMTP id
- v1mr32017852edx.127.1618923065615; 
- Tue, 20 Apr 2021 05:51:05 -0700 (PDT)
-Received: from localhost.localdomain (mob-194-230-155-141.cgn.sunrise.net.
- [194.230.155.141])
- by smtp.gmail.com with ESMTPSA id m14sm15811966edd.63.2021.04.20.05.51.04
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ZYeq+TMGy+NPGepti79Kpxo6RUPmeA/T7Pnd4pE1X3c=;
+ b=BMu5maFpNGLKtfuOarWoE/wXkUfi9PmO4ft4EnVDn/GaJfL1wlaWpYMtRX6OKuUhGv
+ wczE0iCkwdBP7Hc8+cxvriZK55RnQ3UMUXOKPz5u1c1l3ltSPtbExQNqJD8Nhb0fXF7T
+ IMh7oyQb0LojdU2SD1B9FfGR+r4nY9a4DJML3xRJFd4UPa4m60hcNYhDWPAMhNdAF7gq
+ MdJEtLtuN8xUczJkJSQy9UXthpX63eqahk18DlpftzgM1gl/GpyEvz90RVVfAbkH7tLt
+ 9xL1M1J9kwwxmenCIGr2ZyLmfs3LRBMLkMagUvGWH0/B7Rtdlf9kplvA/PFmvP7pNcK3
+ 84tA==
+X-Gm-Message-State: AOAM5334EPZsxT6cguypdEzZM65jWl2phSCavB1Mi7/dpTZXXN+kxqSB
+ M7MEKiDcmzsY/PKGx7T0f6SjUBFwuvM7dz34UKLRk5pddf9XVDWboRvhGepkFdgS/t4rlj4Hxyu
+ sGaYet81hT80J2p4=
+X-Received: by 2002:a1c:65c2:: with SMTP id z185mr4403129wmb.2.1618923129609; 
+ Tue, 20 Apr 2021 05:52:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVEi/rERHcaVhX7onPP4vJ5+EAhm75IkKLVg7f9ZBBGVTV/lAQBaPjM+ug1jIBlPpH344syQ==
+X-Received: by 2002:a1c:65c2:: with SMTP id z185mr4403107wmb.2.1618923129412; 
+ Tue, 20 Apr 2021 05:52:09 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff2390a.dip0.t-ipconnect.de. [79.242.57.10])
+ by smtp.gmail.com with ESMTPSA id
+ c2sm3271805wmr.22.2021.04.20.05.52.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 05:51:05 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/3] block-copy: improve documentation for
- BlockCopyTask type and functions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210420100416.30713-1-eesposit@redhat.com>
- <20210420100416.30713-2-eesposit@redhat.com>
- <9576b9d5-c40b-14d4-399f-4d14473433bb@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <2210f74d-53f8-caf3-6f7b-6f2478d8d507@redhat.com>
-Date: Tue, 20 Apr 2021 14:51:03 +0200
+ Tue, 20 Apr 2021 05:52:09 -0700 (PDT)
+Subject: Re: [RFC v2 03/13] hw/s390x: tod: make explicit checks for
+ accelerators when initializing
+To: Claudio Fontana <cfontana@suse.de>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210420103616.32731-1-cfontana@suse.de>
+ <20210420103616.32731-4-cfontana@suse.de>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <472bb6ed-a48e-08eb-0fe7-b549aec3c0eb@redhat.com>
+Date: Tue, 20 Apr 2021 14:52:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <9576b9d5-c40b-14d4-399f-4d14473433bb@virtuozzo.com>
+In-Reply-To: <20210420103616.32731-4-cfontana@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -106,119 +103,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 20.04.21 12:36, Claudio Fontana wrote:
+> replace general "else" with specific checks for each possible accelerator.
+> > Handle qtest as a NOP,
+
+^ weird line break
 
 
-On 20/04/2021 14:03, Vladimir Sementsov-Ogievskiy wrote:
-> 20.04.2021 13:04, Emanuele Giuseppe Esposito wrote:
->> As done in BlockCopyCallState, categorize BlockCopyTask
->> in IN, State and OUT fields. This is just to understand
->> which field has to be protected with a lock.
->>
->> Also add coroutine_fn attribute to block_copy_task_create,
->> because it is only usedn block_copy_dirty_clusters, a coroutine
->> function itself.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   block/block-copy.c | 15 +++++++++++----
->>   1 file changed, 11 insertions(+), 4 deletions(-)
->>
->> diff --git a/block/block-copy.c b/block/block-copy.c
->> index 39ae481c8b..03df50a354 100644
->> --- a/block/block-copy.c
->> +++ b/block/block-copy.c
->> @@ -48,25 +48,32 @@ typedef struct BlockCopyCallState {
->>       QLIST_ENTRY(BlockCopyCallState) list;
->>       /* State */
->> -    int ret;
->>       bool finished;
->>       QemuCoSleepState *sleep_state;
->>       bool cancelled;
->>       /* OUT parameters */
->> +    int ret;
-> 
-> Hmm. Somehow, ret may be considered is part of state too.. But I don't 
-> really care. Here it looks not bad. Will see how and what you are going 
-> protect by new lock.
-> 
-> Note, that ret is concurently set in block_copy_task_entry..
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-It is set but as far as I understood it contains the result of the 
-operation (thus OUT), correct?
+> and error out for an unknown accelerator used in combination with tod.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>   hw/s390x/tod.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
+> index 3c2979175e..fd5a36bf24 100644
+> --- a/hw/s390x/tod.c
+> +++ b/hw/s390x/tod.c
+> @@ -14,6 +14,8 @@
+>   #include "qemu/error-report.h"
+>   #include "qemu/module.h"
+>   #include "sysemu/kvm.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/qtest.h"
+>   #include "migration/qemu-file-types.h"
+>   #include "migration/register.h"
+>   
+> @@ -23,8 +25,13 @@ void s390_init_tod(void)
+>   
+>       if (kvm_enabled()) {
+>           obj = object_new(TYPE_KVM_S390_TOD);
+> -    } else {
+> +    } else if (tcg_enabled()) {
+>           obj = object_new(TYPE_QEMU_S390_TOD);
+> +    } else if (qtest_enabled()) {
+> +        return;
+> +    } else {
+> +        error_report("current accelerator not handled in s390_init_tod!");
+> +        abort();
+>       }
+>       object_property_add_child(qdev_get_machine(), TYPE_S390_TOD, obj);
+>       object_unref(obj);
+> 
 
-> 
->>       bool error_is_read;
->>   } BlockCopyCallState;
->>   typedef struct BlockCopyTask {
->> +    /* IN parameters. Initialized in block_copy_task_create()
->> +     * and never changed.
->> +     */
-> 
-> It's wrong about task field, as it has "ret" inside.
-Not sure I understand what you mean here.
 
-> 
->>       AioTask task;
->> -
->>       BlockCopyState *s;
->>       BlockCopyCallState *call_state;
->> +
->> +    /* State */
->>       int64_t offset;
-> 
-> I think, offset is never changed after block_copy_task_create()..
+-- 
+Thanks,
 
-right, will revert that for offset
-> 
->>       int64_t bytes;
->>       bool zeroes;
->> -    QLIST_ENTRY(BlockCopyTask) list;
->>       CoQueue wait_queue; /* coroutines blocked on this task */
->> +
->> +    /* To reference all call states from BlockCopyTask */
-> 
-> Amm.. Actually,
-> 
-> To reference all tasks from BlockCopyState
-
-right, agree, thanks
-> 
->> +    QLIST_ENTRY(BlockCopyTask) list;
->> +
->>   } BlockCopyTask;
->>   static int64_t task_end(BlockCopyTask *task)
->> @@ -153,7 +160,7 @@ static bool coroutine_fn 
->> block_copy_wait_one(BlockCopyState *s, int64_t offset,
->>    * Search for the first dirty area in offset/bytes range and create 
->> task at
->>    * the beginning of it.
->>    */
->> -static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
->> +static BlockCopyTask *coroutine_fn 
->> block_copy_task_create(BlockCopyState *s,
->>                                                BlockCopyCallState 
->> *call_state,
->>                                                int64_t offset, int64_t 
->> bytes)
->>   {
->>
-> 
-> We mark by "coroutine_fn" functions that can be called _only_ from 
-> coroutine context. 
-In my opinion, block_copy_task_create is a static function and it's 
-called only by another coroutine_fn, block_copy_dirty_clusters, so it 
-matches what you just wrote above.
-
-> block_copy_task_create() may be called from any 
-> context, both coroutine and non-coroutine. So, it shouldn't have this mark.
-
-Thank you,
-Emanuele
+David / dhildenb
 
 
