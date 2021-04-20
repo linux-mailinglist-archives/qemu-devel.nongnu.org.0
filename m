@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76767365BDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:06:19 +0200 (CEST)
-Received: from localhost ([::1]:45200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01108365BE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:10:19 +0200 (CEST)
+Received: from localhost ([::1]:48090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYrxC-0005LO-J4
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44794)
+	id 1lYs14-0007C6-2C
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:10:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lYrvT-000473-0a
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:04:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lYrvJ-0001Kv-B2
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:04:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618931056;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5FK0Fx02DGF3319NZ3ezHf/gnEsXiXoiwzDPJbhcG/g=;
- b=PoAu+0XcvjcE+FHZ3FKXMm+35zxe7Mnun5OcMWB+XzhUYcI+rOpUtHjjw5SqGxPMUqhdDL
- avv2Zb34l9r26CWk1geCJRqJfr0+VbzjQmUfNCESJYWWrPC77r5rOpbYMv1Db0zEPvB9l0
- cdfNtjcprsI0cbIa3vHgs1nBtm1tTOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-9zlvN684O6aIzKOo1P-ipw-1; Tue, 20 Apr 2021 11:04:14 -0400
-X-MC-Unique: 9zlvN684O6aIzKOo1P-ipw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A2396D59B;
- Tue, 20 Apr 2021 15:04:13 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-62.ams2.redhat.com [10.36.113.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C17A101E5AF;
- Tue, 20 Apr 2021 15:04:12 +0000 (UTC)
-Date: Tue, 20 Apr 2021 17:04:10 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [RFC PATCH 2/2] qemu-img convert: Fix sparseness detection
-Message-ID: <YH7tah47XxdYs3VW@merkur.fritz.box>
-References: <20210415152214.279844-1-kwolf@redhat.com>
- <20210415152214.279844-3-kwolf@redhat.com>
- <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lYrxU-00065X-8Y; Tue, 20 Apr 2021 11:06:36 -0400
+Received: from [201.28.113.2] (port=42167 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lYrxR-0002to-OY; Tue, 20 Apr 2021 11:06:35 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 20 Apr 2021 12:06:30 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 9E4688010EF;
+ Tue, 20 Apr 2021 12:06:29 -0300 (-03)
+Subject: Re: [PATCH 1/2] tests/docker: gcc-10 based images for ppc64{, le}
+ tests
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
+ <20210420013308.813323-2-matheus.ferst@eldorado.org.br>
+ <YH5RkjCx2Bk4mbop@yekko.fritz.box> <87eef587qc.fsf@linaro.org>
+ <2e297129-ed1e-4620-982b-27546ce554ff@amsat.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <943b7c21-a5cd-d845-9b1b-f73d60ba54f4@eldorado.org.br>
+Date: Tue, 20 Apr 2021 12:06:29 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <06e1910c-102a-e41d-116f-00458f41243c@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2e297129-ed1e-4620-982b-27546ce554ff@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 20 Apr 2021 15:06:30.0065 (UTC)
+ FILETIME=[BE3D8A10:01D735F6]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,57 +64,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pl@kamp.de, qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: bruno.larsen@eldorado.org.br, gustavo.romero@protonmail.com,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20.04.2021 um 16:31 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 15.04.2021 18:22, Kevin Wolf wrote:
-> > In order to avoid RMW cycles, is_allocated_sectors() treats zeroed areas
-> > like non-zero data if the end of the checked area isn't aligned. This
-> > can improve the efficiency of the conversion and was introduced in
-> > commit 8dcd3c9b91a.
-> > 
-> > However, it comes with a correctness problem: qemu-img convert is
-> > supposed to sparsify areas that contain only zeros, which it doesn't do
-> > any more. It turns out that this even happens when not only the
-> > unaligned area is zeroed, but also the blocks before and after it. In
-> > the bug report, conversion of a fragmented 10G image containing only
-> > zeros resulted in an image consuming 2.82 GiB even though the expected
-> > size is only 4 KiB.
-> > 
-> > As a tradeoff between both, let's ignore zeroed sectors only after
-> > non-zero data to fix the alignment, but if we're only looking at zeros,
-> > keep them as such, even if it may mean additional RMW cycles.
-> > 
+On 20/04/2021 09:35, Philippe Mathieu-Daudé wrote:
+> On 4/20/21 2:20 PM, Alex Bennée wrote:
+>> David Gibson <david@gibson.dropbear.id.au> writes:
+>>> On Mon, Apr 19, 2021 at 10:33:07PM -0300, matheus.ferst@eldorado.org.br wrote:
+>>>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>>
+>>>> A newer compiler is needed to build tests for Power10 instructions. As
+>>>> done for arm64 on c729a99d2701, a new '-test-cross' image is created for
+>>>> ppc64 and ppc64le. As done on 936fda4d771f, a test for compiler support
+>>>> is added to verify that the toolchain in use has '-mpower10'.
+>>>>
+>>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>> ---
+>>>>   tests/docker/Makefile.include                   |  2 ++
+>>>>   .../debian-powerpc-test-cross.docker            | 17 +++++++++++++++++
+>>>>   tests/tcg/configure.sh                          | 12 ++++++++----
+>>>>   3 files changed, 27 insertions(+), 4 deletions(-)
+>>>>   create mode 100644 tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+>>>>
+>>>> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+>>>> index 9f464cb92c..f1dbcc639f 100644
+>>>> --- a/tests/docker/Makefile.include
+>>>> +++ b/tests/docker/Makefile.include
+>>>> @@ -152,10 +152,12 @@ docker-image-debian-sparc64-cross: docker-image-debian10
+>>>>   docker-image-debian-tricore-cross: docker-image-debian10
+>>>>   docker-image-debian-all-test-cross: docker-image-debian10
+>>>>   docker-image-debian-arm64-test-cross: docker-image-debian11
+>>>> +docker-image-debian-power-test-cross: docker-image-debian11
+>>>>   
+>>>>   # These images may be good enough for building tests but not for test builds
+>>>>   DOCKER_PARTIAL_IMAGES += debian-alpha-cross
+>>>>   DOCKER_PARTIAL_IMAGES += debian-arm64-test-cross
+>>>> +DOCKER_PARTIAL_IMAGES += debian-power-test-cross
+>>>
+>>> You add these "power" (as opposed to "powerpc" or "ppc64" or whatever)
+>>> images here, but they don't seem to be referenced anywhere else.
+>>>
+>>>>   DOCKER_PARTIAL_IMAGES += debian-hppa-cross
+>>>>   DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
+>>>>   DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
+>>
+>> I was expecting the new debian-power-test-cross to replace both
+>> debian-powerpc-cross and debian-ppc64-cross.
 > 
-> Hmm.. If I understand correctly, we are going to do unaligned
-> write-zero. And that helps.
+> Maybe rename the images as:
+> 
+> DISTRIB-TARGET-crossbuild and DISTRIB-TARGET-crosstest-tcg?
+> (as it is not obvious for every contributor than 'cross' imply
+> emulation and not virtualization).
+> 
 
-This can happen (mostly raw images on block devices, I think?), but
-usually it just means skipping the write because we know that the target
-image is already zeroed.
+If I grep'ed it correctly, in a separate patch we'd mv:
+debian-alpha-cross{,test-tcg}.docker
+debian-arm64-{test-cross,crosstest-tcg}.docker
+debian-hppa-cross{,test-tcg}.docker
+debian-m68k-cross{,test-tcg}.docker
+debian-mips64-cross{,test-tcg}.docker
+debian-powerpc-cross{,test-tcg}.docker
+debian-riscv64-cross{,test-tcg}.docker
+debian-sh4-cross{,test-tcg}.docker
+debian-sparc64-cross{,test-tcg}.docker
+debian-tricore-cross{,test-tcg}.docker
+debian-xtensa-cross{,test-tcg}.docker
+debian-amd64-cross{,build}.docker
+debian-arm64-cross{,build}.docker
+debian-armel-cross{,build}.docker
+debian-armhf-cross{,build}.docker
+debian-mips64el-cross{,build}.docker
+debian-mips-cross{,build}.docker
+debian-mipsel-cross{,build}.docker
+debian-ppc64{el-cross,le-crossbuild}.docker
+debian-s390x-cross{,build}.docker
 
-What it does mean is that if the next part is data, we'll have an
-unaligned data write.
-
-> Doesn't that mean that alignment is wrongly detected?
-
-The problem is that you can have bdrv_block_status_above() return the
-same allocation status multiple times in a row, but *pnum can be
-unaligned for the conversion.
-
-We only look at a single range returned by it when detecting the
-alignment, so it could be that we have zero buffers for both 0-11 and
-12-16 and detect two misaligned ranges, when both together are a
-perfectly aligned zeroed range.
-
-In theory we could try to do some lookahead and merge ranges where
-possible, which should give us the perfect result, but it would make the
-code considerably more complicated. (Whether we want to merge them
-doesn't only depend on the block status, but possibly also on the
-content of a DATA range.)
-
-Kevin
-
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
