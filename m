@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23BA36563C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:34:36 +0200 (CEST)
-Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3872365646
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:36:05 +0200 (CEST)
+Received: from localhost ([::1]:38668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYniF-0005pE-Ns
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1lYnjg-0007gK-TD
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYneF-0002cq-77
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:30:27 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34627)
+ id 1lYnhb-0005u3-Nw
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:33:55 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYneD-0008UV-Jq
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:30:26 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r7so25036628wrm.1
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:30:25 -0700 (PDT)
+ id 1lYnha-00027O-3R
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 06:33:55 -0400
+Received: by mail-wr1-x433.google.com with SMTP id a4so37076631wrr.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 03:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=0+rQ76WaRDe5AJ9BNq8EvMS4QbrFFEtm3hC/rP75vEE=;
- b=gP0rxh93qrfX0r7zTcizQuRSTRa7rQDkMsd9b/egXQJy1jr9/iLm5c1ib9FAhvPIUp
- phQbnpPQ4NzyXJTlchbbzGsrxKatpka/3TnDshFfL/9f6/JNmVGjUELtLzpdGFhFQF1a
- +tH/8C34dR3Ia/8zlmthWKpSTKluE0B8i6jv3/UY3dmIM6Wrtfj2pNUwkzK8TMkOVvaG
- Wxz9YSVqckJzXkG5Y/yEsGtzd8kkxVmspYF7GF+wR5NUHQY2/9yv/b7QU8IZwD8LSsKN
- srt3Kz6itpUUxGoHTexv/tS+6XOV5QG2OFA2qZ/v128PvpeL1k4vg4+3f/LKgYtGi0JM
- unlg==
+ bh=NwOt3GLB7WvkAshqWmqVeiafFSCo/MNQO5nQmSCPAdU=;
+ b=uAMeAwLl/E+FNb5sA6flnwe6gqDa5g2TacchADwpptCe8L0tjqmsSBcsp7zNXIgvhe
+ tAML7M3HYFIFTwKSbC8XQTNbYsMf/NDNcO0ea1vwNN59/iwf6xjWf1TQ9JOPEwSh7GPw
+ UqMm8IJZ/IQzyFCcUtMqCnvCqJJ49qqUbh0MUlT4QqOUCtt8CYtLrHqhwuT2qILKlti+
+ n1VoTkV6ICukgXTPDmwPXXdxh9AflnJsaUN6EoWFDwsRBEZZN2E4VXhPZtM546hIMEA6
+ R0+VDbXmIWeOI+hLXTfHoXESm45v4UKRE7eOP6GeeQC87gEOQScl7LWyP+l+jGfJqHmo
+ Jjyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=0+rQ76WaRDe5AJ9BNq8EvMS4QbrFFEtm3hC/rP75vEE=;
- b=s8RPEDm77gRKqeiRhzV+U57vzvcNVvIRoZoXNysQxnWjvvU3W9RgxhNrD1bBh/C3cd
- QmX2wzeUhCqE86SYltAmiEEfgYYzCzt68L4ibemcVTclOV5YbAZ9TmiGmzvobrALiREl
- MCsqr31i9bUGCMOfr7BhYmR47hK9+DIyaKeb5i+jn3u96LgD9HY7cgBSX3DPkr6JpPOe
- nJ19mKVXpEGwbHArBrPOL3GAcjm1ZF2/BsIre8yuHT8DsEOZeSmBNst1rpP7jfJy2Aqm
- 2XQOSK3nXGPNi+5cjYgcX01QI60UZW1UJNGH/8EsyOPRq/80Q7ksQhaUURpo8B8+2ycl
- AbiA==
-X-Gm-Message-State: AOAM532R3c/Q5hGcUBS8MCV6oD2ulVOP1Qc+8gxM3J+b9W9TrYnugJEV
- idYmkaOYUds/65ARoEX746Ej8w==
-X-Google-Smtp-Source: ABdhPJxQt88YzehL7IlqSHT7RYwpxMhu4x6Ujmn+YtBEXBrqJp1fCK/kMRejlF4p7IT8pApyY4+q3w==
-X-Received: by 2002:a05:6000:1789:: with SMTP id
- e9mr18588485wrg.110.1618914624034; 
- Tue, 20 Apr 2021 03:30:24 -0700 (PDT)
+ bh=NwOt3GLB7WvkAshqWmqVeiafFSCo/MNQO5nQmSCPAdU=;
+ b=aKURUrBG9IFc6Fvc/798yVi0tnTYFSBuO0jXRtP6vc//lstbxoJlKM3kQmXhuUtzI3
+ oFFudS7B85FrSEboGGJJ4cdK5WZI3T+EfmRuG26c2INuAkk3cLiQN3ymoYlgxU9X8WHF
+ BiH5YNVawDOo0d0PbZ+0ep7iJESsHlWRzuBdsfI7ujgtnYNfCqoejlBYH0bMmV1d/PIH
+ z8utmTjid39KO9yzUXwJAIj99pA8cjY+uDAW3a36FdpNghZxg/6xSx0SoAs5D3jq8Jp8
+ 1BjnYEHsHoBlcFXmD7kJM/YXzsZ7EmJRCS8qzelCu4hrvG/VKMWUlSc6THoAB+vP4cgv
+ ys0g==
+X-Gm-Message-State: AOAM532zWRvjMjouhp+PLgYX/82Z+LXr80xgFQTFzrbUSlQrCwmDW5Jy
+ e0MkOuQQEdubTg3rw4Vza6CtJg==
+X-Google-Smtp-Source: ABdhPJxoXMvcb4YAyijk4QjImeC5NxWyWaNXtdbGckQy9c+qL5xZp2qSPPApTEfQxMRQBGTUtDIDNA==
+X-Received: by 2002:adf:efc9:: with SMTP id i9mr19845730wrp.173.1618914832540; 
+ Tue, 20 Apr 2021 03:33:52 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b12sm28700412wrn.18.2021.04.20.03.30.23
+ by smtp.gmail.com with ESMTPSA id q7sm14263411wrr.62.2021.04.20.03.33.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 03:30:23 -0700 (PDT)
+ Tue, 20 Apr 2021 03:33:51 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 848DB1FF7E;
- Tue, 20 Apr 2021 11:30:22 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 28F471FF7E;
+ Tue, 20 Apr 2021 11:33:51 +0100 (BST)
 References: <20210416162824.25131-1-cfontana@suse.de>
- <20210416162824.25131-12-cfontana@suse.de>
+ <20210416162824.25131-14-cfontana@suse.de>
 User-agent: mu4e 1.5.11; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v14 11/80] target/arm: tcg: fix comment style before move
- to cpu-mmu
-Date: Tue, 20 Apr 2021 11:30:16 +0100
-In-reply-to: <20210416162824.25131-12-cfontana@suse.de>
-Message-ID: <87pmyp8czl.fsf@linaro.org>
+Subject: Re: [RFC v14 13/80] target/arm: fix style in preparation of new
+ cpregs module
+Date: Tue, 20 Apr 2021 11:33:46 +0100
+In-reply-to: <20210416162824.25131-14-cfontana@suse.de>
+Message-ID: <87mttt8cts.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,8 +99,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Claudio Fontana <cfontana@suse.de> writes:
 
-> before exporting some functionality from helper.c into a new module,
-> fix the comment style of those functions.
+> in preparation of the creation of a new cpregs module,
+> fix the style for the to-be-exported code.
 >
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
