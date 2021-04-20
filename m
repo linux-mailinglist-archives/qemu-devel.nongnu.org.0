@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF1A365418
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:28:52 +0200 (CEST)
-Received: from localhost ([::1]:55322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8250365461
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:42:23 +0200 (CEST)
+Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYlkZ-0006PT-OQ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48242)
+	id 1lYlxe-0004XV-Ty
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlir-0004ky-VV
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58878)
+ id 1lYliu-0004qK-Mr
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYlim-0002ZJ-M1
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:05 -0400
+ id 1lYlip-0002c0-9k
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:27:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYlij-00028N-Ab
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:57 +0000
+ id 1lYlim-00028S-CP
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:27:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97D422E817F
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 76D4F2E816E
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:26:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Apr 2021 08:20:12 -0000
-From: Thomas Huth <1815993@bugs.launchpad.net>
+Date: Tue, 20 Apr 2021 07:56:23 -0000
+From: Thomas Huth <1808928@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: bitmaps block dirt qcow2
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cyent stefanha th-huth
-X-Launchpad-Bug-Reporter: Cheng Chen (cyent)
+X-Launchpad-Bug-Commenters: catborise jnsnow th-huth
+X-Launchpad-Bug-Reporter: Ali Sag (catborise)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155019981452.28486.1507573377077994257.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161890681242.10076.14420136713641236577.malone@chaenomeles.canonical.com>
-Subject: [Bug 1815993] Re: drive-backup with iscsi will cause vm disk no
- response
+References: <154511858636.8591.3431958243733477284.malonedeb@gac.canonical.com>
+Message-Id: <161890538401.26945.9352891475446371013.malone@gac.canonical.com>
+Subject: [Bug 1808928] Re: Bitmap Extra data is not supported
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
-X-Launchpad-Hash: f3a9810e8a39672a9d613e3e2a908cc915f6e0d8
+X-Launchpad-Hash: d8027ed54d7f643b3bd5435a82501376b1c0eb25
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,18 +71,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815993 <1815993@bugs.launchpad.net>
+Reply-To: Bug 1808928 <1808928@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+John, did you find some spare time to work on those patches that you've
+mentioned? I.e. has this been addressed already?
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -91,79 +85,33 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815993
+https://bugs.launchpad.net/bugs/1808928
 
 Title:
-  drive-backup with iscsi will cause vm disk no response
+  Bitmap Extra data is not supported
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  virsh qemu-monitor-command ${DOMAIN} '{ "execute" : "drive-backup" ,
-  "arguments" : { "device" : "drive-virtio-disk0" , "sync" : "top" ,
-  "target" : "iscsi://192.168.1.100:3260/iqn.2019-01.com.iaas/0" } }'
+  i am using dirty bitmaps and drive-backup. It works as aspected.
 
-  When the drive-backup is running, I manually crash the iscsi server=EF=BC=
-=88or
-  interrupt network, eg. iptables -j DROP=EF=BC=89.
+  Lately, i encounter a disastrous error. There is not any information
+  about that situation. I cannot reach/open/attach/info or anything with
+  a qcow2 file.
 
-  Then after less than 1 minute=EF=BC=9A
-  virsh qemu-monitor-command ${DOMAIN} --pretty '{ "execute": "query-block"=
- }' will block and no any response, until timeout. This is still excusable.
-  But, the disk=EF=BC=88drive-virtio-disk0=EF=BC=89will occur the same situ=
-ation=EF=BC=9Ain vm os, the disk will block and no any response.
+  virsh version
+  Compiled against library: libvirt 4.10.0
+  Using library: libvirt 4.10.0
+  Using API: QEMU 4.10.0
+  Running hypervisor: QEMU 2.12.0
 
-  In other words, when qemu and iscsi-server lose contact, It will cause
-  the vm unable.
+  "qemu-img: Could not open '/var/lib/libvirt/images/test.qcow2': Bitmap
+  extra data is not supported"
 
-  ---
-  Host: centos 7.5
-  qemu version: ovirt-4.2=EF=BC=88qemu-2.12.0=EF=BC=89
-  qemu command line: qemu-system-x86_64 -name guest=3Dtest,debug-threads=3D=
-on -S -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/q=
-emu/domain-190-test./master-key.aes -machine pc-i440fx-3.1,accel=3Dkvm,usb=
-=3Doff,dump-guest-core=3Doff,mem-merge=3Doff -m 1024 -mem-prealloc -mem-pat=
-h /dev/hugepages1G/libvirt/qemu/190-test -realtime mlock=3Doff -smp 1,socke=
-ts=3D1,cores=3D1,threads=3D1 -uuid 1c8611c2-a18a-4b1c-b40b-9d82040eafa4 -sm=
-bios type=3D1,manufacturer=3DIaaS -no-user-config -nodefaults -chardev sock=
-et,id=3Dcharmonitor,fd=3D31,server,nowait -mon chardev=3Dcharmonitor,id=3Dm=
-onitor,mode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot menu=3Don,strict=
-=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -device vi=
-rtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 -drive file=3D/o=
-pt/vol/sas/fb0c7c37-13e7-41fe-b3f8-f0fbaaeec7ce,format=3Dqcow2,if=3Dnone,id=
-=3Ddrive-virtio-disk0,cache=3Dwriteback -device virtio-blk-pci,scsi=3Doff,b=
-us=3Dpci.0,addr=3D0x5,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk0,bootinde=
-x=3D1,write-cache=3Don -drive file=3D/opt/vol/sas/bde66671-536d-49cd-8b46-a=
-4f1ea7be513,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk1,cache=3Dwriteb=
-ack -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x7,drive=3Ddrive-=
-virtio-disk1,id=3Dvirtio-disk1,write-cache=3Don -netdev tap,fd=3D33,id=3Dho=
-stnet0,vhost=3Don,vhostfd=3D34 -device virtio-net-pci,netdev=3Dhostnet0,id=
-=3Dnet0,mac=3D00:85:45:3e:d4:3a,bus=3Dpci.0,addr=3D0x6 -chardev pty,id=3Dch=
-arserial0 -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 -chardev so=
-cket,id=3Dcharchannel0,fd=3D35,server,nowait -device virtserialport,bus=3Dv=
-irtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dorg.qemu=
-.guest_agent.0 -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 -vnc 0.0=
-.0.0:0,password -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 -devi=
-ce virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x4 -msg timestamp=
-=3Don
-
-  iscsi=EF=BC=9A
-  yum -y install targetcli python-rtslib
-  systemctl start target
-  systemctl enable target
-
-  targetcli /iscsi create iqn.2019-01.com.iaas
-
-  targetcli /iscsi/iqn.2019-01.com.iaas/tpg1 set attribute
-  authentication=3D0 demo_mode_write_protect=3D0 generate_node_acls=3D1
-
-  targetcli /iscsi/iqn.2019-01.com.iaas/tpg1/portals create 192.168.1.100 3=
-260
-  targetcli /backstores/fileio create testfile1 /backup/file1 2G
-  targetcli /iscsi/iqn.2019-01.com.iaas/tpg1/luns create /backstores/fileio=
-/testfile1
+  what is that mean? what should i do?
+  i cannot remove bitmap. i cannot open image or query.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1815993/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1808928/+subscriptions
 
