@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99178365651
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:40:35 +0200 (CEST)
-Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D3936564D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 12:38:46 +0200 (CEST)
+Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYno2-0005mV-LV
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:40:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
+	id 1lYnmH-0002Ja-Bf
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 06:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lYnk8-0000GM-MA; Tue, 20 Apr 2021 06:36:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37954)
+ id 1lYnk8-0000Ga-OK; Tue, 20 Apr 2021 06:36:34 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lYnjx-0003nv-BA; Tue, 20 Apr 2021 06:36:32 -0400
+ id 1lYnjx-0003oq-IC; Tue, 20 Apr 2021 06:36:32 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3E21CB4A4;
+ by mx2.suse.de (Postfix) with ESMTP id 92465B4AF;
  Tue, 20 Apr 2021 10:36:19 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [RFC v2 03/13] hw/s390x: tod: make explicit checks for accelerators
- when initializing
-Date: Tue, 20 Apr 2021 12:36:06 +0200
-Message-Id: <20210420103616.32731-4-cfontana@suse.de>
+Subject: [RFC v2 04/13] target/s390x: remove tcg-stub.c
+Date: Tue, 20 Apr 2021 12:36:07 +0200
+Message-Id: <20210420103616.32731-5-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210420103616.32731-1-cfontana@suse.de>
 References: <20210420103616.32731-1-cfontana@suse.de>
@@ -40,7 +39,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,44 +59,65 @@ Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-replace general "else" with specific checks for each possible accelerator.
-
-Handle qtest as a NOP,
-and error out for an unknown accelerator used in combination with tod.
+now that we protect all calls to the tcg-specific functions
+with if (tcg_enabled()), we do not need the TCG stub anymore.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- hw/s390x/tod.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ target/s390x/tcg-stub.c  | 30 ------------------------------
+ target/s390x/meson.build |  2 +-
+ 2 files changed, 1 insertion(+), 31 deletions(-)
+ delete mode 100644 target/s390x/tcg-stub.c
 
-diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
-index 3c2979175e..fd5a36bf24 100644
---- a/hw/s390x/tod.c
-+++ b/hw/s390x/tod.c
-@@ -14,6 +14,8 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
-+#include "sysemu/qtest.h"
- #include "migration/qemu-file-types.h"
- #include "migration/register.h"
+diff --git a/target/s390x/tcg-stub.c b/target/s390x/tcg-stub.c
+deleted file mode 100644
+index d22c898802..0000000000
+--- a/target/s390x/tcg-stub.c
++++ /dev/null
+@@ -1,30 +0,0 @@
+-/*
+- * QEMU TCG support -- s390x specific function stubs.
+- *
+- * Copyright (C) 2018 Red Hat Inc
+- *
+- * Authors:
+- *   David Hildenbrand <david@redhat.com>
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qemu-common.h"
+-#include "cpu.h"
+-#include "tcg_s390x.h"
+-
+-void tcg_s390_tod_updated(CPUState *cs, run_on_cpu_data opaque)
+-{
+-}
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
+-                                              uint32_t code, uintptr_t ra)
+-{
+-    g_assert_not_reached();
+-}
+-void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t dxc,
+-                                           uintptr_t ra)
+-{
+-    g_assert_not_reached();
+-}
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+index 1219f64112..a5e1ded93f 100644
+--- a/target/s390x/meson.build
++++ b/target/s390x/meson.build
+@@ -21,7 +21,7 @@ s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'vec_helper.c',
+   'vec_int_helper.c',
+   'vec_string_helper.c',
+-), if_false: files('tcg-stub.c'))
++))
  
-@@ -23,8 +25,13 @@ void s390_init_tod(void)
+ s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
  
-     if (kvm_enabled()) {
-         obj = object_new(TYPE_KVM_S390_TOD);
--    } else {
-+    } else if (tcg_enabled()) {
-         obj = object_new(TYPE_QEMU_S390_TOD);
-+    } else if (qtest_enabled()) {
-+        return;
-+    } else {
-+        error_report("current accelerator not handled in s390_init_tod!");
-+        abort();
-     }
-     object_property_add_child(qdev_get_machine(), TYPE_S390_TOD, obj);
-     object_unref(obj);
 -- 
 2.26.2
 
