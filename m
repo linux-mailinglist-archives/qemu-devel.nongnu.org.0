@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0D43658E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:26:39 +0200 (CEST)
-Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399703658F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 14:29:25 +0200 (CEST)
+Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYpSg-0005nl-6t
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:26:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56068)
+	id 1lYpVM-0007Oy-Az
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 08:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYpQA-0004qD-JF
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:24:03 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lYpQ7-0007in-0f
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 08:24:02 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- o21-20020a1c4d150000b029012e52898006so10230586wmh.0
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 05:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=bz4Ivl26W/43kJwR+gexX+gIka6Tqh42SO2BM3SNQYs=;
- b=hP+HcmyPLeKxiV4l0PnkAxcTpZWcClW7YWsLQgwxkQSu95Hffho6dnsckOh0L/Aocy
- jT+MiermEJzWmfBY0qmPgfEdWm2l0PegHm6zr4NzkToExCoQ3wlgYdRGW69pT0qPcy9B
- QHhESH9xLAahEFzm4+bi/8L45iU/tM2XbOOFdkjdDxV2k8gphVpLKdf+ezXBX9mhgq1r
- dNy3uMMiEUuBfm0XL+KIX9RNYNfioftTdXcMj+JdK3DaAcAfSwWPEGtnYfda1UA1Pbyc
- RUKTt4eQEi88hDnyZ+Iu3gfH4r4rxCPXkL4Hrjojl+0c/Acn7Dqdva9dmoa9miUQ85gZ
- N2YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=bz4Ivl26W/43kJwR+gexX+gIka6Tqh42SO2BM3SNQYs=;
- b=JLHKONT/1twRY8+lHrjG5imVsNzjedp/O5yyl2qYYDICb6z4++yFxBf4EXuca21dpd
- 4DdcKnATXRgSqdO1uMY3rJLqrZGVx8Z+Y4glMgUFvGrwN0Nu5ZvPO2QkfiDsX8s9cmq6
- dRnc584tSNWhrPpOgwK9nQM9VL4su21Qorz74WV9cKPKYMCzlMqjoxBNJtAQ9/zuh8Ra
- trSWDC44O7RhXCh7SlQVtyURxAGLffvumjAa0dxvCWQG9jK6BSQegGts+bO+RUkBdcyA
- XwW7wH4eqnTUhteHGbeNYY4CC+3vfyzy8uqBfqOIAe2ikHbnhyMerzfQiA9EDgfvUjcW
- Fpzg==
-X-Gm-Message-State: AOAM533hEYOpWUR1Sv4/kkoZRgIG46oEFXFuq7aMExpTSUtD/UTCnK9n
- rrE6uUA9V64rfAPG3TAeiKN/HQ==
-X-Google-Smtp-Source: ABdhPJyJW/f3LVCUCVBmBf9h4vC6wxKyjqqjNXeDA8qm6drIsSGYXszZZ1BK/P982T5mf6AqgjtkPw==
-X-Received: by 2002:a7b:c40d:: with SMTP id k13mr4266248wmi.116.1618921437383; 
- Tue, 20 Apr 2021 05:23:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b15sm3124768wmj.46.2021.04.20.05.23.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 05:23:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E1B91FF7E;
- Tue, 20 Apr 2021 13:23:55 +0100 (BST)
-References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
- <20210420013308.813323-2-matheus.ferst@eldorado.org.br>
- <YH5RkjCx2Bk4mbop@yekko.fritz.box>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 1/2] tests/docker: gcc-10 based images for ppc64{,
- le} tests
-Date: Tue, 20 Apr 2021 13:20:26 +0100
-In-reply-to: <YH5RkjCx2Bk4mbop@yekko.fritz.box>
-Message-ID: <87eef587qc.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <arnd@arndb.de>)
+ id 1lYpT8-0006b0-Ug; Tue, 20 Apr 2021 08:27:07 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:45597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arnd@arndb.de>)
+ id 1lYpSx-0000hx-MH; Tue, 20 Apr 2021 08:27:05 -0400
+Received: from mail-wm1-f49.google.com ([209.85.128.49]) by
+ mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MoNyA-1lsX6a1Gxs-00omXw; Tue, 20 Apr 2021 14:26:44 +0200
+Received: by mail-wm1-f49.google.com with SMTP id
+ t14-20020a05600c198eb029012eeb3edfaeso10100419wmq.2; 
+ Tue, 20 Apr 2021 05:26:44 -0700 (PDT)
+X-Gm-Message-State: AOAM5319zJ97QzqnE5bPMz5hvlW+wZZmb8ik4F1Kx6vtCBTbEvgXfcws
+ g97F8cIX/GyJ4OG7SjQAkdzK3XrkcZ0913wkYUE=
+X-Google-Smtp-Source: ABdhPJzzH/3t3TG94dZXiQdv4zy0WWlqYsKIrKmJ4UDLYfPin+YjtDuGo7NZV7y/wmB5Cl4ZKkTZhmQwPLoJu82qEgk=
+X-Received: by 2002:a1c:6382:: with SMTP id x124mr4257008wmb.142.1618921603890; 
+ Tue, 20 Apr 2021 05:26:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210325163315.27724-1-peter.maydell@linaro.org>
+ <1df78911-9858-b747-b22b-7e5254cd3cac@amsat.org>
+ <CAFEAcA_TuKCJ31xsv_j49oQfOFuEipmMnsNb2czPZRMPTN=wxg@mail.gmail.com>
+ <bb3cc932-5111-c388-2770-3c1110dbc89f@amsat.org>
+In-Reply-To: <bb3cc932-5111-c388-2770-3c1110dbc89f@amsat.org>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 20 Apr 2021 14:26:27 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3zeYC0wiT2Or3RicPbVBY4TJCOTa6ZN3rT=e4XGR-eCA@mail.gmail.com>
+Message-ID: <CAK8P3a3zeYC0wiT2Or3RicPbVBY4TJCOTa6ZN3rT=e4XGR-eCA@mail.gmail.com>
+Subject: Re: [PATCH v2 for-6.0?] hw/pci-host/gpex: Don't fault for unmapped
+ parts of MMIO and PIO windows
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:w3zfaopnzGc6TlSPbWcxcOzN1AvR0c0ZRp0tG6M7CugebnJmTNI
+ TpSVEOv9QVLBjQryMKL5rQBRXKb+N8xL3V4gwkfOhJRH40+R5F0jMbvfjwBE2mnbej+twz3
+ fBkwb2evNUB6hstnnEmqTDHMOwm1ekI/MqnLfqJK1utAFaj8mrimtC6ibEgSQSwzZDdlTVh
+ kPn2OGdIIDuhaUj1kajTA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sJyoyYzSyMU=:qH9ALZbYpNQyIC9y1HVMDK
+ fxbESdtOeE1Om9GhQ8gKvZvYGOKrCfyInf6mq0cI7uH9bqwvZdIhAlvnj9zg9hYF3VvklFlGz
+ Z6oj4BJPVAdiwhdHkrS5time8QchCAehWNTeNJ2VtnmzXQ5vJwOJGYroz3j88jPc1Wfxhwuxq
+ iyEbOglmhzNPtbv2FAWPfKi4b/W1ym2D4kqB6keYF2P5SISy1GX/PNcysHprAqLhybMjBt/5c
+ kHY96oJmyKviJr6GJLLteCg/OtYKX7VQlyDMNDpVixJv+lkPHXs+DTdzbK0So3G16nUNrhOE6
+ H+cq6ahjeGm4eWdlG88mZrmvfiflC2W0OKrHM7ANqZQSAZ4yc7o6ilSOkvFS+o5WDOsNUM8sI
+ dzxwBbOJQm/ZBKBYszP6G18iB56xOm5gVMxK/oOdOXSAft9Imtb9lDwYpwL6hllOIvAUvA5wQ
+ ndwRTFOlmJk8HmYSDHXBvJeQesRVtJDnMJo025r2eBp5kZ8mDVCWKFOa2DnCOWifZ3Mzn9zSJ
+ stNO9JVkRZ33XusOuHpa8w=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=arnd@arndb.de;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,140 +76,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@protonmail.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- qemu-ppc@nongnu.org, bruno.larsen@eldorado.org.br,
- matheus.ferst@eldorado.org.br
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-David Gibson <david@gibson.dropbear.id.au> writes:
-
-> On Mon, Apr 19, 2021 at 10:33:07PM -0300, matheus.ferst@eldorado.org.br w=
-rote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>=20
->> A newer compiler is needed to build tests for Power10 instructions. As
->> done for arm64 on c729a99d2701, a new '-test-cross' image is created for
->> ppc64 and ppc64le. As done on 936fda4d771f, a test for compiler support
->> is added to verify that the toolchain in use has '-mpower10'.
->>=20
->> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> ---
->>  tests/docker/Makefile.include                   |  2 ++
->>  .../debian-powerpc-test-cross.docker            | 17 +++++++++++++++++
->>  tests/tcg/configure.sh                          | 12 ++++++++----
->>  3 files changed, 27 insertions(+), 4 deletions(-)
->>  create mode 100644 tests/docker/dockerfiles/debian-powerpc-test-cross.d=
-ocker
->>=20
->> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.inclu=
-de
->> index 9f464cb92c..f1dbcc639f 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -152,10 +152,12 @@ docker-image-debian-sparc64-cross: docker-image-de=
-bian10
->>  docker-image-debian-tricore-cross: docker-image-debian10
->>  docker-image-debian-all-test-cross: docker-image-debian10
->>  docker-image-debian-arm64-test-cross: docker-image-debian11
->> +docker-image-debian-power-test-cross: docker-image-debian11
->>=20=20
->>  # These images may be good enough for building tests but not for test b=
-uilds
->>  DOCKER_PARTIAL_IMAGES +=3D debian-alpha-cross
->>  DOCKER_PARTIAL_IMAGES +=3D debian-arm64-test-cross
->> +DOCKER_PARTIAL_IMAGES +=3D debian-power-test-cross
+On Tue, Apr 20, 2021 at 1:52 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+> On 4/19/21 3:42 PM, Peter Maydell wrote:
+> >>
+> >> I suspect PCI-ISA bridges to provide an EISA bus.
+> >
+> > I'm not sure what you mean here -- there isn't an ISA bridge
+> > or an EISA bus involved here. This is purely about the behaviour
+> > of the memory window the PCI host controller exposes to the CPU
+> > (and in particular the window for when a PCI device's BAR is
+> > set to "IO" rather than "MMIO"), though we change both here.
 >
-> You add these "power" (as opposed to "powerpc" or "ppc64" or whatever)
-> images here, but they don't seem to be referenced anywhere else.
->
->>  DOCKER_PARTIAL_IMAGES +=3D debian-hppa-cross
->>  DOCKER_PARTIAL_IMAGES +=3D debian-m68k-cross debian-mips64-cross
->>  DOCKER_PARTIAL_IMAGES +=3D debian-powerpc-cross debian-ppc64-cross
+> I guess I always interpreted the IO BAR were here to address ISA
+> backward compatibility. I don't know well PCI so I'll study it
+> more. Sorry for my confused comment.
 
-I was expecting the new debian-power-test-cross to replace both
-debian-powerpc-cross and debian-ppc64-cross.
+It is mostly for compatibility, but there are many layers of it:
 
->> diff --git a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker b=
-/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
->> new file mode 100644
->> index 0000000000..36b336f709
->> --- /dev/null
->> +++ b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
->> @@ -0,0 +1,17 @@
->> +#
->> +# Docker powerpc/ppc64/ppc64le cross-compiler target
->> +#
->> +# This docker target builds on the debian Bullseye base image.
->> +#
->> +FROM qemu/debian11
->> +
->> +RUN apt update && \
->> +    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->> +    apt install -y --no-install-recommends \
->> +        gcc-powerpc-linux-gnu \
->> +        libc6-dev-powerpc-cross \
->> +        gcc-10-powerpc64-linux-gnu \
->> +        libc6-dev-ppc64-cross \
->> +        gcc-10-powerpc64le-linux-gnu \
->> +        libc6-dev-ppc64el-cross
->
-> I'm not really clear on what distinguishes a -cross.docker image and a
-> -test-cross.docker image.
+- PCI supports actual ISA/EISA/VLB/PCMCIA/LPC/PC104/... style
+  devices behind a bridge, using I/O ports at their native address.
 
-The normal cross image (debian-ppc64le-cross) can cross build QEMU. The
--test-cross images are just used for building check-tcg test cases.
+- PCI devices themselves can have fixed I/O ports at well-known
+  addresses, e.g. VGA or IDE/ATA adapters
 
->
->> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
->> index fa1a4261a4..a0be066499 100755
->> --- a/tests/tcg/configure.sh
->> +++ b/tests/tcg/configure.sh
->> @@ -170,13 +170,13 @@ for target in $target_list; do
->>        ;;
->>      ppc64-*)
->>        container_hosts=3Dx86_64
->> -      container_image=3Ddebian-ppc64-cross
->> -      container_cross_cc=3Dpowerpc64-linux-gnu-gcc
->> +      container_image=3Ddebian-powerpc-test-cross
->> +      container_cross_cc=3Dpowerpc64-linux-gnu-gcc-10
->>        ;;
->>      ppc64le-*)
->>        container_hosts=3Dx86_64
->> -      container_image=3Ddebian-ppc64el-cross
->> -      container_cross_cc=3Dpowerpc64le-linux-gnu-gcc
->> +      container_image=3Ddebian-powerpc-test-cross
->> +      container_cross_cc=3Dpowerpc64le-linux-gnu-gcc-10
->
-> Doesn't this remove all uses of the debian-pp64-cross and
+- PCI devices can behave like legacy devices using port I/O
+  but use PCI resource assignment to pick an arbitrary port
+  number outside of the legacy range
 
-Yes this should be removed.
+- PCIe can support all of the above by virtue of being backwards
+  compatible with PCI and allowing PCI buses behind bridges,
+  though port I/O is deprecated here and often not supported at all
 
-> debian-ppc64el-cross images, in which case you could remove the
-> matching docker files and so forth too, no?
+The first two are very rare these days, but Linux still support them
+in order to run on old hardware, and any driver for these that
+assumes a hardcoded port number can crash the kernel if the
+PCI host bridge causes an asynchronous external abort or
+similar.
 
-Well I assume you still want to check cross building of QEMU. Arguably
-we could still use that for the test cases as well.
-
->
->>        ;;
->>      riscv64-*)
->>        container_hosts=3Dx86_64
->> @@ -280,6 +280,10 @@ for target in $target_list; do
->>                 -mpower8-vector -o $TMPE $TMPC; then
->>                  echo "CROSS_CC_HAS_POWER8_VECTOR=3Dy" >> $config_target=
-_mak
->>              fi
->> +            if do_compiler "$target_compiler" $target_compiler_cflags \
->> +               -mpower10 -o $TMPE $TMPC; then
->> +                echo "CROSS_CC_HAS_POWER10=3Dy" >> $config_target_mak
->> +            fi
->>          ;;
->>          i386-linux-user)
->>              if do_compiler "$target_compiler" $target_compiler_cflags \
-
-
---=20
-Alex Benn=C3=A9e
+       Arnd
 
