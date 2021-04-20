@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3093736538E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:51:57 +0200 (CEST)
-Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7963653B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 10:03:24 +0200 (CEST)
+Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYlAp-0006gb-QJ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:51:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40624)
+	id 1lYlLu-0000Gk-QC
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 04:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYl9s-0006GB-Sa
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:50:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYl9q-0005ei-IR
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:50:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYl9o-0007Zb-M9
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:50:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A0DBF2E8162
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:50:52 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Apr 2021 07:35:57 -0000
-From: Mauro Matteo Cascella <1914236@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lYlJr-0007qT-Im
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:01:15 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.161]:13562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lYlJl-0003pn-SP
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 04:01:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618905661; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=cBEG5L7nh0pOj6g9s0MxPCLb4GS8/SCk3x3Kvbl/ZfmIFOUdKv8cqOrVYyQuLJ9VKl
+ mYLwL5p5GAp6OEtoVrZFXxW2rLDrBhkrM3SemgCLBRBu7Jvdidhvzok7cNJHSMybEMHW
+ WGReZMKiX7FliOF8JxPWf18WzHNvbmTFMcV5cdSyeKTeb/r9dY6vwt3vfPbtO1kQ5UKR
+ t77sT9nQmtySLSHOlod33j7OCe23WqzQTpkKvsUgTS5du8dMNZ4XF2vEXsap00Q4ccuu
+ rnx+ePJDH44qfG3hLfeOu65ViTLtD5rmUYgtazJBUi2OnZOARteq74o3BXb3xJyyC5VR
+ s2xQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1618905661;
+ s=strato-dkim-0002; d=strato.com;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=7Sh55K/F7w1ZBzAodFu9LVtS5Id0WzEAGTFvmmpQOAg=;
+ b=OwFYSjNIqvnNLJKDCu60POuI+yuUfsjppwxy7JPStJMIrTPlqhwsZTvmgn9PJ7w0EW
+ yV+N2WLdfIrgMjp5aSSG1wFVhtvuFoEVzA8BcV3L6OnMM8oDyhm7ffEjxJZHhwRhJlJ5
+ Dd7iewBJwr//1LOGMDif9+OfmhEQ/a2Y/+uxH3j9CHR++EMI9TRyB7iQQugS4dXRT7Lb
+ z59AonIcLX1g9vq2tLpLZjzXgn7Mxk0iqQdqtuWGm9oynWwvAjlD5cvVEU2Y8qwvqqSO
+ PeKboXQEhfNrz6Y5/BgLKcGzXH4eRxoSsOBaEncesxBlt69okcVdfIQLlU5Pnq+UDitK
+ KUJA==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JTjr0xj1uUQtYCbJnQWxZdfYU8aMV5SG09PnM3A=="
+X-RZG-CLASS-ID: mo00
+Received: from alwagner-T470s.aisec.fraunhofer.de
+ by smtp.strato.de (RZmta 47.24.3 AUTH)
+ with ESMTPSA id U051a9x3K810HfR
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 20 Apr 2021 10:01:00 +0200 (CEST)
+From: Alexander Wagner <alexander.wagner@ulal.de>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: cve security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: mauro-cascella pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
-X-Launchpad-Bug-Modifier: Mauro Matteo Cascella (mauro-cascella)
-References: <161227122749.4264.9390983978445748910.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161890415731.5687.14255170709920974517.malone@soybean.canonical.com>
-Subject: [Bug 1914236] Re: QEMU: scsi: use-after-free in
- mptsas_process_scsi_io_request() of mptsas1068 emulator
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
-X-Launchpad-Hash: 57e6a40c6b16b4e6e0011b6cc6e0807002f2cb0d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Subject: [PATCH v2] hw/riscv: Fix OT IBEX reset vector
+Date: Tue, 20 Apr 2021 10:00:08 +0200
+Message-Id: <20210420080008.119798-1-alexander.wagner@ulal.de>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=81.169.146.161;
+ envelope-from=alexander.wagner@ulal.de; helo=mo4-p00-ob.smtp.rzone.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,136 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914236 <1914236@bugs.launchpad.net>
+Cc: kbastian@mail.uni-paderborn.de, Alistair Francis <alistair.francis@wdc.com>,
+ palmer@dabbelt.com, Alexander Wagner <alexander.wagner@ulal.de>,
+ sagark@eecs.berkeley.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Upstream commit:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D3791642c8d60029adf9b00bcb=
-4e34d7d8a1aea4d
+The IBEX documentation [1] specifies the reset vector to be "the most
+significant 3 bytes of the boot address and the reset value (0x80) as
+the least significant byte".
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+[1] https://github.com/lowRISC/ibex/blob/master/doc/03_reference/exception_interrupts.rst
 
--- =
+Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ hw/riscv/opentitan.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914236
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index e168bffe69..ca4c1be6f6 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -120,7 +120,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
+-    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8090, &error_abort);
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
+ 
+     /* Boot ROM */
+-- 
+2.25.1
 
-Title:
-  QEMU: scsi: use-after-free in mptsas_process_scsi_io_request() of
-  mptsas1068 emulator
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  * Cheolwoo Myung of Seoul National University reported a use-after-free i=
-ssue in the SCSI Megaraid
-    emulator of the QEMU.
-
-  * It occurs while handling mptsas_process_scsi_io_request(), as it does n=
-ot
-    check a list in s->pending.
-
-  * This was found in version 5.2.0 (master)
-
-  =3D=3D31872=3D=3DERROR: AddressSanitizer: heap-use-after-free on address
-  0x60c000107568 at pc 0x564514950c7c bp 0x7fff524ef4b0 sp 0x7fff524ef4a0 W=
-RITE of size 8 at 0x60c000107568 thread T0
-  #0 0x564514950c7b in mptsas_process_scsi_io_request ../hw/scsi/mptsas.c:3=
-06
-  #1 0x564514950c7b in mptsas_fetch_request ../hw/scsi/mptsas.c:775
-  #2 0x564514950c7b in mptsas_fetch_requests ../hw/scsi/mptsas.c:790
-  #3 0x56451585c25d in aio_bh_poll ../util/async.c:164
-  #4 0x5645158d7e7d in aio_dispatch ../util/aio-posix.c:381
-  #5 0x56451585be2d in aio_ctx_dispatch ../util/async.c:306
-  #6 0x7f1cc8af4416 in g_main_context_dispatch
-  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c416)
-  #7 0x56451583f059 in glib_pollfds_poll ../util/main-loop.c:221
-  #8 0x56451583f059 in os_host_main_loop_wait ../util/main-loop.c:244
-  #9 0x56451583f059 in main_loop_wait ../util/main-loop.c:520
-  #10 0x56451536b181 in qemu_main_loop ../softmmu/vl.c:1537
-  #11 0x5645143ddd3d in main ../softmmu/main.c:50
-  #12 0x7f1cc2650b96 in __libc_start_main
-  (/lib/x86_64-linux-gnu/libc.so.6+0x21b96)
-  #13 0x5645143eece9 in _start
-  (/home/cwmyung/prj/hyfuzz/src/qemu-repro/build/qemu-system-i386+0x1d55ce9)
-
-  0x60c000107568 is located 104 bytes inside of 120-byte region
-  [0x60c000107500,0x60c000107578)
-  freed by thread T0 here:
-  #0 0x7f1cca9777a8 in __interceptor_free
-  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xde7a8)
-  #1 0x56451495008b in mptsas_process_scsi_io_request ../hw/scsi/mptsas.c:3=
-58
-  #2 0x56451495008b in mptsas_fetch_request ../hw/scsi/mptsas.c:775
-  #3 0x56451495008b in mptsas_fetch_requests ../hw/scsi/mptsas.c:790
-  #4 0x7fff524ef8bf (<unknown module>)
-
-  previously allocated by thread T0 here:
-  #0 0x7f1cca977d28 in __interceptor_calloc
-  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
-  #1 0x7f1cc8af9b10 in g_malloc0
-  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51b10)
-  #2 0x7fff524ef8bf (<unknown module>)
-
-  SUMMARY: AddressSanitizer: heap-use-after-free ../hw/scsi/mptsas.c:306
-  in mptsas_process_scsi_io_request
-  Shadow bytes around the buggy address:
-  0x0c1880018e50: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
-  0x0c1880018e60: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
-  0x0c1880018e70: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-  0x0c1880018e80: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
-  0x0c1880018e90: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
-  =3D>0x0c1880018ea0: fd fd fd fd fd fd fd fd fd fd fd fd fd[fd]fd fa
-  0x0c1880018eb0: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
-  0x0c1880018ec0: 00 00 00 00 00 00 00 fa fa fa fa fa fa fa fa fa
-  0x0c1880018ed0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x0c1880018ee0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x0c1880018ef0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable: 00
-  Partially addressable: 01 02 03 04 05 06 07
-  Heap left redzone: fa
-  Freed heap region: fd
-  Stack left redzone: f1
-  Stack mid redzone: f2
-  Stack right redzone: f3
-  Stack after return: f5
-  Stack use after scope: f8
-  Global redzone: f9
-  Global init order: f6
-  Poisoned by user: f7
-  Container overflow: fc
-  Array cookie: ac
-  Intra object redzone: bb
-  ASan internal: fe
-  Left alloca redzone: ca
-  Right alloca redzone: cb
-  =3D=3D31872=3D=3DABORTING
-
-  =
-
-  To reproduce this issue, please run the QEMU with the following command
-  line.
-
-  =
-
-  # To enable ASan option, please set configuration with the following comm=
-and
-  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
-tizers
-  $ make
-
-  # To reproduce this issue, please run the QEMU process with the
-  following command line.
-  $ ./qemu-system-i386 -m 512 -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device
-  mptsas1068,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive
-  id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914236/+subscriptions
 
