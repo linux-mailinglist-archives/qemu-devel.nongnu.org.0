@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFC9365C22
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:25:34 +0200 (CEST)
-Received: from localhost ([::1]:42440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D8F365C1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:24:49 +0200 (CEST)
+Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYsFp-0000Wp-Jw
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50288)
+	id 1lYsF6-0007jU-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lYsCS-0005h2-LW
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:22:06 -0400
-Received: from mga05.intel.com ([192.55.52.43]:37555)
+ id 1lYsCW-0005jB-P6
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:22:09 -0400
+Received: from mga05.intel.com ([192.55.52.43]:37566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lYsCQ-0004Vw-PH
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:22:04 -0400
-IronPort-SDR: emEbazlew5gWhc3nmVncniMqXl6891wxiIoGxUcTjo6K42ImJu9pOqJBA0lNUq73DRo+1+MQ0m
- sbwO/ciXBQCg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="280854218"
-X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="280854218"
+ id 1lYsCU-0004ah-9E
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:22:08 -0400
+IronPort-SDR: bFbqxyWAkna8lQpX70EJyGgNipd4f6FiFeGRFwgXfJuALEQ4jq6mSXLhwFDNmWsoO0oUbUfO9z
+ W/9El8t1vVEQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="280854232"
+X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="280854232"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 08:22:01 -0700
-IronPort-SDR: hNQ8/HiT6ZmzoZNMJWi0r5ZyGS9Wg7Fkr8x2mZZcefwrY7WxLOF05TMPbGioEjf9ZsMtflT1lH
- ENJm3Bxcbg3w==
-X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="523846719"
+ 20 Apr 2021 08:22:05 -0700
+IronPort-SDR: mR+Ouolb66+uVwDMmIiilcXdG/qtHPUK3Mz1XTkD0dyqr38yfvn+QxeyQ5gc5gU7lKqrHboDQ3
+ EIZAuACHcEFA==
+X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="523846734"
 Received: from unknown (HELO tkid-nvme.lan) ([10.239.13.19])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 08:21:59 -0700
+ 20 Apr 2021 08:22:02 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Eric Blake <eblake@redhat.com>,
@@ -39,9 +39,10 @@ To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH V6 3/6] hmp-commands: Add new HMP command for COLO passthrough
-Date: Tue, 20 Apr 2021 23:15:34 +0800
-Message-Id: <20210420151537.64360-4-chen.zhang@intel.com>
+Subject: [PATCH V6 4/6] net/colo-compare: Move data structure and define to .h
+ file.
+Date: Tue, 20 Apr 2021 23:15:35 +0800
+Message-Id: <20210420151537.64360-5-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210420151537.64360-1-chen.zhang@intel.com>
 References: <20210420151537.64360-1-chen.zhang@intel.com>
@@ -71,159 +72,374 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add hmp_colo_passthrough_add and hmp_colo_passthrough_del make user
-can maintain COLO network passthrough list in human monitor
+Rename structure with COLO index and move it to .h file,
+It make other modules can reuse COLO code.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- hmp-commands.hx       | 26 ++++++++++++++
- include/monitor/hmp.h |  2 ++
- monitor/hmp-cmds.c    | 82 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 110 insertions(+)
+ net/colo-compare.c | 134 +++++----------------------------------------
+ net/colo-compare.h | 106 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 120 insertions(+), 120 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 435c591a1c..cbb08623c7 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1290,6 +1290,32 @@ SRST
-   Remove host network device.
- ERST
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 9d1ad99941..b51b1437ef 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -17,44 +17,24 @@
+ #include "qemu/error-report.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+-#include "net/net.h"
+ #include "net/eth.h"
+ #include "qom/object_interfaces.h"
+ #include "qemu/iov.h"
+ #include "qom/object.h"
+ #include "net/queue.h"
+-#include "chardev/char-fe.h"
+ #include "qemu/sockets.h"
+-#include "colo.h"
+-#include "sysemu/iothread.h"
+ #include "net/colo-compare.h"
+-#include "migration/colo.h"
+-#include "migration/migration.h"
+ #include "util.h"
  
-+    {
-+        .name       = "colo_passthrough_add",
-+        .args_type  = "protocol:s,object-name:s?,src:s?,dst:s?",
-+        .params     = "protocol [object-name] [src] [dst]",
-+        .help       = "Add network stream to colo passthrough list",
-+        .cmd        = hmp_colo_passthrough_add,
-+    },
-+
-+SRST
-+``colo_passthrough_add``
-+  Add network stream to colo passthrough list.
-+ERST
-+
-+    {
-+        .name       = "colo_passthrough_del",
-+        .args_type  = "protocol:s,object-name:s?,src:s?,dst:s?",
-+        .params     = "protocol [object-name] [src] [dst]",
-+        .help       = "Delete network stream from colo passthrough list",
-+        .cmd        = hmp_colo_passthrough_del,
-+    },
-+
-+SRST
-+``colo_passthrough_del``
-+  Delete network stream from colo passthrough list.
-+ERST
-+
-     {
-         .name       = "object_add",
-         .args_type  = "object:S",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 605d57287a..a784f98531 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -77,6 +77,8 @@ void hmp_device_del(Monitor *mon, const QDict *qdict);
- void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict);
- void hmp_netdev_add(Monitor *mon, const QDict *qdict);
- void hmp_netdev_del(Monitor *mon, const QDict *qdict);
-+void hmp_colo_passthrough_add(Monitor *mon, const QDict *qdict);
-+void hmp_colo_passthrough_del(Monitor *mon, const QDict *qdict);
- void hmp_getfd(Monitor *mon, const QDict *qdict);
- void hmp_closefd(Monitor *mon, const QDict *qdict);
- void hmp_sendkey(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 0ad5b77477..6991b03075 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1634,6 +1634,88 @@ void hmp_netdev_del(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
+ #include "block/aio-wait.h"
+ #include "qemu/coroutine.h"
  
-+void hmp_colo_passthrough_add(Monitor *mon, const QDict *qdict)
-+{
-+    IPFlowSpec *spec = g_new0(IPFlowSpec, 1);
-+    char *src, *dst;
-+    Error *err = NULL;
-+
-+    spec->protocol = g_strdup(qdict_get_try_str(qdict, "protocol"));
-+    spec->object_name = g_strdup(qdict_get_try_str(qdict, "object-name"));
-+
-+    src = g_strdup(qdict_get_try_str(qdict, "src"));
-+    if (src) {
-+        spec->source = g_new0(InetSocketAddressBase, 1);
-+
-+        if (inet_parse_base(spec->source, src, NULL)) {
-+            monitor_printf(mon, "bad colo passthrough src address");
-+            goto out;
-+        }
-+    }
-+
-+    dst = g_strdup(qdict_get_try_str(qdict, "dst"));
-+    if (dst) {
-+        spec->destination = g_new0(InetSocketAddressBase, 1);
-+
-+        if (inet_parse_base(spec->destination, dst, NULL)) {
-+            monitor_printf(mon, "bad colo passthrough dst address");
-+            goto out;
-+        }
-+    }
-+
-+    qmp_colo_passthrough_add(spec, &err);
-+
-+out:
-+    g_free(src);
-+    src = NULL;
-+
-+    g_free(dst);
-+    dst = NULL;
-+
-+    hmp_handle_error(mon, err);
-+}
-+
-+void hmp_colo_passthrough_del(Monitor *mon, const QDict *qdict)
-+{
-+    IPFlowSpec *spec = g_new0(IPFlowSpec, 1);
-+    char *src, *dst;
-+    Error *err = NULL;
-+
-+    spec->protocol = g_strdup(qdict_get_try_str(qdict, "protocol"));
-+    spec->object_name = g_strdup(qdict_get_try_str(qdict, "object-name"));
-+
-+    src = g_strdup(qdict_get_try_str(qdict, "src"));
-+    if (src) {
-+        spec->source = g_new0(InetSocketAddressBase, 1);
-+
-+        if (inet_parse_base(spec->source, src, NULL)) {
-+            monitor_printf(mon, "bad colo passthrough src address");
-+            goto out;
-+        }
-+    }
-+
-+    dst = g_strdup(qdict_get_try_str(qdict, "dst"));
-+    if (dst) {
-+        spec->destination = g_new0(InetSocketAddressBase, 1);
-+
-+        if (inet_parse_base(spec->destination, dst, NULL)) {
-+            monitor_printf(mon, "bad colo passthrough dst address");
-+            goto out;
-+        }
-+    }
-+
-+    qmp_colo_passthrough_del(spec, &err);
-+
-+out:
-+    g_free(src);
-+    src = NULL;
-+
-+    g_free(dst);
-+    dst = NULL;
-+
-+    hmp_handle_error(mon, err);
-+}
-+
- void hmp_object_add(Monitor *mon, const QDict *qdict)
+-#define TYPE_COLO_COMPARE "colo-compare"
+-typedef struct CompareState CompareState;
+-DECLARE_INSTANCE_CHECKER(CompareState, COLO_COMPARE,
+-                         TYPE_COLO_COMPARE)
+-
+ static QTAILQ_HEAD(, CompareState) net_compares =
+        QTAILQ_HEAD_INITIALIZER(net_compares);
+ 
+ static NotifierList colo_compare_notifiers =
+     NOTIFIER_LIST_INITIALIZER(colo_compare_notifiers);
+ 
+-#define COMPARE_READ_LEN_MAX NET_BUFSIZE
+-#define MAX_QUEUE_SIZE 1024
+-
+-#define COLO_COMPARE_FREE_PRIMARY     0x01
+-#define COLO_COMPARE_FREE_SECONDARY   0x02
+-
+-#define REGULAR_PACKET_CHECK_MS 1000
+-#define DEFAULT_TIME_OUT_MS 3000
+-
+ /* #define DEBUG_COLO_PACKETS */
+ 
+ static QemuMutex colo_compare_mutex;
+@@ -64,92 +44,6 @@ static QemuCond event_complete_cond;
+ static int event_unhandled_count;
+ static uint32_t max_queue_size;
+ 
+-/*
+- *  + CompareState ++
+- *  |               |
+- *  +---------------+   +---------------+         +---------------+
+- *  |   conn list   + - >      conn     + ------- >      conn     + -- > ......
+- *  +---------------+   +---------------+         +---------------+
+- *  |               |     |           |             |          |
+- *  +---------------+ +---v----+  +---v----+    +---v----+ +---v----+
+- *                    |primary |  |secondary    |primary | |secondary
+- *                    |packet  |  |packet  +    |packet  | |packet  +
+- *                    +--------+  +--------+    +--------+ +--------+
+- *                        |           |             |          |
+- *                    +---v----+  +---v----+    +---v----+ +---v----+
+- *                    |primary |  |secondary    |primary | |secondary
+- *                    |packet  |  |packet  +    |packet  | |packet  +
+- *                    +--------+  +--------+    +--------+ +--------+
+- *                        |           |             |          |
+- *                    +---v----+  +---v----+    +---v----+ +---v----+
+- *                    |primary |  |secondary    |primary | |secondary
+- *                    |packet  |  |packet  +    |packet  | |packet  +
+- *                    +--------+  +--------+    +--------+ +--------+
+- */
+-
+-typedef struct SendCo {
+-    Coroutine *co;
+-    struct CompareState *s;
+-    CharBackend *chr;
+-    GQueue send_list;
+-    bool notify_remote_frame;
+-    bool done;
+-    int ret;
+-} SendCo;
+-
+-typedef struct SendEntry {
+-    uint32_t size;
+-    uint32_t vnet_hdr_len;
+-    uint8_t *buf;
+-} SendEntry;
+-
+-struct CompareState {
+-    Object parent;
+-
+-    char *pri_indev;
+-    char *sec_indev;
+-    char *outdev;
+-    char *notify_dev;
+-    CharBackend chr_pri_in;
+-    CharBackend chr_sec_in;
+-    CharBackend chr_out;
+-    CharBackend chr_notify_dev;
+-    SocketReadState pri_rs;
+-    SocketReadState sec_rs;
+-    SocketReadState notify_rs;
+-    SendCo out_sendco;
+-    SendCo notify_sendco;
+-    bool vnet_hdr;
+-    uint64_t compare_timeout;
+-    uint32_t expired_scan_cycle;
+-
+-    /*
+-     * Record the connection that through the NIC
+-     * Element type: Connection
+-     */
+-    GQueue conn_list;
+-    /* Record the connection without repetition */
+-    GHashTable *connection_track_table;
+-
+-    IOThread *iothread;
+-    GMainContext *worker_context;
+-    QEMUTimer *packet_check_timer;
+-
+-    QEMUBH *event_bh;
+-    enum colo_event event;
+-
+-    QTAILQ_ENTRY(CompareState) next;
+-};
+-
+-typedef struct CompareClass {
+-    ObjectClass parent_class;
+-} CompareClass;
+-
+-enum {
+-    PRIMARY_IN = 0,
+-    SECONDARY_IN,
+-};
+-
+ static const char *colo_mode[] = {
+     [PRIMARY_IN] = "primary",
+     [SECONDARY_IN] = "secondary",
+@@ -737,19 +631,19 @@ static void colo_compare_connection(void *opaque, void *user_data)
+ 
+ static void coroutine_fn _compare_chr_send(void *opaque)
  {
-     const char *options = qdict_get_str(qdict, "object");
+-    SendCo *sendco = opaque;
++    COLOSendCo *sendco = opaque;
+     CompareState *s = sendco->s;
+     int ret = 0;
+ 
+     while (!g_queue_is_empty(&sendco->send_list)) {
+-        SendEntry *entry = g_queue_pop_tail(&sendco->send_list);
++        COLOSendEntry *entry = g_queue_pop_tail(&sendco->send_list);
+         uint32_t len = htonl(entry->size);
+ 
+         ret = qemu_chr_fe_write_all(sendco->chr, (uint8_t *)&len, sizeof(len));
+ 
+         if (ret != sizeof(len)) {
+             g_free(entry->buf);
+-            g_slice_free(SendEntry, entry);
++            g_slice_free(COLOSendEntry, entry);
+             goto err;
+         }
+ 
+@@ -766,7 +660,7 @@ static void coroutine_fn _compare_chr_send(void *opaque)
+ 
+             if (ret != sizeof(len)) {
+                 g_free(entry->buf);
+-                g_slice_free(SendEntry, entry);
++                g_slice_free(COLOSendEntry, entry);
+                 goto err;
+             }
+         }
+@@ -777,12 +671,12 @@ static void coroutine_fn _compare_chr_send(void *opaque)
+ 
+         if (ret != entry->size) {
+             g_free(entry->buf);
+-            g_slice_free(SendEntry, entry);
++            g_slice_free(COLOSendEntry, entry);
+             goto err;
+         }
+ 
+         g_free(entry->buf);
+-        g_slice_free(SendEntry, entry);
++        g_slice_free(COLOSendEntry, entry);
+     }
+ 
+     sendco->ret = 0;
+@@ -790,9 +684,9 @@ static void coroutine_fn _compare_chr_send(void *opaque)
+ 
+ err:
+     while (!g_queue_is_empty(&sendco->send_list)) {
+-        SendEntry *entry = g_queue_pop_tail(&sendco->send_list);
++        COLOSendEntry *entry = g_queue_pop_tail(&sendco->send_list);
+         g_free(entry->buf);
+-        g_slice_free(SendEntry, entry);
++        g_slice_free(COLOSendEntry, entry);
+     }
+     sendco->ret = ret < 0 ? ret : -EIO;
+ out:
+@@ -808,8 +702,8 @@ static int compare_chr_send(CompareState *s,
+                             bool notify_remote_frame,
+                             bool zero_copy)
+ {
+-    SendCo *sendco;
+-    SendEntry *entry;
++    COLOSendCo *sendco;
++    COLOSendEntry *entry;
+ 
+     if (notify_remote_frame) {
+         sendco = &s->notify_sendco;
+@@ -821,7 +715,7 @@ static int compare_chr_send(CompareState *s,
+         return 0;
+     }
+ 
+-    entry = g_slice_new(SendEntry);
++    entry = g_slice_new(COLOSendEntry);
+     entry->size = size;
+     entry->vnet_hdr_len = vnet_hdr_len;
+     if (zero_copy) {
+@@ -1274,17 +1168,17 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+ 
+     if (!s->compare_timeout) {
+         /* Set default value to 3000 MS */
+-        s->compare_timeout = DEFAULT_TIME_OUT_MS;
++        s->compare_timeout = COLO_DEFAULT_TIME_OUT_MS;
+     }
+ 
+     if (!s->expired_scan_cycle) {
+         /* Set default value to 3000 MS */
+-        s->expired_scan_cycle = REGULAR_PACKET_CHECK_MS;
++        s->expired_scan_cycle = COLO_REGULAR_PACKET_CHECK_MS;
+     }
+ 
+     if (!max_queue_size) {
+         /* Set default queue size to 1024 */
+-        max_queue_size = MAX_QUEUE_SIZE;
++        max_queue_size = MAX_COLO_QUEUE_SIZE;
+     }
+ 
+     if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
+diff --git a/net/colo-compare.h b/net/colo-compare.h
+index 22ddd512e2..ab649c9dbe 100644
+--- a/net/colo-compare.h
++++ b/net/colo-compare.h
+@@ -17,6 +17,112 @@
+ #ifndef QEMU_COLO_COMPARE_H
+ #define QEMU_COLO_COMPARE_H
+ 
++#include "net/net.h"
++#include "chardev/char-fe.h"
++#include "migration/colo.h"
++#include "migration/migration.h"
++#include "sysemu/iothread.h"
++#include "colo.h"
++
++#define TYPE_COLO_COMPARE "colo-compare"
++typedef struct CompareState CompareState;
++DECLARE_INSTANCE_CHECKER(CompareState, COLO_COMPARE,
++                         TYPE_COLO_COMPARE)
++
++#define COMPARE_READ_LEN_MAX NET_BUFSIZE
++#define MAX_COLO_QUEUE_SIZE 1024
++
++#define COLO_COMPARE_FREE_PRIMARY     0x01
++#define COLO_COMPARE_FREE_SECONDARY   0x02
++
++#define COLO_REGULAR_PACKET_CHECK_MS 1000
++#define COLO_DEFAULT_TIME_OUT_MS 3000
++
++typedef struct COLOSendCo {
++    Coroutine *co;
++    struct CompareState *s;
++    CharBackend *chr;
++    GQueue send_list;
++    bool notify_remote_frame;
++    bool done;
++    int ret;
++} COLOSendCo;
++
++typedef struct COLOSendEntry {
++    uint32_t size;
++    uint32_t vnet_hdr_len;
++    uint8_t *buf;
++} COLOSendEntry;
++
++/*
++ *  + CompareState ++
++ *  |               |
++ *  +---------------+   +---------------+         +---------------+
++ *  |   conn list   + - >      conn     + ------- >      conn     + -- > ......
++ *  +---------------+   +---------------+         +---------------+
++ *  |               |     |           |             |          |
++ *  +---------------+ +---v----+  +---v----+    +---v----+ +---v----+
++ *                    |primary |  |secondary    |primary | |secondary
++ *                    |packet  |  |packet  +    |packet  | |packet  +
++ *                    +--------+  +--------+    +--------+ +--------+
++ *                        |           |             |          |
++ *                    +---v----+  +---v----+    +---v----+ +---v----+
++ *                    |primary |  |secondary    |primary | |secondary
++ *                    |packet  |  |packet  +    |packet  | |packet  +
++ *                    +--------+  +--------+    +--------+ +--------+
++ *                        |           |             |          |
++ *                    +---v----+  +---v----+    +---v----+ +---v----+
++ *                    |primary |  |secondary    |primary | |secondary
++ *                    |packet  |  |packet  +    |packet  | |packet  +
++ *                    +--------+  +--------+    +--------+ +--------+
++ */
++struct CompareState {
++    Object parent;
++
++    char *pri_indev;
++    char *sec_indev;
++    char *outdev;
++    char *notify_dev;
++    CharBackend chr_pri_in;
++    CharBackend chr_sec_in;
++    CharBackend chr_out;
++    CharBackend chr_notify_dev;
++    SocketReadState pri_rs;
++    SocketReadState sec_rs;
++    SocketReadState notify_rs;
++    COLOSendCo out_sendco;
++    COLOSendCo notify_sendco;
++    bool vnet_hdr;
++    uint64_t compare_timeout;
++    uint32_t expired_scan_cycle;
++
++    /*
++     * Record the connection that through the NIC
++     * Element type: Connection
++     */
++    GQueue conn_list;
++    /* Record the connection without repetition */
++    GHashTable *connection_track_table;
++
++    IOThread *iothread;
++    GMainContext *worker_context;
++    QEMUTimer *packet_check_timer;
++
++    QEMUBH *event_bh;
++    enum colo_event event;
++
++    QTAILQ_ENTRY(CompareState) next;
++};
++
++typedef struct CompareClass {
++    ObjectClass parent_class;
++} CompareClass;
++
++enum {
++    PRIMARY_IN = 0,
++    SECONDARY_IN,
++};
++
+ void colo_notify_compares_event(void *opaque, int event, Error **errp);
+ void colo_compare_register_notifier(Notifier *notify);
+ void colo_compare_unregister_notifier(Notifier *notify);
 -- 
 2.25.1
 
