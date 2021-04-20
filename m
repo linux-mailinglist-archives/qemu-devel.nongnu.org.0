@@ -2,82 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D38365B0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 16:19:14 +0200 (CEST)
-Received: from localhost ([::1]:38740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F4F365B46
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 16:36:28 +0200 (CEST)
+Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYrDd-0004nr-TO
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 10:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56758)
+	id 1lYrUJ-0007NB-5m
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 10:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYrCE-00044Y-Nj
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 10:17:46 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:38475)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lYrCC-0005r1-Al
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 10:17:46 -0400
-Received: by mail-pf1-x429.google.com with SMTP id g16so12351150pfq.5
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GUqpQMx8gYPZmgUUwH6Cpr4TuZzba0kWMMNNm/3UWtg=;
- b=OCPpMqpQi3oAtouRzjbyzEY/CEaSCxAk8PIfpPqh0DeAAExWYHo6KqG3RUZJ+JQSWA
- UQHDLHBhvis8+eVno7YNLa1sjH+kxKFuxsuxlpxMTsBacKSCFhszHpgr3FxltLqK+vO9
- 6fC6MatHqO1tdn5lOSZEYfOGR7KXAngx1v5+8c1/FKzRQB31D4dr9CZb2WSTR6EdzN3k
- J0iWfuDI/xBlMfTROvRroLjwnzIW5RhXXaf4DKDSGqTasIIQYh8jOE0aRIygl6JqKGup
- saJEL5iblo64yWuRDsA89+gFxrXooZRQaj4aJ9874QWcz2VpBvhKfn7WRF4Yx/BCDi2E
- e/GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GUqpQMx8gYPZmgUUwH6Cpr4TuZzba0kWMMNNm/3UWtg=;
- b=K2fE4fbOVZNkkh89gfIKlQsvAVAXj1UazMaPdOIUIoe0T/KkT+DxSdUDJFmAdBBycP
- XHCrzYNHeNdgeuJ92ViE2rRSJraupxu7w/QJQXLb2BdNPBBCVjvtLFIdr/NHe8N9JDC0
- b0L9VYypMiJzk4Mp+mFk444iR6OQdvLfxBnxJ4FVI9Q4TaUEJ3k0K3wobf1FeQYJRagy
- w8TK+Mb02ba+0t/19EST9LnRkHlPXyp2Bw9N2Zwlez64Y2tOKiJmFpg8gwzOCldH8PdS
- ZoOLC/wh1TCwhqNUdqJMewZttUhBtgMyHvAKLzNNFjL/2y5cTlDaaLhnru/xMBkQzpsA
- ilOw==
-X-Gm-Message-State: AOAM530Go9UcrWzmwgNWFgDLQWkRU19f8BYSevCT4Yo5tiobqz6o0g7V
- jixYxJYJs2y8ozDxRwQdG/W4Hw==
-X-Google-Smtp-Source: ABdhPJzjD1jlx5oREVhPOe10ZPDzVsF9piX6VCejJn2L1UNEgsRrU5cvKZZcfuPClp6rRLWKxpqfeA==
-X-Received: by 2002:a62:1d8a:0:b029:24c:4aa1:ad01 with SMTP id
- d132-20020a621d8a0000b029024c4aa1ad01mr24394412pfd.27.1618928262820; 
- Tue, 20 Apr 2021 07:17:42 -0700 (PDT)
-Received: from [192.168.64.62] (50-78-183-178-static.hfc.comcastbusiness.net.
- [50.78.183.178])
- by smtp.gmail.com with ESMTPSA id j7sm15233254pfd.129.2021.04.20.07.17.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 07:17:42 -0700 (PDT)
-Subject: Re: [PATCH v2] fpu/softfloat: set invalid excp flag for RISC-V muladd
- instructions
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>
-References: <20210420013150.21992-1-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <639de1d9-294e-9fd9-14b3-5268d45e71e0@linaro.org>
-Date: Tue, 20 Apr 2021 07:17:39 -0700
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lYrPU-0006aC-19; Tue, 20 Apr 2021 10:31:28 -0400
+Received: from [201.28.113.2] (port=32833 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lYrPR-0005nN-70; Tue, 20 Apr 2021 10:31:27 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 20 Apr 2021 11:31:18 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id B3AD58010EF;
+ Tue, 20 Apr 2021 11:31:17 -0300 (-03)
+Subject: Re: [PATCH 1/2] tests/docker: gcc-10 based images for ppc64{,le} tests
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210420013308.813323-1-matheus.ferst@eldorado.org.br>
+ <20210420013308.813323-2-matheus.ferst@eldorado.org.br>
+ <YH5RkjCx2Bk4mbop@yekko.fritz.box> <87eef587qc.fsf@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <0558f25b-2329-c0fa-5b86-4e5b25428c86@eldorado.org.br>
+Date: Tue, 20 Apr 2021 11:31:17 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210420013150.21992-1-frank.chang@sifive.com>
+In-Reply-To: <87eef587qc.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 20 Apr 2021 14:31:18.0150 (UTC)
+ FILETIME=[D370E260:01D735F1]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,40 +61,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: bruno.larsen@eldorado.org.br, gustavo.romero@protonmail.com,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/21 6:31 PM, frank.chang@sifive.com wrote:
-> From: Frank Chang<frank.chang@sifive.com>
+On 20/04/2021 09:20, Alex Bennée wrote:
 > 
-> In IEEE 754-2008 spec:
->    Invalid operation exception is signaled when doing:
->    fusedMultiplyAdd(0, Inf, c) or fusedMultiplyAdd(Inf, 0, c)
->    unless c is a quiet NaN; if c is a quiet NaN then it is
->    implementation defined whether the invalid operation exception
->    is signaled.
+> David Gibson <david@gibson.dropbear.id.au> writes:
 > 
-> In RISC-V Unprivileged ISA spec:
->    The fused multiply-add instructions must set the invalid
->    operation exception flag when the multiplicands are Inf and
->    zero, even when the addend is a quiet NaN.
+>> On Mon, Apr 19, 2021 at 10:33:07PM -0300, matheus.ferst@eldorado.org.br wrote:
+>>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>
+>>> A newer compiler is needed to build tests for Power10 instructions. As
+>>> done for arm64 on c729a99d2701, a new '-test-cross' image is created for
+>>> ppc64 and ppc64le. As done on 936fda4d771f, a test for compiler support
+>>> is added to verify that the toolchain in use has '-mpower10'.
+>>>
+>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>> ---
+>>>   tests/docker/Makefile.include                   |  2 ++
+>>>   .../debian-powerpc-test-cross.docker            | 17 +++++++++++++++++
+>>>   tests/tcg/configure.sh                          | 12 ++++++++----
+>>>   3 files changed, 27 insertions(+), 4 deletions(-)
+>>>   create mode 100644 tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+>>>
+>>> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+>>> index 9f464cb92c..f1dbcc639f 100644
+>>> --- a/tests/docker/Makefile.include
+>>> +++ b/tests/docker/Makefile.include
+>>> @@ -152,10 +152,12 @@ docker-image-debian-sparc64-cross: docker-image-debian10
+>>>   docker-image-debian-tricore-cross: docker-image-debian10
+>>>   docker-image-debian-all-test-cross: docker-image-debian10
+>>>   docker-image-debian-arm64-test-cross: docker-image-debian11
+>>> +docker-image-debian-power-test-cross: docker-image-debian11
+>>>   
+>>>   # These images may be good enough for building tests but not for test builds
+>>>   DOCKER_PARTIAL_IMAGES += debian-alpha-cross
+>>>   DOCKER_PARTIAL_IMAGES += debian-arm64-test-cross
+>>> +DOCKER_PARTIAL_IMAGES += debian-power-test-cross
+>>
+>> You add these "power" (as opposed to "powerpc" or "ppc64" or whatever)
+>> images here, but they don't seem to be referenced anywhere else.
+>>
+
+It's a typo. Probably worked on my machine because a correctly named image
+was created outside qemu build before. I'll nuke docker and test again.
+
+>>>   DOCKER_PARTIAL_IMAGES += debian-hppa-cross
+>>>   DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
+>>>   DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
 > 
-> This commit set invalid operation execption flag for RISC-V when
-> multiplicands of muladd instructions are Inf and zero.
-> 
-> Signed-off-by: Frank Chang<frank.chang@sifive.com>
-> ---
->   fpu/softfloat-specialize.c.inc | 6 ++++++
->   1 file changed, 6 insertions(+)
+> I was expecting the new debian-power-test-cross to replace both
+> debian-powerpc-cross and debian-ppc64-cross.
 > 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+OK, I'll change for powerpc too.
 
-Alistair, will you take this via your riscv queue?
+>>> diff --git a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+>>> new file mode 100644
+>>> index 0000000000..36b336f709
+>>> --- /dev/null
+>>> +++ b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+>>> @@ -0,0 +1,17 @@
+>>> +#
+>>> +# Docker powerpc/ppc64/ppc64le cross-compiler target
+>>> +#
+>>> +# This docker target builds on the debian Bullseye base image.
+>>> +#
+>>> +FROM qemu/debian11
+>>> +
+>>> +RUN apt update && \
+>>> +    DEBIAN_FRONTEND=noninteractive eatmydata \
+>>> +    apt install -y --no-install-recommends \
+>>> +        gcc-powerpc-linux-gnu \
+>>> +        libc6-dev-powerpc-cross \
+>>> +        gcc-10-powerpc64-linux-gnu \
+>>> +        libc6-dev-ppc64-cross \
+>>> +        gcc-10-powerpc64le-linux-gnu \
+>>> +        libc6-dev-ppc64el-cross
+>>
+>> I'm not really clear on what distinguishes a -cross.docker image and a
+>> -test-cross.docker image.
+> 
+> The normal cross image (debian-ppc64le-cross) can cross build QEMU. The
+> -test-cross images are just used for building check-tcg test cases.
+> 
+>>
+>>> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+>>> index fa1a4261a4..a0be066499 100755
+>>> --- a/tests/tcg/configure.sh
+>>> +++ b/tests/tcg/configure.sh
+>>> @@ -170,13 +170,13 @@ for target in $target_list; do
+>>>         ;;
+>>>       ppc64-*)
+>>>         container_hosts=x86_64
+>>> -      container_image=debian-ppc64-cross
+>>> -      container_cross_cc=powerpc64-linux-gnu-gcc
+>>> +      container_image=debian-powerpc-test-cross
+>>> +      container_cross_cc=powerpc64-linux-gnu-gcc-10
+>>>         ;;
+>>>       ppc64le-*)
+>>>         container_hosts=x86_64
+>>> -      container_image=debian-ppc64el-cross
+>>> -      container_cross_cc=powerpc64le-linux-gnu-gcc
+>>> +      container_image=debian-powerpc-test-cross
+>>> +      container_cross_cc=powerpc64le-linux-gnu-gcc-10
+>>
+>> Doesn't this remove all uses of the debian-pp64-cross and
+> 
+> Yes this should be removed.
+> 
 
+Done.
 
-r~
+>> debian-ppc64el-cross images, in which case you could remove the
+>> matching docker files and so forth too, no?
+> 
+> Well I assume you still want to check cross building of QEMU. Arguably
+> we could still use that for the test cases as well.
+>
+
+But then we have the old gcc that can't handle the new instructions, which
+is why I started the series :)
+
+>>
+>>>         ;;
+>>>       riscv64-*)
+>>>         container_hosts=x86_64
+>>> @@ -280,6 +280,10 @@ for target in $target_list; do
+>>>                  -mpower8-vector -o $TMPE $TMPC; then
+>>>                   echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
+>>>               fi
+>>> +            if do_compiler "$target_compiler" $target_compiler_cflags \
+>>> +               -mpower10 -o $TMPE $TMPC; then
+>>> +                echo "CROSS_CC_HAS_POWER10=y" >> $config_target_mak
+>>> +            fi
+>>>           ;;
+>>>           i386-linux-user)
+>>>               if do_compiler "$target_compiler" $target_compiler_cflags \
+> 
+> 
+
+Oh, about nesting "ppc64-*" and "ppc64le-*" in tests/tcg/configure.sh:
+
+ >>> +# Specify the cross prefix for this image (see tests/docker/common.rc)
+ >>> +#ENV QEMU_CONFIGURE_OPTS --cross-prefix=powerpc64le-linux-gnu-
+ >>> +#ENV DEF_TARGET_LIST 
+ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
+ >>> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+ >>> index fa1a4261a4..5f5db91a01 100755
+ >>> --- a/tests/tcg/configure.sh
+ >>> +++ b/tests/tcg/configure.sh
+ >>> @@ -170,13 +170,13 @@ for target in $target_list; do
+ >>>        ;;
+ >>>      ppc64-*)
+ >>>        container_hosts=x86_64
+ >>> -      container_image=debian-ppc64-cross
+ >>> -      container_cross_cc=powerpc64-linux-gnu-gcc
+ >>> +      container_image=debian-ppc64-test-cross
+ >>> +      container_cross_cc=powerpc64-linux-gnu-gcc-10
+ >>>        ;;
+ >>>      ppc64le-*)
+ >>>        container_hosts=x86_64
+ >>> -      container_image=debian-ppc64el-cross
+ >>> -      container_cross_cc=powerpc64le-linux-gnu-gcc
+ >>> +      container_image=debian-ppc64el-test-cross
+ >>> +      container_cross_cc=powerpc64le-linux-gnu-gcc-10
+ >>>        ;;
+ >>
+ > I don't know if it's possible to nest the cases but if it's not too
+ > ugly bringing all the cases into one place and just differentiating the
+ > container_cross_cc would be nice.
+
+We could do something like:
+ > ppc64*-|ppc64le-*)
+ >     container_hosts=x86_64
+ >     container_image=debian-powerpc-test-cross
+ >     container_cross_cc=${target%%-*}-linux-gnu-gcc-10
+ >     container_cross_cc=powerpc${container_cross_cc#ppc}
+But I think it's kind of ugly to repeat container_cross_cc line. If we do
+that, we can bring ppc-* too, but another line would be needed to handle
+ppc64abi32-*...
+
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
