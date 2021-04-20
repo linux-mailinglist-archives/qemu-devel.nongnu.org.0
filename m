@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA53365C12
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:22:52 +0200 (CEST)
-Received: from localhost ([::1]:33870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2E7365C3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:29:46 +0200 (CEST)
+Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYsDD-0005Tu-9D
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49982)
+	id 1lYsJt-0005Jw-Bg
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lYsBb-0004Ug-Rw
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:21:11 -0400
-Received: from mga18.intel.com ([134.134.136.126]:35370)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lYsBW-0003tX-3N
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:21:10 -0400
-IronPort-SDR: CK8IeChbPt3SoUkX6rCuaOBW6AN+FioAmqqMDGgXvvMujkzdn0NPzjEFBIlaEYPHVknQ4oihHW
- E/h+06EJkgXw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="183017139"
-X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="183017139"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 08:20:59 -0700
-IronPort-SDR: VCjcgjF1pdzes4uLS/Fy5bwEVybZ4cf1BmTLNFxLLkuHZ7HPAchC5emkx9a/r+dVuxRoVD0NVJ
- FpfFESBodcJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,237,1613462400"; d="scan'208";a="401043694"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga002.jf.intel.com with ESMTP; 20 Apr 2021 08:20:59 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 20 Apr 2021 08:20:58 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 20 Apr 2021 23:20:53 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
- Tue, 20 Apr 2021 23:20:53 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Markus Armbruster
- <armbru@redhat.com>
-Subject: RE: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL definition
-Thread-Topic: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL definition
-Thread-Index: AQHXHHRwhE0xw39XiECnAJAI55tWJqqRf5aAgCDVHfCAA4akoYAA9uVwgAA4+4+ABd/4AIAAlUDQ
-Date: Tue, 20 Apr 2021 15:20:53 +0000
-Message-ID: <549c2c7678ad48ffba1c2106acf1bb39@intel.com>
-References: <20210319035508.113741-1-chen.zhang@intel.com>
- <20210319035508.113741-2-chen.zhang@intel.com> <YFpJFahbhS+cVZvT@work-vm>
- <5a9d9778f4784b4b96fa9e0831635c8d@intel.com>
- <87czuvbmvi.fsf@dusky.pond.sub.org>
- <e3d3a24a770f4dada58159ece42da330@intel.com>
- <87k0p2porn.fsf@dusky.pond.sub.org> <YH61ho1ITCfv2LFT@work-vm>
-In-Reply-To: <YH61ho1ITCfv2LFT@work-vm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYsIp-0004I7-72
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:28:40 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lYsIj-0008PK-1q
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:28:38 -0400
+Received: by mail-ed1-x531.google.com with SMTP id j7so8685873eds.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=t9eB5EErjA81Pvrx+s5yxa7BAhpLT/QN3de0R/J4Pvs=;
+ b=hdgnX2u17jXaRaxhg6R/3+eyxCBtfV8RbgrxSZVi79htPOdm4VcMIvWL1g5kDthqq2
+ Vlyu1/vWjXubBvv026MlcX2O9k79npFvDqyBxTa25TsanR95TOxveBBnIyYW4XQ42B0a
+ 37zHF7WGWcjuyEFfOJkOxXD0yylZNMNGfQBg/C4IOTClxSfNabeWyVjWgEWwwAlokFre
+ +h33nyfF+BTB83XVHMbgWbmuJ094MAjMmvwuQmzEF9uPDD7AxCMAaOMb9pzmFpuWhBDE
+ VXVGuH1FfrPUD9XWuvDMcBuH+JAn/25g2Tco0gUIMmn2Fc2ttdw+E3qCvlJBlbQ8ofJX
+ 0W6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t9eB5EErjA81Pvrx+s5yxa7BAhpLT/QN3de0R/J4Pvs=;
+ b=iCdA4yvWHxzXkFO7o0A4eq+KG0D2P0NJ0BwajrVBEBd1QksJalMdF6MCbnglyfZUUs
+ WXhd8Ni4SHtvhEkKtDMpc2w1MDMoUiOorNhZ5Q27BXUY2W10/i42aKzmMTQmq65+uX2A
+ YBK4kowojf9mMW256VPowUEWYHVj33wthI9H+WYfzJUFK7AailGsngnzyMIT+OiKjdlX
+ TD8+LSp2saPZ1HYQFvqHvbhpylwa2xbBSzvTMj3F6GNViiZWH/i2WiqZNdPUIvX1ih81
+ Aq44D/vZ2PLzeS1oLeFP1q/DBjDiwy4cEuCd8MGfay1Y9dP/6TyAi7C8tiYeXpF/0oS/
+ TOJw==
+X-Gm-Message-State: AOAM530uGNTwBTggvfAF9Nlq14ExfOn9ILS+i4nZ8jmfNMs4DBwACDvo
+ Wg31yPdqOg+lenpDwY1Om2JGzSYrRkvbFem8feTGww==
+X-Google-Smtp-Source: ABdhPJxaQ+bgP7dpWJxIVsH54SRQg1s0jbZJioLVTaSd5zI30RQrUgmpVw7D8C69pYVTjIvQ7thsc7YKbkjcg01Sudw=
+X-Received: by 2002:a05:6402:51d0:: with SMTP id
+ r16mr29590140edd.52.1618932511007; 
+ Tue, 20 Apr 2021 08:28:31 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210420125831.233092-1-marcandre.lureau@redhat.com>
+ <8735vl578b.fsf@dusky.pond.sub.org>
+In-Reply-To: <8735vl578b.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Apr 2021 16:27:38 +0100
+Message-ID: <CAFEAcA8mWB-B73CnPvAFPyuTFZYe7HpMKkWz6LsNkJ1aJ6axUw@mail.gmail.com>
+Subject: Re: [PATCH for-6.0?] qga: fix guest-get-disks regression
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,156 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>, Zhang
- Chen <zhangckid@gmail.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> -----Original Message-----
-> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Sent: Tuesday, April 20, 2021 7:06 PM
-> To: Markus Armbruster <armbru@redhat.com>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; Lukas Straub
-> <lukasstraub2@web.de>; Li Zhijian <lizhijian@cn.fujitsu.com>; Jason Wang
-> <jasowang@redhat.com>; qemu-dev <qemu-devel@nongnu.org>; Zhang
-> Chen <zhangckid@gmail.com>
-> Subject: Re: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL definition
->=20
-> * Markus Armbruster (armbru@redhat.com) wrote:
-> > "Zhang, Chen" <chen.zhang@intel.com> writes:
+On Tue, 20 Apr 2021 at 16:03, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > >> -----Original Message-----
-> > >> From: Markus Armbruster <armbru@redhat.com>
-> > >> Sent: Thursday, April 15, 2021 11:15 PM
-> > >> To: Zhang, Chen <chen.zhang@intel.com>
-> > >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>; Lukas Straub
-> > >> <lukasstraub2@web.de>; Li Zhijian <lizhijian@cn.fujitsu.com>; Jason
-> > >> Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> devel@nongnu.org>; Zhang
-> > >> Chen <zhangckid@gmail.com>
-> > >> Subject: Re: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL
-> > >> definition
-> > >>
-> > >> "Zhang, Chen" <chen.zhang@intel.com> writes:
-> > >>
-> > >> >> -----Original Message-----
-> > >> >> From: Qemu-devel <qemu-devel-
-> > >> >> bounces+chen.zhang=3Dintel.com@nongnu.org> On Behalf Of Dr.
-> David
-> > >> Alan
-> > >> >> Gilbert
-> > >> >> Sent: Wednesday, March 24, 2021 4:01 AM
-> > >> >> To: Zhang, Chen <chen.zhang@intel.com>
-> > >> >> Cc: Lukas Straub <lukasstraub2@web.de>; Li Zhijian
-> > >> >> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>;
-> > >> >> qemu- dev <qemu-devel@nongnu.org>; Markus Armbruster
-> > >> <armbru@redhat.com>;
-> > >> >> Zhang Chen <zhangckid@gmail.com>
-> > >> >> Subject: Re: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL
-> > >> >> definition
-> > >> >>
-> > >> >> * Zhang Chen (chen.zhang@intel.com) wrote:
-> > >> >> > Add IP_PROTOCOL as enum include TCP,UDP, ICMP... for other
-> QMP
-> > >> >> commands.
-> > >> >> >
-> > >> >> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > >> >> > ---
-> > >> >> >  qapi/net.json | 31 +++++++++++++++++++++++++++++++
-> > >> >> >  1 file changed, 31 insertions(+)
-> > >> >> >
-> > >> >> > diff --git a/qapi/net.json b/qapi/net.json index
-> > >> >> > 87361ebd9a..498ea7aa72 100644
-> > >> >> > --- a/qapi/net.json
-> > >> >> > +++ b/qapi/net.json
-> > >> >> > @@ -794,3 +794,34 @@
-> > >> >> >  #
-> > >> >> >  ##
-> > >> >> >  { 'command': 'query-netdev', 'returns': ['NetdevInfo'] }
-> > >> >> > +
-> > >> >> > +##
-> > >> >> > +# @IP_PROTOCOL:
-> > >> >> > +#
-> > >> >> > +# Transport layer protocol.
-> > >> >> > +#
-> > >> >> > +# Just for IPv4.
-> > >> >> > +#
-> > >> >> > +# @tcp: Transmission Control Protocol.
-> > >> >> > +#
-> > >> >> > +# @udp: User Datagram Protocol.
-> > >> >> > +#
-> > >> >> > +# @dccp: Datagram Congestion Control Protocol.
-> > >> >> > +#
-> > >> >> > +# @sctp: Stream Control Transmission Protocol.
-> > >> >> > +#
-> > >> >> > +# @udplite: Lightweight User Datagram Protocol.
-> > >> >> > +#
-> > >> >> > +# @icmp: Internet Control Message Protocol.
-> > >> >> > +#
-> > >> >> > +# @igmp: Internet Group Management Protocol.
-> > >> >> > +#
-> > >> >> > +# @ipv6: IPv6 Encapsulation.
-> > >> >> > +#
-> > >> >> > +# TODO: Need to add more transport layer protocol.
-> > >> >> > +#
-> > >> >> > +# Since: 6.1
-> > >> >> > +##
-> > >> >> > +{ 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp=
-', 'udplite',
-> > >> >> > +    'icmp', 'igmp', 'ipv6' ] }
-> > >> >>
-> > >> >> Isn't the right thing to do here to use a string for protocol
-> > >> >> and then pass it to getprotobyname;  that way your list is never
-> > >> >> out of date, and you never have to translate between the order
-> > >> >> of this enum and the integer assignment set in stone.
-> > >> >>
-> > >> >
-> > >> > Hi Dave,
-> > >> >
-> > >> > Considering that most of the scenes in Qemu don't call the
-> > >> getprotobyname, looks keep the string are more readable.
-> > >>
-> > >> Unless I'm missing something,
-> > >>
-> > >> (1) this enum is only used for matching packets by source IP,
-> > >> source port, destination IP, destination port, and protocol, and
-> > >>
-> > >> (2) the packet matching works just fine for *any* protocol.
-> > >>
-> > >> By using an enum for the protocol, you're limiting the matcher to
-> > >> whatever protocols we bother to include in the enum for no
-> > >> particular reason.  Feels wrong to me.
-> > >
-> > > Should we remove the IP_PROTOCOL enum here? Make user input string
-> protocol name for this field?
-> > > Or any other detailed comments here?
+> > Commit 54aa3de72 ("qapi: Use QAPI_LIST_PREPEND() where possible")
+> > inadvertently removed the has_dependencies from the partition disk
+> > info, resulting in empty list being returned.
 > >
-> > I believe that's Dave's point.  I.e.:
+> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1950833
 > >
-> >     { 'struct': 'L4_Connection',
-> >       'data': { 'protocol': 'str', ... }
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  qga/commands-posix.c | 1 +
+> >  1 file changed, 1 insertion(+)
 > >
-> > If we ever need to specify protocols by number in addition to name, we
-> > can compatibly evolve the 'str' into an alternation of 'str' and
-> > 'uint8'.  Unlikely.
->=20
-> Right; just using a string and sending it via getprotobyname() actually s=
-eems
-> easier than using the enum and having all the conversions.
+> > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> > index 4299ebd96f..75dbaab68e 100644
+> > --- a/qga/commands-posix.c
+> > +++ b/qga/commands-posix.c
+> > @@ -1376,6 +1376,7 @@ static GuestDiskInfoList *get_disk_partitions(
+> >          partition =3D g_new0(GuestDiskInfo, 1);
+> >          partition->name =3D dev_name;
+> >          partition->partition =3D true;
+> > +        partition->has_dependencies =3D true;
+> >          /* Add parent disk as dependent for easier tracking of hierarc=
+hy */
+> >          QAPI_LIST_PREPEND(partition->dependencies, g_strdup(disk_dev))=
+;
+>
+> This is a recent regression, and the fix is as safe as they get.  Please
+> apply for 6.0.
+>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-OK, Thanks for clear it.  I already fixed it.
-Please review the V6 of this series.
+Thanks; applied to master for 6.0.
 
-Thanks
-Chen
-
->=20
-> Dave
->=20
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
