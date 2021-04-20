@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A298D364FA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 02:51:22 +0200 (CEST)
-Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD23364FAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 02:58:33 +0200 (CEST)
+Received: from localhost ([::1]:42110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYebp-0007O1-6M
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 20:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
+	id 1lYeim-0000Hp-AI
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 20:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lYeaG-0006oM-Es; Mon, 19 Apr 2021 20:49:44 -0400
-Received: from out28-52.mail.aliyun.com ([115.124.28.52]:40267)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lYeaD-0004af-Kj; Mon, 19 Apr 2021 20:49:44 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436578|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.544769-0.00030017-0.454931;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047212; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.K0i2-2U_1618879770; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.K0i2-2U_1618879770)
- by smtp.aliyun-inc.com(10.147.41.231);
- Tue, 20 Apr 2021 08:49:31 +0800
-Subject: Re: [RFC PATCH 01/11] target/riscv: Add CLIC CSR mintstatus
-To: Alistair Francis <alistair23@gmail.com>
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <20210409074857.166082-2-zhiwei_liu@c-sky.com>
- <CAKmqyKMc4TiKgJKM8nUpGR+hWAyUAdjh8bG7chBAdsXq57-V5A@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <20304ba9-6f87-f7b9-a24d-15d4b3d3f75a@c-sky.com>
-Date: Tue, 20 Apr 2021 08:49:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lYeh3-0008I9-2S
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 20:56:45 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:42734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lYegy-0007du-3R
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 20:56:44 -0400
+Received: by mail-io1-xd33.google.com with SMTP id s16so31534159iog.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Apr 2021 17:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gMt1JOn3iDf0tXs75TU/DcUosAB1eJg5xTJkWQ+rogc=;
+ b=bck2cIw3pii6yhbRpVAiMLyTxYwBNpiRJHmphBdTmIbliaEMtQnQohQppDRsSXcIws
+ x66wwCDGjwE5EPt/lIn4XlqRnjNsK9myoaqsnlnqJ4xDnwbPrtjo6pRwDfcrugqtAtEJ
+ hTFXU0oq6Z+X7GvbzYOJhCXXGpOGO+LJzifSdaDmS03ai4OfaGaoMd+wsjKsm9S9hL7z
+ PCFd1ELjhNjJrEo+V/h1JfuLXS4ltbBb5ERjNF5BpWeQmAbW+DAB32cBIIiNBovcLL6+
+ kIl+1lq0P0vV9X/XOG5JN4/NYpFGnQmnbWk+1PdQ2dhnDCijHZQ6J4PmYNHb/Pyp3azv
+ g4fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gMt1JOn3iDf0tXs75TU/DcUosAB1eJg5xTJkWQ+rogc=;
+ b=G05s4LeC2YYb2cW66WeUGHdx+N2N2UgFQBnotywSruBX3RJ8mozpbCxvj5NgDsME2q
+ mSVEP7WEWM5E1/BqKmyIJ4EbnGcUi41imu00xHFzn8igwdGk3qjop6tgx0xEN9a7Qjpi
+ ix7H4aMIdbqEqzbh4k8pXyuBgzBnTsWG96mq2CZ5ISQCdVkSlFz0P0q9BRyXZG4E/QDJ
+ vtZ8LkHbyoCzteMkcPVGZ4ZQCby9f1eYpGNfhsoqmGJKuPB0xDZrMNMS2KqKRNLY7gLr
+ cBoEua/Ko7C2IDHnbgtFXgMX5Y2td1OP6fEK/snMndjms5jH0/XFsu3eg/Bw8cifhIBa
+ wq7A==
+X-Gm-Message-State: AOAM531CHNknrdS/dfWAby+p8yRdoPuCFmNb+KfZc4MwsdErj4DIs9zh
+ k5e+yLLY1b5QlcJOVCFG9feTVt7ZWj5iOYmUBL4=
+X-Google-Smtp-Source: ABdhPJx+B/QUGDwCtK6usMVnTdM5ESmPg+7LDI4FZRpe3y3OjcIOUB6k2hzqfjdq/DUUyYOWwshjWSGgNfvgCn2gYDE=
+X-Received: by 2002:a02:94e7:: with SMTP id x94mr5343373jah.106.1618880198992; 
+ Mon, 19 Apr 2021 17:56:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMc4TiKgJKM8nUpGR+hWAyUAdjh8bG7chBAdsXq57-V5A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.52; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-52.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20210415134128.32670-1-emmanuel.blot@sifive.com>
+ <FB9EA197-B018-4879-AB0F-922C2047A08B@sifive.com>
+In-Reply-To: <FB9EA197-B018-4879-AB0F-922C2047A08B@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 20 Apr 2021 10:56:12 +1000
+Message-ID: <CAKmqyKNxMWpfQDGxxXLk=reAwv8+ky72YrrX=m5-eF_p_848Hg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix exception index on instruction access
+ fault
+To: Emmanuel Blot <emmanuel.blot@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,162 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, Apr 17, 2021 at 12:48 AM Emmanuel Blot <emmanuel.blot@sifive.com> wrote:
+>
+> When no MMU is used and the guest code attempts to fetch an instruction
+> from an invalid memory location, the exception index defaults to a data
+> load access fault, rather an instruction access fault.
+>
+> Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
 
-On 2021/4/20 上午7:23, Alistair Francis wrote:
-> On Fri, Apr 9, 2021 at 5:52 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->> CSR mintstatus holds the active interrupt level for each supported
->> privilege mode. sintstatus, and user, uintstatus, provide restricted
->> views of mintstatus.
->>
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->> ---
->>   target/riscv/cpu.h      |  2 ++
->>   target/riscv/cpu_bits.h | 11 +++++++++++
->>   target/riscv/csr.c      | 26 ++++++++++++++++++++++++++
->>   3 files changed, 39 insertions(+)
->>
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index 0a33d387ba..1a44ca62c7 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -159,6 +159,7 @@ struct CPURISCVState {
->>       target_ulong mip;
->>
->>       uint32_t miclaim;
->> +    uint32_t mintstatus; /* clic-spec */
->>
->>       target_ulong mie;
->>       target_ulong mideleg;
->> @@ -243,6 +244,7 @@ struct CPURISCVState {
->>
->>       /* Fields from here on are preserved across CPU reset. */
->>       QEMUTimer *timer; /* Internal timer */
->> +    void *clic;       /* clic interrupt controller */
-> This should be the CLIC type.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-OK.
-
-Actually there are many versions of CLIC in my branch as different 
-devices. But it is better to use CLIC type for the upstream version.
+Alistair
 
 >
->>   };
->>
->>   OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
->> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->> index caf4599207..c4ce6ec3d9 100644
->> --- a/target/riscv/cpu_bits.h
->> +++ b/target/riscv/cpu_bits.h
->> @@ -165,6 +165,7 @@
->>   #define CSR_MCAUSE          0x342
->>   #define CSR_MTVAL           0x343
->>   #define CSR_MIP             0x344
->> +#define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
->>
->>   /* Legacy Machine Trap Handling (priv v1.9.1) */
->>   #define CSR_MBADADDR        0x343
->> @@ -183,6 +184,7 @@
->>   #define CSR_SCAUSE          0x142
->>   #define CSR_STVAL           0x143
->>   #define CSR_SIP             0x144
->> +#define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
->>
->>   /* Legacy Supervisor Trap Handling (priv v1.9.1) */
->>   #define CSR_SBADADDR        0x143
->> @@ -585,6 +587,15 @@
->>   #define SIP_STIP                           MIP_STIP
->>   #define SIP_SEIP                           MIP_SEIP
->>
->> +/* mintstatus */
->> +#define MINTSTATUS_MIL                     0xff000000 /* mil[7:0] */
->> +#define MINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
->> +#define MINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
->> +
->> +/* sintstatus */
->> +#define SINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
->> +#define SINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
-> The bit fields in the comments are out of date.
-
-I didn't notice it.   Fix it in next version.
-
-Thanks.
-
-Zhiwei
-
+> ---
+>   target/riscv/cpu_helper.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> Alistair
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 21c54ef5613..4e107b1bd23 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -691,8 +691,10 @@ void riscv_cpu_do_transaction_failed(CPUState *cs,
+> hwaddr physaddr,
 >
->> +
->>   /* MIE masks */
->>   #define MIE_SEIE                           (1 << IRQ_S_EXT)
->>   #define MIE_UEIE                           (1 << IRQ_U_EXT)
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index d2585395bf..320b18ab60 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -188,6 +188,12 @@ static int pmp(CPURISCVState *env, int csrno)
->>   {
->>       return -!riscv_feature(env, RISCV_FEATURE_PMP);
->>   }
->> +
->> +static int clic(CPURISCVState *env, int csrno)
->> +{
->> +    return !!env->clic;
->> +}
->> +
->>   #endif
->>
->>   /* User Floating-Point CSRs */
->> @@ -734,6 +740,12 @@ static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
->>       return 0;
->>   }
->>
->> +static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong *val)
->> +{
->> +    *val = env->mintstatus;
->> +    return 0;
->> +}
->> +
->>   /* Supervisor Trap Setup */
->>   static int read_sstatus(CPURISCVState *env, int csrno, target_ulong *val)
->>   {
->> @@ -893,6 +905,13 @@ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
->>       return ret;
->>   }
->>
->> +static int read_sintstatus(CPURISCVState *env, int csrno, target_ulong *val)
->> +{
->> +    target_ulong mask = SINTSTATUS_SIL | SINTSTATUS_UIL;
->> +    *val = env->mintstatus & mask;
->> +    return 0;
->> +}
->> +
->>   /* Supervisor Protection and Translation */
->>   static int read_satp(CPURISCVState *env, int csrno, target_ulong *val)
->>   {
->> @@ -1644,5 +1663,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->>       [CSR_MHPMCOUNTER29H] = { "mhpmcounter29h", any32,  read_zero },
->>       [CSR_MHPMCOUNTER30H] = { "mhpmcounter30h", any32,  read_zero },
->>       [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", any32,  read_zero },
->> +
->> +    /* Machine Mode Core Level Interrupt Controller */
->> +    [CSR_MINTSTATUS] = { "mintstatus", clic,  read_mintstatus },
->> +
->> +    /* Supervisor Mode Core Level Interrupt Controller */
->> +    [CSR_SINTSTATUS] = { "sintstatus", clic,  read_sintstatus },
->> +
->>   #endif /* !CONFIG_USER_ONLY */
->>   };
->> --
->> 2.25.1
->>
->>
+>       if (access_type == MMU_DATA_STORE) {
+>           cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
+> -    } else {
+> +    } else if (access_type == MMU_DATA_LOAD) {
+>           cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
+> +    } else {
+> +        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
+>       }
+>
+>       env->badaddr = addr;
+> --
+> 2.31.1
+>
 
