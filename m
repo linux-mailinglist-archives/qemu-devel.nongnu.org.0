@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D287C3652C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:02:52 +0200 (CEST)
-Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA9D3652C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 09:02:49 +0200 (CEST)
+Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYkPL-0000Bn-TV
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58536)
+	id 1lYkPI-00005e-V2
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 03:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYkNs-0007Jn-Es
+ id 1lYkNr-0007Jf-I2
  for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:01:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46078)
+Received: from indium.canonical.com ([91.189.90.7]:46056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lYkNm-0000DW-2M
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:01:20 -0400
+ id 1lYkNm-0000Ci-23
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 03:01:19 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lYkNh-0002nl-LZ
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:01:09 +0000
+ id 1lYkNg-0002nT-EW
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:01:08 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A16AD2E8052
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:01:09 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6A3832E8052
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 07:01:08 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Apr 2021 06:50:49 -0000
-From: Thomas Huth <1808563@bugs.launchpad.net>
+Date: Tue, 20 Apr 2021 06:51:06 -0000
+From: Thomas Huth <1808565@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -41,16 +41,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: alan.jones th-huth
 X-Launchpad-Bug-Reporter: Alan Jones (alan.jones)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154480918291.23267.15132018418369155034.malonedeb@soybean.canonical.com>
-Message-Id: <161890144911.16713.627983243139772967.malone@wampee.canonical.com>
-Subject: [Bug 1808563] Re: Listing the contents of / lists QEMU_LD_PREFIX
- instead
+References: <154480990326.22999.12064081216456974155.malonedeb@soybean.canonical.com>
+Message-Id: <161890146613.5851.7546814040548145766.malone@soybean.canonical.com>
+Subject: [Bug 1808565] Re: Reading /proc/self/task/<pid>/maps is not remapped
+ to the target
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="8932ab84469600dc3d8b3344fb7135c702d5179e"; Instance="production"
-X-Launchpad-Hash: 3bfad429f348a567f7607d1b6bbe59b5a82dbd54
+X-Launchpad-Hash: 29a66393de29e3e60a29f95f6b063079f00b2f69
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1808563 <1808563@bugs.launchpad.net>
+Reply-To: Bug 1808565 <1808565@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,36 +91,26 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1808563
+https://bugs.launchpad.net/bugs/1808565
 
 Title:
-  Listing the contents of / lists QEMU_LD_PREFIX instead
+  Reading /proc/self/task/<pid>/maps is not remapped to the target
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Seeing this in qemu-user version 3.1.0
+  Seeing this in qemu-user 3.1.0
 
-  Demo:
-  $ QEMU_LD_PREFIX=3D$(pwd)/usr/armv7a-cros-linux-gnueabi ../run/qemu-arm /=
-tmp/coreutils --coreutils-prog=3Dls / =
+  The code in is_proc_myself which supports remapping of /proc/self/maps
+  and /proc/<pid>/maps does not support remapping of
+  /proc/self/task/<pid>/maps or /proc/<pid>/task/<pid>/maps. Extending
+  is_proc_myself to cover these cases causes the maps to be rewritten
+  correctly.
 
-  etc  lib  usr
-  $ ls /
-  boot  etc   lib     lib64   lost+found  mnt    root  sbin  sys  usr
-  bin   dev   export  home    lib32       net    proc  run   tmp  var
-  $ ls usr/armv7a-cros-linux-gnueabi
-  etc  lib  usr
-
-  In strace, the openat for "/" is remapped to the directory specified in Q=
-EMU_LD_PREFIX:
-  [pid  5302] openat(AT_FDCWD, "/tmp/qemu/usr/armv7a-cros-linux-gnueabi", O=
-_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) =3D 3
-
-  As an aside, if I change the code to do chdir("/"); opendir("."); it
-  works fine.
+  These are useful in multithreaded programs to avoid freezing the
+  entire program to capture the maps for a single tid.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1808563/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1808565/+subscriptions
 
