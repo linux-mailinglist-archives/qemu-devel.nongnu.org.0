@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E600365DEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 18:53:31 +0200 (CEST)
-Received: from localhost ([::1]:36460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2ED365DF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 18:53:40 +0200 (CEST)
+Received: from localhost ([::1]:36974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYtcw-000695-41
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 12:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
+	id 1lYtd5-0006Ln-SX
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 12:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lYtam-0005CF-LD; Tue, 20 Apr 2021 12:51:16 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:33426)
+ id 1lYtan-0005CT-TP; Tue, 20 Apr 2021 12:51:17 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:39646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lYtak-0001JF-I8; Tue, 20 Apr 2021 12:51:16 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id o5so40041604qkb.0;
- Tue, 20 Apr 2021 09:51:12 -0700 (PDT)
+ id 1lYtam-0001KJ-1t; Tue, 20 Apr 2021 12:51:17 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id e13so30174536qkl.6;
+ Tue, 20 Apr 2021 09:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M2iFq6tdONPJaf+K34SBiKl3bsbT4EsYK8ejc4UiQPY=;
- b=BOlqxRaUlNdNe6vLZ3MHpF4NahQlgKRDuf8ZqmSkG2Jh1IlJGbrv/DIBO2vqGwiJHX
- q6lSBpD51bFMVQZz8o5AOVUQ52Rx5im/ENj6ltjIzmIdvPiLvvb/E+rfGkxPJFV3zeVG
- vzCbo9T6x23fG2/erWk2+fRjMofSuUPF3X8SJ83ID7AbPxKa1QNFpiyT0y4mYNn8QwKq
- 0cp07YYVW7viTQkee4JVi7MEJrZosi1wgjj6ns9okQCtUQ9kiax8p/DYsaM021aO1rOm
- gLDHI/84XMNwCcrUqMqKSXGhgolowkhEldYQCUeYPXLH2bL54AiteTzII5JV/xVhjkJ8
- K7qg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Zy5jctFja0FRiKOQAxj6i0WcZgXj3HmJyEQ+8lg0ff8=;
+ b=Q6YEWmiuX8+Tv3Z7jk5ysg3/2KVI0dmfCvklbk34QXAUjir+PebfmXbES0LmFRUC9d
+ 9eeGonULA8IBicNLc5MrkuKodoWroWS5v6n7UwTzSs9O7Cjp6ZY0WNuINAIo6+tinGO7
+ LghDl6KnhvGgbgYAUjKmyAdSPfxSiaXp9C5LP0XH5x5kJfbHtkvoORL6++KxxHHmIpQh
+ deF6heFtrUQ6gtlo8XxjEgtuseS3pExv25HInwSYTgl0QcqaMEOl1DLTYedDyrjhc7yY
+ +hPhFKb/emJrUTmubsfvAG4cv8ujNCi5pQ100725boVkidGbUd6uQiN2oQkPxGEJPsZb
+ FsmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M2iFq6tdONPJaf+K34SBiKl3bsbT4EsYK8ejc4UiQPY=;
- b=QRWG8LBXMLSc9yAsYb8AHkPZHu63JQG5yOIWvN4Lg2quBqZsWT2FLT0/UZWpolQ1zO
- riubL2hRVnyvQU3x343xphZx4gQHUjrN2aF11ADTe5hJ3bSQuc/GGYjQZEMsZBfnDrHe
- VJ6P3VfcDrZ7llI/VH3V2nr4IT7fNo+AmtX0jGK7+odaLZGCxayRg6d8yrH9ZXEeU826
- 3bGi0v7zxZGJxT9KPOoKXBT9QCsfS3x/CNiJHBwkWQX7Js6h+2qXRdozmr9eaGk0zuCT
- O5/PuVvs5BiLHbrLEY067t8gOI+8k/eN1s8yOiRPKrj/SNwlK+ML5LukVMI57dYpP/DY
- p7LQ==
-X-Gm-Message-State: AOAM533wISKPDjto5YctOvIuwU2dOS1LB6pCDEd7wfs7G9wVTnmNcUH/
- CJ2g21Ab+S5i2Ltn3AkQ3SB2sW57C6Z8sQ==
-X-Google-Smtp-Source: ABdhPJyr96uOqYEPaw/jVogR7EH0qAVl9RK1zM71kPlLEyoqac2WaWv2t4QkSuMGKQRIWg6yfFO42Q==
-X-Received: by 2002:a37:5604:: with SMTP id k4mr5353336qkb.478.1618937471955; 
- Tue, 20 Apr 2021 09:51:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Zy5jctFja0FRiKOQAxj6i0WcZgXj3HmJyEQ+8lg0ff8=;
+ b=WySiRyej+IMr7u+qx2Nfm+PhHCDw/tQxQ0tUmAkV1bIq7y+ideEtHCoG/dtCJEHh6Y
+ 2jLrRCisrs2MDyDf7d8RCI8BNK/5mxTg1WDWdr3NJTc5z6ncqgC1Q8YIRltLPvu2olGF
+ q7PwDFZETJ4dEsRK70iwcLtugGZCDdeIjkomQl5cNxPlhdrbAA1kXv1xMTQN+mGPzi9/
+ OjxRLe20QqOye/ZNwz+woTXWEpleSnD0wo+XBKWM+equ2puOB4h0XEZG+SD09wHu3zv4
+ 6tIhSLObg17c8uWWAp/5jo1D6rat1SjsFuMuQRvQSsSu5yIxC9DCxGZHHm0mEt60Qkzu
+ +oUg==
+X-Gm-Message-State: AOAM531tCTnt31wEFskAs96+OtKxcQqp3KYD9DwcSPv7vGr+kw9DX2ch
+ xbdxlvC2z9KSZAkhB440rvs3vjrgF27PFA==
+X-Google-Smtp-Source: ABdhPJxYtylnNpPn4kbtGK5Hohw8+e9iVE5pySgM/QAc22gDHu8A0yPEWaqnkoxhXySVEsOv5iHvtA==
+X-Received: by 2002:a05:620a:20d5:: with SMTP id
+ f21mr10308741qka.135.1618937474058; 
+ Tue, 20 Apr 2021 09:51:14 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:8811:45c7:4abc:f19a:be81])
- by smtp.gmail.com with ESMTPSA id n15sm11831791qti.51.2021.04.20.09.51.09
+ by smtp.gmail.com with ESMTPSA id n15sm11831791qti.51.2021.04.20.09.51.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 09:51:11 -0700 (PDT)
+ Tue, 20 Apr 2021 09:51:13 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] pSeries: handle hotunplug errors in
+Subject: [PATCH v2 1/1] spapr_drc.c: handle hotunplug errors in
  drc_unisolate_logical()
-Date: Tue, 20 Apr 2021 13:50:59 -0300
-Message-Id: <20210420165100.108368-1-danielhb413@gmail.com>
+Date: Tue, 20 Apr 2021 13:51:00 -0300
+Message-Id: <20210420165100.108368-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210420165100.108368-1-danielhb413@gmail.com>
+References: <20210420165100.108368-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
@@ -85,63 +88,89 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes from v1:
-- added more context in the commit message
-- added David's R-b
-v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg03145.html 
+At this moment, PAPR does not provide a way to report errors during a
+device removal operation. This led the pSeries machine to implement
+extra mechanisms to try to fallback and recover from an error that might
+have happened during the hotunplug in the guest side. This started to
+change a bit with commit fe1831eff8a4 ("spapr_drc.c: use DRC
+reconfiguration to cleanup DIMM unplug state"), where one way to
+fallback from a memory removal error was introduced.
 
-Hi,
+Around the same time, in [1], the idea of using RTAS set-indicator for
+this role was first introduced. The RTAS set-indicator call, when
+attempting to UNISOLATE a DRC that is already UNISOLATED or CONFIGURED,
+returns RTAS_OK and does nothing else for both QEMU and phyp. This gives
+us an opportunity to use this behavior to signal the hypervisor layer
+when a device removal errir happens, allowing QEMU/phyp to do a proper
+error handling. Using set-indicator to report HP errors isn't strange to
+PAPR, as per R1-13.5.3.4-4. of table 13.7 of current PAPR [2]:
 
-This is the QEMU side of a kernel change being proposed in [1],
-where an attempt to implement a CPU hotunplug error report
-mechanism was proposed.
+"For all DR options: If this is a DR operation that involves the user
+insert- ing a DR entity, then if the firmware can determine that the
+inserted entity would cause a system disturbance, then the set-indicator
+RTAS call must not unisolate the entity and must return an error status
+which is unique to the particular error."
 
-The idea was discussed first in this mailing list [2], where the
-RTAS set-indicator call would be used to signal QEMU when a kernel
-side error happens during the unplug process.
+A change was proposed to the pSeries Linux kernel to call set-indicator
+to move a DRC to 'unisolate' in the case of a hotunplug error in the
+guest side [3]. Setting a DRC that is already unisolated or configured to
+'unisolate' is a no-op (returns RTAS_OK) for QEMU and also for phyp.
+Being a benign change for hypervisors that doesn't care about handling
+such errors, we expect the kernel to accept this change at some point.
 
-Using the modified kernel and this patch, this is the result of a
-failed CPU hotunplug attempt when trying to unplug the last online
-CPU of the guest:
+This patch prepares the pSeries machine for this new kernel feature by
+changing drc_unisolate_logical() to handle guest side hotunplug errors.
+For CPUs it's a simple matter of setting drc->unplug_requested to 'false',
+while for LMBs the process is similar to the rollback that is done in
+rtas_ibm_configure_connector().
 
-( QEMU command line: qemu-system-ppc64 -machine pseries,accel=kvm,usb=off
--smp 1,maxcpus=2,threads=1,cores=2,sockets=1 ... )
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06395.html
+[2] https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200611.pdf
+[3] https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20210416210216.380291-3-danielhb413@gmail.com/
 
-[root@localhost ~]# QEMU 5.2.92 monitor - type 'help' for more information
-(qemu) device_add host-spapr-cpu-core,core-id=1,id=core1
-(qemu) 
-
-[root@localhost ~]# echo 0 > /sys/devices/system/cpu/cpu0/online
-[   77.548442][   T13] IRQ 19: no longer affine to CPU0
-[   77.548452][   T13] IRQ 20: no longer affine to CPU0
-[   77.548458][   T13] IRQ 256: no longer affine to CPU0
-[   77.548465][   T13] IRQ 258: no longer affine to CPU0
-[   77.548472][   T13] IRQ 259: no longer affine to CPU0
-[   77.548479][   T13] IRQ 260: no longer affine to CPU0
-[   77.548485][   T13] IRQ 261: no longer affine to CPU0
-[   77.548590][    T0] cpu 0 (hwid 0) Ready to die...
-[root@localhost ~]# (qemu) 
-(qemu) device_del core1
-(qemu) [   83.214073][  T100] pseries-hotplug-cpu: Failed to offline CPU PowerPC,POWER9, rc: -16
-qemu-system-ppc64: Device hotunplug rejected by the guest for device core1
-
-(qemu) 
-
-
-As mentioned in the kernel change, if this is accepted I'll push
-for a PAPR change to make this an official device removal error
-report mechanism.
-
-
-[1] https://lore.kernel.org/linuxppc-dev/20210416210216.380291-3-danielhb413@gmail.com/
-[2] https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06395.html
-
-Daniel Henrique Barboza (1):
-  spapr_drc.c: handle hotunplug errors in drc_unisolate_logical()
-
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
  hw/ppc/spapr_drc.c | 23 +++++++++++++++++++++++
  1 file changed, 23 insertions(+)
 
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 9e16505fa1..6918e0c9d1 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -151,9 +151,32 @@ static uint32_t drc_isolate_logical(SpaprDrc *drc)
+ 
+ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+ {
++    SpaprMachineState *spapr = NULL;
++
+     switch (drc->state) {
+     case SPAPR_DRC_STATE_LOGICAL_UNISOLATE:
+     case SPAPR_DRC_STATE_LOGICAL_CONFIGURED:
++        /*
++         * Unisolating a logical DRC that was marked for unplug
++         * means that the kernel is refusing the removal.
++         */
++        if (drc->unplug_requested && drc->dev) {
++            if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB) {
++                spapr = SPAPR_MACHINE(qdev_get_machine());
++
++                spapr_memory_unplug_rollback(spapr, drc->dev);
++            }
++
++            drc->unplug_requested = false;
++            error_report("Device hotunplug rejected by the guest "
++                         "for device %s", drc->dev->id);
++
++            /*
++             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
++             * it is implemented.
++             */
++        }
++
+         return RTAS_OUT_SUCCESS; /* Nothing to do */
+     case SPAPR_DRC_STATE_LOGICAL_AVAILABLE:
+         break; /* see below */
 -- 
 2.30.2
 
