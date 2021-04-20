@@ -2,52 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED90E365585
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 11:37:46 +0200 (CEST)
-Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E733655AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 11:47:14 +0200 (CEST)
+Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYmpG-00037d-2u
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 05:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37696)
+	id 1lYmyP-0006Q4-TO
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 05:47:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lYmnp-0002Yo-Pq
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 05:36:17 -0400
-Received: from mga07.intel.com ([134.134.136.100]:32683)
+ (Exim 4.90_1) (envelope-from <igor.druzhinin@citrix.com>)
+ id 1lYmwT-0005sU-VZ
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 05:45:13 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:8597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lYmnl-0000mf-9G
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 05:36:17 -0400
-IronPort-SDR: xGeRhY0owtlhdzKMcSNeFcwJBY789JH/M4fQFaFhVOmPYbB7a+bsRoiTFJL+FYPsTTcKybagf6
- NMDw+NyxMUnw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="259432651"
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="259432651"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 02:36:04 -0700
-IronPort-SDR: cKO0Hk7Y/rhxxYUUeWLuwoEDl5ZcT2nDOcg6YPwMoO/5F7YfSCWSHUAGdoEwqQkVyXEHAoLdCi
- cEOqOKllaV6A==
-X-IronPort-AV: E=Sophos;i="5.82,236,1613462400"; d="scan'208";a="426853876"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.24])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2021 02:36:02 -0700
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PATCH v2] i386: Add ratelimit for bus locks acquired in guest
-Date: Tue, 20 Apr 2021 17:37:36 +0800
-Message-Id: <20210420093736.17613-1-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=chenyi.qiang@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+ (Exim 4.90_1) (envelope-from <igor.druzhinin@citrix.com>)
+ id 1lYmwR-0006LJ-Rz
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 05:45:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1618911911;
+ h=subject:to:cc:references:from:message-id:date:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=UKojnfHF9gNH7BNW20kJaYWN/y874lHbSG8rjBK/yZI=;
+ b=bDHoW/LjaYvH5nfeargcWQBM25EyYucy7Iq74a3JP2fGFXXKEPS6dwM6
+ 5ZrbHYWlV4Vo2heFhXHE35casykk6NRS0UotxAA2m5i9ry6DlGJ4CYQKc
+ R8NvjuXkHyb2QZ5vTlSYgahBM+hF2cyqWnrTsJe7uSUsfpQ3YTxNs4aYu M=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=pass (signature verified)
+ header.i=@citrix.onmicrosoft.com
+IronPort-SDR: NYkUu6Sl9rA7jmFJlf7u8F9v5hWaP7HvKzrM5oBFAIKiTj5Ktub4EoPjwVd07SjlA7/uZBgZ5j
+ iBi+Z7CWRF1RxppBcf3z0U/8LUnt+GuwfeOMLytty1h3+DyMv2GlZfx3tCemKu/KqQPa8Naddi
+ GLBmPh7IKb0lUUB8uIFc9n/UrNTqE77Z4TE9ZJm0YL9hqfHkC9Wt2fGZx2b3OTO8xXn8dd2MCD
+ e7GtrVSwTqS1LPYYxvdcfgK1kq0st0RgicT5NqFLFPi56gy0/TD0FG3HBLaCdQ+eOHc3xsprWB
+ BXU=
+X-SBRS: 5.2
+X-MesageID: 41965223
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-HdrOrdr: A9a23:/AP9hqnLYDnBF1jNt3mNUfd9L2PpDfOFimdD5ilNYBxZY6Wkvu
+ illvgDyFvQgDEeRHkvlbm7Sc+9aFvB6J945pQQN7++XA/g/FClNp1m8JGK+UyfJwTV8OlB2a
+ B8N413D9PtBVZ35PyKkzWQOdAm3dWB7eSUlf7Tpk0dPz1CRql8425Ce2SmO2JsQg0uP/UEPb
+ qaovFKvj+xPUkQB/7LYUUte8jmi5n1mIn9YRgAbiRXlzWmqT+z8rb1H1y5834lIlZy6Iwv+2
+ TEjAD1j5/L25rXpiP07GPd449bn9Hs0LJ4daixo/IIITbhgBvAXuVccoCCpzw8raWO71sngb
+ D30nQdFvlz8H/YcyWJpwLs0WDbsAoG1nmK8zGlqEqmhea8eDU7E9ZM7LgyTjLpr24b+PB1yu
+ Ziwn+QvZs/N2K4oA3No/zzEyxMumXxi3w4iuIXh2FYSuIlGcdshL1a2ENQHJ0JBj+/zpsmHu
+ loBNzb/59tACOnRkGcmmlqzNalRGl2JA6PRgw5sMqP31Ft7QFE5lpdyN0Um38B8J4nD51Io+
+ /FPbhynrlSTskQKaJ7HvoIRsG6Y1a9PC7kISafMF7jHKECN2mIr5Oy6rMz6+GlEaZ4tqcaid
+ DMQVlcvW43d1mrDcDLxpFC6RrNBGewTV3Wu71jzok8vKb9SrrtOTCCT15rk9LImYRlPvHm
+X-IronPort-AV: E=Sophos;i="5.82,236,1613451600"; d="scan'208";a="41965223"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mBPIPHfumyHrYVzz5Weilh2/xWfCzv+0vG0TMOTsaDIF+T13LIxR4lAR/oHlwQYnuFpUM+BPN/9YKPAkXUaueYb6FcbLguy+1S5qgj6iXbsS5Qo7qAwZGYMG/d0S2a1GNROxh5o65g4RVb5aec7ld34mbUnz2RHtLOli0+2nJjTA6e6Kuw/lG0POfQB3RHIAssR+K8U11vHOGey71ksh/DVhV/Z3B+KSGsYgY1a0+rSW4Dce6smPIKXEd/ogJRlLc+2PT8JXFgvf5jmwckaUBzRJ9mGzd9PE2tzRf3YtLrXu+aj4OGohWB9wYCibLcFsqCR8nTUwmlyDNGHO4NgiRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sOVTIxGK8axq+Xxi2TZ+Jjqa+ohX+QH4QqjR4m5CteI=;
+ b=M/uVZKiFZS803Y80OlUsb53Up2LrLb7bA1TGeJZ4uCRHgkGACg8k98+nNisPUwejjNupUbXUfF/lQkjeZVABlr1MqIPv6qnY1MHhElu/D1aFqN6riZejKazK6ojIUZTtoLXpg072lJvoIbZHV0uotxokeLqswbUeAMh2M6zUrSFOKl7LfHterUiNBplbBCPJRR6VIQLXysVvcLsCrnZz1VF+H5aMA45ajRTCLcNx4HqafzK305VQ/RMZDSejKHN+Uns6EW8d/4TG19QwkSar1xISut0diK+SJUoOYe+OYt7HOwgnLM+yiFKW6hr5jdG+Iyd8QtP84RH1hm3GlbjiLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
+ dkim=pass header.d=citrix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sOVTIxGK8axq+Xxi2TZ+Jjqa+ohX+QH4QqjR4m5CteI=;
+ b=YtnQ9K2Y4glGXZ2FCYS+5Og/HpU3RqiuNktq0P/9j9GRLH1+S2kD+I4p8ehD8uCH0LEYyAEmwGTzwDPeEPf7Nj5azbQ9K736chG0L1d5l7V8e/EkEGAaEJ9nUo6k1dAB+ZmI9gB3O3FvTM7EIl5Ie7hPoU5++F+mnsxBmpcPdRs=
+Subject: Re: [PATCH] xen-mapcache: avoid a race on memory map while using
+ MAP_FIXED
+To: =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
+CC: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>,
+ <sstabellini@kernel.org>, <anthony.perard@citrix.com>, <paul@xen.org>,
+ <mst@redhat.com>, <marcel.apfelbaum@gmail.com>, <pbonzini@redhat.com>,
+ <richard.henderson@linaro.org>, <ehabkost@redhat.com>
+References: <1618889702-13104-1-git-send-email-igor.druzhinin@citrix.com>
+ <YH6WfgdFpFaMYtvC@Air-de-Roger>
+Message-ID: <8cd5ae50-dff8-2ccd-0036-f27b82242f74@citrix.com>
+Date: Tue, 20 Apr 2021 10:45:03 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+In-Reply-To: <YH6WfgdFpFaMYtvC@Air-de-Roger>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0486.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a8::23) To BN3PR03MB2401.namprd03.prod.outlook.com
+ (2a01:111:e400:7bbc::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ae1218b7-350c-450e-3cbb-08d903e0fb1f
+X-MS-TrafficTypeDiagnostic: BN7PR03MB4354:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN7PR03MB4354438D699BC392AA61BF07E4489@BN7PR03MB4354.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WUDeTIT3tZqXAr+AkyngZteTVb/E3l+DF0dZSJreDSF9yOteskOyHCLVGQDK6/fFaFIfdJtZQoPXGgTWqXcylIxg+8SRq73VgaYu1Px15VzYUl2QsFcFwXHIzYiIP201BH/rm96L/i4LFrkEi+0wTxIEbO/O1qFqOMVCfTpaVNJ8vZ3Ei9uzuSLp56JUagK4GerMmAXOF5swM9Sj0Phb0g52+qpRGrc1p/ovPvfngEXgLceAcRRy0wPW3GPgnOi9/43Xd5UnnUr99xL9P/EbRp/9rkt8gcXteA9X8JrrBFyVgEayKdnePWqC8ygTx5J5aFqh2LtM5i/vUjNr4betFMFUm4vxV2IQBKQvYULpovQVa8uDRbvoYNQrivwRscTj9YqUCoR5DiELrt1r4PadWQXzZrnt4yzC+ynWXum2pISZjJhqLjY/LI3V7QxBYKCauqXqpnQi0Bpdhda05bLJcrujJGc0JgbyUVy3vwIT2TPna4jqcwTbu4NXqSvddxcXRa0IwdZHXfUZ/upznIa5Ysda+zLBu2rC5ypt4gpFpjeAzNqXFWOMeFe54RsP3oL2/sDjA/AjbFQ18xFEiIm6PisKWUhkdwWTS2YAUNvzdg7b2JKe/5V1w/h0qz2zOd7sUNqankHQUJs4t3PCnuC6mgOajn8kTAhTLIdb845BRwTVltyxedh4l/Gm14cU4H+k
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN3PR03MB2401.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(39860400002)(346002)(396003)(376002)(2906002)(66556008)(6486002)(53546011)(86362001)(83380400001)(478600001)(5660300002)(38100700002)(66946007)(31696002)(956004)(2616005)(31686004)(4326008)(44832011)(6862004)(36756003)(16576012)(8936002)(37006003)(16526019)(8676002)(186003)(26005)(66476007)(6636002)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?c2RTajgyUFp2Z2t6YW9NOS9CZ2xaaWpFMnJRR0RucS9FTGE4WmFQRnBqMkZJ?=
+ =?utf-8?B?eXpkZG81YjJIRGtGNk9vRFhZQmNPK3FtQW1mZGE5Z0JHSUZKTXN0cUxUL1Bn?=
+ =?utf-8?B?SHBPNk5jQWhvcVk0eVVQNk05Q1cwVjExOHpYOThDYWw5VXJuc1N1czMrTzhy?=
+ =?utf-8?B?bnV2R0VHb0VWc1BvWkVldzVaRWRyeHN0bm5LMGFPSDJqaEN6YkliZjh1VFJW?=
+ =?utf-8?B?V0Vqbi80eTMwOFZlcU1CcEpLd1dDUGhjRnJHVDBDTVVrUXpNWlVmSlB5Z0Rv?=
+ =?utf-8?B?ZjNuMUtlRjV0WWF4U2ozcitPZGhuM3VYNEdOeFZUWFRjNlV0WVgzd0xTS3hw?=
+ =?utf-8?B?MlJtMWpvWi81VWxEUlducjV3NmF3RXdsNThaUmhSMGVtU0hUNGFUUnZObk44?=
+ =?utf-8?B?K25TWG5LNUY0OE0rVG1oQUFKMVI1dGlJTmtzQ0drTGpQcjlBdDIzWUpjLzZE?=
+ =?utf-8?B?RTc1REM3VzlNTkk1Y3ZTZWtvRVY1SG1EMm8wSUpQbC84NmdheHlPTytrSXI0?=
+ =?utf-8?B?M3dydEdiRzB1QUhyUElHSEZaaFYzZ0FBNkxocklud3pKbWozMzh4eS9ERW44?=
+ =?utf-8?B?Ny9VR0lkTGdKaHorVHYwSUNKajRGMjZzOURNdVArbi92QXRiMzA5QlRrRmRi?=
+ =?utf-8?B?ejVTekhNbnpYRmNnRXB5YmRUOXlMQ3Q5cEc1TlRBaFJZL1dyYm1sbmszUmwr?=
+ =?utf-8?B?TXhHZm5IaklGeVNKRE1oTjl4M05DNkJPOGRBMjhpYU95dTNhSC9KZExZbmVI?=
+ =?utf-8?B?NThheEp6TTVwUmZCUnpObXpUcktFclNhQlZ6ajByTzlpRTBZSWlEbi8zT2hx?=
+ =?utf-8?B?bWNDd0Z1WjVUQzlIZWF5ODZSK25wU0xoa1ZDWVBmTmhuRXhvZUxTRWVvVnNl?=
+ =?utf-8?B?T05wK0RheUp5ZWU1QStUaVFCajRybzV5LzBjVW9HdUZtajl6WHdQMS9FWHpU?=
+ =?utf-8?B?Zm5pZXNoYlhBY3N5aE9hekkrbEpabDhNVjR6S2dkVXVIMW9kZmpuTndUZDJX?=
+ =?utf-8?B?TjN4VlErajV6bzRMeC90aWRtYkVuSDNRZWR5ZjA5bmtyQ2JUQVFZT3U5QUNR?=
+ =?utf-8?B?ZjY0dHBxRUVmbWFwcGI0VGJUVWtjQWM4NnBtQm1jTjFMbHl0YUp0R2lXOGJk?=
+ =?utf-8?B?M0RBS2lWc3dFOTFiT1F6cU10QVJPNUpGRld4dHUzQ0dzdWF1VGhXL0loYWZJ?=
+ =?utf-8?B?NHBnaTgySDcwN3NoenJDUFprSGZsTUY3ZUlrT0E2SkFZUVJWNCs2RWJrUVhW?=
+ =?utf-8?B?MkZuKy9ZZlc5SVl0cUVuRU14TXZnTjFXUXR0YTJJNi94RWNsSWdjUDdWQ1Va?=
+ =?utf-8?B?UWI3US9weFcvTWZRaXdCU3BSMUVhc0w5Y0FCcHVFVUNVNEllWU9QVUdTRDdW?=
+ =?utf-8?B?U2JjMkdHMnlUYk5MY3JicFRKRmt0Qnp5eE5rdTV2OHBkOVVBZmpLcmRPOFRG?=
+ =?utf-8?B?MzgreXIwRUlpVEhXSFFkYURmNnNjSnN5aVE3NmZneEljTURzaUpub0x6ZjAx?=
+ =?utf-8?B?QjdTcklPVWhrYmM5VUF0cGZuTHZjYUM0OU54R0c1ZGxxRG5qcUdPM283M29w?=
+ =?utf-8?B?eXE3S05HVHpIblFrTFYvVlh0ZzdlOTRJQm1DRHQvVnFISmF6THczREhEN0VU?=
+ =?utf-8?B?cmtGd1NoNTFOMEZQYm5MUkgyREkwdmRlUkxCN1RuNm1qOUllTFdaS2k5cFBW?=
+ =?utf-8?B?QlUyRituRmNaWWxTK2hkanFpcTJDbDdKYWtVbWNNNnJiWTFYYzBvNjU4MWpI?=
+ =?utf-8?Q?eGur+JHvKRdyfCRSqSarY7g9149Dqgo1Rkex9bh?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae1218b7-350c-450e-3cbb-08d903e0fb1f
+X-MS-Exchange-CrossTenant-AuthSource: BN3PR03MB2401.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2021 09:45:07.2111 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335836de-42ef-43a2-b145-348c2ee9ca5b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p8HF+VpxXlYm+oYZOg7H7R9CExoq61sf9vQXvPMN9Xu2BEB2Zme2qkzaSS/0T07urLwHF+qeQERVdVVx+gLqFbLS2RhVgYbrJVaj95Zk7JA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR03MB4354
+X-OriginatorOrg: citrix.com
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=igor.druzhinin@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,169 +162,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Igor Druzhinin <igor.druzhinin@citrix.com>
+From:  Igor Druzhinin via <qemu-devel@nongnu.org>
 
-Virtual Machines can exploit bus locks to degrade the performance of
-system. To address this kind of performance DOS attack, bus lock VM exit
-is introduced in KVM and it will report the bus locks detected in guest,
-which can help userspace to enforce throttling policies.
+On 20/04/2021 09:53, Roger Pau Monné wrote:
+> On Tue, Apr 20, 2021 at 04:35:02AM +0100, Igor Druzhinin wrote:
+>> When we're replacing the existing mapping there is possibility of a race
+>> on memory map with other threads doing mmap operations - the address being
+>> unmapped/re-mapped could be occupied by another thread in between.
+>>
+>> Linux mmap man page recommends keeping the existing mappings in place to
+>> reserve the place and instead utilize the fact that the next mmap operation
+>> with MAP_FIXED flag passed will implicitly destroy the existing mappings
+>> behind the chosen address. This behavior is guaranteed by POSIX / BSD and
+>> therefore is portable.
+>>
+>> Note that it wouldn't make the replacement atomic for parallel accesses to
+>> the replaced region - those might still fail with SIGBUS due to
+>> xenforeignmemory_map not being atomic. So we're still not expecting those.
+>>
+>> Tested-by: Anthony PERARD <anthony.perard@citrix.com>
+>> Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
+> 
+> Should we add a 'Fixes: 759235653de ...' or similar tag here?
 
-The availability of bus lock VM exit can be detected through the
-KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
-policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
-bitmap is the only supported strategy at present. It indicates that KVM
-will exit to userspace to handle the bus locks.
+I was thinking about it and decided - no. There wasn't a bug here until 
+QEMU introduced usage of iothreads at the state loading phase. 
+Originally this process was totally single-threaded. And it's hard to 
+pinpoint the exact moment when it happened which is also not directly 
+related to the change here.
 
-This patch adds a ratelimit on the bus locks acquired in guest as a
-mitigation policy.
-
-Introduce a new field "bld" to record the limited speed of bus locks in
-target VM. The user can specify it through the "bus-lock-detection"
-as a machine property. In current implementation, the default value of
-the speed is 0 per second, which means no restriction on the bus locks.
-
-Ratelimit enforced in data transmission uses a time slice of 100ms to
-get smooth output during regular operations in block jobs. As for
-ratelimit on bus lock detection, simply set the ratelimit interval to 1s
-and restrict the quota of bus lock occurrence to the value of "bld". A
-potential alternative is to introduce the time slice as a property
-which can help the user achieve more precise control.
-
-The detail of Bus lock VM exit can be found in spec:
-https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
-
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-
----
-Changes from RFC v1:
-  - Remove the rip info output, as the rip can't reflect the bus lock
-    position correctly.
-  - RFC v1: https://lore.kernel.org/qemu-devel/20210317084709.15605-1-chenyi.qiang@intel.com/
----
- hw/i386/x86.c         |  6 ++++++
- include/hw/i386/x86.h |  7 +++++++
- target/i386/kvm/kvm.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+)
-
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index ed796fe6ba..42d10857a6 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1256,6 +1256,12 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
-     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-+    x86ms->bld = 0;
-+
-+    object_property_add_uint64_ptr(obj, "bus-lock-detection",
-+                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
-+    object_property_set_description(obj, "bus-lock-detection",
-+            "Bus lock detection ratelimit");
- }
- 
- static void x86_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index c09b648dff..d6e198b228 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -74,6 +74,13 @@ struct X86MachineState {
-      * will be translated to MSI messages in the address space.
-      */
-     AddressSpace *ioapic_as;
-+
-+    /*
-+     * ratelimit enforced on detected bus locks, the default value
-+     * is 0 per second
-+     */
-+    uint64_t bld;
-+    RateLimit bld_limit;
- };
- 
- #define X86_MACHINE_SMM              "smm"
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 7fe9f52710..a75fac0404 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
- static struct kvm_cpuid2 *cpuid_cache;
- static struct kvm_msr_list *kvm_feature_msrs;
- 
-+#define SLICE_TIME 1000000000ULL /* ns */
-+
- int kvm_has_pit_state2(void)
- {
-     return has_pit_state2;
-@@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
-     }
- 
-+    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
-+        X86MachineState *x86ms = X86_MACHINE(ms);
-+
-+        if (x86ms->bld > 0) {
-+            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
-+            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
-+                error_report("kvm: bus lock detection unsupported");
-+                return -ENOTSUP;
-+            }
-+            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
-+                                    KVM_BUS_LOCK_DETECTION_EXIT);
-+            if (ret < 0) {
-+                error_report("kvm: Failed to enable bus lock detection cap: %s",
-+                             strerror(-ret));
-+                return ret;
-+            }
-+
-+            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
-+        }
-+    }
-+
-     return 0;
- }
- 
-@@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
-     }
- }
- 
-+static void kvm_rate_limit_on_bus_lock(void)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    X86MachineState *x86ms = X86_MACHINE(ms);
-+
-+    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
-+
-+    if (delay_ns) {
-+        g_usleep(delay_ns / SCALE_US);
-+    }
-+}
-+
- MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
- {
-     X86CPU *x86_cpu = X86_CPU(cpu);
-@@ -4236,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
-     } else {
-         env->eflags &= ~IF_MASK;
-     }
-+    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
-+        kvm_rate_limit_on_bus_lock();
-+    }
- 
-     /* We need to protect the apic state against concurrent accesses from
-      * different threads in case the userspace irqchip is used. */
-@@ -4594,6 +4632,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-         ioapic_eoi_broadcast(run->eoi.vector);
-         ret = 0;
-         break;
-+    case KVM_EXIT_X86_BUS_LOCK:
-+        /* already handled in kvm_arch_post_run */
-+        ret = 0;
-+        break;
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
-         ret = -1;
--- 
-2.17.1
-
+Igor
 
