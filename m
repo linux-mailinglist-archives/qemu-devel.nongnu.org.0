@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2E7365C3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:29:46 +0200 (CEST)
-Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2384D365CA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 17:50:55 +0200 (CEST)
+Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYsJt-0005Jw-Bg
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
+	id 1lYseL-0003EE-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 11:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYsIp-0004I7-72
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:28:40 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41745)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lYsbA-0001dd-0F
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:47:36 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lYsIj-0008PK-1q
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:28:38 -0400
-Received: by mail-ed1-x531.google.com with SMTP id j7so8685873eds.8
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:28:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=t9eB5EErjA81Pvrx+s5yxa7BAhpLT/QN3de0R/J4Pvs=;
- b=hdgnX2u17jXaRaxhg6R/3+eyxCBtfV8RbgrxSZVi79htPOdm4VcMIvWL1g5kDthqq2
- Vlyu1/vWjXubBvv026MlcX2O9k79npFvDqyBxTa25TsanR95TOxveBBnIyYW4XQ42B0a
- 37zHF7WGWcjuyEFfOJkOxXD0yylZNMNGfQBg/C4IOTClxSfNabeWyVjWgEWwwAlokFre
- +h33nyfF+BTB83XVHMbgWbmuJ094MAjMmvwuQmzEF9uPDD7AxCMAaOMb9pzmFpuWhBDE
- VXVGuH1FfrPUD9XWuvDMcBuH+JAn/25g2Tco0gUIMmn2Fc2ttdw+E3qCvlJBlbQ8ofJX
- 0W6A==
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lYsb3-0003Kv-Jt
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 11:47:35 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id h4so29099331wrt.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 08:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fyrRauPqvVYGTKn4Nlpl/1wotbpj1Srwu/bwsVpMorE=;
+ b=D3UKcaJApNFtzNVp1bMLuybgE1SN/ver3/fJnFIEu4sBOvW3ialK4o8oa6C1U8bdJp
+ /Fa3+Q0HxTQXeqkhOBAhTpaScojoKVLHMRRpsumJ9Ev+5NidK5NFRts/eMya5itpHsPU
+ fM4QauHNNKMsq/5KrE/DnzsFhzq+G8oNa27avbErZ82b/SMyn3pPsUwR48sE08E4Q8tS
+ MZnAUg9cswlXtGL3pK6oBKVkpOCviheVlJXH8ilN2eWraqYNCczUToue2D2H4bXuefWN
+ kvDoR4wDjn63MZNX14uIQVmZAsS52rlz1CxK/2RnWdnvXA4HZjTrc8QOiF/qigrgRm8A
+ 5B8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t9eB5EErjA81Pvrx+s5yxa7BAhpLT/QN3de0R/J4Pvs=;
- b=iCdA4yvWHxzXkFO7o0A4eq+KG0D2P0NJ0BwajrVBEBd1QksJalMdF6MCbnglyfZUUs
- WXhd8Ni4SHtvhEkKtDMpc2w1MDMoUiOorNhZ5Q27BXUY2W10/i42aKzmMTQmq65+uX2A
- YBK4kowojf9mMW256VPowUEWYHVj33wthI9H+WYfzJUFK7AailGsngnzyMIT+OiKjdlX
- TD8+LSp2saPZ1HYQFvqHvbhpylwa2xbBSzvTMj3F6GNViiZWH/i2WiqZNdPUIvX1ih81
- Aq44D/vZ2PLzeS1oLeFP1q/DBjDiwy4cEuCd8MGfay1Y9dP/6TyAi7C8tiYeXpF/0oS/
- TOJw==
-X-Gm-Message-State: AOAM530uGNTwBTggvfAF9Nlq14ExfOn9ILS+i4nZ8jmfNMs4DBwACDvo
- Wg31yPdqOg+lenpDwY1Om2JGzSYrRkvbFem8feTGww==
-X-Google-Smtp-Source: ABdhPJxaQ+bgP7dpWJxIVsH54SRQg1s0jbZJioLVTaSd5zI30RQrUgmpVw7D8C69pYVTjIvQ7thsc7YKbkjcg01Sudw=
-X-Received: by 2002:a05:6402:51d0:: with SMTP id
- r16mr29590140edd.52.1618932511007; 
- Tue, 20 Apr 2021 08:28:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fyrRauPqvVYGTKn4Nlpl/1wotbpj1Srwu/bwsVpMorE=;
+ b=YVpRPyRcwc7g5yK1cYCZQ5qp5xS3hAAR1dKFbPEVlkd1mHKmNMgdjFNkP7p8dCXwm/
+ 4M4PahbpLJd645wg1yQ+zFjtJwGpwQfhGi3lMTP5JHckQMaQ+9o0fzTu5JZgIh2HA8+8
+ aithy8alW/xpP8dLxad9GxHEBAtxgIt7vNyspVFzGYEzzXo93a9kMVwb9YTkbLNhYZYc
+ SmR0KGoL9Pz5MOIGG/NxkI/iPznaSC7mIG1WXsmIlwVZjuF+URLRbw8/WjDgV51T25hp
+ pwMu42iH0vRO3nKhFuxa1qtAx9yDKdhKiYaw2/gJviz0bjWSwrPbKEZ7Hsj8n/BawN7h
+ A3Ng==
+X-Gm-Message-State: AOAM532+NndVTsVgOPEeZH7ReNjMJRnNqT7s3KZwHcNT7mDmhVwQu+RD
+ dkNYD66kQkVDDXpaGaKIkrdtqXiXrA0=
+X-Google-Smtp-Source: ABdhPJwcSG8mPvtWLIGPpsLIVgysz90j9i45iiDGGk9vSSPSUntd6TcyYqvVF4UYftfDBnqXHRIvUA==
+X-Received: by 2002:adf:a302:: with SMTP id c2mr21453954wrb.212.1618933647196; 
+ Tue, 20 Apr 2021 08:47:27 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.162.183])
+ by smtp.googlemail.com with ESMTPSA id d5sm25025824wrx.15.2021.04.20.08.47.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Apr 2021 08:47:26 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/7] virtiofsd: Changed various allocations to GLib
+ functions
+Date: Tue, 20 Apr 2021 17:46:35 +0200
+Message-Id: <20210420154643.58439-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210420125831.233092-1-marcandre.lureau@redhat.com>
- <8735vl578b.fsf@dusky.pond.sub.org>
-In-Reply-To: <8735vl578b.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Apr 2021 16:27:38 +0100
-Message-ID: <CAFEAcA8mWB-B73CnPvAFPyuTFZYe7HpMKkWz6LsNkJ1aJ6axUw@mail.gmail.com>
-Subject: Re: [PATCH for-6.0?] qga: fix guest-get-disks regression
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,48 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Apr 2021 at 16:03, Markus Armbruster <armbru@redhat.com> wrote:
->
-> marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Commit 54aa3de72 ("qapi: Use QAPI_LIST_PREPEND() where possible")
-> > inadvertently removed the has_dependencies from the partition disk
-> > info, resulting in empty list being returned.
-> >
-> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1950833
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  qga/commands-posix.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> > index 4299ebd96f..75dbaab68e 100644
-> > --- a/qga/commands-posix.c
-> > +++ b/qga/commands-posix.c
-> > @@ -1376,6 +1376,7 @@ static GuestDiskInfoList *get_disk_partitions(
-> >          partition =3D g_new0(GuestDiskInfo, 1);
-> >          partition->name =3D dev_name;
-> >          partition->partition =3D true;
-> > +        partition->has_dependencies =3D true;
-> >          /* Add parent disk as dependent for easier tracking of hierarc=
-hy */
-> >          QAPI_LIST_PREPEND(partition->dependencies, g_strdup(disk_dev))=
-;
->
-> This is a recent regression, and the fix is as safe as they get.  Please
-> apply for 6.0.
->
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Replaced allocations done using malloc(), calloc(), and realloc()
+to their equivalent functions in GLib.
 
-Thanks; applied to master for 6.0.
+Memory that is allocated locally and freed when the function exits
+are annotated g_autofree so that the deallocation is automatically
+handled. Subsequently, I could remove a bunch of free() calls.
 
--- PMM
+Also, tried to keep the semantics of the code as is, but when the
+allocation is a small one, or a crucial one, I replaced the
+NULL-checking mechanisms with glib's functions that crash on error.
+
+This is related to a patch that I had submitted as a part of a
+previous series. The previous patch had some errors. Also, I thought
+that it's better to split the patch into smaller pieces.
+
+Mahmoud Mandour (7):
+  virtiofsd: Changed allocations of fuse_req to GLib functions
+  virtiofds: Changed allocations of iovec to GLib's functions
+  virtiofsd: Changed allocations of fuse_session to GLib's functions
+  virtiofsd: Changed allocation of lo_map_elems to GLib's functions
+  virtiofsd: Changed allocations of fv_VuDev & its internals to GLib
+    functions
+  virtiofsd/passthrough_ll.c: Changed local allocations to GLib
+    functions
+  virtiofsd/fuse_virtio.c: Changed allocations of locals to GLib
+
+ tools/virtiofsd/fuse_lowlevel.c  | 31 ++++++++++++-----------------
+ tools/virtiofsd/fuse_virtio.c    | 34 +++++++++++---------------------
+ tools/virtiofsd/passthrough_ll.c | 21 ++++++++------------
+ 3 files changed, 32 insertions(+), 54 deletions(-)
+
+-- 
+2.25.1
+
 
