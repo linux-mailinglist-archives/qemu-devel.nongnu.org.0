@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCC33650EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 05:36:13 +0200 (CEST)
-Received: from localhost ([::1]:35952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C0A36510A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Apr 2021 05:41:09 +0200 (CEST)
+Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lYhBL-0007r2-Nn
-	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 23:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
+	id 1lYhG7-0001W7-Jr
+	for lists+qemu-devel@lfdr.de; Mon, 19 Apr 2021 23:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <igor.druzhinin@citrix.com>)
- id 1lYhAY-0007L9-BE
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:35:23 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:27431)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lYhF9-00015E-Of
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:40:07 -0400
+Resent-Date: Mon, 19 Apr 2021 23:40:07 -0400
+Resent-Message-Id: <E1lYhF9-00015E-Of@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <igor.druzhinin@citrix.com>)
- id 1lYhAU-0002S9-69
- for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:35:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1618889717;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=4OCw2BlETeIJ5/zMETI/C9VjE7n4iGuT4GJGVZlI2tU=;
- b=CIKjB8dfqI8MS8QT3+IkU5CJaXhEoh2p+WeSrfb+iOkW4E6/PHWEgtEt
- wiDaRqBhqG2jX15+rrPysZJkcfpS/orSeBsvus2DZIhAEdI4kIlFR20xS
- X1kH5DZ4LNi5iHWV014yyvsAaPcWSrgJkrVYYMJ05D8+Z9o67DAsou5bs 8=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: feFMM1VAyrKGKMq/I/3hGcUuM6DYGTxTonCWKap2CE2QC5mu7bltxyxCPER9cU60UT1pGEmhBU
- mdIeDTseJKrnUTUdtwd7XtwI7x9wjSOm00T5g/VUSIrH6H/su3BK3pcos1ftp/b5RIvKPT00oB
- R3MZ8Up4grBpW39oKUCZdI8nBf3KnOTPhaIGSZprMlXOnEHuoJQnd5POAjVjN+LkxnLaPAQsO/
- SlauEB2IG5V5brf1ghYDp1ivo0XYuQhzyHxB8RVXvtmQlV21POJbwmxSD23t3DCjAoWfHhkGIS
- 8jw=
-X-SBRS: 5.1
-X-MesageID: 42068993
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-IronPort-HdrOrdr: A9a23:/M1IuqmuRAaPF6ULGJ/OBpfkkrzpDfPfimdD5ilNYBxZY6Wkvu
- izgfUW0gL1gj4NWHcm3euNIrWEXGm0z/NIyKMaVI3DYCDNvmy0IIZ+qbbz2jGIIVyZysdx94
- dFN5J/Btr5EERgga/BijWQPt48zLC8n5yAqvzZyx5WIz1CS6Yl1AthDxbeL0sefnglObMcNL
- 6xovVKvCChf3N/VLXdOlAgU/LYr9PG0LLKCCR2ZCIP0wWFgTO25LOSKXHxsis2aD9Bzawv9m
- LIiWXCl8Cemsq21wPG0Cvr54lW8eGL9vJ4GMeOhsIJQw+c7jqAWYIJYdy/lQFwms6DwhIAkN
- 7AoxAvVv4DlE/5TyWOjjbGnyXl2DYqwXf+xVGfmmuLm72GeBsKT/BvqKgcXhzF61cxnNwU6t
- M740up86B5IDmFvCPh68PGXxtn/3DE0UYKoKoooFF0Fa49AYUh1LA3zQduP7orWB/e0sQBFt
- JjCcnNjcwmDG+yXjTikUREhOC3Um9bJGb/fmEy/va7/hJxh35Dw04R1KUk7ws93aN4cZVC6u
- jeW54Y741mf4sTZaJ5Mu8LXdG6PGzLWQ7NK2KfOz3cZds6B04=
-X-IronPort-AV: E=Sophos;i="5.82,235,1613451600"; d="scan'208";a="42068993"
-To: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>
-CC: <sstabellini@kernel.org>, <anthony.perard@citrix.com>, <paul@xen.org>,
- <mst@redhat.com>, <marcel.apfelbaum@gmail.com>, <pbonzini@redhat.com>,
- <richard.henderson@linaro.org>, <ehabkost@redhat.com>, Igor Druzhinin
- <igor.druzhinin@citrix.com>
-Subject: [PATCH] xen-mapcache: avoid a race on memory map while using MAP_FIXED
-Date: Tue, 20 Apr 2021 04:35:02 +0100
-Message-ID: <1618889702-13104-1-git-send-email-igor.druzhinin@citrix.com>
-X-Mailer: git-send-email 2.7.4
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lYhF7-0005g4-AS
+ for qemu-devel@nongnu.org; Mon, 19 Apr 2021 23:40:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618889987; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=QIvzL7usUtL4dhzHiGEA89NB6uW9/CAjwXCsJ0uPg34vtTBsZNO22e0mo0TpcVihcLwFztF0XTlm1XJhbymki0Kj7knkssuNQgzw0DxiE9EzCSleSNRJcqy6K6vN4tyTT3g2hIvsr+GXYhETrKahWZMiNr3FL1oAMXRg7ytnvVI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618889987;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=k/i9pMyzbbL66W8AobDSTWTw23Y5fGWmoXJcFgFc2gg=; 
+ b=AVnZji1QLw9DS+HfY73wOiA+jmIgvAXaqR/OxXNhM7BJDS08ZSfz48a+AGoPqSto9OS3KKsH6QRMiZhfA2tCdh9hGRBQ8o/gWHbcBJaCjcebHuaVNPGs8Wg2cWNPGS5bp0owbhSAjCL4HdU+xzLwL6UfDaqeX66qX3zqMqI2TRM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618889985395467.22472703895255;
+ Mon, 19 Apr 2021 20:39:45 -0700 (PDT)
+In-Reply-To: <1618889702-13104-1-git-send-email-igor.druzhinin@citrix.com>
+Subject: Re: [PATCH] xen-mapcache: avoid a race on memory map while using
+ MAP_FIXED
+Message-ID: <161888998361.15979.8661085658302494664@72b6d80f974b>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=igor.druzhinin@citrix.com; helo=esa6.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Mon, 19 Apr 2021 20:39:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,58 +68,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: igor.druzhinin@citrix.com, sstabellini@kernel.org, ehabkost@redhat.com,
+ mst@redhat.com, paul@xen.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, anthony.perard@citrix.com,
+ xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Igor Druzhinin <igor.druzhinin@citrix.com>
-From:  Igor Druzhinin via <qemu-devel@nongnu.org>
 
-When we're replacing the existing mapping there is possibility of a race
-on memory map with other threads doing mmap operations - the address being
-unmapped/re-mapped could be occupied by another thread in between.
-
-Linux mmap man page recommends keeping the existing mappings in place to
-reserve the place and instead utilize the fact that the next mmap operation
-with MAP_FIXED flag passed will implicitly destroy the existing mappings
-behind the chosen address. This behavior is guaranteed by POSIX / BSD and
-therefore is portable.
-
-Note that it wouldn't make the replacement atomic for parallel accesses to
-the replaced region - those might still fail with SIGBUS due to
-xenforeignmemory_map not being atomic. So we're still not expecting those.
-
-Tested-by: Anthony PERARD <anthony.perard@citrix.com>
-Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
----
- hw/i386/xen/xen-mapcache.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
-index 5b120ed..e82b7dc 100644
---- a/hw/i386/xen/xen-mapcache.c
-+++ b/hw/i386/xen/xen-mapcache.c
-@@ -171,7 +171,20 @@ static void xen_remap_bucket(MapCacheEntry *entry,
-         if (!(entry->flags & XEN_MAPCACHE_ENTRY_DUMMY)) {
-             ram_block_notify_remove(entry->vaddr_base, entry->size);
-         }
--        if (munmap(entry->vaddr_base, entry->size) != 0) {
-+
-+        /*
-+         * If an entry is being replaced by another mapping and we're using
-+         * MAP_FIXED flag for it - there is possibility of a race for vaddr
-+         * address with another thread doing an mmap call itself
-+         * (see man 2 mmap). To avoid that we skip explicit unmapping here
-+         * and allow the kernel to destroy the previous mappings by replacing
-+         * them in mmap call later.
-+         *
-+         * Non-identical replacements are not allowed therefore.
-+         */
-+        assert(!vaddr || (entry->vaddr_base == vaddr && entry->size == size));
-+
-+        if (!vaddr && munmap(entry->vaddr_base, entry->size) != 0) {
-             perror("unmap fails");
-             exit(-1);
-         }
--- 
-2.7.4
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjE4ODg5NzAyLTEzMTA0LTEt
+Z2l0LXNlbmQtZW1haWwtaWdvci5kcnV6aGluaW5AY2l0cml4LmNvbS8KCgoKSGksCgpUaGlzIHNl
+cmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0
+IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDE2
+MTg4ODk3MDItMTMxMDQtMS1naXQtc2VuZC1lbWFpbC1pZ29yLmRydXpoaW5pbkBjaXRyaXguY29t
+ClN1YmplY3Q6IFtQQVRDSF0geGVuLW1hcGNhY2hlOiBhdm9pZCBhIHJhY2Ugb24gbWVtb3J5IG1h
+cCB3aGlsZSB1c2luZyBNQVBfRklYRUQKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
+L2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
+ZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2Ny
+aXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQg
+PT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZy
+b20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAg
+ICAgICAgIHBhdGNoZXcvMTYxODg4OTcwMi0xMzEwNC0xLWdpdC1zZW5kLWVtYWlsLWlnb3IuZHJ1
+emhpbmluQGNpdHJpeC5jb20gLT4gcGF0Y2hldy8xNjE4ODg5NzAyLTEzMTA0LTEtZ2l0LXNlbmQt
+ZW1haWwtaWdvci5kcnV6aGluaW5AY2l0cml4LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2gg
+J3Rlc3QnCjMxMDI1MTkgeGVuLW1hcGNhY2hlOiBhdm9pZCBhIHJhY2Ugb24gbWVtb3J5IG1hcCB3
+aGlsZSB1c2luZyBNQVBfRklYRUQKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBBdXRob3Ig
+ZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6
+IElnb3IgRHJ1emhpbmluIHZpYSA8cWVtdS1kZXZlbEBub25nbnUub3JnPgoKdG90YWw6IDEgZXJy
+b3JzLCAwIHdhcm5pbmdzLCAyMSBsaW5lcyBjaGVja2VkCgpDb21taXQgMzEwMjUxOTlhMWI0ICh4
+ZW4tbWFwY2FjaGU6IGF2b2lkIGEgcmFjZSBvbiBtZW1vcnkgbWFwIHdoaWxlIHVzaW5nIE1BUF9G
+SVhFRCkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0
+IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
+YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTYxODg4OTcwMi0xMzEwNC0xLWdpdC1zZW5kLWVt
+YWlsLWlnb3IuZHJ1emhpbmluQGNpdHJpeC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1l
+c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
+czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
+ZXZlbEByZWRoYXQuY29t
 
