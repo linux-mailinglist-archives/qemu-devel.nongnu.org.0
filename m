@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF073672B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 20:38:58 +0200 (CEST)
-Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B7636729C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 20:32:52 +0200 (CEST)
+Received: from localhost ([::1]:35688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZHkX-0001iO-CW
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 14:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
+	id 1lZHed-000354-F6
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 14:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHTL-0002k5-T8
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31644)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHT9-0002eT-Ue
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHTK-0003s5-3c
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:11 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHSw-0003gf-Al
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:20:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619029269;
+ s=mimecast20190719; t=1619029245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mj5eqXUu/ejMlhT4ls2rJCK65l3UrBx512STLV6Me2c=;
- b=CFZ59dzVMixK38eC0SoJcBPtpIiqKQqSfwyQGu5h73WdT5GpswDKae04JFSK5GiDH8Pyl4
- s1qjj6MzUjw4ndQkzavsB53qjs3Nyie+X/KC1sZDrrZDamyLeDEvdAGZ1hTYJt7L6UwD+Q
- zBf/X0NyjKm6Voih802Y8zM/gtxUnEo=
+ bh=bfsmxyB/oXqMShfgxZ3INhgXcmORZNEam4G2fDP4+mY=;
+ b=T6JtXfDy0k+r26GILU7uy77f3OuQxQHN6CeGvhisVhp8KG//yHclWGOcwtRgRCCdktSdL5
+ KRdvngC4Ya1iiRg8b2Ls1gMUSZGWeXt2DNy8FmN00iHB9SvFWe1nA5iTJTG1I8P5fZ0Xpu
+ tVWKR4O1mAq4VqSTi0JAM+61+htVzmk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-y-2nsGUcNhC76BYFTFQ7ng-1; Wed, 21 Apr 2021 14:20:39 -0400
-X-MC-Unique: y-2nsGUcNhC76BYFTFQ7ng-1
+ us-mta-382-2hQGomJzOHq_J_AB3MsnBg-1; Wed, 21 Apr 2021 14:20:43 -0400
+X-MC-Unique: 2hQGomJzOHq_J_AB3MsnBg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60516107ACED;
- Wed, 21 Apr 2021 18:20:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 597CF8030A0;
+ Wed, 21 Apr 2021 18:20:42 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-152.rdu2.redhat.com [10.10.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8461C19D9B;
- Wed, 21 Apr 2021 18:20:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 810FC19D80;
+ Wed, 21 Apr 2021 18:20:41 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 02/17] qapi/expr.py: Remove 'info' argument from nested
- check_if_str
-Date: Wed, 21 Apr 2021 14:20:17 -0400
-Message-Id: <20210421182032.3521476-3-jsnow@redhat.com>
+Subject: [PATCH v5 06/17] qapi/expr.py: move string check upwards in check_type
+Date: Wed, 21 Apr 2021 14:20:21 -0400
+Message-Id: <20210421182032.3521476-7-jsnow@redhat.com>
 In-Reply-To: <20210421182032.3521476-1-jsnow@redhat.com>
 References: <20210421182032.3521476-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,42 +82,43 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function can just use the argument from the scope above. Otherwise,
-we get shadowed argument errors because the parameter name clashes with
-the name of a variable already in-scope.
+For readability purposes only, shimmy the early return upwards to the
+top of the function, so cases proceed in order from least to most
+complex.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/expr.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qapi/expr.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index c207481f7e9..3fda5d50827 100644
+index 3ab78a555dc..c0d18dcc018 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -122,7 +122,7 @@ def check_flags(expr, info):
+@@ -171,6 +171,10 @@ def check_type(value, info, source,
+     if value is None:
+         return
  
- def check_if(expr, info, source):
++    # Type name
++    if isinstance(value, str):
++        return
++
+     # Array type
+     if isinstance(value, list):
+         if not allow_array:
+@@ -181,10 +185,6 @@ def check_type(value, info, source,
+                                source)
+         return
  
--    def check_if_str(ifcond, info):
-+    def check_if_str(ifcond):
-         if not isinstance(ifcond, str):
-             raise QAPISemError(
-                 info,
-@@ -142,9 +142,9 @@ def check_if_str(ifcond, info):
-             raise QAPISemError(
-                 info, "'if' condition [] of %s is useless" % source)
-         for elt in ifcond:
--            check_if_str(elt, info)
-+            check_if_str(elt)
-     else:
--        check_if_str(ifcond, info)
-+        check_if_str(ifcond)
-         expr['if'] = [ifcond]
+-    # Type name
+-    if isinstance(value, str):
+-        return
+-
+     # Anonymous type
  
- 
+     if not allow_dict:
 -- 
 2.30.2
 
