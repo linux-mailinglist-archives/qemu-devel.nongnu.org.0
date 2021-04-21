@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB6136664F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 09:37:10 +0200 (CEST)
-Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003CB366652
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 09:38:51 +0200 (CEST)
+Received: from localhost ([::1]:50332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ7Q4-0000vu-QE
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 03:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45590)
+	id 1lZ7Rj-0001s7-3I
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 03:38:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZ7Oh-0000Ul-U5
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:35:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZ7Of-0000Y2-Fw
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:35:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZ7Oc-0006tx-JJ
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 07:35:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8D4292E800F
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 07:35:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lZ7PT-0000vJ-B8
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:36:31 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.21]:15762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lZ7PQ-0000zz-Ls
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:36:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618990579; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=XYnwc/KouSUoj9yAacizwaNcjcsntLXiqn/3QC06ZAPfnQXzkOVyuZfUcCEq8uKcWp
+ QvPURwtWA56rEsiTMZ4fORcw52RwW9KGOi8Xk5H6kxCSrfqPTQyYOFneU3MR3DzLr6EP
+ hUW8QQe06EhonJP8yJ19L+Ace4RA09r8+0GZYNzSJUEhqCpgRfCEQ4ASUBbpjQtqoyKF
+ vsCAFqcGc2l2ElwCPValcD0uwXmfc6/+Hk0vNJX7AXhbf3IFjOOO7gEOWW6dAyfdYN+b
+ 5WS2eD3LummMlezO6LUkHBAWlVYpJ+TsXrRFjfmfvY8qPtSYvwqvUjnNSB2fsLw1GFaH
+ aZYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1618990579;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=Vp8Yq3XNWEv9Esu1MxarFxhzttR5WQUPqpvSWqi+nig=;
+ b=eHbLv6LowG4cNfM0ie/4cu8oyZWLtSgO6FHGZzDVTSlI/S9tPhCLNiaj5AwttyLSrx
+ MGMyp0jPI/soGAoTNTCyH0ZZiFxGSy+ng4Sb2/3cbFyUEe1dApFgQ5NLiOEcMkKcTdUH
+ ZS73J1ijq9+I2hWNciiuy7TuJWDMpGN8mrDz4Grnyyu+4i4XLaoovOtFsnTD5qFg0BV3
+ /wPgGr22wMpwjqAOvfd9dSDz2FSzpV5lLlrEh6w6h3CQBbX1ekYZBe9YXX7pBfO/aCnH
+ fspAR80kAr8Q6msPgqHWN/wEaxa8dH0KXkpYEMFxHctSPNYh3VzwY5jxEBMBiuFKTBTf
+ SzuQ==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JSSHyzkN3ON0Uun6F+zrkVqc/ZmTClqC4x8TtiRZHkgvdiKE9vpOcNvUp/CcHtmvnEw=="
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2003:c3:9710:2300:1761:34f8:11a8:6e99]
+ by smtp.strato.de (RZmta 47.24.3 AUTH)
+ with ESMTPSA id U051a9x3L7aHLNZ
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 21 Apr 2021 09:36:17 +0200 (CEST)
+Subject: Re: [PATCH v2] hw/riscv: Fix OT IBEX reset vector
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210420080008.119798-1-alexander.wagner@ulal.de>
+ <CAKmqyKNhDyO+jLgKnH6ixZkfzCCJYhVG7KUfrs5vzSSKwjCSTw@mail.gmail.com>
+From: Alexander Wagner <alexander.wagner@ulal.de>
+Message-ID: <835877d6-6ed9-b0d9-2579-bbf48ce68bde@ulal.de>
+Date: Wed, 21 Apr 2021 09:36:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Apr 2021 07:29:33 -0000
-From: Klaus Jensen <1747393@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=its@irrelevant.dk; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: birkelund th-huth toomas-soome
-X-Launchpad-Bug-Reporter: Toomas Soome (toomas-soome)
-X-Launchpad-Bug-Modifier: Klaus Jensen (birkelund)
-References: <151782642980.10198.17726074601611845094.malonedeb@wampee.canonical.com>
-Message-Id: <161899017347.6248.18239670601735973994.malone@chaenomeles.canonical.com>
-Subject: [Bug 1747393] Re: nvme is missing support for
- NVME_ADM_CMD_ASYNC_EV_REQ
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: dc5101266b007881520d0b7b0eafda304e07fafb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKmqyKNhDyO+jLgKnH6ixZkfzCCJYhVG7KUfrs5vzSSKwjCSTw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: none client-ip=85.215.255.21;
+ envelope-from=alexander.wagner@ulal.de; helo=mo4-p00-ob.smtp.rzone.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,41 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1747393 <1747393@bugs.launchpad.net>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was fixed in 5.2.0.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+On 21.04.21 02:00, Alistair Francis wrote:
+> On Tue, Apr 20, 2021 at 6:01 PM Alexander Wagner
+> <alexander.wagner@ulal.de> wrote:
+>> The IBEX documentation [1] specifies the reset vector to be "the most
+>> significant 3 bytes of the boot address and the reset value (0x80) as
+>> the least significant byte".
+>>
+>> [1] https://github.com/lowRISC/ibex/blob/master/doc/03_reference/exception_interrupts.rst
+>>
+>> Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Thanks!
+>
+> Applied to riscv-to-apply.next
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Klaus Jensen (birkelund)
+Perfect, thank you :)
 
--- =
+Regards
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1747393
+Alex
 
-Title:
-  nvme is missing support for NVME_ADM_CMD_ASYNC_EV_REQ
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  NVME_ADM_CMD_ASYNC_EV_REQ is required by specification but apparently
-  we will be responded by error when this command is used.
-
-  The Asynchronous Event Request is a mandatory opcode required by
-  specification (Figure 40, Section 5 in NVMe 1.2; Figure 41, Section 5
-  in NVMe 1.3). A simple way to deal with this in an emulator that
-  doesn't really want to use async events is to queue up the requests
-  and not do anything with them, and only complete them when the driver
-  aborts the command.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1747393/+subscriptions
 
