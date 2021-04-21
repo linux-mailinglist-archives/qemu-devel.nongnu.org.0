@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E610366458
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 06:23:37 +0200 (CEST)
-Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4717D36645B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 06:24:53 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ4Om-0002Yj-Cx
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 00:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36066)
+	id 1lZ4Q0-0004Hc-BH
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 00:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lZ4GV-0007TE-3O
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:15:03 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38868)
+ id 1lZ4GX-0007Z9-El
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:15:05 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:45917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lZ4GS-0003O3-JC
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:15:02 -0400
-Received: by mail-pg1-x529.google.com with SMTP id w10so28539305pgh.5
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 21:15:00 -0700 (PDT)
+ id 1lZ4GV-0003R5-Mg
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:15:05 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id d10so28513294pgf.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 21:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BwZRS5GJWG/wYNy5H36IQKvFFYR9qB+pAAXqNNytdRg=;
- b=lQ2nJGS+aeExzgGvCfFOs9bwLmT+xqwY6IjoWZJXLZR97YCUAevXG9DwpgUXidltvo
- zlDCVcHIyqgvC1ADHQWfCSk9Mtph/3dZmFbvr8StJLTV8biqymf4SsBh1UBCnJofRU7c
- VU2RhiLUaBaUl3zE0t5djWsVRhwfZ00OKO6nULqm7Fyh/HESO36/A6TJ3f7h5TvDrnai
- ko4f+tqQIV/zEoF9oisHNcxnZOWVX4buNRIvNFhs2b/I1THiBNFtsqK8gr39RggYrqA8
- a88316INulvQZg+MBaJjE7DwAktyuSnZwR8DzKo8rG9YkeperIjp9AW/1Fh9PDjsgzH1
- bNXA==
+ bh=NBOhJAYqVk2o3FB3PePT4zWsA15zhdo9pXBP5hRhnEo=;
+ b=XmB1UVpBtXiRGHNuQLhyHqEEjf8AFyDbiHbjdLObuy6XRDL0CaelUlxJ+QKqU8STL/
+ P7nlTfcEZSG83ajxomoYYAY7BtmR04XWNnL3Vh32nCIMOgSe0SKwsXe3a70T9VvbU0Wp
+ CjKwsBOgxdJuAcj/AXsZ2ekEpP4LNLtvm1kSzEkyC4HykcQcFU40bNG5DSYlHfCQmPFZ
+ zjBymxmrXTXcrGmYyZcGPoVwPJREGpSFiv7JRVPg4Xb+l7XtUm2Igp9fozkyK0fLwy0i
+ NE2WcGSXlzW9TkMjHVqaTiYN4BMSKaRspk5F//qyMk4Gf3etpNNTxE/wnHaUy+x9TuDJ
+ i1xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=BwZRS5GJWG/wYNy5H36IQKvFFYR9qB+pAAXqNNytdRg=;
- b=E69OuPPuQ+YMGi3MaNMcir3LCI2rk0e8F+7dJq3GJFMRJ9nY4qeH5RmIp7JefOETbW
- 1JPceb4RdCybUGd7/DQKRtyEO5ztCGrRVFartnYVdypW42Bgiqblr7pl7Rzp7OWsgjWw
- UskJThIyVwAsvbhb6hLYxZwTSvzIPZQjn9Oh6nqq75YvEhgBJb7L6K4c3YFd4o9I5WtH
- shAoWkiQTC9loffsSLRtqK4fz9bg9f5CTnhrCcBVzjl/+8hE+P6bYg8gNkOGYdbImuZ3
- dCTo309L7Lfqy5aQ5ouQ04eC4T4/mh8nMnbpWwsr80L8DNNg7Dac9YgbOSeO6xmaW911
- JfsA==
-X-Gm-Message-State: AOAM530mQmgWPOZ2ljPmFwXhoiGdcmimmaYkwpjj8JL7JnBxPG3d3pYn
- gQj2+Q6yc/JTGfIHVEBM4z+P3O14FKC4Wwsd
-X-Google-Smtp-Source: ABdhPJw+9gkKS8ZYJMZsOK4WKn86W161R3Stm7JR9lngbLxrQdpT9IwB9GKgnUXlTpB3phlFZ9EJ1Q==
-X-Received: by 2002:a17:90a:7893:: with SMTP id
- x19mr8989185pjk.3.1618978499176; 
- Tue, 20 Apr 2021 21:14:59 -0700 (PDT)
+ bh=NBOhJAYqVk2o3FB3PePT4zWsA15zhdo9pXBP5hRhnEo=;
+ b=nG+nlSDtkXXcDX56NQV3fMX7UQTjwnzs+3eKKQHDT3CYgI7/xhHDLqbsSDJA73DWKL
+ G3dC4Q7IzCg0DHz+1bOi8zGMyxy12Tc4OMouJROjpzPGiXGfPaWen+1JLuGL9ZHQ3s2V
+ R1Er40A5o7hXQJtQQwCFOJ10cmjFqlfyqeEuqCKqLT2TRjbFtS8TshOquU8JrvWiuGIf
+ HxPVFv1h/dVL/b7OD0GeJLgebHvDZTSViq3IWXu1OqJJo0Q0CmYYV9/Tk9P1Dr3nVzwK
+ 29lBIJIfNf1V64YlEDG+OO0UHAbhTNs/Zxx7BKwYXe3Mmy0sH/8ZFU694l7PtQ12ejJC
+ AuUQ==
+X-Gm-Message-State: AOAM533sMUygfxaUCVmNgWxRtkoVxAr37J710lh5dMu58i/qXNJS9EEH
+ HM8GUfd7ZHH1f4xx3tICuaNJegilziU9hfD7
+X-Google-Smtp-Source: ABdhPJzUeQNXZ/wOR1vWjz0N7L4KIJ+aZquA7/b4QofrbQsUZ9HPMGEYjGbj54M8I74ESeyQwCQK9g==
+X-Received: by 2002:a17:90a:fd95:: with SMTP id
+ cx21mr1789943pjb.137.1618978502128; 
+ Tue, 20 Apr 2021 21:15:02 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id jx20sm551465pjb.41.2021.04.20.21.14.56
+ by smtp.gmail.com with ESMTPSA id jx20sm551465pjb.41.2021.04.20.21.15.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 21:14:58 -0700 (PDT)
+ Tue, 20 Apr 2021 21:15:01 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v5 16/17] target/riscv: rvb: support and turn on B-extension
- from command line
-Date: Wed, 21 Apr 2021 12:13:58 +0800
-Message-Id: <20210421041400.22243-17-frank.chang@sifive.com>
+Subject: [PATCH v5 17/17] target/riscv: rvb: add b-ext version cpu option
+Date: Wed, 21 Apr 2021 12:13:59 +0800
+Message-Id: <20210421041400.22243-18-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210421041400.22243-1-frank.chang@sifive.com>
 References: <20210421041400.22243-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,70 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+Cc: Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-B-extension is default off, use cpu rv32 or rv64 with x-b=true to
-enable B-extension.
+Default b-ext version is v0.93.
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.c | 4 ++++
- target/riscv/cpu.h | 2 ++
- 2 files changed, 6 insertions(+)
+ target/riscv/cpu.c | 23 +++++++++++++++++++++++
+ target/riscv/cpu.h |  3 +++
+ 2 files changed, 26 insertions(+)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7d6ed80f6b6..8464a152d14 100644
+index 8464a152d14..b76c3c07c5f 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -473,6 +473,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
+@@ -127,6 +127,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+     env->priv_ver = priv_ver;
+ }
+ 
++static void set_bext_version(CPURISCVState *env, int bext_ver)
++{
++    env->bext_ver = bext_ver;
++}
++
+ static void set_vext_version(CPURISCVState *env, int vext_ver)
+ {
+     env->vext_ver = vext_ver;
+@@ -380,6 +385,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+     int priv_version = PRIV_VERSION_1_11_0;
++    int bext_version = BEXT_VERSION_0_93_0;
+     int vext_version = VEXT_VERSION_0_07_1;
+     target_ulong target_misa = env->misa;
+     Error *local_err = NULL;
+@@ -404,6 +410,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     set_priv_version(env, priv_version);
++    set_bext_version(env, bext_version);
+     set_vext_version(env, vext_version);
+ 
+     if (cpu->cfg.mmu) {
+@@ -475,6 +482,21 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
          }
-+        if (cpu->cfg.ext_b) {
-+            target_misa |= RVB;
-+        }
+         if (cpu->cfg.ext_b) {
+             target_misa |= RVB;
++
++            if (cpu->cfg.bext_spec) {
++                if (!g_strcmp0(cpu->cfg.bext_spec, "v0.93")) {
++                    bext_version = BEXT_VERSION_0_93_0;
++                } else {
++                    error_setg(errp,
++                           "Unsupported bitmanip spec version '%s'",
++                           cpu->cfg.bext_spec);
++                    return;
++                }
++            } else {
++                qemu_log("bitmanip version is not specified, "
++                         "use the default value v0.93\n");
++            }
++            set_bext_version(env, bext_version);
+         }
          if (cpu->cfg.ext_v) {
              target_misa |= RVV;
-             if (!is_power_of_2(cpu->cfg.vlen)) {
-@@ -543,6 +546,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-+    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+@@ -553,6 +575,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
++    DEFINE_PROP_STRING("bext_spec", RISCVCPU, cfg.bext_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0a33d387ba8..97073bb8e27 100644
+index 97073bb8e27..56de8cb5edd 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -72,6 +72,7 @@
- #define RVS RV('S')
- #define RVU RV('U')
- #define RVH RV('H')
-+#define RVB RV('B')
+@@ -87,6 +87,7 @@ enum {
+ #define PRIV_VERSION_1_10_0 0x00011000
+ #define PRIV_VERSION_1_11_0 0x00011100
  
- /* S extension denotes that Supervisor mode exists, however it is possible
-    to have a core that support S mode but does not have an MMU and there
-@@ -288,6 +289,7 @@ struct RISCVCPU {
-         bool ext_f;
-         bool ext_d;
-         bool ext_c;
-+        bool ext_b;
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
++#define BEXT_VERSION_0_93_0 0x00009300
+ #define VEXT_VERSION_0_07_1 0x00000701
+ 
+ enum {
+@@ -134,6 +135,7 @@ struct CPURISCVState {
+     target_ulong guest_phys_fault_addr;
+ 
+     target_ulong priv_ver;
++    target_ulong bext_ver;
+     target_ulong vext_ver;
+     target_ulong misa;
+     target_ulong misa_mask;
+@@ -300,6 +302,7 @@ struct RISCVCPU {
+ 
+         char *priv_spec;
+         char *user_spec;
++        char *bext_spec;
+         char *vext_spec;
+         uint16_t vlen;
+         uint16_t elen;
 -- 
 2.17.1
 
