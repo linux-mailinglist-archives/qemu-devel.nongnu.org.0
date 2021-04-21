@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFDC367415
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 22:19:46 +0200 (CEST)
-Received: from localhost ([::1]:57016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5685A36747A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 22:57:58 +0200 (CEST)
+Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZJK5-0000aP-2T
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 16:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
+	id 1lZJv2-0002AB-U8
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 16:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lZJIW-0008MA-Ob
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 16:18:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lZJIT-0003sR-TB
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 16:18:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619036284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8TVM8kbG7gxmYStd9OAFRHNZtIBFa2yqBhS/x5MZ3wk=;
- b=hI9r+dYacZGWQST8ePA8p89b+oAJtxsQqyMn85gRfWoBWmZCD0AQzSmP8ub9sh6wU9t5tL
- Ox6Z352/TD5+oDpDu4HOvpGeks728OcIx4Ns4ZzOlPM8DU6rm/yxGD8GSCXj6sJXAy0oG2
- BDKO0GKBugEnfzv7wlny0I2eduv7Nf0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-JzHi4qjTMuepT4nyiTZE_w-1; Wed, 21 Apr 2021 16:18:02 -0400
-X-MC-Unique: JzHi4qjTMuepT4nyiTZE_w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6573108BD08;
- Wed, 21 Apr 2021 20:18:00 +0000 (UTC)
-Received: from localhost (ovpn-117-199.rdu2.redhat.com [10.10.117.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FFF96064B;
- Wed, 21 Apr 2021 20:17:59 +0000 (UTC)
-Date: Wed, 21 Apr 2021 16:17:59 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: Re: [PATCH v6] qapi: introduce 'query-cpu-model-cpuid' action
-Message-ID: <20210421201759.utsmhuopdmlhghbx@habkost.net>
-References: <20210420161940.24306-1-valeriy.vdovin@virtuozzo.com>
- <20210420170900.utg4qzqkefdc642c@habkost.net>
- <20210421173941.GA927665@dhcp-172-16-24-191.sw.ru>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZJt9-0001GW-Jc
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 16:55:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZJt6-0001Nn-GM
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 16:55:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZJt4-0003oi-6g
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 20:55:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 176C52E815D
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 20:55:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210421173941.GA927665@dhcp-172-16-24-191.sw.ru>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Apr 2021 20:43:29 -0000
+From: Eddy Hahn <1918084@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eddyh philmd th-huth
+X-Launchpad-Bug-Reporter: Eddy Hahn (eddyh)
+X-Launchpad-Bug-Modifier: Eddy Hahn (eddyh)
+References: <161517335801.3660.13243926426355834161.malonedeb@soybean.canonical.com>
+Message-Id: <161903780994.32072.11887537935378323360.malone@soybean.canonical.com>
+Subject: [Bug 1918084] Re: Build fails on macOS 11.2.2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: ff3e7e9665eec73ecdd5eeb8f5ad4dee5d390b1d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,98 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1918084 <1918084@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 21, 2021 at 08:39:42PM +0300, Valeriy Vdovin wrote:
-> On Tue, Apr 20, 2021 at 01:09:00PM -0400, Eduardo Habkost wrote:
-> > On Tue, Apr 20, 2021 at 07:19:40PM +0300, Valeriy Vdovin wrote:
-> > [...]
-> > > +##
-> > > +# @query-cpu-model-cpuid:
-> > > +#
-> > > +# Returns description of a virtual CPU model, created by QEMU after cpu
-> > > +# initialization routines. The resulting information is a reflection of a parsed
-> > > +# '-cpu' command line option, filtered by available host cpu features.
-> > > +#
-> > > +# Returns:  @CpuModelCpuidDescription
-> > > +#
-> > > +# Example:
-> > > +#
-> > > +# -> { "execute": "query-cpu-model-cpuid" }
-> > > +# <- { "return": 'CpuModelCpuidDescription' }
-> > > +#
-> > > +# Since: 6.1
-> > > +##
-> > > +{ 'command': 'query-cpu-model-cpuid',
-> > > +  'returns': 'CpuModelCpuidDescription',
-> > > +  'if': 'defined(TARGET_I386)' }
-> > 
-> > I was assuming the command was going to get a CPU model name as
-> > argument.
-> > 
-> > If you are only going to return info on the current CPUs, the
-> > interface could be simplified a lot.
-> > 
-> > What about a simple `query-cpuid` command that only takes:
-> > 
-> >  { 'qom-path': 'str', # qom-path is returned by query-cpus-fast
-> >    'eax': 'uint32',
-> >    '*ecx': 'uint32' }
-> > 
-> > as argument, and returns
-> > 
-> >  { 'present': 'bool',
-> >    'max_eax': 'uint32',    # max value of EAX for this range
-> >    '*max_ecx': 'uint32',   # max value of ECX if there are subleaves
-> >    'eax': 'uint32',
-> >    'ebx': 'uint32',
-> >    'ecx': 'uint32',
-> >    'edx': 'uint32' }
-> > 
-> > ?
-> Hi. The interface that you suggest looks good. But it has one critical
-> point that deems it unusable for our initial needs. The point of this
-> whole new API is to take away the strain of knowing about leaf ranges
-> from the caller of this API. In my current patch this goal works. So
-> the caller does not need to know in advance what ranges there are in
-> original CPUID as well as in it's tweaked QEMU's version.
->
+It builds with v6.0.0-rc4 release from Git. Had to add --enable-trace-
+backends=3Dsyslog
 
-Raw CPUID data is a pretty low level interface, already.  Is it
-really too much of a burden for callers to know that CPUID ranges
-start at 0, 0x40000000, 0x80000000, and 0xC0000000?
+-- =
 
-(Especially considering that it would save us ~100 extra lines of
-C code and maybe 50-100 extra lines of QAPI schema code.)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918084
 
+Title:
+  Build fails on macOS 11.2.2
 
-> But you suggested API is not so kind to the caller, so he would need
-> to add some logic around the call that knows about exact leaf ranges.
-> If you have a solution to that also, I'll be happy to discuss it.
+Status in QEMU:
+  Triaged
 
-Would be following (Python-like pseudocode) be too much of a
-burden for consumers of the command?
+Bug description:
+  Hi,
 
-    for start in (0, 0x40000000, 0x80000000, 0xC0000000):
-        leaf = query_cpuid(qom_path, start)
-        for eax in range(start, leaf.max_eax + 1):
-            for ecx in range(0, leaf.get('max_ecx', 0) + 1):
-                all_leaves.append(query_cpuid(qom_path, eax, ecx))
+  I got the latest version from git. I have pre-compiled the dependency
+  libraries. All good. configure creates the necessary files. When I
+  build I got the following error:
 
-> 
-> The obvious thing that comes to mind is changing the exists/max_ecx pair
-> to something like next_eax, next_ecx. But this idea will probably require
-> the same amount of complexity that I currently have in this patch.
+  [1368/6454] Compiling C object libcapstone.a.p/capstone_arch_AArch64_AArc=
+h64InstPrinter.c.o
+  ninja: build stopped: subcommand failed.
+  make[1]: *** [run-ninja] Error 1
+  make: *** [all] Error 2
 
-I agree.  I'm trying to reduce the complexity of the interface
-and of the command implementation.
+  I've ran make as make -j 8
 
--- 
-Eduardo
+  original config:
 
+  PKG_CONFIG_PATH=3D"$SERVERPLUS_DIR/dependencies/glib/lib/pkgconfig:$SERVE=
+RPLUS_DIR/dependencies/pixman/lib/pkgconfig:$SERVERPLUS_DIR/dependencies
+  /cyrus-sasl/lib/pkgconfig" ./configure --prefix=3D"$SERVERPLUS_DIR"
+  --enable-hvf --enable-cocoa --enable-vnc-sasl --enable-auth-pam
+  --ninja=3D/opt/build/build/stage/tools/ninja/ninja
+  --python=3D"$SERVERPLUS_DIR/dependencies/python/bin/python3" --enable-
+  bsd-user
+
+  if I build with --target-list=3Dx86_64-softmmu then it will build but I
+  will get only the x86_64 QEMU built. With 5.0 I could build all
+  emulators.
+
+  $SERVERPLUS_DIR is my target dir.
+
+  Thanks,
+
+  Eddy
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918084/+subscriptions
 
