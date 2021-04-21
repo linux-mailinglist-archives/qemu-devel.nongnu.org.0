@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E555D366657
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 09:41:48 +0200 (CEST)
-Received: from localhost ([::1]:53038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA7A366664
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 09:46:06 +0200 (CEST)
+Received: from localhost ([::1]:55760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ7UZ-00037j-O4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 03:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
+	id 1lZ7Yk-0004Oe-0B
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 03:46:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lZ7TG-0002aA-VO; Wed, 21 Apr 2021 03:40:26 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2135)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lZ7XE-0003yQ-HM
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:44:32 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lZ7TD-0003DY-CO; Wed, 21 Apr 2021 03:40:26 -0400
-Received: from dggeml405-hub.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FQC7q6cFqz5spD;
- Wed, 21 Apr 2021 15:37:43 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggeml405-hub.china.huawei.com (10.3.17.49) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 21 Apr 2021 15:40:06 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Wed, 21 Apr 2021 15:40:05 +0800
-Subject: Re: [RFC PATCH v2 0/6] hw/arm/virt: Introduce cpu topology support
-To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Shannon Zhao
- <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-References: <20210413080745.33004-1-wangyanan55@huawei.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <0a40b022-535a-a06d-b0a1-84be049f8d9e@huawei.com>
-Date: Wed, 21 Apr 2021 15:40:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lZ7XC-0005mm-41
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:44:32 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.206])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6198F9C13F06;
+ Wed, 21 Apr 2021 09:44:25 +0200 (CEST)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 21 Apr
+ 2021 09:44:24 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002e2e40fd4-2e69-424c-9b86-4e3ea8ce89ee,
+ 50F065E079F855668D79ED56DF61EE5F1F64E411) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 21 Apr 2021 09:44:23 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [for-6.1 2/2] virtiofsd: Add support for
+ FUSE_SYNCFS request
+Message-ID: <20210421094423.59e105f5@bahia.lan>
+In-Reply-To: <20210420185719.GD1529659@redhat.com>
+References: <20210419151142.276439-1-groug@kaod.org>
+ <20210419151142.276439-3-groug@kaod.org>
+ <20210420185719.GD1529659@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210413080745.33004-1-wangyanan55@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 083d9b10-8ec5-42bd-9a86-52c534d2dd2a
+X-Ovh-Tracer-Id: 15553462789816097248
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddtjedguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdefgfdtgeeluddujeejleffgffhhedtieeggffguddvgfekvefgfeettdejheevnecuffhomhgrihhnpehrvgguhhgrthdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehvihhrthhiohdqfhhssehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,90 +70,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, wanghaibin.wang@huawei.com,
- yuzenghui@huawei.com, yangyicong@huawei.com, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey guys, any comments will be really welcomed and appreciated! 😉
+On Tue, 20 Apr 2021 14:57:19 -0400
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-Thanks,
-Yanan
-On 2021/4/13 16:07, Yanan Wang wrote:
-> Hi,
->
-> This series is a new version of [0] recently posted by Ying Fang
-> to introduce cpu topology support for ARM platform. I have taken
-> over his work about this now, thanks for his contribution.
->
-> Description:
-> An accurate cpu topology may help improve the cpu scheduler's decision
-> making when dealing with multi-core system. So cpu topology description
-> is helpful to provide guest with the right view. Dario Faggioli's talk
-> in [1] also shows the virtual topology could have impact on scheduling
-> performace. Thus this patch series introduces cpu topology support for
-> ARM platform.
->
-> This series originally comes from Andrew Jones's patches [2], but with
-> some re-arrangement. Thanks for Andrew's contribution. In this series,
-> both fdt and ACPI PPTT table are introduced to present cpu topology to
-> the guest. And a new function virt_smp_parse() not like the default
-> smp_parse() is introduced, which prefers cores over sockets.
->
-> [0] https://patchwork.kernel.org/project/qemu-devel/cover/20210225085627.2263-1-fangying1@huawei.com/
-> [1] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines-friend-or-foe-dario-faggioli-suse
-> [2] https://github.com/rhdrjones/qemu/commit/ecfc1565f22187d2c715a99bbcd35cf3a7e428fa
->
-> Test results:
-> After applying this patch series, launch a guest with virt-6.0 and cpu
-> topology configured with: -smp 96,sockets=2,clusters=6,cores=4,threads=2,
-> VM's cpu topology description shows as below.
->
-> Architecture:        aarch64
-> Byte Order:          Little Endian
-> CPU(s):              96
-> On-line CPU(s) list: 0-95
-> Thread(s) per core:  2
-> Core(s) per socket:  24
-> Socket(s):           2
-> NUMA node(s):        1
-> Vendor ID:           0x48
-> Model:               0
-> Stepping:            0x1
-> BogoMIPS:            200.00
-> NUMA node0 CPU(s):   0-95
->
-> ---
->
-> Changelogs:
-> v1->v2:
-> - Address Andrew Jones's comments
-> - Address Michael S. Tsirkin's comments
-> - Pick up one more patch(patch#6) of Andrew Jones
-> - Rebased on v6.0.0-rc2 release
->
-> ---
->
-> Andrew Jones (3):
->    device_tree: Add qemu_fdt_add_path
->    hw/arm/virt: DT: Add cpu-map
->    hw/arm/virt: Replace smp_parse with one that prefers cores
->
-> Yanan Wang (2):
->    hw/acpi/aml-build: Add processor hierarchy node structure
->    hw/arm/virt-acpi-build: Add PPTT table
->
-> Ying Fang (1):
->    hw/arm/virt-acpi-build: Distinguish possible and present cpus
->
->   hw/acpi/aml-build.c          |  27 ++++++++
->   hw/arm/virt-acpi-build.c     |  77 ++++++++++++++++++++--
->   hw/arm/virt.c                | 120 ++++++++++++++++++++++++++++++++++-
->   include/hw/acpi/aml-build.h  |   4 ++
->   include/hw/arm/virt.h        |   1 +
->   include/sysemu/device_tree.h |   1 +
->   softmmu/device_tree.c        |  45 ++++++++++++-
->   7 files changed, 268 insertions(+), 7 deletions(-)
->
+> On Mon, Apr 19, 2021 at 05:11:42PM +0200, Greg Kurz wrote:
+> > Honor the expected behavior of syncfs() to synchronously flush all
+> > data and metadata on linux systems. Like the ->sync_fs() superblock
+> > operation in the linux kernel, FUSE_SYNCFS has a 'wait' argument that
+> > tells whether the server should wait for outstanding I/Os to complete
+> > before replying to the client. Anything virtiofsd can do to flush
+> > the caches implies blocking syscalls, so nothing is done if waiting
+> > isn't requested.
+> > 
+> > Flushing is done with syncfs(). This is suboptimal as it will also
+> > flush writes performed by any other process on the same file system,
+> > and thus add an unbounded time penalty to syncfs(). This may be
+> > optimized in the future, but enforce correctness first.
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  tools/virtiofsd/fuse_lowlevel.c       | 19 ++++++++++++++++++
+> >  tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++++++
+> >  tools/virtiofsd/passthrough_ll.c      | 29 +++++++++++++++++++++++++++
+> >  tools/virtiofsd/passthrough_seccomp.c |  1 +
+> >  4 files changed, 62 insertions(+)
+> > 
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> > index 58e32fc96369..2d0c47a7a60e 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.c
+> > +++ b/tools/virtiofsd/fuse_lowlevel.c
+> > @@ -1870,6 +1870,24 @@ static void do_lseek(fuse_req_t req, fuse_ino_t nodeid,
+> >      }
+> >  }
+> >  
+> > +static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
+> > +                      struct fuse_mbuf_iter *iter)
+> > +{
+> > +    struct fuse_syncfs_in *arg;
+> > +
+> > +    arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
+> > +    if (!arg) {
+> > +        fuse_reply_err(req, EINVAL);
+> > +        return;
+> > +    }
+> > +
+> > +    if (req->se->op.syncfs) {
+> > +        req->se->op.syncfs(req, arg->wait);
+> > +    } else {
+> > +        fuse_reply_err(req, ENOSYS);
+> > +    }
+> > +}
+> > +
+> >  static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >                      struct fuse_mbuf_iter *iter)
+> >  {
+> > @@ -2267,6 +2285,7 @@ static struct {
+> >      [FUSE_RENAME2] = { do_rename2, "RENAME2" },
+> >      [FUSE_COPY_FILE_RANGE] = { do_copy_file_range, "COPY_FILE_RANGE" },
+> >      [FUSE_LSEEK] = { do_lseek, "LSEEK" },
+> > +    [FUSE_SYNCFS] = { do_syncfs, "SYNCFS" },
+> >  };
+> >  
+> >  #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+> > index 3bf786b03485..b5ac42c31799 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.h
+> > +++ b/tools/virtiofsd/fuse_lowlevel.h
+> > @@ -1225,6 +1225,19 @@ struct fuse_lowlevel_ops {
+> >       */
+> >      void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+> >                    struct fuse_file_info *fi);
+> > +
+> > +    /**
+> > +     * Synchronize file system content
+> > +     *
+> > +     * If this request is answered with an error code of ENOSYS,
+> > +     * this is treated as success and future calls to syncfs() will
+> > +     * succeed automatically without being sent to the filesystem
+> > +     * process.
+> > +     *
+> > +     * @param req request handle
+> > +     * @param wait whether to wait for outstanding I/Os to complete
+> > +     */
+> > +    void (*syncfs)(fuse_req_t req, int wait);
+> >  };
+> >  
+> >  /**
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index 1553d2ef454f..6b66f3208be0 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -3124,6 +3124,34 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+> >      }
+> >  }
+> >  
+> > +static void lo_syncfs(fuse_req_t req, int wait)
+> > +{
+> > +    if (wait) {
+> > +        struct lo_data *lo = lo_data(req);
+> > +        int fd, ret;
+> > +
+> > +        fd = lo_inode_open(lo, &lo->root, O_RDONLY);
+> > +        if (fd < 0) {
+> > +            fuse_reply_err(req, errno);
+> > +            return;
+> > +        }
+> > +
+> > +        /*
+> > +         * FIXME: this is suboptimal because it will also flush unrelated
+> > +         *        writes not coming from the client. This can dramatically
+> > +         *        increase the time spent in syncfs() if some process is
+> > +         *        writing lots of data on the same filesystem as virtiofsd.
+> > +         */
+> > +        ret = syncfs(fd);
+> > +        /* syncfs() never fails on a valid fd */
+> 
+> Where does this come from. man page says.
+> 
+>        syncfs() can fail for at least the following reason:
+> 
+>        EBADF  fd is not a valid file descriptor.
+> 
+> It says "can fail for at least the following reason". Its not ruling out
+> failures due to other reasons?
+> 
+> Also kernel implementation of syscall is as follows.
+> 
+> SYSCALL_DEFINE1(syncfs, int, fd)
+> {
+> 	if (!f.file)
+>                 return -EBADF;
+>         sb = f.file->f_path.dentry->d_sb;
+> 
+>         down_read(&sb->s_umount);
+>         ret = sync_filesystem(sb);
+>         up_read(&sb->s_umount);
+> 
+>         ret2 = errseq_check_and_advance(&sb->s_wb_err, &f.file->f_sb_err);
+> 
+>         fdput(f);
+>         return ret ? ret : ret2;
+> }
+> 
+> So it explicityly capture error code from sync_filesystem() and 
+> errseq_check_and_advance() and returns one of them.
+> 
+
+You're right. I'll drop the assert() and propagate the
+error code.
+
+> > +        assert(ret == 0);
+> > +
+> > +        close(fd);
+> > +    }
+> > +
+> > +    fuse_reply_err(req, 0);
+> 
+> This probably could be better strucutred as.
+> 
+> 
+> 	if (!wait)
+> 		goto out;
+> 
+> 	/* Rest of the logic to call syncfs() */
+> out:
+> 	fuse_reply_err(req, ret);
+> 
+
+Will do.
+
+> Vivek
+> 
+
+Cheers,
+
+--
+Greg
+
+> > +}
+> 
+> > +
+> >  static void lo_destroy(void *userdata)
+> >  {
+> >      struct lo_data *lo = (struct lo_data *)userdata;
+> > @@ -3184,6 +3212,7 @@ static struct fuse_lowlevel_ops lo_oper = {
+> >      .copy_file_range = lo_copy_file_range,
+> >  #endif
+> >      .lseek = lo_lseek,
+> > +    .syncfs = lo_syncfs,
+> >      .destroy = lo_destroy,
+> >  };
+> >  
+> > diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> > index 62441cfcdb95..343188447901 100644
+> > --- a/tools/virtiofsd/passthrough_seccomp.c
+> > +++ b/tools/virtiofsd/passthrough_seccomp.c
+> > @@ -107,6 +107,7 @@ static const int syscall_allowlist[] = {
+> >      SCMP_SYS(set_robust_list),
+> >      SCMP_SYS(setxattr),
+> >      SCMP_SYS(symlinkat),
+> > +    SCMP_SYS(syncfs),
+> >      SCMP_SYS(time), /* Rarely needed, except on static builds */
+> >      SCMP_SYS(tgkill),
+> >      SCMP_SYS(unlinkat),
+> > -- 
+> > 2.26.3
+> > 
+> > _______________________________________________
+> > Virtio-fs mailing list
+> > Virtio-fs@redhat.com
+> > https://listman.redhat.com/mailman/listinfo/virtio-fs
+> 
+
 
