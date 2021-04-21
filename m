@@ -2,43 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535DA367FEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:00:55 +0200 (CEST)
-Received: from localhost ([::1]:33188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87072368021
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:18:34 +0200 (CEST)
+Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZY0q-0005Gu-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:00:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
+	id 1lZYHx-0008G7-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lZXvD-0006he-M1; Thu, 22 Apr 2021 07:55:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40384)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZY9v-0004tn-Pt
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lZXv9-00023W-Oe; Thu, 22 Apr 2021 07:55:03 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5C137AFC2;
- Thu, 22 Apr 2021 11:54:37 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [RFC v3 11/13] target/s390x: move kvm files into kvm/
-Date: Thu, 22 Apr 2021 13:54:28 +0200
-Message-Id: <20210422115430.15078-12-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210422115430.15078-1-cfontana@suse.de>
-References: <20210422115430.15078-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZY9r-0002O0-GG
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619093408;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=R5Z25tGEmAqz4YAGqBp4acEctT2MlSdpvyeUtti09Uo=;
+ b=EDfbAMGIQcvcbpui7ZZ38JK70NqH4NaV6w0PBHeQio3M+tHph7X9XL7sZoakxuyhu0WFa2
+ l+SCdHOB41XeGXisrRTPrXsq+AyfbYT0vmOmI8RI8/eHvPV6u9J78crRhR3PKXNnV+3k+n
+ 2lz+nMdQ7ObRMhVE35r/nYErlZdlecQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-dRIRxui9PemNQ-WX5wuFJQ-1; Thu, 22 Apr 2021 08:10:03 -0400
+X-MC-Unique: dRIRxui9PemNQ-WX5wuFJQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B9F8343B6;
+ Thu, 22 Apr 2021 12:09:48 +0000 (UTC)
+Received: from localhost (ovpn-112-237.rdu2.redhat.com [10.10.112.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6497319C45;
+ Thu, 22 Apr 2021 12:09:48 +0000 (UTC)
+Date: Wed, 21 Apr 2021 15:54:29 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v2 0/7] tests/acceptance: Handle tests with "cpu" tag
+Message-ID: <20210421195429.GA2153290@amachine.somewhere>
+References: <20210408195237.3489296-1-wainersm@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210408195237.3489296-1-wainersm@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,314 +77,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, philmd@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- meson.build                        |  1 +
- target/s390x/{ => kvm}/kvm_s390x.h |  0
- target/s390x/kvm/trace.h           |  1 +
- hw/intc/s390_flic_kvm.c            |  2 +-
- hw/s390x/s390-stattrib-kvm.c       |  2 +-
- hw/s390x/tod-kvm.c                 |  2 +-
- hw/vfio/ap.c                       |  2 +-
- target/s390x/cpu-sysemu.c          |  2 +-
- target/s390x/cpu.c                 |  2 +-
- target/s390x/cpu_models.c          |  2 +-
- target/s390x/diag.c                |  2 +-
- target/s390x/interrupt.c           |  2 +-
- target/s390x/{ => kvm}/kvm.c       |  2 +-
- target/s390x/machine.c             |  2 +-
- target/s390x/mmu_helper.c          |  2 +-
- target/s390x/kvm/meson.build       | 17 +++++++++++++++++
- target/s390x/kvm/trace-events      |  7 +++++++
- target/s390x/meson.build           | 16 +---------------
- target/s390x/trace-events          |  6 ------
- 19 files changed, 39 insertions(+), 33 deletions(-)
- rename target/s390x/{ => kvm}/kvm_s390x.h (100%)
- create mode 100644 target/s390x/kvm/trace.h
- rename target/s390x/{ => kvm}/kvm.c (99%)
- create mode 100644 target/s390x/kvm/meson.build
- create mode 100644 target/s390x/kvm/trace-events
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meson.build b/meson.build
-index 25363b492d..2a4c1964bf 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1852,6 +1852,7 @@ if have_system or have_user
-     'target/ppc',
-     'target/riscv',
-     'target/s390x',
-+    'target/s390x/kvm',
-     'target/sparc',
-   ]
- endif
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
-similarity index 100%
-rename from target/s390x/kvm_s390x.h
-rename to target/s390x/kvm/kvm_s390x.h
-diff --git a/target/s390x/kvm/trace.h b/target/s390x/kvm/trace.h
-new file mode 100644
-index 0000000000..ae195b1306
---- /dev/null
-+++ b/target/s390x/kvm/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-target_s390x_kvm.h"
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index b3fb9f8395..91987b0951 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -12,7 +12,7 @@
- 
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include <sys/ioctl.h>
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-diff --git a/hw/s390x/s390-stattrib-kvm.c b/hw/s390x/s390-stattrib-kvm.c
-index f89d8d9d16..6664345fb1 100644
---- a/hw/s390x/s390-stattrib-kvm.c
-+++ b/hw/s390x/s390-stattrib-kvm.c
-@@ -17,7 +17,7 @@
- #include "sysemu/kvm.h"
- #include "exec/ram_addr.h"
- #include "cpu.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- 
- Object *kvm_s390_stattrib_create(void)
- {
-diff --git a/hw/s390x/tod-kvm.c b/hw/s390x/tod-kvm.c
-index 0b94477486..ec855811ae 100644
---- a/hw/s390x/tod-kvm.c
-+++ b/hw/s390x/tod-kvm.c
-@@ -13,7 +13,7 @@
- #include "qemu/module.h"
- #include "sysemu/runstate.h"
- #include "hw/s390x/tod.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- 
- static void kvm_s390_get_tod_raw(S390TOD *tod, Error **errp)
- {
-diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-index 9571c2f91f..56a33b1277 100644
---- a/hw/vfio/ap.c
-+++ b/hw/vfio/ap.c
-@@ -23,7 +23,7 @@
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "cpu.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "migration/vmstate.h"
- #include "hw/qdev-properties.h"
- #include "hw/s390x/ap-bridge.h"
-diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
-index 6081b7ef32..f3c1b4845a 100644
---- a/target/s390x/cpu-sysemu.c
-+++ b/target/s390x/cpu-sysemu.c
-@@ -24,7 +24,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "qemu/timer.h"
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 59efe48bcd..6e82ba73cc 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -24,7 +24,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "qemu/module.h"
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 4ff8cba7e5..0ed1c23774 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -13,7 +13,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index 311e22b4ea..5b75853a7e 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -22,7 +22,7 @@
- #include "hw/s390x/s390-virtio-ccw.h"
- #include "hw/s390x/pv.h"
- #include "sysemu/kvm.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- 
- int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
- {
-diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
-index d0e58d6e8d..4e64ee705f 100644
---- a/target/s390x/interrupt.c
-+++ b/target/s390x/interrupt.c
-@@ -10,7 +10,7 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "cpu.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "s390x-internal.h"
- #include "exec/exec-all.h"
- #include "sysemu/kvm.h"
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm/kvm.c
-similarity index 99%
-rename from target/s390x/kvm.c
-rename to target/s390x/kvm/kvm.c
-index 2a22cc69f6..4e47563faf 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -27,7 +27,7 @@
- #include "qemu-common.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm_int.h"
- #include "qemu/cutils.h"
- #include "qapi/error.h"
-diff --git a/target/s390x/machine.c b/target/s390x/machine.c
-index 81a8a7ff99..37a076858c 100644
---- a/target/s390x/machine.c
-+++ b/target/s390x/machine.c
-@@ -17,7 +17,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "migration/vmstate.h"
- #include "tcg/tcg_s390x.h"
- #include "sysemu/kvm.h"
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 52fdd86c63..d779a9fc51 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -20,7 +20,7 @@
- #include "exec/address-spaces.h"
- #include "cpu.h"
- #include "s390x-internal.h"
--#include "kvm_s390x.h"
-+#include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
- #include "exec/exec-all.h"
-diff --git a/target/s390x/kvm/meson.build b/target/s390x/kvm/meson.build
-new file mode 100644
-index 0000000000..d1356356b1
---- /dev/null
-+++ b/target/s390x/kvm/meson.build
-@@ -0,0 +1,17 @@
-+
-+s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
-+  'kvm.c'
-+))
-+
-+# Newer kernels on s390 check for an S390_PGSTE program header and
-+# enable the pgste page table extensions in that case. This makes
-+# the vm.allocate_pgste sysctl unnecessary. We enable this program
-+# header if
-+#  - we build on s390x
-+#  - we build the system emulation for s390x (qemu-system-s390x)
-+#  - KVM is enabled
-+#  - the linker supports --s390-pgste
-+if host_machine.cpu_family() == 's390x' and cc.has_link_argument('-Wl,--s390-pgste')
-+  s390x_softmmu_ss.add(when: 'CONFIG_KVM',
-+                       if_true: declare_dependency(link_args: ['-Wl,--s390-pgste']))
-+endif
-diff --git a/target/s390x/kvm/trace-events b/target/s390x/kvm/trace-events
-new file mode 100644
-index 0000000000..5289f5f675
---- /dev/null
-+++ b/target/s390x/kvm/trace-events
-@@ -0,0 +1,7 @@
-+# See docs/devel/tracing.txt for syntax documentation.
-+
-+# kvm.c
-+kvm_enable_cmma(int rc) "CMMA: enabling with result code %d"
-+kvm_clear_cmma(int rc) "CMMA: clearing with result code %d"
-+kvm_failed_cpu_state_set(int cpu_index, uint8_t state, const char *msg) "Warning: Unable to set cpu %d state %" PRIu8 " to KVM: %s"
-+kvm_assign_subch_ioeventfd(int fd, uint32_t addr, bool assign, int datamatch) "fd: %d sch: @0x%x assign: %d vq: %d"
-diff --git a/target/s390x/meson.build b/target/s390x/meson.build
-index 6c8e03b8fb..ec73bed524 100644
---- a/target/s390x/meson.build
-+++ b/target/s390x/meson.build
-@@ -8,8 +8,6 @@ s390x_ss.add(files(
-   'cpu-dump.c',
- ))
- 
--s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
--
- gen_features = executable('gen-features', 'gen-features.c', native: true,
-                           build_by_default: false)
- 
-@@ -32,22 +30,10 @@ s390x_softmmu_ss.add(files(
-   'cpu-sysemu.c',
- ))
- 
--# Newer kernels on s390 check for an S390_PGSTE program header and
--# enable the pgste page table extensions in that case. This makes
--# the vm.allocate_pgste sysctl unnecessary. We enable this program
--# header if
--#  - we build on s390x
--#  - we build the system emulation for s390x (qemu-system-s390x)
--#  - KVM is enabled
--#  - the linker supports --s390-pgste
--if host_machine.cpu_family() == 's390x' and cc.has_link_argument('-Wl,--s390-pgste')
--  s390x_softmmu_ss.add(when: 'CONFIG_KVM',
--                       if_true: declare_dependency(link_args: ['-Wl,--s390-pgste']))
--endif
--
- s390x_user_ss = ss.source_set()
- 
- subdir('tcg')
-+subdir('kvm')
- 
- target_arch += {'s390x': s390x_ss}
- target_softmmu_arch += {'s390x': s390x_softmmu_ss}
-diff --git a/target/s390x/trace-events b/target/s390x/trace-events
-index e6c5fc1d03..c3414f58af 100644
---- a/target/s390x/trace-events
-+++ b/target/s390x/trace-events
-@@ -10,12 +10,6 @@ ioinst_sch_id(const char *insn, int cssid, int ssid, int schid) "IOINST: %s (%x.
- ioinst_chp_id(const char *insn, int cssid, int chpid) "IOINST: %s (%x.%02x)"
- ioinst_chsc_cmd(uint16_t cmd, uint16_t len) "IOINST: chsc command 0x%04x, len 0x%04x"
- 
--# kvm.c
--kvm_enable_cmma(int rc) "CMMA: enabling with result code %d"
--kvm_clear_cmma(int rc) "CMMA: clearing with result code %d"
--kvm_failed_cpu_state_set(int cpu_index, uint8_t state, const char *msg) "Warning: Unable to set cpu %d state %" PRIu8 " to KVM: %s"
--kvm_assign_subch_ioeventfd(int fd, uint32_t addr, bool assign, int datamatch) "fd: %d sch: @0x%x assign: %d vq: %d"
--
- # cpu-sysemu.c
- cpu_set_state(int cpu_index, uint8_t state) "setting cpu %d state to %" PRIu8
- cpu_halt(int cpu_index) "halting cpu %d"
--- 
-2.26.2
+On Thu, Apr 08, 2021 at 04:52:30PM -0300, Wainer dos Santos Moschetta wrote=
+:
+> Currently the acceptance tests tagged with "machine" have the "-M TYPE"
+> automatically added to the list of arguments of the QEMUMachine object.
+> In other words, that option is passed to the launched QEMU. On this
+> series it is implemented the same feature but instead for tests marked
+> with "cpu".
+>=20
+> There is a caveat, however, in case the test needs additional arguments t=
+o
+> the CPU type they cannot be passed via tag, because the tags parser split
+> values by comma. For example, in tests/acceptance/x86_cpu_model_versions.=
+py,
+> there are cases where:
+
+Hi Wainer,
+
+I've created an Avocado issue to hopefully get rid of this limitation:
+
+   https://github.com/avocado-framework/avocado/issues/4541
+
+>=20
+>   * -cpu is set to "Cascadelake-Server,x-force-features=3Don,check=3Doff,=
+enforce=3Doff"
+>   * if it was tagged like "cpu:Cascadelake-Server,x-force-features=3Don,c=
+heck=3Doff,enforce=3Doff"
+>     then the parser would break it into 4 tags ("cpu:Cascadelake-Server",
+>     "x-force-features=3Don", "check=3Doff", "enforce=3Doff")
+>   * resulting on "-cpu Cascadelake-Server" and the remaining arguments ar=
+e ignored.
+>=20
+> It was introduced the avocado_qemu.Test.set_vm_arg() method to deal with
+> cases like the example above, so that one can tag it as "cpu:Cascadelake-=
+Server"
+> AND call self.set_vm_args('-cpu', "Cascadelake-Server,x-force-features=3D=
+on,check=3Doff,enforce=3Doff"),
+> and that results on the reset of the initial value of -cpu.
+>
+
+So for now this seems reasonable enough.
+
+> This series was tested on CI (https://gitlab.com/wainersm/qemu/-/pipeline=
+s/277376246)
+> and with the following code:
+>=20
+> from avocado_qemu import Test
+>=20
+> class CPUTest(Test):
+>     def test_cpu(self):
+>         """
+>         :avocado: tags=3Dcpu:host
+>         """
+>         # The cpu property is set to the tag value, or None on its absenc=
+e
+>         self.assertEqual(self.cpu, "host")
+>         # The created VM has the '-cpu host' option
+>         self.assertIn("-cpu host", " ".join(self.vm._args))
+>         self.vm.launch()
+>=20
+>     def test_cpu_none(self):
+>         self.assertEqual(self.cpu, None)
+>         self.assertNotIn('-cpu', self.vm._args)
+>=20
+>     def test_cpu_reset(self):
+>         """
+>         :avocado: tags=3Dcpu:host
+>         """
+>         self.assertIn("-cpu host", " ".join(self.vm._args))
+>         self.set_vm_arg("-cpu", "Cascadelake-Server,x-force-features=3Don=
+")
+>         self.assertNotIn("-cpu host", " ".join(self.vm._args))
+>         self.assertIn("-cpu Cascadelake-Server,x-force-features=3Don", " =
+".join(self.vm._args))
+>
+
+We should not let this type of testing go to waste, so it's about time
+to set aside a directory for tests that are about the framework,
+rather than end user functionality.  I'll take a look at that.
+
+Cheers,
+- Cleber.
+
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCAgvIACgkQZX6NM6Xy
+CfOubg/8DLV1Bkche4HU96fwbbYG7JhPjo2k0rn95qNdsnUA1V0EonLT6S4Uz+Kl
+epGls/mtIsvwximOVEqZJJzPUfKuSVP00azkt9VqhSsyIqK5HQ8weSLH1b4agCRw
+wY/B9nYLndlh3EEyhN0xh1hHGfb4ELhh1+gbN8L+SIL9d7SquHyHwvbRA1gnebkY
+qZg59hlicEJK6pu7+BzGZLT5enFgL9572IY/Fa/fTrOFvFa5RxONyeFAUZwfKu9Z
+I2dIxPchpLKpFHLTJJKTZjlbbgMKWhYdS2KhxHLiLIBtXaFCaIh0CMy+K+CIhCRK
+HJzGMIjzY5oymqkNRdl8PRCkPFGeS1WuQC2+qDXJiREThMwEPHpYkql/dueRkpVl
+uFEjBp1mX28ge2IdBEwNwDGOg6C3+eYPnzC7W22HHwT0/BQiAWAra4CLcPfyE62s
+T60lxJ0SCQ0TqD49A+5BU1q5pfQMrLsrnzjm8NLZERlLRiZHQzIwaWmt3r9/GZru
+/gwV/xcguOYi7+lm92q/J1tIbyptXjhDxjXR0/rzdW4ZwnTf6xPiuZ2UAX5B/Vp1
+IAFvvsQB7P7KkYtca2v+Ax67xAcR03uVuxdp5tKtMiidtqok70JW18FQc5KCr6CV
+PQ+3pSiaykbuY7ipiHUWjYB1SsfNylbEXWOtLvRqwrBjOG/AVxw=
+=HmAT
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
 
 
