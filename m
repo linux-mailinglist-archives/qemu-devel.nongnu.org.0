@@ -2,139 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CE3366707
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 10:32:37 +0200 (CEST)
-Received: from localhost ([::1]:36338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7360936670C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 10:34:34 +0200 (CEST)
+Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ8Hj-0005E4-EC
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 04:32:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
+	id 1lZ8Jd-0007Fh-IZ
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 04:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lZ8GN-0004ih-N0; Wed, 21 Apr 2021 04:31:11 -0400
-Received: from mail-db8eur05on2118.outbound.protection.outlook.com
- ([40.107.20.118]:46112 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1lZ8Hq-0005oe-C0; Wed, 21 Apr 2021 04:32:42 -0400
+Received: from mail-eopbgr20104.outbound.protection.outlook.com
+ ([40.107.2.104]:3974 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lZ8GJ-0001kr-Vz; Wed, 21 Apr 2021 04:31:10 -0400
+ id 1lZ8Ho-0002gV-G7; Wed, 21 Apr 2021 04:32:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KGj7Du+3NQKm1onmLzH/3u8o47x39yUEWqnnQcM998txxCo3qbPjdUYzJ8XZAHoortvWFesl1XkrWE79lwLpBcOCN29LEyjhI0+i1RxZiQ1xWp9OWkkVXrnwhDzaU5rL5n7RMWGHr0BvFYdxEBjFddli0z8hP0zzSeMP7dFdBu0PwU1ms9BSpvR+pYm/eaj+aZ7POb1bBoQp9iAKqbhPgy0W5HbPBA9+1698KyJC3FgNlSHz5VeYlR5Ywnkyu1okeKdPU3r3Ug4F3qjlr88Hb2m5UCuHg0I3rRWaD5ZiSmJiuVS2w5+e4+Vg3b76zq/nLhsHbdMZ9CKU3QXCc0PQsA==
+ b=Vj4HsDPf4DVOHXmS5+vU8PdCg1JhSzldWKTYLQqwMadn/rrkZMEpGGJULxrnuFzGKLVeNTkowZmAaRw+vF/Kl0pN9Zm1XFg4XvwPe1usQ3vODE8sZgOllGZmsczjUY1n9YwjFvBDA6yD1txNbkqB9i8GBaYL8Cg+1bXV0OFVzPROSld93WEmi47k0siSEZ4v4CSmwRZDa5hVxKDXzMsuB6nY0jM8vKBnoAIqDQ6meJtu2yHHWbJ6e1CP4qLta20zEhP/UbI24Qm0KAGAZ/WkXpK5bbv5z4M+gk43Y4aT/BdcrOHTNMspzOEHc+XUqP6bSbA+dkBcE28amh2EFfUUdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zlpvROQPV6yLEjgz3xGdYd3HgVksFWjGiC7N6prJdw0=;
- b=O/FM2ghqGuhctdWUhEeHoR9AuFh0GlswrP7sxxqtfoswqDjJ1RX6E1TOE3gwmmL/xqB1hK1b7xyuVz4tV2nCX3w2EuaNkoacpQrexSP9BzFnaQ2EEQglHfy5bzhFWhF37YtTSqLDzdezrZXXyR9od2wDAiqLu9Mw0g8i2gfXchFHzBvR0YXVMV96WIVBu+yCBBswTCqGxDiKpsSfJLdEKxOTIsu7z3663KtlWloyGpBnETDM6wFwE443/jrHK+Y+6kbiL7ZP/tG5+UkFolCx9z4i5voz0TQPJhlyRun39TdxmCAXLzkRVCgMcmQllK1flgwfG5xfd6k/7lyYkbeGCQ==
+ bh=zsDr4q1RYKve5dwnkKtV0QRu3gq122tn4FvGJIxI8VE=;
+ b=F7ZFuHEEfBrh2B9EaCjmggCAYqMBlGK0yiGX9FIgBqsc3e3FaXiNU+Ii4xXfZgcTNKsY/7pXVu/WVghH43ue9xahqI/Kz6WGeJznkVZG6xpqsKjnYIEc/5BJnuuBgkXwi79S0W6zpYP28k2sju5SHhSnjl/baO+/dL9Z35z04uwJ0Ty1WeHnHDmB4wyFVEMcYelSK78mpOIrWY69PiWeN8lRYQaLsb0jZ5zbc7RtlUOpCM+Y/MMrzykqZ6b6tBzdifQcg1fCZu2X75tp9bhrshfd0MpL4s3jdQz6h0C6/6bGASAVKFFVLCcvuU2vKMRcFJafYjJpMv+MkYKePBg8Lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zlpvROQPV6yLEjgz3xGdYd3HgVksFWjGiC7N6prJdw0=;
- b=EYXvC4tGdJqxcwPtdxty5RGidO2md8Wq3OmQmW3ZrF5p+ZS6wLU/xMdMmXPcqIwsU62HIekRO7Hi9FNGKVSZQiSJ80dj80GjqptbXcF1XaEAVPNqa+2RQrC1KURG7WhZK94/q2gOzGKCUpUH+9raB7FM2lreolyO4Bp8K9Hfi8U=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+ bh=zsDr4q1RYKve5dwnkKtV0QRu3gq122tn4FvGJIxI8VE=;
+ b=pw7rvam82zZRfyL57PIwlDlIYNwaO7yNYKcDdmOxYmCps+4h/yCwc+5vxNkee1K8kSL+ZKiq6sD0ufT84wRtQGQx/bHgDAgk4aU52VWWGFlIDsix8gNv0jkOdh9jtznUSzjStQud+cAr6fFiGGAZICuyBhC1dNwBRdUwTCRngqg=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6808.eurprd08.prod.outlook.com (2603:10a6:20b:39c::6)
+ by AM6PR08MB3896.eurprd08.prod.outlook.com (2603:10a6:20b:83::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Wed, 21 Apr
- 2021 08:31:04 +0000
+ 2021 08:32:36 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.021; Wed, 21 Apr 2021
- 08:31:04 +0000
-Subject: Re: [PATCH v4 09/23] job: call job_enter from job_pause
+ 08:32:36 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
- <20210116214705.822267-10-vsementsov@virtuozzo.com>
- <7dea84af-188f-1145-0e4f-afefd9652256@redhat.com>
- <062f350d-5194-393b-5725-953740ad4b0f@virtuozzo.com>
-Message-ID: <97630ba3-af42-9c33-30b3-bdd9aeb0a5d9@virtuozzo.com>
-Date: Wed, 21 Apr 2021 11:31:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-In-Reply-To: <062f350d-5194-393b-5725-953740ad4b0f@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com
+Subject: [PATCH] monitor: hmp_qemu_io: acquire aio contex, fix crash
+Date: Wed, 21 Apr 2021 11:32:22 +0300
+Message-Id: <20210421083222.72600-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [185.215.60.222]
-X-ClientProxiedBy: FR3P281CA0040.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::8) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: HE1PR05CA0167.eurprd05.prod.outlook.com
+ (2603:10a6:3:f8::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.222) by
- FR3P281CA0040.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::8) with Microsoft
+Received: from localhost.localdomain (185.215.60.222) by
+ HE1PR05CA0167.eurprd05.prod.outlook.com (2603:10a6:3:f8::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.6 via Frontend Transport; Wed, 21 Apr 2021 08:31:03 +0000
+ 15.20.4020.17 via Frontend Transport; Wed, 21 Apr 2021 08:32:35 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 686913b9-9e7b-4939-5844-08d9049fcd4c
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6808:
+X-MS-Office365-Filtering-Correlation-Id: 3af41c1a-8ecf-435f-b46c-08d904a0047f
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3896:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB680811A3DFD8BF0671E5E255C1479@AS8PR08MB6808.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3896B9458A94DBBD5C991FDAC1479@AM6PR08MB3896.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0fhrEVFPILm4Xr4IvfCLtYCBBm26SejVxL501FdipXRhcnkZm9u29LwxFeNy+UEqWCcE2qxmmBhl7hH/PbFXqcRw686pmChKV1tVVkS61b6LnMWt6q7bKOYDBlc3xL3STb8Z2mbOITx+MqtzbJOfHGbVAG56QKAWBZZdCtnlmOeEYxbj2Rh2NFOoen0ehQSFJvS8lq88x3wDVUJC5We/NUuq45wskC8BIJeqiANuL8OQNWD4HUJnA9n5fUd4CRdNODG1cWlNhCDLeT2ZoFv2gsSPanK4BxM2kIsjnmXDuPUekX1E+BliWyF3ZmrqM/TDDUC0+iGuCMwKQ4N9IgEt/qC2cWuWRuuJcQcacDKbsIRnGEC+KsrZkG4UUCFqPVn1m7UV+RIyr9Y7n/mU2ySqTH+S832R6kptKq8QYGTj7EzrPdgtfkyFskZkOdUidow1GMl+uq589BLt0+8CkknUG2yPmfDw5Q+O0yJhKpVKpa+tormxw+T8CmqTD2e8mhKdaOfMhO6AohBFX5U6r8ul766PzNjoz1eNij4naiESg7vYRxM1m/viEf6/hUwG7/xU1iP7krIVHYF1WOJB9WNikoEusPw1dG+De/X8mY8XpiQJiYW3Oni/vQZ+JquhsZRdr/n/D+RnS9uTfheEJRwUapV9Mdq3sqpGYDPXqxFBvfYZZOeDaYBr92XQuS9y5LsiaAikrXbXU3YyID13zBON0EzRLtbutKtZRGiHJCKOVEZC0XLxdRMcDlRCjZaQhPVgLOk0P0qj4iH5U/WzJLtjDpFKOcnLd9Phlom6xWOeTY+HG1oHHdorwVGukyzx7hSv
+X-Microsoft-Antispam-Message-Info: v7ki927O57gGF4ymuCRKAoU6TgnKR20XybQVaMiDlqrRK3cwDuWrkyueZvSpWBKCbr6/sCyhOObFI/90yxPs5hslR/0zG9iEX1nYheSn8YaYYOV/DPo8BqkM7EpQ+W6txXbf+5s9tUUYzrWc57h64Nxd0sRuGpqcqjm8FI6oQaZUG65H6LOq/nkCdTVv+Arn3CXVt4aUBdoQdKVyVH0/7CXsdpJvJtXp00r2sbreSFgPV3rRgxLkj2qbhY/P9qQGpTiNnEDW/Lwhdj5d47oM0mi8IEN4daOsnYzhrERgI6tBFEiHj79Q2QqTzuLhxaJfyi1O5mjkcu5GnYD/B4jiY3LjaDeATrddXue2CS8cKp6Sq2sqkHhcQCfqZIzmB6EqGUxE6E+/jiJg10i/jm16NDiucYgcT03UVtKf9xjqrUFY512J7j5aqllz1th26qhmSXQ0nb1OZYA000+c0mHWjY1kdE8odATQcGapGHv9A7uT65XrXu03z9b0+nVIcZ6a/Hk/I+q0S8x5pre6+wu9SrLkVhzFrfwJhsMEuM0YOyMGlnnLEsRzpQuljs95h2NVRGSx9//qIJ2XfE0ERLDCET6RKluhM1p7f5j7s3VYjPQQRAXDZmEvOIH/ebLKwt80WeRw3uhoZ1tRfzYRXIuowjIQIMLbvUhuvZhZ+1M0yKsQM5i69H5uyBFJSBWhhj2K
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(366004)(39840400004)(376002)(136003)(26005)(186003)(16576012)(66556008)(38100700002)(956004)(4326008)(52116002)(36756003)(53546011)(8676002)(966005)(16526019)(2906002)(2616005)(5660300002)(38350700002)(86362001)(6486002)(31686004)(478600001)(107886003)(8936002)(31696002)(83380400001)(66476007)(316002)(66946007)(43740500002)(45980500001);
+ SFS:(4636009)(39840400004)(346002)(376002)(366004)(396003)(136003)(1076003)(66946007)(6916009)(478600001)(6666004)(107886003)(4326008)(36756003)(2906002)(8676002)(66476007)(316002)(66556008)(52116002)(86362001)(8936002)(956004)(6506007)(38350700002)(38100700002)(2616005)(6512007)(26005)(5660300002)(186003)(83380400001)(6486002)(16526019)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZUdER2xDOHVoUmsyT2hMVmwxZTRHclpPTCtXckg4ejhod0ZKSGR2M3JpMERn?=
- =?utf-8?B?MjZjaHphc01JeENRVzZ4bW04Rzk1MDdBa2w1RHY3SHlJOVhRd21KZEV2cUVE?=
- =?utf-8?B?V3FWd09XenE3SVBqVG5YbitGZVM0TjBCdVdjRGlTampvcHgzMHBsaUhPN2Ja?=
- =?utf-8?B?S2ZtUWRreHlrTG10RXNJOGtNd21QQVFnbW5TM2ZmdFFNelM3Z2JDZDFVVnVz?=
- =?utf-8?B?WUlRTGxMTWh1c0dLcmpHSkhxMzJ2QWd1YXNTTEVOUTF4Nkp0YlJMSnY0SGhs?=
- =?utf-8?B?dVVUZmQvbTFQOW1GMjVpanBQbnJPelcxeCtiRURMeVgrVW5qQjBXM1J4QUJR?=
- =?utf-8?B?ZmNPYlMrYitZbk5lMnlOMEgrMnNYVWc3alpITVg2SHB4WnlTcFNqSnEwcXJV?=
- =?utf-8?B?UC9RVE9Bb1pvUC9Qb2xlVURwbldXQ1NPZkRDdVJyaVVOdkp3MlpqSmF3TCtn?=
- =?utf-8?B?a2M4cnYwSXRZdjV4SVNCeTZDbk1SQ1IzOGlsSUdlRkZTWmlzT01NaWJSU0ZJ?=
- =?utf-8?B?UE5NWENnK0pobHBqY3VYUEhSMzI4SmF2bXlKdGcxdzhveEZEMmc1dC90WjRh?=
- =?utf-8?B?d2Y5bUlrRUY0aFJ6ckFIRWxJa2QxOFdRNEVLd085anpnb3NwQ05yQ2lSL0hS?=
- =?utf-8?B?YThLdVo1Y2pnMzVPZE9SV1ZkOWttcmtwcnE3RlZ3SDNlWEZCeUVJY21VcXdO?=
- =?utf-8?B?MGZKNll5alJyeVRSc1ZjMzVyQlNuUUw0MzJUY3kxVzRwNFg0R2dMRjJ6ZFdk?=
- =?utf-8?B?SndxUnZWbEdUbm96b1lLaktwZTQxT3JweGZyOEhOVy9LSkQxdnBVaEgrUHdy?=
- =?utf-8?B?Q1NJeGRUY1FBWXpnQlVNWGdnVFNKNHJPWWhQZ1Z1dWE5c2RNdzRCWG54ME5G?=
- =?utf-8?B?bTl0RHR4M0tSV1dKUmtFUHdVUEhCWC82d3FveEZ3dVpJb2hLTUhOR1MvNjVa?=
- =?utf-8?B?bGNrSnNCN2F1alNuMXBFL3FUdzVNaGE1NXo3ZmFmSHBkWU9RYWdLTTl2ZFBi?=
- =?utf-8?B?VHJ6YXJ0MXNmdXh4WjJ4dnB2ekVjT3o3SDlWYVI2YTBkMDRIWkhqRUM0WWFt?=
- =?utf-8?B?WHlEdG1hY2JYUXBmWXowVVBmVnRoT0k3YkMyTFBVVmZ5ZU5iSnpJVmFGUUJF?=
- =?utf-8?B?T05QbWlRZXY5ejRGTkMxWGVFZmZGK2lzMmNqTUNPVE5xYkdGU1g3OFIyT05E?=
- =?utf-8?B?L3hXNFZQWXNYMk43WlphSERUT3gxK2EwMnlsOVBXRlUydldlYTd3R1F5MUNi?=
- =?utf-8?B?bC9xdGNmRnAxdUwreXhwc1ZxZ294Q1I3Nld3aEdnN3dwcTZXdzVEV1RoY0M1?=
- =?utf-8?B?c0FaZE1ONk1kM0NpVXJ0aFVhNDBieG1QRkFTRzV0TUFObVQ4MG9UZ2JmTzlq?=
- =?utf-8?B?K2VPVFBERFhFc2JXY1hiQ2RacnRydXE0OW9HNFFSV1dCTjNXd1l5RDR5b1N6?=
- =?utf-8?B?bFpKQ3dPUzY4U2ZxOGFOSWJJTVJ4ZTJCbE1FQ09JcE5sQ0t6Nks3dGdrNndC?=
- =?utf-8?B?N1kzQ09FQVh6dGVWazNUU2RFTEpnUWdnNzN0MHFkTUJzZFlmNTFObHJEaERj?=
- =?utf-8?B?M29tWU1YTXg0ditzU3I4d3ROckdLMXlpQm1TeXpQK2Q1OEtRK1R0TGtmUVQz?=
- =?utf-8?B?MC95bk96SS9ud0ZhUFRkUGdZU0ZSYVN4OS9BdlZvQXE4US9hNFhVeUJKRzRC?=
- =?utf-8?B?SmRSNms0K29sbnhua2V6N0R6ci9vYWhGcldxblgzMUROVitqZFc0QnMwVUVZ?=
- =?utf-8?Q?e7FKOAdMzonvahHxqGsw6EwrH7GP+Iq79f+QWwc?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5LLzjCWw1e4ohMUVNS+tGy8FVOBx+YHnu8netAX6zqAw2Vp1kJtxJbo/eNof?=
+ =?us-ascii?Q?J6Nz7e6Gz/JyhEBE0leyMV3VBZGz0UcrOEEulk6HtsuGIKwge7nGyGv7SqIP?=
+ =?us-ascii?Q?XFzaFyMAEQbrylpRbhACKcTSo7FqIzIHI09ZN/w18QuMhUCzyFClQCxu1iTe?=
+ =?us-ascii?Q?rbtu9rXdBiS6Prkj2dXFj+I1gqrUW8+fs6ojdEFWvGxvMbbgMqYsp8dlwaW6?=
+ =?us-ascii?Q?BL1Hc59YxvJT0RCsGU4SPNRtpC/T9ORahaikTfHB6cNQDhlJLAhz93/SI5QW?=
+ =?us-ascii?Q?VgV7vtRVQQqFXupN+9UHD9datQKR048g84RpX6ipHwZNLetmCGNKG+4ODtgc?=
+ =?us-ascii?Q?HZig2qUQdf45Ob9NY1rf+xMqtd9g+zdf/XiRfTc7g6+sKznbUzl1ey6cHjVt?=
+ =?us-ascii?Q?VG0PgRdRD6Obfu/Ffb5Sn3YjSgr12MtwtP8so3WNZ09Grt1l8QW66ITY+m8d?=
+ =?us-ascii?Q?ZFDJHboA0tAy0zbOorYwEsrkYXTFf5bsqYlxqQbfW+tWl/dDpzeKluHjBeH/?=
+ =?us-ascii?Q?rAf8NUgzrTiY1O66m+h1GHcbpfD9zU8QLHs+oiyqXMDMPIogizb/hNWWYhbZ?=
+ =?us-ascii?Q?xKD4aThnC/oEUgH2NHnodJmbDWboTVblEgMgi6I6gWlUgmDYoRh4L1osRN79?=
+ =?us-ascii?Q?0IV3rmR6tSMuKVEii8cXhdCqcWU05bbAyGknQCZRFZHZ0WzTlAPIKkrWQF0L?=
+ =?us-ascii?Q?kPMjshu9d95+LXA8tqJSnfCz6vF3JT7GhWJJlOf8H7eUS9AtFoUsjvNA3Mwc?=
+ =?us-ascii?Q?krLXB1BAAZPxXucREO+mrZNEgd2crHsJNJCaAHMMSzP24VA+yiT+/U9LfTyY?=
+ =?us-ascii?Q?gYL+OV4lmrHOfrUPVD43VR6gzll1BzqZeVgSmT24UEmHV0zmAMLK+y3Paqrn?=
+ =?us-ascii?Q?QtQm2HutIlnYE0f1Pw6pIQ8evIsxUZzcOTCLbiEj2ooMF64+t3y8p9s3t3s2?=
+ =?us-ascii?Q?doBE8zyw+2yxCJqJrdQdU4NP9JJBQDGlPnDOOhzOZkysOfkLSmaj8pOdzABg?=
+ =?us-ascii?Q?mn25ms1ekpMgys98yxijJsw5bplsxCbRDzNF0raUU0bnXxOKKe8ZuHVSBJZt?=
+ =?us-ascii?Q?ShzHw17trB8Byw8ANXBrmp4HamvhjeX1NZhgfdxQvhZZf6qaYthpjy6BGDM3?=
+ =?us-ascii?Q?NG1rOlQORPfl7GEOT0MN5ImqeQbe9Hk5CnQAKYOhCef/+F4r5z9L3XTnAWny?=
+ =?us-ascii?Q?4cvGXkg7XZ7myqRw+NQnPiMTpMhC1ePlGO9q1MRmSMQKbUsBViKwQu/eWjXM?=
+ =?us-ascii?Q?AegQfNm8SfEPoF6PJmq1DNpBLXLTibqjT29FyrtBqkFKxfvJFQLyHf6tJ083?=
+ =?us-ascii?Q?8cTZOcAjOh9XePOfVR6HBTq3?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 686913b9-9e7b-4939-5844-08d9049fcd4c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3af41c1a-8ecf-435f-b46c-08d904a0047f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 08:31:04.4406 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 08:32:36.8313 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LGvMtKFCwerIKwAyj1ElBE1PDuUWLZrOb6UbYUcLWUIdYCcrrPdgm5P3oA513PtnLnNihheqqb7YWpWPmsnbg8Zu8Vd7XfzJ5KUYAoJLkew=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6808
-Received-SPF: pass client-ip=40.107.20.118;
+X-MS-Exchange-CrossTenant-UserPrincipalName: hskPOt88p3FaFw1dwA6qq5MC5+G4zRe8dd4FdPnEPEXuphHlE4pJCkHNYCoVhAVhlidHkY4GQynzFu6O4omWFSOf+jgp8zmdI/aCvVWwnKg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3896
+Received-SPF: pass client-ip=40.107.2.104;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -150,99 +135,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.04.2021 14:38, Vladimir Sementsov-Ogievskiy wrote:
-> 07.04.2021 14:19, Max Reitz wrote:
->> On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
->>> If main job coroutine called job_yield (while some background process
->>> is in progress), we should give it a chance to call job_pause_point().
->>> It will be used in backup, when moved on async block-copy.
->>>
->>> Note, that job_user_pause is not enough: we want to handle
->>> child_job_drained_begin() as well, which call job_pause().
->>>
->>> Still, if job is already in job_do_yield() in job_pause_point() we
->>> should not enter it.
->>>
->>> iotest 109 output is modified: on stop we do bdrv_drain_all() which now
->>> triggers job pause immediately (and pause after ready is standby).
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>>   job.c                      |  3 +++
->>>   tests/qemu-iotests/109.out | 24 ++++++++++++++++++++++++
->>>   2 files changed, 27 insertions(+)
->>
->> While looking into
->>
->> https://lists.gnu.org/archive/html/qemu-block/2021-04/msg00035.html
->>
->> I noticed this:
->>
->> $ ./qemu-img create -f raw src.img 1G
->> $ ./qemu-img create -f raw dst.img 1G
->>
->> $ (echo '
->>     {"execute":"qmp_capabilities"}
->>     {"execute":"blockdev-mirror",
->>      "arguments":{"job-id":"mirror",
->>                   "device":"source",
->>                   "target":"target",
->>                   "sync":"full",
->>                   "filter-node-name":"mirror-top"}}
->> '; sleep 3; echo '
->>     {"execute":"human-monitor-command",
->>      "arguments":{"command-line":
->>                   "qemu-io mirror-top \"write 0 1G\""}}') \
->> | x86_64-softmmu/qemu-system-x86_64 \
->>     -qmp stdio \
->>     -blockdev file,node-name=source,filename=src.img \
->>     -blockdev file,node-name=target,filename=dst.img \
->>     -object iothread,id=iothr0 \
->>     -device virtio-blk,drive=source,iothread=iothr0
->>
->> Before this commit, qemu-io returned an error that there is a permission conflict with virtio-blk.  After this commit, there is an abort (“qemu: qemu_mutex_unlock_impl: Operation not permitted”):
->>
->> #0  0x00007f8445a4eef5 in raise () at /usr/lib/libc.so.6
->> #1  0x00007f8445a38862 in abort () at /usr/lib/libc.so.6
->> #2  0x000055fbb14a36bf in error_exit
->>     (err=<optimized out>, msg=msg@entry=0x55fbb1634790 <__func__.27> "qemu_mutex_unlock_impl")
->>     at ../util/qemu-thread-posix.c:37
->> #3  0x000055fbb14a3bc3 in qemu_mutex_unlock_impl
->>     (mutex=mutex@entry=0x55fbb25ab6e0, file=file@entry=0x55fbb1636957 "../util/async.c", line=line@entry=650)
->>     at ../util/qemu-thread-posix.c:109
->> #4  0x000055fbb14b2e75 in aio_context_release (ctx=ctx@entry=0x55fbb25ab680) at ../util/async.c:650
->> #5  0x000055fbb13d2029 in bdrv_do_drained_begin
->>     (bs=bs@entry=0x55fbb3a87000, recursive=recursive@entry=false, parent=parent@entry=0x0, ignore_bds_parents=ignore_bds_parents@entry=false, poll=poll@entry=true) at ../block/io.c:441
->> #6  0x000055fbb13d2192 in bdrv_do_drained_begin
->>     (poll=true, ignore_bds_parents=false, parent=0x0, recursive=false, bs=0x55fbb3a87000) at ../block/io.c:448
->> #7  0x000055fbb13c71a7 in blk_drain (blk=0x55fbb26c5a00) at ../block/block-backend.c:1718
->> #8  0x000055fbb13c8bbd in blk_unref (blk=0x55fbb26c5a00) at ../block/block-backend.c:498
->> #9  blk_unref (blk=0x55fbb26c5a00) at ../block/block-backend.c:491
->> #10 0x000055fbb1024863 in hmp_qemu_io (mon=0x7fffaf3fc7d0, qdict=<optimized out>)
->>     at ../block/monitor/block-hmp-cmds.c:628
->>
->> Can you make anything out of this?
->>
-> 
-> Hmm.. Interesting.
-> 
-> man pthread_mutex_unlock
-> ...
->      EPERM  The  mutex type is PTHREAD_MUTEX_ERRORCHECK or PTHREAD_MUTEX_RECURSIVE, or the mutex is a
->               robust mutex, and the current thread does not own the mutex.
-> 
-> So, thread doesn't own the mutex.. We have an iothread here.
-> 
-> AIO_WAIT_WHILE() documents that ctx must be acquired exactly once by caller.. But I don't see, where is it acquired in the call stack?
-> 
-> The other question, is why permission conflict is lost with the commit. Strange. I ss that hmp_qemu_io creates blk with perm=0 and shread=BLK_PERM_ALL.. How could it conflict even before the considered commit?
-> 
+Max reported the following bug:
 
+$ ./qemu-img create -f raw src.img 1G
+$ ./qemu-img create -f raw dst.img 1G
 
-Sorry, I've answered and forgot about this thread. Now, looking through my series I find this again. Seems that problem is really in lacking aio-context locking around blk_unref(). I'll send patch now.
+$ (echo '
+   {"execute":"qmp_capabilities"}
+   {"execute":"blockdev-mirror",
+    "arguments":{"job-id":"mirror",
+                 "device":"source",
+                 "target":"target",
+                 "sync":"full",
+                 "filter-node-name":"mirror-top"}}
+'; sleep 3; echo '
+   {"execute":"human-monitor-command",
+    "arguments":{"command-line":
+                 "qemu-io mirror-top \"write 0 1G\""}}') \
+| x86_64-softmmu/qemu-system-x86_64 \
+   -qmp stdio \
+   -blockdev file,node-name=source,filename=src.img \
+   -blockdev file,node-name=target,filename=dst.img \
+   -object iothread,id=iothr0 \
+   -device virtio-blk,drive=source,iothread=iothr0
 
+crashes:
 
+0  raise () at /usr/lib/libc.so.6
+1  abort () at /usr/lib/libc.so.6
+2  error_exit
+   (err=<optimized out>,
+   msg=msg@entry=0x55fbb1634790 <__func__.27> "qemu_mutex_unlock_impl")
+   at ../util/qemu-thread-posix.c:37
+3  qemu_mutex_unlock_impl
+   (mutex=mutex@entry=0x55fbb25ab6e0,
+   file=file@entry=0x55fbb1636957 "../util/async.c",
+   line=line@entry=650)
+   at ../util/qemu-thread-posix.c:109
+4  aio_context_release (ctx=ctx@entry=0x55fbb25ab680) at ../util/async.c:650
+5  bdrv_do_drained_begin
+   (bs=bs@entry=0x55fbb3a87000, recursive=recursive@entry=false,
+   parent=parent@entry=0x0,
+   ignore_bds_parents=ignore_bds_parents@entry=false,
+   poll=poll@entry=true) at ../block/io.c:441
+6  bdrv_do_drained_begin
+   (poll=true, ignore_bds_parents=false, parent=0x0, recursive=false,
+   bs=0x55fbb3a87000) at ../block/io.c:448
+7  blk_drain (blk=0x55fbb26c5a00) at ../block/block-backend.c:1718
+8  blk_unref (blk=0x55fbb26c5a00) at ../block/block-backend.c:498
+9  blk_unref (blk=0x55fbb26c5a00) at ../block/block-backend.c:491
+10 hmp_qemu_io (mon=0x7fffaf3fc7d0, qdict=<optimized out>)
+   at ../block/monitor/block-hmp-cmds.c:628
+
+man pthread_mutex_unlock
+...
+    EPERM  The  mutex type is PTHREAD_MUTEX_ERRORCHECK or
+    PTHREAD_MUTEX_RECURSIVE, or the mutex is a robust mutex, and the
+    current thread does not own the mutex.
+
+So, thread doesn't own the mutex. And we have iothread here.
+
+Next, note that AIO_WAIT_WHILE() documents that ctx must be acquired
+exactly once by caller. But where is it acquired in the call stack?
+Seems nowhere.
+
+qemuio_command do acquire aio context.. But we need context acquired
+around blk_unref as well. Let's do it.
+
+Reported-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/monitor/block-hmp-cmds.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index ebf1033f31..934100d0eb 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -559,6 +559,7 @@ void hmp_qemu_io(Monitor *mon, const QDict *qdict)
+ {
+     BlockBackend *blk;
+     BlockBackend *local_blk = NULL;
++    AioContext *ctx;
+     bool qdev = qdict_get_try_bool(qdict, "qdev", false);
+     const char *device = qdict_get_str(qdict, "device");
+     const char *command = qdict_get_str(qdict, "command");
+@@ -615,7 +616,13 @@ void hmp_qemu_io(Monitor *mon, const QDict *qdict)
+     qemuio_command(blk, command);
+ 
+ fail:
++    ctx = blk_get_aio_context(blk);
++    aio_context_acquire(ctx);
++
+     blk_unref(local_blk);
++
++    aio_context_release(ctx);
++
+     hmp_handle_error(mon, err);
+ }
+ 
 -- 
-Best regards,
-Vladimir
+2.29.2
+
 
