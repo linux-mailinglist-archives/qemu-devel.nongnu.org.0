@@ -2,105 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B30366560
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 08:24:04 +0200 (CEST)
-Received: from localhost ([::1]:34414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FE6366568
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 08:27:28 +0200 (CEST)
+Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ6HK-0004a9-LF
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 02:24:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59964)
+	id 1lZ6Kd-0006XY-97
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 02:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
- id 1lZ6F1-0003HA-8E; Wed, 21 Apr 2021 02:21:39 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48376)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1lZ6HN-0005LM-7g
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:24:05 -0400
+Received: from mga07.intel.com ([134.134.136.100]:62021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
- id 1lZ6ER-0006L2-WD; Wed, 21 Apr 2021 02:21:38 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13L63DH9156056; Wed, 21 Apr 2021 02:20:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=k/ieIyBolTpgcqF80f+tfdYQROMaFCUvrc+rfvOenpk=;
- b=gyRTR6kI6iaRS3hLKpw9QsJJOvYcSRxTokbmbA9i2AayY8oTZWRp4Oymmx/GMAsXjS23
- c2AyUJTy2k3XGgcNPMZQNJ8XAWUotby8bohcHdYBzDx+DdkHhyLlsruJ/O6m6LxttpsH
- u/0BIy/teGYUAnWkr01VEydKrQHRvXvjk6s4bPoBUJxWMyW3ee9bRXXmwyv5XTrvYWcJ
- dtbteb1KVihYDK5zAwjHsiym1oyOB8rhQctz05Gd2woe0XLbxD5XqcFFLWfQuZFBHPjq
- saRKKndET+fUT4sSGmQNd/rdZNZ7ROA7mOWegWqVo0sy24DDiRg0u0acgcA0gQgq3hEu 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3829u3x3fd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Apr 2021 02:20:51 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13L63R6L157826;
- Wed, 21 Apr 2021 02:20:51 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3829u3x3ep-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Apr 2021 02:20:51 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13L6KmQb017957;
- Wed, 21 Apr 2021 06:20:48 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 37ypxh95cj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Apr 2021 06:20:48 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13L6KkTY43319570
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Apr 2021 06:20:46 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 35A90AE056;
- Wed, 21 Apr 2021 06:20:46 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4B256AE045;
- Wed, 21 Apr 2021 06:20:42 +0000 (GMT)
-Received: from [9.199.37.21] (unknown [9.199.37.21])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 21 Apr 2021 06:20:41 +0000 (GMT)
-Subject: Re: [PATCH v5 3/3] ppc: Enable 2nd DAWR support on p10
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210412114433.129702-1-ravi.bangoria@linux.ibm.com>
- <20210412114433.129702-4-ravi.bangoria@linux.ibm.com>
- <YH0M1YdINJqbdqP+@yekko.fritz.box>
-From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Message-ID: <ca21d852-4b54-01d3-baab-cc8d0d50e505@linux.ibm.com>
-Date: Wed, 21 Apr 2021 11:50:40 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <YH0M1YdINJqbdqP+@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: qm7oCdpDo5nWgx59nGfZgRVOX3HoyEP8
-X-Proofpoint-ORIG-GUID: 3ZEDxFrrnwHfa3dLMjaN4eAe-b0QXCSY
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-21_02:2021-04-20,
- 2021-04-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- spamscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104210049
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=ravi.bangoria@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1lZ6HK-0007t5-FS
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:24:04 -0400
+IronPort-SDR: 663Zrlg7lfvQtVHtOkM7iBEUQbAFkVQ3YAg9zuY+ELyXWxtxbejcnC0rEq1iqJoZF3cVev6WNb
+ hdMSHrKlxfaw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="259601212"
+X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; d="scan'208";a="259601212"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2021 23:23:57 -0700
+IronPort-SDR: 9arE51LlQeerDZOEnt+TRpOlL7cuClbh6y9rO8f1Grt1LC9bbNhU95Z9I6la4jXnroCfL7UVX1
+ HHc9DY9niVng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; d="scan'208";a="427397486"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by orsmga008.jf.intel.com with ESMTP; 20 Apr 2021 23:23:55 -0700
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: pbonzini@redhat.com,
+	richard.henderson@linaro.org,
+	ehabkost@redhat.com
+Subject: [PATCH v6] i386/cpu_dump: support AVX512 ZMM regs dump
+Date: Wed, 21 Apr 2021 14:23:52 +0800
+Message-Id: <1618986232-73826-1-git-send-email-robert.hu@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=robert.hu@linux.intel.com; helo=mga07.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,64 +60,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
- mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- paulus@samba.org, clg@kaod.org, pbonzini@redhat.com,
- Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc: robert.hu@intel.com, qemu-devel@nongnu.org,
+ Robert Hoo <robert.hu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+Since commit fa4518741e (target-i386: Rename struct XMMReg to ZMMReg),
+CPUX86State.xmm_regs[] has already been extended to 512bit to support
+AVX512.
+Also, other qemu level supports for AVX512 registers are there for
+years.
+But in x86_cpu_dump_state(), still only dump XMM registers no matter
+YMM/ZMM is enabled.
+This patch is to complement this, let it dump XMM/YMM/ZMM accordingly.
 
-On 4/19/21 10:23 AM, David Gibson wrote:
-> On Mon, Apr 12, 2021 at 05:14:33PM +0530, Ravi Bangoria wrote:
->> As per the PAPR, bit 0 of byte 64 in pa-features property indicates
->> availability of 2nd DAWR registers. i.e. If this bit is set, 2nd
->> DAWR is present, otherwise not. Use KVM_CAP_PPC_DAWR1 capability to
->> find whether kvm supports 2nd DAWR or not. If it's supported, allow
->> user to set the pa-feature bit in guest DT using cap-dawr1 machine
->> capability. Though, watchpoint on powerpc TCG guest is not supported
->> and thus 2nd DAWR is not enabled for TCG mode.
->>
->> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
->> Reviewed-by: Greg Kurz <groug@kaod.org>
-> 
-> So, I'm actually not sure if using an spapr capability is what we want
-> to do here.  The problem is that presumably the idea is to at some
-> point make the DAWR1 capability default to on (on POWER10, at least).
-> But at that point you'll no longer to be able to start TCG guests
-> without explicitly disabling it.  That's technically correct, since we
-> don't implement DAWR1 in TCG, but then we also don't implement DAWR0
-> and we let that slide... which I think is probably going to cause less
-> irritation on balance.
+Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+Changelog:
+v6: use PRIx64 printf format to satisfy multiple target compiling.
+v5: fix a minor issue. rebase to latest master.
+v4: stringent AVX512 case and AVX case judgement criteria.
+v3: fix some coding style issue.
+v2: dump XMM/YMM/ZMM according to XSAVE state-components enablement.
 
-Ok. Probably something like this is what you want?
+ target/i386/cpu-dump.c | 63 ++++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 48 insertions(+), 15 deletions(-)
 
-Power10 behavior:
-   - KVM does not support DAWR1: Boot the guest without DAWR1
-     support (No warnings). Error out only if user tries with
-     cap-dawr1=on.
-   - KVM supports DAWR1: Boot the guest with DAWR1 support, unless
-     user specifies cap-dawr1=off.
-   - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
-     DAWR0 (Should be fixed in future while adding PowerPC watch-
-     point support in TCG mode)
+diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+index aac21f1..02b635a 100644
+--- a/target/i386/cpu-dump.c
++++ b/target/i386/cpu-dump.c
+@@ -478,6 +478,11 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
+     if (flags & CPU_DUMP_FPU) {
+         int fptag;
++        const uint64_t avx512_mask = XSTATE_OPMASK_MASK | \
++                                     XSTATE_ZMM_Hi256_MASK | \
++                                     XSTATE_Hi16_ZMM_MASK | \
++                                     XSTATE_YMM_MASK | XSTATE_SSE_MASK,
++                       avx_mask = XSTATE_YMM_MASK | XSTATE_SSE_MASK;
+         fptag = 0;
+         for(i = 0; i < 8; i++) {
+             fptag |= ((!env->fptags[i]) << i);
+@@ -499,21 +504,49 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+             else
+                 qemu_fprintf(f, " ");
+         }
+-        if (env->hflags & HF_CS64_MASK)
+-            nb = 16;
+-        else
+-            nb = 8;
+-        for(i=0;i<nb;i++) {
+-            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
+-                         i,
+-                         env->xmm_regs[i].ZMM_L(3),
+-                         env->xmm_regs[i].ZMM_L(2),
+-                         env->xmm_regs[i].ZMM_L(1),
+-                         env->xmm_regs[i].ZMM_L(0));
+-            if ((i & 1) == 1)
+-                qemu_fprintf(f, "\n");
+-            else
+-                qemu_fprintf(f, " ");
++
++        if ((env->xcr0 & avx512_mask) == avx512_mask) {
++            /* XSAVE enabled AVX512 */
++            for (i = 0; i < NB_OPMASK_REGS; i++) {
++                qemu_fprintf(f, "Opmask%02d=%016"PRIx64"%s", i,
++                             env->opmask_regs[i], ((i & 3) == 3) ? "\n" : " ");
++            }
++
++            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
++            for (i = 0; i < nb; i++) {
++                qemu_fprintf(f, "ZMM%02d=%016"PRIx64" %016"PRIx64" %016"PRIx64
++                             " %016"PRIx64" %016"PRIx64" %016"PRIx64
++                             " %016"PRIx64" %016"PRIx64"\n",
++                             i,
++                             env->xmm_regs[i].ZMM_Q(7),
++                             env->xmm_regs[i].ZMM_Q(6),
++                             env->xmm_regs[i].ZMM_Q(5),
++                             env->xmm_regs[i].ZMM_Q(4),
++                             env->xmm_regs[i].ZMM_Q(3),
++                             env->xmm_regs[i].ZMM_Q(2),
++                             env->xmm_regs[i].ZMM_Q(1),
++                             env->xmm_regs[i].ZMM_Q(0));
++            }
++        } else if ((env->xcr0 & avx_mask)  == avx_mask) {
++            /* XSAVE enabled AVX */
++            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
++            for (i = 0; i < nb; i++) {
++                qemu_fprintf(f, "YMM%02d=%016"PRIx64" %016"PRIx64" %016"PRIx64
++                             " %016"PRIx64"\n", i,
++                             env->xmm_regs[i].ZMM_Q(3),
++                             env->xmm_regs[i].ZMM_Q(2),
++                             env->xmm_regs[i].ZMM_Q(1),
++                             env->xmm_regs[i].ZMM_Q(0));
++            }
++        } else { /* SSE and below cases */
++            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
++            for (i = 0; i < nb; i++) {
++                qemu_fprintf(f, "XMM%02d=%016"PRIx64" %016"PRIx64"%s",
++                             i,
++                             env->xmm_regs[i].ZMM_Q(1),
++                             env->xmm_regs[i].ZMM_Q(0),
++                             (i & 1) ? "\n" : " ");
++            }
+         }
+     }
+     if (flags & CPU_DUMP_CODE) {
+-- 
+1.8.3.1
 
-Power10 predecessor behavior:
-   - KVM guest: Boot the guest without DAWR1 support. Error out
-     if user tries with cap-dawr1=on.
-   - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
-     DAWR0 (Should be fixed in future while adding PowerPC watch-
-     point support in TCG mode)
-
-> I'm wondering if we're actually just better off setting the pa feature
-> just based on the guest CPU model.  TCG will be broken if you try to
-> use it, but then, it already is.  AFAIK there's no inherent reason we
-> couldn't implement DAWR support in TCG, it's just never been worth the
-> trouble.
-
-Correct. Probably there is no practical usecase for DAWR in TCG mode.
-
-Thanks,
-Ravi
 
