@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86D1366AFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 14:40:12 +0200 (CEST)
-Received: from localhost ([::1]:40942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BBBD366B18
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 14:47:39 +0200 (CEST)
+Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZC9L-0006Ib-Nq
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 08:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51520)
+	id 1lZCGY-0006FD-AO
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 08:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZC3T-0001oq-2u
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:34:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38664)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZC4O-0002XY-0e
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:35:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZC3R-0004r1-IH
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:34:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZC4M-0005HA-5m
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:35:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619008442;
+ s=mimecast20190719; t=1619008500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0TgLR9FIBrJmGC0jhYsBwz/mUc1ET4QQ7KyF/L/i8E4=;
- b=h/6rfid+wtWGpnRT6cIz/8MEuvn/3Agl3XQ7eXs+RfZg26cvUkRpuc2R9odVxwnJEnEmTT
- irEA9AfXJUWIAkTGVVTfkK00ysQYbBKdBWTbdy3tVvozKkqhDFMB3JFtNPgTC3d4Dwio76
- xBtd+BwZeyWbcmenScd04yrEkDequXs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-6lAwDYJCNrizwM-HQ-4qNQ-1; Wed, 21 Apr 2021 08:34:00 -0400
-X-MC-Unique: 6lAwDYJCNrizwM-HQ-4qNQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o18-20020a1ca5120000b02901333a56d46eso325804wme.8
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 05:33:59 -0700 (PDT)
+ bh=DRb3NiXPQeUjeX7Yoa33ZpsJaKl2I10FtCwbbia8Vjw=;
+ b=W3GnbnQA4FUvKETLW+TS+k7zAJ5jZX3eF5zN1JhBkUC5o3f0K3pyhAjJaaggTzb075sC+H
+ TwgX7mo87FUtJIpSdBzFWAc74JPA7pfMs6k2F8zxquX7dq81XybseezVZztdK0KemGpkXd
+ tWzoLk6g5DQB9V3b0zu3DXmTeOfpu28=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-zqDzdqPYOfiTo5D2T77b4A-1; Wed, 21 Apr 2021 08:34:59 -0400
+X-MC-Unique: zqDzdqPYOfiTo5D2T77b4A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t14-20020adff04e0000b0290103307c23e1so12607549wro.8
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 05:34:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0TgLR9FIBrJmGC0jhYsBwz/mUc1ET4QQ7KyF/L/i8E4=;
- b=gpZ82hvxa4Lml/WPwLzOSIy5Wvlus3RSf7SO2AhDitPJlt5dJoWlAIQMw8iUWybjsh
- sy200qUmzv12cvRm2FMPjeDkTTG/mPD1IveqO179ecKA8TZOFx6FjMTgWx1IxFoIuK2p
- KjacCAp2efSKtJFJWUhumrnVpgpG1SflNCkQ8SbprnjW1Gn0f8kT8EIvqANMCYg+p/HN
- 4/zAfKGoSGdRqIKdmJQQZlK6lXrbq3Pikgbp+TC0WD38BLZhsE+SOmhuSyhSUXSBbchZ
- 6EM2rvAxFQddjjcTOcW2a6QbLckTh4qTKEgqVEjcz+fXhgpcQjUv8txszrVF20VY52VB
- 7qfg==
-X-Gm-Message-State: AOAM532+bpjpTGDqr+BbaoolO+Ccb4rZvH/J+nAiH1v/z5Fzq/kW6InY
- gErudnFbMGz18qM98EYP5pigVMHwT8bhxJ+tcBGi5esdRO1v23xAxVT7VM++xsPXP6vMlEsIVKy
- Bt6VxApEkY1zuGHw=
-X-Received: by 2002:adf:b344:: with SMTP id k4mr27126405wrd.205.1619008438987; 
- Wed, 21 Apr 2021 05:33:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+NQrBPmqCTvim/Vh2BnFetdke3nWXY4YavncuTerGU8XuVFsZWyZ0Ja2AQe0KgDHcLHHVAA==
-X-Received: by 2002:adf:b344:: with SMTP id k4mr27126371wrd.205.1619008438772; 
- Wed, 21 Apr 2021 05:33:58 -0700 (PDT)
+ bh=DRb3NiXPQeUjeX7Yoa33ZpsJaKl2I10FtCwbbia8Vjw=;
+ b=HqxzRYs2+Swbd9jyeC5MiXLsfFMQLtiRGFKTe8phg1sISqNb6lVa2Fsii8efLc90sZ
+ IIUDTRayRyEGB8ylp7tJQFiNKlzBdbalBtJ8bADh7u5djfGtB0rjU2pt/xsO/aUQvLe1
+ 5aIue1BD5QLYyQ29owhGIKAeBi/bxhPVJJ2l6wWSBD6dq2kbuDbLIj3lMF3Wc4zGeVsl
+ /dX4G89+6Q/I6GmQB5VuOpicNrwAggiDBw6lMgbUe2dWZ4IB7eeNILqZrV++wyS8mg8h
+ /Znh7PgDfMyk2mW0E4z4Aqhzw8kwh8jICkN/F2MItUr1vT0fA6z1PEUCTXTZYQJV5c9T
+ qZsg==
+X-Gm-Message-State: AOAM5304Qjmx7+iRLVayZcBw4r2e0AZuMPB5+6zgGIXhrJu6XZSGXu9q
+ pwJyWHCRT0a/ju0ZN96e5vvG1mWJomf0KR9AWcyIYeI3kQgGqbQVJubE3hS5Kk68P49TiuqzAXS
+ +stIucE5L1YRSNmc=
+X-Received: by 2002:a1c:9d90:: with SMTP id g138mr9512395wme.156.1619008498297; 
+ Wed, 21 Apr 2021 05:34:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgMSy4IszT6BDsAxi+Mh8qYwXyyDqXZmvhUIo8z0b4voF7hrlKPzsIk5PT+U500/2i3eGrBg==
+X-Received: by 2002:a1c:9d90:: with SMTP id g138mr9512365wme.156.1619008498084; 
+ Wed, 21 Apr 2021 05:34:58 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id z15sm2812403wrv.39.2021.04.21.05.33.57
+ by smtp.gmail.com with ESMTPSA id d10sm2880085wri.41.2021.04.21.05.34.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 05:33:58 -0700 (PDT)
-Subject: Re: [PATCH v6 05/15] softmmu/memory: Pass ram_flags to
- memory_region_init_ram_shared_nomigrate()
+ Wed, 21 Apr 2021 05:34:57 -0700 (PDT)
+Subject: Re: [PATCH v6 06/15] softmmu/memory: Pass ram_flags to
+ qemu_ram_alloc() and qemu_ram_alloc_internal()
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210421122624.12292-1-david@redhat.com>
- <20210421122624.12292-6-david@redhat.com>
+ <20210421122624.12292-7-david@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <423e8d43-8270-1625-31ba-eafcb0e58ee6@redhat.com>
-Date: Wed, 21 Apr 2021 14:33:56 +0200
+Message-ID: <95a14673-bbb4-383c-c23b-3a58cf78ae99@redhat.com>
+Date: Wed, 21 Apr 2021 14:34:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210421122624.12292-6-david@redhat.com>
+In-Reply-To: <20210421122624.12292-7-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -111,19 +111,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/21/21 2:26 PM, David Hildenbrand wrote:
-> Let's forward ram_flags instead, renaming
-> memory_region_init_ram_shared_nomigrate() into
-> memory_region_init_ram_flags_nomigrate().
+> Let's pass ram_flags to qemu_ram_alloc() and qemu_ram_alloc_internal(),
+> preparing for passing additional flags.
 > 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  backends/hostmem-ram.c                        |  6 +++--
->  hw/m68k/next-cube.c                           |  4 ++--
->  include/exec/memory.h                         | 24 +++++++++----------
->  .../memory-region-housekeeping.cocci          |  8 +++----
->  softmmu/memory.c                              | 18 +++++++-------
->  5 files changed, 31 insertions(+), 29 deletions(-)
+>  include/exec/ram_addr.h |  2 +-
+>  softmmu/memory.c        |  4 ++--
+>  softmmu/physmem.c       | 29 ++++++++++++-----------------
+>  3 files changed, 15 insertions(+), 20 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
