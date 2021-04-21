@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07B8366D97
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 16:05:48 +0200 (CEST)
-Received: from localhost ([::1]:36846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A2A366D7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 16:02:56 +0200 (CEST)
+Received: from localhost ([::1]:34660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZDUA-0001aa-FT
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 10:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43846)
+	id 1lZDRP-0000Zy-G4
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 10:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZDTJ-0001AC-4T
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 10:04:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZDTH-00085Q-0j
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 10:04:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZDTF-0002p9-FO
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 14:04:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 62A4B2E815F
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 14:04:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lZDPg-0008UK-N9; Wed, 21 Apr 2021 10:01:08 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:46034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lZDPb-0005nT-UQ; Wed, 21 Apr 2021 10:01:07 -0400
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7C8362E1567;
+ Wed, 21 Apr 2021 17:00:55 +0300 (MSK)
+Received: from myt6-76f0a6db1a7e.qloud-c.yandex.net
+ (myt6-76f0a6db1a7e.qloud-c.yandex.net [2a02:6b8:c12:422d:0:640:76f0:a6db])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ kbKjsru6hp-0r00rkGL; Wed, 21 Apr 2021 17:00:55 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1619013655; bh=b2MOXubJdz3oWgOppcbDbrIeoYF+Y6v96nIURKYJ3iU=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=yZqq0Q41jWWA35zNrLoduGGzKs5XghrC8nyMw+8OU66ZHkuKCZHByY068UXHKvqY4
+ PGd7fhbkva+zSuAowfaZkJl9WtkX4pP8SSeSXKdVmyf5TbGKpDQx5YA/z/XxAJCgK3
+ LxjE0H3Nwx/e8USsv6YmBXZEW/sagxQxlgqN/smE=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
+ [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by myt6-76f0a6db1a7e.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 85bW5lFM9k-0rouX1H3; Wed, 21 Apr 2021 17:00:53 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Wed, 21 Apr 2021 17:00:49 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 02/33] block/nbd: fix how state is cleared on
+ nbd_open() failure paths
+Message-ID: <YIAwEYbLpqzzFzd4@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-3-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Apr 2021 13:51:39 -0000
-From: Thomas Huth <1368178@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cirrus imagine me millennium nine number vga videocard
- windows winme
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: euro-cent th-huth
-X-Launchpad-Bug-Reporter: OIiver (euro-cent)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140911114353.25076.30246.malonedeb@soybean.canonical.com>
-Message-Id: <161901309994.22410.12204335979647427024.launchpad@gac.canonical.com>
-Subject: [Bug 1368178] Re: Windows ME falsely detects qemu's videocards as
- Number Nine Imagine 128
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 2c88bffd207dce76100436d36c416691575be5a3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210416080911.83197-3-vsementsov@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,66 +77,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1368178 <1368178@bugs.launchpad.net>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags removed: 128 edition millenium
+On Fri, Apr 16, 2021 at 11:08:40AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> We have two "return error" paths in nbd_open() after
+> nbd_process_options(). Actually we should call nbd_clear_bdrvstate()
+> on these paths. Interesting that nbd_process_options() calls
+> nbd_clear_bdrvstate() by itself.
+> 
+> Let's fix leaks and refactor things to be more obvious:
+> 
+> - intialize yank at top of nbd_open()
+> - move yank cleanup to nbd_clear_bdrvstate()
+> - refactor nbd_open() so that all failure paths except for
+>   yank-register goes through nbd_clear_bdrvstate()
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/nbd.c | 36 ++++++++++++++++++------------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 739ae2941f..a407a3814b 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -152,8 +152,12 @@ static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
+>  static int nbd_client_handshake(BlockDriverState *bs, Error **errp);
+>  static void nbd_yank(void *opaque);
+>  
+> -static void nbd_clear_bdrvstate(BDRVNBDState *s)
+> +static void nbd_clear_bdrvstate(BlockDriverState *bs)
+>  {
+> +    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+> +
+> +    yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
+> +
+>      object_unref(OBJECT(s->tlscreds));
+>      qapi_free_SocketAddress(s->saddr);
+>      s->saddr = NULL;
+> @@ -2279,9 +2283,6 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+>      ret = 0;
+>  
+>   error:
+> -    if (ret < 0) {
+> -        nbd_clear_bdrvstate(s);
+> -    }
+>      qemu_opts_del(opts);
+>      return ret;
+>  }
+> @@ -2292,11 +2293,6 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+>      int ret;
+>      BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+>  
+> -    ret = nbd_process_options(bs, options, errp);
+> -    if (ret < 0) {
+> -        return ret;
+> -    }
+> -
+>      s->bs = bs;
+>      qemu_co_mutex_init(&s->send_mutex);
+>      qemu_co_queue_init(&s->free_sema);
+> @@ -2305,20 +2301,23 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+>          return -EEXIST;
+>      }
+>  
+> +    ret = nbd_process_options(bs, options, errp);
+> +    if (ret < 0) {
+> +        goto fail;
+> +    }
+> +
+>      /*
+>       * establish TCP connection, return error if it fails
+>       * TODO: Configurable retry-until-timeout behaviour.
+>       */
+>      if (nbd_establish_connection(bs, s->saddr, errp) < 0) {
+> -        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
+> -        return -ECONNREFUSED;
+> +        ret = -ECONNREFUSED;
+> +        goto fail;
+>      }
+>  
+>      ret = nbd_client_handshake(bs, errp);
 
--- =
+Not that this was introduced by this patch, but once you're at it:
+AFAICT nbd_client_handshake() calls yank_unregister_instance() on some
+error path(s); I assume this needs to go too, otherwise it's called
+twice (and asserts).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1368178
+Roman.
 
-Title:
-  Windows ME falsely detects qemu's videocards as Number Nine Imagine
-  128
-
-Status in QEMU:
-  New
-
-Bug description:
-  A fresh installation of  Windows Millennium Edition (Windows ME,
-  WinME) as guest OS on qemu interprets qemu's videocards as Number Nine
-  Imagine  128 with the consequence, that
-
-  1. It is impossible to change color depth.
-  2. WinME uses the i128.drv Driver that is shipped with WinMe.
-  3. Forcing WinME to use other drivers has no effect.
-
-  =
-
-  It also doesn't matter what option for -vga was given to QEMU at command =
-line.
-  cirrus, std,   vmware,  qxl etc. all have no effect, the videocard detect=
-ed by Windows Me stays at Number Nine Imagine 128.
-
-  Even selecting another driver in WinME and forcing WinME to use
-  drivers such as the Cirrus Logic 5446 PCI driver has no effect.
-
-  I also want to mention, that the BIOS isn't detected by WinME properly.
-  The device manager of WinME shows errors with the Plug & Play BIOS driver=
- BIOS.vxd.
-
-  =
-
-  That is the QEMU Version:
-
-  # qemu-system-i386 --version                                             =
-                                                                           =
-                                                  =
-
-  QEMU emulator version 2.0.0 (Debian 2.0.0+dfsg-2ubuntu1.3), Copyright (c)=
- 2003-2008 Fabrice Bellard                  =
-
-
-  And this was the complete command line, that was given: =
-
-  # sudo /usr/bin/qemu-system-i386 -hda WinME_QEMU.img -cdrom drivers.iso -=
-boot c -no-acpi -no-hpet -soundhw sb16 -net nic -cpu pentium3 -m 256 -vga c=
-irrus
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1368178/+subscriptions
+>      if (ret < 0) {
+> -        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
+> -        nbd_clear_bdrvstate(s);
+> -        return ret;
+> +        goto fail;
+>      }
+>      /* successfully connected */
+>      s->state = NBD_CLIENT_CONNECTED;
+> @@ -2330,6 +2329,10 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+>      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
+>  
+>      return 0;
+> +
+> +fail:
+> +    nbd_clear_bdrvstate(bs);
+> +    return ret;
+>  }
+>  
+>  static int nbd_co_flush(BlockDriverState *bs)
+> @@ -2373,11 +2376,8 @@ static void nbd_refresh_limits(BlockDriverState *bs, Error **errp)
+>  
+>  static void nbd_close(BlockDriverState *bs)
+>  {
+> -    BDRVNBDState *s = bs->opaque;
+> -
+>      nbd_client_close(bs);
+> -    yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
+> -    nbd_clear_bdrvstate(s);
+> +    nbd_clear_bdrvstate(bs);
+>  }
+>  
+>  /*
 
