@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B001366872
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 11:55:44 +0200 (CEST)
-Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BDF3668CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 12:04:24 +0200 (CEST)
+Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ9aA-0001FF-K1
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 05:55:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44790)
+	id 1lZ9iY-000569-W9
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 06:04:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZ9Z7-0000fT-EZ
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 05:54:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51003)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZ9gT-0004Lv-NQ
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 06:02:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZ9Z5-0001q8-2n
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 05:54:36 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZ9gG-0006P8-4a
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 06:02:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618998873;
+ s=mimecast20190719; t=1618999317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YcSrxNBFQJkpjpjuk4n+9enRH1erqIQCt5awT3wUgw0=;
- b=DYH4B4nvm/ncaDYb2QeYJE4xPxT75dCdfzzrFo2hPpsP8cxVsxgCl0ChwkONKRsmlpsz+4
- 0IPdHopqqs1UsJ1KdGqhbEcDW+ZgDpWgYjJFgKmGv185o/FRcW3jM0TdBor0klVap/AHea
- Af0s+BkJ8J6BpoMB3zTRJyhdHhneWbs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JrEu1NKHVr6LjijDqLxfzYJzf0drLT+8NODwm70EHFU=;
+ b=VnL3SBjeT7WXxGb9wN+nulMSc0xwjRszlF/M+q4sbwaVwdI9p+hjSS7iG4QMUdh/HbQlus
+ bgsQK26rPkyphx0ZFo2CECwkGu1N2jKHTHvjLS/d3EXpdiBd26VWxmgYLuRzg7EzB2xnAk
+ /M3JajTlgWkPNBaWHughgq8QsZYKdeo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-LZfxKicjPFyBHkC1EnybKg-1; Wed, 21 Apr 2021 05:54:28 -0400
-X-MC-Unique: LZfxKicjPFyBHkC1EnybKg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-510-g9tYQNpfMrCB1U-DEspX9A-1; Wed, 21 Apr 2021 06:01:55 -0400
+X-MC-Unique: g9tYQNpfMrCB1U-DEspX9A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F31768030C9;
- Wed, 21 Apr 2021 09:54:26 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-55.ams2.redhat.com
- [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 791F660C5F;
- Wed, 21 Apr 2021 09:54:25 +0000 (UTC)
-To: Brijesh Singh <brijesh.singh@amd.com>,
- Tom Lendacky <thomas.lendacky@amd.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Subject: firmware selection for SEV-ES
-Message-ID: <6af8c5c7-6166-7f83-9ff0-4c24460577e2@redhat.com>
-Date: Wed, 21 Apr 2021 11:54:24 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B551384BA52;
+ Wed, 21 Apr 2021 10:01:54 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-112-160.ams2.redhat.com
+ [10.36.112.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFCB85D9C0;
+ Wed, 21 Apr 2021 10:01:49 +0000 (UTC)
+Date: Wed, 21 Apr 2021 12:01:46 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>
+Subject: Re: [RFC PATCH] vfio-ccw: Permit missing IRQs
+Message-ID: <20210421120146.46572f86.cohuck@redhat.com>
+In-Reply-To: <20210419184906.2847283-1-farman@linux.ibm.com>
+References: <20210419184906.2847283-1-farman@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,71 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>, Pavel Hrdina <phrdina@redhat.com>,
- "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ qemu-devel@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Brijesh, Tom,
+On Mon, 19 Apr 2021 20:49:06 +0200
+Eric Farman <farman@linux.ibm.com> wrote:
 
-in QEMU's "docs/interop/firmware.json", the @FirmwareFeature enumeration
-has a constant called @amd-sev. We should introduce an @amd-sev-es
-constant as well, minimally for the following reason:
+> Commit 690e29b91102 ("vfio-ccw: Refactor ccw irq handler") changed
+> one of the checks for the IRQ notifier registration from saying
+> "the host needs to recognize the only IRQ that exists" to saying
+> "the host needs to recognize ANY IRQ that exists."
+> 
+> And this worked fine, because the subsequent change to support the
+> CRW IRQ notifier doesn't get into this code when running on an older
+> kernel, thanks to a guard by a capability region. The later addition
+> of the REQ(uest) IRQ by commit b2f96f9e4f5f ("vfio-ccw: Connect the
+> device request notifier") broke this assumption because there is no
+> matching capability region. Thus, running new QEMU on an older
+> kernel fails with:
+> 
+>   vfio: unexpected number of irqs 2
+> 
+> Let's simply remove the check (and the less-than-helpful message),
+> and make the VFIO_DEVICE_GET_IRQ_INFO ioctl request for the IRQ
+> being processed. If it returns with EINVAL, we can treat it as
+> an unfortunate mismatch but not a fatal error for the guest.
+> 
+> Fixes: 690e29b91102 ("vfio-ccw: Refactor ccw irq handler")
+> Fixes: b2f96f9e4f5f ("vfio-ccw: Connect the device request notifier")
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+>  hw/vfio/ccw.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index b2df708e4b..cfbfc3d1a2 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -411,20 +411,19 @@ static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev,
+>          return;
+>      }
+>  
+> -    if (vdev->num_irqs < irq + 1) {
+> -        error_setg(errp, "vfio: unexpected number of irqs %u",
+> -                   vdev->num_irqs);
 
-AMD document #56421 ("SEV-ES Guest-Hypervisor Communication Block
-Standardization") revision 1.40 says in "4.6 System Management Mode
-(SMM)" that "SMM will not be supported in this version of the
-specification". This is reflected in OVMF, so an OVMF binary that's
-supposed to run in a SEV-ES guest must be built without "-D
-SMM_REQUIRE". (As a consequence, such a binary should be built also
-without "-D SECURE_BOOT_ENABLE".)
+Alternative proposal: Change this message to
 
-At the level of "docs/interop/firmware.json", this means that management
-applications should be enabled to look for the @amd-sev-es feature (and
-it also means, for OS distributors, that any firmware descriptor
-exposing @amd-sev-es will currently have to lack all three of:
-@requires-smm, @secure-boot, @enrolled-keys).
+"vfio: IRQ %u not available (number of irqs %u)"
 
-I have three questions:
+and still fail this function, while treating a failure of
+vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_REQ_IRQ_INDEX, &err); in
+vfio_ccw_realize() as a non-fatal error (maybe log a message).
 
+This allows us to skip doing an ioctl call, of which we already know
+that it would fail. Still, we can catch cases where a broken kernel e.g.
+provides the crw region, but not the matching irq (I believe something
+like that should indeed be a fatal error.)
 
-(1) According to
-<https://libvirt.org/formatdomain.html#launch-security>, SEV-ES is
-explicitly requested in the domain XML via setting bit#2 in the "policy"
-element.
-
-Can this setting be used by libvirt to look for such a firmware
-descriptor that exposes @amd-sev-es?
-
-
-(2) "docs/interop/firmware.json" documents @amd-sev as follows:
-
-# @amd-sev: The firmware supports running under AMD Secure Encrypted
-#           Virtualization, as specified in the AMD64 Architecture
-#           Programmer's Manual. QEMU command line options related to
-#           this feature are documented in
-#           "docs/amd-memory-encryption.txt".
-
-Documenting the new @amd-sev-es enum constant with very slight
-customizations for the same text should be possible, I reckon. However,
-"docs/amd-memory-encryption.txt" (nor
-"docs/confidential-guest-support.txt") seem to mention SEV-ES.
-
-Can you guys propose a patch for "docs/amd-memory-encryption.txt"?
-
-I guess that would be next to this snippet:
-
-> # ${QEMU} \
->    sev-guest,id=sev0,policy=0x1...\
-
-
-(3) Is the "AMD64 Architecture Programmer's Manual" the specification
-that we should reference under @amd-sev-es as well (i.e., same as with
-@amd-sev), or is there a more specific document?
-
-Thanks,
-Laszlo
+> -        return;
+> -    }
+> -
+>      argsz = sizeof(*irq_info);
+>      irq_info = g_malloc0(argsz);
+>      irq_info->index = irq;
+>      irq_info->argsz = argsz;
+>      if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
+>                irq_info) < 0 || irq_info->count < 1) {
+> -        error_setg_errno(errp, errno, "vfio: Error getting irq info");
+> -        goto out_free_info;
+> +        if (errno == EINVAL) {
+> +            warn_report("Unable to get information about IRQ %u", irq);
+> +            goto out_free_info;
+> +        } else {
+> +            error_setg_errno(errp, errno, "vfio: Error getting irq info");
+> +            goto out_free_info;
+> +        }
+>      }
+>  
+>      if (event_notifier_init(notifier, 0)) {
 
 
