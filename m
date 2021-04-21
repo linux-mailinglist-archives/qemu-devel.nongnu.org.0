@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D74366B95
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 15:03:44 +0200 (CEST)
-Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB01366CE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 15:31:51 +0200 (CEST)
+Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZCW7-0005ck-B8
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 09:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58174)
+	id 1lZCxK-0005q3-5M
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 09:31:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZCV9-0004hX-U8; Wed, 21 Apr 2021 09:02:43 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41554)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lZCvd-0005Hj-Te
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 09:30:06 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZCV8-000577-7W; Wed, 21 Apr 2021 09:02:43 -0400
-Received: by mail-ej1-x629.google.com with SMTP id mh2so41837312ejb.8;
- Wed, 21 Apr 2021 06:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Db5rYtKu6pu05hBUlJnA/FTlz8NWsWOpTXGIw2eqMgE=;
- b=ePGsKjwwBtXVggEBzd5AHWiAihy5CCa14MiVNSUoWmV4HyrvtXR7cXEjzTgi4P3fAQ
- Vp0rC6zI3uooQP1zfzBsMp+XgmdYN+GlAwxTw+IrYW42frVKpQatdny9eV/aoPRF30QL
- +Pc79ozBmC7Rtzb/QNAj/M6Z6vyT08ss35pL8q1Ca8NZVeQgqncmZxPowLWk2SdtFbRe
- GpuFYye4dGqdivae5L9WJiNkeZBlmQGGwrNreBtPYylzC68QobM9xkiGhPpDHyWXXTtU
- uP8kAiShBvIjRcMO88LZA0vIthC83JXVLGoI/SIbnG6Mq71rg/I/JtYiqrI3w6ZopMBS
- krIQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lZCvR-0003ux-Fe
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 09:30:04 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id w4so37664326wrt.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BJfu66hpwqKSDmT3Uj9sIFfOd0WhdWmICqq9eKV8meY=;
+ b=jPbdCErjN8rbkdv0bT02LT5Kv37eCLmqytg6SgK9munkqbI4GsIPt6sz9V5ugkBtbr
+ upya2Es7V+c5aFFdXg3cl2W8QP6F4Q0uXvtKugrhjKNoCBXdmq0TbOhIe7oXUbWxQpEk
+ 7a7HuYWDSZfpQVS9Pm4y2Mv7hx1UiiwnfN0/++jW5aYvJ/MvVyC8OsJHRydgh4WpLFRy
+ vWSH1pH24aPIoP9/vRgdwFhhrTEMJVd9cp/pzKp+A5UJLreaKe78GSAVujgKubK902t2
+ rqi951jkHwFmjr4X5rcFAC4rytK2dnxl16iWdG+TntgkQKN07QDi1aXd37KELHR12fEj
+ hQ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Db5rYtKu6pu05hBUlJnA/FTlz8NWsWOpTXGIw2eqMgE=;
- b=j+ZCNMmJfQYgHx+DngZIUB0pO+1lc9VOYG+d2Lqpb668ZuLOwhbkVs/QJzkeqmsD0Y
- qgf2O2MLHUZnqcSUUW5mzXlNVmt6oFxjyOHlu5bFfa5cMf8sKMuBQKbIgMunzAo7xy/i
- tiAPtkv3LRYKq8AJKR94irbji6/hRi2eTAgW3DozVZXw+EbY5u5fxA4Vm1nitw5iKXvu
- 0pK3ll1uDwZ6/Cbmem30NqdtL8GYGj1dUGlvuh/4EnJ9m4vx2pHDftHWTh4ZpKHCdApA
- Lj+JCKn/+zvbweeHFEvya3vY8uqa3PrdXBFWTMrj2pQvCAWWsEqf6KfQo6v0mvyDDFtJ
- gxyg==
-X-Gm-Message-State: AOAM5310RY1wecQR93+RHxDWu7O0zyscN4mE9j7uUeN6VDQoElYLIj84
- jbrhnXjPHgj2xSLF7VJHoIo=
-X-Google-Smtp-Source: ABdhPJwlGm0udwV05htGnaT3FBg/aNLx/fZMYT5iQj4XZt9W7SRATylHaJ17ca7A8C/8LLHWV1J/sQ==
-X-Received: by 2002:a17:906:b28c:: with SMTP id
- q12mr33220820ejz.284.1619010158009; 
- Wed, 21 Apr 2021 06:02:38 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id 9sm2376915ejv.73.2021.04.21.06.02.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 06:02:37 -0700 (PDT)
-Subject: Re: [PATCH v2 01/11] hw/arm/aspeed: Do not directly map ram container
- onto main address bus
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Xu <peterx@redhat.com>
-References: <20210417103028.601124-1-f4bug@amsat.org>
- <20210417103028.601124-2-f4bug@amsat.org> <20210420182819.GD4440@xz-x1>
- <1c21cbf3-c80b-4e65-485e-334ae84cefe0@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c91b3f57-cc2c-7575-3447-715e329a4a42@amsat.org>
-Date: Wed, 21 Apr 2021 15:02:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=BJfu66hpwqKSDmT3Uj9sIFfOd0WhdWmICqq9eKV8meY=;
+ b=eucS3Gm+1vso/lZ25d4cNgglsUfcSzMQ3Xb7KCIoU8GecycyTaPsivnlOiCDE7a1Ey
+ OSiSJpElOam5HR6/bfzguLw1VetEjN8NRmcx3G/X8fGkJfeUfP82XhvKq/ZILoDZNLhr
+ LqO90t4HfQlHJHfBPhqf8GAJ7R/0V5KRRjmz5rEoVA430WYSC1hHFc7Y14fxe42wCEA+
+ cHlVQVzsFxNhRgT2ZW/QM+H8dvXpZGoHAwBWqR2AuUFO9Dv7fYj2tTd9HmA55IbcnKA7
+ uuoFq2fKw7Pi9nVZIFBZMAiG7itHK3K+7RS1dixW22zWCDnwNLTGRwrnaxSrMSXhvONt
+ E+Og==
+X-Gm-Message-State: AOAM533wWwyN01a6cYA7CnAAqil4qPD24Rhmr/YCnp8awN3gDu/k+QPn
+ UNM5jgp/zkhzZGtJHieDJFYmGA==
+X-Google-Smtp-Source: ABdhPJzXClpFqwJMoekn8LkyS1pCrJmephN9BlexgOfz+1cT9NvHN5aPCebXx0AXeHVL1FEnUze1Eg==
+X-Received: by 2002:adf:d1e1:: with SMTP id g1mr27770697wrd.218.1619011790383; 
+ Wed, 21 Apr 2021 06:29:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f6sm2991646wrt.19.2021.04.21.06.29.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Apr 2021 06:29:49 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D00851FF7E;
+ Wed, 21 Apr 2021 14:29:48 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] tests/tcg: add a multiarch signals test to stress test
+ signal delivery
+Date: Wed, 21 Apr 2021 14:29:31 +0100
+Message-Id: <20210421132931.11127-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1c21cbf3-c80b-4e65-485e-334ae84cefe0@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,47 +85,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: fam@euphon.net, berrange@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/21 7:53 AM, Cédric Le Goater wrote:
-> On 4/20/21 8:28 PM, Peter Xu wrote:
->> On Sat, Apr 17, 2021 at 12:30:18PM +0200, Philippe Mathieu-Daudé wrote:
->>> The RAM container is exposed as an AddressSpace.
->>
->> I didn't see where did ram_container got exposed as an address space.
+This adds a simple signal test that combines the POSIX timer_create
+with signal delivery across multiple threads.
 
-I guess I used the wrong base to git-publish and skipped the first patch =)
+[AJB: So I wrote this in an attempt to flush out issues with the
+s390x-linux-user handling. However I suspect I've done something wrong
+or opened a can of signal handling worms.
 
->> I see it's added as one subregion of get_system_memory(), which looks okay? 
-> my version of this patch took a simpler approach. See below.
-> 
-> Thanks,
-> 
-> C.
-> 
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -327,7 +327,7 @@ static void aspeed_machine_init(MachineState *machine)
->      object_property_set_int(OBJECT(&bmc->soc), "num-cs", amc->num_cs,
->                              &error_abort);
->      object_property_set_link(OBJECT(&bmc->soc), "dram",
-> -                             OBJECT(&bmc->ram_container), &error_abort);
-> +                             OBJECT(machine->ram), &error_abort);
+Nominally this runs fine on real hardware but I variously get failures
+when running it under translation and while debugging QEMU running the
+test. I've also exposed a shortcomming with the gdb stub when dealing
+with guest TLS data so yay ;-). So I post this as an RFC in case
+anyone else can offer insight or can verify they are seeing the same
+strange behaviour?]
 
-This will work as long as no board maps the main memory elsewhere than
-0x0. Using the alias make it more robust (and also is good API example
-for the usual "use API via copy/pasting" style when adding new board)
-IMHO.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/tcg/multiarch/signals.c       | 149 ++++++++++++++++++++++++++++
+ tests/tcg/multiarch/Makefile.target |   2 +
+ 2 files changed, 151 insertions(+)
+ create mode 100644 tests/tcg/multiarch/signals.c
 
->      if (machine->kernel_filename) {
->          /*
->           * When booting with a -kernel command line there is no u-boot
-> 
-> 
+diff --git a/tests/tcg/multiarch/signals.c b/tests/tcg/multiarch/signals.c
+new file mode 100644
+index 0000000000..998c8fdefd
+--- /dev/null
++++ b/tests/tcg/multiarch/signals.c
+@@ -0,0 +1,149 @@
++/*
++ * linux-user signal handling tests.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include <stdarg.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <errno.h>
++#include <pthread.h>
++#include <string.h>
++#include <signal.h>
++#include <time.h>
++#include <sys/time.h>
++
++static void error1(const char *filename, int line, const char *fmt, ...)
++{
++    va_list ap;
++    va_start(ap, fmt);
++    fprintf(stderr, "%s:%d: ", filename, line);
++    vfprintf(stderr, fmt, ap);
++    fprintf(stderr, "\n");
++    va_end(ap);
++    exit(1);
++}
++
++static int __chk_error(const char *filename, int line, int ret)
++{
++    if (ret < 0) {
++        error1(filename, line, "%m (ret=%d, errno=%d/%s)",
++               ret, errno, strerror(errno));
++    }
++    return ret;
++}
++
++#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
++
++#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
++
++/*
++ * Thread handling
++ */
++typedef struct ThreadJob ThreadJob;
++
++struct ThreadJob {
++    int number;
++    int sleep;
++    int count;
++};
++
++static pthread_t *threads;
++static int max_threads = 10;
++__thread int signal_count;
++int total_signal_count;
++
++static void *background_thread_func(void *arg)
++{
++    ThreadJob *job = (ThreadJob *) arg;
++
++    printf("thread%d: started\n", job->number);
++    while (total_signal_count < job->count) {
++        usleep(job->sleep);
++    }
++    printf("thread%d: saw %d alarms from %d\n", job->number,
++           signal_count, total_signal_count);
++    return NULL;
++}
++
++static void spawn_threads(void)
++{
++    int i;
++    threads = calloc(sizeof(pthread_t), max_threads);
++
++    for (i = 0; i < max_threads; i++) {
++        ThreadJob *job = calloc(sizeof(ThreadJob), 1);
++        job->number = i;
++        job->sleep = i * 1000;
++        job->count = i * 100;
++        pthread_create(threads + i, NULL, background_thread_func, job);
++    }
++}
++
++static void close_threads(void)
++{
++    int i;
++    for (i = 0; i < max_threads; i++) {
++        pthread_join(threads[i], NULL);
++    }
++    free(threads);
++    threads = NULL;
++}
++
++static void sig_alarm(int sig, siginfo_t *info, void *puc)
++{
++    if (sig != SIGRTMIN) {
++        error("unexpected signal");
++    }
++    signal_count++;
++    __atomic_fetch_add(&total_signal_count, 1, __ATOMIC_SEQ_CST);
++}
++
++static void test_signals(void)
++{
++    struct sigaction act;
++    struct itimerspec it;
++    timer_t tid;
++    struct sigevent sev;
++
++    /* Set up SIG handler */
++    act.sa_sigaction = sig_alarm;
++    sigemptyset(&act.sa_mask);
++    act.sa_flags = SA_SIGINFO;
++    chk_error(sigaction(SIGRTMIN, &act, NULL));
++
++    /* Create POSIX timer */
++    sev.sigev_notify = SIGEV_SIGNAL;
++    sev.sigev_signo = SIGRTMIN;
++    sev.sigev_value.sival_ptr = &tid;
++    chk_error(timer_create(CLOCK_REALTIME, &sev, &tid));
++
++    it.it_interval.tv_sec = 0;
++    it.it_interval.tv_nsec = 1000000;
++    it.it_value.tv_sec = 0;
++    it.it_value.tv_nsec = 1000000;
++    chk_error(timer_settime(tid, 0, &it, NULL));
++
++    spawn_threads();
++
++    do {
++        usleep(1000);
++    } while (total_signal_count < 2000);
++
++    printf("shutting down after: %d signals\n", total_signal_count);
++
++    close_threads();
++
++    chk_error(timer_delete(tid));
++}
++
++int main(int argc, char **argv)
++{
++    test_signals();
++    return 0;
++}
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index a3a751723d..3f283eabe6 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -30,6 +30,8 @@ testthread: LDFLAGS+=-lpthread
+ 
+ threadcount: LDFLAGS+=-lpthread
+ 
++signals: LDFLAGS+=-lrt -lpthread
++
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
+ # additional page sizes are defined we only run the default test.
+-- 
+2.20.1
+
 
