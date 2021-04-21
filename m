@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E293672A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 20:36:30 +0200 (CEST)
-Received: from localhost ([::1]:43956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EFE367298
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 20:32:36 +0200 (CEST)
+Received: from localhost ([::1]:34892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZHi9-0006ao-59
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 14:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59124)
+	id 1lZHeN-0002lO-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 14:32:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHTC-0002el-KC
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36326)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHTE-0002f5-6m
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHT0-0003hh-66
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:01 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHT2-0003j2-5D
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619029248;
+ s=mimecast20190719; t=1619029250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FJ1fR+Md1h/fAjxwcIZj7YK6n05iubqMbdye/YgNDew=;
- b=N/aS29Ay7Z6F6ynDAWnIvDl0/RgbZEGU9bRAiiQkJqODlpe/LZ4T7FDMnDNvDs8TeENF3V
- /NCoixMQ0BoK2Jf1sM33BhY1GRXrPrQf6HVXWRtAPB2smK5MLRDJjdxH/wF8+2hROm9r50
- /k+wQDupeTDcOHxSh8AH4hKidKKcLZU=
+ bh=5XJh95ts/tV7zfy7Q8Do3iORtw+Im2IBI/o1BDGjseM=;
+ b=PzX3LXXJCnFz7a1qNDDTFS0RGJO188Dt3CytoECNrTRM/35ceNPYmi56VquIVyU46uUqEp
+ hY2slO6g4pfiJMGSuUGnhlqF+bCHYOT7RVMj2baXOxaXh96DkAAfy6wD2lLDdgblUi0HSD
+ FjE+Rkt0jlcKL359afNybKzYJYKEk9c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-xdJwOXfCPfqiQBDq76R5dA-1; Wed, 21 Apr 2021 14:20:44 -0400
-X-MC-Unique: xdJwOXfCPfqiQBDq76R5dA-1
+ us-mta-132-rw05Z7qiPCK4t5nV8FRDwA-1; Wed, 21 Apr 2021 14:20:48 -0400
+X-MC-Unique: rw05Z7qiPCK4t5nV8FRDwA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 578EE6414C;
- Wed, 21 Apr 2021 18:20:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0596C18B613D;
+ Wed, 21 Apr 2021 18:20:48 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-152.rdu2.redhat.com [10.10.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8426B19701;
- Wed, 21 Apr 2021 18:20:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 339EE19701;
+ Wed, 21 Apr 2021 18:20:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 07/17] qapi/expr.py: Check type of union and alternate
- 'data' member
-Date: Wed, 21 Apr 2021 14:20:22 -0400
-Message-Id: <20210421182032.3521476-8-jsnow@redhat.com>
+Subject: [PATCH v5 09/17] qapi/expr.py: Modify check_keys to accept any
+ Collection
+Date: Wed, 21 Apr 2021 14:20:24 -0400
+Message-Id: <20210421182032.3521476-10-jsnow@redhat.com>
 In-Reply-To: <20210421182032.3521476-1-jsnow@redhat.com>
 References: <20210421182032.3521476-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,121 +83,33 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prior to this commit, specifying a non-object value here causes the QAPI
-parser to crash in expr.py with a stack trace with (likely) an
-AttributeError when we attempt to call that value's items() method.
+This is a minor adjustment that lets parameters @required and
+@optional take tuple arguments, in particular ().  Later patches will
+make use of that.
 
-This member needs to be an object (Dict), and not anything else. Add a
-check for this with a nicer error message, and formalize that check with
-new test cases that exercise that error.
+(Iterable would also have worked, but Iterable also includes things like
+generator expressions which are consumed upon iteration, which would
+require a rewrite to make sure that each input was only traversed
+once. Collection implies the "can re-iterate" property.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py                          | 7 +++++++
- tests/qapi-schema/alternate-data-invalid.err  | 2 ++
- tests/qapi-schema/alternate-data-invalid.json | 4 ++++
- tests/qapi-schema/alternate-data-invalid.out  | 0
- tests/qapi-schema/meson.build                 | 2 ++
- tests/qapi-schema/union-invalid-data.err      | 2 ++
- tests/qapi-schema/union-invalid-data.json     | 6 ++++++
- tests/qapi-schema/union-invalid-data.out      | 0
- 8 files changed, 23 insertions(+)
- create mode 100644 tests/qapi-schema/alternate-data-invalid.err
- create mode 100644 tests/qapi-schema/alternate-data-invalid.json
- create mode 100644 tests/qapi-schema/alternate-data-invalid.out
- create mode 100644 tests/qapi-schema/union-invalid-data.err
- create mode 100644 tests/qapi-schema/union-invalid-data.json
- create mode 100644 tests/qapi-schema/union-invalid-data.out
+ scripts/qapi/expr.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index c0d18dcc018..03624bdf3f3 100644
+index f3a4a8536e8..396c8126d6a 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -283,6 +283,9 @@ def check_union(expr, info):
-             raise QAPISemError(info, "'discriminator' requires 'base'")
-         check_name_is_str(discriminator, info, "'discriminator'")
- 
-+    if not isinstance(members, dict):
-+        raise QAPISemError(info, "'data' must be an object")
-+
-     for (key, value) in members.items():
-         source = "'data' member '%s'" % key
-         if discriminator is None:
-@@ -298,6 +301,10 @@ def check_alternate(expr, info):
- 
-     if not members:
-         raise QAPISemError(info, "'data' must not be empty")
-+
-+    if not isinstance(members, dict):
-+        raise QAPISemError(info, "'data' must be an object")
-+
-     for (key, value) in members.items():
-         source = "'data' member '%s'" % key
-         check_name_lower(key, info, source)
-diff --git a/tests/qapi-schema/alternate-data-invalid.err b/tests/qapi-schema/alternate-data-invalid.err
-new file mode 100644
-index 00000000000..55f1033aef5
---- /dev/null
-+++ b/tests/qapi-schema/alternate-data-invalid.err
-@@ -0,0 +1,2 @@
-+alternate-data-invalid.json: In alternate 'Alt':
-+alternate-data-invalid.json:2: 'data' must be an object
-diff --git a/tests/qapi-schema/alternate-data-invalid.json b/tests/qapi-schema/alternate-data-invalid.json
-new file mode 100644
-index 00000000000..7d5d9055811
---- /dev/null
-+++ b/tests/qapi-schema/alternate-data-invalid.json
-@@ -0,0 +1,4 @@
-+# Alternate type requires an object for 'data'
-+{ 'alternate': 'Alt',
-+  'data': ['rubbish', 'nonsense']
-+}
-diff --git a/tests/qapi-schema/alternate-data-invalid.out b/tests/qapi-schema/alternate-data-invalid.out
-new file mode 100644
-index 00000000000..e69de29bb2d
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index 8ba69171329..d7163e6601c 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -14,6 +14,7 @@ schemas = [
-   'alternate-conflict-string.json',
-   'alternate-conflict-bool-string.json',
-   'alternate-conflict-num-string.json',
-+  'alternate-data-invalid.json',
-   'alternate-empty.json',
-   'alternate-invalid-dict.json',
-   'alternate-nested.json',
-@@ -192,6 +193,7 @@ schemas = [
-   'union-clash-branches.json',
-   'union-empty.json',
-   'union-invalid-base.json',
-+  'union-invalid-data.json',
-   'union-optional-branch.json',
-   'union-unknown.json',
-   'unknown-escape.json',
-diff --git a/tests/qapi-schema/union-invalid-data.err b/tests/qapi-schema/union-invalid-data.err
-new file mode 100644
-index 00000000000..e26cf769a3e
---- /dev/null
-+++ b/tests/qapi-schema/union-invalid-data.err
-@@ -0,0 +1,2 @@
-+union-invalid-data.json: In union 'TestUnion':
-+union-invalid-data.json:2: 'data' must be an object
-diff --git a/tests/qapi-schema/union-invalid-data.json b/tests/qapi-schema/union-invalid-data.json
-new file mode 100644
-index 00000000000..395ba24d395
---- /dev/null
-+++ b/tests/qapi-schema/union-invalid-data.json
-@@ -0,0 +1,6 @@
-+# the union data type must be an object.
-+{ 'union': 'TestUnion',
-+  'base': 'int',
-+  'discriminator': 'int',
-+  'data': ['rubbish', 'nonsense']
-+}
-diff --git a/tests/qapi-schema/union-invalid-data.out b/tests/qapi-schema/union-invalid-data.out
-new file mode 100644
-index 00000000000..e69de29bb2d
+@@ -102,7 +102,7 @@ def pprint(elems):
+             "%s misses key%s %s"
+             % (source, 's' if len(missing) > 1 else '',
+                pprint(missing)))
+-    allowed = set(required + optional)
++    allowed = set(required) | set(optional)
+     unknown = set(value) - allowed
+     if unknown:
+         raise QAPISemError(
 -- 
 2.30.2
 
