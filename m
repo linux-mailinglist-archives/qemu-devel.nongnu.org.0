@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A2A366D7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 16:02:56 +0200 (CEST)
-Received: from localhost ([::1]:34660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA513366DC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 16:11:18 +0200 (CEST)
+Received: from localhost ([::1]:40116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZDRP-0000Zy-G4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 10:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
+	id 1lZDZV-00038B-Lm
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 10:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lZDPg-0008UK-N9; Wed, 21 Apr 2021 10:01:08 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:46034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lZDPb-0005nT-UQ; Wed, 21 Apr 2021 10:01:07 -0400
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7C8362E1567;
- Wed, 21 Apr 2021 17:00:55 +0300 (MSK)
-Received: from myt6-76f0a6db1a7e.qloud-c.yandex.net
- (myt6-76f0a6db1a7e.qloud-c.yandex.net [2a02:6b8:c12:422d:0:640:76f0:a6db])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- kbKjsru6hp-0r00rkGL; Wed, 21 Apr 2021 17:00:55 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1619013655; bh=b2MOXubJdz3oWgOppcbDbrIeoYF+Y6v96nIURKYJ3iU=;
- h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
- b=yZqq0Q41jWWA35zNrLoduGGzKs5XghrC8nyMw+8OU66ZHkuKCZHByY068UXHKvqY4
- PGd7fhbkva+zSuAowfaZkJl9WtkX4pP8SSeSXKdVmyf5TbGKpDQx5YA/z/XxAJCgK3
- LxjE0H3Nwx/e8USsv6YmBXZEW/sagxQxlgqN/smE=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
- [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
- by myt6-76f0a6db1a7e.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 85bW5lFM9k-0rouX1H3; Wed, 21 Apr 2021 17:00:53 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Wed, 21 Apr 2021 17:00:49 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 02/33] block/nbd: fix how state is cleared on
- nbd_open() failure paths
-Message-ID: <YIAwEYbLpqzzFzd4@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-3-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lZDY5-0002hh-If
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 10:09:49 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lZDY4-0002vG-6f
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 10:09:49 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e5so12863702wrg.7
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 07:09:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgN1F0l1Q0bgQs/WSYjc1F1JwUeWXSq8c9XDOJjxdMw=;
+ b=uC3mHn0UJ983dKpTX7gncUgTL9tmg9DDnMZpD3Pmb6maXjHOtVT76RxgtmFFq86T8k
+ gkrfQwQgFWie6DWAxV08sv6dpbx/K1oyLNb2EqkKRXlyOJT/kM/tD2mnwlfjJCKu2+8x
+ Rg0FYGcvdRHBPoE47zv17o289uE3Oslq5CtkCO3bo/SnLatgX+xsIuAfk2TxqCvmOh9Q
+ LLvj2odyh3+NPo597VNTvOoygTdLYAK6eRCS12kzBWuDNzm9Jg5MzRzF3hHy1dotciHs
+ qEn3CXhEpyCmU/e0TQ9PZMIth4ynPx9T8qmPhTv6DZ649uMjzgfrEOXjhfnUii3Ia/MP
+ 5WjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgN1F0l1Q0bgQs/WSYjc1F1JwUeWXSq8c9XDOJjxdMw=;
+ b=iOG1EJKrAIiCl6+6t0VrQaLoow3H8ZiKwNTnFmnt3Vm5BIvhR9+ddPFBZcN8BwFqDx
+ EK7AUp4ddrjGako7Ho3xbqtxJdIvvbWrFStRmdB3RMSPAoWBkj804dgI3wVLf10yxZE1
+ 1wjYXxFkGuAEmdeYA12WWYCx2qU0R1ZmGbBTyfq3CNq5C0BvXCbpfgzAqyD/qjw5INMF
+ Tu77nCqOUgfPRoF1CIMZCx/LQBZEt5xo2B7m3c0JFch0WRf1+vBtYxS8h6I/u9MOKyNA
+ gQ2JiYKk/ZI5gJPSrytahsVAK1L6wNcZq8i1liH4mp7uykIjj3YmJmGhkHG0H71i9L9C
+ hRrw==
+X-Gm-Message-State: AOAM5310qHFn1zhroIBVE/fduf+SRdCwPuyAeccy6YNx7ioYBJu4HvUk
+ 5V2taKz3W2qy5Tlyjcsk79J/4mbZlBw=
+X-Google-Smtp-Source: ABdhPJwYwWiRkNZxOd7J9QPMP/liLpcZLTzp7OCL6onj5mizb9PBjoGhS+2SpvPQ98cACzOoi/t5gg==
+X-Received: by 2002:adf:e483:: with SMTP id i3mr28315456wrm.286.1619014185954; 
+ Wed, 21 Apr 2021 07:09:45 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.162.183])
+ by smtp.googlemail.com with ESMTPSA id q5sm3273407wrv.17.2021.04.21.07.09.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Apr 2021 07:09:45 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] plugins: Freeing allocated values in hash tables.
+Date: Wed, 21 Apr 2021 16:09:32 +0200
+Message-Id: <20210421140934.7561-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210416080911.83197-3-vsementsov@virtuozzo.com>
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,128 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 11:08:40AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> We have two "return error" paths in nbd_open() after
-> nbd_process_options(). Actually we should call nbd_clear_bdrvstate()
-> on these paths. Interesting that nbd_process_options() calls
-> nbd_clear_bdrvstate() by itself.
-> 
-> Let's fix leaks and refactor things to be more obvious:
-> 
-> - intialize yank at top of nbd_open()
-> - move yank cleanup to nbd_clear_bdrvstate()
-> - refactor nbd_open() so that all failure paths except for
->   yank-register goes through nbd_clear_bdrvstate()
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/nbd.c | 36 ++++++++++++++++++------------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
-> 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 739ae2941f..a407a3814b 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -152,8 +152,12 @@ static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
->  static int nbd_client_handshake(BlockDriverState *bs, Error **errp);
->  static void nbd_yank(void *opaque);
->  
-> -static void nbd_clear_bdrvstate(BDRVNBDState *s)
-> +static void nbd_clear_bdrvstate(BlockDriverState *bs)
->  {
-> +    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-> +
-> +    yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
-> +
->      object_unref(OBJECT(s->tlscreds));
->      qapi_free_SocketAddress(s->saddr);
->      s->saddr = NULL;
-> @@ -2279,9 +2283,6 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
->      ret = 0;
->  
->   error:
-> -    if (ret < 0) {
-> -        nbd_clear_bdrvstate(s);
-> -    }
->      qemu_opts_del(opts);
->      return ret;
->  }
-> @@ -2292,11 +2293,6 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
->      int ret;
->      BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
->  
-> -    ret = nbd_process_options(bs, options, errp);
-> -    if (ret < 0) {
-> -        return ret;
-> -    }
-> -
->      s->bs = bs;
->      qemu_co_mutex_init(&s->send_mutex);
->      qemu_co_queue_init(&s->free_sema);
-> @@ -2305,20 +2301,23 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
->          return -EEXIST;
->      }
->  
-> +    ret = nbd_process_options(bs, options, errp);
-> +    if (ret < 0) {
-> +        goto fail;
-> +    }
-> +
->      /*
->       * establish TCP connection, return error if it fails
->       * TODO: Configurable retry-until-timeout behaviour.
->       */
->      if (nbd_establish_connection(bs, s->saddr, errp) < 0) {
-> -        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
-> -        return -ECONNREFUSED;
-> +        ret = -ECONNREFUSED;
-> +        goto fail;
->      }
->  
->      ret = nbd_client_handshake(bs, errp);
+A hash table made using ``g_hash_table_new`` requires manually
+freeing any dynamically allocated keys/values. The two patches
+in this series fixes this issue in hotblocks and hotpages plugins.
 
-Not that this was introduced by this patch, but once you're at it:
-AFAICT nbd_client_handshake() calls yank_unregister_instance() on some
-error path(s); I assume this needs to go too, otherwise it's called
-twice (and asserts).
+Mahmoud Mandour (2):
+  plugins/hotblocks: Properly freed the hash table values
+  plugins/hotpages: Properly freed the hash table values
 
-Roman.
+ contrib/plugins/hotblocks.c | 3 ++-
+ contrib/plugins/hotpages.c  | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
->      if (ret < 0) {
-> -        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
-> -        nbd_clear_bdrvstate(s);
-> -        return ret;
-> +        goto fail;
->      }
->      /* successfully connected */
->      s->state = NBD_CLIENT_CONNECTED;
-> @@ -2330,6 +2329,10 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
->      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
->  
->      return 0;
-> +
-> +fail:
-> +    nbd_clear_bdrvstate(bs);
-> +    return ret;
->  }
->  
->  static int nbd_co_flush(BlockDriverState *bs)
-> @@ -2373,11 +2376,8 @@ static void nbd_refresh_limits(BlockDriverState *bs, Error **errp)
->  
->  static void nbd_close(BlockDriverState *bs)
->  {
-> -    BDRVNBDState *s = bs->opaque;
-> -
->      nbd_client_close(bs);
-> -    yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
-> -    nbd_clear_bdrvstate(s);
-> +    nbd_clear_bdrvstate(bs);
->  }
->  
->  /*
+-- 
+2.25.1
+
 
