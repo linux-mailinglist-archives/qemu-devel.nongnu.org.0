@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AB9366B3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 14:52:07 +0200 (CEST)
-Received: from localhost ([::1]:41728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D74366B95
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 15:03:44 +0200 (CEST)
+Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZCKs-0001qV-W0
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 08:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52244)
+	id 1lZCW7-0005ck-B8
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 09:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZC72-0004Bl-Nn
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:37:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZC6w-0006bs-I8
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:37:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619008661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DhQO+JC+qvPK3SJ8UHy7yYpKWqe81yWQYd1+RJib0hs=;
- b=FFOPDStzqUB9fDo2qdCgosZ8oENZ+TUy101XnlQR88FQRh286QxqItj3T1Uo1uaaBhyofe
- diaLGlq1dgLYPmrw9Q9VY9QKci27RE5bWCBbQ9MJ/aF5pDtFu4HQqpriFWu/MfbaQilPYZ
- ri3S1Z+pafoQfzdEaDG60xEXXFpgWLw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-q7ygzHyBOzSe9rz1DZUkgQ-1; Wed, 21 Apr 2021 08:37:38 -0400
-X-MC-Unique: q7ygzHyBOzSe9rz1DZUkgQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v5-20020a05600c2145b029012bdd9ddcb7so243936wml.1
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 05:37:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZCV9-0004hX-U8; Wed, 21 Apr 2021 09:02:43 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZCV8-000577-7W; Wed, 21 Apr 2021 09:02:43 -0400
+Received: by mail-ej1-x629.google.com with SMTP id mh2so41837312ejb.8;
+ Wed, 21 Apr 2021 06:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Db5rYtKu6pu05hBUlJnA/FTlz8NWsWOpTXGIw2eqMgE=;
+ b=ePGsKjwwBtXVggEBzd5AHWiAihy5CCa14MiVNSUoWmV4HyrvtXR7cXEjzTgi4P3fAQ
+ Vp0rC6zI3uooQP1zfzBsMp+XgmdYN+GlAwxTw+IrYW42frVKpQatdny9eV/aoPRF30QL
+ +Pc79ozBmC7Rtzb/QNAj/M6Z6vyT08ss35pL8q1Ca8NZVeQgqncmZxPowLWk2SdtFbRe
+ GpuFYye4dGqdivae5L9WJiNkeZBlmQGGwrNreBtPYylzC68QobM9xkiGhPpDHyWXXTtU
+ uP8kAiShBvIjRcMO88LZA0vIthC83JXVLGoI/SIbnG6Mq71rg/I/JtYiqrI3w6ZopMBS
+ krIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DhQO+JC+qvPK3SJ8UHy7yYpKWqe81yWQYd1+RJib0hs=;
- b=Ao+f8Kb5BhOqM52depzDbb6WLKruCIOdostFnqX66HhqkNOFeLsXGKqQTEGmmV2wMc
- tT52uYyHeuFNXJhXlFPieE4wUZ6ssplKd25RetOzjxCJ3yvB7WGJZDU0fOU5eLgkpni4
- xm+1MXaqBvLMpTis2TNf23nUlt65cQDZVvkDzhytFGSctVICg6l2UYu2TgRL8dur9bas
- sQD2y+8Sxjtc8QiUlx1KceKOV811n5SENfag9lllw+t1Tdqcvm4inpGNb+YgxbTstV78
- tRO9BkC2pJKbhjcuJOTg/x6HYFjgh6xwieMhexM1n+XkHOM/GOek+WsIcbG8HG52yinq
- PS0Q==
-X-Gm-Message-State: AOAM533e0s+K4I8B5hoJZDLpdPquqSKJRLoyjRzCUpVlikzORhUt4Gnd
- QzQFjasIW2SclVmNJkT/iXTp5zfZg65jG2q0QnhGX+AVaP9VGXuLyYkLnLx/DfZB3kdKqOdst1h
- 5/48zFUrSRPfjXj4=
-X-Received: by 2002:a1c:2786:: with SMTP id n128mr9875403wmn.82.1619008657154; 
- Wed, 21 Apr 2021 05:37:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnt1Pgv0pWk0WRN+ukJXjWyC2HuAuSYBFEhjcV9uKzNms+rt9fxB8Q9r//AXqzBSekflNwOw==
-X-Received: by 2002:a1c:2786:: with SMTP id n128mr9875391wmn.82.1619008657015; 
- Wed, 21 Apr 2021 05:37:37 -0700 (PDT)
+ bh=Db5rYtKu6pu05hBUlJnA/FTlz8NWsWOpTXGIw2eqMgE=;
+ b=j+ZCNMmJfQYgHx+DngZIUB0pO+1lc9VOYG+d2Lqpb668ZuLOwhbkVs/QJzkeqmsD0Y
+ qgf2O2MLHUZnqcSUUW5mzXlNVmt6oFxjyOHlu5bFfa5cMf8sKMuBQKbIgMunzAo7xy/i
+ tiAPtkv3LRYKq8AJKR94irbji6/hRi2eTAgW3DozVZXw+EbY5u5fxA4Vm1nitw5iKXvu
+ 0pK3ll1uDwZ6/Cbmem30NqdtL8GYGj1dUGlvuh/4EnJ9m4vx2pHDftHWTh4ZpKHCdApA
+ Lj+JCKn/+zvbweeHFEvya3vY8uqa3PrdXBFWTMrj2pQvCAWWsEqf6KfQo6v0mvyDDFtJ
+ gxyg==
+X-Gm-Message-State: AOAM5310RY1wecQR93+RHxDWu7O0zyscN4mE9j7uUeN6VDQoElYLIj84
+ jbrhnXjPHgj2xSLF7VJHoIo=
+X-Google-Smtp-Source: ABdhPJwlGm0udwV05htGnaT3FBg/aNLx/fZMYT5iQj4XZt9W7SRATylHaJ17ca7A8C/8LLHWV1J/sQ==
+X-Received: by 2002:a17:906:b28c:: with SMTP id
+ q12mr33220820ejz.284.1619010158009; 
+ Wed, 21 Apr 2021 06:02:38 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id e33sm2108813wmp.43.2021.04.21.05.37.35
+ by smtp.gmail.com with ESMTPSA id 9sm2376915ejv.73.2021.04.21.06.02.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 05:37:36 -0700 (PDT)
-Subject: Re: [PATCH v6 07/15] util/mmap-alloc: Pass flags instead of separate
- bools to qemu_ram_mmap()
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210421122624.12292-1-david@redhat.com>
- <20210421122624.12292-8-david@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5c36ad7e-6170-962f-3e37-5a15b0de3484@redhat.com>
-Date: Wed, 21 Apr 2021 14:37:35 +0200
+ Wed, 21 Apr 2021 06:02:37 -0700 (PDT)
+Subject: Re: [PATCH v2 01/11] hw/arm/aspeed: Do not directly map ram container
+ onto main address bus
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Xu <peterx@redhat.com>
+References: <20210417103028.601124-1-f4bug@amsat.org>
+ <20210417103028.601124-2-f4bug@amsat.org> <20210420182819.GD4440@xz-x1>
+ <1c21cbf3-c80b-4e65-485e-334ae84cefe0@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c91b3f57-cc2c-7575-3447-715e329a4a42@amsat.org>
+Date: Wed, 21 Apr 2021 15:02:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210421122624.12292-8-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1c21cbf3-c80b-4e65-485e-334ae84cefe0@kaod.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,42 +91,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/21 2:26 PM, David Hildenbrand wrote:
-> Let's pass flags instead of bools to prepare for passing other flags and
-> update the documentation of qemu_ram_mmap(). Introduce new QEMU_MAP_
-> flags that abstract the mmap() PROT_ and MAP_ flag handling and simplify
-> it.
-> 
-> We expose only flags that are currently supported by qemu_ram_mmap().
-> Maybe, we'll see qemu_mmap() in the future as well that can implement these
-> flags.
-> 
-> Note: We don't use MAP_ flags as some flags (e.g., MAP_SYNC) are only
-> defined for some systems and we want to always be able to identify
-> these flags reliably inside qemu_ram_mmap() -- for example, to properly
-> warn when some future flags are not available or effective on a system.
-> Also, this way we can simplify PROT_ handling as well.
-> 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  include/qemu/mmap-alloc.h | 16 +++++++++-------
->  include/qemu/osdep.h      | 18 ++++++++++++++++++
->  softmmu/physmem.c         |  8 +++++---
->  util/mmap-alloc.c         | 15 ++++++++-------
->  util/oslib-posix.c        |  3 ++-
->  5 files changed, 42 insertions(+), 18 deletions(-)
+On 4/21/21 7:53 AM, Cédric Le Goater wrote:
+> On 4/20/21 8:28 PM, Peter Xu wrote:
+>> On Sat, Apr 17, 2021 at 12:30:18PM +0200, Philippe Mathieu-Daudé wrote:
+>>> The RAM container is exposed as an AddressSpace.
+>>
+>> I didn't see where did ram_container got exposed as an address space.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I guess I used the wrong base to git-publish and skipped the first patch =)
 
+>> I see it's added as one subregion of get_system_memory(), which looks okay? 
+> my version of this patch took a simpler approach. See below.
+> 
+> Thanks,
+> 
+> C.
+> 
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -327,7 +327,7 @@ static void aspeed_machine_init(MachineState *machine)
+>      object_property_set_int(OBJECT(&bmc->soc), "num-cs", amc->num_cs,
+>                              &error_abort);
+>      object_property_set_link(OBJECT(&bmc->soc), "dram",
+> -                             OBJECT(&bmc->ram_container), &error_abort);
+> +                             OBJECT(machine->ram), &error_abort);
+
+This will work as long as no board maps the main memory elsewhere than
+0x0. Using the alias make it more robust (and also is good API example
+for the usual "use API via copy/pasting" style when adding new board)
+IMHO.
+
+>      if (machine->kernel_filename) {
+>          /*
+>           * When booting with a -kernel command line there is no u-boot
+> 
+> 
 
