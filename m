@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE993674C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 23:26:15 +0200 (CEST)
-Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C057E3674F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 00:06:00 +0200 (CEST)
+Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZKMR-0007jH-1p
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 17:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
+	id 1lZKyt-0002Al-B9
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 18:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lZKKJ-0006UZ-Ak
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 17:24:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51930)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lZKwt-00013R-5n
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 18:03:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lZKKH-0008LZ-5k
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 17:24:03 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lZKwr-0006NJ-50
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 18:03:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619040239;
+ s=mimecast20190719; t=1619042632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cBricITajURSYy0dfQnRiPFC/QX/3iQn7kT3AzvdW0o=;
- b=Ko7nQm8VebbI7bE63yJuIIQpVNISEAel/boyLUt4rAQjAX6vdxKlkd5dDRUmjd2AlFFVVW
- G4SusTLNUjEDYSpUUqY5ejMirm9Rd7ZeXm1x4qAEFjZhVoc+fcwdy6U03iGC6EZQRitmmK
- pONIk42rWMxDH7q2EAOSRs65RBc/YCo=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-LpGdXE6YNrO3HVx_aA8WXQ-1; Wed, 21 Apr 2021 17:23:48 -0400
-X-MC-Unique: LpGdXE6YNrO3HVx_aA8WXQ-1
-Received: by mail-oi1-f197.google.com with SMTP id
- b21-20020a0568080115b029018764f93fdcso1939157oie.12
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 14:23:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cBricITajURSYy0dfQnRiPFC/QX/3iQn7kT3AzvdW0o=;
- b=oVAWSfbxXd+HEo0tD3RRTIH6VjAOP7DQ1Fb5E7T4MJsfxHY2r1yvtQnzz1MAT+jDGt
- K2yT3D/bTaLH/xiPHSU+mCCFc0dq+5GrMMFgaDXUtpBQSLBdPRLKU9uwPGtGk4gWVPz1
- antOtnJGXC4v4jonN+bPJWD5+YBgvOIrjuKA0U1/vrQ6HtK2/x9uVVHaVupJobdkUuW4
- /bscL7RkK9LFvQmp9kl4+vuHVcPLxUtjeZW1/SecHAwf5+1aRrZTSugdk4fhMyN0X8X9
- rnrh1D8eYz353pGpzS0Q85d98ansh4G/BI7XNIkNZ5VWVjvI7x9lnJZlsQDOxkNjCCzn
- Xh2A==
-X-Gm-Message-State: AOAM531gscji33YMy38UHaFoAzQZzWwR35/kZoT9/TH68BCj3Pq9NZ9D
- tTaB5qiRLKkO3adDx282VIGRiClqqjxB839wF9G4FvpU+Jgb7DFxCM2FmHSsSrd5r1dq5TRRgRj
- QY1Gj+354iWcTLgs=
-X-Received: by 2002:a54:4484:: with SMTP id v4mr4019536oiv.70.1619040227392;
- Wed, 21 Apr 2021 14:23:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx42MPYGf1EVoqO1zF9KqHr4mlzNnwfeG/vztL7IE+3FzyvdOHLzgeza+SgGXhcxlMl8rvKMg==
-X-Received: by 2002:a54:4484:: with SMTP id v4mr4019527oiv.70.1619040227193;
- Wed, 21 Apr 2021 14:23:47 -0700 (PDT)
-Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id n13sm141031otk.61.2021.04.21.14.23.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 14:23:46 -0700 (PDT)
-From: Connor Kuehl <ckuehl@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 2/2] block/rbd: Add an escape-aware strchr helper
-Date: Wed, 21 Apr 2021 16:23:43 -0500
-Message-Id: <20210421212343.85524-3-ckuehl@redhat.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210421212343.85524-1-ckuehl@redhat.com>
-References: <20210421212343.85524-1-ckuehl@redhat.com>
+ bh=ZKwAZgnosTkIVH7gtSI1QhJKu5U41iES4FQ7MOxeanI=;
+ b=IHDu9ouG4krxPp8xrz0lJQnwlZKzK8AfBSsIiTzRhNQQdC8L2oA7qLnInZkiV1PxeDc+EC
+ IsrgBbjLL0dr7Xw2B0OpxzLbnWFAyzW1wyKGVDJBe3zrvNhdh981dm2MahGzdknZ4X+hBI
+ BUqnrpD2ml3PpVQSWFYBKHU10HULZpo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-ALkarCY0PDa5RIVge3tpEQ-1; Wed, 21 Apr 2021 18:03:48 -0400
+X-MC-Unique: ALkarCY0PDa5RIVge3tpEQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26B7D343AC;
+ Wed, 21 Apr 2021 22:03:43 +0000 (UTC)
+Received: from localhost (ovpn-117-199.rdu2.redhat.com [10.10.117.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFD7C5D9F2;
+ Wed, 21 Apr 2021 22:03:33 +0000 (UTC)
+Date: Wed, 21 Apr 2021 18:03:33 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 01/27] target: Set CPUClass::vmsd instead of
+ DeviceClass::vmsd
+Message-ID: <20210421220333.bkxo6zriqe6w3rim@habkost.net>
+References: <20210302145818.1161461-1-f4bug@amsat.org>
+ <20210302145818.1161461-2-f4bug@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <20210302145818.1161461-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,131 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, sgarzare@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-ppc@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes the parser needs to further split a token it has collected
-from the token input stream. Right now, it does a cursory check to see
-if the relevant characters appear in the token to determine if it should
-break it down further.
+On Tue, Mar 02, 2021 at 03:57:52PM +0100, Philippe Mathieu-Daudé wrote:
+> The cpu model is the single device available in user-mode.
+> Since we want to restrict some fields to user-mode emulation,
+> we prefer to set the vmsd field of CPUClass, rather than the
+> DeviceClass one.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-However, qemu_rbd_next_tok() will escape characters as it removes tokens
-from the token stream and plain strchr() won't. This can make the
-initial strchr() check slightly misleading since it implies
-qemu_rbd_next_tok() will find the token and split on it, except the
-reality is that qemu_rbd_next_tok() will pass over it if it is escaped.
+Is this going to have an externally visible effect?
 
-Use a custom strchr to avoid mixing escaped and unescaped string
-operations. Furthermore, this code is identical to how
-qemu_rbd_next_tok() seeks its next token, so incorporate this custom
-strchr into the body of that function to reduce duplication.
+If it does, how can we make sure it's safe?
 
-Reported-by: Han Han <hhan@redhat.com>
-Fixes: https://bugzilla.redhat.com/1873913
-Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
----
-v3 -> v4:
-  * Replace qemu_rbd_next_tok() seek loop with qemu_rbd_strchr() since
-    they're identical
+If it does not, do you know why CPUClass::vmsd exists in the
+first place?
 
- block/rbd.c                | 32 +++++++++++++++++++++-----------
- tests/qemu-iotests/231     |  4 ++++
- tests/qemu-iotests/231.out |  3 +++
- 3 files changed, 28 insertions(+), 11 deletions(-)
+Do you think it would be simpler to just squash this patch into
+  [PATCH v3 08/27] cpu: Move CPUClass::vmsd to SysemuCPUOps
+?
 
-diff --git a/block/rbd.c b/block/rbd.c
-index f098a89c7b..26f64cce7c 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -113,21 +113,31 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-                             const char *keypairs, const char *secretid,
-                             Error **errp);
- 
-+static char *qemu_rbd_strchr(char *src, char delim)
-+{
-+    char *p;
-+
-+    for (p = src; *p; ++p) {
-+        if (*p == delim) {
-+            return p;
-+        }
-+        if (*p == '\\' && p[1] != '\0') {
-+            ++p;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+
- static char *qemu_rbd_next_tok(char *src, char delim, char **p)
- {
-     char *end;
- 
-     *p = NULL;
- 
--    for (end = src; *end; ++end) {
--        if (*end == delim) {
--            break;
--        }
--        if (*end == '\\' && end[1] != '\0') {
--            end++;
--        }
--    }
--    if (*end == delim) {
-+    end = qemu_rbd_strchr(src, delim);
-+    if (end) {
-         *p = end + 1;
-         *end = '\0';
-     }
-@@ -171,7 +181,7 @@ static void qemu_rbd_parse_filename(const char *filename, QDict *options,
-     qemu_rbd_unescape(found_str);
-     qdict_put_str(options, "pool", found_str);
- 
--    if (strchr(p, '@')) {
-+    if (qemu_rbd_strchr(p, '@')) {
-         image_name = qemu_rbd_next_tok(p, '@', &p);
- 
-         found_str = qemu_rbd_next_tok(p, ':', &p);
-@@ -181,7 +191,7 @@ static void qemu_rbd_parse_filename(const char *filename, QDict *options,
-         image_name = qemu_rbd_next_tok(p, ':', &p);
-     }
-     /* Check for namespace in the image_name */
--    if (strchr(image_name, '/')) {
-+    if (qemu_rbd_strchr(image_name, '/')) {
-         found_str = qemu_rbd_next_tok(image_name, '/', &image_name);
-         qemu_rbd_unescape(found_str);
-         qdict_put_str(options, "namespace", found_str);
-diff --git a/tests/qemu-iotests/231 b/tests/qemu-iotests/231
-index 0f66d0ca36..8e6c6447c1 100755
---- a/tests/qemu-iotests/231
-+++ b/tests/qemu-iotests/231
-@@ -55,6 +55,10 @@ _filter_conf()
- $QEMU_IMG info "json:{'file.driver':'rbd','file.filename':'rbd:rbd/bogus:conf=${BOGUS_CONF}'}" 2>&1 | _filter_conf
- $QEMU_IMG info "json:{'file.driver':'rbd','file.pool':'rbd','file.image':'bogus','file.conf':'${BOGUS_CONF}'}" 2>&1 | _filter_conf
- 
-+# Regression test: the qemu-img invocation is expected to fail, but it should
-+# not seg fault the parser.
-+$QEMU_IMG create "rbd:rbd/aa\/bb:conf=${BOGUS_CONF}" 1M 2>&1 | _filter_conf
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/231.out b/tests/qemu-iotests/231.out
-index 747dd221bb..a785a6e859 100644
---- a/tests/qemu-iotests/231.out
-+++ b/tests/qemu-iotests/231.out
-@@ -4,4 +4,7 @@ unable to get monitor info from DNS SRV with service name: ceph-mon
- qemu-img: Could not open 'json:{'file.driver':'rbd','file.filename':'rbd:rbd/bogus:conf=BOGUS_CONF'}': error connecting: No such file or directory
- unable to get monitor info from DNS SRV with service name: ceph-mon
- qemu-img: Could not open 'json:{'file.driver':'rbd','file.pool':'rbd','file.image':'bogus','file.conf':'BOGUS_CONF'}': error connecting: No such file or directory
-+Formatting 'rbd:rbd/aa\/bb:conf=BOGUS_CONF', fmt=raw size=1048576
-+unable to get monitor info from DNS SRV with service name: ceph-mon
-+qemu-img: rbd:rbd/aa\/bb:conf=BOGUS_CONF: error connecting: No such file or directory
- *** done
 -- 
-2.30.2
+Eduardo
 
 
