@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C976366349
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:06:28 +0200 (CEST)
-Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F74366350
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:14:58 +0200 (CEST)
+Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ1Jy-00066N-UW
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33470)
+	id 1lZ1SD-0008Iz-J7
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lZ1Ih-0005hP-If
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:05:07 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:22195
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lZ1RO-0007Yw-1P
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:14:06 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:38388
  helo=mail.comstyle.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lZ1If-0002DM-M5
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:05:07 -0400
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lZ1RM-0006cC-Hy
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:14:05 -0400
 Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4FQ2Sy713Mz8PbQ;
- Tue, 20 Apr 2021 21:06:58 -0400 (EDT)
+ by mail.comstyle.com (Postfix) with ESMTP id 4FQ2gc4149z8PbQ;
+ Tue, 20 Apr 2021 21:16:12 -0400 (EDT)
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
  :to:cc:subject:message-id:mime-version:content-type; s=default;
- bh=e1HJGXlYJspajhWR5qtukY9udl4=; b=oiqt8t20kI49Kg0B7t7Pm2xuNk7J
- 65njh9/3o4/g3Ay2KoEjuh9ziox8tfwW5wBBpsteI7QbGpgu0UJM5bhIeg3710/i
- koP4b5nahVszg2IIMzC8AyHLuz6Kie4nUil6oDxAqQZuvepHvRVd23AaM/oGAD/A
- B9PEQnZbm0VJZKA=
+ bh=e1HJGXlYJspajhWR5qtukY9udl4=; b=qPQSkBMiWIarDhIm8Rs0SQZPSn1r
+ zddFCOq7THMapfq6daHlytGEUbDdwf2F+dUwdRJA7YvYsSY7eziikDi/iEDiczvf
+ ATVTYfOUKaOnqk41WOaOPXqWT6BwOeR+2zJLR/kioK54FB7+Wswsnsk3VYZDCsH2
+ GWLII2+/grExr60=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
  :cc:subject:message-id:mime-version:content-type; q=dns; s=
- default; b=IiHDNTWVp+QyOkzk4qORUwarGN1lxRv4nBuSu3srrSA19eR+k02XK
- Gl4WRaJZOmKm8GOt+8pEdUnWT2PPOE03n8GJVw+mArcIlbNH6o1gtwThgJy7zPJu
- b4uyDJZrGwwvEG/9+4eU4u8LIvjw7Ynd16RM5oIJ/RqKhCmFORc3OE=
+ default; b=OfpyLi/YUJC26wFGPx3eSNbGUQhwfuiZZ+SyqMBLbKpOxnxf5v7Ws
+ U2ZIsHeJIk8IGIZAaFq0MKpSPA0BMRYZaGgBKSr2W9olv2c2sQmoQcXt0wcv4Yng
+ AXw75oqcFJ69WKhrD5jpdSgjG+fqeWxaIneFea7ZqjgeOXj6os1bOI=
 Received: from humpty.home.comstyle.com
  (bras-base-toroon2719w-grc-51-142-114-11-37.dsl.bell.ca [142.114.11.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4FQ2Sy6KL7z8PbP;
- Tue, 20 Apr 2021 21:06:58 -0400 (EDT)
-Date: Tue, 20 Apr 2021 21:04:45 -0400
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4FQ2gc3PJzz8PbP;
+ Tue, 20 Apr 2021 21:16:12 -0400 (EDT)
+Date: Tue, 20 Apr 2021 21:14:00 -0400
 From: Brad Smith <brad@comstyle.com>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: tcg/ppc: Fix building with Clang
-Message-ID: <YH96LWkx1RwT8T7E@humpty.home.comstyle.com>
+Subject: [PATCH] tcg/ppc: Fix building with Clang
+Message-ID: <YH98WLDMQ5c0Zf5E@humpty.home.comstyle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
