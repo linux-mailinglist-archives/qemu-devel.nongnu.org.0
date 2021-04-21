@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8A8366365
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:37:29 +0200 (CEST)
-Received: from localhost ([::1]:58976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFD3366366
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:38:58 +0200 (CEST)
+Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ1o1-0007vM-0U
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38538)
+	id 1lZ1pR-0000Oj-9O
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZ1me-0006w7-MP
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:36:04 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:46695)
+ id 1lZ1oP-0008QM-ST
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:37:53 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:37670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZ1md-0007wq-2M
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:36:04 -0400
-Received: by mail-pf1-x429.google.com with SMTP id d124so27079175pfa.13
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 18:36:02 -0700 (PDT)
+ id 1lZ1oO-0000Qw-Cu
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:37:53 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id p2so12756150pgh.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 18:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dR2HT/hrf1WiRMpgASkIVbT/gEoE8nYnBVqZf/0VwSI=;
- b=mNiUA/D1810cxaIJlw9kcC6CtYIdNM/FGJ7uPVle4iWKwr9+yQcmVV+t4snx55rDFP
- v37rAMoLnVPh997lmh51PulrvcOtNgpwZzs76wmlY63S5Y0sESE7qKmuZJzWpUDolLa9
- SR6FIACipF/zOTG3TaFdRSsTuhdIrmjl+QluC4jcSSI6e5hR6dOwjZjnCAIjyZpAkoSB
- KrU2LGTyMws6k/llHkZEbLSI9ZJhy13P0D+/QNzyP5RepDpzWEWJo5C7GyFRACRVzs9c
- gBp36G27WCSdCtUN5F19hfXhy41D+/5jMl56QuHHNqbSQ2iOJUyysOLpo0DbEkv+whjl
- 7Wkw==
+ bh=THmLpEgHBhW8B7749NOq5CcIgGR5sCJT6XhVH3jhh7M=;
+ b=fcQzobfgBuWXnj9vr4acOvIJ5ILmZGAZ9IZv4I0SfVh68gl0i6KLoUQpI4DXJMfyE+
+ oDNxlVPcV542pZuvzu8r2B6njb682Fnw01SToO4L7v373rCjZwV0DyNMKygGTbF3Yg8q
+ KeKPDDtuU31bBy9kYZS394nLUS8PEYL93FpZbvXgmOzBOlnsPntSau/QvfMJngYYnZYB
+ yWjR+aTTKACbvbuV66dZjhXXhLhkhfOSCoz2tDFK/aifKg1h0QJPaNngoFdu183gE5uR
+ fvXi8fupFu36O0mM5xh5+d9Us9mQaXIxjmEVt9ps8C/t38t2IU/DkSEWk/0T7pYE1uH+
+ qs2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dR2HT/hrf1WiRMpgASkIVbT/gEoE8nYnBVqZf/0VwSI=;
- b=VrXtmaAoIJRcB4k+LZGoMubWqiXFb4lypuqSUdvB0lsKPk/XDe7bVeGhOyY95PVxi/
- 8Of+D2BxPf0UZhCjrUtCIIYWyeCwpbuSlkIWK/2atVfUmhO0WwbU8Fg4kZLvhMSQlm5o
- ADTS6k045vqea0RXFWcylP/oPZf5z+qluk/MMfe2QVM/EX5Tr90w3FgbKp4BGKyYxzLG
- Nxs2mS/gsHqWFhHfrQKLVU/Inm32FckRolUqzv1EhRZ0h0I4tFAScTnS461iK5w1ZxC/
- SyGAsJZB/DsM0RPGvG1+p67xG05M4vDOc8oaBaAEqmkVrVlEzDkZUciKfPzOgIOOabuM
- qvqg==
-X-Gm-Message-State: AOAM532ssqCIf7bv9Xp/FWfKAEfvkx5XwK/aM331uDzsMugA1l8YyjJe
- 8rZs21W0XC2kT8yOte1ykHQMfA==
-X-Google-Smtp-Source: ABdhPJzlGRjXs7rbxfJl3Jxt9Odc/efvDoLD/Ic1CPjSCp4Mw4xp7kr/Z/bpQXFhBtwVGS8Y32Azbg==
-X-Received: by 2002:a17:90b:3681:: with SMTP id
- mj1mr8590237pjb.122.1618968961531; 
- Tue, 20 Apr 2021 18:36:01 -0700 (PDT)
+ bh=THmLpEgHBhW8B7749NOq5CcIgGR5sCJT6XhVH3jhh7M=;
+ b=MTZxlY9zYSAlrVyYBlEB8OgVb1h+7WLBHYq6ridKUMMwEnwdfzmLWR6kd3zx+mQssM
+ O16iRzUk/q/AAm4YDwpMNoMJN7WxEC4A4wD2x3uHrWmzcgwy4XXxH5kggoc59O1OYo0r
+ enmKKq1S0YsLYPzz43tP8g5xuXjFZTax8wFXBoZr95RfL7Sdc0fbaI0QJbq7skCODWqB
+ W1FbK89WzwShqVpSXJulMEr9Mx67lLNWJ9YBOFuI5wX9LTz8Ca9AEdukp1r3ioe2NBE3
+ Vuffr1oi+qvaicCFILlYpMH2V0OQrXJCdWGKQkwr+B/zgooixEBUMkoCrt8BW/2z6bbi
+ bncw==
+X-Gm-Message-State: AOAM533pIsqrPzR6ZQPLXR0sjIDL1UVW3MBzya3ikWCk4IOtA5qDyOPB
+ dRWc8LvXxctRda56QTz8A70iyQ==
+X-Google-Smtp-Source: ABdhPJxJmeeCU8VdCD11zv+YLT3ExXdg6pUXubDsm0g27eoqWsuoe1GVEA0/mMJR6UGtegdf7rUCBA==
+X-Received: by 2002:a17:90b:1d92:: with SMTP id
+ pf18mr8155563pjb.71.1618969071130; 
+ Tue, 20 Apr 2021 18:37:51 -0700 (PDT)
 Received: from [192.168.73.113]
  (50-200-230-211-static.hfc.comcastbusiness.net. [50.200.230.211])
- by smtp.gmail.com with ESMTPSA id z22sm237745pgf.16.2021.04.20.18.36.01
+ by smtp.gmail.com with ESMTPSA id c128sm237356pfb.81.2021.04.20.18.37.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Apr 2021 18:36:01 -0700 (PDT)
-Subject: Re: [PATCH 3/5] target/mips: Make check_cp0_enabled() return a boolean
+ Tue, 20 Apr 2021 18:37:50 -0700 (PDT)
+Subject: Re: [PATCH 1/5] target/mips: Remove duplicated check_cp0_enabled()
+ calls in gen_cp0()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210420193453.1913810-1-f4bug@amsat.org>
- <20210420193453.1913810-4-f4bug@amsat.org>
+ <20210420193453.1913810-2-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d14afc49-21c6-06de-ea6c-102cab448900@linaro.org>
-Date: Tue, 20 Apr 2021 18:35:59 -0700
+Message-ID: <50fc7457-3ac5-2af0-820e-465c8ab73fcf@linaro.org>
+Date: Tue, 20 Apr 2021 18:37:49 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210420193453.1913810-4-f4bug@amsat.org>
+In-Reply-To: <20210420193453.1913810-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,18 +97,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/20/21 12:34 PM, Philippe Mathieu-Daudé wrote:
-> To avoid callers to emit dead code if check_cp0_enabled()
-> raise an exception, let it return a boolean value, whether
-> CP0 is enabled or not.
+> We already check for CP0 enabled at the beginning of gen_cp0(),
+> no need to check it again after.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/mips/translate.h | 7 ++++++-
->   target/mips/translate.c | 4 +++-
->   2 files changed, 9 insertions(+), 2 deletions(-)
+>   target/mips/translate.c | 2 --
+>   1 file changed, 2 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Having noticed the default case for the nanomips decode, I do wonder if having 
+the cp0 check happen before the switch in gen_cp0 is actually correct.
+
 
 r~
 
