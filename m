@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B794136636A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:41:43 +0200 (CEST)
-Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AC736636F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:44:20 +0200 (CEST)
+Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ1s6-0001RH-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38996)
+	id 1lZ1ud-0002z7-7S
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lZ1qm-0000vD-KI
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:40:20 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:35743
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lZ1qi-0001RN-QH
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:40:19 -0400
-HMM_SOURCE_IP: 172.18.0.48:36880.278743712
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.21?logid-1b6724e0bfc445828bfd1fba5c38b336
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 94C2D2800A4;
- Wed, 21 Apr 2021 09:40:10 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 1b6724e0bfc445828bfd1fba5c38b336 for
- dgilbert@redhat.com; Wed Apr 21 09:40:08 2021
-X-Transaction-ID: 1b6724e0bfc445828bfd1fba5c38b336
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v1] migration/dirtyrate: make sample page count
- configurable
-To: qemu-devel <qemu-devel@nongnu.org>
-References: <76153f1cea1ba01997b2b6944ffbb69083d4f7db.1618420974.git.huangy81@chinatelecom.cn>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <0538e2c8-e06f-605c-bbed-15b3262a47f2@chinatelecom.cn>
-Date: Wed, 21 Apr 2021 09:40:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZ1qu-00011W-VU
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:40:28 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:41879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZ1qs-0001XR-SQ
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:40:28 -0400
+Received: by mail-pf1-x431.google.com with SMTP id w6so12586480pfc.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 18:40:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eWyOvO04i2E0Q5QcYRx7Uii+TpCWQ8qarpxIHixiXqU=;
+ b=bDiNot0j3dzqwbMsrgQ0NJDySvMKI5Xh3cPsRgEetGw7N53JeGAs1S0vfV89DTHj2r
+ 3JgEQgd4BfdKPaxfajJg47dPpnxbNuUMAA0f9b+4rWH1Ec90EnK3j/SZr8XUDMrwAUIo
+ AAdLUtrxOfPmAGDhClcD4USX1M8+KzGoZMYiV6J6y4VdpvcaOSeFhQTkfFzcFklxPnLW
+ 5EKexrHIYUs25gtll7jyUlEcEjas7jUBvnfzM7XuMX0dnoF2MBU3ZhJ/B4L9bG+r26WP
+ SvTB1lCOoGSHuTfhsJ0KgRBKEaRFlIjZYjvxweSlPAo0Glg74K0KfsHxryjdwaL8L58m
+ X1uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eWyOvO04i2E0Q5QcYRx7Uii+TpCWQ8qarpxIHixiXqU=;
+ b=E+ooduxZUOXqC8hU7CC2ilfGySuIh5YkEhBGbswQKW56Qek26UAyO1vo5pjgpUrkYo
+ 8mb4Mp+m85SDJAotOyj4FzKaPSi2xdZ6b4CvhB+tIRMGADV3oOuMV885bejJ0i8EdbPL
+ mVP91ZW0UUa5djfnlVfYqQMAObjzkMvvQP/NLvsZq1uYITVpkf0XeVkYDK28hsPeTG8I
+ ZmITd8Mgn3YMi+jpZ5oNSDZJXNpRFz4tB8EoTG14kI0st1QoQsvPOgiOHEHPbG/2Lldb
+ 5QfcM210qC8LcbqTAJYGSpu0T/oSmMRdMFXzrf9vSLlX9HpXnN++Z+dxkB+jqmEEIqu5
+ yAIA==
+X-Gm-Message-State: AOAM53127AMpqllNrksQDH3MOl7vppV93WnCSvbn5a+7J3BLpN72ueBR
+ Yb28rszqs5i/5h9enOQog5GmRw==
+X-Google-Smtp-Source: ABdhPJxcJUvDsK3oIUHP9wRYtdoTs8gPfnwJiymutRJ1taxtfmL49N1LsgMLrjMeGZQr+mAGenyjww==
+X-Received: by 2002:a17:90a:684d:: with SMTP id
+ e13mr7891197pjm.161.1618969225468; 
+ Tue, 20 Apr 2021 18:40:25 -0700 (PDT)
+Received: from [192.168.73.113]
+ (50-200-230-211-static.hfc.comcastbusiness.net. [50.200.230.211])
+ by smtp.gmail.com with ESMTPSA id e9sm236686pgk.69.2021.04.20.18.40.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Apr 2021 18:40:25 -0700 (PDT)
+Subject: Re: [RFC PATCH 5/5] target/mips: Restrict EVA opcodes to system
+ emulation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210420193453.1913810-1-f4bug@amsat.org>
+ <20210420193453.1913810-6-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a1409603-a4e1-91bb-8ebb-030facb01b1c@linaro.org>
+Date: Tue, 20 Apr 2021 18:40:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <76153f1cea1ba01997b2b6944ffbb69083d4f7db.1618420974.git.huangy81@chinatelecom.cn>
+In-Reply-To: <20210420193453.1913810-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,207 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-在 2021/4/15 1:23, huangy81@chinatelecom.cn 写道:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 4/20/21 12:34 PM, Philippe Mathieu-Daudé wrote:
+> Enhanced Virtual Address (EVA) instructions are restricted
+> to Kernel execution mode, thus not available on user emulation.
 > 
-> introduce optional sample-pages argument in calc-dirty-rate,
-> making sample page count per GB configurable so that more
-> accurate dirtyrate can be calculated.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   migration/dirtyrate.c | 32 ++++++++++++++++++++++++++++----
->   migration/dirtyrate.h |  8 +++++++-
->   qapi/migration.json   | 13 ++++++++++---
->   3 files changed, 45 insertions(+), 8 deletions(-)
+> RFC because I'd rather not use such #ifdef'ry again.
+> TODO: have the compiler elide this code.
 > 
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index ccb9814..43a531c 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -48,6 +48,16 @@ static bool is_sample_period_valid(int64_t sec)
->       return true;
->   }
->   
-> +static bool is_sample_pages_valid(int64_t pages)
-> +{
-> +    if (pages < MIN_SAMPLE_PAGE_COUNT ||
-> +        pages > MAX_SAMPLE_PAGE_COUNT) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
->   static int dirtyrate_set_state(int *state, int old_state, int new_state)
->   {
->       assert(new_state < DIRTY_RATE_STATUS__MAX);
-> @@ -72,13 +82,15 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
->       info->status = CalculatingState;
->       info->start_time = DirtyStat.start_time;
->       info->calc_time = DirtyStat.calc_time;
-> +    info->sample_pages = DirtyStat.sample_pages;
->   
->       trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
->   
->       return info;
->   }
->   
-> -static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
-> +static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
-> +                                uint64_t sample_pages)
->   {
->       DirtyStat.total_dirty_samples = 0;
->       DirtyStat.total_sample_count = 0;
-> @@ -86,6 +98,7 @@ static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
->       DirtyStat.dirty_rate = -1;
->       DirtyStat.start_time = start_time;
->       DirtyStat.calc_time = calc_time;
-> +    DirtyStat.sample_pages = sample_pages;
->   }
->   
->   static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-> @@ -361,6 +374,7 @@ void *get_dirtyrate_thread(void *arg)
->       int ret;
->       int64_t start_time;
->       int64_t calc_time;
-> +    uint64_t sample_pages;
->   
->       ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
->                                 DIRTY_RATE_STATUS_MEASURING);
-> @@ -371,7 +385,8 @@ void *get_dirtyrate_thread(void *arg)
->   
->       start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
->       calc_time = config.sample_period_seconds;
-> -    init_dirtyrate_stat(start_time, calc_time);
-> +    sample_pages = config.sample_pages_per_gigabytes;
-> +    init_dirtyrate_stat(start_time, calc_time, sample_pages);
->   
->       calculate_dirtyrate(config);
->   
-> @@ -383,7 +398,8 @@ void *get_dirtyrate_thread(void *arg)
->       return NULL;
->   }
->   
-> -void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-> +void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-> +                         int64_t sample_pages, Error **errp)
->   {
->       static struct DirtyRateConfig config;
->       QemuThread thread;
-> @@ -404,6 +420,13 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
->           return;
->       }
->   
-> +    if (has_sample_pages && !is_sample_pages_valid(sample_pages)) {
-> +        error_setg(errp, "sample-pages is out of range[%d, %d].",
-> +                         MIN_SAMPLE_PAGE_COUNT,
-> +                         MAX_SAMPLE_PAGE_COUNT);
-> +        return;
-> +    }
-> +
->       /*
->        * Init calculation state as unstarted.
->        */
-> @@ -415,7 +438,8 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
->       }
->   
->       config.sample_period_seconds = calc_time;
-> -    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-> +    config.sample_pages_per_gigabytes =
-> +        has_sample_pages ? sample_pages : DIRTYRATE_DEFAULT_SAMPLE_PAGES;
->       qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
->                          (void *)&config, QEMU_THREAD_DETACHED);
->   }
-> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-> index 6ec4295..5f987e2 100644
-> --- a/migration/dirtyrate.h
-> +++ b/migration/dirtyrate.h
-> @@ -15,7 +15,6 @@
->   
->   /*
->    * Sample 512 pages per GB as default.
-> - * TODO: Make it configurable.
->    */
->   #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
->   
-> @@ -35,6 +34,12 @@
->   #define MIN_FETCH_DIRTYRATE_TIME_SEC              1
->   #define MAX_FETCH_DIRTYRATE_TIME_SEC              60
->   
-> +/*
-> + * Take 128 as minimum for sample dirty pages
-> + */
-> +#define MIN_SAMPLE_PAGE_COUNT                     128
-> +#define MAX_SAMPLE_PAGE_COUNT                     4096
-> +
->   struct DirtyRateConfig {
->       uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
->       int64_t sample_period_seconds; /* time duration between two sampling */
-> @@ -63,6 +68,7 @@ struct DirtyRateStat {
->       int64_t dirty_rate; /* dirty rate in MB/s */
->       int64_t start_time; /* calculation start time in units of second */
->       int64_t calc_time; /* time duration of two sampling in units of second */
-> +    uint64_t sample_pages; /* sample pages per GB */
->   };
->   
->   void *get_dirtyrate_thread(void *arg);
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 9bf0bc4..868a867 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1741,6 +1741,9 @@
->   #
->   # @calc-time: time in units of second for sample dirty pages
->   #
-> +# @sample-pages: page count per GB for sample dirty pages
-> +#                the default value is 512
-> +#
->   # Since: 5.2
->   #
->   ##
-> @@ -1748,7 +1751,8 @@
->     'data': {'*dirty-rate': 'int64',
->              'status': 'DirtyRateStatus',
->              'start-time': 'int64',
-> -           'calc-time': 'int64'} }
-> +           'calc-time': 'int64',
-> +           'sample-pages': 'uint64'} }
->   
->   ##
->   # @calc-dirty-rate:
-> @@ -1757,13 +1761,16 @@
->   #
->   # @calc-time: time in units of second for sample dirty pages
->   #
-> +# @sample-pages: page count per GB for sample dirty pages
-> +#                the default value is 512
-> +#
->   # Since: 5.2
->   #
->   # Example:
-> -#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
-> +#   {"command": "calc-dirty-rate", "data": {"calc-time": 1, 'sample-pages': 512} }
->   #
->   ##
-> -{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
-> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', '*sample-pages': 'int'} }
->   
->   ##
->   # @query-dirty-rate:
-> 
+>   target/mips/translate.c | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
 
-Ping - Hi, What would you think about this patch?
+Yeah, I would approach this via a smaller ifdef in check_cp0_enabled first.
 
--- 
-Best regard
 
-Hyman Huang(黄勇)
+r~
 
