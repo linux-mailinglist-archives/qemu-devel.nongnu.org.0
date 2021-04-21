@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FD936644B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 06:18:51 +0200 (CEST)
-Received: from localhost ([::1]:51272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D3536644C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 06:18:52 +0200 (CEST)
+Received: from localhost ([::1]:51254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ4KA-0003Vb-E1
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 00:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
+	id 1lZ4KB-0003VD-Ku
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 00:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lZ4Fs-0006le-5C
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:14:24 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:36638)
+ id 1lZ4Fz-0006uG-Nk
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:14:32 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:36607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lZ4Fn-0002yG-JI
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:14:23 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id g16so4038547plq.3
- for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 21:14:19 -0700 (PDT)
+ id 1lZ4Fr-00030j-0x
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 00:14:31 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id j7so19099892pgi.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Apr 2021 21:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VCtK6MeJWrRcE924S2JR9pxGgosMYU4dcOsKsyLoLCo=;
- b=MvBe6X9y403En8aRd6Voq59fjR8tqvM+1t7VPyi7BRWZrdqCKXnfLC22O8RkRRWczx
- 2q98o0WxlfMRktFtk0vO9ZDdzYZsB2spLAgqCm+q5MlEgTk8ztZ233n0XuADret23x/B
- xaQIczVvIPVJjdrBCPRDu/00EntLZOIk8N8ky59X+0ApoPeGGf8ZtZtgJlK6zYHT0P2i
- lcPY3MyE3PSXSeqY1jKW2l2lQuB3NqISznr3sI618TD+5glI3M+yT+p9Za9LM01Zot8Z
- hOEx/dqh85/At66Cni4yoSuwhoESjac+YNpQTeRxt+8KgIoU6k3GNzrFLcywPUTfOnCw
- ymLw==
+ bh=nsWy8+hwU7LvZTGTkxgTamSV94SJvVJihIhMCEHHooo=;
+ b=jdvnAHRsFaz3zJrN41SAqBFUxKxFWtmGFN0CREECY/VCdYmFbT27yvC20j+W9zvwR7
+ 2RZxaeWNds5tlprM7Z1L/d6PmLhcObhKOwzsZC5Jv9v2gXt6CL7yn/hzpEwtaIzgqkeN
+ 674qEhwQ9Gc++ziBjt1tM3WvRgHfmCCxglaApPg54lJNgJGZ21teNaAfbeIVl+tO+Y8R
+ 87yTN1/+IXQEibTKcf9ZQOR19NpPtOc3umIJP+ApLv+yXH/Hao0AKq7g3gDp4I32BaEP
+ EnqNMK2fouizatLzwrchc2VuThLOQO74TldhOvQQjA6YUBdQ/Q/J3SduWZP04FmjQfcX
+ +vNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=VCtK6MeJWrRcE924S2JR9pxGgosMYU4dcOsKsyLoLCo=;
- b=lKPhU0FMR2DhzvZjP4AYlJsmbb+mRtrbVSK3DWAcAza7gLsIZOWwP1NTaNb7iks5Ln
- noZjdVNzmUrykQ/yYubxiWCRuOAFUSGWC+Hq7sshYXeO79MN66VirFaMT0pUC/3wrFlB
- 5yT1gP1+r2+0TAtt3xg+LMJJrz9fHR3b9qblKHubnConOYR5aCtTpUqaBwdnloYDvLzo
- P6cie3CuPXteOAlSuN0kAQxQ/ruhGkAv5jS18W2wvEfcnq68MQhCmSiZuNaxXlaikk8p
- 34jZzTZ/heLUqGjiQHDB/XjLKjoD8EU0UfM7thQ1cDG25IQDzZ1w8R4W+e8NqM79ueyN
- +fvQ==
-X-Gm-Message-State: AOAM5325jV61S/eF5i74PHGZaf3j0eEZwROj6U5+fTZdQMAgPHtk9cVF
- 4EYVOAsk2kcvZ7trn6Dt/fiU+97+YNrmjCBm
-X-Google-Smtp-Source: ABdhPJwq0hsaMlXsSbynJI6trwPMhdoztwTXd0OuxvaqwzqJRDhotAkflS9Sw0HXw8xd0kce3iTRNQ==
-X-Received: by 2002:a17:902:e313:b029:ec:9ca9:ff69 with SMTP id
- q19-20020a170902e313b02900ec9ca9ff69mr17134872plc.54.1618978458077; 
- Tue, 20 Apr 2021 21:14:18 -0700 (PDT)
+ bh=nsWy8+hwU7LvZTGTkxgTamSV94SJvVJihIhMCEHHooo=;
+ b=so+EFNzcoprS678VdhuNyNQgPU8ae2KjiiuyXqAKg7dEQNgTY63qbEO+Fp84z9MmQU
+ lMSLI6xr66KMNOy2+PaQQ8wDfGOuvUdFh3G+iNzItVsTJ3RKBWBjrA21G/s2Vqxmp3mZ
+ Wp6S8AFfbIE29vJsVMlWo9FIfk5nFWVjnib8v2o1A7GtsXUOY7T2gqEuOt1J1jobnuj9
+ Czg4+u1vD6c26GEk8L/q+9m7mmuzidyPtJF5bOlZgRWZqWpESkYsjHNInfWbH+yI65YP
+ 5SoKNa+7Uo/SAiMryyRF12j1TXtI6adSpum0RKy0D38Fa0vULQQ3YP2zuJNr+fi43hX8
+ QP0A==
+X-Gm-Message-State: AOAM531fqFQDIp10Br9Isw4DANA90SY47KpXtd3XXFLNpXqphEkz43zM
+ Bbx8qoEueGmMSTvuki8dHblrmikVnl3cjGvZ
+X-Google-Smtp-Source: ABdhPJx0j7dja1QXCaj/+ZSDucuhkh/mAxiqYZ9Vt+NRBIlDFSyhk9qVng836PuA3vtFvQBN2NHz8Q==
+X-Received: by 2002:a63:2226:: with SMTP id i38mr17047302pgi.215.1618978461467; 
+ Tue, 20 Apr 2021 21:14:21 -0700 (PDT)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id jx20sm551465pjb.41.2021.04.20.21.14.15
+ by smtp.gmail.com with ESMTPSA id jx20sm551465pjb.41.2021.04.20.21.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Apr 2021 21:14:17 -0700 (PDT)
+ Tue, 20 Apr 2021 21:14:21 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v5 04/17] target/riscv: rvb: logic-with-negate
-Date: Wed, 21 Apr 2021 12:13:46 +0800
-Message-Id: <20210421041400.22243-5-frank.chang@sifive.com>
+Subject: [PATCH v5 05/17] target/riscv: rvb: pack two words into one register
+Date: Wed, 21 Apr 2021 12:13:47 +0800
+Message-Id: <20210421041400.22243-6-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210421041400.22243-1-frank.chang@sifive.com>
 References: <20210421041400.22243-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,51 +96,138 @@ Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn32.decode              |  4 ++++
- target/riscv/insn_trans/trans_rvb.c.inc | 18 ++++++++++++++++++
- 2 files changed, 22 insertions(+)
+ target/riscv/insn32-64.decode           |  3 ++
+ target/riscv/insn32.decode              |  3 ++
+ target/riscv/insn_trans/trans_rvb.c.inc | 30 +++++++++++++++++++
+ target/riscv/translate.c                | 40 +++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+)
 
+diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
+index 89498a9a28a..d28c0bcf2c1 100644
+--- a/target/riscv/insn32-64.decode
++++ b/target/riscv/insn32-64.decode
+@@ -91,3 +91,6 @@ hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
+ clzw       0110000 00000 ..... 001 ..... 0011011 @r2
+ ctzw       0110000 00001 ..... 001 ..... 0011011 @r2
+ cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
++
++packw      0000100 .......... 100 ..... 0111011 @r
++packuw     0100100 .......... 100 ..... 0111011 @r
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 0e321da37f4..d0b3f109b4e 100644
+index d0b3f109b4e..7f32b8c6d15 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -598,3 +598,7 @@ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
- clz        011000 000000 ..... 001 ..... 0010011 @r2
- ctz        011000 000001 ..... 001 ..... 0010011 @r2
- cpop       011000 000010 ..... 001 ..... 0010011 @r2
-+
-+andn       0100000 .......... 111 ..... 0110011 @r
-+orn        0100000 .......... 110 ..... 0110011 @r
-+xnor       0100000 .......... 100 ..... 0110011 @r
+@@ -602,3 +602,6 @@ cpop       011000 000010 ..... 001 ..... 0010011 @r2
+ andn       0100000 .......... 111 ..... 0110011 @r
+ orn        0100000 .......... 110 ..... 0110011 @r
+ xnor       0100000 .......... 100 ..... 0110011 @r
++pack       0000100 .......... 100 ..... 0110011 @r
++packu      0100100 .......... 100 ..... 0110011 @r
++packh      0000100 .......... 111 ..... 0110011 @r
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index dbbd94e1015..73c4693a263 100644
+index 73c4693a263..2d24dafac09 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -35,6 +35,24 @@ static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
-     return gen_unary(ctx, a, tcg_gen_ctpop_tl);
+@@ -53,6 +53,24 @@ static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
+     return gen_arith(ctx, a, tcg_gen_eqv_tl);
  }
  
-+static bool trans_andn(DisasContext *ctx, arg_andn *a)
++static bool trans_pack(DisasContext *ctx, arg_pack *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, tcg_gen_andc_tl);
++    return gen_arith(ctx, a, gen_pack);
 +}
 +
-+static bool trans_orn(DisasContext *ctx, arg_orn *a)
++static bool trans_packu(DisasContext *ctx, arg_packu *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, tcg_gen_orc_tl);
++    return gen_arith(ctx, a, gen_packu);
 +}
 +
-+static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
++static bool trans_packh(DisasContext *ctx, arg_packh *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, tcg_gen_eqv_tl);
++    return gen_arith(ctx, a, gen_packh);
 +}
 +
  /* RV64-only instructions */
  #ifdef TARGET_RISCV64
  
+@@ -74,4 +92,16 @@ static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
+     return gen_unary(ctx, a, gen_cpopw);
+ }
+ 
++static bool trans_packw(DisasContext *ctx, arg_packw *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, gen_packw);
++}
++
++static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, gen_packuw);
++}
++
+ #endif
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index b20a58c63b4..4333207aeff 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -536,6 +536,29 @@ static bool gen_arith_div_uw(DisasContext *ctx, arg_r *a,
+ 
+ #endif
+ 
++static void gen_pack(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    tcg_gen_deposit_tl(ret, arg1, arg2,
++                       TARGET_LONG_BITS / 2,
++                       TARGET_LONG_BITS / 2);
++}
++
++static void gen_packu(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv t = tcg_temp_new();
++    tcg_gen_shri_tl(t, arg1, TARGET_LONG_BITS / 2);
++    tcg_gen_deposit_tl(ret, arg2, t, 0, TARGET_LONG_BITS / 2);
++    tcg_temp_free(t);
++}
++
++static void gen_packh(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv t = tcg_temp_new();
++    tcg_gen_ext8u_tl(t, arg2);
++    tcg_gen_deposit_tl(ret, arg1, t, 8, TARGET_LONG_BITS - 8);
++    tcg_temp_free(t);
++}
++
+ #ifdef TARGET_RISCV64
+ 
+ static void gen_ctzw(TCGv ret, TCGv arg1)
+@@ -557,6 +580,23 @@ static void gen_cpopw(TCGv ret, TCGv arg1)
+     tcg_gen_ctpop_tl(ret, arg1);
+ }
+ 
++static void gen_packw(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv t = tcg_temp_new();
++    tcg_gen_ext16s_i64(t, arg2);
++    tcg_gen_deposit_i64(ret, arg1, t, 16, 48);
++    tcg_temp_free(t);
++}
++
++static void gen_packuw(TCGv ret, TCGv arg1, TCGv arg2)
++{
++    TCGv t = tcg_temp_new();
++    tcg_gen_shri_i64(t, arg1, 16);
++    tcg_gen_deposit_i64(ret, arg2, t, 0, 16);
++    tcg_gen_ext32s_i64(ret, ret);
++    tcg_temp_free(t);
++}
++
+ #endif
+ 
+ static bool gen_arith(DisasContext *ctx, arg_r *a,
 -- 
 2.17.1
 
