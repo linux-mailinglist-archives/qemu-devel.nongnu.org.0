@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC7E366353
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:18:39 +0200 (CEST)
-Received: from localhost ([::1]:45078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B5436635C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:29:25 +0200 (CEST)
+Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ1Vm-0001SZ-8i
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35772)
+	id 1lZ1gB-0003ep-NI
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lZ1Tk-0000jY-83
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:16:32 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:52699
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lZ1Te-0007kH-MD
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:16:30 -0400
-HMM_SOURCE_IP: 172.18.0.218:34252.13933217
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.21?logid-f9ceb08ef1e944f1a5ffd7841f9c8f16
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 58AB52800D7;
- Wed, 21 Apr 2021 09:16:15 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id f9ceb08ef1e944f1a5ffd7841f9c8f16 for
- wainersm@redhat.com; Wed Apr 21 09:16:13 2021
-X-Transaction-ID: f9ceb08ef1e944f1a5ffd7841f9c8f16
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH] tests/migration: fix unix socket migration
-To: qemu-devel <qemu-devel@nongnu.org>
-References: <ea67ec8c4a46979af5515a794759efc00960ed7e.1615304914.git.huangy81@chinatelecom.cn>
- <8a8d72ee-d24c-5aac-3b89-192d4d54f7cb@redhat.com>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <4b1e91a5-73e8-912a-32c4-b78a7412a8bc@chinatelecom.cn>
-Date: Wed, 21 Apr 2021 09:16:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZ1ew-0003Fg-AD
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:28:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZ1eq-0004PA-SN
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:28:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618968477;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lciEgbgwpL4TX/ByyCMuJcGuBI30jTVdcI/eaZ+ufCM=;
+ b=PX7kqqf8BMW5d+kAXTfihTqDmH+ruHdRJ/ev2Er7/D8OtX8DnX4VCsgkHs9FJC6IMbnlSg
+ j4lX2Ve+LtiRbS5zmw/yPnQE5kQf4mnxqxH5xGzdu9mQJN7tcTGH3QsH2Lq6Yvv+7fNxmZ
+ mP+/jT3k3c5XzbVvxghU4n1B6alQn30=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-hb7aUz2UNQ-Hd9FTJ0-sfA-1; Tue, 20 Apr 2021 21:27:54 -0400
+X-MC-Unique: hb7aUz2UNQ-Hd9FTJ0-sfA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 903456415F;
+ Wed, 21 Apr 2021 01:27:53 +0000 (UTC)
+Received: from [10.10.118.219] (ovpn-118-219.rdu2.redhat.com [10.10.118.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D7FA5D9D0;
+ Wed, 21 Apr 2021 01:27:52 +0000 (UTC)
+Subject: Re: [PATCH v4 16/19] qapi/expr.py: Add docstrings
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-17-jsnow@redhat.com>
+ <871rbckiuf.fsf@dusky.pond.sub.org>
+ <f958a02d-7c14-f6ee-4337-fc85ef567ee5@redhat.com>
+ <878s5hyrqa.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <6778db51-f0da-a4cd-079d-b577954acb75@redhat.com>
+Date: Tue, 20 Apr 2021 21:27:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <8a8d72ee-d24c-5aac-3b89-192d4d54f7cb@redhat.com>
+In-Reply-To: <878s5hyrqa.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,68 +84,1103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/3/10 0:55, Philippe Mathieu-Daudé 写道:
-> On 3/9/21 5:00 PM, huangy81@chinatelecom.cn wrote:
->> From: Hyman <huangy81@chinatelecom.cn>
+On 4/17/21 9:18 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 4/14/21 11:04 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
 >>
->> The test aborts and error message as the following be throwed:
->> "No such file or directory: '/var/tmp/qemu-migrate-{pid}.migrate",
->> when the unix socket migration test nearly done. The reason is
->> qemu removes the unix socket file after migration before
->> guestperf.py script do it. So pre-check if the socket file exists
->> when removing it to prevent the guestperf program from aborting.
+>> Thanks for taking this on. I realize it's a slog.
 >>
->> Signed-off-by: Hyman <huangy81@chinatelecom.cn>
->> ---
->>   tests/migration/guestperf/engine.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> (Update: much later: AUUUGHHHHH WHY DID I DECIDE TO WRITE DOCS. MY HUBRIS)
 > 
-> Interesting, we have in MAINTAINERS:
+> LOL!
 > 
-> Python scripts
-> M: Eduardo Habkost <ehabkost@redhat.com>
-> M: Cleber Rosa <crosa@redhat.com>
-> S: Odd Fixes
-> F: scripts/*.py
-> F: tests/*.py
-> 
-> However:
-> 
-> ./scripts/get_maintainer.pl -f tests/migration/guestperf/engine.py
-> get_maintainer.pl: No maintainers found, printing recent contributors.
-> get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
-
-Ping
-
-The following patch has fixed it
-https://patchew.org/QEMU/91d5978357fb8709ef61d2030984f7142847037d.1616141556.git.huangy81@chinatelecom.cn/
-
-> 
->> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
->> index 83bfc3b..86d4f21 100644
->> --- a/tests/migration/guestperf/engine.py
->> +++ b/tests/migration/guestperf/engine.py
->> @@ -405,7 +405,7 @@ def run(self, hardware, scenario, result_dir=os.getcwd()):
->>               progress_history = ret[0]
->>               qemu_timings = ret[1]
->>               vcpu_timings = ret[2]
->> -            if uri[0:5] == "unix:":
->> +            if uri[0:5] == "unix:" and os.path.exists(uri[5:]):
->>                   os.remove(uri[5:])
->>               if self._verbose:
->>                   print("Finished migration")
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> ---
+>>>>    scripts/qapi/expr.py | 213 ++++++++++++++++++++++++++++++++++++++++++-
+>>>>    1 file changed, 208 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>>>> index 1869ddf815..adc5b903bc 100644
+>>>> --- a/scripts/qapi/expr.py
+>>>> +++ b/scripts/qapi/expr.py
+>>>> @@ -1,7 +1,5 @@
+>>>>    # -*- coding: utf-8 -*-
+>>>>    #
+>>>> -# Check (context-free) QAPI schema expression structure
+>>>> -#
+>>>>    # Copyright IBM, Corp. 2011
+>>>>    # Copyright (c) 2013-2019 Red Hat Inc.
+>>>>    #
+>>>> @@ -14,6 +12,25 @@
+>>>>    # This work is licensed under the terms of the GNU GPL, version 2.
+>>>>    # See the COPYING file in the top-level directory.
+>>>>    
+>>>> +"""
+>>>> +Normalize and validate (context-free) QAPI schema expression structures.
+>>>> +
+>>>> +After QAPI expressions are parsed from disk, they are stored in
+>>>> +recursively nested Python data structures using Dict, List, str, bool,
+>>>> +and int. This module ensures that those nested structures have the
+>>>> +correct type(s) and key(s) where appropriate for the QAPI context-free
+>>>> +grammar.
+>>>
+>>> "from disk"?  Perhaps something like "QAPISchemaParser parses the QAPI
+>>> schema into abstract syntax trees consisting of dict, list, str, bool
+>>> and int nodes."  This isn't quite accurate; it parses into a list of
+>>> {'expr': AST, 'info': INFO}, but that's detail.
+>>>
 >>
+>> Let's skip the detail; it doesn't help communicate purpose in the first
+>> paragraph here at the high level. The bulk of this module IS primarily
+>> concerned with the structures named.
+>>
+>> Edited to:
+>>
+>> `QAPISchemaParser` parses a QAPI schema into abstract syntax trees
+>> consisting of dict, list, str, bool, and int nodes. This module ensures
+>> that these nested structures have the correct type(s) and key(s) where
+>> appropriate for the QAPI context-free grammar.
+>>
+>> (I replaced "the QAPI schema" with "a QAPI schema" as we have several;
+>> and I wanted to hint at (somehow) that this processes configurable input
+>> (i.e. "from disk") and not something indelibly linked.)
+>>
+>> ((What's wrong with "from disk?"))
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> It can come from anywhere:
 > 
--- 
-Best regard
+>      $ python3 scripts/qapi-gen.py /dev/stdin
+>      {'command': 'testme'}
+> 
+>>> PEP 8: You should use two spaces after a sentence-ending period in
+>>> multi- sentence comments, except after the final sentence.
+>>
+>> Is this a demand?
+> 
+> It's a polite request to save me the (minor) trouble to fix it up in my
+> tree :)
+> 
 
-Hyman Huang(黄勇)
+:(
+
+(I took a stab at it. May have missed a spot or two...)
+
+>>>> +
+>>>> +The QAPI schema expression language allows for syntactic sugar; this
+>>>
+>>> suggest "certain syntactic sugar".
+>>>
+>>
+>> OK
+>>
+>>>> +module also handles the normalization process of these nested
+>>>> +structures.
+>>>> +
+>>>> +See `check_exprs` for the main entry point.
+>>>> +
+>>>> +See `schema.QAPISchema` for processing into native Python data
+>>>> +structures and contextual semantic validation.
+>>>> +"""
+>>>> +
+>>>>    import re
+>>>>    from typing import (
+>>>>        Collection,
+>>>> @@ -31,9 +48,10 @@
+>>>>    from .source import QAPISourceInfo
+>>>>    
+>>>>    
+>>>> -# Deserialized JSON objects as returned by the parser;
+>>>> -# The values of this mapping are not necessary to exhaustively type
+>>>> -# here, because the purpose of this module is to interrogate that type.
+>>>> +#: Deserialized JSON objects as returned by the parser.
+>>>> +#:
+>>>> +#: The values of this mapping are not necessary to exhaustively type
+>>>> +#: here, because the purpose of this module is to interrogate that type.
+>>>
+>>> First time I see #: comments; pardon my ignorance.  What's the deal?
+>>>
+>>
+>> Sphinx-ese: It indicates that this comment is actually a block relating
+>> to the entity below. It also means that I can cross-reference
+>> `_JSONObject` in docstrings.
+>>
+>> ... which, because of the rewrite where I stopped calling this object an
+>> Expression to avoid overloading a term, is something I actually don't
+>> try to cross-reference anymore.
+>>
+>> So this block can be dropped now, actually.
+>>
+>> (Also: It came up in part one, actually: I snuck one in for EATSPACE,
+>> and reference it in the comment for cgen. We cannot cross-reference
+>> constants unless they are documented, and this is how we accomplish that.)
+> 
+> I guess it needs to come up a lot more often for me to actually learn
+> it...  Thanks!
+> 
+I am in love with the idea of a project-wide cross reference system, but 
+it's been tough to get the right ideas in my head for how to do it.
+
+>>>>    _JSONObject = Dict[str, object]
+>>>>    
+>>>>    
+>>>> @@ -48,11 +66,29 @@
+>>>>    def check_name_is_str(name: object,
+>>>>                          info: QAPISourceInfo,
+>>>>                          source: str) -> None:
+>>>> +    """Ensures that ``name`` is a string."""
+>>>
+>>> PEP 257: The docstring [...] prescribes the function or method's effect
+>>> as a command ("Do this", "Return that"), not as a description;
+>>> e.g. don't write "Returns the pathname ...".
+>>>
+>>> More of the same below.
+>>>
+>>
+>> Alright.
+>>
+>> While we're here, then ...
+>>
+>> I take this to mean that you prefer:
+>>
+>> :raise: to :raises:, and
+>> :return: to :returns: ?
+> 
+> Yes.
+> 
+>> And since I need to adjust the verb anyway, I might as well use "Check"
+>> instead of "Ensure".
+>>
+>>       """
+>>
+>>       Check that ``name`` is a string.
+> 
+> "Check CONDITION" suggests "fail unless CONDITION".
+> 
+> "Ensure CONDITION" suggests "do whatever it takes to make CONDITION
+> true, or else fail".
+> 
+> The latter gives license to change things, the former doesn't.
+> 
+> For instance, when a function is documented to "Check that ``name`` is a
+> string", I expect it to fail when passed a non-string name.  Saying
+> "ensure" instead gives it license to convert certain non-string names to
+> string.
+> 
+> Do I make sense?
+> 
+
+Sure, if that's your preference. I've reverted that change.
+
+>>       :raise: QAPISemError when ``name`` is an incorrect type.
+>>
+>>       """
+>>
+>> which means our preferred spellings should be:
+>>
+>> :param: (and not parameter, arg, argument, key, keyword)
+>> :raise: (and not raises, except, exception)
+>> :var/ivar/cvar: (variable, instance variable, class variable)
+>> :return: (and not returns)
+>>
+>> Disallow these, as covered by the mypy signature:
+>>
+>> :type:
+>> :vartype:
+>> :rtype:
+> 
+> Uh, what happened to "There should be one-- and preferably only one
+> --obvious way to do it"?
+> 
+> I'm not disagreeing with anything you wrote.
+> 
+
+Guido had nothing to do with Sphinx. Sadly, the "we don't stipulate what 
+has to be here" means there's no real ... standard.
+
+Up to us to make our own. :\
+
+This is the sort of thing that led to putting type hints directly in the 
+Python standard. Maybe one day we can help impose a "canonical" 
+sphinx-ese docstring dialect.
+
+>>>>        if not isinstance(name, str):
+>>>>            raise QAPISemError(info, "%s requires a string name" % source)
+>>>>    
+>>>>    
+>>>>    def check_name_str(name: str, info: QAPISourceInfo, source: str) -> str:
+>>>> +    """
+>>>> +    Ensures a string is a legal name.
+>>>
+>>> I feel "legal" is best reserved to matters of law.  Suggest "valid QAPI
+>>> name".
+>>>
+>>> More of the same below.
+>>>
+>>
+>> Yep, that's the type of review I like here. Getting the terms exactly
+>> correct. You've usually gone through some length to be consistent in
+>> your own writing, but it doesn't always stick with me.
+>>
+>> (I want a jargon file...)
+>>
+>>>> +
+>>>> +    A legal name consists of ascii letters, digits, ``-``, and ``_``,
+>>>
+>>> ASCII
+>>>
+>>>> +    starting with a letter. The names of downstream extensions are
+>>>> +    prefixed with an __com.example_ style prefix, allowing ``.`` and
+>>>> +    ``-``.  An experimental name is prefixed with ``x-``, following the
+>>>> +    RFQDN if present.
+>>>
+>>> I get that "an _com.experimental style prefix" and "the RFQDN" mean the
+>>> same thing, but can we make this clearer?  Perhaps
+>>>
+>>>          A valid name consists of ascii letters, digits, ``-``, and ``_``,
+>>>          starting with a letter.  It may be prefixed by a downstream
+>>>          prefix of the form __RFQDN_, or the experimental prefix ``x-``.
+>>>          If both prefixes are present, the __RFQDN_ prefix goes first.
+>>>
+>>
+>> "It may be prefixed by a downstream prefix" seems redundant, but no
+>> better ideas. Adopted your phrasing wholesale.
+>>
+>>> I'm clueless on proper use of `` in doc strings.  Can you educate me?
+>>>
+>>
+>> It's just markup to get "literal" text. In practice, it renders in
+>> monospace. I may not have a great internal barometer for when it should
+>> be used or not. Some tendencies:
+>>
+>> 1. When referring to literal symbols without wanting to invoke any
+>> specific string literal syntax between languages, e.g. 'A' vs "A" might
+>> work well as ``A``.
+>>
+>> 2. When referring to parameter names, to intuit that this is a proper
+>> noun in the code. (The @foo syntax you use in qapi-doc is resolved to
+>> the equivalent of ``foo``when we generate those docs.)
+>>
+>> 3. Generally whenever I need to highlight symbols like ' " ` . _ - that
+>> might get confused for other punctuation, might accidentally render as
+>> markup, or otherwise need some kind of dressing.
+>>
+>> Whenever the noun I want to address is something cross-referencable, I
+>> will instead use `thing` and Sphinx will decorate that reference as it
+>> deems appropriate for the type of symbol that it is.
+> 
+> Thanks.
+> 
+> I'd expect parameter names to be "cross-referencable" enough from within
+> the function's doc string...
+> 
+
+Yeah, I read through the Sphinx code for Python recently while 
+prototyping a turbocharged QAPI domain and it looked like they were 
+theoretically reference-able, but in practice it didn't seem like they were.
+
+I have to look into it more, but for right now I don't think they are 
+... I suspect I will find out more as I continue to develop prototypes 
+for the QMP cross-referencing.
+
+>>>> +
+>>>> +    A legal name cannot start with ``q_``, which is reserved.
+>>>> +
+>>>> +    :param name:   Name to check.
+>>>> +    :param info:   QAPI source file information.
+>>>
+>>> Suggest to say "QAPI schema source information", or maybe "QAPI schema
+>>> source file information".
+>>>
+>>
+>> OK
+>>
+>>>> +    :param source: Human-readable str describing "what" this name is.
+>>>
+>>> Could mention it's for use in error messages, but we have many similar
+>>> parameters all over the place, so this would perhaps be more tiresome
+>>> than helpful.  Fine as is.
+>>>
+>>
+>> Yes, I struggled because I think it doesn't have a consistent "type" of
+>> string that it is -- sometimes it's just the name of the definition
+>> type, sometimes it's a small phrase. Grammatically, I guess it is the
+>> subject of the error sentence.
+> 
+> It's whatever the function's error messages want it to be.
+> 
+> This is maintainable mostly because we fanatically cover error messages
+> with negative tests in in tests/qapi-schema/.  Ensures bad source
+> arguments are quite visible in patches.
+> 
+>> If you have a concrete suggestion, I'll take it. Otherwise, I'm just
+>> gonna make it worse.
+> 
+> Let's go with what you wrote.
+> 
+
+Couldn't help myself and I fiddled with it.
+
+>>>> +
+>>>> +    :return: The stem of the valid name, with no prefixes.
+>>>> +    """
+>>>>        # Reserve the entire 'q_' namespace for c_name(), and for 'q_empty'
+>>>>        # and 'q_obj_*' implicit type names.
+>>>>        match = valid_name.match(name)
+>>>> @@ -62,6 +98,12 @@ def check_name_str(name: str, info: QAPISourceInfo, source: str) -> str:
+>>>>    
+>>>>    
+>>>>    def check_name_upper(name: str, info: QAPISourceInfo, source: str) -> None:
+>>>> +    """
+>>>> +    Ensures a string is a legal event name.
+>>>> +
+>>>> +    Checks the same criteria as `check_name_str`, but requires uppercase
+>>>> +    and prohibits ``-``.
+>>>> +    """
+>>>>        stem = check_name_str(name, info, source)
+>>>>        if re.search(r'[a-z-]', stem):
+>>>>            raise QAPISemError(
+>>>> @@ -71,6 +113,15 @@ def check_name_upper(name: str, info: QAPISourceInfo, source: str) -> None:
+>>>>    def check_name_lower(name: str, info: QAPISourceInfo, source: str,
+>>>>                         permit_upper: bool = False,
+>>>>                         permit_underscore: bool = False) -> None:
+>>>> +    """
+>>>> +    Ensures a string is a legal user defined type name.
+>>>> +
+>>>> +    Checks the same criteria as `check_name_str`, but may impose
+>>>> +    additional constraints.
+>>>
+>>> Correct, but it leads to slightly awkward "permit_FOO: prohibit ... when
+>>> false":
+>>>
+>>>> +
+>>>> +    :param permit_upper: Prohibits uppercase when false.
+>>>> +    :param permit_underscore: Prohibits underscores when false.
+>>>> +    """
+>>>
+>>> Perhaps something like
+>>>
+>>>          Ensure @str is a valid command or member name.
+>>>
+>>>          This means it must be a valid QAPI name (as ensured by
+>>>          check_name_str()), where the stem consists of lowercase
+>>>          characters and '-'.
+>>>
+>>>          :param permit_upper: Additionally permit uppercase.
+>>>          :param permit_underscore: Additionally permit '_'.
+>>>
+>>> We'd then want to update check_name_upper() and check_name_camel() for
+>>> consistency.
+>>>
+>>       """
+>>       Check that ``name`` is a valid user defined type name.
+>>
+>>       This means it must be a valid QAPI name as checked by
+>>       `check_name_str()`, but where the stem prohibits uppercase
+>>       characters and ``_``.
+>>
+>>       :param permit_upper: Additionally permit uppercase.
+>>       :param permit_underscore: Additionally permit ``_``.
+>>       """
+> 
+> Sold.
+> 
+>> Using "but where" to highlight the differences, and removing the
+>> parenthetical to make the "see also" more clear to avoid repeating a
+>> paraphrase of what a valid QAPI name is.
+>>
+>> Using literals to highlight @name, because otherwise there is no
+>> processing here that will do the same for us. It may be possible to
+>> extend Sphinx so that it will do it for us, if you are attached to that
+>> visual signifier in the code itself.
+>>
+>>>>        stem = check_name_str(name, info, source)
+>>>>        if ((not permit_upper and re.search(r'[A-Z]', stem))
+>>>>                or (not permit_underscore and '_' in stem)):
+>>>> @@ -79,12 +130,31 @@ def check_name_lower(name: str, info: QAPISourceInfo, source: str,
+>>>>    
+>>>>    
+>>>>    def check_name_camel(name: str, info: QAPISourceInfo, source: str) -> None:
+>>>> +    """
+>>>> +    Ensures a string is a legal CamelCase name.
+>>>> +
+>>>> +    Checks the same criteria as `check_name_str`,
+>>>> +    but additionally imposes a CamelCase constraint.
+>>>> +    """
+>>>>        stem = check_name_str(name, info, source)
+>>>>        if not re.match(r'[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*$', stem):
+>>>>            raise QAPISemError(info, "name of %s must use CamelCase" % source)
+>>>
+>>> Related: we discussed renaming check_name_{upper,camel,lower} to
+>>> check_name_{event,type,other} or check_name_{event,user_defined_type,
+>>> command_or_member}.
+>>>
+>>
+>> Yep, it's a *little* funny to have check_lower(allow_upper=True) ... but
+>> I am happy with a doc for now.
+>>
+>>       """
+>>
+>>       Check that ``name`` is a valid command or member name.
+>>
+>>   
+>>
+>>       This means it must be a valid QAPI name as checked by
+>>
+>>       `check_name_str()`, but where the stem must be in CamelCase.
+>>
+>>       """
+> 
+> Good.
+> 
+
+(Oops, copy-pasting from emacs buffer copied literal spaces again. Long 
+standing bug I have with my emacs configuration. It likes to copy spaces 
+following comment tokens sometimes.)
+
+>>>>    
+>>>>    
+>>>>    def check_defn_name_str(name: str, info: QAPISourceInfo, meta: str) -> None:
+>>>> +    """
+>>>> +    Ensures a name is a legal definition name.
+>>>> +
+>>>> +    - 'event' names adhere to `check_name_upper`.
+>>>> +    - 'command' names adhere to `check_name_lower`.
+>>>> +    - All other names adhere to `check_name_camel`.
+>>>
+>>> When is a name an 'event' name?  We should spell out how this uses
+>>> @meta.  Perhaps something like:
+>>>
+>>>          - If meta == 'event', ...
+>>>          - If meta == 'command, ...
+>>>          - Else, meta is a type, and ...
+>>>
+>>>> +
+>>>> +    All name types must not end with ``Kind`` nor ``List``.
+>>>
+>>> Do you mean "type names"?
+>>>
+>>
+>> I meant "all categories of names".
+>>
+>> "All names must not end with ``Kind`` nor ``List``."
+>>
+>>> Outside this patch's scope: qapi-code-gen.txt reserves suffixes Kind and
+>>> List only for type names, but the code rejects them for events and
+>>> commands, too.  One of them should be changed to match the other.
+> 
+> Actually, these suffixes get rejected for non-type names before we even
+> get here: in check_name_upper() for event names, and in
+> check_name_lower() for command names.
+> 
+>> Instinct is that code should change to match the "spec", as it probably
+>> best represents your intent. Laziness suggests that updating the "spec"
+>> means I don't have to write new tests.
+> 
+> The existing negative tests tests/qapi-schema/reserved-type-* both use
+> type names.  Adjusting the code doesn't require negative test
+> adjustment.
+> 
+> Existing tests do not cover non-type names ending with List or Kind.
+> Covering them requires a positive test if we adjust the code, and a
+> negative test if we adjust the adjust the spec.  I doubt covering them
+> is worth the bother.
+> 
+> Let's adjust the code and move on.
+> 
+
+OK, I can add a new patch just before this one. I may have misunderstood 
+your goal, but you can take hold of the wheel if needs be.
+
+>>>> +
+>>>> +    :param name: Name to check.
+>>>> +    :param info: QAPI source file information.
+>>>> +    :param meta: Type name of the QAPI expression.
+>>>> +    """
+>>>
+>>> Glosses over the use of pragma command-name-exceptions.  Do we mind?
+>>>
+>>
+>> Mmmm. Nah? I think if you're digging that deep by now you'll have
+>> noticed that check_name_lower() takes some parameters, so the shorter
+>> statement isn't lying. It just isn't telling you exactly how the
+>> parameters are decided.
+> 
+> I'm okay with glossing over details where not glossing over them would
+> be a lot of work for little gain, or where it would make the doc strings
+> hard to read for little gain.
+> 
+> Maintaining a comparable level of detail in related doc strings is
+> desirable.
+> 
+
+Not sure if that means you're OK with the omission or not. I'll leave it 
+as-is for now, then.
+
+>>>>        if meta == 'event':
+>>>>            check_name_upper(name, info, meta)
+>>>>        elif meta == 'command':
+>>>> @@ -103,6 +173,15 @@ def check_keys(value: _JSONObject,
+>>>>                   source: str,
+>>>>                   required: Collection[str],
+>>>>                   optional: Collection[str]) -> None:
+>>>> +    """
+>>>> +    Ensures an object has a specific set of keys.
+>>>> +
+>>>> +    :param value:    The object to check.
+>>>> +    :param info:     QAPI source file information.
+>>>> +    :param source:   Human-readable str describing this value.
+>>>> +    :param required: Keys that *must* be present.
+>>>> +    :param optional: Keys that *may* be present.
+>>>> +    """
+>>>>    
+>>
+>> Style check: Avoid the two-column approach for stuff like this, too?
+>> Also, reminder to self, update the phrasing on ALL :param info: statements.
+> 
+> Of the two arguments against the two-column format
+> 
+> * waste of screen real estate
+> 
+> * churn or inconsistency when parameters with longer names get added
+> 
+> the former is moot when none of the descriptions overflows the line.  It
+> comes back when we add or edit descriptions that do overflow.  So we
+> basically have "churn or inconsistency on certain changes".
+> 
+> I accept that more readable doc strings now may be worth a risk of churn
+> later.
+> 
+> I wouldn't bother with aligning myself.  I think I wouldn't object to
+> aligning until churn gets annoying.
+> 
+
+I made some edits to remove the two column format to try and be 
+consistent. I used the new indent formatting in a few places where it 
+seemed appropriate.
+
+>>>>        def pprint(elems: Iterable[str]) -> str:
+>>>>            return ', '.join("'" + e + "'" for e in sorted(elems))
+>>>> @@ -125,6 +204,12 @@ def pprint(elems: Iterable[str]) -> str:
+>>>>    
+>>>>    
+>>>>    def check_flags(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Ensures common fields in an expression are correct.
+>>>
+>>> Rather vague.  The function is really about checking "flag" members,
+>>> i.e. members that must have a boolean value.  Perhaps
+>>>
+>>>          Ensure flag members (if present) have valid values.
+>>>
+>>
+>> Done!
+>>
+>>>> +
+>>>> +    :param expr: Expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +    """
+>>>>        for key in ['gen', 'success-response']:
+>>>>            if key in expr and expr[key] is not False:
+>>>>                raise QAPISemError(
+>>>> @@ -143,7 +228,22 @@ def check_flags(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
+>>>> +    """
+>>>> +    Syntactically validate and normalize the ``if`` field of an object.
+>>>
+>>> qapi-code-gen.txt consistently uses "member", not "field".  Let's stick
+>>> to "member".
+>>>
+>>
+>> Good, thanks.
+>>
+>>>>    
+>>>> +    The ``if`` field may be either a ``str`` or a ``List[str]``.
+>>>> +    A ``str`` element will be normalized to ``List[str]``.
+>>>
+>>> element?  I think you mean value.
+>>>
+>>
+>> Err, yeah. because... it's a single element ... of the list we're gonna
+>> make. Get it? (:
+>>
+>> (Fixed.)
+>>
+>>> Doesn't spell out how str is normalized to List[str], but I guess that's
+>>> obvious enough.
+>>>
+>>>> +
+>>>> +    :forms:
+>>>> +      :sugared: ``Union[str, List[str]]``
+>>>> +      :canonical: ``List[str]``
+>>>
+>>> Uh... :param FOO: and :return: are obvious enough, but this :forms:
+>>> stuff feels a bit too fancy for me to rely on voodoo understanding.  Can
+>>> you point me to :documentation:?
+>>>
+>>
+>> Haha.
+>>
+>> https://docutils.sourceforge.io/docs/user/rst/quickref.html#field-lists
+>>
+>> The "canonical" field lists we use are just special ones that have been
+>> bookmarked by Sphinx as having special significance. You can use others
+>> arbitrarily, if you want.
+>>
+>> This nests them to achieve a multi-column thing.
+>>
+>> Forms: Sugared:   Foo
+>>          Canonical: Bar
+> 
+> Is :forms: :sugared: ... :canonical: ... your invention?
+> 
+
+In the sense that those words do not mean anything to Sphinx, that's 
+correct. It's just ReST markup that cooperates with the other field 
+lists for tidy rendered output.
+
+e.g.
+
+Parameters: A
+             B
+             C
+Forms:      Sugared:   Foo
+             Canonical: Bar
+
+i.e. it's precisely as arbitrary as:
+
+* Forms:
+   - Sugared: Foo
+   - Canonical: Bar
+
+What I have learned is that Sphinx suggests certain field list names for 
+you to use (param, params, arg, etc) and will do special book-keeping 
+for those, but you can use anything you want. For example, using :raise 
+TYPE: will adjust the rendering slightly to add cross-references to the 
+type name mentioned for you -- they are specially processed.
+
+It's good to always use the ones Sphinx knows about for parameters and 
+so on, because that's where you'd add hooks to change the rendering 
+format for those, it's how things like autodoc does generated 
+documentation, etc.
+
+In this case, I wanted to briefly document what the forms were expected 
+to look like while reading this function so I had some basis for quickly 
+remembering what the data shape was, because my memory for those details 
+is poor.
+
+I chose a field list to represent this information for visual parity 
+with the other "input/output" descriptions.
+
+>>>> +
+>>>> +    :param expr: A ``dict``.
+>>>
+>>> Elsewhere, you have "the object to check", which I like better.
+>>>
+>>
+>> I agree. I was not careful about not accidentally repeating type
+>> information where it wasn't necessary. Semantic descriptions and not
+>> mechanical descriptions are certainly preferred. Fixed!
+>>
+>>>> +                 The ``if`` field, if present, will be validated.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>>        ifcond = expr.get('if')
+>>>>        if ifcond is None:
+>>>>            return
+>>>> @@ -167,6 +267,20 @@ def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
+>>>>    
+>>>>    
+>>>>    def normalize_members(members: object) -> None:
+>>>> +    """
+>>>> +    Normalize a "members" value.
+>>>> +
+>>>> +    If ``members`` is an object, for every value in that object, if that
+>>>
+>>> If it's a dict, actually.
+>>>
+>>
+>> Sigh, yeah. Working at the boundary between two languages is going to
+>> murder what's left of my sanity, I can feel it.
+>>
+>>>> +    value is not itself already an object, normalize it to
+>>>> +    ``{'type': value}``.
+>>>> +
+>>>> +    :forms:
+>>>> +      :sugared: ``Dict[str, Union[str, TypeRef]]``
+>>>> +      :canonical: ``Dict[str, TypeRef]``
+>>>> +
+>>>> +    :param members: The members object to normalize.
+>>>> +    :return: None, ``members`` is normalized in-place as needed.
+>>>> +    """
+>>>>        if isinstance(members, dict):
+>>>>            for key, arg in members.items():
+>>>>                if isinstance(arg, dict):
+>>>> @@ -179,6 +293,23 @@ def check_type(value: Optional[object],
+>>>>                   source: str,
+>>>>                   allow_array: bool = False,
+>>>>                   allow_dict: Union[bool, str] = False) -> None:
+>>>> +    """
+>>>> +    Check the QAPI type of ``value``.
+>>>> +
+>>>> +    Python types of ``str`` or ``None`` are always allowed.
+>>>> +
+>>>> +    :param value:       The value to check.
+>>>> +    :param info:        QAPI Source file information.
+>>>> +    :param source:      Human-readable str describing this value.
+>>>> +    :param allow_array: Allow a ``List[str]`` of length 1,
+>>>> +                        which indicates an Array<T> type.
+>>>
+>>> Leaves open where T comes from.  Perhaps "indicates an array of the type
+>>> named by the list element".
+>>>
+>>
+>> Fair.
+>>
+>>>> +    :param allow_dict:  Allow a dict, treated as an anonymous type.
+>>>
+>>> "treated as anonymous type" isn't quite right.  The dict is either
+>>> MEMBERS or BRANCHES in qapi-code-gen.txt parlance.  The former is like
+>>> an anonymous struct type, the latter isn't.
+>>>
+>>
+>> Oh, yes. Ehm.
+>>
+>>>> +                        When given a string, check if that name is
+>>>> +                        allowed to have keys that use uppercase letters,
+>>>> +                        and modify validation accordingly.
+>>>
+>>> The second sentence feels both cryptic and vague.
+>>>
+>>
+>> This weird ol' function signature is not done torturing me.
+>>
+>> Maybe:
+>>
+>>       :param allow_dict: Allow a dict, which represents a union branch
+>>           or an anonymous struct type. This parameter may be given the
+>>           struct or union name ``value`` under consideration. In this
+>>           case, the name is used to conditionally allow less strict name
+>>           validation, based on `QAPISchemaPragma`.
+>>
+>> (Oh, you suggested a fix below. Oops.)
+>>
+>> Argh. Maybe I'll just 'fix' this to have a slightly more laborious
+>> signature.
+>>
+>> def check_type(value: Optional[object],
+>>                  info: QAPISourceInfo,
+>> 	       source: str,
+>> 	       allow_array: bool = False,
+>>                  allow_dict: bool = False,
+>>                  defn_name: str = '')
+>>
+>> and then
+>>
+>> -    permissive = False
+>> -    if isinstance(allow_dict, str):
+>> -        permissive = allow_dict in info.pragma.member_name_exceptions
+>> +    permissive = defn_name and defn_name in
+>> info.pragma.member_name_exceptions
+>>
+>> and callers just have to specify both:
+>>
+>> check_type(..., allow_dict=True, defn_name=name)
+>>
+>> and then say:
+>>
+>> :param allow_dict: Allow ``value`` to be a dict, representing a union
+>>       branch or an anonymous struct type.
+>> :param defn_name: The struct or union name under consideration. Used to
+>>       conditionally allow more permissive member name validation based on
+>>      `QAPISchemaPragma`.
+>>
+>>
+>> Stuff for later?
+> 
+> Later, please.
+> 
+>>>> +
+>>>> +    :return: None, ``value`` is normalized in-place as needed.
+>>>
+>>> First mention of normalization.  I think we normalize only dicts.
+>>>
+>>
+>> No, I also use that term in the docstrings for this module, check_if,
+>> and normalize_members above. (Maybe your review is non-linear. No problem.)
+> 
+> First mention *in this doc string*.  In some other doc strings, you
+> mention normalization in the description before you get to :returns:.
+> 
+
+Oh, I see. I made some edits for clarity.
+
+>> I consider desugaring a form of input normalization. I have mentioned it
+>> for :return: to suggest that although there is no return value on the
+>> stack, the value passed (or a descendant thereof) *may* be modified.
+>>
+>> (That is, this isn't "just" a check function, it CAN modify your input!)
+>>
+>> It may occur here because of our call to check_if().
+>>
+>>> Perhaps:
+>>>
+>>>          :param allow_dict: Allow a dict.  Its members can be struct type
+>>>              members or union branches.  When the value of @allow_dict is
+>>>              in pragma member-name-exceptions, the dict's keys may violate
+>>>              the member naming rules.  The dict members are normalized in
+>>>              place.
+>>>
+>>> Still neglects to explain we normalize.
+>>>
+>>> Also note the indentation style: it produces reasonable text width
+>>> regardless of parameter name length.  Slightly different way to get
+>>> that:
+>>>
+>>>          :param allow_dict:
+>>>              Allow a dict.  Its members can be struct type members or
+>>>              union branches.  When the value of @allow_dict is in pragma
+>>>              member-name-exceptions, the dict's keys may violate the
+>>>              member naming rules.  The dict members are normalized in
+>>>              place.
+>>>
+>>
+>> Oh, I like that style a lot -- it helps preserve the "term / definition"
+>> visual distinction. I may adopt that for any definition longer than a
+>> single-line.
+>>
+>> I'll probably adopt it for this patch and beyond.
+> 
+> You're welcome ;)
+> 
+>>>> +    """
+>>>>        if value is None:
+>>>>            return
+>>>>    
+>>>> @@ -227,6 +358,21 @@ def check_type(value: Optional[object],
+>>>>    
+>>>>    def check_features(features: Optional[object],
+>>>>                       info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Syntactically validate and normalize the ``features`` field.
+>>>> +
+>>>> +    ``features`` may be a ``list`` of either ``str`` or ``dict``.
+>>>> +    Any ``str`` element will be normalized to ``{'name': element}``.
+>>>> +
+>>>> +    :forms:
+>>>> +      :sugared: ``List[Union[str, Feature]]``
+>>>> +      :canonical: ``List[Feature]``
+>>>> +
+>>>> +    :param features: an optional list of either str or dict.
+>>>> +    :param info: QAPI Source file information.
+>>>> +
+>>>> +    :return: None, ``features`` is normalized in-place as needed.
+>>>> +    """
+>>>>        if features is None:
+>>>>            return
+>>>>        if not isinstance(features, list):
+>>>> @@ -244,6 +390,14 @@ def check_features(features: Optional[object],
+>>>>    
+>>>>    
+>>>>    def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Validate this expression as an ``enum`` definition.
+>>>> +
+>>>> +    :param expr: The expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>
+>>> Unlike the one for check_features(), this one doesn't describe how we
+>>> normalize.  More of the same below.  Observation, not demand.
+>>>
+>>
+>> I didn't mention specifics because another helper actually does the
+>> work; it's done through descendant calls on fields that may only be
+>> optionally present.
+>>
+>> I tried to keep a consistent phrasing for it.
+> 
+> This is another instance of the "how much detail to include" we
+> discussed above.
+> 
+
+I'm fine with the brevity here ... it's not untrue, and if you need 
+details, they're not hard to find.
+
+(Not sure it's worth repeating a more elaborate blurb in twenty places.)
+
+>>>>        name = expr['enum']
+>>>>        members = expr['data']
+>>>>        prefix = expr.get('prefix')
+>>>> @@ -273,6 +427,14 @@ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_struct(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Validate this expression as a ``struct`` definition.
+>>>> +
+>>>> +    :param expr: The expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>>        name = cast(str, expr['struct'])  # Asserted in check_exprs
+>>>>        members = expr['data']
+>>>>    
+>>>> @@ -281,6 +443,14 @@ def check_struct(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_union(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Validate this expression as a ``union`` definition.
+>>>> +
+>>>> +    :param expr: The expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>>        name = cast(str, expr['union'])  # Asserted in check_exprs
+>>>>        base = expr.get('base')
+>>>>        discriminator = expr.get('discriminator')
+>>>> @@ -309,6 +479,14 @@ def check_union(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_alternate(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Validate this expression as an ``alternate`` definition.
+>>>> +
+>>>> +    :param expr: The expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>>        members = expr['data']
+>>>>    
+>>>>        if not members:
+>>>> @@ -326,6 +504,14 @@ def check_alternate(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_command(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Validate this expression as a ``command`` definition.
+>>>> +
+>>>> +    :param expr: The expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>>        args = expr.get('data')
+>>>>        rets = expr.get('returns')
+>>>>        boxed = expr.get('boxed', False)
+>>>> @@ -337,6 +523,14 @@ def check_command(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_event(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>> +    """
+>>>> +    Normalize and validate this expression as an ``event`` definition.
+>>>> +
+>>>> +    :param expr: The expression to validate.
+>>>> +    :param info: QAPI source file information.
+>>>> +
+>>>> +    :return: None, ``expr`` is normalized in-place as needed.
+>>>> +    """
+>>>>        args = expr.get('data')
+>>>>        boxed = expr.get('boxed', False)
+>>>>    
+>>>> @@ -346,6 +540,15 @@ def check_event(expr: _JSONObject, info: QAPISourceInfo) -> None:
+>>>>    
+>>>>    
+>>>>    def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
+>>>> +    """
+>>>> +    Validate and normalize a list of parsed QAPI schema expressions.
+>>>> +
+>>>> +    This function accepts a list of expressions + metadta as returned by
+>>>
+>>> Typo: metadata.
+>>>
+>>
+>> I've invented a new kind of data, actually.
+>>
+>> (Fixed.)
+>>
+>>>> +    the parser. It destructively normalizes the expressions in-place.
+>>>> +
+>>>> +    :param exprs: The list of expressions to normalize/validate.
+>>>> +    :return: The same list of expressions (now modified).
+>>>> +    """
+>>>>        for expr_elem in exprs:
+>>>>            # Expression
+>>>>            assert isinstance(expr_elem['expr'], dict)
+>>
+>> Made a bunch of changes, but held off on trying to "finish" it; I want
+>> to make a checklist for myself to review with your counter-feedback and
+>> methodically revise it all in one shot.
+> 
+> Makes sense.
+> 
+>> Thanks!
+> 
+> Glad the effort is of some use!
+> 
+
+I've made a re-spin. Let's try something new, if you don't mind:
+
+I've pushed a "almost v5" copy onto my gitlab, where edits made against 
+this patch are in their own commit so that all of the pending edits I've 
+made are easily visible.
+
+Here's the "merge request", which I made against my own fork of master:
+https://gitlab.com/jsnow/qemu/-/merge_requests/1/diffs
+
+(It's marked "WIP", so there's no risk of me accidentally merging it -- 
+and if I did, it would be to my own "master" branch, so no worries about 
+us goofing this up.)
+
+If you click "Commits (21)" at the top, underneath "WIP: 
+python-qapi-cleanup-pt3", you can see the list of commits in the re-spin.
+
+(Four of these commits are the DO-NOT-MERGE ones I carry around as a 
+testing pre-requisite.)
+
+ From here, you can see the "[RFC] docstring diff" patch which shows all 
+the edits I've made so far based on your feedback and my tinkering.
+
+https://gitlab.com/jsnow/qemu/-/merge_requests/1/diffs?commit_id=3f0e9fb71304edb381ce3b9bf0ff08624fb277bc
+
+I invite you to leave feedback here on this view (and anywhere else in 
+the series that still needs adjusting, if you are so willing to humor 
+me) by highlighting the line and clicking the comment box icon on the 
+left. If you left-click and drag the comment box, you can target a range 
+of lines.
+
+(You can even propose a diff directly using this method, which allows me 
+to just accept your proposal directly.)
+
+If you leave any comments here, I can resolve each individual nugget of 
+feedback by clicking "Resolve Thread" in my view, which will help me 
+keep track of which items I believe I have addressed and which items I 
+have not. This will help me make sure I don't miss any of your feedback, 
+and it helps me keep track of what edits I've made for the next changelog.
+
+Willing to try it out?
+
+Once we're both happy with it, I will send it back to the list for final 
+assessment using our traditional process. Anyone else who wants to come 
+comment on the gitlab draft is of course more than welcome to.
+
+--js
+
 
