@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003CB366652
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 09:38:51 +0200 (CEST)
-Received: from localhost ([::1]:50332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E555D366657
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 09:41:48 +0200 (CEST)
+Received: from localhost ([::1]:53038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ7Rj-0001s7-3I
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 03:38:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45718)
+	id 1lZ7UZ-00037j-O4
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 03:41:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
- id 1lZ7PT-0000vJ-B8
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:36:31 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.21]:15762)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lZ7TG-0002aA-VO; Wed, 21 Apr 2021 03:40:26 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
- id 1lZ7PQ-0000zz-Ls
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 03:36:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1618990579; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=XYnwc/KouSUoj9yAacizwaNcjcsntLXiqn/3QC06ZAPfnQXzkOVyuZfUcCEq8uKcWp
- QvPURwtWA56rEsiTMZ4fORcw52RwW9KGOi8Xk5H6kxCSrfqPTQyYOFneU3MR3DzLr6EP
- hUW8QQe06EhonJP8yJ19L+Ace4RA09r8+0GZYNzSJUEhqCpgRfCEQ4ASUBbpjQtqoyKF
- vsCAFqcGc2l2ElwCPValcD0uwXmfc6/+Hk0vNJX7AXhbf3IFjOOO7gEOWW6dAyfdYN+b
- 5WS2eD3LummMlezO6LUkHBAWlVYpJ+TsXrRFjfmfvY8qPtSYvwqvUjnNSB2fsLw1GFaH
- aZYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1618990579;
- s=strato-dkim-0002; d=strato.com;
- h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
- From:Subject:Sender;
- bh=Vp8Yq3XNWEv9Esu1MxarFxhzttR5WQUPqpvSWqi+nig=;
- b=eHbLv6LowG4cNfM0ie/4cu8oyZWLtSgO6FHGZzDVTSlI/S9tPhCLNiaj5AwttyLSrx
- MGMyp0jPI/soGAoTNTCyH0ZZiFxGSy+ng4Sb2/3cbFyUEe1dApFgQ5NLiOEcMkKcTdUH
- ZS73J1ijq9+I2hWNciiuy7TuJWDMpGN8mrDz4Grnyyu+4i4XLaoovOtFsnTD5qFg0BV3
- /wPgGr22wMpwjqAOvfd9dSDz2FSzpV5lLlrEh6w6h3CQBbX1ekYZBe9YXX7pBfO/aCnH
- fspAR80kAr8Q6msPgqHWN/wEaxa8dH0KXkpYEMFxHctSPNYh3VzwY5jxEBMBiuFKTBTf
- SzuQ==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JSSHyzkN3ON0Uun6F+zrkVqc/ZmTClqC4x8TtiRZHkgvdiKE9vpOcNvUp/CcHtmvnEw=="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2003:c3:9710:2300:1761:34f8:11a8:6e99]
- by smtp.strato.de (RZmta 47.24.3 AUTH)
- with ESMTPSA id U051a9x3L7aHLNZ
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 21 Apr 2021 09:36:17 +0200 (CEST)
-Subject: Re: [PATCH v2] hw/riscv: Fix OT IBEX reset vector
-To: Alistair Francis <alistair23@gmail.com>
-References: <20210420080008.119798-1-alexander.wagner@ulal.de>
- <CAKmqyKNhDyO+jLgKnH6ixZkfzCCJYhVG7KUfrs5vzSSKwjCSTw@mail.gmail.com>
-From: Alexander Wagner <alexander.wagner@ulal.de>
-Message-ID: <835877d6-6ed9-b0d9-2579-bbf48ce68bde@ulal.de>
-Date: Wed, 21 Apr 2021 09:36:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lZ7TD-0003DY-CO; Wed, 21 Apr 2021 03:40:26 -0400
+Received: from dggeml405-hub.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FQC7q6cFqz5spD;
+ Wed, 21 Apr 2021 15:37:43 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggeml405-hub.china.huawei.com (10.3.17.49) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Wed, 21 Apr 2021 15:40:06 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Wed, 21 Apr 2021 15:40:05 +0800
+Subject: Re: [RFC PATCH v2 0/6] hw/arm/virt: Introduce cpu topology support
+To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Shannon Zhao
+ <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <0a40b022-535a-a06d-b0a1-84be049f8d9e@huawei.com>
+Date: Wed, 21 Apr 2021 15:40:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKNhDyO+jLgKnH6ixZkfzCCJYhVG7KUfrs5vzSSKwjCSTw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210413080745.33004-1-wangyanan55@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: none client-ip=85.215.255.21;
- envelope-from=alexander.wagner@ulal.de; helo=mo4-p00-ob.smtp.rzone.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,34 +67,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Alistair Francis <alistair.francis@wdc.com>, wanghaibin.wang@huawei.com,
+ yuzenghui@huawei.com, yangyicong@huawei.com, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hey guys, any comments will be really welcomed and appreciated! 😉
 
-On 21.04.21 02:00, Alistair Francis wrote:
-> On Tue, Apr 20, 2021 at 6:01 PM Alexander Wagner
-> <alexander.wagner@ulal.de> wrote:
->> The IBEX documentation [1] specifies the reset vector to be "the most
->> significant 3 bytes of the boot address and the reset value (0x80) as
->> the least significant byte".
->>
->> [1] https://github.com/lowRISC/ibex/blob/master/doc/03_reference/exception_interrupts.rst
->>
->> Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Thanks!
+Thanks,
+Yanan
+On 2021/4/13 16:07, Yanan Wang wrote:
+> Hi,
 >
-> Applied to riscv-to-apply.next
-
-Perfect, thank you :)
-
-Regards
-
-Alex
-
+> This series is a new version of [0] recently posted by Ying Fang
+> to introduce cpu topology support for ARM platform. I have taken
+> over his work about this now, thanks for his contribution.
+>
+> Description:
+> An accurate cpu topology may help improve the cpu scheduler's decision
+> making when dealing with multi-core system. So cpu topology description
+> is helpful to provide guest with the right view. Dario Faggioli's talk
+> in [1] also shows the virtual topology could have impact on scheduling
+> performace. Thus this patch series introduces cpu topology support for
+> ARM platform.
+>
+> This series originally comes from Andrew Jones's patches [2], but with
+> some re-arrangement. Thanks for Andrew's contribution. In this series,
+> both fdt and ACPI PPTT table are introduced to present cpu topology to
+> the guest. And a new function virt_smp_parse() not like the default
+> smp_parse() is introduced, which prefers cores over sockets.
+>
+> [0] https://patchwork.kernel.org/project/qemu-devel/cover/20210225085627.2263-1-fangying1@huawei.com/
+> [1] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines-friend-or-foe-dario-faggioli-suse
+> [2] https://github.com/rhdrjones/qemu/commit/ecfc1565f22187d2c715a99bbcd35cf3a7e428fa
+>
+> Test results:
+> After applying this patch series, launch a guest with virt-6.0 and cpu
+> topology configured with: -smp 96,sockets=2,clusters=6,cores=4,threads=2,
+> VM's cpu topology description shows as below.
+>
+> Architecture:        aarch64
+> Byte Order:          Little Endian
+> CPU(s):              96
+> On-line CPU(s) list: 0-95
+> Thread(s) per core:  2
+> Core(s) per socket:  24
+> Socket(s):           2
+> NUMA node(s):        1
+> Vendor ID:           0x48
+> Model:               0
+> Stepping:            0x1
+> BogoMIPS:            200.00
+> NUMA node0 CPU(s):   0-95
+>
+> ---
+>
+> Changelogs:
+> v1->v2:
+> - Address Andrew Jones's comments
+> - Address Michael S. Tsirkin's comments
+> - Pick up one more patch(patch#6) of Andrew Jones
+> - Rebased on v6.0.0-rc2 release
+>
+> ---
+>
+> Andrew Jones (3):
+>    device_tree: Add qemu_fdt_add_path
+>    hw/arm/virt: DT: Add cpu-map
+>    hw/arm/virt: Replace smp_parse with one that prefers cores
+>
+> Yanan Wang (2):
+>    hw/acpi/aml-build: Add processor hierarchy node structure
+>    hw/arm/virt-acpi-build: Add PPTT table
+>
+> Ying Fang (1):
+>    hw/arm/virt-acpi-build: Distinguish possible and present cpus
+>
+>   hw/acpi/aml-build.c          |  27 ++++++++
+>   hw/arm/virt-acpi-build.c     |  77 ++++++++++++++++++++--
+>   hw/arm/virt.c                | 120 ++++++++++++++++++++++++++++++++++-
+>   include/hw/acpi/aml-build.h  |   4 ++
+>   include/hw/arm/virt.h        |   1 +
+>   include/sysemu/device_tree.h |   1 +
+>   softmmu/device_tree.c        |  45 ++++++++++++-
+>   7 files changed, 268 insertions(+), 7 deletions(-)
+>
 
