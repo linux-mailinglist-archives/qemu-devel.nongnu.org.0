@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DE4366FC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 18:16:07 +0200 (CEST)
-Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A202A367042
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 18:34:28 +0200 (CEST)
+Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZFWI-0008Ou-5K
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 12:16:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58338)
+	id 1lZFo1-0006wt-CR
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 12:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lZFTw-0007ok-31; Wed, 21 Apr 2021 12:13:43 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:40718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lZFTq-0005ke-RZ; Wed, 21 Apr 2021 12:13:38 -0400
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 766002E1619;
- Wed, 21 Apr 2021 19:13:26 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- hrkDPwRetg-DP1SqDRI; Wed, 21 Apr 2021 19:13:26 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1619021606; bh=i1eZNSVT2wKKAtaQsZMQkXKqdqlNcalRjl7e2/VigA0=;
- h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
- b=CeTq1S2Nzv6fKw37M5kpAC8G6ln5Pqi45uxAxLXzCSQc19VtJMUy0Fx+LZRd0/RVI
- wD2TnJBUln1/uDzDcs7PQv3yQogGHCQrZsG7hp2hJs5MvbRspvVk1qEeqD9Y49v8IL
- fgjocjuyQ9qzKKCNCjHk79ymhYqGCJDQmvi/hMIo=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8817::1:9])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- vEgXujTXgD-DPpqBwMj; Wed, 21 Apr 2021 19:13:25 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Subject: Re: [PATCH v3 2/3] vhost-user-blk: perform immediate cleanup if
- disconnect on initialization
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
- <20210325151217.262793-3-den-plotnikov@yandex-team.ru>
- <YIBDlEQ0AlRc9r0y@merkur.fritz.box>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-Message-ID: <88b9912e-97d3-f18a-b3cc-7891f3c55e3a@yandex-team.ru>
-Date: Wed, 21 Apr 2021 19:13:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lZFlz-0006Ma-AP
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 12:32:19 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:43596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lZFlx-0005np-1F
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 12:32:19 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ p10-20020a1c544a0000b02901387e17700fso1562155wmi.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 09:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=rUPq1qAiavyLmkzqnrVkSjeWGL8RDEvYmUpWI64UGBc=;
+ b=NCOwNnEC6mSethzLB22iIEaW1S299sFh3aa2DuBl/gW9FiKp7ypiczmXbP3oSKcMUA
+ lz/RLdged7yuJVOFDRzOjDR3yZCXoDR7gnBe7U+4ve0o0deFjUovB7wTYCj3ISIf64JD
+ b+2Fg9lOElDioMMVB3qMkGVI06/5LhC1t8xFA/ptWrA0Lc2bytkGHaXmgsJp738xBNa9
+ 87DR0aS25Kznuho9XXtEdxJTZAvwqQu4W/+JqKjmSFwaPxwQbumCSROmc0XiYbzVdiCY
+ 1ZNeHwu3wKlu0hmJji8PcGfvdVSGOme0F3I32APM6TSaZDmz/EqlUpeZDi4Z9Wzow7ct
+ oj0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=rUPq1qAiavyLmkzqnrVkSjeWGL8RDEvYmUpWI64UGBc=;
+ b=oGbsxbwEGJEA2MBgjtLX/InxAWJPob72xzYB/6JqArGRuZGZMiDXJBeinOyoSnYZu/
+ UkzWeee01RcXgZ2hIBP3OG1ssMe+bSnKOJ5VCL5n9Eiw950Ieg858+QuSLG43aM3YYR7
+ vx552UerYpzth0oYd1uqxbOWreHEK3cgdjWuh6dYlTMpYk+NXhU+tSb+3j3Moc6xU6q6
+ b3hs9q1Lx2oN2WXaOcljp5fT0xQ5s3k5d9ctC0qIp72yTwZXnU3yWGcNR1Z9keTLZsiN
+ YXjO8XK5PJL53yYcdUREOi7BRVn5cAc2rbh13AQupZzt9/wtg9PefTo8lyD6KgopQcVI
+ zmjw==
+X-Gm-Message-State: AOAM533hJ9NP0dQ5zTWQOwgLpKbQJyysdQ59FxlXnZrLNwhORyfP8bx9
+ ZH7BRaWraEvmU8e2MbmLHX1e0A==
+X-Google-Smtp-Source: ABdhPJy/C3jfg5SoZlXsItZ4Trd1rCWjoLAs/ejCBA0uMBuC3cbxN+Iiuo5jUnZ0RdV8JRJKj7zFXw==
+X-Received: by 2002:a05:600c:2d56:: with SMTP id
+ a22mr10708066wmg.175.1619022734893; 
+ Wed, 21 Apr 2021 09:32:14 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l5sm2765609wmh.0.2021.04.21.09.32.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Apr 2021 09:32:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1F9951FF7E;
+ Wed, 21 Apr 2021 17:32:13 +0100 (BST)
+References: <20210421132931.11127-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH] tests/tcg: add a multiarch signals test to stress
+ test signal delivery
+Date: Wed, 21 Apr 2021 17:21:32 +0100
+In-reply-to: <20210421132931.11127-1-alex.bennee@linaro.org>
+Message-ID: <875z0f8upe.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YIBDlEQ0AlRc9r0y@merkur.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,178 +89,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, mst@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, yc-core@yandex-team.ru, raphael.norwitz@nutanix.com
+Cc: fam@euphon.net, berrange@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Laurent Vivier <laurent@vivier.eu>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 21.04.2021 18:24, Kevin Wolf wrote:
-> Am 25.03.2021 um 16:12 hat Denis Plotnikov geschrieben:
->> Commit 4bcad76f4c39 ("vhost-user-blk: delay vhost_user_blk_disconnect")
->> introduced postponing vhost_dev cleanup aiming to eliminate qemu aborts
->> because of connection problems with vhost-blk daemon.
->>
->> However, it introdues a new problem. Now, any communication errors
->> during execution of vhost_dev_init() called by vhost_user_blk_device_realize()
->> lead to qemu abort on assert in vhost_dev_get_config().
->>
->> This happens because vhost_user_blk_disconnect() is postponed but
->> it should have dropped s->connected flag by the time
->> vhost_user_blk_device_realize() performs a new connection opening.
->> On the connection opening, vhost_dev initialization in
->> vhost_user_blk_connect() relies on s->connection flag and
->> if it's not dropped, it skips vhost_dev initialization and returns
->> with success. Then, vhost_user_blk_device_realize()'s execution flow
->> goes to vhost_dev_get_config() where it's aborted on the assert.
->>
->> To fix the problem this patch adds immediate cleanup on device
->> initialization(in vhost_user_blk_device_realize()) using different
->> event handlers for initialization and operation introduced in the
->> previous patch.
->> On initialization (in vhost_user_blk_device_realize()) we fully
->> control the initialization process. At that point, nobody can use the
->> device since it isn't initialized and we don't need to postpone any
->> cleanups, so we can do cleaup right away when there is a communication
->> problem with the vhost-blk daemon.
->> On operation we leave it as is, since the disconnect may happen when
->> the device is in use, so the device users may want to use vhost_dev's data
->> to do rollback before vhost_dev is re-initialized (e.g. in vhost_dev_set_log()).
->>
->> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
->> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> I think there is something wrong with this patch.
->
-> I'm debugging an error case, specifically num-queues being larger in
-> QEMU that in the vhost-user-blk export. Before this patch, it has just
-> an unfriendly error message:
->
-> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Unexpected end-of-file before all data were read
-> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Failed to read msg header. Read 0 instead of 12. Original request 24.
-> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: vhost-user-blk: get block config failed
-> qemu-system-x86_64: Failed to set msg fds.
-> qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Resource temporarily unavailable (11)
->
-> After the patch, it crashes:
->
-> #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
-> #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
-> #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-> #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
-> #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
-> #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
-> #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
-> #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
-> #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
-> #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
->
-> The problem is that vhost_user_read_cb() still accesses dev->opaque even
-> though the device has been cleaned up meanwhile when the connection was
-> closed (the vhost_user_blk_disconnect() added by this patch), so it's
-> NULL now. This problem was actually mentioned in the comment that is
-> removed by this patch.
->
-> I tried to fix this by making vhost_user_read() cope with the fact that
-> the device might have been cleaned up meanwhile, but then I'm running
-> into the next set of problems.
->
-> The first is that retrying is pointless, the error condition is in the
-> configuration, it will never change.
->
-> The other is that after many repetitions of the same error message, I
-> got a crash where the device is cleaned up a second time in
-> vhost_dev_init() and the virtqueues are already NULL.
->
-> So it seems to me that erroring out during the initialisation phase
-> makes a lot more sense than retrying.
->
-> Kevin
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-But without the patch there will be another problem which the patch 
-actually addresses.
-
-It seems to me that there is a case when the retrying is useless and 
-this is exactly your case -- we'll never get a proper configuration.
-
-What if we get rid of the re-connection and give the only try to realize 
-the device? Than we don't need case separating for initialization and 
-operation of device, correct? But I don't familiar with the cases where 
-the reconnect is needed? Do you know something it?
-
-Denis
-
+> This adds a simple signal test that combines the POSIX timer_create
+> with signal delivery across multiple threads.
 >
->>   hw/block/vhost-user-blk.c | 48 +++++++++++++++++++--------------------
->>   1 file changed, 24 insertions(+), 24 deletions(-)
->>
->> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
->> index 1af95ec6aae7..4e215f71f152 100644
->> --- a/hw/block/vhost-user-blk.c
->> +++ b/hw/block/vhost-user-blk.c
->> @@ -402,38 +402,38 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
->>           break;
->>       case CHR_EVENT_CLOSED:
->>           /*
->> -         * A close event may happen during a read/write, but vhost
->> -         * code assumes the vhost_dev remains setup, so delay the
->> -         * stop & clear. There are two possible paths to hit this
->> -         * disconnect event:
->> -         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
->> -         * vhost_user_blk_device_realize() is a caller.
->> -         * 2. In tha main loop phase after VM start.
->> -         *
->> -         * For p2 the disconnect event will be delayed. We can't
->> -         * do the same for p1, because we are not running the loop
->> -         * at this moment. So just skip this step and perform
->> -         * disconnect in the caller function.
->> -         *
->> -         * TODO: maybe it is a good idea to make the same fix
->> -         * for other vhost-user devices.
->> +         * Closing the connection should happen differently on device
->> +         * initialization and operation stages.
->> +         * On initalization, we want to re-start vhost_dev initialization
->> +         * from the very beginning right away when the connection is closed,
->> +         * so we clean up vhost_dev on each connection closing.
->> +         * On operation, we want to postpone vhost_dev cleanup to let the
->> +         * other code perform its own cleanup sequence using vhost_dev data
->> +         * (e.g. vhost_dev_set_log).
->>            */
->>           if (realized) {
->> +            /*
->> +             * A close event may happen during a read/write, but vhost
->> +             * code assumes the vhost_dev remains setup, so delay the
->> +             * stop & clear.
->> +             */
->>               AioContext *ctx = qemu_get_current_aio_context();
->>   
->>               qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
->>                       NULL, NULL, false);
->>               aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
->> -        }
->>   
->> -        /*
->> -         * Move vhost device to the stopped state. The vhost-user device
->> -         * will be clean up and disconnected in BH. This can be useful in
->> -         * the vhost migration code. If disconnect was caught there is an
->> -         * option for the general vhost code to get the dev state without
->> -         * knowing its type (in this case vhost-user).
->> -         */
->> -        s->dev.started = false;
->> +            /*
->> +             * Move vhost device to the stopped state. The vhost-user device
->> +             * will be clean up and disconnected in BH. This can be useful in
->> +             * the vhost migration code. If disconnect was caught there is an
->> +             * option for the general vhost code to get the dev state without
->> +             * knowing its type (in this case vhost-user).
->> +             */
->> +            s->dev.started = false;
->> +        } else {
->> +            vhost_user_blk_disconnect(dev);
->> +        }
->>           break;
->>       case CHR_EVENT_BREAK:
->>       case CHR_EVENT_MUX_IN:
->> -- 
->> 2.25.1
->>
+> [AJB: So I wrote this in an attempt to flush out issues with the
+> s390x-linux-user handling. However I suspect I've done something wrong
+> or opened a can of signal handling worms.
+>
+> Nominally this runs fine on real hardware but I variously get failures
+> when running it under translation and while debugging QEMU running the
+> test. I've also exposed a shortcomming with the gdb stub when dealing
+> with guest TLS data so yay ;-). So I post this as an RFC in case
+> anyone else can offer insight or can verify they are seeing the same
+> strange behaviour?]
+
+To further document my confusion:
+
+  gdb --args $QEMU ./tests/tcg/$ARCH/signals
+
+will SEGV in generated code for every target I've run. This seems to be
+some sort of change of behaviour by running inside a debug environment.
+
+Architectures that fail running normally:
+
+./qemu-alpha tests/tcg/alpha-linux-user/signals
+fish: =E2=80=9C./qemu-alpha tests/tcg/alpha-li=E2=80=A6=E2=80=9D terminated=
+ by signal SIGILL (Illegal instruction)
+
+./qemu-sparc64 tests/tcg/sparc64-linux-user/signals
+thread0: started
+thread1: started
+thread2: started
+thread3: started
+thread4: started
+thread5: started
+thread6: started
+thread7: started
+thread8: started
+thread9: started
+thread0: saw 0 alarms from 0
+...
+(and hangs)
+
+./qemu-s390x ./tests/tcg/s390x-linux-user/signals
+fish: =E2=80=9C./qemu-s390x ./tests/tcg/s390x-=E2=80=A6=E2=80=9D terminated=
+ by signal SIGSEGV (Address boundary error)
+
+./qemu-sh4 ./tests/tcg/sh4-linux-user/signals
+thread0: saw 87 alarms from 238
+thread1: started
+thread1: saw 0 alarms from 331
+thread2: started
+thread2: saw 0 alarms from 17088
+thread3: started
+thread3: saw 0 alarms from 17093
+thread4: started
+thread4: saw 0 alarms from 17098
+thread5: started
+thread5: saw 2 alarms from 17106
+thread6: started
+thread6: saw 0 alarms from 17108
+thread7: started
+thread7: saw 1 alarms from 17114
+thread8: started
+thread8: saw 0 alarms from 17118
+thread9: started
+thread9: saw 0 alarms from 17122
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+fish: =E2=80=9C./qemu-sh4 ./tests/tcg/sh4-linu=E2=80=A6=E2=80=9D terminated=
+ by signal SIGSEGV (Address boundary error)
+
+And another completely random data point while most arches see most
+signals delivered to the main thread qemu-i386 actually sees quite a few
+delivered to the other threads which is weird because I though the
+signal delivery would be more of a host feature than anything else.
+
+./qemu-i386 ./tests/tcg/i386-linux-user/signals
+thread0: started
+thread0: saw 134 alarms from 177
+thread1: started
+thread1: saw 0 alarms from 254
+thread2: started
+thread2: saw 1 alarms from 300
+thread3: started
+thread3: saw 1 alarms from 305
+thread4: started
+thread5: started
+thread6: started
+thread7: started
+thread8: started
+thread9: started
+thread4: saw 80 alarms from 423
+thread5: saw 7 alarms from 525
+thread6: saw 4 alarms from 631
+thread7: saw 6 alarms from 758
+thread8: saw 4 alarms from 822
+thread9: saw 635 alarms from 978
+
+
+--=20
+Alex Benn=C3=A9e
 
