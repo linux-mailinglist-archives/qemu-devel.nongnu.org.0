@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B533F36729B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 20:32:51 +0200 (CEST)
-Received: from localhost ([::1]:35658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E989367295
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 20:32:17 +0200 (CEST)
+Received: from localhost ([::1]:34260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZHec-00034S-Pc
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 14:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59170)
+	id 1lZHe4-0002O5-I2
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 14:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHTE-0002fY-UT
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHT5-0003jF-L6
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHTD-0002eo-Vo
  for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZHT6-0003jJ-Ip
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 14:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1619029253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aNPuDjlzYZv7X4W22XPxHgrEzXbjOqDXdoTzrPEFegE=;
- b=DZ6dTj1ZEJ1Gt1thZ4viYofhTKhvcxQjVJCXenJdINXA2xzGSdFz1V0Y2LftArAyHiDkal
- qk2z5TftItd3HpGe0YV0aYb3GFYO4nFEZoVfEdpioe5gJP4NPwcskD5uhmdEVU5WwK60dB
- YzZjuwOpDBVZ8KaMj0dhwHA2+6p1Q1g=
+ bh=4cwfQBjf9lsMKoyMGuJA5u2wvERoemFHLtBrUwqTk/k=;
+ b=NteEpw5JqHgLzpPw62M9zkQ2818Vy5ThmjGjYgVj0AoqLuBtkPbkn6nzVr6++D3yLxLlDb
+ gZvW9O1yYfb0KBCBD9MneELRfWo8aOmE61oRj0DhfSy2YJ1U/R1Lf366y2ari5tkiQYuOp
+ JXNmEDmNapHUfzMkJEdeLO9vhAaB5m4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-AJ5KfRCjPUOL-hhm3rHP6g-1; Wed, 21 Apr 2021 14:20:51 -0400
-X-MC-Unique: AJ5KfRCjPUOL-hhm3rHP6g-1
+ us-mta-509-J8FAnJenOH2jLS3LDhIvgg-1; Wed, 21 Apr 2021 14:20:52 -0400
+X-MC-Unique: J8FAnJenOH2jLS3LDhIvgg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CAF98030A0;
- Wed, 21 Apr 2021 18:20:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A26B18B6142;
+ Wed, 21 Apr 2021 18:20:51 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-152.rdu2.redhat.com [10.10.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3669B19D80;
- Wed, 21 Apr 2021 18:20:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 589D419701;
+ Wed, 21 Apr 2021 18:20:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 11/17] qapi/expr.py: Consolidate check_if_str calls in
- check_if
-Date: Wed, 21 Apr 2021 14:20:26 -0400
-Message-Id: <20210421182032.3521476-12-jsnow@redhat.com>
+Subject: [PATCH v5 12/17] qapi/expr.py: Remove single-letter variable
+Date: Wed, 21 Apr 2021 14:20:27 -0400
+Message-Id: <20210421182032.3521476-13-jsnow@redhat.com>
 In-Reply-To: <20210421182032.3521476-1-jsnow@redhat.com>
 References: <20210421182032.3521476-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,77 +82,37 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a small rewrite to address some minor style nits.
-
-Don't compare against the empty list to check for the empty condition, and
-move the normalization forward to unify the check on the now-normalized
-structure.
-
-With the check unified, the local nested function isn't needed anymore
-and can be brought down into the normal flow of the function. With the
-nesting level changed, shuffle the error strings around a bit to get
-them to fit in 79 columns.
-
-Note: although ifcond is typed as Sequence[str] elsewhere, we *know* that
-the parser will produce real, bona-fide lists. It's okay to check
-isinstance(ifcond, list) here.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+ scripts/qapi/expr.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 4ebed4c4884..de7fc16fac2 100644
+index de7fc16fac2..5e4d5f80aa7 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -146,30 +146,29 @@ def check_flags(expr: _JSONObject, info: QAPISourceInfo) -> None:
- 
- def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
- 
--    def check_if_str(ifcond: object) -> None:
--        if not isinstance(ifcond, str):
--            raise QAPISemError(
--                info,
--                "'if' condition of %s must be a string or a list of strings"
--                % source)
--        if ifcond.strip() == '':
--            raise QAPISemError(
--                info,
--                "'if' condition '%s' of %s makes no sense"
--                % (ifcond, source))
--
-     ifcond = expr.get('if')
-     if ifcond is None:
-         return
-+
-     if isinstance(ifcond, list):
--        if ifcond == []:
-+        if not ifcond:
-             raise QAPISemError(
-                 info, "'if' condition [] of %s is useless" % source)
--        for elt in ifcond:
--            check_if_str(elt)
-     else:
--        check_if_str(ifcond)
--        expr['if'] = [ifcond]
-+        # Normalize to a list
-+        ifcond = expr['if'] = [ifcond]
-+
-+    for elt in ifcond:
-+        if not isinstance(elt, str):
-+            raise QAPISemError(
-+                info,
-+                "'if' condition of %s must be a string or a list of strings"
-+                % source)
-+        if not elt.strip():
-+            raise QAPISemError(
-+                info,
-+                "'if' condition '%s' of %s makes no sense"
-+                % (elt, source))
+@@ -238,14 +238,14 @@ def check_features(features: Optional[object],
+         raise QAPISemError(info, "'features' must be an array")
+     features[:] = [f if isinstance(f, dict) else {'name': f}
+                    for f in features]
+-    for f in features:
++    for feat in features:
+         source = "'features' member"
+-        assert isinstance(f, dict)
+-        check_keys(f, info, source, ['name'], ['if'])
+-        check_name_is_str(f['name'], info, source)
+-        source = "%s '%s'" % (source, f['name'])
+-        check_name_lower(f['name'], info, source)
+-        check_if(f, info, source)
++        assert isinstance(feat, dict)
++        check_keys(feat, info, source, ['name'], ['if'])
++        check_name_is_str(feat['name'], info, source)
++        source = "%s '%s'" % (source, feat['name'])
++        check_name_str(feat['name'], info, source)
++        check_if(feat, info, source)
  
  
- def normalize_members(members: object) -> None:
+ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
 -- 
 2.30.2
 
