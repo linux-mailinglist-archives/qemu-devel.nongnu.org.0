@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACD4367370
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 21:28:18 +0200 (CEST)
-Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF51C36736A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 21:28:07 +0200 (CEST)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZIWH-0000T4-9F
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 15:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
+	id 1lZIW7-000070-0f
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 15:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZIQz-0003ql-SS
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 15:22:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20994)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZIQw-0003j0-JX
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 15:22:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZIQy-0005aZ-1h
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 15:22:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZIQv-0005Yw-3F
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 15:22:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619032967;
+ s=mimecast20190719; t=1619032964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EW3Kri7fJM7UoCzllKDsdwY/tpGuX1B83+UwKw9TpzE=;
- b=VWjsgDsMXImVm3ilz6qfSLn/QsjKZ1TooWaPwBOhoZOM0DsnvNRmr61UYXCBiXnPkvz4W0
- 8fKY9yQiaXU7FCYjrYvgrmdrKaFDSXwwKV/sBpS8IVbQM8G/1lr05XwegdzzGqPuE4VMdX
- jqixSicnZDmwhxZ3Z4NZELkxD0qqE5E=
+ bh=1HZ54izTjiISS10lHuMMPhWPYTcoMyywaeGobK3r3Nw=;
+ b=KnyVHmGoMkd6HuqsNseq5jevm1zdmpE2+Y7MjFcjM+UfAUimNom94dJhOzTi0ZazpnWDrg
+ aloAWTz2qhr1U6YdiEAJREEyLsAcN0g+fe0jnMRtiQLCIlsgw965ipxoi77J6aai5RWjqQ
+ CnWm1g2Ew3uCSxNrTZdIfA1ImTJK8Vk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-m5HAR9SqMNuEen7JqLG_ug-1; Wed, 21 Apr 2021 15:22:40 -0400
-X-MC-Unique: m5HAR9SqMNuEen7JqLG_ug-1
+ us-mta-141-ktbQ7b1ePGmup3oDaM57Lw-1; Wed, 21 Apr 2021 15:22:41 -0400
+X-MC-Unique: ktbQ7b1ePGmup3oDaM57Lw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A780B87A83C;
- Wed, 21 Apr 2021 19:22:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DBEB189829A;
+ Wed, 21 Apr 2021 19:22:40 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-152.rdu2.redhat.com [10.10.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D88BA5C1B4;
- Wed, 21 Apr 2021 19:22:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0CC75C1B4;
+ Wed, 21 Apr 2021 19:22:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v3 5/8] qapi/error.py: move QAPIParseError to parser.py
-Date: Wed, 21 Apr 2021 15:22:30 -0400
-Message-Id: <20210421192233.3542904-6-jsnow@redhat.com>
+Subject: [PATCH v3 6/8] qapi/error.py: enable pylint checks
+Date: Wed, 21 Apr 2021 15:22:31 -0400
+Message-Id: <20210421192233.3542904-7-jsnow@redhat.com>
 In-Reply-To: <20210421192233.3542904-1-jsnow@redhat.com>
 References: <20210421192233.3542904-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,94 +83,25 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keeping it in error.py will create some cyclic import problems when we
-add types to the QAPISchemaParser. Callers don't need to know the
-details of QAPIParseError unless they are parsing or dealing directly
-with the parser, so this won't create any harsh new requirements for
-callers in the general case.
-
-Update error.py with a little docstring that gives a nod to where the
-error may now be found.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/error.py  | 22 ++++++++--------------
- scripts/qapi/parser.py | 14 +++++++++++++-
- 2 files changed, 21 insertions(+), 15 deletions(-)
+ scripts/qapi/pylintrc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/error.py b/scripts/qapi/error.py
-index d0bc7af6e76..6723c5a9d9a 100644
---- a/scripts/qapi/error.py
-+++ b/scripts/qapi/error.py
-@@ -1,7 +1,5 @@
- # -*- coding: utf-8 -*-
- #
--# QAPI error classes
--#
- # Copyright (c) 2017-2019 Red Hat Inc.
- #
- # Authors:
-@@ -11,6 +9,14 @@
- # This work is licensed under the terms of the GNU GPL, version 2.
- # See the COPYING file in the top-level directory.
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index fb0386d529a..88efbf71cb2 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -2,8 +2,7 @@
  
-+"""
-+QAPI error classes
-+
-+Common error classes used throughout the package.  Additional errors may
-+be defined in other modules.  At present, `QAPIParseError` is defined in
-+parser.py.
-+"""
-+
- 
- class QAPIError(Exception):
-     """Base class for all exceptions from the QAPI package."""
-@@ -33,17 +39,5 @@ def __str__(self):
-         return loc + ': ' + self.msg
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+-ignore-patterns=error.py,
+-                parser.py,
++ignore-patterns=parser.py,
+                 schema.py,
  
  
--class QAPIParseError(QAPISourceError):
--    """Error class for all QAPI schema parsing errors."""
--    def __init__(self, parser, msg):
--        col = 1
--        for ch in parser.src[parser.line_pos:parser.pos]:
--            if ch == '\t':
--                col = (col + 7) % 8 + 1
--            else:
--                col += 1
--        super().__init__(parser.info, msg, col)
--
--
- class QAPISemError(QAPISourceError):
-     """Error class for semantic QAPI errors."""
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 58267c3db9e..ca5e8e18e00 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -18,10 +18,22 @@
- import os
- import re
- 
--from .error import QAPIParseError, QAPISemError
-+from .error import QAPISemError, QAPISourceError
- from .source import QAPISourceInfo
- 
- 
-+class QAPIParseError(QAPISourceError):
-+    """Error class for all QAPI schema parsing errors."""
-+    def __init__(self, parser, msg):
-+        col = 1
-+        for ch in parser.src[parser.line_pos:parser.pos]:
-+            if ch == '\t':
-+                col = (col + 7) % 8 + 1
-+            else:
-+                col += 1
-+        super().__init__(parser.info, msg, col)
-+
-+
- class QAPISchemaParser:
- 
-     def __init__(self, fname, previously_included=None, incl_info=None):
 -- 
 2.30.2
 
