@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DFB366723
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 10:42:34 +0200 (CEST)
-Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80144366735
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 10:44:41 +0200 (CEST)
+Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ8RN-0001YD-N7
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 04:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57916)
+	id 1lZ8TQ-0002xP-KT
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 04:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lZ8O2-0000H2-P3
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 04:39:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lZ8O0-0006Dg-Kk
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 04:39:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618994343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yWCMz4mYSbqdAd7zyeen2IUuHZtgVCsu1RCNvFwitKM=;
- b=FthT3Le2xUGXamMLgRP6q/JMMDWPix/5eaHYYhTo2BcLE1RhYw6HHU8pZ0j9qg/xjZR/xX
- adTUX7aPlo/g/4eUD+oUc9YFMyzh0oP5fcNeYjpTFsF1KNpIwaH7aL/6Ln5uGOR0VIpscV
- TE94WVo6Iec/wWkyBItnNf6cXvCsxOw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-XsIZsGJiMLWF9FasgcQZIw-1; Wed, 21 Apr 2021 04:39:01 -0400
-X-MC-Unique: XsIZsGJiMLWF9FasgcQZIw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- r17-20020a1709069591b029037cf6a4a56dso5677028ejx.12
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 01:39:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lZ8Rw-0002V5-Fo
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 04:43:08 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:45584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lZ8Ru-0008Hi-S8
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 04:43:08 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id sd23so53678871ejb.12
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 01:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4hch9e56u44iE4LgxdztZJh8ya3EkIax/daj65NAhZ8=;
+ b=I2ZAQVsPGjW1m39dn50XJWZW3e3rg2mwF4XNK6iqAF5BQXwRpkW5jSUIyvYAMe4eFv
+ 9q97RCXBG15zuP1n00C7dze1gEEuKKu+hSUNtlvqZU2OMLpqA3zcmYUPY9tipBms/ZS0
+ Qkk+BxCvoRzk23uBLVMbx3qfzxCR73BixNXi+FRgQ4IZk4YwzLZ9Yj3sfYVSW8snMfRv
+ hGW6nv58Ug3lIGEfvxkRCbWj+tYrbg3vtrwE7LqqeZ75Up0QMl33g6qwZBKnsiL6wYMP
+ Km5ZzzyBmYP8/217ID0jfOLsx8FQTS1KBp9xU1DvtO/oLkH5YItaQzfThV/YliC7ZFbd
+ 2Iig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=yWCMz4mYSbqdAd7zyeen2IUuHZtgVCsu1RCNvFwitKM=;
- b=Hp0v4RgWp5S3akcMCADFn5pJXqUVnRph0yYJJt3bmgQD7QtS3EeTkdXaO73QcZatuz
- p10HRG6uPzo/HbpnkNzzETYoSYMN0316Y5UcqrONsxgt65lF0niYb5T00TCPK0dbS/gB
- ISpELH+ufHM4VKzhyMOKsi/35frACtPlo9SpsKUf6UkAV5M2ctlUqSsJ+EZLAKDGSojw
- PhJm0RTWrbPdnDh5WD65YnahoJ8Td512AAHOnGOAszx7FAUiv92YJzNM5f3kkCJY9cy4
- RP9cBJrycET+PYbyVC4FMbvJ2rf1XZaqMyI7Zs4cMjh3SgUJPXfl6cTv1gNqf5b2FaHB
- iZng==
-X-Gm-Message-State: AOAM531/syLYdY1Gf8oiJPT0XQejjun1GifU/wZ9lOjlKMbs9feGwTor
- nCWWZfzIM28vqjGiK53ZagFRgNogvV0yFQRlRYRwX7KWv8Ei2o5+9iY9M8IHmajyamZuGBmD5pZ
- YNhUVvw1po5h5JTZVMaZJcA42GpsIlxdUqgngMyYd3qDa9PbrBFnZAKvtNCQKmcy8fOI=
-X-Received: by 2002:a05:6402:4d1:: with SMTP id
- n17mr36559840edw.118.1618994340080; 
- Wed, 21 Apr 2021 01:39:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmQfQgZs2Tf7Vyou2+CW90RcS9MigUCkw9tSVWkaw2vo1mF7k4jowIxlSmxgaP1eRfu8weOQ==
-X-Received: by 2002:a05:6402:4d1:: with SMTP id
- n17mr36559809edw.118.1618994339808; 
- Wed, 21 Apr 2021 01:38:59 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id w13sm2363702edx.80.2021.04.21.01.38.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 01:38:59 -0700 (PDT)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210420100416.30713-1-eesposit@redhat.com>
- <570d2007-fdb9-d90c-4ea9-32a6d1dd14dc@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 0/3] block-copy: lock tasks and calls list
-Message-ID: <98773aac-c971-1451-3d12-aa14c0bd2d40@redhat.com>
-Date: Wed, 21 Apr 2021 10:38:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=4hch9e56u44iE4LgxdztZJh8ya3EkIax/daj65NAhZ8=;
+ b=TPMHKonB7N2mxojOuM4jSEmL+IKHdIEndYHCFSxkKvTMUnCkJX+/oIXVQZrUV4fq1P
+ cYTx4UUCPFRfuFfdDMv0fNbqpKWZwSiY130jngkPc5N7st+hKRs1OL2wsDz/IaRa6oys
+ vN++It8q/tHbZXq0BelpyDd8mRN3aMzuO7cCM6JbWZ6Hnyp4AzaD5UHam+N40kBSmF1M
+ S4HKgY9wxL1+zDyRNQ9VWA7Oxr8i3BZvKwAn7HMJBep9bgWw/98Prm88Siynk4KQtKyi
+ koHhX3i7qN7V7JMpuaYZ2DOYrScDF8ps7cPn8/yYNGeQhxAjuAUs2xCn1sIi23kjh2C9
+ 4cAw==
+X-Gm-Message-State: AOAM532Wrx35I3dWpqHBWucblhpgQoQCk2vAG7HVlDftVwyHomAapxiS
+ a8QJCWr104bd5IR39dK2tkJV3A==
+X-Google-Smtp-Source: ABdhPJy8ziXau7AQxYPo1SfvOV2cTqvSDOUzL638ZAOnhizMnWgy3k0jx+DWj5pp2UJL6GooRykg9w==
+X-Received: by 2002:a17:906:b1c1:: with SMTP id
+ bv1mr31885983ejb.24.1618994584464; 
+ Wed, 21 Apr 2021 01:43:04 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id e16sm2264342edu.94.2021.04.21.01.43.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Apr 2021 01:43:04 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, ehabkost@redhat.com
+Subject: [PATCH] amd_iommu: Fix pte_override_page_mask()
+Date: Wed, 21 Apr 2021 10:40:08 +0200
+Message-Id: <20210421084007.1190546-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <570d2007-fdb9-d90c-4ea9-32a6d1dd14dc@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,62 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/04/21 15:12, Vladimir Sementsov-Ogievskiy wrote:
-> 20.04.2021 13:04, Emanuele Giuseppe Esposito wrote:
->> This serie of patches continues Paolo's series on making the
->> block layer thread safe. Add a CoMutex lock for both tasks and
->> calls list present in block/block-copy.c
->>
-> 
-> I think, we need more information about what kind of thread-safety we 
-> want. Should the whole interface of block-copy be thread safe? Or only 
-> part of it? What is going to be shared between different threads? Which 
-> functions will be called concurrently from different threads? This 
-> should be documented in include/block/block-copy.h.
+AMD IOMMU PTEs have a special mode allowing to specify an arbitrary page
+size. Quoting the AMD IOMMU specification: "When the Next Level bits [of
+a pte] are 7h, the size of the page is determined by the first zero bit
+in the page address, starting from bit 12."
 
-I guess all of it.  So more state fields should be identified in 
-BlockCopyState, especially in_flight_bytes.  ProgressMeter and 
-SharedResource should be made thread-safe on their own, just like the 
-patch I posted for RateLimit.
+So if the lowest bits of the page address is 0, the page is 8kB. If the
+lowest bits are 011, the page is 32kB. Currently pte_override_page_mask()
+doesn't compute the right value for this page size and amdvi_translate()
+can return the wrong guest-physical address. With a Linux guest, DMA
+from SATA devices accesses the wrong memory and causes probe failure:
 
-> What I see here, is that some things are protected by mutex.. Some 
-> things not. What became thread-safe?
-> 
-> For example, in block_copy_dirty_clusters(), we modify task fields 
-> without any mutex held:
-> 
->   block_copy_task_shrink doesn't take mutex.
->   task->zeroes is set without mutex as well
+qemu-system-x86_64 ... -device amd-iommu -drive id=hd1,file=foo.bin,if=none \
+		-device ahci,id=ahci -device ide-hd,drive=hd1,bus=ahci.0
+[    6.613093] ata1.00: qc timeout (cmd 0xec)
+[    6.615062] ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
 
-Agreed, these are bugs in the series.
+Fix the page mask.
 
-> Still all these accesses are done when task is already added to the list.
-> 
-> Looping in block_copy_common() is not thread safe as well.
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ hw/i386/amd_iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-That one should be mostly safe, because only one coroutine ever writes 
-to all fields except cancelled.  cancelled should be accessed with 
-qatomic_read/qatomic_set, but there's also the problem that coroutine 
-sleep/wake APIs are hard to use in a thread-safe manner (which affects 
-block_copy_kick).  This is a different topic and it is something I'm 
-working on,
-
-> You also forget to protect QLIST_REMOVE() call in block_copy_task_end()..
-> 
-> Next, block-copy uses co-shared-resource API, which is not thread-safe 
-> (as it is directly noted in include/qemu/co-shared-resource.h).
-> 
-> Same thing is block/aio_task API, which is not thread-safe too.
->
-> So, we should bring thread-safety first to these smaller helper APIs.
-
-Good point.  Emanuele, can you work on ProgressMeter and SharedResource? 
-  AioTaskPool can also be converted to just use CoQueue instead of 
-manually waking up coroutines.
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index 74a93a5d93f..43b6e9bf510 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -860,8 +860,8 @@ static inline uint8_t get_pte_translation_mode(uint64_t pte)
+ 
+ static inline uint64_t pte_override_page_mask(uint64_t pte)
+ {
+-    uint8_t page_mask = 12;
+-    uint64_t addr = (pte & AMDVI_DEV_PT_ROOT_MASK) ^ AMDVI_DEV_PT_ROOT_MASK;
++    uint8_t page_mask = 13;
++    uint64_t addr = (pte & AMDVI_DEV_PT_ROOT_MASK) >> 12;
+     /* find the first zero bit */
+     while (addr & 1) {
+         page_mask++;
+-- 
+2.31.1
 
 
