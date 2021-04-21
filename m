@@ -2,73 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2494367165
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 19:33:57 +0200 (CEST)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E5536721A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 19:57:15 +0200 (CEST)
+Received: from localhost ([::1]:59686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZGjc-0002DJ-Ps
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 13:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
+	id 1lZH69-00055U-MU
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 13:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lZGhf-0001Oa-8b
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 13:31:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25186)
+ (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
+ id 1lZH48-0003vi-NM
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 13:55:09 -0400
+Received: from mail-ve1eur02hn2218.outbound.protection.outlook.com
+ ([52.100.10.218]:35643 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lZGhd-00026g-AB
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 13:31:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619026311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pnco1Ou8JbUniCF9MrcEO49EYc3wdHKRwibGO/cCX8o=;
- b=NBM6W2qs2h/1fIs0zJmnchFREUeGBBIwY25YJcpu3vGSKb62x5OB4mbQ4aeGC9shQf2CHk
- 2hPnGa3HgC8H2sO5gCX9qj+SOuzgBzjeCloxDO33EVqqsiMJ0As1Tyd0WCbjh/t8H1uuG1
- mB1DuukcbTY2wH0uNQlEhGEi88YnDno=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-n2QjkFDBMjWpdiXQpaJWAA-1; Wed, 21 Apr 2021 13:31:39 -0400
-X-MC-Unique: n2QjkFDBMjWpdiXQpaJWAA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E136B107ACC7;
- Wed, 21 Apr 2021 17:31:38 +0000 (UTC)
-Received: from work-vm (ovpn-114-29.ams2.redhat.com [10.36.114.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30DA160939;
- Wed, 21 Apr 2021 17:31:20 +0000 (UTC)
-Date: Wed, 21 Apr 2021 18:31:17 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [Virtio-fs] [PATCH v2 01/25] DAX: vhost-user: Rework slave
- return values
-Message-ID: <YIBhZcVtk83wAn3+@work-vm>
-References: <20210414155137.46522-1-dgilbert@redhat.com>
- <20210414155137.46522-2-dgilbert@redhat.com>
- <20210416125917.02c4e915@bahia.lan>
-MIME-Version: 1.0
-In-Reply-To: <20210416125917.02c4e915@bahia.lan>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
+ id 1lZH44-0006Nq-3U
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 13:55:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DWsunwMiQsUMTRKRwRiq9CMMeC3/+61L55l0cCwpC9/gRECpHxnEJtZuzo5HvS6rCP0kc1MkbAEisD20rfGY5IIT0fG1WIWKA7s8ErotUs0YUDJM8cEBci+mU27Vz0/oVS76cILS5EYe0PJ9Z9RyeuE4O6DzW+gNYAb5nuCNRdjYTAsSWAR8y+dOEzfbik5jspTzV1DHKCIhO7E4hBMs+wXplywi/q1pPOyVd0xGnL601FTig9TXcxoybzA8DcZwIxKXmo6HXM/epQS9PwbOZHgNY94hsYHS1reZRjEEkSwgBqMyTnqXexoNX/Ls+uCrWZng3FRWq/ttBGzgWJi6sA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O/Crmu0LMVyFt4oUq1QuPfYJnhKMKYXfjRjdJsWqKFE=;
+ b=HUzhrbUEjn9qTDFiLkHdyNb259XKARiICfb4nmgOCWvOPxDlHMT3waDP1a1ggkF0XVVMMnD9b+9AaxFfZ4GB7kll2R3N2SIihkB5M6DH9BCiENlq2vqmuyuJysKe377VRRxfvLRbmMwvUm1bHARQteV4c3kR37qc6zcNBPWMeaUavWeA8VB63NKhEBhMzHCsNET2is5PuWu1ejeRMIOl+vzLg0lzIfoT6jSDprnlXgme7Yf7y5E/DXQL1JpvWTXQeUE2vR0oO+f1a+/4A+sRZSI/f+5U1VTgBdLdPVOWQ31nbYKpKa5NbpAsZsUs+QKVwvdK6QOZDA2vCeZsHgZEOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O/Crmu0LMVyFt4oUq1QuPfYJnhKMKYXfjRjdJsWqKFE=;
+ b=pRhKN3EsF/KXECg98pjmC+SEwy/t5l4V2IGhkZc9DraO4AwouumKE0ITrshulq7eJdTuryf3hX9ZrZOXTV+YArFmTiP6rzj1T5g3fr2egCsMfxn2aRX8jP+aWOhoh0bXs+ikcjATSmtx6qEG8Fo+3So/gCavhtzqSdcLEkQbTLw=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB5988.eurprd08.prod.outlook.com (2603:10a6:20b:283::19)
+ by AM4PR08MB2915.eurprd08.prod.outlook.com (2603:10a6:205:c::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.21; Wed, 21 Apr
+ 2021 17:39:48 +0000
+Received: from AM9PR08MB5988.eurprd08.prod.outlook.com
+ ([fe80::7d3f:e291:9411:c50f]) by AM9PR08MB5988.eurprd08.prod.outlook.com
+ ([fe80::7d3f:e291:9411:c50f%7]) with mapi id 15.20.4042.024; Wed, 21 Apr 2021
+ 17:39:48 +0000
+Date: Wed, 21 Apr 2021 20:39:42 +0300
+From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Denis Lunev <den@openvz.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v6] qapi: introduce 'query-cpu-model-cpuid' action
+Message-ID: <20210421173941.GA927665@dhcp-172-16-24-191.sw.ru>
+References: <20210420161940.24306-1-valeriy.vdovin@virtuozzo.com>
+ <20210420170900.utg4qzqkefdc642c@habkost.net>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20210420170900.utg4qzqkefdc642c@habkost.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [185.231.240.5]
+X-ClientProxiedBy: AM4PR0501CA0056.eurprd05.prod.outlook.com
+ (2603:10a6:200:68::24) To AM9PR08MB5988.eurprd08.prod.outlook.com
+ (2603:10a6:20b:283::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from dhcp-172-16-24-191.sw.ru (185.231.240.5) by
+ AM4PR0501CA0056.eurprd05.prod.outlook.com (2603:10a6:200:68::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend
+ Transport; Wed, 21 Apr 2021 17:39:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 82d149c6-569b-4912-331e-08d904ec7599
+X-MS-TrafficTypeDiagnostic: AM4PR08MB2915:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM4PR08MB29151E9146E727137E1FC7CA87479@AM4PR08MB2915.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
+ IPV:NLI; SFV:SPM; H:AM9PR08MB5988.eurprd08.prod.outlook.com; PTR:; CAT:OSPM;
+ SFS:(4636009)(376002)(346002)(396003)(39840400004)(366004)(136003)(7696005)(54906003)(52116002)(186003)(38350700002)(9686003)(8676002)(44832011)(66476007)(316002)(478600001)(2906002)(6666004)(5660300002)(6506007)(1076003)(107886003)(26005)(66556008)(38100700002)(33656002)(956004)(16526019)(83380400001)(86362001)(4326008)(55016002)(8936002)(6916009)(36756003)(66946007)(30126003);
+ DIR:OUT; SFP:1501; 
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DVZGejRPAWTdcRSj6BepyxWUoKxrJdPYqzxUb/ulZY2AfdD/EfkqdiexrJix?=
+ =?us-ascii?Q?Z1UjrF6IsrVGpDmLyIwKGmCqWvVBdRazbZuV/hi0iqattVxqZ0sf/iqzussy?=
+ =?us-ascii?Q?3jOVm1kPT2M1m2We+4qr1mE0kZQ/vYe7/B4/6ZdIqZQwj5JbGxHtUIxBvCXZ?=
+ =?us-ascii?Q?gFoPMY9jEOloW8x3zzdd7MyaoRwbeL/rZdnECCu2aFBhSmVeMvi6cBSkKq9Y?=
+ =?us-ascii?Q?18Rp150tjeuQr9uy99vsx28xTNKN3nkenvU4b5pUx7hNH6WAvO4Vvd65Ld6H?=
+ =?us-ascii?Q?g2+d+xZJNUXxsdHleO6AG4KA9dEBbWC/iJgYzOfWnhasgxd1Pvp4C9sC28iS?=
+ =?us-ascii?Q?coyPKEWOMWqsP7XtnQ/Sxyg6/2+Yn/domZrTKvd+03IELlNhRFFE8d9DvRVP?=
+ =?us-ascii?Q?TDnkj1+vjbU76iD+FsWv4LsBXZyheRFEziKg/HihbuuG7iux8wuoCDs0ldRz?=
+ =?us-ascii?Q?ruhOKrHv//MoavqGPan+Z2B/sYcimt98xIHwy5cQtAbaK/DBWASRCXnKVg8+?=
+ =?us-ascii?Q?pDKKtbVEbvfWJ43eaaXWoflYZV/WTTkrt7QZteMj0CaCfBAiDiZgx8RXkIU5?=
+ =?us-ascii?Q?HNSsu9ucvmYqIqGWwCV7du8B1wmoMkJQ6+GN8z9TgrnNRvH08MFaGQuZxlsi?=
+ =?us-ascii?Q?bitsInyvymGxDvsOi1UV2qGJsU/Z58hqR1IK0yJnMpujubGjRDEa8wMLTnQX?=
+ =?us-ascii?Q?j/ROiBb/ITTvW0DJsv+MIsyhDnejLgpReVuImSAik1RcyFboJ6ozHxMOJtqP?=
+ =?us-ascii?Q?BsDaXh9p+wwD6ALC+CDhvosKMfFhp0qxFUxzDAbsS1urzgjH+r7aYjEgxamj?=
+ =?us-ascii?Q?2Vzvkh/dAKoSPSWk9XBkQzYenGEYkdE7yoiM812e07VrLUCFBdhX3l467NyN?=
+ =?us-ascii?Q?ZYAjrrpOduL4qTF1iyIQbp6wd63mKUEOLGA417xWHfaJK1P5VdRfrP/qD0J0?=
+ =?us-ascii?Q?NR0CN7aFzSOBRvoB7hxuHGKF8ffJrAM44VV/h2dZlZY=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?3lIwBWXuUzUCxwBkmcrKNVtFEGGktEYse2KhSuH4vU7LV7B6iYdVG84ML31q?=
+ =?us-ascii?Q?EZgd6n6KkXf6rQTuUu5Lyf8Px12dobtW6UXg+DcWjBDURoNG9OvFG1XWUsG5?=
+ =?us-ascii?Q?pUyeRs02M/jT4sGsg0TmCEvKGQeg055Y+MrDFFHRdLGENZvfZJZJxCKouGw6?=
+ =?us-ascii?Q?M7z0swNQEytn9jfQjiz7lCkoOpxmGQ6WTzj8Cfko7WqtKrqRnot6hSfcsTPB?=
+ =?us-ascii?Q?B99MCLDjIUIsoD2huRIjpiLo7bdTIGNAM9vJPCNAfF89rMXSRyA38fBrNPUn?=
+ =?us-ascii?Q?e99k/gwR0LWhwmiea6QhouEMf0H4+1sm7FdKCC7Zo4w8cVXJS2bSwge8H818?=
+ =?us-ascii?Q?Xm0eaOMbK1CS5PFn9AOSiSHp1aZYXo+rAZIWabyAbLwoO1oJr7WUhx/3NcKe?=
+ =?us-ascii?Q?Ffy9Z+nW0z+O0K/TsMbMjFnNW2wq5QWV343dPob+vTKIWF4n38v5cjslmRoq?=
+ =?us-ascii?Q?vECZBQjkNHLm9i/k28xo2xlzLu3MBsNbhFFgWeEs2RjT8yJTtkF8aHoKNGjg?=
+ =?us-ascii?Q?ZpY4hQ9da3SzONN1h6oTGjdeLSrQbwXHzarrpawL06zVKjDXwc5By/XH0tVy?=
+ =?us-ascii?Q?Rvl7MMn5hPmr99f6G0gil9aDNUdGu4L/0iD+1wJaW00etSIbMabqJz4CizVE?=
+ =?us-ascii?Q?jhhEQqhITa1tLzF7FiKPRJ7M0Hf+sdWhmZRzsQrMxXxzrv0q/QS4jbvMGk38?=
+ =?us-ascii?Q?763J2SHqFHLC3jQusheamr4PMWgWr6Hh1mT4+lIJEPMWi+ASAGURfN5ICyiu?=
+ =?us-ascii?Q?Pc6aq8FNhUCiTV2mmsoCXhCsYxS+fdYXi9X89YUTRXVFwbHPMvKVezHFmKp0?=
+ =?us-ascii?Q?3MDpYsW9o/trZouKkVrRWaJfNeiHIQTbmXtlDvPekXom0E8+bc89iY0COsLs?=
+ =?us-ascii?Q?ryN2pIjNtImqze4IN60Ypqu7/xrA/qLpoSmgde5d+5sBPMUxnfW1tjOeweQB?=
+ =?us-ascii?Q?lnSpJjzE22cx2bHj/sPgufkIVpRiayx/IwTUBvxlMk3SKrS8kTJtDILFmtLp?=
+ =?us-ascii?Q?jiVxYX9ciZ41C3oooLrCLv3buaOi4njLPj2PNq5HL1qHFpPU5wE3aCl0q82k?=
+ =?us-ascii?Q?/9oduD7iyyPM6EeAiNe00i0pC2ujSez3pWI8YyBq4rbS+vZOVNdPppxO+O0b?=
+ =?us-ascii?Q?qQaTJfv0v34XTKRDlo+hGOd2XRwFftJuduv9nZlMOlAjfARnhembHRiI5V3Y?=
+ =?us-ascii?Q?jx7FVj+44XenVMbOUIZNpac9scLfH55eNJPK5489x+djcO+rLRd+gu0PTIXm?=
+ =?us-ascii?Q?x7/8NLfRV32kl0Gqu0VA3usNX1zAq9T/cE5r4NU5lv3aFdwWBBSQ+7Qc3dYS?=
+ =?us-ascii?Q?lCPag08zSTCDuokFvIST3Mpq?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82d149c6-569b-4912-331e-08d904ec7599
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB5988.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2021 17:39:48.3185 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dxHzkaFC5isHbcXeNW40aMmg0XSphzY+dAMvS5POHX9Gt7SUDN5Kq8L5lEWplBtupkR3O9RsE5AR2/LYWTL0dHGsew5VSiphT9yY3hXuf5c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR08MB2915
+Received-SPF: pass client-ip=52.100.10.218;
+ envelope-from=Valeriy.Vdovin@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,214 +160,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> On Wed, 14 Apr 2021 16:51:13 +0100
-> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+On Tue, Apr 20, 2021 at 01:09:00PM -0400, Eduardo Habkost wrote:
+> On Tue, Apr 20, 2021 at 07:19:40PM +0300, Valeriy Vdovin wrote:
+> [...]
+> > +##
+> > +# @query-cpu-model-cpuid:
+> > +#
+> > +# Returns description of a virtual CPU model, created by QEMU after cpu
+> > +# initialization routines. The resulting information is a reflection of a parsed
+> > +# '-cpu' command line option, filtered by available host cpu features.
+> > +#
+> > +# Returns:  @CpuModelCpuidDescription
+> > +#
+> > +# Example:
+> > +#
+> > +# -> { "execute": "query-cpu-model-cpuid" }
+> > +# <- { "return": 'CpuModelCpuidDescription' }
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'command': 'query-cpu-model-cpuid',
+> > +  'returns': 'CpuModelCpuidDescription',
+> > +  'if': 'defined(TARGET_I386)' }
 > 
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > All the current slave handlers on the qemu side generate an 'int'
-> > return value that's squashed down to a bool (!!ret) and stuffed into
-> > a uint64_t (field of a union) to be returned.
-> > 
-> > Move the uint64_t type back up through the individual handlers so
-> > that we can make one actually return a full uint64_t.
-> > 
-> > Note that the definition in the interop spec says most of these
-> > cases are defined as returning 0 on success and non-0 for failure,
-> > so it's OK to change from a bool to another non-0.
-> > 
-> > Vivek:
-> > This is needed because upcoming patches in series will add new functions
-> > which want to return full error code. Existing functions continue to
-> > return true/false so, it should not lead to change of behavior for
-> > existing users.
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
+> I was assuming the command was going to get a CPU model name as
+> argument.
 > 
-> LGTM
+> If you are only going to return info on the current CPUs, the
+> interface could be simplified a lot.
 > 
-> Just an indentation nit...
+> What about a simple `query-cpuid` command that only takes:
 > 
-> >  hw/virtio/vhost-backend.c         |  6 +++---
-> >  hw/virtio/vhost-user.c            | 31 ++++++++++++++++---------------
-> >  include/hw/virtio/vhost-backend.h |  2 +-
-> >  3 files changed, 20 insertions(+), 19 deletions(-)
-> > 
-> > diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-> > index 31b33bde37..1686c94767 100644
-> > --- a/hw/virtio/vhost-backend.c
-> > +++ b/hw/virtio/vhost-backend.c
-> > @@ -401,8 +401,8 @@ int vhost_backend_invalidate_device_iotlb(struct vhost_dev *dev,
-> >      return -ENODEV;
-> >  }
-> >  
-> > -int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
-> > -                                          struct vhost_iotlb_msg *imsg)
-> > +uint64_t vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
-> > +                                        struct vhost_iotlb_msg *imsg)
-> >  {
-> >      int ret = 0;
-> >  
-> > @@ -429,5 +429,5 @@ int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
-> >          break;
-> >      }
-> >  
-> > -    return ret;
-> > +    return !!ret;
-> >  }
-> > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> > index ded0c10453..3e4a25e108 100644
-> > --- a/hw/virtio/vhost-user.c
-> > +++ b/hw/virtio/vhost-user.c
-> > @@ -1405,24 +1405,25 @@ static int vhost_user_reset_device(struct vhost_dev *dev)
-> >      return 0;
-> >  }
-> >  
-> > -static int vhost_user_slave_handle_config_change(struct vhost_dev *dev)
-> > +static uint64_t vhost_user_slave_handle_config_change(struct vhost_dev *dev)
-> >  {
-> >      int ret = -1;
-> >  
-> >      if (!dev->config_ops) {
-> > -        return -1;
-> > +        return true;
-> >      }
-> >  
-> >      if (dev->config_ops->vhost_dev_config_notifier) {
-> >          ret = dev->config_ops->vhost_dev_config_notifier(dev);
-> >      }
-> >  
-> > -    return ret;
-> > +    return !!ret;
-> >  }
-> >  
-> > -static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-> > -                                                       VhostUserVringArea *area,
-> > -                                                       int fd)
-> > +static uint64_t vhost_user_slave_handle_vring_host_notifier(
-> > +                struct vhost_dev *dev,
-> > +               VhostUserVringArea *area,
-> > +               int fd)
+>  { 'qom-path': 'str', # qom-path is returned by query-cpus-fast
+>    'eax': 'uint32',
+>    '*ecx': 'uint32' }
 > 
-> ... here.
+> as argument, and returns
+> 
+>  { 'present': 'bool',
+>    'max_eax': 'uint32',    # max value of EAX for this range
+>    '*max_ecx': 'uint32',   # max value of ECX if there are subleaves
+>    'eax': 'uint32',
+>    'ebx': 'uint32',
+>    'ecx': 'uint32',
+>    'edx': 'uint32' }
+> 
+> ?
+Hi. The interface that you suggest looks good. But it has one critical
+point that deems it unusable for our initial needs. The point of this
+whole new API is to take away the strain of knowing about leaf ranges
+from the caller of this API. In my current patch this goal works. So
+the caller does not need to know in advance what ranges there are in
+original CPUID as well as in it's tweaked QEMU's version.
 
-I've reworked that to:
-+static uint64_t vhost_user_slave_handle_vring_host_notifier(
-+                    struct vhost_dev *dev,
-+                    VhostUserVringArea *area,
-+                    int fd)
+But you suggested API is not so kind to the caller, so he would need
+to add some logic around the call that knows about exact leaf ranges.
+If you have a solution to that also, I'll be happy to discuss it.
 
-the function name is getting too hideously long to actually put the
-arguments in line with the bracket.
-
-> Anyway,
-> 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+The obvious thing that comes to mind is changing the exists/max_ecx pair
+to something like next_eax, next_ecx. But this idea will probably require
+the same amount of complexity that I currently have in this patch.
 
 Thanks.
-
-Dave
-
 > 
-> >  {
-> >      int queue_idx = area->u64 & VHOST_USER_VRING_IDX_MASK;
-> >      size_t page_size = qemu_real_host_page_size;
-> > @@ -1436,7 +1437,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-> >      if (!virtio_has_feature(dev->protocol_features,
-> >                              VHOST_USER_PROTOCOL_F_HOST_NOTIFIER) ||
-> >          vdev == NULL || queue_idx >= virtio_get_num_queues(vdev)) {
-> > -        return -1;
-> > +        return true;
-> >      }
-> >  
-> >      n = &user->notifier[queue_idx];
-> > @@ -1449,18 +1450,18 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-> >      }
-> >  
-> >      if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
-> > -        return 0;
-> > +        return false;
-> >      }
-> >  
-> >      /* Sanity check. */
-> >      if (area->size != page_size) {
-> > -        return -1;
-> > +        return true;
-> >      }
-> >  
-> >      addr = mmap(NULL, page_size, PROT_READ | PROT_WRITE, MAP_SHARED,
-> >                  fd, area->offset);
-> >      if (addr == MAP_FAILED) {
-> > -        return -1;
-> > +        return true;
-> >      }
-> >  
-> >      name = g_strdup_printf("vhost-user/host-notifier@%p mmaps[%d]",
-> > @@ -1471,13 +1472,13 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-> >  
-> >      if (virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true)) {
-> >          munmap(addr, page_size);
-> > -        return -1;
-> > +        return true;
-> >      }
-> >  
-> >      n->addr = addr;
-> >      n->set = true;
-> >  
-> > -    return 0;
-> > +    return false;
-> >  }
-> >  
-> >  static void close_slave_channel(struct vhost_user *u)
-> > @@ -1498,7 +1499,7 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
-> >      VhostUserPayload payload = { 0, };
-> >      Error *local_err = NULL;
-> >      gboolean rc = G_SOURCE_CONTINUE;
-> > -    int ret = 0;
-> > +    uint64_t ret = 0;
-> >      struct iovec iov;
-> >      g_autofree int *fd = NULL;
-> >      size_t fdsize = 0;
-> > @@ -1539,7 +1540,7 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
-> >          break;
-> >      default:
-> >          error_report("Received unexpected msg type: %d.", hdr.request);
-> > -        ret = -EINVAL;
-> > +        ret = true;
-> >      }
-> >  
-> >      /*
-> > @@ -1553,7 +1554,7 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
-> >          hdr.flags &= ~VHOST_USER_NEED_REPLY_MASK;
-> >          hdr.flags |= VHOST_USER_REPLY_MASK;
-> >  
-> > -        payload.u64 = !!ret;
-> > +        payload.u64 = ret;
-> >          hdr.size = sizeof(payload.u64);
-> >  
-> >          iovec[0].iov_base = &hdr;
-> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-> > index 8a6f8e2a7a..64ac6b6444 100644
-> > --- a/include/hw/virtio/vhost-backend.h
-> > +++ b/include/hw/virtio/vhost-backend.h
-> > @@ -186,7 +186,7 @@ int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
-> >  int vhost_backend_invalidate_device_iotlb(struct vhost_dev *dev,
-> >                                                   uint64_t iova, uint64_t len);
-> >  
-> > -int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
-> > +uint64_t vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
-> >                                            struct vhost_iotlb_msg *imsg);
-> >  
-> >  int vhost_user_gpu_set_socket(struct vhost_dev *dev, int fd);
+> -- 
+> Eduardo
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
 
