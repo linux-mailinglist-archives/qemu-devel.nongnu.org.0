@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B950366A8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 14:15:31 +0200 (CEST)
-Received: from localhost ([::1]:39304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023D5366AC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 14:27:19 +0200 (CEST)
+Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZBlR-000113-Pk
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 08:15:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47128)
+	id 1lZBwr-0004JX-Jn
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 08:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lZBk8-0000RB-E8
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:14:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27596)
+ id 1lZBui-0003XX-3O
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:25:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lZBk6-0002LC-IA
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:14:07 -0400
+ id 1lZBud-0000FF-Va
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 08:25:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619007245;
+ s=mimecast20190719; t=1619007896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hLOuz0vs3y29wnw29uzT0/o1haO791csYCLUWuFuVgg=;
- b=OBPKPtvybNKhYkp19+NxuX+YMTk5GC2/A+uVAywi+YIEb6yDgRLGCLEtooh9QPO0gyVuhw
- IxumQavKonlKzMBO311JY9sJyTUDrnhbzTJQwtIPVRz/S47rewkiteFi1uuog5L9EAUo+A
- YbeQYK/A3tfgRCh4Ma9vvwC/C4TWBf8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-eyuvgLP0Peq58ZLargVHjQ-1; Wed, 21 Apr 2021 08:14:04 -0400
-X-MC-Unique: eyuvgLP0Peq58ZLargVHjQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w14-20020aa7da4e0000b02903834aeed684so13161045eds.13
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 05:14:03 -0700 (PDT)
+ bh=3Ynjbl31vn+3aJlqR0qn4aIxucTzp5uaVUNCSz1XYac=;
+ b=IKBrYvIEodn7iwf/CQQPKzh52QLhjdUE+yqp3EJROgwt71mXhTTdWfERXVw/bxVDjjhYdr
+ aQ4PXn8Tu6HxpADuE74IpqxeaolRz0XszE3t7j4kCCtlhO1zbQWHuRgPFPvOGs6Yh5Ogvf
+ zdbHGmwBlbjahscUzcmb49Oy2qkwTAo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-y5CrTVAMNFmjsxtTSmI8ww-1; Wed, 21 Apr 2021 08:24:55 -0400
+X-MC-Unique: y5CrTVAMNFmjsxtTSmI8ww-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p10-20020a5d68ca0000b0290102982b78eeso12627970wrw.16
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 05:24:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:to:cc:references:from:subject:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hLOuz0vs3y29wnw29uzT0/o1haO791csYCLUWuFuVgg=;
- b=K+jPob67B9rO3sA7r6VUfL0zZwQmWzWW6ls+nZ1tjsy8PkZQIWj8txJ7c1bq4C9hzk
- Tg9lv1KTt2QNtzc8Y+5FNdkrbUfS2yU+N9+UckDiUsVkYMufyAiebDezyVbfJ79408Pi
- C3bI0Cd1efyy6RhCfJ4AEU0AghzQoRcSU8nwgzShORrtNVttlJxdnJ7sIHYqLHK8Ovg3
- c+qzoCSZAB9V12wlbxjST5ZlW3GaFreTTDyX0P6llWJw2ca723yt+zd0BWA0baS5tIHN
- uwds8+cwINeMOD8ckJQmcVX4lhhuWjjOJTtHl8kkO0YaTlh95kZKGju+46GDI/zLkQ+y
- RD8A==
-X-Gm-Message-State: AOAM533fs+y+fNBPHK7ivfVmVizj66MEElIti85/pEZS8ebaZb0+x6ag
- EeXiMkP2U8mG6d6Man9gzYxlK4nKu1XzBq/FYcbNM0tiNsxS22NpdLGYf7fsfu0LoP5tRexVnuR
- DSXXEWuqMkD4j03NXAk+WSCNJkNv310lFrSXNdJArjGf60i/u53UvT258qeKlcFIrKaY=
-X-Received: by 2002:a17:906:c218:: with SMTP id
- d24mr31544119ejz.363.1619007242779; 
- Wed, 21 Apr 2021 05:14:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFuRrHXcTihEKJ4bHZzk30ugwNfX1m/ZetKJsvdOhL27nKsTSlJ8DEZBPLNdXBvU2M4YWYfQ==
-X-Received: by 2002:a17:906:c218:: with SMTP id
- d24mr31544079ejz.363.1619007242380; 
- Wed, 21 Apr 2021 05:14:02 -0700 (PDT)
+ bh=3Ynjbl31vn+3aJlqR0qn4aIxucTzp5uaVUNCSz1XYac=;
+ b=Hy1yp/v2GlcllPSzUzUaPfbvkvWA54f3/UNJ9F/Oe6+ex7LiPmv46aIk06sQvPBjmn
+ vobUNepr6/OfO8Q+Eh37Nm7lKsfXymWpuZfksDyIhKwaLBOdl7QvTxmhcY46P38vDhmi
+ VOcHxXkK5qEwJ9dUZHdBX9xIu8eokjurAojqRXfuhXGqVTj53jtH64jXuv7zslYhNh9F
+ QIXp3mCEj75V2rdwUNWGhkiPaZxUsbr3A49QCyn/hAV66wGKeOt0gNCx0XkPf8zgiHsG
+ hGPtwnEY2fF/DMJ96FdI7v6m8MAfHaZZ4egb1gmEc7I3e7n1DsvCSbpSOCWbd/uLxSXN
+ eY0A==
+X-Gm-Message-State: AOAM532htE1s5+qH1JDM8fgc7ahr7gYFvyRoMy8uLXCqxPGYmHck53qG
+ /A1ueuNmPvU7gBSjGRRlnf091oWDXHHoEvb/0Mnwpz5pcqhFcgm2C2g9loLbD6Jdn/U3vSNMJ0i
+ 74YL4diNbzbqNTDALHGtmnafS/7TI0sWE8/9sy9B/jJ+vFSh0YPPyBD22NyPf+YLh2Sc=
+X-Received: by 2002:adf:d0cc:: with SMTP id z12mr27151925wrh.18.1619007893795; 
+ Wed, 21 Apr 2021 05:24:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxv96EN+9BJ4ZnJ3oGAryDVEbqDK6hPS0C7LTrVjQ6kDOYOtLN/WYB/+Ri14lRnLcKKFViAfQ==
+X-Received: by 2002:adf:d0cc:: with SMTP id z12mr27151887wrh.18.1619007893377; 
+ Wed, 21 Apr 2021 05:24:53 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s13sm2215629ejz.110.2021.04.21.05.13.59
+ by smtp.gmail.com with ESMTPSA id y145sm1878558wmc.24.2021.04.21.05.24.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 05:14:00 -0700 (PDT)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210420100416.30713-1-eesposit@redhat.com>
- <570d2007-fdb9-d90c-4ea9-32a6d1dd14dc@virtuozzo.com>
- <98773aac-c971-1451-3d12-aa14c0bd2d40@redhat.com>
- <27d07471-76f0-5c3a-79f8-824663ec14a2@virtuozzo.com>
+ Wed, 21 Apr 2021 05:24:52 -0700 (PDT)
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210419085541.22310-1-eesposit@redhat.com>
+ <20210419085541.22310-9-eesposit@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 0/3] block-copy: lock tasks and calls list
-Message-ID: <9e8a7846-a2a6-fd98-f7c4-eacf29d18a29@redhat.com>
-Date: Wed, 21 Apr 2021 14:13:59 +0200
+Subject: Re: [PATCH v2 8/8] block: do not take AioContext around reopen
+Message-ID: <8074955a-df34-2aa9-cf2e-f7571eda389c@redhat.com>
+Date: Wed, 21 Apr 2021 14:24:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <27d07471-76f0-5c3a-79f8-824663ec14a2@virtuozzo.com>
+In-Reply-To: <20210419085541.22310-9-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,45 +101,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/04/21 10:53, Vladimir Sementsov-Ogievskiy wrote:
->>
->> Good point. Emanuele, can you work on ProgressMeter and 
->> SharedResource? AioTaskPool can also be converted to just use CoQueue 
->> instead of manually waking up coroutines.
->>
-> 
-> That would be great.
-> 
-> I have one more question in mind:
-> 
-> Is it effective to use CoMutex here? We are protecting only some fast 
-> manipulations with data, not io path or something like that. Will simple 
-> QemuMutex work better? Even if CoMutex doesn't have any overhead, I 
-> don't think than if thread A wants to modify task list, but mutex is 
-> held by thread B (for similar thing), there is a reason for thread A to 
-> yield and do some other things: it can just wait several moments on 
-> mutex while B is modifying task list..
+On 19/04/21 10:55, Emanuele Giuseppe Esposito wrote:
+> Reopen needs to handle AioContext carefully due to calling
+> bdrv_drain_all_begin/end.  By not taking AioContext around calls to
+> bdrv_reopen_multiple, we can drop the function's release/acquire
+> pair and the AioContext argument too.
 
-Indeed even CoQueue primitives count as simple manipulation of data, 
-because they unlock/lock the mutex while the coroutine sleeps.  So 
-you're right that it would be okay to use QemuMutex as well
+So... I wrote this commit message and I cannot parse it anymore---much 
+less relate it to the code in the patch.  This is a problem, but it 
+doesn't mean that the patch is wrong.
 
-The block copy code that Emanuele has touched so far is all coroutine 
-based.  I like using CoMutex when that is the case, because it says 
-implicitly "the monitor is not involved".  But we need to see what it 
-will be like when the patches are complete.
+bdrv_reopen_multiple does not have the AioContext argument anymore. 
+It's not doing release/acquire either.  The relevant commit is commit 
+1a63a90750 ("block: Keep nodes drained between reopen_queue/multiple", 
+2017-12-22).  You're basically cleaning up after that code in the same 
+way as patch 7: reopen functions take care of keeping the BDS quiescent, 
+so there's nothing to synchronize on.
 
-Rate limiting ends up being called by the monitor, but it will have its 
-own QemuMutex so it's fine.  What's left is cancellation and 
-block_copy_kick; I think that we can make qemu_co_sleep thread-safe with 
-an API similar to Linux's prepare_to_wait, so a QemuMutex wouldn't be 
-needed there either.
+For the future, the important step you missed was to check your diff 
+against the one that you cherry-picked from.  Then you would have 
+noticed that 1) it's much smaller 2) one thing that is mentioned in the 
+commit message ("drop the function's release/acquire pair and argument") 
+is not needed anymore.
 
 Paolo
+
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   block/block-backend.c |  4 ----
+>   block/mirror.c        |  9 ---------
+>   blockdev.c            | 19 ++++++-------------
+>   3 files changed, 6 insertions(+), 26 deletions(-)
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 413af51f3b..6fdc698e9e 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -2291,20 +2291,16 @@ int blk_commit_all(void)
+>       BlockBackend *blk = NULL;
+>   
+>       while ((blk = blk_all_next(blk)) != NULL) {
+> -        AioContext *aio_context = blk_get_aio_context(blk);
+>           BlockDriverState *unfiltered_bs = bdrv_skip_filters(blk_bs(blk));
+>   
+> -        aio_context_acquire(aio_context);
+>           if (blk_is_inserted(blk) && bdrv_cow_child(unfiltered_bs)) {
+>               int ret;
+>   
+>               ret = bdrv_commit(unfiltered_bs);
+>               if (ret < 0) {
+> -                aio_context_release(aio_context);
+>                   return ret;
+>               }
+>           }
+> -        aio_context_release(aio_context);
+>       }
+>       return 0;
+>   }
+> diff --git a/block/mirror.c b/block/mirror.c
+> index 5a71bd8bbc..43174bbc6b 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -631,7 +631,6 @@ static int mirror_exit_common(Job *job)
+>       MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
+>       BlockJob *bjob = &s->common;
+>       MirrorBDSOpaque *bs_opaque;
+> -    AioContext *replace_aio_context = NULL;
+>       BlockDriverState *src;
+>       BlockDriverState *target_bs;
+>       BlockDriverState *mirror_top_bs;
+> @@ -699,11 +698,6 @@ static int mirror_exit_common(Job *job)
+>           }
+>       }
+>   
+> -    if (s->to_replace) {
+> -        replace_aio_context = bdrv_get_aio_context(s->to_replace);
+> -        aio_context_acquire(replace_aio_context);
+> -    }
+> -
+>       if (s->should_complete && !abort) {
+>           BlockDriverState *to_replace = s->to_replace ?: src;
+>           bool ro = bdrv_is_read_only(to_replace);
+> @@ -740,9 +734,6 @@ static int mirror_exit_common(Job *job)
+>           error_free(s->replace_blocker);
+>           bdrv_unref(s->to_replace);
+>       }
+> -    if (replace_aio_context) {
+> -        aio_context_release(replace_aio_context);
+> -    }
+>       g_free(s->replaces);
+>       bdrv_unref(target_bs);
+>   
+> diff --git a/blockdev.c b/blockdev.c
+> index e901107344..1672ef756e 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -3469,7 +3469,6 @@ void qmp_change_backing_file(const char *device,
+>                                Error **errp)
+>   {
+>       BlockDriverState *bs = NULL;
+> -    AioContext *aio_context;
+>       BlockDriverState *image_bs = NULL;
+>       Error *local_err = NULL;
+>       bool ro;
+> @@ -3480,37 +3479,34 @@ void qmp_change_backing_file(const char *device,
+>           return;
+>       }
+>   
+> -    aio_context = bdrv_get_aio_context(bs);
+> -    aio_context_acquire(aio_context);
+> -
+>       image_bs = bdrv_lookup_bs(NULL, image_node_name, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+> -        goto out;
+> +        return;
+>       }
+>   
+>       if (!image_bs) {
+>           error_setg(errp, "image file not found");
+> -        goto out;
+> +        return;
+>       }
+>   
+>       if (bdrv_find_base(image_bs) == image_bs) {
+>           error_setg(errp, "not allowing backing file change on an image "
+>                            "without a backing file");
+> -        goto out;
+> +        return;
+>       }
+>   
+>       /* even though we are not necessarily operating on bs, we need it to
+>        * determine if block ops are currently prohibited on the chain */
+>       if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_CHANGE, errp)) {
+> -        goto out;
+> +        return;
+>       }
+>   
+>       /* final sanity check */
+>       if (!bdrv_chain_contains(bs, image_bs)) {
+>           error_setg(errp, "'%s' and image file are not in the same chain",
+>                      device);
+> -        goto out;
+> +        return;
+>       }
+>   
+>       /* if not r/w, reopen to make r/w */
+> @@ -3518,7 +3514,7 @@ void qmp_change_backing_file(const char *device,
+>   
+>       if (ro) {
+>           if (bdrv_reopen_set_read_only(image_bs, false, errp) != 0) {
+> -            goto out;
+> +            return;
+>           }
+>       }
+>   
+> @@ -3536,9 +3532,6 @@ void qmp_change_backing_file(const char *device,
+>       if (ro) {
+>           bdrv_reopen_set_read_only(image_bs, true, errp);
+>       }
+> -
+> -out:
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
+> 
 
 
