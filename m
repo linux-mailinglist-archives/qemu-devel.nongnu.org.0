@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F74366350
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:14:58 +0200 (CEST)
-Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC7E366353
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 03:18:39 +0200 (CEST)
+Received: from localhost ([::1]:45078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ1SD-0008Iz-J7
-	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
+	id 1lZ1Vm-0001SZ-8i
+	for lists+qemu-devel@lfdr.de; Tue, 20 Apr 2021 21:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lZ1RO-0007Yw-1P
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:14:06 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:38388
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1lZ1RM-0006cC-Hy
- for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:14:05 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4FQ2gc4149z8PbQ;
- Tue, 20 Apr 2021 21:16:12 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
- :to:cc:subject:message-id:mime-version:content-type; s=default;
- bh=e1HJGXlYJspajhWR5qtukY9udl4=; b=qPQSkBMiWIarDhIm8Rs0SQZPSn1r
- zddFCOq7THMapfq6daHlytGEUbDdwf2F+dUwdRJA7YvYsSY7eziikDi/iEDiczvf
- ATVTYfOUKaOnqk41WOaOPXqWT6BwOeR+2zJLR/kioK54FB7+Wswsnsk3VYZDCsH2
- GWLII2+/grExr60=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
- :cc:subject:message-id:mime-version:content-type; q=dns; s=
- default; b=OfpyLi/YUJC26wFGPx3eSNbGUQhwfuiZZ+SyqMBLbKpOxnxf5v7Ws
- U2ZIsHeJIk8IGIZAaFq0MKpSPA0BMRYZaGgBKSr2W9olv2c2sQmoQcXt0wcv4Yng
- AXw75oqcFJ69WKhrD5jpdSgjG+fqeWxaIneFea7ZqjgeOXj6os1bOI=
-Received: from humpty.home.comstyle.com
- (bras-base-toroon2719w-grc-51-142-114-11-37.dsl.bell.ca [142.114.11.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4FQ2gc3PJzz8PbP;
- Tue, 20 Apr 2021 21:16:12 -0400 (EDT)
-Date: Tue, 20 Apr 2021 21:14:00 -0400
-From: Brad Smith <brad@comstyle.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/ppc: Fix building with Clang
-Message-ID: <YH98WLDMQ5c0Zf5E@humpty.home.comstyle.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lZ1Tk-0000jY-83
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:16:32 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:52699
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lZ1Te-0007kH-MD
+ for qemu-devel@nongnu.org; Tue, 20 Apr 2021 21:16:30 -0400
+HMM_SOURCE_IP: 172.18.0.218:34252.13933217
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.21?logid-f9ceb08ef1e944f1a5ffd7841f9c8f16
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 58AB52800D7;
+ Wed, 21 Apr 2021 09:16:15 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id f9ceb08ef1e944f1a5ffd7841f9c8f16 for
+ wainersm@redhat.com; Wed Apr 21 09:16:13 2021
+X-Transaction-ID: f9ceb08ef1e944f1a5ffd7841f9c8f16
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Subject: Re: [PATCH] tests/migration: fix unix socket migration
+To: qemu-devel <qemu-devel@nongnu.org>
+References: <ea67ec8c4a46979af5515a794759efc00960ed7e.1615304914.git.huangy81@chinatelecom.cn>
+ <8a8d72ee-d24c-5aac-3b89-192d4d54f7cb@redhat.com>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+Message-ID: <4b1e91a5-73e8-912a-32c4-b78a7412a8bc@chinatelecom.cn>
+Date: Wed, 21 Apr 2021 09:16:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <8a8d72ee-d24c-5aac-3b89-192d4d54f7cb@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,50 +66,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix building with Clang.
 
-At the moment Clang does not define _CALL_SYSV as GCC does. From
-clang/lib/Basic/Targets/PPC.cpp in getTargetDefines()..
+在 2021/3/10 0:55, Philippe Mathieu-Daudé 写道:
+> On 3/9/21 5:00 PM, huangy81@chinatelecom.cn wrote:
+>> From: Hyman <huangy81@chinatelecom.cn>
+>>
+>> The test aborts and error message as the following be throwed:
+>> "No such file or directory: '/var/tmp/qemu-migrate-{pid}.migrate",
+>> when the unix socket migration test nearly done. The reason is
+>> qemu removes the unix socket file after migration before
+>> guestperf.py script do it. So pre-check if the socket file exists
+>> when removing it to prevent the guestperf program from aborting.
+>>
+>> Signed-off-by: Hyman <huangy81@chinatelecom.cn>
+>> ---
+>>   tests/migration/guestperf/engine.py | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Interesting, we have in MAINTAINERS:
+> 
+> Python scripts
+> M: Eduardo Habkost <ehabkost@redhat.com>
+> M: Cleber Rosa <crosa@redhat.com>
+> S: Odd Fixes
+> F: scripts/*.py
+> F: tests/*.py
+> 
+> However:
+> 
+> ./scripts/get_maintainer.pl -f tests/migration/guestperf/engine.py
+> get_maintainer.pl: No maintainers found, printing recent contributors.
+> get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
 
-  // FIXME: The following are not yet generated here by Clang, but are
-  //        generated by GCC:
-  //
-  //   _SOFT_FLOAT_
-  //   __RECIP_PRECISION__
-  //   __APPLE_ALTIVEC__
-  //   __RECIP__
-  //   __RECIPF__
-  //   __RSQRTE__
-  //   __RSQRTEF__
-  //   _SOFT_DOUBLE_
-  //   __NO_LWSYNC__
-  //   __CMODEL_MEDIUM__
-  //   __CMODEL_LARGE__
-  //   _CALL_SYSV
-  //   _CALL_DARWIN
+Ping
 
-This is from the OpenBSD ports tree where we use it to build
-on OpenBSD/powerpc.
+The following patch has fixed it
+https://patchew.org/QEMU/91d5978357fb8709ef61d2030984f7142847037d.1616141556.git.huangy81@chinatelecom.cn/
 
-Signed-off-by: Brad Smith <brad@comstyle.com>
+> 
+>> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+>> index 83bfc3b..86d4f21 100644
+>> --- a/tests/migration/guestperf/engine.py
+>> +++ b/tests/migration/guestperf/engine.py
+>> @@ -405,7 +405,7 @@ def run(self, hardware, scenario, result_dir=os.getcwd()):
+>>               progress_history = ret[0]
+>>               qemu_timings = ret[1]
+>>               vcpu_timings = ret[2]
+>> -            if uri[0:5] == "unix:":
+>> +            if uri[0:5] == "unix:" and os.path.exists(uri[5:]):
+>>                   os.remove(uri[5:])
+>>               if self._verbose:
+>>                   print("Finished migration")
+>>
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+-- 
+Best regard
 
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 838ccfa42d..d2611832e5 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -25,6 +25,11 @@
- #include "elf.h"
- #include "../tcg-pool.c.inc"
- 
-+/* Clang does not define _CALL_* */
-+#if defined(__clang__) && defined(__ELF__) && !defined(_CALL_SYSV)
-+#define _CALL_SYSV 1
-+#endif
-+
- #if defined _CALL_DARWIN || defined __APPLE__
- #define TCG_TARGET_CALL_DARWIN
- #endif
+Hyman Huang(黄勇)
 
