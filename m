@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAF73666B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 10:07:39 +0200 (CEST)
-Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97433666C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 10:11:14 +0200 (CEST)
+Received: from localhost ([::1]:53768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ7ta-0002vv-8M
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 04:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
+	id 1lZ7x3-0007yG-RA
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 04:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lZ7rZ-00018a-Pq; Wed, 21 Apr 2021 04:05:33 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4460)
+ id 1lZ7re-0001JC-U1; Wed, 21 Apr 2021 04:05:38 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:5041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lZ7rW-0001xu-QX; Wed, 21 Apr 2021 04:05:33 -0400
+ id 1lZ7rd-0002CI-4P; Wed, 21 Apr 2021 04:05:38 -0400
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FQChB2Z4xzPrbG;
- Wed, 21 Apr 2021 16:02:18 +0800 (CST)
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FQCjW6LXtzlYrY;
+ Wed, 21 Apr 2021 16:03:27 +0800 (CST)
 Received: from huawei.com (10.174.185.226) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Wed, 21 Apr 2021
- 16:05:13 +0800
+ 16:05:14 +0800
 From: Wang Xingang <wangxingang5@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
  <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
  <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-Subject: [PATCH RFC v3 1/8] hw/pci/pci_host: Allow bypass iommu for pci host
-Date: Wed, 21 Apr 2021 08:04:56 +0000
-Message-ID: <1618992303-19556-2-git-send-email-wangxingang5@huawei.com>
+Subject: [PATCH RFC v3 2/8] hw/pxb: Add a bypass iommu property
+Date: Wed, 21 Apr 2021 08:04:57 +0000
+Message-ID: <1618992303-19556-3-git-send-email-wangxingang5@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
 In-Reply-To: <1618992303-19556-1-git-send-email-wangxingang5@huawei.com>
 References: <1618992303-19556-1-git-send-email-wangxingang5@huawei.com>
@@ -38,8 +38,8 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.226]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=wangxingang5@huawei.com; helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=wangxingang5@huawei.com; helo=szxga06-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -64,93 +64,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-This add a bypass_iommu property for pci host, which indicates
-whether devices attached to the pci root bus will bypass iommu.
-In pci_device_iommu_address_space(), add a bypass_iommu check
-to avoid getting iommu address space for devices bypass iommu.
+This add a bypass_iommu property for pci_expander_bridge.
+The property can be used as:
+qemu -device pxb-pcie,bus_nr=0x10,addr=0x1,bypass_iommu=true
 
 Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- hw/pci/pci.c              | 18 +++++++++++++++++-
- hw/pci/pci_host.c         |  2 ++
- include/hw/pci/pci.h      |  1 +
- include/hw/pci/pci_host.h |  1 +
- 4 files changed, 21 insertions(+), 1 deletion(-)
+ hw/pci-bridge/pci_expander_bridge.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 8f35e13a0c..301addfb35 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -417,6 +417,22 @@ const char *pci_root_bus_path(PCIDevice *dev)
-     return rootbus->qbus.name;
- }
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index aedded1064..7112dc3062 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -57,6 +57,7 @@ struct PXBDev {
  
-+bool pci_bus_bypass_iommu(PCIBus *bus)
-+{
-+    PCIBus *rootbus = bus;
-+    PCIHostState *host_bridge;
-+
-+    if (!pci_bus_is_root(bus)) {
-+        rootbus = pci_device_root_bus(bus->parent_dev);
-+    }
-+
-+    host_bridge = PCI_HOST_BRIDGE(rootbus->qbus.parent);
-+
-+    assert(host_bridge->bus == rootbus);
-+
-+    return host_bridge->bypass_iommu;
-+}
-+
- static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
-                               MemoryRegion *address_space_mem,
-                               MemoryRegion *address_space_io,
-@@ -2719,7 +2735,7 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+     uint8_t bus_nr;
+     uint16_t numa_node;
++    bool bypass_iommu;
+ };
  
-         iommu_bus = parent_bus;
-     }
--    if (iommu_bus && iommu_bus->iommu_fn) {
-+    if (!pci_bus_bypass_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
-         return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
-     }
-     return &address_space_memory;
-diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
-index 8ca5fadcbd..2768db53e6 100644
---- a/hw/pci/pci_host.c
-+++ b/hw/pci/pci_host.c
-@@ -222,6 +222,8 @@ const VMStateDescription vmstate_pcihost = {
- static Property pci_host_properties_common[] = {
-     DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
-                      mig_enabled, true),
-+    DEFINE_PROP_BOOL("pci-host-bypass-iommu", PCIHostState,
-+                     bypass_iommu, false),
+ static PXBDev *convert_to_pxb(PCIDevice *dev)
+@@ -255,6 +256,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
+     bus->map_irq = pxb_map_irq_fn;
+ 
+     PCI_HOST_BRIDGE(ds)->bus = bus;
++    PCI_HOST_BRIDGE(ds)->bypass_iommu = pxb->bypass_iommu;
+ 
+     pxb_register_bus(dev, bus, &local_err);
+     if (local_err) {
+@@ -301,6 +303,7 @@ static Property pxb_dev_properties[] = {
+     /* Note: 0 is not a legal PXB bus number. */
+     DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
+     DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
++    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 6be4e0c460..f4d51b672b 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -480,6 +480,7 @@ void pci_for_each_bus(PCIBus *bus,
- 
- PCIBus *pci_device_root_bus(const PCIDevice *d);
- const char *pci_root_bus_path(PCIDevice *dev);
-+bool pci_bus_bypass_iommu(PCIBus *bus);
- PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn);
- int pci_qdev_find_device(const char *id, PCIDevice **pdev);
- void pci_bus_get_w64_range(PCIBus *bus, Range *range);
-diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
-index 52e038c019..c6f4eb4585 100644
---- a/include/hw/pci/pci_host.h
-+++ b/include/hw/pci/pci_host.h
-@@ -43,6 +43,7 @@ struct PCIHostState {
-     uint32_t config_reg;
-     bool mig_enabled;
-     PCIBus *bus;
-+    bool bypass_iommu;
- 
-     QLIST_ENTRY(PCIHostState) next;
- };
 -- 
 2.19.1
 
