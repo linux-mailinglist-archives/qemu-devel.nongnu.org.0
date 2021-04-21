@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DAA366578
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 08:34:06 +0200 (CEST)
-Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD8B366597
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 08:43:29 +0200 (CEST)
+Received: from localhost ([::1]:32824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ6R3-00015H-QU
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 02:34:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
+	id 1lZ6a8-0007kC-Gb
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 02:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lZ6Oj-0000CW-8k; Wed, 21 Apr 2021 02:31:41 -0400
-Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:42354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lZ6Oh-0003WP-4D; Wed, 21 Apr 2021 02:31:40 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 5AF05280626;
- Wed, 21 Apr 2021 08:31:33 +0200 (CEST)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 21 Apr
- 2021 08:31:32 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002e998e6ca-db5a-48ff-8671-b7c8d58cae9d,
- 3FD145AD23CDC28BEDADD0458B38E3079EC5C648) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.73.13
-Subject: Re: [PATCH v5 3/3] ppc: Enable 2nd DAWR support on p10
-To: Ravi Bangoria <ravi.bangoria@linux.ibm.com>, David Gibson
- <david@gibson.dropbear.id.au>
-References: <20210412114433.129702-1-ravi.bangoria@linux.ibm.com>
- <20210412114433.129702-4-ravi.bangoria@linux.ibm.com>
- <YH0M1YdINJqbdqP+@yekko.fritz.box>
- <ca21d852-4b54-01d3-baab-cc8d0d50e505@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <8020c404-d8ce-2758-d936-fc5e851017f0@kaod.org>
-Date: Wed, 21 Apr 2021 08:31:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZ6Xi-0006Oe-Jv
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:40:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZ6Xg-0008Rg-4k
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:40:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZ6Xe-0001yX-G6
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:40:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 76B8F2E8024
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:40:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <ca21d852-4b54-01d3-baab-cc8d0d50e505@linux.ibm.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 621233e5-729b-4b55-94fb-826174eaf06d
-X-Ovh-Tracer-Id: 14322854192763145208
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddtjedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeglefgjeevheeifeffudeuhedvveeftdeliedukeejgeeviefgieefhfdtffeftdenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Apr 2021 06:31:31 -0000
+From: Thomas Huth <1759522@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: atmgnd dogbertai maro th-huth the.netadmin voltagex
+X-Launchpad-Bug-Reporter: Zixuan Wang (the.netadmin)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <152222836105.21062.2375148895134658603.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161898669150.31966.13950136435769768216.malone@soybean.canonical.com>
+Subject: [Bug 1759522] Re: windows qemu-img create vpc/vhdx error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: 759651ba0bafe25583b3cce1612b212e80c9c46b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,67 +71,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com, mpe@ellerman.id.au,
- cohuck@redhat.com, qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com, paulus@samba.org
+Reply-To: Bug 1759522 <1759522@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/21 8:20 AM, Ravi Bangoria wrote:
-> Hi David,
-> 
-> On 4/19/21 10:23 AM, David Gibson wrote:
->> On Mon, Apr 12, 2021 at 05:14:33PM +0530, Ravi Bangoria wrote:
->>> As per the PAPR, bit 0 of byte 64 in pa-features property indicates
->>> availability of 2nd DAWR registers. i.e. If this bit is set, 2nd
->>> DAWR is present, otherwise not. Use KVM_CAP_PPC_DAWR1 capability to
->>> find whether kvm supports 2nd DAWR or not. If it's supported, allow
->>> user to set the pa-feature bit in guest DT using cap-dawr1 machine
->>> capability. Though, watchpoint on powerpc TCG guest is not supported
->>> and thus 2nd DAWR is not enabled for TCG mode.
->>>
->>> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
->>> Reviewed-by: Greg Kurz <groug@kaod.org>
->>
->> So, I'm actually not sure if using an spapr capability is what we want
->> to do here.  The problem is that presumably the idea is to at some
->> point make the DAWR1 capability default to on (on POWER10, at least).
->> But at that point you'll no longer to be able to start TCG guests
->> without explicitly disabling it.  That's technically correct, since we
->> don't implement DAWR1 in TCG, but then we also don't implement DAWR0
->> and we let that slide... which I think is probably going to cause less
->> irritation on balance.
-> 
-> Ok. Probably something like this is what you want?
-> 
-> Power10 behavior:
->   - KVM does not support DAWR1: Boot the guest without DAWR1
->     support (No warnings). Error out only if user tries with
->     cap-dawr1=on.
->   - KVM supports DAWR1: Boot the guest with DAWR1 support, unless
->     user specifies cap-dawr1=off.
->   - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
->     DAWR0 (Should be fixed in future while adding PowerPC watch-
->     point support in TCG mode)
-> 
-> Power10 predecessor behavior:
->   - KVM guest: Boot the guest without DAWR1 support. Error out
->     if user tries with cap-dawr1=on.
->   - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
->     DAWR0 (Should be fixed in future while adding PowerPC watch-
->     point support in TCG mode)
-> 
->> I'm wondering if we're actually just better off setting the pa feature
->> just based on the guest CPU model.  TCG will be broken if you try to
->> use it, but then, it already is.  AFAIK there's no inherent reason we
->> couldn't implement DAWR support in TCG, it's just never been worth the
->> trouble.
-> 
-> Correct. Probably there is no practical usecase for DAWR in TCG mode.
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
-What's the expected behavior ? Is it to generate a DSI if we have a DAWR
-match ? 
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-C. 
- 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1759522
+
+Title:
+  windows qemu-img create vpc/vhdx error
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  On windows, using qemu-img (version 2.11.90) to create vpc/vhdx
+  virtual disk tends to fail. Here's the way to reproduce:
+
+  1. Install qemu-w64-setup-20180321.exe
+
+  2. Use `qemu-img create -f vhdx -o subformat=3Dfixed disk.vhdx 512M` to c=
+reate a vhdx:
+     Formatting 'disk.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576=
+ block_size=3D0 subformat=3Dfixed
+
+  3. Execute `qemu-img info disk.vhdx` gives the result, (note the `disk si=
+ze` is incorrect):
+     image: disk.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 1.4M
+     cluster_size: 8388608
+
+  4. On Windows 10 (V1709), double click disk.vhdx gives an error:
+     Make sure the file is in an NTFS volume and isn't in a compressed fold=
+er or volume.
+
+     Using Disk Management -> Action -> Attach VHD gives an error:
+     The requested operation could not be completed due to a virtual disk s=
+ystem limitation. Virtual hard disk files must be uncompressed and uneccryp=
+ted and must not be sparse.
+
+  Comparison with Windows 10 created VHDX:
+
+  1. Using Disk Management -> Action -> Create VHD:
+     File name: win.vhdx
+     Virtual hard disk size: 512MB
+     Virtual hard disk format: VHDX
+     Virtual hard disk type: Fixed size
+
+  2. Detach VHDX
+
+  3. Execute `qemu-img info win.vhdx` gives the result:
+     image: win.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 516M
+     cluster_size: 33554432
+
+  Comparison with qemu-img under Ubuntu:
+
+  1. Version: qemu-img version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.16),
+  Copyright (c) 2004-2008 Fabrice Bellard
+
+  2. qemu-img create -f vhdx -o subformat=3Dfixed lin.vhdx 512M
+     Formatting 'lin.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576 =
+block_size=3D0 subformat=3Dfixed
+
+  3. qemu-img info lin.vhdx
+     image: lin.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 520M
+     cluster_size: 8388608
+
+  4. Load lin.vhdx under Windows 10 is ok
+
+  The same thing happens on `vpc` format with or without
+  `oformat=3Dfixed`, it seems that windows version of qemu-img has some
+  incorrect operation? My guess is that windows version of qemu-img
+  doesn't handle the description field of vpc/vhdx, which leads to an
+  incorrect `disk size` field.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1759522/+subscriptions
 
