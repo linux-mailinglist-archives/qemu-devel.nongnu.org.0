@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E386936658A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 08:39:10 +0200 (CEST)
-Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAFE366588
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 08:38:41 +0200 (CEST)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZ6Vx-0004hC-VS
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 02:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34860)
+	id 1lZ6VU-0003uW-Rq
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 02:38:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZ6Sk-0002g7-DR
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:35:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46886)
+ id 1lZ6Sf-0002eD-5e
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:35:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZ6SZ-0005MH-Ud
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:35:49 -0400
+ id 1lZ6SZ-0005Lh-U8
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 02:35:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZ6SY-0001W2-K7
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:35:38 +0000
+ id 1lZ6SX-0001VL-Ra
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:35:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9561A2E8024
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:35:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CC9732E8157
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 06:35:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Apr 2021 06:26:20 -0000
-From: Thomas Huth <1749223@bugs.launchpad.net>
+Date: Wed, 21 Apr 2021 06:28:08 -0000
+From: Thomas Huth <1751264@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: roland-micite th-huth zlice0
-X-Launchpad-Bug-Reporter: zlice (zlice0)
+X-Launchpad-Bug-Commenters: kyominii th-huth xanclic
+X-Launchpad-Bug-Reporter: Teddy VALETTE (kyominii)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <151853690975.29423.7587323391423810191.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161898638014.6193.17933337672492053584.malone@chaenomeles.canonical.com>
-Subject: [Bug 1749223] Re: mouse offset or invisible wall 2.11.0-3 
+References: <151939024836.30479.4933664010119224710.malonedeb@gac.canonical.com>
+Message-Id: <161898648816.10175.2393057152433014327.malone@wampee.canonical.com>
+Subject: [Bug 1751264] Re: qemu-img convert issue in a tmpfs partition
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 1b7c377ea5d944c0c2d7a02567e2f315ebef06d9
+X-Launchpad-Hash: 6d2514d112484f47006ca6f170227e91f93af582
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -58,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1749223 <1749223@bugs.launchpad.net>
+Reply-To: Bug 1751264 <1751264@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,39 +91,44 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1749223
+https://bugs.launchpad.net/bugs/1751264
 
 Title:
-  mouse offset or invisible wall 2.11.0-3
+  qemu-img convert issue in a tmpfs partition
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  (There was another post, I'm not sure if it is related though. Also
-  not sure if it's Arch related, I wouldn't be surprised as I normally
-  use Gentoo and have less problems with Gentoo.)
+  qemu-img convert command is slow when the file to convert is located
+  in a tmpfs formatted partition.
 
-  =
+  v2.1.0 on debian/jessie x64, ext4: 10m14s
+  v2.1.0 on debian/jessie x64, tmpfs: 10m15s
 
-  qemu-system-x86_64 -enable-kvm -M q35 -cpu host -m 8192 -vga vmware -smp =
-4,sockets=3D1,cores=3D4,threads=3D1 -drive file=3D/path/to/my.img,if=3Dvirt=
-io -soundhw ac97 -usb -monitor unix:/tmp/qemu-mon,server,nowait -usb --usbd=
-evice host:0000:ffff -device vfio-pci,host=3D00:00.0 -alt-grab &
+  v2.1.0 on debian/stretch x64, ext4: 11m9s
+  v2.1.0 on debian/stretch x64, tmpfs: 10m21.362s
 
+  v2.8.0 on debian/jessie x64, ext4: 10m21s
+  v2.8.0 on debian/jessie x64, tmpfs: Too long (50min+)
 
-  When I grab the mouse in/out of the VM I tend to get an "invisible wall" =
-half of the time.
-  I can push past if I fling the mouse through it but not if I slowly keep =
-moving down.
+  v2.8.0 on debian/stretch x64, ext4: 10m42s
+  v2.8.0 on debian/stretch x64, tmpfs: Too long (50min+)
 
-  The direction always seems to be down when I hit a wall (so a Y offset? m=
-aybe?)
-  This has been happening since at least version 2.10.
+  It seems that the issue is caused by this commit :
+  https://github.com/qemu/qemu/commit/690c7301600162421b928c7f26fd488fd8fa4=
+64e
 
-  Not sure if "-alt-grab" has anything to do with it, that'd be my first
-  guess.
+  In order to reproduce this bug :
+
+  1/ mount a tmpfs partition : mount -t tmpfs tmpfs /tmp
+  2/ get a vmdk file (we used a 15GB image) and put it on /tmp
+  3/ run the 'qemu-img convert -O qcow2 /tmp/file.vmdk /path/to/destination=
+' command
+
+  When we trace the process, we can see that there's a lseek loop which
+  is very slow (compare to outside a tmpfs partition).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1749223/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1751264/+subscriptions
 
