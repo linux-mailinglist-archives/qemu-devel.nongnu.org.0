@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A8B366F49
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 17:36:33 +0200 (CEST)
-Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DE4366FC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Apr 2021 18:16:07 +0200 (CEST)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZEtz-0004qN-V6
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 11:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41756)
+	id 1lZFWI-0008Ou-5K
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 12:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1lZEr9-0002fH-Tx
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 11:33:35 -0400
-Received: from mga01.intel.com ([192.55.52.88]:7615)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lZFTw-0007ok-31; Wed, 21 Apr 2021 12:13:43 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:40718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1lZEr6-0001ig-SO
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 11:33:35 -0400
-IronPort-SDR: TVfsNNCa+EOg/3mxPdeqWoZKiS8krC95wzeCelvf0ngDHiX8zPoEOKMwi1KgnpJ74eXBPlPkpk
- oWweb1Hh0TEQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="216360180"
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="216360180"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 08:33:20 -0700
-IronPort-SDR: UxBFsWCvsd/R6NMhJxHjjMbrqKvsg3VYkgA7KFeTIIF/GG6WwF1SGy7a9udZpN4tpiY3DJJ6yy
- 06BvKe26m1sg==
-X-IronPort-AV: E=Sophos;i="5.82,240,1613462400"; d="scan'208";a="427557571"
-Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.254.210.165])
- ([10.254.210.165])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2021 08:33:17 -0700
-Subject: Re: [PATCH v2] i386: Add ratelimit for bus locks acquired in guest
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210420093736.17613-1-chenyi.qiang@intel.com>
- <20210420163417.lbns24ypfqz7icxg@habkost.net>
- <df860e12-cea5-3d88-ba16-0dd1f8f975cb@intel.com>
- <20210421141210.mx5mt7kewahj7eij@habkost.net>
- <a73d4f4e-d7b2-b187-d13b-d23989976f49@intel.com>
- <20210421151818.3svsnpmch5gswtpe@habkost.net>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-ID: <07e029d1-2b57-14a8-3860-a621026b604f@intel.com>
-Date: Wed, 21 Apr 2021 23:33:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lZFTq-0005ke-RZ; Wed, 21 Apr 2021 12:13:38 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 766002E1619;
+ Wed, 21 Apr 2021 19:13:26 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ hrkDPwRetg-DP1SqDRI; Wed, 21 Apr 2021 19:13:26 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1619021606; bh=i1eZNSVT2wKKAtaQsZMQkXKqdqlNcalRjl7e2/VigA0=;
+ h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
+ b=CeTq1S2Nzv6fKw37M5kpAC8G6ln5Pqi45uxAxLXzCSQc19VtJMUy0Fx+LZRd0/RVI
+ wD2TnJBUln1/uDzDcs7PQv3yQogGHCQrZsG7hp2hJs5MvbRspvVk1qEeqD9Y49v8IL
+ fgjocjuyQ9qzKKCNCjHk79ymhYqGCJDQmvi/hMIo=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8817::1:9])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ vEgXujTXgD-DPpqBwMj; Wed, 21 Apr 2021 19:13:25 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v3 2/3] vhost-user-blk: perform immediate cleanup if
+ disconnect on initialization
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
+ <20210325151217.262793-3-den-plotnikov@yandex-team.ru>
+ <YIBDlEQ0AlRc9r0y@merkur.fritz.box>
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Message-ID: <88b9912e-97d3-f18a-b3cc-7891f3c55e3a@yandex-team.ru>
+Date: Wed, 21 Apr 2021 19:13:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210421151818.3svsnpmch5gswtpe@habkost.net>
+In-Reply-To: <YIBDlEQ0AlRc9r0y@merkur.fritz.box>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=xiaoyao.li@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,114 +78,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, mst@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, yc-core@yandex-team.ru, raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/2021 11:18 PM, Eduardo Habkost wrote:
-> On Wed, Apr 21, 2021 at 10:50:10PM +0800, Xiaoyao Li wrote:
->> On 4/21/2021 10:12 PM, Eduardo Habkost wrote:
->>> On Wed, Apr 21, 2021 at 02:26:42PM +0800, Chenyi Qiang wrote:
->>>> Hi, Eduardo, thanks for your comments!
->>>>
->>>>
->>>> On 4/21/2021 12:34 AM, Eduardo Habkost wrote:
->>>>> Hello,
->>>>>
->>>>> Thanks for the patch.  Comments below:
->>>>>
->>>>> On Tue, Apr 20, 2021 at 05:37:36PM +0800, Chenyi Qiang wrote:
->>>>>> Virtual Machines can exploit bus locks to degrade the performance of
->>>>>> system. To address this kind of performance DOS attack, bus lock VM exit
->>>>>> is introduced in KVM and it will report the bus locks detected in guest,
->>>>>> which can help userspace to enforce throttling policies.
->>>>>>
->>>>>
->>>>> Is there anything today that would protect the system from
->>>>> similar attacks from userspace with access to /dev/kvm?
->>>>>
->>>>
->>>> I can't fully understand your meaning for "similar attack with access to
->>>> /dev/kvm". But there are some similar associated detection features on bare
->>>> metal.
->>>
->>> What I mean is: you say guests can make a performance DoS attack
->>> on the host, and your patch mitigates that.
->>>
->>> What would be the available methods to prevent untrusted
->>> userspace running on the host with access to /dev/kvm from making
->>> a similar DoS attack on the host?
-> 
-> Thanks for all the clarifications below.  Considering them,
-> what's the answer to the question above?
 
-One choice would be enabling BUS LOCK VM exit by default/unconditionally 
-in KVM. (Our original attempt is to enable it unconditionally, but 
-people want it to be opted in by user)
+On 21.04.2021 18:24, Kevin Wolf wrote:
+> Am 25.03.2021 um 16:12 hat Denis Plotnikov geschrieben:
+>> Commit 4bcad76f4c39 ("vhost-user-blk: delay vhost_user_blk_disconnect")
+>> introduced postponing vhost_dev cleanup aiming to eliminate qemu aborts
+>> because of connection problems with vhost-blk daemon.
+>>
+>> However, it introdues a new problem. Now, any communication errors
+>> during execution of vhost_dev_init() called by vhost_user_blk_device_realize()
+>> lead to qemu abort on assert in vhost_dev_get_config().
+>>
+>> This happens because vhost_user_blk_disconnect() is postponed but
+>> it should have dropped s->connected flag by the time
+>> vhost_user_blk_device_realize() performs a new connection opening.
+>> On the connection opening, vhost_dev initialization in
+>> vhost_user_blk_connect() relies on s->connection flag and
+>> if it's not dropped, it skips vhost_dev initialization and returns
+>> with success. Then, vhost_user_blk_device_realize()'s execution flow
+>> goes to vhost_dev_get_config() where it's aborted on the assert.
+>>
+>> To fix the problem this patch adds immediate cleanup on device
+>> initialization(in vhost_user_blk_device_realize()) using different
+>> event handlers for initialization and operation introduced in the
+>> previous patch.
+>> On initialization (in vhost_user_blk_device_realize()) we fully
+>> control the initialization process. At that point, nobody can use the
+>> device since it isn't initialized and we don't need to postpone any
+>> cleanups, so we can do cleaup right away when there is a communication
+>> problem with the vhost-blk daemon.
+>> On operation we leave it as is, since the disconnect may happen when
+>> the device is in use, so the device users may want to use vhost_dev's data
+>> to do rollback before vhost_dev is re-initialized (e.g. in vhost_dev_set_log()).
+>>
+>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+>> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> I think there is something wrong with this patch.
+>
+> I'm debugging an error case, specifically num-queues being larger in
+> QEMU that in the vhost-user-blk export. Before this patch, it has just
+> an unfriendly error message:
+>
+> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Unexpected end-of-file before all data were read
+> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Failed to read msg header. Read 0 instead of 12. Original request 24.
+> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: vhost-user-blk: get block config failed
+> qemu-system-x86_64: Failed to set msg fds.
+> qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Resource temporarily unavailable (11)
+>
+> After the patch, it crashes:
+>
+> #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
+> #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
+> #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
+> #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
+> #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
+> #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
+> #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
+> #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
+>
+> The problem is that vhost_user_read_cb() still accesses dev->opaque even
+> though the device has been cleaned up meanwhile when the connection was
+> closed (the vhost_user_blk_disconnect() added by this patch), so it's
+> NULL now. This problem was actually mentioned in the comment that is
+> removed by this patch.
+>
+> I tried to fix this by making vhost_user_read() cope with the fact that
+> the device might have been cleaned up meanwhile, but then I'm running
+> into the next set of problems.
+>
+> The first is that retrying is pointless, the error condition is in the
+> configuration, it will never change.
+>
+> The other is that after many repetitions of the same error message, I
+> got a crash where the device is cleaned up a second time in
+> vhost_dev_init() and the virtqueues are already NULL.
+>
+> So it seems to me that erroring out during the initialisation phase
+> makes a lot more sense than retrying.
+>
+> Kevin
 
-Or we can use split_lock_detect=fatal to prevent all the split lock in 
-guest. For non-wb lock, all the memory should be cacheable as long as no 
-device passthrough to guest. More aggressively, we can enable non-wb 
-lock disable for guest in KVM.
+But without the patch there will be another problem which the patch 
+actually addresses.
 
->>>
->>>>
->>>> 1. Split lock detection:https://lore.kernel.org/lkml/158031147976.396.8941798847364718785.tip-bot2@tip-bot2/
->>>> Some CPUs can raise an #AC trap when a split lock is attempted.
->>>
->>> Would split_lock_detect=fatal be enough to prevent the above attacks?
->>
->> NO.
->>
->> There are two types bus lock:
->> 1. split lock - lock on cacheable memory while the memory across two cache
->> lines.
->> 2. non-wb lock - lock on non-writableback memory (you can find it on Intel
->> ISE chapter 8, https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html)
->>
->> split lock detection can only prevent 1)
->>
->>> Is split_lock_detect=fatal the only available way to prevent them?
->>
->> as above, 2) non-wb lock can be prevented by "non-wb lock disable" feature
-> 
-> Bus lock VM exit applies to both 1 and 2, correct?
+It seems to me that there is a case when the retrying is useless and 
+this is exactly your case -- we'll never get a proper configuration.
 
-yes!
+What if we get rid of the re-connection and give the only try to realize 
+the device? Than we don't need case separating for initialization and 
+operation of device, correct? But I don't familiar with the cases where 
+the reconnect is needed? Do you know something it?
 
->>
->>>
->>>>
->>>> 2. Bus lock Debug Exception:
->>>> https://lore.kernel.org/lkml/20210322135325.682257-1-fenghua.yu@intel.com/
->>>> The kernel can be notified by an #DB trap after a user instruction acquires
->>>> a bus lock and is executed.
->>>
->>> I see a rate limit option mentioned at the above URL.  Would a
->>> host kernel bus lock rate limit option make this QEMU patch
->>> redundant?
->>>
->>
->> No. Bus lock Debug exception cannot be used to detect the bus lock happens
->> in guest (vmx non-root mode).
->>
->> We have patch to virtualize this feature for guest
->> https://lore.kernel.org/kvm/20210202090433.13441-1-chenyi.qiang@intel.com/
->>
->> that guest will have its own setting of bus lock debug exception on or off.
->>
->> What's more important is that, even we force set the
->> MSR_DEBUGCTL.BUS_LOCK_DETECT for guest, guest still can escape from it.
->> Because bus lock #DB is a trap which is delivered after the instruction
->> completes. If the instruction acquires bus lock subsequently faults e.g.,
->> #PF, then no bus lock #DB generated. But the bus lock does happen.
->>
->> But with bus lock VM exit, even the instruction faults, it will cause a BUS
->> LOCK VM exit.
->>
->>
-> 
+Denis
 
+>
+>>   hw/block/vhost-user-blk.c | 48 +++++++++++++++++++--------------------
+>>   1 file changed, 24 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+>> index 1af95ec6aae7..4e215f71f152 100644
+>> --- a/hw/block/vhost-user-blk.c
+>> +++ b/hw/block/vhost-user-blk.c
+>> @@ -402,38 +402,38 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+>>           break;
+>>       case CHR_EVENT_CLOSED:
+>>           /*
+>> -         * A close event may happen during a read/write, but vhost
+>> -         * code assumes the vhost_dev remains setup, so delay the
+>> -         * stop & clear. There are two possible paths to hit this
+>> -         * disconnect event:
+>> -         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
+>> -         * vhost_user_blk_device_realize() is a caller.
+>> -         * 2. In tha main loop phase after VM start.
+>> -         *
+>> -         * For p2 the disconnect event will be delayed. We can't
+>> -         * do the same for p1, because we are not running the loop
+>> -         * at this moment. So just skip this step and perform
+>> -         * disconnect in the caller function.
+>> -         *
+>> -         * TODO: maybe it is a good idea to make the same fix
+>> -         * for other vhost-user devices.
+>> +         * Closing the connection should happen differently on device
+>> +         * initialization and operation stages.
+>> +         * On initalization, we want to re-start vhost_dev initialization
+>> +         * from the very beginning right away when the connection is closed,
+>> +         * so we clean up vhost_dev on each connection closing.
+>> +         * On operation, we want to postpone vhost_dev cleanup to let the
+>> +         * other code perform its own cleanup sequence using vhost_dev data
+>> +         * (e.g. vhost_dev_set_log).
+>>            */
+>>           if (realized) {
+>> +            /*
+>> +             * A close event may happen during a read/write, but vhost
+>> +             * code assumes the vhost_dev remains setup, so delay the
+>> +             * stop & clear.
+>> +             */
+>>               AioContext *ctx = qemu_get_current_aio_context();
+>>   
+>>               qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
+>>                       NULL, NULL, false);
+>>               aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
+>> -        }
+>>   
+>> -        /*
+>> -         * Move vhost device to the stopped state. The vhost-user device
+>> -         * will be clean up and disconnected in BH. This can be useful in
+>> -         * the vhost migration code. If disconnect was caught there is an
+>> -         * option for the general vhost code to get the dev state without
+>> -         * knowing its type (in this case vhost-user).
+>> -         */
+>> -        s->dev.started = false;
+>> +            /*
+>> +             * Move vhost device to the stopped state. The vhost-user device
+>> +             * will be clean up and disconnected in BH. This can be useful in
+>> +             * the vhost migration code. If disconnect was caught there is an
+>> +             * option for the general vhost code to get the dev state without
+>> +             * knowing its type (in this case vhost-user).
+>> +             */
+>> +            s->dev.started = false;
+>> +        } else {
+>> +            vhost_user_blk_disconnect(dev);
+>> +        }
+>>           break;
+>>       case CHR_EVENT_BREAK:
+>>       case CHR_EVENT_MUX_IN:
+>> -- 
+>> 2.25.1
+>>
 
