@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87072368021
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:18:34 +0200 (CEST)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292B336801B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:15:03 +0200 (CEST)
+Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZYHx-0008G7-Bi
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
+	id 1lZYEY-0006a6-5e
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZY9v-0004tn-Pt
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56243)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZY9y-0004yv-Up
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZY9r-0002O0-GG
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:14 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZY9t-0002Pu-HL
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619093408;
+ s=mimecast20190719; t=1619093412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=R5Z25tGEmAqz4YAGqBp4acEctT2MlSdpvyeUtti09Uo=;
- b=EDfbAMGIQcvcbpui7ZZ38JK70NqH4NaV6w0PBHeQio3M+tHph7X9XL7sZoakxuyhu0WFa2
- l+SCdHOB41XeGXisrRTPrXsq+AyfbYT0vmOmI8RI8/eHvPV6u9J78crRhR3PKXNnV+3k+n
- 2lz+nMdQ7ObRMhVE35r/nYErlZdlecQ=
+ bh=9TQJC1KLVsy43MRJYAXZ9EmjUCnPpeGZp0lsjRjmCx8=;
+ b=EZH2f92+vT4jRe5aNapZLmpDGlvbZK4P0eLBewqm49B1E6+PeNW0QKac2OVG0fudXW6iaG
+ aANjiZQny1B/9ZA35ha5jUbVsW+h+h3mpGxcGYvbwsDC5utD7QyOr23l/GfpCKlAXYV5H9
+ vvVmAHiGE0fvGeYr6lrzuQPX1QRvbgw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-dRIRxui9PemNQ-WX5wuFJQ-1; Thu, 22 Apr 2021 08:10:03 -0400
-X-MC-Unique: dRIRxui9PemNQ-WX5wuFJQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-453-NXYv37HLMPm-EVdvxSYNHg-1; Thu, 22 Apr 2021 08:10:04 -0400
+X-MC-Unique: NXYv37HLMPm-EVdvxSYNHg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B9F8343B6;
- Thu, 22 Apr 2021 12:09:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D90F010979CB;
+ Thu, 22 Apr 2021 12:09:46 +0000 (UTC)
 Received: from localhost (ovpn-112-237.rdu2.redhat.com [10.10.112.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6497319C45;
- Thu, 22 Apr 2021 12:09:48 +0000 (UTC)
-Date: Wed, 21 Apr 2021 15:54:29 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4215417A62;
+ Thu, 22 Apr 2021 12:09:46 +0000 (UTC)
+Date: Wed, 21 Apr 2021 16:16:03 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v2 0/7] tests/acceptance: Handle tests with "cpu" tag
-Message-ID: <20210421195429.GA2153290@amachine.somewhere>
+Subject: Re: [PATCH v2 1/7] tests/acceptance: Automatic set -cpu to the test vm
+Message-ID: <20210421201603.GB2153290@amachine.somewhere>
 References: <20210408195237.3489296-1-wainersm@redhat.com>
+ <20210408195237.3489296-2-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210408195237.3489296-1-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210408195237.3489296-2-wainersm@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+ protocol="application/pgp-signature"; boundary="7iMSBzlTiPOCCT2k"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -83,113 +84,79 @@ Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FCuugMFkClbJLl1L
+--7iMSBzlTiPOCCT2k
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 08, 2021 at 04:52:30PM -0300, Wainer dos Santos Moschetta wrote=
+On Thu, Apr 08, 2021 at 04:52:31PM -0300, Wainer dos Santos Moschetta wrote=
 :
-> Currently the acceptance tests tagged with "machine" have the "-M TYPE"
-> automatically added to the list of arguments of the QEMUMachine object.
-> In other words, that option is passed to the launched QEMU. On this
-> series it is implemented the same feature but instead for tests marked
-> with "cpu".
+> This introduces a new feature to the functional tests: automatic setting =
+of
+> the '-cpu VALUE' option to the created vm if the test is tagged with
+> 'cpu:VALUE'. The 'cpu' property is made available to the test object as w=
+ell.
 >=20
-> There is a caveat, however, in case the test needs additional arguments t=
-o
-> the CPU type they cannot be passed via tag, because the tags parser split
-> values by comma. For example, in tests/acceptance/x86_cpu_model_versions.=
-py,
-> there are cases where:
-
-Hi Wainer,
-
-I've created an Avocado issue to hopefully get rid of this limitation:
-
-   https://github.com/avocado-framework/avocado/issues/4541
-
+> For example, for a simple test as:
 >=20
->   * -cpu is set to "Cascadelake-Server,x-force-features=3Don,check=3Doff,=
-enforce=3Doff"
->   * if it was tagged like "cpu:Cascadelake-Server,x-force-features=3Don,c=
-heck=3Doff,enforce=3Doff"
->     then the parser would break it into 4 tags ("cpu:Cascadelake-Server",
->     "x-force-features=3Don", "check=3Doff", "enforce=3Doff")
->   * resulting on "-cpu Cascadelake-Server" and the remaining arguments ar=
-e ignored.
->=20
-> It was introduced the avocado_qemu.Test.set_vm_arg() method to deal with
-> cases like the example above, so that one can tag it as "cpu:Cascadelake-=
-Server"
-> AND call self.set_vm_args('-cpu', "Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff"),
-> and that results on the reset of the initial value of -cpu.
->
-
-So for now this seems reasonable enough.
-
-> This series was tested on CI (https://gitlab.com/wainersm/qemu/-/pipeline=
-s/277376246)
-> and with the following code:
->=20
-> from avocado_qemu import Test
->=20
-> class CPUTest(Test):
->     def test_cpu(self):
+>     def test(self):
 >         """
 >         :avocado: tags=3Dcpu:host
 >         """
->         # The cpu property is set to the tag value, or None on its absenc=
-e
 >         self.assertEqual(self.cpu, "host")
->         # The created VM has the '-cpu host' option
->         self.assertIn("-cpu host", " ".join(self.vm._args))
 >         self.vm.launch()
->=20
->     def test_cpu_none(self):
->         self.assertEqual(self.cpu, None)
->         self.assertNotIn('-cpu', self.vm._args)
->=20
->     def test_cpu_reset(self):
->         """
->         :avocado: tags=3Dcpu:host
->         """
->         self.assertIn("-cpu host", " ".join(self.vm._args))
->         self.set_vm_arg("-cpu", "Cascadelake-Server,x-force-features=3Don=
-")
->         self.assertNotIn("-cpu host", " ".join(self.vm._args))
->         self.assertIn("-cpu Cascadelake-Server,x-force-features=3Don", " =
-".join(self.vm._args))
 >
 
-We should not let this type of testing go to waste, so it's about time
-to set aside a directory for tests that are about the framework,
-rather than end user functionality.  I'll take a look at that.
+So I tried a few tests with different CPU models and it works as
+expected.  One minor caveat is that using "host" has side effects
+in some cases, causing tests to fail because they may also require
+KVM to be enabled.
 
-Cheers,
-- Cleber.
+But this is a generic mechanism so I don't think it should be
+concerned with that.
 
---FCuugMFkClbJLl1L
+> The resulting QEMU evocation will be like:
+>=20
+>     qemu-system-x86_64 -display none -vga none -chardev socket,id=3Dmon,p=
+ath=3D/var/tmp/avo_qemu_sock_pdgzbgd_/qemu-1135557-monitor.sock -mon charde=
+v=3Dmon,mode=3Dcontrol -cpu host
+
+Only thing is: can we please just break this line (I could not ignore
+a 174 character line :).
+
+>=20
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> ---
+>  docs/devel/testing.rst                    | 17 +++++++++++++++++
+>  tests/acceptance/avocado_qemu/__init__.py |  5 +++++
+>  2 files changed, 22 insertions(+)
+
+With the line broken mentioned above (which I can take care of when
+queueing this patch):
+
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+
+--7iMSBzlTiPOCCT2k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCAgvIACgkQZX6NM6Xy
-CfOubg/8DLV1Bkche4HU96fwbbYG7JhPjo2k0rn95qNdsnUA1V0EonLT6S4Uz+Kl
-epGls/mtIsvwximOVEqZJJzPUfKuSVP00azkt9VqhSsyIqK5HQ8weSLH1b4agCRw
-wY/B9nYLndlh3EEyhN0xh1hHGfb4ELhh1+gbN8L+SIL9d7SquHyHwvbRA1gnebkY
-qZg59hlicEJK6pu7+BzGZLT5enFgL9572IY/Fa/fTrOFvFa5RxONyeFAUZwfKu9Z
-I2dIxPchpLKpFHLTJJKTZjlbbgMKWhYdS2KhxHLiLIBtXaFCaIh0CMy+K+CIhCRK
-HJzGMIjzY5oymqkNRdl8PRCkPFGeS1WuQC2+qDXJiREThMwEPHpYkql/dueRkpVl
-uFEjBp1mX28ge2IdBEwNwDGOg6C3+eYPnzC7W22HHwT0/BQiAWAra4CLcPfyE62s
-T60lxJ0SCQ0TqD49A+5BU1q5pfQMrLsrnzjm8NLZERlLRiZHQzIwaWmt3r9/GZru
-/gwV/xcguOYi7+lm92q/J1tIbyptXjhDxjXR0/rzdW4ZwnTf6xPiuZ2UAX5B/Vp1
-IAFvvsQB7P7KkYtca2v+Ax67xAcR03uVuxdp5tKtMiidtqok70JW18FQc5KCr6CV
-PQ+3pSiaykbuY7ipiHUWjYB1SsfNylbEXWOtLvRqwrBjOG/AVxw=
-=HmAT
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCAiAAACgkQZX6NM6Xy
+CfMN5hAAnBEqcxhpQEWtEvvVPVQ3OHFKPLxoCGS5bT9vP87nfmBp2KTFhHfvBwGg
+FC90Aq3/xhLFPhT4PyMYvj+pVCDbhcA0+j3k4X1hrlVyMjpSZAn32qO3TQRzPsqe
+k42PM2als3n4d6aEsOOgo1ZKJK7WBGf3FC5lMS3R4KIG0Z7iXOlJBCBsj31uEmta
+Oy4+b8/q672/cL6+ZIrHM3PH5calsm6PYw1WWZMRRueTLgGQkjKrw4zJqgp88gE3
+3XtagXtnnUEyqqnMF+d848JtqbH8CJyhqF0Mu/PoO6JsSiVVEVs2J1BAzM9QcYB/
+Z63haw8t6o2CMxwXEycjcleMjOqdlzIj/MNF1rSeoh/OWS2QDtFNOiGLbT+NRNrJ
+GIkJLHke7BUUJJhPUgXNiF94EQSCLOP+IS2/JROFLA+PONzzrYrlP6mgR4Hq/he6
+OPNCfMRM5UiKxG+92L0hnNoCOkJ+MFfSkluj2IAnoxq51a2J5XfsCLD5iOZJLq1k
+cAkB6lLuVOlB0PAiXEEjRIXRUAkt/jkSj2tPeBbvrcjt1tS5Sx7eMsGcJmy8sDUt
+cIVTOv3Wi1jbwn+qj294rLjZ2ahY6KdTH3clgHpspC/DTETMBD0NlRb01BBTZDme
+dMXIF3+WaOoeDTMbOomPEXXoyxMzfp+fPK6VeqOpgqQd0bdkDv0=
+=KDA0
 -----END PGP SIGNATURE-----
 
---FCuugMFkClbJLl1L--
+--7iMSBzlTiPOCCT2k--
 
 
