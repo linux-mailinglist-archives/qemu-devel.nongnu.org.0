@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB13E367945
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:28:55 +0200 (CEST)
-Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C6036793D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:26:49 +0200 (CEST)
+Received: from localhost ([::1]:59436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZRtW-0002n2-TA
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58624)
+	id 1lZRrT-0000ys-Vt
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRpf-00084T-NT
+ id 1lZRpf-00083l-BJ
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:24:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49608)
+Received: from indium.canonical.com ([91.189.90.7]:49580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRpd-0001FX-53
+ id 1lZRpc-0001FQ-JM
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:24:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZRpb-0002Sj-Gh
+ id 1lZRpb-0002Se-0v
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:24:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7CE6D2E815F
+ by loganberry.canonical.com (Postfix) with ESMTP id 004492E8160
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:24:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:11:23 -0000
-From: Thomas Huth <1587211@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:13:00 -0000
+From: Thomas Huth <1594394@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: seabios
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hendersa th-huth
-X-Launchpad-Bug-Reporter: Andrew Henderson (hendersa)
+X-Launchpad-Bug-Commenters: anarchetic jrtc27 kb9vqf laurent-vivier legoll
+ pmaydell th-huth
+X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160531022309.17459.89128.malonedeb@soybean.canonical.com>
-Message-Id: <161906828320.23516.11983669933160093499.malone@gac.canonical.com>
-Subject: [Bug 1587211] Re: qemu-system-i386/x86_64 crash with 1 MB guest RAM
+References: <20160620140124.12349.60184.malonedeb@wampee.canonical.com>
+Message-Id: <161906838075.22765.2319569956670562032.malone@gac.canonical.com>
+Subject: [Bug 1594394] Re: Using setreuid / setegid crashes x86_64 user-mode
+ target
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 7b5ec0a4cecdadc428d17871c427f1d89c53fd51
+X-Launchpad-Hash: d21f062f32229398e08c0e2b44b2391ccf05e56d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1587211 <1587211@bugs.launchpad.net>
+Reply-To: Bug 1594394 <1594394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,176 +96,83 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1587211
+https://bugs.launchpad.net/bugs/1594394
 
 Title:
-  qemu-system-i386/x86_64 crash with 1 MB guest RAM
+  Using setreuid / setegid crashes x86_64 user-mode target
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When launching qemu-system-i386 or qemu-system-x86_64 with 1 MB of RAM
-  allocated to the guest (-m 1) and no guest image specified, QEMU will
-  crash while trying to "execute code outside of RAM or ROM" after
-  approximately 10 minutes. I discovered this while using QEMU 2.5.0,
-  but I verified that it also occurs with 2.5.1.1 and the latest source
-  available in git (2.6.50, commit
-  d6550e9ed2e1a60d889dfb721de00d9a4e3bafbe). I built all of these
-  different versions of QEMU on the same 64-bit Ubuntu 14.04.3 host
-  using the distro's default GCC 4.8.4.
+  When setreuid() or setegid() are called from x86_64 target code in
+  user mode, qemu crashes inside the NPTL signal handlers.  x86 targets
+  do not directly use a syscall to handle setreuid() / setegid();
+  instead the x86 NPTL implementation sets up a temporary data region in
+  memory (__xidcmd) and issues a signal (SIGRT1) to all threads,
+  allowing the handler for that signal to issue the syscall.  Under
+  qemu, __xidcmd remains null (see variable display below backtrace).
 
-  Two observations:
+  Backtrace:
+  Program received signal SIGSEGV, Segmentation fault.
+  [Switching to Thread 0x3fff85c74fc0 (LWP 74517)]
+  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d08, c=
+tx=3D0x3fff85c71f90) at nptl-init.c:263
+  263     nptl-init.c: No such file or directory.
+  (gdb) thread apply all bt
 
-  1. This only occurs when allocating 1 MB of RAM to the guest. When I
-  allocate 2 MB, this does not happen. I tried running both i386/x86_64
-  QEMUs for hours with 2 MB and didn't observe this crash.
+  Thread 3 (Thread 0x3fff87e8efc0 (LWP 74515)):
+  #0  0x00000000601cc430 in syscall ()
+  #1  0x0000000060109080 in futex_wait (val=3D<optimized out>, ev=3D<optimi=
+zed out>) at /build/qemu/util/qemu-thread-posix.c:292
+  #2  qemu_event_wait (ev=3D0x62367bb0 <rcu_call_ready_event>) at /build/qe=
+mu/util/qemu-thread-posix.c:399
+  #3  0x000000006010f73c in call_rcu_thread (opaque=3D<optimized out>) at /=
+build/qemu/util/rcu.c:250
+  #4  0x0000000060176f8c in start_thread (arg=3D0x3fff87e8efc0) at pthread_=
+create.c:336
+  #5  0x00000000601cebf4 in clone ()
 
-  2. This may be a SeaBIOS bug, as there is no guest code to execute.
-  After enabling the SeaBIOS debug at the ISA 0x402 port and redirecting
-  it to stdio, the last SeaBIOS state transition reported ("Booting from
-  ROM... Booting from c980:0361") occurs immediately at QEMU startup
-  with no further logging messages seen prior to the crash ten minutes
-  later. My captured SeaBIOS debug output is here:
-  http://pastebin.com/GXm2L44E
+  Thread 2 (Thread 0x3fff85c74fc0 (LWP 74517)):
+  #0  0x000000006017491c in sighandler_setxid (sig=3D33, si=3D0x3fff85c72d0=
+8, ctx=3D0x3fff85c71f90) at nptl-init.c:263
+  #1  <signal handler called>
+  #2  0x00000000601cc42c in syscall ()
+  #3  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
+0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
+imized out>) at /build/qemu/linux-user/syscall.c:748
+  #4  do_futex (val3=3D<optimized out>, uaddr2=3D275186650880, timeout=3D0,=
+ val=3D1129, op=3D128, uaddr=3D275186651116) at /build/qemu/linux-user/sysc=
+all.c:6201
+  #5  do_syscall (cpu_env=3D0x1000abfd350, num=3D<optimized out>, arg1=3D27=
+5186651116, arg2=3D<optimized out>, arg3=3D1129, arg4=3D0, arg5=3D275186650=
+880, arg6=3D<optimized out>, arg7=3D0, arg8=3D0)
+      at /build/qemu/linux-user/syscall.c:10651
+  #6  0x00000000600347b8 in cpu_loop (env=3D0x1000abfd350) at /build/qemu/l=
+inux-user/main.c:317
+  #7  0x0000000060036ae0 in clone_func (arg=3D0x3fffc4c2ca38) at /build/qem=
+u/linux-user/syscall.c:5445
+  #8  0x0000000060176f8c in start_thread (arg=3D0x3fff85c74fc0) at pthread_=
+create.c:336
+  #9  0x00000000601cebf4 in clone ()
 
-  To reproduce, use the following command lines:
-
-  ./i386-softmmu/qemu-system-i386 -display none -m 1 -monitor stdio
-  ./x86_64-softmmu/qemu-system-x86_64 -display none -m 1 -monitor stdio
-
-  For both 32/64-bit QEMUs, the output is the same. After running for
-  about 10 minutes (I've seen it take between 7m 15s (v2.5.1.1) to 10m
-  25s (v2.6.50) of runtime to occur by using the "time" command), the
-  following output is shown:
-
-  --- OUTPUT BEGINS ---
-  e1000: Reading register at offset: 0x00002410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00002430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003410. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003418. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003420. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003428. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00003430. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00010000. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00010000. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00010000. It is not fully implemente=
-d.
-  e1000: Reading register at offset: 0x00010000. It is not fully implemente=
-d.
-  qemu: fatal: Trying to execute code outside RAM or ROM at 0x000a0063
-
-  EAX=3D00100000 EBX=3D00000018 ECX=3D00002c06 EDX=3D0009cde0
-  ESI=3D000caa20 EDI=3D00100000 EBP=3Dffffffff ESP=3D00007bcc
-  EIP=3D000038e3 EFL=3D00000046 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HL=
-T=3D0
-  ES =3D0000 00000000 ffffffff 00cf9300
-  CS =3D9c78 0009c780 ffffffff 008f9b00
-  SS =3D0000 00000000 ffffffff 008f9300
-  DS =3D9cf3 0009cf30 ffffffff 00cf9300
-  FS =3D0000 00000000 ffffffff 00cf9300
-  GS =3D0000 00000000 ffffffff 00cf9300
-  LDT=3D0000 00000000 0000ffff 00008200
-  TR =3D0000 00000000 0000ffff 00008b00
-  GDT=3D     00000000 00000000
-  IDT=3D     00000000 000003ff
-  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
-  DR0=3D00000000 DR1=3D00000000 DR2=3D00000000 DR3=3D00000000 =
-
-  DR6=3Dffff0ff0 DR7=3D00000400
-  CCS=3D000000c2 CCD=3D00002c06 CCO=3DCLR     =
-
-  EFER=3D0000000000000000
-  FCW=3D037f FSW=3D0000 [ST=3D0] FTW=3D00 MXCSR=3D00001f80
-  FPR0=3D0000000000000000 0000 FPR1=3D0000000000000000 0000
-  FPR2=3D0000000000000000 0000 FPR3=3D0000000000000000 0000
-  FPR4=3D0000000000000000 0000 FPR5=3D0000000000000000 0000
-  FPR6=3D0000000000000000 0000 FPR7=3D0000000000000000 0000
-  XMM00=3D00000000000000000000000000000000 XMM01=3D000000000000000000000000=
-00000000
-  XMM02=3D00000000000000000000000000000000 XMM03=3D000000000000000000000000=
-00000000
-  XMM04=3D00000000000000000000000000000000 XMM05=3D000000000000000000000000=
-00000000
-  XMM06=3D00000000000000000000000000000000 XMM07=3D000000000000000000000000=
-00000000
-  --- OUTPUT ENDS ---
+  Thread 1 (Thread 0x1000aa05000 (LWP 74511)):
+  #0  0x00000000601cc430 in syscall ()
+  #1  0x0000000060044b08 in safe_futex (val3=3D<optimized out>, uaddr2=3D0x=
+0, timeout=3D<optimized out>, val=3D<optimized out>, op=3D128, uaddr=3D<opt=
+imized out>) at /build/qemu/linux-user/syscall.c:748
+  #2  do_futex (val3=3D<optimized out>, uaddr2=3D1, timeout=3D0, val=3D1, o=
+p=3D128, uaddr=3D275078324992) at /build/qemu/linux-user/syscall.c:6201
+  #3  do_syscall (cpu_env=3D0x1000aa23890, num=3D<optimized out>, arg1=3D27=
+5078324992, arg2=3D<optimized out>, arg3=3D1, arg4=3D0, arg5=3D1, arg6=3D<o=
+ptimized out>, arg7=3D0, arg8=3D0) at /build/qemu/linux-user/syscall.c:10651
+  #4  0x00000000600347b8 in cpu_loop (env=3D0x1000aa23890) at /build/qemu/l=
+inux-user/main.c:317
+  #5  0x00000000600020e4 in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>) at /build/qemu/linux-user/main.c:4779
+  (gdb) p __xidcmd
+  $1 =3D (struct xid_command *) 0x0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1587211/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1594394/+subscriptions
 
