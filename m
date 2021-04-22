@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60069367DDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 11:38:19 +0200 (CEST)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D55367E31
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 11:58:16 +0200 (CEST)
+Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZVms-0005Ba-7i
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 05:38:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40690)
+	id 1lZW6B-0008A3-5w
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 05:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZVlf-0003gX-44
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:37:03 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:39591)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZW3I-0006St-9U
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:55:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZVlZ-0005WS-Tx
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:37:02 -0400
-Received: by mail-ej1-x634.google.com with SMTP id v6so66471194ejo.6
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 02:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YNKWkstbsD5m/ub4e4ip8OryGEEqUC12lMVfCMuEuBg=;
- b=eu8cJiOTngEpXZGtYyy0I3HcseWhC8LqzCXpArRkHZCYtSSOO8hlTD6LVyNhYzu9Po
- q1OzgYvRioRgRBHpCbHBgqhOBcZKSEqY1lfcaaxejfehs7dzCasvBeb31BoJRRM5Cbsd
- BzVBKlGcJLQ+7KpFzTGOGlZWIkqJ979TiNM1D1bGMquMUBM/dCFlryxFyaTCQPnZSv9b
- YRWU1wKhnFBNJy0z9Uy6Eteth0BvM/EDb2QrRadJiBSAFgCMueLyDA7cjNnWMg54hp1T
- sQePb/RXCBHDagGjYjA/EPRzCW7iXdWy8MDG33vNDhlhwma3IxnzYC7at9XFBJccqaqB
- p8mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YNKWkstbsD5m/ub4e4ip8OryGEEqUC12lMVfCMuEuBg=;
- b=J7KSHMkbb0G6LIJcy+jYmVjRx1RzGPTLa5hnXgMrV2+5I1XTruFoh21xoJg8TbBOI9
- xKr3pz6qK44ZAR6RUj26hdrEX+zx2k5IGuyfzdN3SnT8DA19gvr8LG3gzWR8H3mbXD8V
- /s5CKEj4pvYwptqOufH7r18M+Yeiha+dMjlnuqS7LFlp8gvvPJZ7/vyGJxGpNJdek+4F
- SPOqtzVvxWgiN2u5y6z/KsUjH+TbviSqLcqhG6c47gZ2JwMHXnE9qBt9B12hc2ATVEkQ
- eUzCeCFjiyC6K/RuFlje74PNqAuBFHufBM04+HjIB6z8dzzYRVii9Z7smYV6lkKM/sz1
- oBWQ==
-X-Gm-Message-State: AOAM53100hj1YGzWtPCwE/8YWTd+figsJnXGgS0QzkGpYgvt/SK9Z6uV
- l6Ohu8iWwROFA8xJXsPqoJJO4LAmsRW3L34UU3DgDw==
-X-Google-Smtp-Source: ABdhPJw4lIvEYJnNZ0y4hownqK7IxRJc21IBL1RrWf9EGXw/rp+cuk1ZTKCh0s+py0HcGSGyQEChm4OwiGDHZaJH+Cc=
-X-Received: by 2002:a17:906:6d41:: with SMTP id
- a1mr2456428ejt.482.1619084216043; 
- Thu, 22 Apr 2021 02:36:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZW3F-0008Fr-Mg
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:55:16 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZW3E-00077t-15
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 09:55:12 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B93182E815F
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 09:55:11 +0000 (UTC)
 MIME-Version: 1.0
-References: <3f6be9c84782a0943ea21a8a6f8a5d055b65f2d5.1619018363.git.crobinso@redhat.com>
- <fe1f97bc-5ff9-002b-debc-5bc2c449c8b8@redhat.com>
- <CAEUhbmXR1Yn5paL+d0DMjgZUiinQGNRazj3neScL4_=CGvC8zg@mail.gmail.com>
-In-Reply-To: <CAEUhbmXR1Yn5paL+d0DMjgZUiinQGNRazj3neScL4_=CGvC8zg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 22 Apr 2021 10:36:02 +0100
-Message-ID: <CAFEAcA_4TSF1KKxVQUDt3r+aAnZqT-A2uA8m7O0ZaxHQVWgKJg@mail.gmail.com>
-Subject: Re: [PATCH-for-6.0] net: tap: fix crash on hotplug
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 22 Apr 2021 09:39:12 -0000
+From: Thomas Huth <1614609@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kai-0 pmaydell th-huth
+X-Launchpad-Bug-Reporter: Kai Poeritz (kai-0)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20160818161525.30268.81700.malonedeb@gac.canonical.com>
+Message-Id: <161908435213.32637.6716885957035341378.malone@soybean.canonical.com>
+Subject: [Bug 1614609] Re: alphabetical order of monitor options
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: e7f8224728775b1d82f6c7dd0a6abb35dc7cfd7d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,79 +70,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Cole Robinson <crobinso@redhat.com>
+Reply-To: Bug 1614609 <1614609@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Apr 2021 at 05:29, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Thu, Apr 22, 2021 at 12:36 AM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
-> >
-> > Cc'ing Bin.
-> >
-> > On 4/21/21 5:22 PM, Cole Robinson wrote:
-> > > Attempting to hotplug a tap nic with libvirt will crash qemu:
-> > >
-> > > $ sudo virsh attach-interface f32 network default
-> > > error: Failed to attach interface
-> > > error: Unable to read from monitor: Connection reset by peer
-> > >
-> > > 0x000055875b7f3a99 in tap_send (opaque=3D0x55875e39eae0) at ../net/ta=
-p.c:206
-> > > 206           if (!s->nc.peer->do_not_pad) {
-> > > gdb$ bt
-> > >
-> > > s->nc.peer may not be set at this point. This seems to be an
-> > > expected case, as qemu_send_packet_* explicitly checks for NULL
-> > > s->nc.peer later.
-> > >
-> > > Fix it by checking for s->nc.peer here too. Padding is applied if
-> > > s->nc.peer is not set.
-> > >
-> > > https://bugzilla.redhat.com/show_bug.cgi?id=3D1949786
-> > > Fixes: 969e50b61a2
-> > >
-> > > Signed-off-by: Cole Robinson <crobinso@redhat.com>
-> > > ---
-> > > * Or should we skip padding if nc.peer is unset? I didn't dig into it
-> > > * tap-win3.c and slirp.c may need a similar fix, but the slirp case
-> > >   didn't crash in a simple test.
-> > >
-> > >  net/tap.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/net/tap.c b/net/tap.c
-> > > index dd42ac6134..937559dbb8 100644
-> > > --- a/net/tap.c
-> > > +++ b/net/tap.c
-> > > @@ -203,7 +203,7 @@ static void tap_send(void *opaque)
-> > >              size -=3D s->host_vnet_hdr_len;
-> > >          }
-> > >
-> > > -        if (!s->nc.peer->do_not_pad) {
-> > > +        if (!s->nc.peer || !s->nc.peer->do_not_pad) {
->
-> I think we should do:
->
-> if (s->nc.peer && !s->nc.peer->do_not_pad)
+Fix has been included here:
+https://gitlab.com/qemu-project/qemu/-/commit/ff688cd2c7c3a677b71e
 
-Yes. If there is no peer then the qemu_send_packet() that we're about
-to do is going to discard the packet anyway, so there's no point in
-padding it.
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Maybe consider
+-- =
 
-static inline bool net_peer_needs_padding(NetClientState *nc)
-{
-    return nc->peer && !nc->peer->do_not_pad;
-}
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1614609
 
-since we want the same check in three places ?
+Title:
+  alphabetical order of monitor options
 
-thanks
--- PMM
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Looking for the 'continue'/'resume' option I found this order that was no=
+t quite 'alphabetical'.
+  It had me overlook the 'cont' option at glance. Which is just a little im=
+practical.
+
+  ...
+  boot_set bootdevice -- define new values for the boot device list
+  change device filename [format [read-only-mode]] -- change a removable me=
+dium, optional format
+  chardev-add args -- add chardev
+  chardev-remove id -- remove chardev
+  client_migrate_info protocol hostname port tls-port cert-subject -- set m=
+igration information for remote display
+  closefd closefd name -- close a file descriptor previously passed via SCM=
+ rights
+  commit device|all -- commit changes to the disk images (if -snapshot is u=
+sed) or backing files
+  cpu index -- set the default CPU
+  cpu-add id -- add cpu
+  c|cont  -- resume emulation
+  delvm tag|id -- delete a VM snapshot from its tag or id
+  ...
+
+  I tested this list with 'sort' just to make sure and make a point:
+
+  $ cat Desktop/order-orig.txt =
+
+  boot_set
+  change
+  chardev-add
+  chardev-remove
+  client_migrate_info
+  closefd
+  commit
+  cpu
+  cpu-add
+  c|cont
+  delvm
+  $ cat Desktop/order-orig.txt | sort
+  boot_set
+  c|cont
+  change
+  chardev-add
+  chardev-remove
+  client_migrate_info
+  closefd
+  commit
+  cpu
+  cpu-add
+  delvm
+  $
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1614609/+subscriptions
 
