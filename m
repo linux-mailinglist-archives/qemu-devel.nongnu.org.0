@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E11367681
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 02:52:28 +0200 (CEST)
-Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC7C367686
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 02:53:51 +0200 (CEST)
+Received: from localhost ([::1]:59752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZNZz-00053z-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 20:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
+	id 1lZNbK-0005vj-N4
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 20:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lZNYf-0004Xf-5A
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:05 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39689)
+ id 1lZNYr-0004i5-6i
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:17 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lZNYb-0006Pv-NZ
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:04 -0400
-Received: by mail-wr1-x434.google.com with SMTP id s7so42967047wru.6
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 17:51:00 -0700 (PDT)
+ id 1lZNYo-0006YJ-O3
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:16 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so2228332wmy.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 17:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AjJbFzvDUXaSWsH8wYXQ6N1QydRorcAJ1MHbnPDyhaU=;
- b=G+xK/VBgwoRZmAXc7rKsSSdDpICBcJ2qH2dxGcf7x63RtJsCcoTxJMRYKXUzjWWrHw
- wlN/ZtrZBHLlVQjWth/VXI9Nn/t0u6Xo5DHyGL9u/8dLJU5Y3/D1ezQp432q7Vhk4IoA
- AKt6obWMnUmONHZtNlBBfD9XFu6G8fr510zij8V3I8iXysuUzO+ROrJSeVOtYh9eHlVE
- nk4YEp1sX4NHH7aLF/BbDzDgXhiXLCvIS8pAu0WeHxntceryXKe5bqJ26r1RYDSjtaJ4
- 9z3Lj8BHQkAvdIil9zXFAsKS10TRCVxgCmbDhLHE9K1+J7HU65MaWEGWFfjPs6ah4eAi
- RLSw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6EqUfSAg+SkgsLP4QrSoWoVHrKhsANzTFjajqpdzr44=;
+ b=jzMwSx5JIvnwe9YlCc8rFK7iRrFR2JLZcLKzgrB4aVxGnEkk9Nse2G7RmhOsHsYfBT
+ gb3TUIR8v5Nep4P+ob8xH3W1NeaIS/S2jPkPSDUKzRIII/E7EIakhnVJpaa2jlXDnUlY
+ Gho+1/z2lGhMLzSrJ26SnkImmigPh8nuCWShzz5EQqA9L3RcaHsQWJ9kLk5PmoikRYDa
+ ahKGMgdGc+vPoN0W1dDI4XEvDl0twH7/Mkkh3bTHUEyQeeswDD7HveeR2lk6ItxXVmL2
+ OSWd7rnss7FHA5GQFrz8Hw5OcsrUuuJDUu5z+vQJtSxM8lAfpsCvC6snKwxOa9yTdIyC
+ +pAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AjJbFzvDUXaSWsH8wYXQ6N1QydRorcAJ1MHbnPDyhaU=;
- b=AKFBDuKxdrQAKlKa56FFBII9OrwFZt6oq91wDRrbEgpXbUWfXAsNYyaZ3rbmMUKw37
- Nbu9D+QMt9iY+b7RLL77Z9uqz9don5adrK7YOCNnm0hVgIfwhEpZOzI/pmrdzto5rsfC
- QmMpaM6xZCPOg8Y7PVnKRbBQLR/TCelM/urBxNj7MiEh3jZcmauLxTUAzAlOkh4+NqEc
- iYTpuPiFHZCRIx9LoYoq/8yZzYhuGJ0GJRBvf13qklgi0LHB8IHvIMuMIVd5UbUAG7XW
- 6uFmrNyvScfIPC02EXurNSmWlI7zFQmTRn06zEbjCz081l+m5xIkTf2SBAzoZ1+zFS/j
- b4nw==
-X-Gm-Message-State: AOAM5324gf3NbtOSKMC9AEvqbZmzNRAMGOiM/LOGT6X0HcE+2CVLz8Tj
- Rj2dig7W9ITQAKCgKY2b/EMLaUIIXQQ=
-X-Google-Smtp-Source: ABdhPJwl2EpOCFomtX9KP8E2lbjjNE2HTb5vi8GotdPUqciDlklAF3P5wKumVlMsGdgDdJElYdjeUA==
-X-Received: by 2002:a5d:4584:: with SMTP id p4mr772230wrq.383.1619052657243;
- Wed, 21 Apr 2021 17:50:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6EqUfSAg+SkgsLP4QrSoWoVHrKhsANzTFjajqpdzr44=;
+ b=G5+rXhFxh5/WObnZDA1TFqiO0A3xkYqqGxbQ7cVdQby8eyJGApJivyQnht5oAxOKNh
+ tJWmT4vBQhDQqEZoO9mw3Q7mKxiEvxChgTeinsC3R5I+A0q63Emj6jP/31uJsKATBHhC
+ cYZVwoey9/YY4zpmicZ4jnyPc5/o1FHT+pCyvPbSDycPWq2oBNf1GWjHwDRfdvuyV/iN
+ SnWn3KtjrWaZT+DBzPRxJyFrqPskGSZi2p1iYRDsViB+bFcnSV0cZw1Ej1a2/HeyqMR2
+ dqsDprnFCh9kDdIq5gYiXoZ+7aW1RpADfheu+NW3ChKo/BRLQQn21awp/HktVkoGZL3b
+ Azlw==
+X-Gm-Message-State: AOAM533T9DCq4kTS4yPbPoiVCxFDyiZA++p25Vj0ccwSJhUdWOd0bhra
+ Jo4dthva9cZ8PC9QPzVIcC90VlJ4wnc=
+X-Google-Smtp-Source: ABdhPJwX6tXQTrbRP94DX8gEJ4hEP2omyS+qrxxC+S23ZQ3jQAy8ytn5jT61kKxxRE3yutAsg7eFJw==
+X-Received: by 2002:a05:600c:2148:: with SMTP id
+ v8mr12345227wml.167.1619052673153; 
+ Wed, 21 Apr 2021 17:51:13 -0700 (PDT)
 Received: from localhost.localdomain ([197.61.162.183])
- by smtp.googlemail.com with ESMTPSA id 2sm3734607wmi.19.2021.04.21.17.50.55
+ by smtp.googlemail.com with ESMTPSA id 2sm3734607wmi.19.2021.04.21.17.51.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 17:50:56 -0700 (PDT)
+ Wed, 21 Apr 2021 17:51:12 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] plugins: Freeing allocated values in hash tables.
-Date: Thu, 22 Apr 2021 02:50:41 +0200
-Message-Id: <20210422005043.3569-1-ma.mandourr@gmail.com>
+Subject: [PATCH v2 1/2] plugins/hotblocks: Properly freed the hash table values
+Date: Thu, 22 Apr 2021 02:50:42 +0200
+Message-Id: <20210422005043.3569-2-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210422005043.3569-1-ma.mandourr@gmail.com>
+References: <20210422005043.3569-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,27 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A hash table made using ``g_hash_table_new`` requires manually
-freeing any dynamically allocated keys/values. The two patches
-in this series fixes this issue in hotblocks and hotpages plugins.
+Freed the values stored in the hash table ``hotblocks``
+returned by ``g_hash_table_get_values()`` by freeing the sorted
+list and destroyed the hash table afterward.
 
-v1 -> v2: Added a freeing function to hotpages instead of freeing
-    the sorted list. That's probably better because the sorted list
-    is only made on having ``counts != NULL`` and ``counts`` has a next
-    pointer so essentially at least 2 elements in the list.
-
-Mahmoud Mandour (2):
-  plugins/hotblocks: Properly freed the hash table values
-  plugins/hotpages: Properly freed the hash table values
-
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
  contrib/plugins/hotblocks.c | 3 ++-
- contrib/plugins/hotpages.c  | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
+index 4b08340143..64692c0670 100644
+--- a/contrib/plugins/hotblocks.c
++++ b/contrib/plugins/hotblocks.c
+@@ -68,10 +68,11 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+                                    rec->insns, rec->exec_count);
+         }
+ 
+-        g_list_free(it);
++        g_list_free_full(it, g_free);
+         g_mutex_unlock(&lock);
+     }
+ 
++    g_hash_table_destroy(hotblocks);
+     qemu_plugin_outs(report->str);
+ }
+ 
 -- 
 2.25.1
 
