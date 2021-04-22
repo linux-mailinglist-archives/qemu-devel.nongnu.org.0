@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07388367A91
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:06:53 +0200 (CEST)
-Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61604367AE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:20:22 +0200 (CEST)
+Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZTQK-0002dw-4N
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54222)
+	id 1lZTdN-0004Rm-Ej
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZTPQ-0002CG-Fu
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:05:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34546)
+ id 1lZTZV-0007uF-Su
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:16:22 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZTPO-00063q-Kp
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:05:56 -0400
+ id 1lZTZE-0003iQ-2z
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:16:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZTPN-00034B-Ca
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:05:53 +0000
+ id 1lZTZC-0004Vx-VY
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:16:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5D34E2E815B
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:05:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E59692E8157
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:16:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 06:59:01 -0000
-From: Thomas Huth <1835729@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 07:05:01 -0000
+From: Thomas Huth <1835732@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: gtk ui
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth tristan-vanberkom
+X-Launchpad-Bug-Commenters: dgilbert-h tristan-vanberkom
 X-Launchpad-Bug-Reporter: Tristan Van Berkom (tristan-vanberkom)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156258216266.21278.12556510470216212187.malonedeb@gac.canonical.com>
-Message-Id: <161907474199.7382.10281237212974996807.malone@chaenomeles.canonical.com>
-Subject: [Bug 1835729] Re: GTK display does not support host scale factor
+References: <156258349508.21433.10621774615794067692.malonedeb@gac.canonical.com>
+Message-Id: <161907510413.9818.2081952269958196380.launchpad@wampee.canonical.com>
+Subject: [Bug 1835732] Re: GTK display zoom in, zooms infinitely
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 0a6ab1dc503325874974f7f27c016a28d68f2aab
+X-Launchpad-Hash: 4c31bfaa1fd98bff8d71cf6b2acbb75afc30d2d8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,22 +71,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835729 <1835729@bugs.launchpad.net>
+Reply-To: Bug 1835732 <1835732@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-The QEMU project is currently considering to move its bug tracking to
-another system. For this we need to know which bugs are still valid
-and which could be closed already. Thus we are setting older bugs to
-"Incomplete" now.
-
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
-
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -94,28 +82,30 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835729
+https://bugs.launchpad.net/bugs/1835732
 
 Title:
-  GTK display does not support host scale factor
+  GTK display zoom in, zooms infinitely
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  In the GNOME desktop environment, for HiDPI displays there is support
-  to upscale everything.
+  The zoom in feature in the "View" menu of the gtk frontend (launch
+  qemu with -display gtk), seems to be very broken.
 
-  This can be set in "System Settings -> Displays -> Scale".
+  If I hit the zoom in feature, it first zooms in.
 
-  I believe this affects GDK in the same way as setting the "GDK_SCALE"
-  environment variable does.
+  Then, it zooms in again.
 
-  When launching `qemu-system-x86_64 ... -display gtk`, this scale
-  factor seems to get lost; the result is that the host window is
-  upscaled and doubled in size, while the guest appears only in the
-  bottom left corner of the UI.
+  Every subsequent second that passes, it zooms in again, until it
+  eventually eats up too much host resources and freezes the host
+  desktop.
+
+  I have seen this with 3.1.0 (Debian 1:3.1+dfsg-8~deb10u1), and also
+  with a locally built 4.0, My colleague also confirms having seen the
+  issue with 3.1.0 (Debian 1:3.1+dfsg-8).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835729/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1835732/+subscriptions
 
