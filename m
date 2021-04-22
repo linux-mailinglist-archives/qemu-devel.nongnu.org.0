@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CF367DEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 11:44:01 +0200 (CEST)
-Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B96367DEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 11:44:03 +0200 (CEST)
+Received: from localhost ([::1]:33416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZVsO-0001cf-8Q
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 05:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42844)
+	id 1lZVsR-0001jJ-0H
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 05:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lZVqr-00008r-NC
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:42:25 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:35591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lZVqp-0000ay-CQ
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:42:25 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id i4so13108276ybe.2
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 02:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5hITLWBnPmSuinUVleVv9ni9I3Kflv2mk2/MFOo++8Q=;
- b=HFN1zbe6eXStdAMsV710pJRXLiW0j975jI2J8fg7k6uWlJG7OB8XPZII+cC2mn0q7v
- erwWv7tXGfX1wxuONx9pwDFXb7A/irFHh65KBfKpPwIMRdgu+klmYeYrcMYzBvcfO6KQ
- bOVe+dQOtkXBYFMDSStSSvlM8zWnRaXKftzAGy4imImyMC443iK4jDb8zv07aLctpED1
- hi4lsacbvmABELV6Bkyiv9z1B70UuDsEk5LnmNAghItIH5/ZaiVeI+pBZyNq2q7zLr6S
- K9gktXwWzMR5YFMeHzJMymvUx1Q6QD9LxCXyDZ4TfGq83oyCnLz/5FPaipJJLO85qi6K
- M7uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5hITLWBnPmSuinUVleVv9ni9I3Kflv2mk2/MFOo++8Q=;
- b=qwUYb0GX6y+fjaL9dlAEyvXTUEcgvuxhPIBaPgpipfvbzZ+XB7Ld1uSSKaCpcH7ymI
- krfpdHOswI8OK2Rlw6lWsRZ/KqQvbBr8V9RKzCWfXSK1p4T2A4iQjlKNfiatKJ5dsIOZ
- Gj7wMxq4MT29KAJnEWw1cUCqof1OplaUj4oM+i7F/VkSJS6Vaden/UcB4UZlhbdAUIXT
- 1FLWP8rTnObAZzHVS2nzgYxG4gzC8YV963+e7poV4OvPaDrIkDSm6haygPnp4XlLbHRp
- oSTBMShTmEKo922WoILlgGXxHZajDkVrSxXuuUP4vQWwkrm3u7/NWdUvuoE6vdRzkWGs
- iurQ==
-X-Gm-Message-State: AOAM530pxB+ybm+3VcVLG+39+3noQ5NSY35wMn1IJKY5hSLZVdE3XHiR
- ggKy3le4S9zDTl0eV1uvh5t3Sqh4MGlgJBtigTc=
-X-Google-Smtp-Source: ABdhPJzIHx+oc5v5w6idDajNCukVOQI6c34Vwa6G058Z8GPhkZETL7KjWDfYpPvirohnZy5jWouwi6lQEtndceHbvvI=
-X-Received: by 2002:a25:42cd:: with SMTP id p196mr3472240yba.314.1619084542289; 
- Thu, 22 Apr 2021 02:42:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <3f6be9c84782a0943ea21a8a6f8a5d055b65f2d5.1619018363.git.crobinso@redhat.com>
- <fe1f97bc-5ff9-002b-debc-5bc2c449c8b8@redhat.com>
- <CAEUhbmXR1Yn5paL+d0DMjgZUiinQGNRazj3neScL4_=CGvC8zg@mail.gmail.com>
- <CAFEAcA_4TSF1KKxVQUDt3r+aAnZqT-A2uA8m7O0ZaxHQVWgKJg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_4TSF1KKxVQUDt3r+aAnZqT-A2uA8m7O0ZaxHQVWgKJg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 22 Apr 2021 17:42:11 +0800
-Message-ID: <CAEUhbmX-XvJ6ViPjTsiQ2GhmhwefTSbF_m1CRwzphf82SNQixA@mail.gmail.com>
-Subject: Re: [PATCH-for-6.0] net: tap: fix crash on hotplug
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1lZVqv-0000GE-D0
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:42:29 -0400
+Received: from mga01.intel.com ([192.55.52.88]:30564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1lZVqs-0000aH-Re
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:42:29 -0400
+IronPort-SDR: l1PY6Lnk87DG1Pv/qtUjxBJHd0q/E5X7M3ZLeetveovU1njr/oM1E06cL2VyShnh5sW0iAZpEx
+ QaSFmIjJWD7g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="216525754"
+X-IronPort-AV: E=Sophos;i="5.82,242,1613462400"; d="scan'208";a="216525754"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 02:42:20 -0700
+IronPort-SDR: E2LYqV3z8I9r2pibeQXF9EC9+ljcV7BoAgZBleRrgaEUIb5MWPk+XuIAiR7Xuv7CBMlL02jPYl
+ dxOMwnOxFN7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,242,1613462400"; d="scan'208";a="386033237"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by orsmga006.jf.intel.com with ESMTP; 22 Apr 2021 02:42:18 -0700
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: pbonzini@redhat.com,
+	richard.henderson@linaro.org,
+	ehabkost@redhat.com
+Subject: [PATCH] i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
+Date: Thu, 22 Apr 2021 17:42:16 +0800
+Message-Id: <1619084536-89845-1-git-send-email-robert.hu@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=robert.hu@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,85 +61,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Cole Robinson <crobinso@redhat.com>
+Cc: robert.hu@intel.com, qemu-devel@nongnu.org,
+ Robert Hoo <robert.hu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 22, 2021 at 5:36 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Thu, 22 Apr 2021 at 05:29, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Thu, Apr 22, 2021 at 12:36 AM Philippe Mathieu-Daud=C3=A9
-> > <philmd@redhat.com> wrote:
-> > >
-> > > Cc'ing Bin.
-> > >
-> > > On 4/21/21 5:22 PM, Cole Robinson wrote:
-> > > > Attempting to hotplug a tap nic with libvirt will crash qemu:
-> > > >
-> > > > $ sudo virsh attach-interface f32 network default
-> > > > error: Failed to attach interface
-> > > > error: Unable to read from monitor: Connection reset by peer
-> > > >
-> > > > 0x000055875b7f3a99 in tap_send (opaque=3D0x55875e39eae0) at ../net/=
-tap.c:206
-> > > > 206           if (!s->nc.peer->do_not_pad) {
-> > > > gdb$ bt
-> > > >
-> > > > s->nc.peer may not be set at this point. This seems to be an
-> > > > expected case, as qemu_send_packet_* explicitly checks for NULL
-> > > > s->nc.peer later.
-> > > >
-> > > > Fix it by checking for s->nc.peer here too. Padding is applied if
-> > > > s->nc.peer is not set.
-> > > >
-> > > > https://bugzilla.redhat.com/show_bug.cgi?id=3D1949786
-> > > > Fixes: 969e50b61a2
-> > > >
-> > > > Signed-off-by: Cole Robinson <crobinso@redhat.com>
-> > > > ---
-> > > > * Or should we skip padding if nc.peer is unset? I didn't dig into =
-it
-> > > > * tap-win3.c and slirp.c may need a similar fix, but the slirp case
-> > > >   didn't crash in a simple test.
-> > > >
-> > > >  net/tap.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/net/tap.c b/net/tap.c
-> > > > index dd42ac6134..937559dbb8 100644
-> > > > --- a/net/tap.c
-> > > > +++ b/net/tap.c
-> > > > @@ -203,7 +203,7 @@ static void tap_send(void *opaque)
-> > > >              size -=3D s->host_vnet_hdr_len;
-> > > >          }
-> > > >
-> > > > -        if (!s->nc.peer->do_not_pad) {
-> > > > +        if (!s->nc.peer || !s->nc.peer->do_not_pad) {
-> >
-> > I think we should do:
-> >
-> > if (s->nc.peer && !s->nc.peer->do_not_pad)
->
-> Yes. If there is no peer then the qemu_send_packet() that we're about
-> to do is going to discard the packet anyway, so there's no point in
-> padding it.
->
-> Maybe consider
->
-> static inline bool net_peer_needs_padding(NetClientState *nc)
-> {
->     return nc->peer && !nc->peer->do_not_pad;
-> }
->
-> since we want the same check in three places ?
+As it's been marked deprecated since v5.2, now I think it's time remove it
+from code.
 
-Sounds good to me.
+Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+---
+ target/i386/cpu.c | 118 ------------------------------------------------------
+ 1 file changed, 118 deletions(-)
 
-Regards,
-Bin
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ad99cad..75f2ad1 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3338,124 +3338,6 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .model_id = "Intel Xeon Processor (Cooperlake)",
+     },
+     {
+-        .name = "Icelake-Client",
+-        .level = 0xd,
+-        .vendor = CPUID_VENDOR_INTEL,
+-        .family = 6,
+-        .model = 126,
+-        .stepping = 0,
+-        .features[FEAT_1_EDX] =
+-            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
+-            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA |
+-            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 |
+-            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
+-            CPUID_DE | CPUID_FP87,
+-        .features[FEAT_1_ECX] =
+-            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
+-            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
+-            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
+-            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
+-            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOVBE |
+-            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
+-        .features[FEAT_8000_0001_EDX] =
+-            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
+-            CPUID_EXT2_SYSCALL,
+-        .features[FEAT_8000_0001_ECX] =
+-            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFETCH,
+-        .features[FEAT_8000_0008_EBX] =
+-            CPUID_8000_0008_EBX_WBNOINVD,
+-        .features[FEAT_7_0_EBX] =
+-            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
+-            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
+-            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID |
+-            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
+-            CPUID_7_0_EBX_SMAP,
+-        .features[FEAT_7_0_ECX] =
+-            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+-            CPUID_7_0_ECX_AVX512_VBMI2 | CPUID_7_0_ECX_GFNI |
+-            CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
+-            CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
+-            CPUID_7_0_ECX_AVX512_VPOPCNTDQ,
+-        .features[FEAT_7_0_EDX] =
+-            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
+-        /* Missing: XSAVES (not supported by some Linux versions,
+-                * including v4.1 to v4.12).
+-                * KVM doesn't yet expose any XSAVES state save component,
+-                * and the only one defined in Skylake (processor tracing)
+-                * probably will block migration anyway.
+-                */
+-        .features[FEAT_XSAVE] =
+-            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
+-            CPUID_XSAVE_XGETBV1,
+-        .features[FEAT_6_EAX] =
+-            CPUID_6_EAX_ARAT,
+-        /* Missing: Mode-based execute control (XS/XU), processor tracing, TSC scaling */
+-        .features[FEAT_VMX_BASIC] = MSR_VMX_BASIC_INS_OUTS |
+-             MSR_VMX_BASIC_TRUE_CTLS,
+-        .features[FEAT_VMX_ENTRY_CTLS] = VMX_VM_ENTRY_IA32E_MODE |
+-             VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL | VMX_VM_ENTRY_LOAD_IA32_PAT |
+-             VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS | VMX_VM_ENTRY_LOAD_IA32_EFER,
+-        .features[FEAT_VMX_EPT_VPID_CAPS] = MSR_VMX_EPT_EXECONLY |
+-             MSR_VMX_EPT_PAGE_WALK_LENGTH_4 | MSR_VMX_EPT_WB | MSR_VMX_EPT_2MB |
+-             MSR_VMX_EPT_1GB | MSR_VMX_EPT_INVEPT |
+-             MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT | MSR_VMX_EPT_INVEPT_ALL_CONTEXT |
+-             MSR_VMX_EPT_INVVPID | MSR_VMX_EPT_INVVPID_SINGLE_ADDR |
+-             MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT | MSR_VMX_EPT_INVVPID_ALL_CONTEXT |
+-             MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS | MSR_VMX_EPT_AD_BITS,
+-        .features[FEAT_VMX_EXIT_CTLS] =
+-             VMX_VM_EXIT_ACK_INTR_ON_EXIT | VMX_VM_EXIT_SAVE_DEBUG_CONTROLS |
+-             VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
+-             VMX_VM_EXIT_LOAD_IA32_PAT | VMX_VM_EXIT_LOAD_IA32_EFER |
+-             VMX_VM_EXIT_SAVE_IA32_PAT | VMX_VM_EXIT_SAVE_IA32_EFER |
+-             VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER,
+-        .features[FEAT_VMX_MISC] = MSR_VMX_MISC_ACTIVITY_HLT |
+-             MSR_VMX_MISC_STORE_LMA | MSR_VMX_MISC_VMWRITE_VMEXIT,
+-        .features[FEAT_VMX_PINBASED_CTLS] = VMX_PIN_BASED_EXT_INTR_MASK |
+-             VMX_PIN_BASED_NMI_EXITING | VMX_PIN_BASED_VIRTUAL_NMIS |
+-             VMX_PIN_BASED_VMX_PREEMPTION_TIMER,
+-        .features[FEAT_VMX_PROCBASED_CTLS] = VMX_CPU_BASED_VIRTUAL_INTR_PENDING |
+-             VMX_CPU_BASED_USE_TSC_OFFSETING | VMX_CPU_BASED_HLT_EXITING |
+-             VMX_CPU_BASED_INVLPG_EXITING | VMX_CPU_BASED_MWAIT_EXITING |
+-             VMX_CPU_BASED_RDPMC_EXITING | VMX_CPU_BASED_RDTSC_EXITING |
+-             VMX_CPU_BASED_CR8_LOAD_EXITING | VMX_CPU_BASED_CR8_STORE_EXITING |
+-             VMX_CPU_BASED_TPR_SHADOW | VMX_CPU_BASED_MOV_DR_EXITING |
+-             VMX_CPU_BASED_UNCOND_IO_EXITING | VMX_CPU_BASED_USE_IO_BITMAPS |
+-             VMX_CPU_BASED_MONITOR_EXITING | VMX_CPU_BASED_PAUSE_EXITING |
+-             VMX_CPU_BASED_VIRTUAL_NMI_PENDING | VMX_CPU_BASED_USE_MSR_BITMAPS |
+-             VMX_CPU_BASED_CR3_LOAD_EXITING | VMX_CPU_BASED_CR3_STORE_EXITING |
+-             VMX_CPU_BASED_MONITOR_TRAP_FLAG |
+-             VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
+-        .features[FEAT_VMX_SECONDARY_CTLS] =
+-             VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
+-             VMX_SECONDARY_EXEC_WBINVD_EXITING | VMX_SECONDARY_EXEC_ENABLE_EPT |
+-             VMX_SECONDARY_EXEC_DESC | VMX_SECONDARY_EXEC_RDTSCP |
+-             VMX_SECONDARY_EXEC_ENABLE_VPID | VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST |
+-             VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
+-             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
+-             VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
+-        .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
+-        .xlevel = 0x80000008,
+-        .model_id = "Intel Core Processor (Icelake)",
+-        .versions = (X86CPUVersionDefinition[]) {
+-            {
+-                .version = 1,
+-                .note = "deprecated"
+-            },
+-            {
+-                .version = 2,
+-                .note = "no TSX, deprecated",
+-                .alias = "Icelake-Client-noTSX",
+-                .props = (PropValue[]) {
+-                    { "hle", "off" },
+-                    { "rtm", "off" },
+-                    { /* end of list */ }
+-                },
+-            },
+-            { /* end of list */ }
+-        },
+-        .deprecation_note = "use Icelake-Server instead"
+-    },
+-    {
+         .name = "Icelake-Server",
+         .level = 0xd,
+         .vendor = CPUID_VENDOR_INTEL,
+-- 
+1.8.3.1
+
 
