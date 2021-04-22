@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0100F367CEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:52:55 +0200 (CEST)
-Received: from localhost ([::1]:59416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EC5367CE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:50:32 +0200 (CEST)
+Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZV4w-0005gb-23
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55020)
+	id 1lZV2d-00048A-8l
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:50:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZV3Q-0004oD-8y
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:51:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZV3M-0003eA-KO
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:51:19 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZV3J-0001lf-JK
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:51:13 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8E6982E8050
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:51:13 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lZV1N-0003dK-Qj; Thu, 22 Apr 2021 04:49:13 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:53344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lZV1J-0002GW-1S; Thu, 22 Apr 2021 04:49:11 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id D5C452E172B;
+ Thu, 22 Apr 2021 11:49:03 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ UJAQdQNd2n-n31Gte0l; Thu, 22 Apr 2021 11:49:03 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1619081343; bh=S7NizheHyvUGEynPIrtRxCYFdkbIu2afcOOryvRZ8Pg=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=Jn0lAcZcgG48NaldfXs1TcTqYuBenzbclp0ewqK3mxB5s/vq57h0fQksfx6QYkgw9
+ j3fSCbhamHTgfa7cDvAfRGDTnpJiVpgncPptFwSpv3059/lps9THkcclglOwj8CHig
+ ma2aAZ9LfgGCDCvfkY49RPLJzHXTHC2a6Dg6mJPY=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:219::1:22])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ dvJdDyKiKQ-n3pqwSu4; Thu, 22 Apr 2021 11:49:03 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Thu, 22 Apr 2021 11:49:00 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 02/33] block/nbd: fix how state is cleared on
+ nbd_open() failure paths
+Message-ID: <YIE4fKtOB8T5MYMQ@rvkaganb>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-3-vsementsov@virtuozzo.com>
+ <YIAwEYbLpqzzFzd4@rvkaganb.lan>
+ <2f1afa65-fb15-7ccd-7285-dee9fe41161c@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 08:45:28 -0000
-From: Thomas Huth <1849894@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: baryluk th-huth
-X-Launchpad-Bug-Reporter: Witold Baryluk (baryluk)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157203451253.3372.9480827920211406597.malonedeb@gac.canonical.com>
-Message-Id: <161908112889.31919.3605805015603484769.malone@soybean.canonical.com>
-Subject: [Bug 1849894] Re: hw/scsi/scsi-disk.c line 2554 allocation overflow
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 603cc1508d8cad5e7b223a870e5e8dc726abd006
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f1afa65-fb15-7ccd-7285-dee9fe41161c@virtuozzo.com>
+Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
+ helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,113 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1849894 <1849894@bugs.launchpad.net>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to
-another system. For this we need to know which bugs are still valid
-and which could be closed already. Thus we are setting older bugs to
-"Incomplete" now.
+On Thu, Apr 22, 2021 at 01:27:22AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 21.04.2021 17:00, Roman Kagan wrote:
+> > On Fri, Apr 16, 2021 at 11:08:40AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> > > @@ -2305,20 +2301,23 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+> > >           return -EEXIST;
+> > >       }
+> > > +    ret = nbd_process_options(bs, options, errp);
+> > > +    if (ret < 0) {
+> > > +        goto fail;
+> > > +    }
+> > > +
+> > >       /*
+> > >        * establish TCP connection, return error if it fails
+> > >        * TODO: Configurable retry-until-timeout behaviour.
+> > >        */
+> > >       if (nbd_establish_connection(bs, s->saddr, errp) < 0) {
+> > > -        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
+> > > -        return -ECONNREFUSED;
+> > > +        ret = -ECONNREFUSED;
+> > > +        goto fail;
+> > >       }
+> > >       ret = nbd_client_handshake(bs, errp);
+> > Not that this was introduced by this patch, but once you're at it:
+> > AFAICT nbd_client_handshake() calls yank_unregister_instance() on some
+> > error path(s); I assume this needs to go too, otherwise it's called
+> > twice (and asserts).
+> > 
+> > Roman.
+> > 
+> 
+> No, nbd_client_handshake() only calls yank_unregister_function(), not instance.
 
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
+Indeed.  Sorry for confusion.
 
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1849894
-
-Title:
-  hw/scsi/scsi-disk.c line 2554 allocation overflow
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  When compiling qemu from git master (at commit
-  03bf012e523ecdf047ac56b2057950247256064d ) on Linux amd64, with gcc-9
-  9.2.1 , and using `-march=3Dnative -flto`, during linking of most target
-  binaries, compiler does detect an issue with allocation in
-  scsi_disk_new_request_dump and aborts compilation.
-
-  =
-
-  make[1]: Entering directory '/home/user/qemu/slirp'
-  make[1]: Nothing to be done for 'all'.
-  make[1]: Leaving directory '/home/user/qemu/slirp'
-  nm: stats64.o: no symbols
-    LINK    aarch64-softmmu/qemu-system-aarch64
-  In function =E2=80=98scsi_disk_new_request_dump=E2=80=99,
-      inlined from =E2=80=98scsi_new_request=E2=80=99 at hw/scsi/scsi-disk.=
-c:2580:9,
-      inlined from =E2=80=98scsi_new_request=E2=80=99 at hw/scsi/scsi-disk.=
-c:2564:21:
-  hw/scsi/scsi-disk.c:2554:19: error: argument 1 value =E2=80=9818446744073=
-709551612=E2=80=99 exceeds maximum object size 9223372036854775807 [-Werror=
-=3Dalloc-size-larger-than=3D]
-  hw/scsi/scsi-disk.c: In function =E2=80=98scsi_new_request=E2=80=99:
-  /usr/include/glib-2.0/glib/gmem.h:78:10: note: in a call to allocation fu=
-nction =E2=80=98g_malloc=E2=80=99 declared here
-     78 | gpointer g_malloc         (gsize  n_bytes) G_GNUC_MALLOC G_GNUC_A=
-LLOC_SIZE(1);
-        |          ^
-  lto1: all warnings being treated as errors
-  lto-wrapper: fatal error: c++ returned 1 exit status
-  compilation terminated.
-  /usr/bin/ld: error: lto-wrapper failed
-  collect2: error: ld returned 1 exit status
-
-
-  same happens for most other targets: alpha-softmmu/qemu-system-alpha
-  arm-softmmu/qemu-system-arm hppa-softmmu/qemu-system-hppa i386-softmmu
-  /qemu-system-i386 lm32-softmmu/qemu-system-lm32 mips-softmmu/qemu-
-  system-mips mips64-softmmu/qemu-system-mips64 mips64el-softmmu/qemu-
-  system-mips64el mipsel-softmmu/qemu-system-mipsel ppc-softmmu/qemu-
-  system-ppc ppc64-softmmu/qemu-system-ppc64 riscv32-softmmu/qemu-
-  system-riscv32 riscv64-softmmu/qemu-system-riscv64 s390x-softmmu/qemu-
-  system-s390x sh4-softmmu/qemu-system-sh4 sh4eb-softmmu/qemu-system-
-  sh4eb sparc-softmmu/qemu-system-sparc sparc64-softmmu/qemu-system-
-  sparc64 x86_64-softmmu/qemu-system-x86_64 xtensa-softmmu/qemu-system-
-  xtensa xtensaeb-softmmu/qemu-system-xtensaeb
-
-  Notice -softmmu being a common factor here.
-
-
-  The size of the allocation for the temporary buffer for dumping using
-  snprintf is determined based on the size of the buffer via call to
-  scsi_cdb_length. I believe the heavy inlining and constant propagation
-  makes scsi_cdb_length return -1, so len =3D -1. Then allocation size is
-  5*len + 1, or -4. Which overflows to 2^64 - 4 or so.
-
-  The case of len=3D=3D-1 from scsi_cdb_length happens if the (buf[0] >> 5)
-  is not 0, 1, 2, 4 or 5.
-
-  However, I can't find out how gcc figures out that buf[0] is not one
-  of these variables. To me looking at this function, compiler should
-  not know anything about buf[0].
-
-  I tried following the chain of calls back, including devirtualize
-  alloc_req, and I found scsi_device_alloc_req calling these alloc_req
-  callbacks, but it is itself called from scsi_req_new, which is called
-  in  get_scsi_requests , just after buf is filled from QEMUFile using
-  qemu_get_buffer, which ultimately goes even further into read paths,
-  which there might be many AFAIK.
-
-
-  =
-
-  glib2 version 2.62.1-1
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1849894/+subscriptions
+Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 
