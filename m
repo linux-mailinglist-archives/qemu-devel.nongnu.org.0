@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A926367A80
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:03:38 +0200 (CEST)
-Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8FA367A92
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:08:17 +0200 (CEST)
+Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZTNB-0007J5-5Z
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:03:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
+	id 1lZTRg-0003aq-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZTKe-0005aO-G2
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:01:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33588)
+ id 1lZTPR-0002DT-Uw
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:05:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZTKb-00038Q-81
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:01:00 -0400
+ id 1lZTPP-000649-8E
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:05:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZTKZ-0002ZX-KG
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:00:55 +0000
+ id 1lZTPO-00033r-7k
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:05:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97AE72E806F
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:00:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 363182E8157
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:05:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 06:54:40 -0000
-From: Thomas Huth <1835466@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 06:57:51 -0000
+From: Thomas Huth <1835694@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kraxel-redhat shastah th-huth
-X-Launchpad-Bug-Reporter: Jakub Jankowski (shastah)
+X-Launchpad-Bug-Commenters: alhaddad2000 th-huth
+X-Launchpad-Bug-Reporter: Abdulla (alhaddad2000)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156227962582.22875.12169494608827824655.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161907448092.31576.10748459370886314034.malone@soybean.canonical.com>
-Subject: [Bug 1835466] Re: qemu 4.0.0 abort()s in audio_get_pdo_in (poisoned
- drv->driver?)
+References: <156255510137.2177.7648111145482157380.malonedeb@wampee.canonical.com>
+Message-Id: <161907467202.31576.11094272240472264348.malone@soybean.canonical.com>
+Subject: [Bug 1835694] Re: hardware-based time keeping
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: ad4ede576bc1cf396e7d746c3817715198019863
+X-Launchpad-Hash: c56a88ce816349549d7b5bc227aaed3ae82ebd71
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835466 <1835466@bugs.launchpad.net>
+Reply-To: Bug 1835694 <1835694@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,202 +94,410 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835466
+https://bugs.launchpad.net/bugs/1835694
 
 Title:
-  qemu 4.0.0 abort()s in audio_get_pdo_in (poisoned drv->driver?)
+  hardware-based time keeping
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  After upgrading qemu from 3.0.0 to 4.0.0 (compiled from release
-  tarball), I'm seeing a (reproducible) crash related to audio
-  subsystem.
+  Hi all,
 
-  I recompiled qemu with debugging options and got it to crash under
-  gdb:
+  I hope you're all doing well.
 
-  Thread 6 "qemu-system-x86" received signal SIGABRT, Aborted.
-  0x00007ffff52e420b in raise () from /lib64/libc.so.6
-  (gdb) bt
-  #0  0x00007ffff52e420b in raise () at /lib64/libc.so.6
-  #1  0x00007ffff52c6524 in abort () at /lib64/libc.so.6
-  #2  0x000000000041ec33 in audio_get_pdo_in (dev=3D<optimized out>) at aud=
-io/audio_template.h:328
-  #3  0x00000000005d0123 in AUD_open_in
-      (card=3D0x7ffdde98dbc8, sw=3D0x7ffff17444e0, name=3D0x999d80 "adc", c=
-allback_opaque=3Dcallback_opaque@entry=3D0x7ffdde98fd58, callback_fn=3D0x61=
-0940 <hda_audio_input_cb>, as=3Das@entry=3D0x7ffdde98fd84) at audio/audio_t=
-emplate.h:434
-  #4  0x000000000060fe2e in hda_audio_setup (st=3D0x7ffdde98fd58) at hw/aud=
-io/hda-codec.c:490
-  #5  0x000000000061051b in hda_audio_command (hda=3D0x7ffdde98db40, nid=3D=
-4, data=3D<optimized out>) at hw/audio/hda-codec.c:590
-  #6  0x000000000060ea20 in intel_hda_send_command (d=3Dd@entry=3D0x7ffff0a=
-2fc00, verb=3Dverb@entry=3D4341777) at hw/audio/intel-hda.c:301
-  #7  0x000000000060ebbe in intel_hda_corb_run (d=3D<optimized out>) at hw/=
-audio/intel-hda.c:336
-  #8  0x000000000060ebbe in intel_hda_corb_run (d=3D0x7ffff0a2fc00) at hw/a=
-udio/intel-hda.c:305
-  #9  0x0000000000495b99 in memory_region_write_accessor
-      (mr=3Dmr@entry=3D0x7ffff0a307a0, addr=3D72, value=3Dvalue@entry=3D0x7=
-fffeddfe568, size=3Dsize@entry=3D2, shift=3D<optimized out>, mask=3Dmask@en=
-try=3D65535, attrs=3D...)
-      at memory.c:502
-  #10 0x000000000049448e in access_with_adjusted_size
-      (addr=3Daddr@entry=3D72, value=3Dvalue@entry=3D0x7fffeddfe568, size=
-=3Dsize@entry=3D2, access_size_min=3D<optimized out>, access_size_max=3D<op=
-timized out>, access_fn=3Daccess_fn@entry=3D0x495b10 <memory_region_write_a=
-ccessor>, mr=3D0x7ffff0a307a0, attrs=3D...) at memory.c:568
-  #11 0x00000000004974f3 in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
-x7ffff0a307a0, addr=3D72, data=3D<optimized out>, size=3D2, attrs=3Dattrs@e=
-ntry=3D...)
-      at memory.c:1496
-  #12 0x000000000042afbc in flatview_write_continue
-      (fv=3Dfv@entry=3D0x7ffdd36ef5c0, addr=3Daddr@entry=3D4228186184, attr=
-s=3D..., buf=3Dbuf@entry=3D0x7ffff66c7028 <incomplete sequence \311>, len=
-=3Dlen@entry=3D2, addr1=3D<optimized out>, l=3D<optimized out>, mr=3D0x7fff=
-f0a307a0) at exec.c:3279
-  #13 0x000000000042b1d6 in flatview_write
-      (fv=3D0x7ffdd36ef5c0, addr=3Daddr@entry=3D4228186184, attrs=3Dattrs@e=
-ntry=3D..., buf=3Dbuf@entry=3D0x7ffff66c7028 <incomplete sequence \311>, le=
-n=3Dlen@entry=3D2)
-      at exec.c:3318
-  #14 0x000000000042e2a6 in address_space_write
-      (as=3D0xfc5080 <address_space_memory>, addr=3D4228186184, attrs=3D...=
-, buf=3Dbuf@entry=3D0x7ffff66c7028 <incomplete sequence \311>, len=3D2)
-      at exec.c:3408
-  #15 0x000000000042e33a in address_space_rw (as=3D<optimized out>, addr=3D=
-<optimized out>, attrs=3D..., =
+  As i was looking for a solution for a particular problem in Qemu/KVM
+  virtualization.
 
-      attrs@entry=3D..., buf=3Dbuf@entry=3D0x7ffff66c7028 <incomplete seque=
-nce \311>, len=3D<optimized out>, is_write=3D<optimized out>) at exec.c:3419
-  #16 0x00000000004ac3c6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x7ffff0a81140)=
- at accel/kvm/kvm-all.c:2034
-  #17 0x00000000004812ae in qemu_kvm_cpu_thread_fn (arg=3D0x7ffff0a81140) a=
-t cpus.c:1281
-  #18 0x00000000004812ae in qemu_kvm_cpu_thread_fn (arg=3Darg@entry=3D0x7ff=
-ff0a81140) at cpus.c:1254
-  #19 0x000000000089d0eb in qemu_thread_start (args=3D<optimized out>) at u=
-til/qemu-thread-posix.c:502
-  #20 0x00007ffff549319c in start_thread () at /lib64/libpthread.so.0
-  #21 0x00007ffff53ba4af in clone () at /lib64/libc.so.6
+  My issue is that I have a virtual machine that runs well in VMware and wh=
+en
+  I migrated that to Qemu/KVM-enabled environment, it didn't work! I figured
+  out that under VMware hypervisor, VMware supplies CPU TSC and Performance
+  Counters values to the guest VM with the option
+  "monitor_control.pseudo_perfctr =3D TRUE" set the vmx configuration file,
+  Ref.: https://www.vmware.com/pdf/vmware_timekeeping.pdf
+
+  My question is, is there any similar option in Qemu/KVM-enabled environme=
+nt
+  that I can use to get my VM working the same way as in the VMware
+  environment?
+
+  I almost tried all options in Qemu with regards to CPU but no avail.
+
+  To elaborate more, the VM I'm trying to port under Qemu/KVM environment is
+  a an old version of Cisco virtual ASA Firewall. The VM image is actually
+  meant to be run under VMware ESXi and with that
+  "*monitor_control.pseudo_perfctr
+  =3D TRUE*" option it can also run in Vware Workstation as well. *Yes, this
+  option that makes it run under VMware and if it's removed from the
+  configuration vmx file then the VM boots half way and crashes the same way
+  it crashes under Qemu*. That dictates it's the option in interest that
+  needs to be found in Qemu/KVM. I have a copy of this VM in the below link
+  in case you would like to try its behavior in under VMware. I downloaded =
+it
+  from a youtube previously to test it out:
+
+  https://drive.google.com/open?id=3D1SEXws18hoj2sWGk8iFqqH8RpBZsBNpRH
+
+  Once you power on the VM you can telnet to 127.0.0.1 on port 3000 to see
+  the boot process. If you remove that option i mentioned to you and boot t=
+he
+  VM again you'll see the crashing in process.
 
   =
 
-  After some poking around, I think there's something overwriting dev->driv=
-er so this switch(dev->driver) statement falls through to abort(): https://=
-git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Daudio/audio_template.h;h=3D1232bb54=
-db0e7073e60e3ccb72c1ed72cf5e3831;hb=3D131b9a05705636086699df15d4a6d328bb258=
-5e8#l304
+  I've converted that vmdk disk images into Qemu disks "qcow2" format and i
+  ran them using the below command line on Ubuntu:
+
+  /opt/qemu/bin/qemu-system-x86_64 -L -nographic -device
+  e1000-82545em,netdev=3Dnet0,mac=3D50:00:00:6a:00:00 -netdev
+  tap,id=3Dnet0,ifname=3Dvunl0_33_0,script=3Dno -device
+  e1000-82545em,netdev=3Dnet1,mac=3D50:00:00:6a:00:01 -netdev
+  tap,id=3Dnet1,ifname=3Dvunl0_33_1,script=3Dno -device
+  e1000-82545em,netdev=3Dnet2,mac=3D50:00:00:6a:00:02 -netdev
+  tap,id=3Dnet2,ifname=3Dvunl0_33_2,script=3Dno -device
+  e1000-82545em,netdev=3Dnet3,mac=3D50:00:00:6a:00:03 -netdev
+  tap,id=3Dnet3,ifname=3Dvunl0_33_3,script=3Dno -machine type=3Dpc-1.0  *-c=
+pu
+  host,migratable=3Doff,invtsc=3Don,pmu=3Don* -m 4096 -hda hda.qcow2 -hdb h=
+db.qcow2
+  -serial telnet:0.0.0.0:3000,server,nowait -monitor
+  tcp:127.0.0.1:42379,server,nowait
+  -nographic -display none -enable-kvm
 
   =
 
-  Here's why I think so:
+  Once you power on the VM you can telnet to xx.xx.xx.xx 3000 (where the xx
+  IP is the Ubuntu machine IP) to see the crashing in process. You may need
+  to wait for a while for the status messages to appear in the terminal
+  window.
 
-  $ export QEMU_AUDIO_DRV=3Dpa
-  $ gdb /usr/bin/qemu-system-x86_64
-  (gdb) b qpa_audio_init
-  Breakpoint 1 at 0x79bcb0: file audio/paaudio.c, line 831.
-  (gdb) b audio_get_pdo_in
-  Breakpoint 2 at 0x5ce320: file audio/audio_template.h, line 304.
-  (gdb) run -enable-kvm -cpu Nehalem -machine q35 -device intel-iommu -name=
- Workstation -smp 4 -m 8G -soundhw hda -rtc base=3Dlocaltime -drive file=3D=
-workstation-disk0.qcow2,if=3Dvirtio,format=3Dqcow2 -drive file=3Dworkstatio=
-n-disk1.qcow2,if=3Dvirtio,format=3Dqcow2 -net nic,model=3Dvirtio,macaddr=3D=
-aa:bb:cc:dd:ee:ff -net tap,ifname=3Dtap42 -monitor telnet:127.0.0.1:7043,se=
-rver,nowait -pidfile workstation.pid -vga qxl -global qxl-vga.vgamem_mb=3D6=
-4 -device usb-ehci,id=3Dehci -device usb-host,vendorid=3D0x1390,productid=
-=3D0x5454,bus=3Dehci.0 -device usb-host,vendorid=3D0x054c,bus=3Dehci.0 -dev=
-ice usb-tablet -device nec-usb-xhci,id=3Dxhci -device usb-host,vendorid=3D0=
-x10c4,productid=3D0x888e,bus=3Dxhci.0
+  I assume it's a cpu issue because in page 9 of the Vmware pdf reference
+  file; it says there are machine instructions become available when this
+  option "*monitor_control.pseudo_perfctr =3D TRUE*" is enabled:
 
-  Thread 1 "qemu-system-x86" hit Breakpoint 1, qpa_audio_init (dev=3D0x7fff=
-f161b6a0) at audio/paaudio.c:831
-  (gdb) p (*dev)->driver
-  $1 =3D AUDIODEV_DRIVER_PA
-  (gdb) p/d AUDIODEV_DRIVER_PA
-  $2 =3D 5
-  (gdb) cont
-  Continuing.
-  [Thread 0x7ffff09ff700 (LWP 4078) exited]
-  audio: warning: Using timer based audio emulation
-  Thread 1 "qemu-system-x86" hit Breakpoint 2, audio_get_pdo_in (dev=3D0x7f=
-fff161b6a0) at audio/audio_template.h:304
-  (gdb) p (*dev)->driver
-  $3 =3D AUDIODEV_DRIVER_PA
-  (gdb) cont
-  Continuing.
+  The following machine instructions then become available:
 
-  Thread 1 "qemu-system-x86" hit Breakpoint 2, audio_get_pdo_in (dev=3D0x7f=
-fff161b6a0) at audio/audio_template.h:304
-  (gdb) p (*dev)->driver
-  $4 =3D AUDIODEV_DRIVER_PA
-  (gdb) cont
-  Continuing.
+  Instruction    Time Value    Returned
+  rdpmc           0x10000       Physical host TSC
+  rdpmc           0x10001       Elapsed real time in ns
+  rdpmc           0x10002       Elapsed apparent time in ns
 
-  Thread 1 "qemu-system-x86" hit Breakpoint 2, audio_get_pdo_in (dev=3D0x7f=
-fff161b6a0) at audio/audio_template.h:304
-  (gdb) p (*dev)->driver
-  $5 =3D AUDIODEV_DRIVER_PA
-  (gdb) cont
-  Continuing.
-  [New Thread 0x7ffff09ff700 (LWP 4483)]
-  [New Thread 0x7ffddcdff700 (LWP 4489)]
-  [New Thread 0x7ffddbdff700 (LWP 4490)]
-  [New Thread 0x7ffddb1ff700 (LWP 4491)]
-  [New Thread 0x7ffdd2dff700 (LWP 4494)]
-  [New Thread 0x7ffdd25fe700 (LWP 4495)]
-  [New Thread 0x7ffdd1dfd700 (LWP 4497)]
-  [New Thread 0x7ffdda5ff700 (LWP 4500)]
-  [New Thread 0x7ffdcedff700 (LWP 4501)]
-  qemu-system-x86_64: warning: guest updated active QH
-  [Switching to Thread 0x7fffef7ff700 (LWP 4097)]
+  Therefore, I used many of the Qemu cpu options such as these:
 
-  Thread 4 "qemu-system-x86" hit Breakpoint 2, audio_get_pdo_in (dev=3D0x7f=
-fff161b6a0) at audio/audio_template.h:304
-  (gdb) p (*dev)->driver
-  $6 =3D 176
+  -cpu host,migratable=3Dno,+invtsc (ref: https://wiki.qemu.org/ChangeLog/2=
+.1)
+  -cpu host, tsc-frequency=3Dxxxx (ref: https://lists.gnu.org/archive/
+  html/qemu-devel/2017-01/msg03555.html)
+   -cpu host,migratable=3Doff,invtsc=3Dtrue,pmu=3Dtrue
+
+  Not sure if i'm hitting the wrong option!
+
+  The log I'm getting when the VM boots up looks like the following crash
+  happens at the blue colored log:
+
+  -------------------------------------------------------------------------=
+---------------------------------------------------
+  Loading...
+
+  Starting image verification
+  Hash Computation:    100% Done!
+  Computed Hash   SHA2: 63c1e8aa9de3d0c6e738dc91be8e1784
+                        5caf64af4cf06cf6a3c5da7200d478dd
+                        938d380d2b1064f6a349401c7860f50e
+                        cc4eeb98a0ae16c097dbc9447d4d6626
+
+  Get key records from key storage: Primary, key_store_type: 2
+  Embedded Hash   SHA2: 63c1e8aa9de3d0c6e738dc91be8e1784
+                        5caf64af4cf06cf6a3c5da7200d478dd
+                        938d380d2b1064f6a349401c7860f50e
+                        cc4eeb98a0ae16c097dbc9447d4d6626
+
+  The digital signature of the running image verified successfully
+  Processor memory 3183296512, Reserved memory: 0
+
+  Total NICs found: 4
+  i82545EM rev03 Gigabit Ethernet @ irq10 dev 6 index 03 MAC: 5000.006a.0003
+  i82545EM rev03 Gigabit Ethernet @ irq10 dev 5 index 02 MAC: 5000.006a.0002
+  i82545EM rev03 Gigabit Ethernet @ irq11 dev 4 index 01 MAC: 5000.006a.0001
+  i82545EM rev03 Gigabit Ethernet @ irq11 dev 3 index 00 MAC: 5000.006a.0000
+
+  Thread Name: lina_flash_init_thread
+  Page fault: Unknown
+          r8 0x0000000000000790
+          r9 0x00007fff3fa8b000
+         r10 0x0000000000000001
+         r11 0x000000000210e130
+         r12 0x00000000062ebfc0
+         r13 0x0000000000010001
+         r14 0x0000000000000000
+         r15 0x00000000062ebfc0
+         rdi 0x00000000062ebfc0
+         rsi 0x0000000006c17c20
+         rbp 0x00007fff4056f4e0
+         rbx 0x00000000062ebfc0
+         rdx 0x00007fff40566f10
+         rax 0x0000000000000001
+         rcx 0x0000000000010001
+         rsp 0x00007fff4056f4b0
+         rip 0x0000000001581130
+      eflags 0x0000000000013202
+      csgsfs 0x0000000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+
+  Cisco Adaptive Security Appliance Software Version 9.3(1)
+
+  Compiled on Wed 23-Jul-14 18:16 PDT by builders
+  Hardware:   ASAv
+  Crashinfo collected on 03:42:24.059 UTC Tue Nov 28 2017
+
+  Traceback:
+  0: 0x0000000000422118
+  1: 0x0000000000422152
+  2: 0x0000000000424331
+  3: 0x00000000015874a9
+  4: 0x00007ffffecd55f0
+  5: 0x0000000000558d85
+  6: 0x00000000008f5a2b
+  7: 0x00000000008fd361
+  8: 0x0000000000428a15
+  Stack dump: base:0x00007fff4056f2e0 size:178, active:178
+       entries above '=3D=3D': return PC preceded by input parameters
+       entries below '=3D=3D': local variables followed by saved regs
+                   '=3D=3DFn': stack frame n, contains next stack frame
+                      '*': stack pointer at crash
+   rdi rsi rdx rcx r8 r9 : Arguments 1 through 6 to leaf function
+   For example:
+      0x00007fffeeeeef00: 0x0000000000000009     : arg9
+      0x00007fffeeeeeefc: 0x0000000000000008     : arg8
+      0x00007fffeeeeeef8: 0x0000000000000007     : arg7
+      0x00007fffeeeeeef4: 0x0000000000000abc     : return PC
+      0x00007fffeeeeeef0: 0x00007fffeeeeef20 =3D=3DF2: stack frame F2
+      0x00007fffeeeeeeec: 0x0000000000000def     : local variable
+      0x00007fffeeeeeee8: 0x0000000000000123     : local variable or saved =
+reg
+      0x00007fffeeeeeee4: 0x0000000000000456     : local variable or saved =
+reg
+      0x00007fffeeeeeee0: 0x0000000000000789     : local variable or saved =
+reg
+  0x00007fff4056f870: 0x00007fff4056f7e0
+  0x00007fff4056f868: 0x0000000000000000
+  0x00007fff4056f860: 0x00000038a11c0123
+  0x00007fff4056f858: 0x0000000000000083
+  0x00007fff4056f850: 0x00007fff16a864c8
+  0x00007fff4056f848: 0x0000000000000000
+  0x00007fff4056f840: 0x00000000a11ccdef
+  0x00007fff4056f838-0x00007fff4056f808: 0x0000000000000000
+  0x00007fff4056f800: 0x0000000000429867
+  0x00007fff4056f7f8: 0x00007fff4056f860
+  0x00007fff4056f7f0: 0x00007fff40567100
+  0x00007fff4056f7e8: 0x0000000000000000
+  0x00007fff4056f7e0: 0x00000030a11c0123
+  0x00007fff4056f7d8: 0x0000000000000083
+  0x00007fff4056f7d0: 0x00007fff16a864c8
+  0x00007fff4056f7c8: 0x0000000000000000
+  0x00007fff4056f7c0: 0x00000000a11ccdef
+  0x00007fff4056f7b8: 0x0fffffff0fffffff
+  0x00007fff4056f7b0-0x00007fff4056f7a8: 0x0000000000000000
+  0x00007fff4056f7a0: 0x00000000062cc8a0
+  0x00007fff4056f798: 0x0000000000000000
+  0x00007fff4056f790: 0x00007fff4056f6e0
+  0x00007fff4056f788: 0x00007fff4056f758
+  0x00007fff4056f780: 0x0000000000000000
+  0x00007fff4056f778: 0x00007fff3ff48620
+  0x00007fff4056f770-0x00007fff4056f730: 0x0000000000000000
+  0x00007fff4056f728: 0x0000000004d14940
+  0x00007fff4056f720: 0x000000000041d690
+  0x00007fff4056f718: 0x0000000002777640
+  0x00007fff4056f710: 0x0000000200010010
+  0x00007fff4056f708: 0x0000000006c17d40
+  0x00007fff4056f700: 0x00007fff4056f6e0
+  0x00007fff4056f6f8: 0x00007fff40150e80
+  0x00007fff4056f6f0: 0x000000000638e598
+  0x00007fff4056f6e8: 0x00007fff3ff48620
+  0x00007fff4056f6e0: 0x00007fff4056f778
+  0x00007fff4056f6d8: 0x00000000deadfeed
+  0x00007fff4056f6d0-0x00007fff4056f6c8: 0x0000000000000000
+  0x00007fff4056f6c0: 0x000000000041e1f6
+  0x00007fff4056f6b8: 0x00007fff40571fd0
+  0x00007fff4056f6b0: 0x00007fff40560cf0
+  0x00007fff4056f6a8: 0x0000000000000000
+  0x00007fff4056f6a0: 0x000000f0a11c0123
+  0x00007fff4056f698: 0x0000000000000143
+  0x00007fff4056f690: 0x00007fff16a864c8
+  0x00007fff4056f688: 0x0000000000000000
+  0x00007fff4056f680: 0x00000000a11ccdef
+  0x00007fff4056f678-0x00007fff4056f660: 0x0000000000000000 =3D=3DF5
+  0x00007fff4056f658: 0x000000009abcdef0
+  0x00007fff4056f650-0x00007fff4056f5b8: 0x123456789abcdef0
+  0x00007fff4056f5b0: 0x0000000000428a01
+  0x00007fff4056f5a8: 0x00007fff4056f570
+  0x00007fff4056f5a0-0x00007fff4056f590: 0x0000000000000000
+  0x00007fff4056f588: 0xffffffffffffdf98
+  0x00007fff4056f580: 0x00007fff4056f670
+  0x00007fff4056f578: 0x00007fff3ff48370
+  0x00007fff4056f570: 0x0000000000000000
+  0x00007fff4056f568: 0x0000000000428a15
+  0x00007fff4056f560: 0x00007fff4056f670 =3D=3DF4
+  0x00007fff4056f558: 0x00000000008fd361
+  0x00007fff4056f550: 0x00007fff4056f560 =3D=3DF3
+  0x00007fff4056f548: 0x00000000008f5a2b
+  0x00007fff4056f540: 0x00007fff4056f550 =3D=3DF2
+  0x00007fff4056f538: 0x0000000000000000
+  0x00007fff4056f530: 0xffffffffffffdf98
+  0x00007fff4056f528: 0x00007fff3ff48370
+  0x00007fff4056f520: 0x00000000008fba90
+  0x00007fff4056f518: 0x00000000008fb908
+  0x00007fff4056f510: 0x00007fff4056f550
+  0x00007fff4056f508: 0x00000000008fb87e
+  0x00007fff4056f500: 0x00007fff4056f510
+  0x00007fff4056f4f8: 0x0000000000000000
+  0x00007fff4056f4f0: 0xffffffffffffdf98
+  0x00007fff4056f4e8: 0x0000000000558d85
+  0x00007fff4056f4e0: 0x00007fff4056f540 =3D=3DF1
+  0x00007fff4056f4d8-0x00007fff4056f4d0: 0x0000000000000000
+  0x00007fff4056f4c8: 0x0000000000000001
+  0x00007fff4056f4c0-0x00007fff4056f4b8: 0x00000000062ebfc0
+  0x00007fff4056f4b0: 0x0000000000000000 *
+  0x00007fff4056f4a8: 0x00000000008fd973
+  0x00007fff4056f4a0: 0x00007fff4056f4d0
+  0x00007fff4056f498: 0x00007fff40563908
+  0x00007fff4056f490: 0x00007fff4056f4d0
+  0x00007fff4056f488: 0x00000000009d4b01
+  0x00007fff4056f480: 0x00007fff4056f4a0
+  0x00007fff4056f478-0x00007fff4056f470: 0x0000000000000000
+  0x00007fff4056f468: 0x00007fff418d6390
+  0x00007fff4056f460: 0x0000000000000000
+  0x00007fff4056f458: 0x000000000201b9f8
+  0x00007fff4056f450: 0x00007fff4056f480
+  0x00007fff4056f448: 0x00007fff40563908
+  0x00007fff4056f440: 0x0000000000000001
+  0x00007fff4056f438: 0x00007fff405619a0
+  0x00007fff4056f430: 0x00007fff40563908
+  0x00007fff4056f428: 0x0000000000000001
+  0x00007fff4056f420: 0x0000000000000000
+  0x00007fff4056f418: 0x0000000001627125
+  0x00007fff4056f410: 0x00007fff4056f450
+  0x00007fff4056f408: 0x00007fff3fa8b010
+  0x00007fff4056f400: 0x00007fff46505845
+  0x00007fff4056f3f8-0x00007fff4056f3c8: 0x0000000000000000
+  0x00007fff4056f3c0: 0x0000000000000003
+  0x00007fff4056f3b8-0x00007fff4056f3a8: 0x0000000000000000
+  0x00007fff4056f3a0: 0x0000000000000240
+  0x00007fff4056f398: 0x0000000000000003
+  0x00007fff4056f390: 0x0000024446505853
+  0x00007fff4056f388-0x00007fff4056f310: 0x0000000000000000
+  0x00007fff4056f308: 0x424b7e25fece8fc2
+  0x00007fff4056f300: 0x2cc4f98473045e95
+  0x00007fff4056f2f8: 0x18fa9b6c57ca0e78
+  0x00007fff4056f2f0: 0x081e2a254ab96aa4
+  0x00007fff4056f2e8: 0x0000000300000000
+
+  Begin to dump crashinfo to flash....
+
+  core0: An internal error occurred.  Specifically, a programming assertion
+  was
+  violated.  Copy the error message exactly as it appears, and get the
+  output of the show version command and the contents of the configuration
+  file.  Then call your technical support representative.
+
+  assertion "_vf_mode_init" failed: file "vf_api.c", line 136
+  core0 same core snap_count=3D1 signo=3D6 RIP=3D7ffffecd43fb
 
   =
 
-  For what it's worth, guest is Fedora 29, host is a Slackware system with =
-qemu compiled (manually) with these options:
+  -----------------------------------------------
+  Traceback output aborted.
+  Flushing first exception frame:
+  Page fault: Unknown
+          r8 0x0000000000000790
+          r9 0x00007fff3fa8b000
+         r10 0x0000000000000001
+         r11 0x000000000210e130
+         r12 0x00000000062ebfc0
+         r13 0x0000000000010001
+         r14 0x0000000000000000
+         r15 0x00000000062ebfc0
+         rdi 0x00000000062ebfc0
+         rsi 0x0000000006c17c20
+         rbp 0x00007fff4056f4e0
+         rbx 0x00000000062ebfc0
+         rdx 0x00007fff40566f10
+         rax 0x0000000000000001
+         rcx 0x0000000000010001
+         rsp 0x00007fff4056f4b0
+         rip 0x0000000001581130
+      eflags 0x0000000000013202
+      csgsfs 0x0000000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+  Nested traceback attempted via signal, from:
+  Abort: Unknown
+          r8 0x000000000000003c
+          r9 0x0000000005097a27
+         r10 0x00007fff4056de28
+         r11 0x0000000000003206
+         r12 0x0000000000000001
+         r13 0x00007fff4056df80
+         r14 0x0000000000000000
+         r15 0x0000000000000006
+         rdi 0x0000000000000008
+         rsi 0x00007fff4056df80
+         rbp 0x00007fff4056dfc0
+         rbx 0x00007fff29f6b780
+         rdx 0x0000000000000010
+         rax 0x0000000000000010
+         rcx 0xffffffffffffffff
+         rsp 0x00007fff4056df50
+         rip 0x00007ffffecd43fb
+      eflags 0x0000000000003206
+      csgsfs 0x1234000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
 
-  CFLAGS=3D"-O2 -fPIC" \
-  CXXFLAGS=3D"-O2 -fPIC" \
-  ./configure \
-    --prefix=3D/usr --libdir=3D/usr/lib64 --sysconfdir=3D/etc --localstated=
-ir=3D/var \
-    --enable-gtk \
-    --enable-system \
-    --enable-kvm \
-    --enable-virtfs \
-    --enable-sdl \
-    --enable-gnutls \
-    --enable-curses \
-    --enable-virtfs \
-    --enable-curl \
-    --enable-linux-aio \
-    --enable-vhost-net \
-    --enable-spice \
-    --enable-libusb \
-    --enable-usb-redir \
-    --enable-lzo \
-    --enable-bzip2 \
-    --enable-libssh2 \
-    --enable-numa \
-    --enable-jemalloc \
-    --enable-opengl \
-    --audio-drv-list=3Dalsa,oss,sdl,pa \
-    --enable-vnc --enable-vnc-sasl --enable-vnc-png --enable-vnc-jpeg \
-    --target-list=3Di386-softmmu,x86_64-softmmu,i386-linux-user,x86_64-linu=
-x-user,arm-softmmu,arm-linux-user,armeb-linux-user,sparc64-softmmu,sparc-so=
-ftmmu,sparc32plus-linux-user,sparc64-linux-user \
-    --enable-debug --extra-cflags=3D"-g3" --extra-ldflags=3D"-g3" --disable=
--strip --disable-pie  # For debugging only
+  Cisco Adaptive Security Appliance Software Version 9.3(1)
+
+  Compiled on Wed 23-Jul-14 18:16 PDT by builders
+  Hardware:   ASAv
+  Crashinfo collected on 03:42:24.059 UTC Tue Nov 28 2017
+
+  Traceback:
+  0: 0x0000000000422118
+  1: 0x00000000004221f8
+  2: 0x000000000042226d
+  3: 0x0000000001587076
+  4: 0x00007ffffecd55f0
+  5: 0x00000000015820a0
+  6: 0x000000000212d482
+  7: 0x000000000139f304
+  8: 0x000000000213f315
+  9: 0x0000000001460873
+  10: 0x0000000001488625
+  11: 0x0000000000423e7a
+  12: 0x00000000004244dc
+  13: 0x00000000015874a9
+  14: 0x00007ffffecd55f0
+  15: 0x0000000000558d85
+  16: 0x00000000008f5a2b
+  17: 0x00000000008fd361
+  18: 0x0000000000428a15
+  -----------------------------------------------
+  Process shutdown finished
+  Rebooting.....
+
+  Thanks in advance for your help! :)
+
+  Regards,
+  Abdullah Alhaddad
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835466/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1835694/+subscriptions
 
