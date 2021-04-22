@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94D93686EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:06:47 +0200 (CEST)
-Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D66C36871E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:22:50 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZef0-0004f6-BT
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
+	id 1lZeuX-0000wk-HU
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZedm-0003TX-Dv
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:05:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34808)
+ id 1lZeoD-0005Yk-Nf
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:16:19 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZedh-0002OR-Kb
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:05:30 -0400
+ id 1lZeo1-0008Uo-In
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:16:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZedf-0003T3-K2
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:05:23 +0000
+ id 1lZeny-0003RM-47
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:16:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 662C62E815C
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:05:23 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 78AE52E81C2
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:15:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 16:36:01 -0000
-From: Ravishankar <1925417@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 17:23:45 -0000
+From: Andreas Gustafsson <1743191@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rreddy78
-X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
-X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
-References: <161906987819.6402.12318771307523732954.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161910936165.7282.5149772334218896613.malone@chaenomeles.canonical.com>
-Subject: [Bug 1925417] Re: Cannot boot from EFI image on aarch64
+X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
+ stefanha th-huth
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: Andreas Gustafsson (gson)
+References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
+ <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
+ <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
+ <24705.28709.3368.276346@guava.gson.org>
+ <CAEJNuHyOLS1QgXbb0dx7DV7QscX=rtO2PvHeo-O28aetZ5-v9g@mail.gmail.com>
+Message-Id: <24705.45345.929472.140678@guava.gson.org>
+Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
+ blocks no longer works
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: c553fac0eac9dfb4ff0834e10109904aa0302de7
+X-Launchpad-Hash: 3395463aee79464afca0acd789d30a66498da24a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -69,118 +76,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925417 <1925417@bugs.launchpad.net>
+Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When i try to do it manually using the instructions provided here:
+Ottavio Caruso wrote:
+> I am currently using:
+> =
 
-https://mricher.fr/post/boot-from-an-efi-shell/
+> $ qemu-system-x86_64 --version
+> QEMU emulator version 5.2.0
+> =
 
-I see that
+> And I have no problem selecting from menu in serial console, so I
+> assume this is fixed for me. This is my command line:
+> =
 
-Mapping table
-      FS0: Alias(s):HD0m:;BLK4:
-          VenHw(837DCA9E-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000)/HD(1=
-2,GPT,49037CF8-B2EF-5B4B-8CCE-EF5803A9E8B3,0x3D000,0x10000)
-    BLK13: Alias(s):
-          VenHw(93E34C7E-B5
+> $ cat opt/bin/boot-netbsd-virtio
+> #!/bin/sh
+> qemu-system-x86_64 \
+> -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=3D=
+disk \
+> -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image.old,index=3D1,medi=
+a=3Ddisk \
+> -M q35,accel=3Dkvm -m 250M -cpu host -smp $(nproc) \
+> -nic user,hostfwd=3Dtcp:127.0.0.1:5555-:22,model=3Dvirtio-net-pci,ipv6=3D=
+off  \
+> -daemonize -display none  -vga none \
+> -serial mon:telnet:127.0.0.1:6665,server,nowait \
+> -pidfile /home/oc/VM/pid/netbsd-pid -nodefaults
+> =
 
+> telnet 127.0.0.1 6665
 
-BLK4 is not having any EFI file.
+Have you tried the test case in the original bug report?
+-- =
+
+Andreas Gustafsson, gson@gson.org
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925417
+https://bugs.launchpad.net/bugs/1743191
 
 Title:
-  Cannot boot from EFI image on aarch64
+  Interacting with NetBSD serial console boot blocks no longer works
 
 Status in QEMU:
   New
 
 Bug description:
-  I am unable to boot from a EFI disk image on aarch64 qemu.
+  The NetBSD boot blocks display a menu allowing the user to make a
+  selection using the keyboard.  For example, when booting a NetBSD
+  installation CD-ROM, the menu looks like this:
 
-  I have qemu built and installed from sources on a jetson-nano
+           1. Install NetBSD
+           2. Install NetBSD (no ACPI)
+           3. Install NetBSD (no ACPI, no SMP)
+           4. Drop to boot prompt
 
-  qemu-system-aarch64 -version
-  QEMU emulator version 5.2.50 (v5.2.0-3234-gbdee969c0e)
-  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+      Choose an option; RETURN for default; SPACE to stop countdown.
+      Option 1 will be chosen in 30 seconds.
 
-  KVM and and virtio are enabled in host kernel.
+  When booting NetBSD in a recent qemu using an emulated serial console,
+  making this menu selection no longer works: when you type the selected
+  number, the keyboard input is ignored, and the 30-second countdown
+  continues.  In older versions of qemu, it works.
 
-  Now I want to boot a ChromiumOS image. I have the image downloaded
-  from here:
+  To reproduce the problem, run:
 
-  https://chromium.arnoldthebat.co.uk/?dir=3Ddaily
+     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
+cdrom/boot-com.iso
+     qemu-system-x86_64 -nographic -cdrom boot-com.iso
 
-  The image looks fine:
+  During the 30-second countdown, press 4
 
-  rreddy78@jetson-nano:~/Downloads$ fdisk -lu chromiumos_image.bin =
+  Expected behavior: The countdown stops and you get a ">" prompt
 
-  Disk chromiumos_image.bin: 6.2 GiB, 6606109184 bytes, 12902557 sectors
-  Units: sectors of 1 * 512 =3D 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: gpt
-  Disk identifier: C5B6CA94-0AF1-374E-90B5-A5CF4DC1FF51
+  Incorrect behavior: The countdown continues
 
-  Device                   Start      End Sectors  Size Type
-  chromiumos_image.bin1  4513792 12902508 8388717    4G Linux filesystem
-  chromiumos_image.bin2    20480    53247   32768   16M ChromeOS kernel
-  chromiumos_image.bin3   319488  4513791 4194304    2G ChromeOS root fs
-  chromiumos_image.bin4    53248    86015   32768   16M ChromeOS kernel
-  chromiumos_image.bin5   315392   319487    4096    2M ChromeOS root fs
-  chromiumos_image.bin6    16448    16448       1  512B ChromeOS kernel
-  chromiumos_image.bin7    16449    16449       1  512B ChromeOS root fs
-  chromiumos_image.bin8    86016   118783   32768   16M Linux filesystem
-  chromiumos_image.bin9    16450    16450       1  512B ChromeOS reserved
-  chromiumos_image.bin10   16451    16451       1  512B ChromeOS reserved
-  chromiumos_image.bin11      64    16447   16384    8M unknown
-  chromiumos_image.bin12  249856   315391   65536   32M EFI System
+  There may also be some corruption of the terminal output; for example,
+  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+  will be chosen in p0 seconds".
 
-  Partition table entries are not in disk order.
+  Using bisection, I have determined that the problem appeared with qemu
+  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+  updated to 1.11 prerelease, and the problem is still there as of
+  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+  system used for the tests was Debian 9 x86_64.
 
-  Now I try booting like this:
-
-  qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host -enable-kvm  \
-  -device usb-ehci -device usb-kbd  -device usb-mouse -usb -serial stdio  \
-  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
-=3Don \
-  -device virtio-blk-device,drive=3Dhd \
-  -drive if=3Dnone,file=3Dchromiumos_image.bin,format=3Draw,id=3Dhd   \
-  -netdev user,id=3Dmynet   \
-  -device virtio-net-device,netdev=3Dmynet \
-  -bios edk2-aarch64-code.fd -no-reboot
-
-  But I am unable to boot.
-
-  Memory Type Information settings change.
-  [Bds]Booting UEFI Misc Device
-   BlockSize : 262144 =
-
-   LastBlock : FF =
-
-  [Bds] Expand VenHw(93E34C7E-B50E-11DF-9223-2443DFD72085,00) -> <null stri=
-ng>
-  BdsDxe: failed to load Boot0001 "UEFI Misc Device" from VenHw(93E34C7E-B5=
-0E-11DF-9223-2443DFD72085,00): Not Found
-
-  =
-
-  and =
-
-
-  =
-
-  [Bds] Expand VenHw(837DCA9E-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000)=
- -> <null string>
-  BdsDxe: failed to load Boot0002 "UEFI Misc Device 2" from VenHw(837DCA9E-=
-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000): Not Found
+  Credit for discovering this bug goes to Paul Goyette.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925417/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
