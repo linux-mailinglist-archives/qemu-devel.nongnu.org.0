@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C08367E4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 12:04:44 +0200 (CEST)
-Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397E4367E48
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 12:03:43 +0200 (CEST)
+Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZWCR-0004SR-IX
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 06:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
+	id 1lZWBR-0003Tn-TK
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 06:03:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZW9R-0002zD-Kr
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 06:01:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53552)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZW3f-0006cn-AT; Thu, 22 Apr 2021 05:55:39 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:43796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZW9N-00038E-44
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 06:01:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZW9K-000858-Gn
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 10:01:30 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B59A2E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 10:01:30 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZW3b-0008Vf-Sh; Thu, 22 Apr 2021 05:55:38 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ p10-20020a1c544a0000b02901387e17700fso2782846wmi.2; 
+ Thu, 22 Apr 2021 02:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=j3/CD8iIg7DzJvo+u5RSyI4mS3KD0iDabXy6SoEOmWA=;
+ b=ahUByVxEoyMyoyOclcLDZgox6hD6OI1LI1ONbBPRcLOLBfjNWIpDp/DyB1XZ7WTL4o
+ k2J/xDpuCxYKp29nrmOMaAaBiVT4rqdc+l4q2t5N8j8wMBSUONs6s5lA6OPHF9HKXyiM
+ psZNtjsgALZPEwP8dTewLnq/q/m7dWQLGr2idSfDuSaeMVQ7LOaRZU9N1xbmpG21pQDY
+ s7VpBijqNkPGUmW6gj8yBeH9GNCRB8WdIzwvjFir4zfChlJ+TiGRd7QrqsxWKEsAPSnF
+ sQOqn+lh4ONsZ6eezqlT6U8qjbvi0E46Q0wgnGWGy42MzgKEsqggt7RxKaKPvjKxPKPv
+ xLgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j3/CD8iIg7DzJvo+u5RSyI4mS3KD0iDabXy6SoEOmWA=;
+ b=C8nMyu3CEVN5q1AYwweCJpLl4DySITRuEBQ15NXtoDJEY00xMU0DEcFv9jl4bWYqOu
+ 5IFFlJTVXH7LRFlM45KP9LdBxh7S9PO8ck25Hqb7kn1ERTT/1vcYp+8UBrb0cX1TRvZi
+ eOU4Eyypzb9IhnUjrx01ea9ujkyV1mZRF+LF44PvM1ZIQhk6b8T83nBxPVwelocebh47
+ 0pq6SQz2m2q3BSVVjV0OpW00CTvpeQbQju3O4tHY1rmKVZ++Md+n4EDYzy909u7o04oe
+ BoZb7NP8+Dbnk6oW+1QD/XFEC31UtWqmgHcwMcO2ZG7q1PWaCCAeNAwyFk3SLP6ZbcPf
+ 7xtg==
+X-Gm-Message-State: AOAM531ZGWCW8Y1dsi/+ebJosxB3zTBFj7sWVgkiOhUKPrHkIbNTXSnL
+ g06UE15Fuyteewv+nLHKCJY=
+X-Google-Smtp-Source: ABdhPJz0dq2rFL5eVgEt52NmOoqYoFlJrfxA1xWcMFf4QAxKU7w+wcST5BfptlJL3he7lxkxgLxZmQ==
+X-Received: by 2002:a05:600c:1546:: with SMTP id
+ f6mr2824790wmg.156.1619085331620; 
+ Thu, 22 Apr 2021 02:55:31 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id t14sm2667543wrz.55.2021.04.22.02.55.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 02:55:29 -0700 (PDT)
+Subject: Re: [PATCH v3 01/27] target: Set CPUClass::vmsd instead of
+ DeviceClass::vmsd
+To: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>
+References: <20210302145818.1161461-1-f4bug@amsat.org>
+ <20210302145818.1161461-2-f4bug@amsat.org>
+ <20210421220333.bkxo6zriqe6w3rim@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <cccb8e5c-55cb-3f46-1391-ca96ab7c27ce@amsat.org>
+Date: Thu, 22 Apr 2021 11:55:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 09:50:24 -0000
-From: Peter Maydell <1847467@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: amd64
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell th-huth ylhuillier
-X-Launchpad-Bug-Reporter: Yves Lhuillier (ylhuillier)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <157061690442.756.9495451631448947331.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161908502501.32263.7727727441577588264.malone@soybean.canonical.com>
-Subject: [Bug 1847467] Re: qemu-x86_64 segment prefixes error
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 762d705908a7e15db13961bac0c7ed9a64a7a9e6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210421220333.bkxo6zriqe6w3rim@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,50 +91,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847467 <1847467@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Repro case in comment #1 still demonstrates bug.
++Juan
 
+On 4/22/21 12:03 AM, Eduardo Habkost wrote:
+> On Tue, Mar 02, 2021 at 03:57:52PM +0100, Philippe Mathieu-Daudé wrote:
+>> The cpu model is the single device available in user-mode.
+>> Since we want to restrict some fields to user-mode emulation,
+>> we prefer to set the vmsd field of CPUClass, rather than the
+>> DeviceClass one.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Is this going to have an externally visible effect?
 
-** Changed in: qemu
-       Status: Incomplete =3D> Confirmed
+On system emulation, no, because unchanged.
 
--- =
+On user emulation migration it is not used, the symbol is here
+to satisfy linking:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847467
+include/hw/core/cpu.h-1070-#ifdef CONFIG_SOFTMMU
+include/hw/core/cpu.h-1071-extern const VMStateDescription
+vmstate_cpu_common;
+include/hw/core/cpu.h-1072-#else
+include/hw/core/cpu.h:1073:#define vmstate_cpu_common vmstate_dummy
+include/hw/core/cpu.h-1074-#endif
+include/migration/vmstate.h:197:extern const VMStateDescription
+vmstate_dummy;
+stubs/vmstate.c:4:const VMStateDescription vmstate_dummy = {};
 
-Title:
-  qemu-x86_64 segment prefixes error
+> If it does, how can we make sure it's safe?
+> 
+> If it does not, do you know why CPUClass::vmsd exists in the
+> first place?
 
-Status in QEMU:
-  Confirmed
+My guess is CPUState is the only device used in user emulation,
+so it would be a way to restrict the vmstate_dummy to CPU and
+not to any DeviceState?
 
-Bug description:
-  qemu-x86_64 version 4.1.0 (qemu-x86_64 version 4.0.0 also have the
-  issue)
+But looking at the introductory commit:
 
-  In 64-bit mode (x86_64) the DS, ES, SS or CS segment prefixes should
-  be ignored; qemu-x86_64 does not ignore them.
+commit b170fce3dd06372f7bfec9a780ebcb1fce6d57e4
+Author: Andreas Färber <afaerber@suse.de>
+Date:   Sun Jan 20 20:23:22 2013 +0100
 
-  example: an x86_64 instructions preceded by FS DS (0x64 0x26) segment
-  prefixes have the linear address of its memory reference flat-mapped
-  (as if DS was in action) whereas it should be FS-mapped (offset by
-  FS_base, because the DS, ES, SS or CS are just ignored).
+    cpu: Register VMStateDescription through CPUState
 
-  =
+    In comparison to DeviceClass::vmsd, CPU VMState is split in two,
+    "cpu_common" and "cpu", and uses cpu_index as instance_id instead of -1.
+    Therefore add a CPU-specific CPUClass::vmsd field.
 
-  I attach a small C++ program that shows this discrepancy.
+    Unlike the legacy CPUArchState registration, rather register CPUState.
 
-  $ ./sample
-  I'm not in QEMU
+Juan, do you remember?
 
-  $ qemu-x86_64 ./sample
-  I'm in QEMU
+> 
+> Do you think it would be simpler to just squash this patch into
+>   [PATCH v3 08/27] cpu: Move CPUClass::vmsd to SysemuCPUOps
+> ?
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847467/+subscriptions
+Certainly cleaner, I'll respin!
+
+Thanks,
+
+Phil.
 
