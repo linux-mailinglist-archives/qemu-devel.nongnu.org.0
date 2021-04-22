@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16DC367B85
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:54:51 +0200 (CEST)
-Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AE1367B50
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:45:29 +0200 (CEST)
+Received: from localhost ([::1]:40268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZUAk-0004F8-O7
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
+	id 1lZU1g-0004Bg-VV
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:45:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU7G-0008NB-P7
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43990)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lZTzx-0002z2-PM
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:43:41 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:44690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU79-0000D3-Er
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:14 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZU78-0000cd-2E
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:06 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 097772E8157
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:06 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lZTzu-00043R-Mt
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:43:41 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id v72so29594722ybe.11
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 00:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SGYciGRWubKcQ3YvROzewCofBNP3Ibuerg3m/7Do6GE=;
+ b=wXJByfX4SAh2h6DmCVwRzw/fshwYfIiXLJZySm5bFt4Mi0jkoox2ScFJTcSowalpba
+ B1opRou75qGsv9R89CNRCBzWK1B/VOlki2cN2knCWpR0zRnvjcZ9mMAMlDRAFxdBACKj
+ c8fKoSz2xC+Rf0gcQe6RD5v5sCadO4DqyziepfpSkE9TVaoWTC2k0nJWBJwu+I2SQuSo
+ TFf8vth4MCnJUCfb6pDBMFqI+jw3H6DX+Ca07yXrZZalT57FvHps1fJeB37y+yXsaImD
+ zh95xvwSJQ9KXAJCyT6EGOU0dIY+x/FZub0shdGSLCWdRbHqYL78U3DVLXUYjIFnvYvI
+ RWsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SGYciGRWubKcQ3YvROzewCofBNP3Ibuerg3m/7Do6GE=;
+ b=QceK9//apqgFrQvw0eVTF8wL13677v2V309oHPhUTM7gNTaane3oaAt4/SMRkcS5Xt
+ Ao3mLCdvQtOkGHYs5SvDelBBU2l6RMshos+SNrtXXpARsKHuhxCRYTm7G5n6sVvwmYvK
+ fmI2InoQQdbd0gh75fao0iGTLieeTgBUMmMUFT3CWb/PEOwe8Fj6HwJ801g6xf+eOksc
+ CY19I2mcn5bbJ36rx58B7PkKpRmAqJwUOUfcvu2w013lJ7wddjsFtSJ3XgU0Je+LeFVo
+ s4Q/JS2rDt3+cEOZIn3mF/TyOG21BZVATLx/+FLHGrIcJtXg98T2F/kJmGFPSSIvLihk
+ 8VyA==
+X-Gm-Message-State: AOAM532N968NSnectQaGFCG40SA7DsBDC8DhArHx05gwNwIWGh6r8FaA
+ Z/t7Xth6Do1rN/YjQ6rsIeNBi4ZFmiQvcZXJGdq+q5haCLSdVA==
+X-Google-Smtp-Source: ABdhPJwYi+9g1Y5T408Z2vNNAeWgpRQ4UNLZFC1TnIQPPuMjwqtrrWH0mpBKBg4lxTt8f9of7bafHTsQGgUFork2wJE=
+X-Received: by 2002:a05:6902:1144:: with SMTP id
+ p4mr2858035ybu.510.1619077416175; 
+ Thu, 22 Apr 2021 00:43:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 07:42:49 -0000
-From: Thomas Huth <1847861@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: black-silver th-huth
-X-Launchpad-Bug-Reporter: Emanuele Faranda (black-silver)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157089035721.2099.14904442368526379360.malonedeb@wampee.canonical.com>
-Message-Id: <161907736947.9362.14632169673101689992.malone@wampee.canonical.com>
-Subject: [Bug 1847861] Re: Guest stuttering under high disk IO (virtio)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: f5b03ab6e378070bab3070107f611673ee85bbc0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210405131420.598273-1-basil@daynix.com>
+In-Reply-To: <20210405131420.598273-1-basil@daynix.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Thu, 22 Apr 2021 10:43:25 +0300
+Message-ID: <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
+ instead of 10
+To: Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000415d3505c08ad6ac"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,97 +78,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847861 <1847861@bugs.launchpad.net>
+Cc: Yan Vugenfirer <yan@daynix.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to
-another system. For this we need to know which bugs are still valid
-and which could be closed already. Thus we are setting older bugs to
-"Incomplete" now.
+--000000000000415d3505c08ad6ac
+Content-Type: text/plain; charset="UTF-8"
 
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
+ping
 
-Thank you and sorry for the inconvenience.
+On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
 
+> Currently Requester freeze times out after 10 seconds, while
+> the default timeout for Writer Freeze is 60 seconds. according to
+> VSS Documentation [1].
+> [1]:
+> https://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-backup-under-vss
+>
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
+>
+> Signed-off-by: Basil Salman <bsalman@daynix.com>
+> Signed-off-by: Basil Salman <basil@daynix.com>
+> ---
+>  qga/vss-win32/requester.cpp | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
+> index 5378c55d23..940a2c8f55 100644
+> --- a/qga/vss-win32/requester.cpp
+> +++ b/qga/vss-win32/requester.cpp
+> @@ -18,7 +18,7 @@
+>  #include <inc/win2003/vsbackup.h>
+>
+>  /* Max wait time for frozen event (VSS can only hold writes for 10
+> seconds) */
+> -#define VSS_TIMEOUT_FREEZE_MSEC 10000
+> +#define VSS_TIMEOUT_FREEZE_MSEC 60000
+>
+>  /* Call QueryStatus every 10 ms while waiting for frozen event */
+>  #define VSS_TIMEOUT_EVENT_MSEC 10
+> --
+> 2.17.2
+>
+>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+--000000000000415d3505c08ad6ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- =
+<div dir=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &lt;<a=
+ href=3D"mailto:basil@daynix.com" target=3D"_blank">basil@daynix.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Current=
+ly Requester freeze times out after 10 seconds, while<br>
+the default timeout for Writer Freeze is 60 seconds. according to<br>
+VSS Documentation [1].<br>
+[1]: <a href=3D"https://docs.microsoft.com/en-us/windows/win32/vss/overview=
+-of-processing-a-backup-under-vss" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-ba=
+ckup-under-vss</a><br>
+<br>
+Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1909073" =
+rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.c=
+gi?id=3D1909073</a><br>
+<br>
+Signed-off-by: Basil Salman &lt;<a href=3D"mailto:bsalman@daynix.com" targe=
+t=3D"_blank">bsalman@daynix.com</a>&gt;<br>
+Signed-off-by: Basil Salman &lt;<a href=3D"mailto:basil@daynix.com" target=
+=3D"_blank">basil@daynix.com</a>&gt;<br>
+---<br>
+=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp<br>
+index 5378c55d23..940a2c8f55 100644<br>
+--- a/qga/vss-win32/requester.cpp<br>
++++ b/qga/vss-win32/requester.cpp<br>
+@@ -18,7 +18,7 @@<br>
+=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
+<br>
+=C2=A0/* Max wait time for frozen event (VSS can only hold writes for 10 se=
+conds) */<br>
+-#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
++#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
+<br>
+=C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event */<br>
+=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
+-- <br>
+2.17.2<br>
+<br>
+</blockquote></div>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847861
-
-Title:
-  Guest stuttering under high disk IO (virtio)
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Performing io intensive tasks on virtualized Windows causes the system
-  to visually stutter. I can often reproduce the problem by running fio
-  on windows:
-
-  fio --randrepeat=3D1 --ioengine=3Dwindowsaio --direct=3D1 --gtod_reduce=
-=3D1
-  --name=3Dtest --filename=3D\\.\PhysicalDrive0 --bs=3D4k --iodepth=3D128
-  --size=3D4G --readwrite=3Drandread
-
-  While the fio command is running, moving the mouse pointer will be be
-  laggy. The stuttering does not appear with iodepth <=3D 32 . The
-  stuttering also manifests while playing games, the music and video
-  pauses for a fraction of second in a playable but disturbing way.
-
-  Here are my system specs:
-
-  Host OS: archlinux
-  Guest OS: Windows 10 Enterprise
-  qemu version: qemu-git 8:v4.1.0.r1378.g98b2e3c9ab-1 (from AUR, compiled w=
-ith -march=3Dnative)
-  CPU: AMD Ryzen Threadripper 1900X 8-Core Processor
-  Huge Pages: vm.nr_hugepages=3D4128
-  Disk: nvme type=3Draw, io=3Dthreads bus=3Dvirtio
-  GPU (passthrough): Radeon RX 570
-
-  Here are some fio test results on my windows guest:
-
-  [size=3D512M,iodepth=3D1 -> min=3D30k,avg=3D31k,stddev=3D508]
-  [size=3D2G,iodepth=3D8 -> min=3D203k,avg=3D207k,stddev=3D2.3k]
-  [size=3D2G,iodepth=3D16 -> min=3D320k,avg=3D330k,stddev=3D4.3k]
-  [size=3D4G,iodepth=3D32 -> min=3D300k,avg=3D310k,stddev=3D4.8k]
-  [size=3D4G,iodepth=3D64 -> min=3D278k,avg=3D366k,stddev=3D68.6k] -> STUTT=
-ER
-  [size=3D4G,iodepth=3D64 -> min=3D358k,avg=3D428k,stddev=3D52.6k] -> STUTT=
-ER
-  [size=3D4G,iodepth=3D128 -> min=3D92k,avg=3D217k,stddev=3D185k] -> STUTTER
-  [size=3D4G,iodepth=3D128 -> min=3D241k,avg=3D257k,stddev=3D14k] -> same c=
-onfig as above, but no stuttering
-
-  The min and avg values are the bandwidth values reported in KB/s by
-  fio. You can see that, when the stuttering occurs, the stardard
-  deviation is high and the minimum bandwidth is way below the average.
-
-  Additional note: the bandwidth reported with `fio` on my linux host is
-  about 2x the one reported in the guest:
-
-  sudo fio --randrepeat=3D1 --ioengine=3Dlibaio --direct=3D1 --gtod_reduce=
-=3D1
-  --name=3Dtest --filename=3D/dev/nvme0n1 --bs=3D4k --iodepth=3D64 --size=
-=3D512M
-  --readwrite=3Drandread
-
-  read: IOPS=3D279k, BW=3D1092MiB/s (1145MB/s)(512MiB/469msec)
-
-  Moreover, during the fio tests on the guest I've noticed that the CPU
-  usage on the host is very high (around 450%) whereas on the guest is
-  only 10%
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847861/+subscriptions
+--000000000000415d3505c08ad6ac--
 
