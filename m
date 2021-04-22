@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA1D367876
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:22:13 +0200 (CEST)
-Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD103678B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:30:10 +0200 (CEST)
+Received: from localhost ([::1]:55490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQqy-0007lN-Pv
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41036)
+	id 1lZQyf-0004Xm-8y
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQpa-0006Qj-9r
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:20:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43588)
+ id 1lZQuV-0005vQ-PB
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:25:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQpY-0007ko-Ak
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:20:45 -0400
+ id 1lZQuR-0002Om-4I
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:25:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQpW-0006Is-Ow
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:20:42 +0000
+ id 1lZQuQ-0006fK-2b
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:25:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BBCF92E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:20:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 061562E8060
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:25:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:15:07 -0000
-From: Thomas Huth <1874676@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:18:17 -0000
+From: Thomas Huth <1836537@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
- assignee=philmd@redhat.com; 
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: configure documentation
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
@@ -42,15 +43,16 @@ X-Launchpad-Bug-Commenters: philmd th-huth
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158772214298.26171.14045550676291595233.malonedeb@soybean.canonical.com>
-Message-Id: <161906490715.9125.10719134220859203570.malone@wampee.canonical.com>
-Subject: [Bug 1874676] Re: [Feature request] MDIO bus
+References: <156318078057.16506.13413250654919589949.malonedeb@soybean.canonical.com>
+Message-Id: <161906509734.6526.8492641786634708167.malone@chaenomeles.canonical.com>
+Subject: [Bug 1836537] Re: Kconfig-related options not shown in ./configure
+ --help
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 7964325109ab0d9050d13b5b74f3daa8140074d0
+X-Launchpad-Hash: 8bfb2fa26b7cec3862e86043f3044e5c35ae6a01
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,43 +73,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874676 <1874676@bugs.launchpad.net>
+Reply-To: Bug 1836537 <1836537@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
-
+Fixed here:
+https://gitlab.com/qemu-project/qemu/-/commit/c035c8d6f54
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874676
+https://bugs.launchpad.net/bugs/1836537
 
 Title:
-  [Feature request] MDIO bus
+  Kconfig-related options not shown in ./configure --help
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  Various network devices open-code a MDIO bus with a dedicated PHY.
-  Introduce a new MDIO subsystem to
-  - reuse various duplicated components
-  - be able to interchange PHYs
-  - have common tracing
-  - use libqos to test all the PHYs from different NICs
+  tag: v4.1.0-rc0
+
+  I notice these options not documented by '--help':
+
+    --with-default-devices) default_devices=3D"yes"
+    --without-default-devices) default_devices=3D"no"
+
+  We might have other options not documented too.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874676/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1836537/+subscriptions
 
