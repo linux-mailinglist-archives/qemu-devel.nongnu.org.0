@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C2F36791A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:11:18 +0200 (CEST)
-Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109A7367924
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:16:54 +0200 (CEST)
+Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZRcT-0005hJ-Fp
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1lZRhs-0000Yx-Ta
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRb9-0004oq-M8
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:09:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48406)
+ id 1lZRg9-0007kG-W0
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:15:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRb7-0004BL-VG
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:09:55 -0400
+ id 1lZRg3-0006ys-Ab
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:15:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZRb6-0001gp-JY
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:09:52 +0000
+ id 1lZRg0-0001st-4G
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:14:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7FA1E2E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:09:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F7042E8157
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:14:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:59:56 -0000
-From: Thomas Huth <1534978@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:03:17 -0000
+From: Thomas Huth <1538541@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: steve2926 th-huth
-X-Launchpad-Bug-Reporter: Steve Si (steve2926)
+X-Launchpad-Bug-Commenters: berrange kwolf-redhat th-huth xanclic
+X-Launchpad-Bug-Reporter: Daniel Berrange (berrange)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160116192729.28961.82168.malonedeb@gac.canonical.com>
-Message-Id: <161906759635.22817.16419167855636687785.malone@gac.canonical.com>
-Subject: [Bug 1534978] Re: Windows command line -name cannot use = sign
+References: <20160127125558.31349.12989.malonedeb@gac.canonical.com>
+Message-Id: <161906779753.6578.7832520806445199721.malone@chaenomeles.canonical.com>
+Subject: [Bug 1538541] Re: qcow2 rejects request to use preallocation with
+ backing file
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 5f46048da8a21f54e3d0734f8ebcce7557d5fed6
+X-Launchpad-Hash: a1c7862c4590e7b240686fc1c3555ea45f66d9ea
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1534978 <1534978@bugs.launchpad.net>
+Reply-To: Bug 1538541 <1538541@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,23 +95,63 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1534978
+https://bugs.launchpad.net/bugs/1538541
 
 Title:
-  Windows command line -name cannot use =3D sign
+  qcow2 rejects request to use preallocation with backing file
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Windows command line:
+  The 'preallocation=3Dfull' option to qemu-img / qcow2 block driver
+  instructs QEMU to fully allocate the host file to the maximum size
+  needed by the logical disk size.
 
-  qemu.exe -L . -name "32-bit Emulation Session RAM=3D500MB" -boot c -m
-  500 -drive file=3D\\.\PhysicalDrive2
+  $ qemu-img create -f qcow2 -o preallocation=3Dfull base.qcow2 200M
+  Formatting 'base.qcow2', fmt=3Dqcow2 size=3D209715200 encryption=3Doff cl=
+uster_size=3D65536 preallocation=3D'full' lazy_refcounts=3Doff refcount_bit=
+s=3D16
 
-  This fails to run.
-  If I remove the =3D sign in the -name quoted string it runs OK.
+  $ ls -alhs base.qcow2 =
+
+  201M -rw-r--r--. 1 berrange berrange 201M Jan 27 12:49 base.qcow2
+
+  =
+
+  When specifying a backing file for the qcow2 file, however, it rejects th=
+e preallocation request
+
+  $ qemu-img create -f qcow2 -o preallocation=3Dfull,backing_file=3Dbase.qc=
+ow2 front.qcow2 200M
+  Formatting 'front.qcow2', fmt=3Dqcow2 size=3D209715200 backing_file=3D'ba=
+se.qcow2' encryption=3Doff cluster_size=3D65536 preallocation=3D'full' lazy=
+_refcounts=3Doff refcount_bits=3D16
+  qemu-img: front.qcow2: Backing file and preallocation cannot be used at t=
+he same time
+
+  =
+
+  It might seem like requesting full preallocation is redundant because mos=
+t data associated with the image will be present in the backing file, as so=
+ the top layer is unlikely to ever need the full preallocation.  Rejecting =
+this, however, means it is not (officially) possible to reserve disk space =
+for the top layer to guarantee that future copy-on-writes will never get EN=
+OSPC.
+
+  OpenStack in particular uses backing files with all images, in order
+  to avoid the I/O overhead of copying the backing file contents into
+  the per-VM disk image. It, however, still wants to have a guarantee
+  that the per-VM image will never hit an ENOSPC scenario.
+
+  Currently it has to hack around QEMU's refusal to allow backing_file +
+  preallocation, by calling 'fallocate' on the qcow2 file after it has
+  been created. This is an inexact fix though, because it doesn't take
+  account of fact that qcow2 metadata can takes some MBs of space.
+
+  Thus, it would like to see preallocation=3Dfull supported in combination
+  with backing files.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1534978/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1538541/+subscriptions
 
