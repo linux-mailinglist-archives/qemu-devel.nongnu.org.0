@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE29367CFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:56:50 +0200 (CEST)
-Received: from localhost ([::1]:34686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEBA367CBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:44:19 +0200 (CEST)
+Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZV8k-0007J4-33
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55626)
+	id 1lZUwb-0002Jh-UB
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZV7e-0006rb-6o
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53678)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZV7c-0006Eo-KD
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:55:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZV7b-000235-0L
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D15312E815C
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:55:38 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 08:36:04 -0000
-From: Steve Si <1534978@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: steve2926 th-huth
-X-Launchpad-Bug-Reporter: Steve Si (steve2926)
-X-Launchpad-Bug-Modifier: Steve Si (steve2926)
-References: <20160116192729.28961.82168.malonedeb@gac.canonical.com>
-Message-Id: <161908056508.23338.13861558958972211165.malone@gac.canonical.com>
-Subject: [Bug 1534978] Re: Windows command line -name cannot use = sign
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 26ce7d6eb02351dd9ad5b1c106f3188dfe4be12d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1lZUul-0001oe-8W; Thu, 22 Apr 2021 04:42:24 -0400
+Received: from mga05.intel.com ([192.55.52.43]:16699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1lZUua-0006ic-PA; Thu, 22 Apr 2021 04:42:22 -0400
+IronPort-SDR: FwfY1z9qqkH6io3mvV4q8JVn1Dp599o9jpKqArIFow9l8xv0MQfVf/NPywm0Yt4Uy+C9t7tA9s
+ FbGiJnHEp2eg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="281180125"
+X-IronPort-AV: E=Sophos;i="5.82,242,1613462400"; d="scan'208";a="281180125"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 01:42:07 -0700
+IronPort-SDR: A4IJSmeMoGI5J+XWiEt0FbeoLivV/wUGohddWGjN6OEO5982eB2EYlu8fQQ3Qbpt0ynvLMzHo7
+ SNPfvA3c+bFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,242,1613462400"; d="scan'208";a="463877380"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by orsmga001.jf.intel.com with ESMTP; 22 Apr 2021 01:42:04 -0700
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: mjt@tls.msk.ru,
+	laurent@vivier.eu,
+	qemu-trivial@nongnu.org
+Subject: [Trivial] docs: More precisely describe memory-backend-*::id's user
+Date: Thu, 22 Apr 2021 16:42:02 +0800
+Message-Id: <1619080922-83527-1-git-send-email-robert.hu@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=robert.hu@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,33 +58,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1534978 <1534978@bugs.launchpad.net>
+Cc: robert.hu@intel.com, qemu-devel@nongnu.org,
+ Robert Hoo <robert.hu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cannot reproduce in recent version - please close.
+'id' of memory-backend-{file,ram} is not only for '-numa''s reference, but
+also other parameters like '-device nvdimm'.
+More clearly call out this to avoid misinterpretation.
 
--- =
+Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+---
+ qemu-options.hx | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1534978
+diff --git a/qemu-options.hx b/qemu-options.hx
+index fd21002..635dc8a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4508,11 +4508,11 @@ SRST
+         the guest RAM with huge pages.
+ 
+         The ``id`` parameter is a unique ID that will be used to
+-        reference this memory region when configuring the ``-numa``
+-        argument.
++        reference this memory region in other parameters, e.g. ``-numa``,
++        ``-device nvdimm``, etc.
+ 
+         The ``size`` option provides the size of the memory region, and
+-        accepts common suffixes, eg ``500M``.
++        accepts common suffixes, e.g. ``500M``.
+ 
+         The ``mem-path`` provides the path to either a shared memory or
+         huge page filesystem mount.
+-- 
+1.8.3.1
 
-Title:
-  Windows command line -name cannot use =3D sign
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Windows command line:
-
-  qemu.exe -L . -name "32-bit Emulation Session RAM=3D500MB" -boot c -m
-  500 -drive file=3D\\.\PhysicalDrive2
-
-  This fails to run.
-  If I remove the =3D sign in the -name quoted string it runs OK.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1534978/+subscriptions
 
