@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299783688C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 23:52:19 +0200 (CEST)
-Received: from localhost ([::1]:50802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 011E63688FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 00:26:55 +0200 (CEST)
+Received: from localhost ([::1]:38128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZhFB-0005Gy-P7
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 17:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1lZhmg-0004vX-IU
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 18:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZhDc-0004Vx-OM
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 17:50:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZhDW-0007q8-VP
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 17:50:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZhDU-0003yV-VZ
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 21:50:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E1D1D2E8144
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 21:50:32 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 21:38:21 -0000
-From: Richard Henderson <1925512@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkr-0003Pq-Om
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkp-0003Kp-1L
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619130294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=PsvY5Kd0czlI8yCug//+q95mDn8xVwUuIx3G0nsqdKk=;
+ b=hsLIPCKhKTY343pfPu4LYK9LayjXplcQm9iYHd6ssGHfysyCqfBnazvxNm2EXiF+Hh1Vdx
+ Ifl55mJs9rU2tjjRWfIRSeZL3updafsUWm1YqIp+yFmKSvQCmPV2HbyPDIO6YG533pxOvE
+ jEF7fv22KIbAVnMP5+jnHcLAl1BKbls=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-YjTMYT4PNZKLmjrOow9RFQ-1; Thu, 22 Apr 2021 18:24:52 -0400
+X-MC-Unique: YjTMYT4PNZKLmjrOow9RFQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y10-20020a50f1ca0000b0290382d654f75eso17507832edl.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 15:24:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=PsvY5Kd0czlI8yCug//+q95mDn8xVwUuIx3G0nsqdKk=;
+ b=OHu5GWVTudbWt+E4aABP52m/+qv05i/wfQVFVtW82uNwbMrwgpOp1J7uui0G9YaR6b
+ xC5u7TdFAZIBdyppAv4NaQiwb1CpMoh6N6oM1ZpZ6x/UxkiGtY6E+D/Cydbn9SRYMsnm
+ l4HsA1z4GRiM94U/0GJwGeHQ1W6NnbX2qmDB/UT0+iMGTBjquyGDLOBjh99aV4nXrYyj
+ 3wR293GqkT8oupxQMMNNnrq3BJMxJz11dqBxZAAPmRlaw79Y6lq21TjadFZPYl5auVIr
+ Qdf3o+npGpFeM97K4OnMBIfyeq8jlPnebtYhDlKSKALS5x3qLxIJIsrpwO80j54rmTUK
+ 5dlw==
+X-Gm-Message-State: AOAM532KKdyOyk6tXQbgSuNDWZB62rdkwR8ka7DQC4gMZ2GfRoiEPtzr
+ BGK9UHOb722kFlJs8Yq9LRDRho8h0BoRIitu16o94idutuIthCtdhRBPcEscloqCO2DLszTUwu1
+ i4Ej2ndqiBXugb8HiWt9FJhuSkJ6/NspjUUMUOgBbwyEImQPbeXj/ZVIn4Grz
+X-Received: by 2002:a17:906:c09:: with SMTP id s9mr868826ejf.145.1619130291377; 
+ Thu, 22 Apr 2021 15:24:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpGObQ2TwUXwlEY3NbuRXMkYZQ8wxLPDf8dvZq+8Qwd4STEZeIOXZNf3+Kc8YuVTNu/+hCjQ==
+X-Received: by 2002:a17:906:c09:: with SMTP id s9mr868817ejf.145.1619130291174; 
+ Thu, 22 Apr 2021 15:24:51 -0700 (PDT)
+Received: from redhat.com (212.116.168.114.static.012.net.il.
+ [212.116.168.114])
+ by smtp.gmail.com with ESMTPSA id c12sm2786749eja.12.2021.04.22.15.24.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 15:24:50 -0700 (PDT)
+Date: Thu, 22 Apr 2021 18:24:48 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui rth
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161909962601.31655.7052824363126074861.malonedeb@soybean.canonical.com>
-Message-Id: <161912750125.31777.15442571029898871430.malone@soybean.canonical.com>
-Subject: [Bug 1925512] Re: UNDEFINED case for instruction BLX
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 54ae5c68beb6defef822d5a720d7dd452f0cbc84
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PULL 0/2] pc: last minute bugfixes
+Message-ID: <20210422222429.183108-1-mst@redhat.com>
+MIME-Version: 1.0
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,59 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925512 <1925512@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The complete imm32 is computed by
+The following changes since commit d83f46d189a26fa32434139954d264326f199a45:
 
-%imm24           26:s1 13:1 11:1 16:10 0:11 !function=3Dt32_branch24
+  virtio-pci: compat page aligned ATS (2021-04-06 07:11:36 -0400)
 
-so that H appears at bit 1 in a->imm in trans_BLX_i.
+are available in the Git repository at:
 
-Returning false from any trans_* function means that the trans
-function did not match.  In some cases, this means that the next
-possible matching pattern is tested.  But in most cases, such as
-this one, we return all the way to disas_thumb2_insn, where we
-do in fact call unallocated_encoding.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-If you have a test case that fails, please provide it.
+for you to fetch changes up to 9106db1038bf3db5e4f8007038b3a1962018fa07:
 
--- =
+  x86: acpi: use offset instead of pointer when using build_header() (2021-04-22 18:22:01 -0400)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925512
+----------------------------------------------------------------
+pc: last minute bugfixes
 
-Title:
-  UNDEFINED case for instruction BLX
+Two bugfixes - both seem pretty obvious and safe ...
 
-Status in QEMU:
-  Invalid
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Bug description:
-  Hi
+----------------------------------------------------------------
+Igor Mammedov (1):
+      x86: acpi: use offset instead of pointer when using build_header()
 
-  I refer to the instruction BLX imm (T2 encoding) in ARMv7 (Thumb
-  mode).
+Jean-Philippe Brucker (1):
+      amd_iommu: Fix pte_override_page_mask()
 
-  11110 S imm10H  11 J1 0 J2 imm10L H
+ hw/acpi/aml-build.c  | 15 +++++++++------
+ hw/i386/acpi-build.c |  8 ++++++--
+ hw/i386/amd_iommu.c  |  4 ++--
+ 3 files changed, 17 insertions(+), 10 deletions(-)
 
-  =
-
-  if H =3D=3D '1' then UNDEFINED;
-  I1 =3D NOT(J1 EOR S);  I2 =3D NOT(J2 EOR S);  imm32 =3D SignExtend(S:I1:I=
-2:imm10H:imm10L:'00', 32);
-  targetInstrSet =3D InstrSet_A32;
-  if InITBlock() && !LastInITBlock() then UNPREDICTABLE;
-
-  According to the manual, if H equals to 1, this instruction should be
-  an UNDEFINED instruction. However, it seems QEMU does not check this
-  constraint in function trans_BLX_i. Thanks
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925512/+subscriptions
 
