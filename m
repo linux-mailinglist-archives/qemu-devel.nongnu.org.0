@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011E63688FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 00:26:55 +0200 (CEST)
-Received: from localhost ([::1]:38128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A793688FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 00:26:57 +0200 (CEST)
+Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZhmg-0004vX-IU
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 18:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33730)
+	id 1lZhmi-0004xd-Er
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 18:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkr-0003Pq-Om
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51970)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkt-0003Q9-KO
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkp-0003Kp-1L
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkp-0003Mf-3Y
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619130294;
+ s=mimecast20190719; t=1619130297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=PsvY5Kd0czlI8yCug//+q95mDn8xVwUuIx3G0nsqdKk=;
- b=hsLIPCKhKTY343pfPu4LYK9LayjXplcQm9iYHd6ssGHfysyCqfBnazvxNm2EXiF+Hh1Vdx
- Ifl55mJs9rU2tjjRWfIRSeZL3updafsUWm1YqIp+yFmKSvQCmPV2HbyPDIO6YG533pxOvE
- jEF7fv22KIbAVnMP5+jnHcLAl1BKbls=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-YjTMYT4PNZKLmjrOow9RFQ-1; Thu, 22 Apr 2021 18:24:52 -0400
-X-MC-Unique: YjTMYT4PNZKLmjrOow9RFQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y10-20020a50f1ca0000b0290382d654f75eso17507832edl.1
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 15:24:52 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=919k9q2m+2zrPKFQ+Ec/Cc8wRWCIr42fDB+fDVUPS1k=;
+ b=AK6IVIz3cg5kJjP3te0pYdhMQHO+jvTczqMgiIWq+nVl3x/o3w4tdoV+Ue+LVbz+k+8bDd
+ RoFQHFsjfc9ifcFuDrehkysYsSS4dlP473U+B1lKpOmS1x+4qrrJB71Bm/1/8S2kxgc+ub
+ 2q7DFQtU+3YVWYnZT6xDoCjZre/RA7g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-N_ldELDIM-KfjTjkqIZcVA-1; Thu, 22 Apr 2021 18:24:55 -0400
+X-MC-Unique: N_ldELDIM-KfjTjkqIZcVA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d2-20020aa7d6820000b0290384ee872881so13419949edr.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 15:24:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=PsvY5Kd0czlI8yCug//+q95mDn8xVwUuIx3G0nsqdKk=;
- b=OHu5GWVTudbWt+E4aABP52m/+qv05i/wfQVFVtW82uNwbMrwgpOp1J7uui0G9YaR6b
- xC5u7TdFAZIBdyppAv4NaQiwb1CpMoh6N6oM1ZpZ6x/UxkiGtY6E+D/Cydbn9SRYMsnm
- l4HsA1z4GRiM94U/0GJwGeHQ1W6NnbX2qmDB/UT0+iMGTBjquyGDLOBjh99aV4nXrYyj
- 3wR293GqkT8oupxQMMNNnrq3BJMxJz11dqBxZAAPmRlaw79Y6lq21TjadFZPYl5auVIr
- Qdf3o+npGpFeM97K4OnMBIfyeq8jlPnebtYhDlKSKALS5x3qLxIJIsrpwO80j54rmTUK
- 5dlw==
-X-Gm-Message-State: AOAM532KKdyOyk6tXQbgSuNDWZB62rdkwR8ka7DQC4gMZ2GfRoiEPtzr
- BGK9UHOb722kFlJs8Yq9LRDRho8h0BoRIitu16o94idutuIthCtdhRBPcEscloqCO2DLszTUwu1
- i4Ej2ndqiBXugb8HiWt9FJhuSkJ6/NspjUUMUOgBbwyEImQPbeXj/ZVIn4Grz
-X-Received: by 2002:a17:906:c09:: with SMTP id s9mr868826ejf.145.1619130291377; 
- Thu, 22 Apr 2021 15:24:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpGObQ2TwUXwlEY3NbuRXMkYZQ8wxLPDf8dvZq+8Qwd4STEZeIOXZNf3+Kc8YuVTNu/+hCjQ==
-X-Received: by 2002:a17:906:c09:: with SMTP id s9mr868817ejf.145.1619130291174; 
- Thu, 22 Apr 2021 15:24:51 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=919k9q2m+2zrPKFQ+Ec/Cc8wRWCIr42fDB+fDVUPS1k=;
+ b=rfa5tdAQpyNuar0yNnvNTj5aSG6pdLkZvgwrAMXf9f1VxCCTLvEVZujZrXfpYL1M++
+ 2vdazKklLC7F5pMkDRq90cR8dxStimXGhLlXrFa7rIUTi99B0Iq4Nzv67cGV1kutP8j+
+ br9nN5a1gra4y044/vnHghgphIBFG7xpmH2EGz1LKKxyQUiz5igVBMPFsSaJqPhqUSEO
+ v7sIQ9H+oWqryhil4/Td1eNKy6gOHdyYT9tk5wqexrReVICs+9ERhGEP/p417eUy6qXP
+ 8sIkdc9E73ruHITMCdV1c/H7U/262O9GVTx4Xsu4mqHvjVIQG8YSnKaol6zQ/caNUarK
+ ZIkA==
+X-Gm-Message-State: AOAM530t4iDAWRTWpXpTZ45VhhXnSoYWjQ6N7g4vWQn+4C+KR6u/B7q/
+ g2nsveLiRVwxkSrzwnXYueRCm3erPodW+puzZnaCvwYXvW3BpFX5QxFgNxxhYoJz8WLaL8nJeyH
+ QyLvBdFJH5JfY9vU7ZGN+Xa+QMXIDtY3hQs9SfnX4G5i/gJiJyAPxSpTcEvq2
+X-Received: by 2002:aa7:d9d7:: with SMTP id v23mr762077eds.281.1619130294339; 
+ Thu, 22 Apr 2021 15:24:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDmAhR+5sIHD2BGU4DxxMZCcnMuYO82j6fEU1oVrd2eHEm6wVkbdmhFSX3zkF4ryPSKCh4FQ==
+X-Received: by 2002:aa7:d9d7:: with SMTP id v23mr762038eds.281.1619130294020; 
+ Thu, 22 Apr 2021 15:24:54 -0700 (PDT)
 Received: from redhat.com (212.116.168.114.static.012.net.il.
  [212.116.168.114])
- by smtp.gmail.com with ESMTPSA id c12sm2786749eja.12.2021.04.22.15.24.49
+ by smtp.gmail.com with ESMTPSA id t17sm3251124edv.3.2021.04.22.15.24.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 15:24:50 -0700 (PDT)
-Date: Thu, 22 Apr 2021 18:24:48 -0400
+ Thu, 22 Apr 2021 15:24:53 -0700 (PDT)
+Date: Thu, 22 Apr 2021 18:24:51 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] pc: last minute bugfixes
-Message-ID: <20210422222429.183108-1-mst@redhat.com>
+Subject: [PULL 1/2] amd_iommu: Fix pte_override_page_mask()
+Message-ID: <20210422222429.183108-2-mst@redhat.com>
+References: <20210422222429.183108-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210422222429.183108-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
@@ -70,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -91,39 +94,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d83f46d189a26fa32434139954d264326f199a45:
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-  virtio-pci: compat page aligned ATS (2021-04-06 07:11:36 -0400)
+AMD IOMMU PTEs have a special mode allowing to specify an arbitrary page
+size. Quoting the AMD IOMMU specification: "When the Next Level bits [of
+a pte] are 7h, the size of the page is determined by the first zero bit
+in the page address, starting from bit 12."
 
-are available in the Git repository at:
+So if the lowest bits of the page address is 0, the page is 8kB. If the
+lowest bits are 011, the page is 32kB. Currently pte_override_page_mask()
+doesn't compute the right value for this page size and amdvi_translate()
+can return the wrong guest-physical address. With a Linux guest, DMA
+from SATA devices accesses the wrong memory and causes probe failure:
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+qemu-system-x86_64 ... -device amd-iommu -drive id=hd1,file=foo.bin,if=none \
+		-device ahci,id=ahci -device ide-hd,drive=hd1,bus=ahci.0
+[    6.613093] ata1.00: qc timeout (cmd 0xec)
+[    6.615062] ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
 
-for you to fetch changes up to 9106db1038bf3db5e4f8007038b3a1962018fa07:
+Fix the page mask.
 
-  x86: acpi: use offset instead of pointer when using build_header() (2021-04-22 18:22:01 -0400)
-
-----------------------------------------------------------------
-pc: last minute bugfixes
-
-Two bugfixes - both seem pretty obvious and safe ...
-
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Message-Id: <20210421084007.1190546-1-jean-philippe@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/i386/amd_iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-----------------------------------------------------------------
-Igor Mammedov (1):
-      x86: acpi: use offset instead of pointer when using build_header()
-
-Jean-Philippe Brucker (1):
-      amd_iommu: Fix pte_override_page_mask()
-
- hw/acpi/aml-build.c  | 15 +++++++++------
- hw/i386/acpi-build.c |  8 ++++++--
- hw/i386/amd_iommu.c  |  4 ++--
- 3 files changed, 17 insertions(+), 10 deletions(-)
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index 74a93a5d93..43b6e9bf51 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -860,8 +860,8 @@ static inline uint8_t get_pte_translation_mode(uint64_t pte)
+ 
+ static inline uint64_t pte_override_page_mask(uint64_t pte)
+ {
+-    uint8_t page_mask = 12;
+-    uint64_t addr = (pte & AMDVI_DEV_PT_ROOT_MASK) ^ AMDVI_DEV_PT_ROOT_MASK;
++    uint8_t page_mask = 13;
++    uint64_t addr = (pte & AMDVI_DEV_PT_ROOT_MASK) >> 12;
+     /* find the first zero bit */
+     while (addr & 1) {
+         page_mask++;
+-- 
+MST
 
 
