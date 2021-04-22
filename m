@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A7F3688FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 00:27:00 +0200 (CEST)
-Received: from localhost ([::1]:38246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8031368922
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 00:47:15 +0200 (CEST)
+Received: from localhost ([::1]:52626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZhml-0004yO-U6
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 18:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33748)
+	id 1lZi6M-0003ak-ID
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 18:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkv-0003R9-D7
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lZhkt-0003Ob-1L
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619130302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rAhi6mSwd1RX4WD+1Zv1SP4t5UQUzTU38vJXZ1UaeGQ=;
- b=SEJTcXACNME4cfrW2x1c11Bx9mVl3gJZmNh3a3nC463GJRYh8A+K25VcFxIlMzZI4eDL+x
- 1MdLNZZ9jZG02m28O+ddiCMbXb6UwXUuKmzFM18OM1tvwmWHs+7I+CKlPimtCCPSY3zpIc
- Nch7aSEimvkcC2OELGuPgQlwThjvua8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-tofJlhdcOZqGfXq5kQNJxw-1; Thu, 22 Apr 2021 18:24:58 -0400
-X-MC-Unique: tofJlhdcOZqGfXq5kQNJxw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- m18-20020a0564025112b0290378d2a266ebso17504273edd.15
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 15:24:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rAhi6mSwd1RX4WD+1Zv1SP4t5UQUzTU38vJXZ1UaeGQ=;
- b=nJ3lw9jg1S5AIdUiPkQXy5VoKggycU9vN++DxThFagV3ni6iOZtGxQYzB8kS6ABpEZ
- /SsRV5/hvKMqgmP5/P4hbpH7sbPjkm6eojw6weXCSY+GZ1IRRaQc+UcQFw/TYvVjxKPn
- gQHd8lxgILOAjSmU9+zgD8vUTa4xe5kUuSwPxh7ACySNxaVQzW1gHx+NiX2j9WLQJjuX
- 70hpPBW1F0eJMToLQQTxGkIYPC8Jat2FdvuiAxOwSkH9cGNX9kr/+qhkPpkUJEm7kwqr
- U2RVzUdA0arzA2Iy+yebyx0NfkdzMZV5MBUSSuryZODOPsbzBFJa6v7tY7TAZeYj/x5m
- rCbA==
-X-Gm-Message-State: AOAM533fSE0FWQIVsOgE7rehkrgpjFFOEyHlcMBtO5dX8ctHguYbVoqx
- lPZXw1vHixgV2m6/77zgV5yoPw84WaEasFFZpfM9/70NNjvahnLkw/tOFbtmVbACgbQdJHZJo3F
- s2AZaOCBt5vw+5R0XA312GT80+UuMmoGAC/fcPC5J+IxeQceMblp7MPfxz144
-X-Received: by 2002:aa7:dd4d:: with SMTP id o13mr795943edw.53.1619130296855;
- Thu, 22 Apr 2021 15:24:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAI1vuU2m3KbBRuuL4ivrDq6eVeYQuHQFCg+5CfuAQGnx6W3RkPoSd8Dhuziu9sfuf91psWg==
-X-Received: by 2002:aa7:dd4d:: with SMTP id o13mr795918edw.53.1619130296602;
- Thu, 22 Apr 2021 15:24:56 -0700 (PDT)
-Received: from redhat.com (212.116.168.114.static.012.net.il.
- [212.116.168.114])
- by smtp.gmail.com with ESMTPSA id b22sm3127760edv.96.2021.04.22.15.24.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 15:24:56 -0700 (PDT)
-Date: Thu, 22 Apr 2021 18:24:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] x86: acpi: use offset instead of pointer when using
- build_header()
-Message-ID: <20210422222429.183108-3-mst@redhat.com>
-References: <20210422222429.183108-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZi4z-00034h-Nz
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:45:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZi4x-0007f9-GV
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 18:45:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZi4v-0002QC-0a
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 22:45:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 01D7B2E815D
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 22:45:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210422222429.183108-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Apr 2021 22:40:04 -0000
+From: Ottavio Caruso <1743191@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
+ stefanha th-huth
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: Ottavio Caruso (ottaviocr)
+References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
+ <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
+ <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
+ <24705.28709.3368.276346@guava.gson.org>
+ <CAEJNuHyOLS1QgXbb0dx7DV7QscX=rtO2PvHeo-O28aetZ5-v9g@mail.gmail.com>
+ <24705.45345.929472.140678@guava.gson.org>
+Message-Id: <CAEJNuHxpwEg=pZX695dTkpu5EH10Hn60Yc0ePkZPCKdhsErhaA@mail.gmail.com>
+Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
+ blocks no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: 8e4d198a360555d2a8cbfa537e1546d56d675a1f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,139 +77,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, mst@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+On Thu, 22 Apr 2021 at 18:23, Andreas Gustafsson
+<1743191@bugs.launchpad.net> wrote:
+>
+> Ottavio Caruso wrote:
+> > I am currently using:
+> >
+> > $ qemu-system-x86_64 --version
+> > QEMU emulator version 5.2.0
+> >
+> > And I have no problem selecting from menu in serial console, so I
+> > assume this is fixed for me. This is my command line:
+> >
+> > $ cat opt/bin/boot-netbsd-virtio
+> > #!/bin/sh
+> > qemu-system-x86_64 \
+> > -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=
+=3Ddisk \
+> > -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image.old,index=3D1,me=
+dia=3Ddisk \
+> > -M q35,accel=3Dkvm -m 250M -cpu host -smp $(nproc) \
+> > -nic user,hostfwd=3Dtcp:127.0.0.1:5555-:22,model=3Dvirtio-net-pci,ipv6=
+=3Doff  \
+> > -daemonize -display none  -vga none \
+> > -serial mon:telnet:127.0.0.1:6665,server,nowait \
+> > -pidfile /home/oc/VM/pid/netbsd-pid -nodefaults
+> >
+> > telnet 127.0.0.1 6665
+>
+> Have you tried the test case in the original bug report?
+> --
+> Andreas Gustafsson, gson@gson.org
 
-Do the same as in commit
- (4d027afeb3a97 Virt: ACPI: fix qemu assert due to re-assigned table data address)
-for remaining tables that happen to use saved at
-the beginning pointer to build header to avoid assert
-when table_data is relocated due to implicit re-size.
+You're right. Using the boot-com install image, the problem persists.
 
-In this case user is trying to start Windows 10 and getting assert at
- hw/acpi/bios-linker-loader.c:239:
-  bios_linker_loader_add_checksum: Assertion `start_offset < file->blob->len' failed.
 
-Fixes: https://bugs.launchpad.net/bugs/1923497
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210414084356.3792113-1-imammedo@redhat.com>
-Cc: mst@redhat.com, qemu-stable@nongnu.org
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/acpi/aml-build.c  | 15 +++++++++------
- hw/i386/acpi-build.c |  8 ++++++--
- 2 files changed, 15 insertions(+), 8 deletions(-)
+-- =
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index d33ce8954a..f0035d2b4a 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1830,6 +1830,7 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-     int i;
-     unsigned rsdt_entries_offset;
-     AcpiRsdtDescriptorRev1 *rsdt;
-+    int rsdt_start = table_data->len;
-     const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
-     const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
-     const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
-@@ -1846,7 +1847,8 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
-     }
-     build_header(linker, table_data,
--                 (void *)rsdt, "RSDT", rsdt_len, 1, oem_id, oem_table_id);
-+                 (void *)(table_data->data + rsdt_start),
-+                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
- }
- 
- /* Build xsdt table */
-@@ -1857,6 +1859,7 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-     int i;
-     unsigned xsdt_entries_offset;
-     AcpiXsdtDescriptorRev2 *xsdt;
-+    int xsdt_start = table_data->len;
-     const unsigned table_data_len = (sizeof(uint64_t) * table_offsets->len);
-     const unsigned xsdt_entry_size = sizeof(xsdt->table_offset_entry[0]);
-     const size_t xsdt_len = sizeof(*xsdt) + table_data_len;
-@@ -1873,7 +1876,8 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
-     }
-     build_header(linker, table_data,
--                 (void *)xsdt, "XSDT", xsdt_len, 1, oem_id, oem_table_id);
-+                 (void *)(table_data->data + xsdt_start),
-+                 "XSDT", xsdt_len, 1, oem_id, oem_table_id);
- }
- 
- void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
-@@ -2053,10 +2057,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-     uint64_t control_area_start_address;
-     TPMIf *tpmif = tpm_find();
-     uint32_t start_method;
--    void *tpm2_ptr;
- 
-     tpm2_start = table_data->len;
--    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+    acpi_data_push(table_data, sizeof(AcpiTableHeader));
- 
-     /* Platform Class */
-     build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-@@ -2095,8 +2098,8 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-                                    log_addr_offset, 8,
-                                    ACPI_BUILD_TPMLOG_FILE, 0);
-     build_header(linker, table_data,
--                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, oem_id,
--                 oem_table_id);
-+                 (void *)(table_data->data + tpm2_start),
-+                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
- }
- 
- Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index de98750aef..daaf8f473e 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1816,6 +1816,7 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-            const char *oem_table_id)
- {
-     Acpi20Hpet *hpet;
-+    int hpet_start = table_data->len;
- 
-     hpet = acpi_data_push(table_data, sizeof(*hpet));
-     /* Note timer_block_id value must be kept in sync with value advertised by
-@@ -1824,13 +1825,15 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-     hpet->timer_block_id = cpu_to_le32(0x8086a201);
-     hpet->addr.address = cpu_to_le64(HPET_BASE);
-     build_header(linker, table_data,
--                 (void *)hpet, "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
-+                 (void *)(table_data->data + hpet_start),
-+                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
- }
- 
- static void
- build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-                const char *oem_id, const char *oem_table_id)
- {
-+    int tcpa_start = table_data->len;
-     Acpi20Tcpa *tcpa = acpi_data_push(table_data, sizeof *tcpa);
-     unsigned log_addr_size = sizeof(tcpa->log_area_start_address);
-     unsigned log_addr_offset =
-@@ -1849,7 +1852,8 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-         ACPI_BUILD_TPMLOG_FILE, 0);
- 
-     build_header(linker, table_data,
--                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
-+                 (void *)(table_data->data + tcpa_start),
-+                 "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
- }
- 
- #define HOLE_640K_START  (640 * KiB)
--- 
-MST
+Ottavio Caruso
 
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1743191
+
+Title:
+  Interacting with NetBSD serial console boot blocks no longer works
+
+Status in QEMU:
+  New
+
+Bug description:
+  The NetBSD boot blocks display a menu allowing the user to make a
+  selection using the keyboard.  For example, when booting a NetBSD
+  installation CD-ROM, the menu looks like this:
+
+           1. Install NetBSD
+           2. Install NetBSD (no ACPI)
+           3. Install NetBSD (no ACPI, no SMP)
+           4. Drop to boot prompt
+
+      Choose an option; RETURN for default; SPACE to stop countdown.
+      Option 1 will be chosen in 30 seconds.
+
+  When booting NetBSD in a recent qemu using an emulated serial console,
+  making this menu selection no longer works: when you type the selected
+  number, the keyboard input is ignored, and the 30-second countdown
+  continues.  In older versions of qemu, it works.
+
+  To reproduce the problem, run:
+
+     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
+cdrom/boot-com.iso
+     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+
+  During the 30-second countdown, press 4
+
+  Expected behavior: The countdown stops and you get a ">" prompt
+
+  Incorrect behavior: The countdown continues
+
+  There may also be some corruption of the terminal output; for example,
+  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+  will be chosen in p0 seconds".
+
+  Using bisection, I have determined that the problem appeared with qemu
+  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+  updated to 1.11 prerelease, and the problem is still there as of
+  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+  system used for the tests was Debian 9 x86_64.
+
+  Credit for discovering this bug goes to Paul Goyette.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
