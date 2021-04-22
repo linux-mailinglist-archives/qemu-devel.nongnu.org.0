@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782BF367CEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:52:53 +0200 (CEST)
-Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0100F367CEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:52:55 +0200 (CEST)
+Received: from localhost ([::1]:59416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZV4u-0005fZ-Jx
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
+	id 1lZV4w-0005gb-23
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZV3P-0004o6-0o
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:51:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53394)
+ id 1lZV3Q-0004oD-8y
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:51:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZV3M-0003eX-Mf
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:51:18 -0400
+ id 1lZV3M-0003eA-KO
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:51:19 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZV3K-0001l4-H7
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:51:14 +0000
+ id 1lZV3J-0001lf-JK
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:51:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 807FF2E8050
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:51:14 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8E6982E8050
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:51:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 08:42:45 -0000
-From: Thomas Huth <1848901@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 08:45:28 -0000
+From: Thomas Huth <1849894@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: d33m0n jnsnow th-huth
-X-Launchpad-Bug-Reporter: P.O. (d33m0n)
+X-Launchpad-Bug-Commenters: baryluk th-huth
+X-Launchpad-Bug-Reporter: Witold Baryluk (baryluk)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157153622475.25094.3691269102491613645.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161908096594.9315.18431557255751347146.malone@wampee.canonical.com>
-Subject: [Bug 1848901] Re: kvm_mem_ioeventfd_add: error adding ioeventfd: No
- space left on device (28)
+References: <157203451253.3372.9480827920211406597.malonedeb@gac.canonical.com>
+Message-Id: <161908112889.31919.3605805015603484769.malone@soybean.canonical.com>
+Subject: [Bug 1849894] Re: hw/scsi/scsi-disk.c line 2554 allocation overflow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 1d970209c39e7a07d3d2755c826f267ec5c88a0a
+X-Launchpad-Hash: 603cc1508d8cad5e7b223a870e5e8dc726abd006
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848901 <1848901@bugs.launchpad.net>
+Reply-To: Bug 1849894 <1849894@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,87 +94,89 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848901
+https://bugs.launchpad.net/bugs/1849894
 
 Title:
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device
-  (28)
+  hw/scsi/scsi-disk.c line 2554 allocation overflow
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  =3D> QEMU process has stopped, return code: -6
+  When compiling qemu from git master (at commit
+  03bf012e523ecdf047ac56b2057950247256064d ) on Linux amd64, with gcc-9
+  9.2.1 , and using `-march=3Dnative -flto`, during linking of most target
+  binaries, compiler does detect an issue with allocation in
+  scsi_disk_new_request_dump and aborts compilation.
 
-  Start QEMU with /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m
-  2048M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive
-  'file=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu
-  /7725cdea-5e66-4777-b4dd-
-  c3905f258394/hda_disk.qcow2,if=3Dvirtio,index=3D0,media=3Ddisk,id=3Ddrive=
-0'
-  -uuid 7725cdea-5e66-4777-b4dd-c3905f258394 -serial
-  telnet:127.0.0.1:5000,server,nowait -monitor
-  tcp:127.0.0.1:44629,server,nowait -net none -device
-  e1000,mac=3D0c:7a:1d:83:94:00,netdev=3Dgns3-0 -netdev
-  socket,id=3Dgns3-0,udp=3D127.0.0.1:10001,localaddr=3D127.0.0.1:10000 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:01,netdev=3Dgns3-1 -netdev
-  socket,id=3Dgns3-1,udp=3D127.0.0.1:10003,localaddr=3D127.0.0.1:10002 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:02,netdev=3Dgns3-2 -netdev
-  socket,id=3Dgns3-2,udp=3D127.0.0.1:10005,localaddr=3D127.0.0.1:10004 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:03,netdev=3Dgns3-3 -netdev
-  socket,id=3Dgns3-3,udp=3D127.0.0.1:10007,localaddr=3D127.0.0.1:10006 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:04,netdev=3Dgns3-4 -netdev
-  socket,id=3Dgns3-4,udp=3D127.0.0.1:10009,localaddr=3D127.0.0.1:10008 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:05,netdev=3Dgns3-5 -netdev
-  socket,id=3Dgns3-5,udp=3D127.0.0.1:10011,localaddr=3D127.0.0.1:10010 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:06,netdev=3Dgns3-6 -netdev
-  socket,id=3Dgns3-6,udp=3D127.0.0.1:10013,localaddr=3D127.0.0.1:10012 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:07,netdev=3Dgns3-7 -netdev
-  socket,id=3Dgns3-7,udp=3D127.0.0.1:10015,localaddr=3D127.0.0.1:10014
-  -nographic
+  =
 
-   =
-
-  Execution log:
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device (2=
-8)
-
-  and then it just closes...
+  make[1]: Entering directory '/home/user/qemu/slirp'
+  make[1]: Nothing to be done for 'all'.
+  make[1]: Leaving directory '/home/user/qemu/slirp'
+  nm: stats64.o: no symbols
+    LINK    aarch64-softmmu/qemu-system-aarch64
+  In function =E2=80=98scsi_disk_new_request_dump=E2=80=99,
+      inlined from =E2=80=98scsi_new_request=E2=80=99 at hw/scsi/scsi-disk.=
+c:2580:9,
+      inlined from =E2=80=98scsi_new_request=E2=80=99 at hw/scsi/scsi-disk.=
+c:2564:21:
+  hw/scsi/scsi-disk.c:2554:19: error: argument 1 value =E2=80=9818446744073=
+709551612=E2=80=99 exceeds maximum object size 9223372036854775807 [-Werror=
+=3Dalloc-size-larger-than=3D]
+  hw/scsi/scsi-disk.c: In function =E2=80=98scsi_new_request=E2=80=99:
+  /usr/include/glib-2.0/glib/gmem.h:78:10: note: in a call to allocation fu=
+nction =E2=80=98g_malloc=E2=80=99 declared here
+     78 | gpointer g_malloc         (gsize  n_bytes) G_GNUC_MALLOC G_GNUC_A=
+LLOC_SIZE(1);
+        |          ^
+  lto1: all warnings being treated as errors
+  lto-wrapper: fatal error: c++ returned 1 exit status
+  compilation terminated.
+  /usr/bin/ld: error: lto-wrapper failed
+  collect2: error: ld returned 1 exit status
 
 
-  [deemon@Zen ~]$ coredumpctl info 8638
-             PID: 8638 (qemu-system-x86)
-             UID: 1000 (deemon)
-             GID: 1000 (deemon)
-          Signal: 6 (ABRT)
-       Timestamp: Sun 2019-10-20 04:27:29 EEST (5min ago)
-    Command Line: /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m 204=
-8M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive file=
-=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu>
-      Executable: /usr/bin/qemu-system-x86_64
-   Control Group: /user.slice/user-1000.slice/session-2.scope
-            Unit: session-2.scope
-           Slice: user-1000.slice
-         Session: 2
-       Owner UID: 1000 (deemon)
-         Boot ID: cd30f69a8d194359a31889dc7b6b026c
-      Machine ID: d0a2d74a5cd9430797d902f5237c448d
-        Hostname: Zen
-         Storage: /var/lib/systemd/coredump/core.qemu-system-x86.1000.cd30f=
-69a8d194359a31889dc7b6b026c.8638.1571534849000000.lz4 (truncated)
-         Message: Process 8638 (qemu-system-x86) of user 1000 dumped core.
-                  =
+  same happens for most other targets: alpha-softmmu/qemu-system-alpha
+  arm-softmmu/qemu-system-arm hppa-softmmu/qemu-system-hppa i386-softmmu
+  /qemu-system-i386 lm32-softmmu/qemu-system-lm32 mips-softmmu/qemu-
+  system-mips mips64-softmmu/qemu-system-mips64 mips64el-softmmu/qemu-
+  system-mips64el mipsel-softmmu/qemu-system-mipsel ppc-softmmu/qemu-
+  system-ppc ppc64-softmmu/qemu-system-ppc64 riscv32-softmmu/qemu-
+  system-riscv32 riscv64-softmmu/qemu-system-riscv64 s390x-softmmu/qemu-
+  system-s390x sh4-softmmu/qemu-system-sh4 sh4eb-softmmu/qemu-system-
+  sh4eb sparc-softmmu/qemu-system-sparc sparc64-softmmu/qemu-system-
+  sparc64 x86_64-softmmu/qemu-system-x86_64 xtensa-softmmu/qemu-system-
+  xtensa xtensaeb-softmmu/qemu-system-xtensaeb
 
-                  Stack trace of thread 8642:
-                  #0  0x00007f1a33609f25 n/a (n/a)
+  Notice -softmmu being a common factor here.
+
+
+  The size of the allocation for the temporary buffer for dumping using
+  snprintf is determined based on the size of the buffer via call to
+  scsi_cdb_length. I believe the heavy inlining and constant propagation
+  makes scsi_cdb_length return -1, so len =3D -1. Then allocation size is
+  5*len + 1, or -4. Which overflows to 2^64 - 4 or so.
+
+  The case of len=3D=3D-1 from scsi_cdb_length happens if the (buf[0] >> 5)
+  is not 0, 1, 2, 4 or 5.
+
+  However, I can't find out how gcc figures out that buf[0] is not one
+  of these variables. To me looking at this function, compiler should
+  not know anything about buf[0].
+
+  I tried following the chain of calls back, including devirtualize
+  alloc_req, and I found scsi_device_alloc_req calling these alloc_req
+  callbacks, but it is itself called from scsi_req_new, which is called
+  in  get_scsi_requests , just after buf is filled from QEMUFile using
+  qemu_get_buffer, which ultimately goes even further into read paths,
+  which there might be many AFAIK.
+
+
+  =
+
+  glib2 version 2.62.1-1
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848901/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1849894/+subscriptions
 
