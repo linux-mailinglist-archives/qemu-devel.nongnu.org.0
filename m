@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464D83676E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 03:44:19 +0200 (CEST)
-Received: from localhost ([::1]:54608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116D33676ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 03:45:57 +0200 (CEST)
+Received: from localhost ([::1]:57570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZOOA-0001ST-CI
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 21:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53016)
+	id 1lZOPk-0002gQ-62
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 21:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZOMT-0000Td-In
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 21:42:33 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:36750)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lZOMr-0000vQ-7X; Wed, 21 Apr 2021 21:42:57 -0400
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:36829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZOMQ-0004r4-Vr
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 21:42:33 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id g16so5829864plq.3
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 18:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7dwOa0AishVeIO/Id1EttEpKsccjYrr2aJNNtkOnpH4=;
- b=vs/LZ/lkLDAUqcgX5J+gJrULsQQVrRemBLmqcBflHTEUsS15TxsWeFjEVGY2aFtAax
- FKBP0nPSTwU+foCFXCDypD8xgfB4M6PvK3nV+qhcdCAnSUCQa8CSOXXajdSp+w3GEdUM
- 9XHrjBx5EXuPeoarCjBKbv/WoiM84DNXt73Nh2iz38Kyk+G3QEq8TJin39XnWWGUP7Em
- MshYTUs6bnZ0C9EFncgd1eHhMpwyVCoB9WS6xO2Pw2/klxaApy2e8+ROGu0WJxYA8RSo
- Y4yXkiZX1tKiOAInSRII34UolETlltPvgkX3AfsFNcD56zM0Tse5S7vlJXuy2sZ8I6bk
- DuZw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lZOMp-000508-1N; Wed, 21 Apr 2021 21:42:57 -0400
+Received: by mail-il1-x134.google.com with SMTP id p15so755056iln.3;
+ Wed, 21 Apr 2021 18:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w/cXhI4jKYYny3K7schsKdtggbOGnStznEuG5YxSA38=;
+ b=WoQTZtTMxCqBaUMbQT+yuwg161zOT9zm2L2xkdXBACDKKWcIYE2zLv21CrNmPi1Itb
+ G92bv6EeaySE4WcQDkHpV5WovorlSN15pojZF+Knal9Cf0ckkj7JdOlsXZM1sPcrdWsR
+ 6FaRSzZVUwn5CyefhJDVV6wBEkeymPD0GVbXYpuyCpHF25Etv+nBGFfWptwMUePhz7Ko
+ oqM8JDjiYcSwm7iAvdtc9cb3kI7KCukc2SuRQ5RYsAfDU2BucupcesU5xPI00ULczbQw
+ IxVdhtsjSePqQg4qjbKwyeu9IPpMPTUXPnQzZzaOJb9izjaRb1JQZbAg67VceGqktprp
+ 26EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7dwOa0AishVeIO/Id1EttEpKsccjYrr2aJNNtkOnpH4=;
- b=psmorpXNMuPWFd0VCFURQNQg4ybvtwfXpXhINSkCb1ToyfHcjSC2WhUgfM8X3MmGmu
- fm8SmCCfIuW+qE0jtUenlbEpRHbqekW5Jml8+qVBtPhMQ8ng21lu+umSAYylVxsWUHr0
- 343wlmXj4Hqgn3vWD6ANy50rHwmocXjrojlHHtFG3fVHm411HRRlnNtEDInERsKtzwVN
- SZlS4S+9SoKTcBRWZq1OtjqUn9bRf3Yekj4Yv9D3ZBhfAVX3sbmIkG5FU1yQ2k2QoJDc
- z1fPAZk5R4r6WYqm62EKIFq8CwIPbTML/CImnde+YNPB/jAk8rmf3DZ71RkSjIxpzyfr
- 8BPA==
-X-Gm-Message-State: AOAM5320MjrxT1afa48afGHRFHaQ+ArHpjYiDGYxnmWZAAFzVeEQdS6m
- zSBHTYzs9y2c5gjkSKKJTxBxBg==
-X-Google-Smtp-Source: ABdhPJwLuSaKh8JWL6/HZOyWLe0Lxk/KkfxkwJ3k4kji1o3SG8e7AQuu0vXgaa6pApTklO9w9OxQhQ==
-X-Received: by 2002:a17:90a:b947:: with SMTP id
- f7mr14044749pjw.166.1619055746500; 
- Wed, 21 Apr 2021 18:42:26 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id h9sm497418pgl.67.2021.04.21.18.42.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 18:42:26 -0700 (PDT)
-Subject: Re: [PATCH v2 4/7] hw/arm/digic: Open-code pflash_cfi02_register()
- call
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210419094329.1402767-1-f4bug@amsat.org>
- <20210419094329.1402767-5-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3de0cf22-35da-277d-2e31-9f1602988afc@linaro.org>
-Date: Wed, 21 Apr 2021 18:42:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w/cXhI4jKYYny3K7schsKdtggbOGnStznEuG5YxSA38=;
+ b=BQc2dwyHqqoxDdMrqQW0+lZKhwzUMkfBl/CG9pat7Akf9H0lR/nOMApzyKWO+C0d2H
+ GxqTiHcZTk4hyUIuljmH/jkNwKQfTTdyWd/NnigavHf2lz3UcTwJf/61BQozdVrD0oiN
+ ttBv+F0HgB4cmdJmGjU5Q8ROVqTzAJw+FkDfvl2khoGPjkjAdxNrBo+Gm/Mk3ZmTOSYt
+ Dt9nNAlZA1YK3/tVViwzECvdtuuVNY9P8JCgw070qBJP/rtp+UsEF+zHLmCa1qD41IiY
+ dpIlHI5KKW2v27HLXCZ/cVWmMQr+ZXA8qI2uYvJZV4l1771jxR3Sya4/6LOS6gsJVV/1
+ xziQ==
+X-Gm-Message-State: AOAM532rChJ0252Fyj34Q6qBgSaRJt5TDdX+QlIQnBU0afWH4L7O9jl/
+ YMHffG7XXcdfDlUpD6nLaJuglFxr9/2Yar5ebgQ=
+X-Google-Smtp-Source: ABdhPJwfeR+fWZkX59XPliObQ23v34os/IkIJ3fFYoUNAKptd9dg1woXs8W7QIm39l67n+IMGDVaR3ieGCm22cM7s3k=
+X-Received: by 2002:a05:6e02:5a2:: with SMTP id
+ k2mr730429ils.177.1619055771162; 
+ Wed, 21 Apr 2021 18:42:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210419094329.1402767-5-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210420013150.21992-1-frank.chang@sifive.com>
+ <3b6b4967-d9bc-ec4f-4676-cb9df2b4930a@linaro.org>
+In-Reply-To: <3b6b4967-d9bc-ec4f-4676-cb9df2b4930a@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 22 Apr 2021 11:42:25 +1000
+Message-ID: <CAKmqyKMKrNtqULUdQTdXAoHX8JS_dcRAQYx2MPbMiRtzJt6DWw@mail.gmail.com>
+Subject: Re: [PATCH v2] fpu/softfloat: set invalid excp flag for RISC-V muladd
+ instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
- David Edmondson <david.edmondson@oracle.com>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/21 2:43 AM, Philippe Mathieu-Daudé wrote:
-> To be able to manually map the flash region on the main memory
-> (in the next commit), first expand the pflash_cfi02_register
-> in place.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/arm/digic_boards.c | 27 +++++++++++++++++++++------
->   1 file changed, 21 insertions(+), 6 deletions(-)
+On Thu, Apr 22, 2021 at 11:06 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 4/19/21 6:31 PM, frank.chang@sifive.com wrote:
+> > +    return 3; /* deafult NaN */
+>
+> Late notice of spelling error: default.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Fixed when I applied it.
 
-r~
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+> r~
+>
 
