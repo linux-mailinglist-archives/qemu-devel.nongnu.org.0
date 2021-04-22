@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1FF3678E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:50:36 +0200 (CEST)
-Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2DB367915
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:06:13 +0200 (CEST)
+Received: from localhost ([::1]:50478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZRIS-0002rl-0K
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47722)
+	id 1lZRXY-0002FU-Hy
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZRFf-0001Od-Go
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:47:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZRFc-0006zr-IR
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:47:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619066859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YycjBmv4F0+nju3HHWEounKS9MOpDZN6nFI9gI/i1+0=;
- b=BkppA+lFmIpz0lPXMrE2Nta99elNOvKH4AASZjxKcT7NH386iCzmkjeIB/cv6yM125/GAm
- gricMPZLFyNUzfJjlTGceBcdb6U39FxGW83uldQU5/Pdm1TblUrvgrAJM9jeTF4JDW4ljl
- vbU/b5Il9x/CTYzeLS9f4KwUcyVBFJo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-GUFsiE4fPbG6aWeYRnbDSg-1; Thu, 22 Apr 2021 00:47:37 -0400
-X-MC-Unique: GUFsiE4fPbG6aWeYRnbDSg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DB2E18397A3;
- Thu, 22 Apr 2021 04:47:36 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 206EC60C05;
- Thu, 22 Apr 2021 04:47:33 +0000 (UTC)
-Subject: Re: s390-ccw: warning: writing 1 byte into a region of size 0
- [-Wstringop-overflow=]
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
-References: <4e327c80-8f5d-c848-b524-7f2c75255da4@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <485773db-fca2-03ca-c6e8-90ef313fb8f1@redhat.com>
-Date: Thu, 22 Apr 2021 06:47:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZRWH-0000yf-RI
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:04:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZRWB-0000y1-QM
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:04:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZRWA-000108-M9
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:04:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 959022E815F
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:04:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <4e327c80-8f5d-c848-b524-7f2c75255da4@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Apr 2021 04:52:25 -0000
+From: Thomas Huth <1451067@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: miki4242 th-huth
+X-Launchpad-Bug-Reporter: Alain Kalker (miki4242)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20150502182723.29231.13701.malonedeb@soybean.canonical.com>
+Message-Id: <161906714556.22817.6853966380363273563.malone@gac.canonical.com>
+Subject: [Bug 1451067] Re: -smb option requires full path for Samba sharing to
+ work
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: 31fc43acc70780a00e15b39e5be67566f2ed02da
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,57 +71,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1451067 <1451067@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/04/2021 06.18, Philippe Mathieu-Daudé wrote:
-> Hi Thomas, Daniel, Stefano,
-> 
-> Regarding the following warning (GCC 11 on Fedora 34):
-> 
-> In file included from pc-bios/s390-ccw/main.c:11:
-> 
-> In function ‘memset’,
-> 
->      inlined from ‘boot_setup’ at pc-bios/s390-ccw/main.c:185:5,
-> 
->      inlined from ‘main’ at pc-bios/s390-ccw/main.c:288:5:
-> 
-> pc-bios/s390-ccw/libc.h:28:14: warning: writing 1 byte into a region of
-> size 0 [-Wstringop-overflow=]
-> 
->     28 |         p[i] = c;
-> 
->        |         ~~~~~^~~
-> 
-> Daniel were right on IRC:
-> 
-> danpb: it is from a call  memset((char *)S390EP, 0, 6)     where  S390EP
-> is just a constant address 0x10008
-> danpb: the compiler doesn't now how big that is, so it seems to assume
-> it is zero length
-> 
-> This is a known GCC issue:
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578
-> "gcc-11 -Warray-bounds or -Wstringop-overread warning when accessing a
-> pointer from integer literal"
+The QEMU project is currently considering to move its bug tracking to
+another system. For this we need to know which bugs are still valid
+and which could be closed already. Thus we are setting older bugs to
+"Incomplete" now.
 
-  Hi Philippe,
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
 
-thanks for following up with the gcc bugzilla!
+Thank you and sorry for the inconvenience.
 
-... so the problem is that GCC thinks we're in fact dereferencing a NULL 
-pointer at offset 0x10008 here? Wow, that's ... crazy.
 
-Not sure what to do now - wait for the bug to get resolved? Compile the 
-s390-ccw bios with -Wno-stringop-overread ? Add "volatiles" here and there 
-to hope that these silence the compiler warnings? ... I tend to wait for the 
-bug ticket to see whether the GCC folks change the behavior of the compiler 
-again, but I'm open for other suggestions.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-  Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1451067
+
+Title:
+  -smb option requires full path for Samba sharing to work
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  This issue has been reported on qemu-devel a looong time ago:
+  https://lists.gnu.org/archive/html/qemu-devel/2005-12/msg00141.html
+
+  QEMU version 2.2.1-4 on Arch Linux x86_64
+
+  Steps to reproduce:
+
+  host$ mkdir share
+  host$ chmod o+rwx share
+  host$ qemu <other options> -smb share
+
+  vm$ smbclient //10.0.2.4/qemu -N
+  smbclient: Can't load /etc/samba/smb.conf - run testparm to debug it
+  Domain=3D[WORKGROUP] OS=3D[Windows 6.1] Server=3D[Samba 4.2.1]
+  tree connect failed: NT_STATUS_BAD_NETWORK_NAME
+  vm$ poweroff
+
+  Workaround:
+
+  host$ qemu <other options> -smb /full/path/to/share
+
+  vm$ $ smbclient //10.0.2.4/qemu -N
+  smbclient: Can't load /etc/samba/smb.conf - run testparm to debug it
+  Domain=3D[WORKGROUP] OS=3D[Windows 6.1] Server=3D[Samba 4.2.1]
+  smb: \> ls
+    .                                   D        0  Sat May  2 19:57:31 2015
+    ..                                  D        0  Sat May  2 19:57:31 2015
+
+  		961302540 blocks of size 1024. 637557248 blocks available
+  smb: \> quit
+
+  Please, please fix this gotcha, whether in the documentation or in
+  code. it can cause some serious bouts of hair-pulling.
+
+  -Alain
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1451067/+subscriptions
 
