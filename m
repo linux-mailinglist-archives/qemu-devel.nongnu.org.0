@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2F236787A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:23:55 +0200 (CEST)
-Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DE93678A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:25:17 +0200 (CEST)
+Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQsc-0001tQ-9y
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
+	id 1lZQtw-0003yb-R2
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:25:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQpc-0006TX-KX
+ id 1lZQpc-0006T1-DX
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:20:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43712)
+Received: from indium.canonical.com ([91.189.90.7]:43702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQpa-0007nv-Qy
+ id 1lZQpa-0007nq-B5
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:20:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQpZ-0006IJ-JD
+ id 1lZQpZ-0006Is-4v
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:20:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8F5862E8060
+ by loganberry.canonical.com (Postfix) with ESMTP id 22C2F2E815F
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:20:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:10:49 -0000
-From: Thomas Huth <1770859@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:11:25 -0000
+From: Thomas Huth <1801933@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
  assignee=None; 
+X-Launchpad-Bug-Tags: defaults
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: socketpair th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- =?utf-8?q?_=28socketpair=29?=
+X-Launchpad-Bug-Commenters: berrange jpeyrard th-huth
+X-Launchpad-Bug-Reporter: johann peyrard (jpeyrard)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152613876246.1025.17904458639014473926.malonedeb@gac.canonical.com>
-Message-Id: <161906464930.23138.1363966972926361175.malone@gac.canonical.com>
-Subject: [Bug 1770859] Re: qemu-img compare -m option is missing
+References: <154151022459.20108.13605520748922076387.malonedeb@gac.canonical.com>
+Message-Id: <161906468507.22364.14752577272100239954.malone@gac.canonical.com>
+Subject: [Bug 1801933] Re: default memory parameter too small on x86_64 today
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 590a1f573ceb4d6ec15051612214728d70d61e23
+X-Launchpad-Hash: 38fd950858c8f8296f746dbb1e9b8ee8f6f15652
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1770859 <1770859@bugs.launchpad.net>
+Reply-To: Bug 1801933 <1801933@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,22 +92,50 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1770859
+https://bugs.launchpad.net/bugs/1801933
 
 Title:
-  qemu-img compare -m option is missing
+  default memory parameter too small on x86_64 today
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Comparing images using multiple streams (like qemu-img convert) maybe
-  effectively sped up when one of the images (or both) is RBD. qemu-img
-  convert does it's job perfectly while converting. Please implement the
-  same for image comparison. Since operations are read-only, -W is
-  useless, but may be introduced as well for debugging/performance
-  purposes.
+  Launching a centos74 iso VM today does not work anymore on x86_64
+  without increasing the size of the memory parameter. For example with
+  this command :
+
+  $ /opt/qemu-3.0.0/bin/qemu-system-x86_64 --curses   -enable-kvm -drive
+  file=3Dfile.dd,index=3D0,media=3Ddisk -drive file=3Dcentos-
+  x86_64.iso,index=3D1,media=3Dcdrom
+
+  [    3.047614] Failed to execute /init
+  [    3.048315] Kernel panic - not syncing: No init found.  Try passing in=
+it=3D option to kernel. See Linux Documentation/init.txt for guidance.
+  [    3.049258] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 3.10.0-693.21.1.=
+el7.x86
+
+  Increasing the size from the default 128MiB to 512MiB let the VM works wi=
+thout problem.
+  So, ok, it's not a qemu problem, it's more a "User problem" and interface=
+ problem for me.
+  But it push me in the end to launch VirtualBox instead of qemu, because t=
+he default parameter does not work anymore... And I had no time to investig=
+ate why it does not work because the message is not visible.
+  Debian iso with the same command line for example show a message to tell =
+me that there is not enough memory, so it help me to track the real issue b=
+ehind.
+
+  But... In the end, I think today, the default memory parameter on x86_64 =
+is too small and it can lead some people like me to switch to VirtualBox.
+  VirtualBox, in the wizard is set by default to 4MiB Ram size, which tell =
+you... Ok I need to put more. And, you know that 4MiB is not enough in the =
+end.
+
+  Regards,
+
+  Johann
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1770859/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1801933/+subscriptions
 
