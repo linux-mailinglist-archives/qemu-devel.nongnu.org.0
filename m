@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDAB367BA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:00:00 +0200 (CEST)
-Received: from localhost ([::1]:43642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9DE367BD8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:14:10 +0200 (CEST)
+Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZUFj-0000ZN-9b
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:59:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
+	id 1lZUTR-0003My-9A
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lZUCx-0006hx-PO
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:57:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lZUCu-0003tO-4Q
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:57:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619078222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=09VS2CXTCJHK905seH+XBGMmZ+2ryK28klagrkBK0mc=;
- b=Ke+8kk9DFXlLlWfCYVOXQEC0yS9gp7tRuQHFkwVSkLCH3r+jyCGS6EVgiA24PARmHml6xz
- nOc3MZkdTSonW4budL74HAs4DSNSYqCq/JH0vFRD2jjpJjX4N7I6mPdZ9qdYHgxlie3QH0
- 8/aWHxkkvDc2zHjp75a6rFFHPmqejoA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-SPV2D1uXNRuyp96YiNnveA-1; Thu, 22 Apr 2021 03:57:00 -0400
-X-MC-Unique: SPV2D1uXNRuyp96YiNnveA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF81F8030BB;
- Thu, 22 Apr 2021 07:56:59 +0000 (UTC)
-Received: from [10.36.113.252] (ovpn-113-252.ams2.redhat.com [10.36.113.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCC256091B;
- Thu, 22 Apr 2021 07:56:50 +0000 (UTC)
-Subject: Re: [PATCH 2/3] Acceptance Tests: move definition of distro checksums
- to the framework
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210414221457.1653745-1-crosa@redhat.com>
- <20210414221457.1653745-3-crosa@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c8ec5d7f-3ae7-49da-e10e-717789694793@redhat.com>
-Date: Thu, 22 Apr 2021 09:56:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZUSC-0002CR-2L
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:12:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZUS9-0005JW-3g
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:12:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZUS6-0005Kg-Pu
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:12:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C2D742E815F
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:12:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210414221457.1653745-3-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Apr 2021 07:57:20 -0000
+From: Jonas Jelten <1754656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: etosan th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?b?TWFydGluICJldG8iICBNacWhw7p0aCAoZXRv?=
+ =?utf-8?q?san=29?=
+X-Launchpad-Bug-Modifier: Jonas Jelten (jonas-jelten)
+References: <152060087104.31174.3517029871758682734.malonedeb@wampee.canonical.com>
+Message-Id: <161907824123.490.8950489605370327067.launchpad@soybean.canonical.com>
+Subject: [Bug 1754656] Re: Please solve graceful (ACPI) poweroff issue,
+ using signals, most importantly SIGTERM
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: 6fa61c382b66691278018534753afdba944ec2b8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,137 +71,300 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Reply-To: Bug 1754656 <1754656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cleber,
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-On 4/15/21 12:14 AM, Cleber Rosa wrote:
-> Instead of having, by default, the checksum in the tests, and the
-> definition of tests in the framework, let's keep them together.
-> 
-> A central definition for distributions is available, and it should
-> allow other known distros to be added more easily.
-> 
-> No behavior change is expected here, and tests can still define
-> a distro_checksum value if for some reason they want to override
-> the known distribution information.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 34 +++++++++++++++++++++--
->  tests/acceptance/boot_linux.py            |  8 ------
->  2 files changed, 32 insertions(+), 10 deletions(-)
-> 
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index aae1e5bbc9..97093614d9 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -299,6 +299,30 @@ def ssh_command(self, command):
->          return stdout_lines, stderr_lines
->  
->  
-> +#: A collection of known distros and their respective image checksum
-> +KNOWN_DISTROS = {
-> +    'fedora': {
-> +        '31': {
-> +            'x86_64':
-> +            {'checksum': 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
-> +            'aarch64':
-> +            {'checksum': '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
-> +            'ppc64':
-> +            {'checksum': '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
-> +            's390x':
-> +            {'checksum': '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'},
-> +            }
-> +        }
-> +    }
-assuming we may put other data like kernel params and maybe pxeboot URL,
-this may grow rapidly, Maybe we should put that in a different file?
-> +
-> +
-> +def get_known_distro_checksum(distro, distro_version, arch):
-> +    try:
-> +        return KNOWN_DISTROS.get(distro).get(distro_version).get(arch).get('checksum')
-> +    except AttributeError:
-> +        return None
-> +
-> +
->  class LinuxTest(Test, LinuxSSHMixIn):
->      """Facilitates having a cloud-image Linux based available.
->  
-> @@ -348,14 +372,20 @@ def download_boot(self):
->          vmimage.QEMU_IMG = qemu_img
->  
->          self.log.info('Downloading/preparing boot image')
-> +        distro = 'fedora'
-> +        distro_version = '31'
-> +        known_distro_checksum = get_known_distro_checksum(distro,
-> +                                                          distro_version,
-> +                                                          self.arch)
-> +        distro_checksum = self.distro_checksum or known_distro_checksum
->          # Fedora 31 only provides ppc64le images
->          image_arch = self.arch
->          if image_arch == 'ppc64':
->              image_arch = 'ppc64le'
->          try:
->              boot = vmimage.get(
-> -                'fedora', arch=image_arch, version='31',
-> -                checksum=self.distro_checksum,
-> +                distro, arch=image_arch, version=distro_version,
-> +                checksum=distro_checksum,
->                  algorithm='sha256',
->                  cache_dir=self.cache_dirs[0],
->                  snapshot_dir=self.workdir)
-> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-> index c7bc3a589e..9e618c6daa 100644
-> --- a/tests/acceptance/boot_linux.py
-> +++ b/tests/acceptance/boot_linux.py
-> @@ -20,8 +20,6 @@ class BootLinuxX8664(LinuxTest):
->      :avocado: tags=arch:x86_64
->      """
->  
-> -    distro_checksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
-> -
->      def test_pc_i440fx_tcg(self):
->          """
->          :avocado: tags=machine:pc
-> @@ -66,8 +64,6 @@ class BootLinuxAarch64(LinuxTest):
->      :avocado: tags=machine:gic-version=2
->      """
->  
-> -    distro_checksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
-> -
->      def add_common_args(self):
->          self.vm.add_args('-bios',
->                           os.path.join(BUILD_DIR, 'pc-bios',
-> @@ -119,8 +115,6 @@ class BootLinuxPPC64(LinuxTest):
->      :avocado: tags=arch:ppc64
->      """
->  
-> -    distro_checksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
-> -
->      def test_pseries_tcg(self):
->          """
->          :avocado: tags=machine:pseries
-> @@ -136,8 +130,6 @@ class BootLinuxS390X(LinuxTest):
->      :avocado: tags=arch:s390x
->      """
->  
-> -    distro_checksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
-> -
->      @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->      def test_s390_ccw_virtio_tcg(self):
->          """
-> 
-Thanks
+-- =
 
-Eric
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1754656
 
+Title:
+  Please solve graceful (ACPI) poweroff issue, using signals, most
+  importantly SIGTERM
+
+Status in QEMU:
+  New
+
+Bug description:
+  Version:
+
+  QEMU emulator version 2.11.1
+
+  Introduction:
+
+  This is call for action to get attention of somebody in QEMU
+  project/organization, who is capable of actually doing something about
+  this pressing issue. This might be TLDR for some, but that's only
+  because of the complexity of the issue. Please read this with open
+  mind.
+
+  Problem:
+
+  As QEMU users, we need (it is a requirement) to have some mechanism in
+  place, to somehow convert simple POSIX signal sent form host, into
+  graceful ACPI shutdown of the guest. This signal, due various
+  historical reasons and daemon design, must be SIGTERM foremost.
+
+  Status quo:
+
+  After wading through mailing lists and bug tracker I concluded that
+  this is "political" problem and I am in search of somebody, a
+  "politician" within QEMU project, who will help us reach conclusion to
+  this problem.
+
+  First I will present analysis of the situation, and then propose some
+  suggestions for solutions.
+
+  Even then, any of these proposals might be, potentially, seen as
+  problematic in eyes of QEMU maintainers, developers, dictators, long
+  term users or their dogs.
+
+  That's why we need somebody willing, "higher up the chain" or
+  whatever, to orchestrate discussion so that we can actually reach
+  consensus in the matter, solution that is acceptable to **everyone**.
+
+  Analysis:
+
+  Each QEMU emulated virtual machine (vm), running in the host system,
+  is represented by single qemu-* process (followed by several threads).
+  Thus for all intents and purposes, any such instantiated vm, must be
+  seen as it's own, separate, daemon.
+
+  I repeat running qemu-* vm **is a daemon**.
+
+  QEMU provides incredible IO redirection capabilities, so we don't need
+  to get into issues of logging, console and monitor redirections and
+  such, as this is already a (perfectly) solved problem.
+
+  What we cannot currently do, at least easily, reliably and simply, is
+  to shutdown guest gracefully from "outside".
+
+  That is not a problem for those of us, who use some kind of higher
+  level orchestrator (I think one of them is virsh, but this is not
+  important in this matter) that takes care of this by communicating
+  with QEMU directly (I guess this is done by sending commands to
+  internal monitor by pipe (or socket) held open by mentioned
+  orchestrator).
+
+  However it is a problem for those of us, who run qemu-* processes bare
+  or supervised.
+
+  Let's say I, as administrator, want to implement vm instance as supervise=
+d service.
+  I can use any supervisor for that, systemd even. Let us not get into into=
+ supervisor wars.
+
+  At basic level almost all supervisors are similar. Supervisor usually
+  is yet another process, that "leads" the qemu-* one.
+
+  In case of systemd it is PID1, but in case of other supervision
+  schemes, like daemontools, runit, s6 or nosh, it is separate
+  '*supervise' process instead.
+
+  When such supervisor is tearing down the service,
+  "leading"/supervising, parent will send SIGTERM to it's child qemu-*
+  process.
+
+  This behaviour is almost universal among all supervisors. This due the
+  fact, that it is customary for daemons to cease all operations and
+  exit cleanly when receiving SGITERM signal. If daemon child fails to
+  exit within configurable timeframe, supervisor deals with it by the
+  means of SIGKILL.
+
+  As such, one would expect, similarly, for qemu-* process to send ACPI
+  shutdown event to guest internally (roughly equivalent to
+  'system_powerdown' monitor command) on SIGTERM reception.
+
+  But this is not what happens!
+
+  Instead, qemu-* just flushes pending IO and kills the guest instantly.
+
+  Then, on next vm "boot", guest detects this as power failure event,
+  and performs fsck checks and other things, it is supposed to do in
+  case of power failure. We are not mentioning possible data loss that
+  might have happened due to this behavior, either.
+
+  Some supervisors (like systemd for example) might provide feature to
+  change "termiante operations" signal to something else like SIGTERM,
+  but that is not universal supervisor feature by any means. Default
+  action for any proper daemon is to cleanly terminate on SIGTERM.
+
+  That is why we need ability to somehow instruct QEMU to **always**
+  perform graceful ACPI shutdown on SIGTERM.
+
+  Potential reply to this bug saying that one should send
+  'system_powerdown' over monitor connection won't fly!
+
+  As it is not always possible (nor required) to hook into supervisor's
+  signal processing (main reason being intentional supervisor simplicity
+  in search of extreme reliability, and de facto standardized behavior
+  of daemons to exit cleanly on SIGTERM).
+
+  More over, in situations like machine reboot, most supervisors won't
+  play around with signal remapping, they will simply send out SIGTERM
+  to all supervised processes. We want our qemu-* instances to come up
+  undamaged from such action (on next host reboot) and not have them
+  stuck in fscks (or worse - ending up damaged) .
+
+  If this can be extended further, inside QEMU, with internal signal to
+  action remapping, the better, but supporting graceful shutdown on
+  SIGTERM is hard requirement.
+
+  Proposed solutions:
+
+  0. modify QEMU so that it emits ACPI shutdown event equivalent to 'system=
+_powerdown' monitor command by default
+     - this seems to be a "no go", with backwards compat. and "current user=
+s expectations" =
+
+       cited as the reasons
+     - I won't go into a fact that QEMU changed option handling without BOL=
+D notice few times
+
+  1. add single switch '-graceful-shutdown-on-sgiterm'
+     - this was rejected when person tried to submit patch implementing som=
+ething similar =
+
+       to what I am requesting, only bound to SIGHUP
+     - that person (implementing graceful poweroff on SIGHUP) was wrong, al=
+most no =
+
+       supervision scheme in existence sends out SIGHUP on service terminat=
+ion request, =
+
+       although all supervisors are able to send out SIGHUP when instructed
+     - in daemons SIGHUP is usually reserved for "daemon reload" which can =
+be interpreted
+       like "reboot" in QEMU context
+     - if we see qemu-* proces for what it is, a daemon, it must react prop=
+erly to SIGTERM foremost
+
+  2. add ability to map internal monitor action commands to few signals lik=
+e SIGTERM, SIGHUP, SIGINTR, SIGUSR1, SIGUSR2, SIGALARM etc
+     - this seems like best solution to me, that allows us to satisfy both =
+
+       backwards compat. and "current users" requirement, yet allows us =
+
+       to use qemu-* with proper supervision, and it even adds something ex=
+tra =
+
+       (I know some of these signals are used internally by QEMU)
+     - QEMU already has options parsing infrastructure in place to handle t=
+his nicely, something like:
+       : -signal SIGTERM,monitorcommand=3Dsystem_powerdown -signal SIGHUP,m=
+onitorcommand=3Dsystem_reset
+       would be great in this case
+
+  3. add ability to map signals to executable scripts
+     - with this scheme QEMU would spawn child on signal reception, and thi=
+s =
+
+       script would then be used to perform the action
+     - this solution is most complex, most convoluted and most "flexible"
+     - for example with definition like this:
+       :  -signal SIGTERM,script=3Dsignals/sigterm
+       qemu would perform this sequence of tasks:
+         - on SIGTERM qemu-* would spawn child script ./signals/sigterm
+           - this script would then pull out monitor fd descriptor from som=
+e kind of fd holder
+           - would write 'system_powerdown' command into monitor fd and ter=
+minate
+         - qemu-* would then read the command from monitor
+         - qemu-* would then interpret read-in command and gracefully termi=
+nate
+     - option parsing infrastructure is in place and QEMU is able to spawn =
+and reap it's own children
+       which is proven by network up/down scripts
+      =
+
+
+  Of these, it seems that 0. and 1. are simplest to implement, yet
+  "politically" unimplementable.
+
+  More over QEMU people seem to be hard set on SIGTERM meaning "killing
+  unresponsive guest".
+
+  2. seems like most reasonable proposal that has potential to make
+  everyone happy. It is also most reliable because internal QEMU command
+  dispatch would have least chances to fail.
+
+  3. is most flexible and can also be combined with 2. Reliability wise,
+  there is slight chance signal handling script will fail to execute,
+  leaving qemu-* at the mercy of supervisor (timeouted SIGKILL).
+
+  Both 2 and 3 should probably provide configurable timeout after which
+  QEMU would perform default action (eg. as it does now).
+
+  Conclusion:
+
+  I hope QEMU project members understand severity of the issue and are
+  open to listed solutions. It might be that proposed solutions don't
+  match QEMU project "spirit" perfectly. If so, I urge people capable of
+  resolving this, to propose their versions.
+
+  The fact is, that with proliferation of systemd, popularity of
+  alternative supervisors is on the rise as well, but even under
+  systemd, unintuitive handling of SIGTERM by bare QEMU processes is a
+  problem.
+
+  Further Reading:
+
+  https://patchwork.kernel.org/patch/9626293/
+
+   - Daniel P. Berrange says:
+     "Because QEMU already designate that as doing an immediate stop - ie i=
+t'll
+      allow QEMU block layer to flush pending I/O, but it will not wait for=
+ the
+      guest to shutdown.  If we change that behaviour we'll break anyone who
+      is already relying on SIGHUP - qemu might never exit at all if the gu=
+est
+      ignores the ACPI request"
+
+   - this behaviour is incorrect if we perceive qemu-* process as daemon, p=
+roper,
+     yet it is, supposedly, entrenched in QEMU userbase
+   - signals remapping capability would allow us to keep the "old" behavior=
+ for entrenched users
+     while it would allow administrators and orchestrator writers to select=
+ signal disposition =
+
+     they actually need
+
+  https://bugs.launchpad.net/qemu/+bug/1217339 =
+
+  and =
+
+  https://lists.nongnu.org/archive/html/qemu-devel/2017-03/msg03039.html
+
+   - on my QEMU version of 2.11.1 SIGTERM just kills the guest without prop=
+er shutdown
+     - although thread says exit is graceful
+   - dicussion is problematic in several ways:
+     - SIGTERM is not intended to "terminate unresponsive guest" eg "termin=
+ate daemon uncleanly"
+       in any sane daemon in existence
+       - it means "terminate gracefully"
+       - if "terminate unresponsive guest" was true meaning of SIGTERM, dat=
+abases like =
+
+         mariadb or postgers would kill themselves on SIGTERM, leaving data=
+ in =
+
+         inconsistent state, which they, of course, do not!
+     - some kind of "signal tapping" similar to "port tapping" is suggested
+       - this is non-obvious and error prone and nonstandard (no normal sup=
+ervisor =
+
+         will play such signal tapping games)
+       - signal remapping makes more sense in this regard
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1754656/+subscriptions
 
