@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9263367B9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:58:52 +0200 (CEST)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9A1367B86
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:54:56 +0200 (CEST)
+Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZUEd-0007fB-RI
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35980)
+	id 1lZUAp-0004Tn-Oc
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU7O-0008Vg-HD
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44140)
+ id 1lZU7N-0008Ts-M4
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU7G-0000G2-Gp
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:22 -0400
+ id 1lZU7F-0000Fh-6n
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:21 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZU7F-0000fo-BU
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:13 +0000
+ id 1lZU7E-0000fl-1N
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:12 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 555362E8073
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 07F092E8073
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:12 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 07:37:14 -0000
-From: Thomas Huth <1846392@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 07:40:00 -0000
+From: Thomas Huth <1847440@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: kvm powerpcm qemu
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rhodus th-huth ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: Rhodus (rhodus)
+X-Launchpad-Bug-Commenters: aik-ozlabs dwg sathnaga th-huth
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157004264359.16779.14522562243536509301.malonedeb@gac.canonical.com>
-Message-Id: <161907703458.22595.11421187089097708404.malone@gac.canonical.com>
-Subject: [Bug 1846392] Re: VCPU shutdown request with HAX
+References: <157061153044.21976.18153238088035049329.malonedeb@gac.canonical.com>
+Message-Id: <161907720080.10076.7292856544378747629.malone@wampee.canonical.com>
+Subject: [Bug 1847440] Re: ppc64le: KVM guest fails to boot with an error
+ `virtio_scsi: probe of virtio1 failed with error -22` on master
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 327a2f0f071a7d4335cc598acc7e9a1ece75e752
+X-Launchpad-Hash: 36341cf63111451023ec98164d59ba3b6e6d9823
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,137 +72,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1846392 <1846392@bugs.launchpad.net>
+Reply-To: Bug 1847440 <1847440@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to
-another system. For this we need to know which bugs are still valid
-and which could be closed already. Thus we are setting older bugs to
-"Incomplete" now.
-
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
-
+The SLOF fix has been merged 1.5 years ago, so I assume this can be
+marked as fixed now.
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1846392
+https://bugs.launchpad.net/bugs/1847440
 
 Title:
-  VCPU shutdown request with HAX
+  ppc64le: KVM guest fails to boot with an error `virtio_scsi: probe of
+  virtio1 failed with error -22` on master
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  In most scenarios when turning on HAX, QEMU will exit, printing "VCPU
-  shutdown request" to the console.
+  PowerPC KVM Guest fails to boot on current qemu master, bad commit:
+  e68cd0cb5cf49d334abe17231a1d2c28b846afa2
 
-  This is on Windows 8.1 with Intel HAXM 7.5.2.
-  QEMU's -version prints v4.1.0-11789-g013a2ecf4f-dirty .
-  I've used an installer from qemu.weilnetz.de.
-  The host CPU is an IvyBridge i5 (mobile).
+  Env:
+  HW: IBM Power9
+  Host Kernel: 5.4.0-rc2-00038-ge3280b54afed
+  Guest Kernel: 4.13.9-300.fc27.ppc64le
+  Qemu: https://github.com/qemu/qemu.git (master)
+  Libvirt: 5.4.0
 
-  Some miscellaneous notes (you can skip them first):
-  Win10-1709-PE_Custom.iso is a custom WinPE image I had meant to test usin=
-g QEMU. It is likely broken and doesn't boot at all.
-  [Stuck, etc.]: I had given that image almost 2h during which the circle o=
-f dots continued to spin. I don't know if it or QEMU did anything of intere=
-st at all during that period, but this might indicate long-term stability, =
-sort of.
-  Win10_1709_German_x32.iso: Stock Win10 1709 32bit ISO I got off a German =
-tech website. I've waited for the install screen to appear.
-  TinyCore_10-1.iso: TinyCore by Core Project. A 18MB graphical Linux distr=
-ibution, pretty barren by default. I've generally opened Apps there, the pa=
-ckage manager, then shut it down again.
-  On the one marked [Fx stable], I've gotten Firefox 60.8.0 ESR and visited=
- a couple of websites. (I don't know of any available program that would tr=
-y to execute exotic CPU instructions in weird combinations to do a proper t=
-est.)
-  Q64 is .\qemu-system-x86_64.exe , substituted for readability (shorter li=
-nes).
+  Guest boot gets stuck:
+  ...
+  [  OK  ] Mounted Kernel Configuration File System.
+  [    7.598740] virtio-pci 0000:00:01.0: enabling device (0000 -> 0003)
+  [    7.598828] virtio-pci 0000:00:01.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.598957] virtio-pci 0000:00:02.0: enabling device (0000 -> 0003)
+  [    7.599017] virtio-pci 0000:00:02.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.599123] virtio-pci 0000:00:04.0: enabling device (0000 -> 0003)
+  [    7.599182] virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.620620] synth uevent: /devices/vio: failed to send uevent
+  [    7.620624] vio vio: uevent: failed to send synthetic uevent
+  [  OK  ] Started udev Coldplug all Devices.
+  [    7.624559] audit: type=3D1130 audit(1570610300.990:5): pid=3D1 uid=3D=
+0 auid=3D4294967295 ses=3D4294967295 subj=3Dkernel msg=3D'unit=3Dsystemd-ud=
+ev-trigger comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? a=
+ddr=3D? terminal=3D? res=3Dsuccess'
+  [  OK  ] Reached target System Initialization.
+  [  OK  ] Reached target Basic System.
+  [  OK  ] Reached target Remote File Systems (Pre).
+  [  OK  ] Reached target Remote File Systems.
+  [    7.642961] virtio_scsi: probe of virtio1 failed with error -22
+  [ ***  ] A start job is running for dev-disk=E2=80=A621b3519a80.device (1=
+4s / no limit)
+  ...
 
-  =
+  git bisect, yielded a bad commit
+  [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT on
+  ibm,client-architecture-support, reverting this commit boot the guest
+  properly.
 
-  Invocations that QEMU seemed to handle well (without the headline error):
-  Q64 -machine q35 -accel hax
-  Q64 -machine q35 -cdrom \!S\Win10-1709-PE_Custom.iso
-  Q64 -machine q35 -cdrom \!S\Win10-1709-PE_Custom.iso -m 4096 [Stuck, etc.]
-  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -m 1920
-  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -cpu max -m 256 [1]
-  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -cpu max -m 512
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -cpu max -serial file:\!S\QEMU_TC=
-L_BUG.log [2]
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax [Fx stable, s.a.]
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Skylake-Client-IB=
-RS
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Icelake-Client-v1
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Cascadelake-Serve=
-r-v2
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu Broadwell-v4
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu IvyBridge-IBRS
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu coreduo
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu pentium
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu base [3]
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -cpu base [4]
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -cpu pentium
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu Icelake-Client-v1 [5]
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu Broadwell-v4 [5]
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu IvyBridge-v1 [5]
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu coreduo
+  git bisect start
+  # good: [9e06029aea3b2eca1d5261352e695edc1e7d7b8b] Update version for v4.=
+1.0 release
+  git bisect good 9e06029aea3b2eca1d5261352e695edc1e7d7b8b
+  # bad: [98b2e3c9ab3abfe476a2b02f8f51813edb90e72d] Merge remote-tracking b=
+ranch 'remotes/stefanha/tags/block-pull-request' into staging
+  git bisect bad 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d
+  # good: [56e6250ede81b4e4b4ddb623874d6c3cdad4a96d] target/arm: Convert T1=
+6, nop hints
+  git bisect good 56e6250ede81b4e4b4ddb623874d6c3cdad4a96d
+  # good: [5d69cbdfdd5cd6dadc9f0c986899844a0e4de703] tests/tcg: target/s390=
+x: Test MVC
+  git bisect good 5d69cbdfdd5cd6dadc9f0c986899844a0e4de703
+  # good: [88112488cf228df8b7588c8aa38e16ecd0dff48e] qapi: Make check_type(=
+)'s array case a bit more obvious
+  git bisect good 88112488cf228df8b7588c8aa38e16ecd0dff48e
+  # good: [972bd57689f1e11311d86b290134ea2ed9c7c11e] ppc/kvm: Skip writing =
+DPDES back when in run time state
+  git bisect good 972bd57689f1e11311d86b290134ea2ed9c7c11e
+  # bad: [1aba8716c8335e88b8c358002a6e1ac89f7dd258] ppc/pnv: Remove the XIC=
+SFabric Interface from the POWER9 machine
+  git bisect bad 1aba8716c8335e88b8c358002a6e1ac89f7dd258
+  # bad: [00ed3da9b5c2e66e796a172df3e19545462b9c90] xics: Minor fixes for X=
+ICSFabric interface
+  git bisect bad 00ed3da9b5c2e66e796a172df3e19545462b9c90
+  # good: [33432d7737b53c92791f90ece5dbe3b7bb1c79f5] target/ppc: introduce =
+set_dfp{64,128}() helper functions
+  git bisect good 33432d7737b53c92791f90ece5dbe3b7bb1c79f5
+  # good: [f6d4c423a222f02bfa84a49c3d306d7341ec9bab] target/ppc: remove unn=
+ecessary if() around calls to set_dfp{64,128}() in DFP macros
+  git bisect good f6d4c423a222f02bfa84a49c3d306d7341ec9bab
+  # bad: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT =
+on ibm,client-architecture-support
+  git bisect bad e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+  # good: [c4ec08ab70bab90685d1443d6da47293e3aa312a] spapr-pci: Stop provid=
+ing assigned-addresses
+  git bisect good c4ec08ab70bab90685d1443d6da47293e3aa312a
+  # first bad commit: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Ren=
+der full FDT on ibm,client-architecture-support
 
-  =
+  attached vmxml.
 
-  Then, those that made it print "VCPU shutdown request" repeatedly and qui=
-t, immediately or after a couple of seconds at most, except where noted. I =
-put an indication of the number of messages into curly braces.
-  Q64 -machine q35,accel=3Dhax -cpu max  {many}
-  Q64 -machine q35,accel=3Dhax -cdrom \!S\Win10-1709-PE_Custom.iso
-  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -accel hax  =
-{very many}
-  Q64 -machine q35 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -accel hax -=
-cpu max  {very many}
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -accel hax  {just two}
-  Q64 -cdrom \!S\TinyCore_10-1.iso -m 512 -accel hax -cpu max  {a couple}
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu Icelake-Client-v1 -a=
-ccel hax  {two}
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu IvyBridge-v1 -accel =
-hax  {two}
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu pentium -accel hax  =
-{three}
-  Q64 -cdrom \!S\Win10_1709_German_x32.iso -m 512 -cpu coreduo -accel hax  =
-{a few}
-
-
-  (I have rewritten a couple of commandlines to make them more uniform
-  (changing the placement of parameters and using '-accel hax' instead
-  of '-machine ...,accel=3Dhax').)
-
-  [1]: WinPE boot error, not enough RAM.
-  [2]: Will cause a kernel BUG: "... \ login[892]: root login on 'tty1' \ B=
-UG: unable to handle kernel paging request at 00010ffa \ ...". See attached=
- file.
-  [3]: Stuck after "Booting the kernel.", cursor blinks.
-  [4]: Stuck at blinking console prompt, no input possible.
-  [5]: According to the printout, TCG doesn't support a bunch of those proc=
-essor's features that have been requested.
-
-  PS: There should be some note highlighting that there is a strict limit o=
-n line length (or at least that's what it looks like).  I can shorten the f=
-ile names further to enhance skimmability ... :/
-  Also, let me know if you need anything else.
+  qemu commandline:
+  /home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 -name guest=3Dvm1,debug-t=
+hreads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/=
+libvirt/qemu/domain-19-vm1/master-key.aes -machine pseries-4.2,accel=3Dkvm,=
+usb=3Doff,dump-guest-core=3Doff -m 81920 -overcommit mem-lock=3Doff -smp 51=
+2,sockets=3D1,cores=3D128,threads=3D4 -uuid fd4a5d54-0216-490e-82d2-1d4e896=
+83b3d -display none -no-user-config -nodefaults -chardev socket,id=3Dcharmo=
+nitor,fd=3D24,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3D=
+control -rtc base=3Dutc -no-shutdown -boot strict=3Don -device qemu-xhci,id=
+=3Dusb,bus=3Dpci.0,addr=3D0x3 -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.=
+0,addr=3D0x2 -drive file=3D/home/sath/tests/data/avocado-vt/images/jeos-27-=
+ppc64le_vm1.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 -device s=
+csi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddrive-scsi=
+0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -netdev ta=
+p,fd=3D26,id=3Dhostnet0,vhost=3Don,vhostfd=3D27 -device virtio-net-pci,netd=
+ev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:df:24,bus=3Dpci.0,addr=3D0x1 -cha=
+rdev pty,id=3Dcharserial0 -device spapr-vty,chardev=3Dcharserial0,id=3Dseri=
+al0,reg=3D0x30000000 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,a=
+ddr=3D0x4 -M pseries,ic-mode=3Dxics -msg timestamp=3Don
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1846392/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1847440/+subscriptions
 
