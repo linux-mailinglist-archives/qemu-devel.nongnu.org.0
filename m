@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D66C36871E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:22:50 +0200 (CEST)
-Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C486F3686F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:11:27 +0200 (CEST)
+Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZeuX-0000wk-HU
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:22:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
+	id 1lZejW-0007UA-T0
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZeoD-0005Yk-Nf
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:16:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49440)
+ id 1lZeh0-0006A3-EM
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:08:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZeo1-0008Uo-In
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:16:15 -0400
+ id 1lZegw-0004Vq-OP
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:08:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZeny-0003RM-47
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:16:02 +0000
+ id 1lZegv-0001rH-IE
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:08:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 78AE52E81C2
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:15:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6C83A2E815F
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:08:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 17:23:45 -0000
-From: Andreas Gustafsson <1743191@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 17:24:42 -0000
+From: Thomas Huth <1820247@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
- stefanha th-huth
-X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Andreas Gustafsson (gson)
-References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
- <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
- <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
- <24705.28709.3368.276346@guava.gson.org>
- <CAEJNuHyOLS1QgXbb0dx7DV7QscX=rtO2PvHeo-O28aetZ5-v9g@mail.gmail.com>
-Message-Id: <24705.45345.929472.140678@guava.gson.org>
-Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
- blocks no longer works
+X-Launchpad-Bug-Commenters: paelzer premysl-kouril th-huth
+X-Launchpad-Bug-Reporter: Premysl Kouril (premysl-kouril)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155264640750.14328.9388423276905279806.malonedeb@soybean.canonical.com>
+Message-Id: <161911228244.6767.16824274921704063044.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1820247] Re: QEMU random crash caused by libspice-server
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 3395463aee79464afca0acd789d30a66498da24a
+X-Launchpad-Hash: a04a18e9e56346fcaf9dc1c1bd5456b64d7dc685
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -76,98 +71,257 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
+Reply-To: Bug 1820247 <1820247@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ottavio Caruso wrote:
-> I am currently using:
-> =
-
-> $ qemu-system-x86_64 --version
-> QEMU emulator version 5.2.0
-> =
-
-> And I have no problem selecting from menu in serial console, so I
-> assume this is fixed for me. This is my command line:
-> =
-
-> $ cat opt/bin/boot-netbsd-virtio
-> #!/bin/sh
-> qemu-system-x86_64 \
-> -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=3D=
-disk \
-> -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image.old,index=3D1,medi=
-a=3Ddisk \
-> -M q35,accel=3Dkvm -m 250M -cpu host -smp $(nproc) \
-> -nic user,hostfwd=3Dtcp:127.0.0.1:5555-:22,model=3Dvirtio-net-pci,ipv6=3D=
-off  \
-> -daemonize -display none  -vga none \
-> -serial mon:telnet:127.0.0.1:6665,server,nowait \
-> -pidfile /home/oc/VM/pid/netbsd-pid -nodefaults
-> =
-
-> telnet 127.0.0.1 6665
-
-Have you tried the test case in the original bug report?
--- =
-
-Andreas Gustafsson, gson@gson.org
+** Bug watch removed: Red Hat Bugzilla #980714
+   https://bugzilla.redhat.com/show_bug.cgi?id=3D980714
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743191
+https://bugs.launchpad.net/bugs/1820247
 
 Title:
-  Interacting with NetBSD serial console boot blocks no longer works
+  QEMU random crash caused by libspice-server
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  The NetBSD boot blocks display a menu allowing the user to make a
-  selection using the keyboard.  For example, when booting a NetBSD
-  installation CD-ROM, the menu looks like this:
+  Hi,
 
-           1. Install NetBSD
-           2. Install NetBSD (no ACPI)
-           3. Install NetBSD (no ACPI, no SMP)
-           4. Drop to boot prompt
+  One of our OpenStack instances crashed. It seems there was some
+  problem related to SPICE. Attaching what we had in qemu log. Also
+  sending our versions:
 
-      Choose an option; RETURN for default; SPACE to stop countdown.
-      Option 1 will be chosen in 30 seconds.
+  Linux pre-node1 4.18.0-13-generic #14~18.04.1-Ubuntu SMP Thu Dec 6
+  14:09:52 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
 
-  When booting NetBSD in a recent qemu using an emulated serial console,
-  making this menu selection no longer works: when you type the selected
-  number, the keyboard input is ignored, and the 30-second countdown
-  continues.  In older versions of qemu, it works.
+  QEMU emulator version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.9)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
 
-  To reproduce the problem, run:
+  =
 
-     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
-cdrom/boot-com.iso
-     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+  root@pre-node1:~# cat /var/log/libvirt/qemu/instance-00000038.log =
 
-  During the 30-second countdown, press 4
+  2019-03-10 20:39:36.510+0000: starting up libvirt version: 4.0.0, package=
+: 1ubuntu8.6 (Christian Ehrhardt <christian.ehrhardt@canonical.com> Fri, 09=
+ Nov 2018 07:42:01 +0100), qemu version: 2.11.1(Debian 1:2.11+dfsg-1ubuntu7=
+.9), hostname: pre-node1
+  LC_ALL=3DC PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin=
+:/bin QEMU_AUDIO_DRV=3Dspice /usr/bin/kvm-spice -name guest=3Dinstance-0000=
+0038,debug-threads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=
+=3D/var/lib/libvirt/qemu/domain-5-instance-00000038/master-key.aes -machine=
+ pc-i440fx-bionic,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,mem-merge=3Do=
+ff -cpu Skylake-Server-IBRS,ss=3Don,hypervisor=3Don,tsc_adjust=3Don,clflush=
+opt=3Don,pku=3Don,ssbd=3Don,xsaves=3Don -m 2048 -realtime mlock=3Don -smp 2=
+,sockets=3D1,cores=3D1,threads=3D2 -object memory-backend-file,id=3Dram-nod=
+e0,prealloc=3Dyes,mem-path=3D/dev/hugepages/libvirt/qemu/5-instance-0000003=
+8,share=3Dyes,size=3D2147483648,host-nodes=3D0,policy=3Dbind -numa node,nod=
+eid=3D0,cpus=3D0-1,memdev=3Dram-node0 -uuid 3c3d04f3-4b25-4ea5-8836-0e06eef=
+9dcb7 -smbios 'type=3D1,manufacturer=3DOpenStack Foundation,product=3DOpenS=
+tack Nova,version=3D18.1.1,serial=3D93fa1a55-ba3a-4a99-80b3-3a7bb4e964af,uu=
+id=3D3c3d04f3-4b25-4ea5-8836-0e06eef9dcb7,family=3DVirtual Machine' -no-use=
+r-config -nodefaults -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvi=
+rt/qemu/domain-5-instance-00000038/monitor.sock,server,nowait -mon chardev=
+=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc,driftfix=3Dslew =
+-global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -no-shutdown -boot strict=
+=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -device vi=
+rtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 -drive file=3D/v=
+ar/lib/nova/instances/3c3d04f3-4b25-4ea5-8836-0e06eef9dcb7/disk,format=3Dqc=
+ow2,if=3Dnone,id=3Ddrive-virtio-disk0,cache=3Dnone,discard=3Dignore,throttl=
+ing.iops-read=3D5000,throttling.iops-write=3D5000 -device virtio-blk-pci,sc=
+si=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk=
+0,bootindex=3D1 -add-fd set=3D0,fd=3D29 -chardev pty,id=3Dcharserial0,logfi=
+le=3D/dev/fdset/0,logappend=3Don -device isa-serial,chardev=3Dcharserial0,i=
+d=3Dserial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virt=
+serialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchanne=
+l0,name=3Dcom.redhat.spice.0 -spice port=3D5900,addr=3D10.252.0.101,disable=
+-ticketing,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6=
+7108864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=
+=3D1,bus=3Dpci.0,addr=3D0x2 -device vfio-pci,host=3D25:04.1,id=3Dhostdev0,b=
+us=3Dpci.0,addr=3D0x5 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,=
+addr=3D0x6 -msg timestamp=3Don
+  2019-03-10T20:39:36.568276Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
+ial0,logfile=3D/dev/fdset/0,logappend=3Don: char device redirected to /dev/=
+pts/2 (label charserial0)
+  inputs_channel_detach_tablet: =
 
-  Expected behavior: The countdown stops and you get a ">" prompt
+  main_channel_link: add main channel client
+  main_channel_client_handle_pong: net test: latency 32.760000 ms, bitrate =
+33384953 bps (31.838372 Mbps)
+  red_qxl_set_cursor_peer: =
 
-  Incorrect behavior: The countdown continues
+  inputs_connect: inputs channel client create
 
-  There may also be some corruption of the terminal output; for example,
-  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
-  will be chosen in p0 seconds".
+  (process:65324): Spice-WARNING **: 16:35:23.769: Failed to create channel=
+ client: Client 0x55e7c157e970: duplicate channel type 2 id 0
+  red_qxl_set_cursor_peer: =
 
-  Using bisection, I have determined that the problem appeared with qemu
-  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
-  updated to 1.11 prerelease, and the problem is still there as of
-  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
-  system used for the tests was Debian 9 x86_64.
 
-  Credit for discovering this bug goes to Paul Goyette.
+  (process:65324): Spice-WARNING **: 16:35:24.142: Failed to create
+  channel client: Client 0x55e7c157e970: duplicate channel type 4 id 0
+
+  (process:65324): Spice-CRITICAL **: 16:35:24.142: cursor-channel.c:353:cu=
+rsor_channel_connect: condition `ccc !=3D NULL' failed
+  2019-03-13 15:35:31.785+0000: shutting down, reason=3Dcrashed
+
+
+  =
+
+  I am also attaching some gdb information extracted from qemu crash dump f=
+ile. These are backtraces of particular threads within the crashed QEMU pro=
+cess.
+
+  =
+
+  Thread 9 (Thread 0x7f69649ea5c0 (LWP 65324)):
+  #0  0x00007f695f02d2b7 in __libc_write (fd=3D26, buf=3D0x7ffc33f5b330, nb=
+ytes=3D56) at ../sysdeps/unix/sysv/linux/write.c:27
+  #1  0x00007f695ff30ed3 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #2  0x00007f695ff316ce in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #3  0x00007f695ff52db6 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #4  0x00007f695ff58e38 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #5  0x00007f695ff5f463 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #6  0x00007f695ff5f7bb in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #7  0x000055e7bec94584 in  ()
+  #8  0x000055e7bec94e58 in aio_dispatch ()
+  #9  0x000055e7bec91e3e in  ()
+  #10 0x00007f695fa45387 in g_main_context_dispatch () at /usr/lib/x86_64-l=
+inux-gnu/libglib-2.0.so.0
+  #11 0x000055e7bec940a7 in main_loop_wait ()
+  #12 0x000055e7be8b8486 in main ()
+
+  Thread 8 (Thread 0x7f68b78fc700 (LWP 61873)):
+  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
+stime=3D0x7f68b78fb900, expected=3D0, futex_word=3D0x55e7c1531d78)
+      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
+  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
+, abstime=3Dabstime@entry=3D0x7f68b78fb900) at sem_waitcommon.c:111
+  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
+ime=3D0x7f68b78fb900) at sem_waitcommon.c:181
+  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
+  #4  0x000055e7bec928bc in  ()
+  #5  0x00007f695f0236db in start_thread (arg=3D0x7f68b78fc700) at pthread_=
+create.c:463
+  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 7 (Thread 0x7f688f7fe700 (LWP 61366)):
+  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
+stime=3D0x7f688f7fd900, expected=3D0, futex_word=3D0x55e7c1531d78)
+      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
+  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
+, abstime=3Dabstime@entry=3D0x7f688f7fd900) at sem_waitcommon.c:111
+  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
+ime=3D0x7f688f7fd900) at sem_waitcommon.c:181
+  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
+  #4  0x000055e7bec928bc in  ()
+  #5  0x00007f695f0236db in start_thread (arg=3D0x7f688f7fe700) at pthread_=
+create.c:463
+  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 6 (Thread 0x7f687effd700 (LWP 61362)):
+  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
+stime=3D0x7f687effc900, expected=3D0, futex_word=3D0x55e7c1531d78)
+      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
+  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
+, abstime=3Dabstime@entry=3D0x7f687effc900) at sem_waitcommon.c:111
+  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
+ime=3D0x7f687effc900) at sem_waitcommon.c:181
+  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
+  #4  0x000055e7bec928bc in  ()
+  #5  0x00007f695f0236db in start_thread (arg=3D0x7f687effd700) at pthread_=
+create.c:463
+  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 5 (Thread 0x7f68b58f1700 (LWP 60991)):
+  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
+stime=3D0x7f68b58f0900, expected=3D0, futex_word=3D0x55e7c1531d78)
+      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
+  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
+, abstime=3Dabstime@entry=3D0x7f68b58f0900) at sem_waitcommon.c:111
+  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
+ime=3D0x7f68b58f0900) at sem_waitcommon.c:181
+  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
+  #4  0x000055e7bec928bc in  ()
+  #5  0x00007f695f0236db in start_thread (arg=3D0x7f68b58f1700) at pthread_=
+create.c:463
+  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 4 (Thread 0x7f69564a2700 (LWP 65331)):
+  #0  0x00007f695ed46839 in syscall () at ../sysdeps/unix/sysv/linux/x86_64=
+/syscall.S:38
+  #1  0x000055e7bec9790b in qemu_event_wait ()
+  #2  0x000055e7beca7ebe in  ()
+  #3  0x00007f695f0236db in start_thread (arg=3D0x7f69564a2700) at pthread_=
+create.c:463
+  #4  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 3 (Thread 0x7f695449d700 (LWP 65363)):
+  #0  0x00007f695ed415d7 in ioctl () at ../sysdeps/unix/syscall-template.S:=
+78
+  #1  0x000055e7be910547 in kvm_vcpu_ioctl ()
+  #2  0x000055e7be910684 in kvm_cpu_exec ()
+  #3  0x000055e7be8ed3f4 in  ()
+  #4  0x00007f695f0236db in start_thread (arg=3D0x7f695449d700) at pthread_=
+create.c:463
+  #5  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 2 (Thread 0x7f6952b4f700 (LWP 65366)):
+  #0  0x00007f695ed415d7 in ioctl () at ../sysdeps/unix/syscall-template.S:=
+78
+  #1  0x000055e7be910547 in kvm_vcpu_ioctl ()
+  ---Type <return> to continue, or q <return> to quit---
+  #2  0x000055e7be910684 in kvm_cpu_exec ()
+  #3  0x000055e7be8ed3f4 in  ()
+  #4  0x00007f695f0236db in start_thread (arg=3D0x7f6952b4f700) at pthread_=
+create.c:463
+  #5  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 1 (Thread 0x7f6951a40700 (LWP 65368)):
+  #0  0x00007f695ec69e97 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:51
+  #1  0x00007f695ec6b801 in __GI_abort () at abort.c:79
+  #2  0x00007f695ff81cc9 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #3  0x00007f695ff63929 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #4  0x00007f695ff314f1 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #5  0x00007f695ff37d7b in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #6  0x00007f695fa451f5 in g_main_context_dispatch () at /usr/lib/x86_64-l=
+inux-gnu/libglib-2.0.so.0
+  #7  0x00007f695fa455c0 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so=
+.0
+  #8  0x00007f695fa458d2 in g_main_loop_run () at /usr/lib/x86_64-linux-gnu=
+/libglib-2.0.so.0
+  #9  0x00007f695ff63b3a in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
+r.so.1
+  #10 0x00007f695f0236db in start_thread (arg=3D0x7f6951a40700) at pthread_=
+create.c:463
+  #11 0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Regards,
+  Premysl
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1820247/+subscriptions
 
