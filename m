@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3C5368213
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 16:03:38 +0200 (CEST)
-Received: from localhost ([::1]:52996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E28A368218
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 16:04:38 +0200 (CEST)
+Received: from localhost ([::1]:52614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZZvc-0006qE-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 10:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46972)
+	id 1lZZwb-0006f1-H6
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 10:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZZt7-000680-Qm
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:01:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZZsz-0000MY-QL
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:01:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZZsx-0005oG-KX
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 14:00:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 988CD2E815A
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 14:00:51 +0000 (UTC)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lZZqv-0004mV-02; Thu, 22 Apr 2021 09:58:45 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:47213)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lZZqs-0007Wy-Jj; Thu, 22 Apr 2021 09:58:44 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 6B04D135F;
+ Thu, 22 Apr 2021 09:58:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 22 Apr 2021 09:58:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=4dJXjhp3TsgwSUQDlmLqT9g8z6
+ iZYZqG3l0s2JmLyeg=; b=cl6XhA7bzdVprcDR4xt4zqs3MoKB1dnIkkS09l0nGK
+ B5kVK4z03Vu7hr9kShcr5i1+LKJVw40aGHa8a8h6/pN/YOSgtzC2xQYhcTeqPVkQ
+ qlZRqi8FwbamVrqdFwD4J5X5ORIgTKt63HEdxd3e1PGpIiF96beJdcOYisIyELHr
+ PbtR/jcMlD+3pSOxIHu6l9qCcpS1xt1aJyvkGtRqzSpvAKBiZNadANMlfybPUYOf
+ MjW3YK7V8xnMSQIrRCkrHvwrzvQUsTrKR2tlKf0E6gOJex5VYKfktZpFwLg2iHgM
+ dgGUTLHPMe3/HbF4BgnuBp44qJvF0gxLDhInHXY6RlRw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=4dJXjh
+ p3TsgwSUQDlmLqT9g8z6iZYZqG3l0s2JmLyeg=; b=JUaVP9gBnURDGoE/HEe9Z2
+ k7pPh4MyVvHdo4BB9umAAArnEJGsUDrLUf4DPxQ2dqziKbkyzvr209Zuan7C/dPA
+ fmZ7NmvHA1aCpf0rCHDyj6tVskmNB1ABY0YEW6BZUsaAaYPHYKM/LHOFbEbkH84S
+ kyIB44mvnP5FmseLtngE3/CkQLXLWoMmtesbdnzUHtDthDRu287BRopSHCyH5Rhq
+ sxx2f+aHzesggneMqVs3pnkKl46Nbdw8aOduj5lpis7LaiB3nvQtGVYmhxQ0n+Aj
+ YvO7gda/zcPP4siTvhHN6hPk69ILAi3i9SjjStxXtOyUz9Dhz2ihZ2wvMQsm9CmQ
+ ==
+X-ME-Sender: <xms:DYGBYE_MwNql351lLoPJaDSSC91j5n82OtkYrW6lbUzrDsWW-8b5iA>
+ <xme:DYGBYMsTcH5vqnJdrE10aDnfvu3dpJFUCdxWS80NFsRukKV7E2pXlHj96wzjJh9tH
+ g2aBdHdkZrHauPMRHM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddutddgjeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:DYGBYKAnBcivMFUMQ1CSTMY9SKNGCaKCtTVxjTJL8uB_MZf2XIbUBw>
+ <xmx:DYGBYEcLL1ia1EX2oq-BVuMOZEUaQIR8mrNPY0b8DF9X3h4MKnAKlw>
+ <xmx:DYGBYJNb4QP31ak2vV9lYw1Zz37lkOwqKB2WB3krdRrkTDk-Lq7tWw>
+ <xmx:D4GBYM1JShM9TVRwz6YDWQeMJhoEU8L8VSQ82Dllqmiv5GepcO22qg>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id A649A108005F;
+ Thu, 22 Apr 2021 09:58:36 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH for-6.0? 0/1] hw/block/nvme: fix msix uninit
+Date: Thu, 22 Apr 2021 15:58:33 +0200
+Message-Id: <20210422135834.406688-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.31.1
 Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 13:53:45 -0000
-From: JIANG Muhui <1925512@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
-Message-Id: <161909962601.31655.7052824363126074861.malonedeb@soybean.canonical.com>
-Subject: [Bug 1925512] [NEW] UNDEFINED case for instruction BLX
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 19183a1039c71380eede598c504d1d13f2705d3e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,71 +92,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925512 <1925512@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Hi
-
-I refer to the instruction BLX imm (T2 encoding) in ARMv7 (Thumb mode).
-
-11110 S imm10H  11 J1 0 J2 imm10L H
-
-
-if H =3D=3D '1' then UNDEFINED;
-I1 =3D NOT(J1 EOR S);  I2 =3D NOT(J2 EOR S);  imm32 =3D SignExtend(S:I1:I2:=
-imm10H:imm10L:'00', 32);
-targetInstrSet =3D InstrSet_A32;
-if InITBlock() && !LastInITBlock() then UNPREDICTABLE;
-
-According to the manual, if H equals to 1, this instruction should be an
-UNDEFINED instruction. However, it seems QEMU does not check this
-constraint in function trans_BLX_i. Thanks
-
-Regards
-Muhui
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925512
-
-Title:
-  UNDEFINED case for instruction BLX
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi
-
-  I refer to the instruction BLX imm (T2 encoding) in ARMv7 (Thumb
-  mode).
-
-  11110 S imm10H  11 J1 0 J2 imm10L H
-
-  =
-
-  if H =3D=3D '1' then UNDEFINED;
-  I1 =3D NOT(J1 EOR S);  I2 =3D NOT(J2 EOR S);  imm32 =3D SignExtend(S:I1:I=
-2:imm10H:imm10L:'00', 32);
-  targetInstrSet =3D InstrSet_A32;
-  if InITBlock() && !LastInITBlock() then UNPREDICTABLE;
-
-  According to the manual, if H equals to 1, this instruction should be
-  an UNDEFINED instruction. However, it seems QEMU does not check this
-  constraint in function trans_BLX_i. Thanks
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925512/+subscriptions
+Hi Peter,=0D
+=0D
+The commit message on the patch describes the issue. This is a QEMU=0D
+crashing bug in -rc4 that I introduced early in the cycle and never=0D
+found in time. Lack of testing device hotplugging is the cause for that.=0D
+=0D
+I'm not sure what to say other than I'm terribly sorry for introducing=0D
+this and if this means an -rc5 needs to be rolled, then I'm even more=0D
+sorry.=0D
+=0D
+I think an acceptance test could have caught this, and I am already=0D
+working on an acceptance test suite for the nvme device, so I'll add=0D
+something that test this as well. But, well, it doesn't help now.=0D
+=0D
+Klaus Jensen (1):=0D
+  hw/block/nvme: fix invalid msix exclusive uninit=0D
+=0D
+ hw/block/nvme.c | 2 +-=0D
+ 1 file changed, 1 insertion(+), 1 deletion(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
