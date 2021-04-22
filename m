@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6714B367913
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:06:08 +0200 (CEST)
-Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0DE367918
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:07:37 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZRXT-0002Bx-1K
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
+	id 1lZRYu-00049t-9H
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRWD-0000vv-LG
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:04:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47994)
+ id 1lZRWG-0000xk-2j
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:04:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRWB-0000xL-HH
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:04:49 -0400
+ id 1lZRWB-0000xF-Jd
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:04:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZRWA-000108-7X
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:04:46 +0000
+ id 1lZRW9-000105-Rf
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:04:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3838D2E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:04:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D08C92E815F
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:04:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:53:18 -0000
-From: Thomas Huth <1452742@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:53:33 -0000
+From: Thomas Huth <1453612@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: patch
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hramrach th-huth
-X-Launchpad-Bug-Reporter: Michal Suchanek (hramrach)
+X-Launchpad-Bug-Commenters: krichter722 th-huth
+X-Launchpad-Bug-Reporter: Karl-Philipp Richter (krichter722)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150507141247.29425.7775.malonedeb@soybean.canonical.com>
-Message-Id: <161906719903.22469.2253440948841341721.malone@gac.canonical.com>
-Subject: [Bug 1452742] Re: the option for vdagent communication needed for qxl
- scren resizing is not documented
+References: <20150510212609.29118.3935.malonedeb@wampee.canonical.com>
+Message-Id: <161906721350.23338.12740957923403870714.malone@gac.canonical.com>
+Subject: [Bug 1453612] Re: set_password command of monitor has poor feedback
+ on failure
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 51b82d3c97f730e7bc2239964281dc334d682189
+X-Launchpad-Hash: a12e075e5b481ba49c928106b72e8bec0fa0d97a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1452742 <1452742@bugs.launchpad.net>
+Reply-To: Bug 1453612 <1453612@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,26 +95,23 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1452742
+https://bugs.launchpad.net/bugs/1453612
 
 Title:
-  the option for vdagent communication needed for qxl scren resizing is
-  not documented
+  set_password command of monitor has poor feedback on failure
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hello,
+  running `set_password vnc NkkmEz5icvTAGo6MECzBVEUxP` in qemu monitor
+  (which is the appropriate way to set a vnc password according to `man
+  qemu-system-x86_64`) started with `-monitor stdio` gives feedback
+  `Could not set password` which is unhelpful because it doesn't specify
+  the reason of the failure.
 
-  I tried running a guest with vdagent which is supposed to resize the
-  guest screen to match client window size.
-
-  However, a special serial port needs to be created for the vdagent to
-  communicate with the client.
-
-  This patch adds a short note to the vga qxl option.
+  experienced with 2.3.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1452742/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1453612/+subscriptions
 
