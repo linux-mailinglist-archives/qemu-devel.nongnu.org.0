@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F3D368439
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:52:35 +0200 (CEST)
-Received: from localhost ([::1]:57746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B87368412
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:45:08 +0200 (CEST)
+Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZbd5-0003S8-0z
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45946)
+	id 1lZbVq-0006Gn-W8
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:45:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZbbH-0002as-Bm
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:50:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51900)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZbSo-0003uY-FO; Thu, 22 Apr 2021 11:41:58 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZbbE-0002GL-UP
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:50:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZbbD-0003PN-22
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 15:50:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 052D82E815B
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 15:50:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZbSm-0006uj-FJ; Thu, 22 Apr 2021 11:41:58 -0400
+Received: by mail-wr1-x433.google.com with SMTP id c15so36328552wro.13;
+ Thu, 22 Apr 2021 08:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zdwPrYCs6gn/HmvKJUdoJG36ORJX5e0qCIAVYy9yugE=;
+ b=WXze/7wruRA6jZY5OAH7HI6pWWEyyuTwheI2mKfz4A7CLZ4/7smrymAHBgKZjL6Z7J
+ nc2ZoR7pt8HGASK3IyNzbbInHVGb56c9twtJ38PyA8Th+T5gY9oXC5B6aFsiXL7wqPa8
+ MIwHgUXBDiZf9yVZ1ohIsaZZfWF1/tvldQiOZcD4jSZ+2YPv8YnCTcPlUP011HfIOxRx
+ RYzWwjed/kRioXNzixucAA3Kl2EmOlg5VXtLLyU/MNh54/HzIqa6a0D93i/6AqKnmO87
+ ZfuzrVCYEFDvEyTYrhZUhD2ip44yuG8w/6lXDdYvdQhqzVIDD014isReWxtDT1IiCBKe
+ Cezg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zdwPrYCs6gn/HmvKJUdoJG36ORJX5e0qCIAVYy9yugE=;
+ b=hOe2M4Uj4zHUj/YhkEGMzTPRyZYUGnLLrL8hbV33zDnKzm0wqgAEkST5Caw1ivFf0t
+ hcAQ7k6Qr0lpRvDSonbZc9/2OqLQa+NkNjDHdC2FKT/9lAg7gkUvdIup8To87BuQqc0I
+ UvTamuEJRKBvbdCYacAAS0/h1JnNRAJzINVEQZS4fVUJvOFJfuF1oqvIE3tkGysFEgdB
+ 1mZ/2s7rvhyip81urEjPNtiQq5RFOM8UbTWr7hhURGgPX4Hk0Lp3uG/9KJbhcuvcfYti
+ pmISzxcqE5Jsokw+d0ahN7xEtuAKfU91lPgM9EVca3pJnSMGyEl0TN1uT4flVzt7qxc0
+ V6+g==
+X-Gm-Message-State: AOAM531D0IeQMsldjtMUumALQmFb7ECgHuhqTPn5zFjTuQ0o0Ox2WYJI
+ kc5GFx0MN+arSWPpGNRbcq4=
+X-Google-Smtp-Source: ABdhPJwhHuvrk9Yfe76yp7Fq79T0vzYqoVkWp1+jwCVCp6+Uv8pEPhOzO3X7Kbq7Xt7sBFc1YySg2g==
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr5015011wrn.6.1619106112770;
+ Thu, 22 Apr 2021 08:41:52 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id i12sm4198935wrm.77.2021.04.22.08.41.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 08:41:51 -0700 (PDT)
+Subject: Re: [PATCH v3 01/27] target: Set CPUClass::vmsd instead of
+ DeviceClass::vmsd
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210302145818.1161461-1-f4bug@amsat.org>
+ <20210302145818.1161461-2-f4bug@amsat.org>
+ <20210421220333.bkxo6zriqe6w3rim@habkost.net>
+ <cccb8e5c-55cb-3f46-1391-ca96ab7c27ce@amsat.org>
+ <CAFEAcA8_cjzAzoA9BFucR7LzQA7KXnrmufH4kp7aNL9bo_5Q5A@mail.gmail.com>
+ <6bfaaaab-8045-d8be-4edd-652d500a6c14@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <280abf24-4e72-78ed-621b-b66495943003@amsat.org>
+Date: Thu, 22 Apr 2021 17:41:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 15:41:07 -0000
-From: Paul Goyette <1743191@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: regression
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
- stefanha th-huth
-X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Paul Goyette (paul-whooppee)
-References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
- <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
- <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
- <24705.28709.3368.276346@guava.gson.org>
- <CAEJNuHyOLS1QgXbb0dx7DV7QscX=rtO2PvHeo-O28aetZ5-v9g@mail.gmail.com>
-Message-Id: <Pine.NEB.4.64.2104220837080.4423@speedy.whooppee.com>
-Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
- blocks no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: fd905a66a867661fe435b7bb8591edff67596fb5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <6bfaaaab-8045-d8be-4edd-652d500a6c14@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,188 +95,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Apr 2021, Ottavio Caruso wrote:
-
-> On Thu, 22 Apr 2021 at 13:46, Andreas Gustafsson
-> <1743191@bugs.launchpad.net> wrote:
+On 4/22/21 1:01 PM, Philippe Mathieu-Daudé wrote:
+> On 4/22/21 12:28 PM, Peter Maydell wrote:
+>> On Thu, 22 Apr 2021 at 10:55, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>> My guess is CPUState is the only device used in user emulation,
+>>> so it would be a way to restrict the vmstate_dummy to CPU and
+>>> not to any DeviceState?
+>>>
+>>> But looking at the introductory commit:
+>>>
+>>> commit b170fce3dd06372f7bfec9a780ebcb1fce6d57e4
+>>> Author: Andreas Färber <afaerber@suse.de>
+>>> Date:   Sun Jan 20 20:23:22 2013 +0100
+>>>
+>>>     cpu: Register VMStateDescription through CPUState
+>>>
+>>>     In comparison to DeviceClass::vmsd, CPU VMState is split in two,
+>>>     "cpu_common" and "cpu", and uses cpu_index as instance_id instead of -1.
+>>>     Therefore add a CPU-specific CPUClass::vmsd field.
+>>>
+>>>     Unlike the legacy CPUArchState registration, rather register CPUState.
+>>>
+>>> Juan, do you remember?
 >>
->> Paul Goyette wrote:
->>> This bug was fixed long ago, so long ago that I have no idea when!
+>> Oh yes, I remember this. There are two ways to handle migration for
+>> a CPU object:
 >>
->> No, it is not fixed, and I did actually check before I switched the
->> bug state back to "new".
+>>  (1) like any other device, so it has a dc->vmsd that covers
+>> migration for the whole object. As usual for objects that are a
+>> subclass of a parent that has state, the first entry in the
+>> VMStateDescription field list is VMSTATE_CPU(), which migrates
+>> the cpu_common fields, followed by whatever the CPU's own migration
+>> fields are.
+
+target/alpha/cpu.c:240:    dc->vmsd = &vmstate_alpha_cpu;
+target/cris/cpu.c:296:    dc->vmsd = &vmstate_cris_cpu;
+target/hppa/cpu.c:165:    dc->vmsd = &vmstate_hppa_cpu;
+target/m68k/cpu.c:537:    dc->vmsd = &vmstate_m68k_cpu;
+target/microblaze/cpu.c:390:    dc->vmsd = &vmstate_mb_cpu;
+target/openrisc/cpu.c:207:    dc->vmsd = &vmstate_openrisc_cpu;
+target/sh4/cpu.c:265:    dc->vmsd = &vmstate_sh_cpu;
+target/unicore32/cpu.c:149:    dc->vmsd = &vmstate_uc32_cpu;
+target/xtensa/cpu.c:221:    dc->vmsd = &vmstate_xtensa_cpu;
+
+>>  (2) a backwards-compatible mechanism for CPUs that were
+>> originally migrated using manual "write fields to the migration
+>> stream structures". The on-the-wire migration format
+>> for those is based on the 'env' pointer (which isn't a QOM object),
+>> and the cpu_common part of the migration data is elsewhere.
+
+target/arm/cpu.c:1985:    cc->vmsd = &vmstate_arm_cpu;
+target/avr/cpu.c:216:    cc->vmsd = &vms_avr_cpu;
+target/i386/cpu.c:7434:    cc->vmsd = &vmstate_x86_cpu;
+target/lm32/cpu.c:244:    cc->vmsd = &vmstate_lm32_cpu;
+target/mips/cpu.c:723:    cc->vmsd = &vmstate_mips_cpu;
+target/moxie/cpu.c:125:    cc->vmsd = &vmstate_moxie_cpu;
+target/ppc/translate_init.c.inc:10923:    cc->vmsd = &vmstate_ppc_cpu;
+target/riscv/cpu.c:627:    cc->vmsd = &vmstate_riscv_cpu;
+target/s390x/cpu.c:520:    cc->vmsd = &vmstate_s390_cpu;
+target/sparc/cpu.c:892:    cc->vmsd = &vmstate_sparc_cpu;
+
+>> cpu_exec_realizefn() handles both possibilities:
+>>  * for type 1, dc->vmsd is set and cc->vmsd is not,
+>>    so cpu_exec_realizefn() does nothing, and the standard
+>>    "register dc->vmsd for a device" code does everything needed
+>>  * for type 2, dc->vmsd is NULL and so we register the vmstate_cpu_common
+>>    directly to handle the cpu-common fields, and the cc->vmsd to handle
+>>    the per-CPU stuff
 >>
->> Perhaps you are specifying "-machine graphics=3Don" as suggested in one
->> of the comments?  If so, that's a work-around, and an ugly and
->> nonintuitive one at that, not a fix.
+>> You can't change a CPU from one type to the other without breaking
+>> migration compatibility, which is why some guest architectures
+>> are stuck on the cc->vmsd form. New targets should use dc->vmsd.
 
-Andreas is correct - I am using the suggested work-around, and the
-original bug is NOT fixed.
-
-I believe Andreas has moved the bug back to New status to reflect
-that it is not fixed.  (Whether or not it is fixed, _I_ should not
-have asked to have _his_ bug closed.  It's been so long, I almost
-believed it was my bug. :)  My apologies to Andreas and everyone
-else.)
+IOW new targets should use type 1.
 
 
->> --
->> Andreas Gustafsson, gson@gson.org
->
-> I am currently using:
->
-> $ qemu-system-x86_64 --version
-> QEMU emulator version 5.2.0
->
-> And I have no problem selecting from menu in serial console, so I
-> assume this is fixed for me. This is my command line:
->
-> $ cat opt/bin/boot-netbsd-virtio
-> #!/bin/sh
-> qemu-system-x86_64 \
-> -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=3D=
-disk \
-> -drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image.old,index=3D1,medi=
-a=3Ddisk \
-> -M q35,accel=3Dkvm -m 250M -cpu host -smp $(nproc) \
-> -nic user,hostfwd=3Dtcp:127.0.0.1:5555-:22,model=3Dvirtio-net-pci,ipv6=3D=
-off  \
-> -daemonize -display none  -vga none \
-> -serial mon:telnet:127.0.0.1:6665,server,nowait \
-> -pidfile /home/oc/VM/pid/netbsd-pid -nodefaults
->
-> telnet 127.0.0.1 6665
->
->
-> -- =
+Looking at type 2:
 
-> Ottavio Caruso
->
-> -- =
+a) targets added 'recently' with the incorrect type 2:
 
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1743191
->
-> Title:
->  Interacting with NetBSD serial console boot blocks no longer works
->
-> Status in QEMU:
->  New
->
-> Bug description:
->  The NetBSD boot blocks display a menu allowing the user to make a
->  selection using the keyboard.  For example, when booting a NetBSD
->  installation CD-ROM, the menu looks like this:
->
->           1. Install NetBSD
->           2. Install NetBSD (no ACPI)
->           3. Install NetBSD (no ACPI, no SMP)
->           4. Drop to boot prompt
->
->      Choose an option; RETURN for default; SPACE to stop countdown.
->      Option 1 will be chosen in 30 seconds.
->
->  When booting NetBSD in a recent qemu using an emulated serial console,
->  making this menu selection no longer works: when you type the selected
->  number, the keyboard input is ignored, and the 30-second countdown
->  continues.  In older versions of qemu, it works.
->
->  To reproduce the problem, run:
->
->     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation=
-/cdrom/boot-com.iso
->     qemu-system-x86_64 -nographic -cdrom boot-com.iso
->
->  During the 30-second countdown, press 4
->
->  Expected behavior: The countdown stops and you get a ">" prompt
->
->  Incorrect behavior: The countdown continues
->
->  There may also be some corruption of the terminal output; for example,
->  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
->  will be chosen in p0 seconds".
->
->  Using bisection, I have determined that the problem appeared with qemu
->  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
->  updated to 1.11 prerelease, and the problem is still there as of
->  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
->  system used for the tests was Debian 9 x86_64.
->
->  Credit for discovering this bug goes to Paul Goyette.
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
->
-> !DSPAM:608193ed146681924717040!
->
->
+target/avr/cpu.c:216:    cc->vmsd = &vms_avr_cpu;
+target/riscv/cpu.c:627:    cc->vmsd = &vmstate_riscv_cpu;
 
-+--------------------+--------------------------+-----------------------+
-| Paul Goyette       | PGP Key fingerprint:     | E-mail addresses:     |
-| (Retired)          | FA29 0E3B 35AF E8AE 6651 | paul@whooppee.com     |
-| Software Developer | 0786 F758 55DE 53BA 7731 | pgoyette@netbsd.org   |
-+--------------------+--------------------------+-----------------------+
+b) targets where migration isn't really an issue:
 
--- =
+target/lm32/cpu.c:244:    cc->vmsd = &vmstate_lm32_cpu;
+target/moxie/cpu.c:125:    cc->vmsd = &vmstate_moxie_cpu;
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743191
+c) targets where migration could be broken:
 
-Title:
-  Interacting with NetBSD serial console boot blocks no longer works
+target/mips/cpu.c:723:    cc->vmsd = &vmstate_mips_cpu;
+target/sparc/cpu.c:892:    cc->vmsd = &vmstate_sparc_cpu;
 
-Status in QEMU:
-  New
+d) KVM targets ("security boundary" or Tier-1) are left:
 
-Bug description:
-  The NetBSD boot blocks display a menu allowing the user to make a
-  selection using the keyboard.  For example, when booting a NetBSD
-  installation CD-ROM, the menu looks like this:
+target/arm/cpu.c:1985:    cc->vmsd = &vmstate_arm_cpu;
+target/i386/cpu.c:7434:    cc->vmsd = &vmstate_x86_cpu;
+target/ppc/translate_init.c.inc:10923:    cc->vmsd = &vmstate_ppc_cpu;
+target/s390x/cpu.c:520:    cc->vmsd = &vmstate_s390_cpu;
 
-           1. Install NetBSD
-           2. Install NetBSD (no ACPI)
-           3. Install NetBSD (no ACPI, no SMP)
-           4. Drop to boot prompt
 
-      Choose an option; RETURN for default; SPACE to stop countdown.
-      Option 1 will be chosen in 30 seconds.
+Isn't "machine type" what allows us to change migration stream?
+All targets in d) do support that.
 
-  When booting NetBSD in a recent qemu using an emulated serial console,
-  making this menu selection no longer works: when you type the selected
-  number, the keyboard input is ignored, and the 30-second countdown
-  continues.  In older versions of qemu, it works.
 
-  To reproduce the problem, run:
+How could we enforce no new type 2 targets?
 
-     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
-cdrom/boot-com.iso
-     qemu-system-x86_64 -nographic -cdrom boot-com.iso
 
-  During the 30-second countdown, press 4
+Thanks,
 
-  Expected behavior: The countdown stops and you get a ">" prompt
-
-  Incorrect behavior: The countdown continues
-
-  There may also be some corruption of the terminal output; for example,
-  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
-  will be chosen in p0 seconds".
-
-  Using bisection, I have determined that the problem appeared with qemu
-  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
-  updated to 1.11 prerelease, and the problem is still there as of
-  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
-  system used for the tests was Debian 9 x86_64.
-
-  Credit for discovering this bug goes to Paul Goyette.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
+Phil.
 
