@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0270B3679A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 08:02:59 +0200 (CEST)
-Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3052736799F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 08:02:58 +0200 (CEST)
+Received: from localhost ([::1]:59056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZSQU-0008QC-37
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 02:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
+	id 1lZSQT-0008PU-A9
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 02:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZSOq-0007Uj-FS
+ id 1lZSOq-0007UF-20
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55044)
+Received: from indium.canonical.com ([91.189.90.7]:55030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZSOo-00013B-GT
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:16 -0400
+ id 1lZSOo-00012N-Cj
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZSOn-0005uI-Eb
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:13 +0000
+ id 1lZSOm-0005zS-Gq
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:12 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B4392E815C
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7C1082E8157
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:12 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:53:20 -0000
-From: Thomas Huth <1774605@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:55:28 -0000
+From: Thomas Huth <1776920@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sathnaga th-huth
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Commenters: eblake jaywang0tw jnsnow mmoole paelzer th-huth
+ wkozaczuk
+X-Launchpad-Bug-Reporter: Waldemar Kozaczuk (wkozaczuk)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152784273656.31479.153660947051184788.malonedeb@soybean.canonical.com>
-Message-Id: <161907080069.6097.15805808432168639768.malone@chaenomeles.canonical.com>
-Subject: [Bug 1774605] Re: PowerPC guest does not emulate L2 and L3 cache for
- KVM vCPUs
+References: <152898515528.25954.5483198787570860596.malonedeb@soybean.canonical.com>
+Message-Id: <161907092829.32404.7256691938953367629.malone@soybean.canonical.com>
+Subject: [Bug 1776920] Re: qemu-img convert on Mac OSX creates corrupt images
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 9a025fc270e4a3a6b78ba84505e9a5ab477c7c5b
+X-Launchpad-Hash: c3aab5c66154c59b54f1e2f52f607e0f970d6127
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1774605 <1774605@bugs.launchpad.net>
+Reply-To: Bug 1776920 <1776920@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,57 +94,20 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1774605
+https://bugs.launchpad.net/bugs/1776920
 
 Title:
-  PowerPC guest does not emulate L2 and L3 cache for KVM vCPUs
+  qemu-img convert on Mac OSX creates corrupt images
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  PowerPC KVM guest does not emulate L2 and L2 caches for vCPU, it would
-  be good to have them emulated to guest if not any known
-  issues/limitation already with PowerPC.
-
-  Host Env:
-  kernel: 4.17.0-rc7-00045-g0512e0134582
-  qemu: v2.12.0-923-gc181ddaa17-dirty
-  #libvirtd -V
-  libvirtd (libvirt) 4.4.0
-
-  Guest Kernel:
-  # uname -a
-  Linux atest-guest 4.17.0-rc7-00045-g0512e0134582 #9 SMP Fri Jun 1 02:55:5=
-0 EDT 2018 ppc64le ppc64le ppc64le GNU/Linux
-
-  Guest:
-  # lscpu
-  Architecture:        ppc64le
-  Byte Order:          Little Endian
-  CPU(s):              16
-  On-line CPU(s) list: 0-15
-  Thread(s) per core:  8
-  Core(s) per socket:  2
-  Socket(s):           1
-  NUMA node(s):        1
-  Model:               2.1 (pvr 004b 0201)
-  Model name:          POWER8 (architected), altivec supported
-  Hypervisor vendor:   KVM
-  Virtualization type: para
-  L1d cache:           64K
-  L1i cache:           32K
-  NUMA node0 CPU(s):   0-15
-
-  background: x86 enabling cpu L2 cache bydefault and L3 cache on demand fo=
-r kvm guest
-  and claims performance improvement as vcpus can be
-  benefited with lesser `vmexits due to guest send IPIs.` with L3 cache ena=
-bled, below was patch for same.
-
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D14c985cffa6cb177fc01a16=
-3d8bcf227c104718c
+  An image created by qemu-img create, then modified by another program
+  is converted to bad/corrupt image when using convert sub command on
+  Mac OSX. The same convert works on Linux. The version of qemu-img is
+  2.12.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1774605/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1776920/+subscriptions
 
