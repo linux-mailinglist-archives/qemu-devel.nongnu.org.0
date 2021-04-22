@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831D2367DBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 11:31:53 +0200 (CEST)
-Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E74E367DC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 11:34:59 +0200 (CEST)
+Received: from localhost ([::1]:41126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZVge-000879-Kn
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 05:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
+	id 1lZVje-0001Ee-Dh
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 05:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lZVeM-000703-1X
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:29:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55170)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZVgw-00006z-Jj
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:32:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lZVeH-00015X-7s
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:29:29 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZVgq-0002tB-PO
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 05:32:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619083764;
+ s=mimecast20190719; t=1619083924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/BAIMkffpsHdusxhA6VCzn6bbVh9PfYV20cGDJBexeU=;
- b=OJ66NOOT4LAWzf0U2KhRZn2MUeXxWHpIc80IhiypoHpJr9ZkufnurWVLF5EIcvCXRGRwZh
- CRvrQfEj59CrmNsKGebQXhUbhrQi69JEhETK172pM30cy0//SAMi/nwJQby4OeEz4c+Vmw
- 9J3c9QDIYOGtKSoEssWit5CWGjpSQ2M=
+ bh=0y1gTf3qk2k0CjD+2fI5LJeLLUPqpHFrHe/kX1HnnsE=;
+ b=i1dkbMhw2lbxBQCgFY3rSrNQZa/vGWz4IW5LS7h+bcY15ohQUZQBHfScot7n1/KatS1ntv
+ u+1otVJurN805u9aG0lMmeymt2CrcT+YR9iDYFIqYSz/p811M3PTVR0+EdjLQ8LSB8jh86
+ HlLvW6+ub0QO4p54DtLkRDnsTl8cqsY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-pyKEoGawP7Gym4EsaSiXPg-1; Thu, 22 Apr 2021 05:29:20 -0400
-X-MC-Unique: pyKEoGawP7Gym4EsaSiXPg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-353-aukeWkUaOwm6T_ky3D4b8Q-1; Thu, 22 Apr 2021 05:32:02 -0400
+X-MC-Unique: aukeWkUaOwm6T_ky3D4b8Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8B2F1006C80
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 09:29:19 +0000 (UTC)
-Received: from work-vm (ovpn-115-40.ams2.redhat.com [10.36.115.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71A4E5C23E;
- Thu, 22 Apr 2021 09:29:11 +0000 (UTC)
-Date: Thu, 22 Apr 2021 10:29:08 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH v2 17/25] DAX/unmap: virtiofsd: Add
- VHOST_USER_SLAVE_FS_IO
-Message-ID: <YIFB5PDwz/P31ErF@work-vm>
-References: <20210414155137.46522-1-dgilbert@redhat.com>
- <20210414155137.46522-18-dgilbert@redhat.com>
- <20210421200746.GH1579961@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CBE51006C80;
+ Thu, 22 Apr 2021 09:32:00 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-159.ams2.redhat.com [10.36.112.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1EC25D9D3;
+ Thu, 22 Apr 2021 09:31:56 +0000 (UTC)
+Date: Thu, 22 Apr 2021 11:31:55 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 2/3] vhost-user-blk: perform immediate cleanup if
+ disconnect on initialization
+Message-ID: <YIFCi1vJR4jpMJ1r@merkur.fritz.box>
+References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
+ <20210325151217.262793-3-den-plotnikov@yandex-team.ru>
+ <YIBDlEQ0AlRc9r0y@merkur.fritz.box>
+ <88b9912e-97d3-f18a-b3cc-7891f3c55e3a@yandex-team.ru>
+ <20210421155929-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210421200746.GH1579961@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210421155929-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,285 +80,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ Denis Plotnikov <den-plotnikov@yandex-team.ru>, yc-core@yandex-team.ru,
+ raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> On Wed, Apr 14, 2021 at 04:51:29PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Am 21.04.2021 um 21:59 hat Michael S. Tsirkin geschrieben:
+> On Wed, Apr 21, 2021 at 07:13:24PM +0300, Denis Plotnikov wrote:
 > > 
-> > Define a new slave command 'VHOST_USER_SLAVE_FS_IO' for a
-> > client to ask qemu to perform a read/write from an fd directly
-> > to GPA.
-> 
-> Hi David,
-> 
-> Today I came across process_vm_readv() and process_vm_writev().
-> 
-> https://man7.org/linux/man-pages/man2/process_vm_readv.2.html
-
-Yes, I just saw these (reading the lwn article on process_vm_exec)
-
-> I am wondering if we can use these to read from/write to qemu address
-> space (DAX window, which virtiofsd does not have access to).
-> 
-> So for the case of reading from DAX window into an fd, we probably
-> will have to first read from qemu DAX window to virtiofsd local memory
-> and then do a writev(fd).
-> 
-> Don't know if this approach is faster/slower as compared to sending
-> a vhost-user message to qemu.
-
-I think there are some other problems as well:
-  a) I'm not sure the permissions currently work out - I think it's
-saying you need to either have CAP_SYS_PTRACE or the same uid as the
-other process; and I don't think that's normally the relationship
-between the daemon and the qemu.
-
-  b) The virtiofsd would have to know something about the addresses in
-qemu's address space, rather than currently only knowing guest
-addresses.
-
-  c) No one said that mapping is linear/simple, especially for an area
-where an fd wasn't passed for shared memory.
-
-Also, this interface does protect qemu from the daemon writing to
-arbitrary qemu data strctures.
-
-Still, those interfaces do sound attractive for something - just not
-quite figured out what.
-
-Dave
-
-
-
-> Thanks
-> Vivek
-> 
-> 
+> > On 21.04.2021 18:24, Kevin Wolf wrote:
+> > > Am 25.03.2021 um 16:12 hat Denis Plotnikov geschrieben:
+> > > > Commit 4bcad76f4c39 ("vhost-user-blk: delay vhost_user_blk_disconnect")
+> > > > introduced postponing vhost_dev cleanup aiming to eliminate qemu aborts
+> > > > because of connection problems with vhost-blk daemon.
+> > > > 
+> > > > However, it introdues a new problem. Now, any communication errors
+> > > > during execution of vhost_dev_init() called by vhost_user_blk_device_realize()
+> > > > lead to qemu abort on assert in vhost_dev_get_config().
+> > > > 
+> > > > This happens because vhost_user_blk_disconnect() is postponed but
+> > > > it should have dropped s->connected flag by the time
+> > > > vhost_user_blk_device_realize() performs a new connection opening.
+> > > > On the connection opening, vhost_dev initialization in
+> > > > vhost_user_blk_connect() relies on s->connection flag and
+> > > > if it's not dropped, it skips vhost_dev initialization and returns
+> > > > with success. Then, vhost_user_blk_device_realize()'s execution flow
+> > > > goes to vhost_dev_get_config() where it's aborted on the assert.
+> > > > 
+> > > > To fix the problem this patch adds immediate cleanup on device
+> > > > initialization(in vhost_user_blk_device_realize()) using different
+> > > > event handlers for initialization and operation introduced in the
+> > > > previous patch.
+> > > > On initialization (in vhost_user_blk_device_realize()) we fully
+> > > > control the initialization process. At that point, nobody can use the
+> > > > device since it isn't initialized and we don't need to postpone any
+> > > > cleanups, so we can do cleaup right away when there is a communication
+> > > > problem with the vhost-blk daemon.
+> > > > On operation we leave it as is, since the disconnect may happen when
+> > > > the device is in use, so the device users may want to use vhost_dev's data
+> > > > to do rollback before vhost_dev is re-initialized (e.g. in vhost_dev_set_log()).
+> > > > 
+> > > > Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> > > > Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> > > I think there is something wrong with this patch.
+> > > 
+> > > I'm debugging an error case, specifically num-queues being larger in
+> > > QEMU that in the vhost-user-blk export. Before this patch, it has just
+> > > an unfriendly error message:
+> > > 
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Unexpected end-of-file before all data were read
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Failed to read msg header. Read 0 instead of 12. Original request 24.
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: vhost-user-blk: get block config failed
+> > > qemu-system-x86_64: Failed to set msg fds.
+> > > qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Resource temporarily unavailable (11)
+> > > 
+> > > After the patch, it crashes:
+> > > 
+> > > #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
+> > > #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
+> > > #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> > > #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
+> > > #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> > > #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
+> > > #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
+> > > #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
+> > > #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
+> > > #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
+> > > 
+> > > The problem is that vhost_user_read_cb() still accesses dev->opaque even
+> > > though the device has been cleaned up meanwhile when the connection was
+> > > closed (the vhost_user_blk_disconnect() added by this patch), so it's
+> > > NULL now. This problem was actually mentioned in the comment that is
+> > > removed by this patch.
+> > > 
+> > > I tried to fix this by making vhost_user_read() cope with the fact that
+> > > the device might have been cleaned up meanwhile, but then I'm running
+> > > into the next set of problems.
+> > > 
+> > > The first is that retrying is pointless, the error condition is in the
+> > > configuration, it will never change.
+> > > 
+> > > The other is that after many repetitions of the same error message, I
+> > > got a crash where the device is cleaned up a second time in
+> > > vhost_dev_init() and the virtqueues are already NULL.
+> > > 
+> > > So it seems to me that erroring out during the initialisation phase
+> > > makes a lot more sense than retrying.
+> > > 
+> > > Kevin
 > > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  docs/interop/vhost-user.rst               | 16 ++++
-> >  hw/virtio/trace-events                    |  6 ++
-> >  hw/virtio/vhost-user-fs.c                 | 95 +++++++++++++++++++++++
-> >  hw/virtio/vhost-user.c                    |  4 +
-> >  include/hw/virtio/vhost-user-fs.h         |  2 +
-> >  subprojects/libvhost-user/libvhost-user.h |  1 +
-> >  6 files changed, 124 insertions(+)
+> > But without the patch there will be another problem which the patch actually
+> > addresses.
 > > 
-> > diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> > index 09aee3565d..2fa62ea451 100644
-> > --- a/docs/interop/vhost-user.rst
-> > +++ b/docs/interop/vhost-user.rst
-> > @@ -1453,6 +1453,22 @@ Slave message types
-> >    multiple chunks can be unmapped in one command.
-> >    A reply is generated indicating whether unmapping succeeded.
-> >  
-> > +``VHOST_USER_SLAVE_FS_IO``
-> > +  :id: 9
-> > +  :equivalent ioctl: N/A
-> > +  :slave payload: ``struct VhostUserFSSlaveMsg``
-> > +  :master payload: N/A
-> > +
-> > +  Requests that IO be performed directly from an fd, passed in ancillary
-> > +  data, to guest memory on behalf of the daemon; this is normally for a
-> > +  case where a memory region isn't visible to the daemon. slave payload
-> > +  has flags which determine the direction of IO operation.
-> > +
-> > +  The ``VHOST_USER_FS_FLAG_MAP_R`` flag must be set in the ``flags`` field to
-> > +  read from the file into RAM.
-> > +  The ``VHOST_USER_FS_FLAG_MAP_W`` flag must be set in the ``flags`` field to
-> > +  write to the file from RAM.
-> > +
-> >  .. _reply_ack:
-> >  
-> >  VHOST_USER_PROTOCOL_F_REPLY_ACK
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index c62727f879..20557a078e 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -53,6 +53,12 @@ vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRI
-> >  vhost_vdpa_set_owner(void *dev) "dev: %p"
-> >  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> >  
-> > +# vhost-user-fs.c
-> > +
-> > +vhost_user_fs_slave_io_loop(const char *name, uint64_t owr, int is_ram, int is_romd, size_t size) "region %s with internal offset 0x%"PRIx64 " ram=%d romd=%d mrs.size=%zd"
-> > +vhost_user_fs_slave_io_loop_res(ssize_t transferred) "%zd"
-> > +vhost_user_fs_slave_io_exit(int res, size_t done) "res: %d done: %zd"
-> > +
-> >  # virtio.c
-> >  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-> >  virtqueue_fill(void *vq, const void *elem, unsigned int len, unsigned int idx) "vq %p elem %p len %u idx %u"
-> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > index 963f694435..5511838f29 100644
-> > --- a/hw/virtio/vhost-user-fs.c
-> > +++ b/hw/virtio/vhost-user-fs.c
-> > @@ -23,6 +23,8 @@
-> >  #include "hw/virtio/vhost-user-fs.h"
-> >  #include "monitor/monitor.h"
-> >  #include "sysemu/sysemu.h"
-> > +#include "exec/address-spaces.h"
-> > +#include "trace.h"
-> >  
-> >  static const int user_feature_bits[] = {
-> >      VIRTIO_F_VERSION_1,
-> > @@ -220,6 +222,99 @@ uint64_t vhost_user_fs_slave_unmap(struct vhost_dev *dev, int message_size,
-> >      return (uint64_t)res;
-> >  }
-> >  
-> > +uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, int message_size,
-> > +                                VhostUserFSSlaveMsg *sm, int fd)
-> > +{
-> > +    VHostUserFS *fs = (VHostUserFS *)object_dynamic_cast(OBJECT(dev->vdev),
-> > +                          TYPE_VHOST_USER_FS);
-> > +    if (!fs) {
-> > +        error_report("%s: Bad fs ptr", __func__);
-> > +        return (uint64_t)-1;
-> > +    }
-> > +    if (!check_slave_message_entries(sm, message_size)) {
-> > +        return (uint64_t)-1;
-> > +    }
-> > +
-> > +    unsigned int i;
-> > +    int res = 0;
-> > +    size_t done = 0;
-> > +
-> > +    if (fd < 0) {
-> > +        error_report("Bad fd for map");
-> > +        return (uint64_t)-1;
-> > +    }
-> > +
-> > +    for (i = 0; i < sm->count && !res; i++) {
-> > +        VhostUserFSSlaveMsgEntry *e = &sm->entries[i];
-> > +        if (e->len == 0) {
-> > +            continue;
-> > +        }
-> > +
-> > +        size_t len = e->len;
-> > +        uint64_t fd_offset = e->fd_offset;
-> > +        hwaddr gpa = e->c_offset;
-> > +
-> > +        while (len && !res) {
-> > +            hwaddr xlat, xlat_len;
-> > +            bool is_write = e->flags & VHOST_USER_FS_FLAG_MAP_W;
-> > +            MemoryRegion *mr = address_space_translate(dev->vdev->dma_as, gpa,
-> > +                                                       &xlat, &xlat_len,
-> > +                                                       is_write,
-> > +                                                       MEMTXATTRS_UNSPECIFIED);
-> > +            if (!mr || !xlat_len) {
-> > +                error_report("No guest region found for 0x%" HWADDR_PRIx, gpa);
-> > +                res = -EFAULT;
-> > +                break;
-> > +            }
-> > +
-> > +            trace_vhost_user_fs_slave_io_loop(mr->name,
-> > +                                          (uint64_t)xlat,
-> > +                                          memory_region_is_ram(mr),
-> > +                                          memory_region_is_romd(mr),
-> > +                                          (size_t)xlat_len);
-> > +
-> > +            void *hostptr = qemu_map_ram_ptr(mr->ram_block,
-> > +                                             xlat);
-> > +            ssize_t transferred;
-> > +            if (e->flags & VHOST_USER_FS_FLAG_MAP_R) {
-> > +                /* Read from file into RAM */
-> > +                if (mr->readonly) {
-> > +                    res = -EFAULT;
-> > +                    break;
-> > +                }
-> > +                transferred = pread(fd, hostptr, xlat_len, fd_offset);
-> > +            } else if (e->flags & VHOST_USER_FS_FLAG_MAP_W) {
-> > +                /* Write into file from RAM */
-> > +                transferred = pwrite(fd, hostptr, xlat_len, fd_offset);
-> > +            } else {
-> > +                transferred = EINVAL;
-> > +            }
-> > +
-> > +            trace_vhost_user_fs_slave_io_loop_res(transferred);
-> > +            if (transferred < 0) {
-> > +                res = -errno;
-> > +                break;
-> > +            }
-> > +            if (!transferred) {
-> > +                /* EOF */
-> > +                break;
-> > +            }
-> > +
-> > +            done += transferred;
-> > +            fd_offset += transferred;
-> > +            gpa += transferred;
-> > +            len -= transferred;
-> > +        }
-> > +    }
-> > +    close(fd);
-> > +
-> > +    trace_vhost_user_fs_slave_io_exit(res, done);
-> > +    if (res < 0) {
-> > +        return (uint64_t)res;
-> > +    }
-> > +    return (uint64_t)done;
-> > +}
-> > +
-> >  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
-> >  {
-> >      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> > index ad9170f8dc..b9699586ae 100644
-> > --- a/hw/virtio/vhost-user.c
-> > +++ b/hw/virtio/vhost-user.c
-> > @@ -138,6 +138,7 @@ typedef enum VhostUserSlaveRequest {
-> >      VHOST_USER_SLAVE_VRING_ERR = 5,
-> >      VHOST_USER_SLAVE_FS_MAP = 6,
-> >      VHOST_USER_SLAVE_FS_UNMAP = 7,
-> > +    VHOST_USER_SLAVE_FS_IO = 8,
-> >      VHOST_USER_SLAVE_MAX
-> >  }  VhostUserSlaveRequest;
-> >  
-> > @@ -1562,6 +1563,9 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
-> >      case VHOST_USER_SLAVE_FS_UNMAP:
-> >          ret = vhost_user_fs_slave_unmap(dev, hdr.size, &payload.fs);
-> >          break;
-> > +    case VHOST_USER_SLAVE_FS_IO:
-> > +        ret = vhost_user_fs_slave_io(dev, hdr.size, &payload.fs, fd[0]);
-> > +        break;
-> >  #endif
-> >      default:
-> >          error_report("Received unexpected msg type: %d.", hdr.request);
-> > diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-> > index 0766f17548..2931164e23 100644
-> > --- a/include/hw/virtio/vhost-user-fs.h
-> > +++ b/include/hw/virtio/vhost-user-fs.h
-> > @@ -78,5 +78,7 @@ uint64_t vhost_user_fs_slave_map(struct vhost_dev *dev, int message_size,
-> >                                   VhostUserFSSlaveMsg *sm, int fd);
-> >  uint64_t vhost_user_fs_slave_unmap(struct vhost_dev *dev, int message_size,
-> >                                     VhostUserFSSlaveMsg *sm);
-> > +uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, int message_size,
-> > +                                VhostUserFSSlaveMsg *sm, int fd);
-> >  
-> >  #endif /* _QEMU_VHOST_USER_FS_H */
-> > diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-> > index a98c5f5c11..42b0833c4b 100644
-> > --- a/subprojects/libvhost-user/libvhost-user.h
-> > +++ b/subprojects/libvhost-user/libvhost-user.h
-> > @@ -121,6 +121,7 @@ typedef enum VhostUserSlaveRequest {
-> >      VHOST_USER_SLAVE_VRING_ERR = 5,
-> >      VHOST_USER_SLAVE_FS_MAP = 6,
-> >      VHOST_USER_SLAVE_FS_UNMAP = 7,
-> > +    VHOST_USER_SLAVE_FS_IO = 8,
-> >      VHOST_USER_SLAVE_MAX
-> >  }  VhostUserSlaveRequest;
-> >  
-> > -- 
-> > 2.31.1
+> > It seems to me that there is a case when the retrying is useless and this is
+> > exactly your case -- we'll never get a proper configuration.
 > > 
-> > _______________________________________________
-> > Virtio-fs mailing list
-> > Virtio-fs@redhat.com
-> > https://listman.redhat.com/mailman/listinfo/virtio-fs
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > What if we get rid of the re-connection and give the only try to realize the
+> > device? Than we don't need case separating for initialization and operation
+> > of device, correct? But I don't familiar with the cases where the reconnect
+> > is needed? Do you know something it?
+> 
+> Reconnect is for when server is restarted while we are talking to it.
+
+Sure, and that makes sense once the device has actually been realized.
+But do we really have a use case for reconnecting during initialisation?
+Commit 77542d43149 seems to just have added both at once, without
+explaining in the commit message what the reason for this decision is.
+
+The problem here is that we can't seem to tell what is a fatal error and
+what is just a server restart. Fatal errors just seem much more likely
+during device initialisation and turning them into endless loops in
+vhost_user_blk_device_realize() is probably not a great idea.
+
+Either way, we have a use-after-free in the error case and that needs
+fixing once we have decided on the intended behaviour.
+
+(The real fix for my num-queues error is of course checking the number
+explicitly instead of making invalid requests, and this would hide the
+bug we're discussing here, but I assume that more error cases like this
+exist.)
+
+Unrelated to the bug, I also wonder why the reconnection logic was
+implemented specifically in vhost-user-blk. Isn't this something that
+should apply to all vhost-user devices? Possibly with some callbacks for
+device specific logic?
+
+Kevin
 
 
