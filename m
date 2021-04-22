@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C713679A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 08:04:58 +0200 (CEST)
-Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0270B3679A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 08:02:59 +0200 (CEST)
+Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZSSP-0001vW-8F
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 02:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40168)
+	id 1lZSQU-0008QC-37
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 02:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZSOr-0007Vk-Rl
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:17 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55076)
+ id 1lZSOq-0007Uj-FS
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZSOp-00014V-Ko
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:17 -0400
+ id 1lZSOo-00013B-GT
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 02:01:16 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZSOo-0005w0-JJ
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:14 +0000
+ id 1lZSOn-0005uI-Eb
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 901FC2E804C
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:14 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6B4392E815C
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 06:01:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:52:53 -0000
-From: Thomas Huth <1774149@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:53:20 -0000
+From: Thomas Huth <1774605@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arnaudalies-py lukasdurfina th-huth
-X-Launchpad-Bug-Reporter: mou (arnaudalies-py)
+X-Launchpad-Bug-Commenters: sathnaga th-huth
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152766936065.4012.2532535303592891582.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161907077353.9598.4236270942261725390.malone@wampee.canonical.com>
-Subject: [Bug 1774149] Re: qemu-user x86_64 x86 gdb call function from gdb
- doesn't work
+References: <152784273656.31479.153660947051184788.malonedeb@soybean.canonical.com>
+Message-Id: <161907080069.6097.15805808432168639768.malone@chaenomeles.canonical.com>
+Subject: [Bug 1774605] Re: PowerPC guest does not emulate L2 and L3 cache for
+ KVM vCPUs
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 423e05ca01763460ccfa8c2dc74eaa1b5fbcdd87
+X-Launchpad-Hash: 9a025fc270e4a3a6b78ba84505e9a5ab477c7c5b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1774149 <1774149@bugs.launchpad.net>
+Reply-To: Bug 1774605 <1774605@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,104 +95,57 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1774149
+https://bugs.launchpad.net/bugs/1774605
 
 Title:
-  qemu-user x86_64 x86 gdb call function from gdb doesn't work
+  PowerPC guest does not emulate L2 and L3 cache for KVM vCPUs
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  While running qemu user x86_64 x86 with gdb server, calling functions
-  are not working.
+  PowerPC KVM guest does not emulate L2 and L2 caches for vCPU, it would
+  be good to have them emulated to guest if not any known
+  issues/limitation already with PowerPC.
 
-  Here is how to reproduce it:
+  Host Env:
+  kernel: 4.17.0-rc7-00045-g0512e0134582
+  qemu: v2.12.0-923-gc181ddaa17-dirty
+  #libvirtd -V
+  libvirtd (libvirt) 4.4.0
 
-  run in a terminal:
-  $ qemu-x86_64 -g 12345 -L / /bin/ls
+  Guest Kernel:
+  # uname -a
+  Linux atest-guest 4.17.0-rc7-00045-g0512e0134582 #9 SMP Fri Jun 1 02:55:5=
+0 EDT 2018 ppc64le ppc64le ppc64le GNU/Linux
 
-  In another terminal run gdb:
-  (gdb) file /bin/ls
-  (gdb) target remote :12345
-  (gdb) b _init
-  (gdb) c
-  (gdb) call malloc(1)
-  Could not fetch register "fs_base"; remote failure reply 'E14'
+  Guest:
+  # lscpu
+  Architecture:        ppc64le
+  Byte Order:          Little Endian
+  CPU(s):              16
+  On-line CPU(s) list: 0-15
+  Thread(s) per core:  8
+  Core(s) per socket:  2
+  Socket(s):           1
+  NUMA node(s):        1
+  Model:               2.1 (pvr 004b 0201)
+  Model name:          POWER8 (architected), altivec supported
+  Hypervisor vendor:   KVM
+  Virtualization type: para
+  L1d cache:           64K
+  L1i cache:           32K
+  NUMA node0 CPU(s):   0-15
 
-  In other cases we also got the error:
-  Could not fetch register "orig_rax"; remote failure reply 'E14'
+  background: x86 enabling cpu L2 cache bydefault and L3 cache on demand fo=
+r kvm guest
+  and claims performance improvement as vcpus can be
+  benefited with lesser `vmexits due to guest send IPIs.` with L3 cache ena=
+bled, below was patch for same.
 
-  Here is how I patched it (it is only a workaround):
-
-  diff --git a/gdbstub.c b/gdbstub.c
-  index 2a94030..5749efe 100644
-  --- a/gdbstub.c
-  +++ b/gdbstub.c
-  @@ -668,6 +668,11 @@ static int gdb_read_register(CPUState *cpu, uint8_t =
-*mem_buf, int reg)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0return r->get_reg(env, mem_buf, reg - r->base_reg);
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-  +#ifdef TARGET_X86_64
-  +    return 8;
-  +#elif TARGET_I386
-  +    return 4;
-  +#endif
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-  =C2=A0}
-
-  (Our guess for this issue was, gdb is requesting for 'fake' registers
-  to know register size)
-
-  Once we patched that, we got another problem while calling functions
-  from gdb: We could call functions, but only once.
-
-  Here is how to reproduce it:
-  run in a terminal:
-  $ qemu-x86_64 -g 12345 -L / /bin/ls
-
-  In another terminal run gdb:
-  (gdb) file /bin/ls
-  (gdb) target remote :12345
-  (gdb) b _init
-  (gdb) c
-  (gdb) call malloc(1)
-  $1 =3D (void *) 0x620010
-  (gdb) call malloc(1)
-  Cannot access memory at address 0x40007ffb8f
-
-  Here is how we patched it to make it work:
-
-  diff --git a/exec.c b/exec.c
-  index 03238a3..d303922 100644
-  --- a/exec.c
-  +++ b/exec.c
-  @@ -2833,7 +2833,7 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong=
- addr,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!(flags & PAGE_=
-VALID))
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0return -1;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (is_write) {
-  -            if (!(flags & PAGE_WRITE))
-  +            if (!(flags & (PAGE_WRITE | PAGE_WRITE_ORG)))
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return -1;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0/* XXX: this code should not depend on lock_user */
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0if (!(p =3D lock_user(VERIFY_WRITE, addr, l, 0)))
-
-  From what we saw, there is a page which is passed to read-only after
-  first execution, and gdb need to write on that page to put a
-  breakpoint. (on the stack to get function return)
-
-  We suspect this is linked to this:
-  https://qemu.weilnetz.de/w64/2012/2012-06-28/qemu-tech.html#Self_002dmodi=
-fying-code-and-translated-code-invalidation
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D14c985cffa6cb177fc01a16=
+3d8bcf227c104718c
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1774149/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1774605/+subscriptions
 
