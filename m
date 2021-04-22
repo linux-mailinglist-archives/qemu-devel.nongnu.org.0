@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36FB3678C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:34:58 +0200 (CEST)
-Received: from localhost ([::1]:40670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7603678C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:34:59 +0200 (CEST)
+Received: from localhost ([::1]:40632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZR3J-0001mT-SU
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
+	id 1lZR3K-0001lO-7s
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQzT-0006QW-Sq
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:30:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44890)
+ id 1lZQzZ-0006Vq-1L
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:31:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQzR-0005f8-Ls
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:30:59 -0400
+ id 1lZQzR-0005ej-9l
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:31:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQzP-0006u6-EG
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:30:55 +0000
+ id 1lZQzO-0006wA-Rx
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:30:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6A61A2E815B
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:30:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CE7182E815F
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:30:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:21:01 -0000
-From: Thomas Huth <1861677@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:21:23 -0000
+From: Thomas Huth <1861692@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -43,15 +43,15 @@ X-Launchpad-Bug-Commenters: philmd th-huth
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
-Message-Id: <161906526181.32508.13971111767998823079.malone@soybean.canonical.com>
-Subject: [Bug 1861677] Re: wavcapture crash with pulseaudio
+References: <158074287462.9078.13948577712209976443.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161906528354.23338.5013129183318036778.malone@gac.canonical.com>
+Subject: [Bug 1861692] Re: wavcapture does not record silence
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 89c9ecb2ea7418f14cbfa4b6e66c832da3ecd0f5
+X-Launchpad-Hash: dc52dc29928bdc7941b602e02976bfc7c16d65c3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861677 <1861677@bugs.launchpad.net>
+Reply-To: Bug 1861692 <1861692@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,89 +92,19 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861677
+https://bugs.launchpad.net/bugs/1861692
 
 Title:
-  wavcapture crash with pulseaudio
+  wavcapture does not record silence
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  As of commit 28db64fce55,
-  using demo from QEMU advent calendar 2018 day 1:
-  https://www.qemu-advent-calendar.org/2018/download/day01.tar.xz
-
-  $ qemu-system-x86_64 -M pc \
-    -net none -soundhw pcspk \
-    -drive file=3Dday01/fbird.img,format=3Draw,if=3Dfloppy \
-    -monitor stdio -S
-  (qemu) info qtree =
-
-  bus: main-system-bus
-    type System
-    dev: i440FX-pcihost, id ""
-      bus: pci.0
-        dev: PIIX3, id ""
-          bus: isa.0
-            dev: isa-pcspk, id ""
-              audiodev =3D "pa"
-              iobase =3D 97 (0x61)
-              migrate =3D true
-  (qemu) wavcapture out.wav pa
-  (qemu) cont
-  (qemu) # Press 'up' key in demo
-  Segmentation fault (core dumped)
-
-  (gdb) bt
-  #0  0x0000555bfef0dc51 in audio_pcm_sw_write (sw=3D0x555c01333930, buf=3D=
-0x0, size=3D14728) at audio/audio.c:725
-  #1  0x0000555bfef10a49 in audio_capture_mix_and_clear (hw=3D0x555c012379b=
-0, rpos=3D0, samples=3D3682) at audio/audio.c:1054
-  #2  0x0000555bfef11059 in audio_run_out (s=3D0x555c01235550) at audio/aud=
-io.c:1186
-  #3  0x0000555bfef11894 in audio_run (s=3D0x555c01235550, msg=3D0x555bff3e=
-37e8 "timer") at audio/audio.c:1355
-  #4  0x0000555bfef10334 in audio_timer (opaque=3D0x555c01235550) at audio/=
-audio.c:831
-  #5  0x0000555bff33f041 in timerlist_run_timers (timer_list=3D0x555c00377b=
-50) at util/qemu-timer.c:588
-  #6  0x0000555bff33f0eb in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at util/qemu-timer.c:602
-  #7  0x0000555bff33f3b6 in qemu_clock_run_all_timers () at util/qemu-timer=
-.c:688
-  #8  0x0000555bff33fb60 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:525
-  #9  0x0000555bfef0187c in main_loop () at vl.c:1683
-  #10 0x0000555bfef090ab in main (argc=3D12, argv=3D0x7ffec49184c8, envp=3D=
-0x7ffec4918530) at vl.c:4438
-  (gdb) p *sw
-  $1 =3D {card =3D 0x0, s =3D 0x0, info =3D {bits =3D 16, sign =3D 1, freq =
-=3D 44100, nchannels =3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176=
-400, swap_endianness =3D 0}, conv =3D 0x555bfef0ced1 <noop_conv>, ratio =3D=
- 4294967296, buf =3D 0x555c0123f6f0, =
-
-    rate =3D 0x555c007c0ec0, total_hw_samples_mixed =3D 0, active =3D 1, em=
-pty =3D 1, hw =3D 0x555c014b12a0, name =3D 0x0, vol =3D {mute =3D 0, r =3D =
-4294967296, l =3D 4294967296}, callback =3D {opaque =3D 0x0, fn =3D 0x0}, e=
-ntries =3D {le_next =3D 0x0, =
-
-      le_prev =3D 0x555c014b1310}}
-  (gdb) p *sw->hw
-  $2 =3D {s =3D 0x555c01235550, enabled =3D 1, poll_mode =3D 0, pending_dis=
-able =3D 0, info =3D {bits =3D 16, sign =3D 1, freq =3D 44100, nchannels =
-=3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176400, swap_endianness =
-=3D 0}, =
-
-    clip =3D 0x555bfef16376 <clip_natural_int16_t_from_stereo>, ts_helper =
-=3D 0, mix_buf =3D 0x555c0059d680, buf_emul =3D 0x0, pos_emul =3D 0, pendin=
-g_emul =3D 0, size_emul =3D 0, samples =3D 16384, sw_head =3D {lh_first =3D=
- 0x555c01333930}, cap_head =3D {
-      lh_first =3D 0x0}, pcm_ops =3D 0x0, entries =3D {le_next =3D 0x0, le_=
-prev =3D 0x0}}
-
-  sw->hw->pcm_ops is NULL.
+  Using setup described in https://bugs.launchpad.net/qemu/+bug/1861677
+  a wav file is generated with all the silences stripped out. IOW
+  silence frames are not recorded.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861677/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861692/+subscriptions
 
