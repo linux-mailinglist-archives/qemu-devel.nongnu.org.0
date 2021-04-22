@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BFF367843
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:11:58 +0200 (CEST)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7F7367872
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:20:17 +0200 (CEST)
+Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQh4-0005pc-3Z
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37856)
+	id 1lZQp6-0005Ba-6D
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQf9-0004sg-LQ
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:09:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42348)
+ id 1lZQjv-000846-65
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:14:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQf7-0001Kr-Lt
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:09:59 -0400
+ id 1lZQjs-00049D-6K
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:14:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQf3-0005av-9E
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:09:53 +0000
+ id 1lZQjr-0005sA-3E
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:14:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3A7FD2E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:09:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0B3D52E8160
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:14:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 03:58:17 -0000
-From: Thomas Huth <1272252@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:00:52 -0000
+From: Thomas Huth <1309034@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
  assignee=None; 
-X-Launchpad-Bug-Tags: optimisation qemu-img
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: o-launchpad-net-q th-huth
-X-Launchpad-Bug-Reporter: Mr J (o-launchpad-net-q)
+X-Launchpad-Bug-Commenters: masm-e th-huth
+X-Launchpad-Bug-Reporter: Yuuki Harano (masm-e)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140124101150.11988.40603.malonedeb@wampee.canonical.com>
-Message-Id: <161906389748.32357.7068718821625125051.malone@soybean.canonical.com>
-Subject: [Bug 1272252] Re: qemu-img ftp/http convert
+References: <20140417141213.27030.31355.malonedeb@gac.canonical.com>
+Message-Id: <161906405253.9724.1005284518612671091.malone@wampee.canonical.com>
+Subject: [Bug 1309034] Re: A way not to grab keyboards or mice
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: d65b909b962b1c5978af3ad95d25f5ac3f41547b
+X-Launchpad-Hash: 996baabb99fc56cbd0c5bec108c5d9c9c9fc34f0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1272252 <1272252@bugs.launchpad.net>
+Reply-To: Bug 1309034 <1309034@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,41 +91,45 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1272252
+https://bugs.launchpad.net/bugs/1309034
 
 Title:
-  qemu-img ftp/http convert
+  A way not to grab keyboards or mice
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Converting images with ftp or http as source could be done a lot
-  faster. The way it works now (qemu 1.7.50) is significantly slower
-  than the optimal way.
+  I set up the window manager to move windows with Alt-Btn1, and to
+  iconify windows with Shift-Btn1. But since qemu grabs keyboards and
+  mice, I can't move or iconify the qemu window.
 
-  FTP - how it works now
-  1. Connect and login to ftp-server. Ask for size of file.
-  2. Get a chunk of data using rest+retr
-  3. Goto step 1 again in a loop until all data is retrieved
+  I tried not to grab anything, by inserting return, just beginnig of
+  ui/sdl.c:sdl_grab_start() as follows:
 
-  FTP - better solution
-  1. Connect and login to ftp-server. Dont ask for size of file.
-  2. Retrieve all remaining data
-  3. Goto step 1 again if disconnected/io error (max NN errors etc)
+  static void sdl_grab_start(void)
+  {
+      return;
+      /*
 
-  =
+  It is comfortable. I'm glad if you make a way not to grab.
+  Environment variables, options, etc are welcome.
 
-  Http - how it works now
-  1. Connect to webserver and ask for size of file / http HEAD.
-  2. Get a chunk of data using http Range.
-  3. Goto step 1 again in a loop until all data is retrieved.
+  Current command line is:
+  QEMU_AUDIO_DRV=3Dpa /usr/local/bin/qemu-system-x86_64 -enable-kvm -hda /d=
+osc/win8_x64.img -soundhw hda -boot c -m 2G -cpu Nehalem,+sep -usb -usbdevi=
+ce tablet -display sdl -rtc base=3Dlocaltime
 
-  Http - better solution
-  1. Connect to webserver.
-  2. Retrieve all remaining data.
-  3. Goto step 1 again if disconnected/io error (max NN errors).
+  qemu version is:
+  luna:linux % qemu-system-x86_64 --version
+  QEMU emulator version 1.7.93, Copyright (c) 2003-2008 Fabrice Bellard
+  luna:linux % =
+
+
+  Host: slackware64 14.1
+  Host Environment: xfce4 / sawfish
+  Guest: Windows 8.1 x64
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1272252/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1309034/+subscriptions
 
