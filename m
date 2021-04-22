@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC7C367686
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 02:53:51 +0200 (CEST)
-Received: from localhost ([::1]:59752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C1D367689
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 02:55:05 +0200 (CEST)
+Received: from localhost ([::1]:33646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZNbK-0005vj-N4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 20:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
+	id 1lZNcW-0006oj-95
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 20:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lZNYr-0004i5-6i
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:17 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40725)
+ id 1lZNYs-0004j1-4E
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:18 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lZNYo-0006YJ-O3
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:16 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so2228332wmy.5
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 17:51:14 -0700 (PDT)
+ id 1lZNYq-0006YR-0j
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:17 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ t14-20020a05600c198eb029012eeb3edfaeso2239778wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 17:51:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6EqUfSAg+SkgsLP4QrSoWoVHrKhsANzTFjajqpdzr44=;
- b=jzMwSx5JIvnwe9YlCc8rFK7iRrFR2JLZcLKzgrB4aVxGnEkk9Nse2G7RmhOsHsYfBT
- gb3TUIR8v5Nep4P+ob8xH3W1NeaIS/S2jPkPSDUKzRIII/E7EIakhnVJpaa2jlXDnUlY
- Gho+1/z2lGhMLzSrJ26SnkImmigPh8nuCWShzz5EQqA9L3RcaHsQWJ9kLk5PmoikRYDa
- ahKGMgdGc+vPoN0W1dDI4XEvDl0twH7/Mkkh3bTHUEyQeeswDD7HveeR2lk6ItxXVmL2
- OSWd7rnss7FHA5GQFrz8Hw5OcsrUuuJDUu5z+vQJtSxM8lAfpsCvC6snKwxOa9yTdIyC
- +pAQ==
+ bh=PtpqjJB+mPrWI3pSReKeoScSunVn5yIMNvsUm4adUls=;
+ b=DjpYlKq0WW7u4vK7dS11sWaehUsPnQ5HYetkj6qGFpEDQmr9FtDJLdxZ8PZEhXHCI+
+ cqfXKcn2JPpz3lWzjirc6/HPs1EzRFs0FOoKS67PM99MmHMK6kdjsX4QDEet0P6Ybzmd
+ yJ1sypq6bnamhZAyoDYGaMrdqTBCwpIFoFsrduDTiSbxJ+PRdXda+YFKv/Rn28MRSgAw
+ q/xkJbH+Df+ntOvueruIkv8M3SMT3dEl2O6Q6Jajq30RAGotQjt/X0ibbRcXa2A6Dsw8
+ 9ugjyRJCrk1Pg7gIZYnsqQsNLvlyFUD4YZSTdbnJRvx+m8NYgH44FAhcM/0FxS0u6efq
+ t+bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6EqUfSAg+SkgsLP4QrSoWoVHrKhsANzTFjajqpdzr44=;
- b=G5+rXhFxh5/WObnZDA1TFqiO0A3xkYqqGxbQ7cVdQby8eyJGApJivyQnht5oAxOKNh
- tJWmT4vBQhDQqEZoO9mw3Q7mKxiEvxChgTeinsC3R5I+A0q63Emj6jP/31uJsKATBHhC
- cYZVwoey9/YY4zpmicZ4jnyPc5/o1FHT+pCyvPbSDycPWq2oBNf1GWjHwDRfdvuyV/iN
- SnWn3KtjrWaZT+DBzPRxJyFrqPskGSZi2p1iYRDsViB+bFcnSV0cZw1Ej1a2/HeyqMR2
- dqsDprnFCh9kDdIq5gYiXoZ+7aW1RpADfheu+NW3ChKo/BRLQQn21awp/HktVkoGZL3b
- Azlw==
-X-Gm-Message-State: AOAM533T9DCq4kTS4yPbPoiVCxFDyiZA++p25Vj0ccwSJhUdWOd0bhra
- Jo4dthva9cZ8PC9QPzVIcC90VlJ4wnc=
-X-Google-Smtp-Source: ABdhPJwX6tXQTrbRP94DX8gEJ4hEP2omyS+qrxxC+S23ZQ3jQAy8ytn5jT61kKxxRE3yutAsg7eFJw==
-X-Received: by 2002:a05:600c:2148:: with SMTP id
- v8mr12345227wml.167.1619052673153; 
- Wed, 21 Apr 2021 17:51:13 -0700 (PDT)
+ bh=PtpqjJB+mPrWI3pSReKeoScSunVn5yIMNvsUm4adUls=;
+ b=QVD+pV64tRh4FMaSP2S2JTGmEnS3bJqE0CZK9thqgnRwbMNFyyZv7MR8CcptHablbK
+ kys4LAo8xs63P3G3dXTerJ0Gp5xmq0OYfNZvceydbvbXufL6nGmHZ/XEEKHe9VF/OOKC
+ TujfPnRrDMaQv5uxK4GWF22peOSnIRmR3VJi0QxRcpbv/LpaSTCr1odDzKJrbw7ipEDd
+ 2h4zCdppQhCXkRtp3BwCjYYDZxFQk0yjhpUBh3bDc1JF4ns2sgTynZykiXZFGHCFR00n
+ 0AG6sHPkCY/u31NAMDkWHa5DKkuAqCKVmj+/OklxAxHGj4Sk2L8VzLL4QhdsSkgo2Muj
+ q8Mw==
+X-Gm-Message-State: AOAM533C+U14ksTl/vxzMXoePJiycrlP2NUSnDcNpk0o8R2QH+JiYWdI
+ lw1Blx8gIegf9oRt+fle5MLV6hFy1Xs=
+X-Google-Smtp-Source: ABdhPJwXVArvJQ7HCiS88kl8lLo5agqwrW6ZBHMT5LzdtD3wCSIIYg+JUejrGSANM56AlxtNHYx2hw==
+X-Received: by 2002:a1c:a7c8:: with SMTP id q191mr844857wme.6.1619052674205;
+ Wed, 21 Apr 2021 17:51:14 -0700 (PDT)
 Received: from localhost.localdomain ([197.61.162.183])
- by smtp.googlemail.com with ESMTPSA id 2sm3734607wmi.19.2021.04.21.17.51.12
+ by smtp.googlemail.com with ESMTPSA id 2sm3734607wmi.19.2021.04.21.17.51.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Apr 2021 17:51:12 -0700 (PDT)
+ Wed, 21 Apr 2021 17:51:13 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] plugins/hotblocks: Properly freed the hash table values
-Date: Thu, 22 Apr 2021 02:50:42 +0200
-Message-Id: <20210422005043.3569-2-ma.mandourr@gmail.com>
+Subject: [PATCH v2 2/2] plugins/hotpages: Properly freed the hash table values
+Date: Thu, 22 Apr 2021 02:50:43 +0200
+Message-Id: <20210422005043.3569-3-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210422005043.3569-1-ma.mandourr@gmail.com>
 References: <20210422005043.3569-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,32 +88,34 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Freed the values stored in the hash table ``hotblocks``
-returned by ``g_hash_table_get_values()`` by freeing the sorted
-list and destroyed the hash table afterward.
+Allocated ``pages`` hash table through ``g_hash_table_new_full`` to
+add a freeing function & destroyed the hash table on exit.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/hotblocks.c | 3 ++-
+ contrib/plugins/hotpages.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
-index 4b08340143..64692c0670 100644
---- a/contrib/plugins/hotblocks.c
-+++ b/contrib/plugins/hotblocks.c
-@@ -68,10 +68,11 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-                                    rec->insns, rec->exec_count);
-         }
- 
--        g_list_free(it);
-+        g_list_free_full(it, g_free);
-         g_mutex_unlock(&lock);
+diff --git a/contrib/plugins/hotpages.c b/contrib/plugins/hotpages.c
+index bf53267532..9cf7f02c77 100644
+--- a/contrib/plugins/hotpages.c
++++ b/contrib/plugins/hotpages.c
+@@ -97,13 +97,14 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+         g_list_free(it);
      }
  
-+    g_hash_table_destroy(hotblocks);
++    g_hash_table_destroy(pages);
      qemu_plugin_outs(report->str);
  }
  
+ static void plugin_init(void)
+ {
+     page_mask = (page_size - 1);
+-    pages = g_hash_table_new(NULL, g_direct_equal);
++    pages = g_hash_table_new_full(NULL, g_direct_equal, NULL, g_free);
+ }
+ 
+ static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
 -- 
 2.25.1
 
