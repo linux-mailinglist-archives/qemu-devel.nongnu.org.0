@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE803368096
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:37:10 +0200 (CEST)
-Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1EF36809D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:38:11 +0200 (CEST)
+Received: from localhost ([::1]:32838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZYZx-00044q-I6
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
+	id 1lZYaw-0004lR-7O
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:38:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZYXz-0002uB-Tg
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:35:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZYXt-0007Sj-Tl
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:35:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZYXs-0004RS-53
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 12:35:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 188952E815A
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 12:35:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lZYVg-000173-Ul
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:32:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39293)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lZYVd-0006Im-4t
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:32:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619094760;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HyOInNNwnYTVWb5Y7WWupuaTItGNMV9xtv0H41Kgn3M=;
+ b=PFqE60SGGXMboiWNmMRGqtrZ3V+kt4QdUV6M/Ks3uV/AGgFrlqTOwYAxXQA0GiBBlzo7JY
+ LpVI34PrMM8T+t9eX4PFk2YsLLQTKBSoW80YNxe6pfDmRa9Vb3lndIXKvP0UDlRcQd9lOJ
+ v93prr9Cq7nCcJ0KIgWOzF9/k/y2Kig=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-u5AZXSnoP4eiV9tDm0F8sA-1; Thu, 22 Apr 2021 08:32:36 -0400
+X-MC-Unique: u5AZXSnoP4eiV9tDm0F8sA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 004EE343AA;
+ Thu, 22 Apr 2021 12:32:35 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-187.ams2.redhat.com
+ [10.36.113.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91A7E19C71;
+ Thu, 22 Apr 2021 12:32:33 +0000 (UTC)
+Subject: Re: [PATCH v4 0/2] Fix segfault in qemu_rbd_parse_filename
+To: Connor Kuehl <ckuehl@redhat.com>, qemu-block@nongnu.org
+References: <20210421212343.85524-1-ckuehl@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <b64f5b49-72b6-de56-3dfa-851ef5c8e5df@redhat.com>
+Date: Thu, 22 Apr 2021 14:32:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 12:21:58 -0000
-From: Jimi <1580459@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=libvirt; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=archlinux; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=fedora; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avenger337 bigdaddymccarron brl75 clifhouck
- jdnewman85 jimijames-bove jimrif murknfools omega52390 peter-maloney th-huth
- yanman
-X-Launchpad-Bug-Reporter: Jimi (jimijames-bove)
-X-Launchpad-Bug-Modifier: Jimi (jimijames-bove)
-References: <20160511061916.21125.98809.malonedeb@wampee.canonical.com>
-Message-Id: <161909411839.10076.4982588820586831214.malone@wampee.canonical.com>
-Subject: [Bug 1580459] Re: Windows (10?) guest freezes entire host on shutdown
- if using PCI passthrough
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 767e7e087cb29bb6443b8458ffc08d2cf7532d31
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210421212343.85524-1-ckuehl@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,78 +81,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1580459 <1580459@bugs.launchpad.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My hardware and the way I run my VM are both now very different from
-back then, and I haven't had the issue described here for years. So
-either it was fixed or I'm no longer an accurate test subject.
+On 21.04.21 23:23, Connor Kuehl wrote:
+> Connor Kuehl (2):
+>    iotests/231: Update expected deprecation message
+>    block/rbd: Add an escape-aware strchr helper
+> 
+>   block/rbd.c                | 32 +++++++++++++++++++++-----------
+>   tests/qemu-iotests/231     |  4 ++++
+>   tests/qemu-iotests/231.out |  7 ++++---
+>   3 files changed, 29 insertions(+), 14 deletions(-)
 
--- =
+Thanks, applied to my block-next branch (for 6.1):
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1580459
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block-next
 
-Title:
-  Windows (10?) guest freezes entire host on shutdown if using PCI
-  passthrough
+Max
 
-Status in libvirt:
-  New
-Status in QEMU:
-  Incomplete
-Status in Arch Linux:
-  New
-Status in Debian:
-  New
-Status in Fedora:
-  New
-
-Bug description:
-  Problem: after leaving a Windows VM that uses PCI passthrough (as we
-  do for gaming graphics cards, sound cards, and in my case, a USB card)
-  running for some amount of time between 1 and 2 hours (it's not
-  consistent with exactly how long), and for any amount of time longer
-  than that, shutting down that guest will, right as it finishes
-  shutting down, freeze the host computer, making it require a hard
-  reboot. Unbinding (or in the other user's case, unbinding and THEN
-  binding) any PCI device in sysfs, even one that has nothing to do with
-  the VM, also has the same effect as shutting down the VM (if the VM
-  has been running long enough). So, it's probably an issue related to
-  unbinding and binding PCI devices.
-
-  There's a lot of info on this problem over at https://bbs.archlinux.org/v=
-iewtopic.php?id=3D206050
-  Here's a better-organized list of main details:
-  -at least 2 confirmed victims of this bug; 2 (including me) have provided=
- lots of info in the link
-  -I'm on Arch Linux and the other one is on Gentoo (distro-nonspecific)
-  -issue affects my Windows 10 guest and others' Windows guests, but not my=
- Arch Linux guest (the others don't have non-Windows guests to test)
-  -I'm using libvirt but the other user is not, so it's not an issue with l=
-ibvirt
-  -It seems to be version non-specific, too. I first noticed it at, or when=
- testing versions still had the issue at (whichever version is lower), Linu=
-x 4.1 and qemu 2.4.0. It still persists in all releases of both since, incl=
-uding the newest ones.
-  -I can't track down exactly what package downgrade can fix it, as downgra=
-ding further than Linux 4.1 and qemu 2.4.0 requires Herculean and system-de=
-stroying changes such as downgrading ncurses, meaning I don't know whether =
-it's a bug in QEMU, the Linux kernel, or some weird seemingly unrelated thi=
-ng.
-  -According to the other user, "graphics intensive gameplay (GTA V) can ca=
-use the crash to happen sooner," as soon as "15 minutes"
-  -Also, "bringing up a second passthrough VM with separate hardware will c=
-ause the same crash," and "bringing up another VM before the two-hour mark =
-will not result in a crash," further cementing that it's triggered by the u=
-n/binding of PCI devices.
-  -This is NOT related to the very similar bug that can be worked around by=
- not passing through the HDMI device or sound card. Even when we removed al=
-l traces of any sort of sound card from the VM, it still had the same behav=
-ior.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/libvirt/+bug/1580459/+subscriptions
 
