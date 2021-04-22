@@ -2,100 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC46368441
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:56:32 +0200 (CEST)
-Received: from localhost ([::1]:37146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D6F36843C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:55:19 +0200 (CEST)
+Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZbgt-0006bO-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1lZbfi-0005KO-Dx
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:55:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lZbdy-0004Wo-0q
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:53:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lZbdw-0003eg-El
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:53:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619106807;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y7IFrNEax6JwAtplbJWwpRJW4i+3NqSDNWX91m3gNIo=;
- b=eWc2oHepOOEDFNW/jvpmtsq+TWWGZW0wprAIGVMhoq8MIj0re3Oyh4wSQwv7tKtwb3Cb1C
- B1LX26iWZ20RidrhoTSES5OX9bQoF80FMlZkNrSYVn1hsfU8NLjOPtSo+wx7vmSerwTWuu
- Vrg2mhSDa6yFFhSRpmtcGTxXryyYc4k=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-ltIYWqQaNmOFnfttjAebLA-1; Thu, 22 Apr 2021 11:52:42 -0400
-X-MC-Unique: ltIYWqQaNmOFnfttjAebLA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- c15-20020a056402100fb029038518e5afc5so9473916edu.18
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:52:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZbdm-0004Jw-NV
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:53:19 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:43769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZbdj-0003Xc-2R
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:53:18 -0400
+Received: by mail-pf1-x430.google.com with SMTP id p67so27049283pfp.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:53:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0ki9sL9BDIQwC6tcsZmEi7wQ2TxrOXe1duizcTexNfA=;
+ b=y+JLMd+FpZO6Rdi1PgAutsG1OZKbJyiZnW7wfnEkH+aIJd4H+TgaUiGK20Vc42QXrz
+ mtJjPylcUPEAMLvEoCLHUNQFeBv1tKDjQt6LdsWYJ3RoGp0mwJWYPEZRJoH8c1+CqdAi
+ CLmXMQIac4XS8M5nzOGJKd8BWLNCN8YMcW+tLtH/c5jme7wfACdP2btfP8PFxMnHBSdd
+ Qqt1fTv2xzvULu+yBBiIxrIk7dfbnqmpQuTV72OUuFJa6KRNAkFD+3UWk/AWsiu3GdoS
+ HgxS4KbmIyderE3dOo8QKIuQrCYBESo906czrsornAFGed3QIqcHfUeIv6uvv2SouB3t
+ z5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Y7IFrNEax6JwAtplbJWwpRJW4i+3NqSDNWX91m3gNIo=;
- b=bZHeO1/FctEEfF4PxUlk0Qb8y3OktuH2ivIaTC0tjdXYMeM0LxAw5b+g0TKkoYaLw0
- ccYbgpD6Sn1IzaCjlDeB7SWfUqkp86/BEbiZUGY+DaN/DPGGmp2jpM29HatcccU3/Wl/
- O0yfIi/nTYz7e5X5MK/3XW+Ryy6r30VQdD1foVKgSEE0BKiAAEq1uHV763qvWxcJuiBB
- e9u9+0p2rNI11X9ptUG93vQTMNueI2ALk+rmrwzu4Pd9xHtnabfXv+kvmjdCyAC9wXRo
- PI3cEIk2qfCAqXYMMk8vg3z+a/4ehB/5t1huP9ApoPDpD0n+woG65Vmpy5endi3FnRHn
- 77xQ==
-X-Gm-Message-State: AOAM533R5yCiaN0o95hY+CyJVy2vyOAxMRgMQWIYYtRztbfX/i500fnI
- YJGezQcJq9LZQu4V4YXxKypY+6S81nx5f85i9HRPZAjIp/7Tdpwr/wTA+ry+/Zk2tUXj1TWNS2i
- 6xo8xxvbVl5zGmRI=
-X-Received: by 2002:a17:907:9691:: with SMTP id
- hd17mr4180289ejc.205.1619106761550; 
- Thu, 22 Apr 2021 08:52:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIy0mEXcGLzLbFTbH2YFr1YVuf2JR0F/eYpdqhfcqJrNMQi5IheS3WPY9KYa4epADzQEvKBA==
-X-Received: by 2002:a17:907:9691:: with SMTP id
- hd17mr4180254ejc.205.1619106761226; 
- Thu, 22 Apr 2021 08:52:41 -0700 (PDT)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id u23sm2527552eds.8.2021.04.22.08.52.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 08:52:40 -0700 (PDT)
-Date: Thu, 22 Apr 2021 17:52:38 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: s390-ccw: warning: writing 1 byte into a region of size 0
- [-Wstringop-overflow=]
-Message-ID: <20210422155238.kak7tl3xnup5vod7@steredhat>
-References: <4e327c80-8f5d-c848-b524-7f2c75255da4@redhat.com>
- <485773db-fca2-03ca-c6e8-90ef313fb8f1@redhat.com>
- <YIFMt+xg+xH+M4rd@redhat.com>
- <CAFEAcA8r2k9f=XG6T_hYk542-dDJnR7Lr8DZnyc=SFgnzNYxxQ@mail.gmail.com>
- <089df242-8788-a162-4a75-4c9c9e04a64e@redhat.com>
- <8afd0f34-7e75-2661-9ea5-3ebadff3b85d@redhat.com>
- <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
- <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
- <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0ki9sL9BDIQwC6tcsZmEi7wQ2TxrOXe1duizcTexNfA=;
+ b=jn5RVoy/Xw1L2F8QmtvXIrbzR4tQQAhzm0KyssjzeKQSO13iIQhkIP0+9/GBE2NLpc
+ GdLIwDCASGuqQMdZRt6LnLto7ZkWyFilPH7qYfFlAVgokCj7ZVvbM4mN47gUkA+zKujF
+ Jy3ep67dP0r+qF8h8jAOVf0yUpPNxUlQ1nOlT3wZS2yi08H3wxqfaH+kDUBVYdQJQ2I0
+ g+Cz3JiThJry1glYY/6pJ8NcaxARt5VSjIH/jffYdoeaZYDK1fqq7hdgQP50ZnckWzfl
+ iypQASDOnIlKNXxHX7+6WOoaLuXiR+GSsz6wyETCYB33lhMSUIaHsUK8U3U481NPHVvR
+ hKww==
+X-Gm-Message-State: AOAM533oPgAk1agMuu30l+12VaW941dfD9S4+oVGHjgJ/jo06t0bm3FZ
+ ePdmTJ4t7YQ9CD+D6BSYXiYfvA==
+X-Google-Smtp-Source: ABdhPJx4M408kOg7yTvwDmlTa/2T/QPgIMPpy1ZlsnU+rSSzumYBYwc3rB6BSNU3tMbbYfODGj6qHA==
+X-Received: by 2002:a63:5112:: with SMTP id f18mr4107773pgb.379.1619106792091; 
+ Thu, 22 Apr 2021 08:53:12 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id y189sm2332994pfy.8.2021.04.22.08.53.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 08:53:11 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Remove spurious LOG_UNIMP of MTHC0 opcode
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210422081055.2349216-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ff4ae6b0-7208-e64b-4315-b626ec06b1a9@linaro.org>
+Date: Thu, 22 Apr 2021 08:53:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+In-Reply-To: <20210422081055.2349216-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,98 +87,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 22, 2021 at 05:38:26PM +0200, Thomas Huth wrote:
->On 22/04/2021 16.31, Philippe Mathieu-DaudÈ wrote:
->>On 4/22/21 2:41 PM, Christian Borntraeger wrote:
->>>On 22.04.21 13:47, Thomas Huth wrote:
->>>>On 22/04/2021 13.24, Philippe Mathieu-DaudÈ wrote:
->>>>>On 4/22/21 12:30 PM, Peter Maydell wrote:
->>>>>>On Thu, 22 Apr 2021 at 11:18, Daniel P. BerrangÈ
->>>>>><berrange@redhat.com> wrote:
->>
->>>>>This silents the warning however:
->>>>>
->>>>>-- >8 --
->>>>>diff --git a/pc-bios/s390-ccw/libc.h b/pc-bios/s390-ccw/libc.h
->>>>>index bcdc45732d..2dea399904 100644
->>>>>--- a/pc-bios/s390-ccw/libc.h
->>>>>+++ b/pc-bios/s390-ccw/libc.h
->>>>>@@ -19,6 +19,8 @@ typedef unsigned short†††† uint16_t;
->>>>> † typedef unsigned int†††††† uint32_t;
->>>>> † typedef unsigned long long uint64_t;
->>>>>
->>>>>+#pragma GCC diagnostic push
->>>>>+#pragma GCC diagnostic ignored "-Wstringop-overflow"
->>>>> † static inline void *memset(void *s, int c, size_t n)
->>>>> † {
->>>>> ††††† size_t i;
->>>>>@@ -30,6 +32,7 @@ static inline void *memset(void *s, int c, size_t n)
->>>>>
->>>>> ††††† return s;
->>>>> † }
->>>>>+#pragma GCC diagnostic pop
->>>>
->>>>Honestly, that compiler "bug" sounds like it could trigger at any
->>>>other spot in the bios code, too, since we are doing lots of direct
->>>>accesses to low memory there. I think it's likely best if we shut it
->>>>off with -Wno-stringop-overflow in the pc-bios/s390-ccw/Makefile ...
->>>>could you please try to add it there?
->>>
->>
->>We are good with:
->>
->>-- >8 --
->>diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
->>index 29fd9019b8..dcec09b6f9 100644
->>--- a/pc-bios/s390-ccw/Makefile
->>+++ b/pc-bios/s390-ccw/Makefile
->>@@ -8,6 +8,9 @@ CFLAGS = -O2 -g
->>  quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 &&
->>$1, @$1))
->>  cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >
->>/dev/null \
->>               2>&1 && echo OK), $1, $2)
->>+cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
->>+                >/dev/null 2>&1 && echo OK), $2, $3)
->>
->>  VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
->>  set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath
->>$(PATTERN) $1)))
->>@@ -30,6 +33,7 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o
->>menu.o \
->>           virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
->>
->>  QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
->>+QEMU_CFLAGS += $(call cc-c-option, $(QEMU_CFLAGS), -Wno-stringop-overflow)
->>  QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks
->
->I think you don't need the "cc-c-option" magic here. Just add the 
->-Wno-stringop-overflow. All supported versions of GCC and Clang simply 
->silently ignore unknown -Wno-something options (try e.g. "gcc 
->-Wno-yadayadayada" on the command line).
+On 4/22/21 1:10 AM, Philippe Mathieu-Daud√© wrote:
+> When running with '-d unimp' all MTHC0 opcode executed
+> are logged as unimplemented... Add the proper 'return'
+> statement missed from commit 5204ea79ea7.
+> 
+> Signed-off-by: Philippe Mathieu-Daud√©<f4bug@amsat.org>
+> ---
+>   target/mips/translate.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-Clang seems not to like it. It's always a mess to do anything for gcc 
-and clang :-(
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Maybe we can set also `-Wno-unknown-warning-option`.
-
-$ clang -Wno-stringop-overflow -Werror main.c
-error: unknown warning option '-Wno-stringop-overflow'; did you mean '-Wno-shift-overflow'? [-Werror,-Wunknown-warning-option]
-
-$ clang --version
-clang version 11.0.0 (Fedora 11.0.0-2.fc33
-
-Stefano
-
+r~
 
