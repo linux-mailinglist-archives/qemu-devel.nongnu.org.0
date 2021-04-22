@@ -2,87 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B87368412
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:45:08 +0200 (CEST)
-Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD42368431
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:48:33 +0200 (CEST)
+Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZbVq-0006Gn-W8
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43664)
+	id 1lZbZA-0000Qh-IP
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZbSo-0003uY-FO; Thu, 22 Apr 2021 11:41:58 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZbSm-0006uj-FJ; Thu, 22 Apr 2021 11:41:58 -0400
-Received: by mail-wr1-x433.google.com with SMTP id c15so36328552wro.13;
- Thu, 22 Apr 2021 08:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zdwPrYCs6gn/HmvKJUdoJG36ORJX5e0qCIAVYy9yugE=;
- b=WXze/7wruRA6jZY5OAH7HI6pWWEyyuTwheI2mKfz4A7CLZ4/7smrymAHBgKZjL6Z7J
- nc2ZoR7pt8HGASK3IyNzbbInHVGb56c9twtJ38PyA8Th+T5gY9oXC5B6aFsiXL7wqPa8
- MIwHgUXBDiZf9yVZ1ohIsaZZfWF1/tvldQiOZcD4jSZ+2YPv8YnCTcPlUP011HfIOxRx
- RYzWwjed/kRioXNzixucAA3Kl2EmOlg5VXtLLyU/MNh54/HzIqa6a0D93i/6AqKnmO87
- ZfuzrVCYEFDvEyTYrhZUhD2ip44yuG8w/6lXDdYvdQhqzVIDD014isReWxtDT1IiCBKe
- Cezg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZbUt-00061L-Fg
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:44:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZbUq-0007fU-DA
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:44:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619106242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bmiIuis8dnFMKsFA4f8dDFAzxrmJZRCzpS0aR4Hr+yU=;
+ b=NaGkvASKGC6TIjcNy7ZCc9PC18WuSLUVNRXDsuLN0ubc+COjDO8KHI6nPWOMvS6SM2hz7n
+ 0u94e6q4eobuMnTF0Yfs5DQV9Io70NxRpgxwSf2JY5J3Re2vlGoS+h7pxX4sWp91Z50dLY
+ JfUAUUi8qDejAcF0MtGOManphhG+5fc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-9STbx9L5Mf6ZWB7bo_tIng-1; Thu, 22 Apr 2021 11:44:00 -0400
+X-MC-Unique: 9STbx9L5Mf6ZWB7bo_tIng-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ f15-20020adffccf0000b02901028c7339ccso14009870wrs.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:43:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zdwPrYCs6gn/HmvKJUdoJG36ORJX5e0qCIAVYy9yugE=;
- b=hOe2M4Uj4zHUj/YhkEGMzTPRyZYUGnLLrL8hbV33zDnKzm0wqgAEkST5Caw1ivFf0t
- hcAQ7k6Qr0lpRvDSonbZc9/2OqLQa+NkNjDHdC2FKT/9lAg7gkUvdIup8To87BuQqc0I
- UvTamuEJRKBvbdCYacAAS0/h1JnNRAJzINVEQZS4fVUJvOFJfuF1oqvIE3tkGysFEgdB
- 1mZ/2s7rvhyip81urEjPNtiQq5RFOM8UbTWr7hhURGgPX4Hk0Lp3uG/9KJbhcuvcfYti
- pmISzxcqE5Jsokw+d0ahN7xEtuAKfU91lPgM9EVca3pJnSMGyEl0TN1uT4flVzt7qxc0
- V6+g==
-X-Gm-Message-State: AOAM531D0IeQMsldjtMUumALQmFb7ECgHuhqTPn5zFjTuQ0o0Ox2WYJI
- kc5GFx0MN+arSWPpGNRbcq4=
-X-Google-Smtp-Source: ABdhPJwhHuvrk9Yfe76yp7Fq79T0vzYqoVkWp1+jwCVCp6+Uv8pEPhOzO3X7Kbq7Xt7sBFc1YySg2g==
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr5015011wrn.6.1619106112770;
- Thu, 22 Apr 2021 08:41:52 -0700 (PDT)
+ bh=bmiIuis8dnFMKsFA4f8dDFAzxrmJZRCzpS0aR4Hr+yU=;
+ b=HSpTExTO5yhnIZfVDwjsUCtZOp3TLJmI5pgVkY+119PhNoklTH32ICUbkvtY+RbYFS
+ BGQyerRT++1Yv7u4kVxNsPRlwb03Hz6nMe/gPBViJWQDoQk7hLpOGD+gvo6D61ekxE3s
+ EzMaKJVcuyG33nTxTBObtK4EcVcq+aFu14sku29WqUl4Coc0tM8pzrmjxX4oAnL0M+OW
+ VLMNHJa+G4FglBdnhoPbys1BdmmzIaIyFnMnnEBDfZqnLmCwIeq1bDQlbd7YH1VXPNG5
+ TvW2Qs0w0Ic7/sQOa5c5ihGThRNF9F5OOkJSzSEGsp9zgFjWq2dki1y4fjGgAyYh74kk
+ yfrA==
+X-Gm-Message-State: AOAM530owc4DKF0HKsyARFONrkjMPI6ciPngXMlg0jwbr+cZ4TleoQo1
+ Eitu8nJ35W+mOanD7mqbg8R11j0jzBRimZegClna7kkhzpxsPieeVKexq0UvPtyMRPx1ZeFM+au
+ AVbIyTJLc/RK7+qs=
+X-Received: by 2002:a7b:cc86:: with SMTP id p6mr4522661wma.164.1619106238945; 
+ Thu, 22 Apr 2021 08:43:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyecEYpM6tLGNIAfnKxGFUd0Rz7o+tWcPfkDGoODWsjVoMnC/6rY4l/+tDD2EQNB8kskCDmrQ==
+X-Received: by 2002:a7b:cc86:: with SMTP id p6mr4522622wma.164.1619106238618; 
+ Thu, 22 Apr 2021 08:43:58 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id i12sm4198935wrm.77.2021.04.22.08.41.50
+ by smtp.gmail.com with ESMTPSA id a142sm7157042wmd.7.2021.04.22.08.43.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Apr 2021 08:41:51 -0700 (PDT)
-Subject: Re: [PATCH v3 01/27] target: Set CPUClass::vmsd instead of
- DeviceClass::vmsd
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Thu, 22 Apr 2021 08:43:58 -0700 (PDT)
+Subject: Re: s390-ccw: warning: writing 1 byte into a region of size 0
+ [-Wstringop-overflow=]
+To: Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
- <ehabkost@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210302145818.1161461-1-f4bug@amsat.org>
- <20210302145818.1161461-2-f4bug@amsat.org>
- <20210421220333.bkxo6zriqe6w3rim@habkost.net>
- <cccb8e5c-55cb-3f46-1391-ca96ab7c27ce@amsat.org>
- <CAFEAcA8_cjzAzoA9BFucR7LzQA7KXnrmufH4kp7aNL9bo_5Q5A@mail.gmail.com>
- <6bfaaaab-8045-d8be-4edd-652d500a6c14@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <280abf24-4e72-78ed-621b-b66495943003@amsat.org>
-Date: Thu, 22 Apr 2021 17:41:49 +0200
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <4e327c80-8f5d-c848-b524-7f2c75255da4@redhat.com>
+ <485773db-fca2-03ca-c6e8-90ef313fb8f1@redhat.com>
+ <YIFMt+xg+xH+M4rd@redhat.com>
+ <CAFEAcA8r2k9f=XG6T_hYk542-dDJnR7Lr8DZnyc=SFgnzNYxxQ@mail.gmail.com>
+ <089df242-8788-a162-4a75-4c9c9e04a64e@redhat.com>
+ <8afd0f34-7e75-2661-9ea5-3ebadff3b85d@redhat.com>
+ <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
+ <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
+ <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0d8d75bc-fe1c-b144-dd0f-27aeb04e5b9c@redhat.com>
+Date: Thu, 22 Apr 2021 17:43:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <6bfaaaab-8045-d8be-4edd-652d500a6c14@amsat.org>
+In-Reply-To: <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,140 +110,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>, qemu-ppc <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/21 1:01 PM, Philippe Mathieu-Daudé wrote:
-> On 4/22/21 12:28 PM, Peter Maydell wrote:
->> On Thu, 22 Apr 2021 at 10:55, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>> My guess is CPUState is the only device used in user emulation,
->>> so it would be a way to restrict the vmstate_dummy to CPU and
->>> not to any DeviceState?
->>>
->>> But looking at the introductory commit:
->>>
->>> commit b170fce3dd06372f7bfec9a780ebcb1fce6d57e4
->>> Author: Andreas Färber <afaerber@suse.de>
->>> Date:   Sun Jan 20 20:23:22 2013 +0100
->>>
->>>     cpu: Register VMStateDescription through CPUState
->>>
->>>     In comparison to DeviceClass::vmsd, CPU VMState is split in two,
->>>     "cpu_common" and "cpu", and uses cpu_index as instance_id instead of -1.
->>>     Therefore add a CPU-specific CPUClass::vmsd field.
->>>
->>>     Unlike the legacy CPUArchState registration, rather register CPUState.
->>>
->>> Juan, do you remember?
+On 4/22/21 5:38 PM, Thomas Huth wrote:
+> On 22/04/2021 16.31, Philippe Mathieu-Daudé wrote:
+>> On 4/22/21 2:41 PM, Christian Borntraeger wrote:
+>>> On 22.04.21 13:47, Thomas Huth wrote:
+>>>> On 22/04/2021 13.24, Philippe Mathieu-Daudé wrote:
+>>>>> On 4/22/21 12:30 PM, Peter Maydell wrote:
+>>>>>> On Thu, 22 Apr 2021 at 11:18, Daniel P. Berrangé
+>>>>>> <berrange@redhat.com> wrote:
+
+>> We are good with:
 >>
->> Oh yes, I remember this. There are two ways to handle migration for
->> a CPU object:
+>> -- >8 --
+>> diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+>> index 29fd9019b8..dcec09b6f9 100644
+>> --- a/pc-bios/s390-ccw/Makefile
+>> +++ b/pc-bios/s390-ccw/Makefile
+>> @@ -8,6 +8,9 @@ CFLAGS = -O2 -g
+>>   quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 &&
+>> $1, @$1))
+>>   cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >
+>> /dev/null \
+>>                2>&1 && echo OK), $1, $2)
+>> +cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
+>> +                >/dev/null 2>&1 && echo OK), $2, $3)
 >>
->>  (1) like any other device, so it has a dc->vmsd that covers
->> migration for the whole object. As usual for objects that are a
->> subclass of a parent that has state, the first entry in the
->> VMStateDescription field list is VMSTATE_CPU(), which migrates
->> the cpu_common fields, followed by whatever the CPU's own migration
->> fields are.
-
-target/alpha/cpu.c:240:    dc->vmsd = &vmstate_alpha_cpu;
-target/cris/cpu.c:296:    dc->vmsd = &vmstate_cris_cpu;
-target/hppa/cpu.c:165:    dc->vmsd = &vmstate_hppa_cpu;
-target/m68k/cpu.c:537:    dc->vmsd = &vmstate_m68k_cpu;
-target/microblaze/cpu.c:390:    dc->vmsd = &vmstate_mb_cpu;
-target/openrisc/cpu.c:207:    dc->vmsd = &vmstate_openrisc_cpu;
-target/sh4/cpu.c:265:    dc->vmsd = &vmstate_sh_cpu;
-target/unicore32/cpu.c:149:    dc->vmsd = &vmstate_uc32_cpu;
-target/xtensa/cpu.c:221:    dc->vmsd = &vmstate_xtensa_cpu;
-
->>  (2) a backwards-compatible mechanism for CPUs that were
->> originally migrated using manual "write fields to the migration
->> stream structures". The on-the-wire migration format
->> for those is based on the 'env' pointer (which isn't a QOM object),
->> and the cpu_common part of the migration data is elsewhere.
-
-target/arm/cpu.c:1985:    cc->vmsd = &vmstate_arm_cpu;
-target/avr/cpu.c:216:    cc->vmsd = &vms_avr_cpu;
-target/i386/cpu.c:7434:    cc->vmsd = &vmstate_x86_cpu;
-target/lm32/cpu.c:244:    cc->vmsd = &vmstate_lm32_cpu;
-target/mips/cpu.c:723:    cc->vmsd = &vmstate_mips_cpu;
-target/moxie/cpu.c:125:    cc->vmsd = &vmstate_moxie_cpu;
-target/ppc/translate_init.c.inc:10923:    cc->vmsd = &vmstate_ppc_cpu;
-target/riscv/cpu.c:627:    cc->vmsd = &vmstate_riscv_cpu;
-target/s390x/cpu.c:520:    cc->vmsd = &vmstate_s390_cpu;
-target/sparc/cpu.c:892:    cc->vmsd = &vmstate_sparc_cpu;
-
->> cpu_exec_realizefn() handles both possibilities:
->>  * for type 1, dc->vmsd is set and cc->vmsd is not,
->>    so cpu_exec_realizefn() does nothing, and the standard
->>    "register dc->vmsd for a device" code does everything needed
->>  * for type 2, dc->vmsd is NULL and so we register the vmstate_cpu_common
->>    directly to handle the cpu-common fields, and the cc->vmsd to handle
->>    the per-CPU stuff
+>>   VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
+>>   set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath
+>> $(PATTERN) $1)))
+>> @@ -30,6 +33,7 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o
+>> menu.o \
+>>            virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
 >>
->> You can't change a CPU from one type to the other without breaking
->> migration compatibility, which is why some guest architectures
->> are stuck on the cc->vmsd form. New targets should use dc->vmsd.
+>>   QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
+>> +QEMU_CFLAGS += $(call cc-c-option, $(QEMU_CFLAGS),
+>> -Wno-stringop-overflow)
+>>   QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks
+> 
+> I think you don't need the "cc-c-option" magic here. Just add the
+> -Wno-stringop-overflow. All supported versions of GCC and Clang simply
+> silently ignore unknown -Wno-something options (try e.g. "gcc
+> -Wno-yadayadayada" on the command line).
 
-IOW new targets should use type 1.
+Indeed, TIL :)
 
-
-Looking at type 2:
-
-a) targets added 'recently' with the incorrect type 2:
-
-target/avr/cpu.c:216:    cc->vmsd = &vms_avr_cpu;
-target/riscv/cpu.c:627:    cc->vmsd = &vmstate_riscv_cpu;
-
-b) targets where migration isn't really an issue:
-
-target/lm32/cpu.c:244:    cc->vmsd = &vmstate_lm32_cpu;
-target/moxie/cpu.c:125:    cc->vmsd = &vmstate_moxie_cpu;
-
-c) targets where migration could be broken:
-
-target/mips/cpu.c:723:    cc->vmsd = &vmstate_mips_cpu;
-target/sparc/cpu.c:892:    cc->vmsd = &vmstate_sparc_cpu;
-
-d) KVM targets ("security boundary" or Tier-1) are left:
-
-target/arm/cpu.c:1985:    cc->vmsd = &vmstate_arm_cpu;
-target/i386/cpu.c:7434:    cc->vmsd = &vmstate_x86_cpu;
-target/ppc/translate_init.c.inc:10923:    cc->vmsd = &vmstate_ppc_cpu;
-target/s390x/cpu.c:520:    cc->vmsd = &vmstate_s390_cpu;
-
-
-Isn't "machine type" what allows us to change migration stream?
-All targets in d) do support that.
-
-
-How could we enforce no new type 2 targets?
-
-
-Thanks,
-
-Phil.
 
