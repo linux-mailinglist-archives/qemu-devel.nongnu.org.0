@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9DE367BD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:14:10 +0200 (CEST)
-Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7343367BC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:10:46 +0200 (CEST)
+Received: from localhost ([::1]:59368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZUTR-0003My-9A
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
+	id 1lZUQ9-0008Iq-AP
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 04:10:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZUSC-0002CR-2L
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:12:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZUS9-0005JW-3g
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 04:12:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZUS6-0005Kg-Pu
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:12:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C2D742E815F
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:12:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 07:57:20 -0000
-From: Jonas Jelten <1754656@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: etosan th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?TWFydGluICJldG8iICBNacWhw7p0aCAoZXRv?=
- =?utf-8?q?san=29?=
-X-Launchpad-Bug-Modifier: Jonas Jelten (jonas-jelten)
-References: <152060087104.31174.3517029871758682734.malonedeb@wampee.canonical.com>
-Message-Id: <161907824123.490.8950489605370327067.launchpad@soybean.canonical.com>
-Subject: [Bug 1754656] Re: Please solve graceful (ACPI) poweroff issue,
- using signals, most importantly SIGTERM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lZUOq-0007gi-FG; Thu, 22 Apr 2021 04:09:24 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:48224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lZUOl-0003GE-9e; Thu, 22 Apr 2021 04:09:22 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id C72942E16EF;
+ Thu, 22 Apr 2021 11:09:14 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ Z5cAMYDhSE-9D1qsO0U; Thu, 22 Apr 2021 11:09:14 +0300
 Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 6fa61c382b66691278018534753afdba944ec2b8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1619078954; bh=pDIaIuVHZUBBi+OJKk0jiG6likcDba6lZ2TaMctOT3w=;
+ h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
+ b=uIZezTXbarueGMm/KpPUHjRam4RsLi15bSRClEBUJfHlY1NTbtzhaZ4XgxMSNd3F6
+ Ka80Je6aj3kplHdENvWG4+kaIaYZhRgemrbdGg2MaRjKCsgocZwlwjzgyfooFcDKX0
+ SGz1BrBadUII/BIGz/1s3Ba/naeNYZLO3PEOMEjk=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8802::1:6])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ B2MypYRCO7-9DpSAsM2; Thu, 22 Apr 2021 11:09:13 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v3 2/3] vhost-user-blk: perform immediate cleanup if
+ disconnect on initialization
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
+ <20210325151217.262793-3-den-plotnikov@yandex-team.ru>
+ <YIBDlEQ0AlRc9r0y@merkur.fritz.box>
+ <88b9912e-97d3-f18a-b3cc-7891f3c55e3a@yandex-team.ru>
+ <20210421155929-mutt-send-email-mst@kernel.org>
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Message-ID: <2d86da71-2392-7740-dd8b-5890e1b76ed7@yandex-team.ru>
+Date: Thu, 22 Apr 2021 11:09:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210421155929-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,300 +80,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1754656 <1754656@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, yc-core@yandex-team.ru, raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1754656
-
-Title:
-  Please solve graceful (ACPI) poweroff issue, using signals, most
-  importantly SIGTERM
-
-Status in QEMU:
-  New
-
-Bug description:
-  Version:
-
-  QEMU emulator version 2.11.1
-
-  Introduction:
-
-  This is call for action to get attention of somebody in QEMU
-  project/organization, who is capable of actually doing something about
-  this pressing issue. This might be TLDR for some, but that's only
-  because of the complexity of the issue. Please read this with open
-  mind.
-
-  Problem:
-
-  As QEMU users, we need (it is a requirement) to have some mechanism in
-  place, to somehow convert simple POSIX signal sent form host, into
-  graceful ACPI shutdown of the guest. This signal, due various
-  historical reasons and daemon design, must be SIGTERM foremost.
-
-  Status quo:
-
-  After wading through mailing lists and bug tracker I concluded that
-  this is "political" problem and I am in search of somebody, a
-  "politician" within QEMU project, who will help us reach conclusion to
-  this problem.
-
-  First I will present analysis of the situation, and then propose some
-  suggestions for solutions.
-
-  Even then, any of these proposals might be, potentially, seen as
-  problematic in eyes of QEMU maintainers, developers, dictators, long
-  term users or their dogs.
-
-  That's why we need somebody willing, "higher up the chain" or
-  whatever, to orchestrate discussion so that we can actually reach
-  consensus in the matter, solution that is acceptable to **everyone**.
-
-  Analysis:
-
-  Each QEMU emulated virtual machine (vm), running in the host system,
-  is represented by single qemu-* process (followed by several threads).
-  Thus for all intents and purposes, any such instantiated vm, must be
-  seen as it's own, separate, daemon.
-
-  I repeat running qemu-* vm **is a daemon**.
-
-  QEMU provides incredible IO redirection capabilities, so we don't need
-  to get into issues of logging, console and monitor redirections and
-  such, as this is already a (perfectly) solved problem.
-
-  What we cannot currently do, at least easily, reliably and simply, is
-  to shutdown guest gracefully from "outside".
-
-  That is not a problem for those of us, who use some kind of higher
-  level orchestrator (I think one of them is virsh, but this is not
-  important in this matter) that takes care of this by communicating
-  with QEMU directly (I guess this is done by sending commands to
-  internal monitor by pipe (or socket) held open by mentioned
-  orchestrator).
-
-  However it is a problem for those of us, who run qemu-* processes bare
-  or supervised.
-
-  Let's say I, as administrator, want to implement vm instance as supervise=
-d service.
-  I can use any supervisor for that, systemd even. Let us not get into into=
- supervisor wars.
-
-  At basic level almost all supervisors are similar. Supervisor usually
-  is yet another process, that "leads" the qemu-* one.
-
-  In case of systemd it is PID1, but in case of other supervision
-  schemes, like daemontools, runit, s6 or nosh, it is separate
-  '*supervise' process instead.
-
-  When such supervisor is tearing down the service,
-  "leading"/supervising, parent will send SIGTERM to it's child qemu-*
-  process.
-
-  This behaviour is almost universal among all supervisors. This due the
-  fact, that it is customary for daemons to cease all operations and
-  exit cleanly when receiving SGITERM signal. If daemon child fails to
-  exit within configurable timeframe, supervisor deals with it by the
-  means of SIGKILL.
-
-  As such, one would expect, similarly, for qemu-* process to send ACPI
-  shutdown event to guest internally (roughly equivalent to
-  'system_powerdown' monitor command) on SIGTERM reception.
-
-  But this is not what happens!
-
-  Instead, qemu-* just flushes pending IO and kills the guest instantly.
-
-  Then, on next vm "boot", guest detects this as power failure event,
-  and performs fsck checks and other things, it is supposed to do in
-  case of power failure. We are not mentioning possible data loss that
-  might have happened due to this behavior, either.
-
-  Some supervisors (like systemd for example) might provide feature to
-  change "termiante operations" signal to something else like SIGTERM,
-  but that is not universal supervisor feature by any means. Default
-  action for any proper daemon is to cleanly terminate on SIGTERM.
-
-  That is why we need ability to somehow instruct QEMU to **always**
-  perform graceful ACPI shutdown on SIGTERM.
-
-  Potential reply to this bug saying that one should send
-  'system_powerdown' over monitor connection won't fly!
-
-  As it is not always possible (nor required) to hook into supervisor's
-  signal processing (main reason being intentional supervisor simplicity
-  in search of extreme reliability, and de facto standardized behavior
-  of daemons to exit cleanly on SIGTERM).
-
-  More over, in situations like machine reboot, most supervisors won't
-  play around with signal remapping, they will simply send out SIGTERM
-  to all supervised processes. We want our qemu-* instances to come up
-  undamaged from such action (on next host reboot) and not have them
-  stuck in fscks (or worse - ending up damaged) .
-
-  If this can be extended further, inside QEMU, with internal signal to
-  action remapping, the better, but supporting graceful shutdown on
-  SIGTERM is hard requirement.
-
-  Proposed solutions:
-
-  0. modify QEMU so that it emits ACPI shutdown event equivalent to 'system=
-_powerdown' monitor command by default
-     - this seems to be a "no go", with backwards compat. and "current user=
-s expectations" =
-
-       cited as the reasons
-     - I won't go into a fact that QEMU changed option handling without BOL=
-D notice few times
-
-  1. add single switch '-graceful-shutdown-on-sgiterm'
-     - this was rejected when person tried to submit patch implementing som=
-ething similar =
-
-       to what I am requesting, only bound to SIGHUP
-     - that person (implementing graceful poweroff on SIGHUP) was wrong, al=
-most no =
-
-       supervision scheme in existence sends out SIGHUP on service terminat=
-ion request, =
-
-       although all supervisors are able to send out SIGHUP when instructed
-     - in daemons SIGHUP is usually reserved for "daemon reload" which can =
-be interpreted
-       like "reboot" in QEMU context
-     - if we see qemu-* proces for what it is, a daemon, it must react prop=
-erly to SIGTERM foremost
-
-  2. add ability to map internal monitor action commands to few signals lik=
-e SIGTERM, SIGHUP, SIGINTR, SIGUSR1, SIGUSR2, SIGALARM etc
-     - this seems like best solution to me, that allows us to satisfy both =
-
-       backwards compat. and "current users" requirement, yet allows us =
-
-       to use qemu-* with proper supervision, and it even adds something ex=
-tra =
-
-       (I know some of these signals are used internally by QEMU)
-     - QEMU already has options parsing infrastructure in place to handle t=
-his nicely, something like:
-       : -signal SIGTERM,monitorcommand=3Dsystem_powerdown -signal SIGHUP,m=
-onitorcommand=3Dsystem_reset
-       would be great in this case
-
-  3. add ability to map signals to executable scripts
-     - with this scheme QEMU would spawn child on signal reception, and thi=
-s =
-
-       script would then be used to perform the action
-     - this solution is most complex, most convoluted and most "flexible"
-     - for example with definition like this:
-       :  -signal SIGTERM,script=3Dsignals/sigterm
-       qemu would perform this sequence of tasks:
-         - on SIGTERM qemu-* would spawn child script ./signals/sigterm
-           - this script would then pull out monitor fd descriptor from som=
-e kind of fd holder
-           - would write 'system_powerdown' command into monitor fd and ter=
-minate
-         - qemu-* would then read the command from monitor
-         - qemu-* would then interpret read-in command and gracefully termi=
-nate
-     - option parsing infrastructure is in place and QEMU is able to spawn =
-and reap it's own children
-       which is proven by network up/down scripts
-      =
-
-
-  Of these, it seems that 0. and 1. are simplest to implement, yet
-  "politically" unimplementable.
-
-  More over QEMU people seem to be hard set on SIGTERM meaning "killing
-  unresponsive guest".
-
-  2. seems like most reasonable proposal that has potential to make
-  everyone happy. It is also most reliable because internal QEMU command
-  dispatch would have least chances to fail.
-
-  3. is most flexible and can also be combined with 2. Reliability wise,
-  there is slight chance signal handling script will fail to execute,
-  leaving qemu-* at the mercy of supervisor (timeouted SIGKILL).
-
-  Both 2 and 3 should probably provide configurable timeout after which
-  QEMU would perform default action (eg. as it does now).
-
-  Conclusion:
-
-  I hope QEMU project members understand severity of the issue and are
-  open to listed solutions. It might be that proposed solutions don't
-  match QEMU project "spirit" perfectly. If so, I urge people capable of
-  resolving this, to propose their versions.
-
-  The fact is, that with proliferation of systemd, popularity of
-  alternative supervisors is on the rise as well, but even under
-  systemd, unintuitive handling of SIGTERM by bare QEMU processes is a
-  problem.
-
-  Further Reading:
-
-  https://patchwork.kernel.org/patch/9626293/
-
-   - Daniel P. Berrange says:
-     "Because QEMU already designate that as doing an immediate stop - ie i=
-t'll
-      allow QEMU block layer to flush pending I/O, but it will not wait for=
- the
-      guest to shutdown.  If we change that behaviour we'll break anyone who
-      is already relying on SIGHUP - qemu might never exit at all if the gu=
-est
-      ignores the ACPI request"
-
-   - this behaviour is incorrect if we perceive qemu-* process as daemon, p=
-roper,
-     yet it is, supposedly, entrenched in QEMU userbase
-   - signals remapping capability would allow us to keep the "old" behavior=
- for entrenched users
-     while it would allow administrators and orchestrator writers to select=
- signal disposition =
-
-     they actually need
-
-  https://bugs.launchpad.net/qemu/+bug/1217339 =
-
-  and =
-
-  https://lists.nongnu.org/archive/html/qemu-devel/2017-03/msg03039.html
-
-   - on my QEMU version of 2.11.1 SIGTERM just kills the guest without prop=
-er shutdown
-     - although thread says exit is graceful
-   - dicussion is problematic in several ways:
-     - SIGTERM is not intended to "terminate unresponsive guest" eg "termin=
-ate daemon uncleanly"
-       in any sane daemon in existence
-       - it means "terminate gracefully"
-       - if "terminate unresponsive guest" was true meaning of SIGTERM, dat=
-abases like =
-
-         mariadb or postgers would kill themselves on SIGTERM, leaving data=
- in =
-
-         inconsistent state, which they, of course, do not!
-     - some kind of "signal tapping" similar to "port tapping" is suggested
-       - this is non-obvious and error prone and nonstandard (no normal sup=
-ervisor =
-
-         will play such signal tapping games)
-       - signal remapping makes more sense in this regard
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1754656/+subscriptions
+On 21.04.2021 22:59, Michael S. Tsirkin wrote:
+> On Wed, Apr 21, 2021 at 07:13:24PM +0300, Denis Plotnikov wrote:
+>> On 21.04.2021 18:24, Kevin Wolf wrote:
+>>> Am 25.03.2021 um 16:12 hat Denis Plotnikov geschrieben:
+>>>> Commit 4bcad76f4c39 ("vhost-user-blk: delay vhost_user_blk_disconnect")
+>>>> introduced postponing vhost_dev cleanup aiming to eliminate qemu aborts
+>>>> because of connection problems with vhost-blk daemon.
+>>>>
+>>>> However, it introdues a new problem. Now, any communication errors
+>>>> during execution of vhost_dev_init() called by vhost_user_blk_device_realize()
+>>>> lead to qemu abort on assert in vhost_dev_get_config().
+>>>>
+>>>> This happens because vhost_user_blk_disconnect() is postponed but
+>>>> it should have dropped s->connected flag by the time
+>>>> vhost_user_blk_device_realize() performs a new connection opening.
+>>>> On the connection opening, vhost_dev initialization in
+>>>> vhost_user_blk_connect() relies on s->connection flag and
+>>>> if it's not dropped, it skips vhost_dev initialization and returns
+>>>> with success. Then, vhost_user_blk_device_realize()'s execution flow
+>>>> goes to vhost_dev_get_config() where it's aborted on the assert.
+>>>>
+>>>> To fix the problem this patch adds immediate cleanup on device
+>>>> initialization(in vhost_user_blk_device_realize()) using different
+>>>> event handlers for initialization and operation introduced in the
+>>>> previous patch.
+>>>> On initialization (in vhost_user_blk_device_realize()) we fully
+>>>> control the initialization process. At that point, nobody can use the
+>>>> device since it isn't initialized and we don't need to postpone any
+>>>> cleanups, so we can do cleaup right away when there is a communication
+>>>> problem with the vhost-blk daemon.
+>>>> On operation we leave it as is, since the disconnect may happen when
+>>>> the device is in use, so the device users may want to use vhost_dev's data
+>>>> to do rollback before vhost_dev is re-initialized (e.g. in vhost_dev_set_log()).
+>>>>
+>>>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+>>>> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+>>> I think there is something wrong with this patch.
+>>>
+>>> I'm debugging an error case, specifically num-queues being larger in
+>>> QEMU that in the vhost-user-blk export. Before this patch, it has just
+>>> an unfriendly error message:
+>>>
+>>> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Unexpected end-of-file before all data were read
+>>> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: Failed to read msg header. Read 0 instead of 12. Original request 24.
+>>> qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1,id=blk1,iommu_platform=off,disable-legacy=on,num-queues=4: vhost-user-blk: get block config failed
+>>> qemu-system-x86_64: Failed to set msg fds.
+>>> qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Resource temporarily unavailable (11)
+>>>
+>>> After the patch, it crashes:
+>>>
+>>> #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
+>>> #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
+>>> #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+>>> #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
+>>> #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+>>> #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
+>>> #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
+>>> #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
+>>> #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
+>>> #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
+>>>
+>>> The problem is that vhost_user_read_cb() still accesses dev->opaque even
+>>> though the device has been cleaned up meanwhile when the connection was
+>>> closed (the vhost_user_blk_disconnect() added by this patch), so it's
+>>> NULL now. This problem was actually mentioned in the comment that is
+>>> removed by this patch.
+>>>
+>>> I tried to fix this by making vhost_user_read() cope with the fact that
+>>> the device might have been cleaned up meanwhile, but then I'm running
+>>> into the next set of problems.
+>>>
+>>> The first is that retrying is pointless, the error condition is in the
+>>> configuration, it will never change.
+>>>
+>>> The other is that after many repetitions of the same error message, I
+>>> got a crash where the device is cleaned up a second time in
+>>> vhost_dev_init() and the virtqueues are already NULL.
+>>>
+>>> So it seems to me that erroring out during the initialisation phase
+>>> makes a lot more sense than retrying.
+>>>
+>>> Kevin
+>> But without the patch there will be another problem which the patch actually
+>> addresses.
+>>
+>> It seems to me that there is a case when the retrying is useless and this is
+>> exactly your case -- we'll never get a proper configuration.
+>>
+>> What if we get rid of the re-connection and give the only try to realize the
+>> device? Than we don't need case separating for initialization and operation
+>> of device, correct? But I don't familiar with the cases where the reconnect
+>> is needed? Do you know something it?
+> Reconnect is for when server is restarted while we are talking to it.
+
+Can we eliminate reconnect on vhost-user-blk device initialization?
+
+In addition to Kevin's case, I saw an inconvenient behavior when qmp 
+add_device command hangs untill it manages to connect to server properly.
+
+Denis
+
+>
+>> Denis
+>>
+>>>>    hw/block/vhost-user-blk.c | 48 +++++++++++++++++++--------------------
+>>>>    1 file changed, 24 insertions(+), 24 deletions(-)
+>>>>
+>>>> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+>>>> index 1af95ec6aae7..4e215f71f152 100644
+>>>> --- a/hw/block/vhost-user-blk.c
+>>>> +++ b/hw/block/vhost-user-blk.c
+>>>> @@ -402,38 +402,38 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+>>>>            break;
+>>>>        case CHR_EVENT_CLOSED:
+>>>>            /*
+>>>> -         * A close event may happen during a read/write, but vhost
+>>>> -         * code assumes the vhost_dev remains setup, so delay the
+>>>> -         * stop & clear. There are two possible paths to hit this
+>>>> -         * disconnect event:
+>>>> -         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
+>>>> -         * vhost_user_blk_device_realize() is a caller.
+>>>> -         * 2. In tha main loop phase after VM start.
+>>>> -         *
+>>>> -         * For p2 the disconnect event will be delayed. We can't
+>>>> -         * do the same for p1, because we are not running the loop
+>>>> -         * at this moment. So just skip this step and perform
+>>>> -         * disconnect in the caller function.
+>>>> -         *
+>>>> -         * TODO: maybe it is a good idea to make the same fix
+>>>> -         * for other vhost-user devices.
+>>>> +         * Closing the connection should happen differently on device
+>>>> +         * initialization and operation stages.
+>>>> +         * On initalization, we want to re-start vhost_dev initialization
+>>>> +         * from the very beginning right away when the connection is closed,
+>>>> +         * so we clean up vhost_dev on each connection closing.
+>>>> +         * On operation, we want to postpone vhost_dev cleanup to let the
+>>>> +         * other code perform its own cleanup sequence using vhost_dev data
+>>>> +         * (e.g. vhost_dev_set_log).
+>>>>             */
+>>>>            if (realized) {
+>>>> +            /*
+>>>> +             * A close event may happen during a read/write, but vhost
+>>>> +             * code assumes the vhost_dev remains setup, so delay the
+>>>> +             * stop & clear.
+>>>> +             */
+>>>>                AioContext *ctx = qemu_get_current_aio_context();
+>>>>                qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
+>>>>                        NULL, NULL, false);
+>>>>                aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
+>>>> -        }
+>>>> -        /*
+>>>> -         * Move vhost device to the stopped state. The vhost-user device
+>>>> -         * will be clean up and disconnected in BH. This can be useful in
+>>>> -         * the vhost migration code. If disconnect was caught there is an
+>>>> -         * option for the general vhost code to get the dev state without
+>>>> -         * knowing its type (in this case vhost-user).
+>>>> -         */
+>>>> -        s->dev.started = false;
+>>>> +            /*
+>>>> +             * Move vhost device to the stopped state. The vhost-user device
+>>>> +             * will be clean up and disconnected in BH. This can be useful in
+>>>> +             * the vhost migration code. If disconnect was caught there is an
+>>>> +             * option for the general vhost code to get the dev state without
+>>>> +             * knowing its type (in this case vhost-user).
+>>>> +             */
+>>>> +            s->dev.started = false;
+>>>> +        } else {
+>>>> +            vhost_user_blk_disconnect(dev);
+>>>> +        }
+>>>>            break;
+>>>>        case CHR_EVENT_BREAK:
+>>>>        case CHR_EVENT_MUX_IN:
+>>>> -- 
+>>>> 2.25.1
+>>>>
 
