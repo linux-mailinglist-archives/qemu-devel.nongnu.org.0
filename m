@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A63F36783C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:08:25 +0200 (CEST)
-Received: from localhost ([::1]:48064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE4A367839
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:07:04 +0200 (CEST)
+Received: from localhost ([::1]:41064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQdc-0003Fd-FI
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
+	id 1lZQcJ-0000Pn-Eu
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQaL-0006pZ-7d
+ id 1lZQaL-0006rD-Pr
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:05:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42084)
+Received: from indium.canonical.com ([91.189.90.7]:42050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQaI-0006aK-0k
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:05:00 -0400
+ id 1lZQaH-0006Zt-PZ
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:05:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQaG-0004wI-VE
+ id 1lZQaG-0004wI-JP
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:04:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EB2C92E815C
+ by loganberry.canonical.com (Postfix) with ESMTP id 91B402E815D
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:04:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 03:53:26 -0000
-From: Thomas Huth <603878@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 03:53:48 -0000
+From: Thomas Huth <717929@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: socketpair th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- =?utf-8?q?_=28socketpair=29?=
+X-Launchpad-Bug-Commenters: jiribb th-huth
+X-Launchpad-Bug-Reporter: jiribb (jiribb)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20100710070634.22855.99257.malonedeb@soybean.canonical.com>
-Message-Id: <161906360635.6464.4174061001400356118.malone@chaenomeles.canonical.com>
-Subject: [Bug 603878] Re: [Feature request] qemu-img option about recompressing
+References: <20110212234034.2762.77476.malonedeb@wampee.canonical.com>
+Message-Id: <161906362813.22765.13861786161670857451.malone@gac.canonical.com>
+Subject: [Bug 717929] Re: Serial communication between VMs problematic
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 800d99688d717c6b2012b08e6571e7be2b679c45
+X-Launchpad-Hash: a820b38b59e2ad7d843d3572ca946596c2a591b8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 603878 <603878@bugs.launchpad.net>
+Reply-To: Bug 717929 <717929@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,29 +91,42 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/603878
+https://bugs.launchpad.net/bugs/717929
 
 Title:
-  [Feature request] qemu-img option about recompressing
+  Serial communication between VMs problematic
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Suppose I have a fresh compressed qcow2 image. After some time the
-  data were recorded without compression. I decide to make "QEMU-IMG
-  convert" for that image to reduce its size.
+  Hello,
 
-  I want a new option, which selects between the two algorithms overdriven =
-images:
-  1. extract all / compress again when converting images (in the current im=
-plementation)
-  2. compress only uncompressed blocks and just copy the compressed blocks =
-without re-compression.
+  I want to setup serial communication between VM hosts but I have found
+  it quite difficult...:
 
-  This option is only needed when converting compressed image to
-  compressed and the compression algorithm is the same.
+  ...because when trying unix sockets:
+
+  - host A has serial device as unix socket (bind)
+  - host B has serial device as client of unix socket
+  - host A is down thus not unix socket does exist
+  - host B can't be started because cannot read the socket:
+
+  error: Failed to start domain opd1s02
+  error: internal error Process exited while reading console log output: ch=
+ar device redirected to /dev/pts/0
+  connect(unix:/tmp/test.sock): Connection refused
+  chardev: opening backend "socket" failed
+
+  Can that work like the cable is not plugged in? So host B can start
+  and when the socket would exist it would connect to it?
+
+  ...and when using pty and host device combination one cannot predict
+  pty device under /dev/pts, it would be nice if would be possible to
+  define exact device name.
+
+  Tested on Fedora 14.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/603878/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/717929/+subscriptions
 
