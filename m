@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D52C3682E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:00:25 +0200 (CEST)
-Received: from localhost ([::1]:34078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3403682DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 16:57:38 +0200 (CEST)
+Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZaoa-0002wE-7K
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60338)
+	id 1lZalt-0008WU-1I
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 10:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lZajn-0007rf-C2
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:55:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21536)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lZajY-0007gR-7c
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:55:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lZajl-0000b2-VS
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:55:27 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lZajV-0000Kb-Ei
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:55:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619103325;
+ s=mimecast20190719; t=1619103307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0gJiwFSYlYMShATpeWF7l+NE4/o8lz6VkGas6GIhBBA=;
- b=LPn3p+bbHvXPjGPf32KPex+mFpdL/DEG/YalGIe1jHKOh0sB9X6uzqeUz+awYTvEHOyLbt
- Rpz2CGIfluEfDB4cW/aJmyufVid+ZvNfYgAr4BkTFdkYf6+XD0p8q6teNilCEEhYiutfTH
- 8CxZHrZ9WPgkwC0hcHAgmpB/oQifxB0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cO+eCaUPcKADp1gobu7hh4iVwLzANmkFtCy3IrD9vUs=;
+ b=Mc3YQr2JFVLSTMgih749+RFfKb6DT//hjGnj+OSlNl5Z6hpwK3Uwldg7oFo/OPU5OcbysO
+ 9sajrKMySiusxZFonudADoNng50AGKBR5SjHHAAExZ4rEhJQR7BIk7v2l/MRV8mtjyR7Ao
+ iEGn0hVvokKPYZ892gxkwfYvIXp7bNY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-GhzYBFxbOPev6wexO_dViw-1; Thu, 22 Apr 2021 10:55:23 -0400
-X-MC-Unique: GhzYBFxbOPev6wexO_dViw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-552-Wohl_EjzNDi-JQgjqVK5ag-1; Thu, 22 Apr 2021 10:55:03 -0400
+X-MC-Unique: Wohl_EjzNDi-JQgjqVK5ag-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29E761084430;
- Thu, 22 Apr 2021 14:53:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D686883DD33;
+ Thu, 22 Apr 2021 14:53:46 +0000 (UTC)
 Received: from localhost (ovpn-113-187.ams2.redhat.com [10.36.113.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E36610023AE;
- Thu, 22 Apr 2021 14:53:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1625F5D9C6;
+ Thu, 22 Apr 2021 14:53:42 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/2] block/export: Fix crash on error after iothread conflict
-Date: Thu, 22 Apr 2021 16:53:33 +0200
-Message-Id: <20210422145335.65814-1-mreitz@redhat.com>
+Subject: [PATCH 1/2] block/export: Free ignored Error
+Date: Thu, 22 Apr 2021 16:53:34 +0200
+Message-Id: <20210422145335.65814-2-mreitz@redhat.com>
+In-Reply-To: <20210422145335.65814-1-mreitz@redhat.com>
+References: <20210422145335.65814-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,34 +81,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When invoking block-export-add with some iothread and
+fixed-iothread=false, and changing the node's iothread fails, the error
+is supposed to be ignored.
 
-By passing the @iothread option to block-export-add, the new export can
-be moved to the given iothread.  This may conflict with an existing
-parent of the node in question.  How this conflict is resolved, depends
-on @fixed-iothread: If that option is true, the error is fatal and
-block-export-add fails.  If it is false, the error is ignored and the
-node stays in its original iothread.
+However, it is still stored in *errp, which is wrong.  If a second error
+occurs, the "*errp must be NULL" assertion in error_setv() fails:
 
-However, in the implementation, the ignored error is still in *errp, and
-so if a second error occurs afterwards and tries to put something into
-*errp, that will fail an assertion.
+  qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion
+  `*errp == NULL' failed.
 
-To really ignore the error, we have to free it and clear *errp (with an
-ERRP_GUARD()).
+So the error from bdrv_try_set_aio_context() must be freed when it is
+ignored.
 
-Patch 1 is the fix, patch 2 a regression test.
+Fixes: f51d23c80af73c95e0ce703ad06a300f1b3d63ef
+       ("block/export: add iothread and fixed-iothread options")
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/export/export.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-
-Max Reitz (2):
-  block/export: Free ignored Error
-  iotests/307: Test iothread conflict for exports
-
- block/export/export.c      |  4 ++++
- tests/qemu-iotests/307     | 15 +++++++++++++++
- tests/qemu-iotests/307.out |  8 ++++++++
- 3 files changed, 27 insertions(+)
-
+diff --git a/block/export/export.c b/block/export/export.c
+index fec7d9f738..ce5dd3e59b 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -68,6 +68,7 @@ static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
+ 
+ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+ {
++    ERRP_GUARD();
+     bool fixed_iothread = export->has_fixed_iothread && export->fixed_iothread;
+     const BlockExportDriver *drv;
+     BlockExport *exp = NULL;
+@@ -127,6 +128,9 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+             ctx = new_ctx;
+         } else if (fixed_iothread) {
+             goto fail;
++        } else {
++            error_free(*errp);
++            *errp = NULL;
+         }
+     }
+ 
 -- 
 2.30.2
 
