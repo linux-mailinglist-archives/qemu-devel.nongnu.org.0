@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507DF3684FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:37:45 +0200 (CEST)
-Received: from localhost ([::1]:43108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55AF36853E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:51:33 +0200 (CEST)
+Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcKm-00058c-BL
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55042)
+	id 1lZcY8-0007Zk-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lZcEf-0007TM-HV; Thu, 22 Apr 2021 12:31:25 -0400
-Received: from mail-eopbgr00116.outbound.protection.outlook.com
- ([40.107.0.116]:34309 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1lZcEe-0007Rc-B2; Thu, 22 Apr 2021 12:31:24 -0400
+Received: from mail-eopbgr40129.outbound.protection.outlook.com
+ ([40.107.4.129]:3204 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lZcEX-0003vI-DD; Thu, 22 Apr 2021 12:31:25 -0400
+ id 1lZcEc-0003yB-GI; Thu, 22 Apr 2021 12:31:24 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LxnKhXybJN6BYQkVfQ6MGL8Zr9OXvAXaR8V2NquikFdnnNs5meK4E7jXjFSLxYesKMImFMhiShWYG4KOHqfz4hPR420Jq4s3H4muHSw0ofPsjDzrRh4FdmJ8xOcyIWh9ffiMU81mvbUQ18oY/kcUNhD6QIbNwmX3X90LSWgUjQKbPrTjCwTGOsZeOgP86HVz6EKkZsXBu2Jd3lt6gHYibj9MASB7T0tkZ34znJH3AbUXbuwCUyrdxnuB9g3LBoASH0rUm/B8+jpTNtragow9q4eazZbYw47LHyO8AFfBk3wNixzAvyJm6vH1Q+cnO0EMaJrfYPeJWjA4RItt4E8fhg==
+ b=PBbBR3KDnQPnHraagRXonaEl5lPlIRcwwIfAtHPnmQdSPoQ5yjza8dMtVCPiU+Xa1NQyszJx5sQSNLJVe30DBM95CcwiM1mZdbRgXrECIqKY6XdDeXqfPr6ntWOU9KzsL1PL/GwTlGJzk270oETuZUd5YvpUO1iUyTzgTMmM7KmxJiQcRpVyCbI2L5Sz8to0x5b8HSc9Mu0fJuoU7US0SfIoEjAJsrjvz7EqcEu8JmHxC57D8A2qboHIX5YiBMglRiIfsxNsfrykBQtn7RAwVqW45InGG8ezCfaCbS53Q0nh3nAFCMRDPZhY0kJ8F3DFqRVvKf5n0yu7Yf/QBki2YA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8m5bCo55moG9oA9KkUl8MhaONF6dHB1WZCrTUrcdHiQ=;
- b=O6wTqU/LwO7aV9j/cUnRUbn1NMWoaOKKcBJan1J8SF+GmYMCceyMydHUaegFOFjBnTh0K+3OL/pbbfS9U1THLET/7whWh/ZOGG3Jm0LNfRJiLu2horw6/Pz69y3hcR3QoTQySSK5lll25h2FCjNUEGjSYW6GBGKd7GVSped8YzaVJZBfZ/t1SUGs/HbW3TMA+Fmh/NmDV2nI6u/iTr3p9w5giMzwG9rOEMegVWU2uM40y2CcCQgaJmK+ZVHxlOTWMLBBvLs7Cx0AATPVtqIozK6hfulxUjvqzyAjzn+5nP/xZ8eDaHLm+tmnk3Yzoenb4p3OokcP/xSJT4b7wfgmrg==
+ bh=JVPrbCXOLoGPkLQN1znGuGj0mBCvZjATpgjDjqHUy+I=;
+ b=h1/4XYs+eWfgsFE4jjYS/8WZVCzemgyXV53Iz5tVWvo6zY1CWzx7BsVVijPGEo2h9bkLa5BTG061wap3DaFhGcd1ViIpKxIjMkskVJB2bI7/xQCqNE0oFfP0iWwP/b4kVtHSRKoTCDtsuQOBN+n/ED2eXqKAhO4z7Ynf3TrZJlHZYx1n1FYLeqZXzYl6PqceHwm6xxv+NqXVmL/mzcb7bbMKbTY3dUBnHJfp2tYrOR+TZmkE5Z1RdFsc9jZLmqPZnLnZdczMvUIYzSKDtQH/CsQWTBS25YhymD/0UQqGpQ3syaJbpSj99afJFWcm1+65eOQL3FUJzH5ex28gvTujqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8m5bCo55moG9oA9KkUl8MhaONF6dHB1WZCrTUrcdHiQ=;
- b=PmM6GX2a4AwMleIt+rShdr9WH/ZpmSGuGYYLc/DgpoccZ4Nk+RApFu8vnkTRd1iat0q0GCB2PMbAn42dwIQa9DeLc3zv3v0KDY8RVVkySMatBailNWSKzxZ+rUs2Pyu6mVVW1R2pUO3foyfbrNDbAt/p9qR2mRy8/mWldOyiE6I=
+ bh=JVPrbCXOLoGPkLQN1znGuGj0mBCvZjATpgjDjqHUy+I=;
+ b=bhq1psvbMLDNBszJ43MTg+JLS5vhfcMkOzz0TLpVH5GKsWjCAIVq/AgmN4YlE8j6zPvh3Uo0phKEDjjf9hsGj5pYYBx4qB7+daAhzEFYzqIcIT9UtiQgUlnKa/3WNIWVOcWwb1h0aBHLHkyKodFyyP2mZokxTgNeaa56naqhtWI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3861.eurprd08.prod.outlook.com (2603:10a6:20b:80::30)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 22 Apr
- 2021 16:31:08 +0000
+ 2021 16:31:09 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.021; Thu, 22 Apr 2021
- 16:31:08 +0000
+ 16:31:09 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH v6 07/12] block/qcow2: qcow2_co_pwrite_zeroes: use
- QEMU_LOCK_GUARD
-Date: Thu, 22 Apr 2021 19:30:41 +0300
-Message-Id: <20210422163046.442932-8-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 08/12] qcow2: introduce is_cluster_free() helper
+Date: Thu, 22 Apr 2021 19:30:42 +0300
+Message-Id: <20210422163046.442932-9-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210422163046.442932-1-vsementsov@virtuozzo.com>
 References: <20210422163046.442932-1-vsementsov@virtuozzo.com>
@@ -66,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.222) by
  HE1PR0501CA0006.eurprd05.prod.outlook.com (2603:10a6:3:1a::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16 via Frontend Transport; Thu, 22 Apr 2021 16:31:07 +0000
+ 15.20.4042.16 via Frontend Transport; Thu, 22 Apr 2021 16:31:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b1fa9aba-0fc0-4e85-7df7-08d905ac083f
+X-MS-Office365-Filtering-Correlation-Id: 31add05a-d114-4c52-1b7d-08d905ac08cb
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3861:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38617133C40D2E3617516EF9C1469@AM6PR08MB3861.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:287;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB38619FB4BD493169EB40FA0CC1469@AM6PR08MB3861.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:873;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UMO1QZ0ssImuKvnPK67pD7TE+lGrx0It/uhqXHeQ7flQdO9mKu66QRM4aYKqwdT3gxmuvEShSlpOeGqDuyNJrbZI9uAxrF1dok/vde0VfMB0wN0orGYL6jIoheWB0bkTC7s0ueYtQ0/wAMB7QnA0d5pwWPriTJc65cqazPV8YPIh08U1jwmoCs8BOgPxoDMPSc7ye6KEGdm8undGjzMxLWhj5D6vMkh9x9LVTxCuXhU+vdUag1BIaaXUKs1oJVjctqaEDljjqvje019rsccXiSGzO6B8BpPSNgj0fioZEPLlhvuSmTfjfWDo+qnrXQZ3trz98iBruIkYY0GiDdF6lVOaDFvSrx2UuBOaS0U2GNtOg2nduLDLl0zlinYfgAuiy0TtLD9BEJuK9iAbYF+RD7DUrj0plmFPkSoTicPvmX7N8O7wGo6OxfocnSBFZX4yWVGAFf19VfjQbxmyGF39xNEzyDF7F58w3niMGJ+LW4HC32BWvwqRSSvBJIyYIjKmMEA2fpd/ZhkI+txi89WlmwiSib58xKNvQq35CSj309r+O67gwmTHehaZkxboG8NnKKnAx+DXq32IdYiTrkEfMYaKjIvhyjlf0Q//Zj4QB+2Wfq99Qjf52+/1cF6j66riZgUEtJRh9RPRsal6epLv87vu09tf80eTO3fPyYhyurLmQ1wslyxB165bFv8uCnx8
+X-Microsoft-Antispam-Message-Info: 4ZG3pDIbdFwGloimivqAD+Wzc2PW6EAJq4LjVZRWKYX5nJkh87WZq6tNqkj4WPv9bZkSjo/mOBMDPBFeOtuL/7pjESV7FAnFCfrgj8gQvWsVfGXjUlPT9SHQd+2NEwKCQo8ryl4Ly0gBVqJcH035OCfKn4WshSTcobkN0yComgqJuEtWoZoY74ShBPfK1CchHdkgYvMrtMkibM/i+lb8N+P7qZj3gSaEFFA+Li7QnVgB1LgvMzdWpeFzjFSpHPAHzLfDAOixjZRqvlE4WswzT4Gos9fdvRThTTh9e015HFusUmn/myILIHd5Th5zCXvmMuetzUmFi9OOmQdzbRN6TkkAGei4OsrRJRwOlvkyu9+MrHQ0fG9vP26Pwt8e67Q9Dz1UVchnVq/MSv2eE+QCDrBtFHQOpSAE1KnceNf7IhfDKeD2ldhby6DHGAB7SztZ0rmwZxAloUB3et2cqWU1h45TtrvfvLjbvhnTGnASC3BWnb+CJ/zgew2rhnriGF87S/FmatRxdgh5qaeQsjtu/PfufLZ9307Aj97f8KKpSN4ffM+R1bk+IlTJVmphzNOnAY5LTtqPTSsGifEW7EcDHXPWTvpo8lBXzcPF3ENHDHkz6vbfLn1IPLPW0mnJgKh8hGXAABfBN/EK6wtkBYqASiJLbNLTUjIzTavrQMj965QMudYuOsTO3dsUbbhvXVIm
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(366004)(39840400004)(396003)(6666004)(4326008)(19627235002)(107886003)(26005)(6486002)(956004)(2906002)(83380400001)(2616005)(52116002)(316002)(478600001)(8936002)(66476007)(6916009)(66556008)(66946007)(38100700002)(1076003)(38350700002)(5660300002)(6506007)(8676002)(186003)(6512007)(16526019)(36756003)(86362001)(69590400013);
+ SFS:(4636009)(376002)(346002)(136003)(366004)(39840400004)(396003)(6666004)(4326008)(107886003)(26005)(6486002)(956004)(2906002)(83380400001)(2616005)(52116002)(316002)(478600001)(8936002)(66476007)(6916009)(66556008)(66946007)(38100700002)(1076003)(38350700002)(5660300002)(6506007)(8676002)(186003)(6512007)(16526019)(36756003)(86362001)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Z/XsERihMfI3uYIl1rl+mLQCHLvN4mnbSwH2p3aXTFWEH/wXcN3H1myhLc+d?=
- =?us-ascii?Q?a0QgLfgVXlc8AWpt2SBZv7nHs8BuBVEfYpGGJixo9WnOyosLfHLwd90w0yv/?=
- =?us-ascii?Q?9ak2YniNpRzXyixcrdPYJt+f30zz6o3V/HQ28kNzPcrgNIsQ3Tmn6LDSKRxJ?=
- =?us-ascii?Q?DZxLN1f8X/XFVuxbFle1jaWfvvFswiLZd6IPSpCGnKC2TRnGbFvwcJij32dk?=
- =?us-ascii?Q?UmJbs/Z59iK3/yXs3g7CaZGv1elZHddGL7H+LyzRvuVEiQWmkUv3BgMKeVjh?=
- =?us-ascii?Q?3rWN/VAnyT0uEO4okxRpeRywfspyHF12qRvKYA2YEJzuatAZTgQ3jEfiglPA?=
- =?us-ascii?Q?fi0TQ3SO+xNhv9+3SEnoFyPf1RG0KDdxq9UuDWj01xf3hXPFdQYakUhnTFVm?=
- =?us-ascii?Q?bmVkwyrzc9th5wCOVHLYYoDmDanboIlWCb7mYadIPl3Ob3xssBau3b6loZdN?=
- =?us-ascii?Q?eNs9iPTq1R6BpJkR71AhGNGXq2qMyW8xHGZZTsT1b+x4Rh/GbLROljDvPx2I?=
- =?us-ascii?Q?Cu2zB7L4+8MSe1DTxDLqeVwHRUOj/LeYEK4ODjSJfLQllGFr/e7XzX/9xU4q?=
- =?us-ascii?Q?haMFsfSadB9qNbbeU1J7rQAm90aIIFyWm0SQBnKOZnLEiH8l1WWxq3ny3r6f?=
- =?us-ascii?Q?eWmDvgBEE5kjnTtXJfKHrnE5jByMhMjkoqVziyzm8tgAsp4DoFslwOyiJ9R0?=
- =?us-ascii?Q?boWqacm2rD2gHKotnWkPkW0fq5r2MuYXkD8eybWpusO6z/Je8fBA0jMj0XXc?=
- =?us-ascii?Q?2wpUqr27oQIealnv1Ay+V7Mu/rj6siNWAv4SJ4FEOdtU0CRDMLkJkEfwCSfi?=
- =?us-ascii?Q?wtkKdGeSOPIV3GjPrF8wmKJwvAAqb/+ONTVd2MYOw9/7Y+ByVdnq7ZNVDBUp?=
- =?us-ascii?Q?QJg/MobflhQP08MqcVomP1AF//C5g/QARzCM0uVwwxgAqPnDIf9tIID+tlYa?=
- =?us-ascii?Q?wIlWu0EaI4EEAKC/87ReBB3+winyt2+X2F5dFLR61SQQnRv7/eTvVfWuFNcE?=
- =?us-ascii?Q?ivrv9/FvrvGCy/VMKX4C7UKWisJb2J26FqBpf38N5+Eb6rRojzvVtzHqVvp2?=
- =?us-ascii?Q?mqtBk11ROpS7P6wjYoLxDG7X6lrvKwN4RFPHbenvaiNMPCx5fK5TBIYlPuQE?=
- =?us-ascii?Q?O9wyzAzJ1EG4u4y7eu1cmBy1OtcE4fcngU652ihLuyq8O9hwdHSKYn8yZEvU?=
- =?us-ascii?Q?eP8s2ZVmoQ8g3TNvveA4Xst6p8ii1q20NZJfh326zjeD8GO+bvGVQ+6qkHSb?=
- =?us-ascii?Q?tm5gpFnUSMHFdjz9cM07/gi1SrFItwI+nMaF8DRJ+oevZAkvoh8t+LUVQClj?=
- =?us-ascii?Q?d2Ax3X+wL0NpEP/C5ViLOYR+?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?aKs4qWuFZ+CInrms6+kRI9PKL3oYm9nIrktAI32JZf+Puv1uBM+FdyIpk6Qf?=
+ =?us-ascii?Q?15Vku7UBUPMKvwtx7cx2kVuJPHRvwne9Eu3AhXqKJcBVeKI+3lCEN0BtMqm9?=
+ =?us-ascii?Q?EGGuwHd9cWoRAjNJlPO2TsHvwBv1Qfqhh8WsL38Q+SvBg3I3scckfbInFhBx?=
+ =?us-ascii?Q?ohxIduyIj4fGgmD1c4emD1YBTbO+qWdVUkxcIQiTxQwiL2v+BEgTBL+dRTkr?=
+ =?us-ascii?Q?EGQKfJhaHMhJAwiD3ywAqV+QCqg/cad6Tz4Qvu+NJtJWJBw0sNeVM71ZooQ1?=
+ =?us-ascii?Q?FTDZN/2q08lOxLseS/WCUjytRTnNDMNF2d2Fy8zn6se8HnPTUq2jwQaMPKz6?=
+ =?us-ascii?Q?dHqRPUZeqL+DC8dxjR749Ij8ZWdf86Q4yF26o8B2XhZSev4dLnbk1FKqp+rh?=
+ =?us-ascii?Q?zIflMaHltjjvluF8aevONQfl7fVhQO6+o5dWnFqodPhrChnYkJtq6BGUom1j?=
+ =?us-ascii?Q?bBtuiHE7TVtyTIp71yYxe6+ZJZs0/wT/8yCPtwi44f12wQd2hnnoi9UhcX5P?=
+ =?us-ascii?Q?O41rMfMFl3/a9K1vAytYyiPENF//Tq9bIJep2K1pobmJj7Et/zEuFm+2TCkP?=
+ =?us-ascii?Q?Rkwb1oYRqVQmgxHqtaeEBY2rV2SakDZXA2dKMEO2S5RDuM5kPnsUsuLtnwWt?=
+ =?us-ascii?Q?6XnVi9cGmDO4SwMW3IfSoBl+u5ox3YCyivE+xwfuLa+5oqqRDW+PBxW40tt3?=
+ =?us-ascii?Q?1ZitQz1pVltNr7lBeqwVs7R4EQbdYVizFfbK/Z7Xz5N829qPtg6ZxwfJo+yq?=
+ =?us-ascii?Q?116Av9Z63GGYceETIIQcG8ZyN5asiu/qpJpFEjm50OFKRw72Kw6zEL1k/kw7?=
+ =?us-ascii?Q?43BZSp4KqU4MK+L+WX9woC7+I94aLFIi1onN0+3d1u2rYIFYGAdR64mBsvdD?=
+ =?us-ascii?Q?nUH25SpDZ+iKw4cDHdHxAagqwVRLUOs8022QnU6Mi4jF0OE4Qj2QGfD6mFMG?=
+ =?us-ascii?Q?nujIUBk1b2VilhpYszYGHqrnam656OwXrPTw2lbJYOsH7cB7K801NTSIcpdz?=
+ =?us-ascii?Q?zsTFUPaZ8mKlZRAI8CrOoFh4iJmvJQHEcj7eLdRD9O1v71F0x7n85MHBorr9?=
+ =?us-ascii?Q?RWpDdHXDWQMuRDTlIsNL1t/kRMvTE0mS1QkbJbSDXDCYFCycRW54gZ4lApOw?=
+ =?us-ascii?Q?ux04GAaA4YXZdqMbZHPtO/lkSfo0Lj+AI1dsRspcIM7JkaXvmofKZoKsGK1h?=
+ =?us-ascii?Q?t7G5cKMuEnnLyuDZss7T6we0KvHJxOUx25pG4i4hrmMoItKm5D+ygR0MKywC?=
+ =?us-ascii?Q?USeEm5oYSZUQMU7VBSHIvzlUFA5oKfTtIWAUfpzyiCfkcWwCtSbNuicX0WQQ?=
+ =?us-ascii?Q?Jvuodb/viSxvUdLc39DGBKu3?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1fa9aba-0fc0-4e85-7df7-08d905ac083f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31add05a-d114-4c52-1b7d-08d905ac08cb
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 16:31:08.2041 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 16:31:09.1072 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7oxFMJREB5Xo+1xfDt+rEo5lT1/Hk0UrFliGacp3MOmA1wHuqImWz+++0cSU7Lw/mRsL8zrrxomO/oelJKMLLPfSPm+kkOApe7f1so1JLIY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: DExefTgXcySTH4Dw4r9sr1xF97rK3EWUw52WBWUj6SUy862vivGDs4rgYRL82KV17jfTIydMWS+r6Q5BkbvIe9pAa1wN7wfrUloz54b7tK4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3861
-Received-SPF: pass client-ip=40.107.0.116;
+Received-SPF: pass client-ip=40.107.4.129;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -138,82 +137,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll need to handle qcow2_get_host_offset() success and failure in
-separate in future patch. Still, let's go a bit further and refactor
-the function to use QEMU_LOCK_GUARD.
+We are going to change the concept of "free host cluster", so let's
+clarify it now and add a helper, which we will modify later.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2.c | 37 +++++++++++++++++++------------------
- 1 file changed, 19 insertions(+), 18 deletions(-)
+ block/qcow2-refcount.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 066d44e2be..be62585e03 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3931,10 +3931,6 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
-     }
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index ad021aab7a..72e6d1efd7 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -962,13 +962,32 @@ int qcow2_update_cluster_refcount(BlockDriverState *bs,
+ /* cluster allocation functions */
  
-     if (head || tail) {
--        uint64_t off;
--        unsigned int nr;
--        QCow2SubclusterType type;
--
-         assert(head + bytes + tail <= s->subcluster_size);
  
-         /* check whether remainder of cluster already reads as zero */
-@@ -3942,32 +3938,37 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
-               is_zero(bs, offset + bytes, tail))) {
-             return -ENOTSUP;
-         }
++/*
++ * Cluster is free when its refcount is 0
++ *
++ * Return < 0 if failed to get refcount
++ *          0 if cluster is not free
++ *          1 if cluster is free
++ */
++static int is_cluster_free(BlockDriverState *bs, int64_t cluster_index)
++{
++    int ret;
++    uint64_t refcount;
++
++    ret = qcow2_get_refcount(bs, cluster_index, &refcount);
++    if (ret < 0) {
++        return ret;
 +    }
 +
-+    QEMU_LOCK_GUARD(&s->lock);
-+
-+    if (head || tail) {
-+        uint64_t off;
-+        unsigned int nr;
-+        QCow2SubclusterType type;
++    return refcount == 0;
++}
  
--        qemu_co_mutex_lock(&s->lock);
-         /* We can have new write after previous check */
-         offset -= head;
-         bytes = s->subcluster_size;
-         nr = s->subcluster_size;
-         ret = qcow2_get_host_offset(bs, offset, &nr, &off, &type);
--        if (ret < 0 ||
--            (type != QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN &&
--             type != QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC &&
--             type != QCOW2_SUBCLUSTER_ZERO_PLAIN &&
--             type != QCOW2_SUBCLUSTER_ZERO_ALLOC)) {
--            qemu_co_mutex_unlock(&s->lock);
--            return ret < 0 ? ret : -ENOTSUP;
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        if (type != QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN &&
-+            type != QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC &&
-+            type != QCOW2_SUBCLUSTER_ZERO_PLAIN &&
-+            type != QCOW2_SUBCLUSTER_ZERO_ALLOC)
-+        {
-+            return -ENOTSUP;
+ /* return < 0 if error */
+ static int64_t alloc_clusters_noref(BlockDriverState *bs, uint64_t size,
+                                     uint64_t max)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    uint64_t i, nb_clusters, refcount;
++    uint64_t i, nb_clusters;
+     int ret;
+ 
+     /* We can't allocate clusters if they may still be queued for discard. */
+@@ -980,11 +999,11 @@ static int64_t alloc_clusters_noref(BlockDriverState *bs, uint64_t size,
+ retry:
+     for(i = 0; i < nb_clusters; i++) {
+         uint64_t next_cluster_index = s->free_cluster_index++;
+-        ret = qcow2_get_refcount(bs, next_cluster_index, &refcount);
+ 
++        ret = is_cluster_free(bs, next_cluster_index);
+         if (ret < 0) {
+             return ret;
+-        } else if (refcount != 0) {
++        } else if (!ret) {
+             goto retry;
          }
--    } else {
--        qemu_co_mutex_lock(&s->lock);
      }
+@@ -1031,7 +1050,7 @@ int64_t qcow2_alloc_clusters_at(BlockDriverState *bs, uint64_t offset,
+                                 int64_t nb_clusters)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    uint64_t cluster_index, refcount;
++    uint64_t cluster_index;
+     uint64_t i;
+     int ret;
  
-     trace_qcow2_pwrite_zeroes(qemu_coroutine_self(), offset, bytes);
- 
-     /* Whatever is left can use real zero subclusters */
--    ret = qcow2_subcluster_zeroize(bs, offset, bytes, flags);
--    qemu_co_mutex_unlock(&s->lock);
--
--    return ret;
-+    return qcow2_subcluster_zeroize(bs, offset, bytes, flags);
- }
- 
- static coroutine_fn int qcow2_co_pdiscard(BlockDriverState *bs,
+@@ -1044,10 +1063,10 @@ int64_t qcow2_alloc_clusters_at(BlockDriverState *bs, uint64_t offset,
+         /* Check how many clusters there are free */
+         cluster_index = offset >> s->cluster_bits;
+         for(i = 0; i < nb_clusters; i++) {
+-            ret = qcow2_get_refcount(bs, cluster_index++, &refcount);
++            ret = is_cluster_free(bs, cluster_index++);
+             if (ret < 0) {
+                 return ret;
+-            } else if (refcount != 0) {
++            } else if (!ret) {
+                 break;
+             }
+         }
 -- 
 2.29.2
 
