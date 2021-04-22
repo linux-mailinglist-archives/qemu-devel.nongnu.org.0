@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A55368501
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:38:46 +0200 (CEST)
-Received: from localhost ([::1]:46240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F53A3684E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:32:56 +0200 (CEST)
+Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcLl-0006Pl-Cr
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51260)
+	id 1lZcG7-0007wK-Gm
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwe-0004Mk-Os
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39313)
+ id 1lZbwU-0003y5-9t
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwc-0003Qo-ST
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:48 -0400
+ id 1lZbwH-0003DH-Ml
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619107966;
+ s=mimecast20190719; t=1619107943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V9VavKK4L/j4tOSEib862fhkvqXwxP5kHuOJ+oEEa+0=;
- b=HMAHQDsQ7oNZvCmgjs3wEWH9yc4ld3tGbOUGJipA1zuhM/JJbBHc2xlKUCC96Ay/UZl6up
- E3EoCTYBxjZgwIIYFH+0BcBNMMcpmv6WCpK/cnJwr7fFz2nxtx4I9NoMQhqMQ+tmocWxdz
- o/sWTJGgKyifFHJDSwbn5fJU0fwaOoc=
+ bh=vJB3EhqExp+bEIZFM+gDg9u6dcSeIv+/RKtN83IGgPc=;
+ b=Fryntf0NHENf27wXxob+S4IQ1A1hHbhy6ADVFfjbssksBQHx5dkfrH7GhLnXDAv0F8auUB
+ tC9cjOiH5ayUVsGINgUgJKbW9QmvYqvJ9D6uebhBSw2efjrTS7Wrjgeiqeu1thLWgl3weA
+ LevlKrSCIYpcpoT51tnGHwaFD4bbI88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-i6qikg1VP6qxGAEvUVkr0w-1; Thu, 22 Apr 2021 12:12:11 -0400
-X-MC-Unique: i6qikg1VP6qxGAEvUVkr0w-1
+ us-mta-422-TtfhceDzOUGBYheRND3yRg-1; Thu, 22 Apr 2021 12:12:22 -0400
+X-MC-Unique: TtfhceDzOUGBYheRND3yRg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A2301006C9E
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D7D4189DF50
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:21 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E12E318AA1;
- Thu, 22 Apr 2021 16:12:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D93F5B4A4;
+ Thu, 22 Apr 2021 16:12:17 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 15/19] i386: expand Hyper-V features during CPU feature
- expansion time
-Date: Thu, 22 Apr 2021 18:11:26 +0200
-Message-Id: <20210422161130.652779-16-vkuznets@redhat.com>
+Subject: [PATCH v6 19/19] qtest/hyperv: Introduce a simple hyper-v test
+Date: Thu, 22 Apr 2021 18:11:30 +0200
+Message-Id: <20210422161130.652779-20-vkuznets@redhat.com>
 In-Reply-To: <20210422161130.652779-1-vkuznets@redhat.com>
 References: <20210422161130.652779-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,102 +83,276 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
-need to expand and set the corresponding CPUID leaves early. Modify
-x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
-specific kvm_hv_get_supported_cpuid() instead of
-kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
-as Hyper-V specific CPUID leaves intersect with KVM's.
-
-Note, early expansion will only happen when KVM supports system wide
-KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
+For the beginning, just test 'hv-passthrough' and a couple of custom
+Hyper-V  enlightenments configurations through QMP. Later, it would
+be great to complement this by checking CPUID values from within the
+guest.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c          |  4 ++++
- target/i386/kvm/kvm-stub.c |  5 +++++
- target/i386/kvm/kvm.c      | 15 ++++++++++++---
- target/i386/kvm/kvm_i386.h |  1 +
- 4 files changed, 22 insertions(+), 3 deletions(-)
+ MAINTAINERS               |   1 +
+ tests/qtest/hyperv-test.c | 225 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build   |   3 +-
+ 3 files changed, 228 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/hyperv-test.c
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index d72b8760e7a3..18b57f3d8b9c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6514,6 +6514,10 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-     if (env->cpuid_xlevel2 == UINT32_MAX) {
-         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
-     }
-+
-+    if (kvm_enabled()) {
-+        kvm_hyperv_expand_features(cpu, errp);
-+    }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 36055f14c594..86d731e86f4a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1552,6 +1552,7 @@ F: hw/isa/apm.c
+ F: include/hw/isa/apm.h
+ F: tests/unit/test-x86-cpuid.c
+ F: tests/qtest/test-x86-cpuid-compat.c
++F: tests/qtest/hyperv-test.c
  
- /*
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index 92f49121b8fa..7f175faa3abd 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -39,3 +39,8 @@ bool kvm_hv_vpindex_settable(void)
- {
-     return false;
- }
+ PC Chipset
+ M: Michael S. Tsirkin <mst@redhat.com>
+diff --git a/tests/qtest/hyperv-test.c b/tests/qtest/hyperv-test.c
+new file mode 100644
+index 000000000000..0be689548e18
+--- /dev/null
++++ b/tests/qtest/hyperv-test.c
+@@ -0,0 +1,225 @@
++/*
++ * Hyper-V emulation CPU feature test cases
++ *
++ * Copyright (c) 2021 Red Hat Inc.
++ * Authors:
++ *  Vitaly Kuznetsov <vkuznets@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#include <linux/kvm.h>
++#include <sys/ioctl.h>
 +
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "libqos/libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qjson.h"
++
++#define MACHINE_KVM "-machine pc-q35-5.2 -accel kvm "
++#define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
++                    "  'arguments': { 'type': 'full', "
++#define QUERY_TAIL  "}}"
++
++static bool kvm_enabled(QTestState *qts)
 +{
-+    return;
-+}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a42263b24fca..d5551c4ab5cf 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1216,13 +1216,22 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
-  * of 'hv_passthrough' mode and fills the environment with all supported
-  * Hyper-V features.
-  */
--static void hyperv_expand_features(CPUState *cs, Error **errp)
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
- {
--    X86CPU *cpu = X86_CPU(cs);
-+    CPUState *cs = CPU(cpu);
- 
-     if (!hyperv_enabled(cpu))
-         return;
- 
-+    /*
-+     * When kvm_hyperv_expand_features is called at CPU feature expansion
-+     * time per-CPU kvm_state is not available yet so we can only proceed
-+     * when KVM_CAP_SYS_HYPERV_CPUID is supported.
-+     */
-+    if (!cs->kvm_state &&
-+        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
-+        return;
++    QDict *resp, *qdict;
++    bool enabled;
 +
-     if (cpu->hyperv_passthrough) {
-         cpu->hyperv_vendor_id[0] =
-             hv_cpuid_get_host(cs, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
-@@ -1556,7 +1565,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
++    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
++    g_assert(qdict_haskey(resp, "return"));
++    qdict = qdict_get_qdict(resp, "return");
++    g_assert(qdict_haskey(qdict, "enabled"));
++    enabled = qdict_get_bool(qdict, "enabled");
++    qobject_unref(resp);
++
++    return enabled;
++}
++
++static bool kvm_has_sys_hyperv_cpuid(void)
++{
++    int fd = open("/dev/kvm", O_RDWR);
++    int ret;
++
++    g_assert(fd > 0);
++
++    ret = ioctl(fd, KVM_CHECK_EXTENSION, KVM_CAP_SYS_HYPERV_CPUID);
++
++    close(fd);
++
++    return ret > 0;
++}
++
++static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
++{
++    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
++                          QUERY_TAIL, cpu_type);
++}
++
++static bool resp_has_props(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++
++    if (!qdict_haskey(resp, "return")) {
++        return false;
++    }
++    qdict = qdict_get_qdict(resp, "return");
++
++    if (!qdict_haskey(qdict, "model")) {
++        return false;
++    }
++    qdict = qdict_get_qdict(qdict, "model");
++
++    return qdict_haskey(qdict, "props");
++}
++
++static QDict *resp_get_props(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++    g_assert(resp_has_props(resp));
++
++    qdict = qdict_get_qdict(resp, "return");
++    qdict = qdict_get_qdict(qdict, "model");
++    qdict = qdict_get_qdict(qdict, "props");
++
++    return qdict;
++}
++
++static bool resp_get_feature(QDict *resp, const char *feature)
++{
++    QDict *props;
++
++    g_assert(resp);
++    g_assert(resp_has_props(resp));
++    props = resp_get_props(resp);
++    g_assert(qdict_get(props, feature));
++    return qdict_get_bool(props, feature);
++}
++
++#define assert_has_feature(qts, cpu_type, feature)                     \
++({                                                                     \
++    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    g_assert(qdict_get(resp_get_props(_resp), feature));               \
++    qobject_unref(_resp);                                              \
++})
++
++#define resp_assert_feature(resp, feature, expected_value)             \
++({                                                                     \
++    QDict *_props;                                                     \
++                                                                       \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    _props = resp_get_props(_resp);                                    \
++    g_assert(qdict_get(_props, feature));                              \
++    g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
++})
++
++#define assert_feature(qts, cpu_type, feature, expected_value)         \
++({                                                                     \
++    QDict *_resp;                                                      \
++                                                                       \
++    _resp = do_query_no_props(qts, cpu_type);                          \
++    g_assert(_resp);                                                   \
++    resp_assert_feature(_resp, feature, expected_value);               \
++    qobject_unref(_resp);                                              \
++})
++
++#define assert_has_feature_enabled(qts, cpu_type, feature)             \
++    assert_feature(qts, cpu_type, feature, true)
++
++#define assert_has_feature_disabled(qts, cpu_type, feature)            \
++    assert_feature(qts, cpu_type, feature, false)
++
++static void test_assert_hyperv_all_but_evmcs(QTestState *qts)
++{
++    assert_has_feature_enabled(qts, "host", "hv-relaxed");
++    assert_has_feature_enabled(qts, "host", "hv-vapic");
++    assert_has_feature_enabled(qts, "host", "hv-vpindex");
++    assert_has_feature_enabled(qts, "host", "hv-runtime");
++    assert_has_feature_enabled(qts, "host", "hv-crash");
++    assert_has_feature_enabled(qts, "host", "hv-time");
++    assert_has_feature_enabled(qts, "host", "hv-synic");
++    assert_has_feature_enabled(qts, "host", "hv-stimer");
++    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
++    assert_has_feature_enabled(qts, "host", "hv-ipi");
++    assert_has_feature_enabled(qts, "host", "hv-reset");
++    assert_has_feature_enabled(qts, "host", "hv-frequencies");
++    assert_has_feature_enabled(qts, "host", "hv-reenlightenment");
++    assert_has_feature_enabled(qts, "host", "hv-stimer-direct");
++}
++
++static void test_query_cpu_hv_all_but_evmcs(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-relaxed,hv-vapic,hv-vpindex,"
++                     "hv-runtime,hv-crash,hv-time,hv-synic,hv-stimer,"
++                     "hv-tlbflush,hv-ipi,hv-reset,hv-frequencies,"
++                     "hv-reenlightenment,hv-stimer-direct");
++
++    test_assert_hyperv_all_but_evmcs(qts);
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_hv_custom(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-vpindex");
++
++    assert_has_feature_enabled(qts, "host", "hv-vpindex");
++    assert_has_feature_disabled(qts, "host", "hv-synic");
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_hv_passthrough(const void *data)
++{
++    QTestState *qts;
++    QDict *resp;
++
++    qts = qtest_init(MACHINE_KVM "-cpu host,hv-passthrough");
++    if (!kvm_enabled(qts)) {
++        qtest_quit(qts);
++        return;
++    }
++
++    test_assert_hyperv_all_but_evmcs(qts);
++
++    resp = do_query_no_props(qts, "host");
++    if (resp_get_feature(resp, "vmx")) {
++        assert_has_feature_enabled(qts, "host", "hv-evmcs");
++    } else {
++        assert_has_feature_disabled(qts, "host", "hv-evmcs");
++    }
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    const char *arch = qtest_get_arch();
++
++    g_test_init(&argc, &argv, NULL);
++
++    if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
++        qtest_add_data_func("/hyperv/hv-all-but-evmcs",
++                            NULL, test_query_cpu_hv_all_but_evmcs);
++        qtest_add_data_func("/hyperv/hv-custom",
++                            NULL, test_query_cpu_hv_custom);
++        if (kvm_has_sys_hyperv_cpuid()) {
++            qtest_add_data_func("/hyperv/hv-passthrough",
++                                NULL, test_query_cpu_hv_passthrough);
++       }
++    }
++
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 0c7673892179..03da00f82ba9 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -83,7 +83,8 @@ qtests_i386 = \
+    'vmgenid-test',
+    'migration-test',
+    'test-x86-cpuid-compat',
+-   'numa-test']
++   'numa-test',
++   'hyperv-test']
  
-     /* Paravirtualization CPUIDs */
--    hyperv_expand_features(cs, &local_err);
-+    kvm_hyperv_expand_features(cpu, &local_err);
-     if (local_err) {
-         error_report_err(local_err);
-         return -ENOSYS;
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index dc725083891c..f1176491051d 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -47,6 +47,7 @@ bool kvm_has_x2apic_api(void);
- bool kvm_has_waitpkg(void);
- 
- bool kvm_hv_vpindex_settable(void);
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
- 
- uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
- 
+ dbus_daemon = find_program('dbus-daemon', required: false)
+ if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
 -- 
 2.30.2
 
