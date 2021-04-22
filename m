@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9A1367B86
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:54:56 +0200 (CEST)
-Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB543367B7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:52:31 +0200 (CEST)
+Received: from localhost ([::1]:53762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZUAp-0004Tn-Oc
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35974)
+	id 1lZU8U-0001Wp-P8
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU7N-0008Ts-M4
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44104)
+ id 1lZU7J-0008Na-Lo
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU7F-0000Fh-6n
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:21 -0400
+ id 1lZU7D-0000Er-Ln
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:17 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZU7E-0000fl-1N
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:12 +0000
+ id 1lZU7B-0000QG-MA
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 07F092E8073
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:12 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A660A2E815B
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 07:40:00 -0000
-From: Thomas Huth <1847440@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 07:40:14 -0000
+From: Thomas Huth <1847467@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: kvm powerpcm qemu
+X-Launchpad-Bug-Tags: amd64
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aik-ozlabs dwg sathnaga th-huth
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Commenters: th-huth ylhuillier
+X-Launchpad-Bug-Reporter: Yves Lhuillier (ylhuillier)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157061153044.21976.18153238088035049329.malonedeb@gac.canonical.com>
-Message-Id: <161907720080.10076.7292856544378747629.malone@wampee.canonical.com>
-Subject: [Bug 1847440] Re: ppc64le: KVM guest fails to boot with an error
- `virtio_scsi: probe of virtio1 failed with error -22` on master
+References: <157061690442.756.9495451631448947331.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161907721466.31655.53862032308600735.malone@soybean.canonical.com>
+Subject: [Bug 1847467] Re: qemu-x86_64 segment prefixes error
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 36341cf63111451023ec98164d59ba3b6e6d9823
+X-Launchpad-Hash: 94b3d236c42266d07185e33775accf17563f0108
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,135 +71,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847440 <1847440@bugs.launchpad.net>
+Reply-To: Bug 1847467 <1847467@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SLOF fix has been merged 1.5 years ago, so I assume this can be
-marked as fixed now.
+The QEMU project is currently considering to move its bug tracking to
+another system. For this we need to know which bugs are still valid
+and which could be closed already. Thus we are setting older bugs to
+"Incomplete" now.
+
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847440
+https://bugs.launchpad.net/bugs/1847467
 
 Title:
-  ppc64le: KVM guest fails to boot with an error `virtio_scsi: probe of
-  virtio1 failed with error -22` on master
+  qemu-x86_64 segment prefixes error
 
 Status in QEMU:
-  Fix Released
+  Incomplete
 
 Bug description:
-  PowerPC KVM Guest fails to boot on current qemu master, bad commit:
-  e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+  qemu-x86_64 version 4.1.0 (qemu-x86_64 version 4.0.0 also have the
+  issue)
 
-  Env:
-  HW: IBM Power9
-  Host Kernel: 5.4.0-rc2-00038-ge3280b54afed
-  Guest Kernel: 4.13.9-300.fc27.ppc64le
-  Qemu: https://github.com/qemu/qemu.git (master)
-  Libvirt: 5.4.0
+  In 64-bit mode (x86_64) the DS, ES, SS or CS segment prefixes should
+  be ignored; qemu-x86_64 does not ignore them.
 
-  Guest boot gets stuck:
-  ...
-  [  OK  ] Mounted Kernel Configuration File System.
-  [    7.598740] virtio-pci 0000:00:01.0: enabling device (0000 -> 0003)
-  [    7.598828] virtio-pci 0000:00:01.0: virtio_pci: leaving for legacy dr=
-iver
-  [    7.598957] virtio-pci 0000:00:02.0: enabling device (0000 -> 0003)
-  [    7.599017] virtio-pci 0000:00:02.0: virtio_pci: leaving for legacy dr=
-iver
-  [    7.599123] virtio-pci 0000:00:04.0: enabling device (0000 -> 0003)
-  [    7.599182] virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy dr=
-iver
-  [    7.620620] synth uevent: /devices/vio: failed to send uevent
-  [    7.620624] vio vio: uevent: failed to send synthetic uevent
-  [  OK  ] Started udev Coldplug all Devices.
-  [    7.624559] audit: type=3D1130 audit(1570610300.990:5): pid=3D1 uid=3D=
-0 auid=3D4294967295 ses=3D4294967295 subj=3Dkernel msg=3D'unit=3Dsystemd-ud=
-ev-trigger comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? a=
-ddr=3D? terminal=3D? res=3Dsuccess'
-  [  OK  ] Reached target System Initialization.
-  [  OK  ] Reached target Basic System.
-  [  OK  ] Reached target Remote File Systems (Pre).
-  [  OK  ] Reached target Remote File Systems.
-  [    7.642961] virtio_scsi: probe of virtio1 failed with error -22
-  [ ***  ] A start job is running for dev-disk=E2=80=A621b3519a80.device (1=
-4s / no limit)
-  ...
+  example: an x86_64 instructions preceded by FS DS (0x64 0x26) segment
+  prefixes have the linear address of its memory reference flat-mapped
+  (as if DS was in action) whereas it should be FS-mapped (offset by
+  FS_base, because the DS, ES, SS or CS are just ignored).
 
-  git bisect, yielded a bad commit
-  [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT on
-  ibm,client-architecture-support, reverting this commit boot the guest
-  properly.
+  =
 
-  git bisect start
-  # good: [9e06029aea3b2eca1d5261352e695edc1e7d7b8b] Update version for v4.=
-1.0 release
-  git bisect good 9e06029aea3b2eca1d5261352e695edc1e7d7b8b
-  # bad: [98b2e3c9ab3abfe476a2b02f8f51813edb90e72d] Merge remote-tracking b=
-ranch 'remotes/stefanha/tags/block-pull-request' into staging
-  git bisect bad 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d
-  # good: [56e6250ede81b4e4b4ddb623874d6c3cdad4a96d] target/arm: Convert T1=
-6, nop hints
-  git bisect good 56e6250ede81b4e4b4ddb623874d6c3cdad4a96d
-  # good: [5d69cbdfdd5cd6dadc9f0c986899844a0e4de703] tests/tcg: target/s390=
-x: Test MVC
-  git bisect good 5d69cbdfdd5cd6dadc9f0c986899844a0e4de703
-  # good: [88112488cf228df8b7588c8aa38e16ecd0dff48e] qapi: Make check_type(=
-)'s array case a bit more obvious
-  git bisect good 88112488cf228df8b7588c8aa38e16ecd0dff48e
-  # good: [972bd57689f1e11311d86b290134ea2ed9c7c11e] ppc/kvm: Skip writing =
-DPDES back when in run time state
-  git bisect good 972bd57689f1e11311d86b290134ea2ed9c7c11e
-  # bad: [1aba8716c8335e88b8c358002a6e1ac89f7dd258] ppc/pnv: Remove the XIC=
-SFabric Interface from the POWER9 machine
-  git bisect bad 1aba8716c8335e88b8c358002a6e1ac89f7dd258
-  # bad: [00ed3da9b5c2e66e796a172df3e19545462b9c90] xics: Minor fixes for X=
-ICSFabric interface
-  git bisect bad 00ed3da9b5c2e66e796a172df3e19545462b9c90
-  # good: [33432d7737b53c92791f90ece5dbe3b7bb1c79f5] target/ppc: introduce =
-set_dfp{64,128}() helper functions
-  git bisect good 33432d7737b53c92791f90ece5dbe3b7bb1c79f5
-  # good: [f6d4c423a222f02bfa84a49c3d306d7341ec9bab] target/ppc: remove unn=
-ecessary if() around calls to set_dfp{64,128}() in DFP macros
-  git bisect good f6d4c423a222f02bfa84a49c3d306d7341ec9bab
-  # bad: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT =
-on ibm,client-architecture-support
-  git bisect bad e68cd0cb5cf49d334abe17231a1d2c28b846afa2
-  # good: [c4ec08ab70bab90685d1443d6da47293e3aa312a] spapr-pci: Stop provid=
-ing assigned-addresses
-  git bisect good c4ec08ab70bab90685d1443d6da47293e3aa312a
-  # first bad commit: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Ren=
-der full FDT on ibm,client-architecture-support
+  I attach a small C++ program that shows this discrepancy.
 
-  attached vmxml.
+  $ ./sample
+  I'm not in QEMU
 
-  qemu commandline:
-  /home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 -name guest=3Dvm1,debug-t=
-hreads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/=
-libvirt/qemu/domain-19-vm1/master-key.aes -machine pseries-4.2,accel=3Dkvm,=
-usb=3Doff,dump-guest-core=3Doff -m 81920 -overcommit mem-lock=3Doff -smp 51=
-2,sockets=3D1,cores=3D128,threads=3D4 -uuid fd4a5d54-0216-490e-82d2-1d4e896=
-83b3d -display none -no-user-config -nodefaults -chardev socket,id=3Dcharmo=
-nitor,fd=3D24,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3D=
-control -rtc base=3Dutc -no-shutdown -boot strict=3Don -device qemu-xhci,id=
-=3Dusb,bus=3Dpci.0,addr=3D0x3 -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.=
-0,addr=3D0x2 -drive file=3D/home/sath/tests/data/avocado-vt/images/jeos-27-=
-ppc64le_vm1.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 -device s=
-csi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddrive-scsi=
-0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -netdev ta=
-p,fd=3D26,id=3Dhostnet0,vhost=3Don,vhostfd=3D27 -device virtio-net-pci,netd=
-ev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:df:24,bus=3Dpci.0,addr=3D0x1 -cha=
-rdev pty,id=3Dcharserial0 -device spapr-vty,chardev=3Dcharserial0,id=3Dseri=
-al0,reg=3D0x30000000 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,a=
-ddr=3D0x4 -M pseries,ic-mode=3Dxics -msg timestamp=3Don
+  $ qemu-x86_64 ./sample
+  I'm in QEMU
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847440/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1847467/+subscriptions
 
