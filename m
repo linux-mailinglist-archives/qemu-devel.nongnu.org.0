@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5034A367932
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:21:24 +0200 (CEST)
-Received: from localhost ([::1]:49618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C784367950
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:30:15 +0200 (CEST)
+Received: from localhost ([::1]:37854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZRmF-0005Ox-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57128)
+	id 1lZRuo-0003mr-C5
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:30:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRkb-0003wx-7f
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:19:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49106)
+ id 1lZRph-00087S-9W
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:24:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRkY-0000hu-1u
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:19:40 -0400
+ id 1lZRpd-0001Fg-NS
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:24:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZRkV-0002CW-ON
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:19:35 +0000
+ id 1lZRpc-0002Se-4V
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:24:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AE5EA2E8073
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:19:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1E6EE2E8161
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:24:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:08:31 -0000
-From: Thomas Huth <1580459@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:10:37 -0000
+From: Thomas Huth <1581334@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=libvirt; status=New; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=ceph; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=linux; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=archlinux; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=fedora; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avenger337 bigdaddymccarron brl75 clifhouck
- jdnewman85 jimijames-bove jimrif murknfools omega52390 peter-maloney th-huth
- yanman
-X-Launchpad-Bug-Reporter: Jimi (jimijames-bove)
+X-Launchpad-Bug-Commenters: chenwqin jdillaman jdurgin serge-hallyn th-huth
+X-Launchpad-Bug-Reporter: chenwqin (chenwqin)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160511061916.21125.98809.malonedeb@wampee.canonical.com>
-Message-Id: <161906811125.7136.7115629415094629311.malone@chaenomeles.canonical.com>
-Subject: [Bug 1580459] Re: Windows (10?) guest freezes entire host on shutdown
- if using PCI passthrough
+References: <20160513064148.21523.39352.malonedeb@wampee.canonical.com>
+Message-Id: <161906823789.6892.867100913023484627.malone@chaenomeles.canonical.com>
+Subject: [Bug 1581334] Re: qemu + librbd takes high %sy cpu under high random
+ io workload
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 3333bdabdde72ba95549989cba8900e726e2bafe
+X-Launchpad-Hash: ee3246eb1358026f4a3853a8e9a431c2a32b1f36
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -81,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1580459 <1580459@bugs.launchpad.net>
+Reply-To: Bug 1581334 <1581334@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,66 +88,170 @@ nowadays?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1580459
+https://bugs.launchpad.net/bugs/1581334
 
 Title:
-  Windows (10?) guest freezes entire host on shutdown if using PCI
-  passthrough
+  qemu + librbd takes high %sy cpu under high random io workload
 
-Status in libvirt:
+Status in Ceph:
+  New
+Status in Linux:
   New
 Status in QEMU:
   Incomplete
-Status in Arch Linux:
-  New
-Status in Debian:
-  New
-Status in Fedora:
-  New
 
 Bug description:
-  Problem: after leaving a Windows VM that uses PCI passthrough (as we
-  do for gaming graphics cards, sound cards, and in my case, a USB card)
-  running for some amount of time between 1 and 2 hours (it's not
-  consistent with exactly how long), and for any amount of time longer
-  than that, shutting down that guest will, right as it finishes
-  shutting down, freeze the host computer, making it require a hard
-  reboot. Unbinding (or in the other user's case, unbinding and THEN
-  binding) any PCI device in sysfs, even one that has nothing to do with
-  the VM, also has the same effect as shutting down the VM (if the VM
-  has been running long enough). So, it's probably an issue related to
-  unbinding and binding PCI devices.
+  I got an IO problem. When running Qemu + ceph(use librbd), and do a rando=
+m IO benchmark or some high load random IO test, it will exhaust all my hos=
+t cpu on %sy cpu.
+  It doesn=E2=80=99t happen all the time, but when it appear it will reprod=
+uce every time I start a random IO benchmark(test with Fio).
+  And the only way to fix the problem is shutdown my vm and start it, but t=
+he problem will happen again with high random IO load.
 
-  There's a lot of info on this problem over at https://bbs.archlinux.org/v=
-iewtopic.php?id=3D206050
-  Here's a better-organized list of main details:
-  -at least 2 confirmed victims of this bug; 2 (including me) have provided=
- lots of info in the link
-  -I'm on Arch Linux and the other one is on Gentoo (distro-nonspecific)
-  -issue affects my Windows 10 guest and others' Windows guests, but not my=
- Arch Linux guest (the others don't have non-Windows guests to test)
-  -I'm using libvirt but the other user is not, so it's not an issue with l=
-ibvirt
-  -It seems to be version non-specific, too. I first noticed it at, or when=
- testing versions still had the issue at (whichever version is lower), Linu=
-x 4.1 and qemu 2.4.0. It still persists in all releases of both since, incl=
-uding the newest ones.
-  -I can't track down exactly what package downgrade can fix it, as downgra=
-ding further than Linux 4.1 and qemu 2.4.0 requires Herculean and system-de=
-stroying changes such as downgrading ncurses, meaning I don't know whether =
-it's a bug in QEMU, the Linux kernel, or some weird seemingly unrelated thi=
-ng.
-  -According to the other user, "graphics intensive gameplay (GTA V) can ca=
-use the crash to happen sooner," as soon as "15 minutes"
-  -Also, "bringing up a second passthrough VM with separate hardware will c=
-ause the same crash," and "bringing up another VM before the two-hour mark =
-will not result in a crash," further cementing that it's triggered by the u=
-n/binding of PCI devices.
-  -This is NOT related to the very similar bug that can be worked around by=
- not passing through the HDMI device or sound card. Even when we removed al=
-l traces of any sort of sound card from the VM, it still had the same behav=
-ior.
+  Some information:
+      Vendor      : HP
+      Product     : HP ProLiant BL460c Gen9
+      Kernel      : 3.16.0-4-amd64
+      Disto       : Debian
+      Version     : 8.4
+      Arch        : amd64
+      Qemu        : 2.1 ~ 2.6 (Yes, I already test the latest qemu2.6 versi=
+on, but still got the problem)
+      Ceph        : Hammer 0.94.5
+      Librbd      : 0.94.5 ~ 10.2 (I rebuild librbd with ceph 10.2 source c=
+ode, but the problem still here)
+      Qemu config : cache=3Dnone
+      Qemu cpu&mem: 4core, 8GB
+
+  How can i reproduce the problem?
+
+  while :; do bash randwrite.sh ; sleep 3600; done >test.log 2>&1 &
+  (Sleep 3600 is the key to reproduce my problem. I don=E2=80=99t known how=
+ long sleep suit for reproduce, but one hour sleep is enough. the problem w=
+ill easy reproduce after a long sleep, if i keep benchmark running without =
+sleep, i can't reproduce it)
+
+  My randwrite.sh script
+  ----------------------------------------------
+  #!/bin/sh
+  sync
+  echo 3 > /proc/sys/vm/drop_caches
+
+  FILENAME=3D/dev/vdc
+  RUNTIME=3D100
+  BLOCKSIZE=3D4K
+  IOENGINE=3Dlibaio
+  RESULTFILE=3Dfio-randwrite.log
+  IODEPTH=3D32
+  RAMP_TIME=3D5
+  SIZE=3D100G
+
+  fio --numjobs 10 --norandommap --randrepeat=3D0 --readwrite=3Drandwrite -=
+-ramp_time=3D$RAMP_TIME --bs=3D$BLOCKSIZE --runtime=3D$RUNTIME --iodepth=3D=
+$IODEPTH --filename=3D$FILENAME --ioengine=3D$IOENGINE --direct=3D1 --name=
+=3Diops_randwrite --group_reporting  | tee $RESULTFILE
+  ----------------------------------------------
+
+  What happened after the problem appear?
+  my vm will got huge IOPS drop. In my case, it will drop from 15000 IOPS t=
+o 3500 IOPS. And other thing, my host cpu will exhaust on %sy. Top output l=
+ike this.
+
+  Qemu Fio benchmark
+  ----------------------------------------------------
+  Tasks: 284 total,   2 running, 282 sleeping,   0 stopped,   0 zombie
+  %Cpu0  : 11.8 us, 66.7 sy,  0.0 ni, 21.5 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu1  : 12.7 us, 64.9 sy,  0.0 ni, 22.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu2  : 13.7 us, 64.5 sy,  0.0 ni, 21.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu3  : 13.2 us, 64.1 sy,  0.0 ni, 22.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu4  : 11.7 us, 65.4 sy,  0.0 ni, 22.8 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu5  : 13.2 us, 64.4 sy,  0.0 ni, 22.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu6  : 12.4 us, 65.1 sy,  0.0 ni, 22.5 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu7  : 13.6 us, 63.8 sy,  0.0 ni, 22.6 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu8  :  9.8 us, 73.0 sy,  0.0 ni, 17.2 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu9  :  7.8 us, 74.5 sy,  0.0 ni, 17.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu10 :  6.0 us, 81.4 sy,  0.0 ni,  6.6 id,  0.0 wa,  0.0 hi,  6.0 si,  =
+0.0 st
+  %Cpu11 :  8.4 us, 79.5 sy,  0.0 ni,  8.8 id,  0.0 wa,  0.0 hi,  3.4 si,  =
+0.0 st
+  %Cpu12 :  7.6 us, 80.7 sy,  0.0 ni,  7.0 id,  0.0 wa,  0.0 hi,  4.7 si,  =
+0.0 st
+  %Cpu13 :  7.4 us, 79.9 sy,  0.0 ni,  7.7 id,  0.0 wa,  0.0 hi,  5.0 si,  =
+0.0 st
+  %Cpu14 :  9.8 us, 75.4 sy,  0.0 ni, 11.4 id,  0.0 wa,  0.0 hi,  3.4 si,  =
+0.0 st
+  %Cpu15 :  6.7 us, 80.1 sy,  0.0 ni, 10.1 id,  0.0 wa,  0.0 hi,  3.0 si,  =
+0.0 st
+  %Cpu16 :  9.2 us, 69.2 sy,  0.0 ni, 17.5 id,  0.0 wa,  0.0 hi,  4.1 si,  =
+0.0 st
+  %Cpu17 :  9.9 us, 66.6 sy,  0.0 ni, 20.1 id,  0.0 wa,  0.0 hi,  3.4 si,  =
+0.0 st
+  %Cpu18 : 16.6 us, 49.0 sy,  0.0 ni, 34.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu19 : 16.7 us, 46.4 sy,  0.0 ni, 36.9 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu20 : 13.0 us, 50.8 sy,  0.0 ni, 36.1 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu21 : 18.9 us, 46.2 sy,  0.0 ni, 34.9 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu22 : 12.1 us, 52.9 sy,  0.0 ni, 35.0 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu23 : 15.9 us, 47.6 sy,  0.0 ni, 36.6 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu24 :  6.7 us, 62.0 sy,  0.0 ni, 31.3 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu25 :  7.6 us, 63.7 sy,  0.0 ni, 28.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu26 :  8.1 us, 75.8 sy,  0.0 ni, 16.1 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu27 :  6.7 us, 73.6 sy,  0.0 ni, 19.7 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu28 :  9.2 us, 74.3 sy,  0.0 ni, 16.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu29 :  8.2 us, 73.3 sy,  0.0 ni, 18.5 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu30 :  4.4 us, 73.1 sy,  0.0 ni, 22.4 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  %Cpu31 :  7.5 us, 69.6 sy,  0.0 ni, 22.9 id,  0.0 wa,  0.0 hi,  0.0 si,  =
+0.0 st
+  KiB Mem:  13217662+total,  3721572 used, 12845504+free,   283228 buffers
+  KiB Swap:  4194300 total,        0 used,  4194300 free.  2242976 cached M=
+em
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMA=
+ND
+  30349 root      20   0 25.381g 499892  20640 R  2495  0.4 119:11.98 qemu-=
+system-x86
+
+  Anything I do?
+  I use perf top, profile to debug the problem. It show me that something l=
+ike thread deadlock problem. Any I test QEMU with kernel RBD, it work fine.
+  Here are the perf top output on host.
+  ---------------------------------------------------------------
+     PerfTop:   12393 irqs/sec  kernel:87.3%  exact:  0.0% [4000Hz cycles],=
+  (all, 32 CPUs)
+  -------------------------------------------------------------------------=
+------
+
+      75.25%  [kernel]            [k] _raw_spin_lock
+       1.17%  [kernel]            [k] futex_wait_setup
+       0.86%  libc-2.19.so        [.] malloc
+       0.58%  [kernel]            [k] futex_wake
+       0.55%  libc-2.19.so        [.] 0x00000000000ea96f
+       0.41%  [kernel]            [k] native_write_msr_safe
+  ---------------------------------------------------------------
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/libvirt/+bug/1580459/+subscriptions
+https://bugs.launchpad.net/ceph/+bug/1581334/+subscriptions
 
