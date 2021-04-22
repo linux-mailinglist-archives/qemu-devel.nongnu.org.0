@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAA436795A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:38:07 +0200 (CEST)
-Received: from localhost ([::1]:48952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C277236797B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:48:36 +0200 (CEST)
+Received: from localhost ([::1]:37374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZS2Q-00009L-UI
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33438)
+	id 1lZSCZ-0007X9-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZS09-0007Md-NE
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:35:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51706)
+ id 1lZS08-0007Kv-EP
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:35:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZS07-0004oc-IJ
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:35:45 -0400
+ id 1lZS06-0004oX-NT
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:35:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZS06-0003Wf-Cg
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:35:42 +0000
+ id 1lZS05-0003WH-Lk
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:35:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E8E12E8157
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:35:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A348C2E8157
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:35:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:26:25 -0000
-From: Thomas Huth <1691379@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:29:13 -0000
+From: Thomas Huth <1721788@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: mips64el netbsd
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth uanand009-gmail
-X-Launchpad-Bug-Reporter: Utkarsh Anand (uanand009-gmail)
+X-Launchpad-Bug-Commenters: berrange eblake jheidbrink liangy th-huth
+X-Launchpad-Bug-Reporter: Jan Heidbrink (jheidbrink)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <149500755798.25192.15465936284699398425.malonedeb@gac.canonical.com>
-Message-Id: <161906918576.9461.11410942903454935628.malone@wampee.canonical.com>
-Subject: [Bug 1691379] Re: NetBSD evbmips64el port installation doesn't work
- with qemu-system-mips64el.
+References: <150729895903.22243.5921581973131047310.malonedeb@gac.canonical.com>
+Message-Id: <161906935369.6193.1271136186220211019.malone@chaenomeles.canonical.com>
+Subject: [Bug 1721788] Re: Failed to get shared "write" lock with 'qemu-img
+ info'
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: d20da4fba051eb8b7d64e0a48ad2e0175d8bd145
+X-Launchpad-Hash: f41823c25480fe68a132332d395d75f81e8a55ca
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1691379 <1691379@bugs.launchpad.net>
+Reply-To: Bug 1721788 <1721788@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -89,100 +88,40 @@ the problem has been solved with a newer version of QEMU already.
 Thank you and sorry for the inconvenience.
 
 ** Changed in: qemu
-     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd) =3D> (unassigned)
-
-** Changed in: qemu
        Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1691379
+https://bugs.launchpad.net/bugs/1721788
 
 Title:
-  NetBSD evbmips64el port installation doesn't work with qemu-system-
-  mips64el.
+  Failed to get shared "write" lock with 'qemu-img info'
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I successfully installed the NetBSD evbmips64el port on gxemul but was
-  unable to install it on qemu. Trying to boot it on qemu takes me to
-  the 'db>' prompt. Here's the output and backtrace:
+  When running 'qemu-img info test.qcow2' while test.qcow2 is currently
+  used by a Qemu process, I get the error
 
-  panic: pcib_isa_intr_string: bogus isa irq 0x0
-  kernel: breakpoint trap
-  Stopped in pid 0.1 (system) at  netbsd:cpu_Debugger+0x4:        jr      ra
-                  bdslot: nop
-  db> bt
-  0xffffffff805977f0: cpu_Debugger+4 (63061,90000000180003f8,6,ffffffff804c=
-2290) ra ffffffff8030acd0 sz 0
-  0xffffffff805977f0: vpanic+158 (63061,90000000180003f8,6,ffffffff804c2290=
-) ra ffffffff8030ad7c sz 64
-  0xffffffff80597830: panic+34 (63061,ffffffff803d65b0,0,40) ra ffffffff801=
-09784 sz 96
-  0xffffffff80597890: pcib_isa_intr_string+6c (63061,ffffffff803d65b0,0,40)=
- ra ffffffff80149bfc sz 16
-  0xffffffff805978a0: uhci_pci_attach+16c (63061,ffffffff803d65b0,0,40) ra =
-ffffffff802f0400 sz 176
-  0xffffffff80597950: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,40) r=
-a ffffffff802f053c sz 64
-  0xffffffff80597990: config_found_sm_loc+5c (63061,ffffffff803d65b0,0,40) =
-ra ffffffff80121354 sz 64
-  0xffffffff805979d0: pci_probe_device+524 (63061,ffffffff803d65b0,0,0) ra =
-ffffffff80121548 sz 288
-  0xffffffff80597af0: pci_enumerate_bus+1d0 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff8012167c sz 160
-  0xffffffff80597b90: pcirescan+5c (63061,ffffffff803d65b0,0,0) ra ffffffff=
-801218c4 sz 32
-  0xffffffff80597bb0: pciattach+19c (63061,ffffffff803d65b0,0,0) ra fffffff=
-f802f0400 sz 80
-  0xffffffff80597c00: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff802f053c sz 64
-  0xffffffff80597c40: config_found_sm_loc+5c (63061,ffffffff803d65b0,0,0) r=
-a ffffffff80108934 sz 64
-  0xffffffff80597c80: gt_attach+7c (63061,ffffffff803d65b0,0,0) ra ffffffff=
-802f0400 sz 112   =
+  qemu-img: Could not open 'test.qcow2': Failed to get shared "write"
+  lock.
 
-  0xffffffff80597cf0: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff802f053c sz 64
-  0xffffffff80597d30: config_found_sm_loc+5c (63061,ffffffff803d65b0,0,0) r=
-a ffffffff801086ac sz 64
-  0xffffffff80597d70: mainbus_attach+dc (63061,ffffffff803d65b0,0,0) ra fff=
-fffff802f0400 sz 96
-  0xffffffff80597dd0: config_attach_loc+1c8 (63061,ffffffff803d65b0,0,0) ra=
- ffffffff80104bf8 sz 64
-  0xffffffff80597e10: cpu_configure+28 (63061,ffffffff803d65b0,0,0) ra ffff=
-ffff803d5f30 sz 16
-  0xffffffff80597e20: main+3a0 (63061,ffffffff803d65b0,0,0) ra ffffffff8010=
-00dc sz 128       =
+  =
 
-  0xffffffff80597ea0: kernel_text+dc (63061,ffffffff803d65b0,0,0) ra 0 sz 0
-  User-level: pid 0.1
+  Why does displaying information about a disk image need a write lock for =
+the file?
 
-  Here's the command that I used:
+  Steps to reproduce:
 
-  Build evbmips64el from source and then launch it from qemu (replace
-  the paths relative to your system):
+  qemu-img create -f qcow2 test.qcow2 10M
+  qemu-system-x86_64 -nographic -drive file=3Dtest.qcow2
+  qemu-img info test.qcow2
 
-  qemu-system-mips64el -cdrom
-  /extra/evbmips64/distrib/evbmips/cdroms/installcd/NetBSD-7.99.71
-  -evbmips-mips64el.iso -hda /extra/evbmips64.img -kernel
-  /extra/evbmips64/releasedir/evbmips/installation/netbsd-
-  INSTALL_MALTA64 -nographic -M malta
-
-  (I've decompressed the kernel)
-
-  Here's the output for qemu-system-mips64el --version :
-
-  QEMU emulator version 2.7.1(qemu-2.7.1-6.fc25), Copyright (c)
-  2003-2016 Fabrice Bellard and the QEMU Project developers
-
-  This doesn't look like a NetBSD bug. I've attached a screenshot of the
-  working installation using gxemul in the attachments.
+  The above was tested with Qemu version 2.10.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1691379/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1721788/+subscriptions
 
