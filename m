@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6ECA367F21
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 12:59:13 +0200 (CEST)
-Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A763367F39
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 13:05:12 +0200 (CEST)
+Received: from localhost ([::1]:51850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZX3A-0002je-OJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 06:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
+	id 1lZX8x-0000Pl-GR
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 07:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZWsr-0007Cl-MW; Thu, 22 Apr 2021 06:48:35 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:42978)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZWvG-0001iv-21
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 06:51:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZWso-0005YW-U0; Thu, 22 Apr 2021 06:48:32 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- y5-20020a05600c3645b0290132b13aaa3bso2869370wmq.1; 
- Thu, 22 Apr 2021 03:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qHZkesTQ7iY0aT+GqCLFkQZuPGZupRkmvhvWLL3ejQQ=;
- b=fU/W7JOBizxBXgABfqaHuQ8B892lUWfRY5YOXDn71cd2A1wMrRhrZWFcBwqUve2ZZa
- jf1kKqs/duj7WWF4xB+L1bRxfloYnNS4HM20R2cN0n0ekoOyUNSoczrntuZ44VaRBCiy
- MIwKSeRXDnehpRZDsVSdmkc+3nl/Dc7j7v9/S36AykXm93GFrKUEXzhj92OLOQmfJs0N
- uAAyFbp53fPZ2wkaagB8EJ9NuMHeuuViF8Ocww5eJQIpVh1B4yVePefyYDsVbPejy25h
- VTlN+s98eMg9eIJFNYyx3fwELz83XuZGu4KVupa4Miw+kfwIBrr0FkiOUZoX550+2Khf
- dx+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qHZkesTQ7iY0aT+GqCLFkQZuPGZupRkmvhvWLL3ejQQ=;
- b=FVAEEdiTqkZpzEOkchgaV3rmJ1MhhJDg6lokPhmR0NBbgiqs+nG78YRJxaP7eIeJOL
- 71OdGujAruzDF3TLQaOYjTExg7enxcBAlBRrVrtghwoY21zQh/cVpdKkFlryjJj0h0gk
- x5R7Y81rwyPR4J4+pkEA1mqXXkMh7SKh4NYBEeymOkhF/cWupJr6iOGvh5dm0TlSKckA
- Xu2A1cFO7F+QyRRdHqekNtVKSZ53DQxdassMl+pwawINxVpq8XYAFS+o6fjWr1iE1V6S
- ohVaMJfrD1lDap477/CkR6jAZinn2M+IjiclNSIAwgtgOPrwfPCzVZqEYJGqqnoKoiRH
- olKg==
-X-Gm-Message-State: AOAM5304Z7FqvQRn21VJr2xTheduwDe6kNMUUbwdEnAG+jLnaFWqLKVF
- 5Yd5502sQ3i16a9ISxiafepLCiJ6l/OABA==
-X-Google-Smtp-Source: ABdhPJzNC4BB9erAWVRLhhpwh1Zeqi5ghOGFzpiqQnj+JtfT+pJrHpsivyK3RstfYnX4BMN+3cJefg==
-X-Received: by 2002:a1c:6a06:: with SMTP id f6mr3077795wmc.179.1619088506542; 
- Thu, 22 Apr 2021 03:48:26 -0700 (PDT)
-Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id y8sm3398426wru.27.2021.04.22.03.48.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 03:48:26 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/15] cpu: Move CPUClass::get_paging_enabled to
- SysemuCPUOps
-Date: Thu, 22 Apr 2021 12:47:03 +0200
-Message-Id: <20210422104705.2454166-15-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210422104705.2454166-1-f4bug@amsat.org>
-References: <20210422104705.2454166-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZWvD-0006vf-NW
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 06:51:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZWvA-0005sU-IZ
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 10:50:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 79C4F2E816C
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 10:50:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Apr 2021 10:41:43 -0000
+From: Alexander Richardson <1916269@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arichardson
+X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
+X-Launchpad-Bug-Modifier: Alexander Richardson (arichardson)
+References: <161375459275.29060.15778429539023668893.malonedeb@soybean.canonical.com>
+Message-Id: <161908810382.6637.2396062733185532941.malone@chaenomeles.canonical.com>
+Subject: [Bug 1916269] Re: TCG: QEMU raises exception on SSE4.2 CRC32
+ instruction in kernel
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: b6d5bd93058a071eecd9cae2bf49c133da008e10
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,112 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Bug 1916269 <1916269@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/core/cpu.h            | 2 --
- include/hw/core/sysemu-cpu-ops.h | 4 ++++
- hw/core/cpu.c                    | 4 ++--
- target/i386/cpu.c                | 4 +++-
- 4 files changed, 9 insertions(+), 5 deletions(-)
+Could someone familiar with the target/i386 decode logic could have a look =
+at this? It should be a rather simple change to avoid the exception for the=
+ crc32 encoding. However, I am not familiar with x86 instruction encodings =
+so it would take me a long time to come up with a correct patch.
+Thanks!
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 6dd60c3ada4..d0187798eea 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -93,7 +93,6 @@ struct AccelCPUClass;
-  * @dump_state: Callback for dumping state.
-  * @dump_statistics: Callback for dumping statistics.
-  * @get_arch_id: Callback for getting architecture-dependent CPU ID.
-- * @get_paging_enabled: Callback for inquiring whether paging is enabled.
-  * @set_pc: Callback for setting the Program Counter register. This
-  *       should have the semantics used by the target architecture when
-  *       setting the PC from a source such as an ELF file entry point;
-@@ -136,7 +135,6 @@ struct CPUClass {
-     void (*dump_state)(CPUState *cpu, FILE *, int flags);
-     void (*dump_statistics)(CPUState *cpu, int flags);
-     int64_t (*get_arch_id)(CPUState *cpu);
--    bool (*get_paging_enabled)(const CPUState *cpu);
-     void (*set_pc)(CPUState *cpu, vaddr value);
-     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
-     int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
-diff --git a/include/hw/core/sysemu-cpu-ops.h b/include/hw/core/sysemu-cpu-ops.h
-index 460e7d63b0c..3f9a5199dd1 100644
---- a/include/hw/core/sysemu-cpu-ops.h
-+++ b/include/hw/core/sysemu-cpu-ops.h
-@@ -21,6 +21,10 @@ typedef struct SysemuCPUOps {
-      */
-     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
-                                Error **errp);
-+    /**
-+     * @get_paging_enabled: Callback for inquiring whether paging is enabled.
-+     */
-+    bool (*get_paging_enabled)(const CPUState *cpu);
-     /**
-      * @get_phys_page_debug: Callback for obtaining a physical address.
-      */
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 339bdfadd7a..7a8487d468f 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -71,8 +71,8 @@ bool cpu_paging_enabled(const CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
--    if (cc->get_paging_enabled) {
--        return cc->get_paging_enabled(cpu);
-+    if (cc->sysemu_ops->get_paging_enabled) {
-+        return cc->sysemu_ops->get_paging_enabled(cpu);
-     }
- 
-     return false;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 1b7317e43b4..feb71981efb 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7162,12 +7162,14 @@ static int64_t x86_cpu_get_arch_id(CPUState *cs)
-     return cpu->apic_id;
- }
- 
-+#if !defined(CONFIG_USER_ONLY)
- static bool x86_cpu_get_paging_enabled(const CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
-     return cpu->env.cr[0] & CR0_PG_MASK;
- }
-+#endif /* !CONFIG_USER_ONLY */
- 
- static void x86_cpu_set_pc(CPUState *cs, vaddr value)
- {
-@@ -7394,6 +7396,7 @@ static Property x86_cpu_properties[] = {
- #ifndef CONFIG_USER_ONLY
- static const struct SysemuCPUOps i386_sysemu_ops = {
-     .get_memory_mapping = x86_cpu_get_memory_mapping,
-+    .get_paging_enabled = x86_cpu_get_paging_enabled,
-     .get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug,
-     .asidx_from_attrs = x86_asidx_from_attrs,
-     .get_crash_info = x86_cpu_get_crash_info,
-@@ -7434,7 +7437,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-     cc->gdb_write_register = x86_cpu_gdb_write_register;
-     cc->get_arch_id = x86_cpu_get_arch_id;
--    cc->get_paging_enabled = x86_cpu_get_paging_enabled;
- 
- #ifndef CONFIG_USER_ONLY
-     cc->sysemu_ops = &i386_sysemu_ops;
--- 
-2.26.3
+** Summary changed:
 
+- TCG: QEMU raises exception on SSE4.2 CRC32 instruction in kernel
++ TCG: QEMU incorrectly raises exception on SSE4.2 CRC32 instruction
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916269
+
+Title:
+  TCG: QEMU incorrectly raises exception on SSE4.2 CRC32 instruction
+
+Status in QEMU:
+  New
+
+Bug description:
+  If I run FreeBSD on QEMU 5.2 with TCG acceleration -cpu Nehalem, I get
+  a FPU exception when executing crc32
+  (https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=3D253617). This is
+  not a problem with the default CPU (or KVM) since that does not
+  support SSE 4.2.
+
+  Attaching GDB shows this is triggered in
+  target/i386/tcg/translate.c:3067
+
+      /* simple MMX/SSE operation */
+      if (s->flags & HF_TS_MASK) {
+          gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+          return;
+      }
+
+  However, according to
+  https://software.intel.com/sites/default/files/m/8/b/8/D9156103.pdf,
+  page 61 the CRC32 instruction works no matter what the value of the TS
+  bit.
+
+  The code sequence in question is:
+  0xffffffff8105a4de <+126>:	f2 48 0f 38 f1 de	crc32q %rsi,%rbx
+  0xffffffff8105a4e4 <+132>:	f2 48 0f 38 f1 ca	crc32q %rdx,%rcx.
+
+  This should work even with the FPU disabled.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916269/+subscriptions
 
