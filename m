@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718FE368032
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:21:46 +0200 (CEST)
-Received: from localhost ([::1]:34816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437CB36804B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 14:23:31 +0200 (CEST)
+Received: from localhost ([::1]:39138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZYL3-0001qU-Gw
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
+	id 1lZYMk-0003j1-CD
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 08:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZYA7-00056w-3G
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lZYA5-0002Vr-19
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:10:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619093424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I6fnjCcRzaOttpJJtwPmS5JBhxATenE0rV4+48vmixY=;
- b=PH7o63vMX9J16dNONET93XNeiKqi53Yv+LNI7cS2myP9QJIP/w8NL5PMUxXZGK+dJb/96g
- imFVcKSlrBCvRbBtYrRxcJECuwJiHpq6IMmHnM9W7EKtaDrVhxGw/H0afZvgqfwX/gX2Hj
- IuqgpfRfqr8FoSuvbmI9epAWc81hQgg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-NYrNrmFVN0KnJFMLoJsUbQ-1; Thu, 22 Apr 2021 08:10:21 -0400
-X-MC-Unique: NYrNrmFVN0KnJFMLoJsUbQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA0641966343;
- Thu, 22 Apr 2021 12:10:02 +0000 (UTC)
-Received: from localhost (ovpn-112-237.rdu2.redhat.com [10.10.112.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C4C35C1D5;
- Thu, 22 Apr 2021 12:10:02 +0000 (UTC)
-Date: Thu, 22 Apr 2021 08:09:59 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v2 3/7] tests/acceptance: Let the framework handle
- "cpu:VALUE" tagged tests
-Message-ID: <20210422120959.GD2153290@amachine.somewhere>
-References: <20210408195237.3489296-1-wainersm@redhat.com>
- <20210408195237.3489296-4-wainersm@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZYKM-0001w5-8E
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:21:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZYKH-0007jy-Pk
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 08:21:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZYKE-0002jv-QQ
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 12:20:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A5D442E8163
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 12:20:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210408195237.3489296-4-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SFyWQ0h3ruR435lw"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Apr 2021 12:11:30 -0000
+From: Paul Goyette <1743191@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
+ stefanha th-huth
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: Paul Goyette (paul-whooppee)
+References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
+ <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
+Message-Id: <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
+Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
+ blocks no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: eda981335c5c10e7727c50bfa2de64593bc91182
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,57 +73,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, philmd@redhat.com,
- aurelien@aurel32.net
+Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---SFyWQ0h3ruR435lw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This bug was fixed long ago, so long ago that I have no idea when!
 
-On Thu, Apr 08, 2021 at 04:52:33PM -0300, Wainer dos Santos Moschetta wrote=
-:
-> The tests that are already tagged with "cpu:VALUE" don't need to add
-> "-cpu VALUE" to the list of arguments of the vm object because the avocad=
-o_qemu
-> framework is able to handle it automatically.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  tests/acceptance/boot_linux.py         | 3 ---
->  tests/acceptance/machine_mips_malta.py | 1 -
->  tests/acceptance/replay_kernel.py      | 8 +++-----
->  tests/acceptance/reverse_debugging.py  | 2 +-
->  tests/acceptance/tcg_plugins.py        | 9 ++++-----
->  5 files changed, 8 insertions(+), 15 deletions(-)
+Please close wiwth an appropriate status.
+
+
+On Thu, 22 Apr 2021, Thomas Huth wrote:
+
+> The QEMU project is currently considering to move its bug tracking to
+> another system. For this we need to know which bugs are still valid
+> and which could be closed already. Thus we are setting older bugs to
+> "Incomplete" now.
+>
+> If you still think this bug report here is valid, then please switch
+> the state back to "New" within the next 60 days, otherwise this report
+> will be marked as "Expired". Or please mark it as "Fix Released" if
+> the problem has been solved with a newer version of QEMU already.
+>
+> Thank you and sorry for the inconvenience.
+>
+> ** Changed in: qemu
+>       Status: New =3D> Incomplete
+>
+> -- =
+
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1743191
+>
+> Title:
+>  Interacting with NetBSD serial console boot blocks no longer works
+>
+> Status in QEMU:
+>  Incomplete
+>
+> Bug description:
+>  The NetBSD boot blocks display a menu allowing the user to make a
+>  selection using the keyboard.  For example, when booting a NetBSD
+>  installation CD-ROM, the menu looks like this:
+>
+>           1. Install NetBSD
+>           2. Install NetBSD (no ACPI)
+>           3. Install NetBSD (no ACPI, no SMP)
+>           4. Drop to boot prompt
+>
+>      Choose an option; RETURN for default; SPACE to stop countdown.
+>      Option 1 will be chosen in 30 seconds.
+>
+>  When booting NetBSD in a recent qemu using an emulated serial console,
+>  making this menu selection no longer works: when you type the selected
+>  number, the keyboard input is ignored, and the 30-second countdown
+>  continues.  In older versions of qemu, it works.
+>
+>  To reproduce the problem, run:
+>
+>     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation=
+/cdrom/boot-com.iso
+>     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+>
+>  During the 30-second countdown, press 4
+>
+>  Expected behavior: The countdown stops and you get a ">" prompt
+>
+>  Incorrect behavior: The countdown continues
+>
+>  There may also be some corruption of the terminal output; for example,
+>  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+>  will be chosen in p0 seconds".
+>
+>  Using bisection, I have determined that the problem appeared with qemu
+>  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+>  updated to 1.11 prerelease, and the problem is still there as of
+>  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+>  system used for the tests was Debian 9 x86_64.
+>
+>  Credit for discovering this bug goes to Paul Goyette.
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
+>
+> !DSPAM:60811a8265601949211437!
+>
 >
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
++--------------------+--------------------------+-----------------------+
+| Paul Goyette       | PGP Key fingerprint:     | E-mail addresses:     |
+| (Retired)          | FA29 0E3B 35AF E8AE 6651 | paul@whooppee.com     |
+| Software Developer | 0786 F758 55DE 53BA 7731 | pgoyette@netbsd.org   |
++--------------------+--------------------------+-----------------------+
 
---SFyWQ0h3ruR435lw
-Content-Type: application/pgp-signature; name="signature.asc"
+-- =
 
------BEGIN PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1743191
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmCBZ5UACgkQZX6NM6Xy
-CfOtXQ//ZrEnIhIDxmP6YFaEo59A6c0qiau65G4g9bFHK7Mk3P9J0JlqLtCKRWvI
-WcP3eknTyxX1ILS9cAMRX+j2bbCQlfjyxkJIYv/AOcpXewUX/EZKpt2iTCaKLStb
-UKOzs1VdNCyllEdq6ReDfEggshWZeTB/UNHU3wp0OktWHghaIpCBbTpt503pvmWE
-RqvBEVyh9cEFrcU1kxgSb+vmuBvfhRCAAKyJu6WXcFbQ1EMa6s2SOu7+X5y4JN/A
-5gUUMru3Dusu4wP1/0qmKrWZqaJ3DgdzIZs6BB/+biFKOnot0yBzm0a8OGB5/vLW
-lgbQ3BRl2Bc9I7KOVRLF0H76xqpY07XQkNQS/NbAiRfDB5shmh6yhR8PM0bHYDOR
-Fi2VpvdueIj1leYNwpUGcjLlQAUbfhe7Y++enf3AEV5x1EUM5f5iklIiLAYSylFj
-xEFibgtvD+szGTyWAhbKiTf/J/QxYEPwVZSfZNFXkczP4tZnGSW9Bo6v63bdVpd6
-tfrF/bKQav1QKmSKqtShqtdiq3NYOsiXw8h3jjKsBZWtvb7wYRQdGTAMhlR1Bjp8
-TlvfpAxP8Xnf1XnkXVar1KSBs3v1vCHFJpO0XwOE2UMfvqc0vDFdzl2j3+X/iE2C
-w+CyqWj4UcRST4JGa4a+WM8Jdfln/zLZxxj+ukbM+cZX1LAdJag=
-=BgvR
------END PGP SIGNATURE-----
+Title:
+  Interacting with NetBSD serial console boot blocks no longer works
 
---SFyWQ0h3ruR435lw--
+Status in QEMU:
+  New
 
+Bug description:
+  The NetBSD boot blocks display a menu allowing the user to make a
+  selection using the keyboard.  For example, when booting a NetBSD
+  installation CD-ROM, the menu looks like this:
+
+           1. Install NetBSD
+           2. Install NetBSD (no ACPI)
+           3. Install NetBSD (no ACPI, no SMP)
+           4. Drop to boot prompt
+
+      Choose an option; RETURN for default; SPACE to stop countdown.
+      Option 1 will be chosen in 30 seconds.
+
+  When booting NetBSD in a recent qemu using an emulated serial console,
+  making this menu selection no longer works: when you type the selected
+  number, the keyboard input is ignored, and the 30-second countdown
+  continues.  In older versions of qemu, it works.
+
+  To reproduce the problem, run:
+
+     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
+cdrom/boot-com.iso
+     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+
+  During the 30-second countdown, press 4
+
+  Expected behavior: The countdown stops and you get a ">" prompt
+
+  Incorrect behavior: The countdown continues
+
+  There may also be some corruption of the terminal output; for example,
+  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+  will be chosen in p0 seconds".
+
+  Using bisection, I have determined that the problem appeared with qemu
+  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+  updated to 1.11 prerelease, and the problem is still there as of
+  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+  system used for the tests was Debian 9 x86_64.
+
+  Credit for discovering this bug goes to Paul Goyette.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
