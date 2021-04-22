@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9723678B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:29:54 +0200 (CEST)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D048F3678AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:27:33 +0200 (CEST)
+Received: from localhost ([::1]:43782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQyP-0003wt-GJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:29:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42290)
+	id 1lZQw7-0008An-CO
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQuS-0005uC-D7
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:25:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44114)
+ id 1lZQuQ-0005sr-TB
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:25:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQuP-0002OK-Lr
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:25:48 -0400
+ id 1lZQuO-0002Np-WE
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:25:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQuO-0006aY-B9
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:25:44 +0000
+ id 1lZQuN-0006Wj-Oy
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:25:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 52D772E8060
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:25:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BB3A82E8060
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:19:14 -0000
-From: Thomas Huth <1840249@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:19:35 -0000
+From: Thomas Huth <1840250@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -43,16 +43,15 @@ X-Launchpad-Bug-Commenters: philmd th-huth
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156587194288.26490.13000707858275373489.malonedeb@gac.canonical.com>
-Message-Id: <161906515466.32357.14254967731446961822.malone@soybean.canonical.com>
-Subject: [Bug 1840249] Re: Cancelling 'make docker-test-build' does not cancel
- running containers
+References: <156587216258.26985.5763583236132855979.malonedeb@gac.canonical.com>
+Message-Id: <161906517509.6248.17522872842685956109.malone@chaenomeles.canonical.com>
+Subject: [Bug 1840250] Re: 'make -j1 docker-test-build' uses more than one job
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 89f0e619935512e2296ca2a49315f96399dbd5a1
+X-Launchpad-Hash: 94ae6f1e6eb34b3529a99b2d8e05f9df00d7185b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1840249 <1840249@bugs.launchpad.net>
+Reply-To: Bug 1840250 <1840250@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,10 +92,10 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1840249
+https://bugs.launchpad.net/bugs/1840250
 
 Title:
-  Cancelling 'make docker-test-build' does not cancel running containers
+  'make -j1 docker-test-build' uses more than one job
 
 Status in QEMU:
   Incomplete
@@ -104,10 +103,12 @@ Status in QEMU:
 Bug description:
   version: v4.1.0-rc5
 
-  Run 'make -k docker-test-build', wait a few, cancel with ^C:
+  Run 'make -j1 docker-test-build', wait a few, various containers get
+  instantiated.
 
-  $ make -k docker-test-build 2>&1 > /dev/null
-  ^C
+  $ make -j1 docker-test-build 2>&1 > /dev/null
+
+  On another terminal:
 
   $ docker ps
   CONTAINER ID        IMAGE                            COMMAND             =
@@ -119,8 +120,6 @@ Bug description:
   06027b5dfd4a        qemu:debian-amd64                "/var/tmp/qemu/run t=
 =E2=80=A6"   10 minutes ago      Up 10 minutes
 
-  The docker containers are still up building QEMU.
-
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1840249/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1840250/+subscriptions
 
