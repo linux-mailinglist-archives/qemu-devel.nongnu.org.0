@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA29A36796A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:45:46 +0200 (CEST)
-Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CCB367981
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:50:27 +0200 (CEST)
+Received: from localhost ([::1]:43216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZS9p-0003fm-Pp
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:45:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
+	id 1lZSEM-0001Ud-MW
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZS5M-0001ph-3M
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:41:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52548)
+ id 1lZS9m-00050C-O9
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZS5I-0005s0-5f
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:41:07 -0400
+ id 1lZS9k-000826-JJ
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:45:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZS5G-0004No-Mi
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:41:02 +0000
+ id 1lZS9j-0004fB-JC
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:45:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8FDA62E8161
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:41:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8F0ED2E815A
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:45:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:34:44 -0000
-From: Thomas Huth <1748296@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:37:58 -0000
+From: Ravishankar <1925417@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgreenaway doug16k th-huth
-X-Launchpad-Bug-Reporter: Doug Gale (doug16k)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <151812332204.10331.17425660234309724521.malonedeb@wampee.canonical.com>
-Message-Id: <161906968444.32072.9259428871119294115.malone@soybean.canonical.com>
-Subject: [Bug 1748296] Re: TCG throws Invalid Opcode when executing x86 BMI
- shlx instruction
+X-Launchpad-Bug-Commenters: rreddy78
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
+Message-Id: <161906987819.6402.12318771307523732954.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1925417] [NEW] Cannot boot from EFI image on aarch64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: f65616c5e9ca56ef1df3a8f3eae9a1cb8c81d141
+X-Launchpad-Hash: 467f56765562592eebef8d85e861834ba6696529
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,62 +68,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1748296 <1748296@bugs.launchpad.net>
+Reply-To: Bug 1925417 <1925417@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ah, never mind, posted the text before seeing that it still affects
-people in 2021 ... so I'm not changing this bug to "Incomplete". Sorry
-for the noise.
+Public bug reported:
+
+I am unable to boot from a EFI disk image on aarch64 qemu.
+
+I have qemu built and installed from sources on a jetson-nano
+
+qemu-system-aarch64 -version
+QEMU emulator version 5.2.50 (v5.2.0-3234-gbdee969c0e)
+Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+
+KVM and and virtio are enabled in host kernel.
+
+Now I want to boot a ChromiumOS image. I have the image downloaded from
+here:
+
+https://chromium.arnoldthebat.co.uk/?dir=3Ddaily
+
+The image looks fine:
+
+rreddy78@jetson-nano:~/Downloads$ fdisk -lu chromiumos_image.bin =
+
+Disk chromiumos_image.bin: 6.2 GiB, 6606109184 bytes, 12902557 sectors
+Units: sectors of 1 * 512 =3D 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: C5B6CA94-0AF1-374E-90B5-A5CF4DC1FF51
+
+Device                   Start      End Sectors  Size Type
+chromiumos_image.bin1  4513792 12902508 8388717    4G Linux filesystem
+chromiumos_image.bin2    20480    53247   32768   16M ChromeOS kernel
+chromiumos_image.bin3   319488  4513791 4194304    2G ChromeOS root fs
+chromiumos_image.bin4    53248    86015   32768   16M ChromeOS kernel
+chromiumos_image.bin5   315392   319487    4096    2M ChromeOS root fs
+chromiumos_image.bin6    16448    16448       1  512B ChromeOS kernel
+chromiumos_image.bin7    16449    16449       1  512B ChromeOS root fs
+chromiumos_image.bin8    86016   118783   32768   16M Linux filesystem
+chromiumos_image.bin9    16450    16450       1  512B ChromeOS reserved
+chromiumos_image.bin10   16451    16451       1  512B ChromeOS reserved
+chromiumos_image.bin11      64    16447   16384    8M unknown
+chromiumos_image.bin12  249856   315391   65536   32M EFI System
+
+Partition table entries are not in disk order.
+
+Now I try booting like this:
+
+qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host -enable-kvm  \
+-device usb-ehci -device usb-kbd  -device usb-mouse -usb -serial stdio  \
+-device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=3D=
+on \
+-device virtio-blk-device,drive=3Dhd \
+-drive if=3Dnone,file=3Dchromiumos_image.bin,format=3Draw,id=3Dhd   \
+-netdev user,id=3Dmynet   \
+-device virtio-net-device,netdev=3Dmynet \
+-bios edk2-aarch64-code.fd -no-reboot
+
+But I am unable to boot.
+
+Memory Type Information settings change.
+[Bds]Booting UEFI Misc Device
+ BlockSize : 262144 =
+
+ LastBlock : FF =
+
+[Bds] Expand VenHw(93E34C7E-B50E-11DF-9223-2443DFD72085,00) -> <null string>
+BdsDxe: failed to load Boot0001 "UEFI Misc Device" from VenHw(93E34C7E-B50E=
+-11DF-9223-2443DFD72085,00): Not Found
+
+
+and =
+
+
+
+[Bds] Expand VenHw(837DCA9E-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000) -=
+> <null string>
+BdsDxe: failed to load Boot0002 "UEFI Misc Device 2" from VenHw(837DCA9E-E8=
+74-4D82-B29A-23FE0E23D1E2,003E000A00000000): Not Found
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1748296
+https://bugs.launchpad.net/bugs/1925417
 
 Title:
-  TCG throws Invalid Opcode when executing x86 BMI shlx instruction
+  Cannot boot from EFI image on aarch64
 
 Status in QEMU:
   New
 
 Bug description:
-  I am unable to use BMI in my project when running under TCG. I
-  narrowed the problem down to incorrect instruction decoding for BMI
-  instructions (which have a 2 byte VEX prefix). The gen_sse function in
-  translate.c reaches the goto label do_0f_38_fx, but b does not equal
-  0x1f7, 0x2f7, or 0x3f7, so the switch takes the default path and
-  raises an invalid opcode exception.
+  I am unable to boot from a EFI disk image on aarch64 qemu.
 
-  The code executes correctly and passes the test under KVM.
+  I have qemu built and installed from sources on a jetson-nano
 
-  I have created a complete repro here: https://github.com/doug65536
-  /qemu-bmibug
+  qemu-system-aarch64 -version
+  QEMU emulator version 5.2.50 (v5.2.0-3234-gbdee969c0e)
+  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
 
-  The makefile has the following utility targets:
+  KVM and and virtio are enabled in host kernel.
 
-  debug-kvm: Build and run the VM using KVM and wait for gdbstub attach
+  Now I want to boot a ChromiumOS image. I have the image downloaded
+  from here:
 
-  run: Run the test case with TCG, make fails if the test fails. (It
-  will fail)
+  https://chromium.arnoldthebat.co.uk/?dir=3Ddaily
 
-  run-kvm: Run the test case with KVM, make fails if the test fails. (It
-  will succeed)
+  The image looks fine:
 
-  debug: Build and run the VM with TCG and wait for GDB attach
+  rreddy78@jetson-nano:~/Downloads$ fdisk -lu chromiumos_image.bin =
 
-  attach-gdb: Run GDB and attach to QEMU gdbstub
+  Disk chromiumos_image.bin: 6.2 GiB, 6606109184 bytes, 12902557 sectors
+  Units: sectors of 1 * 512 =3D 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: gpt
+  Disk identifier: C5B6CA94-0AF1-374E-90B5-A5CF4DC1FF51
 
-  The VM runs with -cpu max. CPUID reports support for BMI, BMI2, and
-  ABM.
+  Device                   Start      End Sectors  Size Type
+  chromiumos_image.bin1  4513792 12902508 8388717    4G Linux filesystem
+  chromiumos_image.bin2    20480    53247   32768   16M ChromeOS kernel
+  chromiumos_image.bin3   319488  4513791 4194304    2G ChromeOS root fs
+  chromiumos_image.bin4    53248    86015   32768   16M ChromeOS kernel
+  chromiumos_image.bin5   315392   319487    4096    2M ChromeOS root fs
+  chromiumos_image.bin6    16448    16448       1  512B ChromeOS kernel
+  chromiumos_image.bin7    16449    16449       1  512B ChromeOS root fs
+  chromiumos_image.bin8    86016   118783   32768   16M Linux filesystem
+  chromiumos_image.bin9    16450    16450       1  512B ChromeOS reserved
+  chromiumos_image.bin10   16451    16451       1  512B ChromeOS reserved
+  chromiumos_image.bin11      64    16447   16384    8M unknown
+  chromiumos_image.bin12  249856   315391   65536   32M EFI System
 
-  You can quickly verify the issue by executing `make run-kvm` to
-  confirm that KVM passes, then `make run` to confirm that TCG fails.
+  Partition table entries are not in disk order.
 
-  I believe the bug affects other BMI, BMI2, and ABM instructions, but I
-  have only completely verified incorrect execution of SHLX.
+  Now I try booting like this:
+
+  qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host -enable-kvm  \
+  -device usb-ehci -device usb-kbd  -device usb-mouse -usb -serial stdio  \
+  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
+=3Don \
+  -device virtio-blk-device,drive=3Dhd \
+  -drive if=3Dnone,file=3Dchromiumos_image.bin,format=3Draw,id=3Dhd   \
+  -netdev user,id=3Dmynet   \
+  -device virtio-net-device,netdev=3Dmynet \
+  -bios edk2-aarch64-code.fd -no-reboot
+
+  But I am unable to boot.
+
+  Memory Type Information settings change.
+  [Bds]Booting UEFI Misc Device
+   BlockSize : 262144 =
+
+   LastBlock : FF =
+
+  [Bds] Expand VenHw(93E34C7E-B50E-11DF-9223-2443DFD72085,00) -> <null stri=
+ng>
+  BdsDxe: failed to load Boot0001 "UEFI Misc Device" from VenHw(93E34C7E-B5=
+0E-11DF-9223-2443DFD72085,00): Not Found
+
+  =
+
+  and =
+
+
+  =
+
+  [Bds] Expand VenHw(837DCA9E-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000)=
+ -> <null string>
+  BdsDxe: failed to load Boot0002 "UEFI Misc Device 2" from VenHw(837DCA9E-=
+E874-4D82-B29A-23FE0E23D1E2,003E000A00000000): Not Found
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1748296/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1925417/+subscriptions
 
