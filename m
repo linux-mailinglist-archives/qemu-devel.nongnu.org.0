@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606CC368817
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 22:35:38 +0200 (CEST)
-Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479683688A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 23:36:06 +0200 (CEST)
+Received: from localhost ([::1]:43204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZg2y-0004F3-Qh
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 16:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34778)
+	id 1lZgzU-00015O-Pw
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 17:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raidsmainacc@gmail.com>)
- id 1lZfYm-00027J-5l
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 16:04:24 -0400
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:40564)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raidsmainacc@gmail.com>)
- id 1lZfYk-0001SW-BO
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 16:04:23 -0400
-Received: by mail-vs1-xe29.google.com with SMTP id o192so7579462vsd.7
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 13:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=UChckgE6Dla2wf4IsBhdkia1CrTPAeUzR4wJ7j67XPs=;
- b=iwMGSA56YLBo+U6Q1jTDs16lhB680YVQQE8pdj0vmiOABOcck8b7ZztV2feOOedUq8
- BqGMmdUMymIbwV/F3p9K71n6aFSRPgJTuP1e+VJWxvmK2E5/QdfvHwJ1nqI6WdiuZLJ4
- /T5YzjQwrZNBBnoAMwi34p8DL5GieLtyvpMGXaUoPsCjoTj5cCKsJgVJGxOJJwsk4TNI
- 9H9FH14jplXaDoKVrC0LAOH3WdPQlbwRzPyLCvQOqEVLJ6D3SS5l69K9NXGdCQYjgZQC
- JCijDXyLwgrtcO1uQumr11UnvAGx9F4tGWd2Sz4X6aMfltXpt3NywyiLNSpEAzkih1V3
- p4Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=UChckgE6Dla2wf4IsBhdkia1CrTPAeUzR4wJ7j67XPs=;
- b=hyaDOiLztsqgFNlv0+alloXt1eX0HO+sZvuB2N15Ng5iiYZfCcOSBft8MlExzinjaQ
- gcPdiTHciP8OamXY38iSwXNdVJNjkD8e+s16rYPtvEx9Y3t8dwYtds6IYASpCgEOIxWp
- mGF9rxETusgMsLB7KhNpiQHzaMzOLLFFocVC1Wt+JHdZO63/Nxp83dDc2/PgNmPxQ5E5
- wE6woCrPgWSjSdsC8EM7TOvHnC4gCFlDNlVFzA84+uY0iNSYSS67eItBWI+9rhdESPfL
- UEyX6EM0JrZqP5KZ6aaBG9zztxQlHiDf8/rVFKHvaW1s5tyrgKM2Osk8uQRoE2ib7uB0
- 1rLQ==
-X-Gm-Message-State: AOAM532/4r8wLyOPHfz6W1zPVaTUFAFOidLZAWH241U8ymKomsNieC/3
- Ap90A8nl1r64xqBmeXBsk2NkzuIjE4J7a6G3eMahZEguCCi1Bg==
-X-Google-Smtp-Source: ABdhPJxJ+qz/WK19q1i77WKmIDRB1SHNGm6bO2Sko0YR0sINiArgmrjc7dIXJRzv9ifA3SjpkdE+JOvGHMCe1mg9d3I=
-X-Received: by 2002:a67:22c7:: with SMTP id i190mr580998vsi.60.1619121858690; 
- Thu, 22 Apr 2021 13:04:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
+ id 1lZgyX-0000Xx-SL
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 17:35:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46523)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
+ id 1lZgyS-0006xq-Sp
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 17:35:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619127299;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9XPOzXrloouJaQdbtwm84n7HpTa0lpTmNysZaux0AcU=;
+ b=c8rOyMcKy1VBKgEJI2JKvrQ+fZZqwFoK1EzpLl+uEPmy55j6WwN5f4X+LmVwICk82Eq7gW
+ y+0aM01Iww2O2cDTYuNjRLuqUED8LpDc8ZI6SIrMYULfltvY0gJmy/DoTHh2j7xthGjG/S
+ 9SZkbpJfA2iWHE6n+MudeBENfuVkJ6o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-7A6srA0sOYiX6MFnoBKbeg-1; Thu, 22 Apr 2021 17:34:57 -0400
+X-MC-Unique: 7A6srA0sOYiX6MFnoBKbeg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5167A18B9F85;
+ Thu, 22 Apr 2021 21:34:56 +0000 (UTC)
+Received: from [10.10.113.167] (ovpn-113-167.rdu2.redhat.com [10.10.113.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DD4C6E6F5;
+ Thu, 22 Apr 2021 21:34:55 +0000 (UTC)
+Subject: Re: [PATCH-for-6.0] net: tap: fix crash on hotplug
+To: Bin Meng <bmeng.cn@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <3f6be9c84782a0943ea21a8a6f8a5d055b65f2d5.1619018363.git.crobinso@redhat.com>
+ <fe1f97bc-5ff9-002b-debc-5bc2c449c8b8@redhat.com>
+ <CAEUhbmXR1Yn5paL+d0DMjgZUiinQGNRazj3neScL4_=CGvC8zg@mail.gmail.com>
+ <CAFEAcA_4TSF1KKxVQUDt3r+aAnZqT-A2uA8m7O0ZaxHQVWgKJg@mail.gmail.com>
+ <CAEUhbmX-XvJ6ViPjTsiQ2GhmhwefTSbF_m1CRwzphf82SNQixA@mail.gmail.com>
+From: Cole Robinson <crobinso@redhat.com>
+Message-ID: <716bf384-3ba6-179e-afa9-5b02e4573845@redhat.com>
+Date: Thu, 22 Apr 2021 17:34:55 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-From: VoidCC <raidsmainacc@gmail.com>
-Date: Thu, 22 Apr 2021 22:04:13 +0200
-Message-ID: <CABZ9ZfUNmxTPxOBh0SCvaxBFRHKkTfmwAQjqFin=20CwMK64_g@mail.gmail.com>
-Subject: qemu/kvm tianocore restart stuck
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000004263e205c0952f98"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=raidsmainacc@gmail.com; helo=mail-vs1-xe29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CAEUhbmX-XvJ6ViPjTsiQ2GhmhwefTSbF_m1CRwzphf82SNQixA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crobinso@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crobinso@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 22 Apr 2021 16:34:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,61 +86,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004263e205c0952f98
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/22/21 5:42 AM, Bin Meng wrote:
+> On Thu, Apr 22, 2021 at 5:36 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Thu, 22 Apr 2021 at 05:29, Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>
+>>> On Thu, Apr 22, 2021 at 12:36 AM Philippe Mathieu-Daudé
+>>> <philmd@redhat.com> wrote:
+>>>>
+>>>> Cc'ing Bin.
+>>>>
+>>>> On 4/21/21 5:22 PM, Cole Robinson wrote:
+>>>>> Attempting to hotplug a tap nic with libvirt will crash qemu:
+>>>>>
+>>>>> $ sudo virsh attach-interface f32 network default
+>>>>> error: Failed to attach interface
+>>>>> error: Unable to read from monitor: Connection reset by peer
+>>>>>
+>>>>> 0x000055875b7f3a99 in tap_send (opaque=0x55875e39eae0) at ../net/tap.c:206
+>>>>> 206           if (!s->nc.peer->do_not_pad) {
+>>>>> gdb$ bt
+>>>>>
+>>>>> s->nc.peer may not be set at this point. This seems to be an
+>>>>> expected case, as qemu_send_packet_* explicitly checks for NULL
+>>>>> s->nc.peer later.
+>>>>>
+>>>>> Fix it by checking for s->nc.peer here too. Padding is applied if
+>>>>> s->nc.peer is not set.
+>>>>>
+>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1949786
+>>>>> Fixes: 969e50b61a2
+>>>>>
+>>>>> Signed-off-by: Cole Robinson <crobinso@redhat.com>
+>>>>> ---
+>>>>> * Or should we skip padding if nc.peer is unset? I didn't dig into it
+>>>>> * tap-win3.c and slirp.c may need a similar fix, but the slirp case
+>>>>>   didn't crash in a simple test.
+>>>>>
+>>>>>  net/tap.c | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/net/tap.c b/net/tap.c
+>>>>> index dd42ac6134..937559dbb8 100644
+>>>>> --- a/net/tap.c
+>>>>> +++ b/net/tap.c
+>>>>> @@ -203,7 +203,7 @@ static void tap_send(void *opaque)
+>>>>>              size -= s->host_vnet_hdr_len;
+>>>>>          }
+>>>>>
+>>>>> -        if (!s->nc.peer->do_not_pad) {
+>>>>> +        if (!s->nc.peer || !s->nc.peer->do_not_pad) {
+>>>
+>>> I think we should do:
+>>>
+>>> if (s->nc.peer && !s->nc.peer->do_not_pad)
+>>
+>> Yes. If there is no peer then the qemu_send_packet() that we're about
+>> to do is going to discard the packet anyway, so there's no point in
+>> padding it.
+>>
+>> Maybe consider
+>>
+>> static inline bool net_peer_needs_padding(NetClientState *nc)
+>> {
+>>     return nc->peer && !nc->peer->do_not_pad;
+>> }
+>>
+>> since we want the same check in three places ?
+> 
+> Sounds good to me.
+> 
 
-Hello,
+I did not get to this today. Bin/Jason/anyone want to write the patch, I
+will test it tomorrow (US EDT time). If not I'll write the patch tomorrow.
 
-I'm hitting a hard wall with qemu and efi.
-I'm running multiple windows server 2019 vms which usually reboot on
-updates.
+Thanks,
+Cole
 
-The issue is, efi breaks on reboot.
-It randomly(race condition?, does not occur consistently) ends up in a
-blackscreen: no bootloader, no efi screen and the only way to get out of
-that state is to destroy the vm.
-moving the host mouse cursor above the console in virt-manager results in a
-flashing mouse cursor.
-there are no physical devices attached and there is currently no virtio
-attachment in use (os has virtio drivers installed)
-
-
-Machine is Q35 with tianocore/ovmf efi.
-I managed to reproduce the same behaviour on rhel 8.3 as well as
-voidlinux (kernel 5.11)
-
-gdb output of qemu is showing nothing worrisome, else ive compiled ovmf
-manually for debug output.
-libvirt logs don't show any issues.
-
-root =C2=B7 Slexy.org Pastebin <https://slexy.org/view/s2w8CdNBx5>
-
---0000000000004263e205c0952f98
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hello,<div><br></div><di=
-v>I&#39;m hitting a hard wall with qemu and efi.</div><div>I&#39;m running =
-multiple windows server 2019 vms which usually reboot on updates.<br><br>Th=
-e issue is, efi breaks on reboot.<br>It randomly(race condition?, does not=
-=C2=A0occur consistently) ends up in a blackscreen: no bootloader, no efi s=
-creen and the only way to get out of that state is to destroy the vm.</div>=
-<div>moving the host mouse cursor above the console in virt-manager results=
- in a flashing mouse cursor.<br>there are no physical devices attached and =
-there is currently no virtio attachment in use (os has virtio drivers insta=
-lled)</div><div><br></div><div><br></div><div>Machine is Q35 with tianocore=
-/ovmf efi.<br>I managed to reproduce the same behaviour on rhel 8.3=C2=A0as=
- well as voidlinux=C2=A0(kernel 5.11)<br><br>gdb output of qemu is showing =
-nothing worrisome, else ive=C2=A0compiled ovmf manually for debug output.</=
-div><div>libvirt logs don&#39;t=C2=A0show any issues.</div><div><br></div><=
-div><a href=3D"https://slexy.org/view/s2w8CdNBx5">root =C2=B7 Slexy.org Pas=
-tebin</a><br></div><div><br></div><div><br></div><div><br></div></div></div=
-></div>
-
---0000000000004263e205c0952f98--
 
