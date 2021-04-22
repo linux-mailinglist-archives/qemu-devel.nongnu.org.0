@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B188C3684D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:29:53 +0200 (CEST)
-Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD673684F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:35:31 +0200 (CEST)
+Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcDA-0006BB-PU
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:29:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
+	id 1lZcId-0002vE-0u
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwQ-0003wM-2t
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50489)
+ id 1lZbwV-0003ye-AH
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwC-0003A5-Ty
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:31 -0400
+ id 1lZbwR-0003Jk-Uf
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619107939;
+ s=mimecast20190719; t=1619107955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RmKf39MMI8UjOR5BpcVNTEg2FQN7klrBx3F2LThTtL4=;
- b=bWGnpatUucGg53iFjJo10GJ08eXBiH0YFQoCEPnJ86SGxQ94gD0Bq5cCq2ojrcfPwKfMXn
- mq1tfS3KQtfyUKUuw0sVyE8wWwixhmlDWyrJBELGT8N/MgK35FQWbDa12anu82o1qytc4J
- TR36YHgUKndYXlXSVAB0/rJ7wUs8xH0=
+ bh=oGNW0CJayKzgK+80SOjMW5J+sS8MxA4DFOyUeJq6Txg=;
+ b=P1EyUMlIrfzu63twQxjcY7ZYy4UtBFco68wXxSgVqKifECtMmD23cbOyq8jJno+TcWinNa
+ pA3Q7+lttDbOTplfXZxWkGMkM54Ln5z5Dsazm8QPYxetXWKKKCBG5WkHG+OEeP5ohc9Wke
+ Sf/OUxHkdHK/0T/sxRrlWlNKvxSEv/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-VU4et01DOFu1XHJbKunVWg-1; Thu, 22 Apr 2021 12:12:17 -0400
-X-MC-Unique: VU4et01DOFu1XHJbKunVWg-1
+ us-mta-174-aEe-Jk8lOiWP_VYWywAtqg-1; Thu, 22 Apr 2021 12:12:02 -0400
+X-MC-Unique: aEe-Jk8lOiWP_VYWywAtqg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCA7B107AFC6
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3FA6343A8
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:01 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17FB95B4A4;
- Thu, 22 Apr 2021 16:12:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F0DE5B4A0;
+ Thu, 22 Apr 2021 16:12:00 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 18/19] i386: Hyper-V SynIC requires
- POST_MESSAGES/SIGNAL_EVENTS priviliges
-Date: Thu, 22 Apr 2021 18:11:29 +0200
-Message-Id: <20210422161130.652779-19-vkuznets@redhat.com>
+Subject: [PATCH v6 12/19] i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID
+ array size
+Date: Thu, 22 Apr 2021 18:11:23 +0200
+Message-Id: <20210422161130.652779-13-vkuznets@redhat.com>
 In-Reply-To: <20210422161130.652779-1-vkuznets@redhat.com>
 References: <20210422161130.652779-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -84,51 +84,30 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When Hyper-V SynIC has its QEMU part enabled (no 'x-hv-synic-kvm-only'),
-we may need to allow Windows guest to make hypercalls (POST_MESSAGES/
-SIGNAL_EVENTS). No issue is currently observed because KVM is very
-permissive, allowing these hypercalls regarding of guest visible CPUid
-bits.
+SYNDBG leaves were recently (Linux-5.8) added to KVM but we haven't
+updated the expected size of KVM_GET_SUPPORTED_HV_CPUID output in
+KVM so we now make serveral tries before succeeding. Update the
+default.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm/hyperv-proto.h | 6 ++++++
- target/i386/kvm/kvm.c          | 5 +++++
- 2 files changed, 11 insertions(+)
+ target/i386/kvm/kvm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
-index e30d64b4ade4..5fbb385cc136 100644
---- a/target/i386/kvm/hyperv-proto.h
-+++ b/target/i386/kvm/hyperv-proto.h
-@@ -38,6 +38,12 @@
- #define HV_ACCESS_FREQUENCY_MSRS     (1u << 11)
- #define HV_ACCESS_REENLIGHTENMENTS_CONTROL  (1u << 13)
- 
-+/*
-+ * HV_CPUID_FEATURES.EBX bits
-+ */
-+#define HV_POST_MESSAGES             (1u << 4)
-+#define HV_SIGNAL_EVENTS             (1u << 5)
-+
- /*
-  * HV_CPUID_FEATURES.EDX bits
-  */
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index d81451276cd8..88c64909a2ff 100644
+index f33ba325187f..feec9f25ba12 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -1341,6 +1341,11 @@ static int hyperv_fill_cpuids(CPUState *cs,
-     c->ebx = hv_build_cpuid_leaf(cs, HV_CPUID_FEATURES, R_EBX);
-     c->edx = hv_build_cpuid_leaf(cs, HV_CPUID_FEATURES, R_EDX);
+@@ -961,7 +961,8 @@ static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
+ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
+ {
+     struct kvm_cpuid2 *cpuid;
+-    int max = 7; /* 0x40000000..0x40000005, 0x4000000A */
++    /* 0x40000000..0x40000005, 0x4000000A, 0x40000080..0x40000080 leaves */
++    int max = 10;
+     int i;
  
-+    /* In-QEMU SynIC and Vmbus devices require messages/signals hypercalls */
-+    if (!cpu->hyperv_synic_kvm_only) {
-+        c->ebx |= HV_POST_MESSAGES | HV_SIGNAL_EVENTS;
-+    }
-+
-     /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
-     c->edx |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
- 
+     /*
 -- 
 2.30.2
 
