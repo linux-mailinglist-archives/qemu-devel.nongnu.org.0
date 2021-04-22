@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11ED8367B0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:27:30 +0200 (CEST)
-Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FA0367B11
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:29:26 +0200 (CEST)
+Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZTkH-0001zX-4w
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1lZTm9-0004Wv-ED
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZTin-0000LS-D3
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:25:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37912)
+ id 1lZTim-0000J5-7V
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:25:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZTik-00014C-LC
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:25:57 -0400
+ id 1lZTij-000136-NY
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:25:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZTij-0005Qz-E6
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:25:53 +0000
+ id 1lZTii-0005JM-IM
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:25:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5F2CD2E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:25:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 897D02E806D
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:25:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 07:15:59 -0000
-From: Thomas Huth <1838228@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 07:16:35 -0000
+From: Thomas Huth <1838390@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: hvf macos
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hugelgupf marcandre-lureau th-huth
-X-Launchpad-Bug-Reporter: Chris Koch (hugelgupf)
+X-Launchpad-Bug-Commenters: felipe-1 jimmyj jwillikers smartrejames th-huth
+X-Launchpad-Bug-Reporter: James Smart (smartrejames)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156438177001.5960.9261076941599056117.malonedeb@soybean.canonical.com>
-Message-Id: <161907575923.31966.86273588184552886.malone@soybean.canonical.com>
-Subject: [Bug 1838228] Re: Slirp Broadcast traffic
+References: <156448241864.18390.18158373201974266058.malonedeb@gac.canonical.com>
+Message-Id: <161907579512.10272.11155671478109108074.malone@wampee.canonical.com>
+Subject: [Bug 1838390] Re: vmx_write_mem: mmu_gva_to_gpa failed when using hvf
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 290e8a3dcb093c356066b1fe68db1b3ded4f2784
+X-Launchpad-Hash: 54b1133e6a481aaa82f12aa5555581504d1ba622
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,60 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838228 <1838228@bugs.launchpad.net>
+Reply-To: Bug 1838390 <1838390@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ticket in the libslirp tracker has been closed a year ago, so I
-think we can close this ticket here, too.
+The QEMU project is currently considering to move its bug tracking to
+another system. For this we need to know which bugs are still valid
+and which could be closed already. Thus we are setting older bugs to
+"Incomplete" now.
+
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838228
+https://bugs.launchpad.net/bugs/1838390
 
 Title:
-  Slirp Broadcast traffic
+  vmx_write_mem: mmu_gva_to_gpa failed when using hvf
 
 Status in QEMU:
-  Fix Released
+  Incomplete
 
 Bug description:
-  Hi all,
+  Installed qemu 4.0.0 by homebrew, used below commands:
 
-  Version: QEMU emulator version 3.1.0 (Debian 1:3.1+dfsg-7+build1)
+  1. qemu-img create -f raw arch-vm.img 100G
+  2. qemu-system-x86_64 -show-cursor -only-migratable -nodefaults -boot ord=
+er=3Dd -cdrom archlinux-2019.07.01-x86_64.iso -cpu host -device virtio-keyb=
+oard -device virtio-mouse -device virtio-tablet -drive file=3Darch-vm.img,f=
+ormat=3Draw,if=3Dvirtio -m 4096 -machine q35,accel=3Dhvf,vmport=3Doff -nic =
+user,ipv6=3Doff,model=3Dvirtio -smp 4,sockets=3D1,cores=3D2,threads=3D2 -so=
+undhw hda -vga virtio
 
-  I'm running some DHCP traffic to a *custom* DHCP server with user-mode
-  networking in QEMU. I'm using port 30067 for the server, so this does
-  not conflict with the built-in DHCP server.
+  Displayed bootloader menu successfully, select "Boot Arch Linux" then
+  crashed with message: vmx_write_mem: mmu_gva_to_gpa ffff91953b540000
+  failed.
 
-  DHCP broadcasts to and from the server, and I'm observing issues with
-  both sending and receiving packets.
+  Use tcg accelerator has no problem but very slow.
 
-  Firstly, from the VM, a packet sent to IPv4 x.x.x.2:30067 (gateway)
-  makes it to the server, but a packet sent to 255.255.255.255 does not.
-  I'd suspect that Slirp has to support sending to the broadcast IP
-  address? Or is this something I can turn on with a configuration
-  option? (My QEMU version too old?)
-
-  Secondly, the source address in a DHCP IPv4 packet must be 0.0.0.0 (by
-  RFC). That means that any return packet will have 0.0.0.0 swapped in
-  as its destination address. However, that packet doesn't make it into
-  the VM at all. I know that if you deliver this packet to Linux, a raw
-  socket will spit it back out. The packets' destination address should
-  not prevent the packet from being delivered to the right VM, since
-  Slirp (should?) know exactly which VM the session belongs to. (It's a
-  proxy, not a router.)
-
-  WDYT? Did I miss some configuration options or use too old a version?
-
-  Thanks,
-  Chris
+  See attachment for full crash report.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838228/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1838390/+subscriptions
 
