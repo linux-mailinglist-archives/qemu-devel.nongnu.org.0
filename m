@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419ED3678E4
+	by mail.lfdr.de (Postfix) with ESMTPS id 9766C3678E5
 	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:49:57 +0200 (CEST)
-Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZRHo-0002LH-A4
+	id 1lZRHo-0002Ln-Lt
 	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46884)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRD1-0006zf-2c
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:44:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46030)
+ id 1lZRCz-0006z0-JR
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:44:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRCw-0005Ij-W7
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:44:58 -0400
+ id 1lZRCw-0005IR-Mh
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:44:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZRCv-00088v-OI
+ id 1lZRCv-000894-BH
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:44:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9A7F82E815F
+ by loganberry.canonical.com (Postfix) with ESMTP id 4262C2E815F
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:44:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:30:45 -0000
-From: Thomas Huth <1136477@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:31:08 -0000
+From: Thomas Huth <1207896@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anthony-codemonkey fche th-huth
-X-Launchpad-Bug-Reporter: Frank Ch. Eigler (fche)
+X-Launchpad-Bug-Commenters: aladjev-andrew th-huth
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20130228222749.31447.62008.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161906584607.10422.8609720940345937820.malone@wampee.canonical.com>
-Subject: [Bug 1136477] Re: qemu doesn't sanitize command line options carrying
- plaintext passwords
+References: <20130802205541.1454.8262.malonedeb@wampee.canonical.com>
+Message-Id: <161906586894.6248.15399158685477697712.malone@chaenomeles.canonical.com>
+Subject: [Bug 1207896] Re: binfmt wrapper for argv[0] handling
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: b7b6486ba14a74b2b1392ebbb427aeff6cfa5670
+X-Launchpad-Hash: 054ca8a7be4ea076d201c8f1ec326ec0d11bbf07
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1136477 <1136477@bugs.launchpad.net>
+Reply-To: Bug 1207896 <1207896@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,26 +90,20 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1136477
+https://bugs.launchpad.net/bugs/1207896
 
 Title:
-  qemu doesn't sanitize command line options carrying plaintext
-  passwords
+  binfmt wrapper for argv[0] handling
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  A slight security problem exists with qemu's lack of sanitization of
-  argv[], for cases where the user may have specified a plaintext
-  password for spice/vnc authorization.  (Yes, it's not great to use
-  this facility, but it's convenient and not grotesquely unsafe, were it
-  not for this bug.)  It would be nice if those plaintext passwords were
-  nuked from the command line, so a subsequent "ps awux" didn't show
-  them for all to see.
-
-  See also https://bugzilla.redhat.com/show_bug.cgi?id=3D916279
+  Please, add patch https://lists.gnu.org/archive/html/qemu-
+  devel/2011-09/msg03841.html to upstream. 2 years have passed and this
+  patch is not jet applied. Why? 99% GNU/Linux distribution uses qemu
+  with this patch. It is 100% needed.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1136477/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1207896/+subscriptions
 
