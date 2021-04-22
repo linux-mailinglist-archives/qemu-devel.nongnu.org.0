@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD673684F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:35:31 +0200 (CEST)
-Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF66B36851C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:42:59 +0200 (CEST)
+Received: from localhost ([::1]:54656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcId-0002vE-0u
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
+	id 1lZcPq-0001d5-SD
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwV-0003ye-AH
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41926)
+ id 1lZbwg-0004Pz-2D
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwR-0003Jk-Uf
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:38 -0400
+ id 1lZbwd-0003RG-E0
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619107955;
+ s=mimecast20190719; t=1619107966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oGNW0CJayKzgK+80SOjMW5J+sS8MxA4DFOyUeJq6Txg=;
- b=P1EyUMlIrfzu63twQxjcY7ZYy4UtBFco68wXxSgVqKifECtMmD23cbOyq8jJno+TcWinNa
- pA3Q7+lttDbOTplfXZxWkGMkM54Ln5z5Dsazm8QPYxetXWKKKCBG5WkHG+OEeP5ohc9Wke
- Sf/OUxHkdHK/0T/sxRrlWlNKvxSEv/k=
+ bh=mesguA59MEbJdOvu630ATJmztH2kbkjG70qJ8Hl4xB0=;
+ b=C23G1twHVV75lyL07zcQ4/NY13xdqNddvvtI/il1AZ29Iz/dUy7tkFJf2KH3dI6CRqrs+g
+ /HiD44JDCnhdIA3WxmvmzTm9DbwJ8EPWfBk+TFhHyC1LTgtgPPSYq77B4QUas/UK2WSEZJ
+ x7hbxZOpw2rGmvEIUHEoZDb+rW2tIfA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-aEe-Jk8lOiWP_VYWywAtqg-1; Thu, 22 Apr 2021 12:12:02 -0400
-X-MC-Unique: aEe-Jk8lOiWP_VYWywAtqg-1
+ us-mta-470-T09YcqJmP5ShXHLkcWZsQA-1; Thu, 22 Apr 2021 12:12:06 -0400
+X-MC-Unique: T09YcqJmP5ShXHLkcWZsQA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3FA6343A8
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 855AF801814
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:05 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F0DE5B4A0;
- Thu, 22 Apr 2021 16:12:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8AAB5B4A0;
+ Thu, 22 Apr 2021 16:12:03 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 12/19] i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID
- array size
-Date: Thu, 22 Apr 2021 18:11:23 +0200
-Message-Id: <20210422161130.652779-13-vkuznets@redhat.com>
+Subject: [PATCH v6 14/19] i386: use global kvm_state in hyperv_enabled() check
+Date: Thu, 22 Apr 2021 18:11:25 +0200
+Message-Id: <20210422161130.652779-15-vkuznets@redhat.com>
 In-Reply-To: <20210422161130.652779-1-vkuznets@redhat.com>
 References: <20210422161130.652779-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -84,30 +83,29 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SYNDBG leaves were recently (Linux-5.8) added to KVM but we haven't
-updated the expected size of KVM_GET_SUPPORTED_HV_CPUID output in
-KVM so we now make serveral tries before succeeding. Update the
-default.
+There is no need to use vCPU-specific kvm state in hyperv_enabled() check
+and we need to do that when feature expansion happens early, before vCPU
+specific KVM state is created.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm/kvm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/i386/kvm/kvm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index f33ba325187f..feec9f25ba12 100644
+index 5d08f3a39ef7..a42263b24fca 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -961,7 +961,8 @@ static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
- static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
- {
-     struct kvm_cpuid2 *cpuid;
--    int max = 7; /* 0x40000000..0x40000005, 0x4000000A */
-+    /* 0x40000000..0x40000005, 0x4000000A, 0x40000080..0x40000080 leaves */
-+    int max = 10;
-     int i;
+@@ -715,8 +715,7 @@ unsigned long kvm_arch_vcpu_id(CPUState *cs)
  
-     /*
+ static bool hyperv_enabled(X86CPU *cpu)
+ {
+-    CPUState *cs = CPU(cpu);
+-    return kvm_check_extension(cs->kvm_state, KVM_CAP_HYPERV) > 0 &&
++    return kvm_check_extension(kvm_state, KVM_CAP_HYPERV) > 0 &&
+         ((cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_NOTIFY) ||
+          cpu->hyperv_features || cpu->hyperv_passthrough);
+ }
 -- 
 2.30.2
 
