@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488C3367997
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:57:40 +0200 (CEST)
-Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A1836799C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 08:01:09 +0200 (CEST)
+Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZSLL-0005ip-C2
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
+	id 1lZSOi-0006oa-3p
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 02:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZSJg-00056c-Cc
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:55:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54416)
+ id 1lZSNM-0006Nu-WC
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:59:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZSJc-0005ud-Qn
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:55:54 -0400
+ id 1lZSNL-0008Fx-D0
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:59:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZSJa-0005TA-2X
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:55:50 +0000
+ id 1lZSNK-0005lE-Am
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:59:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 07F492E815D
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:55:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 47D052E815D
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:59:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:45:56 -0000
+Date: Thu, 22 Apr 2021 05:47:35 -0000
 From: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- <1770859@bugs.launchpad.net>
+ <603878@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
@@ -43,15 +43,15 @@ X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
  =?utf-8?q?_=28socketpair=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
  =?utf-8?q?_=28socketpair=29?=
-References: <152613876246.1025.17904458639014473926.malonedeb@gac.canonical.com>
-Message-Id: <161907035762.23601.16772648295776512856.launchpad@gac.canonical.com>
-Subject: [Bug 1770859] Re: qemu-img compare -m option is missing
+References: <20100710070634.22855.99257.malonedeb@soybean.canonical.com>
+Message-Id: <161907045677.10328.8967999942061695218.launchpad@wampee.canonical.com>
+Subject: [Bug 603878] Re: [Feature request] qemu-img option about recompressing
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 98622fb18b681bf37fa18e6459f02dc9d05ad54b
+X-Launchpad-Hash: 81795da378eb5da2a2f3bb39c963e2a8972868e0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1770859 <1770859@bugs.launchpad.net>
+Reply-To: Bug 603878 <603878@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,22 +83,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1770859
+https://bugs.launchpad.net/bugs/603878
 
 Title:
-  qemu-img compare -m option is missing
+  [Feature request] qemu-img option about recompressing
 
 Status in QEMU:
   New
 
 Bug description:
-  Comparing images using multiple streams (like qemu-img convert) maybe
-  effectively sped up when one of the images (or both) is RBD. qemu-img
-  convert does it's job perfectly while converting. Please implement the
-  same for image comparison. Since operations are read-only, -W is
-  useless, but may be introduced as well for debugging/performance
-  purposes.
+  Suppose I have a fresh compressed qcow2 image. After some time the
+  data were recorded without compression. I decide to make "QEMU-IMG
+  convert" for that image to reduce its size.
+
+  I want a new option, which selects between the two algorithms overdriven =
+images:
+  1. extract all / compress again when converting images (in the current im=
+plementation)
+  2. compress only uncompressed blocks and just copy the compressed blocks =
+without re-compression.
+
+  This option is only needed when converting compressed image to
+  compressed and the compression algorithm is the same.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1770859/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/603878/+subscriptions
 
