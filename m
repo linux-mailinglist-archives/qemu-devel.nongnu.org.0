@@ -2,58 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A118368122
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 15:05:14 +0200 (CEST)
-Received: from localhost ([::1]:57460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAFC368120
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 15:04:21 +0200 (CEST)
+Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZZ17-0007VR-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 09:05:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59006)
+	id 1lZZ0F-0006MQ-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 09:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZYxf-000554-IS
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 09:01:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44112)
+ id 1lZYx5-0004oK-52
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 09:01:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZYxd-0005u4-GO
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 09:01:39 -0400
+ id 1lZYwq-0005Wy-SV
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 09:01:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZYxb-0001mk-BG
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 13:01:35 +0000
+ id 1lZYwo-0000s5-Js
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 13:00:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0A9692E816F
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 13:01:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 866F42E8157
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 13:00:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 12:46:29 -0000
-From: Andreas Gustafsson <1743191@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 12:55:05 -0000
+From: Klaus Jensen <1925496@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: regression
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
- stefanha th-huth
-X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Andreas Gustafsson (gson)
-References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
- <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
- <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
-Message-Id: <24705.28709.3368.276346@guava.gson.org>
-Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
- blocks no longer works
+X-Launchpad-Bug-Commenters: birkelund obektas
+X-Launchpad-Bug-Reporter: Oguz Bektas (obektas)
+X-Launchpad-Bug-Modifier: Klaus Jensen (birkelund)
+References: <161909487037.10022.905940620153099238.malonedeb@wampee.canonical.com>
+Message-Id: <161909610582.10128.17770848278588492849.malone@wampee.canonical.com>
+Subject: [Bug 1925496] Re: nvme disk cannot be hotplugged after removal
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 0e2ace8750f40be8c6873830d3ae0db69819ed33
+X-Launchpad-Hash: 2af32eb45066984296dfe074731a63161a728ffc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,77 +69,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
+Reply-To: Bug 1925496 <1925496@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paul Goyette wrote:
-> This bug was fixed long ago, so long ago that I have no idea when!
+Hi,
 
-No, it is not fixed, and I did actually check before I switched the
-bug state back to "new".
-
-Perhaps you are specifying "-machine graphics=3Don" as suggested in one
-of the comments?  If so, that's a work-around, and an ugly and
-nonintuitive one at that, not a fix.
--- =
-
-Andreas Gustafsson, gson@gson.org
+What QEMU version is this happening on? Is this the -rc4, is it a
+regression?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743191
+https://bugs.launchpad.net/bugs/1925496
 
 Title:
-  Interacting with NetBSD serial console boot blocks no longer works
+  nvme disk cannot be hotplugged after removal
 
 Status in QEMU:
   New
 
 Bug description:
-  The NetBSD boot blocks display a menu allowing the user to make a
-  selection using the keyboard.  For example, when booting a NetBSD
-  installation CD-ROM, the menu looks like this:
+  Hello,
 
-           1. Install NetBSD
-           2. Install NetBSD (no ACPI)
-           3. Install NetBSD (no ACPI, no SMP)
-           4. Drop to boot prompt
+  When I try to re-add an nvme disk shortly after removing it, I get an
+  error about duplicate ID.
 
-      Choose an option; RETURN for default; SPACE to stop countdown.
-      Option 1 will be chosen in 30 seconds.
+  See the following commands to reproduce. This happens consistently on
+  all VMs that I tested:
 
-  When booting NetBSD in a recent qemu using an emulated serial console,
-  making this menu selection no longer works: when you type the selected
-  number, the keyboard input is ignored, and the 30-second countdown
-  continues.  In older versions of qemu, it works.
+  =
 
-  To reproduce the problem, run:
+  attach
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
-cdrom/boot-com.iso
-     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+  $VAR1 =3D {
+            'arguments' =3D> {
+                             'command-line' =3D> 'drive_add auto "file=3D/d=
+ev/zvol/rpool/data/vm-20000-disk-1,if=3Dnone,id=3Ddrive-nvme1,format=3Draw,=
+cache=3Dnone,aio=3Dnative,detect-zeroes=3Don"'
+                           },
+            'execute' =3D> 'human-monitor-command'
+          };
+  $VAR1 =3D {
+            'execute' =3D> 'device_add',
+            'arguments' =3D> {
+                             'serial' =3D> 'nvme1',
+                             'drive' =3D> 'drive-nvme1',
+                             'driver' =3D> 'nvme',
+                             'id' =3D> 'nvme1'
+                           }
+          };
 
-  During the 30-second countdown, press 4
+  =
 
-  Expected behavior: The countdown stops and you get a ">" prompt
+  detach
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  $VAR1 =3D {
+            'arguments' =3D> {
+                             'id' =3D> 'nvme1'
+                           },
+            'execute' =3D> 'device_del'
+          };
+  $VAR1 =3D {
+            'execute' =3D> 'human-monitor-command',
+            'arguments' =3D> {
+                             'command-line' =3D> 'drive_del drive-nvme1'
+                           }
+          };
 
-  Incorrect behavior: The countdown continues
+  reattach
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  $VAR1 =3D {
+            'arguments' =3D> {
+                             'command-line' =3D> 'drive_add auto "file=3D/d=
+ev/zvol/rpool/data/vm-20000-disk-1,if=3Dnone,id=3Ddrive-nvme1,format=3Draw,=
+cache=3Dnone,aio=3Dnative,detect-zeroes=3Don"'
+                           },
+            'execute' =3D> 'human-monitor-command'
+          };
 
-  There may also be some corruption of the terminal output; for example,
-  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
-  will be chosen in p0 seconds".
+  =
 
-  Using bisection, I have determined that the problem appeared with qemu
-  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
-  updated to 1.11 prerelease, and the problem is still there as of
-  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
-  system used for the tests was Debian 9 x86_64.
+  and I get:
+  "Duplicate ID 'drive-nvme1' for drive"
 
-  Credit for discovering this bug goes to Paul Goyette.
+  although it does not show up in query-block or query-pci anymore after
+  the first detach.
+
+  =
+
+  Is this a bug or am I missing something? Please advise.
+
+  Best regards,
+  Oguz
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1925496/+subscriptions
 
