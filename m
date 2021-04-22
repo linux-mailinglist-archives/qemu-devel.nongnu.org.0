@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DFE368385
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:40:14 +0200 (CEST)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 452573683EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 17:43:15 +0200 (CEST)
+Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZbR6-0002NS-K8
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:40:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42442)
+	id 1lZbU2-0003rE-8C
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 11:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZbPk-0001pr-3o
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:38:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29283)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZbPg-0005cB-SZ
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:38:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619105923;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qeGeWGx8/N7sQKa1hDQVh+19rIhB0kQBVfhyD9IKiTs=;
- b=SljZr3PuCBGxErlv83TIlORbO5OfNA34RAxTbpw9Le8qRxj3fpjFuv7Z1kLkpxqQQ6LaHS
- GGQhwshwI+47aSndLUUCj98OLNv4+ZpW4ec0gpL5Ur6AGH3pwgp4dHn0F12i984mBxeRoR
- AQ84TavvVU700ng3gFTS1uxFrA/etfg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-Tj9o8jtXPbONI7xNockNdA-1; Thu, 22 Apr 2021 11:38:31 -0400
-X-MC-Unique: Tj9o8jtXPbONI7xNockNdA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A35083DBF8;
- Thu, 22 Apr 2021 15:38:29 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44B2A19C59;
- Thu, 22 Apr 2021 15:38:27 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <4e327c80-8f5d-c848-b524-7f2c75255da4@redhat.com>
- <485773db-fca2-03ca-c6e8-90ef313fb8f1@redhat.com>
- <YIFMt+xg+xH+M4rd@redhat.com>
- <CAFEAcA8r2k9f=XG6T_hYk542-dDJnR7Lr8DZnyc=SFgnzNYxxQ@mail.gmail.com>
- <089df242-8788-a162-4a75-4c9c9e04a64e@redhat.com>
- <8afd0f34-7e75-2661-9ea5-3ebadff3b85d@redhat.com>
- <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
- <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: s390-ccw: warning: writing 1 byte into a region of size 0
- [-Wstringop-overflow=]
-Message-ID: <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
-Date: Thu, 22 Apr 2021 17:38:26 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZbQs-0002hS-5g
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:39:58 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZbQi-000675-5R
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 11:39:57 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ e8-20020a17090a7288b029014e51f5a6baso1190358pjg.2
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 08:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8QFss4KrUHTwMCq+zq4m9GaojwDFBlWTm4n+jGbkmb4=;
+ b=xYxmffiPlDZ8qwJC9fNVBe6yk06HfzpryoOQQuUv2EVbswluN8hYQazq84aXmweVCL
+ awYxxajHmoD1hoki4bzbGyCtaamY9zJd1H1RgdsXE8/xpPrnAV3ExDz5utY7eNdkoJw/
+ P87vppEMW60M+Fwhu54BjiTBtvpIVCy4QoP53acI+weRe4P6VDuAiw8Lilev1y1AHL1x
+ GhNKNfrxejBMNuYZdTJGYQn8aP66m2NiRRBCUwQcDaDJg+NsNcrSy/LlY7T5/0+nw8wo
+ md6rJy6nrFd/jXABxpY97UqWPXGDw+d8YIhufnG1QKpfTjO7s0j4P/Ju/6UQSrG6ke+Y
+ hxqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8QFss4KrUHTwMCq+zq4m9GaojwDFBlWTm4n+jGbkmb4=;
+ b=QyRSK4/6XYR27DHnRKqAqIQ9IQxtys9Sv4btXjx8Yeg5G4OKPI9vBwDaBE5ohwNc6o
+ nrz5yJb37k3hxLCrUqDjX0uY5prino3I5ePLPjh12lXx30GQalfSsAORmiU3hf95NLle
+ SuG/1XSVm+If3mkiBMF+y/zcuIEev74h5EQzvVdMBKGT6zoGWkYjA8mk/l6C0tltr2lU
+ xw1nS3Wfrv8lVsElINBX6RsXpVY4OpmS7lhRARK9T/WHMVPxrZD+PwqDpGDmyDDlHfx3
+ 6qd0fZBuKGteq1+jTeTZKr02PQr6TlUXKCDPNULGbJ3TPJTTTZFq5q8PL9GwcjZYo1PW
+ lyxQ==
+X-Gm-Message-State: AOAM532yxpCzdsXrKuw2RiKo0+bbKozn3qAgFKDD0IhKB3IsrF4reewU
+ pydu7YmCJNKgpR3ILZ7lJxl4a3925FZuuQ==
+X-Google-Smtp-Source: ABdhPJxtVz+8lDpfucd89Azy9BZsR4xe9ICj7Alx+FeEMnPE82d4G2S7YloVtxaHIhXB7LoiYeU1iQ==
+X-Received: by 2002:a17:90a:d41:: with SMTP id 1mr4842636pju.232.1619105986195; 
+ Thu, 22 Apr 2021 08:39:46 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id k21sm2425894pfi.28.2021.04.22.08.39.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 08:39:45 -0700 (PDT)
+Subject: Re: [PATCH] tcg/ppc: Fix building with Clang
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <YH98WLDMQ5c0Zf5E@humpty.home.comstyle.com>
+ <CAFEAcA995L--csz+fX4MqkSPTPxQ7Nx=q-Lh70bi_zQGoj54mw@mail.gmail.com>
+ <1ebc5a66-2763-1379-24e0-774739f2edbe@linaro.org>
+ <CAFEAcA9TaxkByWscOa2WC=o6fXAxaqAUt30CUsmA24jZ6HEYEA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4b7a580a-d701-f545-a8c2-5d18ea25a187@linaro.org>
+Date: Thu, 22 Apr 2021 08:39:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA9TaxkByWscOa2WC=o6fXAxaqAUt30CUsmA24jZ6HEYEA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,82 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/04/2021 16.31, Philippe Mathieu-Daudé wrote:
-> On 4/22/21 2:41 PM, Christian Borntraeger wrote:
->> On 22.04.21 13:47, Thomas Huth wrote:
->>> On 22/04/2021 13.24, Philippe Mathieu-Daudé wrote:
->>>> On 4/22/21 12:30 PM, Peter Maydell wrote:
->>>>> On Thu, 22 Apr 2021 at 11:18, Daniel P. Berrangé
->>>>> <berrange@redhat.com> wrote:
-> 
->>>> This silents the warning however:
->>>>
->>>> -- >8 --
->>>> diff --git a/pc-bios/s390-ccw/libc.h b/pc-bios/s390-ccw/libc.h
->>>> index bcdc45732d..2dea399904 100644
->>>> --- a/pc-bios/s390-ccw/libc.h
->>>> +++ b/pc-bios/s390-ccw/libc.h
->>>> @@ -19,6 +19,8 @@ typedef unsigned short     uint16_t;
->>>>    typedef unsigned int       uint32_t;
->>>>    typedef unsigned long long uint64_t;
->>>>
->>>> +#pragma GCC diagnostic push
->>>> +#pragma GCC diagnostic ignored "-Wstringop-overflow"
->>>>    static inline void *memset(void *s, int c, size_t n)
->>>>    {
->>>>        size_t i;
->>>> @@ -30,6 +32,7 @@ static inline void *memset(void *s, int c, size_t n)
->>>>
->>>>        return s;
->>>>    }
->>>> +#pragma GCC diagnostic pop
->>>
->>> Honestly, that compiler "bug" sounds like it could trigger at any
->>> other spot in the bios code, too, since we are doing lots of direct
->>> accesses to low memory there. I think it's likely best if we shut it
->>> off with -Wno-stringop-overflow in the pc-bios/s390-ccw/Makefile ...
->>> could you please try to add it there?
+On 4/22/21 2:20 AM, Peter Maydell wrote:
+> On Thu, 22 Apr 2021 at 06:18, Richard Henderson
+>> I'm thinking something like
 >>
+>> #if !defined(_CALL_SYSV) && \
+>>       !defined(_CALL_DARWIN) && \
+>>       !defined(_CALL_AIX) && \
+>>       !defined(_CALL_ELF)
+>> # if defined(__APPLE__)
+>> #  define _CALL_DARWIN
+>> # elif defined(__ELF__) && TCG_TARGET_REG_BITS == 32
+>> #  define _CALL_SYSV
+>> # else
+>> #  error "Unknown ABI"
+>> # endif
+>> #endif
 > 
-> We are good with:
-> 
-> -- >8 --
-> diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-> index 29fd9019b8..dcec09b6f9 100644
-> --- a/pc-bios/s390-ccw/Makefile
-> +++ b/pc-bios/s390-ccw/Makefile
-> @@ -8,6 +8,9 @@ CFLAGS = -O2 -g
->   quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 &&
-> $1, @$1))
->   cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >
-> /dev/null \
->                2>&1 && echo OK), $1, $2)
-> +cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
-> +                >/dev/null 2>&1 && echo OK), $2, $3)
-> 
->   VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
->   set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath
-> $(PATTERN) $1)))
-> @@ -30,6 +33,7 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o
-> menu.o \
->            virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
-> 
->   QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
-> +QEMU_CFLAGS += $(call cc-c-option, $(QEMU_CFLAGS), -Wno-stringop-overflow)
->   QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks
+> Doesn't this also need some case that handles "64bit ppc clang which doesn't
+> define _CALL_anything" ?
 
-I think you don't need the "cc-c-option" magic here. Just add the 
--Wno-stringop-overflow. All supported versions of GCC and Clang simply 
-silently ignore unknown -Wno-something options (try e.g. "gcc 
--Wno-yadayadayada" on the command line).
+Clang does define _CALL_ELF for ppc64:
 
-  Thomas
+   // ABI options.
+   if (ABI == "elfv1")
+     Builder.defineMacro("_CALL_ELF", "1");
+   if (ABI == "elfv2")
+     Builder.defineMacro("_CALL_ELF", "2");
 
+
+r~
 
