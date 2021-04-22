@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F320A36795F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:41:07 +0200 (CEST)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44244367959
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 07:36:52 +0200 (CEST)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZS5L-0001Jz-3U
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33208)
+	id 1lZS1D-0007bk-AR
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 01:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRzF-0006aY-2M
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:34:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51158)
+ id 1lZRzE-0006aQ-22
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:34:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZRzC-0004lA-NQ
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:34:48 -0400
+ id 1lZRzC-0004l7-Ay
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 01:34:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZRzB-0003KS-Jl
+ id 1lZRzB-0003KS-5U
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:34:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 887912E815F
+ by loganberry.canonical.com (Postfix) with ESMTP id 2892F2E802A
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 05:34:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 05:20:40 -0000
-From: Thomas Huth <1612908@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 05:21:19 -0000
+From: Thomas Huth <1618122@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: python qom qom-list qom-tree scripts
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: caxl th-huth
-X-Launchpad-Bug-Reporter: Carl Allendorph (caxl)
+X-Launchpad-Bug-Commenters: th-huth vans-163
+X-Launchpad-Bug-Reporter: vans163 (vans-163)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160813061515.22562.11521.malonedeb@soybean.canonical.com>
-Message-Id: <161906884063.9125.10607581766642497916.malone@wampee.canonical.com>
-Subject: [Bug 1612908] Re: qom-[list, tree, get,
- set] don't accept tcp endpoint arg
+References: <20160829160030.27613.81837.malonedeb@gac.canonical.com>
+Message-Id: <161906888005.9724.14402377473786998660.malone@wampee.canonical.com>
+Subject: [Bug 1618122] Re: qemu-monitor screendump very slow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 3bc40aee0f785368f81ad53e426efd0f236f8027
+X-Launchpad-Hash: 2181b4a3b8cd61f358d869cb18af10c7983cf945
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,13 +70,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1612908 <1612908@bugs.launchpad.net>
+Reply-To: Bug 1618122 <1618122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi! Triaging old bug tickets ... is this still an issue with the latest
-version of QEMU? If you've got a patch for this ready, please send it to
-the qemu-devel mailing list!
+The QEMU project is currently considering to move its bug tracking to
+another system. For this we need to know which bugs are still valid
+and which could be closed already. Thus we are setting older bugs to
+"Incomplete" now.
+
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
+
+Thank you and sorry for the inconvenience.
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -87,29 +93,90 @@ the qemu-devel mailing list!
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1612908
+https://bugs.launchpad.net/bugs/1618122
 
 Title:
-  qom-[list,tree,get,set] don't accept tcp endpoint arg
+  qemu-monitor screendump very slow
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hi,
+  qemu-monitor screendump often using 10-20% cpu usage of one core to
+  take a small capture.
 
-  I'm using origin/master [6bbbb0ac13...]. When I run any of the
-  commands in 'qemu/scripts/qmp/qom-[list,tree,get,set]', the help text
-  says that it can connect to a QEMU instance by passing either a path
-  to a unix socket or a tcp endpoint in the format "host:port". The unix
-  socket variant works but the tcp endpoint variant does not.
-  QEMUMonitorProtocol accepts either a string (unix socket) or a tuple
-  (host,port). None of the qom-* scripts actually massage the '-s'
-  argument into a tuple.
+  Most of the CPU usage seems to come from libpixman. There were many
+  reports of libpixman becoming 8 times slower in newer releases.
 
-  I have a patch to fix this issue that I can submit to the developer
-  list.
+  https://github.com/qemu/qemu/blob/0c56c6ab68902281094c7aac6305e2321c34c18=
+7/ui/console.c#L285
+
+  Simple Valgrind Ir report.
+
+  -------------------------------------------------------------------------=
+-------
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Ir
+  -------------------------------------------------------------------------=
+-------
+  9,994,313,959  PROGRAM TOTALS
+
+  -------------------------------------------------------------------------=
+-------
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Ir  fil=
+e:function
+  -------------------------------------------------------------------------=
+-------
+  4,883,603,360  /usr/src/debug/pixman-0.34.0/pixman/pixman-access.c:store_=
+scanline_b8g8r8 [/usr/lib64/libpixman-1.so.0.34.0]
+  =C2=A0=C2=A0282,312,800  /usr/src/debug/pixman-0.34.0/pixman/pixman-imple=
+mentation.c:_pixman_implementation_iter_init [/usr/lib64/libpixman-1.so.0.3=
+4.0]
+  =C2=A0=C2=A0267,394,160  /usr/src/debug/pixman-0.34.0/pixman/pixman-sse2.=
+c:sse2_fetch_x8r8g8b8 [/usr/lib64/libpixman-1.so.0.34.0]
+  =C2=A0=C2=A0256,761,600  /usr/src/debug/pixman-0.34.0/pixman/pixman-priva=
+te.h:store_scanline_b8g8r8
+  =C2=A0=C2=A0254,676,199  ???:0x0000000000011f40 [/usr/lib64/libjemalloc.s=
+o.2]
+  =C2=A0=C2=A0199,990,526  ???:0x0000000000011a10 [/usr/lib64/libjemalloc.s=
+o.2]
+
+  Calls to there start from.
+  qemu_pixman_linebuf_fill
+  pixman_image_composite
+  ????
+  pixman_image_composite32
+  general_composite_rect
+
+  I tried taking a look on how to fix this, but it seems pixman is
+  deeply enrooted inside the monitor.  I wanted to try to simply take
+  whats on the display and memcpy it into .ppm format manually creating
+  the file header, but the image is all broken with colors being off or
+  its smeared.
+
+  For example this is DisplaySurface:
+
+  struct DisplaySurface {
+  =C2=A0=C2=A0=C2=A0=C2=A0pixman_format_code_t format;
+  =C2=A0=C2=A0=C2=A0=C2=A0pixman_image_t *image;
+  =C2=A0=C2=A0=C2=A0=C2=A0uint8_t flags;
+  #ifdef CONFIG_OPENGL
+  =C2=A0=C2=A0=C2=A0=C2=A0GLenum glformat;
+  =C2=A0=C2=A0=C2=A0=C2=A0GLenum gltype;
+  =C2=A0=C2=A0=C2=A0=C2=A0GLuint texture;
+  #endif
+  };
+
+  =
+
+  It appears graphic_hw_update(con) renders the vram to a pixman_image.  Th=
+en ppm_save(filename, surface, errp) goes over it yet again, mutates the by=
+tes in an expensive way to another pixman_image, and saves that row by row =
+to a ppm.
+
+  Using sdl graphics (the default) the drawing starts in
+  https://github.com/qemu/qemu/blob/7fa124b273acd22a808e742ead78c065ccd9b4c=
+4/hw/display/vga.c#L1466
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1612908/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1618122/+subscriptions
 
