@@ -2,70 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F53A3684E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:32:56 +0200 (CEST)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9100A3684ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:34:04 +0200 (CEST)
+Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcG7-0007wK-Gm
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:32:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1lZcHD-0000tA-MB
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwU-0003y5-9t
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38425)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lZcEP-0007DU-Jo; Thu, 22 Apr 2021 12:31:09 -0400
+Received: from mail-eopbgr60110.outbound.protection.outlook.com
+ ([40.107.6.110]:40766 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbwH-0003DH-Ml
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:12:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619107943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vJB3EhqExp+bEIZFM+gDg9u6dcSeIv+/RKtN83IGgPc=;
- b=Fryntf0NHENf27wXxob+S4IQ1A1hHbhy6ADVFfjbssksBQHx5dkfrH7GhLnXDAv0F8auUB
- tC9cjOiH5ayUVsGINgUgJKbW9QmvYqvJ9D6uebhBSw2efjrTS7Wrjgeiqeu1thLWgl3weA
- LevlKrSCIYpcpoT51tnGHwaFD4bbI88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-TtfhceDzOUGBYheRND3yRg-1; Thu, 22 Apr 2021 12:12:22 -0400
-X-MC-Unique: TtfhceDzOUGBYheRND3yRg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D7D4189DF50
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:12:21 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.194.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D93F5B4A4;
- Thu, 22 Apr 2021 16:12:17 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 19/19] qtest/hyperv: Introduce a simple hyper-v test
-Date: Thu, 22 Apr 2021 18:11:30 +0200
-Message-Id: <20210422161130.652779-20-vkuznets@redhat.com>
-In-Reply-To: <20210422161130.652779-1-vkuznets@redhat.com>
-References: <20210422161130.652779-1-vkuznets@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lZcEM-0003u4-8q; Thu, 22 Apr 2021 12:31:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cxqBQ/zTbK9/ZSwjBerGFOOjWLT3SP8nzPNLpy7H91gfHrFS54dcapuBkpUfDbovFJVSwvFlAWdkaRdfBmhC6CE/m+0RQ0gt3pNYOv6Qs1UOWkeVmLfWY96Ux3dUNn/7K03L5s1Hvbv0zW3gek4TsP6/QBikgtLOjPP29gnL3VeqRcnTPUa+IxAOGFSxV0/vBopWUEDcTMEMOxmmy7c2wZkRA2EF77Tq1RQw4TTPaNSymngM0W5MNr9MklneGEFaxaDH9BejwCS85E4a1BHUXd3XA4g6itjALq5RRguoa0jW1LJF6otxxRXyPutYE9I7jBXOspI1N9w2z666c6uyOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qu+aYiymqIMa5mncjlNVWoyVZ2ccB3cBQNiDSAeTmog=;
+ b=ORW6CUAITCOqHQOdFmsKVGNQZZznSZ73Z6Ji07vauI+B69EpApG5PUh+hBKFEkqHkYm3zRmOc7rzyFsb3yDaIqXq4mIXL6qL9jS8nD9HYCAop+heMiOu1WMGI0f8hgkXot6Cc24Zpbr9Af6IZgnYxZuHcKQ+s+xU2Z9VS6jS9QlmrN7SnKGeXnpAcVneHtlEKaj2YLwdNjSvYxAINDjFUGr/CvUSTFd5EuCuTrla83HEcoe1w6UNI7ET0PvqdOqxsvrNPNldX1uyCxKwkghtXS/O5PwklcR3fHlKa9Lq3qHVIKxqekCJsgV+QYPGJ+Xl3WxFAeUvOTSz/By4AwVj1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qu+aYiymqIMa5mncjlNVWoyVZ2ccB3cBQNiDSAeTmog=;
+ b=UOM7N6dhARqo0MWXUDU269UbCSL3x3BxbpWjuUD3QiieAj2EPPXVQJZVTqNWAwpbIFHxOmYzLIkeLX5aCBfQUsOsJszFE1EpvuvTIWa5Id6MQWhAlGden36pc5vhL3ehTeq2l4hWWD25lU5IcKNGmwW5iF5p6bVNzDvIm6ZrIy0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3447.eurprd08.prod.outlook.com (2603:10a6:20b:44::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.24; Thu, 22 Apr
+ 2021 16:31:01 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.021; Thu, 22 Apr 2021
+ 16:31:01 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, den@openvz.org
+Subject: [PATCH v6 00/12] qcow2: fix parallel rewrite and discard (lockless)
+Date: Thu, 22 Apr 2021 19:30:34 +0300
+Message-Id: <20210422163046.442932-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.222]
+X-ClientProxiedBy: HE1PR0501CA0006.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.222) by
+ HE1PR0501CA0006.eurprd05.prod.outlook.com (2603:10a6:3:1a::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.16 via Frontend Transport; Thu, 22 Apr 2021 16:31:00 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7e101c08-f5d4-407a-d08d-08d905ac0454
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3447:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3447279D6E4B60CAF80B4497C1469@AM6PR08MB3447.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1nbbJH6CjSdPcNwy92WgR8gBd4eHggolhojSEFCGELQ32dpayoZrZOKp6id8Abz3jbWoHgVOdLbSdI8tikuYsN+qKLLojw01tgbdj/2z03O0+liEZLBLGe7cK0Os3p+QzE7JqWl7UlKUrAgJcwy/WfcbyvvlMAzpGzCLCXPr59yuBUKvmhSb4k8g1QjSyQ1iajTmwceLebxA2GRdoCm8SfyWxdcRvXy8Cz9QOaH4+uwQ9YljCgNjWB92YzCjao60hEtqY1GvJuunf8iEeO5pWOZUp8nMWQFX3Lxt7Y9Bms3BgHejDfeqV/R5XMlQTGfPCBQ3KrEGOI5jKvy24fId6/xt5IK8YkWorfjgJXc4f9kt806vGKU4WGlHIfzmscocy0pjoioSoVT6/3z3+XHkJbItzci9QDpzukb+segfbkZOQiUKii/GV5sGMHp7HiHv+aO1f7L4Jfy9StEqSsYXhcDJOFnz3bZVM8rNzyn3fgaMk0zcPxERBD69htPD94rYWOafG+tfI3827AJa1DXcNFImsTtnEGX2eTyBhs9cTlrs/d8uc+0ojyZ2PKJyG/4rxCJGAx24Py3kfWNyjSyIAooDuBhtDbfrA/Yi9iweMTx6t5YHn5p5ZqoJJwF6KN3NiMcM97gFywqlOzjer5jIAG86nhDwDkn6d0f/9aZ84fqOQeBjOvWj4n49KVnGizg5
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(39840400004)(366004)(346002)(396003)(8676002)(38350700002)(478600001)(186003)(6512007)(38100700002)(66556008)(2906002)(5660300002)(4326008)(26005)(86362001)(83380400001)(316002)(66946007)(52116002)(16526019)(1076003)(6486002)(6916009)(66476007)(36756003)(6506007)(956004)(2616005)(8936002)(6666004)(107886003)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?3hNazINen0GG6a+P0rMnmiWKlYhxiVoJOl2BGqtGUO3dZP6GpvZoyiYJgWC+?=
+ =?us-ascii?Q?lUhuU97dC6Q61ArO5iq9y3WPHYSxTRIqEbBlHq3TTy7aEzXJ8raVEqzgx+uE?=
+ =?us-ascii?Q?hxMXWYYxVi7BOlg8BVmKQHcYdhIDI+7+IT070JsNi32MbNQsiLDbE/+WhOQ3?=
+ =?us-ascii?Q?tyUUlgkMhNFutBYly+UqG0OE+qvkH8lD7wg1pFZKSlMuKa40l3LH+7MlOdFT?=
+ =?us-ascii?Q?N6+deqAJKzgxDK3F/yxVJsnWVJiPaMgigPdNStbAPw5CtBe67bg9nmgBlZOd?=
+ =?us-ascii?Q?Mh1pRpBDKYsXW2Es0Rbw8YBKH9V11CkeB1e8RbtWlArRHOzr6/bHhc73OO9P?=
+ =?us-ascii?Q?f39ZTrpVRhRSRjqL047T9+TQSfXosnxiHhG+OLKvtQhYGSUwDFHGmzCJxERr?=
+ =?us-ascii?Q?PdkPcjYXhy1rUBlLX7oZGgbLndqn8NV6zAr5VjhVVppNtVAkexOrDRDdoGJC?=
+ =?us-ascii?Q?6uVdw5qbBBHpzgVw8zrZFF8y/efknG8SlkIH6gRPrRe3Ice40HFVwfuDjTAx?=
+ =?us-ascii?Q?oQXCptl4KkKRdWgqYjmdPZZ5nfGIP7NjKRtZUWbMJ4+ccPRKQjytlpQxXaBn?=
+ =?us-ascii?Q?QaLl6eK1zdPfOGZvS+Vit+k4DyAqlYY7054whZiQd1tMVQezbFSmI3ZbCrgH?=
+ =?us-ascii?Q?SOnsWntlOttffoInIFTdjGFUIILQWtaaq7c/Fzcnrw+MSP5ZXi1HEAT7lsNX?=
+ =?us-ascii?Q?mOw25tTY7+9ewF6zXaTah3pNxzIW8pT4JcW4WDmruRnVIxz9pdlRUsNZ2Oeu?=
+ =?us-ascii?Q?plfjDaU1rG7PtAxknOm7aEH1sCqjYNrbXOUPckmkmC0uxrsjIVI1reCwoeYx?=
+ =?us-ascii?Q?0aYh2D1KHrvMf2nNLxZtkMpGI5Zz9bItBKrsc23G8UH47rGs7f2v938kRgBt?=
+ =?us-ascii?Q?/6k9RBx2lQ9Zx7DYXMUgfVwWTmlRZy5ggqCZzGWm6sgAjIJtdKT1FB97gHFj?=
+ =?us-ascii?Q?LZdtRL7gZaJX+i9QXSv29z0xvFWXyXa56pLgKSE2Yp+uMcxT69yqSru1eF/O?=
+ =?us-ascii?Q?WTuOjsZAok1/4Jloc5Xt+6Pxh1LuwKOzTW8h1rvRV3uSC+2PXoqcvJmInS74?=
+ =?us-ascii?Q?qG0g/uvsfbAxK70n0JgKgD7I0XQtDHePu6zSCRQn4ul5vV/cAq2k+KTlkIk+?=
+ =?us-ascii?Q?nErZBnKwh9Iy9J9lnzpr12v4nhJcN9cOH9GOBTSVxIUkHuZgQCaYjhGgR1mb?=
+ =?us-ascii?Q?xqveaoiDttBy/IJ8VYEpNq/rAcDuR/d3We5iDKaGNDaS2TmdU3L/peke0NG4?=
+ =?us-ascii?Q?86hZcZ80/4iJk5GMwh0uamAZzRiR0Ss+TlVqTwL99DZ8bP/0c5dviJ6Ac1SV?=
+ =?us-ascii?Q?feYF5y8QHtFmIjBx24jDYRqM?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e101c08-f5d4-407a-d08d-08d905ac0454
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 16:31:01.7465 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XxS4x+NthlM0LvTe1TSFhueINKcYcS19R0NbsYLMu8zoxLdiJeZXcinCcDPyswvDsy9XWjq0M1+ZTcWNACaMzfd76Z61feTbmCQg1d6Heic=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3447
+Received-SPF: pass client-ip=40.107.6.110;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,282 +132,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the beginning, just test 'hv-passthrough' and a couple of custom
-Hyper-V  enlightenments configurations through QMP. Later, it would
-be great to complement this by checking CPUID values from within the
-guest.
+Hi all!
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- MAINTAINERS               |   1 +
- tests/qtest/hyperv-test.c | 225 ++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build   |   3 +-
- 3 files changed, 228 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/hyperv-test.c
+It's an alternative lock-less solution to
+  [PATCH v4 0/3] qcow2: fix parallel rewrite and discard (rw-lock)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36055f14c594..86d731e86f4a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1552,6 +1552,7 @@ F: hw/isa/apm.c
- F: include/hw/isa/apm.h
- F: tests/unit/test-x86-cpuid.c
- F: tests/qtest/test-x86-cpuid-compat.c
-+F: tests/qtest/hyperv-test.c
- 
- PC Chipset
- M: Michael S. Tsirkin <mst@redhat.com>
-diff --git a/tests/qtest/hyperv-test.c b/tests/qtest/hyperv-test.c
-new file mode 100644
-index 000000000000..0be689548e18
---- /dev/null
-+++ b/tests/qtest/hyperv-test.c
-@@ -0,0 +1,225 @@
-+/*
-+ * Hyper-V emulation CPU feature test cases
-+ *
-+ * Copyright (c) 2021 Red Hat Inc.
-+ * Authors:
-+ *  Vitaly Kuznetsov <vkuznets@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include <linux/kvm.h>
-+#include <sys/ioctl.h>
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qjson.h"
-+
-+#define MACHINE_KVM "-machine pc-q35-5.2 -accel kvm "
-+#define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-+                    "  'arguments': { 'type': 'full', "
-+#define QUERY_TAIL  "}}"
-+
-+static bool kvm_enabled(QTestState *qts)
-+{
-+    QDict *resp, *qdict;
-+    bool enabled;
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+    qdict = qdict_get_qdict(resp, "return");
-+    g_assert(qdict_haskey(qdict, "enabled"));
-+    enabled = qdict_get_bool(qdict, "enabled");
-+    qobject_unref(resp);
-+
-+    return enabled;
-+}
-+
-+static bool kvm_has_sys_hyperv_cpuid(void)
-+{
-+    int fd = open("/dev/kvm", O_RDWR);
-+    int ret;
-+
-+    g_assert(fd > 0);
-+
-+    ret = ioctl(fd, KVM_CHECK_EXTENSION, KVM_CAP_SYS_HYPERV_CPUID);
-+
-+    close(fd);
-+
-+    return ret > 0;
-+}
-+
-+static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
-+{
-+    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-+                          QUERY_TAIL, cpu_type);
-+}
-+
-+static bool resp_has_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+
-+    if (!qdict_haskey(resp, "return")) {
-+        return false;
-+    }
-+    qdict = qdict_get_qdict(resp, "return");
-+
-+    if (!qdict_haskey(qdict, "model")) {
-+        return false;
-+    }
-+    qdict = qdict_get_qdict(qdict, "model");
-+
-+    return qdict_haskey(qdict, "props");
-+}
-+
-+static QDict *resp_get_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+
-+    qdict = qdict_get_qdict(resp, "return");
-+    qdict = qdict_get_qdict(qdict, "model");
-+    qdict = qdict_get_qdict(qdict, "props");
-+
-+    return qdict;
-+}
-+
-+static bool resp_get_feature(QDict *resp, const char *feature)
-+{
-+    QDict *props;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+    props = resp_get_props(resp);
-+    g_assert(qdict_get(props, feature));
-+    return qdict_get_bool(props, feature);
-+}
-+
-+#define assert_has_feature(qts, cpu_type, feature)                     \
-+({                                                                     \
-+    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    g_assert(qdict_get(resp_get_props(_resp), feature));               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define resp_assert_feature(resp, feature, expected_value)             \
-+({                                                                     \
-+    QDict *_props;                                                     \
-+                                                                       \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    _props = resp_get_props(_resp);                                    \
-+    g_assert(qdict_get(_props, feature));                              \
-+    g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
-+})
-+
-+#define assert_feature(qts, cpu_type, feature, expected_value)         \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query_no_props(qts, cpu_type);                          \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature(_resp, feature, expected_value);               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define assert_has_feature_enabled(qts, cpu_type, feature)             \
-+    assert_feature(qts, cpu_type, feature, true)
-+
-+#define assert_has_feature_disabled(qts, cpu_type, feature)            \
-+    assert_feature(qts, cpu_type, feature, false)
-+
-+static void test_assert_hyperv_all_but_evmcs(QTestState *qts)
-+{
-+    assert_has_feature_enabled(qts, "host", "hv-relaxed");
-+    assert_has_feature_enabled(qts, "host", "hv-vapic");
-+    assert_has_feature_enabled(qts, "host", "hv-vpindex");
-+    assert_has_feature_enabled(qts, "host", "hv-runtime");
-+    assert_has_feature_enabled(qts, "host", "hv-crash");
-+    assert_has_feature_enabled(qts, "host", "hv-time");
-+    assert_has_feature_enabled(qts, "host", "hv-synic");
-+    assert_has_feature_enabled(qts, "host", "hv-stimer");
-+    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
-+    assert_has_feature_enabled(qts, "host", "hv-ipi");
-+    assert_has_feature_enabled(qts, "host", "hv-reset");
-+    assert_has_feature_enabled(qts, "host", "hv-frequencies");
-+    assert_has_feature_enabled(qts, "host", "hv-reenlightenment");
-+    assert_has_feature_enabled(qts, "host", "hv-stimer-direct");
-+}
-+
-+static void test_query_cpu_hv_all_but_evmcs(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-relaxed,hv-vapic,hv-vpindex,"
-+                     "hv-runtime,hv-crash,hv-time,hv-synic,hv-stimer,"
-+                     "hv-tlbflush,hv-ipi,hv-reset,hv-frequencies,"
-+                     "hv-reenlightenment,hv-stimer-direct");
-+
-+    test_assert_hyperv_all_but_evmcs(qts);
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_custom(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-vpindex");
-+
-+    assert_has_feature_enabled(qts, "host", "hv-vpindex");
-+    assert_has_feature_disabled(qts, "host", "hv-synic");
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_passthrough(const void *data)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-passthrough");
-+    if (!kvm_enabled(qts)) {
-+        qtest_quit(qts);
-+        return;
-+    }
-+
-+    test_assert_hyperv_all_but_evmcs(qts);
-+
-+    resp = do_query_no_props(qts, "host");
-+    if (resp_get_feature(resp, "vmx")) {
-+        assert_has_feature_enabled(qts, "host", "hv-evmcs");
-+    } else {
-+        assert_has_feature_disabled(qts, "host", "hv-evmcs");
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
-+        qtest_add_data_func("/hyperv/hv-all-but-evmcs",
-+                            NULL, test_query_cpu_hv_all_but_evmcs);
-+        qtest_add_data_func("/hyperv/hv-custom",
-+                            NULL, test_query_cpu_hv_custom);
-+        if (kvm_has_sys_hyperv_cpuid()) {
-+            qtest_add_data_func("/hyperv/hv-passthrough",
-+                                NULL, test_query_cpu_hv_passthrough);
-+       }
-+    }
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 0c7673892179..03da00f82ba9 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -83,7 +83,8 @@ qtests_i386 = \
-    'vmgenid-test',
-    'migration-test',
-    'test-x86-cpuid-compat',
--   'numa-test']
-+   'numa-test',
-+   'hyperv-test']
- 
- dbus_daemon = find_program('dbus-daemon', required: false)
- if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
+In v6 a lot of things are rewritten.
+
+What is changed:
+
+1. rename the feature to host_range_refcnt, move it to separate file
+2. better naming for everything (I hope)
+3. cover reads, not only writes
+4. do "ref" in qcow2_get_host_offset(), qcow2_alloc_host_offset(),
+    qcow2_alloc_compressed_cluster_offset().
+   and callers do "unref" appropriately.
+
+Vladimir Sementsov-Ogievskiy (12):
+  iotests: add qcow2-discard-during-rewrite
+  qcow2: fix cache discarding in update_refcount()
+  block/qcow2-cluster: assert no data_file on compressed write path
+  block/qcow2-refcount: rename and publish update_refcount_discard()
+  block/qcow2: introduce qcow2_parse_compressed_cluster_descriptor()
+  block/qcow2: refactor qcow2_co_preadv_task() to have one return
+  block/qcow2: qcow2_co_pwrite_zeroes: use QEMU_LOCK_GUARD
+  qcow2: introduce is_cluster_free() helper
+  qcow2: introduce host-range-refs
+  qcow2: introduce qcow2_host_cluster_postponed_discard()
+  qcow2: protect data writing by host range reference
+  qcow2: protect data reading by host range reference
+
+ block/qcow2.h                                 |  26 +++
+ block/qcow2-cluster.c                         |  55 +++++-
+ block/qcow2-host-range-refs.c                 | 174 ++++++++++++++++++
+ block/qcow2-refcount.c                        |  61 ++++--
+ block/qcow2.c                                 | 118 ++++++++----
+ block/meson.build                             |   1 +
+ .../tests/qcow2-discard-during-rewrite        |  72 ++++++++
+ .../tests/qcow2-discard-during-rewrite.out    |  21 +++
+ 8 files changed, 475 insertions(+), 53 deletions(-)
+ create mode 100644 block/qcow2-host-range-refs.c
+ create mode 100755 tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+ create mode 100644 tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+
 -- 
-2.30.2
+2.29.2
 
 
