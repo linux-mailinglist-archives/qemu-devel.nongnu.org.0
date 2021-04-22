@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B28936786D
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA3136786C
 	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 06:17:32 +0200 (CEST)
-Received: from localhost ([::1]:36120 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQmR-0001oq-Mt
+	id 1lZQmR-0001qw-KV
 	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 00:17:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39616)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQkq-0008VS-58
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:15:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43358)
+ id 1lZQkp-0008UV-7I
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:15:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZQkm-0004kd-UJ
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:15:51 -0400
+ id 1lZQkm-0004jk-8q
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 00:15:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZQkl-00061C-LW
+ id 1lZQkl-00062G-6h
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:15:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A18B72E8026
+ by loganberry.canonical.com (Postfix) with ESMTP id 285C32E8161
  for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 04:15:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 04:08:06 -0000
-From: Thomas Huth <1719689@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 04:08:32 -0000
+From: Thomas Huth <1724590@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: erichspaker th-huth
-X-Launchpad-Bug-Reporter: Erich Spaker (erichspaker)
+X-Launchpad-Bug-Commenters: bwasim123 samuel-thibault th-huth
+ willemmaster-hotmail
+X-Launchpad-Bug-Reporter: Willem Mulder (willemmaster-hotmail)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150644549574.30872.12487281678930398558.malonedeb@wampee.canonical.com>
-Message-Id: <161906448630.23242.1198878878295712134.malone@gac.canonical.com>
-Subject: [Bug 1719689] Re: [feature request] add flag to treat warnings as
- errors
+References: <150833765599.17635.13860559072232712887.malonedeb@gac.canonical.com>
+Message-Id: <161906451301.22523.6750181312087595685.malone@gac.canonical.com>
+Subject: [Bug 1724590] Re: Usermode networking hostfwd only listens on IPv4
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 62f23f7f59731652357105df02e45e239ca711b6
+X-Launchpad-Hash: 2e42632129a7a7d8f16ea45e4b7ef366b7a0a81a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1719689 <1719689@bugs.launchpad.net>
+Reply-To: Bug 1724590 <1724590@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,41 +92,23 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1719689
+https://bugs.launchpad.net/bugs/1724590
 
 Title:
-  [feature request] add flag to treat warnings as errors
+  Usermode networking hostfwd only listens on IPv4
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Since booting could potentially take a lot of time and warnings are
-  likely to indicate that something is wrong, it would be useful to have
-  a command line flag which would abort the boot if there are any
-  warnings.
+  When forwarding ports in usermode networking (-net user,hostfwd=3D),
+  QEMU binds to IPv4 only. Therefore, connecting to the port over IPv6
+  results in 'connection refused'.
 
-  An example might be network configuration. The following output most
-  likely indicates that there is something the user has to fix before
-  starting and being able to use the guest os.
-
-  Warning: hub port hub0port0 has no peer
-  Warning: vlan 0 with no nics
-  Warning: netdev hub0port0 has no peer
-  Warning: requested NIC (anonymous, model vitrio-net-device) was not creat=
-ed (not supported by this machine?)
-
-  Ideally, there would be an option the user could pass which would
-  cause qemu to print these warnings then exit, rather than boot the
-  kernel.
-
-  Alternatively, or additionally, a dry run option would be helpful for
-  the same purpose: making sure qemu get to the booting the kernel stage
-  with everything in working order so that you do not have to wait for
-  the kernel to boot and then shut down while debugging things like
-  networking (things which can be debugged (at least partially) without
-  booting, or trying to boot, the guest os).
+  I experienced this in QEMU 2.10.1, but it looks to still be present in
+  the current master (861cd431c99e56ddb5953ca1da164a9c32b477ca), since
+  slirp_hostfwd in net/slirp.c uses in_addr instead of in6_addr.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1719689/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1724590/+subscriptions
 
