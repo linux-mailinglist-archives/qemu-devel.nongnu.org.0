@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D20368585
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 19:08:52 +0200 (CEST)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A728368571
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 19:05:32 +0200 (CEST)
+Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcot-0007OX-3k
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 13:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
+	id 1lZclf-00049s-8U
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 13:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZcj8-0002Ar-Rb
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 13:02:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36427)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZcj6-000278-9w
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 13:02:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZcj4-0001T6-Uq
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 13:02:54 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZcj4-0001Sf-5l
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 13:02:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619110970;
+ s=mimecast20190719; t=1619110967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=azROM+Yi54G3ysoape1uBhgGCHuAZtcNYGXzA67aclA=;
- b=F7gfIjl5COCTnnvV01rsr9B/wGlXMXMvbewkK2NppbHFdoeA2lxm1zfi+A1NFcmxpZC4eb
- TBWLOpYd0Q1vYq5W4jbb1rzj3lhk3NSulLTPi8UMiN8vkg1hW9OhkITw8beJZSoJSxLEm/
- ijNTPKy939ZSi6dy0debo3sFVuGV2cY=
+ bh=tBTunmYUPmhoQEETSdHOriWz4Jo2IUZZNQG1FfaSS6Y=;
+ b=BdA1MaRv9MkkxZrs8HbloxyRzusLx2PtZzq8TOCAIWLKiLCi2l+xREcRkWiY9Vth2/15OO
+ FrSMO34rxPd3uexLf0kcHsIFlMW9ozBR4c8W5mnyqdihXs1buX/bLy313ob3mJCMNCLcs2
+ slXL7vhirxuYBY3GZF/EU2sCiiT0WSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-ssGZjwFfPueXCLVyLArqYA-1; Thu, 22 Apr 2021 13:02:43 -0400
-X-MC-Unique: ssGZjwFfPueXCLVyLArqYA-1
+ us-mta-208-oC3NqdriPsWTKSHD5ER1OQ-1; Thu, 22 Apr 2021 13:02:44 -0400
+X-MC-Unique: oC3NqdriPsWTKSHD5ER1OQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6691018397AD;
- Thu, 22 Apr 2021 17:02:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0316F107ACC7;
+ Thu, 22 Apr 2021 17:02:44 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-159.ams2.redhat.com [10.36.112.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D55C19C45;
- Thu, 22 Apr 2021 17:02:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B026C19C45;
+ Thu, 22 Apr 2021 17:02:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 3/5] vhost-user-blk: Get more feature flags from vhost device
-Date: Thu, 22 Apr 2021 19:02:19 +0200
-Message-Id: <20210422170221.285006-4-kwolf@redhat.com>
+Subject: [PATCH 4/5] virtio: Fail if iommu_platform is requested,
+ but unsupported
+Date: Thu, 22 Apr 2021 19:02:20 +0200
+Message-Id: <20210422170221.285006-5-kwolf@redhat.com>
 In-Reply-To: <20210422170221.285006-1-kwolf@redhat.com>
 References: <20210422170221.285006-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,30 +82,39 @@ Cc: kwolf@redhat.com, den-plotnikov@yandex-team.ru, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VIRTIO_F_RING_PACKED and VIRTIO_F_IOMMU_PLATFORM need to be supported by
-the vhost device, otherwise advertising it to the guest doesn't result
-in a working configuration. They are currently not supported by the
-vhost-user-blk export in QEMU.
+Commit 2943b53f6 (' virtio: force VIRTIO_F_IOMMU_PLATFORM') made sure
+that vhost can't just reject VIRTIO_F_IOMMU_PLATFORM when it was
+requested. However, just adding it back to the negotiated flags isn't
+right either because it promises support to the guest that the device
+actually doesn't support. One example of a vhost-user device that
+doesn't have support for the flag is the vhost-user-blk export of QEMU.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1935020
+Instead of successfully creating a device that doesn't work, just fail
+to plug the device when it doesn't support the feature, but it was
+requested. This results in much clearer error messages.
+
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1935019
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/virtio/virtio-bus.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 8422a29470..b6f4bb3f6f 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -47,6 +47,8 @@ static const int user_feature_bits[] = {
-     VIRTIO_RING_F_INDIRECT_DESC,
-     VIRTIO_RING_F_EVENT_IDX,
-     VIRTIO_F_NOTIFY_ON_EMPTY,
-+    VIRTIO_F_RING_PACKED,
-+    VIRTIO_F_IOMMU_PLATFORM,
-     VHOST_INVALID_FEATURE_BIT
- };
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index d6332d45c3..859978d248 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -69,6 +69,11 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+         return;
+     }
  
++    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
++        error_setg(errp, "iommu_platform=true is not supported by the device");
++        return;
++    }
++
+     if (klass->device_plugged != NULL) {
+         klass->device_plugged(qbus->parent, &local_err);
+     }
 -- 
 2.30.2
 
