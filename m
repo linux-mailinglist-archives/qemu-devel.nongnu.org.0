@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5703677EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 05:29:28 +0200 (CEST)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DB93677D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 05:15:45 +0200 (CEST)
+Received: from localhost ([::1]:59396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZQ1v-0001ii-9x
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 23:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49270)
+	id 1lZPoe-00072q-50
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 23:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZPh2-0006dW-7E
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZPh2-0006dv-Da
  for qemu-devel@nongnu.org; Wed, 21 Apr 2021 23:07:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49921)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZPgt-0006Vm-17
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 23:07:51 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lZPgt-0006Vp-1b
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 23:07:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1619060862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HtIlONdYBHxGa8pNAI0MHyifBRlo8+Wum1TSrjIcQSQ=;
- b=KoHd2U9hmH32iDwWU5qjQjPwsgrhEBBgCKlXYtEA9xeW/VUqm6bQf0F/cZgU6KOr5ZN6mg
- eu/8bvD0wUl0JxrExO+AHJ0syfPfIGU18lDzXOC3jDhpsD4H8QaP/j8UhrGxahXrDM61vs
- Wk9ilX3zsNmJhdCk4asN281MybGp42E=
+ bh=ckLTAzfordUWJsd4OylshUHYPDpvi9uqov2U8NS2hS0=;
+ b=LRM5yeOJEXkmToH6lkyWX8VRn12r45gv194O5cDJ3gEw81tOUd02xtIUytOwianaMUovP+
+ tayeUbBkm6di+K6LJHK5R4zpOFMYWSFuB81fhtD/HdawG6rlumYxqyx7mQuafSWm23wgiJ
+ 0BaIw0Z/2NsDJY5UJ4Bo7iAxQA9cJgg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-537-_-f-08O4MmG85YsB1iMajg-1; Wed, 21 Apr 2021 23:07:39 -0400
-X-MC-Unique: _-f-08O4MmG85YsB1iMajg-1
+ us-mta-118-e63svZz8MBOX31KIzKHtvQ-1; Wed, 21 Apr 2021 23:07:40 -0400
+X-MC-Unique: e63svZz8MBOX31KIzKHtvQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 967BB801814;
- Thu, 22 Apr 2021 03:07:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BAEA343A0;
+ Thu, 22 Apr 2021 03:07:39 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-152.rdu2.redhat.com [10.10.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D870C607CB;
- Thu, 22 Apr 2021 03:07:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0C2A607CB;
+ Thu, 22 Apr 2021 03:07:38 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/22] qapi: [WIP] Add type ignores for qapidoc.py
-Date: Wed, 21 Apr 2021 23:07:17 -0400
-Message-Id: <20210422030720.3685766-20-jsnow@redhat.com>
+Subject: [PATCH 20/22] qapi: [WIP] Import QAPIDoc from qapidoc Signed-off-by:
+ John Snow <jsnow@redhat.com>
+Date: Wed, 21 Apr 2021 23:07:18 -0400
+Message-Id: <20210422030720.3685766-21-jsnow@redhat.com>
 In-Reply-To: <20210422030720.3685766-1-jsnow@redhat.com>
 References: <20210422030720.3685766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,36 +85,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/mypy.ini | 5 +++++
- scripts/qapi/pylintrc | 1 +
- 2 files changed, 6 insertions(+)
+ scripts/qapi/expr.py   | 2 +-
+ scripts/qapi/parser.py | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index d7bbb2dc9c7..1a72be2c788 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -9,6 +9,11 @@ disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 496f7e0333e..7616646e43d 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -44,7 +44,7 @@
  
-+[mypy-qapi.qapidoc]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
- [mypy-qapi.schema]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index c5275d5f59b..ec7605edade 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -3,6 +3,7 @@
- # Add files or directories matching the regex patterns to the ignore list.
- # The regex matches against base names, not paths.
- ignore-patterns=parser.py,
-+                qapidoc.py,
-                 schema.py,
+ from .common import c_name
+ from .error import QAPISemError
+-from .parser import QAPIDoc
++from .qapidoc import QAPIDoc
+ from .source import QAPISourceInfo
+ 
+ 
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 6fed742124d..3932f05d015 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -27,6 +27,7 @@
+ 
+ from .common import match_nofail
+ from .error import QAPISemError, QAPISourceError
++from .qapidoc import QAPIDoc
+ from .source import QAPISourceInfo
  
  
 -- 
