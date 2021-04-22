@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC43367AB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:12:32 +0200 (CEST)
-Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205CA367AB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:13:46 +0200 (CEST)
+Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZTVn-0005sC-Qt
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
+	id 1lZTWz-0006p2-7e
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lZTUj-0005KW-Eb
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:11:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28740)
+ id 1lZTVy-0006KY-Cq
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:12:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lZTUe-0000tA-Ss
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:11:24 -0400
+ id 1lZTVw-0001dU-RZ
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:12:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619075478;
+ s=mimecast20190719; t=1619075559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=egW/bUNyZLWAhO7EbuOtNSNMHNRkImyvzEAuNuAh/V4=;
- b=byokD/k4jSNMz34TQpPIxeqbJ4e5rLRcM0dvPVJQAGXlV/pSAE9Pmf0KnRbKnH+vXHJY+b
- YoX3GP3Jn8Ejekeuhdku+NCvBtsvNhhLv1TYlG6ngoVP+7F+81G3VGuDk5H0sWFBmzqcQr
- qwBWOdjtvnYGDJWEecuLPcm2+3+Fz1Y=
+ bh=pqhzUjV6P6slJDL0gEDPTKrZHz3Jw77j6rF9OGmQH4I=;
+ b=c2lQrGZc1nZ6tqi7IP8/fXsDw+kbiqN34idvQHmDemSu3ps2BqdN9GhtTD7MHLxMC2cWUJ
+ x0RA+P8LsNIioEOK0eIB+6xgRCeCU5/BQHchbTwTTIcweu2pIJ8uTjKomIaNtWUiBJa41Q
+ m2ro6Ej6HAqwXe8+UQdZu4q5Ka/XbnI=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-5UppqOEoPi2ZRgOtNYvaBA-1; Thu, 22 Apr 2021 03:11:11 -0400
-X-MC-Unique: 5UppqOEoPi2ZRgOtNYvaBA-1
+ us-mta-558--SsTP52hMAebAwox0alM8Q-1; Thu, 22 Apr 2021 03:12:35 -0400
+X-MC-Unique: -SsTP52hMAebAwox0alM8Q-1
 Received: by mail-ed1-f70.google.com with SMTP id
- c15-20020a056402100fb029038518e5afc5so8708099edu.18
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 00:11:11 -0700 (PDT)
+ l22-20020a0564021256b0290384ebfba68cso12388386edw.2
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 00:12:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=egW/bUNyZLWAhO7EbuOtNSNMHNRkImyvzEAuNuAh/V4=;
- b=mOT4jNxaqo2sEZzLbCstF7W/De97CGQo/SlcAzvkYC8iu06HSs/4Lsj5Vjzt/WqGOc
- /LzBw33Vz0SV7GgcdSadvD4EGj6uT59VcxFGxuzKmdKNR2wZlL4eU6jyI561DWDk7kXy
- FuiuGTmy9jDHmv3kSg2TLqKWNmhmBo3v8nYDuK+sL8xmz1yokzu4g/vxRniPOZCsVSzC
- o3OF2cevCXczGapjDRN5O4tGUWU4GkvUwXsWwJ52QeOxAeOycDE86AcwemAMx44F9yre
- jTpKrnu1aB0WBP3VMgZOWH2NITIYTLfilc+yFNd/ETXbusOzTXXp1k+tvaSnyHweVWSU
- ujYA==
-X-Gm-Message-State: AOAM531mVUMf5kT5fBuLvU/mGQuEDQ9xMinU7K1/wuWiVBfRhVOpqm7R
- 38JpTVM5EHFh51xLpqhlcAUVTy6kTE29pC0NrSzSQDnu1EgNxQn9xDSSGUopotmB25hAKIyE0DL
- C6dWjrsq/paqA/u0=
-X-Received: by 2002:a05:6402:350e:: with SMTP id
- b14mr2050747edd.307.1619075470530; 
- Thu, 22 Apr 2021 00:11:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxot+M1XrnKVV2UyXJjw6kqoj7oNnc5MzPvbMu5PwlFNzm9tzPa9OS+H8+XJmDyEgYij0+YxQ==
-X-Received: by 2002:a05:6402:350e:: with SMTP id
- b14mr2050734edd.307.1619075470368; 
- Thu, 22 Apr 2021 00:11:10 -0700 (PDT)
+ bh=pqhzUjV6P6slJDL0gEDPTKrZHz3Jw77j6rF9OGmQH4I=;
+ b=oWGSAt8ZZhzL2qdxg8LMPIhdLdtIiJNtCG7zJ6SYzlgeqlhebyYrGijU97yJyR8D9H
+ BdUEtlgCEl5zjnoezTOYpjmIjG33DRFAFbzsTNp+3cXwHNAlvTUmWEbzybFpDZW1vAcf
+ 3/DKj379SAOCNF174UovGcjU1SBkFgxT2e5JycIR+a6W59GPUeKrQ2l4mn5SLGNnUxrQ
+ S9oonCONIPjYcOzKBU43TYuBpH/e20Bvh8iJFzaj4z9LHi2t8TuSgp45sjsrwDxoZS7B
+ qJtZxmjMAIGhXXpopoT/5khwZFCLXGZ8rIiXkYLczaZOV+zCitgw+89GcTR8/8fabqU1
+ eMvg==
+X-Gm-Message-State: AOAM531cE/HXO3oWI288qrbFFegyBwSAtVRRrtA2G+mwoEZqXSPvTfpo
+ Vk1YibKw9uoD/SiS+uTUqiqnmQbNJ/br/Hp6cXzgB8xysscNrvNj01/ZMOVeaxeJ4MOXkO31ffc
+ bHrfRHjaTrHtPnxI=
+X-Received: by 2002:a17:906:a45a:: with SMTP id
+ cb26mr1789263ejb.537.1619075554763; 
+ Thu, 22 Apr 2021 00:12:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzR7CnDQfjGZ28sFUzeqAWcAfeVMwmyGWtFkXdlvqHhGEvuJwtb4z/rlWp9KmV/gSa5ZbbKpw==
+X-Received: by 2002:a17:906:a45a:: with SMTP id
+ cb26mr1789247ejb.537.1619075554500; 
+ Thu, 22 Apr 2021 00:12:34 -0700 (PDT)
 Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
  [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id he35sm1201231ejc.2.2021.04.22.00.11.09
+ by smtp.gmail.com with ESMTPSA id z6sm1206472ejp.86.2021.04.22.00.12.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 00:11:09 -0700 (PDT)
-Date: Thu, 22 Apr 2021 09:11:07 +0200
+ Thu, 22 Apr 2021 00:12:34 -0700 (PDT)
+Date: Thu, 22 Apr 2021 09:12:32 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: [PATCH v3 2/2] block/rbd: Add an escape-aware strchr helper
-Message-ID: <20210422071107.xmcekwjb7atg4n7x@steredhat>
-References: <20210409143854.138177-1-ckuehl@redhat.com>
- <20210409143854.138177-3-ckuehl@redhat.com>
- <20210421110454.6jcig7ujr25my2xw@steredhat>
- <525092bf-1cae-98ef-53ec-e0fa86ab2cc5@redhat.com>
+Subject: Re: [PATCH v4 2/2] block/rbd: Add an escape-aware strchr helper
+Message-ID: <20210422071232.jdfobosiszxgg6pw@steredhat>
+References: <20210421212343.85524-1-ckuehl@redhat.com>
+ <20210421212343.85524-3-ckuehl@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <525092bf-1cae-98ef-53ec-e0fa86ab2cc5@redhat.com>
+In-Reply-To: <20210421212343.85524-3-ckuehl@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,7 +84,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,46 +102,36 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Connor,
+On Wed, Apr 21, 2021 at 04:23:43PM -0500, Connor Kuehl wrote:
+>Sometimes the parser needs to further split a token it has collected
+>from the token input stream. Right now, it does a cursory check to see
+>if the relevant characters appear in the token to determine if it should
+>break it down further.
+>
+>However, qemu_rbd_next_tok() will escape characters as it removes tokens
+>from the token stream and plain strchr() won't. This can make the
+>initial strchr() check slightly misleading since it implies
+>qemu_rbd_next_tok() will find the token and split on it, except the
+>reality is that qemu_rbd_next_tok() will pass over it if it is escaped.
+>
+>Use a custom strchr to avoid mixing escaped and unescaped string
+>operations. Furthermore, this code is identical to how
+>qemu_rbd_next_tok() seeks its next token, so incorporate this custom
+>strchr into the body of that function to reduce duplication.
+>
+>Reported-by: Han Han <hhan@redhat.com>
+>Fixes: https://bugzilla.redhat.com/1873913
+>Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+>---
+>v3 -> v4:
+>  * Replace qemu_rbd_next_tok() seek loop with qemu_rbd_strchr() since
+>    they're identical
+>
+> block/rbd.c                | 32 +++++++++++++++++++++-----------
+> tests/qemu-iotests/231     |  4 ++++
+> tests/qemu-iotests/231.out |  3 +++
+> 3 files changed, 28 insertions(+), 11 deletions(-)
 
-On Wed, Apr 21, 2021 at 04:15:42PM -0500, Connor Kuehl wrote:
->On 4/21/21 6:04 AM, Stefano Garzarella wrote:
->>> +static char *qemu_rbd_strchr(char *src, char delim)
->>> +{
->>> +    char *p;
->>> +
->>> +    for (p = src; *p; ++p) {
->>> +        if (*p == delim) {
->>> +            return p;
->>> +        }
->>> +        if (*p == '\\' && p[1] != '\0') {
->>> +            ++p;
->>> +        }
->>> +    }
->>> +
->>> +    return NULL;
->>> +}
->>> +
->>
->> IIUC this is similar to the code used in qemu_rbd_next_tok().
->> To avoid code duplication can we use this new function inside it?
->
->Hi Stefano! Good catch. I think you're right. I've incorporated your
->suggestion into my next revision. The only thing I changed was the
->if-statement from:
->
->	if (end && *end == delim) {
->
->to:
->
->	if (end) {
->
->Since qemu_rbd_strchr() will only ever return a non-NULL pointer if it
->was able to find 'delim'.
-
-Yeah, definitely better :-)
-
-Thanks,
-Stefano
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
