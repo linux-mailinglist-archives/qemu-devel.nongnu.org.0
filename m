@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181A83687B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 22:08:19 +0200 (CEST)
-Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA7B3687D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 22:23:38 +0200 (CEST)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZfcY-0005c4-5Q
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 16:08:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57536)
+	id 1lZfrN-0006zX-7g
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 16:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZfBw-00040N-Md; Thu, 22 Apr 2021 15:40:48 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZfBu-00060K-Hw; Thu, 22 Apr 2021 15:40:48 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id h4so36904774wrt.12;
- Thu, 22 Apr 2021 12:40:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8AqweBapguPmOlWDQSk9kMwa86Evn6EEtsuRuMCSv+g=;
- b=BS2b3AC0fVgCuV5m4c/yxpBES/fNG4Or93EqeDVgRbd2QJhSSOU3HfDsO7umHir/X+
- wTY6RONPPFIFp0oASZ6u/z2sAwke8uRU/LaN2EtknPlRcuGgiotyW/SKV2gHqzveX2/a
- 77ooq3cTz9T5JtRWlre7eExBLk15MKH3jkmS6umhe+m99mBinCyH9YxVWV17Oy232xzx
- DiTVnRxtxNpYgwv5aMjQWbMmPibpWd2yemNa2V+Qgtd1CAmBvU+PS6yFlp/GSvUL31Cl
- UhAyY5pMGnZMwImj6gmBRVMhb2LREuQhn7pUqZeF1NzuEsII6drwSrTrsuXo38njYDEF
- FSuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8AqweBapguPmOlWDQSk9kMwa86Evn6EEtsuRuMCSv+g=;
- b=s2bibzCG17zXOxM1Zj/Mkd4BQXV4+5g/ZuKpvbjWfGzvDfCNL+RPcm951wBnI5GAlx
- rJQ0oxnpNzpSPCkOhm/wAs+fmqh2ZjDGmiFQFLxSAjNZvTqFXJeP1bCsaHYynFWPXp/v
- K3GfWZ0dwTrg4uvJfvlOBGmefXvp8YbF9CAgzETqwOuxlr765Z1uiofBPt0diyLb+/6E
- flAVMu8ormXPFSJyTIqt/TENtr2myBrtvme0NpagGFxf09qfqp4qPFXapaWIJ8NWwmov
- 9HOSoAYlGJZ5A7aYr3WtuFrhO9b+iBJI38PwsJr3TNrdXrc+tpeRT6gmATHnHZBDCEwA
- fgjQ==
-X-Gm-Message-State: AOAM531nV0bC8nBa6TlG1O3v0ZAtLLqm6mUq002zbc3nU1kTOfy7alRy
- u+pHOKr6CTSpB2Y+GZmUgF5J8tHbxkrQzA==
-X-Google-Smtp-Source: ABdhPJym6F2N73rzVCNKjBuNPknzVv5ID7iK8bCHWZ+dyDhIT4brKz3EPgcRcobp3uGqFEjsiaq4bg==
-X-Received: by 2002:adf:db4f:: with SMTP id f15mr7646wrj.99.1619120443185;
- Thu, 22 Apr 2021 12:40:43 -0700 (PDT)
-Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id f11sm7596634wmc.6.2021.04.22.12.40.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Apr 2021 12:40:42 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 18/18] cpu: Restrict "hw/core/sysemu-cpu-ops.h" to
- target/cpu.c
-Date: Thu, 22 Apr 2021 21:39:02 +0200
-Message-Id: <20210422193902.2644064-19-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210422193902.2644064-1-f4bug@amsat.org>
-References: <20210422193902.2644064-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lZfq0-0006Qd-AH; Thu, 22 Apr 2021 16:22:12 -0400
+Resent-Date: Thu, 22 Apr 2021 16:22:12 -0400
+Resent-Message-Id: <E1lZfq0-0006Qd-AH@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lZfpw-0003xp-8T; Thu, 22 Apr 2021 16:22:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1619122911; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jV1D5SXiZJb2avKogYEyZoyZnCjO8KTgf3HvMH7II2rAXmYUMPOaag6VllOZF1NuaWYAdZRVz6QgVY1nFoLe49lSgDOyB/DT2dgv1W/y0Oa1VNPbfLFeHAuTKXKzfW+zPi9BDX6ZZU6JY2S2y379GeYKADNJJq+fl8hYbjeVgCw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1619122911;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=vCgQf4i0593KnOD4ngSen7RqToUWxfxph0zGq8iRv/M=; 
+ b=M1rsdWwwAoSu2gZXw9NFjy6TrgaGUrb6mFKsZx57W1PcJKt91kpRlQjdzZcHZadnw63zf9A5PxrPMALoxEUZDSomyM2svQ+/FzR2dc1JWt5jxOsItxAWbKw9ba/KzpDAIkQgJBiCfu+ez99U2Ir6LrVaj+iop9hRWfoyXG/U+hc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 161912290867031.741577598921936;
+ Thu, 22 Apr 2021 13:21:48 -0700 (PDT)
+In-Reply-To: <20210422193131.22560-1-lucas.araujo@eldorado.org.br>
+Subject: Re: [RFC PATCH 0/4] hw/ppc: remove call to tcg-only function
+Message-ID: <161912290731.19742.10020635159818922757@72b6d80f974b>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: lucas.araujo@eldorado.org.br
+Date: Thu, 22 Apr 2021 13:21:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,431 +65,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Juan Quintela <quintela@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: bruno.larsen@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Somehow similar to commit 78271684719 ("cpu: tcg_ops: move to
-tcg-cpu-ops.h, keep a pointer in CPUClass"):
-
-We cannot in principle make the SysEmu Operations field definitions
-conditional on CONFIG_SOFTMMU in code that is included by both
-common_ss and specific_ss modules.
-
-Therefore, what we can do safely to restrict the SysEmu fields to
-system emulation builds, is to move all sysemu operations into a
-separate header file, which is only included by system-specific code.
-
-This leaves just a NULL pointer in the cpu.h for the user-mode builds.
-
-Inspired-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/core/cpu.h   | 3 ++-
- target/alpha/cpu.h      | 3 +++
- target/arm/cpu.h        | 3 +++
- target/avr/cpu.h        | 1 +
- target/cris/cpu.h       | 3 +++
- target/hexagon/cpu.h    | 3 +++
- target/hppa/cpu.h       | 3 +++
- target/i386/cpu.h       | 3 +++
- target/lm32/cpu.h       | 3 +++
- target/m68k/cpu.h       | 3 +++
- target/microblaze/cpu.h | 1 +
- target/mips/cpu.h       | 3 +++
- target/moxie/cpu.h      | 3 +++
- target/nios2/cpu.h      | 1 +
- target/openrisc/cpu.h   | 3 +++
- target/ppc/cpu.h        | 3 +++
- target/riscv/cpu.h      | 3 +++
- target/rx/cpu.h         | 1 +
- target/s390x/cpu.h      | 3 +++
- target/sh4/cpu.h        | 3 +++
- target/sparc/cpu.h      | 3 +++
- target/tricore/cpu.h    | 3 +++
- target/unicore32/cpu.h  | 3 +++
- target/xtensa/cpu.h     | 3 +++
- cpu.c                   | 1 +
- hw/core/cpu.c           | 1 +
- 26 files changed, 65 insertions(+), 1 deletion(-)
-
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index d0187798eea..3422d405b49 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -80,7 +80,8 @@ struct TCGCPUOps;
- /* see accel-cpu.h */
- struct AccelCPUClass;
- 
--#include "hw/core/sysemu-cpu-ops.h"
-+/* see sysemu-cpu-ops.h */
-+struct SysemuCPUOps;
- 
- /**
-  * CPUClass:
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index 82df108967b..f1218a27706 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -22,6 +22,9 @@
- 
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* Alpha processors have a weak memory model */
- #define TCG_GUEST_DEFAULT_MO      (0)
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 193a49ec7fa..d9228d1d990 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -25,6 +25,9 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- #include "qapi/qapi-types-common.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* ARM processors have a weak memory model */
- #define TCG_GUEST_DEFAULT_MO      (0)
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index d148e8c75a4..e0419649fa7 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -23,6 +23,7 @@
- 
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#include "hw/core/sysemu-cpu-ops.h"
- 
- #ifdef CONFIG_USER_ONLY
- #error "AVR 8-bit does not support user mode"
-diff --git a/target/cris/cpu.h b/target/cris/cpu.h
-index d3b64929096..4450f2268ea 100644
---- a/target/cris/cpu.h
-+++ b/target/cris/cpu.h
-@@ -23,6 +23,9 @@
- 
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define EXCP_NMI        1
- #define EXCP_GURU       2
-diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
-index e04eac591c8..2a878e77f08 100644
---- a/target/hexagon/cpu.h
-+++ b/target/hexagon/cpu.h
-@@ -26,6 +26,9 @@ typedef struct CPUHexagonState CPUHexagonState;
- #include "qemu-common.h"
- #include "exec/cpu-defs.h"
- #include "hex_regs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define NUM_PREGS 4
- #define TOTAL_PER_THREAD_REGS 64
-diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index 61178fa6a2a..94d2d4701c4 100644
---- a/target/hppa/cpu.h
-+++ b/target/hppa/cpu.h
-@@ -23,6 +23,9 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- #include "exec/memory.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* PA-RISC 1.x processors have a strong memory model.  */
- /* ??? While we do not yet implement PA-RISC 2.0, those processors have
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 570f916878f..2f520cb6fc1 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -25,6 +25,9 @@
- #include "kvm/hyperv-proto.h"
- #include "exec/cpu-defs.h"
- #include "qapi/qapi-types-common.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* The x86 has a strong memory model with some store-after-load re-ordering */
- #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
-diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
-index ea7c01ca8b0..034183dad30 100644
---- a/target/lm32/cpu.h
-+++ b/target/lm32/cpu.h
-@@ -22,6 +22,9 @@
- 
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- typedef struct CPULM32State CPULM32State;
- 
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 402c86c8769..681dc0d1d13 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -23,6 +23,9 @@
- 
- #include "exec/cpu-defs.h"
- #include "cpu-qom.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define OS_BYTE     0
- #define OS_WORD     1
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index e4bba8a7551..3f5c2e048e5 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -26,6 +26,7 @@
- 
- typedef struct CPUMBState CPUMBState;
- #if !defined(CONFIG_USER_ONLY)
-+#include "hw/core/sysemu-cpu-ops.h"
- #include "mmu.h"
- #endif
- 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 075c24abdad..923ab71f8d7 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -6,6 +6,9 @@
- #include "fpu/softfloat-types.h"
- #include "hw/clock.h"
- #include "mips-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define TCG_GUEST_DEFAULT_MO (0)
- 
-diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
-index bd6ab66084d..7a0a5e95d01 100644
---- a/target/moxie/cpu.h
-+++ b/target/moxie/cpu.h
-@@ -22,6 +22,9 @@
- 
- #include "exec/cpu-defs.h"
- #include "qom/object.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define MOXIE_EX_DIV0        0
- #define MOXIE_EX_BAD         1
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 2ab82fdc713..1b88b027063 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -27,6 +27,7 @@
- 
- typedef struct CPUNios2State CPUNios2State;
- #if !defined(CONFIG_USER_ONLY)
-+#include "hw/core/sysemu-cpu-ops.h"
- #include "mmu.h"
- #endif
- 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 82cbaeb4f84..2a6f9f48547 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -23,6 +23,9 @@
- #include "exec/cpu-defs.h"
- #include "hw/core/cpu.h"
- #include "qom/object.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* cpu_openrisc_map_address_* in CPUOpenRISCTLBContext need this decl.  */
- struct OpenRISCCPU;
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index e73416da68d..f889c28e548 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -24,6 +24,9 @@
- #include "exec/cpu-defs.h"
- #include "cpu-qom.h"
- #include "qom/object.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0a33d387ba8..90ac5097718 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -25,6 +25,9 @@
- #include "exec/cpu-defs.h"
- #include "fpu/softfloat-types.h"
- #include "qom/object.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index 0b4b998c7be..d9b7b63716a 100644
---- a/target/rx/cpu.h
-+++ b/target/rx/cpu.h
-@@ -25,6 +25,7 @@
- #include "cpu-qom.h"
- 
- #include "exec/cpu-defs.h"
-+#include "hw/core/sysemu-cpu-ops.h"
- 
- /* PSW define */
- REG32(PSW, 0)
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 2464d4076c0..8f7233d97c2 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -28,6 +28,9 @@
- #include "cpu-qom.h"
- #include "cpu_models.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #define ELF_MACHINE_UNAME "S390X"
- 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index 01c43440822..6c3d3a29fc2 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -22,6 +22,9 @@
- 
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* CPU Subtypes */
- #define SH_CPU_SH7750  (1 << 0)
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 4b2290650be..237ffc4fe66 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -4,6 +4,9 @@
- #include "qemu/bswap.h"
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- #if !defined(TARGET_SPARC64)
- #define TARGET_DPREGS 16
-diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
-index 4b61a2c03f8..a7636c0e870 100644
---- a/target/tricore/cpu.h
-+++ b/target/tricore/cpu.h
-@@ -23,6 +23,9 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- #include "tricore-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- struct tricore_boot_info;
- 
-diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
-index 7a32e086ed3..de475d0fc2e 100644
---- a/target/unicore32/cpu.h
-+++ b/target/unicore32/cpu.h
-@@ -14,6 +14,9 @@
- 
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- typedef struct CPUUniCore32State {
-     /* Regs for current mode.  */
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 3bd4f691c1a..ea4ee5338f3 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -31,6 +31,9 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- #include "xtensa-isa.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+#endif
- 
- /* Xtensa processors have a weak memory model */
- #define TCG_GUEST_DEFAULT_MO      (0)
-diff --git a/cpu.c b/cpu.c
-index 47eb8c40775..610df6660b3 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -29,6 +29,7 @@
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
- #else
-+#include "hw/core/sysemu-cpu-ops.h"
- #include "exec/address-spaces.h"
- #endif
- #include "sysemu/tcg.h"
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 7a8487d468f..da7543be514 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -35,6 +35,7 @@
- #include "trace/trace-root.h"
- #include "qemu/plugin.h"
- #include "sysemu/hw_accel.h"
-+#include "hw/core/sysemu-cpu-ops.h"
- 
- CPUState *cpu_by_arch_id(int64_t id)
- {
--- 
-2.26.3
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyMjE5MzEzMS4yMjU2
+MC0xLWx1Y2FzLmFyYXVqb0BlbGRvcmFkby5vcmcuYnIvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDQyMjE5
+MzEzMS4yMjU2MC0xLWx1Y2FzLmFyYXVqb0BlbGRvcmFkby5vcmcuYnIKU3ViamVjdDogW1JGQyBQ
+QVRDSCAwLzRdIGh3L3BwYzogcmVtb3ZlIGNhbGwgdG8gdGNnLW9ubHkgZnVuY3Rpb24KCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rl
+di9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sg
+YmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4
+MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXct
+cHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA0MjIxOTMxMzEu
+MjI1NjAtMS1sdWNhcy5hcmF1am9AZWxkb3JhZG8ub3JnLmJyIC0+IHBhdGNoZXcvMjAyMTA0MjIx
+OTMxMzEuMjI1NjAtMS1sdWNhcy5hcmF1am9AZWxkb3JhZG8ub3JnLmJyClN3aXRjaGVkIHRvIGEg
+bmV3IGJyYW5jaCAndGVzdCcKMWQxMTc5ZiB0YXJnZXQvcHBjOiB0cmFuc2ZlcmVkIGZ1bmN0aW9u
+cyB0byBub24tdGNnLW9ubHkgZmlsZXMKYTkzODU1NiBody9wcGM6IHVwZGF0ZWQgYnVpbGQgcnVs
+ZXMgdG8gdXNlIG5ldyBmaWxlCmJlZDUzNjIgaHcvcHBjOiBBZGQga3ZtLW9ubHkgZmlsZSBzcGFw
+cl9oY2FsbF90Y2dfc3R1Yi5jCjc3MjVmNzIgdGFyZ2V0L3BwYzogdXBkYXRlZCBidWlsZCBvcHRp
+b25zCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzQgQ2hlY2tpbmcgY29tbWl0IDc3MjVmNzJkMzdh
+NyAodGFyZ2V0L3BwYzogdXBkYXRlZCBidWlsZCBvcHRpb25zKQoyLzQgQ2hlY2tpbmcgY29tbWl0
+IGJlZDUzNjJiY2ZkYiAoaHcvcHBjOiBBZGQga3ZtLW9ubHkgZmlsZSBzcGFwcl9oY2FsbF90Y2df
+c3R1Yi5jKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4g
+c3RyaW5nIGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojMjQ6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHNwYWNlcyByZXF1aXJl
+ZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYpCiMxNzI6IEZJTEU6IGh3L3BwYy9zcGFwcl9oY2Fs
+bF90Y2dfc3R1Yi5jOjE0NDoKKyAgICAgICAgdGFyZ2V0X3Vsb25nICp0c2ggPSAmYXJnc1tpKjJd
+OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJl
+cXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzE3MzogRklMRTogaHcvcHBjL3NwYXBy
+X2hjYWxsX3RjZ19zdHViLmM6MTQ1OgorICAgICAgICB0YXJnZXRfdWxvbmcgdHNsID0gYXJnc1tp
+KjIgKyAxXTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDQ6IEZJ
+TEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjIxNjoKKyAgICAvKiBUaGVzZSBmaWVs
+ZHMgYXJlIHByaXZhdGUgdG8gdGhlIHByZXBhcmF0aW9uIHRocmVhZCBpZgoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNDU6IEZJ
+TEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjIxNzoKKyAgICAgKiAhY29tcGxldGUs
+IG90aGVyd2lzZSBwcm90ZWN0ZWQgYnkgdGhlIEJRTCAqLwoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzMwNzogRklMRTogaHcvcHBj
+L3NwYXByX2hjYWxsX3RjZ19zdHViLmM6Mjc5OgorLyogQ29udmVydCBhIHJldHVybiBjb2RlIGZy
+b20gdGhlIEtWTSBpb2N0bCgpcyBpbXBsZW1lbnRpbmcgcmVzaXplIEhQVAoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMzMDg6IEZJ
+TEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjI4MDoKKyAqIGludG8gYSBQQVBSIGh5
+cGVyY2FsbCByZXR1cm4gY29kZSAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVh
+ZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzM3NzogRklMRTogaHcvcHBjL3NwYXByX2hjYWxs
+X3RjZ19zdHViLmM6MzQ5OgorICAgIC8qIFdlIG9ubHkgYWxsb3cgdGhlIGd1ZXN0IHRvIGFsbG9j
+YXRlIGFuIEhQVCBvbmUgb3JkZXIgYWJvdmUgd2hhdAoKV0FSTklORzogQmxvY2sgY29tbWVudHMg
+dXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMzNzk6IEZJTEU6IGh3L3BwYy9z
+cGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjM1MToKKyAgICAgKiBjaHVuayBvZiByZXNvdXJjZXMgaW4g
+dGhlIEhQVCAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzQyMDogRklMRTogaHcvcHBjL3NwYXByX2hjYWxsX3RjZ19zdHViLmM6
+MzkyOgorICAgIC8qIEluIHRoZW9yeSB3ZSBjb3VsZCBlc3RpbWF0ZSB0aGUgdGltZSBtb3JlIGFj
+Y3VyYXRlbHkgYmFzZWQgb24KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5n
+ICovIG9uIGEgc2VwYXJhdGUgbGluZQojNDIxOiBGSUxFOiBody9wcGMvc3BhcHJfaGNhbGxfdGNn
+X3N0dWIuYzozOTM6CisgICAgICogdGhlIG5ldyBzaXplLCBidXQgdGhlcmUncyBub3QgbXVjaCBw
+b2ludCAqLwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYp
+CiM5ODQ6IEZJTEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjk1NjoKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIG5yZXQsIHJ0YXNfcjMgKyAxMiArIDQqbmFyZ3MpOwogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCldBUk5JTkc6IGxp
+bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxNDI0OiBGSUxFOiBody9wcGMvc3BhcHJfaGNhbGxfdGNn
+X3N0dWIuYzoxMzk2OgorICAgICAgICAgICAgd2Fybl9yZXBvcnQoImd1ZXN0IGhhcyBtdWx0aXBs
+ZSBhY3RpdmUgdkNQVXMgYXQgQ0FTLCB3aGljaCBpcyBub3QgYWxsb3dlZCIpOwoKV0FSTklORzog
+QmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE0NDU6
+IEZJTEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjE0MTc6CisgICAgICAgICAgICAv
+KiBXZSBmYWlsIHRvIHNldCBjb21wYXQgbW9kZSAobGlrZWx5IGJlY2F1c2UgcnVubmluZyB3aXRo
+IEtWTSBQUiksCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
+c2VwYXJhdGUgbGluZQojMTUwNDogRklMRTogaHcvcHBjL3NwYXByX2hjYWxsX3RjZ19zdHViLmM6
+MTQ3NjoKKyAgICAgICAgICAgIC8qIEd1ZXN0IGRvZXNuJ3Qga25vdyBhYm91dCBIUFQgcmVzaXpp
+bmcsIHNvIHdlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzE1MDc6IEZJTEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5j
+OjE0Nzk6CisgICAgICAgICAgICAgKiBlbnRlcmVkIGludG8gdGhlIGV4aXN0aW5nIEhQVCAqLwoK
+V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxp
+bmUKIzE1MTM6IEZJTEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjE0ODU6CisgICAg
+LyogTk9URTogdGhlcmUgYXJlIGFjdHVhbGx5IGEgbnVtYmVyIG9mIG92NSBiaXRzIHdoZXJlIGlu
+cHV0IGZyb20gdGhlCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTcyOTogRklM
+RTogaHcvcHBjL3NwYXByX2hjYWxsX3RjZ19zdHViLmM6MTcwMToKK3N0YXRpYyBzcGFwcl9oY2Fs
+bF9mbiBrdm1wcGNfaHlwZXJjYWxsX3RhYmxlW0tWTVBQQ19IQ0FMTF9NQVggLSBLVk1QUENfSENB
+TExfQkFTRSArIDFdOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE3MzA6IEZJ
+TEU6IGh3L3BwYy9zcGFwcl9oY2FsbF90Y2dfc3R1Yi5jOjE3MDI6CitzdGF0aWMgc3BhcHJfaGNh
+bGxfZm4gc3ZtX2h5cGVyY2FsbF90YWJsZVsoU1ZNX0hDQUxMX01BWCAtIFNWTV9IQ0FMTF9CQVNF
+KSAvIDQgKyAxXTsKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24g
+YSBzZXBhcmF0ZSBsaW5lCiMxODMwOiBGSUxFOiBody9wcGMvc3BhcHJfaGNhbGxfdGNnX3N0dWIu
+YzoxODAyOgorICAgIC8qICJkZWJ1Z2dlciIgaGNhbGxzIChhbHNvIHVzZWQgYnkgU0xPRikuIE5v
+dGU6IFdlIGRvIC1ub3QtIGRpZmZlcmVuY2lhdGUKCnRvdGFsOiAzIGVycm9ycywgMTcgd2Fybmlu
+Z3MsIDE4MjQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgozLzQgQ2hlY2tpbmcgY29tbWl0IGE5Mzg1NTZiM2JhNSAoaHcvcHBjOiB1cGRhdGVkIGJ1
+aWxkIHJ1bGVzIHRvIHVzZSBuZXcgZmlsZSkKNC80IENoZWNraW5nIGNvbW1pdCAxZDExNzlmYjZm
+NTcgKHRhcmdldC9wcGM6IHRyYW5zZmVyZWQgZnVuY3Rpb25zIHRvIG5vbi10Y2ctb25seSBmaWxl
+cykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmlu
+ZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVk
+LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
+Zz8KIzEwMjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
+Z3MsIDIxMCBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
+MTA0MjIxOTMxMzEuMjI1NjAtMS1sdWNhcy5hcmF1am9AZWxkb3JhZG8ub3JnLmJyL3Rlc3Rpbmcu
+Y2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
+bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
+ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
