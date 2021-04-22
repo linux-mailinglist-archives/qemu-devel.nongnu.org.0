@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F183684A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:17:12 +0200 (CEST)
-Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E573684AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:20:26 +0200 (CEST)
+Received: from localhost ([::1]:54742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZc0t-0006rf-DP
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
+	id 1lZc41-000337-5c
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:20:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbvd-0003LP-Py
+ id 1lZbvh-0003M5-Ef
  for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:11:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29885)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lZbvb-0002yT-1W
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:11:45 -0400
+ id 1lZbvb-0002yn-4T
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 12:11:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619107899;
+ s=mimecast20190719; t=1619107902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QA8vlb4xb/xdDpWT2muKiZ2VzjYujwjSivpwvDBbXek=;
- b=Osx6lXwn2VxpyQGx6CUggDSHmz4hwSTZWrBxyQGnsJj13HS6MCCl2xC5w4z1Wpsq81ml5k
- azgSpveErIdGtoHKPuFoaSUYkzBCEP9pvmEifNS3IrPlH9892h3Z2CbJxnEHKFFeLdSZBE
- 2e3b3ThikvaA28HMob8aJSQnYJ4Id+Y=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KyNTx9GGsb0pHm0ucvsBmZ3Fw2Y/zeDO4SXujupMhz4=;
+ b=bk7D98MkgiJqy49ci3U4gYIhPk2Sk7OmT601U8m+/M7IrgAcRuRD+YhARiM8z/EfijbJ4y
+ U1aLAKLQBQAABaRJ/oAYfN1lH/LV7JblZ6BeDKAIu83Ua1SKh468DSQ3We14ixue0M7cK6
+ Z1grw+29rL4nMXqIK6Kh6Rr1+EKxSG4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-TUpySTYjOpieW04Zv1chHA-1; Thu, 22 Apr 2021 12:11:37 -0400
-X-MC-Unique: TUpySTYjOpieW04Zv1chHA-1
+ us-mta-267-03KPC-ZRPliHlgOg1xJD4Q-1; Thu, 22 Apr 2021 12:11:39 -0400
+X-MC-Unique: 03KPC-ZRPliHlgOg1xJD4Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92AA6814336
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:11:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6754107ACE4
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 16:11:38 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC8D02BFE7;
- Thu, 22 Apr 2021 16:11:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E6212BFE7;
+ Thu, 22 Apr 2021 16:11:36 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 00/19] i386: KVM: expand Hyper-V features early
-Date: Thu, 22 Apr 2021 18:11:11 +0200
-Message-Id: <20210422161130.652779-1-vkuznets@redhat.com>
+Subject: [PATCH v6 01/19] i386: keep hyperv_vendor string up-to-date
+Date: Thu, 22 Apr 2021 18:11:12 +0200
+Message-Id: <20210422161130.652779-2-vkuznets@redhat.com>
+In-Reply-To: <20210422161130.652779-1-vkuznets@redhat.com>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -54,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,68 +83,65 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v5:
-- Temporary drop 'hv-default' feature as it is causing some controversy.
- The rest of the patchset is valuable on its own.
-- Add 3 additiona fixes:
- i386: kill off hv_cpuid_check_and_set() [Igor's suggestion]
- i386: HV_HYPERCALL_AVAILABLE privilege bit is always needed
- i386: Hyper-V SynIC requires POST_MESSAGES/SIGNAL_EVENTS priviliges
+When cpu->hyperv_vendor is not set manually we default to "Microsoft Hv"
+and in 'hv_passthrough' mode we get the information from the host. This
+information is stored in cpu->hyperv_vendor_id[] array but we don't update
+cpu->hyperv_vendor string so e.g. QMP's query-cpu-model-expansion output
+is incorrect.
 
-The last two patches are inspired by 'Fine-grained access check to Hyper-V
-hypercalls and MSRs' work for KVM:
-https://lore.kernel.org/kvm/20210419160127.192712-1-vkuznets@redhat.com/
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ target/i386/cpu.c     | 19 +++++++++----------
+ target/i386/kvm/kvm.c |  5 +++++
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
-Original description:
-
-Upper layer tools like libvirt want to figure out which Hyper-V features are
-supported by the underlying stack (QEMU/KVM) but currently they are unable to
-do so. We have a nice 'hv_passthrough' CPU flag supported by QEMU but it has
-no effect on e.g. QMP's 
-
-query-cpu-model-expansion type=full model={"name":"host","props":{"hv-passthrough":true}}
-
-command as we parse Hyper-V features after creating KVM vCPUs and not at
-feature expansion time. To support the use-case we first need to make 
-KVM_GET_SUPPORTED_HV_CPUID ioctl a system-wide ioctl as the existing
-vCPU version can't be used that early. This is what KVM part does. With
-that done, we can make early Hyper-V feature expansion (this series).
-
-Vitaly Kuznetsov (19):
-  i386: keep hyperv_vendor string up-to-date
-  i386: invert hyperv_spinlock_attempts setting logic with
-    hv_passthrough
-  i386: always fill Hyper-V CPUID feature leaves from X86CPU data
-  i386: stop using env->features[] for filling Hyper-V CPUIDs
-  i386: introduce hyperv_feature_supported()
-  i386: introduce hv_cpuid_get_host()
-  i386: drop FEAT_HYPERV feature leaves
-  i386: introduce hv_cpuid_cache
-  i386: split hyperv_handle_properties() into
-    hyperv_expand_features()/hyperv_fill_cpuids()
-  i386: move eVMCS enablement to hyperv_init_vcpu()
-  i386: switch hyperv_expand_features() to using error_setg()
-  i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
-  i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
-  i386: use global kvm_state in hyperv_enabled() check
-  i386: expand Hyper-V features during CPU feature expansion time
-  i386: kill off hv_cpuid_check_and_set()
-  i386: HV_HYPERCALL_AVAILABLE privilege bit is always needed
-  i386: Hyper-V SynIC requires POST_MESSAGES/SIGNAL_EVENTS priviliges
-  qtest/hyperv: Introduce a simple hyper-v test
-
- MAINTAINERS                    |   1 +
- target/i386/cpu.c              | 113 +-------
- target/i386/cpu.h              |   6 +-
- target/i386/kvm/hyperv-proto.h |   6 +
- target/i386/kvm/kvm-stub.c     |   5 +
- target/i386/kvm/kvm.c          | 514 +++++++++++++++++----------------
- target/i386/kvm/kvm_i386.h     |   1 +
- tests/qtest/hyperv-test.c      | 225 +++++++++++++++
- tests/qtest/meson.build        |   3 +-
- 9 files changed, 526 insertions(+), 348 deletions(-)
- create mode 100644 tests/qtest/hyperv-test.c
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ad99cad0e7ce..2d05df232329 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6665,17 +6665,16 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
+ 
+     /* Hyper-V vendor id */
+     if (!cpu->hyperv_vendor) {
+-        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
+-    } else {
+-        len = strlen(cpu->hyperv_vendor);
+-
+-        if (len > 12) {
+-            warn_report("hv-vendor-id truncated to 12 characters");
+-            len = 12;
+-        }
+-        memset(cpu->hyperv_vendor_id, 0, 12);
+-        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
++        object_property_set_str(OBJECT(cpu), "hv-vendor-id", "Microsoft Hv",
++                                &error_abort);
++    }
++    len = strlen(cpu->hyperv_vendor);
++    if (len > 12) {
++        warn_report("hv-vendor-id truncated to 12 characters");
++        len = 12;
+     }
++    memset(cpu->hyperv_vendor_id, 0, 12);
++    memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
+ 
+     /* 'Hv#1' interface identification*/
+     cpu->hyperv_interface_id[0] = 0x31237648;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 7fe9f527103c..ab073a5e9c44 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1215,6 +1215,11 @@ static int hyperv_handle_properties(CPUState *cs,
+             cpu->hyperv_vendor_id[0] = c->ebx;
+             cpu->hyperv_vendor_id[1] = c->ecx;
+             cpu->hyperv_vendor_id[2] = c->edx;
++            cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
++                                           sizeof(cpu->hyperv_vendor_id) + 1);
++            memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
++                   sizeof(cpu->hyperv_vendor_id));
++            cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] = 0;
+         }
+ 
+         c = cpuid_find_entry(cpuid, HV_CPUID_INTERFACE, 0);
 -- 
 2.30.2
 
