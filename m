@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564EE367EB0
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 12:35:06 +0200 (CEST)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B786367EDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 12:41:47 +0200 (CEST)
+Received: from localhost ([::1]:55442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZWfo-0000U7-7p
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 06:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
+	id 1lZWmI-00030C-CS
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 06:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZWeP-0007n9-Vd; Thu, 22 Apr 2021 06:33:38 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41897)
+ id 1lZWkM-00025E-VU; Thu, 22 Apr 2021 06:39:46 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lZWeO-0005Bq-EM; Thu, 22 Apr 2021 06:33:37 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c4so5352375wrt.8;
- Thu, 22 Apr 2021 03:33:35 -0700 (PDT)
+ id 1lZWkL-0000IN-BX; Thu, 22 Apr 2021 06:39:46 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so2956066wmy.5; 
+ Thu, 22 Apr 2021 03:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rSZ3OloesEwPGjxkaTwRU08mivndC4n+YKh3hssX1Ec=;
- b=svATepzg8CeIfJDcwneMeJyXastA+oi4vG6L6nZbwbRFIMwrownX7L0iDYA2yINgnB
- 5Dgl2nyYM8288Q2GnIYxJL2q0zoJi75VOkyFB9nI9hLGQlTEsg+HfrJD5m/cFhAsTyFz
- /dntFigJy9VTTWEN2JbMp5c0HNuFgv97Rf1LYDQJPgezRM0Ku4fM6XB6xaYPvJpYzgb9
- JpCbKjfwGqOVLoRbMk0Ndqt2eaOst3EOtepYy/JpOrezQcuON7ONFQ/0UpKTxx+SsDPr
- K7Asqcp8Jq8KX2Gal0pFDrKMXIq0mu55CA5QiMuNMGzNm9ntMhBc/1hcK4FCJn4IWNkU
- QiXQ==
+ bh=gzyYZtefvvTPc+fAp1xGWLBqADRa8++7G8JBTKn3uQk=;
+ b=YRn0LnF3seW3Hl/LeWmeHswr5BqFkIeefun2Um+XN/8kkz7PvFJ6IMPIsAavF5ECux
+ /cWtNV4RoVPZCTESi6udUG6FhG4yb2Bwpb5niq11a0Tl4FS9QaU2k75TIcufHqB+VBAa
+ 8ICA6mPUbTt7+5MqmeJDDxLEYRLTzuFyNTX/wLRRTDYb6VmTMYF0k2HqVYA6kE5HOmhV
+ SQLHlkOBKF/avFdzxu+oD7BhPgNHY0lAEUVwIFqzUiJV/+ZojuAcVM4DPhEJz8KtM3yn
+ UWlAkGbkBl6K8169lCuL1PQPmv2zzowv7Oka7Wo+vDv4laK0U9IltDiHY+GZ1KYNaBMW
+ FVYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rSZ3OloesEwPGjxkaTwRU08mivndC4n+YKh3hssX1Ec=;
- b=drvHkjPor31hBnDB22WDAbhNPt9niam/laTwkIAMWaWy/B0oHOKUYw6dBXf7bJSogZ
- CUoZxi0ld5AO8aSs9Wg4NK43m5w5NI2n90QgrbCcOnrTtSHQ2lhmNtTaHeSvtezicYgQ
- DZdwYNA2IN4+pobAsplvF3V1FA4v6DVg5axiDyyFLVTl7YvFkfcnbNWmr+HpYZfzMDmX
- ckf4+hxKgOlrQj/VUPCpf5muvTwHoLzXR06upcynsMvdIpJmoNCRo0n47o5t7opL5CvJ
- Oiiufiz6Oh//8/kiJyty9ZS/6JSgH9dpEUJo3Ma6/3rpdDshCvlmzvWDtNBCcIxpvb9R
- l80Q==
-X-Gm-Message-State: AOAM5332DWtbHnCKuy2BJ0jlh/U+IutImtX5eUABQSIO20HaARy1yJlc
- ArpGt24k/C0U3vdqVdP33j8=
-X-Google-Smtp-Source: ABdhPJxAkTUoOIz004nFsiizMGLpEEQQJYJ7uCxb6EePo62iQPbKK5cOV7ndFmWwnnTdYeBeMAxdwg==
-X-Received: by 2002:adf:f410:: with SMTP id g16mr3279350wro.345.1619087614057; 
- Thu, 22 Apr 2021 03:33:34 -0700 (PDT)
+ bh=gzyYZtefvvTPc+fAp1xGWLBqADRa8++7G8JBTKn3uQk=;
+ b=h6SM/ZY+80YVBfDHnsqQ4JdgtYWGW6pvvMDfcPJO5enf5mLFQTdviqtm6yHXmtgTdv
+ OiR3Ton9bZcmpfnOXwnIojfrPVMFZAjoAVSOLmPnq0z3jP+ZwRURochnCobqqtp2objg
+ YOQc0QEr9sGcvPE30NVjcgvMa/yPCzxwJqbmkG0cy6OagOVw+RDZKLHA8hL3cc2aVx/X
+ V+pWSHff+AgdPmONfa8NoS6P4rLS1V60f3rgk/JYJ1S+DEGSUTmv8Ki6lwdxy5JVKyVj
+ Om+kjA9wTpydHIyvDohR7vLLzBxOh+U+J04i+e2krsc1hdwS3Y8eefM16f0MdvtcZCPj
+ zC8A==
+X-Gm-Message-State: AOAM532O/ISsCojHK1bRi4fRMnW5ebMWv9Vv4AoqelXI8b6A47WlQ6Vy
+ a1kDSHz++4SWKNBdNB4ZqQM=
+X-Google-Smtp-Source: ABdhPJyoLi+ly6QCf6s73iV5a5m2cgYpKmmSAFdzHW2KsXQYErdi+FUsK1uT3LHqcweH8+oP3Od0VQ==
+X-Received: by 2002:a7b:c7d2:: with SMTP id z18mr14814626wmk.104.1619087982771; 
+ Thu, 22 Apr 2021 03:39:42 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id z17sm2903290wro.1.2021.04.22.03.33.31
+ by smtp.gmail.com with ESMTPSA id g132sm2761819wmg.42.2021.04.22.03.39.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Apr 2021 03:33:32 -0700 (PDT)
-Subject: Re: [PATCH v4 03/28] cpu: Introduce cpu_virtio_is_big_endian()
-To: Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>
+ Thu, 22 Apr 2021 03:39:41 -0700 (PDT)
+Subject: Re: [PATCH v4 00/28] cpu: Introduce SysemuCPUOps structure, remove
+ watchpoints from usermode
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210303214708.1727801-1-f4bug@amsat.org>
- <20210303214708.1727801-4-f4bug@amsat.org>
- <20210303170743-mutt-send-email-mst@kernel.org>
- <20210304085142.34e960af@bahia.lan>
+ <dacf368e-aef4-cccf-1abe-3b9f496442fb@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <28ae5a0f-5755-b0c7-fda4-3596261a243b@amsat.org>
-Date: Thu, 22 Apr 2021 12:33:30 +0200
+Message-ID: <ef24f9f9-b962-43ea-e311-5b6592d0f826@amsat.org>
+Date: Thu, 22 Apr 2021 12:39:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210304085142.34e960af@bahia.lan>
+In-Reply-To: <dacf368e-aef4-cccf-1abe-3b9f496442fb@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,71 +90,32 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
+On 3/4/21 2:52 AM, Richard Henderson wrote:
+> On 3/3/21 1:46 PM, Philippe Mathieu-Daudé wrote:
+>> Patches 1-6 are generic cleanups.
+>> Patches 7-15 move from CPUClass to SysemuCPUOps
+>> Patch   16 restricts SysemuCPUOps to sysemu
+>> Patches 17-26 remove watchpoint code from user emulation
+>> Patches 27-28 remove USER_ONLY #ifdef'ry from "cpu.h"
+> 
+> Patches 1-18:
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> While mst has asked for a name change vs patch 4, I think that if we do
+> that it should be separate, because it would involve a rename through
+> hw/ as well.
+> 
+> The watchpoint patches that follow need some more careful thought.
 
-On 3/4/21 8:51 AM, Greg Kurz wrote:
-> On Wed, 3 Mar 2021 17:08:32 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
->> On Wed, Mar 03, 2021 at 10:46:43PM +0100, Philippe Mathieu-Daudé wrote:
->>> Introduce the cpu_virtio_is_big_endian() generic helper to avoid
->>> calling CPUClass internal virtio_is_big_endian() one.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> Using virtio in the name here probably because virtio wants this?
->> That doesn't sound like a good naming strategy, name should
->> tell us what function does not how it's used.
->>
-> 
-> I tend to agree but there was a consensus to deliberately put
-> virtio in the name when this was first introduced, so that
-> nobody else ever try to use it, as recorded in the commit log.
-> 
-> commit bf7663c4bd8f8f619d6dbb5780025d92ace250a8
-> Author: Greg Kurz <groug@kaod.org>
-> Date:   Tue Jun 24 19:33:21 2014 +0200
-> 
->     cpu: introduce CPUClass::virtio_is_big_endian()
->     
->     If we want to support targets that can change endianness (modern PPC and
->     ARM for the moment), we need to add a per-CPU class method to be called
->     from the virtio code. The virtio_ prefix in the name is a hint for people
->     to avoid misusage (aka. anywhere but from the virtio code).
->     
->     The default behaviour is to return the compile-time default target
->     endianness.
->     
->     Suggested-by: Peter Maydell <peter.maydell@linaro.org>
->     Signed-off-by: Greg Kurz <gkurz@linux.vnet.ibm.com>
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> Is there something new on this front ? I'm not convinced that anything
-> but legacy virtio en POWER (or any other target that can change endian
-> at runtime) needs this. The next step I see for this is_big_endian()
-> stuff is deprecation and removal. In the meantime, I think we should
-> keep the virtio wording to prevent additional users for this.
+OK. I'll respin without the watchpoint part (first half).
 
-On 3/3/21 11:15 PM, Michael S. Tsirkin wrote:
-> On a more concrete proposal, how about using this change
-> to rename the virtio_is_big_endian field to guest_is_big_endian(),
-> and put the wrapper somewhere in a virtio header instead?
-
-Due to Greg comment, I'll keep cpu_virtio_is_big_endian() in
-the v5 respin. This doesn't seem a real blocker for the rest
-of the changeset. We can settle the name and send a patch on
-top.
-
-Regards,
+Thanks,
 
 Phil.
 
