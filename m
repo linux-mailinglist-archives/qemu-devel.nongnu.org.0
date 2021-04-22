@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FB6367B7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 09:52:28 +0200 (CEST)
-Received: from localhost ([::1]:53466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDAB367BA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 10:00:00 +0200 (CEST)
+Received: from localhost ([::1]:43642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZU8R-0001Pc-No
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
+	id 1lZUFj-0000ZN-9b
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 03:59:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU7F-0008N4-DL
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZU78-0000CH-IF
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:51:11 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZU76-0000bf-Rz
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D047C2E8157
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:51:04 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lZUCx-0006hx-PO
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:57:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lZUCu-0003tO-4Q
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 03:57:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619078222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=09VS2CXTCJHK905seH+XBGMmZ+2ryK28klagrkBK0mc=;
+ b=Ke+8kk9DFXlLlWfCYVOXQEC0yS9gp7tRuQHFkwVSkLCH3r+jyCGS6EVgiA24PARmHml6xz
+ nOc3MZkdTSonW4budL74HAs4DSNSYqCq/JH0vFRD2jjpJjX4N7I6mPdZ9qdYHgxlie3QH0
+ 8/aWHxkkvDc2zHjp75a6rFFHPmqejoA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-SPV2D1uXNRuyp96YiNnveA-1; Thu, 22 Apr 2021 03:57:00 -0400
+X-MC-Unique: SPV2D1uXNRuyp96YiNnveA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF81F8030BB;
+ Thu, 22 Apr 2021 07:56:59 +0000 (UTC)
+Received: from [10.36.113.252] (ovpn-113-252.ams2.redhat.com [10.36.113.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCC256091B;
+ Thu, 22 Apr 2021 07:56:50 +0000 (UTC)
+Subject: Re: [PATCH 2/3] Acceptance Tests: move definition of distro checksums
+ to the framework
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210414221457.1653745-1-crosa@redhat.com>
+ <20210414221457.1653745-3-crosa@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <c8ec5d7f-3ae7-49da-e10e-717789694793@redhat.com>
+Date: Thu, 22 Apr 2021 09:56:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 07:44:06 -0000
-From: Thomas Huth <1848244@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: docmax3 th-huth
-X-Launchpad-Bug-Reporter: Anastasios Vacharakis (docmax3)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157116697702.19855.6802467063820397619.malonedeb@gac.canonical.com>
-Message-Id: <161907744629.32121.187276788829642266.malone@soybean.canonical.com>
-Subject: [Bug 1848244] Re: QEMU KVM IGD SandyBridge Passthrough crash
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 62bbf778c1c9c70df932d9c2c4b18f0c502f0b9e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210414221457.1653745-3-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,58 +84,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848244 <1848244@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm closing this now since there seems to be a workaround available and
-nobody updated this bug in the past 1.5 years anymore
+Hi Cleber,
 
-** Changed in: qemu
-       Status: New =3D> Won't Fix
+On 4/15/21 12:14 AM, Cleber Rosa wrote:
+> Instead of having, by default, the checksum in the tests, and the
+> definition of tests in the framework, let's keep them together.
+> 
+> A central definition for distributions is available, and it should
+> allow other known distros to be added more easily.
+> 
+> No behavior change is expected here, and tests can still define
+> a distro_checksum value if for some reason they want to override
+> the known distribution information.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 34 +++++++++++++++++++++--
+>  tests/acceptance/boot_linux.py            |  8 ------
+>  2 files changed, 32 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index aae1e5bbc9..97093614d9 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -299,6 +299,30 @@ def ssh_command(self, command):
+>          return stdout_lines, stderr_lines
+>  
+>  
+> +#: A collection of known distros and their respective image checksum
+> +KNOWN_DISTROS = {
+> +    'fedora': {
+> +        '31': {
+> +            'x86_64':
+> +            {'checksum': 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
+> +            'aarch64':
+> +            {'checksum': '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
+> +            'ppc64':
+> +            {'checksum': '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
+> +            's390x':
+> +            {'checksum': '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'},
+> +            }
+> +        }
+> +    }
+assuming we may put other data like kernel params and maybe pxeboot URL,
+this may grow rapidly, Maybe we should put that in a different file?
+> +
+> +
+> +def get_known_distro_checksum(distro, distro_version, arch):
+> +    try:
+> +        return KNOWN_DISTROS.get(distro).get(distro_version).get(arch).get('checksum')
+> +    except AttributeError:
+> +        return None
+> +
+> +
+>  class LinuxTest(Test, LinuxSSHMixIn):
+>      """Facilitates having a cloud-image Linux based available.
+>  
+> @@ -348,14 +372,20 @@ def download_boot(self):
+>          vmimage.QEMU_IMG = qemu_img
+>  
+>          self.log.info('Downloading/preparing boot image')
+> +        distro = 'fedora'
+> +        distro_version = '31'
+> +        known_distro_checksum = get_known_distro_checksum(distro,
+> +                                                          distro_version,
+> +                                                          self.arch)
+> +        distro_checksum = self.distro_checksum or known_distro_checksum
+>          # Fedora 31 only provides ppc64le images
+>          image_arch = self.arch
+>          if image_arch == 'ppc64':
+>              image_arch = 'ppc64le'
+>          try:
+>              boot = vmimage.get(
+> -                'fedora', arch=image_arch, version='31',
+> -                checksum=self.distro_checksum,
+> +                distro, arch=image_arch, version=distro_version,
+> +                checksum=distro_checksum,
+>                  algorithm='sha256',
+>                  cache_dir=self.cache_dirs[0],
+>                  snapshot_dir=self.workdir)
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+> index c7bc3a589e..9e618c6daa 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -20,8 +20,6 @@ class BootLinuxX8664(LinuxTest):
+>      :avocado: tags=arch:x86_64
+>      """
+>  
+> -    distro_checksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
+> -
+>      def test_pc_i440fx_tcg(self):
+>          """
+>          :avocado: tags=machine:pc
+> @@ -66,8 +64,6 @@ class BootLinuxAarch64(LinuxTest):
+>      :avocado: tags=machine:gic-version=2
+>      """
+>  
+> -    distro_checksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
+> -
+>      def add_common_args(self):
+>          self.vm.add_args('-bios',
+>                           os.path.join(BUILD_DIR, 'pc-bios',
+> @@ -119,8 +115,6 @@ class BootLinuxPPC64(LinuxTest):
+>      :avocado: tags=arch:ppc64
+>      """
+>  
+> -    distro_checksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
+> -
+>      def test_pseries_tcg(self):
+>          """
+>          :avocado: tags=machine:pseries
+> @@ -136,8 +130,6 @@ class BootLinuxS390X(LinuxTest):
+>      :avocado: tags=arch:s390x
+>      """
+>  
+> -    distro_checksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
+> -
+>      @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>      def test_s390_ccw_virtio_tcg(self):
+>          """
+> 
+Thanks
 
--- =
+Eric
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848244
-
-Title:
-  QEMU KVM IGD SandyBridge Passthrough crash
-
-Status in QEMU:
-  Won't Fix
-
-Bug description:
-  I try to passthrough my Intel GPU with this command:
-
-  qemu-system-x86_64 -nodefaults -parallel none -k de -rtc
-  base=3Dlocaltime -serial unix:/run/qemu/win7-serial.sock,server,nowait
-  -monitor unix:/run/qemu/win7-monitor.sock,server,nowait -netdev
-  user,id=3Dnet0 -device virtio-net-pci,netdev=3Dnet0,mac=3D52:54:00:00:00:=
-07
-  -device vfio-pci,host=3D0000:00:02.0,addr=3D0x2 -device vfio-
-  pci,host=3D0000:00:1b.0 -device virtio-keyboard-pci -device virtio-
-  mouse-pci -object input-linux,id=3Dkbd1,evdev=3D/dev/input/by-
-  path/pci-0000:00:1a.0-usb-0:1.2.2:1.2-event-kbd,grab_all=3Don,repeat=3Don
-  -object input-linux,id=3Dmouse1,evdev=3D/dev/input/by-
-  path/pci-0000:00:1a.0-usb-0:1.2.2:1.2-event-mouse -enable-kvm -cpu
-  host -smp 4,sockets=3D1,cores=3D4,threads=3D1 -vga none -display none -m =
-2g
-  -device virtio-blk-pci,drive=3Dboot,bootindex=3D1 -drive
-  file=3D/opt/vm/qcow2/win7.qcow2,format=3Dqcow2,if=3Dnone,id=3Dboot
-
-  This ONLY works if i remove "-enable-kvm" else the windows (7 and 10)
-  boot crashes in bluescreen "stop 0x0000003b" (probably while loading
-  the intel gpu driver (intel graphics 3000).
-
-  The system is an older ThinkPad T420 with Intel(R) Core(TM) i5-2520M
-  CPU @ 2.50GHz.
-
-  CMDLINE: BOOT_IMAGE=3D/vmlinuz-linux root=3DLABEL=3Droot rw ipv6.disable=
-=3D0
-  net.ifnames=3D0 intel_iommu=3Don iommu=3Dpt video=3DLVDS-1:d
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848244/+subscriptions
 
