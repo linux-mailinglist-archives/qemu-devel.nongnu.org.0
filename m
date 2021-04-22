@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C486F3686F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:11:27 +0200 (CEST)
-Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE40F368708
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:17:28 +0200 (CEST)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZejW-0007UA-T0
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
+	id 1lZepF-0004j2-G3
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZeh0-0006A3-EM
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:08:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46128)
+ id 1lZelv-00030F-7W
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:13:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZegw-0004Vq-OP
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:08:50 -0400
+ id 1lZels-0007Ka-AP
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 15:13:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZegv-0001rH-IE
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:08:45 +0000
+ id 1lZelq-0002ri-71
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:13:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6C83A2E815F
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:08:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 78E6C2E8161
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 19:13:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Apr 2021 17:24:42 -0000
-From: Thomas Huth <1820247@bugs.launchpad.net>
+Date: Thu, 22 Apr 2021 17:25:29 -0000
+From: Thomas Huth <1395217@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: qemu
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer premysl-kouril th-huth
-X-Launchpad-Bug-Reporter: Premysl Kouril (premysl-kouril)
+X-Launchpad-Bug-Commenters: a357823044 bonzini crobinso ehabkost jan-vlug
+ muenk tadawson th-huth
+X-Launchpad-Bug-Reporter: Tim Dawson (tadawson)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155264640750.14328.9388423276905279806.malonedeb@soybean.canonical.com>
-Message-Id: <161911228244.6767.16824274921704063044.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1820247] Re: QEMU random crash caused by libspice-server
+References: <20141121223040.7362.48987.malonedeb@gac.canonical.com>
+Message-Id: <161911232999.6350.11464813063863265190.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1395217] Re: Networking in qemu 2.0.0 and beyond is not
+ compatible with Open Solaris (Illumos) 5.11
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: a04a18e9e56346fcaf9dc1c1bd5456b64d7dc685
+X-Launchpad-Hash: 218f67b98dcafedca07a629d885a7a5fbaff49f3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,257 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1820247 <1820247@bugs.launchpad.net>
+Reply-To: Bug 1395217 <1395217@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Bug watch removed: Red Hat Bugzilla #980714
-   https://bugzilla.redhat.com/show_bug.cgi?id=3D980714
+** Bug watch removed: Red Hat Bugzilla #1040500
+   https://bugzilla.redhat.com/show_bug.cgi?id=3D1040500
+
+** Bug watch removed: Red Hat Bugzilla #1262093
+   https://bugzilla.redhat.com/show_bug.cgi?id=3D1262093
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1820247
+https://bugs.launchpad.net/bugs/1395217
 
 Title:
-  QEMU random crash caused by libspice-server
+  Networking in qemu 2.0.0 and beyond is not compatible with Open
+  Solaris (Illumos) 5.11
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hi,
+  The networking code in qemu in versions 2.0.0 and beyond is non-
+  functional with Solaris/Illumos 5.11 images.
 
-  One of our OpenStack instances crashed. It seems there was some
-  problem related to SPICE. Attaching what we had in qemu log. Also
-  sending our versions:
+  Building 1.7.1, 2.0.0, 2.0.2, 2.1.2,and 2.2.0rc1with the following
+  standard Slackware config:
 
-  Linux pre-node1 4.18.0-13-generic #14~18.04.1-Ubuntu SMP Thu Dec 6
-  14:09:52 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+  # From Slackware build tree . . . =
 
-  QEMU emulator version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.9)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  =
-
-  root@pre-node1:~# cat /var/log/libvirt/qemu/instance-00000038.log =
-
-  2019-03-10 20:39:36.510+0000: starting up libvirt version: 4.0.0, package=
-: 1ubuntu8.6 (Christian Ehrhardt <christian.ehrhardt@canonical.com> Fri, 09=
- Nov 2018 07:42:01 +0100), qemu version: 2.11.1(Debian 1:2.11+dfsg-1ubuntu7=
-.9), hostname: pre-node1
-  LC_ALL=3DC PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin=
-:/bin QEMU_AUDIO_DRV=3Dspice /usr/bin/kvm-spice -name guest=3Dinstance-0000=
-0038,debug-threads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=
-=3D/var/lib/libvirt/qemu/domain-5-instance-00000038/master-key.aes -machine=
- pc-i440fx-bionic,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,mem-merge=3Do=
-ff -cpu Skylake-Server-IBRS,ss=3Don,hypervisor=3Don,tsc_adjust=3Don,clflush=
-opt=3Don,pku=3Don,ssbd=3Don,xsaves=3Don -m 2048 -realtime mlock=3Don -smp 2=
-,sockets=3D1,cores=3D1,threads=3D2 -object memory-backend-file,id=3Dram-nod=
-e0,prealloc=3Dyes,mem-path=3D/dev/hugepages/libvirt/qemu/5-instance-0000003=
-8,share=3Dyes,size=3D2147483648,host-nodes=3D0,policy=3Dbind -numa node,nod=
-eid=3D0,cpus=3D0-1,memdev=3Dram-node0 -uuid 3c3d04f3-4b25-4ea5-8836-0e06eef=
-9dcb7 -smbios 'type=3D1,manufacturer=3DOpenStack Foundation,product=3DOpenS=
-tack Nova,version=3D18.1.1,serial=3D93fa1a55-ba3a-4a99-80b3-3a7bb4e964af,uu=
-id=3D3c3d04f3-4b25-4ea5-8836-0e06eef9dcb7,family=3DVirtual Machine' -no-use=
-r-config -nodefaults -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvi=
-rt/qemu/domain-5-instance-00000038/monitor.sock,server,nowait -mon chardev=
-=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc,driftfix=3Dslew =
--global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -no-shutdown -boot strict=
-=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -device vi=
-rtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 -drive file=3D/v=
-ar/lib/nova/instances/3c3d04f3-4b25-4ea5-8836-0e06eef9dcb7/disk,format=3Dqc=
-ow2,if=3Dnone,id=3Ddrive-virtio-disk0,cache=3Dnone,discard=3Dignore,throttl=
-ing.iops-read=3D5000,throttling.iops-write=3D5000 -device virtio-blk-pci,sc=
-si=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk=
-0,bootindex=3D1 -add-fd set=3D0,fd=3D29 -chardev pty,id=3Dcharserial0,logfi=
-le=3D/dev/fdset/0,logappend=3Don -device isa-serial,chardev=3Dcharserial0,i=
-d=3Dserial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virt=
-serialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchanne=
-l0,name=3Dcom.redhat.spice.0 -spice port=3D5900,addr=3D10.252.0.101,disable=
--ticketing,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6=
-7108864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=
-=3D1,bus=3Dpci.0,addr=3D0x2 -device vfio-pci,host=3D25:04.1,id=3Dhostdev0,b=
-us=3Dpci.0,addr=3D0x5 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,=
-addr=3D0x6 -msg timestamp=3Don
-  2019-03-10T20:39:36.568276Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
-ial0,logfile=3D/dev/fdset/0,logappend=3Don: char device redirected to /dev/=
-pts/2 (label charserial0)
-  inputs_channel_detach_tablet: =
-
-  main_channel_link: add main channel client
-  main_channel_client_handle_pong: net test: latency 32.760000 ms, bitrate =
-33384953 bps (31.838372 Mbps)
-  red_qxl_set_cursor_peer: =
-
-  inputs_connect: inputs channel client create
-
-  (process:65324): Spice-WARNING **: 16:35:23.769: Failed to create channel=
- client: Client 0x55e7c157e970: duplicate channel type 2 id 0
-  red_qxl_set_cursor_peer: =
-
-
-  (process:65324): Spice-WARNING **: 16:35:24.142: Failed to create
-  channel client: Client 0x55e7c157e970: duplicate channel type 4 id 0
-
-  (process:65324): Spice-CRITICAL **: 16:35:24.142: cursor-channel.c:353:cu=
-rsor_channel_connect: condition `ccc !=3D NULL' failed
-  2019-03-13 15:35:31.785+0000: shutting down, reason=3Dcrashed
+  ./configure \
+    --prefix=3D/usr \
+    --libdir=3D/usr/lib64 \
+    --sysconfdir=3D/etc \
+    --localstatedir=3D/var \
+    --enable-gtk \
+    --enable-system \
+    --enable-kvm \
+    --disable-debug-info \
+    --enable-virtfs \
+    --enable-sdl \
+    --audio-drv-list=3Dalsa,oss,sdl,esd \
+    --enable-libusb \
+    --disable-vnc \
+    --target-list=3Dx86_64-linux-user,i386-linux-user,x86_64-softmmu,i386-s=
+oftmmu \
+    --enable-spice \
+    --enable-usb-redir =
 
 
   =
 
-  I am also attaching some gdb information extracted from qemu crash dump f=
-ile. These are backtraces of particular threads within the crashed QEMU pro=
-cess.
+  And attempting to run the same VM image with the following command (or vi=
+a virt-manager):
 
-  =
+  macaddress=3D"DE:AD:BE:EF:3F:A4"
 
-  Thread 9 (Thread 0x7f69649ea5c0 (LWP 65324)):
-  #0  0x00007f695f02d2b7 in __libc_write (fd=3D26, buf=3D0x7ffc33f5b330, nb=
-ytes=3D56) at ../sysdeps/unix/sysv/linux/write.c:27
-  #1  0x00007f695ff30ed3 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #2  0x00007f695ff316ce in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #3  0x00007f695ff52db6 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #4  0x00007f695ff58e38 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #5  0x00007f695ff5f463 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #6  0x00007f695ff5f7bb in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #7  0x000055e7bec94584 in  ()
-  #8  0x000055e7bec94e58 in aio_dispatch ()
-  #9  0x000055e7bec91e3e in  ()
-  #10 0x00007f695fa45387 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #11 0x000055e7bec940a7 in main_loop_wait ()
-  #12 0x000055e7be8b8486 in main ()
+  qemu-system-x86_64 nex4x -cdrom /dev/cdrom -name "Nex41" -cpu Westmere
+  -machine accel=3Dkvm -smp 2 -m 4000 -net nic,macaddr=3D$macaddress  -net =
+bridge,br=3Db
+  r0 -net dump,file=3D/usr1/tmp/<FILENAME> -drive file=3Dnex4x_d1 -drive fi=
+le=3Dnex4x_d2
+   -enable-kvm
 
-  Thread 8 (Thread 0x7f68b78fc700 (LWP 61873)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f68b78fb900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f68b78fb900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f68b78fb900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f68b78fc700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
+  Gives success on 1.7.1, and a deaf VM on all subsequent versions.
 
-  Thread 7 (Thread 0x7f688f7fe700 (LWP 61366)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f688f7fd900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f688f7fd900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f688f7fd900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f688f7fe700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
+  Notable in validating my config, is that a Windows 7 image runs
+  cleanly with networking on *all* builds, so my configuration appears
+  to be good - qemu just hates Solaris at this point.
 
-  Thread 6 (Thread 0x7f687effd700 (LWP 61362)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f687effc900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f687effc900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f687effc900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f687effd700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 5 (Thread 0x7f68b58f1700 (LWP 60991)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f68b58f0900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f68b58f0900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f68b58f0900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f68b58f1700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 4 (Thread 0x7f69564a2700 (LWP 65331)):
-  #0  0x00007f695ed46839 in syscall () at ../sysdeps/unix/sysv/linux/x86_64=
-/syscall.S:38
-  #1  0x000055e7bec9790b in qemu_event_wait ()
-  #2  0x000055e7beca7ebe in  ()
-  #3  0x00007f695f0236db in start_thread (arg=3D0x7f69564a2700) at pthread_=
-create.c:463
-  #4  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 3 (Thread 0x7f695449d700 (LWP 65363)):
-  #0  0x00007f695ed415d7 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-78
-  #1  0x000055e7be910547 in kvm_vcpu_ioctl ()
-  #2  0x000055e7be910684 in kvm_cpu_exec ()
-  #3  0x000055e7be8ed3f4 in  ()
-  #4  0x00007f695f0236db in start_thread (arg=3D0x7f695449d700) at pthread_=
-create.c:463
-  #5  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 2 (Thread 0x7f6952b4f700 (LWP 65366)):
-  #0  0x00007f695ed415d7 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-78
-  #1  0x000055e7be910547 in kvm_vcpu_ioctl ()
-  ---Type <return> to continue, or q <return> to quit---
-  #2  0x000055e7be910684 in kvm_cpu_exec ()
-  #3  0x000055e7be8ed3f4 in  ()
-  #4  0x00007f695f0236db in start_thread (arg=3D0x7f6952b4f700) at pthread_=
-create.c:463
-  #5  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 1 (Thread 0x7f6951a40700 (LWP 65368)):
-  #0  0x00007f695ec69e97 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:51
-  #1  0x00007f695ec6b801 in __GI_abort () at abort.c:79
-  #2  0x00007f695ff81cc9 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #3  0x00007f695ff63929 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #4  0x00007f695ff314f1 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #5  0x00007f695ff37d7b in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #6  0x00007f695fa451f5 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #7  0x00007f695fa455c0 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so=
-.0
-  #8  0x00007f695fa458d2 in g_main_loop_run () at /usr/lib/x86_64-linux-gnu=
-/libglib-2.0.so.0
-  #9  0x00007f695ff63b3a in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #10 0x00007f695f0236db in start_thread (arg=3D0x7f6951a40700) at pthread_=
-create.c:463
-  #11 0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Regards,
-  Premysl
+  Watching with wireshark (as well as pulling network traces from qemu
+  as noted above) it appears that the notable difference in the two
+  configs is that for some reason, Solaris gets stuck arping for it's
+  own interface on startup, and never really comes on line on the
+  network.  If other hosts attempt to ping the Solaris instance, they
+  can successfully arp the bad VM, but not the other way around.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1820247/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1395217/+subscriptions
 
