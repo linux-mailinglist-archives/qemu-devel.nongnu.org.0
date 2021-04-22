@@ -2,99 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AF8368749
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:37:19 +0200 (CEST)
-Received: from localhost ([::1]:56698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB11368757
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 21:41:17 +0200 (CEST)
+Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZf8Y-0000XT-La
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55710)
+	id 1lZfCO-0003KU-P6
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 15:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lZf79-0007yG-W6; Thu, 22 Apr 2021 15:35:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19212)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lZf78-0002sc-40; Thu, 22 Apr 2021 15:35:51 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13MJYlL1133644; Thu, 22 Apr 2021 15:35:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=QE33s+VgamGAEjMVqLCpyEviDz776gjEO+k9q3Ijh0E=;
- b=MOkKTl/Jgu/oOPTPjsMI+O/MSW3WR2lkk3hN03iZVCmkTr8WrEjSbb5XJbNNKRKuvuaH
- 6yC/T7aBbw70MFFQJlM2R/H36W/VGGuG5z12K5pDcgw6DgBec9yL+0X8TGJa6k7Z2Hcp
- GBThqh72VQzcgZV/U8PAZwlFnFp6uT0lx7h5IpKP5FGzOArT8JOuYlYQ+/Ym16PDydo3
- mI8OzAZ8lmuxT4cAPxrAs9oFIICeAY0N428SikGf0tu4QqYujnWk3eiJRNG386qh+tm7
- oMi1svUqeQxi/6NNdF0oRV9U69BV6uEyl5eLPPeR+A8AoktSHrP8GCHVKZZGhHc5emm/ Xw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3838n6wcne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Apr 2021 15:35:40 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13MJZdB5136180;
- Thu, 22 Apr 2021 15:35:39 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3838n6wcn3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Apr 2021 15:35:39 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13MJQcqf024044;
- Thu, 22 Apr 2021 19:35:39 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03wdc.us.ibm.com with ESMTP id 37yqa9m19v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Apr 2021 19:35:39 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13MJZchn31719932
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 22 Apr 2021 19:35:38 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B78E5AE05C;
- Thu, 22 Apr 2021 19:35:38 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D164AAE05F;
- Thu, 22 Apr 2021 19:35:37 +0000 (GMT)
-Received: from localhost (unknown [9.211.116.182])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Thu, 22 Apr 2021 19:35:37 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, David Gibson
- <david@gibson.dropbear.id.au>
-Subject: RE: [PATCH 1/4] target/ppc: Code motion required to build disabling
- tcg
-In-Reply-To: <CP2PR80MB44990338BCF641993404B901C7469@CP2PR80MB4499.lamprd80.prod.outlook.com>
-References: <CP2PR80MB44990338BCF641993404B901C7469@CP2PR80MB4499.lamprd80.prod.outlook.com>
-Date: Thu, 22 Apr 2021 16:35:34 -0300
-Message-ID: <87mttq15a1.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZfAM-0001QL-BH; Thu, 22 Apr 2021 15:39:10 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lZfAK-00051M-EM; Thu, 22 Apr 2021 15:39:10 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id c15so37001023wro.13;
+ Thu, 22 Apr 2021 12:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Di5CVuHkPTstCgi4wiTFFGkNABVnXzKxgPBAohmkqxA=;
+ b=VSTdnSakHaep8OstChohV1qU7S7ATWfEkHMXgubymd9VP84+T06SmAvNobWGCEQkg3
+ oEkGF+pPgSueAWEDWVr5vU3AbVqh3Fi1ZmsqfQXdr/T1PJb+B+DvXHdWIQpIvZPjLaDZ
+ ko9d2fF5Z9FTi4/vfBJUvAPejb5iM2VI1GYrtPb7SCICOMzrqXXZx+KU4nBiaZvlEDkT
+ 1Y94yESqnTzxN1XZ6Ue6CJdwe0wZtdJTxojZ4X0rFfILi5nPfhr9MQiXTQKquWHqAeeu
+ BA/gRptNqxCdQNmHv+RvX7SAWqoQfu7lnXgAjhsnsf48GXZCfCZUj+Ln4SoO/uC8DhyW
+ hVLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Di5CVuHkPTstCgi4wiTFFGkNABVnXzKxgPBAohmkqxA=;
+ b=PBrhnY5+QWcdT/RdMr3iOFsjTz4zWmAu74qpWlzTjSUMZ/ahxdbpGaZrw+x43Djr1T
+ 9qJW9eR2yP2qmnYWoBoPTTSXXYhAqDlLJ1h8e4IpHDq796KpotQwXE0kHKVkbnAPvVek
+ 9CuIBlNZy8ccuyx42jzCR5hgSwVbBhtTqpanku3NIsRehKwu0qDTvcLkAtwJ03WeVrmo
+ 9h5jarJsBzbRqAvh1ITAIILP6JkugBpDB4mnuD1eOEC1LKsZtqB2ZX3jvfAhEX8EBu5K
+ +F761fqKEFAkZpNXv440GfjwtFTCvgxCQutlFMT55jlj81tRUk4R6sWmkfwDSAwUWkSW
+ +1bg==
+X-Gm-Message-State: AOAM5338ynivDMXG0VyotdblbNX0OkBqo5IhnaDzW3hBZ/2hYpzQAila
+ hDNi+xYdPD0hovmLSfZxIuPwpJonpsUKnQ==
+X-Google-Smtp-Source: ABdhPJzz1EcoVwVkwzS0YKOWRNoxBlOvwVCdfpg3vdvQRRu3wDiCBcftkEJ3r1Bw77M3Q/JIdiX/OQ==
+X-Received: by 2002:a5d:69ca:: with SMTP id s10mr41174wrw.78.1619120344588;
+ Thu, 22 Apr 2021 12:39:04 -0700 (PDT)
+Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id f1sm5167228wru.60.2021.04.22.12.39.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Apr 2021 12:39:03 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/18] cpu: Introduce SysemuCPUOps structure
+Date: Thu, 22 Apr 2021 21:38:44 +0200
+Message-Id: <20210422193902.2644064-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iZwWyfQycyAPaZRyI-sCj3qWV_un-n-2
-X-Proofpoint-ORIG-GUID: f5W8wHziUZbaSVM1jP4zwlZJmp6_aVac
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-22_14:2021-04-22,
- 2021-04-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 impostorscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 spamscore=0 priorityscore=1501 phishscore=0 mlxscore=0
- mlxlogscore=733 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104060000 definitions=main-2104220145
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,49 +81,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
- Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
- Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Andre Fernando da Silva <andre.silva@eldorado.org.br>,
- Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bruno Piazera Larsen <bruno.larsen@eldorado.org.br> writes:
-
->> > You are correct! I've just tweaked the code that defines spr_register and
->> > it should be working now. I'm still working in splitting the SPR functions
->> > from translate_init, since I think it would make it easier to prepare the
->> > !TCG case and for adding new architectures in the future, and I found a
->> > few more problems:
->>
->> Actually looking at the stuff below, I suspect that separating our
->> "spr" logic specifically might be a bad idea.  At least some of the
->> SPRs control pretty fundamental things about how the processor
->> operates, and I suspect separating it from the main translation logic
->> may be more trouble than it's worth.
-
-I disagree with the code proximity argument. Having TCG code clearly
-separate from common code seems more important to me than having the SPR
-callbacks close to the init_proc functions.
-
-But maybe we should take a look at this RFC before we start discussing
-personal preference too much.
-
-> Well, all the errors that I got were related to to read/write functions, which
-> I was already separating into a spr_tcg file. The solutions I can see are to
-> include this file in translate.c, and either have the read/write functions not be
-> static, or include the spr_common.c in translate as well, but only for TCG
-> builds. Both solutions sound pretty bad imo, but the first sounds less bad,
-> because it's a bit less complexity in the build process.
-
-It would be helpful if we could apply these patches and do some
-experimentation before recommending a solution. So I would pick the less
-bad for now. Mention it in the cover letter and then we can discuss
-looking at something more concrete.
-
+Missing review: patch 6, 7, 8, 10=0D
+=0D
+Hi,=0D
+=0D
+This series is inspired on Claudio TCG work.=0D
+=0D
+Instead of separate TCG from other accelerators, here we=0D
+separate sysemu operations (system VS user).=0D
+=0D
+Patches 1-5 are generic cleanups.=0D
+Patches 6-14 move from CPUClass to SysemuCPUOps=0D
+Patch   15 restricts SysemuCPUOps to sysemu=0D
+=0D
+Since v5:=0D
+- Rework patch 10 after Peter Maydell explanation on v3:=0D
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg800849.html=0D
+=0D
+Since v4:=0D
+- Removed watchpoint patches (need more work) (Richard)=0D
+- Merged patch 1 & 7 "Move CPUClass::vmsd to SysemuCPUOps" (Eduardo)=0D
+- Reworded cpu_virtio_is_big_endian description (Greg)=0D
+- Move write_elf() in target/riscv/cpu.c (rebased on top of 43a965888)=0D
+- Added R-b tags=0D
+=0D
+Since v3:=0D
+- SysemuCPUOps const (Richard)=0D
+- added missing xtensa #ifdef'ry=0D
+- added missing aa64/sve #ifdef'ry=0D
+- added Laurent R-b=0D
+=0D
+Since v2:=0D
+- fixed lm32/unicore32=0D
+- remove USER_ONLY ifdef'ry from "cpu.h" (Claudio)=0D
+=0D
+Since v1:=0D
+- Name 'sysemu' (Claudio)=0D
+- change each field progressively (Richard)=0D
+=0D
+$ git backport-diff=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/18:[----] [--] 'cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_fr=
+om=3D=0D
+_attrs'=0D
+002/18:[----] [--] 'cpu: Introduce cpu_virtio_is_big_endian()'=0D
+003/18:[----] [--] 'cpu: Directly use cpu_write_elf*() fallback handlers in=
+ p=3D=0D
+lace'=0D
+004/18:[----] [--] 'cpu: Directly use get_paging_enabled() fallback handler=
+s =3D=0D
+in place'=0D
+005/18:[----] [--] 'cpu: Directly use get_memory_mapping() fallback handler=
+s =3D=0D
+in place'=0D
+006/18:[down] 'cpu: Assert DeviceClass::vmsd is NULL on user emulation'=0D
+007/18:[down] 'cpu: Rename CPUClass vmsd -> legacy_vmsd'=0D
+008/18:[down] 'cpu/{avr,lm32,moxie}: Set DeviceClass vmsd field (not CPUCla=
+ss=3D=0D
+ one)'=0D
+009/18:[0010] [FC] 'cpu: Introduce SysemuCPUOps structure'=0D
+010/18:[0118] [FC] 'cpu: Move CPUClass::vmsd to SysemuCPUOps'=0D
+011/18:[----] [-C] 'cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOp=
+s'=0D
+012/18:[----] [-C] 'cpu: Move CPUClass::get_crash_info to SysemuCPUOps'=0D
+013/18:[----] [-C] 'cpu: Move CPUClass::write_elf* to SysemuCPUOps'=0D
+014/18:[----] [--] 'cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps'=0D
+015/18:[0002] [FC] 'cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=
+'=0D
+016/18:[----] [--] 'cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps'=
+=0D
+017/18:[----] [--] 'cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps'=
+=0D
+018/18:[----] [--] 'cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.=
+c'=0D
+=0D
+CI: https://gitlab.com/philmd/qemu/-/pipelines/290833005=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (18):=0D
+  cpu: Un-inline cpu_get_phys_page_debug and cpu_asidx_from_attrs=0D
+  cpu: Introduce cpu_virtio_is_big_endian()=0D
+  cpu: Directly use cpu_write_elf*() fallback handlers in place=0D
+  cpu: Directly use get_paging_enabled() fallback handlers in place=0D
+  cpu: Directly use get_memory_mapping() fallback handlers in place=0D
+  cpu: Assert DeviceClass::vmsd is NULL on user emulation=0D
+  cpu: Rename CPUClass vmsd -> legacy_vmsd=0D
+  cpu/{avr,lm32,moxie}: Set DeviceClass vmsd field (not CPUClass one)=0D
+  cpu: Introduce SysemuCPUOps structure=0D
+  cpu: Move CPUClass::vmsd to SysemuCPUOps=0D
+  cpu: Move CPUClass::virtio_is_big_endian to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_crash_info to SysemuCPUOps=0D
+  cpu: Move CPUClass::write_elf* to SysemuCPUOps=0D
+  cpu: Move CPUClass::asidx_from_attrs to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_phys_page_debug to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_memory_mapping to SysemuCPUOps=0D
+  cpu: Move CPUClass::get_paging_enabled to SysemuCPUOps=0D
+  cpu: Restrict "hw/core/sysemu-cpu-ops.h" to target/cpu.c=0D
+=0D
+ include/hw/core/cpu.h            |  92 ++++++-------------------=0D
+ include/hw/core/sysemu-cpu-ops.h |  90 ++++++++++++++++++++++++=0D
+ include/migration/vmstate.h      |   2 -=0D
+ target/alpha/cpu.h               |   3 +=0D
+ target/arm/cpu.h                 |   3 +=0D
+ target/avr/cpu.h                 |   1 +=0D
+ target/cris/cpu.h                |   3 +=0D
+ target/hexagon/cpu.h             |   3 +=0D
+ target/hppa/cpu.h                |   3 +=0D
+ target/i386/cpu.h                |   3 +=0D
+ target/lm32/cpu.h                |   3 +=0D
+ target/m68k/cpu.h                |   3 +=0D
+ target/microblaze/cpu.h          |   1 +=0D
+ target/mips/cpu.h                |   3 +=0D
+ target/moxie/cpu.h               |   3 +=0D
+ target/nios2/cpu.h               |   1 +=0D
+ target/openrisc/cpu.h            |   3 +=0D
+ target/ppc/cpu.h                 |   3 +=0D
+ target/riscv/cpu.h               |   3 +=0D
+ target/rx/cpu.h                  |   1 +=0D
+ target/s390x/cpu.h               |   3 +=0D
+ target/sh4/cpu.h                 |   3 +=0D
+ target/sparc/cpu.h               |   3 +=0D
+ target/tricore/cpu.h             |   3 +=0D
+ target/unicore32/cpu.h           |   3 +=0D
+ target/xtensa/cpu.h              |   3 +=0D
+ cpu.c                            |  17 ++---=0D
+ hw/core/cpu.c                    | 113 +++++++++++++++++--------------=0D
+ hw/virtio/virtio.c               |   4 +-=0D
+ stubs/vmstate.c                  |   2 -=0D
+ target/alpha/cpu.c               |   8 ++-=0D
+ target/arm/cpu.c                 |  18 +++--=0D
+ target/avr/cpu.c                 |   8 ++-=0D
+ target/cris/cpu.c                |   8 ++-=0D
+ target/hppa/cpu.c                |   8 ++-=0D
+ target/i386/cpu.c                |  28 +++++---=0D
+ target/lm32/cpu.c                |  10 ++-=0D
+ target/m68k/cpu.c                |   8 ++-=0D
+ target/microblaze/cpu.c          |   8 ++-=0D
+ target/mips/cpu.c                |  10 ++-=0D
+ target/moxie/cpu.c               |   8 ++-=0D
+ target/nios2/cpu.c               |   8 ++-=0D
+ target/openrisc/cpu.c            |   8 ++-=0D
+ target/riscv/cpu.c               |  16 +++--=0D
+ target/rx/cpu.c                  |  10 ++-=0D
+ target/s390x/cpu.c               |  14 ++--=0D
+ target/sh4/cpu.c                 |  11 ++-=0D
+ target/sparc/cpu.c               |  10 ++-=0D
+ target/tricore/cpu.c             |   6 +-=0D
+ target/unicore32/cpu.c           |  10 ++-=0D
+ target/xtensa/cpu.c              |  10 ++-=0D
+ target/ppc/translate_init.c.inc  |  20 +++---=0D
+ 52 files changed, 430 insertions(+), 196 deletions(-)=0D
+ create mode 100644 include/hw/core/sysemu-cpu-ops.h=0D
+=0D
+--=3D20=0D
+2.26.3=0D
+=0D
 
