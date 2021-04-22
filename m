@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5576368526
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:48:03 +0200 (CEST)
-Received: from localhost ([::1]:32896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8044436851F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 18:44:38 +0200 (CEST)
+Received: from localhost ([::1]:56784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZcUk-0004Mw-At
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55120)
+	id 1lZcRR-0002TS-I0
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 12:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lZcEm-0007bT-Ub; Thu, 22 Apr 2021 12:31:32 -0400
-Received: from mail-eopbgr00116.outbound.protection.outlook.com
- ([40.107.0.116]:34309 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1lZcEn-0007e1-T5; Thu, 22 Apr 2021 12:31:34 -0400
+Received: from mail-eopbgr40129.outbound.protection.outlook.com
+ ([40.107.4.129]:3204 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lZcEk-0003vI-Mm; Thu, 22 Apr 2021 12:31:32 -0400
+ id 1lZcEl-0003yB-OO; Thu, 22 Apr 2021 12:31:33 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SXIL3FXQjQRtnEoLvheA6vlmJPjMFB5uZHzg5t8RrA7+lxppS5BB12hNMhM+S9sXm6VGX0YAyykTuuQBP6/hU4od4E8poqbW3Hs553JMKHgwst1QYPr+cgmFSwGOdcghkyPwXa9d+gUmiKzW86QnlwUZeWnpu1Q9EWgUa/JmQliJriVDO5CrTiUkkFRr0w0xGh5gzd7C/EWEQbbD9E9APWV3iI5jr6iFSm9nbjkym4IvjmVvbG6LhWTD7wcrXtEwotlea3eDHLnSNOaHek9u8auTklDZ/iMO5RHdf3M1Tz0Q/xVAsbUasVoJCBD5wTD9cxKYSvWTqgO+aT5L33elhg==
+ b=T9aG/2NTuK4L1b47xGHVropXE0ltoxz3pyQCa7hys/UKYHu/mridpnh8DXxtqqOVYzTFTp3jLfRpvOvY9tZVB7FS5Q8evBctKzB2p7dBQttR9qDRoppIr6TcSsoWK87BeXgDFPzmIXsFXp6kE2JsoyjJyfdZbPux4Lyy0RU8AHir6mZsYgjpq3LTd5yP+j5ut3WUcsTpC57y6dfCfLben2mka90jlb5pWaS+AWQ2yDKA6KqSzNPcfiI/9TzMihK35DqDMkTeH3eHW/RkpUz8jG6mGtE6gJhzWpNIyWr3G8C7jvD98bmVImQtY9t2o0Cw9p9eZVuAVGcc/VVsitoAnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZWWcweis0PQ09WAuArn3/p9ryekxClrE6bAUzwiMNtI=;
- b=Bb1loXWe/mtui1UdBiehLsrQXHhQCDOHkP0MzDvbE6K0KTF8b5IGqoGgqzsEtn5Vp1J0LNGj/sla9pKah6aZ5NOSkocOr2ck0yOl3EFYxvOb2b5XKdm+u3WDPsLcQ2CMcmsFZFFD8S/1w8hUAPIpRA9ZkUM4Gyg67T+oVXH9NzaQkBvMKapm08g7QqEpYuClIHdoLm93xkD+ciX3ItgpldwPRFxRgccTF7JhQFgpy1ly9/XCH3eIA2mU9hwRjMpDXdjSsNK9sZpP1gtLDIEePXXjYNm3EmynOJQzp6aJZa0jWzJCvRqKm5WhXm8i94ieoxuABZXNTZtMiVs2Jp+p+A==
+ bh=J0aj8X3EAh1h1aoYAEOld6mkPEkYJEWMxFysi/PMbYU=;
+ b=iq1+6lUR67QNY5ChfsvMg+N1XvUeEkAresyjH2P113spcwPmFQ1XyyZoPjDYAdT6NHCvRFE5hrY3gN7FZhGV/QlbHETBThGEbBozJRfFxSNAQ5IHYF0LSgvIAJMvHnWJbpWzsXYbehPDbvV38ryn5imwg3gMATXbxu20+lX8mBMTgO38KvQHvivAQPDgV+rNEd8kMk7vthhqHhkvU5jsCY1LvopOJaEM/95aph7jDQp7ipo0KWCjrn8Qd1A6qU2OyJeK7SFTu2pcnmQRv2bVIdS4PSPd0wsMBVnNNv2+YqledjHPiJhhEMMyL90kircBJiX2EC5IE5qylQPO4KT3kw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZWWcweis0PQ09WAuArn3/p9ryekxClrE6bAUzwiMNtI=;
- b=d2DZDSuHJEiybst1UkUtPrEH3EGa6htBIpmHO6Tp0nvSudk/1kOm8k1ZHuZaxWHyZYCBiYjr4OojYHricUlMaYKsHuO3S5QpZugYqe6jpRVDsMaxa6Qt8mDlXeThE6tCi6BcnCDZjaEoLbO46lvVMFZAPOpfKWf4O7mbrk70L5E=
+ bh=J0aj8X3EAh1h1aoYAEOld6mkPEkYJEWMxFysi/PMbYU=;
+ b=UzHCbdCmgN6C5NvtNb5WhhxPTaZOVK54/H0dEcLL1LfgTnhNJ5zLRme1Hkhz14//bSzwsyEKixbgRrGR/ZYCLqXk8fUffLXvcpxyMRTjpwjpTadkPcyUj3WxzCAlLLhcH5Lx/XxEePdckHElJPkPHD3ooby2IcUwmcqnZeVsduM=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3861.eurprd08.prod.outlook.com (2603:10a6:20b:80::30)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Thu, 22 Apr
- 2021 16:31:12 +0000
+ 2021 16:31:13 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.021; Thu, 22 Apr 2021
@@ -48,9 +48,9 @@ From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH v6 11/12] qcow2: protect data writing by host range reference
-Date: Thu, 22 Apr 2021 19:30:45 +0300
-Message-Id: <20210422163046.442932-12-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 12/12] qcow2: protect data reading by host range reference
+Date: Thu, 22 Apr 2021 19:30:46 +0300
+Message-Id: <20210422163046.442932-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210422163046.442932-1-vsementsov@virtuozzo.com>
 References: <20210422163046.442932-1-vsementsov@virtuozzo.com>
@@ -65,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.222) by
  HE1PR0501CA0006.eurprd05.prod.outlook.com (2603:10a6:3:1a::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16 via Frontend Transport; Thu, 22 Apr 2021 16:31:11 +0000
+ 15.20.4042.16 via Frontend Transport; Thu, 22 Apr 2021 16:31:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 625663e8-4731-4c75-394e-08d905ac0a8f
+X-MS-Office365-Filtering-Correlation-Id: 413ddaa3-34c4-43de-b2e5-08d905ac0b13
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3861:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38610C6E01E501CAFD19BD50C1469@AM6PR08MB3861.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB38613854B181DA25A4DB2A7FC1469@AM6PR08MB3861.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:284;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4XRNf2udSqBxEMVCOSCOOtST411Pxl6PcTi6ZqdXAAXZEs7DN3rsIZTuBHgwRhq+3Bwi6I/FeS13ik+8inGR+b7/Zv8Pm7AvWKO85RAOMgBnDsrXBCu48PBX+UWz/BqgMWWeTO1qRmOIkqIFWO0PTtJaQNQQk+5LbUUV7DrMa3Apaq8yBtPiFr54TUgtjZBAAbmZ4Xu6/Bk1TfkbJSKdPAW8IQitwY+U0bNS8vX0RFRJjG0BMJf6HWHRntWVz2jVKdxMHO55OLYiXxfAyL3oGO348subS+5oTnNJzo/dl2jgfFGqVBGXmcIFD1T5iw+HWGfafMMsMId5dNiPBU1ZkY3yMLpldK2KLa6Y2R81bh6oIlnsHKf/tl6ceJrxyA5y21eC7eN8RiAxO1hG5dWTJhlkN2/L5RvoUH5EkNur5AEbCTUKmt+jM8q7TfMUB2j/1SNw8uOQEJ9mbQtwp5hFfqBex3ppjwJnrvd960FQoZAE5c3uSqrJLmMYEGL5iS5Pm+hJ4XeD381rbZ4xRrX9nfwir522/P4uf8q0IzT/D0cTJyvjgvRZYG7N+M0bC9zkFV/H3IgSYY4lu5lUgcLTAaeVxEO/+uPKS3khciKjuv7j7Gk10ejWaVeiJrL2zLNaSwu5xZ7Ll4qZRIfVrTXZYf36mf5ifUMLgr4WWQkRxgee3mGKZIXf+7xmKVrwn6MD
+X-Microsoft-Antispam-Message-Info: TWImK05cqVO6PC35KAwSrxRLp5q5i1dmeB89ZSGa+56dMZtOaVf60lwou97QglbvKtgO26mmJ5kuMAURxJ4PZEs53To07ceBGQb6VotKXjmWXqcNKjx2tXJnpZEfHhkw7O9tRroazyp6ESd0/dnGBMQ5BBY4kEvShk8Jv4W2lu7za6Xjp5xpaU1NAc1fPbj0uoGUn+ilktf0mb6Yy4OBlbeSI+horxStJhb/3FSSJpv7cAMTTh9+fe5hMP0mh7+YvchS9nbKg5GDO/Vo+zJkOfaZBwnKr7SNTyQHXdpdrTB/33+lPlERUl+i6DfLYosQ56xbrsVbCxtP1uotmbF7J1r2NEwjZZ2FfKWKPUaVEYfy4U1VtredrAovY/SWnrrh/lMtRojI+3hiC4FbGwazmGwXvAA2LR3fzotpkfcsDa6yNUb8y33ZNK0H2e7N5ExGypqoNrhAfSYT7Or4S4JFOy/JBLCpXrgiSotD5/Ox2rV/tanuv7bX8Nsy7c7XjJImknurRji4tVgFX8pcB9NAIUsJmKhz8/YoOuSFErpl+vQwvOZWsliAjt77EHwvspmcGCOsOjdJ9PIUzHpXwfoNrNRGNRSJsduSlOt2xDbnVIPDS4BUriIijTaGXd2ugMF/X7T2WAAzSvr58PpthxYB50Cekdg2dLvXCIvIkGjseWLfxTBfe0KSV6K/S3TJ0Nij
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(366004)(39840400004)(396003)(6666004)(4326008)(107886003)(26005)(6486002)(956004)(2906002)(83380400001)(2616005)(52116002)(316002)(478600001)(8936002)(66476007)(6916009)(66556008)(66946007)(38100700002)(1076003)(38350700002)(5660300002)(6506007)(8676002)(186003)(6512007)(16526019)(36756003)(86362001)(69590400013);
+ SFS:(4636009)(376002)(346002)(136003)(366004)(39840400004)(396003)(6666004)(4326008)(19627235002)(107886003)(26005)(6486002)(956004)(2906002)(83380400001)(2616005)(52116002)(316002)(478600001)(8936002)(66476007)(6916009)(66556008)(66946007)(38100700002)(1076003)(38350700002)(5660300002)(6506007)(8676002)(186003)(6512007)(16526019)(36756003)(86362001)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?w6uzBz9rc3Aj1Bmz0iZjbYFAJjapqMjID3EBQSNccEclAfr7LszDczrzhxvZ?=
- =?us-ascii?Q?G8M+e5XRc4bvXZidW4Pm7VKPW+LJ7987/M6NZ6zQBz45Ab4hIVh9YYX3JH3B?=
- =?us-ascii?Q?CLec9NARNd1PQs9ltQxPwUn5HXIIqytFxuXLdiGk7YvgqmEN3UyZJlRTKCaR?=
- =?us-ascii?Q?mFY0h7FrUuImRsNXsc0ULcJa8QiyZiteFGePgUOGrvlIgHX6g3KGHCbm0m04?=
- =?us-ascii?Q?MqEh67vxLbmgGEH21J+E90cRmXiypm5QvRMGC3DMjx0jy8jWYjtKZJ5I6Qwu?=
- =?us-ascii?Q?OXJhJq4ESo8Jrz7eaeztPinoWWs8KuX69Vm5MZkoA7Ue7UGdy1hI9ieBUI2t?=
- =?us-ascii?Q?HNW3bOHcDGmI7EzxmWyrTBirgiSnCsczJD2pnrAEkF4hpGb/G5xEbzIY/Nz8?=
- =?us-ascii?Q?yOHEfP/XUCOa79UZnkKIaeR3wLEqsJCsroEFy2N7rW8D2MwIH7OpMzP+W8qL?=
- =?us-ascii?Q?Cq68n/57EijiFftxsP3yISz1xSRbDb4xHR8wkAYQAlqmBT89KZSMv5ocYjtU?=
- =?us-ascii?Q?OcAy7BxtknBTsNBUkwJ8fXvUzak6HM1ZV/BPwG9cV/aPOtBGdS2tXVNmbRVK?=
- =?us-ascii?Q?5UYkd7ZiVg1If0mXBCk6JrddP5G7r4Da1y9ANYXLoRwI5pBhcuVybJKpvzc2?=
- =?us-ascii?Q?+Pnss6l59Wn0PzSrWlPKKUVZje4YyUtrE3OVVYIdY73LIPGlWdSwOkcv6voP?=
- =?us-ascii?Q?mVGzw26ju9jX6qh7LHNIlmjzQ5C9WxlLP2FPFT7uxETI1PkwF32wwCj07Emp?=
- =?us-ascii?Q?Z4/YdZphu8YO1X2Gpv6ShmPKfMdpB+ScmpEAzq/S+ZStuPpatr8IrLw1g9Pn?=
- =?us-ascii?Q?zRbUCUEc9mvHUw3yz+ARO2KUJiBxSP4FM2+34mZlzxvXL4OucHcQ/4gYbb1q?=
- =?us-ascii?Q?v3hwKANrQhh7hbWOjusd01zRVovTIUjE+xZNkOUu2b5QQIviNd+j9OWGqt5N?=
- =?us-ascii?Q?9N7uU10fHAcoa0HhfOt+F7XSamMUWstsQ6PE3K6bMTaMuDXbfleViz0TDD7T?=
- =?us-ascii?Q?S7FGOdzYNCekt1fOHTzve/e9fQ1GGd/LBw4rGiARMGKKrCRpeyQPulYWEzsh?=
- =?us-ascii?Q?7gGt7/CMTQwoZ33aDLRR4eVk8FudMTaQvQvwZ/6PdZcnnUxnm/PqQH16sgZB?=
- =?us-ascii?Q?qROew2N88qMmnwtkASqYL+qCV3e7SCiJXQyBSftr0E+0rxy2q/vLKisMRYYx?=
- =?us-ascii?Q?kdDtNVUYd6eERKuFI6ykJlVbm4Hk9kj9/Lz1kxZYFnBQ5ZUpcpR3561q81Ag?=
- =?us-ascii?Q?2EVWgxN4wuCF4mNr8pGIRhnLV+sn84H9JlioWq3kh9q9TzzLl8FVbTRaomjC?=
- =?us-ascii?Q?vYVEth/6YvkfjFsxf1p1ZluT?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?uRAD/1B9iIEWb9DcK2AJ7/dzc1qcQ5wV1LTK48as4q/cYo5hc4Lj+z/2gSjx?=
+ =?us-ascii?Q?B2VyNL9tzPYF4mtjLypw/BZ30xsyTkyWwnEDlMRzrCNZXsI94uG1xYqfmxdu?=
+ =?us-ascii?Q?IMANaexlgv4Oe3KBYpPtjZeTwC0dSa/1bIPadhPRPz7qZnU7fvayajfYqDUT?=
+ =?us-ascii?Q?n/HbV64lK22O7dXhTQI7CXfDxfqzoQiKf6oLehsWFS05dERMHhkf/xhYT8Qb?=
+ =?us-ascii?Q?lryV9kal/dPT72egUbwIPF+7TrRlg3ddMywH3lktmxgtFsmXOTTtq5WuOa82?=
+ =?us-ascii?Q?0bbhSr6DIy9Lio9XFcy5mv93M5Y3BM5+xRGHhvnG9OLyy9L/A24xXmAPzsO5?=
+ =?us-ascii?Q?HiBYREPNvjFthgFtipyOX5NYpZKQV78EMdpiYtGSszRYm/rwAqy4t8vmLrgE?=
+ =?us-ascii?Q?9draxWuztEkk/5IdFk155VzN4gHO442gHSczAmJ47NpIbk2BtzTa9lsJaCZC?=
+ =?us-ascii?Q?Z18VB5VepZMEfZvO9LQQTIsl+tnVJjH2vO2JCKGdwEtPERiEBoOVXnjdjPZM?=
+ =?us-ascii?Q?XmUmzT7+FVg63VXuJbxcaH4AlZnvHCUQAznrPTGCHHBuBJo16I0p1GOaX0FU?=
+ =?us-ascii?Q?v4JiFun6gkw7gTQFW9cPrteBJYCe3c8UskzZv46sVN0Kb5vSSwFHIbtKKnH9?=
+ =?us-ascii?Q?8AxHizSHTic5t7jKESZad3/hBVm4VSENJBpn2eIgOwzqx2cP8HQI6nQAkK70?=
+ =?us-ascii?Q?VZcBgx8lRnX4foWtubzOEjdiHoXecIzmG3S0Dw/NPsSL11HCRATwoUQpHCOk?=
+ =?us-ascii?Q?akyBQg1GutGDuqSrLj4EVaH7pAQaooG1Yo4QtJBT3CaNxyfBm/pM04ocgMo4?=
+ =?us-ascii?Q?GQAIRXiy8wgU1EVyJCRaawDpU8Sn5iuqgzhBWS7315+riMkT4UlDMFxIzM3U?=
+ =?us-ascii?Q?Un1w2+4hfJVgoUbYUwSMG5uCDVJNpp8lEOqg+eBZSs5d7By2+DNgv8tSj+bF?=
+ =?us-ascii?Q?4U+DTV7ZaVH4RWboiO0dOkUeRnzxCJiytMizP43r5aOUtZXCBMhRepCLu551?=
+ =?us-ascii?Q?TVmH5AyTu31o3MKNCN6R1FQVrR5qbmt5+xm1cYPMpdU8d75oI5x2tyX3ZLzt?=
+ =?us-ascii?Q?n9/JpikZIxgyV5Qk39+/gn7+26kcBY7kuoWT2vPiBrH1P1Lbjlk6N+876Q1d?=
+ =?us-ascii?Q?/Vc9x21etJI+eIOJLcmEqZ5xRjeenpPiD4rribDscOrn5Hl3fs13Eg4dfmd+?=
+ =?us-ascii?Q?JXVRDipGfA+ToIyTgR7dP8ndfWCZB3bd21CoWsmqCaD09qQ18ezBM4rOpCQx?=
+ =?us-ascii?Q?QUX9Dg12d9wl3JPTDM3FWBGJdD+vxx/QtkggLXadeAe+DZKyO1JfPFoME+iQ?=
+ =?us-ascii?Q?wlO+JnyiWwijktsIUrXrZBCT?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 625663e8-4731-4c75-394e-08d905ac0a8f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 413ddaa3-34c4-43de-b2e5-08d905ac0b13
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 16:31:12.0567 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 16:31:12.9388 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 88Wq7nTdmQ1vENQwNR0Pc1c+bck43VAHSwBRUAvSviQM6diUCYGoyYZkOFPwz0Kv9i+tHmOAu4pIM146/0vlTk49xkRVtgFPajh1VU04/1k=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1F9Dn3SdVJUDbhriGhZk0z3s4acfoSMeqrKrIWZzmBiMXea/q4XmRtssORVVc/6TGHiTpNg6Qv1DpDAsVmnKjrMseO5Jx5qEGNfXiQMZUco=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3861
-Received-SPF: pass client-ip=40.107.0.116;
+Received-SPF: pass client-ip=40.107.4.129;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -137,186 +137,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have the following bug:
+Similarly to previous commit: host cluster may be discarded and reused
+for another cluster or metadata during data read.
 
-1. Start write to qcow2. Assume guest cluster G and corresponding host
-   cluster is H.
+This is not as dangerous as write path, we will not corrupt data or
+metadata. Still it's bad: guest will probably see data or metadata
+which it should not see, so it's a kind of security hole. Let's fix it
+too.
 
-2. The write requests come to the point of data writing to .file. The
-   write to .file is started and qcow2 mutex is unlocked.
-
-3. At this time refcount of H becomes 0. For example, it may be due to
-   discard operation on qcow2 node, or rewriting compressed data by
-   normal write, or some operation with snapshots..
-
-4. Next, some operations occurs and leads to allocation of H for some
-   other needs: it may be another write-to-qcow2-node operation, or
-   allocation of L2 table or some other data or metadata cluster
-   allocation.
-
-5. So, at this point H is used for something other. Assume, L2 table is
-   written into H.
-
-6. And now, our write from [2] finishes. And pollutes L2 table in H.
-   That's a bug.
-
-To fix the bug we now have host-range-refs, which work in a
-way that cluster is not "free" (and therefore will not be reused
-and we don't fall into use-after-free described above) until both
-refcount and host-range-ref are zero for this cluster.
-
-Let's call qcow2_host_range_ref() in cluster allocation functions:
-qcow2_alloc_host_offset() and qcow2_alloc_compressed_cluster_offset()
-used on when writing host clusters. So that now these functions returns
-"referenced" range, which caller should finally unref.
-
-Iotest qcow2-discard-during-rewrite is enabled, as it works now.
+Data reading goes through qcow2_get_host_offset(). Let's reference
+range returned by this function. Read path differs from write, as we
+have to handle compressed cluster descriptor. Also, we should handle
+ZERO and UNALLOCATED clusters, for which we have nothing to ref. So, to
+keep the whole logic in one place, create qcow2_put_host_offset(),
+which should be always called after qcow2_get_host_offset().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2-cluster.c                            | 13 +++++++++++++
- block/qcow2.c                                    | 16 ++++++++++++++++
- .../tests/qcow2-discard-during-rewrite           |  2 +-
- 3 files changed, 30 insertions(+), 1 deletion(-)
+ block/qcow2.h         |  3 +++
+ block/qcow2-cluster.c | 38 ++++++++++++++++++++++++++++++++++++++
+ block/qcow2.c         | 15 +++++++++++++++
+ 3 files changed, 56 insertions(+)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 6105d4e7e0..999a739024 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -809,6 +809,10 @@ static int get_cluster_table(BlockDriverState *bs, uint64_t offset,
-  * already allocated at the offset, return an error.
-  *
-  * Return 0 on success and -errno in error cases
-+ *
-+ * On success the host range [*host_offset, *host_offset + compressed_size) is
-+ * referenced. Caller is responsible to unref it by qcow2_host_range_unref()
-+ * after finishing IO operation with this range.
-  */
- int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
-                                           uint64_t offset,
-@@ -866,6 +870,9 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
-     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
- 
-     *host_offset = cluster_offset & s->cluster_offset_mask;
-+
-+    qcow2_host_range_ref(bs, *host_offset, compressed_size);
-+
-     return 0;
- }
- 
-@@ -1738,6 +1745,10 @@ out:
-  * is queued and will be reentered when the dependency has completed.
-  *
-  * Return 0 on success and -errno in error cases
-+ *
-+ * On success the host range [*host_offset, *host_offset + *bytes) is
-+ * referenced. Caller is responsible to unref it by qcow2_host_range_unref()
-+ * after finishing IO operation with this range.
-  */
+diff --git a/block/qcow2.h b/block/qcow2.h
+index c40548c4fb..2ac61eccc5 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -926,6 +926,9 @@ int qcow2_encrypt_sectors(BDRVQcow2State *s, int64_t sector_num,
+ int qcow2_get_host_offset(BlockDriverState *bs, uint64_t offset,
+                           unsigned int *bytes, uint64_t *host_offset,
+                           QCow2SubclusterType *subcluster_type);
++void qcow2_put_host_offset(BlockDriverState *bs,
++                           unsigned int bytes, uint64_t host_offset,
++                           QCow2SubclusterType subcluster_type);
  int qcow2_alloc_host_offset(BlockDriverState *bs, uint64_t offset,
                              unsigned int *bytes, uint64_t *host_offset,
-@@ -1848,6 +1859,8 @@ again:
-     assert(offset_into_cluster(s, *host_offset) ==
-            offset_into_cluster(s, offset));
+                             QCowL2Meta **m);
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 999a739024..126d95b062 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -568,6 +568,10 @@ static int coroutine_fn do_perform_cow_write(BlockDriverState *bs,
+  * Compressed clusters are always processed one by one.
+  *
+  * Returns 0 on success, -errno in error cases.
++ *
++ * The returned range is referenced, so that it can't be discarded in parallel.
++ * Caller is responsible to unref by qcow2_put_host_offset() after finishing IO
++ * operations with the range.
+  */
+ int qcow2_get_host_offset(BlockDriverState *bs, uint64_t offset,
+                           unsigned int *bytes, uint64_t *host_offset,
+@@ -721,6 +725,17 @@ out:
  
-+    qcow2_host_range_ref(bs, *host_offset, *bytes);
+     *subcluster_type = type;
+ 
++    if (type == QCOW2_SUBCLUSTER_COMPRESSED) {
++        uint64_t coffset;
++        int csize;
 +
++        qcow2_parse_compressed_cluster_descriptor(s, *host_offset, &coffset,
++                                                  &csize);
++        qcow2_host_range_ref(bs, coffset, csize);
++    } else if (*host_offset) {
++        qcow2_host_range_ref(bs, *host_offset, *bytes);
++    }
++
+     return 0;
+ 
+ fail:
+@@ -728,6 +743,29 @@ fail:
+     return ret;
+ }
+ 
++/*
++ * Caller of qcow2_get_host_offset() must call qcow2_put_host_offset() with
++ * returned parameters of qcow2_get_host_offset() when caller don't need them
++ * anymore.
++ */
++void qcow2_put_host_offset(BlockDriverState *bs,
++                           unsigned int bytes, uint64_t host_offset,
++                           QCow2SubclusterType subcluster_type)
++{
++    BDRVQcow2State *s = bs->opaque;
++
++    if (subcluster_type == QCOW2_SUBCLUSTER_COMPRESSED) {
++        uint64_t coffset;
++        int csize;
++
++        qcow2_parse_compressed_cluster_descriptor(s, host_offset, &coffset,
++                                                  &csize);
++        qcow2_host_range_unref(bs, coffset, csize);
++    } else if (host_offset) {
++        qcow2_host_range_unref(bs, host_offset, bytes);
++    }
++}
++
+ /*
+  * get_cluster_table
+  *
+diff --git a/block/qcow2.c b/block/qcow2.c
+index d0d2eaa914..d3461b7243 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2069,6 +2069,8 @@ static int coroutine_fn qcow2_co_block_status(BlockDriverState *bs,
+         return ret;
+     }
+ 
++    qcow2_put_host_offset(bs, bytes, host_offset, type);
++
+     *pnum = bytes;
+ 
+     if ((type == QCOW2_SUBCLUSTER_NORMAL ||
+@@ -2227,6 +2229,7 @@ static coroutine_fn int qcow2_add_task(BlockDriverState *bs,
      return 0;
  }
  
-diff --git a/block/qcow2.c b/block/qcow2.c
-index aa298c9e42..d0d2eaa914 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2489,6 +2489,8 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
-  * Called with s->lock unlocked
-  * l2meta  - if not NULL, qcow2_co_pwritev_task() will consume it. Caller must
-  *           not use it somehow after qcow2_co_pwritev_task() call
-+ *
-+ * Function consumes range reference both on success and failure.
-  */
- static coroutine_fn int qcow2_co_pwritev_task(BlockDriverState *bs,
-                                               uint64_t host_offset,
-@@ -2554,6 +2556,9 @@ out_unlocked:
++/* Function consumes host range reference if needed */
+ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+                                              QCow2SubclusterType subc_type,
+                                              uint64_t host_offset,
+@@ -2272,6 +2275,8 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+         g_assert_not_reached();
+     }
  
- out_locked:
-     qcow2_handle_l2meta(bs, &l2meta, false);
++    qcow2_put_host_offset(bs, bytes, host_offset, subc_type);
 +
-+    qcow2_host_range_unref(bs, host_offset, bytes);
-+
-     qemu_co_mutex_unlock(&s->lock);
+     return ret;
+ }
  
-     qemu_vfree(crypt_buf);
-@@ -2610,6 +2615,7 @@ static coroutine_fn int qcow2_co_pwritev_part(
-         ret = qcow2_pre_write_overlap_check(bs, 0, host_offset,
-                                             cur_bytes, true);
-         if (ret < 0) {
-+            qcow2_host_range_unref(bs, host_offset, cur_bytes);
-             goto out_locked;
+@@ -2320,6 +2325,7 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+             (type == QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC && !bs->backing))
+         {
+             qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
++            qcow2_put_host_offset(bs, cur_bytes, host_offset, type);
+         } else {
+             if (!aio && cur_bytes != bytes) {
+                 aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
+@@ -3968,6 +3974,12 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
+             return ret;
          }
  
-@@ -3151,6 +3157,9 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
++        /*
++         * We do the whole thing under s->lock, so we are safe in modifying
++         * metadata. We don't need the reference.
++         */
++        qcow2_put_host_offset(bs, nr, off, type);
++
+         if (type != QCOW2_SUBCLUSTER_UNALLOCATED_PLAIN &&
+             type != QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC &&
+             type != QCOW2_SUBCLUSTER_ZERO_PLAIN &&
+@@ -4064,6 +4076,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
+             break;
+ 
+         case QCOW2_SUBCLUSTER_COMPRESSED:
++            qcow2_put_host_offset(bs, cur_bytes, copy_offset, type);
+             ret = -ENOTSUP;
              goto out;
-         }
  
-+        /* We do truncate under mutex, don't bother with host range refs */
-+        qcow2_host_range_unref(bs, host_offset, cur_bytes);
-+
-         for (m = meta; m != NULL; m = m->next) {
-             m->prealloc = true;
-         }
-@@ -4122,12 +4131,14 @@ qcow2_co_copy_range_to(BlockDriverState *bs,
-         ret = qcow2_pre_write_overlap_check(bs, 0, host_offset, cur_bytes,
-                                             true);
-         if (ret < 0) {
-+            qcow2_host_range_unref(bs, host_offset, cur_bytes);
-             goto fail;
-         }
- 
-         qemu_co_mutex_unlock(&s->lock);
-         ret = bdrv_co_copy_range_to(src, src_offset, s->data_file, host_offset,
-                                     cur_bytes, read_flags, write_flags);
-+        qcow2_host_range_unref(bs, host_offset, cur_bytes);
+@@ -4079,6 +4092,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
+                                       copy_offset,
+                                       dst, dst_offset,
+                                       cur_bytes, read_flags, cur_write_flags);
++        qcow2_put_host_offset(bs, cur_bytes, copy_offset, type);
          qemu_co_mutex_lock(&s->lock);
          if (ret < 0) {
-             goto fail;
-@@ -4540,6 +4551,7 @@ qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
-     ssize_t out_len;
-     uint8_t *buf, *out_buf;
-     uint64_t cluster_offset;
-+    bool unref_range = false;
+             goto out;
+@@ -4700,6 +4714,7 @@ void qcow2_parse_compressed_cluster_descriptor(BDRVQcow2State *s,
+         (*coffset & ~QCOW2_COMPRESSED_SECTOR_MASK);
+ }
  
-     assert(bytes == s->cluster_size || (bytes < s->cluster_size &&
-            (offset + bytes == bs->total_sectors << BDRV_SECTOR_BITS)));
-@@ -4574,6 +4586,7 @@ qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
-         qemu_co_mutex_unlock(&s->lock);
-         goto fail;
-     }
-+    unref_range = true;
- 
-     ret = qcow2_pre_write_overlap_check(bs, 0, cluster_offset, out_len, true);
-     qemu_co_mutex_unlock(&s->lock);
-@@ -4589,6 +4602,9 @@ qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
- success:
-     ret = 0;
- fail:
-+    if (unref_range) {
-+        qcow2_host_range_unref(bs, cluster_offset, out_len);
-+    }
-     qemu_vfree(buf);
-     g_free(out_buf);
-     return ret;
-diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
-index 7f0d8a107a..2e2e0d2cb0 100755
---- a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
-+++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
-@@ -1,5 +1,5 @@
- #!/usr/bin/env bash
--# group: quick disabled
-+# group: quick
- #
- # Test discarding (and reusing) host cluster during writing data to it.
- #
++/* Function consumes host range reference */
+ static int coroutine_fn
+ qcow2_co_preadv_compressed(BlockDriverState *bs,
+                            uint64_t cluster_descriptor,
 -- 
 2.29.2
 
