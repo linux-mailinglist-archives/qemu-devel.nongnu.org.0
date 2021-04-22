@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0AB136827E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 16:34:24 +0200 (CEST)
-Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED203682A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 16:42:55 +0200 (CEST)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZaPQ-0007PV-3E
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 10:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
+	id 1lZaXf-0003LN-1M
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 10:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZaN7-0006BY-3P
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:32:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lZaN2-0002fu-Qw
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:32:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619101915;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cxHRnjoWKAgJC6CB2Eru+SlGCj9RkitFT6BVxxgZEl4=;
- b=Tk7MuRNdHi+6OdrCIlTHfJY6iZrae+5VgnLRltldRhMoQaK3Z/GVfwu23Yo56rWQf8Ek+z
- KgHOqJeEH+QXgqc98BbLkb9eCCXS5LTtN4Amw7C0nhgNFbvMPdZXga0IiqVrRV1I70JifL
- 5lktEBYCO1FVdYIe92BPudNLKKVQBVw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-DegEb2ZvNC2xojk-58f10g-1; Thu, 22 Apr 2021 10:31:52 -0400
-X-MC-Unique: DegEb2ZvNC2xojk-58f10g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g199-20020a1c9dd00000b02901355dd71edaso1699036wme.7
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 07:31:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cxHRnjoWKAgJC6CB2Eru+SlGCj9RkitFT6BVxxgZEl4=;
- b=j18xZGE3WmTIlrAQkXUzJs9n+nFVp7A7CsauJt+8ZDpd9pToSe/RpugC+NW/GU/JVu
- T6W6RT2sybX/XdIBBjOu5xq6HIvPFO4dTGvRU96l6/FxYyq/aCAgFMLSx+oNIUAjvkP9
- L9Q9sBngFkdCU/zQC0+lUuqIc1Jajz+C5deoYMYZ53dhP2IaFVfdaxYlxvEyTkit7KiS
- ba3N2qP3YF29szUE++tzRNLRxlt4mhtg/o513go0gnhCHNJWBGHxWvAsYn7WEW1V5l9R
- ZFH5wsK6kT4HhWEBxIUFrUX/Bzp2D1llNzIXvAWGixvgvv7btgY9/0AFgrGTNwUQiEEV
- RqMw==
-X-Gm-Message-State: AOAM533OKfBNMzHwC8gb7zPALdnmzyX1PtglUkyZ06OsxvQ1rZ19f8DP
- E5RmDDsP7z+EwlGNpyFPitMisu2aVrEwKJ7Dgaexxo3+LVUAziwOLTjBhGHsdMT1oxY/ETCLwU0
- ASze0h60At1umTcY=
-X-Received: by 2002:a1c:20c2:: with SMTP id g185mr4144968wmg.74.1619101911578; 
- Thu, 22 Apr 2021 07:31:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWLnHuRVx+rBJU1nzuHIUvaPkCtM5dZK/dM4xo6SItPbHjzt0oV86G5kgSnF9pHxGSOtQzlQ==
-X-Received: by 2002:a1c:20c2:: with SMTP id g185mr4144941wmg.74.1619101911322; 
- Thu, 22 Apr 2021 07:31:51 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a2sm4091493wrt.82.2021.04.22.07.31.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Apr 2021 07:31:50 -0700 (PDT)
-Subject: Re: s390-ccw: warning: writing 1 byte into a region of size 0
- [-Wstringop-overflow=]
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <4e327c80-8f5d-c848-b524-7f2c75255da4@redhat.com>
- <485773db-fca2-03ca-c6e8-90ef313fb8f1@redhat.com>
- <YIFMt+xg+xH+M4rd@redhat.com>
- <CAFEAcA8r2k9f=XG6T_hYk542-dDJnR7Lr8DZnyc=SFgnzNYxxQ@mail.gmail.com>
- <089df242-8788-a162-4a75-4c9c9e04a64e@redhat.com>
- <8afd0f34-7e75-2661-9ea5-3ebadff3b85d@redhat.com>
- <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
-Date: Thu, 22 Apr 2021 16:31:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZaWb-0002vI-G9
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:41:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57088)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZaWZ-0000OW-Go
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 10:41:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZaWW-0007Qr-VY
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 14:41:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EDCE32E8163
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 14:41:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Apr 2021 14:33:44 -0000
+From: Ottavio Caruso <1743191@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr paul-whooppee philmd
+ stefanha th-huth
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: Ottavio Caruso (ottaviocr)
+References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
+ <161906949228.9315.10102465599512061473.malone@wampee.canonical.com>
+ <Pine.NEB.4.64.2104220510480.29617@speedy.whooppee.com>
+ <24705.28709.3368.276346@guava.gson.org>
+Message-Id: <CAEJNuHyOLS1QgXbb0dx7DV7QscX=rtO2PvHeo-O28aetZ5-v9g@mail.gmail.com>
+Subject: Re: [Bug 1743191] Re: Interacting with NetBSD serial console boot
+ blocks no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
+X-Launchpad-Hash: de32ec5a99d123bbebe369d40dcd880de4534031
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -107,83 +75,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/21 2:41 PM, Christian Borntraeger wrote:
-> On 22.04.21 13:47, Thomas Huth wrote:
->> On 22/04/2021 13.24, Philippe Mathieu-Daudé wrote:
->>> On 4/22/21 12:30 PM, Peter Maydell wrote:
->>>> On Thu, 22 Apr 2021 at 11:18, Daniel P. Berrangé
->>>> <berrange@redhat.com> wrote:
-
->>> This silents the warning however:
->>>
->>> -- >8 --
->>> diff --git a/pc-bios/s390-ccw/libc.h b/pc-bios/s390-ccw/libc.h
->>> index bcdc45732d..2dea399904 100644
->>> --- a/pc-bios/s390-ccw/libc.h
->>> +++ b/pc-bios/s390-ccw/libc.h
->>> @@ -19,6 +19,8 @@ typedef unsigned short     uint16_t;
->>>   typedef unsigned int       uint32_t;
->>>   typedef unsigned long long uint64_t;
->>>
->>> +#pragma GCC diagnostic push
->>> +#pragma GCC diagnostic ignored "-Wstringop-overflow"
->>>   static inline void *memset(void *s, int c, size_t n)
->>>   {
->>>       size_t i;
->>> @@ -30,6 +32,7 @@ static inline void *memset(void *s, int c, size_t n)
->>>
->>>       return s;
->>>   }
->>> +#pragma GCC diagnostic pop
->>
->> Honestly, that compiler "bug" sounds like it could trigger at any
->> other spot in the bios code, too, since we are doing lots of direct
->> accesses to low memory there. I think it's likely best if we shut it
->> off with -Wno-stringop-overflow in the pc-bios/s390-ccw/Makefile ...
->> could you please try to add it there?
-> 
-
-We are good with:
-
--- >8 --
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 29fd9019b8..dcec09b6f9 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -8,6 +8,9 @@ CFLAGS = -O2 -g
- quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 &&
-$1, @$1))
- cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >
-/dev/null \
-              2>&1 && echo OK), $1, $2)
-+cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
-+                >/dev/null 2>&1 && echo OK), $2, $3)
-
- VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
- set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath
-$(PATTERN) $1)))
-@@ -30,6 +33,7 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o
-menu.o \
-          virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
-
- QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
-+QEMU_CFLAGS += $(call cc-c-option, $(QEMU_CFLAGS), -Wno-stringop-overflow)
- QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks
--fno-common -fPIE
- QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
- QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
----
-
-> Ack. This warning does more harm than good in here.
+On Thu, 22 Apr 2021 at 13:46, Andreas Gustafsson
+<1743191@bugs.launchpad.net> wrote:
 >
+> Paul Goyette wrote:
+> > This bug was fixed long ago, so long ago that I have no idea when!
+>
+> No, it is not fixed, and I did actually check before I switched the
+> bug state back to "new".
+>
+> Perhaps you are specifying "-machine graphics=3Don" as suggested in one
+> of the comments?  If so, that's a work-around, and an ugly and
+> nonintuitive one at that, not a fix.
+> --
+> Andreas Gustafsson, gson@gson.org
 
-Patch coming.
+I am currently using:
 
+$ qemu-system-x86_64 --version
+QEMU emulator version 5.2.0
+
+And I have no problem selecting from menu in serial console, so I
+assume this is fixed for me. This is my command line:
+
+$ cat opt/bin/boot-netbsd-virtio
+#!/bin/sh
+qemu-system-x86_64 \
+-drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=3Ddi=
+sk \
+-drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image.old,index=3D1,media=
+=3Ddisk \
+-M q35,accel=3Dkvm -m 250M -cpu host -smp $(nproc) \
+-nic user,hostfwd=3Dtcp:127.0.0.1:5555-:22,model=3Dvirtio-net-pci,ipv6=3Dof=
+f  \
+-daemonize -display none  -vga none \
+-serial mon:telnet:127.0.0.1:6665,server,nowait \
+-pidfile /home/oc/VM/pid/netbsd-pid -nodefaults
+
+telnet 127.0.0.1 6665
+
+
+-- =
+
+Ottavio Caruso
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1743191
+
+Title:
+  Interacting with NetBSD serial console boot blocks no longer works
+
+Status in QEMU:
+  New
+
+Bug description:
+  The NetBSD boot blocks display a menu allowing the user to make a
+  selection using the keyboard.  For example, when booting a NetBSD
+  installation CD-ROM, the menu looks like this:
+
+           1. Install NetBSD
+           2. Install NetBSD (no ACPI)
+           3. Install NetBSD (no ACPI, no SMP)
+           4. Drop to boot prompt
+
+      Choose an option; RETURN for default; SPACE to stop countdown.
+      Option 1 will be chosen in 30 seconds.
+
+  When booting NetBSD in a recent qemu using an emulated serial console,
+  making this menu selection no longer works: when you type the selected
+  number, the keyboard input is ignored, and the 30-second countdown
+  continues.  In older versions of qemu, it works.
+
+  To reproduce the problem, run:
+
+     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
+cdrom/boot-com.iso
+     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+
+  During the 30-second countdown, press 4
+
+  Expected behavior: The countdown stops and you get a ">" prompt
+
+  Incorrect behavior: The countdown continues
+
+  There may also be some corruption of the terminal output; for example,
+  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+  will be chosen in p0 seconds".
+
+  Using bisection, I have determined that the problem appeared with qemu
+  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+  updated to 1.11 prerelease, and the problem is still there as of
+  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+  system used for the tests was Debian 9 x86_64.
+
+  Credit for discovering this bug goes to Paul Goyette.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
