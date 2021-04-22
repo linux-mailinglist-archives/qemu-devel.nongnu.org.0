@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5409D3676FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 03:47:37 +0200 (CEST)
-Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83B6367701
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 03:49:31 +0200 (CEST)
+Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZORM-00042W-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 21:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
+	id 1lZOTC-0005Fs-W8
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 21:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZONo-0001VD-5M
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 21:43:56 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:44881)
+ id 1lZOQz-0003z8-IH
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 21:47:13 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:43567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZONl-0005R9-NE
- for qemu-devel@nongnu.org; Wed, 21 Apr 2021 21:43:55 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id y1so7041369plg.11
- for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 18:43:53 -0700 (PDT)
+ id 1lZOQx-000708-3k
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 21:47:13 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id u15so14143686plf.10
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 18:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XUJyQC09XBS77p06soDGfu+6ECNMzMdA1KbznqQXjOM=;
- b=VN0ktxat2f4nWng7EyXYDwpnc6vf8d0dBa52kx5vB9R6hu/lRA8A7ToHGEuG5Rq15D
- /UJpLyZXGAtyjhz5uaGrJKFo8GQThVGfJumfVz1PDT7pvQX+pbdeLqjsfP/58MNOFwod
- /lBa6yB1QDEs9AO9q7tmtwMJaSYPjjWYJY3jgTgxjCzmvzGgWw53QcdPBe7N28TzctNZ
- TTYMNUJq+vX8M6zZN+AgEDKh5opkW7DWDgk3RnANJ/bVxlX6W2V7YeO4WNKITsPX6mZD
- 4+pBNVye/H5tiLXvaC/fKz50flgcTF8rEdc0NfCk9T51fqKuRMkYDNeQZFssafX2fkfN
- itEw==
+ bh=4LhIsUUioY8n/vayD0if1744kDLVa/8Q1z6IXGIiw5s=;
+ b=X/0tUGkB6S7Ygs9UVHK25PWrOaSRkt3y7APA+HzNLV0/TupXwySGqnl0dzMuvZDN4X
+ HQpXbFfYWRAg6AnRprjUbzqQRtxqQX+zVM2p9+s2gVtKm6vlqDSafOCakM7pcTt4sDo5
+ RmctS0KUoMI07OT4sDRZxsBRHOEeypKiVOQmqI/IaRXeHQG+1YnLNhf8ol0vRhggzT9s
+ 8M09K+CEnMzMswwjyYthNimQWjLgJzPMWUlejiyTfr/cvbefyifgFNAv+Azg6+0WOydF
+ hb6pfTKZ6/mjMr6Xv+EUneKvKBqqvbaoe2i89eYileN8ACozAw3ofm3CuB/AkbDPWQpb
+ qf8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XUJyQC09XBS77p06soDGfu+6ECNMzMdA1KbznqQXjOM=;
- b=osBH63JSkJbNpqWgvkJHtzXfxgwRKyP6LPjahLW8zuG8PBL5qfaWfQ6lqVdpfKwGhL
- P6zl6H5rwLEltAB5CXHTSDRrZQccfR8GiwusWVuehek+HupHKttbT2XJ5IganJgTEyby
- F+swIOpOc94hqYRuPHdzlOJXuNGaV/ObpjkXZI8cSLb9LscS+b0g3+ZlPikgFV3IJnDY
- 0s+wEKiWjOOJln+NF/FWWlsS26ABMkhkD5x7QFQE3KzdFYIjzW2Zdhow3fTXwPCaV7xO
- 3eIFBvH0zFVUUfN+9rYqjNSIU/oYqKjUTWANqHE7Qoz+wdA+Zbf+PDBu6pLusFV6CvR4
- e0gQ==
-X-Gm-Message-State: AOAM531ibHVfDdTQIGONXHjkzqGMR2l0TYfIugnTHLUO+Fzmwx1D8Tmb
- kAqum/QXAaeTA1zI9Ew38Xl20mzDnTXGhA==
-X-Google-Smtp-Source: ABdhPJwvNX3gqvU23I6PpU7pIA6SZRr9ASQhMlpjO38Ycl4rQ6JkUub4uY5CEofDjg/IUjUGJMCDaw==
-X-Received: by 2002:a17:90a:6b84:: with SMTP id
- w4mr1196198pjj.134.1619055832344; 
- Wed, 21 Apr 2021 18:43:52 -0700 (PDT)
+ bh=4LhIsUUioY8n/vayD0if1744kDLVa/8Q1z6IXGIiw5s=;
+ b=I7QAbuGi39NS8us+nkrvFfnhWcFaDEt0ObjGLhLZc2VkCjFUsQFCWkhbSAZhZrICVQ
+ 6iWUY7DngkQ3rwvU90zOG4zZt+uRSDgbCa/YI1kqOB0or1WiyEPOn21IGCstUh3krk/+
+ G3uA3uVDG29Nak4cAx94JDMbYup+rNWUFfIYXn7VhpIF7GNuBBBIaxytjszMWy0ptU+s
+ r49xRvQ17oULAUwczWDlV/4O6Qy1CZmfRteui4FQmyyKGGdKGW9mbMohDM9tHDNrkGmJ
+ duysuT21fCWLs2CFku5Se4PjIs7GQUinBEjsqJLEBQcDxLwQuQiumep5EHTcJQC1oPWe
+ mBvg==
+X-Gm-Message-State: AOAM5339oQUYOgwdAO9B354Lj0rtBOSEpcMtH/acGlAhdWyffHEk3GIx
+ T7d0ndpbUWBksXlr1tvesoEmbVUyHfn1Uw==
+X-Google-Smtp-Source: ABdhPJw+dU43ei1GY+jo1+0bMFoBnD0Pq9ydtGwONMp3NY/8qhWwYNVqWGbbuZ0ZG8tcMcmredLU5g==
+X-Received: by 2002:a17:902:b210:b029:eb:535f:852 with SMTP id
+ t16-20020a170902b210b02900eb535f0852mr960142plr.80.1619056029706; 
+ Wed, 21 Apr 2021 18:47:09 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id lk6sm3356553pjb.36.2021.04.21.18.43.51
+ by smtp.gmail.com with ESMTPSA id r127sm418325pfr.163.2021.04.21.18.47.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Apr 2021 18:43:51 -0700 (PDT)
-Subject: Re: [PATCH v2 5/7] hw/arm/digic: Map flash using
- memory_region_add_subregion_aliased()
+ Wed, 21 Apr 2021 18:47:09 -0700 (PDT)
+Subject: Re: [PATCH v2 6/7] hw/block/pflash_cfi02: Remove
+ pflash_setup_mappings()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210419094329.1402767-1-f4bug@amsat.org>
- <20210419094329.1402767-6-f4bug@amsat.org>
+ <20210419094329.1402767-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dec790d2-9fa7-169b-c2c7-2b8ab3ac187d@linaro.org>
-Date: Wed, 21 Apr 2021 18:43:50 -0700
+Message-ID: <0cb5d237-df43-e0ca-3914-8516d12838ed@linaro.org>
+Date: Wed, 21 Apr 2021 18:47:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210419094329.1402767-6-f4bug@amsat.org>
+In-Reply-To: <20210419094329.1402767-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,65 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
- David Edmondson <david.edmondson@oracle.com>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>
+ Max Reitz <mreitz@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/19/21 2:43 AM, Philippe Mathieu-Daudé wrote:
-> Instead of using a device specific feature for mapping the
-> flash memory multiple times over a wider region, use the
-> generic memory_region_add_subregion_aliased() helper.
+> All boards calling pflash_cfi02_register() use nb_mappings=1,
+> which does not do any mapping:
 > 
-> There is no change in the memory layout.
+>    $ git grep -wl pflash_cfi02_register hw/
+>    hw/arm/xilinx_zynq.c
+>    hw/block/pflash_cfi02.c
+>    hw/lm32/lm32_boards.c
+>    hw/ppc/ppc405_boards.c
+>    hw/sh4/r2d.c
 > 
-> * before:
+> We can remove this now unneeded code.
 > 
->    $ qemu-system-arm -M canon-a1100 -S -monitor stdio
->    QEMU 5.2.90 monitor - type 'help' for more information
->    (qemu) info mtree
->    address-space: memory
->      0000000000000000-ffffffffffffffff (prio 0, i/o): system
->        0000000000000000-0000000003ffffff (prio 0, ram): ram
->        00000000c0210000-00000000c02100ff (prio 0, i/o): digic-timer
->        00000000c0210100-00000000c02101ff (prio 0, i/o): digic-timer
->        00000000c0210200-00000000c02102ff (prio 0, i/o): digic-timer
->        00000000c0800000-00000000c0800017 (prio 0, i/o): digic-uart
->        00000000f8000000-00000000ffffffff (prio 0, i/o): pflash
->          00000000f8000000-00000000f83fffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
->          00000000f8400000-00000000f87fffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
->          00000000f8800000-00000000f8bfffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
->          ...
->          00000000ff400000-00000000ff7fffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
->          00000000ff800000-00000000ffbfffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
->          00000000ffc00000-00000000ffffffff (prio 0, romd): alias pflash-alias @pflash 0000000000000000-00000000003fffff
-> 
-> * after:
-> 
->    (qemu) info mtree
->    address-space: memory
->      0000000000000000-ffffffffffffffff (prio 0, i/o): system
->        0000000000000000-0000000003ffffff (prio 0, ram): ram
->        00000000c0210000-00000000c02100ff (prio 0, i/o): digic-timer
->        00000000c0210100-00000000c02101ff (prio 0, i/o): digic-timer
->        00000000c0210200-00000000c02102ff (prio 0, i/o): digic-timer
->        00000000c0800000-00000000c0800017 (prio 0, i/o): digic-uart
->        00000000f8000000-00000000ffffffff (prio 0, i/o): masked pflash [span of 4 MiB]
->          00000000f8000000-00000000f83fffff (prio 0, romd): alias pflash [#0/32] @pflash 0000000000000000-00000000003fffff
->          00000000f8400000-00000000f87fffff (prio 0, romd): alias pflash [#1/32] @pflash 0000000000000000-00000000003fffff
->          00000000f8800000-00000000f8bfffff (prio 0, romd): alias pflash [#2/32] @pflash 0000000000000000-00000000003fffff
->          ...
->          00000000ff400000-00000000ff7fffff (prio 0, romd): alias pflash [#29/32] @pflash 0000000000000000-00000000003fffff
->          00000000ff800000-00000000ffbfffff (prio 0, romd): alias pflash [#30/32] @pflash 0000000000000000-00000000003fffff
->          00000000ffc00000-00000000ffffffff (prio 0, romd): alias pflash [#31/32] @pflash 0000000000000000-00000000003fffff
-> 
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/arm/digic_boards.c | 8 +++++---
->   hw/arm/Kconfig        | 1 +
->   2 files changed, 6 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
