@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FBC368676
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 20:20:54 +0200 (CEST)
-Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F35836868A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 20:24:48 +0200 (CEST)
+Received: from localhost ([::1]:37166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZdwa-0005Tf-Vo
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 14:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34668)
+	id 1lZe0N-0006vC-5y
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 14:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lZduq-0004gr-5i
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 14:19:04 -0400
-Resent-Date: Thu, 22 Apr 2021 14:19:04 -0400
-Resent-Message-Id: <E1lZduq-0004gr-5i@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21344)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lZdzB-0006Ur-L7
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 14:23:33 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:35901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lZdun-0001Bv-O5
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 14:19:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619115533; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hefHr6TRuk9fhAwttN8zwqmXLfUmiKYvK351/aSkxcWwybuHC/GnkMEe8LbJe11iVbLya10xVAKoptq0IBCEHX5Gn9P2I/TiN1Lwk3ul4Rrh9E3OtorFQL1I02q6YwI8DMQZ9cEN9BKSOFaZ+pRZbEu3iTfsKET59Qz5JgQ2tOU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619115533;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=msQffDrJ+k6YebLH36ewAiWNO47iX1cFLCAdtHUPvKE=; 
- b=QrSjNk6sc+WJ0CedJ1tvzmUE5nqdIwbSMMet2/hs4KQFQdhUVwaHU+T24ZCDaYuQ2cE8YuAWfjJuRK9ZpVZsq8sinsIOvyEN+4q6jVcBU5s5nmSMFYRPvTnUpwXnZAUL3+7TxS6ZBL+43SsUZma3/mOke00v2dK2LW1WrR65M3E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1619115527771767.9190506357218;
- Thu, 22 Apr 2021 11:18:47 -0700 (PDT)
-In-Reply-To: <20210422180819.252121-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/2] linux-user: sigaction fixes/cleanups
-Message-ID: <161911552639.19742.2326361986232098811@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lZdyl-0003kq-AD
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 14:23:33 -0400
+Received: from [192.168.100.1] ([82.142.18.94]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N1wdj-1lSep42SEb-012LMP; Thu, 22 Apr 2021 20:23:03 +0200
+Subject: Re: [PATCH 1/2] linux-user/alpha: Fix rt sigframe return
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210422180819.252121-1-richard.henderson@linaro.org>
+ <20210422180819.252121-2-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <5c79ca76-8b66-eba0-9acf-9077957d0945@vivier.eu>
+Date: Thu, 22 Apr 2021 20:23:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Thu, 22 Apr 2021 11:18:47 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
+In-Reply-To: <20210422180819.252121-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:RQqenIGE9+eHe3nl06XJ1gtARrAXS8oul0ZzeNkegPKTFJOXrCd
+ CRqC5xgWoiRFkARVDaSeSV+11/nTlfPmzZiRsJoZCnY7VCPvsvDl9z9P2EeMRGWXdFMQT/P
+ wA4pwelHnmWFSFOA7Cr9ECBwLtD9nldawfxUnNx7DMD7b4WPZJ7wkfD9wS1QIZu8nfriYm0
+ M/n6LTsbaQ3yF7bRH+Ptg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ac2SOAtMj3I=:/5Ff4UZuAbdHAVQxfSFrRw
+ eEvEC3tr0jcer7tOXsguwUCXMRFnJWuuCg3BRKi93LlpkK06zbDku2Yq7njFL7j7mfs8pWZXr
+ OnT5SoEgJ2q6ardfP6BgJLc6gP20UTNYOUMGWpDUoWUMKShq5gnYYgG7hQnqGY3XCz3AZHeoy
+ /69104NRs2lWyFyyOtxfdvyRVT9Jd3QcU5dtmdI5M1aoDPXk6Xje6FiKwbDRoBqPHf4EoVeTT
+ NLjx7iyFx2mXaVwWkM1/q5V5KNONfmzHiXA2or3LfKpnfku2lIREq4NY667k7OfaGw1OE8pdC
+ X0RZWFORLvo0hfwIGa/E5b+h7JbWD+qqSSJl5+PY/8PMGD17pw50wP7ZpGVqnFc97/K6myS86
+ RXzhyEQVy1jXigqiSKebrYIYwx4eVcD6xBwSey+M1LOrX9+dEJEufvd+QC26c8nCd0mDR7oRp
+ ntdPl37qkAani1ZbD0vJbHzc5Igoy3rlYNSdkKBoAthQLR3/dyFQsDnnVpNI/Y+5d0cdJtAiG
+ 9C25iM+73sCJIq5BoyDfGY=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,46 +67,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyMjE4MDgxOS4yNTIx
-MjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MjIx
-ODA4MTkuMjUyMTIxLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggMC8yXSBsaW51eC11c2VyOiBzaWdhY3Rpb24gZml4ZXMvY2xlYW51cHMKCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
-ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
-dC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA0MjIxNTQ0MjcuMTMwMzgt
-MS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTA0MjIxNTQ0MjcuMTMwMzgt
-MS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAy
-MTA0MjIxODA4MTkuMjUyMTIxLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRj
-aGV3LzIwMjEwNDIyMTgwODE5LjI1MjEyMS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcK
-U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwowYmVhMGViIGxpbnV4LXVzZXI6IENsZWFu
-IHVwIHNpZ2FjdGlvbiBrYV9yZXN0b3JlcgplZGRlNzE2IGxpbnV4LXVzZXIvYWxwaGE6IEZpeCBy
-dCBzaWdmcmFtZSByZXR1cm4KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMiBDaGVja2luZyBjb21t
-aXQgZWRkZTcxNmY1NDhkIChsaW51eC11c2VyL2FscGhhOiBGaXggcnQgc2lnZnJhbWUgcmV0dXJu
-KQoyLzIgQ2hlY2tpbmcgY29tbWl0IDBiZWEwZWIxNjMwMCAobGludXgtdXNlcjogQ2xlYW4gdXAg
-c2lnYWN0aW9uIGthX3Jlc3RvcmVyKQpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
-ZSB0YWJzCiMxMDc6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbC5jOjkwMjE6CiteSSAgICByZXQg
-PSBnZXRfZXJybm8oZG9fc2lnYWN0aW9uKGFyZzEsIHBhY3QsICZvYWN0LCAwKSk7JAoKRVJST1I6
-IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhl
-c2lzICcoJwojMTczOiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGwuYzo5MDc1OgorI2VsaWYgZGVm
-aW5lZCAoVEFSR0VUX1NQQVJDKQoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCAyMTQgbGlu
-ZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VU
-UFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwg
-bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDQyMjE4MDgx
-OS4yNTIxMjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRj
-aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Le 22/04/2021 à 20:08, Richard Henderson a écrit :
+> We incorrectly used the offset of the non-rt sigframe.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/alpha/signal.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/alpha/signal.c b/linux-user/alpha/signal.c
+> index c5c27ce084..86f5d2276d 100644
+> --- a/linux-user/alpha/signal.c
+> +++ b/linux-user/alpha/signal.c
+> @@ -200,7 +200,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>                     &frame->retcode[1]);
+>          __put_user(INSN_CALLSYS, &frame->retcode[2]);
+>          /* imb(); */
+> -        r26 = frame_addr + offsetof(struct target_sigframe, retcode);
+> +        r26 = frame_addr + offsetof(struct target_rt_sigframe, retcode);
+>      }
+>  
+>      if (err) {
+> 
+
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
