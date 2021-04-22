@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFBB367639
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 02:26:25 +0200 (CEST)
-Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E11367681
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 02:52:28 +0200 (CEST)
+Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZNAm-00008J-0z
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 20:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39302)
+	id 1lZNZz-00053z-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 20:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lZN95-00085u-76; Wed, 21 Apr 2021 20:24:39 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:45586)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lZNYf-0004Xf-5A
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:05 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lZN93-0007D8-Qk; Wed, 21 Apr 2021 20:24:39 -0400
-Received: by mail-il1-x135.google.com with SMTP id e14so12656722ils.12;
- Wed, 21 Apr 2021 17:24:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lZNYb-0006Pv-NZ
+ for qemu-devel@nongnu.org; Wed, 21 Apr 2021 20:51:04 -0400
+Received: by mail-wr1-x434.google.com with SMTP id s7so42967047wru.6
+ for <qemu-devel@nongnu.org>; Wed, 21 Apr 2021 17:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3zbWh4Rydj8nOM38D6Jneohe+oSMFLypR1BlokvmsHc=;
- b=TOWm5YiWB6ogXaEmYa6rX0vguWY/dtxWNqgM+SRO0nUZ/M3JdYD1FPsVT8/TryAXVd
- zAcCZzjpGc9CJIHYjbgwk07OpeSCs2d5ei1zAmxMCNG1cv7S8XwpIKlvtSjiucBaFPlm
- lBqoxKG/eSr9i5w3naEk+l9lo1G/mOrR3Nnwy++dEfgjg2O/A9LgIlKcEpGbSmQjzAVC
- 5Ia3cIyF1pguaN2YVYwcpWzQFU3NG/h0bdeiRT9bXL7zK0el2vGCdB1IcSFgX6AyW66X
- zo63djpYxfIV9DbPBhYEcIv1PBOZe0Qdkc5IhksTCLuYL7pmNvut+IYQOp+4ShhV7HMv
- 1G1Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AjJbFzvDUXaSWsH8wYXQ6N1QydRorcAJ1MHbnPDyhaU=;
+ b=G+xK/VBgwoRZmAXc7rKsSSdDpICBcJ2qH2dxGcf7x63RtJsCcoTxJMRYKXUzjWWrHw
+ wlN/ZtrZBHLlVQjWth/VXI9Nn/t0u6Xo5DHyGL9u/8dLJU5Y3/D1ezQp432q7Vhk4IoA
+ AKt6obWMnUmONHZtNlBBfD9XFu6G8fr510zij8V3I8iXysuUzO+ROrJSeVOtYh9eHlVE
+ nk4YEp1sX4NHH7aLF/BbDzDgXhiXLCvIS8pAu0WeHxntceryXKe5bqJ26r1RYDSjtaJ4
+ 9z3Lj8BHQkAvdIil9zXFAsKS10TRCVxgCmbDhLHE9K1+J7HU65MaWEGWFfjPs6ah4eAi
+ RLSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3zbWh4Rydj8nOM38D6Jneohe+oSMFLypR1BlokvmsHc=;
- b=W5xdoaJtQb/Oav4AnAAgCvblpHczHokbb1nFUEaQP3yI2qf9tZcK/dAQEYPNLLZVmR
- fJJTRdbQjDfRtaZDx5rOpTUvtvCYYzE48LRY9Ksns1ckog/QDK3FqF4c5jxY4lw5kHSQ
- FutK/byPHvKKZaBecEFmYgWUGjFxHTg2PH9YLx9tnLI5eT48hLyexWzf1uLAXLieVKQ5
- XJa4qO4r7KYpFy9ceMYmxFOo9FDShWHljQUenc3G0Rjsa6PglNYtjVd21sQrN6J1cFLk
- 2f6xcTpC2lQ07AWJY1RFwbNJQo5nE/0xuUqKka6p5odDRcYR/pFXHCa5Bih0YfKrBeom
- utEQ==
-X-Gm-Message-State: AOAM531ngDEbil8HedbFxWWUyV4VZ0eHVjNOXCDQiyOv0jOFVsRkg60y
- h9oSIW9vXyrBmtVJE73cTsGCyPPqd4PmLiw8apo=
-X-Google-Smtp-Source: ABdhPJz8bNyKSkoXKhlQiecRriyo+98FSlGaBlTds4UpRNKqjWpO1mH3oFmMsLVi54d6W2GNp0eZTKlj98GVmCo3uVQ=
-X-Received: by 2002:a05:6e02:5a2:: with SMTP id
- k2mr516568ils.177.1619051076402; 
- Wed, 21 Apr 2021 17:24:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AjJbFzvDUXaSWsH8wYXQ6N1QydRorcAJ1MHbnPDyhaU=;
+ b=AKFBDuKxdrQAKlKa56FFBII9OrwFZt6oq91wDRrbEgpXbUWfXAsNYyaZ3rbmMUKw37
+ Nbu9D+QMt9iY+b7RLL77Z9uqz9don5adrK7YOCNnm0hVgIfwhEpZOzI/pmrdzto5rsfC
+ QmMpaM6xZCPOg8Y7PVnKRbBQLR/TCelM/urBxNj7MiEh3jZcmauLxTUAzAlOkh4+NqEc
+ iYTpuPiFHZCRIx9LoYoq/8yZzYhuGJ0GJRBvf13qklgi0LHB8IHvIMuMIVd5UbUAG7XW
+ 6uFmrNyvScfIPC02EXurNSmWlI7zFQmTRn06zEbjCz081l+m5xIkTf2SBAzoZ1+zFS/j
+ b4nw==
+X-Gm-Message-State: AOAM5324gf3NbtOSKMC9AEvqbZmzNRAMGOiM/LOGT6X0HcE+2CVLz8Tj
+ Rj2dig7W9ITQAKCgKY2b/EMLaUIIXQQ=
+X-Google-Smtp-Source: ABdhPJwl2EpOCFomtX9KP8E2lbjjNE2HTb5vi8GotdPUqciDlklAF3P5wKumVlMsGdgDdJElYdjeUA==
+X-Received: by 2002:a5d:4584:: with SMTP id p4mr772230wrq.383.1619052657243;
+ Wed, 21 Apr 2021 17:50:57 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.162.183])
+ by smtp.googlemail.com with ESMTPSA id 2sm3734607wmi.19.2021.04.21.17.50.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Apr 2021 17:50:56 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] plugins: Freeing allocated values in hash tables.
+Date: Thu, 22 Apr 2021 02:50:41 +0200
+Message-Id: <20210422005043.3569-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210421133236.11323-1-emmanuel.blot@sifive.com>
-In-Reply-To: <20210421133236.11323-1-emmanuel.blot@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 22 Apr 2021 10:24:10 +1000
-Message-ID: <CAKmqyKNFjS0k0BTqW1tkkDyCXvPX5mLZ28F9gJ2w6DE6LNzWdw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix a typo with interrupt names
-To: Emmanuel Blot <emmanuel.blot@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,46 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 21, 2021 at 11:33 PM Emmanuel Blot <emmanuel.blot@sifive.com> wrote:
->
-> Interrupt names have been swapped in 205377f8 and do not follow
-> IRQ_*_EXT definition order.
->
-> Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
+A hash table made using ``g_hash_table_new`` requires manually
+freeing any dynamically allocated keys/values. The two patches
+in this series fixes this issue in hotblocks and hotpages plugins.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+v1 -> v2: Added a freeing function to hotpages instead of freeing
+    the sorted list. That's probably better because the sorted list
+    is only made on having ``counts != NULL`` and ``counts`` has a next
+    pointer so essentially at least 2 elements in the list.
 
-Alistair
+Mahmoud Mandour (2):
+  plugins/hotblocks: Properly freed the hash table values
+  plugins/hotpages: Properly freed the hash table values
 
-> ---
->  target/riscv/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 7d6ed80f6b6..c79503ce967 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -88,8 +88,8 @@ const char * const riscv_intr_names[] = {
->      "vs_timer",
->      "m_timer",
->      "u_external",
-> +    "s_external",
->      "vs_external",
-> -    "h_external",
->      "m_external",
->      "reserved",
->      "reserved",
-> --
-> 2.31.1
->
->
+ contrib/plugins/hotblocks.c | 3 ++-
+ contrib/plugins/hotpages.c  | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
+
 
