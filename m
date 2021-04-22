@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EADA36774C
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A8E36774D
 	for <lists+qemu-devel@lfdr.de>; Thu, 22 Apr 2021 04:18:24 +0200 (CEST)
-Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZOv8-0005ey-UK
-	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 22:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
+	id 1lZOv9-0005fa-4C
+	for lists+qemu-devel@lfdr.de; Wed, 21 Apr 2021 22:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lZOtW-0004iL-3z; Wed, 21 Apr 2021 22:16:42 -0400
-Received: from ozlabs.org ([203.11.71.1]:35469)
+ id 1lZOtW-0004iK-3g; Wed, 21 Apr 2021 22:16:42 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:32785 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lZOtT-0003ku-HM; Wed, 21 Apr 2021 22:16:41 -0400
+ id 1lZOtT-0003kw-HL; Wed, 21 Apr 2021 22:16:41 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FQgyn4qmNz9sWH; Thu, 22 Apr 2021 12:16:33 +1000 (AEST)
+ id 4FQgyn5FTFz9sV5; Thu, 22 Apr 2021 12:16:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1619057793;
- bh=pjSD6fcv7y2AmKG8yk1op9b+9G3r+6kNIDFjYZVL5Rg=;
+ bh=P8Fv8uSBv0cP5dn+Q9RbqTiNCKFLjcE8Ep1/zO9u8sE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nS3tbAP5+NiJ89vIjYU2uKmJ40TGt6jSSKqa5m8Vc7KDsQWi6SwhdeviK6muaqJcg
- nntvUxj7qQxQpga27gptdgmPdwJi18zwgKNmqzAEJZhnFKrYEF1UQsR6lRlRqNJ572
- aBPNN+BYxaUD28Hrffi2grDso0TSKuNEYqosKnIM=
-Date: Thu, 22 Apr 2021 11:56:54 +1000
+ b=UJYJ3a0+F8m7IulqOKP1akHZ+HoTo0WtLsyZEf2pDtmjpdMxtjUC10Eb0jHosH1uE
+ BHtz+yO14Aame59+/gjUpR2rThksf9Byy4gduLry0oRcHacHQ7B1joutIZ/LrDZaVE
+ /drNQrjDUC8WlRQ0VAfSP8E3O3pYwh+FiDiSxW/U=
+Date: Thu, 22 Apr 2021 12:00:43 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: Re: [PATCH v5 3/3] ppc: Enable 2nd DAWR support on p10
-Message-ID: <YIDX5nRJ2NWdGvlj@yekko.fritz.box>
-References: <20210412114433.129702-1-ravi.bangoria@linux.ibm.com>
- <20210412114433.129702-4-ravi.bangoria@linux.ibm.com>
- <YH0M1YdINJqbdqP+@yekko.fritz.box>
- <ca21d852-4b54-01d3-baab-cc8d0d50e505@linux.ibm.com>
- <8020c404-d8ce-2758-d936-fc5e851017f0@kaod.org>
- <0b6e1a4a-eed2-1a45-50bf-2ccab398f4ed@linux.ibm.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v18] spapr: Implement Open Firmware client interface
+Message-ID: <YIDYy14pXebXpuKL@yekko.fritz.box>
+References: <20210331025308.29387-1-aik@ozlabs.ru>
+ <YH5HCBE9moRuIpZZ@yekko.fritz.box>
+ <a51df3f5-4b46-31a7-a526-a5d48f299e35@ozlabs.ru>
+ <YH+30xHgYU6oVeCY@yekko.fritz.box>
+ <85770051-50df-7d5c-966e-a6e80797b39d@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3/7Eip2jHCSaf7Bo"
+ protocol="application/pgp-signature"; boundary="KD7mao4yV4/QC8sr"
 Content-Disposition: inline
-In-Reply-To: <0b6e1a4a-eed2-1a45-50bf-2ccab398f4ed@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <85770051-50df-7d5c-966e-a6e80797b39d@ozlabs.ru>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -62,108 +61,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
- mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- paulus@samba.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- pbonzini@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---3/7Eip2jHCSaf7Bo
-Content-Type: text/plain; charset=iso-8859-1
+--KD7mao4yV4/QC8sr
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 21, 2021 at 12:24:22PM +0530, Ravi Bangoria wrote:
-> Hi Cedric,
+On Wed, Apr 21, 2021 at 04:50:12PM +1000, Alexey Kardashevskiy wrote:
 >=20
-> On 4/21/21 12:01 PM, C=E9dric Le Goater wrote:
-> > On 4/21/21 8:20 AM, Ravi Bangoria wrote:
-> > > Hi David,
-> > >=20
-> > > On 4/19/21 10:23 AM, David Gibson wrote:
-> > > > On Mon, Apr 12, 2021 at 05:14:33PM +0530, Ravi Bangoria wrote:
-> > > > > As per the PAPR, bit 0 of byte 64 in pa-features property indicat=
-es
-> > > > > availability of 2nd DAWR registers. i.e. If this bit is set, 2nd
-> > > > > DAWR is present, otherwise not. Use KVM_CAP_PPC_DAWR1 capability =
-to
-> > > > > find whether kvm supports 2nd DAWR or not. If it's supported, all=
-ow
-> > > > > user to set the pa-feature bit in guest DT using cap-dawr1 machine
-> > > > > capability. Though, watchpoint on powerpc TCG guest is not suppor=
-ted
-> > > > > and thus 2nd DAWR is not enabled for TCG mode.
-> > > > >=20
-> > > > > Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-> > > > > Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> On 4/21/21 15:27, David Gibson wrote:
+> > On Tue, Apr 20, 2021 at 07:16:35PM +1000, Alexey Kardashevskiy wrote:
+> > > On 20/04/2021 13:14, David Gibson wrote:
+[snip]
+> > > > > diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
+> > > > > new file mode 100644
+> > > > > index 000000000000..1451e0551818
+> > > > > --- /dev/null
+> > > > > +++ b/pc-bios/vof/Makefile
+> > > > > @@ -0,0 +1,18 @@
+> > > > > +all: build-all
+> > > > > +
+> > > > > +build-all: vof.bin
+> > > > > +
+> > > > > +%.o: %.S
+> > > > > +	cc -m32 -mbig-endian -c -o $@ $<
 > > > >=20
-> > > > So, I'm actually not sure if using an spapr capability is what we w=
-ant
-> > > > to do here.=A0 The problem is that presumably the idea is to at some
-> > > > point make the DAWR1 capability default to on (on POWER10, at least=
-).
-> > > > But at that point you'll no longer to be able to start TCG guests
-> > > > without explicitly disabling it.=A0 That's technically correct, sin=
-ce we
-> > > > don't implement DAWR1 in TCG, but then we also don't implement DAWR0
-> > > > and we let that slide... which I think is probably going to cause l=
-ess
-> > > > irritation on balance.
+> > > > Should probably use a $(CC) variable to make it easier for people to
+> > > > point this at a cross-compiler.
 > > >=20
-> > > Ok. Probably something like this is what you want?
 > > >=20
-> > > Power10 behavior:
-> > >  =A0 - KVM does not support DAWR1: Boot the guest without DAWR1
-> > >  =A0=A0=A0 support (No warnings). Error out only if user tries with
-> > >  =A0=A0=A0 cap-dawr1=3Don.
-> > >  =A0 - KVM supports DAWR1: Boot the guest with DAWR1 support, unless
-> > >  =A0=A0=A0 user specifies cap-dawr1=3Doff.
-> > >  =A0 - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
-> > >  =A0=A0=A0 DAWR0 (Should be fixed in future while adding PowerPC watc=
-h-
-> > >  =A0=A0=A0 point support in TCG mode)
 > > >=20
-> > > Power10 predecessor behavior:
-> > >  =A0 - KVM guest: Boot the guest without DAWR1 support. Error out
-> > >  =A0=A0=A0 if user tries with cap-dawr1=3Don.
-> > >  =A0 - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
-> > >  =A0=A0=A0 DAWR0 (Should be fixed in future while adding PowerPC watc=
-h-
-> > >  =A0=A0=A0 point support in TCG mode)
+> > > CROSS ?=3D
+> > > CC =3D $(CROSS)gcc
+> > > LD =3D $(CROSS)ld
+> > > OBJCOPY =3D $(CROSS)objcopy
 > > >=20
-> > > > I'm wondering if we're actually just better off setting the pa feat=
-ure
-> > > > just based on the guest CPU model.=A0 TCG will be broken if you try=
- to
-> > > > use it, but then, it already is.=A0 AFAIK there's no inherent reaso=
-n we
-> > > > couldn't implement DAWR support in TCG, it's just never been worth =
-the
-> > > > trouble.
 > > >=20
-> > > Correct. Probably there is no practical usecase for DAWR in TCG mode.
+> > > ?
+> > >=20
+> > > Works with
+> > >=20
+> > > make CROSS=3D/opt/cross/gcc-10.1.0-nolibc/powerpc64-linux/bin/powerpc=
+64-linux-
 > >=20
-> > What's the expected behavior ? Is it to generate a DSI if we have a DAWR
-> > match ?
+> > I was just thinking "CC =3D cc" etc. so someone can override it from the
+> > command line, but your suggestion is even better.
 >=20
-> Yes. DSI is the main thing. But many auxiliary stuff, off the top of my
-> head:
->  - DAR needs to be set. Now, DAR value is set differently on p8 vs p10
->    (not sure about p9 because there was hw bug and thus we needed to
->    fully disable DAWR on p9).
->  - DAWR matching criteria for quadword instruction are different for
->    p8/p9 vs p10.
->  - P10 supports 512 byte unaligned watchpoints but p8/p9 does not.
 >=20
-> Kernel is aware of these differences and thus handles these scenarios,
-> sometimes as special case. i.e. Qemu will need to mimic the exact hw
-> behavior for the specific revision of processor.
+> I am not sure why (there is no "?" in "CC=3D"/etc) but this works too wit=
+h the
+> change above:
 
-I don't actually know if qemu has TCG watchpoint support on any
-hardware.  Presumably it would mean instrumenting all the tcg loads
-and stores.
+The command line overrides variables in the Makefile by default, using
+?=3D just lets environment variables override them as well.
+
+[snip]
+> > > > > +        return;
+> > > > > +    }
+> > > > > +
+> > > > > +    g_array_sort(claimed, of_claimed_compare_func);
+> > > > > +    vof_claimed_dump(claimed);
+> > > > > +
+> > > > > +    /*
+> > > > > +     * VOF resides in the first page so we do not need to check =
+if there is
+> > > > > +     * available memory before the first claimed block
+> > > > > +     */
+> > > > > +    g_assert(claimed->len && (g_array_index(claimed, OfClaimed, =
+0).start =3D=3D 0));
+> > > > > +
+> > > > > +    avail =3D g_malloc0(sizeof(avail[0]) * claimed->len);
+> > > > > +    for (i =3D 0, n =3D 0; i < claimed->len; ++i) {
+> > > > > +        OfClaimed c =3D g_array_index(claimed, OfClaimed, i);
+> > > > > +        uint64_t start, size;
+> > > > > +
+> > > > > +        start =3D c.start + c.size;
+> > > > > +        if (i < claimed->len - 1) {
+> > > > > +            OfClaimed cn =3D g_array_index(claimed, OfClaimed, i=
+ + 1);
+> > > > > +
+> > > > > +            size =3D cn.start - start;
+> > > > > +        } else {
+> > > > > +            size =3D be64_to_cpu(mem0_reg[1]) - start;
+> > > >=20
+> > > > Don't you have vof->top_addr for the end of the ram you care about,=
+ so
+> > > > you don't need to go poking at the memory node?
+> > >=20
+> > >=20
+> > > top_addr is limited by 4GB but memory@0 is not and I'd like "availabl=
+e" to
+> > > report free memory till the end of the memory@0 node part of which
+> > > "available" is.
+> >=20
+> > Hmmm.  AIUI the purpose of 'available' is so the client can know what
+> > things it can claim, but IIUC claim only works in the 32-bit arena up
+> > to top_addr.  So, does it really make sense to have it include stuff
+> > beyond that?
+>=20
+>=20
+> I am really not sure. The format uses 2 cells for an address. The client
+> cannot claim memory above 4GB as the CLI ABI returns only cells but the
+> firmware may run 64bit, use some memory above 4GB and report this use to =
+the
+> client so the client would have to avoid using that memory until ... I do
+> not know... quiesce?
+
+Huh.. yeah, that's pretty confusing.
+
+> It is all very theoretical of course but still feels safer to stretch
+> "available" till the end of the node.
+
+Ok, you've convinced me.
+
+[snip]
+> > > > > +void vof_build_dt(void *fdt, Vof *vof)
+> > > > > +{
+> > > > > +    uint32_t phandle;
+> > > > > +    int i, offset, proplen =3D 0;
+> > > > > +    const void *prop;
+> > > > > +    bool found =3D false;
+> > > > > +    GArray *phandles =3D g_array_new(false, false, sizeof(uint32=
+_t));
+> > > > > +
+> > > > > +    /* Find all predefined phandles */
+> > > > > +    for (offset =3D fdt_next_node(fdt, -1, NULL);
+> > > > > +         offset >=3D 0;
+> > > > > +         offset =3D fdt_next_node(fdt, offset, NULL)) {
+> > > > > +        prop =3D fdt_getprop(fdt, offset, "phandle", &proplen);
+> > > > > +        if (prop && proplen =3D=3D sizeof(uint32_t)) {
+> > > > > +            phandle =3D fdt32_ld(prop);
+> > > > > +            g_array_append_val(phandles, phandle);
+> > > > > +        }
+> > > > > +    }
+> > > > > +
+> > > > > +    /* Assign phandles skipping the predefined ones */
+> > > > > +    for (offset =3D fdt_next_node(fdt, -1, NULL), phandle =3D 1;
+> > > > > +         offset >=3D 0;
+> > > > > +         offset =3D fdt_next_node(fdt, offset, NULL), ++phandle)=
+ {
+> > > > > +        prop =3D fdt_getprop(fdt, offset, "phandle", &proplen);
+> > > > > +        if (prop) {
+> > > > > +            continue;
+> > > > > +        }
+> > > > > +        /* Check if the current phandle is not allocated already=
+ */
+> > > > > +        for ( ; ; ++phandle) {
+> > > > > +            for (i =3D 0, found =3D false; i < phandles->len; ++=
+i) {
+> > > > > +                if (phandle =3D=3D g_array_index(phandles, uint3=
+2_t, i)) {
+> > > > > +                    found =3D true;
+> > > > > +                    break;
+> > > > > +                }
+> > > > > +            }
+> > > > > +            if (!found) {
+> > > > > +                break;
+> > > > > +            }
+> > > > > +        }
+> > > > > +        _FDT(fdt_setprop_cell(fdt, offset, "phandle", phandle));
+> > > >=20
+> > > > I still think this is needlessly complicated, and you should just f=
+ind
+> > > > max phandle and work from there.
+> > >=20
+> > >=20
+> > > I still think this is more developer's tool than anything else and ha=
+ving
+> > > random phandles is not helping. With less random phandles you can set
+> > > conditional breakpoints in gdb scripts and they do not need to change=
+ when,
+> > > for example, you switch from ibmvscsi to virtio-scsi.
+> >=20
+> > Um... I don't seew how this logic's phandles are any less "random" than
+> > starting from the max existing one.  What you allocate still depends
+> > on what existing phandles happen to be in the tree.
+>=20
+>=20
+> I was thinking that all PCI devices get phandles via PHANDLE_PCIDEV() but
+> this is only for NVLink which we are removing now. Well. Ok. I'll do it y=
+our
+> way for now and see if anybody cares. At least this is faster, Nick is go=
+ing
+> to like it :) Thanks,
+
+:)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -171,25 +258,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---3/7Eip2jHCSaf7Bo
+--KD7mao4yV4/QC8sr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCA1+IACgkQbDjKyiDZ
-s5LP5Q//Ujw4smdW1zVoaAZ3zFdodt7i1Gw10c+1Pu1c+yfNpa2u1XbsZH1n+vQB
-zFg6GGwDmerSlIrhqgm5VJBvx7hMJYxiSzYhMarwdborj/aRSGF69orMsNJBWot9
-Dth9cl+qs7RVO9KuRmUj9FNRZnoeRY54W+Dw5JF8xmVecJ8ceCXjmbbXqQcB0WQ0
-aLqXVSmxMjClLkzURLw4JZRVSJIxdGXtESckg3ErkMYQPhOKekgY8y39D1urEtd5
-/Jhz1wXz0yHQPmLj284Rwu65EOWMMiwt4MQiRg7wEX/MQHWZSwbTcffWWydNLQlJ
-YNDBNJA+fiz9yMK/VoLTqctTa1vAb9R4WGp6YdmO0JyAIIq1GbGR8hOThrB100BR
-6oi2cpnGg9SYa9ewNXvmP61KMIoVZOD+Iv2dVi/Doo+fHukQ5s8kZITTDocQBdCG
-i1njE/oGwVWQVGASKVrVhS9hrRMpreK5ry8NlrmHa25YzXrOA6fHSVkyyomor9jr
-hDYzr+WB8n1BvVWScaGdv8oLikHYRjPJlhh5Kz6Ah5okkqR6gF4X4/t5eIQw32Dv
-NegGS0FhYMNGMmz9zWa+2TovDG4jQ+NsdDKfLz2RLt3xIN/gmyd8zAG/y7hHXZuA
-9KrID/PydAO/ms9w6kzuzlf9di3GyyNE4j5q7Nf07ity6S+Tubs=
-=Ulnm
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCA2MsACgkQbDjKyiDZ
+s5LHLg//ezq/RFF2ZadCLY6eqEE80w/MrZqSQj5CeV7Bg7Su1u5x+QenQm0fUKpP
+thY2wxWK5ifcLxrqAJkONTHS7yLxol49w0i8baraXJZ+tp/2QLRVs2uhCu5U2WUE
+kFu0v+dEVwzvIm/Xac0CLgSnJQe5gRuRB8yfpeJJRRHJH8/MCqjKcI44sThZb0uQ
+uN+EJEgNYuB78iQHSP9q/Sfcs98N6X0Z/ytS39itNNBxNNhmzo8RlT56T/JPEaGK
+8m4wlL8pX0LmSnn6D1qR03uyRD+umXrz+TGp4E/BXJx1mzXnFK/Th3C2cd9/Jgas
+SCy9YsAQo/NLpSYNWOrX89bfHIF5xPdca8xCYSZEyw/PLNID2gF1DgkX3g3WDUht
+NlaSYHLdUxMCZ4hSpvKhdqxkUPfO8PZSJLtn18hoJN3FllZ05ROMVsrqSVlBs0CL
+KKHsM2bK5FNKhXA2y4xzj6VkoEqHXDiegUhW9duum7I1kluZikJUqa/0nTjmzHHH
+UqfoUKi1BTIVHm0OtrLt0gFUbZOWfiUP5hrA6Fiug9GgHl/v55yP5YfCWPKeNYx9
+Sj3RHf/MUptSRD/IIJH8s37/pnHo71RPhVPK/7yUNnRJZ5P+1C6oMROISOMOb0WM
+4W61/NHRFQJxvyWEIRCSPisZ5Sg7TmorEfW2Kkji8c64S0ssUak=
+=nW1i
 -----END PGP SIGNATURE-----
 
---3/7Eip2jHCSaf7Bo--
+--KD7mao4yV4/QC8sr--
 
