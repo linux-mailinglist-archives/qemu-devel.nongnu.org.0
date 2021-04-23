@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569DA369B77
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:44:41 +0200 (CEST)
-Received: from localhost ([::1]:49824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED1D369B87
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:49:16 +0200 (CEST)
+Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la2fI-0001uO-Bi
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54450)
+	id 1la2jj-0007aV-1I
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2ad-00059q-3v
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:51 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:38820)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2ae-0005CB-2T
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:52 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:41836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2aa-0007wk-UW
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:50 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id d25so12882772oij.5
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:39:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2ab-0007ww-OO
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:51 -0400
+Received: by mail-ot1-x331.google.com with SMTP id
+ v19-20020a0568300913b029028423b78c2dso37767552ott.8
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M4SqFhVwp+qFFjGoMhAyPxx+zzs7u3r3DJJd2CS34OQ=;
- b=coi/8jQ3hLer3eZ5L/nHL4R6yL4z9Lli12adcb+FgWg3ORBrhAeVgxU1G2MJUkC9Mp
- 3aZfAK7ctIhCjOng5DzEz55UBHojw2GPGq7H18p7NFKqFvuykpT6TCpRcbwluatmDMW2
- ozgNkdx0g446Gh1bj/MLtw8mtAdK4GRRE7q3oz3zqlXk94mDAYu9QL9iXk5z6P5XnNPf
- 2WiLXQx+xQ9hlrECqaFr25WVCcY0jT3KfsN53X0RnRhAPaR1cXC6Jd4vtmjRMhJNCp90
- lz/f5iZBujQ64xSUr/3hT2rNDN3Z+uZnSxYu8iSIHKYts+wKuDP/Z7qa4FwhYYDo0OgB
- XAQg==
+ bh=xLVqyW6QocgCtWNC8ySv5WW9ttRqlB16OaGwZGT2xJY=;
+ b=glTYekUbDEXWawF1rhYjs/Kz5OdYut5vlLd5Zi1wqn/fXw/QtxTSOmUPR1qVJ4Ezgb
+ qEyT6Ws/Qzn3bCYPNP58SsCEZWVFbG5hsqPgZQ0FmW4AAGtSTfqoHA88pY1gisIRccKo
+ cyVVvNxjno4gweAWThNBnpH3ZAghqzRAmOVD2Fk1IbHJ3PGcTl04hkv3b5X2LJ69mYEW
+ JJ0r/CeNRbkSPfgFmh11CJ3FJtMQzkSFVsej8C9up2BDN6hk7myAicnFsvQ2VRwr1Hlk
+ pSPndWJG8QPUWx2BlxSn84oX+l035POXXTgFMnfRmeYyQy5SA+rj94PXgfBeEJXDEOft
+ LgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M4SqFhVwp+qFFjGoMhAyPxx+zzs7u3r3DJJd2CS34OQ=;
- b=cInA3B2D+0KDmH/pyRPokNjrJ9wRboYj6oeu3DYx4pNpx70y7JmfD1TEr3CHyA62CN
- i0AgKWacuxDs2Xkyr8sJYlG+/5QIrrUsp1MW4lRxeqKyku790zbeIbrtNqB9X39KfhAG
- kPSTgZlWQFOI3X1JH/tVRAC8ePUUzH2zOvuRWizj1c0b5tXFwR+1Y3MpSLE5CAvf9DuE
- 0EYihSI37n09LaXwDduPfUghuDexDXnE4206dtstBSFFDPgnaKSrId4CU22FQrD+x7od
- HdJ1BQQ3zB8YIy7ajUnreiyQJpdsjDhHhmzJgRxSwXM0003OEvGCJ/spf1DlVIn6kCwT
- qTFA==
-X-Gm-Message-State: AOAM532i9+z77qENTDF1LjdatlWZPxQmS5af9r5dN6LfRR+TynK0NdDr
- ohXlrHmC5D5m+OXyYZbPFrZu2YV4a6jFeUem
-X-Google-Smtp-Source: ABdhPJyjAURax91ugIwJNh3FnVA7UQL7L+esszcpFKmOmLDa4HD6pbd7FJHZutfCEa+XqiyvRpYdQQ==
-X-Received: by 2002:a05:6808:58:: with SMTP id
- v24mr4175304oic.130.1619210387558; 
- Fri, 23 Apr 2021 13:39:47 -0700 (PDT)
+ bh=xLVqyW6QocgCtWNC8ySv5WW9ttRqlB16OaGwZGT2xJY=;
+ b=qfIKQcn9mLvDfbq+EIq73S+Dl23yKcdl4kQiXSNJZgbB9fSOPwCTIyazKua+LH4Z0C
+ QawlFevnYHFywh24p9/g54/RTzxktsoK4TSg2c67ak1WtIOg8VtNKAJQPjKDS02RjCRy
+ eHE6bGszjgOFcQ3KIfIewxymyYV2KwYSLPIlTVChw5UUufXqtv1VhActzmGLs1VSLfw5
+ 3BOyqa4HSWigYAWk1tDy5BVh49jb00cyNV5lLYpMuBhUPuKZYDJSapRfafBorLng6W6u
+ mZA/STw5k/P9iz0sAQM9lpsOMUCMVEeexlWEyiLGl1rGZXE9IiLW1xyPTLU9DTAT6rwJ
+ F+0Q==
+X-Gm-Message-State: AOAM5323joQgeG28M8eaoMOVIzxIzHtbhYDD6YxHmERZc4Q+lSMQGxXS
+ Vmkr3oK2HwEKSLXc8Im11GN1SS62PPobfIR1
+X-Google-Smtp-Source: ABdhPJwYm/AvpGAW1koub4GpuW1+21ffFbQOKbFzSLbAK14EPFjQqM4SBL+/efBLhh7kpr0aXVJHgQ==
+X-Received: by 2002:a05:6830:4110:: with SMTP id
+ w16mr4968057ott.348.1619210388376; 
+ Fri, 23 Apr 2021 13:39:48 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id m127sm1511911oib.32.2021.04.23.13.39.46
+ by smtp.gmail.com with ESMTPSA id m127sm1511911oib.32.2021.04.23.13.39.47
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
  Fri, 23 Apr 2021 13:39:47 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/24] bsd-user: style tweak: keyword space (
-Date: Fri, 23 Apr 2021 14:39:32 -0600
-Message-Id: <20210423203935.78225-6-imp@bsdimp.com>
+Subject: [PULL 07/24] bsd-user: style tweak: keyword space (
+Date: Fri, 23 Apr 2021 14:39:33 -0600
+Message-Id: <20210423203935.78225-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210423203935.78225-1-imp@bsdimp.com>
 References: <20210423203935.78225-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::22b;
- envelope-from=imp@bsdimp.com; helo=mail-oi1-x22b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::331;
+ envelope-from=imp@bsdimp.com; helo=mail-ot1-x331.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,79 +91,22 @@ From: Warner Losh <imp@bsdimp.com>
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/syscall.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ bsd-user/uaccess.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index adc3d21b54..3352735c68 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -95,7 +95,7 @@ static abi_long do_freebsd_sysarch(CPUX86State *env, int op, abi_ulong parms)
-     abi_ulong val;
-     int idx;
+diff --git a/bsd-user/uaccess.c b/bsd-user/uaccess.c
+index 91e2067933..89163257f4 100644
+--- a/bsd-user/uaccess.c
++++ b/bsd-user/uaccess.c
+@@ -46,7 +46,7 @@ abi_long target_strlen(abi_ulong guest_addr1)
+     int max_len, len;
  
--    switch(op) {
-+    switch (op) {
- #ifdef TARGET_ABI32
-     case TARGET_FREEBSD_I386_SET_GSBASE:
-     case TARGET_FREEBSD_I386_SET_FSBASE:
-@@ -271,7 +271,7 @@ static abi_long lock_iovec(int type, struct iovec *vec, abi_ulong target_addr,
-     target_vec = lock_user(VERIFY_READ, target_addr, count * sizeof(struct target_iovec), 1);
-     if (!target_vec)
-         return -TARGET_EFAULT;
--    for(i = 0;i < count; i++) {
-+    for (i = 0;i < count; i++) {
-         base = tswapl(target_vec[i].iov_base);
-         vec[i].iov_len = tswapl(target_vec[i].iov_len);
-         if (vec[i].iov_len != 0) {
-@@ -297,7 +297,7 @@ static abi_long unlock_iovec(struct iovec *vec, abi_ulong target_addr,
-     target_vec = lock_user(VERIFY_READ, target_addr, count * sizeof(struct target_iovec), 1);
-     if (!target_vec)
-         return -TARGET_EFAULT;
--    for(i = 0;i < count; i++) {
-+    for (i = 0;i < count; i++) {
-         if (target_vec[i].iov_base) {
-             base = tswapl(target_vec[i].iov_base);
-             unlock_user(vec[i].iov_base, base, copy ? vec[i].iov_len : 0);
-@@ -325,10 +325,10 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
- 
--    if(do_strace)
-+    if (do_strace)
-         print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
- 
--    switch(num) {
-+    switch (num) {
-     case TARGET_FREEBSD_NR_exit:
- #ifdef CONFIG_GPROF
-         _mcleanup();
-@@ -427,10 +427,10 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- 
-     record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
- 
--    if(do_strace)
-+    if (do_strace)
-         print_netbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
- 
--    switch(num) {
-+    switch (num) {
-     case TARGET_NETBSD_NR_exit:
- #ifdef CONFIG_GPROF
-         _mcleanup();
-@@ -506,10 +506,10 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- 
-     record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
- 
--    if(do_strace)
-+    if (do_strace)
-         print_openbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
- 
--    switch(num) {
-+    switch (num) {
-     case TARGET_OPENBSD_NR_exit:
- #ifdef CONFIG_GPROF
-         _mcleanup();
+     guest_addr = guest_addr1;
+-    for(;;) {
++    for (;;) {
+         max_len = TARGET_PAGE_SIZE - (guest_addr & ~TARGET_PAGE_MASK);
+         ptr = lock_user(VERIFY_READ, guest_addr, max_len, 1);
+         if (!ptr)
 -- 
 2.22.1
 
