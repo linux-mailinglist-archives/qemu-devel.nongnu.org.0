@@ -2,103 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BF73696DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:26:15 +0200 (CEST)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BD836974C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:41:57 +0200 (CEST)
+Received: from localhost ([::1]:34172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZydC-00026x-Ef
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58042)
+	id 1lZysO-0005o3-G8
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lZyc7-0001W6-9f; Fri, 23 Apr 2021 12:25:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21436)
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1lZypq-0004Qj-Hl
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:39:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lZyc3-00040h-Mp; Fri, 23 Apr 2021 12:25:06 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13NG389b036434; Fri, 23 Apr 2021 12:25:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=BlLYRmXNjH+X8FDsZ8iDQPDDDOI9SQskwF8mHk8DUxA=;
- b=MCZQSWslfdu0wsBwsS4tA2jNHEVeWhAa7LgUgXysQj8Z5l/XeuETOoEZmgDJF9dDo9N0
- TXHByf+x5A3PzKfb1S9OZYqsty5AO5GGDqwXU4wH97jzinF0NsMYklrB+9TA0mtW7XHG
- OYcmCaTTHNdGsVNiciSEZRQ0wfc1F5DkWrtyNpFD8UNgzu3BwP7nit2uMkm5YfKmo14m
- 6Y4U5pGfAyUofe1KrMvmR3l97adLogcndHyfuQflqpwvE5YhBKEmqH+ag8vIoNfnVW10
- 5x7SU5K97zJtg5NbScwvC4YeXeDYc3zvIqL6SU2aUqzaTFwSLK+4SOAZE4nPyPROctFf LQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 383y5g5tht-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Apr 2021 12:25:00 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13NG3KgC037359;
- Fri, 23 Apr 2021 12:25:00 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 383y5g5thh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Apr 2021 12:25:00 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13NGMuRH019975;
- Fri, 23 Apr 2021 16:24:59 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04dal.us.ibm.com with ESMTP id 37yqaapj3d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Apr 2021 16:24:59 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13NGOwXG53215660
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Apr 2021 16:24:59 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE62FAE05F;
- Fri, 23 Apr 2021 16:24:58 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 74BF7AE05C;
- Fri, 23 Apr 2021 16:24:58 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.160.17.178])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 23 Apr 2021 16:24:58 +0000 (GMT)
-Message-ID: <48d2a3b8ef52ac657d8d0ea2f292d21e0ef0383c.camel@linux.ibm.com>
-Subject: Re: [PATCH v2] vfio-ccw: Permit missing IRQs
-From: Eric Farman <farman@linux.ibm.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
-Date: Fri, 23 Apr 2021 12:24:57 -0400
-In-Reply-To: <7be02ac9-c5d7-1263-ea0e-e0e0a2894521@linux.ibm.com>
-References: <20210421152053.2379873-1-farman@linux.ibm.com>
- <20210423134252.264059e5.cohuck@redhat.com>
- <7be02ac9-c5d7-1263-ea0e-e0e0a2894521@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: MktTJpQVng6_r4kwXBIcAEovZdbrya24
-X-Proofpoint-GUID: arW33uQcgRXhL1B8WcWMBynvMM2tBrhx
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1lZyph-00062K-Qp
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:39:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619195948;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qbkkw0lhD+j0/d60ot/KMq+lRK2sHV3KWn2SjUeWEHI=;
+ b=Zdu3xDNkMTe0lugzwYNiYrr7T50fpF1wigo+RwFyjTnV/qaNdXAoLpaLAYS+Y9q+7cnSMq
+ ii9hVSLIbW2gl7rGcyslTXKGtjWExipxmXN7tsIijQ5exDzzvPgy1doTs9OoT0loj3Yst1
+ zHuMZfvt22NzdsoUbtWoM8WrCWxfoFI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-WswJvPPNPsKfIg9uVn66xg-1; Fri, 23 Apr 2021 12:39:05 -0400
+X-MC-Unique: WswJvPPNPsKfIg9uVn66xg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A571343A3;
+ Fri, 23 Apr 2021 16:39:04 +0000 (UTC)
+Received: from maya.cloud.tilaa.com (unknown [10.36.110.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1CCB60BD8;
+ Fri, 23 Apr 2021 16:39:03 +0000 (UTC)
+Received: from localhost (238-055-210-188.ip-addr.inexio.net [188.210.55.238])
+ by maya.cloud.tilaa.com (Postfix) with ESMTPSA id E06BE4009B;
+ Fri, 23 Apr 2021 18:39:02 +0200 (CEST)
+Date: Fri, 23 Apr 2021 18:39:01 +0200
+From: Stefano Brivio <sbrivio@redhat.com>
+To: Ralph Schmieder <ralph.schmieder@gmail.com>
+Subject: Re: socket.c added support for unix domain socket datagram transport
+Message-ID: <20210423183901.12a71759@redhat.com>
+In-Reply-To: <F0191BF0-7C7A-4587-8B94-BACA7E1F911F@gmail.com>
+References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
+ <20210423172940.14f48b49@elisabeth>
+ <F0191BF0-7C7A-4587-8B94-BACA7E1F911F@gmail.com>
+Organization: Red Hat
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-23_07:2021-04-23,
- 2021-04-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- bulkscore=0 spamscore=0 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104230101
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sbrivio@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,170 +84,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-04-23 at 09:22 -0400, Matthew Rosato wrote:
-> On 4/23/21 7:42 AM, Cornelia Huck wrote:
-> > On Wed, 21 Apr 2021 17:20:53 +0200
-> > Eric Farman <farman@linux.ibm.com> wrote:
+On Fri, 23 Apr 2021 17:48:08 +0200
+Ralph Schmieder <ralph.schmieder@gmail.com> wrote:
+
+> Hi, Stefano... Thanks for the detailed response... inline
+> Thanks,
+> -ralph
+> 
+> 
+> > On Apr 23, 2021, at 17:29, Stefano Brivio <sbrivio@redhat.com>
+> > wrote:
 > > 
-> > > Commit 690e29b91102 ("vfio-ccw: Refactor ccw irq handler")
-> > > changed
-> > > one of the checks for the IRQ notifier registration from saying
-> > > "the host needs to recognize the only IRQ that exists" to saying
-> > > "the host needs to recognize ANY IRQ that exists."
-> > > 
-> > > And this worked fine, because the subsequent change to support
-> > > the
-> > > CRW IRQ notifier doesn't get into this code when running on an
-> > > older
-> > > kernel, thanks to a guard by a capability region. The later
-> > > addition
-> > > of the REQ(uest) IRQ by commit b2f96f9e4f5f ("vfio-ccw: Connect
-> > > the
-> > > device request notifier") broke this assumption because there is
-> > > no
-> > > matching capability region. Thus, running new QEMU on an older
-> > > kernel fails with:
-> > > 
-> > >    vfio: unexpected number of irqs 2
-> > > 
-> > > Let's adapt the message here so that there's a better clue of
-> > > what
-> > > IRQ is missing.
-> > > 
-> > > Furthermore, let's make the REQ(uest) IRQ not fail when
-> > > attempting
-> > > to register it, to permit running vfio-ccw on a newer QEMU with
-> > > an
-> > > older kernel.
-> > > 
-> > > Fixes: b2f96f9e4f5f ("vfio-ccw: Connect the device request
-> > > notifier")
-> > > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> > > ---
-> > > 
-> > > Notes:
-> > >      v1->v2:
-> > >       - Keep existing "invalid number of IRQs" message with
-> > > adapted text [CH]
-> > >       - Move the "is this an error" test to the registration of
-> > > the IRQ in
-> > >         question, rather than making it allowable for any IRQ
-> > > mismatch [CH]
-> > >       - Drop Fixes tag for initial commit [EF]
-> > >      
-> > >      v1: 
-> > > https://lore.kernel.org/qemu-devel/20210419184906.2847283-1-farman@linux.ibm.com/
-> > > 
-> > >   hw/vfio/ccw.c | 12 +++++++-----
-> > >   1 file changed, 7 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> > > index b2df708e4b..400bc07fe2 100644
-> > > --- a/hw/vfio/ccw.c
-> > > +++ b/hw/vfio/ccw.c
-> > > @@ -412,8 +412,8 @@ static void
-> > > vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev,
-> > >       }
-> > >   
-> > >       if (vdev->num_irqs < irq + 1) {
-> > > -        error_setg(errp, "vfio: unexpected number of irqs %u",
-> > > -                   vdev->num_irqs);
-> > > +        error_setg(errp, "vfio: IRQ %u not available (number of
-> > > irqs %u)",
-> > > +                   irq, vdev->num_irqs);
-> > >           return;
-> > >       }
-> > >   
-> > > @@ -696,13 +696,15 @@ static void vfio_ccw_realize(DeviceState
-> > > *dev, Error **errp)
-> > >   
-> > >       vfio_ccw_register_irq_notifier(vcdev,
-> > > VFIO_CCW_REQ_IRQ_INDEX, &err);
-> > >       if (err) {
-> > > -        goto out_req_notifier_err;
-> > > +        /*
-> > > +         * Report this error, but do not make it a failing
-> > > condition.
-> > > +         * Lack of this IRQ in the host does not prevent normal
-> > > operation.
-> > > +         */
-> > > +        error_report_err(err);
-> > >       }
-> > >   
-> > >       return;
-> > >   
-> > > -out_req_notifier_err:
-> > > -    vfio_ccw_unregister_irq_notifier(vcdev,
-> > > VFIO_CCW_CRW_IRQ_INDEX);
-> > >   out_crw_notifier_err:
-> > >       vfio_ccw_unregister_irq_notifier(vcdev,
-> > > VFIO_CCW_IO_IRQ_INDEX);
-> > >   out_io_notifier_err:
+> > Hi Ralph,
 > > 
-> > Patch looks good to me, but now I'm wondering: Is calling
-> > vfio_ccw_unregister_irq_notifier() for an unregistered irq actually
-> > safe? I think it is (our notifiers are always present, and we
-> > should
-> 
-> So the unregister really does 4 things of interest:
-
-s/4/3/ :)
-
-> 
-> 1) vfio_set_irq_signaling(VFIO_IRQ_SET_ACTION_TRIGGER)
-> This will drive VFIO_DEVICE_SET_IRQS ioctl, and it looks to me like
-> the 
-> VFIO_DEVICE_SET_IRQS ioctl should return -EINVAL if it's not
-> registered 
-> with the kernel, which will in turn cause the vfio_set_irq_signaling
-> to 
-> fast-path out on a return 0.  That seems correct.
-> 
-> 2) qemu_set_fd_handler
-> If we never registered (or it was already unregistered) then fd
-> should 
-> not show up in find_aio_handler() so we should also bail out fast on 
-> qemu_set_fd_handler()
-> 
-> 3) event_notifier_cleanup
-> Should bail out right away if already cleaned up before
-> (!initialized)
-> 
-> So, this looks OK to me.
-
-+1 (Thanks for doing the research, Matt)
-
-> 
-> 
-> > handle any ioctl failure gracefully), but worth a second look. In
-> > fact,
-> > we already unregister the crw irq unconditionally, so we would
-> > likely
-> > already have seen any problems for that one, so I assume all is
-> > good.
+> > On Fri, 23 Apr 2021 08:56:48 +0200
+> > Ralph Schmieder <ralph.schmieder@gmail.com> wrote:
+> >   
+> >> Hey...  new to this list.  I was looking for a way to use Unix
+> >> domain sockets as a network transport between local VMs.
+> >> 
+> >> I'm part of a team where we run dozens if not hundreds of VMs on a
+> >> single compute instance which are highly interconnected.
+> >> 
+> >> In the current implementation, I use UDP sockets (e.g. something
+> >> like 
+> >> 
+> >> -netdev
+> >> id=bla,type=socket,udp=localhost:1234,localaddr=localhost:5678) 
+> >> 
+> >> which works great.
+> >> 
+> >> The downside of this approach is that I need to keep track of all
+> >> the UDP ports in use and that there's a potential for clashes.
+> >> Clearly, having Unix domain sockets where I could store the
+> >> sockets in the VM's directory would be much easier to manage.
+> >> 
+> >> However, even though there is some AF_UNIX support in net/socket.c,
+> >> it's
+> >> 
+> >> - not configurable
+> >> - it doesn't work  
 > > 
+> > I hate to say this, but I've been working on something very similar
+> > just in the past days, with the notable difference that I'm using
+> > stream-oriented AF_UNIX sockets instead of datagram-oriented.
+> > 
+> > I have a similar use case, and after some experiments I picked a
+> > stream-oriented socket over datagram-oriented because:
+> > 
+> > - overhead appears to be the same
+> > 
+> > - message boundaries make little sense here -- you already have a
+> >  32-bit vnet header with the message size defining the message
+> >  boundaries
+> > 
+> > - datagram-oriented AF_UNIX sockets are actually reliable and
+> > there's no packet reordering on Linux, but this is not "formally"
+> > guaranteed
+> > 
+> > - it's helpful for me to know when a qemu instance disconnects for
+> > any reason
+> >   
 > 
-> But +1 on driving the path and making sure it works anyway (do a 
-> double-unregister?)
+> IMO, dgram is the right tool for this as it is symmetrical to using a
+> UDP transport... Since I need to pick up those packets from outside
+> of Qemu (inside of a custom networking fabric) I'd have to make
+> assumptions about the data and don't know the length of the packet in
+> advance.
 
-Yeah, works fine. Tried skipping the register of the CRW and double-
-unregistering the IO IRQ.
+Okay, so it doesn't seem to fit your case, but this specific point is
+where you actually have a small advantage using a stream-oriented
+socket. If you receive a packet and have a smaller receive buffer, you
+can read the length of the packet from the vnet header and then read
+the rest of the packet at a later time.
 
-I also tried a combination where I unconditionally unregister the REQ
-IRQ, which obviously throws a message when it doesn't exist on the
-host.
+With a datagram-oriented socket, you would need to know the maximum
+packet size in advance, and use a receive buffer that's large enough to
+contain it, because if you don't, you'll discard data.
 
-That might be nice to clean up so that adding new IRQs in the future is
-more intuitive; I'll add it to the list unless you want me to address
-it in a v2 of this. (Previously, the addition of the REQ IRQ needed to
-add the cleanup of the CRW IRQ. So the next IRQ would need to cleanup
-the REQ IRQ.)
+The same reasoning applies to a receive buffer that's larger than the
+maximum packet size you can get -- you can then read multiple packets at
+a time, filling your buffer, partially reading a packet at the end of
+it, and reading the rest later.
 
-Eric
+With a datagram-oriented socket you need to resort to recvmmsg() to
+receive multiple packets with one syscall (nothing against it, it's
+just slightly more tedious).
+
+> Using the datagram approach fits nicely into this concept.
+> So, yes, in my instance the transport IS truly connectionless and VMs
+> just keep sending packets if the fabric isn't there or doesn't pick
+> up their packets.
+
+I see, in that case I guess you really need a datagram-oriented
+socket... even though what happens with my patch (just like with the
+existing TCP support) is that your fabric would need to be there when
+qemu starts, but if it disappears later, qemu will simply close the
+socket. Indeed, it's not "hotplug", which is probably what you need.
+
+> And maybe there's use for both, as there's currently already support
+> for connection oriented (TCP) and connectionless (UDP) inet
+> transports. 
+
+Yes, I think so.
+
+> >> As a side note, I tried to pass in an already open FD, but that
+> >> didn't work either.  
+> > 
+> > This actually worked for me as a quick work-around, either with:
+> > 	https://github.com/StevenVanAcker/udstools
+> > 
+> > or with a trivial C implementation of that, that does essentially:
+> > 
+> > 	fd = strtol(argv[1], NULL, 0);
+> > 	if (fd < 3 || fd > INT_MAX || errno)
+> > 		usage(argv[0]);
+> > 
+> > 	s = socket(AF_UNIX, SOCK_STREAM, 0);
+> > 	if (s < 0) {
+> > 		perror("socket");
+> > 		exit(EXIT_FAILURE);
+> > 	}
+> > 
+> > 	if (connect(s, (const struct sockaddr *)&addr, sizeof(addr)) < 0) {
+> >		perror("connect");
+> > 		exit(EXIT_FAILURE);
+> > 	}
+> > 
+> > 	if (dup2(s, (int)fd) < 0) {
+> > 		perror("dup");
+> > 		exit(EXIT_FAILURE);
+> > 	}
+> > 
+> > 	close(s);
+> > 
+> > 	execvp(argv[2], argv + 2);
+> > 	perror("execvp");
+> > 
+> > where argv[1] is the socket number you pass in the qemu command line
+> > (-net socket,fd=X) and argv[2] is the path to qemu.
+> 
+> As I was looking for dgram support I didn't even try with a stream
+> socket ;)
+
+Mind that it also works with a SOCK_DGRAM ;) ...that was my original
+attempt, actually.
+
+> >> So, I added some code which does work for me... e.g.
+> >> 
+> >> - can specify the socket paths like -netdev
+> >> id=bla,type=socket,unix=/tmp/in:/tmp/out
+> >> - it does forward packets between two Qemu instances running
+> >> back-to-back
+> >> 
+> >> I'm wondering if this is of interest for the wider community and,
+> >> if so, how to proceed.
+> >> 
+> >> Thanks,
+> >> -ralph
+> >> 
+> >> Commit
+> >> https://github.com/rschmied/qemu/commit/73f02114e718ec898c7cd8e855d0d5d5d7abe362
+> >>  
+> > 
+> > I think your patch could be a bit simpler, as you could mostly reuse
+> > net_socket_udp_init() for your initialisation, and perhaps rename
+> > it to net_socket_dgram_init().  
+> 
+> Thanks... I agree that my code can likely be shortened... it was just
+> a PoC that I cobbled together yesterday and it still has a lot of
+> to-be-removed lines.
+
+I'm not sure if it helps, but I guess you could "conceptually" recycle
+my patch and in some sense "extend" the UDP parts to a generic datagram
+interface, just like mine extends the TCP implementation to a generic
+stream interface.
+
+About command line and documentation, I guess it's clear that
+"connect=" implies something stream-oriented, so I would prefer to
+leave it like that for a stream-oriented AF_UNIX socket -- it behaves
+just like TCP.
+
+On the other hand, you can't recycle the current UDP "mcast=" stuff
+because it's not multicast (AF_UNIX multicast support for Linux was
+proposed some years ago, https://lwn.net/Articles/482523/, but not
+merged), and of course not "udp="... would "unix_dgram=" make sense
+to you?
+
+On a side note, I wonder why you need two named sockets instead of
+one -- I mean, they're bidirectional...
+
+-- 
+Stefano
 
 
