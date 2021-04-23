@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA3836965D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 17:47:41 +0200 (CEST)
-Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB9B369687
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:00:01 +0200 (CEST)
+Received: from localhost ([::1]:57568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZy1s-0007Li-SF
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 11:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46106)
+	id 1lZyDo-0005Vf-CB
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZy04-0006nb-98
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:45:48 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39634)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lZyBz-0004tM-LA
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:58:08 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:47041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZy02-00068t-IS
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:45:47 -0400
-Received: by mail-ed1-x532.google.com with SMTP id g17so57274087edm.6
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 08:45:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lZyBx-0002l4-Ss
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:58:07 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ k4-20020a7bc4040000b02901331d89fb83so1483904wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 08:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pwo2QBwikqWrfyP3XgSpFDiQqPLVBKHyCJr25WZyDvQ=;
- b=c/qciLh10KyEwCNGPLiSCZSfvh9es+7+5Rf72BKfAb4ja2Trd/dDQuvpcjLoo1zOdC
- sBvA/yCcBXPdS0MLRbc2Lx8vudB9ovqn9vbnRoLuOcA+d/YP7dG5lv/QLGyq8yJ0KSHf
- 0cYDTNzkRmwy0XDKu+XlweQSEeZQDeTxGOCfGL0wR2ZFeeVxQehzykqUjyaNEV9Vo4cB
- P0RA34ZERtVtLx1vCkNeHnijlcTwihaM2ogfhaq36gNytPBrCvZIx5q1vpmQ+7lU1FmX
- LGO2sAq5uGGaORIdSL9VGBlq0dNeLYBcUHxwyxmwyI2qYIv52Qub1aKHEawZDGRqGACC
- GszQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=d9q/OZZRjlD+J5z0b+Q6nRqKlXdRlLIaorE8Rj3NzMo=;
+ b=YdWJDZzyerRhW4Xm1J5ZAYRESTk/hisHgYpo/LC+KB10KrL1DJ2QVdrWWQ1VcYz6Mm
+ gSTjwt0+9QU8PJV/AFvSp6GbTSRNd51O4/bjw2MoOpuIZwipZ0Idos/2J6rK9fCgoIK7
+ jZEr0frqNB4tgUg9RxW+E+Dq3BG88lMFgzHvsdQMbPHOEBlaMBqhTtlWef9HmwmeQQtN
+ 7coeNXhgGIl2nSU3PjC+Xzz9TNq3Y+eGrl8omQA48GDc2Hb3c/IvjofD340vSYB5Ffbp
+ 3gDzEVriKtOHxYhHob2lL0Wzv6p+cchCRlnSb4DvZy7mwyd84F8CIthdEvOlHzskd3ef
+ GXKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pwo2QBwikqWrfyP3XgSpFDiQqPLVBKHyCJr25WZyDvQ=;
- b=TC4B8N1NtCVJP/nYVM1XgfoAhXHOBUqrtcOWicFZC5dx3FdnvjhJpeIbg075jc0eB3
- 8ttKnC8F5GlLsM1Qny8RuF3wjbmSre6iogdVcyIlZZVb4H+CScEGyo2yLdrV105XSDZ+
- fYWCI1GrDBbrgtRzdnJidDp5yK6xXw0+wB46IP5Xgvmm5Aw2mZ05uZWsQNyYlRCQx50E
- /zbPPYSFUXlLdcY0cFsb8fxxv94Ng1CCdu+Qby4ym5/JHZTeh/AGAIJmmkKF+03tfE7+
- GwlgCqMVY5XS3jJj+rPtrsJRRHUY08kk78SWFfopL8Lma+5oTEN1aWjFaOghXAlNZiM8
- FFAg==
-X-Gm-Message-State: AOAM530l6fWSnmXUy7slqoJ7sY8DtP6iohlJvxRb8e1wnjqbhU8wtSTJ
- rBH3i5B95vwSzOuIU4nScIDgaxHB69BNUhTGo6e9Tw==
-X-Google-Smtp-Source: ABdhPJwvdAlG0KkR9tF+sTLq2nlr7LEKXAqWpHEBws/3fXfvioVcMR5cocuZi7Xh+2imqEuyiKV69Ys3HzyIiJY8sVw=
-X-Received: by 2002:aa7:d28d:: with SMTP id w13mr5186405edq.251.1619192745110; 
- Fri, 23 Apr 2021 08:45:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210422154427.13038-1-alex.bennee@linaro.org>
- <20210423142209.03032dc5.cohuck@redhat.com>
- <CAFEAcA80L=xum=9m+2TLiP09OrjuRG4VghfxK8A42Y+0+EUB2g@mail.gmail.com>
- <dae28ff3-5c32-2345-a336-30f59eb59b13@redhat.com>
- <20210423155231.1f8e2a30.cohuck@redhat.com>
- <CAFEAcA92CVNBpqHS9tFGZuAwDFyp=p8hn6duDRoASzErXBgGWw@mail.gmail.com>
-In-Reply-To: <CAFEAcA92CVNBpqHS9tFGZuAwDFyp=p8hn6duDRoASzErXBgGWw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=d9q/OZZRjlD+J5z0b+Q6nRqKlXdRlLIaorE8Rj3NzMo=;
+ b=QH4l7N7wlEZqFF2tZzrbGCxr8MmZ7Kh1xjQcApgBFZAgvaLMn9t+hOmBug0lRImtBL
+ tH1pkQ8foQaLdX/IhWFlHU53jurvxQ68ZB4e8rdhUa2J0Z07ezC8nbZMv/PVm7bKPHVC
+ sG9jYET33GPHZDywSWzHQv0APqA1yTNGitmPOldfMm7Ahsex0ru3ojf/4wi3FJoeUVxf
+ r/BVmeYKCK7ZAAXg/0AmbLkOGeZu7i8SJviBL933Ati82fzyTW0YM7FFTf/zvmYHR6eK
+ n6wHdV87kFgJIoV4odDekJOttDkfFDVf2kP/EE/s5SDbf+VYIQQBFDPFDwXj5XmC+BHJ
+ J2uA==
+X-Gm-Message-State: AOAM533eT7QyaNGlf7MfcJvl5QDh8OAwR8PHO61t2sGoi9Wpldi076/N
+ vkAugT7fuLaykB/G4pdqDcTBV5haDkYXoA==
+X-Google-Smtp-Source: ABdhPJyrqFouJt2mgCsHBa/r9tXubm9DndHwv/oye2N8AqeIyKl9GrMX06eGoNSReiTRP7RMwvvEPg==
+X-Received: by 2002:a05:600c:3397:: with SMTP id
+ o23mr6159199wmp.26.1619193483427; 
+ Fri, 23 Apr 2021 08:58:03 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i15sm10076740wru.12.2021.04.23.08.58.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 08:58:02 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 29C981FF7E;
+ Fri, 23 Apr 2021 16:58:02 +0100 (BST)
+References: <CAJyG1bOR659y=6oP5-XFyVv-xLq-C-m4cdsdRP2D+ZVQqyJnqg@mail.gmail.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Min-Yih Hsu <minyihh@uci.edu>
+Subject: Re: [RFC] tcg plugin: Additional plugin interface
 Date: Fri, 23 Apr 2021 16:44:49 +0100
-Message-ID: <CAFEAcA9Y=b-e92KLwE52FNXVJHVjjpiLeetOTy-D6Qpxhn+pKg@mail.gmail.com>
-Subject: Re: [PATCH] target/s390x: fix s390_probe_access to check
- PAGE_WRITE_ORG for writeability
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+In-reply-to: <CAJyG1bOR659y=6oP5-XFyVv-xLq-C-m4cdsdRP2D+ZVQqyJnqg@mail.gmail.com>
+Message-ID: <87a6pp6lit.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,51 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 at 14:56, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 23 Apr 2021 at 14:52, Cornelia Huck <cohuck@redhat.com> wrote:
-> >
-> > On Fri, 23 Apr 2021 15:28:19 +0200
-> > Thomas Huth <thuth@redhat.com> wrote:
-> >
-> > > On 23/04/2021 15.06, Peter Maydell wrote:
-> > > > On Fri, 23 Apr 2021 at 13:22, Cornelia Huck <cohuck@redhat.com> wrote:
-> > > >> What's the verdict on this one? I plan to queue this to s390-next; but
-> > > >> if we end up doing an -rc5, it might qualify as a regression fix.
-> > > >
-> > > > What's your opinion? I think we do need an rc5 for the network backend
-> > > > hotplug crash. I don't want to open the doors for lots of new fixes
-> > > > just because we've got another rc, but on the other hand this one
-> > > > does look like it's a pretty small and safe fix, and letting intermittent
-> > > > crash bugs out into the wild seems like it could lead to a lot of
-> > > > annoying re-investigation of the same bug if it's reported by users
-> > > > later... So I kind of lean towards putting it in rc5.
-> > >
-> > > IMHO: It's in a s390x-only file, within a #ifdef CONFIG_USER_ONLY ... so the
-> > > damage this could do is very, very limited, indeed. Thus I'd also suggest to
-> > > include it in a rc5.
-> >
-> > Exactly, the benefits outweigh the risk IMHO.
-> >
-> > Peter, do you want to pick this one directly, or should I send you a pull req?
->
-> I'll pick it directly, thanks.
 
-...applied to target-arm.next, thanks.
+Min-Yih Hsu <minyihh@uci.edu> writes:
 
--- PMM
+> Hi Alex and QEMU developers,
+>
+> Recently I was working with the TCG plugin. I found that `qemu_plugin_cb_=
+flags` seems to reserve the functionality to
+> read / write CPU register state, I'm wondering if you can share some
+> roadmap or thoughts on this feature?
+
+I think reading the CPU register state is certainly on the roadmap,
+writing registers presents a more philosophical question of if it opens
+the way to people attempting a GPL bypass via plugins. However reading
+registers would certainly be a worthwhile addition to the API.
+
+> Personally I see reading the CPU register state as (kind of) low-hanging =
+fruit. The most straightforward way to implement
+> it will be adding another function that can be called by insn_exec callba=
+cks to read (v)CPU register values. What do you
+> think about this?
+
+It depends on your definition of low hanging fruit ;-)
+
+Yes the implementation would be a simple helper which could be called
+from a callback - I don't think we need to limit it to just insn_exec. I
+think the challenge is proving a non-ugly API that works cleanly across
+all the architectures. I'm not keen on exposing arbitrary gdb register
+IDs to the plugins.
+
+There has been some discussion previously on the list which is probably
+worth reviewing:
+
+  Date: Mon, 7 Dec 2020 16:03:24 -0500
+  From: Aaron Lindsay <aaron@os.amperecomputing.com>
+  Subject: Plugin Register Accesses
+  Message-ID: <X86YnHhHMpQBr2/G@strawberry.localdomain>
+
+But in short I think we need a new subsystem in QEMU where frontends can
+register registers (sic) and then provide a common API for various
+users. This common subsystem would then be the source of data for:
+
+  - plugins
+  - gdbstub
+  - monitor (info registers)
+  - -d LOG_CPU logging
+
+If you are interested in tackling such a project I'm certainly happy to
+provide pointers and review.
+
+>
+> Thank you
+> -Min
+
+
+--=20
+Alex Benn=C3=A9e
 
