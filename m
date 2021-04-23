@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515F33697F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:06:11 +0200 (CEST)
-Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F76E3697EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:05:40 +0200 (CEST)
+Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZzFq-00011K-Cb
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:06:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37252)
+	id 1lZzFK-0000VF-QA
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lZz7P-0002cW-Rd
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:57:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39248)
+ id 1lZzCo-0007cu-Vg
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:03:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lZz7O-0000LP-DA
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:57:27 -0400
+ id 1lZzCi-0001AQ-1u
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:03:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619197045;
+ s=mimecast20190719; t=1619197374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qdG8eahThLJmLD6eUB1M00/iwTUItduaUQlMMC8SbyM=;
- b=ge/FlNhjQKTMyWGnJCPS1+m4K3lBR+GgjxpCv+yQoCOAs6Wmm1oe6v9oX4xL42QktvVriv
- /Nt5cyBOXlVAcWr5oGLBtcGPzAP0rffYd6UWyoRASE6AB7W+bmUd6FisE7YFEKdjvib863
- FnszKbf3F2zt6oeRm9OzbLwOCekAWc4=
+ bh=TWcHFCowj8aBaJCDPlJKdbTJfvU38qCJ5ZwR+eCrUeg=;
+ b=K7/oD7IDf8CsJSoL5dcmMqp9UeptWdtBE8+uaSVwSIPkkizsZaH6VBp4+a1pzUPX/bkNjF
+ vis8D8EqWG7KV/O95upUN1OYxwYdKxbH4+k/6bDXGMrEoP0Wiv5HVE7pR07kDyucfRomLv
+ 3Zv5mweE29pQ4A1rYgf0x7oQjhDFeY0=
 Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
  [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-_ZVqtjRENNOx2Bq-LMYLcQ-1; Fri, 23 Apr 2021 12:57:24 -0400
-X-MC-Unique: _ZVqtjRENNOx2Bq-LMYLcQ-1
+ us-mta-464-9rxJ_bNQNjKxLHgzyuJhyw-1; Fri, 23 Apr 2021 13:02:52 -0400
+X-MC-Unique: 9rxJ_bNQNjKxLHgzyuJhyw-1
 Received: by mail-vs1-f70.google.com with SMTP id
- o17-20020a67eed10000b02901b5b718cf27so8412227vsp.4
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 09:57:24 -0700 (PDT)
+ u26-20020a67d99a0000b029022205ccd7f7so5149441vsj.12
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 10:02:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qdG8eahThLJmLD6eUB1M00/iwTUItduaUQlMMC8SbyM=;
- b=lbr/GpjQU1HKn7xPMcv/q5b+smwQXwTJHpNHFKiZY1uJn4oDwxLOhpIZ8NH6LZVdtL
- 8ULWZsJA/22b7eOACjT1NggOffSDD/AOjWpmbswCjPN1WWIRFK9pSx8UTyINuiWxiX5q
- sJ4IbN0WXMxtCx9Q0jSddOh/fWfRLXi62kg1vRQ9LOESM/TZa4lXSunxoHnxM8LuQWhR
- qgM1AMo6cgVD2bb4kC1aetfTe47r+7gjut0HuuKyrn+x5D+2pcqbil/fwByn/nqGd6pN
- RdcYiJCQefzbyXlHK1vKYmNCKsuzrfTFxkfFbqvEyKvreK7IAtF7FPG0wYcDBiD6xcXm
- 48Hw==
-X-Gm-Message-State: AOAM530RthSR15184ZDi1T5wXPnCnPkm1WZx485Sr+b2MjTxMJNpW3/p
- LjtbaqUYykX2QcIgE2wPHHBF7noN0zTvgXpY6lLmb9PWY6ysyBoCd7egfvK87GwWoAQU27OZA6u
- xrAWExrVqtI209AWWNw/+rSF7stb3b6I=
-X-Received: by 2002:ab0:1648:: with SMTP id l8mr4292149uae.124.1619197043655; 
- Fri, 23 Apr 2021 09:57:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/K5ma/jnqhkHzhp7JIRdIU4Km8fjWZCFHnQ9nZ/10u6OeHxCE8VTtbrjjLHoZ7RAbyOpusDT0F8ROqrbzO5w=
-X-Received: by 2002:ab0:1648:: with SMTP id l8mr4292139uae.124.1619197043474; 
- Fri, 23 Apr 2021 09:57:23 -0700 (PDT)
+ bh=TWcHFCowj8aBaJCDPlJKdbTJfvU38qCJ5ZwR+eCrUeg=;
+ b=ODQ/AlYaIi15mIIPZ4+KWV/4JDXNKQJNVcjBRvhyCzdIwKoTB0QoE2/bYi/jn2mRdX
+ G0DkzLmqY0UybIoGBQ+o0Ky4TWh1MicZ3pQXK1cClBD9EHHKFwWabI+BmWdJsWjbkd7+
+ fDET1RY8CJc/4toXHY0PN+g0QSBLE61aZZOSQZMMNU6uBF+mCPOR7KGYA3jlpHgcLLSw
+ C3FRvFvVfgv+2rG0l6TnzTj6Vr9wk3pFCtbcEhOPqwGlvSb5AX0iDoKHtgyK87/GJSae
+ 9raVehMj55wpMplSYRROBu4U8hY6U7jKPtNJXr3LzV44UBKG78D+oP2ZGXQeBTNkksXC
+ spvQ==
+X-Gm-Message-State: AOAM5319vXT+RNjTZPdPV+/g/119tjfPE2RwiP0DvZaBkvikIQxfBLmd
+ 6u8RoqMviJIPdDQuI/hjHBpRHc57auUxrr8ty4qWb4pvcl7KJZYaXwlAHeFcOIofJpVz51vUmYr
+ mcDYaiRSrZqPnW0yDEDWwmM+E9Ia+YL0=
+X-Received: by 2002:a05:6102:a89:: with SMTP id
+ n9mr4698898vsg.45.1619197372382; 
+ Fri, 23 Apr 2021 10:02:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVAEVhxForE1dWcE9OD4MIrjtf0R4h9rz1iQJyr6eCJyOPLa8Qfm555jbkITsMrL/944Mgibh3eBkeLCeThwc=
+X-Received: by 2002:a05:6102:a89:: with SMTP id
+ n9mr4698875vsg.45.1619197372247; 
+ Fri, 23 Apr 2021 10:02:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210408195237.3489296-1-wainersm@redhat.com>
- <20210408195237.3489296-3-wainersm@redhat.com>
-In-Reply-To: <20210408195237.3489296-3-wainersm@redhat.com>
+ <20210408195237.3489296-4-wainersm@redhat.com>
+In-Reply-To: <20210408195237.3489296-4-wainersm@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 23 Apr 2021 13:56:57 -0300
-Message-ID: <CAKJDGDYtM43cysCmxSkzQtH24agyuHiKhtZBWecgDO8G7wzh8w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] tests/acceptance: Fix mismatch on cpu tagged tests
+Date: Fri, 23 Apr 2021 14:02:26 -0300
+Message-ID: <CAKJDGDYks1NrFZGmVHs2-RL=RDEsckbuJEgjwmA=vT3GjLJSZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] tests/acceptance: Let the framework handle
+ "cpu:VALUE" tagged tests
 To: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -97,18 +100,21 @@ Cc: Philippe Mathieu Daude <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 8, 2021 at 5:00 PM Wainer dos Santos Moschetta
+On Thu, Apr 8, 2021 at 5:01 PM Wainer dos Santos Moschetta
 <wainersm@redhat.com> wrote:
 >
-> There are test cases on machine_mips_malta.py and tcg_plugins.py files
-> where the cpu tag does not correspond to the value actually given to the QEMU
-> binary. This fixed those tests tags.
+> The tests that are already tagged with "cpu:VALUE" don't need to add
+> "-cpu VALUE" to the list of arguments of the vm object because the avocado_qemu
+> framework is able to handle it automatically.
 >
 > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > ---
->  tests/acceptance/machine_mips_malta.py | 6 +++---
->  tests/acceptance/tcg_plugins.py        | 6 +++---
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  tests/acceptance/boot_linux.py         | 3 ---
+>  tests/acceptance/machine_mips_malta.py | 1 -
+>  tests/acceptance/replay_kernel.py      | 8 +++-----
+>  tests/acceptance/reverse_debugging.py  | 2 +-
+>  tests/acceptance/tcg_plugins.py        | 9 ++++-----
+>  5 files changed, 8 insertions(+), 15 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
