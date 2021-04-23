@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8D6368EEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 10:36:08 +0200 (CEST)
-Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D79F368EEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 10:36:09 +0200 (CEST)
+Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZrIF-000208-5Q
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 04:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57160)
+	id 1lZrIG-00023q-44
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 04:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lZrGP-0000Yd-AL
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lZrGP-0000YZ-A2
  for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:34:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26408)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lZrGI-0001IR-Th
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:34:12 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lZrGI-0001IP-Pe
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:34:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1619166845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9oCTLap447icp7bg56r5GYZ3ib7wsi2EbKqB3PJggBg=;
- b=WpaLPf4Zu7j47F7jUJvnShI3D4MSZ//iZzIO1+1sqYxbS0amijbkZCmSPawnS/AEfvJwnP
- di8alFZg3AeTxdU4+8pceozS+5UCYXKvCo+WGJIcewM0fs3YDdLZDNExwzvqxlZvxLDoI2
- zyl7H7w9+eT35TNRvcF7+gIIaqB+7Ec=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O9uAUD0xt40uRvLpYMDcTXloccXvwISE6J7uw4uWy6s=;
+ b=YNjPfNXB/GGfqfLI0frJZFis5mZv+0jNffXpcuZETILPHZ+vG16D9cEvsjsuMcm448bUZr
+ O5FlCuU7J3VeCeFVaxRs9R3Rv84e+kJego6pYMbMnA++tAufRq7HhPMnKzeJ3ImAHQyQXg
+ uYLCMidUx6HdKR27FFKGTUX8S/xRDAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-VNy5GvIEMLqqtmCy8icyZA-1; Fri, 23 Apr 2021 04:34:01 -0400
-X-MC-Unique: VNy5GvIEMLqqtmCy8icyZA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-29-oSR2GoA5Nii_Xt5DsQnU4w-1; Fri, 23 Apr 2021 04:34:01 -0400
+X-MC-Unique: oSR2GoA5Nii_Xt5DsQnU4w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB39C107ACC7
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2929343A0
  for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 08:34:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-178.ams2.redhat.com
  [10.36.112.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CA275D9C6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CAFE10016DB;
  Fri, 23 Apr 2021 08:33:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D290F1800604; Fri, 23 Apr 2021 10:33:51 +0200 (CEST)
+ id DE11818007B1; Fri, 23 Apr 2021 10:33:51 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/9] ui: add vdagent implementation and clipboard support.
-Date: Fri, 23 Apr 2021 10:33:42 +0200
-Message-Id: <20210423083351.2096734-1-kraxel@redhat.com>
+Subject: [PATCH v4 1/9] build: add separate spice-protocol config option
+Date: Fri, 23 Apr 2021 10:33:43 +0200
+Message-Id: <20210423083351.2096734-2-kraxel@redhat.com>
+In-Reply-To: <20210423083351.2096734-1-kraxel@redhat.com>
+References: <20210423083351.2096734-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -82,75 +85,126 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fist sketch of cut+paste support for vnc.  On the guest side we are=0D
-going to reuse the spice vdagent, so things should work out-of-the-box=0D
-with guests in the wild.  So this patch set brings a qemu implemenation=0D
-of the vdagent protocol.=0D
-=0D
-Beside that there is the clipboard infrastructure of course.  For now=0D
-only text support is there.  The design allows adding more data types,=0D
-so we can add image support and maybe more later on.  So far vdagent,=0D
-vnc server and gtk ui are hooked up.=0D
-=0D
-Usage: qemu \=0D
-  -chardev vdagent,id=3Dvdagent,clipboard=3Don \=0D
-  -device virtio-serial-pci \=0D
-  -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0=0D
-=0D
-v3:=0D
- - rebase to latest master.=0D
- - make spice-protocol a separate build dependency.=0D
- - update qapi version annotation.=0D
- - add documentatin for qemu clipboard.=0D
- - misc little tweaks.=0D
-v2:=0D
- - add a bunch of sanity checks.=0D
- - add proper chunking.=0D
- - use autofree.=0D
-v3:=0D
- - support agents without VD_AGENT_CAP_CLIPBOARD_SELECTION.=0D
- - properly parse chunked messages.=0D
- - test with windows guests, minor fixes.=0D
- - set display_id for agent mouse events.=0D
-=0D
-Gerd Hoffmann (9):=0D
-  build: add separate spice-protocol config option=0D
-  ui: add clipboard infrastructure=0D
-  ui: add clipboard documentation=0D
-  ui/vdagent: core infrastructure=0D
-  ui/vdagent: add mouse support=0D
-  ui/vdagent: add clipboard support=0D
-  ui/vnc: clipboard support=0D
-  ui/gtk: move struct GtkDisplayState to ui/gtk.h=0D
-  ui/gtk: add clipboard support=0D
-=0D
- configure              |  36 +-=0D
- include/ui/clipboard.h | 193 +++++++++++=0D
- include/ui/gtk.h       |  67 ++++=0D
- ui/vnc.h               |  24 ++=0D
- chardev/char.c         |   6 +=0D
- ui/clipboard.c         |  92 +++++=0D
- ui/gtk-clipboard.c     | 192 +++++++++++=0D
- ui/gtk.c               |  56 +--=0D
- ui/vdagent.c           | 756 +++++++++++++++++++++++++++++++++++++++++=0D
- ui/vnc-clipboard.c     | 323 ++++++++++++++++++=0D
- ui/vnc.c               |  20 +-=0D
- docs/devel/index.rst   |   1 +=0D
- docs/devel/ui.rst      |   8 +=0D
- meson.build            |   4 +=0D
- qapi/char.json         |  21 +-=0D
- ui/meson.build         |   5 +-=0D
- ui/trace-events        |  10 +=0D
- 17 files changed, 1747 insertions(+), 67 deletions(-)=0D
- create mode 100644 include/ui/clipboard.h=0D
- create mode 100644 ui/clipboard.c=0D
- create mode 100644 ui/gtk-clipboard.c=0D
- create mode 100644 ui/vdagent.c=0D
- create mode 100644 ui/vnc-clipboard.c=0D
- create mode 100644 docs/devel/ui.rst=0D
-=0D
---=20=0D
-2.30.2=0D
-=0D
+When implementing spice vdagent protocol in qemu we only need the
+spice-protocol package for that, spice-server is not needed.  So
+go split those two build dependencies.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ configure   | 36 ++++++++++++++++++++++++++++++++----
+ meson.build |  4 ++++
+ 2 files changed, 36 insertions(+), 4 deletions(-)
+
+diff --git a/configure b/configure
+index 4f374b48890e..e6f959da2347 100755
+--- a/configure
++++ b/configure
+@@ -388,6 +388,7 @@ qom_cast_debug="yes"
+ trace_backends="log"
+ trace_file="trace"
+ spice="$default_feature"
++spice_protocol="auto"
+ rbd="auto"
+ smartcard="$default_feature"
+ u2f="auto"
+@@ -1129,7 +1130,15 @@ for opt do
+   ;;
+   --disable-spice) spice="no"
+   ;;
+-  --enable-spice) spice="yes"
++  --enable-spice)
++      spice_protocol="yes"
++      spice="yes"
++  ;;
++  --disable-spice-protocol)
++      spice_protocol="no"
++      spice="no"
++  ;;
++  --enable-spice-protocol) spice_protocol="yes"
+   ;;
+   --disable-libiscsi) libiscsi="disabled"
+   ;;
+@@ -1866,6 +1875,7 @@ disabled with --disable-FEATURE, default is enabled if available
+   vhost-user-blk-server    vhost-user-blk server support
+   vhost-vdpa      vhost-vdpa kernel backend support
+   spice           spice
++  spice-protocol  spice-protocol
+   rbd             rados block device (rbd)
+   libiscsi        iscsi support
+   libnfs          nfs support
+@@ -4149,6 +4159,19 @@ fi
+ 
+ ##########################################
+ # spice probe
++if test "$spice_protocol" != "no" ; then
++  spice_protocol_cflags=$($pkg_config --cflags spice-protocol 2>/dev/null)
++  if $pkg_config --atleast-version=0.12.3 spice-protocol; then
++    spice_protocol="yes"
++  else
++    if test "$spice_protocol" = "yes" ; then
++      feature_not_found "spice_protocol" \
++          "Install spice-protocol(>=0.12.3) devel"
++    fi
++    spice_protocol="no"
++  fi
++fi
++
+ if test "$spice" != "no" ; then
+   cat > $TMPC << EOF
+ #include <spice.h>
+@@ -4157,13 +4180,13 @@ EOF
+   spice_cflags=$($pkg_config --cflags spice-protocol spice-server 2>/dev/null)
+   spice_libs=$($pkg_config --libs spice-protocol spice-server 2>/dev/null)
+   if $pkg_config --atleast-version=0.12.5 spice-server && \
+-     $pkg_config --atleast-version=0.12.3 spice-protocol && \
++     test "$spice_protocol" = "yes" && \
+      compile_prog "$spice_cflags" "$spice_libs" ; then
+     spice="yes"
+   else
+     if test "$spice" = "yes" ; then
+       feature_not_found "spice" \
+-          "Install spice-server(>=0.12.5) and spice-protocol(>=0.12.3) devel"
++          "Install spice-server(>=0.12.5) devel"
+     fi
+     spice="no"
+   fi
+@@ -5807,9 +5830,14 @@ fi
+ if test "$posix_memalign" = "yes" ; then
+   echo "CONFIG_POSIX_MEMALIGN=y" >> $config_host_mak
+ fi
++
++if test "$spice_protocol" = "yes" ; then
++  echo "CONFIG_SPICE_PROTOCOL=y" >> $config_host_mak
++  echo "SPICE_PROTOCOL_CFLAGS=$spice_protocol_cflags" >> $config_host_mak
++fi
+ if test "$spice" = "yes" ; then
+   echo "CONFIG_SPICE=y" >> $config_host_mak
+-  echo "SPICE_CFLAGS=$spice_cflags" >> $config_host_mak
++  echo "SPICE_CFLAGS=$spice_cflags $spice_protocol_cflags" >> $config_host_mak
+   echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
+ fi
+ 
+diff --git a/meson.build b/meson.build
+index c6f4b0cf5e8a..749259e7f29c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -446,11 +446,15 @@ if 'CONFIG_LIBJACK' in config_host
+ endif
+ spice = not_found
+ spice_headers = not_found
++spice_protocol = not_found
+ if 'CONFIG_SPICE' in config_host
+   spice = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split(),
+                              link_args: config_host['SPICE_LIBS'].split())
+   spice_headers = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split())
+ endif
++if 'CONFIG_SPICE_PROTOCOL' in config_host
++  spice_protocol = declare_dependency(compile_args: config_host['SPICE_PROTOCOL_CFLAGS'].split())
++endif
+ rt = cc.find_library('rt', required: false)
+ libdl = not_found
+ if 'CONFIG_PLUGIN' in config_host
+-- 
+2.30.2
 
 
