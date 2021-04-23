@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A276A3692C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:11:02 +0200 (CEST)
-Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3768A3692BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:09:18 +0200 (CEST)
+Received: from localhost ([::1]:34820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZvaH-0005vY-NQ
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59558)
+	id 1lZvYb-0003sJ-9F
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZvWl-0002ug-As
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:07:23 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZvWj-0003Xg-DC
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:07:22 -0400
-Received: by mail-ej1-x636.google.com with SMTP id w23so58025487ejb.9
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=e790JLBnMxt/oVZ0YsKdVPSiF5S0lbwSRlViD++sUL8=;
- b=IZSaeOitOrf948TPNrxC0BOxf7aUhCcWE2Qd2cPUJZtdrgJ8vEAi3MFrMMUFnlREHz
- tuH35y56M/XbKMaC1gJFqIT7yt4Nn+vlysvyr14vVW+4PpTn+PuBR8h/QwrXhm2usZx3
- W8lqzLX6aWt28UKchvx6aQDkRwSNk+K7CM/eeDvDedebMlqwezB5uX58V5DlOBID7+qf
- USo6+AJRwNd+8LsqTj+c8qaqzdbuktRu8QrhwZTAGl0fge/lqK4b6Lx2fRsqeCZS8vcB
- ZqhF7sw70aAffQ+RK52NH05Ip5741DW1Jv1WWx1H+CCEPe4nXon2rqDkjoHiFNR53TAo
- 6HVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=e790JLBnMxt/oVZ0YsKdVPSiF5S0lbwSRlViD++sUL8=;
- b=aUogC1qbinrZRAfqMTFADdi7GLxgSNY8PZjah99gfuq8k9O+gu80ldGwJvy6SP2rJs
- XCnttjJ9ofCHUhhaQ97dmLYtAWwQWwHNNsRneH6ZhxC+dtWh0kCbKH0iXQvA9yLU+8Al
- oqoZLt5SoPey1xnE7Gfltvlg2il1iCo0zB2v34lwQ7186FrhbXEk87PXsRJz44CvBITW
- kSeDPV0KOoKRAG0VtMt5q5vHHI9a3Y0n35S5od76a4JGRD1zpHYSpneOqYKzirqpF+7z
- p92hnOjm88qNk5nJTyAzxkPEn7b56uC/V6exlr1a6z40Tmq8Lcgd5qM1NCY8IPxi+jQ2
- ZgXw==
-X-Gm-Message-State: AOAM533/8y4On6R5N6Due5mc9EuTtOfv6rYIHUql/q6/5/U5wi6ES3pE
- 2+r06udiHoeWTh4xyxCNlZJ0LbRf0NEvlOED9GJy7A==
-X-Google-Smtp-Source: ABdhPJxStgzSOo21LVuoZ+fS3xIXfh9VlCGwT+1jk7frcBf+7xHq1Dh3PzkceV3s7+jG4V/DyN2nvfiV+cU1hGr2lzk=
-X-Received: by 2002:a17:906:8303:: with SMTP id
- j3mr4115941ejx.85.1619183239799; 
- Fri, 23 Apr 2021 06:07:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZvWS-0002fZ-B9
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:07:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZvWM-0003Ny-7t
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:07:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619183214;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CKbiJvO8D+qP9hfc7hFZ4uufMVS4nm6r8u9POdsfEs4=;
+ b=K+bwOYt3m8yiGdu1GZMEWqtBcooogdNSFnh6nlqSNbqJmXK30uBRH6rHJRib9NzuCTFlpg
+ 1/P4EeqhKoOPTb1NXtP0hx+jDSrc4a37pCA+J1RTD64uwp4KY9CWWJkp/SR0PfZryl/A3m
+ qsRVHWBzI6qnEHlR6DCtjzTDGAydeok=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-EygDwtkrOYWD2jhV8yWnXQ-1; Fri, 23 Apr 2021 09:06:52 -0400
+X-MC-Unique: EygDwtkrOYWD2jhV8yWnXQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE6D3107ACCA;
+ Fri, 23 Apr 2021 13:06:51 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-2.ams2.redhat.com
+ [10.36.115.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 246875DEAD;
+ Fri, 23 Apr 2021 13:06:49 +0000 (UTC)
+Subject: Re: firmware selection for SEV-ES
+To: Pavel Hrdina <phrdina@redhat.com>
+References: <6af8c5c7-6166-7f83-9ff0-4c24460577e2@redhat.com>
+ <YIARw09TcakElBco@antique-laptop>
+ <0b5d799c-6290-5585-599e-4c4f37af6202@redhat.com>
+ <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
+ <YIKiE+USYmCjQeSR@antique-laptop>
+ <e5978a49-00a6-6350-0e06-6aab6de4c9a5@redhat.com>
+ <YILFNu1R8LcZRF48@antique-laptop>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <17cd75db-98bf-7bf1-bc5b-cd71e62507ec@redhat.com>
+Date: Fri, 23 Apr 2021 15:06:49 +0200
 MIME-Version: 1.0
-References: <20210422154427.13038-1-alex.bennee@linaro.org>
- <20210423142209.03032dc5.cohuck@redhat.com>
-In-Reply-To: <20210423142209.03032dc5.cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Apr 2021 14:06:24 +0100
-Message-ID: <CAFEAcA80L=xum=9m+2TLiP09OrjuRG4VghfxK8A42Y+0+EUB2g@mail.gmail.com>
-Subject: Re: [PATCH] target/s390x: fix s390_probe_access to check
- PAGE_WRITE_ORG for writeability
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YILFNu1R8LcZRF48@antique-laptop>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,70 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 at 13:22, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> On Thu, 22 Apr 2021 16:44:27 +0100
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->
-> > We can remove PAGE_WRITE when (internally) marking a page read-only
-> > because it contains translated code. This can get confused when we are
-> > executing signal return code on signal stacks.
-> >
-> > Fixes: e56552cf07 ("target/s390x: Implement the MVPG condition-code-opt=
-ion bit")
-> > Found-by: Richard Henderson <richard.henderson@linaro.org>
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: Thomas Huth <thuth@redhat.com>
-> > Cc: David Hildenbrand <david@redhat.com>
-> > Cc: Laurent Vivier <laurent@vivier.eu>
-> > ---
-> >  target/s390x/mem_helper.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-> > index 12e84a4285..f6a7d29273 100644
-> > --- a/target/s390x/mem_helper.c
-> > +++ b/target/s390x/mem_helper.c
-> > @@ -145,7 +145,7 @@ static int s390_probe_access(CPUArchState *env, tar=
-get_ulong addr, int size,
-> >
-> >  #if defined(CONFIG_USER_ONLY)
-> >      flags =3D page_get_flags(addr);
-> > -    if (!(flags & (access_type =3D=3D MMU_DATA_LOAD ?  PAGE_READ : PAG=
-E_WRITE))) {
-> > +    if (!(flags & (access_type =3D=3D MMU_DATA_LOAD ?  PAGE_READ : PAG=
-E_WRITE_ORG))) {
-> >          env->__excp_addr =3D addr;
-> >          flags =3D (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSI=
-NG;
-> >          if (nonfault) {
->
-> What's the verdict on this one? I plan to queue this to s390-next; but
-> if we end up doing an -rc5, it might qualify as a regression fix.
+On 04/23/21 15:01, Pavel Hrdina wrote:
+> On Fri, Apr 23, 2021 at 02:34:02PM +0200, Laszlo Ersek wrote:
+>> On 04/23/21 12:31, Pavel Hrdina wrote:
+>>> On Fri, Apr 23, 2021 at 10:16:24AM +0200, Michal Privoznik wrote:
+>>>> On 4/22/21 4:13 PM, Laszlo Ersek wrote:
+>>>>> On 04/21/21 13:51, Pavel Hrdina wrote:
+>>
+>>>>> Should we file a libvirtd Feature Request (where?) for recognizing the
+>>>>> @amd-sev-es feature flag?
+>>>>
+>>>> Yes, we should. We can use RedHat bugzilla for that. Laszlo - do you want to
+>>>> do it yourself or shall I help you with that?
+>>>
+>>> This BZ looks like it's already tracking support for amd-sev-es [1].
+>>>
+>>> Pavel.
+>>>
+>>> [1] <https://bugzilla.redhat.com/show_bug.cgi?id=1895035>
+>>
+>> That's a private RHBZ that tracks SEV-ES for a product that is different
+>> from "libvirt upstream".
+> 
+> I didn't notice that's a private RHBZ, thanks for pointing it out.
+> 
+> For upstream libvirt we no longer use RHBZ to track RFEs/BZs, we use
+> gitlab issues so if we want to track the work in upstream as well I can
+> create a new issue.
 
-What's your opinion? I think we do need an rc5 for the network backend
-hotplug crash. I don't want to open the doors for lots of new fixes
-just because we've got another rc, but on the other hand this one
-does look like it's a pretty small and safe fix, and letting intermittent
-crash bugs out into the wild seems like it could lead to a lot of
-annoying re-investigation of the same bug if it's reported by users
-later... So I kind of lean towards putting it in rc5.
+Heh, I suspected I was missing something there :) Yes, please, if you or
+Michal could create a new issue in gitlab, that would be great.
 
-thanks
--- PMM
+Thanks
+Laszlo
+
 
