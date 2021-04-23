@@ -2,93 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9217369987
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 20:26:04 +0200 (CEST)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737F73699D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 20:37:13 +0200 (CEST)
+Received: from localhost ([::1]:43930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la0V9-0006le-8k
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 14:26:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55792)
+	id 1la0fw-0000YD-24
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 14:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1la0SF-0006FO-Tc
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:23:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35067)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1la0ej-00007l-UP
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:36:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1la0SD-0000qx-6J
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:23:02 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1la0eh-0007oz-KH
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:35:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619202179;
+ s=mimecast20190719; t=1619202954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A18kDWp4Vy93j3X5zYtAzoKqesKPbHO49Euefe1kzS0=;
- b=G5AXAgbV7kXt+I/+eEZkza+/hc+FMN2giqHmRrBLzZWZEyUma5HXiCpIHBV0EMaVxp92bs
- Rn8T5jV1RL8fhA6NG7lubrUSMQh6P4UhaIMcMpA68iNmmrwxqic+b/zc74HKdFzo/3TXBD
- KfnTyy1J1/modm5KFVTJiRhPx+Sndw8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-ORSdyAPpOBuJNy_VCFsxWQ-1; Fri, 23 Apr 2021 14:22:57 -0400
-X-MC-Unique: ORSdyAPpOBuJNy_VCFsxWQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y7-20020a1c4b070000b02901357a988015so941255wma.5
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 11:22:57 -0700 (PDT)
+ bh=ulrJYRB4SCIhftYhwy43HYFe7d6LQx08Fxzim/VMkLc=;
+ b=hBTrkAQldrhjGFohdgD0Y2HTofambCHQHo1BLLeSNzHPFwlI0EVxkeD96aHIwpZu7MmA+d
+ YuUtZjjbbXMv+eSV5WA3852PogL46OvkFiiUzJtgrAipcAwxk9SjqiLcJs6cqri4LkT/HQ
+ XsG+oHVKjw2yjgs0GbET8MvTJl6/eiM=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-MSL_XdELPXejLnKwKhYW3A-1; Fri, 23 Apr 2021 14:35:52 -0400
+X-MC-Unique: MSL_XdELPXejLnKwKhYW3A-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ d76-20020a1f364f0000b02901d17a7dfce5so8556850vka.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 11:35:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=A18kDWp4Vy93j3X5zYtAzoKqesKPbHO49Euefe1kzS0=;
- b=pofI1/NU/m/PQ07NnRge9+XUnfYPDi6gTddLFEAmYQ/WMQ+7Mka70Qj1Pp208d3nKg
- BVyRBgH+OVtAz8HQyi/NG+FPtA83ELW5zAtcYzZP2AQeudiTm6wtLD42LUJWbhjIBzPX
- 68sy7yL9WyDc32KcpSynX7Ep0Xk6rJ48fXC1QgoDjGAalYBeBxzn4qYGcHw7dgnQGUDJ
- wCG7T5YBADKYzeiE+WjU2wJk7gRY8WslKEDbO/oYx7/Nn/oB4lu8C+vEZszm5IFHp7C/
- kev/Fze/4l8INgoxSG/xHcXswwFHdmZ/OARU/YrXgLqvGddLgrisyB6VY0LCsAn+ikE6
- nOCg==
-X-Gm-Message-State: AOAM531imY61lBc13NYNzT8mYIYAhDD/m43yZUHHMsH1TpCSQBThhThv
- SjrgKvej+8Cs+VkeRQ7ghaq4z6tH5TYE7NmxxCCW2O+KGH5ps/y6mbLvmOshP1YcoDAxqf4i6g7
- NtHRp4SHuz6BX22E=
-X-Received: by 2002:adf:dbc2:: with SMTP id e2mr6167139wrj.398.1619202176214; 
- Fri, 23 Apr 2021 11:22:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzn6a8PKIL7kpkCwJYIIpetvLrmM7tgEE92TACFFBZHs5p/Lb40OV8h3uN4cTx2u5jE/R4ktg==
-X-Received: by 2002:adf:dbc2:: with SMTP id e2mr6167120wrj.398.1619202175964; 
- Fri, 23 Apr 2021 11:22:55 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id i15sm10463015wru.12.2021.04.23.11.22.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 11:22:55 -0700 (PDT)
-Subject: Re: [PATCH] pc-bios/s390-ccw/netboot: Use "-Wl, " prefix to pass
- parameter to the linker
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-References: <20210423153646.593153-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0b67fd26-5ac9-120b-9e5c-0b423cb5cc2f@redhat.com>
-Date: Fri, 23 Apr 2021 20:22:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ulrJYRB4SCIhftYhwy43HYFe7d6LQx08Fxzim/VMkLc=;
+ b=kxBi8YahLFJmOrQ3HInMucekqOvnFhL3Ldo8fKVGH43BsMVKJKcdOWc4MacLvezlPv
+ 6x2Yz47vhnvABDcL+YXUkStYZwamPcEPL69AFdzcEU6o0eC7VQIc2acHXkJF/uO60mt/
+ 1uiDAOnBV4FQxhAQuuC+WqJp2KUgwjv/E58W7Xrm+Yrwtpd+yPemJVL5XorpqSDlFs0Q
+ 437E8ervBA48ZaZ26dzAw2Rsp2Xkc/D1ZbrMNfFWovLShPT3Ts3gV/+FMsx3q5u1EuqM
+ TJMhu0JKMpjo0qAS0u8ljgnAObHFJpDgsrXwEzcRKcmqXwbK+thrXaFTaxwHJisfTLbL
+ xOUA==
+X-Gm-Message-State: AOAM532fje4ecd1vNg1kOkq6k+huTC/VEOhcFnBCdd97DrnvW4mtzgCL
+ brk1rciD76wBPYcZCexMX4LIDi98craA+2+IB8P47ji1EL7jtN5PfBgUIdtYdDVQpv1JTgQhFOF
+ EDmHfU6qCWWAEji9TDZqAntik1m2OcxM=
+X-Received: by 2002:a67:27c2:: with SMTP id n185mr5296628vsn.39.1619202951958; 
+ Fri, 23 Apr 2021 11:35:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFkGQo2fRuGLezpJOlQgZ/ZiQvpS0V71Aqm/FzCFrcbOlkwBHXUyoFQuqQN7XIpl+CivMB4fLYt5TwLjbCdG8=
+X-Received: by 2002:a67:27c2:: with SMTP id n185mr5296597vsn.39.1619202951767; 
+ Fri, 23 Apr 2021 11:35:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210423153646.593153-1-thuth@redhat.com>
+References: <20210419145435.14083-1-alex.bennee@linaro.org>
+ <20210419145435.14083-5-alex.bennee@linaro.org>
+In-Reply-To: <20210419145435.14083-5-alex.bennee@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 23 Apr 2021 15:35:25 -0300
+Message-ID: <CAKJDGDaAYBZ+pLMXaDOzSyO=zXDfYxLfA_d2S-PfSo5X-2X1Mg@mail.gmail.com>
+Subject: Re: [PATCH v1 04/25] tests/docker: allow "update" to add the current
+ user
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,21 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 5:36 PM, Thomas Huth wrote:
-> We are using the compiler to do the linking of the bios files. GCC still
-> accepts the "-Ttext=..." linker flag directly and is smart enough to
-> pass it to the linker, but in case we are compiling with Clang, we have
-> to use the official way with the "-Wl," prefix instead.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Mon, Apr 19, 2021 at 11:54 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>
+> The current user functionality is used for cross compiling to avoid
+> complications with permissions when building test programs. However
+> for images that come from the registry we still need the ability to
+> add the user after the fact.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  pc-bios/s390-ccw/netboot.mak | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/docker/docker.py | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
