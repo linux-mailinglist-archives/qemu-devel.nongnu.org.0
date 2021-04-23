@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41B53693D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:39:28 +0200 (CEST)
-Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E893693D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:38:43 +0200 (CEST)
+Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZw1n-0007oZ-DF
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37672)
+	id 1lZw14-0008OK-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lZvwK-0004ZF-0c; Fri, 23 Apr 2021 09:33:48 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:58269)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lZvwF-00022R-VG; Fri, 23 Apr 2021 09:33:47 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 5A11E12E3;
- Fri, 23 Apr 2021 09:33:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 23 Apr 2021 09:33:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lZvyH-0006H0-Mt
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:35:49 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lZvyF-0003P8-MN
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:35:49 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id w3so73989841ejc.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=hHl/NnTvNP3kIJcOCO1tWd+2u2t
- pGeSCcFfXI+YYmM8=; b=0XHqsEnEYFg/zOfP5S2Q2Osv7P6CkIHxhcxqusznpH+
- OHMwpz0VQHfIfSVYCFAau+BE44KWXo++AYZhCEOhk7GjnslRLAEEzz5jhFJjrGel
- g2x+nQeRWpWe22xDqGnJ6NobN0iqo5pc746yQT9rcCdrO/p9dIjoyTL0uLuSkldO
- APaoUH4AVob8H+cwfdkViaG7/kFkurUZwcGe8t4AMQfwUJRkMCwyGVDjBhpAPsmB
- ARmqbMs4rOgDu5LCgbzEWEqoaSaboaYhQhryATcpVW8CoaMkoqy5l7XvbwTjlw5f
- Iq3A7lhAV12uQC2VH4RQElT4UI9Gq+20Z5Gd2Gb8FtA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hHl/Nn
- TvNP3kIJcOCO1tWd+2u2tpGeSCcFfXI+YYmM8=; b=Txc5HZ2OWnVfCm8GjWcU54
- BCgwXTZ+JKhLUqxTNzcD+jYAW3c+KKlPvJMpCwQ8qcXuzb4vHLSOELNLeh54Ym0K
- rfW9WmjzX64GhEmnHGzs2QaB25+Z3FiRgBtlyLTivhYcayiXrOShL2jqr0ft/5lE
- Fm0ileTuyeuWNR/1YKHHe+L7fLOq9yFgLtCMfhtzyKWf0Dgi3pQXOuCS5bg3qOPz
- BPHU6/3hFp7fDA4OTT+Qrm49DvsLi8gDe20V0awdPwi8zzBz8PI7QofqZ9GopOwy
- SdTig7irrTly0zTzaH5eP89fYHp0ogu+mgQ0TRhozCf5M2mlirgeg97txIYenPDw
- ==
-X-ME-Sender: <xms:tMyCYAvY5On3oYquCEz4zufo8PAhZML4ZyvbVQig9lhkYmc60W6sQQ>
- <xme:tMyCYJRJ36HIX334AUc04AgAFOUvACX8B_tJ8PDTg3l3Y15h9eIvUTPu27C1ahQ2D
- uHiB6j6HqIgAmbYHYI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdduvddgieejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
- tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:tMyCYHKF7nz5yiaW3gPdPpaAfnaZ0QPdjQt4ny4TsHiQcWSfnn8LBA>
- <xmx:tMyCYMt6OZFPeX-6JqrJGNyeSJdJ-lGXStXXUjUBpWN2OvR2fDZTAw>
- <xmx:tMyCYO9Aev2kjZ2A4X9QGS8lIcGUBdX5hoQWZBOA35NuEAGZYLuJ9g>
- <xmx:tMyCYGOFEFJCdvbyAgNJOrCktevcNkyKUHxCD5khYuXe8aRgWQvtOA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id EFDFD240057;
- Fri, 23 Apr 2021 09:33:38 -0400 (EDT)
-Date: Fri, 23 Apr 2021 15:33:36 +0200
-From: Klaus Jensen <its@irrelevant.dk>
+ :content-disposition:in-reply-to;
+ bh=4+ZUZtd7Wz2Y4g3tyBh3Cmkj2Vf6fEjovYImQtdE9yg=;
+ b=ytwToDO8sht1KiXK5VMg9kMrhztyfxm4r1tq5n2NAx/gdYT1L4bAu6YlU20z9Pxe0i
+ wTaOXE2uSlZQQZ1nnHI4s8E/EwyNvKcglhUhSQ5BOkHBeaqQhS3Mtp+hGMvEH5iPiua9
+ 3C0vSNDoPDRVJf91Ro02DJgoXWVTuh64TGcKMGjo8rhUkrXiaSAFxJl9PoaN4SI+B+S8
+ x3Ce2jY1zWDT4vf8AVXIN/McIRAC7oCBHHlWxempX+JWOaJCD0E0YCQsBWjYbcij89xE
+ l8yvWWCNfnMasAcHS3e6dGm8F1+cNF/AkaVKSbr2GL//mRlqbdGAJ67dVxu0JS0EQ98M
+ EBmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4+ZUZtd7Wz2Y4g3tyBh3Cmkj2Vf6fEjovYImQtdE9yg=;
+ b=QR0BLk+zbeRhTGocHmTDx0gQZPCGTUgjaBQJCsFh6rFY+qE7zpnEk0rHNp8XKuCu6P
+ JvatxFG1J2jDbkmUdqEBCFhBf6TSK4SReEYkwre21vnBIC0aHxdy6fXVlZ0lo5MbqnrO
+ hucSWqKneLtsic9KiUs7XLvcG2xjrKX2fPlUBErtBjxYp0shv5sBxMNjlDLvqE+xOwFc
+ UGINqkZnDL7Daw/d6EiuOD+gJdjpZMKBJuf+VikeyE43iYJyXb8t2JIv+B5W8v31EJ5F
+ p+3IXAchOYfejMRr3yBOIEVA6tzz8NKxsDA7VlGUdLBQ6mvqsOC/2d1EeaZenJWsMX36
+ y3Nw==
+X-Gm-Message-State: AOAM531nvxrGsCAX4CZUR17TYshVZ+Z7HE2bLuEIPHWZiN5Nf8ebYbIa
+ SzHjHM9N2oZNgUvJ6d1KrQnTYg==
+X-Google-Smtp-Source: ABdhPJzDa2Doibn6wHh/9IjWvXzL7E4Qeopqm72zQ1d2CUN0YW+fSZjlIMCUANafPBnjFkJJyTwtGQ==
+X-Received: by 2002:a17:906:2808:: with SMTP id
+ r8mr4310844ejc.140.1619184945549; 
+ Fri, 23 Apr 2021 06:35:45 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id y25sm4297063ejb.34.2021.04.23.06.35.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 06:35:45 -0700 (PDT)
+Date: Fri, 23 Apr 2021 15:35:27 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.0 v2 2/2] hw/block/nvme: disable hotplugging for
- subsystem-linked controllers
-Message-ID: <YILMsBXGTcXFOWah@apples.localdomain>
-References: <20210423052127.512489-1-its@irrelevant.dk>
- <20210423052127.512489-3-its@irrelevant.dk>
- <CAFEAcA8xS6Hoqd+Y96FxhrDabsotYURsHHvEeN9yDLDHzzVf+g@mail.gmail.com>
- <YILKsjz+WoXFiKUh@apples.localdomain>
- <CAFEAcA_OzW7TWk8JrvrzEY-Rapcs1wVjuWKvYGzBgWFHQO+vxg@mail.gmail.com>
+Subject: Re: [PULL 1/2] amd_iommu: Fix pte_override_page_mask()
+Message-ID: <YILNH1DDTTV6TcFO@myrica>
+References: <20210422222429.183108-1-mst@redhat.com>
+ <20210422222429.183108-2-mst@redhat.com>
+ <CAFEAcA9LLh7kkqujLpiXjRgRkua77kLAv=MbeG8yq3NP-w8uyg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XOSPckCP4HDacYaY"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_OzW7TWk8JrvrzEY-Rapcs1wVjuWKvYGzBgWFHQO+vxg@mail.gmail.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <CAFEAcA9LLh7kkqujLpiXjRgRkua77kLAv=MbeG8yq3NP-w8uyg@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,97 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Klaus Jensen <k.jensen@samsung.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Apr 23, 2021 at 02:01:19PM +0100, Peter Maydell wrote:
+> On Thu, 22 Apr 2021 at 23:24, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> >
+> > AMD IOMMU PTEs have a special mode allowing to specify an arbitrary page
+> > size. Quoting the AMD IOMMU specification: "When the Next Level bits [of
+> > a pte] are 7h, the size of the page is determined by the first zero bit
+> > in the page address, starting from bit 12."
+> >
+> > So if the lowest bits of the page address is 0, the page is 8kB. If the
+> > lowest bits are 011, the page is 32kB. Currently pte_override_page_mask()
+> > doesn't compute the right value for this page size and amdvi_translate()
+> > can return the wrong guest-physical address. With a Linux guest, DMA
+> > from SATA devices accesses the wrong memory and causes probe failure:
+> >
+> > qemu-system-x86_64 ... -device amd-iommu -drive id=hd1,file=foo.bin,if=none \
+> >                 -device ahci,id=ahci -device ide-hd,drive=hd1,bus=ahci.0
+> > [    6.613093] ata1.00: qc timeout (cmd 0xec)
+> > [    6.615062] ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
+> >
+> > Fix the page mask.
+> >
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > Message-Id: <20210421084007.1190546-1-jean-philippe@linaro.org>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> Jean-Philippe, do you know if this is a regression since 5.2?
 
---XOSPckCP4HDacYaY
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+I don't think so, I can reproduce it with v5.2.0.
 
-On Apr 23 14:25, Peter Maydell wrote:
->On Fri, 23 Apr 2021 at 14:25, Klaus Jensen <its@irrelevant.dk> wrote:
->>
->> On Apr 23 14:21, Peter Maydell wrote:
->> >On Fri, 23 Apr 2021 at 06:21, Klaus Jensen <its@irrelevant.dk> wrote:
->> >>
->> >> From: Klaus Jensen <k.jensen@samsung.com>
->> >>
->> >> If a controller is linked to a subsystem, do not allow it to be
->> >> hotplugged since this will mess up the (possibly shared) namespaces.
->> >>
->> >> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->> >> ---
->> >>  hw/block/nvme.c | 4 ++++
->> >>  1 file changed, 4 insertions(+)
->> >>
->> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
->> >> index 5fe082ec34c5..7606b58a39b9 100644
->> >> --- a/hw/block/nvme.c
->> >> +++ b/hw/block/nvme.c
->> >> @@ -6140,12 +6140,16 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
->> >>
->> >>  static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
->> >>  {
->> >> +    DeviceClass *dc;
->> >>      int cntlid;
->> >>
->> >>      if (!n->subsys) {
->> >>          return 0;
->> >>      }
->> >>
->> >> +    dc = DEVICE_GET_CLASS(n);
->> >> +    dc->hotpluggable = false;
->> >> +
->> >>      cntlid = nvme_subsys_register_ctrl(n, errp);
->> >>      if (cntlid < 0) {
->> >>          return -1;
->> >
->> >I'm not sure this is right -- the DeviceClass is the
->> >class struct, which there's only one of for every instance
->> >of the device in the system. So this is saying "if this instance
->> >is linked to a subsystem, don't let any *future* instances ever
->> >be hotpluggable". I'm not even sure if it will do the right
->> >thing for the current device, because this function is called
->> >from the device's realize method, and the device_set_realized()
->> >function does the "forbid if dc->hotpluggable is false" check
->> >before calling the realize method.
->> >
->> >Possibly what you want to do here is to call the
->> >device_get_hotplugged() function and just make the realize
->> >method fail with a suitable error if the device is both (a) being
->> >hotplugged and (b) has a subsystem link; but I'm not an expert on
->> >hotplug, so I might be wrong.
->> >
->>
->> Thanks Peter, this sounds exactly like what I want. I'll respin!
->>
->> I have a "full" fix that actually makes the device hotpluggable in the
->> context of subsystems, but it is definitely not an -rc thing.
->
->For 6.0 I don't think we should put this in anyway -- it's not
->a regression and in any case it sounds like it needs more work...
->
+> I'm guessing not given that the function in question has been that
+> way since the amd_iommu was introduced in 2016.
 
-Agree, patch 1 is what I would like to see in if an -rc5 is spun.
+There has been a lot of work on the AMD IOMMU driver in Linux recently.
+Maybe that exacerbated the problem but I can't find a relevant change.
+It's also possible that this path hasn't been exercised before - I just
+happened to run a SATA device under AMD IOMMU this week to debug an
+unrelated Linux issue. The other devices in the VM don't seem to have a
+problem doing DMA.
 
---XOSPckCP4HDacYaY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCCzK0ACgkQTeGvMW1P
-Dekq7wf8CFfNZPLm8fB0JNtwkzruNJQU95RgbFXR7FPr6XWJpJ9Ej2Uw8pGTr4zF
-e0mtlXCMRJJFK0BIdBuAs/YMX4nLnygEvtdcXlaDaPrYWCebAjG/iBxVjc9uTWQp
-UWU3beObYgEobLvnju/Lo7cS5AnvMY6WpGc4+gAz/d/fkT+j3HZ9kPCk4ZIecwgP
-5GjUGmmHSX1xS3oFIWc0Rh9AZagfF8GtZd8V0AidREu8Jmvl2iJPnFiwo+6N2lYl
-CUQe7JQrOgzZc/M3Q4ReI8IpKgaBIUKXS+SfxspX+QRk9csqWrnSrednZJsGKi/y
-er1ZvR9bL8JSiMWCuISXVF3mwMrI5A==
-=ksuW
------END PGP SIGNATURE-----
-
---XOSPckCP4HDacYaY--
+Thanks,
+Jean
 
