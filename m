@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE18369C7D
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 00:24:36 +0200 (CEST)
-Received: from localhost ([::1]:53066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98C6369C83
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 00:25:25 +0200 (CEST)
+Received: from localhost ([::1]:56014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la4Dz-00063c-7C
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 18:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1la4En-0007Fw-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 18:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1la4Cr-0005dR-WC
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 18:23:26 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37659)
+ id 1la4DL-00068Q-PI
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 18:23:55 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1la4Cp-0003QL-PC
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 18:23:25 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- t14-20020a05600c198eb029012eeb3edfaeso1960345wmq.2
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 15:23:23 -0700 (PDT)
+ id 1la4DK-0003lG-Bf
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 18:23:55 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ f195-20020a1c1fcc0000b029012eb88126d7so1950761wmf.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 15:23:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KR5UdFdXqeqQf1LtUSA5LY2ajZ5PqlTBcknDH1awV3I=;
- b=YRHndSmHU1v4AFUMkwApheBDBMfNbJU4d6EfbYk/cTVWLLPdP0O+23xGwrVk9JKGSu
- Phm1TwzemKU6sR7G7UC3L8/dWMa8aFesPuozaIVVeCl9oSoXlW6yXt0HgdAKzCjl+8ES
- iXIchXzJhbEBA3ITU8ppwXqExlB9DqAfTq9lA17SAu1KBvk161Qrj3lSjIM7FC2WT8lB
- cNQahu1wQw8eQaHImQLgOOvYnBf3oDAA0hKA+LxdCa4XYIRvwSJ5WY71e7GcKwcwsdHF
- pJwzXsy+AjKNt2CdIVPIN0+umOTE7ifORrzoci2YikkaMs1lyQVCjvMTXkUMFBMcON2w
- XH4A==
+ bh=Fa218y4XN6r//zamaPR7EsBdGXenE0uk3Iu1kU7y3ws=;
+ b=BEDPn3XZy6OVMgHidZ9DhjwKliJukbTBmgea5d9OjQlajkqNnuxTF+yxKFO0Pv2Sde
+ LJt66+LX65CSk0hXP7kgmO5IsjLdFh2zAEOGrgPHK3QMJmVJt3eG4bR6n3XHRdOstpAl
+ vPkdn86sijR1qRAU2ThbKCMoG0JWPCZ/baughpGrR6xeg6zynf12VYqw8eI6ClssBd3G
+ l+n6+/t7M59C3sI6U66mY7cz9N+9lDAfO3dNMbLK4QqN0W1SRh8D30OomrTc8KDhz53S
+ qG+v+cxiH4odqXPNIa4eJQzSmBWQVic41NhNrLMxrMMTO2pKo4bTw+cA1sX0mUXqXVMD
+ TzrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KR5UdFdXqeqQf1LtUSA5LY2ajZ5PqlTBcknDH1awV3I=;
- b=b/z8n918aEivHmuOx5bNu9hO15FkCKD+O28yZdGOrB4sWQZXZSASHxc1axL38Kxwry
- lsc6ZExv9737186NT/dxeBxVns9VftAbF7AYPMrZnhMOPvLURcPzaltp2a2BbBCu5cf2
- MRzdIsyaBUSE6BmDOckZslMxM7llF50fGlaqIErvrdIJRw1h3ppxe1OZpaBYcNQ+SEii
- W4RG4lRpRDxfqYSP4m0hi+Qb/deb4suo3RCKZ+yaHep5F1wSAQWM2hU5idWCuz3XC5Zg
- RV0cTXClImFioBt03/aTSWn9F1MfVKDyglFr8MAr5QwXpiqiKZuYMvF2qmZn2P0GIHBT
- kP0Q==
-X-Gm-Message-State: AOAM533G6jlrmuS3Z/FPtDRdUSkdNXIFECN0bn2/FM1X45mgEHxP+HA5
- HkB3jd25+/zT/HpFFv95dbU=
-X-Google-Smtp-Source: ABdhPJy9NvY0u454lQwsouBnGDv3eex5luCFdM1VVHvgRnabBnk4fdXKOeoLH6Hk8OvSt/VQ74qqrw==
-X-Received: by 2002:a7b:cc9a:: with SMTP id p26mr91686wma.39.1619216602158;
- Fri, 23 Apr 2021 15:23:22 -0700 (PDT)
+ bh=Fa218y4XN6r//zamaPR7EsBdGXenE0uk3Iu1kU7y3ws=;
+ b=fOBGyCpMjoBkluvXFpvLDRb7vR5DKFp7x/tXlwwRxXJQnLoIqjR1aYaEbRkdnt3Ghi
+ NgUv00d0Cb7QNy0eqedgmHzjt8Dks7v+Zat6sCGe94cV3SknWVXEX4jwKP9YfnUPVLeM
+ zsuX5ZNHlQ1g42MNfoe1CizY2lE2ow0kI+ZKDDVzZjc3r2K5IdM6j2eA+4vR21ZYhX+r
+ aqgSOHz9HpgU84/q6Hackd9VyAHn4B52gPxhuLzqD/CzJg+RuFQ4rNBJATu7YWUYbw61
+ A4CHrr/T43CD6XNAZISUsCPetqZH1PL7TdC29UsxQHXm6fjt9tTooO88KYci4Xt9IX1N
+ 482Q==
+X-Gm-Message-State: AOAM5304IK0P1uobpJ8bBoUKjJbrLg/3R2zv4XR+fkpFrNvo3q2U2Dkt
+ aQ6FaxlwIFHdImNbDAQi+ho=
+X-Google-Smtp-Source: ABdhPJxKsTj/MzyCQEJvs4lfjD7iCcj78p6IZnWzLdFSbUuoZigT6KY9jXv+A2kC03h0CxHyuBbYxg==
+X-Received: by 2002:a7b:cc10:: with SMTP id f16mr6246227wmh.131.1619216633136; 
+ Fri, 23 Apr 2021 15:23:53 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id 61sm12012294wrm.52.2021.04.23.15.23.20
+ by smtp.gmail.com with ESMTPSA id g12sm10720871wru.47.2021.04.23.15.23.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 15:23:21 -0700 (PDT)
-Subject: Re: [PATCH v1 08/25] gitlab: add build-user-hexagon test
+ Fri, 23 Apr 2021 15:23:52 -0700 (PDT)
+Subject: Re: [PATCH v1 07/25] tests/tcg: Use Hexagon Docker image
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
- <20210419145435.14083-9-alex.bennee@linaro.org>
+ <20210419145435.14083-8-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0e0294ee-5758-5e44-aac6-e739fbe3d0e0@amsat.org>
-Date: Sat, 24 Apr 2021 00:23:20 +0200
+Message-ID: <ac3dddbf-4efb-063f-fe1f-617ed979d69f@amsat.org>
+Date: Sat, 24 Apr 2021 00:23:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210419145435.14083-9-alex.bennee@linaro.org>
+In-Reply-To: <20210419145435.14083-8-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,25 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, Alessandro Di Federico <ale@rev.ng>, berrange@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/19/21 4:54 PM, Alex Bennée wrote:
-> We special case this as the container with the cross compiler for the
-> tests takes so long to build it is manually uploaded into the
-> registry.
+> From: Alessandro Di Federico <ale@rev.ng>
 > 
+> [PMD: Split from 'Add Hexagon Docker image' patch]
+> 
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Message-Id: <20210305092328.31792-7-alex.bennee@linaro.org>
+> Message-Id: <20210228222314.304787-5-f4bug@amsat.org>
+> Message-Id: <20210305092328.31792-6-alex.bennee@linaro.org>
 > ---
->  .gitlab-ci.yml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  tests/tcg/configure.sh | 4 ++++
+>  1 file changed, 4 insertions(+)
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
