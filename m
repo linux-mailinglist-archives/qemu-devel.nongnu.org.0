@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243EB369C0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:29:13 +0200 (CEST)
-Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7097F369C1D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:39:55 +0200 (CEST)
+Received: from localhost ([::1]:47636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la3MO-0001uR-8f
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34714)
+	id 1la3Wk-00049w-0q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1la3L5-0001TS-8T
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:27:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1la3L3-00033S-Lb
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:27:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619213268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7BvSr21XQgqMH9Pqs8lMn1NquEI5fhtxmGMoamdbFsc=;
- b=XmLf73toRmsGRmNy4w0NU46ZGtHv5IrDUc+etsEYQ77G40cashYqus4xpy0xDYbKgMaVSi
- 5k9H85HLeDyhWrOl79Kmksr0AvgQ382rIWiBagI+Z+wg0b0HbkZS5I7jZgGHulwfk1wZ5n
- kMp1TjDGO9h5b/XB8jWk0UU/inpI1LQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-J3CwzHATPRqekIQGa6m5gQ-1; Fri, 23 Apr 2021 17:27:46 -0400
-X-MC-Unique: J3CwzHATPRqekIQGa6m5gQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 906C98030C4;
- Fri, 23 Apr 2021 21:27:45 +0000 (UTC)
-Received: from localhost (ovpn-117-199.rdu2.redhat.com [10.10.117.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45E4360BD8;
- Fri, 23 Apr 2021 21:27:45 +0000 (UTC)
-Date: Fri, 23 Apr 2021 17:27:44 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Wei Huang <wei.huang2@amd.com>
-Subject: Re: constant_tsc support for SVM guest
-Message-ID: <20210423212744.4urvjdirnqdvqcq5@habkost.net>
-References: <a6662944-18ac-5075-1427-f92ae8e20163@amd.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1la3VQ-0003cv-Lo
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:38:32 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:44632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1la3VM-0001ML-9c
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:38:31 -0400
+Received: by mail-qt1-x836.google.com with SMTP id y12so37482507qtx.11
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 14:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=navJrR31B3USMt5OXJyPHwLb+P9H4lygthDWw32FQhA=;
+ b=EmCy2LQ5qXQlbNsDF5O6SxetSwHHgzxeUG0xpIebjjoaPjjNbg7JeNsV/uS0nWraUk
+ mHT/d7Qkf4gdSxNNbbHNOiSUEsaIegvjANgOyZaU/pF5fr5X8esfMkl8TI1cPp5NrbTv
+ LtR4gFqdpZfIWYMQswyQrGRaaUGBISG8JaBQnoBBzdBwbe7ArT+v7O7BvNO6mOAj63vn
+ p+nlp7+Oi5GYfsQly3sWMEaol5yrwRWY/bdojVeQVu0KnsgdVd7EfbrlGRnwpqoVwaci
+ az8NTty2Go257i+UHebzRYCkpMtsDOlLE3P59ZVPhsW9Am5e2Pe9Sk0+faNoddLMvZkI
+ nM8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=navJrR31B3USMt5OXJyPHwLb+P9H4lygthDWw32FQhA=;
+ b=sjm3k9xH9R7EopTlH6jbLaNakr0OCOaTRDfAHNI0e3jUfVSYIidE0kvt3MI6zW7Chz
+ 8WeZPE9AEpBDL7toH52j5WGUSywhzgPOh04qGSP6aOV2fwiOBK5IcYAhrKPyp0kTLM23
+ ixup04pZloGycEiL05ZfErW06+MODFYFnj4AKCvt6FMYcpjaPBfAa0LjLUD94CA90Kf1
+ JC1oY1TGbyZpQgeoLfI5ow6rbSF2H6717cE/UtbVxeZywBqZY629/dpTeztI+N0a+pKo
+ U0IaftLZHSDTH/PJGFIHh+Z2lWDOO+yZkfRtivs5ScFRgXvWI0K1/BmJ2jP03XHbD3Ob
+ xqCw==
+X-Gm-Message-State: AOAM5335ya+KrbV2qtaMkvxyOXmWTF7XgiD/LFpu3WuZbP2zCeOAIa/k
+ PAP9u0VDoinE16mlc5SBqqUWAcKTTVthjWvKlI9pMw==
+X-Google-Smtp-Source: ABdhPJxpoQpAR4kTlCrsI7QYe5nMA1dPmz3P0oj0qnJqr2whyaReLeyEd9e3Yy3UdTGB6pfH8/X/unhlHHwrE8RcRXw=
+X-Received: by 2002:ac8:7e95:: with SMTP id w21mr5835103qtj.244.1619213906852; 
+ Fri, 23 Apr 2021 14:38:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a6662944-18ac-5075-1427-f92ae8e20163@amd.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210423203959.78275-1-imp@bsdimp.com>
+ <20210423203959.78275-2-imp@bsdimp.com>
+ <2e4fb308-07c3-c998-89b2-f49b69e90092@amsat.org>
+In-Reply-To: <2e4fb308-07c3-c998-89b2-f49b69e90092@amsat.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Fri, 23 Apr 2021 15:38:15 -0600
+Message-ID: <CANCZdfr5z4hASiHWqxJG4A+6V_TTEo6ETanHGNkpm9q_fX3SVg@mail.gmail.com>
+Subject: Re: [PULL 11/24] bsd-user: style tweak: if 0 -> ifdef notyet for code
+ needed in future
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000bbd9ff05c0aa9def"
+Received-SPF: none client-ip=2607:f8b0:4864:20::836;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x836.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,116 +77,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, "Moger, Babu" <babu.moger@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kyle Evans <kevans@freebsd.org>, Alex Richardson <arichardson@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 23, 2021 at 12:32:00AM -0500, Wei Huang wrote:
-> There was a customer request for const_tsc support on AMD guests. Right now
-> this feature is turned off by default for QEMU x86 CPU types (in
-> CPUID_Fn80000007_EDX[8]). However we are seeing a discrepancy in guest VM
-> behavior between Intel and AMD.
-> 
-> In Linux kernel, Intel x86 code enables X86_FEATURE_CONSTANT_TSC based on
-> vCPU's family & model. So it ignores CPUID_Fn80000007_EDX[8] and guest VMs
-> have const_tsc enabled. On AMD, however, the kernel checks
-> CPUID_Fn80000007_EDX[8]. So const_tsc is disabled on AMD by default.
+--000000000000bbd9ff05c0aa9def
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oh.  This seems to defeat the purpose of the invtsc migration
-blocker we have.
+On Fri, Apr 23, 2021 at 3:23 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>
+wrote:
 
-Do we know when this behavior was introduced in Linux?
+> On 4/23/21 10:39 PM, imp@bsdimp.com wrote:
+> > From: Warner Losh <imp@bsdimp.com>
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >  bsd-user/elfload.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+> > index 87154283ef..07a00ddbd5 100644
+> > --- a/bsd-user/elfload.c
+> > +++ b/bsd-user/elfload.c
+> > @@ -1270,7 +1270,7 @@ int load_elf_binary(struct linux_binprm *bprm,
+> struct target_pt_regs *regs,
+> >                ibcs2_interpreter =3D 1;
+> >              }
+> >
+> > -#if 0
+> > +#ifdef notyet
+>
+> Better describe in the cover letter "ignored checkpatch errors" and keep
+> this unmodified rather than trying to bypass them by dubious code style
+> IMO. The checkpatch.pl script is here to help us ;)
+>
 
-> 
-> I am thinking turning on invtsc for EPYC CPU types (see example below). Most
-> AMD server CPUs have supported invariant TSC for a long time. So this change
-> is compatible with the hardware behavior. The only problem is live migration
-> support, which will be blocked because of invtsc. However this problem
-> should be considered very minor because most server CPUs support TscRateMsr
-> (see CPUID_Fn8000000A_EDX[4]), allowing VMs to migrate among CPUs with
-> different TSC rates. This live migration restriction can be lifted as long
-> as the destination supports TscRateMsr or has the same frequency as the
-> source (QEMU/libvirt do it).
-> 
-> [BTW I believe this migration limitation might be unnecessary because it is
-> apparently OK for Intel guests to ignore invtsc while claiming const_tsc.
-> Have anyone reported issues?]
+This one I honestly was unsure about. To be honest, it's fear that kept
+me keeping this code....  Maybe it would be even better to just delete
+this code entirely. I have a working final state to pull from, now that I
+think about it to forumlate a reply, so maybe that would be even
+better?
 
-CCing Marcelo, who originally added the migration blocker in QEMU.
+Warner
 
-> 
-> Do I miss anything here? Any comments about the proposal?
-> 
-> Thanks,
-> -Wei
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index ad99cad0e7..3c48266884 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4077,6 +4076,21 @@ static X86CPUDefinition builtin_x86_defs[] = {
->                      { /* end of list */ }
->                  }
->              },
-> +            {
-> +                .version = 4,
-> +                .alias = "EPYC-IBPB",
-> +                .props = (PropValue[]) {
-> +                    { "ibpb", "on" },
-> +                    { "perfctr-core", "on" },
-> +                    { "clzero", "on" },
-> +                    { "xsaveerptr", "on" },
-> +                    { "xsaves", "on" },
 
-You don't need to copy the properties from the previous version.
-The properties of version N are applied on top of the properties
-of version (N-1).
+> >              printf("Using ELF interpreter %s\n", path(elf_interpreter)=
+);
+> >  #endif
+>
 
-> +                    { "invtsc", "on" },
-> +                    { "model-id",
-> +                      "AMD EPYC Processor" },
-> +                    { /* end of list */ }
-> +                }
-> +            },
->              { /* end of list */ }
->          }
->      },
-> @@ -4189,6 +4203,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
->                      { /* end of list */ }
->                  }
->              },
-> +            {
-> +                .version = 3,
-> +                .props = (PropValue[]) {
-> +                    { "ibrs", "on" },
-> +                    { "amd-ssbd", "on" },
-> +                    { "invtsc", "on" },
-> +                    { /* end of list */ }
-> +                }
-> +            },
->              { /* end of list */ }
->          }
->      },
-> @@ -4246,6 +4269,17 @@ static X86CPUDefinition builtin_x86_defs[] = {
->          .xlevel = 0x8000001E,
->          .model_id = "AMD EPYC-Milan Processor",
->          .cache_info = &epyc_milan_cache_info,
-> +        .versions = (X86CPUVersionDefinition[]) {
-> +            { .version = 1 },
-> +            {
-> +                .version = 2,
-> +                .props = (PropValue[]) {
-> +                    { "invtsc", "on" },
-> +                    { /* end of list */ }
-> +                }
-> +            },
-> +            { /* end of list */ }
-> +        }
-> 
+--000000000000bbd9ff05c0aa9def
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Eduardo
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 23, 2021 at 3:23 PM Phili=
+ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.o=
+rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">On 4/23/21 10:39 PM, <a href=3D"mailto:imp@bsdimp.com" target=3D"_blank">=
+imp@bsdimp.com</a> wrote:<br>
+&gt; From: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_bla=
+nk">imp@bsdimp.com</a>&gt;<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/elfload.c | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c<br>
+&gt; index 87154283ef..07a00ddbd5 100644<br>
+&gt; --- a/bsd-user/elfload.c<br>
+&gt; +++ b/bsd-user/elfload.c<br>
+&gt; @@ -1270,7 +1270,7 @@ int load_elf_binary(struct linux_binprm *bprm, s=
+truct target_pt_regs *regs,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibcs2_interpret=
+er =3D 1;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -#if 0<br>
+&gt; +#ifdef notyet<br>
+<br>
+Better describe in the cover letter &quot;ignored checkpatch errors&quot; a=
+nd keep<br>
+this unmodified rather than trying to bypass them by dubious code style<br>
+IMO. The <a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_bla=
+nk">checkpatch.pl</a> script is here to help us ;)<br></blockquote><div><br=
+></div><div>This one I honestly was unsure about. To be honest, it&#39;s fe=
+ar that kept</div><div>me keeping this code....=C2=A0 Maybe it would be eve=
+n better to just delete</div><div>this code entirely. I have a working fina=
+l state to pull from, now that I</div><div>think about it to=C2=A0forumlate=
+=C2=A0a reply, so maybe that would be even</div><div>better?</div><div><br>=
+</div><div>Warner</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Using ELF=
+ interpreter %s\n&quot;, path(elf_interpreter));<br>
+&gt;=C2=A0 #endif<br>
+</blockquote></div></div>
 
+--000000000000bbd9ff05c0aa9def--
 
