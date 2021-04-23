@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E893693D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:38:43 +0200 (CEST)
-Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3573693D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:40:17 +0200 (CEST)
+Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZw14-0008OK-8Y
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
+	id 1lZw2b-00035H-2h
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1lZvyH-0006H0-Mt
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:35:49 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37430)
+ (Exim 4.90_1) (envelope-from <ralph.schmieder@gmail.com>)
+ id 1lZw0v-0000yF-Li
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:38:35 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1lZvyF-0003P8-MN
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:35:49 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id w3so73989841ejc.4
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:35:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4+ZUZtd7Wz2Y4g3tyBh3Cmkj2Vf6fEjovYImQtdE9yg=;
- b=ytwToDO8sht1KiXK5VMg9kMrhztyfxm4r1tq5n2NAx/gdYT1L4bAu6YlU20z9Pxe0i
- wTaOXE2uSlZQQZ1nnHI4s8E/EwyNvKcglhUhSQ5BOkHBeaqQhS3Mtp+hGMvEH5iPiua9
- 3C0vSNDoPDRVJf91Ro02DJgoXWVTuh64TGcKMGjo8rhUkrXiaSAFxJl9PoaN4SI+B+S8
- x3Ce2jY1zWDT4vf8AVXIN/McIRAC7oCBHHlWxempX+JWOaJCD0E0YCQsBWjYbcij89xE
- l8yvWWCNfnMasAcHS3e6dGm8F1+cNF/AkaVKSbr2GL//mRlqbdGAJ67dVxu0JS0EQ98M
- EBmA==
+ (Exim 4.90_1) (envelope-from <ralph.schmieder@gmail.com>)
+ id 1lZw0r-0004vQ-JE
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:38:32 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id u187so6566242wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=P5+TVFNW53vIV5tBPL+MrH4wFNcgMMFLeh07y+/CR7Y=;
+ b=PFL7nDSYqlw3MgLUUZxN8OYuCW/28xgIrKfIM9/tToE4Tv91sV3ReKxQBVWGEk04Cc
+ S4ySimCt4xWyg1DikxikKizDtBRYASBi94ZSbVX2Us2gbI1Nn/KMF6hca6H1Gk5B5A1W
+ m4wMi9sZZ5VH62hV030lR9PqprGyDEimI9pwCbPMw4amj8RW9vYdvYfkz61qXekaZpcs
+ yb8dOF55NHD4GQ3dhs6sk89VqTbV/WoSYRoCNYkcJa7EoKeF+UtJaaf+ABlewRXOlEUi
+ 9FPbnoJNUJ0rQtfS8To/X+fyWm5SJ47ug8Ra8DDU+5bL5RRpr2kC9CRwn6oUIj81zCvj
+ ccOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4+ZUZtd7Wz2Y4g3tyBh3Cmkj2Vf6fEjovYImQtdE9yg=;
- b=QR0BLk+zbeRhTGocHmTDx0gQZPCGTUgjaBQJCsFh6rFY+qE7zpnEk0rHNp8XKuCu6P
- JvatxFG1J2jDbkmUdqEBCFhBf6TSK4SReEYkwre21vnBIC0aHxdy6fXVlZ0lo5MbqnrO
- hucSWqKneLtsic9KiUs7XLvcG2xjrKX2fPlUBErtBjxYp0shv5sBxMNjlDLvqE+xOwFc
- UGINqkZnDL7Daw/d6EiuOD+gJdjpZMKBJuf+VikeyE43iYJyXb8t2JIv+B5W8v31EJ5F
- p+3IXAchOYfejMRr3yBOIEVA6tzz8NKxsDA7VlGUdLBQ6mvqsOC/2d1EeaZenJWsMX36
- y3Nw==
-X-Gm-Message-State: AOAM531nvxrGsCAX4CZUR17TYshVZ+Z7HE2bLuEIPHWZiN5Nf8ebYbIa
- SzHjHM9N2oZNgUvJ6d1KrQnTYg==
-X-Google-Smtp-Source: ABdhPJzDa2Doibn6wHh/9IjWvXzL7E4Qeopqm72zQ1d2CUN0YW+fSZjlIMCUANafPBnjFkJJyTwtGQ==
-X-Received: by 2002:a17:906:2808:: with SMTP id
- r8mr4310844ejc.140.1619184945549; 
- Fri, 23 Apr 2021 06:35:45 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id y25sm4297063ejb.34.2021.04.23.06.35.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 06:35:45 -0700 (PDT)
-Date: Fri, 23 Apr 2021 15:35:27 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 1/2] amd_iommu: Fix pte_override_page_mask()
-Message-ID: <YILNH1DDTTV6TcFO@myrica>
-References: <20210422222429.183108-1-mst@redhat.com>
- <20210422222429.183108-2-mst@redhat.com>
- <CAFEAcA9LLh7kkqujLpiXjRgRkua77kLAv=MbeG8yq3NP-w8uyg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9LLh7kkqujLpiXjRgRkua77kLAv=MbeG8yq3NP-w8uyg@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62c.google.com
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=P5+TVFNW53vIV5tBPL+MrH4wFNcgMMFLeh07y+/CR7Y=;
+ b=magT21wNwBO2TRJCDKEpk5kRnROGMrFa9SMbEXOacAWsFWkJsW1ASg6XmGUn4jeba/
+ UFEiomNHb+HwsI/Ol8cZRnBBFBeDUWkg8DFUNFyQhnM8QvL1I7vIymoO1elVLZDExzjj
+ vX3E4aVULoPGyueaJ1PH2MXCGp7FSxxNwpnFELpPVAHH6Ubmf4wxM7IQuxh+G+EnAAWa
+ o+l7sfwUb+r7eiMIL7XGSS2Aj5LTQT04fqxfc++lKyKv3bUJ4AskfkwZONfVACjrJooe
+ Q9w3JndriRg7dEsqE7pkjSFt7GF3gJEPtP2vNt1LeTLS+Ark3jB3kjGbtp0gjn0GvhWI
+ csVg==
+X-Gm-Message-State: AOAM533PmbVK6YcbOiz2Xwr8QLZ9AUAHZtdS8sEBejrHjXnpCf61jEYy
+ N6a+l0ayZTIPGDzqBSaXTUs=
+X-Google-Smtp-Source: ABdhPJwkmqLzP0bqgnS3Gk8kWIzGNg1Fn6w5aQ7t9tNY/1BS0bbuiCMVYx4BF04dKNOnqm8FZ8PlQw==
+X-Received: by 2002:a1c:20c2:: with SMTP id g185mr4305173wmg.74.1619185107187; 
+ Fri, 23 Apr 2021 06:38:27 -0700 (PDT)
+Received: from ?IPv6:2001:470:1f0b:bcf:1513:9cd9:82b8:bd28?
+ ([2001:470:1f0b:bcf:1513:9cd9:82b8:bd28])
+ by smtp.gmail.com with ESMTPSA id z15sm8818379wrv.39.2021.04.23.06.38.26
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 23 Apr 2021 06:38:26 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: socket.c added support for unix domain socket datagram transport
+From: Ralph Schmieder <ralph.schmieder@gmail.com>
+In-Reply-To: <YIKQZSHKeXjvthDp@redhat.com>
+Date: Fri, 23 Apr 2021 15:38:22 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9D581C76-0E48-4C90-AC3B-6A992862DE0A@gmail.com>
+References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
+ <YIKQZSHKeXjvthDp@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=ralph.schmieder@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,55 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 23, 2021 at 02:01:19PM +0100, Peter Maydell wrote:
-> On Thu, 22 Apr 2021 at 23:24, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> >
-> > AMD IOMMU PTEs have a special mode allowing to specify an arbitrary page
-> > size. Quoting the AMD IOMMU specification: "When the Next Level bits [of
-> > a pte] are 7h, the size of the page is determined by the first zero bit
-> > in the page address, starting from bit 12."
-> >
-> > So if the lowest bits of the page address is 0, the page is 8kB. If the
-> > lowest bits are 011, the page is 32kB. Currently pte_override_page_mask()
-> > doesn't compute the right value for this page size and amdvi_translate()
-> > can return the wrong guest-physical address. With a Linux guest, DMA
-> > from SATA devices accesses the wrong memory and causes probe failure:
-> >
-> > qemu-system-x86_64 ... -device amd-iommu -drive id=hd1,file=foo.bin,if=none \
-> >                 -device ahci,id=ahci -device ide-hd,drive=hd1,bus=ahci.0
-> > [    6.613093] ata1.00: qc timeout (cmd 0xec)
-> > [    6.615062] ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
-> >
-> > Fix the page mask.
-> >
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > Message-Id: <20210421084007.1190546-1-jean-philippe@linaro.org>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> Jean-Philippe, do you know if this is a regression since 5.2?
 
-I don't think so, I can reproduce it with v5.2.0.
 
-> I'm guessing not given that the function in question has been that
-> way since the amd_iommu was introduced in 2016.
+> On Apr 23, 2021, at 11:16, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> On Fri, Apr 23, 2021 at 08:56:48AM +0200, Ralph Schmieder wrote:
+>> Hey...  new to this list.  I was looking for a way to use Unix domain =
+sockets as a network transport between local VMs.
+>>=20
+>> I'm part of a team where we run dozens if not hundreds of VMs on a =
+single compute instance which are highly interconnected.
+>>=20
+>> In the current implementation, I use UDP sockets (e.g. something like=20=
 
-There has been a lot of work on the AMD IOMMU driver in Linux recently.
-Maybe that exacerbated the problem but I can't find a relevant change.
-It's also possible that this path hasn't been exercised before - I just
-happened to run a SATA device under AMD IOMMU this week to debug an
-unrelated Linux issue. The other devices in the VM don't seem to have a
-problem doing DMA.
+>>=20
+>> -netdev =
+id=3Dbla,type=3Dsocket,udp=3Dlocalhost:1234,localaddr=3Dlocalhost:5678)=20=
+
+>>=20
+>> which works great.
+>>=20
+>> The downside of this approach is that I need to keep track of all the =
+UDP ports in use and that there's a potential for clashes.  Clearly, =
+having Unix domain sockets where I could store the sockets in the VM's =
+directory would be much easier to manage.
+>>=20
+>> However, even though there is some AF_UNIX support in net/socket.c, =
+it's
+>>=20
+>> - not configurable
+>> - it doesn't work
+>>=20
+>> As a side note, I tried to pass in an already open FD, but that =
+didn't work either.
+>>=20
+>> So, I added some code which does work for me... e.g.
+>>=20
+>> - can specify the socket paths like -netdev =
+id=3Dbla,type=3Dsocket,unix=3D/tmp/in:/tmp/out
+>> - it does forward packets between two Qemu instances running =
+back-to-back
+>>=20
+>> I'm wondering if this is of interest for the wider community and, if =
+so, how to proceed.
+>=20
+> As a general rule, any place in QEMU that supports sockets, ought to
+> support all of IPv4, IPv6 and UNIX sockets.   Where there are gaps
+> it generally just needs someone motivated to provide a patch.
+
+OK, great... The code basically works afaict, so I am wondering if you =
+guys are OK with the CLI "unix=3Dpath1:path2" approach and also whether =
+patches are sent to this list or whether it's better to open a PR on =
+github/gitlab?
+
 
 Thanks,
-Jean
+-ralph
+
 
