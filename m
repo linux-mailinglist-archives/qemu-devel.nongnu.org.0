@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C64369507
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:47:51 +0200 (CEST)
-Received: from localhost ([::1]:49914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3990C369504
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:44:47 +0200 (CEST)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZx5y-0007XR-L7
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53598)
+	id 1lZx2x-0006JB-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZx4f-0006yX-9y
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:46:29 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33320)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZx4U-000558-QD
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:46:29 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZx4S-0001SY-3g
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 14:46:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D0A162E8169
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 14:46:15 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZx2A-0005gG-VU
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:43:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZx28-0003Ur-5i
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:43:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619189031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K6KE3/0KnUbn738NGUpgX9Vf7aV7k0xs3SsrgDjFx1o=;
+ b=GQ1LatQCLIl4FYjwXfS23SclNEwhh/RW0ZQYU5uC3bLjtklLnWq5Ne+acKjMdoyiqJ6UBV
+ DpwRkRvR7vUWU+ZtcTs0pYWbIEgFG7+uhcpe+v/CS2v95swfgel5g4um9JZDp2t/FXbN1d
+ QmcdugtYRKSUeKTL/j/3NWmbO493wfU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-wuD_DdyNNTKaTNssQVB1qA-1; Fri, 23 Apr 2021 10:43:47 -0400
+X-MC-Unique: wuD_DdyNNTKaTNssQVB1qA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 715F5343A6;
+ Fri, 23 Apr 2021 14:43:46 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-199.ams2.redhat.com [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D45219D9B;
+ Fri, 23 Apr 2021 14:43:41 +0000 (UTC)
+Date: Fri, 23 Apr 2021 16:43:40 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 08/36] util: add transactions.c
+Message-ID: <YILdHIn+hFg8YPeN@merkur.fritz.box>
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+ <20210317143529.615584-9-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Apr 2021 14:40:12 -0000
-From: Pierre Muller <1843651@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fpu m68k
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pierre-freepascal pierre-muller th-huth
-X-Launchpad-Bug-Reporter: Pierre Muller (pierre-freepascal)
-X-Launchpad-Bug-Modifier: Pierre Muller (pierre-muller)
-References: <156823976031.17462.13699805496038510440.malonedeb@gac.canonical.com>
-Message-Id: <161918881280.10422.430374703699203513.malone@soybean.canonical.com>
-Subject: [Bug 1843651] Re: m68k fpu bug
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 37ecdda44e116836a908a6ed1043c8ecedcfd825
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210317143529.615584-9-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,116 +76,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843651 <1843651@bugs.launchpad.net>
+Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I tested, in release 5.2.0, this issue is fixed.
+Am 17.03.2021 um 15:35 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Add simple transaction API to use in further update of block graph
+> operations.
+> 
+> Supposed usage is:
+> 
+> - "prepare" is main function of the action and it should make the main
+>   effect of the action to be visible for the following actions, keeping
+>   possibility of roll-back, saving necessary things in action state,
+>   which is prepended to the action list (to do that, prepare func
+>   should call tran_add()). So, driver struct doesn't include "prepare"
+>   field, as it is supposed to be called directly.
+> 
+> - commit/rollback is supposed to be called for the list of action
+>   states, to commit/rollback all the actions in reverse order
+> 
+> - When possible "commit" should not make visible effect for other
+>   actions, which make possible transparent logical interaction between
+>   actions.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/qemu/transactions.h | 63 ++++++++++++++++++++++++
+>  util/transactions.c         | 96 +++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                 |  6 +++
+>  util/meson.build            |  1 +
+>  4 files changed, 166 insertions(+)
+>  create mode 100644 include/qemu/transactions.h
+>  create mode 100644 util/transactions.c
+> 
+> diff --git a/include/qemu/transactions.h b/include/qemu/transactions.h
+> new file mode 100644
+> index 0000000000..e7add9637f
+> --- /dev/null
+> +++ b/include/qemu/transactions.h
+> @@ -0,0 +1,63 @@
+> +/*
+> + * Simple transactions API
+> + *
+> + * Copyright (c) 2021 Virtuozzo International GmbH.
+> + *
+> + * Author:
+> + *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program. If not, see <http://www.gnu.org/licenses/>.
+> + *
+> + *
+> + * = Generic transaction API =
+> + *
+> + * The intended usage is the following: you create "prepare" functions, which
+> + * represents the actions. They will usually have Transaction* argument, and
+> + * call tran_add() to register finalization callbacks. For finalization
+> + * callbacks, prepare corresponding TransactionActionDrv structures.
+> + *
+> + * Than, when you need to make a transaction, create an empty Transaction by
 
-Thanks
+Then
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+> + * tran_create(), call your "prepare" functions on it, and finally call
+> + * tran_abort() or tran_commit() to finalize the transaction by corresponding
+> + * finalization actions in reverse order.
+> + */
+> +
+> +#ifndef QEMU_TRANSACTIONS_H
+> +#define QEMU_TRANSACTIONS_H
+> +
+> +#include <gmodule.h>
+> +
+> +typedef struct TransactionActionDrv {
+> +    void (*abort)(void *opaque);
+> +    void (*commit)(void *opaque);
+> +    void (*clean)(void *opaque);
+> +} TransactionActionDrv;
+> +
+> +typedef struct Transaction Transaction;
+> +
+> +Transaction *tran_new(void);
+> +void tran_add(Transaction *tran, TransactionActionDrv *drv, void *opaque);
+> +void tran_abort(Transaction *tran);
+> +void tran_commit(Transaction *tran);
+> +
+> +static inline void tran_finalize(Transaction *tran, int ret)
+> +{
+> +    if (ret < 0) {
+> +        tran_abort(tran);
+> +    } else {
+> +        tran_commit(tran);
+> +    }
+> +}
+> +
+> +#endif /* QEMU_TRANSACTIONS_H */
+> diff --git a/util/transactions.c b/util/transactions.c
+> new file mode 100644
+> index 0000000000..d0bc9a3e73
+> --- /dev/null
+> +++ b/util/transactions.c
+> @@ -0,0 +1,96 @@
+> +/*
+> + * Simple transactions API
+> + *
+> + * Copyright (c) 2021 Virtuozzo International GmbH.
+> + *
+> + * Author:
+> + *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program. If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "qemu/transactions.h"
+> +#include "qemu/queue.h"
+> +
+> +typedef struct TransactionAction {
+> +    TransactionActionDrv *drv;
+> +    void *opaque;
+> +    QSLIST_ENTRY(TransactionAction) entry;
 
--- =
+"next" is a bit more conventional as a name, but by far not as much as I
+thought, so no objection.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843651
+With the than/then typo fixed:
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-Title:
-  m68k fpu bug
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  On gcc123 cfarm machine,
-  I was testing m68k executables generated by Free Pascal Compiler.
-
-  muller@gcc123:~/pas/check$ cat inf.pp
-  function get_double(x : double):double;
-    begin
-      get_double:=3Dx;
-    end;
-
-  =
-
-  var
-    y : double;
-    py : pbyte;
-    i : byte;
-  begin
-    y:=3D1.0/0.0;
-    py:=3D@y;
-  {$ifdef ENDIAN_LITTLE}
-    write('little endian y=3D');
-    for i:=3D7 downto 0 do
-  {$else not ENDIAN_LITTLE}
-    write('big endian y=3D');
-    for i:=3D0 to 7 do
-  {$endif}
-      write(hexstr(py[i],2));
-    writeln;
-    y:=3Dget_double(y)+1;
-  {$ifdef ENDIAN_LITTLE}
-    write('little endian y=3D');
-    for i:=3D7 downto 0 do
-  {$else not ENDIAN_LITTLE}
-    write('big endian y=3D');
-    for i:=3D0 to 7 do
-  {$endif}
-      write(hexstr(py[i],2));
-    writeln;
-  end.
-  muller@gcc123:~/pas/check$ ppc68k inf
-  Free Pascal Compiler version 3.3.1-r20:42973M [2019/09/11] for m68k
-  Copyright (c) 1993-2019 by Florian Klaempfl and others
-  Target OS: Linux for m68k
-  Compiling inf.pp
-  Assembling program
-  Linking inf
-  33 lines compiled, 0.1 sec
-  muller@gcc123:~/pas/check$ ./inf
-  big endian y=3D7FF0000000000000
-  big endian y=3D7FFFFFFFFFFFFFFF
-  muller@gcc123:~/pas/check$ qemu-m68k ./inf
-  big endian y=3D7FF0000000000000
-  big endian y=3D7FFFFFFFFFFFFFFF
-  muller@gcc123:~/pas/check$ ~/sys-root/bin/qemu-m68k ./inf
-  qemu-m68k        qemu-m68k-fixed
-  muller@gcc123:~/pas/check$ ~/sys-root/bin/qemu-m68k-fixed ./inf
-  big endian y=3D7FF0000000000000
-  big endian y=3D7FF0000000000000
-
-  ~/sys-root/bin/qemu-m68k  is 4.1.0 release,
-  ~/sys-root/bin/qemu-m68k-fixed is the same source with a unique change:
-
-  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h:214:#if defined(TARGET_M68=
-K)
-  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-215-#define floatx80_infin=
-ity_low  LIT64(0x0000000000000000)
-  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-216-#else
-  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-217-#define floatx80_infin=
-ity_low  LIT64(0x8000000000000000)
-  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-218-#endif
-
-  the M68K branch value is set to the same value as the other branch.
-
-  The problem of the M68K specific floatx86_infinity_low values
-  is that is enters in conflict with
-  muller@gcc123:~/pas/check$ grep -nA6 invalid_enc  /home/muller/gnu/qemu/q=
-emu-4.1.0/include/fpu/softfloat.h
-  752:static inline bool floatx80_invalid_encoding(floatx80 a)
-  753-{
-  754-    return (a.low & (1ULL << 63)) =3D=3D 0 && (a.high & 0x7FFF) !=3D =
-0;
-  755-}
-
-  And thus the m68k variant of floatx80 representing +Infinity is
-  considered as an invalid encoding, and thus converted into a NaN 7FFFFFFF=
-FFFFFFFF
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843651/+subscriptions
 
