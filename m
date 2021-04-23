@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBF0369B6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:40:58 +0200 (CEST)
-Received: from localhost ([::1]:38084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A42369B75
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:44:03 +0200 (CEST)
+Received: from localhost ([::1]:46514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la2bh-0005Qq-Gh
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
+	id 1la2eg-0000ZP-KS
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2aA-0004V8-RA
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:22 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:33376)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2aY-000543-M3
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:46 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:37542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2a8-0007el-BY
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:22 -0400
-Received: by mail-oi1-x235.google.com with SMTP id u80so16787975oia.0
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:39:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2aX-0007uI-15
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:46 -0400
+Received: by mail-ot1-x333.google.com with SMTP id
+ c8-20020a9d78480000b0290289e9d1b7bcso32334707otm.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:39:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vf34mZ3riq9FeL+s+KZ75uaL1iX0ckHHtv7W0zO1FO0=;
- b=nc0nFCGSDCzPqGDMDplUi9SE625QgmBYhNCecJqPOg1PY8XXoueIaPzSmgCgtVedMX
- CmdsjiaiXqBmNog776fyiXsyZSS5IGXURTIsV44L8SJTbwalOXs/TL1ST2AZAagPMn6U
- sNDEedzskBIbwsl1+KYhGOBCk7K5DFcQuOXtbGvcyXoWqWseHBnf61D291TS10CpZjb3
- DsU4W3kcpTHFQ7sdIEmVOUDaErrfnpZ+laOx7yUisA4fkU/wVEd2ly7JnCLmzYWhvkNu
- yeYdS0oswvaosusjXQCS021jj/1KboNbV0igDg59kNqot4Px0UbRtXaYArOCz4iQdSEF
- 94gg==
+ bh=2s8vq4d/u6ExixWr3LABUBqHOg+2FqYKQ6WxdLTQB3U=;
+ b=yduzLWhW34Sjac2zln4bKYrcC6o2//LQnrb6suPqxQh+2t8tbwY08Rd3ZOs+Oyzn7E
+ APdZaxsYAs5ZYD8kN6AT26KihpkD48IU0zjyHczJvhWmdO/1RnfoSdFNNpQknRx0Dz3A
+ Rm1jhDdPDu8Z344qgBbMkZ6tkgZjSVfakk7LYMnW/jI5ZPTp7F8VpAbmULdh6ZuQjNPz
+ PZtGIrmtUlvsqF/tdQVT6BJbeylq2dUTdtmNfkVx2AeJhDNTTVxU9jUKfJCq4VBl2+lK
+ 06gZ8cnEXeIhBonzuBYSMO4cv8NOKZmzoBB5MvgFutls+YT2t2wK4zJIlqK5FhccNp6a
+ xEEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vf34mZ3riq9FeL+s+KZ75uaL1iX0ckHHtv7W0zO1FO0=;
- b=S4Vc5thBMA1oEkR5Up45QiOkl/YY/Jq/CCfr/01YsCcX9vhofU+2uljuHANRCyOu5Q
- f17uWoK4ARv254/Z6MkjntobZsMmEvW5+6thIgiyoCimuX81EjMUmlE+BiqgmwFd5Ht6
- FaDoViksEtAmqaanrKJeSWSk4LIe1RUfU5SAdvrGOztRt6qnmPdIVQz9QE2TKtJ28Zlh
- uR/PcnBkOAx69g6DcYv4ThdJ0TapdZi3c78wBpGjFbpXGpCG05QIRP7Y8XKTaGzZhRxA
- 3E5k3XpgOAsrjrkIpegz/QXer5hePcDF8KXgp4urUwveTS/iEwfu6MwpNHkOPVREISdY
- AOTg==
-X-Gm-Message-State: AOAM531v0uh2MJ7r9rL2yrxhe4EiiFGUnJGyceIh7lOxG2MclBwBO5aS
- jXUcSvptIO8MUFJFxfnqMP0CEHxVGeRcrkG3
-X-Google-Smtp-Source: ABdhPJzV7KZGUP02XxwNiaQ31wtGiMfJODq41c+M89jaQZs1P84wWujfosqC2Xwwj7NZMwBrVW/v0w==
-X-Received: by 2002:aca:fd57:: with SMTP id b84mr5210601oii.81.1619210358059; 
- Fri, 23 Apr 2021 13:39:18 -0700 (PDT)
+ bh=2s8vq4d/u6ExixWr3LABUBqHOg+2FqYKQ6WxdLTQB3U=;
+ b=SjdxCZbFywZVrW4WRPy2DML4duv7cecqlRRo18GNVxfeB5w8WicCI8j+gtu0vVAQzX
+ 7GbwLd+MzpCm2WvRBwpJw8+dXyJpuEfw2rHIMDei85FRQ5NfIk/KJeHJdfuGLNBY9etQ
+ qNmeyRnWyYTFUwDih9UDYAIR4PLo727hFmw48SrQIcyoWDgOOgOdFRfOgFYI4WXcNfw6
+ 8N/Dp5Rnt61kjLtsPv02Htfed7Mi2FLiyo6wJJCIbjnyRTjgi5LEqa8D5AX4AkFteTwV
+ SzLaHBRg1ZlqJXqOaQ+xrlYn/aVdM54V7QUQsqLLyb97syQ4zc5sbpZdP/10FOoDbXXr
+ s+Ow==
+X-Gm-Message-State: AOAM533AzEPX2VSsupJVbT0giIQfP6qZB7Tr92xG6RNSXWcJqUcXziGV
+ Tm9o2V9aL4BWmTD42qSIhSyuf5DJef571n1s
+X-Google-Smtp-Source: ABdhPJwuSymUc1k32AwdbsNztctGgKDOVKDFPcGyjXjY/hBLrgBBdKauxaRXLK7pkoZUzBpk9D5ZSA==
+X-Received: by 2002:a9d:5f0c:: with SMTP id f12mr4799725oti.258.1619210383374; 
+ Fri, 23 Apr 2021 13:39:43 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x45sm1676206otr.35.2021.04.23.13.39.17
+ by smtp.gmail.com with ESMTPSA id m127sm1511911oib.32.2021.04.23.13.39.42
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Apr 2021 13:39:17 -0700 (PDT)
+ Fri, 23 Apr 2021 13:39:42 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/24] bsd-user style and reorg patches
-Date: Fri, 23 Apr 2021 14:39:03 -0600
-Message-Id: <20210423203903.78183-1-imp@bsdimp.com>
+Subject: [PULL 01/24] bsd-user: whitespace changes
+Date: Fri, 23 Apr 2021 14:39:27 -0600
+Message-Id: <20210423203935.78225-1-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::235;
- envelope-from=imp@bsdimp.com; helo=mail-oi1-x235.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::333;
+ envelope-from=imp@bsdimp.com; helo=mail-ot1-x333.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,137 +86,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-Greetings,
+keyword space paren, no space before ( in function calls, spaces around
+operators.
 
-This series starts to cleanup bsd-user. The current checkpatch.pl output is on
-the order of 4500 lines long. These cleanups don't fix everything (there's still
-plenty of errors, even in some of the files the patches touch). I've tried to
-make things better in every case, but be advised that checkpatch.pl is unhappy
-with many of the files still in the first 15 commits. I do plan on addressing
-the issues in the future as I need to make real commits to those files. The
-changes were ones that were trivial to do with scripts that I had to do for
-main.c anyway. main.c is now completely clean. All the cleanup I've done
-myself, and at the end of this patch trail the output is only 3500 lines...
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+---
+ bsd-user/bsdload.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-Next, I've started to reorg the bsd-user sources. There's really 4 BSDs in the
-wild (FreeBSD, NetBSD, OpenBSD and Dragonfly) that these could, in theory,
-target. In the bsd-user branch, we've broken the emulation of these apart. It
-largely preserves the other BSD's as is, and greatly expands FreeBSD so that we
-can do package builds in user-land emulation. The other BSDs have not been
-run-time tested, though the CI tooling builds some of them. It's my belief that
-in the current state, even an old-school cat(1) would fail, though I am to fix
-that at least for FreeBSD...
-
-We've also added a number of other architectures than sparc and i386. Those
-additions, though, are dependent on other things not yet reshuffled and or
-merged, so they will be coming along in due time: mips (32 and 64 bit), arm,
-aarch64 and riscv willl come in due time. powerpc might, but it's in a frightful
-state. I'm open to other BSDs that wish to work along with me as well, though it
-may be best to wait until after future patch sets as much is still set to
-change. CHERI and related work may also happen, but that's still TBD.
-
-In this installement, after the style stuff, I've created a
-target_arch_cpu.h. Here, all the functions related to the cpu loop and similar
-things are moved into there on a per-architecture basis to start to tame the
-number of #ifdefs in mail. Linux-user did a similar thing years after we had
-done it in the repo, and a number of different choices were made. Rather than
-redo all the work from the bsd-user repo, I'm recreating / rebasing it on a
-current qemu. Future patch series will address other aspects. Once they are
-complete, we can look, potentially, at any refactoring between linux-user and
-bsd-user. I very much explicitly want to push that to the end because otherwise
-I'm completely recreating a lot of the work on the bsd-user branch rather than
-just transitioning it forward to a newer qemu. This reorg was started by Stacey
-Son and I've redone it with the latest code. I've added his signoff (with his
-blanket permission) to those commits. Also, all of these commits pass
-checkpatch.pl
-
-Please let me know what you think, and how I might structure future patches if
-there's ways I can do them better. I've switched to pull-requests with this series
-since it will be easier to keep track of, especially in the future.
-
-Warner
-
-P.S. This has no relevance to 6.0 at all: we're too late and this feature
-isn't fully integrated by this patch trail.
-
-The following changes since commit 9950da284fa5e2ea9ab57d87e05b693fb60c79ce:
-
-  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20210322-2' into staging (2021-03-23 15:30:46 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/bsdimp/qemu.git tags/pull-request-2021-04-23
-
-for you to fetch changes up to cc6e9793094f5207509bb74b90854a89195d22db:
-
-  bsd-user: move sparc cpu_loop into target_arch_cpu.h as target_cpu_loop (2021-04-23 13:13:13 -0600)
-
-----------------------------------------------------------------
-April 23, 2021 bsd-user	update
-
-Style changes to reduce	checkpatch whinage (much more needed as only some issues
-globally and all issues	in main.c have been address, other files need much love).
-
-Start to reorg so we can bring in all the work from the	bsd-user repo.
-
-----------------------------------------------------------------
-Warner Losh (24):
-  bsd-user: whitespace changes
-  bsd-user: whitespace changes
-  bsd-user: whitespace changes
-  bsd-user: style tweak: keyword space (
-  bsd-user: style tweak: keyword space (
-  bsd-user: style tweak: keyword space (
-  bsd-user: style tweak: keyword space (
-  bsd-user: style tweak: use C not C++ comments
-  bsd-user: style tweak: use C not C++ comments
-  bsd-user: style tweak: use C not C++ comments
-  bsd-user: style tweak: if 0 -> ifdef notyet for code needed in future
-  bsd-user: style tweak: if 0 -> ifdef notyet for code needed in future
-  bsd-user: style tweak: if 0 -> ifdef notyet for code needed in future
-  bsd-user: style tweak: if 0 -> ifdef notyet for code needed in future
-  bsd-user: Fix commentary issues
-  bsd-user: Use preferred block comments
-  bsd-user: move extern to header file
-  bsd-user: style changes for {}
-  bsd-user: use qemu_strtol in preference to strtol
-  bsd-user: introduce host_os.h for bsd-specific code and defaults
-  bsd-user: add arm target_signal.h
-  bsd-user: create target_arch_cpu.h
-  bsd-user: move x86 (i386 and x86_64) cpu_loop to target_arch_cpu.h
-  bsd-user: move sparc cpu_loop into target_arch_cpu.h as
-    target_cpu_loop
-
- bsd-user/arm/target_arch_cpu.h     |  22 +
- bsd-user/arm/target_signal.h       |  31 ++
- bsd-user/bsd-mman.h                |  42 +-
- bsd-user/bsdload.c                 |  26 +-
- bsd-user/elfload.c                 | 334 +++++++--------
- bsd-user/freebsd/host_os.h         |  25 ++
- bsd-user/i386/target_arch_cpu.h    | 305 ++++++++++++++
- bsd-user/main.c                    | 651 +++--------------------------
- bsd-user/mmap.c                    |  22 +-
- bsd-user/netbsd/host_os.h          |  25 ++
- bsd-user/openbsd/host_os.h         |  25 ++
- bsd-user/qemu.h                    |  16 +-
- bsd-user/sparc/target_arch_cpu.h   | 322 ++++++++++++++
- bsd-user/sparc64/target_arch_cpu.h |  19 +
- bsd-user/strace.c                  |   2 +-
- bsd-user/syscall.c                 |  18 +-
- bsd-user/uaccess.c                 |   2 +-
- bsd-user/x86_64/target_arch_cpu.h  |  19 +
- bsd-user/x86_64/target_syscall.h   |   2 +-
- 19 files changed, 1081 insertions(+), 827 deletions(-)
- create mode 100644 bsd-user/arm/target_arch_cpu.h
- create mode 100644 bsd-user/arm/target_signal.h
- create mode 100644 bsd-user/freebsd/host_os.h
- create mode 100644 bsd-user/i386/target_arch_cpu.h
- create mode 100644 bsd-user/netbsd/host_os.h
- create mode 100644 bsd-user/openbsd/host_os.h
- create mode 100644 bsd-user/sparc/target_arch_cpu.h
- create mode 100644 bsd-user/sparc64/target_arch_cpu.h
- create mode 100644 bsd-user/x86_64/target_arch_cpu.h
-
+diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
+index f38c4faacf..2bacae7393 100644
+--- a/bsd-user/bsdload.c
++++ b/bsd-user/bsdload.c
+@@ -24,7 +24,7 @@ static int count(char ** vec)
+ {
+     int         i;
+ 
+-    for(i = 0; *vec; i++) {
++    for (i = 0; *vec; i++) {
+         vec++;
+     }
+ 
+@@ -37,15 +37,15 @@ static int prepare_binprm(struct linux_binprm *bprm)
+     int mode;
+     int retval;
+ 
+-    if(fstat(bprm->fd, &st) < 0) {
++    if (fstat(bprm->fd, &st) < 0) {
+         return(-errno);
+     }
+ 
+     mode = st.st_mode;
+-    if(!S_ISREG(mode)) {        /* Must be regular file */
++    if (!S_ISREG(mode)) {        /* Must be regular file */
+         return(-EACCES);
+     }
+-    if(!(mode & 0111)) {        /* Must have at least one execute bit set */
++    if (!(mode & 0111)) {        /* Must have at least one execute bit set */
+         return(-EACCES);
+     }
+ 
+@@ -53,7 +53,7 @@ static int prepare_binprm(struct linux_binprm *bprm)
+     bprm->e_gid = getegid();
+ 
+     /* Set-uid? */
+-    if(mode & S_ISUID) {
++    if (mode & S_ISUID) {
+         bprm->e_uid = st.st_uid;
+     }
+ 
+@@ -69,10 +69,10 @@ static int prepare_binprm(struct linux_binprm *bprm)
+ 
+     memset(bprm->buf, 0, sizeof(bprm->buf));
+     retval = lseek(bprm->fd, 0L, SEEK_SET);
+-    if(retval >= 0) {
++    if (retval >= 0) {
+         retval = read(bprm->fd, bprm->buf, 128);
+     }
+-    if(retval < 0) {
++    if (retval < 0) {
+         perror("prepare_binprm");
+         exit(-1);
+         /* return(-errno); */
+@@ -132,8 +132,8 @@ int loader_exec(const char * filename, char ** argv, char ** envp,
+     int retval;
+     int i;
+ 
+-    bprm.p = TARGET_PAGE_SIZE*MAX_ARG_PAGES-sizeof(unsigned int);
+-    for (i=0 ; i<MAX_ARG_PAGES ; i++)       /* clear page-table */
++    bprm.p = TARGET_PAGE_SIZE * MAX_ARG_PAGES - sizeof(unsigned int);
++    for (i = 0 ; i < MAX_ARG_PAGES ; i++)       /* clear page-table */
+             bprm.page[i] = NULL;
+     retval = open(filename, O_RDONLY);
+     if (retval < 0)
+@@ -147,26 +147,26 @@ int loader_exec(const char * filename, char ** argv, char ** envp,
+ 
+     retval = prepare_binprm(&bprm);
+ 
+-    if(retval>=0) {
++    if (retval >= 0) {
+         if (bprm.buf[0] == 0x7f
+                 && bprm.buf[1] == 'E'
+                 && bprm.buf[2] == 'L'
+                 && bprm.buf[3] == 'F') {
+-            retval = load_elf_binary(&bprm,regs,infop);
++            retval = load_elf_binary(&bprm, regs, infop);
+         } else {
+             fprintf(stderr, "Unknown binary format\n");
+             return -1;
+         }
+     }
+ 
+-    if(retval>=0) {
++    if (retval >= 0) {
+         /* success.  Initialize important registers */
+         do_init_thread(regs, infop);
+         return retval;
+     }
+ 
+     /* Something went wrong, return the inode and free the argument pages*/
+-    for (i=0 ; i<MAX_ARG_PAGES ; i++) {
++    for (i = 0 ; i < MAX_ARG_PAGES ; i++) {
+         g_free(bprm.page[i]);
+     }
+     return(retval);
 -- 
 2.22.1
 
