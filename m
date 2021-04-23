@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9C336894E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 01:26:18 +0200 (CEST)
-Received: from localhost ([::1]:49470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBDB368A35
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 03:10:04 +0200 (CEST)
+Received: from localhost ([::1]:45726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZii8-0007JG-Qf
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 19:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42970)
+	id 1lZkKY-0005qq-J5
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 21:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lZigt-0006fK-EO
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 19:24:59 -0400
-Resent-Date: Thu, 22 Apr 2021 19:24:59 -0400
-Resent-Message-Id: <E1lZigt-0006fK-EO@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lZigq-0004gf-Vr
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 19:24:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619133889; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=dEC7Iha6NxJQ1i103c2sD/WYqaP4fOj/eFFlTr+73VOw2j4USwfX4ROKoCZrYMJO5gOkV9H1N1K4ZX654kLFlp0WBnUa1hoqCpA9vI+xJDQn9+KB/Z/10EWwjkYAKmdGzEzRgEpOE2UHqqLFrj9oPiap/IpS/2tZ2TbH2w2KSVE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619133889;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=JZAsYSKZ5xVU44mR61U1VLM85LNxqI/oEK2o/kZ5HzA=; 
- b=B+al1Tb+FpI2vNXv4mSEmiRyXYT7Zy1Ul7xPR72E4XTCj69e/jH+ijsoLrxnGjH5ZP+ptchWwEGW66VXVPPEC10+FM2iXMe7v2NHqCQaBbGmeExZsUY1DdQhfZqEmRYIH3q1QGyatJYjKK8Qfjy5o4rjpMSOMhZ8jFV6YrgpQ3U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1619133888448494.04670081648146;
- Thu, 22 Apr 2021 16:24:48 -0700 (PDT)
-In-Reply-To: <20210422230227.314751-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 0/7] linux-user: sigaction fixes/cleanups
-Message-ID: <161913388741.19742.13437078672826461468@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZkJB-000582-Ds
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:08:37 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZkJ8-0007r8-Vo
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:08:37 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id u7so22618171plr.6
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 18:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MUA1k1tQg1EnwA+MIy/CWrOl/o5O27lSJomM1qJOaAs=;
+ b=pnT/8bjsgEEWxFHCr+twW7LgZKTX/tnYgXMyGZQXPlkoJjszgQuw8iiG4f0WO/rLWc
+ cqdCtwRTLIzn8tCtei10iObK9KlCP1xusdV/yWOGIz677PVV0SoH6kLJo/YQk/zFDVQR
+ 4355nYtorcncwkXXerHTBrQpY2XH7WkEjaT3zhomIaIHUbIDqxXdwTljBQnbyRHkJlxI
+ Jc6WDBys67O1H001a6xLJa+VCcL8FHxn+QPLWEyAjZN613eOHq3hytpqSs5q/8lwqVCj
+ VYGRMlT91oN+08vUAFktAVKBdSp9H8AiJqWtSbOsRkSbLprWc5iPNyGGDn6gFaHMtgBO
+ kogQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MUA1k1tQg1EnwA+MIy/CWrOl/o5O27lSJomM1qJOaAs=;
+ b=A338hU1blFVRWwWpCApXm/sJuhmhJALeO6M0i1FlKkDJNt9jCQZfd3jVEosaVFWja4
+ w56l9C8t3HjfAM9f1dvZVGdo8fgUaixsWYw3EGyQkiga0gug+TK3Vun1O5TBJhKguVct
+ XzQaIinCVdKQ4QeLAm4k8p1BQSk7T+k5FfbVhAjwBmbhZe+nlGY51GHmZXrhiPEgao71
+ bqK8oGbiLE/KZPt3mzRKGDaRDxJBaZWtW5XsEyxowa3A9WisRKQA5jOW+jUlAchmkzTm
+ jUuPYwiwJlCHlNs/sNjyYb03t3Mp2+MhCtdz8Cv5++YkWK4zYr6ofX0F/juNg3DZOXYE
+ LhdA==
+X-Gm-Message-State: AOAM530DZc+qYIf0Zlxfhzusw1x64zmviHRp/lDbafnQS5eLNxBDjvG9
+ 7OCv8pbtFAG/dYm9FFhW49YVlA==
+X-Google-Smtp-Source: ABdhPJxGOvIcSIF5Jqhe7xh9GM1aUQkj3fgXPD9lv9BUXEpYHw4QHt7964el1U7xGaPF6efxrv+lOA==
+X-Received: by 2002:a17:90a:5b0a:: with SMTP id
+ o10mr2838923pji.82.1619140113294; 
+ Thu, 22 Apr 2021 18:08:33 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id w7sm3095480pff.208.2021.04.22.18.08.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Apr 2021 18:08:32 -0700 (PDT)
+Subject: Re: [PATCH v6 06/18] cpu: Assert DeviceClass::vmsd is NULL on user
+ emulation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210422193902.2644064-1-f4bug@amsat.org>
+ <20210422193902.2644064-7-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f53ad5da-3016-229f-9bb0-f6c8f06f4a36@linaro.org>
+Date: Thu, 22 Apr 2021 18:08:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Thu, 22 Apr 2021 16:24:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210422193902.2644064-7-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,54 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyMjIzMDIyNy4zMTQ3
-NTEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MjIy
-MzAyMjcuMzE0NzUxLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggdjIgMC83XSBsaW51eC11c2VyOiBzaWdhY3Rpb24gZml4ZXMvY2xlYW51cHMKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2
-NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJv
-amVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA0MjIyMzAyMjcuMzE0
-NzUxLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwNDIyMjMw
-MjI3LjMxNDc1MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBu
-ZXcgYnJhbmNoICd0ZXN0Jwo5ZWVlNzQ2IGxpbnV4LXVzZXI6IFRpZHkgVEFSR0VUX05SX3J0X3Np
-Z2FjdGlvbgo0NmMyNTQxIGxpbnV4LXVzZXIvYWxwaGE6IFNoYXJlIGNvZGUgZm9yIFRBUkdFVF9O
-Ul9zaWdhY3Rpb24KYzY5Nzc2YiBsaW51eC11c2VyL2FscGhhOiBEZWZpbmUgVEFSR0VUX0FSQ0hf
-SEFTX0tBX1JFU1RPUkVSCmRlOWU1YzIgbGludXgtdXNlcjogSG9ub3IgVEFSR0VUX0FSQ0hfSEFT
-X1NBX1JFU1RPUkVSIGluIGRvX3N5c2NhbGwKNTdiZDk2MCBsaW51eC11c2VyOiBQYXNzIGthX3Jl
-c3RvcmVyIHRvIGRvX3NpZ2FjdGlvbgplZjQwNTRlIGxpbnV4LXVzZXIvYWxwaGE6IFJlbmFtZSB0
-aGUgc2lnYWN0aW9uIHJlc3RvcmVyIGZpZWxkCmRmNGZhYzkgbGludXgtdXNlci9hbHBoYTogRml4
-IHJ0IHNpZ2ZyYW1lIHJldHVybgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS83IENoZWNraW5nIGNv
-bW1pdCBkZjRmYWM5NzdjNGMgKGxpbnV4LXVzZXIvYWxwaGE6IEZpeCBydCBzaWdmcmFtZSByZXR1
-cm4pCjIvNyBDaGVja2luZyBjb21taXQgZWY0MDU0ZTQyNTc0IChsaW51eC11c2VyL2FscGhhOiBS
-ZW5hbWUgdGhlIHNpZ2FjdGlvbiByZXN0b3JlciBmaWVsZCkKMy83IENoZWNraW5nIGNvbW1pdCA1
-N2JkOTYwNGVmMTggKGxpbnV4LXVzZXI6IFBhc3Mga2FfcmVzdG9yZXIgdG8gZG9fc2lnYWN0aW9u
-KQpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM2NDogRklMRTogbGlu
-dXgtdXNlci9zeXNjYWxsLmM6OTAxOToKK15JICAgIHJldCA9IGdldF9lcnJubyhkb19zaWdhY3Rp
-b24oYXJnMSwgcGFjdCwgJm9hY3QsIDApKTskCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3Ms
-IDk3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoK
-NC83IENoZWNraW5nIGNvbW1pdCBkZTllNWMyNjdmODUgKGxpbnV4LXVzZXI6IEhvbm9yIFRBUkdF
-VF9BUkNIX0hBU19TQV9SRVNUT1JFUiBpbiBkb19zeXNjYWxsKQo1LzcgQ2hlY2tpbmcgY29tbWl0
-IGM2OTc3NmJmMmIwNyAobGludXgtdXNlci9hbHBoYTogRGVmaW5lIFRBUkdFVF9BUkNIX0hBU19L
-QV9SRVNUT1JFUikKNi83IENoZWNraW5nIGNvbW1pdCA0NmMyNTQxYjYxN2QgKGxpbnV4LXVzZXIv
-YWxwaGE6IFNoYXJlIGNvZGUgZm9yIFRBUkdFVF9OUl9zaWdhY3Rpb24pCjcvNyBDaGVja2luZyBj
-b21taXQgOWVlZTc0NjRkMzE4IChsaW51eC11c2VyOiBUaWR5IFRBUkdFVF9OUl9ydF9zaWdhY3Rp
-b24pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
-CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
-MjEwNDIyMjMwMjI3LjMxNDc1MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvdGVzdGlu
-Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
-YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
-ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 4/22/21 12:38 PM, Philippe Mathieu-Daudé wrote:
+> Migration is specific to system emulation.
+> 
+> Restrict current DeviceClass::vmsd to sysemu using #ifdef'ry,
+> and assert in cpu_exec_realizefn() that dc->vmsd not set under
+> user emulation.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   cpu.c                  | 1 +
+>   target/sh4/cpu.c       | 5 +++--
+>   target/unicore32/cpu.c | 4 ++++
+>   target/xtensa/cpu.c    | 4 +++-
+>   4 files changed, 11 insertions(+), 3 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
