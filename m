@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6882E3697E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:02:09 +0200 (CEST)
-Received: from localhost ([::1]:52652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF833697E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:04:20 +0200 (CEST)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZzBw-00066J-D4
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
+	id 1lZzE3-0007yg-OM
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZz4q-0000A9-MW
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36818)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZz4d-0008Qb-OT
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:36 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:42523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZz4n-0008F1-Nl
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZz4k-0002vc-PR
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 16:54:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A1C1F2E8162
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 16:54:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Apr 2021 16:41:46 -0000
-From: Kendrick <1323758@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZz4X-0008BK-FE
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:35 -0400
+Received: by mail-pl1-x632.google.com with SMTP id v13so11913503ple.9
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 09:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bpMdaQI7d9VQlEQ+FXm6j0OmwDELWjGPjFeSPFqh+YA=;
+ b=uE94mD8e7Wle6YtHIrYanc+d/zb9YfjsmmagnWvDGkOyJJJ0z4nViu1i07n0XHnRFy
+ qNsVSEQzxpmhvfpxq72tBJ4wHgVymnJXdDkdyJV9cf6StzVq656jlORqXBoeI1jodUU/
+ 4s19/nC08W0RHtk7zAhiJpb5MTvS4ybUq6HASa6vI5VJ+hUsjGOfMg8c1CfDiEtVwpxN
+ oT70Q0HltWVeLzAlBz/4CsakMg4CGoTh36BADSey55k6mVRgZ2Tg71NSgC2flkEdfifY
+ ZoWuOmzypA0k5rGwLGwgOeUXWMylzsE+EbnRwCvVmZM2FV9oAWGRUZa+Z9IzJ4ks/TcW
+ +gQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bpMdaQI7d9VQlEQ+FXm6j0OmwDELWjGPjFeSPFqh+YA=;
+ b=SfdwQRCcoVps7mpuMaUfpcYEd6rZ9vxeVMoUxsLoWJemxBkcw1fdbeXefSCSq69WWq
+ 1Q9w3XF8t63tioPuQiUPUolRM8UUYxrGoFygYTO96J9262ADQLNvF43j/+8Tf2i/Vif2
+ tY8mU25tPa7gMPQsxkpIb73mQFjVuAbLQ3H1tucyAzfcVMZ6YRyOhvau1j2/M8SU8cGi
+ Vs6xXHolv7RpECgl9aX6QJ+cRhomK1Krugu0xDdwxVpPXPlv1nqKnZDwGtuM1ZDhEHXw
+ cCWWP5uEQbg2r/PHIBezKIy/1Ebk8glS4OAnatMegi1YiA9xEYYUGjSGgyVFR7OSVutS
+ V+1A==
+X-Gm-Message-State: AOAM530NxKeUCWSInpoxLYJhrid/1+G+AwjAa8dqQ4M+8KFUfZNqNfub
+ 5LkhbwzwyJ/R6O+gVOht2DzbO7fXSVWCwA==
+X-Google-Smtp-Source: ABdhPJyvdlc7nrUWCs/nN6ReKNisu4o9gDkCS96LGdcksbqYNgnbUvc+h1lCCJZr1USQoFbyDPkKAQ==
+X-Received: by 2002:a17:902:b210:b029:eb:535f:852 with SMTP id
+ t16-20020a170902b210b02900eb535f0852mr4546539plr.80.1619196856836; 
+ Fri, 23 Apr 2021 09:54:16 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id q5sm4918151pfu.5.2021.04.23.09.54.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 09:54:16 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: upstream
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor maarten256 phalen rubenportier
- serge-hallyn th-huth
-X-Launchpad-Bug-Reporter: Ruben Portier (rubenportier)
-X-Launchpad-Bug-Modifier: Kendrick (phalen)
-References: <20140527170942.25223.59558.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161919610694.4113.12047439249149908388.malone@gac.canonical.com>
-Subject: [Bug 1323758] Re: Mouse stops working when connected
- usb-storage-device
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: ae3cb190989dc1ccc5bd6defd56a01558814a089
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 3/4] linux-user/arm: Do not fill in si_code for fpa11
+ exceptions
+Date: Fri, 23 Apr 2021 09:54:12 -0700
+Message-Id: <20210423165413.338259-4-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210423165413.338259-1-richard.henderson@linaro.org>
+References: <20210423165413.338259-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,69 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1323758 <1323758@bugs.launchpad.net>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have had this issue happen multiple times on multiple versions of kvm
-with both ubuntu and cantos.  I just the other day tried installing
-win8.1 again for testing and ran across ruban's post.  this happens in
-win10 as well and I think I had seen it in win7.
+There is no such decoding in linux/arch/arm/nwfpe/fpmodule.c.
 
-I reinstalled another win8 vm from a usb instead of an iso later that
-day and realized that the mouse was working normally which surprised me.
-I then manually installed the virtio nic driver.  the system still
-worked normally.  I then installed the baloon driver and that make the
-mouse stop working untill i pulled the flash drive.  after changing the
-power settings the mouse would again start working with the flash drive.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/arm/cpu_loop.c | 26 ++++++--------------------
+ 1 file changed, 6 insertions(+), 20 deletions(-)
 
-I have always used virt manager for connecting to the servers and spice
-for the display
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index e2a1496b9f..5f61d25717 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -262,29 +262,15 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
+     /* Exception enabled? */
+     FPSR fpsr = ts->fpa.fpsr;
+     if (fpsr & (arm_fpe << 16)) {
+-        target_siginfo_t info;
++        target_siginfo_t info = { };
+ 
++        /*
++         * The kernel's nwfpe emulator does not pass a real si_code.
++         * It merely uses send_sig(SIGFPE, current, 1).
++         */
+         info.si_signo = TARGET_SIGFPE;
+-        info.si_errno = 0;
++        info.si_code = TARGET_SI_KERNEL;
+ 
+-        /* ordered by priority, least first */
+-        if (arm_fpe & BIT_IXC) {
+-            info.si_code = TARGET_FPE_FLTRES;
+-        }
+-        if (arm_fpe & BIT_UFC) {
+-            info.si_code = TARGET_FPE_FLTUND;
+-        }
+-        if (arm_fpe & BIT_OFC) {
+-            info.si_code = TARGET_FPE_FLTOVF;
+-        }
+-        if (arm_fpe & BIT_DZC) {
+-            info.si_code = TARGET_FPE_FLTDIV;
+-        }
+-        if (arm_fpe & BIT_IOC) {
+-            info.si_code = TARGET_FPE_FLTINV;
+-        }
+-
+-        info._sifields._sigfault._addr = env->regs[15];
+         queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+     } else {
+         env->regs[15] += 4;
+-- 
+2.25.1
 
-** Changed in: qemu
-       Status: Expired =3D> Confirmed
-
-** Changed in: qemu (Ubuntu)
-       Status: Expired =3D> Confirmed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1323758
-
-Title:
-  Mouse stops working when connected usb-storage-device
-
-Status in QEMU:
-  Confirmed
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  I'm running a guest that has Windows 8 Pro (x64) installed. Every time
-  I pass through a usb storage device from the host to the guest, the
-  mouse stops working in the vnc client. When I remove the usb-device
-  the mouse works again.
-
-  The mouse only stops working when I pass through a usb storage device
-  and then make the vlc viewer (client) inactive by clicking on another
-  program on the local computer (where I'm running the vnc viewer
-  (client)). As long as I keep the vnc viewer active, the mouse works
-  without any problems. But as soon as I make the vnc viewer inactive
-  and then active again, the mouse will no longer work. I have to reboot
-  the guest or remove the usb storage device.
-
-  I can't find any related problems on the internet, so it may be just
-  me?
-
-  I hope someone can help me with this.
-
-  EDIT: I posted the extra/new information in comments. But as I know
-  see it might be wrong and maybe I should've posted them in this bug
-  description container (by editing)? Please tell me if I did it wrong
-  and I will change it. Sorry for this misunderstanding.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1323758/+subscriptions
 
