@@ -2,78 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62E4369292
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:00:50 +0200 (CEST)
-Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2157836928C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 14:58:39 +0200 (CEST)
+Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZvQP-0004YB-J8
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:00:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56974)
+	id 1lZvOI-0002mM-6E
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 08:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZvMk-0001xy-Bh
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:57:03 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZvMg-00064i-Sf
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:57:01 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id p6so41650829wrn.9
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 05:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=zVPOQERJnfFthOH5XYIExA+vVe68y6DJr06TrdyzkSc=;
- b=mM5mR7GjsNenTmjb8q8D0tz6n/ey0qOYz/RGg93dHyTcsEDSRsQCUjOn5PeXd1b78B
- o4Hl9oSuknM53Fg07AuWEsYCtBhR/+DG/+P/VzoYYUinvjmELrfcEIFaFDzarbAS0feZ
- m4qIdq/BEHsxB8Dd1JoN0927C3k4s4766YXy1Ktvg6fB+yNN2DQkK19Z+57aGj4Xb+xO
- 3jShDm3+9UE3/at9BMsq9CLAdJWLv/ZkXPp08KjHD91T+6trnBKAiSJK6OTSeWiCIu8Z
- +HhrSSl1iY0LeQgKlrHBK0wW9NML+edhFI2J+hFLiasIcpUtJ/wE0d+8qxFl71QG9qhr
- RwBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=zVPOQERJnfFthOH5XYIExA+vVe68y6DJr06TrdyzkSc=;
- b=iRKsG7a0XcGemJC2+NoKt92wt3tX0SqDwBaxn9gOJ0KtA5IvUw2PESgDGn3sK3vVdS
- 1IXf/OOglqEBrFFFCwkZa4TK1zsjTx/TSO1NoBdI8oLAUJ2XI84ptj+mhh4HQclJZK4t
- h5Z71gJWa6KUzkV8X6nsCZQo2NxVswsiogdRid4+9nxADB155NxUrokBuXUo9UdkAbCA
- olMD65S6JD8/tU5JvFsfoXllkt9ESS+fdXJNiZzCfrTZdaAYrDb+1dy57ph7mXK6KhH6
- fPzldq45KXqklLUu0Y0zS5QnNXYleJbYWoDvVHSGmORRXHDXQGDgf0exsJr3gKdSD/I0
- q88w==
-X-Gm-Message-State: AOAM532B196MnGxJqO64XZGvfZNHUVjB9z5/7ZK6Ceq+L1uwyXE4a+Hl
- xzFhvbyOXsVUVw5G5X04TExdfA==
-X-Google-Smtp-Source: ABdhPJzQ2bOauaW8lVBdcD2HvJGoKc5rSzEqfqMjsLd9rfjQmDfHDnMSI9ALRfA3drj8FAqZP/T6jg==
-X-Received: by 2002:a05:6000:b:: with SMTP id h11mr4483628wrx.81.1619182617279; 
- Fri, 23 Apr 2021 05:56:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o18sm9290109wrj.88.2021.04.23.05.56.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 05:56:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 66B601FF7E;
- Fri, 23 Apr 2021 13:56:55 +0100 (BST)
-References: <20210422230227.314751-1-richard.henderson@linaro.org>
- <20210422230227.314751-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 3/7] linux-user: Pass ka_restorer to do_sigaction
-Date: Fri, 23 Apr 2021 13:55:29 +0100
-In-reply-to: <20210422230227.314751-4-richard.henderson@linaro.org>
-Message-ID: <87tunx6two.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lZvMe-0001v7-A6; Fri, 23 Apr 2021 08:56:56 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lZvMc-00062N-Lj; Fri, 23 Apr 2021 08:56:56 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13NCuIiV142437; Fri, 23 Apr 2021 08:56:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=9AzDODnoq2LuReTryi8Lhl3eItIzfHBWe/4fpqv4lGI=;
+ b=jXtOQibz6KGtx5kvy5Cq5GEWYM63r5zESKFeyaNSWZu1oWSx3t2MZb+TqVRn3CGzW6np
+ aGEwLLazuglr4tRs8jVk4AOKAp5xZnMiJdztM61fju4FZZNAXtkJ0H23bznuWDp2EaIE
+ 2MbBBMYL6pub0Eht4oqY/llJmRqjIvtvs9RugDvlVrKxBTXZNXmhVtX+OZNEi1MzDWFa
+ c9o57KTDiFDWJZWsHtjgIdbArCmYtjw+aqUYcYQEVGkJoDXKzTBy+nWaSety1bq2zt3v
+ sh5bah0GSuRJeCpbt8QXJ4GCwgN2lfW3XV9AEFwiJ4fhzXL0Jvcuyq6qsZPSLuH44+Ea qA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 383ahj6q9x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 08:56:41 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13NCubkQ144052;
+ Fri, 23 Apr 2021 08:56:40 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 383ahj6q9c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 08:56:40 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13NCVYwW014575;
+ Fri, 23 Apr 2021 12:56:39 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma02wdc.us.ibm.com with ESMTP id 37yqaagxq0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 12:56:39 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13NCud8n37552584
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Apr 2021 12:56:39 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E9153AE064;
+ Fri, 23 Apr 2021 12:56:38 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 249CAAE05F;
+ Fri, 23 Apr 2021 12:56:38 +0000 (GMT)
+Received: from localhost (unknown [9.163.1.180])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Fri, 23 Apr 2021 12:56:37 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/2] tests/tcg/ppc64le: tests for brh/brw/brd
+In-Reply-To: <20210422112754.1099177-3-matheus.ferst@eldorado.org.br>
+References: <20210422112754.1099177-1-matheus.ferst@eldorado.org.br>
+ <20210422112754.1099177-3-matheus.ferst@eldorado.org.br>
+Date: Fri, 23 Apr 2021 09:56:35 -0300
+Message-ID: <877dktf9bw.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Fv0iSsrjyGTLkJeCxJPFuzZ0RnVV7bFt
+X-Proofpoint-GUID: l3oRMWddatqwLplLMo6jlBS8Ov97U9QJ
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-23_04:2021-04-23,
+ 2021-04-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ bulkscore=0 malwarescore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104230081
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,26 +106,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ gustavo.romero@protonmail.com, f4bug@amsat.org, qemu-ppc@nongnu.org,
+ bruno.larsen@eldorado.org.br, alex.bennee@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+matheus.ferst@eldorado.org.br writes:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>
+> Tests for Byte-Reverse Halfword, Word and Doubleword
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-> The value of ka_restorer needs to be saved in sigact_table.
+Tested in x86_64 with the new container image.
 
-It would be nice to add a comment to sigact_table to describe what it
-is. This is some of the oldest code in the tree so there seems to be a
-fair bit of implicit knowledge is the way things are done.
+Tested-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-> At the moment, the attempt to save it in do_syscall is
-> improperly clobbering user memory.
-
-Otherwise to my slightly confused eyes it looks pretty sane:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+> ---
+>  tests/tcg/ppc64/Makefile.target   |  7 +++++++
+>  tests/tcg/ppc64le/Makefile.target |  7 +++++++
+>  tests/tcg/ppc64le/byte_reverse.c  | 21 +++++++++++++++++++++
+>  3 files changed, 35 insertions(+)
+>  create mode 100644 tests/tcg/ppc64le/byte_reverse.c
+>
+> diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+> index 0c6a4585fc..55c690c8ad 100644
+> --- a/tests/tcg/ppc64/Makefile.target
+> +++ b/tests/tcg/ppc64/Makefile.target
+> @@ -10,4 +10,11 @@ PPC64_TESTS=bcdsub
+>  endif
+>  bcdsub: CFLAGS += -mpower8-vector
+>  
+> +ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
+> +POWER10_TESTS=byte_reverse
+> +RUN_POWER10_TESTS=$(patsubst %, run-%, $(POWER10_TESTS))
+> +$(RUN_POWER10_TESTS): QEMU_OPTS+=-cpu POWER10
+> +PPC64_TESTS += $(POWER10_TESTS)
+> +endif
+> +
+>  TESTS += $(PPC64_TESTS)
+> diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+> index 1acfcff94a..517d290b1a 100644
+> --- a/tests/tcg/ppc64le/Makefile.target
+> +++ b/tests/tcg/ppc64le/Makefile.target
+> @@ -9,4 +9,11 @@ PPC64LE_TESTS=bcdsub
+>  endif
+>  bcdsub: CFLAGS += -mpower8-vector
+>  
+> +ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
+> +POWER10_TESTS=byte_reverse
+> +RUN_POWER10_TESTS=$(patsubst %, run-%, $(POWER10_TESTS))
+> +$(RUN_POWER10_TESTS): QEMU_OPTS+=-cpu POWER10
+> +PPC64LE_TESTS += $(POWER10_TESTS)
+> +endif
+> +
+>  TESTS += $(PPC64LE_TESTS)
+> diff --git a/tests/tcg/ppc64le/byte_reverse.c b/tests/tcg/ppc64le/byte_reverse.c
+> new file mode 100644
+> index 0000000000..53b76fc2e2
+> --- /dev/null
+> +++ b/tests/tcg/ppc64le/byte_reverse.c
+> @@ -0,0 +1,21 @@
+> +#include <assert.h>
+> +
+> +int main(void)
+> +{
+> +    unsigned long var;
+> +
+> +    var = 0xFEDCBA9876543210;
+> +    asm("brh %0, %0" : "+r"(var));
+> +    assert(var == 0xDCFE98BA54761032);
+> +
+> +    var = 0xFEDCBA9876543210;
+> +    asm("brw %0, %0" : "+r"(var));
+> +    assert(var == 0x98BADCFE10325476);
+> +
+> +    var = 0xFEDCBA9876543210;
+> +    asm("brd %0, %0" : "+r"(var));
+> +    assert(var == 0x1032547698BADCFE);
+> +
+> +    return 0;
+> +}
+> +
 
