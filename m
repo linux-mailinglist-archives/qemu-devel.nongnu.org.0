@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92130369781
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:57:55 +0200 (CEST)
-Received: from localhost ([::1]:42050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3E93697D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:00:42 +0200 (CEST)
+Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZz7q-0001ja-Lf
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36548)
+	id 1lZzAX-0005Cy-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:00:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1lZz4V-0008Ko-AO
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1lZz4K-0008Ar-Bk
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619196854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nFmKihOZ13MtuisFQ6/Ztg0w1zdx/xt6O5SsoVc+DmA=;
- b=UOZpogtoyGEhwr0UgAiFUESqpQSVua4ta9oYXxIS0Z8WIAjlM43q2+tX1A1Kr8SuIpQCsQ
- eKkqMzwGqyU1DdB5vZ5kCPenmrnOk6mvWmHslcDAKzO4mlqEPOH3V+iHdO/tg+vpfpLWHb
- p6CSkfZOagEzc4vz1lcGqXtvS/bft6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-Vyvrez5QOa2czRIQ1rYHDw-1; Fri, 23 Apr 2021 12:54:12 -0400
-X-MC-Unique: Vyvrez5QOa2czRIQ1rYHDw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B812383DD20;
- Fri, 23 Apr 2021 16:54:11 +0000 (UTC)
-Received: from maya.cloud.tilaa.com (unknown [10.36.110.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 527B060C4A;
- Fri, 23 Apr 2021 16:54:11 +0000 (UTC)
-Received: from localhost (238-055-210-188.ip-addr.inexio.net [188.210.55.238])
- by maya.cloud.tilaa.com (Postfix) with ESMTPSA id 880DE4009B;
- Fri, 23 Apr 2021 18:54:10 +0200 (CEST)
-Date: Fri, 23 Apr 2021 18:54:08 +0200
-From: Stefano Brivio <sbrivio@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: socket.c added support for unix domain socket datagram transport
-Message-ID: <20210423185408.6d5d14f0@redhat.com>
-In-Reply-To: <YIL0Ehmfgc1J9Ci9@redhat.com>
-References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
- <20210423172940.14f48b49@elisabeth> <YIL0Ehmfgc1J9Ci9@redhat.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZz4c-0008PX-Hc
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:34 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lZz4S-0008Aw-RQ
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:54:34 -0400
+Received: by mail-pl1-x633.google.com with SMTP id 20so21556079pll.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 09:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f5SUJTiXAOaMhxvZ35kxyh7Ou8LKONAwDzWpzhG6HME=;
+ b=ZuYTiSdiXrY3Vt/sSs0KbD2lwok7bT0+swTdFjwSmw1aVsWZ4gJCLRlpjhhkZNt5FQ
+ 3fEGaHO20YBYjlUBiFJ/oBIVylzfiy9Vn4AIO8Hj7J1y/LjB93KX8eadnD1Ql57ezRWR
+ uG0zvK5GHL5iqNv+0uUt1XmlCtKDXeM47AV5jxgRQp7audO8vmHeN+GYsHKvxC/DPbCP
+ a+Sg7OKQBa0rJaPGlI3Vb2b0uXGF3UVl6JbfhypsfXLBJ/wMH5+FaZ7KHqU79wdcJ3Ny
+ dDMxUhpvdys/4UdvQCPXPYEY6x1Zv6juje1r2DzmQ/JaYnC907uaHPAKZGDapIuubCTa
+ bi0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f5SUJTiXAOaMhxvZ35kxyh7Ou8LKONAwDzWpzhG6HME=;
+ b=ix8b+XHcwFT9s/yibfIoDfk2UCmpTcYgqwefLXJQjeJRStg/8sHje63ALqDaENZ2Dd
+ vuwmttfBDQeEyJ93K5UVxJ7Wvx6XExzbOyW4S9o+moH5sMA7lWG0Su7fLWWTvJhkSlFF
+ prrA5a3PeSk+E6TgN/E5A89uciw258TGsGaoEx9gpZ1ZvCUf/IBD6+6HCqiaco/MwJmk
+ ODwGr7RSac1xSBlqCvUB5CC7FmDvb2Ww+KScJcpSS4zbaiv2JGHJbWtVJOrj9hj3rLnY
+ OztL34m43aLoZNXedSToCDcv/saUhhUYhdw/7523fbDS86HVmzLF0GPHH6LGgdwVwjTW
+ N7Fg==
+X-Gm-Message-State: AOAM5336l5e0riDZ5+x3t5SXg+vDsiYc6nU/Ln3bzby+6OHGDo11/kuN
+ HP0S+kdWAvJf0Wq7hlBzLEApdk1jF+Db1Q==
+X-Google-Smtp-Source: ABdhPJwWcbb2X8CeWAdH6LY7U8PhAgqTHxfoR0D+KRfhyh7inO7gE/5vN0CUjyu40uxowigTCvnutA==
+X-Received: by 2002:a17:903:244:b029:ec:9666:9fc6 with SMTP id
+ j4-20020a1709030244b02900ec96669fc6mr4625225plh.63.1619196855076; 
+ Fri, 23 Apr 2021 09:54:15 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id q5sm4918151pfu.5.2021.04.23.09.54.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Apr 2021 09:54:14 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] linux-user/arm: fpa11 fix and cleanup
+Date: Fri, 23 Apr 2021 09:54:09 -0700
+Message-Id: <20210423165413.338259-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sbrivio@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,109 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ralph Schmieder <ralph.schmieder@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 17:21:38 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+The bug fix is patch 2, the rest is a bit of tidy-up.
 
-> On Fri, Apr 23, 2021 at 05:29:40PM +0200, Stefano Brivio wrote:
-> > Hi Ralph,
-> >=20
-> > On Fri, 23 Apr 2021 08:56:48 +0200
-> > Ralph Schmieder <ralph.schmieder@gmail.com> wrote:
-> >  =20
-> > > Hey...  new to this list.  I was looking for a way to use Unix domain
-> > > sockets as a network transport between local VMs.
-> > >=20
-> > > I'm part of a team where we run dozens if not hundreds of VMs on a
-> > > single compute instance which are highly interconnected.
-> > >=20
-> > > In the current implementation, I use UDP sockets (e.g. something like=
-=20
-> > >=20
-> > > -netdev
-> > > id=3Dbla,type=3Dsocket,udp=3Dlocalhost:1234,localaddr=3Dlocalhost:567=
-8)=20
-> > >=20
-> > > which works great.
-> > >=20
-> > > The downside of this approach is that I need to keep track of all the
-> > > UDP ports in use and that there's a potential for clashes.  Clearly,
-> > > having Unix domain sockets where I could store the sockets in the
-> > > VM's directory would be much easier to manage.
-> > >=20
-> > > However, even though there is some AF_UNIX support in net/socket.c,
-> > > it's
-> > >=20
-> > > - not configurable
-> > > - it doesn't work =20
-> >=20
-> > I hate to say this, but I've been working on something very similar
-> > just in the past days, with the notable difference that I'm using
-> > stream-oriented AF_UNIX sockets instead of datagram-oriented.
-> >=20
-> > I have a similar use case, and after some experiments I picked a
-> > stream-oriented socket over datagram-oriented because:
-> >=20
-> > - overhead appears to be the same
-> >=20
-> > - message boundaries make little sense here -- you already have a
-> >   32-bit vnet header with the message size defining the message
-> >   boundaries
-> >=20
-> > - datagram-oriented AF_UNIX sockets are actually reliable and there's
-> >   no packet reordering on Linux, but this is not "formally" guaranteed
-> >=20
-> > - it's helpful for me to know when a qemu instance disconnects for any
-> >   reason =20
->=20
-> The current IP socket impl for the net socket backend uses SOCK_DGRAM,
-> so from a consistency POV it feels sensible todo the same for UNIX
-> sockets too.
 
-That's just for UDP though -- it also supports TCP with the "connect=3D"
-parameter, and given that a stream-oriented AF_UNIX socket behaves very
-similarly, I recycled that parameter and just extended that bit of
-documentation.
+r~
 
-> None the less, your last point in particular about wanting to know
-> about disconnects feels valid, and if its useful to you for UNIX
-> sockets, then it ought to be useful for IP sockets too.
->=20
-> IOW, I wonder if  we should use DGRAM for UNIX sockets too by default
-> to match current behaviour, but then also add a CLI option that allows
-> choice of DGRAM vs STREAM, and wire that up for IP & UNIX sockets.
+Richard Henderson (4):
+  linux-user/arm: Split out emulate_arm_fpa11
+  linux-user/arm: Do not emulate fpa11 in thumb mode
+  linux-user/arm: Do not fill in si_code for fpa11 exceptions
+  linux-user/arm: Simplify accumulating and raising fpa11 exceptions
 
-The choice would only apply to AF_UNIX (that is, not to TCP and UDP).
+ linux-user/arm/cpu_loop.c | 125 ++++++++++++++++++++------------------
+ 1 file changed, 66 insertions(+), 59 deletions(-)
 
-The current situation isn't entirely consistent, because for TCP you
-have "connect=3D", for UDP it's "udp=3D" or "mcast=3D", and I'm extending t=
-he
-"connect=3D" case to support stream-oriented AF_UNIX, which I think is
-consistent.
-
-However, to have it symmetric for the datagram-oriented case
-(UDP and AF_UNIX), ideally it should be changed to
-"dgram=3Dhost:port|path" -- which I guess we can't do.
-
-I see two alternatives:
-
-1.
-  - "connect=3D" (TCP only)
-  - "unix=3Dpath,type=3Ddgram|stream"
-  - "udp=3D" (UDP only)
-
-2.
-  - "connect=3D" (TCP and AF_UNIX stream)
-  - "unix_dgram=3D"
-  - "udp=3D" (UDP only)
-
-The major thing I like of 2. is that we save some code and a further
-option, but other than that I don't have a strong preference.
-
---=20
-Stefano
+-- 
+2.25.1
 
 
