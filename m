@@ -2,69 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA445369211
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 14:27:13 +0200 (CEST)
-Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6353C369226
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 14:32:13 +0200 (CEST)
+Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZutt-0002YY-2P
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 08:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50594)
+	id 1lZuyi-0003jJ-Gm
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 08:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZusD-0001y0-GJ
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:25:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38397)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lZuwS-0003Ci-CX
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:29:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZus7-0003nT-1M
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:25:26 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lZuwP-0006KO-Ck
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:29:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619180722;
+ s=mimecast20190719; t=1619180988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DZzyxjarnlm0jrW2M2hYUZG23t8YyEhc/wn/0Uvl1fw=;
- b=aOVCrZlNc0X86IoWnw6r3ecZ2rANyCyRsz72cDabbMo9nJcMyhgjoYgfnFzkmitUNAhHQO
- s8VKNKaqxVD4GHRrMUZ+4fBgUqUZzZ/YzTswxU33DhY6yUN+Y4T7jq60jwgy+olXgV7NMo
- FNLuwt+Pugb4ed5RLudxC2xF58VVkak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-dJbg8eXIPEugcQ2TgKIxJg-1; Fri, 23 Apr 2021 08:25:20 -0400
-X-MC-Unique: dJbg8eXIPEugcQ2TgKIxJg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 783A2107ACC7;
- Fri, 23 Apr 2021 12:25:19 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-199.ams2.redhat.com [10.36.114.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D21F5D745;
- Fri, 23 Apr 2021 12:25:14 +0000 (UTC)
-Date: Fri, 23 Apr 2021 14:25:12 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 01/36] tests/test-bdrv-graph-mod: add
- test_parallel_exclusive_write
-Message-ID: <YIK8qAw+HwhQgiEI@merkur.fritz.box>
-References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
- <20210317143529.615584-2-vsementsov@virtuozzo.com>
+ bh=tN6xOUm87cKjfHmqHX7ZXT9uL6EwxU9i4gWPDc80hAs=;
+ b=YhERn+pFy6ucYd2BV03t7gszzUzshqIplXGuWDx6IJ9wcMxFTCzoVVtfwrcY15ZW5mU97F
+ n7bCO/MYk2MD3v52pUx3/jEAxKjI0/IlvFCUcS9hL7DtloDKDBPUTVqeqaPyq0e/bYBb/i
+ Yp45lnxkD8GfjMpyMgOI62Drj1x04fg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-PDMwG7SpMhS0KOXaPWvUyw-1; Fri, 23 Apr 2021 08:29:46 -0400
+X-MC-Unique: PDMwG7SpMhS0KOXaPWvUyw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ a71-20020a1c984a0000b029013841a43c3dso605232wme.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 05:29:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=tN6xOUm87cKjfHmqHX7ZXT9uL6EwxU9i4gWPDc80hAs=;
+ b=hnVeMZjtRPdvA64SdyJ5CH4PcOuIRuuS5v1KSoFaYBLwJWFyWjFwL7QVs+drlg+haL
+ 5cT6hB01Wy8h+skzIW+LufoVVrRI3JZUZJnyisJTV82lHbZvGHr4NWLPr+YhnLQkptMf
+ IgzYGa/x//X38paXTtwfTtEjpfR/97ERO440Ltr9EUNBlfgN6uhTzfD83+6B/H3xbAeJ
+ 7U9oOSSql77DayFyuhBnKVTTJ9S+7JztJONAx/Kepmz0AB7LLjENVBQwmJFp5lhcJ78Q
+ j7bPsgkg74STZr+PywL1Sc7Itj2CJ+faVeqZKo+Qz5092m5yukUI+fPDyRkRzY/Dupq9
+ gtaQ==
+X-Gm-Message-State: AOAM533blxv3QcuNkM032/mif0F5+oh7gN5zAf5zONOE/vA71h0/j10I
+ zqg6joGqSjOKOIzmMInMocAVhT5oYTfTNpyL/NrDC8hwWlLNnxdkDhw/rSx7Ey79+E0xJHWgYlX
+ 3ytgotL/piW4/whQ=
+X-Received: by 2002:a05:6000:1241:: with SMTP id
+ j1mr4339334wrx.188.1619180985278; 
+ Fri, 23 Apr 2021 05:29:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyULlV2PRuh6cc9c1HkGuUn6fJSFLdnXZJ5JMM7maZrjFb5xOGsgBe1+fiJTNe3PUtjiM/8Yg==
+X-Received: by 2002:a05:6000:1241:: with SMTP id
+ j1mr4339307wrx.188.1619180985053; 
+ Fri, 23 Apr 2021 05:29:45 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6365.dip0.t-ipconnect.de. [91.12.99.101])
+ by smtp.gmail.com with ESMTPSA id
+ h9sm7783736wmb.35.2021.04.23.05.29.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Apr 2021 05:29:44 -0700 (PDT)
+Subject: Re: [PATCH v6 14/15] qmp: Include "reserve" property of memory
+ backends
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210421122624.12292-1-david@redhat.com>
+ <20210421122624.12292-15-david@redhat.com>
+ <87im4di7u9.fsf@dusky.pond.sub.org>
+ <190f173c-b3f9-6c70-42bb-27f50a5f9380@redhat.com>
+ <87h7jxgsa0.fsf@dusky.pond.sub.org>
+ <79cdbd39-cf5c-a8ab-b2c9-68d8e4ab2333@redhat.com>
+ <87zgxpfbbu.fsf@dusky.pond.sub.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <33b6b3b5-47a6-94b8-1e2a-143e3cdf33b6@redhat.com>
+Date: Fri, 23 Apr 2021 14:29:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210317143529.615584-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <87zgxpfbbu.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,135 +108,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.03.2021 um 15:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Add the test that shows that concept of ignore_children is incomplete.
-> Actually, when we want to update something, ignoring permission of some
-> existing BdrvChild, we should ignore also the propagated effect of this
-> child to the other children. But that's not done. Better approach
-> (update permissions on already updated graph) will be implemented
-> later.
+On 23.04.21 14:13, Markus Armbruster wrote:
+> David Hildenbrand <david@redhat.com> writes:
 > 
-> Now the test fails, so it's added with -d argument to not break make
-> check.
+>> On 23.04.21 13:21, Markus Armbruster wrote:
+>>> David Hildenbrand <david@redhat.com> writes:
+>>>
+>>>> On 23.04.21 13:00, Markus Armbruster wrote:
+>>>>> David Hildenbrand <david@redhat.com> writes:
+>>>>>
+>>>>>> Let's include the new property.
+>>>>>>
+>>>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>>> Cc: Eric Blake <eblake@redhat.com>
+>>>>>> Cc: Markus Armbruster <armbru@redhat.com>
+>>>>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>>>> ---
+>>>>>>     hw/core/machine-qmp-cmds.c | 1 +
+>>>>>>     qapi/machine.json          | 4 ++++
+>>>>>>     2 files changed, 5 insertions(+)
+>>>>>>
+>>>>>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+>>>>>> index d41db5b93b..2d135ecdd0 100644
+>>>>>> --- a/hw/core/machine-qmp-cmds.c
+>>>>>> +++ b/hw/core/machine-qmp-cmds.c
+>>>>>> @@ -175,6 +175,7 @@ static int query_memdev(Object *obj, void *opaque)
+>>>>>>             m->dump = object_property_get_bool(obj, "dump", &error_abort);
+>>>>>>             m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
+>>>>>>             m->share = object_property_get_bool(obj, "share", &error_abort);
+>>>>>> +        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
+>>>>>>             m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
+>>>>>>                                                  &error_abort);
+>>>>>>             host_nodes = object_property_get_qobject(obj,
+>>>>>> diff --git a/qapi/machine.json b/qapi/machine.json
+>>>>>> index 32650bfe9e..5932139d20 100644
+>>>>>> --- a/qapi/machine.json
+>>>>>> +++ b/qapi/machine.json
+>>>>>> @@ -798,6 +798,9 @@
+>>>>>>     #
+>>>>>>     # @share: whether memory is private to QEMU or shared (since 6.1)
+>>>>>>     #
+>>>>>> +# @reserve: whether swap space (or huge pages) was reserved if applicable
+>>>>>> +#           (since 6.1)
+>>>>>> +#
+>>>>>>     # @host-nodes: host nodes for its memory policy
+>>>>>>     #
+>>>>>>     # @policy: memory policy of memory backend
+>>>>>> @@ -812,6 +815,7 @@
+>>>>>>         'dump':       'bool',
+>>>>>>         'prealloc':   'bool',
+>>>>>>         'share':      'bool',
+>>>>>> +    'reserve':    'bool',
+>>>>>>         'host-nodes': ['uint16'],
+>>>>>>         'policy':     'HostMemPolicy' }}
+>>>>>
+>>>>> Double-checking: true means definitely reserved, and false means
+>>>>> definitely not reserved.  Correct?
+>>>>
+>>>> True means "reserved if applicable" which means "not reserved if not
+>>>> applicable". False means "definitely not reserved".
+>>>>
+>>>> (any recommendation how to rephrase are appreciated; I tried my best --
+>>>> this interface here makes it especially hard -- it's easier for the
+>>>> property itself)
+>>>
+>>> When is it "applicable"?
+>>
+>> When the OS supports it for the memory type and it hasn't been disabled.
+>>
+>> Linux handling as described in
+>>    [PATCH v6 09/15] util/mmap-alloc: Support RAM_NORESERVE via
+>>    MAP_NORESERVE under Linux
+>> and
+>>
+>>    https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
+>>
+>> Summary *without* MAP_NORESERVE:
+>>
+>> a) !Hugetlbfs with Memory overcommit disabled via
+>>      ("/proc/sys/vm/overcommit_memory == 2"): never
+>>
+>> b) !Hugetlbfs with Memory overcommit enabled
+>>    1) Shared mappings on files: never
+>>
+>>    2) Private mappings on files: only when writable (for us always)
+>>
+>>    3) Shared anonymous memory: always
+>>
+>>    4) Private anonymous memory: only when writable (for us always)
+>>
+>> c) Hugetlbfs: Always
+>>
+>>
+>> Under Windows: always. On other POSIX besides Linux -- don't know.
 > 
-> Test fails with
+> Would working some of this into the doc comment help users of the
+> interface?  Up to you.
 > 
->  "Conflicts with use by fl1 as 'backing', which does not allow 'write' on base"
-> 
-> because when updating permissions we can ignore original top->fl1
-> BdrvChild. But we don't ignore exclusive write permission in fl1->base
-> BdrvChild, which is propagated. Correct thing to do is make graph
-> change first and then do permission update from the top node.
-> 
-> To run test do
-> 
->   ./test-bdrv-graph-mod -d -p /bdrv-graph-mod/parallel-exclusive-write
-> 
-> from <build-directory>/tests.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/unit/test-bdrv-graph-mod.c | 70 +++++++++++++++++++++++++++++++-
->  1 file changed, 69 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
-> index c4f7d16039..4e4e83674a 100644
-> --- a/tests/unit/test-bdrv-graph-mod.c
-> +++ b/tests/unit/test-bdrv-graph-mod.c
-> @@ -1,7 +1,7 @@
->  /*
->   * Block node graph modifications tests
->   *
-> - * Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
-> + * Copyright (c) 2019-2021 Virtuozzo International GmbH. All rights reserved.
->   *
->   * This program is free software; you can redistribute it and/or modify
->   * it under the terms of the GNU General Public License as published by
-> @@ -44,6 +44,21 @@ static BlockDriver bdrv_no_perm = {
->      .bdrv_child_perm = no_perm_default_perms,
->  };
->  
-> +static void exclusive_write_perms(BlockDriverState *bs, BdrvChild *c,
-> +                                  BdrvChildRole role,
-> +                                  BlockReopenQueue *reopen_queue,
-> +                                  uint64_t perm, uint64_t shared,
-> +                                  uint64_t *nperm, uint64_t *nshared)
-> +{
-> +    *nperm = BLK_PERM_WRITE;
-> +    *nshared = BLK_PERM_ALL & ~BLK_PERM_WRITE;
-> +}
-> +
-> +static BlockDriver bdrv_exclusive_writer = {
-> +    .format_name = "exclusive-writer",
-> +    .bdrv_child_perm = exclusive_write_perms,
-> +};
-> +
->  static BlockDriverState *no_perm_node(const char *name)
->  {
->      return bdrv_new_open_driver(&bdrv_no_perm, name, BDRV_O_RDWR, &error_abort);
-> @@ -55,6 +70,12 @@ static BlockDriverState *pass_through_node(const char *name)
->                                  BDRV_O_RDWR, &error_abort);
->  }
->  
-> +static BlockDriverState *exclusive_writer_node(const char *name)
-> +{
-> +    return bdrv_new_open_driver(&bdrv_exclusive_writer, name,
-> +                                BDRV_O_RDWR, &error_abort);
-> +}
-> +
->  /*
->   * test_update_perm_tree
->   *
-> @@ -185,8 +206,50 @@ static void test_should_update_child(void)
->      blk_unref(root);
->  }
->  
-> +/*
-> + * test_parallel_exclusive_write
-> + *
-> + * Check that when we replace node, old permissions of the node being removed
-> + * doesn't break the replacement.
-> + */
-> +static void test_parallel_exclusive_write(void)
-> +{
-> +    BlockDriverState *top = exclusive_writer_node("top");
-> +    BlockDriverState *base = no_perm_node("base");
-> +    BlockDriverState *fl1 = pass_through_node("fl1");
-> +    BlockDriverState *fl2 = pass_through_node("fl2");
-> +
-> +    /*
-> +     * bdrv_attach_child() eats child bs reference, so we need two @base
-> +     * references for two filters:
-> +     */
-> +    bdrv_ref(base);
-> +
-> +    bdrv_attach_child(top, fl1, "backing", &child_of_bds, BDRV_CHILD_DATA,
-> +                      &error_abort);
-> +    bdrv_attach_child(fl1, base, "backing", &child_of_bds, BDRV_CHILD_FILTERED,
-> +                      &error_abort);
-> +    bdrv_attach_child(fl2, base, "backing", &child_of_bds, BDRV_CHILD_FILTERED,
-> +                      &error_abort);
-> +
-> +    bdrv_replace_node(fl1, fl2, &error_abort);
-> +
-> +    bdrv_unref(fl2); /* second reference was created by bdrv_replace_node() */
 
-This line is new and I don't understand it.
+I'll give it a thought. Most people will only care about explicitly 
+disabling it, where we'll bail out if that doesn't work. Otherwise, they 
+just use the OS default (== reserve if supported/applicable/not 
+explicitly disabled).
 
-Why does bdrv_replace_node() create new references? Shouldn't it just
-move all parents of fl2 to fl1, and when the refcount of fl2 drops to
-zero, it would be deleted?
+Thanks!
 
-If we have to unref manually, is this a bug?
+-- 
+Thanks,
 
-> +    bdrv_unref(top);
-> +}
-
-Kevin
+David / dhildenb
 
 
