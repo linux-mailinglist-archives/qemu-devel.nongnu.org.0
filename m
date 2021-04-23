@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF40369C31
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:47:41 +0200 (CEST)
-Received: from localhost ([::1]:37698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14168369C3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:51:41 +0200 (CEST)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la3eG-0003VU-58
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
+	id 1la3i8-00088R-6N
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1la3Y8-0005Tf-HX; Fri, 23 Apr 2021 17:41:21 -0400
-Received: from mail-db8eur05on2117.outbound.protection.outlook.com
- ([40.107.20.117]:24032 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1la3Y4-0005PG-4a; Fri, 23 Apr 2021 17:41:16 -0400
+Received: from mail-eopbgr50133.outbound.protection.outlook.com
+ ([40.107.5.133]:45636 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1la3Y4-0002zb-V9; Fri, 23 Apr 2021 17:41:20 -0400
+ id 1la3Xv-00030s-N5; Fri, 23 Apr 2021 17:41:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kwNz+SbL3ftjVWjAk7BebGMopZV+i+Ajf6ziELBasW6dWjRjaQ6ssSbDZBXtPZw9vt070voBrZ17oMhHM9uSowUmI22F5JnQtH7Sf2hxs/fKZGvYDg6t/wc45sZRAOWR0ITqvR+tpcfO2ZbuAIkjJtNBRGc64Oy1D0eCGVmi0Uf9AE7mv5zlpVdlA1a8qEFJZcLgrZCZSRL7YfDdQWBCcjzhRnD4hwMsduRhVbckms/CuM4HGTPlDXjyzw/JuhnnJHW5Iu8v1PZZXG5aiLRe75Ibf4BGQhXRqyJHxYwrHM0tT4RVvZYnMGEj/n+fow0jZJKSQOS+zxre2UWIa7Zl4g==
+ b=WsEH8taf8pkKS0lpTQSYJq636yw8yq6OkaC+mIPtFLjsg0qsDQErQcJfYh5pwq6MGiLce8MfuF+gnPrPTPKQZul/FeqOx9aO8mdv87nER6Jq6pmJoEQwkPyJMaPZiuUNRvD/bTGf4OHLyB0OemQeoXbDULsP3lLNm6mq1LQmv0vvn2RHdPEox1cm87hhm5g6xUZvq7a3huC0Na/YYLgGje4QicE9806iAhFfWOD+PfGVehf0/B/bpySrBiPUntKD913uMQq8awjYNKQq3f+JjMhN6TG4o7Im6CTylHiHqFpnVpdvrh6oLqJUuviwp+vVm9B5/H/eQSsNIUWFKIRdKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d6aWC2ioIpnfTC9mp4GejIEk5Vp5y8012RMNfuTSg9Q=;
- b=aBMW0aNN9IbkJCJZVWUJQvUx3xbE6Es9uZu4iKuTYIw6iG39Mfk7aUJq15/pamHg9IECi1yVdKgT1T7FG4d4LQ4vt3LiQMz4Cvv9PQfFFBEBtQ9qYNSqpcbSlFdsv2wrio80Um1CQ53ytdECQA8U3qYtqTgvOi8USQo9DmqWMPy4XrZQQ2WLiQOQhnEVwOYwyqhfK79pFdPI5hCscJVZqRuMokGaFJd6tXS34i7bN7aMfmo4vnBpZ5d5FM0oNDVhae/XtQbdA2TsHitv5z2qsiCzkUSjCp2ZFSjmQRsxXue5GAJVm/uJcN4pQRIdx+u90+SBVjYAOvu0mRl10s28eA==
+ bh=5U7Nc1aPIlQnCyKW6p4ophwtsRUazbAv+D9rQ5anEAo=;
+ b=NR8OZOs4MctWJ5mBRj5zgDf0tqBVZvceOh4OsJ1wedFA5Xywpz3kAHyAmbEIsYOcgPakcU0lyaxO+N0hJo3Wm9fIAt0jwAzkw+TTZHcjZ7E23rpQYAkG6mzCBQlvYLOirqYEAIHVdrUExYUa3xin2ezKj6r6NWuBPIobEcHOiNdVHtsIYFEH0DC/ndSOZorALi93+0kF2mVqLNBo6PgSYOHMA/xVsCaIBPcIozqtNTVkSUVwo/8gCmS1fzWWUiVjh8n1vUABy1ubBHQRWIwFRNdLSv7e8cutpqjrJGXxwZdkwJTyd/COtJrmrfpRmZBLB5lldltvVZRND444lBAUqg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d6aWC2ioIpnfTC9mp4GejIEk5Vp5y8012RMNfuTSg9Q=;
- b=YxWuHMgWhkDUwf1kXAWO+jfhlQ+2xwTQTd5HWvRupxIKBTNiC5273bNq2dBelivPbE0MYo/ni6jRMHQR+kQZh7s+T5qUD+LJMHAkvM7HPdUBOJ1urZ4HFUC2iJJqMplYNAmDukpoX8MsC9zG/FGnF3bSaAcglM7I/x99Dy/sm7w=
+ bh=5U7Nc1aPIlQnCyKW6p4ophwtsRUazbAv+D9rQ5anEAo=;
+ b=lWs9yiSndv5sGIISNy94s/i4tEbV7jhX0cVH9AbcDKuJkmXzLlwY+rj7x916LK8eY9zV2BFxeP5S6o0nZisjQ+44qDeXu4z4bElHy7xOkJJ0CiDKyBihcNVEBpFQ/dcJSJQp9B1qfpfRcvPZp82eJjPgtXveZh57IJl2f5AJ7o0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6374.eurprd08.prod.outlook.com (2603:10a6:20b:338::9)
+ by AM6PR08MB3221.eurprd08.prod.outlook.com (2603:10a6:209:49::33)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Fri, 23 Apr
- 2021 21:41:02 +0000
+ 2021 21:41:03 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.021; Fri, 23 Apr 2021
- 21:41:02 +0000
+ 21:41:03 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  philmd@redhat.com
-Subject: [PATCH 09/11] qemu-io-cmds: refactor write_f(): drop extra helpers
- and variables
-Date: Sat, 24 Apr 2021 00:40:31 +0300
-Message-Id: <20210423214033.474034-10-vsementsov@virtuozzo.com>
+Subject: [PATCH 10/11] qemu-io-cmds: drop do_co_readv() and do_co_writev()
+ helpers
+Date: Sat, 24 Apr 2021 00:40:32 +0300
+Message-Id: <20210423214033.474034-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210423214033.474034-1-vsementsov@virtuozzo.com>
 References: <20210423214033.474034-1-vsementsov@virtuozzo.com>
@@ -67,64 +67,63 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.222) by
  HE1P192CA0012.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.21 via Frontend Transport; Fri, 23 Apr 2021 21:41:01 +0000
+ 15.20.4065.21 via Frontend Transport; Fri, 23 Apr 2021 21:41:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c7c6c101-544b-4fab-29dc-08d906a07dba
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6374:
+X-MS-Office365-Filtering-Correlation-Id: 68b4c489-09c1-4b10-ed57-08d906a07e82
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3221:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB63742CC6638A4DD99AD74E00C1459@AS8PR08MB6374.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3221B422CC5561872E32916AC1459@AM6PR08MB3221.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:12;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vwISwx5Iv3ZDRzRkO+yy5oN11AvNZ1gJ1FvITRehDHkHs6UpzWvDGMhzcJz6wUZcdD6pXbwoEqGLLZf8sIgV+2tmtedR4Gf25vxV3uw6jen6HrYhCfYMM7FiGtvoOfNECbWLZpazFBtUD7m3SFnt53rffRjBwJwbbu/bH4I9t79Z4KtpJKfpo0IPp7kZG04Jvk1oMKYQGT0jnx5N1cy4qzqVlJs15wPwb8IXsXKp1jk3dfudp02UoLubLThzo/4djdKSC98RQD6CeEiYxSUjDlH3TB07todxbh2rbNkRvH/Ekeg7ZR4BITRh0HR5ieaB7EZGF7AzcW/JBHEoSaQM9AmjR8pUfvHY7ZDPS7JMFgHvCDwNDhstZjfWgaENMj9h8R6ZdWyvFV9dly8v7248e2+KCjOQe1UpWKzcg/eozwHLnC7aoXlISAbzFoSCz2X88Zm0i0ZMGgckNz5EQEDjkCV+Q11KyHQztZgfdi84nRVdwp6aL6ovt2EOlg52wKL5/pu55p8iQYokuc2N9Mlbp/ygkRL9Ak//NWvd5cnV/LH37crIOwM/hjUjfggeW/70ui5tttNywJWairNjlSj9JE3rFdsYrZk1vX+iNZTz2g51kCxrto7a4ESrejb4URTmCDgksOGnVwyk+ewbvEgUQQ9VR7v1Jv+oTIXNI7qLZT3cN7ZaiwTOvhgx9FyvcXUC
+X-Microsoft-Antispam-Message-Info: DuKIzRrvWsXowwS6SNvYaWuynurRnvHSBd2YAbgFEl/Wav1r4UpdbvahZNcHxDc2Rvb9H1cfu03/W0Fm4OjALptIMUdK+Jnpki97VwFDbmPcgtAVRFco9hE0THCTzRtAaiXm16zhcl3qmcBVg6vGM47Ir+eqzKRN+lMzZr6BtsTXa7Dz+gsi02VY8jj0brJKV6vf/h4TZtgd8uH84njPTtg4554aQf0jnb6CCQ/BgTPaXmbmIeawu+P6CjsC58uxZdLG312VFxPtk28YRGyo/vIXxbyphOv4gs7dOrJyxJXYLBkbMgMv7r77iBAyLP6tVvJ54xeeqDw9cv8YQsgy/ALE6GTUUbrWO4Qss9KL/BNVL9GmoktPMlzfXoFq8jgYnDjfHBVMVu6KjGEnYD6BLug0LQZrOAzS8TxFM8/4me3o2VXiqHYiAQ34VnMX4EqRqbI/P9UmWXDqx/eyUvluORoFe3vqWmF9egBp4tAtwDx5V8NMao+AEaHovO1xsYsZS0iTLE1Um+d5sXD83Iqcz8cPRt6DOTqcEdvy1zhfzyNVRobdHDtIWXvwb2ROt59f6xnQkJVm9BlS0OmPPKijajONzTbeT55+49rWJbo8ybrsuW2vNZLaoqrE9nareDkQ8BAFeuwwpxMJgssSdYK1iCYY+spUkixZzhqWrjU6F2E+1McWJD7CzI2w8SDPYh25
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(39840400004)(346002)(376002)(316002)(2616005)(26005)(956004)(83380400001)(8676002)(4326008)(38100700002)(38350700002)(478600001)(6666004)(5660300002)(86362001)(186003)(6506007)(66476007)(66556008)(1076003)(16526019)(6512007)(6916009)(6486002)(2906002)(52116002)(36756003)(66946007)(8936002)(69590400013);
+ SFS:(4636009)(376002)(39840400004)(396003)(346002)(366004)(136003)(38350700002)(83380400001)(38100700002)(8676002)(186003)(36756003)(6512007)(5660300002)(26005)(66476007)(16526019)(66556008)(478600001)(4326008)(66946007)(6666004)(6486002)(86362001)(956004)(8936002)(316002)(2616005)(6916009)(2906002)(52116002)(1076003)(6506007)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?PsAOpbTXn9s6TSZHTL2+txHmw7D/Zefv4VZnM0kkhzKJNYAsbNOjMo1hBfMO?=
- =?us-ascii?Q?CHybY0RXpUDljUjIiZfLH6OF8Ee4v26VJnoTiBnJjDDI+P0ByPUUV4KMfjsp?=
- =?us-ascii?Q?3GW/5y57kq3HrXnw8oEWn+GcypWr4eLWB7mahHjjv+dl1+Oh7X+iddhzA1el?=
- =?us-ascii?Q?zKWBH2wHxvTnzf0uFI2tS5kyl/IsDuA3n35TmJL+jaeyAR2Tf9xCEPGvOA7W?=
- =?us-ascii?Q?NXbOIDKxTNVJnDQu0VbIrO/VFOIbe4iTl9br3ZUl9UQt8bwxqGiBXpfDN+wC?=
- =?us-ascii?Q?zot3waZ6gTaB/ixloy0dYYnbBhsWW93TrAch+wrEmllkDNCx5MoZqHVuWHm/?=
- =?us-ascii?Q?d2xcWtYQGhA6soIuZytxwGrdvdEeyXE8591Rp6u4LgUe4NlA104+0Zmrcz4C?=
- =?us-ascii?Q?yI3QpTDp2o1+U1GZW3LhrDQ2aOly9z91madieYMNAuVmo+sCUqsc/xw6Je/n?=
- =?us-ascii?Q?Dwyn/RteXPC2Tz/Y1SWuBciJbxWPSiD0uGavQQ0/k0gDAiJHn0+o7MakfHV5?=
- =?us-ascii?Q?orbyovDszSsGyV7VvGlDLD/CC/8zU9Q3XGogZbWnDTbU8t7bxAPfXlZmLo2l?=
- =?us-ascii?Q?o6ataJF0okdvl73Yq1vZdMMMzFjy1nhIPAh3kkfTD1PasQbpsTgvrCSeXBcP?=
- =?us-ascii?Q?GAhbonwjahwReU8caurFgMdipTm4/Pn9JsrORo4xgZJlnbwxa4XcjI2kQ1Gj?=
- =?us-ascii?Q?vSz52lWxsHpBB4SHdQiVgH1YscpnxhQN888TaOuuGZN0IaWRNzSCCa9akoj4?=
- =?us-ascii?Q?wQP0FYWtyYyerQLj58GGoW53JmWEzemxhyDUJtTUZ06SPF2HmhYLyUZAJGhQ?=
- =?us-ascii?Q?WEN2HixF9ydW9FHfTIk0argyTW1snY1Mdkj8njJMTZLwr/QhQ8b+zWxW4W5s?=
- =?us-ascii?Q?+mnmdEro7My1OxTjUyAteYb2OFfkhySC1NDhM2oUOZq2xi+/90w89pGRmP+p?=
- =?us-ascii?Q?6pn0Vhj/udhJoF6ZqdkdXXWEzGx+F4FVFF6Mzs6BwwwTr6L+x/f4z0oygyiF?=
- =?us-ascii?Q?T2NGcBO4YkDZjlf6RPP+3h4gC+wIKvmPJ1F9J3kKoElhOI5uL9aq/i3LYh1C?=
- =?us-ascii?Q?bi8ciL1goKStSEuGPhTFqNIsI6T/2e64Zn8g96fVV3iKIaQV0iFo5bed4duR?=
- =?us-ascii?Q?a5qoHXaF6mdCeD6tL4C4WDD+47UNkWirHs9QN73WMEnSL5k/htabLo0LgxG1?=
- =?us-ascii?Q?ErdWZ1ucuATQLhNzQNHobaEM8cVU2GvRXSUS8nMRzPwK3dMH3PqzEj31Gx6I?=
- =?us-ascii?Q?qdYAK5VDLla6xLD9ITjZe2u+/ND/j3NsY6SlIVKKFyS1rn6YNrAqkJPZyRnc?=
- =?us-ascii?Q?RUECm+lkHhC4uXwHI6v9TnE5?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?cWEtJI6KmV6XV0ZGatU9SwMhiW9v9HqB0VAsBgZqfKtV5XF0l4mwAnkO1av2?=
+ =?us-ascii?Q?it68h3YvSOr0qvy+1aq1j3prDZVhsHjfrgzhdxlRcQyDWbYYk5A/Gl0FAuBW?=
+ =?us-ascii?Q?KcLNP9F8wclgfLK5s48rdRU9bPE9vtzICmUf4k1+rns5CANd22jj7IE/2qen?=
+ =?us-ascii?Q?RJfBBSexiAhQpGdYspjJBpXrgxbaNGEP/S6FF+dgnZtVMaWNRepG6bu3kIEm?=
+ =?us-ascii?Q?zwxuotztO1B+z/GiTesEcZbrf979WE6RjaYQpyeIt1O73WNL3Gf4GRyhE8NQ?=
+ =?us-ascii?Q?e7beOZh7kofY8npzt0s1ZduA8bia8n3Z7UCUFbBMFLgbSsXBSDvjidwPrCyF?=
+ =?us-ascii?Q?mnE2T5KbbmO1jiLBNRfm3b3OH/WsS/N48xZCsvS8453Jh/RluOQxck3vE4rH?=
+ =?us-ascii?Q?8428IF+BVNMxmzPV0q21v20pUyEb9bscKx+nQMDQywxn3tosVsutCwZrQAmQ?=
+ =?us-ascii?Q?C3h8SxLo7UCJS55VMxlw3OfHGHm8ofrgEDZRPSJS5908yPiUxYUSB43sitNh?=
+ =?us-ascii?Q?2hwk5GPTsv09WVqGq3nbSWHUT8ice2BZ0hXwxiVB3ksa/HLawApbQzHsGzh2?=
+ =?us-ascii?Q?W2/dGSbUN+yR6NIuON4ydbL5dV3LSxOi/y1iKP7j94SKNDUdYAyheqK1acTX?=
+ =?us-ascii?Q?yItBTH/tooghnCOvAj2pILnCmgOyLgtuS9R+RoDAatqsUv/K0tWWDfDQRQa0?=
+ =?us-ascii?Q?WOVhvVrOa1/tdo/d/ArRpw+FXamCr9QPLBJ6rYEn1F1T50T5+Tm0h24jabgW?=
+ =?us-ascii?Q?8uL/ja2lt0EXW+lc7cp0B6J/pNFBv5a4ndJRo+aD3IokcQvqSh5uurc6JVjN?=
+ =?us-ascii?Q?TK8GA7xtU+9I3gPTg9Aq8zryRXgu8JH33yZhLDD7ju9/Ys6mpnz4vY6Drx3o?=
+ =?us-ascii?Q?nG0fSBCz/TLyay0YsxZNnPBuEzOjPPuRZI9o66/kzz9Pabi6jnJx0TkNSjqD?=
+ =?us-ascii?Q?pMDrbMtjKSnH+zTIgpii3luHqcYN8LaEjKwfZmmaj+ZvbS9+ijcTQPz2x/ow?=
+ =?us-ascii?Q?buGLIGorM7p0ySwNSDPQO7QL04GHyv2XBqQmq8xFhdzQuBhYsDJcIPFFpddk?=
+ =?us-ascii?Q?pSkfoth0EZgLjR3JlukA0MZd7IRkCnPxUEgC6EIpkZ0jen2Xw00gCMqJJrpq?=
+ =?us-ascii?Q?oIWkutopRw231X8y5RqtQdw+Wgbn9VHboBkRJbK58OmcAxz6ZsMiJ/XcieNd?=
+ =?us-ascii?Q?tBQXRbW13Y8Xsb9ViDbIj1SuN6RZuML8WHzkwuYKarBfoew4ggiLmSisk4RK?=
+ =?us-ascii?Q?Lpj02YXwrEdYqtXUVaTwODSjofk3epu8+MWZTc6ciSxhdy2YuCWa6tU45JiG?=
+ =?us-ascii?Q?pm5D6CZ/lFNW+2LE+Wux/A0p?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7c6c101-544b-4fab-29dc-08d906a07dba
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68b4c489-09c1-4b10-ed57-08d906a07e82
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 21:41:02.5055 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 21:41:03.7799 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mq7OaO0rhdlBZh7dJew2Hu6llUZv9IIybrlWWKeBQUdDQEo19eCPpBeathQ/caIwwHwj0bZNFWdseaNZi5EmHN23ImVapjRZhTzT7mpjFJQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6374
-Received-SPF: pass client-ip=40.107.20.117;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3bt0sV5CUyVwOcXWYTVmXyasmdvlOVgWBRoi9moUEz/rWWCZujWqh5N1HvClVG/WCf4VTTNGP1xkQUBn5YtXK20VadjyaSwhJJRZ24AQq5w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3221
+Received-SPF: pass client-ip=40.107.5.133;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,148 +139,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are in coroutine context. Let's call blk_co_ functions directly and
-drop all these helpers.
-Note that count is checked earlier in write_f, so we don't need the
-check in helpers.
-Also, both blk_co_save_vmstate() and blk_co_pwrite() return 0 on
-success, so we should not care to set ret to 0 explicitly. Moreover, no
-caller is interested in successful ret of qemuio_command being exactly
-zero.
+They don't make much sense. Call blk_co_ functions directly and also
+drop some redundant variables.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qemu-io-cmds.c | 81 +++++---------------------------------------------
- 1 file changed, 8 insertions(+), 73 deletions(-)
+ qemu-io-cmds.c | 38 ++++++--------------------------------
+ 1 file changed, 6 insertions(+), 32 deletions(-)
 
 diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index bbebecba55..2f0a27079d 100644
+index 2f0a27079d..9a0e5322de 100644
 --- a/qemu-io-cmds.c
 +++ b/qemu-io-cmds.c
-@@ -527,65 +527,6 @@ fail:
+@@ -527,24 +527,6 @@ fail:
      return buf;
  }
  
--static int do_pwrite(BlockBackend *blk, char *buf, int64_t offset,
--                     int64_t bytes, int flags, int64_t *total)
+-static int coroutine_fn do_co_readv(BlockBackend *blk, QEMUIOVector *qiov,
+-                                    int64_t offset, int *total)
 -{
--    if (bytes > INT_MAX) {
--        return -ERANGE;
--    }
+-    int ret = blk_co_preadv(blk, offset, qiov->size, qiov, 0);
 -
--    *total = blk_pwrite(blk, offset, (uint8_t *)buf, bytes, flags);
--    if (*total < 0) {
--        return *total;
--    }
--    return 1;
+-    *total = qiov->size;
+-    return ret < 0 ? ret : 1;
 -}
 -
--static int coroutine_fn
--do_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                    int64_t bytes, int flags, int64_t *total)
+-static int coroutine_fn do_co_writev(BlockBackend *blk, QEMUIOVector *qiov,
+-                                     int64_t offset, int flags, int *total)
 -{
--    int ret = blk_co_pwrite_zeroes(blk, offset, bytes, flags);
--    if (ret < 0) {
--        *total = ret;
--        return ret;
--    } else {
--        *total = bytes;
--        return 1;
--    }
+-    int ret = blk_co_pwritev(blk, offset, qiov->size, qiov, flags);
+-
+-    *total = qiov->size;
+-    return ret < 0 ? ret : 1;
 -}
 -
--static int do_write_compressed(BlockBackend *blk, char *buf, int64_t offset,
--                               int64_t bytes, int64_t *total)
--{
--    int ret;
--
--    if (bytes > BDRV_REQUEST_MAX_BYTES) {
--        return -ERANGE;
--    }
--
--    ret = blk_pwrite_compressed(blk, offset, buf, bytes);
--    if (ret < 0) {
--        return ret;
--    }
--    *total = bytes;
--    return 1;
--}
--
--static int do_save_vmstate(BlockBackend *blk, char *buf, int64_t offset,
--                           int64_t count, int64_t *total)
--{
--    if (count > INT_MAX) {
--        return -ERANGE;
--    }
--
--    *total = blk_save_vmstate(blk, (uint8_t *)buf, offset, count);
--    if (*total < 0) {
--        return *total;
--    }
--    return 1;
--}
--
- static int coroutine_fn do_co_readv(BlockBackend *blk, QEMUIOVector *qiov,
-                                     int64_t offset, int *total)
+ static void read_help(void)
  {
-@@ -945,7 +886,7 @@ static void write_help(void)
- "\n");
- }
- 
--static int write_f(BlockBackend *blk, int argc, char **argv);
-+static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv);
- 
- static const cmdinfo_t write_cmd = {
-     .name       = "write",
-@@ -965,12 +906,11 @@ static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv)
-     bool Cflag = false, qflag = false, bflag = false;
-     bool Pflag = false, zflag = false, cflag = false, sflag = false;
-     int flags = 0;
+     printf(
+@@ -767,11 +749,10 @@ static int coroutine_fn readv_f(BlockBackend *blk, int argc, char **argv)
+ {
+     struct timespec t1, t2;
+     bool Cflag = false, qflag = false, vflag = false;
 -    int c, cnt, ret;
--    char *buf = NULL;
 +    int c, ret;
-+    uint8_t *buf = NULL;
+     char *buf;
      int64_t offset;
-     int64_t count;
      /* Some compilers get confused and warn if this is not initialized.  */
--    int64_t total = 0;
-     int pattern = 0xcd;
-     const char *file_name = NULL;
- 
-@@ -981,6 +921,7 @@ static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv)
-             break;
-         case 'c':
-             cflag = true;
-+            flags |= BDRV_REQ_WRITE_COMPRESSED;
-             break;
-         case 'C':
-             Cflag = true;
-@@ -1013,6 +954,7 @@ static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv)
-             break;
-         case 'z':
-             zflag = true;
-+            flags |= BDRV_REQ_ZERO_WRITE;
-             break;
-         default:
-             qemuio_command_usage(&write_cmd);
-@@ -1095,13 +1037,9 @@ static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv)
+-    int total = 0;
+     int nr_iov;
+     QEMUIOVector qiov;
+     int pattern = 0;
+@@ -821,16 +802,13 @@ static int coroutine_fn readv_f(BlockBackend *blk, int argc, char **argv)
+     }
  
      clock_gettime(CLOCK_MONOTONIC, &t1);
-     if (bflag) {
--        ret = do_save_vmstate(blk, buf, offset, count, &total);
--    } else if (zflag) {
--        ret = do_co_pwrite_zeroes(blk, offset, count, flags, &total);
--    } else if (cflag) {
--        ret = do_write_compressed(blk, buf, offset, count, &total);
-+        ret = blk_co_save_vmstate(blk, buf, offset, count);
-     } else {
--        ret = do_pwrite(blk, buf, offset, count, flags, &total);
-+        ret = blk_co_pwrite(blk, offset, count, buf, flags);
-     }
+-    ret = do_co_readv(blk, &qiov, offset, &total);
++    ret = blk_co_preadv(blk, offset, qiov.size, &qiov, 0);
      clock_gettime(CLOCK_MONOTONIC, &t2);
  
-@@ -1109,9 +1047,6 @@ static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv)
-         printf("write failed: %s\n", strerror(-ret));
+     if (ret < 0) {
+         printf("readv failed: %s\n", strerror(-ret));
+         goto out;
+     }
+-    cnt = ret;
+-
+-    ret = 0;
+ 
+     if (Pflag) {
+         void *cmp_buf = g_malloc(qiov.size);
+@@ -853,7 +831,7 @@ static int coroutine_fn readv_f(BlockBackend *blk, int argc, char **argv)
+ 
+     /* Finally, report back -- -C gives a parsable format */
+     t2 = tsub(t2, t1);
+-    print_report("read", &t2, offset, qiov.size, total, cnt, Cflag);
++    print_report("read", &t2, offset, qiov.size, qiov.size, 1, Cflag);
+ 
+ out:
+     qemu_iovec_destroy(&qiov);
+@@ -1100,11 +1078,10 @@ static int coroutine_fn writev_f(BlockBackend *blk, int argc, char **argv)
+     struct timespec t1, t2;
+     bool Cflag = false, qflag = false;
+     int flags = 0;
+-    int c, cnt, ret;
++    int c, ret;
+     char *buf;
+     int64_t offset;
+     /* Some compilers get confused and warn if this is not initialized.  */
+-    int total = 0;
+     int nr_iov;
+     int pattern = 0xcd;
+     QEMUIOVector qiov;
+@@ -1151,16 +1128,13 @@ static int coroutine_fn writev_f(BlockBackend *blk, int argc, char **argv)
+     }
+ 
+     clock_gettime(CLOCK_MONOTONIC, &t1);
+-    ret = do_co_writev(blk, &qiov, offset, flags, &total);
++    ret = blk_co_pwritev(blk, offset, qiov.size,  &qiov, flags);
+     clock_gettime(CLOCK_MONOTONIC, &t2);
+ 
+     if (ret < 0) {
+         printf("writev failed: %s\n", strerror(-ret));
          goto out;
      }
 -    cnt = ret;
@@ -290,15 +247,15 @@ index bbebecba55..2f0a27079d 100644
  
      if (qflag) {
          goto out;
-@@ -1119,7 +1054,7 @@ static int coroutine_fn write_f(BlockBackend *blk, int argc, char **argv)
+@@ -1168,7 +1142,7 @@ static int coroutine_fn writev_f(BlockBackend *blk, int argc, char **argv)
  
      /* Finally, report back -- -C gives a parsable format */
      t2 = tsub(t2, t1);
--    print_report("wrote", &t2, offset, count, total, cnt, Cflag);
-+    print_report("wrote", &t2, offset, count, count, 1, Cflag);
- 
+-    print_report("wrote", &t2, offset, qiov.size, total, cnt, Cflag);
++    print_report("wrote", &t2, offset, qiov.size, qiov.size, 1, Cflag);
  out:
-     if (!zflag) {
+     qemu_iovec_destroy(&qiov);
+     qemu_io_free(buf);
 -- 
 2.29.2
 
