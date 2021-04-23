@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23143369896
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:41:59 +0200 (CEST)
-Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA463698A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:47:18 +0200 (CEST)
+Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZzoU-0002Jm-7p
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
+	id 1lZztd-00049t-Es
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lZzl0-00018h-0Q
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:38:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32481)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lZzkw-0005wL-Hd
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:38:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619199498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PRIp+18eM6rWXuHmW2XDhgi9uzuq5wJcJ0aoVZcyBdQ=;
- b=AZ/JkzqsstAaJdTshrWJvZzjWoZgEJ5IVsASaLoPIV4qRTbsxbbvBdOJZp3XjefmBZyYLR
- 498yrr9jMjXsLm5t1aN1hUGg7hZGqU/LC5pxt6SiEnNzb7Jws6iRpLjSAtJfoqQE90kkVd
- 27NMlRmSUUTzmsB612+PCKWQf1DYc8w=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-FwqU1JiiPruu-bEC0P3YRg-1; Fri, 23 Apr 2021 13:38:02 -0400
-X-MC-Unique: FwqU1JiiPruu-bEC0P3YRg-1
-Received: by mail-vs1-f72.google.com with SMTP id
- w17-20020a67d1910000b029021d2b42b93fso7547468vsi.1
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 10:38:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lZzs0-0003U2-Bx
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:45:36 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lZzrx-0000ct-Pd
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:45:36 -0400
+Received: by mail-ed1-x532.google.com with SMTP id h8so18203314edb.2
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 10:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sewNWV1TNP6wUtwXwXG9cYSJCjsfFUZRNXFfYVZ8B/w=;
+ b=QI8bfUJBVCTdAk212Y+edXdzvEO0gfq8BBw5YWH7gfeiC1zQYJr4VWrtgix0qps81F
+ g2RCpLAafWPARb543O6BD7MH5dkA1RbddhkOp/liyOSPxR4lgSkoiyMUogUfnCZ5M4ZM
+ IZ+mo+RSzSNw7RCUDEct87eksRP+WgR0Us3cgJJzjV15yAWBDJI2ux2Q4YyJ1E9iudCm
+ YKXF8fMr5rsxIDSLU5zswaNc3zExxB6OfkXNz4sdP/6AFKGoeJcAfzikKVUoDBtGtNGW
+ OQYJ8s+B14Z4Kku5lzfNhn9T0cXarHKpQRH3NTaGk1kCfgBkooKF6AiM9QuW+tH7vVq8
+ 4E0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PRIp+18eM6rWXuHmW2XDhgi9uzuq5wJcJ0aoVZcyBdQ=;
- b=tWC63wY7o+VMAFXrVwAoNiNAgzSCuXEcyP6XlXUdn8+oDqwY+xDnRjUtMtGa5eaYtq
- 3OueAr4/maT7kjjxU2iRX/FEoQZW9mMgu2v8sN+iej9ShBFH64IPWsGTmdip7LIfn7St
- ebFVZhTfv85Wfs637vlo+z7eysr0XgGdO5BBNl+dYKAEz70TBCO6j3NvJ0GynMg07VTB
- 0dEoHFjQXOjmpoNxJD3Wso5Ijx8AFWfowzNQPGNNcFIss8Hot1lcykPwa2nvi2ecFVfQ
- BAJ97oCbie04GoOSzIcLwTZEW/1W/08o281ZU2JkF5pdDL6qlnFOiuf7y8XgiHu5zm2Y
- qh7w==
-X-Gm-Message-State: AOAM532tm+B5evGaQzixplxFK9qA8T/Z3ovzzZhTkjz6I47yH+YJ/Nrm
- 6RKfsP/DTfOVpG7qYT3I5LTPdphHeB5ufPH1gCOZyFogYLNm+yw7Eky4vFOHCXgAFcxpdcnY9Xz
- 8vNqdqkqxSyE/Q/yZsKi7NIRTDsrR5B4=
-X-Received: by 2002:a05:6122:2ad:: with SMTP id
- 13mr4799204vkq.11.1619199482082; 
- Fri, 23 Apr 2021 10:38:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/fs1zuxbpW6dC2Hux6wVbhKZMB178bovobsIV+RRuP3bKn69S329zvutivW0pp0Lu36ASWNHlws53Bapf8wk=
-X-Received: by 2002:a05:6122:2ad:: with SMTP id
- 13mr4799183vkq.11.1619199481954; 
- Fri, 23 Apr 2021 10:38:01 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=sewNWV1TNP6wUtwXwXG9cYSJCjsfFUZRNXFfYVZ8B/w=;
+ b=sZoPGG+nDjwwuRA34LuUAoOg09ab7ZK9yshTkV5aSb2eyojdZkgb6aYdCv/pcCYUWh
+ HmeSAroBYzMEuAvZCIfU2OvTFCKSepjFcsdPks19NnN3jSxdFD1CGoLt4tywb2tIgqua
+ dcuiZJCJxQgGIJhP5IaRQ0ct0ZS6GAnRh6nu7Cf0BRllU90uMd1rYIO+TXWEwza5KNRF
+ hAiRrHxhdyiP2NPogcZcWjBuSJ6vfFWjdahB/OCv/AD8sjOevzSRfS66trTR0v7dDyrB
+ koHAqnr1j7OAcJd4+OJDzi3zfS+qHxguHsLaL+eEi7qGYAw5He5nP2A40iTXcMcn4P5y
+ Hrfw==
+X-Gm-Message-State: AOAM532bRuci3j73O5npTGkv5TzVXyg5NdyqV/ZAQmoViYuukprIRzoS
+ UVVkuyWOZpWlCRyvF8Ea7ik7jZ3UNBeDYnWIbz4/SQ==
+X-Google-Smtp-Source: ABdhPJw8zKEBSuG1cNJbU9HFE64e9AQjUpfQ2cO5luXmxvyPvGMNztcu1ayIwoW+Z9BLfb9gk0UJBIpbIL8rJzX/WiU=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr5807708edv.44.1619199931792; 
+ Fri, 23 Apr 2021 10:45:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210419145435.14083-1-alex.bennee@linaro.org>
- <20210419145435.14083-4-alex.bennee@linaro.org>
-In-Reply-To: <20210419145435.14083-4-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 23 Apr 2021 14:37:35 -0300
-Message-ID: <CAKJDGDbO07V=NBvL4VYSvL2EYamY5NPMFfN4UU_5A5ndAZoVmA@mail.gmail.com>
-Subject: Re: [PATCH v1 03/25] tests/docker: make executable an optional
- argument to "update"
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210423165413.338259-1-richard.henderson@linaro.org>
+ <20210423165413.338259-5-richard.henderson@linaro.org>
+In-Reply-To: <20210423165413.338259-5-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 23 Apr 2021 18:44:36 +0100
+Message-ID: <CAFEAcA_=ux_34CW6KQmCrsm+6b_+CBdzJeJKo0yamOFKy-v+fg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] linux-user/arm: Simplify accumulating and raising
+ fpa11 exceptions
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,31 +79,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 19, 2021 at 11:54 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
+On Fri, 23 Apr 2021 at 17:56, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> We're going to extend the abilities of the command shortly.
+> Use bit masking instead of an if tree.
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2
->   - fix indention issue
-> ---
->  tests/docker/Makefile.include |  2 +-
->  tests/docker/docker.py        | 56 ++++++++++++++++++-----------------
->  2 files changed, 30 insertions(+), 28 deletions(-)
+>  linux-user/arm/cpu_loop.c | 50 ++++++++++++++-------------------------
+>  1 file changed, 18 insertions(+), 32 deletions(-)
 >
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
