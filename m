@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9DA36980E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:13:50 +0200 (CEST)
-Received: from localhost ([::1]:49302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023A8369822
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:17:20 +0200 (CEST)
+Received: from localhost ([::1]:51756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZzNF-0008P8-KR
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41360)
+	id 1lZzQd-0001de-4E
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:17:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZzLV-0007co-Lm
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:12:01 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:36697)
+ id 1lZzP0-0000iS-4E
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:15:39 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:40645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZzLU-0003VQ-4l
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:12:01 -0400
-Received: by mail-ej1-x631.google.com with SMTP id r9so74925331ejj.3
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 10:11:59 -0700 (PDT)
+ id 1lZzOq-0004dS-EO
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:15:37 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id n2so74909167ejy.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 10:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V1/Z7NzxToULFyFZY8mmaKqjlH2kxwusr4i8iKPtwfM=;
- b=W9hIDfxuMx+9VAS5pFtwRcSLhVEn/u0CecopZo+xFs/QeaQhFwHBLljfH1XcLMwhCr
- 30YqgCA+4jGmFT51dFyGm2N4b9G0lrLeb1UFnnVFbXFQV3NNjXLvoBI0x5yiYtmkfsQx
- TOFzd+WMaeMOjTfZ2lzgNorEPC5hDPego8SEC+Mvbru4blkZ40ASR6jY31a5qmjC8TVu
- SHC/dHhapnw4ncSYseMi8U6tDWh/rX0zijqZP8OBtW6B4WZg/N6dvLdYh3kqaitDYYqO
- TQjp/HeaJVTSjfBblwpJhvMDBi7CQr59ZTUSYWpEtf7ifKwqY7eUbqExAVVDtDVrsCWg
- hHmA==
+ :cc; bh=Z6kjTWKvEBdq0vRGdTVFI8/y3ux4Q63HE5UFdN1Y93Q=;
+ b=SULlEsRvarZNc+roUhUj3c/vB2RLhmvEh8+8cIaZXG6hfvKDj6tPeiDq08xMWmIEfu
+ iNxJgpOQb5wogKBpXcC25kuTwMDX4++ihtfmMy6yuaWt0nvBPyIoiheta0k+n39NeeaY
+ 3n1MnV2HLGddHUPFVlCHHhvDN4FLFzoS2Hoem88bZcmT2MjZfFClBqx03zGVl3N+8Ws1
+ ymfE9oPW8AMtobEENx+qhJZZEypmRnxn7vvxzrzOPSnoRTk8W2uX8k6Cnvl3ZAE0cqM8
+ fHEeYlGaXKYfEOg8stFOiQ9FQidLENnMbbR34c16qLWeEhX8xbWh1iZWjZRNe/+S+TeW
+ Vwbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=V1/Z7NzxToULFyFZY8mmaKqjlH2kxwusr4i8iKPtwfM=;
- b=nLe7Gb0r2z2icJU5173sTZep67ptKmoYojXcsknkQoZtczwgV7KRMemouvi1vzJYXA
- ew5W360ta2QrB0nHoaCmuh6ll+tARflGnAJrs2irSXhznaYAgyHfj/U0yLs5bNxJ8Ruu
- 9dt6dS6cUvXnZfqK+gsAH4ixMp3+cb41msQ/Cw/xTTdFb5J9v7nODasN3mCcut3SGc0/
- VV3YJUJgGbHcgsrgoPm8d1bw1+1JqoYihYaLOK27y9Wqpv7RGZFOp53TUBwk8LaN6EPf
- NCHqEt3mWAIIY7/5AOM708aKIXdMv3Xlx2OYL1PD7qkdHmVbv21wSX31/12+PzvYOsFH
- WF2w==
-X-Gm-Message-State: AOAM5325uelPpyYb/8qGkXE+SKExfDWvTJvAkwoI4n+REdAKBw2QMCrU
- ppMKBxi/bx4EZ/EF9GkUKyeeybW6a9HTzD5gEnKPJQ==
-X-Google-Smtp-Source: ABdhPJwEkU6AUaxQv1URw1IXqadPp6qLf2ukfXP7DjLzkPPH8lcjvTUy5i2OyGIUfk0wS2PXVYvzvK3Q/6SFOEtVO70=
-X-Received: by 2002:a17:906:29ca:: with SMTP id
- y10mr5478471eje.250.1619197918339; 
- Fri, 23 Apr 2021 10:11:58 -0700 (PDT)
+ bh=Z6kjTWKvEBdq0vRGdTVFI8/y3ux4Q63HE5UFdN1Y93Q=;
+ b=XKHpxwzaNHiF30n5BgJTFMRdg0lM9cul2vpCDth0mZR/i8WRWZT4sPC/L2sNaerl3x
+ 78mKByJPzN9OSkzl0LVhATxxPYC7fCXM+YQgf8WhUwXcNFk5HL5PQ8GhJB74hwUwypIO
+ Lx17T4Id5SaNU43d5rQw10HvzcVFwSXUTk95H4xIENkDsdkYkE3yJBVCwGiH7UgJ2SHV
+ TWdo/p/rUXPPGnXXF1tLvCtucp/o5CNEJkwoaS4zMAxmZY2/VFJYu1xC29wzv9AN3mi8
+ oWJCPAqxD9I13sIDMUVSxu55g9fWaPnYO7TmIsUTGvAEzk04Px1XnXg1vifgDTXnTbpi
+ OBhQ==
+X-Gm-Message-State: AOAM531jltpt1eBzXdvaDAxrn/NRpYMvftkooEl/1DUj8Yuowman/Rvd
+ gqiGdo38t0ue/QCllLPr2OCwd0PB9/126t7mEkQnxf/w9Ho=
+X-Google-Smtp-Source: ABdhPJzJGQkZDbdpCHSno7cUSVF0MIniJEwRCDwQNYVD16kJdM9UMiicxQ9rduWNDaE/UFO8JE5CRDLxu5HXirPyWII=
+X-Received: by 2002:a17:907:9852:: with SMTP id
+ jj18mr5285329ejc.382.1619198127022; 
+ Fri, 23 Apr 2021 10:15:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210423165413.338259-1-richard.henderson@linaro.org>
- <20210423165413.338259-4-richard.henderson@linaro.org>
-In-Reply-To: <20210423165413.338259-4-richard.henderson@linaro.org>
+ <20210423165413.338259-2-richard.henderson@linaro.org>
+In-Reply-To: <20210423165413.338259-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Apr 2021 18:11:02 +0100
-Message-ID: <CAFEAcA9orFRnGEvmT-VJgRUMPVLesOkVpAdByfMK=mwecCGUyw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] linux-user/arm: Do not fill in si_code for fpa11
- exceptions
+Date: Fri, 23 Apr 2021 18:14:31 +0100
+Message-ID: <CAFEAcA_YCY9fxMugvr4uLMv6bUbo=CS4YN0c7SKASMZT_Jowyw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] linux-user/arm: Split out emulate_arm_fpa11
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,19 +82,18 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 at 17:55, Richard Henderson
+On Fri, 23 Apr 2021 at 17:58, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> There is no such decoding in linux/arch/arm/nwfpe/fpmodule.c.
+> Pull out the fpa11 emulation to a helper function.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/arm/cpu_loop.c | 26 ++++++--------------------
->  1 file changed, 6 insertions(+), 20 deletions(-)
+>  linux-user/arm/cpu_loop.c | 153 +++++++++++++++++++++++---------------
+>  1 file changed, 94 insertions(+), 59 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-I wonder why we put that code in to start with...
 
 thanks
 -- PMM
