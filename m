@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA09368A7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 03:45:11 +0200 (CEST)
-Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FABA368A89
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 03:49:22 +0200 (CEST)
+Received: from localhost ([::1]:37698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZksY-0005Eg-2v
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 21:45:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60134)
+	id 1lZkwb-0007XF-FE
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 21:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lZkrL-0004dk-8z
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:43:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33801)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lZkvq-0006zh-Er
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:48:34 -0400
+Received: from mga12.intel.com ([192.55.52.136]:24095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lZkrG-00038s-Te
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:43:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619142229;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LB+ZGH9oaXytz/D/RLXPOQAmvLe6cLh3zEf0m9rQYss=;
- b=i0+yXBAQC8IHZz0FbPEIBC8B4jlcCQh758cNFKdMbG02v1rOoJa640lfHPz3ED/Zg6Cqd9
- 4QHLCbJQhjf/T9ZS9q/e15YYpB3WzJ1FggfCmY5aPoIPYEBf20+481GXP7I7btSYcHyxFK
- UFqjDebYxJ1e1JNXkgu59GR0BvQdX4w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-ScXM-oDROji6rANS-gJkKw-1; Thu, 22 Apr 2021 21:43:46 -0400
-X-MC-Unique: ScXM-oDROji6rANS-gJkKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBEBC881276;
- Fri, 23 Apr 2021 01:43:44 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-12-201.pek2.redhat.com
- [10.72.12.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27A196362B;
- Fri, 23 Apr 2021 01:43:41 +0000 (UTC)
-Subject: Re: [PATCH-for-6.0] net: tap: fix crash on hotplug
-To: Cole Robinson <crobinso@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <3f6be9c84782a0943ea21a8a6f8a5d055b65f2d5.1619018363.git.crobinso@redhat.com>
- <fe1f97bc-5ff9-002b-debc-5bc2c449c8b8@redhat.com>
- <CAEUhbmXR1Yn5paL+d0DMjgZUiinQGNRazj3neScL4_=CGvC8zg@mail.gmail.com>
- <CAFEAcA_4TSF1KKxVQUDt3r+aAnZqT-A2uA8m7O0ZaxHQVWgKJg@mail.gmail.com>
- <CAEUhbmX-XvJ6ViPjTsiQ2GhmhwefTSbF_m1CRwzphf82SNQixA@mail.gmail.com>
- <716bf384-3ba6-179e-afa9-5b02e4573845@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <04625377-f307-03b1-11ed-1f02dd05253b@redhat.com>
-Date: Fri, 23 Apr 2021 09:43:40 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lZkvn-0005hK-Fo
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:48:34 -0400
+IronPort-SDR: ZoHEWlmUqYxnAQPP8X1ztabO6EDxuvbpftBvo7b7mWXuTEybhrcSKaymBljcDdISgKrV2zvWDd
+ I9Ue6yMiriKQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="175488293"
+X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; d="scan'208";a="175488293"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 18:48:27 -0700
+IronPort-SDR: eF127b23ITrEtpOSSlWrKdZOB2NdTlLADHlnOyUA5XdVE/5xKWwG/Z7Rm3hOEJAKVTUKkJcV6X
+ W5l5JMhvtJEA==
+X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; d="scan'208";a="421595252"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.120])
+ ([10.238.0.120])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2021 18:48:25 -0700
+Subject: Re: [PATCH v2] i386: Add ratelimit for bus locks acquired in guest
+To: Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+References: <20210420093736.17613-1-chenyi.qiang@intel.com>
+ <20210420163417.lbns24ypfqz7icxg@habkost.net>
+ <df860e12-cea5-3d88-ba16-0dd1f8f975cb@intel.com>
+ <20210421141210.mx5mt7kewahj7eij@habkost.net>
+ <a73d4f4e-d7b2-b187-d13b-d23989976f49@intel.com>
+ <20210421151818.3svsnpmch5gswtpe@habkost.net>
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+Message-ID: <6cb71de2-5191-c845-a046-1e17c7291bdd@intel.com>
+Date: Fri, 23 Apr 2021 09:48:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <716bf384-3ba6-179e-afa9-5b02e4573845@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210421151818.3svsnpmch5gswtpe@habkost.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.136;
+ envelope-from=chenyi.qiang@intel.com; helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,91 +71,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/4/23 上午5:34, Cole Robinson 写道:
-> On 4/22/21 5:42 AM, Bin Meng wrote:
->> On Thu, Apr 22, 2021 at 5:36 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>> On Thu, 22 Apr 2021 at 05:29, Bin Meng <bmeng.cn@gmail.com> wrote:
->>>> On Thu, Apr 22, 2021 at 12:36 AM Philippe Mathieu-Daudé
->>>> <philmd@redhat.com> wrote:
->>>>> Cc'ing Bin.
->>>>>
->>>>> On 4/21/21 5:22 PM, Cole Robinson wrote:
->>>>>> Attempting to hotplug a tap nic with libvirt will crash qemu:
->>>>>>
->>>>>> $ sudo virsh attach-interface f32 network default
->>>>>> error: Failed to attach interface
->>>>>> error: Unable to read from monitor: Connection reset by peer
->>>>>>
->>>>>> 0x000055875b7f3a99 in tap_send (opaque=0x55875e39eae0) at ../net/tap.c:206
->>>>>> 206           if (!s->nc.peer->do_not_pad) {
->>>>>> gdb$ bt
->>>>>>
->>>>>> s->nc.peer may not be set at this point. This seems to be an
->>>>>> expected case, as qemu_send_packet_* explicitly checks for NULL
->>>>>> s->nc.peer later.
->>>>>>
->>>>>> Fix it by checking for s->nc.peer here too. Padding is applied if
->>>>>> s->nc.peer is not set.
->>>>>>
->>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1949786
->>>>>> Fixes: 969e50b61a2
->>>>>>
->>>>>> Signed-off-by: Cole Robinson <crobinso@redhat.com>
->>>>>> ---
->>>>>> * Or should we skip padding if nc.peer is unset? I didn't dig into it
->>>>>> * tap-win3.c and slirp.c may need a similar fix, but the slirp case
->>>>>>    didn't crash in a simple test.
->>>>>>
->>>>>>   net/tap.c | 2 +-
->>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/net/tap.c b/net/tap.c
->>>>>> index dd42ac6134..937559dbb8 100644
->>>>>> --- a/net/tap.c
->>>>>> +++ b/net/tap.c
->>>>>> @@ -203,7 +203,7 @@ static void tap_send(void *opaque)
->>>>>>               size -= s->host_vnet_hdr_len;
->>>>>>           }
->>>>>>
->>>>>> -        if (!s->nc.peer->do_not_pad) {
->>>>>> +        if (!s->nc.peer || !s->nc.peer->do_not_pad) {
->>>> I think we should do:
+
+On 4/21/2021 11:18 PM, Eduardo Habkost wrote:
+> On Wed, Apr 21, 2021 at 10:50:10PM +0800, Xiaoyao Li wrote:
+>> On 4/21/2021 10:12 PM, Eduardo Habkost wrote:
+>>> On Wed, Apr 21, 2021 at 02:26:42PM +0800, Chenyi Qiang wrote:
+>>>> Hi, Eduardo, thanks for your comments!
 >>>>
->>>> if (s->nc.peer && !s->nc.peer->do_not_pad)
->>> Yes. If there is no peer then the qemu_send_packet() that we're about
->>> to do is going to discard the packet anyway, so there's no point in
->>> padding it.
+>>>>
+>>>> On 4/21/2021 12:34 AM, Eduardo Habkost wrote:
+>>>>> Hello,
+>>>>>
+>>>>> Thanks for the patch.  Comments below:
+>>>>>
+>>>>> On Tue, Apr 20, 2021 at 05:37:36PM +0800, Chenyi Qiang wrote:
+>>>>>> Virtual Machines can exploit bus locks to degrade the performance of
+>>>>>> system. To address this kind of performance DOS attack, bus lock VM exit
+>>>>>> is introduced in KVM and it will report the bus locks detected in guest,
+>>>>>> which can help userspace to enforce throttling policies.
+>>>>>>
+>>>>>
+>>>>> Is there anything today that would protect the system from
+>>>>> similar attacks from userspace with access to /dev/kvm?
+>>>>>
+>>>>
+>>>> I can't fully understand your meaning for "similar attack with access to
+>>>> /dev/kvm". But there are some similar associated detection features on bare
+>>>> metal.
 >>>
->>> Maybe consider
+>>> What I mean is: you say guests can make a performance DoS attack
+>>> on the host, and your patch mitigates that.
 >>>
->>> static inline bool net_peer_needs_padding(NetClientState *nc)
->>> {
->>>      return nc->peer && !nc->peer->do_not_pad;
->>> }
+>>> What would be the available methods to prevent untrusted
+>>> userspace running on the host with access to /dev/kvm from making
+>>> a similar DoS attack on the host?
+> 
+> Thanks for all the clarifications below.  Considering them,
+> what's the answer to the question above?
+> 
+
+Hi Eduardo,
+
+Just make it more clear.
+
+Bus lock detection contains two sub-features. One is bus lock debug 
+exception, and the other is bus lock VM exit.
+
+Bus lock #DB exception can help detect the bus locks acquired in user 
+space and bus lock VM exit detects the bus locks insides VMs. To address 
+the attacks from non-VM userspace attackers against VM, Bus lock #DB 
+exception can help.
+
+The Bus lock #DB exception support 
+(https://lore.kernel.org/lkml/20210322135325.682257-3-fenghua.yu@intel.com/) 
+extends the  existing kernel command line parameter "split_lock_detect=" 
+also applying to non-wb bus lock.
+For example, split_lock_detect=fatal will send SIGBUS to the attackers 
+once this kind of #DB is detected.
+
 >>>
->>> since we want the same check in three places ?
->> Sounds good to me.
+>>>>
+>>>> 1. Split lock detection:https://lore.kernel.org/lkml/158031147976.396.8941798847364718785.tip-bot2@tip-bot2/
+>>>> Some CPUs can raise an #AC trap when a split lock is attempted.
+>>>
+>>> Would split_lock_detect=fatal be enough to prevent the above attacks?
 >>
-> I did not get to this today. Bin/Jason/anyone want to write the patch,
-
-
-I will send a patch soon.
-
-Thanks
-
-
-> I
-> will test it tomorrow (US EDT time). If not I'll write the patch tomorrow.
->
-> Thanks,
-> Cole
->
->
-
+>> NO.
+>>
+>> There are two types bus lock:
+>> 1. split lock - lock on cacheable memory while the memory across two cache
+>> lines.
+>> 2. non-wb lock - lock on non-writableback memory (you can find it on Intel
+>> ISE chapter 8, https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html)
+>>
+>> split lock detection can only prevent 1)
+>>
+>>> Is split_lock_detect=fatal the only available way to prevent them?
+>>
+>> as above, 2) non-wb lock can be prevented by "non-wb lock disable" feature
+> 
+> Bus lock VM exit applies to both 1 and 2, correct?
+> 
+>>
+>>>
+>>>>
+>>>> 2. Bus lock Debug Exception:
+>>>> https://lore.kernel.org/lkml/20210322135325.682257-1-fenghua.yu@intel.com/
+>>>> The kernel can be notified by an #DB trap after a user instruction acquires
+>>>> a bus lock and is executed.
+>>>
+>>> I see a rate limit option mentioned at the above URL.  Would a
+>>> host kernel bus lock rate limit option make this QEMU patch
+>>> redundant?
+>>>
+>>
+>> No. Bus lock Debug exception cannot be used to detect the bus lock happens
+>> in guest (vmx non-root mode).
+>>
+>> We have patch to virtualize this feature for guest
+>> https://lore.kernel.org/kvm/20210202090433.13441-1-chenyi.qiang@intel.com/
+>>
+>> that guest will have its own setting of bus lock debug exception on or off.
+>>
+>> What's more important is that, even we force set the
+>> MSR_DEBUGCTL.BUS_LOCK_DETECT for guest, guest still can escape from it.
+>> Because bus lock #DB is a trap which is delivered after the instruction
+>> completes. If the instruction acquires bus lock subsequently faults e.g.,
+>> #PF, then no bus lock #DB generated. But the bus lock does happen.
+>>
+>> But with bus lock VM exit, even the instruction faults, it will cause a BUS
+>> LOCK VM exit.
+>>
+>>
+> 
 
