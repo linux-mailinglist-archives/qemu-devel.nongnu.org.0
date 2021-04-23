@@ -2,73 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA52E36930B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:27:22 +0200 (CEST)
-Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2C336934F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:30:36 +0200 (CEST)
+Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZvq6-0001Jm-24
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35630)
+	id 1lZvtD-0002jt-5e
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZvpG-0000dT-23
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:26:30 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZvpD-0006nj-0S
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:26:29 -0400
-Received: by mail-ej1-x634.google.com with SMTP id w23so58113078ejb.9
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T2nwy/QN6sKCy4M9Ed+nhLavwCqRCRFYCMpykZQWfzc=;
- b=IpKNGZLo17cGyulnSaDB1eHuL6f22bIQ1fxs8i7N9ePZs4TvBinfDXS43H7wfg7bpe
- Z4gQKJBjug/hhxQjIdDrppTaI6MSEo7K0gnXw6NOW9p10GW69WnGMTzlgKIHtR9zVs1H
- C65KApHc9oMJ16M7g7a5Om70VZH1DZ6NNr3eoYL9ktwnqJPN1IMPsxjycEAvv61L5yeU
- u6GtxBBSqnmmI2lGIEtD4L/FsDdV1FswXxvWofE98daE57yL5pCPMm0LAWQN0BcwJT3v
- PCqcQaG/2q0eUnrtT/0FqLlIefbxpaSuZRf8CsmcKlnl6sNDNgfJORI1uKRVSVYt2Kyt
- psPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T2nwy/QN6sKCy4M9Ed+nhLavwCqRCRFYCMpykZQWfzc=;
- b=fcKvs/A5aY7Dt2pr6fWuxLyrhQsybIQHnZfsTtUWw2Eye3a6nCyUbydJ1ubtBxWgDG
- XKxz9iO9x+mJjvMNgGcqoopQqH1mK0mRENh3QeD1AUGqVQx8awkebXFrbTciGmiJjcfx
- bTHsTjFLrmgdE336zwMWQAgEmgj/jF9g/3t4+lz5FSGacViATUATfUPJuTfDwP7TEQ2M
- AFHDukgxMjeNloWf7oFg/IVZrLMD8NQr5hgI5Xt0U15T9GIECh7v/yNvPA3kKBgF6M4N
- qRRg3kYQD1ihMgrytSyEAX6iyKIVQ2jVsrnxSjEnYT6cxERrbwcluohb2M0ue9kS2Azg
- 9UJA==
-X-Gm-Message-State: AOAM530mVoiWbD2pGLseWKSUV0dPKk6/pPzQFliP1UKG9YVhDuvck58X
- TNrFU8e37FEbNZ7X5sGlbSAotfZQ8aLcqiyKIa0/8g==
-X-Google-Smtp-Source: ABdhPJzWCuwq6mExGgsK7OL3qqhlADhbJVFs7XsiQTnCxAO0NmXb86L1P9bP3ThHe8QuWq9iOd4tU8xPICwGx+rHR3s=
-X-Received: by 2002:a17:906:8303:: with SMTP id
- j3mr4221482ejx.85.1619184384438; 
- Fri, 23 Apr 2021 06:26:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lZvrC-00023Z-Qz; Fri, 23 Apr 2021 09:28:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lZvrA-0007ve-RU; Fri, 23 Apr 2021 09:28:30 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13ND4GdJ143887; Fri, 23 Apr 2021 09:28:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=+UXk1VIdV40QGMqN0etYaqmRNhTdtS9Wr9iUcLoX8Eg=;
+ b=NfZ89wEbSCXxn1pUn1RwUfmMOEo1saLbL6IKJreHtCsTpnG1wLdaADcNwEeliO1sEqz0
+ fLG3OOOWVCpwjRcxGIYZbk1JofmJG5SYTg2e9/DsLfvsiyiHJcmeU/GOWaxan/A0o7QH
+ iFDvOmgBhaqMwIXZud8I1c6XRuosbncMnORx8CVLBrIjPZsSSRwbguNfKF8027bMrk2+
+ DDPSrkfbqK1K91G5e6TyZ6yURpHuHzRUCvL+5PyUvFa0SosMhPBpf+WPmRisFoiD6jk5
+ DtIuT4MR5JsHd3uSmrIh8IZ41EKhMfF3eUzS8Ap5liH8h0pHpXOfBUj910BpxlDVJR8n ww== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3838hmar0r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 09:28:20 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13ND4VUD145154;
+ Fri, 23 Apr 2021 09:28:19 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3838hmaqyg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 09:28:19 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13NDQgr7021098;
+ Fri, 23 Apr 2021 13:28:18 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma04wdc.us.ibm.com with ESMTP id 3813tb9k43-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 13:28:18 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13NDSHe228836166
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Apr 2021 13:28:17 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2841FC6059;
+ Fri, 23 Apr 2021 13:28:17 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C1D3C605B;
+ Fri, 23 Apr 2021 13:28:16 +0000 (GMT)
+Received: from localhost (unknown [9.163.1.180])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Fri, 23 Apr 2021 13:28:16 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 1/4] target/ppc: Code motion required to build disabling
+ tcg
+In-Reply-To: <YIIP5RVQvS+Xd+WF@yekko.fritz.box>
+References: <CP2PR80MB44990338BCF641993404B901C7469@CP2PR80MB4499.lamprd80.prod.outlook.com>
+ <87mttq15a1.fsf@linux.ibm.com> <YIIP5RVQvS+Xd+WF@yekko.fritz.box>
+Date: Fri, 23 Apr 2021 10:28:14 -0300
+Message-ID: <874kfxf7v5.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20210423052127.512489-1-its@irrelevant.dk>
- <20210423052127.512489-3-its@irrelevant.dk>
- <CAFEAcA8xS6Hoqd+Y96FxhrDabsotYURsHHvEeN9yDLDHzzVf+g@mail.gmail.com>
- <YILKsjz+WoXFiKUh@apples.localdomain>
-In-Reply-To: <YILKsjz+WoXFiKUh@apples.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Apr 2021 14:25:29 +0100
-Message-ID: <CAFEAcA_OzW7TWk8JrvrzEY-Rapcs1wVjuWKvYGzBgWFHQO+vxg@mail.gmail.com>
-Subject: Re: [PATCH for-6.0 v2 2/2] hw/block/nvme: disable hotplugging for
- subsystem-linked controllers
-To: Klaus Jensen <its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: kgcvdEJ0vbkUXHQS5etY_WUaCh9u6dHK
+X-Proofpoint-GUID: Rl3ti9e-7lK1zcrlqrTH1msXor6vtDXs
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-23_04:2021-04-23,
+ 2021-04-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ mlxscore=0 malwarescore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 clxscore=1015 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104230084
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,73 +108,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Klaus Jensen <k.jensen@samsung.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Andre Fernando da Silva <andre.silva@eldorado.org.br>,
+ Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
+ Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 at 14:25, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> On Apr 23 14:21, Peter Maydell wrote:
-> >On Fri, 23 Apr 2021 at 06:21, Klaus Jensen <its@irrelevant.dk> wrote:
-> >>
-> >> From: Klaus Jensen <k.jensen@samsung.com>
-> >>
-> >> If a controller is linked to a subsystem, do not allow it to be
-> >> hotplugged since this will mess up the (possibly shared) namespaces.
-> >>
-> >> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> >> ---
-> >>  hw/block/nvme.c | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> >> index 5fe082ec34c5..7606b58a39b9 100644
-> >> --- a/hw/block/nvme.c
-> >> +++ b/hw/block/nvme.c
-> >> @@ -6140,12 +6140,16 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-> >>
-> >>  static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
-> >>  {
-> >> +    DeviceClass *dc;
-> >>      int cntlid;
-> >>
-> >>      if (!n->subsys) {
-> >>          return 0;
-> >>      }
-> >>
-> >> +    dc = DEVICE_GET_CLASS(n);
-> >> +    dc->hotpluggable = false;
-> >> +
-> >>      cntlid = nvme_subsys_register_ctrl(n, errp);
-> >>      if (cntlid < 0) {
-> >>          return -1;
-> >
-> >I'm not sure this is right -- the DeviceClass is the
-> >class struct, which there's only one of for every instance
-> >of the device in the system. So this is saying "if this instance
-> >is linked to a subsystem, don't let any *future* instances ever
-> >be hotpluggable". I'm not even sure if it will do the right
-> >thing for the current device, because this function is called
-> >from the device's realize method, and the device_set_realized()
-> >function does the "forbid if dc->hotpluggable is false" check
-> >before calling the realize method.
-> >
-> >Possibly what you want to do here is to call the
-> >device_get_hotplugged() function and just make the realize
-> >method fail with a suitable error if the device is both (a) being
-> >hotplugged and (b) has a subsystem link; but I'm not an expert on
-> >hotplug, so I might be wrong.
-> >
->
-> Thanks Peter, this sounds exactly like what I want. I'll respin!
->
-> I have a "full" fix that actually makes the device hotpluggable in the
-> context of subsystems, but it is definitely not an -rc thing.
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-For 6.0 I don't think we should put this in anyway -- it's not
-a regression and in any case it sounds like it needs more work...
+> On Thu, Apr 22, 2021 at 04:35:34PM -0300, Fabiano Rosas wrote:
+>> Bruno Piazera Larsen <bruno.larsen@eldorado.org.br> writes:
+>> 
+>> >> > You are correct! I've just tweaked the code that defines spr_register and
+>> >> > it should be working now. I'm still working in splitting the SPR functions
+>> >> > from translate_init, since I think it would make it easier to prepare the
+>> >> > !TCG case and for adding new architectures in the future, and I found a
+>> >> > few more problems:
+>> >>
+>> >> Actually looking at the stuff below, I suspect that separating our
+>> >> "spr" logic specifically might be a bad idea.  At least some of the
+>> >> SPRs control pretty fundamental things about how the processor
+>> >> operates, and I suspect separating it from the main translation logic
+>> >> may be more trouble than it's worth.
+>> 
+>> I disagree with the code proximity argument. Having TCG code clearly
+>> separate from common code seems more important to me than having the SPR
+>> callbacks close to the init_proc functions.
+>
+> Hmm.. I may be misinterpreting what you're intending here.  I
+> certainly agree that separating TCG only code from common code is a
+> good idea.  My point, though, is that the vast majority of the SPR
+> code *is* TCG specific - there are just a relatively few cases where
+> SPRs have a common path.  That basically only happens when a) the SPR
+> can be affected by means other than the guest executing instructions
+> specifically to do that (i.e. usually by hypercalls) and b) accessing
+> the SPR has some side effects that need to be handled in both TCG and
+> KVM cases
 
--- PMM
+The SPR code in translate_init.c.inc currently comprises of:
+
+1) the gen_spr* functions that are called during init_proc for each
+processor type;
+
+2) the spr_register macros and _spr_register function that adds the SPRs
+to env->spr, called from (1);
+
+3) the TCG-specific SPR read|write callbacks, registered by (2);
+
+4) the KVM specific attribute one_reg_id, registered by (2).
+
+The intention is to have one .c file (cpu_init.c) that deals with
+processor initialization, which is mostly setting PowerPCCPUClass
+attributes and registering the appropriate SPRs for each processor
+family (1,2). We're considering that to be shared between KVM and TCG
+for now.
+
+What is going into a separate file are the read and write SPR callbacks,
+which are TCG specific (3). They are still referenced from the other
+file when registering the SPRs, but are ignored when building for
+KVM-only. These are kept in a TCG-only compilation unit. There's still a
+decision to be made whether we should have a separate spr_tcg file for
+them, or move them into translate.c along with the rest of TCG code.
+
+The one_reg_id is just one attribute so that does not change.
+
+> From the descriptions it sounded like you were trying to separate
+> *all* SPR code, not just these specific cases from the translation
+> core, and that's what I'm saying is a bad idea.
+
+So, if anything, the SPR callbacks are moving _closer_ to the
+translation core.
+
+>> But maybe we should take a look at this RFC before we start discussing
+>> personal preference too much.
+>> 
+>> > Well, all the errors that I got were related to to read/write functions, which
+>> > I was already separating into a spr_tcg file. The solutions I can see are to
+>> > include this file in translate.c, and either have the read/write functions not be
+>> > static, or include the spr_common.c in translate as well, but only for TCG
+>> > builds. Both solutions sound pretty bad imo, but the first sounds less bad,
+>> > because it's a bit less complexity in the build process.
+>> 
+>> It would be helpful if we could apply these patches and do some
+>> experimentation before recommending a solution. So I would pick the less
+>> bad for now. Mention it in the cover letter and then we can discuss
+>> looking at something more concrete.
+>> 
 
