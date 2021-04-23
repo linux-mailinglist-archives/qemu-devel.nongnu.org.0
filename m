@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06D3369C04
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:24:37 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243EB369C0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:29:13 +0200 (CEST)
+Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la3Hw-0000gh-PV
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34078)
+	id 1la3MO-0001uR-8f
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1la3H9-00009P-EB
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:23:47 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41597)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1la3H7-0000Qz-Fv
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:23:46 -0400
-Received: by mail-wr1-x435.google.com with SMTP id c4so10750844wrt.8
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 14:23:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6dBFftcxN5gnq+XjkeArn6b8WVpNAb8aDguLdtvP9cA=;
- b=Bwm2WP5YxGmWxL5apASjizOvYJzXFweIw1jK5Ui0zVgl+xReKoKxdYVKedhpPgXS75
- J8laSFInNBaJRVk5RTcvO2VkrE2MVXgGQYsuOZdaFbFwSgsLZaFo5ggITFlj1xiFdv24
- 4Bwbz3o/0+2xiw7CnrKgsOEJ4vmgapu0TSUrwhyCegox9r4F4I6mt7wkulOFQ4hVZ4hc
- ot8DBkv1+WJi1H1m4darbX4rwMxDNfNoVif/lE/ELXYxwvMK+hFQWI/vrbPP5Fx7eFMK
- q2YjxEpXB4YsOAE20hS8Yu43O7fydXfysQcmZvsTbyv/KlhD5SU/i0vhB5U1+JYo5wMa
- tvPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6dBFftcxN5gnq+XjkeArn6b8WVpNAb8aDguLdtvP9cA=;
- b=ozoQ69EDRzkWTAfOIIuA+Q4y9mGlCOaj/OM2ZFy8D5sHbxBHWEOvs6bGkx3gSTEAvE
- bTZHPQ6e+21Y7ldefv29uTikWPBGqalcuLG3x6yRjhPdpFkIBKpqSG57uSMh0B3nYaE9
- 3p2ZAP8jHYiV7sRu1J+z8TGj2/AF3Hn/XGRBwqDmPaL50HJQXsgrhQbZrAKgh2MHAV64
- bkU/zRSDSHKUjZvhWfAU0MgPCRo1bXT9KOWt7Sep71AnIHXMxr+pfyOJk1gxt1B5PsIM
- zdzoaZCHCoOJNmYyN3ouXP/TNgwjYxyIwflBt5cb6sDHI9AXHDlXVM66J883oKMjvCXI
- 6mPQ==
-X-Gm-Message-State: AOAM533EVKuCJgxvT4DCpNeo+b9IuObYGMIWJOPrRssGLZWr0ULi9Jqm
- WBHZSpwciz6d+bjM3RN9KPM=
-X-Google-Smtp-Source: ABdhPJysE/JgrSDHCmyR55k2aG8k0G+yfvXn4TB4s/zUJr+R2e4mYENosgyPlkc1Mo7P+P1RcBEkIQ==
-X-Received: by 2002:a5d:6e06:: with SMTP id h6mr6922484wrz.201.1619213023883; 
- Fri, 23 Apr 2021 14:23:43 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id u8sm9688187wrp.66.2021.04.23.14.23.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 14:23:43 -0700 (PDT)
-Subject: Re: [PULL 11/24] bsd-user: style tweak: if 0 -> ifdef notyet for code
- needed in future
-To: imp@bsdimp.com, qemu-devel@nongnu.org
-References: <20210423203959.78275-1-imp@bsdimp.com>
- <20210423203959.78275-2-imp@bsdimp.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2e4fb308-07c3-c998-89b2-f49b69e90092@amsat.org>
-Date: Fri, 23 Apr 2021 23:23:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1la3L5-0001TS-8T
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:27:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32414)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1la3L3-00033S-Lb
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 17:27:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619213268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7BvSr21XQgqMH9Pqs8lMn1NquEI5fhtxmGMoamdbFsc=;
+ b=XmLf73toRmsGRmNy4w0NU46ZGtHv5IrDUc+etsEYQ77G40cashYqus4xpy0xDYbKgMaVSi
+ 5k9H85HLeDyhWrOl79Kmksr0AvgQ382rIWiBagI+Z+wg0b0HbkZS5I7jZgGHulwfk1wZ5n
+ kMp1TjDGO9h5b/XB8jWk0UU/inpI1LQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-J3CwzHATPRqekIQGa6m5gQ-1; Fri, 23 Apr 2021 17:27:46 -0400
+X-MC-Unique: J3CwzHATPRqekIQGa6m5gQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 906C98030C4;
+ Fri, 23 Apr 2021 21:27:45 +0000 (UTC)
+Received: from localhost (ovpn-117-199.rdu2.redhat.com [10.10.117.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45E4360BD8;
+ Fri, 23 Apr 2021 21:27:45 +0000 (UTC)
+Date: Fri, 23 Apr 2021 17:27:44 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Wei Huang <wei.huang2@amd.com>
+Subject: Re: constant_tsc support for SVM guest
+Message-ID: <20210423212744.4urvjdirnqdvqcq5@habkost.net>
+References: <a6662944-18ac-5075-1427-f92ae8e20163@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20210423203959.78275-2-imp@bsdimp.com>
+In-Reply-To: <a6662944-18ac-5075-1427-f92ae8e20163@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,33 +77,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, arichardson@freebsd.org
+Cc: Marcelo Tosatti <mtosatti@redhat.com>, "Moger, Babu" <babu.moger@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 10:39 PM, imp@bsdimp.com wrote:
-> From: Warner Losh <imp@bsdimp.com>
+On Fri, Apr 23, 2021 at 12:32:00AM -0500, Wei Huang wrote:
+> There was a customer request for const_tsc support on AMD guests. Right now
+> this feature is turned off by default for QEMU x86 CPU types (in
+> CPUID_Fn80000007_EDX[8]). However we are seeing a discrepancy in guest VM
+> behavior between Intel and AMD.
 > 
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/elfload.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> In Linux kernel, Intel x86 code enables X86_FEATURE_CONSTANT_TSC based on
+> vCPU's family & model. So it ignores CPUID_Fn80000007_EDX[8] and guest VMs
+> have const_tsc enabled. On AMD, however, the kernel checks
+> CPUID_Fn80000007_EDX[8]. So const_tsc is disabled on AMD by default.
+
+Oh.  This seems to defeat the purpose of the invtsc migration
+blocker we have.
+
+Do we know when this behavior was introduced in Linux?
+
 > 
-> diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-> index 87154283ef..07a00ddbd5 100644
-> --- a/bsd-user/elfload.c
-> +++ b/bsd-user/elfload.c
-> @@ -1270,7 +1270,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
->                ibcs2_interpreter = 1;
->              }
->  
-> -#if 0
-> +#ifdef notyet
+> I am thinking turning on invtsc for EPYC CPU types (see example below). Most
+> AMD server CPUs have supported invariant TSC for a long time. So this change
+> is compatible with the hardware behavior. The only problem is live migration
+> support, which will be blocked because of invtsc. However this problem
+> should be considered very minor because most server CPUs support TscRateMsr
+> (see CPUID_Fn8000000A_EDX[4]), allowing VMs to migrate among CPUs with
+> different TSC rates. This live migration restriction can be lifted as long
+> as the destination supports TscRateMsr or has the same frequency as the
+> source (QEMU/libvirt do it).
+> 
+> [BTW I believe this migration limitation might be unnecessary because it is
+> apparently OK for Intel guests to ignore invtsc while claiming const_tsc.
+> Have anyone reported issues?]
 
-Better describe in the cover letter "ignored checkpatch errors" and keep
-this unmodified rather than trying to bypass them by dubious code style
-IMO. The checkpatch.pl script is here to help us ;)
+CCing Marcelo, who originally added the migration blocker in QEMU.
 
->              printf("Using ELF interpreter %s\n", path(elf_interpreter));
->  #endif
+> 
+> Do I miss anything here? Any comments about the proposal?
+> 
+> Thanks,
+> -Wei
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index ad99cad0e7..3c48266884 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4077,6 +4076,21 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>                      { /* end of list */ }
+>                  }
+>              },
+> +            {
+> +                .version = 4,
+> +                .alias = "EPYC-IBPB",
+> +                .props = (PropValue[]) {
+> +                    { "ibpb", "on" },
+> +                    { "perfctr-core", "on" },
+> +                    { "clzero", "on" },
+> +                    { "xsaveerptr", "on" },
+> +                    { "xsaves", "on" },
+
+You don't need to copy the properties from the previous version.
+The properties of version N are applied on top of the properties
+of version (N-1).
+
+> +                    { "invtsc", "on" },
+> +                    { "model-id",
+> +                      "AMD EPYC Processor" },
+> +                    { /* end of list */ }
+> +                }
+> +            },
+>              { /* end of list */ }
+>          }
+>      },
+> @@ -4189,6 +4203,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>                      { /* end of list */ }
+>                  }
+>              },
+> +            {
+> +                .version = 3,
+> +                .props = (PropValue[]) {
+> +                    { "ibrs", "on" },
+> +                    { "amd-ssbd", "on" },
+> +                    { "invtsc", "on" },
+> +                    { /* end of list */ }
+> +                }
+> +            },
+>              { /* end of list */ }
+>          }
+>      },
+> @@ -4246,6 +4269,17 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>          .xlevel = 0x8000001E,
+>          .model_id = "AMD EPYC-Milan Processor",
+>          .cache_info = &epyc_milan_cache_info,
+> +        .versions = (X86CPUVersionDefinition[]) {
+> +            { .version = 1 },
+> +            {
+> +                .version = 2,
+> +                .props = (PropValue[]) {
+> +                    { "invtsc", "on" },
+> +                    { /* end of list */ }
+> +                }
+> +            },
+> +            { /* end of list */ }
+> +        }
+> 
+
+-- 
+Eduardo
+
 
