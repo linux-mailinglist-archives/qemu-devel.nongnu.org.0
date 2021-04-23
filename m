@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D49369B84
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:47:43 +0200 (CEST)
-Received: from localhost ([::1]:58360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF8A369BA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:52:47 +0200 (CEST)
+Received: from localhost ([::1]:47636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la2iE-0005Qk-SC
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54722)
+	id 1la2n9-0004GV-1M
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2b4-0005sj-6a
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2b5-0005ss-65
  for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:19 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:38548)
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:44816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2b0-0008B9-0e
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:17 -0400
-Received: by mail-il1-x132.google.com with SMTP id c3so534341ils.5
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:40:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2b1-0008BP-M1
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:18 -0400
+Received: by mail-io1-xd33.google.com with SMTP id p8so1666573iol.11
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KFYbyv1FT+tAXydS/iwoVTMJ63xlplCM/Sxb0YyvmoY=;
- b=I1CZQQAfLarnaI9CzdtVMq6HNHwxfyYrx6ctAXQjhzC0T5aeJyxk8qUariDWpA5ni1
- ozhrUzRsISg6Wyk8Cv6BdGtQDUyNeRtasuSDzECDe4yII1Wavx6tjo5hnV9ltgDkN/8U
- pzFbkvAZtcP9Zt4X7itbZTobbZ4L9WM8Emdg2iM/6aMMZI6Cr9oJtOXwx6FDqN1JxnyH
- mDkuMiWyQNJxpdkcB8oXmNuRc3hHqZjmEiBcuJFE0CzHhYZLKamqt5DWMpeuw6FePvyI
- +quZ1xiyK6laBcy/R60bmZqOlhSQDDEarN2paVonGYQB9GAEEldxCL4oHgDDKN77/idK
- mAhA==
+ bh=3vvSJlvlo+EU8vIqeNNS+/akqD84ySOCzpwxiSaklTk=;
+ b=n5jFvz8pds8wGwF434Lx9l9TV0k3nDCu481sf3F+/T1ZB0Kne/pAUHxXvVhmog/yqH
+ grvnJcsBgXGwrTz9KrBYpqjCMU0OwMrngLggdZXr6XvPAq9W5Z/zFtgigfSG63rfxP+F
+ aJRc7gWyedSjOTDGCjQO9XyR/Kl3YGMlYuMy4um61WICCaS2mfRWrflqJBirIjKgmfhw
+ KkmU7yS2nwxcKwbevCgiS38Qja0C5QPvf8DDm7xhv/ElMjKWmg7/H2j7Zma0/zyj0oWb
+ fuUa7csoG3XJ+hZpxK/4loJ0RMV1FPNuY/kHm7HQ/2evUXUorKIRrdy5dTIpeOTNCYUB
+ 3ZYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KFYbyv1FT+tAXydS/iwoVTMJ63xlplCM/Sxb0YyvmoY=;
- b=d3mG/8kyVpd2htfV4yHG4oSyPiuEjTAVXGeO/FBMeSOo/F0LiwfxS9dRfw3A3hAMq5
- FQ2vVedKlQz0Fe9tCgu3PSciJtaUZjMEr2umytRc2WTaVXd9izhmyYGcFYUNW+avi5XR
- PzaTq/MlnWVU2wB1owkelKNOHedJ5qpw3H1+PIRcKb16YeQd8X0k6cD11ofBfRBKctsh
- rytZO8ZJfTxstLUXFOLn3HkfJ2LMl+gZRabqc6kkMcVm1qr1V0qA4I53hQz3hamY8+BB
- O0/JnYlvDnxCPWn4HcLt/0lEVIFHuzd4k2MQ/N6yAehWOj5mhO3PenU1fsnlk3vsH/HQ
- FfNg==
-X-Gm-Message-State: AOAM531aRrBuMF16GGBNM+6emlzXMlwZYDV58vG6IZsB5LfE3Jv7k5UH
- frWiMXFH3xSnTddTTq3iekK5UjirOJIfZXCG
-X-Google-Smtp-Source: ABdhPJw5STzXHCBDMx4UQUdK86MsGk3iY7me+HWqH5x8otPIKfr4zSaud1CCSqNXe/Srazm6zFZyAg==
-X-Received: by 2002:a92:d68a:: with SMTP id p10mr4410139iln.40.1619210412803; 
- Fri, 23 Apr 2021 13:40:12 -0700 (PDT)
+ bh=3vvSJlvlo+EU8vIqeNNS+/akqD84ySOCzpwxiSaklTk=;
+ b=oJRMc0fOeNJ9ttCeo9WQGZonRYdtyV1F6SPK7Lzz4SJtuuDwPadq6AovEPbf/xNaXH
+ LVXPVgKT4XIun1FSq64DfwharvFUsn3g4jQ6lBttM9SgeCCKMdauVgHw8liho9OanKmp
+ r6l6PtmXO+5bG+U5xZyU9r+u+0HGxVbgluMcrZ6oEZEQITwh0MEifz48VNHr6flXgRdN
+ 6EYEM4857kxUpz8S+nqf7+smQQkDLdytjxvhJY2tr9PvHeOfweDMb21DpaoMok48w2s0
+ MlfCC02HoP2TCeeSppBfyJZuL4yLO1pv0POfSyQdHntc/2fcArDiJXRtACVSRaF9tx7O
+ OoQA==
+X-Gm-Message-State: AOAM532V/z9/YOVvksXSBpBc5RcahUyckiyNZOF/4PZY4uVSeliyvFVL
+ 30Eo21YO0tfBaCOwj7ijvxNl1CrolSgFesrB
+X-Google-Smtp-Source: ABdhPJzj7NeJ+UHFuYeIE7I7QyqEPATw7qZmNwd/gr+30j32KA5HSPx901jl+C1CAcZ5wPQ47Ly4SQ==
+X-Received: by 2002:a5e:c74a:: with SMTP id g10mr4645808iop.165.1619210413645; 
+ Fri, 23 Apr 2021 13:40:13 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id n1sm3201308ion.22.2021.04.23.13.40.12
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Apr 2021 13:40:12 -0700 (PDT)
+ Fri, 23 Apr 2021 13:40:13 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/24] bsd-user: style tweak: if 0 -> ifdef notyet for code
- needed in future
-Date: Fri, 23 Apr 2021 14:39:49 -0600
-Message-Id: <20210423203959.78275-5-imp@bsdimp.com>
+Subject: [PULL 15/24] bsd-user: Fix commentary issues
+Date: Fri, 23 Apr 2021 14:39:50 -0600
+Message-Id: <20210423203959.78275-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210423203959.78275-1-imp@bsdimp.com>
 References: <20210423203959.78275-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::132;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,24 +87,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
+Lines > 80 or 90 characters
+C++ comments
+BSD /*- block comment convention removed.
+
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/x86_64/target_syscall.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bsd-user/bsd-mman.h | 42 ++++++++++++++++++++++++++----------------
+ 1 file changed, 26 insertions(+), 16 deletions(-)
 
-diff --git a/bsd-user/x86_64/target_syscall.h b/bsd-user/x86_64/target_syscall.h
-index a8e6274b76..9a6e072f87 100644
---- a/bsd-user/x86_64/target_syscall.h
-+++ b/bsd-user/x86_64/target_syscall.h
-@@ -59,7 +59,7 @@ struct target_pt_regs {
- #define TARGET_GDT_ENTRY_TLS_MIN 12
- #define TARGET_GDT_ENTRY_TLS_MAX 14
+diff --git a/bsd-user/bsd-mman.h b/bsd-user/bsd-mman.h
+index 910e8c1921..5a64d0d425 100644
+--- a/bsd-user/bsd-mman.h
++++ b/bsd-user/bsd-mman.h
+@@ -1,4 +1,4 @@
+-/*-
++/*
+  * Copyright (c) 1982, 1986, 1993
+  *      The Regents of the University of California.  All rights reserved.
+  *
+@@ -30,16 +30,20 @@
+  * $FreeBSD: src/sys/sys/mman.h,v 1.42 2008/03/28 04:29:27 ps Exp $
+  */
  
--#if 0 // Redefine this
-+#ifdef notyet /* Redefine this */
- struct target_modify_ldt_ldt_s {
- 	unsigned int  entry_number;
-         abi_ulong     base_addr;
+-#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080  /* previously misimplemented MAP_INHERIT */
+-#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100  /* previously unimplemented MAP_NOEXTEND */
+-#define TARGET_FREEBSD_MAP_STACK        0x0400  /* region grows down, like a stack */
+-#define TARGET_FREEBSD_MAP_NOSYNC       0x0800  /* page to but do not sync underlying file */
++#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
++                                 /* previously misimplemented MAP_INHERIT */
++#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
++                                 /* previously unimplemented MAP_NOEXTEND */
++#define TARGET_FREEBSD_MAP_STACK        0x0400
++                                 /* region grows down, like a stack */
++#define TARGET_FREEBSD_MAP_NOSYNC       0x0800
++                                 /* page to but do not sync underlying file */
+ 
+ #define TARGET_FREEBSD_MAP_FLAGMASK     0x1ff7
+ 
+ /*      $NetBSD: mman.h,v 1.42 2008/11/18 22:13:49 ad Exp $     */
+ 
+-/*-
++/*
+  * Copyright (c) 1982, 1986, 1993
+  *      The Regents of the University of California.  All rights reserved.
+  *
+@@ -69,18 +73,21 @@
+  *
+  *      @(#)mman.h      8.2 (Berkeley) 1/9/95
+  */
+-#define TARGET_NETBSD_MAP_INHERIT       0x0080  /* region is retained after exec */
+-#define TARGET_NETBSD_MAP_TRYFIXED      0x0400 /* attempt hint address, even within break */
+-#define TARGET_NETBSD_MAP_WIRED         0x0800  /* mlock() mapping when it is established */
+-
+-#define TARGET_NETBSD_MAP_STACK         0x2000  /* allocated from memory, swap space (stack) */
++#define TARGET_NETBSD_MAP_INHERIT       0x0080
++                                /* region is retained after exec */
++#define TARGET_NETBSD_MAP_TRYFIXED      0x0400
++                                /* attempt hint address, even within break */
++#define TARGET_NETBSD_MAP_WIRED         0x0800
++                                /* mlock() mapping when it is established */
++#define TARGET_NETBSD_MAP_STACK         0x2000
++                                /* allocated from memory, swap space (stack) */
+ 
+ #define TARGET_NETBSD_MAP_FLAGMASK      0x3ff7
+ 
+ /*      $OpenBSD: mman.h,v 1.18 2003/07/21 22:52:19 tedu Exp $  */
+ /*      $NetBSD: mman.h,v 1.11 1995/03/26 20:24:23 jtc Exp $    */
+ 
+-/*-
++/*
+  * Copyright (c) 1982, 1986, 1993
+  *      The Regents of the University of California.  All rights reserved.
+  *
+@@ -111,11 +118,14 @@
+  *      @(#)mman.h      8.1 (Berkeley) 6/2/93
+  */
+ 
+-#define TARGET_OPENBSD_MAP_INHERIT      0x0080  /* region is retained after exec */
+-#define TARGET_OPENBSD_MAP_NOEXTEND     0x0100  /* for MAP_FILE, don't change file size */
+-#define TARGET_OPENBSD_MAP_TRYFIXED     0x0400  /* attempt hint address, even within heap */
++#define TARGET_OPENBSD_MAP_INHERIT      0x0080
++                                /* region is retained after exec */
++#define TARGET_OPENBSD_MAP_NOEXTEND     0x0100
++                                /* for MAP_FILE, don't change file size */
++#define TARGET_OPENBSD_MAP_TRYFIXED     0x0400
++                                /* attempt hint address, even within heap */
+ 
+ #define TARGET_OPENBSD_MAP_FLAGMASK     0x17f7
+ 
+-// XXX
++/* XXX what to do in the future? */
+ #define TARGET_BSD_MAP_FLAGMASK         0x3ff7
 -- 
 2.22.1
 
