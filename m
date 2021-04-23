@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACF93694D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:34:34 +0200 (CEST)
-Received: from localhost ([::1]:43674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C64369507
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:47:51 +0200 (CEST)
+Received: from localhost ([::1]:49914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZwt7-00047l-PU
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50936)
+	id 1lZx5y-0007XR-L7
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZwru-0003MR-Hm
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:33:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZwrq-0005RV-Sf
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:33:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619188393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=leC3OjvEZfcCPbh74Lvqu9saVT5Lt0iECjsegCCRKkc=;
- b=goorkiBYpGfvrcpgQlycQDa3xYnOEiCvCInI1zHE8J7/1PHg21hgW6jpx9aS0a+aoql1vi
- HC72ISzGrCnUQFUklNm+/7CXx2QOLaCG1frETA+w8ZXh1NWfmFRN2JhRzhiKvIC2r2PdRT
- VoSi91ktpfv2aZDsThAI7Xx5WkkZYwI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-KiJSGiTfMVO3OHqDkXdYSg-1; Fri, 23 Apr 2021 10:33:12 -0400
-X-MC-Unique: KiJSGiTfMVO3OHqDkXdYSg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18588839A42;
- Fri, 23 Apr 2021 14:33:11 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-167.ams2.redhat.com
- [10.36.113.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B96D60C4A;
- Fri, 23 Apr 2021 14:33:09 +0000 (UTC)
-Date: Fri, 23 Apr 2021 16:33:06 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] pc-bios/s390-ccw: Use reset_psw pointer instead of
- hard-coded null pointer
-Message-ID: <20210423163306.727230ed.cohuck@redhat.com>
-In-Reply-To: <20210423142440.582188-1-thuth@redhat.com>
-References: <20210423142440.582188-1-thuth@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZx4f-0006yX-9y
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:46:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33320)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lZx4U-000558-QD
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:46:29 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lZx4S-0001SY-3g
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 14:46:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D0A162E8169
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 14:46:15 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Fri, 23 Apr 2021 14:40:12 -0000
+From: Pierre Muller <1843651@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fpu m68k
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pierre-freepascal pierre-muller th-huth
+X-Launchpad-Bug-Reporter: Pierre Muller (pierre-freepascal)
+X-Launchpad-Bug-Modifier: Pierre Muller (pierre-muller)
+References: <156823976031.17462.13699805496038510440.malonedeb@gac.canonical.com>
+Message-Id: <161918881280.10422.430374703699203513.malone@soybean.canonical.com>
+Subject: [Bug 1843651] Re: m68k fpu bug
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 37ecdda44e116836a908a6ed1043c8ecedcfd825
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,59 +71,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Janosch Frank <frankja@linux.ibm.com>
+Reply-To: Bug 1843651 <1843651@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 16:24:40 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+I tested, in release 5.2.0, this issue is fixed.
 
-> When compiling the s390-ccw bios with clang, it emits a warning like this=
-:
->=20
->  pc-bios/s390-ccw/jump2ipl.c:86:9: warning: indirection of non-volatile n=
-ull
->   pointer will be deleted, not trap [-Wnull-dereference]
->      if (*((uint64_t *)0) & RESET_PSW_MASK) {
->          ^~~~~~~~~~~~~~~~
->  pc-bios/s390-ccw/jump2ipl.c:86:9: note: consider using __builtin_trap() =
-or
->   qualifying pointer with 'volatile'
->=20
-> We could add a "volatile" here to shut it up, but on the other hand,
-> we also have a pointer variable called "reset_psw" in this file already
-> that points to the PSW at address 0, so we can simply use that pointer
-> variable instead.
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Extend comment as suggested by Cornelia
+Thanks
 
-Thanks for helping my poor brain :)
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
->=20
->  pc-bios/s390-ccw/jump2ipl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-> index b9c70d64a5..73e4367e09 100644
-> --- a/pc-bios/s390-ccw/jump2ipl.c
-> +++ b/pc-bios/s390-ccw/jump2ipl.c
-> @@ -82,8 +82,8 @@ void jump_to_low_kernel(void)
->          jump_to_IPL_code(KERN_IMAGE_START);
->      }
-> =20
-> -    /* Trying to get PSW at zero address */
-> -    if (*((uint64_t *)0) & RESET_PSW_MASK) {
-> +    /* Trying to get PSW at zero address (pointed to by reset_psw) */
-> +    if (*reset_psw & RESET_PSW_MASK) {
->          /*
->           * Surely nobody will try running directly from lowcore, so
->           * let's use 0 as an indication that we want to load the reset
+-- =
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843651
 
+Title:
+  m68k fpu bug
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  On gcc123 cfarm machine,
+  I was testing m68k executables generated by Free Pascal Compiler.
+
+  muller@gcc123:~/pas/check$ cat inf.pp
+  function get_double(x : double):double;
+    begin
+      get_double:=3Dx;
+    end;
+
+  =
+
+  var
+    y : double;
+    py : pbyte;
+    i : byte;
+  begin
+    y:=3D1.0/0.0;
+    py:=3D@y;
+  {$ifdef ENDIAN_LITTLE}
+    write('little endian y=3D');
+    for i:=3D7 downto 0 do
+  {$else not ENDIAN_LITTLE}
+    write('big endian y=3D');
+    for i:=3D0 to 7 do
+  {$endif}
+      write(hexstr(py[i],2));
+    writeln;
+    y:=3Dget_double(y)+1;
+  {$ifdef ENDIAN_LITTLE}
+    write('little endian y=3D');
+    for i:=3D7 downto 0 do
+  {$else not ENDIAN_LITTLE}
+    write('big endian y=3D');
+    for i:=3D0 to 7 do
+  {$endif}
+      write(hexstr(py[i],2));
+    writeln;
+  end.
+  muller@gcc123:~/pas/check$ ppc68k inf
+  Free Pascal Compiler version 3.3.1-r20:42973M [2019/09/11] for m68k
+  Copyright (c) 1993-2019 by Florian Klaempfl and others
+  Target OS: Linux for m68k
+  Compiling inf.pp
+  Assembling program
+  Linking inf
+  33 lines compiled, 0.1 sec
+  muller@gcc123:~/pas/check$ ./inf
+  big endian y=3D7FF0000000000000
+  big endian y=3D7FFFFFFFFFFFFFFF
+  muller@gcc123:~/pas/check$ qemu-m68k ./inf
+  big endian y=3D7FF0000000000000
+  big endian y=3D7FFFFFFFFFFFFFFF
+  muller@gcc123:~/pas/check$ ~/sys-root/bin/qemu-m68k ./inf
+  qemu-m68k        qemu-m68k-fixed
+  muller@gcc123:~/pas/check$ ~/sys-root/bin/qemu-m68k-fixed ./inf
+  big endian y=3D7FF0000000000000
+  big endian y=3D7FF0000000000000
+
+  ~/sys-root/bin/qemu-m68k  is 4.1.0 release,
+  ~/sys-root/bin/qemu-m68k-fixed is the same source with a unique change:
+
+  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h:214:#if defined(TARGET_M68=
+K)
+  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-215-#define floatx80_infin=
+ity_low  LIT64(0x0000000000000000)
+  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-216-#else
+  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-217-#define floatx80_infin=
+ity_low  LIT64(0x8000000000000000)
+  gnu/qemu/qemu-4.1.0/fpu/softfloat-specialize.h-218-#endif
+
+  the M68K branch value is set to the same value as the other branch.
+
+  The problem of the M68K specific floatx86_infinity_low values
+  is that is enters in conflict with
+  muller@gcc123:~/pas/check$ grep -nA6 invalid_enc  /home/muller/gnu/qemu/q=
+emu-4.1.0/include/fpu/softfloat.h
+  752:static inline bool floatx80_invalid_encoding(floatx80 a)
+  753-{
+  754-    return (a.low & (1ULL << 63)) =3D=3D 0 && (a.high & 0x7FFF) !=3D =
+0;
+  755-}
+
+  And thus the m68k variant of floatx80 representing +Infinity is
+  considered as an invalid encoding, and thus converted into a NaN 7FFFFFFF=
+FFFFFFFF
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843651/+subscriptions
 
