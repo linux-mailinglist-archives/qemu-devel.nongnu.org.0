@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3990C369504
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:44:47 +0200 (CEST)
-Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDA3369527
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:54:33 +0200 (CEST)
+Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZx2x-0006JB-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:44:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
+	id 1lZxCR-0001cP-Qh
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZx2A-0005gG-VU
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:43:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21124)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZxBh-0001B7-On
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:53:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZx28-0003Ur-5i
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:43:53 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZxBe-0001LP-Uv
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:53:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619189031;
+ s=mimecast20190719; t=1619189621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=K6KE3/0KnUbn738NGUpgX9Vf7aV7k0xs3SsrgDjFx1o=;
- b=GQ1LatQCLIl4FYjwXfS23SclNEwhh/RW0ZQYU5uC3bLjtklLnWq5Ne+acKjMdoyiqJ6UBV
- DpwRkRvR7vUWU+ZtcTs0pYWbIEgFG7+uhcpe+v/CS2v95swfgel5g4um9JZDp2t/FXbN1d
- QmcdugtYRKSUeKTL/j/3NWmbO493wfU=
+ bh=Z0vLoyhwo5RPzu/8T+Y8Rq1IIQQ8woNonm+DEcwTKOY=;
+ b=bj/K3NYVJHJya1o8vz2xk7yEPD5zw2sNBTg/FB2w6R6G76xNTtmYgGrTh/llGWCPuW5PM9
+ o2S1b7YqeI5OkY19PijIHlQV5fE0mgFuc8k25XNQNwDBnUvJnIfKrBky83LolSQY4mvxVV
+ 3eoBl4vo86dtDTvmCSNo8Ha/zvfAwPo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-wuD_DdyNNTKaTNssQVB1qA-1; Fri, 23 Apr 2021 10:43:47 -0400
-X-MC-Unique: wuD_DdyNNTKaTNssQVB1qA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-498-Hi9H5IwRNBuHurM6Z5juzA-1; Fri, 23 Apr 2021 10:53:38 -0400
+X-MC-Unique: Hi9H5IwRNBuHurM6Z5juzA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 715F5343A6;
- Fri, 23 Apr 2021 14:43:46 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-199.ams2.redhat.com [10.36.114.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D45219D9B;
- Fri, 23 Apr 2021 14:43:41 +0000 (UTC)
-Date: Fri, 23 Apr 2021 16:43:40 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 08/36] util: add transactions.c
-Message-ID: <YILdHIn+hFg8YPeN@merkur.fritz.box>
-References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
- <20210317143529.615584-9-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 981B1107ACCD;
+ Fri, 23 Apr 2021 14:53:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 392B712BF3;
+ Fri, 23 Apr 2021 14:53:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id ABC8B113525D; Fri, 23 Apr 2021 16:53:18 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v6 10/15] hostmem: Wire up RAM_NORESERVE via "reserve"
+ property
+References: <20210421122624.12292-1-david@redhat.com>
+ <20210421122624.12292-11-david@redhat.com>
+ <87a6ppi77c.fsf@dusky.pond.sub.org>
+ <7cf63e36-1d1c-113d-15b5-227d099d76a1@redhat.com>
+ <878s59gq1v.fsf@dusky.pond.sub.org>
+ <884e43d0-36c1-f897-3a4e-03d96a9861c0@redhat.com>
+Date: Fri, 23 Apr 2021 16:53:18 +0200
+In-Reply-To: <884e43d0-36c1-f897-3a4e-03d96a9861c0@redhat.com> (David
+ Hildenbrand's message of "Fri, 23 Apr 2021 16:21:22 +0200")
+Message-ID: <87sg3hdpcx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210317143529.615584-9-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,155 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.03.2021 um 15:35 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Add simple transaction API to use in further update of block graph
-> operations.
-> 
-> Supposed usage is:
-> 
-> - "prepare" is main function of the action and it should make the main
->   effect of the action to be visible for the following actions, keeping
->   possibility of roll-back, saving necessary things in action state,
->   which is prepended to the action list (to do that, prepare func
->   should call tran_add()). So, driver struct doesn't include "prepare"
->   field, as it is supposed to be called directly.
-> 
-> - commit/rollback is supposed to be called for the list of action
->   states, to commit/rollback all the actions in reverse order
-> 
-> - When possible "commit" should not make visible effect for other
->   actions, which make possible transparent logical interaction between
->   actions.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/qemu/transactions.h | 63 ++++++++++++++++++++++++
->  util/transactions.c         | 96 +++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                 |  6 +++
->  util/meson.build            |  1 +
->  4 files changed, 166 insertions(+)
->  create mode 100644 include/qemu/transactions.h
->  create mode 100644 util/transactions.c
-> 
-> diff --git a/include/qemu/transactions.h b/include/qemu/transactions.h
-> new file mode 100644
-> index 0000000000..e7add9637f
-> --- /dev/null
-> +++ b/include/qemu/transactions.h
-> @@ -0,0 +1,63 @@
-> +/*
-> + * Simple transactions API
-> + *
-> + * Copyright (c) 2021 Virtuozzo International GmbH.
-> + *
-> + * Author:
-> + *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program. If not, see <http://www.gnu.org/licenses/>.
-> + *
-> + *
-> + * = Generic transaction API =
-> + *
-> + * The intended usage is the following: you create "prepare" functions, which
-> + * represents the actions. They will usually have Transaction* argument, and
-> + * call tran_add() to register finalization callbacks. For finalization
-> + * callbacks, prepare corresponding TransactionActionDrv structures.
-> + *
-> + * Than, when you need to make a transaction, create an empty Transaction by
+David Hildenbrand <david@redhat.com> writes:
 
-Then
+> On 23.04.21 14:10, Markus Armbruster wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>> 
+>>>>> diff --git a/backends/hostmem.c b/backends/hostmem.c
+>>>>> index c6c1ff5b99..58fdc1b658 100644
+>>>>> --- a/backends/hostmem.c
+>>>>> +++ b/backends/hostmem.c
+>>>>> @@ -217,6 +217,11 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+>>>>>        Error *local_err = NULL;
+>>>>>        HostMemoryBackend *backend = MEMORY_BACKEND(obj);
+>>>>>    +    if (!backend->reserve && value) {
+>>>>> +        error_setg(errp, "'prealloc=on' and 'reserve=off' are incompatible");
+>>>>> +        return;
+>>>>> +    }
+>>>>
+>>>> Aha.  Shouldn't this be documented in qom.json?
+>>>
+>>> Whoops, skipped that comment. Can add it if that's the place to
+>>> document that.
+>> 
+>> Yes, please.  .json doc comments is where we document the external
+>> interface.
+>> 
+>
+> What about something like this:
+>
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index e9b86893a5..4fa3137aab 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -559,6 +559,12 @@
+>   #                                        false generally, but true for machine
+>   #                                        types <= 4.0)
+>   #
+> +# Note: prealloc=true and reserve=false cannot be set at the same time. With
+> +#       reserve=true, the behavior depends on the operating system: for example,
+> +#       Linux will not reserve swap space for shared file mappings --
+> +#       "not applicable". In contrast, reserve=false will bail out if it cannot
+> +#       be configured accordingly.
+> +#
+>   # Since: 2.1
+>   ##
+>   { 'struct': 'MemoryBackendProperties',
 
-> + * tran_create(), call your "prepare" functions on it, and finally call
-> + * tran_abort() or tran_commit() to finalize the transaction by corresponding
-> + * finalization actions in reverse order.
-> + */
-> +
-> +#ifndef QEMU_TRANSACTIONS_H
-> +#define QEMU_TRANSACTIONS_H
-> +
-> +#include <gmodule.h>
-> +
-> +typedef struct TransactionActionDrv {
-> +    void (*abort)(void *opaque);
-> +    void (*commit)(void *opaque);
-> +    void (*clean)(void *opaque);
-> +} TransactionActionDrv;
-> +
-> +typedef struct Transaction Transaction;
-> +
-> +Transaction *tran_new(void);
-> +void tran_add(Transaction *tran, TransactionActionDrv *drv, void *opaque);
-> +void tran_abort(Transaction *tran);
-> +void tran_commit(Transaction *tran);
-> +
-> +static inline void tran_finalize(Transaction *tran, int ret)
-> +{
-> +    if (ret < 0) {
-> +        tran_abort(tran);
-> +    } else {
-> +        tran_commit(tran);
-> +    }
-> +}
-> +
-> +#endif /* QEMU_TRANSACTIONS_H */
-> diff --git a/util/transactions.c b/util/transactions.c
-> new file mode 100644
-> index 0000000000..d0bc9a3e73
-> --- /dev/null
-> +++ b/util/transactions.c
-> @@ -0,0 +1,96 @@
-> +/*
-> + * Simple transactions API
-> + *
-> + * Copyright (c) 2021 Virtuozzo International GmbH.
-> + *
-> + * Author:
-> + *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program. If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "qemu/transactions.h"
-> +#include "qemu/queue.h"
-> +
-> +typedef struct TransactionAction {
-> +    TransactionActionDrv *drv;
-> +    void *opaque;
-> +    QSLIST_ENTRY(TransactionAction) entry;
+Thanks!
 
-"next" is a bit more conventional as a name, but by far not as much as I
-thought, so no objection.
-
-With the than/then typo fixed:
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
