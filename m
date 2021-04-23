@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB9B369687
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:00:01 +0200 (CEST)
-Received: from localhost ([::1]:57568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A16D369660
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 17:49:22 +0200 (CEST)
+Received: from localhost ([::1]:47182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZyDo-0005Vf-CB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
+	id 1lZy3V-0000SG-Lh
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 11:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZyBz-0004tM-LA
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:58:08 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:47041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZyBx-0002l4-Ss
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:58:07 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- k4-20020a7bc4040000b02901331d89fb83so1483904wmi.5
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 08:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=d9q/OZZRjlD+J5z0b+Q6nRqKlXdRlLIaorE8Rj3NzMo=;
- b=YdWJDZzyerRhW4Xm1J5ZAYRESTk/hisHgYpo/LC+KB10KrL1DJ2QVdrWWQ1VcYz6Mm
- gSTjwt0+9QU8PJV/AFvSp6GbTSRNd51O4/bjw2MoOpuIZwipZ0Idos/2J6rK9fCgoIK7
- jZEr0frqNB4tgUg9RxW+E+Dq3BG88lMFgzHvsdQMbPHOEBlaMBqhTtlWef9HmwmeQQtN
- 7coeNXhgGIl2nSU3PjC+Xzz9TNq3Y+eGrl8omQA48GDc2Hb3c/IvjofD340vSYB5Ffbp
- 3gDzEVriKtOHxYhHob2lL0Wzv6p+cchCRlnSb4DvZy7mwyd84F8CIthdEvOlHzskd3ef
- GXKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=d9q/OZZRjlD+J5z0b+Q6nRqKlXdRlLIaorE8Rj3NzMo=;
- b=QH4l7N7wlEZqFF2tZzrbGCxr8MmZ7Kh1xjQcApgBFZAgvaLMn9t+hOmBug0lRImtBL
- tH1pkQ8foQaLdX/IhWFlHU53jurvxQ68ZB4e8rdhUa2J0Z07ezC8nbZMv/PVm7bKPHVC
- sG9jYET33GPHZDywSWzHQv0APqA1yTNGitmPOldfMm7Ahsex0ru3ojf/4wi3FJoeUVxf
- r/BVmeYKCK7ZAAXg/0AmbLkOGeZu7i8SJviBL933Ati82fzyTW0YM7FFTf/zvmYHR6eK
- n6wHdV87kFgJIoV4odDekJOttDkfFDVf2kP/EE/s5SDbf+VYIQQBFDPFDwXj5XmC+BHJ
- J2uA==
-X-Gm-Message-State: AOAM533eT7QyaNGlf7MfcJvl5QDh8OAwR8PHO61t2sGoi9Wpldi076/N
- vkAugT7fuLaykB/G4pdqDcTBV5haDkYXoA==
-X-Google-Smtp-Source: ABdhPJyrqFouJt2mgCsHBa/r9tXubm9DndHwv/oye2N8AqeIyKl9GrMX06eGoNSReiTRP7RMwvvEPg==
-X-Received: by 2002:a05:600c:3397:: with SMTP id
- o23mr6159199wmp.26.1619193483427; 
- Fri, 23 Apr 2021 08:58:03 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i15sm10076740wru.12.2021.04.23.08.58.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 08:58:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 29C981FF7E;
- Fri, 23 Apr 2021 16:58:02 +0100 (BST)
-References: <CAJyG1bOR659y=6oP5-XFyVv-xLq-C-m4cdsdRP2D+ZVQqyJnqg@mail.gmail.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Min-Yih Hsu <minyihh@uci.edu>
-Subject: Re: [RFC] tcg plugin: Additional plugin interface
-Date: Fri, 23 Apr 2021 16:44:49 +0100
-In-reply-to: <CAJyG1bOR659y=6oP5-XFyVv-xLq-C-m4cdsdRP2D+ZVQqyJnqg@mail.gmail.com>
-Message-ID: <87a6pp6lit.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZy0v-0007Vo-Lf
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:46:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZy0p-0006Tv-Qv
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 11:46:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619192793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OXnHe9d/MyYiKUgzmufPp+frtyD/CVCFF4wybfWb3dU=;
+ b=CsfCqjic4PBfQ2K9Tskm42VK9N3eWe4E55bj0eMOvSZLhHNZbTPZ3fXoOr1MxYF0gDGZDh
+ BxNrIPkppUqRAGCut0Hw2Hmv1aEnF/GTzkzFC3iB9XYq0bytgimJiO07ypmm07t2qKfO99
+ +NvFnE23OK+KsAe7pCDLPrAQQCBf5AE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-wNSzjC0IPMmXgTgwqkvKFQ-1; Fri, 23 Apr 2021 11:46:31 -0400
+X-MC-Unique: wNSzjC0IPMmXgTgwqkvKFQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F4F619253C0;
+ Fri, 23 Apr 2021 15:46:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C79B35DDAD;
+ Fri, 23 Apr 2021 15:46:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 437E3113525D; Fri, 23 Apr 2021 17:46:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 01/22] qapi/parser: Don't try to handle file errors
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-2-jsnow@redhat.com>
+Date: Fri, 23 Apr 2021 17:46:28 +0200
+In-Reply-To: <20210422030720.3685766-2-jsnow@redhat.com> (John Snow's message
+ of "Wed, 21 Apr 2021 23:06:59 -0400")
+Message-ID: <87czuldmwb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,64 +80,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+John Snow <jsnow@redhat.com> writes:
 
-Min-Yih Hsu <minyihh@uci.edu> writes:
-
-> Hi Alex and QEMU developers,
+> The short-ish version of what motivates this patch is:
 >
-> Recently I was working with the TCG plugin. I found that `qemu_plugin_cb_=
-flags` seems to reserve the functionality to
-> read / write CPU register state, I'm wondering if you can share some
-> roadmap or thoughts on this feature?
+> - The parser initializer does not possess adequate context to write a
+>   good error message -- It tries to determine the caller's semantic
+>   context.
 
-I think reading the CPU register state is certainly on the roadmap,
-writing registers presents a more philosophical question of if it opens
-the way to people attempting a GPL bypass via plugins. However reading
-registers would certainly be a worthwhile addition to the API.
+I'm not sure I get what you're trying to say here.
 
-> Personally I see reading the CPU register state as (kind of) low-hanging =
-fruit. The most straightforward way to implement
-> it will be adding another function that can be called by insn_exec callba=
-cks to read (v)CPU register values. What do you
-> think about this?
+> - We don't want to allow QAPISourceInfo(None, None, None) to exist.
+> - Errors made using such an object are currently incorrect.
+> - It's not technically a semantic error if we cannot open the schema
+> - There are various typing constraints that make mixing these two cases
+>   undesirable for a single special case.
 
-It depends on your definition of low hanging fruit ;-)
+These I understand.
 
-Yes the implementation would be a simple helper which could be called
-from a callback - I don't think we need to limit it to just insn_exec. I
-think the challenge is proving a non-ugly API that works cleanly across
-all the architectures. I'm not keen on exposing arbitrary gdb register
-IDs to the plugins.
+> - The current open block in parser's initializer will leak file
+>   pointers, because it isn't using a with statement.
 
-There has been some discussion previously on the list which is probably
-worth reviewing:
+Uh, isn't the value returned by open() reference-counted?  @fp is the
+only reference...
 
-  Date: Mon, 7 Dec 2020 16:03:24 -0500
-  From: Aaron Lindsay <aaron@os.amperecomputing.com>
-  Subject: Plugin Register Accesses
-  Message-ID: <X86YnHhHMpQBr2/G@strawberry.localdomain>
+> Here's the details in why this got written the way it did, and why a few
+> disparate issues are rolled into one commit. (They're hard to fix
+> separately without writing really weird stuff that'd be harder to
+> review.)
+>
+> The error message string here is incorrect:
+>
+>> python3 qapi-gen.py 'fake.json'
+> qapi-gen.py: qapi-gen.py: can't read schema file 'fake.json': No such file or directory
 
-But in short I think we need a new subsystem in QEMU where frontends can
-register registers (sic) and then provide a common API for various
-users. This common subsystem would then be the source of data for:
+Regressed in commit 52a474180a "qapi-gen: Separate arg-parsing from
+generation" (v5.2.0).
 
-  - plugins
-  - gdbstub
-  - monitor (info registers)
-  - -d LOG_CPU logging
+Before commit c615550df3 "qapi: Improve source file read error handling"
+(v4.2.0), it was differently bad (uncaught exception).
 
-If you are interested in tackling such a project I'm certainly happy to
-provide pointers and review.
+Commit c615550df3 explains why the funny QAPISourceInfo exists:
+
+    Reporting open or read failure for the main schema file needs a
+    QAPISourceInfo representing "no source".  Make QAPISourceInfo cope
+    with fname=None.
+
+The commit turned QAPISourceInfo into the equivalent of a disjoint union
+of
+
+1. A position in a source file (.fname is a str)
+
+2. "Not in any source file" (.fname is None)
+
+This is somewhat similar to struct Location in C, which has
+
+1. LOC_FILE: a position in a source file
+
+2. LOC_CMDLINE: a range of command line arguments
+
+3. LOC_NONE: no location information
+
+Abstracting locations this way lets error_report() do the right thing
+whether its complaining about the command line, a monitor command, or a
+configuration file read with -readconfig.
+
+Your patch demonstrates that qapi-gen has much less need for abstracting
+sources: we use 2. "Not in any source file" only for reading the main
+schema file.
+
+> In pursuing it, we find that QAPISourceInfo has a special accommodation
+> for when there's no filename.
+
+Yes:
+
+    def loc(self) -> str:
+-->     if self.fname is None:
+-->         return sys.argv[0]
+        ret = self.fname
+        if self.line is not None:
+            ret += ':%d' % self.line
+        return ret
+
+>                               Meanwhile, we intend to type info.fname as
+> str; something we always have.
+
+Do you mean "as non-optional str"?
+
+> To remove this, we need to not have a "fake" QAPISourceInfo object. We
+
+We may well want to, but I doubt we *need* to.  There are almost
+certainly other ways to fix the bug.  I don't see a need to explore
+them, though.
+
+> also don't want to explicitly begin accommodating QAPISourceInfo being
+> None, because we actually want to eventually prove that this can never
+> happen -- We don't want to confuse "The file isn't open yet" with "This
+> error stems from a definition that wasn't defined in any file".
+
+Yes, encoding both "poisoned source info not to be used with actual
+errors" and "'fake' source info not pointing to a source file" as None
+would be a mistake.
+
+> (An earlier series tried to create an official dummy object, but it was
+> tough to prove in review that it worked correctly without creating new
+> regressions. This patch avoids trying to re-litigate that discussion.
+>
+> We would like to first prove that we never raise QAPISemError for any
+> built-in object before we relent and add "special" info objects. We
+> aren't ready to do that yet, so crashing is preferred.)
+>
+> So, how to solve this mess?
+>
+> Here's one way: Don't try to handle errors at a level with "mixed"
+> semantic levels; i.e. don't try to handle inclusion errors (should
+> report a source line where the include was triggered) with command line
+> errors (where we specified a file we couldn't read).
+>
+> Simply remove the error handling from the initializer of the
+> parser. Pythonic! Now it's the caller's job to figure out what to do
+> about it. Handle the error in QAPISchemaParser._include() instead, where
+> we do have the correct semantic context to not need to play games with
+> the error message generation.
+>
+> Next, to re-gain a nice error at the top level, add a new try/except
+> into qapi/main.generate(). Now the error looks sensible:
+
+Missing "again" after "sensible" ;-P
 
 >
-> Thank you
-> -Min
+>> python3 qapi-gen.py 'fake.json'
+> qapi-gen.py: can't read schema file 'fake.json': No such file or directory
+>
+> Lastly, with this usage gone, we can remove the special type violation
+> from QAPISourceInfo, and all is well with the world.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/main.py   |  8 +++++++-
+>  scripts/qapi/parser.py | 18 +++++++++---------
+>  scripts/qapi/source.py |  3 ---
+>  3 files changed, 16 insertions(+), 13 deletions(-)
+>
+> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+> index 703e7ed1ed5..70f8aa86f37 100644
+> --- a/scripts/qapi/main.py
+> +++ b/scripts/qapi/main.py
+> @@ -48,7 +48,13 @@ def generate(schema_file: str,
+>      """
+>      assert invalid_prefix_char(prefix) is None
+>  
+> -    schema = QAPISchema(schema_file)
+> +    try:
+> +        schema = QAPISchema(schema_file)
+> +    except OSError as err:
+> +        raise QAPIError(
+> +            f"can't read schema file '{schema_file}': {err.strerror}"
+> +        ) from err
+> +
+>      gen_types(schema, output_dir, prefix, builtins)
+>      gen_visit(schema, output_dir, prefix, builtins)
+>      gen_commands(schema, output_dir, prefix)
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index ca5e8e18e00..b378fa33807 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -40,15 +40,9 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+>          previously_included = previously_included or set()
+>          previously_included.add(os.path.abspath(fname))
+>  
+> -        try:
+> -            fp = open(fname, 'r', encoding='utf-8')
+> +        # Allow the caller to catch this error.
 
+"this error"?  I understand what you mean now, but I'm not sure I will
+in three months, when I won't have the context I have now.
 
---=20
-Alex Benn=C3=A9e
+> +        with open(fname, 'r', encoding='utf-8') as fp:
+>              self.src = fp.read()
+> -        except IOError as e:
+> -            raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
+> -                               "can't read %s file '%s': %s"
+> -                               % ("include" if incl_info else "schema",
+> -                                  fname,
+> -                                  e.strerror))
+>  
+>          if self.src == '' or self.src[-1] != '\n':
+>              self.src += '\n'
+> @@ -129,7 +123,13 @@ def _include(self, include, info, incl_fname, previously_included):
+>          if incl_abs_fname in previously_included:
+>              return None
+>  
+> -        return QAPISchemaParser(incl_fname, previously_included, info)
+> +        try:
+> +            return QAPISchemaParser(incl_fname, previously_included, info)
+> +        except OSError as err:
+> +            raise QAPISemError(
+> +                info,
+> +                f"can't read include file '{incl_fname}': {err.strerror}"
+> +            ) from err
+>  
+>      def _check_pragma_list_of_str(self, name, value, info):
+>          if (not isinstance(value, list)
+
+Before the patch, only IOError from open() and .read() get converted to
+QAPISemError, and therefore caught by main().
+
+The patch widen this to anywhere in QAPISchemaParser.__init__().  Hmm.
+
+> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
+> index 03b6ede0828..1ade864d7b9 100644
+> --- a/scripts/qapi/source.py
+> +++ b/scripts/qapi/source.py
+> @@ -10,7 +10,6 @@
+>  # See the COPYING file in the top-level directory.
+>  
+>  import copy
+> -import sys
+>  from typing import List, Optional, TypeVar
+>  
+>  
+> @@ -53,8 +52,6 @@ def next_line(self: T) -> T:
+>          return info
+>  
+>      def loc(self) -> str:
+> -        if self.fname is None:
+> -            return sys.argv[0]
+>          ret = self.fname
+>          if self.line is not None:
+>              ret += ':%d' % self.line
+
+tests/qapi-schema/test-qapi.py also needs an update.  Before the patch:
+
+    $ PYTHONPATH=scripts python3 tests/qapi-schema/test-qapi.py nonexistent
+    tests/qapi-schema/test-qapi.py: can't read schema file 'nonexistent.json': No such file or directory
+
+After:
+
+    Traceback (most recent call last):
+      File "tests/qapi-schema/test-qapi.py", line 207, in <module>
+        main(sys.argv)
+      File "tests/qapi-schema/test-qapi.py", line 201, in main
+        status |= test_and_diff(test_name, dir_name, args.update)
+      File "tests/qapi-schema/test-qapi.py", line 129, in test_and_diff
+        test_frontend(os.path.join(dir_name, test_name + '.json'))
+      File "tests/qapi-schema/test-qapi.py", line 109, in test_frontend
+        schema = QAPISchema(fname)
+      File "/work/armbru/qemu/scripts/qapi/schema.py", line 852, in __init__
+        parser = QAPISchemaParser(fname)
+      File "/work/armbru/qemu/scripts/qapi/parser.py", line 44, in __init__
+        with open(fname, 'r', encoding='utf-8') as fp:
+    FileNotFoundError: [Errno 2] No such file or directory: 'nonexistent.json'
+
 
