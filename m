@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A7F369D82
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 01:39:31 +0200 (CEST)
-Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B404B369D84
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 01:41:06 +0200 (CEST)
+Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la5OU-00059I-5E
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 19:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55700)
+	id 1la5Q1-0006Nk-S4
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 19:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1la5M6-0003yH-Lx; Fri, 23 Apr 2021 19:37:02 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46879)
+ id 1la5MC-00043T-Au; Fri, 23 Apr 2021 19:37:11 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1la5M5-0007jy-8B; Fri, 23 Apr 2021 19:37:02 -0400
-Received: by mail-wr1-x433.google.com with SMTP id c15so40918359wro.13;
- Fri, 23 Apr 2021 16:37:00 -0700 (PDT)
+ id 1la5MA-0007n7-Ly; Fri, 23 Apr 2021 19:37:07 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e7so40881932wrs.11;
+ Fri, 23 Apr 2021 16:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6keiDYxRsK177SqD7A1GjGUaf153R9oEf+ny0xc/KZ4=;
- b=PDnvZeRzJ++nk1KhV2qdWzhCrpjPHLVxjkzgBEEundw/P5bZ4III/mrZ+xbUsDoZ7B
- lZ7OO2Yhp2w1dt//J4vyaRQTWW/ySOoRMMqrBvLyClWJxBXNZYQynfB69a22ZQhQvgxi
- pryH8vZ+nD0atc8TwQcTI0q5EhXCE5PgK/sECtz+fsaf4+pdsxZhXpPCqKDQwJJH+CgF
- vtix9mpDhsZGOgoF03mpc/99TE34ZvV68yDJkXwgTWI7e9UpqI7l90UGHebo/oDsqZNV
- C3x7328cIeh2x6mn9MuwsXNSzPGNDGhM/9DApZIA0IFjsTCYA137mWU5ARVZb4QW9UAZ
- tNjA==
+ bh=oXtiyIQkCO8DxortvAo+V9Aj7SVkgMJYsUxCMH52wCs=;
+ b=jv+VRfvZUhBnpJTBeeLznRttupVWrlECaC6n7LgyfOQcUaY8t7LGetWmzYb/1S4gqC
+ hTuXHcPGf3FKNUft+OO1h6gMlwrcI09n0YWqskFRYNlsy/KPFDSyjHs0gE6ukOediKMr
+ jblo1B4tIiJRlUVhBZRGBWNvleeYjhyyLGxvycx8M+5tIhy0mTAyUFvS1n/stjdy6r+U
+ fd5uM1VyDREa+rpRFIYX2iUcadLS1M95zjhS9cI9eVVwY3QZzWSj2vWUUqUYmDsxoLYw
+ ELxOvIpq/q6Y6shjXlLu8wVrOyMDCN/Br4HqXGwqBuFeB3b6RfBGtWERbd63vbnA3/Fs
+ Jukg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6keiDYxRsK177SqD7A1GjGUaf153R9oEf+ny0xc/KZ4=;
- b=pfMc/AasKP1ikqS/u1tgodPfIvpeVVr2HuTNh2p3RcX9kaAQzT5C4cCy7qw9KTAn6n
- wuuoZ/oe2plJwXLCCaBpFRoXhW/oVtBaZ8Oh2lY+SmIkhE2SlUPLPwerRRmVbgq4cfTG
- HOk+qQdSzyd8ci54bbjMKs229Efu72ase3VkPUe0uHfhIdIY0oklRA34BqJlG2TKG8pX
- d0z2hWlaQdM+wehPnXKVU62SvnEpGFs0t+YX/XgXzC6ei5iDCwZOFSiXdoDTemZu8asg
- oWS/hW/RoUS/4DRPrBGvxRMraI8wqvDk3tAJSR7BPh+ALuRXXiWUBscGfriH0YBXkQ/X
- kNvA==
-X-Gm-Message-State: AOAM530pM1z5U9ZNxTlqDuxKQVEke2SKyXRrEqArtWbpH+pip/VMoEU1
- FRvOSl2oke8gYE0hQKfHiCG5fi7c7oZtYg==
-X-Google-Smtp-Source: ABdhPJwcCkSc2aXs5CoedqFxTqyTyZ7O1RwkE/wjfo+0YVEnpaMQhxuIJWvlOwOQXf7C5x9GbvVhKg==
-X-Received: by 2002:a5d:55cd:: with SMTP id i13mr7512868wrw.393.1619221019431; 
- Fri, 23 Apr 2021 16:36:59 -0700 (PDT)
+ bh=oXtiyIQkCO8DxortvAo+V9Aj7SVkgMJYsUxCMH52wCs=;
+ b=WH+BeJ6u5WyX+giWicRLtr+sfmZCaWJSfrKkFxXCuVqthp3B7u4GUVDggwvBn6u15v
+ Od02hTTLShoaGFRDulNtVYSZagM0dfKuVwOpGrBpZKHBA0ym4KUJP/tymfO8AfRPU8EX
+ rzfSOM+cBPTG3meGOuHIcpd+18JUYXX/mm0F9W3NWLK6wpXw20JzEGxktad5wiXphY8A
+ FIR8ggKTP1Or9Q4cn0Qxd0SZ48336TbsQ0FsNpWtdyuFBgMKTIqaUripo68CRSSSO+T3
+ M/3y2tzI/sDIdFPN45VUoKrHlRqo16SweR4Xrs78nDg9B5pd12LkxCVZBvdT3e3yNusq
+ Xwvg==
+X-Gm-Message-State: AOAM533Y17z0nV5HcN1orJYGrKVxovr8BWSo6C+QfDuoCeVg89ZGzOhR
+ qvO2L8C5mxgQzefc/TkCTZIFlfAckE40tw==
+X-Google-Smtp-Source: ABdhPJxrMmmh0ioykZVerL75uE4P5wwgPKgGaUOt13ZznflJtHcooYKLd3ovxMsX8IZZChKuIbU8Ww==
+X-Received: by 2002:a5d:460b:: with SMTP id t11mr7681781wrq.310.1619221024310; 
+ Fri, 23 Apr 2021 16:37:04 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id f7sm10939291wrp.48.2021.04.23.16.36.58
+ by smtp.gmail.com with ESMTPSA id u9sm9514035wmc.38.2021.04.23.16.37.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 16:36:58 -0700 (PDT)
+ Fri, 23 Apr 2021 16:37:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/timer/etraxfs_timer: Qdev'ify reset()
-Date: Sat, 24 Apr 2021 01:36:51 +0200
-Message-Id: <20210423233652.3042941-2-f4bug@amsat.org>
+Subject: [PATCH 2/2] hw/rtc/mc146818rtc: Qdev'ify reset()
+Date: Sat, 24 Apr 2021 01:36:52 +0200
+Message-Id: <20210423233652.3042941-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210423233652.3042941-1-f4bug@amsat.org>
 References: <20210423233652.3042941-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,48 +90,94 @@ Cc: qemu-trivial@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TYPE_ETRAX_FS_TIMER is a sysbus device, so its DeviceClass::reset()
+TYPE_MC146818_RTC is an ISA device, so its DeviceClass::reset()
 handler is called automatically when its qbus parent is reset.
-Convert the generic reset to a qdev one, and remove the
-qemu_register_reset() call.
+
+We have 2 reset() methods: a generic one and the qdev one.
+Merge them into the qdev reset handler, rename it, and remove
+the qemu_register_reset() call.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/etraxfs_timer.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/rtc/mc146818rtc.c | 35 +++++++++++++++--------------------
+ 1 file changed, 15 insertions(+), 20 deletions(-)
 
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 5379006086f..3cfab3e3284 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -309,9 +309,9 @@ static const MemoryRegionOps timer_ops = {
-     }
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index 5d0fcacd0c0..710adeb9aaa 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -872,22 +872,6 @@ static void rtc_notify_suspend(Notifier *notifier, void *data)
+     rtc_set_memory(ISA_DEVICE(s), 0xF, 0xFE);
+ }
+ 
+-static void rtc_reset(void *opaque)
+-{
+-    RTCState *s = opaque;
+-
+-    s->cmos_data[RTC_REG_B] &= ~(REG_B_PIE | REG_B_AIE | REG_B_SQWE);
+-    s->cmos_data[RTC_REG_C] &= ~(REG_C_UF | REG_C_IRQF | REG_C_PF | REG_C_AF);
+-    check_update_timer(s);
+-
+-    qemu_irq_lower(s->irq);
+-
+-    if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
+-        s->irq_coalesced = 0;
+-        s->irq_reinject_on_ack_count = 0;
+-    }
+-}
+-
+ static const MemoryRegionOps cmos_ops = {
+     .read = cmos_ioport_read,
+     .write = cmos_ioport_write,
+@@ -962,7 +946,6 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+     memory_region_add_coalescing(&s->coalesced_io, 0, 1);
+ 
+     qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
+-    qemu_register_reset(rtc_reset, s);
+ 
+     object_property_add_tm(OBJECT(s), "date", rtc_get_date);
+ 
+@@ -998,17 +981,29 @@ static Property mc146818rtc_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
  };
  
--static void etraxfs_timer_reset(void *opaque)
-+static void etraxfs_timer_reset(DeviceState *dev)
+-static void rtc_resetdev(DeviceState *d)
++static void rtc_reset(DeviceState *dev)
  {
--    ETRAXTimerState *t = opaque;
-+    ETRAXTimerState *t = ETRAX_TIMER(dev);
+-    RTCState *s = MC146818_RTC(d);
++    RTCState *s = MC146818_RTC(dev);
  
-     ptimer_transaction_begin(t->ptimer_t0);
-     ptimer_stop(t->ptimer_t0);
-@@ -343,7 +343,6 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
-                           "etraxfs-timer", 0x5c);
-     sysbus_init_mmio(sbd, &t->mmio);
--    qemu_register_reset(etraxfs_timer_reset, t);
+     /* Reason: VM do suspend self will set 0xfe
+      * Reset any values other than 0xfe(Guest suspend case) */
+     if (s->cmos_data[0x0f] != 0xfe) {
+         s->cmos_data[0x0f] = 0x00;
+     }
++
++    s->cmos_data[RTC_REG_B] &= ~(REG_B_PIE | REG_B_AIE | REG_B_SQWE);
++    s->cmos_data[RTC_REG_C] &= ~(REG_C_UF | REG_C_IRQF | REG_C_PF | REG_C_AF);
++    check_update_timer(s);
++
++    qemu_irq_lower(s->irq);
++
++    if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
++        s->irq_coalesced = 0;
++        s->irq_reinject_on_ack_count = 0;
++    }
  }
  
- static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
-@@ -351,6 +350,7 @@ static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
++
+ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
+ {
+     Aml *dev;
+@@ -1036,7 +1031,7 @@ static void rtc_class_initfn(ObjectClass *klass, void *data)
+     ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
  
-     dc->realize = etraxfs_timer_realize;
-+    dc->reset = etraxfs_timer_reset;
- }
- 
- static const TypeInfo etraxfs_timer_info = {
+     dc->realize = rtc_realizefn;
+-    dc->reset = rtc_resetdev;
++    dc->reset = rtc_reset;
+     dc->vmsd = &vmstate_rtc;
+     isa->build_aml = rtc_build_aml;
+     device_class_set_props(dc, mc146818rtc_properties);
 -- 
 2.26.3
 
