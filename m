@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6409C369AFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 21:41:58 +0200 (CEST)
-Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CEB369B07
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 21:51:51 +0200 (CEST)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la1ga-0002hz-VD
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 15:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
+	id 1la1q9-0004U9-Oj
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 15:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1la1fZ-0002Iq-5n
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:40:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60136)
+ id 1la1p1-0003xW-42
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:50:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1la1fV-0005CH-O3
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:40:52 -0400
+ id 1la1oy-0002qH-UA
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:50:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1la1fT-0006UE-DB
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 19:40:47 +0000
+ id 1la1ov-0007QE-Ri
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 19:50:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 60D032E8050
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 19:40:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CD5052E8144
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 19:50:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Apr 2021 19:33:24 -0000
-From: Ivan Vulovic <1916775@bugs.launchpad.net>
+Date: Fri, 23 Apr 2021 19:44:05 -0000
+From: Ivan Vulovic <1925966@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: whpx windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: abdurrahim-cakar ivanvx
-X-Launchpad-Bug-Reporter: Abdurrahim (abdurrahim-cakar)
+X-Launchpad-Bug-Commenters: ivanvx
+X-Launchpad-Bug-Reporter: Ivan Vulovic (ivanvx)
 X-Launchpad-Bug-Modifier: Ivan Vulovic (ivanvx)
-References: <161418362907.7833.18159388399676261767.malonedeb@soybean.canonical.com>
-Message-Id: <161920640435.16631.3891248688520521048.malone@chaenomeles.canonical.com>
-Subject: [Bug 1916775] Re: Guest freezes until there is a keyboard input on
- Windows version
+Message-Id: <161920704602.4113.8465349284150396504.malonedeb@gac.canonical.com>
+Subject: [Bug 1925966] [NEW] Win10 guest freezes randomly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 80fe397ac20077964e984748e661bd7309098912
+X-Launchpad-Hash: 53c0ed7d2c5e491aa792e45cdee23f5c55cd63d2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,117 +68,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916775 <1916775@bugs.launchpad.net>
+Reply-To: Bug 1925966 <1925966@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I run into this behavior too. Win10 Home guest, PCI-passthrough graphics
-(GTX 1650), host cpu (Ryzen 7 3800XT). Occurs whether or not I use the
-qcow disk drive.
+Public bug reported:
 
-qemu-system-x86_64 =
+In addition to bug #1916775, my Win10 Home guest freezes randomly and
+infrequently. Unlike bug =E2=80=8B#1916775, this is unrecoverable and I see=
+ on
+the host (Debian 4.19.171-2) via iotop that all disk IO has stopped. My
+only recourse is a hard reset of the guest.
 
-  -cpu host,kvm=3Don,l3-cache=3Don,hv_relaxed,hv_vapic,hv_time,hv_spinlocks=
-=3D0x1fff,hv_vendor_id=3Dhv_dummy =
+My setup uses PCI-pass-through graphics (GTX 1650), host cpu (Ryzen 7
+3800XT). It seems to occur more frequently when I plug in 3 monitors
+rather than 2 into the pass-through graphics card. It occurs whether or
+not I use the qcow disk drive.
 
-  -smp 8 =
+qemu-system-x86_64
+=C2=A0=C2=A0-cpu host,kvm=3Don,l3-cache=3Don,hv_relaxed,hv_vapic,hv_time,hv=
+_spinlocks=3D0x1fff,hv_vendor_id=3Dhv_dummy
+=C2=A0=C2=A0-smp 8
+=C2=A0=C2=A0-rtc clock=3Dhost,base=3Dlocaltime
+=C2=A0=C2=A0-machine type=3Dq35,accel=3Dkvm,kernel_irqchip=3Don
+=C2=A0=C2=A0-enable-kvm
+=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/OVMF=
+/OVMF_CODE.fd
+=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd
+=C2=A0=C2=A0-m 32G
+=C2=A0=C2=A0-usb
+=C2=A0=C2=A0-device usb-tablet
+=C2=A0=C2=A0-vga none
+=C2=A0=C2=A0-serial none
+=C2=A0=C2=A0-parallel none
+=C2=A0=C2=A0-boot cd
+=C2=A0=C2=A0-nographic
+=C2=A0=C2=A0-device usb-host,vendorid=3D0x045e,productid=3D0x00db
+=C2=A0=C2=A0-device usb-host,vendorid=3D0x1bcf,productid=3D0x0005
+=C2=A0=C2=A0-drive id=3Ddisk0,index=3D0,format=3Dqcow2,if=3Dvirtio,cache=3D=
+off,file=3D./win10_boot_priv.qcow2
+=C2=A0=C2=A0-drive id=3Ddisk2,index=3D2,aio=3Dnative,cache.direct=3Don,if=
+=3Dvirtio,cache=3Doff,format=3Draw,discard=3Dunmap,detect-zeroes=3Dunmap,fi=
+le=3D/dev/vg0/win10_hdpriv
+=C2=A0=C2=A0-device vfio-pci,host=3D09:00.0,addr=3D0x02.0x0,multifunction=
+=3Don
+=C2=A0=C2=A0-device vfio-pci,host=3D09:00.1,addr=3D0x02.0x1
+=C2=A0=C2=A0-device vfio-pci,host=3D09:00.2,addr=3D0x02.0x2
+=C2=A0=C2=A0-device vfio-pci,host=3D09:00.3,addr=3D0x02.0x3
+=C2=A0=C2=A0-netdev tap,id=3Dnetid,ifname=3Dtaplan,script=3Dno,downscript=
+=3Dno
+=C2=A0=C2=A0-device e1000,netdev=3Dnetid,mac=3D52:54:00:01:02:03
 
-  -rtc clock=3Dhost,base=3Dlocaltime =
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-  -machine type=3Dq35,accel=3Dkvm,kernel_irqchip=3Don =
+** Description changed:
 
-  -enable-kvm =
+- In addition to bug #1916775, my Win10 Home guest freezes randomly and inf=
+requently. Unlike bug =E2=80=8B	=
 
-  -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/OVMF/OVMF_CODE=
-.fd =
+- #1916775, this is unrecoverable and I see on the host (Debian 4.19.171-2)=
+ via iotop that all disk IO has stopped. My only recourse is a hard reset o=
+f the guest.
++ In addition to bug #1916775, my Win10 Home guest freezes randomly and
++ infrequently. Unlike bug =E2=80=8B#1916775, this is unrecoverable and I s=
+ee on
++ the host (Debian 4.19.171-2) via iotop that all disk IO has stopped. My
++ only recourse is a hard reset of the guest.
+  =
 
-  -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd =
+  My setup uses PCI-pass-through graphics (GTX 1650), host cpu (Ryzen 7
+  3800XT). It seems to occur more frequently when I plug in 3 monitors
+  rather than 2 into the pass-through graphics card. It occurs whether or
+  not I use the qcow disk drive.
+  =
 
-  -m 32G =
+- qemu-system-x86_64 =
 
-  -usb =
+-   -cpu host,kvm=3Don,l3-cache=3Don,hv_relaxed,hv_vapic,hv_time,hv_spinloc=
+ks=3D0x1fff,hv_vendor_id=3Dhv_dummy =
 
-  -device usb-tablet =
+-   -smp 8 =
 
-  -vga none =
+-   -rtc clock=3Dhost,base=3Dlocaltime =
 
-  -serial none =
+-   -machine type=3Dq35,accel=3Dkvm,kernel_irqchip=3Don =
 
-  -parallel none =
+-   -enable-kvm =
 
-  -boot cd =
+-   -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/OVMF/OVMF_CO=
+DE.fd =
 
-  -nographic =
+-   -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd =
 
-  -device usb-host,vendorid=3D0x045e,productid=3D0x00db =
+-   -m 32G =
 
-  -device usb-host,vendorid=3D0x1bcf,productid=3D0x0005 =
+-   -usb =
 
-  -drive id=3Ddisk0,index=3D0,format=3Dqcow2,if=3Dvirtio,cache=3Doff,file=
+-   -device usb-tablet =
+
+-   -vga none =
+
+-   -serial none =
+
+-   -parallel none =
+
+-   -boot cd =
+
+-   -nographic =
+
+-   -device usb-host,vendorid=3D0x045e,productid=3D0x00db =
+
+-   -device usb-host,vendorid=3D0x1bcf,productid=3D0x0005 =
+
+-   -drive id=3Ddisk0,index=3D0,format=3Dqcow2,if=3Dvirtio,cache=3Doff,file=
 =3D./win10_boot_priv.qcow2 =
 
-  -drive id=3Ddisk2,index=3D2,aio=3Dnative,cache.direct=3Don,if=3Dvirtio,ca=
-che=3Doff,format=3Draw,discard=3Dunmap,detect-zeroes=3Dunmap,file=3D/dev/vg=
-0/win10_hdpriv =
+-   -drive id=3Ddisk2,index=3D2,aio=3Dnative,cache.direct=3Don,if=3Dvirtio,=
+cache=3Doff,format=3Draw,discard=3Dunmap,detect-zeroes=3Dunmap,file=3D/dev/=
+vg0/win10_hdpriv =
 
-  -device vfio-pci,host=3D09:00.0,addr=3D0x02.0x0,multifunction=3Don =
+-   -device vfio-pci,host=3D09:00.0,addr=3D0x02.0x0,multifunction=3Don =
 
-  -device vfio-pci,host=3D09:00.1,addr=3D0x02.0x1 =
+-   -device vfio-pci,host=3D09:00.1,addr=3D0x02.0x1 =
 
-  -device vfio-pci,host=3D09:00.2,addr=3D0x02.0x2 =
+-   -device vfio-pci,host=3D09:00.2,addr=3D0x02.0x2 =
 
-  -device vfio-pci,host=3D09:00.3,addr=3D0x02.0x3 =
+-   -device vfio-pci,host=3D09:00.3,addr=3D0x02.0x3 =
 
-  -netdev tap,id=3Dnetid,ifname=3Dtaplan,script=3Dno,downscript=3Dno =
+-   -netdev tap,id=3Dnetid,ifname=3Dtaplan,script=3Dno,downscript=3Dno =
 
-  -device e1000,netdev=3Dnetid,mac=3D52:54:00:01:02:03
+-   -device e1000,netdev=3Dnetid,mac=3D52:54:00:01:02:03
++ qemu-system-x86_64
++ =C2=A0=C2=A0-cpu host,kvm=3Don,l3-cache=3Don,hv_relaxed,hv_vapic,hv_time,=
+hv_spinlocks=3D0x1fff,hv_vendor_id=3Dhv_dummy
++ =C2=A0=C2=A0-smp 8
++ =C2=A0=C2=A0-rtc clock=3Dhost,base=3Dlocaltime
++ =C2=A0=C2=A0-machine type=3Dq35,accel=3Dkvm,kernel_irqchip=3Don
++ =C2=A0=C2=A0-enable-kvm
++ =C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/OV=
+MF/OVMF_CODE.fd
++ =C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd
++ =C2=A0=C2=A0-m 32G
++ =C2=A0=C2=A0-usb
++ =C2=A0=C2=A0-device usb-tablet
++ =C2=A0=C2=A0-vga none
++ =C2=A0=C2=A0-serial none
++ =C2=A0=C2=A0-parallel none
++ =C2=A0=C2=A0-boot cd
++ =C2=A0=C2=A0-nographic
++ =C2=A0=C2=A0-device usb-host,vendorid=3D0x045e,productid=3D0x00db
++ =C2=A0=C2=A0-device usb-host,vendorid=3D0x1bcf,productid=3D0x0005
++ =C2=A0=C2=A0-drive id=3Ddisk0,index=3D0,format=3Dqcow2,if=3Dvirtio,cache=
+=3Doff,file=3D./win10_boot_priv.qcow2
++ =C2=A0=C2=A0-drive id=3Ddisk2,index=3D2,aio=3Dnative,cache.direct=3Don,if=
+=3Dvirtio,cache=3Doff,format=3Draw,discard=3Dunmap,detect-zeroes=3Dunmap,fi=
+le=3D/dev/vg0/win10_hdpriv
++ =C2=A0=C2=A0-device vfio-pci,host=3D09:00.0,addr=3D0x02.0x0,multifunction=
+=3Don
++ =C2=A0=C2=A0-device vfio-pci,host=3D09:00.1,addr=3D0x02.0x1
++ =C2=A0=C2=A0-device vfio-pci,host=3D09:00.2,addr=3D0x02.0x2
++ =C2=A0=C2=A0-device vfio-pci,host=3D09:00.3,addr=3D0x02.0x3
++ =C2=A0=C2=A0-netdev tap,id=3Dnetid,ifname=3Dtaplan,script=3Dno,downscript=
+=3Dno
++ =C2=A0=C2=A0-device e1000,netdev=3Dnetid,mac=3D52:54:00:01:02:03
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916775
+https://bugs.launchpad.net/bugs/1925966
 
 Title:
-  Guest freezes until there is a keyboard input on Windows version
+  Win10 guest freezes randomly
 
 Status in QEMU:
   New
 
 Bug description:
-  I am using Qemu for Windows and when I try to run this for Windows
-  guests then the guests are freezing and waiting for keyboard input and
-  it continues to function after I press a key. I am using Windows10
-  Home and below is the command I use to run the guest. I have suspected
-  if this is caused by random entropy but even with mouse moving it
-  gives same random locks and it continues to work as soon as I press a
-  key so maybe its not about entropy at all,
+  In addition to bug #1916775, my Win10 Home guest freezes randomly and
+  infrequently. Unlike bug =E2=80=8B#1916775, this is unrecoverable and I s=
+ee on
+  the host (Debian 4.19.171-2) via iotop that all disk IO has stopped.
+  My only recourse is a hard reset of the guest.
 
-  startwinguest.bat:
-  qemu-system-x86_64 ^
-  =C2=A0-name "win" ^
-  =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
-  =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
-  =C2=A0-nodefaults ^
-  =C2=A0-usb ^
-  =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
-  =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
-  =C2=A0-m 8192 -mem-prealloc ^
-  =C2=A0-soundhw hda ^
-  =C2=A0-usbdevice tablet ^
-  =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
-et,netdev=3Dmynet0 ^
-  =C2=A0-vga std ^
-  =C2=A0-display gtk ^
-  =C2=A0-boot d ^
-  =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
-  =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
-unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
-  =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
-  =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
-dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
-  =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
+  My setup uses PCI-pass-through graphics (GTX 1650), host cpu (Ryzen 7
+  3800XT). It seems to occur more frequently when I plug in 3 monitors
+  rather than 2 into the pass-through graphics card. It occurs whether
+  or not I use the qcow disk drive.
+
+  qemu-system-x86_64
+  =C2=A0=C2=A0-cpu host,kvm=3Don,l3-cache=3Don,hv_relaxed,hv_vapic,hv_time,=
+hv_spinlocks=3D0x1fff,hv_vendor_id=3Dhv_dummy
+  =C2=A0=C2=A0-smp 8
+  =C2=A0=C2=A0-rtc clock=3Dhost,base=3Dlocaltime
+  =C2=A0=C2=A0-machine type=3Dq35,accel=3Dkvm,kernel_irqchip=3Don
+  =C2=A0=C2=A0-enable-kvm
+  =C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/OV=
+MF/OVMF_CODE.fd
+  =C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd
+  =C2=A0=C2=A0-m 32G
+  =C2=A0=C2=A0-usb
+  =C2=A0=C2=A0-device usb-tablet
+  =C2=A0=C2=A0-vga none
+  =C2=A0=C2=A0-serial none
+  =C2=A0=C2=A0-parallel none
+  =C2=A0=C2=A0-boot cd
+  =C2=A0=C2=A0-nographic
+  =C2=A0=C2=A0-device usb-host,vendorid=3D0x045e,productid=3D0x00db
+  =C2=A0=C2=A0-device usb-host,vendorid=3D0x1bcf,productid=3D0x0005
+  =C2=A0=C2=A0-drive id=3Ddisk0,index=3D0,format=3Dqcow2,if=3Dvirtio,cache=
+=3Doff,file=3D./win10_boot_priv.qcow2
+  =C2=A0=C2=A0-drive id=3Ddisk2,index=3D2,aio=3Dnative,cache.direct=3Don,if=
+=3Dvirtio,cache=3Doff,format=3Draw,discard=3Dunmap,detect-zeroes=3Dunmap,fi=
+le=3D/dev/vg0/win10_hdpriv
+  =C2=A0=C2=A0-device vfio-pci,host=3D09:00.0,addr=3D0x02.0x0,multifunction=
+=3Don
+  =C2=A0=C2=A0-device vfio-pci,host=3D09:00.1,addr=3D0x02.0x1
+  =C2=A0=C2=A0-device vfio-pci,host=3D09:00.2,addr=3D0x02.0x2
+  =C2=A0=C2=A0-device vfio-pci,host=3D09:00.3,addr=3D0x02.0x3
+  =C2=A0=C2=A0-netdev tap,id=3Dnetid,ifname=3Dtaplan,script=3Dno,downscript=
+=3Dno
+  =C2=A0=C2=A0-device e1000,netdev=3Dnetid,mac=3D52:54:00:01:02:03
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916775/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1925966/+subscriptions
 
