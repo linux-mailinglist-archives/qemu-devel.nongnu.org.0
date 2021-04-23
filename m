@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE01D369889
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:38:51 +0200 (CEST)
-Received: from localhost ([::1]:38392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23143369896
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 19:41:59 +0200 (CEST)
+Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZzlS-0000YV-Pi
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46826)
+	id 1lZzoU-0002Jm-7p
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 13:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <phrdina@redhat.com>)
- id 1lZzjK-0008Aa-MJ
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:36:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26776)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lZzl0-00018h-0Q
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:38:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <phrdina@redhat.com>)
- id 1lZzjH-00050v-M7
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:36:38 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lZzkw-0005wL-Hd
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 13:38:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619199391;
+ s=mimecast20190719; t=1619199498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=16fSZu/6Y7d0/47uc3LgKlzAbsA8/iHGTAPorLmCjWM=;
- b=TF7O3KQu5/PwFRpGqJvDvcQGUzCj+bHOmu6xolDbK+Lu/Djlhx6MNwifPJ9Lr668lh+PxE
- k8HYjh/xVTYoGShEME7SwJ+so25PDh3GgvlDLWyzmTDO0h2oU9VNKcxK3Ya4wl92Cetk4p
- /lTm2p3G+M7kQV82ziw2l2TuQo48O+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-FcpfgfjkOyy0PnLuXa-mkQ-1; Fri, 23 Apr 2021 13:36:28 -0400
-X-MC-Unique: FcpfgfjkOyy0PnLuXa-mkQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4C0F5137;
- Fri, 23 Apr 2021 17:36:27 +0000 (UTC)
-Received: from antique-laptop (unknown [10.40.195.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29AE35D6D1;
- Fri, 23 Apr 2021 17:36:25 +0000 (UTC)
-Date: Fri, 23 Apr 2021 19:36:23 +0200
-From: Pavel Hrdina <phrdina@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: firmware selection for SEV-ES
-Message-ID: <YIMFl41sU0X5V+Ig@antique-laptop>
-References: <6af8c5c7-6166-7f83-9ff0-4c24460577e2@redhat.com>
- <YIARw09TcakElBco@antique-laptop>
- <0b5d799c-6290-5585-599e-4c4f37af6202@redhat.com>
- <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
- <YIKiE+USYmCjQeSR@antique-laptop>
- <e5978a49-00a6-6350-0e06-6aab6de4c9a5@redhat.com>
- <YILFNu1R8LcZRF48@antique-laptop>
- <17cd75db-98bf-7bf1-bc5b-cd71e62507ec@redhat.com>
+ bh=PRIp+18eM6rWXuHmW2XDhgi9uzuq5wJcJ0aoVZcyBdQ=;
+ b=AZ/JkzqsstAaJdTshrWJvZzjWoZgEJ5IVsASaLoPIV4qRTbsxbbvBdOJZp3XjefmBZyYLR
+ 498yrr9jMjXsLm5t1aN1hUGg7hZGqU/LC5pxt6SiEnNzb7Jws6iRpLjSAtJfoqQE90kkVd
+ 27NMlRmSUUTzmsB612+PCKWQf1DYc8w=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-FwqU1JiiPruu-bEC0P3YRg-1; Fri, 23 Apr 2021 13:38:02 -0400
+X-MC-Unique: FwqU1JiiPruu-bEC0P3YRg-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ w17-20020a67d1910000b029021d2b42b93fso7547468vsi.1
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 10:38:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PRIp+18eM6rWXuHmW2XDhgi9uzuq5wJcJ0aoVZcyBdQ=;
+ b=tWC63wY7o+VMAFXrVwAoNiNAgzSCuXEcyP6XlXUdn8+oDqwY+xDnRjUtMtGa5eaYtq
+ 3OueAr4/maT7kjjxU2iRX/FEoQZW9mMgu2v8sN+iej9ShBFH64IPWsGTmdip7LIfn7St
+ ebFVZhTfv85Wfs637vlo+z7eysr0XgGdO5BBNl+dYKAEz70TBCO6j3NvJ0GynMg07VTB
+ 0dEoHFjQXOjmpoNxJD3Wso5Ijx8AFWfowzNQPGNNcFIss8Hot1lcykPwa2nvi2ecFVfQ
+ BAJ97oCbie04GoOSzIcLwTZEW/1W/08o281ZU2JkF5pdDL6qlnFOiuf7y8XgiHu5zm2Y
+ qh7w==
+X-Gm-Message-State: AOAM532tm+B5evGaQzixplxFK9qA8T/Z3ovzzZhTkjz6I47yH+YJ/Nrm
+ 6RKfsP/DTfOVpG7qYT3I5LTPdphHeB5ufPH1gCOZyFogYLNm+yw7Eky4vFOHCXgAFcxpdcnY9Xz
+ 8vNqdqkqxSyE/Q/yZsKi7NIRTDsrR5B4=
+X-Received: by 2002:a05:6122:2ad:: with SMTP id
+ 13mr4799204vkq.11.1619199482082; 
+ Fri, 23 Apr 2021 10:38:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/fs1zuxbpW6dC2Hux6wVbhKZMB178bovobsIV+RRuP3bKn69S329zvutivW0pp0Lu36ASWNHlws53Bapf8wk=
+X-Received: by 2002:a05:6122:2ad:: with SMTP id
+ 13mr4799183vkq.11.1619199481954; 
+ Fri, 23 Apr 2021 10:38:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <17cd75db-98bf-7bf1-bc5b-cd71e62507ec@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210419145435.14083-1-alex.bennee@linaro.org>
+ <20210419145435.14083-4-alex.bennee@linaro.org>
+In-Reply-To: <20210419145435.14083-4-alex.bennee@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 23 Apr 2021 14:37:35 -0300
+Message-ID: <CAKJDGDbO07V=NBvL4VYSvL2EYamY5NPMFfN4UU_5A5ndAZoVmA@mail.gmail.com>
+Subject: Re: [PATCH v1 03/25] tests/docker: make executable an optional
+ argument to "update"
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=phrdina@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BfAO89P11E+JLqv/"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=phrdina@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,82 +94,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---BfAO89P11E+JLqv/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Apr 19, 2021 at 11:54 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>
+> We're going to extend the abilities of the command shortly.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> ---
+> v2
+>   - fix indention issue
+> ---
+>  tests/docker/Makefile.include |  2 +-
+>  tests/docker/docker.py        | 56 ++++++++++++++++++-----------------
+>  2 files changed, 30 insertions(+), 28 deletions(-)
+>
 
-On Fri, Apr 23, 2021 at 03:06:49PM +0200, Laszlo Ersek wrote:
-> On 04/23/21 15:01, Pavel Hrdina wrote:
-> > On Fri, Apr 23, 2021 at 02:34:02PM +0200, Laszlo Ersek wrote:
-> >> On 04/23/21 12:31, Pavel Hrdina wrote:
-> >>> On Fri, Apr 23, 2021 at 10:16:24AM +0200, Michal Privoznik wrote:
-> >>>> On 4/22/21 4:13 PM, Laszlo Ersek wrote:
-> >>>>> On 04/21/21 13:51, Pavel Hrdina wrote:
-> >>
-> >>>>> Should we file a libvirtd Feature Request (where?) for recognizing =
-the
-> >>>>> @amd-sev-es feature flag?
-> >>>>
-> >>>> Yes, we should. We can use RedHat bugzilla for that. Laszlo - do you=
- want to
-> >>>> do it yourself or shall I help you with that?
-> >>>
-> >>> This BZ looks like it's already tracking support for amd-sev-es [1].
-> >>>
-> >>> Pavel.
-> >>>
-> >>> [1] <https://bugzilla.redhat.com/show_bug.cgi?id=3D1895035>
-> >>
-> >> That's a private RHBZ that tracks SEV-ES for a product that is differe=
-nt
-> >> from "libvirt upstream".
-> >=20
-> > I didn't notice that's a private RHBZ, thanks for pointing it out.
-> >=20
-> > For upstream libvirt we no longer use RHBZ to track RFEs/BZs, we use
-> > gitlab issues so if we want to track the work in upstream as well I can
-> > create a new issue.
->=20
-> Heh, I suspected I was missing something there :) Yes, please, if you or
-> Michal could create a new issue in gitlab, that would be great.
-
-I've created a new libvirt issue [1], hopefully the description makes
-sense. :)
-
-Pavel
-
-[1] <https://gitlab.com/libvirt/libvirt/-/issues/156>
-
---BfAO89P11E+JLqv/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEcbzs91ho/coWWY7aUi1kczAH4YwFAmCDBZcACgkQUi1kczAH
-4YziGw//RYJxDkDPVr+R8uzTQ/1k1FPMCEJteBuLpxF2UNN5NmCcq8P35cmiTPY3
-yNUq185DWjaqFPJmId6cgvLiGUFTfwZPvjntqvR2Jc7bQNPbQHeWJ84xHIGXMHCS
-V7ShnIr4bgnm5Ca/MNNoRf5itVGKGsUdYb+qCxQSUhbzaqecYrW8EeHxahqUgP7/
-fxkvK3FOLBnBi7qnIeAZyUslGH6SkIPdPcR9nPhuWZ2S7hUGcSHv0SNbgxUA8r4d
-/E238DHZqbf/sp7GWcx7w7nEAPoBJgA0Fmk+u2WU0Ef5n/zIw7YZRvvfVlaXXxLI
-9xee064L5S3CHqT+9VOPodssobSaZ3daXM+EGX8k+vRQpRkLtdHQOGOXdqStaTiN
-YNXD0xlD7lrsO5CISQhAT0gLxPVvmmsAeFfX75EMJVfUtSQ6EH5WV2gih6GFUnsH
-qaTxKXLHBdgdn+5gxXSnaS9/UIBh2EGmnSBXwQu1EL0NJbB2jKAVrOM4Tii4Ekha
-IZtNxpDT+30IxoWmrhcCp+ZJTNO5h3nvDZ7nbPeiQ5/S0Gk4f0IMOp85yzACf4/z
-NvTpMG7RX40weMwnauCm/LeWtiT/QMcZ+CcXU2umSsAghqNG1HKO1SVvhxJw3B/8
-3NAf5UwaG1UXZ9AOa5nqGi8N29fW/D9Uf01aRVh7obOgiJQGSek=
-=pDHb
------END PGP SIGNATURE-----
-
---BfAO89P11E+JLqv/--
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
