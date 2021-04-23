@@ -2,54 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B1A368B00
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 04:22:23 +0200 (CEST)
-Received: from localhost ([::1]:42696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EAC4368B7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 05:19:27 +0200 (CEST)
+Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZlSZ-0003B4-4C
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 22:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58430)
+	id 1lZmLl-00044y-Lm
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 23:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lZlRI-0002Mf-Sq
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 22:21:04 -0400
-Received: from mga05.intel.com ([192.55.52.43]:52063)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lZmKh-0003fl-32
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 23:18:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lZlRF-0001ko-GE
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 22:21:04 -0400
-IronPort-SDR: o0zbc+uod8R8X3iFq+LOSTHkN4kJRcEDRPUbsxLzdJtFrgvbfr59arB8W82L9pCPIBu0SQaxri
- kZINY5N4h/Vw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="281334010"
-X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; d="scan'208";a="281334010"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2021 19:20:53 -0700
-IronPort-SDR: G4SHfjP27ethb6yl/xFcsoXXnt973ix6vwyIqbDVE9Ndq2lA06wziuJbE1jqNAV5qetoT0eT2H
- t4uUcIQVaGog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; d="scan'208";a="421603820"
-Received: from clx-ap-likexu.sh.intel.com ([10.239.48.108])
- by fmsmga008.fm.intel.com with ESMTP; 22 Apr 2021 19:20:52 -0700
-From: Like Xu <like.xu@linux.intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH RESEND 2/2] target/i386: add kvm_exact_match_flags to
- FeatureWordInfo
-Date: Fri, 23 Apr 2021 10:20:37 +0800
-Message-Id: <20210423022037.24733-2-like.xu@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210423022037.24733-1-like.xu@linux.intel.com>
-References: <20210423022037.24733-1-like.xu@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lZmKd-00016o-JN
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 23:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619147892;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xbVL+rALQih5dq/39Ivmk4tFNMWZRph09PoldeHJ3hk=;
+ b=KAwvu7QdAbMZNyDPZqXIpMhQFM9JiN8EYjmxvAT+vl3IfQ+m4UBTMv/UUkcr9MyLwfb/Vf
+ 7l8yW3og1sjQByglaxzcvpW7VpoS4ChIKQ9NXClzOUPe3uVFh5FBUZC7IXrU5RH3+7Bw/K
+ HmdqIzLmng78PaDmy1V2dzcMnkiE/uA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-RSIdX4ouMaCRnE1HyfY2Xg-1; Thu, 22 Apr 2021 23:18:10 -0400
+X-MC-Unique: RSIdX4ouMaCRnE1HyfY2Xg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7492118397A3;
+ Fri, 23 Apr 2021 03:18:09 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-225.pek2.redhat.com
+ [10.72.13.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE4345D9C6;
+ Fri, 23 Apr 2021 03:18:05 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: jasowang@redhat.com, samuel.thibault@ens-lyon.org, sw@weilnetz.de,
+ qemu-devel@nongnu.org
+Subject: [PATCH for 6.0] net: check the existence of peer before trying to pad
+Date: Fri, 23 Apr 2021 11:18:03 +0800
+Message-Id: <20210423031803.1479-1-jasowang@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=like.xu@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,74 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wei.w.wang@intel.com, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Like Xu <like.xu@linux.intel.com>
+Cc: peter.maydell@linaro.org, bmeng.cn@gmail.com, philmd@redhat.com,
+ crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of hardcoding the PERF_CAPABILITIES rules in this loop,
-this could become a FeatureWordInfo field. It would be very useful
-for other features like intel-pt, where we need some bits to match
-the host bits too.
+There could be case that peer is NULL. This can happen when during
+network device hot-add where net device needs to be added first. So
+the patch check the existence of peer before trying to do the pad.
 
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
+Fixes: 969e50b61a285 ("net: Pad short frames to minimum size before sending from SLiRP/TAP")
+Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- target/i386/cpu.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ include/net/net.h | 5 +++++
+ net/slirp.c       | 2 +-
+ net/tap-win32.c   | 2 +-
+ net/tap.c         | 2 +-
+ 4 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index eee6da3ad8..56a486b498 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -708,6 +708,8 @@ typedef struct FeatureWordInfo {
-     uint64_t migratable_flags; /* Feature flags known to be migratable */
-     /* Features that shouldn't be auto-enabled by "-cpu host" */
-     uint64_t no_autoenable_flags;
-+    /* Bits that must match host exactly when using KVM */
-+    uint64_t kvm_exact_match_flags;
- } FeatureWordInfo;
+diff --git a/include/net/net.h b/include/net/net.h
+index eff24519d2..1ef536d771 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -241,4 +241,9 @@ uint32_t net_crc32_le(const uint8_t *p, int len);
+     .offset     = vmstate_offset_macaddr(_state, _field),            \
+ }
  
- static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-@@ -1147,6 +1149,11 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .msr = {
-             .index = MSR_IA32_PERF_CAPABILITIES,
-         },
-+        /*
-+         * KVM is not able to emulate a VCPU with LBR_FMT different
-+         * from the host, so LBR_FMT must match the host exactly.
-+         */
-+        .kvm_exact_match_flags = PERF_CAP_LBR_FMT,
-     },
++static inline bool net_peer_needs_padding(NetClientState *nc)
++{
++  return nc->peer && !nc->peer->do_not_pad;
++}
++
+ #endif
+diff --git a/net/slirp.c b/net/slirp.c
+index a01a0fccd3..7a4e96db5c 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -119,7 +119,7 @@ static ssize_t net_slirp_send_packet(const void *pkt, size_t pkt_len,
+     uint8_t min_pkt[ETH_ZLEN];
+     size_t min_pktsz = sizeof(min_pkt);
  
-     [FEAT_VMX_PROCBASED_CTLS] = {
-@@ -6623,16 +6630,18 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-     }
+-    if (!s->nc.peer->do_not_pad) {
++    if (net_peer_needs_padding(&s->nc)) {
+         if (eth_pad_short_frame(min_pkt, &min_pktsz, pkt, pkt_len)) {
+             pkt = min_pkt;
+             pkt_len = min_pktsz;
+diff --git a/net/tap-win32.c b/net/tap-win32.c
+index 897bd18e32..6096972f5d 100644
+--- a/net/tap-win32.c
++++ b/net/tap-win32.c
+@@ -696,7 +696,7 @@ static void tap_win32_send(void *opaque)
+     if (size > 0) {
+         orig_buf = buf;
  
-     for (w = 0; w < FEATURE_WORDS; w++) {
-+        FeatureWordInfo *fi = &feature_word_info[w];
-+        uint64_t match_flags = fi->kvm_exact_match_flags;
-         uint64_t host_feat =
-             x86_cpu_get_supported_feature_word(w, false);
-         uint64_t requested_features = env->features[w];
-         uint64_t unavailable_features = requested_features & ~host_feat;
--        if (kvm_enabled() && w == FEAT_PERF_CAPABILITIES &&
--            (requested_features & PERF_CAP_LBR_FMT)) {
--            if ((host_feat & PERF_CAP_LBR_FMT) !=
--                (requested_features & PERF_CAP_LBR_FMT)) {
--                unavailable_features |= PERF_CAP_LBR_FMT;
--            }
-+        if (kvm_enabled() && match_flags) {
-+            uint64_t mismatches = (requested_features & match_flags) &&
-+                (requested_features ^ host_feat) & match_flags;
-+            mark_unavailable_features(cpu, w,
-+                mismatches, "feature doesn't match host");
-+            unavailable_features &= ~match_flags;
+-        if (!s->nc.peer->do_not_pad) {
++        if (net_peer_needs_padding(&s->nc)) {
+             if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
+                 buf = min_pkt;
+                 size = min_pktsz;
+diff --git a/net/tap.c b/net/tap.c
+index 7d53cedaec..820872fde8 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -203,7 +203,7 @@ static void tap_send(void *opaque)
+             size -= s->host_vnet_hdr_len;
          }
-         mark_unavailable_features(cpu, w, unavailable_features, prefix);
-     }
+ 
+-        if (!s->nc.peer->do_not_pad) {
++        if (net_peer_needs_padding(&s->nc)) {
+             if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
+                 buf = min_pkt;
+                 size = min_pktsz;
 -- 
-2.30.2
+2.25.1
 
 
