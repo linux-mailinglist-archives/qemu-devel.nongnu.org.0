@@ -2,77 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11283368C43
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 06:41:03 +0200 (CEST)
-Received: from localhost ([::1]:33768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B01E368C5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 06:48:44 +0200 (CEST)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZnck-00057G-3h
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 00:41:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48258)
+	id 1lZnkA-0000M5-QP
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 00:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZnba-0004g0-UT
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:39:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35288)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZnbY-0000uk-10
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:39:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZnbW-00020F-40
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:39:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 134622E815F
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:39:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Apr 2021 04:29:34 -0000
-From: Thomas Huth <1580459@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1lZniw-00085u-Hd
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:47:26 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:32338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1lZnit-0005uC-Vc
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:47:26 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13N4lKCL014593; Fri, 23 Apr 2021 04:47:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2020-01-29; bh=loFXw8WKXXoJToLBhno9CIG9yg6vxLTPaAGJKrmOu3E=;
+ b=RhO+qwiJTzdgP1E4iObO7EAFrGBwOe1dtF75qg7KLrDbUfMvji2c3zUfWqsog0NKQL9D
+ MCpBdTgvdm+hBnvTJvnO3mlLbv84Gub7lrFjg3CQaLScVYTGT1bCFNutiyl4oiZ+bNfB
+ f3Gdptq6El9hv6+P60Dr3Q5c05vrvTTlLICELlAUju66M4lnYaCNLWBB7XATerVIfNjs
+ m1wmGuMYyhYJFB6Tl84IZ+IPO7pu7h/1SZ5acwg20Woevgjnyi+UcSNoxjcfMJT9cGDg
+ v7+38MA7MHYBbTJiTNb2hv9My/Uq4HpODDSYU8R+mmhhY2cG8StiZP+x8tEwAXrJhh4+ dg== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 382yqs8gph-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Apr 2021 04:47:20 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13N4lJUQ155492;
+ Fri, 23 Apr 2021 04:47:19 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07lp2040.outbound.protection.outlook.com [104.47.56.40])
+ by userp3030.oracle.com with ESMTP id 383cdsfecr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Apr 2021 04:47:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q9lXF6RqReU8CgjM67UVnd8ja9gKswXbKWha4U7mFkMTp6KIxO81A1gbyZJ72g4GucA1NVnX8BKijvnsDUmy5Tsl5DkJkPXjTqBnOQWJ7YkfL1NQNVaq1E//uTlUxLntyPWmctqJwsoEJKFKlJeNx2cxGY9ZwLZZ5gDidGyJHgGz0hM6gsutUApfX17owqSUIf9gtJKTeQX5sqffA64fBy+w/9GgXSSo3sJiKFxpxPf+xPFy+GPYIZM40noWwflj5TlguoOJVIKK4p42087/mbESmzng6LqzleYcRigQNWsTQigWNfuKca4D5xP7CeFbr5HTxvEtclrwf7lqoSeWsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=loFXw8WKXXoJToLBhno9CIG9yg6vxLTPaAGJKrmOu3E=;
+ b=A8gPFVcXpvHvShrwhLvsqgdzJ4U9YdVhbPwy28uu5eOfYDqKM9GD7AJBJn4QVvYAPz/QKA5S3A44J36cSFroFIKcmD5yFc9BuDEAuJf0yOPumiiCfWgySTjqPq2Qmiwbo9Pdn3GmxKemdf0ARinyGmzOpzpP1EaUbtwflc9tG3wXNmPO088ZALHst4YZvrF0Qhe1seKAm9HHyW1STfu7izlKjluY1ifGN0PuN1+gz/a5Xy6hXlJ03c5VxFejoN529v+Fw6cWq43nUIgG/iM4Ab8xnLiKvEGKoiFQykBpOPalfzJIOJlRhTvfN12IWRy133Trgp6e1B4VecBGLnaJYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=loFXw8WKXXoJToLBhno9CIG9yg6vxLTPaAGJKrmOu3E=;
+ b=ZDc9vlMg31f9BrrVB9yy4w/5jUvi+qv1UaRPmW6KHmH/WrZWS/wPfP83/9cdZFjEIWofAenWLD45g4YLKeFC8WRAwjP/emjnCSM2JEI5LLihDuKusEgHudmflffI+7u5p3muu0PN9isIidDAiGyBN2+Rn7sW/uyQ4XD9rwOm7Ik=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
+Received: from DM6PR10MB2668.namprd10.prod.outlook.com (2603:10b6:5:b2::25) by
+ DM6PR10MB2668.namprd10.prod.outlook.com (2603:10b6:5:b2::25) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.20; Fri, 23 Apr 2021 04:47:16 +0000
+Received: from DM6PR10MB2668.namprd10.prod.outlook.com
+ ([fe80::b8e3:3780:cf04:4957]) by DM6PR10MB2668.namprd10.prod.outlook.com
+ ([fe80::b8e3:3780:cf04:4957%7]) with mapi id 15.20.4065.020; Fri, 23 Apr 2021
+ 04:47:16 +0000
+From: Dongli Zhang <dongli.zhang@oracle.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=libvirt; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=archlinux; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=fedora; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avenger337 bigdaddymccarron brl75 clifhouck
- jdnewman85 jimijames-bove jimrif murknfools omega52390 peter-maloney th-huth
- yanman
-X-Launchpad-Bug-Reporter: Jimi (jimijames-bove)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160511061916.21125.98809.malonedeb@wampee.canonical.com>
-Message-Id: <161915217441.7335.1635448664501923644.malone@chaenomeles.canonical.com>
-Subject: [Bug 1580459] Re: Windows (10?) guest freezes entire host on shutdown
- if using PCI passthrough
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 1092fc5eb281962d4eea2327cf68236eb35c9f9e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH RFC 0/1] To add HMP interface to dump PCI MSI-X table/PBA
+Date: Thu, 22 Apr 2021 21:47:12 -0700
+Message-Id: <20210423044713.3403-1-dongli.zhang@oracle.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [138.3.200.16]
+X-ClientProxiedBy: BYAPR02CA0055.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::32) To DM6PR10MB2668.namprd10.prod.outlook.com
+ (2603:10b6:5:b2::25)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (138.3.200.16) by
+ BYAPR02CA0055.namprd02.prod.outlook.com (2603:10b6:a03:54::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.22 via Frontend Transport; Fri, 23 Apr 2021 04:47:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e7276667-fb46-42a4-b95b-08d90612deb1
+X-MS-TrafficTypeDiagnostic: DM6PR10MB2668:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR10MB2668462BC3EE1277CEB76C6DF0459@DM6PR10MB2668.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qcVDi3TrTI7LZFt7S1GZtmSHA59Rn9O2DskDElATIXn6k19MarpLMiuMVoWheIpSMOG6Co1gdpqEdsvGgn3mysyPmD1Rhl6VBo3sebyioCgG5lKP29+Y6QH4H8IH8z/hXNrN6o0ynBwx9cKb89HBnReqdrn5VbUQRzrVQURYv6YYbXSPD344JzBf/dL+D8PVdtdDFezJH9+0GDl6cvc8L0a8N6qbYemui9ac1VasmriwVUYc8VMqVICIdaggVlSMRxKZmut03oeRr8X5/Yv3h/hNze9G9T7qWe9oU72Q9p3zFPgvY1vhgDt22WNZOPfQiHk80s8FXQvAyZHrLK7Thph5a+Wt5O+jfs4Wx9DUu/sDzRGVl21d8kAcciBnw0d1Y2cRh/pstrFgN9BAg1PJQTnYcZKNgPdIRMUJV01rlgrylLSILaoPBo3j1Ii/1NbGtJgORy4oGGcyEjRB9J122qUmU4y4uNb80r61L4jbZukriplqasE3UNOyFbdCoH99zh6Rv5GIjfmcVaiF2ENLesFTBC0VLB0Aaxjzb15sEyLe8ruMImf8oDNrI+IGafZYZwqKJTE1nUDB2aA19uOWlPvykXjfJYSNSO7u7W9taO2MBityPu8F4sSTAm0PMfZn1y9AAHRHWCSeShRP7qP225VCi9sBCH0x/ekJInU64sgQEciUc5JUUijw5/vr5XKharkzS73wSDTdVvtuGTkqlGZTuNNJ4t14EVAhEnq+927ItsaiGWgNTbR4hez3ZTeGsdJ7ixOsxT5vOACObYwatA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR10MB2668.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(396003)(136003)(366004)(346002)(39860400002)(38350700002)(66556008)(316002)(38100700002)(6512007)(8936002)(2616005)(107886003)(4326008)(478600001)(4744005)(36756003)(966005)(186003)(16526019)(8676002)(6666004)(2906002)(52116002)(5660300002)(26005)(66946007)(6506007)(6486002)(6916009)(1076003)(66476007)(44832011)(86362001)(956004)(69590400013);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Hiy4Tl60XKDCv3rBpQXM2kXM2HbI2spEgjG9sp4ZPYdwtnsrZ4zLecsQLKeP?=
+ =?us-ascii?Q?QXVFaQz4IiSpgyd0ZiS+9zeSQm5snU3ZVcgOikVOc0Al0Qf3zzabEmVqx/kx?=
+ =?us-ascii?Q?A1ELhKuDSxtzFvL9d898PrommoXDs7Z1B5hr+p9DiJsCxMKs/7OukhGqTnhY?=
+ =?us-ascii?Q?cWHYuWDf57OON2qyhuJkDlcDVQ/3XuUqlBHQ4Q103VD6YBfzoJbr430rkN1i?=
+ =?us-ascii?Q?XgDyxjBE/vsdtxq5qCodSmeIg8VEW8E2ibfUWbNM3i9OGy3Xy5JW3b4AeGCq?=
+ =?us-ascii?Q?uWd7tBzt9M64YcEri/tt6Mavidby3bO2cFTsRwnUd6CEi1XMR7+ZMiD/VnlA?=
+ =?us-ascii?Q?Z3bYCIdy7z1EglkNadFXtVOlrez934g23DU2vsf25YE//9Oqo/zrfy4WaWKV?=
+ =?us-ascii?Q?IsHxkiJsA6l1l4V2FbeSMfChQ/JkJfw1JEFn6TUBNkfGxTqn25p8NwPs1re4?=
+ =?us-ascii?Q?wJlhWCrWKv4mzoOUKMlSvWGYEumq0Mqbd0jZMQl+2atXvaN7oN8sHGC/ZaVZ?=
+ =?us-ascii?Q?lJoE2iAoRuLuoOWyAqPezKAgXHARvJ7kFN0qfMbCLXlDZgkRr6EyEGVXpvyK?=
+ =?us-ascii?Q?30C0MX8QUR4nXXvxPONxmgpPiKZxMxsatPzMxi9t0X0sC3UK0sCmFTiGyAmC?=
+ =?us-ascii?Q?U+ddPZPDZtnBrHUqv0FAeC0OLVBlAy119ZMHjbLBtKobEejk5DkVRAAiBUZi?=
+ =?us-ascii?Q?fvMBoaX5q9658SNxRwbMz8Rh2AUMVi8Ty83ZGZH/kGfvPCBdOfaLM5HAT8ID?=
+ =?us-ascii?Q?o+22/LRDHKxQdE+ec0b/+FtmxvqsIPrmv27W3dbaeDpjr9Y6PwIuMDwzORN9?=
+ =?us-ascii?Q?M8t416/JlGocCQz7QICWDX2jiQPmbgZPT2/VW+ruMnZA/FcNCp629P3NEJiZ?=
+ =?us-ascii?Q?XP8KOVlcd1s/7wkSEyVGqnw7SY8wvSOarOx9pVto7fv2lUEz7FUMhlX1HfbE?=
+ =?us-ascii?Q?VAZw8mQqp5h2t6nwuBQ3jTIrB93qdNJsv1Q9E88XOr7kRirqZ9xBm9G3c7De?=
+ =?us-ascii?Q?LS5Z2BcHZSbnxWhLjD6RY169yi0h59SUFLIvUg1Cgmtfq0tw9dGUdy6HKSDX?=
+ =?us-ascii?Q?sSNpkZxyGKp6a24tVkaBVpUF58mzm0AVn2dC5QX8kEZ43Q914K+9pfnf8E7x?=
+ =?us-ascii?Q?/m97bvZ8tnSAPMei7F6lgNVja+Cuhvgq0lMnTR6SWiUWWWnAIBjd8p6VlgAQ?=
+ =?us-ascii?Q?ksK/i5pjcHcoTiyF88G6HEIYr8RUb1j/D1t0ofNjhmDdZrBRo8jD8ssGZChf?=
+ =?us-ascii?Q?JPBN87qV0RLHDFbM3BnV0Fycx5SqJF312gFN17Esox0MVFTsHhwZuRqQsQo6?=
+ =?us-ascii?Q?eB8vY73IkGHZzUK0qYzE2CF6?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7276667-fb46-42a4-b95b-08d90612deb1
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2668.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 04:47:16.6991 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ta09pxODnviBhq0Yni14Yi/EoRP0gJiFiWBJMubR5lkHIt8e1Nbaxtc9sKgCzoEOTyUQmwPst7BVeTqp3Pq7Og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2668
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9962
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104230029
+X-Proofpoint-ORIG-GUID: qM9ljKGBwqQJb7G8_FbPiv_CgyaGcrH9
+X-Proofpoint-GUID: qM9ljKGBwqQJb7G8_FbPiv_CgyaGcrH9
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=dongli.zhang@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,80 +162,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1580459 <1580459@bugs.launchpad.net>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, joe.jin@oracle.com, dgilbert@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks for answering! So I'm closing this issue now. In case anybody
-still has similar issues, please open a new bug ticket instead.
+This is inspired by the discussion with Jason on below patchset.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg09020.html
 
--- =
+The new HMP command is introduced to dump the MSI-X table and PBA.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1580459
+Initially, I was going to add new option to "info pci". However, as the
+number of entries is not determined and the output of MSI-X table is much
+more similar to the output of hmp_info_tlb()/hmp_info_mem(), this patch
+adds interface for only HMP.
 
-Title:
-  Windows (10?) guest freezes entire host on shutdown if using PCI
-  passthrough
+The patch is tagged with RFC because I am looking for suggestions on:
 
-Status in libvirt:
-  New
-Status in QEMU:
-  Fix Released
-Status in Arch Linux:
-  New
-Status in Debian:
-  New
-Status in Fedora:
-  New
+1. Is it fine to add new "info msix <dev>" command?
 
-Bug description:
-  Problem: after leaving a Windows VM that uses PCI passthrough (as we
-  do for gaming graphics cards, sound cards, and in my case, a USB card)
-  running for some amount of time between 1 and 2 hours (it's not
-  consistent with exactly how long), and for any amount of time longer
-  than that, shutting down that guest will, right as it finishes
-  shutting down, freeze the host computer, making it require a hard
-  reboot. Unbinding (or in the other user's case, unbinding and THEN
-  binding) any PCI device in sysfs, even one that has nothing to do with
-  the VM, also has the same effect as shutting down the VM (if the VM
-  has been running long enough). So, it's probably an issue related to
-  unbinding and binding PCI devices.
+2. Is there any issue with output format?
 
-  There's a lot of info on this problem over at https://bbs.archlinux.org/v=
-iewtopic.php?id=3D206050
-  Here's a better-organized list of main details:
-  -at least 2 confirmed victims of this bug; 2 (including me) have provided=
- lots of info in the link
-  -I'm on Arch Linux and the other one is on Gentoo (distro-nonspecific)
-  -issue affects my Windows 10 guest and others' Windows guests, but not my=
- Arch Linux guest (the others don't have non-Windows guests to test)
-  -I'm using libvirt but the other user is not, so it's not an issue with l=
-ibvirt
-  -It seems to be version non-specific, too. I first noticed it at, or when=
- testing versions still had the issue at (whichever version is lower), Linu=
-x 4.1 and qemu 2.4.0. It still persists in all releases of both since, incl=
-uding the newest ones.
-  -I can't track down exactly what package downgrade can fix it, as downgra=
-ding further than Linux 4.1 and qemu 2.4.0 requires Herculean and system-de=
-stroying changes such as downgrading ncurses, meaning I don't know whether =
-it's a bug in QEMU, the Linux kernel, or some weird seemingly unrelated thi=
-ng.
-  -According to the other user, "graphics intensive gameplay (GTA V) can ca=
-use the crash to happen sooner," as soon as "15 minutes"
-  -Also, "bringing up a second passthrough VM with separate hardware will c=
-ause the same crash," and "bringing up another VM before the two-hour mark =
-will not result in a crash," further cementing that it's triggered by the u=
-n/binding of PCI devices.
-  -This is NOT related to the very similar bug that can be worked around by=
- not passing through the HDMI device or sound card. Even when we removed al=
-l traces of any sort of sound card from the VM, it still had the same behav=
-ior.
+3. Is it fine to add only for HMP, but not QMP?
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/libvirt/+bug/1580459/+subscriptions
+Thank you very much!
+
+Dongli Zhang
+
+
 
