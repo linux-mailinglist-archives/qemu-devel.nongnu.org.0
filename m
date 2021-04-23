@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD88369207
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 14:24:06 +0200 (CEST)
-Received: from localhost ([::1]:48654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA445369211
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 14:27:13 +0200 (CEST)
+Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZuqq-0001Gc-L7
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 08:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
+	id 1lZutt-0002YY-2P
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 08:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZupK-0000KX-A0
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:22:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40659)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZusD-0001y0-GJ
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:25:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZupH-000215-3j
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:22:29 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZus7-0003nT-1M
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 08:25:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619180545;
+ s=mimecast20190719; t=1619180722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cu134PAcOtH9YmNhKO35Wo3Bc0Xum3kJcsCqohwulgc=;
- b=CCbLzge3RluP6pbQy0xMxHUeXiBtS92NG1WPdQdMwhZuf5Zcfw+FuHLey6i1A+1fOkm154
- BOGyw7eOZLtWkv43Npq64aOitADiqTQWehzzcXTXTwuH4b5WIyMMk0ATSc6X1hY0+TnsKH
- NrCiWxkZYhJ1dDW5x+a0yBOrvMYWe90=
+ bh=DZzyxjarnlm0jrW2M2hYUZG23t8YyEhc/wn/0Uvl1fw=;
+ b=aOVCrZlNc0X86IoWnw6r3ecZ2rANyCyRsz72cDabbMo9nJcMyhgjoYgfnFzkmitUNAhHQO
+ s8VKNKaqxVD4GHRrMUZ+4fBgUqUZzZ/YzTswxU33DhY6yUN+Y4T7jq60jwgy+olXgV7NMo
+ FNLuwt+Pugb4ed5RLudxC2xF58VVkak=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-scy-pk7sMlSzIhQMGnCYIA-1; Fri, 23 Apr 2021 08:22:23 -0400
-X-MC-Unique: scy-pk7sMlSzIhQMGnCYIA-1
+ us-mta-302-dJbg8eXIPEugcQ2TgKIxJg-1; Fri, 23 Apr 2021 08:25:20 -0400
+X-MC-Unique: dJbg8eXIPEugcQ2TgKIxJg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20037107ACC7;
- Fri, 23 Apr 2021 12:22:22 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-167.ams2.redhat.com
- [10.36.113.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 307195D745;
- Fri, 23 Apr 2021 12:22:12 +0000 (UTC)
-Date: Fri, 23 Apr 2021 14:22:09 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] target/s390x: fix s390_probe_access to check
- PAGE_WRITE_ORG for writeability
-Message-ID: <20210423142209.03032dc5.cohuck@redhat.com>
-In-Reply-To: <20210422154427.13038-1-alex.bennee@linaro.org>
-References: <20210422154427.13038-1-alex.bennee@linaro.org>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 783A2107ACC7;
+ Fri, 23 Apr 2021 12:25:19 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-199.ams2.redhat.com [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D21F5D745;
+ Fri, 23 Apr 2021 12:25:14 +0000 (UTC)
+Date: Fri, 23 Apr 2021 14:25:12 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 01/36] tests/test-bdrv-graph-mod: add
+ test_parallel_exclusive_write
+Message-ID: <YIK8qAw+HwhQgiEI@merkur.fritz.box>
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+ <20210317143529.615584-2-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
+In-Reply-To: <20210317143529.615584-2-vsementsov@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -66,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +77,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- f4bug@amsat.org, "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net, Laurent Vivier <laurent@vivier.eu>
+Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Apr 2021 16:44:27 +0100
-Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
-
-> We can remove PAGE_WRITE when (internally) marking a page read-only
-> because it contains translated code. This can get confused when we are
-> executing signal return code on signal stacks.
->=20
-> Fixes: e56552cf07 ("target/s390x: Implement the MVPG condition-code-optio=
-n bit")
-> Found-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Laurent Vivier <laurent@vivier.eu>
+Am 17.03.2021 um 15:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Add the test that shows that concept of ignore_children is incomplete.
+> Actually, when we want to update something, ignoring permission of some
+> existing BdrvChild, we should ignore also the propagated effect of this
+> child to the other children. But that's not done. Better approach
+> (update permissions on already updated graph) will be implemented
+> later.
+> 
+> Now the test fails, so it's added with -d argument to not break make
+> check.
+> 
+> Test fails with
+> 
+>  "Conflicts with use by fl1 as 'backing', which does not allow 'write' on base"
+> 
+> because when updating permissions we can ignore original top->fl1
+> BdrvChild. But we don't ignore exclusive write permission in fl1->base
+> BdrvChild, which is propagated. Correct thing to do is make graph
+> change first and then do permission update from the top node.
+> 
+> To run test do
+> 
+>   ./test-bdrv-graph-mod -d -p /bdrv-graph-mod/parallel-exclusive-write
+> 
+> from <build-directory>/tests.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  target/s390x/mem_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-> index 12e84a4285..f6a7d29273 100644
-> --- a/target/s390x/mem_helper.c
-> +++ b/target/s390x/mem_helper.c
-> @@ -145,7 +145,7 @@ static int s390_probe_access(CPUArchState *env, targe=
-t_ulong addr, int size,
-> =20
->  #if defined(CONFIG_USER_ONLY)
->      flags =3D page_get_flags(addr);
-> -    if (!(flags & (access_type =3D=3D MMU_DATA_LOAD ?  PAGE_READ : PAGE_=
-WRITE))) {
-> +    if (!(flags & (access_type =3D=3D MMU_DATA_LOAD ?  PAGE_READ : PAGE_=
-WRITE_ORG))) {
->          env->__excp_addr =3D addr;
->          flags =3D (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING=
-;
->          if (nonfault) {
+>  tests/unit/test-bdrv-graph-mod.c | 70 +++++++++++++++++++++++++++++++-
+>  1 file changed, 69 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
+> index c4f7d16039..4e4e83674a 100644
+> --- a/tests/unit/test-bdrv-graph-mod.c
+> +++ b/tests/unit/test-bdrv-graph-mod.c
+> @@ -1,7 +1,7 @@
+>  /*
+>   * Block node graph modifications tests
+>   *
+> - * Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
+> + * Copyright (c) 2019-2021 Virtuozzo International GmbH. All rights reserved.
+>   *
+>   * This program is free software; you can redistribute it and/or modify
+>   * it under the terms of the GNU General Public License as published by
+> @@ -44,6 +44,21 @@ static BlockDriver bdrv_no_perm = {
+>      .bdrv_child_perm = no_perm_default_perms,
+>  };
+>  
+> +static void exclusive_write_perms(BlockDriverState *bs, BdrvChild *c,
+> +                                  BdrvChildRole role,
+> +                                  BlockReopenQueue *reopen_queue,
+> +                                  uint64_t perm, uint64_t shared,
+> +                                  uint64_t *nperm, uint64_t *nshared)
+> +{
+> +    *nperm = BLK_PERM_WRITE;
+> +    *nshared = BLK_PERM_ALL & ~BLK_PERM_WRITE;
+> +}
+> +
+> +static BlockDriver bdrv_exclusive_writer = {
+> +    .format_name = "exclusive-writer",
+> +    .bdrv_child_perm = exclusive_write_perms,
+> +};
+> +
+>  static BlockDriverState *no_perm_node(const char *name)
+>  {
+>      return bdrv_new_open_driver(&bdrv_no_perm, name, BDRV_O_RDWR, &error_abort);
+> @@ -55,6 +70,12 @@ static BlockDriverState *pass_through_node(const char *name)
+>                                  BDRV_O_RDWR, &error_abort);
+>  }
+>  
+> +static BlockDriverState *exclusive_writer_node(const char *name)
+> +{
+> +    return bdrv_new_open_driver(&bdrv_exclusive_writer, name,
+> +                                BDRV_O_RDWR, &error_abort);
+> +}
+> +
+>  /*
+>   * test_update_perm_tree
+>   *
+> @@ -185,8 +206,50 @@ static void test_should_update_child(void)
+>      blk_unref(root);
+>  }
+>  
+> +/*
+> + * test_parallel_exclusive_write
+> + *
+> + * Check that when we replace node, old permissions of the node being removed
+> + * doesn't break the replacement.
+> + */
+> +static void test_parallel_exclusive_write(void)
+> +{
+> +    BlockDriverState *top = exclusive_writer_node("top");
+> +    BlockDriverState *base = no_perm_node("base");
+> +    BlockDriverState *fl1 = pass_through_node("fl1");
+> +    BlockDriverState *fl2 = pass_through_node("fl2");
+> +
+> +    /*
+> +     * bdrv_attach_child() eats child bs reference, so we need two @base
+> +     * references for two filters:
+> +     */
+> +    bdrv_ref(base);
+> +
+> +    bdrv_attach_child(top, fl1, "backing", &child_of_bds, BDRV_CHILD_DATA,
+> +                      &error_abort);
+> +    bdrv_attach_child(fl1, base, "backing", &child_of_bds, BDRV_CHILD_FILTERED,
+> +                      &error_abort);
+> +    bdrv_attach_child(fl2, base, "backing", &child_of_bds, BDRV_CHILD_FILTERED,
+> +                      &error_abort);
+> +
+> +    bdrv_replace_node(fl1, fl2, &error_abort);
+> +
+> +    bdrv_unref(fl2); /* second reference was created by bdrv_replace_node() */
 
-What's the verdict on this one? I plan to queue this to s390-next; but
-if we end up doing an -rc5, it might qualify as a regression fix.
+This line is new and I don't understand it.
 
-If this is going to be in 6.1, I'll add cc:stable when queuing.
+Why does bdrv_replace_node() create new references? Shouldn't it just
+move all parents of fl2 to fl1, and when the refcount of fl2 drops to
+zero, it would be deleted?
+
+If we have to unref manually, is this a bug?
+
+> +    bdrv_unref(top);
+> +}
+
+Kevin
 
 
