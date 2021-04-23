@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B04369105
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 13:23:17 +0200 (CEST)
-Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C2436910F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 13:27:03 +0200 (CEST)
+Received: from localhost ([::1]:44012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZtu0-0006bh-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 07:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36798)
+	id 1lZtxe-0000lZ-Aq
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 07:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lZtrg-0005bj-Dp
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:20:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54952)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZttA-0006JJ-O9
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:22:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lZtra-0007yU-6c
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:20:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtt4-0000NL-Th
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:22:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619176845;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1619176937;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4teVhw+1KYGNAP9J+WHdPTGKiV+5tUCgVOJy2G8lcAU=;
- b=TL1hgtLjLKcU0Wz3gBi26WzyALGGzbBdW44syrx3N1970QGO174eq2BWPDcY1EffkVj0Gt
- fGmfWdQfh9IZpkezYLX5gZ9/YgL62nBdnSa6Njwkx07LW7JRV21zNtLThdTjsRkwjkMSdN
- 34OZQh4zARd5MU6SVt+S19SWtXFjlX8=
+ bh=hR0uEADZJ+JoAbkhEnUuHg43GQLlE/NTVgOJbokKSAw=;
+ b=ckUelCVHguZR5/zq39WfxT2FY4NXdo+KWXCQpUREdGMKiMVkimVfRzd7Ei5FcoQl0g2+Pg
+ BIvTsHXI5FhBEcD0umzOWlblkhg3WPiZHFW7RzE8czdDvkdi/9ZzqLLNULs+WDYFPWuPgB
+ xfXy1beyWY98C2rlNM/wIzf6ihO5kpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-Qlb2kEPhOq-TMcYxRPln9w-1; Fri, 23 Apr 2021 07:20:40 -0400
-X-MC-Unique: Qlb2kEPhOq-TMcYxRPln9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-163-6EZTDJikPbWCDCdRMJT7Kg-1; Fri, 23 Apr 2021 07:22:15 -0400
+X-MC-Unique: 6EZTDJikPbWCDCdRMJT7Kg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FA2B100670E
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 11:20:40 +0000 (UTC)
-Received: from redhat.com (ovpn-112-17.ams2.redhat.com [10.36.112.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5250510074E1;
- Fri, 23 Apr 2021 11:20:27 +0000 (UTC)
-Date: Fri, 23 Apr 2021 12:20:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 5/5] sockets: Support multipath TCP
-Message-ID: <YIKteAmBPfVdRm7T@redhat.com>
-References: <20210421112834.107651-1-dgilbert@redhat.com>
- <20210421112834.107651-6-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446AD8015D4;
+ Fri, 23 Apr 2021 11:22:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9ED719C71;
+ Fri, 23 Apr 2021 11:22:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4379C113525D; Fri, 23 Apr 2021 13:21:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v6 14/15] qmp: Include "reserve" property of memory
+ backends
+References: <20210421122624.12292-1-david@redhat.com>
+ <20210421122624.12292-15-david@redhat.com>
+ <87im4di7u9.fsf@dusky.pond.sub.org>
+ <190f173c-b3f9-6c70-42bb-27f50a5f9380@redhat.com>
+Date: Fri, 23 Apr 2021 13:21:59 +0200
+In-Reply-To: <190f173c-b3f9-6c70-42bb-27f50a5f9380@redhat.com> (David
+ Hildenbrand's message of "Fri, 23 Apr 2021 13:03:49 +0200")
+Message-ID: <87h7jxgsa0.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210421112834.107651-6-dgilbert@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,37 +85,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com, pabeni@redhat.com
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 21, 2021 at 12:28:34PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Multipath TCP allows combining multiple interfaces/routes into a single
-> socket, with very little work for the user/admin.
-> 
-> It's enabled by 'mptcp' on most socket addresses:
-> 
->    ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  io/dns-resolver.c   |  4 ++++
->  qapi/sockets.json   |  5 ++++-
->  util/qemu-sockets.c | 23 +++++++++++++++++++++++
->  3 files changed, 31 insertions(+), 1 deletion(-)
+David Hildenbrand <david@redhat.com> writes:
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> On 23.04.21 13:00, Markus Armbruster wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>>=20
+>>> Let's include the new property.
+>>>
+>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> Cc: Eric Blake <eblake@redhat.com>
+>>> Cc: Markus Armbruster <armbru@redhat.com>
+>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>> ---
+>>>   hw/core/machine-qmp-cmds.c | 1 +
+>>>   qapi/machine.json          | 4 ++++
+>>>   2 files changed, 5 insertions(+)
+>>>
+>>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+>>> index d41db5b93b..2d135ecdd0 100644
+>>> --- a/hw/core/machine-qmp-cmds.c
+>>> +++ b/hw/core/machine-qmp-cmds.c
+>>> @@ -175,6 +175,7 @@ static int query_memdev(Object *obj, void *opaque)
+>>>           m->dump =3D object_property_get_bool(obj, "dump", &error_abor=
+t);
+>>>           m->prealloc =3D object_property_get_bool(obj, "prealloc", &er=
+ror_abort);
+>>>           m->share =3D object_property_get_bool(obj, "share", &error_ab=
+ort);
+>>> +        m->reserve =3D object_property_get_bool(obj, "reserve", &error=
+_abort);
+>>>           m->policy =3D object_property_get_enum(obj, "policy", "HostMe=
+mPolicy",
+>>>                                                &error_abort);
+>>>           host_nodes =3D object_property_get_qobject(obj,
+>>> diff --git a/qapi/machine.json b/qapi/machine.json
+>>> index 32650bfe9e..5932139d20 100644
+>>> --- a/qapi/machine.json
+>>> +++ b/qapi/machine.json
+>>> @@ -798,6 +798,9 @@
+>>>   #
+>>>   # @share: whether memory is private to QEMU or shared (since 6.1)
+>>>   #
+>>> +# @reserve: whether swap space (or huge pages) was reserved if applica=
+ble
+>>> +#           (since 6.1)
+>>> +#
+>>>   # @host-nodes: host nodes for its memory policy
+>>>   #
+>>>   # @policy: memory policy of memory backend
+>>> @@ -812,6 +815,7 @@
+>>>       'dump':       'bool',
+>>>       'prealloc':   'bool',
+>>>       'share':      'bool',
+>>> +    'reserve':    'bool',
+>>>       'host-nodes': ['uint16'],
+>>>       'policy':     'HostMemPolicy' }}
+>>=20
+>> Double-checking: true means definitely reserved, and false means
+>> definitely not reserved.  Correct?
+>
+> True means "reserved if applicable" which means "not reserved if not=20
+> applicable". False means "definitely not reserved".
+>
+> (any recommendation how to rephrase are appreciated; I tried my best --=
+=20
+> this interface here makes it especially hard -- it's easier for the=20
+> property itself)
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+When is it "applicable"?
 
 
