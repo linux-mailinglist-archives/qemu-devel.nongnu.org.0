@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAC4368B7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 05:19:27 +0200 (CEST)
-Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DEA368B8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 05:26:07 +0200 (CEST)
+Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZmLl-00044y-Lm
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 23:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37476)
+	id 1lZmSE-0006Xz-AB
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 23:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lZmKh-0003fl-32
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 23:18:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lZmKd-00016o-JN
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 23:18:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619147892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xbVL+rALQih5dq/39Ivmk4tFNMWZRph09PoldeHJ3hk=;
- b=KAwvu7QdAbMZNyDPZqXIpMhQFM9JiN8EYjmxvAT+vl3IfQ+m4UBTMv/UUkcr9MyLwfb/Vf
- 7l8yW3og1sjQByglaxzcvpW7VpoS4ChIKQ9NXClzOUPe3uVFh5FBUZC7IXrU5RH3+7Bw/K
- HmdqIzLmng78PaDmy1V2dzcMnkiE/uA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-RSIdX4ouMaCRnE1HyfY2Xg-1; Thu, 22 Apr 2021 23:18:10 -0400
-X-MC-Unique: RSIdX4ouMaCRnE1HyfY2Xg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7492118397A3;
- Fri, 23 Apr 2021 03:18:09 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-225.pek2.redhat.com
- [10.72.13.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE4345D9C6;
- Fri, 23 Apr 2021 03:18:05 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: jasowang@redhat.com, samuel.thibault@ens-lyon.org, sw@weilnetz.de,
- qemu-devel@nongnu.org
-Subject: [PATCH for 6.0] net: check the existence of peer before trying to pad
-Date: Fri, 23 Apr 2021 11:18:03 +0800
-Message-Id: <20210423031803.1479-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lZmQt-0005s7-Uc
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 23:24:44 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:33480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lZmQs-0003x2-GF
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 23:24:43 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id p3so33380087ybk.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 20:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=26v4rLeSo88LiebjChtSj8JBDH3v+zVvkd/0BCl2prQ=;
+ b=D5hYLMKIcJDUzOMEsyzs1+uwgN0T/O4MQnJBbL4dljudS7XkBou9VbBwA8f+hqC2vo
+ DikSwczjVRm506Ck3JTvBvbv4JpOuj17cTzbDo3NBo6vfo1wcdKg/4td479XiC0z3IRv
+ JrjKdJgUSChkc1xISQJnLzTT3jod4+HinrkL0RNwSD35IZtWfYKkNduY9RCxH5/OLgcN
+ iXaNjo8v6AKuS3HwMYcBv903U6ljxzm2NskLsvIuD4K7xXbG5uVeYFCJhMSbacY6Xa45
+ cSpAVQNk1S9m/lpehXzArBpBVisXf14jSsnLwMDne/yBgJidfZ8DjRZhFUNlbrI7MhzV
+ ZaEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=26v4rLeSo88LiebjChtSj8JBDH3v+zVvkd/0BCl2prQ=;
+ b=kJta9nr5q1sj3RiYqja0oBqyKVFKavHNvVvq8UOrI43aCpMbGoasph4t94FkuZ0Vdg
+ ZgRXYSsRqX+68tLPDwiYZMNYwJmx1pd/ez6YmJeqCzaQC+pDq/j90TEkRpVT43dkFOF1
+ +dC5BzFe/N0AfawpW+HotU9jr1+ZSYcVesOMbdXR63/VcPY6jHdzCOmVE70Bv9a3yE7w
+ JwNeyHtc0S4lX6RASUnQB0TNwDkXJ44ZQOdPXSfQ98WskYWp1J4Vy6HnBXzOfLh8euM9
+ qs8QAfXjRF5oOv4Z4IbC1IocczjoTZ9sDn2f78ULfjVkQmQTaaitx1NMtq8lEvABm+I7
+ LJdQ==
+X-Gm-Message-State: AOAM530f23dn5SgSjTvRHEBZ2VsEDfQ4j5ToRpJIz2N4GFBxkv44NtR6
+ leU5/hreLhaNqssTHWfT8qIQIWB6QBWFf0IZvJ8=
+X-Google-Smtp-Source: ABdhPJx4jWdiL3Xdt2cxvP8/eoY7C7ou8mnrqQOXmhNk/+0MbCsegaGJT3nXfu50dl3zohJuqvT+9g+FejPTgrfn+B0=
+X-Received: by 2002:a25:99c1:: with SMTP id q1mr2401353ybo.517.1619148281283; 
+ Thu, 22 Apr 2021 20:24:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210423031803.1479-1-jasowang@redhat.com>
+In-Reply-To: <20210423031803.1479-1-jasowang@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 23 Apr 2021 11:24:28 +0800
+Message-ID: <CAEUhbmVGavX-1qoyHu9i3_MZ0cHVbH-KRHXBCQQKokSs7EMMDg@mail.gmail.com>
+Subject: Re: [PATCH for 6.0] net: check the existence of peer before trying to
+ pad
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,78 +77,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bmeng.cn@gmail.com, philmd@redhat.com,
- crobinso@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Cole Robinson <crobinso@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There could be case that peer is NULL. This can happen when during
-network device hot-add where net device needs to be added first. So
-the patch check the existence of peer before trying to do the pad.
+On Fri, Apr 23, 2021 at 11:18 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> There could be case that peer is NULL. This can happen when during
+> network device hot-add where net device needs to be added first. So
+> the patch check the existence of peer before trying to do the pad.
+>
+> Fixes: 969e50b61a285 ("net: Pad short frames to minimum size before sending from SLiRP/TAP")
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  include/net/net.h | 5 +++++
+>  net/slirp.c       | 2 +-
+>  net/tap-win32.c   | 2 +-
+>  net/tap.c         | 2 +-
+>  4 files changed, 8 insertions(+), 3 deletions(-)
+>
 
-Fixes: 969e50b61a285 ("net: Pad short frames to minimum size before sending from SLiRP/TAP")
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- include/net/net.h | 5 +++++
- net/slirp.c       | 2 +-
- net/tap-win32.c   | 2 +-
- net/tap.c         | 2 +-
- 4 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/include/net/net.h b/include/net/net.h
-index eff24519d2..1ef536d771 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -241,4 +241,9 @@ uint32_t net_crc32_le(const uint8_t *p, int len);
-     .offset     = vmstate_offset_macaddr(_state, _field),            \
- }
- 
-+static inline bool net_peer_needs_padding(NetClientState *nc)
-+{
-+  return nc->peer && !nc->peer->do_not_pad;
-+}
-+
- #endif
-diff --git a/net/slirp.c b/net/slirp.c
-index a01a0fccd3..7a4e96db5c 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -119,7 +119,7 @@ static ssize_t net_slirp_send_packet(const void *pkt, size_t pkt_len,
-     uint8_t min_pkt[ETH_ZLEN];
-     size_t min_pktsz = sizeof(min_pkt);
- 
--    if (!s->nc.peer->do_not_pad) {
-+    if (net_peer_needs_padding(&s->nc)) {
-         if (eth_pad_short_frame(min_pkt, &min_pktsz, pkt, pkt_len)) {
-             pkt = min_pkt;
-             pkt_len = min_pktsz;
-diff --git a/net/tap-win32.c b/net/tap-win32.c
-index 897bd18e32..6096972f5d 100644
---- a/net/tap-win32.c
-+++ b/net/tap-win32.c
-@@ -696,7 +696,7 @@ static void tap_win32_send(void *opaque)
-     if (size > 0) {
-         orig_buf = buf;
- 
--        if (!s->nc.peer->do_not_pad) {
-+        if (net_peer_needs_padding(&s->nc)) {
-             if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
-                 buf = min_pkt;
-                 size = min_pktsz;
-diff --git a/net/tap.c b/net/tap.c
-index 7d53cedaec..820872fde8 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -203,7 +203,7 @@ static void tap_send(void *opaque)
-             size -= s->host_vnet_hdr_len;
-         }
- 
--        if (!s->nc.peer->do_not_pad) {
-+        if (net_peer_needs_padding(&s->nc)) {
-             if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
-                 buf = min_pkt;
-                 size = min_pktsz;
--- 
-2.25.1
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
