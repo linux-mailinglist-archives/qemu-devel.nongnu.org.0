@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B33368A5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 03:26:46 +0200 (CEST)
-Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA09368A7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 03:45:11 +0200 (CEST)
+Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZkaj-0001qA-55
-	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 21:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57926)
+	id 1lZksY-0005Eg-2v
+	for lists+qemu-devel@lfdr.de; Thu, 22 Apr 2021 21:45:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZkZR-00015D-1v
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:25:26 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lZkZ7-0008NF-FL
- for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:25:19 -0400
-Received: by mail-pl1-x633.google.com with SMTP id t22so24121398ply.1
- for <qemu-devel@nongnu.org>; Thu, 22 Apr 2021 18:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/v3ueyu767UR2a71ujrmoLFs5EhOGrkoQ0rgfThnahc=;
- b=GOR/qFhRZvfu105UOFwvo7fZV2GpZIopkU6A0DRQymL5H6S8SWfAhwHhA4vh0Mlj9K
- WOWoX7u6oUgLKvN+gZhdn9/9GK7nc62kUjbHIwg0wTcOSRilaLSS499Fy8C2n7PoodJf
- DBD6x6fuN+950K396NB0LKbNvhW8mk5KZLVPCfzmgD0l375+UEr/ce9TLwl+Yce6mtFe
- z2QR5bAeWN1n3ERq2e4EtnHkZA9zvA07nD/5XMwSCF6MyXFUOd+ZcLdS59/2OmqEMNFK
- 4REh5lIk3lM82MiajAFpM3eaS8redxpjanuGAZVuM9sTCOwbVt4Zh5be4IYG4aYBAVeI
- zSCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/v3ueyu767UR2a71ujrmoLFs5EhOGrkoQ0rgfThnahc=;
- b=NKvrc2tS6zlN2T6MCbq2TUiwsdMT9gez7qHcow8RAUeRQGIyoRuhxDiP/jzAoyeILa
- /Qn84LSBkcryKuKGjZsJHHYSG6T5ZJrKStQdmw1VKLS/JiBntrxhHN4slBvomgs9Yv4d
- 9hvLoe3kwlyOg6ACqkQM4PTaTJfe+oov1Dl/3eMSzi4IRMrJ4JjAgKDSzbjgBmZyXndu
- CSRZdVaXBh/5u50RBqAP7UeWxy+AIztSxOz/hGbOul96b1p9jwGhlNvsPBq39+6EMICP
- Ls2/i2WQ03IKWO+N6IFvOKHpyfozDPZqkcOv0oAMuJyrII+wbUusYQ238jOOhC2Axmou
- BU5w==
-X-Gm-Message-State: AOAM533vdSH52dEYhorMHEn/rfEdJfm0Uyd/qwoKKJnEBNKD5nOvc/2k
- abV6n45cPdgvDa+DXZN53H1P+g==
-X-Google-Smtp-Source: ABdhPJzu8DoNrnpnltTN+rETfNORh6Llx4nULhsxSle3Ax014Sx8NB+SHiqQh+NvdLXWT50EGu1LIw==
-X-Received: by 2002:a17:90a:a58f:: with SMTP id
- b15mr1557539pjq.135.1619141102090; 
- Thu, 22 Apr 2021 18:25:02 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id h8sm3215390pjt.17.2021.04.22.18.25.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Apr 2021 18:25:01 -0700 (PDT)
-Subject: Re: [PATCH v6 10/18] cpu: Move CPUClass::vmsd to SysemuCPUOps
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210422193902.2644064-1-f4bug@amsat.org>
- <20210422193902.2644064-11-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fc8cd5b3-3502-1937-1400-f471078cad9b@linaro.org>
-Date: Thu, 22 Apr 2021 18:24:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lZkrL-0004dk-8z
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:43:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33801)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lZkrG-00038s-Te
+ for qemu-devel@nongnu.org; Thu, 22 Apr 2021 21:43:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619142229;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LB+ZGH9oaXytz/D/RLXPOQAmvLe6cLh3zEf0m9rQYss=;
+ b=i0+yXBAQC8IHZz0FbPEIBC8B4jlcCQh758cNFKdMbG02v1rOoJa640lfHPz3ED/Zg6Cqd9
+ 4QHLCbJQhjf/T9ZS9q/e15YYpB3WzJ1FggfCmY5aPoIPYEBf20+481GXP7I7btSYcHyxFK
+ UFqjDebYxJ1e1JNXkgu59GR0BvQdX4w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-ScXM-oDROji6rANS-gJkKw-1; Thu, 22 Apr 2021 21:43:46 -0400
+X-MC-Unique: ScXM-oDROji6rANS-gJkKw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBEBC881276;
+ Fri, 23 Apr 2021 01:43:44 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-201.pek2.redhat.com
+ [10.72.12.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27A196362B;
+ Fri, 23 Apr 2021 01:43:41 +0000 (UTC)
+Subject: Re: [PATCH-for-6.0] net: tap: fix crash on hotplug
+To: Cole Robinson <crobinso@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <3f6be9c84782a0943ea21a8a6f8a5d055b65f2d5.1619018363.git.crobinso@redhat.com>
+ <fe1f97bc-5ff9-002b-debc-5bc2c449c8b8@redhat.com>
+ <CAEUhbmXR1Yn5paL+d0DMjgZUiinQGNRazj3neScL4_=CGvC8zg@mail.gmail.com>
+ <CAFEAcA_4TSF1KKxVQUDt3r+aAnZqT-A2uA8m7O0ZaxHQVWgKJg@mail.gmail.com>
+ <CAEUhbmX-XvJ6ViPjTsiQ2GhmhwefTSbF_m1CRwzphf82SNQixA@mail.gmail.com>
+ <716bf384-3ba6-179e-afa9-5b02e4573845@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <04625377-f307-03b1-11ed-1f02dd05253b@redhat.com>
+Date: Fri, 23 Apr 2021 09:43:40 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210422193902.2644064-11-f4bug@amsat.org>
+In-Reply-To: <716bf384-3ba6-179e-afa9-5b02e4573845@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,119 +88,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Juan Quintela <quintela@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/21 12:38 PM, Philippe Mathieu-Daudé wrote:
-> Migration is specific to system emulation.
-> 
-> - Move the CPUClass::vmsd field to SysemuCPUOps,
-> - restrict VMSTATE_CPU() macro to sysemu,
-> - vmstate_dummy is now unused, remove it.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+在 2021/4/23 上午5:34, Cole Robinson 写道:
+> On 4/22/21 5:42 AM, Bin Meng wrote:
+>> On Thu, Apr 22, 2021 at 5:36 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>> On Thu, 22 Apr 2021 at 05:29, Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>> On Thu, Apr 22, 2021 at 12:36 AM Philippe Mathieu-Daudé
+>>>> <philmd@redhat.com> wrote:
+>>>>> Cc'ing Bin.
+>>>>>
+>>>>> On 4/21/21 5:22 PM, Cole Robinson wrote:
+>>>>>> Attempting to hotplug a tap nic with libvirt will crash qemu:
+>>>>>>
+>>>>>> $ sudo virsh attach-interface f32 network default
+>>>>>> error: Failed to attach interface
+>>>>>> error: Unable to read from monitor: Connection reset by peer
+>>>>>>
+>>>>>> 0x000055875b7f3a99 in tap_send (opaque=0x55875e39eae0) at ../net/tap.c:206
+>>>>>> 206           if (!s->nc.peer->do_not_pad) {
+>>>>>> gdb$ bt
+>>>>>>
+>>>>>> s->nc.peer may not be set at this point. This seems to be an
+>>>>>> expected case, as qemu_send_packet_* explicitly checks for NULL
+>>>>>> s->nc.peer later.
+>>>>>>
+>>>>>> Fix it by checking for s->nc.peer here too. Padding is applied if
+>>>>>> s->nc.peer is not set.
+>>>>>>
+>>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1949786
+>>>>>> Fixes: 969e50b61a2
+>>>>>>
+>>>>>> Signed-off-by: Cole Robinson <crobinso@redhat.com>
+>>>>>> ---
+>>>>>> * Or should we skip padding if nc.peer is unset? I didn't dig into it
+>>>>>> * tap-win3.c and slirp.c may need a similar fix, but the slirp case
+>>>>>>    didn't crash in a simple test.
+>>>>>>
+>>>>>>   net/tap.c | 2 +-
+>>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/net/tap.c b/net/tap.c
+>>>>>> index dd42ac6134..937559dbb8 100644
+>>>>>> --- a/net/tap.c
+>>>>>> +++ b/net/tap.c
+>>>>>> @@ -203,7 +203,7 @@ static void tap_send(void *opaque)
+>>>>>>               size -= s->host_vnet_hdr_len;
+>>>>>>           }
+>>>>>>
+>>>>>> -        if (!s->nc.peer->do_not_pad) {
+>>>>>> +        if (!s->nc.peer || !s->nc.peer->do_not_pad) {
+>>>> I think we should do:
+>>>>
+>>>> if (s->nc.peer && !s->nc.peer->do_not_pad)
+>>> Yes. If there is no peer then the qemu_send_packet() that we're about
+>>> to do is going to discard the packet anyway, so there's no point in
+>>> padding it.
+>>>
+>>> Maybe consider
+>>>
+>>> static inline bool net_peer_needs_padding(NetClientState *nc)
+>>> {
+>>>      return nc->peer && !nc->peer->do_not_pad;
+>>> }
+>>>
+>>> since we want the same check in three places ?
+>> Sounds good to me.
+>>
+> I did not get to this today. Bin/Jason/anyone want to write the patch,
 
->   #ifndef CONFIG_USER_ONLY
->   static const struct SysemuCPUOps riscv_sysemu_ops = {
-> +    /* For now, mark unmigratable: */
-> +    .legacy_vmsd = &vmstate_riscv_cpu,
->   };
->   #endif
->   
-> @@ -628,8 +630,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->       cc->disas_set_info = riscv_cpu_disas_set_info;
->   #ifndef CONFIG_USER_ONLY
->       cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
-> -    /* For now, mark unmigratable: */
-> -    cc->legacy_vmsd = &vmstate_riscv_cpu;
 
-I'll note that the comment has been incorrect since f7697f0e629.
+I will send a patch soon.
+
+Thanks
 
 
-r~
-
->       cc->sysemu_ops = &riscv_sysemu_ops;
->       cc->write_elf64_note = riscv_cpu_write_elf64_note;
->       cc->write_elf32_note = riscv_cpu_write_elf32_note;
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index 7503b9e0c8b..131e7dfdf82 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -479,6 +479,7 @@ static void s390_cpu_reset_full(DeviceState *dev)
->   
->   #ifndef CONFIG_USER_ONLY
->   static const struct SysemuCPUOps s390_sysemu_ops = {
-> +    .legacy_vmsd = &vmstate_s390_cpu,
->   };
->   #endif
->   
-> @@ -522,7 +523,6 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
->       cc->gdb_write_register = s390_cpu_gdb_write_register;
->   #ifndef CONFIG_USER_ONLY
->       cc->get_phys_page_debug = s390_cpu_get_phys_page_debug;
-> -    cc->legacy_vmsd = &vmstate_s390_cpu;
->       cc->get_crash_info = s390_cpu_get_crash_info;
->       cc->write_elf64_note = s390_cpu_write_elf64_note;
->       cc->sysemu_ops = &s390_sysemu_ops;
-> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index 743a7287a4f..543853c24dc 100644
-> --- a/target/sparc/cpu.c
-> +++ b/target/sparc/cpu.c
-> @@ -850,6 +850,7 @@ static Property sparc_cpu_properties[] = {
->   
->   #ifndef CONFIG_USER_ONLY
->   static const struct SysemuCPUOps sparc_sysemu_ops = {
-> +    .legacy_vmsd = &vmstate_sparc_cpu,
->   };
->   #endif
->   
-> @@ -894,7 +895,6 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
->       cc->gdb_write_register = sparc_cpu_gdb_write_register;
->   #ifndef CONFIG_USER_ONLY
->       cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
-> -    cc->legacy_vmsd = &vmstate_sparc_cpu;
->       cc->sysemu_ops = &sparc_sysemu_ops;
->   #endif
->       cc->disas_set_info = cpu_sparc_disas_set_info;
-> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-> index b15abc36851..e3f2f2fefa3 100644
-> --- a/target/ppc/translate_init.c.inc
-> +++ b/target/ppc/translate_init.c.inc
-> @@ -10880,6 +10880,7 @@ static Property ppc_cpu_properties[] = {
->   
->   #ifndef CONFIG_USER_ONLY
->   static const struct SysemuCPUOps ppc_sysemu_ops = {
-> +    .legacy_vmsd = &vmstate_ppc_cpu,
->   };
->   #endif
->   
-> @@ -10925,7 +10926,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
->       cc->gdb_write_register = ppc_cpu_gdb_write_register;
->   #ifndef CONFIG_USER_ONLY
->       cc->get_phys_page_debug = ppc_cpu_get_phys_page_debug;
-> -    cc->legacy_vmsd = &vmstate_ppc_cpu;
->       cc->sysemu_ops = &ppc_sysemu_ops;
->   #endif
->   #if defined(CONFIG_SOFTMMU)
-> 
+> I
+> will test it tomorrow (US EDT time). If not I'll write the patch tomorrow.
+>
+> Thanks,
+> Cole
+>
+>
 
 
