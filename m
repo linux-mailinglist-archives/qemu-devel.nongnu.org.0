@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D73690FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 13:18:30 +0200 (CEST)
-Received: from localhost ([::1]:55646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5A23690FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 13:19:03 +0200 (CEST)
+Received: from localhost ([::1]:56942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZtpN-0002B7-OM
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 07:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35190)
+	id 1lZtpu-0002gr-Hx
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 07:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtms-0000Qd-Ue
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:15:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57635)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtn6-0000wi-Dp
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:16:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtmr-0005JO-BC
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:15:54 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtn4-0005XF-PJ
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:16:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619176550;
+ s=mimecast20190719; t=1619176566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zz8n/8/z4bmvu0ZaOVtr1MwT8BuCfKJsUBKscIjipX8=;
- b=c9241WzIL9EQwqasxgR5fCPi+PXU9T0qVoYRO9H/A128pgtokfCk+TDBC3EnwZnxNfr/GQ
- QYQeRoPmOrKocvgdsQaebo6IeEQUPLa7+8z2xheVbe1nYYOBhsJrSP2wLl3RNMUZihUfNy
- NBVEU45w4/W5NMcjPwUptEasS14JLXA=
+ bh=4nRMP9X9c9HRREdBGs77CtfW7KdrU9EIgxGnCqBnJTs=;
+ b=RYB+pwEemCSG8UkZSIlWoxeRqfgUcHed+2DTcvAIzg9fU9HuT6Ei2WYkzltUrx0EvGwDUS
+ ou39X04is3yQWc+k9/bc3IGhAEIpmbsKPjpHuN/E1aS36zKxU2lVvpReOwC3z/FGm7eudF
+ Oxa5+T4utdIYvFu/JXnUa2jyCaeD1+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-Ssn9pGfTM3atg8LR5btSVQ-1; Fri, 23 Apr 2021 07:15:46 -0400
-X-MC-Unique: Ssn9pGfTM3atg8LR5btSVQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-78-wgdMeGdxNaSrQc6gW_YoHw-1; Fri, 23 Apr 2021 07:16:02 -0400
+X-MC-Unique: wgdMeGdxNaSrQc6gW_YoHw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 675341006706;
- Fri, 23 Apr 2021 11:15:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B7598030A0;
+ Fri, 23 Apr 2021 11:16:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41A5E687CF;
- Fri, 23 Apr 2021 11:15:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD1E83A47;
+ Fri, 23 Apr 2021 11:15:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BA0F5113525D; Fri, 23 Apr 2021 13:15:28 +0200 (CEST)
+ id 7F008113525D; Fri, 23 Apr 2021 13:15:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v6 12/15] qmp: Include "share" property of memory backends
+Subject: Re: [PATCH v6 13/15] hmp: Print "share" property of memory backends
+ with "info memdev"
 References: <20210421122624.12292-1-david@redhat.com>
- <20210421122624.12292-13-david@redhat.com>
-Date: Fri, 23 Apr 2021 13:15:28 +0200
-In-Reply-To: <20210421122624.12292-13-david@redhat.com> (David Hildenbrand's
- message of "Wed, 21 Apr 2021 14:26:21 +0200")
-Message-ID: <875z0di75b.fsf@dusky.pond.sub.org>
+ <20210421122624.12292-14-david@redhat.com>
+Date: Fri, 23 Apr 2021 13:15:45 +0200
+In-Reply-To: <20210421122624.12292-14-david@redhat.com> (David Hildenbrand's
+ message of "Wed, 21 Apr 2021 14:26:22 +0200")
+Message-ID: <871rb1i74u.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,58 +97,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 David Hildenbrand <david@redhat.com> writes:
 
-> Let's include the property, which can be helpful when debugging,
-> for example, to spot misuse of MAP_PRIVATE which can result in some ugly
-> corner cases (e.g., double-memory consumption on shmem).
->
-> Use the same description we also use for describing the property.
+> Let's print the property.
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Cc: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Eric Blake <eblake@redhat.com>
 > Cc: Igor Mammedov <imammedo@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  hw/core/machine-qmp-cmds.c | 1 +
->  qapi/machine.json          | 3 +++
->  2 files changed, 4 insertions(+)
+>  hw/core/machine-hmp-cmds.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-> index 68a942595a..d41db5b93b 100644
-> --- a/hw/core/machine-qmp-cmds.c
-> +++ b/hw/core/machine-qmp-cmds.c
-> @@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
->          m->merge =3D object_property_get_bool(obj, "merge", &error_abort=
-);
->          m->dump =3D object_property_get_bool(obj, "dump", &error_abort);
->          m->prealloc =3D object_property_get_bool(obj, "prealloc", &error=
-_abort);
-> +        m->share =3D object_property_get_bool(obj, "share", &error_abort=
-);
->          m->policy =3D object_property_get_enum(obj, "policy", "HostMemPo=
-licy",
->                                               &error_abort);
->          host_nodes =3D object_property_get_qobject(obj,
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 758b901185..32650bfe9e 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -796,6 +796,8 @@
->  #
->  # @prealloc: whether memory was preallocated
->  #
-> +# @share: whether memory is private to QEMU or shared (since 6.1)
-> +#
->  # @host-nodes: host nodes for its memory policy
->  #
->  # @policy: memory policy of memory backend
-> @@ -809,6 +811,7 @@
->      'merge':      'bool',
->      'dump':       'bool',
->      'prealloc':   'bool',
-> +    'share':      'bool',
->      'host-nodes': ['uint16'],
->      'policy':     'HostMemPolicy' }}
+> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+> index 58248cffa3..004a92b3d6 100644
+> --- a/hw/core/machine-hmp-cmds.c
+> +++ b/hw/core/machine-hmp-cmds.c
+> @@ -110,6 +110,8 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict=
+)
+>                         m->value->dump ? "true" : "false");
+>          monitor_printf(mon, "  prealloc: %s\n",
+>                         m->value->prealloc ? "true" : "false");
+> +        monitor_printf(mon, "  share: %s\n",
+> +                       m->value->share ? "true" : "false");
+>          monitor_printf(mon, "  policy: %s\n",
+>                         HostMemPolicy_str(m->value->policy));
+>          visit_complete(v, &str);
 
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
