@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A3E3696B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:13:53 +0200 (CEST)
-Received: from localhost ([::1]:45302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04AB3696C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 18:18:38 +0200 (CEST)
+Received: from localhost ([::1]:48410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZyRD-00047k-QW
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54766)
+	id 1lZyVp-0006Bh-8M
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 12:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZyPx-0003fk-Aa
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:12:33 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lZyPv-0007L1-IJ
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:12:32 -0400
-Received: by mail-ej1-x635.google.com with SMTP id l4so74621812ejc.10
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 09:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XZdpzXOcTxqjFSwlRbFb4i3zdLm4WGWVwAD6TdcmzW8=;
- b=bx7T8M0rn8trP03/foASzOB4mP+e5xxRUdvMg0E+hdzdRoB4zYTBubOwBK9ynES7SD
- e+/otNGL08Oxp0r8wukrvw6ITCZ+WCbUOdrxn3+pg68kyWAyPXLn+WEnxoCnEHLIv38V
- 3gmlVYY12yJk3p2+BognzZdonkAZf4+jRyxYO+NE/uumt+gONfmrdbXYzLntSAPA/ykv
- Q9+6s+pqVuexw7UTJRCAzx4ZvU+A1A5pxM1JfKkBrQsx/mM8BeTZ2m9GyT8NVtBG5PF6
- gu7ARrAPxqRVnAhmiFasiKk1QR8Jh0BUgftzdRAqHr5CME+U9LCWAot8Copotua9sS26
- Ji3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XZdpzXOcTxqjFSwlRbFb4i3zdLm4WGWVwAD6TdcmzW8=;
- b=mf24JHKPRhec+ytdJTH2q/dJ40lfcGIQW/CP8EpL0ZmjEyhE5KM/J3XNlbyJmuQFnj
- 3FMtPTfd6CGVEOtl5VY9k1Mj8yw09p+nApZo08Iyw7BpExy9MC5O0yn9N9Udb4BWWp8q
- E8qkLcZY3+xRgKoZsXjOJOyHu61EkX7NZfb+UZkTUleDJluU4putdyOifEKaQ41gYzZS
- V5Sw0niPNxlHEsc0DV2lVtBvqXYL65sh4vaph1nNdpPrQRmXhOULumJ/xTRDOznDV38G
- 6rUBPzU3hCYnsJvgXq/eRVzDFXR2h2Rtx+4P9PE8flOy2mcE6BUQaxgzn3IWTOw+K6pk
- xUkA==
-X-Gm-Message-State: AOAM533QkJd4TTF5ALMWUq9PeF7q7Haku/eviToQk/I7mBJKi9sM1Ch+
- P9jv1pG1l8WAMP6Fw4XXktmtLlR9TH4m6fi4hziepw==
-X-Google-Smtp-Source: ABdhPJyDSlSixAFbOnjHavccWW0qYS4OXblBD8TbXiLfXLQZPckG4f8UKyHPhXB8IOTpe4tAz6yWocPtCSCaUqcDZwQ=
-X-Received: by 2002:a17:906:8303:: with SMTP id
- j3mr5061444ejx.85.1619194349293; 
- Fri, 23 Apr 2021 09:12:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZyUR-0005PA-Fc
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:17:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lZyUM-0000Z7-QL
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 12:17:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619194625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oS5qQ56X4sFZFvzzw/1nbdqNwZEufFO6WNAJ59Kubaw=;
+ b=VS1gHfgbpkcIoUWlqjO0eJ8FNJBgy/WkVJCCyp9xFIUktD/ay3Wfhql2kTS8gjJEzXdhlb
+ vQJZVr1b98OUPy1J4sLVKPQwX+zsPgvKca0aJuRmBohVuLVh30Jmb2k2EoZvkJKTW5Bx8F
+ IRC6QCM/jPj2AM3YNi+c+tTcGONgx0k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-pU6efGNwMI20KbXsmo8-IA-1; Fri, 23 Apr 2021 12:17:03 -0400
+X-MC-Unique: pU6efGNwMI20KbXsmo8-IA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 551E31823E38;
+ Fri, 23 Apr 2021 16:17:02 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-199.ams2.redhat.com [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 970D35D6B1;
+ Fri, 23 Apr 2021 16:16:57 +0000 (UTC)
+Date: Fri, 23 Apr 2021 18:16:56 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 00/36] block: update graph permissions update
+Message-ID: <YILy+AEzjONJ6YLM@merkur.fritz.box>
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210422222429.183108-1-mst@redhat.com>
- <20210422222429.183108-2-mst@redhat.com>
- <CAFEAcA9LLh7kkqujLpiXjRgRkua77kLAv=MbeG8yq3NP-w8uyg@mail.gmail.com>
- <YILNH1DDTTV6TcFO@myrica>
-In-Reply-To: <YILNH1DDTTV6TcFO@myrica>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Apr 2021 17:11:33 +0100
-Message-ID: <CAFEAcA8ijMSO=fEtn3GUGaumMjncz0hDv4e2O7XFSmMXDSiTjQ@mail.gmail.com>
-Subject: Re: [PULL 1/2] amd_iommu: Fix pte_override_page_mask()
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,49 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 at 14:35, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
->
-> On Fri, Apr 23, 2021 at 02:01:19PM +0100, Peter Maydell wrote:
-> > On Thu, 22 Apr 2021 at 23:24, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > >
-> > > AMD IOMMU PTEs have a special mode allowing to specify an arbitrary page
-> > > size. Quoting the AMD IOMMU specification: "When the Next Level bits [of
-> > > a pte] are 7h, the size of the page is determined by the first zero bit
-> > > in the page address, starting from bit 12."
-> > >
-> > > So if the lowest bits of the page address is 0, the page is 8kB. If the
-> > > lowest bits are 011, the page is 32kB. Currently pte_override_page_mask()
-> > > doesn't compute the right value for this page size and amdvi_translate()
-> > > can return the wrong guest-physical address. With a Linux guest, DMA
-> > > from SATA devices accesses the wrong memory and causes probe failure:
-> > >
-> > > qemu-system-x86_64 ... -device amd-iommu -drive id=hd1,file=foo.bin,if=none \
-> > >                 -device ahci,id=ahci -device ide-hd,drive=hd1,bus=ahci.0
-> > > [    6.613093] ata1.00: qc timeout (cmd 0xec)
-> > > [    6.615062] ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
-> > >
-> > > Fix the page mask.
-> > >
-> > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > > Message-Id: <20210421084007.1190546-1-jean-philippe@linaro.org>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > Jean-Philippe, do you know if this is a regression since 5.2?
->
-> I don't think so, I can reproduce it with v5.2.0.
+Am 17.03.2021 um 15:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Hi all!
+> 
+> Finally, I finished v3. Phew.
+> 
+> Missed a soft-freeze. Should we consider it a bugfix? There are bugfixes
+> here but they are mostly theoretical. So, up to Kevin, should it go to
+> current release or to the next..
+> 
+> The main point of the series is fixing some permission update problems
+> (see patches 01-03 as examples), that in turn makes possible more clean
+> inserting and removing of filters (see patch 26 where .active field is
+> dropped finally from backup-top filter, we don't need a workaround
+> anymore).
+> 
+> The series brings util/transactions.c (patch 10) and use of it in
+> block.c, which allows clean block graph change transactions, with
+> possibility of reverting all modifications (movement and removement of
+> children, changing aio context, changing permissions) in reverse order
+> on failure path.
+> 
+> The series also helps Alberto's "Allow changing bs->file on reopen"
+> which we want to merge prior dropping x- prefix from blockdev-reopen
+> command.
 
-OK, thanks; I think I favour not putting this into rc5, then.
+With the minor comments I had so far fixed, patches 1-13 are:
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
--- PMM
+I'll continue next week.
+
+Kevin
+
 
