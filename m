@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF923692EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:19:23 +0200 (CEST)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73133692FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:24:20 +0200 (CEST)
+Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZviM-000396-QL
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
+	id 1lZvnA-0006ni-19
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZvgx-0002Go-Oy
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:17:55 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34796)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lZvl3-0004xq-Fv
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:22:09 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:42531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZvgu-0001gt-Ja
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:17:55 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r7so36391532wrm.1
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:17:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lZvkx-00049v-ET
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:22:08 -0400
+Received: by mail-ej1-x632.google.com with SMTP id w23so58092335ejb.9
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ildtr0qor3UKfG3kLBWxfKp9tP41ZaGB8GYGa+rYeKA=;
- b=B+SBdTJS9glgTVuQb+uKvH1Y0T3Ei4NdCqLKjCzTsJ/kL2yFxEYntS1dH/67/WkwMJ
- ZMhw3Mka9NTdebrmqmvvBv5gRmMHE4HiQLWXRIiLt1q67i68z9hZjHH5VJXjAvNKR7RZ
- Vy6HXR3fSlxNjJU733keRAVC6yWVHIQuFJ7sj2ObIpPWuRN1iDYzde6vslpZRR9MODkx
- zP+excV3TW4T/7D09FlgLDghYJXKZK/+DERcUYoywm7Usb7ysbQvsI/fLMucMa1c5Q7F
- P9dC/uqUwrJO/w3x2oZslJOIKBMA2tuk+yQChmszFAmuLJ8yJZgbl/ut8aDmsZIGPIIv
- qTpg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LIZ3yLB7XNQvuDaOAwAlvalBiV7I/3sIK0WZvkHlMis=;
+ b=pc7nacxxYs6dQxFT24rHQa7/mNyeIs5qF0k9aHM6GaMBSOj7B6LSfD7WsU4Qsntinu
+ ykdYTNfSmGzAIw7gdCyA7tj6Wcq2eIfFx0520lj8yCCM7lfJxARk7JDGqHDor1wykkT+
+ EPtLKic0yVgdqTCzG546okpO3qWjcF+kGzLJ6uZ1cn+3+T0Ddc8sNCDcEcnKR7tXZrKv
+ lqToN3JKe9LBHS+Y7PFzz4ALZyE+OvM6JRAQKdWh8bueKHBLWBDRq3vC5NI3YHyULlux
+ y+hDVgO9Xi/jG/2Rvn0dRInWbM2W3oRLAAYLoP2ElHBVNOW23BHDKVd0+kRmhZyw4uKH
+ YBPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ildtr0qor3UKfG3kLBWxfKp9tP41ZaGB8GYGa+rYeKA=;
- b=fT3ZDv30YFElMTP6w6Y7o6gOiPo8VKSZmKJij09XSgbu/fyQrjk0TKvJ2Q6G79HEsg
- SNqvz0c/F2sZ7jJQJwOVE0c/xPlLYTbFb/3LNWVZBDQx0uRquKZiPXZ4vyuuISFDZNAB
- gQHWjlDFdjFMI6B2pSnuhrY6+Azagn7IxpmpUqkZjGiUeN3Wk5YUklpg+QTDQFSKe8C1
- K5wEJ8ccSHGOqYweY4De44galogTTtvym3jvrKMp8+9dP56Xj5JLXmDjyxuuA0RsmQbk
- CjblVmhhdGEgzXCWF353zIWrEP/R931pQW0G19STfXA82SDlKw80559A7veIhL8/oPgZ
- IHRw==
-X-Gm-Message-State: AOAM530LN0696LyH38XfnfnRX/x5bqgvchbNbm6SWliNx1YuAbhIALiC
- JuhYLBt2h0GmTg+wS8l4JNXHDg==
-X-Google-Smtp-Source: ABdhPJzB6jv2eAfhjUJSvGM9qCLtj6q6lRzafXotfSExGwqDE/JBiv+d32jFsbnWpTZ6wT1Hl5QMrw==
-X-Received: by 2002:adf:eb92:: with SMTP id t18mr4843054wrn.409.1619183871067; 
- Fri, 23 Apr 2021 06:17:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x25sm10861543wmj.34.2021.04.23.06.17.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 06:17:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E84E41FF7E;
- Fri, 23 Apr 2021 14:17:48 +0100 (BST)
-References: <20210422230227.314751-1-richard.henderson@linaro.org>
- <20210422230227.314751-6-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 5/7] linux-user/alpha: Define
- TARGET_ARCH_HAS_KA_RESTORER
-Date: Fri, 23 Apr 2021 14:17:39 +0100
-In-reply-to: <20210422230227.314751-6-richard.henderson@linaro.org>
-Message-ID: <87o8e56sxv.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LIZ3yLB7XNQvuDaOAwAlvalBiV7I/3sIK0WZvkHlMis=;
+ b=XoS+g4wWoTlFPOzRabKCyA1f8dBKwvrlVvb5Q2cky+K1W/2AJ7kayj8l+HLhAARw3s
+ fKg4fB9W3GRyFnyW/y7iT6SBM35nU4ed2VH7LwMWkJzjGP7cF46lHQCuHmux8ndISFED
+ XvxVXLkHhFpThQ4CJh/7idOjQNX0+8IOFjdOH6eTeip73Q1D+vVVvjKOA/Wo/aSTapre
+ bh83EkhaVwZOdVDiG8a57tH90JxdyI4JJ2UDpeKrC2Y0Ab2uZZM+dUZmErw198wEQxNH
+ 8Wke7BWmwHgaAZebb7bd9v8KbxQtDIncPlLWU7UI/cF8bKKtcgw7Muq/YZjqYCsDHBTD
+ fRAg==
+X-Gm-Message-State: AOAM533pU3CuQ3+HEfk4mQ0jCRaLKL3SCgMcdXAJz38UNe+JWbQ6JNAS
+ LRDSIYWLNylgO+ZSNYxrUIW4aHWsvux+0LVHcM02iw==
+X-Google-Smtp-Source: ABdhPJwbdZg9+tIHafnsihndM72Wuj2kfw1cZukgxPinNmQ1vSO7keQTP6gOUJth+H7PZ0fIKGs88rwND4bDx82igfg=
+X-Received: by 2002:a17:906:29ca:: with SMTP id
+ y10mr4325721eje.250.1619184120718; 
+ Fri, 23 Apr 2021 06:22:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+References: <20210423052127.512489-1-its@irrelevant.dk>
+ <20210423052127.512489-3-its@irrelevant.dk>
+In-Reply-To: <20210423052127.512489-3-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 23 Apr 2021 14:21:05 +0100
+Message-ID: <CAFEAcA8xS6Hoqd+Y96FxhrDabsotYURsHHvEeN9yDLDHzzVf+g@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 v2 2/2] hw/block/nvme: disable hotplugging for
+ subsystem-linked controllers
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,22 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> This means that we can share the TARGET_NR_rt_sigaction code,
-> and the target_rt_sigaction structure is unused.  Untangling
-> the ifdefs so that target_sigaction can be shared will wait
-> until the next patch.
+On Fri, 23 Apr 2021 at 06:21, Klaus Jensen <its@irrelevant.dk> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> If a controller is linked to a subsystem, do not allow it to be
+> hotplugged since this will mess up the (possibly shared) namespaces.
+>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 5fe082ec34c5..7606b58a39b9 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -6140,12 +6140,16 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>
+>  static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
+>  {
+> +    DeviceClass *dc;
+>      int cntlid;
+>
+>      if (!n->subsys) {
+>          return 0;
+>      }
+>
+> +    dc = DEVICE_GET_CLASS(n);
+> +    dc->hotpluggable = false;
+> +
+>      cntlid = nvme_subsys_register_ctrl(n, errp);
+>      if (cntlid < 0) {
+>          return -1;
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+I'm not sure this is right -- the DeviceClass is the
+class struct, which there's only one of for every instance
+of the device in the system. So this is saying "if this instance
+is linked to a subsystem, don't let any *future* instances ever
+be hotpluggable". I'm not even sure if it will do the right
+thing for the current device, because this function is called
+from the device's realize method, and the device_set_realized()
+function does the "forbid if dc->hotpluggable is false" check
+before calling the realize method.
 
---=20
-Alex Benn=C3=A9e
+Possibly what you want to do here is to call the
+device_get_hotplugged() function and just make the realize
+method fail with a suitable error if the device is both (a) being
+hotplugged and (b) has a subsystem link; but I'm not an expert on
+hotplug, so I might be wrong.
+
+thanks
+-- PMM
 
