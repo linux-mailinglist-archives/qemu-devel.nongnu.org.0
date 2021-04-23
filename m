@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9C9369066
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:31:36 +0200 (CEST)
-Received: from localhost ([::1]:33632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C36D436906C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:33:39 +0200 (CEST)
+Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZt5z-0004SE-J9
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:31:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52734)
+	id 1lZt7y-0005sV-TW
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZt4f-0003vx-Lk
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23436)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZt5g-0004cd-T7
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:31:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZt4c-000314-Oh
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:30:13 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZt5c-0003jX-OR
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:31:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619173809;
+ s=mimecast20190719; t=1619173871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+sF4Vb4yy2dmW+wlE+GBdJBDsDH2UH89LwFt+Or0/NI=;
- b=Kt1CdcGnhbLQpJ0bzYlTipu0lG42UufayDEIGHAzgkvhcU4HjjU1UlbmGSa7jwBTBSPx38
- Xe9HxT4XWoEPECSusRgdPwSq3iB4rmt3HzjOHIIsLMyYjvmd2jL9XX2LySoiIg0cMI9v1V
- qetuBrYC5H9SXykDRWYZ7VqizyBtm00=
+ bh=RknhiYue7JiEKesRWxGLROK3VNzuUEZg1FoGuLjfdAI=;
+ b=ajSa/l3LvN3EhsBavxEutWU442M8+0rlfBs91TXUoBRWTsG8Q2y26ffcoGTdn6bg76IlE7
+ RwbZzyMFVMcG7SFEtk7HY4nbhnvh/82IyfhLk6bIIf1j2HiGPAkeetpA9ZWr/Ez0COsBPb
+ MUXhulaoUtBmTz5sFqA+MdxC8Y7RJ/0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-fASAhu4oPt-yXyAiC1Jv-g-1; Fri, 23 Apr 2021 06:30:06 -0400
-X-MC-Unique: fASAhu4oPt-yXyAiC1Jv-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-562-9Do7zXQDM0OgUgRstnoZdQ-1; Fri, 23 Apr 2021 06:31:06 -0400
+X-MC-Unique: 9Do7zXQDM0OgUgRstnoZdQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D17BEC7401;
- Fri, 23 Apr 2021 10:30:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 469E7343A2;
+ Fri, 23 Apr 2021 10:31:05 +0000 (UTC)
 Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-2.ams2.redhat.com
  [10.36.115.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 053F4100763B;
- Fri, 23 Apr 2021 10:30:04 +0000 (UTC)
-Subject: Re: qemu/kvm tianocore restart stuck
-To: VoidCC <raidsmainacc@gmail.com>, qemu-devel@nongnu.org
-References: <CABZ9ZfUNmxTPxOBh0SCvaxBFRHKkTfmwAQjqFin=20CwMK64_g@mail.gmail.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 989A319703;
+ Fri, 23 Apr 2021 10:31:03 +0000 (UTC)
+Subject: Re: firmware selection for SEV-ES
+To: Michal Privoznik <mprivozn@redhat.com>, Pavel Hrdina <phrdina@redhat.com>
+References: <6af8c5c7-6166-7f83-9ff0-4c24460577e2@redhat.com>
+ <YIARw09TcakElBco@antique-laptop>
+ <0b5d799c-6290-5585-599e-4c4f37af6202@redhat.com>
+ <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
 From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <4034d473-9902-1a51-0e5a-103109a51e86@redhat.com>
-Date: Fri, 23 Apr 2021 12:30:03 +0200
+Message-ID: <d7b3d128-dc67-5162-2541-eff53be4cb84@redhat.com>
+Date: Fri, 23 Apr 2021 12:31:02 +0200
 MIME-Version: 1.0
-In-Reply-To: <CABZ9ZfUNmxTPxOBh0SCvaxBFRHKkTfmwAQjqFin=20CwMK64_g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,48 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/22/21 22:04, VoidCC wrote:
-> Hello,
+On 04/23/21 10:16, Michal Privoznik wrote:
+> On 4/22/21 4:13 PM, Laszlo Ersek wrote:
+>> On 04/21/21 13:51, Pavel Hrdina wrote:
+>>> On Wed, Apr 21, 2021 at 11:54:24AM +0200, Laszlo Ersek wrote:
+>>>> Hi Brijesh, Tom,
+>>>>
+>>>> in QEMU's "docs/interop/firmware.json", the @FirmwareFeature
+>>>> enumeration
+>>>> has a constant called @amd-sev. We should introduce an @amd-sev-es
+>>>> constant as well, minimally for the following reason:
+>>>>
+>>>> AMD document #56421 ("SEV-ES Guest-Hypervisor Communication Block
+>>>> Standardization") revision 1.40 says in "4.6 System Management Mode
+>>>> (SMM)" that "SMM will not be supported in this version of the
+>>>> specification". This is reflected in OVMF, so an OVMF binary that's
+>>>> supposed to run in a SEV-ES guest must be built without "-D
+>>>> SMM_REQUIRE". (As a consequence, such a binary should be built also
+>>>> without "-D SECURE_BOOT_ENABLE".)
+>>>>
+>>>> At the level of "docs/interop/firmware.json", this means that
+>>>> management
+>>>> applications should be enabled to look for the @amd-sev-es feature (and
+>>>> it also means, for OS distributors, that any firmware descriptor
+>>>> exposing @amd-sev-es will currently have to lack all three of:
+>>>> @requires-smm, @secure-boot, @enrolled-keys).
+>>>>
+>>>> I have three questions:
+>>>>
+>>>>
+>>>> (1) According to
+>>>> <https://libvirt.org/formatdomain.html#launch-security>, SEV-ES is
+>>>> explicitly requested in the domain XML via setting bit#2 in the
+>>>> "policy"
+>>>> element.
+>>>>
+>>>> Can this setting be used by libvirt to look for such a firmware
+>>>> descriptor that exposes @amd-sev-es?
+>>>
+>>> Hi Laszlo and all,
+>>>
+>>> Currently we use only <launchSecurity type='sev'> when selecting
+>>> firmware to make sure that it supports @amd-sev. Since we already have a
+>>> place in the VM XML where users can configure amd-sev-as we can use that
+>>> information when selecting correct firmware that should be used for the
+>>> VM.
+>>
+>> Thanks!
+>>
+>> Should we file a libvirtd Feature Request (where?) for recognizing the
+>> @amd-sev-es feature flag?
 > 
-> I'm hitting a hard wall with qemu and efi.
-> I'm running multiple windows server 2019 vms which usually reboot on
-> updates.
-> 
-> The issue is, efi breaks on reboot.
-> It randomly(race condition?, does not occur consistently) ends up in a
-> blackscreen: no bootloader, no efi screen and the only way to get out of
-> that state is to destroy the vm.
-> moving the host mouse cursor above the console in virt-manager results in a
-> flashing mouse cursor.
-> there are no physical devices attached and there is currently no virtio
-> attachment in use (os has virtio drivers installed)
-> 
-> 
-> Machine is Q35 with tianocore/ovmf efi.
-> I managed to reproduce the same behaviour on rhel 8.3 as well as
-> voidlinux (kernel 5.11)
-> 
-> gdb output of qemu is showing nothing worrisome, else ive compiled ovmf
-> manually for debug output.
-> libvirt logs don't show any issues.
-> 
-> root · Slexy.org Pastebin <https://slexy.org/view/s2w8CdNBx5>
-> 
+> Yes, we should. We can use RedHat bugzilla for that. Laszlo - do you
+> want to do it yourself or shall I help you with that?
 
-Please capture the firmware debug log. It's possible that you have
-rebooted the VM many times, and the variable store got fragmented, at
-the "Fault Tolerant Write" level. During one of these boots, an FTW
-"reclaim" (a kind of "defrag") may run, and that's time consuming, if
-you're not used to it. The firmware log could help. See the
-OvmfPkg/README file for QEMU command line options, for capturing the
-OVMF debug log.
+Please go ahead, I appreciate your help! :)
 
-Please include your QEMU command lines too, in the issue report.
-
-Thanks
+Thanks!
 Laszlo
 
 
