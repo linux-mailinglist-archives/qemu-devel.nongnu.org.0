@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D8D368C2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 06:27:24 +0200 (CEST)
-Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F7B368C35
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 06:30:50 +0200 (CEST)
+Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZnPX-00074h-6A
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 00:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46470)
+	id 1lZnSr-0000zw-L0
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 00:30:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZnO3-0006EF-Gg
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:25:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60906)
+ id 1lZnO4-0006EP-2H
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:25:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZnO1-0000XS-Qy
+ id 1lZnO1-0000XM-Sa
  for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:25:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZnNy-0000Ne-KR
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:46 +0000
+ id 1lZnNx-0000NW-M3
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 98E8D2E815B
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A589F2E804C
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Apr 2021 04:17:17 -0000
-From: Launchpad Bug Tracker <1642421@bugs.launchpad.net>
+Date: Fri, 23 Apr 2021 04:17:18 -0000
+From: Launchpad Bug Tracker <1725707@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,20 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor mail-wz6bkyhu4uqpfausw0ege9b0y3 rodrivg
- th-huth
-X-Launchpad-Bug-Reporter: manut (mail-wz6bkyhu4uqpfausw0ege9b0y3)
+X-Launchpad-Bug-Commenters: berrange carl.brassey jamiedo2nn janitor th-huth
+X-Launchpad-Bug-Reporter: Carl Brassey (carl.brassey)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20161116225238.8681.9123.malonedeb@gac.canonical.com>
-Message-Id: <161915143804.2122.4658815799531399615.malone@loganberry.canonical.com>
-Subject: [Bug 1642421] Re: qemu-system-x86_64: ipv6 and dns is broken with
- netdev user
+References: <150859618440.18353.4071279587956365769.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161915143883.2122.3318749986333824943.malone@loganberry.canonical.com>
+Subject: [Bug 1725707] Re: QEMU sends excess VNC data to websockify even when
+ network is poor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: 7430831a2eb1b0fab9904721e1e4da235207c5aa
+X-Launchpad-Hash: 635304705312ba1bde9fd2f65c4daa1c9a3703d4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1642421 <1642421@bugs.launchpad.net>
+Reply-To: Bug 1725707 <1725707@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,92 +84,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1642421
+https://bugs.launchpad.net/bugs/1725707
 
 Title:
-  qemu-system-x86_64: ipv6 and dns is broken with netdev user
+  QEMU sends excess VNC data to websockify even when network is poor
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hi,
+  Description of problem
+  -------------------------
+  In my latest topic, I reported a bug relate to QEMU's websocket:
+  https://bugs.launchpad.net/qemu/+bug/1718964
 
-  dhcp inside qemu returns an ipv6 address as dns-server. However this is n=
-ot
-  working. If i replace it with the ipv4 address '10.0.0.2' dns is working
-  again. I would expect that the qemu emulated dhcp server responds either =
-an
-  ipv4 configuration that is working or its dns server/forwarder listens on=
- the
-  ipv6 address returned by the emulated dhcp server.
+  It has been fixed but someone mentioned that he met the same problem when=
+ using QEMU with a standalone websocket proxy.
+  That makes me confused because in that scenario QEMU will get a "RAW" VNC=
+ connection.
+  So I did a test and found that there indeed existed some problems. The pr=
+oblem is:
 
-  I used latest qemu from git (
-  b0bcc86d2a87456f5a276f941dc775b265b309cf) and used the following
-  commands:
+  When the client's network is poor (on a low speed WAN), QEMU still
+  sends a lot of data to the websocket proxy, then the client get stuck.
+  It seems that only QEMU has this problem, other VNC servers works
+  fine.
 
-  $ ./qemu-system-x86_64 -enable-kvm -M pc -device virtio-rng-pci -device
-  virtio-net-pci,netdev=3Duser.0 -drive file=3Dbuildenv.img,if=3Dvirtio,bus=
-=3D1,unit=3D0
-  -no-reboot -netdev user,id=3Duser.0,hostfwd=3Dtcp::5022-:22,hostfwd=3Dtcp=
-::7587-:7588
-  -m 1024 -usb -nographic -smp 4
+  Environment
+  -------------------------
+  All of the following versions have been tested:
 
-  buildenv.img is a debian jessie amd64 installation.
+  QEMU: 2.8.1.1 / 2.9.1 / 2.10.1 / master (Up to date)
+  Host OS: Ubuntu 16.04 Server LTS / CentOS 7 x86_64_1611
+  Websocket Proxy: websockify 0.6.0 / 0.7.0 / 0.8.0 / master
+  VNC Web Client: noVNC 0.5.1 / 0.61 / 0.62 / master
+  Other VNC Servers: TigerVNC 1.8 / x11vnc 0.9.13 / TightVNC 2.8.8
 
-  Inside qemu the network is configured to use dhcp:
+  Steps to reproduce:
+  -------------------------
+  100% reproducible.
 
-  $ cat /etc/network/interfaces
-  allow-hotplug eth0
-  iface eth0 inet dhcp
+  1. Launch a QEMU instance (No need websocket option):
+  qemu-system-x86_64 -enable-kvm -m 6G ./win_x64.qcow2 -vnc :0
 
-  $ ifconfig eth0
-  eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:56
-            inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-            inet6 addr: fe80::5054:ff:fe12:3456/64 Scope:Link
-            inet6 addr: fec0::5054:ff:fe12:3456/64 Scope:Site
-            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-            RX packets:10 errors:0 dropped:0 overruns:0 frame:0
-            TX packets:28 errors:0 dropped:0 overruns:0 carrier:0
-            collisions:0 txqueuelen:1000
-            RX bytes:3215 (3.1 KiB)  TX bytes:3638 (3.5 KiB)
+  2. Launch websockify on a separate host and connect to QEMU's VNC port
 
-  $ cat /etc/resolv.conf
-  nameserver fec0::3
+  3. Open VNC Web Client (noVNC/vnc.html) in browser and connect to
+  websockify
 
-  $ arp google.de
-  google.de: Host name lookup failure
+  4. Play a video (e.g. Watch YouTube) on VM (To produce a lot of frame
+  buffer update)
 
-  $ strace -f arp google.de
-  ...
-  socket(PF_INET6, SOCK_DGRAM|SOCK_NONBLOCK, IPPROTO_IP) =3D 4
-  connect(4, {sa_family=3DAF_INET6, sin6_port=3Dhtons(53), inet_pton(AF_INE=
-T6, "fec0::3", &sin6_addr), sin6_flowinfo=3D0, sin6_scope_id=3D0}, 28) =3D 0
-  poll([{fd=3D4, events=3DPOLLOUT}], 1, 0)    =3D 1 ([{fd=3D4, revents=3DPO=
-LLOUT}])
-  sendto(4, "\17\320\1\0\0\1\0\0\0\0\0\0\6google\2de\0\0\1\0\1", 27, MSG_NO=
-SIGNAL, NULL, 0) =3D 27
-  poll([{fd=3D4, events=3DPOLLIN}], 1, 5000)  =3D 0 (Timeout)
-  poll([{fd=3D4, events=3DPOLLOUT}], 1, 0)    =3D 1 ([{fd=3D4, revents=3DPO=
-LLOUT}])
-  sendto(4, "\17\320\1\0\0\1\0\0\0\0\0\0\6google\2de\0\0\1\0\1", 27, MSG_NO=
-SIGNAL, NULL, 0) =3D 27
-  poll([{fd=3D4, events=3DPOLLIN}], 1, 5000)  =3D 0 (Timeout)
-  close(4)                                =3D 0
-  ...
+  5. Limit (e.g. Use NetLimiter) the client inbound bandwidth to 300KB/S
+  (To simulate a low speed WAN)
 
-  $ echo nameserver 10.0.0.2 > /etc/resolv.conf
+  6. Then client's output gets stuck(less than 1 fps), the cursor is
+  almost impossible to move
 
-  $ arp google.de
-  google.de (216.58.208.35) -- no entry
+  7. Monitor network traffic on the proxy server
 
-  Note: I reported this bug also to debian: https://bugs.debian.org/cgi-
-  bin/bugreport.cgi?bug=3D844566
+  Current result:
+  -------------------------
+  Monitor Downlink/Uplink network traffic on the proxy server
+  (Refer to the attachments for more details).
 
-  Regards,
+  1. Used with QEMU
+  - D: 5.9 MB/s U: 5.7 MB/s (Client on LAN)
+  - D: 4.3 MB/s U: 334 KB/s (Client on WAN)
 
-    Manuel
+  2. Used with other VNC servers
+  - D: 5.9 MB/s U: 5.6 MB/s (Client on LAN)
+  - D: 369 KB/s U: 328 KB/s (Client on WAN)
+
+  It is found that when the client's network is poor, all the VNC
+  servers (tigervnc/x11vnc/tightvnc) will reduce the VNC data send to
+  websocket proxy (uplink and downlink symmetry), but QEMU never drop
+  any frames and still sends a lot of data to websockify, the client has
+  no capacity to accept so much data, more and more data are accumulated
+  in the websockify, then it crashes.
+
+  Expected results:
+  -------------------------
+  When the client's network is poor (WAN), QEMU will reduce the VNC data se=
+nd to websocket proxy.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1642421/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1725707/+subscriptions
 
