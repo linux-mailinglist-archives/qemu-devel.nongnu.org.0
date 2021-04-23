@@ -2,74 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295E3368E3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 10:01:48 +0200 (CEST)
-Received: from localhost ([::1]:59276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328C0368E75
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 10:07:15 +0200 (CEST)
+Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZql1-00084x-8m
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 04:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50312)
+	id 1lZqqI-0000ta-7x
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 04:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lZqjR-0007Xg-Pp
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:00:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35980)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lZqod-0000KR-Rz; Fri, 23 Apr 2021 04:05:31 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lZqjP-0005yw-3y
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:00:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619164804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p2swGo3/mD9rXnyugUamB/2Z5yI9gxRWgXfZ1F6fKCY=;
- b=WG/1NGa7P/oiyLa0LYEUAt+31yObX8cghQ5v4LoDcPNp4/DiCybXVGTxdtDZZ9ACw9pYeB
- e8PtpXzJsSg46TlsyPQJ651mtANYA0+Aub5yJGbHqz8r6SQbV9ue3VadU8bSRKBgKUGskY
- aaFfJC7nN9EtZzLvqhlmBNBkC2d/HzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-gTotalTMMsO09-ugqBOQpA-1; Fri, 23 Apr 2021 04:00:02 -0400
-X-MC-Unique: gTotalTMMsO09-ugqBOQpA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FA7E1927802;
- Fri, 23 Apr 2021 08:00:01 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-225.pek2.redhat.com
- [10.72.13.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75B961037E86;
- Fri, 23 Apr 2021 07:59:51 +0000 (UTC)
-Subject: Re: [PATCH RFC 1/1] msix: add hmp interface to dump MSI-X info
-To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
-References: <20210423044713.3403-1-dongli.zhang@oracle.com>
- <20210423044713.3403-2-dongli.zhang@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <c4d7bc63-cb44-0795-a37c-dbe2cc9f6fb8@redhat.com>
-Date: Fri, 23 Apr 2021 15:59:49 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lZqoc-000115-1T; Fri, 23 Apr 2021 04:05:31 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13N84nQN121877; Fri, 23 Apr 2021 04:05:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=63OoSKqiXj51nxdAjVGrvrwvpm1sOyzOTnSC+6uyZnA=;
+ b=tHC7u++tti05b60B7DwQbtKqXQdy9fwQo8Mq+S0nYXinUjr+ThQtoVboufgKUqKM5c0a
+ tJa0FKgUp4UGuLiGAnG2kjQhrF47fQwfG97mQ/N1hmigUXfFW+Y0/sqsnOv0sxJKiiRL
+ MMh8lfhgvVqXLvFfkV/7s8ZTSBvvuDYMd7p0GaITMBhZX/f9YefW6u73e9ZReEyNL+4o
+ Ex3ZtXIgIRBPFvEykHS52tPYzU9PrMnU7YvkyYxBYwno04+YVRx4j0hvU7e4jjZHOX+g
+ gdtH8JmjNey+rF7E/e6Ib8r7xz9eCYuyC27fJN/ulFiiXAL6Lbd/J6ES7jfFcL26ZQcR QA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3835fbhmmc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 04:05:26 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13N85L17126024;
+ Fri, 23 Apr 2021 04:05:26 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3835fbhmkg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 04:05:26 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13N83Lxt026794;
+ Fri, 23 Apr 2021 08:05:23 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 37yqa8k8t5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Apr 2021 08:05:23 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13N85LvO30802386
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Apr 2021 08:05:21 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3CC5142047;
+ Fri, 23 Apr 2021 08:05:21 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA8E842042;
+ Fri, 23 Apr 2021 08:05:20 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.57.182])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 23 Apr 2021 08:05:20 +0000 (GMT)
+Subject: Re: Compiling the s390-ccw bios with clang
+To: Thomas Huth <thuth@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <YIFMt+xg+xH+M4rd@redhat.com>
+ <CAFEAcA8r2k9f=XG6T_hYk542-dDJnR7Lr8DZnyc=SFgnzNYxxQ@mail.gmail.com>
+ <089df242-8788-a162-4a75-4c9c9e04a64e@redhat.com>
+ <8afd0f34-7e75-2661-9ea5-3ebadff3b85d@redhat.com>
+ <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
+ <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
+ <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
+ <20210422155238.kak7tl3xnup5vod7@steredhat>
+ <da8f7353-8e2a-82f9-c324-18321649ccb5@redhat.com>
+ <fb127bc3-aa4a-dc04-484a-d747c3aa503e@redhat.com>
+ <20210423064001.fjouibdcwadtgijy@steredhat>
+ <b167616b-1908-1a76-a2af-35b87c05d570@de.ibm.com>
+ <8abfb851-a5d2-8608-fe96-2eb3014adb96@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <637bfd21-9db5-15c7-4dcd-0f883041063e@de.ibm.com>
+Date: Fri, 23 Apr 2021 10:05:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-In-Reply-To: <20210423044713.3403-2-dongli.zhang@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <8abfb851-a5d2-8608-fe96-2eb3014adb96@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: F8uDsZUB7y4ztZ9t1tpA3iKXSmKbWmwk
+X-Proofpoint-GUID: nx4_PcFysz3m7AOPxwUTJqFCiT3s3CZe
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-22_15:2021-04-22,
+ 2021-04-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 suspectscore=0 mlxlogscore=982 clxscore=1015 bulkscore=0
+ phishscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104230049
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,207 +123,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- joe.jin@oracle.com, dgilbert@redhat.com, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-ÔÚ 2021/4/23 ÏÂÎç12:47, Dongli Zhang Ð´µÀ:
-> This patch is to add the HMP interface to dump MSI-X table and PBA, in
-> order to help diagnose the loss of IRQ issue in VM (e.g., if an MSI-X
-> vector is erroneously masked permanently). Here is the example with
-> vhost-scsi:
->
-> (qemu) info msix /machine/peripheral/vscsi0
-> MSI-X Table
-> 0xfee01004 0x00000000 0x00000022 0x00000000
-> 0xfee02004 0x00000000 0x00000023 0x00000000
-> 0xfee01004 0x00000000 0x00000023 0x00000000
-> 0xfee01004 0x00000000 0x00000021 0x00000000
-> 0xfee02004 0x00000000 0x00000022 0x00000000
-> 0x00000000 0x00000000 0x00000000 0x00000001
-> 0x00000000 0x00000000 0x00000000 0x00000001
-> MSI-X PBA
-> 0 0 0 0 0 0 0
->
-> Since the number of MSI-X entries is not determined and might be very
-> large, it is sometimes inappropriate to dump via QMP.
->
-> Therefore, this patch dumps MSI-X information only via HMP, which is
-> similar to the implementation of hmp_info_mem().
 
+On 23.04.21 09:57, Thomas Huth wrote:
+> On 23/04/2021 08.52, Christian Borntraeger wrote:
+> [...]
+>> We can of course discuss if we compile the BIOS for z10 instead of z900. TCG
+>> in the mean time can handle up to z13 and z10 is now also 13 years old.
+> 
+> I'd really like to see us supporting Clang in the s390-ccw bios, too, since it provides additional useful compiler warnings ... but switching the -mz900 to -mz10 here also means that we could not boot VMs anymore that use a CPU that is older than the z10...
+> 
+> Is anybody still using such old CPUs? Should we maybe deprecate all CPUs that are older than the z10 in QEMU? Alternatively, we could try to detect Clang in the Makefile, and only use -mz10 in that case and continue to use -mz900 in the other case...?
 
-Besides PBA, I think it should be also useful to introduce device 
-specifc callbacks for dump the MSI messages used by the device.
-
-Thanks
-
-
->
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
->   hmp-commands-info.hx   | 13 +++++++++++
->   hw/pci/msix.c          | 49 ++++++++++++++++++++++++++++++++++++++++++
->   include/hw/pci/msix.h  |  2 ++
->   include/monitor/hmp.h  |  1 +
->   softmmu/qdev-monitor.c | 25 +++++++++++++++++++++
->   5 files changed, 90 insertions(+)
->
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index ab0c7aa5ee..cbd056442b 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -221,6 +221,19 @@ SRST
->       Show PCI information.
->   ERST
->   
-> +    {
-> +        .name       = "msix",
-> +        .args_type  = "dev:s",
-> +        .params     = "dev",
-> +        .help       = "dump MSI-X information",
-> +        .cmd        = hmp_info_msix,
-> +    },
-> +
-> +SRST
-> +  ``info msix`` *dev*
-> +    Dump MSI-X information for device *dev*.
-> +ERST
-> +
->   #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
->       defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
->       {
-> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-> index ae9331cd0b..a93d31da9f 100644
-> --- a/hw/pci/msix.c
-> +++ b/hw/pci/msix.c
-> @@ -22,6 +22,7 @@
->   #include "sysemu/xen.h"
->   #include "migration/qemu-file-types.h"
->   #include "migration/vmstate.h"
-> +#include "monitor/monitor.h"
->   #include "qemu/range.h"
->   #include "qapi/error.h"
->   #include "trace.h"
-> @@ -669,3 +670,51 @@ const VMStateDescription vmstate_msix = {
->           VMSTATE_END_OF_LIST()
->       }
->   };
-> +
-> +static void msix_dump_table(Monitor *mon, PCIDevice *dev)
-> +{
-> +    int vector, i, offset;
-> +    uint32_t val;
-> +
-> +    monitor_printf(mon, "MSI-X Table\n");
-> +
-> +    for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-> +        for (i = 0; i < 4; i++) {
-> +            offset = vector * PCI_MSIX_ENTRY_SIZE + i * 4;
-> +            val = pci_get_long(dev->msix_table + offset);
-> +
-> +            monitor_printf(mon, "0x%08x ", val);
-> +        }
-> +        monitor_printf(mon, "\n");
-> +    }
-> +}
-> +
-> +static void msix_dump_pba(Monitor *mon, PCIDevice *dev)
-> +{
-> +    int vector;
-> +
-> +    monitor_printf(mon, "MSI-X PBA\n");
-> +
-> +    for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-> +        monitor_printf(mon, "%d ", !!msix_is_pending(dev, vector));
-> +
-> +        if (vector % 16 == 15) {
-> +            monitor_printf(mon, "\n");
-> +        }
-> +    }
-> +
-> +    if (vector % 16 != 15) {
-> +        monitor_printf(mon, "\n");
-> +    }
-> +}
-> +
-> +void msix_dump_info(Monitor *mon, PCIDevice *dev, Error **errp)
-> +{
-> +    if (!msix_present(dev)) {
-> +        error_setg(errp, "MSI-X not available");
-> +        return;
-> +    }
-> +
-> +    msix_dump_table(mon, dev);
-> +    msix_dump_pba(mon, dev);
-> +}
-> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-> index 4c4a60c739..10a4500295 100644
-> --- a/include/hw/pci/msix.h
-> +++ b/include/hw/pci/msix.h
-> @@ -47,6 +47,8 @@ int msix_set_vector_notifiers(PCIDevice *dev,
->                                 MSIVectorPollNotifier poll_notifier);
->   void msix_unset_vector_notifiers(PCIDevice *dev);
->   
-> +void msix_dump_info(Monitor *mon, PCIDevice *dev, Error **errp);
-> +
->   extern const VMStateDescription vmstate_msix;
->   
->   #define VMSTATE_MSIX_TEST(_field, _state, _test) {                   \
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index 605d57287a..46e0efc213 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -36,6 +36,7 @@ void hmp_info_irq(Monitor *mon, const QDict *qdict);
->   void hmp_info_pic(Monitor *mon, const QDict *qdict);
->   void hmp_info_rdma(Monitor *mon, const QDict *qdict);
->   void hmp_info_pci(Monitor *mon, const QDict *qdict);
-> +void hmp_info_msix(Monitor *mon, const QDict *qdict);
->   void hmp_info_tpm(Monitor *mon, const QDict *qdict);
->   void hmp_info_iothreads(Monitor *mon, const QDict *qdict);
->   void hmp_quit(Monitor *mon, const QDict *qdict);
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index a9955b97a0..2a37d03fb7 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -19,6 +19,7 @@
->   
->   #include "qemu/osdep.h"
->   #include "hw/sysbus.h"
-> +#include "hw/pci/msix.h"
->   #include "monitor/hmp.h"
->   #include "monitor/monitor.h"
->   #include "monitor/qdev.h"
-> @@ -1006,3 +1007,27 @@ bool qmp_command_available(const QmpCommand *cmd, Error **errp)
->       }
->       return true;
->   }
-> +
-> +void hmp_info_msix(Monitor *mon, const QDict *qdict)
-> +{
-> +    const char *name = qdict_get_str(qdict, "dev");
-> +    DeviceState *dev = find_device_state(name, NULL);
-> +    PCIDevice *pci_dev;
-> +    Error *err = NULL;
-> +
-> +    if (!dev) {
-> +        error_setg(&err, "Device %s not found", name);
-> +        goto exit;
-> +    }
-> +
-> +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> +        error_setg(&err, "Not a PCI device");
-> +        goto exit;
-> +    }
-> +
-> +    pci_dev = PCI_DEVICE(dev);
-> +    msix_dump_info(mon, pci_dev, &err);
-> +
-> +exit:
-> +    hmp_handle_error(mon, err);
-> +}
-
+If we can make it "non-ugly" this is certainly the most unproblematic variant.
 
