@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD6B368FFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:02:54 +0200 (CEST)
-Received: from localhost ([::1]:45868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C296369018
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:12:14 +0200 (CEST)
+Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZseD-0004eP-AP
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:02:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45836)
+	id 1lZsnF-0006gF-8W
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZsc5-00047g-0T
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:00:41 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lZsc3-0002Hn-AP
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:00:40 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id r7so35755465wrm.1
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 03:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ZhkvdD2falBWjH39aLZbaxXg6btj6yMqWm/MD6cXMQI=;
- b=dg/zdUh/pLjV5xH4ifq7GDJofu343dtVKvgUXLzTzcJdvz3W0tKGeWKRSzP+/9jZc2
- 00P6tjJgcnOInF6Qw8pwqCZTpXuQs6LxwvCQkzp8ot3fov53BnSAdQGGcjSEJ+xBPsLH
- 1BoU2t6deRx6x3+SkrJp5lzLtpb8sM9vCsjK9Ld3D3FKVxKBm+Cy28Hq2wtb9MucrIkg
- K70FgqParZR31rWyItf+dsxhIfzkAZ/tGERsrI8JmehQVjw5GlgljjXaydxf31N7F3Ra
- FXQt1aF6MkIvAn2J3cFv3hM7yR1LtK/kXkHKzmxWhvSQFQkfhshkocr/DkyPkO1GFksH
- KrBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZhkvdD2falBWjH39aLZbaxXg6btj6yMqWm/MD6cXMQI=;
- b=rjj1EicOGTUdK/6WLXM/3JrRFsVguudOoBXCcYfCHcMqZ0MnvjhP9NXIou4MqXdC7Z
- YtUzo54WlIIM5pqW5L3FvNjAJrkXWyHIGT8deioVVdzWkQ0/l/3z3Yuu4/bVw0YjdXxp
- U/ccMT4o5DvlpeEuxYsOST4IrIhZwcrzsn3NeEVCV/QzSL9qnt3Gp+RM8DNiqE5G7Qoo
- qpur0DQVFlm3zaY484Pk2W2l7jOxDfQJeIOTzKiPIFW/9dUYgaKZGW5ilIBYvdR9+PEm
- i2wE+Z9FMSDXE2Vo8cTr26lilv3A5k1BPuC1cyP2RQAIejXu239e58uuDUwqk1DjY6eQ
- Pulg==
-X-Gm-Message-State: AOAM530eh32FllBnWCVK0Gq9AZibl3yCzb9EkCtwZQOChOTYc+B+DCI3
- 1BViUF8ktdt3wqwcLsn8P0A3vQ==
-X-Google-Smtp-Source: ABdhPJw7QEv5Fx5jBUG89Y/dHAHjE7z6c6yxAFU3HjFb5NndW3tmp1Sl/ShBghCNnnlfNb9fnpDj7Q==
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr3727416wrn.6.1619172036621;
- Fri, 23 Apr 2021 03:00:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u5sm10239201wmg.25.2021.04.23.03.00.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 03:00:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D840A1FF7E;
- Fri, 23 Apr 2021 11:00:34 +0100 (BST)
-References: <20210422230227.314751-1-richard.henderson@linaro.org>
- <20210422230227.314751-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 1/7] linux-user/alpha: Fix rt sigframe return
-Date: Fri, 23 Apr 2021 11:00:25 +0100
-In-reply-to: <20210422230227.314751-2-richard.henderson@linaro.org>
-Message-ID: <87zgxp722l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lZslU-0005k9-C4; Fri, 23 Apr 2021 06:10:25 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:49920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lZslG-0007y8-C8; Fri, 23 Apr 2021 06:10:20 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 748982E1ACA;
+ Fri, 23 Apr 2021 13:10:03 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 4xWuigzzGg-A21SqjWS; Fri, 23 Apr 2021 13:10:03 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1619172603; bh=1PGiocvptTmNUqDgyqU5wovxG7+xUkTGUXrbrpBZsKw=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=vAgWBX75a7N3FNfv0Dz1jqTtNQgqxAfekmRc0VhZ8/0I3BI5FC5d1DNCSYzsrU9GW
+ /HhZxnq/4jUL+3sHkLcrfXh29AZud5pUyyGeYBtkejNyaSzE1bAHMvvswmiONGDvwO
+ oHjczOOJs0V5cYomJjTBJmIvEXtjr6CFMj8vF9q0=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:219::1:22])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ T1QzYg5AXz-A2pq8b2A; Fri, 23 Apr 2021 13:10:02 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Fri, 23 Apr 2021 13:09:58 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 06/33] util/async: aio_co_schedule(): support
+ reschedule in same ctx
+Message-ID: <YIKc9pCDmN2FRDV4@rvkaganb>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-7-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210416080911.83197-7-vsementsov@virtuozzo.com>
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,22 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Apr 16, 2021 at 11:08:44AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> With the following patch we want to call wake coroutine from thread.
+> And it doesn't work with aio_co_wake:
+> Assume we have no iothreads.
+> Assume we have a coroutine A, which waits in the yield point for
+> external aio_co_wake(), and no progress can be done until it happen.
+> Main thread is in blocking aio_poll() (for example, in blk_read()).
+> 
+> Now, in a separate thread we do aio_co_wake(). It calls  aio_co_enter(),
+> which goes through last "else" branch and do aio_context_acquire(ctx).
+> 
+> Now we have a deadlock, as aio_poll() will not release the context lock
+> until some progress is done, and progress can't be done until
+> aio_co_wake() wake the coroutine A. And it can't because it wait for
+> aio_context_acquire().
+> 
+> Still, aio_co_schedule() works well in parallel with blocking
+> aio_poll(). So we want use it. Let's add a possibility of rescheduling
+> coroutine in same ctx where it was yield'ed.
+> 
+> Fetch co->ctx in same way as it is done in aio_co_wake().
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/aio.h | 2 +-
+>  util/async.c        | 8 ++++++++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/block/aio.h b/include/block/aio.h
+> index 5f342267d5..744b695525 100644
+> --- a/include/block/aio.h
+> +++ b/include/block/aio.h
+> @@ -643,7 +643,7 @@ static inline bool aio_node_check(AioContext *ctx, bool is_external)
+>  
+>  /**
+>   * aio_co_schedule:
+> - * @ctx: the aio context
+> + * @ctx: the aio context, if NULL, the current ctx of @co will be used.
+>   * @co: the coroutine
+>   *
+>   * Start a coroutine on a remote AioContext.
+> diff --git a/util/async.c b/util/async.c
+> index 674dbefb7c..750be555c6 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -545,6 +545,14 @@ fail:
+>  
+>  void aio_co_schedule(AioContext *ctx, Coroutine *co)
+>  {
+> +    if (!ctx) {
+> +        /*
+> +         * Read coroutine before co->ctx.  Matches smp_wmb in
+> +         * qemu_coroutine_enter.
+> +         */
+> +        smp_read_barrier_depends();
+> +        ctx = qatomic_read(&co->ctx);
+> +    }
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+I'd rather not extend this interface, but add a new one on top.  And
+document how it's different from aio_co_wake().
 
-> We incorrectly used the offset of the non-rt sigframe.
->
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Roman.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+>      trace_aio_co_schedule(ctx, co);
+>      const char *scheduled = qatomic_cmpxchg(&co->scheduled, NULL,
+>                                             __func__);
+> -- 
+> 2.29.2
+> 
 
