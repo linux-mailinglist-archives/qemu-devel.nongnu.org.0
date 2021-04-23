@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36D436906C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:33:39 +0200 (CEST)
-Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C937F36906E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:34:16 +0200 (CEST)
+Received: from localhost ([::1]:38924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZt7y-0005sV-TW
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
+	id 1lZt8Z-0006er-SX
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZt5g-0004cd-T7
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:31:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40301)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZt5t-0004or-Ct
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:31:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZt5c-0003jX-OR
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:31:16 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lZt5q-0003nm-I5
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:31:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619173871;
+ s=mimecast20190719; t=1619173884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RknhiYue7JiEKesRWxGLROK3VNzuUEZg1FoGuLjfdAI=;
- b=ajSa/l3LvN3EhsBavxEutWU442M8+0rlfBs91TXUoBRWTsG8Q2y26ffcoGTdn6bg76IlE7
- RwbZzyMFVMcG7SFEtk7HY4nbhnvh/82IyfhLk6bIIf1j2HiGPAkeetpA9ZWr/Ez0COsBPb
- MUXhulaoUtBmTz5sFqA+MdxC8Y7RJ/0=
+ bh=4CzG5FikExKyJ3KZeuGJMNLB8X6KOSfGNoI+Q2FaI6Y=;
+ b=SnkGcSRt4m4Mim2ZppCtcxSrV6MM2bSuUMApl0IMKl1ARUjNiAUK4lC4hJvRb14PocFpyN
+ aIIyhImyEJNsBHAOiGWsW4yCKejAboJOoEw22Szac8IaO+yC8HWZIAiu/jntdu7uRQDvFb
+ sZQApqn1cdQ91jDT8OR3GqYZF8Yf7RE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-9Do7zXQDM0OgUgRstnoZdQ-1; Fri, 23 Apr 2021 06:31:06 -0400
-X-MC-Unique: 9Do7zXQDM0OgUgRstnoZdQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-44-XPh2Utw9N6u4K6BCxF9urw-1; Fri, 23 Apr 2021 06:31:22 -0400
+X-MC-Unique: XPh2Utw9N6u4K6BCxF9urw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 469E7343A2;
- Fri, 23 Apr 2021 10:31:05 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-2.ams2.redhat.com
- [10.36.115.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 989A319703;
- Fri, 23 Apr 2021 10:31:03 +0000 (UTC)
-Subject: Re: firmware selection for SEV-ES
-To: Michal Privoznik <mprivozn@redhat.com>, Pavel Hrdina <phrdina@redhat.com>
-References: <6af8c5c7-6166-7f83-9ff0-4c24460577e2@redhat.com>
- <YIARw09TcakElBco@antique-laptop>
- <0b5d799c-6290-5585-599e-4c4f37af6202@redhat.com>
- <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <d7b3d128-dc67-5162-2541-eff53be4cb84@redhat.com>
-Date: Fri, 23 Apr 2021 12:31:02 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C912F107ACCA;
+ Fri, 23 Apr 2021 10:31:20 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-167.ams2.redhat.com
+ [10.36.113.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A29B1865D;
+ Fri, 23 Apr 2021 10:31:14 +0000 (UTC)
+Date: Fri, 23 Apr 2021 12:31:11 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PATCH v5 0/4] accel/tcg: Make sure that tb->size != 0 after
+ translation
+Message-ID: <20210423123111.0575608e.cohuck@redhat.com>
+In-Reply-To: <20210416154939.32404-1-iii@linux.ibm.com>
+References: <20210416154939.32404-1-iii@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,71 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/23/21 10:16, Michal Privoznik wrote:
-> On 4/22/21 4:13 PM, Laszlo Ersek wrote:
->> On 04/21/21 13:51, Pavel Hrdina wrote:
->>> On Wed, Apr 21, 2021 at 11:54:24AM +0200, Laszlo Ersek wrote:
->>>> Hi Brijesh, Tom,
->>>>
->>>> in QEMU's "docs/interop/firmware.json", the @FirmwareFeature
->>>> enumeration
->>>> has a constant called @amd-sev. We should introduce an @amd-sev-es
->>>> constant as well, minimally for the following reason:
->>>>
->>>> AMD document #56421 ("SEV-ES Guest-Hypervisor Communication Block
->>>> Standardization") revision 1.40 says in "4.6 System Management Mode
->>>> (SMM)" that "SMM will not be supported in this version of the
->>>> specification". This is reflected in OVMF, so an OVMF binary that's
->>>> supposed to run in a SEV-ES guest must be built without "-D
->>>> SMM_REQUIRE". (As a consequence, such a binary should be built also
->>>> without "-D SECURE_BOOT_ENABLE".)
->>>>
->>>> At the level of "docs/interop/firmware.json", this means that
->>>> management
->>>> applications should be enabled to look for the @amd-sev-es feature (and
->>>> it also means, for OS distributors, that any firmware descriptor
->>>> exposing @amd-sev-es will currently have to lack all three of:
->>>> @requires-smm, @secure-boot, @enrolled-keys).
->>>>
->>>> I have three questions:
->>>>
->>>>
->>>> (1) According to
->>>> <https://libvirt.org/formatdomain.html#launch-security>, SEV-ES is
->>>> explicitly requested in the domain XML via setting bit#2 in the
->>>> "policy"
->>>> element.
->>>>
->>>> Can this setting be used by libvirt to look for such a firmware
->>>> descriptor that exposes @amd-sev-es?
->>>
->>> Hi Laszlo and all,
->>>
->>> Currently we use only <launchSecurity type='sev'> when selecting
->>> firmware to make sure that it supports @amd-sev. Since we already have a
->>> place in the VM XML where users can configure amd-sev-as we can use that
->>> information when selecting correct firmware that should be used for the
->>> VM.
->>
->> Thanks!
->>
->> Should we file a libvirtd Feature Request (where?) for recognizing the
->> @amd-sev-es feature flag?
+On Fri, 16 Apr 2021 17:49:35 +0200
+Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+
+> If arch-specific code generates a translation block of size 0,
+> tb_gen_code() may generate a spurious exception.
 > 
-> Yes, we should. We can use RedHat bugzilla for that. Laszlo - do you
-> want to do it yourself or shall I help you with that?
+> Fix s390x (patch 1), ARM (patch 2) and xtensa (patch 3) and add an
+> assertion in order to catch such situations earlier (patch 4).
+> 
+> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02037.html
+> v1 -> v2: Fix target/s390x instead of trying to tolerate tb->size == 0
+>           in tb_gen_code().
+> 
+> v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02101.html
+> v2 -> v3: Split the common code change into a separate patch, add the
+>           ARM patch in order to fix
+>           https://gitlab.com/cohuck/qemu/-/jobs/1178409450
+> 
+> v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02332.html
+> v3 -> v4: Add the xtensa patch in order to fix
+>           https://gitlab.com/cohuck/qemu/-/jobs/1178409540
+> 
+> v4: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02592.html
+> v4 -> v5: Handle thumb: the following C code triggers the assertion:
+>           typedef void (*funcptr)(void);
+>           int main() { funcptr f = (funcptr)0xffff0001; f(); }
+> 
+> Ilya Leoshkevich (4):
+>   target/s390x: Fix translation exception on illegal instruction
+>   target/arm: Make sure that commpage's tb->size != 0
+>   target/xtensa: Make sure that tb->size != 0
+>   accel/tcg: Assert that tb->size != 0 after translation
+> 
+>  accel/tcg/translate-all.c |  1 +
+>  target/arm/translate.c    |  2 ++
+>  target/s390x/translate.c  | 16 +++++++++++-----
+>  target/xtensa/translate.c |  3 +++
+>  4 files changed, 17 insertions(+), 5 deletions(-)
+> 
 
-Please go ahead, I appreciate your help! :)
-
-Thanks!
-Laszlo
+So, what's the way forward here? I can pick this if I get an ack for
+the arm patch. If someone else wants to take this, I'll just ack the
+s390x patch.
 
 
