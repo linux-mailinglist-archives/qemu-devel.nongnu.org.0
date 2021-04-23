@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94493693A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:35:34 +0200 (CEST)
-Received: from localhost ([::1]:47412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41B53693D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:39:28 +0200 (CEST)
+Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZvy1-0004si-9u
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36292)
+	id 1lZw1n-0007oZ-DF
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZvrS-0002A9-Q1
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:28:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48754)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lZvwK-0004ZF-0c; Fri, 23 Apr 2021 09:33:48 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:58269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZvrL-00080b-Qd
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:28:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619184514;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2fImo1UBSn7MQHkyOHGDcoBJTKrDdZ1VVC6oYL9UIFU=;
- b=QI2tWq469jqI2LoBMktWlGrK3zkoPL9gvO/PmG6+POOf76o4heQV4/BbOq9OUSeN6lnV2T
- VeDAZ6sToMUjNhjFZJenOILp3zF346B8yBSMNMGNTpmXPELw4UcDFD5jxi3I4HWLzLVnWe
- 4AFpB4MPxgmrQvKTmGDJGcZ5aCl29sc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-pdr-RoFbNX2BFHGjqFFOKg-1; Fri, 23 Apr 2021 09:28:33 -0400
-X-MC-Unique: pdr-RoFbNX2BFHGjqFFOKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74368107ACCA;
- Fri, 23 Apr 2021 13:28:31 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-143.ams2.redhat.com [10.36.115.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DE7760613;
- Fri, 23 Apr 2021 13:28:20 +0000 (UTC)
-Subject: Re: [PATCH] target/s390x: fix s390_probe_access to check
- PAGE_WRITE_ORG for writeability
-To: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>
-References: <20210422154427.13038-1-alex.bennee@linaro.org>
- <20210423142209.03032dc5.cohuck@redhat.com>
- <CAFEAcA80L=xum=9m+2TLiP09OrjuRG4VghfxK8A42Y+0+EUB2g@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <dae28ff3-5c32-2345-a336-30f59eb59b13@redhat.com>
-Date: Fri, 23 Apr 2021 15:28:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lZvwF-00022R-VG; Fri, 23 Apr 2021 09:33:47 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 5A11E12E3;
+ Fri, 23 Apr 2021 09:33:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 23 Apr 2021 09:33:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=hHl/NnTvNP3kIJcOCO1tWd+2u2t
+ pGeSCcFfXI+YYmM8=; b=0XHqsEnEYFg/zOfP5S2Q2Osv7P6CkIHxhcxqusznpH+
+ OHMwpz0VQHfIfSVYCFAau+BE44KWXo++AYZhCEOhk7GjnslRLAEEzz5jhFJjrGel
+ g2x+nQeRWpWe22xDqGnJ6NobN0iqo5pc746yQT9rcCdrO/p9dIjoyTL0uLuSkldO
+ APaoUH4AVob8H+cwfdkViaG7/kFkurUZwcGe8t4AMQfwUJRkMCwyGVDjBhpAPsmB
+ ARmqbMs4rOgDu5LCgbzEWEqoaSaboaYhQhryATcpVW8CoaMkoqy5l7XvbwTjlw5f
+ Iq3A7lhAV12uQC2VH4RQElT4UI9Gq+20Z5Gd2Gb8FtA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hHl/Nn
+ TvNP3kIJcOCO1tWd+2u2tpGeSCcFfXI+YYmM8=; b=Txc5HZ2OWnVfCm8GjWcU54
+ BCgwXTZ+JKhLUqxTNzcD+jYAW3c+KKlPvJMpCwQ8qcXuzb4vHLSOELNLeh54Ym0K
+ rfW9WmjzX64GhEmnHGzs2QaB25+Z3FiRgBtlyLTivhYcayiXrOShL2jqr0ft/5lE
+ Fm0ileTuyeuWNR/1YKHHe+L7fLOq9yFgLtCMfhtzyKWf0Dgi3pQXOuCS5bg3qOPz
+ BPHU6/3hFp7fDA4OTT+Qrm49DvsLi8gDe20V0awdPwi8zzBz8PI7QofqZ9GopOwy
+ SdTig7irrTly0zTzaH5eP89fYHp0ogu+mgQ0TRhozCf5M2mlirgeg97txIYenPDw
+ ==
+X-ME-Sender: <xms:tMyCYAvY5On3oYquCEz4zufo8PAhZML4ZyvbVQig9lhkYmc60W6sQQ>
+ <xme:tMyCYJRJ36HIX334AUc04AgAFOUvACX8B_tJ8PDTg3l3Y15h9eIvUTPu27C1ahQ2D
+ uHiB6j6HqIgAmbYHYI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdduvddgieejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
+ tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:tMyCYHKF7nz5yiaW3gPdPpaAfnaZ0QPdjQt4ny4TsHiQcWSfnn8LBA>
+ <xmx:tMyCYMt6OZFPeX-6JqrJGNyeSJdJ-lGXStXXUjUBpWN2OvR2fDZTAw>
+ <xmx:tMyCYO9Aev2kjZ2A4X9QGS8lIcGUBdX5hoQWZBOA35NuEAGZYLuJ9g>
+ <xmx:tMyCYGOFEFJCdvbyAgNJOrCktevcNkyKUHxCD5khYuXe8aRgWQvtOA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id EFDFD240057;
+ Fri, 23 Apr 2021 09:33:38 -0400 (EDT)
+Date: Fri, 23 Apr 2021 15:33:36 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-6.0 v2 2/2] hw/block/nvme: disable hotplugging for
+ subsystem-linked controllers
+Message-ID: <YILMsBXGTcXFOWah@apples.localdomain>
+References: <20210423052127.512489-1-its@irrelevant.dk>
+ <20210423052127.512489-3-its@irrelevant.dk>
+ <CAFEAcA8xS6Hoqd+Y96FxhrDabsotYURsHHvEeN9yDLDHzzVf+g@mail.gmail.com>
+ <YILKsjz+WoXFiKUh@apples.localdomain>
+ <CAFEAcA_OzW7TWk8JrvrzEY-Rapcs1wVjuWKvYGzBgWFHQO+vxg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA80L=xum=9m+2TLiP09OrjuRG4VghfxK8A42Y+0+EUB2g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XOSPckCP4HDacYaY"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_OzW7TWk8JrvrzEY-Rapcs1wVjuWKvYGzBgWFHQO+vxg@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,69 +98,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/04/2021 15.06, Peter Maydell wrote:
-> On Fri, 23 Apr 2021 at 13:22, Cornelia Huck <cohuck@redhat.com> wrote:
->>
->> On Thu, 22 Apr 2021 16:44:27 +0100
->> Alex Bennée <alex.bennee@linaro.org> wrote:
->>
->>> We can remove PAGE_WRITE when (internally) marking a page read-only
->>> because it contains translated code. This can get confused when we are
->>> executing signal return code on signal stacks.
->>>
->>> Fixes: e56552cf07 ("target/s390x: Implement the MVPG condition-code-option bit")
->>> Found-by: Richard Henderson <richard.henderson@linaro.org>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Cc: Cornelia Huck <cohuck@redhat.com>
->>> Cc: Thomas Huth <thuth@redhat.com>
->>> Cc: David Hildenbrand <david@redhat.com>
->>> Cc: Laurent Vivier <laurent@vivier.eu>
->>> ---
->>>   target/s390x/mem_helper.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
->>> index 12e84a4285..f6a7d29273 100644
->>> --- a/target/s390x/mem_helper.c
->>> +++ b/target/s390x/mem_helper.c
->>> @@ -145,7 +145,7 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
->>>
->>>   #if defined(CONFIG_USER_ONLY)
->>>       flags = page_get_flags(addr);
->>> -    if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE))) {
->>> +    if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE_ORG))) {
->>>           env->__excp_addr = addr;
->>>           flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
->>>           if (nonfault) {
->>
->> What's the verdict on this one? I plan to queue this to s390-next; but
->> if we end up doing an -rc5, it might qualify as a regression fix.
-> 
-> What's your opinion? I think we do need an rc5 for the network backend
-> hotplug crash. I don't want to open the doors for lots of new fixes
-> just because we've got another rc, but on the other hand this one
-> does look like it's a pretty small and safe fix, and letting intermittent
-> crash bugs out into the wild seems like it could lead to a lot of
-> annoying re-investigation of the same bug if it's reported by users
-> later... So I kind of lean towards putting it in rc5.
 
-IMHO: It's in a s390x-only file, within a #ifdef CONFIG_USER_ONLY ... so the 
-damage this could do is very, very limited, indeed. Thus I'd also suggest to 
-include it in a rc5.
+--XOSPckCP4HDacYaY
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 
-  Thomas
+On Apr 23 14:25, Peter Maydell wrote:
+>On Fri, 23 Apr 2021 at 14:25, Klaus Jensen <its@irrelevant.dk> wrote:
+>>
+>> On Apr 23 14:21, Peter Maydell wrote:
+>> >On Fri, 23 Apr 2021 at 06:21, Klaus Jensen <its@irrelevant.dk> wrote:
+>> >>
+>> >> From: Klaus Jensen <k.jensen@samsung.com>
+>> >>
+>> >> If a controller is linked to a subsystem, do not allow it to be
+>> >> hotplugged since this will mess up the (possibly shared) namespaces.
+>> >>
+>> >> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>> >> ---
+>> >>  hw/block/nvme.c | 4 ++++
+>> >>  1 file changed, 4 insertions(+)
+>> >>
+>> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>> >> index 5fe082ec34c5..7606b58a39b9 100644
+>> >> --- a/hw/block/nvme.c
+>> >> +++ b/hw/block/nvme.c
+>> >> @@ -6140,12 +6140,16 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>> >>
+>> >>  static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
+>> >>  {
+>> >> +    DeviceClass *dc;
+>> >>      int cntlid;
+>> >>
+>> >>      if (!n->subsys) {
+>> >>          return 0;
+>> >>      }
+>> >>
+>> >> +    dc = DEVICE_GET_CLASS(n);
+>> >> +    dc->hotpluggable = false;
+>> >> +
+>> >>      cntlid = nvme_subsys_register_ctrl(n, errp);
+>> >>      if (cntlid < 0) {
+>> >>          return -1;
+>> >
+>> >I'm not sure this is right -- the DeviceClass is the
+>> >class struct, which there's only one of for every instance
+>> >of the device in the system. So this is saying "if this instance
+>> >is linked to a subsystem, don't let any *future* instances ever
+>> >be hotpluggable". I'm not even sure if it will do the right
+>> >thing for the current device, because this function is called
+>> >from the device's realize method, and the device_set_realized()
+>> >function does the "forbid if dc->hotpluggable is false" check
+>> >before calling the realize method.
+>> >
+>> >Possibly what you want to do here is to call the
+>> >device_get_hotplugged() function and just make the realize
+>> >method fail with a suitable error if the device is both (a) being
+>> >hotplugged and (b) has a subsystem link; but I'm not an expert on
+>> >hotplug, so I might be wrong.
+>> >
+>>
+>> Thanks Peter, this sounds exactly like what I want. I'll respin!
+>>
+>> I have a "full" fix that actually makes the device hotpluggable in the
+>> context of subsystems, but it is definitely not an -rc thing.
+>
+>For 6.0 I don't think we should put this in anyway -- it's not
+>a regression and in any case it sounds like it needs more work...
+>
 
+Agree, patch 1 is what I would like to see in if an -rc5 is spun.
+
+--XOSPckCP4HDacYaY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCCzK0ACgkQTeGvMW1P
+Dekq7wf8CFfNZPLm8fB0JNtwkzruNJQU95RgbFXR7FPr6XWJpJ9Ej2Uw8pGTr4zF
+e0mtlXCMRJJFK0BIdBuAs/YMX4nLnygEvtdcXlaDaPrYWCebAjG/iBxVjc9uTWQp
+UWU3beObYgEobLvnju/Lo7cS5AnvMY6WpGc4+gAz/d/fkT+j3HZ9kPCk4ZIecwgP
+5GjUGmmHSX1xS3oFIWc0Rh9AZagfF8GtZd8V0AidREu8Jmvl2iJPnFiwo+6N2lYl
+CUQe7JQrOgzZc/M3Q4ReI8IpKgaBIUKXS+SfxspX+QRk9csqWrnSrednZJsGKi/y
+er1ZvR9bL8JSiMWCuISXVF3mwMrI5A==
+=ksuW
+-----END PGP SIGNATURE-----
+
+--XOSPckCP4HDacYaY--
 
