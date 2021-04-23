@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789C83699D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 20:39:23 +0200 (CEST)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB353699E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 20:41:05 +0200 (CEST)
+Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la0i2-0001X9-H1
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 14:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
+	id 1la0jg-0003EY-8u
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 14:41:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1la0gS-00012o-49
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:37:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49322)
+ id 1la0hi-0001p8-Ks
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:39:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1la0gM-0000PQ-CG
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:37:43 -0400
+ id 1la0hg-00019d-Vh
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 14:39:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619203057;
+ s=mimecast20190719; t=1619203140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/12v71bHt6M87PpxE4ipxjP+HcnjnI2pU9N9aliggSw=;
- b=cBupz2I4oNPC/ydJU5Zx46CNa+xpYQ0smgwmTtJd3Wxnut3KANn5553g4bU9TJVRVOuF2Z
- JYUrndmJzKld2hUyPD1cQIafDBvvc6KJfvLa+qRNZ3Oj+/k1/Ic7ufI+lVcH77++3lcvy2
- pFPFTjU38EBSzGBbEuLqS/PeaHwgG5c=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-lOoLKtYTNWa3j4-U_rvNaw-1; Fri, 23 Apr 2021 14:37:35 -0400
-X-MC-Unique: lOoLKtYTNWa3j4-U_rvNaw-1
-Received: by mail-vs1-f72.google.com with SMTP id
- l11-20020a67ed0b0000b02901f3823e11e0so8569675vsp.3
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 11:37:35 -0700 (PDT)
+ bh=UY0Q6tnC8lIxeFTPTTg+2vlfMF22DOdDI3s3ZDjSleU=;
+ b=TKynYly7k5HmRmYDBMIiiBpoZRx9jcRoRn3DQmXrDW0se/JztL8KGiaJeqfMOh7+YNHVdG
+ JmxIufiyZpxtHd5m/vu0tY7eNjbTvzeuAUbAu7lz4Ze3aAQ2aZhkJ35CuVd9y8OS/EgowD
+ PKsa3oTgLkGLG7DnWpvWbz+AkQaTRIg=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-Y-vIDOdfPbOjzIC_PKvZnA-1; Fri, 23 Apr 2021 14:38:57 -0400
+X-MC-Unique: Y-vIDOdfPbOjzIC_PKvZnA-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ h6-20020a0561220b66b02901e488cc9b21so4739297vkf.10
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 11:38:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=/12v71bHt6M87PpxE4ipxjP+HcnjnI2pU9N9aliggSw=;
- b=CFE94Sq8/uvmIeLpJPYlUMC1QbCBnTTYouYE+4rggnsznk0R1hCOU7saz6FiT71TQQ
- JBrASicGngfG52MrKoVsLsEQlUFpGItpJ8xsu6QXv/+riF31XUeiIjWhSus/9Giicis7
- g4EG32J/ar6miFYjdkEUUSNnu/awMrwQsniXS8cof2OhMJK2P58zhd1k4T93AWYP4Hix
- vb9ozRrJjNiYKCN6VAj8Vi2dy5TMm5oc163Ub3UYmkcl6Xb7+9XIAnqvEZJ0Vajkkgkc
- jL9+QBjkfj6yT80ThZrfe9ynaHvPkRgTG2SOAVV5PUqBVT77TSbp7GI00eWL0AFlTK8o
- rDiw==
-X-Gm-Message-State: AOAM533iFvIuy/uIH2BQ9/TQxIPOJ/hTD1oxJ5keLZc30XEDxucYmasW
- BjV9Glwnrt11CBCx1gHs03q/M+6QAB5LEt5sriCWIxWNj68W37z9wQDPRxgL0tnTgWPMdEqsghP
- +me4AA52pPvudv5weTgnz5aWI8fFHs+s=
-X-Received: by 2002:a1f:1f4a:: with SMTP id f71mr5246498vkf.7.1619203055469;
- Fri, 23 Apr 2021 11:37:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzt5g6BGWNB/BFr95dWM8p5aPmPOgEW/f0EPy12P9HvXbCnRA46ezrlAmxOXCSPw2npI1nD7t7mXzzLRZ9uXTg=
-X-Received: by 2002:a1f:1f4a:: with SMTP id f71mr5246485vkf.7.1619203055325;
- Fri, 23 Apr 2021 11:37:35 -0700 (PDT)
+ bh=UY0Q6tnC8lIxeFTPTTg+2vlfMF22DOdDI3s3ZDjSleU=;
+ b=HkmkVWyjYqHCDkpvLBxrQIxN6BlZPgV4MomLpR9NFY1FUyENo4u230KyLgoUb7qHfX
+ 5gzMNHr4uhFxqrpDD2VTofsELdOeaArW62r7xYZY9ZiW0nIujISWpTmZnqFpnbFQZuiZ
+ Y+X3Tiks3xCeawyO7yYGb5rfceelj1qDCChismifX15i7FtvhJRZLN+tCHDEtxAeW215
+ WhC6AFOkKw4hlt/6+hRug0Ak/0ejPE0GVlhFPL6OGHoqwlpYdIuR0jbNabeZrRz69rm6
+ MPPyTAGczFopHLm03fYhseMcs/PqkYxCIqOisM1MdP/Zyl/4yIYz2NKFpqKiPdydruOG
+ uqaA==
+X-Gm-Message-State: AOAM531UHzfTzYQyWa4SGGzDypxUxb51O6Yqyly9oSK0ot749k8dG1ZA
+ snWqqLdOkDPlrkHFqvJPF0JW7Zl6dzgmlv54w52YfjK6Kx9Zsai8wTdICWHrSWUD5cnH7xgMdPH
+ evbeVY1q8nt6du2nwiNceTUyvaiTTe9w=
+X-Received: by 2002:ab0:3403:: with SMTP id z3mr232987uap.113.1619203137065;
+ Fri, 23 Apr 2021 11:38:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJutAu5IdMP/oHKqABHAvRrzxz/RqVhK/pGPvR6KuE+k5jcXpp8gS4u2/ZEDOZW13UHoxNVoRW2pAO5RzIgjc=
+X-Received: by 2002:ab0:3403:: with SMTP id z3mr232982uap.113.1619203136929;
+ Fri, 23 Apr 2021 11:38:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210419145435.14083-1-alex.bennee@linaro.org>
- <20210419145435.14083-6-alex.bennee@linaro.org>
-In-Reply-To: <20210419145435.14083-6-alex.bennee@linaro.org>
+ <20210419145435.14083-9-alex.bennee@linaro.org>
+In-Reply-To: <20210419145435.14083-9-alex.bennee@linaro.org>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 23 Apr 2021 15:37:09 -0300
-Message-ID: <CAKJDGDb5jQWpCpTCZcT8Mbovf7EynU5nvuv9pkNfycEAL2S4JA@mail.gmail.com>
-Subject: Re: [PATCH v1 05/25] tests/docker: add "fetch" sub-command
+Date: Fri, 23 Apr 2021 15:38:31 -0300
+Message-ID: <CAKJDGDbAA5hE_nrCFdYPQORhz4p_xAa92zwT4phC15yMaH-P9g@mail.gmail.com>
+Subject: Re: [PATCH v1 08/25] gitlab: add build-user-hexagon test
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -103,13 +103,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Apr 19, 2021 at 11:54 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
 wrote:
 >
-> This simply wraps up fetching a build from the registry and tagging it
-> as the local build.
+> We special case this as the container with the cross compiler for the
+> tests takes so long to build it is manually uploaded into the
+> registry.
 >
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Message-Id: <20210305092328.31792-7-alex.bennee@linaro.org>
 > ---
->  tests/docker/docker.py | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  .gitlab-ci.yml | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
