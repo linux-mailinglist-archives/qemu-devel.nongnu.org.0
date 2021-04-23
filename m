@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF045369C27
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:43:59 +0200 (CEST)
-Received: from localhost ([::1]:55692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B4D369C2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:46:17 +0200 (CEST)
+Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la3ag-0007fp-Tw
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36980)
+	id 1la3cu-0001ua-7r
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1la3Xr-00059d-JG; Fri, 23 Apr 2021 17:41:03 -0400
+ id 1la3Xu-0005Es-9e; Fri, 23 Apr 2021 17:41:06 -0400
 Received: from mail-eopbgr10127.outbound.protection.outlook.com
  ([40.107.1.127]:4578 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1la3Xp-0002m3-Se; Fri, 23 Apr 2021 17:41:03 -0400
+ id 1la3Xs-0002m3-AZ; Fri, 23 Apr 2021 17:41:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G37ej/4ibdu/aPSuEpe53LsUwHZWAAe+Cienc2WeIxZvyf8r33mx7v5e0420UginZdT5DbSnDgxQEbW4shL7TMiEthnbZWDP1DpMO6+KHwnPAWqe5CIo4Oquspab2NDMyY1Ih9hUkKBi7KH/m5AmsU43uCLQ/VGh7yBeMe2c/JjDf3QIAwKMl9Gi6PHGf2YkcMaEhIdeBOxGKAzl/cWyvrADLFMYqWBOWzvXMK6KKvVILW9cEEt1H1fjx/rNe4cIAquKJlDqWtuGAF0+jmKaYEtbad7gTfn4Utp4ESDWz8WjhxLPbR91juHR7OAnsNBCx+jkN2xRpB6N5c9M10Fbqg==
+ b=nLe1VJ3bs35SjeXidCy8Ty167ATkaSn3QL2X7qU0ULqYKkdaBf3LOjf2V65cUwNwvuWCNJkT2vpAXHSjSNhTotzq/eE9K262U0U3s/Rb24/PxnjBCJc3Cms3Zm5hMwoyZEJGU4D3a+PgoFi33libNaip1PjjzJYB0zB5TJ2e55TxXB07tZScwZqGbABK6dC/VUiNC7jRs33ecaB9PLHsCTdhaoYuSukv4aOJh2rRJtRP3Oj/btrSHtUgINXbq+sznXX9wI/CnBqDfV+2pkM36gz0UWlwMFM9DK0xl5hqWjTJVfZ3UIw98fYVEHdtNd5MSciisb4axWgh8v9K0Y25uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oClIb++B0YTOqk4pQmLVyyga4dqyaD1gPwycgKzpWR4=;
- b=PrKFzjT/W7oxT5X7EXFIhDMI5T3+NPBmSQyDnGBvQ+uwQa14n3VT1fTjFtUGXzkEI3MgvzVWqi9wmp+2s45uJDQo0de0BTk0/G/P3CyqXTzzrjnpIEsilLNiuK2TiklKtGVgQ2yHSVn91saGMxAHyO/Put0mC18tAyjSCjiIp0xfYOX9P84BYad7K/KB2aVd/o8vI63iVxAIRUzSn8OEbWGQALi/QpC3AaS/hHG4DBUQ83y2yTiuflOSv/CZi/fKniI+T03xwZTlEA1jM9zrXnFXRqp1XzzeU+K1AdqeypmV9jtQd4qrwcylfkuekTp6rLA71xZkq7pPS3nqeHyxVw==
+ bh=l0CLww6oHv816wdkB3jTEGI4imhm6esyB1dev91jFnY=;
+ b=ANbxNhtcaPSaWGsH4F2pyVzS/M01KdtyX+JQ5QTDXCL0CyrVNoWoNkiWKrMtKUvZUWT27TdSZ0mhvLgc7BDEqSZVIzN47KBiT5d2WtgvxDRPpOcF/4GCJ0cTXtZzMB6kGBhpMIlP+E3EyU3pQc+UwgyHzvp94AL4qT2H3GKINfaRngq6ci0phbnEeh6w5iSS2RYqtociGihEzK6xheK50bnUeIe46F91pninzOaCyN97JpnZKKfAhUsiiM2Tk/A6jCvB9pyGrUjUO+QZBfUuT/TXqNtzO+t2iO7MJIL3o4p/rHsDHb4gooD41KnRaYIZ8o4uShjygIojvLG/kuYrrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oClIb++B0YTOqk4pQmLVyyga4dqyaD1gPwycgKzpWR4=;
- b=LevsodCku/AmPDmoRmZERPuef9oX6cZWQcpR3WMEO6dZhNgSrqEhO4E3AxsRbu2WDQTwgDZaFz4N3z8/LK/UWxs83S00PViUe/gioqh0UdbUW/hi+Q7d5Q9ANIqiQO/BOdAsIAz/BqxoBNRrFDOz1zi6MKKwhlLcTHDkYdVUPqY=
+ bh=l0CLww6oHv816wdkB3jTEGI4imhm6esyB1dev91jFnY=;
+ b=cJHYALsT+m4lbQKfyyF24QU/aOD9Xdx7jvcy5iiEg/25gcSwfn3k6aB0NqdaR7ySieqJad1wAQi9SuymqO6d927cX2fIQwny3kbj96+6Am4cnfnv5+oGLE9/Gc6Fy/LV0RcCApJCkkak2k+8MQ5yn5DOQTgeeuSyzwKjKaZ2UYI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6374.eurprd08.prod.outlook.com (2603:10a6:20b:338::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Fri, 23 Apr
- 2021 21:40:53 +0000
+ 2021 21:40:54 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.021; Fri, 23 Apr 2021
- 21:40:53 +0000
+ 21:40:54 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  philmd@redhat.com
-Subject: [PATCH 03/11] block/block-gen.h: bind monitor
-Date: Sat, 24 Apr 2021 00:40:25 +0300
-Message-Id: <20210423214033.474034-4-vsementsov@virtuozzo.com>
+Subject: [PATCH 04/11] block: introduce bdrv_debug_wait_break
+Date: Sat, 24 Apr 2021 00:40:26 +0300
+Message-Id: <20210423214033.474034-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210423214033.474034-1-vsementsov@virtuozzo.com>
 References: <20210423214033.474034-1-vsementsov@virtuozzo.com>
@@ -66,52 +66,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.222) by
  HE1P192CA0012.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.21 via Frontend Transport; Fri, 23 Apr 2021 21:40:52 +0000
+ 15.20.4065.21 via Frontend Transport; Fri, 23 Apr 2021 21:40:53 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a9ae1ab-e7e0-4f48-f406-08d906a0781f
+X-MS-Office365-Filtering-Correlation-Id: 5f579041-8730-4aa8-98df-08d906a078c1
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6374:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6374A467378A82970B388567C1459@AS8PR08MB6374.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:326;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB637440662D2D3FC8D0BE9C24C1459@AS8PR08MB6374.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:207;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sZ4YmqViNcvl0OSFbqkFxxmKx/fTUHv4TwJhqSZm6NcLZzi7NFYISaAq+19RGFz2PHpJvfU7Imx04jkokzJBuvJBLusLZlTEoaNlYpvbBnAMN0sHBxBzQ91OxRtP6EzgQMT34sqNLm1HHFKeezghP1l0Fpth6JQLQFYtBXaTxmadsiT0Lotp1Z/Hp8vPal6rOcav/eJgwWktZj/wfn39h10e28rArYuQfti3CAMPuc5Wbj2t0TjJkX29lN8l1U1sCLRXD1LpNSczZtVXJqIF6Dt6CQUNw2PWEEkYP2RIfrHeyeMXRoF+1xNbP+S4/1eAUP+Vyub/h6ghKaQoDCEXfAMoz9niqzu9zXgMl7Vpw4O3fnNQOR43TDfXmbiNrZuF7hsWOXsIiiVJu1iNPeOPdLjrfsfMssRH8dAAF7DkW+80FiOPR4oKki1GnJxytP6F425EAQWlYSk9KCMEn0Uj082cAqJvtXA+lXV5UUM9+zE1wFgrad1G3fp7jsXo87XpsGg9TYvk2qU4ffBdBLsvtnLA6Gh/xQ2XSwO1Bxc1IfYAMMgNPakvCmZaVtmSRIetKZXNLxzKwrEhomwHIt+Fp6L9ush90uCRWFwMZUB/n8i9kfpN5P4pQc5Yhd2WIcPeGFSOyLzuMQCXDeKp8AF9idQ2gemfV/zJpW3Yxzyj6uqxEXuOBn5zCY1i2kdd2PXv
+X-Microsoft-Antispam-Message-Info: vpmtg/Ic8fWL9SZaaJ8BsnE+QcmGI7LapeapejMJAEXL0dWODZezT1MtxRxhteh19KrbOSjToMLpygXkkR1mLGJVbWDV0F9q0oxqaASyb0+XqXHFx5r5IcZu/ONkLgwe4sIO15Xd9BQogJfGNe0FJQmDWidzk1pI0LQSue3wrlZ1i9k72wM3gyQ0bolV9BbuXsq5+c2ldENz6zQTm0d2XHtsQt1pOKUPkC1NXq57TrtvVTGjn8EANFq4AJaibAxYaTZSDrIBARRITm3zoIOoOPfFQLvwQb3wtPt+O6rOHFAig0rBk0A671RnYoIAYa06U8Zg3LY+DiUrEvDC0xuermi5BA4ybblBV/gJAU6778JrRcnY9MWSYgp1+Dll5abj/MC/1zm0Ldq1Qu8cEwKM2Psw3aLNAzlb/OJW0xxOO39yL2/xZhShtK8KVKAkEgb3kR46VrEsv3TR6r7NBQkWT3jpZ9p5+AEQGXhyxyubZlmtF1CsvzdwV1PvWQntifNRvKO/jS6hL9H8B3Ptrbh5gP3rN0BziNn94axLFXp4UjZ5rLLe4ELFhFhME0f9r5h/538oqyA8EpZmZzc+eWdFHCbN+yC79tYzQWNL/VyKbGnXi4+CP3Ui+JSX3nE/XILO+hgQs5RVkGukQjQWyj7DxEBZ8NsBL9Jto5hldLY9Elybo03S/8K8YJiR0EONse35
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(39840400004)(346002)(376002)(316002)(2616005)(26005)(956004)(83380400001)(8676002)(4326008)(38100700002)(38350700002)(478600001)(4744005)(6666004)(5660300002)(86362001)(186003)(6506007)(66476007)(66556008)(1076003)(16526019)(6512007)(6916009)(6486002)(2906002)(52116002)(36756003)(66946007)(8936002)(69590400013);
+ SFS:(4636009)(136003)(366004)(396003)(39840400004)(346002)(376002)(316002)(2616005)(26005)(956004)(83380400001)(8676002)(4326008)(38100700002)(38350700002)(478600001)(6666004)(5660300002)(86362001)(186003)(6506007)(66476007)(66556008)(1076003)(16526019)(6512007)(6916009)(6486002)(2906002)(52116002)(36756003)(66946007)(8936002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?IJUHTq0of/EJxQTVlvdAo76GjtOgFLmZT+iZPl3Upn6FDvyVGbzQKwj6KqtS?=
- =?us-ascii?Q?1d/JqdPk47C8dWlj3LW5Hs0jh176b8bgtsHfc8gHk2qVEHqJtCSkrkZ/It+D?=
- =?us-ascii?Q?Zn02kU58EYpxqoj5XBaQ7KdERrjODksK1AM9+Knm65WDjbUQ4394FSjLOess?=
- =?us-ascii?Q?HQ4tL8Yn7fARZ3BJpPbtPOOJANpzh8rCqoRrrg7WHI0eo8yCHpl8zPqvUkqH?=
- =?us-ascii?Q?0CkHijLbzuHKHld5W3VFS2ldCcf8J3E3EMgvOOXYssOnhtx+iHbPUQI8KHwM?=
- =?us-ascii?Q?A6SmmbSuR6V32y/nzHMI3MFU7yag9tN3JwbGJW/u/ale7lPQgo6TP8jWiMJ0?=
- =?us-ascii?Q?opeYtK3Ifvpw+va3QNz4rA5hkAB61Mpuhd7oW1i4QuqmHEfFGgQHHai0YcXk?=
- =?us-ascii?Q?kdlt9PkVhGua9xWZ65LZsJyUy6uw9VyR7at1qRNAOD71/tjQTMyJboYdtcJM?=
- =?us-ascii?Q?5uZeF4yHdkAmZque5WgNcLAY1HiwP7KqARvKBg3+1i0rayYnqE6meTnL4/X7?=
- =?us-ascii?Q?OBaR7aY8fzDPSK9ed1JttKVMq/zSKWWYgcToJwglVyWbpQNOdgGGX8MxJHb9?=
- =?us-ascii?Q?4XPD8Z6pPm1ODWRFperM3jc0bCidE/xarhbTcPTmsXeC3hzoTCRkUMtjbmGT?=
- =?us-ascii?Q?xfJeaN9+uK2agywfb0KxVV6S7PJaAfWvCEqvgFe6hcNm36Gcupaml1uLJA8Z?=
- =?us-ascii?Q?nSrWy8vWGsuu8VZIub50DZfJM4HC4kdaS94v3IcFwc2b4J5+K3FnPSCHi3Kr?=
- =?us-ascii?Q?esIDQGgz0xLckMHkZ0o6X7Z0sUQN/Bpy2Ve65YC7+krzpk1I7B23fjSj/l7x?=
- =?us-ascii?Q?+oc4kc4RNLPTqjFjlP8SdGijP4T4LiqeTwRiS9mNSwhtSlSAUxNBgDkXjF7u?=
- =?us-ascii?Q?S/GoYdcPhB4aL8qczj8n/KuZpSPWrEQxybqVOC0IR34DrsUEwB3umMc2ab/U?=
- =?us-ascii?Q?7U0sGcC+XjbG+IbrL4vtl0rSIpI2Rh7TtT0kEgH0mOieCyQS2ofNFR02WSvI?=
- =?us-ascii?Q?H9mZmVomxMiKoVVc3sEbzlbnzso9VorLDyHl0hFHiudSuHO71lKKHY4noEtB?=
- =?us-ascii?Q?Pm9GR2bqy51U7Z7OBCWGVT9uI7wsYbhvzUCV16o8+vOFkVdDWU8xerHN/xI+?=
- =?us-ascii?Q?TQKzVI+099NPuCC5ZkiBdM8OsVw3ZIqgqEXloqbrBo8eTaqKu6o7LhQqUDBr?=
- =?us-ascii?Q?F74GBUw1TtqKELMzNQjOax5/0QshPHjggmq2psKsgBaDOVdlLlMZf52j1Qy3?=
- =?us-ascii?Q?WBm0apnNwlzvXTyrKXIW+QrMngiq588wVuYpNleLFxiVM0zhav8xJ5LLCvCf?=
- =?us-ascii?Q?hTN9IAKrt9XOubMcF3AFq/sE?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?tArxdz5zX7rMy9cEHxhZrwahS1jTFuQavPFkd4vkUH8V+CatRQ8hLNOI/I0f?=
+ =?us-ascii?Q?EO2W2Wr8ZH+TldmTFwTVWUlnzBj21+Ky7bGRXyUM03nxTrYu+JRRrOKMe4b+?=
+ =?us-ascii?Q?nBPkQC2ABPouQjQP4hbZeuj5nPpq+LnOoA8vJPECeuXgixVCyiuQNNSmch5T?=
+ =?us-ascii?Q?3eUKFsN+xpP94ZEWpPi3pa2IFdDnnUt+bsINKVCrFsykM5KRmDLd6ENx3HBp?=
+ =?us-ascii?Q?wRAW685N5E0g4mwody8anIUSuH1DDCv0r+rxaiEHhNKNtJrOpPMpYCLgZAdW?=
+ =?us-ascii?Q?EpOM4mHqx3+BfO/e4uly+nE5u+s+qn3uYKpMdkoukaUTKxMHVasNJeh9wyXN?=
+ =?us-ascii?Q?MvSzqdUFtdj2OBANRcbJpYyO3gVh9B06q1KQNctV6Kr2d6hJyGEOjMvKTZdi?=
+ =?us-ascii?Q?XKHA177IBEdu6dBVSNdWUv/9Dnp5jac89Vxr+5q5uYbcEotj/wTAWJadt2VA?=
+ =?us-ascii?Q?7d5s9MtxIuXmCGoMKDqaMXN814WVYutRFYnQsCOA8tsLh8WPbiTiVFnKevRM?=
+ =?us-ascii?Q?IENbjDbQwEPHbHo5IulnK0KUMZJk/HX+gWNOQHq/J9csC9Rc1CMN7zSUZSN2?=
+ =?us-ascii?Q?ygdzYMJTACOZY+kn61tChYilED7RMDBZRPIL/VqsGxaFvIcmSmft7zx4v6j6?=
+ =?us-ascii?Q?GbecKTfl/inseEMrpVGqxOi7AX4uQwxWiOW8r3Bv3GDXh+f9s0YqnFToUxAZ?=
+ =?us-ascii?Q?kclEXdiSGxTKlKsq7NKsP+w5ASno3UAJVlxcMuBZMysWoUhdReMc474W7kUR?=
+ =?us-ascii?Q?go3i+HeyHvEmzJ9yVz5agqgmtNpKIpzXJFRTJrtjSicHJqK+IYJ+uJW/iDym?=
+ =?us-ascii?Q?L50gdOkmfoJtfnkgc2kV0QgLg5UNrY/i6oIhiCzgfLlTz618mKiwQlf4ZeWp?=
+ =?us-ascii?Q?XdG8kTceCbco6yDpTqYNa2fPKwnUr47/rDbrGQqfoMYargPVQEEaejsX/Mgm?=
+ =?us-ascii?Q?Uu74ch5xFx2WKCazpH8MIxV2rACB4eN4+knYqbNW67xa1VR7sc4heit83RuZ?=
+ =?us-ascii?Q?H12V3SN+iztcbolJWo7gn6Hl1tPNmrkKHMr4bKXaDLUgp7HN/poUhjR+w95W?=
+ =?us-ascii?Q?m1vAiyBTECRoz5pT3ihV2/MB8vjo6D/VNIuQtC9Mc9KBeCL0SuTNrfnNtjmn?=
+ =?us-ascii?Q?XvZ/dT5l48M0fEJt0sYiCYsO5tnsdnX+MsOTgDzOJLHLXjGP9HfrGe7HTHId?=
+ =?us-ascii?Q?NrBAxbXmylx4rKTJkMU1ESowUc0hHvZ/awloAddCAx8aNNeSlt9F2ynpjS6K?=
+ =?us-ascii?Q?+2cWePWLhMDoOCu0Hz3/v1NS+jwVqCZFz68H8A4y8j1Z3mpKodZwxcEb/wWa?=
+ =?us-ascii?Q?Q5m2yVT1y8JSoFPxEpeoVNfv?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a9ae1ab-e7e0-4f48-f406-08d906a0781f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f579041-8730-4aa8-98df-08d906a078c1
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 21:40:53.0883 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 21:40:54.1447 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P1UxnefKeZPcDmZ/IrV8O38mWyAQfZ25PEBHcaqH19AB45ZA+8g1ijrCKsZX5av7IJ1zs4T+GDRuv/Ra+z4OwPNoXocpbDZNk9V12zWDhkM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q24vnySDV0sZKqeGHhyzonShsnwBCv61NhmrnH1T1JqsAMLHg36EoTg2n4NoX60LdGrybgN/1GpudvS5uF57YU3ixydryCpVcHi1pFtjZt8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6374
 Received-SPF: pass client-ip=40.107.1.127;
  envelope-from=vsementsov@virtuozzo.com;
@@ -138,46 +138,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we have current monitor, let's bind it to wrapper coroutine too.
+Add a handler to wait for the break to happen in coroutine context. It
+will be used in further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-gen.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/block/block.h     |  1 +
+ include/block/block_int.h |  1 +
+ block.c                   | 11 +++++++++++
+ block/blkdebug.c          | 16 ++++++++++++++++
+ 4 files changed, 29 insertions(+)
 
-diff --git a/block/block-gen.h b/block/block-gen.h
-index c1fd3f40de..61f055a8cc 100644
---- a/block/block-gen.h
-+++ b/block/block-gen.h
-@@ -27,6 +27,7 @@
- #define BLOCK_BLOCK_GEN_H
+diff --git a/include/block/block.h b/include/block/block.h
+index b3f6e509d4..e133adf54f 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -648,6 +648,7 @@ int bdrv_debug_breakpoint(BlockDriverState *bs, const char *event,
+ int bdrv_debug_remove_breakpoint(BlockDriverState *bs, const char *tag);
+ int bdrv_debug_resume(BlockDriverState *bs, const char *tag);
+ bool bdrv_debug_is_suspended(BlockDriverState *bs, const char *tag);
++void coroutine_fn bdrv_debug_wait_break(BlockDriverState *bs, const char *tag);
  
- #include "block/block_int.h"
-+#include "monitor/monitor.h"
+ /**
+  * bdrv_get_aio_context:
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 50af58af75..89e6904fc7 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -502,6 +502,7 @@ struct BlockDriver {
+         const char *tag);
+     int (*bdrv_debug_resume)(BlockDriverState *bs, const char *tag);
+     bool (*bdrv_debug_is_suspended)(BlockDriverState *bs, const char *tag);
++    void (*bdrv_debug_wait_break)(BlockDriverState *bs, const char *tag);
  
- /* Base structure for argument packing structures */
- typedef struct AioPollCo {
-@@ -38,11 +39,20 @@ typedef struct AioPollCo {
+     void (*bdrv_refresh_limits)(BlockDriverState *bs, Error **errp);
  
- static inline int aio_poll_co(AioPollCo *s)
- {
-+    Monitor *mon = monitor_cur();
-     assert(!qemu_in_coroutine());
- 
-+    if (mon) {
-+        monitor_set_cur(s->co, mon);
-+    }
-+
-     aio_co_enter(s->ctx, s->co);
-     AIO_WAIT_WHILE(s->ctx, s->in_progress);
- 
-+    if (mon) {
-+        monitor_set_cur(s->co, NULL);
-+    }
-+
-     return s->ret;
+diff --git a/block.c b/block.c
+index 001453105e..3ea088b9fb 100644
+--- a/block.c
++++ b/block.c
+@@ -5702,6 +5702,17 @@ bool bdrv_debug_is_suspended(BlockDriverState *bs, const char *tag)
+     return false;
  }
  
++void coroutine_fn bdrv_debug_wait_break(BlockDriverState *bs, const char *tag)
++{
++    while (bs && bs->drv && !bs->drv->bdrv_debug_wait_break) {
++        bs = bdrv_primary_bs(bs);
++    }
++
++    if (bs && bs->drv && bs->drv->bdrv_debug_wait_break) {
++        bs->drv->bdrv_debug_wait_break(bs, tag);
++    }
++}
++
+ /* backing_file can either be relative, or absolute, or a protocol.  If it is
+  * relative, it must be relative to the chain.  So, passing in bs->filename
+  * from a BDS as backing_file should not be done, as that may be relative to
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 2c0b9b0ee8..10b7c38467 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -57,6 +57,7 @@ typedef struct BDRVBlkdebugState {
+     QLIST_HEAD(, BlkdebugRule) rules[BLKDBG__MAX];
+     QSIMPLEQ_HEAD(, BlkdebugRule) active_rules;
+     QLIST_HEAD(, BlkdebugSuspendedReq) suspended_reqs;
++    CoQueue break_waiters;
+ } BDRVBlkdebugState;
+ 
+ typedef struct BlkdebugAIOCB {
+@@ -467,6 +468,8 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+     int ret;
+     uint64_t align;
+ 
++    qemu_co_queue_init(&s->break_waiters);
++
+     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+     if (!qemu_opts_absorb_qdict(opts, options, errp)) {
+         ret = -EINVAL;
+@@ -785,6 +788,8 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
+     remove_rule(rule);
+     QLIST_INSERT_HEAD(&s->suspended_reqs, &r, next);
+ 
++    qemu_co_queue_restart_all(&s->break_waiters);
++
+     if (!qtest_enabled()) {
+         printf("blkdebug: Suspended request '%s'\n", r.tag);
+     }
+@@ -922,6 +927,16 @@ static bool blkdebug_debug_is_suspended(BlockDriverState *bs, const char *tag)
+     return false;
+ }
+ 
++static void coroutine_fn
++blkdebug_debug_wait_break(BlockDriverState *bs, const char *tag)
++{
++    BDRVBlkdebugState *s = bs->opaque;
++
++    while (!blkdebug_debug_is_suspended(bs, tag)) {
++        qemu_co_queue_wait(&s->break_waiters, NULL);
++    }
++}
++
+ static int64_t blkdebug_getlength(BlockDriverState *bs)
+ {
+     return bdrv_getlength(bs->file->bs);
+@@ -1048,6 +1063,7 @@ static BlockDriver bdrv_blkdebug = {
+                                 = blkdebug_debug_remove_breakpoint,
+     .bdrv_debug_resume          = blkdebug_debug_resume,
+     .bdrv_debug_is_suspended    = blkdebug_debug_is_suspended,
++    .bdrv_debug_wait_break      = blkdebug_debug_wait_break,
+ 
+     .strong_runtime_opts        = blkdebug_strong_runtime_opts,
+ };
 -- 
 2.29.2
 
