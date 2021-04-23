@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EDA3690AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 12:57:11 +0200 (CEST)
-Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B6E3690C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 13:03:11 +0200 (CEST)
+Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZtUk-0000mV-02
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 06:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
+	id 1lZtaX-0003pu-KF
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 07:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtTf-0000Jj-35
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:56:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22804)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtYR-0003Ap-9E
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:01:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtTb-0001V1-Qz
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 06:56:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lZtYK-0004Zz-Pu
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 07:00:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619175358;
+ s=mimecast20190719; t=1619175651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mMnh9B1TXb0nSrxjA6KsoHaHMo8nUuttoo5WneqWo8o=;
- b=gE5TwHMxjcRtZzGiIeeXhmWRfYegP22hBEKUd/X4ZMiTV8X9gWlOjx4jCx6hUxF06vw5pZ
- RGLyUl27wmvnIdg+TK2QgVL/LaJqKQFgfHnBwpun3k9BHmLyd7ILzm7bm3FYukZ3OJZGPf
- gNaJEKtxt7KzulHvT0fiQipf1Uj1hg0=
+ bh=GZgREW0Nq8tZqCAT28DFkDPbyTcBL7gWXHpM3hw4ph4=;
+ b=WKKGCVfBo3F3zWLDQnVWL5Km9vlVL5GR1OVUE5V9ZA0EbznCDtcu8RflloEeWZ5CxiDv1i
+ 137a5KfpmT0xfamI3oCE7MhQf4IsJIzXp37W1VxqLwk06SLCvyK7Uh+HqvgxNTnhtyNKf9
+ KJ0WDIPy+NQTELwy2X4txpr/b5aaZNo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-cHJaXOWXON6nOf40NpqfxA-1; Fri, 23 Apr 2021 06:55:56 -0400
-X-MC-Unique: cHJaXOWXON6nOf40NpqfxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-497-Od3U1gdsPP2hrjhHpHJ6Cg-1; Fri, 23 Apr 2021 07:00:47 -0400
+X-MC-Unique: Od3U1gdsPP2hrjhHpHJ6Cg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E5E18189CB;
- Fri, 23 Apr 2021 10:55:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2DF5107ACC7;
+ Fri, 23 Apr 2021 11:00:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D0CFE29692;
- Fri, 23 Apr 2021 10:55:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BF1760CEC;
+ Fri, 23 Apr 2021 11:00:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4CBA9113525D; Fri, 23 Apr 2021 12:55:40 +0200 (CEST)
+ id CD444113525D; Fri, 23 Apr 2021 13:00:30 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v6 11/15] qmp: Clarify memory backend properties
- returned via query-memdev
+Subject: Re: [PATCH v6 14/15] qmp: Include "reserve" property of memory
+ backends
 References: <20210421122624.12292-1-david@redhat.com>
- <20210421122624.12292-12-david@redhat.com>
-Date: Fri, 23 Apr 2021 12:55:40 +0200
-In-Reply-To: <20210421122624.12292-12-david@redhat.com> (David Hildenbrand's
- message of "Wed, 21 Apr 2021 14:26:20 +0200")
-Message-ID: <87mttpi82b.fsf@dusky.pond.sub.org>
+ <20210421122624.12292-15-david@redhat.com>
+Date: Fri, 23 Apr 2021 13:00:30 +0200
+In-Reply-To: <20210421122624.12292-15-david@redhat.com> (David Hildenbrand's
+ message of "Wed, 21 Apr 2021 14:26:23 +0200")
+Message-ID: <87im4di7u9.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,40 +97,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 David Hildenbrand <david@redhat.com> writes:
 
-> We return information on the currently configured memory backends and
-> don't configure them, so decribe what the currently set properties
-> express.
+> Let's include the new property.
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
 > Cc: Eric Blake <eblake@redhat.com>
 > Cc: Markus Armbruster <armbru@redhat.com>
 > Cc: Igor Mammedov <imammedo@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  qapi/machine.json | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  hw/core/machine-qmp-cmds.c | 1 +
+>  qapi/machine.json          | 4 ++++
+>  2 files changed, 5 insertions(+)
 >
+> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+> index d41db5b93b..2d135ecdd0 100644
+> --- a/hw/core/machine-qmp-cmds.c
+> +++ b/hw/core/machine-qmp-cmds.c
+> @@ -175,6 +175,7 @@ static int query_memdev(Object *obj, void *opaque)
+>          m->dump =3D object_property_get_bool(obj, "dump", &error_abort);
+>          m->prealloc =3D object_property_get_bool(obj, "prealloc", &error=
+_abort);
+>          m->share =3D object_property_get_bool(obj, "share", &error_abort=
+);
+> +        m->reserve =3D object_property_get_bool(obj, "reserve", &error_a=
+bort);
+>          m->policy =3D object_property_get_enum(obj, "policy", "HostMemPo=
+licy",
+>                                               &error_abort);
+>          host_nodes =3D object_property_get_qobject(obj,
 > diff --git a/qapi/machine.json b/qapi/machine.json
-> index 6e90d463fc..758b901185 100644
+> index 32650bfe9e..5932139d20 100644
 > --- a/qapi/machine.json
 > +++ b/qapi/machine.json
-> @@ -790,11 +790,11 @@
+> @@ -798,6 +798,9 @@
 >  #
->  # @size: memory backend size
+>  # @share: whether memory is private to QEMU or shared (since 6.1)
 >  #
-> -# @merge: enables or disables memory merge support
-> +# @merge: whether memory merge support is enabled
->  #
-> -# @dump: includes memory backend's memory in a core dump or not
-> +# @dump: whether memory backend's memory is included in a core dump
->  #
-> -# @prealloc: enables or disables memory preallocation
-> +# @prealloc: whether memory was preallocated
->  #
+> +# @reserve: whether swap space (or huge pages) was reserved if applicabl=
+e
+> +#           (since 6.1)
+> +#
 >  # @host-nodes: host nodes for its memory policy
 >  #
+>  # @policy: memory policy of memory backend
+> @@ -812,6 +815,7 @@
+>      'dump':       'bool',
+>      'prealloc':   'bool',
+>      'share':      'bool',
+> +    'reserve':    'bool',
+>      'host-nodes': ['uint16'],
+>      'policy':     'HostMemPolicy' }}
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Double-checking: true means definitely reserved, and false means
+definitely not reserved.  Correct?
+
+I'm asking because the discussion of v4 + passage of time =3D me
+uncertain.
 
 
