@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AA2369479
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:14:55 +0200 (CEST)
-Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341DC369483
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 16:22:53 +0200 (CEST)
+Received: from localhost ([::1]:33856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZwa6-0005zl-Vp
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
+	id 1lZwho-0007yn-0y
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 10:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lZwZD-0005aE-5J
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:13:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34030)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lZwgV-0007Ze-1u
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:21:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lZwZ7-000222-KX
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:13:58 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lZwgR-0006tR-TJ
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 10:21:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619187233;
+ s=mimecast20190719; t=1619187686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aI26+ax/h0OlQFWU9jSvYpJgSOsEbZrBf1ukQdjv6EA=;
- b=hoq3m4l7nduBrqlvDb5HvRMWConbHQ/glcNIeY2d1l3Bvsh43olm189cN+7fdDby0DDPw7
- du17iu5J5TLZqR8KiRIvmgFyhN5AHb14IfmJxK3kwYPUc/UXtDZBMw2C/QH1Huwx18nmy2
- WLM2S7UhbNgUtQ0B3x5z8ZeIDjyXkrg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-4CY0myKAOu6IAB4RJxlU2g-1; Fri, 23 Apr 2021 10:13:51 -0400
-X-MC-Unique: 4CY0myKAOu6IAB4RJxlU2g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 93-20020adf80e60000b0290106fab45006so10613372wrl.20
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 07:13:51 -0700 (PDT)
+ bh=/vedEytwA5Q7GAe6u1pqxkXNvT/5EHzbeL/kpjOzcHk=;
+ b=LzdJKn5VaC1dLj7a8J7Lfg8vsEvuBkEmTgRFt9jMvYtsyqhFFpHNIyrJKL1VOjOV4E5XxN
+ KnKQ+in7Mhvj9h6Urf5feDOBv+/xKCpPpS9tlu4OncZBPdS392ZH0Z0N+LxUzK/HvJ1rcE
+ c8EpMAyYip5r8s6p33/gac9p/b1sy1w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-551-VunE7hkMO5mpWfduCRoe7w-1; Fri, 23 Apr 2021 10:21:25 -0400
+X-MC-Unique: VunE7hkMO5mpWfduCRoe7w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 88-20020adf95610000b029010758d8d7e2so3550343wrs.19
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 07:21:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:organization
+ h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=aI26+ax/h0OlQFWU9jSvYpJgSOsEbZrBf1ukQdjv6EA=;
- b=rPkR1PAh8kEmcgSv+NuFW1BLm69nFRcMvXv5AKC9Lt7t/2wekKohYcXo1VsIbVVj6V
- d1EA3SEbmWgcOXC0lZ8G4+/pJQt7aq3ts/E6N5ZA1KzssmTpT5/X5WrDqHTQ/+G1IB5X
- JtNNiZCX9ztQGMSfktWW84yDaNOfMRuOMwffa5RjYWSN+3KSuFGz27swrSWRuddrywYY
- jFIdd4flfvwUX6SFTg3Me0fOwRU7gGkmx4YpXznh+R9tRSDTZ7xub7ToZMkrHdmGjqwG
- bXKUHUn5dYDVw4dfgL7bqN8g+q93mEu+uYTd+eDCir9/QAZb6Vf4PtuLWCkL7qk1fKBO
- nLbw==
-X-Gm-Message-State: AOAM530JjdrxynV3xv8mHh85a0h2dZaJuPvUV03Yq6eGo+BYfgZSeDqz
- RZfA0WIjVY4mXvzOmSM9O5fSK3lEwKlzXM8DNBcvGs5AH2yEZucQRMwXMg/EubmE0hr7AQ8prZ3
- SM+M3DWP3kJAP0AI=
-X-Received: by 2002:a5d:6b85:: with SMTP id n5mr3248494wrx.167.1619187230207; 
- Fri, 23 Apr 2021 07:13:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWB9/mhuD6ivVMEqqObQMSGEVLTUC/xgA6+dBFf8ksaPjGnS86VUnFuMMKw4p7YQ26ojqaOg==
-X-Received: by 2002:a5d:6b85:: with SMTP id n5mr3248460wrx.167.1619187229961; 
- Fri, 23 Apr 2021 07:13:49 -0700 (PDT)
+ bh=/vedEytwA5Q7GAe6u1pqxkXNvT/5EHzbeL/kpjOzcHk=;
+ b=lpM7UI3XgZdSpJqS8edIg8ypLNiGXozA6hItuA1RDdMdrLrqXd9R36Y7suH1lLXKVJ
+ kOaQvPzUS2b+S5yZe3dVCk+1NtpjjdJePuGPKL1HhyB9Rs1lsUzliVdEZGuEpay8IgAG
+ L+276lmCFjE3OreCK5RP07dSVJl+X9aB7R5RViluy6E7iufglp+GIv5RLWZz1m0MXgbx
+ m/XUE09Tn0R6QW/qidpFUybSykFvjtaaM3yBKtJz7Uu2nAyPcbciIO/mNPUhucWeJ5ag
+ aa8LhMQ3OnZA1jMTvtOC+7+KD1lUGlGW3NAGQ8JlMHIerXJc3mJSM44tUD0Kc3pwEROV
+ Zcfw==
+X-Gm-Message-State: AOAM531eopNvlEScsypfqwgqFwUuJMaEC8hT2wJ6Nj0JKVcEnZ+6BFGk
+ U4MON/sdhyt1WOw9h1qT2CNX3gmoSQZh/jhNDbkJb/JXIVTR78JzXIFEgT7TeDeVlHvxip6vaib
+ klpKMLibLQHH03DQ=
+X-Received: by 2002:adf:e58f:: with SMTP id l15mr4946017wrm.175.1619187683907; 
+ Fri, 23 Apr 2021 07:21:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaclg2BaA5WEnR24N5wf4GnOhsI43Hv4GMO0PzXAZTTRVYS9gEaohH8TE50obGBapikiGMVg==
+X-Received: by 2002:adf:e58f:: with SMTP id l15mr4945979wrm.175.1619187683645; 
+ Fri, 23 Apr 2021 07:21:23 -0700 (PDT)
 Received: from [192.168.3.132] (p5b0c6365.dip0.t-ipconnect.de. [91.12.99.101])
  by smtp.gmail.com with ESMTPSA id
- g5sm9468400wrq.30.2021.04.23.07.13.49
+ o62sm36792737wmo.3.2021.04.23.07.21.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 07:13:49 -0700 (PDT)
-Subject: Re: [PATCH v6 14/15] qmp: Include "reserve" property of memory
- backends
-From: David Hildenbrand <david@redhat.com>
+ Fri, 23 Apr 2021 07:21:23 -0700 (PDT)
+Subject: Re: [PATCH v6 10/15] hostmem: Wire up RAM_NORESERVE via "reserve"
+ property
 To: Markus Armbruster <armbru@redhat.com>
 References: <20210421122624.12292-1-david@redhat.com>
- <20210421122624.12292-15-david@redhat.com>
- <87im4di7u9.fsf@dusky.pond.sub.org>
- <190f173c-b3f9-6c70-42bb-27f50a5f9380@redhat.com>
- <87h7jxgsa0.fsf@dusky.pond.sub.org>
- <79cdbd39-cf5c-a8ab-b2c9-68d8e4ab2333@redhat.com>
- <87zgxpfbbu.fsf@dusky.pond.sub.org>
- <33b6b3b5-47a6-94b8-1e2a-143e3cdf33b6@redhat.com>
+ <20210421122624.12292-11-david@redhat.com>
+ <87a6ppi77c.fsf@dusky.pond.sub.org>
+ <7cf63e36-1d1c-113d-15b5-227d099d76a1@redhat.com>
+ <878s59gq1v.fsf@dusky.pond.sub.org>
+From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <4c1fd7c5-3667-aef7-db09-dbfac26532b4@redhat.com>
-Date: Fri, 23 Apr 2021 16:13:48 +0200
+Message-ID: <884e43d0-36c1-f897-3a4e-03d96a9861c0@redhat.com>
+Date: Fri, 23 Apr 2021 16:21:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <33b6b3b5-47a6-94b8-1e2a-143e3cdf33b6@redhat.com>
+In-Reply-To: <878s59gq1v.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -119,130 +116,50 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.04.21 14:29, David Hildenbrand wrote:
-> On 23.04.21 14:13, Markus Armbruster wrote:
->> David Hildenbrand <david@redhat.com> writes:
->>
->>> On 23.04.21 13:21, Markus Armbruster wrote:
->>>> David Hildenbrand <david@redhat.com> writes:
->>>>
->>>>> On 23.04.21 13:00, Markus Armbruster wrote:
->>>>>> David Hildenbrand <david@redhat.com> writes:
->>>>>>
->>>>>>> Let's include the new property.
->>>>>>>
->>>>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>>> Cc: Eric Blake <eblake@redhat.com>
->>>>>>> Cc: Markus Armbruster <armbru@redhat.com>
->>>>>>> Cc: Igor Mammedov <imammedo@redhat.com>
->>>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>>>>> ---
->>>>>>>      hw/core/machine-qmp-cmds.c | 1 +
->>>>>>>      qapi/machine.json          | 4 ++++
->>>>>>>      2 files changed, 5 insertions(+)
->>>>>>>
->>>>>>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
->>>>>>> index d41db5b93b..2d135ecdd0 100644
->>>>>>> --- a/hw/core/machine-qmp-cmds.c
->>>>>>> +++ b/hw/core/machine-qmp-cmds.c
->>>>>>> @@ -175,6 +175,7 @@ static int query_memdev(Object *obj, void *opaque)
->>>>>>>              m->dump = object_property_get_bool(obj, "dump", &error_abort);
->>>>>>>              m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
->>>>>>>              m->share = object_property_get_bool(obj, "share", &error_abort);
->>>>>>> +        m->reserve = object_property_get_bool(obj, "reserve", &error_abort);
->>>>>>>              m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
->>>>>>>                                                   &error_abort);
->>>>>>>              host_nodes = object_property_get_qobject(obj,
->>>>>>> diff --git a/qapi/machine.json b/qapi/machine.json
->>>>>>> index 32650bfe9e..5932139d20 100644
->>>>>>> --- a/qapi/machine.json
->>>>>>> +++ b/qapi/machine.json
->>>>>>> @@ -798,6 +798,9 @@
->>>>>>>      #
->>>>>>>      # @share: whether memory is private to QEMU or shared (since 6.1)
->>>>>>>      #
->>>>>>> +# @reserve: whether swap space (or huge pages) was reserved if applicable
->>>>>>> +#           (since 6.1)
->>>>>>> +#
->>>>>>>      # @host-nodes: host nodes for its memory policy
->>>>>>>      #
->>>>>>>      # @policy: memory policy of memory backend
->>>>>>> @@ -812,6 +815,7 @@
->>>>>>>          'dump':       'bool',
->>>>>>>          'prealloc':   'bool',
->>>>>>>          'share':      'bool',
->>>>>>> +    'reserve':    'bool',
->>>>>>>          'host-nodes': ['uint16'],
->>>>>>>          'policy':     'HostMemPolicy' }}
->>>>>>
->>>>>> Double-checking: true means definitely reserved, and false means
->>>>>> definitely not reserved.  Correct?
->>>>>
->>>>> True means "reserved if applicable" which means "not reserved if not
->>>>> applicable". False means "definitely not reserved".
->>>>>
->>>>> (any recommendation how to rephrase are appreciated; I tried my best --
->>>>> this interface here makes it especially hard -- it's easier for the
->>>>> property itself)
->>>>
->>>> When is it "applicable"?
->>>
->>> When the OS supports it for the memory type and it hasn't been disabled.
->>>
->>> Linux handling as described in
->>>     [PATCH v6 09/15] util/mmap-alloc: Support RAM_NORESERVE via
->>>     MAP_NORESERVE under Linux
->>> and
->>>
->>>     https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
->>>
->>> Summary *without* MAP_NORESERVE:
->>>
->>> a) !Hugetlbfs with Memory overcommit disabled via
->>>       ("/proc/sys/vm/overcommit_memory == 2"): never
->>>
->>> b) !Hugetlbfs with Memory overcommit enabled
->>>     1) Shared mappings on files: never
->>>
->>>     2) Private mappings on files: only when writable (for us always)
->>>
->>>     3) Shared anonymous memory: always
->>>
->>>     4) Private anonymous memory: only when writable (for us always)
->>>
->>> c) Hugetlbfs: Always
-
-Actually, it's a bit simpler in our case (writable mappings). The more complex part is the MAP_NORESERVE handling.
-
-a) !Hugetlbfs
-	1) Shared mappings on files: never reserve swap space
-
-	2) Other mappings: always reserve swap space
-
-b) Hugetlbfs: Always reserve huge pages.
-
->>>
->>>
->>> Under Windows: always. On other POSIX besides Linux -- don't know.
->>
->> Would working some of this into the doc comment help users of the
->> interface?  Up to you.
->>
+On 23.04.21 14:10, Markus Armbruster wrote:
+> David Hildenbrand <david@redhat.com> writes:
 > 
-> I'll give it a thought. Most people will only care about explicitly
-> disabling it, where we'll bail out if that doesn't work. Otherwise, they
-> just use the OS default (== reserve if supported/applicable/not
-> explicitly disabled).
+>>>> diff --git a/backends/hostmem.c b/backends/hostmem.c
+>>>> index c6c1ff5b99..58fdc1b658 100644
+>>>> --- a/backends/hostmem.c
+>>>> +++ b/backends/hostmem.c
+>>>> @@ -217,6 +217,11 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+>>>>        Error *local_err = NULL;
+>>>>        HostMemoryBackend *backend = MEMORY_BACKEND(obj);
+>>>>    +    if (!backend->reserve && value) {
+>>>> +        error_setg(errp, "'prealloc=on' and 'reserve=off' are incompatible");
+>>>> +        return;
+>>>> +    }
+>>>
+>>> Aha.  Shouldn't this be documented in qom.json?
+>>
+>> Whoops, skipped that comment. Can add it if that's the place to
+>> document that.
+> 
+> Yes, please.  .json doc comments is where we document the external
+> interface.
+> 
 
-I think something like the following might make sense:
+What about something like this:
 
-# @reserve: whether swap space (or huge pages) was reserved if applicable.
-#           This corresponds to the user configuration and not the actual
-#           behavior implemented in the OS to perform a reservation;
-#           For example, Linux will never reserve swap space for shared
-#           file mappings. (since 6.1)
+diff --git a/qapi/qom.json b/qapi/qom.json
+index e9b86893a5..4fa3137aab 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -559,6 +559,12 @@
+  #                                        false generally, but true for machine
+  #                                        types <= 4.0)
+  #
++# Note: prealloc=true and reserve=false cannot be set at the same time. With
++#       reserve=true, the behavior depends on the operating system: for example,
++#       Linux will not reserve swap space for shared file mappings --
++#       "not applicable". In contrast, reserve=false will bail out if it cannot
++#       be configured accordingly.
++#
+  # Since: 2.1
+  ##
+  { 'struct': 'MemoryBackendProperties',
 
-Thanks!
 
 -- 
 Thanks,
