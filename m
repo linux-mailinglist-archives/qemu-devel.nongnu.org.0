@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DC0368C2D
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D8D368C2E
 	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 06:27:24 +0200 (CEST)
-Received: from localhost ([::1]:47650 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZnPW-00073h-T9
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 00:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46464)
+	id 1lZnPX-00074h-6A
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 00:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZnO3-0006E3-32
+ id 1lZnO3-0006EF-Gg
  for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:25:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60678)
+Received: from indium.canonical.com ([91.189.90.7]:60906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lZnNx-0000VN-FK
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:25:50 -0400
+ id 1lZnO1-0000XS-Qy
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 00:25:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lZnNu-0000Ng-B8
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:42 +0000
+ id 1lZnNy-0000Ne-KR
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 532AD2E815F
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 98E8D2E815B
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 04:25:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Apr 2021 04:17:16 -0000
-From: Launchpad Bug Tracker <1879425@bugs.launchpad.net>
+Date: Fri, 23 Apr 2021 04:17:17 -0000
+From: Launchpad Bug Tracker <1642421@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,20 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cliffchen janitor th-huth
-X-Launchpad-Bug-Reporter: cliff chen (cliffchen)
+X-Launchpad-Bug-Commenters: janitor mail-wz6bkyhu4uqpfausw0ege9b0y3 rodrivg
+ th-huth
+X-Launchpad-Bug-Reporter: manut (mail-wz6bkyhu4uqpfausw0ege9b0y3)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158985197617.30924.14122012304587735670.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161915143720.2122.18332112008256389892.malone@loganberry.canonical.com>
-Subject: [Bug 1879425] Re: The thread of "CPU 0 /KVM" keeping 99.9%CPU
+References: <20161116225238.8681.9123.malonedeb@gac.canonical.com>
+Message-Id: <161915143804.2122.4658815799531399615.malone@loganberry.canonical.com>
+Subject: [Bug 1642421] Re: qemu-system-x86_64: ipv6 and dns is broken with
+ netdev user
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1552fceb1603b3da6cfa437575d9c9fc4b2e683a"; Instance="production"
-X-Launchpad-Hash: ee5169482ce2da81eba0355199fe6af5508d0cc5
+X-Launchpad-Hash: 7430831a2eb1b0fab9904721e1e4da235207c5aa
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879425 <1879425@bugs.launchpad.net>
+Reply-To: Bug 1642421 <1642421@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,65 +85,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879425
+https://bugs.launchpad.net/bugs/1642421
 
 Title:
-  The thread of "CPU 0 /KVM" keeping 99.9%CPU
+  qemu-system-x86_64: ipv6 and dns is broken with netdev user
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hi Expert:
+  Hi,
 
-  The VM is hung here after (2, or 3, or 5 and the longest time is 10 hours=
-) by qemu-kvm.
-  Notes:
-  for VM:
-  =C2=A0=C2=A0OS: RHEL8.1
-  =C2=A0=C2=A0CPU: 1
-  =C2=A0=C2=A0MEM:4G
-  For qemu-kvm(host kernel RHEL7):
-  =C2=A0=C2=A01) version:
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/usr/libexec/qemu-kvm -version
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0QEMU emulator version 2.10.0(qemu-kvm-ev-2.=
-10.0-21.el7_5.4.1)
-  =C2=A0=C2=A02) once the issue is occurred, the CPU of "CPU0 /KVM" is more=
- than 99% by com "top -p VM_pro_ID"
-  =C2=A0=C2=A0=C2=A0=C2=A0PID  UDER   PR NI RES   S  % CPU %MEM  TIME+    C=
-OMMAND
-  872067   qemu   20 0  1.6g  R   99.9  0.6  37:08.87 CPU 0/KVM
-  =C2=A0=C2=A03) use "pstack 493307" and below is function trace
-  Thread 1 (Thread 0x7f2572e73040 (LWP 872067)):
-  #0  0x00007f256cad8fcf in ppoll () from /lib64/libc.so.6
-  #1  0x000055ff34bdf4a9 in qemu_poll_ns ()
-  #2  0x000055ff34be02a8 in main_loop_wait ()
-  #3  0x000055ff348bfb1a in main ()
-  =C2=A0=C2=A04) use strace "strace -tt -ff -p 872067 -o cfx" and below log=
- keep printing
-  21:24:02.977833 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
-N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
-=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
-15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
- 0 (Timeout)
-  21:24:02.977918 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
-N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
-=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
-15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 911447}, NULL, 8=
-) =3D 0 (Timeout)
-  21:24:02.978945 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
-N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
-=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
-15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
- 0 (Timeout)
-  Therefore, I think the thread "CPU 0/KVM" is in tight loop.
-  =C2=A0=C2=A05) use reset can recover this issue. however, it will reoccur=
-red again.
-  Current work around is increase one CPU for this VM, then issue is gone.
+  dhcp inside qemu returns an ipv6 address as dns-server. However this is n=
+ot
+  working. If i replace it with the ipv4 address '10.0.0.2' dns is working
+  again. I would expect that the qemu emulated dhcp server responds either =
+an
+  ipv4 configuration that is working or its dns server/forwarder listens on=
+ the
+  ipv6 address returned by the emulated dhcp server.
 
-  thanks
-  Cliff
+  I used latest qemu from git (
+  b0bcc86d2a87456f5a276f941dc775b265b309cf) and used the following
+  commands:
+
+  $ ./qemu-system-x86_64 -enable-kvm -M pc -device virtio-rng-pci -device
+  virtio-net-pci,netdev=3Duser.0 -drive file=3Dbuildenv.img,if=3Dvirtio,bus=
+=3D1,unit=3D0
+  -no-reboot -netdev user,id=3Duser.0,hostfwd=3Dtcp::5022-:22,hostfwd=3Dtcp=
+::7587-:7588
+  -m 1024 -usb -nographic -smp 4
+
+  buildenv.img is a debian jessie amd64 installation.
+
+  Inside qemu the network is configured to use dhcp:
+
+  $ cat /etc/network/interfaces
+  allow-hotplug eth0
+  iface eth0 inet dhcp
+
+  $ ifconfig eth0
+  eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:56
+            inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+            inet6 addr: fe80::5054:ff:fe12:3456/64 Scope:Link
+            inet6 addr: fec0::5054:ff:fe12:3456/64 Scope:Site
+            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+            RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+            TX packets:28 errors:0 dropped:0 overruns:0 carrier:0
+            collisions:0 txqueuelen:1000
+            RX bytes:3215 (3.1 KiB)  TX bytes:3638 (3.5 KiB)
+
+  $ cat /etc/resolv.conf
+  nameserver fec0::3
+
+  $ arp google.de
+  google.de: Host name lookup failure
+
+  $ strace -f arp google.de
+  ...
+  socket(PF_INET6, SOCK_DGRAM|SOCK_NONBLOCK, IPPROTO_IP) =3D 4
+  connect(4, {sa_family=3DAF_INET6, sin6_port=3Dhtons(53), inet_pton(AF_INE=
+T6, "fec0::3", &sin6_addr), sin6_flowinfo=3D0, sin6_scope_id=3D0}, 28) =3D 0
+  poll([{fd=3D4, events=3DPOLLOUT}], 1, 0)    =3D 1 ([{fd=3D4, revents=3DPO=
+LLOUT}])
+  sendto(4, "\17\320\1\0\0\1\0\0\0\0\0\0\6google\2de\0\0\1\0\1", 27, MSG_NO=
+SIGNAL, NULL, 0) =3D 27
+  poll([{fd=3D4, events=3DPOLLIN}], 1, 5000)  =3D 0 (Timeout)
+  poll([{fd=3D4, events=3DPOLLOUT}], 1, 0)    =3D 1 ([{fd=3D4, revents=3DPO=
+LLOUT}])
+  sendto(4, "\17\320\1\0\0\1\0\0\0\0\0\0\6google\2de\0\0\1\0\1", 27, MSG_NO=
+SIGNAL, NULL, 0) =3D 27
+  poll([{fd=3D4, events=3DPOLLIN}], 1, 5000)  =3D 0 (Timeout)
+  close(4)                                =3D 0
+  ...
+
+  $ echo nameserver 10.0.0.2 > /etc/resolv.conf
+
+  $ arp google.de
+  google.de (216.58.208.35) -- no entry
+
+  Note: I reported this bug also to debian: https://bugs.debian.org/cgi-
+  bin/bugreport.cgi?bug=3D844566
+
+  Regards,
+
+    Manuel
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879425/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1642421/+subscriptions
 
