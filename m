@@ -2,50 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492E2368CD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 07:43:38 +0200 (CEST)
-Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA77368CE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 08:02:34 +0200 (CEST)
+Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZobJ-000338-DP
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 01:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
+	id 1lZotd-0006H6-3x
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 02:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lZoaL-0002Zp-Oo
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 01:42:37 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:58980
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lZosZ-0005s5-7Z
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 02:01:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lZoaH-0005aE-WE
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 01:42:37 -0400
-Received: from macbook02.fritz.box (p5b151e3b.dip0.t-ipconnect.de
- [91.21.30.59])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lZosW-00014k-PQ
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 02:01:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619157683;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GwMsjDTvUN+jg/2/bgxzzW7kOAf2Xv+zcvPPVUAgAjE=;
+ b=MawBwXBryUOQFnv4ssntr4xwWBVzJ4GW93m6zUERVLc17OXwIWIKM43wK8cdL6dgeyXuUO
+ xkHJji4/EiLHtAlxudo98vUOkAusFVCETdRwJqQniAFuLZbZGrYvr7iERTZqwbGWvMlOlg
+ 1A3lS7jFgErXht75urQPNw46YfmvP7I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-TyKGTc6ZNnSmxw32D-HmGw-1; Fri, 23 Apr 2021 02:01:18 -0400
+X-MC-Unique: TyKGTc6ZNnSmxw32D-HmGw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 9ABB4DA0FFF;
- Fri, 23 Apr 2021 07:42:28 +0200 (CEST)
-To: Jason Wang <jasowang@redhat.com>, samuel.thibault@ens-lyon.org,
- qemu-devel@nongnu.org
-References: <20210423031803.1479-1-jasowang@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH for 6.0] net: check the existence of peer before trying to
- pad
-Message-ID: <45b74435-2bcd-d6f4-4ada-8d357bd33d4d@weilnetz.de>
-Date: Fri, 23 Apr 2021 07:42:26 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A246110C40C0;
+ Fri, 23 Apr 2021 06:01:17 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-13-225.pek2.redhat.com
+ [10.72.13.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 699D61002EE6;
+ Fri, 23 Apr 2021 06:01:08 +0000 (UTC)
+Subject: Re: [PATCH RFC 0/1] To add HMP interface to dump PCI MSI-X table/PBA
+To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
+References: <20210423044713.3403-1-dongli.zhang@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <25113515-5c1d-c557-d0cc-04bfacecb6ee@redhat.com>
+Date: Fri, 23 Apr 2021 14:01:06 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.1
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210423031803.1479-1-jasowang@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210423044713.3403-1-dongli.zhang@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,94 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bmeng.cn@gmail.com, philmd@redhat.com,
- crobinso@redhat.com
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ joe.jin@oracle.com, dgilbert@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.04.21 um 05:18 schrieb Jason Wang:
 
-> There could be case that peer is NULL. This can happen when during
-> network device hot-add where net device needs to be added first. So
-> the patch check the existence of peer before trying to do the pad.
+ÔÚ 2021/4/23 ÏÂÎç12:47, Dongli Zhang Ð´µÀ:
+> This is inspired by the discussion with Jason on below patchset.
 >
-> Fixes: 969e50b61a285 ("net: Pad short frames to minimum size before sen=
-ding from SLiRP/TAP")
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->   include/net/net.h | 5 +++++
->   net/slirp.c       | 2 +-
->   net/tap-win32.c   | 2 +-
->   net/tap.c         | 2 +-
->   4 files changed, 8 insertions(+), 3 deletions(-)
+> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg09020.html
 >
-> diff --git a/include/net/net.h b/include/net/net.h
-> index eff24519d2..1ef536d771 100644
-> --- a/include/net/net.h
-> +++ b/include/net/net.h
-> @@ -241,4 +241,9 @@ uint32_t net_crc32_le(const uint8_t *p, int len);
->       .offset     =3D vmstate_offset_macaddr(_state, _field),          =20
- \
->   }
->  =20
-> +static inline bool net_peer_needs_padding(NetClientState *nc)
-> +{
-> +  return nc->peer && !nc->peer->do_not_pad;
-> +}
-> +
->   #endif
-> diff --git a/net/slirp.c b/net/slirp.c
-> index a01a0fccd3..7a4e96db5c 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -119,7 +119,7 @@ static ssize_t net_slirp_send_packet(const void *pk=
-t, size_t pkt_len,
->       uint8_t min_pkt[ETH_ZLEN];
->       size_t min_pktsz =3D sizeof(min_pkt);
->  =20
-> -    if (!s->nc.peer->do_not_pad) {
-> +    if (net_peer_needs_padding(&s->nc)) {
->           if (eth_pad_short_frame(min_pkt, &min_pktsz, pkt, pkt_len)) {=
-
->               pkt =3D min_pkt;
->               pkt_len =3D min_pktsz;
-> diff --git a/net/tap-win32.c b/net/tap-win32.c
-> index 897bd18e32..6096972f5d 100644
-> --- a/net/tap-win32.c
-> +++ b/net/tap-win32.c
-> @@ -696,7 +696,7 @@ static void tap_win32_send(void *opaque)
->       if (size > 0) {
->           orig_buf =3D buf;
->  =20
-> -        if (!s->nc.peer->do_not_pad) {
-> +        if (net_peer_needs_padding(&s->nc)) {
->               if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) =
-{
->                   buf =3D min_pkt;
->                   size =3D min_pktsz;
-> diff --git a/net/tap.c b/net/tap.c
-> index 7d53cedaec..820872fde8 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -203,7 +203,7 @@ static void tap_send(void *opaque)
->               size -=3D s->host_vnet_hdr_len;
->           }
->  =20
-> -        if (!s->nc.peer->do_not_pad) {
-> +        if (net_peer_needs_padding(&s->nc)) {
->               if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) =
-{
->                   buf =3D min_pkt;
->                   size =3D min_pktsz;
+> The new HMP command is introduced to dump the MSI-X table and PBA.
+>
+> Initially, I was going to add new option to "info pci". However, as the
+> number of entries is not determined and the output of MSI-X table is much
+> more similar to the output of hmp_info_tlb()/hmp_info_mem(), this patch
+> adds interface for only HMP.
+>
+> The patch is tagged with RFC because I am looking for suggestions on:
+>
+> 1. Is it fine to add new "info msix <dev>" command?
 
 
-I assume that you had a test case which triggered that null pointer=20
-access? If yes, than this should indeed be applied before releasing 6.0.
-
-The modification is simple enough for a last minute change.
-
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+I wonder the reason for not simply reusing "info pci"?
 
 
+>
+> 2. Is there any issue with output format?
+
+
+If it's not for QMP, I guess it's not a part of ABI so it should be fine.
+
+
+>
+> 3. Is it fine to add only for HMP, but not QMP?
+
+
+I think so.
+
+Thanks
+
+
+>
+> Thank you very much!
+>
+> Dongli Zhang
+>
+>
+>
 
 
