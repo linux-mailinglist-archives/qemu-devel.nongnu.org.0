@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82385368ECB
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 10:23:51 +0200 (CEST)
-Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8D6368EEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 10:36:08 +0200 (CEST)
+Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZr6M-0004gc-Kh
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 04:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
+	id 1lZrIF-000208-5Q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 04:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZr5C-0004Br-Vq
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:22:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58768)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lZrGP-0000Yd-AL
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:34:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lZr5B-0002XH-IG
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:22:38 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lZrGI-0001IR-Th
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 04:34:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619166156;
+ s=mimecast20190719; t=1619166845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ggTQprbA0b3ijcO+Jk0laBwyTy3wsRkBgRKGOyalbAM=;
- b=UIHb8Cxprh1z5NhpEPc3BcuyX/sp8KM4Wdpuz+bk3hj9WAj4NmB6xPYZRbdf6VM44aWQTP
- I6tGOl2JlsjDKE/A/HfS1Z2ZcOJRrNP57oiQdFz+a6XNAAnLtIqECG1KvUmPQy+hVBTVLY
- b4QEUL7ec9vx03TFdBFbBQpxRk6coKI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9oCTLap447icp7bg56r5GYZ3ib7wsi2EbKqB3PJggBg=;
+ b=WpaLPf4Zu7j47F7jUJvnShI3D4MSZ//iZzIO1+1sqYxbS0amijbkZCmSPawnS/AEfvJwnP
+ di8alFZg3AeTxdU4+8pceozS+5UCYXKvCo+WGJIcewM0fs3YDdLZDNExwzvqxlZvxLDoI2
+ zyl7H7w9+eT35TNRvcF7+gIIaqB+7Ec=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-wIw_Fk3nNXqWKtg5uoCxwQ-1; Fri, 23 Apr 2021 04:22:33 -0400
-X-MC-Unique: wIw_Fk3nNXqWKtg5uoCxwQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-11-VNy5GvIEMLqqtmCy8icyZA-1; Fri, 23 Apr 2021 04:34:01 -0400
+X-MC-Unique: VNy5GvIEMLqqtmCy8icyZA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21EA5107ACED;
- Fri, 23 Apr 2021 08:22:32 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-74.ams2.redhat.com [10.36.112.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E23F71045D02;
- Fri, 23 Apr 2021 08:22:29 +0000 (UTC)
-To: Cornelia Huck <cohuck@redhat.com>
-References: <YIFMt+xg+xH+M4rd@redhat.com>
- <CAFEAcA8r2k9f=XG6T_hYk542-dDJnR7Lr8DZnyc=SFgnzNYxxQ@mail.gmail.com>
- <089df242-8788-a162-4a75-4c9c9e04a64e@redhat.com>
- <8afd0f34-7e75-2661-9ea5-3ebadff3b85d@redhat.com>
- <2ec6e995-6833-1ebd-03c8-a3fede7fddb8@de.ibm.com>
- <e4116908-7172-fd9c-1837-82c489b61620@redhat.com>
- <c95369e4-ffc9-d01d-45c1-4daad0ead6a5@redhat.com>
- <20210422155238.kak7tl3xnup5vod7@steredhat>
- <da8f7353-8e2a-82f9-c324-18321649ccb5@redhat.com>
- <fb127bc3-aa4a-dc04-484a-d747c3aa503e@redhat.com>
- <20210423064001.fjouibdcwadtgijy@steredhat>
- <b167616b-1908-1a76-a2af-35b87c05d570@de.ibm.com>
- <8abfb851-a5d2-8608-fe96-2eb3014adb96@redhat.com>
- <20210423100708.262eeaf0.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Compiling the s390-ccw bios with clang (was: Re: s390-ccw:
- warning: writing 1 byte into a region of size 0)
-Message-ID: <856dfa3f-e7ee-b88e-47e4-96d39dba20c3@redhat.com>
-Date: Fri, 23 Apr 2021 10:22:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB39C107ACC7
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 08:34:00 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-178.ams2.redhat.com
+ [10.36.112.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CA275D9C6;
+ Fri, 23 Apr 2021 08:33:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D290F1800604; Fri, 23 Apr 2021 10:33:51 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/9] ui: add vdagent implementation and clipboard support.
+Date: Fri, 23 Apr 2021 10:33:42 +0200
+Message-Id: <20210423083351.2096734-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210423100708.262eeaf0.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,52 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/04/2021 10.07, Cornelia Huck wrote:
-> On Fri, 23 Apr 2021 09:57:08 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> On 23/04/2021 08.52, Christian Borntraeger wrote:
->> [...]
->>> We can of course discuss if we compile the BIOS for z10 instead of z900. TCG
->>> in the mean time can handle up to z13 and z10 is now also 13 years old.
->>
->> I'd really like to see us supporting Clang in the s390-ccw bios, too, since
->> it provides additional useful compiler warnings ... but switching the -mz900
->> to -mz10 here also means that we could not boot VMs anymore that use a CPU
->> that is older than the z10...
-> 
-> We could still boot a kernel/initrd directly, couldn't we?
-
-Yes, but that will certainly require some documentation effort to make it 
-clear to the users that they need to use "-kernel" in case they want to run 
-an older guest...
-
->> Is anybody still using such old CPUs? Should we maybe deprecate all CPUs
->> that are older than the z10 in QEMU? Alternatively, we could try to detect
->> Clang in the Makefile, and only use -mz10 in that case and continue to use
->> -mz900 in the other case...?
-> 
-> So, the issue with clang is that it compiles to at least a z10, right?
-
-Right, Clang does not support anything that is older than a z10.
-
-> Any other issues we know about?
-
-There are some compiler warnings, and at least network booting seems to be 
-broken... that certainly needs some investigation first...
-
-  Thomas
+Fist sketch of cut+paste support for vnc.  On the guest side we are=0D
+going to reuse the spice vdagent, so things should work out-of-the-box=0D
+with guests in the wild.  So this patch set brings a qemu implemenation=0D
+of the vdagent protocol.=0D
+=0D
+Beside that there is the clipboard infrastructure of course.  For now=0D
+only text support is there.  The design allows adding more data types,=0D
+so we can add image support and maybe more later on.  So far vdagent,=0D
+vnc server and gtk ui are hooked up.=0D
+=0D
+Usage: qemu \=0D
+  -chardev vdagent,id=3Dvdagent,clipboard=3Don \=0D
+  -device virtio-serial-pci \=0D
+  -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0=0D
+=0D
+v3:=0D
+ - rebase to latest master.=0D
+ - make spice-protocol a separate build dependency.=0D
+ - update qapi version annotation.=0D
+ - add documentatin for qemu clipboard.=0D
+ - misc little tweaks.=0D
+v2:=0D
+ - add a bunch of sanity checks.=0D
+ - add proper chunking.=0D
+ - use autofree.=0D
+v3:=0D
+ - support agents without VD_AGENT_CAP_CLIPBOARD_SELECTION.=0D
+ - properly parse chunked messages.=0D
+ - test with windows guests, minor fixes.=0D
+ - set display_id for agent mouse events.=0D
+=0D
+Gerd Hoffmann (9):=0D
+  build: add separate spice-protocol config option=0D
+  ui: add clipboard infrastructure=0D
+  ui: add clipboard documentation=0D
+  ui/vdagent: core infrastructure=0D
+  ui/vdagent: add mouse support=0D
+  ui/vdagent: add clipboard support=0D
+  ui/vnc: clipboard support=0D
+  ui/gtk: move struct GtkDisplayState to ui/gtk.h=0D
+  ui/gtk: add clipboard support=0D
+=0D
+ configure              |  36 +-=0D
+ include/ui/clipboard.h | 193 +++++++++++=0D
+ include/ui/gtk.h       |  67 ++++=0D
+ ui/vnc.h               |  24 ++=0D
+ chardev/char.c         |   6 +=0D
+ ui/clipboard.c         |  92 +++++=0D
+ ui/gtk-clipboard.c     | 192 +++++++++++=0D
+ ui/gtk.c               |  56 +--=0D
+ ui/vdagent.c           | 756 +++++++++++++++++++++++++++++++++++++++++=0D
+ ui/vnc-clipboard.c     | 323 ++++++++++++++++++=0D
+ ui/vnc.c               |  20 +-=0D
+ docs/devel/index.rst   |   1 +=0D
+ docs/devel/ui.rst      |   8 +=0D
+ meson.build            |   4 +=0D
+ qapi/char.json         |  21 +-=0D
+ ui/meson.build         |   5 +-=0D
+ ui/trace-events        |  10 +=0D
+ 17 files changed, 1747 insertions(+), 67 deletions(-)=0D
+ create mode 100644 include/ui/clipboard.h=0D
+ create mode 100644 ui/clipboard.c=0D
+ create mode 100644 ui/gtk-clipboard.c=0D
+ create mode 100644 ui/vdagent.c=0D
+ create mode 100644 ui/vnc-clipboard.c=0D
+ create mode 100644 docs/devel/ui.rst=0D
+=0D
+--=20=0D
+2.30.2=0D
+=0D
 
 
