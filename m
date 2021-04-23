@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43AD369AE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 21:27:55 +0200 (CEST)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6409C369AFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 21:41:58 +0200 (CEST)
+Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la1T0-0008BG-VY
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 15:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
+	id 1la1ga-0002hz-VD
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 15:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1la1MM-0003qm-Ak
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:21:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1la1MH-0001KV-AS
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:21:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619205655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DMPY2nyUxuouG/Kjjti7YJ+Wt1eu0+i5HbZACNnb6X8=;
- b=Wz4YgRe09Rrnt81f/oVYrQ8wnjl4MknVFOJZytDefTnUbKuD3DJKmje1aenhb4PP2M00Pc
- P+0dBbDoxpvanmTTaYjYRd7g4DOx5QD61xm0YVs5CQ7xmoMIkpEIUIfDrGBv563UoAHiJ2
- aoUpiqtF7u6VbBdBu7qixIwiXn0OWTw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-yNLL0a8cP9mso7pR0fOnKA-1; Fri, 23 Apr 2021 15:20:52 -0400
-X-MC-Unique: yNLL0a8cP9mso7pR0fOnKA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30D74EC1A0;
- Fri, 23 Apr 2021 19:20:51 +0000 (UTC)
-Received: from [10.10.118.152] (ovpn-118-152.rdu2.redhat.com [10.10.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5560319C71;
- Fri, 23 Apr 2021 19:20:50 +0000 (UTC)
-Subject: Re: [PATCH 01/22] qapi/parser: Don't try to handle file errors
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-2-jsnow@redhat.com>
- <87czuldmwb.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <4d378146-9623-82e9-3906-53954ebba2f5@redhat.com>
-Date: Fri, 23 Apr 2021 15:20:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1la1fZ-0002Iq-5n
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:40:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1la1fV-0005CH-O3
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 15:40:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1la1fT-0006UE-DB
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 19:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 60D032E8050
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 19:40:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87czuldmwb.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Apr 2021 19:33:24 -0000
+From: Ivan Vulovic <1916775@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: whpx windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: abdurrahim-cakar ivanvx
+X-Launchpad-Bug-Reporter: Abdurrahim (abdurrahim-cakar)
+X-Launchpad-Bug-Modifier: Ivan Vulovic (ivanvx)
+References: <161418362907.7833.18159388399676261767.malonedeb@soybean.canonical.com>
+Message-Id: <161920640435.16631.3891248688520521048.malone@chaenomeles.canonical.com>
+Subject: [Bug 1916775] Re: Guest freezes until there is a keyboard input on
+ Windows version
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 80fe397ac20077964e984748e661bd7309098912
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,341 +71,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1916775 <1916775@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 11:46 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> The short-ish version of what motivates this patch is:
->>
->> - The parser initializer does not possess adequate context to write a
->>    good error message -- It tries to determine the caller's semantic
->>    context.
-> 
-> I'm not sure I get what you're trying to say here.
-> 
+I run into this behavior too. Win10 Home guest, PCI-passthrough graphics
+(GTX 1650), host cpu (Ryzen 7 3800XT). Occurs whether or not I use the
+qcow disk drive.
 
-I mean: this __init__ method does not *know* who is calling it or why. 
-Of course, *we* do, because the code base is finite and nobody else but 
-us is calling into it.
+qemu-system-x86_64 =
 
-I mean to point out that the initializer has to do extra work (Just a 
-little) to determine what the calling context is and raise an error 
-accordingly.
+  -cpu host,kvm=3Don,l3-cache=3Don,hv_relaxed,hv_vapic,hv_time,hv_spinlocks=
+=3D0x1fff,hv_vendor_id=3Dhv_dummy =
 
-Example: If we have a parent info context, we raise an error in the 
-context of the caller. If we don't, we have to create a new presumed 
-context (using the weird None SourceInfo object).
+  -smp 8 =
 
-So I just mean to say:
+  -rtc clock=3Dhost,base=3Dlocaltime =
 
-"Let the caller, who unambiguously always has the exactly correct 
-context worry about what the error message ought to be."
+  -machine type=3Dq35,accel=3Dkvm,kernel_irqchip=3Don =
 
->> - We don't want to allow QAPISourceInfo(None, None, None) to exist.
->> - Errors made using such an object are currently incorrect.
->> - It's not technically a semantic error if we cannot open the schema
->> - There are various typing constraints that make mixing these two cases
->>    undesirable for a single special case.
-> 
-> These I understand.
-> 
->> - The current open block in parser's initializer will leak file
->>    pointers, because it isn't using a with statement.
-> 
-> Uh, isn't the value returned by open() reference-counted?  @fp is the
-> only reference...
-> 
+  -enable-kvm =
 
-Yeah, eventually. O:-)
+  -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/OVMF/OVMF_CODE=
+.fd =
 
-Whenever the GC runs. OK, it's not really an apocalypse error, but it 
-felt strange to rewrite a try/except and then write it using bad hygiene 
-on purpose in the name of a more isolated commit.
+  -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd =
 
->> Here's the details in why this got written the way it did, and why a few
->> disparate issues are rolled into one commit. (They're hard to fix
->> separately without writing really weird stuff that'd be harder to
->> review.)
->>
->> The error message string here is incorrect:
->>
->>> python3 qapi-gen.py 'fake.json'
->> qapi-gen.py: qapi-gen.py: can't read schema file 'fake.json': No such file or directory
-> 
-> Regressed in commit 52a474180a "qapi-gen: Separate arg-parsing from
-> generation" (v5.2.0).
-> 
+  -m 32G =
 
-Mea Culpa. Didn't realize it wasn't tested, and I didn't realize at the 
-time that the two kinds of errors here were treated differently.
+  -usb =
 
-> Before commit c615550df3 "qapi: Improve source file read error handling"
-> (v4.2.0), it was differently bad (uncaught exception).
-> 
-> Commit c615550df3 explains why the funny QAPISourceInfo exists:
-> 
->      Reporting open or read failure for the main schema file needs a
->      QAPISourceInfo representing "no source".  Make QAPISourceInfo cope
->      with fname=None.
-> 
+  -device usb-tablet =
 
-I am apparently not the first or the last person to dream of wanting a 
-QAPISourceInfo that represents "Actually, there's no source location!"
+  -vga none =
 
-> The commit turned QAPISourceInfo into the equivalent of a disjoint union
-> of
-> 
-> 1. A position in a source file (.fname is a str)
-> 
-> 2. "Not in any source file" (.fname is None)
-> 
-> This is somewhat similar to struct Location in C, which has
-> 
-> 1. LOC_FILE: a position in a source file
-> 
-> 2. LOC_CMDLINE: a range of command line arguments
-> 
-> 3. LOC_NONE: no location information
-> 
-> Abstracting locations this way lets error_report() do the right thing
-> whether its complaining about the command line, a monitor command, or a
-> configuration file read with -readconfig.
-> 
-> Your patch demonstrates that qapi-gen has much less need for abstracting
-> sources: we use 2. "Not in any source file" only for reading the main
-> schema file.
-> 
+  -serial none =
 
-Yes. I got the impression that you didn't want to pursue more abstract 
-QSI constructs based on earlier work, so going the other way and 
-*removing* them seemed like the faster way to achieve a clean type 
-system here.
+  -parallel none =
 
->> In pursuing it, we find that QAPISourceInfo has a special accommodation
->> for when there's no filename.
-> 
-> Yes:
-> 
->      def loc(self) -> str:
-> -->     if self.fname is None:
-> -->         return sys.argv[0]
->          ret = self.fname
->          if self.line is not None:
->              ret += ':%d' % self.line
->          return ret
-> 
->>                                Meanwhile, we intend to type info.fname as
->> str; something we always have.
-> 
-> Do you mean "as non-optional str"?
-> 
+  -boot cd =
 
-Yeah. I typed it originally as `str`, but the analyzer missed that we 
-check the field to see if it's None, which is misleading.
+  -nographic =
 
->> To remove this, we need to not have a "fake" QAPISourceInfo object. We
-> 
-> We may well want to, but I doubt we *need* to.  There are almost
-> certainly other ways to fix the bug.  I don't see a need to explore
-> them, though.
-> 
+  -device usb-host,vendorid=3D0x045e,productid=3D0x00db =
 
-Either we build out the fake QSI into a proper subtype, or we remove it 
--- those are the two obvious options. Building it out is almost 
-certainly more work than this patch.
+  -device usb-host,vendorid=3D0x1bcf,productid=3D0x0005 =
 
->> also don't want to explicitly begin accommodating QAPISourceInfo being
->> None, because we actually want to eventually prove that this can never
->> happen -- We don't want to confuse "The file isn't open yet" with "This
->> error stems from a definition that wasn't defined in any file".
-> 
-> Yes, encoding both "poisoned source info not to be used with actual
-> errors" and "'fake' source info not pointing to a source file" as None
-> would be a mistake.
-> 
+  -drive id=3Ddisk0,index=3D0,format=3Dqcow2,if=3Dvirtio,cache=3Doff,file=
+=3D./win10_boot_priv.qcow2 =
 
-:)
+  -drive id=3Ddisk2,index=3D2,aio=3Dnative,cache.direct=3Don,if=3Dvirtio,ca=
+che=3Doff,format=3Draw,discard=3Dunmap,detect-zeroes=3Dunmap,file=3D/dev/vg=
+0/win10_hdpriv =
 
->> (An earlier series tried to create an official dummy object, but it was
->> tough to prove in review that it worked correctly without creating new
->> regressions. This patch avoids trying to re-litigate that discussion.
->>
->> We would like to first prove that we never raise QAPISemError for any
->> built-in object before we relent and add "special" info objects. We
->> aren't ready to do that yet, so crashing is preferred.)
->>
->> So, how to solve this mess?
->>
->> Here's one way: Don't try to handle errors at a level with "mixed"
->> semantic levels; i.e. don't try to handle inclusion errors (should
->> report a source line where the include was triggered) with command line
->> errors (where we specified a file we couldn't read).
->>
->> Simply remove the error handling from the initializer of the
->> parser. Pythonic! Now it's the caller's job to figure out what to do
->> about it. Handle the error in QAPISchemaParser._include() instead, where
->> we do have the correct semantic context to not need to play games with
->> the error message generation.
->>
->> Next, to re-gain a nice error at the top level, add a new try/except
->> into qapi/main.generate(). Now the error looks sensible:
-> 
-> Missing "again" after "sensible" ;-P
-> 
+  -device vfio-pci,host=3D09:00.0,addr=3D0x02.0x0,multifunction=3Don =
 
-okayokayokayfine
+  -device vfio-pci,host=3D09:00.1,addr=3D0x02.0x1 =
 
->>
->>> python3 qapi-gen.py 'fake.json'
->> qapi-gen.py: can't read schema file 'fake.json': No such file or directory
->>
->> Lastly, with this usage gone, we can remove the special type violation
->> from QAPISourceInfo, and all is well with the world.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/main.py   |  8 +++++++-
->>   scripts/qapi/parser.py | 18 +++++++++---------
->>   scripts/qapi/source.py |  3 ---
->>   3 files changed, 16 insertions(+), 13 deletions(-)
->>
->> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
->> index 703e7ed1ed5..70f8aa86f37 100644
->> --- a/scripts/qapi/main.py
->> +++ b/scripts/qapi/main.py
->> @@ -48,7 +48,13 @@ def generate(schema_file: str,
->>       """
->>       assert invalid_prefix_char(prefix) is None
->>   
->> -    schema = QAPISchema(schema_file)
->> +    try:
->> +        schema = QAPISchema(schema_file)
->> +    except OSError as err:
->> +        raise QAPIError(
->> +            f"can't read schema file '{schema_file}': {err.strerror}"
->> +        ) from err
->> +
->>       gen_types(schema, output_dir, prefix, builtins)
->>       gen_visit(schema, output_dir, prefix, builtins)
->>       gen_commands(schema, output_dir, prefix)
->> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->> index ca5e8e18e00..b378fa33807 100644
->> --- a/scripts/qapi/parser.py
->> +++ b/scripts/qapi/parser.py
->> @@ -40,15 +40,9 @@ def __init__(self, fname, previously_included=None, incl_info=None):
->>           previously_included = previously_included or set()
->>           previously_included.add(os.path.abspath(fname))
->>   
->> -        try:
->> -            fp = open(fname, 'r', encoding='utf-8')
->> +        # Allow the caller to catch this error.
-> 
-> "this error"?  I understand what you mean now, but I'm not sure I will
-> in three months, when I won't have the context I have now.
-> 
+  -device vfio-pci,host=3D09:00.2,addr=3D0x02.0x2 =
 
-Yep, OK.
+  -device vfio-pci,host=3D09:00.3,addr=3D0x02.0x3 =
 
-# May raise OSError, allow the caller to handle it.
+  -netdev tap,id=3Dnetid,ifname=3Dtaplan,script=3Dno,downscript=3Dno =
 
->> +        with open(fname, 'r', encoding='utf-8') as fp:
->>               self.src = fp.read()
->> -        except IOError as e:
->> -            raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
->> -                               "can't read %s file '%s': %s"
->> -                               % ("include" if incl_info else "schema",
->> -                                  fname,
->> -                                  e.strerror))
->>   
->>           if self.src == '' or self.src[-1] != '\n':
->>               self.src += '\n'
->> @@ -129,7 +123,13 @@ def _include(self, include, info, incl_fname, previously_included):
->>           if incl_abs_fname in previously_included:
->>               return None
->>   
->> -        return QAPISchemaParser(incl_fname, previously_included, info)
->> +        try:
->> +            return QAPISchemaParser(incl_fname, previously_included, info)
->> +        except OSError as err:
->> +            raise QAPISemError(
->> +                info,
->> +                f"can't read include file '{incl_fname}': {err.strerror}"
->> +            ) from err
->>   
->>       def _check_pragma_list_of_str(self, name, value, info):
->>           if (not isinstance(value, list)
-> 
-> Before the patch, only IOError from open() and .read() get converted to
-> QAPISemError, and therefore caught by main().
-> 
-> The patch widen this to anywhere in QAPISchemaParser.__init__().  Hmm.
-> 
+  -device e1000,netdev=3Dnetid,mac=3D52:54:00:01:02:03
 
-"Changed in version 3.3: EnvironmentError, IOError, WindowsError, 
-socket.error, select.error and mmap.error have been merged into OSError, 
-and the constructor may return a subclass."
+-- =
 
- >>> OSError == IOError
-True
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916775
 
-(No, I didn't know this before I wrote it. I just intentionally wanted 
-to catch everything that open() might return, which I had simply assumed 
-was not fully captured by IOError. Better to leave it as OSError now to 
-avoid misleading anyone into thinking it's more narrow than it really is.)
+Title:
+  Guest freezes until there is a keyboard input on Windows version
 
->> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
->> index 03b6ede0828..1ade864d7b9 100644
->> --- a/scripts/qapi/source.py
->> +++ b/scripts/qapi/source.py
->> @@ -10,7 +10,6 @@
->>   # See the COPYING file in the top-level directory.
->>   
->>   import copy
->> -import sys
->>   from typing import List, Optional, TypeVar
->>   
->>   
->> @@ -53,8 +52,6 @@ def next_line(self: T) -> T:
->>           return info
->>   
->>       def loc(self) -> str:
->> -        if self.fname is None:
->> -            return sys.argv[0]
->>           ret = self.fname
->>           if self.line is not None:
->>               ret += ':%d' % self.line
-> 
-> tests/qapi-schema/test-qapi.py also needs an update.  Before the patch:
-> 
->      $ PYTHONPATH=scripts python3 tests/qapi-schema/test-qapi.py nonexistent
->      tests/qapi-schema/test-qapi.py: can't read schema file 'nonexistent.json': No such file or directory
-> 
-> After:
-> 
->      Traceback (most recent call last):
->        File "tests/qapi-schema/test-qapi.py", line 207, in <module>
->          main(sys.argv)
->        File "tests/qapi-schema/test-qapi.py", line 201, in main
->          status |= test_and_diff(test_name, dir_name, args.update)
->        File "tests/qapi-schema/test-qapi.py", line 129, in test_and_diff
->          test_frontend(os.path.join(dir_name, test_name + '.json'))
->        File "tests/qapi-schema/test-qapi.py", line 109, in test_frontend
->          schema = QAPISchema(fname)
->        File "/work/armbru/qemu/scripts/qapi/schema.py", line 852, in __init__
->          parser = QAPISchemaParser(fname)
->        File "/work/armbru/qemu/scripts/qapi/parser.py", line 44, in __init__
->          with open(fname, 'r', encoding='utf-8') as fp:
->      FileNotFoundError: [Errno 2] No such file or directory: 'nonexistent.json'
-> 
+Status in QEMU:
+  New
 
-Probably something that should be added to the actual battery of tests 
-somehow, yeah? I can't prevent regressions in invocations that don't get 
-run O:-)
+Bug description:
+  I am using Qemu for Windows and when I try to run this for Windows
+  guests then the guests are freezing and waiting for keyboard input and
+  it continues to function after I press a key. I am using Windows10
+  Home and below is the command I use to run the guest. I have suspected
+  if this is caused by random entropy but even with mouse moving it
+  gives same random locks and it continues to work as soon as I press a
+  key so maybe its not about entropy at all,
 
---js
+  startwinguest.bat:
+  qemu-system-x86_64 ^
+  =C2=A0-name "win" ^
+  =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
+  =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
+  =C2=A0-nodefaults ^
+  =C2=A0-usb ^
+  =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
+  =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
+  =C2=A0-m 8192 -mem-prealloc ^
+  =C2=A0-soundhw hda ^
+  =C2=A0-usbdevice tablet ^
+  =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
+et,netdev=3Dmynet0 ^
+  =C2=A0-vga std ^
+  =C2=A0-display gtk ^
+  =C2=A0-boot d ^
+  =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
+  =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
+unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
+  =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
+  =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
+dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
+  =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916775/+subscriptions
 
