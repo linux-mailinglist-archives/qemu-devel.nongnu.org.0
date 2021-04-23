@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3768A3692BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:09:18 +0200 (CEST)
-Received: from localhost ([::1]:34820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD133692C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 15:10:23 +0200 (CEST)
+Received: from localhost ([::1]:36888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lZvYb-0003sJ-9F
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
+	id 1lZvZd-0004iV-1h
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 09:10:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZvWS-0002fZ-B9
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:07:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lZvWM-0003Ny-7t
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:07:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619183214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CKbiJvO8D+qP9hfc7hFZ4uufMVS4nm6r8u9POdsfEs4=;
- b=K+bwOYt3m8yiGdu1GZMEWqtBcooogdNSFnh6nlqSNbqJmXK30uBRH6rHJRib9NzuCTFlpg
- 1/P4EeqhKoOPTb1NXtP0hx+jDSrc4a37pCA+J1RTD64uwp4KY9CWWJkp/SR0PfZryl/A3m
- qsRVHWBzI6qnEHlR6DCtjzTDGAydeok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-EygDwtkrOYWD2jhV8yWnXQ-1; Fri, 23 Apr 2021 09:06:52 -0400
-X-MC-Unique: EygDwtkrOYWD2jhV8yWnXQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE6D3107ACCA;
- Fri, 23 Apr 2021 13:06:51 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-2.ams2.redhat.com
- [10.36.115.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 246875DEAD;
- Fri, 23 Apr 2021 13:06:49 +0000 (UTC)
-Subject: Re: firmware selection for SEV-ES
-To: Pavel Hrdina <phrdina@redhat.com>
-References: <6af8c5c7-6166-7f83-9ff0-4c24460577e2@redhat.com>
- <YIARw09TcakElBco@antique-laptop>
- <0b5d799c-6290-5585-599e-4c4f37af6202@redhat.com>
- <0cf69e7e-d159-6b68-0046-5449b0241634@redhat.com>
- <YIKiE+USYmCjQeSR@antique-laptop>
- <e5978a49-00a6-6350-0e06-6aab6de4c9a5@redhat.com>
- <YILFNu1R8LcZRF48@antique-laptop>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <17cd75db-98bf-7bf1-bc5b-cd71e62507ec@redhat.com>
-Date: Fri, 23 Apr 2021 15:06:49 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lZvXk-0003ZS-26
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:08:24 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44861)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lZvXi-0003xT-HM
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 09:08:23 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id r20so24068974ejo.11
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 06:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N1T+jyjH2Ot/UZmCgo8DksDQKXAL8nrhiLUfB+eyrJA=;
+ b=v/fwPtDSKP5bZmWmU+XoohWfl9Nu/7S02ThwdbfEGKkeLxRtHhpJJJ75VJDH/DwLZP
+ HvccHuGlmWd24Bv1fuaT5uk0p52KIkil0l0iITiDzMCmetpXh7TBNHLfRvk5kUY3v6IW
+ RUU5CZUjAB94kh+PgySQNNpbnzmwaeSLqmk5cAwL1He5LAzkr31Hzr/3FC+RG61ddyhH
+ VluuHnSh2qBVgdL/XJN8ycfswg5ItmirAcg8SfVUxyAmNnsh9UiItMRv/gnQ1XIM3ETz
+ HWQwv9th53hvFP4/vtIyjtwgulcuVHJgb2ck5hVkYQj3wviJzT49kw9UsPwZyCZ0tjGv
+ dUHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N1T+jyjH2Ot/UZmCgo8DksDQKXAL8nrhiLUfB+eyrJA=;
+ b=Lj/edrfopre72l/msje4AZSO3NWYlG0oxAH/xB04IEtFO2khtQNFEGNeKb/wRcGul0
+ iOctR2iSggwrdGDPD4XbUXseAv0/toIkM0IfCl2EbpIl5+FeHoZJ6x5/0GR5zDcF0P88
+ UdNpH9Xudh6LUVcKRKhYBWKs23amKfNcTXapghUMp+yD5KZHYwxMz6UIzGxiHeybytTd
+ UPhAUukr8hfWiRW0pLfyOM33fyf/NGBHhk8jQD0vJhHxS7qehYtyEJ+k94xpM2WmlFvI
+ tOuYA6Hw72X9i37mHGPHg7QVS5CPpE/Oi9kKxP28dNYQu2/N2l7bdMwt19vTEjEZ8DOx
+ vb1g==
+X-Gm-Message-State: AOAM530JRzO6+27p06IlVgeF8zB9x7gH4v2XPxNH+feXp1dxwDeacipL
+ B9jlS4SN7e/LW+bds77ndO8bcloeljxLPaKD5U6GstFlVoE=
+X-Google-Smtp-Source: ABdhPJypgiCyz5AGn7SboQ2Da4WzfWfoL2DKr2pn3VSCNOs5q/3U6LHZzzf7rJevEh3HsR3Ft7be+jide4cQEyProCQ=
+X-Received: by 2002:a17:907:9852:: with SMTP id
+ jj18mr4080002ejc.382.1619183301110; 
+ Fri, 23 Apr 2021 06:08:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YILFNu1R8LcZRF48@antique-laptop>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210423031803.1479-1-jasowang@redhat.com>
+In-Reply-To: <20210423031803.1479-1-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 23 Apr 2021 14:07:25 +0100
+Message-ID: <CAFEAcA8pMHHLpPg1ejUmhkD8gMdg=LrHv_RHj08vS4k=8HooeQ@mail.gmail.com>
+Subject: Re: [PATCH for 6.0] net: check the existence of peer before trying to
+ pad
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>
+Cc: Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>,
+ Cole Robinson <crobinso@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/23/21 15:01, Pavel Hrdina wrote:
-> On Fri, Apr 23, 2021 at 02:34:02PM +0200, Laszlo Ersek wrote:
->> On 04/23/21 12:31, Pavel Hrdina wrote:
->>> On Fri, Apr 23, 2021 at 10:16:24AM +0200, Michal Privoznik wrote:
->>>> On 4/22/21 4:13 PM, Laszlo Ersek wrote:
->>>>> On 04/21/21 13:51, Pavel Hrdina wrote:
->>
->>>>> Should we file a libvirtd Feature Request (where?) for recognizing the
->>>>> @amd-sev-es feature flag?
->>>>
->>>> Yes, we should. We can use RedHat bugzilla for that. Laszlo - do you want to
->>>> do it yourself or shall I help you with that?
->>>
->>> This BZ looks like it's already tracking support for amd-sev-es [1].
->>>
->>> Pavel.
->>>
->>> [1] <https://bugzilla.redhat.com/show_bug.cgi?id=1895035>
->>
->> That's a private RHBZ that tracks SEV-ES for a product that is different
->> from "libvirt upstream".
-> 
-> I didn't notice that's a private RHBZ, thanks for pointing it out.
-> 
-> For upstream libvirt we no longer use RHBZ to track RFEs/BZs, we use
-> gitlab issues so if we want to track the work in upstream as well I can
-> create a new issue.
+On Fri, 23 Apr 2021 at 04:18, Jason Wang <jasowang@redhat.com> wrote:
+>
+> There could be case that peer is NULL. This can happen when during
+> network device hot-add where net device needs to be added first. So
+> the patch check the existence of peer before trying to do the pad.
+>
+> Fixes: 969e50b61a285 ("net: Pad short frames to minimum size before sending from SLiRP/TAP")
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  include/net/net.h | 5 +++++
+>  net/slirp.c       | 2 +-
+>  net/tap-win32.c   | 2 +-
+>  net/tap.c         | 2 +-
+>  4 files changed, 8 insertions(+), 3 deletions(-)
 
-Heh, I suspected I was missing something there :) Yes, please, if you or
-Michal could create a new issue in gitlab, that would be great.
+Applied to master for 6.0 rc5; thanks.
 
-Thanks
-Laszlo
-
+-- PMM
 
