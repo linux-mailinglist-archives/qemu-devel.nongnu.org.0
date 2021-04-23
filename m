@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035AF369D14
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 01:04:21 +0200 (CEST)
-Received: from localhost ([::1]:45372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDDA369D22
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 01:06:35 +0200 (CEST)
+Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la4qS-0008Lm-1M
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 19:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1la4sc-0002WD-1v
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 19:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1la4p3-0007u5-KT
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 19:02:53 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:37843)
+ id 1la4pD-00082Q-Si
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 19:03:03 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1la4p0-0003rf-M8
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 19:02:53 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id p2so20715061pgh.4
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 16:02:50 -0700 (PDT)
+ id 1la4pB-0003xv-44
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 19:03:03 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ gq23-20020a17090b1057b0290151869af68bso1962202pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 16:03:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yPEP9WrOmua4zNLym4CElDsb4jnFj5RG20i05uMDoQs=;
- b=FDvTZnfmKPzMQUyyzSI/d75PXwME6lJSquTavcWXBd+x5TnbL1RNwuyBppB6UvqRf6
- B+qboQ/m7wr6eHSaNam0jNWBnReCrHBCj56DqtNm2qVO3wVzoygfkfMIaK9Aph4fPcKh
- oXiPVvtXMHd0qnVXzPkN6969arxRTfHlv3y50XVoqM+R48kNVUp/UH6tOua1JkOHvsYB
- q1UvQIEdfjQVuRZr1iIEOWell7Eg3uf65PHOcl+MP1LdEavoesUynxK7AH2iAKP+0FSw
- b8Lz/m0BIUUURrdqwMYrtmC3i1LHmpQN+G5W39M/Z+I+e7bJj5JcpVt27elNaPISFHYm
- N2rQ==
+ bh=8HRxuEm6RYBSVr5s7Sr56IuCxixUBh33+OoSOD4n1bI=;
+ b=VXqNvD7i+IZnEOyeMPxdUcQxAMmEjQewBYmfbvLrrKahq+nKmfDzuyVr5wRdzLWEK4
+ gTHKwaSX1E/kn1+GNoN4TXXkn4FPxVk+1MvbABB2YtTzuyGM/PhmPyrCT9aBp5oswvmX
+ IwVClp9h2m/NP/JjNW+3Koh83FoQX4EfSb9rWSKuPjqlmqJIxsol1+hHw6qqtBy3jIEM
+ WHIhjD325tU5FgPlkc1jpW0dQPJYjOw7Drdbp3uBUKGxRbTPgBcwhh+aEo55hGjcw1ix
+ wHoXV9SWOYkpSBRVelGFdW9oYBmDgSb9T6ysYgk8xP4XPbhv52xN8bB5RgKHEX2euVNu
+ MQcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yPEP9WrOmua4zNLym4CElDsb4jnFj5RG20i05uMDoQs=;
- b=edvdGijAHgOiGrWbKaLXx+VeSV99n+EDMHPT78cPeGko6Gw3rCAqKGLzrr2iTQJqs+
- pMSCrWFsd+SywqAmo3jfC3CeQH9PnVYIJBx6n04EIWdsZUw9lwq8DoMXDpgeu1nmVTEk
- 68u36Ej0kLhxpbpN9Qo65sPosUVwjqlo3bG5m4k2MHLWVeOsRULgHmzbGgPpU2/yA2wN
- vML1Ge29IOHlD/nyntJDsz9lunVLwYkCPJ+zALoAdgyDQWP82MZqC12M6X4X4uZ7dsHT
- EjVUUEgmQN5QkFkUQIe0M836wGHebtaMPHCeV+igQkHPe19NrwS5P9I6eO7gaA9iPphz
- 9qeg==
-X-Gm-Message-State: AOAM533p6WhRqSjVvStHxVgVlgYZ7KMiiRK8tiFQHfpoemmLJ9hvptYa
- bJehHKYH/JhPsrDUPMF1sU/wHA==
-X-Google-Smtp-Source: ABdhPJy50C4If0DZT1Sg3n9++FK2rPu+IkFumbryfYgkfubDCxNQVZiJRPwRkL9ufAB8dh/bMie2Zw==
-X-Received: by 2002:a63:500a:: with SMTP id e10mr6025120pgb.242.1619218969316; 
- Fri, 23 Apr 2021 16:02:49 -0700 (PDT)
+ bh=8HRxuEm6RYBSVr5s7Sr56IuCxixUBh33+OoSOD4n1bI=;
+ b=DuKqTugwtjNoiZ1WEg0NzHku1D7LRTrruQegvw5m6v5cJoGyr/XgEKlDya2XnJ8W2e
+ XelcX9uezwE9YwqLFzORiZlLnMB+26rN22d/dB7OMNs69PfINAEW/y7851A7oWFI0erB
+ xA/IVMGJ/VDLkI2ioogXVaWw4ryLGpzFj467qgKhaTwtvvNkM8/23S65ZzXuftaRGFF5
+ F8BmHGHK9FLSFF9wG1aPYcbQjBqn6Y8lmD+4PIkWfERmNkCelUfPqAu9oTYhIpR/sKjK
+ zdSljWaB8VLNXLNCx8kC9kUQ1HdPZUFUfxHe8VEt8sgmK8QO8GQ5TsLpfzDkxFUHHd0g
+ TQWw==
+X-Gm-Message-State: AOAM532mp80oxRG7kG58iHMpv6ofskFpbi25gnzMeUl00918kMGoVFbj
+ olVopvCyG2UO6al3iu1yZJgHNA==
+X-Google-Smtp-Source: ABdhPJw1GEbk0xQewimdEDrupgUBH+9wISmW2/2pYoFTTVMtqI6Y764mn3mzPnu4Ey95qR1hzi4ysg==
+X-Received: by 2002:a17:903:18e:b029:ec:b394:981f with SMTP id
+ z14-20020a170903018eb02900ecb394981fmr6277128plg.6.1619218978877; 
+ Fri, 23 Apr 2021 16:02:58 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id m2sm5725086pgv.87.2021.04.23.16.02.48
+ by smtp.gmail.com with ESMTPSA id d71sm5337802pfd.83.2021.04.23.16.02.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 16:02:49 -0700 (PDT)
-Subject: Re: [PULL 01/24] bsd-user: whitespace changes
+ Fri, 23 Apr 2021 16:02:58 -0700 (PDT)
+Subject: Re: [PULL 02/24] bsd-user: whitespace changes
 To: imp@bsdimp.com, qemu-devel@nongnu.org
 References: <20210423203935.78225-1-imp@bsdimp.com>
+ <20210423203935.78225-2-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9d563496-2f17-718b-ca00-f1b65e9da86a@linaro.org>
-Date: Fri, 23 Apr 2021 16:02:47 -0700
+Message-ID: <8f447873-1edd-b7cc-69a8-e707c55bc760@linaro.org>
+Date: Fri, 23 Apr 2021 16:02:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210423203935.78225-1-imp@bsdimp.com>
+In-Reply-To: <20210423203935.78225-2-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,15 +96,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/23/21 1:39 PM, imp@bsdimp.com wrote:
 > From: Warner Losh<imp@bsdimp.com>
 > 
-> keyword space paren, no space before ( in function calls, spaces around
-> operators.
+> Fix various whitespace-only issues from checkpatch:
+>      keyword space (
+>      no space before ( on function calls
+>      spaces around operators
+>      suspect indentations (including one functions reindented)
+>      extra spaces around unary operators
 > 
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/bsdload.c | 26 +++++++++++++-------------
->   1 file changed, 13 insertions(+), 13 deletions(-)
+>   bsd-user/elfload.c | 326 ++++++++++++++++++++++-----------------------
+>   1 file changed, 163 insertions(+), 163 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
