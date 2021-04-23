@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC490369B8F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:50:36 +0200 (CEST)
-Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAD5369BBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 23:02:45 +0200 (CEST)
+Received: from localhost ([::1]:44474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la2l2-0000eC-06
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54832)
+	id 1la2wm-0006Xv-7o
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 17:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2bN-000633-FY
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:37 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:42975)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2bL-00061n-2E
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:35 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:37560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2bB-0008Fk-O3
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:36 -0400
-Received: by mail-il1-x12a.google.com with SMTP id c4so15204786ilq.9
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:40:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2b7-0008E6-RR
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:40:32 -0400
+Received: by mail-io1-xd36.google.com with SMTP id b10so50081400iot.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pQZxDIVBuSYLHNecJKjQ2VuvLn3vixt7uU0o/CpnGyY=;
- b=uWBRbqWa8GiahmTjrzajdyIrHYZOryUiuR6OM8RO0BsJfNxP+fRW4QlYSQM5Lhk8Fe
- 2lt1gdP0M7wopCNZSS96II00Q/1Z3jEFUS6WjaFp6+f1+No7RkGQ23nY3Dr5fEIQgv3Y
- pGn1RHxcvJGX7h45s2FOBIaG/BmE+Z19q56+/x2qy4wou7Bg8kZrsPB2feS+uCBwBXIB
- n9eaVW+0iUzARaBC7A2v7O6Vlp0eLdGwgagwJ3w5MHKyunC1GG/SA2SgB8Zqba+E1+rG
- /kvU6inve2PD/uutFl7NPs0R7Ywn/xUxoF/S/3LgTNBbTmCiwd7fnRg+eB41LF7nEKv7
- ccUg==
+ bh=KCpN3fMjVnI6P/5+Hcy21zU+TlRkeIdqq7qwGLErEGg=;
+ b=x8GKAOKiPefv5QO2a/MUFJf6ZPMSDaneW9djsmzNOsqqcCoQ2kLfx/S3p5gQyBrX4Q
+ 84sAW5cjtR00T6cddtdHYmcrea3VcK7PcsKFcNPQ57sBUMplklVa51se9WkPIY6bYWTs
+ idzz77aN1AzH8rXfN+M1VM4ZX8TUQAaWliatM60ErAfX5ZFhuoXUXvgyW/isYNCZugdn
+ ADg+E3OmtQzD10ZcnKIDGAAPtSBPxzGNmpgS64vx/il50ON4Vs/hfzbnOxqdtp9P6xX4
+ N7KnbMyK1xM/SlcxIdtPNdFM0uJieymxQdstQlyOlagO9egK+19bFiXu1RSVzgcdRnjm
+ BMCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pQZxDIVBuSYLHNecJKjQ2VuvLn3vixt7uU0o/CpnGyY=;
- b=OK3XARQ009AvFcWw1a2Yj5PJ45S36a07GQpNTwmPPsfLnppi4yPMxc8iIzNusf647f
- 83OXlrNXgeEGqbMrNRtSWopD6YuSeJwEwdDo8FuNnm27PaXlceWUmmNuogMx/Jf55GsG
- iMcMfsq0lgU+iTwvmsum4Qa7lj2RpJ6T35wdL+qCDF8uWGfYXF8fzvvj5EUNOn9lyInA
- Vh09kXZ3IZxvQkhrNJohvKFcNkM1isoN6l5HiNhy+O//fudXsUTQeW2bqWpsdmwls0m+
- MnsPDGinv/iJWUslTrwDHiWjFG3HftTKCbbMpTIvrLi5H1F33H2AZ1q9OxWkzaCAI+tD
- kOjw==
-X-Gm-Message-State: AOAM532sODHSwNR66RSKHShKEnBlC2XghTXZkiDXEjJsrgHc3WTyMkre
- 1K8uM8budwH8AHZhkqOSIs3yUKCzetJuuw3v
-X-Google-Smtp-Source: ABdhPJzZkP/AcyeDoGNszw54Flv+hq7wqs4tKV619KgOFInBnJd4/czU6wO6DGgQH3+K64FqhYEtzw==
-X-Received: by 2002:a05:6e02:d51:: with SMTP id
- h17mr4426624ilj.134.1619210422178; 
- Fri, 23 Apr 2021 13:40:22 -0700 (PDT)
+ bh=KCpN3fMjVnI6P/5+Hcy21zU+TlRkeIdqq7qwGLErEGg=;
+ b=eEt3PHq+NXv06ZZvZAvBJlJCoRpPHjQsRrGYhrk2g0UzcJyfsJrTMrSbg6WgmlLgNP
+ jU5IXnu/R+yjuHQr8zeDuv0FtZX09ie9BoSxdP0mvCUBY7eos3IdtFvL5SCpqgtMTqIp
+ bzzA+fcLXc55NPP4sTrAAm+jp3cCFk4GQgobIMOJUecWw0jsDN9Wnz3lHtR3C0JzWR7p
+ 8OCX2+agB2vHfoQSv20fiwV0tEvXJDQsDnJFuR1UP2TiLSVDTHZhFpGrvCKBcIL9RsCV
+ Ma2X10vIG4C9/7Wc5aE18LFacvkGiDf2yGYaewkcJ5dgv4+r/W9PvETpv0f794L4Oea4
+ N9Fg==
+X-Gm-Message-State: AOAM533KDxAM+aKlCVOUf9McyD8NMVps1OGbuYer1Qj7zVTTqhzoPni7
+ 3NlNilIKAMyLtPVBbJcHbgM3tcBjLE7mYTX6
+X-Google-Smtp-Source: ABdhPJxfrir9p3Uiqyxy9dJaUjTn0Vh/YXE4XBgl9QexD299UEX0Oj7idb8OplTlvn5zQqb4HJziiA==
+X-Received: by 2002:a6b:7d4c:: with SMTP id d12mr4415477ioq.29.1619210418941; 
+ Fri, 23 Apr 2021 13:40:18 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id n1sm3201308ion.22.2021.04.23.13.40.20
+ by smtp.gmail.com with ESMTPSA id n1sm3201308ion.22.2021.04.23.13.40.18
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Apr 2021 13:40:21 -0700 (PDT)
+ Fri, 23 Apr 2021 13:40:18 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/24] bsd-user: move sparc cpu_loop into target_arch_cpu.h as
- target_cpu_loop
-Date: Fri, 23 Apr 2021 14:39:59 -0600
-Message-Id: <20210423203959.78275-15-imp@bsdimp.com>
+Subject: [PULL 21/24] bsd-user: add arm target_signal.h
+Date: Fri, 23 Apr 2021 14:39:56 -0600
+Message-Id: <20210423203959.78275-12-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210423203959.78275-1-imp@bsdimp.com>
 References: <20210423203959.78275-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,646 +88,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-Move the sparc cpu_loop out of main.c and into target_arch_cpu.h and
-rename it from cpu_loop to target_cpu_loop. Remove the #ifdef around
-the catch-all cpu_loop.
+Add a arm target_signal.h to complete the files currently in the tree. The arm
+directory isn't compiled, so it was missing target_signal.h. Update it to the
+same level as x86 and sparc. This was abstracted from the target_arch_vmparam.h
+file in the bsd-user branch.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/main.c                  | 305 -------------------------------
- bsd-user/sparc/target_arch_cpu.h | 300 ++++++++++++++++++++++++++++++
- 2 files changed, 300 insertions(+), 305 deletions(-)
+ bsd-user/arm/target_signal.h | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 bsd-user/arm/target_signal.h
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 3ebfa9425d..5791c3a641 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -87,315 +87,10 @@ void fork_end(int child)
-     }
- }
- 
--#ifdef TARGET_I386 /* stopgap ifdef */
- void cpu_loop(CPUArchState *env)
- {
-     target_cpu_loop(env);
- }
--#endif
--
--#ifdef TARGET_SPARC
--#define SPARC64_STACK_BIAS 2047
--
--/* #define DEBUG_WIN */
--/*
-- * WARNING: dealing with register windows _is_ complicated. More info
-- * can be found at http://www.sics.se/~psm/sparcstack.html
-- */
--static inline int get_reg_index(CPUSPARCState *env, int cwp, int index)
--{
--    index = (index + cwp * 16) % (16 * env->nwindows);
--    /*
--     * wrap handling : if cwp is on the last window, then we use the
--     * registers 'after' the end
--     */
--    if (index < 8 && env->cwp == env->nwindows - 1) {
--        index += 16 * env->nwindows;
--    }
--    return index;
--}
--
--/* save the register window 'cwp1' */
--static inline void save_window_offset(CPUSPARCState *env, int cwp1)
--{
--    unsigned int i;
--    abi_ulong sp_ptr;
--
--    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
--#ifdef TARGET_SPARC64
--    if (sp_ptr & 3) {
--        sp_ptr += SPARC64_STACK_BIAS;
--    }
--#endif
--#if defined(DEBUG_WIN)
--    printf("win_overflow: sp_ptr=0x" TARGET_ABI_FMT_lx " save_cwp=%d\n",
--           sp_ptr, cwp1);
--#endif
--    for (i = 0; i < 16; i++) {
--        /* FIXME - what to do if put_user() fails? */
--        put_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
--        sp_ptr += sizeof(abi_ulong);
--    }
--}
--
--static void save_window(CPUSPARCState *env)
--{
--#ifndef TARGET_SPARC64
--    unsigned int new_wim;
--    new_wim = ((env->wim >> 1) | (env->wim << (env->nwindows - 1))) &
--        ((1LL << env->nwindows) - 1);
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
--    env->wim = new_wim;
--#else
--    /*
--     * cansave is zero if the spill trap handler is triggered by `save` and
--     * nonzero if triggered by a `flushw`
--     */
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
--    env->cansave++;
--    env->canrestore--;
--#endif
--}
--
--static void restore_window(CPUSPARCState *env)
--{
--#ifndef TARGET_SPARC64
--    unsigned int new_wim;
--#endif
--    unsigned int i, cwp1;
--    abi_ulong sp_ptr;
--
--#ifndef TARGET_SPARC64
--    new_wim = ((env->wim << 1) | (env->wim >> (env->nwindows - 1))) &
--        ((1LL << env->nwindows) - 1);
--#endif
--
--    /* restore the invalid window */
--    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
--    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
--#ifdef TARGET_SPARC64
--    if (sp_ptr & 3) {
--        sp_ptr += SPARC64_STACK_BIAS;
--    }
--#endif
--#if defined(DEBUG_WIN)
--    printf("win_underflow: sp_ptr=0x" TARGET_ABI_FMT_lx " load_cwp=%d\n",
--           sp_ptr, cwp1);
--#endif
--    for (i = 0; i < 16; i++) {
--        /* FIXME - what to do if get_user() fails? */
--        get_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
--        sp_ptr += sizeof(abi_ulong);
--    }
--#ifdef TARGET_SPARC64
--    env->canrestore++;
--    if (env->cleanwin < env->nwindows - 1) {
--        env->cleanwin++;
--    }
--    env->cansave--;
--#else
--    env->wim = new_wim;
--#endif
--}
--
--static void flush_windows(CPUSPARCState *env)
--{
--    int offset, cwp1;
--
--    offset = 1;
--    for (;;) {
--        /* if restore would invoke restore_window(), then we can stop */
--        cwp1 = cpu_cwp_inc(env, env->cwp + offset);
--#ifndef TARGET_SPARC64
--        if (env->wim & (1 << cwp1)) {
--            break;
--        }
--#else
--        if (env->canrestore == 0) {
--            break;
--        }
--        env->cansave++;
--        env->canrestore--;
--#endif
--        save_window_offset(env, cwp1);
--        offset++;
--    }
--    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
--#ifndef TARGET_SPARC64
--    /* set wim so that restore will reload the registers */
--    env->wim = 1 << cwp1;
--#endif
--#if defined(DEBUG_WIN)
--    printf("flush_windows: nb=%d\n", offset - 1);
--#endif
--}
--
--void cpu_loop(CPUSPARCState *env)
--{
--    CPUState *cs = env_cpu(env);
--    int trapnr, ret, syscall_nr;
--    /* target_siginfo_t info; */
--
--    while (1) {
--        cpu_exec_start(cs);
--        trapnr = cpu_exec(cs);
--        cpu_exec_end(cs);
--        process_queued_cpu_work(cs);
--
--        switch (trapnr) {
--#ifndef TARGET_SPARC64
--        case 0x80:
--#else
--        /* FreeBSD uses 0x141 for syscalls too */
--        case 0x141:
--            if (bsd_type != target_freebsd) {
--                goto badtrap;
--            }
--            /* fallthrough */
--        case 0x100:
--#endif
--            syscall_nr = env->gregs[1];
--            if (bsd_type == target_freebsd)
--                ret = do_freebsd_syscall(env, syscall_nr,
--                                         env->regwptr[0], env->regwptr[1],
--                                         env->regwptr[2], env->regwptr[3],
--                                         env->regwptr[4], env->regwptr[5],
--                                         0, 0);
--            else if (bsd_type == target_netbsd)
--                ret = do_netbsd_syscall(env, syscall_nr,
--                                        env->regwptr[0], env->regwptr[1],
--                                        env->regwptr[2], env->regwptr[3],
--                                        env->regwptr[4], env->regwptr[5]);
--            else { /* if (bsd_type == target_openbsd) */
--#if defined(TARGET_SPARC64)
--                syscall_nr &= ~(TARGET_OPENBSD_SYSCALL_G7RFLAG |
--                                TARGET_OPENBSD_SYSCALL_G2RFLAG);
--#endif
--                ret = do_openbsd_syscall(env, syscall_nr,
--                                         env->regwptr[0], env->regwptr[1],
--                                         env->regwptr[2], env->regwptr[3],
--                                         env->regwptr[4], env->regwptr[5]);
--            }
--            if ((unsigned int)ret >= (unsigned int)(-515)) {
--                ret = -ret;
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc |= PSR_CARRY;
--#else
--                env->psr |= PSR_CARRY;
--#endif
--            } else {
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc &= ~PSR_CARRY;
--#else
--                env->psr &= ~PSR_CARRY;
--#endif
--            }
--            env->regwptr[0] = ret;
--            /* next instruction */
--#if defined(TARGET_SPARC64)
--            if (bsd_type == target_openbsd &&
--                env->gregs[1] & TARGET_OPENBSD_SYSCALL_G2RFLAG) {
--                env->pc = env->gregs[2];
--                env->npc = env->pc + 4;
--            } else if (bsd_type == target_openbsd &&
--                       env->gregs[1] & TARGET_OPENBSD_SYSCALL_G7RFLAG) {
--                env->pc = env->gregs[7];
--                env->npc = env->pc + 4;
--            } else {
--                env->pc = env->npc;
--                env->npc = env->npc + 4;
--            }
--#else
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
--#endif
--            break;
--        case 0x83: /* flush windows */
--#ifdef TARGET_ABI32
--        case 0x103:
--#endif
--            flush_windows(env);
--            /* next instruction */
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
--            break;
--#ifndef TARGET_SPARC64
--        case TT_WIN_OVF: /* window overflow */
--            save_window(env);
--            break;
--        case TT_WIN_UNF: /* window underflow */
--            restore_window(env);
--            break;
--        case TT_TFAULT:
--        case TT_DFAULT:
--#ifdef notyet
--            {
--                info.si_signo = SIGSEGV;
--                info.si_errno = 0;
--                /* XXX: check env->error_code */
--                info.si_code = TARGET_SEGV_MAPERR;
--                info._sifields._sigfault._addr = env->mmuregs[4];
--                queue_signal(env, info.si_signo, &info);
--            }
--#endif
--            break;
--#else
--        case TT_SPILL: /* window overflow */
--            save_window(env);
--            break;
--        case TT_FILL: /* window underflow */
--            restore_window(env);
--            break;
--        case TT_TFAULT:
--        case TT_DFAULT:
--#ifdef notyet
--            {
--                info.si_signo = SIGSEGV;
--                info.si_errno = 0;
--                /* XXX: check env->error_code */
--                info.si_code = TARGET_SEGV_MAPERR;
--                if (trapnr == TT_DFAULT) {
--                    info._sifields._sigfault._addr = env->dmmuregs[4];
--                } else {
--                    info._sifields._sigfault._addr = env->tsptr->tpc;
--                }
--                /* queue_signal(env, info.si_signo, &info); */
--            }
--#endif
--            break;
--#endif
--        case EXCP_INTERRUPT:
--            /* just indicate that signals should be handled asap */
--            break;
--        case EXCP_DEBUG:
--            {
--#ifdef notyet
--                int sig =
--#endif
--                gdb_handlesig(cs, TARGET_SIGTRAP);
--#ifdef notyet
--                if (sig) {
--                    info.si_signo = sig;
--                    info.si_errno = 0;
--                    info.si_code = TARGET_TRAP_BRKPT;
--                    /* queue_signal(env, info.si_signo, &info); */
--                }
--#endif
--            }
--            break;
--        default:
--#ifdef TARGET_SPARC64
--        badtrap:
--#endif
--            printf("Unhandled trap: 0x%x\n", trapnr);
--            cpu_dump_state(cs, stderr, 0);
--            exit(1);
--        }
--        process_pending_signals(env);
--    }
--}
--
--#endif
- 
- static void usage(void)
- {
-diff --git a/bsd-user/sparc/target_arch_cpu.h b/bsd-user/sparc/target_arch_cpu.h
-index dcf7694cba..c2b9c2480e 100644
---- a/bsd-user/sparc/target_arch_cpu.h
-+++ b/bsd-user/sparc/target_arch_cpu.h
-@@ -19,4 +19,304 @@
- #ifndef _TARGET_ARCH_CPU_H_
- #define _TARGET_ARCH_CPU_H_
- 
-+#define SPARC64_STACK_BIAS 2047
-+
-+/* #define DEBUG_WIN */
+diff --git a/bsd-user/arm/target_signal.h b/bsd-user/arm/target_signal.h
+new file mode 100644
+index 0000000000..02be90a2d1
+--- /dev/null
++++ b/bsd-user/arm/target_signal.h
+@@ -0,0 +1,31 @@
 +/*
-+ * WARNING: dealing with register windows _is_ complicated. More info
-+ * can be found at http://www.sics.se/~psm/sparcstack.html
++ * ARM target specific signal handling code
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+static inline int get_reg_index(CPUSPARCState *env, int cwp, int index)
++#ifndef TARGET_SIGNAL_H
++#define TARGET_SIGNAL_H
++
++#include "cpu.h"
++
++/* this struct defines a stack used during syscall handling */
++
++static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
 +{
-+    index = (index + cwp * 16) % (16 * env->nwindows);
-+    /*
-+     * wrap handling : if cwp is on the last window, then we use the
-+     * registers 'after' the end
-+     */
-+    if (index < 8 && env->cwp == env->nwindows - 1) {
-+        index += 16 * env->nwindows;
-+    }
-+    return index;
++    return state->regs[R_ESP];
 +}
 +
-+/* save the register window 'cwp1' */
-+static inline void save_window_offset(CPUSPARCState *env, int cwp1)
-+{
-+    unsigned int i;
-+    abi_ulong sp_ptr;
-+
-+    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
-+#ifdef TARGET_SPARC64
-+    if (sp_ptr & 3) {
-+        sp_ptr += SPARC64_STACK_BIAS;
-+    }
-+#endif
-+#if defined(DEBUG_WIN)
-+    printf("win_overflow: sp_ptr=0x" TARGET_ABI_FMT_lx " save_cwp=%d\n",
-+           sp_ptr, cwp1);
-+#endif
-+    for (i = 0; i < 16; i++) {
-+        /* FIXME - what to do if put_user() fails? */
-+        put_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
-+        sp_ptr += sizeof(abi_ulong);
-+    }
-+}
-+
-+static void save_window(CPUSPARCState *env)
-+{
-+#ifndef TARGET_SPARC64
-+    unsigned int new_wim;
-+    new_wim = ((env->wim >> 1) | (env->wim << (env->nwindows - 1))) &
-+        ((1LL << env->nwindows) - 1);
-+    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
-+    env->wim = new_wim;
-+#else
-+    /*
-+     * cansave is zero if the spill trap handler is triggered by `save` and
-+     * nonzero if triggered by a `flushw`
-+     */
-+    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
-+    env->cansave++;
-+    env->canrestore--;
-+#endif
-+}
-+
-+static void restore_window(CPUSPARCState *env)
-+{
-+#ifndef TARGET_SPARC64
-+    unsigned int new_wim;
-+#endif
-+    unsigned int i, cwp1;
-+    abi_ulong sp_ptr;
-+
-+#ifndef TARGET_SPARC64
-+    new_wim = ((env->wim << 1) | (env->wim >> (env->nwindows - 1))) &
-+        ((1LL << env->nwindows) - 1);
-+#endif
-+
-+    /* restore the invalid window */
-+    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
-+    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
-+#ifdef TARGET_SPARC64
-+    if (sp_ptr & 3) {
-+        sp_ptr += SPARC64_STACK_BIAS;
-+    }
-+#endif
-+#if defined(DEBUG_WIN)
-+    printf("win_underflow: sp_ptr=0x" TARGET_ABI_FMT_lx " load_cwp=%d\n",
-+           sp_ptr, cwp1);
-+#endif
-+    for (i = 0; i < 16; i++) {
-+        /* FIXME - what to do if get_user() fails? */
-+        get_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
-+        sp_ptr += sizeof(abi_ulong);
-+    }
-+#ifdef TARGET_SPARC64
-+    env->canrestore++;
-+    if (env->cleanwin < env->nwindows - 1) {
-+        env->cleanwin++;
-+    }
-+    env->cansave--;
-+#else
-+    env->wim = new_wim;
-+#endif
-+}
-+
-+static void flush_windows(CPUSPARCState *env)
-+{
-+    int offset, cwp1;
-+
-+    offset = 1;
-+    for (;;) {
-+        /* if restore would invoke restore_window(), then we can stop */
-+        cwp1 = cpu_cwp_inc(env, env->cwp + offset);
-+#ifndef TARGET_SPARC64
-+        if (env->wim & (1 << cwp1)) {
-+            break;
-+        }
-+#else
-+        if (env->canrestore == 0) {
-+            break;
-+        }
-+        env->cansave++;
-+        env->canrestore--;
-+#endif
-+        save_window_offset(env, cwp1);
-+        offset++;
-+    }
-+    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
-+#ifndef TARGET_SPARC64
-+    /* set wim so that restore will reload the registers */
-+    env->wim = 1 << cwp1;
-+#endif
-+#if defined(DEBUG_WIN)
-+    printf("flush_windows: nb=%d\n", offset - 1);
-+#endif
-+}
-+
-+void target_cpu_loop(CPUSPARCState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr, ret, syscall_nr;
-+    /* target_siginfo_t info; */
-+
-+    while (1) {
-+        cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+        cpu_exec_end(cs);
-+        process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+#ifndef TARGET_SPARC64
-+        case 0x80:
-+#else
-+        /* FreeBSD uses 0x141 for syscalls too */
-+        case 0x141:
-+            if (bsd_type != target_freebsd) {
-+                goto badtrap;
-+            }
-+            /* fallthrough */
-+        case 0x100:
-+#endif
-+            syscall_nr = env->gregs[1];
-+            if (bsd_type == target_freebsd)
-+                ret = do_freebsd_syscall(env, syscall_nr,
-+                                         env->regwptr[0], env->regwptr[1],
-+                                         env->regwptr[2], env->regwptr[3],
-+                                         env->regwptr[4], env->regwptr[5],
-+                                         0, 0);
-+            else if (bsd_type == target_netbsd)
-+                ret = do_netbsd_syscall(env, syscall_nr,
-+                                        env->regwptr[0], env->regwptr[1],
-+                                        env->regwptr[2], env->regwptr[3],
-+                                        env->regwptr[4], env->regwptr[5]);
-+            else { /* if (bsd_type == target_openbsd) */
-+#if defined(TARGET_SPARC64)
-+                syscall_nr &= ~(TARGET_OPENBSD_SYSCALL_G7RFLAG |
-+                                TARGET_OPENBSD_SYSCALL_G2RFLAG);
-+#endif
-+                ret = do_openbsd_syscall(env, syscall_nr,
-+                                         env->regwptr[0], env->regwptr[1],
-+                                         env->regwptr[2], env->regwptr[3],
-+                                         env->regwptr[4], env->regwptr[5]);
-+            }
-+            if ((unsigned int)ret >= (unsigned int)(-515)) {
-+                ret = -ret;
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+                env->xcc |= PSR_CARRY;
-+#else
-+                env->psr |= PSR_CARRY;
-+#endif
-+            } else {
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+                env->xcc &= ~PSR_CARRY;
-+#else
-+                env->psr &= ~PSR_CARRY;
-+#endif
-+            }
-+            env->regwptr[0] = ret;
-+            /* next instruction */
-+#if defined(TARGET_SPARC64)
-+            if (bsd_type == target_openbsd &&
-+                env->gregs[1] & TARGET_OPENBSD_SYSCALL_G2RFLAG) {
-+                env->pc = env->gregs[2];
-+                env->npc = env->pc + 4;
-+            } else if (bsd_type == target_openbsd &&
-+                       env->gregs[1] & TARGET_OPENBSD_SYSCALL_G7RFLAG) {
-+                env->pc = env->gregs[7];
-+                env->npc = env->pc + 4;
-+            } else {
-+                env->pc = env->npc;
-+                env->npc = env->npc + 4;
-+            }
-+#else
-+            env->pc = env->npc;
-+            env->npc = env->npc + 4;
-+#endif
-+            break;
-+        case 0x83: /* flush windows */
-+#ifdef TARGET_ABI32
-+        case 0x103:
-+#endif
-+            flush_windows(env);
-+            /* next instruction */
-+            env->pc = env->npc;
-+            env->npc = env->npc + 4;
-+            break;
-+#ifndef TARGET_SPARC64
-+        case TT_WIN_OVF: /* window overflow */
-+            save_window(env);
-+            break;
-+        case TT_WIN_UNF: /* window underflow */
-+            restore_window(env);
-+            break;
-+        case TT_TFAULT:
-+        case TT_DFAULT:
-+#ifdef notyet
-+            {
-+                info.si_signo = SIGSEGV;
-+                info.si_errno = 0;
-+                /* XXX: check env->error_code */
-+                info.si_code = TARGET_SEGV_MAPERR;
-+                info._sifields._sigfault._addr = env->mmuregs[4];
-+                queue_signal(env, info.si_signo, &info);
-+            }
-+#endif
-+            break;
-+#else
-+        case TT_SPILL: /* window overflow */
-+            save_window(env);
-+            break;
-+        case TT_FILL: /* window underflow */
-+            restore_window(env);
-+            break;
-+        case TT_TFAULT:
-+        case TT_DFAULT:
-+#ifdef notyet
-+            {
-+                info.si_signo = SIGSEGV;
-+                info.si_errno = 0;
-+                /* XXX: check env->error_code */
-+                info.si_code = TARGET_SEGV_MAPERR;
-+                if (trapnr == TT_DFAULT) {
-+                    info._sifields._sigfault._addr = env->dmmuregs[4];
-+                } else {
-+                    info._sifields._sigfault._addr = env->tsptr->tpc;
-+                }
-+                /* queue_signal(env, info.si_signo, &info); */
-+            }
-+#endif
-+            break;
-+#endif
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+        case EXCP_DEBUG:
-+            {
-+#ifdef notyet
-+                int sig =
-+#endif
-+                gdb_handlesig(cs, TARGET_SIGTRAP);
-+#ifdef notyet
-+                if (sig) {
-+                    info.si_signo = sig;
-+                    info.si_errno = 0;
-+                    info.si_code = TARGET_TRAP_BRKPT;
-+                    /* queue_signal(env, info.si_signo, &info); */
-+                }
-+#endif
-+            }
-+            break;
-+        default:
-+#ifdef TARGET_SPARC64
-+        badtrap:
-+#endif
-+            printf("Unhandled trap: 0x%x\n", trapnr);
-+            cpu_dump_state(cs, stderr, 0);
-+            exit(1);
-+        }
-+        process_pending_signals(env);
-+    }
-+}
-+
- #endif /* ! _TARGET_ARCH_CPU_H_ */
++#endif /* TARGET_SIGNAL_H */
 -- 
 2.22.1
 
