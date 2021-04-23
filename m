@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566C7369B81
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:46:26 +0200 (CEST)
-Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D79369B71
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Apr 2021 22:41:57 +0200 (CEST)
+Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la2gz-00040G-Bm
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
+	id 1la2ce-0006sp-9Q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 16:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2ac-00058R-Bb
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:50 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:39470)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2ab-000576-KC
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:49 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:39472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2aZ-0007vn-5Y
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:50 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- 65-20020a9d03470000b02902808b4aec6dso41637628otv.6
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:39:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1la2aZ-0007w0-Tc
+ for qemu-devel@nongnu.org; Fri, 23 Apr 2021 16:39:49 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 65-20020a9d03470000b02902808b4aec6dso41637653otv.6
+ for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 13:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=15YT+ApyZHI2KGADjA4ZvpKC21Gl1pivpnfS2CDPjro=;
- b=FuoLsVtvW4pduZs+iKKjKsXTrqaeaOlvlZ2GRIFgJXBOb+sVHy4INTJgQWsJCb5FoT
- XBSJcd4b9JDSjYJTY+ICkusNPr6nz+XD+10gLgoVYPCFb+lURmouYI2UowdehM6GjCjm
- D1TWVfhcP53yQOhJ/Tb3p4sFysSHq3IarzziM9SnK3nTgXrmSXlf3M6FkxoLypR1QdAr
- 4oeOgK5wv773qnEdYLpIa9D9D39BxfNPh6bmHEe5D72JaK8jzNR/QRlDkB6QyPVeA/pA
- sFZoI065VOXzHvbDB2yarlkuiydUULcgLmmUqT6LOu94xo/nUzcQz+OXvNTHIkk119lq
- 34mw==
+ bh=AAnkUc8jISOMiDfFCRCZEzuk5CxhelAHBXEwn56RXZk=;
+ b=fMeRkeaRI4axHMRSN23/ylRTxCNFqGLD2q22Rvdctbhhix2+FyPFq3VFzCUqrUlcGV
+ UFCynWmzmlwB+VlpWRYzYqplPpPms9o/aZn94KY6TGdOugJM+ONmSVEkgc5mhccTurAx
+ FUSzks9aOwgoy3GTy76tw/AKluVacyeEdxgx4z/jfYZQvAsNlJYqMwDI10OiNopZOqN3
+ i/Ej1BFQY8KEJXZ3Rr7zw/zbjSyO5zv9Asq86PD7tk5WQthltd3J5xE+fPXWKubyPmkP
+ PuagieHXlqkLFbRzue0TbXWYnL5LbH1pQKGhJjueKWV7oYFv+c7I1FaEZd5em0/G43er
+ 1qYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=15YT+ApyZHI2KGADjA4ZvpKC21Gl1pivpnfS2CDPjro=;
- b=YPfO7JfXWmcMAmzhtvJFXRitUa0EvDf1s579dsUskIXMmRD7G5e8vmWi1qzjYqFWkl
- wdGfg7y4JwAWecmc9y/jXNBmJnxJRE2E16tsAtKJYfJdZ943rYQbKyX0ElYk5r/qvmuD
- iPFbTTBu69apJzhJclKkwv4lcf5Mnb4a+WnVYaoqKiDv56Q/Zbzi/eGMEIAGgWz2I+lI
- CfeDj2l/9F/gMtGHA0t0HlpfDlIhUCNuiaYuKzZ/SSsvEJfr8AU32IiB+JxuvpUbbbcV
- ABHkefO0DXEwPiYMe35O6+lFEU8mBJukCt/1w4zYoxT5E3Vyco0zhdSRU9d96lCJTtn3
- rNSQ==
-X-Gm-Message-State: AOAM531QCutSWJdhy1JM9rekaAOSulU3xDDkYTjF1inEWpSrS7QcrZE1
- nP+iowGOdi7WjNMgD61CeUvkv9Byph+ra7Y2
-X-Google-Smtp-Source: ABdhPJz+G28ZbLz2wdrqtxJ1IK/et0Gu1H/a+z1xZRIuIOE1/F9ak2al9znpczGTE1mxDiMEQsB5yA==
-X-Received: by 2002:a9d:6483:: with SMTP id g3mr4877158otl.332.1619210385861; 
- Fri, 23 Apr 2021 13:39:45 -0700 (PDT)
+ bh=AAnkUc8jISOMiDfFCRCZEzuk5CxhelAHBXEwn56RXZk=;
+ b=fTR8AYrBos5yWLzLxpdnjCinr93QaZlSinKXHAJ5iPQ/7XglH2czjPCt37oTf4nblY
+ Vmoqq3duNFWXnGZso5wlJn84MECahjK2xCVpXJhNvXTh1tvXe29PrTqFLMfHLHQZ4+IZ
+ ilLTCidwabSk0WA7YlwjzG14gwrkqG6jd1msH7XBNwJuwi5Jn+P+lkWel2QgDqAdbtIh
+ nsb4kd+nLM1Jq5zNJ7Iep7tGR1Z39TBprYNla8k0uCA/PpFtdlFq8pfkhYZI4eRsfQ2w
+ 7WX0kHqd5a6l9o3Nv6WBnmI+TQk6mknF9+wEonGjzIiITnrNHqfKWZeuL/bYlhjH1rmd
+ Bl6w==
+X-Gm-Message-State: AOAM53325XEPtkb8mf37IKNwsK0f6dX+CET6G78AjeJTjZWmS4RCjClv
+ gQS31IV2YuYlPFOrR/pnPFUqWUJggkvhuoMI
+X-Google-Smtp-Source: ABdhPJzO6lsSnQcekOyR5I0vGSIfEn/AxpKxoxhDwnozu6p4bIwcdS7aDJkgh9EraZpYquflmRDipg==
+X-Received: by 2002:a05:6830:3497:: with SMTP id
+ c23mr4791920otu.344.1619210386682; 
+ Fri, 23 Apr 2021 13:39:46 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id m127sm1511911oib.32.2021.04.23.13.39.45
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Apr 2021 13:39:45 -0700 (PDT)
+ Fri, 23 Apr 2021 13:39:46 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/24] bsd-user: style tweak: keyword space (
-Date: Fri, 23 Apr 2021 14:39:30 -0600
-Message-Id: <20210423203935.78225-4-imp@bsdimp.com>
+Subject: [PULL 05/24] bsd-user: style tweak: keyword space (
+Date: Fri, 23 Apr 2021 14:39:31 -0600
+Message-Id: <20210423203935.78225-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210423203935.78225-1-imp@bsdimp.com>
 References: <20210423203935.78225-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::329;
- envelope-from=imp@bsdimp.com; helo=mail-ot1-x329.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=imp@bsdimp.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,98 +91,31 @@ From: Warner Losh <imp@bsdimp.com>
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/mmap.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ bsd-user/qemu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 01ec808003..0ac1b92706 100644
---- a/bsd-user/mmap.c
-+++ b/bsd-user/mmap.c
-@@ -93,11 +93,11 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-     if (start > host_start) {
-         /* handle host page containing start */
-         prot1 = prot;
--        for(addr = host_start; addr < start; addr += TARGET_PAGE_SIZE) {
-+        for (addr = host_start; addr < start; addr += TARGET_PAGE_SIZE) {
-             prot1 |= page_get_flags(addr);
-         }
-         if (host_end == host_start + qemu_host_page_size) {
--            for(addr = end; addr < host_end; addr += TARGET_PAGE_SIZE) {
-+            for (addr = end; addr < host_end; addr += TARGET_PAGE_SIZE) {
-                 prot1 |= page_get_flags(addr);
-             }
-             end = host_end;
-@@ -110,7 +110,7 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-     }
-     if (end < host_end) {
-         prot1 = prot;
--        for(addr = end; addr < host_end; addr += TARGET_PAGE_SIZE) {
-+        for (addr = end; addr < host_end; addr += TARGET_PAGE_SIZE) {
-             prot1 |= page_get_flags(addr);
-         }
-         ret = mprotect(g2h_untagged(host_end - qemu_host_page_size),
-@@ -148,7 +148,7 @@ static int mmap_frag(abi_ulong real_start,
- 
-     /* get the protection of the target pages outside the mapping */
-     prot1 = 0;
--    for(addr = real_start; addr < real_end; addr++) {
-+    for (addr = real_start; addr < real_end; addr++) {
-         if (addr < start || addr >= end)
-             prot1 |= page_get_flags(addr);
-     }
-@@ -225,9 +225,9 @@ static abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size)
-     if (addr == 0)
-         addr = mmap_next_start;
-     addr_start = addr;
--    for(;;) {
-+    for (;;) {
-         prot = 0;
--        for(addr1 = addr; addr1 < (addr + size); addr1 += TARGET_PAGE_SIZE) {
-+        for (addr1 = addr; addr1 < (addr + size); addr1 += TARGET_PAGE_SIZE) {
-             prot |= page_get_flags(addr1);
-         }
-         if (prot == 0)
-@@ -262,7 +262,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-             printf("MAP_FIXED ");
-         if (flags & MAP_ANON)
-             printf("MAP_ANON ");
--        switch(flags & TARGET_BSD_MAP_FLAGMASK) {
-+        switch (flags & TARGET_BSD_MAP_FLAGMASK) {
-         case MAP_PRIVATE:
-             printf("MAP_PRIVATE ");
-             break;
-@@ -321,7 +321,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-         end = start + len;
-         real_end = HOST_PAGE_ALIGN(end);
- 
--        for(addr = real_start; addr < real_end; addr += TARGET_PAGE_SIZE) {
-+        for (addr = real_start; addr < real_end; addr += TARGET_PAGE_SIZE) {
-             flg = page_get_flags(addr);
-             if (flg & PAGE_RESERVED) {
-                 errno = ENXIO;
-@@ -433,11 +433,11 @@ int target_munmap(abi_ulong start, abi_ulong len)
-     if (start > real_start) {
-         /* handle host page containing start */
-         prot = 0;
--        for(addr = real_start; addr < start; addr += TARGET_PAGE_SIZE) {
-+        for (addr = real_start; addr < start; addr += TARGET_PAGE_SIZE) {
-             prot |= page_get_flags(addr);
-         }
-         if (real_end == real_start + qemu_host_page_size) {
--            for(addr = end; addr < real_end; addr += TARGET_PAGE_SIZE) {
-+            for (addr = end; addr < real_end; addr += TARGET_PAGE_SIZE) {
-                 prot |= page_get_flags(addr);
-             }
-             end = real_end;
-@@ -447,7 +447,7 @@ int target_munmap(abi_ulong start, abi_ulong len)
-     }
-     if (end < real_end) {
-         prot = 0;
--        for(addr = end; addr < real_end; addr += TARGET_PAGE_SIZE) {
-+        for (addr = end; addr < real_end; addr += TARGET_PAGE_SIZE) {
-             prot |= page_get_flags(addr);
-         }
-         if (prot != 0)
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index d2bcaab741..b836b603af 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -233,7 +233,7 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+ #define __put_user(x, hptr)\
+ ({\
+     int size = sizeof(*hptr);\
+-    switch(size) {\
++    switch (size) {\
+     case 1:\
+         *(uint8_t *)(hptr) = (uint8_t)(typeof(*hptr))(x);\
+         break;\
+@@ -255,7 +255,7 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+ #define __get_user(x, hptr) \
+ ({\
+     int size = sizeof(*hptr);\
+-    switch(size) {\
++    switch (size) {\
+     case 1:\
+         x = (typeof(*hptr))*(uint8_t *)(hptr);\
+         break;\
 -- 
 2.22.1
 
