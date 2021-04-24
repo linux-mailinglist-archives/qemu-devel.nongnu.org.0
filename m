@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996A936A2A1
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 20:32:59 +0200 (CEST)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C2E36A37B
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 00:23:08 +0200 (CEST)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laN5O-0006uQ-OS
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 14:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47052)
+	id 1laQg7-0002g4-06
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 18:23:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laMvJ-0007qj-GV
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 14:22:35 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39841)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laQeC-00015i-CO; Sat, 24 Apr 2021 18:21:08 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laMvH-0005ro-Cv
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 14:22:33 -0400
-Received: by mail-pg1-x529.google.com with SMTP id s22so16284474pgk.6
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 11:22:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OCYgSJifU1yU0j8wXKvSoS2fiRxZX/ko9IjYFKXuWWE=;
- b=qaqKkUZmAknx1PviasclgmOgwunYAU0Q9/0ozAq5uDG8BdjPHPXgoScv5GaG4Z+gbl
- NBbHSvYoZ9ImCxJHeZDgwud/nTCTrFlpmzUJZFExoKCgMT/lGHuqYbXayiHFzt7W9660
- 20lD+BiiEWS+fg8FEKtC/rgytOU0Anq0zIJM3IWdel5QxX39Tgx1ENovlvZ2CPk7nycw
- N3S3yH5UWz4uKsQO0pFPTxQJfF7Z0cB6i7Q58fKSVNVBn4pFGshOCH5r2rPmxeQJnKLA
- /yhUZpx/nO7EaMLCFSe5o9hrpUb4lWJqA/jG2zVvqdDnAGDlzUfbUeI/1ssi9Dz6yBFg
- Slaw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laQe8-0005c4-D9; Sat, 24 Apr 2021 18:21:08 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id s7so51882244wru.6;
+ Sat, 24 Apr 2021 15:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H0fwLrUfzDLFdghXKG1yIZE5yIn8vOurFtVl1bgqEIg=;
+ b=bgaT6zYDZ/WlXbtfySMGMhVjJQyB9uqt17tLGXpTg7l2sQLYHMs93UgjgQ7Vr+DW1G
+ LA0m/m7ITb3ObvpD/0Ap+P10VhN69S4vDDZ5OndPbIlUveIq0FYc2lAVzWkZ45zD0JqJ
+ bpvPc2T7T7wrV71EJeETVVoq8dQku7+xsYRtNfyGueFTR0to+GZvKA6oAgnx+vtSOTZH
+ YRxd3tOYF6vApwvMQWO9Rt9xKpyO9WvLkYkGTteQHFbl//gK9IlNxZ85DtOFtI80fj25
+ sYc3L28Ev7FJC4iwq/fXaPFKPAaZNp39Av6KtAhF9TMYP3GhvoeytsWa8eAu9W1M5u2y
+ G7gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OCYgSJifU1yU0j8wXKvSoS2fiRxZX/ko9IjYFKXuWWE=;
- b=joGmICrTgkulCGLKPZ46PHGeG/prK8zrj16LhzdUqEUyyELV3VaQRngkxMEccybeqT
- H/ss+PMZOswLTYYK/ISrrFn0pXDzcCo7NMCf2JBsc0V3+5xKN6+LYSmlDOvqZDZIx9se
- fCj+FgAFrv4GkEbg+ChpG2k6oZTcgQd8H7cgpJWr4ioGe9LzbkoAzlT8/PiQU/67sRXh
- JN4vsgUR/R7ZJljcF5HvSaaYEoK1pwmhnjn4t96RIAy0Jsjy/M9YyI2QlEf10XrlUtT0
- ngNQVZMGf/nx7JlNxjCM4p68COM3krL47BqvhAEI15d5tDWFIrHXq9r1XaYWGP/3svvX
- 7IzQ==
-X-Gm-Message-State: AOAM531TsYxNsQQOZAArpCUnAuckDDdPUs66Z8KuZtOS3FohYVxsN6oH
- niLTHipvjGllQVnvirgkNYKxTg==
-X-Google-Smtp-Source: ABdhPJyrWJa9Tzbp9t0u7buGArZ2EopLFSUNM6D536L/311VFe3wl2F9RC46qHSUw8Wk1zQ6Ug8Ikg==
-X-Received: by 2002:a65:56cc:: with SMTP id w12mr9460004pgs.334.1619288549343; 
- Sat, 24 Apr 2021 11:22:29 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id b3sm10145575pjo.37.2021.04.24.11.22.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Apr 2021 11:22:29 -0700 (PDT)
-Subject: Re: [PATCH v2 48/48] bsd-user: put back a break; that had gone
- missing...
-To: imp@bsdimp.com, qemu-devel@nongnu.org
-References: <20210424160016.15200-1-imp@bsdimp.com>
- <20210424160016.15200-49-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d30ee8cd-072e-df69-ed3e-7a5ab11ec35b@linaro.org>
-Date: Sat, 24 Apr 2021 11:22:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=H0fwLrUfzDLFdghXKG1yIZE5yIn8vOurFtVl1bgqEIg=;
+ b=UvAR99lWFm1AF5mVknz+mW3iHrAAPmpL2iPlTDlvntV/FMNpuWbXj3hSyiFEh70/fJ
+ TITDdhZTWE/x+3/u8dYbkQQ3sQeKG+Ra7SvT142eKThdnX/nkGNtyemiDVLi4FQQS4X0
+ 1TxTFwLIkaJrJ3XRDHGkHTUnOm7ULnL0VrNzictBstnHJxCyThHHRR1gUIe8RE0DIHzn
+ mrCWBGGy3BwfcviUGImPrsxckw2+2HKped/CtW0KpvF6y7c6YxSkR32pyVpwKkRl/X3t
+ BpWH2ibC2GktetlmcqjgbV54RJX2BMqoa/mHtHX8AYDAZBvz7dFGZNbf28Quk/NQrElX
+ AwOg==
+X-Gm-Message-State: AOAM533kyGL8CKssC/LLvL+FZz345NpEo/9E8EwlWCC0DWc2h16OjtUe
+ 3Ucs8HjrfOX1neUFiBtB0hFYQ+WgxZsocw==
+X-Google-Smtp-Source: ABdhPJx5uOjvT9fIMTd3bxhg098Osy7yTbzQaK18K8e7LBpAv0dCLvUobn28lETZiEVAsOavVTCt4g==
+X-Received: by 2002:a5d:4a48:: with SMTP id v8mr13197325wrs.204.1619302860297; 
+ Sat, 24 Apr 2021 15:21:00 -0700 (PDT)
+Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id t20sm14318347wmi.35.2021.04.24.15.20.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Apr 2021 15:20:59 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw: Restrict PCMCIA to ARM target
+Date: Sun, 25 Apr 2021 00:20:54 +0200
+Message-Id: <20210424222057.3434459-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210424160016.15200-49-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,21 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, arichardson@freebsd.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Miroslav Rezanina <mrezanin@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/21 9:00 AM, imp@bsdimp.com wrote:
-> From: Warner Losh<imp@bsdimp.com>
-> 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/syscall.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-
+Only a pair of ARM PXA machines requires the PCMCIA type.=0D
+Complete the Kconfig dependencies to only build the PCMCIA=0D
+related devices when required.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/arm/pxa2xx: Declare PCMCIA bus with Kconfig=0D
+  hw/ide: Add Kconfig dependency MICRODRIVE -> PCMCIA=0D
+  hw/pcmcia: Do not register PCMCIA type if not required=0D
+=0D
+ hw/arm/Kconfig        | 1 +=0D
+ hw/ide/Kconfig        | 1 +=0D
+ hw/pcmcia/meson.build | 2 +-=0D
+ 3 files changed, 3 insertions(+), 1 deletion(-)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
