@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDD4369EF2
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 07:29:15 +0200 (CEST)
-Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A84C369EF6
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 07:57:12 +0200 (CEST)
+Received: from localhost ([::1]:37872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laAqw-0001yt-Mk
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 01:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
+	id 1laBHz-0005qB-1x
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 01:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1laApz-0001a4-P3
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 01:28:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47123)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1laApy-0005Bm-4n
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 01:28:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619242093;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Dwe1rr93mk3hwMcE+NwiWXZjueXi05LWdV4bvtqkZGQ=;
- b=GWRcJ2nVXToG6nkltHJQ2GG8V71/tZ0KfoIcpLJo7OOayR1QFUBAlE9AsiPe55L9gHBrnH
- Tc7KIV3j1w9FEC5QcFEfb3dbz9fIVJsoEfk8OGpPHxXbCfd9lrOUec5AME0C30RGFZwqoE
- 7Y7ly//30Y30sGuX7SCF9P1kVxO0tgA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-1hVxZCVPM16mPVvIE_JJCQ-1; Sat, 24 Apr 2021 01:28:10 -0400
-X-MC-Unique: 1hVxZCVPM16mPVvIE_JJCQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A736B8030C4;
- Sat, 24 Apr 2021 05:28:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CFAE5D745;
- Sat, 24 Apr 2021 05:28:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CC6B9113525D; Sat, 24 Apr 2021 07:28:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: Resetting non-qdev children in a 3-phase reset device
-References: <CAFEAcA8k+RUNhAOzCeefBs+vcyAgrtHwHMH9KfQb6OJg0su_7w@mail.gmail.com>
- <fc080508-9b82-8a2b-79bb-ab4e9f812cce@amsat.org>
- <CAFEAcA8hs3Uw=8-_CFa_GoMhmqxCcHw5t751oKzicd0_+Dh8kA@mail.gmail.com>
- <87y2datpyw.fsf@dusky.pond.sub.org>
- <5570bf5a-3cab-c30c-2c21-0ab02543199e@amsat.org>
- <2f4155ca-ee84-75f0-8b35-aac6b18ee4f0@amsat.org>
- <3dcb8efa-8f6b-0f45-a753-cc58d3bf9855@amsat.org>
-Date: Sat, 24 Apr 2021 07:28:07 +0200
-In-Reply-To: <3dcb8efa-8f6b-0f45-a753-cc58d3bf9855@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Sat, 24 Apr 2021 01:28:56
- +0200")
-Message-ID: <87im4cb6ag.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1laBH2-0005OX-Ou
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 01:56:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1laBGx-0005ty-Qg
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 01:56:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1laBGv-0003nY-Qw
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 05:56:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CA0572E8060
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 05:56:05 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sat, 24 Apr 2021 05:47:14 -0000
+From: Abdulla <1835694@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alhaddad2000 th-huth
+X-Launchpad-Bug-Reporter: Abdulla (alhaddad2000)
+X-Launchpad-Bug-Modifier: Abdulla (alhaddad2000)
+References: <156255510137.2177.7648111145482157380.malonedeb@wampee.canonical.com>
+Message-Id: <161924323484.17125.9608129363111354028.malone@chaenomeles.canonical.com>
+Subject: [Bug 1835694] Re: hardware-based time keeping
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: f33ea075ff6e73598eb7edc19c44afad81ebb6ca
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,44 +69,423 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1835694 <1835694@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+not resolved
 
-> On 4/24/21 1:06 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->
->> Looking at qemu_register_reset() uses I found this commit:
->>=20
->> commit 0c7322cfd3fd382c0096c2a9f00775818a878e13
->> Date:   Mon Jun 29 08:21:10 2015 +0200
->>=20
->>  watchdog/diag288: correctly register for system reset requests
->>=20
->>  The diag288 watchdog is no sysbus device, therefore it doesn't get
->>  triggered on resets automatically using dc->reset.
->>=20
->>  Let's register the reset handler manually, so we get correctly notified
->>  again when a system reset was requested. Also reset the watchdog on
->>  subsystem resets that don't trigger a full system reset.
->>=20
->> Why is the reset() handler in DeviceClass and not in SysbusDeviceClass
->> if "Only sysbus devices get reset"? ...
->
-> Ah, probably because the problem is generic to all busses (ISA, ...)
-> and not just sysbus.
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-diag288 is a bus-less device.  Propagating reset from the root of the
-qtree to the leaves won't reach it, because the qtree contains only the
-devices that plug into a qbus.
+-- =
 
->>>> Sysbus may habe been a design mistake.  It goes back the qdev design
->>>> assumption "every device plugs into exactly one bus, every bus is part
->>>> of exactly one device, and the main system bus is the root of this
->>>> tree".  The assumption ceased to hold long ago, but we still have
->>>> sysbus.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835694
 
+Title:
+  hardware-based time keeping
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi all,
+
+  I hope you're all doing well.
+
+  As i was looking for a solution for a particular problem in Qemu/KVM
+  virtualization.
+
+  My issue is that I have a virtual machine that runs well in VMware and wh=
+en
+  I migrated that to Qemu/KVM-enabled environment, it didn't work! I figured
+  out that under VMware hypervisor, VMware supplies CPU TSC and Performance
+  Counters values to the guest VM with the option
+  "monitor_control.pseudo_perfctr =3D TRUE" set the vmx configuration file,
+  Ref.: https://www.vmware.com/pdf/vmware_timekeeping.pdf
+
+  My question is, is there any similar option in Qemu/KVM-enabled environme=
+nt
+  that I can use to get my VM working the same way as in the VMware
+  environment?
+
+  I almost tried all options in Qemu with regards to CPU but no avail.
+
+  To elaborate more, the VM I'm trying to port under Qemu/KVM environment is
+  a an old version of Cisco virtual ASA Firewall. The VM image is actually
+  meant to be run under VMware ESXi and with that
+  "*monitor_control.pseudo_perfctr
+  =3D TRUE*" option it can also run in Vware Workstation as well. *Yes, this
+  option that makes it run under VMware and if it's removed from the
+  configuration vmx file then the VM boots half way and crashes the same way
+  it crashes under Qemu*. That dictates it's the option in interest that
+  needs to be found in Qemu/KVM. I have a copy of this VM in the below link
+  in case you would like to try its behavior in under VMware. I downloaded =
+it
+  from a youtube previously to test it out:
+
+  https://drive.google.com/open?id=3D1SEXws18hoj2sWGk8iFqqH8RpBZsBNpRH
+
+  Once you power on the VM you can telnet to 127.0.0.1 on port 3000 to see
+  the boot process. If you remove that option i mentioned to you and boot t=
+he
+  VM again you'll see the crashing in process.
+
+  =
+
+  I've converted that vmdk disk images into Qemu disks "qcow2" format and i
+  ran them using the below command line on Ubuntu:
+
+  /opt/qemu/bin/qemu-system-x86_64 -L -nographic -device
+  e1000-82545em,netdev=3Dnet0,mac=3D50:00:00:6a:00:00 -netdev
+  tap,id=3Dnet0,ifname=3Dvunl0_33_0,script=3Dno -device
+  e1000-82545em,netdev=3Dnet1,mac=3D50:00:00:6a:00:01 -netdev
+  tap,id=3Dnet1,ifname=3Dvunl0_33_1,script=3Dno -device
+  e1000-82545em,netdev=3Dnet2,mac=3D50:00:00:6a:00:02 -netdev
+  tap,id=3Dnet2,ifname=3Dvunl0_33_2,script=3Dno -device
+  e1000-82545em,netdev=3Dnet3,mac=3D50:00:00:6a:00:03 -netdev
+  tap,id=3Dnet3,ifname=3Dvunl0_33_3,script=3Dno -machine type=3Dpc-1.0  *-c=
+pu
+  host,migratable=3Doff,invtsc=3Don,pmu=3Don* -m 4096 -hda hda.qcow2 -hdb h=
+db.qcow2
+  -serial telnet:0.0.0.0:3000,server,nowait -monitor
+  tcp:127.0.0.1:42379,server,nowait
+  -nographic -display none -enable-kvm
+
+  =
+
+  Once you power on the VM you can telnet to xx.xx.xx.xx 3000 (where the xx
+  IP is the Ubuntu machine IP) to see the crashing in process. You may need
+  to wait for a while for the status messages to appear in the terminal
+  window.
+
+  I assume it's a cpu issue because in page 9 of the Vmware pdf reference
+  file; it says there are machine instructions become available when this
+  option "*monitor_control.pseudo_perfctr =3D TRUE*" is enabled:
+
+  The following machine instructions then become available:
+
+  Instruction    Time Value    Returned
+  rdpmc           0x10000       Physical host TSC
+  rdpmc           0x10001       Elapsed real time in ns
+  rdpmc           0x10002       Elapsed apparent time in ns
+
+  Therefore, I used many of the Qemu cpu options such as these:
+
+  -cpu host,migratable=3Dno,+invtsc (ref: https://wiki.qemu.org/ChangeLog/2=
+.1)
+  -cpu host, tsc-frequency=3Dxxxx (ref: https://lists.gnu.org/archive/
+  html/qemu-devel/2017-01/msg03555.html)
+   -cpu host,migratable=3Doff,invtsc=3Dtrue,pmu=3Dtrue
+
+  Not sure if i'm hitting the wrong option!
+
+  The log I'm getting when the VM boots up looks like the following crash
+  happens at the blue colored log:
+
+  -------------------------------------------------------------------------=
+---------------------------------------------------
+  Loading...
+
+  Starting image verification
+  Hash Computation:    100% Done!
+  Computed Hash   SHA2: 63c1e8aa9de3d0c6e738dc91be8e1784
+                        5caf64af4cf06cf6a3c5da7200d478dd
+                        938d380d2b1064f6a349401c7860f50e
+                        cc4eeb98a0ae16c097dbc9447d4d6626
+
+  Get key records from key storage: Primary, key_store_type: 2
+  Embedded Hash   SHA2: 63c1e8aa9de3d0c6e738dc91be8e1784
+                        5caf64af4cf06cf6a3c5da7200d478dd
+                        938d380d2b1064f6a349401c7860f50e
+                        cc4eeb98a0ae16c097dbc9447d4d6626
+
+  The digital signature of the running image verified successfully
+  Processor memory 3183296512, Reserved memory: 0
+
+  Total NICs found: 4
+  i82545EM rev03 Gigabit Ethernet @ irq10 dev 6 index 03 MAC: 5000.006a.0003
+  i82545EM rev03 Gigabit Ethernet @ irq10 dev 5 index 02 MAC: 5000.006a.0002
+  i82545EM rev03 Gigabit Ethernet @ irq11 dev 4 index 01 MAC: 5000.006a.0001
+  i82545EM rev03 Gigabit Ethernet @ irq11 dev 3 index 00 MAC: 5000.006a.0000
+
+  Thread Name: lina_flash_init_thread
+  Page fault: Unknown
+          r8 0x0000000000000790
+          r9 0x00007fff3fa8b000
+         r10 0x0000000000000001
+         r11 0x000000000210e130
+         r12 0x00000000062ebfc0
+         r13 0x0000000000010001
+         r14 0x0000000000000000
+         r15 0x00000000062ebfc0
+         rdi 0x00000000062ebfc0
+         rsi 0x0000000006c17c20
+         rbp 0x00007fff4056f4e0
+         rbx 0x00000000062ebfc0
+         rdx 0x00007fff40566f10
+         rax 0x0000000000000001
+         rcx 0x0000000000010001
+         rsp 0x00007fff4056f4b0
+         rip 0x0000000001581130
+      eflags 0x0000000000013202
+      csgsfs 0x0000000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+
+  Cisco Adaptive Security Appliance Software Version 9.3(1)
+
+  Compiled on Wed 23-Jul-14 18:16 PDT by builders
+  Hardware:   ASAv
+  Crashinfo collected on 03:42:24.059 UTC Tue Nov 28 2017
+
+  Traceback:
+  0: 0x0000000000422118
+  1: 0x0000000000422152
+  2: 0x0000000000424331
+  3: 0x00000000015874a9
+  4: 0x00007ffffecd55f0
+  5: 0x0000000000558d85
+  6: 0x00000000008f5a2b
+  7: 0x00000000008fd361
+  8: 0x0000000000428a15
+  Stack dump: base:0x00007fff4056f2e0 size:178, active:178
+       entries above '=3D=3D': return PC preceded by input parameters
+       entries below '=3D=3D': local variables followed by saved regs
+                   '=3D=3DFn': stack frame n, contains next stack frame
+                      '*': stack pointer at crash
+   rdi rsi rdx rcx r8 r9 : Arguments 1 through 6 to leaf function
+   For example:
+      0x00007fffeeeeef00: 0x0000000000000009     : arg9
+      0x00007fffeeeeeefc: 0x0000000000000008     : arg8
+      0x00007fffeeeeeef8: 0x0000000000000007     : arg7
+      0x00007fffeeeeeef4: 0x0000000000000abc     : return PC
+      0x00007fffeeeeeef0: 0x00007fffeeeeef20 =3D=3DF2: stack frame F2
+      0x00007fffeeeeeeec: 0x0000000000000def     : local variable
+      0x00007fffeeeeeee8: 0x0000000000000123     : local variable or saved =
+reg
+      0x00007fffeeeeeee4: 0x0000000000000456     : local variable or saved =
+reg
+      0x00007fffeeeeeee0: 0x0000000000000789     : local variable or saved =
+reg
+  0x00007fff4056f870: 0x00007fff4056f7e0
+  0x00007fff4056f868: 0x0000000000000000
+  0x00007fff4056f860: 0x00000038a11c0123
+  0x00007fff4056f858: 0x0000000000000083
+  0x00007fff4056f850: 0x00007fff16a864c8
+  0x00007fff4056f848: 0x0000000000000000
+  0x00007fff4056f840: 0x00000000a11ccdef
+  0x00007fff4056f838-0x00007fff4056f808: 0x0000000000000000
+  0x00007fff4056f800: 0x0000000000429867
+  0x00007fff4056f7f8: 0x00007fff4056f860
+  0x00007fff4056f7f0: 0x00007fff40567100
+  0x00007fff4056f7e8: 0x0000000000000000
+  0x00007fff4056f7e0: 0x00000030a11c0123
+  0x00007fff4056f7d8: 0x0000000000000083
+  0x00007fff4056f7d0: 0x00007fff16a864c8
+  0x00007fff4056f7c8: 0x0000000000000000
+  0x00007fff4056f7c0: 0x00000000a11ccdef
+  0x00007fff4056f7b8: 0x0fffffff0fffffff
+  0x00007fff4056f7b0-0x00007fff4056f7a8: 0x0000000000000000
+  0x00007fff4056f7a0: 0x00000000062cc8a0
+  0x00007fff4056f798: 0x0000000000000000
+  0x00007fff4056f790: 0x00007fff4056f6e0
+  0x00007fff4056f788: 0x00007fff4056f758
+  0x00007fff4056f780: 0x0000000000000000
+  0x00007fff4056f778: 0x00007fff3ff48620
+  0x00007fff4056f770-0x00007fff4056f730: 0x0000000000000000
+  0x00007fff4056f728: 0x0000000004d14940
+  0x00007fff4056f720: 0x000000000041d690
+  0x00007fff4056f718: 0x0000000002777640
+  0x00007fff4056f710: 0x0000000200010010
+  0x00007fff4056f708: 0x0000000006c17d40
+  0x00007fff4056f700: 0x00007fff4056f6e0
+  0x00007fff4056f6f8: 0x00007fff40150e80
+  0x00007fff4056f6f0: 0x000000000638e598
+  0x00007fff4056f6e8: 0x00007fff3ff48620
+  0x00007fff4056f6e0: 0x00007fff4056f778
+  0x00007fff4056f6d8: 0x00000000deadfeed
+  0x00007fff4056f6d0-0x00007fff4056f6c8: 0x0000000000000000
+  0x00007fff4056f6c0: 0x000000000041e1f6
+  0x00007fff4056f6b8: 0x00007fff40571fd0
+  0x00007fff4056f6b0: 0x00007fff40560cf0
+  0x00007fff4056f6a8: 0x0000000000000000
+  0x00007fff4056f6a0: 0x000000f0a11c0123
+  0x00007fff4056f698: 0x0000000000000143
+  0x00007fff4056f690: 0x00007fff16a864c8
+  0x00007fff4056f688: 0x0000000000000000
+  0x00007fff4056f680: 0x00000000a11ccdef
+  0x00007fff4056f678-0x00007fff4056f660: 0x0000000000000000 =3D=3DF5
+  0x00007fff4056f658: 0x000000009abcdef0
+  0x00007fff4056f650-0x00007fff4056f5b8: 0x123456789abcdef0
+  0x00007fff4056f5b0: 0x0000000000428a01
+  0x00007fff4056f5a8: 0x00007fff4056f570
+  0x00007fff4056f5a0-0x00007fff4056f590: 0x0000000000000000
+  0x00007fff4056f588: 0xffffffffffffdf98
+  0x00007fff4056f580: 0x00007fff4056f670
+  0x00007fff4056f578: 0x00007fff3ff48370
+  0x00007fff4056f570: 0x0000000000000000
+  0x00007fff4056f568: 0x0000000000428a15
+  0x00007fff4056f560: 0x00007fff4056f670 =3D=3DF4
+  0x00007fff4056f558: 0x00000000008fd361
+  0x00007fff4056f550: 0x00007fff4056f560 =3D=3DF3
+  0x00007fff4056f548: 0x00000000008f5a2b
+  0x00007fff4056f540: 0x00007fff4056f550 =3D=3DF2
+  0x00007fff4056f538: 0x0000000000000000
+  0x00007fff4056f530: 0xffffffffffffdf98
+  0x00007fff4056f528: 0x00007fff3ff48370
+  0x00007fff4056f520: 0x00000000008fba90
+  0x00007fff4056f518: 0x00000000008fb908
+  0x00007fff4056f510: 0x00007fff4056f550
+  0x00007fff4056f508: 0x00000000008fb87e
+  0x00007fff4056f500: 0x00007fff4056f510
+  0x00007fff4056f4f8: 0x0000000000000000
+  0x00007fff4056f4f0: 0xffffffffffffdf98
+  0x00007fff4056f4e8: 0x0000000000558d85
+  0x00007fff4056f4e0: 0x00007fff4056f540 =3D=3DF1
+  0x00007fff4056f4d8-0x00007fff4056f4d0: 0x0000000000000000
+  0x00007fff4056f4c8: 0x0000000000000001
+  0x00007fff4056f4c0-0x00007fff4056f4b8: 0x00000000062ebfc0
+  0x00007fff4056f4b0: 0x0000000000000000 *
+  0x00007fff4056f4a8: 0x00000000008fd973
+  0x00007fff4056f4a0: 0x00007fff4056f4d0
+  0x00007fff4056f498: 0x00007fff40563908
+  0x00007fff4056f490: 0x00007fff4056f4d0
+  0x00007fff4056f488: 0x00000000009d4b01
+  0x00007fff4056f480: 0x00007fff4056f4a0
+  0x00007fff4056f478-0x00007fff4056f470: 0x0000000000000000
+  0x00007fff4056f468: 0x00007fff418d6390
+  0x00007fff4056f460: 0x0000000000000000
+  0x00007fff4056f458: 0x000000000201b9f8
+  0x00007fff4056f450: 0x00007fff4056f480
+  0x00007fff4056f448: 0x00007fff40563908
+  0x00007fff4056f440: 0x0000000000000001
+  0x00007fff4056f438: 0x00007fff405619a0
+  0x00007fff4056f430: 0x00007fff40563908
+  0x00007fff4056f428: 0x0000000000000001
+  0x00007fff4056f420: 0x0000000000000000
+  0x00007fff4056f418: 0x0000000001627125
+  0x00007fff4056f410: 0x00007fff4056f450
+  0x00007fff4056f408: 0x00007fff3fa8b010
+  0x00007fff4056f400: 0x00007fff46505845
+  0x00007fff4056f3f8-0x00007fff4056f3c8: 0x0000000000000000
+  0x00007fff4056f3c0: 0x0000000000000003
+  0x00007fff4056f3b8-0x00007fff4056f3a8: 0x0000000000000000
+  0x00007fff4056f3a0: 0x0000000000000240
+  0x00007fff4056f398: 0x0000000000000003
+  0x00007fff4056f390: 0x0000024446505853
+  0x00007fff4056f388-0x00007fff4056f310: 0x0000000000000000
+  0x00007fff4056f308: 0x424b7e25fece8fc2
+  0x00007fff4056f300: 0x2cc4f98473045e95
+  0x00007fff4056f2f8: 0x18fa9b6c57ca0e78
+  0x00007fff4056f2f0: 0x081e2a254ab96aa4
+  0x00007fff4056f2e8: 0x0000000300000000
+
+  Begin to dump crashinfo to flash....
+
+  core0: An internal error occurred.  Specifically, a programming assertion
+  was
+  violated.  Copy the error message exactly as it appears, and get the
+  output of the show version command and the contents of the configuration
+  file.  Then call your technical support representative.
+
+  assertion "_vf_mode_init" failed: file "vf_api.c", line 136
+  core0 same core snap_count=3D1 signo=3D6 RIP=3D7ffffecd43fb
+
+  =
+
+  -----------------------------------------------
+  Traceback output aborted.
+  Flushing first exception frame:
+  Page fault: Unknown
+          r8 0x0000000000000790
+          r9 0x00007fff3fa8b000
+         r10 0x0000000000000001
+         r11 0x000000000210e130
+         r12 0x00000000062ebfc0
+         r13 0x0000000000010001
+         r14 0x0000000000000000
+         r15 0x00000000062ebfc0
+         rdi 0x00000000062ebfc0
+         rsi 0x0000000006c17c20
+         rbp 0x00007fff4056f4e0
+         rbx 0x00000000062ebfc0
+         rdx 0x00007fff40566f10
+         rax 0x0000000000000001
+         rcx 0x0000000000010001
+         rsp 0x00007fff4056f4b0
+         rip 0x0000000001581130
+      eflags 0x0000000000013202
+      csgsfs 0x0000000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+  Nested traceback attempted via signal, from:
+  Abort: Unknown
+          r8 0x000000000000003c
+          r9 0x0000000005097a27
+         r10 0x00007fff4056de28
+         r11 0x0000000000003206
+         r12 0x0000000000000001
+         r13 0x00007fff4056df80
+         r14 0x0000000000000000
+         r15 0x0000000000000006
+         rdi 0x0000000000000008
+         rsi 0x00007fff4056df80
+         rbp 0x00007fff4056dfc0
+         rbx 0x00007fff29f6b780
+         rdx 0x0000000000000010
+         rax 0x0000000000000010
+         rcx 0xffffffffffffffff
+         rsp 0x00007fff4056df50
+         rip 0x00007ffffecd43fb
+      eflags 0x0000000000003206
+      csgsfs 0x1234000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+
+  Cisco Adaptive Security Appliance Software Version 9.3(1)
+
+  Compiled on Wed 23-Jul-14 18:16 PDT by builders
+  Hardware:   ASAv
+  Crashinfo collected on 03:42:24.059 UTC Tue Nov 28 2017
+
+  Traceback:
+  0: 0x0000000000422118
+  1: 0x00000000004221f8
+  2: 0x000000000042226d
+  3: 0x0000000001587076
+  4: 0x00007ffffecd55f0
+  5: 0x00000000015820a0
+  6: 0x000000000212d482
+  7: 0x000000000139f304
+  8: 0x000000000213f315
+  9: 0x0000000001460873
+  10: 0x0000000001488625
+  11: 0x0000000000423e7a
+  12: 0x00000000004244dc
+  13: 0x00000000015874a9
+  14: 0x00007ffffecd55f0
+  15: 0x0000000000558d85
+  16: 0x00000000008f5a2b
+  17: 0x00000000008fd361
+  18: 0x0000000000428a15
+  -----------------------------------------------
+  Process shutdown finished
+  Rebooting.....
+
+  Thanks in advance for your help! :)
+
+  Regards,
+  Abdullah Alhaddad
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835694/+subscriptions
 
