@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610A3369D8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 01:48:53 +0200 (CEST)
-Received: from localhost ([::1]:50038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613F2369E98
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 05:29:26 +0200 (CEST)
+Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la5XY-00010v-Do
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 19:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57168)
+	id 1la8yy-0004HW-TV
+	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 23:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1la5WP-0000az-De
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 19:47:41 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:44624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1la5WN-0005Z5-Ue
- for qemu-devel@nongnu.org; Fri, 23 Apr 2021 19:47:41 -0400
-Received: by mail-qk1-x732.google.com with SMTP id x11so51266739qkp.11
- for <qemu-devel@nongnu.org>; Fri, 23 Apr 2021 16:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=buorBgkPp9vuF+iAgNlRHAode17kmtKbGYe63YbGfHY=;
- b=ZuHdBiLTUnn8Rynd17xJLO04AHqMXTWJRrNdUmbxkvIdRWwkxW2URetewh24qU/G4G
- /iDidsev0gbNXgrQ9CtJeM42l91tu7TjxBswrw9D1IxGXAHyTt8v5R6/RkwRpcpmLrw9
- ZasCmc5IrNZGgQO6k6RakC29M7s6CzsOK6kAgfJ/7A6/tbGJrPWQzJ9Rt7IpbWG+TL7M
- tlVM2GWkk77Fo7rglE/ci42k6rPkeDoZYD3E6ncw1BUVPGVaQDHFPNn7WMED55e5W8/W
- BjQ4LNyvYxJq+b3iLp/sFS4KE02Aht5SQhQI8VaA5/BKSl2IHJC6d7Y6xTwYE4cwpQ5j
- XYDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=buorBgkPp9vuF+iAgNlRHAode17kmtKbGYe63YbGfHY=;
- b=madharELCSneedb4vCxYSLv+r4CpJGgTBiyX4qFIdT5UVvnc6eXqa0LwxkH51IcDAK
- 7Hb6POxYrWAke8YBIe+pp5rCWPtQQ9s4l+b4FeOXEV4fQlotxE90RkJgimERcC95NOmy
- Q36gqNN64fRw5UlWYXYo5+RT4QPwUPpgV8hwEHd8L4HkUsvKAyWgL+RWA/l7nDx/JgDj
- inbBW2W8hDrPHb/BR1fO76RGsBYQEA/7Iq8uga6wJs9uTQ3hi+r79KOHn1WZUaM5ZxvG
- fPqI2FQ/9+OX9ZyQI4Ptm+VVAsOgAmfW0JsT2laR8WjfYF499Mg4Py9wmvO7DEsdFVpv
- ZjKA==
-X-Gm-Message-State: AOAM531klXP+pCp3APsn+Z+yxoRCqJGv/V83cfm3PTsupddH9qwXh69X
- WrqOnGMEf3RzPq27vsDc4C9ZxeXGoks5TGlLkmbHyQ==
-X-Google-Smtp-Source: ABdhPJwqAukfMcthvgDuzD04C2FpuCGrvRkmfsbyrXnwJjUNe6uBHC0TmAFRJ9UOePS4VLqSu7FJYlxVLPSKh+4T/Xk=
-X-Received: by 2002:a37:6492:: with SMTP id y140mr6523494qkb.89.1619221657608; 
- Fri, 23 Apr 2021 16:47:37 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7413b051c=alistair.francis@wdc.com>)
+ id 1la8yC-0003nO-P6; Fri, 23 Apr 2021 23:28:36 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:43866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7413b051c=alistair.francis@wdc.com>)
+ id 1la8yA-00085A-AW; Fri, 23 Apr 2021 23:28:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1619234917; x=1650770917;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jHZh+RVgSHw+/SI3pJn2UayRYEt05wHcNNMDZtkdzKk=;
+ b=IX6Wlf3FOhD0UnPV8VfaBTvJTZ3WgOIACb8e3c/XhdiFY3RCCUWcYV1i
+ Qlcqp0kVHDey/3nQmwUwJbu5MqOQrpOSfxGwL4EaSXmz1euLPZ/Fye7Zx
+ nyEWdW5FI/ZRCcRIjwLfFmfoYliG3VF9j2AvtR7OQb1203ATw+MP/nxK0
+ 6GmcG7jUbGDjUtZrvSm/kj7MRsqKqJOlyO9wMEUXMfl6erKWIDbjsK5Zw
+ 3h+9/E4ELlD8K7/nQubZUgBWOXm17znVHo7k4aXri88zD951R3X05+bEn
+ alGtJEQL26PlOD0o51lpD44mIaZkgB7nYQ+aUvo7ZpTp+V8VjUexaFoW8 w==;
+IronPort-SDR: uldoPbG3EE8trQTetl/WvVKQ+HL2GvWx0t7fZxX5XTC/HNWltce/zalwKTXhIqjQAhw5nFQD7q
+ xCeomTH0VuBYkuIgPXrEZEHAYyxQLl9pG7bG+S8HIOzEM5jti0ZyPTGlRDOwr91s9hGM77cNaT
+ +7VomKUMWZZDlVG+7NyguNhwbkkb3uc5dPF3z0TVzC/00Zb3hwVGmK+l0+bzGMoyobxHZDJQQc
+ 9tcvlEy7pQt9jvYNNF/oQXvkdrhQHOd+/RXeRJuRMlX+3aXzIJv+ngfL0AAyygf2rU5vN8ECEI
+ jM8=
+X-IronPort-AV: E=Sophos;i="5.82,247,1613404800"; d="scan'208";a="270019489"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Apr 2021 11:29:16 +0800
+IronPort-SDR: vDhU+48XIg6xtFGLnImgWft+mIT980Xg6zI3Jj/69T1V4MSoQD7cU3vOig7N7/AUP28GGdKBPL
+ 6aW3t7WZPBWkPQealqTW+qAY1PqQMSl3EgB106Fs33Y3cZR7i5K13g2+LV7c6lWwa7+QMLg4oy
+ Cq9gh+jMmpt1R86UuV+nCiVRxhUkXS3APnK/KIbQ7GWW78EpTLKnvlcO+yGnJqzeobS+RMCfej
+ vEo/V9NtQIOANkjsi+v+kOz8zHKyo0PnEJktvDh5bgtiMu/LC8j7VMo0YpR4DzTgf6kwAWirhW
+ 3nG70aK0bKLbzc+Wb6E2Gthc
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Apr 2021 20:07:32 -0700
+IronPort-SDR: 316ejJebhDrpIoDUXvKSxjIwORc9AgSQLP9wUbhNRf7NnHasKyZISYoxyj88zGr+FF4oUg1Cuf
+ /EmZF8ga36/sxVVSzGIuVCb0smv/8iS/Aje8AO3eq5K0X8WayhcEAcHPuUz/hlSuLtILMC7ioU
+ tzoss1hWuqIAbo9xmAWgxmHvYyfsBMKXlAw15pDfabofunlhOiZwAFNsA8t28JmvOo4ZiAUlxr
+ g/4wCMO+8ryIq+uw7jtuG0YWr95EVggPrR1RUBQfwfsm0HobSXHOYckZ20AOeTyVpH+g0rabZS
+ ZFk=
+WDCIronportException: Internal
+Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.34])
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Apr 2021 20:28:26 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 00/10]  RISC-V: Steps towards running 32-bit guests on
+Date: Sat, 24 Apr 2021 13:28:20 +1000
+Message-Id: <cover.1619234854.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210423203959.78275-1-imp@bsdimp.com>
- <20210423203959.78275-12-imp@bsdimp.com>
- <e36d6f1a-895d-edeb-4194-00d2694e7e78@linaro.org>
-In-Reply-To: <e36d6f1a-895d-edeb-4194-00d2694e7e78@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 23 Apr 2021 17:47:26 -0600
-Message-ID: <CANCZdfpyh6kiufSxiFG7S4r5WQms=rg_-W=stegv=jqaWJsZZQ@mail.gmail.com>
-Subject: Re: [PULL 21/24] bsd-user: add arm target_signal.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b6fb8105c0ac6b4f"
-Received-SPF: none client-ip=2607:f8b0:4864:20::732;
- envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x732.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=7413b051c=alistair.francis@wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,60 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Alex Richardson <arichardson@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stacey Son <sson@freebsd.org>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b6fb8105c0ac6b4f
-Content-Type: text/plain; charset="UTF-8"
+This is another step towards running 32-bit CPU code on the 64-bit
+softmmu builds for RISC-V.
 
-On Fri, Apr 23, 2021 at 5:19 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+I have tested this and am able to run some 32-bit code, but eventually
+hit some issue.  This series doesn't allow users to use 32-bit CPUs with
+64-bit softmmu builds as it doesn't work yet. This series instead just
+gets us a little closer to being able to and removes more hardcoded
+macros so hopefully others also stop using them for new code.
 
-> On 4/23/21 1:39 PM, imp@bsdimp.com wrote:
-> > +static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
-> > +{
-> > +    return state->regs[R_ESP];
-> > +}
->
-> Shall we just wait until arm actually compiles?
-> This won't, being a copy from x86...
->
+v3:
+ - Remove casts from the decoder
+ - Add a patch to fix a comment
+ - Rebase on the RISC-V tree
+v2:
+ - Update the decode tree setup
+ - Address other review comments
 
-OK. Fair point. I'll drop this for now and pick it up when more of the arm
-is in place. Good catch.
+Alistair Francis (10):
+  target/riscv: Remove the hardcoded RVXLEN macro
+  target/riscv: Remove the hardcoded SSTATUS_SD macro
+  target/riscv: Remove the hardcoded HGATP_MODE macro
+  target/riscv: Remove the hardcoded MSTATUS_SD macro
+  target/riscv: Remove the hardcoded SATP_MODE macro
+  target/riscv: Remove the unused HSTATUS_WPRI macro
+  target/riscv: Remove an unused CASE_OP_32_64 macro
+  target/riscv: Consolidate RV32/64 32-bit instructions
+  target/riscv: Consolidate RV32/64 16-bit instructions
+  target/riscv: Fix the RV64H decode comment
 
+ target/riscv/cpu.h                      |  6 --
+ target/riscv/cpu_bits.h                 | 44 -------------
+ target/riscv/helper.h                   | 18 +++--
+ target/riscv/insn16-32.decode           | 28 --------
+ target/riscv/insn16-64.decode           | 36 ----------
+ target/riscv/insn16.decode              | 30 +++++++++
+ target/riscv/insn32-64.decode           | 88 -------------------------
+ target/riscv/insn32.decode              | 67 ++++++++++++++++++-
+ target/riscv/cpu.c                      |  6 +-
+ target/riscv/cpu_helper.c               | 48 ++++++++++----
+ target/riscv/csr.c                      | 40 +++++++++--
+ target/riscv/fpu_helper.c               | 16 ++---
+ target/riscv/monitor.c                  | 22 +++++--
+ target/riscv/translate.c                | 32 +++++----
+ target/riscv/vector_helper.c            |  4 --
+ target/riscv/insn_trans/trans_rva.c.inc | 14 +++-
+ target/riscv/insn_trans/trans_rvd.c.inc | 17 ++++-
+ target/riscv/insn_trans/trans_rvf.c.inc |  6 +-
+ target/riscv/insn_trans/trans_rvh.c.inc |  8 ++-
+ target/riscv/insn_trans/trans_rvi.c.inc | 22 +++++--
+ target/riscv/insn_trans/trans_rvm.c.inc | 12 +++-
+ target/riscv/insn_trans/trans_rvv.c.inc | 39 +++++------
+ target/riscv/meson.build                | 13 ++--
+ 23 files changed, 310 insertions(+), 306 deletions(-)
+ delete mode 100644 target/riscv/insn16-32.decode
+ delete mode 100644 target/riscv/insn16-64.decode
+ delete mode 100644 target/riscv/insn32-64.decode
 
->
-> r~
->
+-- 
+2.31.1
 
---000000000000b6fb8105c0ac6b4f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 23, 2021 at 5:19 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 4/23/21 1:39 PM, <a href=3D"mailto:imp@bsdimp.com" tar=
-get=3D"_blank">imp@bsdimp.com</a> wrote:<br>
-&gt; +static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 return state-&gt;regs[R_ESP];<br>
-&gt; +}<br>
-<br>
-Shall we just wait until arm actually compiles?<br>
-This won&#39;t, being a copy from x86...<br></blockquote><div><br></div><di=
-v>OK. Fair point. I&#39;ll drop this for now and pick it up when more of th=
-e arm is in place. Good catch.</div><div>=C2=A0</div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-<br>
-r~<br>
-</blockquote></div></div>
-
---000000000000b6fb8105c0ac6b4f--
 
