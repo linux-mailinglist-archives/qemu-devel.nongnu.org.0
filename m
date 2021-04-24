@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A328B36A1FE
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:14:39 +0200 (CEST)
-Received: from localhost ([::1]:46414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C5336A1F8
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:13:18 +0200 (CEST)
+Received: from localhost ([::1]:41890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laKvW-00057w-NX
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50154)
+	id 1laKuE-0003EM-1F
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKhy-0005VY-Nb
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKhz-0005Vs-Bc
  for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:00:39 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:36832)
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:41854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKht-0004CT-Ua
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:00:38 -0400
-Received: by mail-io1-xd33.google.com with SMTP id g125so3394631iof.3
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKhu-0004Ce-Re
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:00:39 -0400
+Received: by mail-il1-x132.google.com with SMTP id v13so3392798ilj.8
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HSHRS0z4r0qhim5P0rpE1zVoI4Ligyk7KuFYx7l7Qs4=;
- b=By9K3n49VP0y87PHZly3XoYl0XYm9s4S5ZkLiWiVSluaakU06vc5Jw31L0fjLlCtDL
- 3ZVaPuVMAihDN81QHFPCyFn89QpNiMaAeEl5mMtqa+hCIiq0h49TeSEOF7idzZX46M/R
- WIhQfGjTqJtu4l6RI6okGCjZkFDL2K2yzxunJzR+3Zr/z9o3N+mRwtzYJ/2JJH4R0/gb
- SynjQhrzu7vyyBD2XtEVBSNzXjDO6fXFQWez/ct0xVvxIOTQIEo1oQwAv0z9/7CJgbUn
- bQFd/sTVvazksPGrcfFkg0Kj08fazPWTuxTHMcJaxK8IPTKDMU5zo8H4soOulyKMWO5P
- wO4A==
+ bh=A2WXoZNR18cPe3xuWHxneWeGgI/yhNHoyKk1SebgGQY=;
+ b=vRuBOaxGufsfWTDXvzxQnb3Pe5rbSb7UixjJSBSkEfmrJjqWUcDc6tS9PztyO9FKYD
+ sfoTAtscGKh4lHOMsRJL5WDpz3UK4P+otcIVvIK8kliLNMWuDDueLN26VwBMHZwWV1Jc
+ suDPLsfV+YJ9Xt99gCScUESDooMXLq7KS1mKjvhTbf8Sy6mOSXdJczEfbvJiJolsNoc8
+ hgi9fhLES8QA+AUUEk/rcLvEIkiCAnVMZpCMjjLcbTRxwIOGcBuA2n77GNu3orUzHHnA
+ Xh1ecAGowl1S09iofhEjuSdl1bHHRUfK8tdc1j2gEgaiLbDhO8phpWjb0asFB5UnayNb
+ 8+hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HSHRS0z4r0qhim5P0rpE1zVoI4Ligyk7KuFYx7l7Qs4=;
- b=q5OjDX4w9LdjHMn6t9yb77mqetFnMkx1UzgfrLKwOpYNvbHNHNr+tOMoXoxu8oxH7s
- hO0CGDCtHOI0cbrXRSciI9lfTc5/tPxKpfFvyrZFtZXmDJZhKOiiNKQjkBEglz80C1hw
- l2sWdiYT9KvGXBfLz2qgxKcd+z36CPy7Hq5K+nQPHAiVrpzFNpcibxx8FxbrrpFfrQ/S
- x4pGWQSkq+OzDDcuXebuUhTd9yFNX+jASae9GFSDBcyqWfWytTaOpzUb+HQpDGSupSxj
- Dz9NYutLkCaEkkSInKl5Q010IWhbilUs9NEnyzRXmD4wRIZPqW3aF5YAYX0afCJ8wVz6
- 6V1w==
-X-Gm-Message-State: AOAM530MTOPXP22ANif3Fp7u3p8IfEgPZNHnV2I/YMMSI7fXh0VJOr/q
- N99W6OPjJcnP19lUoU0UBQRaTO9+SfiuYwF9
-X-Google-Smtp-Source: ABdhPJw/1N8TvIIC5VIEdcPCDg6+Qc9Wtj+xqzI4/I+J1EQMU4auNaKAr4OoZa/0IvcQv4vE+2yOlw==
-X-Received: by 2002:a02:6951:: with SMTP id e78mr8277752jac.56.1619280032536; 
- Sat, 24 Apr 2021 09:00:32 -0700 (PDT)
+ bh=A2WXoZNR18cPe3xuWHxneWeGgI/yhNHoyKk1SebgGQY=;
+ b=OgjmKHS1qhxuU0fIOW6h9ATZWfsjPFlj2cFaelH3LlKRNi5aTrJBQToyVUlWQl3vHX
+ bHrj6Qpg14IT+lc4L+HGkZ2fLUUTGldmsXsjzjOVF3bb0ha9dKuU/yol/9NuXmKoQmvL
+ uwDe183YMzEpi/jqIZUy23fqyn6QuOm6TSsGl0wuCh7E+IrbHS3fIiPWz/nIKEprEzzE
+ 7TKnFx080qV63lm15PTi6L/bj+DgZRftnCtYM3iqP8lKEClMc5nARSk8O6uWHgyiAenA
+ mHmqAcvj+vCP1lD4MgVVNo4QzB6okAr+pTZOhkQcv2DeYniJcUC8vvpUVBrrFZQcMtCI
+ TWjg==
+X-Gm-Message-State: AOAM532QSLBJYwk/w5ytPzdkJPFlPBajrYLPwIdBUzxEuS0ZN+ggvXZE
+ fWA6rfutwNB+7FvYR2uqUb2AdxN9mL6rzQc9
+X-Google-Smtp-Source: ABdhPJw0c62XEDmyoQzSpugmSkV8L/UMprXn2a0Oi0/uIRYCyNBObstjoxl9EiHZSoG00Uuh6pzWRg==
+X-Received: by 2002:a05:6e02:1caf:: with SMTP id
+ x15mr7454311ill.89.1619280033321; 
+ Sat, 24 Apr 2021 09:00:33 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.31
+ by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:00:31 -0700 (PDT)
+ Sat, 24 Apr 2021 09:00:32 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/48] bsd-user: style tweak: keyword space (
-Date: Sat, 24 Apr 2021 09:59:35 -0600
-Message-Id: <20210424160016.15200-8-imp@bsdimp.com>
+Subject: [PATCH v2 08/48] bsd-user: style tweak: use C not C++ comments
+Date: Sat, 24 Apr 2021 09:59:36 -0600
+Message-Id: <20210424160016.15200-9-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
 References: <20210424160016.15200-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::132;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x132.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,22 +92,31 @@ From: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/uaccess.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bsd-user/elfload.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/bsd-user/uaccess.c b/bsd-user/uaccess.c
-index 91e2067933..89163257f4 100644
---- a/bsd-user/uaccess.c
-+++ b/bsd-user/uaccess.c
-@@ -46,7 +46,7 @@ abi_long target_strlen(abi_ulong guest_addr1)
-     int max_len, len;
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index 3c9d8c2845..87154283ef 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -1010,7 +1010,7 @@ static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
+     struct elf_sym *syms = s->disas_symtab.elf64;
+ #endif
  
-     guest_addr = guest_addr1;
--    for(;;) {
-+    for (;;) {
-         max_len = TARGET_PAGE_SIZE - (guest_addr & ~TARGET_PAGE_MASK);
-         ptr = lock_user(VERIFY_READ, guest_addr, max_len, 1);
-         if (!ptr)
+-    // binary search
++    /* binary search */
+     struct elf_sym *sym;
+ 
+     sym = bsearch(&orig_addr, syms, s->disas_num_syms, sizeof(*syms), symfind);
+@@ -1092,7 +1092,7 @@ static void load_symbols(struct elfhdr *hdr, int fd)
+ #ifdef BSWAP_NEEDED
+         bswap_sym(syms + i);
+ #endif
+-        // Throw away entries which we do not need.
++        /* Throw away entries which we do not need. */
+         if (syms[i].st_shndx == SHN_UNDEF ||
+                 syms[i].st_shndx >= SHN_LORESERVE ||
+                 ELF_ST_TYPE(syms[i].st_info) != STT_FUNC) {
 -- 
 2.22.1
 
