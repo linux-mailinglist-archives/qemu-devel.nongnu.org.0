@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B986369EA6
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 05:40:56 +0200 (CEST)
-Received: from localhost ([::1]:44816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D22A369EF1
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 07:24:25 +0200 (CEST)
+Received: from localhost ([::1]:57472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1la9A7-0007Jd-BG
-	for lists+qemu-devel@lfdr.de; Fri, 23 Apr 2021 23:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53222)
+	id 1laAmF-0000h6-VJ
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 01:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7413b051c=alistair.francis@wdc.com>)
- id 1la94D-0008TI-Lo; Fri, 23 Apr 2021 23:34:49 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:7434)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1laAlT-0000AZ-A3
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 01:23:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7413b051c=alistair.francis@wdc.com>)
- id 1la94B-0004MR-Ou; Fri, 23 Apr 2021 23:34:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1619235286; x=1650771286;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=d14N0Y5Ry5uhxuNORztBbIKTQXqP1sBkSSfyZAQ6cWo=;
- b=jXHkX4CT0fVTydKP/IX/WxbXpyVRh0s+XCuzPymvYk9QOxBYDNToQSte
- szfPj3K45vXrExLXonMpPLMxc+JS9tvSze7WBVhZy3PrarS9WIM4KVfN6
- aysjBmeL3C/+AASgdai3xqAR7gh7Kt0MyHLg7vkrL38VB392kcI1qqnNP
- pUAWBxH3IYp+eQeFF1ducw8IyWNzhyKGk0AV/nBgAZ+xR/Lb9QpKY2W/E
- dAXvOvt8J35jM3XpDJvJym3dgU0ltKI85RveunV0QMdjjbnTUPzWCd0xF
- lEL2hXo7bthNkOvfltKLL2fhuscY1IYraapD9guhTy1UOmmJG5zEukymX w==;
-IronPort-SDR: k6Z8bndjOdtBv9wPYrHx3AJtfArFTFvuVmBR2Vvm+oKDJR1JCOiOEDSNAkqTXxODSTu85axeWe
- vP13pvEOPf2USzBsvUWR9fQXF++7CAuLLSNqjpnVeDZjtLwDfTJAN0pBpY2DmhGpCP/7rJ/pHy
- hwQa8QD7peWwro4GoTTu4Y+iuNvUKAP3f1KNk3lllk8RLmrzbtzY77Sdr12wjJ3Iqt1lQDAB5w
- cDXfnKPFeIAUEn+UG+th09nClGyM9kT5177cfqeSdih3cRMdoT67DsTPyFa4M7SiYs0j8qM49W
- qGc=
-X-IronPort-AV: E=Sophos;i="5.82,247,1613404800"; d="scan'208";a="166115916"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 24 Apr 2021 11:34:44 +0800
-IronPort-SDR: NZcYKUXM12/l2WC2pjR54IbXAvHjkvF2bc8/L48FyaQKQfTaJzvJsRR7+a43WNc6MEytKv1AWQ
- DpPLwbnOKi9PRk8+dKxhaOpSCub4ReDidLDF9HCX3Kfe0Vuf55kkz39ePD4TdVMMjFkUfxn5E4
- netT8+ccJpmFLPdHUr6eoYzBXXp2GmyWpa3AvhzPYQrXHLSOG0ZWym7ZldSOCbj0MfZAP1hwHX
- w+TqhmkLCdtzOE5vw0yOpujjV13pTUm8YFoVYxejByAML5Uq48jr5cDdndssrVJDk/9HV2VThe
- TlHaB/XNy+h/dmUc8/w79fZs
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Apr 2021 20:15:19 -0700
-IronPort-SDR: G2+MruUYzI7ksEsGf60WKZkbvOi+ZWIMkEmjA1CiTjNMge9QRTnJSf/zWh2LdbTvxyGTByv4bP
- /o+Xqt9H7zBzd7/FP4p4hxM1AqB25XPBrh2vOvboYe14Jx+IOiqZlf7ike3uTRREdHYKK3lWiS
- IASV7Zgdr49/d3W/5/piV8NQ02NGq9Mches4Zy+Izy8V9b+RiTOuFdh5sf99nuXwJGj5x47MVD
- Ybr2gn9a/wVh/vWtIhQZhybL3/x/nMiecAgzfeq+z67GxYiS4dwwW7jhFkKRJGNiLqEX1y6oEc
- OkM=
-WDCIronportException: Internal
-Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.34])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Apr 2021 20:34:43 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 10/10] target/riscv: Fix the RV64H decode comment
-Date: Sat, 24 Apr 2021 13:34:37 +1000
-Message-Id: <024ce841221c1d15c74b253512428c4baca7e4ba.1619234854.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1619234854.git.alistair.francis@wdc.com>
-References: <cover.1619234854.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1laAlQ-00028q-8I
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 01:23:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619241809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kV71YwiwJ3EjCQage/gXSCp1WRbjSrpOGKhhNAi0UwA=;
+ b=Va9JAOQHGWZ34VLVC2H38/ycv+t7MJLIhuCRxlkmxXvfb0Al+HGHj8/aK6DdnqKXUvcfJW
+ d1832GuDs8NgcHa+HRtlXNkA87zAdKywiGnLVC1GME+MUKb/wJcSrS2ea48yYLmBI35QXe
+ BvqcP3qTWsPNvjotKgJQTWWP2/lD1DM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-rtU8JsdlPJSyuZgSi8fFLQ-1; Sat, 24 Apr 2021 01:23:27 -0400
+X-MC-Unique: rtU8JsdlPJSyuZgSi8fFLQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E05918397A9;
+ Sat, 24 Apr 2021 05:23:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23D2860BE5;
+ Sat, 24 Apr 2021 05:23:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8EB62113525D; Sat, 24 Apr 2021 07:23:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 03/11] block/block-gen.h: bind monitor
+References: <20210423214033.474034-1-vsementsov@virtuozzo.com>
+ <20210423214033.474034-4-vsementsov@virtuozzo.com>
+Date: Sat, 24 Apr 2021 07:23:23 +0200
+In-Reply-To: <20210423214033.474034-4-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Sat, 24 Apr 2021 00:40:25 +0300")
+Message-ID: <87mttob6ic.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=7413b051c=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,31 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, crosa@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BugLink: https://gitlab.com/qemu-project/qemu/-/issues/6
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/insn32.decode | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index fecf0f15d5..8901ba1e1b 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -288,7 +288,7 @@ hsv_w       0110101  .....  ..... 100 00000 1110011 @r2_s
- hfence_gvma 0110001  .....  ..... 000 00000 1110011 @hfence_gvma
- hfence_vvma 0010001  .....  ..... 000 00000 1110011 @hfence_vvma
- 
--# *** RV32H Base Instruction Set ***
-+# *** RV64H Base Instruction Set ***
- hlv_wu    0110100  00001   ..... 100 ..... 1110011 @r2
- hlv_d     0110110  00000   ..... 100 ..... 1110011 @r2
- hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
--- 
-2.31.1
+> If we have current monitor, let's bind it to wrapper coroutine too.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/block-gen.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/block/block-gen.h b/block/block-gen.h
+> index c1fd3f40de..61f055a8cc 100644
+> --- a/block/block-gen.h
+> +++ b/block/block-gen.h
+> @@ -27,6 +27,7 @@
+>  #define BLOCK_BLOCK_GEN_H
+>  
+>  #include "block/block_int.h"
+> +#include "monitor/monitor.h"
+>  
+>  /* Base structure for argument packing structures */
+>  typedef struct AioPollCo {
+> @@ -38,11 +39,20 @@ typedef struct AioPollCo {
+>  
+>  static inline int aio_poll_co(AioPollCo *s)
+>  {
+> +    Monitor *mon = monitor_cur();
+
+This gets the currently executing coroutine's monitor from the hash
+table.
+
+>      assert(!qemu_in_coroutine());
+>  
+> +    if (mon) {
+> +        monitor_set_cur(s->co, mon);
+
+This writes it back.  No-op, since the coroutine hasn't changed.  Why?
+
+> +    }
+> +
+>      aio_co_enter(s->ctx, s->co);
+>      AIO_WAIT_WHILE(s->ctx, s->in_progress);
+>  
+> +    if (mon) {
+> +        monitor_set_cur(s->co, NULL);
+
+This removes s->co's monitor from the hash table.  Why?
+
+> +    }
+> +
+>      return s->ret;
+>  }
 
 
