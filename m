@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C516136A204
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:17:28 +0200 (CEST)
-Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA1B36A214
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:24:34 +0200 (CEST)
+Received: from localhost ([::1]:49306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laKyF-0000Mt-Rz
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50768)
+	id 1laL57-0001L9-9y
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKip-00063f-3J
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:31 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:40873)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laL3G-00081x-3f; Sat, 24 Apr 2021 12:22:38 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiT-0004M5-1t
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:30 -0400
-Received: by mail-io1-xd31.google.com with SMTP id e186so1610808iof.7
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lT0iyUwum8EZCC05GDsUg7mVcpTBPEwFXTcaOzq9xxc=;
- b=KQmmT9ItVuV0KbjLcWsXYkRQx6OWg9YSSARRAXegwTpAhxoPDOd8QB/O4xfiVBOEHH
- SPEXMxppR72hMWOgDlvVZtZ+TkFj66YFuv5n88bkgGCOQ2ixZIKeRTNzYCuTl9VqWm0s
- 7qnW6pEoWzubq8CZteXpLqj97U2590jmgqH4/xEZiZRUZCr8zOxHcvp/2rOYRmpasoOE
- 5blO4cXezk/cWjdYBWacAoIM7A6PwLuoU6YqpPsBb/KfDncAfoNvWm/N6/gMnczMFCWR
- v6XlUKd/ZmGUtJ2LlCohaBVXSZTxIvM07zykU4fQvqcHX9t9qqGYKGzCIbi5Q0yvcny9
- FjNQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laL3E-0004HI-Gr; Sat, 24 Apr 2021 12:22:37 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id e5so22761140wrg.7;
+ Sat, 24 Apr 2021 09:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DaeX48c3fbgdHFclg8wHqwuYUqCsYJ2raA36awzI2jA=;
+ b=UYFjNG8rjbeqzCkBgzSXyWst0MDMVQkCASGFa2w6FiCaE5F6gYjLKOS9/Qxe5svLqO
+ iGdEmQzEv/hAeDe411H0YBTkOl8XaDrNBdtoklVUFS0I/qMkYjyPOubPQ58yCgnFa/43
+ qGrGSla5YGbmnSRJSsNH1NVta9cWtu6QaVispfhkA1kt1/7O4DKxQPHhj6zFlMT+Z0gX
+ 6rVyCYBt4Z+rhe1hbPfGl4ELUKF0oCePSfoG7miHSnij3kF/9qeeQXq4ZmeuHWIOHITd
+ 66eXOHyaAYTR164FKgMwsMEDah4FBxYgQ++9AGpJYOZ7JSpVyhvNL3zelGe37lBiKe9c
+ WhSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lT0iyUwum8EZCC05GDsUg7mVcpTBPEwFXTcaOzq9xxc=;
- b=T9VNLrZcLzUi4qulJ47wKk471GWmtlRp1Bp24CU+OEVaV6NkekKC74CNvoNTGZuBcn
- p+CiWsCM+v+rWe0PipQ3DMVvSGIZJltwVfO9XjT0NlTwr7lD6K8tPUGMWRT0TH0vQFtf
- N1vteoGCmCME3pyvc41VtfYALsE4pYQx4RbEo6HYwCtyq/t5rv5HN00iA92Uwh619ZVe
- Maj2RZd7DZ6Q9wcIpmTtTLLDB45dh5gaONK04YL2eiI8UfsMtCHYtJazA6FSXefL7qOJ
- wB7xr6oLM1SRZohMsTY41Ay3oFM2N0zR85KK7NLjOxEshD/33NnOsPkKKJXV3Mw786WE
- plAw==
-X-Gm-Message-State: AOAM530c5kZwP9UfaLaKzxHRfMA0YE4ezQMpYLia7CRw0e1RYm7e20m6
- FdnX6cn64u6gfu9Av2zfu4y8lDryykOq5yuf
-X-Google-Smtp-Source: ABdhPJzJRk/K3YdbJQjdMLYYjd/otHo41G+9uuDFiKGqI6BKYLOGwCaRFyoMkhMI3JDuzxFYm1T1DA==
-X-Received: by 2002:a02:a04d:: with SMTP id f13mr1994100jah.38.1619280065909; 
- Sat, 24 Apr 2021 09:01:05 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.01.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:01:05 -0700 (PDT)
-From: imp@bsdimp.com
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=DaeX48c3fbgdHFclg8wHqwuYUqCsYJ2raA36awzI2jA=;
+ b=jLwmZfpUymXA1G9z/HDgqumgjhR1KuSTFMtSeerv/SeB4EjXmNa0eNgGeJvnBPtIY5
+ DDcsr27ttfqaHcty/ZeDxd48OkOErI588oI/xA8UFOkUkBxm5V26wbxbr+9u32JQD+gy
+ E7HLmbqN3D/JvQLfDZ8CJ+uPpXa04tZNR9oc3rT9wTxOdl+oPprRjRnCkdOmUZYt0n8U
+ SZBFZwYdBgB3JyReXvm2as92mwKb8+N6QQonFrjX+GmG8GBrDlo7djqXqEzNqlB4+ntc
+ Z6UC/A75SQioLjZI1AxOIYlK89YWkF17lXqfpVnrr4IioePZDodE8rBC8zrmDzHGqbUZ
+ lMBw==
+X-Gm-Message-State: AOAM532ELt9eGPb3pLdocngbT6y1gymOBEeUCCuIqvIhKbj9LSjfAKVa
+ zbn+ynCvFugX5f6aIIXn5ChFAAGZ2pnm0A==
+X-Google-Smtp-Source: ABdhPJy2fxxcn9OEVz/k4bblGEY5ahBihmf2IBWaPMtgeInFVtzbf7ybQG2JiPg76EcCY7b4aun9xQ==
+X-Received: by 2002:a5d:4e81:: with SMTP id e1mr11816194wru.305.1619281352337; 
+ Sat, 24 Apr 2021 09:22:32 -0700 (PDT)
+Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id l14sm10189213wmq.4.2021.04.24.09.22.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Apr 2021 09:22:30 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 47/48] bsd-user: style tweak: don't assign in if statement.
-Date: Sat, 24 Apr 2021 10:00:15 -0600
-Message-Id: <20210424160016.15200-48-imp@bsdimp.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
-References: <20210424160016.15200-1-imp@bsdimp.com>
+Subject: [PATCH 0/5] hw: Fix reset of bus-less devices
+Date: Sat, 24 Apr 2021 18:22:24 +0200
+Message-Id: <20210424162229.3312116-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,130 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, arichardson@freebsd.org, Warner Losh <imp@bsdimp.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <imp@bsdimp.com>
-
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/syscall.c | 40 +++++++++++++++++++++++++++-------------
- 1 file changed, 27 insertions(+), 13 deletions(-)
-
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 1f6b93923c..1851311acd 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -245,13 +245,18 @@ static abi_long do_freebsd_sysctl(abi_ulong namep, int32_t namelen,
-     if (oldlenp) {
-         get_user_ual(oldlen, oldlenp);
-     }
--    if (!(hnamep = lock_user(VERIFY_READ, namep, namelen, 1))) {
-+    hnamep = lock_user(VERIFY_READ, namep, namelen, 1);
-+    if (!hnamep) {
-         return -TARGET_EFAULT;
-     }
--    if (newp && !(hnewp = lock_user(VERIFY_READ, newp, newlen, 1))) {
--        return -TARGET_EFAULT;
-+    if (newp) {
-+        hnewp = lock_user(VERIFY_READ, newp, newlen, 1);
-+        if (!hnewp) {
-+            return -TARGET_EFAULT;
-+        }
-     }
--    if (!(holdp = lock_user(VERIFY_WRITE, oldp, oldlen, 0))) {
-+    holdp = lock_user(VERIFY_WRITE, oldp, oldlen, 0);
-+    if (!holdp) {
-         return -TARGET_EFAULT;
-     }
-     holdlen = oldlen;
-@@ -368,14 +373,16 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = 0; /* avoid warning */
-         break;
-     case TARGET_FREEBSD_NR_read:
--        if (!(p = lock_user(VERIFY_WRITE, arg2, arg3, 0))) {
-+        p = lock_user(VERIFY_WRITE, arg2, arg3, 0);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(read(arg1, p, arg3));
-         unlock_user(p, arg2, ret);
-         break;
-     case TARGET_FREEBSD_NR_write:
--        if (!(p = lock_user(VERIFY_READ, arg2, arg3, 1))) {
-+        p = lock_user(VERIFY_READ, arg2, arg3, 1);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(write(arg1, p, arg3));
-@@ -395,7 +402,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         }
-         break;
-     case TARGET_FREEBSD_NR_open:
--        if (!(p = lock_user_string(arg1))) {
-+        p = lock_user_string(arg1);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(open(path(p),
-@@ -479,21 +487,24 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = 0; /* avoid warning */
-         break;
-     case TARGET_NETBSD_NR_read:
--        if (!(p = lock_user(VERIFY_WRITE, arg2, arg3, 0))) {
-+        p = lock_user(VERIFY_WRITE, arg2, arg3, 0);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(read(arg1, p, arg3));
-         unlock_user(p, arg2, ret);
-         break;
-     case TARGET_NETBSD_NR_write:
--        if (!(p = lock_user(VERIFY_READ, arg2, arg3, 1))) {
-+        p = lock_user(VERIFY_READ, arg2, arg3, 1);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(write(arg1, p, arg3));
-         unlock_user(p, arg2, 0);
-         break;
-     case TARGET_NETBSD_NR_open:
--        if (!(p = lock_user_string(arg1))) {
-+        p = lock_user_string(arg1);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(open(path(p),
-@@ -565,21 +576,24 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = 0; /* avoid warning */
-         break;
-     case TARGET_OPENBSD_NR_read:
--        if (!(p = lock_user(VERIFY_WRITE, arg2, arg3, 0))) {
-+        p = lock_user(VERIFY_WRITE, arg2, arg3, 0);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(read(arg1, p, arg3));
-         unlock_user(p, arg2, ret);
-         break;
-     case TARGET_OPENBSD_NR_write:
--        if (!(p = lock_user(VERIFY_READ, arg2, arg3, 1))) {
-+        p = lock_user(VERIFY_READ, arg2, arg3, 1);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(write(arg1, p, arg3));
-         unlock_user(p, arg2, 0);
-         break;
-     case TARGET_OPENBSD_NR_open:
--        if (!(p = lock_user_string(arg1))) {
-+        p = lock_user_string(arg1);
-+        if (!p) {
-             goto efault;
-         }
-         ret = get_errno(open(path(p),
--- 
-2.22.1
-
+Hi,=0D
+=0D
+This series is the result of a code audit of the DeviceClass::reset()=0D
+method uses, having Markus following explanation in mind [1]:=0D
+=0D
+  "Propagating reset from the root of the qtree to the leaves=0D
+  won't reach a bus-less device, because the qtree contains=0D
+  only the devices that plug into a qbus."=0D
+=0D
+Which is a resumed of what Peter said earlier in the thread [2].=0D
+=0D
+I'm still confused by the TYPE_APIC (and its KVM version), see [3].=0D
+=0D
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg801374.html=0D
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg800917.html=0D
+[3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg801379.html=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (5):=0D
+  hw/ppc/spapr_iommu: Register machine reset handler=0D
+  hw/pcmcia/microdrive: Register machine reset handler=0D
+  hw/block/nand: Register machine reset handler=0D
+  hw/pci-host/raven: Manually reset the OR_IRQ device=0D
+  hw/arm/armsse: Manually reset the OR_IRQ devices=0D
+=0D
+ hw/arm/armsse.c      |  4 ++++=0D
+ hw/block/nand.c      | 14 ++++++++++++++=0D
+ hw/pci-host/prep.c   | 10 ++++++++++=0D
+ hw/pcmcia/pcmcia.c   | 25 +++++++++++++++++++++++++=0D
+ hw/ppc/spapr_iommu.c | 10 ++++++++++=0D
+ 5 files changed, 63 insertions(+)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
