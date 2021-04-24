@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B791336A21F
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:31:55 +0200 (CEST)
-Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE7B36A227
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:37:39 +0200 (CEST)
+Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laLCE-0001nm-Qu
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50628)
+	id 1laLHm-0007G9-5X
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKij-0005pM-2d
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:25 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:44872)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKik-0005sU-Ih
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:26 -0400
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:36856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiK-0004K1-V0
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:24 -0400
-Received: by mail-il1-x12c.google.com with SMTP id i22so393257ila.11
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiL-0004K7-2D
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:26 -0400
+Received: by mail-il1-x129.google.com with SMTP id p15so7428748iln.3
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S9w7CJ0+MJpr5zL1Lbw3l/YeW43hAWDuCaPwKLYTrT8=;
- b=I2hJ3TSb9UL97rgTQrLQ3HLY1ysw+Jm2GxiGqQY7lCB0BMjGy8N82/4JpM19CBiKXh
- fEPqlJ2Ql7n5j0haA4blaDZyNUK2CxSebVo+PyVdsCq1D4e83zhvrsz1byv9khwRd7BS
- Yh/38FWE4lqbM+Kc/bTptOhToW7ou4eXeLj+U8Y1ZaAHgwFmrPvpcDDpTDgHuWBb0Rdz
- GGj77VLACYpZeMPcYXZboQ2SqBsFaPaDrTv3Qlh7PEbnKjGpqJhIRGJqyCAFJFJ2+p2D
- BTmSMkaUHSm5GrDDYhWPhNuwesVQiKZ5XIxi8A+r67wmdeH8Osctrxo+xuHqBQve/YXE
- x0og==
+ bh=PoD849iWu2bWzUO4nDp3ypRtrOgwVSOKxnGpOs50MwI=;
+ b=mEl+ZmJJuP1I+HHS24xHqPTNt46fOAytxuS2BzPRoQdq4d9ctivGgAO53yn5FZVWa0
+ xomQR/IgtGqghnXGUqZW9JaqU9W9iezwiu6R+SP6crA5qTDj3CLhzOGQHiOlzE9eoq/J
+ s1FH9J8ci21i/fsAMTPfwzW8rlpC7aCAIpNq4+C/6zybDami18khy65bZwEDJDYaQwru
+ F43ZNUexuEgoC5AAOIKMXfmosf+cyJt4mnogi/n2fzFYZ7omk+VaKE2MtERCFlpgvdA4
+ Y7gj8wkxszJQ0oNJduCgG9mVKbIH69pH36+W82a38Qx9unEQYk7VYa6dNAR8BlgZwbz+
+ R1LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S9w7CJ0+MJpr5zL1Lbw3l/YeW43hAWDuCaPwKLYTrT8=;
- b=M5zrOdyAGrhUO/9vcalFIKWE5wbjRH74YMbyRPZgaurj/JAeQjCBr1drEJehj6LGu2
- 64tcrO8AMpc0cw4AVdT8yI5bv7pIReClufSHcl/OWO7qMnM6CARwJoHGWWZFw7z/+NtN
- P6SGkFtxaxZEMegVie6O7cfhPvg8iQjgs+ScOdOljAatexJUFT/YtXGwa7NeNxzoQQtX
- RJJFbpKqQ6gKOOdlO0OFB4FDJVTUdj3m192yGu4CkvHn52+v4AZZqy39/h/QtaWi3YfL
- mwttpbF/UEqfVQg+GNfRJOC23u3XR0acx+IHiNxy+d7oDnT50Id3lETO/knSFsARoOzh
- zC9g==
-X-Gm-Message-State: AOAM5319AXFJ6NIxnVpfeAShsdYZbb8aKtKNI8oUOkmZfgGlJsCyiP19
- kN9W1PA0APgq9h8EjMtHhYQRi1NImM0Dlziv
-X-Google-Smtp-Source: ABdhPJyvid7tQZbl2jpWGIXYMonTvuFx9WmpFj+mmw7ot2gHzzT5PK9+OPhbvqGBFyFi2coh8RtzeQ==
-X-Received: by 2002:a05:6e02:5a2:: with SMTP id
- k2mr7315462ils.177.1619280057761; 
- Sat, 24 Apr 2021 09:00:57 -0700 (PDT)
+ bh=PoD849iWu2bWzUO4nDp3ypRtrOgwVSOKxnGpOs50MwI=;
+ b=KZqj/u6NR9faOhYQjAwHEUwZ+7KvyzpKq5ZVIMk5Ra4vvcCSoVrNTd3M5Jk2nBDKne
+ izMF49OiHGE4tHHaeEhhVDZXXsmK+knJUpesOtriWT3ad7124LgLg2bRyzP6tHPe+GG6
+ laEFzFNYhvTVizKNUoi2TKf+TSgQkHU2YDHF9xYMMseEinECvBH7/J440JH5PPs9imOR
+ gBa1se8wlBn0BF4sg10Jgc5zydL9pArW0lkJ6nJuJM+qYvBvvtPR29YON/JdiLT6EENC
+ 8YH6u+O496gXKH8L1Xlz2ogD9KDVssAQ0kV94egIhQsbVVBzfbtkZhl2us1WEFhwcTRs
+ wA9Q==
+X-Gm-Message-State: AOAM530utTjTtOYrQV/ZQLUwF2VsVFVM816zGnic9cJQi0nSJzA9MbmF
+ SsEwKbK4PwzQ9gPegBK270w529i0fAPtCJyB
+X-Google-Smtp-Source: ABdhPJwAbJC2AUMdjMLr/LX8L1iwupKcPy8P/5K2qa/8ePrNYKmD++LAH8hS04O/Nvk2XiexhXiISQ==
+X-Received: by 2002:a05:6e02:1808:: with SMTP id
+ a8mr7058458ilv.175.1619280058488; 
+ Sat, 24 Apr 2021 09:00:58 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.57
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:00:57 -0700 (PDT)
+ Sat, 24 Apr 2021 09:00:58 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 37/48] bsd-user: style tweak: don't assign in if statements
-Date: Sat, 24 Apr 2021 10:00:05 -0600
-Message-Id: <20210424160016.15200-38-imp@bsdimp.com>
+Subject: [PATCH v2 38/48] bsd-user: style tweak: use {} for all if statements,
+ format else correctly
+Date: Sat, 24 Apr 2021 10:00:06 -0600
+Message-Id: <20210424160016.15200-39-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
 References: <20210424160016.15200-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::129;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,29 +95,31 @@ Signed-off-by: Warner Losh <imp@bsdimp.com>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/bsd-user/uaccess.c b/bsd-user/uaccess.c
-index 7eb4546fed..aab5e995a9 100644
+index aab5e995a9..2e8ad2982f 100644
 --- a/bsd-user/uaccess.c
 +++ b/bsd-user/uaccess.c
-@@ -14,7 +14,8 @@ abi_long copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
-     abi_long ret = 0;
-     void *ghptr;
- 
--    if ((ghptr = lock_user(VERIFY_READ, gaddr, len, 1))) {
-+    ghptr = lock_user(VERIFY_READ, gaddr, len, 1);
-+    if (ghptr) {
-         memcpy(hptr, ghptr, len);
-         unlock_user(ghptr, gaddr, 0);
-     } else
-@@ -29,7 +30,8 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
-     abi_long ret = 0;
-     void *ghptr;
- 
--    if ((ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0))) {
-+    ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0);
-+    if (ghptr) {
-         memcpy(ghptr, hptr, len);
-         unlock_user(ghptr, gaddr, len);
-     } else
+@@ -54,8 +54,9 @@ abi_long target_strlen(abi_ulong guest_addr1)
+     for (;;) {
+         max_len = TARGET_PAGE_SIZE - (guest_addr & ~TARGET_PAGE_MASK);
+         ptr = lock_user(VERIFY_READ, guest_addr, max_len, 1);
+-        if (!ptr)
++        if (!ptr) {
+             return -TARGET_EFAULT;
++        }
+         len = qemu_strnlen((const char *)ptr, max_len);
+         unlock_user(ptr, guest_addr, 0);
+         guest_addr += len;
+@@ -63,8 +64,9 @@ abi_long target_strlen(abi_ulong guest_addr1)
+         if (guest_addr == 0 ||
+             (guest_addr - guest_addr1) > 0x7fffffff)
+             return -TARGET_EFAULT;
+-        if (len != max_len)
++        if (len != max_len) {
+             break;
++        }
+     }
+     return guest_addr - guest_addr1;
+ }
 -- 
 2.22.1
 
