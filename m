@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FA336A1F6
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:12:24 +0200 (CEST)
-Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD2336A21A
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:28:23 +0200 (CEST)
+Received: from localhost ([::1]:34586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laKtL-0001cr-DZ
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50534)
+	id 1laL8k-0006q1-Q9
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKif-0005hp-2e
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:21 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:42994)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKif-0005iY-VV
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:22 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:44880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiE-0004J6-2N
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:20 -0400
-Received: by mail-io1-xd34.google.com with SMTP id s16so46514992iog.9
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiE-0004JE-EE
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:21 -0400
+Received: by mail-il1-x135.google.com with SMTP id i22so393151ila.11
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VZAtilvnIeDP+jP8/xPOGjIu8lTW/AxOvqbnMGjlqJY=;
- b=hyQFuJYC0YCa/sebF6Oe3Y6bfMkzIt9nn9KyqpB3STYk4ZzaRP3idtxVwncKA/UdHA
- Uzq1qOQqeN2HhqDjcfuDo3WVYtkpxyBhvwExyG2eiPWZA4a94vi+teM+8CRgggveB3il
- wlEYBUqkDFGXCdIp/JgdIjpzdYnmoOq/XLrbWVwBED0yj96XcQPeuNeSl3z+8THXmsdP
- C+1GnKLRqYIAnZmHYF69A4HnWgxGWUK63ABhUl9u2cgJUrhwy0fKTt3LevOZAEAM0nNU
- gYbiutBWhSAoCzh8cXLq2OmYI/+VKwrTxSOf3hPPyksHnLLBSDT7UI/KLFswKjuzu1NM
- Z5YA==
+ bh=pnchoQA/ZqjPQSSH2ekFTKVyc7FezQYrIYZdDfoc05M=;
+ b=unqESEfc4cWWszsmwVP0mp10FSs6obU0h5W1yh/jR44VydF1J+BzNSXTJ8seYqbpuu
+ yI6DNo1rNNbbWS3dGk5+uup5HZXumfacyKmcxONXmXa949+YOqBMaAI2K0bQc1JgeXNU
+ a1QSrf3wY7ZrTSMK6RCuWpqrJ1ozE6VMvbHc4v0ij2vYQslf+eAPMmxit8ydjb03rTM5
+ 3hl/uJpxdR4EGRd0uVX4r3Yo30Oqe8DA/xqa2YxoACmGcrF7VshdErqk84tBahc5kWig
+ myDfRMZgeCEZLNmWYYtvk6WVQmWZ8/mY0y+4+NzVp2eoTI/YT8TdGKdVAmdEOEzsOI/9
+ Jiqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VZAtilvnIeDP+jP8/xPOGjIu8lTW/AxOvqbnMGjlqJY=;
- b=p4+ybcjpajzKlu8zRiRIE1XTbNCjVaoPsNXZ2qxjGuq7KGP8H79q0s+fNgH243pB0d
- b89sXMF7NGBUq7h7P59sNsxXSzD7aIP0lbmY0AwtCZD3vfed0VYetZphfyk22nlOM5nN
- 4g76ALtJyhY2IZirzEabHO14/lHNOC1zlj3BYX8DKNMeuj8/8d6Ql88qqpeZWdIZNXja
- +I7NaLmCX654FEy7fIi5Ff72uxCWEKO40msPNhmYpYmRceUFLk2v/928r4eHBpJjsyUw
- TCHT4EmEO/kWz15aRzasrgHguL3/VtHDu6O1W1dwxycUWTDvOEHkNUpNIDbzjE8aPDVD
- avGA==
-X-Gm-Message-State: AOAM531yDG1T4IOQXGc9v9xyjYTJvfZDjQr/epRM9ppwC3xpTYzmWVLu
- gpFriab+UxnDkBOcyclT8ijUVV6jvWxU0Oth
-X-Google-Smtp-Source: ABdhPJxNSoVxlH2LjADbtQotAs5CBrEnBVzXUApo9Gw1wyalUvwAIj5UL1mPnB06V4KCKJJTkMTzfQ==
-X-Received: by 2002:a6b:f901:: with SMTP id j1mr7633021iog.100.1619280052055; 
+ bh=pnchoQA/ZqjPQSSH2ekFTKVyc7FezQYrIYZdDfoc05M=;
+ b=gMfLCWnfJsc0bnNOrnMKrGvHM5Ved3AhQ2Ci7gHIDV0If7vcDWegWiTIg9cK6FojR4
+ oDzO6hxUOuVD4KM1Kj9pYexTkOBk/mz7/KC1zu2NPnxnu/+8RSJGKpYzmRhUDFpQJN0T
+ xcd1U1OBBcKjzM+4rf22hVoW7r72qf/3s8FgFmyfqD3RD/SH1FuBCR/gcPeII19f6Ck2
+ S7IbP+I48D1Hz8Z4vnMo/lRAh7HDnhzQHrPVPHJqzD9CkeHDMonSemO827oeZs6rthsk
+ ow95zEqJ0NyYDgl6Pz4rBUjrKrOMJrO1Hh32am4Mo+hx4QzDD1TxIFCUBRmvXePLy9EG
+ Krvw==
+X-Gm-Message-State: AOAM533qOMgeSoJGtmu4xmZEo5C8SJZ4Fyftbdtf9dEBQ8CnXukBblCv
+ BSqr7eY4D3Dqt92kzqZ4VnHp+6snYSdo5rH5
+X-Google-Smtp-Source: ABdhPJyCwbzFoq3WHrppOkQshUK5PbOVhZsz17gGqYgBgq9wbV7mZkH8Qtyo6kfP1fRvIzTIPA2r8w==
+X-Received: by 2002:a92:4a12:: with SMTP id m18mr6947462ilf.296.1619280052848; 
  Sat, 24 Apr 2021 09:00:52 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.51
+ by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:00:51 -0700 (PDT)
+ Sat, 24 Apr 2021 09:00:52 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 30/48] bsd-user: style tweak: fix block comments
-Date: Sat, 24 Apr 2021 09:59:58 -0600
-Message-Id: <20210424160016.15200-31-imp@bsdimp.com>
+Subject: [PATCH v2 31/48] bsd-user: style tweak: use {} for all if statements,
+ format else correctly
+Date: Sat, 24 Apr 2021 09:59:59 -0600
+Message-Id: <20210424160016.15200-32-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
 References: <20210424160016.15200-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::135;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,108 +90,342 @@ From: Warner Losh <imp@bsdimp.com>
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/mmap.c | 51 ++++++++++++++++++++++++++++---------------------
- 1 file changed, 29 insertions(+), 22 deletions(-)
+ bsd-user/mmap.c | 112 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 74 insertions(+), 38 deletions(-)
 
 diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 0ac1b92706..0ff06d7349 100644
+index 0ff06d7349..1aec1916c0 100644
 --- a/bsd-user/mmap.c
 +++ b/bsd-user/mmap.c
-@@ -23,8 +23,6 @@
- #include "bsd-mman.h"
- #include "exec/exec-all.h"
- 
--//#define DEBUG_MMAP
--
- static pthread_mutex_t mmap_mutex = PTHREAD_MUTEX_INITIALIZER;
- static __thread int mmap_lock_count;
- 
-@@ -165,8 +163,10 @@ static int mmap_frag(abi_ulong real_start,
- 
-     prot_new = prot | prot1;
-     if (!(flags & MAP_ANON)) {
--        /* msync() won't work here, so we return an error if write is
--           possible while it is a shared mapping */
-+        /*
-+         * msync() won't work here, so we return an error if write is possible
-+         * while it is a shared mapping
-+         */
-         if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
-             (prot & PROT_WRITE))
-             return -1;
-@@ -194,12 +194,13 @@ static abi_ulong mmap_next_start = 0x40000000;
- 
- unsigned long last_brk;
- 
--/* find a free memory area of size 'size'. The search starts at
--   'start'. If 'start' == 0, then a default start address is used.
--   Return -1 if error.
--*/
--/* page_init() marks pages used by the host as reserved to be sure not
--   to use them. */
-+/*
-+ * find a free memory area of size 'size'. The search starts at 'start'. If
-+ * 'start' == 0, then a default start address is used.  Return -1 if error.
-+ *
-+ * page_init() marks pages used by the host as reserved to be sure not to use
-+ * them.
-+ */
- static abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size)
+@@ -48,17 +48,19 @@ bool have_mmap_lock(void)
+ /* Grab lock to make sure things are in a consistent state after fork().  */
+ void mmap_fork_start(void)
  {
-     abi_ulong addr, addr1, addr_start;
-@@ -208,11 +209,12 @@ static abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size)
+-    if (mmap_lock_count)
++    if (mmap_lock_count) {
+         abort();
++    }
+     pthread_mutex_lock(&mmap_mutex);
+ }
  
-     new_brk = (unsigned long)sbrk(0);
-     if (last_brk && last_brk < new_brk && last_brk == (target_ulong)last_brk) {
--        /* This is a hack to catch the host allocating memory with brk().
--           If it uses mmap then we loose.
--           FIXME: We really want to avoid the host allocating memory in
--           the first place, and maybe leave some slack to avoid switching
--           to mmap.  */
-+        /*
-+         * This is a hack to catch the host allocating memory with brk().  If it
-+         * uses mmap then we loose.
-+         * FIXME: We really want to avoid the host allocating memory in the
-+         * first place, and maybe leave some slack to avoid switching to mmap.
-+         */
-         page_set_flags(last_brk & TARGET_PAGE_MASK,
-                        TARGET_PAGE_ALIGN(new_brk),
-                        PAGE_RESERVED);
-@@ -298,9 +300,10 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-             errno = ENOMEM;
-             goto fail;
+ void mmap_fork_end(int child)
+ {
+-    if (child)
++    if (child) {
+         pthread_mutex_init(&mmap_mutex, NULL);
+-    else
++    } else {
+         pthread_mutex_unlock(&mmap_mutex);
++    }
+ }
+ 
+ /* NOTE: all the constants are the HOST ones, but addresses are target. */
+@@ -75,15 +77,18 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
+            prot & PROT_EXEC ? 'x' : '-');
+ #endif
+ 
+-    if ((start & ~TARGET_PAGE_MASK) != 0)
++    if ((start & ~TARGET_PAGE_MASK) != 0) {
+         return -EINVAL;
++    }
+     len = TARGET_PAGE_ALIGN(len);
+     end = start + len;
+-    if (end < start)
++    if (end < start) {
+         return -EINVAL;
++    }
+     prot &= PROT_READ | PROT_WRITE | PROT_EXEC;
+-    if (len == 0)
++    if (len == 0) {
+         return 0;
++    }
+ 
+     mmap_lock();
+     host_start = start & qemu_host_page_mask;
+@@ -102,8 +107,9 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
          }
--        /* Note: we prefer to control the mapping address. It is
--           especially important if qemu_host_page_size >
--           qemu_real_host_page_size */
-+        /*
-+         * Note: we prefer to control the mapping address. It is specially
-+         * important if qemu_host_page_size > qemu_real_host_page_size
-+         */
+         ret = mprotect(g2h_untagged(host_start),
+                        qemu_host_page_size, prot1 & PAGE_BITS);
+-        if (ret != 0)
++        if (ret != 0) {
+             goto error;
++        }
+         host_start += qemu_host_page_size;
+     }
+     if (end < host_end) {
+@@ -113,16 +119,18 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
+         }
+         ret = mprotect(g2h_untagged(host_end - qemu_host_page_size),
+                        qemu_host_page_size, prot1 & PAGE_BITS);
+-        if (ret != 0)
++        if (ret != 0) {
+             goto error;
++        }
+         host_end -= qemu_host_page_size;
+     }
+ 
+     /* handle the pages in the middle */
+     if (host_start < host_end) {
+         ret = mprotect(g2h_untagged(host_start), host_end - host_start, prot);
+-        if (ret != 0)
++        if (ret != 0) {
+             goto error;
++        }
+     }
+     page_set_flags(start, start + len, prot | PAGE_VALID);
+     mmap_unlock();
+@@ -147,16 +155,18 @@ static int mmap_frag(abi_ulong real_start,
+     /* get the protection of the target pages outside the mapping */
+     prot1 = 0;
+     for (addr = real_start; addr < real_end; addr++) {
+-        if (addr < start || addr >= end)
++        if (addr < start || addr >= end) {
+             prot1 |= page_get_flags(addr);
++        }
+     }
+ 
+     if (prot1 == 0) {
+         /* no page was there, so we allocate one */
+         void *p = mmap(host_start, qemu_host_page_size, prot,
+                        flags | MAP_ANON, -1, 0);
+-        if (p == MAP_FAILED)
++        if (p == MAP_FAILED) {
+             return -1;
++        }
+         prot1 = prot;
+     }
+     prot1 &= PAGE_BITS;
+@@ -168,19 +178,22 @@ static int mmap_frag(abi_ulong real_start,
+          * while it is a shared mapping
+          */
+         if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
+-            (prot & PROT_WRITE))
++            (prot & PROT_WRITE)) {
+             return -1;
++        }
+ 
+         /* adjust protection to be able to read */
+-        if (!(prot1 & PROT_WRITE))
++        if (!(prot1 & PROT_WRITE)) {
+             mprotect(host_start, qemu_host_page_size, prot1 | PROT_WRITE);
++        }
+ 
+         /* read the corresponding file data */
+         pread(fd, g2h_untagged(start), end - start, offset);
+ 
+         /* put final protection */
+-        if (prot_new != (prot1 | PROT_WRITE))
++        if (prot_new != (prot1 | PROT_WRITE)) {
+             mprotect(host_start, qemu_host_page_size, prot_new);
++        }
+     } else {
+         /* just update the protection */
+         if (prot_new != prot1) {
+@@ -224,23 +237,27 @@ static abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size)
+     size = HOST_PAGE_ALIGN(size);
+     start = start & qemu_host_page_mask;
+     addr = start;
+-    if (addr == 0)
++    if (addr == 0) {
+         addr = mmap_next_start;
++    }
+     addr_start = addr;
+     for (;;) {
+         prot = 0;
+         for (addr1 = addr; addr1 < (addr + size); addr1 += TARGET_PAGE_SIZE) {
+             prot |= page_get_flags(addr1);
+         }
+-        if (prot == 0)
++        if (prot == 0) {
+             break;
++        }
+         addr += qemu_host_page_size;
+         /* we found nothing */
+-        if (addr == addr_start)
++        if (addr == addr_start) {
+             return (abi_ulong)-1;
++        }
+     }
+-    if (start == 0)
++    if (start == 0) {
+         mmap_next_start = addr + size;
++    }
+     return addr;
+ }
+ 
+@@ -260,10 +277,12 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+                prot & PROT_READ ? 'r' : '-',
+                prot & PROT_WRITE ? 'w' : '-',
+                prot & PROT_EXEC ? 'x' : '-');
+-        if (flags & MAP_FIXED)
++        if (flags & MAP_FIXED) {
+             printf("MAP_FIXED ");
+-        if (flags & MAP_ANON)
++        }
++        if (flags & MAP_ANON) {
+             printf("MAP_ANON ");
++        }
+         switch (flags & TARGET_BSD_MAP_FLAGMASK) {
+         case MAP_PRIVATE:
+             printf("MAP_PRIVATE ");
+@@ -285,8 +304,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+     }
+ 
+     len = TARGET_PAGE_ALIGN(len);
+-    if (len == 0)
++    if (len == 0) {
+         goto the_end;
++    }
+     real_start = start & qemu_host_page_mask;
+ 
+     if (!(flags & MAP_FIXED)) {
+@@ -306,12 +326,14 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+          */
          p = mmap(g2h_untagged(mmap_start),
                   host_len, prot, flags | MAP_FIXED, fd, host_offset);
-         if (p == MAP_FAILED)
-@@ -329,12 +332,16 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+-        if (p == MAP_FAILED)
++        if (p == MAP_FAILED) {
+             goto fail;
++        }
+         /* update start so that it points to the file position at 'offset' */
+         host_start = (unsigned long)p;
+-        if (!(flags & MAP_ANON))
++        if (!(flags & MAP_ANON)) {
+             host_start += offset - host_offset;
++        }
+         start = h2g(host_start);
+     } else {
+         int flg;
+@@ -350,8 +372,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+             retaddr = target_mmap(start, len, prot | PROT_WRITE,
+                                   MAP_FIXED | MAP_PRIVATE | MAP_ANON,
+                                   -1, 0);
+-            if (retaddr == -1)
++            if (retaddr == -1) {
+                 goto fail;
++            }
+             pread(fd, g2h_untagged(start), len, offset);
+             if (!(prot & PROT_WRITE)) {
+                 ret = target_mprotect(start, len, prot);
+@@ -369,14 +392,16 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+                 /* one single host page */
+                 ret = mmap_frag(real_start, start, end,
+                                 prot, flags, fd, offset);
+-                if (ret == -1)
++                if (ret == -1) {
+                     goto fail;
++                }
+                 goto the_end1;
              }
+             ret = mmap_frag(real_start, start, real_start + qemu_host_page_size,
+                             prot, flags, fd, offset);
+-            if (ret == -1)
++            if (ret == -1) {
+                 goto fail;
++            }
+             real_start += qemu_host_page_size;
+         }
+         /* handle the end of the mapping */
+@@ -385,8 +410,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+                             real_end - qemu_host_page_size, real_end,
+                             prot, flags, fd,
+                             offset + real_end - qemu_host_page_size - start);
+-            if (ret == -1)
++            if (ret == -1) {
+                 goto fail;
++            }
+             real_end -= qemu_host_page_size;
          }
  
--        /* worst case: we cannot map the file because the offset is not
--           aligned, so we read it */
-+        /*
-+         * worst case: we cannot map the file because the offset is not aligned,
-+         * so we read it
-+         */
-         if (!(flags & MAP_ANON) &&
-             (offset & ~qemu_host_page_mask) != (start & ~qemu_host_page_mask)) {
--            /* msync() won't work here, so we return an error if write is
--               possible while it is a shared mapping */
-+            /*
-+             * msync() won't work here, so we return an error if write is
-+             * possible while it is a shared mapping
-+             */
-             if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
-                 (prot & PROT_WRITE)) {
-                 errno = EINVAL;
+@@ -394,14 +420,16 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+         if (real_start < real_end) {
+             void *p;
+             unsigned long offset1;
+-            if (flags & MAP_ANON)
++            if (flags & MAP_ANON) {
+                 offset1 = 0;
+-            else
++            } else {
+                 offset1 = offset + real_start - start;
++            }
+             p = mmap(g2h_untagged(real_start), real_end - real_start,
+                      prot, flags, fd, offset1);
+-            if (p == MAP_FAILED)
++            if (p == MAP_FAILED) {
+                 goto fail;
++            }
+         }
+     }
+  the_end1:
+@@ -427,11 +455,13 @@ int target_munmap(abi_ulong start, abi_ulong len)
+ #ifdef DEBUG_MMAP
+     printf("munmap: start=0x%lx len=0x%lx\n", start, len);
+ #endif
+-    if (start & ~TARGET_PAGE_MASK)
++    if (start & ~TARGET_PAGE_MASK) {
+         return -EINVAL;
++    }
+     len = TARGET_PAGE_ALIGN(len);
+-    if (len == 0)
++    if (len == 0) {
+         return -EINVAL;
++    }
+     mmap_lock();
+     end = start + len;
+     real_start = start & qemu_host_page_mask;
+@@ -449,16 +479,18 @@ int target_munmap(abi_ulong start, abi_ulong len)
+             }
+             end = real_end;
+         }
+-        if (prot != 0)
++        if (prot != 0) {
+             real_start += qemu_host_page_size;
++        }
+     }
+     if (end < real_end) {
+         prot = 0;
+         for (addr = end; addr < real_end; addr += TARGET_PAGE_SIZE) {
+             prot |= page_get_flags(addr);
+         }
+-        if (prot != 0)
++        if (prot != 0) {
+             real_end -= qemu_host_page_size;
++        }
+     }
+ 
+     ret = 0;
+@@ -467,8 +499,9 @@ int target_munmap(abi_ulong start, abi_ulong len)
+         ret = munmap(g2h_untagged(real_start), real_end - real_start);
+     }
+ 
+-    if (ret == 0)
++    if (ret == 0) {
+         page_set_flags(start, start + len, 0);
++    }
+     mmap_unlock();
+     return ret;
+ }
+@@ -477,14 +510,17 @@ int target_msync(abi_ulong start, abi_ulong len, int flags)
+ {
+     abi_ulong end;
+ 
+-    if (start & ~TARGET_PAGE_MASK)
++    if (start & ~TARGET_PAGE_MASK) {
+         return -EINVAL;
++    }
+     len = TARGET_PAGE_ALIGN(len);
+     end = start + len;
+-    if (end < start)
++    if (end < start) {
+         return -EINVAL;
+-    if (end == start)
++    }
++    if (end == start) {
+         return 0;
++    }
+ 
+     start &= qemu_host_page_mask;
+     return msync(g2h_untagged(start), end - start, flags);
 -- 
 2.22.1
 
