@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D909036A37E
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 00:26:41 +0200 (CEST)
-Received: from localhost ([::1]:52938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9837436A380
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 00:40:26 +0200 (CEST)
+Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laQjY-0005gI-VL
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 18:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
+	id 1laQwr-0001bZ-5b
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 18:40:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laQeO-0001Ik-Rg; Sat, 24 Apr 2021 18:21:21 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39459)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1laQvD-0000f5-No
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 18:38:43 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laQeM-0005nA-Jp; Sat, 24 Apr 2021 18:21:20 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- i21-20020a05600c3555b029012eae2af5d4so3097596wmq.4; 
- Sat, 24 Apr 2021 15:21:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5bEF88+Y7hdHhJKBoBriz3EJ+bNW8vwjDBCHyZi0evw=;
- b=HDt0CysOc5JoFOt2P75tHMp/lgi3KNk+OawEPNayX5ek02wG9EPa0FiiI4J+kI+1Vz
- BDgl8X3UOwNAWWwyIHx6hG96SpcJLdGgR2kx/908LwmyxBJoe605i76SNzUZk5jG1QXZ
- eS/RNVcBA+e5ipHDQm427jmZTK4ddI3CX4KeT6uO/4gefnsWfkG6dcGYEMxSJLijUlET
- gkwcBV63h+QtOMwp9r02+R4Tp3SdyHzP5yaNiHaGyRJ5jFM8DXaF9s0d5vNnCixZ0lqY
- 2BclwWrztU/0ORoyoLHfx9fs17MG3S0zHeRtzOQLEcs4aj6R5nQZ/7IHrqW52ABEiU1k
- MqfA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1laQvC-0008Fu-85
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 18:38:43 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id t13so852764pji.4
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 15:38:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JyOjC4hnuqpZs4dLJ2oDGWTASNQw4MiSTPeP8nSRLU8=;
+ b=ZB1D2ugfow0fItNEc7bImTRx+1Q+f2e6jSr7re6hY0M7UGta0SgjISmDiXFuJ0oODA
+ YUM/r7FVGrKESZYKNjf8piVmNOmehyx9QIwx5g8vZVMozpprWGrZ7zsI+Ql9RrYwhFKF
+ bHoygcNwK5VARpQdT0pvmey8kRMFWVYl1i5u90IeUEoNpycu2G4Lo0thDJXhNSofG//t
+ ZgTBFRwKAqcn8phHevDpOpDzNfdXyQlNY6o8wnWC7dPYqn2DubgdcGpbufCuoCHzZzlg
+ QkisPeFSTkQqK2RRc5zF4N5rHwIZcISzuWBFcEXrUfb4N2Wv2QUcD0Bvz7xYe4OT9Uld
+ e2hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5bEF88+Y7hdHhJKBoBriz3EJ+bNW8vwjDBCHyZi0evw=;
- b=p+Dij5AIoRNouRx1Wl1FsHhnmTOE0AsvoAEUBjRTNJskYhf+P4+kKCZ7lPE60jVI6d
- RcxGLi/ekMF3KXOpHeUUXn+69l4qdgIPw7glfm56QYjJqfOKxX97f7I8y3hUZJm0pkQO
- Z1oX4RIKgts7dyhRyC/fdWNPXCWga3M3iu6ijjQ0lHjFmutR30rOYWQX3G0uBfuBIFbL
- 4oKz2fNjc7O5pYD2Grqz0PisWiCIN6waxbHtztVH3+eZNzzKF8e+0OQ44/9NPldx/+it
- CWLtWR2JRtAEgF2chOTGEKqzDlQM9siUFeknk8mpT0aRnc+4wv9eeaEjETLb4UU5m1TO
- uNqg==
-X-Gm-Message-State: AOAM531Ibl+zZCfSxPegIoWVK3mV7eCKa/uRD/xxs148l4jLYfv/wiRF
- AqzpeH5/I2H40oehLuf07IN+1q22r4gAPQ==
-X-Google-Smtp-Source: ABdhPJw30FSOIw548EgcxwVJimDOwYNne9D6NSJ09RTalXepqUEpTRaGzLe39Gv1Kn3hQCUCXgBvqA==
-X-Received: by 2002:a1c:7311:: with SMTP id d17mr10893510wmb.183.1619302875834; 
- Sat, 24 Apr 2021 15:21:15 -0700 (PDT)
-Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id l13sm13738457wrt.14.2021.04.24.15.21.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Apr 2021 15:21:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/pcmcia: Do not register PCMCIA type if not required
-Date: Sun, 25 Apr 2021 00:20:57 +0200
-Message-Id: <20210424222057.3434459-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210424222057.3434459-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JyOjC4hnuqpZs4dLJ2oDGWTASNQw4MiSTPeP8nSRLU8=;
+ b=YSKffxIs7UqucSKhrm4RK0iKORjwwGMQBLWCq4Dlmp1dJuiQz27tSrJQnXe5hpQlVC
+ C90f2xKv8W1pkWS9nBS8j3Fh/HFlea6Ddxz7icGlxQoBDw5ZbSBFW/AIN9z2xi5d4GAT
+ ymJ9v/Ln8YqbTy/NS3kgorQyUf+l77wQc0vtCpdQurECgirhvBMtDdnPCiKw3dQxrudF
+ QafSveTRNmC/0dO7E/ATU+piZNKcE2ymsbVlbLLKI8aTdmqKPgRCZ8x6iS4AMaA1iRX7
+ 0vKnaN5+Y83oS2OeEpu/+Uir2Iy6nipA8CpL8BMiEu+gWtUl3+5OrulQuJGWt24DuVgZ
+ C+Kg==
+X-Gm-Message-State: AOAM530SYJICpoNGjJZLJcQ/FDWBEs8qo+Q2BJ9+696uJHfneXImTIoz
+ uISUWPcAbD9wI6WONlTTbVIe3Q==
+X-Google-Smtp-Source: ABdhPJz6JpH5zWB/TRFQpbepuVTQnroY7Rn33VTgj4R75UbgHzxlxkIjaao9HnuCeVewtMmcsuS0zg==
+X-Received: by 2002:a17:90b:1b0d:: with SMTP id
+ nu13mr12905976pjb.149.1619303920738; 
+ Sat, 24 Apr 2021 15:38:40 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id ne22sm10848393pjb.5.2021.04.24.15.38.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 24 Apr 2021 15:38:40 -0700 (PDT)
+Subject: Re: [PATCH 0/3] hw: Restrict PCMCIA to ARM target
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 References: <20210424222057.3434459-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <951882f8-c12b-fffd-44f6-9697c52b8de0@linaro.org>
+Date: Sat, 24 Apr 2021 15:38:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210424222057.3434459-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,32 +89,18 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Miroslav Rezanina <mrezanin@redhat.com>,
- John Snow <jsnow@redhat.com>
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ Miroslav Rezanina <mrezanin@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the Kconfig 'PCMCIA' value is not selected, it is pointless
-to build the PCMCIA core components.
+On 4/24/21 3:20 PM, Philippe Mathieu-Daudé wrote:
+> Philippe Mathieu-Daudé (3):
+>    hw/arm/pxa2xx: Declare PCMCIA bus with Kconfig
+>    hw/ide: Add Kconfig dependency MICRODRIVE -> PCMCIA
+>    hw/pcmcia: Do not register PCMCIA type if not required
 
-(Currently only one machine of the ARM targets requires this).
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/pcmcia/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/pcmcia/meson.build b/hw/pcmcia/meson.build
-index ab50bd325d6..51f2512b8ed 100644
---- a/hw/pcmcia/meson.build
-+++ b/hw/pcmcia/meson.build
-@@ -1,2 +1,2 @@
--softmmu_ss.add(files('pcmcia.c'))
-+softmmu_ss.add(when: 'CONFIG_PCMCIA', if_true: files('pcmcia.c'))
- softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx.c'))
--- 
-2.26.3
-
+r~
 
