@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9837436A380
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 00:40:26 +0200 (CEST)
-Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5201536A381
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 00:43:05 +0200 (CEST)
+Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laQwr-0001bZ-5b
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 18:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57288)
+	id 1laQzQ-0003HP-D7
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 18:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laQvD-0000f5-No
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 18:38:43 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54888)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laQxk-0002Hz-S7
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 18:41:21 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laQvC-0008Fu-85
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 18:38:43 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id t13so852764pji.4
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 15:38:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JyOjC4hnuqpZs4dLJ2oDGWTASNQw4MiSTPeP8nSRLU8=;
- b=ZB1D2ugfow0fItNEc7bImTRx+1Q+f2e6jSr7re6hY0M7UGta0SgjISmDiXFuJ0oODA
- YUM/r7FVGrKESZYKNjf8piVmNOmehyx9QIwx5g8vZVMozpprWGrZ7zsI+Ql9RrYwhFKF
- bHoygcNwK5VARpQdT0pvmey8kRMFWVYl1i5u90IeUEoNpycu2G4Lo0thDJXhNSofG//t
- ZgTBFRwKAqcn8phHevDpOpDzNfdXyQlNY6o8wnWC7dPYqn2DubgdcGpbufCuoCHzZzlg
- QkisPeFSTkQqK2RRc5zF4N5rHwIZcISzuWBFcEXrUfb4N2Wv2QUcD0Bvz7xYe4OT9Uld
- e2hQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laQxf-0001HP-Eh
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 18:41:16 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ y5-20020a05600c3645b0290132b13aaa3bso3082859wmq.1
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 15:41:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g3HbVg8LKce141TaodhTe1f1mO+EXNSD2W1CLnN8Fgs=;
+ b=F9pZOAV9XoNKfd0OiBIdcvHpDs8DQRZybTBKZ9wrfL5Epg5ZdadDqYVsW7NzV2PMCY
+ 04tnXUz41pbQ23e5FlxoDCTS2UIEgtpT8D73bpbjSsYxhuxDZBdYSL4DPPERka+ysAZw
+ 5ST61+DMoHt71kASrXMe/R0MIJCTLaFRClSVZfre2P+33+GHwFOenXgdS3whdjed+q3A
+ rN6YzE8t97iKS7CtgIXfJ0LMuQjWVpIfo6jOUah2nbHKV0NpVUX3AJ46jrbjAjV1nQez
+ 6QjetaiGkjoDB9uyEb7W9V2LhLajLXcdTllfJ8C19wc2VDBl//4JsklanCyAz1Ocu9IW
+ kprg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JyOjC4hnuqpZs4dLJ2oDGWTASNQw4MiSTPeP8nSRLU8=;
- b=YSKffxIs7UqucSKhrm4RK0iKORjwwGMQBLWCq4Dlmp1dJuiQz27tSrJQnXe5hpQlVC
- C90f2xKv8W1pkWS9nBS8j3Fh/HFlea6Ddxz7icGlxQoBDw5ZbSBFW/AIN9z2xi5d4GAT
- ymJ9v/Ln8YqbTy/NS3kgorQyUf+l77wQc0vtCpdQurECgirhvBMtDdnPCiKw3dQxrudF
- QafSveTRNmC/0dO7E/ATU+piZNKcE2ymsbVlbLLKI8aTdmqKPgRCZ8x6iS4AMaA1iRX7
- 0vKnaN5+Y83oS2OeEpu/+Uir2Iy6nipA8CpL8BMiEu+gWtUl3+5OrulQuJGWt24DuVgZ
- C+Kg==
-X-Gm-Message-State: AOAM530SYJICpoNGjJZLJcQ/FDWBEs8qo+Q2BJ9+696uJHfneXImTIoz
- uISUWPcAbD9wI6WONlTTbVIe3Q==
-X-Google-Smtp-Source: ABdhPJz6JpH5zWB/TRFQpbepuVTQnroY7Rn33VTgj4R75UbgHzxlxkIjaao9HnuCeVewtMmcsuS0zg==
-X-Received: by 2002:a17:90b:1b0d:: with SMTP id
- nu13mr12905976pjb.149.1619303920738; 
- Sat, 24 Apr 2021 15:38:40 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id ne22sm10848393pjb.5.2021.04.24.15.38.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Apr 2021 15:38:40 -0700 (PDT)
-Subject: Re: [PATCH 0/3] hw: Restrict PCMCIA to ARM target
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210424222057.3434459-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <951882f8-c12b-fffd-44f6-9697c52b8de0@linaro.org>
-Date: Sat, 24 Apr 2021 15:38:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=g3HbVg8LKce141TaodhTe1f1mO+EXNSD2W1CLnN8Fgs=;
+ b=sLDr27Kc0tHdOu4v/549E5BgCPheZUnI1+alqiIdTww2JHZ2dKzM6N784CXjyjNW1h
+ C8nPkj/tjqNew9gr3WtYcQgdjJMwH2oT1J0ooxCGBeIraJVPARSoOMMSUMYQiayMw7Ap
+ I7jmxBMw9oPISxaIrv5rO7TmatARNCQ3yzAIWbOt+UgMX8P98wJua/wgcFY4YeSXiTG9
+ UPWzv8B22WGJhDAGZqekME//zJFJHpa3vgFyghmxg+LCy0FhLCHHPFfd1bHVQek/IlK9
+ zsTdXqHPomO1WSsQdsDFbe5s6NQTt4UHFHIH036lelfbSIC6A9IELFxE+aVRCtSZ/MUq
+ phaw==
+X-Gm-Message-State: AOAM531NKp+aN+Wozx1I8KCHNQxGTsvO/3Lj4HxSAXP6/r/2WBilcDlF
+ Wj9iW7ozZLwHE0hiSAivSx9FgL3n/NIj8g==
+X-Google-Smtp-Source: ABdhPJyZkspYHX598SFcTWrlM0Q0TU+YKcKn2lwVncnHogey3QFhyOuamehW29bANSMMDTdUp4vmvg==
+X-Received: by 2002:a7b:cc9a:: with SMTP id p26mr4834585wma.39.1619304073380; 
+ Sat, 24 Apr 2021 15:41:13 -0700 (PDT)
+Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id p13sm15997592wrt.0.2021.04.24.15.41.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Apr 2021 15:41:12 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/usb: Do not build USB subsystem if not required
+Date: Sun, 25 Apr 2021 00:41:08 +0200
+Message-Id: <20210424224110.3442424-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210424222057.3434459-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,19 +84,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
- Miroslav Rezanina <mrezanin@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/21 3:20 PM, Philippe Mathieu-Daudé wrote:
-> Philippe Mathieu-Daudé (3):
->    hw/arm/pxa2xx: Declare PCMCIA bus with Kconfig
->    hw/ide: Add Kconfig dependency MICRODRIVE -> PCMCIA
->    hw/pcmcia: Do not register PCMCIA type if not required
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+Not all targets use USB: allow the build system to not=0D
+build it if not selected.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/usb/host-stub: Remove unused header=0D
+  hw/usb: Do not build USB subsystem if not required=0D
+=0D
+ hw/usb/host-stub.c   |  1 -=0D
+ stubs/usb-dev-stub.c | 25 +++++++++++++++++++++++++=0D
+ MAINTAINERS          |  1 +=0D
+ hw/usb/meson.build   |  9 +++------=0D
+ stubs/meson.build    |  1 +=0D
+ 5 files changed, 30 insertions(+), 7 deletions(-)=0D
+ create mode 100644 stubs/usb-dev-stub.c=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
