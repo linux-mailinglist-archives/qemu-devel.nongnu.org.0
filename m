@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246A636A22B
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:41:56 +0200 (CEST)
-Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB53D36A235
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:48:56 +0200 (CEST)
+Received: from localhost ([::1]:47680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laLLv-000269-8f
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53958)
+	id 1laLSi-0007Wr-2v
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laL3Q-0008SQ-36; Sat, 24 Apr 2021 12:22:48 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41972)
+ id 1laL3U-0000Ck-IT; Sat, 24 Apr 2021 12:22:52 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laL3O-0004KR-7F; Sat, 24 Apr 2021 12:22:47 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c4so12511834wrt.8;
- Sat, 24 Apr 2021 09:22:44 -0700 (PDT)
+ id 1laL3T-0004Ma-5a; Sat, 24 Apr 2021 12:22:52 -0400
+Received: by mail-wr1-x432.google.com with SMTP id p6so44746223wrn.9;
+ Sat, 24 Apr 2021 09:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X33eNVwJacVSZY7X58ULYQouokNiQ8LTYhRpjXCE4zs=;
- b=KQIHaAm0XuFS9zg81Q1fYWeBBO2+qqFtwKyAz6+Fo1F25o0EAy1yUVuiVupOXodBDn
- bit5Ib1242pWiDdqYF2kqG0EcFdDDz5zRwKlcwIyFVdgsmZbVLNOcNibX4j0xgXVfJJn
- R7mnjtLGKcS8woNmVJ8pYuZyYfxAWNrfd5DxWb56XPUKlr/5Sm9bs+QYe+1TwT+nFQjb
- iOddIZwmY/KGtOpzNlRk+LAI2P1IqcIVdyS7NI1l5XdTacN4PHHzJ1YNw/WsrAynTMOt
- RHsBM5HXw8wL4Py6bRm24JpaWKoHMRninzowmFEldqCOTnzPKMrcviq9KGHJRGDiDZlx
- BkLg==
+ bh=4+QISpS2fmofHFusvT0iZzLeTqf48stVhGPP0rBj26c=;
+ b=X9aNCpiU5uRRiB4ZvEDKILDSMIgY4GeFiCX/xw971wZzOSpY8Wsc5uyf8DvE63kKEO
+ y3Ca1JRzH0MZ+qeYaWuyDw+Bczl+VD+LDFZbivN+YnBS6xFt1YFg5/7pQLWfe3qnLTNL
+ JFLJYPoLYYEWaSPjkvdVaqrWcJRHYav3pLjhCWQkYzTmQT63Wb9D6KeCTIvqrqpWFx0P
+ x8hiXo18CnpQN2qW+S5ZQNVL4QduF9E1v36ey08dsUFAN5i2nhcMB4olJGO3UltO/AuK
+ EgKA0OkUBHn+7KZoZG7YZ8fBSYCnXoiVjeu3W2+Gitv3Tg3L04eU3TsI3eDXTrK29u3B
+ esgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=X33eNVwJacVSZY7X58ULYQouokNiQ8LTYhRpjXCE4zs=;
- b=csOdmsq85fiAmHLAHb5xDmDAt6M0a5tIxy55qTod05rl9vWSCswYVNTiY/tWmv2umT
- aVwzfmNYYkLpUzr5rBnvlG3Wfq2CavPuGgGe22H5YMMSg5IHZWJ5cDEfWWgraF1xLI7x
- mqAW9hyuxEDylwuYMAWYBrs45REgYpwkqVGFRk5nkmkhxWx6tM9H5bRcFm3BJ7Gxgwd2
- 0cBxK6hdpAB5ZJtNpbHIBiixuPnHqVVkRAnha54sZ1IuED5jvK41hOgtqbhHWWByFwVt
- PyponaEhrnmLCcY0MZrD428bJzjQs+aB5YthuId/QBRl8EXg6yEuWJ40EKkMGspe9wm+
- 7/lg==
-X-Gm-Message-State: AOAM533H+inNCE9/hY6gCLzRcE95h0/D2k+9dZPpOMtp4tOUmSfZmVoo
- ZJmw5VdRyJMVAzPBPFQpFtZs8sF4lZ+Bag==
-X-Google-Smtp-Source: ABdhPJwhXo1mSVd/CZOVyEIkEXph4MOOiWg4X3MSsJMdU/aJvxKqdc147czD93Y9GtYIWZBY4d+kRg==
-X-Received: by 2002:adf:f88f:: with SMTP id u15mr11724031wrp.368.1619281363227; 
- Sat, 24 Apr 2021 09:22:43 -0700 (PDT)
+ bh=4+QISpS2fmofHFusvT0iZzLeTqf48stVhGPP0rBj26c=;
+ b=gUu5KLruo/TvfyjhgZeH5zmkGR9LHFy/0mDmCV5IoIg7BEnkaQpu8bYx3gODkE+eHT
+ KbBZSKp1mn2q542wQtQHTnQiwyrMYCDLsopDxHP9FX8rs9JJZmCGCSr9uCtYZhMklgMq
+ oXX/Nbe5mYzdFZA6KPC1KLjuXLcmaFz3Opmd08LpjRYl5b1zaTOO/RKJ334vAIBteC9u
+ dm/TRZBPcT4egDgN/8CynpwwGYdCRsW5fCkI57qW+m7uCEEeAT+PH5f493dBPsLwb6wn
+ lkhdwMEMm6Xe1UOP88fe9bdoU3mv2jYzBCM6wM28zYzLp+jniv3LFwrUz7gVCknSk1dG
+ NCjQ==
+X-Gm-Message-State: AOAM531c7MeBJGtpjkUOARgTudwxo7gUfcHiWGuO+WhDNa1M6KVjP1AI
+ sjofOtXBQ7avQXJtKkp6ZxjAZCShcz24Yw==
+X-Google-Smtp-Source: ABdhPJyuZ+sG+ybj1josEculdM6x9EeSooAh2Xzwzi65A6hWq2uNmqbmRZcYRivUF80+l5FPA67jNw==
+X-Received: by 2002:a05:6000:23c:: with SMTP id
+ l28mr11521347wrz.79.1619281368579; 
+ Sat, 24 Apr 2021 09:22:48 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id p18sm12586171wrs.68.2021.04.24.09.22.41
+ by smtp.gmail.com with ESMTPSA id u14sm12782211wrq.65.2021.04.24.09.22.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Apr 2021 09:22:42 -0700 (PDT)
+ Sat, 24 Apr 2021 09:22:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/pcmcia/microdrive: Register machine reset handler
-Date: Sat, 24 Apr 2021 18:22:26 +0200
-Message-Id: <20210424162229.3312116-3-f4bug@amsat.org>
+Subject: [PATCH 3/5] hw/block/nand: Register machine reset handler
+Date: Sat, 24 Apr 2021 18:22:27 +0200
+Message-Id: <20210424162229.3312116-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210424162229.3312116-1-f4bug@amsat.org>
 References: <20210424162229.3312116-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,69 +95,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The abstract PCMCIA_CARD is a bus-less TYPE_DEVICE, so devices
-implementing it are not reset automatically.
-Register a reset handler so children get reset on machine reset.
+The TYPE_NAND device is bus-less, thus isn't reset automatically.
+Register a reset handler to get reset with the machine.
 
-Note, the DSCM-1XXXX device (TYPE_DSCM1XXXX) which inherits
-TYPE_MICRODRIVE and PCMCIA_CARD reset itself when a disk is
-attached or detached, but was not resetting itself on machine
-reset.
-
-It doesn't seem to be an issue because it is that way since the
-device QDev'ifycation 8 years ago, in commit d1f2c96a81a
-("pcmcia: QOM'ify PCMCIACardState and MicroDriveState").
-Still, correct to have a proper API usage.
-
+Fixed: 7426aa72c36 ("nand: Don't inherit from Sysbus")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pcmcia/pcmcia.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hw/block/nand.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/hw/pcmcia/pcmcia.c b/hw/pcmcia/pcmcia.c
-index 03d13e7d670..73656257227 100644
---- a/hw/pcmcia/pcmcia.c
-+++ b/hw/pcmcia/pcmcia.c
-@@ -6,14 +6,39 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/module.h"
+diff --git a/hw/block/nand.c b/hw/block/nand.c
+index 8bc80e35144..d3fb5107bfe 100644
+--- a/hw/block/nand.c
++++ b/hw/block/nand.c
+@@ -24,6 +24,7 @@
+ #include "hw/qdev-properties-system.h"
+ #include "hw/block/flash.h"
+ #include "sysemu/block-backend.h"
 +#include "sysemu/reset.h"
- #include "hw/pcmcia.h"
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+@@ -364,6 +365,11 @@ static const VMStateDescription vmstate_nand = {
+     }
+ };
  
-+static void pcmcia_card_reset_handler(void *dev)
++static void nand_reset_handler(void *dev)
 +{
 +    device_legacy_reset(DEVICE(dev));
 +}
 +
-+static void pcmcia_card_realize(DeviceState *dev, Error **errp)
-+{
-+    qemu_register_reset(pcmcia_card_reset_handler, dev);
+ static void nand_realize(DeviceState *dev, Error **errp)
+ {
+     int pagesize;
+@@ -423,6 +429,13 @@ static void nand_realize(DeviceState *dev, Error **errp)
+     }
+     /* Give s->ioaddr a sane value in case we save state before it is used. */
+     s->ioaddr = s->io;
++
++    qemu_register_reset(nand_reset_handler, dev);
 +}
 +
-+static void pcmcia_card_unrealize(DeviceState *dev)
++static void nand_unrealize(DeviceState *dev)
 +{
-+    qemu_unregister_reset(pcmcia_card_reset_handler, dev);
-+}
-+
-+static void pcmcia_card_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = pcmcia_card_realize;
-+    dc->unrealize = pcmcia_card_unrealize;
-+}
-+
- static const TypeInfo pcmcia_card_type_info = {
-     .name = TYPE_PCMCIA_CARD,
-     .parent = TYPE_DEVICE,
-     .instance_size = sizeof(PCMCIACardState),
-     .abstract = true,
-     .class_size = sizeof(PCMCIACardClass),
-+    .class_init = pcmcia_card_class_init,
- };
++    qemu_unregister_reset(nand_reset_handler, dev);
+ }
  
- static void pcmcia_register_types(void)
+ static Property nand_properties[] = {
+@@ -437,6 +450,7 @@ static void nand_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->realize = nand_realize;
++    dc->unrealize = nand_unrealize;
+     dc->reset = nand_reset;
+     dc->vmsd = &vmstate_nand;
+     device_class_set_props(dc, nand_properties);
 -- 
 2.26.3
 
