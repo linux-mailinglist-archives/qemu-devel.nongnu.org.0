@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD2336A21A
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:28:23 +0200 (CEST)
-Received: from localhost ([::1]:34586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C497436A210
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:23:57 +0200 (CEST)
+Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laL8k-0006q1-Q9
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50550)
+	id 1laL4W-0000M6-S5
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKif-0005iY-VV
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:22 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:44880)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKih-0005nV-VJ
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:24 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:39640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiE-0004JE-EE
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:21 -0400
-Received: by mail-il1-x135.google.com with SMTP id i22so393151ila.11
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiJ-0004Jb-54
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:23 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id k25so8749470iob.6
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pnchoQA/ZqjPQSSH2ekFTKVyc7FezQYrIYZdDfoc05M=;
- b=unqESEfc4cWWszsmwVP0mp10FSs6obU0h5W1yh/jR44VydF1J+BzNSXTJ8seYqbpuu
- yI6DNo1rNNbbWS3dGk5+uup5HZXumfacyKmcxONXmXa949+YOqBMaAI2K0bQc1JgeXNU
- a1QSrf3wY7ZrTSMK6RCuWpqrJ1ozE6VMvbHc4v0ij2vYQslf+eAPMmxit8ydjb03rTM5
- 3hl/uJpxdR4EGRd0uVX4r3Yo30Oqe8DA/xqa2YxoACmGcrF7VshdErqk84tBahc5kWig
- myDfRMZgeCEZLNmWYYtvk6WVQmWZ8/mY0y+4+NzVp2eoTI/YT8TdGKdVAmdEOEzsOI/9
- Jiqg==
+ bh=q+XTeWxts5sk5LrurE8SZKOV4GTG2HFFTz7olzF6hdE=;
+ b=VO9xd1nTMUsTeOJjyqH2BEUM3c+yuheRJc2g9JgQqtNEaeoHwUV8IBtfcOWDvsabqK
+ q8HahzjJ545uL3WJhJG0DTRonSPNA2aUR2DtMJgjG1IPrQkLXdZ7/iWQLwK76Dq5bVsA
+ iT9Wb00rfQ6rdgkszWoNEzL5SGlxIbRIbzDLRczFE8PsOh5GGu2iDWfFt8pkJZ2mu/E7
+ Z91aiK9/mM8reY7p/fKUznSVtP4gj6fKF4hZF7hkqAhBLNiS/yt4qrs5JsVRyaIRg5W8
+ GevcA3qfZj8UMdrTkqsUUO8rMNzNB7C5kfRQDy7qpkXu7EQsbJ6TKikij1y5E6H4CCpO
+ 1V7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pnchoQA/ZqjPQSSH2ekFTKVyc7FezQYrIYZdDfoc05M=;
- b=gMfLCWnfJsc0bnNOrnMKrGvHM5Ved3AhQ2Ci7gHIDV0If7vcDWegWiTIg9cK6FojR4
- oDzO6hxUOuVD4KM1Kj9pYexTkOBk/mz7/KC1zu2NPnxnu/+8RSJGKpYzmRhUDFpQJN0T
- xcd1U1OBBcKjzM+4rf22hVoW7r72qf/3s8FgFmyfqD3RD/SH1FuBCR/gcPeII19f6Ck2
- S7IbP+I48D1Hz8Z4vnMo/lRAh7HDnhzQHrPVPHJqzD9CkeHDMonSemO827oeZs6rthsk
- ow95zEqJ0NyYDgl6Pz4rBUjrKrOMJrO1Hh32am4Mo+hx4QzDD1TxIFCUBRmvXePLy9EG
- Krvw==
-X-Gm-Message-State: AOAM533qOMgeSoJGtmu4xmZEo5C8SJZ4Fyftbdtf9dEBQ8CnXukBblCv
- BSqr7eY4D3Dqt92kzqZ4VnHp+6snYSdo5rH5
-X-Google-Smtp-Source: ABdhPJyCwbzFoq3WHrppOkQshUK5PbOVhZsz17gGqYgBgq9wbV7mZkH8Qtyo6kfP1fRvIzTIPA2r8w==
-X-Received: by 2002:a92:4a12:: with SMTP id m18mr6947462ilf.296.1619280052848; 
- Sat, 24 Apr 2021 09:00:52 -0700 (PDT)
+ bh=q+XTeWxts5sk5LrurE8SZKOV4GTG2HFFTz7olzF6hdE=;
+ b=X2ZizozdzogBgrc9XO5ojG7yp3ZbPy47YFjvMt/eVluAG6RSwO491jO5npUaxkLg8M
+ ATMsHiNr6hwWuFiRB9PYeW8qVxfvlLT5GvD9tI9a3gReZaFZcxK3RxojhJUtRyCtmxxQ
+ 0S8PFway/ITlwfo/EqKAOFH4ze4hZ9Whbnil7JCa5blQjwzuoLS5nZeuWZkXDIk/sCLG
+ 1Kqn/XmBVoApI67agfqpOdHaEZqhuIyFRKJgSx4gWMGWIc2RGCpc0TX14C03iFgpXFhx
+ yrgUh3XtnVZTGJuSrvB9Jq88ZBviN+fMW2BAlyU3Vq7KmVRbripWnL5X/4PAeMHMtkhn
+ DF5Q==
+X-Gm-Message-State: AOAM5305gFfJxvjjaUh8cBHlSE47Pi/qeJGv+A0yi380m9aRapspGmke
+ 509NsEhj2J88ovXKL5IS4McQG5zksIuPkPcK
+X-Google-Smtp-Source: ABdhPJzR8AXzTz8p1s0wsw2oCq/U7l90wFr/hSXs3zmYXlyWp0smMe1O9zBcrkou9l1v42I6zhEMxQ==
+X-Received: by 2002:a02:c9c7:: with SMTP id c7mr272810jap.57.1619280054212;
+ Sat, 24 Apr 2021 09:00:54 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.52
+ by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.53
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:00:52 -0700 (PDT)
+ Sat, 24 Apr 2021 09:00:53 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 31/48] bsd-user: style tweak: use {} for all if statements,
- format else correctly
-Date: Sat, 24 Apr 2021 09:59:59 -0600
-Message-Id: <20210424160016.15200-32-imp@bsdimp.com>
+Subject: [PATCH v2 33/48] bsd-user: style tweak: Use preferred block comments
+Date: Sat, 24 Apr 2021 10:00:01 -0600
+Message-Id: <20210424160016.15200-34-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
 References: <20210424160016.15200-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::135;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,342 +89,165 @@ From: Warner Losh <imp@bsdimp.com>
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/mmap.c | 112 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 74 insertions(+), 38 deletions(-)
+ bsd-user/qemu.h | 74 ++++++++++++++++++++++++++++---------------------
+ 1 file changed, 43 insertions(+), 31 deletions(-)
 
-diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 0ff06d7349..1aec1916c0 100644
---- a/bsd-user/mmap.c
-+++ b/bsd-user/mmap.c
-@@ -48,17 +48,19 @@ bool have_mmap_lock(void)
- /* Grab lock to make sure things are in a consistent state after fork().  */
- void mmap_fork_start(void)
- {
--    if (mmap_lock_count)
-+    if (mmap_lock_count) {
-         abort();
-+    }
-     pthread_mutex_lock(&mmap_mutex);
- }
- 
- void mmap_fork_end(int child)
- {
--    if (child)
-+    if (child) {
-         pthread_mutex_init(&mmap_mutex, NULL);
--    else
-+    } else {
-         pthread_mutex_unlock(&mmap_mutex);
-+    }
- }
- 
- /* NOTE: all the constants are the HOST ones, but addresses are target. */
-@@ -75,15 +77,18 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-            prot & PROT_EXEC ? 'x' : '-');
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index de20e8329a..7f3cfa68aa 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -47,9 +47,10 @@ extern enum BSDType bsd_type;
+ #define THREAD
  #endif
  
--    if ((start & ~TARGET_PAGE_MASK) != 0)
-+    if ((start & ~TARGET_PAGE_MASK) != 0) {
-         return -EINVAL;
-+    }
-     len = TARGET_PAGE_ALIGN(len);
-     end = start + len;
--    if (end < start)
-+    if (end < start) {
-         return -EINVAL;
-+    }
-     prot &= PROT_READ | PROT_WRITE | PROT_EXEC;
--    if (len == 0)
-+    if (len == 0) {
-         return 0;
-+    }
+-/* This struct is used to hold certain information about the image.
+- * Basically, it replicates in user space what would be certain
+- * task_struct fields in the kernel
++/*
++ * This struct is used to hold certain information about the image.  Basically,
++ * it replicates in user space what would be certain task_struct fields in the
++ * kernel
+  */
+ struct image_info {
+     abi_ulong load_addr;
+@@ -78,12 +79,13 @@ struct sigqueue {
+ struct emulated_sigtable {
+     int pending; /* true if signal is pending */
+     struct sigqueue *first;
+-    struct sigqueue info; /* in order to always have memory for the
+-                             first signal, we put it here */
++    /* in order to always have memory for the first signal, we put it here */
++    struct sigqueue info;
+ };
  
-     mmap_lock();
-     host_start = start & qemu_host_page_mask;
-@@ -102,8 +107,9 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-         }
-         ret = mprotect(g2h_untagged(host_start),
-                        qemu_host_page_size, prot1 & PAGE_BITS);
--        if (ret != 0)
-+        if (ret != 0) {
-             goto error;
-+        }
-         host_start += qemu_host_page_size;
-     }
-     if (end < host_end) {
-@@ -113,16 +119,18 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-         }
-         ret = mprotect(g2h_untagged(host_end - qemu_host_page_size),
-                        qemu_host_page_size, prot1 & PAGE_BITS);
--        if (ret != 0)
-+        if (ret != 0) {
-             goto error;
-+        }
-         host_end -= qemu_host_page_size;
-     }
+-/* NOTE: we force a big alignment so that the stack stored after is
+-   aligned too */
++/*
++ * NOTE: we force a big alignment so that the stack stored after is aligned too
++ */
+ typedef struct TaskState {
+     pid_t ts_tid;     /* tid (or pid) of this task */
  
-     /* handle the pages in the middle */
-     if (host_start < host_end) {
-         ret = mprotect(g2h_untagged(host_start), host_end - host_start, prot);
--        if (ret != 0)
-+        if (ret != 0) {
-             goto error;
-+        }
-     }
-     page_set_flags(start, start + len, prot | PAGE_VALID);
-     mmap_unlock();
-@@ -147,16 +155,18 @@ static int mmap_frag(abi_ulong real_start,
-     /* get the protection of the target pages outside the mapping */
-     prot1 = 0;
-     for (addr = real_start; addr < real_end; addr++) {
--        if (addr < start || addr >= end)
-+        if (addr < start || addr >= end) {
-             prot1 |= page_get_flags(addr);
-+        }
-     }
+@@ -103,7 +105,6 @@ void init_task_state(TaskState *ts);
+ extern const char *qemu_uname_release;
+ extern unsigned long mmap_min_addr;
  
-     if (prot1 == 0) {
-         /* no page was there, so we allocate one */
-         void *p = mmap(host_start, qemu_host_page_size, prot,
-                        flags | MAP_ANON, -1, 0);
--        if (p == MAP_FAILED)
-+        if (p == MAP_FAILED) {
-             return -1;
-+        }
-         prot1 = prot;
-     }
-     prot1 &= PAGE_BITS;
-@@ -168,19 +178,22 @@ static int mmap_frag(abi_ulong real_start,
-          * while it is a shared mapping
-          */
-         if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
--            (prot & PROT_WRITE))
-+            (prot & PROT_WRITE)) {
-             return -1;
-+        }
- 
-         /* adjust protection to be able to read */
--        if (!(prot1 & PROT_WRITE))
-+        if (!(prot1 & PROT_WRITE)) {
-             mprotect(host_start, qemu_host_page_size, prot1 | PROT_WRITE);
-+        }
- 
-         /* read the corresponding file data */
-         pread(fd, g2h_untagged(start), end - start, offset);
- 
-         /* put final protection */
--        if (prot_new != (prot1 | PROT_WRITE))
-+        if (prot_new != (prot1 | PROT_WRITE)) {
-             mprotect(host_start, qemu_host_page_size, prot_new);
-+        }
-     } else {
-         /* just update the protection */
-         if (prot_new != prot1) {
-@@ -224,23 +237,27 @@ static abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size)
-     size = HOST_PAGE_ALIGN(size);
-     start = start & qemu_host_page_mask;
-     addr = start;
--    if (addr == 0)
-+    if (addr == 0) {
-         addr = mmap_next_start;
-+    }
-     addr_start = addr;
-     for (;;) {
-         prot = 0;
-         for (addr1 = addr; addr1 < (addr + size); addr1 += TARGET_PAGE_SIZE) {
-             prot |= page_get_flags(addr1);
-         }
--        if (prot == 0)
-+        if (prot == 0) {
-             break;
-+        }
-         addr += qemu_host_page_size;
-         /* we found nothing */
--        if (addr == addr_start)
-+        if (addr == addr_start) {
-             return (abi_ulong)-1;
-+        }
-     }
--    if (start == 0)
-+    if (start == 0) {
-         mmap_next_start = addr + size;
-+    }
-     return addr;
+-/* ??? See if we can avoid exposing so much of the loader internals.  */
+ /*
+  * MAX_ARG_PAGES defines the number of pages allocated for arguments
+  * and envelope for the new program. 32 should suffice, this gives
+@@ -224,9 +225,11 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+     return page_check_range((target_ulong)addr, size, type) == 0;
  }
  
-@@ -260,10 +277,12 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-                prot & PROT_READ ? 'r' : '-',
-                prot & PROT_WRITE ? 'w' : '-',
-                prot & PROT_EXEC ? 'x' : '-');
--        if (flags & MAP_FIXED)
-+        if (flags & MAP_FIXED) {
-             printf("MAP_FIXED ");
--        if (flags & MAP_ANON)
-+        }
-+        if (flags & MAP_ANON) {
-             printf("MAP_ANON ");
-+        }
-         switch (flags & TARGET_BSD_MAP_FLAGMASK) {
-         case MAP_PRIVATE:
-             printf("MAP_PRIVATE ");
-@@ -285,8 +304,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-     }
+-/* NOTE __get_user and __put_user use host pointers and don't check access. */
+-/* These are usually used to access struct data members once the
+- * struct has been locked - usually with lock_user_struct().
++/*
++ * NOTE __get_user and __put_user use host pointers and don't check access.
++ *
++ * These are usually used to access struct data members once the struct has been
++ * locked - usually with lock_user_struct().
+  */
+ #define __put_user(x, hptr)\
+ ({\
+@@ -267,17 +270,18 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+         x = (typeof(*hptr))tswap64(*(uint64_t *)(hptr));\
+         break;\
+     default:\
+-        /* avoid warning */\
+         x = 0;\
+         abort();\
+     } \
+     0;\
+ })
  
-     len = TARGET_PAGE_ALIGN(len);
--    if (len == 0)
-+    if (len == 0) {
-         goto the_end;
-+    }
-     real_start = start & qemu_host_page_mask;
+-/* put_user()/get_user() take a guest address and check access */
+-/* These are usually used to access an atomic data type, such as an int,
+- * that has been passed by address.  These internally perform locking
+- * and unlocking on the data type.
++/*
++ * put_user()/get_user() take a guest address and check access
++ *
++ * These are usually used to access an atomic data type, such as an int, that
++ * has been passed by address.  These internally perform locking and unlocking
++ * on the data type.
+  */
+ #define put_user(x, gaddr, target_type)                                 \
+ ({                                                                      \
+@@ -301,7 +305,6 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+         __ret = __get_user((x), __hptr);                                \
+         unlock_user(__hptr, __gaddr, 0);                                \
+     } else {                                                            \
+-        /* avoid warning */                                             \
+         (x) = 0;                                                        \
+         __ret = -TARGET_EFAULT;                                         \
+     }                                                                   \
+@@ -330,22 +333,28 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+ #define get_user_u8(x, gaddr)  get_user((x), (gaddr), uint8_t)
+ #define get_user_s8(x, gaddr)  get_user((x), (gaddr), int8_t)
  
-     if (!(flags & MAP_FIXED)) {
-@@ -306,12 +326,14 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-          */
-         p = mmap(g2h_untagged(mmap_start),
-                  host_len, prot, flags | MAP_FIXED, fd, host_offset);
--        if (p == MAP_FAILED)
-+        if (p == MAP_FAILED) {
-             goto fail;
-+        }
-         /* update start so that it points to the file position at 'offset' */
-         host_start = (unsigned long)p;
--        if (!(flags & MAP_ANON))
-+        if (!(flags & MAP_ANON)) {
-             host_start += offset - host_offset;
-+        }
-         start = h2g(host_start);
-     } else {
-         int flg;
-@@ -350,8 +372,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-             retaddr = target_mmap(start, len, prot | PROT_WRITE,
-                                   MAP_FIXED | MAP_PRIVATE | MAP_ANON,
-                                   -1, 0);
--            if (retaddr == -1)
-+            if (retaddr == -1) {
-                 goto fail;
-+            }
-             pread(fd, g2h_untagged(start), len, offset);
-             if (!(prot & PROT_WRITE)) {
-                 ret = target_mprotect(start, len, prot);
-@@ -369,14 +392,16 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-                 /* one single host page */
-                 ret = mmap_frag(real_start, start, end,
-                                 prot, flags, fd, offset);
--                if (ret == -1)
-+                if (ret == -1) {
-                     goto fail;
-+                }
-                 goto the_end1;
-             }
-             ret = mmap_frag(real_start, start, real_start + qemu_host_page_size,
-                             prot, flags, fd, offset);
--            if (ret == -1)
-+            if (ret == -1) {
-                 goto fail;
-+            }
-             real_start += qemu_host_page_size;
-         }
-         /* handle the end of the mapping */
-@@ -385,8 +410,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-                             real_end - qemu_host_page_size, real_end,
-                             prot, flags, fd,
-                             offset + real_end - qemu_host_page_size - start);
--            if (ret == -1)
-+            if (ret == -1) {
-                 goto fail;
-+            }
-             real_end -= qemu_host_page_size;
-         }
+-/* copy_from_user() and copy_to_user() are usually used to copy data
++/*
++ * copy_from_user() and copy_to_user() are usually used to copy data
+  * buffers between the target and host.  These internally perform
+  * locking/unlocking of the memory.
+  */
+ abi_long copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
+ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
  
-@@ -394,14 +420,16 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-         if (real_start < real_end) {
-             void *p;
-             unsigned long offset1;
--            if (flags & MAP_ANON)
-+            if (flags & MAP_ANON) {
-                 offset1 = 0;
--            else
-+            } else {
-                 offset1 = offset + real_start - start;
-+            }
-             p = mmap(g2h_untagged(real_start), real_end - real_start,
-                      prot, flags, fd, offset1);
--            if (p == MAP_FAILED)
-+            if (p == MAP_FAILED) {
-                 goto fail;
-+            }
-         }
-     }
-  the_end1:
-@@ -427,11 +455,13 @@ int target_munmap(abi_ulong start, abi_ulong len)
- #ifdef DEBUG_MMAP
-     printf("munmap: start=0x%lx len=0x%lx\n", start, len);
- #endif
--    if (start & ~TARGET_PAGE_MASK)
-+    if (start & ~TARGET_PAGE_MASK) {
-         return -EINVAL;
-+    }
-     len = TARGET_PAGE_ALIGN(len);
--    if (len == 0)
-+    if (len == 0) {
-         return -EINVAL;
-+    }
-     mmap_lock();
-     end = start + len;
-     real_start = start & qemu_host_page_mask;
-@@ -449,16 +479,18 @@ int target_munmap(abi_ulong start, abi_ulong len)
-             }
-             end = real_end;
-         }
--        if (prot != 0)
-+        if (prot != 0) {
-             real_start += qemu_host_page_size;
-+        }
-     }
-     if (end < real_end) {
-         prot = 0;
-         for (addr = end; addr < real_end; addr += TARGET_PAGE_SIZE) {
-             prot |= page_get_flags(addr);
-         }
--        if (prot != 0)
-+        if (prot != 0) {
-             real_end -= qemu_host_page_size;
-+        }
-     }
+-/* Functions for accessing guest memory.  The tget and tput functions
+-   read/write single values, byteswapping as necessary.  The lock_user function
+-   gets a pointer to a contiguous area of guest memory, but does not perform
+-   any byteswapping.  lock_user may return either a pointer to the guest
+-   memory, or a temporary buffer.  */
++/*
++ * Functions for accessing guest memory.  The tget and tput functions
++ * read/write single values, byteswapping as necessary.  The lock_user function
++ * gets a pointer to a contiguous area of guest memory, but does not perform
++ * any byteswapping.  lock_user may return either a pointer to the guest
++ * memory, or a temporary buffer.
++ */
  
-     ret = 0;
-@@ -467,8 +499,9 @@ int target_munmap(abi_ulong start, abi_ulong len)
-         ret = munmap(g2h_untagged(real_start), real_end - real_start);
-     }
- 
--    if (ret == 0)
-+    if (ret == 0) {
-         page_set_flags(start, start + len, 0);
-+    }
-     mmap_unlock();
-     return ret;
- }
-@@ -477,14 +510,17 @@ int target_msync(abi_ulong start, abi_ulong len, int flags)
+-/* Lock an area of guest memory into the host.  If copy is true then the
+-   host area will have the same contents as the guest.  */
+-static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
++/*
++ * Lock an area of guest memory into the host.  If copy is true then the
++ * host area will have the same contents as the guest.
++ */
++static inline void *lock_user(int type, abi_ulong guest_addr, long len,
++                              int copy)
  {
-     abi_ulong end;
+     if (!access_ok(type, guest_addr, len))
+         return NULL;
+@@ -364,9 +373,10 @@ static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy
+ #endif
+ }
  
--    if (start & ~TARGET_PAGE_MASK)
-+    if (start & ~TARGET_PAGE_MASK) {
-         return -EINVAL;
-+    }
-     len = TARGET_PAGE_ALIGN(len);
-     end = start + len;
--    if (end < start)
-+    if (end < start) {
-         return -EINVAL;
--    if (end == start)
-+    }
-+    if (end == start) {
-         return 0;
-+    }
+-/* Unlock an area of guest memory.  The first LEN bytes must be
+-   flushed back to guest memory. host_ptr = NULL is explicitly
+-   allowed and does nothing. */
++/*
++ * Unlock an area of guest memory.  The first LEN bytes must be flushed back to
++ * guest memory. host_ptr = NULL is explicitly allowed and does nothing.
++ */
+ static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
+                                long len)
+ {
+@@ -382,8 +392,10 @@ static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
+ #endif
+ }
  
-     start &= qemu_host_page_mask;
-     return msync(g2h_untagged(start), end - start, flags);
+-/* Return the length of a string in target memory or -TARGET_EFAULT if
+-   access error. */
++/*
++ * Return the length of a string in target memory or -TARGET_EFAULT if access
++ * error.
++ */
+ abi_long target_strlen(abi_ulong gaddr);
+ 
+ /* Like lock_user but for null terminated strings.  */
 -- 
 2.22.1
 
