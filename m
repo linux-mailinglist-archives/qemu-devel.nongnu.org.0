@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F30336A234
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:48:47 +0200 (CEST)
-Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246A636A22B
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:41:56 +0200 (CEST)
+Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laLSY-0007KR-6D
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50762)
+	id 1laLLv-000269-8f
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKip-00063U-00
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:31 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:46649)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laL3Q-0008SQ-36; Sat, 24 Apr 2021 12:22:48 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiV-0004MB-7r
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:30 -0400
-Received: by mail-il1-x129.google.com with SMTP id l19so2612938ilk.13
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:01:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1laL3O-0004KR-7F; Sat, 24 Apr 2021 12:22:47 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id c4so12511834wrt.8;
+ Sat, 24 Apr 2021 09:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LaNNaJI8YED5C6FCGe65g3uSHjcaTw5V2nEzlMwd5gQ=;
- b=wduaOpeCby0zTkaqrGv4miXNlg+bNQ7a7uMGIjGzBS4dXPLbvG2bJRBORzcbPukkH6
- SvU2XLdVdUVbFTc33msHGWpg9oPG/H55oFbSpAwfnzS98vtJkr/goM5Tdmc14SdRR35K
- 3ZmUQkKaHW3IgGyB+NKX4XWg8v7d4+WcOr5hahQuZClPGPCsyvzG+HKrz4mRdpdAMcQi
- 6Td9HP8HlMiiYQj5yzCQbjn2gwYivMVLm8ZsggO7QegFnBdc1KKJqpZOi9dHaByVgslU
- y8XxGmJoFYObppK8M88YX5sY1E3FrPPk3RwMkjdDlN87laSXdx5oSlmwKQQBiBTv2NZF
- W71w==
+ bh=X33eNVwJacVSZY7X58ULYQouokNiQ8LTYhRpjXCE4zs=;
+ b=KQIHaAm0XuFS9zg81Q1fYWeBBO2+qqFtwKyAz6+Fo1F25o0EAy1yUVuiVupOXodBDn
+ bit5Ib1242pWiDdqYF2kqG0EcFdDDz5zRwKlcwIyFVdgsmZbVLNOcNibX4j0xgXVfJJn
+ R7mnjtLGKcS8woNmVJ8pYuZyYfxAWNrfd5DxWb56XPUKlr/5Sm9bs+QYe+1TwT+nFQjb
+ iOddIZwmY/KGtOpzNlRk+LAI2P1IqcIVdyS7NI1l5XdTacN4PHHzJ1YNw/WsrAynTMOt
+ RHsBM5HXw8wL4Py6bRm24JpaWKoHMRninzowmFEldqCOTnzPKMrcviq9KGHJRGDiDZlx
+ BkLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LaNNaJI8YED5C6FCGe65g3uSHjcaTw5V2nEzlMwd5gQ=;
- b=KMkKnCiBAeMHgp+7AtRYOK3wAE2X/ytYPSk6CYMAWggagkJuxPD62j1CzdE0eZXgwV
- McXpHBXGtm78rkRAo/KWyZGeodSsGv8oF5gHgBcyydNU8cSo8AjpN+Th+IwpokFoEV4B
- LfyoX03upAAvq5Tcw/w1nWMc8YiSk7fpDXg6m4U9T2R7tAuAQzcW1iUQJyyxXRATLBNC
- qBvDDR7eULahrk9fs54g6lbmcByNM27xZHK9KA9W8um0ZWOk+SGSqWcRW+7v0vosj9ga
- ayXWLw/q9x/5t6GGXhyb1rns+vKC79IPmAWJ4BG4uJLyGK5TIvqv8kBzagsZj1ClumYb
- D1NQ==
-X-Gm-Message-State: AOAM530Hl3MxmByuHvl5Rf6qQNeF/FOzuCjj3bXBU3TJWJTGkW5grDj2
- sbYrrfhtE4kFGDs2uFRDLfeqCxOwBc9OFjQU
-X-Google-Smtp-Source: ABdhPJzc5yB2vTZosjIy9N3UwwIUb8vsGtEwRDWiMTXjeGZL5GALbZ1AvkbUwDe28TEeeOOOcaLtQw==
-X-Received: by 2002:a05:6e02:1809:: with SMTP id
- a9mr7192869ilv.184.1619280066683; 
- Sat, 24 Apr 2021 09:01:06 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.01.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:01:06 -0700 (PDT)
-From: imp@bsdimp.com
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=X33eNVwJacVSZY7X58ULYQouokNiQ8LTYhRpjXCE4zs=;
+ b=csOdmsq85fiAmHLAHb5xDmDAt6M0a5tIxy55qTod05rl9vWSCswYVNTiY/tWmv2umT
+ aVwzfmNYYkLpUzr5rBnvlG3Wfq2CavPuGgGe22H5YMMSg5IHZWJ5cDEfWWgraF1xLI7x
+ mqAW9hyuxEDylwuYMAWYBrs45REgYpwkqVGFRk5nkmkhxWx6tM9H5bRcFm3BJ7Gxgwd2
+ 0cBxK6hdpAB5ZJtNpbHIBiixuPnHqVVkRAnha54sZ1IuED5jvK41hOgtqbhHWWByFwVt
+ PyponaEhrnmLCcY0MZrD428bJzjQs+aB5YthuId/QBRl8EXg6yEuWJ40EKkMGspe9wm+
+ 7/lg==
+X-Gm-Message-State: AOAM533H+inNCE9/hY6gCLzRcE95h0/D2k+9dZPpOMtp4tOUmSfZmVoo
+ ZJmw5VdRyJMVAzPBPFQpFtZs8sF4lZ+Bag==
+X-Google-Smtp-Source: ABdhPJwhXo1mSVd/CZOVyEIkEXph4MOOiWg4X3MSsJMdU/aJvxKqdc147czD93Y9GtYIWZBY4d+kRg==
+X-Received: by 2002:adf:f88f:: with SMTP id u15mr11724031wrp.368.1619281363227; 
+ Sat, 24 Apr 2021 09:22:43 -0700 (PDT)
+Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id p18sm12586171wrs.68.2021.04.24.09.22.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Apr 2021 09:22:42 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 48/48] bsd-user: put back a break; that had gone missing...
-Date: Sat, 24 Apr 2021 10:00:16 -0600
-Message-Id: <20210424160016.15200-49-imp@bsdimp.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
-References: <20210424160016.15200-1-imp@bsdimp.com>
+Subject: [PATCH 2/5] hw/pcmcia/microdrive: Register machine reset handler
+Date: Sat, 24 Apr 2021 18:22:26 +0200
+Message-Id: <20210424162229.3312116-3-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210424162229.3312116-1-f4bug@amsat.org>
+References: <20210424162229.3312116-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::129;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,30 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, arichardson@freebsd.org, Warner Losh <imp@bsdimp.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <imp@bsdimp.com>
+The abstract PCMCIA_CARD is a bus-less TYPE_DEVICE, so devices
+implementing it are not reset automatically.
+Register a reset handler so children get reset on machine reset.
 
-Signed-off-by: Warner Losh <imp@bsdimp.com>
+Note, the DSCM-1XXXX device (TYPE_DSCM1XXXX) which inherits
+TYPE_MICRODRIVE and PCMCIA_CARD reset itself when a disk is
+attached or detached, but was not resetting itself on machine
+reset.
+
+It doesn't seem to be an issue because it is that way since the
+device QDev'ifycation 8 years ago, in commit d1f2c96a81a
+("pcmcia: QOM'ify PCMCIACardState and MicroDriveState").
+Still, correct to have a proper API usage.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/syscall.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/pcmcia/pcmcia.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 1851311acd..d5c3168a6d 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -209,6 +209,7 @@ static int sysctl_oldcvt(void *holdp, size_t holdlen, uint32_t kind)
- #else
-     case CTLTYPE_LONG:
-         *(uint64_t *)holdp = tswap64(*(long *)holdp);
-+        break;
-     case CTLTYPE_ULONG:
-         *(uint64_t *)holdp = tswap64(*(unsigned long *)holdp);
-         break;
+diff --git a/hw/pcmcia/pcmcia.c b/hw/pcmcia/pcmcia.c
+index 03d13e7d670..73656257227 100644
+--- a/hw/pcmcia/pcmcia.c
++++ b/hw/pcmcia/pcmcia.c
+@@ -6,14 +6,39 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/module.h"
++#include "sysemu/reset.h"
+ #include "hw/pcmcia.h"
+ 
++static void pcmcia_card_reset_handler(void *dev)
++{
++    device_legacy_reset(DEVICE(dev));
++}
++
++static void pcmcia_card_realize(DeviceState *dev, Error **errp)
++{
++    qemu_register_reset(pcmcia_card_reset_handler, dev);
++}
++
++static void pcmcia_card_unrealize(DeviceState *dev)
++{
++    qemu_unregister_reset(pcmcia_card_reset_handler, dev);
++}
++
++static void pcmcia_card_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = pcmcia_card_realize;
++    dc->unrealize = pcmcia_card_unrealize;
++}
++
+ static const TypeInfo pcmcia_card_type_info = {
+     .name = TYPE_PCMCIA_CARD,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(PCMCIACardState),
+     .abstract = true,
+     .class_size = sizeof(PCMCIACardClass),
++    .class_init = pcmcia_card_class_init,
+ };
+ 
+ static void pcmcia_register_types(void)
 -- 
-2.22.1
+2.26.3
 
 
