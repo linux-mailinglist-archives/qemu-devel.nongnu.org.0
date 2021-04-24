@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C2F36A216
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:25:46 +0200 (CEST)
-Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0A236A206
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:18:58 +0200 (CEST)
+Received: from localhost ([::1]:33294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laL6H-0003G5-MH
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50500)
+	id 1laKzh-0003Ag-IM
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKia-0005fG-AE
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:16 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:46660)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKie-0005h9-7b
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:20 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:35442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiA-0004Hv-1l
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:16 -0400
-Received: by mail-il1-x136.google.com with SMTP id l19so2612503ilk.13
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKiB-0004IN-LM
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:01:19 -0400
+Received: by mail-io1-xd30.google.com with SMTP id t21so944227iob.2
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HRrjj+riKuNxsoGNobDL2vgkm9NEj0EAf2amQImSd+Y=;
- b=M719DcbjYkmAwYSyrR37TUiK2+dX3I+o8l7DR6njGXK+FZzgVKFoetCUu1kCSTNHL4
- VzbV5tPlkVz8lWxUefWlVUxtX4JgwlVvD9M6WcdvBWMgyU7P3v+TalGwAC46rS/ykQTM
- s1sV1jV4YG/KkA9qxZWz0VkrY+LU9Pv67Q9Nyad/0OigwUdMHP4WvfGCVCtzTK3VN+zK
- 8hDE2fLDslTS7X637usv/i7zo0b1vALZVuVhOvBCB7DvHQXiDgQQAPSFxcZIVan1qUVr
- q71m4VXRL/P+AgemOsFr2Qq6g07kdbVp+nEYtSIUSZcA5bhrC7uyAG7YSIMqVlc1eIUh
- QR1g==
+ bh=skPt9enRR+SX6X1JLVS3CXeQzytNJXaZIsNfJk8nNA0=;
+ b=URaR9I8njhMOsAyVDmMISiIkogB6GUW4mFYtIvUA0yeHrz+RMwN5Dto18eV4ueA/kf
+ Iov1MIkWCs3bUyS8nnGN8bUZyfLjNJX6Ch479Q+J9tSR3bq89PIjMwTs8ICNy3pagNVl
+ Gz8Aqd8fEhUu4e4OFtBZxdFBbB09VmEPcp2OYuMyXcalppo0GPEPrlExJgbDlWd2ILVO
+ 18S1gI3m51T7Ftd51PjiUv5Mm31mwmvjEjp6ZzqsPAOKIK1JrVM3J/gst0SQMZtpklDz
+ eFpnS7UnVNI7KkdQPtGEbu1nOqbGBTkvzOESoqebbLEmTdrXMf5Z+XxCC+n7KYTJb6te
+ d06w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HRrjj+riKuNxsoGNobDL2vgkm9NEj0EAf2amQImSd+Y=;
- b=QwowxsR2NE03qA9yaDg/e35/WjOMoSPDYdvI5yFs6vFSr2nKyhahldrEeJHqth0spu
- Gc4AN2+cll3R34kmnsJF1eMxpAcpdaLdpFDkvv9XeEzkGbc3KMIBattLTWutaNdtGMNy
- 8snu+CAZ71gcdV+vJTDYuUB7kXMv7e56eHgH9Mur3OKy6f+jvpG70ccnQZyqjKmHDud7
- Y6md0DhWEZFd9B5XZ2o/KOs9Zsu3EC/+EG2idlyandJLBozxJVkxmPM8I5+ulaJlSfa9
- wkKXcJnYjV782dnor5tFO6bl2fwI8EDYcfQik4/pj0a9TMR5cMj50Pnr8q1OhcVP/WNX
- XxQw==
-X-Gm-Message-State: AOAM5314iwJaLS4WKrSctGYaQqWD3nqZJnPY98F/S6W152h3MqV4VWHn
- S0YoBj/C3fS0uhM/azgMfZk5kknZ+ebhoFsr
-X-Google-Smtp-Source: ABdhPJzQdMgOg8mJglknqNO2X62A2gPUlPxxyaYzb5f0bpxLe1OTVJGk+k/lYSjF3ShxGBB0KUDtig==
-X-Received: by 2002:a92:cd85:: with SMTP id r5mr7155713ilb.169.1619280048463; 
- Sat, 24 Apr 2021 09:00:48 -0700 (PDT)
+ bh=skPt9enRR+SX6X1JLVS3CXeQzytNJXaZIsNfJk8nNA0=;
+ b=qwB8XmHX/ZudCq6+6fLEZ0Lff0GLaq1VZmtm3nH7nMltOxvaKjwmMT4sR8fo9mRLCh
+ HoJmnvid9QF4U/IyP2Z/ls33nuEhxjPMn1V2TzfugeEjrhB8okyl3Rd85dN3lDGedTvg
+ mkDLbjKmj+2UgPvVQ7se+3e3eQgVNhaqHgj/bw4OuLnKa7rLMwAkYtJIeIPBXSruw7p/
+ zxPhGN+5zxmpNM+wV0ZH+vSlZ5q6e3/0vUHEJV5yOHRVZl/19DxMIM6ZhcCNTaA1vdMa
+ lrjag6YCi05B+Z9H+qIQh+V9m1YwhqsOR/2i5aRVihwz0JRvGMNM8KZ8kMkJZ4RcRUWx
+ Unxg==
+X-Gm-Message-State: AOAM532vZy5eVoAtfZfM+/3X9T9oD3NyDvGl2eH2ct7J7kqhhLVH6jTc
+ zd6VpPsQYmQ79DptQWCVfVkdMHNpzofwtaYT
+X-Google-Smtp-Source: ABdhPJzNqZxPU61x3XiV8G4ePWyUkWNfWeDiTwtMb3xpoAusMJhYar9HpflGKWpQa7NUkzYvoFC97w==
+X-Received: by 2002:a02:a14a:: with SMTP id m10mr8367292jah.105.1619280049112; 
+ Sat, 24 Apr 2021 09:00:49 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.47
+ by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.48
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 24 Apr 2021 09:00:47 -0700 (PDT)
+ Sat, 24 Apr 2021 09:00:48 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 26/48] bsd-user: move sparc cpu_loop into target_arch_cpu.h
- as target_cpu_loop
-Date: Sat, 24 Apr 2021 09:59:54 -0600
-Message-Id: <20210424160016.15200-27-imp@bsdimp.com>
+Subject: [PATCH v2 27/48] bsd-user: style tweak: space pedantry
+Date: Sat, 24 Apr 2021 09:59:55 -0600
+Message-Id: <20210424160016.15200-28-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210424160016.15200-1-imp@bsdimp.com>
 References: <20210424160016.15200-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,584 +81,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, arichardson@freebsd.org, Warner Losh <imp@bsdimp.com>,
- Stacey Son <sson@FreeBSD.org>
+Cc: kevans@freebsd.org, arichardson@freebsd.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-Move the sparc cpu_loop out of main.c and into target_arch_cpu.h and
-rename it from cpu_loop to target_cpu_loop. Remove the #ifdef around
-the catch-all cpu_loop.
-
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/main.c                  | 270 -------------------------------
- bsd-user/sparc/target_arch_cpu.h | 267 +++++++++++++++++++++++++++++-
- 2 files changed, 266 insertions(+), 271 deletions(-)
+ bsd-user/elfload.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 43c578c760..af4eae2e8b 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -88,280 +88,10 @@ void fork_end(int child)
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index 243a5a5048..f455a3812a 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -756,7 +756,7 @@ static void padzero(abi_ulong elf_bss, abi_ulong last_bss)
+ 
+ 
+ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+-                                   struct elfhdr * exec,
++                                   struct elfhdr *exec,
+                                    abi_ulong load_addr,
+                                    abi_ulong load_bias,
+                                    abi_ulong interp_load_addr, int ibcs,
+@@ -891,12 +891,12 @@ static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
+     if (retval < 0) {
+         perror("load_elf_interp");
+         exit(-1);
+-        free (elf_phdata);
++        free(elf_phdata);
+         return retval;
      }
- }
+ #ifdef BSWAP_NEEDED
+     eppnt = elf_phdata;
+-    for (i = 0; i<interp_elf_ex->e_phnum; i++, eppnt++) {
++    for (i = 0; i < interp_elf_ex->e_phnum; i++, eppnt++) {
+         bswap_phdr(eppnt);
+     }
+ #endif
+@@ -1155,11 +1155,11 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
+     unsigned int interpreter_type = INTERPRETER_NONE;
+     unsigned char ibcs2_interpreter;
+     int i;
+-    struct elf_phdr * elf_ppnt;
++    struct elf_phdr *elf_ppnt;
+     struct elf_phdr *elf_phdata;
+     abi_ulong elf_bss, k, elf_brk;
+     int retval;
+-    char * elf_interpreter;
++    char *elf_interpreter;
+     abi_ulong elf_entry, interp_load_addr = 0;
+     abi_ulong start_code, end_code, start_data, end_data;
+     abi_ulong reloc_func_desc = 0;
+@@ -1183,14 +1183,14 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
+     }
  
--#ifdef TARGET_I386 /* stopgap ifdef */
- void cpu_loop(CPUArchState *env)
- {
-     target_cpu_loop(env);
- }
--#endif
--
--#ifdef TARGET_SPARC
--#define SPARC64_STACK_BIAS 2047
--
--/* #define DEBUG_WIN */
--/*
-- * WARNING: dealing with register windows _is_ complicated. More info
-- * can be found at http://www.sics.se/~psm/sparcstack.html
-- */
--static inline int get_reg_index(CPUSPARCState *env, int cwp, int index)
--{
--    index = (index + cwp * 16) % (16 * env->nwindows);
--    /*
--     * wrap handling : if cwp is on the last window, then we use the
--     * registers 'after' the end
--     */
--    if (index < 8 && env->cwp == env->nwindows - 1) {
--        index += 16 * env->nwindows;
--    }
--    return index;
--}
--
--/* save the register window 'cwp1' */
--static inline void save_window_offset(CPUSPARCState *env, int cwp1)
--{
--    unsigned int i;
--    abi_ulong sp_ptr;
--
--    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
--#ifdef TARGET_SPARC64
--    if (sp_ptr & 3) {
--        sp_ptr += SPARC64_STACK_BIAS;
--    }
--#endif
--#if defined(DEBUG_WIN)
--    printf("win_overflow: sp_ptr=0x" TARGET_ABI_FMT_lx " save_cwp=%d\n",
--           sp_ptr, cwp1);
--#endif
--    for (i = 0; i < 16; i++) {
--        /* FIXME - what to do if put_user() fails? */
--        put_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
--        sp_ptr += sizeof(abi_ulong);
--    }
--}
--
--static void save_window(CPUSPARCState *env)
--{
--#ifndef TARGET_SPARC64
--    unsigned int new_wim;
--    new_wim = ((env->wim >> 1) | (env->wim << (env->nwindows - 1))) &
--        ((1LL << env->nwindows) - 1);
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
--    env->wim = new_wim;
--#else
--    /*
--     * cansave is zero if the spill trap handler is triggered by `save` and
--     * nonzero if triggered by a `flushw`
--     */
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
--    env->cansave++;
--    env->canrestore--;
--#endif
--}
--
--static void restore_window(CPUSPARCState *env)
--{
--#ifndef TARGET_SPARC64
--    unsigned int new_wim;
--#endif
--    unsigned int i, cwp1;
--    abi_ulong sp_ptr;
--
--#ifndef TARGET_SPARC64
--    new_wim = ((env->wim << 1) | (env->wim >> (env->nwindows - 1))) &
--        ((1LL << env->nwindows) - 1);
--#endif
--
--    /* restore the invalid window */
--    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
--    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
--#ifdef TARGET_SPARC64
--    if (sp_ptr & 3) {
--        sp_ptr += SPARC64_STACK_BIAS;
--    }
--#endif
--#if defined(DEBUG_WIN)
--    printf("win_underflow: sp_ptr=0x" TARGET_ABI_FMT_lx " load_cwp=%d\n",
--           sp_ptr, cwp1);
--#endif
--    for (i = 0; i < 16; i++) {
--        /* FIXME - what to do if get_user() fails? */
--        get_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
--        sp_ptr += sizeof(abi_ulong);
--    }
--#ifdef TARGET_SPARC64
--    env->canrestore++;
--    if (env->cleanwin < env->nwindows - 1) {
--        env->cleanwin++;
--    }
--    env->cansave--;
--#else
--    env->wim = new_wim;
--#endif
--}
--
--static void flush_windows(CPUSPARCState *env)
--{
--    int offset, cwp1;
--
--    offset = 1;
--    for (;;) {
--        /* if restore would invoke restore_window(), then we can stop */
--        cwp1 = cpu_cwp_inc(env, env->cwp + offset);
--#ifndef TARGET_SPARC64
--        if (env->wim & (1 << cwp1)) {
--            break;
--        }
--#else
--        if (env->canrestore == 0) {
--            break;
--        }
--        env->cansave++;
--        env->canrestore--;
--#endif
--        save_window_offset(env, cwp1);
--        offset++;
--    }
--    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
--#ifndef TARGET_SPARC64
--    /* set wim so that restore will reload the registers */
--    env->wim = 1 << cwp1;
--#endif
--#if defined(DEBUG_WIN)
--    printf("flush_windows: nb=%d\n", offset - 1);
--#endif
--}
--
--void cpu_loop(CPUSPARCState *env)
--{
--    CPUState *cs = env_cpu(env);
--    int trapnr, ret, syscall_nr;
--    /* target_siginfo_t info; */
--
--    while (1) {
--        cpu_exec_start(cs);
--        trapnr = cpu_exec(cs);
--        cpu_exec_end(cs);
--        process_queued_cpu_work(cs);
--
--        switch (trapnr) {
--#ifndef TARGET_SPARC64
--        case 0x80:
--#else
--        /* FreeBSD uses 0x141 for syscalls too */
--        case 0x141:
--            if (bsd_type != target_freebsd) {
--                goto badtrap;
--            }
--            /* fallthrough */
--        case 0x100:
--#endif
--            syscall_nr = env->gregs[1];
--            if (bsd_type == target_freebsd)
--                ret = do_freebsd_syscall(env, syscall_nr,
--                                         env->regwptr[0], env->regwptr[1],
--                                         env->regwptr[2], env->regwptr[3],
--                                         env->regwptr[4], env->regwptr[5],
--                                         0, 0);
--            else if (bsd_type == target_netbsd)
--                ret = do_netbsd_syscall(env, syscall_nr,
--                                        env->regwptr[0], env->regwptr[1],
--                                        env->regwptr[2], env->regwptr[3],
--                                        env->regwptr[4], env->regwptr[5]);
--            else { /* if (bsd_type == target_openbsd) */
--#if defined(TARGET_SPARC64)
--                syscall_nr &= ~(TARGET_OPENBSD_SYSCALL_G7RFLAG |
--                                TARGET_OPENBSD_SYSCALL_G2RFLAG);
--#endif
--                ret = do_openbsd_syscall(env, syscall_nr,
--                                         env->regwptr[0], env->regwptr[1],
--                                         env->regwptr[2], env->regwptr[3],
--                                         env->regwptr[4], env->regwptr[5]);
--            }
--            if ((unsigned int)ret >= (unsigned int)(-515)) {
--                ret = -ret;
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc |= PSR_CARRY;
--#else
--                env->psr |= PSR_CARRY;
--#endif
--            } else {
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc &= ~PSR_CARRY;
--#else
--                env->psr &= ~PSR_CARRY;
--#endif
--            }
--            env->regwptr[0] = ret;
--            /* next instruction */
--#if defined(TARGET_SPARC64)
--            if (bsd_type == target_openbsd &&
--                env->gregs[1] & TARGET_OPENBSD_SYSCALL_G2RFLAG) {
--                env->pc = env->gregs[2];
--                env->npc = env->pc + 4;
--            } else if (bsd_type == target_openbsd &&
--                       env->gregs[1] & TARGET_OPENBSD_SYSCALL_G7RFLAG) {
--                env->pc = env->gregs[7];
--                env->npc = env->pc + 4;
--            } else {
--                env->pc = env->npc;
--                env->npc = env->npc + 4;
--            }
--#else
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
--#endif
--            break;
--        case 0x83: /* flush windows */
--#ifdef TARGET_ABI32
--        case 0x103:
--#endif
--            flush_windows(env);
--            /* next instruction */
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
--            break;
--#ifndef TARGET_SPARC64
--        case TT_WIN_OVF: /* window overflow */
--            save_window(env);
--            break;
--        case TT_WIN_UNF: /* window underflow */
--            restore_window(env);
--            break;
--        case TT_TFAULT:
--        case TT_DFAULT:
--            break;
--#else
--        case TT_SPILL: /* window overflow */
--            save_window(env);
--            break;
--        case TT_FILL: /* window underflow */
--            restore_window(env);
--            break;
--        case TT_TFAULT:
--        case TT_DFAULT:
--            break;
--#endif
--        case EXCP_INTERRUPT:
--            /* just indicate that signals should be handled asap */
--            break;
--        case EXCP_DEBUG:
--            {
--                gdb_handlesig(cs, TARGET_SIGTRAP);
--            }
--            break;
--        default:
--#ifdef TARGET_SPARC64
--        badtrap:
--#endif
--            printf("Unhandled trap: 0x%x\n", trapnr);
--            cpu_dump_state(cs, stderr, 0);
--            exit(1);
--        }
--        process_pending_signals(env);
--    }
--}
--
--#endif
+     bprm->p = copy_elf_strings(1, &bprm->filename, bprm->page, bprm->p);
+-    bprm->p = copy_elf_strings(bprm->envc, bprm->envp, bprm->page,bprm->p);
+-    bprm->p = copy_elf_strings(bprm->argc, bprm->argv, bprm->page,bprm->p);
++    bprm->p = copy_elf_strings(bprm->envc, bprm->envp, bprm->page, bprm->p);
++    bprm->p = copy_elf_strings(bprm->argc, bprm->argv, bprm->page, bprm->p);
+     if (!bprm->p) {
+         retval = -E2BIG;
+     }
  
- static void usage(void)
- {
-diff --git a/bsd-user/sparc/target_arch_cpu.h b/bsd-user/sparc/target_arch_cpu.h
-index dcf7694cba..5e3ecbed5c 100644
---- a/bsd-user/sparc/target_arch_cpu.h
-+++ b/bsd-user/sparc/target_arch_cpu.h
-@@ -19,4 +19,269 @@
- #ifndef _TARGET_ARCH_CPU_H_
- #define _TARGET_ARCH_CPU_H_
+     /* Now read in all of the header information */
+-    elf_phdata = (struct elf_phdr *)malloc(elf_ex.e_phentsize*elf_ex.e_phnum);
++    elf_phdata = (struct elf_phdr *)malloc(elf_ex.e_phentsize * elf_ex.e_phnum);
+     if (elf_phdata == NULL) {
+         return -ENOMEM;
+     }
+@@ -1223,11 +1223,11 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
+     elf_interpreter = NULL;
+     start_code = ~((abi_ulong)0UL);
+     end_code = 0;
+-    start_data = 0;
++    start_data =n 0;
+     end_data = 0;
+     interp_ex.a_info = 0;
  
--#endif /* ! _TARGET_ARCH_CPU_H_ */
-+#define SPARC64_STACK_BIAS 2047
-+
-+/* #define DEBUG_WIN */
-+/*
-+ * WARNING: dealing with register windows _is_ complicated. More info
-+ * can be found at http://www.sics.se/~psm/sparcstack.html
-+ */
-+static inline int get_reg_index(CPUSPARCState *env, int cwp, int index)
-+{
-+    index = (index + cwp * 16) % (16 * env->nwindows);
-+    /*
-+     * wrap handling : if cwp is on the last window, then we use the
-+     * registers 'after' the end
-+     */
-+    if (index < 8 && env->cwp == env->nwindows - 1) {
-+        index += 16 * env->nwindows;
-+    }
-+    return index;
-+}
-+
-+/* save the register window 'cwp1' */
-+static inline void save_window_offset(CPUSPARCState *env, int cwp1)
-+{
-+    unsigned int i;
-+    abi_ulong sp_ptr;
-+
-+    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
-+#ifdef TARGET_SPARC64
-+    if (sp_ptr & 3) {
-+        sp_ptr += SPARC64_STACK_BIAS;
-+    }
-+#endif
-+#if defined(DEBUG_WIN)
-+    printf("win_overflow: sp_ptr=0x" TARGET_ABI_FMT_lx " save_cwp=%d\n",
-+           sp_ptr, cwp1);
-+#endif
-+    for (i = 0; i < 16; i++) {
-+        /* FIXME - what to do if put_user() fails? */
-+        put_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
-+        sp_ptr += sizeof(abi_ulong);
-+    }
-+}
-+
-+static void save_window(CPUSPARCState *env)
-+{
-+#ifndef TARGET_SPARC64
-+    unsigned int new_wim;
-+    new_wim = ((env->wim >> 1) | (env->wim << (env->nwindows - 1))) &
-+        ((1LL << env->nwindows) - 1);
-+    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
-+    env->wim = new_wim;
-+#else
-+    /*
-+     * cansave is zero if the spill trap handler is triggered by `save` and
-+     * nonzero if triggered by a `flushw`
-+     */
-+    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
-+    env->cansave++;
-+    env->canrestore--;
-+#endif
-+}
-+
-+static void restore_window(CPUSPARCState *env)
-+{
-+#ifndef TARGET_SPARC64
-+    unsigned int new_wim;
-+#endif
-+    unsigned int i, cwp1;
-+    abi_ulong sp_ptr;
-+
-+#ifndef TARGET_SPARC64
-+    new_wim = ((env->wim << 1) | (env->wim >> (env->nwindows - 1))) &
-+        ((1LL << env->nwindows) - 1);
-+#endif
-+
-+    /* restore the invalid window */
-+    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
-+    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
-+#ifdef TARGET_SPARC64
-+    if (sp_ptr & 3) {
-+        sp_ptr += SPARC64_STACK_BIAS;
-+    }
-+#endif
-+#if defined(DEBUG_WIN)
-+    printf("win_underflow: sp_ptr=0x" TARGET_ABI_FMT_lx " load_cwp=%d\n",
-+           sp_ptr, cwp1);
-+#endif
-+    for (i = 0; i < 16; i++) {
-+        /* FIXME - what to do if get_user() fails? */
-+        get_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
-+        sp_ptr += sizeof(abi_ulong);
-+    }
-+#ifdef TARGET_SPARC64
-+    env->canrestore++;
-+    if (env->cleanwin < env->nwindows - 1) {
-+        env->cleanwin++;
-+    }
-+    env->cansave--;
-+#else
-+    env->wim = new_wim;
-+#endif
-+}
-+
-+static void flush_windows(CPUSPARCState *env)
-+{
-+    int offset, cwp1;
-+
-+    offset = 1;
-+    for (;;) {
-+        /* if restore would invoke restore_window(), then we can stop */
-+        cwp1 = cpu_cwp_inc(env, env->cwp + offset);
-+#ifndef TARGET_SPARC64
-+        if (env->wim & (1 << cwp1)) {
-+            break;
-+        }
-+#else
-+        if (env->canrestore == 0) {
-+            break;
-+        }
-+        env->cansave++;
-+        env->canrestore--;
-+#endif
-+        save_window_offset(env, cwp1);
-+        offset++;
-+    }
-+    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
-+#ifndef TARGET_SPARC64
-+    /* set wim so that restore will reload the registers */
-+    env->wim = 1 << cwp1;
-+#endif
-+#if defined(DEBUG_WIN)
-+    printf("flush_windows: nb=%d\n", offset - 1);
-+#endif
-+}
-+
-+static void target_cpu_loop(CPUSPARCState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr, ret, syscall_nr;
-+    /* target_siginfo_t info; */
-+
-+    while (1) {
-+        cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+        cpu_exec_end(cs);
-+        process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+#ifndef TARGET_SPARC64
-+        case 0x80:
-+#else
-+        /* FreeBSD uses 0x141 for syscalls too */
-+        case 0x141:
-+            if (bsd_type != target_freebsd) {
-+                goto badtrap;
-+            }
-+            /* fallthrough */
-+        case 0x100:
-+#endif
-+            syscall_nr = env->gregs[1];
-+            if (bsd_type == target_freebsd)
-+                ret = do_freebsd_syscall(env, syscall_nr,
-+                                         env->regwptr[0], env->regwptr[1],
-+                                         env->regwptr[2], env->regwptr[3],
-+                                         env->regwptr[4], env->regwptr[5],
-+                                         0, 0);
-+            else if (bsd_type == target_netbsd)
-+                ret = do_netbsd_syscall(env, syscall_nr,
-+                                        env->regwptr[0], env->regwptr[1],
-+                                        env->regwptr[2], env->regwptr[3],
-+                                        env->regwptr[4], env->regwptr[5]);
-+            else { /* if (bsd_type == target_openbsd) */
-+#if defined(TARGET_SPARC64)
-+                syscall_nr &= ~(TARGET_OPENBSD_SYSCALL_G7RFLAG |
-+                                TARGET_OPENBSD_SYSCALL_G2RFLAG);
-+#endif
-+                ret = do_openbsd_syscall(env, syscall_nr,
-+                                         env->regwptr[0], env->regwptr[1],
-+                                         env->regwptr[2], env->regwptr[3],
-+                                         env->regwptr[4], env->regwptr[5]);
-+            }
-+            if ((unsigned int)ret >= (unsigned int)(-515)) {
-+                ret = -ret;
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+                env->xcc |= PSR_CARRY;
-+#else
-+                env->psr |= PSR_CARRY;
-+#endif
-+            } else {
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+                env->xcc &= ~PSR_CARRY;
-+#else
-+                env->psr &= ~PSR_CARRY;
-+#endif
-+            }
-+            env->regwptr[0] = ret;
-+            /* next instruction */
-+#if defined(TARGET_SPARC64)
-+            if (bsd_type == target_openbsd &&
-+                env->gregs[1] & TARGET_OPENBSD_SYSCALL_G2RFLAG) {
-+                env->pc = env->gregs[2];
-+                env->npc = env->pc + 4;
-+            } else if (bsd_type == target_openbsd &&
-+                       env->gregs[1] & TARGET_OPENBSD_SYSCALL_G7RFLAG) {
-+                env->pc = env->gregs[7];
-+                env->npc = env->pc + 4;
-+            } else {
-+                env->pc = env->npc;
-+                env->npc = env->npc + 4;
-+            }
-+#else
-+            env->pc = env->npc;
-+            env->npc = env->npc + 4;
-+#endif
-+            break;
-+        case 0x83: /* flush windows */
-+#ifdef TARGET_ABI32
-+        case 0x103:
-+#endif
-+            flush_windows(env);
-+            /* next instruction */
-+            env->pc = env->npc;
-+            env->npc = env->npc + 4;
-+            break;
-+#ifndef TARGET_SPARC64
-+        case TT_WIN_OVF: /* window overflow */
-+            save_window(env);
-+            break;
-+        case TT_WIN_UNF: /* window underflow */
-+            restore_window(env);
-+            break;
-+        case TT_TFAULT:
-+        case TT_DFAULT:
-+            break;
-+#else
-+        case TT_SPILL: /* window overflow */
-+            save_window(env);
-+            break;
-+        case TT_FILL: /* window underflow */
-+            restore_window(env);
-+            break;
-+        case TT_TFAULT:
-+        case TT_DFAULT:
-+            break;
-+#endif
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+        case EXCP_DEBUG:
-+            {
-+                gdb_handlesig(cs, TARGET_SIGTRAP);
-+            }
-+            break;
-+        default:
-+#ifdef TARGET_SPARC64
-+        badtrap:
-+#endif
-+            printf("Unhandled trap: 0x%x\n", trapnr);
-+            cpu_dump_state(cs, stderr, 0);
-+            exit(1);
-+        }
-+        process_pending_signals(env);
-+    }
-+}
-+
-+#endif /* _TARGET_ARCH_CPU_H_ */
+-    for (i = 0;i < elf_ex.e_phnum; i++) {
++    for (i = 0; i < elf_ex.e_phnum; i++) {
+         if (elf_ppnt->p_type == PT_INTERP) {
+             if (elf_interpreter != NULL)
+             {
+@@ -1267,7 +1267,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
+ 
+             if (strcmp(elf_interpreter, "/usr/lib/libc.so.1") == 0 ||
+                 strcmp(elf_interpreter, "/usr/lib/ld.so.1") == 0) {
+-              ibcs2_interpreter = 1;
++                ibcs2_interpreter = 1;
+             }
+ 
+             if (retval >= 0) {
 -- 
 2.22.1
 
