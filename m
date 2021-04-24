@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A029236A237
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:50:41 +0200 (CEST)
-Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9A136A239
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:51:55 +0200 (CEST)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laLUO-0000oc-Ng
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
+	id 1laLVa-0002no-KG
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laL3a-0000Th-7d; Sat, 24 Apr 2021 12:22:58 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45040)
+ id 1laL3f-0000fY-G7; Sat, 24 Apr 2021 12:23:03 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laL3Y-0004Oe-Os; Sat, 24 Apr 2021 12:22:57 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- f195-20020a1c1fcc0000b029012eb88126d7so2773177wmf.3; 
- Sat, 24 Apr 2021 09:22:55 -0700 (PDT)
+ id 1laL3e-0004QM-17; Sat, 24 Apr 2021 12:23:03 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g9so35399398wrx.0;
+ Sat, 24 Apr 2021 09:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l/YNVbkdkrW9ig2CLutDkjJUIXW08deJdCzaGMC/bGQ=;
- b=aBA1vfUNtMce97eMNDPXsk42BpnzZs/8zuc91IQvrBvji1U7u5sgmWnl7eYXz+SuKy
- 9ZB99O9sQetXOXUF7G5phnObAiDkcXdRejbTqXol0uIdBTWM/el5pupmfZFy9lnZY7Wq
- Z4OLCLb8yMEi1I3j40XpZWzj5RV5QwwtVdfsKdFzw/Rw8gYCjiaOIdq/Hv8X5t7JdOHV
- hc/YCEK94yXx1SSHDoW4qIxJaDl6b147WcOlpcRlcybt4bKYJ4hxF69W8b1bJ+2DVUJb
- sJQQ4D/VZTZx0r1NBrhfRprXC7vc89CDd3IlTvo8SrwnQWwYaxpJhN85LBoBeUWYhp99
- CM+g==
+ bh=YeGCMDACSQTp0mRPeTtaNv5FzsBb7YC30+puu/9npP0=;
+ b=XuLXwqSX9rVMrGPsE/vDcT0Whkr/0C2J8zlWGD7B0VMbvH/uZ5A8x2YeEgS5nly5R7
+ KRHGCwZwYIbloJ8L1a8KRyX4+3c8Uv9XPbBiwKY1EOW6+1/6oUvPjpfanmxx2EsD+MeW
+ d9xaBbrD5if6RI8hTDpX8YIJwhERxWnNS8ynTOLuAjmqCd3/nXWIFAiXZB6XgB5fZtaw
+ DBj3UgysifTr3GUbZOVz0fMwRsAUAPKi+X/JPzA75Jj+b9taUb1kXebeGO7nF5o667ai
+ V3k8DV8+71d8vhWIws10QIQqLDgeT0Im/DrDeik2xWkW+9MmzaiXVfD9AStM+J31+vkd
+ mmeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l/YNVbkdkrW9ig2CLutDkjJUIXW08deJdCzaGMC/bGQ=;
- b=NYinWce8N1/+trJ3hrMX+DT0xqD9reQszoQm0iMHegpcWwJ+zX4PaYnT4O9IOAExjc
- Pahtjbbj5XtV/YUVYNQLQqB8WdEr4DKn+x0qVxujpToDbXhLFst3QLrOvR/Ey4vz4H6m
- 9+syHswUpLFrmM9iJ67zeu5C1sE7IG5OmFjkvSZUqFl5ymEChsRGfvtRhVyAu5FwL/yx
- 6zyEItwoygfWIhEHuJqHK+j1dxPX1cwIqyIEZGhRw6ua49JWXDIV77UwdoO7dfX5Wjv/
- lXOqIYp7g6K/FUFY4vErstr8ARpDV2IPFjLIeBvMmHQ10qJB7r9ioQ8FDZS0VVKyQL10
- AdqQ==
-X-Gm-Message-State: AOAM5315wEbDrKqFAZCvdmGYKrkMqjzs04S32LYaPoASCNlzvYMcksqW
- 8oY9iWKG3OwukCrXz/puSw9vLR5352vxFQ==
-X-Google-Smtp-Source: ABdhPJygIQ/b/koc21NBNJekP9t25XHEDhXl7XKQdtP3HWEguRcrfBdY8QJI9XTsGvHpoD79NbINzg==
-X-Received: by 2002:a05:600c:17c3:: with SMTP id
- y3mr11578124wmo.185.1619281374244; 
- Sat, 24 Apr 2021 09:22:54 -0700 (PDT)
+ bh=YeGCMDACSQTp0mRPeTtaNv5FzsBb7YC30+puu/9npP0=;
+ b=JuGhPAZhu+/5G4au0upVjdGeQpIQOUE2jG4YQcjx/Y9HRhPdmWxB14Qq13fS4Ovn/r
+ g2QrFnleGE/IdjkjfwdTJ9mMVV7NkLcyOUNN1bgg+5fYMzGl+iXFpGsORH5hGUKdIUs7
+ kfLKc8udimkmmrudnyqu8ezWwMa8c3TnSWWeueHhtSNL/olq7NKUUqMxCz4UNYI4K/kP
+ oARiQ5dscZC32UFGI/N12tSPueC9NfkDjfBZBi7shxkuPjhbveI/OeBxlqr6Ftz8y7x8
+ ZcpUIP7igFVfwQg6rpevVVQVrnu4mWQiSCpDSyn8dlLErSLxWdGHDK/8mVdUe04JfZxq
+ Sesw==
+X-Gm-Message-State: AOAM530Fk8SfMUkH+e0+LB8Z3C+w3QM4yXN5UDAEm0vvrTmuGWsRGwQe
+ Q1uoGJlkVE0S8Nwoa/MUzdiNKIFt1z4iIg==
+X-Google-Smtp-Source: ABdhPJxlLzpMBjzXP3JfSTD0OBnyGfkwiHB0RmAf8Szty5iLk7wVIPw+GFQhK/SvUTCwvzkZtTbWFQ==
+X-Received: by 2002:a5d:49ca:: with SMTP id t10mr11947552wrs.395.1619281379519; 
+ Sat, 24 Apr 2021 09:22:59 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a142sm14432967wmd.7.2021.04.24.09.22.52
+ by smtp.gmail.com with ESMTPSA id t63sm10998616wma.20.2021.04.24.09.22.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Apr 2021 09:22:53 -0700 (PDT)
+ Sat, 24 Apr 2021 09:22:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/pci-host/raven: Manually reset the OR_IRQ device
-Date: Sat, 24 Apr 2021 18:22:28 +0200
-Message-Id: <20210424162229.3312116-5-f4bug@amsat.org>
+Subject: [PATCH 5/5] hw/arm/armsse: Manually reset the OR_IRQ devices
+Date: Sat, 24 Apr 2021 18:22:29 +0200
+Message-Id: <20210424162229.3312116-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210424162229.3312116-1-f4bug@amsat.org>
 References: <20210424162229.3312116-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,42 +95,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The OR_IRQ device is bus-less, thus isn't reset automatically.
-Add the raven_pcihost_reset() handler to manually reset the OR IRQ.
+Manually reset the OR IRQs in the armsse_reset() handler.
 
-Fixes: f40b83a4e31 ("40p: use OR gate to wire up raven PCI interrupts")
+Fixes: bb75e16d5e6 ("hw/arm/iotkit: Wire up MPC interrupt lines")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/prep.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/arm/armsse.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-index 0a9162fba97..275379e4c78 100644
---- a/hw/pci-host/prep.c
-+++ b/hw/pci-host/prep.c
-@@ -230,6 +230,15 @@ static void raven_change_gpio(void *opaque, int n, int level)
-     s->contiguous_map = level;
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index 2e5d0679e7b..7fd3fb77620 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -1668,6 +1668,10 @@ static void armsse_reset(DeviceState *dev)
+     ARMSSE *s = ARM_SSE(dev);
+ 
+     s->nsccfg = 0;
++
++    device_legacy_reset(DEVICE(&s->mpc_irq_orgate));
++    device_legacy_reset(DEVICE(&s->ppc_irq_orgate));
++    device_legacy_reset(DEVICE(&s->sec_resp_splitter));
  }
  
-+static void raven_pcihost_reset(DeviceState *dev)
-+{
-+    PREPPCIState *s = RAVEN_PCI_HOST_BRIDGE(dev);
-+
-+    if (!s->is_legacy_prep) {
-+        device_legacy_reset(DEVICE(&s->or_irq));
-+    }
-+}
-+
- static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
- {
-     SysBusDevice *dev = SYS_BUS_DEVICE(d);
-@@ -422,6 +431,7 @@ static void raven_pcihost_class_init(ObjectClass *klass, void *data)
- 
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-     dc->realize = raven_pcihost_realizefn;
-+    dc->reset = raven_pcihost_reset;
-     device_class_set_props(dc, raven_pcihost_properties);
-     dc->fw_name = "pci";
- }
+ static void armsse_class_init(ObjectClass *klass, void *data)
 -- 
 2.26.3
 
