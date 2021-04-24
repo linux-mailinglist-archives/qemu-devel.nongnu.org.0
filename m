@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06C836A1B1
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 16:54:21 +0200 (CEST)
-Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2E736A1EB
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 18:06:11 +0200 (CEST)
+Received: from localhost ([::1]:47814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laJfo-0004Jh-8u
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 10:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
+	id 1laKnK-0001d5-Dp
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 12:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laJeq-0003rO-7h; Sat, 24 Apr 2021 10:53:20 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38475)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKhu-0005MQ-8K
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:00:34 -0400
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:35536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1laJeo-0001tp-PQ; Sat, 24 Apr 2021 10:53:20 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- d200-20020a1c1dd10000b02901384767d4a5so2726116wmd.3; 
- Sat, 24 Apr 2021 07:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1laKhp-0004Au-KA
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 12:00:33 -0400
+Received: by mail-il1-x134.google.com with SMTP id r5so2957938ilb.2
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 09:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dcj02hY637ePPnBlD5sXEWdsMGDRflsUeWtCTI08c6A=;
- b=SbhVrlxzpRZCDe+eID+/3r9izdzp0xoTW2xuD6rRLFOcMywgpa2k1bPVIciVRyxokh
- mB5ngCnUWOvq90d5QgJsi2b9NDWzYLy1VAOBC8QbyIR3wj0VxSn4Oy4SMiukbAfIP6Mh
- LyskJQehLZQz7vAeR9PAu8j0pcRvUcB+594PF9MPFks1qUPs1flHp2v3MnjO6UXOC52G
- KIQ/BPHb22FtSFhA7umYNejWzODTs6XKf5wwz+GjAglAoT+u6wYWEAu7xyfT0OkFMpT9
- f6vndhe3kg3tZV8jNq88qkuQ2ey9ILguxuJYKgh1+DZlj/KpU/PRjYszdpSEo3aGIBWq
- rKjA==
+ bh=WOFdatCu8rTpV0lUS8s9Rk7w+tu3WNS0rFTikVeRkr8=;
+ b=EZlyWVaU4xjAuKiIMVnAcuNhjU2MlUnKiGGLs8VOdRrFgUaNCiX4NnYZcCYUSJmALj
+ n59owoepXrAZ0EiOr3xGEY2dsjIowvd5MXlRKJuDdg6qIIzHClDlWbuM9ongYytDto4J
+ VQaffNS34SzCv/ojYSx19JJ7CKsEDOclKGgGr4h5mjV8uDoCNiH0t4uAx4eDLKjzRW4w
+ 7vNbyczkDXosPoNoXp3Eh4rn5d0HfYJVj26NMqpF5pzgv3m+qBTSGioYnMNhaPve18QU
+ AO3dftob92A/wSofreTG2NIH1xsYsa1OxNaTYWJQpuUuXQzn2MjY+v+sJFDcgP0J/ay4
+ Z9TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=dcj02hY637ePPnBlD5sXEWdsMGDRflsUeWtCTI08c6A=;
- b=E/JdhQghW/HcxvbDKt21z725teqWZaCYkipE/vHOnygrInittBYfRQEABgPlhzK5xl
- wlDZbTs5CeFrVX1tD2LvJ46jHNs4iTAYZra+dDLTrywts+pvWKNqHDr3JH2RcMy6nlTS
- e/jd8GvypL/3m+Tif1eH77XuQzt9NAULR5rS57VhA9tEwjkkTBZApm7gdLNkeN7pRWNm
- bGNlr0qfP4ZKKOyZDXUrt1j2cCG/ytxZ4GkLy8EMC7mv5EQnssxsfg5KibXnt5KvsOqJ
- Xn/S4W2oafN6o1fxxHfLFpbmpTnaZ0eexGKhMub/h1mW28TMfiTivXK5oIescXmMgCNO
- HFyg==
-X-Gm-Message-State: AOAM533Svf0w//LNDME6dJfXBxX0vkBeXIsDAQT3EzPLlH1afY3q3eo0
- sOTwA36iQvql8nwyroTTyKiAfHHsGwwFiA==
-X-Google-Smtp-Source: ABdhPJwiC38bWd4erKLT+X2CpT+1pHlmsnz5O38SNXPNG5hvA/XmAVrWTerkLrD4Tjqz4chyHmiZgg==
-X-Received: by 2002:a1c:156:: with SMTP id 83mr3092096wmb.186.1619275996051;
- Sat, 24 Apr 2021 07:53:16 -0700 (PDT)
-Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id x23sm10506895wmj.43.2021.04.24.07.53.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Apr 2021 07:53:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WOFdatCu8rTpV0lUS8s9Rk7w+tu3WNS0rFTikVeRkr8=;
+ b=KZjYqHencxgwq8BUCrR2K4XQz4k2SZpF7N8k9EmkESx/yBFy4eGfSEQvsnPmj/eOX1
+ m3FQp/hdNC/R7KoHEj/iCpAkmdjJ6w4WeZjiuRpPa7Jw0JEmAQMWJ83Snk3nMSJE0lJb
+ cGT0QBT9iy9L1GNwiZufiQL3Mom1WAfoYL9daKrmWoe5tvmUAXda3ooZVwNPPjdGo6Cy
+ +3qgge91TJGsq1ndB/sO3riMKU8xt6VmvT/M3mtzvgyRnASaKmqHSX90r2vBc6Ya0S32
+ 83gC5ZbYwg6yt3v88q1W3BrhhApgGGq0X//MJDPTUnTxJtf2S54/s9jEzQnCJ+nzPr8M
+ NtHw==
+X-Gm-Message-State: AOAM533NZib3qH0tmF0YPeGKoyweIQ4nXrjy8fgLzzNbcPOPv4mB4Gn6
+ XAw6GNdMDtW6Akmw2+/kwfVNOgXeN8srnkU2
+X-Google-Smtp-Source: ABdhPJzY7TNL6CNRhMjcLFSqFa1AFPUfkvh57vdaHfhnc19lxzC6qCOWjZBlP+TacQh6ptrHXKxxOA==
+X-Received: by 2002:a92:1304:: with SMTP id 4mr7027597ilt.126.1619280026779;
+ Sat, 24 Apr 2021 09:00:26 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id h4sm4055901ili.52.2021.04.24.09.00.25
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 24 Apr 2021 09:00:26 -0700 (PDT)
+From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] hw/s390x/ccw: Register qbus type in abstract
- TYPE_CCW_DEVICE parent
-Date: Sat, 24 Apr 2021 16:53:13 +0200
-Message-Id: <20210424145313.3287400-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+Subject: [PATCH v2 00/48] bsd-user style and reorg patches
+Date: Sat, 24 Apr 2021 09:59:28 -0600
+Message-Id: <20210424160016.15200-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,97 +79,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: kevans@freebsd.org, arichardson@freebsd.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of having all TYPE_CCW_DEVICE children set the bus type to
-TYPE_VIRTUAL_CSS_BUS, do it once in the abstract parent.
+From: Warner Losh <imp@bsdimp.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-RFC because I don't know these devices, maybe there is a reason
-for setting the bus type in the children (but it should be documented
-IMO).
----
- hw/s390x/ccw-device.h | 1 +
- hw/s390x/3270-ccw.c   | 1 -
- hw/s390x/ccw-device.c | 1 +
- hw/s390x/s390-ccw.c   | 2 --
- hw/s390x/virtio-ccw.c | 1 -
- 5 files changed, 2 insertions(+), 4 deletions(-)
+Version 2:
 
-diff --git a/hw/s390x/ccw-device.h b/hw/s390x/ccw-device.h
-index 832c78cd421..6dff95225df 100644
---- a/hw/s390x/ccw-device.h
-+++ b/hw/s390x/ccw-device.h
-@@ -14,6 +14,7 @@
- #include "qom/object.h"
- #include "hw/qdev-core.h"
- #include "hw/s390x/css.h"
-+#include "hw/s390x/css-bridge.h"
- 
- struct CcwDevice {
-     DeviceState parent_obj;
-diff --git a/hw/s390x/3270-ccw.c b/hw/s390x/3270-ccw.c
-index f3e7342b1e8..0757af60632 100644
---- a/hw/s390x/3270-ccw.c
-+++ b/hw/s390x/3270-ccw.c
-@@ -159,7 +159,6 @@ static void emulated_ccw_3270_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     device_class_set_props(dc, emulated_ccw_3270_properties);
--    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
-     dc->realize = emulated_ccw_3270_realize;
-     dc->hotpluggable = false;
-     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-diff --git a/hw/s390x/ccw-device.c b/hw/s390x/ccw-device.c
-index c9707110e9c..95f269ab441 100644
---- a/hw/s390x/ccw-device.c
-+++ b/hw/s390x/ccw-device.c
-@@ -59,6 +59,7 @@ static void ccw_device_class_init(ObjectClass *klass, void *data)
-     k->refill_ids = ccw_device_refill_ids;
-     device_class_set_props(dc, ccw_device_properties);
-     dc->reset = ccw_device_reset;
-+    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
- }
- 
- const VMStateDescription vmstate_ccw_dev = {
-diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
-index b497571863f..cb49f380a6b 100644
---- a/hw/s390x/s390-ccw.c
-+++ b/hw/s390x/s390-ccw.c
-@@ -177,10 +177,8 @@ static void s390_ccw_instance_init(Object *obj)
- 
- static void s390_ccw_class_init(ObjectClass *klass, void *data)
- {
--    DeviceClass *dc = DEVICE_CLASS(klass);
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_CLASS(klass);
- 
--    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
-     cdc->realize = s390_ccw_realize;
-     cdc->unrealize = s390_ccw_unrealize;
- }
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 8195f3546e4..71ec2bdcc31 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -1235,7 +1235,6 @@ static void virtio_ccw_device_class_init(ObjectClass *klass, void *data)
-     k->unplug = virtio_ccw_busdev_unplug;
-     dc->realize = virtio_ccw_busdev_realize;
-     dc->unrealize = virtio_ccw_busdev_unrealize;
--    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
-     device_class_set_parent_reset(dc, virtio_ccw_reset, &vdc->parent_reset);
- }
- 
+In version 2 I've fixed all the checkpatch.pl issues for all the files that I
+touched. Since files are changed incrementally, some of the individual changes
+may not pass checkpatch.pl due to pre-existing problems, but the cumulative
+diff passes with just warnings. I've folded the 'if 0 should just be lost'
+advice in the relevant hunks, as well as in a few places where things were
+commented out.
+
+I've included all the reviews I've got so far, but since this is my first time
+with such a complex review here please let me know if I've missed following all
+the conventions somehow.
+
+I had to tweak patches 025 and 026, which had been previously reviewed (adding
+static in 2 places to fix a warning). So I removed the Reviewed By: line from
+it. I hope that's the proper protocol here, but if not I'm keen on suggestions.
+
+Version 1:
+
+This series starts to cleanup bsd-user. The current checkpatch.pl output is on
+the order of 4500 lines long. These cleanups don't fix everything (there's still
+plenty of errors, even in some of the files the patches touch). I've tried to
+make things better in every case, but be advised that checkpatch.pl is unhappy
+with many of the files still in the first 15 commits. I do plan on addressing
+the issues in the future as I need to make real commits to those files. The
+changes were ones that were trivial to do with scripts that I had to do for
+main.c anyway. main.c is now completely clean. All the cleanup I've done
+myself, and at the end of this patch trail the output is only 3500 lines...
+
+Next, I've started to reorg the bsd-user sources. There's really 4 BSDs in the
+wild (FreeBSD, NetBSD, OpenBSD and Dragonfly) that these could, in theory,
+target. In the bsd-user branch, we've broken the emulation of these apart. It
+largely preserves the other BSD's as is, and greatly expands FreeBSD so that we
+can do package builds in user-land emulation. The other BSDs have not been
+run-time tested, though the CI tooling builds some of them. It's my belief that
+in the current state, even an old-school cat(1) would fail, though I am to fix
+that at least for FreeBSD...
+
+We've also added a number of other architectures than sparc and i386. Those
+additions, though, are dependent on other things not yet reshuffled and or
+merged, so they will be coming along in due time: mips (32 and 64 bit), arm,
+aarch64 and riscv willl come in due time. powerpc might, but it's in a frightful
+state. I'm open to other BSDs that wish to work along with me as well, though it
+may be best to wait until after future patch sets as much is still set to
+change. CHERI and related work may also happen, but that's still TBD.
+
+In this installement, after the style stuff, I've created a
+target_arch_cpu.h. Here, all the functions related to the cpu loop and similar
+things are moved into there on a per-architecture basis to start to tame the
+number of #ifdefs in mail. Linux-user did a similar thing years after we had
+done it in the repo, and a number of different choices were made. Rather than
+redo all the work from the bsd-user repo, I'm recreating / rebasing it on a
+current qemu. Future patch series will address other aspects. Once they are
+complete, we can look, potentially, at any refactoring between linux-user and
+bsd-user. I very much explicitly want to push that to the end because otherwise
+I'm completely recreating a lot of the work on the bsd-user branch rather than
+just transitioning it forward to a newer qemu. This reorg was started by Stacey
+Son and I've redone it with the latest code. I've added his signoff (with his
+blanket permission) to those commits. Also, all of these commits pass
+checkpatch.pl
+
+Please let me know what you think, and how I might structure future patches if
+there's ways I can do them better. I've switched to pull-requests with this series
+since it will be easier to keep track of, especially in the future.
+
+Warner
+
+P.S. This has no relevance to 6.0 at all: we're too late and this feature
+isn't fully integrated by this patch trail.
+
+
+
+Warner Losh (48):
+  bsd-user: whitespace changes
+  bsd-user: whitespace changes
+  bsd-user: whitespace changes
+  bsd-user: style tweak: keyword space (
+  bsd-user: style tweak: keyword space (
+  bsd-user: style tweak: keyword space (
+  bsd-user: style tweak: keyword space (
+  bsd-user: style tweak: use C not C++ comments
+  bsd-user: style tweak: use C not C++ comments
+  bsd-user: Remove commented out code
+  bsd-user: style tweak: Remove #if 0'd code
+  bsd-user: style tweak: Remove #if 0'd code
+  bsd-user: style tweak: Remove #if 0'd code
+  bsd-user: style tweak: Remove #if 0'd code
+  bsd-user: style tweak: return is not a function, eliminate ()
+  bsd-user: style tweak: Put {} around all if/else/for statements
+  bsd-user: style tweak: Fix commentary issues
+  bsd-user: style tweak: Use preferred block comments
+  bsd-user: style tweak: move extern to header file
+  bsd-user: style tweak: use {} consistently in for / if / else
+    statements
+  bsd-user: style nits: return is not a function
+  bsd-user: use qemu_strtoul in preference to strtol
+  bsd-user: introduce host_os.h for bsd-specific code and defaults
+  bsd-user: create target_arch_cpu.h
+  bsd-user: move x86 (i386 and x86_64) cpu_loop to target_arch_cpu.h
+  bsd-user: move sparc cpu_loop into target_arch_cpu.h as
+    target_cpu_loop
+  bsd-user: style tweak: space pedantry
+  bsd-user: style tweak: comments
+  bsd-user: style tweak: use {} correctly
+  bsd-user: style tweak: fix block comments
+  bsd-user: style tweak: use {} for all if statements, format else
+    correctly
+  bsd-user: style tweak: remove spacing after '*' and add after }
+  bsd-user: style tweak: Use preferred block comments
+  bsd-user: style tweak: don't assign in if statements
+  bsd-user: style tweak: use {} for all if statements, format else
+    correctly
+  bsd-user: style tweak: Use preferred block comments
+  bsd-user: style tweak: don't assign in if statements
+  bsd-user: style tweak: use {} for all if statements, format else
+    correctly
+  bsd-user: style tweak: spaces around =, remove stray space
+  bsd-user: style tweak: Use preferred block comments
+  bsd-user: style tweak: don't assign in if statements
+  bsd-user: style tweak: spaces around operators and commas
+  bsd-user: style tweak: fold long lines
+  bsd-user: style tweak: use preferred block comments
+  bsd-user: style tweak: Use preferred {} in if/else statements.
+  bsd-user: style tweak: Return is not a function call.
+  bsd-user: style tweak: don't assign in if statement.
+  bsd-user: put back a break; that had gone missing...
+
+ bsd-user/arm/target_arch_cpu.h     |  22 +
+ bsd-user/bsd-mman.h                |  42 +-
+ bsd-user/bsdload.c                 |  55 +--
+ bsd-user/elfload.c                 | 677 ++++++++++++++++-------------
+ bsd-user/freebsd/host_os.h         |  25 ++
+ bsd-user/i386/target_arch_cpu.h    | 197 +++++++++
+ bsd-user/main.c                    | 657 +++-------------------------
+ bsd-user/mmap.c                    | 185 +++++---
+ bsd-user/netbsd/host_os.h          |  25 ++
+ bsd-user/openbsd/host_os.h         |  25 ++
+ bsd-user/qemu.h                    | 128 +++---
+ bsd-user/sparc/target_arch_cpu.h   | 287 ++++++++++++
+ bsd-user/sparc64/target_arch_cpu.h |  19 +
+ bsd-user/strace.c                  |  21 +-
+ bsd-user/syscall.c                 | 222 ++++++----
+ bsd-user/uaccess.c                 |  27 +-
+ bsd-user/x86_64/target_arch_cpu.h  |  19 +
+ bsd-user/x86_64/target_syscall.h   |  15 -
+ 18 files changed, 1449 insertions(+), 1199 deletions(-)
+ create mode 100644 bsd-user/arm/target_arch_cpu.h
+ create mode 100644 bsd-user/freebsd/host_os.h
+ create mode 100644 bsd-user/i386/target_arch_cpu.h
+ create mode 100644 bsd-user/netbsd/host_os.h
+ create mode 100644 bsd-user/openbsd/host_os.h
+ create mode 100644 bsd-user/sparc/target_arch_cpu.h
+ create mode 100644 bsd-user/sparc64/target_arch_cpu.h
+ create mode 100644 bsd-user/x86_64/target_arch_cpu.h
+
 -- 
-2.26.3
+2.22.1
 
 
