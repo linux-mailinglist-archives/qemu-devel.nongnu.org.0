@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6290036A295
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 20:27:00 +0200 (CEST)
-Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84F036A29F
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 20:29:56 +0200 (CEST)
+Received: from localhost ([::1]:35714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laMzb-00027O-EH
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 14:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
+	id 1laN2R-00052X-V8
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 14:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laMu3-0006d4-4W
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 14:21:15 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:43605)
+ id 1laMui-0007Tn-2T
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 14:21:56 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laMu0-00051G-5x
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 14:21:14 -0400
-Received: by mail-pg1-x534.google.com with SMTP id p12so37385285pgj.10
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 11:21:11 -0700 (PDT)
+ id 1laMug-0005VC-Hf
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 14:21:55 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id m17so775021plc.1
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 11:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8zmzSyi/T74/ihTeG7Zn7N16CapH5OP1inTKLCvBIyM=;
- b=C/3yibFWnKVebLt/z7SJqTyryDyEax/oOaxbuYWn7EPEbP1Qeu7jtD1m0TF73QECEG
- CTGs3uZ71UKdKO7DrbJWJHCp3g1OQgoy6C5MAq5bDNmOeIEUp39KSqxMwTeFDS3UmKo5
- Eztk/nKPJ3gsaTB4k6BtI9tHDOLwD5vhRIsDojraBjNPQqB4PutkaB/rzjfah6ElGyFd
- cPeo/eZI8teJGq2jDxzF77AneBXHWK9zV7M373rLws9hFa1ubjzZS4has/mtAK6FVcmE
- 0Nx6vXgLGHtDDKDWLXupbWs38yomo0rGmqUGMTVKcnkTFSNL/k0l+qIMtGfBOlpdqiPz
- 6LnQ==
+ bh=WY10GCjM545q7SxnrP13BDuEKjzR4bd9WgsTu2x7kV8=;
+ b=vNz3Quj4xhcj3p5iiN2n0xqEMp+46U3DWEKEqn/rlG0/4OmW7qRCCGafv47Fp8qK3f
+ GViBEWEzVIK4bi6w4anAcQX/sSUu+CBMItAw5eMyXdAVTTfxls2uba7gG8hIdsRX2ouq
+ vBpSQjWk+p2eZfeK6ebIqP94QAb7toRlmkySYS6TVmeVfUIqC7MAxPOdn6uJbVk5zvJv
+ SCIcjX/G3Us/YFvS6N86fNUjtga1fTMWWnE2rDpbBPV3HzzVBNVuRyzS006tAmF0pm4p
+ op25HKeRHzhw46d/cL2z+lr1BZFdRQjatgqhS3a1cCIoV6M+CMVkyBK74V/ZNY6uAibd
+ RuGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8zmzSyi/T74/ihTeG7Zn7N16CapH5OP1inTKLCvBIyM=;
- b=hiEtih+FikobEcH5lADNpSheTeGPkWXIR9tDcpNmGt0m04qFSfVmr1ZyVBoJWVhx0P
- u+Bzegh7F2puAfe+QzuiYigefHoTCJ3SvD7M0yC1FbzP/ZSoqxas+4Nc6JTYWHpArMMv
- GD16ZF6vfvTiVhsuGZlqRqpXckFctxCCmZolq8sMnvNTIlKDlbJc+rReX6xCS729TCV+
- QCBxClyi/bSKD8yGTEFoAysOuQas9/cVU5JKw/Wn2hzLka//UMEvYhvTi5f8X/HuFzDU
- C/bqx8/4nzO4vaLPk9mJ7k61x6qGopK4uyyECYV5DvRJL613PhpYyXCLCgtuJdtiFfmJ
- aS9w==
-X-Gm-Message-State: AOAM531QCd034KTMG+yMl46uQ6cWbTB0ASM+2wHuRnKjjYSrFzWCu9/S
- 0kuAEMmF50aHbj5kMLd1w+6Tdg==
-X-Google-Smtp-Source: ABdhPJyKqdMoVaKwl1m/KK/462LV8Fy3O8IpbsdoLwIv4WTErayiOm5Mhdhfg83ZnpquFVKB96aPbg==
-X-Received: by 2002:a63:ef18:: with SMTP id u24mr9596970pgh.418.1619288470827; 
- Sat, 24 Apr 2021 11:21:10 -0700 (PDT)
+ bh=WY10GCjM545q7SxnrP13BDuEKjzR4bd9WgsTu2x7kV8=;
+ b=sNmHcwxThBvhOTHbAc3XxBZIqgqesDXMNczRbHqHGmQL2zBbD+xNw3GyAS8s/bsTLh
+ oR3GfAbg32M5E1eclCg3nPWK9u9czMRuCuBvmUdzVv9AnRfUK5phOzftReqVFWDvkShh
+ VD8mbQe2KSSkGujpe+ckfjMnSqkpNNmFnuhORWUN5GouAkOGSWD/5YzGH2hSA7c+SkY5
+ w88qJmBfbGXT53hWYD26hZkgV/d0efb+l8Rf+hdh/UNyW37C/K7uUSeZq5JQW/B7tdZD
+ ihi0RbkB9UU5PIiu/WmczfqnfL363a36ww7cwo1YJdtycFHkrPvj1LCENVAoS/vJFvnt
+ Ykcg==
+X-Gm-Message-State: AOAM533lDYLjFsYJR+RkMJohYIaSQAp0tZuCPYj4c+mNap81K7ME2+L8
+ jB05bRiLTAaEoNwWXhIqqLlTxA==
+X-Google-Smtp-Source: ABdhPJzOnwjYDfe6b9Zbn2M06v0pbGl9EUnkJDczlXuCQo8sSHtm35OHIEVdFACrcgV1S1O8GO/P6g==
+X-Received: by 2002:a17:90a:288:: with SMTP id
+ w8mr11245830pja.163.1619288513047; 
+ Sat, 24 Apr 2021 11:21:53 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 123sm7537338pfx.180.2021.04.24.11.21.10
+ by smtp.gmail.com with ESMTPSA id o3sm7236277pfk.203.2021.04.24.11.21.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Apr 2021 11:21:10 -0700 (PDT)
-Subject: Re: [PATCH v2 46/48] bsd-user: style tweak: Return is not a function
- call.
+ Sat, 24 Apr 2021 11:21:52 -0700 (PDT)
+Subject: Re: [PATCH v2 47/48] bsd-user: style tweak: don't assign in if
+ statement.
 To: imp@bsdimp.com, qemu-devel@nongnu.org
 References: <20210424160016.15200-1-imp@bsdimp.com>
- <20210424160016.15200-47-imp@bsdimp.com>
+ <20210424160016.15200-48-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9454b967-4515-b1dd-0509-9a1fbf8388e6@linaro.org>
-Date: Sat, 24 Apr 2021 11:21:09 -0700
+Message-ID: <3ccf5097-45bc-e98e-632c-44d02e641170@linaro.org>
+Date: Sat, 24 Apr 2021 11:21:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210424160016.15200-47-imp@bsdimp.com>
+In-Reply-To: <20210424160016.15200-48-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,8 +98,8 @@ On 4/24/21 9:00 AM, imp@bsdimp.com wrote:
 > 
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/syscall.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   bsd-user/syscall.c | 40 +++++++++++++++++++++++++++-------------
+>   1 file changed, 27 insertions(+), 13 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
