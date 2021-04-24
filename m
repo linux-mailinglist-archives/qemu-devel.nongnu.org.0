@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B42336A251
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 19:17:29 +0200 (CEST)
-Received: from localhost ([::1]:56540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6854B36A257
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Apr 2021 19:22:25 +0200 (CEST)
+Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laLuJ-0007MC-V4
-	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 13:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33682)
+	id 1laLz6-0000xM-87
+	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 13:22:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laLrH-0006lA-Sj
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 13:14:19 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35556)
+ id 1laLwE-0008Fw-6d
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 13:19:26 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laLrE-0006F7-Dr
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 13:14:19 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id e9so9774115plj.2
- for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 10:14:15 -0700 (PDT)
+ id 1laLwC-0008SG-Jq
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 13:19:25 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ t2-20020a17090a0242b0290155433387beso475863pje.1
+ for <qemu-devel@nongnu.org>; Sat, 24 Apr 2021 10:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=k+yquW6Jwfr4iNaYcZTtMgJSwtJ91lwBzswa/nAFTRc=;
- b=dxvnPy3RWxY4pq2Z/3HHACmzvfrY0NjChJV92QJ3UE4egc4desjW86oxZACEuhumgQ
- LTDSOXN+P8C2ZlspWbawivnGvLLqZkb8d1ks6EQWtfCghSD9f/3nM4P0FOxg815T6bmS
- mqRe05FoMR5k/3WG5dffhijlbtZFktGY/92P0IqP676IJvhka/rhcwoTeouSthwRts54
- O1umo35MXIkqES83zcXzWvLhMgwjXCy/JETdMLiC+wc7alXXR5btx4zfeI3VKuDnNCVN
- XJqWFyNENia+v2dH3BUJ+hpeu8tmS3Dc7V0TBrbWcB735spndZpCXN3TcinvURufplsD
- 0rPQ==
+ bh=7BLLFYMLjb2r3v6ZFZes+huARF5vqTTqG2A/bFv1guQ=;
+ b=lhrne2t4gSALlXngfosOCmMkK/VOT9gNAcLDJY+51yPL8T4p0hEzVhSnkHXsbkeKWq
+ EWnCIxH5CleGLtrnPQTXxeSSFbQVs4Nig2VmI4sEbez9ZbF3Gnt2ohQSPnm6zAAlAVS2
+ 5p+NeSxhGwNXOy12uXILRS0TBo2nH3/UJymUn3J7FYz2RtAobjYkdU1K5jglDBLnL7QH
+ szFT6nyB6nXlYQs0QPI3AFUvL11pdwvSIDKGp8GC5loHLj64yL4MA4A6BXKbajA1lHjf
+ Kaz6Nbwyi0ivuxD7LXHCPEOWM4/RE60xHdYu5UWz8Ot/u8oA0UE5Y57ajQYe3elpVmDb
+ pheA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=k+yquW6Jwfr4iNaYcZTtMgJSwtJ91lwBzswa/nAFTRc=;
- b=FKa0hBmRmfcygfpSwBbYcrEpUzx9bbS7GRg3MA02WG0WVPKv8n2FBQ1bukaX98S6hp
- HqKpLLBR5Oo/+GY+M6jvkiszyjD1boGm/c/D+txLJTZ4vkwtAan0Rvzc7C5toHqXe16F
- OptT+irXtBrQeOzNH/2nt+jUGPeTbiavrhYCcghvh3/qmT/RFRIWopV0jEvi/w5wKNXf
- x/QXP14ebrxQirOiHVGtBtwULfRxWbu8AAcUMnDZm1uB6rYhYBhFAEvK2He2cmXhtoY4
- zx+nB9iBsZcwzbiu598W91QSLdnQ5Lo3rgKBF/7LRaU6iJDVhIhOwIDlOHYhpXe9RFX5
- phSA==
-X-Gm-Message-State: AOAM533gTbfgGC+I5udO/LUPNkvXVMT+fy9YwX2A6DcVSz499qW9gl7s
- cOT/iAfY8NltH+6aJdoeAwKbKA==
-X-Google-Smtp-Source: ABdhPJwt/7Ek1yO+peLSFmWhVMcd4NwppFkDruRenprbxV5vU0zo+7qB8v3v0uXtiVBpDHGSgC/qAg==
-X-Received: by 2002:a17:90b:344d:: with SMTP id
- lj13mr11925442pjb.44.1619284454798; 
- Sat, 24 Apr 2021 10:14:14 -0700 (PDT)
+ bh=7BLLFYMLjb2r3v6ZFZes+huARF5vqTTqG2A/bFv1guQ=;
+ b=oZvSd4prU69t0wm8Gaoy70l74SmIAIZiacGUhF3i1NW+ofINbruUuGwy3WSJrgFpZk
+ MLLTsTchnRjfLa8Ot70ZRR7+6iZbkdPCYnQVb2ndLRbNN2TZghRpVunD37vTB6zDK3bq
+ CbHUWqJIn4YgaWoH0nTyUwgU0EZSmZDVM4f2txqgvbo9hkkMb/BVlxbEXuaGYUG1HCJS
+ GN0dk4c5TL1/h23E2fWfvipf34P8jIfrd8XHA9XsJEBxOXJllVfDbNoz5dYitCfB9TBq
+ DCsIYnRzfPx79vlAzGzpUGF3oXLkf0KuvtbhS1ngPpKal0iT+gjpAyO49lkgIeM4N5My
+ cKPQ==
+X-Gm-Message-State: AOAM532ZAOz3F9q4waKEciRfndkWk2jXykF2H1NHo3zUQdRzvSBwb0tX
+ BOCbyWl83g/lzSRZj83BTT/IQQ==
+X-Google-Smtp-Source: ABdhPJweeIDO845qWa0nxmYPLJF6l40y0ep5JKYGX9ZBKpNd7AMGyidNOb16l7WrBzRL6m9LpTmh6Q==
+X-Received: by 2002:a17:90a:cd06:: with SMTP id
+ d6mr11035597pju.91.1619284763130; 
+ Sat, 24 Apr 2021 10:19:23 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id g24sm7911741pgn.18.2021.04.24.10.14.14
+ by smtp.gmail.com with ESMTPSA id f3sm7668052pgg.70.2021.04.24.10.19.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Apr 2021 10:14:14 -0700 (PDT)
-Subject: Re: [PATCH v3 10/10] target/riscv: Fix the RV64H decode comment
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1619234854.git.alistair.francis@wdc.com>
- <024ce841221c1d15c74b253512428c4baca7e4ba.1619234854.git.alistair.francis@wdc.com>
+ Sat, 24 Apr 2021 10:19:22 -0700 (PDT)
+Subject: Re: [PATCH v2 10/48] bsd-user: Remove commented out code
+To: imp@bsdimp.com, qemu-devel@nongnu.org
+References: <20210424160016.15200-1-imp@bsdimp.com>
+ <20210424160016.15200-11-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <43dfcf5d-26b0-759d-296b-416d3566b2ea@linaro.org>
-Date: Sat, 24 Apr 2021 10:14:12 -0700
+Message-ID: <469c0a18-9953-50dc-d5d3-a45af089aedf@linaro.org>
+Date: Sat, 24 Apr 2021 10:19:21 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <024ce841221c1d15c74b253512428c4baca7e4ba.1619234854.git.alistair.francis@wdc.com>
+In-Reply-To: <20210424160016.15200-11-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: kevans@freebsd.org, arichardson@freebsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 8:34 PM, Alistair Francis wrote:
-> BugLink: https://gitlab.com/qemu-project/qemu/-/issues/6
-
-The issue got renumbered to 47, fwiw.
+On 4/24/21 8:59 AM, imp@bsdimp.com wrote:
+> From: Warner Losh<imp@bsdimp.com>
+> 
+> Remove dead code that's been commented out forever.
+> 
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> ---
+>   bsd-user/qemu.h | 4 ----
+>   1 file changed, 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   target/riscv/insn32.decode | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index fecf0f15d5..8901ba1e1b 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -288,7 +288,7 @@ hsv_w       0110101  .....  ..... 100 00000 1110011 @r2_s
->   hfence_gvma 0110001  .....  ..... 000 00000 1110011 @hfence_gvma
->   hfence_vvma 0010001  .....  ..... 000 00000 1110011 @hfence_vvma
->   
-> -# *** RV32H Base Instruction Set ***
-> +# *** RV64H Base Instruction Set ***
->   hlv_wu    0110100  00001   ..... 100 ..... 1110011 @r2
->   hlv_d     0110110  00000   ..... 100 ..... 1110011 @r2
->   hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
-> 
-
 
