@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C1C36A903
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 21:26:56 +0200 (CEST)
-Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7D636A9C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 00:49:09 +0200 (CEST)
+Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lakP9-00074l-Dm
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 15:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1lanYp-0001wE-SW
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 18:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lakO7-0006YC-Sr
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 15:25:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52248)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lanXw-0001WR-I6
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 18:48:12 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:46657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lakO5-0005Rt-V3
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 15:25:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lakO2-0002FQ-Hh
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:25:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D35BB2E8177
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:25:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lanXs-0001Pd-CE
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 18:48:12 -0400
+Received: by mail-io1-xd34.google.com with SMTP id b9so2133426iod.13
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 15:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FcnsxX98X6oa4rtX2jiFn8DXwtcMQ1+zdMO7pwikhFs=;
+ b=jyZUJa82HWW1ChUBw8QCtVe6eb3yYn8BbYVGs1Pi/mSUG89VoSn0uoFUGj4T1dbSOA
+ aa47tTKMnzr+N0ZOFS4FWansWb+EB8Th057+LuxUm0aj+b8pDZA9S66oKbiS6vGP8iIG
+ K64XKas9ezRQPULG2jcZiHRo2eRbSmze87W78iewmPe5Vf6yjbKXyCZdc5SNyE6xzmR3
+ jsJ21oVEeaTOvQOKXyQxmRTyY1HffXdDanxZQXdrfsHKAdyJQIr9jca2YhZoQgmhhv72
+ xWaGJ5tKx1va6UlsZCZ4P0AVd4dBz/2gmWI/AmPkO+m9UTYFTjWkFGQ29p2O+MCKBplX
+ 8W0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FcnsxX98X6oa4rtX2jiFn8DXwtcMQ1+zdMO7pwikhFs=;
+ b=NaFESkOoZey01+0ZFYsUErRp9TAMEuVXvzwDya1QH30+PyH2Zb1T1plrYaYd6c3c0N
+ 2BCDAxmP7iI/D+vDMKtYbTbzE7Z3yo1NbMLrNBpml1YyRFLJJ8nodW2AvOGhpItSI88/
+ UlK14rTi3zeYBjSPDpLVAWMUXQlxdhQIITGa+KZSFT+HzlO6Q7EM+5hx+rwsTti2vGao
+ V9R+/DTjnibEKPii7Fh+4cWpFbdPETPXQGCnmXlBCiASleoLBSLNn7Ox6ZDD3ihh7Ghr
+ Fsk+T+6laXW1teClDz2K2B1+LmUPGGQmqKfil4gpD5nPCObX6qv9YqQTQ1nztftVogil
+ BJiw==
+X-Gm-Message-State: AOAM5329ob6OzRQ+zhIKVTIuSSp+WmrIrl74kpIRK89YyrbmDz2Ntkgy
+ 09nBDsf+ie4a5OLJVAfvZaawZoXdymzWJu13jDo=
+X-Google-Smtp-Source: ABdhPJwyKalpo5dpc1nmp2SovumjU7DqVUdzpbwDHZTGZx22nTrBM4cvwiYvkZDuhyQbHUzxb5kQ68khh2igx2B3BPw=
+X-Received: by 2002:a02:8788:: with SMTP id t8mr13300091jai.135.1619390886266; 
+ Sun, 25 Apr 2021 15:48:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20210425182124.3735214-1-f4bug@amsat.org>
+In-Reply-To: <20210425182124.3735214-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 26 Apr 2021 08:47:27 +1000
+Message-ID: <CAKmqyKP-w1w1pu97PbMDXZu3X51gg0PSdNDY1NHhx8905d3rnw@mail.gmail.com>
+Subject: Re: [PATCH] hw/pci-host: Do not build gpex-acpi.c if GPEX is not
+ selected
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 25 Apr 2021 19:20:15 -0000
-From: Richard Henderson <1926044@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: arm mte user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rth vitalybuka
-X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161931792564.17271.10395230459178895166.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161937841594.17574.709434742520574120.malone@chaenomeles.canonical.com>
-Subject: [Bug 1926044] Re: QEMU-user doesn't report HWCAP2_MTE
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 6172c5e8fa8d68dc257fa83be4e270167f3685ea
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,65 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926044 <1926044@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, Xingang Wang <wangxingang5@huawei.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jiahui Cen <cenjiahui@huawei.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Yubo Miao <miaoyubo@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yep, there's a whole bunch that have been missed.
+On Mon, Apr 26, 2021 at 4:21 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Since its introduction in commit 5b85eabe68f ("acpi: add
+> acpi_dsdt_add_gpex") we build gpex-acpi.c if ACPI is selected,
+> even if the GPEX_HOST device isn't build. Add the missing
+> Kconfig dependency.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+Alistair
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926044
-
-Title:
-  QEMU-user doesn't report HWCAP2_MTE
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Reproducible on ffa090bc56e73e287a63261e70ac02c0970be61a
-
-  Host Debian 5.10.24 x86_64 GNU
-
-  Configured with "configure --disable-system --enable-linux-user
-  --static"
-
-  This one works and prints "OK" as expected:
-  clang tests/tcg/aarch64/mte-3.c -target aarch64-linux-gnu  -fsanitize=3Dm=
-emtag -march=3Darmv8+memtag
-  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out && echo OK
-
-  =
-
-  This one fails and print "0":
-  cat mytest.c
-  #include <stdio.h>
-  #include <sys/auxv.h>
-
-  #ifndef HWCAP2_MTE
-  #define HWCAP2_MTE (1 << 18)
-  #endif
-
-  int main(int ac, char **av)
-  {
-      printf("%d\n", (int)(getauxval(AT_HWCAP2) & HWCAP2_MTE));
-  }
-
-  =
-
-  clang mytest.c -target aarch64-linux-gnu  -fsanitize=3Dmemtag -march=3Dar=
-mv8+memtag
-  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926044/+subscriptions
+> ---
+> The gpex*.c files aren't covered by any MAINTAINERS section:
+>
+> $ ./scripts/get_maintainer.pl -f hw/pci-host/gpex.c -f hw/pci-host/gpex-a=
+cpi.c
+> get_maintainer.pl: No maintainers found, printing recent contributors.
+> get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
+>
+> Markus Armbruster <armbru@redhat.com> (commit_signer:2/2=3D100%)
+> Paolo Bonzini <pbonzini@redhat.com> (commit_signer:2/2=3D100%)
+> Alistair Francis <alistair.francis@wdc.com> (commit_signer:1/2=3D50%)
+> "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> (commit_signer:1/2=3D50=
+%)
+> "Michael S. Tsirkin" <mst@redhat.com> (commit_signer:14/8=3D100%)
+> Jiahui Cen <cenjiahui@huawei.com> (commit_signer:6/8=3D75%)
+> Igor Mammedov <imammedo@redhat.com> (commit_signer:4/8=3D50%)
+> Gerd Hoffmann <kraxel@redhat.com> (commit_signer:2/8=3D25%)
+> Yubo Miao <miaoyubo@huawei.com> (commit_signer:2/8=3D25%)
+> qemu-devel@nongnu.org (open list:All patches CC here)
+> ---
+>  hw/pci-host/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+> index 87a896973e7..d52dce77cbd 100644
+> --- a/hw/pci-host/meson.build
+> +++ b/hw/pci-host/meson.build
+> @@ -3,7 +3,7 @@
+>  pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('design=
+ware.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gp=
+ex.c'))
+> -pci_ss.add(when: 'CONFIG_ACPI', if_true: files('gpex-acpi.c'))
+> +pci_ss.add(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'], i=
+f_true: files('gpex-acpi.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_Q35', if_true: files('q35.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pci=
+e.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
+> --
+> 2.26.3
+>
+>
 
