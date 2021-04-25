@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2749736A442
+	by mail.lfdr.de (Postfix) with ESMTPS id 2579336A441
 	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 04:57:11 +0200 (CEST)
-Received: from localhost ([::1]:49350 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laUxJ-0000aJ-Kv
+	id 1laUxJ-0000aP-Lj
 	for lists+qemu-devel@lfdr.de; Sat, 24 Apr 2021 22:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59384)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1laUvs-0007wR-19
+ id 1laUvs-0007wr-FX
  for qemu-devel@nongnu.org; Sat, 24 Apr 2021 22:55:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48686)
+Received: from indium.canonical.com ([91.189.90.7]:48704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1laUvq-00086F-7n
- for qemu-devel@nongnu.org; Sat, 24 Apr 2021 22:55:39 -0400
+ id 1laUvq-000879-8Y
+ for qemu-devel@nongnu.org; Sat, 24 Apr 2021 22:55:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1laUvo-00073a-BO
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 02:55:36 +0000
+ id 1laUvp-00074G-5y
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 02:55:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 439A22E815B
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 02:55:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 234492E8144
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 02:55:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 25 Apr 2021 02:45:24 -0000
+Date: Sun, 25 Apr 2021 02:47:35 -0000
 From: Vitaly Buka <1926044@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: vitalybuka
 X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
 X-Launchpad-Bug-Modifier: Vitaly Buka (vitalybuka)
 References: <161931792564.17271.10395230459178895166.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161931872418.11632.3946056012604457888.malone@wampee.canonical.com>
+Message-Id: <161931885599.3845.5781765230077357265.malone@gac.canonical.com>
 Subject: [Bug 1926044] Re: QEMU-user doesn't report HWCAP2_MTE
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 014e248d0379cd3bf2fcfddd07946d6ca6507e2a
+X-Launchpad-Hash: 36f55b08c0af12daf3a6e54e6c3597238d08524f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,25 +74,7 @@ Reply-To: Bug 1926044 <1926044@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Actually if we make it like this:
-
-#include <stdio.h>
-#include <sys/auxv.h>
-
-int main(int ac, char **av)
-{
-    for (int i =3D 0; i < 32; ++i)
-        if ((int)(getauxval(AT_HWCAP2) & (1 << i)))
-            printf("%d\n", i);
-}
-
-
-clang mytest.c -target aarch64-linux-gnu -fsanitize=3Dmemtag -march=3Darmv8=
-+memtag
-qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
-
-I see only: HWCAP_FP HWCAP_CRC32 HWCAP_ATOMICS
-So no HWCAP2_BTI as well.
+Sorry, 0 7 8 should be "HWCAP2_DCPODP HWCAP2_FLAGM2 HWCAP2_FRINT"
 
 -- =
 
