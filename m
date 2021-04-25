@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE62C36A8E3
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:47:39 +0200 (CEST)
-Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEE136A8E6
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:52:29 +0200 (CEST)
+Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lajn8-0003Ss-Qm
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54210)
+	id 1lajro-00062a-5O
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lajlH-0002OI-Tn
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:45:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47222)
+ id 1lajq6-0005aB-4S
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:50:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lajlF-0006do-LM
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:45:43 -0400
+ id 1lajq4-0001Bz-AH
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:50:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lajlC-0007FB-SA
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:45:38 +0000
+ id 1lajq1-0007Sz-Tw
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:50:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D1D3F2E8144
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:45:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E18C02E8041
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:50:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 25 Apr 2021 18:40:01 -0000
-From: Peter Maydell <1908416@bugs.launchpad.net>
+Date: Sun, 25 Apr 2021 18:40:42 -0000
+From: Peter Maydell <1900122@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm uefi windows windows10
+X-Launchpad-Bug-Tags: arm docker ioctl video
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: raspiduino
-X-Launchpad-Bug-Reporter: A user (raspiduino)
+X-Launchpad-Bug-Commenters: khamenya
+X-Launchpad-Bug-Reporter: vak (khamenya)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160813009293.16281.11756114510615914668.malonedeb@soybean.canonical.com>
-Message-Id: <161937600233.4641.10781736487916201162.launchpad@gac.canonical.com>
-Subject: [Bug 1908416] Re: qemu-system-aarch64 can't run Windows 10 for ARM
- version 2004
+References: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
+Message-Id: <161937604285.4212.6589265351699568880.launchpad@gac.canonical.com>
+Subject: [Bug 1900122] Re: Unsupported ioctl: cmd=0xffffffff80685600 when
+ accessing /dev/video* in aarch64 guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: eca489045f35ceb951dc1c9c114c19e90ed99b27
+X-Launchpad-Hash: c310f8b2c66ee82e9ee65f3892a04b8e5d3dddc2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,53 +71,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908416 <1908416@bugs.launchpad.net>
+Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ** Tags removed: aarch64
 ** Tags added: arm
 
-** Tags removed: 20h2 windows10arm
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908416
+https://bugs.launchpad.net/bugs/1900122
 
 Title:
-  qemu-system-aarch64 can't run Windows 10 for ARM version 2004
+  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
+  in aarch64 guest
 
 Status in QEMU:
   New
 
 Bug description:
-  Problem: qemu-system-aarch64 can't run Windows 10 for ARM version 2004
-  (20H2) or newer
+  **Description:**
+  Any attempt to work with video in aarch64 architecture emulated on x86_64=
+ leads currently to the error "Function not implemented". For example:
 
-  Host OS: Windows 10 x64 version 20H2
-  CPU    : Intel Pentium Dual-core T4300 (no vt-x)
-  QEMU   : QEMU version 5.1.0 from qemu.org
+  ```
+  # v4l2-ctl -l --verbose
+  Failed to open /dev/video0: Function not implemented
 
-  cmdline: qemu-system-aarch64.exe -M virt -cpu cortex-a72 -smp 3
-  --accel tcg,thread=3Dmulti -m 2048 -pflash QEMU_EFI.img -pflash
-  QEMU_VARS.img -device VGA -device nec-usb-xhci -device usb-kbd -device
-  usb-mouse -device usb-storage,drive=3Dcdrom -drive
-  file=3D"isofile.iso",media=3Dcdrom,if=3Dnone,id=3Dcdrom
+  root@12dd9b6fcfcb:/# ll /dev/video*
+  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
+  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
 
-  Note: QEMU_VARS and QEMU_EFI are taken from edk2
+  ```
 
-  Details: From this post (https://kitsunemimi.pw/notes/posts/running-
-  windows-10-for-arm64-in-a-qemu-virtual-machine.html) and from what I
-  have tried, QEMU can't run Windows ARM newer or equal to the 2004
-  version. When we boot a 2004 iso (made from uupdump.ml), it stuck as
-  the boot screen with the Windows ARM logo and nothing else. When I
-  check the machine state and registers through the QEMU monitor, it
-  shows that the VM is still running, but the registers are completely
-  frozen! But if I try the older version, like 19H2, it works! Please
-  help!
+  **Steps to reproduce the issue:**
+
+  I have a following setup:
+
+  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
+  Host OS: Ubuntu 20.04.1
+
+  Guest Architecture: aarch64
+  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
+
+  Emulation: quemu-user-static (also tried binfmt)
+
+  Guest OS is running via Docker + QEMU
+
+  ```
+  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+  enabled
+  interpreter /usr/bin/qemu-aarch64-static
+  flags: F
+  offset 0
+  magic 7f454c460201010000000000000000000200b700
+  mask ffffffffffffff00fffffffffffffffffeffffff
+  ```
+
+  **Results received:**
+  see desrciption.
+
+  =
+
+  **Environment:**
+
+  * QEMU version: (if you can know it):
+
+  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
+tu4 all [installed,automatic]
+  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
+stalled,automatic]
+  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
+tomatic]
+  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
+tic]
+  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
+  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+
+  * Container application: Docker
+
+  **Output of `docker version`, `podman version` or `singularity
+  version`**
+
+  ```
+  =E2=9E=9C docker version
+  Client: Docker Engine - Community
+  =C2=A0Version:           20.10.0-beta1
+  =C2=A0API version:       1.40
+  =C2=A0Go version:        go1.13.15
+  =C2=A0Git commit:        ac365d7
+  =C2=A0Built:             Tue Oct 13 18:15:22 2020
+  =C2=A0OS/Arch:           linux/amd64
+  =C2=A0Context:           default
+  =C2=A0Experimental:      true
+
+  Server: Docker Engine - Community
+  =C2=A0Engine:
+  =C2=A0=C2=A0Version:          19.03.13
+  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
+  =C2=A0=C2=A0Go version:       go1.13.15
+  =C2=A0=C2=A0Git commit:       4484c46d9d
+  =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
+  =C2=A0=C2=A0OS/Arch:          linux/amd64
+  =C2=A0=C2=A0Experimental:     false
+  =C2=A0containerd:
+  =C2=A0=C2=A0Version:          1.4.1
+  =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
+  =C2=A0runc:
+  =C2=A0=C2=A0Version:          1.0.0-rc92
+  =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
+  =C2=A0docker-init:
+  =C2=A0=C2=A0Version:          0.18.0
+  =C2=A0=C2=A0GitCommit:        fec3683
+
+  ```
+
+  Guest aarch64 runs in privileged mode:
+
+  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
+  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
+  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
+
+  **Additional information:**
+  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
+s a little bit different:
+
+  ```
+  # v4l2-ctl -l
+  Unsupported ioctl: cmd=3D0xffffffff80685600
+  Failed to open /dev/video0: Function not implemented
+
+  ```
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908416/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
 
