@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D6A36A7B2
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 16:10:00 +0200 (CEST)
-Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBA236A823
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 17:59:35 +0200 (CEST)
+Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lafSR-00008X-Aq
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 10:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59178)
+	id 1lahAT-0000n4-UD
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 11:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <caodongli@tsinghua.edu.cn>)
- id 1lacqO-0003Y4-LB
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 07:22:35 -0400
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net ([165.227.154.27]:40947)
- by eggs.gnu.org with smtp (Exim 4.90_1)
- (envelope-from <caodongli@tsinghua.edu.cn>) id 1lacqK-00026y-GH
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 07:22:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tsinghua.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- Mime-Version:Message-ID:Content-Type:Content-Transfer-Encoding;
- bh=1JSFFp+L71AeMd+IMYWCr/jMVWMRvLoezOrlt8eHsuA=; b=MMaFIg1sEA/KK
- HFbYXTFKpz9S24o4P6f4jgk5r7TCpAkUj/rToiQGwU2O4s90ctIuDXwRplyMVLTp
- QSW8Gw+emevtzxlo6xosavW+/1u3P+5zchzM3G5VgZzf2vlnpX6IggQiVNDSmV6M
- GImq2dVakTklRt0imPVs9CwGsrhxTU=
-Received: from DESKTOP-9MDAR6M (unknown [36.112.24.10])
- by web4 (Coremail) with SMTP id ywQGZQD3OobgUIVg5_PmAQ--.11286S2;
- Sun, 25 Apr 2021 19:22:09 +0800 (CST)
-Date: Sun, 25 Apr 2021 19:22:09 +0800
-From: "caodongli@tsinghua.edu.cn" <caodongli@tsinghua.edu.cn>
-To: mst <mst@redhat.com>, marcel.apfelbaum <marcel.apfelbaum@gmail.com>, 
- pbonzini <pbonzini@redhat.com>, 
- richard.henderson <richard.henderson@linaro.org>, 
- ehabkost <ehabkost@redhat.com>
-Subject: [PATCH] hw/i386: Expand the range of CPU topologies between smp and
- maxcpus
-X-Priority: 3
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.20.273[cn]
-Mime-Version: 1.0
-Message-ID: <2021042519220937479214@tsinghua.edu.cn>
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: base64
-X-CM-TRANSID: ywQGZQD3OobgUIVg5_PmAQ--.11286S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr4fGFW3uw1ktFWkXw4rAFb_yoWxtFXE9r
- 17Zws7Wr4kXrW7KasFkrZ7Jrs5Aw40kw1rua98try7XFW8A34YyrnIqa97XFZ7G3ZrZryD
- JFyxJFyfurnxGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb-8YjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z2
- 80aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
- zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx
- 8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4xvF2IEb7IF0Fy264kE64k0F24l
- FcxC0VAYjxAxZF0Ex2IqxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
- C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
- wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
- v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2
- z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JwCE64xvF2IEb7IF0F
- y7YxBIdaVFxhVjvjDU0xZFpf9x07jYeHgUUUUU=
-X-CM-SenderInfo: xfdrv0pqjoxqxwvl0wxkxdhvlgxou0/
-Received-SPF: pass client-ip=165.227.154.27;
- envelope-from=caodongli@tsinghua.edu.cn;
- helo=zg8tmty1ljiyny4xntqumjca.icoremail.net
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lah8v-0007qk-Ei
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 11:57:57 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:37699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lah8q-00038u-BE
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 11:57:57 -0400
+Received: by mail-pg1-x530.google.com with SMTP id p2so23037759pgh.4
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 08:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h0uRX/mkF1vUC4TeJuAjl4hd+Sr3I/Y7Sj+ILIim3eM=;
+ b=GYst0jyAmLy4VdmNRXJLbkB8c4ZOw5pDp0HByT4v1l5Q+9aMTrtftsE0+/lWSGEWUa
+ RoZi+q6iXfpdORRFglV7OFZbIQ8gA76stFfgPNhqVDgaYiSIAVBPG48uoxVrgbkjRjEj
+ WnYbVeOvjorjXT438X5+eoZYgs9XpBSnu+JVbaJy/OIIHIlZCE18ZwhWaMu/7yEs+zMf
+ kE346pM6e6P8Onxay2fWkgLSg1kVX64uk4V+8eXUs4BILhQSNrYbRhhhunS351L9MWOW
+ CgotrqSuoMMyjdSkylOcSsNshErOVsnpNg8lD1cVf0qmWmXbmNMm3mV6u/QZ3BN2X2Ss
+ hw4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h0uRX/mkF1vUC4TeJuAjl4hd+Sr3I/Y7Sj+ILIim3eM=;
+ b=cHqVMs+prTeldObHiCV6Ahw5ExkyRi7KYW7PRej0eEr/k4POaP+MwFMyb1d3y9Q6sP
+ FyAq+w8XVzbaAlX0deJ6513BN+AQdnjkds92FlSqvqeDmwJ4pn2HdpTruTQy/y5o8JgM
+ x26eiX6TWKGJqpMLo3AqLLOpaw/Zd6MJtPqA5t/0sd36hoQsBgs1O5dSq2y4pyjOaMxT
+ Wz7vAtzx6In5C9bJvIGeqSs+jS9mjv8A/GF+GnqovP+rA68YowrVd2XS79LsC951l1Nk
+ AeHWpHCtrD9TMV5tXqmtWITMno05szDt6Kj/ZU3wAWyUtB7fcr7tWJjx+FedjS2lK/cU
+ Fe3Q==
+X-Gm-Message-State: AOAM532jeWw+nRVmnbQIVZkV1GyTWi+3TMcsRmnrZ01fp0H17eFHVwHQ
+ kJ4P5+0iLMOpz6JRmwcjx6HhhYv0Mw7wgQ==
+X-Google-Smtp-Source: ABdhPJx0KHbGWO8h2FFsj+vdbaX0x+7guJoQMnjpIEj0scHzcDPKlZB2snwztS6LQTeIqFpUOLq1GQ==
+X-Received: by 2002:a62:7f84:0:b029:25f:b701:38e5 with SMTP id
+ a126-20020a627f840000b029025fb70138e5mr13635216pfd.5.1619366270539; 
+ Sun, 25 Apr 2021 08:57:50 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id u21sm8594717pfm.89.2021.04.25.08.57.49
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Apr 2021 08:57:50 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] linux-user/sparc64: Implement signals
+Date: Sun, 25 Apr 2021 08:57:41 -0700
+Message-Id: <20210425155749.896330-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 25 Apr 2021 10:03:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,24 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "like.xu" <like.xu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Q2hhbmdlIHRoZSBjcml0ZXJpYSBmb3IgdGhlIGluaXRpYWwgQ1BVIHRvcG9sb2d5IGFuZCBtYXhj
-cHVzLCB1c2VyIGNhbgpoYXZlIG1vcmUgc2V0dGluZ3MKClNpZ25lZC1vZmYtYnk6IERvbmdsaSBD
-YW8gPGNhb2RvbmdsaUBraW5nc29mdC5jb20+Ci0tLQogaHcvaTM4Ni9wYy5jIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
-aHcvaTM4Ni9wYy5jIGIvaHcvaTM4Ni9wYy5jCmluZGV4IDhhODRiMjUuLmVmMmU4MTkgMTAwNjQ0
-Ci0tLSBhL2h3L2kzODYvcGMuYworKysgYi9ody9pMzg2L3BjLmMKQEAgLTc1MSw3ICs3NTEsNyBA
-QCB2b2lkIHBjX3NtcF9wYXJzZShNYWNoaW5lU3RhdGUgKm1zLCBRZW11T3B0cyAqb3B0cykKICAg
-ICAgICAgICAgIGV4aXQoMSk7CiAgICAgICAgIH0KCi0gICAgICAgIGlmIChzb2NrZXRzICogZGll
-cyAqIGNvcmVzICogdGhyZWFkcyAhPSBtcy0+c21wLm1heF9jcHVzKSB7CisgICAgICAgIGlmIChz
-b2NrZXRzICogZGllcyAqIGNvcmVzICogdGhyZWFkcyA+IG1zLT5zbXAubWF4X2NwdXMpIHsKICAg
-ICAgICAgICAgIGVycm9yX3JlcG9ydCgiSW52YWxpZCBDUFUgdG9wb2xvZ3kgZGVwcmVjYXRlZDog
-IgogICAgICAgICAgICAgICAgICAgICAgICAgICJzb2NrZXRzICgldSkgKiBkaWVzICgldSkgKiBj
-b3JlcyAoJXUpICogdGhyZWFkcyAoJXUpICIKICAgICAgICAgICAgICAgICAgICAgICAgICAiIT0g
-bWF4Y3B1cyAoJXUpIiwKLS0gCjEuOC4zLjEKCgoKCgpjYW9kb25nbGlAdHNpbmdodWEuZWR1LmNu
-CgoK
+We were re-using sparc32 signal handling for sparc64.
+In the process, clean up the altstack handling in do_*_sigreturn.
+
+
+r~
+
+
+Richard Henderson (8):
+  linux-user: Split out target_restore_altstack
+  linux-user: Use target_restore_altstack in all sigreturn
+  linux-user: Pass CPUArchState to do_sigaltstack
+  linux-user: Pass CPUArchState to target_restore_altstack
+  linux-user/sparc64: Move sparc64 code out of sparc32 signal.c
+  linux-user/sparc: Clean up init_thread
+  linux-user/sparc64: Include TARGET_STACK_BIAS in get_sp_from_cpustate
+  linux-user/sparc64: Implement signals
+
+ linux-user/qemu.h                   |   3 +-
+ linux-user/signal-common.h          |   1 +
+ linux-user/sparc/target_cpu.h       |   9 +-
+ linux-user/sparc/target_signal.h    |   2 +
+ linux-user/sparc64/target_syscall.h |  14 +-
+ linux-user/aarch64/signal.c         |   6 +-
+ linux-user/alpha/signal.c           |   6 +-
+ linux-user/arm/signal.c             |   9 +-
+ linux-user/elfload.c                |  33 +-
+ linux-user/hexagon/signal.c         |   6 +-
+ linux-user/hppa/signal.c            |   8 +-
+ linux-user/i386/signal.c            |   5 +-
+ linux-user/m68k/signal.c            |   5 +-
+ linux-user/microblaze/signal.c      |   6 +-
+ linux-user/mips/signal.c            |   6 +-
+ linux-user/nios2/signal.c           |   8 +-
+ linux-user/openrisc/signal.c        |   5 +-
+ linux-user/ppc/signal.c             |   4 +-
+ linux-user/riscv/signal.c           |   6 +-
+ linux-user/s390x/signal.c           |   6 +-
+ linux-user/sh4/signal.c             |   7 +-
+ linux-user/signal.c                 | 120 ++++---
+ linux-user/sparc/signal.c           | 280 ---------------
+ linux-user/sparc64/signal.c         | 523 +++++++++++++++++++++++++++-
+ linux-user/syscall.c                |   3 +-
+ linux-user/xtensa/signal.c          |   6 +-
+ 26 files changed, 633 insertions(+), 454 deletions(-)
+
+-- 
+2.25.1
 
 
