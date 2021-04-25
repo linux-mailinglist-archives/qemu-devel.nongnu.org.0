@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E9D36A8D8
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:40:01 +0200 (CEST)
-Received: from localhost ([::1]:50062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C5F36A8E2
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:47:38 +0200 (CEST)
+Received: from localhost ([::1]:34140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lajfk-0006b9-5P
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52164)
+	id 1lajn7-0003QX-2Z
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lajd3-0005AP-Qs
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:37:13 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:33546)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lajlG-0002OA-RP
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:45:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lajd2-0001tG-9j
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:37:13 -0400
-Received: by mail-ej1-x631.google.com with SMTP id g5so74348799ejx.0
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 11:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=a10iXpHggY1pPFPu4cpj6hoidaqPYdTsUtgMEkNcZZg=;
- b=YHMql7aiYthLz3cXHenjBtJLYsUX71VLKWi9X2/EPYWSE9L9Y7x6sPJlZeHkOFMN+Y
- epAqzvoTKIp+kektTW6oY0/a1tS9D3PiRYgEB5+2cckv+mOtNH1IBfTn5+UkZ1tf3+Ag
- KfTt3YiGPuUoI7t+/g565y0mc3ExFgQ/2WjReTMabbZnfoHB3l+94ZT/L1QVNsEPfl1u
- nDxd+3mtQaI14PLUuiE+ACM1+6E1S/yfDaEq24KqM0kykrWg20t9EYWwI3uJaNUdgCTF
- VsCk3DASV3CLgpZgRxupSErXCczudI7Qveq/EhFyDlBkPoCqWb+xXeDEDgSEppdSSPa7
- n3Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=a10iXpHggY1pPFPu4cpj6hoidaqPYdTsUtgMEkNcZZg=;
- b=qjgEzYchiRbiDkj58pQI6yi6bQq5ZYZiRmgO7fulE5XDm5fNlZMJlslxW7mR2zMo8S
- p6+aFP31UZRAGb0iOFRAJAmOamfhINWSXoYEcT2Jk6jFL5leef2Y6oaGkfsfOzK333dN
- eLiStB7Ax/k+6pWrlRc8DBNwwUtorrPLVoAf4tqnwDlPRPmBv5AdpiSIg0Jw4l1fnM0c
- ovSYzR7WEPdeuUkbANuwwlS/cdgTtgXCDerT0qBMKvLxhG19sJst6UEUaqt+Hr1y8E57
- 8OxClLDMQt+KAkhziDYk3Ar7WUnxn+t6H9Z8gPoIZJOuKJf3BCd/B8hWB4MUFikUNKFt
- HyMg==
-X-Gm-Message-State: AOAM530VHzBdSSGRCXXsYwcCjfsOcLddEVbClgkW/L79HDw3ibCJc9J1
- OGyze7nOQtaHoyD7DYOBetMj/eRu93V9MNG6hJPo/Q==
-X-Google-Smtp-Source: ABdhPJxkOmwnRAFxtBjIHchKJgkizyxE5o3yfnn8ykHe+K7f5+J1AEw1ceG68O7WP6+KIdWtvwkHzaAaEnTe1n/oI4M=
-X-Received: by 2002:a17:906:29ca:: with SMTP id
- y10mr15133614eje.250.1619375830691; 
- Sun, 25 Apr 2021 11:37:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lajlE-0006d9-Ou
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:45:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lajlB-0007EJ-Pa
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A15B02E815B
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:45:37 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210424162229.3312116-1-f4bug@amsat.org>
- <20210424162229.3312116-3-f4bug@amsat.org>
-In-Reply-To: <20210424162229.3312116-3-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 25 Apr 2021 19:36:13 +0100
-Message-ID: <CAFEAcA8=YAABLQL+n1gDXafhoZeUo9emmjCmi_BTqvH=3NS6GA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] hw/pcmcia/microdrive: Register machine reset handler
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sun, 25 Apr 2021 18:39:48 -0000
+From: Peter Maydell <1926044@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm mte user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: vitalybuka
+X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161931792564.17271.10395230459178895166.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161937598849.12333.17717023941267444125.launchpad@wampee.canonical.com>
+Subject: [Bug 1926044] Re: QEMU-user doesn't report HWCAP2_MTE
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 7bc7c948c53685550e5154ed347fe6db9e6115ff
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,65 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1926044 <1926044@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 24 Apr 2021 at 17:22, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> The abstract PCMCIA_CARD is a bus-less TYPE_DEVICE, so devices
-> implementing it are not reset automatically.
-> Register a reset handler so children get reset on machine reset.
->
-> Note, the DSCM-1XXXX device (TYPE_DSCM1XXXX) which inherits
-> TYPE_MICRODRIVE and PCMCIA_CARD reset itself when a disk is
-> attached or detached, but was not resetting itself on machine
-> reset.
->
-> It doesn't seem to be an issue because it is that way since the
-> device QDev'ifycation 8 years ago, in commit d1f2c96a81a
-> ("pcmcia: QOM'ify PCMCIACardState and MicroDriveState").
-> Still, correct to have a proper API usage.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/pcmcia/pcmcia.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/hw/pcmcia/pcmcia.c b/hw/pcmcia/pcmcia.c
-> index 03d13e7d670..73656257227 100644
-> --- a/hw/pcmcia/pcmcia.c
-> +++ b/hw/pcmcia/pcmcia.c
-> @@ -6,14 +6,39 @@
->
->  #include "qemu/osdep.h"
->  #include "qemu/module.h"
-> +#include "sysemu/reset.h"
->  #include "hw/pcmcia.h"
->
-> +static void pcmcia_card_reset_handler(void *dev)
-> +{
-> +    device_legacy_reset(DEVICE(dev));
-> +}
-> +
-> +static void pcmcia_card_realize(DeviceState *dev, Error **errp)
-> +{
-> +    qemu_register_reset(pcmcia_card_reset_handler, dev);
-> +}
-> +
-> +static void pcmcia_card_unrealize(DeviceState *dev)
-> +{
-> +    qemu_unregister_reset(pcmcia_card_reset_handler, dev);
-> +}
+** Tags removed: aarch64
+** Tags added: arm
 
-Why isn't a pcmcia card something that plugs into a bus ?
+-- =
 
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926044
+
+Title:
+  QEMU-user doesn't report HWCAP2_MTE
+
+Status in QEMU:
+  New
+
+Bug description:
+  Reproducible on ffa090bc56e73e287a63261e70ac02c0970be61a
+
+  Host Debian 5.10.24 x86_64 GNU
+
+  Configured with "configure --disable-system --enable-linux-user
+  --static"
+
+  This one works and prints "OK" as expected:
+  clang tests/tcg/aarch64/mte-3.c -target aarch64-linux-gnu  -fsanitize=3Dm=
+emtag -march=3Darmv8+memtag
+  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out && echo OK
+
+  =
+
+  This one fails and print "0":
+  cat mytest.c
+  #include <stdio.h>
+  #include <sys/auxv.h>
+
+  #ifndef HWCAP2_MTE
+  #define HWCAP2_MTE (1 << 18)
+  #endif
+
+  int main(int ac, char **av)
+  {
+      printf("%d\n", (int)(getauxval(AT_HWCAP2) & HWCAP2_MTE));
+  }
+
+  =
+
+  clang mytest.c -target aarch64-linux-gnu  -fsanitize=3Dmemtag -march=3Dar=
+mv8+memtag
+  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926044/+subscriptions
 
