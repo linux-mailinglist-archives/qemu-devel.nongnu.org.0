@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DEE136A8E6
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:52:29 +0200 (CEST)
-Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C1C36A903
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 21:26:56 +0200 (CEST)
+Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lajro-00062a-5O
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
+	id 1lakP9-00074l-Dm
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 15:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lajq6-0005aB-4S
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:50:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47512)
+ id 1lakO7-0006YC-Sr
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 15:25:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lajq4-0001Bz-AH
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:50:41 -0400
+ id 1lakO5-0005Rt-V3
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 15:25:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lajq1-0007Sz-Tw
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:50:37 +0000
+ id 1lakO2-0002FQ-Hh
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:25:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E18C02E8041
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 18:50:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D35BB2E8177
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 25 Apr 2021 18:40:42 -0000
-From: Peter Maydell <1900122@bugs.launchpad.net>
+Date: Sun, 25 Apr 2021 19:20:15 -0000
+From: Richard Henderson <1926044@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm docker ioctl video
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: arm mte user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: khamenya
-X-Launchpad-Bug-Reporter: vak (khamenya)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
-Message-Id: <161937604285.4212.6589265351699568880.launchpad@gac.canonical.com>
-Subject: [Bug 1900122] Re: Unsupported ioctl: cmd=0xffffffff80685600 when
- accessing /dev/video* in aarch64 guest
+X-Launchpad-Bug-Commenters: rth vitalybuka
+X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <161931792564.17271.10395230459178895166.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161937841594.17574.709434742520574120.malone@chaenomeles.canonical.com>
+Subject: [Bug 1926044] Re: QEMU-user doesn't report HWCAP2_MTE
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: c310f8b2c66ee82e9ee65f3892a04b8e5d3dddc2
+X-Launchpad-Hash: 6172c5e8fa8d68dc257fa83be4e270167f3685ea
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,150 +71,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
+Reply-To: Bug 1926044 <1926044@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags removed: aarch64
-** Tags added: arm
+Yep, there's a whole bunch that have been missed.
+
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
+
+** Changed in: qemu
+       Status: New =3D> In Progress
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900122
+https://bugs.launchpad.net/bugs/1926044
 
 Title:
-  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
-  in aarch64 guest
+  QEMU-user doesn't report HWCAP2_MTE
 
 Status in QEMU:
-  New
+  In Progress
 
 Bug description:
-  **Description:**
-  Any attempt to work with video in aarch64 architecture emulated on x86_64=
- leads currently to the error "Function not implemented". For example:
+  Reproducible on ffa090bc56e73e287a63261e70ac02c0970be61a
 
-  ```
-  # v4l2-ctl -l --verbose
-  Failed to open /dev/video0: Function not implemented
+  Host Debian 5.10.24 x86_64 GNU
 
-  root@12dd9b6fcfcb:/# ll /dev/video*
-  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
-  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
+  Configured with "configure --disable-system --enable-linux-user
+  --static"
 
-  ```
-
-  **Steps to reproduce the issue:**
-
-  I have a following setup:
-
-  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
-  Host OS: Ubuntu 20.04.1
-
-  Guest Architecture: aarch64
-  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
-
-  Emulation: quemu-user-static (also tried binfmt)
-
-  Guest OS is running via Docker + QEMU
-
-  ```
-  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
-  enabled
-  interpreter /usr/bin/qemu-aarch64-static
-  flags: F
-  offset 0
-  magic 7f454c460201010000000000000000000200b700
-  mask ffffffffffffff00fffffffffffffffffeffffff
-  ```
-
-  **Results received:**
-  see desrciption.
+  This one works and prints "OK" as expected:
+  clang tests/tcg/aarch64/mte-3.c -target aarch64-linux-gnu  -fsanitize=3Dm=
+emtag -march=3Darmv8+memtag
+  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out && echo OK
 
   =
 
-  **Environment:**
+  This one fails and print "0":
+  cat mytest.c
+  #include <stdio.h>
+  #include <sys/auxv.h>
 
-  * QEMU version: (if you can know it):
+  #ifndef HWCAP2_MTE
+  #define HWCAP2_MTE (1 << 18)
+  #endif
 
-  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
-tu4 all [installed,automatic]
-  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
-stalled,automatic]
-  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
-tomatic]
-  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
-tic]
-  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
-  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  int main(int ac, char **av)
+  {
+      printf("%d\n", (int)(getauxval(AT_HWCAP2) & HWCAP2_MTE));
+  }
 
-  * Container application: Docker
+  =
 
-  **Output of `docker version`, `podman version` or `singularity
-  version`**
-
-  ```
-  =E2=9E=9C docker version
-  Client: Docker Engine - Community
-  =C2=A0Version:           20.10.0-beta1
-  =C2=A0API version:       1.40
-  =C2=A0Go version:        go1.13.15
-  =C2=A0Git commit:        ac365d7
-  =C2=A0Built:             Tue Oct 13 18:15:22 2020
-  =C2=A0OS/Arch:           linux/amd64
-  =C2=A0Context:           default
-  =C2=A0Experimental:      true
-
-  Server: Docker Engine - Community
-  =C2=A0Engine:
-  =C2=A0=C2=A0Version:          19.03.13
-  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
-  =C2=A0=C2=A0Go version:       go1.13.15
-  =C2=A0=C2=A0Git commit:       4484c46d9d
-  =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
-  =C2=A0=C2=A0OS/Arch:          linux/amd64
-  =C2=A0=C2=A0Experimental:     false
-  =C2=A0containerd:
-  =C2=A0=C2=A0Version:          1.4.1
-  =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
-  =C2=A0runc:
-  =C2=A0=C2=A0Version:          1.0.0-rc92
-  =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
-  =C2=A0docker-init:
-  =C2=A0=C2=A0Version:          0.18.0
-  =C2=A0=C2=A0GitCommit:        fec3683
-
-  ```
-
-  Guest aarch64 runs in privileged mode:
-
-  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
-  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
-  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
-
-  **Additional information:**
-  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
-s a little bit different:
-
-  ```
-  # v4l2-ctl -l
-  Unsupported ioctl: cmd=3D0xffffffff80685600
-  Failed to open /dev/video0: Function not implemented
-
-  ```
+  clang mytest.c -target aarch64-linux-gnu  -fsanitize=3Dmemtag -march=3Dar=
+mv8+memtag
+  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926044/+subscriptions
 
