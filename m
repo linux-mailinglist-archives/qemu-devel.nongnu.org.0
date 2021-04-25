@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2672636A8CF
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:23:23 +0200 (CEST)
-Received: from localhost ([::1]:39726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309F136A8D5
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 20:38:06 +0200 (CEST)
+Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lajPe-0001cf-82
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49574)
+	id 1lajds-0004lq-IE
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 14:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lajNp-00015v-Um
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:21:29 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56030)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lajaN-0003nT-7Q
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:34:27 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lajNo-0001yM-7W
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:21:29 -0400
-Received: by mail-wm1-x335.google.com with SMTP id n127so16935157wmb.5
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 11:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+qXnCeZ8SXvCXhTdH8MnT6llOvMv70z+YtJ8m7AeDwQ=;
- b=Bl244YUIvOW91J2wpXygXvSlAx/s22x/LBkZjXkj33N7Jdh76pf8V2tzYAvs9Qpc6f
- wb0NcLTKcDaCbmpZZc5HedNIRQxaYKzq/7btCtBtlOnDnrMKCBLB44dVcAGbxNqUANzL
- yGbIB7AKL07F57f2jZaGSbiney+jqRxucm1IlPn/rfvzNT1w7rn1qGvuGJ4cgkqY0KId
- YVugytDpMTe7abQa+ck1wzuYltIKlg8VyPTV7fKgHX8HhPzURJaR9aYCYFKe7ruyfeHX
- k8z1zIUHQMcXwNgfmUNgEGS3nAz+lbHRCibKa8LIugIsjVt6dlJEF+xYl/baPSYfxZP5
- TqLQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lajaL-0000Ry-FH
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 14:34:26 -0400
+Received: by mail-ej1-x634.google.com with SMTP id w3so81138693ejc.4
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 11:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=g8t70h9neWXabhA//P1LgoFjTn5Db0mQa9V1eENfqW8=;
+ b=rThIx779kruX9rwBAioOVCerOoi/LTR37Q7ZOxHDY52yXqErVxWHOJqDRZKeRIyUuz
+ Zk1m7QWcGakC1o6NsLRkxk8fUzke5RBIm98TmpAPIMflYkb7jz17MFnETH83crGG9fYK
+ xGVMAdwZz4aRWBuggOQHIkdup7AL49Dx8t0uJetuwPpU0wbSjY6TRqzc6xxFGQa7ICLu
+ TAqDmN9V1b96Iz9o4pNgIawLif8q4sUioMEr08AakSq4k3P59SCBdvyGhFTjJ5T6kThI
+ L4sqr7kRRspIEBQjH0JsG1Z6om2vXWZGpP8LJip3LH/atyfT6KjawF4N/c3kPkD+UnsQ
+ f5Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+qXnCeZ8SXvCXhTdH8MnT6llOvMv70z+YtJ8m7AeDwQ=;
- b=nfXBa6jUpsVFT0tT3j/tdGtmiKfOrltibfIsNS/oiWSwd7JcqnptWNfcb+Lx8uy+d+
- CKPM6Lek+8z3AP39EKBK9/Tb/QC12whkKFV4mDTBhVq5x+Dt/vsJBt1Nluj+KKHYtX0N
- RopEwWSBOWLpoQFCImJei+OwiKEaMQqzOG55TZn9wBO1JgbcD9Fvtc7BXr+uS6MsnLqy
- X/DznNEmnBoQGTi/TmXqqLlRh3I6LHkYxG13zJTklYRGaOhahs1EAhrd+5SYtqFArRB0
- 2Seyem4JEO2KdvVgfsVzqJkGye+Ul+2j8mNXIhXv1rxGC5cd8ZJQ0hSKcqxiO5gtwV6X
- l8uw==
-X-Gm-Message-State: AOAM531Qysdi4PdCdQSdojGSZOHybgNfZ2Wcqqr42RnBjCzQ+2tjRV83
- J3VU66Lk8UBad3lbARB8TNFTFrWlzAzyeA==
-X-Google-Smtp-Source: ABdhPJy3jKjtDXLVtsnyoKdd1qLjqsD8TKPN/w+iAc19/LFwE2HpnaU8H1sPVNFXbHAb7kwBo2Hmqw==
-X-Received: by 2002:a7b:cd85:: with SMTP id y5mr16658325wmj.93.1619374886586; 
- Sun, 25 Apr 2021 11:21:26 -0700 (PDT)
-Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id q128sm2336043wma.39.2021.04.25.11.21.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Apr 2021 11:21:26 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/pci-host: Do not build gpex-acpi.c if GPEX is not selected
-Date: Sun, 25 Apr 2021 20:21:24 +0200
-Message-Id: <20210425182124.3735214-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=g8t70h9neWXabhA//P1LgoFjTn5Db0mQa9V1eENfqW8=;
+ b=DCtSWLNcXqH/pmo5JufV30qM6vfei7wT/+aGzhPG5eb4L7HN1SGT4m5Q0tj7v6m9BD
+ mZ9nHr0/oyu0SK3lV7wMYy3QvUwBLErTZiHfh34DjFMkFWta0hbBBTqnNK5DsudsCsmQ
+ q5/Fh+Gd8zUcsZAKc8ykdPwIzfnd/xCHGCGMc2TFlV+Wgbfv3zbIGVBfHC2aQwDZtp4V
+ 3IKUGltdPUYMwWWI6SdYakpGMoPUC40uHm4xsx+Ajv77xjN4epapiVoKdFGn9LQxbffH
+ fbUedWAhtSF4kT9bS62DOo+VAD8L3pwZKpT8glVwbfZ43AZMIat+8P6thZeNIIh0byLP
+ UO3w==
+X-Gm-Message-State: AOAM532+UH0oQM+KhUg7nJxnN5qjNVY9VM2telOmBEag7omhRu74f+lS
+ V+6p+QEaFx6RqN7TwlSpp0bMKsGFF4ep9/DsbpaY4g==
+X-Google-Smtp-Source: ABdhPJwr5emE06mTiExCeLzOTkVOPIU2xVWZQ314TqlNLeh7/vwzjCNVVOofZTVdxBTxJ6KA10RA4GYpHsbpIoL+oM0=
+X-Received: by 2002:a17:906:6d41:: with SMTP id
+ a1mr14891202ejt.482.1619375662832; 
+ Sun, 25 Apr 2021 11:34:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+References: <CAFEAcA8k+RUNhAOzCeefBs+vcyAgrtHwHMH9KfQb6OJg0su_7w@mail.gmail.com>
+ <fc080508-9b82-8a2b-79bb-ab4e9f812cce@amsat.org>
+ <CAFEAcA8hs3Uw=8-_CFa_GoMhmqxCcHw5t751oKzicd0_+Dh8kA@mail.gmail.com>
+ <87y2datpyw.fsf@dusky.pond.sub.org>
+ <5570bf5a-3cab-c30c-2c21-0ab02543199e@amsat.org>
+ <2f4155ca-ee84-75f0-8b35-aac6b18ee4f0@amsat.org>
+ <3dcb8efa-8f6b-0f45-a753-cc58d3bf9855@amsat.org>
+ <87im4cb6ag.fsf@dusky.pond.sub.org>
+ <b7f6752b-6f4c-a3d2-074c-0b41094d7dfa@amsat.org>
+In-Reply-To: <b7f6752b-6f4c-a3d2-074c-0b41094d7dfa@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 25 Apr 2021 19:33:25 +0100
+Message-ID: <CAFEAcA__LbLXA3b8U_-wHrxcET7OwCTOoL_8kYAYsd3LTKEOZQ@mail.gmail.com>
+Subject: Re: Resetting non-qdev children in a 3-phase reset device
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +87,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Xingang Wang <wangxingang5@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jiahui Cen <cenjiahui@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yubo Miao <miaoyubo@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since its introduction in commit 5b85eabe68f ("acpi: add
-acpi_dsdt_add_gpex") we build gpex-acpi.c if ACPI is selected,
-even if the GPEX_HOST device isn't build. Add the missing
-Kconfig dependency.
+On Sat, 24 Apr 2021 at 14:04, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+> I now understand better the diag288 case, but I still don't understand
+> the TYPE_APIC one. It has no DeviceClass::reset(), its abstract parent
+> TYPE_APIC_COMMON register apic_reset_common() but being TYPE_DEVICE it
+> is not on a qbus. It is somehow connected to the X86CPU object, but the
+> single call to apic_init_reset() is from do_cpu_init() - not a reset
+> method -.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-The gpex*.c files aren't covered by any MAINTAINERS section:
+pc_machine_reset() calls device_legacy_reset(cpu->apic_state)
+which is to say it invokes the DeviceState::reset method,
+which is either kvm_apic_reset or apic_reset_common.
 
-$ ./scripts/get_maintainer.pl -f hw/pci-host/gpex.c -f hw/pci-host/gpex-acpi.c
-get_maintainer.pl: No maintainers found, printing recent contributors.
-get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
-
-Markus Armbruster <armbru@redhat.com> (commit_signer:2/2=100%)
-Paolo Bonzini <pbonzini@redhat.com> (commit_signer:2/2=100%)
-Alistair Francis <alistair.francis@wdc.com> (commit_signer:1/2=50%)
-"Philippe Mathieu-Daudé" <philmd@redhat.com> (commit_signer:1/2=50%)
-"Michael S. Tsirkin" <mst@redhat.com> (commit_signer:14/8=100%)
-Jiahui Cen <cenjiahui@huawei.com> (commit_signer:6/8=75%)
-Igor Mammedov <imammedo@redhat.com> (commit_signer:4/8=50%)
-Gerd Hoffmann <kraxel@redhat.com> (commit_signer:2/8=25%)
-Yubo Miao <miaoyubo@huawei.com> (commit_signer:2/8=25%)
-qemu-devel@nongnu.org (open list:All patches CC here)
----
- hw/pci-host/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index 87a896973e7..d52dce77cbd 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -3,7 +3,7 @@
- pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
--pci_ss.add(when: 'CONFIG_ACPI', if_true: files('gpex-acpi.c'))
-+pci_ss.add(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'], if_true: files('gpex-acpi.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_Q35', if_true: files('q35.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
- pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
--- 
-2.26.3
-
+thanks
+-- PMM
 
