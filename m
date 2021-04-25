@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2351736A71D
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 14:23:18 +0200 (CEST)
-Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6021F36A736
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 14:34:13 +0200 (CEST)
+Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ladnA-0006tE-QJ
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 08:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38532)
+	id 1ladxj-0001f1-Nt
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 08:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maciej.szmigiero@oracle.com>)
- id 1ladlx-00064u-To
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 08:22:03 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:49922)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ladvx-0000mv-NQ
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 08:32:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maciej.szmigiero@oracle.com>)
- id 1ladlr-0000Vw-HH
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 08:22:01 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13PCLf47020117; Sun, 25 Apr 2021 12:21:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : subject : to :
- cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=bb4EhzvhCv038fayhAlI7LLPYEXOK8A1aXXJxFqpgDE=;
- b=fGdgiy1ty/RvqtVHxo1IVVGxJTNNrdGG+okU2PAXX9dGaAg7ELWGnsYtzg1TRLoSIO3u
- FytRrqeaG1gwQ2wdRABZIrFJhuHNd82TvZJp9Xgf0ElfhLfSCMFOaBYW/CdiK8hYYs/Z
- Np/fciRnK9WtSi849evJpjrBlkPhs0Ue0Iu4lrbCBw2R0Em25dx7EBsk3EUzqwX5PKoy
- lggdLFuIZ4x+WzI7n7lZf/R6WL/Npo4v2s399XbLkkZTxTZk6q2N3LRwjnRtHLEYAXOG
- 8xz2BGjIIzum8TZW3AiBzgY2rGn5knC7A/4GSGpKy9OjoxPArsaYuzioiSVePqbWhwK4 Hg== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3849x00ct1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 25 Apr 2021 12:21:49 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13PCHFj1049577;
- Sun, 25 Apr 2021 12:21:47 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 384w3qcw48-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 25 Apr 2021 12:21:47 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13PCLjgG001046;
- Sun, 25 Apr 2021 12:21:46 GMT
-Received: from [10.175.220.74] (/10.175.220.74)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 25 Apr 2021 12:21:45 +0000
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
-Subject: Re: [PATCH] vmbus: Don't make QOM property registration conditional
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201009200701.1830060-1-ehabkost@redhat.com>
- <4caca0ac-f3a0-bf45-c3d8-7b8c3ec18857@oracle.com>
- <20201009213336.GJ7303@habkost.net>
- <4de9310f-7627-7440-7fcb-23dc2a0f7441@oracle.com>
-Message-ID: <12b52998-d818-5d2a-691b-5bd9135a8042@oracle.com>
-Date: Sun, 25 Apr 2021 14:21:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ladvs-0006GF-8B
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 08:32:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619353934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bmPekcGZT0PzWmYNm/NF/Hwu9E7GFFyAi48yWKuEdrc=;
+ b=YvLlfBvTsQx0MyVSGk+EIwKXx5aQgE36tumwN06mhu+sieUucRJQxuBO1VC09vn9ER5Ts9
+ /nW9E9iz4qQGOFUL/nzBTj+YDD0Ozd1CLuWTB2ebH8GTyVa/i1Imj84laIxMAl/CwOPMOD
+ jjc4aX0MPmOPcvikYCmvwijs805GK7I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-Tz_9aEq5O5GlEGHlq3H8aw-1; Sun, 25 Apr 2021 08:32:12 -0400
+X-MC-Unique: Tz_9aEq5O5GlEGHlq3H8aw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88AEA5132;
+ Sun, 25 Apr 2021 12:32:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 632251837F;
+ Sun, 25 Apr 2021 12:32:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E7150113525D; Sun, 25 Apr 2021 14:32:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 11/22] qapi/parser: Rework _check_pragma_list_of_str as
+ a TypeGuard
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-12-jsnow@redhat.com>
+Date: Sun, 25 Apr 2021 14:32:06 +0200
+In-Reply-To: <20210422030720.3685766-12-jsnow@redhat.com> (John Snow's message
+ of "Wed, 21 Apr 2021 23:07:09 -0400")
+Message-ID: <871ray7dfd.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <4de9310f-7627-7440-7fcb-23dc2a0f7441@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9964
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0 mlxscore=0
- mlxlogscore=999 bulkscore=0 phishscore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104250093
-X-Proofpoint-ORIG-GUID: RmMX3m1oovlCGWbFDsS7EvOl3-6l-PRJ
-X-Proofpoint-GUID: RmMX3m1oovlCGWbFDsS7EvOl3-6l-PRJ
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=maciej.szmigiero@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,37 +81,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jon Doron <arilou@gmail.com>,
- qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.10.2020 01:30, Maciej S. Szmigiero wrote:
-> On 09.10.2020 23:33, Eduardo Habkost wrote:
->> On Fri, Oct 09, 2020 at 11:05:47PM +0200, Maciej S. Szmigiero wrote:
->>> On 09.10.2020 22:07, Eduardo Habkost wrote:
->>>> Having properties registered conditionally makes QOM type
->>>> introspection difficult.  Instead of skipping registration of the
->>>> "instanceid" property, always register the property but validate
->>>> its value against the instance id required by the class.
->>>>
->>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>>> ---
->>>> Note: due to the lack of concrete vmbus-dev subclasses in the
->>>> QEMU tree, this patch couldn't be tested.
->>>
->>> Will test it tomorrow since I have a VMBus device implementation.
->>
->> Thanks!
->>
-> 
-> Tested the patch with a hv-balloon device and is seems to work okay, so:
-> Acked-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-> 
+John Snow <jsnow@redhat.com> writes:
 
-I see this patch wasn't picked up - it still makes sense and applies
-cleanly to the current git, so I think it should be picked up.
+> TypeGuards wont exist in Python proper until 3.10. Ah well. We can hack
+> up our own by declaring this function to return the type we claim it
+> checks for and using this to safely downcast object -> List[str].
+>
+> In so doing, I bring this function in-line under _pragma so it can use
+> the 'info' object in its closure. Having done this, _pragma also now
+> no longer needs to take a 'self' parameter, so drop it.
+>
+> Rename it to just _check(), to help us out with the line-length -- and
+> now that it's contained within _pragma, it is contextually easier to see
+> how it's used anyway -- especially with types.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> ---
+>
+> I left (name, value) as args to avoid creating a fully magic "macro",
+> though, I thought this was too weird:
+>
+>     info.pragma.foobar = _check()
+>
+> and it looked more reasonable as:
+>
+>     info.pragma.foobar = _check(name, value)
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/parser.py | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
+>
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index 16fd36f8391..d02a134aae9 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -17,6 +17,7 @@
+>  from collections import OrderedDict
+>  import os
+>  import re
+> +from typing import List
+>  
+>  from .common import match_nofail
+>  from .error import QAPISemError, QAPISourceError
+> @@ -151,28 +152,27 @@ def _include(include, info, incl_fname, previously_included):
+>              ) from err
+>  
+>      @staticmethod
+> -    def _check_pragma_list_of_str(name, value, info):
+> -        if (not isinstance(value, list)
+> -                or any([not isinstance(elt, str) for elt in value])):
+> -            raise QAPISemError(
+> -                info,
+> -                "pragma %s must be a list of strings" % name)
+> +    def _pragma(name, value, info):
+> +
+> +        def _check(name, value) -> List[str]:
+> +            if (not isinstance(value, list) or
+> +                    any([not isinstance(elt, str) for elt in value])):
+> +                raise QAPISemError(
+> +                    info,
+> +                    "pragma %s must be a list of strings" % name)
+> +            return value
+>  
+> -    def _pragma(self, name, value, info):
+>          if name == 'doc-required':
+>              if not isinstance(value, bool):
+>                  raise QAPISemError(info,
+>                                     "pragma 'doc-required' must be boolean")
+>              info.pragma.doc_required = value
+>          elif name == 'command-name-exceptions':
+> -            self._check_pragma_list_of_str(name, value, info)
+> -            info.pragma.command_name_exceptions = value
+> +            info.pragma.command_name_exceptions = _check(name, value)
+>          elif name == 'command-returns-exceptions':
+> -            self._check_pragma_list_of_str(name, value, info)
+> -            info.pragma.command_returns_exceptions = value
+> +            info.pragma.command_returns_exceptions = _check(name, value)
+>          elif name == 'member-name-exceptions':
+> -            self._check_pragma_list_of_str(name, value, info)
+> -            info.pragma.member_name_exceptions = value
+> +            info.pragma.member_name_exceptions = _check(name, value)
+>          else:
+>              raise QAPISemError(info, "unknown pragma '%s'" % name)
 
-Thanks,
-Maciej
+While I appreciate the terseness, I'm not sure I like the generic name
+_check() for checking one of two special cases, namely "list of string".
+The other case being "boolean".  We could acquire more cases later.
+
 
