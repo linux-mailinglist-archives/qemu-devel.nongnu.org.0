@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ACB36A737
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 14:36:14 +0200 (CEST)
-Received: from localhost ([::1]:52892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE65336A77E
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Apr 2021 15:29:03 +0200 (CEST)
+Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ladzh-0003K8-AZ
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 08:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40086)
+	id 1laeoo-0001YF-AO
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 09:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ladxn-0002Tn-Vp
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 08:34:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33250)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1laenv-00018E-Ih
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 09:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ladxl-0007Re-VY
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 08:34:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1laenr-0005n1-Pt
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 09:28:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619354053;
+ s=mimecast20190719; t=1619357282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Xv/T87vWOilMrqIgbGUca+1JagYpXY6K1C/T7Zgl6OQ=;
- b=Gau24cTzRF8v7haAhh9ZSKyc2Pmc2ZFrXrLrT0/eXOw0vyvjXNxxpIK57tYN06PtP6Femo
- DJolJu03SFmxFVgRO1F9DDugD/Xkl+i/01ut9Vr3ifBL2DOGcynQuU/6GCcFUXugsYT6uB
- Ngx3UdlfTQFWoU7QBJ/K7x8zrxUhE1A=
+ bh=RhXsUmOaCKUfUDuXxytZCN6vxAg9JWa6Bi/B3KGbyZM=;
+ b=XWV3JLfWDZdPhSpJ8hzeflc0PjHDOFbccy92Ef5l4Ww4nqfOO8xXGQRmaGtBtHTIsKczxv
+ CFBtD+5aQxqdJmmik7xsmn+6NhmVOusENX+FxSCrjsmi2G6ES4wP7AoibFbyHqeVm9Wpf6
+ WgO4X7emflUkdP5jGPWpR5MWyp8CH1A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-xTZi8munPSSELtGwwJ_kWQ-1; Sun, 25 Apr 2021 08:34:07 -0400
-X-MC-Unique: xTZi8munPSSELtGwwJ_kWQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-598-AeVeWnw5NN-BpbKXt9OTdA-1; Sun, 25 Apr 2021 09:27:57 -0400
+X-MC-Unique: AeVeWnw5NN-BpbKXt9OTdA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E266310053F3;
- Sun, 25 Apr 2021 12:34:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9420587A826;
+ Sun, 25 Apr 2021 13:27:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 592B619C78;
- Sun, 25 Apr 2021 12:34:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF0916062F;
+ Sun, 25 Apr 2021 13:27:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 070FC113525D; Sun, 25 Apr 2021 14:34:03 +0200 (CEST)
+ id 80BB3113525D; Sun, 25 Apr 2021 15:27:54 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 12/22] qapi/parser: add type hint annotations
+Subject: Re: [PATCH 16/22] qapi/parser: add docstrings
 References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-13-jsnow@redhat.com>
-Date: Sun, 25 Apr 2021 14:34:02 +0200
-In-Reply-To: <20210422030720.3685766-13-jsnow@redhat.com> (John Snow's message
- of "Wed, 21 Apr 2021 23:07:10 -0400")
-Message-ID: <87zgxm5yrp.fsf@dusky.pond.sub.org>
+ <20210422030720.3685766-17-jsnow@redhat.com>
+Date: Sun, 25 Apr 2021 15:27:54 +0200
+In-Reply-To: <20210422030720.3685766-17-jsnow@redhat.com> (John Snow's message
+ of "Wed, 21 Apr 2021 23:07:14 -0400")
+Message-ID: <877dkq5w9x.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -87,208 +87,177 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> Annotations do not change runtime behavior.
-> This commit *only* adds annotations.
+> Signed-off-by: John Snow <jsnow@redhat.com>
 >
-> (Annotations for QAPIDoc are in a later commit.)
+> ---
+>
+> My hubris is infinite.
+
+Score one of the three principal virtues of a programmer ;)
+
+> OK, I only added a few -- to help me remember how the parser works at a glance.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  scripts/qapi/parser.py | 61 ++++++++++++++++++++++++++++--------------
->  1 file changed, 41 insertions(+), 20 deletions(-)
+>  scripts/qapi/parser.py | 66 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
 >
 > diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index d02a134aae9..f2b57d5642a 100644
+> index dbbd0fcbc2f..8fc77808ace 100644
 > --- a/scripts/qapi/parser.py
 > +++ b/scripts/qapi/parser.py
-> @@ -17,16 +17,29 @@
->  from collections import OrderedDict
->  import os
->  import re
-> -from typing import List
-> +from typing import (
-> +    Dict,
-> +    List,
-> +    Optional,
-> +    Set,
-> +    Union,
-> +)
+> @@ -51,7 +51,24 @@ def __init__(self, parser: 'QAPISchemaParser', msg: str):
 >  
->  from .common import match_nofail
->  from .error import QAPISemError, QAPISourceError
->  from .source import QAPISourceInfo
->  
->  
-> +#: Represents a parsed JSON object; semantically: one QAPI schema expression.
-> +Expression = Dict[str, object]
-
-I believe you use this for what qapi-code-gen.txt calls a top-level
-expression.  TopLevelExpression is rather long, but it's used just once,
-and once more in RFC PATCH 13.  What do you think?
-
-> +
-> +# Return value alias for get_expr().
-> +_ExprValue = Union[List[object], Dict[str, object], str, bool]
-
-This is essentially a node in our pidgin-JSON parser's abstract syntax
-tree.  Tree roots use the Dict branch of this Union.
-
-See also my review of PATCH 06.
-
-> +
-> +
->  class QAPIParseError(QAPISourceError):
->      """Error class for all QAPI schema parsing errors."""
-> -    def __init__(self, parser, msg):
-> +    def __init__(self, parser: 'QAPISchemaParser', msg: str):
-
-Forward reference needs quotes.  Can't be helped.
-
->          col = 1
->          for ch in parser.src[parser.line_pos:parser.pos]:
->              if ch == '\t':
-> @@ -38,7 +51,10 @@ def __init__(self, parser, msg):
 >  
 >  class QAPISchemaParser:
+> +    """
+> +    Performs parsing of a QAPI schema source file.
+
+Actually, this parses one of two layers, see qapi-code-gen.txt section
+"Schema syntax".  Pointing there might help.
+
 >  
-> -    def __init__(self, fname, previously_included=None, incl_info=None):
-> +    def __init__(self,
-> +                 fname: str,
-> +                 previously_included: Optional[Set[str]] = None,
+> +    :param fname: Path to the source file
 
-This needs to be Optional[] because using the empty set as default
-parameter value would be a dangerous trap.  Python's choice to evaluate
-the default parameter value just once has always been iffy.  Stirring
-static typing into the language makes it iffier.  Can't be helped.
+Either "Source file name" or "Source pathname", please.  I prefer "file
+name" for additional distance to "path" in the sense of a search path,
+i.e. a list of directory names.
 
-> +                 incl_info: Optional[QAPISourceInfo] = None):
->          self._fname = fname
->          self._included = previously_included or set()
->          self._included.add(os.path.abspath(self._fname))
-> @@ -46,20 +62,20 @@ def __init__(self, fname, previously_included=None, incl_info=None):
->  
->          # Lexer state (see `accept` for details):
->          self.info = QAPISourceInfo(self._fname, incl_info)
-> -        self.tok = None
-> +        self.tok: Optional[str] = None
+> +    :param previously_included:
+> +        The absolute paths of previously included source files.
 
-Would
+Either "absolute file name" or "absulute pathname".
 
-           self.tok: str
+> +        Only used by recursive calls to avoid re-parsing files.
 
-work?
+Feels like detail, not sure it's needed here.
 
->          self.pos = 0
->          self.cursor = 0
-> -        self.val = None
-> +        self.val: Optional[Union[bool, str]] = None
->          self.line_pos = 0
->  
->          # Parser output:
-> -        self.exprs = []
-> -        self.docs = []
-> +        self.exprs: List[Expression] = []
-> +        self.docs: List[QAPIDoc] = []
->  
->          # Showtime!
+> +    :param incl_info:
+> +       `QAPISourceInfo` for the parent document.
+> +       This may be None if this is the root schema document.
+
+Recommend s/This maybe //.
+
+qapi-code-gen.txt calls a QAPI schema that uses include directives
+"modular", and the included files "sub-modules".  s/root schema
+document/root module/?
+
+> +
+> +    :ivar exprs: Resulting parsed expressions.
+> +    :ivar docs: Resulting parsed documentation blocks.
+
+Uh, why are these here?  A doc string is interface documentation...
+
+> +
+> +    :raise OSError: For problems opening the root schema document.
+> +    :raise QAPIParseError: For JSON or QAPIDoc syntax problems.
+> +    :raise QAPISemError: For various semantic issues with the schema.
+
+Should callers care for the difference between QAPIParseError and
+QAPISemError?
+
+> +    """
+>      def __init__(self,
+>                   fname: str,
+>                   previously_included: Optional[Set[str]] = None,
+> @@ -77,6 +94,11 @@ def __init__(self,
 >          self._parse()
 >  
-> -    def _parse(self):
-> +    def _parse(self) -> None:
+>      def _parse(self) -> None:
+> +        """
+> +        Parse the QAPI schema document.
+> +
+> +        :return: None; results are stored in ``exprs`` and ``docs``.
+
+Another ignorant doc string markup question...  how am I supposed to see
+that exprs and docs are attributes, and not global variables?
+
+> +        """
 >          cur_doc = None
 >  
 >          with open(self._fname, 'r', encoding='utf-8') as fp:
-> @@ -122,7 +138,7 @@ def _parse(self):
->          self.reject_expr_doc(cur_doc)
->  
->      @staticmethod
-> -    def reject_expr_doc(doc):
-> +    def reject_expr_doc(doc: Optional['QAPIDoc']) -> None:
->          if doc and doc.symbol:
->              raise QAPISemError(
->                  doc.info,
-> @@ -130,10 +146,14 @@ def reject_expr_doc(doc):
->                  % doc.symbol)
->  
->      @staticmethod
-> -    def _include(include, info, incl_fname, previously_included):
-> +    def _include(include: str,
-> +                 info: QAPISourceInfo,
-> +                 incl_fname: str,
-> +                 previously_included: Set[str]
-> +                 ) -> Optional['QAPISchemaParser']:
->          incl_abs_fname = os.path.abspath(incl_fname)
->          # catch inclusion cycle
-> -        inf = info
-> +        inf: Optional[QAPISourceInfo] = info
->          while inf:
->              if incl_abs_fname == os.path.abspath(inf.fname):
->                  raise QAPISemError(info, "inclusion loop for %s" % include)
-> @@ -152,9 +172,9 @@ def _include(include, info, incl_fname, previously_included):
->              ) from err
->  
->      @staticmethod
-> -    def _pragma(name, value, info):
-> +    def _pragma(name: str, value: object, info: QAPISourceInfo) -> None:
-
-value: object isn't wrong, but why not _ExprValue?
-
->  
-> -        def _check(name, value) -> List[str]:
-> +        def _check(name: str, value: object) -> List[str]:
->              if (not isinstance(value, list) or
->                      any([not isinstance(elt, str) for elt in value])):
->                  raise QAPISemError(
-> @@ -176,7 +196,7 @@ def _check(name, value) -> List[str]:
->          else:
+> @@ -197,6 +219,50 @@ def _check(name: str, value: object) -> List[str]:
 >              raise QAPISemError(info, "unknown pragma '%s'" % name)
 >  
-> -    def accept(self, skip_comment=True):
-> +    def accept(self, skip_comment: bool = True) -> None:
+>      def accept(self, skip_comment: bool = True) -> None:
+> +        """
+> +        Read the next lexeme and process it into a token.
+> +
+> +        :Object state:
+> +          :tok: represents the token type. See below for values.
+> +          :pos: is the position of the first character in the lexeme.
+> +          :cursor: is the position of the next character.
+
+Define "position" :)  It's an index in self.src.
+
+self.cursor and self.pos are not used outside accept().  Not sure thet
+belong into interface documentation.
+
+> +          :val: is the variable value of the token, if any.
+
+Missing: self.info, which *is* used outside accept().
+
+> +
+> +        Single-character tokens:
+> +
+> +        These include ``LBRACE``, ``RBRACE``, ``COLON``, ``COMMA``,
+> +        ``LSQB``, and ``RSQB``.
+
+"These include ..." is misleading.  This is the complete list of
+single-character tokens.
+
+> +        ``LSQB``, and ``RSQB``.  ``tok`` holds the single character
+> +        lexeme.  ``val`` is ``None``.
+> +
+> +        Multi-character tokens:
+> +
+> +        - ``COMMENT``:
+> +
+> +          - This token is not normally yielded by the lexer, but it
+> +            can be when ``skip_comment`` is False.
+> +          - ``tok`` is the value ``"#"``.
+> +          - ``val`` is a string including all chars until end-of-line.
+> +
+> +        - ``STRING``:
+> +
+> +          - ``tok`` is the ``"'"``, the single quote.
+> +          - ``value`` is the string, *excluding* the quotes.
+> +
+> +        - ``TRUE`` and ``FALSE``:
+> +
+> +          - ``tok`` is either ``"t"`` or ``"f"`` accordingly.
+> +          - ``val`` is either ``True`` or ``False`` accordingly.
+> +
+> +        - ``NEWLINE`` and ``SPACE``:
+> +
+> +          - These are consumed by the lexer directly. ``line_pos`` and
+> +            ``info`` are advanced when ``NEWLINE`` is encountered.
+> +            ``tok`` is set to ``None`` upon reaching EOF.
+> +
+> +        :param skip_comment:
+> +            When false, return ``COMMENT`` tokens.
+> +            This is used when reading documentation blocks.
+
+The doc string mostly describes possible state on return of accept().
+*Within* accept(), self.tok may be any character.
+
+"Mostly" because item ``NEWLINE`` and ``SPACE`` is about something that
+happens within accept().
+
+Perhaps phrasing it as a postcondition would be clearer:
+
+    Read and store the next token.
+
+    On return, self.tok is the token type, self.info is describes its
+    source location, and self.value is the token's value.
+
+    The possible token types and their values are
+
+    ...
+
+> +        """
 >          while True:
 >              self.tok = self.src[self.cursor]
 >              self.pos = self.cursor
-> @@ -240,8 +260,8 @@ def accept(self, skip_comment=True):
->                                       self.src[self.cursor-1:])
->                  raise QAPIParseError(self, "stray '%s'" % match.group(0))
->  
-> -    def get_members(self):
-> -        expr = OrderedDict()
-> +    def get_members(self) -> 'OrderedDict[str, object]':
-> +        expr: 'OrderedDict[str, object]' = OrderedDict()
->          if self.tok == '}':
->              self.accept()
->              return expr
-> @@ -267,8 +287,8 @@ def get_members(self):
->              if self.tok != "'":
->                  raise QAPIParseError(self, "expected string")
->  
-> -    def get_values(self):
-> -        expr = []
-> +    def get_values(self) -> List[object]:
-> +        expr: List[object] = []
->          if self.tok == ']':
->              self.accept()
->              return expr
-> @@ -284,8 +304,9 @@ def get_values(self):
->                  raise QAPIParseError(self, "expected ',' or ']'")
->              self.accept()
->  
-> -    def get_expr(self, nested):
-> +    def get_expr(self, nested: bool = False) -> _ExprValue:
->          # TODO: Teach mypy that nested=False means the retval is a Dict.
-> +        expr: _ExprValue
->          if self.tok != '{' and not nested:
->              raise QAPIParseError(self, "expected '{'")
->          if self.tok == '{':
-> @@ -303,7 +324,7 @@ def get_expr(self, nested):
->                  self, "expected '{', '[', string, or boolean")
->          return expr
->  
-> -    def get_doc(self, info):
-> +    def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
->          if self.val != '##':
->              raise QAPIParseError(
->                  self, "junk after '##' at start of documentation comment")
 
 
