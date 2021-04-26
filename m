@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A91F36BC59
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 01:49:48 +0200 (CEST)
-Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C947336BC61
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 01:56:42 +0200 (CEST)
+Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbAz4-0006O4-L7
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 19:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40232)
+	id 1lbB5l-0008H0-Rv
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 19:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbAxj-0005fE-V7
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 19:48:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24950)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbB4Z-0007mD-TC
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 19:55:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbAxc-0004dC-SJ
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 19:48:22 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbB4X-0000Xk-6j
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 19:55:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619480895;
+ s=mimecast20190719; t=1619481321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xgmRwqrPUtKQ896zuQi93vZv54yPTw5xyrRXt3xcuCs=;
- b=He8Bxwyj3ibrzG/4crH1cwpy5VKPuEL/BYRkg7mj7eRzShMXxOG6G4fj8WGhcrVAWGynup
- 7PJJ5Heqtm6ZC94dgy7Z04AS5ys7hE2r3iV8TtIsW81CXj8F9TQgHPrUXvJ5ri8AqvGobi
- zcAIS9rLL+kIVzbsUBkzHe33MJaKHC8=
+ bh=k37t0J81xr47pn1kXdiJWXx4YJhK/8ovkhVzHRcWBr0=;
+ b=RMKuOAciYrfgF6w2oTYoviOi5U723CYSJ08A60iS50mvnUXrKjzYu8BfHYKuCCK67C7IML
+ xRjxdtBw3VjU3jMu1gAMlrBlXcfsM8PmkeYz6fCxV2nEZG2MG2envMW4fbxdXeGEQD4qSt
+ euRTFo+dRrjtpR0BwkpZykFNYGE6u10=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-_FmILl2jN4GfCTig_jFtVg-1; Mon, 26 Apr 2021 19:48:13 -0400
-X-MC-Unique: _FmILl2jN4GfCTig_jFtVg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-231-f87O9xHgPXSvakAfBH8s5Q-1; Mon, 26 Apr 2021 19:55:19 -0400
+X-MC-Unique: f87O9xHgPXSvakAfBH8s5Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BBEF18397A8;
- Mon, 26 Apr 2021 23:48:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C37AD801FCE;
+ Mon, 26 Apr 2021 23:55:18 +0000 (UTC)
 Received: from [10.10.112.236] (ovpn-112-236.rdu2.redhat.com [10.10.112.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D1095C234;
- Mon, 26 Apr 2021 23:48:11 +0000 (UTC)
-Subject: Re: [PATCH 11/22] qapi/parser: Rework _check_pragma_list_of_str as a
- TypeGuard
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4ADCE1002EE6;
+ Mon, 26 Apr 2021 23:55:16 +0000 (UTC)
+Subject: Re: [PATCH 12/22] qapi/parser: add type hint annotations
 To: Markus Armbruster <armbru@redhat.com>
 References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-12-jsnow@redhat.com>
- <871ray7dfd.fsf@dusky.pond.sub.org>
+ <20210422030720.3685766-13-jsnow@redhat.com>
+ <87zgxm5yrp.fsf@dusky.pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <83aa318c-1a54-35a2-2cec-8d4503392c2f@redhat.com>
-Date: Mon, 26 Apr 2021 19:48:10 -0400
+Message-ID: <07ad14a5-a1bb-691f-cdc1-93ef82b28e77@redhat.com>
+Date: Mon, 26 Apr 2021 19:55:15 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <871ray7dfd.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <87zgxm5yrp.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,102 +87,27 @@ Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/25/21 8:32 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> TypeGuards wont exist in Python proper until 3.10. Ah well. We can hack
->> up our own by declaring this function to return the type we claim it
->> checks for and using this to safely downcast object -> List[str].
->>
->> In so doing, I bring this function in-line under _pragma so it can use
->> the 'info' object in its closure. Having done this, _pragma also now
->> no longer needs to take a 'self' parameter, so drop it.
->>
->> Rename it to just _check(), to help us out with the line-length -- and
->> now that it's contained within _pragma, it is contextually easier to see
->> how it's used anyway -- especially with types.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->>
->> ---
->>
->> I left (name, value) as args to avoid creating a fully magic "macro",
->> though, I thought this was too weird:
->>
->>      info.pragma.foobar = _check()
->>
->> and it looked more reasonable as:
->>
->>      info.pragma.foobar = _check(name, value)
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/parser.py | 26 +++++++++++++-------------
->>   1 file changed, 13 insertions(+), 13 deletions(-)
->>
->> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->> index 16fd36f8391..d02a134aae9 100644
->> --- a/scripts/qapi/parser.py
->> +++ b/scripts/qapi/parser.py
->> @@ -17,6 +17,7 @@
->>   from collections import OrderedDict
->>   import os
->>   import re
->> +from typing import List
->>   
->>   from .common import match_nofail
->>   from .error import QAPISemError, QAPISourceError
->> @@ -151,28 +152,27 @@ def _include(include, info, incl_fname, previously_included):
->>               ) from err
->>   
->>       @staticmethod
->> -    def _check_pragma_list_of_str(name, value, info):
->> -        if (not isinstance(value, list)
->> -                or any([not isinstance(elt, str) for elt in value])):
->> -            raise QAPISemError(
->> -                info,
->> -                "pragma %s must be a list of strings" % name)
->> +    def _pragma(name, value, info):
->> +
->> +        def _check(name, value) -> List[str]:
->> +            if (not isinstance(value, list) or
->> +                    any([not isinstance(elt, str) for elt in value])):
->> +                raise QAPISemError(
->> +                    info,
->> +                    "pragma %s must be a list of strings" % name)
->> +            return value
->>   
->> -    def _pragma(self, name, value, info):
->>           if name == 'doc-required':
->>               if not isinstance(value, bool):
->>                   raise QAPISemError(info,
->>                                      "pragma 'doc-required' must be boolean")
->>               info.pragma.doc_required = value
->>           elif name == 'command-name-exceptions':
->> -            self._check_pragma_list_of_str(name, value, info)
->> -            info.pragma.command_name_exceptions = value
->> +            info.pragma.command_name_exceptions = _check(name, value)
->>           elif name == 'command-returns-exceptions':
->> -            self._check_pragma_list_of_str(name, value, info)
->> -            info.pragma.command_returns_exceptions = value
->> +            info.pragma.command_returns_exceptions = _check(name, value)
->>           elif name == 'member-name-exceptions':
->> -            self._check_pragma_list_of_str(name, value, info)
->> -            info.pragma.member_name_exceptions = value
->> +            info.pragma.member_name_exceptions = _check(name, value)
->>           else:
->>               raise QAPISemError(info, "unknown pragma '%s'" % name)
-> 
-> While I appreciate the terseness, I'm not sure I like the generic name
-> _check() for checking one of two special cases, namely "list of string".
-> The other case being "boolean".  We could acquire more cases later.
+On 4/25/21 8:34 AM, Markus Armbruster wrote:
+> value: object isn't wrong, but why not _ExprValue?
 > 
 
-Yeah, sorry, just trying to make the line fit ...
+Updated excuse:
 
-The important thing is that we need to make sure this routine returns 
-some known type. It's just that the block down here has very long lines.
+because all the way back outside in _parse, we know that:
 
-Recommendations?
+1. expr is a dict (because of get_expr(False))
+2. expr['pragma'] is also a dict, because we explicitly check it there.
+3. We iterate over the keys; all we know so far is that the values are 
+... something.
+4. _pragma()'s job is to validate the type(s) anyway.
+
+More or less, the _ExprValue type union isn't remembered here -- even 
+though it was once upon a time something returned by get_expr, it 
+happened in a nested call that is now opaque to mypy in this context.
+
+So, it's some combination of "That's all we know about it" and "It 
+happens to be exactly sufficient for this function to operate."
+
+--js
 
 
