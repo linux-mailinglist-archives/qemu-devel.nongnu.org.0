@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED5936B36E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:47:38 +0200 (CEST)
-Received: from localhost ([::1]:40002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCA936B3A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:57:53 +0200 (CEST)
+Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0eG-0006jH-MO
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
+	id 1lb0oC-0002e5-05
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lb0cq-0005UH-5q
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:46:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lb0cm-0007Zi-Ue
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:46:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lb0cj-0000qw-DF
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 12:46:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 189BC2E816F
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 12:46:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lb0nN-00027O-6D
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:57:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lb0nI-0006CI-EB
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:57:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619441813;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/hmzmh+c2sdvX7a9qaEc8dNpAzXlV7tj57Xh5aFswm0=;
+ b=P5co/9O5jTcEsh7Lt6n0yH8HEPf4KqDo8mdCe+xAMKltBRjmJIj+7AbjTqxvbiz7JyTnI4
+ VesWyZF0dxX0jcnof1sowOLSyLj9VIdJctSxZwpJl6g3YE51f7gDLZW2kbe4AAvyMvadEi
+ 1ENv0Fp2RXjY00HU6aWCeecaAOGL8Wc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-0aTFzX9ZOmqPOJoxJx9pkg-1; Mon, 26 Apr 2021 08:56:50 -0400
+X-MC-Unique: 0aTFzX9ZOmqPOJoxJx9pkg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED6751009E27;
+ Mon, 26 Apr 2021 12:56:48 +0000 (UTC)
+Received: from redhat.com (ovpn-113-42.ams2.redhat.com [10.36.113.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B214310016DB;
+ Mon, 26 Apr 2021 12:56:43 +0000 (UTC)
+Date: Mon, 26 Apr 2021 13:56:40 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: socket.c added support for unix domain socket datagram transport
+Message-ID: <YIa4iGzTl+ecfbzH@redhat.com>
+References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
+ <20210423172940.14f48b49@elisabeth> <YIL0Ehmfgc1J9Ci9@redhat.com>
+ <20210423185408.6d5d14f0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Apr 2021 12:39:57 -0000
-From: Laurent Vivier <1900122@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm docker ioctl linux-user video
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: khamenya
-X-Launchpad-Bug-Reporter: vak (khamenya)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
-Message-Id: <161944079836.9868.13621588171586297128.launchpad@soybean.canonical.com>
-Subject: [Bug 1900122] Re: Unsupported ioctl: cmd=0xffffffff80685600 when
- accessing /dev/video* in aarch64 guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 9be50c08500af12f16f29152f7e0109a7e3b5fa1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210423185408.6d5d14f0@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,149 +83,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Ralph Schmieder <ralph.schmieder@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: linux-user
+On Fri, Apr 23, 2021 at 06:54:08PM +0200, Stefano Brivio wrote:
+> On Fri, 23 Apr 2021 17:21:38 +0100
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > The current IP socket impl for the net socket backend uses SOCK_DGRAM,
+> > so from a consistency POV it feels sensible todo the same for UNIX
+> > sockets too.
+> 
+> That's just for UDP though -- it also supports TCP with the "connect="
+> parameter, and given that a stream-oriented AF_UNIX socket behaves very
+> similarly, I recycled that parameter and just extended that bit of
+> documentation.
+> 
+> > None the less, your last point in particular about wanting to know
+> > about disconnects feels valid, and if its useful to you for UNIX
+> > sockets, then it ought to be useful for IP sockets too.
+> > 
+> > IOW, I wonder if  we should use DGRAM for UNIX sockets too by default
+> > to match current behaviour, but then also add a CLI option that allows
+> > choice of DGRAM vs STREAM, and wire that up for IP & UNIX sockets.
+> 
+> The choice would only apply to AF_UNIX (that is, not to TCP and UDP).
+> 
+> The current situation isn't entirely consistent, because for TCP you
+> have "connect=", for UDP it's "udp=" or "mcast=", and I'm extending the
+> "connect=" case to support stream-oriented AF_UNIX, which I think is
+> consistent.
+> 
+> However, to have it symmetric for the datagram-oriented case
+> (UDP and AF_UNIX), ideally it should be changed to
+> "dgram=host:port|path" -- which I guess we can't do.
+> 
+> I see two alternatives:
+> 
+> 1.
+>   - "connect=" (TCP only)
+>   - "unix=path,type=dgram|stream"
+>   - "udp=" (UDP only)
 
--- =
+This doesn't work when you need the UNIX server to be a
+listener socket, as we've no way to express that, without
+adding yet another parameter.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900122
+> 2.
+>   - "connect=" (TCP and AF_UNIX stream)
+>   - "unix_dgram="
+>   - "udp=" (UDP only)
 
-Title:
-  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
-  in aarch64 guest
+Also needs
 
-Status in QEMU:
-  New
+   "listen=" (TCP and AF_UNIX stream)
 
-Bug description:
-  **Description:**
-  Any attempt to work with video in aarch64 architecture emulated on x86_64=
- leads currently to the error "Function not implemented". For example:
+"udp" has a corresponding optional "localaddr" for the sending
+address.
 
-  ```
-  # v4l2-ctl -l --verbose
-  Failed to open /dev/video0: Function not implemented
+Also overloading "connect" means we have to parse the value
+to guess whether its a UNIX path or a IP addr:port pair.
 
-  root@12dd9b6fcfcb:/# ll /dev/video*
-  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
-  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
+I doubt people will have UNIX paths called "127.0.0.1:3333"
+but if we can avoid such ambiguity by design, it is better.
 
-  ```
+> The major thing I like of 2. is that we save some code and a further
+> option, but other than that I don't have a strong preference.
 
-  **Steps to reproduce the issue:**
+The pain we're feeling is largely because the design of the net
+option syntax is one of the oldest parts of QEMU and has only
+been very partially improved upon. It is certainly not using
+QAPI best practice, if we look at this:
 
-  I have a following setup:
+  { 'struct': 'NetdevSocketOptions',
+    'data': {
+      '*fd':        'str',
+      '*listen':    'str',
+      '*connect':   'str',
+      '*mcast':     'str',
+      '*localaddr': 'str',
+      '*udp':       'str' } }
 
-  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
-  Host OS: Ubuntu 20.04.1
+Then some things come to mind
 
-  Guest Architecture: aarch64
-  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
+ - We're not provinding a way to say what kind of "fd" is
+   passed in - is it a UDP/TCP FD, is it a listener or
+   client FD, is it unicast or multicast FD. Though QEMU
+   can interogate the socket to discover this I guess.
 
-  Emulation: quemu-user-static (also tried binfmt)
+ - All of the properties there except "fd" are encoding two values
+   in a single property - address + port. This is an anti-pattern
 
-  Guest OS is running via Docker + QEMU
+ - No support for ipv4=on|off and ipv6=on|off flags to control
+   dual-stack usage.
 
-  ```
-  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
-  enabled
-  interpreter /usr/bin/qemu-aarch64-static
-  flags: F
-  offset 0
-  magic 7f454c460201010000000000000000000200b700
-  mask ffffffffffffff00fffffffffffffffffeffffff
-  ```
+ - Redundancy of separate parameters for "mcast" and "udp" when
+   it is distinguishable based on the address given AFAIR.
 
-  **Results received:**
-  see desrciption.
+ - No support for UNIX sockets
 
-  =
 
-  **Environment:**
+The "right" way to fix most of this long term is a radical change
+to introduce use of the SocketAddress struct.
 
-  * QEMU version: (if you can know it):
+I could envisage something like this
 
-  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
-tu4 all [installed,automatic]
-  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
-stalled,automatic]
-  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
-tomatic]
-  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
-tic]
-  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
-  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  { 'enum': 'NetdevSocketMode',
+    'data':  ['dgram', 'client', 'server'] }
 
-  * Container application: Docker
+  { 'struct': 'NetdevSocketOptions',
+    'data': {
+      'addr':      'SocketAddress',
+      '*localaddr': 'SocketAddress',
+      '*mode':      'NetdevSocketMode' } }
 
-  **Output of `docker version`, `podman version` or `singularity
-  version`**
 
-  ```
-  =E2=9E=9C docker version
-  Client: Docker Engine - Community
-  =C2=A0Version:           20.10.0-beta1
-  =C2=A0API version:       1.40
-  =C2=A0Go version:        go1.13.15
-  =C2=A0Git commit:        ac365d7
-  =C2=A0Built:             Tue Oct 13 18:15:22 2020
-  =C2=A0OS/Arch:           linux/amd64
-  =C2=A0Context:           default
-  =C2=A0Experimental:      true
+ - A TCP client
 
-  Server: Docker Engine - Community
-  =C2=A0Engine:
-  =C2=A0=C2=A0Version:          19.03.13
-  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
-  =C2=A0=C2=A0Go version:       go1.13.15
-  =C2=A0=C2=A0Git commit:       4484c46d9d
-  =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
-  =C2=A0=C2=A0OS/Arch:          linux/amd64
-  =C2=A0=C2=A0Experimental:     false
-  =C2=A0containerd:
-  =C2=A0=C2=A0Version:          1.4.1
-  =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
-  =C2=A0runc:
-  =C2=A0=C2=A0Version:          1.0.0-rc92
-  =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
-  =C2=A0docker-init:
-  =C2=A0=C2=A0Version:          0.18.0
-  =C2=A0=C2=A0GitCommit:        fec3683
+      addr.type = inet
+      addr.host = 192.168.1.1
+      mode = client
 
-  ```
+ - A TCP server on all interfaces
 
-  Guest aarch64 runs in privileged mode:
+      addr.type = inet
+      addr.host = 
+      mode = server
 
-  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
-  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
-  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
+ - A TCP server on a specific interface
 
-  **Additional information:**
-  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
-s a little bit different:
+      addr.type = inet
+      addr.host = 192.168.1.1
+      mode = server
 
-  ```
-  # v4l2-ctl -l
-  Unsupported ioctl: cmd=3D0xffffffff80685600
-  Failed to open /dev/video0: Function not implemented
+ - A TCP server on all interfaces, without IPv4
 
-  ```
+      addr.type = inet
+      addr.host = 
+      addr.has_ipv4 = true
+      addr.ipv4 = false
+      mode = server
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
+ - A UDP unicast transport
+
+      addr.type = inet
+      addr.host = 192.168.1.1
+      mode = dgram
+
+ - A UDP unicast transport with local addr
+
+      addr.type = inet
+      addr.host = 192.168.1.1
+      localaddr.type = inet
+      localaddr.host = 192.168.1.2
+      mode = dgram
+
+ - A UDP multicast transport
+
+     addr.type = inet
+     addr.host = 224.0.23.166
+     mode = dgram
+
+ - A UNIX stream client
+
+      addr.type = unix
+      addr.path = /some/socket
+      mode = client
+
+ - A UNIX stream server
+
+      addr.type = unix
+      addr.path = /some/socket
+      mode = server
+
+ - A UNIX dgram transport
+
+      addr.type = unix
+      addr.path = /some/socket
+      mode = dgram
+
+
+Now, of course you're just interested in adding UNIX socket support.
+
+This design I've outlined above is very much "boiling the ocean".
+Thus I'm not requesting you implement this, unless you have a strong
+desire to get heavily involved in some QEMU refactoring work.
+
+The key question is whether we try to graft UNIX socket support onto
+the existing args ("connect"/"listen") or try to do something more
+explicit.
+
+Given the desire to have both dgram + stream support, I'd be inclined
+to do something more explicit, that's slightly more aligned with a
+possible future best praactice QAPI design
+
+
+IOW, we could take a simplified variant of the above as follows:
+
+
+  { 'enum': 'NetdevSocketMode',
+    'data':  ['dgram', 'client', 'server'] }
+
+  { 'struct': 'NetdevSocketOptions',
+    'data': {
+      '*fd':        'str',
+      '*listen':    'str',
+      '*connect':   'str',
+      '*mcast':     'str',
+      '*localaddr': 'str',
+      '*udp':       'str',
+      '*path':      'str' } }
+      '*localpath': 'str' } }
+
+
+Cli examples:
+
+ * Unix stream client
+
+  -netdev socket,path=/wibble,mode=client
+
+
+ * Unix stream server
+ 
+  -netdev socket,path=/wibble,mode=server
+
+ * Unix datagram 
+
+  -netdev socket,path=/wibble,mode=dgram
+  -netdev socket,path=/wibble,localpath=/fish,mode=dgram
+
+
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
