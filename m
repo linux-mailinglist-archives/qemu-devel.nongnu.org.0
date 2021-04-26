@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1415836B053
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 11:14:57 +0200 (CEST)
-Received: from localhost ([::1]:52328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09AA36B08E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 11:29:11 +0200 (CEST)
+Received: from localhost ([::1]:36708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laxKS-0005CU-4L
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 05:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
+	id 1laxYE-0002dS-Dd
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 05:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1laxJH-0004ZF-GX
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:13:43 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37450)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1laxW0-000223-Hd
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:26:52 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:43749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1laxJF-0005oi-Pp
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:13:43 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id s15so64854547edd.4
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 02:13:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1laxVy-0005Ug-Vg
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:26:52 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ b19-20020a05600c06d3b029014258a636e8so555046wmn.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 02:26:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kLLsckiAgQFO+aCYHXWxeO+RuokAW9erxTUdJ4px4iA=;
- b=Vqw8NPFBa2p8JLl7vEYSY1eOMQpGF3M6N5nFtLfOmrRPVEgZAd9BqWRDTq477V+r7p
- NHECUB6OR/Z9TwgVHjqPVzj4Ay+nIwiqha2dv0fG5lDhoK0/ijvSbCy32eQIZcsEwehL
- sQs0X+A4udIL6kv3vsOI7euauyfSjJV1c6HZpSjMYgZw8mHn4479YQr3rEBvonbgbBw2
- lMc0u/xHm3L+fDpB/RLgMs61gcIb0/AwM4kCKWC+Iy+/9aEC7o42FnJiEdQzUXq8UGUf
- A20CyzXCmveYPQObL5ELlXRWYw7+wyhvF4XQWLLP8EedQw7HDX/kABKzrJHGbIWUiO8G
- 1IDQ==
+ h=user-agent:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kndc5I0iWXxOC+OocBTTDWeDdAiM933JNAcSxmTLSsw=;
+ b=CHVUofWsTeterJ2UW/GATgLQ/YHr14hblB/JLduDdJbIJQN1veSifZgfVBZ0ltreb3
+ wLrTGhlc3CVerqtpUyzfZV4kpDNV5AHZvBkMef5EjxyMJhK/laXSjtUT0E3tTxQAhRz5
+ 9DcbICxGMerNZXGZlpxpeMumbYR/fWrWlDeJkBYJjcg1qIO65xOdqyIYcai7efadSgE3
+ jNNbSuurDaBNCAMMsL7nMd9TXYJHecnt5RgT4MuphOJwjgmN2FCy+BikVIHpuOE5cVOw
+ NfiodjO1N4N61GOtaBCuBuzbKvUM5NwRgTaO/9rM4yEeXmOIeiNslcDsitGLL289UT2j
+ VFdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kLLsckiAgQFO+aCYHXWxeO+RuokAW9erxTUdJ4px4iA=;
- b=fGs0IahJxaOAcVimRcNAUIm0AUIa9ycki6f/ZgbbL+bsDNuhVjC5ztfwdbI9q04jtE
- cuXS/reNxYEdMjnBVSjeSdchoqvMUoP4rfCxorW9bBMRD3uakDalr3oLlFyA43eyulcW
- 8HoBuOlRGgfqfpXj/AgtSBFTgaWU0OfYZAxenI9SIMk2QesWGLzFc/G45jWFo46EWt9c
- lHVKjNnzSmrA2h4E2KCBUK3o97jXEtawLwzz+HAynPwBOX38Wia5ZyXDzh9uoP2su5Wd
- BpErzkNRQ0Ss45Iym9WuvSXYDwy/VbBT9vy5YTVKy93wxW1iyZIDbh/RPE/SrJ9wwe81
- iOow==
-X-Gm-Message-State: AOAM53348XpAmHoORs4GnVxTKPQXFUM8sD6+5O62E0OL0ZYDF2smOkt8
- mcMIP3zTztwx86MokdCxqTDetqhYRqiFQRb62DOjQ0EPOvhkpQ==
-X-Google-Smtp-Source: ABdhPJyifRmuGVDqSZAJ15G6GKclCTRrkLxaN1ZRgjBLH1FSZ7P868DjKML7P/N5m59ciCxTLFaR9HgAJiydqMJN+FU=
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr19865346edu.100.1619428420341; 
- Mon, 26 Apr 2021 02:13:40 -0700 (PDT)
+ h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=kndc5I0iWXxOC+OocBTTDWeDdAiM933JNAcSxmTLSsw=;
+ b=l2hc9xvhBK9GgbePyA8NLzjSaU4aOiVn57Ce4tZK9NlSW3E2ElGg7a2n8NzR7PbLlC
+ Jt1Cwyqu6wuqQ5iQx7u+MTZiAoHJzVfmhykScXBvU8vxDdYVYQUYdXN02fruvJ/jqeHG
+ YRHQjUNsWu8yuqLNpZj/hrJAF121gh46BOJjrNUP8FirI+RztyW6LDQvhMMlZyJ21a8b
+ NT2bKk95OPYwHpJ6kctB82Z4IEkfAEIhRmy/goCmOsBMwtyswTu/JqXwwK+6lcfJIqIe
+ ACCPtg7UdBJ65G03iNkSDaTg5r7eTM/N9lJP/6dvxMnLijlUx8KFlZqkgEkY0391/Iha
+ IknQ==
+X-Gm-Message-State: AOAM533Dc8xMIrNG5oDfOMxyk7Jf/136n1+ekxK2GkPJhWoe5U6x+JEd
+ zYwr27MbMALWnq5dsaWl1Zh6ZQ==
+X-Google-Smtp-Source: ABdhPJyfrfgu8Et12SKPMxSX1YBuhF2ItDrXXMb5gKzCmC80mvhrABBMQIYLzjyQ0QLbGzrfKokgqQ==
+X-Received: by 2002:a1c:e345:: with SMTP id a66mr6180529wmh.109.1619429208490; 
+ Mon, 26 Apr 2021 02:26:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v17sm8174033wrd.89.2021.04.26.02.26.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Apr 2021 02:26:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B2F501FF7E;
+ Mon, 26 Apr 2021 10:26:46 +0100 (BST)
+User-agent: mu4e 1.5.12; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Windows Cirrus Build broken
+Date: Mon, 26 Apr 2021 10:21:18 +0100
+Message-ID: <87fszdtn03.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210423203959.78275-1-imp@bsdimp.com>
- <20210423203959.78275-6-imp@bsdimp.com>
- <YIaAVTahNvQ0+hKc@redhat.com>
-In-Reply-To: <YIaAVTahNvQ0+hKc@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Apr 2021 10:12:42 +0100
-Message-ID: <CAFEAcA86i35cyoXkMp-PtWwOm+ELOR2zvS0Ze_duO6DkWu-q+Q@mail.gmail.com>
-Subject: Re: [PULL 15/24] bsd-user: Fix commentary issues
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,56 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, arichardson@freebsd.org,
- QEMU Developers <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Apr 2021 at 10:01, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> On Fri, Apr 23, 2021 at 02:39:50PM -0600, imp@bsdimp.com wrote:
-> > -#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080  /* previously misimple=
-mented MAP_INHERIT */
-> > -#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100  /* previously unimplem=
-ented MAP_NOEXTEND */
-> > -#define TARGET_FREEBSD_MAP_STACK        0x0400  /* region grows down, =
-like a stack */
-> > -#define TARGET_FREEBSD_MAP_NOSYNC       0x0800  /* page to but do not =
-sync underlying file */
-> > +#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
-> > +                                 /* previously misimplemented MAP_INHE=
-RIT */
-> > +#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
-> > +                                 /* previously unimplemented MAP_NOEXT=
-END */
-> > +#define TARGET_FREEBSD_MAP_STACK        0x0400
-> > +                                 /* region grows down, like a stack */
-> > +#define TARGET_FREEBSD_MAP_NOSYNC       0x0800
-> > +                                 /* page to but do not sync underlying=
- file */
->
-> I find this indented following comment style more ambiguous as to
-> what constant the comment applies to. IMHO would be clearer as
->
->  /* previously misimplemented MAP_INHERIT */
->  #define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
->
->  /* previously unimplemented MAP_NOEXTEND */
->  #define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
->
->  /* region grows down, like a stack */
->  #define TARGET_FREEBSD_MAP_STACK        0x0400
->
->  /* page to but do not sync underlying file */
->  #define TARGET_FREEBSD_MAP_NOSYNC       0x0800
+Hi Yonggang,
 
-Or alternatively decide that this is one of those cases where the coding
-style's "If wrapping the line at 80 columns is obviously less readable and
-more awkward, prefer not to wrap it" advice applies. The lines as they stan=
-d
-are only 95 characters or so long.
+It looks like the Windows msys2 build has been broken a while on Cirrus:
 
-thanks
--- PMM
+Last working:
+
+  https://cirrus-ci.com/task/6239849435889664
+
+First broken:
+
+  https://cirrus-ci.com/task/5344535250206720
+
+History:
+
+  https://cirrus-ci.com/github/qemu/qemu
+
+While the green to red points the finger at Mark's qemu-sparc merge the
+failure looks a lot more fundamental than that (can't find make).
+
+Any chance you could have a look at what's going on?
+
+--=20
+Alex Benn=C3=A9e
 
