@@ -2,112 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D28036AF19
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 09:59:06 +0200 (CEST)
-Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B534336AED5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 09:52:14 +0200 (CEST)
+Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1law92-0001lS-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 03:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50288)
+	id 1law2N-0004pR-IY
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 03:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1law84-0001GP-AO
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 03:58:04 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:42086)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1law7y-0002e3-E7
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 03:58:03 -0400
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20210426075747epoutp02271066fa6707421ef5baeabc383ffa86~5WW1q14bC1200812008epoutp02w
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 07:57:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20210426075747epoutp02271066fa6707421ef5baeabc383ffa86~5WW1q14bC1200812008epoutp02w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1619423867;
- bh=d7Fuv7TjQb1mSY3pkjEIOX2rZkIskFa7R4qUmnlYA48=;
- h=From:To:Cc:Subject:Date:References:From;
- b=onqlT0oZK3v3aRw6yCi3zx7NpnOcSXV41g6K+YlTsIZ9S5GaC4HIgzleMkMuTCcvs
- Er976HGv8DN2dSR28yhw6PJSkeO8x6iT65Xospf6Rygn3ahW9TSvlyVIDEfBTm4sOt
- p9nPmtKLPF6Du0U0S3YzL7q9ZvnR4N89NDXEHQh4=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTP id
- 20210426075747epcas5p43c952e48102573944765689fb2e4cd14~5WW1QsAwV1845418454epcas5p4X;
- Mon, 26 Apr 2021 07:57:47 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 96.2C.09835.A7276806; Mon, 26 Apr 2021 16:57:46 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210426074741epcas5p1ac30fed5ef8c21a1b7e5685920ff6847~5WOBZ5CDf2694226942epcas5p1S;
- Mon, 26 Apr 2021 07:47:41 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210426074741epsmtrp26d91cfbf264b8f175c07384785535913~5WOBZJAoO1166611666epsmtrp2D;
- Mon, 26 Apr 2021 07:47:41 +0000 (GMT)
-X-AuditID: b6c32a4b-7dfff7000000266b-07-6086727a9cf6
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- A1.F7.08163.D1076806; Mon, 26 Apr 2021 16:47:41 +0900 (KST)
-Received: from test-zns.sa.corp.samsungelectronics.net (unknown
- [107.110.206.5]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210426074740epsmtip11bc1a6b86ba043043da54c6af36b902f~5WOAET0bI2617826178epsmtip1i;
- Mon, 26 Apr 2021 07:47:40 +0000 (GMT)
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: fix csi field for cns 0x00 and 0x11
-Date: Mon, 26 Apr 2021 13:16:50 +0530
-Message-Id: <20210426074650.24245-1-anaidu.gollu@samsung.com>
-X-Mailer: git-send-email 2.30.0-rc0
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1law0W-0003j0-RG
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 03:50:16 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1law0M-0006al-UT
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 03:50:16 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id h4so45672088wrt.12
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 00:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=fJy3fb8xMMUq7o8n4LIIz1JxACtjeeuertyNW5LUwGo=;
+ b=CmyNdPGgMzCB5PQlLtLUU2smr4tan4x9O1j64p/ZLP9UFHNgezgvCreiQXonqibbE8
+ 3TyFXyjUItWZsIba+5fRe+3tcF/CJZrT3cH1PiJVRw+Xvr5c4quj+GRPbFN3CRuaYtZA
+ 4Cra+DaWnv74Dpjkep+pL2IOYHwvEcsVpmM/y+K/krUa93HlaK1akukYhKxgIf9OYTdA
+ 0cNb0x2Iubh4gIzS04JM2luhq16L5oArT7kiLr25mguB/eM26k6KMrgc3ed6ZD7tqbdn
+ KU8by8Zx81xgOK+UwDl6wSBBdhhfrGEle3TraUeflbgIsyFFNJmyW5R9UFDSj5dGsMCV
+ f0hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fJy3fb8xMMUq7o8n4LIIz1JxACtjeeuertyNW5LUwGo=;
+ b=naA9pm0SY/a2W/LYumA+JA/1qlombUdx5rMvfi4iDaMrX+yBzoRb8LWn1b52b11QXa
+ z1CetJRqdflmqwrzweT9PVDiGw6V+0UGojj/gKvl5Kc2nqWXvSBLOtT+qpi50q2PEYOx
+ ZTooRMSE1YsM94tY+bHlObZrVnCS854r50+EyhfliM/r6Egt4pYtrkoTWmY32si97nbZ
+ 1/BgFNSpMMA889O+sdE5J5rWww9GOPXRq2FVlHioWiUB6yfW62L41vjUH6QtIPdGa1xj
+ tkUX5bPrw6ph7C0T+ZgELiIOctLIRD2jZ4qRI84QkdRd3TIcJXrrNdftL+9HZGYnMKJN
+ WfFQ==
+X-Gm-Message-State: AOAM531ZCI4unVghOS37msUmYMS1YQuN8yP6S2bvLeJkgWeEc7BByWY/
+ AlO4GMlklhXZf0ivGMpt+my0zQ==
+X-Google-Smtp-Source: ABdhPJydm7E77OBju5EecXX+4wJQzhZyjQXln9n3WSYGImNfRVhp4hQyM9wi5tjcVF9PuPds3x7hlw==
+X-Received: by 2002:a5d:4e81:: with SMTP id e1mr21375010wru.305.1619423402232; 
+ Mon, 26 Apr 2021 00:50:02 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id f7sm19585971wrp.48.2021.04.26.00.50.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Apr 2021 00:50:01 -0700 (PDT)
+Date: Mon, 26 Apr 2021 09:49:44 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 1/2] amd_iommu: Fix pte_override_page_mask()
+Message-ID: <YIZwmNrcYu7pzj9z@myrica>
+References: <20210422222429.183108-1-mst@redhat.com>
+ <20210422222429.183108-2-mst@redhat.com>
+ <CAFEAcA9LLh7kkqujLpiXjRgRkua77kLAv=MbeG8yq3NP-w8uyg@mail.gmail.com>
+ <YILNH1DDTTV6TcFO@myrica>
+ <CAFEAcA8ijMSO=fEtn3GUGaumMjncz0hDv4e2O7XFSmMXDSiTjQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprEKsWRmVeSWpSXmKPExsWy7bCmpm5VUVuCwadT1havdx5ntriy/zyj
- xf6D31gtJh26xmix5GKqxbxbyhaz3rWzWRzv3cFi8XrSf1YHTo8f59rZPM7tOM/usWlVJ5vH
- k2ubmTze77vK5tG3ZRVjAFsUl01Kak5mWWqRvl0CV8bEhy/YCto5K9ZducDWwNjB3sXIwSEh
- YCKx5ZBEFyMXh5DAbkaJU98us3QxcgI5nxgl5h6OhbA/M0pcnaILYoPU37pzjBkivotR4swK
- a4jmViaJqVe7mEASbAJGErPfvmEEsUUEJCV+d50Ga2AG2fBtrg6ILSzgLDFj/gN2EJtFQFXi
- 5M53YPW8ArYSHTduskIsU5ZY+PAgK0RcUOLkzCcsEHPkJZq3zmYGWSwh8Ihd4vbGV0wQDS4S
- G44tZIawhSVeHd/CDmFLSXx+t5eti5EdyK6WOFwE0drBKHHs8gY2iBJ7iX/PpjGCAoVZQFNi
- /S59iLCsxNRT65gg1vJJ9P5+ArWJV2LHPBhbTWLBre9Qm2QkZv65DXW+h8Tjz//ZIGEVK3F6
- 6THmCYzys5B8MwvJN7MQNi9gZF7FKJlaUJybnlpsWmCcl1quV5yYW1yal66XnJ+7iRGcbLS8
- dzA+evBB7xAjEwfjIUYJDmYlEV62Xa0JQrwpiZVVqUX58UWlOanFhxilOViUxHkFnasThATS
- E0tSs1NTC1KLYLJMHJxSDUycrtt902dm7vHqP3nbk7GGVVw/5/W94vhb/3zWTW9YNY9bs7Sd
- lXv9Tuagui0iz9YsZHie+XN1Zu0a7x2Sq9uDdZ+ufr+gJbP+6QymG8E3b1qxJLM43mOa+ejx
- Cgu2COaulK2Jom9+6fn/5k6VrPokaLlRWybJjWumjVNgm0yde6bJpdkzFk+p25oXHpRkljHf
- z+Hqjg9PNnydvHKRxmO/iE7hm+HsMgw9hlPu2SlWbp9Xc2mDw8uSZceYJyUvVNn38/ByA/d5
- zGc/bxHzWKFydWWGZIddQ+ynqteJj9b1le/eyipVdm15378vT78t1Lv0vyNgg7zwuoqFDg+u
- VldPOn4mWfw4y9Hut5Ms3tsosRRnJBpqMRcVJwIAV59ekKUDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHLMWRmVeSWpSXmKPExsWy7bCSnK5sQVuCwYmtihavdx5ntriy/zyj
- xf6D31gtJh26xmix5GKqxbxbyhaz3rWzWRzv3cFi8XrSf1YHTo8f59rZPM7tOM/usWlVJ5vH
- k2ubmTze77vK5tG3ZRVjAFsUl01Kak5mWWqRvl0CV8bEhy/YCto5K9ZducDWwNjB3sXIySEh
- YCJx684x5i5GLg4hgR2MEjO/X2WCSMhI/Do1lRnCFpZY+e85O0RRM5PE6XetrCAJNgEjidlv
- 3zCC2CICkhK/u06DTWIWOMoocbl9MgtIQljAWWLG/Adg61gEVCVO7nwH1sArYCvRceMmK8QG
- ZYmFDw+yQsQFJU7OfALWyywgL9G8dTbzBEa+WUhSs5CkFjAyrWKUTC0ozk3PLTYsMMpLLdcr
- TswtLs1L10vOz93ECA5iLa0djHtWfdA7xMjEwXiIUYKDWUmEl21Xa4IQb0piZVVqUX58UWlO
- avEhRmkOFiVx3gtdJ+OFBNITS1KzU1MLUotgskwcnFINTPryMt8L72z6J7P25qv714L//OXi
- iOUOMaso2v08OchpuqN8ctEVM+3eOSFri1cyllqZRDAd6/525XMry/MLpy0eBrLwJbNn7kgv
- WXtBTGo7u3CHdr21oetD5ZNqz0TOOyowq+wrSuh/rtNmmW1k16vL0iWoqHzhSazMCz0TIZ3c
- zfd4VS4Iv30b7X0662n129e3xWU91zZvfXXB1/pMf6gFv69QWnnMYbMJfu4h3bMD38vMnbbb
- nFfwQsraVNW9XPxizkkFMXHTFMXTF3ad63CU6r/qec/rdBpXzYKft2OO6a1a/bXhlcvPr5vL
- DkzrPfhDbYk/b9xUNs3OX4vuJ3X4uzEu0xYokQsuVlBiKc5INNRiLipOBAD6OHTq0QIAAA==
-X-CMS-MailID: 20210426074741epcas5p1ac30fed5ef8c21a1b7e5685920ff6847
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210426074741epcas5p1ac30fed5ef8c21a1b7e5685920ff6847
-References: <CGME20210426074741epcas5p1ac30fed5ef8c21a1b7e5685920ff6847@epcas5p1.samsung.com>
-Received-SPF: pass client-ip=203.254.224.25;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout2.samsung.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8ijMSO=fEtn3GUGaumMjncz0hDv4e2O7XFSmMXDSiTjQ@mail.gmail.com>
+X-TUID: gHv083ZxxocX
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,46 +87,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
- its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per the TP 4056d Namespace types CNS 0x00 and CNS 0x11
-CSI field shouldn't use but it is being used for these two
-Identify command CNS values, fix that.
+On Fri, Apr 23, 2021 at 05:11:33PM +0100, Peter Maydell wrote:
+> > > Jean-Philippe, do you know if this is a regression since 5.2?
+> >
+> > I don't think so, I can reproduce it with v5.2.0.
+> 
+> OK, thanks; I think I favour not putting this into rc5, then.
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
----
- hw/nvme/ctrl.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+No problem, please let me know if I should resend after the next release
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 2e7498a73e..1657b1d04a 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -4244,11 +4244,16 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
-         }
-     }
- 
--    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
--        return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
-+    if (active && nvme_csi_has_nvm_support(ns)) {
-+        goto out;
-+    } else if (!active && ns->csi == NVME_CSI_NVM) {
-+        goto out;
-+    } else {
-+        return NVME_INVALID_CMD_SET | NVME_DNR;
-     }
- 
--    return NVME_INVALID_CMD_SET | NVME_DNR;
-+out:
-+    return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
- }
- 
- static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
--- 
-2.17.1
-
+Thanks,
+Jean
 
