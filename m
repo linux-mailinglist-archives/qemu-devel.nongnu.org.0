@@ -2,78 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EE436B958
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 20:47:45 +0200 (CEST)
-Received: from localhost ([::1]:46126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF9936B975
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 20:55:58 +0200 (CEST)
+Received: from localhost ([::1]:49014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb6Gm-0004Ak-FC
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 14:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
+	id 1lb6Oi-0005mL-Sa
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 14:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb6F4-0003dU-DF
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 14:45:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb6F1-0003Tp-DB
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 14:45:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619462754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y0HH0VQT1ML4NiIKDWovBcU3nT6fWroso5sF2SwlS20=;
- b=hwzu0kCb2tG3ECQ96OmKfRuP3+eXzhopL7BKhhXYFPH4dQU2fWZ4dLMfVbKZ4CPDvdF6FN
- ZUjo8xRhn3VNtmz/zJpli6qdrH83Cmp3M2uJV6zOuLRwn3A5hXO4G194MFHgipYvJIFBaM
- HXt+TonZxIUkHlUmNaV90x5qWor54Ro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-UKOhrgHAP1-R0RnG_rhb4w-1; Mon, 26 Apr 2021 14:45:52 -0400
-X-MC-Unique: UKOhrgHAP1-R0RnG_rhb4w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3FD9801814;
- Mon, 26 Apr 2021 18:45:50 +0000 (UTC)
-Received: from [10.10.120.13] (ovpn-120-13.rdu2.redhat.com [10.10.120.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 921745D6A1;
- Mon, 26 Apr 2021 18:45:49 +0000 (UTC)
-Subject: Re: [PATCH] qapi: deprecate drive-backup
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210423125900.3640-1-vsementsov@virtuozzo.com>
- <9a0e7805-c6ae-b55f-431c-4c61a1ab746e@redhat.com>
- <cc17a05f-c563-03cc-4e32-91b41fa87b46@virtuozzo.com>
- <YIcA9WSSk+mATNbC@redhat.com>
- <03c2bb38-561d-df2f-80cb-61838fa10d4f@redhat.com>
- <a724c7c8-96e4-abea-6d83-379e84768df7@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <4160dc9b-31dd-be11-f7f4-f997b578ef48@redhat.com>
-Date: Mon, 26 Apr 2021 14:45:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <a724c7c8-96e4-abea-6d83-379e84768df7@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lb6Li-0005CV-S8; Mon, 26 Apr 2021 14:52:51 -0400
+Received: from [201.28.113.2] (port=56329 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lb6Le-0007V3-PC; Mon, 26 Apr 2021 14:52:50 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 26 Apr 2021 15:52:43 -0300
+Received: from eldorado.org.br (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTP id 16DCC80110A;
+ Mon, 26 Apr 2021 15:52:43 -0300 (-03)
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4] target/ppc: code motion from translate_init.c.inc to
+ gdbstub.c
+Date: Mon, 26 Apr 2021 15:47:06 -0300
+Message-Id: <20210426184706.48040-1-bruno.larsen@eldorado.org.br>
+X-Mailer: git-send-email 2.17.1
+X-OriginalArrivalTime: 26 Apr 2021 18:52:43.0264 (UTC)
+ FILETIME=[56F9D800:01D73ACD]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,206 +51,595 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
- kchamart@redhat.com, libvir-list@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, nshirokovskiy@virtuozzo.com, den@openvz.org
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/26/21 2:41 PM, Vladimir Sementsov-Ogievskiy wrote:
-> 26.04.2021 21:30, John Snow wrote:
->> On 4/26/21 2:05 PM, Daniel P. Berrangé wrote:
->>> On Mon, Apr 26, 2021 at 09:00:36PM +0300, Vladimir 
->>> Sementsov-Ogievskiy wrote:
->>>> 26.04.2021 20:34, John Snow wrote:
->>>>> On 4/23/21 8:59 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> Modern way is using blockdev-add + blockdev-backup, which provides a
->>>>>> lot more control on how target is opened.
->>>>>>
->>>>>> As example of drive-backup problems consider the following:
->>>>>>
->>>>>> User of drive-backup expects that target will be opened in the same
->>>>>> cache and aio mode as source. Corresponding logic is in
->>>>>> drive_backup_prepare(), where we take bs->open_flags of source.
->>>>>>
->>>>>> It works rather bad if source was added by blockdev-add. Assume 
->>>>>> source
->>>>>> is qcow2 image. On blockdev-add we should specify aio and cache 
->>>>>> options
->>>>>> for file child of qcow2 node. What happens next:
->>>>>>
->>>>>> drive_backup_prepare() looks at bs->open_flags of qcow2 source node.
->>>>>> But there no BDRV_O_NOCAHE neither BDRV_O_NATIVE_AIO: 
->>>>>> BDRV_O_NOCAHE is
->>>>>> places in bs->file->bs->open_flags, and BDRV_O_NATIVE_AIO is nowhere,
->>>>>> as file-posix parse options and simply set s->use_linux_aio.
->>>>>>
->>>>>
->>>>> No complaints from me, especially if Virtuozzo is on board. I would 
->>>>> like to see some documentation changes alongside this deprecation, 
->>>>> though.
->>>>>
->>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy 
->>>>>> <vsementsov@virtuozzo.com>
->>>>>> ---
->>>>>>
->>>>>> Hi all! I remember, I suggested to deprecate drive-backup some 
->>>>>> time ago,
->>>>>> and nobody complain.. But that old patch was inside the series with
->>>>>> other more questionable deprecations and it did not landed.
->>>>>>
->>>>>> Let's finally deprecate what should be deprecated long ago.
->>>>>>
->>>>>> We now faced a problem in our downstream, described in commit 
->>>>>> message.
->>>>>> In downstream I've fixed it by simply enabling O_DIRECT and linux_aio
->>>>>> unconditionally for drive_backup target. But actually this just shows
->>>>>> that using drive-backup in blockdev era is a bad idea. So let's 
->>>>>> motivate
->>>>>> everyone (including Virtuozzo of course) to move to new interfaces 
->>>>>> and
->>>>>> avoid problems with all that outdated option inheritance.
->>>>>>
->>>>>>    docs/system/deprecated.rst | 5 +++++
->>>>>>    qapi/block-core.json       | 5 ++++-
->>>>>>    2 files changed, 9 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
->>>>>> index 80cae86252..b6f5766e17 100644
->>>>>> --- a/docs/system/deprecated.rst
->>>>>> +++ b/docs/system/deprecated.rst
->>>>>> @@ -186,6 +186,11 @@ Use the more generic commands 
->>>>>> ``block-export-add`` and ``block-export-del``
->>>>>>    instead.  As part of this deprecation, where ``nbd-server-add`` 
->>>>>> used a
->>>>>>    single ``bitmap``, the new ``block-export-add`` uses a list of 
->>>>>> ``bitmaps``.
->>>>>> +``drive-backup`` (since 6.0)
->>>>>> +''''''''''''''''''''''''''''
->>>>>> +
->>>>>> +Use ``blockdev-backup`` in pair with ``blockdev-add`` instead.
->>>>>> +
->>>>>
->>>>> 1) Let's add a sphinx reference to 
->>>>> https://qemu-project.gitlab.io/qemu/interop/live-block-operations.html#live-disk-backup-drive-backup-and-blockdev-backup 
->>>>>
->>>>>
->>>>>
->>>>> 2) Just a thought, not a request: We also may wish to update 
->>>>> https://qemu-project.gitlab.io/qemu/interop/bitmaps.html to use the 
->>>>> new, preferred method. However, this doc is a bit old and is in 
->>>>> need of an overhaul anyway (Especially to add the NBD pull 
->>>>> workflow.) Since the doc is in need of an overhaul anyway, can we 
->>>>> ask Kashyap to help us here, if he has time?
->>>>>
->>>>>
->>>>> 3) Let's add a small explanation here that outlines the differences 
->>>>> in using these two commands. Here's a suggestion:
->>>>>
->>>>> This change primarily separates the creation/opening process of the 
->>>>> backup target with explicit, separate steps. BlockdevBackup uses 
->>>>> mostly the same arguments as DriveBackup, except the "format" and 
->>>>> "mode" options are removed in favor of using explicit 
->>>>> "blockdev-create" and "blockdev-add" calls.
->>>>>
+All the code related to gdb has been moved from translate_init.c.inc
+file to the gdbstub.c file, where it makes more sense.
 
-(Here, I accidentally used the names of the argument objects instead of 
-the names of the commands. It's likely better to spell out the names of 
-the commands instead.)
+Version 4 fixes the omission of internal.h in gdbstub, mentioned in
+<87sg3d2gf5.fsf@linux.ibm.com>, and the extra blank line.
 
->>>>> The "target" argument changes semantics. It no longer accepts 
->>>>> filenames, and will now additionally accept arbitrary node names in 
->>>>> addition to device names.
->>>>>
->>>>>
->>>>> 4) Also not a request: If we want to go above and beyond, it might 
->>>>> be nice to spell out the exact steps required to transition from 
->>>>> the old interface to the new one. Here's a (hasty) suggestion for 
->>>>> how that might look:
->>>>>
->>>>> - The MODE argument is deprecated.
->>>>>    - "existing" is replaced by using "blockdev-add" commands.
->>>>>    - "absolute-paths" is replaced by using "blockdev-add" and
->>>>>      "blockdev-create" commands.
->>>>>
->>>>> - The FORMAT argument is deprecated.
->>>>>    - Format information is given to "blockdev-add"/"blockdev-create".
->>>>>
->>>>> - The TARGET argument has new semantics:
->>>>>    - Filenames are no longer supported, use 
->>>>> blockdev-add/blockdev-create
->>>>>      as necessary instead.
->>>>>    - Device targets remain supported.
->>>>>
->>>>>
->>>>> Example:
->>>>>
->>>>> drive-backup $ARGS format=$FORMAT mode=$MODE target=$FILENAME becomes:
->>>>>
->>>>> (taking some liberties with syntax to just illustrate the idea ...)
->>>>>
->>>>> blockdev-create options={
->>>>>      "driver": "file",
->>>>>      "filename": $FILENAME,
->>>>>      "size": 0,
->>>>> }
->>>>>
->>>>> blockdev-add arguments={
->>>>>      "driver": "file",
->>>>>      "filename": $FILENAME,
->>>>>      "node-name": "Example_Filenode0"
->>>>> }
->>>>>
->>>>> blockdev-create options={
->>>>>      "driver": $FORMAT,
->>>>>      "file": "Example_Filenode0",
->>>>>      "size": $SIZE,
->>>>> }
->>>>>
->>>>> blockdev-add arguments={
->>>>>      "driver": $FORMAT,
->>>>>      "file": "Example_Filenode0",
->>>>>      "node-name": "Example_Formatnode0",
->>>>> }
->>>>>
->>>>> blockdev-backup arguments={
->>>>>      $ARGS ...,
->>>>>      "target": "Example_Formatnode0",
->>>>> }
->>>>>
->>>>
->>>> Good ideas. Hmm. Do you think that the whole explanation with 
->>>> examples should be here, in docs/system/deprecated.rst ? Seems too 
->>>> big in comparison with other deprecations
->>>
->>> No, the deprecations entry should be short.
->>>
->>> If the replacement is so complex that it requires us to provide 
->>> examples,
->>> that's a sign that the replacement is insufficiently documented in its
->>> own right. IOW, add all this docs info to a suitable place in the main
->>> QEMU documentation, and just link to that from the deprecations page.
->>>
->>
->> Agree with Dan, keep the deprec section short.
->>
->> Perhaps we can add an example to the live block ops doc that shows an 
->> example of how to transition and link to that example from here.
->>
-> 
-> OK, will do
-> 
-> 
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Suggested-by: Fabiano Rosas <farosas@linux.ibm.com>
+---
+ target/ppc/gdbstub.c            | 258 ++++++++++++++++++++++++++++++++
+ target/ppc/internal.h           |   5 +
+ target/ppc/translate_init.c.inc | 254 +------------------------------
+ 3 files changed, 264 insertions(+), 253 deletions(-)
 
-Thanks! I'm sure Eric and I can help copy-edit. It will be nice to get 
-rid of a confusing, mostly duplicated interface.
-
-(Even if it is very convenient ...)
-
-It's likely we'll want some iotests functions to help streamline the 
-process. Important things for me to consider while working on an API 
-helper library, too.
-
---js
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index c28319fb97..94a7273ee0 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -20,6 +20,8 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
++#include "exec/helper-proto.h"
++#include "internal.h"
+ 
+ static int ppc_gdb_register_len_apple(int n)
+ {
+@@ -387,3 +389,259 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, const char *xml_name)
+     return NULL;
+ }
+ #endif
++
++static bool avr_need_swap(CPUPPCState *env)
++{
++#ifdef HOST_WORDS_BIGENDIAN
++    return msr_le;
++#else
++    return !msr_le;
++#endif
++}
++
++#if !defined(CONFIG_USER_ONLY)
++static int gdb_find_spr_idx(CPUPPCState *env, int n)
++{
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
++        ppc_spr_t *spr = &env->spr_cb[i];
++
++        if (spr->name && spr->gdb_id == n) {
++            return i;
++        }
++    }
++    return -1;
++}
++
++static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    int reg;
++    int len;
++
++    reg = gdb_find_spr_idx(env, n);
++    if (reg < 0) {
++        return 0;
++    }
++
++    len = TARGET_LONG_SIZE;
++    gdb_get_regl(buf, env->spr[reg]);
++    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
++    return len;
++}
++
++static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    int reg;
++    int len;
++
++    reg = gdb_find_spr_idx(env, n);
++    if (reg < 0) {
++        return 0;
++    }
++
++    len = TARGET_LONG_SIZE;
++    ppc_maybe_bswap_register(env, mem_buf, len);
++    env->spr[reg] = ldn_p(mem_buf, len);
++
++    return len;
++}
++#endif
++
++static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    uint8_t *mem_buf;
++    if (n < 32) {
++        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
++        mem_buf = gdb_get_reg_ptr(buf, 8);
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        return 8;
++    }
++    if (n == 32) {
++        gdb_get_reg32(buf, env->fpscr);
++        mem_buf = gdb_get_reg_ptr(buf, 4);
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
++        return 8;
++    }
++    if (n == 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    uint8_t *mem_buf;
++
++    if (n < 32) {
++        ppc_avr_t *avr = cpu_avr_ptr(env, n);
++        if (!avr_need_swap(env)) {
++            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
++        } else {
++            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
++        }
++        mem_buf = gdb_get_reg_ptr(buf, 16);
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
++        return 16;
++    }
++    if (n == 32) {
++        gdb_get_reg32(buf, helper_mfvscr(env));
++        mem_buf = gdb_get_reg_ptr(buf, 4);
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        return 4;
++    }
++    if (n == 33) {
++        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
++        mem_buf = gdb_get_reg_ptr(buf, 4);
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++        ppc_avr_t *avr = cpu_avr_ptr(env, n);
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
++        if (!avr_need_swap(env)) {
++            avr->u64[0] = ldq_p(mem_buf);
++            avr->u64[1] = ldq_p(mem_buf + 8);
++        } else {
++            avr->u64[1] = ldq_p(mem_buf);
++            avr->u64[0] = ldq_p(mem_buf + 8);
++        }
++        return 16;
++    }
++    if (n == 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        helper_mtvscr(env, ldl_p(mem_buf));
++        return 4;
++    }
++    if (n == 33) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        env->spr[SPR_VRSAVE] = (target_ulong)ldl_p(mem_buf);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    if (n < 32) {
++#if defined(TARGET_PPC64)
++        gdb_get_reg32(buf, env->gpr[n] >> 32);
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
++#else
++        gdb_get_reg32(buf, env->gprh[n]);
++#endif
++        return 4;
++    }
++    if (n == 32) {
++        gdb_get_reg64(buf, env->spe_acc);
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
++        return 8;
++    }
++    if (n == 33) {
++        gdb_get_reg32(buf, env->spe_fscr);
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++#if defined(TARGET_PPC64)
++        target_ulong lo = (uint32_t)env->gpr[n];
++        target_ulong hi;
++
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++
++        hi = (target_ulong)ldl_p(mem_buf) << 32;
++        env->gpr[n] = lo | hi;
++#else
++        env->gprh[n] = ldl_p(mem_buf);
++#endif
++        return 4;
++    }
++    if (n == 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        env->spe_acc = ldq_p(mem_buf);
++        return 8;
++    }
++    if (n == 33) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        env->spe_fscr = ldl_p(mem_buf);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    if (n < 32) {
++        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
++        return 8;
++    }
++    return 0;
++}
++
++static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        *cpu_vsrl_ptr(env, n) = ldq_p(mem_buf);
++        return 8;
++    }
++    return 0;
++}
++
++gchar *ppc_gdb_arch_name(CPUState *cs)
++{
++#if defined(TARGET_PPC64)
++    return g_strdup("powerpc:common64");
++#else
++    return g_strdup("powerpc:common");
++#endif
++}
++
++void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *pcc)
++{
++    if (pcc->insns_flags & PPC_FLOAT) {
++        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_reg,
++                                 33, "power-fpu.xml", 0);
++    }
++    if (pcc->insns_flags & PPC_ALTIVEC) {
++        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
++                                 34, "power-altivec.xml", 0);
++    }
++    if (pcc->insns_flags & PPC_SPE) {
++        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
++                                 34, "power-spe.xml", 0);
++    }
++    if (pcc->insns_flags2 & PPC2_VSX) {
++        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
++                                 32, "power-vsx.xml", 0);
++    }
++#ifndef CONFIG_USER_ONLY
++    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
++                             pcc->gdb_num_sprs, "power-spr.xml", 0);
++#endif
++}
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index d547448065..c401658e8d 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -215,4 +215,9 @@ void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                  MMUAccessType access_type,
+                                  int mmu_idx, uintptr_t retaddr);
++
++/* gdbstub.c */
++void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
++gchar *ppc_gdb_arch_name(CPUState *cs);
++
+ #endif /* PPC_INTERNAL_H */
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index c03a7c4f52..80fef0b90d 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -9895,230 +9895,6 @@ static void dump_ppc_insns(CPUPPCState *env)
+     }
+ }
+ #endif
+-
+-static bool avr_need_swap(CPUPPCState *env)
+-{
+-#ifdef HOST_WORDS_BIGENDIAN
+-    return msr_le;
+-#else
+-    return !msr_le;
+-#endif
+-}
+-
+-#if !defined(CONFIG_USER_ONLY)
+-static int gdb_find_spr_idx(CPUPPCState *env, int n)
+-{
+-    int i;
+-
+-    for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
+-        ppc_spr_t *spr = &env->spr_cb[i];
+-
+-        if (spr->name && spr->gdb_id == n) {
+-            return i;
+-        }
+-    }
+-    return -1;
+-}
+-
+-static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    int reg;
+-    int len;
+-
+-    reg = gdb_find_spr_idx(env, n);
+-    if (reg < 0) {
+-        return 0;
+-    }
+-
+-    len = TARGET_LONG_SIZE;
+-    gdb_get_regl(buf, env->spr[reg]);
+-    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
+-    return len;
+-}
+-
+-static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    int reg;
+-    int len;
+-
+-    reg = gdb_find_spr_idx(env, n);
+-    if (reg < 0) {
+-        return 0;
+-    }
+-
+-    len = TARGET_LONG_SIZE;
+-    ppc_maybe_bswap_register(env, mem_buf, len);
+-    env->spr[reg] = ldn_p(mem_buf, len);
+-
+-    return len;
+-}
+-#endif
+-
+-static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    uint8_t *mem_buf;
+-    if (n < 32) {
+-        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
+-        mem_buf = gdb_get_reg_ptr(buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        return 8;
+-    }
+-    if (n == 32) {
+-        gdb_get_reg32(buf, env->fpscr);
+-        mem_buf = gdb_get_reg_ptr(buf, 4);
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
+-        return 8;
+-    }
+-    if (n == 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        helper_store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    uint8_t *mem_buf;
+-
+-    if (n < 32) {
+-        ppc_avr_t *avr = cpu_avr_ptr(env, n);
+-        if (!avr_need_swap(env)) {
+-            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
+-        } else {
+-            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
+-        }
+-        mem_buf = gdb_get_reg_ptr(buf, 16);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+-        return 16;
+-    }
+-    if (n == 32) {
+-        gdb_get_reg32(buf, helper_mfvscr(env));
+-        mem_buf = gdb_get_reg_ptr(buf, 4);
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        return 4;
+-    }
+-    if (n == 33) {
+-        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
+-        mem_buf = gdb_get_reg_ptr(buf, 4);
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-        ppc_avr_t *avr = cpu_avr_ptr(env, n);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+-        if (!avr_need_swap(env)) {
+-            avr->u64[0] = ldq_p(mem_buf);
+-            avr->u64[1] = ldq_p(mem_buf + 8);
+-        } else {
+-            avr->u64[1] = ldq_p(mem_buf);
+-            avr->u64[0] = ldq_p(mem_buf + 8);
+-        }
+-        return 16;
+-    }
+-    if (n == 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        helper_mtvscr(env, ldl_p(mem_buf));
+-        return 4;
+-    }
+-    if (n == 33) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        env->spr[SPR_VRSAVE] = (target_ulong)ldl_p(mem_buf);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    if (n < 32) {
+-#if defined(TARGET_PPC64)
+-        gdb_get_reg32(buf, env->gpr[n] >> 32);
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+-#else
+-        gdb_get_reg32(buf, env->gprh[n]);
+-#endif
+-        return 4;
+-    }
+-    if (n == 32) {
+-        gdb_get_reg64(buf, env->spe_acc);
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+-        return 8;
+-    }
+-    if (n == 33) {
+-        gdb_get_reg32(buf, env->spe_fscr);
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-#if defined(TARGET_PPC64)
+-        target_ulong lo = (uint32_t)env->gpr[n];
+-        target_ulong hi;
+-
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-
+-        hi = (target_ulong)ldl_p(mem_buf) << 32;
+-        env->gpr[n] = lo | hi;
+-#else
+-        env->gprh[n] = ldl_p(mem_buf);
+-#endif
+-        return 4;
+-    }
+-    if (n == 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        env->spe_acc = ldq_p(mem_buf);
+-        return 8;
+-    }
+-    if (n == 33) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        env->spe_fscr = ldl_p(mem_buf);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    if (n < 32) {
+-        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+-        return 8;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        *cpu_vsrl_ptr(env, n) = ldq_p(mem_buf);
+-        return 8;
+-    }
+-    return 0;
+-}
+-
+ static int ppc_fixup_cpu(PowerPCCPU *cpu)
+ {
+     CPUPPCState *env = &cpu->env;
+@@ -10174,26 +9950,7 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
+     }
+     init_ppc_proc(cpu);
+ 
+-    if (pcc->insns_flags & PPC_FLOAT) {
+-        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_reg,
+-                                 33, "power-fpu.xml", 0);
+-    }
+-    if (pcc->insns_flags & PPC_ALTIVEC) {
+-        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
+-                                 34, "power-altivec.xml", 0);
+-    }
+-    if (pcc->insns_flags & PPC_SPE) {
+-        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
+-                                 34, "power-spe.xml", 0);
+-    }
+-    if (pcc->insns_flags2 & PPC2_VSX) {
+-        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
+-                                 32, "power-vsx.xml", 0);
+-    }
+-#ifndef CONFIG_USER_ONLY
+-    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
+-                             pcc->gdb_num_sprs, "power-spr.xml", 0);
+-#endif
++    ppc_gdb_init(cs, pcc);
+     qemu_init_vcpu(cs);
+ 
+     pcc->parent_realize(dev, errp);
+@@ -10835,15 +10592,6 @@ static bool ppc_pvr_match_default(PowerPCCPUClass *pcc, uint32_t pvr)
+     return pcc->pvr == pvr;
+ }
+ 
+-static gchar *ppc_gdb_arch_name(CPUState *cs)
+-{
+-#if defined(TARGET_PPC64)
+-    return g_strdup("powerpc:common64");
+-#else
+-    return g_strdup("powerpc:common");
+-#endif
+-}
+-
+ static void ppc_disas_set_info(CPUState *cs, disassemble_info *info)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+-- 
+2.17.1
 
 
