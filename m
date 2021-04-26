@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469F036B219
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 13:11:28 +0200 (CEST)
-Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A1536B247
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 13:19:36 +0200 (CEST)
+Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laz99-0003iG-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 07:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60036)
+	id 1lazH5-0006hg-AG
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 07:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1laz1I-0001ua-5m; Mon, 26 Apr 2021 07:03:16 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:48815)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1laz1E-000665-Ol; Mon, 26 Apr 2021 07:03:15 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id EFF831644;
- Mon, 26 Apr 2021 07:03:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 26 Apr 2021 07:03:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=uJgHAMHh2KjXXySw/fnSsNVgqnx
- YiahnGbKu2tHCNHM=; b=j1LPi/Wblq2mqC432/eT/j2hr2Kb4qnuwgHw4Xlr+W+
- miyEBnGrpW7v9atP+mBr04y90JK8RmEqbVJcL27tpSoZ9YSOge4xWHjb+CJVm/Wj
- Z4a86EoDpNfRLyBqUG6aYG2RPJmoK4MbBQxIcH1/FA9WossL529RMWvruv/y4eo9
- oRByAY48J5+IdvF6Wou7Z746piOWFsLCdSMaIUILSarWEX7dIYN0E5pniJxB7z7B
- U2FrBk7irvmoCPmG2009xeduoijMwLUZE+6/VxtAAr+hhsbcldfG/vOH4YsZiCUi
- OmP028EOziuUUWFNtHQLE5CwtFy99Q4FdHMSj7OkOBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uJgHAM
- Hh2KjXXySw/fnSsNVgqnxYiahnGbKu2tHCNHM=; b=P7ZiLVrrV+VQSSUgqT2tck
- t20vvq8Kjf+XORM3PXgDwJj+uCe0KjFy6sTa40dDzc1c/5y8B5tPTlzqZ72E9HJo
- SqxIoCPJikqz/IK8Lg9ENU8yWw9cjBISyiD5x04FZPO+LaCAvJA2shBn94YlW+sl
- t01VVs2oPhCDqYie48gRMwI/ncmC2mmpC4xNz9q0ir4nEVUqxSTwn4bWdPgtE52w
- QtrGgjLCPz0lNWzWjS5pvQ76bNleyFD+7uBmXbpKc7iQGFVLGG8VPRocIgRlz90/
- WQ0GOlxJ3KyvXUZo60lpooHYPVibMih2Zp/DM1N6wCZnmNx3IP72cGOar8UlR7eA
- ==
-X-ME-Sender: <xms:7J2GYGW7jdYgZeBFe9cSOf9Y-99fpfp3jeftD3Q9XYHT5d1idi7HPQ>
- <xme:7J2GYCmkx091FTIaCyAVAMgO1GjNSVXCg0HSrfqUCVvz4eo17rymr6Ol3IlUpyWvb
- i1IplsrjAi5W6Lenhs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddukedgfeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
- ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
- vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepheevffekffevuddugfdvudfhjeffve
- efgedvhfejvdevheetheffveetgfeluddtnecuffhomhgrihhnpegtthhrlhdrtgifnecu
- kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
- hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:7J2GYKYTqjDunbf8VSlPxg89NTyK9JhRTq5ycXmF0ENTd6jCKaUdJA>
- <xmx:7J2GYNXt_NvvwmYp8cNNs02puSvebNOwkdW1PR0v4_t58Yc9MEqYTA>
- <xmx:7J2GYAlm_hrlbgsXkOE27d-3eq_6jm2b1XcgNIJOPO5_M2cKUNYBaA>
- <xmx:7Z2GYObDpAoHo3b4Pyhpj_oE4dNTOvQIXUXt2aDvJ_So9V7JvVK3hg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 014E91080064;
- Mon, 26 Apr 2021 07:03:06 -0400 (EDT)
-Date: Mon, 26 Apr 2021 13:03:04 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Subject: Re: [PATCH] hw/block/nvme: fix csi field for cns 0x00 and 0x11
-Message-ID: <YIad6KpbnA2ihJ7e@apples.localdomain>
-References: <CGME20210426074741epcas5p1ac30fed5ef8c21a1b7e5685920ff6847@epcas5p1.samsung.com>
- <20210426074650.24245-1-anaidu.gollu@samsung.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SqoQXFtKNVchbZXD"
-Content-Disposition: inline
-In-Reply-To: <20210426074650.24245-1-anaidu.gollu@samsung.com>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <ralph.schmieder@gmail.com>)
+ id 1lazCj-0004k2-G2
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:15:05 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ralph.schmieder@gmail.com>)
+ id 1lazCa-0003yA-5B
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:15:05 -0400
+Received: by mail-ej1-x629.google.com with SMTP id ja3so7943122ejc.9
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 04:14:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=GTCEGN3nhkiYGfZIHf3vFmRCk2fmoee5kNjg7eFUQkU=;
+ b=srJ1ZNN2PBSj3Dt67UpZ7Xa7C6WAtXtU5AerM2YnFmLOhkQZigOxuJHnGMCNhsVFki
+ dEvjYhDac9mV/qrXJCU8xrUlrwveeYxYCHfyMZgnIz4jXCiRTfgiMHBAMkS4dVdrRjP+
+ t4Si4mfAyo5jV5n/W94tT9lZt2483HCVMd4jI8K/pp5FUvXWnyaxMbBK2evvcc8AoEGj
+ c9+6XxI+EOcqih1xLIvybEM3sNcdQUuCTKNESDswqJUC8EVlqnTHefc7ojV09PI7B+8/
+ 18SApAUemkIaqmZ3whtGU6fuvlyimkO+g822XjxFvs3IvvUKChQmGUYTJT+D/choscLE
+ iRuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=GTCEGN3nhkiYGfZIHf3vFmRCk2fmoee5kNjg7eFUQkU=;
+ b=ZwM8BS/f7nAQx0a9+F5ejZpMpqiVl4SBZ4J2t9YRismGKOORrdvPY+ySEnf7NgujEx
+ N5++87vgCRABXB4SeGjDDijDgagKtoiNhHi+ap/BVhiGIVvOAzEA+luKGLrooazo3dBu
+ 2ntfcF0Ra6eFIOnAHSW4Aas3O4dNiDJIHh6nHWpLnGUnrnSCaog86ebVtKs+v6vvQcA0
+ /xsN6lZ+R5fd23ax9Pd2CqZJqWh97OoUhKzx0n5oDePEIfOZNBpcVnfXbOyHTwKlLj+t
+ rAzol4UMgGOg3QyX0le6KV+D2yB478kBHTKdheeALv8mRnXWZ63JlNgTT4OUkdzAswl0
+ clEw==
+X-Gm-Message-State: AOAM532FaIvJkJCbjD7DeBNBpIm2ovKYYtxBgt3dbUfm2NqVKUMrDnQz
+ NVwX2/M9yoXL+lmqn6hAsoQ=
+X-Google-Smtp-Source: ABdhPJyB0vBtgwCFYUgpaFYPpWx3t6f58mrHknj6tcAjKp7eNvUVOMvNFOatpSGnmzYSEXojK8UR6w==
+X-Received: by 2002:a17:906:cb11:: with SMTP id
+ lk17mr18185225ejb.517.1619435690109; 
+ Mon, 26 Apr 2021 04:14:50 -0700 (PDT)
+Received: from ?IPv6:2001:470:1f0b:bcf:fd39:b1d0:730d:5edb?
+ ([2001:470:1f0b:bcf:fd39:b1d0:730d:5edb])
+ by smtp.gmail.com with ESMTPSA id c12sm15446996edx.54.2021.04.26.04.14.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 26 Apr 2021 04:14:49 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: socket.c added support for unix domain socket datagram transport
+From: Ralph Schmieder <ralph.schmieder@gmail.com>
+In-Reply-To: <20210423183901.12a71759@redhat.com>
+Date: Mon, 26 Apr 2021 13:14:48 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2DC6F891-4F28-4044-A055-0CDAB45A3C24@gmail.com>
+References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
+ <20210423172940.14f48b49@elisabeth>
+ <F0191BF0-7C7A-4587-8B94-BACA7E1F911F@gmail.com>
+ <20210423183901.12a71759@redhat.com>
+To: Stefano Brivio <sbrivio@redhat.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=ralph.schmieder@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,127 +89,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- kbusch@kernel.org
+Cc: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---SqoQXFtKNVchbZXD
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Apr 26 13:16, Gollu Appalanaidu wrote:
->As per the TP 4056d Namespace types CNS 0x00 and CNS 0x11
->CSI field shouldn't use but it is being used for these two
->Identify command CNS values, fix that.
->
->Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->---
-> hw/nvme/ctrl.c | 11 ++++++++---
-> 1 file changed, 8 insertions(+), 3 deletions(-)
->
->diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->index 2e7498a73e..1657b1d04a 100644
->--- a/hw/nvme/ctrl.c
->+++ b/hw/nvme/ctrl.c
->@@ -4244,11 +4244,16 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, Nvme=
-Request *req, bool active)
->         }
->     }
->
->-    if (c->csi =3D=3D NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
->-        return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
->+    if (active && nvme_csi_has_nvm_support(ns)) {
->+        goto out;
->+    } else if (!active && ns->csi =3D=3D NVME_CSI_NVM) {
->+        goto out;
->+    } else {
->+        return NVME_INVALID_CMD_SET | NVME_DNR;
->     }
->
->-    return NVME_INVALID_CMD_SET | NVME_DNR;
->+out:
->+    return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
-> }
->
-> static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *=
-req)
->--=20
->2.17.1
->
->
+> On Apr 23, 2021, at 18:39, Stefano Brivio <sbrivio@redhat.com> wrote:
+>=20
+> On Fri, 23 Apr 2021 17:48:08 +0200
+> Ralph Schmieder <ralph.schmieder@gmail.com> wrote:
+>=20
+>> Hi, Stefano... Thanks for the detailed response... inline
+>> Thanks,
+>> -ralph
+>>=20
+>>=20
+>>> On Apr 23, 2021, at 17:29, Stefano Brivio <sbrivio@redhat.com>
+>>> wrote:
+>>>=20
+>>> Hi Ralph,
+>>>=20
+>>> On Fri, 23 Apr 2021 08:56:48 +0200
+>>> Ralph Schmieder <ralph.schmieder@gmail.com> wrote:
+>>>=20
+>>>> Hey...  new to this list.  I was looking for a way to use Unix
+>>>> domain sockets as a network transport between local VMs.
+>>>>=20
+>>>> I'm part of a team where we run dozens if not hundreds of VMs on a
+>>>> single compute instance which are highly interconnected.
+>>>>=20
+>>>> In the current implementation, I use UDP sockets (e.g. something
+>>>> like=20
+>>>>=20
+>>>> -netdev
+>>>> id=3Dbla,type=3Dsocket,udp=3Dlocalhost:1234,localaddr=3Dlocalhost:567=
+8)=20
+>>>>=20
+>>>> which works great.
+>>>>=20
+>>>> The downside of this approach is that I need to keep track of all
+>>>> the UDP ports in use and that there's a potential for clashes.
+>>>> Clearly, having Unix domain sockets where I could store the
+>>>> sockets in the VM's directory would be much easier to manage.
+>>>>=20
+>>>> However, even though there is some AF_UNIX support in net/socket.c,
+>>>> it's
+>>>>=20
+>>>> - not configurable
+>>>> - it doesn't work =20
+>>>=20
+>>> I hate to say this, but I've been working on something very similar
+>>> just in the past days, with the notable difference that I'm using
+>>> stream-oriented AF_UNIX sockets instead of datagram-oriented.
+>>>=20
+>>> I have a similar use case, and after some experiments I picked a
+>>> stream-oriented socket over datagram-oriented because:
+>>>=20
+>>> - overhead appears to be the same
+>>>=20
+>>> - message boundaries make little sense here -- you already have a
+>>> 32-bit vnet header with the message size defining the message
+>>> boundaries
+>>>=20
+>>> - datagram-oriented AF_UNIX sockets are actually reliable and
+>>> there's no packet reordering on Linux, but this is not "formally"
+>>> guaranteed
+>>>=20
+>>> - it's helpful for me to know when a qemu instance disconnects for
+>>> any reason
+>>>=20
+>>=20
+>> IMO, dgram is the right tool for this as it is symmetrical to using a
+>> UDP transport... Since I need to pick up those packets from outside
+>> of Qemu (inside of a custom networking fabric) I'd have to make
+>> assumptions about the data and don't know the length of the packet in
+>> advance.
+>=20
+> Okay, so it doesn't seem to fit your case, but this specific point is
+> where you actually have a small advantage using a stream-oriented
+> socket. If you receive a packet and have a smaller receive buffer, you
+> can read the length of the packet from the vnet header and then read
+> the rest of the packet at a later time.
+>=20
+> With a datagram-oriented socket, you would need to know the maximum
+> packet size in advance, and use a receive buffer that's large enough =
+to
+> contain it, because if you don't, you'll discard data.
 
-Looking closer at this, since we only support the NVM and Zoned command=20
-sets, we can get rid of the `nvme_csi_has_nvm_support()` helper and just=20
-assume NVM command set support for all namespaces. The way different=20
-command sets are handled doesn't scale anyway, so we might as well=20
-simplify the logic a bit.
+For me, the maximum packet size is a jumbo frame (e.g. 9x1024) anyway -- =
+everything must fit into an atomic write of that size.
 
-Something like this (compile-tested only) patch maybe?
+>=20
+> The same reasoning applies to a receive buffer that's larger than the
+> maximum packet size you can get -- you can then read multiple packets =
+at
+> a time, filling your buffer, partially reading a packet at the end of
+> it, and reading the rest later.
+>=20
+> With a datagram-oriented socket you need to resort to recvmmsg() to
+> receive multiple packets with one syscall (nothing against it, it's
+> just slightly more tedious).
+>=20
+>> Using the datagram approach fits nicely into this concept.
+>> So, yes, in my instance the transport IS truly connectionless and VMs
+>> just keep sending packets if the fabric isn't there or doesn't pick
+>> up their packets.
+>=20
+> I see, in that case I guess you really need a datagram-oriented
+> socket... even though what happens with my patch (just like with the
+> existing TCP support) is that your fabric would need to be there when
+> qemu starts, but if it disappears later, qemu will simply close the
+> socket. Indeed, it's not "hotplug", which is probably what you need.
 
-diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
-index 2e7498a73e70..7fcd6992358d 100644
---- i/hw/nvme/ctrl.c
-+++ w/hw/nvme/ctrl.c
-@@ -4178,16 +4178,6 @@ static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *n=
-, NvmeRequest *req)
-      return nvme_c2h(n, id, sizeof(id), req);
-  }
+That's the point.  This is peer-to-peer/point-to-point and not =
+client/server.
 
--static inline bool nvme_csi_has_nvm_support(NvmeNamespace *ns)
--{
--    switch (ns->csi) {
--    case NVME_CSI_NVM:
--    case NVME_CSI_ZONED:
--        return true;
--    }
--    return false;
--}
--
-  static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
-  {
-      trace_pci_nvme_identify_ctrl();
-@@ -4244,7 +4234,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeReq=
-uest *req, bool active)
-          }
-      }
+>=20
+>> And maybe there's use for both, as there's currently already support
+>> for connection oriented (TCP) and connectionless (UDP) inet
+>> transports.=20
+>=20
+> Yes, I think so.
+>=20
+>>>> As a side note, I tried to pass in an already open FD, but that
+>>>> didn't work either. =20
+>>>=20
+>>> This actually worked for me as a quick work-around, either with:
+>>> 	https://github.com/StevenVanAcker/udstools
+>>>=20
+>>> or with a trivial C implementation of that, that does essentially:
+>>>=20
+>>> 	fd =3D strtol(argv[1], NULL, 0);
+>>> 	if (fd < 3 || fd > INT_MAX || errno)
+>>> 		usage(argv[0]);
+>>>=20
+>>> 	s =3D socket(AF_UNIX, SOCK_STREAM, 0);
+>>> 	if (s < 0) {
+>>> 		perror("socket");
+>>> 		exit(EXIT_FAILURE);
+>>> 	}
+>>>=20
+>>> 	if (connect(s, (const struct sockaddr *)&addr, sizeof(addr)) < =
+0) {
+>>> 		perror("connect");
+>>> 		exit(EXIT_FAILURE);
+>>> 	}
+>>>=20
+>>> 	if (dup2(s, (int)fd) < 0) {
+>>> 		perror("dup");
+>>> 		exit(EXIT_FAILURE);
+>>> 	}
+>>>=20
+>>> 	close(s);
+>>>=20
+>>> 	execvp(argv[2], argv + 2);
+>>> 	perror("execvp");
+>>>=20
+>>> where argv[1] is the socket number you pass in the qemu command line
+>>> (-net socket,fd=3DX) and argv[2] is the path to qemu.
+>>=20
+>> As I was looking for dgram support I didn't even try with a stream
+>> socket ;)
+>=20
+> Mind that it also works with a SOCK_DGRAM ;) ...that was my original
+> attempt, actually.
+>=20
+>>>> So, I added some code which does work for me... e.g.
+>>>>=20
+>>>> - can specify the socket paths like -netdev
+>>>> id=3Dbla,type=3Dsocket,unix=3D/tmp/in:/tmp/out
+>>>> - it does forward packets between two Qemu instances running
+>>>> back-to-back
+>>>>=20
+>>>> I'm wondering if this is of interest for the wider community and,
+>>>> if so, how to proceed.
+>>>>=20
+>>>> Thanks,
+>>>> -ralph
+>>>>=20
+>>>> Commit
+>>>> =
+https://github.com/rschmied/qemu/commit/73f02114e718ec898c7cd8e855d0d5d5d7=
+abe362
+>>>>=20
+>>>=20
+>>> I think your patch could be a bit simpler, as you could mostly reuse
+>>> net_socket_udp_init() for your initialisation, and perhaps rename
+>>> it to net_socket_dgram_init(). =20
+>>=20
+>> Thanks... I agree that my code can likely be shortened... it was just
+>> a PoC that I cobbled together yesterday and it still has a lot of
+>> to-be-removed lines.
+>=20
+> I'm not sure if it helps, but I guess you could "conceptually" recycle
+> my patch and in some sense "extend" the UDP parts to a generic =
+datagram
+> interface, just like mine extends the TCP implementation to a generic
+> stream interface.
+>=20
+> About command line and documentation, I guess it's clear that
+> "connect=3D" implies something stream-oriented, so I would prefer to
+> leave it like that for a stream-oriented AF_UNIX socket -- it behaves
+> just like TCP.
+>=20
+> On the other hand, you can't recycle the current UDP "mcast=3D" stuff
+> because it's not multicast (AF_UNIX multicast support for Linux was
+> proposed some years ago, https://lwn.net/Articles/482523/, but not
+> merged), and of course not "udp=3D"... would "unix_dgram=3D" make =
+sense
+> to you?
+>=20
+> On a side note, I wonder why you need two named sockets instead of
+> one -- I mean, they're bidirectional...
 
--    if (c->csi =3D=3D NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
-+    if (active || ns->csi =3D=3D NVME_CSI_NVM) {
-          return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
-      }
 
-@@ -4315,7 +4305,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, Nvm=
-eRequest *req,
-          }
-      }
+Hmm... each peer needs to send unsolicited frames/packets to the other =
+end... and thus needs to bind to their socket.  Pretty much for the same =
+reason as the UDP transport requires you to specify a local and a remote =
+5-tuple.  Even though for AF_INET, the local port does not have to be =
+specified, the OS would assign an ephemeral port to make it unique. Am I =
+missing something?
 
--    if (c->csi =3D=3D NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
-+    if (c->csi =3D=3D NVME_CSI_NVM) {
-          return nvme_rpt_empty_id_struct(n, req);
-      } else if (c->csi =3D=3D NVME_CSI_ZONED && ns->csi =3D=3D NVME_CSI_ZO=
-NED) {
-          return nvme_c2h(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZon=
-ed),
+Another thing: on Windows, there's a AF_UNIX/SOCK_STREAM =
+implementation... So, technically it should be possible to use that code =
+path on Windows, too.  Not a windows guy, though... So, can't say =
+whether it would simply work or not:
+
+https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
 
 
---SqoQXFtKNVchbZXD
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>=20
+> --=20
+> Stefano
+>=20
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCGnecACgkQTeGvMW1P
-DemSkAgAvJKGbh/seBfD5BpNWfEJ+CCTotu2RcRhf1q21EVF50k07+2drd3JaGVT
-n5bu6dRFb+e/L9ppreaREsIyzWVrqc/6h2OmljFagGsFOH0TNd66PRJa3+b/xc5l
-siLlZJVpWr/GEGmh7tlaXwfpLNBFRYIoMjfXwgsjs4uf7JC3IkfoPRfjWMJ6LZi7
-NFIbCS6eFQnyWPNgtBNtp0aDvWuCD+KhDQDOPUH6X6EZIVVJCUggeezj0BUIe7Qu
-XLaEQygr170fwPl/dA3X71l2vB6jvEiIovqw41VrAYOtMhDjdMObz1D04yOzQyqV
-OLcYorkoJ+pbcoRmCWb5oxGwN1WijA==
-=nniz
------END PGP SIGNATURE-----
-
---SqoQXFtKNVchbZXD--
 
