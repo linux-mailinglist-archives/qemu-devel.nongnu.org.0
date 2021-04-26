@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A63E36B9E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 21:17:32 +0200 (CEST)
-Received: from localhost ([::1]:58318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495A536B9E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 21:19:19 +0200 (CEST)
+Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb6ja-0002fn-TD
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 15:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50402)
+	id 1lb6lK-0003qA-8t
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 15:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lb6ht-00028p-Hk; Mon, 26 Apr 2021 15:15:47 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28602
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lb6j3-0002qS-OM
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 15:16:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lb6hn-0004KP-6l; Mon, 26 Apr 2021 15:15:45 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13QJBD1m114030; Mon, 26 Apr 2021 15:15:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=jUmUmCPKhQWbbYV83w76DNxlO9ty4qPWcu1Ka1be4Qo=;
- b=QrWleqom7SR/ovM7PcUsoFh00bl3o+Eum69Oo8YoixtwIykj6O9N4XGkDklFIllnFoOV
- kwVlHH/tiOB+jLUNhvgXgWYnbRekH0sAtWnG83EOuNZuspCP1DumiHTc/ODHsaR2KbZh
- t1KjW0Bhy4HccSiZP5Txgt7q+aqcmJ/aePi+NThncyFPT407YztVGJTNVZoZYs+Fvsg2
- feCy74DU5gsBRB9lQpg4Yw37tSiDVv7DideASh2xzce9ncX9tRna2xGDKFMCUYFdOlGl
- NP1XchfyVbiGQRFg6679fWYWgKJlyWua3iIIKe/9q0oWqDOJPrGm7TLIcls5rrbqLl7L qw== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3863es83d5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Apr 2021 15:15:29 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13QJ79aK024696;
- Mon, 26 Apr 2021 19:15:29 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma01dal.us.ibm.com with ESMTP id 384ay8ve3s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Apr 2021 19:15:29 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13QJFRCs53215614
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 26 Apr 2021 19:15:28 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A95B9AC066;
- Mon, 26 Apr 2021 19:15:27 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD04AAC07A;
- Mon, 26 Apr 2021 19:15:26 +0000 (GMT)
-Received: from localhost (unknown [9.163.28.241])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 26 Apr 2021 19:15:26 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 1/4] target/ppc: move opcode table logic to translate.c
-In-Reply-To: <20210423191807.77963-2-bruno.larsen@eldorado.org.br>
-References: <20210423191807.77963-1-bruno.larsen@eldorado.org.br>
- <20210423191807.77963-2-bruno.larsen@eldorado.org.br>
-Date: Mon, 26 Apr 2021 16:15:23 -0300
-Message-ID: <87pmyg3lis.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lb6iv-0005AM-3q
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 15:16:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619464607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ayqut044IMomYQO4eINLwLs1O7TlNLi283SY+xFsMAU=;
+ b=RSvgao1Xx2OOLmEaznB8c1+HaPSCyuE6eCDUxqb3UscQj6GEjJhKvfrkEyUOXYYWqghsbQ
+ CDLMidEBXs6tgdhUWoEBNRDGckBewWO2b0kHgWgccIaEQPe2drKesHzathw9I1q6RSQh4H
+ owO1Y4u7RE0kaXEoy1EF8XdSxXVflsI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-8Pk65oqjOu-zaS3pOyiJrg-1; Mon, 26 Apr 2021 15:16:43 -0400
+X-MC-Unique: 8Pk65oqjOu-zaS3pOyiJrg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11CC9107ACCA;
+ Mon, 26 Apr 2021 19:16:41 +0000 (UTC)
+Received: from [10.36.113.215] (ovpn-113-215.ams2.redhat.com [10.36.113.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E99A19C78;
+ Mon, 26 Apr 2021 19:16:25 +0000 (UTC)
+Subject: Re: [RFC v9 15/29] vfio: Set up nested stage mappings
+To: Kunkun Jiang <jiangkunkun@huawei.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, alex.williamson@redhat.com
+References: <20210411120912.15770-1-eric.auger@redhat.com>
+ <20210411120912.15770-16-eric.auger@redhat.com>
+ <cea9fd63-18d6-32c5-bed0-d8783af654ce@huawei.com>
+ <a844b9fa-40e9-6443-b359-60ca7d9661aa@redhat.com>
+ <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
+ <3274a074-b258-25d2-5a66-3ff520117189@redhat.com>
+ <e48f1813-8729-a0c2-0f4d-43a6081f0cd8@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <2a68dca6-e638-4518-f3dd-72fbad0df509@redhat.com>
+Date: Mon, 26 Apr 2021 21:16:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 4v7hmuoXgWLzWWNzB7eF5pbp9GUmo8Rn
-X-Proofpoint-ORIG-GUID: 4v7hmuoXgWLzWWNzB7eF5pbp9GUmo8Rn
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-26_09:2021-04-26,
- 2021-04-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 spamscore=0 adultscore=0 mlxscore=0
- phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104260147
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e48f1813-8729-a0c2-0f4d-43a6081f0cd8@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,158 +89,443 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.araujo@eldorado.org.br, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org, "Bruno Larsen
- \(billionai\)" <bruno.larsen@eldorado.org.br>, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
+ chenxiang66@hisilicon.com, tn@semihalf.com,
+ shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
+ vivek.gautam@arm.com, vdumpa@nvidia.com, yi.l.liu@intel.com, peterx@redhat.com,
+ zhangfei.gao@gmail.com, wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ jean-philippe@linaro.org, zhukeqian1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> writes:
+Hi Kunkun,
 
-> code motion to remove opcode callback table from
-> translate_init.c.inc to translate.c in preparation
-> to remove #include <translate_init.c.inc> from
-> translate.c
+On 4/15/21 4:03 AM, Kunkun Jiang wrote:
+> Hi Eric,
+> 
+> On 2021/4/14 16:05, Auger Eric wrote:
+>> Hi Kunkun,
+>>
+>> On 4/14/21 3:45 AM, Kunkun Jiang wrote:
+>>> On 2021/4/13 20:57, Auger Eric wrote:
+>>>> Hi Kunkun,
+>>>>
+>>>> On 4/13/21 2:10 PM, Kunkun Jiang wrote:
+>>>>> Hi Eric,
+>>>>>
+>>>>> On 2021/4/11 20:08, Eric Auger wrote:
+>>>>>> In nested mode, legacy vfio_iommu_map_notify cannot be used as
+>>>>>> there is no "caching" mode and we do not trap on map.
+>>>>>>
+>>>>>> On Intel, vfio_iommu_map_notify was used to DMA map the RAM
+>>>>>> through the host single stage.
+>>>>>>
+>>>>>> With nested mode, we need to setup the stage 2 and the stage 1
+>>>>>> separately. This patch introduces a prereg_listener to setup
+>>>>>> the stage 2 mapping.
+>>>>>>
+>>>>>> The stage 1 mapping, owned by the guest, is passed to the host
+>>>>>> when the guest invalidates the stage 1 configuration, through
+>>>>>> a dedicated PCIPASIDOps callback. Guest IOTLB invalidations
+>>>>>> are cascaded downto the host through another IOMMU MR UNMAP
+>>>>>> notifier.
+>>>>>>
+>>>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>>>>
+>>>>>> ---
+>>>>>>
+>>>>>> v7 -> v8:
+>>>>>> - properly handle new IOMMUTLBEntry fields and especially
+>>>>>>      propagate DOMAIN and PASID based invalidations
+>>>>>>
+>>>>>> v6 -> v7:
+>>>>>> - remove PASID based invalidation
+>>>>>>
+>>>>>> v5 -> v6:
+>>>>>> - add error_report_err()
+>>>>>> - remove the abort in case of nested stage case
+>>>>>>
+>>>>>> v4 -> v5:
+>>>>>> - use VFIO_IOMMU_SET_PASID_TABLE
+>>>>>> - use PCIPASIDOps for config notification
+>>>>>>
+>>>>>> v3 -> v4:
+>>>>>> - use iommu_inv_pasid_info for ASID invalidation
+>>>>>>
+>>>>>> v2 -> v3:
+>>>>>> - use VFIO_IOMMU_ATTACH_PASID_TABLE
+>>>>>> - new user API
+>>>>>> - handle leaf
+>>>>>>
+>>>>>> v1 -> v2:
+>>>>>> - adapt to uapi changes
+>>>>>> - pass the asid
+>>>>>> - pass IOMMU_NOTIFIER_S1_CFG when initializing the config notifier
+>>>>>> ---
+>>>>>>     hw/vfio/common.c     | 139
+>>>>>> +++++++++++++++++++++++++++++++++++++++++--
+>>>>>>     hw/vfio/pci.c        |  21 +++++++
+>>>>>>     hw/vfio/trace-events |   2 +
+>>>>>>     3 files changed, 157 insertions(+), 5 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>>>>>> index 0cd7ef2139..e369d451e7 100644
+>>>>>> --- a/hw/vfio/common.c
+>>>>>> +++ b/hw/vfio/common.c
+>>>>>> @@ -595,6 +595,73 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry
+>>>>>> *iotlb, void **vaddr,
+>>>>>>         return true;
+>>>>>>     }
+>>>>>>     +/* Propagate a guest IOTLB invalidation to the host (nested
+>>>>>> mode) */
+>>>>>> +static void vfio_iommu_unmap_notify(IOMMUNotifier *n, IOMMUTLBEntry
+>>>>>> *iotlb)
+>>>>>> +{
+>>>>>> +    VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+>>>>>> +    struct vfio_iommu_type1_cache_invalidate ustruct = {};
+>>>>>> +    VFIOContainer *container = giommu->container;
+>>>>>> +    int ret;
+>>>>>> +
+>>>>>> +    assert(iotlb->perm == IOMMU_NONE);
+>>>>>> +
+>>>>>> +    ustruct.argsz = sizeof(ustruct);
+>>>>>> +    ustruct.flags = 0;
+>>>>>> +    ustruct.info.argsz = sizeof(struct iommu_cache_invalidate_info);
+>>>>>> +    ustruct.info.version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
+>>>>>> +    ustruct.info.cache = IOMMU_CACHE_INV_TYPE_IOTLB;
+>>>>>> +
+>>>>>> +    switch (iotlb->granularity) {
+>>>>>> +    case IOMMU_INV_GRAN_DOMAIN:
+>>>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_DOMAIN;
+>>>>>> +        break;
+>>>>>> +    case IOMMU_INV_GRAN_PASID:
+>>>>>> +    {
+>>>>>> +        struct iommu_inv_pasid_info *pasid_info;
+>>>>>> +        int archid = -1;
+>>>>>> +
+>>>>>> +        pasid_info = &ustruct.info.granu.pasid_info;
+>>>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_PASID;
+>>>>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
+>>>>>> +            pasid_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
+>>>>>> +            archid = iotlb->arch_id;
+>>>>>> +        }
+>>>>>> +        pasid_info->archid = archid;
+>>>>>> +        trace_vfio_iommu_asid_inv_iotlb(archid);
+>>>>>> +        break;
+>>>>>> +    }
+>>>>>> +    case IOMMU_INV_GRAN_ADDR:
+>>>>>> +    {
+>>>>>> +        hwaddr start = iotlb->iova + giommu->iommu_offset;
+>>>>>> +        struct iommu_inv_addr_info *addr_info;
+>>>>>> +        size_t size = iotlb->addr_mask + 1;
+>>>>>> +        int archid = -1;
+>>>>>> +
+>>>>>> +        addr_info = &ustruct.info.granu.addr_info;
+>>>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_ADDR;
+>>>>>> +        if (iotlb->leaf) {
+>>>>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_LEAF;
+>>>>>> +        }
+>>>>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
+>>>>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
+>>>>>> +            archid = iotlb->arch_id;
+>>>>>> +        }
+>>>>>> +        addr_info->archid = archid;
+>>>>>> +        addr_info->addr = start;
+>>>>>> +        addr_info->granule_size = size;
+>>>>>> +        addr_info->nb_granules = 1;
+>>>>>> +        trace_vfio_iommu_addr_inv_iotlb(archid, start, size,
+>>>>>> +                                        1, iotlb->leaf);
+>>>>>> +        break;
+>>>>>> +    }
+>>>>> Should we pass a size to  host kernel here, even if vSMMU doesn't
+>>>>> support
+>>>>> RIL or guest kernel doesn't use RIL?
+>>>>>
+>>>>> It will cause TLBI issue in  this scenario: Guest kernel issues a
+>>>>> TLBI cmd
+>>>>> without "range" (tg = 0) to invalidate a 2M huge page. Then qemu
+>>>>> passed
+>>>>> the iova and size (4K) to host kernel. Finally, host kernel issues a
+>>>>> TLBI cmd
+>>>>> with "range" (4K) which can not invalidate the TLB entry of 2M huge
+>>>>> page.
+>>>>> (pSMMU supports RIL)
+>>>> In that case the guest will loop over all 4K images belonging to the 2M
+>>>> huge page and invalidate each of them. This should turn into qemu
+>>>> notifications for each 4kB page, no? This is totally inefficient, hence
+>>> The guest will not loop over all 4K images belonging to the 2M huge
+>>> page.
+>>> The iommu_iotlb_gather->pgsize will be 2M, if a page is 2M huge page.
+>>> The
+>>> gather->pgsize will be passed to __arm_smmu_tlb_inv_range as "granule":
+>>>
+>>> iommu_iotlb_gather_add_page
+>>>      iommu_iotlb_sync
+>>>          domain->ops->iotlb_sync
+>>>              arm_smmu_iotlb_sync
+>>>                  arm_smmu_tlb_inv_range_domain
+>>>                      __arm_smmu_tlb_inv_range
+>>>
+>>> In the above mentioned scenario, guest kernel will issue a TLBI cmd only
+>>> with
+>>> "iova" (tg = 0).
+>> OK I get it now. In that case I think I should do a TG=0 invalidation
+>> on host even if the host does support RIL. Does that sound correct?
+> Yeah, that's what I thought.
+>> The trouble is the uapi struct does not convey such info explicitly.
+>> Maybe I should use nb_granules = 0 to detect that case.
+> It is troublesome to correct this issue. Using nb_granules = 0 may be
+> a good choice.
+>> I think for this use case RIL should be supported by the guest. Thoughts?
+> Yes. If guest supports RIL, the scenario mentioned above does not exist.
 
-I'd mention the creation of destroy_ppc_opcodes since this patch is not
-strictly just moving code.
+After further study I really wonder if it is worth supporting the case
+where the guest does not use range inval. Passing a nb_granules = 0 (~
+size) would be OK to perform the TG=0 range invalidation on the host.
+however host arm_smmu_tlb_inv_range_domain() then calls
+arm_smmu_atc_inv_domain(smmu_domain, 0, iova, size) which needs a size.
+We would need to trap guest CMD_ATC_INV and use different code paths on
+host smmu driver to cascade the various cache invalidations. At the
+moment, without maintainer giodance, I am a bit reluctant to add this
+extra complexity.
 
->
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> ---
->  target/ppc/internal.h           |   6 +
->  target/ppc/translate.c          | 394 ++++++++++++++++++++++++++++++++
->  target/ppc/translate_init.c.inc | 390 +------------------------------
->  3 files changed, 401 insertions(+), 389 deletions(-)
+So I would be inclined to fail in QEMU if we detect TG=0 is being used
+by the guest. Recent guest kernels would be a prerequisite for this use
+case. What do you think?
 
-<snip>
+Thanks
 
-> +void destroy_ppc_opcodes(PowerPCCPU *cpu)
-> +{
-> +    opc_handler_t **table, **table_2;
-> +    int i, j, k;
-> +
-> +    for (i = 0; i < PPC_CPU_OPCODES_LEN; i++) {
-> +        if (cpu->opcodes[i] == &invalid_handler) {
-> +            continue;
-> +        }
-> +        if (is_indirect_opcode(cpu->opcodes[i])) {
-> +            table = ind_table(cpu->opcodes[i]);
-> +            for (j = 0; j < PPC_CPU_INDIRECT_OPCODES_LEN; j++) {
-> +                if (table[j] == &invalid_handler) {
-> +                    continue;
-> +                }
-> +                if (is_indirect_opcode(table[j])) {
-> +                    table_2 = ind_table(table[j]);
-> +                    for (k = 0; k < PPC_CPU_INDIRECT_OPCODES_LEN; k++) {
-> +                        if (table_2[k] != &invalid_handler &&
-> +                            is_indirect_opcode(table_2[k])) {
-> +                            g_free((opc_handler_t *)((uintptr_t)table_2[k] &
-> +                                                     ~PPC_INDIRECT));
-> +                        }
-> +                    }
-> +                    g_free((opc_handler_t *)((uintptr_t)table[j] &
-> +                                             ~PPC_INDIRECT));
-> +                }
-> +            }
-> +            g_free((opc_handler_t *)((uintptr_t)cpu->opcodes[i] &
-> +                ~PPC_INDIRECT));
-> +        }
-> +    }
-> +}
-> +
-> +#if defined(PPC_DUMP_CPU)
+Eric
+> 
+> Thanks,
+> Kunkun Jiang
+>>
+>> Thanks
+>>
+>> Eric
+>>> Thanks,
+>>> Kunkun Jiang
+>>>> the support of RIL on guest side and QEMU device.
+>>>>
+>>>> What do I miss?
+>>>>
+>>>> Thanks
+>>>>
+>>>> Eric
+>>>>> Thanks,
+>>>>> Kunkun Jiang
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    ret = ioctl(container->fd, VFIO_IOMMU_CACHE_INVALIDATE,
+>>>>>> &ustruct);
+>>>>>> +    if (ret) {
+>>>>>> +        error_report("%p: failed to invalidate CACHE (%d)",
+>>>>>> container, ret);
+>>>>>> +    }
+>>>>>> +}
+>>>>>> +
+>>>>>>     static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry
+>>>>>> *iotlb)
+>>>>>>     {
+>>>>>>         VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+>>>>>> @@ -776,6 +843,35 @@ static void
+>>>>>> vfio_dma_unmap_ram_section(VFIOContainer *container,
+>>>>>>         }
+>>>>>>     }
+>>>>>>     +static void vfio_prereg_listener_region_add(MemoryListener
+>>>>>> *listener,
+>>>>>> +                                            MemoryRegionSection
+>>>>>> *section)
+>>>>>> +{
+>>>>>> +    VFIOContainer *container =
+>>>>>> +        container_of(listener, VFIOContainer, prereg_listener);
+>>>>>> +    Error *err = NULL;
+>>>>>> +
+>>>>>> +    if (!memory_region_is_ram(section->mr)) {
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    vfio_dma_map_ram_section(container, section, &err);
+>>>>>> +    if (err) {
+>>>>>> +        error_report_err(err);
+>>>>>> +    }
+>>>>>> +}
+>>>>>> +static void vfio_prereg_listener_region_del(MemoryListener
+>>>>>> *listener,
+>>>>>> +                                     MemoryRegionSection *section)
+>>>>>> +{
+>>>>>> +    VFIOContainer *container =
+>>>>>> +        container_of(listener, VFIOContainer, prereg_listener);
+>>>>>> +
+>>>>>> +    if (!memory_region_is_ram(section->mr)) {
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    vfio_dma_unmap_ram_section(container, section);
+>>>>>> +}
+>>>>>> +
+>>>>>>     static void vfio_listener_region_add(MemoryListener *listener,
+>>>>>>                                          MemoryRegionSection
+>>>>>> *section)
+>>>>>>     {
+>>>>>> @@ -879,9 +975,10 @@ static void
+>>>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>>>         memory_region_ref(section->mr);
+>>>>>>           if (memory_region_is_iommu(section->mr)) {
+>>>>>> +        IOMMUNotify notify;
+>>>>>>             VFIOGuestIOMMU *giommu;
+>>>>>>             IOMMUMemoryRegion *iommu_mr =
+>>>>>> IOMMU_MEMORY_REGION(section->mr);
+>>>>>> -        int iommu_idx;
+>>>>>> +        int iommu_idx, flags;
+>>>>>>               trace_vfio_listener_region_add_iommu(iova, end);
+>>>>>>             /*
+>>>>>> @@ -900,8 +997,18 @@ static void
+>>>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>>>             llend = int128_sub(llend, int128_one());
+>>>>>>             iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
+>>>>>>                                                         
+>>>>>> MEMTXATTRS_UNSPECIFIED);
+>>>>>> -        iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
+>>>>>> -                            IOMMU_NOTIFIER_IOTLB_EVENTS,
+>>>>>> +
+>>>>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>>> +            /* IOTLB unmap notifier to propagate guest IOTLB
+>>>>>> invalidations */
+>>>>>> +            flags = IOMMU_NOTIFIER_UNMAP;
+>>>>>> +            notify = vfio_iommu_unmap_notify;
+>>>>>> +        } else {
+>>>>>> +            /* MAP/UNMAP IOTLB notifier */
+>>>>>> +            flags = IOMMU_NOTIFIER_IOTLB_EVENTS;
+>>>>>> +            notify = vfio_iommu_map_notify;
+>>>>>> +        }
+>>>>>> +
+>>>>>> +        iommu_notifier_init(&giommu->n, notify, flags,
+>>>>>>                                 section->offset_within_region,
+>>>>>>                                 int128_get64(llend),
+>>>>>>                                 iommu_idx);
+>>>>>> @@ -921,7 +1028,9 @@ static void
+>>>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>>>                 goto fail;
+>>>>>>             }
+>>>>>>             QLIST_INSERT_HEAD(&container->giommu_list, giommu,
+>>>>>> giommu_next);
+>>>>>> -        memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>>>>> +        if (flags & IOMMU_NOTIFIER_MAP) {
+>>>>>> +            memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>>>>> +        }
+>>>>>>               return;
+>>>>>>         }
+>>>>>> @@ -1205,10 +1314,16 @@ static const MemoryListener
+>>>>>> vfio_memory_listener = {
+>>>>>>         .log_sync = vfio_listener_log_sync,
+>>>>>>     };
+>>>>>>     +static MemoryListener vfio_memory_prereg_listener = {
+>>>>>> +    .region_add = vfio_prereg_listener_region_add,
+>>>>>> +    .region_del = vfio_prereg_listener_region_del,
+>>>>>> +};
+>>>>>> +
+>>>>>>     static void vfio_listener_release(VFIOContainer *container)
+>>>>>>     {
+>>>>>>         memory_listener_unregister(&container->listener);
+>>>>>> -    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
+>>>>>> +    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU ||
+>>>>>> +        container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>>>             memory_listener_unregister(&container->prereg_listener);
+>>>>>>         }
+>>>>>>     }
+>>>>>> @@ -1858,6 +1973,20 @@ static int vfio_connect_container(VFIOGroup
+>>>>>> *group, AddressSpace *as,
+>>>>>>                 vfio_get_iommu_info_migration(container, info);
+>>>>>>             }
+>>>>>>             g_free(info);
+>>>>>> +
+>>>>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>>> +            container->prereg_listener =
+>>>>>> vfio_memory_prereg_listener;
+>>>>>> +            memory_listener_register(&container->prereg_listener,
+>>>>>> +                                     &address_space_memory);
+>>>>>> +            if (container->error) {
+>>>>>> +
+>>>>>> memory_listener_unregister(&container->prereg_listener);
+>>>>>> +                ret = -1;
+>>>>>> +                error_propagate_prepend(errp, container->error,
+>>>>>> +                                    "RAM memory listener
+>>>>>> initialization failed "
+>>>>>> +                                    "for container");
+>>>>>> +                goto free_container_exit;
+>>>>>> +            }
+>>>>>> +        }
+>>>>>>             break;
+>>>>>>         }
+>>>>>>         case VFIO_SPAPR_TCE_v2_IOMMU:
+>>>>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>>>>> index 5c65aa0a98..cad7deec71 100644
+>>>>>> --- a/hw/vfio/pci.c
+>>>>>> +++ b/hw/vfio/pci.c
+>>>>>> @@ -2773,6 +2773,25 @@ static void
+>>>>>> vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>>>>>>         vdev->req_enabled = false;
+>>>>>>     }
+>>>>>>     +static int vfio_iommu_set_pasid_table(PCIBus *bus, int32_t
+>>>>>> devfn,
+>>>>>> +                                      IOMMUConfig *config)
+>>>>>> +{
+>>>>>> +    PCIDevice *pdev = bus->devices[devfn];
+>>>>>> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+>>>>>> +    VFIOContainer *container = vdev->vbasedev.group->container;
+>>>>>> +    struct vfio_iommu_type1_set_pasid_table info;
+>>>>>> +
+>>>>>> +    info.argsz = sizeof(info);
+>>>>>> +    info.flags = VFIO_PASID_TABLE_FLAG_SET;
+>>>>>> +    memcpy(&info.config, &config->pasid_cfg,
+>>>>>> sizeof(config->pasid_cfg));
+>>>>>> +
+>>>>>> +    return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static PCIPASIDOps vfio_pci_pasid_ops = {
+>>>>>> +    .set_pasid_table = vfio_iommu_set_pasid_table,
+>>>>>> +};
+>>>>>> +
+>>>>>>     static void vfio_realize(PCIDevice *pdev, Error **errp)
+>>>>>>     {
+>>>>>>         VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>>>>>> @@ -3084,6 +3103,8 @@ static void vfio_realize(PCIDevice *pdev, Error
+>>>>>> **errp)
+>>>>>>         vfio_register_req_notifier(vdev);
+>>>>>>         vfio_setup_resetfn_quirk(vdev);
+>>>>>>     +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
+>>>>>> +
+>>>>>>         return;
+>>>>>>       out_deregister:
+>>>>>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>>>>>> index 936d29d150..43696afc15 100644
+>>>>>> --- a/hw/vfio/trace-events
+>>>>>> +++ b/hw/vfio/trace-events
+>>>>>> @@ -120,6 +120,8 @@ vfio_region_sparse_mmap_header(const char *name,
+>>>>>> int index, int nr_areas) "Devic
+>>>>>>     vfio_region_sparse_mmap_entry(int i, unsigned long start,
+>>>>>> unsigned
+>>>>>> long end) "sparse entry %d [0x%lx - 0x%lx]"
+>>>>>>     vfio_get_dev_region(const char *name, int index, uint32_t type,
+>>>>>> uint32_t subtype) "%s index %d, %08x/%0x8"
+>>>>>>     vfio_dma_unmap_overflow_workaround(void) ""
+>>>>>> +vfio_iommu_addr_inv_iotlb(int asid, uint64_t addr, uint64_t size,
+>>>>>> uint64_t nb_granules, bool leaf) "nested IOTLB invalidate asid=%d,
+>>>>>> addr=0x%"PRIx64" granule_size=0x%"PRIx64" nb_granules=0x%"PRIx64"
+>>>>>> leaf=%d"
+>>>>>> +vfio_iommu_asid_inv_iotlb(int asid) "nested IOTLB invalidate
+>>>>>> asid=%d"
+>>>>>>       # platform.c
+>>>>>>     vfio_platform_base_device_init(char *name, int groupid) "%s
+>>>>>> belongs
+>>>>>> to group #%d"
+>>>>>
+>>>> .
+>>>
+>> .
+> 
+> 
 
-The commented out define for this was left behind.
-
-> +static void dump_ppc_insns(CPUPPCState *env)
-> +{
-> +    opc_handler_t **table, *handler;
-> +    const char *p, *q;
-> +    uint8_t opc1, opc2, opc3, opc4;
-> +
-> +    printf("Instructions set:\n");
-> +    /* opc1 is 6 bits long */
-> +    for (opc1 = 0x00; opc1 < PPC_CPU_OPCODES_LEN; opc1++) {
-> +        table = env->opcodes;
-> +        handler = table[opc1];
-> +        if (is_indirect_opcode(handler)) {
-> +            /* opc2 is 5 bits long */
-> +            for (opc2 = 0; opc2 < PPC_CPU_INDIRECT_OPCODES_LEN; opc2++) {
-> +                table = env->opcodes;
-> +                handler = env->opcodes[opc1];
-> +                table = ind_table(handler);
-> +                handler = table[opc2];
-> +                if (is_indirect_opcode(handler)) {
-> +                    table = ind_table(handler);
-> +                    /* opc3 is 5 bits long */
-> +                    for (opc3 = 0; opc3 < PPC_CPU_INDIRECT_OPCODES_LEN;
-> +                            opc3++) {
-> +                        handler = table[opc3];
-> +                        if (is_indirect_opcode(handler)) {
-> +                            table = ind_table(handler);
-> +                            /* opc4 is 5 bits long */
-> +                            for (opc4 = 0; opc4 < PPC_CPU_INDIRECT_OPCODES_LEN;
-> +                                 opc4++) {
-> +                                handler = table[opc4];
-> +                                if (handler->handler != &gen_invalid) {
-> +                                    printf("INSN: %02x %02x %02x %02x -- "
-> +                                           "(%02d %04d %02d) : %s\n",
-> +                                           opc1, opc2, opc3, opc4,
-> +                                           opc1, (opc3 << 5) | opc2, opc4,
-> +                                           handler->oname);
-> +                                }
-> +                            }
-> +                        } else {
-> +                            if (handler->handler != &gen_invalid) {
-> +                                /* Special hack to properly dump SPE insns */
-> +                                p = strchr(handler->oname, '_');
-> +                                if (p == NULL) {
-> +                                    printf("INSN: %02x %02x %02x (%02d %04d) : "
-> +                                           "%s\n",
-> +                                           opc1, opc2, opc3, opc1,
-> +                                           (opc3 << 5) | opc2,
-> +                                           handler->oname);
-> +                                } else {
-> +                                    q = "speundef";
-> +                                    if ((p - handler->oname) != strlen(q)
-> +                                        || (memcmp(handler->oname, q, strlen(q))
-> +                                            != 0)) {
-> +                                        /* First instruction */
-> +                                        printf("INSN: %02x %02x %02x"
-> +                                               "(%02d %04d) : %.*s\n",
-> +                                               opc1, opc2 << 1, opc3, opc1,
-> +                                               (opc3 << 6) | (opc2 << 1),
-> +                                               (int)(p - handler->oname),
-> +                                               handler->oname);
-> +                                    }
-> +                                    if (strcmp(p + 1, q) != 0) {
-> +                                        /* Second instruction */
-> +                                        printf("INSN: %02x %02x %02x "
-> +                                               "(%02d %04d) : %s\n", opc1,
-> +                                               (opc2 << 1) | 1, opc3, opc1,
-> +                                               (opc3 << 6) | (opc2 << 1) | 1,
-> +                                               p + 1);
-> +                                    }
-> +                                }
-> +                            }
-> +                        }
-> +                    }
-> +                } else {
-> +                    if (handler->handler != &gen_invalid) {
-> +                        printf("INSN: %02x %02x -- (%02d %04d) : %s\n",
-> +                               opc1, opc2, opc1, opc2, handler->oname);
-> +                    }
-> +                }
-> +            }
-> +        } else {
-> +            if (handler->handler != &gen_invalid) {
-> +                printf("INSN: %02x -- -- (%02d ----) : %s\n",
-> +                       opc1, opc1, handler->oname);
-> +            }
-> +        }
-> +    }
-> +}
-> +#endif
 
