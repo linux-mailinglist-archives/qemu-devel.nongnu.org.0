@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCD636B111
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 11:52:49 +0200 (CEST)
-Received: from localhost ([::1]:41760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D783736B134
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 12:04:14 +0200 (CEST)
+Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laxv6-0000Xe-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 05:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45066)
+	id 1lay69-0003ro-EE
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 06:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgenfv@gmail.com>) id 1laxtZ-0008Tf-2O
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:51:13 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:33337)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgenfv@gmail.com>) id 1laxtQ-0002t7-4B
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:51:08 -0400
-Received: by mail-lf1-x129.google.com with SMTP id j4so47867840lfp.0
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 02:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=W9ducklh3cupUiFGTHDjIlY9QtuLFEWSc7SmNVsPDEQ=;
- b=t9ybUyPv0TKbh192zM6PM2/RIU1GkbCmibQkm/EUqGVYgCuEN/5mMMvtO5T55ekxjV
- gL1X3SbWdFbAnd/jIvbeJWIit3PpiDlNLGv2xFTbZR6MVxXkT9yymcYRrwdbAWvrWy8X
- JNmcK8ambTJs96nK3qT8Je7FATTw/yJVXQgFfv7rqXYzh/sFwHWX6s0RlVlsU3GG7yp4
- liailOLkDfdMb6beAGFYDn1ZmprZsyyF/Qx1R7IQ6lf2+0LLftwrfHpYzKAoj9bN7lMQ
- 0VRVNRk3aIaasE+e3k/8s2vdC2mkDkWN225OdfTARRTl3txDDyS3Etajqi+2PrAmq+8G
- lVLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=W9ducklh3cupUiFGTHDjIlY9QtuLFEWSc7SmNVsPDEQ=;
- b=rP+L4Fmo2gyoZt5u/ZW5V8IME/7/Zl911ONVse9a70WdH5D7LNU+Alz9CsCZyRUZD6
- rbTQh6gPmL/TQUoJfdd5zT0SVKaYkciUTEGNg3VN+WIg7LAWOZXUhTLf6XRx3IDLNqGl
- 9KxqPR97XELm5kz/LXzNcZy0nYWeLTKO9/7V3WT818Y9GINlrylfXEhogykRDMMBs2/h
- KFcR/eWgFVv5aU2Lc/SwtDsQ+nVJdAhjcAwlMRRXzshvGEslqKlveXjGnr/aTaXAtAMq
- HYxbGW4NHuWzzfaQ1HHOUhTK/nqb1MfIYgm7B0Z/D5NxQnukeL2pXbxwk2mo6T8aXNJO
- h+yA==
-X-Gm-Message-State: AOAM530VrV8WXX/ip1oC89phA79pPkUkJGsEJWIl6PH1W5PsptmcviMm
- XWCTkWzP4xjxZEppmA6LGPgfw0Zp+stP2W+CbiRKwVsXcJU1dljp
-X-Google-Smtp-Source: ABdhPJw6QRmbktPLbNlY64NDC9jHTrU4+qxktuKge0Y3wUk4TCsVZIOc/QZhNqcNcGlAeXtwv6sFaJWeldtlcEg7Pl0=
-X-Received: by 2002:a19:ad4a:: with SMTP id s10mr1692764lfd.345.1619430661977; 
- Mon, 26 Apr 2021 02:51:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lay2y-0002Wr-PP
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:01:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lay2v-0000Gi-Bl
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:00:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619431252;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PA74sfXqj6QSgV1uSz6eLUNwRV4rMujeeQpw07g5tto=;
+ b=Aqt2k+7mA7AJEs+vro32hLJPnLyW3xLQeaZvOeMS3RMvXP76Sq6YuUJyOmCebwpGO77JmY
+ y9bdOMuzI2tMk6Sf0Z6V+7xsmwmrS3EbaGhk4K/ftyj7utL9cndwwCuRBI9GQLy4MlWloh
+ DrQOdw0D/3R6Mx0kr4SxlAxHaGLg7WQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-PwYyZubiOeGYrwyuePTBFQ-1; Mon, 26 Apr 2021 06:00:48 -0400
+X-MC-Unique: PwYyZubiOeGYrwyuePTBFQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A51C1008062;
+ Mon, 26 Apr 2021 10:00:47 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-150.ams2.redhat.com
+ [10.36.113.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BE0269FB1;
+ Mon, 26 Apr 2021 10:00:41 +0000 (UTC)
+Date: Mon, 26 Apr 2021 12:00:38 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 0/4] accel/tcg: Make sure that tb->size != 0 after
+ translation
+Message-ID: <20210426120038.5919f026.cohuck@redhat.com>
+In-Reply-To: <f84d413f-6f25-eca0-e963-dc11e446f38a@linaro.org>
+References: <20210416154939.32404-1-iii@linux.ibm.com>
+ <20210423123111.0575608e.cohuck@redhat.com>
+ <f84d413f-6f25-eca0-e963-dc11e446f38a@linaro.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-From: Edge NFV <edgenfv@gmail.com>
-Date: Mon, 26 Apr 2021 10:50:16 +0100
-Message-ID: <CAED3YRr-8ACi5FzsHy8AtijTMMS68aDW2sE1Qy5kmexkhGvETQ@mail.gmail.com>
-Subject: [PATCH] make vfio and DAX cache work together
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000005878dd05c0dd15bf"
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=edgenfv@gmail.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,85 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005878dd05c0dd15bf
-Content-Type: text/plain; charset="UTF-8"
+On Fri, 23 Apr 2021 10:50:59 -0700
+Richard Henderson <richard.henderson@linaro.org> wrote:
 
- Signed-off-by: Edge NFV <edgenfv@gmail.com>
----
- hw/vfio/common.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> On 4/23/21 3:31 AM, Cornelia Huck wrote:
+> > So, what's the way forward here? I can pick this if I get an ack for
+> > the arm patch. If someone else wants to take this, I'll just ack the
+> > s390x patch.  
+> 
+> You've volunteered, so that means you get it, I think.  ;-)
+> 
+> 
+> r~
+> 
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index ae5654fcdb..83e15bf7a3 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -668,6 +668,15 @@ static void vfio_listener_region_add(MemoryListener
-*listener,
-                 int128_get64(int128_sub(section->size, int128_one())));
-         return;
-     }
-+
-+    /* Do not add virtio fs cache section */
-+    if (!strcmp(memory_region_name(section->mr), "virtio-fs-cache")) {
-+        trace_vfio_listener_region_add_skip(
-+                section->offset_within_address_space,
-+                section->offset_within_address_space +
-+                int128_get64(int128_sub(section->size, int128_one())));
-+        return;
-+    }
+I guessed as much :) Thanks for your review!
 
-     if (unlikely((section->offset_within_address_space &
-                   ~qemu_real_host_page_mask) !=
--- 
-2.25.1
-
---0000000000005878dd05c0dd15bf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">
-Signed-off-by: Edge NFV &lt;<a href=3D"mailto:edgenfv@gmail.com" target=3D"=
-_blank">edgenfv@gmail.com</a>&gt;<br>
----<br>
-=C2=A0hw/vfio/common.c | 9 +++++++++<br>
-=C2=A01 file changed, 9 insertions(+)<br>
-<br>
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c<br>
-index ae5654fcdb..83e15bf7a3 100644<br>
---- a/hw/vfio/common.c<br>
-+++ b/hw/vfio/common.c<br>
-@@ -668,6 +668,15 @@ static void vfio_listener_region_add(MemoryListener *l=
-istener,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int128_get64(=
-int128_sub(section-&gt;size, int128_one())));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 <br>
-+=C2=A0 =C2=A0 /* Do not add virtio fs cache section */=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
-+=C2=A0 =C2=A0 if (!strcmp(memory_region_name(section-&gt;mr), &quot;virtio=
--fs-cache&quot;)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vfio_listener_region_add_skip(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 section-&gt;offset=
-_within_address_space,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 section-&gt;offset=
-_within_address_space +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int128_get64(int12=
-8_sub(section-&gt;size, int128_one())));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }=C2=A0 <br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (unlikely((section-&gt;offset_within_address_space &=
-amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0~qemu_=
-real_host_page_mask) !=3D<font color=3D"#888888"><br>
--- <br>
-2.25.1</font>
-
-</div>
-
---0000000000005878dd05c0dd15bf--
 
