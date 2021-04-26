@@ -2,41 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEACB36B6FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:39:03 +0200 (CEST)
-Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C2436B73E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:52:11 +0200 (CEST)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb4GE-0007VA-AW
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42128)
+	id 1lb4Sw-0002NK-9M
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
- id 1lb4DQ-00073r-V6
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:36:09 -0400
-Received: from static-71-162-116-19.bstnma.fios.verizon.net
- ([71.162.116.19]:39698 helo=server4.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chris@server4.localdomain>) id 1lb4DP-0000pp-8o
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:36:08 -0400
-Received: by server4.localdomain (Postfix, from userid 503)
- id 3F6CE60310050; Mon, 26 Apr 2021 12:36:06 -0400 (EDT)
-From: Chris Browy <cbrowy@avery-design.com>
-To: mst@redhat.com
-Subject: [PATCH v5 cxl2.0-v3-doe 0/6] QEMU PCIe DOE for PCIe 4.0/5.0 and CXL
- 2.0
-Date: Mon, 26 Apr 2021 12:36:04 -0400
-Message-Id: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=71.162.116.19;
- envelope-from=chris@server4.localdomain; helo=server4.localdomain
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.399,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lb4QM-0001G9-ET
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:49:30 -0400
+Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:35836)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lb4QJ-00079G-1A
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:49:29 -0400
+Received: by mail-vs1-xe2d.google.com with SMTP id x16so510118vsq.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=PFiygLIUMl9h/Ry6NeScprxAw8GpnGg3+2KO4C4FlvA=;
+ b=dXuxM/YCMwIZOxbCbcDZ6kI0VBxiN8Ja1scJj3icOTiELuFRimNru82BfmCc0poa7A
+ hTnwO4w1m9AU8MxrC+j3lZiAbMYq7dzIIKFjCaxRJTKOu0RWJ6f7P74phcYvVJx+oHYF
+ UaIA9nqmBqhrECT94SKcn0upx//hVuoX8B3uSiOrve/Us+tPOtVQ7iy7Mwl9ZQfRZkf6
+ bliS+i3bWoy6bEhlmuZfV3VjD4sCpiQQ4aK6Tj4zmfPuMQeD/SUBEot5RJxltGohywk5
+ zyUrNQfW2oVulSiSgnsVrW1yqKHLpu0J7pkNxnVOjQwlJL7idY/MOQMEfiq25XkexGbD
+ o3XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=PFiygLIUMl9h/Ry6NeScprxAw8GpnGg3+2KO4C4FlvA=;
+ b=ZndLny2dtZxP55uhtQCN6SnG5p30+lzH8jTX4FkZlubZA5vE4g/3VJivBUY7OaRm8x
+ g5wwyY3B5O82i/K0gV3qXfEUMar1dk7nFLNyZvqkqfhyJHX7kk5Tb1tTNZ0qW/yAbJRs
+ T6sz999STuWst/IniaABtLgdLHm7Kv4rGwDct36Y1vRPY3nmrrHKQ9tRi9sfxASA3Btg
+ JXH5J8Q9LnkSJ6AXcR+JFHP+xkYJT6ZWjOj6ZnRDS4wDhGOqkn7PDNJIsnSFtrX7n3/f
+ ZtTBr67IkvGSGjRttIiHsyJDwYCxsRb5frL9P9Vg30VLCxPkMvo9yqTvxvjV3jyoFBBc
+ zi6g==
+X-Gm-Message-State: AOAM5328toIUuSP+hBXgng7Sgcjo2I898b/A3dGsc1+4+pq7w4W9U07R
+ /7gFdf1YK9LpmzC1Wg5zYJWK0t9C/pPkoch1XtNXaEWbLJTjUkHS
+X-Google-Smtp-Source: ABdhPJw45RdWmkXWTaFUnV81KJGWtJhDk9izVxv2T3+Tqqhs4DdDz7btxER/ju4flqn0HXM8YF3PlNDbm2pobEleoKk=
+X-Received: by 2002:a67:1984:: with SMTP id 126mr13578770vsz.46.1619455762028; 
+ Mon, 26 Apr 2021 09:49:22 -0700 (PDT)
+MIME-Version: 1.0
+From: Doug Evans <dje@google.com>
+Date: Mon, 26 Apr 2021 09:48:44 -0700
+Message-ID: <CADPb22QnVowGz2oCWk8mBtjZz-4Cuzu0z=LmfvwotG_QjbuPzQ@mail.gmail.com>
+Subject: Ethernet-over-usb with linux guest using USB Device Controller ?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kraxel@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000006d80c805c0e2ed66"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
+ envelope-from=dje@google.com; helo=mail-vs1-xe2d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -49,89 +73,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com,
- Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com,
- linux-cxl@vger.kernel.org, f4bug@amsat.org, hchkuo@avery-design.com.tw,
- tyshao@avery-design.com.tw, jonathan.cameron@huawei.com, imammedo@redhat.com,
- dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements the PCIe Data Object Exchange (DOE) for PCIe 4.0/5.0
-and later and CXL 2.0 "type-3" memory devices supporting the following protocols:
- 1: PCIe DOE Discovery protocol
- 2: CXL DOE Compliance Mode protocol
- 3: CXL DOE CDAT protocol
+--0000000000006d80c805c0e2ed66
+Content-Type: text/plain; charset="UTF-8"
 
-Implementation is based on QEMU version which added CXL 2.0 "type-3" support
-https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
-6882c0453eea74d639ac75ec0f362d0cf9f1c744
+Hi.
 
-PCIe Data Object Exchange (DOE) implementation for QEMU refers to
-"Data Object Exchange ECN, March 12, 2020" [1]
+I'm working on a project where I want to have the linux qemu guest
+communicate with another linux system via ethernet-over-usb (as far as the
+guest is concerned, as it will be using a usb network gadget).
+In this case the linux guest will be using a USB Device Controller (UDC) to
+drive its side of the connection, and the protocol will be, IIUC, CDC-ECM.
 
-The Data Object Exchange implementation of CXL Compliance Mode is
-refers to "Compute Express Link (CXL) Specification, Rev. 2.0, Oct.
-2020" [2]
+The modeling would basically look like:
 
-The Data Object Exchange implementation of CXL Coherent Device Attribute
-Table (CDAT). This implementation is referring to "Coherent Device
-Attribute Table Specification, Rev. 1.02, Oct. 2020" [3] and "Compute
-Express Link Specification, Rev. 2.0, Oct. 2020" [2]
+linux-guest <--> UDC-model <--> ?#1 <--> ?#2 <--> linux-host
+|<-------------------- QEMU -------------->|
 
-The CDAT can be specified in two ways. One is to add ",cdat=<filename>"
-in "-device cxl-type3"'s command option. The file is required to provide
-the whole CDAT table in binary mode. The other is to use the default
-CDAT value created by build_cdat_table in hw/cxl/cxl-cdat.c.
+UDC-model will be working with CDC-ECM, but is there a use-case where we'd
+want "?#1" to be libslirp and "?#2" to be the host's IP network? Another
+use case is propagating CDC-ECM (or the USB packets in general) outside of
+QEMU such that it can be fed directly into the USB of the host (or remote
+host).
 
-Pre-built CDAT table for testing, contains one CDAT header and six
-CDAT entries: DSMAS, DSLBIS, DSMSCIS, DSIS, DSEMTS, and SSLBIS
-respectively.
+Questions: Is this support in QEMU and if so got any pointers to source for
+existing examples?
+If not, any guidance on how to proceed?
 
-Changes since PATCH v4:
-1-3: PCIe DOE linux header and macros and PCIe Discovery protocol
-4:   Clean up CXL compliance mode DOE protocol including default responses
-5-6: Clean up CXL CDAT DOE protocol including tesing built-in and external CDAT tables
+Of course we'd want this to not be a one-off. E.g., the code would be
+partitioned such that the UDC-model-independent-support would be available
+to other UDC models to use. Thus perhaps this falls under the scope of
+things like this?
+https://yhbt.net/lore/all/YFDo%2FoHikOEcXFcg@work-vm/
+I'm new to all of this side of USB btw ...
 
-[1]: https://members.pcisig.com/wg/PCI-SIG/document/14143
-[2]: https://www.computeexpresslink.org/
-[3]: https://uefi.org/sites/default/files/resources/Coherent%20Device%20Attribute%20Table_1.02.pdf
+--0000000000006d80c805c0e2ed66
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hchkuo (6):
-  standard-headers/linux/pci_regs: PCI header from Linux kernel
-  include/hw/pci: headers for PCIe DOE
-  hw/pci: PCIe Data Object Exchange implementation
-  cxl/compliance: CXL Compliance Data Object Exchange implementation
-  cxl/cdat: CXL CDAT Data Object Exchange implementation
-  test/cdat: CXL CDAT test data
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hi.=
+<br></div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
+<div class=3D"gmail_default" style=3D"font-size:small">I&#39;m working on a=
+ project where I want to have the linux qemu guest communicate with another=
+ linux system via ethernet-over-usb (as far as the guest is concerned, as i=
+t will be using a usb network gadget).</div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">In this case the linux guest will be using a USB De=
+vice Controller (UDC) to drive its side of the connection, and the protocol=
+ will be, IIUC, CDC-ECM.</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
+The modeling would basically look like:</div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small">linux-guest &lt;--&gt; UDC-model &lt;--&gt; ?#1=C2=A0&lt;--&=
+gt; ?#2 &lt;--&gt; linux-host</div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small">|&lt;-------------------- QEMU --------------&gt;|</div><div=
+ class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"=
+gmail_default" style=3D"font-size:small">UDC-model will be working with CDC=
+-ECM, but is there a use-case where we&#39;d want &quot;?#1&quot; to be lib=
+slirp and &quot;?#2&quot; to be the host&#39;s IP network? Another use case=
+ is propagating CDC-ECM (or the USB packets in general) outside of QEMU suc=
+h that it can be fed directly into the USB of the host (or remote host).</d=
+iv><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cl=
+ass=3D"gmail_default" style=3D"font-size:small">Questions: Is this support =
+in QEMU and if so got any pointers to source for existing examples?</div><d=
+iv class=3D"gmail_default" style=3D"font-size:small">If not, any guidance o=
+n how to proceed?</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Of cour=
+se we&#39;d want this to not be a one-off. E.g., the code would be partitio=
+ned such that the UDC-model-independent-support would be available to other=
+ UDC models to use. Thus perhaps this falls under the scope of things like =
+this?<br></div><div class=3D"gmail_default" style=3D"font-size:small"><a hr=
+ef=3D"https://yhbt.net/lore/all/YFDo%2FoHikOEcXFcg@work-vm/">https://yhbt.n=
+et/lore/all/YFDo%2FoHikOEcXFcg@work-vm/</a><br></div><div class=3D"gmail_de=
+fault" style=3D"font-size:small">I&#39;m new to all of this side of USB btw=
+ ...</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
+</div>
 
- MAINTAINERS                               |   7 +
- hw/cxl/cxl-cdat.c                         | 228 +++++++++++++
- hw/cxl/meson.build                        |   1 +
- hw/mem/cxl_type3.c                        | 202 ++++++++++++
- hw/pci/meson.build                        |   1 +
- hw/pci/pcie_doe.c                         | 374 ++++++++++++++++++++++
- include/hw/cxl/cxl_cdat.h                 | 149 +++++++++
- include/hw/cxl/cxl_compliance.h           | 293 +++++++++++++++++
- include/hw/cxl/cxl_component.h            |   7 +
- include/hw/cxl/cxl_device.h               |   4 +
- include/hw/cxl/cxl_pci.h                  |   2 +
- include/hw/pci/pci_ids.h                  |   2 +
- include/hw/pci/pcie.h                     |   1 +
- include/hw/pci/pcie_doe.h                 | 123 +++++++
- include/hw/pci/pcie_regs.h                |   3 +
- include/standard-headers/linux/pci_regs.h |   3 +-
- tests/data/cdat/cdat.dat                  | Bin 0 -> 148 bytes
- 17 files changed, 1399 insertions(+), 1 deletion(-)
- create mode 100644 hw/cxl/cxl-cdat.c
- create mode 100644 hw/pci/pcie_doe.c
- create mode 100644 include/hw/cxl/cxl_cdat.h
- create mode 100644 include/hw/cxl/cxl_compliance.h
- create mode 100644 include/hw/pci/pcie_doe.h
- create mode 100644 tests/data/cdat/cdat.dat
-
--- 
-2.17.1
-
+--0000000000006d80c805c0e2ed66--
 
