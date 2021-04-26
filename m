@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF5436AAEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 05:02:16 +0200 (CEST)
-Received: from localhost ([::1]:44736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7356F36AAF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 05:06:54 +0200 (CEST)
+Received: from localhost ([::1]:56300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1larVn-0008Jm-B8
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 23:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60130)
+	id 1laraH-0004mU-52
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 23:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1larNg-0007wD-6B
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:55 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:43832)
+ id 1larNk-0007wv-2U
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:57 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1larNY-0007Z1-C8
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:51 -0400
-Received: by mail-pl1-x631.google.com with SMTP id v20so869694plo.10
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:53:43 -0700 (PDT)
+ id 1larNa-0007Z9-75
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:55 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h14-20020a17090aea8eb02901553e1cc649so2184097pjz.0
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Roi+8AxKJSMluduFFvE6DucqktBjisHW/x7VH6rXtB4=;
- b=VCfdDpK/9KlNXWdA9o9z0lfb/wQaJwBImhnpobIA1f2yDDdwhBgNf32DxY06ojK8Sf
- vvep7+cbaJpimPiWFZH7Ad3LzFzAvV6mQrFNTryWOUoWXI4sLtloeEvfBKt9EmBIMeur
- S8RDGH7kch64o5PPmOeB/ugmBS06EbEe20OeFQoOFJA4lwSJvAqBfJ2boCYM/My/RhN+
- TH37wZQvgOlh8+Z5muTFvI6tjbLAryNwJOMlonp/9tpsuwMC8Y8RfevFNb1SCx2AF/9C
- NA/DED2kTukSmkPKhqzIHKzkprDIPPUoLNIGV5zhRF4VT9OqHnD4AGXJ0hL2FwrJYIha
- lPWg==
+ bh=c7NwtIs6dyH2rnCYlnE60ax9jB4WmlbBbS0fa75+ejo=;
+ b=YKGLRc8n8Z9Niv69rwW2OEXtLD3e2tRvRPFxoLLMoel2mmOgo5mT6ykbptwxWrbHwd
+ joWqVeGk6R6VZC8nAJjylIaRuumZVxRUnCvoa1mkEhHB1LxWvaa/aVRbX4e/SeB1jysb
+ ssQQIxPgPy9HKZfVCGyQctih6qqhB6yfcI7+4iOiExPRpyBQWKrsAZAO5gcLf/btXCpe
+ Ex1yHu4Agr3laICPpc/N7llXJJ5MRpBbzhpUMpSRpF8QTWTTWuWJSDpZ2sBBBdIcPmqG
+ C19Np//LEcjw9QIjRhQtmd21QIGxU9CTMFYE/ED9ho/EygLfZQeXe+K86H6Yk0M1eKZy
+ 8XZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Roi+8AxKJSMluduFFvE6DucqktBjisHW/x7VH6rXtB4=;
- b=LU1h/PX5RQoLWvWOht4w7i48sPXtzQJmuJCnwfYOqZTexq5+qHnQaV8Ga4lv+n9cg7
- XjKzQbDbpd74+57cMLPHN+J/OfVEgcK7vWZcM8q7bZFXM2BnhDKKWNHIIjTt+G1e6q0X
- AwnAiNR3/y5IQPU0sH+GWi5c4S/OSp4uLh4W/yvszDFxYvM/fP0MERSgt+qErFZM2O27
- ywehwyVyv5b4A8A0feqlwcn5Zl6YUgiVGYqS7C7GYHdkKTwDOjLPyjdk5rwudMKHcaWy
- ykGvEdSbYbn2ICF+uykI+6I+SEwvjnioWGO7uCv8ZDuj1FYXvrHvqv7tqOnNFG08cwTo
- usEw==
-X-Gm-Message-State: AOAM530Af9PvEqJ1HOeiC2tLajpCX8dJvf0oLjWRiXMmkRg/lSUrsAiz
- 3onJLkqSz0JosTpXfBO6H/x0FIWT4LUbJg==
-X-Google-Smtp-Source: ABdhPJwY3D5GDnUHFMO/xpkzeAHovPgpblk4bEpJWA+yEkoGoUSzp4YvO6yksyEXcmIlMU7iMY2aSw==
-X-Received: by 2002:a17:90a:850c:: with SMTP id
- l12mr19530577pjn.224.1619405622678; 
- Sun, 25 Apr 2021 19:53:42 -0700 (PDT)
+ bh=c7NwtIs6dyH2rnCYlnE60ax9jB4WmlbBbS0fa75+ejo=;
+ b=Wts/390dUDXwc/2yGw7t2RlS1LNmrh7wg4K8l8xUCfwa6t4H09WTMfjX0pVCnXg+Pw
+ 3VKQNeryV2k+uB+GsFvkVdzdzVEOvSUMixPlkdYT7fvzBTRmiSX6WYh7x1gAf+mxvdpD
+ YqKDy4fYdnkgcRW67b6aTqg8Xm0g5eKXCZwXk9YcWty1+KKBTn3ta9Ja1iklEG7Gylv6
+ bzNIn+djmvzGIE0P2fKElqyMbLiOoEbmeoY6fz8egKjDaOQy4MUGNqkumJnmQnI6KBJU
+ 4/hAiRUR+607FxRNXlECW9cJqyy1nQws0vBIt3GdGJSe2zaPpDudgqWRPQo8qO7gbAsx
+ AYhw==
+X-Gm-Message-State: AOAM5312BofwL3qoiagOz4Ijli/zuaP8gzpMnjQHSG7EpSy5sZtkohC6
+ HrSG2h/YtGdWz6HT71VSiYbHY2I899lD5A==
+X-Google-Smtp-Source: ABdhPJwvBSa4QM+2w8SByHa8Ry+LmnbPUl4QoSQ94gwc9SJj+vPyduXoDzes0g6H4dw7fmk3flW4JA==
+X-Received: by 2002:a17:902:e809:b029:ed:258e:77d0 with SMTP id
+ u9-20020a170902e809b02900ed258e77d0mr4080896plg.55.1619405623298; 
+ Sun, 25 Apr 2021 19:53:43 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id e23sm9805680pgg.76.2021.04.25.19.53.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Apr 2021 19:53:42 -0700 (PDT)
+ Sun, 25 Apr 2021 19:53:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/25] linux-user/sparc: Merge sparc64 target_structs.h
-Date: Sun, 25 Apr 2021 19:53:18 -0700
-Message-Id: <20210426025334.1168495-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/25] linux-user/sparc: Merge sparc64 termbits.h
+Date: Sun, 25 Apr 2021 19:53:19 -0700
+Message-Id: <20210426025334.1168495-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210426025334.1168495-1-richard.henderson@linaro.org>
 References: <20210426025334.1168495-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,129 +90,306 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/target_structs.h   | 36 +++++++-----------
- linux-user/sparc64/target_structs.h | 59 +----------------------------
- 2 files changed, 15 insertions(+), 80 deletions(-)
+ linux-user/sparc64/termbits.h | 292 +---------------------------------
+ 1 file changed, 1 insertion(+), 291 deletions(-)
 
-diff --git a/linux-user/sparc/target_structs.h b/linux-user/sparc/target_structs.h
-index 9953540759..beeace8fb2 100644
---- a/linux-user/sparc/target_structs.h
-+++ b/linux-user/sparc/target_structs.h
-@@ -26,13 +26,10 @@ struct target_ipc_perm {
-     abi_uint cuid;                      /* Creator's user ID.  */
-     abi_uint cgid;                      /* Creator's group ID.  */
- #if TARGET_ABI_BITS == 32
--    abi_ushort __pad1;
--    abi_ushort mode;                    /* Read/write permission.  */
--    abi_ushort __pad2;
--#else
--    abi_ushort mode;
--    abi_ushort __pad1;
-+    abi_ushort __pad0;
- #endif
-+    abi_ushort mode;                    /* Read/write permission.  */
-+    abi_ushort __pad1;
-     abi_ushort __seq;                   /* Sequence number.  */
-     uint64_t __unused1;
-     uint64_t __unused2;
-@@ -40,22 +37,17 @@ struct target_ipc_perm {
- 
- struct target_shmid_ds {
-     struct target_ipc_perm shm_perm;    /* operation permission struct */
--#if TARGET_ABI_BITS == 32
--    abi_uint __pad1;
--#endif
--    abi_ulong shm_atime;                /* time of last shmat() */
--#if TARGET_ABI_BITS == 32
--    abi_uint __pad2;
--#endif
--    abi_ulong shm_dtime;                /* time of last shmdt() */
--#if TARGET_ABI_BITS == 32
--    abi_uint __pad3;
--#endif
--    abi_ulong shm_ctime;                /* time of last change by shmctl() */
--    abi_long shm_segsz;                 /* size of segment in bytes */
--    abi_ulong shm_cpid;                 /* pid of creator */
--    abi_ulong shm_lpid;                 /* pid of last shmop */
--    abi_long shm_nattch;                /* number of current attaches */
-+    /*
-+     * Note that sparc32 splits these into hi/lo parts.
-+     * For simplicity in qemu, always use a 64-bit type.
-+     */
-+    int64_t  shm_atime;                 /* last attach time */
-+    int64_t  shm_dtime;                 /* last detach time */
-+    int64_t  shm_ctime;                 /* last change time */
-+    abi_ulong shm_segsz;                /* size of segment in bytes */
-+    abi_int shm_cpid;                   /* pid of creator */
-+    abi_int shm_lpid;                   /* pid of last shmop */
-+    abi_ulong shm_nattch;               /* number of current attaches */
-     abi_ulong __unused1;
-     abi_ulong __unused2;
- };
-diff --git a/linux-user/sparc64/target_structs.h b/linux-user/sparc64/target_structs.h
-index 4a8ed48df7..cbcbc4602a 100644
---- a/linux-user/sparc64/target_structs.h
-+++ b/linux-user/sparc64/target_structs.h
-@@ -1,58 +1 @@
--/*
-- * SPARC64 specific structures for linux-user
-- *
-- * Copyright (c) 2013 Fabrice Bellard
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+diff --git a/linux-user/sparc64/termbits.h b/linux-user/sparc64/termbits.h
+index 1ab1e80db5..54ddfee3ba 100644
+--- a/linux-user/sparc64/termbits.h
++++ b/linux-user/sparc64/termbits.h
+@@ -1,291 +1 @@
+-/* from asm/termbits.h */
+-
+-#ifndef LINUX_USER_SPARC64_TERMBITS_H
+-#define LINUX_USER_SPARC64_TERMBITS_H
+-
+-#define TARGET_NCCS 19
+-
+-typedef unsigned char   target_cc_t;        /* cc_t */
+-typedef unsigned int    target_speed_t;     /* speed_t */
+-typedef unsigned int    target_tcflag_t;    /* tcflag_t */
+-
+-struct target_termios {
+-    target_tcflag_t c_iflag;               /* input mode flags */
+-    target_tcflag_t c_oflag;               /* output mode flags */
+-    target_tcflag_t c_cflag;               /* control mode flags */
+-    target_tcflag_t c_lflag;               /* local mode flags */
+-    target_cc_t c_line;                    /* line discipline */
+-    target_cc_t c_cc[TARGET_NCCS];         /* control characters */
+-};
+-
+-
+-/* c_cc characters */
+-#define TARGET_VINTR    0
+-#define TARGET_VQUIT    1
+-#define TARGET_VERASE   2
+-#define TARGET_VKILL    3
+-#define TARGET_VEOF     4
+-#define TARGET_VEOL     5
+-#define TARGET_VEOL2    6
+-#define TARGET_VSWTC    7
+-#define TARGET_VSTART   8
+-#define TARGET_VSTOP    9
+-
+-#define TARGET_VSUSP    10
+-#define TARGET_VDSUSP   11  /* SunOS POSIX nicety I do believe... */
+-#define TARGET_VREPRINT 12
+-#define TARGET_VDISCARD 13
+-#define TARGET_VWERASE  14
+-#define TARGET_VLNEXT   15
+-
+-/* Kernel keeps vmin/vtime separated, user apps assume vmin/vtime is
+- * shared with eof/eol
 - */
--#ifndef SPARC64_TARGET_STRUCTS_H
--#define SPARC64_TARGET_STRUCTS_H
+-#define TARGET_VMIN     TARGET_VEOF
+-#define TARGET_VTIME    TARGET_VEOL
 -
--struct target_ipc_perm {
--    abi_int __key;                      /* Key.  */
--    abi_uint uid;                       /* Owner's user ID.  */
--    abi_uint gid;                       /* Owner's group ID.  */
--    abi_uint cuid;                      /* Creator's user ID.  */
--    abi_uint cgid;                      /* Creator's group ID.  */
--    abi_ushort mode;                    /* Read/write permission.  */
--    abi_ushort __pad1;
--    abi_ushort __seq;                   /* Sequence number.  */
--    abi_ushort __pad2;
--    abi_ulong __unused1;
--    abi_ulong __unused2;
--};
+-/* c_iflag bits */
+-#define TARGET_IGNBRK	0x00000001
+-#define TARGET_BRKINT	0x00000002
+-#define TARGET_IGNPAR	0x00000004
+-#define TARGET_PARMRK	0x00000008
+-#define TARGET_INPCK	0x00000010
+-#define TARGET_ISTRIP	0x00000020
+-#define TARGET_INLCR	0x00000040
+-#define TARGET_IGNCR	0x00000080
+-#define TARGET_ICRNL	0x00000100
+-#define TARGET_IUCLC	0x00000200
+-#define TARGET_IXON	0x00000400
+-#define TARGET_IXANY	0x00000800
+-#define TARGET_IXOFF	0x00001000
+-#define TARGET_IMAXBEL	0x00002000
+-#define TARGET_IUTF8	0x00004000
 -
--struct target_shmid_ds {
--    struct target_ipc_perm shm_perm;    /* operation permission struct */
--    abi_long shm_segsz;                 /* size of segment in bytes */
--    abi_ulong shm_atime;                /* time of last shmat() */
--#if TARGET_ABI_BITS == 32
--    abi_ulong __unused1;
--#endif
--    abi_ulong shm_dtime;                /* time of last shmdt() */
--#if TARGET_ABI_BITS == 32
--    abi_ulong __unused2;
--#endif
--    abi_ulong shm_ctime;                /* time of last change by shmctl() */
--#if TARGET_ABI_BITS == 32
--    abi_ulong __unused3;
--#endif
--    abi_int shm_cpid;                   /* pid of creator */
--    abi_int shm_lpid;                   /* pid of last shmop */
--    abi_ulong shm_nattch;               /* number of current attaches */
--    abi_ulong __unused4;
--    abi_ulong __unused5;
--};
+-/* c_oflag bits */
+-#define TARGET_OPOST	0x00000001
+-#define TARGET_OLCUC	0x00000002
+-#define TARGET_ONLCR	0x00000004
+-#define TARGET_OCRNL	0x00000008
+-#define TARGET_ONOCR	0x00000010
+-#define TARGET_ONLRET	0x00000020
+-#define TARGET_OFILL	0x00000040
+-#define TARGET_OFDEL	0x00000080
+-#define TARGET_NLDLY	0x00000100
+-#define   TARGET_NL0	0x00000000
+-#define   TARGET_NL1	0x00000100
+-#define TARGET_CRDLY	0x00000600
+-#define   TARGET_CR0	0x00000000
+-#define   TARGET_CR1	0x00000200
+-#define   TARGET_CR2	0x00000400
+-#define   TARGET_CR3	0x00000600
+-#define TARGET_TABDLY	0x00001800
+-#define   TARGET_TAB0	0x00000000
+-#define   TARGET_TAB1	0x00000800
+-#define   TARGET_TAB2	0x00001000
+-#define   TARGET_TAB3	0x00001800
+-#define   TARGET_XTABS	0x00001800
+-#define TARGET_BSDLY	0x00002000
+-#define   TARGET_BS0	0x00000000
+-#define   TARGET_BS1	0x00002000
+-#define TARGET_VTDLY	0x00004000
+-#define   TARGET_VT0	0x00000000
+-#define   TARGET_VT1	0x00004000
+-#define TARGET_FFDLY	0x00008000
+-#define   TARGET_FF0	0x00000000
+-#define   TARGET_FF1	0x00008000
+-#define TARGET_PAGEOUT 0x00010000  /* SUNOS specific */
+-#define TARGET_WRAP    0x00020000  /* SUNOS specific */
+-
+-/* c_cflag bit meaning */
+-#define TARGET_CBAUD	  0x0000100f
+-#define  TARGET_B0	  0x00000000   /* hang up */
+-#define  TARGET_B50	  0x00000001
+-#define  TARGET_B75	  0x00000002
+-#define  TARGET_B110	  0x00000003
+-#define  TARGET_B134	  0x00000004
+-#define  TARGET_B150	  0x00000005
+-#define  TARGET_B200	  0x00000006
+-#define  TARGET_B300	  0x00000007
+-#define  TARGET_B600	  0x00000008
+-#define  TARGET_B1200	  0x00000009
+-#define  TARGET_B1800	  0x0000000a
+-#define  TARGET_B2400	  0x0000000b
+-#define  TARGET_B4800	  0x0000000c
+-#define  TARGET_B9600	  0x0000000d
+-#define  TARGET_B19200	  0x0000000e
+-#define  TARGET_B38400	  0x0000000f
+-#define TARGET_EXTA      B19200
+-#define TARGET_EXTB      B38400
+-#define  TARGET_CSIZE    0x00000030
+-#define   TARGET_CS5	  0x00000000
+-#define   TARGET_CS6	  0x00000010
+-#define   TARGET_CS7	  0x00000020
+-#define   TARGET_CS8	  0x00000030
+-#define TARGET_CSTOPB	  0x00000040
+-#define TARGET_CREAD	  0x00000080
+-#define TARGET_PARENB	  0x00000100
+-#define TARGET_PARODD	  0x00000200
+-#define TARGET_HUPCL	  0x00000400
+-#define TARGET_CLOCAL	  0x00000800
+-#define TARGET_CBAUDEX   0x00001000
+-/* We'll never see these speeds with the Zilogs, but for completeness... */
+-#define  TARGET_B57600   0x00001001
+-#define  TARGET_B115200  0x00001002
+-#define  TARGET_B230400  0x00001003
+-#define  TARGET_B460800  0x00001004
+-/* This is what we can do with the Zilogs. */
+-#define  TARGET_B76800   0x00001005
+-/* This is what we can do with the SAB82532. */
+-#define  TARGET_B153600  0x00001006
+-#define  TARGET_B307200  0x00001007
+-#define  TARGET_B614400  0x00001008
+-#define  TARGET_B921600  0x00001009
+-/* And these are the rest... */
+-#define  TARGET_B500000  0x0000100a
+-#define  TARGET_B576000  0x0000100b
+-#define TARGET_B1000000  0x0000100c
+-#define TARGET_B1152000  0x0000100d
+-#define TARGET_B1500000  0x0000100e
+-#define TARGET_B2000000  0x0000100f
+-/* These have totally bogus values and nobody uses them
+-   so far. Later on we'd have to use say 0x10000x and
+-   adjust CBAUD constant and drivers accordingly.
+-#define B2500000  0x00001010
+-#define B3000000  0x00001011
+-#define B3500000  0x00001012
+-#define B4000000  0x00001013  */
+-#define TARGET_CIBAUD	  0x100f0000  /* input baud rate (not used) */
+-#define TARGET_CMSPAR	  0x40000000  /* mark or space (stick) parity */
+-#define TARGET_CRTSCTS	  0x80000000  /* flow control */
+-
+-/* c_lflag bits */
+-#define TARGET_ISIG	0x00000001
+-#define TARGET_ICANON	0x00000002
+-#define TARGET_XCASE	0x00000004
+-#define TARGET_ECHO	0x00000008
+-#define TARGET_ECHOE	0x00000010
+-#define TARGET_ECHOK	0x00000020
+-#define TARGET_ECHONL	0x00000040
+-#define TARGET_NOFLSH	0x00000080
+-#define TARGET_TOSTOP	0x00000100
+-#define TARGET_ECHOCTL	0x00000200
+-#define TARGET_ECHOPRT	0x00000400
+-#define TARGET_ECHOKE	0x00000800
+-#define TARGET_DEFECHO  0x00001000  /* SUNOS thing, what is it? */
+-#define TARGET_FLUSHO	0x00002000
+-#define TARGET_PENDIN	0x00004000
+-#define TARGET_IEXTEN	0x00008000
+-#define TARGET_EXTPROC  0x00010000
+-
+-/* ioctls */
+-
+-/* Big T */
+-#define TARGET_TCGETA		TARGET_IOR('T', 1, struct target_termio)
+-#define TARGET_TCSETA		TARGET_IOW('T', 2, struct target_termio)
+-#define TARGET_TCSETAW		TARGET_IOW('T', 3, struct target_termio)
+-#define TARGET_TCSETAF		TARGET_IOW('T', 4, struct target_termio)
+-#define TARGET_TCSBRK		TARGET_IO('T', 5)
+-#define TARGET_TCXONC		TARGET_IO('T', 6)
+-#define TARGET_TCFLSH		TARGET_IO('T', 7)
+-#define TARGET_TCGETS		TARGET_IOR('T', 8, struct target_termios)
+-#define TARGET_TCSETS		TARGET_IOW('T', 9, struct target_termios)
+-#define TARGET_TCSETSW		TARGET_IOW('T', 10, struct target_termios)
+-#define TARGET_TCSETSF		TARGET_IOW('T', 11, struct target_termios)
+-
+-/* Note that all the ioctls that are not available in Linux have a
+- * double underscore on the front to: a) avoid some programs to
+- * thing we support some ioctls under Linux (autoconfiguration stuff)
+- */
+-/* Little t */
+-#define TARGET_TIOCGETD	TARGET_IOR('t', 0, int)
+-#define TARGET_TIOCSETD	TARGET_IOW('t', 1, int)
+-//#define __TIOCHPCL        _IO('t', 2) /* SunOS Specific */
+-//#define __TIOCMODG        _IOR('t', 3, int) /* SunOS Specific */
+-//#define __TIOCMODS        _IOW('t', 4, int) /* SunOS Specific */
+-//#define __TIOCGETP        _IOR('t', 8, struct sgttyb) /* SunOS Specific */
+-//#define __TIOCSETP        _IOW('t', 9, struct sgttyb) /* SunOS Specific */
+-//#define __TIOCSETN        _IOW('t', 10, struct sgttyb) /* SunOS Specific */
+-#define TARGET_TIOCEXCL	TARGET_IO('t', 13)
+-#define TARGET_TIOCNXCL	TARGET_IO('t', 14)
+-//#define __TIOCFLUSH       _IOW('t', 16, int) /* SunOS Specific */
+-//#define __TIOCSETC        _IOW('t', 17, struct tchars) /* SunOS Specific */
+-//#define __TIOCGETC        _IOR('t', 18, struct tchars) /* SunOS Specific */
+-//#define __TIOCTCNTL       _IOW('t', 32, int) /* SunOS Specific */
+-//#define __TIOCSIGNAL      _IOW('t', 33, int) /* SunOS Specific */
+-//#define __TIOCSETX        _IOW('t', 34, int) /* SunOS Specific */
+-//#define __TIOCGETX        _IOR('t', 35, int) /* SunOS Specific */
+-#define TARGET_TIOCCONS	TARGET_IO('t', 36)
+-//#define __TIOCSSIZE     _IOW('t', 37, struct sunos_ttysize) /* SunOS Specific */
+-//#define __TIOCGSIZE     _IOR('t', 38, struct sunos_ttysize) /* SunOS Specific */
+-#define TARGET_TIOCGSOFTCAR	TARGET_IOR('t', 100, int)
+-#define TARGET_TIOCSSOFTCAR	TARGET_IOW('t', 101, int)
+-//#define __TIOCUCNTL       _IOW('t', 102, int) /* SunOS Specific */
+-#define TARGET_TIOCSWINSZ	TARGET_IOW('t', 103, struct winsize)
+-#define TARGET_TIOCGWINSZ	TARGET_IOR('t', 104, struct winsize)
+-//#define __TIOCREMOTE      _IOW('t', 105, int) /* SunOS Specific */
+-#define TARGET_TIOCMGET	TARGET_IOR('t', 106, int)
+-#define TARGET_TIOCMBIC	TARGET_IOW('t', 107, int)
+-#define TARGET_TIOCMBIS	TARGET_IOW('t', 108, int)
+-#define TARGET_TIOCMSET	TARGET_IOW('t', 109, int)
+-#define TARGET_TIOCSTART       TARGET_IO('t', 110)
+-#define TARGET_TIOCSTOP        TARGET_IO('t', 111)
+-#define TARGET_TIOCPKT		TARGET_IOW('t', 112, int)
+-#define TARGET_TIOCNOTTY	TARGET_IO('t', 113)
+-#define TARGET_TIOCSTI		TARGET_IOW('t', 114, char)
+-#define TARGET_TIOCOUTQ	TARGET_IOR('t', 115, int)
+-//#define __TIOCGLTC        _IOR('t', 116, struct ltchars) /* SunOS Specific */
+-//#define __TIOCSLTC        _IOW('t', 117, struct ltchars) /* SunOS Specific */
+-/* 118 is the non-posix setpgrp tty ioctl */
+-/* 119 is the non-posix getpgrp tty ioctl */
+-//#define __TIOCCDTR        TARGET_IO('t', 120) /* SunOS Specific */
+-//#define __TIOCSDTR        TARGET_IO('t', 121) /* SunOS Specific */
+-#define TARGET_TIOCCBRK        TARGET_IO('t', 122)
+-#define TARGET_TIOCSBRK        TARGET_IO('t', 123)
+-//#define __TIOCLGET        TARGET_IOW('t', 124, int) /* SunOS Specific */
+-//#define __TIOCLSET        TARGET_IOW('t', 125, int) /* SunOS Specific */
+-//#define __TIOCLBIC        TARGET_IOW('t', 126, int) /* SunOS Specific */
+-//#define __TIOCLBIS        TARGET_IOW('t', 127, int) /* SunOS Specific */
+-//#define __TIOCISPACE      TARGET_IOR('t', 128, int) /* SunOS Specific */
+-//#define __TIOCISIZE       TARGET_IOR('t', 129, int) /* SunOS Specific */
+-#define TARGET_TIOCSPGRP	TARGET_IOW('t', 130, int)
+-#define TARGET_TIOCGPGRP	TARGET_IOR('t', 131, int)
+-#define TARGET_TIOCSCTTY	TARGET_IO('t', 132)
+-#define TARGET_TIOCGSID	TARGET_IOR('t', 133, int)
+-/* Get minor device of a pty master's FD -- Solaris equiv is ISPTM */
+-#define TARGET_TIOCGPTN	TARGET_IOR('t', 134, unsigned int) /* Get Pty Number */
+-#define TARGET_TIOCSPTLCK	TARGET_IOW('t', 135, int) /* Lock/unlock PTY */
+-#define TARGET_TIOCGPTPEER      TARGET_IO('t', 137) /* Safely open the slave */
+-
+-/* Little f */
+-#define TARGET_FIOCLEX		TARGET_IO('f', 1)
+-#define TARGET_FIONCLEX	TARGET_IO('f', 2)
+-#define TARGET_FIOASYNC	TARGET_IOW('f', 125, int)
+-#define TARGET_FIONBIO		TARGET_IOW('f', 126, int)
+-#define TARGET_FIONREAD	TARGET_IOR('f', 127, int)
+-#define TARGET_TIOCINQ		TARGET_FIONREAD
+-
+-/* SCARY Rutgers local SunOS kernel hackery, perhaps I will support it
+- * someday.  This is completely bogus, I know...
+- */
+-//#define __TCGETSTAT       TARGET_IO('T', 200) /* Rutgers specific */
+-//#define __TCSETSTAT       TARGET_IO('T', 201) /* Rutgers specific */
+-
+-/* Linux specific, no SunOS equivalent. */
+-#define TARGET_TIOCLINUX	0x541C
+-#define TARGET_TIOCGSERIAL	0x541E
+-#define TARGET_TIOCSSERIAL	0x541F
+-#define TARGET_TCSBRKP		0x5425
+-#define TARGET_TIOCTTYGSTRUCT	0x5426
+-#define TARGET_TIOCSERCONFIG	0x5453
+-#define TARGET_TIOCSERGWILD	0x5454
+-#define TARGET_TIOCSERSWILD	0x5455
+-#define TARGET_TIOCGLCKTRMIOS	0x5456
+-#define TARGET_TIOCSLCKTRMIOS	0x5457
+-#define TARGET_TIOCSERGSTRUCT	0x5458 /* For debugging only */
+-#define TARGET_TIOCSERGETLSR   0x5459 /* Get line status register */
+-#define TARGET_TIOCSERGETMULTI 0x545A /* Get multiport config  */
+-#define TARGET_TIOCSERSETMULTI 0x545B /* Set multiport config */
+-#define TARGET_TIOCMIWAIT	0x545C /* Wait input */
+-#define TARGET_TIOCGICOUNT	0x545D /* Read serial port inline interrupt counts */
 -
 -#endif
-+#include "../sparc/target_structs.h"
++#include "../sparc/termbits.h"
 -- 
 2.25.1
 
