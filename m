@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3854C36B424
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:32:43 +0200 (CEST)
-Received: from localhost ([::1]:36252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D955136B42A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:35:28 +0200 (CEST)
+Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb1Lu-00056O-AA
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39974)
+	id 1lb1OZ-0006va-V7
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:35:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lb1KD-000406-La; Mon, 26 Apr 2021 09:30:57 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:39705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lb1KB-0001Ob-RH; Mon, 26 Apr 2021 09:30:57 -0400
-Received: by mail-ej1-x630.google.com with SMTP id zl7so4767359ejb.6;
- Mon, 26 Apr 2021 06:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=FIscxo3PP9kGGRxEdLKDNVwK/IjbND0Oxh+dBQqbsw0=;
- b=tCUeQAtcsJDs+KuHsyVjuHRuDONDl5jn3nJNdhmjCojVYCzHjCy2w5tTpBsRhCTaoW
- 1lHeXsfcPMzgTWo0+ocdtpT2rftvI1Ysie75P9dKa7x5jHZJkOGjrAb4w5qZkURs0dA1
- 8I7sroSoD5LX5SBrB0CFsxIvs1K3Ow3O9AEJuFHwDsfEmpREYokWtwsoXcVv5oFyFn58
- Qx99UEIONNn6CqD7ZSzEmOCtvpUlksdz/Fvdk6/swXzMX1+dfGTRxKPnw7Vm9gpGbhAY
- T9DfomuXEpvUhPCb4GTuh5O+0GNil6bBtzdEJP8yxiZAPb+1arlGtiXrI4aiCunL9vbb
- trBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FIscxo3PP9kGGRxEdLKDNVwK/IjbND0Oxh+dBQqbsw0=;
- b=QA/mEoi4zk37fOamz5DJCYkRvMZ9tKyEN5GzdBD2nWfhZWcJCrDF0YM7mg5Uz1K545
- ZxudwC9k5riVlbRZzE/3PxUGeg2XE4yZOa/6k5WKUBS6K/1lwHn2cwSfV+L5/wiST3Xw
- Ve4+084VRTF1or1NbTfc8qIsyx4i/qJSLhyJe+zTOZqjyLXmrjwBql8v79lSTkmkLmDJ
- WixE0vZPg4Cbvp4t4JB4nkvI38wOjOi3Nmq1QssOeIqCmGeCe4BFPOBgkcQDsIuj5wtd
- U3KmnbHkcH4TQCFGKq6A5LeR1PiGrj6DtWCAI7pV0s+atPD1NzgD0M9FEMvxyJHzYvYq
- 708g==
-X-Gm-Message-State: AOAM532xn5I6veIMit26m5+ok+/7lUfUV1HsXemzDVVp+CgTY9uOZlzO
- voJcrsloaLj0tOxG/WY0p1w=
-X-Google-Smtp-Source: ABdhPJy+vT2bQrR2KZWZXB7ycYG8dfnlcwvF1up+SMdDZtRQAby1Qcn8jOkcGkL1oSnjgLmD5RNuiQ==
-X-Received: by 2002:a17:906:ecb8:: with SMTP id
- qh24mr19243805ejb.162.1619443853704; 
- Mon, 26 Apr 2021 06:30:53 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id x7sm1404845eds.11.2021.04.26.06.30.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 06:30:52 -0700 (PDT)
-Date: Mon, 26 Apr 2021 14:30:51 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Zenghui Yu <yuzenghui@huawei.com>
-Subject: Re: [PATCH v3] multi-process: Initialize variables declared with
- g_auto*
-Message-ID: <YIbAi/3hOPLMi8LE@stefanha-x1.localdomain>
-References: <20210312112143.1369-1-yuzenghui@huawei.com>
- <d4a03c50-12db-f44c-7d6a-d2baba77f164@huawei.com>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1lb1Lq-0005pg-Ss
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:32:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1lb1Lo-0002JH-Il
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:32:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619443954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/mSZ2gXT4lsGprxb52cGb3p/ETNv0Po5qG+u8IyKWmc=;
+ b=hg6ETWfbELIOXD2EAbI3qArrQRpW5OTZ0MG/BVxfZHKjNwM8F56Chmtmhl+tOsAqOZwr9s
+ sXpAcD8+gPvKU5q9vs/XA8HJLSxAdigZM7lfXFnI/teSwlAg4K6W6ncVVCLmEIHnVjlhv9
+ CNsKCKt7nwKdm4AW7PA4srWfx9IpPA4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-50-iXK-HB9BMO-6RcN-8L6UEw-1; Mon, 26 Apr 2021 09:32:31 -0400
+X-MC-Unique: iXK-HB9BMO-6RcN-8L6UEw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74AD7802B5B;
+ Mon, 26 Apr 2021 13:32:30 +0000 (UTC)
+Received: from [10.36.112.156] (ovpn-112-156.ams2.redhat.com [10.36.112.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 742DB10027A5;
+ Mon, 26 Apr 2021 13:32:23 +0000 (UTC)
+Subject: Re: [PATCH] make vfio and DAX cache work together by skipping virtio
+ fs cache section during vfio memory region add
+To: Edge NFV <edgenfv@gmail.com>
+References: <20210426054513.132980-1-edgenfv@gmail.com>
+ <20210426054513.132980-2-edgenfv@gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <027ed12c-c5ec-6e5e-64d4-831424a35285@redhat.com>
+Date: Mon, 26 Apr 2021 15:32:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RjVyKqY+SXkpmSo4"
-Content-Disposition: inline
-In-Reply-To: <d4a03c50-12db-f44c-7d6a-d2baba77f164@huawei.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=stefanha@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210426054513.132980-2-edgenfv@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,89 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
- qemu-trivial@nongnu.org, qemu-stable@nongnu.org, mjt@tls.msk.ru,
- qemu-devel@nongnu.org, laurent@vivier.eu, stefanha@redhat.com,
- wanghaibin.wang@huawei.com, berrange@redhat.com, philmd@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 26/04/2021 07:45, Edge NFV wrote:
+> Signed-off-by: Edge NFV <edgenfv@gmail.com>
 
---RjVyKqY+SXkpmSo4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You must use your real name for a patch submission:
 
-On Tue, Apr 06, 2021 at 10:00:03PM +0800, Zenghui Yu wrote:
-> [+Stefan]
->=20
-> On 2021/3/12 19:21, Zenghui Yu wrote:
-> > Quote docs/devel/style.rst (section "Automatic memory deallocation"):
-> >=20
-> > * Variables declared with g_auto* MUST always be initialized,
-> >    otherwise the cleanup function will use uninitialized stack memory
-> >=20
-> > Initialize @name properly to get rid of the compilation error (using
-> > gcc-7.3.0 on CentOS):
-> >=20
-> > ../hw/remote/proxy.c: In function 'pci_proxy_dev_realize':
-> > /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: 'name' may =
-be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
-> >     g_free (*pp);
-> >     ^~~~~~~~~~~~
-> > ../hw/remote/proxy.c:350:30: note: 'name' was declared here
-> >               g_autofree char *name;
-> >                                ^~~~
-> >=20
-> > Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-> > Reviewed-by: Jagannathan Raman <jag.raman@oracle.com>
-> > Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
->=20
-> Message-Id: <20210312112143.1369-1-yuzenghui@huawei.com>
->=20
-> Ping for 6.0, thanks.
+https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
 
-I'm sorry I missed this email! QEMU 6.0.0-rc4 has already been tagged
-and the final release is tomorrow. Only critical patches are applied at
-this stage of the release process.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297
 
-My understanding is that this patch silences a gcc 7.3.0 warning. The
-warning is bogus since both code paths always initialize the variable.
-You should still be able to compile successfully using ./configure
---disable-werror.
+And CC: maintainer of the file:
 
-I guess this issue was hit on CentOS 7 since CentOS 8 ships a newer
-version of gcc. Debian stable also ships a newer gcc. That probably
-explains why this issue has not been encountered by others. I don't
-think the patch is absolutely critical for QEMU 6.0 although I regret
-not having merged it earlier in the release process. Sorry again.
+$ ./scripts/get_maintainer.pl -f hw/vfio/common.c
+Alex Williamson <alex.williamson@redhat.com> (supporter:VFIO)
+qemu-devel@nongnu.org (open list:All patches CC here)
 
-I have queued this patch for QEMU 6.1 and CCed it for -stable for
-inclusion in QEMU 6.0.1.
+If you want to submit it to qemu-trivial, don't send a separate mail, but cc: also
+qemu-trivial.
 
-If you think this patch is critical for QEMU 6.0, please get in contact
-with myself and Peter Maydel ("pm215"), preferrably on #qemu
-irc.oftc.net IRC as soon as possible.
+Thanks,
+Laurent
 
-Thanks, applied to my block-next tree:
-https://gitlab.com/stefanha/qemu/commits/block-next
+> ---
+>  hw/vfio/common.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index ae5654fcdb..83e15bf7a3 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -668,6 +668,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>                  int128_get64(int128_sub(section->size, int128_one())));
+>          return;
+>      }
+> +    
+> +    /* Do not add virtio fs cache section */                  
+> +    if (!strcmp(memory_region_name(section->mr), "virtio-fs-cache")) {
+> +        trace_vfio_listener_region_add_skip(
+> +                section->offset_within_address_space,
+> +                section->offset_within_address_space +
+> +                int128_get64(int128_sub(section->size, int128_one())));
+> +        return;
+> +    }  
+>  
+>      if (unlikely((section->offset_within_address_space &
+>                    ~qemu_real_host_page_mask) !=
+> 
 
-Stefan
-
---RjVyKqY+SXkpmSo4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCGwIsACgkQnKSrs4Gr
-c8iAnwf/RBbJPZ/22/5aGUYbS01irs6HM6RY2/XYkjMSyBasXcN21AoyJxyyRsQ7
-zsiwcZNrTogZMe1dNQiu5VNr1s5ySlyoUI4wMGnZlSJIES0yBiks1IiZDylONzxj
-A3JZOQ4TmbEs5T4VO3xh33Wzu8hI/HAEEBwZYTbsRnpY+dFVb/4iUImIg4O8snJ6
-tJfcDvOlwgY3LY4Ue+pbvvYPoHPcI2DMjC8VHfRQGQC3av3fKUXe1GlD0R4L2TFD
-rZuOtMY8tir1o3Yl1RcFWn38ABh9In/h05Whankyd8WXiuBTMhET9RuM70p3Ym6s
-DRHGbb6P15A3i8iP7fZn/Cj+PKMvEg==
-=9SN/
------END PGP SIGNATURE-----
-
---RjVyKqY+SXkpmSo4--
 
