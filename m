@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB49636B1AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 12:31:40 +0200 (CEST)
-Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5515E36B1B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 12:35:15 +0200 (CEST)
+Received: from localhost ([::1]:43638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1layWf-0004sC-PN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 06:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53618)
+	id 1layaA-0006ZG-Az
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 06:35:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1layV8-0003nD-2S
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:30:02 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1layV6-0001Su-1e
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:30:01 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l2so2950594wrm.9
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 03:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=e8tcPFRoe+pR5Pzh+75bIq0+MD6MvnLWdHYZaygYq9o=;
- b=yHxgdENeX/i+lj6FDqtKjrtXeSbI3IF+4zu11nvgYVvYZm9GEHTgJwJDWQgkIgCjM8
- orLXVupO0xSHFcvN2FPq0GvWyZM0niC8YeXiQ7Wq/rASUbLSn6CSn5s9gzo6ku293Pnb
- WGk0QwD/RSwjpFtbOTwEzrJ1MnQk4du5XAKHfdPyK6kpcnQyPhkAY+uV1aMFr3gVUn2m
- rfizqqjJmWoBBSujh5jHp7j8V9hiOiwmqE8WdqPeUKlieY8DtyCoQaDNVpbtcqbNEITt
- s1Z0DmYE0aM7qVV4ON1ePAW+p8/XB7pmnBkS5HbMzPrH+UY4xhMgxCctb04MBXvPusTe
- pMgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=e8tcPFRoe+pR5Pzh+75bIq0+MD6MvnLWdHYZaygYq9o=;
- b=VsmnfiaSZTu2I/+YNDDDkdIyk9JC3oeJ/dVWP3jcazqHzQX79Rkwu/HMFvD6ec6iXn
- 16ytBYUKOwsVX1ysUSJ9w+s8JFW5F0iqqlyzDR++kOjuEHY8miad3wGdGaBG1zEOnpeW
- +Z/h6eFvhBzuIFr9FSxMdk/6FavZjC4DbKh0yMeX/bOlcqse2D5ieKJHl/M8Q/P2yKI9
- dPOqKp7k5ro33yzvoGstmCptQ8RwwGEUahJSPXs6TFF2/rB2/u215DELO3CkrW7lxMIU
- Ic65m7lK7vEG9U04PxJWkGCxWXFLcITEgPeXkPQZe+H9YKize7XOfzmnp4LqBVd6EzmE
- EPfg==
-X-Gm-Message-State: AOAM533hM8u/AA2E14sTscCk1o5s4E3ybTy74bkgpRYnAhRlJFw1jiLL
- QM+gsN3aysfYC5pcn86YhnQuMg==
-X-Google-Smtp-Source: ABdhPJyg+BSLDPJEa6WxyEZUDroqvEoWezCcnINlX/i4mJl6x/J3qsACvVRNFGNG21UePMuVT+N4hw==
-X-Received: by 2002:a05:6000:1a85:: with SMTP id
- f5mr8082203wry.213.1619432997294; 
- Mon, 26 Apr 2021 03:29:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s83sm17031090wms.16.2021.04.26.03.29.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 03:29:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CDFB41FF7E;
- Mon, 26 Apr 2021 11:29:55 +0100 (BST)
-References: <20210419145435.14083-1-alex.bennee@linaro.org>
- <20210419145435.14083-14-alex.bennee@linaro.org>
- <df3cbf07-562f-087d-47b2-6b366c11f4ae@amsat.org>
-User-agent: mu4e 1.5.12; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v1 13/25] hw/tricore: Add testdevice for tests in
- tests/tcg/
-Date: Mon, 26 Apr 2021 11:15:20 +0100
-In-reply-to: <df3cbf07-562f-087d-47b2-6b366c11f4ae@amsat.org>
-Message-ID: <878s55tk2k.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1layZ1-000624-6n
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:34:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1layYz-000409-0l
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:34:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619433239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wq7xRLBA2wgcybhDWPhZAUPjVhZ80jkqeXILEyOKneU=;
+ b=eFQGmBt2aGFYwQcWcW5d4ibIIzb5Ajuu7v+ygVQOO/nnpHL583aSAoI6MTmTVBmG8k71Y2
+ 4+1n9F+P8uGqdhoeQPVfpxC1KgaOjUxvB0Bvau9FCpdMl+Y8404tpBd9BnfY5TUy2Dw4ba
+ r+1txOaIY6QTTQEKJRPUHoYQHlrsb4w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-B0u6hkYvMPOl-Dqwdw2jtg-1; Mon, 26 Apr 2021 06:33:57 -0400
+X-MC-Unique: B0u6hkYvMPOl-Dqwdw2jtg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7552F83DD20;
+ Mon, 26 Apr 2021 10:33:56 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-120.ams2.redhat.com
+ [10.36.112.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 568121972B;
+ Mon, 26 Apr 2021 10:33:51 +0000 (UTC)
+Subject: Re: [PATCH 1/2] block/export: Free ignored Error
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210422145335.65814-1-mreitz@redhat.com>
+ <20210422145335.65814-2-mreitz@redhat.com>
+ <e1374b1a-67f0-b55e-2d3e-7440dea21b26@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <125519ee-718c-2647-cff1-b920a699223d@redhat.com>
+Date: Mon, 26 Apr 2021 12:33:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <e1374b1a-67f0-b55e-2d3e-7440dea21b26@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,73 +84,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> On 4/19/21 4:54 PM, Alex Benn=C3=A9e wrote:
->> From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
->>=20
->> this device is used to verify the correctness of regression tests by
->> allowing guests to write their exit status to this device. This is then
->> used by qemu to exit using the written status.
->>=20
->> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20210305170045.869437-4-kbastian@mail.uni-paderborn.de>
+On 26.04.21 11:44, Vladimir Sementsov-Ogievskiy wrote:
+> 22.04.2021 17:53, Max Reitz wrote:
+>> When invoking block-export-add with some iothread and
+>> fixed-iothread=false, and changing the node's iothread fails, the error
+>> is supposed to be ignored.
+>>
+>> However, it is still stored in *errp, which is wrong.  If a second error
+>> occurs, the "*errp must be NULL" assertion in error_setv() fails:
+>>
+>>    qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion
+>>    `*errp == NULL' failed.
+>>
+>> So the error from bdrv_try_set_aio_context() must be freed when it is
+>> ignored.
+>>
+>> Fixes: f51d23c80af73c95e0ce703ad06a300f1b3d63ef
+>>         ("block/export: add iothread and fixed-iothread options")
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>  include/hw/tricore/tricore_testdevice.h | 38 ++++++++++++
->>  hw/tricore/tricore_testboard.c          |  8 +++
->>  hw/tricore/tricore_testdevice.c         | 82 +++++++++++++++++++++++++
->>  hw/tricore/meson.build                  |  1 +
->>  4 files changed, 129 insertions(+)
->>  create mode 100644 include/hw/tricore/tricore_testdevice.h
->>  create mode 100644 hw/tricore/tricore_testdevice.c
->
->> +#include "hw/tricore/tricore_testdevice.h"
->> +
->> +static void tricore_testdevice_write(void *opaque, hwaddr offset,
->> +                                      uint64_t value, unsigned size)
->> +{
->> +    exit(value);
->
->    ->  qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->
-> I'd rather use a 2 steps check of value such watchdog devices do
-> (to be sure the guest is still in control and isn't nut).
+>>   block/export/export.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/block/export/export.c b/block/export/export.c
+>> index fec7d9f738..ce5dd3e59b 100644
+>> --- a/block/export/export.c
+>> +++ b/block/export/export.c
+>> @@ -68,6 +68,7 @@ static const BlockExportDriver 
+>> *blk_exp_find_driver(BlockExportType type)
+>>   BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+>>   {
+>> +    ERRP_GUARD();
+>>       bool fixed_iothread = export->has_fixed_iothread && 
+>> export->fixed_iothread;
+>>       const BlockExportDriver *drv;
+>>       BlockExport *exp = NULL;
+>> @@ -127,6 +128,9 @@ BlockExport *blk_exp_add(BlockExportOptions 
+>> *export, Error **errp)
+>>               ctx = new_ctx;
+>>           } else if (fixed_iothread) {
+>>               goto fail;
+>> +        } else {
+>> +            error_free(*errp);
+>> +            *errp = NULL;
+>>           }
+>>       }
+>>
+> 
+> I don't think ERRP_GUARD is needed in this case: we don't need to handle 
+> errp somehow except for just free if it was set.
 
-This isn't any different to what we do for TARGET_SYS_EXIT_EXTENDED or
-the various other semihosting exits. Maybe we could do a better job of
-flagging that these devices (or features) give the guest an avenue to
-cause QEMU to shutdown but none of these are enabled by default.
+Perhaps not, but style-wise, I prefer not special-casing the
+errp == NULL case.
 
->
-> A general comments, all targets require a such test feature,
-> so we should have a generic user-creatable sysbus-testdev for that.
+(It can be argued that ERRP_GUARD similarly special-cases it, but that’s 
+hidden from my view.  Also, the errp == NULL case actually doesn’t even 
+happen, so ERRP_GUARD is effectively a no-op and it won’t cost 
+performance (not that it really matters).)
 
-We also have the isa-debug-exit device used by x86. I believe there is
-also a PCI device (pci-testdev) used to submit error-exit results for
-kvm-unit-tests.
+Of course we could also do this:
 
-I'm all for modelling a cleaner abstraction that could be used by all
-these methods and avoiding multiple exit paths but I don't want to hold
-up Bastian's tests to a higher standard without addressing the other
-cases. In the meantime given it improves the testing situation for
-Tricore I don't think it's a major issue.
+ret = bdrv_try_set_aio_context(bs, new_ctx, fixed_iothread ? errp : NULL);
 
->
-> Regards,
->
-> Phil.
+Would be even shorter.
 
+> So we can simply do:
+> 
+> } else if (errp) {
+>     error_free(*errp);
+>     *errp = NULL;
+> }
+> 
+> Let's only check that errp is really set on failure path of 
+> bdrv_try_set_aio_context():
 
---=20
-Alex Benn=C3=A9e
+OK,  but out of interest, why?  error_free() doesn’t care.  I mean it 
+might be a problem if blk_exp_add() returns an error without setting 
+*errp, but that’d’ve been pre-existing.
+
+Max
+
+> bdrv_try_set_aio_context() fails iff bdrv_can_set_aio_context() fails, 
+> which in turn may fail iff bdrv_parent_can_set_aio_context() or 
+> bdrv_child_can_set_aio_context() fails.
+> 
+> bdrv_parent_can_set_aio_context() has two failure path, on first it set 
+> errp by hand, and on second it has assertion that errp is set.
+> 
+> bdrv_child_can_set_aio_context() may fail only if nested call to 
+> bdrv_can_set_aio_context() fails, so recursion is closed.
+> 
+> 
+
 
