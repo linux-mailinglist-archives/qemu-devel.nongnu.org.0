@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F5836B311
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:28:53 +0200 (CEST)
-Received: from localhost ([::1]:43686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC03136B329
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:37:19 +0200 (CEST)
+Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0M8-0004Ek-P2
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
+	id 1lb0UI-0008Uy-Ti
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lb0Kk-0003o3-HQ
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:27:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lb0Kf-0004Xo-U5
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:27:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619440040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7UrV8EB+rn8jxPJcqRER7FxxmWsK1i+MVyI2oNnGTd8=;
- b=FUXoo6HW0YhTqoRVqRDpxxxwpk0DQQn8Qiurhb/6na7acE1Ml5dFZEG5OzpDhHddtEuh8E
- EN/IW0zvKOYelNN1wboXyK+007art/tadOwx9Ba0tgovlz8KkhxvpLLPGGOronfgkf1I78
- DQbk6a4JeB0ULYaknbnOJk1GEDzP4gM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-YdnuGn61NlusfgJ3afBlbw-1; Mon, 26 Apr 2021 08:27:15 -0400
-X-MC-Unique: YdnuGn61NlusfgJ3afBlbw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA1B51922035
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 12:27:14 +0000 (UTC)
-Received: from work-vm (ovpn-115-8.ams2.redhat.com [10.36.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2F7560C5F;
- Mon, 26 Apr 2021 12:27:00 +0000 (UTC)
-Date: Mon, 26 Apr 2021 13:26:58 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 5/5] sockets: Support multipath TCP
-Message-ID: <YIaxkimWQrMutkhG@work-vm>
-References: <20210421112834.107651-1-dgilbert@redhat.com>
- <20210421112834.107651-6-dgilbert@redhat.com>
- <YIKteAmBPfVdRm7T@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lb0S9-0007ZE-4h
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:35:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lb0S7-0000j8-0H
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:35:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lb0S4-0007AG-NX
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 12:35:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B0AF62E8166
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 12:35:00 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YIKteAmBPfVdRm7T@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Apr 2021 12:22:08 -0000
+From: Lucas Kanashiro <1323758@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: upstream
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor lucaskanashiro maarten256 phalen
+ rubenportier serge-hallyn th-huth
+X-Launchpad-Bug-Reporter: Ruben Portier (rubenportier)
+X-Launchpad-Bug-Modifier: Lucas Kanashiro (lucaskanashiro)
+References: <20140527170942.25223.59558.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161943972818.4012.13271337070527507840.malone@gac.canonical.com>
+Subject: [Bug 1323758] Re: Mouse stops working when connected
+ usb-storage-device
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 3bc94c189ad4ce722d44c08cc538006d4fcff628
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,44 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com, pabeni@redhat.com
+Reply-To: Bug 1323758 <1323758@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Wed, Apr 21, 2021 at 12:28:34PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Multipath TCP allows combining multiple interfaces/routes into a single
-> > socket, with very little work for the user/admin.
-> > 
-> > It's enabled by 'mptcp' on most socket addresses:
-> > 
-> >    ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  io/dns-resolver.c   |  4 ++++
-> >  qapi/sockets.json   |  5 ++++-
-> >  util/qemu-sockets.c | 23 +++++++++++++++++++++++
-> >  3 files changed, 31 insertions(+), 1 deletion(-)
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+@Kendrick could you please tell us which version of Ubuntu and qemu you
+are using?
 
-Thanks, given this is more socketary than migration code, do you want to
-take this series via your tree?
+-- =
 
-Dave
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1323758
 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Title:
+  Mouse stops working when connected usb-storage-device
 
+Status in QEMU:
+  Confirmed
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  I'm running a guest that has Windows 8 Pro (x64) installed. Every time
+  I pass through a usb storage device from the host to the guest, the
+  mouse stops working in the vnc client. When I remove the usb-device
+  the mouse works again.
+
+  The mouse only stops working when I pass through a usb storage device
+  and then make the vlc viewer (client) inactive by clicking on another
+  program on the local computer (where I'm running the vnc viewer
+  (client)). As long as I keep the vnc viewer active, the mouse works
+  without any problems. But as soon as I make the vnc viewer inactive
+  and then active again, the mouse will no longer work. I have to reboot
+  the guest or remove the usb storage device.
+
+  I can't find any related problems on the internet, so it may be just
+  me?
+
+  I hope someone can help me with this.
+
+  EDIT: I posted the extra/new information in comments. But as I know
+  see it might be wrong and maybe I should've posted them in this bug
+  description container (by editing)? Please tell me if I did it wrong
+  and I will change it. Sorry for this misunderstanding.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1323758/+subscriptions
 
