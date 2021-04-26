@@ -2,82 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398B736B6D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:31:15 +0200 (CEST)
-Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEACB36B6FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:39:03 +0200 (CEST)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb48g-0003h7-4b
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:31:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40262)
+	id 1lb4GE-0007VA-AW
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:39:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lb470-0003Ej-De
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:29:30 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lb46x-0005th-8r
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:29:30 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l189-20020a1cbbc60000b0290140319ad207so3085123wmf.2
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:29:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=NMupNa1KytAJRGk792Jx+QIV0jaVZi7FybgshlHMuCs=;
- b=vCwbpCzHDQgDGyP6rieaJZtwQr5fk5hVwASqz9AFxZWOkbtVBfvD0JtLRLOK8VOHhZ
- UEuL5S6DEP5I7Jax1G4x+t5BL6yJGDlUR/HN3mNZyN6jgkB3k+cIOZna6LXxXPDMA0sJ
- /kU7HLp9xJDvRAjdfpDVby/8+Uc4yfHKOKKuQpi1ub8KPUCXumXKRZ3jLFLYE12Q/bNT
- JF+gTxCU1W9fKzUX+RqZFF9tDpLvhs3CJJUFCevGPMnejEQN8LrDV96Qfu2muVxdWFN7
- a/ryCTjZ/dNDkv3MYhVaZ8jvwgnhYK6OZkCjJLIvGqRbPJ9HK2kQaTaOxciK2JRFs1ch
- UvIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=NMupNa1KytAJRGk792Jx+QIV0jaVZi7FybgshlHMuCs=;
- b=pHahHBdyeXOO2tM4O8MndOTFJHqWXyn8ywab8RV7hUh1MOGTHDl8M9EUwwg0OhxQwm
- U1tMlmYDgzhHYzSrOTYxJ+3AIFbJaAbPnZ2xBnmkQv1FCULWe4xZCMjufmkV1Am2hfp1
- Vr2sRjzk2C5MbEOeKyzclv8fFD/sCUMcyCpS5sXJ90RZwsY+AJ0T42+zLQ63WKWL4Hza
- SFfhLkOYTwfPkeNETyDvWDy9vkVnSCiEiCAtEdrh+MHuRvwO5va7QD9fhXti06ddMcBM
- DZquomV3XrEPlIwzywB4SBwBFht/dtWyn3XlFF+1Im45F+Q23mHO0yKCvjcOEQ0e9wKI
- yUzA==
-X-Gm-Message-State: AOAM533AJapbZUuuaaZlupInnkEHYOWw9JWvdo7LmCUDxBCQstCOIGOL
- LoX/ZLDXzTT35B2mrXccRE7m9A==
-X-Google-Smtp-Source: ABdhPJxLTeToQbrqp+gvr9YGeXsy3FlWcyJmuqAsskiwd41Vori+/xfzusHSh3m93WK/LbQnE8WKWg==
-X-Received: by 2002:a05:600c:3515:: with SMTP id
- h21mr21372737wmq.67.1619454565255; 
- Mon, 26 Apr 2021 09:29:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u6sm803005wml.6.2021.04.26.09.29.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 09:29:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B63ED1FF7E;
- Mon, 26 Apr 2021 17:29:23 +0100 (BST)
-References: <20210318185555.434-1-luoyonggang@gmail.com>
- <20210318185555.434-3-luoyonggang@gmail.com>
-User-agent: mu4e 1.5.12; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH 2/2] plugins: Move all typedef and type declaration to
- the front of the qemu-plugin.h
-Date: Mon, 26 Apr 2021 17:28:15 +0100
-In-reply-to: <20210318185555.434-3-luoyonggang@gmail.com>
-Message-ID: <87zgxlrov0.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
+ id 1lb4DQ-00073r-V6
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:36:09 -0400
+Received: from static-71-162-116-19.bstnma.fios.verizon.net
+ ([71.162.116.19]:39698 helo=server4.localdomain)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <chris@server4.localdomain>) id 1lb4DP-0000pp-8o
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:36:08 -0400
+Received: by server4.localdomain (Postfix, from userid 503)
+ id 3F6CE60310050; Mon, 26 Apr 2021 12:36:06 -0400 (EDT)
+From: Chris Browy <cbrowy@avery-design.com>
+To: mst@redhat.com
+Subject: [PATCH v5 cxl2.0-v3-doe 0/6] QEMU PCIe DOE for PCIe 4.0/5.0 and CXL
+ 2.0
+Date: Mon, 26 Apr 2021 12:36:04 -0400
+Message-Id: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: none client-ip=71.162.116.19;
+ envelope-from=chris@server4.localdomain; helo=server4.localdomain
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.399,
+ NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,288 +49,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
+ vishal.l.verma@intel.com, jgroves@micron.com,
+ Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com,
+ linux-cxl@vger.kernel.org, f4bug@amsat.org, hchkuo@avery-design.com.tw,
+ tyshao@avery-design.com.tw, jonathan.cameron@huawei.com, imammedo@redhat.com,
+ dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch implements the PCIe Data Object Exchange (DOE) for PCIe 4.0/5.0
+and later and CXL 2.0 "type-3" memory devices supporting the following protocols:
+ 1: PCIe DOE Discovery protocol
+ 2: CXL DOE Compliance Mode protocol
+ 3: CXL DOE CDAT protocol
 
-Yonggang Luo <luoyonggang@gmail.com> writes:
+Implementation is based on QEMU version which added CXL 2.0 "type-3" support
+https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
+6882c0453eea74d639ac75ec0f362d0cf9f1c744
 
-What's the rationale for moving everything around in the file. As it
-currently stands the typedefs are create as we get to each new set of
-helpers/plugin points. Doing it all up front seems like a lot of churn
-for not particular reason.
+PCIe Data Object Exchange (DOE) implementation for QEMU refers to
+"Data Object Exchange ECN, March 12, 2020" [1]
 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  include/qemu/qemu-plugin.h | 187 ++++++++++++++++++-------------------
->  1 file changed, 92 insertions(+), 95 deletions(-)
->
-> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-> index 97cdfd7761..2cb17f3051 100644
-> --- a/include/qemu/qemu-plugin.h
-> +++ b/include/qemu/qemu-plugin.h
-> @@ -81,27 +81,6 @@ typedef struct qemu_info_t {
->      };
->  } qemu_info_t;
->=20=20
-> -/**
-> - * qemu_plugin_install() - Install a plugin
-> - * @id: this plugin's opaque ID
-> - * @info: a block describing some details about the guest
-> - * @argc: number of arguments
-> - * @argv: array of arguments (@argc elements)
-> - *
-> - * All plugins must export this symbol which is called when the plugin
-> - * is first loaded. Calling qemu_plugin_uninstall() from this function
-> - * is a bug.
-> - *
-> - * Note: @info is only live during the call. Copy any information we
-> - * want to keep. @argv remains valid throughout the lifetime of the
-> - * loaded plugin.
-> - *
-> - * Return: 0 on successful loading, !0 for an error.
-> - */
-> -QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-> -                                           const qemu_info_t *info,
-> -                                           int argc, char **argv);
-> -
->  /**
->   * typedef qemu_plugin_simple_cb_t - simple callback
->   * @id: the unique qemu_plugin_id_t
-> @@ -135,6 +114,98 @@ typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_pl=
-ugin_id_t id,
->  typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
->                                              void *userdata);
->=20=20
-> +/** struct qemu_plugin_tb - Opaque handle for a translation block */
-> +struct qemu_plugin_tb;
-> +/** struct qemu_plugin_insn - Opaque handle for a translated instruction=
- */
-> +struct qemu_plugin_insn;
-> +
-> +/**
-> + * enum qemu_plugin_cb_flags - type of callback
-> + *
-> + * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
-> + * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
-> + * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
-> + *
-> + * Note: currently unused, plugins cannot read or change system
-> + * register state.
-> + */
-> +enum qemu_plugin_cb_flags {
-> +    QEMU_PLUGIN_CB_NO_REGS,
-> +    QEMU_PLUGIN_CB_R_REGS,
-> +    QEMU_PLUGIN_CB_RW_REGS,
-> +};
-> +
-> +enum qemu_plugin_mem_rw {
-> +    QEMU_PLUGIN_MEM_R =3D 1,
-> +    QEMU_PLUGIN_MEM_W,
-> +    QEMU_PLUGIN_MEM_RW,
-> +};
-> +
-> +/**
-> + * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
-> + * @id: unique plugin id
-> + * @tb: opaque handle used for querying and instrumenting a block.
-> + */
-> +typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
-> +                                               struct qemu_plugin_tb *tb=
-);
-> +
-> +/**
-> + * enum qemu_plugin_op - describes an inline op
-> + *
-> + * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
-> + *
-> + * Note: currently only a single inline op is supported.
-> + */
-> +
-> +enum qemu_plugin_op {
-> +    QEMU_PLUGIN_INLINE_ADD_U64,
-> +};
-> +
-> +/**
-> + * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-> + *
-> + * This can be further queried using the qemu_plugin_mem_* query
-> + * functions.
-> + */
-> +typedef uint32_t qemu_plugin_meminfo_t;
-> +/** struct qemu_plugin_hwaddr - opaque hw address handle */
-> +struct qemu_plugin_hwaddr;
-> +
-> +typedef void
-> +(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
-> +                             qemu_plugin_meminfo_t info, uint64_t vaddr,
-> +                             void *userdata);
-> +
-> +typedef void
-> +(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_=
-index,
-> +                                 int64_t num, uint64_t a1, uint64_t a2,
-> +                                 uint64_t a3, uint64_t a4, uint64_t a5,
-> +                                 uint64_t a6, uint64_t a7, uint64_t a8);
-> +typedef void
-> +(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int v=
-cpu_idx,
-> +                                     int64_t num, int64_t ret);
-> +
-> +/**
-> + * qemu_plugin_install() - Install a plugin
-> + * @id: this plugin's opaque ID
-> + * @info: a block describing some details about the guest
-> + * @argc: number of arguments
-> + * @argv: array of arguments (@argc elements)
-> + *
-> + * All plugins must export this symbol which is called when the plugin
-> + * is first loaded. Calling qemu_plugin_uninstall() from this function
-> + * is a bug.
-> + *
-> + * Note: @info is only live during the call. Copy any information we
-> + * want to keep. @argv remains valid throughout the lifetime of the
-> + * loaded plugin.
-> + *
-> + * Return: 0 on successful loading, !0 for an error.
-> + */
-> +QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-> +                                           const qemu_info_t *info,
-> +                                           int argc, char **argv);
-> +
->  /**
->   * qemu_plugin_uninstall() - Uninstall a plugin
->   * @id: this plugin's opaque ID
-> @@ -205,41 +276,6 @@ void qemu_plugin_register_vcpu_idle_cb(qemu_plugin_i=
-d_t id,
->  void qemu_plugin_register_vcpu_resume_cb(qemu_plugin_id_t id,
->                                           qemu_plugin_vcpu_simple_cb_t cb=
-);
->=20=20
-> -/** struct qemu_plugin_tb - Opaque handle for a translation block */
-> -struct qemu_plugin_tb;
-> -/** struct qemu_plugin_insn - Opaque handle for a translated instruction=
- */
-> -struct qemu_plugin_insn;
-> -
-> -/**
-> - * enum qemu_plugin_cb_flags - type of callback
-> - *
-> - * @QEMU_PLUGIN_CB_NO_REGS: callback does not access the CPU's regs
-> - * @QEMU_PLUGIN_CB_R_REGS: callback reads the CPU's regs
-> - * @QEMU_PLUGIN_CB_RW_REGS: callback reads and writes the CPU's regs
-> - *
-> - * Note: currently unused, plugins cannot read or change system
-> - * register state.
-> - */
-> -enum qemu_plugin_cb_flags {
-> -    QEMU_PLUGIN_CB_NO_REGS,
-> -    QEMU_PLUGIN_CB_R_REGS,
-> -    QEMU_PLUGIN_CB_RW_REGS,
-> -};
-> -
-> -enum qemu_plugin_mem_rw {
-> -    QEMU_PLUGIN_MEM_R =3D 1,
-> -    QEMU_PLUGIN_MEM_W,
-> -    QEMU_PLUGIN_MEM_RW,
-> -};
-> -
-> -/**
-> - * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
-> - * @id: unique plugin id
-> - * @tb: opaque handle used for querying and instrumenting a block.
-> - */
-> -typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
-> -                                               struct qemu_plugin_tb *tb=
-);
-> -
->  /**
->   * qemu_plugin_register_vcpu_tb_trans_cb() - register a translate cb
->   * @id: plugin ID
-> @@ -269,18 +305,6 @@ void qemu_plugin_register_vcpu_tb_exec_cb(struct qem=
-u_plugin_tb *tb,
->                                            enum qemu_plugin_cb_flags flag=
-s,
->                                            void *userdata);
->=20=20
-> -/**
-> - * enum qemu_plugin_op - describes an inline op
-> - *
-> - * @QEMU_PLUGIN_INLINE_ADD_U64: add an immediate value uint64_t
-> - *
-> - * Note: currently only a single inline op is supported.
-> - */
-> -
-> -enum qemu_plugin_op {
-> -    QEMU_PLUGIN_INLINE_ADD_U64,
-> -};
-> -
->  /**
->   * qemu_plugin_register_vcpu_tb_exec_inline() - execution inline op
->   * @tb: the opaque qemu_plugin_tb handle for the translation
-> @@ -393,16 +417,6 @@ uint64_t qemu_plugin_insn_vaddr(const struct qemu_pl=
-ugin_insn *insn);
->   */
->  void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
->=20=20
-> -/**
-> - * typedef qemu_plugin_meminfo_t - opaque memory transaction handle
-> - *
-> - * This can be further queried using the qemu_plugin_mem_* query
-> - * functions.
-> - */
-> -typedef uint32_t qemu_plugin_meminfo_t;
-> -/** struct qemu_plugin_hwaddr - opaque hw address handle */
-> -struct qemu_plugin_hwaddr;
-> -
->  /**
->   * qemu_plugin_mem_size_shift() - get size of access
->   * @info: opaque memory transaction handle
-> @@ -480,11 +494,6 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct q=
-emu_plugin_hwaddr *haddr);
->   */
->  const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwad=
-dr *h);
->=20=20
-> -typedef void
-> -(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
-> -                             qemu_plugin_meminfo_t info, uint64_t vaddr,
-> -                             void *userdata);
-> -
->  void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
->                                        qemu_plugin_vcpu_mem_cb_t cb,
->                                        enum qemu_plugin_cb_flags flags,
-> @@ -496,21 +505,9 @@ void qemu_plugin_register_vcpu_mem_inline(struct qem=
-u_plugin_insn *insn,
->                                            enum qemu_plugin_op op, void *=
-ptr,
->                                            uint64_t imm);
->=20=20
-> -
-> -
-> -typedef void
-> -(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_=
-index,
-> -                                 int64_t num, uint64_t a1, uint64_t a2,
-> -                                 uint64_t a3, uint64_t a4, uint64_t a5,
-> -                                 uint64_t a6, uint64_t a7, uint64_t a8);
-> -
->  void qemu_plugin_register_vcpu_syscall_cb(qemu_plugin_id_t id,
->                                            qemu_plugin_vcpu_syscall_cb_t =
-cb);
->=20=20
-> -typedef void
-> -(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int v=
-cpu_idx,
-> -                                     int64_t num, int64_t ret);
-> -
->  void
->  qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
->                                           qemu_plugin_vcpu_syscall_ret_cb=
-_t cb);
+The Data Object Exchange implementation of CXL Compliance Mode is
+refers to "Compute Express Link (CXL) Specification, Rev. 2.0, Oct.
+2020" [2]
 
+The Data Object Exchange implementation of CXL Coherent Device Attribute
+Table (CDAT). This implementation is referring to "Coherent Device
+Attribute Table Specification, Rev. 1.02, Oct. 2020" [3] and "Compute
+Express Link Specification, Rev. 2.0, Oct. 2020" [2]
 
---=20
-Alex Benn=C3=A9e
+The CDAT can be specified in two ways. One is to add ",cdat=<filename>"
+in "-device cxl-type3"'s command option. The file is required to provide
+the whole CDAT table in binary mode. The other is to use the default
+CDAT value created by build_cdat_table in hw/cxl/cxl-cdat.c.
+
+Pre-built CDAT table for testing, contains one CDAT header and six
+CDAT entries: DSMAS, DSLBIS, DSMSCIS, DSIS, DSEMTS, and SSLBIS
+respectively.
+
+Changes since PATCH v4:
+1-3: PCIe DOE linux header and macros and PCIe Discovery protocol
+4:   Clean up CXL compliance mode DOE protocol including default responses
+5-6: Clean up CXL CDAT DOE protocol including tesing built-in and external CDAT tables
+
+[1]: https://members.pcisig.com/wg/PCI-SIG/document/14143
+[2]: https://www.computeexpresslink.org/
+[3]: https://uefi.org/sites/default/files/resources/Coherent%20Device%20Attribute%20Table_1.02.pdf
+
+hchkuo (6):
+  standard-headers/linux/pci_regs: PCI header from Linux kernel
+  include/hw/pci: headers for PCIe DOE
+  hw/pci: PCIe Data Object Exchange implementation
+  cxl/compliance: CXL Compliance Data Object Exchange implementation
+  cxl/cdat: CXL CDAT Data Object Exchange implementation
+  test/cdat: CXL CDAT test data
+
+ MAINTAINERS                               |   7 +
+ hw/cxl/cxl-cdat.c                         | 228 +++++++++++++
+ hw/cxl/meson.build                        |   1 +
+ hw/mem/cxl_type3.c                        | 202 ++++++++++++
+ hw/pci/meson.build                        |   1 +
+ hw/pci/pcie_doe.c                         | 374 ++++++++++++++++++++++
+ include/hw/cxl/cxl_cdat.h                 | 149 +++++++++
+ include/hw/cxl/cxl_compliance.h           | 293 +++++++++++++++++
+ include/hw/cxl/cxl_component.h            |   7 +
+ include/hw/cxl/cxl_device.h               |   4 +
+ include/hw/cxl/cxl_pci.h                  |   2 +
+ include/hw/pci/pci_ids.h                  |   2 +
+ include/hw/pci/pcie.h                     |   1 +
+ include/hw/pci/pcie_doe.h                 | 123 +++++++
+ include/hw/pci/pcie_regs.h                |   3 +
+ include/standard-headers/linux/pci_regs.h |   3 +-
+ tests/data/cdat/cdat.dat                  | Bin 0 -> 148 bytes
+ 17 files changed, 1399 insertions(+), 1 deletion(-)
+ create mode 100644 hw/cxl/cxl-cdat.c
+ create mode 100644 hw/pci/pcie_doe.c
+ create mode 100644 include/hw/cxl/cxl_cdat.h
+ create mode 100644 include/hw/cxl/cxl_compliance.h
+ create mode 100644 include/hw/pci/pcie_doe.h
+ create mode 100644 tests/data/cdat/cdat.dat
+
+-- 
+2.17.1
+
 
