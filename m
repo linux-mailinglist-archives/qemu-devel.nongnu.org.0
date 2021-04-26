@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D783736B134
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 12:04:14 +0200 (CEST)
-Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B54D36B135
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 12:04:40 +0200 (CEST)
+Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lay69-0003ro-EE
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 06:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
+	id 1lay6Y-0003yl-PW
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 06:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lay2y-0002Wr-PP
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:01:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47613)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lay3V-0002eQ-W8
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:01:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lay2v-0000Gi-Bl
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:00:56 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lay3U-0000SB-4M
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 06:01:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619431252;
+ s=mimecast20190719; t=1619431285;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PA74sfXqj6QSgV1uSz6eLUNwRV4rMujeeQpw07g5tto=;
- b=Aqt2k+7mA7AJEs+vro32hLJPnLyW3xLQeaZvOeMS3RMvXP76Sq6YuUJyOmCebwpGO77JmY
- y9bdOMuzI2tMk6Sf0Z6V+7xsmwmrS3EbaGhk4K/ftyj7utL9cndwwCuRBI9GQLy4MlWloh
- DrQOdw0D/3R6Mx0kr4SxlAxHaGLg7WQ=
+ bh=R0436dLk2HndtFQywLtaoVWXMQDmWlHNBJCP/ULvI+0=;
+ b=hAUgKSO+X2aRTCwqNdigjNvpVyR6eJHIZqoHK6oj1Xtp26EdEnHMrHrO7oT7FaqOZPBIZM
+ 7r4n1pl3XUMggf5S05QxQPhFZRBzb7U0M//Fxw5uYFXu6XV0Sow5iXNvaLy0Ay+4897rFF
+ V3CI21H+ZQsWOIj3L9JY1WQa9Bk+fXU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-PwYyZubiOeGYrwyuePTBFQ-1; Mon, 26 Apr 2021 06:00:48 -0400
-X-MC-Unique: PwYyZubiOeGYrwyuePTBFQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-5-KnVnx-X6O9S35f7Yy4TAag-1; Mon, 26 Apr 2021 06:01:21 -0400
+X-MC-Unique: KnVnx-X6O9S35f7Yy4TAag-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A51C1008062;
- Mon, 26 Apr 2021 10:00:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6319318B9F09;
+ Mon, 26 Apr 2021 10:01:20 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-150.ams2.redhat.com
  [10.36.113.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BE0269FB1;
- Mon, 26 Apr 2021 10:00:41 +0000 (UTC)
-Date: Mon, 26 Apr 2021 12:00:38 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BADF6EF50;
+ Mon, 26 Apr 2021 10:01:14 +0000 (UTC)
+Date: Mon, 26 Apr 2021 12:01:11 +0200
 From: Cornelia Huck <cohuck@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
 Subject: Re: [PATCH v5 0/4] accel/tcg: Make sure that tb->size != 0 after
  translation
-Message-ID: <20210426120038.5919f026.cohuck@redhat.com>
-In-Reply-To: <f84d413f-6f25-eca0-e963-dc11e446f38a@linaro.org>
+Message-ID: <20210426120111.425a943a.cohuck@redhat.com>
+In-Reply-To: <20210416154939.32404-1-iii@linux.ibm.com>
 References: <20210416154939.32404-1-iii@linux.ibm.com>
- <20210423123111.0575608e.cohuck@redhat.com>
- <f84d413f-6f25-eca0-e963-dc11e446f38a@linaro.org>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -68,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,28 +80,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 10:50:59 -0700
-Richard Henderson <richard.henderson@linaro.org> wrote:
+On Fri, 16 Apr 2021 17:49:35 +0200
+Ilya Leoshkevich <iii@linux.ibm.com> wrote:
 
-> On 4/23/21 3:31 AM, Cornelia Huck wrote:
-> > So, what's the way forward here? I can pick this if I get an ack for
-> > the arm patch. If someone else wants to take this, I'll just ack the
-> > s390x patch.  
+> If arch-specific code generates a translation block of size 0,
+> tb_gen_code() may generate a spurious exception.
 > 
-> You've volunteered, so that means you get it, I think.  ;-)
+> Fix s390x (patch 1), ARM (patch 2) and xtensa (patch 3) and add an
+> assertion in order to catch such situations earlier (patch 4).
 > 
+> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02037.html
+> v1 -> v2: Fix target/s390x instead of trying to tolerate tb->size == 0
+>           in tb_gen_code().
 > 
-> r~
+> v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02101.html
+> v2 -> v3: Split the common code change into a separate patch, add the
+>           ARM patch in order to fix
+>           https://gitlab.com/cohuck/qemu/-/jobs/1178409450
+> 
+> v3: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02332.html
+> v3 -> v4: Add the xtensa patch in order to fix
+>           https://gitlab.com/cohuck/qemu/-/jobs/1178409540
+> 
+> v4: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02592.html
+> v4 -> v5: Handle thumb: the following C code triggers the assertion:
+>           typedef void (*funcptr)(void);
+>           int main() { funcptr f = (funcptr)0xffff0001; f(); }
+> 
+> Ilya Leoshkevich (4):
+>   target/s390x: Fix translation exception on illegal instruction
+>   target/arm: Make sure that commpage's tb->size != 0
+>   target/xtensa: Make sure that tb->size != 0
+>   accel/tcg: Assert that tb->size != 0 after translation
+> 
+>  accel/tcg/translate-all.c |  1 +
+>  target/arm/translate.c    |  2 ++
+>  target/s390x/translate.c  | 16 +++++++++++-----
+>  target/xtensa/translate.c |  3 +++
+>  4 files changed, 17 insertions(+), 5 deletions(-)
 > 
 
-I guessed as much :) Thanks for your review!
+Thanks, queued to s390-next.
 
 
