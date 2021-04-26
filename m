@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE20D36AAE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 04:56:46 +0200 (CEST)
-Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6993836AAE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 04:56:55 +0200 (CEST)
+Received: from localhost ([::1]:56334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1larQT-0001BB-OK
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 22:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60050)
+	id 1larQc-0001Uo-FL
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 22:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1larNa-0007ta-Fz
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:47 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34693)
+ id 1larNc-0007uC-3S
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:48 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1larNW-0007YO-ET
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:46 -0400
-Received: by mail-pl1-x633.google.com with SMTP id t3so846688plz.1
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:53:41 -0700 (PDT)
+ id 1larNW-0007Yl-QX
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:47 -0400
+Received: by mail-pf1-x431.google.com with SMTP id c19so2086243pfv.2
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:53:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KAt4KJIdZ2Rn7oZ7gMKlRXoCjHm7a4NbLhrIC4Pyqtg=;
- b=HFvd6fwHj1g4Yp7MCdvzD9Y8L5ZpmoEWJtxUQrHIKHeRmfzsnL3VhCWTTLrx6Crw62
- neDZu9J4daGPUMhsp5qq6oVwDpU9W4L1VgopkY6TfPhZAEDhoJXIqJCdE05v7qlyTvBL
- fZkQXJVkcOuxgC/e4jNN6jS+Y1Mj5Ym19zqalgDVbChkGhDMW+hc4TUhHvSs/oly6Ny0
- ZPrrNmFHqgG264bHju8tg82qTH4ST8jwcaP75ixIY/MH8J0/Q5r6CzmDQt0utv/attBl
- Ng7X13elyh2swBMSa08/ZF2Y3cjlZVQgPr1T1YnHdmfBzBvw+Il+R/OAahayZYYOZvA1
- YkpQ==
+ bh=onhoOryfDgjmYPnzWpW1QpsqON14NNGEMZe0Fnj1Tac=;
+ b=ijIeKcOAlU9K4Ao1kbOVtj7oWAWkBFp/2tLT7eaFI3nziMs2oQtWMpVnP9yLR1OOjR
+ 8/LlkK/9hE0SrSNNrUanhaGudofyW8Bz2HnDX1yeUSByc8Kq1GzuGUuvAofxaP7J/92e
+ TV8IPm4dkksY28KCl1246AOCf5QTlZJEsl1vUYGoaa463Ulw0JjrPEFXYDQAfq5Oby0F
+ bpAkOicTbaEFdTARTaBDP9TmGpXdUDfmw/I5Dq9AMP3gzhmunylR+grA8QI5HL14fj6q
+ KHve8+uo5psblfCr34WSN6n5MORsaAqeS1rpHUwxMAyohZHlvWdFAZ1uo3/B4gAZwIuk
+ Ng4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KAt4KJIdZ2Rn7oZ7gMKlRXoCjHm7a4NbLhrIC4Pyqtg=;
- b=bTChE62cy7t1EDqxtu/q8sfLZwmaPvyR4yeRb0IZgZOOhqd32LNWzA3mo0x1XOK/rt
- u7gvWvDGPiwNkI1jJqhdgzMDcEs8fcfvdFFlhZkW8qC2MWP8dCMRGk2kyC5BEo9xq9MQ
- MkUhm3b/n4zBXW+yFGOj7eHr4iyxaIkj2tZrQIyufcYHcb3vWBgpOt9sJN7dVXTHHUgQ
- AWkoubZ3JOxz5kgQPGSC2kGsd9WZXb3jY55p4bhY9YHXwNhSKSG4Zegu+NHBDeyRA+87
- hBaHrDtbcBFHJYiFbIEY+LA+GfOP0A1MKCFpZ2omIJ9P4Wo3L9JM3PqZyNAxWB3mLQ9F
- LMJw==
-X-Gm-Message-State: AOAM532bAZzVzEew0rmLF3GBUwQ9iCBUeEffyXPA0PoT3gq6zyHXbRXn
- g5c+NC3PC+Y1bFz36YbdIxVlWfaO0mdlnQ==
-X-Google-Smtp-Source: ABdhPJw7Yb5DMYJPSVlyUPxctBP+HOf6JefN40Mu6S3VkXgNNIpUuSRTsI7xz2rLSWo6sO8BfVwQVQ==
-X-Received: by 2002:a17:90a:f2c7:: with SMTP id
- gt7mr20634352pjb.157.1619405620837; 
- Sun, 25 Apr 2021 19:53:40 -0700 (PDT)
+ bh=onhoOryfDgjmYPnzWpW1QpsqON14NNGEMZe0Fnj1Tac=;
+ b=Jb98qEB1Au+/C5cWwd+K+SEqKKuJlJZ33ncmuWClRIVq9rHgjpWClpBtGS+UmpFEqd
+ x5ueAV++xXdMZiLqMwY+bYVXWmbkmJL4fJhhXqB1oe6doAUmLU29dWivl2tflSyscnsh
+ OYXfwnYmho553YWCepLx2whsWXQIZaJU9uRLyRHVzFzVpqe7EBH+DffztioG94Rg4KgR
+ sRLGoqxtKyTbl8LDzhl8tgXSXxaWXx21UuFFDxEfyGH1Rdu77brQnoC52SoQ3a6jrLaC
+ Lv8C9L42bscxB2ecAHp973oVgrjwPOnZRAJ1c+JjTms9xdpgBSIdR+DKgZaWu5blaXmq
+ m2CQ==
+X-Gm-Message-State: AOAM532XbFrv2D1Dk2Bi713WTxV1T7zFWkHMEeQTGOyid3Y3zMYocHen
+ qWPAQK/KP1TZTNX91kiaNSap/RQEkolxSw==
+X-Google-Smtp-Source: ABdhPJyKVxpqIq6/HpYatN4tpkDaRpjs2f1+0ap1rDNos7IZ6WQP83AG6M4/NBdioXB2AGKFML96nA==
+X-Received: by 2002:a63:2204:: with SMTP id i4mr14806611pgi.76.1619405621413; 
+ Sun, 25 Apr 2021 19:53:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id e23sm9805680pgg.76.2021.04.25.19.53.40
+ by smtp.gmail.com with ESMTPSA id e23sm9805680pgg.76.2021.04.25.19.53.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Apr 2021 19:53:40 -0700 (PDT)
+ Sun, 25 Apr 2021 19:53:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/25] linux-user/sparc: Clean up init_thread
-Date: Sun, 25 Apr 2021 19:53:15 -0700
-Message-Id: <20210426025334.1168495-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 07/25] linux-user/sparc: Merge sparc64 target_syscall.h
+Date: Sun, 25 Apr 2021 19:53:16 -0700
+Message-Id: <20210426025334.1168495-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210426025334.1168495-1-richard.henderson@linaro.org>
 References: <20210426025334.1168495-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,73 +86,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Share code between sparc32 and sparc64, removing a bit of pointless
-difference wrt psr/tstate.  Use sizeof(abi_ulong) for allocating
-initial register window.  Use TARGET_STACK_BIAS.
+There are only a few differences in sparc32 vs sparc64.
+This fixes target_shmlba for sparc32plus, which is v9.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 33 +++++----------------------------
- 1 file changed, 5 insertions(+), 28 deletions(-)
+ linux-user/sparc/target_syscall.h   | 42 +++++++++++++++++++++--------
+ linux-user/sparc64/target_syscall.h | 36 +------------------------
+ 2 files changed, 32 insertions(+), 46 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index c6731013fd..cd8b81103f 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -663,48 +663,25 @@ static uint32_t get_elf_hwcap2(void)
+diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+index d8ea04ea83..15d531f389 100644
+--- a/linux-user/sparc/target_syscall.h
++++ b/linux-user/sparc/target_syscall.h
+@@ -3,18 +3,34 @@
  
- #define ELF_CLASS   ELFCLASS64
- #define ELF_ARCH    EM_SPARCV9
--
--#define STACK_BIAS              2047
--
--static inline void init_thread(struct target_pt_regs *regs,
--                               struct image_info *infop)
--{
--#ifndef TARGET_ABI32
--    regs->tstate = 0;
--#endif
--    regs->pc = infop->entry;
--    regs->npc = regs->pc + 4;
--    regs->y = 0;
--#ifdef TARGET_ABI32
--    regs->u_regs[14] = infop->start_stack - 16 * 4;
--#else
--    if (personality(infop->personality) == PER_LINUX32)
--        regs->u_regs[14] = infop->start_stack - 16 * 4;
--    else
--        regs->u_regs[14] = infop->start_stack - 16 * 8 - STACK_BIAS;
--#endif
--}
--
- #else
- #define ELF_START_MMAP 0x80000000
- #define ELF_HWCAP  (HWCAP_SPARC_FLUSH | HWCAP_SPARC_STBAR | HWCAP_SPARC_SWAP \
-                     | HWCAP_SPARC_MULDIV)
--
- #define ELF_CLASS   ELFCLASS32
- #define ELF_ARCH    EM_SPARC
-+#endif /* TARGET_SPARC64 */
+ #include "target_errno.h"
  
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
++#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+ struct target_pt_regs {
+-	abi_ulong psr;
+-	abi_ulong pc;
+-	abi_ulong npc;
+-	abi_ulong y;
+-	abi_ulong u_regs[16];
++    abi_ulong u_regs[16];
++    abi_ulong tstate;
++    abi_ulong pc;
++    abi_ulong npc;
++    uint32_t y;
++    uint32_t magic;
+ };
++#else
++struct target_pt_regs {
++    abi_ulong psr;
++    abi_ulong pc;
++    abi_ulong npc;
++    abi_ulong y;
++    abi_ulong u_regs[16];
++};
++#endif
+ 
+-#define UNAME_MACHINE "sparc"
++#ifdef TARGET_SPARC64
++# define UNAME_MACHINE "sparc64"
++#else
++# define UNAME_MACHINE "sparc"
++#endif
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
+ 
+-/* SPARC kernels don't define this in their Kconfig, but they have the
++/*
++ * SPARC kernels don't define this in their Kconfig, but they have the
+  * same ABI as if they did, implemented by sparc-specific code which fishes
+  * directly in the u_regs() struct for half the parameters in sparc_do_fork()
+  * and copy_thread().
+@@ -25,20 +41,24 @@ struct target_pt_regs {
+ #define TARGET_MCL_FUTURE  0x4000
+ #define TARGET_MCL_ONFAULT 0x8000
+ 
+-/* For SPARC SHMLBA is determined at runtime in the kernel, and
+- * libc has to runtime-detect it using the hwcaps (see glibc
+- * sysdeps/unix/sysv/linux/sparc/getshmlba; we follow the same
+- * logic here, though we know we're not the sparc v9 64-bit case).
++/*
++ * For SPARC SHMLBA is determined at runtime in the kernel, and
++ * libc has to runtime-detect it using the hwcaps.
++ * See glibc sysdeps/unix/sysv/linux/sparc/getshmlba.
+  */
+ #define TARGET_FORCE_SHMLBA
+ 
+ static inline abi_ulong target_shmlba(CPUSPARCState *env)
  {
--    regs->psr = 0;
-+    /* Note that target_cpu_copy_regs does not read psr/tstate. */
-     regs->pc = infop->entry;
-     regs->npc = regs->pc + 4;
-     regs->y = 0;
--    regs->u_regs[14] = infop->start_stack - 16 * 4;
-+    regs->u_regs[14] = (infop->start_stack - 16 * sizeof(abi_ulong)
-+                        - TARGET_STACK_BIAS);
++#ifdef TARGET_SPARC64
++    return MAX(TARGET_PAGE_SIZE, 16 * 1024);
++#else
+     if (!(env->def.features & CPU_FEATURE_FLUSH)) {
+         return 64 * 1024;
+     } else {
+         return 256 * 1024;
+     }
++#endif
  }
+ 
+ #endif /* SPARC_TARGET_SYSCALL_H */
+diff --git a/linux-user/sparc64/target_syscall.h b/linux-user/sparc64/target_syscall.h
+index 696a68b1ed..164a5fc632 100644
+--- a/linux-user/sparc64/target_syscall.h
++++ b/linux-user/sparc64/target_syscall.h
+@@ -1,35 +1 @@
+-#ifndef SPARC64_TARGET_SYSCALL_H
+-#define SPARC64_TARGET_SYSCALL_H
 -
--#endif
--#endif
-+#endif /* TARGET_SPARC */
- 
- #ifdef TARGET_PPC
- 
+-#include "../sparc/target_errno.h"
+-
+-struct target_pt_regs {
+-	abi_ulong u_regs[16];
+-	abi_ulong tstate;
+-	abi_ulong pc;
+-	abi_ulong npc;
+-	abi_ulong y;
+-	abi_ulong fprs;
+-};
+-
+-#define UNAME_MACHINE "sparc64"
+-#define UNAME_MINIMUM_RELEASE "2.6.32"
+-
+-/* SPARC kernels don't define this in their Kconfig, but they have the
+- * same ABI as if they did, implemented by sparc-specific code which fishes
+- * directly in the u_regs() struct for half the parameters in sparc_do_fork()
+- * and copy_thread().
+- */
+-#define TARGET_CLONE_BACKWARDS
+-#define TARGET_MINSIGSTKSZ      4096
+-#define TARGET_MCL_CURRENT 0x2000
+-#define TARGET_MCL_FUTURE  0x4000
+-#define TARGET_MCL_ONFAULT 0x8000
+-
+-#define TARGET_FORCE_SHMLBA
+-
+-static inline abi_ulong target_shmlba(CPUSPARCState *env)
+-{
+-    return MAX(TARGET_PAGE_SIZE, 16 * 1024);
+-}
+-#endif /* SPARC64_TARGET_SYSCALL_H */
++#include "../sparc/target_syscall.h"
 -- 
 2.25.1
 
