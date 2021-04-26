@@ -2,43 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A266E36B822
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:36:19 +0200 (CEST)
-Received: from localhost ([::1]:37188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E127836B826
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:38:04 +0200 (CEST)
+Received: from localhost ([::1]:41234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb59e-0007FO-3y
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
+	id 1lb5BL-0000a7-VE
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
- id 1lb56f-0005O2-CE
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:33:17 -0400
-Received: from static-71-162-116-19.bstnma.fios.verizon.net
- ([71.162.116.19]:39810 helo=server4.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chris@server4.localdomain>) id 1lb56c-0001oo-Tk
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:33:13 -0400
-Received: by server4.localdomain (Postfix, from userid 503)
- id F24B160311111; Mon, 26 Apr 2021 13:33:09 -0400 (EDT)
-From: Chris Browy <cbrowy@avery-design.com>
-To: mst@redhat.com
-Subject: [PATCH v5 cxl2.0-v3-doe 4/6] cxl/compliance: CXL Compliance Data
- Object Exchange implementation
-Date: Mon, 26 Apr 2021 13:33:08 -0400
-Message-Id: <1619458388-14167-1-git-send-email-cbrowy@avery-design.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
-References: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
-Received-SPF: none client-ip=71.162.116.19;
- envelope-from=chris@server4.localdomain; helo=server4.localdomain
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.399,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb583-0006Nd-9N
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:34:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb57z-0002FG-3k
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:34:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619458468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9KzEJVItqYYJdRNJplRGrMt29McbLMuK6vmzjwa41PM=;
+ b=eRWJPcNcEVd05EGKoSyyaDtBtNJ0IdFUqbVHzx+LEQKm1vuvbrVwJwcGv6gzGfc0opihjO
+ tuZo2ISJgffRvWuVWCU1hG/6PX3KrFRPdOtKIEFsawutpPzR8catyhVFZTiDzNBPhf2OmS
+ 4eTHCJ7Vm6gIMbacJ1CzfwzkFJ8/l9c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-9JtSdvabO5yU8d34Nx5PGQ-1; Mon, 26 Apr 2021 13:34:25 -0400
+X-MC-Unique: 9JtSdvabO5yU8d34Nx5PGQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9B1E84BA41;
+ Mon, 26 Apr 2021 17:34:23 +0000 (UTC)
+Received: from [10.10.120.13] (ovpn-120-13.rdu2.redhat.com [10.10.120.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73C4F19719;
+ Mon, 26 Apr 2021 17:34:18 +0000 (UTC)
+Subject: Re: [PATCH] qapi: deprecate drive-backup
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, kchamart@redhat.com
+References: <20210423125900.3640-1-vsementsov@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <9a0e7805-c6ae-b55f-431c-4c61a1ab746e@redhat.com>
+Date: Mon, 26 Apr 2021 13:34:17 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210423125900.3640-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,570 +81,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com,
- Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com,
- linux-cxl@vger.kernel.org, f4bug@amsat.org, hchkuo@avery-design.com.tw,
- tyshao@avery-design.com.tw, jonathan.cameron@huawei.com, imammedo@redhat.com,
- dan.j.williams@intel.com, ira.weiny@intel.com
+Cc: kwolf@redhat.com, pkrempa@redhat.com, libvir-list@redhat.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ nshirokovskiy@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: hchkuo <hchkuo@avery-design.com.tw>
+On 4/23/21 8:59 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Modern way is using blockdev-add + blockdev-backup, which provides a
+> lot more control on how target is opened.
+> 
+> As example of drive-backup problems consider the following:
+> 
+> User of drive-backup expects that target will be opened in the same
+> cache and aio mode as source. Corresponding logic is in
+> drive_backup_prepare(), where we take bs->open_flags of source.
+> 
+> It works rather bad if source was added by blockdev-add. Assume source
+> is qcow2 image. On blockdev-add we should specify aio and cache options
+> for file child of qcow2 node. What happens next:
+> 
+> drive_backup_prepare() looks at bs->open_flags of qcow2 source node.
+> But there no BDRV_O_NOCAHE neither BDRV_O_NATIVE_AIO: BDRV_O_NOCAHE is
+> places in bs->file->bs->open_flags, and BDRV_O_NATIVE_AIO is nowhere,
+> as file-posix parse options and simply set s->use_linux_aio.
+> 
 
-The Data Object Exchange implementation of CXL Compliance Mode is
-referring to "Compute Express Link (CXL) Specification, Rev. 2.0, Oct.
-2020".
+No complaints from me, especially if Virtuozzo is on board. I would like 
+to see some documentation changes alongside this deprecation, though.
 
-The data structure of CXL compliance request and response is added to
-the header. Due to the scope limitation of QEMU, most of the compliance
-response is limited to returning corresponding length.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
+> Hi all! I remember, I suggested to deprecate drive-backup some time ago,
+> and nobody complain.. But that old patch was inside the series with
+> other more questionable deprecations and it did not landed.
+> 
+> Let's finally deprecate what should be deprecated long ago.
+> 
+> We now faced a problem in our downstream, described in commit message.
+> In downstream I've fixed it by simply enabling O_DIRECT and linux_aio
+> unconditionally for drive_backup target. But actually this just shows
+> that using drive-backup in blockdev era is a bad idea. So let's motivate
+> everyone (including Virtuozzo of course) to move to new interfaces and
+> avoid problems with all that outdated option inheritance.
+> 
+>   docs/system/deprecated.rst | 5 +++++
+>   qapi/block-core.json       | 5 ++++-
+>   2 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 80cae86252..b6f5766e17 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -186,6 +186,11 @@ Use the more generic commands ``block-export-add`` and ``block-export-del``
+>   instead.  As part of this deprecation, where ``nbd-server-add`` used a
+>   single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
+>   
+> +``drive-backup`` (since 6.0)
+> +''''''''''''''''''''''''''''
+> +
+> +Use ``blockdev-backup`` in pair with ``blockdev-add`` instead.
+> +
 
-A DOE capability of CXL Compliance is added to hw/mem/cxl_type3.c with
-capability offset 0x160. The config read/write to this capability range
-can be generated in the OS to request the Compliance info.
+1) Let's add a sphinx reference to 
+https://qemu-project.gitlab.io/qemu/interop/live-block-operations.html#live-disk-backup-drive-backup-and-blockdev-backup
 
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
----
- hw/mem/cxl_type3.c              | 147 ++++++++++++++++
- include/hw/cxl/cxl_compliance.h | 293 ++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_component.h  |   3 +
- include/hw/cxl/cxl_device.h     |   3 +
- include/hw/cxl/cxl_pci.h        |   1 +
- 5 files changed, 447 insertions(+)
- create mode 100644 include/hw/cxl/cxl_compliance.h
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index bf33ddb915..569872eb36 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -13,6 +13,134 @@
- #include "qemu/rcu.h"
- #include "sysemu/hostmem.h"
- #include "hw/cxl/cxl.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
-+
-+#define DWORD_BYTE 4
-+
-+bool cxl_doe_compliance_rsp(DOECap *doe_cap)
-+{
-+    CompRsp *rsp = &CT3(doe_cap->pdev)->cxl_cstate.compliance.response;
-+    struct compliance_req_header *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    uint32_t type, req_len = 0, rsp_len = 0;
-+
-+    type = req->req_code;
-+
-+    switch (type) {
-+    case CXL_COMP_MODE_CAP:
-+        req_len = sizeof(struct cxl_compliance_cap_req);
-+        rsp_len = sizeof(struct cxl_compliance_cap_rsp);
-+        rsp->cap_rsp.status = 0x0;
-+        rsp->cap_rsp.available_cap_bitmask = 0;
-+        rsp->cap_rsp.enabled_cap_bitmask = 0;
-+        break;
-+    case CXL_COMP_MODE_STATUS:
-+        req_len = sizeof(struct cxl_compliance_status_req);
-+        rsp_len = sizeof(struct cxl_compliance_status_rsp);
-+        rsp->status_rsp.cap_bitfield = 0;
-+        rsp->status_rsp.cache_size = 0;
-+        rsp->status_rsp.cache_size_units = 0;
-+        break;
-+    case CXL_COMP_MODE_HALT:
-+        req_len = sizeof(struct cxl_compliance_halt_req);
-+        rsp_len = sizeof(struct cxl_compliance_halt_rsp);
-+        break;
-+    case CXL_COMP_MODE_MULT_WR_STREAM:
-+        req_len = sizeof(struct cxl_compliance_multi_write_streaming_req);
-+        rsp_len = sizeof(struct cxl_compliance_multi_write_streaming_rsp);
-+        break;
-+    case CXL_COMP_MODE_PRO_CON:
-+        req_len = sizeof(struct cxl_compliance_producer_consumer_req);
-+        rsp_len = sizeof(struct cxl_compliance_producer_consumer_rsp);
-+        break;
-+    case CXL_COMP_MODE_BOGUS:
-+        req_len = sizeof(struct cxl_compliance_bogus_writes_req);
-+        rsp_len = sizeof(struct cxl_compliance_bogus_writes_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_POISON:
-+        req_len = sizeof(struct cxl_compliance_inject_poison_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_poison_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_CRC:
-+        req_len = sizeof(struct cxl_compliance_inject_crc_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_crc_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_FC:
-+        req_len = sizeof(struct cxl_compliance_inject_flow_ctrl_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_flow_ctrl_rsp);
-+        break;
-+    case CXL_COMP_MODE_TOGGLE_CACHE:
-+        req_len = sizeof(struct cxl_compliance_toggle_cache_flush_req);
-+        rsp_len = sizeof(struct cxl_compliance_toggle_cache_flush_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_MAC:
-+        req_len = sizeof(struct cxl_compliance_inject_mac_delay_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_mac_delay_rsp);
-+        break;
-+    case CXL_COMP_MODE_INS_UNEXP_MAC:
-+        req_len = sizeof(struct cxl_compliance_insert_unexp_mac_req);
-+        rsp_len = sizeof(struct cxl_compliance_insert_unexp_mac_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_VIRAL:
-+        req_len = sizeof(struct cxl_compliance_inject_viral_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_viral_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_ALMP:
-+        req_len = sizeof(struct cxl_compliance_inject_almp_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_almp_rsp);
-+        break;
-+    case CXL_COMP_MODE_IGN_ALMP:
-+        req_len = sizeof(struct cxl_compliance_ignore_almp_req);
-+        rsp_len = sizeof(struct cxl_compliance_ignore_almp_rsp);
-+        break;
-+    case CXL_COMP_MODE_INJ_BIT_ERR:
-+        req_len = sizeof(struct cxl_compliance_inject_bit_err_in_flit_req);
-+        rsp_len = sizeof(struct cxl_compliance_inject_bit_err_in_flit_rsp);
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    /* Discard if request length mismatched */
-+    if (pcie_doe_get_obj_len(req) < DIV_ROUND_UP(req_len, DWORD_BYTE)) {
-+        return false;
-+    }
-+
-+    /* Common fields for each compliance type */
-+    rsp->header.doe_header.vendor_id = CXL_VENDOR_ID;
-+    rsp->header.doe_header.data_obj_type = CXL_DOE_COMPLIANCE;
-+    rsp->header.doe_header.length = DIV_ROUND_UP(rsp_len, DWORD_BYTE);
-+    rsp->header.rsp_code = type;
-+    rsp->header.version = 0x1;
-+    rsp->header.length = rsp_len;
-+
-+    memcpy(doe_cap->read_mbox, rsp, rsp_len);
-+
-+    doe_cap->read_mbox_len += rsp->header.doe_header.length;
-+
-+    return true;
-+}
-+
-+static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
-+{
-+    CXLType3Dev *ct3d = CT3(pci_dev);
-+    uint32_t val;
-+
-+    if (pcie_doe_read_config(&ct3d->doe_comp, addr, size, &val)) {
-+        return val;
-+    }
-+
-+    return pci_default_read_config(pci_dev, addr, size);
-+}
-+
-+static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
-+                              int size)
-+{
-+    CXLType3Dev *ct3d = CT3(pci_dev);
-+
-+    pcie_doe_write_config(&ct3d->doe_comp, addr, val, size);
-+    pci_default_write_config(pci_dev, addr, val, size);
-+}
- 
- static void build_dvsecs(CXLType3Dev *ct3d)
- {
-@@ -203,6 +331,11 @@ static MemoryRegion *cxl_md_get_memory_region(MemoryDeviceState *md,
-     return ct3d->cxl_dstate.pmem;
- }
- 
-+static DOEProtocol doe_comp_prot[] = {
-+    {CXL_VENDOR_ID, CXL_DOE_COMPLIANCE, cxl_doe_compliance_rsp},
-+    {},
-+};
-+
- static void ct3_realize(PCIDevice *pci_dev, Error **errp)
- {
-     CXLType3Dev *ct3d = CT3(pci_dev);
-@@ -210,6 +343,8 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     ComponentRegisters *regs = &cxl_cstate->crb;
-     MemoryRegion *mr = &regs->component_registers;
-     uint8_t *pci_conf = pci_dev->config;
-+    unsigned short msix_num = 1;
-+    int i;
- 
-     if (!ct3d->cxl_dstate.pmem) {
-         cxl_setup_memory(ct3d, errp);
-@@ -239,6 +374,15 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-                      PCI_BASE_ADDRESS_SPACE_MEMORY |
-                          PCI_BASE_ADDRESS_MEM_TYPE_64,
-                      &ct3d->cxl_dstate.device_registers);
-+
-+    /* MSI(-X) Initailization */
-+    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
-+    for (i = 0; i < msix_num; i++) {
-+        msix_vector_use(pci_dev, i);
-+    }
-+
-+    /* DOE Initailization */
-+    pcie_doe_init(pci_dev, &ct3d->doe_comp, 0x160, doe_comp_prot, true, 0);
- }
- 
- static uint64_t cxl_md_get_addr(const MemoryDeviceState *md)
-@@ -357,6 +501,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
-     MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
-+
-+    pc->config_write = ct3d_config_write;
-+    pc->config_read = ct3d_config_read;
-     CXLType3Class *cvc = CXL_TYPE3_DEV_CLASS(oc);
- 
-     pc->realize = ct3_realize;
-diff --git a/include/hw/cxl/cxl_compliance.h b/include/hw/cxl/cxl_compliance.h
-new file mode 100644
-index 0000000000..efa3e052d3
---- /dev/null
-+++ b/include/hw/cxl/cxl_compliance.h
-@@ -0,0 +1,293 @@
-+/*
-+ * CXL Compliance Structure
-+ *
-+ * Copyright (C) 2021 Avery Design Systems, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef CXL_COMPL_H
-+#define CXL_COMPL_H
-+
-+#include "hw/cxl/cxl_pci.h"
-+
-+/*
-+ * Reference:
-+ *   Compute Express Link (CXL) Specification, Rev. 2.0, Oct. 2020
-+ */
-+/* Compliance Mode Data Object Header - 14.16.4 Table 275 */
-+#define CXL_DOE_COMPLIANCE        0
-+#define CXL_DOE_PROTOCOL_COMPLIANCE ((CXL_DOE_COMPLIANCE << 16) | CXL_VENDOR_ID)
-+
-+/* Compliance Mode Return Values - 14.16.4 Table 276 */
-+enum comp_status {
-+    CXL_COMP_MODE_RET_SUCC,
-+    CXL_COMP_MODE_RET_NOT_AUTH,
-+    CXL_COMP_MODE_RET_UNKNOWN_FAIL,
-+    CXL_COMP_MODE_RET_UNSUP_INJ_FUNC,
-+    CXL_COMP_MODE_RET_INTERNAL_ERR,
-+    CXL_COMP_MODE_RET_BUSY,
-+    CXL_COMP_MODE_RET_NOT_INIT,
-+};
-+
-+/* Compliance Mode Types - 14.16.4 */
-+enum comp_type {
-+    CXL_COMP_MODE_CAP,
-+    CXL_COMP_MODE_STATUS,
-+    CXL_COMP_MODE_HALT,
-+    CXL_COMP_MODE_MULT_WR_STREAM,
-+    CXL_COMP_MODE_PRO_CON,
-+    CXL_COMP_MODE_BOGUS,
-+    CXL_COMP_MODE_INJ_POISON,
-+    CXL_COMP_MODE_INJ_CRC,
-+    CXL_COMP_MODE_INJ_FC,
-+    CXL_COMP_MODE_TOGGLE_CACHE,
-+    CXL_COMP_MODE_INJ_MAC,
-+    CXL_COMP_MODE_INS_UNEXP_MAC,
-+    CXL_COMP_MODE_INJ_VIRAL,
-+    CXL_COMP_MODE_INJ_ALMP,
-+    CXL_COMP_MODE_IGN_ALMP,
-+    CXL_COMP_MODE_INJ_BIT_ERR,
-+};
-+
-+typedef struct compliance_req_header CompReqHeader;
-+typedef struct compliance_rsp_header CompRspHeader;
-+
-+struct compliance_req_header {
-+    DOEHeader doe_header;
-+    uint8_t req_code;
-+    uint8_t version;
-+    uint16_t reserved;
-+} QEMU_PACKED;
-+
-+struct compliance_rsp_header {
-+    DOEHeader doe_header;
-+    uint8_t rsp_code;
-+    uint8_t version;
-+    uint8_t length;
-+} QEMU_PACKED;
-+
-+/* Special Patterns of response */
-+struct status_rsp {
-+    CompRspHeader header;
-+    uint8_t status;
-+} QEMU_PACKED;
-+
-+struct len_rsvd_rsp {
-+    /* The length field in header is reserved. */
-+    CompRspHeader header;
-+    uint8_t reserved[5];
-+} QEMU_PACKED;
-+
-+/* 14.16.4.1 Table 277 */
-+struct cxl_compliance_cap_req {
-+    CompReqHeader header;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.1 Table 278 */
-+struct cxl_compliance_cap_rsp {
-+    CompRspHeader header;
-+    uint8_t status;
-+    uint64_t available_cap_bitmask;
-+    uint64_t enabled_cap_bitmask;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.2 Table 279 */
-+struct cxl_compliance_status_req {
-+    CompReqHeader header;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.2 Table 280 */
-+struct cxl_compliance_status_rsp {
-+    CompRspHeader header;
-+    uint32_t cap_bitfield;
-+    uint16_t cache_size;
-+    uint8_t cache_size_units;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.3 Table 281 */
-+struct cxl_compliance_halt_req {
-+    CompReqHeader header;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.3 Table 282 */
-+#define cxl_compliance_halt_rsp status_rsp
-+
-+/* 14.16.4.4 Table 283 */
-+struct cxl_compliance_multi_write_streaming_req {
-+    CompReqHeader header;
-+    uint8_t protocol;
-+    uint8_t virtual_addr;
-+    uint8_t self_checking;
-+    uint8_t verify_read_semantics;
-+    uint8_t num_inc;
-+    uint8_t num_sets;
-+    uint8_t num_loops;
-+    uint8_t reserved2;
-+    uint64_t start_addr;
-+    uint64_t write_addr;
-+    uint64_t writeback_addr;
-+    uint64_t byte_mask;
-+    uint32_t addr_incr;
-+    uint32_t set_offset;
-+    uint32_t pattern_p;
-+    uint32_t inc_pattern_b;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.4 Table 284 */
-+#define cxl_compliance_multi_write_streaming_rsp status_rsp
-+
-+/* 14.16.4.5 Table 285 */
-+struct cxl_compliance_producer_consumer_req {
-+    CompReqHeader header;
-+    uint8_t protocol;
-+    uint8_t num_inc;
-+    uint8_t num_sets;
-+    uint8_t num_loops;
-+    uint8_t write_semantics;
-+    uint8_t reserved2[3];
-+    uint64_t start_addr;
-+    uint64_t byte_mask;
-+    uint32_t addr_incr;
-+    uint32_t set_offset;
-+    uint32_t pattern;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.5 Table 286 */
-+#define cxl_compliance_producer_consumer_rsp status_rsp
-+
-+/* 14.16.4.6 Table 287 */
-+struct cxl_compliance_bogus_writes_req {
-+    CompReqHeader header;
-+    uint8_t count;
-+    uint8_t reserved;
-+    uint32_t pattern;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.6 Table 288 */
-+#define cxl_compliance_bogus_writes_rsp status_rsp
-+
-+/* 14.16.4.7 Table 289 */
-+struct cxl_compliance_inject_poison_req {
-+    CompReqHeader header;
-+    uint8_t protocol;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.7 Table 290 */
-+#define cxl_compliance_inject_poison_rsp status_rsp
-+
-+/* 14.16.4.8 Table 291 */
-+struct cxl_compliance_inject_crc_req {
-+    CompReqHeader header;
-+    uint8_t num_bits_flip;
-+    uint8_t num_flits_inj;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.8 Table 292 */
-+#define cxl_compliance_inject_crc_rsp status_rsp
-+
-+/* 14.16.4.9 Table 293 */
-+struct cxl_compliance_inject_flow_ctrl_req {
-+    CompReqHeader header;
-+    uint8_t inj_flow_control;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.9 Table 294 */
-+#define cxl_compliance_inject_flow_ctrl_rsp status_rsp
-+
-+/* 14.16.4.10 Table 295 */
-+struct cxl_compliance_toggle_cache_flush_req {
-+    CompReqHeader header;
-+    uint8_t cache_flush_control;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.10 Table 296 */
-+#define cxl_compliance_toggle_cache_flush_rsp status_rsp
-+
-+/* 14.16.4.11 Table 297 */
-+struct cxl_compliance_inject_mac_delay_req {
-+    CompReqHeader header;
-+    uint8_t enable;
-+    uint8_t mode;
-+    uint8_t delay;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.11 Table 298 */
-+#define cxl_compliance_inject_mac_delay_rsp status_rsp
-+
-+/* 14.16.4.12 Table 299 */
-+struct cxl_compliance_insert_unexp_mac_req {
-+    CompReqHeader header;
-+    uint8_t opcode;
-+    uint8_t mode;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.12 Table 300 */
-+#define cxl_compliance_insert_unexp_mac_rsp status_rsp
-+
-+/* 14.16.4.13 Table 301 */
-+struct cxl_compliance_inject_viral_req {
-+    CompReqHeader header;
-+    uint8_t protocol;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.13 Table 302 */
-+#define cxl_compliance_inject_viral_rsp status_rsp
-+
-+/* 14.16.4.14 Table 303 */
-+struct cxl_compliance_inject_almp_req {
-+    CompReqHeader header;
-+    uint8_t opcode;
-+    uint8_t reserved2[3];
-+} QEMU_PACKED;
-+
-+/* 14.16.4.14 Table 304 */
-+#define cxl_compliance_inject_almp_rsp len_rsvd_rsp
-+
-+/* 14.16.4.15 Table 305 */
-+struct cxl_compliance_ignore_almp_req {
-+    CompReqHeader header;
-+    uint8_t opcode;
-+    uint8_t reserved2[3];
-+} QEMU_PACKED;
-+
-+/* 14.16.4.15 Table 306 */
-+#define cxl_compliance_ignore_almp_rsp len_rsvd_rsp
-+
-+/* 14.16.4.16 Table 307 */
-+struct cxl_compliance_inject_bit_err_in_flit_req {
-+    CompReqHeader header;
-+    uint8_t opcode;
-+} QEMU_PACKED;
-+
-+/* 14.16.4.16 Table 308 */
-+#define cxl_compliance_inject_bit_err_in_flit_rsp len_rsvd_rsp
-+
-+typedef struct ComplianceObject ComplianceObject;
-+
-+typedef union doe_rsp_u {
-+    CompRspHeader header;
-+
-+    struct cxl_compliance_cap_rsp cap_rsp;
-+    struct cxl_compliance_status_rsp status_rsp;
-+    struct cxl_compliance_halt_rsp halt_rsp;
-+    struct cxl_compliance_multi_write_streaming_rsp multi_write_streaming_rsp;
-+    struct cxl_compliance_producer_consumer_rsp producer_consumer_rsp;
-+    struct cxl_compliance_bogus_writes_rsp bogus_writes_rsp;
-+    struct cxl_compliance_inject_poison_rsp inject_poison_rsp;
-+    struct cxl_compliance_inject_crc_rsp inject_crc_rsp;
-+    struct cxl_compliance_inject_flow_ctrl_rsp inject_flow_ctrl_rsp;
-+    struct cxl_compliance_toggle_cache_flush_rsp toggle_cache_flush_rsp;
-+    struct cxl_compliance_inject_mac_delay_rsp inject_mac_delay_rsp;
-+    struct cxl_compliance_insert_unexp_mac_rsp insert_unexp_mac_rsp;
-+    struct cxl_compliance_inject_viral_rsp inject_viral_rsp;
-+    struct cxl_compliance_inject_almp_rsp inject_almp_rsp;
-+    struct cxl_compliance_ignore_almp_rsp ignore_almp_rsp;
-+    struct cxl_compliance_inject_bit_err_in_flit_rsp inject_bit_err_in_flit_rsp;
-+} CompRsp;
-+
-+struct ComplianceObject {
-+    CompRsp response;
-+} QEMU_PACKED;
-+#endif /* CXL_COMPL_H */
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index acc0730d96..d299c77ae3 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -173,6 +173,8 @@ typedef struct cxl_component {
-             struct PCIDevice *pdev;
-         };
-     };
-+
-+    ComplianceObject compliance;
- } CXLComponentState;
- 
- void cxl_component_register_block_init(Object *obj,
-@@ -184,4 +186,5 @@ void cxl_component_register_init_common(uint32_t *reg_state,
- void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
-                                 uint16_t type, uint8_t rev, uint8_t *body);
- 
-+bool cxl_doe_compliance_rsp(DOECap *doe_cap);
- #endif
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 057c5b85c6..f0cb7de795 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -236,6 +236,9 @@ typedef struct cxl_type3_dev {
-     /* State */
-     CXLComponentState cxl_cstate;
-     CXLDeviceState cxl_dstate;
-+
-+    /* DOE */
-+    DOECap doe_comp;
- } CXLType3Dev;
- 
- #ifndef TYPE_CXL_TYPE3_DEV
-diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
-index e8235b10cc..129bdf3238 100644
---- a/include/hw/cxl/cxl_pci.h
-+++ b/include/hw/cxl/cxl_pci.h
-@@ -12,6 +12,7 @@
- 
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie.h"
-+#include "hw/cxl/cxl_compliance.h"
- 
- #define CXL_VENDOR_ID 0x1e98
- 
--- 
-2.17.1
+2) Just a thought, not a request: We also may wish to update 
+https://qemu-project.gitlab.io/qemu/interop/bitmaps.html to use the new, 
+preferred method. However, this doc is a bit old and is in need of an 
+overhaul anyway (Especially to add the NBD pull workflow.) Since the doc 
+is in need of an overhaul anyway, can we ask Kashyap to help us here, if 
+he has time?
+
+
+3) Let's add a small explanation here that outlines the differences in 
+using these two commands. Here's a suggestion:
+
+This change primarily separates the creation/opening process of the 
+backup target with explicit, separate steps. BlockdevBackup uses mostly 
+the same arguments as DriveBackup, except the "format" and "mode" 
+options are removed in favor of using explicit "blockdev-create" and 
+"blockdev-add" calls.
+
+The "target" argument changes semantics. It no longer accepts filenames, 
+and will now additionally accept arbitrary node names in addition to 
+device names.
+
+
+4) Also not a request: If we want to go above and beyond, it might be 
+nice to spell out the exact steps required to transition from the old 
+interface to the new one. Here's a (hasty) suggestion for how that might 
+look:
+
+- The MODE argument is deprecated.
+   - "existing" is replaced by using "blockdev-add" commands.
+   - "absolute-paths" is replaced by using "blockdev-add" and
+     "blockdev-create" commands.
+
+- The FORMAT argument is deprecated.
+   - Format information is given to "blockdev-add"/"blockdev-create".
+
+- The TARGET argument has new semantics:
+   - Filenames are no longer supported, use blockdev-add/blockdev-create
+     as necessary instead.
+   - Device targets remain supported.
+
+
+Example:
+
+drive-backup $ARGS format=$FORMAT mode=$MODE target=$FILENAME becomes:
+
+(taking some liberties with syntax to just illustrate the idea ...)
+
+blockdev-create options={
+     "driver": "file",
+     "filename": $FILENAME,
+     "size": 0,
+}
+
+blockdev-add arguments={
+     "driver": "file",
+     "filename": $FILENAME,
+     "node-name": "Example_Filenode0"
+}
+
+blockdev-create options={
+     "driver": $FORMAT,
+     "file": "Example_Filenode0",
+     "size": $SIZE,
+}
+
+blockdev-add arguments={
+     "driver": $FORMAT,
+     "file": "Example_Filenode0",
+     "node-name": "Example_Formatnode0",
+}
+
+blockdev-backup arguments={
+     $ARGS ...,
+     "target": "Example_Formatnode0",
+}
+
+
+>   System accelerators
+>   -------------------
+>   
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 6d227924d0..8e2c6e1622 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -1642,6 +1642,9 @@
+>   # The operation can be stopped before it has completed using the
+>   # block-job-cancel command.
+>   #
+> +# Features:
+> +# @deprecated: This command is deprecated. Use @blockdev-backup instead.
+> +#
+>   # Returns: - nothing on success
+>   #          - If @device is not a valid block device, GenericError
+>   #
+> @@ -1657,7 +1660,7 @@
+>   #
+>   ##
+>   { 'command': 'drive-backup', 'boxed': true,
+> -  'data': 'DriveBackup' }
+> +  'data': 'DriveBackup', 'features': ['deprecated'] }
+>   
+>   ##
+>   # @blockdev-backup:
+> 
+
+thanks,
+--js
 
 
