@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34CE36B2AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:03:09 +0200 (CEST)
-Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6C136B2B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:05:44 +0200 (CEST)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lazxF-00008I-1d
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
+	id 1lazzj-0001lh-FJ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:05:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1laztQ-0005qF-9W
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:59:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1laztO-0005Lr-5T
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:59:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619438349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TlZMOK34N8iPKlCme/mC0AoDzOKm03r6/1rUsiDOfQQ=;
- b=BxI0VmFFKVfggY39sBRMZhjgQ3fxyjElEYsTXmyXENUBWaRk3ijS8VFHw2t4rUzoZ9RDNE
- c6qpDAXBEpJ1oqFvLY7Trwz/6vFUlxz2f2qVV5zixvswu6/VkI/cZT5CQJPD7aZir59Z5J
- aYIjXZyU+oAZu+FhvteRL0ySeXUhlYY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-FbPqShkvNtm5Meg1Gg5EMg-1; Mon, 26 Apr 2021 07:59:05 -0400
-X-MC-Unique: FbPqShkvNtm5Meg1Gg5EMg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5506107ACCD;
- Mon, 26 Apr 2021 11:59:04 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.192.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03E27687F8;
- Mon, 26 Apr 2021 11:59:01 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] KVM: use KVM_{GET|SET}_SREGS2 when supported.
-Date: Mon, 26 Apr 2021 14:58:50 +0300
-Message-Id: <20210426115850.1003501-3-mlevitsk@redhat.com>
-In-Reply-To: <20210426115850.1003501-1-mlevitsk@redhat.com>
-References: <20210426115850.1003501-1-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lazxk-0001Ia-Np
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:03:41 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lazxh-000868-UX
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:03:40 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id g65so676635wmg.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 05:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1Bu6/VH0wP8a/zZTI6ONuTqI2RE8AsQF/UbVoaN/NCE=;
+ b=GJKCo21mEA2cxIVAYVRbcQwMjXFoiqn2QULdcy8jmigSrj7tIxaICIglcPd8+CLqqA
+ 7MRtagRFOnUjTt/4twIIA4TCk0WSrcY8jch1OXN89pj20mnAWMBgUdUSxyLuJM/In3/O
+ wvSLKqrFRV7HK4V8iCJysrG8PwssbAEwmx07askPySSj4FpSo6IZ3WDVYy9Gm/eAnHzt
+ aa4IdXsNUcaUsffNjfHN844LketQCA5jOp4ocYtSiZAWqKC/91dEZkXuiW/X644LIBFN
+ HqqzrpbYVXeE2FlOaZ1nsTNXLD6Osg+No8VaIOv7dI02mXBRfRv6SNfR465HFZAZCjGM
+ FCzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1Bu6/VH0wP8a/zZTI6ONuTqI2RE8AsQF/UbVoaN/NCE=;
+ b=VenVYete4CN8ae6AZswGdD/CvmTTL1cboqHEC/eRgF2Zg8lCFoDBrpjTliQps9lMnY
+ TvjIiVm4KlvapcRPFzYgUBD2Gaai7EuvSTJhcef2D3ucAajfjDOZ/Iw6BwBH7Pw3sQ5O
+ gxOG7H84CfJaBN1Vo1kJu0iU0GEdAcJgLTtPNu7HUZ1UTtnXr5fOE75cl2e7S/Ud/lCf
+ ga57NZTYWqZIGIcvklT0aqcWG1wiApOoH7i/TfwjjvsB0gAvcqlJh5oFPmWgkVGyRi+C
+ +ausFYPa1aiPNmdSKHMCm0Qxp9c0+qm8OkelMn71qRxT4541OQB6ke9we5K618T9kn/F
+ zFUg==
+X-Gm-Message-State: AOAM5329amoJVkkOwdFTe5psq8vmnPbTyr8Qd0sfKPg1u0Z29LttPgs1
+ Q+yaos5TOl1ZoK74b3AiqqU=
+X-Google-Smtp-Source: ABdhPJymkTagCcRR0d/X+/qrhrpcgWBrcwC3yFKoCH1TFM76XFQWrjEHG4RYhWJ8eDwyHGriduxcXQ==
+X-Received: by 2002:a05:600c:1405:: with SMTP id
+ g5mr19765539wmi.186.1619438615988; 
+ Mon, 26 Apr 2021 05:03:35 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id q20sm47699567wmq.2.2021.04.26.05.03.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Apr 2021 05:03:35 -0700 (PDT)
+Subject: Re: [PATCH v1 13/25] hw/tricore: Add testdevice for tests in
+ tests/tcg/
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210419145435.14083-1-alex.bennee@linaro.org>
+ <20210419145435.14083-14-alex.bennee@linaro.org>
+ <df3cbf07-562f-087d-47b2-6b366c11f4ae@amsat.org> <878s55tk2k.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6407ae11-2260-206a-6002-3d357b4c4e77@amsat.org>
+Date: Mon, 26 Apr 2021 14:03:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <878s55tk2k.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,274 +92,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows to make PDPTRs part of the migration
-stream and thus not reload them after migration which
-is against X86 spec.
+On 4/26/21 12:15 PM, Alex Bennée wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+>> On 4/19/21 4:54 PM, Alex Bennée wrote:
+>>> From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+>>>
+>>> this device is used to verify the correctness of regression tests by
+>>> allowing guests to write their exit status to this device. This is then
+>>> used by qemu to exit using the written status.
+>>>
+>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Message-Id: <20210305170045.869437-4-kbastian@mail.uni-paderborn.de>
+>>> ---
+>>>  include/hw/tricore/tricore_testdevice.h | 38 ++++++++++++
+>>>  hw/tricore/tricore_testboard.c          |  8 +++
+>>>  hw/tricore/tricore_testdevice.c         | 82 +++++++++++++++++++++++++
+>>>  hw/tricore/meson.build                  |  1 +
+>>>  4 files changed, 129 insertions(+)
+>>>  create mode 100644 include/hw/tricore/tricore_testdevice.h
+>>>  create mode 100644 hw/tricore/tricore_testdevice.c
+>>
+>>> +#include "hw/tricore/tricore_testdevice.h"
+>>> +
+>>> +static void tricore_testdevice_write(void *opaque, hwaddr offset,
+>>> +                                      uint64_t value, unsigned size)
+>>> +{
+>>> +    exit(value);
+>>
+>>    ->  qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>>
+>> I'd rather use a 2 steps check of value such watchdog devices do
+>> (to be sure the guest is still in control and isn't nut).
+> 
+> This isn't any different to what we do for TARGET_SYS_EXIT_EXTENDED or
+> the various other semihosting exits. Maybe we could do a better job of
+> flagging that these devices (or features) give the guest an avenue to
+> cause QEMU to shutdown but none of these are enabled by default.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- accel/kvm/kvm-all.c   |   5 ++
- include/sysemu/kvm.h  |   4 ++
- target/i386/cpu.h     |   3 ++
- target/i386/kvm/kvm.c | 107 +++++++++++++++++++++++++++++++++++++++++-
- target/i386/machine.c |  30 ++++++++++++
- 5 files changed, 147 insertions(+), 2 deletions(-)
+My concern here is the console being modified and not being restored
+correctly. Maybe not a problem for the current test, but could happens
+later with more tests added, or the device re-used elsewhere.
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index b6d9f92f15..0397b3cb2b 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -142,6 +142,7 @@ bool kvm_msi_via_irqfd_allowed;
- bool kvm_gsi_routing_allowed;
- bool kvm_gsi_direct_mapping;
- bool kvm_allowed;
-+bool kvm_sregs2;
- bool kvm_readonly_mem_allowed;
- bool kvm_vm_attributes_allowed;
- bool kvm_direct_msi_allowed;
-@@ -2186,6 +2187,10 @@ static int kvm_init(MachineState *ms)
-     kvm_ioeventfd_any_length_allowed =
-         (kvm_check_extension(s, KVM_CAP_IOEVENTFD_ANY_LENGTH) > 0);
- 
-+
-+    kvm_sregs2 =
-+        (kvm_check_extension(s, KVM_CAP_SREGS2) > 0);
-+
-     kvm_state = s;
- 
-     ret = kvm_arch_init(ms, s);
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee12d..b3d4538c55 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -32,6 +32,7 @@
- #ifdef CONFIG_KVM_IS_POSSIBLE
- 
- extern bool kvm_allowed;
-+extern bool kvm_sregs2;
- extern bool kvm_kernel_irqchip;
- extern bool kvm_split_irqchip;
- extern bool kvm_async_interrupts_allowed;
-@@ -139,6 +140,9 @@ extern bool kvm_msi_use_devid;
-  */
- #define kvm_gsi_direct_mapping() (kvm_gsi_direct_mapping)
- 
-+
-+#define kvm_supports_sregs2() (kvm_sregs2)
-+
- /**
-  * kvm_readonly_mem_enabled:
-  *
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 570f916878..ac877097d4 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1422,6 +1422,9 @@ typedef struct CPUX86State {
-     SegmentCache idt; /* only base and limit are used */
- 
-     target_ulong cr[5]; /* NOTE: cr1 is unused */
-+
-+    bool pdptrs_valid;
-+    uint64_t pdptrs[4];
-     int32_t a20_mask;
- 
-     BNDReg bnd_regs[4];
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 7fe9f52710..93570706e1 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2514,6 +2514,61 @@ static int kvm_put_sregs(X86CPU *cpu)
-     return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_SREGS, &sregs);
- }
- 
-+static int kvm_put_sregs2(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+    struct kvm_sregs2 sregs;
-+    int i;
-+
-+    sregs.flags = 0;
-+
-+    if ((env->eflags & VM_MASK)) {
-+        set_v8086_seg(&sregs.cs, &env->segs[R_CS]);
-+        set_v8086_seg(&sregs.ds, &env->segs[R_DS]);
-+        set_v8086_seg(&sregs.es, &env->segs[R_ES]);
-+        set_v8086_seg(&sregs.fs, &env->segs[R_FS]);
-+        set_v8086_seg(&sregs.gs, &env->segs[R_GS]);
-+        set_v8086_seg(&sregs.ss, &env->segs[R_SS]);
-+    } else {
-+        set_seg(&sregs.cs, &env->segs[R_CS]);
-+        set_seg(&sregs.ds, &env->segs[R_DS]);
-+        set_seg(&sregs.es, &env->segs[R_ES]);
-+        set_seg(&sregs.fs, &env->segs[R_FS]);
-+        set_seg(&sregs.gs, &env->segs[R_GS]);
-+        set_seg(&sregs.ss, &env->segs[R_SS]);
-+    }
-+
-+    set_seg(&sregs.tr, &env->tr);
-+    set_seg(&sregs.ldt, &env->ldt);
-+
-+    sregs.idt.limit = env->idt.limit;
-+    sregs.idt.base = env->idt.base;
-+    memset(sregs.idt.padding, 0, sizeof sregs.idt.padding);
-+    sregs.gdt.limit = env->gdt.limit;
-+    sregs.gdt.base = env->gdt.base;
-+    memset(sregs.gdt.padding, 0, sizeof sregs.gdt.padding);
-+
-+    sregs.cr0 = env->cr[0];
-+    sregs.cr2 = env->cr[2];
-+    sregs.cr3 = env->cr[3];
-+    sregs.cr4 = env->cr[4];
-+
-+    sregs.cr8 = cpu_get_apic_tpr(cpu->apic_state);
-+    sregs.apic_base = cpu_get_apic_base(cpu->apic_state);
-+
-+    sregs.efer = env->efer;
-+
-+    if (env->pdptrs_valid) {
-+        for (i = 0; i < 4; i++) {
-+            sregs.pdptrs[i] = env->pdptrs[i];
-+        }
-+        sregs.flags |= KVM_SREGS2_FLAGS_PDPTRS_VALID;
-+    }
-+
-+    return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_SREGS2, &sregs);
-+}
-+
-+
- static void kvm_msr_buf_reset(X86CPU *cpu)
- {
-     memset(cpu->kvm_msr_buf, 0, MSR_BUF_SIZE);
-@@ -3175,6 +3230,53 @@ static int kvm_get_sregs(X86CPU *cpu)
-     return 0;
- }
- 
-+static int kvm_get_sregs2(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+    struct kvm_sregs2 sregs;
-+    int i, ret;
-+
-+    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_SREGS2, &sregs);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    get_seg(&env->segs[R_CS], &sregs.cs);
-+    get_seg(&env->segs[R_DS], &sregs.ds);
-+    get_seg(&env->segs[R_ES], &sregs.es);
-+    get_seg(&env->segs[R_FS], &sregs.fs);
-+    get_seg(&env->segs[R_GS], &sregs.gs);
-+    get_seg(&env->segs[R_SS], &sregs.ss);
-+
-+    get_seg(&env->tr, &sregs.tr);
-+    get_seg(&env->ldt, &sregs.ldt);
-+
-+    env->idt.limit = sregs.idt.limit;
-+    env->idt.base = sregs.idt.base;
-+    env->gdt.limit = sregs.gdt.limit;
-+    env->gdt.base = sregs.gdt.base;
-+
-+    env->cr[0] = sregs.cr0;
-+    env->cr[2] = sregs.cr2;
-+    env->cr[3] = sregs.cr3;
-+    env->cr[4] = sregs.cr4;
-+
-+    env->efer = sregs.efer;
-+
-+    env->pdptrs_valid = sregs.flags & KVM_SREGS2_FLAGS_PDPTRS_VALID;
-+
-+    if (env->pdptrs_valid) {
-+        for (i = 0; i < 4; i++) {
-+            env->pdptrs[i] = sregs.pdptrs[i];
-+        }
-+    }
-+
-+    /* changes to apic base and cr8/tpr are read back via kvm_arch_post_run */
-+    x86_update_hflags(env);
-+
-+    return 0;
-+}
-+
- static int kvm_get_msrs(X86CPU *cpu)
- {
-     CPUX86State *env = &cpu->env;
-@@ -4000,7 +4102,8 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
-     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
- 
-     /* must be before kvm_put_nested_state so that EFER.SVME is set */
--    ret = kvm_put_sregs(x86_cpu);
-+    ret = kvm_supports_sregs2() ? kvm_put_sregs2(x86_cpu) :
-+                                  kvm_put_sregs(x86_cpu);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -4105,7 +4208,7 @@ int kvm_arch_get_registers(CPUState *cs)
-     if (ret < 0) {
-         goto out;
-     }
--    ret = kvm_get_sregs(cpu);
-+    ret = kvm_supports_sregs2() ? kvm_get_sregs2(cpu) : kvm_get_sregs(cpu);
-     if (ret < 0) {
-         goto out;
-     }
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 137604ddb8..ae0144cf34 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1396,6 +1396,35 @@ static const VMStateDescription vmstate_msr_tsx_ctrl = {
-     }
- };
- 
-+static bool pdptrs_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+    return env->pdptrs_valid;
-+}
-+
-+static int pdptrs_post_load(void *opaque, int version_id)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+    env->pdptrs_valid = true;
-+    return 0;
-+}
-+
-+
-+static const VMStateDescription vmstate_pdptrs = {
-+    .name = "cpu/pdptrs",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pdptrs_needed,
-+    .post_load = pdptrs_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64_ARRAY(env.pdptrs, X86CPU, 4),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+
- VMStateDescription vmstate_x86_cpu = {
-     .name = "cpu",
-     .version_id = 12,
-@@ -1531,6 +1560,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_nested_state,
- #endif
-         &vmstate_msr_tsx_ctrl,
-+        &vmstate_pdptrs,
-         NULL
-     }
- };
--- 
-2.26.2
+This is a one-line change, which can be done later.
 
+This concert also applies to the semihosting exit(). Can be done later too.
+
+> 
+>>
+>> A general comments, all targets require a such test feature,
+>> so we should have a generic user-creatable sysbus-testdev for that.
+> 
+> We also have the isa-debug-exit device used by x86. I believe there is
+> also a PCI device (pci-testdev) used to submit error-exit results for
+> kvm-unit-tests.
+> 
+> I'm all for modelling a cleaner abstraction that could be used by all
+> these methods and avoiding multiple exit paths but I don't want to hold
+> up Bastian's tests to a higher standard without addressing the other
+> cases. In the meantime given it improves the testing situation for
+> Tricore I don't think it's a major issue.
+
+Agreed, not a major issue, my comment are not blocking this patch.
+
+Thanks,
+
+Phil.
 
