@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C8B36B317
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:32:42 +0200 (CEST)
-Received: from localhost ([::1]:46328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6646D36B326
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:34:42 +0200 (CEST)
+Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0Pp-0005Vu-Dt
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48972)
+	id 1lb0Rl-0006qn-GL
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lb0O7-0004pG-Ou
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32048)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lb0QU-00064n-Uu
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lb0O4-0006hQ-Tk
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:30:55 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lb0QR-00083a-6t
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:33:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619440251;
+ s=mimecast20190719; t=1619440398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PE5h66MAdCxpEQByDPoag+YwQiPdyXuq79Ssh3EZr4A=;
- b=Db+2q0fYnfMKoo0B6MJ+xdtnX4/MfPCMoweFZWHZSHnkuqN5Wh7gXBgoAkUEihE95ob6pQ
- x3I5BDrH51CKcTcvzMJ/wPUqgv+wU+375e26wqG96xh2jxvr5gw4H0UhWF/yRAf3yOWcAL
- krLqR6h3hsbhMhtdfrwLIUxWTYw7b4w=
+ bh=bcO9IJ2wJjilahx3XVUBlAnlFuhXbdsPjHAMqniYCe0=;
+ b=YbRdXTUi+3E5F2h4V38xkj2ILE5m91esi9R6BoBghNLkVz0ptVuZHDVZUhSk2GaIruZJlV
+ EHHyQd/HduO5rSz2p9PM5zkvI2W9yqDds8BhVRwhyCznd8l0gLi0Gm6ArOT2peTsDGOUwJ
+ sw82xRVAxQLvm0xrKOSh8b0kRyolKAk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-NIVIiPp6MAa53p_zuZTBGg-1; Mon, 26 Apr 2021 08:30:47 -0400
-X-MC-Unique: NIVIiPp6MAa53p_zuZTBGg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-190-DGaz6j_aO8O4GeNHzIXuOw-1; Mon, 26 Apr 2021 08:33:15 -0400
+X-MC-Unique: DGaz6j_aO8O4GeNHzIXuOw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5694B87A826;
- Mon, 26 Apr 2021 12:30:45 +0000 (UTC)
-Received: from [10.36.113.215] (ovpn-113-215.ams2.redhat.com [10.36.113.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 131ED10074F1;
- Mon, 26 Apr 2021 12:30:27 +0000 (UTC)
-Subject: Re: [RFC v9 15/29] vfio: Set up nested stage mappings
-To: Kunkun Jiang <jiangkunkun@huawei.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, alex.williamson@redhat.com
-References: <20210411120912.15770-1-eric.auger@redhat.com>
- <20210411120912.15770-16-eric.auger@redhat.com>
- <cea9fd63-18d6-32c5-bed0-d8783af654ce@huawei.com>
- <a844b9fa-40e9-6443-b359-60ca7d9661aa@redhat.com>
- <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <f984c0a8-439d-ce53-bcdc-efcd28f707f4@redhat.com>
-Date: Mon, 26 Apr 2021 14:30:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2A7100671D;
+ Mon, 26 Apr 2021 12:33:14 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-153.ams2.redhat.com
+ [10.36.115.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A49E219C78;
+ Mon, 26 Apr 2021 12:33:11 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] docs: Add SEV-ES documentation to
+ amd-memory-encryption.txt
+To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org
+References: <a7c5ee6c056d840f46028f4a817c16a9862bdd9e.1619208498.git.thomas.lendacky@amd.com>
+ <fa1825a5eb0290eac4712cde75ba4c6829946eac.1619208498.git.thomas.lendacky@amd.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <ecd7b02c-925e-8769-3153-7a62310875a9@redhat.com>
+Date: Mon, 26 Apr 2021 14:33:10 +0200
 MIME-Version: 1.0
-In-Reply-To: <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <fa1825a5eb0290eac4712cde75ba4c6829946eac.1619208498.git.thomas.lendacky@amd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,400 +80,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
- chenxiang66@hisilicon.com, tn@semihalf.com,
- shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
- vivek.gautam@arm.com, vdumpa@nvidia.com, yi.l.liu@intel.com, peterx@redhat.com,
- zhangfei.gao@gmail.com, wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
- jean-philippe@linaro.org, zhukeqian1@huawei.com
+Cc: Pavel Hrdina <phrdina@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kunkun,
+On 04/23/21 22:08, Tom Lendacky wrote:
+> From: Tom Lendacky <thomas.lendacky@amd.com>
+> 
+> Update the amd-memory-encryption.txt file with information about SEV-ES,
+> including how to launch an SEV-ES guest and some of the differences
+> between SEV and SEV-ES guests in regards to launching and measuring the
+> guest.
+> 
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  docs/amd-memory-encryption.txt | 54 +++++++++++++++++++++++++++++-----
+>  1 file changed, 47 insertions(+), 7 deletions(-)
+> 
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index ed85159ea7..ffca382b5f 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -15,6 +15,13 @@ includes commands for launching, snapshotting, migrating and debugging the
+>  encrypted guest. These SEV commands can be issued via KVM_MEMORY_ENCRYPT_OP
+>  ioctls.
+>  
+> +Secure Encrypted Virtualization - Encrypted State (SEV-ES) builds on the SEV
+> +support to additionally protect the guest register state. In order to allow a
+> +hypervisor to perform functions on behalf of a guest, there is architectural
+> +support for notifying a guest's operating system when certain types of VMEXITs
+> +are about to occur. This allows the guest to selectively share information with
+> +the hypervisor to satisfy the requested function.
+> +
+>  Launching
+>  ---------
+>  Boot images (such as bios) must be encrypted before a guest can be booted. The
+> @@ -24,6 +31,9 @@ together generate a fresh memory encryption key for the VM, encrypt the boot
+>  images and provide a measurement than can be used as an attestation of a
+>  successful launch.
+>  
+> +For a SEV-ES guest, the LAUNCH_UPDATE_VMSA command is also used to encrypt the
+> +guest register state, or VM save area (VMSA), for all of the guest vCPUs.
+> +
+>  LAUNCH_START is called first to create a cryptographic launch context within
+>  the firmware. To create this context, guest owner must provide a guest policy,
+>  its public Diffie-Hellman key (PDH) and session parameters. These inputs
+> @@ -40,6 +50,12 @@ The guest policy can be provided via the 'policy' property (see below)
+>  # ${QEMU} \
+>     sev-guest,id=sev0,policy=0x1...\
+>  
+> +Setting the "SEV-ES required" policy bit (bit 2) will launch the guest as a
+> +SEV-ES guest (see below)
+> +
+> +# ${QEMU} \
+> +   sev-guest,id=sev0,policy=0x5...\
+> +
+>  The guest owner provided DH certificate and session parameters will be used to
+>  establish a cryptographic session with the guest owner to negotiate keys used
+>  for the attestation.
+> @@ -55,13 +71,19 @@ created via the LAUNCH_START command. If required, this command can be called
+>  multiple times to encrypt different memory regions. The command also calculates
+>  the measurement of the memory contents as it encrypts.
+>  
+> -LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory.
+> -This measurement is a signature of the memory contents that can be sent to the
+> -guest owner as an attestation that the memory was encrypted correctly by the
+> -firmware. The guest owner may wait to provide the guest confidential information
+> -until it can verify the attestation measurement. Since the guest owner knows the
+> -initial contents of the guest at boot, the attestation measurement can be
+> -verified by comparing it to what the guest owner expects.
+> +LAUNCH_UPDATE_VMSA encrypts all the vCPU VMSAs for a SEV-ES guest using the
+> +cryptographic context created via the LAUNCH_START command. The command also
+> +calculates the measurement of the VMSAs as it encrypts them.
+> +
+> +LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory and,
+> +for a SEV-ES guest, encrypted VMSAs. This measurement is a signature of the
+> +memory contents and, for a SEV-ES guest, the VMSA contents, that can be sent
+> +to the guest owner as an attestation that the memory and VMSAs were encrypted
+> +correctly by the firmware. The guest owner may wait to provide the guest
+> +confidential information until it can verify the attestation measurement.
+> +Since the guest owner knows the initial contents of the guest at boot, the
+> +attestation measurement can be verified by comparing it to what the guest owner
+> +expects.
+>  
+>  LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
+>  context.
+> @@ -75,6 +97,22 @@ To launch a SEV guest
+>      -machine ...,confidential-guest-support=sev0 \
+>      -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
+>  
+> +To launch a SEV-ES guest
+> +
+> +# ${QEMU} \
+> +    -machine ...,confidential-guest-support=sev0 \
+> +    -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x5
+> +
+> +An SEV-ES guest has some restrictions as compared to a SEV guest. Because the
+> +guest register state is encrypted and cannot be updated by the VMM/hypervisor,
+> +a SEV-ES guest:
+> + - Does not support SMM - SMM support requires updating the guest register
+> +   state.
+> + - Does not support reboot - a system reset requires updating the guest register
+> +   state.
+> + - Requires in-kernel irqchip - the burden is placed on the hypervisor to
+> +   manage booting APs.
+> +
+>  Debugging
+>  -----------
+>  Since the memory contents of a SEV guest are encrypted, hypervisor access to
+> @@ -101,8 +139,10 @@ Secure Encrypted Virtualization Key Management:
+>  
+>  KVM Forum slides:
+>  http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+> +https://www.linux-kvm.org/images/9/94/Extending-Secure-Encrypted-Virtualization-with-SEV-ES-Thomas-Lendacky-AMD.pdf
+>  
+>  AMD64 Architecture Programmer's Manual:
+>     http://support.amd.com/TechDocs/24593.pdf
+>     SME is section 7.10
+>     SEV is section 15.34
+> +   SEV-ES is section 15.35
+> 
 
-On 4/14/21 3:45 AM, Kunkun Jiang wrote:
-> On 2021/4/13 20:57, Auger Eric wrote:
->> Hi Kunkun,
->>
->> On 4/13/21 2:10 PM, Kunkun Jiang wrote:
->>> Hi Eric,
->>>
->>> On 2021/4/11 20:08, Eric Auger wrote:
->>>> In nested mode, legacy vfio_iommu_map_notify cannot be used as
->>>> there is no "caching" mode and we do not trap on map.
->>>>
->>>> On Intel, vfio_iommu_map_notify was used to DMA map the RAM
->>>> through the host single stage.
->>>>
->>>> With nested mode, we need to setup the stage 2 and the stage 1
->>>> separately. This patch introduces a prereg_listener to setup
->>>> the stage 2 mapping.
->>>>
->>>> The stage 1 mapping, owned by the guest, is passed to the host
->>>> when the guest invalidates the stage 1 configuration, through
->>>> a dedicated PCIPASIDOps callback. Guest IOTLB invalidations
->>>> are cascaded downto the host through another IOMMU MR UNMAP
->>>> notifier.
->>>>
->>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>>
->>>> ---
->>>>
->>>> v7 -> v8:
->>>> - properly handle new IOMMUTLBEntry fields and especially
->>>>     propagate DOMAIN and PASID based invalidations
->>>>
->>>> v6 -> v7:
->>>> - remove PASID based invalidation
->>>>
->>>> v5 -> v6:
->>>> - add error_report_err()
->>>> - remove the abort in case of nested stage case
->>>>
->>>> v4 -> v5:
->>>> - use VFIO_IOMMU_SET_PASID_TABLE
->>>> - use PCIPASIDOps for config notification
->>>>
->>>> v3 -> v4:
->>>> - use iommu_inv_pasid_info for ASID invalidation
->>>>
->>>> v2 -> v3:
->>>> - use VFIO_IOMMU_ATTACH_PASID_TABLE
->>>> - new user API
->>>> - handle leaf
->>>>
->>>> v1 -> v2:
->>>> - adapt to uapi changes
->>>> - pass the asid
->>>> - pass IOMMU_NOTIFIER_S1_CFG when initializing the config notifier
->>>> ---
->>>>    hw/vfio/common.c     | 139
->>>> +++++++++++++++++++++++++++++++++++++++++--
->>>>    hw/vfio/pci.c        |  21 +++++++
->>>>    hw/vfio/trace-events |   2 +
->>>>    3 files changed, 157 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>>> index 0cd7ef2139..e369d451e7 100644
->>>> --- a/hw/vfio/common.c
->>>> +++ b/hw/vfio/common.c
->>>> @@ -595,6 +595,73 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry
->>>> *iotlb, void **vaddr,
->>>>        return true;
->>>>    }
->>>>    +/* Propagate a guest IOTLB invalidation to the host (nested
->>>> mode) */
->>>> +static void vfio_iommu_unmap_notify(IOMMUNotifier *n, IOMMUTLBEntry
->>>> *iotlb)
->>>> +{
->>>> +    VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
->>>> +    struct vfio_iommu_type1_cache_invalidate ustruct = {};
->>>> +    VFIOContainer *container = giommu->container;
->>>> +    int ret;
->>>> +
->>>> +    assert(iotlb->perm == IOMMU_NONE);
->>>> +
->>>> +    ustruct.argsz = sizeof(ustruct);
->>>> +    ustruct.flags = 0;
->>>> +    ustruct.info.argsz = sizeof(struct iommu_cache_invalidate_info);
->>>> +    ustruct.info.version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
->>>> +    ustruct.info.cache = IOMMU_CACHE_INV_TYPE_IOTLB;
->>>> +
->>>> +    switch (iotlb->granularity) {
->>>> +    case IOMMU_INV_GRAN_DOMAIN:
->>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_DOMAIN;
->>>> +        break;
->>>> +    case IOMMU_INV_GRAN_PASID:
->>>> +    {
->>>> +        struct iommu_inv_pasid_info *pasid_info;
->>>> +        int archid = -1;
->>>> +
->>>> +        pasid_info = &ustruct.info.granu.pasid_info;
->>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_PASID;
->>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
->>>> +            pasid_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
->>>> +            archid = iotlb->arch_id;
->>>> +        }
->>>> +        pasid_info->archid = archid;
->>>> +        trace_vfio_iommu_asid_inv_iotlb(archid);
->>>> +        break;
->>>> +    }
->>>> +    case IOMMU_INV_GRAN_ADDR:
->>>> +    {
->>>> +        hwaddr start = iotlb->iova + giommu->iommu_offset;
->>>> +        struct iommu_inv_addr_info *addr_info;
->>>> +        size_t size = iotlb->addr_mask + 1;
->>>> +        int archid = -1;
->>>> +
->>>> +        addr_info = &ustruct.info.granu.addr_info;
->>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_ADDR;
->>>> +        if (iotlb->leaf) {
->>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_LEAF;
->>>> +        }
->>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
->>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
->>>> +            archid = iotlb->arch_id;
->>>> +        }
->>>> +        addr_info->archid = archid;
->>>> +        addr_info->addr = start;
->>>> +        addr_info->granule_size = size;
->>>> +        addr_info->nb_granules = 1;
->>>> +        trace_vfio_iommu_addr_inv_iotlb(archid, start, size,
->>>> +                                        1, iotlb->leaf);
->>>> +        break;
->>>> +    }
->>> Should we pass a size to  host kernel here, even if vSMMU doesn't
->>> support
->>> RIL or guest kernel doesn't use RIL?
->>>
->>> It will cause TLBI issue in  this scenario: Guest kernel issues a
->>> TLBI cmd
->>> without "range" (tg = 0) to invalidate a 2M huge page. Then qemu passed
->>> the iova and size (4K) to host kernel. Finally, host kernel issues a
->>> TLBI cmd
->>> with "range" (4K) which can not invalidate the TLB entry of 2M huge
->>> page.
->>> (pSMMU supports RIL)
->> In that case the guest will loop over all 4K images belonging to the 2M
->> huge page and invalidate each of them. This should turn into qemu
->> notifications for each 4kB page, no? This is totally inefficient, hence
-> The guest will not loop over all 4K images belonging to the 2M huge page.
-> The iommu_iotlb_gather->pgsize will be 2M, if a page is 2M huge page. The
-> gather->pgsize will be passed to __arm_smmu_tlb_inv_range as "granule":
-> 
-> iommu_iotlb_gather_add_page
->     iommu_iotlb_sync
->         domain->ops->iotlb_sync
->             arm_smmu_iotlb_sync
->                 arm_smmu_tlb_inv_range_domain
->                     __arm_smmu_tlb_inv_range
-> 
-> In the above mentioned scenario, guest kernel will issue a TLBI cmd only
-> with
-> "iova" (tg = 0).
+Looks good to me.
 
-I am busy fixing this case. Could you share your guest use case. It is
-DPDK? In the positive I would be interested in getting your DPDK
-setup/commands.
-
-Thank you in advance
-
-Eric
-> 
-> Thanks,
-> Kunkun Jiang
->> the support of RIL on guest side and QEMU device.
->>
->> What do I miss?
->>
->> Thanks
->>
->> Eric
->>> Thanks,
->>> Kunkun Jiang
->>>> +    }
->>>> +
->>>> +    ret = ioctl(container->fd, VFIO_IOMMU_CACHE_INVALIDATE, &ustruct);
->>>> +    if (ret) {
->>>> +        error_report("%p: failed to invalidate CACHE (%d)",
->>>> container, ret);
->>>> +    }
->>>> +}
->>>> +
->>>>    static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry
->>>> *iotlb)
->>>>    {
->>>>        VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
->>>> @@ -776,6 +843,35 @@ static void
->>>> vfio_dma_unmap_ram_section(VFIOContainer *container,
->>>>        }
->>>>    }
->>>>    +static void vfio_prereg_listener_region_add(MemoryListener
->>>> *listener,
->>>> +                                            MemoryRegionSection
->>>> *section)
->>>> +{
->>>> +    VFIOContainer *container =
->>>> +        container_of(listener, VFIOContainer, prereg_listener);
->>>> +    Error *err = NULL;
->>>> +
->>>> +    if (!memory_region_is_ram(section->mr)) {
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    vfio_dma_map_ram_section(container, section, &err);
->>>> +    if (err) {
->>>> +        error_report_err(err);
->>>> +    }
->>>> +}
->>>> +static void vfio_prereg_listener_region_del(MemoryListener *listener,
->>>> +                                     MemoryRegionSection *section)
->>>> +{
->>>> +    VFIOContainer *container =
->>>> +        container_of(listener, VFIOContainer, prereg_listener);
->>>> +
->>>> +    if (!memory_region_is_ram(section->mr)) {
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    vfio_dma_unmap_ram_section(container, section);
->>>> +}
->>>> +
->>>>    static void vfio_listener_region_add(MemoryListener *listener,
->>>>                                         MemoryRegionSection *section)
->>>>    {
->>>> @@ -879,9 +975,10 @@ static void
->>>> vfio_listener_region_add(MemoryListener *listener,
->>>>        memory_region_ref(section->mr);
->>>>          if (memory_region_is_iommu(section->mr)) {
->>>> +        IOMMUNotify notify;
->>>>            VFIOGuestIOMMU *giommu;
->>>>            IOMMUMemoryRegion *iommu_mr =
->>>> IOMMU_MEMORY_REGION(section->mr);
->>>> -        int iommu_idx;
->>>> +        int iommu_idx, flags;
->>>>              trace_vfio_listener_region_add_iommu(iova, end);
->>>>            /*
->>>> @@ -900,8 +997,18 @@ static void
->>>> vfio_listener_region_add(MemoryListener *listener,
->>>>            llend = int128_sub(llend, int128_one());
->>>>            iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
->>>>                                                         
->>>> MEMTXATTRS_UNSPECIFIED);
->>>> -        iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
->>>> -                            IOMMU_NOTIFIER_IOTLB_EVENTS,
->>>> +
->>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->>>> +            /* IOTLB unmap notifier to propagate guest IOTLB
->>>> invalidations */
->>>> +            flags = IOMMU_NOTIFIER_UNMAP;
->>>> +            notify = vfio_iommu_unmap_notify;
->>>> +        } else {
->>>> +            /* MAP/UNMAP IOTLB notifier */
->>>> +            flags = IOMMU_NOTIFIER_IOTLB_EVENTS;
->>>> +            notify = vfio_iommu_map_notify;
->>>> +        }
->>>> +
->>>> +        iommu_notifier_init(&giommu->n, notify, flags,
->>>>                                section->offset_within_region,
->>>>                                int128_get64(llend),
->>>>                                iommu_idx);
->>>> @@ -921,7 +1028,9 @@ static void
->>>> vfio_listener_region_add(MemoryListener *listener,
->>>>                goto fail;
->>>>            }
->>>>            QLIST_INSERT_HEAD(&container->giommu_list, giommu,
->>>> giommu_next);
->>>> -        memory_region_iommu_replay(giommu->iommu, &giommu->n);
->>>> +        if (flags & IOMMU_NOTIFIER_MAP) {
->>>> +            memory_region_iommu_replay(giommu->iommu, &giommu->n);
->>>> +        }
->>>>              return;
->>>>        }
->>>> @@ -1205,10 +1314,16 @@ static const MemoryListener
->>>> vfio_memory_listener = {
->>>>        .log_sync = vfio_listener_log_sync,
->>>>    };
->>>>    +static MemoryListener vfio_memory_prereg_listener = {
->>>> +    .region_add = vfio_prereg_listener_region_add,
->>>> +    .region_del = vfio_prereg_listener_region_del,
->>>> +};
->>>> +
->>>>    static void vfio_listener_release(VFIOContainer *container)
->>>>    {
->>>>        memory_listener_unregister(&container->listener);
->>>> -    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
->>>> +    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU ||
->>>> +        container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->>>>            memory_listener_unregister(&container->prereg_listener);
->>>>        }
->>>>    }
->>>> @@ -1858,6 +1973,20 @@ static int vfio_connect_container(VFIOGroup
->>>> *group, AddressSpace *as,
->>>>                vfio_get_iommu_info_migration(container, info);
->>>>            }
->>>>            g_free(info);
->>>> +
->>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->>>> +            container->prereg_listener = vfio_memory_prereg_listener;
->>>> +            memory_listener_register(&container->prereg_listener,
->>>> +                                     &address_space_memory);
->>>> +            if (container->error) {
->>>> +               
->>>> memory_listener_unregister(&container->prereg_listener);
->>>> +                ret = -1;
->>>> +                error_propagate_prepend(errp, container->error,
->>>> +                                    "RAM memory listener
->>>> initialization failed "
->>>> +                                    "for container");
->>>> +                goto free_container_exit;
->>>> +            }
->>>> +        }
->>>>            break;
->>>>        }
->>>>        case VFIO_SPAPR_TCE_v2_IOMMU:
->>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>>> index 5c65aa0a98..cad7deec71 100644
->>>> --- a/hw/vfio/pci.c
->>>> +++ b/hw/vfio/pci.c
->>>> @@ -2773,6 +2773,25 @@ static void
->>>> vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
->>>>        vdev->req_enabled = false;
->>>>    }
->>>>    +static int vfio_iommu_set_pasid_table(PCIBus *bus, int32_t devfn,
->>>> +                                      IOMMUConfig *config)
->>>> +{
->>>> +    PCIDevice *pdev = bus->devices[devfn];
->>>> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
->>>> +    VFIOContainer *container = vdev->vbasedev.group->container;
->>>> +    struct vfio_iommu_type1_set_pasid_table info;
->>>> +
->>>> +    info.argsz = sizeof(info);
->>>> +    info.flags = VFIO_PASID_TABLE_FLAG_SET;
->>>> +    memcpy(&info.config, &config->pasid_cfg,
->>>> sizeof(config->pasid_cfg));
->>>> +
->>>> +    return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
->>>> +}
->>>> +
->>>> +static PCIPASIDOps vfio_pci_pasid_ops = {
->>>> +    .set_pasid_table = vfio_iommu_set_pasid_table,
->>>> +};
->>>> +
->>>>    static void vfio_realize(PCIDevice *pdev, Error **errp)
->>>>    {
->>>>        VFIOPCIDevice *vdev = VFIO_PCI(pdev);
->>>> @@ -3084,6 +3103,8 @@ static void vfio_realize(PCIDevice *pdev, Error
->>>> **errp)
->>>>        vfio_register_req_notifier(vdev);
->>>>        vfio_setup_resetfn_quirk(vdev);
->>>>    +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
->>>> +
->>>>        return;
->>>>      out_deregister:
->>>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->>>> index 936d29d150..43696afc15 100644
->>>> --- a/hw/vfio/trace-events
->>>> +++ b/hw/vfio/trace-events
->>>> @@ -120,6 +120,8 @@ vfio_region_sparse_mmap_header(const char *name,
->>>> int index, int nr_areas) "Devic
->>>>    vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned
->>>> long end) "sparse entry %d [0x%lx - 0x%lx]"
->>>>    vfio_get_dev_region(const char *name, int index, uint32_t type,
->>>> uint32_t subtype) "%s index %d, %08x/%0x8"
->>>>    vfio_dma_unmap_overflow_workaround(void) ""
->>>> +vfio_iommu_addr_inv_iotlb(int asid, uint64_t addr, uint64_t size,
->>>> uint64_t nb_granules, bool leaf) "nested IOTLB invalidate asid=%d,
->>>> addr=0x%"PRIx64" granule_size=0x%"PRIx64" nb_granules=0x%"PRIx64"
->>>> leaf=%d"
->>>> +vfio_iommu_asid_inv_iotlb(int asid) "nested IOTLB invalidate asid=%d"
->>>>      # platform.c
->>>>    vfio_platform_base_device_init(char *name, int groupid) "%s belongs
->>>> to group #%d"
->>>
->>>
->> .
-> 
-> 
+Acked-by: Laszlo Ersek <lersek@redhat.com>
 
 
