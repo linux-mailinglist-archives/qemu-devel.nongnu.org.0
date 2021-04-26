@@ -2,42 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10E836B839
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:42:18 +0200 (CEST)
-Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDC536B843
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:46:58 +0200 (CEST)
+Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb5FR-0002X0-SL
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
+	id 1lb5Jx-0004Op-Mh
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
- id 1lb5AS-00009P-F9
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:37:09 -0400
-Received: from static-71-162-116-19.bstnma.fios.verizon.net
- ([71.162.116.19]:39846 helo=server4.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chris@server4.localdomain>) id 1lb5AR-0003Z1-2g
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:37:08 -0400
-Received: by server4.localdomain (Postfix, from userid 503)
- id 8E9FC60311111; Mon, 26 Apr 2021 13:37:06 -0400 (EDT)
-From: Chris Browy <cbrowy@avery-design.com>
-To: mst@redhat.com
-Subject: [PATCH v5 cxl2.0-v3-doe 6/6] test/cdat: CXL CDAT test data
-Date: Mon, 26 Apr 2021 13:37:03 -0400
-Message-Id: <1619458623-14552-1-git-send-email-cbrowy@avery-design.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
-References: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
-Received-SPF: none client-ip=71.162.116.19;
- envelope-from=chris@server4.localdomain; helo=server4.localdomain
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.399,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb5Cm-0001WG-7h
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:39:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb5Cg-0004Qm-Fw
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:39:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619458763;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3KxWlMUOMvZe36BPKoDfiOt7/Uyb99IifQEZcOo357A=;
+ b=SvaYN4My3tu8dHehUCp2fMiviF43FFs2WREfyjDMLB8u2aOKtnkXZuClo5trIx18iRYceE
+ A9Sa0RaQ1RxUn/xyr+3EF9SQpoaQJNh3Oj8HP48oxehKrf19QhOolIxu0PVRnshCMi4jgc
+ Q0112r+fqWygICFmMKcwmac7rTTsC3M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-lArVxFsnOsGiSFHK_7OwQw-1; Mon, 26 Apr 2021 13:39:21 -0400
+X-MC-Unique: lArVxFsnOsGiSFHK_7OwQw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB996343A6;
+ Mon, 26 Apr 2021 17:39:20 +0000 (UTC)
+Received: from [10.10.120.13] (ovpn-120-13.rdu2.redhat.com [10.10.120.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 575602C15B;
+ Mon, 26 Apr 2021 17:39:20 +0000 (UTC)
+Subject: Re: [PATCH 03/22] qapi/source: Remove line number from QAPISourceInfo
+ initializer
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-4-jsnow@redhat.com>
+ <87o8e49oha.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <2a5ae781-a32c-5d7e-c262-71496138f818@redhat.com>
+Date: Mon, 26 Apr 2021 13:39:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <87o8e49oha.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,38 +83,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com,
- Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com,
- linux-cxl@vger.kernel.org, f4bug@amsat.org, hchkuo@avery-design.com.tw,
- tyshao@avery-design.com.tw, jonathan.cameron@huawei.com, imammedo@redhat.com,
- dan.j.williams@intel.com, ira.weiny@intel.com
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: hchkuo <hchkuo@avery-design.com.tw>
+On 4/24/21 2:38 AM, Markus Armbruster wrote:
+> Not mentioned in the commit message: you add a default parameter value.
+> It's not used; there's just one caller, and it passes a value.
+> Intentional?
+> 
 
-Pre-built CDAT table for testing, contains one CDAT header and six
-CDAT entries: DSMAS, DSLBIS, DSMSCIS, DSIS, DSEMTS, and SSLBIS
-respectively.
-
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
----
- tests/data/cdat/cdat.dat | Bin 0 -> 148 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 tests/data/cdat/cdat.dat
-
-diff --git a/tests/data/cdat/cdat.dat b/tests/data/cdat/cdat.dat
-new file mode 100644
-index 0000000000000000000000000000000000000000..b66c5d5836bcce7490e698f9ab5071c623425c48
-GIT binary patch
-literal 148
-ycmbQjz`($`14zJu1e^tBD1c~21`KhqG!ugem_{a;892aP794t585EF}W3U1CI069x
-
-literal 0
-HcmV?d00001
-
--- 
-2.17.1
+No. Leftover from an earlier version where it was used. It can be made 
+to always be an explicit parameter now instead.
 
 
