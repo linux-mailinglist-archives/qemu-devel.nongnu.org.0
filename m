@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE0C36AB11
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 05:27:07 +0200 (CEST)
-Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EB436AB42
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 05:49:09 +0200 (CEST)
+Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lartq-0008Lc-IM
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 23:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35700)
+	id 1lasFA-0002zH-3t
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 23:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1larsT-0007r0-ED
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 23:25:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1larsR-0004Is-4S
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 23:25:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1larsN-0003Ew-BQ
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 03:25:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 505352E806F
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 03:25:35 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Apr 2021 03:19:06 -0000
-From: Alexander Bulekov <1926111@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
+ id 1lasEH-0002Z3-Rr
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 23:48:13 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
+ id 1lasEE-000241-IB
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 23:48:13 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9A8B65C0078;
+ Sun, 25 Apr 2021 23:48:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Sun, 25 Apr 2021 23:48:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=g3BlWP
+ aDuhYbF02cJ6YoeePymT94Qfj0PRakYSq2bxw=; b=PNBptw/QQT8lCwmC0Mn/o0
+ xXYNhh9jv65KPbHvD6qTPe+3198OwdipKkpiJhJaFghdoxKL2rXg82/2nARlMIQD
+ 61z92iBLJlkKE5OC4JPod/cSwFCMLVUPJ2tltu+7VK03Dk95ofXGiJBCK1DPOCHa
+ mk+PTlUqfi+Ioyc9432cWeQe/8eHOYVTfclhk1LuJlQtvvxRL7BtQ94tZ1/Cw9dI
+ wIuArOMXXsN0MHlbV0fSRLfgACsFL6HI5EV5eKxxilAoWihwKAn+qhLhqyEM8wC2
+ 3C8Dw2MugKJR+y0F4jhQx68HuqYh/KNe+T1yJ+q5QLmbTi8v33nqQ5YSsprVVK3A
+ ==
+X-ME-Sender: <xms:-DeGYKtwHWCTAFZvSuVHKhdBl4W7TCXpvZ59rEirOvjbPECRlwYDMg>
+ <xme:-DeGYPe2XM_IRdHwR-jf9F3QuZ8M47WiYqrzbN3cGhF4txjcq9XPTSpr4FP7KXCbi
+ yjZKmPkFOo6Ug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddujedgjeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofggtghogfesthekre
+ dtredtjeenucfhrhhomhepofgrrhgvkhcuofgrrhgtiiihkhhofihskhhiqdfikphrvggt
+ khhiuceomhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
+ eqnecuggftrfgrthhtvghrnhephefhfeetueelvddvtedttdevieeluedtvedtfeejieel
+ hedutdeuheduieejgfegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheple
+ durdeijedrjeelrdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+ lhhfrhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtg
+ homh
+X-ME-Proxy: <xmx:-DeGYFwp8Gv-mQfG9HsP2DIaCapDgasBkUij_-MKuh2S_A9oDD7gFw>
+ <xmx:-DeGYFOwHegGMcKXwH3B9cytPLXUJti4d2zZkKxXkdDOS7Kx4kJTZw>
+ <xmx:-DeGYK9p1kNEy35qL_JRyEK8OWzHoiMm5IuRLOyb1t_VkCOmMy7Sxw>
+ <xmx:-DeGYLIxDpt0H1Ujid8eyf3LaL3PjbaT95R7DGAEqQUAze_McSEWbA>
+Received: from localhost.localdomain (ip5b434f04.dynamic.kabel-deutschland.de
+ [91.67.79.4])
+ by mail.messagingengine.com (Postfix) with ESMTPA id A6E71240057;
+ Sun, 25 Apr 2021 23:48:07 -0400 (EDT)
+From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <161940714680.11021.12941917748278413607.malonedeb@soybean.canonical.com>
-Subject: [Bug 1926111] [NEW] Assertion `tx_queue_idx <= s->txq_num' failed in
- vmxnet3_io_bar0_write
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: fb27dc7ddacdb797c17429a20454d780bb63b367
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Subject: [PATCH] i386: load kernel on xen using DMA
+Date: Mon, 26 Apr 2021 05:47:10 +0200
+Message-Id: <20210426034709.595432-1-marmarek@invisiblethingslab.com>
+X-Mailer: git-send-email 2.26.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Organization: Invisible Things Lab
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=66.111.4.26;
+ envelope-from=marmarek@invisiblethingslab.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,216 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926111 <1926111@bugs.launchpad.net>
+Cc: xen-devel@lists.xenproject.org,
+ =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Kernel on Xen is loaded via fw_cfg. Previously it used non-DMA version,
+which loaded the kernel (and initramfs) byte by byte. Change this
+to DMA, to load in bigger chunks.
+This change alone reduces load time of a (big) kernel+initramfs from
+~10s down to below 1s.
 
-=3D=3D=3D Stacktrace =3D=3D=3D
+This change was suggested initially here:
+https://lore.kernel.org/xen-devel/20180216204031.000052e9@gmail.com/
+Apparently this alone is already enough to get massive speedup.
 
-qemu-fuzz-i386: ../hw/net/vmxnet3.c:1096: void vmxnet3_io_bar0_write(void *=
-, hwaddr, uint64_t, unsigned int): Assertion `tx_queue_idx <=3D s->txq_num'=
- failed.
-=3D=3D602353=3D=3D ERROR: libFuzzer: deadly signal
-#5 0x7fe4b93a7ce0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
-#6 0x7fe4b9391536 in abort stdlib/abort.c:79:7
-#7 0x7fe4b939140e in __assert_fail_base assert/assert.c:92:3
-#8 0x7fe4b93a0661 in __assert_fail assert/assert.c:101:3
-#9 0x563e6cf5ebb5 in vmxnet3_io_bar0_write  hw/net/vmxnet3.c:1096:9
-#10 0x563e6eefdb00 in memory_region_write_accessor  softmmu/memory.c:491:5
-#11 0x563e6eefcfdd in access_with_adjusted_size  softmmu/memory.c:552:18
-#12 0x563e6eefac90 in memory_region_dispatch_write  softmmu/memory.c:1502:16
-#13 0x563e6e834e16 in flatview_write_continue  softmmu/physmem.c:2746:23
-#14 0x563e6e81cd38 in flatview_write  softmmu/physmem.c:2786:14
-#15 0x563e6e81c868 in address_space_write  softmmu/physmem.c:2878:18
+Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+---
+ hw/i386/pc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-=3D=3D=3D Reproducer =3D=3D=3D
-cat << EOF | ./qemu-system-i386  -display none -machine accel=3Dqtest, -m \
-512M -machine q35 -nodefaults -device vmxnet3,netdev=3Dnet0 -netdev \
-user,id=3Dnet0 -qtest stdio
-outl 0xcf8 0x80000810
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80000814
-outl 0xcf8 0x80000804
-outw 0xcfc 0x7
-outl 0xcf8 0x80000815
-outl 0xcfc 0xffff00b5
-write 0x0 0x1 0xe1
-write 0x1 0x1 0xfe
-write 0x2 0x1 0xbe
-write 0x3 0x1 0xba
-write 0xff00b020 0x4 0x0000feca
-write 0xe0000630 0x1 0x00
-EOF
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8a84b25a03..14e43d4da4 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -839,7 +839,8 @@ void xen_load_linux(PCMachineState *pcms)
+ 
+     assert(MACHINE(pcms)->kernel_filename != NULL);
+ 
+-    fw_cfg = fw_cfg_init_io(FW_CFG_IO_BASE);
++    fw_cfg = fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
++                                &address_space_memory);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
+     rom_set_fw(fw_cfg);
+ 
+-- 
+2.26.3
 
-
-=3D=3D=3D Testcase =3D=3D=3D
-
-/*
- * Autogenerated Fuzzer Test Case
- *
- * This work is licensed under the terms of the GNU GPL, version 2 or later.
- * See the COPYING file in the top-level directory.
- */
-
-#include "qemu/osdep.h"
-
-#include "libqos/libqtest.h"
-
-static void test_fuzz(void) {
-    QTestState *s =3D qtest_init(" -display none , -m 512M -machine q35 -no=
-defaults "
-                               "-device vmxnet3,netdev=3Dnet0 -netdev user,=
-id=3Dnet0");
-    qtest_outl(s, 0xcf8, 0x80000810);
-    qtest_outl(s, 0xcfc, 0xe0000000);
-    qtest_outl(s, 0xcf8, 0x80000814);
-    qtest_outl(s, 0xcf8, 0x80000804);
-    qtest_outw(s, 0xcfc, 0x7);
-    qtest_outl(s, 0xcf8, 0x80000815);
-    qtest_outl(s, 0xcfc, 0xffff00b5);
-    qtest_bufwrite(s, 0x0, "\xe1", 0x1);
-    qtest_bufwrite(s, 0x1, "\xfe", 0x1);
-    qtest_bufwrite(s, 0x2, "\xbe", 0x1);
-    qtest_bufwrite(s, 0x3, "\xba", 0x1);
-    qtest_bufwrite(s, 0xff00b020, "\x00\x00\xfe\xca", 0x4);
-    qtest_bufwrite(s, 0xe0000630, "\x00", 0x1);
-    qtest_quit(s);
-}
-int main(int argc, char **argv) {
-    const char *arch =3D qtest_get_arch();
-
-    g_test_init(&argc, &argv, NULL);
-
-    if (strcmp(arch, "i386") =3D=3D 0) {
-        qtest_add_func("fuzz/test_fuzz", test_fuzz);
-    }
-
-    return g_test_run();
-}
-
-
-=3D=3D=3D OSS-Fuzz Report =3D=3D=3D
-https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D33603
-https://oss-fuzz.com/testcase?key=3D6071483232288768
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: fuzzer
-
-** Tags removed: fuzz
-** Tags added: fuzzer
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926111
-
-Title:
-  Assertion `tx_queue_idx <=3D s->txq_num' failed in vmxnet3_io_bar0_write
-
-Status in QEMU:
-  New
-
-Bug description:
-  =3D=3D=3D Stacktrace =3D=3D=3D
-
-  qemu-fuzz-i386: ../hw/net/vmxnet3.c:1096: void vmxnet3_io_bar0_write(void=
- *, hwaddr, uint64_t, unsigned int): Assertion `tx_queue_idx <=3D s->txq_nu=
-m' failed.
-  =3D=3D602353=3D=3D ERROR: libFuzzer: deadly signal
-  #5 0x7fe4b93a7ce0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
-  #6 0x7fe4b9391536 in abort stdlib/abort.c:79:7
-  #7 0x7fe4b939140e in __assert_fail_base assert/assert.c:92:3
-  #8 0x7fe4b93a0661 in __assert_fail assert/assert.c:101:3
-  #9 0x563e6cf5ebb5 in vmxnet3_io_bar0_write  hw/net/vmxnet3.c:1096:9
-  #10 0x563e6eefdb00 in memory_region_write_accessor  softmmu/memory.c:491:5
-  #11 0x563e6eefcfdd in access_with_adjusted_size  softmmu/memory.c:552:18
-  #12 0x563e6eefac90 in memory_region_dispatch_write  softmmu/memory.c:1502=
-:16
-  #13 0x563e6e834e16 in flatview_write_continue  softmmu/physmem.c:2746:23
-  #14 0x563e6e81cd38 in flatview_write  softmmu/physmem.c:2786:14
-  #15 0x563e6e81c868 in address_space_write  softmmu/physmem.c:2878:18
-
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ./qemu-system-i386  -display none -machine accel=3Dqtest, -m=
- \
-  512M -machine q35 -nodefaults -device vmxnet3,netdev=3Dnet0 -netdev \
-  user,id=3Dnet0 -qtest stdio
-  outl 0xcf8 0x80000810
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x80000814
-  outl 0xcf8 0x80000804
-  outw 0xcfc 0x7
-  outl 0xcf8 0x80000815
-  outl 0xcfc 0xffff00b5
-  write 0x0 0x1 0xe1
-  write 0x1 0x1 0xfe
-  write 0x2 0x1 0xbe
-  write 0x3 0x1 0xba
-  write 0xff00b020 0x4 0x0000feca
-  write 0xe0000630 0x1 0x00
-  EOF
-
-  =
-
-  =3D=3D=3D Testcase =3D=3D=3D
-
-  /*
-   * Autogenerated Fuzzer Test Case
-   *
-   * This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-   * See the COPYING file in the top-level directory.
-   */
-
-  #include "qemu/osdep.h"
-
-  #include "libqos/libqtest.h"
-
-  static void test_fuzz(void) {
-      QTestState *s =3D qtest_init(" -display none , -m 512M -machine q35 -=
-nodefaults "
-                                 "-device vmxnet3,netdev=3Dnet0 -netdev use=
-r,id=3Dnet0");
-      qtest_outl(s, 0xcf8, 0x80000810);
-      qtest_outl(s, 0xcfc, 0xe0000000);
-      qtest_outl(s, 0xcf8, 0x80000814);
-      qtest_outl(s, 0xcf8, 0x80000804);
-      qtest_outw(s, 0xcfc, 0x7);
-      qtest_outl(s, 0xcf8, 0x80000815);
-      qtest_outl(s, 0xcfc, 0xffff00b5);
-      qtest_bufwrite(s, 0x0, "\xe1", 0x1);
-      qtest_bufwrite(s, 0x1, "\xfe", 0x1);
-      qtest_bufwrite(s, 0x2, "\xbe", 0x1);
-      qtest_bufwrite(s, 0x3, "\xba", 0x1);
-      qtest_bufwrite(s, 0xff00b020, "\x00\x00\xfe\xca", 0x4);
-      qtest_bufwrite(s, 0xe0000630, "\x00", 0x1);
-      qtest_quit(s);
-  }
-  int main(int argc, char **argv) {
-      const char *arch =3D qtest_get_arch();
-
-      g_test_init(&argc, &argv, NULL);
-
-      if (strcmp(arch, "i386") =3D=3D 0) {
-          qtest_add_func("fuzz/test_fuzz", test_fuzz);
-      }
-
-      return g_test_run();
-  }
-
-  =
-
-  =3D=3D=3D OSS-Fuzz Report =3D=3D=3D
-  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D33603
-  https://oss-fuzz.com/testcase?key=3D6071483232288768
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926111/+subscriptions
 
