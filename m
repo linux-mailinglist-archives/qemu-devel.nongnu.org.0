@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7888036B3CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:08:09 +0200 (CEST)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B0D36B3D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:09:39 +0200 (CEST)
+Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0y8-00058T-3F
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60392)
+	id 1lb0za-0006Wk-KY
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lb0xH-0004hL-Mr
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:07:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21200)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lb0xq-0005G5-Jf
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:07:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lb0xE-0004E7-PC
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:07:15 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lb0xo-0004d8-LK
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:07:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619442431;
+ s=mimecast20190719; t=1619442467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W70ArGKX6Y4Frj6HnPB0N8oXSjXv+tEEUpcatPNgCag=;
- b=iygBagEnVhhl2YZgoAcunlqdPxsSSw3l5t1mRUvJdiqi7JSsP2Qw2otPMgoi4kQgYkoaK2
- QU7SlExCkgT8LLBrAY404FCdPUT0B6ZP605i4G+ua6S6JLrcBTt50tYRCVzSCK8m5zy2dg
- rcNfoSFuh9QG+VJplb5792IPrKGD4zk=
+ bh=IQXzKsOIFXzBUyNmDSeCKP84gqBuw/nXDwpVA/6ZPIA=;
+ b=csmFRjXO7iVKGPJKW+5Zzk/LXeIPbfYDMZWNIRIN9dkXow8+BHZC76dFCPQmbiypnT4xD3
+ dfAZKK1W/D8V/IdfuZQ6joESX03v29ObPP0UuJEfxr+ZXOKaAEXCuOhsxhW8UlAhzBD+0t
+ 4xG5k+ei2MZ5+Qc1SC+t9qBoNFziZ8Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-sPEflZ35PKCl7lwogt8uhQ-1; Mon, 26 Apr 2021 09:07:09 -0400
-X-MC-Unique: sPEflZ35PKCl7lwogt8uhQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-224-zijU4nEcOmKRmJYEuXnpww-1; Mon, 26 Apr 2021 09:07:45 -0400
+X-MC-Unique: zijU4nEcOmKRmJYEuXnpww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B00F880197D;
- Mon, 26 Apr 2021 13:07:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B480C809AC5;
+ Mon, 26 Apr 2021 13:07:43 +0000 (UTC)
 Received: from gondolin.fritz.box (ovpn-113-150.ams2.redhat.com
  [10.36.113.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D78A110016FC;
- Mon, 26 Apr 2021 13:07:03 +0000 (UTC)
-Date: Mon, 26 Apr 2021 15:07:00 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2533060855;
+ Mon, 26 Apr 2021 13:07:38 +0000 (UTC)
+Date: Mon, 26 Apr 2021 15:07:36 +0200
 From: Cornelia Huck <cohuck@redhat.com>
 To: Eric Farman <farman@linux.ibm.com>
 Subject: Re: [PATCH v2] vfio-ccw: Permit missing IRQs
-Message-ID: <20210426150700.43b980b4.cohuck@redhat.com>
-In-Reply-To: <48d2a3b8ef52ac657d8d0ea2f292d21e0ef0383c.camel@linux.ibm.com>
+Message-ID: <20210426150736.7a4e7498.cohuck@redhat.com>
+In-Reply-To: <20210421152053.2379873-1-farman@linux.ibm.com>
 References: <20210421152053.2379873-1-farman@linux.ibm.com>
- <20210423134252.264059e5.cohuck@redhat.com>
- <7be02ac9-c5d7-1263-ea0e-e0e0a2894521@linux.ibm.com>
- <48d2a3b8ef52ac657d8d0ea2f292d21e0ef0383c.camel@linux.ibm.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -68,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,47 +83,47 @@ Cc: qemu-s390x@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Apr 2021 12:24:57 -0400
+On Wed, 21 Apr 2021 17:20:53 +0200
 Eric Farman <farman@linux.ibm.com> wrote:
 
-> On Fri, 2021-04-23 at 09:22 -0400, Matthew Rosato wrote:
-
-> > So, this looks OK to me.  
+> Commit 690e29b91102 ("vfio-ccw: Refactor ccw irq handler") changed
+> one of the checks for the IRQ notifier registration from saying
+> "the host needs to recognize the only IRQ that exists" to saying
+> "the host needs to recognize ANY IRQ that exists."
 > 
-> +1 (Thanks for doing the research, Matt)
-
-+1 to both the analysis and the thanks :)
-
+> And this worked fine, because the subsequent change to support the
+> CRW IRQ notifier doesn't get into this code when running on an older
+> kernel, thanks to a guard by a capability region. The later addition
+> of the REQ(uest) IRQ by commit b2f96f9e4f5f ("vfio-ccw: Connect the
+> device request notifier") broke this assumption because there is no
+> matching capability region. Thus, running new QEMU on an older
+> kernel fails with:
 > 
-> > 
-> >   
-> > > handle any ioctl failure gracefully), but worth a second look. In
-> > > fact,
-> > > we already unregister the crw irq unconditionally, so we would
-> > > likely
-> > > already have seen any problems for that one, so I assume all is
-> > > good.
-> > >   
-> > 
-> > But +1 on driving the path and making sure it works anyway (do a 
-> > double-unregister?)  
+>   vfio: unexpected number of irqs 2
 > 
-> Yeah, works fine. Tried skipping the register of the CRW and double-
-> unregistering the IO IRQ.
+> Let's adapt the message here so that there's a better clue of what
+> IRQ is missing.
 > 
-> I also tried a combination where I unconditionally unregister the REQ
-> IRQ, which obviously throws a message when it doesn't exist on the
-> host.
-
-Good, thanks for double-checking.
-
+> Furthermore, let's make the REQ(uest) IRQ not fail when attempting
+> to register it, to permit running vfio-ccw on a newer QEMU with an
+> older kernel.
 > 
-> That might be nice to clean up so that adding new IRQs in the future is
-> more intuitive; I'll add it to the list unless you want me to address
-> it in a v2 of this. (Previously, the addition of the REQ IRQ needed to
-> add the cleanup of the CRW IRQ. So the next IRQ would need to cleanup
-> the REQ IRQ.)
+> Fixes: b2f96f9e4f5f ("vfio-ccw: Connect the device request notifier")
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+> 
+> Notes:
+>     v1->v2:
+>      - Keep existing "invalid number of IRQs" message with adapted text [CH]
+>      - Move the "is this an error" test to the registration of the IRQ in
+>        question, rather than making it allowable for any IRQ mismatch [CH]
+>      - Drop Fixes tag for initial commit [EF]
+>     
+>     v1: https://lore.kernel.org/qemu-devel/20210419184906.2847283-1-farman@linux.ibm.com/
+> 
+>  hw/vfio/ccw.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 
-Yeah, let's just do it on top.
+Thanks, applied.
 
 
