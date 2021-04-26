@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B0D36B3D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:09:39 +0200 (CEST)
-Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED2F36B3E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:13:05 +0200 (CEST)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0za-0006Wk-KY
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60514)
+	id 1lb12u-00034F-KA
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lb0xq-0005G5-Jf
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:07:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43123)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lb0z3-00072L-4L
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:09:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lb0xo-0004d8-LK
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:07:50 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lb0yz-0005Lh-4P
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 09:09:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619442467;
+ s=mimecast20190719; t=1619442539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IQXzKsOIFXzBUyNmDSeCKP84gqBuw/nXDwpVA/6ZPIA=;
- b=csmFRjXO7iVKGPJKW+5Zzk/LXeIPbfYDMZWNIRIN9dkXow8+BHZC76dFCPQmbiypnT4xD3
- dfAZKK1W/D8V/IdfuZQ6joESX03v29ObPP0UuJEfxr+ZXOKaAEXCuOhsxhW8UlAhzBD+0t
- 4xG5k+ei2MZ5+Qc1SC+t9qBoNFziZ8Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-zijU4nEcOmKRmJYEuXnpww-1; Mon, 26 Apr 2021 09:07:45 -0400
-X-MC-Unique: zijU4nEcOmKRmJYEuXnpww-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B480C809AC5;
- Mon, 26 Apr 2021 13:07:43 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-150.ams2.redhat.com
- [10.36.113.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2533060855;
- Mon, 26 Apr 2021 13:07:38 +0000 (UTC)
-Date: Mon, 26 Apr 2021 15:07:36 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>
-Subject: Re: [PATCH v2] vfio-ccw: Permit missing IRQs
-Message-ID: <20210426150736.7a4e7498.cohuck@redhat.com>
-In-Reply-To: <20210421152053.2379873-1-farman@linux.ibm.com>
-References: <20210421152053.2379873-1-farman@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=+zCnbgTdtQLCAzxeqvzke96+qge47qOUWxHzwqbezYY=;
+ b=isl4CurL7St5/7WDK8ca/KeT2eJAchbb15zlWNtsZOe/LfVBHf/FeEb9d7Y0IfglZIMv2v
+ Yh0+86Gz8sfGUyr4koGs8q54/qpV39vAwIo1m1kh+S2upC/BHN10MZp1AOyZJjGFTcj4VF
+ +GnoMGYv1hnkjLittAesGH9U3+X/H14=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-4ynPJCZ3P5a6wygJ6TJ5Ug-1; Mon, 26 Apr 2021 09:08:56 -0400
+X-MC-Unique: 4ynPJCZ3P5a6wygJ6TJ5Ug-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ t14-20020adff04e0000b0290103307c23e1so19019292wro.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 06:08:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=+zCnbgTdtQLCAzxeqvzke96+qge47qOUWxHzwqbezYY=;
+ b=sdXjmNj02YzASlVXhVzNqsYalBK2j5NgY5EU6RnPrTsEyDL6QokV/bm8cXvok8yQSb
+ nV07KwX14KgSgC2aJ7VMpnsjSRCOsjtdbouLJprBbx9zXxSgrAGlfuuuIfjLSLdu60Tf
+ wH8WLTdUOwBaMsgrNUyXGQiLCDaOJ8mtF7lEu1SXEsbrMPkfdXJkHBvBHUFALSSerPxn
+ g6EjyhP/cZpZkrmtBIg7zSGA+bt/c6k3Q6rbi4H0MIwIqr8jCTJFxKKb2xZhK16LYN0E
+ kVMgH4CbA3z4H9Ks4EwVqf9tIeEDRoTFuo+vz3WsvMQ+Fe3NcR8Eq2VHcIWv2k5cFqAO
+ sF4g==
+X-Gm-Message-State: AOAM5336gN16va9dye5CWG2tryS66brqAYncpZeC/cAYSS2zHJzgRbOp
+ TkpEgVhBKxTZP/hGlx3WzAPMDrjph7/+yR3Pogd2+CRuhbDaTxPSdp/NpTwlugfIyCsUUAMMMWJ
+ WiDTShzRva9aNWbA=
+X-Received: by 2002:a5d:66cd:: with SMTP id k13mr23199817wrw.387.1619442535402; 
+ Mon, 26 Apr 2021 06:08:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAGeoKO6+VGVxWOPl3Yna5rOCvnSC4yFbjENP02HFMeJCtxklluaROUBq/Am1mX//yMNi9Hw==
+X-Received: by 2002:a5d:66cd:: with SMTP id k13mr23199790wrw.387.1619442535231; 
+ Mon, 26 Apr 2021 06:08:55 -0700 (PDT)
+Received: from redhat.com ([2a10:800a:cdef:0:114d:2085:61e4:7b41])
+ by smtp.gmail.com with ESMTPSA id i11sm9978371wrp.56.2021.04.26.06.08.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Apr 2021 06:08:54 -0700 (PDT)
+Date: Mon, 26 Apr 2021 09:08:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH for-6.0 v2 1/2] hw/block/nvme: fix invalid msix exclusive
+ uninit
+Message-ID: <20210426090834-mutt-send-email-mst@kernel.org>
+References: <20210423052127.512489-1-its@irrelevant.dk>
+ <20210423052127.512489-2-its@irrelevant.dk>
+ <YIZEPo8gD/puvP5T@apples.localdomain>
+ <79c468bd-e600-7acd-2843-e9a77df91e79@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <79c468bd-e600-7acd-2843-e9a77df91e79@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,52 +98,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- qemu-devel@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 21 Apr 2021 17:20:53 +0200
-Eric Farman <farman@linux.ibm.com> wrote:
+On Mon, Apr 26, 2021 at 11:27:04AM +0200, Philippe Mathieu-Daudé wrote:
+> On 4/26/21 6:40 AM, Klaus Jensen wrote:
+> > On Apr 23 07:21, Klaus Jensen wrote:
+> >> From: Klaus Jensen <k.jensen@samsung.com>
+> >>
+> >> Commit 1901b4967c3f changed the nvme device from using a bar exclusive
+> >> for MSI-x to sharing it on bar0.
+> >>
+> >> Unfortunately, the msix_uninit_exclusive_bar() call remains in
+> >> nvme_exit() which causes havoc when the device is removed with, say,
+> >> device_del. Fix this.
+> >>
+> >> Additionally, a subregion is added but it is not removed on exit which
+> >> causes a reference to linger and the drive to never be unlocked.
+> >>
+> >> Fixes: 1901b4967c3f ("hw/block/nvme: move msix table and pba to BAR 0")
+> >> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-> Commit 690e29b91102 ("vfio-ccw: Refactor ccw irq handler") changed
-> one of the checks for the IRQ notifier registration from saying
-> "the host needs to recognize the only IRQ that exists" to saying
-> "the host needs to recognize ANY IRQ that exists."
-> 
-> And this worked fine, because the subsequent change to support the
-> CRW IRQ notifier doesn't get into this code when running on an older
-> kernel, thanks to a guard by a capability region. The later addition
-> of the REQ(uest) IRQ by commit b2f96f9e4f5f ("vfio-ccw: Connect the
-> device request notifier") broke this assumption because there is no
-> matching capability region. Thus, running new QEMU on an older
-> kernel fails with:
-> 
->   vfio: unexpected number of irqs 2
-> 
-> Let's adapt the message here so that there's a better clue of what
-> IRQ is missing.
-> 
-> Furthermore, let's make the REQ(uest) IRQ not fail when attempting
-> to register it, to permit running vfio-ccw on a newer QEMU with an
-> older kernel.
-> 
-> Fixes: b2f96f9e4f5f ("vfio-ccw: Connect the device request notifier")
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> ---
-> 
-> Notes:
->     v1->v2:
->      - Keep existing "invalid number of IRQs" message with adapted text [CH]
->      - Move the "is this an error" test to the registration of the IRQ in
->        question, rather than making it allowable for any IRQ mismatch [CH]
->      - Drop Fixes tag for initial commit [EF]
->     
->     v1: https://lore.kernel.org/qemu-devel/20210419184906.2847283-1-farman@linux.ibm.com/
-> 
->  hw/vfio/ccw.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Thanks, applied.
+> >> ---
+> >> hw/block/nvme.c | 3 ++-
+> >> 1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> >> index 624a1431d072..5fe082ec34c5 100644
+> >> --- a/hw/block/nvme.c
+> >> +++ b/hw/block/nvme.c
+> >> @@ -6235,7 +6235,8 @@ static void nvme_exit(PCIDevice *pci_dev)
+> >>     if (n->pmr.dev) {
+> >>         host_memory_backend_set_mapped(n->pmr.dev, false);
+> >>     }
+> >> -    msix_uninit_exclusive_bar(pci_dev);
+> >> +    msix_uninit(pci_dev, &n->bar0, &n->bar0);
+> >> +    memory_region_del_subregion(&n->bar0, &n->iomem);
+> >> }
+> >>
+> >> static Property nvme_props[] = {
+> >> -- 
+> >> 2.31.1
+> >>
+> > 
+> > Ping for a review on this please :)
+> 
+> You forgot to Cc the maintainers :/ (doing it now).
+> 
+> $ ./scripts/get_maintainer.pl -f include/hw/pci/msix.h
+> "Michael S. Tsirkin" <mst@redhat.com> (supporter:PCI)
+> Marcel Apfelbaum <marcel.apfelbaum@gmail.com> (supporter:PCI)
 
 
