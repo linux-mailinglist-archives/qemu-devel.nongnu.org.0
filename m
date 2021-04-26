@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF46936B595
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:20:03 +0200 (CEST)
-Received: from localhost ([::1]:36938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A907E36B5AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:23:54 +0200 (CEST)
+Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb31m-00045u-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41204)
+	id 1lb35V-0005W1-Ob
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lb2z6-0002DM-LQ; Mon, 26 Apr 2021 11:17:16 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lb2z3-0005K0-FU; Mon, 26 Apr 2021 11:17:15 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id x7so56260648wrw.10;
- Mon, 26 Apr 2021 08:17:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3tk2AGn6nJVpa73y63zWntkGf3PpkrX9E3NdwpL+uWs=;
- b=m1GGk1dBNb+HOga904FBdNLFzvbpqQci1oORho1cKFRkTc10QYo4JVZw+4KyXyTueG
- Sq50QZRhGVUl1CqXfXAHOztcacLt6tiH3jHwpjCsYOmxWYxyQkYt8z+8e/Q9tkKQzvEY
- sAjxnqdOWyJMcGQCsHudZgeEHFI6peZtuv0Ukow1TbW3bN7ig5as5M0VjeRQk55H68wn
- uMQRqqDvMhXhe9KTaSv7zLgPzwNokACykc5Svg17K9xirUnCg4jNIGBy/hcDpMjrojax
- y77EXLYT+m+IWMQCJsdATvrhMfsBwWD8+zyi/MejJqTCTJxVlyslPOfcethqyn0hv3Mo
- IWkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3tk2AGn6nJVpa73y63zWntkGf3PpkrX9E3NdwpL+uWs=;
- b=LVB3JTv6FPasjitIOKFU1yOllkUDeHztCeraOXUMBOMYjEfspz0RZorSA6eYx0qLHk
- cb4axjWtjIgmJ3rwDxc2zFiswvNPudfgvYEET9UmlFuxH4Z5eD2P9n1K+bpt408hex2g
- vFA/9xJSyrUeceybt3Rc2Rp9H5brQ4CXXVyeTjnFpARweKEa1g81Q4TEX6VmNCH/6QAN
- JzR938mBLO6odC1w2qxH7Lwv5tPXEnzfqyHJjbc3LOT/oFI9Kt5r2HuzV5NuXDPYpjce
- l5aQBO/YScOETiBosrWFzGCuujcTc+GXlvwN+vD97Ye83eCSuaPpYrJGEg5zK7Qr4PwL
- 6aeA==
-X-Gm-Message-State: AOAM533w5Am1lZ+EKSKmTv5lRg3TY3oXzxec9Kug0IP7HPFqcr+pWNS0
- j1dkO1cwvZXUs7sJvGggAl0=
-X-Google-Smtp-Source: ABdhPJyUwSua8/oqJ0hhe33OG3Gqv2mZzoacHjDj9N4iwH1/9GU/KRX410/B/pJ+Y05Y951UxDlnyQ==
-X-Received: by 2002:a5d:4a02:: with SMTP id m2mr13467788wrq.188.1619450228627; 
- Mon, 26 Apr 2021 08:17:08 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a2sm382489wrt.82.2021.04.26.08.17.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Apr 2021 08:17:08 -0700 (PDT)
-Subject: Re: [PATCH 2/5] hw/pcmcia/microdrive: Register machine reset handler
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210424162229.3312116-1-f4bug@amsat.org>
- <20210424162229.3312116-3-f4bug@amsat.org>
- <CAFEAcA8=YAABLQL+n1gDXafhoZeUo9emmjCmi_BTqvH=3NS6GA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <064afc23-9c5f-a075-477a-002c3842cb94@amsat.org>
-Date: Mon, 26 Apr 2021 17:17:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lb33j-0004o5-7A
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:22:03 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:50238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lb33h-0008Ar-Bt
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:22:02 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-L4NhDlQ8OHCOCv_9G1-kuA-1; Mon, 26 Apr 2021 11:21:49 -0400
+X-MC-Unique: L4NhDlQ8OHCOCv_9G1-kuA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49A9B85EE8B;
+ Mon, 26 Apr 2021 15:21:48 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-113-148.ams2.redhat.com [10.36.113.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40ACB60C5F;
+ Mon, 26 Apr 2021 15:21:36 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [for-6.1 v2 0/2] virtiofsd: Add support for FUSE_SYNCFS request
+Date: Mon, 26 Apr 2021 17:21:33 +0200
+Message-Id: <20210426152135.842037-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8=YAABLQL+n1gDXafhoZeUo9emmjCmi_BTqvH=3NS6GA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,82 +60,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kvm@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/25/21 8:36 PM, Peter Maydell wrote:
-> On Sat, 24 Apr 2021 at 17:22, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> The abstract PCMCIA_CARD is a bus-less TYPE_DEVICE, so devices
->> implementing it are not reset automatically.
->> Register a reset handler so children get reset on machine reset.
->>
->> Note, the DSCM-1XXXX device (TYPE_DSCM1XXXX) which inherits
->> TYPE_MICRODRIVE and PCMCIA_CARD reset itself when a disk is
->> attached or detached, but was not resetting itself on machine
->> reset.
->>
->> It doesn't seem to be an issue because it is that way since the
->> device QDev'ifycation 8 years ago, in commit d1f2c96a81a
->> ("pcmcia: QOM'ify PCMCIACardState and MicroDriveState").
->> Still, correct to have a proper API usage.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/pcmcia/pcmcia.c | 25 +++++++++++++++++++++++++
->>  1 file changed, 25 insertions(+)
->>
->> diff --git a/hw/pcmcia/pcmcia.c b/hw/pcmcia/pcmcia.c
->> index 03d13e7d670..73656257227 100644
->> --- a/hw/pcmcia/pcmcia.c
->> +++ b/hw/pcmcia/pcmcia.c
->> @@ -6,14 +6,39 @@
->>
->>  #include "qemu/osdep.h"
->>  #include "qemu/module.h"
->> +#include "sysemu/reset.h"
->>  #include "hw/pcmcia.h"
->>
->> +static void pcmcia_card_reset_handler(void *dev)
->> +{
->> +    device_legacy_reset(DEVICE(dev));
->> +}
->> +
->> +static void pcmcia_card_realize(DeviceState *dev, Error **errp)
->> +{
->> +    qemu_register_reset(pcmcia_card_reset_handler, dev);
->> +}
->> +
->> +static void pcmcia_card_unrealize(DeviceState *dev)
->> +{
->> +    qemu_unregister_reset(pcmcia_card_reset_handler, dev);
->> +}
-> 
-> Why isn't a pcmcia card something that plugs into a bus ?
+FUSE_SYNCFS allows the client to flush the host page cache.=0D
+This isn't available in upstream linux yet, but the following=0D
+tree can be used to test:=0D
+=0D
+https://gitlab.com/gkurz/linux/-/tree/virtio-fs-sync=0D
+=0D
+v2: - based on new version of FUSE_SYNCFS=0D
+      https://listman.redhat.com/archives/virtio-fs/2021-April/msg00166.htm=
+l=0D
+    - propagate syncfs() errors to client (Vivek)=0D
+=0D
+Greg Kurz (2):=0D
+  Update linux headers to 5.12-rc8 + FUSE_SYNCFS=0D
+  virtiofsd: Add support for FUSE_SYNCFS request=0D
+=0D
+ include/standard-headers/drm/drm_fourcc.h     | 23 ++++-=0D
+ include/standard-headers/linux/ethtool.h      | 54 ++++++-----=0D
+ include/standard-headers/linux/fuse.h         | 13 ++-=0D
+ include/standard-headers/linux/input.h        |  2 +-=0D
+ .../standard-headers/rdma/vmw_pvrdma-abi.h    |  7 ++=0D
+ linux-headers/asm-generic/unistd.h            |  4 +-=0D
+ linux-headers/asm-mips/unistd_n32.h           |  1 +=0D
+ linux-headers/asm-mips/unistd_n64.h           |  1 +=0D
+ linux-headers/asm-mips/unistd_o32.h           |  1 +=0D
+ linux-headers/asm-powerpc/kvm.h               |  2 +=0D
+ linux-headers/asm-powerpc/unistd_32.h         |  1 +=0D
+ linux-headers/asm-powerpc/unistd_64.h         |  1 +=0D
+ linux-headers/asm-s390/unistd_32.h            |  1 +=0D
+ linux-headers/asm-s390/unistd_64.h            |  1 +=0D
+ linux-headers/asm-x86/kvm.h                   |  1 +=0D
+ linux-headers/asm-x86/unistd_32.h             |  1 +=0D
+ linux-headers/asm-x86/unistd_64.h             |  1 +=0D
+ linux-headers/asm-x86/unistd_x32.h            |  1 +=0D
+ linux-headers/linux/kvm.h                     | 89 +++++++++++++++++++=0D
+ linux-headers/linux/vfio.h                    | 27 ++++++=0D
+ tools/virtiofsd/fuse_lowlevel.c               | 19 ++++=0D
+ tools/virtiofsd/fuse_lowlevel.h               | 13 +++=0D
+ tools/virtiofsd/passthrough_ll.c              | 29 ++++++=0D
+ tools/virtiofsd/passthrough_seccomp.c         |  1 +=0D
+ 24 files changed, 267 insertions(+), 27 deletions(-)=0D
+=0D
+--=20=0D
+2.26.3=0D
+=0D
 
-No clue, looks like a very old device with unfinished qdev-ification?
-
-See pxa2xx_pcmcia_attach():
-
-/* Insert a new card into a slot */
-int pxa2xx_pcmcia_attach(void *opaque, PCMCIACardState *card)
-{
-    PXA2xxPCMCIAState *s = (PXA2xxPCMCIAState *) opaque;
-    PCMCIACardClass *pcc;
-
-    ...
-    s->card = card;
-    pcc = PCMCIA_CARD_GET_CLASS(s->card);
-    ...
-    s->card->slot = &s->slot;
-    pcc->attach(s->card);
-    ...
-}
 
