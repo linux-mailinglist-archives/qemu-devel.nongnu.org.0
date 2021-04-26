@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B7736B5AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:24:11 +0200 (CEST)
-Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAEF36B5BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:26:48 +0200 (CEST)
+Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb35m-0005jt-36
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
+	id 1lb38J-00083F-MJ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lb33p-0004tI-Mk
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:22:09 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:60849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lb33m-0008EE-1L
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:22:09 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-2mVyFOAVMySf86iv8WIIpw-1; Mon, 26 Apr 2021 11:21:54 -0400
-X-MC-Unique: 2mVyFOAVMySf86iv8WIIpw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACC766D24D;
- Mon, 26 Apr 2021 15:21:53 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-113-148.ams2.redhat.com [10.36.113.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 767F860C5F;
- Mon, 26 Apr 2021 15:21:51 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [for-6.1 v2 2/2] virtiofsd: Add support for FUSE_SYNCFS request
-Date: Mon, 26 Apr 2021 17:21:35 +0200
-Message-Id: <20210426152135.842037-3-groug@kaod.org>
-In-Reply-To: <20210426152135.842037-1-groug@kaod.org>
-References: <20210426152135.842037-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lb36V-0007ER-1z
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:24:55 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:44626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lb36T-0001UK-C0
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:24:54 -0400
+Received: by mail-ed1-x535.google.com with SMTP id z5so29718794edr.11
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 08:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7ZeKBskqJEItaDMuNuz8UazwRPj/yOTK7rQN3mM3riY=;
+ b=wHmhGOgO9GxbZTadlvJ6mEwnrzcH19UwUi/NnyzPjrJi/DQ57f5XshyI2Q/wLPvafK
+ BKzHvlyMJ7AUuqXdxHRPDQ+W7YXDhjtidNGSFqNBfZxw7ujQpS8y2xrkq7HA7cu+71ht
+ pBicRbbLsS0Zn8FnfCjmx9f1umAAWKJuF5GcI+pLOSgH4g1ej0phNRwzUb+bVCC/A5S1
+ +ny0q+vjl3yyXLQ0uZFfhlnoN+6TV18L/T7LamuRJiZyacGsE61pltwsAKTNVjdSks3G
+ CztiJSt2miZJY16K9w4JxLZ1Vg/PbNSDiGZICO6BAIn77s7oE83kr/+a67w33dNLQV8P
+ sJLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7ZeKBskqJEItaDMuNuz8UazwRPj/yOTK7rQN3mM3riY=;
+ b=AlnHFaoPePQo2cKu+bLDRYy3PwJ9uiXW7BEv+BqHteBEEM97EIsdN7NYk2RhQfnLMt
+ DixzVwQcQKRqYFlnXZkQyrvH2DTk9C0XD1BwckkDO7AKmDIVDv25koeht3LShGyt8gDq
+ rrWAxbBqoMjociA9MzBaP0N8621roS49VkUhqWeh5kGDDfvzcLxz85zVI7oyw+RNffS7
+ loXhAT3BicWQAba+7enzSWcZ1HL8fXs8KhuZsiOMSQ+3Ta8bWNS2Dmkk45dGnbPztRjO
+ /rCv+EKR/fW/d0jcTuAF2sVVMmMzOoEJfX4RXCYzTwQ9SCsj1Mg6gvAmxdMkGv+edDcW
+ JW9Q==
+X-Gm-Message-State: AOAM533siH0k6UICRinANeihTumxmaoZrMryobg7m8MjXAGbstdz39oY
+ +Z2m9L/+S8AiQZhrvgZDIeBRm5ph9YsTgX6Qlbu37A==
+X-Google-Smtp-Source: ABdhPJxTNT0qBInXGPC7GxHdo7U3fwxXgck6r+Qf2nhVrUcZ9kMm2ZrfsK9ku6HlURE4b3lsO4O7KcAA9zVS13oLY/U=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr21497894edv.44.1619450691552; 
+ Mon, 26 Apr 2021 08:24:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+References: <20210423052127.512489-1-its@irrelevant.dk>
+ <20210423052127.512489-2-its@irrelevant.dk>
+In-Reply-To: <20210423052127.512489-2-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Apr 2021 16:23:53 +0100
+Message-ID: <CAFEAcA8c39XfjjKp74zMLSiS+RFjX00kpiCrSGTOGqczBb=V+A@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 v2 1/2] hw/block/nvme: fix invalid msix exclusive
+ uninit
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,158 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Honor the expected behavior of syncfs() to synchronously flush all
-data and metadata on linux systems.
+On Fri, 23 Apr 2021 at 06:21, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Commit 1901b4967c3f changed the nvme device from using a bar exclusive
+> for MSI-x to sharing it on bar0.
+>
+> Unfortunately, the msix_uninit_exclusive_bar() call remains in
+> nvme_exit() which causes havoc when the device is removed with, say,
+> device_del. Fix this.
+>
+> Additionally, a subregion is added but it is not removed on exit which
+> causes a reference to linger and the drive to never be unlocked.
+>
+> Fixes: 1901b4967c3f ("hw/block/nvme: move msix table and pba to BAR 0")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 624a1431d072..5fe082ec34c5 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -6235,7 +6235,8 @@ static void nvme_exit(PCIDevice *pci_dev)
+>      if (n->pmr.dev) {
+>          host_memory_backend_set_mapped(n->pmr.dev, false);
+>      }
+> -    msix_uninit_exclusive_bar(pci_dev);
+> +    msix_uninit(pci_dev, &n->bar0, &n->bar0);
+> +    memory_region_del_subregion(&n->bar0, &n->iomem);
+>  }
+>
+>  static Property nvme_props[] = {
+> --
 
-Flushing is done with syncfs(). This is suboptimal as it will also
-flush writes performed by any other process on the same file system,
-and thus add an unbounded time penalty to syncfs(). This may be
-optimized in the future, but enforce correctness first.
+Applied this patch (but not patch 2) to master for 6.0; thanks.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tools/virtiofsd/fuse_lowlevel.c       | 19 ++++++++++++++++++
- tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++++++
- tools/virtiofsd/passthrough_ll.c      | 29 +++++++++++++++++++++++++++
- tools/virtiofsd/passthrough_seccomp.c |  1 +
- 4 files changed, 62 insertions(+)
-
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 58e32fc96369..918ab11f54c2 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1870,6 +1870,24 @@ static void do_lseek(fuse_req_t req, fuse_ino_t node=
-id,
-     }
- }
-=20
-+static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
-+                      struct fuse_mbuf_iter *iter)
-+{
-+    struct fuse_syncfs_in *arg;
-+
-+    arg =3D fuse_mbuf_iter_advance(iter, sizeof(*arg));
-+    if (!arg) {
-+        fuse_reply_err(req, EINVAL);
-+        return;
-+    }
-+
-+    if (req->se->op.syncfs) {
-+        req->se->op.syncfs(req, arg->flags);
-+    } else {
-+        fuse_reply_err(req, ENOSYS);
-+    }
-+}
-+
- static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-                     struct fuse_mbuf_iter *iter)
- {
-@@ -2267,6 +2285,7 @@ static struct {
-     [FUSE_RENAME2] =3D { do_rename2, "RENAME2" },
-     [FUSE_COPY_FILE_RANGE] =3D { do_copy_file_range, "COPY_FILE_RANGE" },
-     [FUSE_LSEEK] =3D { do_lseek, "LSEEK" },
-+    [FUSE_SYNCFS] =3D { do_syncfs, "SYNCFS" },
- };
-=20
- #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
-l.h
-index 3bf786b03485..220bb3db4898 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1225,6 +1225,19 @@ struct fuse_lowlevel_ops {
-      */
-     void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
-                   struct fuse_file_info *fi);
-+
-+    /**
-+     * Synchronize file system content
-+     *
-+     * If this request is answered with an error code of ENOSYS,
-+     * this is treated as success and future calls to syncfs() will
-+     * succeed automatically without being sent to the filesystem
-+     * process.
-+     *
-+     * @param req request handle
-+     * @param flags not used yet
-+     */
-+    void (*syncfs)(fuse_req_t req, uint64_t flags);
- };
-=20
- /**
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 1553d2ef454f..6790a2f6fe10 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3124,6 +3124,34 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
- off_t off, int whence,
-     }
- }
-=20
-+static void lo_syncfs(fuse_req_t req, uint64_t flags)
-+{
-+    struct lo_data *lo =3D lo_data(req);
-+    int fd, ret;
-+
-+    /* No flags supported yet */
-+    if (flags) {
-+        fuse_reply_err(req, EINVAL);
-+        return;
-+    }
-+
-+    fd =3D lo_inode_open(lo, &lo->root, O_RDONLY);
-+    if (fd < 0) {
-+        fuse_reply_err(req, errno);
-+        return;
-+    }
-+
-+    /*
-+     * FIXME: this is suboptimal because it will also flush unrelated
-+     *        writes not coming from the client. This can dramatically
-+     *        increase the time spent in syncfs() if some process is
-+     *        writing lots of data on the same filesystem as virtiofsd.
-+     */
-+    ret =3D syncfs(fd);
-+    fuse_reply_err(req, ret < 0 ? errno : 0);
-+    close(fd);
-+}
-+
- static void lo_destroy(void *userdata)
- {
-     struct lo_data *lo =3D (struct lo_data *)userdata;
-@@ -3184,6 +3212,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-     .copy_file_range =3D lo_copy_file_range,
- #endif
-     .lseek =3D lo_lseek,
-+    .syncfs =3D lo_syncfs,
-     .destroy =3D lo_destroy,
- };
-=20
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passth=
-rough_seccomp.c
-index 62441cfcdb95..343188447901 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -107,6 +107,7 @@ static const int syscall_allowlist[] =3D {
-     SCMP_SYS(set_robust_list),
-     SCMP_SYS(setxattr),
-     SCMP_SYS(symlinkat),
-+    SCMP_SYS(syncfs),
-     SCMP_SYS(time), /* Rarely needed, except on static builds */
-     SCMP_SYS(tgkill),
-     SCMP_SYS(unlinkat),
---=20
-2.26.3
-
+-- PMM
 
