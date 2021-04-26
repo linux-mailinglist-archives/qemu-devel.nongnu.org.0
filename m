@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE0036BAA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 22:23:05 +0200 (CEST)
-Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F3E36BAC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 22:37:05 +0200 (CEST)
+Received: from localhost ([::1]:50906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb7l2-00085V-Ej
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 16:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
+	id 1lb7ya-0004Ks-53
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 16:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lb7it-0007Fy-4I
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 16:20:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44364)
+ id 1lb7xD-0003Sz-Nd
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 16:35:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lb7il-00020l-L5
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 16:20:50 -0400
+ id 1lb7xA-0002jY-Hc
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 16:35:39 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lb7ij-0003TG-LQ
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 20:20:41 +0000
+ id 1lb7x8-0004dF-Vm
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 20:35:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8DF0F2E8084
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 20:20:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E97B02E8060
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 20:35:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Apr 2021 20:12:22 -0000
+Date: Mon, 26 Apr 2021 20:26:33 -0000
 From: Laurent Vivier <1926202@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -38,18 +38,18 @@ X-Launchpad-Bug-Tags: linux-user ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paleozogt
+X-Launchpad-Bug-Commenters: laurent-vivier paleozogt
 X-Launchpad-Bug-Reporter: Aaron Simmons (paleozogt)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
 References: <161946668777.4160.5631099934527280207.malonedeb@gac.canonical.com>
-Message-Id: <161946794253.11828.4258923323321672537.launchpad@wampee.canonical.com>
+Message-Id: <161946879361.4781.11489979287854147864.malone@gac.canonical.com>
 Subject: [Bug 1926202] Re: qemu-user can't run some ppc binaries
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 9ff849fe859b0564cda72ee6abbb6a98f7cf67ad
+X-Launchpad-Hash: c2a1d3366f708bdbdab5556f101532426ead2c2e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,7 +74,8 @@ Reply-To: Bug 1926202 <1926202@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: linux-user
+Could you provide directly the binary to test (helloworld-
+centos.static.ppc)?
 
 -- =
 
