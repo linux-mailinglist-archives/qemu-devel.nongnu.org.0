@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724FA36BC9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 02:25:34 +0200 (CEST)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E36A36BC9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 02:23:47 +0200 (CEST)
+Received: from localhost ([::1]:36112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbBXh-00071R-J4
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 20:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60818)
+	id 1lbBVy-0005Oj-BD
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 20:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lb7Uj-0007QC-IW; Mon, 26 Apr 2021 16:06:13 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37569)
+ id 1lb7Ui-0007Po-UN; Mon, 26 Apr 2021 16:06:13 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:41786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lb7Uf-0001Ng-Np; Mon, 26 Apr 2021 16:06:13 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j5so56203284wrn.4;
- Mon, 26 Apr 2021 13:06:04 -0700 (PDT)
+ id 1lb7Uf-0001Od-N5; Mon, 26 Apr 2021 16:06:12 -0400
+Received: by mail-wm1-x343.google.com with SMTP id
+ o21-20020a1c4d150000b029012e52898006so5679120wmh.0; 
+ Mon, 26 Apr 2021 13:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PuhuR3UqIjFb4yXds2SdFCLnbq4LjC/3ZCGuCZSVLxE=;
- b=UlTnEb/0o3ipOyCz1v/eOvrtnfrkpJVqOEwqIu+lQmSqBF6GF7th0g/Gi9k4RL2R6W
- uZJSRsIJ+Dqm+0rEBzkJjrlA2w9AMd0+5F+gENxtzJGAeEd8OGIwEovgjsFSbOMEfSD8
- MqwbIVYbnmNrq7o20gnupqlV3yhLICPpEjv9iq4ZF61RVZY+SnN25WRTLKObeRbgiMk9
- zCBoTCfol2DHEDMpaJC56DcNBP2TTy173Pd21vLStkN/Oyy6y2+KSP01GNkVlcpW/KSj
- YGVgMM/+LqaL1NTRdC3IhuOeQMvmwGh7EfiuGsPmjV6+xJBYR89v5ZmU+3Gt8E7G4heM
- Efng==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZYzECBAoWUxLNGhLXO0FzrlEVXSfjJjCzqVH//aq4Dk=;
+ b=dEBE0/RPwt92o59W4pknGVpssGzbmvh3k+QsNV2hCsXjyvxkySuKAOProQkbI+wELu
+ YsKa/cFFcmHHKIsQqFUrcLj1EWrWMY2hlkngWb203zdOnnUjlUt5hUXgYCSL0C9XlaGV
+ gcKNhcGDXbCH7t+lfe0wUNxSyHOQ4RYdgiV8Vb2c0RMrTzb5MCsilG05SZPqoS/pjcMd
+ e6UksoTznkIM80S7mfbqObiht1Ihvq8cgdJ8MqCZMkWfXl1BenY8ZorAckoP+toSvdWM
+ /IIsHYwLXmPsDS2UG36OjZkdrXNNv4VvHbqtgslmibXpJ8yI/OhM4Vby7tndSzsRY65T
+ yZ8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PuhuR3UqIjFb4yXds2SdFCLnbq4LjC/3ZCGuCZSVLxE=;
- b=GMvQdNh/sysMscEvVo342Eqw4FLqiqh8mRHS76MWSQfwivcYzI+JBS1xDFVu+VG2Rd
- FXefsGr19Y/lYY6+5wco/tpUkwRBRZ7xr+1zB8QuLF1sLORpTm8w1DYY1gPD25cKbKSM
- QWv1m5Ux3W6M4f91IZMokCsTFC78qUuLBSzxd022Ob6D8BpnCpUPz3YsnGBPu4GpQ8c+
- 3gSxU89Ksv75cOrONWyt9qixsk/veRDF3UIeBa4Wq/JFrNNftAoae9WHk/bCQwo1OJ/r
- ksw/04Xhw2u1X8eKF6PvAUs/9unrAYXjh+LfARtu1sBluURcQ7MwUp8/LUz6fZw0++2F
- c5tg==
-X-Gm-Message-State: AOAM5323ihheBATCL7BPgsPJ7X9oXPJnMO9LfpAAAC8a+HN5rebW23vD
- hiQHzi8TmjAyb1RpOTTCRzNmG0Ab6w6KJA==
-X-Google-Smtp-Source: ABdhPJznmNXCiQJK9g8sX3XvFURb8phM4qCOFJ8LX5nHAzxPFnl0MrgOHYtfkFaSy3B4kokZWaamiw==
-X-Received: by 2002:adf:f506:: with SMTP id q6mr25231359wro.65.1619467563425; 
- Mon, 26 Apr 2021 13:06:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZYzECBAoWUxLNGhLXO0FzrlEVXSfjJjCzqVH//aq4Dk=;
+ b=D8JcnyS53SlTrARy1xWkli0DCU4wQlouL0KjbogjLMOJN/U76BOACIGlXZjE09/ck2
+ ENfg30Knfhgfy2LBSgbLGCfz0rFfku0HA29e8+HtkwglB7iWP4w8oC8KNcoAnBIJ3nvm
+ zHasaXV6Nw0GUSt/+r8S/5PMY0a17hBplfI9+h+hhaDugRvEVwOnHatN+XzhhcQmm2kW
+ U5xf15jFPRreu8IEaLTISdEB2qt4AnlmlkDns8WQHqQIa7Cf6QwA9PephRR4Cl/Xl6Gk
+ Nt9dCqtl04oRC9mujte7uJQCHftl9takbI9QwzKJaa2mzIiMLH4QVhnC6uQzreTEUKSX
+ hfsQ==
+X-Gm-Message-State: AOAM533eL0pvOnQsqlQSYsOCScf7sJgWYMmrjyloAPcItfWGdcWxwe6g
+ OM5n9/h39MTm/HbHMq2Bqo1mSDmqPk+wEQ==
+X-Google-Smtp-Source: ABdhPJxeyiMtOmcYrPWUpgJOFNPvofodzLujjMwZdnEwLg3XD25psutBByAmSl9NGR+9UJUblW3JAQ==
+X-Received: by 2002:a1c:a481:: with SMTP id n123mr666629wme.162.1619467566580; 
+ Mon, 26 Apr 2021 13:06:06 -0700 (PDT)
 Received: from ubuntu.localdomain (host-92-0-155-74.as13285.net. [92.0.155.74])
- by smtp.gmail.com with ESMTPSA id y11sm1396792wro.37.2021.04.26.13.06.02
+ by smtp.gmail.com with ESMTPSA id y11sm1396792wro.37.2021.04.26.13.06.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 13:06:02 -0700 (PDT)
+ Mon, 26 Apr 2021 13:06:06 -0700 (PDT)
 From: Dev Audsin <dev.devaqemu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: 
-Date: Mon, 26 Apr 2021 13:05:52 -0700
-Message-Id: <20210426200553.145976-1-dev.devaqemu@gmail.com>
+Subject: [PATCH] skip virtio fs cache section to enable NIC passthrough
+Date: Mon, 26 Apr 2021 13:05:53 -0700
+Message-Id: <20210426200553.145976-2-dev.devaqemu@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210426200553.145976-1-dev.devaqemu@gmail.com>
+References: <20210426200553.145976-1-dev.devaqemu@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=dev.devaqemu@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=dev.devaqemu@gmail.com; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -67,7 +70,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 26 Apr 2021 20:21:43 -0400
+X-Mailman-Approved-At: Mon, 26 Apr 2021 20:21:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,11 +87,26 @@ Cc: qemu-trivial@nongnu.org, alex.williamson@redhat.com, dgilber@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Dev Audsin <dev.devaqemu@gmail.com>
+---
+ hw/vfio/common.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-virtio-fs with DAX is currently not compatible with NIC Pass through.
-When a SR-IOV VF attaches to a qemu process, vfio will try to pin the entire DAX Window but it is empty when the guest boots and will fail.
-A method to make VFIO and DAX to work together is to make vfio skip DAX cache.
-Currently DAX cache need to be set to 0, for the SR-IOV VF to be attached to Kata containers.
-Enabling both SR-IOV VF and DAX work together will potentially improve performance for workloads which are I/O and network intensive
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 6ff1daa763..3af70238bd 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -541,7 +541,8 @@ static int vfio_host_win_del(VFIOContainer *container, hwaddr min_iova,
+ 
+ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+ {
+-    return (!memory_region_is_ram(section->mr) &&
++    return (!strcmp(memory_region_name(section->mr), "virtio-fs-cache")) ||
++    	   (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
+            /*
+             * Sizing an enabled 64-bit BAR can cause spurious mappings to
+-- 
+2.25.1
 
 
