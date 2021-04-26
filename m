@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9E136B2A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:00:20 +0200 (CEST)
-Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5DA36B2A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:00:29 +0200 (CEST)
+Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lazuV-0006Sh-Ba
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42220)
+	id 1lazue-0006Xm-KK
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:00:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1laztI-0005g0-Bv
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:59:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25577)
+ id 1laztK-0005gw-Kb
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:59:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1laztG-0005HL-I1
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:59:03 -0400
+ id 1laztJ-0005Je-32
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 07:59:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619438341;
+ s=mimecast20190719; t=1619438344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+nCk6Ve+TN+8pnIdsqGxzK6u1TVgQuTIbmRV1IvBlv8=;
- b=MLt9On/LAWCJncKMlgsLcSB7rK0qQshn/bINTN6F1fHLsqtEfU4NwB/l6vVMSF9dK2IRZm
- IwRE0+VRx3Wvblz6AXEaSBwKAvdyECa+LEds1gmY5wP2UrWte4Q2yXMTTWUfPAx2hfiYcO
- QfVTBpfv+ePFlvSfcP/zSEqmq20luyU=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2xfjkPnQFPRjK9jBH/26YtD7u3pk0Xa3TCgZG3qQIhc=;
+ b=Fe+2+Gl/NMo0Fc5BiRnKp1frHtA61IrztRLRdOuhDAyM1ne98NI4vM5Owj7U2pKbs0/MbR
+ 99VHULW2S8Z651dIV4DS71FYL1TjUj7i0IrQ4bPdxkMu2QbupQSa5nIce9IrhQuLJgttt7
+ TKXEkdsoYRZaPV5yOZ4CwTNs/zltIBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-wMXs2KOMPeWxPCW9ha64fQ-1; Mon, 26 Apr 2021 07:58:58 -0400
-X-MC-Unique: wMXs2KOMPeWxPCW9ha64fQ-1
+ us-mta-234-ozEL8TJpNJ6EPfoL1Ru9mQ-1; Mon, 26 Apr 2021 07:59:02 -0400
+X-MC-Unique: ozEL8TJpNJ6EPfoL1Ru9mQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 170135F9FF;
- Mon, 26 Apr 2021 11:58:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 695596409F;
+ Mon, 26 Apr 2021 11:59:01 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E85F960855;
- Mon, 26 Apr 2021 11:58:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FF9560855;
+ Mon, 26 Apr 2021 11:58:58 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] kvm: use KVM_{GET|SET}_SREGS2 when available
-Date: Mon, 26 Apr 2021 14:58:48 +0300
-Message-Id: <20210426115850.1003501-1-mlevitsk@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v2 1/2] kvm: update kernel headers for KVM_{GET|SET}_SREGS2
+Date: Mon, 26 Apr 2021 14:58:49 +0300
+Message-Id: <20210426115850.1003501-2-mlevitsk@redhat.com>
+In-Reply-To: <20210426115850.1003501-1-mlevitsk@redhat.com>
+References: <20210426115850.1003501-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -79,27 +81,60 @@ Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements support for using these new=0D
-IOCTLS to migrate PDPTRS.=0D
-=0D
-Best regards,=0D
-	Maxim Levitsky=0D
-=0D
-Maxim Levitsky (2):=0D
-  kvm: update kernel headers for KVM_{GET|SET}_SREGS2=0D
-  KVM: use KVM_{GET|SET}_SREGS2 when supported.=0D
-=0D
- accel/kvm/kvm-all.c         |   5 ++=0D
- include/sysemu/kvm.h        |   4 ++=0D
- linux-headers/asm-x86/kvm.h |  13 +++++=0D
- linux-headers/linux/kvm.h   |   5 ++=0D
- target/i386/cpu.h           |   3 +=0D
- target/i386/kvm/kvm.c       | 107 +++++++++++++++++++++++++++++++++++-=0D
- target/i386/machine.c       |  30 ++++++++++=0D
- 7 files changed, 165 insertions(+), 2 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ linux-headers/asm-x86/kvm.h | 13 +++++++++++++
+ linux-headers/linux/kvm.h   |  5 +++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 8e76d3701d..d61dc76e24 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -158,6 +158,19 @@ struct kvm_sregs {
+ 	__u64 interrupt_bitmap[(KVM_NR_INTERRUPTS + 63) / 64];
+ };
+ 
++struct kvm_sregs2 {
++	/* out (KVM_GET_SREGS2) / in (KVM_SET_SREGS2) */
++	struct kvm_segment cs, ds, es, fs, gs, ss;
++	struct kvm_segment tr, ldt;
++	struct kvm_dtable gdt, idt;
++	__u64 cr0, cr2, cr3, cr4, cr8;
++	__u64 efer;
++	__u64 apic_base;
++	__u64 flags;
++	__u64 pdptrs[4];
++};
++#define KVM_SREGS2_FLAGS_PDPTRS_VALID 1
++
+ /* for KVM_GET_FPU and KVM_SET_FPU */
+ struct kvm_fpu {
+ 	__u8  fpr[8][16];
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 020b62a619..22ea29a243 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+ #define KVM_CAP_SYS_HYPERV_CPUID 191
+ #define KVM_CAP_DIRTY_LOG_RING 192
++#define KVM_CAP_SREGS2 199
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1563,6 +1564,10 @@ struct kvm_pv_cmd {
+ /* Available with KVM_CAP_DIRTY_LOG_RING */
+ #define KVM_RESET_DIRTY_RINGS		_IO(KVMIO, 0xc7)
+ 
++
++#define KVM_GET_SREGS2             _IOR(KVMIO,  0xcc, struct kvm_sregs2)
++#define KVM_SET_SREGS2             _IOW(KVMIO,  0xcd, struct kvm_sregs2)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
+-- 
+2.26.2
 
 
