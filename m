@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C6036B555
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 16:59:58 +0200 (CEST)
-Received: from localhost ([::1]:45914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D3236B569
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:08:07 +0200 (CEST)
+Received: from localhost ([::1]:51242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb2iL-00023A-Jm
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 10:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58268)
+	id 1lb2qE-0005fm-Ev
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lb2ga-0001Dr-5s
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 10:58:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22432)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lb2oN-0004f4-3x
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:06:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lb2gW-0003BR-OH
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 10:58:07 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lb2oD-0008CY-4j
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:06:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619449081;
+ s=mimecast20190719; t=1619449554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9YkQMuRe5UqNvBZneLKTvhN3S0YtmKirbPi7JPlY7VY=;
- b=Pd7fft5utZVRiw8E+I2KDomZAPLqSW/zGMkdHd+Lu6nMkbTD8fLoxURKOvSIonGcJM6eUW
- xnO419b2Pf+6fGeK4hFHAkNitmJDh9rO+F6FrxVuIlCy95daNw3CfYDM3F6gkhvBvTUx6+
- lEnQObz9KQBRUDjJfGEn7UNa+7yqYVo=
+ bh=IOO0ZVAYiK3cMRUh90h6lZCuu3Dbh5EDWWdXk2pgj2o=;
+ b=fL1K/ZuLWMmT3PEUVLY2ekgVi1sFmDSsBtmJiSGhLjnQdezwrIbP8CROKao3JyeN/px7+k
+ GbUUc/PU5ZpGmhDzsiJH8g/ASGjXRMdxZsc7g5dHOaJgodWFOBTjTQVxymxUZ/64f0f+9c
+ epd4M7OWin53MrcFQaDhEORIdrrVn3o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-txT9CRlJOCCK3Si-39vEjA-1; Mon, 26 Apr 2021 10:56:12 -0400
-X-MC-Unique: txT9CRlJOCCK3Si-39vEjA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-373-Nos9RS4_MI-uuWmjqvdwHg-1; Mon, 26 Apr 2021 11:05:50 -0400
+X-MC-Unique: Nos9RS4_MI-uuWmjqvdwHg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A1D3853EC0;
- Mon, 26 Apr 2021 14:56:11 +0000 (UTC)
-Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEB661002388;
- Mon, 26 Apr 2021 14:56:10 +0000 (UTC)
-Date: Mon, 26 Apr 2021 08:56:10 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] make vfio and DAX cache work together
-Message-ID: <20210426085610.1918ee31@redhat.com>
-In-Reply-To: <YIavueU/GRbAEyK0@work-vm>
-References: <CAED3YRr-8ACi5FzsHy8AtijTMMS68aDW2sE1Qy5kmexkhGvETQ@mail.gmail.com>
- <YIavueU/GRbAEyK0@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF73D802B5B;
+ Mon, 26 Apr 2021 15:05:48 +0000 (UTC)
+Received: from localhost (ovpn-114-158.ams2.redhat.com [10.36.114.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68CF760243;
+ Mon, 26 Apr 2021 15:05:42 +0000 (UTC)
+Date: Mon, 26 Apr 2021 16:05:41 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Xie Yongji <xieyongji@bytedance.com>
+Subject: Re: [PATCH 3/3] vhost-vdpa-blk: Introduce vhost-vdpa-blk host device
+Message-ID: <YIbWxUaoP3yvad2t@stefanha-x1.localdomain>
+References: <20210408101252.552-1-xieyongji@bytedance.com>
+ <20210408101252.552-4-xieyongji@bytedance.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210408101252.552-4-xieyongji@bytedance.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Er6GaBYzTMI95OPB"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,69 +79,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edge NFV <edgenfv@gmail.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, mst@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, raphael.norwitz@nutanix.com, lingshan.zhu@intel.com,
+ mreitz@redhat.com, changpeng.liu@intel.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Apr 2021 13:19:05 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+--Er6GaBYzTMI95OPB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> * Edge NFV (edgenfv@gmail.com) wrote:
-> >  Signed-off-by: Edge NFV <edgenfv@gmail.com>  
-> 
-> Hi,
->   I take it that 'Edge NFV' isn't your real name; apologies if it is.
-> It's unusual not to use a real name; I would be interested to know
-> why you feel uncomfortable not doing.
+On Thu, Apr 08, 2021 at 06:12:52PM +0800, Xie Yongji wrote:
+> +static const int vdpa_feature_bits[] = {
+> +    VIRTIO_BLK_F_SIZE_MAX,
+> +    VIRTIO_BLK_F_SEG_MAX,
+> +    VIRTIO_BLK_F_GEOMETRY,
+> +    VIRTIO_BLK_F_BLK_SIZE,
+> +    VIRTIO_BLK_F_TOPOLOGY,
+> +    VIRTIO_BLK_F_MQ,
+> +    VIRTIO_BLK_F_RO,
+> +    VIRTIO_BLK_F_FLUSH,
+> +    VIRTIO_BLK_F_CONFIG_WCE,
+> +    VIRTIO_BLK_F_DISCARD,
+> +    VIRTIO_BLK_F_WRITE_ZEROES,
+> +    VIRTIO_F_VERSION_1,
+> +    VIRTIO_RING_F_INDIRECT_DESC,
+> +    VIRTIO_RING_F_EVENT_IDX,
+> +    VIRTIO_F_NOTIFY_ON_EMPTY,
+> +    VHOST_INVALID_FEATURE_BIT
+> +};
 
-The documentation noted by Laurent even goes so far as to request a
-real name for the Sign-off.  Intentionally masking your identity will
-only serve to raise suspicion and increase the chances that the patch
-is ignored.  I think perhaps aside from one or two legacy contributors,
-all QEMU contributions are signed-off by real names these days.
+Please add VIRTIO_F_RING_PACKED so it can be implemented in vDPA in the
+future without changes to the QEMU vhost-vdpa-blk.c code.
 
-I also require a commit log describing the change.
+> +static void vhost_vdpa_blk_device_realize(DeviceState *dev, Error **errp)
+> +{
+> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> +    VHostVdpaBlk *s = VHOST_VDPA_BLK(vdev);
+> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
+> +    Error *err = NULL;
+> +    int ret;
+> +
+> +    s->vdpa.device_fd = qemu_open_old(s->vdpa_dev, O_RDWR);
+> +    if (s->vdpa.device_fd == -1) {
+> +        error_setg(errp, "vhost-vdpa-blk: open %s failed: %s",
+> +                   s->vdpa_dev, strerror(errno));
+> +        return;
+> +    }
+> +
+> +    vhost_blk_common_realize(vbc, vhost_vdpa_blk_handle_output, &err);
+> +    if (err != NULL) {
+> +        error_propagate(errp, err);
+> +        goto blk_err;
+> +    }
+> +
+> +    vbc->vhost_vqs = g_new0(struct vhost_virtqueue, vbc->num_queues);
 
-> > ---
-> >  hw/vfio/common.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > index ae5654fcdb..83e15bf7a3 100644
-> > --- a/hw/vfio/common.c
-> > +++ b/hw/vfio/common.c
-> > @@ -668,6 +668,15 @@ static void vfio_listener_region_add(MemoryListener
-> > *listener,
-> >                  int128_get64(int128_sub(section->size, int128_one())));
-> >          return;
-> >      }
-> > +
-> > +    /* Do not add virtio fs cache section */
-> > +    if (!strcmp(memory_region_name(section->mr), "virtio-fs-cache")) {  
-> 
-> So first, this is a patch that fixes something that isn't yet in qemu;
-> the DAX mode of virtiofs.
-> Secondly, hard coding the name like this is probably the wrong thing to
-> do; we need a way for the cache to declare it wants to be omitted.
-> Thirdly, shouldn't this actually be a change to
-> vfio_listener_skip_section to add this test?
+This is already done by vhost_blk_common_realize(). The old pointer is
+overwritten and leaked here.
 
-Agree on all points, there needs to be justification on why this region
-cannot be a DMA target for the device, not simply wishing to skip it to
-workaround a boot failure.  Thanks,
+> +static const VMStateDescription vmstate_vhost_vdpa_blk = {
+> +    .name = "vhost-vdpa-blk",
+> +    .minimum_version_id = 1,
+> +    .version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_VIRTIO_DEVICE,
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
 
-Alex
+vdpa-blk does not support live migration yet. Please remove this.
 
-> > +        trace_vfio_listener_region_add_skip(
-> > +                section->offset_within_address_space,
-> > +                section->offset_within_address_space +
-> > +                int128_get64(int128_sub(section->size, int128_one())));
-> > +        return;
-> > +    }
-> > 
-> >      if (unlikely((section->offset_within_address_space &
-> >                    ~qemu_real_host_page_mask) !=
-> > -- 
-> > 2.25.1  
+Does hw/virtio/vhost.c should automatically register a migration
+blocker? If not, please register one.
+
+> +#define TYPE_VHOST_VDPA_BLK "vhost-vdpa-blk"
+
+At this stage vdpa-blk is still very new and in development. I suggest
+naming it x-vhost-vdpa-blk so that incompatible changes can still be
+made to the command-line/APIs. "x-" can be removed later when the
+feature has matured.
+
+--Er6GaBYzTMI95OPB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCG1sUACgkQnKSrs4Gr
+c8hQBwf8Cff1ik5+1BTl7EYtdqR4HEUFxNDXUq0D/Y/7dM1hdY3f1vngx7XDMSpG
+onLJH9UTLYHMgipLx+6iXQW+s+rhk0BdnBmPROW4UvoF68QzNZqQbPl3xwn7ywoy
+w6+6jXetsgVIXkjfwjWnZ3GB97gMQgL2KbCJIhv961bGzvwWE42pmo8f+9tm51iE
+my+YyCDwAM+ZDUSJBWR6IedQpfqZD2DG2Sh6PGgUB+KNhGY08FzDPCmR20r7yE78
+ypGORT5HeWh/T0KvVy5cc9LhlKaipmYbcgf78xQdYTmzR4uloVpjQHqTAUByJEKl
+X3CVAttqJMMjSAOEjjga1Qmn+3Kbwg==
+=JUrl
+-----END PGP SIGNATURE-----
+
+--Er6GaBYzTMI95OPB--
 
 
