@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9770536B74C
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:55:49 +0200 (CEST)
-Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1641C36B750
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:56:28 +0200 (CEST)
+Received: from localhost ([::1]:37118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb4WS-0005z1-H2
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45988)
+	id 1lb4X5-0007Dh-3a
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lb4Um-0005PZ-Kw
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:54:04 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53916)
+ id 1lb4VW-0005yY-F9
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:54:52 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lb4Uk-0000i3-DO
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:54:04 -0400
-Received: by mail-wm1-x336.google.com with SMTP id i129so3364670wma.3
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:54:01 -0700 (PDT)
+ id 1lb4VU-00012q-R4
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:54:50 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q9so2450982wrs.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=Dg6xEW0D1U83yqE4RP0UcR4OetYcmrmsnmqmCrmR5ZM=;
- b=YUetA+cpwv9X/LaQxaE1CUVKoH63iTXvU0NImh0/dN9qZZ/kR/zwS8PM66NCQerRnd
- ykOIcMospNedNTKfQAllBs/Qnagx7xq0nmYqIsY/e9CQU8NOehP1XSfWSqLos9/r8Tf2
- cM7Xqua4zupsS2NiYi5NnHKvcCJ7CWRyg62wBkRnEIcxdLbhDT25VbdTep6dbykDXbdD
- Ayhey8P3LhVuwSbCqkLYlMkd6dRLsJEvfmbRov0BMKBaIc6BxutxhCp6gP3hg+nsSl9L
- TJRJBsRfUG96CFxj5mbXBdLQJJg7ddtAT85HFQXaC9w4jC1wAb6OqbL+BGrGdgavA/Ub
- 4CdA==
+ bh=RLTsn04ZOSXF8WjTx0gVRJwjqQt41+A2bQfibgUR+5E=;
+ b=WNZNTdOFP/FwJltPqjiPrfbJG3Sdz3AoOHUd4QUJS+sM9axdGvjYyxugbnkYG5Pt8G
+ wQFYPTJGjkC3ae8xAaxHE/rr/JE3RrC8K8hsv3VnvtZZWsmA6i5TcV/hfIT3WpgNKJfG
+ M4k2/jFWze79R4Wil7Wk0RmWpyW7KEC4FoSDdBiTkwllmBm8zIzu+HtizQeq5Vb3a0tX
+ v58/4WD2/Xb2/dDnVs1NUq5LsDS0X6Lre8iMuRW9S3iH7wazvkGR8D1E2nY/E4MXKlBF
+ S4KCC3GTL1yKSy6xra6Hh/qsQWYOcc8O9ZDSxkCP331rMsYCz4ArBv4YqD1jqomTawp+
+ txZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Dg6xEW0D1U83yqE4RP0UcR4OetYcmrmsnmqmCrmR5ZM=;
- b=MXLypIkz/Y4lOLp9AEeTQyC0yHkO3zGsZGs10dZxkUe9qv7iA/cn6IA8WNs69XFqTY
- 4rWQiD+8V5RrRZw955UA2WhiA5/SIklZ7gTIImYK3DVhhCw1PW3H9fnkaZANKqS5YEaT
- J/h5xnX/wZg5mDVleR5BQenvdAOUteUmxVltTm17F8p3o74DAhFhd+z/2en3UONbgtak
- rpK3ZJNXnWS7VPQBCon9J5YI5QaebORacG/Y/2eoD1gx9WM8IHAtaSvSHddyj62XMWyG
- frTb5CwvCZx6Ol7YF51XFw65RiPXricGUnBuJ2jX/l48rRi2yxp7U7x6sE79cyz9TEZL
- eJ4Q==
-X-Gm-Message-State: AOAM532tl7jjH8sXHfWJWxTOBI1lVLGnYHPW3hfNmr4LzK0sK7HLc5MC
- z9UCtbbdGJrKWnVfG258M3V9zQ==
-X-Google-Smtp-Source: ABdhPJw/nD6Hlbv38OW/5atmSPmeEZM0kVNft613ne2HI6qsXbPD5sE/HHop3dvRUhw3omPXZeFHEQ==
-X-Received: by 2002:a1c:7f4a:: with SMTP id a71mr25747wmd.60.1619456040450;
- Mon, 26 Apr 2021 09:54:00 -0700 (PDT)
+ bh=RLTsn04ZOSXF8WjTx0gVRJwjqQt41+A2bQfibgUR+5E=;
+ b=jpuMj8OKmNdSsUw/iK2r8RrLoDhuOGKcc4SsNpytKI7gzxG5m9k4h9RgUxGl65l3RP
+ naXtmzTktLMkhUJXcm5vZ238FxkxG16wEbI/1P2EGQ+hx7l2EMgUe8csvcymMtP8ay1B
+ /QZQu3rqPSPB/zq+D9KuNybc5kQsutW3ULBM98t5jA0T4cJivRZKE2dEG/35d5Fk80JY
+ hmKU8P3Ke/ip7pttvsUPOnZpBHV6XyHNzdVtpNCu4Ryc09B9uhzKBeP0ZUHCCEEjW8U3
+ ap04CP/nx/KkYclfWRvQG3VL5tGPIUmQhk5TC6b4c7VuOlOMta+TAFu11hEVN6LXoYxs
+ I+1Q==
+X-Gm-Message-State: AOAM532R8xkU1eTpGZ3bVG9z1yMY+4oy2GSs0MMHWHtLZzIMYccCy7G2
+ UIrY/FJulyxQA22DmwP3MlqpUw==
+X-Google-Smtp-Source: ABdhPJzJ3Va1nxPZFRYqSEENXsFnWYf4elkKu53hZQd6mLuMkdYaDO1hZoyZPHXmtSCfcooU2gusyA==
+X-Received: by 2002:a5d:4dcb:: with SMTP id f11mr23866971wru.129.1619456087200; 
+ Mon, 26 Apr 2021 09:54:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o17sm805233wrg.80.2021.04.26.09.53.59
+ by smtp.gmail.com with ESMTPSA id y19sm15481wmj.28.2021.04.26.09.54.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Apr 2021 09:53:59 -0700 (PDT)
+ Mon, 26 Apr 2021 09:54:46 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CDE951FF7E;
- Mon, 26 Apr 2021 17:53:58 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id C17451FF7E;
+ Mon, 26 Apr 2021 17:54:45 +0100 (BST)
 References: <20210421140934.7561-1-ma.mandourr@gmail.com>
+ <87wnsprnq1.fsf@linaro.org>
 User-agent: mu4e 1.5.12; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Mahmoud Mandour <ma.mandourr@gmail.com>
 Subject: Re: [PATCH 0/2] plugins: Freeing allocated values in hash tables.
-Date: Mon, 26 Apr 2021 17:53:51 +0100
-In-reply-to: <20210421140934.7561-1-ma.mandourr@gmail.com>
-Message-ID: <87wnsprnq1.fsf@linaro.org>
+Date: Mon, 26 Apr 2021 17:54:32 +0100
+In-reply-to: <87wnsprnq1.fsf@linaro.org>
+Message-ID: <87tuntrnoq.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,13 +92,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> A hash table made using ``g_hash_table_new`` requires manually
-> freeing any dynamically allocated keys/values. The two patches
-> in this series fixes this issue in hotblocks and hotpages plugins.
+> Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+>
+>> A hash table made using ``g_hash_table_new`` requires manually
+>> freeing any dynamically allocated keys/values. The two patches
+>> in this series fixes this issue in hotblocks and hotpages plugins.
+>
+> Queued to plugins/next, thanks.
 
-Queued to plugins/next, thanks.
+Oops, dequeuing and applying v2 ;-)
 
 --=20
 Alex Benn=C3=A9e
