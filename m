@@ -2,72 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6646D36B326
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:34:42 +0200 (CEST)
-Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC3836B327
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:36:37 +0200 (CEST)
+Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0Rl-0006qn-GL
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
+	id 1lb0Tc-000820-3R
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lb0QU-00064n-Uu
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:33:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49355)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1lb0RD-0006b7-KB; Mon, 26 Apr 2021 08:34:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31236
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lb0QR-00083a-6t
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:33:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619440398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bcO9IJ2wJjilahx3XVUBlAnlFuhXbdsPjHAMqniYCe0=;
- b=YbRdXTUi+3E5F2h4V38xkj2ILE5m91esi9R6BoBghNLkVz0ptVuZHDVZUhSk2GaIruZJlV
- EHHyQd/HduO5rSz2p9PM5zkvI2W9yqDds8BhVRwhyCznd8l0gLi0Gm6ArOT2peTsDGOUwJ
- sw82xRVAxQLvm0xrKOSh8b0kRyolKAk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-DGaz6j_aO8O4GeNHzIXuOw-1; Mon, 26 Apr 2021 08:33:15 -0400
-X-MC-Unique: DGaz6j_aO8O4GeNHzIXuOw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2A7100671D;
- Mon, 26 Apr 2021 12:33:14 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-153.ams2.redhat.com
- [10.36.115.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A49E219C78;
- Mon, 26 Apr 2021 12:33:11 +0000 (UTC)
-Subject: Re: [PATCH v2 2/3] docs: Add SEV-ES documentation to
- amd-memory-encryption.txt
-To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org
-References: <a7c5ee6c056d840f46028f4a817c16a9862bdd9e.1619208498.git.thomas.lendacky@amd.com>
- <fa1825a5eb0290eac4712cde75ba4c6829946eac.1619208498.git.thomas.lendacky@amd.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <ecd7b02c-925e-8769-3153-7a62310875a9@redhat.com>
-Date: Mon, 26 Apr 2021 14:33:10 +0200
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1lb0R6-0008JW-Ab; Mon, 26 Apr 2021 08:34:07 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13QCXC9m119361; Mon, 26 Apr 2021 08:33:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hzMJvi8jQyIGy+kMK+mfKuQOeHtmZcm0IOn5MYVNWj0=;
+ b=Jx5ebKw1sXkpohnxLhjNcEJzUtsPjx52tF6VgRpNcVWgEzkpmrUcnNeoNl2UqkO9Q7ga
+ 8m0CpugdL6nsuvphQ2hw6LT3R4TyzR6xgPVRKklHxBkOce5KXb5uaHWg3sbtpgbHDjAi
+ c0u+UXf72ioZI1Mlna4WVcIa1xIU3w+sukzHLydjy/9aQ8xaScIQua10eqbmUd+bAbC3
+ zi38N2FLi1VBXFpEoI0HdrSlcMgs62kCUpkwyTreUswobQEVqF+BV1XCFUFdkK+5gj53
+ 6UEKA+dAI5FBhMWAJIyKdBYGzEIef7oSSmRcy9xzofr5JI+N4my6NRKcoNK+jE3X9OaJ AQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 385u60d4ju-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Apr 2021 08:33:42 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13QCXFFd119691;
+ Mon, 26 Apr 2021 08:33:42 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 385u60d4j4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Apr 2021 08:33:42 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13QCXe7P004500;
+ Mon, 26 Apr 2021 12:33:40 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 384ay8gekk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Apr 2021 12:33:40 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13QCXbLW33751380
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 26 Apr 2021 12:33:37 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0516B5204E;
+ Mon, 26 Apr 2021 12:33:37 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.12.8])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 9B7B85204F;
+ Mon, 26 Apr 2021 12:33:36 +0000 (GMT)
+Subject: Re: [PATCH v2] pc-bios/s390-ccw: Use reset_psw pointer instead of
+ hard-coded null pointer
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20210423142440.582188-1-thuth@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Message-ID: <0dcba8f7-6203-84b0-98fd-dc9e85cb7f05@linux.ibm.com>
+Date: Mon, 26 Apr 2021 14:33:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <fa1825a5eb0290eac4712cde75ba4c6829946eac.1619208498.git.thomas.lendacky@amd.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210423142440.582188-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: eyMDRN_tMXlLf7TwtI2-HStrzpzww36u
+X-Proofpoint-GUID: mXWO-4DLtcax7L4dA15W3Km3rED8eCAi
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-26_05:2021-04-26,
+ 2021-04-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 clxscore=1011 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104260096
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,133 +112,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Hrdina <phrdina@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/23/21 22:08, Tom Lendacky wrote:
-> From: Tom Lendacky <thomas.lendacky@amd.com>
+On 4/23/21 4:24 PM, Thomas Huth wrote:
+> When compiling the s390-ccw bios with clang, it emits a warning like this:
 > 
-> Update the amd-memory-encryption.txt file with information about SEV-ES,
-> including how to launch an SEV-ES guest and some of the differences
-> between SEV and SEV-ES guests in regards to launching and measuring the
-> guest.
+>  pc-bios/s390-ccw/jump2ipl.c:86:9: warning: indirection of non-volatile null
+>   pointer will be deleted, not trap [-Wnull-dereference]
+>      if (*((uint64_t *)0) & RESET_PSW_MASK) {
+>          ^~~~~~~~~~~~~~~~
+>  pc-bios/s390-ccw/jump2ipl.c:86:9: note: consider using __builtin_trap() or
+>   qualifying pointer with 'volatile'
 > 
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> We could add a "volatile" here to shut it up, but on the other hand,
+> we also have a pointer variable called "reset_psw" in this file already
+> that points to the PSW at address 0, so we can simply use that pointer
+> variable instead.
+
+LGTM, I'm just wondering why I didn't clean that up when I last changed
+the file.
+
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  docs/amd-memory-encryption.txt | 54 +++++++++++++++++++++++++++++-----
->  1 file changed, 47 insertions(+), 7 deletions(-)
+>  v2: Extend comment as suggested by Cornelia
 > 
-> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
-> index ed85159ea7..ffca382b5f 100644
-> --- a/docs/amd-memory-encryption.txt
-> +++ b/docs/amd-memory-encryption.txt
-> @@ -15,6 +15,13 @@ includes commands for launching, snapshotting, migrating and debugging the
->  encrypted guest. These SEV commands can be issued via KVM_MEMORY_ENCRYPT_OP
->  ioctls.
->  
-> +Secure Encrypted Virtualization - Encrypted State (SEV-ES) builds on the SEV
-> +support to additionally protect the guest register state. In order to allow a
-> +hypervisor to perform functions on behalf of a guest, there is architectural
-> +support for notifying a guest's operating system when certain types of VMEXITs
-> +are about to occur. This allows the guest to selectively share information with
-> +the hypervisor to satisfy the requested function.
-> +
->  Launching
->  ---------
->  Boot images (such as bios) must be encrypted before a guest can be booted. The
-> @@ -24,6 +31,9 @@ together generate a fresh memory encryption key for the VM, encrypt the boot
->  images and provide a measurement than can be used as an attestation of a
->  successful launch.
->  
-> +For a SEV-ES guest, the LAUNCH_UPDATE_VMSA command is also used to encrypt the
-> +guest register state, or VM save area (VMSA), for all of the guest vCPUs.
-> +
->  LAUNCH_START is called first to create a cryptographic launch context within
->  the firmware. To create this context, guest owner must provide a guest policy,
->  its public Diffie-Hellman key (PDH) and session parameters. These inputs
-> @@ -40,6 +50,12 @@ The guest policy can be provided via the 'policy' property (see below)
->  # ${QEMU} \
->     sev-guest,id=sev0,policy=0x1...\
->  
-> +Setting the "SEV-ES required" policy bit (bit 2) will launch the guest as a
-> +SEV-ES guest (see below)
-> +
-> +# ${QEMU} \
-> +   sev-guest,id=sev0,policy=0x5...\
-> +
->  The guest owner provided DH certificate and session parameters will be used to
->  establish a cryptographic session with the guest owner to negotiate keys used
->  for the attestation.
-> @@ -55,13 +71,19 @@ created via the LAUNCH_START command. If required, this command can be called
->  multiple times to encrypt different memory regions. The command also calculates
->  the measurement of the memory contents as it encrypts.
->  
-> -LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory.
-> -This measurement is a signature of the memory contents that can be sent to the
-> -guest owner as an attestation that the memory was encrypted correctly by the
-> -firmware. The guest owner may wait to provide the guest confidential information
-> -until it can verify the attestation measurement. Since the guest owner knows the
-> -initial contents of the guest at boot, the attestation measurement can be
-> -verified by comparing it to what the guest owner expects.
-> +LAUNCH_UPDATE_VMSA encrypts all the vCPU VMSAs for a SEV-ES guest using the
-> +cryptographic context created via the LAUNCH_START command. The command also
-> +calculates the measurement of the VMSAs as it encrypts them.
-> +
-> +LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory and,
-> +for a SEV-ES guest, encrypted VMSAs. This measurement is a signature of the
-> +memory contents and, for a SEV-ES guest, the VMSA contents, that can be sent
-> +to the guest owner as an attestation that the memory and VMSAs were encrypted
-> +correctly by the firmware. The guest owner may wait to provide the guest
-> +confidential information until it can verify the attestation measurement.
-> +Since the guest owner knows the initial contents of the guest at boot, the
-> +attestation measurement can be verified by comparing it to what the guest owner
-> +expects.
->  
->  LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
->  context.
-> @@ -75,6 +97,22 @@ To launch a SEV guest
->      -machine ...,confidential-guest-support=sev0 \
->      -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
->  
-> +To launch a SEV-ES guest
-> +
-> +# ${QEMU} \
-> +    -machine ...,confidential-guest-support=sev0 \
-> +    -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x5
-> +
-> +An SEV-ES guest has some restrictions as compared to a SEV guest. Because the
-> +guest register state is encrypted and cannot be updated by the VMM/hypervisor,
-> +a SEV-ES guest:
-> + - Does not support SMM - SMM support requires updating the guest register
-> +   state.
-> + - Does not support reboot - a system reset requires updating the guest register
-> +   state.
-> + - Requires in-kernel irqchip - the burden is placed on the hypervisor to
-> +   manage booting APs.
-> +
->  Debugging
->  -----------
->  Since the memory contents of a SEV guest are encrypted, hypervisor access to
-> @@ -101,8 +139,10 @@ Secure Encrypted Virtualization Key Management:
->  
->  KVM Forum slides:
->  http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
-> +https://www.linux-kvm.org/images/9/94/Extending-Secure-Encrypted-Virtualization-with-SEV-ES-Thomas-Lendacky-AMD.pdf
->  
->  AMD64 Architecture Programmer's Manual:
->     http://support.amd.com/TechDocs/24593.pdf
->     SME is section 7.10
->     SEV is section 15.34
-> +   SEV-ES is section 15.35
+>  pc-bios/s390-ccw/jump2ipl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-
-Looks good to me.
-
-Acked-by: Laszlo Ersek <lersek@redhat.com>
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index b9c70d64a5..73e4367e09 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -82,8 +82,8 @@ void jump_to_low_kernel(void)
+>          jump_to_IPL_code(KERN_IMAGE_START);
+>      }
+>  
+> -    /* Trying to get PSW at zero address */
+> -    if (*((uint64_t *)0) & RESET_PSW_MASK) {
+> +    /* Trying to get PSW at zero address (pointed to by reset_psw) */
+> +    if (*reset_psw & RESET_PSW_MASK) {
+>          /*
+>           * Surely nobody will try running directly from lowcore, so
+>           * let's use 0 as an indication that we want to load the reset
+> 
 
 
