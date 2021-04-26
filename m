@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651EC36B588
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:15:21 +0200 (CEST)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF46936B595
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 17:20:03 +0200 (CEST)
+Received: from localhost ([::1]:36938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb2xE-0000zM-2V
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37498)
+	id 1lb31m-00045u-Mi
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 11:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lb2tD-0007PE-B3
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:11:11 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:35463)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lb2z6-0002DM-LQ; Mon, 26 Apr 2021 11:17:16 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lb2t5-0002Ai-Ol
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 11:11:11 -0400
-Received: by mail-qt1-x831.google.com with SMTP id f12so41796881qtf.2
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 08:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=27uosJosoTsOi571y7gT+wTB6P1bDFq68wl129LQCZs=;
- b=Rcb9lDSEt74Bp2rYF0XF9IBHUaopneExRXV9oqwzw46fE5vYYA3kMJynXQkhrR5D01
- p0JE0UqapJpi1puWfIxSMb5nAj7zu/nki/AT5q5j6nSAiYTtA+cNl3+UJCAXCzOv/nXB
- uukLYSrrq7+umKo6e8Re4N0SLZ+fnRl6XFJlr0VveJSF1rDXj8RY5gBgjt6o0s/7FRLB
- 6/VHqFzxJG+nCsNc0lmP1nFO1It6wtyjf5L4ao0RIrcx/sw/ncu4mC0VikfuWbMogWoa
- PL5uXGHL6tMzaf7lXtusqVQpThK48Zy+qACfb+HhpWMtbMZJVvHxCaihjmD+nMfQbi0w
- grTw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lb2z3-0005K0-FU; Mon, 26 Apr 2021 11:17:15 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x7so56260648wrw.10;
+ Mon, 26 Apr 2021 08:17:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3tk2AGn6nJVpa73y63zWntkGf3PpkrX9E3NdwpL+uWs=;
+ b=m1GGk1dBNb+HOga904FBdNLFzvbpqQci1oORho1cKFRkTc10QYo4JVZw+4KyXyTueG
+ Sq50QZRhGVUl1CqXfXAHOztcacLt6tiH3jHwpjCsYOmxWYxyQkYt8z+8e/Q9tkKQzvEY
+ sAjxnqdOWyJMcGQCsHudZgeEHFI6peZtuv0Ukow1TbW3bN7ig5as5M0VjeRQk55H68wn
+ uMQRqqDvMhXhe9KTaSv7zLgPzwNokACykc5Svg17K9xirUnCg4jNIGBy/hcDpMjrojax
+ y77EXLYT+m+IWMQCJsdATvrhMfsBwWD8+zyi/MejJqTCTJxVlyslPOfcethqyn0hv3Mo
+ IWkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=27uosJosoTsOi571y7gT+wTB6P1bDFq68wl129LQCZs=;
- b=pSoqg+gVvGGc+ixvcxrAQs5MvjAp37glklJ2MkxBVAeCNLKQmXQUJXMW5Xe/Hu3a9E
- N3HqUTIrofMMUOpLXKTgETg7EVlkNGflbjymWHFD8NKhndACyBGN6UblRZU6yT4Jn8V/
- CR9sLYW7G1BYyvs2b9rO/B5/k/PBhtZ+zXx3PChQM7+l+Rndp8TegPHTnAINVwG9n9hZ
- 6p9Beu7qP+6TARASPuBBVIaVbYMBfZNNEbQ7DsMDXrDi1rX7zQjQ4B6EIYhTe/+5YjKj
- sc/GbR7QCBOLkHLmKtSYo0qNcfaQxJ8ivf7jsHbOQkOyhtQ8tgon/Nmbv2xEJ19uj83m
- vQyQ==
-X-Gm-Message-State: AOAM5313ILoV2BX3NZVKhvkCj6GTj6Z14tsbxCUop/EWgw0bMA6lh22K
- bwHK+dgAs4SWwNhepspbnqluZ6DA1Cph1f9B62etuQ==
-X-Google-Smtp-Source: ABdhPJziVxcUCnuXAT9YDI5t08RB5bSLE16VU37sYAVyP0tqB4j+YoExq1XwSOoEm0h6JB2UZ0RvORKIww4ZH3gXwms=
-X-Received: by 2002:a05:622a:1748:: with SMTP id
- l8mr17260310qtk.73.1619449858661; 
- Mon, 26 Apr 2021 08:10:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210423203959.78275-1-imp@bsdimp.com>
- <20210423203959.78275-6-imp@bsdimp.com>
- <YIaAVTahNvQ0+hKc@redhat.com>
- <CAFEAcA86i35cyoXkMp-PtWwOm+ELOR2zvS0Ze_duO6DkWu-q+Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA86i35cyoXkMp-PtWwOm+ELOR2zvS0Ze_duO6DkWu-q+Q@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 26 Apr 2021 09:10:47 -0600
-Message-ID: <CANCZdfrzjksSsW6WQXS_5bVt7S+07a3zegKth=e4_Q87Ap+MTw@mail.gmail.com>
-Subject: Re: [PULL 15/24] bsd-user: Fix commentary issues
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3tk2AGn6nJVpa73y63zWntkGf3PpkrX9E3NdwpL+uWs=;
+ b=LVB3JTv6FPasjitIOKFU1yOllkUDeHztCeraOXUMBOMYjEfspz0RZorSA6eYx0qLHk
+ cb4axjWtjIgmJ3rwDxc2zFiswvNPudfgvYEET9UmlFuxH4Z5eD2P9n1K+bpt408hex2g
+ vFA/9xJSyrUeceybt3Rc2Rp9H5brQ4CXXVyeTjnFpARweKEa1g81Q4TEX6VmNCH/6QAN
+ JzR938mBLO6odC1w2qxH7Lwv5tPXEnzfqyHJjbc3LOT/oFI9Kt5r2HuzV5NuXDPYpjce
+ l5aQBO/YScOETiBosrWFzGCuujcTc+GXlvwN+vD97Ye83eCSuaPpYrJGEg5zK7Qr4PwL
+ 6aeA==
+X-Gm-Message-State: AOAM533w5Am1lZ+EKSKmTv5lRg3TY3oXzxec9Kug0IP7HPFqcr+pWNS0
+ j1dkO1cwvZXUs7sJvGggAl0=
+X-Google-Smtp-Source: ABdhPJyUwSua8/oqJ0hhe33OG3Gqv2mZzoacHjDj9N4iwH1/9GU/KRX410/B/pJ+Y05Y951UxDlnyQ==
+X-Received: by 2002:a5d:4a02:: with SMTP id m2mr13467788wrq.188.1619450228627; 
+ Mon, 26 Apr 2021 08:17:08 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id a2sm382489wrt.82.2021.04.26.08.17.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Apr 2021 08:17:08 -0700 (PDT)
+Subject: Re: [PATCH 2/5] hw/pcmcia/microdrive: Register machine reset handler
 To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000008eb3c205c0e18d46"
-Received-SPF: none client-ip=2607:f8b0:4864:20::831;
- envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20210424162229.3312116-1-f4bug@amsat.org>
+ <20210424162229.3312116-3-f4bug@amsat.org>
+ <CAFEAcA8=YAABLQL+n1gDXafhoZeUo9emmjCmi_BTqvH=3NS6GA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <064afc23-9c5f-a075-477a-002c3842cb94@amsat.org>
+Date: Mon, 26 Apr 2021 17:17:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8=YAABLQL+n1gDXafhoZeUo9emmjCmi_BTqvH=3NS6GA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,164 +88,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Richardson <arichardson@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008eb3c205c0e18d46
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/25/21 8:36 PM, Peter Maydell wrote:
+> On Sat, 24 Apr 2021 at 17:22, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> The abstract PCMCIA_CARD is a bus-less TYPE_DEVICE, so devices
+>> implementing it are not reset automatically.
+>> Register a reset handler so children get reset on machine reset.
+>>
+>> Note, the DSCM-1XXXX device (TYPE_DSCM1XXXX) which inherits
+>> TYPE_MICRODRIVE and PCMCIA_CARD reset itself when a disk is
+>> attached or detached, but was not resetting itself on machine
+>> reset.
+>>
+>> It doesn't seem to be an issue because it is that way since the
+>> device QDev'ifycation 8 years ago, in commit d1f2c96a81a
+>> ("pcmcia: QOM'ify PCMCIACardState and MicroDriveState").
+>> Still, correct to have a proper API usage.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  hw/pcmcia/pcmcia.c | 25 +++++++++++++++++++++++++
+>>  1 file changed, 25 insertions(+)
+>>
+>> diff --git a/hw/pcmcia/pcmcia.c b/hw/pcmcia/pcmcia.c
+>> index 03d13e7d670..73656257227 100644
+>> --- a/hw/pcmcia/pcmcia.c
+>> +++ b/hw/pcmcia/pcmcia.c
+>> @@ -6,14 +6,39 @@
+>>
+>>  #include "qemu/osdep.h"
+>>  #include "qemu/module.h"
+>> +#include "sysemu/reset.h"
+>>  #include "hw/pcmcia.h"
+>>
+>> +static void pcmcia_card_reset_handler(void *dev)
+>> +{
+>> +    device_legacy_reset(DEVICE(dev));
+>> +}
+>> +
+>> +static void pcmcia_card_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    qemu_register_reset(pcmcia_card_reset_handler, dev);
+>> +}
+>> +
+>> +static void pcmcia_card_unrealize(DeviceState *dev)
+>> +{
+>> +    qemu_unregister_reset(pcmcia_card_reset_handler, dev);
+>> +}
+> 
+> Why isn't a pcmcia card something that plugs into a bus ?
 
-On Mon, Apr 26, 2021 at 3:13 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+No clue, looks like a very old device with unfinished qdev-ification?
 
-> On Mon, 26 Apr 2021 at 10:01, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-> wrote:
-> >
-> > On Fri, Apr 23, 2021 at 02:39:50PM -0600, imp@bsdimp.com wrote:
-> > > -#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080  /* previously
-> misimplemented MAP_INHERIT */
-> > > -#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100  /* previously
-> unimplemented MAP_NOEXTEND */
-> > > -#define TARGET_FREEBSD_MAP_STACK        0x0400  /* region grows down=
-,
-> like a stack */
-> > > -#define TARGET_FREEBSD_MAP_NOSYNC       0x0800  /* page to but do no=
-t
-> sync underlying file */
-> > > +#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
-> > > +                                 /* previously misimplemented
-> MAP_INHERIT */
-> > > +#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
-> > > +                                 /* previously unimplemented
-> MAP_NOEXTEND */
-> > > +#define TARGET_FREEBSD_MAP_STACK        0x0400
-> > > +                                 /* region grows down, like a stack =
-*/
-> > > +#define TARGET_FREEBSD_MAP_NOSYNC       0x0800
-> > > +                                 /* page to but do not sync
-> underlying file */
-> >
-> > I find this indented following comment style more ambiguous as to
-> > what constant the comment applies to. IMHO would be clearer as
-> >
-> >  /* previously misimplemented MAP_INHERIT */
-> >  #define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
-> >
-> >  /* previously unimplemented MAP_NOEXTEND */
-> >  #define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
-> >
-> >  /* region grows down, like a stack */
-> >  #define TARGET_FREEBSD_MAP_STACK        0x0400
-> >
-> >  /* page to but do not sync underlying file */
-> >  #define TARGET_FREEBSD_MAP_NOSYNC       0x0800
->
-> Or alternatively decide that this is one of those cases where the coding
-> style's "If wrapping the line at 80 columns is obviously less readable an=
-d
-> more awkward, prefer not to wrap it" advice applies. The lines as they
-> stand
-> are only 95 characters or so long.
->
+See pxa2xx_pcmcia_attach():
 
-I'm cool either way. Projects differ about how rigid or flexible style can
-be.
-I noticed this when cleaning up another thing. If we can apply that advice,
-I'd prefer that.
+/* Insert a new card into a slot */
+int pxa2xx_pcmcia_attach(void *opaque, PCMCIACardState *card)
+{
+    PXA2xxPCMCIAState *s = (PXA2xxPCMCIAState *) opaque;
+    PCMCIACardClass *pcc;
 
-Maybe it's better to just drop this entirely. In the final state, this file
-is
-here, but none of these flags are actually used. Not sure why they aren't,
-but there's commentary that's explicit about using the host constants
-in many places. Rather than take the time to sort this all out right now
-(it is a minor detail I think in the scheme of things compared to all the
-other changes coming), I'd propose dropping this hunk entirely, and
-revisiting when the merging is done...
-
-Warner
-
---0000000000008eb3c205c0e18d46
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 26, 2021 at 3:13 AM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Mon, 26 Apr 2021 at 10:01, Daniel P. Berrang=C3=A9 &lt;<a href=3D"=
-mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt; w=
-rote:<br>
-&gt;<br>
-&gt; On Fri, Apr 23, 2021 at 02:39:50PM -0600, <a href=3D"mailto:imp@bsdimp=
-.com" target=3D"_blank">imp@bsdimp.com</a> wrote:<br>
-&gt; &gt; -#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080=C2=A0 /* previous=
-ly misimplemented MAP_INHERIT */<br>
-&gt; &gt; -#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100=C2=A0 /* previous=
-ly unimplemented MAP_NOEXTEND */<br>
-&gt; &gt; -#define TARGET_FREEBSD_MAP_STACK=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x04=
-00=C2=A0 /* region grows down, like a stack */<br>
-&gt; &gt; -#define TARGET_FREEBSD_MAP_NOSYNC=C2=A0 =C2=A0 =C2=A0 =C2=A00x08=
-00=C2=A0 /* page to but do not sync underlying file */<br>
-&gt; &gt; +#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* previously misimp=
-lemented MAP_INHERIT */<br>
-&gt; &gt; +#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* previously unimpl=
-emented MAP_NOEXTEND */<br>
-&gt; &gt; +#define TARGET_FREEBSD_MAP_STACK=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x04=
-00<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* region grows down=
-, like a stack */<br>
-&gt; &gt; +#define TARGET_FREEBSD_MAP_NOSYNC=C2=A0 =C2=A0 =C2=A0 =C2=A00x08=
-00<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* page to but do no=
-t sync underlying file */<br>
-&gt;<br>
-&gt; I find this indented following comment style more ambiguous as to<br>
-&gt; what constant the comment applies to. IMHO would be clearer as<br>
-&gt;<br>
-&gt;=C2=A0 /* previously misimplemented MAP_INHERIT */<br>
-&gt;=C2=A0 #define TARGET_FREEBSD_MAP_RESERVED0080 0x0080<br>
-&gt;<br>
-&gt;=C2=A0 /* previously unimplemented MAP_NOEXTEND */<br>
-&gt;=C2=A0 #define TARGET_FREEBSD_MAP_RESERVED0100 0x0100<br>
-&gt;<br>
-&gt;=C2=A0 /* region grows down, like a stack */<br>
-&gt;=C2=A0 #define TARGET_FREEBSD_MAP_STACK=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x04=
-00<br>
-&gt;<br>
-&gt;=C2=A0 /* page to but do not sync underlying file */<br>
-&gt;=C2=A0 #define TARGET_FREEBSD_MAP_NOSYNC=C2=A0 =C2=A0 =C2=A0 =C2=A00x08=
-00<br>
-<br>
-Or alternatively decide that this is one of those cases where the coding<br=
->
-style&#39;s &quot;If wrapping the line at 80 columns is obviously less read=
-able and<br>
-more awkward, prefer not to wrap it&quot; advice applies. The lines as they=
- stand<br>
-are only 95 characters or so long.<br></blockquote><div><br></div><div>I&#3=
-9;m cool either way. Projects differ about how rigid or flexible style can =
-be.</div><div>I noticed this when cleaning up another thing. If we can appl=
-y that advice,</div><div>I&#39;d prefer that.</div><div><br></div><div>Mayb=
-e it&#39;s better to just drop this entirely. In the final state, this file=
- is</div><div>here, but none of these flags are actually used. Not sure why=
- they aren&#39;t,</div><div>but there&#39;s commentary=C2=A0that&#39;s expl=
-icit about using the host constants</div><div>in many places. Rather than t=
-ake the time to sort this all out right now</div><div>(it is a minor detail=
- I think in the scheme of things compared to all the</div><div>other change=
-s coming), I&#39;d propose dropping this hunk entirely, and</div><div>revis=
-iting when the merging is done...</div><div><br></div><div>Warner</div><div=
-><br></div></div></div>
-
---0000000000008eb3c205c0e18d46--
+    ...
+    s->card = card;
+    pcc = PCMCIA_CARD_GET_CLASS(s->card);
+    ...
+    s->card->slot = &s->slot;
+    pcc->attach(s->card);
+    ...
+}
 
