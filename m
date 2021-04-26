@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CB736B029
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 11:02:36 +0200 (CEST)
-Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBF536B01F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 11:01:04 +0200 (CEST)
+Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lax8V-0006uV-8a
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 05:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
+	id 1lax70-0005la-N8
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 05:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lax76-0006Dy-3p
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:01:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lax73-0006LC-SK
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 05:01:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lax71-0004c0-Ce
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:01:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4409D2E815C
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:01:03 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lax3N-0004Bk-EO
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 04:57:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lax3D-0004Mp-Rk
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 04:57:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619427425;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=yoEbv16D2f2wZ+qjL95guJdV0U9H2EAaVC6PG6Q2hTs=;
+ b=QbtLyQrleP/jKVohBoD1RhVGXe4g3BGFdC5pBcKC1ARhGFYKfdYqGnFKDJ+8o8Bdla2cMB
+ pPUMo9qgYrx+TC/t4bL5uaS6yiVYoBa67QC3CRMA/TCGZOvhlYca0m8hRTvsFc4Ki8lqfL
+ 0VDaA4FoWYc+Ug1UVyENeRXwuRDJA54=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-tnqfYE_TOZW_MrMHHHKzxA-1; Mon, 26 Apr 2021 04:56:59 -0400
+X-MC-Unique: tnqfYE_TOZW_MrMHHHKzxA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D60C31922036;
+ Mon, 26 Apr 2021 08:56:57 +0000 (UTC)
+Received: from redhat.com (ovpn-115-22.ams2.redhat.com [10.36.115.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A445A29AAA;
+ Mon, 26 Apr 2021 08:56:56 +0000 (UTC)
+Date: Mon, 26 Apr 2021 09:56:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: imp@bsdimp.com
+Subject: Re: [PULL 15/24] bsd-user: Fix commentary issues
+Message-ID: <YIaAVTahNvQ0+hKc@redhat.com>
+References: <20210423203959.78275-1-imp@bsdimp.com>
+ <20210423203959.78275-6-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Apr 2021 08:54:15 -0000
-From: Ariadne Conill <1895305@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kaniini z3ntu
-X-Launchpad-Bug-Reporter: Luca Weiss (z3ntu)
-X-Launchpad-Bug-Modifier: Ariadne Conill (kaniini)
-References: <159983459206.747.8861900115459003190.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161942725570.11585.15295122816790645672.malone@wampee.canonical.com>
-Subject: [Bug 1895305] Re: pthread_cancel fails with "RT33" with musl libc
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 5ea5d77bdbc2630ac7e11fd377a76b411f562631
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210423203959.78275-6-imp@bsdimp.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,83 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895305 <1895305@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kevans@freebsd.org, arichardson@freebsd.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was a downstream regression in Alpine caused by an attempt to make
-older Go binaries work under emulation.  We have reverted the patch
-there.
+On Fri, Apr 23, 2021 at 02:39:50PM -0600, imp@bsdimp.com wrote:
+> From: Warner Losh <imp@bsdimp.com>
+> 
+> Lines > 80 or 90 characters
+> C++ comments
+> BSD /*- block comment convention removed.
+> 
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/bsd-mman.h | 42 ++++++++++++++++++++++++++----------------
+>  1 file changed, 26 insertions(+), 16 deletions(-)
+> 
+> diff --git a/bsd-user/bsd-mman.h b/bsd-user/bsd-mman.h
+> index 910e8c1921..5a64d0d425 100644
+> --- a/bsd-user/bsd-mman.h
+> +++ b/bsd-user/bsd-mman.h
+> @@ -1,4 +1,4 @@
+> -/*-
+> +/*
+>   * Copyright (c) 1982, 1986, 1993
+>   *      The Regents of the University of California.  All rights reserved.
+>   *
+> @@ -30,16 +30,20 @@
+>   * $FreeBSD: src/sys/sys/mman.h,v 1.42 2008/03/28 04:29:27 ps Exp $
+>   */
+>  
+> -#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080  /* previously misimplemented MAP_INHERIT */
+> -#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100  /* previously unimplemented MAP_NOEXTEND */
+> -#define TARGET_FREEBSD_MAP_STACK        0x0400  /* region grows down, like a stack */
+> -#define TARGET_FREEBSD_MAP_NOSYNC       0x0800  /* page to but do not sync underlying file */
+> +#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
+> +                                 /* previously misimplemented MAP_INHERIT */
+> +#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
+> +                                 /* previously unimplemented MAP_NOEXTEND */
+> +#define TARGET_FREEBSD_MAP_STACK        0x0400
+> +                                 /* region grows down, like a stack */
+> +#define TARGET_FREEBSD_MAP_NOSYNC       0x0800
+> +                                 /* page to but do not sync underlying file */
 
--- =
+I find this indented following comment style more ambiguous as to
+what constant the comment applies to. IMHO would be clearer as
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895305
+ /* previously misimplemented MAP_INHERIT */
+ #define TARGET_FREEBSD_MAP_RESERVED0080 0x0080
 
-Title:
-  pthread_cancel fails with "RT33" with musl libc
+ /* previously unimplemented MAP_NOEXTEND */
+ #define TARGET_FREEBSD_MAP_RESERVED0100 0x0100
 
-Status in QEMU:
-  New
+ /* region grows down, like a stack */
+ #define TARGET_FREEBSD_MAP_STACK        0x0400
 
-Bug description:
-  From my testing it seems that QEMU built against musl libc crashes on
-  pthread_cancel cancel calls - if the binary is also built with musl
-  libc.
+ /* page to but do not sync underlying file */
+ #define TARGET_FREEBSD_MAP_NOSYNC       0x0800
 
-  Minimal sample:
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-  #include <pthread.h>
-  #include <stdio.h>
-  #include <unistd.h>
-  void* threadfunc(void* ignored) {
-  	while (1) {
-  		pause();
-  	}
-  	return NULL;
-  }
-  int main() {
-  	pthread_t thread;
-  	pthread_create(&thread, NULL, &threadfunc, NULL);
-  	sleep(1);
-  	pthread_cancel(thread);
-  	printf("OK, alive\n");
-  }
-
-  In an Alpine Linux aarch64 chroot (on an x86_64 host) the binary will
-  just output RT33 and has exit code 161.
-
-  Using qemu-aarch64 on an x86_64 host results in the output (fish shell)
-    fish: =E2=80=9Cqemu-aarch64-static ./musl-stat=E2=80=A6=E2=80=9D termin=
-ated by signal Unknown (Unknown)
-  or (bash)
-    Real-time signal 2
-
-  and exit code 164.
-
-  It doesn't matter whether the binary is linked dynamically or static.
-  You can see my test results in the following table:
-
-  |                      | QEMU glibc | QEMU musl |
-  |----------------------|------------|-----------|
-  | binary glibc dynamic | =E2=9C=93          | =E2=9C=93         |
-  | binary glibc static  | =E2=9C=93          | =E2=9C=93         |
-  | binary musl dynamic  | =E2=9C=93          | =E2=9C=97         |
-  | binary musl static   | =E2=9C=93          | =E2=9C=97         |
-
-  Both QEMU builds are v5.1.0 (glibc v2.32 / musl v1.2.1)
-
-  I've uploaded all my compile and test commands (plus a script to
-  conveniently run them all) to https://github.com/z3ntu/qemu-
-  pthread_cancel . It also includes the built binaries if needed. The
-  test script output can be found at https://github.com/z3ntu/qemu-
-  pthread_cancel/blob/master/results.txt
-
-  Further links:
-  - https://gitlab.com/postmarketOS/pmaports/-/issues/190#note_141902075
-  - https://gitlab.com/postmarketOS/pmbootstrap/-/issues/1970
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895305/+subscriptions
 
