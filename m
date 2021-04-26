@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1891036AAF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 05:09:50 +0200 (CEST)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5512F36AAF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 05:08:29 +0200 (CEST)
+Received: from localhost ([::1]:33114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lard7-0008KD-1g
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 23:09:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60232)
+	id 1larbo-0006yp-DP
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 23:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1larNn-00083k-VO
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:54:00 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33442)
+ id 1larNn-00081V-1w
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:59 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1larNa-0007Zx-94
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:59 -0400
-Received: by mail-pl1-x636.google.com with SMTP id n10so16989544plc.0
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:53:45 -0700 (PDT)
+ id 1larNb-0007a4-1t
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:53:58 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id 10so2559430pfl.1
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 19:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zrN3ZTuevcjI//77lMPrhP3wL1+FbaSyRflhGtu0l+U=;
- b=YvJlstfXBa4Wb1pO6T3wjyZivNeLsnJMZPdjojEmObFLXa4NFwjize8d3AIXWM+dCi
- e7V3Xu5mFzN24l34B1rf7C9I17DNAuk9eRqr3aHQWa7vJl/03ev0igkZHVAqSpyIkrby
- zUeKBXICmW/W2qTjJDSXBN3XlNQncvu3vURaPEwjFXlVgrtRKsxWUhkn3kazt3nkTdNW
- 8+YIlcVRP2EaL7KaZGWQ73QTtyCPBKHqVHJ4P/BJe+hpYRhCkIQOX3SSKbxwLq1wVn5o
- mDI9FnUou6oG73VJrZuMt6CQ72e7Bilp7FRzsf2B8v4I0qExclRchedimYAD82o9O10s
- 59dw==
+ bh=zrmei2M83kWQ7UG3ZlvrhhKftuKLYs48AQkSQjuWBHY=;
+ b=nUhwKhejJgP2FXJ4Ww49yduznspzJWPVXlrht/9KZ012b3QBc7BOpUqsQIXuJ05+20
+ qc/pt1tk8sVIbRXWemk0l1MmHozlBoLbes+dOZipoiY5EAYlk/5GSHu/3mPfSlVX8HT0
+ Eig+di6vv2rrmxqyvaqcb3ZwDuAVeDTGCMIExljJMKbOrkwPmL8gc9WlV3viPsSzMvQt
+ v4AUxlT4K1ui+UmFsLq/mABuym/EXKOO2y5Y3Q07nW4FGSv/8tiBRTwHW4N/YXvuHpAy
+ cA3pcgsoim9S6RffUhVxBZ2r3ftZjPVSWev2MRhrrVcfhnL1d8saUEc4ReWTPpnGZ1kw
+ KKAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zrN3ZTuevcjI//77lMPrhP3wL1+FbaSyRflhGtu0l+U=;
- b=Zbfb2l1LiFSf6UOl5hS/2KoTablBL9E0C+mFsCTEozEY9t4tE8Xee/QnZXX4YAmSYB
- huq/ZY3r1FAvabuogOOTsb5UR1tOzDKVD5B7lf/lxevuS15cRTUbWJrQLka21G+4sQwO
- b0MCLhurADhw6LsvCmwTCeDjY/al6CXZ0lpos2rp9mFsmKz6bj0q0TbwgKRyGHb5qwZk
- kLCkRI32pzx/Odr9nlOcyAhcJp2ECpa1OJA08ibJKAtfBqsyDar9ohBeycfiVS04dJqv
- vDtdz4/55EuLXNe4hIZ3bYW9/9p9F08PPQ9qlo1sm+1RzrUCf8ALZymO3KNhe1oHK39E
- 0IVw==
-X-Gm-Message-State: AOAM5323/166RwiNonCZFkyx5PyFfDi+ptKjdTxcdyswN6a6Pg8F/1DE
- 634WswRMI7JNM5X/ffbGzjkqoDNzcq16JQ==
-X-Google-Smtp-Source: ABdhPJzAsEvW4JiwUhWcxI+3MYPGs6cubfwcVVUkAQRk1aDqgd4y6ajlSpuL3d7tsiFiv/LiDYFJug==
-X-Received: by 2002:a17:90a:7c4b:: with SMTP id
- e11mr19508095pjl.151.1619405624986; 
- Sun, 25 Apr 2021 19:53:44 -0700 (PDT)
+ bh=zrmei2M83kWQ7UG3ZlvrhhKftuKLYs48AQkSQjuWBHY=;
+ b=kJ1NmKcmVlwKymWJGFGbhNe+GB3qc5pBGsCfL5i33GHkHoVGav/kmNU7NBAp8ebY1O
+ p+puFY1gQBU2gK8loqFSwvZQd00FNNpnc64ip74VysZrIoJ/i1DZB9LhqqB1euUthI38
+ 2LFv70WTwBdapzcYlPForuxXt/o17iogb+bP0xmh/qeWZDsDKh0Zpa4h0kkvf3UFuy36
+ cKa5lUKJUA+NPhyMae6bi6B4781MbvruqU57ezpvj4NS3mTyvdhrRppPYrJi699RNS05
+ d+ss71cpAycQBNlttk2emRwZpbMCdO2vuxglhoHKVmXb0GPPA4TotvxLuBbpu3llSkKi
+ Sgng==
+X-Gm-Message-State: AOAM5316ZjL2bUH7NE/O9WL5nAMxE2+DfPcLb+UFV2Dh7r/P6WmbX5Fw
+ 5kZ+KdB74tx6dvyt1Ho3VIEsew/vtUF0Tw==
+X-Google-Smtp-Source: ABdhPJyPOxXd94BfedG26RNC4O19K0NugTxC1SN2H6xE5r9DcV4ZOAB/ygKJOV++nVHrQ761a7D0SQ==
+X-Received: by 2002:a63:5503:: with SMTP id j3mr2943498pgb.256.1619405625633; 
+ Sun, 25 Apr 2021 19:53:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id e23sm9805680pgg.76.2021.04.25.19.53.44
+ by smtp.gmail.com with ESMTPSA id e23sm9805680pgg.76.2021.04.25.19.53.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Apr 2021 19:53:44 -0700 (PDT)
+ Sun, 25 Apr 2021 19:53:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/25] linux-user/sparc: Remove target_rt_signal_frame as
- unused
-Date: Sun, 25 Apr 2021 19:53:22 -0700
-Message-Id: <20210426025334.1168495-14-richard.henderson@linaro.org>
+Subject: [PATCH v2 14/25] linux-user/sparc: Fix the stackframe structure
+Date: Sun, 25 Apr 2021 19:53:23 -0700
+Message-Id: <20210426025334.1168495-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210426025334.1168495-1-richard.henderson@linaro.org>
 References: <20210426025334.1168495-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,35 +86,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's wrong anyway.  Remove it for now.
+Move target_reg_window up and use it.  Fold structptr and xxargs
+into xargs -- the use of a host pointer was incorrect anyway.
+Rename the structure to target_stackf for consistency.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/signal.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ linux-user/sparc/signal.c | 38 +++++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 3d068e0955..29c5e3b0c0 100644
+index 29c5e3b0c0..3474098641 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -64,17 +64,6 @@ struct target_signal_frame {
-     abi_ulong           extra_size; /* Should be 0 */
-     qemu_siginfo_fpu_t fpu_state;
- };
--struct target_rt_signal_frame {
--    struct sparc_stackf ss;
--    siginfo_t           info;
--    abi_ulong           regs[20];
--    sigset_t            mask;
--    abi_ulong           fpu_save;
--    uint32_t            insns[2];
--    stack_t             stack;
--    unsigned int        extra_size; /* Should be 0 */
--    qemu_siginfo_fpu_t  fpu_state;
--};
+@@ -21,16 +21,26 @@
+ #include "signal-common.h"
+ #include "linux-user/trace.h"
  
- static inline abi_ulong get_sigframe(struct target_sigaction *sa, 
-                                      CPUSPARCState *env,
+-/* A Sparc stack frame */
+-struct sparc_stackf {
++/* A Sparc register window */
++struct target_reg_window {
+     abi_ulong locals[8];
+     abi_ulong ins[8];
+-    /* It's simpler to treat fp and callers_pc as elements of ins[]
+-         * since we never need to access them ourselves.
+-         */
+-    char *structptr;
+-    abi_ulong xargs[6];
+-    abi_ulong xxargs[1];
++};
++
++/* A Sparc stack frame. */
++struct target_stackf {
++    /*
++     * Since qemu does not reference fp or callers_pc directly,
++     * it's simpler to treat fp and callers_pc as elements of ins[],
++     * and then bundle locals[] and ins[] into reg_window.
++     */
++    struct target_reg_window win;
++    /*
++     * Similarly, bundle structptr and xxargs into xargs[].
++     * This portion of the struct is part of the function call abi,
++     * and belongs to the callee for spilling argument registers.
++     */
++    abi_ulong xargs[8];
+ };
+ 
+ typedef struct {
+@@ -56,7 +66,7 @@ typedef struct {
+ 
+ 
+ struct target_signal_frame {
+-    struct sparc_stackf ss;
++    struct target_stackf ss;
+     __siginfo_t         info;
+     abi_ulong           fpu_save;
+     uint32_t            insns[2] QEMU_ALIGNED(8);
+@@ -150,10 +160,10 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     }
+ 
+     for (i = 0; i < 8; i++) {
+-        __put_user(env->regwptr[i + WREG_L0], &sf->ss.locals[i]);
++        __put_user(env->regwptr[i + WREG_L0], &sf->ss.win.locals[i]);
+     }
+     for (i = 0; i < 8; i++) {
+-        __put_user(env->regwptr[i + WREG_I0], &sf->ss.ins[i]);
++        __put_user(env->regwptr[i + WREG_I0], &sf->ss.win.ins[i]);
+     }
+     if (err)
+         goto sigsegv;
+@@ -349,12 +359,6 @@ struct target_ucontext {
+     target_mcontext_t tuc_mcontext;
+ };
+ 
+-/* A V9 register window */
+-struct target_reg_window {
+-    abi_ulong locals[8];
+-    abi_ulong ins[8];
+-};
+-
+ /* {set, get}context() needed for 64-bit SparcLinux userland. */
+ void sparc64_set_context(CPUSPARCState *env)
+ {
 -- 
 2.25.1
 
