@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C2436B73E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:52:11 +0200 (CEST)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB1D36B742
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:53:17 +0200 (CEST)
+Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb4Sw-0002NK-9M
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
+	id 1lb4U0-0003ld-6z
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:53:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lb4QM-0001G9-ET
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:49:30 -0400
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:35836)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lb4Rw-0001xi-Uk; Mon, 26 Apr 2021 12:51:10 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lb4QJ-00079G-1A
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:49:29 -0400
-Received: by mail-vs1-xe2d.google.com with SMTP id x16so510118vsq.2
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 09:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=PFiygLIUMl9h/Ry6NeScprxAw8GpnGg3+2KO4C4FlvA=;
- b=dXuxM/YCMwIZOxbCbcDZ6kI0VBxiN8Ja1scJj3icOTiELuFRimNru82BfmCc0poa7A
- hTnwO4w1m9AU8MxrC+j3lZiAbMYq7dzIIKFjCaxRJTKOu0RWJ6f7P74phcYvVJx+oHYF
- UaIA9nqmBqhrECT94SKcn0upx//hVuoX8B3uSiOrve/Us+tPOtVQ7iy7Mwl9ZQfRZkf6
- bliS+i3bWoy6bEhlmuZfV3VjD4sCpiQQ4aK6Tj4zmfPuMQeD/SUBEot5RJxltGohywk5
- zyUrNQfW2oVulSiSgnsVrW1yqKHLpu0J7pkNxnVOjQwlJL7idY/MOQMEfiq25XkexGbD
- o3XA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lb4Rv-0007nb-0b; Mon, 26 Apr 2021 12:51:08 -0400
+Received: by mail-wr1-x430.google.com with SMTP id e5so27954322wrg.7;
+ Mon, 26 Apr 2021 09:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VaLP2NqkUrm2QZV4VAYgWNe7cOSrZHnz0W/0W6GKOKU=;
+ b=O/W0X0XsuWUaFNzF+sgVBhYS0eMi6XEkjLchY/Ccxq/TLqa0fzDjsH7oUpz0CpYJkW
+ JiQH0fZ4koSXuYae0dxQY+3X7iwYMNHxcyzps5gLJ4Pppv53kBQhGN/lxNyhiNwD5qS9
+ L6IYN4a+NM5p9oqVmtgldqjDBcDC36dd+p/4d9RJLHkE+b9SumZ78maP92yOEXLAvgoO
+ +9mwxoKKOoRmlDa1N5wHRPzWgzGYTGjgq5nqtNyakkoD+cGV/g/ZvvulNMhBWeuYMgJk
+ 5Rh4OL7JzoCPXdCYPrey3JxQfkpXNPh9fdn8NfrWe+sEMknO+qPG/vq1xkmIk5utWqJ3
+ udfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=PFiygLIUMl9h/Ry6NeScprxAw8GpnGg3+2KO4C4FlvA=;
- b=ZndLny2dtZxP55uhtQCN6SnG5p30+lzH8jTX4FkZlubZA5vE4g/3VJivBUY7OaRm8x
- g5wwyY3B5O82i/K0gV3qXfEUMar1dk7nFLNyZvqkqfhyJHX7kk5Tb1tTNZ0qW/yAbJRs
- T6sz999STuWst/IniaABtLgdLHm7Kv4rGwDct36Y1vRPY3nmrrHKQ9tRi9sfxASA3Btg
- JXH5J8Q9LnkSJ6AXcR+JFHP+xkYJT6ZWjOj6ZnRDS4wDhGOqkn7PDNJIsnSFtrX7n3/f
- ZtTBr67IkvGSGjRttIiHsyJDwYCxsRb5frL9P9Vg30VLCxPkMvo9yqTvxvjV3jyoFBBc
- zi6g==
-X-Gm-Message-State: AOAM5328toIUuSP+hBXgng7Sgcjo2I898b/A3dGsc1+4+pq7w4W9U07R
- /7gFdf1YK9LpmzC1Wg5zYJWK0t9C/pPkoch1XtNXaEWbLJTjUkHS
-X-Google-Smtp-Source: ABdhPJw45RdWmkXWTaFUnV81KJGWtJhDk9izVxv2T3+Tqqhs4DdDz7btxER/ju4flqn0HXM8YF3PlNDbm2pobEleoKk=
-X-Received: by 2002:a67:1984:: with SMTP id 126mr13578770vsz.46.1619455762028; 
- Mon, 26 Apr 2021 09:49:22 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VaLP2NqkUrm2QZV4VAYgWNe7cOSrZHnz0W/0W6GKOKU=;
+ b=V7LYesmGR/gSQIyTcGjgH2U5GEdlEc/COJHN3/4fMxBdAHbJChaGjY9PqmsSR5E6xX
+ q48LLQsvbHSwVNXbS0JznRvx4cCpz/HxmMxXIhNU9GlbDyrkp+TN4Ag4gW5GInZOKaqe
+ iGWd/jlS0q1QUDGIJ4ASyaCsX66tPeqirhek7DZ77tNjYQtas2809EGEHEGRZHX3EHSv
+ 7fXUYKa2yVhhgCypbi37XdXhf8RocHDJpuoLPBTHlIJDMBJU2wcASNwG1MqBOjVKvgNo
+ KelXhpKlBwnYycta77GwkTJQ9EAksjo1lbIcAFWHNJz4hD/ltRdJTVce9F3J1b4pW4l2
+ dYOQ==
+X-Gm-Message-State: AOAM5312D4qH1DRWRkkrav1nJEAQzBSW6EIYC30ZIIl5W9byoMFlV1Pt
+ EeP2YyYCjtEO8goPX2RtNXQ=
+X-Google-Smtp-Source: ABdhPJw/7dU/DxSJvfuETVu0GVHROKtBbeXK4hNRrWzaAngV/6JN37XznqZO4XBiY0bi9TDZEOxvfw==
+X-Received: by 2002:a05:6000:114e:: with SMTP id
+ d14mr24090726wrx.281.1619455861212; 
+ Mon, 26 Apr 2021 09:51:01 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id y5sm676722wrm.61.2021.04.26.09.50.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Apr 2021 09:51:00 -0700 (PDT)
+Subject: Re: [PATCH v6 06/18] cpu: Assert DeviceClass::vmsd is NULL on user
+ emulation
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210422193902.2644064-1-f4bug@amsat.org>
+ <20210422193902.2644064-7-f4bug@amsat.org> <YIbnKL8wiR7afBbj@work-vm>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6c1a7a88-e7ff-14d1-e072-c576d57b7ea5@amsat.org>
+Date: Mon, 26 Apr 2021 18:50:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-From: Doug Evans <dje@google.com>
-Date: Mon, 26 Apr 2021 09:48:44 -0700
-Message-ID: <CADPb22QnVowGz2oCWk8mBtjZz-4Cuzu0z=LmfvwotG_QjbuPzQ@mail.gmail.com>
-Subject: Ethernet-over-usb with linux guest using USB Device Controller ?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: kraxel@redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006d80c805c0e2ed66"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=dje@google.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <YIbnKL8wiR7afBbj@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,82 +89,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006d80c805c0e2ed66
-Content-Type: text/plain; charset="UTF-8"
+On 4/26/21 6:15 PM, Dr. David Alan Gilbert wrote:
+> * Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
+>> Migration is specific to system emulation.
+>>
+>> Restrict current DeviceClass::vmsd to sysemu using #ifdef'ry,
+>> and assert in cpu_exec_realizefn() that dc->vmsd not set under
+>> user emulation.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  cpu.c                  | 1 +
+>>  target/sh4/cpu.c       | 5 +++--
+>>  target/unicore32/cpu.c | 4 ++++
+>>  target/xtensa/cpu.c    | 4 +++-
+>>  4 files changed, 11 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/cpu.c b/cpu.c
+>> index bfbe5a66f95..4fed04219df 100644
+>> --- a/cpu.c
+>> +++ b/cpu.c
+>> @@ -138,6 +138,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+>>  #endif /* CONFIG_TCG */
+>>  
+>>  #ifdef CONFIG_USER_ONLY
+>> +    assert(qdev_get_vmsd(DEVICE(cpu)) == NULL);
+> 
+> Why not make that:
+>    assert(qdev_get_vmsd(DEVICE(cpu)) == NULL ||
+>           qdev_get_vmsd(DEVICE(cpu)->unmigratable)
+> 
+> then you don't have to worry about the changes below.
 
-Hi.
+Thanks for the tip! For my defense the VMStateDescription
+fields aren't documented at all ;)
 
-I'm working on a project where I want to have the linux qemu guest
-communicate with another linux system via ethernet-over-usb (as far as the
-guest is concerned, as it will be using a usb network gadget).
-In this case the linux guest will be using a USB Device Controller (UDC) to
-drive its side of the connection, and the protocol will be, IIUC, CDC-ECM.
-
-The modeling would basically look like:
-
-linux-guest <--> UDC-model <--> ?#1 <--> ?#2 <--> linux-host
-|<-------------------- QEMU -------------->|
-
-UDC-model will be working with CDC-ECM, but is there a use-case where we'd
-want "?#1" to be libslirp and "?#2" to be the host's IP network? Another
-use case is propagating CDC-ECM (or the USB packets in general) outside of
-QEMU such that it can be fed directly into the USB of the host (or remote
-host).
-
-Questions: Is this support in QEMU and if so got any pointers to source for
-existing examples?
-If not, any guidance on how to proceed?
-
-Of course we'd want this to not be a one-off. E.g., the code would be
-partitioned such that the UDC-model-independent-support would be available
-to other UDC models to use. Thus perhaps this falls under the scope of
-things like this?
-https://yhbt.net/lore/all/YFDo%2FoHikOEcXFcg@work-vm/
-I'm new to all of this side of USB btw ...
-
---0000000000006d80c805c0e2ed66
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hi.=
-<br></div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
-<div class=3D"gmail_default" style=3D"font-size:small">I&#39;m working on a=
- project where I want to have the linux qemu guest communicate with another=
- linux system via ethernet-over-usb (as far as the guest is concerned, as i=
-t will be using a usb network gadget).</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">In this case the linux guest will be using a USB De=
-vice Controller (UDC) to drive its side of the connection, and the protocol=
- will be, IIUC, CDC-ECM.</div><div class=3D"gmail_default" style=3D"font-si=
-ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
-The modeling would basically look like:</div><div class=3D"gmail_default" s=
-tyle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">linux-guest &lt;--&gt; UDC-model &lt;--&gt; ?#1=C2=A0&lt;--&=
-gt; ?#2 &lt;--&gt; linux-host</div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">|&lt;-------------------- QEMU --------------&gt;|</div><div=
- class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"=
-gmail_default" style=3D"font-size:small">UDC-model will be working with CDC=
--ECM, but is there a use-case where we&#39;d want &quot;?#1&quot; to be lib=
-slirp and &quot;?#2&quot; to be the host&#39;s IP network? Another use case=
- is propagating CDC-ECM (or the USB packets in general) outside of QEMU suc=
-h that it can be fed directly into the USB of the host (or remote host).</d=
-iv><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">Questions: Is this support =
-in QEMU and if so got any pointers to source for existing examples?</div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">If not, any guidance o=
-n how to proceed?</div><div class=3D"gmail_default" style=3D"font-size:smal=
-l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Of cour=
-se we&#39;d want this to not be a one-off. E.g., the code would be partitio=
-ned such that the UDC-model-independent-support would be available to other=
- UDC models to use. Thus perhaps this falls under the scope of things like =
-this?<br></div><div class=3D"gmail_default" style=3D"font-size:small"><a hr=
-ef=3D"https://yhbt.net/lore/all/YFDo%2FoHikOEcXFcg@work-vm/">https://yhbt.n=
-et/lore/all/YFDo%2FoHikOEcXFcg@work-vm/</a><br></div><div class=3D"gmail_de=
-fault" style=3D"font-size:small">I&#39;m new to all of this side of USB btw=
- ...</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
-</div>
-
---0000000000006d80c805c0e2ed66--
+> 
+> Dave
+> 
+>>      assert(cc->vmsd == NULL);
+>>  #else
+>>      if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
 
