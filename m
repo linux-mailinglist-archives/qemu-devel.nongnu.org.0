@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0EB36A9F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 01:54:40 +0200 (CEST)
-Received: from localhost ([::1]:54402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B4F36AAC8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 04:51:43 +0200 (CEST)
+Received: from localhost ([::1]:49846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1laoaE-0004ds-Pk
-	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 19:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
+	id 1larLa-00074L-87
+	for lists+qemu-devel@lfdr.de; Sun, 25 Apr 2021 22:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laoZ2-00049t-Sn
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 19:53:24 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:40672)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1larKb-0006et-MK
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1laoZ0-0007jr-Ve
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 19:53:24 -0400
-Received: by mail-pf1-x432.google.com with SMTP id a12so37779894pfc.7
- for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 16:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q4JCQATsxxkIpfy48Rs3s5iga118ITnK0uHNIcGHdEQ=;
- b=qegY1TQmwv0NHLcyq3LLpN1vpVzA4Uu9qQ3rjWnZOMp3GQvGXal6OVDXomGISWReWW
- /9G+MKaE3Bo8J+TEQIZcGVw7K4YCq2VsG39Gb4VakDWFGXo9lqSItFMlLdeC2JFrxBTX
- AtZe22oDd4m5xVWNllVGnLnUGvTB3FplIqNZX/vfpz5laNk0jWVlvLuU0U9Co4XZ1K00
- k0u0eGjGqBhpyhKfGyiy2X70SZM6izc5wo1sldBt5FnYsnhnBAmWR6Xeaz2FJrom0A3a
- nzfyA/fACOapY90c0mSABzXNJP0WVwhmd5IgbInj7UbcsPMsrj4HHf1cPgotgQ7oQI7z
- n+YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q4JCQATsxxkIpfy48Rs3s5iga118ITnK0uHNIcGHdEQ=;
- b=IyQwONghQ6iMMkwW6ugUrbaX2qIA5b9m5diCFt0zjnJgEQoJ2809a51RZDA25B5sju
- Z3HRi0Z4WCa1o2WcxISjL6W71R9AnKLwY4WcnVl0PgVXaNvQ4pKDSPRIyopYIl8H1PmR
- On73/0f/xRWdKJ2KNeTveQOwH8VF60XjAJo2KBdIZON1X94p8KgNmMHN1yxeb3siQm9G
- jKsN/VBzO4u1F5glSYBUtjqO1K2Tueq00EyGXOG9ChTChqwegTw3u/Y7JB4G2CIA9G19
- xIdXVVsSo6BmV8PtQY/NZTc8rRxGqFHy33AdQdGzwtUogsFVW+rqs2FtIbgTQsU0swS1
- Lskw==
-X-Gm-Message-State: AOAM532+5Y5b7uDeEEcRNqbn/8wus7zzloVJ6n+YjRdvAW2ZT6puvNGl
- esLBs0jivxJIYBs7jlZ5i8fTcA==
-X-Google-Smtp-Source: ABdhPJzi6UpnKcNpFsUN46T0UGiInlfV1KErIDscfrEQ++IG11XEVM4RKa57QwR1HQGH74vpjEQkTA==
-X-Received: by 2002:a63:d755:: with SMTP id w21mr14655232pgi.400.1619394797005; 
- Sun, 25 Apr 2021 16:53:17 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id w134sm10149017pfd.173.2021.04.25.16.53.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Apr 2021 16:53:16 -0700 (PDT)
-Subject: Re: [PATCH v3 08/10] target/riscv: Consolidate RV32/64 32-bit
- instructions
-To: Alistair Francis <alistair23@gmail.com>
-References: <cover.1619234854.git.alistair.francis@wdc.com>
- <db709360e2be47d2f9c6483ab973fe4791aefa77.1619234854.git.alistair.francis@wdc.com>
- <2ea910ea-690a-bdac-bcdf-436bbe28964e@linaro.org>
- <CAKmqyKP5tuddPKiSOt1V6YyDjV+9VAM2vU=F1BvLgwXWHm=VKg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <13a345dc-4143-339e-1c7c-5f9a1cd7eac3@linaro.org>
-Date: Sun, 25 Apr 2021 16:53:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1larKZ-0005Ci-Kc
+ for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:50:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1larKX-000129-UQ
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 02:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E383B2E8060
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 02:50:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKP5tuddPKiSOt1V6YyDjV+9VAM2vU=F1BvLgwXWHm=VKg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Apr 2021 02:45:32 -0000
+From: ZhiQiang Yan <1926052@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: davhau
+X-Launchpad-Bug-Reporter: David Hauer (davhau)
+X-Launchpad-Bug-Modifier: ZhiQiang Yan (v1nke)
+References: <161932389728.4719.8630751722997987791.malonedeb@gac.canonical.com>
+Message-Id: <161940513299.17328.849177151953395434.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1926052] Re: qemu freezes during grub on arch cloudimg 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 6a4b330781cdc1c3321633450a7307bd2e0a3ec0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,38 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1926052 <1926052@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/25/21 3:58 PM, Alistair Francis wrote:
-> On Sun, Apr 25, 2021 at 3:08 AM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 4/23/21 8:34 PM, Alistair Francis wrote:
->>> --- a/target/riscv/translate.c
->>> +++ b/target/riscv/translate.c
->>> @@ -74,8 +74,6 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
->>>
->>>    #ifdef TARGET_RISCV32
->>>    # define is_32bit(ctx)  true
->>> -#elif defined(CONFIG_USER_ONLY)
->>> -# define is_32bit(ctx)  false
->>>    #else
->>>    static inline bool is_32bit(DisasContext *ctx)
->>>    {
->>
->> Rebase error?
-> 
-> This is required to avoid warnings/errors before this commit as
-> `is_32bit()` isn't called until this patch.
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-If !defined(TARGET_RISCV32) && defined(CONFIG_USER_ONLY), then is_32bit *is* 
-false.  This isn't system mode and it can't be changed.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926052
 
-r~
+Title:
+  qemu freezes during grub on arch cloudimg
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  When booting the Arch Linux cloud image and setting `-nographic`, qemu wi=
+ll freeze during the grub bootloader.
+  Tested with qemu 5.1 and 5.2.
+
+  Reproduce:
+  ```
+  wget https://gitlab.archlinux.org/archlinux/arch-boxes/-/jobs/20342/artif=
+acts/raw/output/Arch-Linux-x86_64-basic-20210420.20342.qcow2
+
+  qemu-system-x86_64 -hda Arch-Linux-x86_64-basic-20210420.20342.qcow2
+  -nographic
+
+  ```
+
+  It will get stuck while displaying `Welcome to GRUB!`
+  If -nographic is omitted, it will continue to boot (without any keyboard =
+interaction)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926052/+subscriptions
 
