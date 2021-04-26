@@ -2,73 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3375436B81B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:31:23 +0200 (CEST)
-Received: from localhost ([::1]:58912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A266E36B822
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:36:19 +0200 (CEST)
+Received: from localhost ([::1]:37188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb54s-0004V9-9w
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56864)
+	id 1lb59e-0007FO-3y
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
- id 1lb53F-0003Kf-SC
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:29:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
- id 1lb53C-000050-Gw
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:29:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619458177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r2W8aXggky9eFtnt+1iyKlR7Hv6Uwev4BL7Ynd0oXHw=;
- b=OM3JIkb0gTTu+R7RB9ftFMHOCTz3K2El0EoWBItjZ7TkCx7A1bLXXuJoIkFASJAkqFnulQ
- 0+WVxaJ1+O5MspQyqmhmgyDzAxlLIRy0gJ+wj3X6vm4cFNN9QtEXyLR5+5bLZ73xzdT/7q
- VAX+yvtc+j8KIu480dlDQwzrqGxqkIw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-o8dwcJ56OJeV2ZDOcmecgw-1; Mon, 26 Apr 2021 13:28:28 -0400
-X-MC-Unique: o8dwcJ56OJeV2ZDOcmecgw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9595381425A;
- Mon, 26 Apr 2021 17:28:27 +0000 (UTC)
-Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E3B05D71F;
- Mon, 26 Apr 2021 17:28:27 +0000 (UTC)
-Received: by fuller.cnet (Postfix, from userid 1000)
- id 41571416D899; Mon, 26 Apr 2021 14:28:02 -0300 (-03)
-Date: Mon, 26 Apr 2021 14:28:02 -0300
-From: Marcelo Tosatti <mtosatti@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: constant_tsc support for SVM guest
-Message-ID: <20210426172802.GA25302@fuller.cnet>
-References: <a6662944-18ac-5075-1427-f92ae8e20163@amd.com>
- <20210423212744.4urvjdirnqdvqcq5@habkost.net>
-MIME-Version: 1.0
-In-Reply-To: <20210423212744.4urvjdirnqdvqcq5@habkost.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mtosatti@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mtosatti@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
+ id 1lb56f-0005O2-CE
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:33:17 -0400
+Received: from static-71-162-116-19.bstnma.fios.verizon.net
+ ([71.162.116.19]:39810 helo=server4.localdomain)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <chris@server4.localdomain>) id 1lb56c-0001oo-Tk
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:33:13 -0400
+Received: by server4.localdomain (Postfix, from userid 503)
+ id F24B160311111; Mon, 26 Apr 2021 13:33:09 -0400 (EDT)
+From: Chris Browy <cbrowy@avery-design.com>
+To: mst@redhat.com
+Subject: [PATCH v5 cxl2.0-v3-doe 4/6] cxl/compliance: CXL Compliance Data
+ Object Exchange implementation
+Date: Mon, 26 Apr 2021 13:33:08 -0400
+Message-Id: <1619458388-14167-1-git-send-email-cbrowy@avery-design.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
+References: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
+Received-SPF: none client-ip=71.162.116.19;
+ envelope-from=chris@server4.localdomain; helo=server4.localdomain
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.399,
+ NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,150 +51,570 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Moger, Babu" <babu.moger@amd.com>, Wei Huang <wei.huang2@amd.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
+ vishal.l.verma@intel.com, jgroves@micron.com,
+ Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com,
+ linux-cxl@vger.kernel.org, f4bug@amsat.org, hchkuo@avery-design.com.tw,
+ tyshao@avery-design.com.tw, jonathan.cameron@huawei.com, imammedo@redhat.com,
+ dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: hchkuo <hchkuo@avery-design.com.tw>
 
-Hi Wei, Eduardo,
+The Data Object Exchange implementation of CXL Compliance Mode is
+referring to "Compute Express Link (CXL) Specification, Rev. 2.0, Oct.
+2020".
 
-On Fri, Apr 23, 2021 at 05:27:44PM -0400, Eduardo Habkost wrote:
-> On Fri, Apr 23, 2021 at 12:32:00AM -0500, Wei Huang wrote:
-> > There was a customer request for const_tsc support on AMD guests. Right now
-> > this feature is turned off by default for QEMU x86 CPU types (in
-> > CPUID_Fn80000007_EDX[8]). However we are seeing a discrepancy in guest VM
-> > behavior between Intel and AMD.
-> > 
-> > In Linux kernel, Intel x86 code enables X86_FEATURE_CONSTANT_TSC based on
-> > vCPU's family & model. So it ignores CPUID_Fn80000007_EDX[8] and guest VMs
-> > have const_tsc enabled. On AMD, however, the kernel checks
-> > CPUID_Fn80000007_EDX[8]. So const_tsc is disabled on AMD by default.
+The data structure of CXL compliance request and response is added to
+the header. Due to the scope limitation of QEMU, most of the compliance
+response is limited to returning corresponding length.
 
-EAX=80000007h: Advanced Power Management Information
-This function provides advanced power management feature identifiers. 
-EDX bit 8 indicates support for invariant TSC. 
+A DOE capability of CXL Compliance is added to hw/mem/cxl_type3.c with
+capability offset 0x160. The config read/write to this capability range
+can be generated in the OS to request the Compliance info.
 
-Intel documentation states:
+Signed-off-by: Chris Browy <cbrowy@avery-design.com>
+---
+ hw/mem/cxl_type3.c              | 147 ++++++++++++++++
+ include/hw/cxl/cxl_compliance.h | 293 ++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_component.h  |   3 +
+ include/hw/cxl/cxl_device.h     |   3 +
+ include/hw/cxl/cxl_pci.h        |   1 +
+ 5 files changed, 447 insertions(+)
+ create mode 100644 include/hw/cxl/cxl_compliance.h
 
-"The time stamp counter in newer processors may support an enhancement,
-referred to as invariant TSC. Processor's support for invariant TSC
-is indicated by CPUID.80000007H:EDX[8]. The invariant TSC will run
-at a constant rate in all ACPI P-, C-. and T-states. This is the
-architectural behavior moving forward. On processors with invariant TSC
-support, the OS may use the TSC for wall clock timer services (instead
-of ACPI or HPET timers). TSC reads are much more efficient and do not
-incur the overhead associated with a ring transition or access to a
-platform resource."
-
-X86_FEATURE_NONSTOP_TSC is enabled (on both Intel and AMD) by checking
-the CPUID_Fn80000007_EDX[8] bit.
-
-> Oh.  This seems to defeat the purpose of the invtsc migration
-> blocker we have.
-> 
-> Do we know when this behavior was introduced in Linux?
-> 
-> > 
-> > I am thinking turning on invtsc for EPYC CPU types (see example below). Most
-> > AMD server CPUs have supported invariant TSC for a long time. So this change
-> > is compatible with the hardware behavior. The only problem is live migration
-> > support, which will be blocked because of invtsc. However this problem
-> > should be considered very minor because most server CPUs support TscRateMsr
-> > (see CPUID_Fn8000000A_EDX[4]), allowing VMs to migrate among CPUs with
-> > different TSC rates. This live migration restriction can be lifted as long
-> > as the destination supports TscRateMsr or has the same frequency as the
-> > source (QEMU/libvirt do it).
-
-Yes.
-
-> > [BTW I believe this migration limitation might be unnecessary because it is
-> > apparently OK for Intel guests to ignore invtsc while claiming const_tsc.
-> > Have anyone reported issues?]
-> 
-> CCing Marcelo, who originally added the migration blocker in QEMU.
-
-The reasoning behind the migration blocker was to ensure that 
-the invariant TSC meaning as defined:
-
-"The invariant TSC will run at a constant rate in all ACPI P-, C-. and T-states"
-
-Would be maintained across migration.
-
-> > 
-> > Do I miss anything here? Any comments about the proposal?
-> > 
-> > Thanks,
-> > -Wei
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index ad99cad0e7..3c48266884 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -4077,6 +4076,21 @@ static X86CPUDefinition builtin_x86_defs[] = {
-> >                      { /* end of list */ }
-> >                  }
-> >              },
-> > +            {
-> > +                .version = 4,
-> > +                .alias = "EPYC-IBPB",
-> > +                .props = (PropValue[]) {
-> > +                    { "ibpb", "on" },
-> > +                    { "perfctr-core", "on" },
-> > +                    { "clzero", "on" },
-> > +                    { "xsaveerptr", "on" },
-> > +                    { "xsaves", "on" },
-> 
-> You don't need to copy the properties from the previous version.
-> The properties of version N are applied on top of the properties
-> of version (N-1).
-> 
-> > +                    { "invtsc", "on" },
-> > +                    { "model-id",
-> > +                      "AMD EPYC Processor" },
-> > +                    { /* end of list */ }
-> > +                }
-> > +            },
-> >              { /* end of list */ }
-> >          }
-> >      },
-> > @@ -4189,6 +4203,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
-> >                      { /* end of list */ }
-> >                  }
-> >              },
-> > +            {
-> > +                .version = 3,
-> > +                .props = (PropValue[]) {
-> > +                    { "ibrs", "on" },
-> > +                    { "amd-ssbd", "on" },
-> > +                    { "invtsc", "on" },
-> > +                    { /* end of list */ }
-> > +                }
-> > +            },
-> >              { /* end of list */ }
-> >          }
-> >      },
-> > @@ -4246,6 +4269,17 @@ static X86CPUDefinition builtin_x86_defs[] = {
-> >          .xlevel = 0x8000001E,
-> >          .model_id = "AMD EPYC-Milan Processor",
-> >          .cache_info = &epyc_milan_cache_info,
-> > +        .versions = (X86CPUVersionDefinition[]) {
-> > +            { .version = 1 },
-> > +            {
-> > +                .version = 2,
-> > +                .props = (PropValue[]) {
-> > +                    { "invtsc", "on" },
-> > +                    { /* end of list */ }
-> > +                }
-> > +            },
-> > +            { /* end of list */ }
-> > +        }
-> > 
-> 
-> -- 
-> Eduardo
-> 
-> 
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index bf33ddb915..569872eb36 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -13,6 +13,134 @@
+ #include "qemu/rcu.h"
+ #include "sysemu/hostmem.h"
+ #include "hw/cxl/cxl.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++
++#define DWORD_BYTE 4
++
++bool cxl_doe_compliance_rsp(DOECap *doe_cap)
++{
++    CompRsp *rsp = &CT3(doe_cap->pdev)->cxl_cstate.compliance.response;
++    struct compliance_req_header *req = pcie_doe_get_write_mbox_ptr(doe_cap);
++    uint32_t type, req_len = 0, rsp_len = 0;
++
++    type = req->req_code;
++
++    switch (type) {
++    case CXL_COMP_MODE_CAP:
++        req_len = sizeof(struct cxl_compliance_cap_req);
++        rsp_len = sizeof(struct cxl_compliance_cap_rsp);
++        rsp->cap_rsp.status = 0x0;
++        rsp->cap_rsp.available_cap_bitmask = 0;
++        rsp->cap_rsp.enabled_cap_bitmask = 0;
++        break;
++    case CXL_COMP_MODE_STATUS:
++        req_len = sizeof(struct cxl_compliance_status_req);
++        rsp_len = sizeof(struct cxl_compliance_status_rsp);
++        rsp->status_rsp.cap_bitfield = 0;
++        rsp->status_rsp.cache_size = 0;
++        rsp->status_rsp.cache_size_units = 0;
++        break;
++    case CXL_COMP_MODE_HALT:
++        req_len = sizeof(struct cxl_compliance_halt_req);
++        rsp_len = sizeof(struct cxl_compliance_halt_rsp);
++        break;
++    case CXL_COMP_MODE_MULT_WR_STREAM:
++        req_len = sizeof(struct cxl_compliance_multi_write_streaming_req);
++        rsp_len = sizeof(struct cxl_compliance_multi_write_streaming_rsp);
++        break;
++    case CXL_COMP_MODE_PRO_CON:
++        req_len = sizeof(struct cxl_compliance_producer_consumer_req);
++        rsp_len = sizeof(struct cxl_compliance_producer_consumer_rsp);
++        break;
++    case CXL_COMP_MODE_BOGUS:
++        req_len = sizeof(struct cxl_compliance_bogus_writes_req);
++        rsp_len = sizeof(struct cxl_compliance_bogus_writes_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_POISON:
++        req_len = sizeof(struct cxl_compliance_inject_poison_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_poison_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_CRC:
++        req_len = sizeof(struct cxl_compliance_inject_crc_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_crc_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_FC:
++        req_len = sizeof(struct cxl_compliance_inject_flow_ctrl_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_flow_ctrl_rsp);
++        break;
++    case CXL_COMP_MODE_TOGGLE_CACHE:
++        req_len = sizeof(struct cxl_compliance_toggle_cache_flush_req);
++        rsp_len = sizeof(struct cxl_compliance_toggle_cache_flush_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_MAC:
++        req_len = sizeof(struct cxl_compliance_inject_mac_delay_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_mac_delay_rsp);
++        break;
++    case CXL_COMP_MODE_INS_UNEXP_MAC:
++        req_len = sizeof(struct cxl_compliance_insert_unexp_mac_req);
++        rsp_len = sizeof(struct cxl_compliance_insert_unexp_mac_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_VIRAL:
++        req_len = sizeof(struct cxl_compliance_inject_viral_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_viral_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_ALMP:
++        req_len = sizeof(struct cxl_compliance_inject_almp_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_almp_rsp);
++        break;
++    case CXL_COMP_MODE_IGN_ALMP:
++        req_len = sizeof(struct cxl_compliance_ignore_almp_req);
++        rsp_len = sizeof(struct cxl_compliance_ignore_almp_rsp);
++        break;
++    case CXL_COMP_MODE_INJ_BIT_ERR:
++        req_len = sizeof(struct cxl_compliance_inject_bit_err_in_flit_req);
++        rsp_len = sizeof(struct cxl_compliance_inject_bit_err_in_flit_rsp);
++        break;
++    default:
++        break;
++    }
++
++    /* Discard if request length mismatched */
++    if (pcie_doe_get_obj_len(req) < DIV_ROUND_UP(req_len, DWORD_BYTE)) {
++        return false;
++    }
++
++    /* Common fields for each compliance type */
++    rsp->header.doe_header.vendor_id = CXL_VENDOR_ID;
++    rsp->header.doe_header.data_obj_type = CXL_DOE_COMPLIANCE;
++    rsp->header.doe_header.length = DIV_ROUND_UP(rsp_len, DWORD_BYTE);
++    rsp->header.rsp_code = type;
++    rsp->header.version = 0x1;
++    rsp->header.length = rsp_len;
++
++    memcpy(doe_cap->read_mbox, rsp, rsp_len);
++
++    doe_cap->read_mbox_len += rsp->header.doe_header.length;
++
++    return true;
++}
++
++static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
++{
++    CXLType3Dev *ct3d = CT3(pci_dev);
++    uint32_t val;
++
++    if (pcie_doe_read_config(&ct3d->doe_comp, addr, size, &val)) {
++        return val;
++    }
++
++    return pci_default_read_config(pci_dev, addr, size);
++}
++
++static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
++                              int size)
++{
++    CXLType3Dev *ct3d = CT3(pci_dev);
++
++    pcie_doe_write_config(&ct3d->doe_comp, addr, val, size);
++    pci_default_write_config(pci_dev, addr, val, size);
++}
+ 
+ static void build_dvsecs(CXLType3Dev *ct3d)
+ {
+@@ -203,6 +331,11 @@ static MemoryRegion *cxl_md_get_memory_region(MemoryDeviceState *md,
+     return ct3d->cxl_dstate.pmem;
+ }
+ 
++static DOEProtocol doe_comp_prot[] = {
++    {CXL_VENDOR_ID, CXL_DOE_COMPLIANCE, cxl_doe_compliance_rsp},
++    {},
++};
++
+ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     CXLType3Dev *ct3d = CT3(pci_dev);
+@@ -210,6 +343,8 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     ComponentRegisters *regs = &cxl_cstate->crb;
+     MemoryRegion *mr = &regs->component_registers;
+     uint8_t *pci_conf = pci_dev->config;
++    unsigned short msix_num = 1;
++    int i;
+ 
+     if (!ct3d->cxl_dstate.pmem) {
+         cxl_setup_memory(ct3d, errp);
+@@ -239,6 +374,15 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+                      PCI_BASE_ADDRESS_SPACE_MEMORY |
+                          PCI_BASE_ADDRESS_MEM_TYPE_64,
+                      &ct3d->cxl_dstate.device_registers);
++
++    /* MSI(-X) Initailization */
++    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
++    for (i = 0; i < msix_num; i++) {
++        msix_vector_use(pci_dev, i);
++    }
++
++    /* DOE Initailization */
++    pcie_doe_init(pci_dev, &ct3d->doe_comp, 0x160, doe_comp_prot, true, 0);
+ }
+ 
+ static uint64_t cxl_md_get_addr(const MemoryDeviceState *md)
+@@ -357,6 +501,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
+     MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
++
++    pc->config_write = ct3d_config_write;
++    pc->config_read = ct3d_config_read;
+     CXLType3Class *cvc = CXL_TYPE3_DEV_CLASS(oc);
+ 
+     pc->realize = ct3_realize;
+diff --git a/include/hw/cxl/cxl_compliance.h b/include/hw/cxl/cxl_compliance.h
+new file mode 100644
+index 0000000000..efa3e052d3
+--- /dev/null
++++ b/include/hw/cxl/cxl_compliance.h
+@@ -0,0 +1,293 @@
++/*
++ * CXL Compliance Structure
++ *
++ * Copyright (C) 2021 Avery Design Systems, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef CXL_COMPL_H
++#define CXL_COMPL_H
++
++#include "hw/cxl/cxl_pci.h"
++
++/*
++ * Reference:
++ *   Compute Express Link (CXL) Specification, Rev. 2.0, Oct. 2020
++ */
++/* Compliance Mode Data Object Header - 14.16.4 Table 275 */
++#define CXL_DOE_COMPLIANCE        0
++#define CXL_DOE_PROTOCOL_COMPLIANCE ((CXL_DOE_COMPLIANCE << 16) | CXL_VENDOR_ID)
++
++/* Compliance Mode Return Values - 14.16.4 Table 276 */
++enum comp_status {
++    CXL_COMP_MODE_RET_SUCC,
++    CXL_COMP_MODE_RET_NOT_AUTH,
++    CXL_COMP_MODE_RET_UNKNOWN_FAIL,
++    CXL_COMP_MODE_RET_UNSUP_INJ_FUNC,
++    CXL_COMP_MODE_RET_INTERNAL_ERR,
++    CXL_COMP_MODE_RET_BUSY,
++    CXL_COMP_MODE_RET_NOT_INIT,
++};
++
++/* Compliance Mode Types - 14.16.4 */
++enum comp_type {
++    CXL_COMP_MODE_CAP,
++    CXL_COMP_MODE_STATUS,
++    CXL_COMP_MODE_HALT,
++    CXL_COMP_MODE_MULT_WR_STREAM,
++    CXL_COMP_MODE_PRO_CON,
++    CXL_COMP_MODE_BOGUS,
++    CXL_COMP_MODE_INJ_POISON,
++    CXL_COMP_MODE_INJ_CRC,
++    CXL_COMP_MODE_INJ_FC,
++    CXL_COMP_MODE_TOGGLE_CACHE,
++    CXL_COMP_MODE_INJ_MAC,
++    CXL_COMP_MODE_INS_UNEXP_MAC,
++    CXL_COMP_MODE_INJ_VIRAL,
++    CXL_COMP_MODE_INJ_ALMP,
++    CXL_COMP_MODE_IGN_ALMP,
++    CXL_COMP_MODE_INJ_BIT_ERR,
++};
++
++typedef struct compliance_req_header CompReqHeader;
++typedef struct compliance_rsp_header CompRspHeader;
++
++struct compliance_req_header {
++    DOEHeader doe_header;
++    uint8_t req_code;
++    uint8_t version;
++    uint16_t reserved;
++} QEMU_PACKED;
++
++struct compliance_rsp_header {
++    DOEHeader doe_header;
++    uint8_t rsp_code;
++    uint8_t version;
++    uint8_t length;
++} QEMU_PACKED;
++
++/* Special Patterns of response */
++struct status_rsp {
++    CompRspHeader header;
++    uint8_t status;
++} QEMU_PACKED;
++
++struct len_rsvd_rsp {
++    /* The length field in header is reserved. */
++    CompRspHeader header;
++    uint8_t reserved[5];
++} QEMU_PACKED;
++
++/* 14.16.4.1 Table 277 */
++struct cxl_compliance_cap_req {
++    CompReqHeader header;
++} QEMU_PACKED;
++
++/* 14.16.4.1 Table 278 */
++struct cxl_compliance_cap_rsp {
++    CompRspHeader header;
++    uint8_t status;
++    uint64_t available_cap_bitmask;
++    uint64_t enabled_cap_bitmask;
++} QEMU_PACKED;
++
++/* 14.16.4.2 Table 279 */
++struct cxl_compliance_status_req {
++    CompReqHeader header;
++} QEMU_PACKED;
++
++/* 14.16.4.2 Table 280 */
++struct cxl_compliance_status_rsp {
++    CompRspHeader header;
++    uint32_t cap_bitfield;
++    uint16_t cache_size;
++    uint8_t cache_size_units;
++} QEMU_PACKED;
++
++/* 14.16.4.3 Table 281 */
++struct cxl_compliance_halt_req {
++    CompReqHeader header;
++} QEMU_PACKED;
++
++/* 14.16.4.3 Table 282 */
++#define cxl_compliance_halt_rsp status_rsp
++
++/* 14.16.4.4 Table 283 */
++struct cxl_compliance_multi_write_streaming_req {
++    CompReqHeader header;
++    uint8_t protocol;
++    uint8_t virtual_addr;
++    uint8_t self_checking;
++    uint8_t verify_read_semantics;
++    uint8_t num_inc;
++    uint8_t num_sets;
++    uint8_t num_loops;
++    uint8_t reserved2;
++    uint64_t start_addr;
++    uint64_t write_addr;
++    uint64_t writeback_addr;
++    uint64_t byte_mask;
++    uint32_t addr_incr;
++    uint32_t set_offset;
++    uint32_t pattern_p;
++    uint32_t inc_pattern_b;
++} QEMU_PACKED;
++
++/* 14.16.4.4 Table 284 */
++#define cxl_compliance_multi_write_streaming_rsp status_rsp
++
++/* 14.16.4.5 Table 285 */
++struct cxl_compliance_producer_consumer_req {
++    CompReqHeader header;
++    uint8_t protocol;
++    uint8_t num_inc;
++    uint8_t num_sets;
++    uint8_t num_loops;
++    uint8_t write_semantics;
++    uint8_t reserved2[3];
++    uint64_t start_addr;
++    uint64_t byte_mask;
++    uint32_t addr_incr;
++    uint32_t set_offset;
++    uint32_t pattern;
++} QEMU_PACKED;
++
++/* 14.16.4.5 Table 286 */
++#define cxl_compliance_producer_consumer_rsp status_rsp
++
++/* 14.16.4.6 Table 287 */
++struct cxl_compliance_bogus_writes_req {
++    CompReqHeader header;
++    uint8_t count;
++    uint8_t reserved;
++    uint32_t pattern;
++} QEMU_PACKED;
++
++/* 14.16.4.6 Table 288 */
++#define cxl_compliance_bogus_writes_rsp status_rsp
++
++/* 14.16.4.7 Table 289 */
++struct cxl_compliance_inject_poison_req {
++    CompReqHeader header;
++    uint8_t protocol;
++} QEMU_PACKED;
++
++/* 14.16.4.7 Table 290 */
++#define cxl_compliance_inject_poison_rsp status_rsp
++
++/* 14.16.4.8 Table 291 */
++struct cxl_compliance_inject_crc_req {
++    CompReqHeader header;
++    uint8_t num_bits_flip;
++    uint8_t num_flits_inj;
++} QEMU_PACKED;
++
++/* 14.16.4.8 Table 292 */
++#define cxl_compliance_inject_crc_rsp status_rsp
++
++/* 14.16.4.9 Table 293 */
++struct cxl_compliance_inject_flow_ctrl_req {
++    CompReqHeader header;
++    uint8_t inj_flow_control;
++} QEMU_PACKED;
++
++/* 14.16.4.9 Table 294 */
++#define cxl_compliance_inject_flow_ctrl_rsp status_rsp
++
++/* 14.16.4.10 Table 295 */
++struct cxl_compliance_toggle_cache_flush_req {
++    CompReqHeader header;
++    uint8_t cache_flush_control;
++} QEMU_PACKED;
++
++/* 14.16.4.10 Table 296 */
++#define cxl_compliance_toggle_cache_flush_rsp status_rsp
++
++/* 14.16.4.11 Table 297 */
++struct cxl_compliance_inject_mac_delay_req {
++    CompReqHeader header;
++    uint8_t enable;
++    uint8_t mode;
++    uint8_t delay;
++} QEMU_PACKED;
++
++/* 14.16.4.11 Table 298 */
++#define cxl_compliance_inject_mac_delay_rsp status_rsp
++
++/* 14.16.4.12 Table 299 */
++struct cxl_compliance_insert_unexp_mac_req {
++    CompReqHeader header;
++    uint8_t opcode;
++    uint8_t mode;
++} QEMU_PACKED;
++
++/* 14.16.4.12 Table 300 */
++#define cxl_compliance_insert_unexp_mac_rsp status_rsp
++
++/* 14.16.4.13 Table 301 */
++struct cxl_compliance_inject_viral_req {
++    CompReqHeader header;
++    uint8_t protocol;
++} QEMU_PACKED;
++
++/* 14.16.4.13 Table 302 */
++#define cxl_compliance_inject_viral_rsp status_rsp
++
++/* 14.16.4.14 Table 303 */
++struct cxl_compliance_inject_almp_req {
++    CompReqHeader header;
++    uint8_t opcode;
++    uint8_t reserved2[3];
++} QEMU_PACKED;
++
++/* 14.16.4.14 Table 304 */
++#define cxl_compliance_inject_almp_rsp len_rsvd_rsp
++
++/* 14.16.4.15 Table 305 */
++struct cxl_compliance_ignore_almp_req {
++    CompReqHeader header;
++    uint8_t opcode;
++    uint8_t reserved2[3];
++} QEMU_PACKED;
++
++/* 14.16.4.15 Table 306 */
++#define cxl_compliance_ignore_almp_rsp len_rsvd_rsp
++
++/* 14.16.4.16 Table 307 */
++struct cxl_compliance_inject_bit_err_in_flit_req {
++    CompReqHeader header;
++    uint8_t opcode;
++} QEMU_PACKED;
++
++/* 14.16.4.16 Table 308 */
++#define cxl_compliance_inject_bit_err_in_flit_rsp len_rsvd_rsp
++
++typedef struct ComplianceObject ComplianceObject;
++
++typedef union doe_rsp_u {
++    CompRspHeader header;
++
++    struct cxl_compliance_cap_rsp cap_rsp;
++    struct cxl_compliance_status_rsp status_rsp;
++    struct cxl_compliance_halt_rsp halt_rsp;
++    struct cxl_compliance_multi_write_streaming_rsp multi_write_streaming_rsp;
++    struct cxl_compliance_producer_consumer_rsp producer_consumer_rsp;
++    struct cxl_compliance_bogus_writes_rsp bogus_writes_rsp;
++    struct cxl_compliance_inject_poison_rsp inject_poison_rsp;
++    struct cxl_compliance_inject_crc_rsp inject_crc_rsp;
++    struct cxl_compliance_inject_flow_ctrl_rsp inject_flow_ctrl_rsp;
++    struct cxl_compliance_toggle_cache_flush_rsp toggle_cache_flush_rsp;
++    struct cxl_compliance_inject_mac_delay_rsp inject_mac_delay_rsp;
++    struct cxl_compliance_insert_unexp_mac_rsp insert_unexp_mac_rsp;
++    struct cxl_compliance_inject_viral_rsp inject_viral_rsp;
++    struct cxl_compliance_inject_almp_rsp inject_almp_rsp;
++    struct cxl_compliance_ignore_almp_rsp ignore_almp_rsp;
++    struct cxl_compliance_inject_bit_err_in_flit_rsp inject_bit_err_in_flit_rsp;
++} CompRsp;
++
++struct ComplianceObject {
++    CompRsp response;
++} QEMU_PACKED;
++#endif /* CXL_COMPL_H */
+diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+index acc0730d96..d299c77ae3 100644
+--- a/include/hw/cxl/cxl_component.h
++++ b/include/hw/cxl/cxl_component.h
+@@ -173,6 +173,8 @@ typedef struct cxl_component {
+             struct PCIDevice *pdev;
+         };
+     };
++
++    ComplianceObject compliance;
+ } CXLComponentState;
+ 
+ void cxl_component_register_block_init(Object *obj,
+@@ -184,4 +186,5 @@ void cxl_component_register_init_common(uint32_t *reg_state,
+ void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
+                                 uint16_t type, uint8_t rev, uint8_t *body);
+ 
++bool cxl_doe_compliance_rsp(DOECap *doe_cap);
+ #endif
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 057c5b85c6..f0cb7de795 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -236,6 +236,9 @@ typedef struct cxl_type3_dev {
+     /* State */
+     CXLComponentState cxl_cstate;
+     CXLDeviceState cxl_dstate;
++
++    /* DOE */
++    DOECap doe_comp;
+ } CXLType3Dev;
+ 
+ #ifndef TYPE_CXL_TYPE3_DEV
+diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+index e8235b10cc..129bdf3238 100644
+--- a/include/hw/cxl/cxl_pci.h
++++ b/include/hw/cxl/cxl_pci.h
+@@ -12,6 +12,7 @@
+ 
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pcie.h"
++#include "hw/cxl/cxl_compliance.h"
+ 
+ #define CXL_VENDOR_ID 0x1e98
+ 
+-- 
+2.17.1
 
 
