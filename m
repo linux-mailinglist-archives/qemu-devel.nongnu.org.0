@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671F836B309
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:25:45 +0200 (CEST)
-Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F5836B311
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:28:53 +0200 (CEST)
+Received: from localhost ([::1]:43686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb0J6-00029R-Dw
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47162)
+	id 1lb0M8-0004Ek-P2
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lb0H1-0001Xa-84
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:23:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42284)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lb0Kk-0003o3-HQ
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:27:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lb0Gv-0002B7-SP
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:23:34 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lb0Kf-0004Xo-U5
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:27:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619439808;
+ s=mimecast20190719; t=1619440040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lmuXI6hBqJj9mHxtFKyVSNb5oIpAHBWaLDYL59Paw0o=;
- b=D5XdC0Fzkw0ZG/T1M5CLbn/+/NKmh1PrsURVKiaAXzec6I/LeRCS3PmOGPPhOLeY37cwXI
- G9xxzOMncvbpVeY3U8ar2V0YzBCxHYbbBBlsyVHsBp8P53Bepc9jFYe7gFDN0VkSXKIjBq
- +KOlFLcKCk8RWg7Ta2mLlEZ020m/gGw=
+ bh=7UrV8EB+rn8jxPJcqRER7FxxmWsK1i+MVyI2oNnGTd8=;
+ b=FUXoo6HW0YhTqoRVqRDpxxxwpk0DQQn8Qiurhb/6na7acE1Ml5dFZEG5OzpDhHddtEuh8E
+ EN/IW0zvKOYelNN1wboXyK+007art/tadOwx9Ba0tgovlz8KkhxvpLLPGGOronfgkf1I78
+ DQbk6a4JeB0ULYaknbnOJk1GEDzP4gM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-6Xqz1dZPPAq_v7amQvC08w-1; Mon, 26 Apr 2021 08:23:27 -0400
-X-MC-Unique: 6Xqz1dZPPAq_v7amQvC08w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-257-YdnuGn61NlusfgJ3afBlbw-1; Mon, 26 Apr 2021 08:27:15 -0400
+X-MC-Unique: YdnuGn61NlusfgJ3afBlbw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 428C51008061;
- Mon, 26 Apr 2021 12:23:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03EF262464;
- Mon, 26 Apr 2021 12:23:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D3FB113525D; Mon, 26 Apr 2021 14:23:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 03/11] block/block-gen.h: bind monitor
-References: <20210423214033.474034-1-vsementsov@virtuozzo.com>
- <20210423214033.474034-4-vsementsov@virtuozzo.com>
- <87mttob6ic.fsf@dusky.pond.sub.org>
- <e5025132-fa28-a29e-7575-ab26bcf62e7c@virtuozzo.com>
-Date: Mon, 26 Apr 2021 14:23:24 +0200
-In-Reply-To: <e5025132-fa28-a29e-7575-ab26bcf62e7c@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Mon, 26 Apr 2021 12:12:03 +0300")
-Message-ID: <87lf95b5fn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA1B51922035
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 12:27:14 +0000 (UTC)
+Received: from work-vm (ovpn-115-8.ams2.redhat.com [10.36.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2F7560C5F;
+ Mon, 26 Apr 2021 12:27:00 +0000 (UTC)
+Date: Mon, 26 Apr 2021 13:26:58 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 5/5] sockets: Support multipath TCP
+Message-ID: <YIaxkimWQrMutkhG@work-vm>
+References: <20210421112834.107651-1-dgilbert@redhat.com>
+ <20210421112834.107651-6-dgilbert@redhat.com>
+ <YIKteAmBPfVdRm7T@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YIKteAmBPfVdRm7T@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,55 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, crosa@redhat.com, philmd@redhat.com
+Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, pabeni@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Wed, Apr 21, 2021 at 12:28:34PM +0100, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Multipath TCP allows combining multiple interfaces/routes into a single
+> > socket, with very little work for the user/admin.
+> > 
+> > It's enabled by 'mptcp' on most socket addresses:
+> > 
+> >    ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  io/dns-resolver.c   |  4 ++++
+> >  qapi/sockets.json   |  5 ++++-
+> >  util/qemu-sockets.c | 23 +++++++++++++++++++++++
+> >  3 files changed, 31 insertions(+), 1 deletion(-)
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-> 24.04.2021 08:23, Markus Armbruster wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->> 
->>> If we have current monitor, let's bind it to wrapper coroutine too.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>>   block/block-gen.h | 10 ++++++++++
->>>   1 file changed, 10 insertions(+)
->>>
->>> diff --git a/block/block-gen.h b/block/block-gen.h
->>> index c1fd3f40de..61f055a8cc 100644
->>> --- a/block/block-gen.h
->>> +++ b/block/block-gen.h
->>> @@ -27,6 +27,7 @@
->>>   #define BLOCK_BLOCK_GEN_H
->>>   
->>>   #include "block/block_int.h"
->>> +#include "monitor/monitor.h"
->>>   
->>>   /* Base structure for argument packing structures */
->>>   typedef struct AioPollCo {
->>> @@ -38,11 +39,20 @@ typedef struct AioPollCo {
->>>   
->>>   static inline int aio_poll_co(AioPollCo *s)
->>>   {
->>> +    Monitor *mon = monitor_cur();
->> 
->> This gets the currently executing coroutine's monitor from the hash
->> table.
->> 
->>>       assert(!qemu_in_coroutine());
->>>   
->>> +    if (mon) {
->>> +        monitor_set_cur(s->co, mon);
->> 
->> This writes it back.  No-op, since the coroutine hasn't changed.  Why?
->
-> No. s->co != qemu_corotuine_current(), so it's not a write back, but creating a new entry in the hash map. s->co is a new coroutine which we are going to start.
+Thanks, given this is more socketary than migration code, do you want to
+take this series via your tree?
 
-Ah, that's what I missed.  Thanks!
+Dave
 
-[...]
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
