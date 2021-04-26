@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDC536B843
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:46:58 +0200 (CEST)
-Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A0336B859
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 19:51:33 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb5Jx-0004Op-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
+	id 1lb5OO-000142-UC
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 13:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb5Cm-0001WG-7h
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lb5Cg-0004Qm-Fw
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:39:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619458763;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3KxWlMUOMvZe36BPKoDfiOt7/Uyb99IifQEZcOo357A=;
- b=SvaYN4My3tu8dHehUCp2fMiviF43FFs2WREfyjDMLB8u2aOKtnkXZuClo5trIx18iRYceE
- A9Sa0RaQ1RxUn/xyr+3EF9SQpoaQJNh3Oj8HP48oxehKrf19QhOolIxu0PVRnshCMi4jgc
- Q0112r+fqWygICFmMKcwmac7rTTsC3M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-lArVxFsnOsGiSFHK_7OwQw-1; Mon, 26 Apr 2021 13:39:21 -0400
-X-MC-Unique: lArVxFsnOsGiSFHK_7OwQw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB996343A6;
- Mon, 26 Apr 2021 17:39:20 +0000 (UTC)
-Received: from [10.10.120.13] (ovpn-120-13.rdu2.redhat.com [10.10.120.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 575602C15B;
- Mon, 26 Apr 2021 17:39:20 +0000 (UTC)
-Subject: Re: [PATCH 03/22] qapi/source: Remove line number from QAPISourceInfo
- initializer
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-4-jsnow@redhat.com>
- <87o8e49oha.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <2a5ae781-a32c-5d7e-c262-71496138f818@redhat.com>
-Date: Mon, 26 Apr 2021 13:39:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lb5MI-00074m-C0
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:49:23 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lb5MG-0008K9-EB
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 13:49:22 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q9so2616829wrs.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 10:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0+AO0c1+zbaRXFv76dFj+ON4Nz8qKtyTuFXKIIhNFig=;
+ b=nXfycpxagKWQVw4EIsdjBpd+gN1QAcR8NsQtRYoP4iZYtCUmPPIsqa2D9NwTXZDJUM
+ S7dBzDiLgD3cfpFq1tGIxFMfXfD0X1NOCTpcVyg2+FS1UX12IDuJhbfUWKP+jpHt3mr6
+ LEz/nYefpPLOxxaAWfT4mjM/oFLYnoWsXWnujiVTQXALKw+ibTdjQtawXA5oqQmXh2P0
+ HUhFqNqDZqn0tREBjiw5MIEJPhWc39HgIYHNiro8JFY9XVk2PBH5D8cc42+CLYUVlXSq
+ Pzg0i6Jro+3D/MchN1Pu8K8Uy0S+SYs/NGc/1vvIj54LnOVu3/W8oIX5e2zrZ53M4rRi
+ debA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=0+AO0c1+zbaRXFv76dFj+ON4Nz8qKtyTuFXKIIhNFig=;
+ b=P1IHljpJMe+6ROnRy5sGxK3l8qO89qCa+y9KhZV1iEXWZR8GSaHy0Lf4zpI5NZJ0mh
+ iCSOdxUbCVnYmYkHrKYJppMVknMUkX+HxEE1Ua2o9/QJfoABz2XFqoHYhfiKqgqiozfM
+ p36v18b/U5jE2ctrjYkif5yAJuoeq5mHa/1Tz6ETCsItiPKQzAoFgMZN+go+Nqn84D+Q
+ js076WvthInr7s6lPZysoMRYPMQ7ZZHHhHUhzqZWsnxnJBcXvWL7Y+0ZAXsKwofcpUfC
+ xwpcXr05NfWdpRqExAx0381GWuEaAtEPt5/qum6QlRtD8A9UlSMVBc0Ikto13Vak5VZU
+ /fhg==
+X-Gm-Message-State: AOAM530CCtNJJCeXvCEyj57ooS/F7NkPP/9CPDRNo1/i4tFP9sKfEY8X
+ P2LqjNcKPuGVn6rglXuQxisQjXx8lHTYvg==
+X-Google-Smtp-Source: ABdhPJz0pFFIBOl3V89X6SUPHK3yrP7zmruoOkOkgD4u7KcF7qih4BBq00tBY6KVAOVafviPKgAquA==
+X-Received: by 2002:a5d:4533:: with SMTP id j19mr25321343wra.111.1619459357221; 
+ Mon, 26 Apr 2021 10:49:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s16sm181006wmh.11.2021.04.26.10.49.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Apr 2021 10:49:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E2A8C1FF7E;
+ Mon, 26 Apr 2021 18:49:15 +0100 (BST)
+References: <CAJyG1bOR659y=6oP5-XFyVv-xLq-C-m4cdsdRP2D+ZVQqyJnqg@mail.gmail.com>
+ <87a6pp6lit.fsf@linaro.org> <2E8FB56E-AA11-46A1-8072-C43E8A5A854E@uci.edu>
+User-agent: mu4e 1.5.12; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Min-Yih Hsu <minyihh@uci.edu>
+Subject: Re: [RFC] tcg plugin: Additional plugin interface
+Date: Mon, 26 Apr 2021 18:42:51 +0100
+In-reply-to: <2E8FB56E-AA11-46A1-8072-C43E8A5A854E@uci.edu>
+Message-ID: <87o8e1rl5w.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87o8e49oha.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,18 +87,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/21 2:38 AM, Markus Armbruster wrote:
-> Not mentioned in the commit message: you add a default parameter value.
-> It's not used; there's just one caller, and it passes a value.
-> Intentional?
-> 
 
-No. Leftover from an earlier version where it was used. It can be made 
-to always be an explicit parameter now instead.
+Min-Yih Hsu <minyihh@uci.edu> writes:
 
+> Hi Alex,
+>
+>> On Apr 23, 2021, at 8:44 AM, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>=20
+>>=20
+>> Min-Yih Hsu <minyihh@uci.edu> writes:
+>>=20
+>>> Hi Alex and QEMU developers,
+>>>=20
+>>> Recently I was working with the TCG plugin. I found that `qemu_plugin_c=
+b_flags` seems to reserve the functionality to
+>>> read / write CPU register state, I'm wondering if you can share some
+>>> roadmap or thoughts on this feature?
+>>=20
+>> I think reading the CPU register state is certainly on the roadmap,
+>> writing registers presents a more philosophical question of if it opens
+>> the way to people attempting a GPL bypass via plugins. However reading
+>> registers would certainly be a worthwhile addition to the API.
+>
+> Interesting=E2=80=A6I=E2=80=99ve never thought about this problem before.
+>
+>>=20
+>>> Personally I see reading the CPU register state as (kind of) low-hangin=
+g fruit. The most straightforward way to implement
+>>> it will be adding another function that can be called by insn_exec call=
+backs to read (v)CPU register values. What do you
+>>> think about this?
+>>=20
+>> It depends on your definition of low hanging fruit ;-)
+>>=20
+>> Yes the implementation would be a simple helper which could be called
+>> from a callback - I don't think we need to limit it to just insn_exec. I
+>> think the challenge is proving a non-ugly API that works cleanly across
+>> all the architectures. I'm not keen on exposing arbitrary gdb register
+>> IDs to the plugins.
+>>=20
+>> There has been some discussion previously on the list which is probably
+>> worth reviewing:
+>>=20
+>>  Date: Mon, 7 Dec 2020 16:03:24 -0500
+>>  From: Aaron Lindsay <aaron@os.amperecomputing.com>
+>>  Subject: Plugin Register Accesses
+>>  Message-ID: <X86YnHhHMpQBr2/G@strawberry.localdomain>
+>>=20
+>> But in short I think we need a new subsystem in QEMU where frontends can
+>> register registers (sic) and then provide a common API for various
+>> users. This common subsystem would then be the source of data for:
+>>=20
+>>  - plugins
+>>  - gdbstub
+>>  - monitor (info registers)
+>>  - -d LOG_CPU logging
+>>=20
+>> If you are interested in tackling such a project I'm certainly happy to
+>> provide pointers and review.
+>
+> Thank you! Yeah I=E2=80=99m definitely going to scratch a prototype for t=
+his
+> register reading plugin interface. I=E2=80=99ll take a look at related em=
+ail
+> discussions.
+
+Awesome - please CC me on any patches you come up with (as well as
+qemu-devel of course ;-).
+
+>
+> Best,
+> -Min
+>
+>>=20
+>>>=20
+>>> Thank you
+>>> -Min
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
 
