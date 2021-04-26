@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6A036B67F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:08:37 +0200 (CEST)
-Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E8436B691
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 18:15:30 +0200 (CEST)
+Received: from localhost ([::1]:44470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb3ml-0005Bn-Lf
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
+	id 1lb3tQ-0001Xe-Ss
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 12:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lb3fP-0007YL-0l
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:00:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lb3fG-0006w7-R6
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:00:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lb3fE-0000X8-I8
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 16:00:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 840EB2E80F9
- for <qemu-devel@nongnu.org>; Mon, 26 Apr 2021 16:00:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lb3sK-0000zO-3u
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:14:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lb3sD-0006T2-Un
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 12:14:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619453652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GxN5eAkcCdp0DEr57CTqHaMHb2pRhWYNQ/gKg5VXhL8=;
+ b=VAjqqgNUMIIfsLkh6Zj0JOEsa/UO3GLijnjLPmGxI5Bv64fBauPg2n2ED002N0QyzoB/lR
+ wG7jHtVkbO83I66bajr/cHx2GDLB3AAstUNEDgFLzjlhRyrUvqw08Ehwi4IrKOpn1fhzJI
+ WOdQwyF5mQhWsd6SvZDjlfrxxJn8Zc8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-tIisiJGgOUiWPt0Pv-v6Sg-1; Mon, 26 Apr 2021 12:14:09 -0400
+X-MC-Unique: tIisiJGgOUiWPt0Pv-v6Sg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AAB01008060;
+ Mon, 26 Apr 2021 16:14:08 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-177.ams2.redhat.com [10.36.114.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 297AA19719;
+ Mon, 26 Apr 2021 16:14:01 +0000 (UTC)
+Date: Mon, 26 Apr 2021 18:14:00 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 18/36] block: add bdrv_attach_child_common()
+ transaction action
+Message-ID: <YIbmyOnhszPltzfA@merkur.fritz.box>
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+ <20210317143529.615584-19-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Apr 2021 15:53:51 -0000
-From: Michael Monreal <1926174@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mimox
-X-Launchpad-Bug-Reporter: Michael Monreal (mimox)
-X-Launchpad-Bug-Modifier: Michael Monreal (mimox)
-Message-Id: <161945243172.12386.17706296948185643927.malonedeb@wampee.canonical.com>
-Subject: [Bug 1926174] [NEW] Laggy and/or displaced mouse input on CloudReady
- (Chrome OS) VM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 7679b8e624685277fa062bf7bcd5b5decd3edc5c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210317143529.615584-19-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,92 +77,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926174 <1926174@bugs.launchpad.net>
+Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Am 17.03.2021 um 15:35 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Split out no-perm part of bdrv_root_attach_child() into separate
+> transaction action. bdrv_root_attach_child() now moves to new
+> permission update paradigm: first update graph relations then update
+> permissions.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block.c | 189 ++++++++++++++++++++++++++++++++++++++++----------------
+>  1 file changed, 135 insertions(+), 54 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index 98ff44dbf7..b6bdc534d2 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -2921,37 +2921,73 @@ static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs)
+>      }
+>  }
+>  
+> -/*
+> - * This function steals the reference to child_bs from the caller.
+> - * That reference is later dropped by bdrv_root_unref_child().
+> - *
+> - * On failure NULL is returned, errp is set and the reference to
+> - * child_bs is also dropped.
+> - *
+> - * The caller must hold the AioContext lock @child_bs, but not that of @ctx
+> - * (unless @child_bs is already in @ctx).
+> - */
+> -BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+> -                                  const char *child_name,
+> -                                  const BdrvChildClass *child_class,
+> -                                  BdrvChildRole child_role,
+> -                                  uint64_t perm, uint64_t shared_perm,
+> -                                  void *opaque, Error **errp)
+> +static void bdrv_remove_empty_child(BdrvChild *child)
+>  {
+> -    BdrvChild *child;
+> -    Error *local_err = NULL;
+> -    int ret;
+> -    AioContext *ctx;
+> +    assert(!child->bs);
+> +    QLIST_SAFE_REMOVE(child, next);
+> +    g_free(child->name);
+> +    g_free(child);
+> +}
+>  
+> -    ret = bdrv_check_update_perm(child_bs, NULL, perm, shared_perm, NULL, errp);
+> -    if (ret < 0) {
+> -        bdrv_abort_perm_update(child_bs);
+> -        bdrv_unref(child_bs);
+> -        return NULL;
+> +typedef struct BdrvAttachChildCommonState {
+> +    BdrvChild **child;
+> +    AioContext *old_parent_ctx;
+> +    AioContext *old_child_ctx;
+> +} BdrvAttachChildCommonState;
+> +
+> +static void bdrv_attach_child_common_abort(void *opaque)
+> +{
+> +    BdrvAttachChildCommonState *s = opaque;
+> +    BdrvChild *child = *s->child;
+> +    BlockDriverState *bs = child->bs;
+> +
+> +    bdrv_replace_child_noperm(child, NULL);
+> +
+> +    if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
+> +        bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
+>      }
+>  
+> -    child = g_new(BdrvChild, 1);
+> -    *child = (BdrvChild) {
+> +    if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
+> +        GSList *ignore = g_slist_prepend(NULL, child);
+> +
+> +        child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
+> +                                      &error_abort);
+> +        g_slist_free(ignore);
+> +        ignore = g_slist_prepend(NULL, child);
+> +        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
+> +
+> +        g_slist_free(ignore);
+> +    }
+> +
+> +    bdrv_unref(bs);
+> +    bdrv_remove_empty_child(child);
+> +    *s->child = NULL;
+> +}
+> +
+> +static TransactionActionDrv bdrv_attach_child_common_drv = {
+> +    .abort = bdrv_attach_child_common_abort,
+> +};
+> +
+> +/*
+> + * Common part of attoching bdrv child to bs or to blk or to job
+> + */
+> +static int bdrv_attach_child_common(BlockDriverState *child_bs,
+> +                                    const char *child_name,
+> +                                    const BdrvChildClass *child_class,
+> +                                    BdrvChildRole child_role,
+> +                                    uint64_t perm, uint64_t shared_perm,
+> +                                    void *opaque, BdrvChild **child,
+> +                                    Transaction *tran, Error **errp)
+> +{
+> +    BdrvChild *new_child;
+> +    AioContext *parent_ctx;
+> +    AioContext *child_ctx = bdrv_get_aio_context(child_bs);
+> +
+> +    assert(child);
+> +    assert(*child == NULL);
+> +
+> +    new_child = g_new(BdrvChild, 1);
+> +    *new_child = (BdrvChild) {
+>          .bs             = NULL,
+>          .name           = g_strdup(child_name),
+>          .klass          = child_class,
+> @@ -2961,37 +2997,92 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+>          .opaque         = opaque,
+>      };
+>  
+> -    ctx = bdrv_child_get_parent_aio_context(child);
+> -
+> -    /* If the AioContexts don't match, first try to move the subtree of
+> +    /*
+> +     * If the AioContexts don't match, first try to move the subtree of
+>       * child_bs into the AioContext of the new parent. If this doesn't work,
+> -     * try moving the parent into the AioContext of child_bs instead. */
+> -    if (bdrv_get_aio_context(child_bs) != ctx) {
+> -        ret = bdrv_try_set_aio_context(child_bs, ctx, &local_err);
+> +     * try moving the parent into the AioContext of child_bs instead.
+> +     */
+> +    parent_ctx = bdrv_child_get_parent_aio_context(new_child);
+> +    if (child_ctx != parent_ctx) {
+> +        Error *local_err = NULL;
+> +        int ret = bdrv_try_set_aio_context(child_bs, parent_ctx, &local_err);
+> +
+>          if (ret < 0 && child_class->can_set_aio_ctx) {
+> -            GSList *ignore = g_slist_prepend(NULL, child);
+> -            ctx = bdrv_get_aio_context(child_bs);
+> -            if (child_class->can_set_aio_ctx(child, ctx, &ignore, NULL)) {
+> +            GSList *ignore = g_slist_prepend(NULL, new_child);
+> +            if (child_class->can_set_aio_ctx(new_child, child_ctx, &ignore,
+> +                                             NULL))
+> +            {
+>                  error_free(local_err);
+>                  ret = 0;
+>                  g_slist_free(ignore);
+> -                ignore = g_slist_prepend(NULL, child);
+> -                child_class->set_aio_ctx(child, ctx, &ignore);
+> +                ignore = g_slist_prepend(NULL, new_child);
+> +                child_class->set_aio_ctx(new_child, child_ctx, &ignore);
+>              }
+>              g_slist_free(ignore);
+>          }
+> +
+>          if (ret < 0) {
+>              error_propagate(errp, local_err);
+> -            g_free(child);
+> -            bdrv_abort_perm_update(child_bs);
+> -            bdrv_unref(child_bs);
+> -            return NULL;
+> +            bdrv_remove_empty_child(new_child);
+> +            return ret;
+>          }
+>      }
+>  
+> -    /* This performs the matching bdrv_set_perm() for the above check. */
+> -    bdrv_replace_child(child, child_bs);
+> +    bdrv_ref(child_bs);
+> +    bdrv_replace_child_noperm(new_child, child_bs);
+> +
+> +    *child = new_child;
+>  
+> +    BdrvAttachChildCommonState *s = g_new(BdrvAttachChildCommonState, 1);
+> +    *s = (BdrvAttachChildCommonState) {
+> +        .child = child,
+> +        .old_parent_ctx = parent_ctx,
+> +        .old_child_ctx = child_ctx,
+> +    };
+> +    tran_add(tran, &bdrv_attach_child_common_drv, s);
 
-This weekend I tried to get a CloudReady (Chrome OS) VM running on qemu
-5.2. This seems to wok quite well, performance seems to be great in
-fact. Only problem is mouse input.
+Who frees s? Should bdrv_attach_child_common_drv have a .clean?
 
-Using SDL display, there is no visible mouse unless I set "show-
-cursor=3Don". After that the mouse pointer flickers a bit and most of the
-time is displaced so I need to press below a button in order to hit it.
-After switching to fullscreen and back using ctrl-alt-f this effect
-seems to be fixed for a while but the mouse pointer does not reach all
-parts of the emulated screen anymore.
+> +
+> +    return 0;
+> +}
 
-Using SPICE instead the mouse pointer is drawn, but it is *very* laggy.
-In fact it is only drawn every few seconds so it is unusable but
-placement seems to be correct. Text input is instant, so general
-emulation speed is not an issue here.
+Kevin
 
-To reproduce, download the free image from
-https://www.neverware.com/freedownload#home-edition-install
-
-Then run one of the following commands:
-
-qemu-system-x86_64 -drive driver=3Draw,file=3Dcloudready-
-free-89.3.3-64bit.bin -machine pc,accel=3Dkvm -m 2048 -device virtio-
-vga,virgl=3Don -display sdl,gl=3Don,show-cursor=3Don -usb -device usb-mouse
--device intel-hda -device hda-duplex
-
-qemu-system-x86_64 -drive driver=3Draw,file=3Dcloudready-
-free-89.3.3-64bit.bin -machine pc,accel=3Dkvm -m 2048 -device virtio-
-vga,virgl=3Don -display spice-app,gl=3Don -usb -device usb-mouse -device
-intel-hda -device hda-duplex
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926174
-
-Title:
-  Laggy and/or displaced mouse input on CloudReady (Chrome OS) VM
-
-Status in QEMU:
-  New
-
-Bug description:
-  This weekend I tried to get a CloudReady (Chrome OS) VM running on
-  qemu 5.2. This seems to wok quite well, performance seems to be great
-  in fact. Only problem is mouse input.
-
-  Using SDL display, there is no visible mouse unless I set "show-
-  cursor=3Don". After that the mouse pointer flickers a bit and most of
-  the time is displaced so I need to press below a button in order to
-  hit it. After switching to fullscreen and back using ctrl-alt-f this
-  effect seems to be fixed for a while but the mouse pointer does not
-  reach all parts of the emulated screen anymore.
-
-  Using SPICE instead the mouse pointer is drawn, but it is *very*
-  laggy. In fact it is only drawn every few seconds so it is unusable
-  but placement seems to be correct. Text input is instant, so general
-  emulation speed is not an issue here.
-
-  To reproduce, download the free image from
-  https://www.neverware.com/freedownload#home-edition-install
-
-  Then run one of the following commands:
-
-  qemu-system-x86_64 -drive driver=3Draw,file=3Dcloudready-
-  free-89.3.3-64bit.bin -machine pc,accel=3Dkvm -m 2048 -device virtio-
-  vga,virgl=3Don -display sdl,gl=3Don,show-cursor=3Don -usb -device usb-mou=
-se
-  -device intel-hda -device hda-duplex
-
-  qemu-system-x86_64 -drive driver=3Draw,file=3Dcloudready-
-  free-89.3.3-64bit.bin -machine pc,accel=3Dkvm -m 2048 -device virtio-
-  vga,virgl=3Don -display spice-app,gl=3Don -usb -device usb-mouse -device
-  intel-hda -device hda-duplex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926174/+subscriptions
 
