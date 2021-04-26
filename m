@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E72836B3D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:11:19 +0200 (CEST)
-Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E5636B3E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 15:13:26 +0200 (CEST)
+Received: from localhost ([::1]:42342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb11C-00011D-3K
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55788)
+	id 1lb13F-0003Tu-SQ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 09:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <caodongli@kingsoft.com>)
- id 1laqv3-0003q8-20
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:24:17 -0400
-Received: from mail.kingsoft.com ([114.255.44.145]:22820)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <caodongli@kingsoft.com>) id 1laquz-0003rY-Mg
- for qemu-devel@nongnu.org; Sun, 25 Apr 2021 22:24:16 -0400
-X-AuditID: 0a580157-e31ff7000005ac21-1c-608620b4eccf
-Received: from mail.kingsoft.com (localhost [10.88.1.79])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id 55.12.44065.4B026806;
- Mon, 26 Apr 2021 10:08:52 +0800 (HKT)
-Received: from DESKTOP-9MDAR6M (10.88.1.103) by KSBJMAIL4.kingsoft.cn
- (10.88.1.79) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 26 Apr
- 2021 10:08:52 +0800
-Date: Mon, 26 Apr 2021 10:08:52 +0800
-From: "caodongli@kingsoft.com" <caodongli@kingsoft.com>
-To: mst <mst@redhat.com>, marcel.apfelbaum <marcel.apfelbaum@gmail.com>,
- pbonzini <pbonzini@redhat.com>, richard.henderson
- <richard.henderson@linaro.org>, ehabkost <ehabkost@redhat.com>
-Subject: [PATCH v2] hw/i386: Expand the range of CPU topologies between smp
- and maxcpus
-X-Priority: 3
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.20.273[cn]
+ (Exim 4.90_1) (envelope-from <edgenfv@gmail.com>) id 1lau3k-0000JA-89
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 01:45:29 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42809)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgenfv@gmail.com>) id 1lau3i-0006E5-Dz
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 01:45:27 -0400
+Received: by mail-wr1-x436.google.com with SMTP id l2so2045856wrm.9
+ for <qemu-devel@nongnu.org>; Sun, 25 Apr 2021 22:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yKz4dNhDw12bnTrkqkxmocHEAiuDoy4nd0MH1Ips7Hk=;
+ b=TZwHvlfrvfZK9a07/0ozLHQ5TYSkQtblAsPGbpnYp5vO5YOi9amNWkkHD30KmpeqE8
+ mY8lKTaXL+jJcfO8u+yA5EVpAoKeO/YDN9t3IeL5ckf4T7PJn7gQleVbUzijOW7quBKl
+ 2xcThGUtCVPksW3q+5sQHQsAq+jycnCv04eP67p1rpuZtZkcFILEejlNtpKxIjzhcnVB
+ Bs5Yi3f/dpNUcBYyvUQ/avQYgTCqIoJ1XzNwRNy0XBrrF3FiC3eonNuyIlJIhLagyDki
+ RIkFRp01IdRI8C3pEgYMtLX49IMAGrkqQRQ2WGU9KP/XgI66RHfH6NMV00NiaOMemieT
+ LxaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yKz4dNhDw12bnTrkqkxmocHEAiuDoy4nd0MH1Ips7Hk=;
+ b=JdZ5YS21Zd/pRxXPYPL6Ii8LJYfewvhtWzKQ5W+AIn0M5cMHYB/cYs6s8TIBDXv8CV
+ MDBYkFsG2qCZ4HZkay77eSZL9Tz6ZrRHKgCgKhkXlcH9c0tT2egM6kuKwHJz0m3whv+S
+ dC8nKAz2pPUBrGD0GF+zxVksZXVddzb5mQGCKD/6L2lZMEzFgvD7B/jg9hCL2QTr+3x9
+ xf/0pVwbVZTmkpUvqPZyNKx+WTpQF/GBnJHJrng/DoY9U5HXqqRSnnUDsrc80s1nDFVi
+ TwidyoYUQkpCSfLvW5tC0g272qzpH5BXsTYUD3yF2e5UG+OvJkFWzHjJxIaX9G8H+bw+
+ ICyw==
+X-Gm-Message-State: AOAM532L3vftznt5nNBqt0gkoT0yYIKdCX//eU7qsptbOZGgfnyxDNTN
+ 7vCnCA47Ge+gAdrxzcZZGizLXujQ4mck75/w
+X-Google-Smtp-Source: ABdhPJxWtMqlQGvpAbzjj2UT20B19WmWgMQ1KjI7iPQMSNdOVeG3sJhiZ766ZGqO+uEnUS5ZYMrrpw==
+X-Received: by 2002:adf:eb41:: with SMTP id u1mr20636851wrn.20.1619415923575; 
+ Sun, 25 Apr 2021 22:45:23 -0700 (PDT)
+Received: from ubuntu.localdomain (host-92-0-155-74.as13285.net. [92.0.155.74])
+ by smtp.gmail.com with ESMTPSA id c5sm12100641wrs.73.2021.04.25.22.45.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Apr 2021 22:45:23 -0700 (PDT)
+From: Edge NFV <edgenfv@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] make vfio and DAX cache work together
+Date: Sun, 25 Apr 2021 22:45:12 -0700
+Message-Id: <20210426054513.132980-1-edgenfv@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-ID: <2021042610084739495617@kingsoft.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: base64
-X-Originating-IP: [10.88.1.103]
-X-ClientProxiedBy: KSBJMAIL1.kingsoft.cn (10.88.1.31) To KSBJMAIL4.kingsoft.cn
- (10.88.1.79)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsXCFcHor7tFoS3B4PRtTYuGe6EWh/uvMFu8
- bD/BbPH/1ytWi/3b/rFaHO/dwWKx5MBOdgd2j52z7rJ73Lm2h81j3slAjyfXNjN5vN93lS2A
- NYrLJiU1J7MstUjfLoEr48f/DuaCMxwVN7fMY2tgXMPRxcjJISFgIrFz4wPWLkYuDiGB6UwS
- 935sYoJwHjFKTL59grGLkYODRUBV4sdcT5AGNgFziStvZrGB1IgI7GWU+P10BStIglnAU+Lh
- yQ42EFtYIFxiS2sDK8QGXokZ7U9ZIGwBiZtbJrBB2AoSmyZ/AqvhFRCUODnzCQuEbSix7v5d
- doiZOhILdn9ig7AVJaZ0PwSLCwkoSxzdvx5qjrzE3d/TGSHsWImmA7fYJjAKzUIydhaSUbOQ
- jFrAyLyKkaU4N91wEyMk5MN3MM5r+qh3iJGJg/EQowQHs5IIL9uu1gQh3pTEyqrUovz4otKc
- 1OJDjNIcLErivLPdGhOEBNITS1KzU1MLUotgskwcnFINTLUHryqfV9Wt4HvktyZafq6MTQHv
- Wvn173oyZpSdurCm0VUh4LOr+RlN36hvCgk3tLXXSiSn/F+2NSeJY1dA7k3fDVpcM64eCWTy
- LX/19v++d7u0F7xvauQPiDPJ82JyNFNOmb73q6B3Xuft0EfcL32lxWet2aOhpXIlir9Xv959
- Ebt12OdTIrtLJpso9d2vLpffZWT+P90o7ISueeBd2YWJlSw/GDtmsgmf2/uVUcJJKjZD+4jI
- LYefMacOLpa5LfFNIFrG5eut28l9bHvE7dgmc06qYj1qFSIR9MR8qc+Lrb/Piojmee+sP7L0
- 2MzfcRuZv96w4dSbGK1/men05bt9dSJZTvJHnA9+rhVUYinOSDTUYi4qTgQAcKprl+gCAAA=
-Received-SPF: pass client-ip=114.255.44.145;
- envelope-from=caodongli@kingsoft.com; helo=mail.kingsoft.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, MIME_BASE64_TEXT=1.741,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=edgenfv@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 26 Apr 2021 09:08:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,24 +79,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "like.xu" <like.xu@linux.intel.com>
+Cc: edgenfv@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Q2hhbmdlIHRoZSBjcml0ZXJpYSBmb3IgdGhlIGluaXRpYWwgQ1BVIHRvcG9sb2d5IGFuZCBtYXhj
-cHVzLCB1c2VyIGNhbgpoYXZlIG1vcmUgc2V0dGluZ3MKClNpZ25lZC1vZmYtYnk6IERvbmdsaSBD
-YW8gPGNhb2RvbmdsaUBraW5nc29mdC5jb20+Ci0tLQpody9pMzg2L3BjLmMgfCAyICstCjEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2h3
-L2kzODYvcGMuYyBiL2h3L2kzODYvcGMuYwppbmRleCA4YTg0YjI1Li5lZjJlODE5IDEwMDY0NAot
-LS0gYS9ody9pMzg2L3BjLmMKKysrIGIvaHcvaTM4Ni9wYy5jCkBAIC03NTEsNyArNzUxLDcgQEAg
-dm9pZCBwY19zbXBfcGFyc2UoTWFjaGluZVN0YXRlICptcywgUWVtdU9wdHMgKm9wdHMpCiAgICAg
-ICAgICAgICBleGl0KDEpOwogICAgICAgICB9CgotICAgICAgICBpZiAoc29ja2V0cyAqIGRpZXMg
-KiBjb3JlcyAqIHRocmVhZHMgIT0gbXMtPnNtcC5tYXhfY3B1cykgeworICAgICAgICBpZiAoc29j
-a2V0cyAqIGRpZXMgKiBjb3JlcyAqIHRocmVhZHMgPiBtcy0+c21wLm1heF9jcHVzKSB7CiAgICAg
-ICAgICAgICBlcnJvcl9yZXBvcnQoIkludmFsaWQgQ1BVIHRvcG9sb2d5IGRlcHJlY2F0ZWQ6ICIK
-ICAgICAgICAgICAgICAgICAgICAgICAgICAic29ja2V0cyAoJXUpICogZGllcyAoJXUpICogY29y
-ZXMgKCV1KSAqIHRocmVhZHMgKCV1KSAiCiAgICAgICAgICAgICAgICAgICAgICAgICAgIiE9IG1h
-eGNwdXMgKCV1KSIsCi0tCjEuOC4zLjEKCgoKCgoKCgoKY2FvZG9uZ2xpQGtpbmdzb2Z0LmNvbQoK
-Cg==
+
+I am using Kata containers and create containers inside the virtual machine. The hypervisor used is QEMU.
+My workload is I/O and network intensive. So, I prefer SR-IOV VF (which provides better network isolation) and DAX caching to work together.
+However, I was unable to create a QEMU based virual machine when the above mentioned featires are enabled together.
+
+Currently DAX cache need to be set to 0, to boot the VM successfully with the SR-IOV VF to be attached.
+Enabling both SR-IOV VF and DAX work together will potentially improve performance for workloads which are I/O and network intensive.
+This patch enables SR-IOV VF and DAX to work together.
 
 
