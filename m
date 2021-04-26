@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB7936B2C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:13:38 +0200 (CEST)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380C136B2D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Apr 2021 14:15:36 +0200 (CEST)
+Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lb07N-0005q2-OF
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44978)
+	id 1lb09B-0006s6-VA
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 08:15:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lb05C-0005OA-Cr
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:11:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33846)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lb05e-0005Xp-Sn
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:11:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lb05A-00042M-2P
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:11:21 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lb05W-0004GK-Tu
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 08:11:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619439078;
+ s=mimecast20190719; t=1619439101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6nNEVAAntkq36IwtZx9X7ncHVB+XgvOD/ss+cYmXqPc=;
- b=Z56HmPz5Fp6vlC+E8V3X9/u4j8vqnvKbTKWIkbq9OmBU3lUAeq9Lnzs4R0PKM20L9u4Cfn
- cZ+T5rKu3j8RXRBNSeg6pI+WwglSuSnKIYEBD3I8YfM9TQUBhH9IOkWA74e/5Uwvn9IEHg
- z73r8uBCDUYioMZPTeIsX12HxK0rwgw=
+ bh=aTVjsEI7DFYcH8nDEpmRKpivu81F2ommPNOO1J3153I=;
+ b=WW0cR6XrmsIklipFDeeoe6O+ssRDomgKhuZ+HwpJSfdx2x+gZan9ju+pbxE4dYQ+tx7r50
+ nB3GOuIpUKpM24PhG47jqfy/85mAdctkdRZ6vGyjP9xlDWtOaF4zieHViCae3BBGE8B+IG
+ bIZNM8XrDPMNQUTLb2EF9PXUFn9xyu0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-pE6pPjD1PPq605UUW5fpzA-1; Mon, 26 Apr 2021 08:11:16 -0400
-X-MC-Unique: pE6pPjD1PPq605UUW5fpzA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-238-Q18ctlhaNPK76f_egtiTQQ-1; Mon, 26 Apr 2021 08:11:39 -0400
+X-MC-Unique: Q18ctlhaNPK76f_egtiTQQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B553A8189CA;
- Mon, 26 Apr 2021 12:11:15 +0000 (UTC)
-Received: from work-vm (ovpn-115-8.ams2.redhat.com [10.36.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 238C36268B;
- Mon, 26 Apr 2021 12:11:13 +0000 (UTC)
-Date: Mon, 26 Apr 2021 13:11:11 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Edge NFV <edgenfv@gmail.com>
-Subject: Re: First time patch not reflected in the mailing list
-Message-ID: <YIat3ynsNsdXS6AM@work-vm>
-References: <CAED3YRq2yq+FOr5gGjHjrD8Ak=YiHMfvj1rReVefuw9-=9FR7Q@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 739B2107ACC7;
+ Mon, 26 Apr 2021 12:11:38 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-153.ams2.redhat.com
+ [10.36.115.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D58B10074F1;
+ Mon, 26 Apr 2021 12:11:36 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] doc: Fix some mistakes in the SEV documentation
+To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org
+References: <a7c5ee6c056d840f46028f4a817c16a9862bdd9e.1619208498.git.thomas.lendacky@amd.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <78472e17-2efe-c06f-09aa-5f2da2381657@redhat.com>
+Date: Mon, 26 Apr 2021 14:11:35 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAED3YRq2yq+FOr5gGjHjrD8Ak=YiHMfvj1rReVefuw9-=9FR7Q@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <a7c5ee6c056d840f46028f4a817c16a9862bdd9e.1619208498.git.thomas.lendacky@amd.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,28 +78,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Pavel Hrdina <phrdina@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Edge NFV (edgenfv@gmail.com) wrote:
-> Hi
+On 04/23/21 22:08, Tom Lendacky wrote:
+> From: Tom Lendacky <thomas.lendacky@amd.com>
 > 
-> I sent a patch around four hours back but I doesn't seem to be reflected on
-> to the mailing list. That patch was my first mail to this mail list. I
-> understand that this a moderated list and the first message needs to be
-> white listed by the moderator. Please let me know how long it will take to
-> white list my patch message.
+> Fix some spelling and grammar mistakes in the amd-memory-encryption.txt
+> file. No new information added.
+> 
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+> ---
+>  docs/amd-memory-encryption.txt | 59 +++++++++++++++++-----------------
+>  1 file changed, 29 insertions(+), 30 deletions(-)
+> 
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index 145896aec7..ed85159ea7 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -1,38 +1,38 @@
+>  Secure Encrypted Virtualization (SEV) is a feature found on AMD processors.
+>  
+>  SEV is an extension to the AMD-V architecture which supports running encrypted
+> -virtual machine (VMs) under the control of KVM. Encrypted VMs have their pages
+> +virtual machines (VMs) under the control of KVM. Encrypted VMs have their pages
+>  (code and data) secured such that only the guest itself has access to the
+>  unencrypted version. Each encrypted VM is associated with a unique encryption
+> -key; if its data is accessed to a different entity using a different key the
+> +key; if its data is accessed by a different entity using a different key the
+>  encrypted guests data will be incorrectly decrypted, leading to unintelligible
+>  data.
+>  
+> -The key management of this feature is handled by separate processor known as
+> -AMD secure processor (AMD-SP) which is present in AMD SOCs. Firmware running
+> -inside the AMD-SP provide commands to support common VM lifecycle. This
+> +Key management for this feature is handled by a separate processor known as the
+> +AMD secure processor (AMD-SP), which is present in AMD SOCs. Firmware running
+> +inside the AMD-SP provides commands to support a common VM lifecycle. This
+>  includes commands for launching, snapshotting, migrating and debugging the
+> -encrypted guest. Those SEV command can be issued via KVM_MEMORY_ENCRYPT_OP
+> +encrypted guest. These SEV commands can be issued via KVM_MEMORY_ENCRYPT_OP
+>  ioctls.
+>  
+>  Launching
+>  ---------
+> -Boot images (such as bios) must be encrypted before guest can be booted.
+> -MEMORY_ENCRYPT_OP ioctl provides commands to encrypt the images :LAUNCH_START,
+> +Boot images (such as bios) must be encrypted before a guest can be booted. The
+> +MEMORY_ENCRYPT_OP ioctl provides commands to encrypt the images: LAUNCH_START,
+>  LAUNCH_UPDATE_DATA, LAUNCH_MEASURE and LAUNCH_FINISH. These four commands
+>  together generate a fresh memory encryption key for the VM, encrypt the boot
+> -images and provide a measurement than can be used as an attestation of the
+> +images and provide a measurement than can be used as an attestation of a
+>  successful launch.
+>  
+>  LAUNCH_START is called first to create a cryptographic launch context within
+> -the firmware. To create this context, guest owner must provides guest policy,
+> +the firmware. To create this context, guest owner must provide a guest policy,
+>  its public Diffie-Hellman key (PDH) and session parameters. These inputs
+> -should be treated as binary blob and must be passed as-is to the SEV firmware.
+> +should be treated as a binary blob and must be passed as-is to the SEV firmware.
+>  
+> -The guest policy is passed as plaintext and hypervisor may able to read it
+> +The guest policy is passed as plaintext. A hypervisor may choose to read it,
+>  but should not modify it (any modification of the policy bits will result
+>  in bad measurement). The guest policy is a 4-byte data structure containing
+> -several flags that restricts what can be done on running SEV guest.
+> +several flags that restricts what can be done on a running SEV guest.
+>  See KM Spec section 3 and 6.2 for more details.
+>  
+>  The guest policy can be provided via the 'policy' property (see below)
+> @@ -40,31 +40,30 @@ The guest policy can be provided via the 'policy' property (see below)
+>  # ${QEMU} \
+>     sev-guest,id=sev0,policy=0x1...\
+>  
+> -Guest owners provided DH certificate and session parameters will be used to
+> +The guest owner provided DH certificate and session parameters will be used to
+>  establish a cryptographic session with the guest owner to negotiate keys used
+>  for the attestation.
+>  
+> -The DH certificate and session blob can be provided via 'dh-cert-file' and
+> -'session-file' property (see below
+> +The DH certificate and session blob can be provided via the 'dh-cert-file' and
+> +'session-file' properties (see below)
+>  
+>  # ${QEMU} \
+>       sev-guest,id=sev0,dh-cert-file=<file1>,session-file=<file2>
+>  
+>  LAUNCH_UPDATE_DATA encrypts the memory region using the cryptographic context
+> -created via LAUNCH_START command. If required, this command can be called
+> +created via the LAUNCH_START command. If required, this command can be called
+>  multiple times to encrypt different memory regions. The command also calculates
+>  the measurement of the memory contents as it encrypts.
+>  
+> -LAUNCH_MEASURE command can be used to retrieve the measurement of encrypted
+> -memory. This measurement is a signature of the memory contents that can be
+> -sent to the guest owner as an attestation that the memory was encrypted
+> -correctly by the firmware. The guest owner may wait to provide the guest
+> -confidential information until it can verify the attestation measurement.
+> -Since the guest owner knows the initial contents of the guest at boot, the
+> -attestation measurement can be verified by comparing it to what the guest owner
+> -expects.
+> +LAUNCH_MEASURE can be used to retrieve the measurement of encrypted memory.
+> +This measurement is a signature of the memory contents that can be sent to the
+> +guest owner as an attestation that the memory was encrypted correctly by the
+> +firmware. The guest owner may wait to provide the guest confidential information
+> +until it can verify the attestation measurement. Since the guest owner knows the
+> +initial contents of the guest at boot, the attestation measurement can be
+> +verified by comparing it to what the guest owner expects.
+>  
+> -LAUNCH_FINISH command finalizes the guest launch and destroy's the cryptographic
+> +LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
+>  context.
+>  
+>  See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+> @@ -78,10 +77,10 @@ To launch a SEV guest
+>  
+>  Debugging
+>  -----------
+> -Since memory contents of SEV guest is encrypted hence hypervisor access to the
+> -guest memory will get a cipher text. If guest policy allows debugging, then
+> -hypervisor can use DEBUG_DECRYPT and DEBUG_ENCRYPT commands access the guest
+> -memory region for debug purposes.  This is not supported in QEMU yet.
+> +Since the memory contents of a SEV guest are encrypted, hypervisor access to
+> +the guest memory will return cipher text. If the guest policy allows debugging,
+> +then a hypervisor can use the DEBUG_DECRYPT and DEBUG_ENCRYPT commands to access
+> +the guest memory region for debug purposes.  This is not supported in QEMU yet.
+>  
+>  Snapshot/Restore
+>  -----------------
+> 
 
-This list isn't moderated normally so shouldn't be a problem.
-
-Still the list seems to be running a bit slowly today, I see your patch
-has made it through though.
-
-Dave
-
-> E
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 
 
