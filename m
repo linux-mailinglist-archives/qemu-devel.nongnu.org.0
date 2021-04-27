@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D24136C35C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:28:19 +0200 (CEST)
-Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BC636C3D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:30:37 +0200 (CEST)
+Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbKwz-0000r9-L3
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36494)
+	id 1lbKzE-0002io-Tr
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbKtt-0008Ad-TJ
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:25:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbKtp-0003kL-N5
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619519100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ltPM7XxxSBxSKDRFyhmHsMKJYhXmBDDws/ZTXEQpWE0=;
- b=a4Rv1+HcY7gPsn7GeEdh4fQ/E8z+iuzG9JrPCRvfAwFj91aiA2imV5iCboa7OUI3LT9P47
- MnzyVakIX4p14WZCoOMJtSP7tPU0rbnBleIqs1NM222MaOvcbhaLa9051vmcyhp89WMnG4
- nDGh0xaa6NNs5L94J9fzNRbJXkiNK/k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-fxG39d3YMzu6U9s0c8HYVQ-1; Tue, 27 Apr 2021 06:24:58 -0400
-X-MC-Unique: fxG39d3YMzu6U9s0c8HYVQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E32F5A0CAE;
- Tue, 27 Apr 2021 10:24:57 +0000 (UTC)
-Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31C0360CC6;
- Tue, 27 Apr 2021 10:24:45 +0000 (UTC)
-Date: Tue, 27 Apr 2021 11:24:42 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v2 2/7] virtiofds: Changed allocations of iovec to GLib's
- functions
-Message-ID: <YIfmaleNOwhLLD9W@work-vm>
-References: <20210420154643.58439-1-ma.mandourr@gmail.com>
- <20210420154643.58439-3-ma.mandourr@gmail.com>
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1lbKuK-0008Dj-Pg
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:25:33 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1lbKty-0003wA-AV
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:25:26 -0400
+Received: by mail-ej1-x629.google.com with SMTP id u17so88850641ejk.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Q+Lkpe7/qSv9cQ9MBriySnduaChYcPUxSDWgHEvAbLs=;
+ b=ICTANCP99yJdM/z7WAFOhMlLKDmWgHuf0vsFYhpIvgz9pEdszezXKkRMhSgdcgOg3P
+ /Mx33sYqxDjZ0pgyAj7UuCfMXEaFw3garlPRyGPopAeGwD1CB+9EjW6zrjevQfi7ct8x
+ N4YXNtRC4bsvaiXssBP0Qza1LUYt8fSMTw7WEIeQxBPiOUTngp/Kzg9StVFm/zKUTJLI
+ taBUG8xfjS+vdy2YnJIyxqr7UuFSGpsOpmi9Dd9OiUp/8Qivw03FoU3JQ2dQ7bVFy9n3
+ h2ZOSoutG9w7YBOgkr+NwRdOuFglXEDLgjZqLzpyVS5wJpzTCwRdP2SnBGIUHxXAe5Vg
+ nW3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Q+Lkpe7/qSv9cQ9MBriySnduaChYcPUxSDWgHEvAbLs=;
+ b=scX6lIkCI5XwlKya//Su569esuXkl1HtzMR0T3YR/6j7CSSzxFkhkHvpJM+1LfkgxJ
+ EbcaMHza3IiQhR35WoO/Sd3iuhzdMbd2woz/OUkMRuWqBpNDojJV8jjcCaioBIEWrdtF
+ MAG1QQ/PO6hccTT9usv1XBKPGGzhYx6a1jwWYKCvCSLkjo1EXw5kiDeVDCybMaifkbY3
+ VRIw5AeyP9ZjkV89cyI/9oSJ+M8G3dSKC7xcQoPzVYMFtN2UqEGML31C8Oh9AtWLyQhv
+ RFVpmQK3/7UOMVSnVtcvjqeyZ6OvsMEB8i7ZNj8PqDFOdcuxXmknK05vVG5nQm2y/hv5
+ aquA==
+X-Gm-Message-State: AOAM533RCSchlr21Eymld41PsMRGXdK7Exs+hHsfdVQ3+4fPyt7kwpqi
+ MC6PUpCvHxRR9nEAomgEi4lpKAwlC/dfMM4jSMvI
+X-Google-Smtp-Source: ABdhPJwUdf4KZMc70QI3zDg10xWfepBr4saKNcd0k+h180rJcFFXdlNWf/ifiNHz5xKtkfenKMrUGAFW8KXa1uB/SFA=
+X-Received: by 2002:a17:907:1b11:: with SMTP id
+ mp17mr22862829ejc.1.1619519106407; 
+ Tue, 27 Apr 2021 03:25:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210420154643.58439-3-ma.mandourr@gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210408101252.552-1-xieyongji@bytedance.com>
+ <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
+In-Reply-To: <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Tue, 27 Apr 2021 18:24:55 +0800
+Message-ID: <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
+Subject: Re: Re: [PATCH 0/3] Introduce vhost-vdpa block device
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,176 +80,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:virtiofs" <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> Replaced the calls to malloc()/calloc() and their respective
-> calls to free() of iovec structs with GLib's allocation and
-> deallocation functions.
-> 
-> Also, in one instance, used g_new0() instead of a calloc() call plus
-> a null-checking assertion.
-> 
-> iovec structs were created locally and freed as the function
-> ends. Hence, I used g_autofree and removed the respective calls to
-> free().
-> 
-> In one instance, a struct fuse_ioctl_iovec pointer is returned from a
-> function, namely, fuse_ioctl_iovec_copy. There, I used g_steal_pointer()
-> in conjunction with g_autofree, this gives the ownership of the pointer
-> to the calling function and still auto-frees the memory when the calling
-> function finishes (maintaining the symantics of previous code).
-> 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 19 +++++++------------
->  tools/virtiofsd/fuse_virtio.c   |  6 +-----
->  2 files changed, 8 insertions(+), 17 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 812cef6ef6..f965299ad9 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -217,9 +217,9 @@ static int send_reply(fuse_req_t req, int error, const void *arg,
->  int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
->  {
->      int res;
-> -    struct iovec *padded_iov;
-> +    g_autofree struct iovec *padded_iov;
->  
-> -    padded_iov = malloc((count + 1) * sizeof(struct iovec));
-> +    padded_iov = g_try_new(struct iovec, count + 1);
->      if (padded_iov == NULL) {
->          return fuse_reply_err(req, ENOMEM);
->      }
-> @@ -228,7 +228,6 @@ int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
->      count++;
->  
->      res = send_reply_iov(req, 0, padded_iov, count);
-> -    free(padded_iov);
->  
->      return res;
->  }
+On Mon, Apr 26, 2021 at 11:34 PM Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+>
+> On Thu, Apr 08, 2021 at 06:12:49PM +0800, Xie Yongji wrote:
+> > Since we already have some ways to emulate vDPA block device
+> > in kernel[1] or userspace[2]. This series tries to introduce a
+> > new vhost-vdpa block device for that. To use it, we can add
+> > something like:
+> >
+> > qemu-system-x86_64 \
+> >     -device vhost-vdpa-blk-pci,vdpa-dev=3D/dev/vhost-vdpa-0
+>
+> This device is similar to vhost-user-blk. QEMU does not see it as a
+> block device so storage migration, I/O throttling, image formats, etc
+> are not supported. Stefano Garzarella and I discussed how vdpa-blk
+> devices could integrate more deeply with QEMU's block layer. The QEMU
+> block layer could be enabled only when necessary and otherwise bypassed
+> for maximum performance.
+>
 
-OK.
+Do you mean we can make use of the shadow virtqueue for the slow path
+(I/O will go through the block layer) and add a fast path (like what
+we do now) to bypass the block layer?
 
-> @@ -565,10 +564,10 @@ int fuse_reply_bmap(fuse_req_t req, uint64_t idx)
->  static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct iovec *iov,
->                                                        size_t count)
->  {
-> -    struct fuse_ioctl_iovec *fiov;
-> +    g_autofree struct fuse_ioctl_iovec *fiov;
->      size_t i;
->  
-> -    fiov = malloc(sizeof(fiov[0]) * count);
-> +    fiov = g_try_new(fuse_ioctl_iovec, count);
->      if (!fiov) {
->          return NULL;
->      }
-> @@ -578,7 +577,7 @@ static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct iovec *iov,
->          fiov[i].len = iov[i].iov_len;
->      }
->  
-> -    return fiov;
-> +    return g_steal_pointer(&fiov);
->  }
+> This alternative approach is similar to how vhost-net is implemented in
+> QEMU. A BlockDriver would handle the vdpa-blk device and the regular
+> virtio-blk-pci device would still be present. The virtqueues could be
+> delegated to the vdpa-blk device in order to bypass the QEMU block
+> layer.
+>
+> I wanted to mention this since it's likely that this kind of vdpa-blk
+> device implementation will be posted in the future and you might be
+> interested. It makes live migration with non-shared storage possible,
+> for example.
+>
 
-This is OK, but doesn't gain anything - marking it as g_autofree'ing and
-always stealing is no benefit.
+That would be nice, I'm looking forward to it!
 
->  
->  int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
-> @@ -629,9 +628,6 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
->  
->      res = send_reply_iov(req, 0, iov, count);
->  out:
-> -    free(in_fiov);
-> -    free(out_fiov);
-> -
+So do you think whether it's necessary to continue this approach?
+Looks like we don't need a vhost-vdpa-blk device any more in the new
+approach.
 
-I don't think you can do that - I think you're relying here on the
-g_autofree from fuse_ioclt_iovec_copy - but my understanding is that
-doesn't work; g_autofree is scoped, so it's designed to free at the end
-of fuse_ioctl_iovec_copy, fuse_reply_ioctl_retry doesn't know that the
-ion_fiov were allocated that way, so it won't get autocleaned up.
+> An issue with vhost-user-blk is that the ownership of qdev properties
+> and VIRTIO Configuration Space fields was not clearly defined. Some
+> things are handled by QEMU's vhost-user-blk code, some things are
+> handled by the vhost-user device backend, and some things are negotiated
+> between both entities. This patch series follows the existing
+> vhost-user-blk approach, which I think will show serious issues as the
+> device is more widely used and whenever virtio-blk or the implementation
+> is extended with new features. It is very hard to provide backwards
+> compatibility with the current approach where the ownership of qdev
+> properties and VIRTIO Configuration Space fields is ad-hoc and largely
+> undefined.
+>
+> Since vDPA has VIRTIO Configuration Space APIs, I suggest that the
+> vhost-vDPA device controls the entire configuration space. QEMU should
+> simply forward accesses between the guest and vhost-vdpa.
+>
 
->      return res;
->  
->  enomem:
-> @@ -663,11 +659,11 @@ int fuse_reply_ioctl(fuse_req_t req, int result, const void *buf, size_t size)
->  int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
->                           int count)
->  {
-> -    struct iovec *padded_iov;
-> +    g_autofree struct iovec *padded_iov;
->      struct fuse_ioctl_out arg;
->      int res;
->  
-> -    padded_iov = malloc((count + 2) * sizeof(struct iovec));
-> +    padded_iov = g_try_new(struct iovec, count + 2);
->      if (padded_iov == NULL) {
->          return fuse_reply_err(req, ENOMEM);
->      }
-> @@ -680,7 +676,6 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
->      memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
->  
->      res = send_reply_iov(req, 0, padded_iov, count + 2);
-> -    free(padded_iov);
->  
->      return res;
->  }
+Does this already achieved by vhost_ops->vhost_get_config=EF=BC=9F And I wa=
+nt
+to know how to handle the endianness issue if qemu just simply does
+forwarding and doesn't care about the content of config space.
 
-OK
+> Regarding qdev properties, it's a little trickier because QEMU needs to
+> do the emulated VIRTIO device setup (allocating virtqueues, setting
+> their sizes, etc). Can QEMU query this information from the vDPA device?
+> If not, which qdev properties are read-only and must match the
+> configuration of the vDPA device and which are read-write and can
+> control the vDPA device?
+>
 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 3e13997406..07e5d91a9f 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -347,8 +347,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->       * Build a copy of the the in_sg iov so we can skip bits in it,
->       * including changing the offsets
->       */
-> -    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec), in_num);
-> -    assert(in_sg_cpy);
-> +    g_autofree struct iovec *in_sg_cpy = g_new0(struct iovec, in_num);
->      memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
->      /* These get updated as we skip */
->      struct iovec *in_sg_ptr = in_sg_cpy;
-> @@ -386,7 +385,6 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->              ret = errno;
->              fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
->                       __func__, len);
-> -            free(in_sg_cpy);
->              goto err;
->          }
->          fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
-> @@ -410,13 +408,11 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->          if (ret != len) {
->              fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
->              ret = EIO;
-> -            free(in_sg_cpy);
->              goto err;
->          }
->          in_sg_left -= ret;
->          len -= ret;
->      } while (in_sg_left);
-> -    free(in_sg_cpy);
+Yes, that's an issue. We have to make sure the number of virtqueues
+and their size set by qemu is not greater than hardware limitation.
+Now I think we can query the max queue size, but looks like we don't
+have an interface to query the max number of virtqueues.
 
-Yes, this is where the autofree really helps; getting rid of a few
-free's.
-
-Dave
-
->      /* Need to fix out->len on EOF */
->      if (len) {
-> -- 
-> 2.25.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Thanks,
+Yongji
 
