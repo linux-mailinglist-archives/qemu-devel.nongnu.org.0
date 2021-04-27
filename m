@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E0B36C9C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:51:50 +0200 (CEST)
-Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FF336C9C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:52:44 +0200 (CEST)
+Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbQw9-0000FA-4J
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
+	id 1lbQx1-0001Mg-U8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lbQsC-0005wX-KN
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:47:44 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40717)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbQs0-0005m3-DS
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:47:32 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:33584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lbQsA-0006TI-5p
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:47:44 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id c22so7117880edn.7
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:47:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbQry-0006PN-Fx
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:47:32 -0400
+Received: by mail-pg1-x529.google.com with SMTP id t22so7514537pgu.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:47:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PIkHYGZ8ur1vpArbXiX8iAZ0hbUSvpCYqP3mVAXDxPE=;
- b=OXHhEs30yfW2POshdsEF3AdmYDTbD0jwSXr5XN5BFAHSKOsMHuWCxvi2UgBmVvgPS3
- IpbkhJOkivIuMplz+6F7R2zYSY0x6gxplo8nCxy1DEHU3DobYNWrj/GKW2Mper3jkkAh
- 0k2FY61igbc1P/nS6pClXF/9CV/Epa45dw0IjNMu4pk/3aS+tfR8rYBQLO/5o+eAYhnB
- wNAi2moQGnj+h2b7jAdTccTXLN9t4cGngzU2+bw9YAGpW2hXUyVp0pmda/rPRGJ7F18R
- fgjxsEkGg/AVT8gekGBVEAl0+h9ZRKaL9LVBhOmKO6YKQZolWqJPvj3YvYVVPgM0V6xz
- cgjQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=lafdq/kMb9hvJYgMyLwybUwaXNI4LSB1BV7ts29NFm0=;
+ b=loOwqL2zPe/EQ+fZdTK7H+4yzLr8V5tPfSmpfNMGkYUroE7kpZG8cddjTeit6bRFar
+ g7XNGT850miiT01gigj+O1us+qEl7OLnv+MNRA0v4ghAkLKSANN17UBD1bll384QlM1Y
+ Wgjcuj1EafHB9wrA+TItqtYX3xH0Lc2RKDQFTG/FVTQIppL3935MImHHh2SCPu53T7e8
+ 6ZIPkMyTsvrnEJkSvGEPqthXuF1/XkT8V1f0aUW+QcBgK5X9335uS/9K0E2CVjxP4mbE
+ ZjN67tvsMPWEr1VItq3QyKNWDnrSz6xjMeAyQ2R6qg1hmyam9KC6R+dL1fBs0Q7C+RHr
+ pdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PIkHYGZ8ur1vpArbXiX8iAZ0hbUSvpCYqP3mVAXDxPE=;
- b=jwh1cp7Id+YAgLlj9jdcuZ/N/Eh8+tTUppmtDbrlzwBiVDCrKcAWnyUf0RpSPiDiD4
- 7oMnLIA3mVvc74OnIPuJYcAfjOYcqmGSm8dU9NoE1wCFulcjDgZou4dAPLiQVLepN3SL
- 2wKYviRgD2V0E42ldtM028MxCJF+hf5qOdSSIiosMIpypC0oEeU80rzyemo0UDf76D1u
- n5mAYBNQ57uP8Xs3SwiDoWqtkksBJLCTbwoRF7e1Kk3xtwAnw/s7HiHrTkopzCz1WjWg
- 8GHo4mLofUAz8BqVenQP107RxJ9qanv2sdOEvcUsMVRxiqMo9wbS0G6V+UOF45Q7DoJi
- aK6g==
-X-Gm-Message-State: AOAM530Mcp/fPmISLWgbbMaxkEhFsTU5XU82LLlKf7VMHcI2aukYV/JA
- +LlmmPW5PYRLelwb85x2r2u46lMy1Sd3Hapw5rmZ9w==
-X-Google-Smtp-Source: ABdhPJxbGtvUP6nLyvdJWrPAESYMuH6znYJ+PgA255QjBw1UQe+HNpVSms0SR3DSdbh1Y0/mthTw5pGocYDDBG5Yijc=
-X-Received: by 2002:aa7:c0ce:: with SMTP id j14mr5431479edp.251.1619542060237; 
- Tue, 27 Apr 2021 09:47:40 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lafdq/kMb9hvJYgMyLwybUwaXNI4LSB1BV7ts29NFm0=;
+ b=d0BP+gOAZq7Xqi3LRaGucAAy3Wstp06qS5sAkzBlk0SOQhYwgEAMeXO6INEFCVO6C3
+ QXanGt5Mz4sxGM2Kud4G8haLDUntEqkwLClM5jFwC2Msg6wqIfA+4V8j+AU8FgpzP8yc
+ i2ViTgH02E0G0Pg1T5BUIcZOU134SzY9vWlX5nyLVE2ViNOGRSG4ctGN1e4YqKzzHaR1
+ Q1Zo7OFCdXwicf9YOVI4ldqTRE460g+eN2Kweh/G+HgS+eZISat186kt6KuPDMIx1NjR
+ Tf9jYmJ27Rl/MTlHLjsXZHsyb6jyUl8+bvlVdk5H+AjR4S9G0Q5dTSC+euJELHjLzxV4
+ 1AjA==
+X-Gm-Message-State: AOAM531aX7YcaEjttDTQNJK1e548CCInEjneFgYFJGOwyByZ05Gc9cVQ
+ 5pMI7BxPAx39S9rxd77tb5ULEQqM730zvg==
+X-Google-Smtp-Source: ABdhPJypxcQB1mAlYwrc7aQvcuE+Zw4f6DQpR4Lto3I1BSPlIhcC5it7tuTQVSMp7TM+JhZfji+ZNw==
+X-Received: by 2002:a63:da10:: with SMTP id c16mr22551024pgh.221.1619542048767; 
+ Tue, 27 Apr 2021 09:47:28 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id v64sm2426872pfc.117.2021.04.27.09.47.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 09:47:28 -0700 (PDT)
+Subject: Re: [PATCH 06/13] target/arm: Move vfp_{load, store}_reg{32, 64} to
+ translate-vfp.c.inc
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-6-peter.maydell@linaro.org>
- <3413dad6-67ee-1715-6e19-06adac14bc11@linaro.org>
-In-Reply-To: <3413dad6-67ee-1715-6e19-06adac14bc11@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Apr 2021 17:46:40 +0100
-Message-ID: <CAFEAcA8CrunFV3RWShGUyFdQPDYNmsW2x4U70kgWd7kMU1JsRg@mail.gmail.com>
-Subject: Re: [PATCH 05/13] target/arm: Move gen_aa32 functions to
- translate-a32.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+ <20210413160759.5917-7-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3dfd6cc6-58b9-a1f4-f53a-6e5bfabc9d02@linaro.org>
+Date: Tue, 27 Apr 2021 09:47:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210413160759.5917-7-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,29 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Apr 2021 at 17:44, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 4/13/21 9:07 AM, Peter Maydell wrote:
-> > Move the various gen_aa32* functions and macros out of translate.c
-> > and into translate-a32.h.
-> >
-> > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> > ---
-> >   target/arm/translate-a32.h | 44 ++++++++++++++++++++++++++++++++++
-> >   target/arm/translate.c     | 49 +++++++-------------------------------
-> >   2 files changed, 52 insertions(+), 41 deletions(-)
->
-> These functions go away with my alignment patch set, fwiw.
+On 4/13/21 9:07 AM, Peter Maydell wrote:
+> The functions vfp_load_reg32(), vfp_load_reg64(), vfp_store_reg32()
+> and vfp_store_reg64() are used only in translate-vfp.c.inc. Move
+> them to that file.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/translate.c         | 20 --------------------
+>   target/arm/translate-vfp.c.inc | 20 ++++++++++++++++++++
+>   2 files changed, 20 insertions(+), 20 deletions(-)
 
-Yeah, I discovered that when I did a rebase on top of it. (I'm waiting
-til the alignment patches which are in target-arm.next get into master
-post-6.0-release before sending out the rebase.)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
