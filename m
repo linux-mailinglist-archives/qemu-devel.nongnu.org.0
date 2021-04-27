@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9388536CA54
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:28:39 +0200 (CEST)
-Received: from localhost ([::1]:51852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1875736CA59
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:29:37 +0200 (CEST)
+Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRVl-0007tD-Sc
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39592)
+	id 1lbRWh-0000Fq-0K
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLp-0001er-QB; Tue, 27 Apr 2021 13:18:21 -0400
+ id 1lbRLu-0001gm-AI; Tue, 27 Apr 2021 13:18:27 -0400
 Received: from [201.28.113.2] (port=48284 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLo-00023I-6s; Tue, 27 Apr 2021 13:18:21 -0400
+ id 1lbRLq-00023I-RX; Tue, 27 Apr 2021 13:18:25 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Tue, 27 Apr 2021 14:16:53 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 02A4C80139F;
+ by power9a (Postfix) with ESMTP id 314688013BA;
  Tue, 27 Apr 2021 14:16:53 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 06/15] target/ppc: Mark helper_raise_exception* as noreturn
-Date: Tue, 27 Apr 2021 14:16:40 -0300
-Message-Id: <20210427171649.364699-7-luis.pires@eldorado.org.br>
+Subject: [PATCH v2 07/15] target/ppc: Use translator_loop_temp_check
+Date: Tue, 27 Apr 2021 14:16:41 -0300
+Message-Id: <20210427171649.364699-8-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Apr 2021 17:16:53.0199 (UTC)
- FILETIME=[1E154DF0:01D73B89]
+X-OriginalArrivalTime: 27 Apr 2021 17:16:53.0372 (UTC)
+ FILETIME=[1E2FB3C0:01D73B89]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,23 +63,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+The special logging is unnecessary.  It will have been done
+immediately before in the log file.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/helper.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/translate.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 6a4dccf70c..af5b3586d1 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -1,5 +1,5 @@
--DEF_HELPER_FLAGS_3(raise_exception_err, TCG_CALL_NO_WG, void, env, i32, i32)
--DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, void, env, i32)
-+DEF_HELPER_FLAGS_3(raise_exception_err, TCG_CALL_NO_WG, noreturn, env, i32, i32)
-+DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
- DEF_HELPER_FLAGS_4(tw, TCG_CALL_NO_WG, void, env, tl, tl, i32)
- #if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_4(td, TCG_CALL_NO_WG, void, env, tl, tl, i32)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index b18ad8ec2c..dd34f22704 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -8086,11 +8086,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         gen_exception_nip(ctx, excp, ctx->base.pc_next);
+     }
+ 
+-    if (tcg_check_temp_count()) {
+-        qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
+-                 "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
+-                 opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+-    }
++    translator_loop_temp_check(&ctx->base);
+ }
+ 
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.25.1
 
