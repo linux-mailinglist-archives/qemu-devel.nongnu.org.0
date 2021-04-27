@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5014F36CBB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 21:34:03 +0200 (CEST)
-Received: from localhost ([::1]:38442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF52C36CBC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 21:36:18 +0200 (CEST)
+Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbTT8-0007pY-ED
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 15:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46226)
+	id 1lbTVJ-0000Yy-Qg
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 15:36:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbTS0-0006xz-Ri
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:32:53 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36621)
+ id 1lbTTH-0008Jd-Nk
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:34:11 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbTRy-0003NV-5b
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:32:52 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- f15-20020a05600c4e8fb029013f5599b8a9so5726212wmq.1
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 12:32:49 -0700 (PDT)
+ id 1lbTTG-0004Cz-8S
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:34:11 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l189-20020a1cbbc60000b0290140319ad207so5347773wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 12:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iaCx0Nuipfnohz/MGAAOyFmzQUIB+nn+ZOkbT93ESBs=;
- b=EZ4Q4dmm/7KI0RDl1Jr8eylRxlrNDtepQBBRzJE6bfWbuz613OdT8XU+7YcE1vK9Bn
- B0wvDCrdtj/CCD461E3EXKkyfNYIU8ZFAG7fm8QBujGYauVzuyzqooYl/Y7H5n0uRFsC
- tWdZpO0d6ixq0llfgOlRDsL9m79MJ/XwOx16rBUqzbphUP4gle33W9Mf/Oksd17lRICq
- 9BhNhYwL9B8yQp4a8IOsk9XkRweozcsugzcC404n+lucAEcMmbZ5+8b5Th5yNwPEfCqD
- upJoLkHOIeKFv6MRK3+1gy2Mr10MJ9bJBqTkTbB/8qVUFuwvGCleYTq2AVjw0qXl7lSU
- OAEw==
+ bh=ZJKYGH/WFScK/h418HeLxCp4gZadmLPj/OoJerI1FDM=;
+ b=LqFAj3Ep+f8pSYNNw9ODSC0Hwz3THLTfzc+jCwVLa4WMkv23dYrXpLAvVfm8s8nA1z
+ lQC30kwduaSwcaipx8D7S+0nvUCX2e2qMhyAD6KOlwWLcO6SXuUZTzN9u2v3r32RLLLO
+ zVPxzW6R2QSo82k25L+nL98k1nM1US88ImjFijk/cnU5ZzFBTR2+1qqxNJYpYCKA0+1I
+ GSKrKCF6WhjyYF4StJb6CuxgqJ1G1f98M70jyLKqcQroWL5Fi6d5pGFuXiQ9qwUtcrSe
+ +EVo+cMKq8D7B6jf7CAtsh+BnPUAFy3Lnw1CQvGT6KkcrUhPa6EejrJ6Fuy2HZ5HtblQ
+ tRyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iaCx0Nuipfnohz/MGAAOyFmzQUIB+nn+ZOkbT93ESBs=;
- b=mbqQcIBKerLJVdFmANooSsKTfY+AHqTvz27vxjjcFgzyHSeue9ntUuCdNtemnkGnw8
- Zfp6lUSKxSnxrDcNqRekQ/iMc4gS2ar0F0Wp9nV6FRPSrJQXWuopuKg1BmQyEV2rTjuZ
- wNUPMHOJCq77aCfVphQGvn4R5paetrSHw2bNUh7HhKKqeyWJHWxGCTeg8sKQThx0Qdf7
- 6m8pFVusMPRMcWvhQkeJ1d0XQhXMecPPi7rjotBkA7TJM6wDTuTnb2+YmgoGaxqushs0
- dc3JPVqzv6tMRLpLxCWq5mmsskhYfI7FupEnbqOhCWMfMgzm4IBKx39j5c9YwhSPPOrp
- 97vQ==
-X-Gm-Message-State: AOAM532OiUjnYLYSfeTNv/jK2jVxlSGjpbuomyn6TBGKYBJuNhYUpjvH
- v56AuPdhtA8Jvwh5BJKgMi8=
-X-Google-Smtp-Source: ABdhPJx3eklkDuIVJ8IMmexPfOs1zMCxweQKgryndvNVS95FCeDkhUZG0Dqr9rQODc2hNqEhf1USYA==
-X-Received: by 2002:a05:600c:4fd4:: with SMTP id
- o20mr6151457wmq.166.1619551968589; 
- Tue, 27 Apr 2021 12:32:48 -0700 (PDT)
+ bh=ZJKYGH/WFScK/h418HeLxCp4gZadmLPj/OoJerI1FDM=;
+ b=jgkyy+G2ldn6LjIkXV7ZKjKyRkhNKxdb6NywoC1cLbTwp00MYmi0t9Os8izYOxIL4e
+ EG+ji4qw8P+q32qf6gOXW5rtMVcuDLnQfA7C/jQeTMoBE6RBzup5Yp62d53hCPNRkegu
+ twdnaPyzCIQYbczaAbgAWPjViRWZFJ41jpS4JMD04qaxIjA9+GFycx44X3lwICChIlrX
+ hdrttwwNsg4jZ6AfWw6y775UyB8oPgsFLLc4AhLHckpfYoqMts2abUb25bNB7OWQvHcR
+ vXCE+BA1/PvARRHzN2PjschgrTvPH3ytRHKR8tNQcNOoepnwdKiruUw3/llWEdh4xbMi
+ 3zgA==
+X-Gm-Message-State: AOAM531CKKNc9GAfQhX/o395dsmfIuevYz90LVhvXrQbFIo2ky/SFvc1
+ D0kodVMBbiqMG1X+/JZDXCc=
+X-Google-Smtp-Source: ABdhPJxzCsDlfdXLaqhdNMJBIsDkVVpGxJ0K2bGEYXlksXqki3kj1G3mjv36tv2zMBCXdYCVUDLsnA==
+X-Received: by 2002:a1c:4c07:: with SMTP id z7mr1763556wmf.96.1619552048879;
+ Tue, 27 Apr 2021 12:34:08 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id z7sm5426001wrl.11.2021.04.27.12.32.47
+ by smtp.gmail.com with ESMTPSA id t6sm5099328wrx.38.2021.04.27.12.34.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 12:32:47 -0700 (PDT)
-Subject: Re: [PATCH] target/mips: Fix CACHEE opcode (CACHE using EVA
- addressing)
+ Tue, 27 Apr 2021 12:34:08 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Add missing CP0 check to nanoMIPS RDPGPR /
+ WRPGPR opcodes
 To: qemu-devel@nongnu.org
-References: <20210420175426.1875746-1-f4bug@amsat.org>
+References: <20210421185007.2231855-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5bb2dc77-432a-d594-8f8d-bdb34bebf00f@amsat.org>
-Date: Tue, 27 Apr 2021 21:32:46 +0200
+Message-ID: <72eccd4f-3166-5288-c45c-fa44b9e35b9c@amsat.org>
+Date: Tue, 27 Apr 2021 21:34:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210420175426.1875746-1-f4bug@amsat.org>
+In-Reply-To: <20210421185007.2231855-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,24 +99,18 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/21 7:54 PM, Philippe Mathieu-Daudé wrote:
-> The CACHEE opcode "requires CP0 privilege".
+On 4/21/21 8:50 PM, Philippe Mathieu-Daudé wrote:
+> Per the nanoMIPS32 Instruction Set Technical Reference Manual,
+> Revision 01.01, Chapter 3. "Instruction Definitions":
 > 
-> The pseudocode checks in the ISA manual is:
+> The Read/Write Previous GPR opcodes "require CP0 privilege".
 > 
->     if is_eva and not C0.Config5.EVA:
->       raise exception('RI')
+> Add the missing CP0 checks.
 > 
->     if not IsCoprocessor0Enabled():
->       raise coprocessor_exception(0)
-> 
-> Add the missing checks.
-> 
-> Inspired-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  target/mips/translate.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Thanks, applied to mips-next.
 
