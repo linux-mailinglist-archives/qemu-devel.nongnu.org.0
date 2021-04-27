@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D789F36CDFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 23:54:01 +0200 (CEST)
-Received: from localhost ([::1]:39746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7451936CDFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 23:54:29 +0200 (CEST)
+Received: from localhost ([::1]:40454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbVea-0002lD-UP
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 17:54:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
+	id 1lbVf2-00032X-IT
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 17:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1lbVct-00021u-1k
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:52:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56673)
+ id 1lbVdL-0002C9-1o
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:52:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
- id 1lbVcq-0002Et-BE
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:52:14 -0400
+ id 1lbVdH-0002Yt-74
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:52:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619560331;
+ s=mimecast20190719; t=1619560358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BYEiooE6hCTVUo5eieG+jtzQK3yimXP4priwKJPwHIY=;
- b=eQ/8qUZ8COSWXZLpJLHOV7dl5sDPS7TJ9P7Gz4Wns07DTqyqWrzTgk7gh0FGLY8GGC71sD
- i40fWjeZ/Gik7OM8IgGRuYS2Znp0p/mqjDLyqdTEnRWNp0KPL071MdrZQVIL108nDnL6Hi
- kAXpmuGJAPPEysYpn1L6JWFvbQ9aiac=
+ bh=EPjxD6r1IOsye7pWITJrV1H5Ypup1+gWB66tOk0Ydlg=;
+ b=OopiC11MS1ritWh5Tj3oHtV2H9RMk2ghX+hTjWZyUxSxxALwtPY3btn7QH4V86So1U1pcv
+ YcZJn7hnHyVDAoBhQZw40UnQrnD2BeaqxaF80quBFuSqzUaSDk9gzTAUC9NQVk7i5pDLu6
+ pELyY+i72tkaXm5qQebCng+EhLNocA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-UxNfJbGlN0Sge0j-sWz3yw-1; Tue, 27 Apr 2021 17:52:04 -0400
-X-MC-Unique: UxNfJbGlN0Sge0j-sWz3yw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-203-k5sqVeuFPvCSE1zGqR2hOg-1; Tue, 27 Apr 2021 17:52:34 -0400
+X-MC-Unique: k5sqVeuFPvCSE1zGqR2hOg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F8D6801107;
- Tue, 27 Apr 2021 21:52:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4257E8042B3;
+ Tue, 27 Apr 2021 21:52:33 +0000 (UTC)
 Received: from maya.cloud.tilaa.com (unknown [10.36.110.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA3BE60C0F;
- Tue, 27 Apr 2021 21:52:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C88029AAE;
+ Tue, 27 Apr 2021 21:52:31 +0000 (UTC)
 Received: from elisabeth (011-177-165-046.ip-addr.inexio.net [46.165.177.11])
- by maya.cloud.tilaa.com (Postfix) with ESMTPSA id EB08540098;
- Tue, 27 Apr 2021 23:52:01 +0200 (CEST)
-Date: Tue, 27 Apr 2021 23:51:52 +0200
+ by maya.cloud.tilaa.com (Postfix) with ESMTPSA id 3C23E40098;
+ Tue, 27 Apr 2021 23:52:30 +0200 (CEST)
+Date: Tue, 27 Apr 2021 23:52:29 +0200
 From: Stefano Brivio <sbrivio@redhat.com>
-To: Ralph Schmieder <ralph.schmieder@gmail.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
 Subject: Re: socket.c added support for unix domain socket datagram transport
-Message-ID: <20210427235152.6e1e080a@elisabeth>
-In-Reply-To: <2DC6F891-4F28-4044-A055-0CDAB45A3C24@gmail.com>
+Message-ID: <20210427235229.5cf8711c@elisabeth>
+In-Reply-To: <YIa4iGzTl+ecfbzH@redhat.com>
 References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
- <20210423172940.14f48b49@elisabeth>
- <F0191BF0-7C7A-4587-8B94-BACA7E1F911F@gmail.com>
- <20210423183901.12a71759@redhat.com>
- <2DC6F891-4F28-4044-A055-0CDAB45A3C24@gmail.com>
+ <20210423172940.14f48b49@elisabeth> <YIL0Ehmfgc1J9Ci9@redhat.com>
+ <20210423185408.6d5d14f0@redhat.com> <YIa4iGzTl+ecfbzH@redhat.com>
 Organization: Red Hat
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sbrivio@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=sbrivio@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -86,89 +84,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Ralph Schmieder <ralph.schmieder@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Apr 2021 13:14:48 +0200
-Ralph Schmieder <ralph.schmieder@gmail.com> wrote:
+On Mon, 26 Apr 2021 13:56:40 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-> > On Apr 23, 2021, at 18:39, Stefano Brivio <sbrivio@redhat.com>
-> > wrote:
-> > 
-> > [...]
-> >
-> > Okay, so it doesn't seem to fit your case, but this specific point
-> > is where you actually have a small advantage using a stream-oriented
-> > socket. If you receive a packet and have a smaller receive buffer,
-> > you can read the length of the packet from the vnet header and then
-> > read the rest of the packet at a later time.
-> > 
-> > With a datagram-oriented socket, you would need to know the maximum
-> > packet size in advance, and use a receive buffer that's large
-> > enough to contain it, because if you don't, you'll discard data.  
-> 
-> For me, the maximum packet size is a jumbo frame (e.g. 9x1024) anyway
-> -- everything must fit into an atomic write of that size.
+> On Fri, Apr 23, 2021 at 06:54:08PM +0200, Stefano Brivio wrote:
+> > On Fri, 23 Apr 2021 17:21:38 +0100
+> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote: =20
+> > > The current IP socket impl for the net socket backend uses SOCK_DGRAM=
+,
+> > > so from a consistency POV it feels sensible todo the same for UNIX
+> > > sockets too. =20
+> >=20
+> > That's just for UDP though -- it also supports TCP with the "connect=3D=
+"
+> > parameter, and given that a stream-oriented AF_UNIX socket behaves very
+> > similarly, I recycled that parameter and just extended that bit of
+> > documentation.
+> >  =20
+> > > None the less, your last point in particular about wanting to know
+> > > about disconnects feels valid, and if its useful to you for UNIX
+> > > sockets, then it ought to be useful for IP sockets too.
+> > >=20
+> > > IOW, I wonder if  we should use DGRAM for UNIX sockets too by default
+> > > to match current behaviour, but then also add a CLI option that allow=
+s
+> > > choice of DGRAM vs STREAM, and wire that up for IP & UNIX sockets. =
+=20
+> >=20
+> > The choice would only apply to AF_UNIX (that is, not to TCP and UDP).
+> >=20
+> > The current situation isn't entirely consistent, because for TCP you
+> > have "connect=3D", for UDP it's "udp=3D" or "mcast=3D", and I'm extendi=
+ng the
+> > "connect=3D" case to support stream-oriented AF_UNIX, which I think is
+> > consistent.
+> >=20
+> > However, to have it symmetric for the datagram-oriented case
+> > (UDP and AF_UNIX), ideally it should be changed to
+> > "dgram=3Dhost:port|path" -- which I guess we can't do.
+> >=20
+> > I see two alternatives:
+> >=20
+> > 1.
+> >   - "connect=3D" (TCP only)
+> >   - "unix=3Dpath,type=3Ddgram|stream"
+> >   - "udp=3D" (UDP only) =20
+>=20
+> This doesn't work when you need the UNIX server to be a
+> listener socket, as we've no way to express that, without
+> adding yet another parameter.
 
-Well, the day you want to do some batching... ;) but sure, I see your
-point.
+Ah, right.
 
-> > [...]
-> > 
-> > On a side note, I wonder why you need two named sockets instead of
-> > one -- I mean, they're bidirectional...  
-> 
-> Hmm... each peer needs to send unsolicited frames/packets to the
-> other end... and thus needs to bind to their socket.  Pretty much for
-> the same reason as the UDP transport requires you to specify a local
-> and a remote 5-tuple.  Even though for AF_INET, the local port does
-> not have to be specified, the OS would assign an ephemeral port to
-> make it unique. Am I missing something?
+> > 2.
+> >   - "connect=3D" (TCP and AF_UNIX stream)
+> >   - "unix_dgram=3D"
+> >   - "udp=3D" (UDP only) =20
+>=20
+> Also needs
+>=20
+>    "listen=3D" (TCP and AF_UNIX stream)
 
-I see your point now. Well, I think it's different from the AF_INET case
-due to the way AF_UNIX works: UNIX domain sockets don't necessarily
-need to make the endpoint known or visible, see a more detailed
-explanation at:
-	https://comp.unix.admin.narkive.com/AhAOKP1s/lsof-find-both-endpoints-of-a-unix-socket
+Yes, I forgot about this here, but it's actually already in my patch
+(see the changes to net_socket_listen_init() and documentation).
 
-Even though, nowadays on Linux:
+> "udp" has a corresponding optional "localaddr" for the sending
+> address.
+>=20
+> Also overloading "connect" means we have to parse the value
+> to guess whether its a UNIX path or a IP addr:port pair.
+>=20
+> I doubt people will have UNIX paths called "127.0.0.1:3333"
+> but if we can avoid such ambiguity by design, it is better.
 
-$ nc -luU my_path & (sleep 1; nc.openbsd -uU my_path & lsof +E -aUc nc)
-[1] 373285
-COMMAND      PID    USER   FD   TYPE             DEVICE SIZE/OFF    NODE NAME
-nc        373285 sbrivio    3u  unix 0x000000004076431a      0t0 3957568 my_path type=DGRAM ->INO=3956394 373288,nc.openbs,4u
-nc.openbs 373288 sbrivio    4u  unix 0x00000000f5b2e2e1      0t0 3956394 /tmp/nc.XXXXC0whUu type=DGRAM ->INO=3957568 373285,nc,3u
+Agreed... I didn't actually consider that.
 
-for datagram sockets, the endpoint is exported, and lsof can report that
-the endpoint for "my_path" here (-luU binds to a UNIX domain datagram
-socket, -uU connects to it). With a stream socket, by the way:
+> > The major thing I like of 2. is that we save some code and a further
+> > option, but other than that I don't have a strong preference. =20
+>=20
+> The pain we're feeling is largely because the design of the net
+> option syntax is one of the oldest parts of QEMU and has only
+> been very partially improved upon. It is certainly not using
+> QAPI best practice, if we look at this:
+>=20
+>   { 'struct': 'NetdevSocketOptions',
+>     'data': {
+>       '*fd':        'str',
+>       '*listen':    'str',
+>       '*connect':   'str',
+>       '*mcast':     'str',
+>       '*localaddr': 'str',
+>       '*udp':       'str' } }
+>=20
+> Then some things come to mind
+>=20
+>  - We're not provinding a way to say what kind of "fd" is
+>    passed in - is it a UDP/TCP FD, is it a listener or
+>    client FD, is it unicast or multicast FD. Though QEMU
+>    can interogate the socket to discover this I guess.
 
-$ nc -lU my_path & (sleep 1; nc.openbsd -U my_path & lsof +E -aUc nc)
-[1] 375445
-COMMAND      PID    USER   FD   TYPE             DEVICE SIZE/OFF    NODE NAME
-nc        375445 sbrivio    3u  unix 0x0000000053abf57c      0t0 3969787 my_path type=STREAM
-nc        375445 sbrivio    4u  unix 0x000000001960c1ef      0t0 3969788 my_path type=STREAM ->INO=3970624 375448,nc.openbs,3u
-nc.openbs 375448 sbrivio    3u  unix 0x000000000538fa63      0t0 3970624 type=STREAM ->INO=3969788 375445,nc,4u
+Some form of probing was already added in commit 894022e61601 ("net:
+check if the file descriptor is valid before using it"). Does qemu need
+to care, though, once the socket is connected? That is, what would it
+do with that information?
 
-so I think it should be optional. Even with datagram sockets, just like
-the example above (I'm not suggesting that you do this, it's just
-another possible choice), only one peer needs to bind to a named
-socket, and yet they can exchange data.
+>  - All of the properties there except "fd" are encoding two values
+>    in a single property - address + port. This is an anti-pattern
+>=20
+>  - No support for ipv4=3Don|off and ipv6=3Don|off flags to control
+>    dual-stack usage.
 
-> Another thing: on Windows, there's a AF_UNIX/SOCK_STREAM
-> implementation... So, technically it should be possible to use that
-> code path on Windows, too.  Not a windows guy, though... So, can't
-> say whether it would simply work or not:
-> 
-> https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
+I wonder if this needs to be explicit -- it might simply derive from
+addressing.
 
-Thanks for the pointer. I can't test this, so I wouldn't remove that
-#ifndef, but perhaps I could add a link to this, in case somebody needs
-it and stumbles upon this code path.
+>  - Redundancy of separate parameters for "mcast" and "udp" when
+>    it is distinguishable based on the address given AFAIR.
 
--- 
+Strictly speaking, for IPv4, addresses are reserved for multicast usage
+(by RFC 5771), but as far as I can tell, also other addresses could
+legitimately be used for multicast. I've never seen that in practice
+and it's unlikely to be of any use, though.
+
+For IPv6, things seem to be defined more strictly (RFC 5771 and
+updates).
+
+All in all, yes, I guess inferring this from the address would make the
+usage more practical.
+
+>  - No support for UNIX sockets
+>=20
+>=20
+> The "right" way to fix most of this long term is a radical change
+> to introduce use of the SocketAddress struct.
+>=20
+> I could envisage something like this
+>=20
+>   { 'enum': 'NetdevSocketMode',
+>     'data':  ['dgram', 'client', 'server'] }
+>=20
+>   { 'struct': 'NetdevSocketOptions',
+>     'data': {
+>       'addr':      'SocketAddress',
+>       '*localaddr': 'SocketAddress',
+>       '*mode':      'NetdevSocketMode' } }
+>=20
+>=20
+>  - A TCP client
+>=20
+>       addr.type =3D inet
+>       addr.host =3D 192.168.1.1
+>       mode =3D client
+>
+>  - A TCP server on all interfaces
+>=20
+>       addr.type =3D inet
+>       addr.host =3D=20
+>       mode =3D server
+>=20
+>  - A TCP server on a specific interface
+>=20
+>       addr.type =3D inet
+>       addr.host =3D 192.168.1.1
+>       mode =3D server
+>=20
+>  - A TCP server on all interfaces, without IPv4
+>=20
+>       addr.type =3D inet
+>       addr.host =3D=20
+>       addr.has_ipv4 =3D true
+>       addr.ipv4 =3D false
+>       mode =3D server
+
+...perhaps it would be more consistent with other consolidated
+practices to have addr.type =3D inet | inet6... and perhaps call it
+addr.family.
+
+Also, for "mode" (that could be called "type" to reflect
+parameters for socket(2)), we should probably support SOCK_SEQPACKET as
+well ("seq"?).
+
+>  - A UDP unicast transport
+>=20
+>       addr.type =3D inet
+>       addr.host =3D 192.168.1.1
+>       mode =3D dgram
+>=20
+>  - A UDP unicast transport with local addr
+>=20
+>       addr.type =3D inet
+>       addr.host =3D 192.168.1.1
+>       localaddr.type =3D inet
+>       localaddr.host =3D 192.168.1.2
+>       mode =3D dgram
+>=20
+>  - A UDP multicast transport
+>=20
+>      addr.type =3D inet
+>      addr.host =3D 224.0.23.166
+>      mode =3D dgram
+>=20
+>  - A UNIX stream client
+>=20
+>       addr.type =3D unix
+>       addr.path =3D /some/socket
+>       mode =3D client
+>=20
+>  - A UNIX stream server
+>=20
+>       addr.type =3D unix
+>       addr.path =3D /some/socket
+>       mode =3D server
+>=20
+>  - A UNIX dgram transport
+>=20
+>       addr.type =3D unix
+>       addr.path =3D /some/socket
+>       mode =3D dgram
+>=20
+>=20
+> Now, of course you're just interested in adding UNIX socket support.
+>=20
+> This design I've outlined above is very much "boiling the ocean".
+> Thus I'm not requesting you implement this, unless you have a strong
+> desire to get heavily involved in some QEMU refactoring work.
+
+I don't really have a strong desire to do that, but to my naive eyes it
+doesn't look that complicated, I'll give it a try.
+
+> The key question is whether we try to graft UNIX socket support onto
+> the existing args ("connect"/"listen") or try to do something more
+> explicit.
+>=20
+> Given the desire to have both dgram + stream support, I'd be inclined
+> to do something more explicit, that's slightly more aligned with a
+> possible future best praactice QAPI design
+>=20
+>=20
+> IOW, we could take a simplified variant of the above as follows:
+>=20
+>=20
+>   { 'enum': 'NetdevSocketMode',
+>     'data':  ['dgram', 'client', 'server'] }
+>=20
+>   { 'struct': 'NetdevSocketOptions',
+>     'data': {
+>       '*fd':        'str',
+>       '*listen':    'str',
+>       '*connect':   'str',
+>       '*mcast':     'str',
+>       '*localaddr': 'str',
+>       '*udp':       'str',
+>       '*path':      'str' } }
+>       '*localpath': 'str' } }
+>=20
+>=20
+> Cli examples:
+>=20
+>  * Unix stream client
+>=20
+>   -netdev socket,path=3D/wibble,mode=3Dclient
+>=20
+>  * Unix stream server
+> =20
+>   -netdev socket,path=3D/wibble,mode=3Dserver
+>=20
+>  * Unix datagram=20
+>=20
+>   -netdev socket,path=3D/wibble,mode=3Ddgram
+>   -netdev socket,path=3D/wibble,localpath=3D/fish,mode=3Ddgram
+
+I think this looks reasonable, I'm not sure about "localpath",
+because also /wibble is local in some sense.
+
+I don't know what would be a good implementation practice to keep the
+current options available -- should this be done with some new code
+that applies a translation to the new parameters?
+
+--=20
 Stefano
 
 
