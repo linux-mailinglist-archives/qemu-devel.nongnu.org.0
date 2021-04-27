@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D63236CAAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:54:31 +0200 (CEST)
-Received: from localhost ([::1]:60252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F35F36CAAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:56:39 +0200 (CEST)
+Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRuo-00077G-8z
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47000)
+	id 1lbRws-0000au-Cp
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbRqA-00039i-5x
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:49:42 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbRq8-0002WP-Du
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:49:41 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id j7so33469007pgi.3
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 10:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=86o9lakqk0H3lzCDbCwo/zrGKFeKPyw/HLVhGDHpQos=;
- b=Hu22VWGnMsnnGl9c2Z1dJnP2WplVFqeu+4OrWXDpYjvLLdcdbav1GyDmUool2y47x6
- DcPIoMkQGbb2yg/GGZAJilzu/oCyMWyrpdXB6ouR/I+iu58F6h4+WPrawnPAN3s93I6u
- sMVAeOQd0PPdGHO2Ps9xdLyazphI2VD9YEToowQVLP+B+vjn3QOSFzkYBIw2D43KLfqu
- 5+gJesyDbMAaLoTPPZABC4Y4nrDMybw7tlyoqjTkRvPJbZ/QEsiJRjgXSMPOd/enOAv8
- kbjiXLEYMPAmbJ52v2HYDC/gMKHzFXc7uTnhviBSGRN7HFcgdVQmCq6pNawztPi0I5pG
- /6TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=86o9lakqk0H3lzCDbCwo/zrGKFeKPyw/HLVhGDHpQos=;
- b=HfjFGjnXyF1hCcfPEIeZc1631b5pb8VJ9/xLkn3KYxZWf9niL1DeRRqVH/81C0T4EM
- XdUWtb5EXOBEt2kQPb+BiZYcRq9H8JhBKVCEePBYL/DdRq2H+9FwmBUW8XbFxxv/Etex
- hVRbij9iBTeQ8AIqEKXyCwDQj+zi42bJN+u4RincF/6/9hyASNH+ny8Ak4AMxlbHJNhd
- DY59T1dmSrp19B/FYMB32DjBbf0v3NcMCUb3vbgYHS7cwEZba86nPMVVCsx09BOZlD5J
- yCMKAPAT/5Uh6U2j93EOwN1x5R+XL4TYp0hWWaYC/xgzT6+6rbOUzadG1ZAPXUYpztBz
- aMnQ==
-X-Gm-Message-State: AOAM530yddBWnwZ3XkXGlqzR2gbto6htiCE8gWsLZW6zGuAiZXWXY2vN
- 0xWUqPThcbRnJgIHD89R1f+zzA==
-X-Google-Smtp-Source: ABdhPJwTAfPHLPCcOeJ3ACvpEMl4jVzM0vKy1jTd1ih9GJpjF6v+vR3Yvom2oPXD2RaF4w2ud2Im/g==
-X-Received: by 2002:a62:1510:0:b029:278:4e81:ab54 with SMTP id
- 16-20020a6215100000b02902784e81ab54mr8571679pfv.3.1619545778879; 
- Tue, 27 Apr 2021 10:49:38 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t19sm333370pgv.75.2021.04.27.10.49.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 10:49:38 -0700 (PDT)
-Subject: Re: [PATCH] Set the correct env->fpip for x86 float instructions
- [cleaned]
-To: Ziqiao Kong <ziqiaokong@gmail.com>, qemu-devel@nongnu.org
-References: <20210416153430.92187-1-ziqiaokong@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dcca83eb-40e7-91a2-c8dc-73a5a51d23db@linaro.org>
-Date: Tue, 27 Apr 2021 10:49:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lbRsj-0005jS-7r
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:52:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lbRsd-0004CX-Au
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:52:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619545934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sywR0TQ7lKG74CTMeCHsecQJ/I1M9rQl66MFp4D3gwI=;
+ b=TDBzfsY6nvc50Cle5v/CNCPzponAchVFDSR6PxGsXhmgkR2ehgdAmbKirrANRAFFgBorCR
+ Otx+t2XEzuadSOj3VVL0sxPZtAf5YpiMYElisY1z/0ynz8670L9bF3trfwaturgmPeZmw9
+ Ks9KGw6eKpA/tFaiVdcKibW+q9Qt2pI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-mwPjL1rCO_ekdsw0eNqjiA-1; Tue, 27 Apr 2021 13:52:12 -0400
+X-MC-Unique: mwPjL1rCO_ekdsw0eNqjiA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC6CC8049CB;
+ Tue, 27 Apr 2021 17:52:10 +0000 (UTC)
+Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C4845C23E;
+ Tue, 27 Apr 2021 17:52:09 +0000 (UTC)
+Date: Tue, 27 Apr 2021 18:52:06 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/1] Set TARGET_PAGE_BITS to be 10 instead of 8 bits
+Message-ID: <YIhPRprgFqNahPRp@work-vm>
+References: <20210320220949.40965-1-mrolnik@gmail.com>
+ <20210320220949.40965-2-mrolnik@gmail.com>
+ <YFnjLbU9+itpbvsf@work-vm>
+ <CAK4993iuteYNiM3acyGPNb5guwkfr3fKxJDecqcwKRdFTgG0sw@mail.gmail.com>
+ <CAK4993gND7R1RBfimMdJXpJDvFdZiULdE2WKPKH+UnNaFm0iww@mail.gmail.com>
+ <CAK4993iPwu2ESggMx05C0USrnSigHJq=-iP=BU-FhDXDcRH5gw@mail.gmail.com>
+ <a57eed31-78c3-8ea5-579a-cb4edd1afbd3@linaro.org>
+ <CAFEAcA-ccgKHzgxvK_Wb8hD4ce=KYu2NbZ-3UGhaW447JTVgAg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416153430.92187-1-ziqiaokong@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-ccgKHzgxvK_Wb8hD4ce=KYu2NbZ-3UGhaW447JTVgAg@mail.gmail.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,48 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com
+Cc: Michael Rolnik <mrolnik@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/21 8:34 AM, Ziqiao Kong wrote:
-> +++ b/target/i386/tcg/translate.c
-> @@ -6337,7 +6337,10 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                   goto unknown_op;
->               }
->           }
-> +        tcg_gen_movi_tl(s->tmp0, pc_start - s->cs_base);
-> +        tcg_gen_st_tl(s->tmp0, cpu_env, offsetof(CPUX86State, fpip));
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Sun, 11 Apr 2021 at 16:15, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > On 4/10/21 10:24 AM, Michael Rolnik wrote:
+> > > Please review.
+> >
+> >
+> > The first 256b is i/o, the next 768b are ram.  But having changed the page
+> > size, it should mean that the first 1k are now treated as i/o.
+> >
+> > We do have a path by which instructions in i/o pages can be executed.  This
+> > happens on some ARM board setups during cold boot.  But we do not save those
+> > translations, so they run much much slower than it should.
+> >
+> > But perhaps in the case of AVR, "much much slower" really isn't visible?
+> >
+> > In general, I think changing the page size is wrong.  I also assume that
+> > migration is largely irrelevant to this target.
+> 
+> Migration is irrelevant, but every target benefits from snapshot
+> save-and-restore, and I think that uses the same codepaths ?
 
-This placement is wrong because it catches instructions that should not modify 
-FIP, like FINIT.
+Yes it does.
 
-It might be best to set a flag around this case like
+My main problem for wanting this fixed is that I really wanted to add an
+assert to stop us tripping over the page size/migration bits clash.
 
-   bool update_fip;
+Dave
 
-   case 0xd8 .. 0xdf:
-     ...
-     update_fip = true;
-     if (mod != 3) {
-         ...
-     } else {
-         ...
-     }
-     if (update_fip) {
-         ...
-     }
-     break;
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-and set update_fip to false for the set of insns that either do not update FIP 
-or clear it (8.1.8 x87 fpu instruction and data (operand) pointers).
-
-I notice you're not saving FCS to go along with this, at least for 
-CPUID.(EAX=07H,ECX=0H):EBX[bit 13] = 0.
-
-And if you're going to this trouble, you might want to think about FDP+FDS as 
-well.  It should be about the same amount of effort.
-
-
-r~
 
