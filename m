@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB5A36CA48
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:24:02 +0200 (CEST)
-Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7307036CA47
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:23:53 +0200 (CEST)
+Received: from localhost ([::1]:42428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRRJ-00048y-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39464)
+	id 1lbRRA-0003rd-Dk
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLa-0001Gx-FR; Tue, 27 Apr 2021 13:18:06 -0400
+ id 1lbRLd-0001Kn-Bw; Tue, 27 Apr 2021 13:18:09 -0400
 Received: from [201.28.113.2] (port=48284 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLY-00023I-SP; Tue, 27 Apr 2021 13:18:06 -0400
+ id 1lbRLb-00023I-Hb; Tue, 27 Apr 2021 13:18:09 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Tue, 27 Apr 2021 14:16:52 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 166EC8013BA;
+ by power9a (Postfix) with ESMTP id 4231D80139F;
  Tue, 27 Apr 2021 14:16:52 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 01/15] decodetree: Add support for 64-bit instructions
-Date: Tue, 27 Apr 2021 14:16:35 -0300
-Message-Id: <20210427171649.364699-2-luis.pires@eldorado.org.br>
+Subject: [PATCH v2 02/15] target/ppc: Add cia field to DisasContext
+Date: Tue, 27 Apr 2021 14:16:36 -0300
+Message-Id: <20210427171649.364699-3-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Apr 2021 17:16:52.0277 (UTC)
- FILETIME=[1D889E50:01D73B89]
+X-OriginalArrivalTime: 27 Apr 2021 17:16:52.0449 (UTC)
+ FILETIME=[1DA2DD10:01D73B89]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -56,117 +55,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, f4bug@amsat.org,
- Luis Pires <luis.pires@eldorado.org.br>, lagarcia@br.ibm.com,
+Cc: richard.henderson@linaro.org, f4bug@amsat.org, lagarcia@br.ibm.com,
  bruno.larsen@eldorado.org.br, matheus.ferst@eldorado.org.br,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow '64' to be specified for the instruction width command line params
-and use the appropriate insn/field data types, mask, extract and deposit
-functions in that case.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This will be used to implement the new 64-bit Power ISA 3.1 instructions.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Message-Id: <CP2PR80MB3668E123E2EFDB0ACD3A46F1DA759@CP2PR80MB3668.lamprd80.prod.outlook.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- docs/devel/decodetree.rst |  5 +++--
- scripts/decodetree.py     | 26 +++++++++++++++++++++-----
- 2 files changed, 24 insertions(+), 7 deletions(-)
+ target/ppc/translate.c | 34 ++++++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
 
-diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
-index 74f66bf46e..d776dae14f 100644
---- a/docs/devel/decodetree.rst
-+++ b/docs/devel/decodetree.rst
-@@ -40,8 +40,9 @@ and returns an integral value extracted from there.
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 0984ce637b..ee25badba2 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -154,6 +154,7 @@ void ppc_translate_init(void)
+ /* internal defines */
+ struct DisasContext {
+     DisasContextBase base;
++    target_ulong cia;  /* current instruction address */
+     uint32_t opcode;
+     uint32_t exception;
+     /* Routine used to access memory */
+@@ -254,7 +255,7 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
+      * faulting instruction
+      */
+     if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->base.pc_next - 4);
++        gen_update_nip(ctx, ctx->cia);
+     }
+     t0 = tcg_const_i32(excp);
+     t1 = tcg_const_i32(error);
+@@ -273,7 +274,7 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
+      * faulting instruction
+      */
+     if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->base.pc_next - 4);
++        gen_update_nip(ctx, ctx->cia);
+     }
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+@@ -3113,7 +3114,7 @@ static void gen_eieio(DisasContext *ctx)
+          */
+         if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+             qemu_log_mask(LOG_GUEST_ERROR, "invalid eieio using bit 6 at @"
+-                          TARGET_FMT_lx "\n", ctx->base.pc_next - 4);
++                          TARGET_FMT_lx "\n", ctx->cia);
+         } else {
+             bar = TCG_MO_ST_LD;
+         }
+@@ -3782,14 +3783,14 @@ static void gen_b(DisasContext *ctx)
+     li = LI(ctx->opcode);
+     li = (li ^ 0x02000000) - 0x02000000;
+     if (likely(AA(ctx->opcode) == 0)) {
+-        target = ctx->base.pc_next + li - 4;
++        target = ctx->cia + li;
+     } else {
+         target = li;
+     }
+     if (LK(ctx->opcode)) {
+         gen_setlr(ctx, ctx->base.pc_next);
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_goto_tb(ctx, 0, target);
+ }
  
- A field with no ``unnamed_fields`` and no ``!function`` is in error.
+@@ -3888,11 +3889,11 @@ static void gen_bcond(DisasContext *ctx, int type)
+         }
+         tcg_temp_free_i32(temp);
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     if (type == BCOND_IM) {
+         target_ulong li = (target_long)((int16_t)(BD(ctx->opcode)));
+         if (likely(AA(ctx->opcode) == 0)) {
+-            gen_goto_tb(ctx, 0, ctx->base.pc_next + li - 4);
++            gen_goto_tb(ctx, 0, ctx->cia + li);
+         } else {
+             gen_goto_tb(ctx, 0, li);
+         }
+@@ -4008,7 +4009,7 @@ static void gen_rfi(DisasContext *ctx)
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfi(cpu_env);
+     gen_sync_exception(ctx);
+ #endif
+@@ -4025,7 +4026,7 @@ static void gen_rfid(DisasContext *ctx)
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfid(cpu_env);
+     gen_sync_exception(ctx);
+ #endif
+@@ -4042,7 +4043,7 @@ static void gen_rfscv(DisasContext *ctx)
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfscv(cpu_env);
+     gen_sync_exception(ctx);
+ #endif
+@@ -4338,7 +4339,7 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+             if (sprn != SPR_PVR) {
+                 qemu_log_mask(LOG_GUEST_ERROR, "Trying to read privileged spr "
+                               "%d (0x%03x) at " TARGET_FMT_lx "\n", sprn, sprn,
+-                              ctx->base.pc_next - 4);
++                              ctx->cia);
+             }
+             gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+         }
+@@ -4352,7 +4353,7 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+         /* Not defined */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Trying to read invalid spr %d (0x%03x) at "
+-                      TARGET_FMT_lx "\n", sprn, sprn, ctx->base.pc_next - 4);
++                      TARGET_FMT_lx "\n", sprn, sprn, ctx->cia);
  
--FIXME: the fields of the structure into which this result will be stored
--is restricted to ``int``.  Which means that we cannot expand 64-bit items.
-+The fields of the structure into which this result will be stored are
-+defined as ``int`` when the instruction size is set to 16 or 32 bits
-+and as ``int64_t`` when the instruction size is set to 64 bits.
+         /*
+          * The behaviour depends on MSR:PR and SPR# bit 0x10, it can
+@@ -4516,7 +4517,7 @@ static void gen_mtspr(DisasContext *ctx)
+             /* Privilege exception */
+             qemu_log_mask(LOG_GUEST_ERROR, "Trying to write privileged spr "
+                           "%d (0x%03x) at " TARGET_FMT_lx "\n", sprn, sprn,
+-                          ctx->base.pc_next - 4);
++                          ctx->cia);
+             gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+         }
+     } else {
+@@ -4530,7 +4531,7 @@ static void gen_mtspr(DisasContext *ctx)
+         /* Not defined */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Trying to write invalid spr %d (0x%03x) at "
+-                      TARGET_FMT_lx "\n", sprn, sprn, ctx->base.pc_next - 4);
++                      TARGET_FMT_lx "\n", sprn, sprn, ctx->cia);
  
- Field examples:
  
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index 4637b633e7..26156dfc36 100644
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -42,6 +42,10 @@
- output_fd = None
- insntype = 'uint32_t'
- decode_function = 'decode'
-+field_data_type = 'int'
-+extract_function = 'extract32'
-+sextract_function = 'sextract32'
-+deposit_function = 'deposit32'
+         /*
+@@ -8002,6 +8003,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     LOG_DISAS("nip=" TARGET_FMT_lx " super=%d ir=%d\n",
+               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
  
- # An identifier for C.
- re_C_ident = '[a-zA-Z][a-zA-Z0-9_]*'
-@@ -185,9 +189,9 @@ def __str__(self):
++    ctx->cia = ctx->base.pc_next;
+     ctx->opcode = translator_ldl_swap(env, ctx->base.pc_next,
+                                       need_byteswap(ctx));
  
-     def str_extract(self):
-         if self.sign:
--            extr = 'sextract32'
-+            extr = sextract_function
-         else:
--            extr = 'extract32'
-+            extr = extract_function
-         return '{0}(insn, {1}, {2})'.format(extr, self.pos, self.len)
+@@ -8031,7 +8033,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                       TARGET_FMT_lx " %d\n",
+                       opc1(ctx->opcode), opc2(ctx->opcode),
+                       opc3(ctx->opcode), opc4(ctx->opcode),
+-                      ctx->opcode, ctx->base.pc_next - 4, (int)msr_ir);
++                      ctx->opcode, ctx->cia, (int)msr_ir);
+     } else {
+         uint32_t inval;
  
-     def __eq__(self, other):
-@@ -215,8 +219,9 @@ def str_extract(self):
-             if pos == 0:
-                 ret = f.str_extract()
-             else:
--                ret = 'deposit32({0}, {1}, {2}, {3})' \
--                      .format(ret, pos, 32 - pos, f.str_extract())
-+                ret = '{4}({0}, {1}, {2}, {3})' \
-+                      .format(ret, pos, insnwidth - pos,
-+                              f.str_extract(), deposit_function)
-             pos += f.len
-         return ret
- 
-@@ -311,7 +316,7 @@ def output_def(self):
-         if not self.extern:
-             output('typedef struct {\n')
-             for n in self.fields:
--                output('    int ', n, ';\n')
-+                output('    ', field_data_type, ' ', n, ';\n')
-             output('} ', self.struct_name(), ';\n\n')
- # end Arguments
- 
-@@ -1264,6 +1269,10 @@ def main():
-     global insntype
-     global insnmask
-     global decode_function
-+    global extract_function
-+    global sextract_function
-+    global deposit_function
-+    global field_data_type
-     global variablewidth
-     global anyextern
- 
-@@ -1293,6 +1302,13 @@ def main():
-             if insnwidth == 16:
-                 insntype = 'uint16_t'
-                 insnmask = 0xffff
-+            elif insnwidth == 64:
-+                insntype = 'uint64_t'
-+                insnmask = 0xffffffffffffffff
-+                field_data_type = 'int64_t'
-+                extract_function = 'extract64'
-+                sextract_function = 'sextract64'
-+                deposit_function = 'deposit64'
-             elif insnwidth != 32:
-                 error(0, 'cannot handle insns of width', insnwidth)
-         else:
+@@ -8048,7 +8050,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                           TARGET_FMT_lx "\n", ctx->opcode & inval,
+                           opc1(ctx->opcode), opc2(ctx->opcode),
+                           opc3(ctx->opcode), opc4(ctx->opcode),
+-                          ctx->opcode, ctx->base.pc_next - 4);
++                          ctx->opcode, ctx->cia);
+             gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
+             ctx->base.is_jmp = DISAS_NORETURN;
+             return;
 -- 
 2.25.1
 
