@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D4F36C004
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 09:20:25 +0200 (CEST)
-Received: from localhost ([::1]:41952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBF036C035
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 09:37:00 +0200 (CEST)
+Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbI1A-0000z1-P1
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 03:20:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53228)
+	id 1lbIHD-0007Um-Gr
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 03:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lbHye-0006Rp-Ee
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 03:17:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lbHyc-0008Cs-VN
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 03:17:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619507866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pXsGrOEi5LTWps70knkaehuWV68DlI1Hun21lcvAYGk=;
- b=Qxy1Jqi+J76C7yelW9SvBOe61JRQLAyLGyAWpaWgO+ypoM9vkPlpSRA8wSuV1Xo4KgnvLe
- c4mpaa35PlG988NcsdVr3gdq81uVL3SReHW7DEG1fWm//PD/WlxQ8TLFR6ZT6xMA2jq9V+
- MMlqFG2LtBHGh8YvIdjaw4C8f5ZSlyU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-rKZL76s5O_eapdZV-D5fWw-1; Tue, 27 Apr 2021 03:17:44 -0400
-X-MC-Unique: rKZL76s5O_eapdZV-D5fWw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B39AC108BD13
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 07:17:43 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-153.pek2.redhat.com
- [10.72.13.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CE74687F8;
- Tue, 27 Apr 2021 07:17:41 +0000 (UTC)
-Subject: Re: [PATCH v6 2/9] virtio-pci:decouple virtqueue from interrupt
- setting process
-From: Jason Wang <jasowang@redhat.com>
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
-References: <20210427033951.29805-1-lulu@redhat.com>
- <20210427033951.29805-3-lulu@redhat.com>
- <78e0debd-a63f-cffc-b252-b138fef4c12d@redhat.com>
-Message-ID: <33a2dc11-902e-81c6-7a28-670dbeaf45f9@redhat.com>
-Date: Tue, 27 Apr 2021 15:17:40 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbIFx-0006z4-7y
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 03:35:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbIFv-0002Ub-1T
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 03:35:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lbIFs-0004lR-SY
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 07:35:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D671F2E8144
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 07:35:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <78e0debd-a63f-cffc-b252-b138fef4c12d@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Apr 2021 07:27:12 -0000
+From: Wind Li <1890545@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee bigboy0822 laurent-vivier nightwend
+ pmaydell
+X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
+X-Launchpad-Bug-Modifier: Wind Li (nightwend)
+References: <159670025270.3099.13280483088179052036.malonedeb@gac.canonical.com>
+Message-Id: <161950843288.11144.7509239805592173913.malone@wampee.canonical.com>
+Subject: [Bug 1890545] Re: (ARM64) qemu-x86_64+schroot(Debian bullseye) can't
+ run chrome and can't load HTML
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 3ce7c377e46fe2e65ef25e4956c95e4a3a967163
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,35 +71,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1890545 <1890545@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I found out the reason for "qemu: unknown option 'type=3Dutility'", created=
+ a sample code to demo it and a small wrokaround patch to chromium. Found m=
+ore info in:
+https://bugs.launchpad.net/qemu/+bug/1926246
 
-在 2021/4/27 下午2:40, Jason Wang 写道:
->>   static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
->>                                          unsigned int queue_no,
->>                                          unsigned int vector,
->> -                                       MSIMessage msg)
->> +                                       MSIMessage msg,
->> +                                        EventNotifier *n)
->
->
-> So you switch to use EventNotifier but keep using queue_no/vector, 
-> this looks kind of duplication.
->
-> If we can keep queue_no or virtio_queue_get_guest_notifier working as 
-> in the past, I don't see any reason for this effort.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890545
 
-Ok I see it is because we need to support config interrupt.
+Title:
+  (ARM64) qemu-x86_64+schroot(Debian bullseye) can't run chrome and
+  can't load HTML
 
-But using queue_no/vector/n at the same time is a hint that the decouple 
-is not done completely.
+Status in QEMU:
+  New
 
-Thanks
+Bug description:
+  First I creat a file system that is debian(bullseye amd64)on arm64
+  machine=EF=BC=8Cthen I download google-chrome=EF=BC=8Chowever, when I ran=
+ Google
+  browser, some errors occurred.
 
+  $ google-chrome --no-sandbox
+  or =
 
->
-> Thanks 
+  $ qemu-x86_64-static google-chrome --no-sandbox
 
+  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
+  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
+  [1661:1661:0806/074307.502638:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
+ NaCl helper startup ack (0 bytes)
+  [1664:1664:0806/074307.504159:ERROR:nacl_fork_delegate_linux.cc(323)] Bad=
+ NaCl helper startup ack (0 bytes)
+  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
+  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
+  [1637:1678:0806/074308.337567:ERROR:file_path_watcher_linux.cc(315)] inot=
+ify_init() failed: Function not implemented (38)
+  Fontconfig warning: "/etc/fonts/fonts.conf", line 100: unknown element "b=
+lank"
+  qemu: unknown option 'type=3Dutility'
+  [1637:1680:0806/074313.598432:FATAL:gpu_data_manager_impl_private.cc(439)=
+] GPU process isn't usable. Goodbye.
+  qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
+  Trace/breakpoint trap
+
+  Why?
+  And then I run firefox,it can be opened, but it can't load any web pages =
+and HTML.
+  I really need help=EF=BC=81
+  Thank.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890545/+subscriptions
 
