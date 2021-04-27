@@ -2,51 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE0436BD15
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 04:03:51 +0200 (CEST)
-Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F6736BD16
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 04:04:51 +0200 (CEST)
+Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbD4o-0002WS-DS
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 22:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
+	id 1lbD5m-0003P5-2g
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 22:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lbCyA-0003qB-7q; Mon, 26 Apr 2021 21:56:58 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40323 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lbD2S-0001Jn-CE
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 22:01:24 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:7294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lbCy8-0000mV-2v; Mon, 26 Apr 2021 21:56:58 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FTlHW0gWvz9sXh; Tue, 27 Apr 2021 11:56:38 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1619488599;
- bh=okNU2PQvvx5a3BuImarZUOGHBBU6e7djY5rTkKBRIaQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GzvZwcVKOe2CJOK2T3L+mgLp/YavFHBHBQuArCrU4TtTYRf6IiEhQOhPxnbTNB+wx
- R8HhCDJxh/x35StRUH1uWqWQFk/6ZO6EDgV5MIP2i39HO2SzE/DEqtfVub7jx++xv/
- KnYcNK2bke2eSAf6+jTgohlMj3lCs+9IzNkDeprw=
-Date: Tue, 27 Apr 2021 11:56:21 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 5/7] hw: Have machines Kconfig-select FW_CFG
-Message-ID: <YIdvRYFr2cViBM9+@yekko.fritz.box>
-References: <20210426193520.4115528-1-philmd@redhat.com>
- <20210426193520.4115528-6-philmd@redhat.com>
- <aec5eea-8beb-a59-fda1-4c1ba4374c5@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lbD2O-0002ms-Ad
+ for qemu-devel@nongnu.org; Mon, 26 Apr 2021 22:01:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1619488880; x=1620093680;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=1CXAgeo+tUPvnAgUFNwmOWJtBOWn4T7YKU5Y1VO9XJY=;
+ b=QTRxyBs2i1/2dgZpib4ooZbFhSUq9k9cmNq/2KCK0MASXnB4cBwubKP7
+ 6lGq5A2SbzxPlE02uxS9kAFBMqByPNnmLUZxT6LrvhYTQ9p4SdFQJ2uIX
+ ZpmyLSFUSJ3N3CA9r2K93QaiB7d3ifEkalU1LRCL5FHZe1IUVCbMzvW83 c=;
+IronPort-SDR: VDaOgWutzLhSnCLYI4HuUIoZ+7C2y3iNnI4xc5A5uuUErILTc4V6z7zW9wOHD9tOaYL3mgEREd
+ 7QehXMVXvNuOffmC+g8vPafX3U+61iJsx1hFznjnHaWGIe+6yqkd2BtEkP/va4iy84rcZNBcWE
+ +m1fcXqZ10aIFnuDFqU5O19D4uoDEEpgBKxnpkn4To+JY4Xx/Jr8dDut/kWlVWnlqMqn5LFmbg
+ XT/NS+ECNp8nWzthL1pQpV8tTkTg8TO4lja9/enIVYMBpw6tr4hNhePkofnWgESfeX2YQEqbnO
+ 9us=
+X-IronPort-RemoteIP: 104.47.73.41
+X-IronPort-MID: 23874
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_O365
+X-IronPort-MailFlowPolicy: $RELAYED
+Received: from mail-dm6nam08lp2041.outbound.protection.outlook.com (HELO
+ NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.41])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2021 02:01:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hbIP/qRjUsoIzOfl9y5+vM4JhXRcg+q+Rk/QaweGBg4bX7lE8CZmt0ndTQ55G42YsPdLqy0fT4WfkTs/QSpNBy9hTvCx7DqVPQjhc3Rvy4N2UNQspb36jXqUdj475+21NvIy9Vv4JeXf9icbLNwRDsJDh93IqFl6hGryNvXEneOHy9nr5tkjTNOd0Kilk6WNrgVpEPYgK871JHb7BYvOA4KIIHZAWgJvH5mmYwwR+R8vwRAS8adfNfc5AF5U+CYah8ZlVv2mWYAEFEv7hvUDBxYSjn6dMiTY2OwOTDx6xwt4GQNhmc7sZTxKHPnTzIDo+38ro0b63o6vMAdRZXQGFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Be9yyyq4nWgnPi4yUEIbe05O0vrZVHx6tEk8eInKNxc=;
+ b=I2FamfwkGOYcvnQsniD2f09h8LZqUDoiE2LeuD/Xa21muusZOAY5yXAHZolUZoYE5G70c/lBpWpxerQg7mNW5eYyyNuZ0N6/3tQ4OB3GGCVtKa3artmP676hwPWTS9tBim1CwrUEMTXpNoKNhgJw1BI420hOHsYV+Dd4/rSRvNDZEHtvjnT/y5SV7e+FR/bnnbRInw3QOHZDHdM4k421oJJ8pRtAhvMBRSxEEfbWEwtBjIwALSLuj69ib505BsHAX2sjlcvAXeGEoy3FTUPUQ9l3wibGTDNBm0O1cd5JOmPH1CrzdV4Cef1GLqMz4HqvwRaWOd8HV8TfryM+6xl1HQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by SJ0PR02MB7821.namprd02.prod.outlook.com (2603:10b6:a03:32e::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Tue, 27 Apr
+ 2021 02:01:13 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::859:d735:9964:608]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::859:d735:9964:608%6]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
+ 02:01:13 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v4 09/12] target/hexagon: import lexer for idef-parser
+Thread-Topic: [PATCH v4 09/12] target/hexagon: import lexer for idef-parser
+Thread-Index: AQHXMhVUV9KEy4ZSP0mnsJKBU0naZarHrM5w
+Date: Tue, 27 Apr 2021 02:01:13 +0000
+Message-ID: <BYAPR02MB488654E65A2BFCEEC3D8AD16DE419@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <20210415163455.3839169-1-ale.qemu@rev.ng>
+ <20210415163455.3839169-10-ale.qemu@rev.ng>
+In-Reply-To: <20210415163455.3839169-10-ale.qemu@rev.ng>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: rev.ng; dkim=none (message not signed)
+ header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [70.115.140.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ce4016dc-af7f-49d4-ed90-08d9092055e6
+x-ms-traffictypediagnostic: SJ0PR02MB7821:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SJ0PR02MB782161528C74482C4E46DA2FDE419@SJ0PR02MB7821.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1468;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WVLM0Ctp7lzCRloO4DO5nsmaZpI9efXveo5/3SjQA/cljjC7PnFDP/LB5unnL+Zj0kLV+hgmTys/XAVhbPN0sPgrtKeXf1ShEReNR/vFfF2AaqyehQzykjA50/HTBzpeniYqVq/3ZDxKyiqxFWvSpTLmx6WX8tTm6PmdteVJPli1SY6LSpq74Kf11Cx4KP29sgebi71v9XCZJ7mJ5zY1MBAXr2aDDhmQEaQmB+P3kEOzPHobDfod+QuGooJZoH9UnpZJRBFBENqXwSy0dlXhwTE+yOE9QSfNfpl5jAs+9beTwYwf9+1j0ILZtgDiWo2Bt1kRqXZrVA1juShncXDXT0pjk0+0WbauBipMuf95lo2LDS2ebjnOWRTzy2Tu9IdK1dBJuvk5Azb+QRNc85GEb42wOdDOGs8gMrj0R6nx1b/Zvhb3y7e23kx1DCANIASd6t+SyFFDNsZftxt8isgEYcmWuCaFR7Ot5DDEhaxoCW39pBjZNkjZBBHxdOT0gt7VfHq0r83TIiPfFM0h4vtW9XT+L1E7QUQs23U7Dz40LsBgrzADYneVt/JrhtNAbMt+jRHs/6KkYt9/V6RP70fBE8V584JD195N/WPMH3Gokgs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(396003)(366004)(136003)(376002)(86362001)(52536014)(26005)(54906003)(66946007)(33656002)(186003)(55016002)(110136005)(316002)(5660300002)(8676002)(2906002)(76116006)(66476007)(478600001)(66446008)(9686003)(122000001)(64756008)(6506007)(38100700002)(7696005)(8936002)(71200400001)(66556008)(83380400001)(4326008)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?KKWqrKdUYs+4lomaoG+r7+3U6vb0v1WnenFROnpKQ3jiLZpGd8bf+3hwH0Cr?=
+ =?us-ascii?Q?sK9al8cbd83qZBcKfh3qJEu21GfQlpM2/iUVNZgpvJSkvUqrZWPvqcOIyow0?=
+ =?us-ascii?Q?BWobRjGZOHh+j7uaKUncP8gBSmyWbqyUgxGwHatF+Zd2px0KVoWGU6GkV7B3?=
+ =?us-ascii?Q?RcSGBWSElBEFbqzM4yWJtPSvJezLKTxaXbrc1XPqfsdBJB508+9ztKtajCfg?=
+ =?us-ascii?Q?agNTI15a7Jx8XtCymqKl/koOZ65sjFfMRT2lgGQ2TB5iDw27HhZmPfcLp/P1?=
+ =?us-ascii?Q?oOrq5PGOJr3sV8nS2qpol4mwSXisSfS3xXKkUYj45kDRDuJu/hSNBMNWcSxl?=
+ =?us-ascii?Q?SnTM8I3pDqxicwzpN8Crfre1N74JLW702zQQeOQl6HOyeRN423dS+vXm1Jy+?=
+ =?us-ascii?Q?ck9YgKFzlcPHKubgCTPrFVP7YMn0HAuCk4KoEHWXeLJDUt0LcGX4UKfoTNJN?=
+ =?us-ascii?Q?Jp/W4WUvVCb/C1qodBiBJFYRzdcVFSS9yIbykHNZD9jgBpGzlGUI0NxOxXgu?=
+ =?us-ascii?Q?98Unpcphf7d4hHEomIoq4cRNGlnNp/nLPZQSmGtGg2sdnVdxK8hxkhh0/QCq?=
+ =?us-ascii?Q?rgYTEfDvd2JrzjdoUIFBRudweN7oOCHa5OzqflJiuhRhphH6GYL2zG7DMzir?=
+ =?us-ascii?Q?lqMhLMX5v5KAQX9PTbdTSQUjGrYDdx4MEoXudQckX9s6eeWxcsZxyfpHJ2vU?=
+ =?us-ascii?Q?Z3MqdluS5OASsZnX5KOzmDILgUGxO5Oz0bAIEfsR4RErdoRxpJEAcc2JB3R4?=
+ =?us-ascii?Q?m/kbrJWovnImnfQLXpnbtcZ2ISSzU4SVRv5IqPK/oNBwmPWA/hpVZpieTdYq?=
+ =?us-ascii?Q?rgy3UzTqLha2dzNAr4BBV5nxp5MB3AE+sXCwo3CmGqZolpgkR2eVjVcIzCgK?=
+ =?us-ascii?Q?km4qJIO6AN05dgZap815RcuJ8ENaUbwbMbid94enJA9GDWHspakQqrM7iLKh?=
+ =?us-ascii?Q?V1yt7CoNnuuSI0rlJDU7tDQsyiWqaQFXSa7zvRldnyhJKrCvCOZ1SRSJsQ9o?=
+ =?us-ascii?Q?DaRJpxjdS/ScU5C8eCYEsUKO/A6qvY5C3sCv4NiOzvKXlOsPdKEEloqp3uzE?=
+ =?us-ascii?Q?cmDzdkY+ehIzZP94yZStZ5o5kquxqp/rldUNV3ykJAfM9b6xKvmUkc37p/Kj?=
+ =?us-ascii?Q?GBKeMdxt3yEHdKLRQVd4Xyhnuey0Gl9y9hDU5HXwrxaaMttcMwbdhMat0qXH?=
+ =?us-ascii?Q?AKrFaDFk3JMrgkVGYc5HGDXzjM8F4gj+3Mr7UIIGvJxTU88xErYzwK6zZ4CL?=
+ =?us-ascii?Q?l/gLEbfhxI8OqNY1VfvXfZnyIGLHgvjf2s4mFDhwYAAlanUO+eNx22mO2/lc?=
+ =?us-ascii?Q?qOqR2KkLYG/Vcn1yS5oY7UvS?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0jr6VXHBGqaURn2+"
-Content-Disposition: inline
-In-Reply-To: <aec5eea-8beb-a59-fda1-4c1ba4374c5@eik.bme.hu>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce4016dc-af7f-49d4-ed90-08d9092055e6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2021 02:01:13.2467 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /B3BbRbbvpj7tV4a6KeOjd0slvQOfq0u24dTeiPN9TSfhkxSzQSmKWv6jRnf6J8B/jwj5JhDFmNoOu4iis5QRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7821
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,187 +149,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Helge Deller <deller@gmx.de>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Alessandro Di Federico <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "babush@rev.ng" <babush@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0jr6VXHBGqaURn2+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 27, 2021 at 12:03:42AM +0200, BALATON Zoltan wrote:
-> On Mon, 26 Apr 2021, Philippe Mathieu-Daud=E9 wrote:
-> > Beside the loongson3-virt machine (MIPS), the following machines
-> > also use the fw_cfg device:
-> >=20
-> > - ARM: virt & sbsa-ref
-> > - HPPA: generic machine
-> > - X86: ACPI based (pc & microvm)
-> > - PPC64: various
-> > - SPARC: sun4m & sun4u
-> >=20
-> > Add their FW_CFG Kconfig dependency.
-> >=20
-> > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > ---
-> > hw/arm/Kconfig     | 2 ++
-> > hw/hppa/Kconfig    | 1 +
-> > hw/i386/Kconfig    | 2 ++
-> > hw/ppc/Kconfig     | 1 +
-> > hw/sparc/Kconfig   | 1 +
-> > hw/sparc64/Kconfig | 1 +
-> > 6 files changed, 8 insertions(+)
-> >=20
-> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > index 8c37cf00da7..3b2641e39dc 100644
-> > --- a/hw/arm/Kconfig
-> > +++ b/hw/arm/Kconfig
-> > @@ -8,6 +8,7 @@ config ARM_VIRT
-> >     imply TPM_TIS_SYSBUS
-> >     select ARM_GIC
-> >     select ACPI
-> > +    select FW_CFG
-> >     select ARM_SMMUV3
-> >     select GPIO_KEY
-> >     select FW_CFG_DMA
-> > @@ -216,6 +217,7 @@ config SBSA_REF
-> >     select PL061 # GPIO
-> >     select USB_EHCI_SYSBUS
-> >     select WDT_SBSA
-> > +    select FW_CFG
-> >=20
-> > config SABRELITE
-> >     bool
-> > diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
-> > index 22948db0256..45f40e09224 100644
-> > --- a/hw/hppa/Kconfig
-> > +++ b/hw/hppa/Kconfig
-> > @@ -14,3 +14,4 @@ config DINO
-> >     select LASIPS2
-> >     select PARALLEL
-> >     select ARTIST
-> > +    select FW_CFG
-> > diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> > index 7f91f30877f..9e4039a2dce 100644
-> > --- a/hw/i386/Kconfig
-> > +++ b/hw/i386/Kconfig
-> > @@ -52,6 +52,7 @@ config PC_ACPI
-> >     select SMBUS_EEPROM
-> >     select PFLASH_CFI01
-> >     depends on ACPI_SMBUS
-> > +    select FW_CFG
-> >=20
-> > config I440FX
-> >     bool
-> > @@ -106,6 +107,7 @@ config MICROVM
-> >     select ACPI_HW_REDUCED
-> >     select PCI_EXPRESS_GENERIC_BRIDGE
-> >     select USB_XHCI_SYSBUS
-> > +    select FW_CFG
-> >=20
-> > config X86_IOMMU
-> >     bool
-> > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> > index d11dc30509d..a7ba8283bf1 100644
-> > --- a/hw/ppc/Kconfig
-> > +++ b/hw/ppc/Kconfig
-> > @@ -131,6 +131,7 @@ config VIRTEX
-> > # Only used by 64-bit targets
-> > config FW_CFG_PPC
-> >     bool
-> > +    select FW_CFG
->=20
-> Why do we need a separate config option here if all it does is select FW_=
-CFG
-> and also in meson.build it only seems to add fw_cfg.c? (Unlike FW_CFG_DMA
-> which seems to add other files so another option makes sense for that cas=
-e).
-> Could we just use FW_CFG directly and drop the PPC specific option like y=
-ou
-> did for MIPS?
->=20
-> Also the comment saying "Only used by 64-bit targets" seems to be wrong as
-> it is also selected by MAC_OLDWORLD that's definitely a 32-bit machine (a=
-nd
-> MAC_NEWWORLD that can be both 32 or 64 bit) so maybe this option used to =
-do
-> something previously but now seems to be equivalent to just FW_CFG. So co=
-uld
-> it be dropped and use FW_CFG instead to simplify this or what's the reason
-> to keep a PPC specific option for it?
+> -----Original Message-----
+> From: Alessandro Di Federico <ale.qemu@rev.ng>
+> Sent: Thursday, April 15, 2021 11:35 AM
+> To: qemu-devel@nongnu.org
+> Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
+> <bcain@quicinc.com>; babush@rev.ng; nizzo@rev.ng; philmd@redhat.com;
+> richard.henderson@linaro.org; Alessandro Di Federico <ale@rev.ng>
+> Subject: [PATCH v4 09/12] target/hexagon: import lexer for idef-parser
 
-Actually... good point.  I don't see any reason for this config option eith=
-er.
+> +/**
+> + * Semantic record of the IMM token, identifying an immediate constant
+> + */
+> +typedef struct HexImm {
+> +    union {
+> +        char id;            /**< Identifier of the immediate            =
+     */
+> +        uint64_t value;     /**< Immediate value (for VALUE type immedia=
+tes) */
 
->=20
-> Regards,
-> BALATON Zoltan
->=20
-> >=20
-> > config FDT_PPC
-> >     bool
-> > diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-> > index 8dcb10086fd..267bf45fa21 100644
-> > --- a/hw/sparc/Kconfig
-> > +++ b/hw/sparc/Kconfig
-> > @@ -15,6 +15,7 @@ config SUN4M
-> >     select STP2000
-> >     select CHRP_NVRAM
-> >     select OR_IRQ
-> > +    select FW_CFG
-> >=20
-> > config LEON3
-> >     bool
-> > diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
-> > index 980a201bb73..c17b34b9d5b 100644
-> > --- a/hw/sparc64/Kconfig
-> > +++ b/hw/sparc64/Kconfig
-> > @@ -13,6 +13,7 @@ config SUN4U
-> >     select PCKBD
-> >     select SIMBA
-> >     select CHRP_NVRAM
-> > +    select FW_CFG
-> >=20
-> > config NIAGARA
-> >     bool
-> >=20
+Most immediates are 32 bits.  Since you treat them as 64 bits, you end up w=
+ith unnecessary extends and truncates in the TCG.
 
+Here's an example from idef-generated-emitter.c
+void emit_J2_jump(DisasContext *ctx, Insn *insn, Packet *pkt, int riV)
+/* fIMMEXT(riV); (riV =3D riV & ~3); (PC =3D fREAD_PC()+riV);} */
+{
+int64_t qemu_tmp_0 =3D ~((int64_t)3ULL);
+int32_t qemu_tmp_1 =3D riV & qemu_tmp_0;
+riV =3D qemu_tmp_1;
+TCGv_i32 tmp_0 =3D tcg_temp_local_new_i32();
+tcg_gen_movi_i32(tmp_0, ctx->base.pc_next);
+TCGv_i64 tmp_1 =3D tcg_temp_local_new_i64();
+tcg_gen_ext_i32_i64(tmp_1, tmp_0);                                         =
+ <- Don't need this extension
+tcg_temp_free_i32(tmp_0);
+TCGv_i64 tmp_2 =3D tcg_temp_local_new_i64();
+tcg_gen_addi_i64(tmp_2, tmp_1, (int64_t)riV);                        <- Thi=
+s should be 32 bits
+tcg_temp_free_i64(tmp_1);
+TCGv_i32 tmp_3 =3D tcg_temp_local_new_i32();
+tcg_gen_trunc_i64_tl(tmp_3, tmp_2);                                        =
+ <- Don't need this truncation
+tcg_temp_free_i64(tmp_2);
+gen_write_new_pc(tmp_3);
+tcg_temp_free_i32(tmp_3);
+}
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---0jr6VXHBGqaURn2+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCHb0UACgkQbDjKyiDZ
-s5Lc6Q//aOwjsOtxT4hFd1m4RBzYAgXtJGDvM3nKOZFF+CLJXgeVoZNchL5JGykQ
-44qeSRq7o5QjJOcF0Rhscw+4O7TOwBsLxhE09BBBPopGcRRPup+iG914ZAkHhnUe
-dva9let3FDbSuUAMzhYH4uUZMCbGlwQeKEX/DoryBdZYbFHCTMownvn3Dt7QWk6a
-gi6Es0jjzapa3U+XFPwf2Uq9HnrJP7wGFGv73lLHdakiA6yYCtq+0aOcyM9IenvR
-m1Y5WaTXTtObqsdTJ0PbRdCgv8mAcI1n5qyXGcjwGG07tMA/BA0LL/ZOmNBq4ORi
-OuuNgP2NK7Pbk3+WhyEV+1eR3KIEHRBbmfZiR3UeY3noJX8Kcn/icsKoMDFlXePM
-/0G1JKyMwYIchSFXXrMyVTcwDSXlNuO9sveYzc8Iw4F24qqLXnR8zyy9AC4xj6ig
-puN4btvbkFvpauoqlM2eifakNZr3Uo9F163d7BsvJ+DulQPTVKGFxsVBcWn7FSqF
-Mq/0yNNq/uoaCRy07Gee3z6PNTGh9AH7a4cct5e9kyAeAk0r/KKYiwNvDH0SaBYh
-eMlcm5aRSwPbLKkLGYddqbvTYCbbarubZipfDtlwP7weUVtT6ykiR1q5tNwkzn1r
-/wXSGP8kd8pGi5niowU+MSySEMqF83tEnozYfKcjzqTyLWi1Ma4=
-=OlSS
------END PGP SIGNATURE-----
-
---0jr6VXHBGqaURn2+--
+> +        uint64_t index;     /**< Index of the immediate (for int temp va=
+rs)  */
+> +    };
 
