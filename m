@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5996336BE82
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 06:32:34 +0200 (CEST)
-Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEBA36BEE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 07:31:57 +0200 (CEST)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbFOj-0003NR-FC
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 00:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54512)
+	id 1lbGKA-0003yO-82
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 01:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbFN7-0002ut-2s
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 00:30:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46010)
+ id 1lbGJ7-0003Vp-Lw
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 01:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbFN1-0002ni-Pa
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 00:30:52 -0400
+ id 1lbGJ4-0006IS-9C
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 01:30:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbFMy-0001br-VD
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 04:30:44 +0000
+ id 1lbGJ1-0005BN-R2
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 05:30:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E9D5E2E808A
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 04:30:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C984D2E806D
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 05:30:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Apr 2021 04:20:59 -0000
-From: Thomas Huth <1895305@bugs.launchpad.net>
+Date: Tue, 27 Apr 2021 05:24:38 -0000
+From: Wind Li <1926246@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kaniini th-huth z3ntu
-X-Launchpad-Bug-Reporter: Luca Weiss (z3ntu)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159983459206.747.8861900115459003190.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161949725965.4401.18129197045610568045.malone@gac.canonical.com>
-Subject: [Bug 1895305] Re: pthread_cancel fails with "RT33" with musl libc
+X-Launchpad-Bug-Commenters: nightwend
+X-Launchpad-Bug-Reporter: Wind Li (nightwend)
+X-Launchpad-Bug-Modifier: Wind Li (nightwend)
+Message-Id: <161950107824.17271.5936509317690090363.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1926246] [NEW] chrome based apps can not be run under qemu user
+ mode
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 22208a751cf24bde35ef50a0dc325a7433149bfc
+X-Launchpad-Hash: 44027f2fa5f819e9c92111826c03ea7d9df1476e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,85 +69,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895305 <1895305@bugs.launchpad.net>
+Reply-To: Bug 1926246 <1926246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks, since this was a regressin in Alpine, I'm marking the bug as
-closed here.
+Public bug reported:
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+chrome uses /proc/self/exe to fork render process.
+Here a simple code to reproduce the issue. It's output parent then child bu=
+t failed with qemu: unknown option 'type=3Drenderer'.
+
+Maybe we can modify exec syscall to replace /proc/self/exe to the real
+path.
+
+//gcc -o self self.c =
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+int main(int argc, char** argv) {
+  if(argc=3D=3D1){
+    printf ("parent\n");
+	if ( fork() =3D=3D 0 )
+    {
+        return execl("/proc/self/exe","/proc/self/exe", "--type=3Drenderer"=
+,NULL);
+    }
+  } else {
+    printf ("child\n");
+  }
+  return 0;
+}
+
+similar reports:
+https://github.com/AppImage/AppImageKit/issues/965  =
+
+https://github.com/golang/go/issues/42080  =
+
+
+Workardound:
+compile chrome or your chrome based app with a patch to content/common/chil=
+d_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
+
+
+diff --git a/content/common/child_process_host_impl.cc b/content/common/chi=
+ld_process_host_impl.cc
+index bc78aba80ac8..9fab74d3bae8 100644
+--- a/content/common/child_process_host_impl.cc
++++ b/content/common/child_process_host_impl.cc
+@@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flags)=
+ {
+ #if defined(OS_LINUX)
+   // Use /proc/self/exe rather than our known binary path so updates
+   // can't swap out the binary from underneath us.
+-  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
+-    child_path =3D base::FilePath(base::kProcSelfExe);
++  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
++    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_path)=
+) {
++      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
++      child_path =3D base::FilePath(base::kProcSelfExe);
++    }
++  }
+ #endif
+
+   // On most platforms, the child executable is the same as the current
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895305
+https://bugs.launchpad.net/bugs/1926246
 
 Title:
-  pthread_cancel fails with "RT33" with musl libc
+  chrome based apps can not be run under qemu user mode
 
 Status in QEMU:
-  Invalid
+  New
 
 Bug description:
-  From my testing it seems that QEMU built against musl libc crashes on
-  pthread_cancel cancel calls - if the binary is also built with musl
-  libc.
+  chrome uses /proc/self/exe to fork render process.
+  Here a simple code to reproduce the issue. It's output parent then child =
+but failed with qemu: unknown option 'type=3Drenderer'.
 
-  Minimal sample:
+  Maybe we can modify exec syscall to replace /proc/self/exe to the real
+  path.
 
-  #include <pthread.h>
+  //gcc -o self self.c =
+
   #include <stdio.h>
+  #include <sys/types.h>
   #include <unistd.h>
-  void* threadfunc(void* ignored) {
-  	while (1) {
-  		pause();
-  	}
-  	return NULL;
+  int main(int argc, char** argv) {
+    if(argc=3D=3D1){
+      printf ("parent\n");
+  	if ( fork() =3D=3D 0 )
+      {
+          return execl("/proc/self/exe","/proc/self/exe", "--type=3Drendere=
+r",NULL);
+      }
+    } else {
+      printf ("child\n");
+    }
+    return 0;
   }
-  int main() {
-  	pthread_t thread;
-  	pthread_create(&thread, NULL, &threadfunc, NULL);
-  	sleep(1);
-  	pthread_cancel(thread);
-  	printf("OK, alive\n");
-  }
 
-  In an Alpine Linux aarch64 chroot (on an x86_64 host) the binary will
-  just output RT33 and has exit code 161.
+  similar reports:
+  https://github.com/AppImage/AppImageKit/issues/965  =
 
-  Using qemu-aarch64 on an x86_64 host results in the output (fish shell)
-    fish: =E2=80=9Cqemu-aarch64-static ./musl-stat=E2=80=A6=E2=80=9D termin=
-ated by signal Unknown (Unknown)
-  or (bash)
-    Real-time signal 2
+  https://github.com/golang/go/issues/42080  =
 
-  and exit code 164.
 
-  It doesn't matter whether the binary is linked dynamically or static.
-  You can see my test results in the following table:
+  Workardound:
+  compile chrome or your chrome based app with a patch to content/common/ch=
+ild_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
 
-  |                      | QEMU glibc | QEMU musl |
-  |----------------------|------------|-----------|
-  | binary glibc dynamic | =E2=9C=93          | =E2=9C=93         |
-  | binary glibc static  | =E2=9C=93          | =E2=9C=93         |
-  | binary musl dynamic  | =E2=9C=93          | =E2=9C=97         |
-  | binary musl static   | =E2=9C=93          | =E2=9C=97         |
 
-  Both QEMU builds are v5.1.0 (glibc v2.32 / musl v1.2.1)
+  diff --git a/content/common/child_process_host_impl.cc b/content/common/c=
+hild_process_host_impl.cc
+  index bc78aba80ac8..9fab74d3bae8 100644
+  --- a/content/common/child_process_host_impl.cc
+  +++ b/content/common/child_process_host_impl.cc
+  @@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flag=
+s) {
+   #if defined(OS_LINUX)
+     // Use /proc/self/exe rather than our known binary path so updates
+     // can't swap out the binary from underneath us.
+  -  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
+  -    child_path =3D base::FilePath(base::kProcSelfExe);
+  +  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
+  +    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_pat=
+h)) {
+  +      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
+  +      child_path =3D base::FilePath(base::kProcSelfExe);
+  +    }
+  +  }
+   #endif
 
-  I've uploaded all my compile and test commands (plus a script to
-  conveniently run them all) to https://github.com/z3ntu/qemu-
-  pthread_cancel . It also includes the built binaries if needed. The
-  test script output can be found at https://github.com/z3ntu/qemu-
-  pthread_cancel/blob/master/results.txt
-
-  Further links:
-  - https://gitlab.com/postmarketOS/pmaports/-/issues/190#note_141902075
-  - https://gitlab.com/postmarketOS/pmbootstrap/-/issues/1970
+     // On most platforms, the child executable is the same as the
+  current
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895305/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926246/+subscriptions
 
