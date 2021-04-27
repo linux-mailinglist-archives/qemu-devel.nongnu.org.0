@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0EB436BF1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:10:04 +0200 (CEST)
-Received: from localhost ([::1]:37854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3709D36BF25
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:12:23 +0200 (CEST)
+Received: from localhost ([::1]:42810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbGv6-0006ch-1K
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:10:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40032)
+	id 1lbGxK-0000JN-9l
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbGsf-0004xi-BM
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:07:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbGsc-0001oQ-HD
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619503648;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eG4o3S/RQr+VUMe9GzV2EZ4XoZGOSwN4JqC85zb6NnY=;
- b=OMCfmWfIvwRDFsLvlLQCZhjZKIxY1RVapm5xFG7TY5WjISQJaqRsRI+K1p5f8s4vMAgAEY
- +g5RnEcVd5hdAfda4AA9KURUV5Bhj2W8/WLkUs3IJer93CTU7LnnV4/4Mikk63OIeN3u/j
- Jiv+AQuzKTZhJzLyo049T2I8Hs5CEsM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-NN1EcylHM4moaY6crjITEg-1; Tue, 27 Apr 2021 02:07:26 -0400
-X-MC-Unique: NN1EcylHM4moaY6crjITEg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF8E41006CAD;
- Tue, 27 Apr 2021 06:07:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8948A2AABD;
- Tue, 27 Apr 2021 06:07:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 135E8113525D; Tue, 27 Apr 2021 08:07:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 03/22] qapi/source: Remove line number from
- QAPISourceInfo initializer
-References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-4-jsnow@redhat.com>
- <87o8e49oha.fsf@dusky.pond.sub.org>
- <c6636089-02a4-97e2-5828-04bb94f6bb3b@redhat.com>
-Date: Tue, 27 Apr 2021 08:07:24 +0200
-In-Reply-To: <c6636089-02a4-97e2-5828-04bb94f6bb3b@redhat.com> (John Snow's
- message of "Mon, 26 Apr 2021 19:14:34 -0400")
-Message-ID: <87zgxk6z1f.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lbGue-0007Ii-FZ; Tue, 27 Apr 2021 02:09:38 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:45020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lbGuY-0002qt-HS; Tue, 27 Apr 2021 02:09:33 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id p8so5819971iol.11;
+ Mon, 26 Apr 2021 23:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ajvijVnbKEqN/VqS92zVhYQJ3kKRjwmWQoCZWU2UhEc=;
+ b=lz97tKCs8mBsjG27LA0ErRvKor0DY6uIdS9/wwiTSsVXKgLhlvHVDzij/ju0iADP5D
+ iRmOjWEJNrOoUr1SRbQjkanyfLCibbseqjcPCkHR0CRri3mU/lvj7ThwKCxQF2zQ/6px
+ kFQisqt/bzI1CfyaYPSMP91kQjWCYWaSWOpIjhZSvZje03P16Fdvwpbu5nrS8SVJ0Mu9
+ UqjkeRNid10TEbeFDSQF8/XgCcLT/hsMPAYZ71SQEVZ1UujIBENJJ1SaPgft2DwwtBeN
+ HzFb4eL/Ez36jHEXQdvI+y5N/s3TVFuuS1eaLazchVFLrmlzeMY8dpSRt1CV6MwL9TSC
+ nwKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ajvijVnbKEqN/VqS92zVhYQJ3kKRjwmWQoCZWU2UhEc=;
+ b=akCmwFnAuPW89IuiyBswGOoPCv4LzTn1GNSAR1BFVHGB8sFy5JVKqOJN0tvXivt/3j
+ ssVBjanxzTHL3+Ox/kzsiX8XrUpSj72jAtY/Fsb1qtnOcBgyBPIT7EwTtr6YFRnNB8Th
+ iJfAqzOc+aqWJ9zGAa5xnlx65FgPBuBKkR328Tbz0AimqeI8Sj/qp8D0RbS9TIyoNrbN
+ b2dL5Wr80mhXAt9ZgLlsg9CWuMkAaYJmQ77s9qU+dpHYjWXytbBAbFbve8Fcrp7icJAI
+ xTklODE2cgrGZM3NJ9mrnGmgzwt0yvysxEKxNpmaD5tT1aVdh6tnY2h8AwlJI4psIdiY
+ bOuQ==
+X-Gm-Message-State: AOAM532pHiNCUF+C6UDG/ioES0shTCPWx1uJWhFJORgwI3aJxvEEGQ4S
+ jhbM6ejD8TFybApOqTMeZ0KCzKKLNjEt0H7ticM=
+X-Google-Smtp-Source: ABdhPJyOWzoYiZxwD7CZrbp4obxaHwqAbaTruU+XUgfxog2p5C3JXsykEVAttpSOUOGxySOYEBLIlGtkPdFNPe0NxCI=
+X-Received: by 2002:a05:6638:3048:: with SMTP id
+ u8mr19870542jak.91.1619503767609; 
+ Mon, 26 Apr 2021 23:09:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210420213656.85148-1-josemartins90@gmail.com>
+In-Reply-To: <20210420213656.85148-1-josemartins90@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 27 Apr 2021 16:09:01 +1000
+Message-ID: <CAKmqyKOr5bMi__F+C6PJ3CKRd_4v3LEROirEtV_rJyCwO5zncA@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: fix wfi exception behavior
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +76,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On 4/24/21 2:38 AM, Markus Armbruster wrote:
->> Mixing f-string and % interpolation.  I doubt we'd write it this way
->> from scratch.  I recommend to either stick to % for now (leave
->> conversion to f-strings for later), or conver the column formatting,
->> too, even though it's not related to the patch's purpose.
+On Wed, Apr 21, 2021 at 7:37 AM Jose Martins <josemartins90@gmail.com> wrote:
 >
-> True. Two thoughts:
+> The wfi exception trigger behavior should take into account user mode,
+> hstatus.vtw, and the fact the an wfi might raise different types of
+> exceptions depending on various factors:
 >
-> 1. I don't like using % formatting because it behaves differently from
-> .format() and f-strings. My overwhelming desire is to never use it for 
-> this reason.
+> If supervisor mode is not present:
 >
-> Example: {foo} will call foo's __format__ method, whereas "%s" % foo
-> will simply add str(foo). They are not always the same, not even for 
-> built-in Python objects.
-
-I only care for readability, which profits from local consistency.
-Maybe I'll sing a different tune once I got actually bitten by the
-difference between interpolation and f-strings.
-
-> 2. Cleaning up the formatting here without cleaning it up everywhere
-> is a great way to get the patch NACKed. You have in the past been
-> fairly reluctant to "While we're here" cleanups, so I am trying to cut
-> back on them.
-
-Yes, I've been pushing back on such cleanups.  But it's really a
-case-by-case issue.  When a patch fits on a page, squashing in a bit of
-losely related cleanup is usually fine.  When it's long, keep it focused
-on a single purpose.
-
-> This is why my habit for f-strings keeps trickling in: whenever I have
-> to rewrite any interpolation, I reach for the one that behaves most 
-> idiomatically for Python 3. I am trying to balance that against churn
-> that's not in the stated goals of the patch.
+> - an illegal instruction exception should be generated if user mode
+> executes and wfi instruction and mstatus.tw = 1.
 >
-> In this case: I'll clean the rest of the method to match; and add a
-> note to the commit message that explains why.
+> If supervisor mode is present:
+>
+> - when a wfi instruction is executed, an illegal exception should be triggered
+> if either the current mode is user or the mode is supervisor and mstatus.tw is
+> set.
+>
+> Plus, if the hypervisor extensions are enabled:
+>
+> - a virtual instruction exception should be raised when a wfi is executed from
+> virtual-user or virtual-supervisor and hstatus.vtw is set.
+>
+> Signed-off-by: Jose Martins <josemartins90@gmail.com>
 
-Okay.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
->                                               I will get around to
-> removing all of the f-strings,
+Alistair
 
-The opposite, I presume.
-
->                                but I want to hit the clean linter
-> baseline first to help guide the testing for such a series. I regret
-> the awkward transitional period.
-
-I'd leave converting interpolation to f-strings for later.
-
-I can tolerate early, partial conversion, since I trust complete
-conversion will happen, and as long as the resulting local inconsistency
-isn't too grating.  Subjective, I know.
-
+> ---
+> Alistair, I hope you've agreed with my argumentis for the previous version
+> of the patch. As promised, I submit this version which takes into account M/U
+> only harts. It checks for the presence of the RVS extension. If it is
+> not present mstatus.tw takes effect over the exection of wfi in user
+> mode.
+>
+>  target/riscv/cpu_bits.h  |  1 +
+>  target/riscv/op_helper.c | 11 ++++++++---
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 24b24c69c5..ed8b97c788 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -436,6 +436,7 @@
+>  #define HSTATUS_HU           0x00000200
+>  #define HSTATUS_VGEIN        0x0003F000
+>  #define HSTATUS_VTVM         0x00100000
+> +#define HSTATUS_VTW          0x00200000
+>  #define HSTATUS_VTSR         0x00400000
+>  #if defined(TARGET_RISCV64)
+>  #define HSTATUS_VSXL        0x300000000
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index d55def76cf..15982a7a33 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -173,10 +173,15 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+>  void helper_wfi(CPURISCVState *env)
+>  {
+>      CPUState *cs = env_cpu(env);
+> +    bool rvs = riscv_has_ext(env, RVS);
+> +    bool prv_u = env->priv == PRV_U;
+> +    bool prv_s = env->priv == PRV_S;
+>
+> -    if ((env->priv == PRV_S &&
+> -        get_field(env->mstatus, MSTATUS_TW)) ||
+> -        riscv_cpu_virt_enabled(env)) {
+> +    if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
+> +        (rvs && prv_u && !riscv_cpu_virt_enabled(env))) {
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> +    } else if (riscv_cpu_virt_enabled(env) && (prv_u ||
+> +        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
+>          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>      } else {
+>          cs->halted = 1;
+> --
+> 2.25.1
+>
+>
 
