@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3709D36BF25
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:12:23 +0200 (CEST)
-Received: from localhost ([::1]:42810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59AF36BF2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:16:52 +0200 (CEST)
+Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbGxK-0000JN-9l
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40274)
+	id 1lbH1g-0001nX-1Q
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lbGue-0007Ii-FZ; Tue, 27 Apr 2021 02:09:38 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:45020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lbGuY-0002qt-HS; Tue, 27 Apr 2021 02:09:33 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id p8so5819971iol.11;
- Mon, 26 Apr 2021 23:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ajvijVnbKEqN/VqS92zVhYQJ3kKRjwmWQoCZWU2UhEc=;
- b=lz97tKCs8mBsjG27LA0ErRvKor0DY6uIdS9/wwiTSsVXKgLhlvHVDzij/ju0iADP5D
- iRmOjWEJNrOoUr1SRbQjkanyfLCibbseqjcPCkHR0CRri3mU/lvj7ThwKCxQF2zQ/6px
- kFQisqt/bzI1CfyaYPSMP91kQjWCYWaSWOpIjhZSvZje03P16Fdvwpbu5nrS8SVJ0Mu9
- UqjkeRNid10TEbeFDSQF8/XgCcLT/hsMPAYZ71SQEVZ1UujIBENJJ1SaPgft2DwwtBeN
- HzFb4eL/Ez36jHEXQdvI+y5N/s3TVFuuS1eaLazchVFLrmlzeMY8dpSRt1CV6MwL9TSC
- nwKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ajvijVnbKEqN/VqS92zVhYQJ3kKRjwmWQoCZWU2UhEc=;
- b=akCmwFnAuPW89IuiyBswGOoPCv4LzTn1GNSAR1BFVHGB8sFy5JVKqOJN0tvXivt/3j
- ssVBjanxzTHL3+Ox/kzsiX8XrUpSj72jAtY/Fsb1qtnOcBgyBPIT7EwTtr6YFRnNB8Th
- iJfAqzOc+aqWJ9zGAa5xnlx65FgPBuBKkR328Tbz0AimqeI8Sj/qp8D0RbS9TIyoNrbN
- b2dL5Wr80mhXAt9ZgLlsg9CWuMkAaYJmQ77s9qU+dpHYjWXytbBAbFbve8Fcrp7icJAI
- xTklODE2cgrGZM3NJ9mrnGmgzwt0yvysxEKxNpmaD5tT1aVdh6tnY2h8AwlJI4psIdiY
- bOuQ==
-X-Gm-Message-State: AOAM532pHiNCUF+C6UDG/ioES0shTCPWx1uJWhFJORgwI3aJxvEEGQ4S
- jhbM6ejD8TFybApOqTMeZ0KCzKKLNjEt0H7ticM=
-X-Google-Smtp-Source: ABdhPJyOWzoYiZxwD7CZrbp4obxaHwqAbaTruU+XUgfxog2p5C3JXsykEVAttpSOUOGxySOYEBLIlGtkPdFNPe0NxCI=
-X-Received: by 2002:a05:6638:3048:: with SMTP id
- u8mr19870542jak.91.1619503767609; 
- Mon, 26 Apr 2021 23:09:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbGz3-0001DW-9W
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:14:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53157)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbGz0-0005GW-QB
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:14:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619504045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NwzTFPZ/WBrBwJAPZzWvNtvrQ7Lae9rGATHr4kBuhpc=;
+ b=WnU9Ai8ToAbqA2yn7UsXcKmJrDdAwAdD0z0vsJuF5IDViyVx79EN93ccHT9/NTfE2JTwYu
+ abIqZ6GTbS28gtYdaLqQnnQUnOnvcnFJfeV0sWE5Ve6pXwlH+s1NnVoRVEfL6kmWp+YC6T
+ rjfelr2HVrwXBx82jM9DXrek5yKAWGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-l-D_PDf4NeGuDo9VmZbsXg-1; Tue, 27 Apr 2021 02:14:02 -0400
+X-MC-Unique: l-D_PDf4NeGuDo9VmZbsXg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90B991006C85;
+ Tue, 27 Apr 2021 06:14:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 606CE69FB4;
+ Tue, 27 Apr 2021 06:14:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E0594113525D; Tue, 27 Apr 2021 08:13:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 07/22] qapi/parser: assert object keys are strings
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-8-jsnow@redhat.com>
+ <87eeey962x.fsf@dusky.pond.sub.org>
+ <822441ee-e877-d4dd-9078-d0a930d140d2@redhat.com>
+Date: Tue, 27 Apr 2021 08:13:59 +0200
+In-Reply-To: <822441ee-e877-d4dd-9078-d0a930d140d2@redhat.com> (John Snow's
+ message of "Mon, 26 Apr 2021 13:46:27 -0400")
+Message-ID: <87sg3c6yqg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210420213656.85148-1-josemartins90@gmail.com>
-In-Reply-To: <20210420213656.85148-1-josemartins90@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 27 Apr 2021 16:09:01 +1000
-Message-ID: <CAKmqyKOr5bMi__F+C6PJ3CKRd_4v3LEROirEtV_rJyCwO5zncA@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: fix wfi exception behavior
-To: Jose Martins <josemartins90@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,91 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 21, 2021 at 7:37 AM Jose Martins <josemartins90@gmail.com> wrote:
->
-> The wfi exception trigger behavior should take into account user mode,
-> hstatus.vtw, and the fact the an wfi might raise different types of
-> exceptions depending on various factors:
->
-> If supervisor mode is not present:
->
-> - an illegal instruction exception should be generated if user mode
-> executes and wfi instruction and mstatus.tw = 1.
->
-> If supervisor mode is present:
->
-> - when a wfi instruction is executed, an illegal exception should be triggered
-> if either the current mode is user or the mode is supervisor and mstatus.tw is
-> set.
->
-> Plus, if the hypervisor extensions are enabled:
->
-> - a virtual instruction exception should be raised when a wfi is executed from
-> virtual-user or virtual-supervisor and hstatus.vtw is set.
->
-> Signed-off-by: Jose Martins <josemartins90@gmail.com>
+John Snow <jsnow@redhat.com> writes:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> On 4/25/21 3:27 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> The single quote token implies the value is a string. Assert this to be
+>>> the case.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/parser.py | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+>>> index 6b443b1247e..8d1fe0ddda5 100644
+>>> --- a/scripts/qapi/parser.py
+>>> +++ b/scripts/qapi/parser.py
+>>> @@ -246,6 +246,8 @@ def get_members(self):
+>>>               raise QAPIParseError(self, "expected string or '}'")
+>>>           while True:
+>>>               key = self.val
+>>> +            assert isinstance(key, str)  # Guaranteed by tok == "'"
+>>> +
+>>>               self.accept()
+>>>               if self.tok != ':':
+>>>                   raise QAPIParseError(self, "expected ':'")
+>> 
+>> The assertion is correct, but I wonder why mypy needs it.  Can you help?
+>> 
+>
+> The lexer value can also be True/False (Maybe None? I forget) based on 
 
-Alistair
+Yes, None for tokens like '{'.
 
-> ---
-> Alistair, I hope you've agreed with my argumentis for the previous version
-> of the patch. As promised, I submit this version which takes into account M/U
-> only harts. It checks for the presence of the RVS extension. If it is
-> not present mstatus.tw takes effect over the exection of wfi in user
-> mode.
+> the Token returned. Here, since the token was the single quote, we know 
+> that value must be a string.
 >
->  target/riscv/cpu_bits.h  |  1 +
->  target/riscv/op_helper.c | 11 ++++++++---
->  2 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 24b24c69c5..ed8b97c788 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -436,6 +436,7 @@
->  #define HSTATUS_HU           0x00000200
->  #define HSTATUS_VGEIN        0x0003F000
->  #define HSTATUS_VTVM         0x00100000
-> +#define HSTATUS_VTW          0x00200000
->  #define HSTATUS_VTSR         0x00400000
->  #if defined(TARGET_RISCV64)
->  #define HSTATUS_VSXL        0x300000000
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index d55def76cf..15982a7a33 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -173,10 +173,15 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
->  void helper_wfi(CPURISCVState *env)
->  {
->      CPUState *cs = env_cpu(env);
-> +    bool rvs = riscv_has_ext(env, RVS);
-> +    bool prv_u = env->priv == PRV_U;
-> +    bool prv_s = env->priv == PRV_S;
->
-> -    if ((env->priv == PRV_S &&
-> -        get_field(env->mstatus, MSTATUS_TW)) ||
-> -        riscv_cpu_virt_enabled(env)) {
-> +    if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
-> +        (rvs && prv_u && !riscv_cpu_virt_enabled(env))) {
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> +    } else if (riscv_cpu_virt_enabled(env) && (prv_u ||
-> +        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
->          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
->      } else {
->          cs->halted = 1;
-> --
-> 2.25.1
->
->
+> Mypy has no insight into the correlation between the Token itself and 
+> the token value, because that relationship is not expressed via the type 
+> system.
+
+I understand that mypy can't prove implications like if self.tok == "'",
+then self.val is a str.
+
+What I'm curious about is why key needs to be known to be str here.
+Hmm, is it so return expr type-checks once you add -> OrderedDict[str,
+object] to the function?
+
 
