@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59AF36BF2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:16:52 +0200 (CEST)
-Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58E136BF64
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:42:41 +0200 (CEST)
+Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbH1g-0001nX-1Q
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:16:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
+	id 1lbHQe-00088d-Ip
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbGz3-0001DW-9W
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:14:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53157)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lbHP1-0007ee-MQ
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:40:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbGz0-0005GW-QB
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:14:09 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lbHOy-0003O5-3N
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:40:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619504045;
+ s=mimecast20190719; t=1619505654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NwzTFPZ/WBrBwJAPZzWvNtvrQ7Lae9rGATHr4kBuhpc=;
- b=WnU9Ai8ToAbqA2yn7UsXcKmJrDdAwAdD0z0vsJuF5IDViyVx79EN93ccHT9/NTfE2JTwYu
- abIqZ6GTbS28gtYdaLqQnnQUnOnvcnFJfeV0sWE5Ve6pXwlH+s1NnVoRVEfL6kmWp+YC6T
- rjfelr2HVrwXBx82jM9DXrek5yKAWGE=
+ bh=nUzXVkOwMrVTbM1o7/K4W/oypU9K4I/fEOeh6DCyyfo=;
+ b=Fos8gNRwRPVGmhH0Ki+qXhPEPgAmEyqvMWeRElokMxzWsBLfo8h1LL0t2xbyxT9avyrNBs
+ JrZbeHXWSkYRgMjexPs7D40Sl8oFRY5pByms0asxsmV4BLaOMdoM1X+xuUBZrPagnupEMO
+ zkAhhrAYaTGNT1MoNQ+pymI585DmIqc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-l-D_PDf4NeGuDo9VmZbsXg-1; Tue, 27 Apr 2021 02:14:02 -0400
-X-MC-Unique: l-D_PDf4NeGuDo9VmZbsXg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-430-5ShvQ6UFO2GruDnvJ2TvAw-1; Tue, 27 Apr 2021 02:40:52 -0400
+X-MC-Unique: 5ShvQ6UFO2GruDnvJ2TvAw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90B991006C85;
- Tue, 27 Apr 2021 06:14:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 606CE69FB4;
- Tue, 27 Apr 2021 06:14:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E0594113525D; Tue, 27 Apr 2021 08:13:59 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 07/22] qapi/parser: assert object keys are strings
-References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-8-jsnow@redhat.com>
- <87eeey962x.fsf@dusky.pond.sub.org>
- <822441ee-e877-d4dd-9078-d0a930d140d2@redhat.com>
-Date: Tue, 27 Apr 2021 08:13:59 +0200
-In-Reply-To: <822441ee-e877-d4dd-9078-d0a930d140d2@redhat.com> (John Snow's
- message of "Mon, 26 Apr 2021 13:46:27 -0400")
-Message-ID: <87sg3c6yqg.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B281718B6142
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 06:40:51 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-13-153.pek2.redhat.com
+ [10.72.13.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEFA853CC6;
+ Tue, 27 Apr 2021 06:40:46 +0000 (UTC)
+Subject: Re: [PATCH v6 2/9] virtio-pci:decouple virtqueue from interrupt
+ setting process
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20210427033951.29805-1-lulu@redhat.com>
+ <20210427033951.29805-3-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <78e0debd-a63f-cffc-b252-b138fef4c12d@redhat.com>
+Date: Tue, 27 Apr 2021 14:40:44 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210427033951.29805-3-lulu@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +84,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
 
-> On 4/25/21 3:27 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> The single quote token implies the value is a string. Assert this to be
->>> the case.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   scripts/qapi/parser.py | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->>> index 6b443b1247e..8d1fe0ddda5 100644
->>> --- a/scripts/qapi/parser.py
->>> +++ b/scripts/qapi/parser.py
->>> @@ -246,6 +246,8 @@ def get_members(self):
->>>               raise QAPIParseError(self, "expected string or '}'")
->>>           while True:
->>>               key = self.val
->>> +            assert isinstance(key, str)  # Guaranteed by tok == "'"
->>> +
->>>               self.accept()
->>>               if self.tok != ':':
->>>                   raise QAPIParseError(self, "expected ':'")
->> 
->> The assertion is correct, but I wonder why mypy needs it.  Can you help?
->> 
+ÔÚ 2021/4/27 ÉÏÎç11:39, Cindy Lu Ð´µÀ:
+> Now the code for interrupt/vector are coupling
+> with the vq number, this patch will decouple the vritqueue
+> numbers from these functions.
+
+
+So you need to describe why such kind of decoupling is needed,
+
+
 >
-> The lexer value can also be True/False (Maybe None? I forget) based on 
-
-Yes, None for tokens like '{'.
-
-> the Token returned. Here, since the token was the single quote, we know 
-> that value must be a string.
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/virtio/virtio-pci.c | 51 ++++++++++++++++++++++++------------------
+>   1 file changed, 29 insertions(+), 22 deletions(-)
 >
-> Mypy has no insight into the correlation between the Token itself and 
-> the token value, because that relationship is not expressed via the type 
-> system.
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 36524a5728..2b7e6cc0d9 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -691,23 +691,17 @@ static void kvm_virtio_pci_vq_vector_release(VirtIOPCIProxy *proxy,
+>   }
+>   
+>   static int kvm_virtio_pci_irqfd_use(VirtIOPCIProxy *proxy,
+> -                                 unsigned int queue_no,
+> +                                 EventNotifier *n,
+>                                    unsigned int vector)
+>   {
+>       VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
+> -    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> -    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
+> -    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
+>       return kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, n, NULL, irqfd->virq);
+>   }
+>   
+>   static void kvm_virtio_pci_irqfd_release(VirtIOPCIProxy *proxy,
+> -                                      unsigned int queue_no,
+> +                                      EventNotifier *n ,
+>                                         unsigned int vector)
+>   {
+> -    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> -    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
+> -    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
+>       VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
+>       int ret;
+>   
+> @@ -722,7 +716,8 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+>       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+>       unsigned int vector;
+>       int ret, queue_no;
+> -
+> +    VirtQueue *vq;
+> +    EventNotifier *n;
+>       for (queue_no = 0; queue_no < nvqs; queue_no++) {
+>           if (!virtio_queue_get_num(vdev, queue_no)) {
+>               break;
+> @@ -739,7 +734,9 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+>            * Otherwise, delay until unmasked in the frontend.
+>            */
+>           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> -            ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
+> +            vq = virtio_get_queue(vdev, queue_no);
+> +            n = virtio_queue_get_guest_notifier(vq);
+> +            ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
+>               if (ret < 0) {
+>                   kvm_virtio_pci_vq_vector_release(proxy, vector);
+>                   goto undo;
+> @@ -755,7 +752,9 @@ undo:
+>               continue;
+>           }
+>           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> -            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
+> +            vq = virtio_get_queue(vdev, queue_no);
+> +            n = virtio_queue_get_guest_notifier(vq);
+> +            kvm_virtio_pci_irqfd_release(proxy, n, vector);
+>           }
+>           kvm_virtio_pci_vq_vector_release(proxy, vector);
+>       }
+> @@ -769,7 +768,8 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
+>       unsigned int vector;
+>       int queue_no;
+>       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> -
+> +    VirtQueue *vq;
+> +    EventNotifier *n;
+>       for (queue_no = 0; queue_no < nvqs; queue_no++) {
+>           if (!virtio_queue_get_num(vdev, queue_no)) {
+>               break;
+> @@ -782,7 +782,9 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
+>            * Otherwise, it was cleaned when masked in the frontend.
+>            */
+>           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> -            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
+> +            vq = virtio_get_queue(vdev, queue_no);
+> +            n = virtio_queue_get_guest_notifier(vq);
+> +            kvm_virtio_pci_irqfd_release(proxy, n, vector);
+>           }
+>           kvm_virtio_pci_vq_vector_release(proxy, vector);
+>       }
+> @@ -791,12 +793,11 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
+>   static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
+>                                          unsigned int queue_no,
+>                                          unsigned int vector,
+> -                                       MSIMessage msg)
+> +                                       MSIMessage msg,
+> +                                        EventNotifier *n)
 
-I understand that mypy can't prove implications like if self.tok == "'",
-then self.val is a str.
 
-What I'm curious about is why key needs to be known to be str here.
-Hmm, is it so return expr type-checks once you add -> OrderedDict[str,
-object] to the function?
+So you switch to use EventNotifier but keep using queue_no/vector, this 
+looks kind of duplication.
+
+If we can keep queue_no or virtio_queue_get_guest_notifier working as in 
+the past, I don't see any reason for this effort.
+
+Thanks
+
+
+>   {
+>       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+>       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> -    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
+> -    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
+>       VirtIOIRQFD *irqfd;
+>       int ret = 0;
+>   
+> @@ -823,14 +824,15 @@ static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
+>               event_notifier_set(n);
+>           }
+>       } else {
+> -        ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
+> +        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
+>       }
+>       return ret;
+>   }
+>   
+>   static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
+>                                                unsigned int queue_no,
+> -                                             unsigned int vector)
+> +                                             unsigned int vector,
+> +                                             EventNotifier *n)
+>   {
+>       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+>       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> @@ -841,7 +843,7 @@ static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
+>       if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+>           k->guest_notifier_mask(vdev, queue_no, true);
+>       } else {
+> -        kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
+> +        kvm_virtio_pci_irqfd_release(proxy, n, vector);
+>       }
+>   }
+>   
+> @@ -851,6 +853,7 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
+>       VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
+>       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+>       VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
+> +    EventNotifier *n;
+>       int ret, index, unmasked = 0;
+>   
+>       while (vq) {
+> @@ -859,7 +862,8 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
+>               break;
+>           }
+>           if (index < proxy->nvqs_with_notifiers) {
+> -            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg);
+> +            n = virtio_queue_get_guest_notifier(vq);
+> +            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg, n);
+>               if (ret < 0) {
+>                   goto undo;
+>               }
+> @@ -875,7 +879,8 @@ undo:
+>       while (vq && unmasked >= 0) {
+>           index = virtio_get_queue_index(vq);
+>           if (index < proxy->nvqs_with_notifiers) {
+> -            virtio_pci_vq_vector_mask(proxy, index, vector);
+> +            n = virtio_queue_get_guest_notifier(vq);
+> +            virtio_pci_vq_vector_mask(proxy, index, vector, n);
+>               --unmasked;
+>           }
+>           vq = virtio_vector_next_queue(vq);
+> @@ -888,15 +893,17 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
+>       VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
+>       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+>       VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
+> +    EventNotifier *n;
+>       int index;
+>   
+>       while (vq) {
+>           index = virtio_get_queue_index(vq);
+> +         n = virtio_queue_get_guest_notifier(vq);
+>           if (!virtio_queue_get_num(vdev, index)) {
+>               break;
+>           }
+>           if (index < proxy->nvqs_with_notifiers) {
+> -            virtio_pci_vq_vector_mask(proxy, index, vector);
+> +            virtio_pci_vq_vector_mask(proxy, index, vector, n);
+>           }
+>           vq = virtio_vector_next_queue(vq);
+>       }
 
 
