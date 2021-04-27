@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5172B36C1DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:37:58 +0200 (CEST)
-Received: from localhost ([::1]:57798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C40D36C1FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:43:59 +0200 (CEST)
+Received: from localhost ([::1]:40792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbKAH-0000QK-6y
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:37:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
+	id 1lbKG6-0005CM-J3
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lbK7V-0007fN-QM
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:35:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23479)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbKA8-00014I-Au
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:37:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lbK7R-0007jI-Pv
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:35:05 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbKA0-0000kq-2J
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:37:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619516101;
+ s=mimecast20190719; t=1619516257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=86c2gRSgteVDFwGLyBjFJFEp6J/EPLoAoBbCmYO4//A=;
- b=Swx4CK9o7ViM82dt1ydlxae9FbsTmFhDoy06/0uNF4uCdpM/MsvrbfCndfB2+woh8KCN1y
- Oc4sv5b1OCuFG2GrHDfLzJIKQncsBO6ECV5K+w95f+tmet6EVgngu20hQK9IdBA4FnZMdF
- 723hkNi7USvl3eczV2VIzgPkNi3gAlA=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-RC6b7UbFM6a0gqCzjYbXfA-1; Tue, 27 Apr 2021 05:34:58 -0400
-X-MC-Unique: RC6b7UbFM6a0gqCzjYbXfA-1
-Received: by mail-pl1-f199.google.com with SMTP id
- z2-20020a1709030182b02900eca55a002dso12682514plg.0
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 02:34:58 -0700 (PDT)
+ bh=OuZcYfksTtMkbmUbEwMw8fM0Xj0JA3dRB9TriGd+laM=;
+ b=HuMKkq7TCwGy0AyFa3NlIh0hl/Gf7Nu8KL0KgI+YEaVM3SoKFRHms5a0MBSiocAsPIptlI
+ 4eOMZLDwxoRowc3UF62mEHQE+pCQrVzOYSbzKp4fSS3fJc5odV51HWDFutxQUhHDf1rhE8
+ Q42UwAKsjbRfv2Kn6DPYM8fOTkh+92k=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-JGmqHK30Oo-9WjfvVvNo2A-1; Tue, 27 Apr 2021 05:37:35 -0400
+X-MC-Unique: JGmqHK30Oo-9WjfvVvNo2A-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ h13-20020a05640250cdb02903790a9c55acso24537768edb.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 02:37:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=86c2gRSgteVDFwGLyBjFJFEp6J/EPLoAoBbCmYO4//A=;
- b=M3NKMOFT1l2X+hx2X4Gaoi4U55BkvQL15E8eJUayRQ3hJmOucEL6pr7sQfqraZEEB4
- UtToA7I3D9/9kGyXCW393CPf+VxWV9QaKwz9oMPDxlkQjzSzF7tz4L2PqUatuTTx84i7
- APlweEpPobhFa1aKdSlJ1Ue5kQPr6dTjb3fIYWpeuaP31jtdPrn8heKhL+RcTP4B9oGx
- F6TjKSv/SKkrFG0KesRmLmzLFXLm1ugjQMwFDKO2kAm2XG+i2twUrNEJiE9XJL1wM6Z0
- 75TqfwqMYbfMDFT7N8Y4DJR1yTRupEQWIRJVKIPKBdR1TuCm/60JBLZxQtFHoRjDn9ry
- 8zLg==
-X-Gm-Message-State: AOAM533oaKWJllLH0xzMEHfaeNCCBvjfNq4OFxxgiZjuxw0tQNEsKDmI
- Nv2nm3XQCqFl7uYtBaXbwkycYbfeq7rtLIxDqzIvFUpBJnxoMU6YcEI978CO+viofIINeXhOF8S
- jsJ2oNmwbVPNI8Wac6ieoRx5jOXhnk98=
-X-Received: by 2002:aa7:9af7:0:b029:264:b19e:ac9c with SMTP id
- y23-20020aa79af70000b0290264b19eac9cmr21998054pfp.59.1619516097418; 
- Tue, 27 Apr 2021 02:34:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTk5OzIgCQVaURbVXYqsmb2BJMQQtKrU1erG8Mety62BiPQ64YmxGOPukXV1TQ9tJXcHd+bEXK6cDdIkjBMUI=
-X-Received: by 2002:aa7:9af7:0:b029:264:b19e:ac9c with SMTP id
- y23-20020aa79af70000b0290264b19eac9cmr21998038pfp.59.1619516097153; Tue, 27
- Apr 2021 02:34:57 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OuZcYfksTtMkbmUbEwMw8fM0Xj0JA3dRB9TriGd+laM=;
+ b=JhxLEyRZDW97UAmiWc8VAS7wM0ZGGSdALgldLFG+fRVgC1iIE36vY/3uT+BHNjx3sA
+ bvPHE/3KklfD5ok5ySfutHJxlhw9DeSyRfDkd2mrJt3KAUcoJZ9XjE1ZydbGrUu5AMiF
+ DSC7qNv7ZzcHKVNvNH1QwCEtQDSUIJ3JVxUqxvasyVCWQKJAxv72mX8zXI/z4RXPxTg4
+ y2lyriB+GkSNgHBwxFl3S5fRa0EQNtP7xRZvFHUjOdsj/dHbImJnsOTAhW7IT6rQqoSk
+ wudVncA6EtEwyeIq+aU5FPwxOS35hYd2voJtmHIFS5VmuLSLbB3+MwLACfgIimLADTrO
+ HmHA==
+X-Gm-Message-State: AOAM531HK1O5xQsEpMrb5xXpQvm6kGuKgs4mlcoUCflNiBCWkJRLXX/d
+ i4SN3/2exnqZfv1bTGON7q+LLgeoWkMi6bna9XgR6OTZnUr97JXLmIgwnGSexE7iQp+wwRpFISK
+ cn4EEO26N5S9QqPQ=
+X-Received: by 2002:a17:906:a851:: with SMTP id
+ dx17mr6721886ejb.364.1619516254138; 
+ Tue, 27 Apr 2021 02:37:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLai4Vrq6KcF2eu2K1zjyC47brTyfnld6KwFXVqcsoY66VFoYnT+qgaQv3rtylOHQsDxtrSg==
+X-Received: by 2002:a17:906:a851:: with SMTP id
+ dx17mr6721872ejb.364.1619516253944; 
+ Tue, 27 Apr 2021 02:37:33 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id r25sm1928907edv.78.2021.04.27.02.37.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 02:37:33 -0700 (PDT)
+Date: Tue, 27 Apr 2021 11:37:31 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>
+Subject: Re: [PATCH RESEND v2 6/6] target/arm: Add vCPU feature 'el2' test.
+Message-ID: <20210427093731.suz7sgunxcdxrwjm@gator.home>
+References: <cover.1617281290.git.haibo.xu@linaro.org>
+ <50db1700b4df48acbecfda077b2220a0e3cf6b49.1617281290.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
-References: <20210423083351.2096734-1-kraxel@redhat.com>
- <20210423083351.2096734-9-kraxel@redhat.com>
-In-Reply-To: <20210423083351.2096734-9-kraxel@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Apr 2021 13:34:46 +0400
-Message-ID: <CAMxuvayXsKn6gAwndRcTprovFoDWDpDJWA5rwFoqFCO8QwUqmw@mail.gmail.com>
-Subject: Re: [PATCH v4 8/9] ui/gtk: move struct GtkDisplayState to ui/gtk.h
-To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <50db1700b4df48acbecfda077b2220a0e3cf6b49.1617281290.git.haibo.xu@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000add6ae05c0f0f984"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,376 +96,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000add6ae05c0f0f984
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Apr 01, 2021 at 05:55:38AM -0700, Haibo Xu wrote:
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  target/arm/monitor.c           | 2 +-
+>  tests/qtest/arm-cpu-features.c | 9 +++++++++
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+> index 80c64fa355..6c39238925 100644
+> --- a/target/arm/monitor.c
+> +++ b/target/arm/monitor.c
 
-On Fri, Apr 23, 2021 at 12:34 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+The patch summary says we're adding a test, but here we're touching
+monitor code. Adding 'el2' to this monitor list should happen in the
+patch where el2 is introduced.
 
-> Want place gtk clipboard code in a separate C file, which in turn
-> requires GtkDisplayState being in a header file.  So move it.  No
-> functional change.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->
+> @@ -90,7 +90,7 @@ QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+>   * then the order that considers those dependencies must be used.
+>   */
+>  static const char *cpu_model_advertised_features[] = {
+> -    "aarch64", "pmu", "sve",
+> +    "aarch64", "pmu", "sve", "el2",
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+It doesn't really matter, but I'd rather not add a new feature between
+'sve' and 'sve128'. Why not just add it to the front or back of the list?
 
----
->  include/ui/gtk.h | 57 ++++++++++++++++++++++++++++++++++++++++++++++++
->  ui/gtk.c         | 55 ----------------------------------------------
->  2 files changed, 57 insertions(+), 55 deletions(-)
->
-> diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-> index 5ae0ad60a600..6e751794043f 100644
-> --- a/include/ui/gtk.h
-> +++ b/include/ui/gtk.h
-> @@ -18,12 +18,15 @@
->  #include <gdk/gdkwayland.h>
->  #endif
->
-> +#include "ui/console.h"
->  #include "ui/kbd-state.h"
->  #if defined(CONFIG_OPENGL)
->  #include "ui/egl-helpers.h"
->  #include "ui/egl-context.h"
->  #endif
->
-> +#define MAX_VCS 10
+>      "sve128", "sve256", "sve384", "sve512",
+>      "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
+>      "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
+> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+> index 8252b85bb8..be07bf0c76 100644
+> --- a/tests/qtest/arm-cpu-features.c
+> +++ b/tests/qtest/arm-cpu-features.c
+> @@ -509,6 +509,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>      if (g_str_equal(qtest_get_arch(), "aarch64")) {
+>          bool kvm_supports_steal_time;
+>          bool kvm_supports_sve;
+> +        bool kvm_supports_el2;
+>          char max_name[8], name[8];
+>          uint32_t max_vq, vq;
+>          uint64_t vls;
+> @@ -533,10 +534,12 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>           */
+>          assert_has_feature(qts, "host", "kvm-steal-time");
+>          assert_has_feature(qts, "host", "sve");
+> +        assert_has_feature(qts, "host", "el2");
+>  
+>          resp = do_query_no_props(qts, "host");
+>          kvm_supports_steal_time = resp_get_feature(resp, "kvm-steal-time");
+>          kvm_supports_sve = resp_get_feature(resp, "sve");
+> +        kvm_supports_el2 = resp_get_feature(resp, "el2");
+
+Isn't this feature disabled by default whether the host supports it or
+not? If so, this will always be false. I think the test should
+
+ 1) confirm the feature is disabled by default
+ 2) attempt to enable it without asserting on failure
+ 3) if it gets enabled, then attempt to disable it, asserting on failure
+
+>          vls = resp_get_sve_vls(resp);
+>          qobject_unref(resp);
+>  
+> @@ -602,11 +605,17 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>          } else {
+>              g_assert(vls == 0);
+>          }
 > +
->  typedef struct GtkDisplayState GtkDisplayState;
->
->  typedef struct VirtualGfxConsole {
-> @@ -83,6 +86,60 @@ typedef struct VirtualConsole {
->      };
->  } VirtualConsole;
->
-> +struct GtkDisplayState {
-> +    GtkWidget *window;
-> +
-> +    GtkWidget *menu_bar;
-> +
-> +    GtkAccelGroup *accel_group;
-> +
-> +    GtkWidget *machine_menu_item;
-> +    GtkWidget *machine_menu;
-> +    GtkWidget *pause_item;
-> +    GtkWidget *reset_item;
-> +    GtkWidget *powerdown_item;
-> +    GtkWidget *quit_item;
-> +
-> +    GtkWidget *view_menu_item;
-> +    GtkWidget *view_menu;
-> +    GtkWidget *full_screen_item;
-> +    GtkWidget *copy_item;
-> +    GtkWidget *zoom_in_item;
-> +    GtkWidget *zoom_out_item;
-> +    GtkWidget *zoom_fixed_item;
-> +    GtkWidget *zoom_fit_item;
-> +    GtkWidget *grab_item;
-> +    GtkWidget *grab_on_hover_item;
-> +
-> +    int nb_vcs;
-> +    VirtualConsole vc[MAX_VCS];
-> +
-> +    GtkWidget *show_tabs_item;
-> +    GtkWidget *untabify_item;
-> +    GtkWidget *show_menubar_item;
-> +
-> +    GtkWidget *vbox;
-> +    GtkWidget *notebook;
-> +    int button_mask;
-> +    gboolean last_set;
-> +    int last_x;
-> +    int last_y;
-> +    int grab_x_root;
-> +    int grab_y_root;
-> +    VirtualConsole *kbd_owner;
-> +    VirtualConsole *ptr_owner;
-> +
-> +    gboolean full_screen;
-> +
-> +    GdkCursor *null_cursor;
-> +    Notifier mouse_mode_notifier;
-> +    gboolean free_scale;
-> +
-> +    bool external_pause_update;
-> +
-> +    DisplayOptions *opts;
-> +};
-> +
->  extern bool gtk_use_gl_area;
->
->  /* ui/gtk.c */
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 1ea12535284a..7da288a25156 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -60,7 +60,6 @@
->  #include "chardev/char.h"
->  #include "qom/object.h"
->
-> -#define MAX_VCS 10
->  #define VC_WINDOW_X_MIN  320
->  #define VC_WINDOW_Y_MIN  240
->  #define VC_TERM_X_MIN     80
-> @@ -119,60 +118,6 @@
->  static const guint16 *keycode_map;
->  static size_t keycode_maplen;
->
-> -struct GtkDisplayState {
-> -    GtkWidget *window;
-> -
-> -    GtkWidget *menu_bar;
-> -
-> -    GtkAccelGroup *accel_group;
-> -
-> -    GtkWidget *machine_menu_item;
-> -    GtkWidget *machine_menu;
-> -    GtkWidget *pause_item;
-> -    GtkWidget *reset_item;
-> -    GtkWidget *powerdown_item;
-> -    GtkWidget *quit_item;
-> -
-> -    GtkWidget *view_menu_item;
-> -    GtkWidget *view_menu;
-> -    GtkWidget *full_screen_item;
-> -    GtkWidget *copy_item;
-> -    GtkWidget *zoom_in_item;
-> -    GtkWidget *zoom_out_item;
-> -    GtkWidget *zoom_fixed_item;
-> -    GtkWidget *zoom_fit_item;
-> -    GtkWidget *grab_item;
-> -    GtkWidget *grab_on_hover_item;
-> -
-> -    int nb_vcs;
-> -    VirtualConsole vc[MAX_VCS];
-> -
-> -    GtkWidget *show_tabs_item;
-> -    GtkWidget *untabify_item;
-> -    GtkWidget *show_menubar_item;
-> -
-> -    GtkWidget *vbox;
-> -    GtkWidget *notebook;
-> -    int button_mask;
-> -    gboolean last_set;
-> -    int last_x;
-> -    int last_y;
-> -    int grab_x_root;
-> -    int grab_y_root;
-> -    VirtualConsole *kbd_owner;
-> -    VirtualConsole *ptr_owner;
-> -
-> -    gboolean full_screen;
-> -
-> -    GdkCursor *null_cursor;
-> -    Notifier mouse_mode_notifier;
-> -    gboolean free_scale;
-> -
-> -    bool external_pause_update;
-> -
-> -    DisplayOptions *opts;
-> -};
-> -
->  struct VCChardev {
->      Chardev parent;
->      VirtualConsole *console;
-> --
-> 2.30.2
->
+> +        if (kvm_supports_el2) {
+> +            assert_set_feature(qts, "host", "el2", false);
+> +            assert_set_feature(qts, "host", "el2", true);
+
+For the steps outlined above, you can drop this extra re-enabling test.
+
+> +        }
+>      } else {
+>          assert_has_not_feature(qts, "host", "aarch64");
+>          assert_has_not_feature(qts, "host", "pmu");
+>          assert_has_not_feature(qts, "host", "sve");
+>          assert_has_not_feature(qts, "host", "kvm-steal-time");
+> +        assert_has_not_feature(qts, "host", "el2");
+>      }
+>  
+>      qtest_quit(qts);
+> -- 
+> 2.17.1
+> 
 >
 
---000000000000add6ae05c0f0f984
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 23, 2021 at 12:34 PM Gerd=
- Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Want pl=
-ace gtk clipboard code in a separate C file, which in turn<br>
-requires GtkDisplayState being in a header file.=C2=A0 So move it.=C2=A0 No=
-<br>
-functional change.<br>
-<br>
-Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0include/ui/gtk.h | 57 +++++++++++++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0ui/gtk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 55 ----------------------=
-------------------------<br>
-=C2=A02 files changed, 57 insertions(+), 55 deletions(-)<br>
-<br>
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h<br>
-index 5ae0ad60a600..6e751794043f 100644<br>
---- a/include/ui/gtk.h<br>
-+++ b/include/ui/gtk.h<br>
-@@ -18,12 +18,15 @@<br>
-=C2=A0#include &lt;gdk/gdkwayland.h&gt;<br>
-=C2=A0#endif<br>
-<br>
-+#include &quot;ui/console.h&quot;<br>
-=C2=A0#include &quot;ui/kbd-state.h&quot;<br>
-=C2=A0#if defined(CONFIG_OPENGL)<br>
-=C2=A0#include &quot;ui/egl-helpers.h&quot;<br>
-=C2=A0#include &quot;ui/egl-context.h&quot;<br>
-=C2=A0#endif<br>
-<br>
-+#define MAX_VCS 10<br>
-+<br>
-=C2=A0typedef struct GtkDisplayState GtkDisplayState;<br>
-<br>
-=C2=A0typedef struct VirtualGfxConsole {<br>
-@@ -83,6 +86,60 @@ typedef struct VirtualConsole {<br>
-=C2=A0 =C2=A0 =C2=A0};<br>
-=C2=A0} VirtualConsole;<br>
-<br>
-+struct GtkDisplayState {<br>
-+=C2=A0 =C2=A0 GtkWidget *window;<br>
-+<br>
-+=C2=A0 =C2=A0 GtkWidget *menu_bar;<br>
-+<br>
-+=C2=A0 =C2=A0 GtkAccelGroup *accel_group;<br>
-+<br>
-+=C2=A0 =C2=A0 GtkWidget *machine_menu_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *machine_menu;<br>
-+=C2=A0 =C2=A0 GtkWidget *pause_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *reset_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *powerdown_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *quit_item;<br>
-+<br>
-+=C2=A0 =C2=A0 GtkWidget *view_menu_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *view_menu;<br>
-+=C2=A0 =C2=A0 GtkWidget *full_screen_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *copy_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *zoom_in_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *zoom_out_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *zoom_fixed_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *zoom_fit_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *grab_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *grab_on_hover_item;<br>
-+<br>
-+=C2=A0 =C2=A0 int nb_vcs;<br>
-+=C2=A0 =C2=A0 VirtualConsole vc[MAX_VCS];<br>
-+<br>
-+=C2=A0 =C2=A0 GtkWidget *show_tabs_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *untabify_item;<br>
-+=C2=A0 =C2=A0 GtkWidget *show_menubar_item;<br>
-+<br>
-+=C2=A0 =C2=A0 GtkWidget *vbox;<br>
-+=C2=A0 =C2=A0 GtkWidget *notebook;<br>
-+=C2=A0 =C2=A0 int button_mask;<br>
-+=C2=A0 =C2=A0 gboolean last_set;<br>
-+=C2=A0 =C2=A0 int last_x;<br>
-+=C2=A0 =C2=A0 int last_y;<br>
-+=C2=A0 =C2=A0 int grab_x_root;<br>
-+=C2=A0 =C2=A0 int grab_y_root;<br>
-+=C2=A0 =C2=A0 VirtualConsole *kbd_owner;<br>
-+=C2=A0 =C2=A0 VirtualConsole *ptr_owner;<br>
-+<br>
-+=C2=A0 =C2=A0 gboolean full_screen;<br>
-+<br>
-+=C2=A0 =C2=A0 GdkCursor *null_cursor;<br>
-+=C2=A0 =C2=A0 Notifier mouse_mode_notifier;<br>
-+=C2=A0 =C2=A0 gboolean free_scale;<br>
-+<br>
-+=C2=A0 =C2=A0 bool external_pause_update;<br>
-+<br>
-+=C2=A0 =C2=A0 DisplayOptions *opts;<br>
-+};<br>
-+<br>
-=C2=A0extern bool gtk_use_gl_area;<br>
-<br>
-=C2=A0/* ui/gtk.c */<br>
-diff --git a/ui/gtk.c b/ui/gtk.c<br>
-index 1ea12535284a..7da288a25156 100644<br>
---- a/ui/gtk.c<br>
-+++ b/ui/gtk.c<br>
-@@ -60,7 +60,6 @@<br>
-=C2=A0#include &quot;chardev/char.h&quot;<br>
-=C2=A0#include &quot;qom/object.h&quot;<br>
-<br>
--#define MAX_VCS 10<br>
-=C2=A0#define VC_WINDOW_X_MIN=C2=A0 320<br>
-=C2=A0#define VC_WINDOW_Y_MIN=C2=A0 240<br>
-=C2=A0#define VC_TERM_X_MIN=C2=A0 =C2=A0 =C2=A080<br>
-@@ -119,60 +118,6 @@<br>
-=C2=A0static const guint16 *keycode_map;<br>
-=C2=A0static size_t keycode_maplen;<br>
-<br>
--struct GtkDisplayState {<br>
--=C2=A0 =C2=A0 GtkWidget *window;<br>
--<br>
--=C2=A0 =C2=A0 GtkWidget *menu_bar;<br>
--<br>
--=C2=A0 =C2=A0 GtkAccelGroup *accel_group;<br>
--<br>
--=C2=A0 =C2=A0 GtkWidget *machine_menu_item;<br>
--=C2=A0 =C2=A0 GtkWidget *machine_menu;<br>
--=C2=A0 =C2=A0 GtkWidget *pause_item;<br>
--=C2=A0 =C2=A0 GtkWidget *reset_item;<br>
--=C2=A0 =C2=A0 GtkWidget *powerdown_item;<br>
--=C2=A0 =C2=A0 GtkWidget *quit_item;<br>
--<br>
--=C2=A0 =C2=A0 GtkWidget *view_menu_item;<br>
--=C2=A0 =C2=A0 GtkWidget *view_menu;<br>
--=C2=A0 =C2=A0 GtkWidget *full_screen_item;<br>
--=C2=A0 =C2=A0 GtkWidget *copy_item;<br>
--=C2=A0 =C2=A0 GtkWidget *zoom_in_item;<br>
--=C2=A0 =C2=A0 GtkWidget *zoom_out_item;<br>
--=C2=A0 =C2=A0 GtkWidget *zoom_fixed_item;<br>
--=C2=A0 =C2=A0 GtkWidget *zoom_fit_item;<br>
--=C2=A0 =C2=A0 GtkWidget *grab_item;<br>
--=C2=A0 =C2=A0 GtkWidget *grab_on_hover_item;<br>
--<br>
--=C2=A0 =C2=A0 int nb_vcs;<br>
--=C2=A0 =C2=A0 VirtualConsole vc[MAX_VCS];<br>
--<br>
--=C2=A0 =C2=A0 GtkWidget *show_tabs_item;<br>
--=C2=A0 =C2=A0 GtkWidget *untabify_item;<br>
--=C2=A0 =C2=A0 GtkWidget *show_menubar_item;<br>
--<br>
--=C2=A0 =C2=A0 GtkWidget *vbox;<br>
--=C2=A0 =C2=A0 GtkWidget *notebook;<br>
--=C2=A0 =C2=A0 int button_mask;<br>
--=C2=A0 =C2=A0 gboolean last_set;<br>
--=C2=A0 =C2=A0 int last_x;<br>
--=C2=A0 =C2=A0 int last_y;<br>
--=C2=A0 =C2=A0 int grab_x_root;<br>
--=C2=A0 =C2=A0 int grab_y_root;<br>
--=C2=A0 =C2=A0 VirtualConsole *kbd_owner;<br>
--=C2=A0 =C2=A0 VirtualConsole *ptr_owner;<br>
--<br>
--=C2=A0 =C2=A0 gboolean full_screen;<br>
--<br>
--=C2=A0 =C2=A0 GdkCursor *null_cursor;<br>
--=C2=A0 =C2=A0 Notifier mouse_mode_notifier;<br>
--=C2=A0 =C2=A0 gboolean free_scale;<br>
--<br>
--=C2=A0 =C2=A0 bool external_pause_update;<br>
--<br>
--=C2=A0 =C2=A0 DisplayOptions *opts;<br>
--};<br>
--<br>
-=C2=A0struct VCChardev {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
-=C2=A0 =C2=A0 =C2=A0VirtualConsole *console;<br>
--- <br>
-2.30.2<br>
-<br>
-</blockquote></div></div>
-
---000000000000add6ae05c0f0f984--
+Thanks,
+drew
 
 
