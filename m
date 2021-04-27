@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D7A36CB40
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 20:45:26 +0200 (CEST)
-Received: from localhost ([::1]:33066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAF736CB60
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 20:57:27 +0200 (CEST)
+Received: from localhost ([::1]:39896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbSi5-0007uS-By
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 14:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33078)
+	id 1lbSth-000390-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 14:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbSed-0006tT-Ss
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:41:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36311)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lbSs0-0002dK-41
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:55:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbSeR-0006vG-Kh
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:41:50 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lbSrw-0006F1-Ol
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:55:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619548898;
+ s=mimecast20190719; t=1619549735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qbGFAlsH2s7xL8fRtZdr92IUbunjOgvu4zAC5TUu6Gw=;
- b=RQ9xPHx1zH0AmGrmrE4ukSWz01mjs9yS9q4gJ/kUzp9SaOvxesGnhQTfN+GD0racRiBub2
- sBah75Gs1Jm2d/A9wi0x35RXYmJCbARne4hieNxFf2C7G0T5beWG8o2fikovOHijQR9a++
- 8QsMuToY5Oqq0W902T6I7sw8zWZfJ7I=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oYoS3syqQ8r5Cj5tAp0eLkquxTDuUBlbj3KdGrVx9EM=;
+ b=b02+OmrZr8O9HV/KsqfnJazARNrz3Kcsdq0XpPlpLiQoFsNXO3OyIjxzzgjKVS/qm9uPT6
+ CA4aEA8n73c4iOlx4v99jOqEgKrTPVvcvlY+tATIm2JKzDLd5bwaetC/FcC2UrDZK2Q5zX
+ B8zvZ8Ru5toDgR1mQbXyhEOpLQQ1Oxo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-auSd0_kqOKmaOPCkrD2LpQ-1; Tue, 27 Apr 2021 14:41:34 -0400
-X-MC-Unique: auSd0_kqOKmaOPCkrD2LpQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-380-1L0WvCRjOOqt0EZruiriwA-1; Tue, 27 Apr 2021 14:55:28 -0400
+X-MC-Unique: 1L0WvCRjOOqt0EZruiriwA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F4B3809DE3;
- Tue, 27 Apr 2021 18:41:33 +0000 (UTC)
-Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD1F19714;
- Tue, 27 Apr 2021 18:41:31 +0000 (UTC)
-Date: Tue, 27 Apr 2021 19:41:29 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v2 2/7] virtiofds: Changed allocations of iovec to GLib's
- functions
-Message-ID: <YIha2UGITOiJpEoy@work-vm>
-References: <20210420154643.58439-1-ma.mandourr@gmail.com>
- <20210420154643.58439-3-ma.mandourr@gmail.com>
- <YIfmaleNOwhLLD9W@work-vm>
- <CAD-LL6gvoz0t4UND-CNdazciFoFE6ZVJ8ncZbfM3b37c8ECzbw@mail.gmail.com>
- <YIfu9eV41U6vT6iP@work-vm>
- <CAD-LL6gCTagzmR-NXZiBTJH+LOH0D4wHigVow1e0bVfyVcm4PQ@mail.gmail.com>
- <YIf2d8HuyPqwqt9C@work-vm>
- <CAD-LL6jK7LC5p8FBgHRgsUQnaWgn3gNXONXNwn44pb99sna_ag@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D914804030;
+ Tue, 27 Apr 2021 18:55:27 +0000 (UTC)
+Received: from thuth.com (ovpn-112-81.ams2.redhat.com [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6132D5C626;
+ Tue, 27 Apr 2021 18:55:26 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>
+Subject: [PATCH] cirrus.yml: Fix the MSYS2 task
+Date: Tue, 27 Apr 2021 20:55:24 +0200
+Message-Id: <20210427185524.281883-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAD-LL6jK7LC5p8FBgHRgsUQnaWgn3gNXONXNwn44pb99sna_ag@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -86,338 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:virtiofs" <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> On Tue, Apr 27, 2021 at 1:33 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
-> wrote:
-> 
-> > * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> > > On Tue, Apr 27, 2021 at 1:01 PM Dr. David Alan Gilbert <
-> > dgilbert@redhat.com>
-> > > wrote:
-> > >
-> > > > * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> > > > > On Tue, Apr 27, 2021 at 12:25 PM Dr. David Alan Gilbert <
-> > > > dgilbert@redhat.com>
-> > > > > wrote:
-> > > > >
-> > > > > > * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> > > > > > > Replaced the calls to malloc()/calloc() and their respective
-> > > > > > > calls to free() of iovec structs with GLib's allocation and
-> > > > > > > deallocation functions.
-> > > > > > >
-> > > > > > > Also, in one instance, used g_new0() instead of a calloc() call
-> > plus
-> > > > > > > a null-checking assertion.
-> > > > > > >
-> > > > > > > iovec structs were created locally and freed as the function
-> > > > > > > ends. Hence, I used g_autofree and removed the respective calls
-> > to
-> > > > > > > free().
-> > > > > > >
-> > > > > > > In one instance, a struct fuse_ioctl_iovec pointer is returned
-> > from a
-> > > > > > > function, namely, fuse_ioctl_iovec_copy. There, I used
-> > > > g_steal_pointer()
-> > > > > > > in conjunction with g_autofree, this gives the ownership of the
-> > > > pointer
-> > > > > > > to the calling function and still auto-frees the memory when the
-> > > > calling
-> > > > > > > function finishes (maintaining the symantics of previous code).
-> > > > > > >
-> > > > > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> > > > > > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > > > > ---
-> > > > > > >  tools/virtiofsd/fuse_lowlevel.c | 19 +++++++------------
-> > > > > > >  tools/virtiofsd/fuse_virtio.c   |  6 +-----
-> > > > > > >  2 files changed, 8 insertions(+), 17 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/tools/virtiofsd/fuse_lowlevel.c
-> > > > > > b/tools/virtiofsd/fuse_lowlevel.c
-> > > > > > > index 812cef6ef6..f965299ad9 100644
-> > > > > > > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > > > > > > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > > > > > > @@ -217,9 +217,9 @@ static int send_reply(fuse_req_t req, int
-> > error,
-> > > > > > const void *arg,
-> > > > > > >  int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int
-> > > > count)
-> > > > > > >  {
-> > > > > > >      int res;
-> > > > > > > -    struct iovec *padded_iov;
-> > > > > > > +    g_autofree struct iovec *padded_iov;
-> > > > > > >
-> > > > > > > -    padded_iov = malloc((count + 1) * sizeof(struct iovec));
-> > > > > > > +    padded_iov = g_try_new(struct iovec, count + 1);
-> > > > > > >      if (padded_iov == NULL) {
-> > > > > > >          return fuse_reply_err(req, ENOMEM);
-> > > > > > >      }
-> > > > > > > @@ -228,7 +228,6 @@ int fuse_reply_iov(fuse_req_t req, const
-> > struct
-> > > > > > iovec *iov, int count)
-> > > > > > >      count++;
-> > > > > > >
-> > > > > > >      res = send_reply_iov(req, 0, padded_iov, count);
-> > > > > > > -    free(padded_iov);
-> > > > > > >
-> > > > > > >      return res;
-> > > > > > >  }
-> > > > > >
-> > > > > > OK.
-> > > > > >
-> > > > > > > @@ -565,10 +564,10 @@ int fuse_reply_bmap(fuse_req_t req,
-> > uint64_t
-> > > > idx)
-> > > > > > >  static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const
-> > struct
-> > > > > > iovec *iov,
-> > > > > > >                                                        size_t
-> > count)
-> > > > > > >  {
-> > > > > > > -    struct fuse_ioctl_iovec *fiov;
-> > > > > > > +    g_autofree struct fuse_ioctl_iovec *fiov;
-> > > > > > >      size_t i;
-> > > > > > >
-> > > > > > > -    fiov = malloc(sizeof(fiov[0]) * count);
-> > > > > > > +    fiov = g_try_new(fuse_ioctl_iovec, count);
-> > > > > > >      if (!fiov) {
-> > > > > > >          return NULL;
-> > > > > > >      }
-> > > > > > > @@ -578,7 +577,7 @@ static struct fuse_ioctl_iovec
-> > > > > > *fuse_ioctl_iovec_copy(const struct iovec *iov,
-> > > > > > >          fiov[i].len = iov[i].iov_len;
-> > > > > > >      }
-> > > > > > >
-> > > > > > > -    return fiov;
-> > > > > > > +    return g_steal_pointer(&fiov);
-> > > > > > >  }
-> > > > > >
-> > > > > > This is OK, but doesn't gain anything - marking it as
-> > g_autofree'ing
-> > > > and
-> > > > > > always stealing is no benefit.
-> > > > > >
-> > > > > > >
-> > > > > > >  int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec
-> > > > *in_iov,
-> > > > > > > @@ -629,9 +628,6 @@ int fuse_reply_ioctl_retry(fuse_req_t req,
-> > const
-> > > > > > struct iovec *in_iov,
-> > > > > > >
-> > > > > > >      res = send_reply_iov(req, 0, iov, count);
-> > > > > > >  out:
-> > > > > > > -    free(in_fiov);
-> > > > > > > -    free(out_fiov);
-> > > > > > > -
-> > > > > >
-> > > > > > I don't think you can do that - I think you're relying here on the
-> > > > > > g_autofree from fuse_ioclt_iovec_copy - but my understanding is
-> > that
-> > > > > > doesn't work; g_autofree is scoped, so it's designed to free at
-> > the end
-> > > > > > of fuse_ioctl_iovec_copy, fuse_reply_ioctl_retry doesn't know that
-> > the
-> > > > > > ion_fiov were allocated that way, so it won't get autocleaned up.
-> > > > > >
-> > > > > >
-> > > > > In GLib's documentation, it is clarified (w.r.t. g_autoptr but I
-> > think
-> > > > > similar logic applies to g_autofree)
-> > > > > that g_steal_pointer() "This can be very useful when combined with
-> > > > > g_autoptr() to prevent
-> > > > > the return value of a function from being automatically freed."
-> > > > > I think, but not 100% clear of course, that this means that the
-> > > > > g_autoptr-annotated memory
-> > > > > does not get freed at the end of the current scope, and  its "scope"
-> > is
-> > > > > migrated to the calling
-> > > > > function(to be honest I don't know how would they implement that but
-> > > > maybe
-> > > > > this is the case).
-> > > > > Otherwise why bother with g_autoptr'ing memory that we don't want to
-> > free
-> > > > > automatically and
-> > > > > would like to return to the calling function?
-> > > > >
-> > > > > The first example in Memory Allocation: GLib Reference Manual (
-> > gnome.org
-> > > > )
-> > > > > <
-> > > >
-> > https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html#g-steal-pointer
-> > > > >
-> > > > > does
-> > > > > annotate
-> > > > > the memory as g_autoptr and then returns it through g_steal_pointer.
-> > With
-> > > > > your logic, I think that
-> > > > > this example would be wrong(?)
-> > > >
-> > > > The example is correct but not quite the case you have;  the
-> > > > g_steal_pointer stops the g_autoptr freeing it at the end of the
-> > current
-> > > > scope; but it doesn't cause it to be free'd later - the caller can't
-> > > > tell that the function that did the allocation had a g_autofree in it;
-> > > > once you get outside of the function, the pointer is just a normal
-> > > > pointer that needs free or g_free on.
-> > > >
-> > > > I think that this is logical, yes. I think that I understand now. Can
-> > you
-> > > please instruct
-> > > me on what to do with the patch? Do you want me to resend the entire
-> > patch
-> > > series
-> > > and amend this one?
-> >
-> > Just resend this one as a '[PATCH v3 2/7]'
-> >
-> > Dave
-> >
-> > >
-> > > >
-> > > > > Mr. Hajnoczi already reviewed this patch  Re: [PATCH 2/8] virtiofds:
-> > > > > Changed allocations of iovec to GLib's functi
-> > > > > <https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08459.html
-> > >
-> > > > > in a previous version and this v2 patch series is supposed to only
-> > > > contain
-> > > > > already-reviewed patches and
-> > > > > remove bad ones
-> > > >
-> > > > But he didn't spot this particular problem.
-> > > >
-> > > > Dave
-> > > >
-> > > > >
-> > > > > > >      return res;
-> > > > > > >
-> > > > > > >  enomem:
-> > > > > > > @@ -663,11 +659,11 @@ int fuse_reply_ioctl(fuse_req_t req, int
-> > > > result,
-> > > > > > const void *buf, size_t size)
-> > > > > > >  int fuse_reply_ioctl_iov(fuse_req_t req, int result, const
-> > struct
-> > > > iovec
-> > > > > > *iov,
-> > > > > > >                           int count)
-> > > > > > >  {
-> > > > > > > -    struct iovec *padded_iov;
-> > > > > > > +    g_autofree struct iovec *padded_iov;
-> > > > > > >      struct fuse_ioctl_out arg;
-> > > > > > >      int res;
-> > > > > > >
-> > > > > > > -    padded_iov = malloc((count + 2) * sizeof(struct iovec));
-> > > > > > > +    padded_iov = g_try_new(struct iovec, count + 2);
-> > > > > > >      if (padded_iov == NULL) {
-> > > > > > >          return fuse_reply_err(req, ENOMEM);
-> > > > > > >      }
-> > > > > > > @@ -680,7 +676,6 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int
-> > > > result,
-> > > > > > const struct iovec *iov,
-> > > > > > >      memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
-> > > > > > >
-> > > > > > >      res = send_reply_iov(req, 0, padded_iov, count + 2);
-> > > > > > > -    free(padded_iov);
-> > > > > > >
-> > > > > > >      return res;
-> > > > > > >  }
-> > > > > >
-> > > > > > OK
-> > > > > >
-> > > > > > > diff --git a/tools/virtiofsd/fuse_virtio.c
-> > > > > > b/tools/virtiofsd/fuse_virtio.c
-> > > > > > > index 3e13997406..07e5d91a9f 100644
-> > > > > > > --- a/tools/virtiofsd/fuse_virtio.c
-> > > > > > > +++ b/tools/virtiofsd/fuse_virtio.c
-> > > > > > > @@ -347,8 +347,7 @@ int virtio_send_data_iov(struct fuse_session
-> > *se,
-> > > > > > struct fuse_chan *ch,
-> > > > > > >       * Build a copy of the the in_sg iov so we can skip bits in
-> > it,
-> > > > > > >       * including changing the offsets
-> > > > > > >       */
-> > > > > > > -    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec),
-> > in_num);
-> > > > > > > -    assert(in_sg_cpy);
-> > > > > > > +    g_autofree struct iovec *in_sg_cpy = g_new0(struct iovec,
-> > > > in_num);
-> > > > > > >      memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
-> > > > > > >      /* These get updated as we skip */
-> > > > > > >      struct iovec *in_sg_ptr = in_sg_cpy;
-> > > > > > > @@ -386,7 +385,6 @@ int virtio_send_data_iov(struct fuse_session
-> > *se,
-> > > > > > struct fuse_chan *ch,
-> > > > > > >              ret = errno;
-> > > > > > >              fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m)
-> > > > len=%zd\n",
-> > > > > > >                       __func__, len);
-> > > > > > > -            free(in_sg_cpy);
-> > > > > > >              goto err;
-> > > > > > >          }
-> > > > > > >          fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n",
-> > > > > > __func__,
-> > > > > > > @@ -410,13 +408,11 @@ int virtio_send_data_iov(struct
-> > fuse_session
-> > > > *se,
-> > > > > > struct fuse_chan *ch,
-> > > > > > >          if (ret != len) {
-> > > > > > >              fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n",
-> > __func__);
-> > > > > > >              ret = EIO;
-> > > > > > > -            free(in_sg_cpy);
-> > > > > > >              goto err;
-> > > > > > >          }
-> > > > > > >          in_sg_left -= ret;
-> > > > > > >          len -= ret;
-> > > > > > >      } while (in_sg_left);
-> > > > > > > -    free(in_sg_cpy);
-> > > > > >
-> > > > > > Yes, this is where the autofree really helps; getting rid of a few
-> > > > > > free's.
-> > > > > >
-> > > > > > Dave
-> > > > > >
-> > > > > > >      /* Need to fix out->len on EOF */
-> > > > > > >      if (len) {
-> > > > > > > --
-> > > > > > > 2.25.1
-> > > > > > >
-> > > > > > --
-> > > > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > > > >
-> > > > > >
-> > > > > Thanks,
-> > > > > Mahmoud
-> > > > --
-> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > >
-> > > >
-> > > Thanks,
-> > > Mahmoud
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >
-> >
-> I sent a v3 of this patch, and I used the --in-reply-to and put the
-> message-id of your latest
-> email but despite this, it was sent as a separate thread, I apologise.
-> That's the link of the thread
-> [PATCH v3 2/7] virtiofsd: Changed allocations of iovec to GLib's functio
-> (gnu.org)
-> <https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg05559.html>
-> and if you think that it'd better be here, I'll send it again manually as a
-> reply to this mailing series.
+The MSYS2 task in the Cirrus-CI is currently failing with error messages
+like this:
 
-Thanks, it's actually shown up in the same thread for me.
+ warning: database file for 'ucrt64' does not exist (use '-Sy' to download)
+ :: Starting core system upgrade...
+  there is nothing to do
+ :: Starting full system upgrade...
+ error: failed to prepare transaction (could not find database)
 
-Dave
+Seems like it can be fixed by switching to a newer release and by refreshing
+the database one more time after changing the /etc/pacman.conf file.
 
-> Mahmoud
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Here's a successful run after applying this patch:
+ https://cirrus-ci.com/build/4918461810868224
+
+ .cirrus.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index f53c519447..f4bf49b704 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -67,7 +67,7 @@ windows_msys2_task:
+     CIRRUS_SHELL: powershell
+     MSYS: winsymlinks:nativestrict
+     MSYSTEM: MINGW64
+-    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2021-01-05/msys2-base-x86_64-20210105.sfx.exe
++    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2021-04-19/msys2-base-x86_64-20210419.sfx.exe
+     MSYS2_FINGERPRINT: 0
+     MSYS2_PACKAGES: "
+       diffutils git grep make pkg-config sed
+@@ -130,7 +130,7 @@ windows_msys2_task:
+         taskkill /F /FI "MODULES eq msys-2.0.dll"
+         tasklist
+         C:\tools\msys64\usr\bin\bash.exe -lc "mv -f /etc/pacman.conf.pacnew /etc/pacman.conf || true"
+-        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Suu --overwrite=*"
++        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Syuu --overwrite=*"
+         Write-Output "Core install time taken: $((Get-Date).Subtract($start_time))"
+         $start_time = Get-Date
+ 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.27.0
 
 
