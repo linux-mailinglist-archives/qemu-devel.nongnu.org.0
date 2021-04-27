@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1875736CA59
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:29:37 +0200 (CEST)
-Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F236CA64
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:34:20 +0200 (CEST)
+Received: from localhost ([::1]:59964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRWh-0000Fq-0K
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39610)
+	id 1lbRbH-0002xg-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLu-0001gm-AI; Tue, 27 Apr 2021 13:18:27 -0400
+ id 1lbRLn-0001b1-4V; Tue, 27 Apr 2021 13:18:19 -0400
 Received: from [201.28.113.2] (port=48284 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLq-00023I-RX; Tue, 27 Apr 2021 13:18:25 -0400
+ id 1lbRLl-00023I-Ld; Tue, 27 Apr 2021 13:18:18 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 27 Apr 2021 14:16:53 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 27 Apr 2021 14:16:52 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 314688013BA;
- Tue, 27 Apr 2021 14:16:53 -0300 (-03)
+ by power9a (Postfix) with ESMTP id D01C78013BA;
+ Tue, 27 Apr 2021 14:16:52 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 07/15] target/ppc: Use translator_loop_temp_check
-Date: Tue, 27 Apr 2021 14:16:41 -0300
-Message-Id: <20210427171649.364699-8-luis.pires@eldorado.org.br>
+Subject: [PATCH v2 05/15] target/ppc: Tidy exception vs exit_tb
+Date: Tue, 27 Apr 2021 14:16:39 -0300
+Message-Id: <20210427171649.364699-6-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Apr 2021 17:16:53.0372 (UTC)
- FILETIME=[1E2FB3C0:01D73B89]
+X-OriginalArrivalTime: 27 Apr 2021 17:16:53.0011 (UTC)
+ FILETIME=[1DF89E30:01D73B89]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,31 +63,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The special logging is unnecessary.  It will have been done
-immediately before in the log file.
+We do not need to emit an exit_tb after an exception,
+as the latter will exit via longjmp.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/ppc/translate.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index b18ad8ec2c..dd34f22704 100644
+index 46de2dab27..b18ad8ec2c 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -8086,11 +8086,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         gen_exception_nip(ctx, excp, ctx->base.pc_next);
+@@ -3744,8 +3744,9 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
+         } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
+             uint32_t excp = gen_prep_dbgex(ctx);
+             gen_exception(ctx, excp);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
+         }
+-        tcg_gen_exit_tb(NULL, 0);
+     } else {
+         tcg_gen_lookup_and_goto_ptr();
      }
- 
--    if (tcg_check_temp_count()) {
--        qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
--                 "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
--                 opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
--    }
-+    translator_loop_temp_check(&ctx->base);
+@@ -8101,9 +8102,10 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+     } else if (ctx->exception != POWERPC_EXCP_BRANCH) {
+         if (unlikely(ctx->base.singlestep_enabled)) {
+             gen_debug_exception(ctx);
++        } else {
++            /* Generate the return instruction */
++            tcg_gen_exit_tb(NULL, 0);
+         }
+-        /* Generate the return instruction */
+-        tcg_gen_exit_tb(NULL, 0);
+     }
  }
  
- static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.25.1
 
