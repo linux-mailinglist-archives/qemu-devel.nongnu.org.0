@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C92D36CA46
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:23:43 +0200 (CEST)
-Received: from localhost ([::1]:42068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB5A36CA48
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:24:02 +0200 (CEST)
+Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRR0-0003hT-BC
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39432)
+	id 1lbRRJ-00048y-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLX-0001D5-O4; Tue, 27 Apr 2021 13:18:03 -0400
+ id 1lbRLa-0001Gx-FR; Tue, 27 Apr 2021 13:18:06 -0400
 Received: from [201.28.113.2] (port=48284 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1lbRLV-00023I-UW; Tue, 27 Apr 2021 13:18:03 -0400
+ id 1lbRLY-00023I-SP; Tue, 27 Apr 2021 13:18:06 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Tue, 27 Apr 2021 14:16:52 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 7A94480139F;
- Tue, 27 Apr 2021 14:16:51 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 166EC8013BA;
+ Tue, 27 Apr 2021 14:16:52 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 00/15] Base for adding PowerPC 64-bit instructions
-Date: Tue, 27 Apr 2021 14:16:34 -0300
-Message-Id: <20210427171649.364699-1-luis.pires@eldorado.org.br>
+Subject: [PATCH v2 01/15] decodetree: Add support for 64-bit instructions
+Date: Tue, 27 Apr 2021 14:16:35 -0300
+Message-Id: <20210427171649.364699-2-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210427171649.364699-1-luis.pires@eldorado.org.br>
+References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Apr 2021 17:16:52.0089 (UTC)
- FILETIME=[1D6BEE90:01D73B89]
+X-OriginalArrivalTime: 27 Apr 2021 17:16:52.0277 (UTC)
+ FILETIME=[1D889E50:01D73B89]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,66 +63,110 @@ Cc: richard.henderson@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series provides the basic infrastructure for adding the new 32/64-bit
-instructions in Power ISA 3.1 to target/ppc.
+Allow '64' to be specified for the instruction width command line params
+and use the appropriate insn/field data types, mask, extract and deposit
+functions in that case.
 
-It starts by changing decodetree.py to support 64-bit instructions,
-then changes the target/ppc code to allow 32- and 64-bit instructions
-to be decoded using decodetree, and finishes by adding the implementation
-for an initial group of instructions to demonstrate the new approach:
-- addis/addis/paddi
-- pnop
-- integer loads/stores (both prefixed and non-prefixed)
+This will be used to implement the new 64-bit Power ISA 3.1 instructions.
 
-Link to the changes in Github:
-https://github.com/PPC64/qemu/tree/lffpires-ppc-isa31-1
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Message-Id: <CP2PR80MB3668E123E2EFDB0ACD3A46F1DA759@CP2PR80MB3668.lamprd80.prod.outlook.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ docs/devel/decodetree.rst |  5 +++--
+ scripts/decodetree.py     | 26 +++++++++++++++++++++-----
+ 2 files changed, 24 insertions(+), 7 deletions(-)
 
-v2:
-- Store current pc in ctx instead of insn_size
-- Use separate decode files for 32- and 64-bit instructions
-- Improvements to the exception/is_jmp logic
-- Use translator_loop_temp_check()
-- Moved logic to prevent translation from crossing page boundaries
-- Additional instructions using decodetree: addis, pnop, loads/stores
-- Added check for prefixed insn support in cpu flags
-
-This code contains contributions from Richard Henderson, Matheus Ferst
-and myself.
-
-Luis Pires (2):
-  decodetree: Add support for 64-bit instructions
-  target/ppc: Check cpu flags for prefixed insn support
-
-Richard Henderson (13):
-  target/ppc: Add cia field to DisasContext
-  target/ppc: Split out decode_legacy
-  target/ppc: Move DISAS_NORETURN setting into gen_exception*
-  target/ppc: Tidy exception vs exit_tb
-  target/ppc: Mark helper_raise_exception* as noreturn
-  target/ppc: Use translator_loop_temp_check
-  target/ppc: Add infrastructure for prefixed insns
-  target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
-  target/ppc: Implement PNOP
-  target/ppc: Move D/DS/X-form integer loads to decodetree
-  target/ppc: Implement prefixed integer load instructions
-  target/ppc: Move D/DS/X-form integer stores to decodetree
-  target/ppc: Implement prefixed integer store instructions
-
- docs/devel/decodetree.rst                  |   5 +-
- scripts/decodetree.py                      |  26 +-
- target/ppc/cpu.h                           |   1 +
- target/ppc/helper.h                        |   4 +-
- target/ppc/insn32.decode                   |  85 ++++
- target/ppc/insn64.decode                   |  64 +++
- target/ppc/meson.build                     |   9 +
- target/ppc/translate.c                     | 513 +++++++--------------
- target/ppc/translate/fixedpoint-impl.c.inc | 424 +++++++++++++++++
- target/ppc/translate_init.c.inc            |  42 +-
- 10 files changed, 798 insertions(+), 375 deletions(-)
- create mode 100644 target/ppc/insn32.decode
- create mode 100644 target/ppc/insn64.decode
- create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
-
+diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
+index 74f66bf46e..d776dae14f 100644
+--- a/docs/devel/decodetree.rst
++++ b/docs/devel/decodetree.rst
+@@ -40,8 +40,9 @@ and returns an integral value extracted from there.
+ 
+ A field with no ``unnamed_fields`` and no ``!function`` is in error.
+ 
+-FIXME: the fields of the structure into which this result will be stored
+-is restricted to ``int``.  Which means that we cannot expand 64-bit items.
++The fields of the structure into which this result will be stored are
++defined as ``int`` when the instruction size is set to 16 or 32 bits
++and as ``int64_t`` when the instruction size is set to 64 bits.
+ 
+ Field examples:
+ 
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 4637b633e7..26156dfc36 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -42,6 +42,10 @@
+ output_fd = None
+ insntype = 'uint32_t'
+ decode_function = 'decode'
++field_data_type = 'int'
++extract_function = 'extract32'
++sextract_function = 'sextract32'
++deposit_function = 'deposit32'
+ 
+ # An identifier for C.
+ re_C_ident = '[a-zA-Z][a-zA-Z0-9_]*'
+@@ -185,9 +189,9 @@ def __str__(self):
+ 
+     def str_extract(self):
+         if self.sign:
+-            extr = 'sextract32'
++            extr = sextract_function
+         else:
+-            extr = 'extract32'
++            extr = extract_function
+         return '{0}(insn, {1}, {2})'.format(extr, self.pos, self.len)
+ 
+     def __eq__(self, other):
+@@ -215,8 +219,9 @@ def str_extract(self):
+             if pos == 0:
+                 ret = f.str_extract()
+             else:
+-                ret = 'deposit32({0}, {1}, {2}, {3})' \
+-                      .format(ret, pos, 32 - pos, f.str_extract())
++                ret = '{4}({0}, {1}, {2}, {3})' \
++                      .format(ret, pos, insnwidth - pos,
++                              f.str_extract(), deposit_function)
+             pos += f.len
+         return ret
+ 
+@@ -311,7 +316,7 @@ def output_def(self):
+         if not self.extern:
+             output('typedef struct {\n')
+             for n in self.fields:
+-                output('    int ', n, ';\n')
++                output('    ', field_data_type, ' ', n, ';\n')
+             output('} ', self.struct_name(), ';\n\n')
+ # end Arguments
+ 
+@@ -1264,6 +1269,10 @@ def main():
+     global insntype
+     global insnmask
+     global decode_function
++    global extract_function
++    global sextract_function
++    global deposit_function
++    global field_data_type
+     global variablewidth
+     global anyextern
+ 
+@@ -1293,6 +1302,13 @@ def main():
+             if insnwidth == 16:
+                 insntype = 'uint16_t'
+                 insnmask = 0xffff
++            elif insnwidth == 64:
++                insntype = 'uint64_t'
++                insnmask = 0xffffffffffffffff
++                field_data_type = 'int64_t'
++                extract_function = 'extract64'
++                sextract_function = 'sextract64'
++                deposit_function = 'deposit64'
+             elif insnwidth != 32:
+                 error(0, 'cannot handle insns of width', insnwidth)
+         else:
 -- 
 2.25.1
 
