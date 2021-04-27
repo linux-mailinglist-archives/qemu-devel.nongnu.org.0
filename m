@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73D236C607
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:24:38 +0200 (CEST)
-Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E96736C61C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:34:41 +0200 (CEST)
+Received: from localhost ([::1]:52194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbMlZ-0004Vh-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1lbMvH-0002AO-L2
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbMif-0003C0-1u
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:21:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40470)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbMry-0000sm-3J
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:31:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbMic-0005T4-Kl
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:21:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbMrl-0001rr-UV
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:31:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619526092;
+ s=mimecast20190719; t=1619526654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y5J1w+8VcpIIPnR4f60viVMV1L4kYu/hvn7a0n+Su5M=;
- b=QAQ0Tw+bcW/CX3UssGYqs4XUnzD3s+pgb/Ppa6Vlv/ANISs6R4RzDgTf8BeQfoaIowRxcQ
- PUnTDbU5j+LZBN0RE1v0o1SYM7X2nYkmI4QHFC+m0fnQ0JUK8mwjJlNGw7ZUM6qUt8uTDu
- zFFbg081+tuj71DFW0nd23Pe+hcd6iQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-gDwP8jgpMHG78dyxxHjsAQ-1; Tue, 27 Apr 2021 08:21:31 -0400
-X-MC-Unique: gDwP8jgpMHG78dyxxHjsAQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n9-20020a1c40090000b02901401bf40f9dso2678757wma.0
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 05:21:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=y5J1w+8VcpIIPnR4f60viVMV1L4kYu/hvn7a0n+Su5M=;
- b=L6hamIih+Jz2GHZgGP5KdHstqJehwWeUxegEQC/B5YRDbF0UfbJ/gu6fFXwOkVkqHF
- 0J0LZ/eSyWRs9AQ4daacQ+u5k0zNxR7vZKhvR8pcTHOUpO2duhWOm2UW7+RMz2UnNFsB
- Kt8clGhuPS3C/tcSTO/mIGLhBYqo3YwWejbsmDKaItxBglEbrS2oHydEfop0th6dPfPc
- rLtSIYtmP7QP2c/t2eOlbU0xttr8+r/C/QzYlUihj4ysWWqqCYFxmj4pMc1MHA2RsyUX
- Rf7dDin/70szaUNMiKeJYGMsVPagRQsxMT83uBWBesqnU/eFRDMqPIyBGmjmxvDpBHWe
- KDow==
-X-Gm-Message-State: AOAM532NhUgx9AEWM69ueaQpTYUSOBAqX91hR0EZptiMHrAiW5hjezaz
- kglw9ZEUPDZD4SYGOtrE+Zg/o//DCv8mQtsutQYLQD8Gx0mhjLs0c7k3b26c+3fsuRWvhA+lK2T
- Lvpzi5gpYtspC+nM=
-X-Received: by 2002:a1c:4382:: with SMTP id q124mr17218509wma.63.1619526089852; 
- Tue, 27 Apr 2021 05:21:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlgiiHGni9asEck+7X7dOoSjNrefxpPaVy0/Pj0MqbkTyOU0Wb7wkMuufqDfNDnYV+4qEIrA==
-X-Received: by 2002:a1c:4382:: with SMTP id q124mr17218484wma.63.1619526089653; 
- Tue, 27 Apr 2021 05:21:29 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id x23sm20036981wmj.43.2021.04.27.05.21.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 05:21:29 -0700 (PDT)
-Subject: Re: [PATCH v8 08/11] hw/core: deprecate old reset functions and
- introduce new ones
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Markus Armbruster <armbru@redhat.com>,
- Luc Michel <luc@lmichel.fr>, peter.maydell@linaro.org
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
- <20200123132823.1117486-9-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9fb8a6ed-137b-7269-91f1-69c11c6d876a@redhat.com>
-Date: Tue, 27 Apr 2021 14:21:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=9e2VX+il8FwP+r9BiXa3DgdGt8IuJHCzzfxWacj9I3w=;
+ b=Ap7nYMa3l5W5W+EnOaVzLzBypoMGMVJd74zRs0N2PJzC/dphOJE17ECFc6j94p85mX6/Bp
+ VxeZsit114oxEWtK451ifHw0uORCyKBKx1UnrA9Oar/U1eJRQ+o3Rings3zAbnyrdReRNN
+ LGYXaUSaZ3gh4WcNYF1Ha/lwiUTgwVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-hk_2g_mJOYmIgaNw2XP6GQ-1; Tue, 27 Apr 2021 08:30:52 -0400
+X-MC-Unique: hk_2g_mJOYmIgaNw2XP6GQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92DEBA40C4;
+ Tue, 27 Apr 2021 12:30:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AEC819714;
+ Tue, 27 Apr 2021 12:30:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CF29B113525D; Tue, 27 Apr 2021 14:30:49 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 05/22] qapi/parser: Assert lexer value is a string
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-6-jsnow@redhat.com>
+ <87k0os9j4t.fsf@dusky.pond.sub.org>
+ <d7f40069-3e64-9077-f2ac-48f003c83962@redhat.com>
+Date: Tue, 27 Apr 2021 14:30:49 +0200
+In-Reply-To: <d7f40069-3e64-9077-f2ac-48f003c83962@redhat.com> (John Snow's
+ message of "Mon, 26 Apr 2021 13:43:29 -0400")
+Message-ID: <874kfrykna.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200123132823.1117486-9-damien.hedde@greensocs.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,116 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, edgari@xilinx.com,
- pbonzini@redhat.com, david@gibson.dropbear.id.au
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 2:28 PM, Damien Hedde wrote:
-> Deprecate device_legacy_reset(), qdev_reset_all() and
-> qbus_reset_all() to be replaced by new functions
-> device_cold_reset() and bus_cold_reset() which uses resettable API.
-> 
-> Also introduce resettable_cold_reset_fn() which may be used as a
-> replacement for qdev_reset_all_fn and qbus_reset_all_fn().
-> 
-> Following patches will be needed to look at legacy reset call sites
-> and switch to resettable api. The legacy functions will be removed
-> when unused.
-> 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/hw/qdev-core.h  | 27 +++++++++++++++++++++++++++
->  include/hw/resettable.h |  9 +++++++++
->  hw/core/bus.c           |  5 +++++
->  hw/core/qdev.c          |  5 +++++
->  hw/core/resettable.c    |  5 +++++
->  5 files changed, 51 insertions(+)
-> 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 1b4b420617..b84fcc32bf 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -406,6 +406,13 @@ int qdev_walk_children(DeviceState *dev,
->                         qdev_walkerfn *post_devfn, qbus_walkerfn *post_busfn,
->                         void *opaque);
->  
-> +/**
-> + * @qdev_reset_all:
-> + * Reset @dev. See @qbus_reset_all() for more details.
-> + *
-> + * Note: This function is deprecated and will be removed when it becomes unused.
-> + * Please use device_cold_reset() now.
-> + */
->  void qdev_reset_all(DeviceState *dev);
->  void qdev_reset_all_fn(void *opaque);
->  
-> @@ -418,10 +425,28 @@ void qdev_reset_all_fn(void *opaque);
->   * hard reset means that qbus_reset_all will reset all state of the device.
->   * For PCI devices, for example, this will include the base address registers
->   * or configuration space.
-> + *
-> + * Note: This function is deprecated and will be removed when it becomes unused.
-> + * Please use bus_cold_reset() now.
+John Snow <jsnow@redhat.com> writes:
 
-Some time passed, so looking at this with some retrospective.
+> On 4/24/21 4:33 AM, Markus Armbruster wrote:
+>> The second operand of assert provides no additional information.  Please
+>> drop it.
+>
+> I don't agree with "no additional information", strictly.
+>
+> I left you a comment on gitlab before you started reviewing on-list. 
+> What I wrote there:
+>
+> "Markus: I know you're not a fan of these, but I wanted a suggestion on 
+> how to explain why this must be true in case it wasn't obvious to 
+> someone else in the future."
 
-If there is an effort to introduce a new API replacing another one,
-we should try convert all the uses of the old API to the new one,
-instead of declaring it legacy.
+But the second operand doesn't explain anything.  Look:
 
-Declare an API legacy/deprecated should be the last resort if there
-is no way to remove it. I'd recommend to move the deprecated/legacy
-declarations in a separate header, with the '_legacy' suffix.
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index f519518075e..c75434e75a5 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -303,6 +303,7 @@ def get_doc(self, info):
+         cur_doc = QAPIDoc(self, info)
+         self.accept(False)
+         while self.tok == '#':
++            assert isinstance(self.val, str), "Expected str value"
+             if self.val.startswith('##'):
+                 # End of doc comment
+                 if self.val != '##':
 
-Else:
+The second operand paraphrases the first one in prose rather than code.
+An actual *explanation* would instead tell me why the first operand must
+be true.
 
-1/ we never finish API conversions,
-2/ the new API might not be ready for all the legacy API use cases,
-3/ we end up having to maintain 2 different APIs.
+To do that, I'd point to self.accept()'s postcondition.  Which
+(informally) is
 
+    self.tok in ('#', '{', ... )
+    and self.tok == '#' implies self.val is a str
+    and self.tok == '{' implies self.val is None
+    ...
 
-So the recommendation is to use bus_cold_reset(), but it isn't
-used anywhere...:
+I believe this is required working knowledge for understanding the
+parser.  Your PATCH 16 puts it in a doc string, so readers don't have to
+extract it from code.  Makes sense.
 
-$ git grep bus_cold_reset
-docs/devel/reset.rst:64:- ``bus_cold_reset()``
-hw/core/bus.c:73:void bus_cold_reset(BusState *bus)
-include/hw/qdev-core.h:715: * Please use bus_cold_reset() now.
-include/hw/qdev-core.h:728: * bus_cold_reset:
-include/hw/qdev-core.h:733:void bus_cold_reset(BusState *bus);
+It's not going to fit into a workable second operand here, I'm afraid.
 
-IMHO we shouldn't add new public prototypes without callers.
-
-I see it is similar to device_cold_reset(), but TBH I'm scared
-to be the first one using it.
-
-Regards,
-
-Phil.
-
->   */
->  void qbus_reset_all(BusState *bus);
->  void qbus_reset_all_fn(void *opaque);
->  
-> +/**
-> + * device_cold_reset:
-> + * Reset device @dev and perform a recursive processing using the resettable
-> + * interface. It triggers a RESET_TYPE_COLD.
-> + */
-> +void device_cold_reset(DeviceState *dev);
-> +
-> +/**
-> + * bus_cold_reset:
-> + *
-> + * Reset bus @bus and perform a recursive processing using the resettable
-> + * interface. It triggers a RESET_TYPE_COLD.
-> + */
-> +void bus_cold_reset(BusState *bus);
+I assume you need this assertion for mypy.  If yes, let's get the job
+done with minimal fuss.  If no, please drop the assertion entirely.
 
 
