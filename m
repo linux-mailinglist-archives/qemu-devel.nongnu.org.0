@@ -2,80 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E51136CBD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 21:40:47 +0200 (CEST)
-Received: from localhost ([::1]:47394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004CB36CC2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 22:09:32 +0200 (CEST)
+Received: from localhost ([::1]:35786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbTZe-0003LV-O7
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 15:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
+	id 1lbU1S-0003IA-Qw
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 16:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbTX8-00026u-BV
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:38:10 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbTX6-0006Jb-QO
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:38:10 -0400
-Received: by mail-wr1-x433.google.com with SMTP id q9so6463137wrs.6
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 12:38:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7Cph1gXJGiMCINMajRg4bW4+fmtwZGqScAt8NUFCf+Y=;
- b=KeGe05KQjAvUAS94LBCS/zKLH38I8P8HJ4Nz4RJyVzjtRzVtP+ZfTIzCYGW4WgkJqN
- zcJEMJcSvzeX+RAidr+aGoCIFTIHy/AYPxVtGKt3ZgGBhtTcogibIysrc5TQGKVWl9K7
- 4bfFhQJqnwsrPDb/bEh0VxU8mvRqAH7NB63waxwcbpn3sIMs5xe2BIyM7GrMm3lnoKi/
- 9R9942BeS4su2PWZZDZGj/xlNSpNaKDQujHxl77ebkVvs//vsdIxyvQYRv8pKB81CXOt
- GmadIoKX+2q73vDJb0sbo3GaBv1k3avc/bXvh1/+SUQmrRe9jOXlqiPcWNW8kDj2b/0R
- jXIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7Cph1gXJGiMCINMajRg4bW4+fmtwZGqScAt8NUFCf+Y=;
- b=pY1AeKlxJFsWdhKR65RFCVIJiJ0y4YxmZ3CT9IZzy+Q/nvdyIEx8ACj56wal+rQGgO
- j1J/oXk/4R2OQ0NUyfuRC7bu46B17S8leXxdYIIZNDob6wLBb55Myt8ibreEIDEmLxR+
- pIu4JXEiwTS/BMV2Bj5mbJHJBMvMZWorXd2TUIHep2CCGl3Um8ffDBUBAqR+S5PewhFa
- h922M0+0YcPVvMYh7s1QPsz9eLLVqJ5pUqMMtsS0Iia+ygOsnCCyUseV1J5Ab/aSjz+v
- E+h2Cctrwszojv9yrtPZsl9vo7YDPZGh4z+Pe0HIjqxrHZTBRemcISTD9ngN/UcVQaxE
- 4OCA==
-X-Gm-Message-State: AOAM5316cFwYhE37nzXYdHxQ2ZzcjcdwF7DOomX1UpOWRSf43UTNlQmj
- eZC6CtTaiXp2Wjjxyqc829k=
-X-Google-Smtp-Source: ABdhPJwQ2HEGYyrdrJ+rRBLKwZGGeON/igiU18mInD49eiKbwlgWvIEsUeluNpVPmMxfgKq4CPvceg==
-X-Received: by 2002:adf:facf:: with SMTP id a15mr17043910wrs.53.1619552287024; 
- Tue, 27 Apr 2021 12:38:07 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id o1sm5353855wrw.95.2021.04.27.12.38.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 12:38:06 -0700 (PDT)
-Subject: Re: [PATCH] target/mips: Migrate missing CPU fields
-To: qemu-devel@nongnu.org
-References: <20210423220044.3004195-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eb51ae33-af42-8f98-90fc-77316e01bd0e@amsat.org>
-Date: Tue, 27 Apr 2021 21:38:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210423220044.3004195-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lbTzS-0002p5-Qh; Tue, 27 Apr 2021 16:07:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8422
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lbTzQ-0006ZI-P6; Tue, 27 Apr 2021 16:07:26 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13RK4xuq165843; Tue, 27 Apr 2021 16:07:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=nGKJ38/4ZNpcB022UYzR2oPVmpNlef3ok1yvEx1zGAI=;
+ b=OZlNk9B0S9YQ6tXUwtpL7Zq4BlwVcD/kYUFOkYHeUJho5kHR7zZymnsbe2zIJ8hjy7Tz
+ PKMb46Sb+M46sGcSfUryHM+j30oiIxi+cHWmXoRunSpMD+SJNEkCGAGwpHm9Ds6F311z
+ mizrvDFe4R497zEz1ofiof1IQtu8oF/hMUhjLWC+1AlpWsOE7J+2/EYMkKAq9yNKut4q
+ 32KqozphYscwb/1tVtDMThh08zj6VlljYjIZQYTmeyJdKgZ04QOCkbEWmA/8h/oMF7Bd
+ R6lX3kYMBSn+k3wvKkog2mY+WE8+l5nu/TkxkrGqGOJoHguV1WzIwLr5Ck7N/7WKfdds uw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 386qsatmdt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 16:07:15 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13RK6Yc0174856;
+ Tue, 27 Apr 2021 16:07:15 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 386qsatmdg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 16:07:15 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13RJvvMh021766;
+ Tue, 27 Apr 2021 20:07:14 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 384ay95rkk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 20:07:14 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13RK7DmB21692726
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 27 Apr 2021 20:07:13 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6A17FBE051;
+ Tue, 27 Apr 2021 20:07:13 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE9D5BE04F;
+ Tue, 27 Apr 2021 20:07:10 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.160.111.105])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 27 Apr 2021 20:07:10 +0000 (GMT)
+Message-ID: <4cc98e142a94cc980790a400e155c1307b4ce729.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH] hw/s390x/ccw: Register qbus type in abstract
+ TYPE_CCW_DEVICE parent
+From: Eric Farman <farman@linux.ibm.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Date: Tue, 27 Apr 2021 16:07:10 -0400
+In-Reply-To: <20210424145313.3287400-1-f4bug@amsat.org>
+References: <20210424145313.3287400-1-f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: PnG0KHZrRK0JM-1q_5Y_t5T6JTeKhwD2
+X-Proofpoint-GUID: pYo0ZabrAA0x6iumwXQctT9Vi-wN5e6F
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-27_11:2021-04-27,
+ 2021-04-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 clxscore=1011 mlxscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104270134
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,37 +112,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Craig Janeczek <jancraig@amazon.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Fredrik Noring <noring@nocrew.org>,
- Petar Jovanovic <petar.jovanovic@syrmia.com>,
- Filip Vidojevic <Filip.Vidojevic@Syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/21 12:00 AM, Philippe Mathieu-Daudé wrote:
-> Add various missing fields to the CPU migration vmstate:
+On Sat, 2021-04-24 at 16:53 +0200, Philippe Mathieu-Daudé wrote:
+> Instead of having all TYPE_CCW_DEVICE children set the bus type to
+> TYPE_VIRTUAL_CSS_BUS, do it once in the abstract parent.
 > 
-> - CP0_VPControl & CP0_GlobalNumber      (01bc435b44b 2016-02-03)
-> - CMGCRBase                             (c870e3f52ca 2016-03-15)
-> - CP0_ErrCtl                            (0d74a222c27 2016-03-25)
-> - MXU GPR[] & CR                        (eb5559f67dc 2018-10-18)
-> - R5900 128-bit upper half              (a168a796e1c 2019-01-17)
-> 
-> This is a migration break.
-> 
-> Fixes: 01bc435b44b ("target-mips: implement R6 multi-threading")
-> Fixes: c870e3f52ca ("target-mips: add CMGCRBase register")
-> Fixes: 0d74a222c27 ("target-mips: make ITC Configuration Tags accessible to the CPU")
-> Fixes: eb5559f67dc ("target/mips: Introduce MXU registers")
-> Fixes: a168a796e1c ("target/mips: Introduce 32 R5900 multimedia registers")
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/machine.c | 21 +++++++++++++++------
->  1 file changed, 15 insertions(+), 6 deletions(-)
+> RFC because I don't know these devices, maybe there is a reason
+> for setting the bus type in the children (but it should be documented
+> IMO).
 
-Thanks, applied to mips-next.
+I don't know the history behind it, but don't see an obvious reason for
+doing it the current way. I sure do like the end result.
+
+Acked-by: Eric Farman <farman@linux.ibm.com>
+
+> ---
+>  hw/s390x/ccw-device.h | 1 +
+>  hw/s390x/3270-ccw.c   | 1 -
+>  hw/s390x/ccw-device.c | 1 +
+>  hw/s390x/s390-ccw.c   | 2 --
+>  hw/s390x/virtio-ccw.c | 1 -
+>  5 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/s390x/ccw-device.h b/hw/s390x/ccw-device.h
+> index 832c78cd421..6dff95225df 100644
+> --- a/hw/s390x/ccw-device.h
+> +++ b/hw/s390x/ccw-device.h
+> @@ -14,6 +14,7 @@
+>  #include "qom/object.h"
+>  #include "hw/qdev-core.h"
+>  #include "hw/s390x/css.h"
+> +#include "hw/s390x/css-bridge.h"
+>  
+>  struct CcwDevice {
+>      DeviceState parent_obj;
+> diff --git a/hw/s390x/3270-ccw.c b/hw/s390x/3270-ccw.c
+> index f3e7342b1e8..0757af60632 100644
+> --- a/hw/s390x/3270-ccw.c
+> +++ b/hw/s390x/3270-ccw.c
+> @@ -159,7 +159,6 @@ static void
+> emulated_ccw_3270_class_init(ObjectClass *klass, void *data)
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>  
+>      device_class_set_props(dc, emulated_ccw_3270_properties);
+> -    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
+>      dc->realize = emulated_ccw_3270_realize;
+>      dc->hotpluggable = false;
+>      set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+> diff --git a/hw/s390x/ccw-device.c b/hw/s390x/ccw-device.c
+> index c9707110e9c..95f269ab441 100644
+> --- a/hw/s390x/ccw-device.c
+> +++ b/hw/s390x/ccw-device.c
+> @@ -59,6 +59,7 @@ static void ccw_device_class_init(ObjectClass
+> *klass, void *data)
+>      k->refill_ids = ccw_device_refill_ids;
+>      device_class_set_props(dc, ccw_device_properties);
+>      dc->reset = ccw_device_reset;
+> +    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
+>  }
+>  
+>  const VMStateDescription vmstate_ccw_dev = {
+> diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
+> index b497571863f..cb49f380a6b 100644
+> --- a/hw/s390x/s390-ccw.c
+> +++ b/hw/s390x/s390-ccw.c
+> @@ -177,10 +177,8 @@ static void s390_ccw_instance_init(Object *obj)
+>  
+>  static void s390_ccw_class_init(ObjectClass *klass, void *data)
+>  {
+> -    DeviceClass *dc = DEVICE_CLASS(klass);
+>      S390CCWDeviceClass *cdc = S390_CCW_DEVICE_CLASS(klass);
+>  
+> -    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
+>      cdc->realize = s390_ccw_realize;
+>      cdc->unrealize = s390_ccw_unrealize;
+>  }
+> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> index 8195f3546e4..71ec2bdcc31 100644
+> --- a/hw/s390x/virtio-ccw.c
+> +++ b/hw/s390x/virtio-ccw.c
+> @@ -1235,7 +1235,6 @@ static void
+> virtio_ccw_device_class_init(ObjectClass *klass, void *data)
+>      k->unplug = virtio_ccw_busdev_unplug;
+>      dc->realize = virtio_ccw_busdev_realize;
+>      dc->unrealize = virtio_ccw_busdev_unrealize;
+> -    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
+>      device_class_set_parent_reset(dc, virtio_ccw_reset, &vdc-
+> >parent_reset);
+>  }
+>  
+
 
