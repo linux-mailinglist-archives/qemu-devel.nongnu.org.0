@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B28936C40C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:33:12 +0200 (CEST)
-Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB12536C43A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:35:52 +0200 (CEST)
+Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbL1j-0004Or-9c
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:33:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
+	id 1lbL4K-0005fG-1y
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:35:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lbKvo-0000I1-VZ
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:27:06 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39563)
+ id 1lbL2I-0004xT-40
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:33:46 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:41631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lbKvl-0004yZ-ID
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:27:04 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id zl7so9082938ejb.6
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:27:00 -0700 (PDT)
+ id 1lbL2E-0000WL-1S
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:33:44 -0400
+Received: by mail-ed1-x530.google.com with SMTP id i24so9741345edy.8
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q3mBVTiSqeU5xRl9Jd+E2iplPCQ9gGfyh3WuX2ivYUg=;
- b=Jd1jbpvw/OJ+Q0zgO3P/BLRyJbkb1bD2Y6TdbhN5+tw8B2WnWVXAUU3FB717cn/KoK
- Okplts3sWiKqshV1NqvjMYzknAQd9zN/1Cb2G5Ayxqr4EqRlESEubdslW/ErcYZ/N1E4
- LRntQK0dxq384gO+JIovdZYwIwMKe1deLMOILUrqvoAGgqBryZcJCv2PSZ1CdECclAe7
- r7klAT27TzTt+lNlG46pbHLbiZe3nFaytgA1VCmYWnY52UZx8Znq19MoY2S0kwiJoNrh
- WMlKWYjrwZBg7cR0/YwrZn5opNHreKWK9npY5I4QB5ZisGfB1o6dR9WpNXC4GaGldI4M
- P1uQ==
+ :cc; bh=+lfeBztJJd+9kwzd331v1ww6NajQKYOWy8Hw26UzVmw=;
+ b=WHN4sCDauGFHALqR/wUQX17QL8Du7jOoPqesQkJbjV992ssp4Gxklltg/IM5tRz+cw
+ J/rN9fas10BBe+c9mfS8pj+6/OFkzHlU69FWtZu1LKYRKu5wdsF79pgHpM/GpYBdRbW9
+ Yyxh4SDG04Yinph+TEu3bYYR5mZC6kIUV91UxkY4gPkrBoI0yRXyn3pctVmU56AvbsWB
+ 1gdmMI0ic0sGvfBahC+fsxwzjRdHEkKCfiLBOdW9kUdn8xMnDAjE4vAFMe58HamxoMmR
+ BsW7JF4KFfdVYH3qZVHuKlC0UDEHUJXEQKyzwCbnvZ8LerIWrunjLYZjIgJosNhSDWJP
+ SX4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Q3mBVTiSqeU5xRl9Jd+E2iplPCQ9gGfyh3WuX2ivYUg=;
- b=MrcEwVETPgQla4XaVVhsdd9WhNDX7/WYP3TnYUp9qnAUz1m3QsC0XEsyW43EXw4HLS
- vOUe12H5PhTiylGIbNKDLGZD+0EgJ3SsV9syPzuGdLltqNM8rlF3PHksOzgsq4qif02q
- M3xTluN86CoFZmZFnG3Q+tN9ELm794F4p9uqDhc1Jp/ngYqWtBra41nTNQks10aZB1Gi
- Bemn3sBoiBkXrzkjC8y+aQ/ugTWxWBwcUl1eeyWO2e0RCxaqUFGnykb7tz7dNMcfVVLa
- bcE6vjOsLDpdZLGfwHxgzpgiEfudmqSGbm1+DbdAA9KE576ZmiBTSWX0BXmQ4+TnVGr3
- +r6w==
-X-Gm-Message-State: AOAM533SKirSPDSiJbm1OX3d6Wo+EDyR0eWGVbL+TqgXkpgQpEljiPQh
- jiJFL0eLC/bQNuAUXdzGxexG01lIV8FvGBGrLwjS
-X-Google-Smtp-Source: ABdhPJwEz/qqADvHixCjD1EqSgZ5nEmIgDjvaiKgumxbcdxSiLd0N5+65Zmdpm9nFnQGKJ6wOa5VikIJNvtWBb3k3/s=
-X-Received: by 2002:a17:906:1a0d:: with SMTP id
- i13mr22061694ejf.197.1619519219355; 
- Tue, 27 Apr 2021 03:26:59 -0700 (PDT)
+ bh=+lfeBztJJd+9kwzd331v1ww6NajQKYOWy8Hw26UzVmw=;
+ b=UnwHMIXTRJOrfU8tzd2Hjs+tjB+DsOEOJyf/K47Gx0hpVB7mEBBAH9f/l8lI7URPJK
+ olFRv0Zw88O+9Vvc932D+Z/1O/jrNU+gCg3zIOHwbTN0MCp0FTiAdJ8DcxRrlzFzk44A
+ ls4IcTRY+2TcADyBRgezQAJ1h/WyHBiULKAiE00Nrb4G08izBsT429B/E6sK5FnSGeZ3
+ GPY6b9Vv4wAmyAq6/hM/3PmnPP17O8Tj/2ESG5tb5VnspDuQfroJommj1eCECa1BjQgT
+ pDRJJ1CbPVvC/pw2pVHmtbSPrYILruq4jSvU4Dck5Ot01x1BT6dWSHU576iZ0kemch8P
+ a6Aw==
+X-Gm-Message-State: AOAM531WH/sF+XVgGGQZUUxJ+3ey37IX7oxQaamROb/G3W/PH3nQ4HRV
+ l8npPkPu3F35uNp4nRhNkm0bel2z5nuPuLNIm5lv
+X-Google-Smtp-Source: ABdhPJwq43rtOR33OGpY+fyWeK248FrfzcNQ1UpNAE+JfZxgdA+eb45g0ctFk0sDI89t6rxibkSi0UHglExuaGlGUWE=
+X-Received: by 2002:a05:6402:4314:: with SMTP id
+ m20mr3364162edc.5.1619519619673; 
+ Tue, 27 Apr 2021 03:33:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210408101252.552-1-xieyongji@bytedance.com>
- <20210408101252.552-3-xieyongji@bytedance.com>
- <YIbS6UJSJtS/IVCq@stefanha-x1.localdomain>
-In-Reply-To: <YIbS6UJSJtS/IVCq@stefanha-x1.localdomain>
+ <20210408101252.552-4-xieyongji@bytedance.com>
+ <YIbWxUaoP3yvad2t@stefanha-x1.localdomain>
+In-Reply-To: <YIbWxUaoP3yvad2t@stefanha-x1.localdomain>
 From: Yongji Xie <xieyongji@bytedance.com>
-Date: Tue, 27 Apr 2021 18:26:48 +0800
-Message-ID: <CACycT3tCZ7kC+_daMhd86j1yZ7AzWZ6YhpaMj+y3Qd+Dgm5D2Q@mail.gmail.com>
-Subject: Re: Re: [PATCH 2/3] vhost-blk: Add vhost-blk-common abstraction
+Date: Tue, 27 Apr 2021 18:33:28 +0800
+Message-ID: <CACycT3vfuPam7q0Cwy6COk8e=CMLx6O-bK_g5UGGu7pUVEQBrw@mail.gmail.com>
+Subject: Re: Re: [PATCH 3/3] vhost-vdpa-blk: Introduce vhost-vdpa-blk host
+ device
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,34 +88,89 @@ Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 26, 2021 at 10:49 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Mon, Apr 26, 2021 at 11:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> On Thu, Apr 08, 2021 at 06:12:51PM +0800, Xie Yongji wrote:
-> > diff --git a/hw/block/vhost-blk-common.c b/hw/block/vhost-blk-common.c
-> > new file mode 100644
-> > index 0000000000..96500f6c89
-> > --- /dev/null
-> > +++ b/hw/block/vhost-blk-common.c
-> > @@ -0,0 +1,291 @@
-> > +/*
-> > + * Parent class for vhost based block devices
-> > + *
-> > + * Copyright (C) 2021 Bytedance Inc. and/or its affiliates. All rights reserved.
-> > + *
-> > + * Author:
-> > + *   Xie Yongji <xieyongji@bytedance.com>
-> > + *
-> > + * Heavily based on the vhost-user-blk.c by:
-> > + *   Changpeng Liu <changpeng.liu@intel.com>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2.  See
-> > + * the COPYING file in the top-level directory.
+> On Thu, Apr 08, 2021 at 06:12:52PM +0800, Xie Yongji wrote:
+> > +static const int vdpa_feature_bits[] = {
+> > +    VIRTIO_BLK_F_SIZE_MAX,
+> > +    VIRTIO_BLK_F_SEG_MAX,
+> > +    VIRTIO_BLK_F_GEOMETRY,
+> > +    VIRTIO_BLK_F_BLK_SIZE,
+> > +    VIRTIO_BLK_F_TOPOLOGY,
+> > +    VIRTIO_BLK_F_MQ,
+> > +    VIRTIO_BLK_F_RO,
+> > +    VIRTIO_BLK_F_FLUSH,
+> > +    VIRTIO_BLK_F_CONFIG_WCE,
+> > +    VIRTIO_BLK_F_DISCARD,
+> > +    VIRTIO_BLK_F_WRITE_ZEROES,
+> > +    VIRTIO_F_VERSION_1,
+> > +    VIRTIO_RING_F_INDIRECT_DESC,
+> > +    VIRTIO_RING_F_EVENT_IDX,
+> > +    VIRTIO_F_NOTIFY_ON_EMPTY,
+> > +    VHOST_INVALID_FEATURE_BIT
+> > +};
 >
-> The hw/block/vhost-user-blk.c license is the GNU LGPL, version 2 or
-> later. Why did you change the license and did you get permission from
-> the copyright holders?
+> Please add VIRTIO_F_RING_PACKED so it can be implemented in vDPA in the
+> future without changes to the QEMU vhost-vdpa-blk.c code.
+>
 
-Oh, sorry. My mistake.
+Sure.
+
+> > +static void vhost_vdpa_blk_device_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > +    VHostVdpaBlk *s = VHOST_VDPA_BLK(vdev);
+> > +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
+> > +    Error *err = NULL;
+> > +    int ret;
+> > +
+> > +    s->vdpa.device_fd = qemu_open_old(s->vdpa_dev, O_RDWR);
+> > +    if (s->vdpa.device_fd == -1) {
+> > +        error_setg(errp, "vhost-vdpa-blk: open %s failed: %s",
+> > +                   s->vdpa_dev, strerror(errno));
+> > +        return;
+> > +    }
+> > +
+> > +    vhost_blk_common_realize(vbc, vhost_vdpa_blk_handle_output, &err);
+> > +    if (err != NULL) {
+> > +        error_propagate(errp, err);
+> > +        goto blk_err;
+> > +    }
+> > +
+> > +    vbc->vhost_vqs = g_new0(struct vhost_virtqueue, vbc->num_queues);
+>
+> This is already done by vhost_blk_common_realize(). The old pointer is
+> overwritten and leaked here.
+>
+
+Will fix it.
+
+> > +static const VMStateDescription vmstate_vhost_vdpa_blk = {
+> > +    .name = "vhost-vdpa-blk",
+> > +    .minimum_version_id = 1,
+> > +    .version_id = 1,
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_VIRTIO_DEVICE,
+> > +        VMSTATE_END_OF_LIST()
+> > +    },
+> > +};
+>
+> vdpa-blk does not support live migration yet. Please remove this.
+>
+> Does hw/virtio/vhost.c should automatically register a migration
+> blocker? If not, please register one.
+>
+
+Will do it.
+
+> > +#define TYPE_VHOST_VDPA_BLK "vhost-vdpa-blk"
+>
+> At this stage vdpa-blk is still very new and in development. I suggest
+> naming it x-vhost-vdpa-blk so that incompatible changes can still be
+> made to the command-line/APIs. "x-" can be removed later when the
+> feature has matured.
+
+OK.
 
 Thanks,
 Yongji
