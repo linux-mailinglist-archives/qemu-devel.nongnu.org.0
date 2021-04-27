@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5F836C492
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:03:44 +0200 (CEST)
-Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F7A36C493
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:04:09 +0200 (CEST)
+Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbLVH-00010d-8k
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
+	id 1lbLVg-0001N9-By
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lbLSh-0008DZ-7C; Tue, 27 Apr 2021 07:01:03 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2740)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lbLT9-0008TM-QL
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:01:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lbLSZ-0008MZ-CW; Tue, 27 Apr 2021 07:01:03 -0400
-Received: from dggeml763-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FTzGn2jc7z19HdN;
- Tue, 27 Apr 2021 18:56:49 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggeml763-chm.china.huawei.com (10.1.199.173) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 27 Apr 2021 19:00:44 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 27 Apr 2021 19:00:43 +0800
-Subject: Re: [RFC PATCH 0/6] Introduce cluster cpu topology support
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-References: <20210331095343.12172-1-wangyanan55@huawei.com>
- <13983bec-8b6b-4277-288a-e243d096bfb3@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <a883cf7e-b820-9d20-6424-e2add3007e9b@huawei.com>
-Date: Tue, 27 Apr 2021 19:00:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lbLT6-0000DE-RR
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:01:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619521287;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yk5pgK4gQAumDyzp2iUiAd59gHn63Ff/HSoVDI4pRVE=;
+ b=QAG8/O/jZ2Wn9lxqBPASCnPyfG1ouhBrpNa5OOLdmZwyIxolS8WYmXja8M6igLhHBdEfy0
+ qtxdgnxPiMkBA8dmACc42rGlHM6zeiQRmG+zrHRmKKXE3PYQdd5bd0B8DHpAp/Z6R+g9Bw
+ qbj6vhw0W++LBfCeOWXUmpcOso/vpHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-cffizDNrNfmOQnFgzxNEUg-1; Tue, 27 Apr 2021 07:01:24 -0400
+X-MC-Unique: cffizDNrNfmOQnFgzxNEUg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2A46501F0;
+ Tue, 27 Apr 2021 11:01:23 +0000 (UTC)
+Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C085E101E663;
+ Tue, 27 Apr 2021 11:01:11 +0000 (UTC)
+Date: Tue, 27 Apr 2021 12:01:09 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH v2 2/7] virtiofds: Changed allocations of iovec to GLib's
+ functions
+Message-ID: <YIfu9eV41U6vT6iP@work-vm>
+References: <20210420154643.58439-1-ma.mandourr@gmail.com>
+ <20210420154643.58439-3-ma.mandourr@gmail.com>
+ <YIfmaleNOwhLLD9W@work-vm>
+ <CAD-LL6gvoz0t4UND-CNdazciFoFE6ZVJ8ncZbfM3b37c8ECzbw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <13983bec-8b6b-4277-288a-e243d096bfb3@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAD-LL6gvoz0t4UND-CNdazciFoFE6ZVJ8ncZbfM3b37c8ECzbw@mail.gmail.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,60 +82,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo
- Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>
+Cc: "open list:virtiofs" <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+* Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
+> On Tue, Apr 27, 2021 at 12:25 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
+> wrote:
+> 
+> > * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
+> > > Replaced the calls to malloc()/calloc() and their respective
+> > > calls to free() of iovec structs with GLib's allocation and
+> > > deallocation functions.
+> > >
+> > > Also, in one instance, used g_new0() instead of a calloc() call plus
+> > > a null-checking assertion.
+> > >
+> > > iovec structs were created locally and freed as the function
+> > > ends. Hence, I used g_autofree and removed the respective calls to
+> > > free().
+> > >
+> > > In one instance, a struct fuse_ioctl_iovec pointer is returned from a
+> > > function, namely, fuse_ioctl_iovec_copy. There, I used g_steal_pointer()
+> > > in conjunction with g_autofree, this gives the ownership of the pointer
+> > > to the calling function and still auto-frees the memory when the calling
+> > > function finishes (maintaining the symantics of previous code).
+> > >
+> > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > ---
+> > >  tools/virtiofsd/fuse_lowlevel.c | 19 +++++++------------
+> > >  tools/virtiofsd/fuse_virtio.c   |  6 +-----
+> > >  2 files changed, 8 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/tools/virtiofsd/fuse_lowlevel.c
+> > b/tools/virtiofsd/fuse_lowlevel.c
+> > > index 812cef6ef6..f965299ad9 100644
+> > > --- a/tools/virtiofsd/fuse_lowlevel.c
+> > > +++ b/tools/virtiofsd/fuse_lowlevel.c
+> > > @@ -217,9 +217,9 @@ static int send_reply(fuse_req_t req, int error,
+> > const void *arg,
+> > >  int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
+> > >  {
+> > >      int res;
+> > > -    struct iovec *padded_iov;
+> > > +    g_autofree struct iovec *padded_iov;
+> > >
+> > > -    padded_iov = malloc((count + 1) * sizeof(struct iovec));
+> > > +    padded_iov = g_try_new(struct iovec, count + 1);
+> > >      if (padded_iov == NULL) {
+> > >          return fuse_reply_err(req, ENOMEM);
+> > >      }
+> > > @@ -228,7 +228,6 @@ int fuse_reply_iov(fuse_req_t req, const struct
+> > iovec *iov, int count)
+> > >      count++;
+> > >
+> > >      res = send_reply_iov(req, 0, padded_iov, count);
+> > > -    free(padded_iov);
+> > >
+> > >      return res;
+> > >  }
+> >
+> > OK.
+> >
+> > > @@ -565,10 +564,10 @@ int fuse_reply_bmap(fuse_req_t req, uint64_t idx)
+> > >  static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct
+> > iovec *iov,
+> > >                                                        size_t count)
+> > >  {
+> > > -    struct fuse_ioctl_iovec *fiov;
+> > > +    g_autofree struct fuse_ioctl_iovec *fiov;
+> > >      size_t i;
+> > >
+> > > -    fiov = malloc(sizeof(fiov[0]) * count);
+> > > +    fiov = g_try_new(fuse_ioctl_iovec, count);
+> > >      if (!fiov) {
+> > >          return NULL;
+> > >      }
+> > > @@ -578,7 +577,7 @@ static struct fuse_ioctl_iovec
+> > *fuse_ioctl_iovec_copy(const struct iovec *iov,
+> > >          fiov[i].len = iov[i].iov_len;
+> > >      }
+> > >
+> > > -    return fiov;
+> > > +    return g_steal_pointer(&fiov);
+> > >  }
+> >
+> > This is OK, but doesn't gain anything - marking it as g_autofree'ing and
+> > always stealing is no benefit.
+> >
+> > >
+> > >  int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
+> > > @@ -629,9 +628,6 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const
+> > struct iovec *in_iov,
+> > >
+> > >      res = send_reply_iov(req, 0, iov, count);
+> > >  out:
+> > > -    free(in_fiov);
+> > > -    free(out_fiov);
+> > > -
+> >
+> > I don't think you can do that - I think you're relying here on the
+> > g_autofree from fuse_ioclt_iovec_copy - but my understanding is that
+> > doesn't work; g_autofree is scoped, so it's designed to free at the end
+> > of fuse_ioctl_iovec_copy, fuse_reply_ioctl_retry doesn't know that the
+> > ion_fiov were allocated that way, so it won't get autocleaned up.
+> >
+> >
+> In GLib's documentation, it is clarified (w.r.t. g_autoptr but I think
+> similar logic applies to g_autofree)
+> that g_steal_pointer() "This can be very useful when combined with
+> g_autoptr() to prevent
+> the return value of a function from being automatically freed."
+> I think, but not 100% clear of course, that this means that the
+> g_autoptr-annotated memory
+> does not get freed at the end of the current scope, and  its "scope" is
+> migrated to the calling
+> function(to be honest I don't know how would they implement that but maybe
+> this is the case).
+> Otherwise why bother with g_autoptr'ing memory that we don't want to free
+> automatically and
+> would like to return to the calling function?
+> 
+> The first example in Memory Allocation: GLib Reference Manual (gnome.org)
+> <https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html#g-steal-pointer>
+> does
+> annotate
+> the memory as g_autoptr and then returns it through g_steal_pointer. With
+> your logic, I think that
+> this example would be wrong(?)
 
-On 2021/4/27 17:57, Philippe Mathieu-Daudé wrote:
-> Hi Yanan,
->
-> On 3/31/21 11:53 AM, Yanan Wang wrote:
->> Hi,
->> This series introduces the cluster cpu topology support, besides now
->> existing sockets, cores, and threads.
->>
->> A cluster means a group of cores that share some resources (e.g. cache)
->> among them under the LLC. For example, ARM64 server chip Kunpeng 920 has
->> 6 or 8 clusters in each NUMA, and each cluster has 4 cores. All clusters
->> share L3 cache data while cores within each cluster share the L2 cache.
->>
->> Also, there are some x86 CPU implementations (e.g. Jacobsville) where L2
->> cache is shared among a cluster of cores instead of being exclusive to
->> one single core. For example, on Jacobsville there are 6 clusters of 4
->> Atom cores, each cluster sharing a separate L2, and 24 cores sharing L3).
->> About this series:
->> Note that, this series was implemented based on [3] and [4]. Although they
->> have not merged into qemu mainline for now, it's still meaning to post this
->> series to express the thoughts first. So a RFC is sent and any comments are
->> welcomed and appreciated.
-> At a glance: tests/unit/test-x86-cpuid.c should be adapted to be generic
-> (but still supporting target-specific sub-tests) and some aarch64 tests
-> added.
->
-> Similarly the ARM PPTT tables tested in tests/qtest/bios-tables-test.c.
->
-> Otherwise, the overall series looks good and coherent, but it isn't my
-> area :)
-Thank you for the reminder of the related tests. :)
-I will have some work to make them cover the new features introduced
-by this series.
+The example is correct but not quite the case you have;  the
+g_steal_pointer stops the g_autoptr freeing it at the end of the current
+scope; but it doesn't cause it to be free'd later - the caller can't
+tell that the function that did the allocation had a g_autofree in it;
+once you get outside of the function, the pointer is just a normal
+pointer that needs free or g_free on.
 
-Thanks,
-Yanan
->
-> Regards,
->
-> Phil.
->
-> .
+
+> Mr. Hajnoczi already reviewed this patch  Re: [PATCH 2/8] virtiofds:
+> Changed allocations of iovec to GLib's functi
+> <https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08459.html>
+> in a previous version and this v2 patch series is supposed to only contain
+> already-reviewed patches and
+> remove bad ones
+
+But he didn't spot this particular problem.
+
+Dave
+
+> 
+> > >      return res;
+> > >
+> > >  enomem:
+> > > @@ -663,11 +659,11 @@ int fuse_reply_ioctl(fuse_req_t req, int result,
+> > const void *buf, size_t size)
+> > >  int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec
+> > *iov,
+> > >                           int count)
+> > >  {
+> > > -    struct iovec *padded_iov;
+> > > +    g_autofree struct iovec *padded_iov;
+> > >      struct fuse_ioctl_out arg;
+> > >      int res;
+> > >
+> > > -    padded_iov = malloc((count + 2) * sizeof(struct iovec));
+> > > +    padded_iov = g_try_new(struct iovec, count + 2);
+> > >      if (padded_iov == NULL) {
+> > >          return fuse_reply_err(req, ENOMEM);
+> > >      }
+> > > @@ -680,7 +676,6 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int result,
+> > const struct iovec *iov,
+> > >      memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
+> > >
+> > >      res = send_reply_iov(req, 0, padded_iov, count + 2);
+> > > -    free(padded_iov);
+> > >
+> > >      return res;
+> > >  }
+> >
+> > OK
+> >
+> > > diff --git a/tools/virtiofsd/fuse_virtio.c
+> > b/tools/virtiofsd/fuse_virtio.c
+> > > index 3e13997406..07e5d91a9f 100644
+> > > --- a/tools/virtiofsd/fuse_virtio.c
+> > > +++ b/tools/virtiofsd/fuse_virtio.c
+> > > @@ -347,8 +347,7 @@ int virtio_send_data_iov(struct fuse_session *se,
+> > struct fuse_chan *ch,
+> > >       * Build a copy of the the in_sg iov so we can skip bits in it,
+> > >       * including changing the offsets
+> > >       */
+> > > -    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec), in_num);
+> > > -    assert(in_sg_cpy);
+> > > +    g_autofree struct iovec *in_sg_cpy = g_new0(struct iovec, in_num);
+> > >      memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
+> > >      /* These get updated as we skip */
+> > >      struct iovec *in_sg_ptr = in_sg_cpy;
+> > > @@ -386,7 +385,6 @@ int virtio_send_data_iov(struct fuse_session *se,
+> > struct fuse_chan *ch,
+> > >              ret = errno;
+> > >              fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
+> > >                       __func__, len);
+> > > -            free(in_sg_cpy);
+> > >              goto err;
+> > >          }
+> > >          fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n",
+> > __func__,
+> > > @@ -410,13 +408,11 @@ int virtio_send_data_iov(struct fuse_session *se,
+> > struct fuse_chan *ch,
+> > >          if (ret != len) {
+> > >              fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
+> > >              ret = EIO;
+> > > -            free(in_sg_cpy);
+> > >              goto err;
+> > >          }
+> > >          in_sg_left -= ret;
+> > >          len -= ret;
+> > >      } while (in_sg_left);
+> > > -    free(in_sg_cpy);
+> >
+> > Yes, this is where the autofree really helps; getting rid of a few
+> > free's.
+> >
+> > Dave
+> >
+> > >      /* Need to fix out->len on EOF */
+> > >      if (len) {
+> > > --
+> > > 2.25.1
+> > >
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >
+> >
+> Thanks,
+> Mahmoud
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
