@@ -2,149 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC91736BD5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 04:34:00 +0200 (CEST)
-Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FB736BDAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 05:15:19 +0200 (CEST)
+Received: from localhost ([::1]:52472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbDXz-0000bt-BF
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 22:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
+	id 1lbEBy-0000Gw-8w
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 23:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lbDWa-0008Ib-6Q
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 22:32:32 -0400
-Received: from mga03.intel.com ([134.134.136.65]:22860)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lbEAJ-0008CY-Jw; Mon, 26 Apr 2021 23:13:36 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:33199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lbDWV-0007rL-Ug
- for qemu-devel@nongnu.org; Mon, 26 Apr 2021 22:32:31 -0400
-IronPort-SDR: NXii+j8ghNPLr/5+AgI5QNUI88yXAbq5skhmuEBYT6GHLtsPW16gmpcaPJPyUdefDYzAu41xGx
- 6eT+yWydPRyQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="196496897"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="196496897"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2021 19:32:20 -0700
-IronPort-SDR: ywuYdGzvEyIR1aMLNZ8NDldWAfAVnNM0vDQ7dxCbfqEDSCIAjr0ypkfOsSWvsDQvjvIsPrwBMn
- jnthjUPCMXEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; d="scan'208";a="457434748"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2021 19:32:19 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 26 Apr 2021 19:32:19 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Mon, 26 Apr 2021 19:32:19 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Mon, 26 Apr 2021 19:32:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y3z1dVmirTBWP2ar/BMHOiyw7loUl0dxSphOuyWEEsXSwGpRP/B1CUR8C39zb6wPDEv1hsN8F8hWWWquQgI35oaFtWwobaWSzI/uqjcpEQIvgbh/aHLkyZckZer72Ak8pis/rylJiinmlGv9maCg0kctzd1rPSTTWYDXrSGMbUBdoGTrp1BxubmO4Te94aoZFb/Cn9DSqS2kpn/xxJR4KV5R/BFAPUu6EpIGKP1uOV3VTL+OwUXV6bUN9oN5PVUl+Uu3O50G7EKOcHl96iFsWnSW7PPwI/ebEjRbgNXRIVBxljl8Hu3Lx37iLvrkHXTt6NEt5UuNnQe7ldbyPPAtEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jRUQ02HihzWwIY2mU5cAfT5+/DxQcwXhemyD1sbcOK8=;
- b=LE+XSVpruaeXEvBr4Wu+25gRdb81Gr8TErh3/CGZQpljWtfod6NaDWITIAJP8qVoDix0N8Y/BtbkszHT38r3bkoRDZVv7373nmwpSLsuMmsa9fOYzp9PkwxfNSokyGr0Ebq4TKRE3OVzc3Y5i+2g53dRf1TBvWQBTjeHjzUdhP4ny7bZKz1cdR7ga6dyZkxZSJKLjETaQ8dYeJPAhzS1nIRRXV9fi5cG50DZHSsaEdU8i9/KRhgTxY9BDyd0Eja0ruH+QwhO3jR6dcg3lRUDuilozqRe3ZiNMleT4vCNQpdOPENx6T5ef/M/sG+yBHIxq7PWArJ74jwsIr1ORkpnmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jRUQ02HihzWwIY2mU5cAfT5+/DxQcwXhemyD1sbcOK8=;
- b=JjFSV4YNvYooLSwKswWQhmrSGXJtVpN3e52EnOmIV7tuwVcCLUkKg33rWoGH/vAHQjsEGBCQhYVtuHS0wZb6mjJpoQY4CtMBXFyfTLee4q3BuS7adKgHVSTW5j4q9a/FarbtNgWH0f32A5l7zpqxRbJPI2di3yuR9D1xxjQ+OAo=
-Received: from DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) by
- DM8PR11MB5608.namprd11.prod.outlook.com (2603:10b6:8:35::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.22; Tue, 27 Apr 2021 02:32:16 +0000
-Received: from DM8PR11MB5640.namprd11.prod.outlook.com
- ([fe80::39f3:a8d1:d98e:c2db]) by DM8PR11MB5640.namprd11.prod.outlook.com
- ([fe80::39f3:a8d1:d98e:c2db%5]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
- 02:32:15 +0000
-From: "Rao, Lei" <lei.rao@intel.com>
-To: "dgilbert@redhat.com" <dgilbert@redhat.com>
-Subject: RE: [PATCH v6 09/10] Add the function of colo_bitmap_clear_dirty
-Thread-Topic: [PATCH v6 09/10] Add the function of colo_bitmap_clear_dirty
-Thread-Index: AQHXLPKwMLHFODNKkE+OXsAxdG/a9qq2zXtwgBDwzyA=
-Date: Tue, 27 Apr 2021 02:32:15 +0000
-Message-ID: <DM8PR11MB5640F523E220ECAB2A21DA41FD419@DM8PR11MB5640.namprd11.prod.outlook.com>
-References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
- <1617938456-315058-10-git-send-email-lei.rao@intel.com>
- <DM8PR11MB56405F571F0D4B2C77A71932FD4C9@DM8PR11MB5640.namprd11.prod.outlook.com>
-In-Reply-To: <DM8PR11MB56405F571F0D4B2C77A71932FD4C9@DM8PR11MB5640.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.55.46.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 14e2fa40-f2a5-431a-9cf8-08d90924ac12
-x-ms-traffictypediagnostic: DM8PR11MB5608:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM8PR11MB5608490827DCCF9329C0DACFFD419@DM8PR11MB5608.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2887;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OLi62YVE9mTxrOK1rR36FG0tg80q5S76ZqR67XrbOrLSE5l8cfQbDxdbMsnV4HILYtGJd5Phhs1JQ/FrHVlK3s1Sox2KXAYHtUQunvNUrDmeHz8jISJbKleLTcxZRdbUDxGL8XAOl4lMPB9zJW9FU7WbJgLyNMiNPNgtPTB6NkZkabSxYxnuQVWJIqhdprJaZBQFOMa0vQnFJYEIV2Iwd5O07g6Dw2R9aX/vyjmuTkwu2DMlnlIn6jV4fZQVM1WkYhYNO1+g2T6HoGyZiEo0s7LGt8ZZKgrtVJDgwO8H2kTIb5XXUTw0n2tFUQWP7/D0bC2ATNrGYx4e91EFjXjda9F9gBKacs8AQO05Cml++UWUaYCILb862czCP7op8f9wc7iru2cMyOjVzvEKl/WKSe/w1okOB4fJuqCrdKV69T5OMHSDAY1sBIFqONV1Nk29S5hPh0zVPgJIe3oywrRYM7FJdkvDRlWdnDuyyFyxqQw51tYz9UZR8bStaSz5DDcfZ/u5dvZ5Pv7MqHmZ2e301i/0WP0ZN1Y72KbW2228sfeaISyOP5wXbg4paMe4ILvP7FYWrzBqjZIZCKBzAnRsKwXbJi71HRtcgoqk2dnaiYOTiI3Nt8batDAL+0S361scnwYraSK57kucLZS5ZVdXrA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5640.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(346002)(396003)(366004)(376002)(136003)(86362001)(66476007)(186003)(53546011)(26005)(316002)(66946007)(2906002)(9686003)(6916009)(5660300002)(8676002)(76116006)(52536014)(64756008)(54906003)(55016002)(122000001)(6506007)(7696005)(71200400001)(38100700002)(8936002)(33656002)(478600001)(66446008)(83380400001)(4326008)(66556008)(14143004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?7AeJV5gpldUoabClDs8o/qvivXg6Fry/qaSkwhfYwX+GcuupspYJQ48bxiYJ?=
- =?us-ascii?Q?i9ID889VllVjEFQarnxxeNTSOorvTYzdeJIL+d4Ar4quFR8s5BWHYtnZr8Pc?=
- =?us-ascii?Q?Y84SmCH2QDVjtGKR/DPYdeVMKzbbR5okYv9KYvbQDi6Ve0hzx8Kj6I2fo4pF?=
- =?us-ascii?Q?GBDL27yFN9kneEogxwiTtpc/jG2DF+TeKcctHk+yT6zD58Rxwcc6Jvhe7cCD?=
- =?us-ascii?Q?cmDvnxb0UOa3s+YWG7cbBl5EHw9JnHJlZ45vtwTevGOtqGzKiLrBAptOhx0I?=
- =?us-ascii?Q?VIy1cxnripdXxJWeG6IFEn5EBl6/Xl28T+mEm534wfoBdJrQZNC2DZgZySte?=
- =?us-ascii?Q?iMZTcf8dZMRbqyFU3IdYv2qcqcT19YUlUeAtV3Ln7V540behkIa1/asmnSo+?=
- =?us-ascii?Q?gNskp3JHjvjPq+aTlsHRaBaV5rdutkMp/qS9fEqI69pCXhzht7A0NfrDczuX?=
- =?us-ascii?Q?PLhNDb1UjzUvvgNp7RyuP8KmEoezerIr+HOIlltJBGL0rV0kdDrR44P9uLsn?=
- =?us-ascii?Q?w4MnyBjlvDzfMWGdWJizIwvd3QF+GlR8ou0xGd3K+OxO6RxRjCMR4nqLqO40?=
- =?us-ascii?Q?I1YLDbk1NRY6buZebSRWx5fC7klJBetBGfPuevaIg7101fCvjIzCRZQgrOa2?=
- =?us-ascii?Q?bLmHq9nDUiKbaH562RdZXW6GeEZUlbLzkQEAgCbLFjGRVSa+pH1cMBI8vHSV?=
- =?us-ascii?Q?n5NisJajRTTdLeiR8qBiJOMJkSG8TVBRzx+iC3ThEo+647VGGtzcIXQvumC7?=
- =?us-ascii?Q?sgNdAaLRKksEWct7ewTtbycVG6Cb1ydjlG71BEbZjK8didwRUvrFd70wuXrx?=
- =?us-ascii?Q?hIHeHD5+pf9Wgs8ccnPqsSeW+Q83HQbrsHEhXZbVP6wTv6tGP8G02pgb0Gzb?=
- =?us-ascii?Q?Xzo7r/6Ywh1lkdWMPNkzWlurrFMS/rDkLXxDPiCg/2P6ifqrz+5mXJeDZkTR?=
- =?us-ascii?Q?i/G+u2dbtZa9I7zDD7m1N0pJxETCPmQtJTDfPr2YK52xcox0NF/gBHl3Wdyd?=
- =?us-ascii?Q?HJW0ZSZTKp5L/Lv5KtBggxTlxSVRvRde3Dv6i63aUjOs7cbt2igFQR340FE0?=
- =?us-ascii?Q?a8LSUImXjW+UXOW1xf8fYWXt9AU9kbJeXExF/+6f1G3j8TjYdC2pxrCfJHRI?=
- =?us-ascii?Q?etH4r8Gk6CFFDycvXqn97xJwjkXPjTBREoAdNAkwJHWYcgLsJPhxPN34eH6S?=
- =?us-ascii?Q?9AHuWmomfhfORrZy5poO/9ZlazFA4R6dsgQLhV1rwtpQDjtto8AFmmvnpEjl?=
- =?us-ascii?Q?A2vfEMN//QIEXIg9Hl6CDkmyJbi9Au18Ehdk1BZxhPOkvrE8uGsKpZ9wh/eP?=
- =?us-ascii?Q?HyU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lbEAF-0006Xd-Qq; Mon, 26 Apr 2021 23:13:35 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FTn035SMXz9sXG; Tue, 27 Apr 2021 13:13:23 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1619493203;
+ bh=5peQ19J60vlzK2k9uLtBP3jawIeGO2QXt151YbHYtRA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SLX25B11qCV5XTd8yvUB/oD0Bx+w7u68gmQYzdSGvvPbdCKzQaDRULYUVspXovrah
+ iXqb25gZ15dJdeIAKvldu8AULlmZ9vfdPyJGAiHe38H676NggT90T46qBPel8la7lQ
+ 1dZPgC5acwktrcB/cMQFh5LyvLWtcWed8iIAlT28=
+Date: Tue, 27 Apr 2021 12:11:56 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v4] target/ppc: code motion from translate_init.c.inc to
+ gdbstub.c
+Message-ID: <YIdy7LoJG37+jpKb@yekko.fritz.box>
+References: <20210426184706.48040-1-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5640.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14e2fa40-f2a5-431a-9cf8-08d90924ac12
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2021 02:32:15.9471 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oULEFDXGNAkW0nnFjDG2zomWCiM7msssr0iLMyq633HCfdrryKuBAIAserg0QGwOsezvUG5uVg1JFFEVDXajGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5608
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=lei.rao@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="44CpfYPn5j29IUvw"
+Content-Disposition: inline
+In-Reply-To: <20210426184706.48040-1-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -157,145 +58,635 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lukasstraub2@web.de" <lukasstraub2@web.de>,
- "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
- Chen" <chen.zhang@intel.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Dave
 
-I think this set of patches is beneficial to upstream. Please check these p=
-erformance data. If you have any other ideas, please let me know.
+--44CpfYPn5j29IUvw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
-Lei.
+On Mon, Apr 26, 2021 at 03:47:06PM -0300, Bruno Larsen (billionai) wrote:
+> All the code related to gdb has been moved from translate_init.c.inc
+> file to the gdbstub.c file, where it makes more sense.
+>=20
+> Version 4 fixes the omission of internal.h in gdbstub, mentioned in
+> <87sg3d2gf5.fsf@linux.ibm.com>, and the extra blank line.
+>=20
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> Suggested-by: Fabiano Rosas <farosas@linux.ibm.com>
 
------Original Message-----
-From: Rao, Lei=20
-Sent: Friday, April 16, 2021 3:57 PM
-To: dgilbert@redhat.com
-Cc: qemu-devel@nongnu.org; Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn=
-.fujitsu.com; jasowang@redhat.com; quintela@redhat.com; pbonzini@redhat.com=
-; lukasstraub2@web.de
-Subject: RE: [PATCH v6 09/10] Add the function of colo_bitmap_clear_dirty
+Applied to ppc-for-6.1, thanks.
 
-Hi, Dave
+> ---
+>  target/ppc/gdbstub.c            | 258 ++++++++++++++++++++++++++++++++
+>  target/ppc/internal.h           |   5 +
+>  target/ppc/translate_init.c.inc | 254 +------------------------------
+>  3 files changed, 264 insertions(+), 253 deletions(-)
+>=20
+> diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+> index c28319fb97..94a7273ee0 100644
+> --- a/target/ppc/gdbstub.c
+> +++ b/target/ppc/gdbstub.c
+> @@ -20,6 +20,8 @@
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "exec/gdbstub.h"
+> +#include "exec/helper-proto.h"
+> +#include "internal.h"
+> =20
+>  static int ppc_gdb_register_len_apple(int n)
+>  {
+> @@ -387,3 +389,259 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, c=
+onst char *xml_name)
+>      return NULL;
+>  }
+>  #endif
+> +
+> +static bool avr_need_swap(CPUPPCState *env)
+> +{
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +    return msr_le;
+> +#else
+> +    return !msr_le;
+> +#endif
+> +}
+> +
+> +#if !defined(CONFIG_USER_ONLY)
+> +static int gdb_find_spr_idx(CPUPPCState *env, int n)
+> +{
+> +    int i;
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(env->spr_cb); i++) {
+> +        ppc_spr_t *spr =3D &env->spr_cb[i];
+> +
+> +        if (spr->name && spr->gdb_id =3D=3D n) {
+> +            return i;
+> +        }
+> +    }
+> +    return -1;
+> +}
+> +
+> +static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
+> +{
+> +    int reg;
+> +    int len;
+> +
+> +    reg =3D gdb_find_spr_idx(env, n);
+> +    if (reg < 0) {
+> +        return 0;
+> +    }
+> +
+> +    len =3D TARGET_LONG_SIZE;
+> +    gdb_get_regl(buf, env->spr[reg]);
+> +    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
+> +    return len;
+> +}
+> +
+> +static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> +{
+> +    int reg;
+> +    int len;
+> +
+> +    reg =3D gdb_find_spr_idx(env, n);
+> +    if (reg < 0) {
+> +        return 0;
+> +    }
+> +
+> +    len =3D TARGET_LONG_SIZE;
+> +    ppc_maybe_bswap_register(env, mem_buf, len);
+> +    env->spr[reg] =3D ldn_p(mem_buf, len);
+> +
+> +    return len;
+> +}
+> +#endif
+> +
+> +static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
+> +{
+> +    uint8_t *mem_buf;
+> +    if (n < 32) {
+> +        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
+> +        mem_buf =3D gdb_get_reg_ptr(buf, 8);
+> +        ppc_maybe_bswap_register(env, mem_buf, 8);
+> +        return 8;
+> +    }
+> +    if (n =3D=3D 32) {
+> +        gdb_get_reg32(buf, env->fpscr);
+> +        mem_buf =3D gdb_get_reg_ptr(buf, 4);
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        return 4;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> +{
+> +    if (n < 32) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 8);
+> +        *cpu_fpr_ptr(env, n) =3D ldq_p(mem_buf);
+> +        return 8;
+> +    }
+> +    if (n =3D=3D 32) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
+> +        return 4;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
+> +{
+> +    uint8_t *mem_buf;
+> +
+> +    if (n < 32) {
+> +        ppc_avr_t *avr =3D cpu_avr_ptr(env, n);
+> +        if (!avr_need_swap(env)) {
+> +            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
+> +        } else {
+> +            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
+> +        }
+> +        mem_buf =3D gdb_get_reg_ptr(buf, 16);
+> +        ppc_maybe_bswap_register(env, mem_buf, 8);
+> +        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+> +        return 16;
+> +    }
+> +    if (n =3D=3D 32) {
+> +        gdb_get_reg32(buf, helper_mfvscr(env));
+> +        mem_buf =3D gdb_get_reg_ptr(buf, 4);
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        return 4;
+> +    }
+> +    if (n =3D=3D 33) {
+> +        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
+> +        mem_buf =3D gdb_get_reg_ptr(buf, 4);
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        return 4;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> +{
+> +    if (n < 32) {
+> +        ppc_avr_t *avr =3D cpu_avr_ptr(env, n);
+> +        ppc_maybe_bswap_register(env, mem_buf, 8);
+> +        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+> +        if (!avr_need_swap(env)) {
+> +            avr->u64[0] =3D ldq_p(mem_buf);
+> +            avr->u64[1] =3D ldq_p(mem_buf + 8);
+> +        } else {
+> +            avr->u64[1] =3D ldq_p(mem_buf);
+> +            avr->u64[0] =3D ldq_p(mem_buf + 8);
+> +        }
+> +        return 16;
+> +    }
+> +    if (n =3D=3D 32) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        helper_mtvscr(env, ldl_p(mem_buf));
+> +        return 4;
+> +    }
+> +    if (n =3D=3D 33) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        env->spr[SPR_VRSAVE] =3D (target_ulong)ldl_p(mem_buf);
+> +        return 4;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
+> +{
+> +    if (n < 32) {
+> +#if defined(TARGET_PPC64)
+> +        gdb_get_reg32(buf, env->gpr[n] >> 32);
+> +        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+> +#else
+> +        gdb_get_reg32(buf, env->gprh[n]);
+> +#endif
+> +        return 4;
+> +    }
+> +    if (n =3D=3D 32) {
+> +        gdb_get_reg64(buf, env->spe_acc);
+> +        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+> +        return 8;
+> +    }
+> +    if (n =3D=3D 33) {
+> +        gdb_get_reg32(buf, env->spe_fscr);
+> +        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+> +        return 4;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> +{
+> +    if (n < 32) {
+> +#if defined(TARGET_PPC64)
+> +        target_ulong lo =3D (uint32_t)env->gpr[n];
+> +        target_ulong hi;
+> +
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +
+> +        hi =3D (target_ulong)ldl_p(mem_buf) << 32;
+> +        env->gpr[n] =3D lo | hi;
+> +#else
+> +        env->gprh[n] =3D ldl_p(mem_buf);
+> +#endif
+> +        return 4;
+> +    }
+> +    if (n =3D=3D 32) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 8);
+> +        env->spe_acc =3D ldq_p(mem_buf);
+> +        return 8;
+> +    }
+> +    if (n =3D=3D 33) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 4);
+> +        env->spe_fscr =3D ldl_p(mem_buf);
+> +        return 4;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
+> +{
+> +    if (n < 32) {
+> +        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
+> +        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+> +        return 8;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> +{
+> +    if (n < 32) {
+> +        ppc_maybe_bswap_register(env, mem_buf, 8);
+> +        *cpu_vsrl_ptr(env, n) =3D ldq_p(mem_buf);
+> +        return 8;
+> +    }
+> +    return 0;
+> +}
+> +
+> +gchar *ppc_gdb_arch_name(CPUState *cs)
+> +{
+> +#if defined(TARGET_PPC64)
+> +    return g_strdup("powerpc:common64");
+> +#else
+> +    return g_strdup("powerpc:common");
+> +#endif
+> +}
+> +
+> +void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *pcc)
+> +{
+> +    if (pcc->insns_flags & PPC_FLOAT) {
+> +        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_re=
+g,
+> +                                 33, "power-fpu.xml", 0);
+> +    }
+> +    if (pcc->insns_flags & PPC_ALTIVEC) {
+> +        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
+> +                                 34, "power-altivec.xml", 0);
+> +    }
+> +    if (pcc->insns_flags & PPC_SPE) {
+> +        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
+> +                                 34, "power-spe.xml", 0);
+> +    }
+> +    if (pcc->insns_flags2 & PPC2_VSX) {
+> +        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
+> +                                 32, "power-vsx.xml", 0);
+> +    }
+> +#ifndef CONFIG_USER_ONLY
+> +    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
+> +                             pcc->gdb_num_sprs, "power-spr.xml", 0);
+> +#endif
+> +}
+> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+> index d547448065..c401658e8d 100644
+> --- a/target/ppc/internal.h
+> +++ b/target/ppc/internal.h
+> @@ -215,4 +215,9 @@ void helper_compute_fprf_float128(CPUPPCState *env, f=
+loat128 arg);
+>  void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>                                   MMUAccessType access_type,
+>                                   int mmu_idx, uintptr_t retaddr);
+> +
+> +/* gdbstub.c */
+> +void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
+> +gchar *ppc_gdb_arch_name(CPUState *cs);
+> +
+>  #endif /* PPC_INTERNAL_H */
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
+c.inc
+> index c03a7c4f52..80fef0b90d 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -9895,230 +9895,6 @@ static void dump_ppc_insns(CPUPPCState *env)
+>      }
+>  }
+>  #endif
+> -
+> -static bool avr_need_swap(CPUPPCState *env)
+> -{
+> -#ifdef HOST_WORDS_BIGENDIAN
+> -    return msr_le;
+> -#else
+> -    return !msr_le;
+> -#endif
+> -}
+> -
+> -#if !defined(CONFIG_USER_ONLY)
+> -static int gdb_find_spr_idx(CPUPPCState *env, int n)
+> -{
+> -    int i;
+> -
+> -    for (i =3D 0; i < ARRAY_SIZE(env->spr_cb); i++) {
+> -        ppc_spr_t *spr =3D &env->spr_cb[i];
+> -
+> -        if (spr->name && spr->gdb_id =3D=3D n) {
+> -            return i;
+> -        }
+> -    }
+> -    return -1;
+> -}
+> -
+> -static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
+> -{
+> -    int reg;
+> -    int len;
+> -
+> -    reg =3D gdb_find_spr_idx(env, n);
+> -    if (reg < 0) {
+> -        return 0;
+> -    }
+> -
+> -    len =3D TARGET_LONG_SIZE;
+> -    gdb_get_regl(buf, env->spr[reg]);
+> -    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
+> -    return len;
+> -}
+> -
+> -static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> -{
+> -    int reg;
+> -    int len;
+> -
+> -    reg =3D gdb_find_spr_idx(env, n);
+> -    if (reg < 0) {
+> -        return 0;
+> -    }
+> -
+> -    len =3D TARGET_LONG_SIZE;
+> -    ppc_maybe_bswap_register(env, mem_buf, len);
+> -    env->spr[reg] =3D ldn_p(mem_buf, len);
+> -
+> -    return len;
+> -}
+> -#endif
+> -
+> -static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
+> -{
+> -    uint8_t *mem_buf;
+> -    if (n < 32) {
+> -        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
+> -        mem_buf =3D gdb_get_reg_ptr(buf, 8);
+> -        ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        return 8;
+> -    }
+> -    if (n =3D=3D 32) {
+> -        gdb_get_reg32(buf, env->fpscr);
+> -        mem_buf =3D gdb_get_reg_ptr(buf, 4);
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        return 4;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> -{
+> -    if (n < 32) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        *cpu_fpr_ptr(env, n) =3D ldq_p(mem_buf);
+> -        return 8;
+> -    }
+> -    if (n =3D=3D 32) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        helper_store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
+> -        return 4;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
+> -{
+> -    uint8_t *mem_buf;
+> -
+> -    if (n < 32) {
+> -        ppc_avr_t *avr =3D cpu_avr_ptr(env, n);
+> -        if (!avr_need_swap(env)) {
+> -            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
+> -        } else {
+> -            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
+> -        }
+> -        mem_buf =3D gdb_get_reg_ptr(buf, 16);
+> -        ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+> -        return 16;
+> -    }
+> -    if (n =3D=3D 32) {
+> -        gdb_get_reg32(buf, helper_mfvscr(env));
+> -        mem_buf =3D gdb_get_reg_ptr(buf, 4);
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        return 4;
+> -    }
+> -    if (n =3D=3D 33) {
+> -        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
+> -        mem_buf =3D gdb_get_reg_ptr(buf, 4);
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        return 4;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> -{
+> -    if (n < 32) {
+> -        ppc_avr_t *avr =3D cpu_avr_ptr(env, n);
+> -        ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+> -        if (!avr_need_swap(env)) {
+> -            avr->u64[0] =3D ldq_p(mem_buf);
+> -            avr->u64[1] =3D ldq_p(mem_buf + 8);
+> -        } else {
+> -            avr->u64[1] =3D ldq_p(mem_buf);
+> -            avr->u64[0] =3D ldq_p(mem_buf + 8);
+> -        }
+> -        return 16;
+> -    }
+> -    if (n =3D=3D 32) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        helper_mtvscr(env, ldl_p(mem_buf));
+> -        return 4;
+> -    }
+> -    if (n =3D=3D 33) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        env->spr[SPR_VRSAVE] =3D (target_ulong)ldl_p(mem_buf);
+> -        return 4;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
+> -{
+> -    if (n < 32) {
+> -#if defined(TARGET_PPC64)
+> -        gdb_get_reg32(buf, env->gpr[n] >> 32);
+> -        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+> -#else
+> -        gdb_get_reg32(buf, env->gprh[n]);
+> -#endif
+> -        return 4;
+> -    }
+> -    if (n =3D=3D 32) {
+> -        gdb_get_reg64(buf, env->spe_acc);
+> -        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+> -        return 8;
+> -    }
+> -    if (n =3D=3D 33) {
+> -        gdb_get_reg32(buf, env->spe_fscr);
+> -        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+> -        return 4;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> -{
+> -    if (n < 32) {
+> -#if defined(TARGET_PPC64)
+> -        target_ulong lo =3D (uint32_t)env->gpr[n];
+> -        target_ulong hi;
+> -
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -
+> -        hi =3D (target_ulong)ldl_p(mem_buf) << 32;
+> -        env->gpr[n] =3D lo | hi;
+> -#else
+> -        env->gprh[n] =3D ldl_p(mem_buf);
+> -#endif
+> -        return 4;
+> -    }
+> -    if (n =3D=3D 32) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        env->spe_acc =3D ldq_p(mem_buf);
+> -        return 8;
+> -    }
+> -    if (n =3D=3D 33) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 4);
+> -        env->spe_fscr =3D ldl_p(mem_buf);
+> -        return 4;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
+> -{
+> -    if (n < 32) {
+> -        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
+> -        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+> -        return 8;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+> -{
+> -    if (n < 32) {
+> -        ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        *cpu_vsrl_ptr(env, n) =3D ldq_p(mem_buf);
+> -        return 8;
+> -    }
+> -    return 0;
+> -}
+> -
+>  static int ppc_fixup_cpu(PowerPCCPU *cpu)
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+> @@ -10174,26 +9950,7 @@ static void ppc_cpu_realize(DeviceState *dev, Err=
+or **errp)
+>      }
+>      init_ppc_proc(cpu);
+> =20
+> -    if (pcc->insns_flags & PPC_FLOAT) {
+> -        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_re=
+g,
+> -                                 33, "power-fpu.xml", 0);
+> -    }
+> -    if (pcc->insns_flags & PPC_ALTIVEC) {
+> -        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
+> -                                 34, "power-altivec.xml", 0);
+> -    }
+> -    if (pcc->insns_flags & PPC_SPE) {
+> -        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
+> -                                 34, "power-spe.xml", 0);
+> -    }
+> -    if (pcc->insns_flags2 & PPC2_VSX) {
+> -        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
+> -                                 32, "power-vsx.xml", 0);
+> -    }
+> -#ifndef CONFIG_USER_ONLY
+> -    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
+> -                             pcc->gdb_num_sprs, "power-spr.xml", 0);
+> -#endif
+> +    ppc_gdb_init(cs, pcc);
+>      qemu_init_vcpu(cs);
+> =20
+>      pcc->parent_realize(dev, errp);
+> @@ -10835,15 +10592,6 @@ static bool ppc_pvr_match_default(PowerPCCPUClas=
+s *pcc, uint32_t pvr)
+>      return pcc->pvr =3D=3D pvr;
+>  }
+> =20
+> -static gchar *ppc_gdb_arch_name(CPUState *cs)
+> -{
+> -#if defined(TARGET_PPC64)
+> -    return g_strdup("powerpc:common64");
+> -#else
+> -    return g_strdup("powerpc:common");
+> -#endif
+> -}
+> -
+>  static void ppc_disas_set_info(CPUState *cs, disassemble_info *info)
+>  {
+>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
 
-The performance data has added to the commit messages.=20
-Do you have any other suggestions?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Thanks
-Lei.
+--44CpfYPn5j29IUvw
+Content-Type: application/pgp-signature; name="signature.asc"
 
------Original Message-----
-From: Rao, Lei <lei.rao@intel.com>
-Sent: Friday, April 9, 2021 11:21 AM
-To: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com; jasowang@=
-redhat.com; quintela@redhat.com; dgilbert@redhat.com; pbonzini@redhat.com; =
-lukasstraub2@web.de
-Cc: qemu-devel@nongnu.org; Rao, Lei <lei.rao@intel.com>
-Subject: [PATCH v6 09/10] Add the function of colo_bitmap_clear_dirty
+-----BEGIN PGP SIGNATURE-----
 
-From: "Rao, Lei" <lei.rao@intel.com>
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCHcuoACgkQbDjKyiDZ
+s5LBpg/9G5z/OPNfZHKRQ6OQmLeSjBQgs98y+5vRKqfe0C7OZX0T1GZ0xRUFNjrt
+eXd2XPBoSsECLPGxfJMilISKQjXGRlKCU8z9+hfd/7gUTgZHRSHx4YO0bUWfG6gh
+WMEvzffieS0g626Nd52QX/AK0VqIlwN6ECYTU3msAzMm2+hW34VO4GQWVKvODRwO
+iV1DF5ahvSzXUfEKRf+vg5RqxKEhhaMakZoULLIxLrWjcnNLuO0SXr91L2Pgc+Uj
+hs+0iruwn/N2EIQnCVlZ8+vYl0yJDwNIsXd72F3zws8etLBjtvg6haM79IgMZ5OC
+pSvhLdfsqbpg+h9j4GPCmrExK0wHTlVwTLUVddKJ5p3HPYTVpTgnKhYz3g0X4c69
+AFL80LEqKRts+PSnq9u4n1BIMEExpE3+2N+Y8LHoy0djTyK4uG6qrL1Sy4FMcxFl
+i4DNMjwzql1HFLq6BQ8O4y6lNlFFoVotWDGBvuo/xuxceVMwZrn+tw6flXDpqWs+
+f0DU73pT76Xj0izVdreg+pP3hFJSGKXcysPwsNZc8yfqZK4ukhPeZ5fHD6g6vjTk
+lw6MM1DxO7T6hCmpEXo/fRuZFfK2m0/LQZZUAPBALT7n3SrB2mgdmOD9RZFnVg1L
+oqkgMjISn+kFojz6I0nt0UEk38MlnFDsjI2VIQ4fHh7EZIloWTs=
+=Thg5
+-----END PGP SIGNATURE-----
 
-When we use continuous dirty memory copy for flushing ram cache on secondar=
-y VM, we can also clean up the bitmap of contiguous dirty page memory. This=
- also can reduce the VM stop time during checkpoint.
-
-The performance test for COLO as follow:
-
-Server configuraton:
-CPU :Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz MEM :251G(type:DDR4 Speed:266=
-6 MT/s) SSD :Intel 730 and DC S35x0/3610/3700 Series SSDs
-
-dirty pages:3189376  migration_bitmap_clear_dirty time consuming(ns):105194=
-000 dirty pages:3189784  migration_bitmap_clear_dirty time consuming(ns):10=
-5297000 dirty pages:3190501  migration_bitmap_clear_dirty time consuming(ns=
-):105410000 dirty pages:3188734  migration_bitmap_clear_dirty time consumin=
-g(ns):105138000 dirty pages:3189464  migration_bitmap_clear_dirty time cons=
-uming(ns):111736000 dirty pages:3188558  migration_bitmap_clear_dirty time =
-consuming(ns):105079000 dirty pages:3239489  migration_bitmap_clear_dirty t=
-ime consuming(ns):106761000
-
-dirty pages:3190240  colo_bitmap_clear_dirty time consuming(ns):8369000 dir=
-ty pages:3189293  colo_bitmap_clear_dirty time consuming(ns):8388000 dirty =
-pages:3189171  colo_bitmap_clear_dirty time consuming(ns):8641000 dirty pag=
-es:3189099  colo_bitmap_clear_dirty time consuming(ns):8280000 dirty pages:=
-3189974  colo_bitmap_clear_dirty time consuming(ns):8352000 dirty pages:318=
-9471  colo_bitmap_clear_dirty time consuming(ns):8348000 dirty pages:318968=
-1  colo_bitmap_clear_dirty time consuming(ns):8426000
-
-it can be seen from the data that colo_bitmap_clear_dirty is more efficient=
-.
-
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
----
- migration/ram.c | 36 +++++++++++++++++++++++++++++++-----
- 1 file changed, 31 insertions(+), 5 deletions(-)
-
-diff --git a/migration/ram.c b/migration/ram.c index 8661d82..11275cd 10064=
-4
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -857,6 +857,36 @@ unsigned long colo_bitmap_find_dirty(RAMState *rs, RAM=
-Block *rb,
-     return first;
- }
-=20
-+/**
-+ * colo_bitmap_clear_dirty:when we flush ram cache to ram, we will use
-+ * continuous memory copy, so we can also clean up the bitmap of=20
-+contiguous
-+ * dirty memory.
-+ */
-+static inline bool colo_bitmap_clear_dirty(RAMState *rs,
-+                                           RAMBlock *rb,
-+                                           unsigned long start,
-+                                           unsigned long num) {
-+    bool ret;
-+    unsigned long i =3D 0;
-+
-+    /*
-+     * Since flush ram cache to ram can only happen on Secondary VM.
-+     * and the clear bitmap always is NULL on destination side.
-+     * Therefore, there is unnecessary to judge whether the
-+     * clear_bitmap needs clear.
-+     */
-+    QEMU_LOCK_GUARD(&rs->bitmap_mutex);
-+    for (i =3D 0; i < num; i++) {
-+        ret =3D test_and_clear_bit(start + i, rb->bmap);
-+        if (ret) {
-+            rs->migration_dirty_pages--;
-+        }
-+    }
-+
-+    return ret;
-+}
-+
- static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-                                                 RAMBlock *rb,
-                                                 unsigned long page) @@ -37=
-74,11 +3804,7 @@ void colo_flush_ram_cache(void)
-                 num =3D 0;
-                 block =3D QLIST_NEXT_RCU(block, next);
-             } else {
--                unsigned long i =3D 0;
--
--                for (i =3D 0; i < num; i++) {
--                    migration_bitmap_clear_dirty(ram_state, block, offset =
-+ i);
--                }
-+                colo_bitmap_clear_dirty(ram_state, block, offset, num);
-                 dst_host =3D block->host
-                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
-                 src_host =3D block->colo_cache
---
-1.8.3.1
-
+--44CpfYPn5j29IUvw--
 
