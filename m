@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A56236C4BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:14:32 +0200 (CEST)
-Received: from localhost ([::1]:32838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA13436C4E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:17:31 +0200 (CEST)
+Received: from localhost ([::1]:37182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbLfj-0001H1-D2
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:14:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48392)
+	id 1lbLib-00037d-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:17:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lbLd7-00082K-IA; Tue, 27 Apr 2021 07:11:49 -0400
+ id 1lbLdA-00088U-Bz; Tue, 27 Apr 2021 07:11:52 -0400
 Received: from mail-eopbgr70115.outbound.protection.outlook.com
  ([40.107.7.115]:25817 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lbLd5-00069e-As; Tue, 27 Apr 2021 07:11:49 -0400
+ id 1lbLd8-00069e-DP; Tue, 27 Apr 2021 07:11:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F1ebJlbt4PiJOcEms6DUji5oC2qTp2KukTWnGZUeyDtqFx+y2FnJ677sMKmrUltBoMVjXeQIne+0X5ogjozXz+bCa9Cm48ZP38Jbj8NNtLOVxrvK1ZX6MC/tbnjQfXuULdyGtZoHx04xa2nVvmxaqujNR+NZj67BNGCr69+tHCljRwmL44lhzJNsTFtNdZX6TnMm7gCn/QsjmmcZH3fYfAmOMSjShPT8kQseSz46Q9ltchtv+lCu7QlRYXNMoSogL7b3Q1CnSz01usBVsXT4PLY9HP1adntFWo3e+rruP35vsn8OR6hIiXfb8GOUm0Yr7NbjWL5RHQbPbk4rcDBNAQ==
+ b=jxKfrjuglAk5rW0/4aFtP0skG0MpBMgkJcM1RjbE6PgpMcnQiNq8qUXwWlakKQYlQmsZ1/hMoIn2MtI/gRqW0Iyd10eGFjBmg+mwqy7Uj+kAm8oXrm1yLY4dyl7yHbVp0hWpVNJIWHJZbn8vrIjsmJnSvJEzmW/vhS8Bh/HlRWZCODvqgMOEFh/rY9lM9WqVTrEwpyRjFu8nyJ1Ai/B4HmaLKocADcAqFHCCF+J4TAk/jABRC3jksDgxr7aPp5VeE5Y16X8FbfHGi7Kq6G5YcFrbc7OqXJ9iy/3fj/VJ6//gdwdF1dH9solNoMm9CCE88i8/hj+iOQz7VAyl44TpQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2r6wGgT2GGzjlg/0WEZEX3JzWJ4ee5n/GQZp5idDGc0=;
- b=UXk5OcMEae7ucWc4fNuuf+aaoTtilhmrru8YmISQCO2KusJGO5i2dUPzib/ZFsJukLo/Fx4CpFtR+DIDdCs4QQhGR8hrnb4yyfUcaSpE8wQWoe6tYH4owSu5O6POteHPpztGWeq59expL5rid73vWYS6iU9bHChOPEC5F/r95QGVzhzr+SxqjLDhJvL6MHhCTJLJkcGWl4Yl/FioAcavTLSUvbNqFQrcderKamfGjQn6scyC7l3SSqyvPohQyyyMQX2QQhSKlV+XW4KHnFdMt/XNyB9yE+6OOCp4798fvTqnV81FmHrj7qsV3dHylGnBhlB1Gn4mi3+eyl54LyNJJA==
+ bh=jJRZlkZMAJ/EVPk7p71MxFPSZJ/YyKqyZCTNX0VNKlU=;
+ b=UgdWqUSAEu4gxSQIfEhJOJlqXP1CQJ5jJnn9hw+XTx3EGUPaHPBSdpvew3nWZbnIksT37kud20vyWDoEDcEKfBHkBZdBjLlYuk6B3B+vyhCgAToS1uO+fUuGMKBaQZFP69ZgjRrekS4LAXSUEfszAF76Dy4JkyIzJjvax1OzuGriqPKRbJphk+gfucW7H/WbfYrkyv1Pjof6xs8Qc4DQg/wYFzxQGQn1nwx6RZuZ8W08WJjJ/iV/jUOPffagoYZMdGfVUsaFpIo2+/iSeJt6BqVAogo9QAtxCpg+Dp5EzHzDnPsyHmXTN4KK6NohFfOs/WUFT55OMgq0x9qjbbITsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2r6wGgT2GGzjlg/0WEZEX3JzWJ4ee5n/GQZp5idDGc0=;
- b=R3kBIu+b1oylZIy91NhLnDLnHy6R8ezeTtzAs3A1gLRySSPCnhn4wLakC+Bh926hTaO5gYCajfQyNYTfh2L0rNMyqXAwg42OHDnYWUMkc7ePVBB3NeNsHZvkre2QusxOas3NKcwzEdOJPquvFtCKIQnrnGmLghv2/Xt5q/XFIK8=
+ bh=jJRZlkZMAJ/EVPk7p71MxFPSZJ/YyKqyZCTNX0VNKlU=;
+ b=L0PhhDRqJ01RLDXvrtO9Ry0mOPZuTpLxjaO9oZ82HSU6FfBWIwgODOGeJPc0sgzUXXtRrTFr4RiB569L5lspaBlQnKL80NgNnhsC5mxvMPhkkdWZ2ZFUfszNbVTcUXtwy1Ba3nC4kOZYQh6YTcpAxeHsm/UbG0HxcZu8RPuu4pE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3863.eurprd08.prod.outlook.com (2603:10a6:20b:8b::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20; Tue, 27 Apr
- 2021 11:11:41 +0000
+ 2021 11:11:42 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
- 11:11:41 +0000
+ 11:11:42 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, jsnow@redhat.com, vsementsov@virtuozzo.com,
  eblake@redhat.com, pkrempa@redhat.com, nshirokovskiy@virtuozzo.com,
  den@openvz.org
-Subject: [PATCH 1/2] qapi: block-dirty-bitmap-merge: support allocation maps
-Date: Tue, 27 Apr 2021 14:11:25 +0300
-Message-Id: <20210427111126.84307-2-vsementsov@virtuozzo.com>
+Subject: [PATCH 2/2] iotests: add allocation-map-to-bitmap
+Date: Tue, 27 Apr 2021 14:11:26 +0300
+Message-Id: <20210427111126.84307-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210427111126.84307-1-vsementsov@virtuozzo.com>
 References: <20210427111126.84307-1-vsementsov@virtuozzo.com>
@@ -67,52 +67,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.222) by
  HE1PR0402CA0038.eurprd04.prod.outlook.com (2603:10a6:7:7c::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4065.20 via Frontend Transport; Tue, 27 Apr 2021 11:11:40 +0000
+ 15.20.4065.20 via Frontend Transport; Tue, 27 Apr 2021 11:11:41 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7620dce0-9872-41c7-61c4-08d9096d3bcf
+X-MS-Office365-Filtering-Correlation-Id: d72de22f-de57-4044-8a0e-08d9096d3c9d
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3863:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38634412B6BFB5A38BEBAF3FC1419@AM6PR08MB3863.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:337;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB38634AEDF708C14EA0E80225C1419@AM6PR08MB3863.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D5a/iqVeA8GkbNB5bg5LX0P+JEiMeIp3yqpLeMv/EV+YCPZF2F2Iay1+PxO05LUn5HnSYI5bc+vO4PboTYb+5IquaZMunpZNnRJAvkIDYjCoYvjD5wy/LmUEeLP9F/3RzJwWBzxiytI8fCRHwLnzh84QV6PaTZHDxPcUVlbUwKf7//jsYPEfgVfP5L7EPKMkXzoUARDsCjq50lF4e2MFlToIIu+pRyN6JoYrsLtwidWmximU1gFZpQ5xzC/ENBvprzSmKCVqIt0+JGIcdtaHPbVdahuqrwBZh3kTl15A0+sYAjAT2z+CAIkdYqvrO2zgpPxtMWTD+TID6xRpowQYpzq7n2oaZ7IVcciSkKu9RcIvVtfFdM9x1ciRmHPzpkwleKVZOUbKfk9Djzw5JzpGhUVea5O2LIGfB7GPD+jI8QXBXiApCyfTGoJQndg4mmGcE6HaJPdIu77ZNd1eSCzN2NIsMPOgYl1ot0lV7jxgsSLy3G8TO7BfzUPHlLgA2bJjItAofPllaNjwXa2Pd0MmD4PWl41cW923lhM1onTQ4VdeJqk39uZFwqYjhVMXMaeN/j09vv6mk7VMMSPZJz86EfeOGoln5n15cYWUwKUzuUqNd8ixaatyKnMPFhIqo3TsWno+wy1HyTZuzoOiz6E1+dyLDmAh7MVKJ4jcyB6V86tzagfXr+Sf8wvlYsvaEo5C6F1sn6DekWokXodhToTN3d2p4vP8jz9L+b7R2kuMvow=
+X-Microsoft-Antispam-Message-Info: U9FHN4Hr3AeiQfBfZ8Z/0ebeSXPm8TQNWh920dgS+eEOwcpHFMdxMDpSEhSnSW5eTI2sPQMWYHl1En/DaiJf8TkET4KTRK7bqr771lhR14BXr0lueHVpf//bwGYURnHdqGddXXFCCCCGqNoJHOvh312OuI8d7araHqggU4YHgYANU80ki/ilozVOKsYQ3pFaRjTwI+zMS9N6NySDFqfC5ahLBPhDZmHYq/Fh1z+Y1Zh8RCq/nIOYhpn9M5kSWgKSDflg3MKROLnXWtxbvprhKZzCHoUBU5B/Hbk0YOkp37F4nm0wTV4kQXTmJlP0fMoT43538he0apA17NHA4I0UWqyib5+qCmSQBn8moPOeLd18AFNe5eA1b9Lu71uH1cA7Z9OjJc+eT6lOxzuWh6Q/zNGPb4dbyEv2jTiy4Ue+Kr7H29HvvEwxysQUr01rX3z+1VV0fihKy6W6GEgjMPNAKUe/m/2Cgn903GtbbDi2X32+bsGNQMK8jV+6y3pHK313Us4vr7fRBCEGRYU2xIEJTM1cKh/ETUtNlnQTnZtyj3sbf1q/JGQs2Mw0r4VsZfV4IVFDEKjicsbn2viB+nRRBIGE/qpySJtKAnBX+OwkS7leRcLr0hKnXhjWUkNAEKo921dILSJYuIPoVFa0Wr/qZjJ+YNzV7cfPHhrAgiweupcO9k3uom7Ysqchj3Fdxlj8cbWdsBahn+k2eeCc4YG1OjYNFKJT4a2Y4kOdFwhLpBZxDFKxsnH57gb6Dq35cn1GlGrC3YJ2VlajBrGGeFGP/DKPYO6c72+sPlDu2KfnIZA=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39840400004)(346002)(136003)(376002)(38100700002)(38350700002)(4326008)(66556008)(1076003)(6506007)(66476007)(36756003)(5660300002)(6916009)(478600001)(6666004)(107886003)(6486002)(52116002)(8676002)(66946007)(86362001)(8936002)(16526019)(186003)(26005)(956004)(2616005)(2906002)(83380400001)(6512007)(316002)(69590400013)(14143004);
+ SFS:(4636009)(366004)(396003)(39840400004)(346002)(136003)(376002)(38100700002)(38350700002)(4326008)(66556008)(1076003)(6506007)(66476007)(36756003)(5660300002)(6916009)(478600001)(6666004)(107886003)(6486002)(52116002)(8676002)(66946007)(86362001)(8936002)(16526019)(186003)(26005)(956004)(2616005)(2906002)(83380400001)(6512007)(316002)(69590400013)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mirQLvjCoRNc46NYA945xdjjEx9A/GQKPnfr1QaJvYeao+xI5FvshVQPeoXQ?=
- =?us-ascii?Q?O1nco5/0D+D09Oz66sCc0JjQTGDiVIgX0xejZlc/yR15Ii5e2iLR9+a1zncG?=
- =?us-ascii?Q?VENcd4ELb7tIdER9vp/6CP6uYvhHeQINu1ujM8evfz9zxRqTEKzGAVV6sZyX?=
- =?us-ascii?Q?b+Bri+zCzTwQkS3l9EQO2yuWoP2Cp6PeaJNhBeqQ8AaY7Q1fi5d9WZqQ+lNZ?=
- =?us-ascii?Q?/h1PeoOvI4tyjVrBC5zZ3A6OGy1QxjzWpsE8pgKarj1qIGWr49dqrgCxWiMO?=
- =?us-ascii?Q?8WvNlZ6hTF7MXtzf8GWOq2i6cFmMz6fq3vJHLx23eN4JcU3CUPNGRFofuFz4?=
- =?us-ascii?Q?66JSRznV/jz+BZyW/U7gmn/Sm+lKYULR9SBjdHeBX4bAt3QmaI7JqKQ/4DGm?=
- =?us-ascii?Q?OSv/H8I1K7lcI9xLj2JrIJ1OmLvaqZKn5DoiHmKj1/5W6o/UZXLyyLA59Pu2?=
- =?us-ascii?Q?VBaiLCEsnRwB1xCXctiG3pJDcDdqON2zgJLOr3i93JSvCBuRTYZwIPvlVrAK?=
- =?us-ascii?Q?zDdkgVqS9okDh9FV3hOBtH9HvYZ/eJhTdaj5vQ1/RQQyWUiCGgJB1SGGs9KU?=
- =?us-ascii?Q?+y/tnRxTgt2G5gXEfCILAKUgm19AmqFVqYfYcvMGXRASgGidQQVZYVgsuZ4J?=
- =?us-ascii?Q?JKEAwjK9ZH2Omu5aniyyhfilZCIK0aASCtvifgoBVaAuLUD6c4CnRVmQ8KRU?=
- =?us-ascii?Q?aJq/QpY8zDjmeDTqA+SW/Nhrw/gBFnhGxeaT1fFNec3dIlC4kCx8zVa2EYic?=
- =?us-ascii?Q?BoJZtn5WFidBqD3pbE3JCUmdXFw66xOegP+nbps8uMywhqp3lRjXSvmdFhcL?=
- =?us-ascii?Q?yfPwlPG2dzYHv+idUzLEF08xKgpWr0t6xDf3xQQLtuJKMVDJB8NKLoapvq+c?=
- =?us-ascii?Q?7ZFZux4/axLrqeeNzcvEA270rRTAc1/LeMZHv2OFyN6W2qEwxVykhdO9ZLlV?=
- =?us-ascii?Q?9uacducsfle8vjZLRT/Az9rO76Bl7see/7/3RrETQVIIE68Tl67zbNqBrq0u?=
- =?us-ascii?Q?KURMG+0hd4BN5OiOS8cuhp6V6+Nau5ad0esxdUZ5iZL8fr91BmbPLpxCPoZG?=
- =?us-ascii?Q?0LsdLERR0y8Uw/7BDBR84RCgbnOPVI48+2+Y7L+7vxapgNhCEQaL8W76A+C0?=
- =?us-ascii?Q?S8AUEnY13Vn+G4uOVOvoVKyTFSg5W9l16Fnqu3+C7vEOTe5B47yXDPjApKC3?=
- =?us-ascii?Q?Fjvz750VV7hKt8/zXL2xU9THv16GrMGO+fpIZgtBnmqsxbZeZ1sJ0BmmMz65?=
- =?us-ascii?Q?FvYZPZidv80txdGS2Rol8bxi+9eRIMPJgODi5ARqDUwjkb3HnMjVSmaDvSyK?=
- =?us-ascii?Q?zY3U0MKgRG/yKPehZHO0Tn2I?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?oeTHNtb6zQVaNRvlS8KyzqmDBY3ETVsZ5taOR7Q7zBsJfqF0R0/YFJTmKc6d?=
+ =?us-ascii?Q?O0yaJsHnnfobZhvzH6e+ewOdXqqQOZjpXuvAST7g3sfzVNVKeTvsUbps61+t?=
+ =?us-ascii?Q?wjogSeASBSdE8QojiJo5NLgcp9o5JaG1Ncum95PNEhuXND+0Vrrp1kAdyWFd?=
+ =?us-ascii?Q?0JR2dWKppbCchm5ucPbBJux0qTTrImwI0wC5Zsavt4iDAehwD8aPmFhIj/vl?=
+ =?us-ascii?Q?kR99Zrx25UKoGmQGPNJHsIJJc4H3WWbNLbCjZWkjikuy69gehWXryHlPU27T?=
+ =?us-ascii?Q?b6hpsshEXsdp+qSMJL2ov3OH87lRDj2/lISiFe39bR3HAIlxu9arn62vytv2?=
+ =?us-ascii?Q?nIicWQDMPHM3ziDlnfxlnUSzivj83fcIkeFGkVNtUsjBW6pRKTdWjKDIaKl1?=
+ =?us-ascii?Q?F6TjrDIEH0/NDoFOVeQm6I+5MeWvgfhPOcOMCzb8tJjDh3vm9wKzQwEa06Cu?=
+ =?us-ascii?Q?YAgkzbm+mMzZ7O2s6jrxWHXmXJGnmC0cBanxOm8fysGYYoSH+7ir1Co992xu?=
+ =?us-ascii?Q?LWQ3kpZ63WRHz95QxFH7QhvkM3EowzB/KVNLvCUPdVBKfe9EDDCxyD92HjRm?=
+ =?us-ascii?Q?179Gx6sBJwnEmj7/gGCSzgaA/mLfN4ZTGUmcM0QhDMm/QnQ/tzW5Luaq9o5P?=
+ =?us-ascii?Q?JlpTHTNiPKNdintD1IedxqagmjNi50oxpFF+OKZtNJUS8WSPz2D+GRk7eFkd?=
+ =?us-ascii?Q?7j8P0bOvwoJ8ww+uxh4xYdVbU9JLOU1CzJTatq8pNp32fpP03fKnlP/CoWjO?=
+ =?us-ascii?Q?y4GIptO2ZlxHplj/732F12x+h09sDDxtW18/Ts1GjMnpAkwzggSm6Z6pDaAn?=
+ =?us-ascii?Q?0fOvk0ftoh7T5biIwVr8O7Ob7k0jQE3PsElY9oqsPNjyImtvMSTVYqB7Q1Of?=
+ =?us-ascii?Q?6NzQRZb0cwvaUKJcgKTfEaZhExK3SvcfxoSuXNm97WRtAFbTgy4OFo7VVVBm?=
+ =?us-ascii?Q?JJQXPjv9A1u5jnUp98oBzHjToHJ0UuiDMPBD/gYF5UzKU4wjwEN3SrxDXhf7?=
+ =?us-ascii?Q?rG4qEEQRW9sKfqEL9zfidbD3tdPbc5/u3o4omSyZRPMA296xHstwcrclr1sx?=
+ =?us-ascii?Q?d1Pn9H6uZNa8v0V3rOEJggMEefkGHOuk4nvN2dT+PA4ZOpLS0bPfV2NB/jGc?=
+ =?us-ascii?Q?mZzli7wdGhc/cXb+Y80bEYD8YN5gkoj8pO2+CStUTmMynMOOYZqJu8Dj/yFj?=
+ =?us-ascii?Q?zMQXpJPOmqal/ChkKnQFO+ImoOv1Y2+XeaLDRj0g5FpU/TYom0krGS11kf6Q?=
+ =?us-ascii?Q?9N4HiC1VMjHo/5L6PJPi6bthc5KrIMhFHxdV3Gqq7f8u8QyXEftoVInCSxzC?=
+ =?us-ascii?Q?f2uJF6VTJO9gMKPEN7Gzz4TA?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7620dce0-9872-41c7-61c4-08d9096d3bcf
+X-MS-Exchange-CrossTenant-Network-Message-Id: d72de22f-de57-4044-8a0e-08d9096d3c9d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 11:11:41.1860 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 11:11:42.4157 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xQ2FHFRvZEnWSh3JU/nbSd0n7yb0vr394DMaSCdl1KNHegW+duUTgPH4/Vh/1w46WS3rJ4JuN5u0pF+Py0uylDOT3qY48927jlQJgM8yAXs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: h+jWGrM+Usahep6pMo/Uattv9lOCJVpzPpaZZl32unVFeR7kiPS1YzgNyhi2OBjGKSkdjRO0IyxQMYWkjxT8D14Bhf6XiwJ+Nf69mVr5fL8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3863
 Received-SPF: pass client-ip=40.107.7.115;
  envelope-from=vsementsov@virtuozzo.com;
@@ -140,231 +140,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add possibility to merge allocation map of specified node into target
-bitmap.
+Add test to check new possibility of block-dirty-bitmap-merge command
+to merge allocation map of some node to target dirty bitmap.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/block-core.json            | 31 +++++++++++++++++--
- include/block/block_int.h       |  4 +++
- block/dirty-bitmap.c            | 42 +++++++++++++++++++++++++
- block/monitor/bitmap-qmp-cmds.c | 55 ++++++++++++++++++++++++++++-----
- 4 files changed, 122 insertions(+), 10 deletions(-)
+ .../tests/allocation-map-to-bitmap            | 64 +++++++++++++++++++
+ .../tests/allocation-map-to-bitmap.out        |  9 +++
+ 2 files changed, 73 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/allocation-map-to-bitmap
+ create mode 100644 tests/qemu-iotests/tests/allocation-map-to-bitmap.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6d227924d0..0fafb043bc 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2006,6 +2006,32 @@
-   'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
-             '*persistent': 'bool', '*disabled': 'bool' } }
- 
-+##
-+# @AllocationMapMode:
+diff --git a/tests/qemu-iotests/tests/allocation-map-to-bitmap b/tests/qemu-iotests/tests/allocation-map-to-bitmap
+new file mode 100755
+index 0000000000..bd67eed884
+--- /dev/null
++++ b/tests/qemu-iotests/tests/allocation-map-to-bitmap
+@@ -0,0 +1,64 @@
++#!/usr/bin/env python3
 +#
-+# An enumeration of possible allocation maps that could be merged into target
-+# bitmap.
++# Test parallels load bitmap
 +#
-+# @top: The allocation status of the top layer of the attached storage node.
++# Copyright (c) 2021 Virtuozzo International GmbH.
 +#
-+# Since: 6.1
-+##
-+{ 'enum': 'AllocationMapMode',
-+  'data': ['top'] }
-+
-+##
-+# @BlockDirtyBitmapMergeExternalSource:
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
 +#
-+# @node: name of device/node which the bitmap is tracking
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
 +#
-+# @name: name of the dirty bitmap
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 +#
-+# Since: 6.1
-+##
-+{ 'struct': 'BlockDirtyBitmapMergeExternalSource',
-+  'data': { 'node': 'str', '*name': 'str',
-+            '*allocation-map': 'AllocationMapMode' } }
 +
- ##
- # @BlockDirtyBitmapMergeSource:
- #
-@@ -2017,7 +2043,7 @@
- ##
- { 'alternate': 'BlockDirtyBitmapMergeSource',
-   'data': { 'local': 'str',
--            'external': 'BlockDirtyBitmap' } }
-+            'external': 'BlockDirtyBitmapMergeExternalSource' } }
- 
- ##
- # @BlockDirtyBitmapMerge:
-@@ -2176,7 +2202,8 @@
- #
- ##
- { 'command': 'block-dirty-bitmap-merge',
--  'data': 'BlockDirtyBitmapMerge' }
-+  'data': 'BlockDirtyBitmapMerge',
-+  'coroutine': true }
- 
- ##
- # @BlockDirtyBitmapSha256:
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 88e4111939..b5aeaef425 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1361,6 +1361,10 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
-                                       const BdrvDirtyBitmap *src,
-                                       HBitmap **backup, bool lock);
- 
-+int bdrv_merge_allocation_top_to_dirty_bitmap(BdrvDirtyBitmap *dest,
-+                                              BlockDriverState *bs,
-+                                              Error **errp);
++import json
++import iotests
++from iotests import qemu_nbd_popen, qemu_img_pipe, log, file_path, qemu_img_create, qemu_io
 +
- void bdrv_inc_in_flight(BlockDriverState *bs);
- void bdrv_dec_in_flight(BlockDriverState *bs);
- 
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 68d295d6e3..78097e30c5 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -914,6 +914,48 @@ out:
-     }
- }
- 
-+int bdrv_merge_allocation_top_to_dirty_bitmap(BdrvDirtyBitmap *dest,
-+                                              BlockDriverState *bs,
-+                                              Error **errp)
-+{
-+    int ret;
-+    int64_t offset = 0;
-+    int64_t bytes = bdrv_getlength(bs);
++iotests.script_initialize(supported_fmts=['qcow2'])
 +
-+    if (bytes < 0) {
-+        error_setg(errp, "Failed to get length of node '%s'",
-+                   bdrv_get_node_name(bs));
-+        return bytes;
-+    }
++nbd_sock = file_path('nbd-sock', base_dir=iotests.sock_dir)
++disk = iotests.file_path('disk')
++bitmap = 'bitmap0'
++nbd_opts = f'driver=nbd,server.type=unix,server.path={nbd_sock}' \
++        f',x-dirty-bitmap=qemu:dirty-bitmap:{bitmap}'
 +
-+    if (bdrv_dirty_bitmap_size(dest) < bytes) {
-+        error_setg(errp, "Bitmap is smaller than node '%s'",
-+                   bdrv_get_node_name(bs));
-+        return -EINVAL;
-+    }
++qemu_img_create('-f', 'qcow2', disk, '1M')
 +
-+    while (bytes) {
-+        int64_t cur_bytes = bytes;
++qemu_io('-c', 'write 0 512', disk)  # first 64K qcow2 cluster becomes allocated
++qemu_io('-c', 'write 150K 100K', disk)  # 3rd and 4th clusters become allocated
 +
-+        ret = bdrv_is_allocated(bs, offset, cur_bytes, &cur_bytes);
-+        if (ret < 0) {
-+            error_setg(errp,
-+                       "Failed to get block allocation status of node '%s'",
-+                       bdrv_get_node_name(bs));
-+            return ret;
-+        }
++vm = iotests.VM().add_drive(disk)
++vm.launch()
++vm.qmp_log('block-dirty-bitmap-add', node='drive0', name=bitmap,
++           persistent=True)
++vm.qmp_log('block-dirty-bitmap-merge', node='drive0', target=bitmap,
++           bitmaps=[{'node': 'drive0', 'allocation-map': 'top'}])
++vm.shutdown()
 +
-+        if (ret) {
-+            bdrv_set_dirty_bitmap(dest, offset, cur_bytes);
-+        }
++with qemu_nbd_popen('--read-only', f'--socket={nbd_sock}',
++                    f'--bitmap={bitmap}', '-f', iotests.imgfmt, disk):
++    out = qemu_img_pipe('map', '--output=json', '--image-opts', nbd_opts)
++    chunks = json.loads(out)
++    cluster = 64 * 1024
 +
-+        bytes -= cur_bytes;
-+        offset += cur_bytes;
-+    }
++    log('dirty clusters (cluster size is 64K):')
++    for c in chunks:
++        assert c['start'] % cluster == 0
++        assert c['length'] % cluster == 0
++        if c['data']:
++            continue
 +
-+    return 0;
-+}
-+
- /**
-  * bdrv_dirty_bitmap_merge_internal: merge src into dest.
-  * Does NOT check bitmap permissions; not suitable for use as public API.
-diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 9f11deec64..19845a22c4 100644
---- a/block/monitor/bitmap-qmp-cmds.c
-+++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -34,6 +34,7 @@
- 
- #include "block/block_int.h"
- #include "qapi/qapi-commands-block.h"
-+#include "qapi/qapi-types-block-core.h"
- #include "qapi/error.h"
- 
- /**
-@@ -273,8 +274,11 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-     }
- 
-     for (lst = bms; lst; lst = lst->next) {
-+        src = NULL;
-+
-         switch (lst->value->type) {
-             const char *name, *node;
-+            bool has_alloc, has_name;
-         case QTYPE_QSTRING:
-             name = lst->value->u.local;
-             src = bdrv_find_dirty_bitmap(bs, name);
-@@ -286,22 +290,57 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-             break;
-         case QTYPE_QDICT:
-             node = lst->value->u.external.node;
--            name = lst->value->u.external.name;
--            src = block_dirty_bitmap_lookup(node, name, NULL, errp);
--            if (!src) {
-+            has_name = lst->value->u.external.has_name;
-+            has_alloc = lst->value->u.external.has_allocation_map;
-+            if (has_name == has_alloc) {
-+                error_setg(errp, "Exactly one of @name and @allocation-map "
-+                           "fields must be specified.");
-                 dst = NULL;
-                 goto out;
-             }
-+            if (has_name) {
-+                name = lst->value->u.external.name;
-+                src = block_dirty_bitmap_lookup(node, name, NULL, errp);
-+                if (!src) {
-+                    dst = NULL;
-+                    goto out;
-+                }
-+            } else {
-+                int ret;
-+                AioContext *old_ctx;
-+                assert(has_alloc);
-+                /* The only existing mode currently is 'top' */
-+                assert(lst->value->u.external.allocation_map ==
-+                       ALLOCATION_MAP_MODE_TOP);
-+
-+                bs = bdrv_lookup_bs(node, node, NULL);
-+                if (!bs) {
-+                    error_setg(errp, "Node '%s' not found", node);
-+                    dst = NULL;
-+                    goto out;
-+                }
-+
-+                old_ctx = bdrv_co_enter(bs);
-+                ret = bdrv_merge_allocation_top_to_dirty_bitmap(anon, bs, errp);
-+                bdrv_co_leave(bs, old_ctx);
-+
-+                if (ret < 0) {
-+                    dst = NULL;
-+                    goto out;
-+                }
-+            }
-             break;
-         default:
-             abort();
-         }
- 
--        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            dst = NULL;
--            goto out;
-+        if (src) {
-+            bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
-+            if (local_err) {
-+                error_propagate(errp, local_err);
-+                dst = NULL;
-+                goto out;
-+            }
-         }
-     }
- 
++        a = c['start'] // cluster
++        b = (c['start'] + c['length']) // cluster
++        if b - a > 1:
++            log(f'{a}-{b-1}')
++        else:
++            log(a)
+diff --git a/tests/qemu-iotests/tests/allocation-map-to-bitmap.out b/tests/qemu-iotests/tests/allocation-map-to-bitmap.out
+new file mode 100644
+index 0000000000..6cfc42aa4e
+--- /dev/null
++++ b/tests/qemu-iotests/tests/allocation-map-to-bitmap.out
+@@ -0,0 +1,9 @@
++{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0", "persistent": true}}
++{"return": {}}
++{"execute": "block-dirty-bitmap-merge", "arguments": {"bitmaps": [{"allocation-map": "top", "node": "drive0"}], "node": "drive0", "target": "bitmap0"}}
++{"return": {}}
++Start NBD server
++dirty clusters (cluster size is 64K):
++0
++2-3
++Kill NBD server
 -- 
 2.29.2
 
