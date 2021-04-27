@@ -2,66 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C84636C7E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 16:42:37 +0200 (CEST)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D18036C7F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 16:49:53 +0200 (CEST)
+Received: from localhost ([::1]:51732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbOv6-0005Al-42
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 10:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
+	id 1lbP27-0007Yb-N6
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 10:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbOta-0004VT-Re
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:41:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbOtO-0001wh-86
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:41:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbOtM-0004Oo-JR
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 14:40:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 85BBA2E8144
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 14:40:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbP0o-0006wD-0h
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:48:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbP0k-0006hv-Mh
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:48:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619534905;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YR1SHOI/zFYYaGcZMi5EmcPrqMnaUioj8e79D1yDzAs=;
+ b=MjjOgJf0GAD2rzYITdKVg8o+4iSkHxHqxJ0E1Xs1sbOpDbxE/yKhGnrKxu3BEtLGOQAY5l
+ uF52o60WYMR92XyAEF8g4y5n+oBYEXMRHkpa56vQC85TQUCdaTOvpjFfNtLLXLBmxdQEdS
+ u6CPQqMX/5N3uLths3sWBkc6W8P6iHk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-Pzp30SNIPKybGGjQp1PoRA-1; Tue, 27 Apr 2021 10:48:23 -0400
+X-MC-Unique: Pzp30SNIPKybGGjQp1PoRA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c13-20020a05640227cdb0290385526e5de5so14962634ede.21
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 07:48:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YR1SHOI/zFYYaGcZMi5EmcPrqMnaUioj8e79D1yDzAs=;
+ b=R2aq9bYZn4sRJ6Ogc681ihhCJcQ96wpPPyCj7LqDACaAifUlhBAncpwqNw8w6pPjGT
+ 2jadLbqfvOeB6Q8758U7Zve+J8uToRDhUu/6BQwGN3kZPx49sp2MNHNlP1LPyO2HH+x1
+ aEdP5jHxTlrn1LQhqigoMDWMh6n/yggac24xmEz+RulV4ldNIN6lKWjgqfF2U3Lmzi7Z
+ 2978ep6xCW/F5KvQ2qcuEtV05P3pdPZ7pz44FkSg73gwefw174byHQqgm8rxlHFDU7pH
+ rMkVuZ8VcuzfDWf87ohVo5KQe85Mqvtip/HyvdNnhTpTiZTFcGzZp+3fkIkiFgdKE+bD
+ 07BA==
+X-Gm-Message-State: AOAM530iN55l7dck1EkDK482vAiZ51gLEF49khD0C/G3ALjqrJWzNF13
+ SRAkKuxqAAu7ilPnrDWWdESynlpZEF6rvEqapkld4VntomipEw/CHyFvRxWLHoRa3YQqM3TKJyr
+ lxcEq47Rz6XgiUpU=
+X-Received: by 2002:a17:906:2808:: with SMTP id
+ r8mr23884823ejc.140.1619534902369; 
+ Tue, 27 Apr 2021 07:48:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtxREmkNTxj4aOVTt3Kpyj4wVPj1YPtAAY5GG0053kbDlThXe3bhdnfWAfgeE62hdeTwfwpQ==
+X-Received: by 2002:a17:906:2808:: with SMTP id
+ r8mr23884800ejc.140.1619534902147; 
+ Tue, 27 Apr 2021 07:48:22 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id da25sm2602185edb.38.2021.04.27.07.48.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 07:48:21 -0700 (PDT)
+Date: Tue, 27 Apr 2021 16:48:19 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH RESEND v2 0/6] target/arm: Add nested virtualization
+ support
+Message-ID: <20210427144819.fiecdpdgre7tznvq@gator.home>
+References: <cover.1617281290.git.haibo.xu@linaro.org>
+ <CAFEAcA8a53rCGBGVr_mb0fVJPXFaCShGTJE0bh=L5Nvw6ATz6A@mail.gmail.com>
+ <20210427095458.3hbckyqbmfztcmge@gator.home>
+ <CAFEAcA82VJqgD+B4gCr1M0n5oV869rBdoTzNS6xSs0f2f8iFvw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Apr 2021 14:34:46 -0000
-From: Jonathan Albrecht <1920913@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: davidhildenbrand jonalbrecht nam121 pmaydell
-X-Launchpad-Bug-Reporter: Namrata Bhave (nam121)
-X-Launchpad-Bug-Modifier: Jonathan Albrecht (jonalbrecht)
-References: <161649998851.23806.5550710395623491265.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161953408612.16689.7708079795349157763.malone@chaenomeles.canonical.com>
-Subject: [Bug 1920913] Re: Openjdk11+ fails to install on s390x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: c6e00106cad36f7a651c33d21a0efc14f4e67cca
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA82VJqgD+B4gCr1M0n5oV869rBdoTzNS6xSs0f2f8iFvw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,209 +99,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920913 <1920913@bugs.launchpad.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrea Bolognani <abologna@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Haibo Xu <haibo.xu@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi @davidhildenbrand, I'm on the same team as @nam121 and I've been
-looking at this issue as well.
+On Tue, Apr 27, 2021 at 01:15:24PM +0100, Peter Maydell wrote:
+> On Tue, 27 Apr 2021 at 10:55, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > On Tue, Apr 27, 2021 at 10:42:18AM +0100, Peter Maydell wrote:
+> > > Why are we making the UI for "enable EL2 guest with KVM" different
+> > > from that for "enable EL2 guest with TCG" ? Currently an EL2
+> > > TCG guest is set up with "-M virt,virtualization=on", which then
+> > > does everything it needs to enable virtualization on all the
+> > > components on the board including the CPU.
+> > >
+> > > Unless there's a strong technical reason why KVM EL2 has to
+> > > be different, I think we should use the same switch.
+> >
+> > I agree we should use the same switch, but I think I'd prefer it be the
+> > CPU switch instead of the machine switch, as it's a CPU feature. There are
+> > some board properties too, like the maintenance interrupt, but we tend to
+> > call a feature a CPU feature when it shows up in the CPU manual, e.g. the
+> > PMU is also a CPU feature, even though it has a PPI.
+> 
+> This is mostly not how we've generally opted to handle this kind of thing on
+> the virt board where there is something that is not merely a CPU feature
+> but also has effects on the wider system: look at 'virtualization',
+> 'secure' and 'mte'. Granted, the effects of 'virtualization' on the wider
+> system are less significant than those of 'secure' or 'mte' -- but I think
+> we implemented 'virtualization' on the same pattern as 'secure'.
+> 
+> If you want to propose changing how we handle those things, including
+> a backward-compatibility setup so we don't break existing command lines,
+> I guess we can have that discussion. But we should either *first* do that
+> change-of-course and *then* implement KVM EL2 to fit into that, or we should
+> just implement KVM EL2 to fit into the design we have today (and then do
+> the redesign later if we decide to do that). I don't think we should add
+> KVM EL2 support's command line switches using a new design that we haven't
+> committed to and which leaves it completely out of line with what the TCG
+> handling of the exact same feature is. And I don't feel strongly enough
+> that our current approach is wrong that I want to impose a "first do this
+> big rework" precondition on landing the KVM EL2 support.
+>
 
-I think this is the same issue as: https://github.com/multiarch/qemu-
-user-static/issues/129
+Since these types of features seem to blur the line between being a CPU
+and board property, then I think I'd prefer we call them CPU properties,
+as they come from the CPU manual.
 
-I've been running an s390x docker image on a master build (with latest
-s390x commit from Apr 23) of user mode qemu-s390x-static with some debug
-logging on:
+Also, if we'd rather not rework 'virtualization' to be a CPU property,
+then we'll need libvirt to learn how to probe and set it, whereas if
+it's a CPU property we just need to add it to
+cpu_model_advertised_features[].
 
-$ sudo docker run -e QEMU_CPU=3D"qemu" -e QEMU_LOG=3D"unimp,guest_errors" -e
-QEMU_LOG_FILENAME=3D"/s390x/qemu_s390x.log"
+Whichever way we go, we should commit to it, at least for the foreseeable
+future, otherwise libvirt and users will have to flipflop their approaches
+as well (I'm assuming there have been limited users of this feature
+without KVM and libvirt support, so less users would flipflop now than
+later.)
 
-I ran a simple java program with:
+I suggest we rework 'virtualization' now with this KVM support series and
+'mte' with the series that brings its KVM support too. 'secure' doesn't
+currently work with KVM, so it can probably wait until its KVM support
+series comes along to be reworked.
 
-$ java -Xcomp -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly
--XX:PrintAssemblyOptions=3Dhsdis-print-bytes -XX:+LogCompilation
--XX:LogFile=3Djava_compilation_log.log  Main > java_out.txt
+Thanks,
+drew
 
-and the qemu log contained just one line:
-
-unimplemented opcode 0x0000
-
-Note that if the JIT is turned off with 'java -Xint', then all programs
-I've tried run without problem.
-
-The hs_err file reports a SIGILL in the same spot as in the other
-comments:
-
---- SNIP
-# A fatal error has been detected by the Java Runtime Environment:
-#
-#  SIGILL (0x4) at pc=3D0x00000040126d7680, pid=3D208, tid=3D211
-#
-# JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-Ubu=
-ntu-0ubuntu1.20.04)
-# Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, compi=
-led mode, tiered, compressed oops, g1 gc, linux-s390x)
-# Problematic frame:
-# J 9 c1 java.lang.String.hashCode()I java.base (49 bytes) @ 0x00000040126d=
-7680 [0x00000040126d7640+0x0000000000000040]
---- SNIP
---- SNIP
-Instructions: (pc=3D0x00000040126d7680)
-0x00000040126d7580:   00000040 5f5f4140 00000040 5f5f4140
-0x00000040126d7590:   00000040 5f5f4140 00000040 5f5f4140
-0x00000040126d75a0:   00000040 5f5f4358 00000040 5f5f4358
-0x00000040126d75b0:   00000040 5f5f4358 00000040 5f5f4358
-0x00000040126d75c0:   00000040 5f5f4140 00000040 5f5f4140
-0x00000040126d75d0:   00000000 00000000 ffffffff ffffffff
-0x00000040126d75e0:   00000040 5f5f4140 00000000 00000000
-0x00000040126d75f0:   ffffffff ffffffff 00000040 5f3fb9d0
-0x00000040126d7600:   00000040 12238c00 00000040 12232800
-0x00000040126d7610:   00000040 5f3fef18 00000040 12238c00
-0x00000040126d7620:   00000040 12235000 00000000 00000000
-0x00000040126d7630:   00000000 00000000 00000000 00000000
-0x00000040126d7640:   b9040009 cc08ffff fff85500 2008a784  # <-- String.has=
-hCode() entry point at 0x00000040126d7640
-0x00000040126d7650:   0019a51d 0040c019 12167a80 07f10700
-0x00000040126d7660:   07000700 07000700 07000700 07000700
-0x00000040126d7670:   07000700 07000700 07000700 07000700
-0x00000040126d7680:   0000f000 ec51e3e0 f0080024 b904000f  # <-- note 0x000=
-0 at 0x00000040126d7680
-0x00000040126d7690:   a7fbffa0 e300f000 0024c438 ffffff73
---- SNIP
-
-The assembly printed by java looks like:
-
---- SNIP
-[Entry Point]
-  # {method} {0x000000405f3fb9d0} 'hashCode' '()I' in 'java/lang/String'
-  #           [sp+0x60]  (sp of caller)
-  0x00000040126d7640: lgr	%r0,%r9         ;...b9040009
-                                                ;   {no_reloc}
-  0x00000040126d7644: aih	%r0,-8          ;...cc08ffff fff8
-
-  0x00000040126d764a: cl        %r0,8(%r2)      ;...55002008
-
-  0x00000040126d764e: je        0x00000040126d7680  ;...a7840019
-
-  0x00000040126d7652: llihl     %r1,64          ;...a51d0040
-
-  0x00000040126d7656: iilf      %r1,303463040   ;...c0191216 7a80
-
-  0x00000040126d765c: br        %r1             ;...07f1
-
-  0x00000040126d765e: nopr                      ;...0700
-
-  0x00000040126d7660: nopr                      ;...0700
-
-  0x00000040126d7662: nopr                      ;...0700
-
-  0x00000040126d7664: nopr                      ;...0700
-
-  0x00000040126d7666: nopr                      ;...0700
-
-  0x00000040126d7668: nopr                      ;...0700
-
-  0x00000040126d766a: nopr                      ;...0700
-
-  0x00000040126d766c: nopr                      ;...0700
-
-  0x00000040126d766e: nopr                      ;...0700
-
-  0x00000040126d7670: nopr                      ;...0700
-
-  0x00000040126d7672: nopr                      ;...0700
-
-  0x00000040126d7674: nopr                      ;...0700
-
-  0x00000040126d7676: nopr                      ;...0700
-
-  0x00000040126d7678: nopr                      ;...0700
-
-  0x00000040126d767a: nopr                      ;...0700
-
-  0x00000040126d767c: nopr                      ;...0700
-
-  0x00000040126d767e: nopr                      ;...0700
-
-[Verified Entry Point]
-  0x00000040126d7680: tmy	-81920(%r15),222  ;...ebdef000 ec51
-
-  0x00000040126d7686: stg       %r14,8(%r15)    ;...e3e0f008 0024
-
-  0x00000040126d768c: lgr       %r0,%r15        ;...b904000f
-
-  0x00000040126d7690: aghi      %r15,-96        ;...a7fbffa0
-
-  0x00000040126d7694: stg       %r0,0(%r15)     ;...e300f000 0024
-
-  0x00000040126d769a: lgrl	%r3,0x00000040126d7580
-                                                ;...c438ffff ff73
-                                                ;   {metadata(method data f=
-or {method} {0x000000405f3fb9d0} 'hashCode' '()I' in 'java/lang/String')}
---- SNIP
-
-so IIUC java says its generating 0xebde at 0x00000040126d7680 instead of
-0x0000.
-
-Hope the above makes sense. I'm not sure where to go from here so any
-suggestions would be a great help.
-
-** Bug watch added: github.com/multiarch/qemu-user-static/issues #129
-   https://github.com/multiarch/qemu-user-static/issues/129
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920913
-
-Title:
-  Openjdk11+ fails to install on s390x
-
-Status in QEMU:
-  New
-
-Bug description:
-  While installing openjdk11 or higher from repo, it crashes while configur=
-ing ca-certificates-java.
-  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
-tached to this issue.
-
-  ```
-  # A fatal error has been detected by the Java Runtime Environment:
-  #
-  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
-  #
-  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
-buntu-0ubuntu1.20.04)
-  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
-ed mode, tiered, compressed oops, g1 gc, linux-s390x)
-  # Problematic frame:
-  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
-) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
-  #
-  # Core dump will be written. Default location: Core dumps may be processe=
-d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
-425)
-  #
-  # An error report file with more information is saved as:
-  # //hs_err_pid8425.log
-  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
-t/core.10740)
-  #
-  # An error report file with more information is saved as:
-  # /root/hs_err_pid10740.log
-  ```
-
-  Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
-ost.
-  Please note, on native s390x, the installation is successful. Also this c=
-rash is not observed while installing openjdk-8-jdk.
-
-  Qemu version: 5.2.0
-
-  Please let me know if any more details are needed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920913/+subscriptions
 
