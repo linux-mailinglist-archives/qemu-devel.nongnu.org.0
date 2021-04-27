@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627D636C7C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 16:30:08 +0200 (CEST)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D57C36C7CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 16:34:07 +0200 (CEST)
+Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbOj1-0000bA-32
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 10:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44648)
+	id 1lbOms-00026S-IR
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 10:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lbOhi-0008CC-Pl
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:28:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50487)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lbOlQ-0001MM-OQ; Tue, 27 Apr 2021 10:32:36 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:46987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lbOhd-0003No-8j
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:28:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619533720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7Ke4S2aB9ryk3/0dNrVBYYpBYgr0mrsBUcVh3c6xeMM=;
- b=dVRdUjA5AlcL9Vegf5uVzqC0j++ySXIDnBc6+ZKawR2MG6ECRoz9UgWItR/OeKk9Wrvr53
- L7N2Qb2CeAuwd9+cS24m08DRxYgGCvoZo5rsyMWafea3xHOMC68D3Nrghr/MYAH0FrS61G
- ts+I1ulmkIdsP2ZmixhlLfAQ1sbA82Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-ku902PIrOJqgM3xfEgpuLA-1; Tue, 27 Apr 2021 10:28:35 -0400
-X-MC-Unique: ku902PIrOJqgM3xfEgpuLA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 881B8804768;
- Tue, 27 Apr 2021 14:28:34 +0000 (UTC)
-Received: from localhost (ovpn-115-30.ams2.redhat.com [10.36.115.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6477B5B4B2;
- Tue, 27 Apr 2021 14:28:24 +0000 (UTC)
-Date: Tue, 27 Apr 2021 15:28:23 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Yongji Xie <xieyongji@bytedance.com>
-Subject: Re: Re: [PATCH 0/3] Introduce vhost-vdpa block device
-Message-ID: <YIgfh632Evrdid12@stefanha-x1.localdomain>
-References: <20210408101252.552-1-xieyongji@bytedance.com>
- <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
- <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lbOlG-0005Wy-C5; Tue, 27 Apr 2021 10:32:36 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.239])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2E53A9E03621;
+ Tue, 27 Apr 2021 16:32:16 +0200 (CEST)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 27 Apr
+ 2021 16:32:15 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0019ccebc01-a118-43b3-a2a9-97fb2e5fcb9d,
+ 671BB6CE1365292EF2314968BE3D1B8EC1165850) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
+ for fast read commands
+To: Francisco Iglesias <frasse.iglesias@gmail.com>, Alistair Francis
+ <alistair23@gmail.com>
+References: <20210118100557.GA11373@fralle-msi>
+ <CAEUhbmWT50o8OV_QAimhs5itWq3pFd6CTKup6PFpvSs2KYpf2w@mail.gmail.com>
+ <20210119130113.GA28306@fralle-msi>
+ <CAEUhbmUBAgF4D__jsfbE7yGd++5ZH3YOutTiOBOot52sNCV-eg@mail.gmail.com>
+ <20210121085006.GA10391@fralle-msi>
+ <CAEUhbmUh54vqXmtkjnTzk7Y6U+oZEbw-O3ode+CdKbfZ0Qs+9Q@mail.gmail.com>
+ <20210121141844.GC10391@fralle-msi>
+ <CAEUhbmWT9QPa-EFRdQme2L9hiUJSYWZWfmzQTShQN86WMW93ew@mail.gmail.com>
+ <CAEUhbmXwq-7mwbuwp_29iXDT4AZYTBE4PFDxhaHoZkrCRumCaw@mail.gmail.com>
+ <CAKmqyKMkgR6p7G3MscSvVHHZuYF2p4piq9W1o+Ye9SSuOqszOA@mail.gmail.com>
+ <20210427085433.GA9656@fralle-msi>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <1fe8a69c-df7b-c924-69c6-c9db905f8f95@kaod.org>
+Date: Tue, 27 Apr 2021 16:32:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7k/PYRf+t1DDnOHB"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210427085433.GA9656@fralle-msi>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 86d792aa-9505-43fd-b09f-d0324d5efd67
+X-Ovh-Tracer-Id: 2337368207548910538
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddvtddgjeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfefledtieeuheefkeduvdejhfeiteejhfdvleefhfejteegfeejiedtjeefvdfgnecuffhomhgrihhnpeigihhlihhngidrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhhrrghsshgvrdhighhlvghsihgrshesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,160 +81,320 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Tyrone Ting <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
+ Joe Komlodi <komlodi@xilinx.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---7k/PYRf+t1DDnOHB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Tue, Apr 27, 2021 at 06:24:55PM +0800, Yongji Xie wrote:
-> On Mon, Apr 26, 2021 at 11:34 PM Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >
-> > On Thu, Apr 08, 2021 at 06:12:49PM +0800, Xie Yongji wrote:
-> > > Since we already have some ways to emulate vDPA block device
-> > > in kernel[1] or userspace[2]. This series tries to introduce a
-> > > new vhost-vdpa block device for that. To use it, we can add
-> > > something like:
-> > >
-> > > qemu-system-x86_64 \
-> > >     -device vhost-vdpa-blk-pci,vdpa-dev=3D/dev/vhost-vdpa-0
-> >
-> > This device is similar to vhost-user-blk. QEMU does not see it as a
-> > block device so storage migration, I/O throttling, image formats, etc
-> > are not supported. Stefano Garzarella and I discussed how vdpa-blk
-> > devices could integrate more deeply with QEMU's block layer. The QEMU
-> > block layer could be enabled only when necessary and otherwise bypassed
-> > for maximum performance.
-> >
->=20
-> Do you mean we can make use of the shadow virtqueue for the slow path
-> (I/O will go through the block layer) and add a fast path (like what
-> we do now) to bypass the block layer?
+On 4/27/21 10:54 AM, Francisco Iglesias wrote:
+> On [2021 Apr 27] Tue 15:56:10, Alistair Francis wrote:
+>> On Fri, Apr 23, 2021 at 4:46 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>
+>>> On Mon, Feb 8, 2021 at 10:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>>
+>>>> On Thu, Jan 21, 2021 at 10:18 PM Francisco Iglesias
+>>>> <frasse.iglesias@gmail.com> wrote:
+>>>>>
+>>>>> Hi Bin,
+>>>>>
+>>>>> On [2021 Jan 21] Thu 16:59:51, Bin Meng wrote:
+>>>>>> Hi Francisco,
+>>>>>>
+>>>>>> On Thu, Jan 21, 2021 at 4:50 PM Francisco Iglesias
+>>>>>> <frasse.iglesias@gmail.com> wrote:
+>>>>>>>
+>>>>>>> Dear Bin,
+>>>>>>>
+>>>>>>> On [2021 Jan 20] Wed 22:20:25, Bin Meng wrote:
+>>>>>>>> Hi Francisco,
+>>>>>>>>
+>>>>>>>> On Tue, Jan 19, 2021 at 9:01 PM Francisco Iglesias
+>>>>>>>> <frasse.iglesias@gmail.com> wrote:
+>>>>>>>>>
+>>>>>>>>> Hi Bin,
+>>>>>>>>>
+>>>>>>>>> On [2021 Jan 18] Mon 20:32:19, Bin Meng wrote:
+>>>>>>>>>> Hi Francisco,
+>>>>>>>>>>
+>>>>>>>>>> On Mon, Jan 18, 2021 at 6:06 PM Francisco Iglesias
+>>>>>>>>>> <frasse.iglesias@gmail.com> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> Hi Bin,
+>>>>>>>>>>>
+>>>>>>>>>>> On [2021 Jan 15] Fri 22:38:18, Bin Meng wrote:
+>>>>>>>>>>>> Hi Francisco,
+>>>>>>>>>>>>
+>>>>>>>>>>>> On Fri, Jan 15, 2021 at 8:26 PM Francisco Iglesias
+>>>>>>>>>>>> <frasse.iglesias@gmail.com> wrote:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Hi Bin,
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> On [2021 Jan 15] Fri 10:07:52, Bin Meng wrote:
+>>>>>>>>>>>>>> Hi Francisco,
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> On Fri, Jan 15, 2021 at 2:13 AM Francisco Iglesias
+>>>>>>>>>>>>>> <frasse.iglesias@gmail.com> wrote:
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Hi Bin,
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> On [2021 Jan 14] Thu 23:08:53, Bin Meng wrote:
+>>>>>>>>>>>>>>>> From: Bin Meng <bin.meng@windriver.com>
+>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> The m25p80 model uses s->needed_bytes to indicate how many follow-up
+>>>>>>>>>>>>>>>> bytes are expected to be received after it receives a command. For
+>>>>>>>>>>>>>>>> example, depending on the address mode, either 3-byte address or
+>>>>>>>>>>>>>>>> 4-byte address is needed.
+>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> For fast read family commands, some dummy cycles are required after
+>>>>>>>>>>>>>>>> sending the address bytes, and the dummy cycles need to be counted
+>>>>>>>>>>>>>>>> in s->needed_bytes. This is where the mess began.
+>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> As the variable name (needed_bytes) indicates, the unit is in byte.
+>>>>>>>>>>>>>>>> It is not in bit, or cycle. However for some reason the model has
+>>>>>>>>>>>>>>>> been using the number of dummy cycles for s->needed_bytes. The right
+>>>>>>>>>>>>>>>> approach is to convert the number of dummy cycles to bytes based on
+>>>>>>>>>>>>>>>> the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
+>>>>>>>>>>>>>>>> I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> While not being the original implementor I must assume that above solution was
+>>>>>>>>>>>>>>> considered but not chosen by the developers due to it is inaccuracy (it
+>>>>>>>>>>>>>>> wouldn't be possible to model exacly 6 dummy cycles, only a multiple of 8,
+>>>>>>>>>>>>>>> meaning that if the controller is wrongly programmed to generate 7 the error
+>>>>>>>>>>>>>>> wouldn't be caught and the controller will still be considered "correct"). Now
+>>>>>>>>>>>>>>> that we have this detail in the implementation I'm in favor of keeping it, this
+>>>>>>>>>>>>>>> also because the detail is already in use for catching exactly above error.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> I found no clue from the commit message that my proposed solution here
+>>>>>>>>>>>>>> was ever considered, otherwise all SPI controller models supporting
+>>>>>>>>>>>>>> software generation should have been found out seriously broken long
+>>>>>>>>>>>>>> time ago!
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> The controllers you are referring to might lack support for commands requiring
+>>>>>>>>>>>>> dummy clock cycles but I really hope they work with the other commands? If so I
+>>>>>>>>>>>>
+>>>>>>>>>>>> I am not sure why you view dummy clock cycles as something special
+>>>>>>>>>>>> that needs some special support from the SPI controller. For the case
+>>>>>>>>>>>> 1 controller, it's nothing special from the controller perspective,
+>>>>>>>>>>>> just like sending out a command, or address bytes, or data. The
+>>>>>>>>>>>> controller just shifts data bit by bit from its tx fifo and that's it.
+>>>>>>>>>>>> In the Xilinx GQSPI controller case, the dummy cycles can either be
+>>>>>>>>>>>> sent via a regular data (the case 1 controller) in the tx fifo, or
+>>>>>>>>>>>> automatically generated (case 2 controller) by the hardware.
+>>>>>>>>>>>
+>>>>>>>>>>> Ok, I'll try to explain my view point a little differently. For that we also
+>>>>>>>>>>> need to keep in mind that QEMU models HW, and any binary that runs on a HW
+>>>>>>>>>>> board supported in QEMU should ideally run on that board inside QEMU aswell
+>>>>>>>>>>> (this can be a bare metal application equaly well as a modified u-boot/Linux
+>>>>>>>>>>> using SPI commands with a non multiple of 8 number of dummy clock cycles).
+>>>>>>>>>>>
+>>>>>>>>>>> Once functionality has been introduced into QEMU it is not easy to know which
+>>>>>>>>>>> intentional or untentional features provided by the functionality are being
+>>>>>>>>>>> used by users. One of the (perhaps not well known) features I'm aware of that
+>>>>>>>>>>> is in use and is provided by the accurate dummy clock cycle modeling inside
+>>>>>>>>>>> m25p80 is the be ability to test drivers accurately regarding the dummy clock
+>>>>>>>>>>> cycles (even when using commands with a non-multiple of 8 number of dummy clock
+>>>>>>>>>>> cycles), but there might be others aswell. So by removing this functionality
+>>>>>>>>>>> above use case will brake, this since those test will not be reliable.
+>>>>>>>>>>> Furthermore, since users tend to be creative it is not possible to know if
+>>>>>>>>>>> there are other use cases that will be affected. This means that in case [1]
+>>>>>>>>>>> needs to be followed the safe path is to add functionality instead of removing.
+>>>>>>>>>>> Luckily it also easier in this case, see below.
+>>>>>>>>>>
+>>>>>>>>>> I understand there might be users other than U-Boot/Linux that use an
+>>>>>>>>>> odd number of dummy bits (not multiple of 8). If your concern was
+>>>>>>>>>> about model behavior changes, sure I can update
+>>>>>>>>>> qemu/docs/system/deprecated.rst to mention that some flashes in the
+>>>>>>>>>> m25p80 model now implement dummy cycles as bytes.
+>>>>>>>>>
+>>>>>>>>> Yes, something like that. My concern is that since this functionality has been
+>>>>>>>>> in tree for while, users have found known or unknown features that got
+>>>>>>>>> introduced by it. By removing the functionality (and the known/uknown features)
+>>>>>>>>> we are riscing to brake our user's use cases (currently I'm aware of one
+>>>>>>>>> feature/use case but it is not unlikely that there are more). [1] states that
+>>>>>>>>> "In general features are intended to be supported indefinitely once introduced
+>>>>>>>>> into QEMU", to me that makes very much sense because the opposite would mean
+>>>>>>>>> that we were not reliable. So in case [1] needs to be honored it looks to be
+>>>>>>>>> safer to add functionality instead of removing (and riscing the removal of use
+>>>>>>>>> cases/features). Luckily I still believe in this case that it will be easier to
+>>>>>>>>> go forward (even if I also agree on what you are saying below about what I
+>>>>>>>>> proposed).
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Even if the implementation is buggy and we need to keep the buggy
+>>>>>>>> implementation forever? I think that's why
+>>>>>>>> qemu/docs/system/deprecated.rst was created for deprecating such
+>>>>>>>> feature.
+>>>>>>>
+>>>>>>> With the RFC I posted all commands in m25p80 are working for both the case 1
+>>>>>>> controller (using a txfifo) and the case 2 controller (no txfifo, as GQSPI).
+>>>>>>> Because of this, I, with all respect, will have to disagree that this is buggy.
+>>>>>>
+>>>>>> Well, the existing m25p80 implementation that uses dummy cycle
+>>>>>> accuracy for those flashes prevents all SPI controllers that use tx
+>>>>>> fifo to work with those flashes. Hence it is buggy.
+>>>>>>
+>>>>>>>
+>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>> don't think it is fair to call them 'seriously broken' (and else we should
+>>>>>>>>>>>>> probably let the maintainers know about it). Most likely the lack of support
+>>>>>>>>>>>>
+>>>>>>>>>>>> I called it "seriously broken" because current implementation only
+>>>>>>>>>>>> considered one type of SPI controllers while completely ignoring the
+>>>>>>>>>>>> other type.
+>>>>>>>>>>>
+>>>>>>>>>>> If we change view and see this from the perspective of m25p80, it models the
+>>>>>>>>>>> commands a certain way and provides an API that the SPI controllers need to
+>>>>>>>>>>> implement for interacting with it. It is true that there are SPI controllers
+>>>>>>>>>>> referred to above that do not support the portion of that API that corresponds
+>>>>>>>>>>> to commands with dummy clock cycles, but I don't think it is true that this is
+>>>>>>>>>>> broken since there is also one SPI controller that has a working implementation
+>>>>>>>>>>> of m25p80's full API also when transfering through a tx fifo (use case 1). But
+>>>>>>>>>>> as mentioned above, by doing a minor extension and improvement to m25p80's API
+>>>>>>>>>>> and allow for toggling the accuracy from dummy clock cycles to dummy bytes [1]
+>>>>>>>>>>> will still be honored as in the same time making it possible to have full
+>>>>>>>>>>> support for the API in the SPI controllers that currently do not (please reread
+>>>>>>>>>>> the proposal in my previous reply that attempts to do this). I myself see this
+>>>>>>>>>>> as win/win situation, also because no controller should need modifications.
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> I am afraid your proposal does not work. Your proposed new device
+>>>>>>>>>> property 'model_dummy_bytes' to select to convert the accurate dummy
+>>>>>>>>>> clock cycle count to dummy bytes inside m25p80, is hard to justify as
+>>>>>>>>>> a property to the flash itself, as the behavior is tightly coupled to
+>>>>>>>>>> how the SPI controller works.
+>>>>>>>>>
+>>>>>>>>> I agree on above. I decided though that instead of posting sample code in here
+>>>>>>>>> I'll post an RFC with hopefully an improved proposal. I'll cc you. About below,
+>>>>>>>>> Xilinx ZynqMP GQSPI should not need any modication in a first step.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Wait, (see below)
+>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Please take a look at the Xilinx GQSPI controller, which supports both
+>>>>>>>>>> use cases, that the dummy cycles can be transferred via tx fifo, or
+>>>>>>>>>> generated by the controller automatically. Please read the example
+>>>>>>>>>> given in:
+>>>>>>>>>>
+>>>>>>>>>>     table 24‐22, an example of Generic FIFO Contents for Quad I/O Read
+>>>>>>>>>> Command (EBh)
+>>>>>>>>>>
+>>>>>>>>>> in https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-ultrascale-trm.pdf
+>>>>>>>>>>
+>>>>>>>>>> If you choose to set the m25p80 device property 'model_dummy_bytes' to
+>>>>>>>>>> true when working with the Xilinx GQSPI controller, you are bound to
+>>>>>>>>>> only allow guest software to use tx fifo to transfer the dummy cycles,
+>>>>>>>>>> and this is wrong.
+>>>>>>>>>>
+>>>>>>>>
+>>>>>>>> You missed this part. I looked at your RFC, and as I mentioned above
+>>>>>>>> your proposal cannot support the complicated controller like Xilinx
+>>>>>>>> GQSPI. Please read the example of table 24-22. With your RFC, you
+>>>>>>>> mandate guest software's GQSPI driver to only use hardware dummy cycle
+>>>>>>>> generation, which is wrong.
+>>>>>>>>
+>>>>>>>
+>>>>>>> First, thank you very much for looking into the RFC series, very much
+>>>>>>> appreciated. Secondly, about above, the GQSPI model in QEMU transfers from 2
+>>>>>>> locations in the file, in 1 location the transfer referred to above is done, in
+>>>>>>> another location the transfer through the txfifo is done. The location where
+>>>>>>> transfer referred to above is done will not need any modifications (and will
+>>>>>>> thus work equally well as it does currently).
+>>>>>>
+>>>>>> Please explain this a little bit. How does your RFC series handle
+>>>>>> cases as described in table 24-22, where the 6 dummy cycles are split
+>>>>>> into 2 transfers, with one transfer using tx fifo, and the other one
+>>>>>> using hardware dummy cycle generation?
+>>>>>
+>>>>> Sorry, I missunderstod. You are right, that won't work.
+>>>>
+>>>> +Edgar E. Iglesias
+>>>>
+>>>> So it looks by far the only way to implement dummy cycles correctly to
+>>>> work with all SPI controller models is what I proposed here in this
+>>>> patch series.
+>>>>
+>>>> Maintainers are quite silent, so I would like to hear your thoughts.
+>>>>
+>>>> @Alistair Francis @Philippe Mathieu-Daudé @Peter Maydell would you
+>>>> please share your thoughts since you are the one who reviewed the
+>>>> existing dummy implementation (based on commits history)
+>>
+>> I agree with Edgar, in that Francisco and Bin know this better than me
+>> and that modelling things in cycles is a pain.
+> 
+> Hi Alistair,
+> 
+>>
+>> As Bin points out it seems like currently we should be modelling bytes
+>> (from the variable name) so it makes sense to keep it in bytes. I
+>> would be in favour of this series in that case. Do we know what use
+>> cases this will break? I know it's hard to answer but I don't think
+>> there are too many SSI users in QEMU so it might not be too hard to
+>> test most of the possible use cases.
+> 
+> The use case I'm aware of is regression testing of drivers. Ex: if a
+> driver is using 10 dummy clock cycles with the commands and a patch
+> accidentaly changes the driver to use 11 dummy clock cycles QEMU currently
+> finds the problem, that won't be possible with this series. It's difficult
+> to say but it is not impossible there are other use cases also.
 
-Yes.
 
-> > This alternative approach is similar to how vhost-net is implemented in
-> > QEMU. A BlockDriver would handle the vdpa-blk device and the regular
-> > virtio-blk-pci device would still be present. The virtqueues could be
-> > delegated to the vdpa-blk device in order to bypass the QEMU block
-> > layer.
-> >
-> > I wanted to mention this since it's likely that this kind of vdpa-blk
-> > device implementation will be posted in the future and you might be
-> > interested. It makes live migration with non-shared storage possible,
-> > for example.
-> >
->=20
-> That would be nice, I'm looking forward to it!
->=20
-> So do you think whether it's necessary to continue this approach?
-> Looks like we don't need a vhost-vdpa-blk device any more in the new
-> approach.
+It was breaking the Aspeed machines :
 
-There is no code for the vdpa-blk BlockDriver yet and the implementation
-will be more complex than this patch series (more risk the feature could
-be delayed).
+  https://lore.kernel.org/qemu-devel/78a12882-1303-dd6d-6619-96c5e2cbf531@kaod.org/
 
-If you need vdpa-blk as soon as possible then this patch series may be a
-pragmatic solution. As long as it doesn't limit the vdpa-blk interface
-in a way that prevents the BlockDriver implementation then I think QEMU
-could support both.
+QEMU 6.1 should have acceptance tests that will help in detecting
+regressions in this area.
 
-In the long term the vdpa-blk BlockDriver could replace -device
-vdpa-blk-pci since the performance should be identical and it supports
-more use cases.
+Thanks,
 
-It's up to you. You're welcome to wait for the BlockDriver, work
-together with Stefano on the BlockDriver, or continue with your patch
-series.
+C.
+ 
 
-> > An issue with vhost-user-blk is that the ownership of qdev properties
-> > and VIRTIO Configuration Space fields was not clearly defined. Some
-> > things are handled by QEMU's vhost-user-blk code, some things are
-> > handled by the vhost-user device backend, and some things are negotiate=
-d
-> > between both entities. This patch series follows the existing
-> > vhost-user-blk approach, which I think will show serious issues as the
-> > device is more widely used and whenever virtio-blk or the implementatio=
-n
-> > is extended with new features. It is very hard to provide backwards
-> > compatibility with the current approach where the ownership of qdev
-> > properties and VIRTIO Configuration Space fields is ad-hoc and largely
-> > undefined.
-> >
-> > Since vDPA has VIRTIO Configuration Space APIs, I suggest that the
-> > vhost-vDPA device controls the entire configuration space. QEMU should
-> > simply forward accesses between the guest and vhost-vdpa.
-> >
->=20
-> Does this already achieved by vhost_ops->vhost_get_config=EF=BC=9F And I =
-want
-> to know how to handle the endianness issue if qemu just simply does
-> forwarding and doesn't care about the content of config space.
 
-QEMU just copies bytes betwen the driver and the device via
-vdpa_config_ops->get/set_config(). I don't think it needs to worry about
-endianness in VIRTIO Configuration Space access code or did I miss
-something?
 
-My understanding is that vDPA currently supports same-endian Legacy and
-little-endian Modern devices. Cross-endian Legacy devices are currently
-not supported because there is no API to set endianness.
-
-If such an API is added in the future, then QEMU can use it to tell the
-vDPA device about guest endianness. QEMU still won't need to modify
-Configuration Space data itself.
-
-> > Regarding qdev properties, it's a little trickier because QEMU needs to
-> > do the emulated VIRTIO device setup (allocating virtqueues, setting
-> > their sizes, etc). Can QEMU query this information from the vDPA device=
-?
-> > If not, which qdev properties are read-only and must match the
-> > configuration of the vDPA device and which are read-write and can
-> > control the vDPA device?
-> >
->=20
-> Yes, that's an issue. We have to make sure the number of virtqueues
-> and their size set by qemu is not greater than hardware limitation.
-> Now I think we can query the max queue size, but looks like we don't
-> have an interface to query the max number of virtqueues.
-
-Okay, this is something that Jason and Stefano can discuss more. Ideally
-the QEMU command-line does not need to duplicate information about the
-vDPA device. The vdpa management tool
-(https://github.com/shemminger/iproute2/tree/main/vdpa) and VDUSE
-virtio-blk device will probably be where the main device configuration
-happens.
-
-As a starting point, can you describe how your VDUSE virtio-blk device
-is configured? Does it have a command-line/config file/RPC API to set
-the number of virtqueues, block size, etc?
-
-Stefan
-
---7k/PYRf+t1DDnOHB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCIH4cACgkQnKSrs4Gr
-c8jyvwgAtsGFMg3Q79sLVOyJVvTzEExiN8cLftyT0UtgJX1U1iBdf8heLAOiHVqv
-cDFsn03PHw/VrHpG9MtFAvRuOzZklpVhlaV8KGH5eXVEPZJEdF+Sx/ZYS5sdeTKC
-d7BAwCq7KfuVYykdgvyZpeWgEHwaAF/4vCVqQwIp8Gf0MpaneA6q4NJzqVecaZHb
-Z0Lx4s2ppjzRFihBdsPYDCyyGXEVvQ+PRP9ZB6gmg7ZmTlVSK1cU2Gt30D6uCVUl
-J3jUGryJxIyaT7C6VGH/7TX9YP4Le1wfFEeHW5+S+P/yQzqoPyJiMXxGmVavbWF/
-39N5QRqCvQEO5TBmm4o4VWTA+mxvHw==
-=P8Ze
------END PGP SIGNATURE-----
-
---7k/PYRf+t1DDnOHB--
+> 
+> More importantly IMO though is that the current use cases can be keept
+> while still providing support for commands with dummy clock cycles into
+> the QEMU SPI controllers lacking at the moment.
+> 
+> (If I recall correctly this series might also have another issue regarding
+> the GQSPI SPI mode configuration, with that it is possible transmit 8
+> dummy clock cycles as 1 data byte, 2 data bytes or 4 data bytes, so I
+> think some form of calculation might be needed inside m25p80).
+> 
+> Best regards,
+> Francisco
+> 
+> 
+>>
+>> Alistair
+>>
+>>>
+>>> Hello maintainers,
+>>>
+>>> We apparently missed the 6.0 window to address this mess of the m25p80
+>>> model. Please provide your inputs on this before I start working on
+>>> the v2.
+>>>
+>>> Regards,
+>>> Bin
+>>>
 
 
