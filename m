@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D1B36C719
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 15:37:04 +0200 (CEST)
-Received: from localhost ([::1]:59088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5E836C728
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 15:42:34 +0200 (CEST)
+Received: from localhost ([::1]:37554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbNtf-0005cw-73
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 09:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55752)
+	id 1lbNyz-0000A7-Cv
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 09:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbNsB-0004ft-R2
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:35:31 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46988)
+ id 1lbNxN-0007ee-Fk
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbNs9-0005fn-Jj
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:35:31 -0400
+ id 1lbNxL-0000Vo-8v
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:40:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbNs7-0001sW-Vq
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 13:35:27 +0000
+ id 1lbNxK-0003NA-0f
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 13:40:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DBFFD2E815C
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 13:35:27 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F17372E8144
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 13:40:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Apr 2021 13:29:57 -0000
+Date: Tue, 27 Apr 2021 13:33:37 -0000
 From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1926277@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,14 +44,15 @@ X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 References: <161951518027.9817.15696784713381088226.malonedeb@soybean.canonical.com>
-Message-Id: <161953019731.11075.13703878566820815617.malone@soybean.canonical.com>
-Subject: [Bug 1926277] Re: MIPS MT dvpe does not regard VPEConf0.MVP  
+Message-Id: <20210427133343.159718-1-f4bug@amsat.org>
+Subject: [Bug 1926277] [PATCH v2] target/mips: Only update MVPControl.EVP bit
+ if executed by master VPE
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 703bb2bf5587728901017c807ee29507e32ad0ba
+X-Launchpad-Hash: 88fec7c72c34a4390d20afa013febda6783502f9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -76,8 +77,85 @@ Reply-To: Bug 1926277 <1926277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oops you are right. The problem is I don't have reproducer, so I rely on
-your testing :)
+According to the 'MIPS MT Application-Speci=EF=AC=81c Extension' manual:
+
+  If the VPE executing the instruction is not a Master VPE,
+  with the MVP bit of the VPEConf0 register set, the EVP bit
+  is unchanged by the instruction.
+
+Modify the DVPE/EVPE opcodes to only update the MVPControl.EVP bit
+if executed on a master VPE.
+
+Reported-by: Hansni Bu <https://launchpad.net/%7Ehansni/+contactuser>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1926277
+Fixes: f249412c749 ("mips: Add MT halting and waking of VPEs")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+Supersedes: <20210427103555.112652-1-f4bug@amsat.org>
+v2: Check VPEConf0.MVP bit (hansni)
+---
+ target/mips/cp0_helper.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
+
+diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+index aae2af6eccc..d5f274f5cdf 100644
+--- a/target/mips/cp0_helper.c
++++ b/target/mips/cp0_helper.c
+@@ -1635,12 +1635,14 @@ target_ulong helper_dvpe(CPUMIPSState *env)
+     CPUState *other_cs =3D first_cpu;
+     target_ulong prev =3D env->mvp->CP0_MVPControl;
+ =
+
+-    CPU_FOREACH(other_cs) {
+-        MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
+-        /* Turn off all VPEs except the one executing the dvpe.  */
+-        if (&other_cpu->env !=3D env) {
+-            other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EVP);
+-            mips_vpe_sleep(other_cpu);
++    if (env->CP0_VPEConf0 & (1 << CP0VPEC0_MVP)) {
++        CPU_FOREACH(other_cs) {
++            MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
++            /* Turn off all VPEs except the one executing the dvpe.  */
++            if (&other_cpu->env !=3D env) {
++                other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EV=
+P);
++                mips_vpe_sleep(other_cpu);
++            }
+         }
+     }
+     return prev;
+@@ -1651,15 +1653,17 @@ target_ulong helper_evpe(CPUMIPSState *env)
+     CPUState *other_cs =3D first_cpu;
+     target_ulong prev =3D env->mvp->CP0_MVPControl;
+ =
+
+-    CPU_FOREACH(other_cs) {
+-        MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
++    if (env->CP0_VPEConf0 & (1 << CP0VPEC0_MVP)) {
++        CPU_FOREACH(other_cs) {
++            MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
+ =
+
+-        if (&other_cpu->env !=3D env
+-            /* If the VPE is WFI, don't disturb its sleep.  */
+-            && !mips_vpe_is_wfi(other_cpu)) {
+-            /* Enable the VPE.  */
+-            other_cpu->env.mvp->CP0_MVPControl |=3D (1 << CP0MVPCo_EVP);
+-            mips_vpe_wake(other_cpu); /* And wake it up.  */
++            if (&other_cpu->env !=3D env
++                /* If the VPE is WFI, don't disturb its sleep.  */
++                && !mips_vpe_is_wfi(other_cpu)) {
++                /* Enable the VPE.  */
++                other_cpu->env.mvp->CP0_MVPControl |=3D (1 << CP0MVPCo_EVP=
+);
++                mips_vpe_wake(other_cpu); /* And wake it up.  */
++            }
+         }
+     }
+     return prev;
+-- =
+
+2.26.3
 
 -- =
 
