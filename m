@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD0A36C9A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:43:41 +0200 (CEST)
-Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F27B36C9B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:46:23 +0200 (CEST)
+Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbQoG-0002jb-Gs
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58418)
+	id 1lbQqs-0003b4-2w
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbQlg-00026F-Qz
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:41:00 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:36735)
+ id 1lbQmx-0002kL-Em
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:42:19 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbQlV-00045B-7E
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:40:59 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id c3so22988092pfo.3
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:40:45 -0700 (PDT)
+ id 1lbQmv-0004cK-Rc
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:42:19 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id b17so5734836pgh.7
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=9qWkQEW+zRrgpJDzh76RLl6aQzYDiDDT2yAGtLCDL5Q=;
- b=dqwnILH0vQH9uAH17h3iq3kn/YFRF/bd70TE/XLuymYPtQDRC7kx1K0bgyuGlt+xYZ
- pobtbxdLz7XuxuY2DB+TFV5jhUcCQJ8wzvr6nsaqUmfZbuyEpWKR29ErazCsSlYVLxao
- DtFlAI5WLdW0eAXn3zPl+zd5JsQrLs3mADJwdpDPlwF1dOM7yL016aN/Bxr/n9jfJ1GD
- PSLCAlTKlk97zCGObhJ0Haf5FiGqoNxGpNlZM/3IoSSyc0D+D3QiCxonaggIYlt9Z+gc
- /hX63ARkoF5QJNEE81GoBUJMqN/CTbT3IfFNuqflySCohrm8ZgfY6eZRl8fWUbAaAdy1
- W83Q==
+ bh=WpMfbPhLOQscSZoBg+QKpJl3Np9ZqmkvmrxNZaSbj3s=;
+ b=ZopxJGeLbYsyFX/BNNTMWfsQPdOrH6UOvSbbGCF+NLul2wBkS4KaUtDtubd67BbQT2
+ 1e4Wk1a/NW+7yYwtB9Zb1KMIteUC7bUr4hehnB72tmYnHoTzisRq2hWWmCQzo4IXP9hi
+ AhcFFnZsfXfL0NUwzZOrEh3u1axBKufyIBCdTYjYP8x5BNngHNLes88RNgLjOQBKvXFu
+ SRqYTGWN0SufcvK0l+UBpRoaCXL56jjq6h/A2UV8xK5J6P1HXI3YahdwpMmrRT1QyxI3
+ dT74uYYteGH51wxAD6ldNwrAxubG3ZrJW+MtGMCDVm51zeo2XuQdD1yvMw9Mbsp/65Rj
+ NyEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9qWkQEW+zRrgpJDzh76RLl6aQzYDiDDT2yAGtLCDL5Q=;
- b=G/70oTF1WVPPEtt6JD90IdWv+IYbW8vbsB3ztWPPf6XHydqsUuJ0D8lw+0T04ap+V0
- ifh2ZmOpUo5VjkLDtw4ooVICyuXvwvEy+10wRplAo+0n2RgPcngY7SRg1yuqqGlK+vFR
- C+5tCZwICVT/22T9cTQ1r6V0pcT/Qv256J12CFYrrMtVODfs3MbnE0/BVA72ky+K/rAH
- bOWZgtxLJx4FIkMl2j47FRGK4B5Q49OXPRdZ3K8j/61PFTs3evC0Gtw+ofXImWt0++2B
- yQxRIj5rOyHJ4h5FXvP4/VZenQkKYLTmwuZupdLaKU7OGBqCBESDX96WNSfzkol5lopf
- pbRA==
-X-Gm-Message-State: AOAM533INne7iu9lPPzHohu+cxqjS1ngd+6XXUMp0Mj8E3fjCSe2UiuY
- nIh4QhDymtlQqz6iXZ117f5B5b28YLfX2Q==
-X-Google-Smtp-Source: ABdhPJz3PD79aTGTirn9E+iAhbhUvWag0Po/vv9f4Yj/t4ZLdYBodt2SQQk/39ka1YsnPlRfOSbqIQ==
-X-Received: by 2002:a63:b94b:: with SMTP id v11mr2004719pgo.76.1619541644588; 
- Tue, 27 Apr 2021 09:40:44 -0700 (PDT)
+ bh=WpMfbPhLOQscSZoBg+QKpJl3Np9ZqmkvmrxNZaSbj3s=;
+ b=Rs2+mgUJv3ZBsCIe9DhCOufUYm8I6Q5JVbZD6qhmoFX+n9xAXwnGQDDDMDLuLPuTEr
+ xo7MbK2JXcP9nAOJ3HU/ZxjN1qVbsQBxqDHGiVq+maMdLTZedGHPj8suHRNSsLsNzm09
+ 0sBeRO+syuFZtqD1ASbc2XCnf/4CC3avr4MhSNvG1z8kI8zEWNObL1hG7ICr543X/TzN
+ eR5ccm71+S6Ub78Y8qTsXKKrtaJMIZwFAXu3H+dwx+HsEBMVz2HkQjfFDeLbkeRO0kVm
+ fxvyVM49zjeYPa2t77uRTryPi43Am5joSXgjIYrh05zWXYXAERI58fuQdayPrDQDnSfI
+ d5Ww==
+X-Gm-Message-State: AOAM532ik0mORrisCxQRCKui078aZWyJH2zqvvJYjYfPhLLZTYsFSCLX
+ Q87O71fehNJbx+aYV6yxtoq55xhNkr14Hg==
+X-Google-Smtp-Source: ABdhPJxKGyM+1SVRe2a3pz3wPeobik0+0Jx1qXn+P/AFVs+7xhyMtChAbY/Ly9eeA/w5ezDMIRDHLA==
+X-Received: by 2002:a63:d143:: with SMTP id c3mr22169045pgj.99.1619541736223; 
+ Tue, 27 Apr 2021 09:42:16 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id f71sm3135310pfa.91.2021.04.27.09.40.44
+ by smtp.gmail.com with ESMTPSA id o127sm3101485pfd.147.2021.04.27.09.42.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 09:40:44 -0700 (PDT)
-Subject: Re: [PATCH 04/13] target/arm: Split m-nocp trans functions into their
- own file
+ Tue, 27 Apr 2021 09:42:15 -0700 (PDT)
+Subject: Re: [PATCH 03/13] target/arm: Make functions used by m-nocp global
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-5-peter.maydell@linaro.org>
+ <20210413160759.5917-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eb35dc47-1ff2-32e6-dc57-3dd69e085505@linaro.org>
-Date: Tue, 27 Apr 2021 09:40:42 -0700
+Message-ID: <e40b2ac8-0d85-56c4-32b4-b79f139a51a4@linaro.org>
+Date: Tue, 27 Apr 2021 09:42:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210413160759.5917-5-peter.maydell@linaro.org>
+In-Reply-To: <20210413160759.5917-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,21 +92,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/13/21 9:07 AM, Peter Maydell wrote:
-> Currently the trans functions for m-nocp.decode all live in
-> translate-vfp.inc.c; move them out into their own translation unit,
-> translate-m-nocp.c.
+> We want to split out the .c.inc files which are currently included
+> into translate.c so they are separate compilation units.  To do this
+> we need to make some functions which are currently file-local to
+> translate.c have global scope; create a translate-a32.h paralleling
+> the existing translate-a64.h as a place for these declarations to
+> live, so that code moved into the new compilation units can call
+> them.
 > 
-> The trans_* functions here are pure code motion with no changes.
+> The functions made global here are those required by the
+> m-nocp.decode functions, except that I have converted the whole
+> family of {read,write}_neon_element* and also both the load_cpu and
+> store_cpu functions for consistency, even though m-nocp only wants a
+> few functions from each.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/translate-a32.h     |   3 +
->   target/arm/translate-m-nocp.c  | 221 +++++++++++++++++++++++++++++++++
->   target/arm/translate.c         |   1 -
->   target/arm/translate-vfp.c.inc | 196 -----------------------------
->   target/arm/meson.build         |   3 +-
->   5 files changed, 226 insertions(+), 198 deletions(-)
->   create mode 100644 target/arm/translate-m-nocp.c
+>   target/arm/translate-a32.h     | 57 ++++++++++++++++++++++++++++++++++
+>   target/arm/translate.c         | 39 +++++------------------
+>   target/arm/translate-vfp.c.inc |  2 +-
+>   3 files changed, 65 insertions(+), 33 deletions(-)
+>   create mode 100644 target/arm/translate-a32.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
