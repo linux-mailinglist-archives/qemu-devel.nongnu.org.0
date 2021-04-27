@@ -2,139 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FFE36C58E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:49:27 +0200 (CEST)
-Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE3F36C5AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:59:06 +0200 (CEST)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbMDW-0006ge-0L
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56666)
+	id 1lbMMr-0001ZG-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lbMB2-0005gk-FZ; Tue, 27 Apr 2021 07:46:52 -0400
-Received: from mail-eopbgr60133.outbound.protection.outlook.com
- ([40.107.6.133]:25602 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
+ id 1lbMKv-0000zW-3g; Tue, 27 Apr 2021 07:57:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lbMAz-0001mu-PB; Tue, 27 Apr 2021 07:46:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bjHJbgIrHZLFHvs5iuKna6Qo7jerAi5DiRlgmWVJX8jwP12NvddLoneLcF0LBKV/ZN3objIznbhaOGUlJKffVyLYUN/sEfYsPuSf500Li2mRfU01akH7pICmNUJEVAWX0XVKnYcOU2ZwcD/OzWNsMXdIuQGo9tGy4L2otMeVFxlPTjAdsLtUMx9TkML1ZoFojJgAwMVFlWryM6fMLOwTBnFYZNDo7IK1dBTKQuNB+YARKgCCivKlwzLkf2qtfn/3GL+4IbR9iqqMMiKfMCwgepXm4bX6TiNREo8/3Xw57rTrLE16a5jpAQ7hC63Jdzi4xp5YRA3bMJQUoOQWRb6w8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c74w1mlGzrZt4BXibObnQQ9KlPl8dcCdr6u34bAUghI=;
- b=EhgemxUwf7hyo71aPSWjUo+uZwcobdvDLeUODxqRFFqEpq0291Wnlf801u7v20prGrVs3Ki36q/8vJXLW9Mo1tRHMfubldo0Yw2fU4w8qxDli8kCdEEQ9XkVkSRES/f0p8MH72mBiPz7MJ4jeIFkgbDBIAfjhVVGKnzukBHj0iCr/MRHh0AGabavW3r4HRRasN9q8aC68fPpqIhHHiaDrSaCPDCAieVGm2qUFAqVggOP/gLC2JOg+RmoBEoBZGTDIW5bDSLkhVlhhJ66Gje+yma5mXPVwZNGn0BNCJe3bnr3xUNPXZsh6PK+Qi/+6R9fKqxENH3W/Q0BOljBuyLrUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c74w1mlGzrZt4BXibObnQQ9KlPl8dcCdr6u34bAUghI=;
- b=OjaeHSceZJA/Bf1sYm/G8iOCUUvJeAEPwdhmCj7J+8PJEfWyEs2zFYi7C7if/nV5i8/RDY5tTeiJNPpA+c/i2N0DRP6pYS8Lh1/A9ODJZZ0yxCQ4L3+G/fks7+0rV37W80uQNGQp4Uj2zmzum/y/WhRB6FhcvfBrknpYE6YwoRM=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4343.eurprd08.prod.outlook.com (2603:10a6:20b:ba::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Tue, 27 Apr
- 2021 11:46:46 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
- 11:46:46 +0000
-Subject: Re: [PATCH RFC C0/2] support allocation-map for
- block-dirty-bitmap-merge
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com, eblake@redhat.com, pkrempa@redhat.com,
- nshirokovskiy@virtuozzo.com, den@openvz.org
-References: <20210427111126.84307-1-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1cee113b-996f-2288-0b36-23fbb37f0583@virtuozzo.com>
-Date: Tue, 27 Apr 2021 14:46:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-In-Reply-To: <20210427111126.84307-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.222]
-X-ClientProxiedBy: AM0PR04CA0030.eurprd04.prod.outlook.com
- (2603:10a6:208:122::43) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
+ id 1lbMKr-000858-D9; Tue, 27 Apr 2021 07:57:03 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13RBYhbO193646; Tue, 27 Apr 2021 07:56:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=ubxa2Wspk/PuLHB+xMQ2W9eiE8WEwfoRb5PH3B1tUDg=;
+ b=rNPvNUNkaTYQtGevzAIWw298OsIOlLd/15nWSe/nNa4DTj8qvqHl++HnFPVUKijuI6qw
+ 1Pzn7xsqVQLNSFaKf0z4nu4bFrPoYUHcoFxagDY1oIiPCaqnwDD7fWYD+Avy2fTFzAu+
+ SachYVoXXrshXeB3XTc+vUb0MzGUQ4iW1fpEnwPO3WOXZtQzybGUQ8uNTqIX3eLuRNl2
+ cLVK/RNpzhy0RkKJJfCj4ubnFkG99Fu7dkOUQGteyasINDtcnFM1FImgV3BsQLiKOtJ3
+ +vgqMP3dUJw7NE2q5V+WdEz0TDfdiGaWn/YHiJE7rQ70Oc673Z2xxvz0HTAyYRoG16fo fA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 386h81hq7p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 07:56:57 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13RBYo0d194009;
+ Tue, 27 Apr 2021 07:56:57 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 386h81hq6m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 07:56:57 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13RBqAGd018155;
+ Tue, 27 Apr 2021 11:56:55 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 384ay8ha6g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 11:56:54 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 13RBuRFu32440830
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 27 Apr 2021 11:56:27 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9D31111C04A;
+ Tue, 27 Apr 2021 11:56:51 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D0F5E11C054;
+ Tue, 27 Apr 2021 11:56:50 +0000 (GMT)
+Received: from [127.0.0.1] (unknown [9.199.62.190])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 27 Apr 2021 11:56:50 +0000 (GMT)
+Subject: [PATCH] spapr: Modify ibm,get-config-addr-info2 to set DEVNUM in PE
+ config address.
+From: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+To: Qemu-devel <qemu-devel@nongnu.org>
+Date: Tue, 27 Apr 2021 17:26:49 +0530
+Message-ID: <161952458744.148285.11534763593153102355.stgit@jupiter>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.222) by
- AM0PR04CA0030.eurprd04.prod.outlook.com (2603:10a6:208:122::43) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend
- Transport; Tue, 27 Apr 2021 11:46:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: afd01bbc-0013-4f1b-e78e-08d9097222b0
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4343:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4343DE25442FDFE5184C7522C1419@AM6PR08MB4343.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xjBPi8d7+T0EOH6nh7LwpGvsyGN9irNSMicBLVlpFk5u+A2/jn/rRimwRwyLSKCmAVKbxpZQFBA3oVCMag9AyzmJWVwjzvdrmt6ThXVTKV+tjzd5wqh7otQh7t69vfFSGTXFc87IqNp4pIdm38H4HlmG3+j57wa2lke8+sIh47YSM/5QUYRGX5OCHXytt2VXJ5Pvv3rbMkpsoIGc7JB0Y7foE9yu09mATtgRMYkRTr9L6rNwlSgzmSomi65v7SrkTHCj3Hi2Gh5cNEYbfiQ6X0Xi4BEehbahXOEIjCQNZaP3KeJqJK14Qw9qK0F32TU1tqJitdDgeuW2PH4RPFvL5872iLyAs3bG2xQflaKGrxakzOeEC+k+/+qOVp6PJsncCb47HzCToIpXNvD0xC3rHt3o5frwJrlI6zT7Dgmn1E/ZQfwq3L3XMP9VOeRYLBm8W52DnKW+JNsMBlgwmUcX7PAg4xcs+6LlFsBxzoiKkDnxk8NMHJAg65HBgdMV8NbMalf2+f61gsMwtro4+QMsJr2Yv5NC7kincm9q05fSlBV7MA9Cztmx2Cl7IywS2kMf2pd0VRAyE1HxMI1SqdqbtbfSfOkJoTcscyYCnRxfSYii4QN63iGNV0XhBTQcAI1xOgrAXxeCcB9aJJJb4/eAdNiaVUe5daeY6xLMBhrrYJBL66H1YM8kl2pvT7AJmzwtOTWykmDTZZ9ti97PfXRAPckx9tIY5ia9xRKAPj5cS9VNVtfY1pFBrLfU/Fi3sJIWJ7WLmLCGmZPM0dCsDhR7xovOiPGo2WQ0y4fTraLjQMKGRiJRzP40jyflEMCeMmW1
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(136003)(346002)(396003)(366004)(376002)(31696002)(4326008)(66556008)(316002)(31686004)(86362001)(83380400001)(66476007)(38100700002)(38350700002)(6916009)(66946007)(2906002)(26005)(8936002)(186003)(16526019)(478600001)(52116002)(16576012)(107886003)(8676002)(5660300002)(6486002)(956004)(966005)(2616005)(36756003)(14143004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MHB4TDN5UmJkenN0bWlpVGhONExzRThwdFllWGQ3dFhUN2xoWWVncWkxMXh6?=
- =?utf-8?B?THdkYVg1cnh6YWFTcTBrUU80ak41L285KzQyUkxqY3ZJQXcvTWhzbXp6Yncr?=
- =?utf-8?B?YnQ0a0loakQ0YW9WSEhoYXg1aDdRSDJseXpobmZpb2ZKaUpoVzg0SG1uOU4x?=
- =?utf-8?B?d01GZEMvTUwwdTI3S2pwQ2pQVnZib24wYituZ1djSGtJUDVKc21EMW91ZHI5?=
- =?utf-8?B?UlE0dlA0a0pDa2lVaFM0c1JiWS9uM21FY2FZNGIxdkxoNnQ2Vk1PV21iaGhK?=
- =?utf-8?B?SWw0NVdWblhzeVdhbkpjbDBKTTlvdkFST2sycUZZdDQvKzNFekR4M1djb3pT?=
- =?utf-8?B?SjZlby9IaEUxYW1jOW1oeEpXTEFwVW14N2wzMEpMak1QT0QyS3JINFpHa0o5?=
- =?utf-8?B?UXdKMDV0N1pQdzZvVUljQnE5T1lmUmtqZzgrU3hZb2FSc0tRNmlOaXNndFBt?=
- =?utf-8?B?d0RSYU1zSUdxRzVjb09wYUhycDdCVUhKV2dFZjZHTlJ5OFN1K0pzZkhZMGpq?=
- =?utf-8?B?ZFpWZnBKYWdZVFJqTHhtZ0ErbVZ0enVRci9xOWJ2SzNSSmNvdFdsQ3BqS250?=
- =?utf-8?B?bUxlSUxjWmFkMk9ueHY1MmQ0Tk9rZWxrMmZhY3dkVitiT2FYY0tndlBXdk9S?=
- =?utf-8?B?SkNoVHNkRjdyVEw1UGRCRWFqOHR3N0N0M200YzBLU3JyWHR4TUJkbkZTNnYz?=
- =?utf-8?B?Rm9BY0dnNVBLemdENmlreUhPRHpKVU1VaDEzbE1uaE1ZUU1Eb3FIbHorc1gw?=
- =?utf-8?B?b2dMejFGbWNNYmxqeElMRDZPS2lCanJQeFl5K0laNkt5RmU2ZDVpVUxlNURj?=
- =?utf-8?B?d2V4SWgrWmR2SjBzZVZvYjBMc1M0SlJUVEN5bWFMM0pHRmg4VFN3dTN3cGhS?=
- =?utf-8?B?QkVWWGx4MHJrL3NDQ0hZdEpjSTgvYWhjd0xGSzlWSUVxRUlYUngvTjkyNDg3?=
- =?utf-8?B?TEpLMVJXMzlGc2ZBa2p1U2JyajFTNmgrQ0VVaUVPY2l4T2pPd1RHajErRTBz?=
- =?utf-8?B?TDA0N1dFM1pORklMQWlYekFwd3JqQWlnOU54SmpZakgzVnUrOU8xdTVBTkxr?=
- =?utf-8?B?UWt0VDI0aFgvV3F2VG82dWVoRXlzNzk3dGdaNTJSZW55NUtVMENYTUdTejZs?=
- =?utf-8?B?K3kxSm5lckU3a1RMYUs1b1ZsVGd1d01sMU4vRVRsYUErS2xuSkNqK0xwYzhP?=
- =?utf-8?B?cTVkZ3hPck5heXdURU9qTUpOM0F3M0tURU5vdWFYNGthS2lQMVhSUXhwTlpi?=
- =?utf-8?B?OUNqT21qSlNwK25adWVWcnJsUGtPYVVKUTBiSW42ejJGQmpyQnAwWThnNzFY?=
- =?utf-8?B?TmRRU1htNGFtR1poQTlMMkFPOGRvOS9ERTJ5Y1UxR1B2THJoU0FoREQ0QVJn?=
- =?utf-8?B?SXIvT3pEZ3g1U1NTN3JRVkQvS0RwWTIzNFc4eTJZbjdqTitHVGJNUXIwVjNz?=
- =?utf-8?B?NEhTclRGUFdHdlVhUnhTR2w0UC9QRkkvbVNVQkV4U3FITUptN1R3bndnSU96?=
- =?utf-8?B?ZnI4VW1ZZXdSb1NSY01jKzN6UE5XZG5CSGFvWUhNTHAxMlo1cGRkWTc5WDJT?=
- =?utf-8?B?YnpSVmVMR1hVUWpTaGRlYnJ6UmRLcUFDV2pRS0JoeWhMbk9UblBFRlkzcWNz?=
- =?utf-8?B?WGhVRzFidUZjRTNFSkNoc0pXUkJ3MFFjUmd4ZlJxblcvLzA0MXY5UzFzd1pT?=
- =?utf-8?B?YVBVU2J0a0JzSDl1VXFhWlVKMUkxVkdiampNK1NhNm14QmpTU1hwZGJ0QmJr?=
- =?utf-8?Q?Vb0JJJa1C8bUxruQ67ue+GblK1ePzhu7lG6BmAn?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afd01bbc-0013-4f1b-e78e-08d9097222b0
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 11:46:46.3407 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hsVDxNVa0N7aPLWnF6+PFJBirIKOzDv000x9svn5kS51ntkiXB8hJ1lQrjCZ659TAgKGwjd29y6kKgn7MHgeTLO37LJMXa0adiaIZ60NIYk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4343
-Received-SPF: pass client-ip=40.107.6.133;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Bz5VV9mGpfsprWqlqEtmWAZaDIg8UWrp
+X-Proofpoint-GUID: OV-obHfSy_noI2skILG-F6OwRqWMDLxP
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-27_06:2021-04-27,
+ 2021-04-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ clxscore=1011 lowpriorityscore=0 bulkscore=0 impostorscore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104270086
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=mahesh@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HEXHASH_WORD=1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,54 +108,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Oliver O'Halloran <oohall@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Qemu-ppc <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.04.2021 14:11, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> It's a simpler alternative for
-> "[PATCH v4 0/5] block: add block-dirty-bitmap-populate job"
->    <20200902181831.2570048-1-eblake@redhat.com>
->    https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg00978.html
->    https://patchew.org/QEMU/20200902181831.2570048-1-eblake@redhat.com/
-> 
-> Since we have "coroutine: true" feature for qmp commands, I think,
-> maybe we can merge allocation status to bitmap without bothering with
-> new block-job?
-> 
-> It's an RFC:
-> 
-> 1. Main question: is it OK as a simple blocking command, even in a
-> coroutine mode. It's a lot simpler, and it can be simply used in a
-> transaction with other bitmap commands.
-> 
-> 2. Transaction support is not here now. Will add in future version, if
-> general approach is OK.
+With upstream kernel, especially after commit 98ba956f6a389
+("powerpc/pseries/eeh: Rework device EEH PE determination") we see that KVM
+guest isn't able to enable EEH option for PCI pass-through devices anymore.
 
-Ha actually, I think it should work, as block-dirty-bitmap-merge is already transactional, and we don't break it by the commit.
+[root@atest-guest ~]# dmesg | grep EEH
+[    0.032337] EEH: pSeries platform initialized
+[    0.298207] EEH: No capable adapters found: recovery disabled.
+[root@atest-guest ~]#
 
-> 
-> 3. I just do bdrv_co_enter() / bdrv_co_leave() like it is done in the
-> only coroutine qmp command - block_resize(). I'm not sure how much is it
-> correct.
-> 
-> 4. I don't do any "drain". I think it's not needed, as intended usage
-> is to merge block-status to_active_  bitmap. So all concurrent
-> operations will just increase dirtyness of the bitmap and it is OK.
-> 
-> 5. Probably we still need to create some BdrvChild to avoid node resize
-> during the loop of block-status querying.
-> 
-> 6. Test is mostly copied from parallels-read-bitmap, I'll refactor it in
-> next version to avoid copy-paste.
-> 
-> 7. Probably patch 01 is better be split into 2-3 patches.
+So far the linux kernel was assuming pe_config_addr equal to device's
+config_addr and using it to enable EEH on the PE through ibm,set-eeh-option
+RTAS call. Which wasn't the correct way as per PAPR. The linux kernel
+commit 98ba956f6a389 fixed this flow. With that fixed, linux now gets the
+PE config address first using the ibm,get-config-addr-info2 RTAS call, and
+then uses the found address as argument to ibm,set-eeh-option RTAS call to
+enable EEH on the PCI device. This works on PowerVM lpar but fails in qemu
+KVM guests. This is because ibm,set-eeh-option RTAS call in qemu expects PE
+config address bits 16:20 be populated with device number (DEVNUM).
 
-8. Name "bitmaps" for list of sources in block-dirty-bitmap-merge becomes misleading. Probably we should add similar "sources" list as alternative to "bitmaps", and deprecate "bitmaps" field.
+The rtas call ibm,get-config-addr-info2 in qemu always returns the PE
+config address in form of "00BB0001" (i.e.  <00><BUS><DEVFN><REG>) where
+"BB" represents the bus number of PE's primary bus and with device number
+information always set to zero. However until commit 98ba956f6a389 this
+return value wasn't used to enable EEH on the PCI device.
+
+Now in qemu guest with recent kernel the ibm,set-eeh-option RTAS call fails
+with -3 return value indicating that there is no PCI device exist for the
+specified pe config address. The rtas_ibm_set_eeh_option call uses
+pci_find_device() to get the PC device that matches specific bus and devfn
+extracted from PE config address passed as argument. Since the DEVFN part
+of PE config always contains zero, pci_find_device() fails to find the
+specific PCI device and hence fails to enable the EEH capability.
+
+hw/ppc/spapr_pci_vfio.c: spapr_phb_vfio_eeh_set_option()
+   case RTAS_EEH_ENABLE: {
+        PCIHostState *phb;
+        PCIDevice *pdev;
+
+        /*
+         * The EEH functionality is enabled on basis of PCI device,
+         * instead of PE. We need check the validity of the PCI
+         * device address.
+         */
+        phb = PCI_HOST_BRIDGE(sphb);
+        pdev = pci_find_device(phb->bus,
+                               (addr >> 16) & 0xFF, (addr >> 8) & 0xFF);
+        if (!pdev || !object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
+            return RTAS_OUT_PARAM_ERROR;
+        }
+
+hw/pci/pci.c:pci_find_device()
+
+PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
+{
+    bus = pci_find_bus_nr(bus, bus_num);
+
+    if (!bus)
+        return NULL;
+
+    return bus->devices[devfn];
+}
+
+This patch fixes this issue by populating DEVNUM field (bits 16:20) of PE
+config address with device number.
+
+After this fix guest is able to find EEH capable devices and enable EEH
+recovery on it.
+
+[root@atest-guest ~]# dmesg | grep EEH
+[    0.048139] EEH: pSeries platform initialized
+[    0.405115] EEH: Capable adapter found: recovery enabled.
+[root@atest-guest ~]#
+
+Signed-off-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+---
+ hw/ppc/spapr_pci.c |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index feba18cb12..d6b0c380c8 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -538,8 +538,9 @@ static void rtas_ibm_get_config_addr_info2(PowerPCCPU *cpu,
+     }
+ 
+     /*
+-     * We always have PE address of form "00BB0001". "BB"
+-     * represents the bus number of PE's primary bus.
++     * Return PE address of form "00BBD001". "BB" represents the
++     * bus number of PE's primary bus and "D" represents the device number.
++     * Guest uses this PE address to enable EEH on this pci device.
+      */
+     option = rtas_ld(args, 3);
+     switch (option) {
+@@ -550,7 +551,8 @@ static void rtas_ibm_get_config_addr_info2(PowerPCCPU *cpu,
+             goto param_error_exit;
+         }
+ 
+-        rtas_st(rets, 1, (pci_bus_num(pci_get_bus(pdev)) << 16) + 1);
++        rtas_st(rets, 1, (pci_bus_num(pci_get_bus(pdev)) << 16) |
++                         (PCI_DEVFN(PCI_SLOT(pdev->devfn), 0) << 8) | 1);
+         break;
+     case RTAS_GET_PE_MODE:
+         rtas_st(rets, 1, RTAS_PE_MODE_SHARED);
 
 
--- 
-Best regards,
-Vladimir
 
