@@ -2,61 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C689036C0BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 10:24:19 +0200 (CEST)
-Received: from localhost ([::1]:49422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57C236C0CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 10:30:00 +0200 (CEST)
+Received: from localhost ([::1]:60854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbJ10-0001eA-Ts
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 04:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38762)
+	id 1lbJ6V-0006P5-Fs
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 04:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lbIzm-0000w0-9z
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:23:02 -0400
-Received: from mga02.intel.com ([134.134.136.20]:21321)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbJ3s-0005Jx-Sn
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:27:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lbIzj-00079b-UF
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:23:02 -0400
-IronPort-SDR: f1L5bHFDyA4TjUbq6rvCSPNKj4yG76lMJRUQkAUcrZD09bHMpBGyMpCTX/40ag6ThT9vbHMlnR
- NLZLRwVpKo4A==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="183608327"
-X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; d="scan'208";a="183608327"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2021 01:22:56 -0700
-IronPort-SDR: s0bL85pxtWtuvN+sQREtBJnNZfvAVm6zMnIDrdeBwa+qXSY2JYdhQRf9z/lJvQ9FEOvZqgpk0v
- uk8lrMTAzhoA==
-X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; d="scan'208";a="422971424"
-Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.238.4.93])
- ([10.238.4.93])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2021 01:22:54 -0700
-Subject: Re: [PATCH RESEND 1/2] target/i386: add "-cpu, lbr-fmt=*" support to
- enable guest LBR
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210423022037.24733-1-like.xu@linux.intel.com>
- <20210423212014.lfcskxdfmuhtdt5a@habkost.net>
-From: Like Xu <like.xu@linux.intel.com>
-Organization: Intel OTC
-Message-ID: <22ea7d4f-db60-85a8-d495-89a578afd234@linux.intel.com>
-Date: Tue, 27 Apr 2021 16:22:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbJ3q-0001Uu-D2
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:27:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619512032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h02zWZVZ0wy/MS60LG8WdzUDH1c3ZTHhixBtflejkCU=;
+ b=NF0q6V7umrk3Kox/2YnbVGU8PNYtCZG0zSzSz+Z1jm1GRQ31h3KMpPNynVbKFaLs4SJkjI
+ v6qtnahp1xSdjlUYxsD2tD0IvBqmsFsikpr+ktEb/+oLGmZA/SqPqHpbJidWI/iN3i9SSB
+ 0zg/6R27/Q/W2Lc7GPhUbSmsho+85ZI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-Ph1_O2etO1yKZN52gvLqVQ-1; Tue, 27 Apr 2021 04:27:10 -0400
+X-MC-Unique: Ph1_O2etO1yKZN52gvLqVQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ bx15-20020a170906a1cfb029037415131f28so11062755ejb.18
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 01:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h02zWZVZ0wy/MS60LG8WdzUDH1c3ZTHhixBtflejkCU=;
+ b=L5o9OO00yU36NGA6uG0BySUEDKp99rVy02no3tSuchqf+7R/PeJa6rGQHgFgZ261+F
+ juvNj1DCQ4/44PVZ+fZ+3xQssHC4smW0+6ItI5ryNlsHvGGW7PIJoaAFrku6qiCpTQ9F
+ IEknmV+yfSApxl3b8ZygiJZ5iB+RnWd5BmrqE2aihwOxS/JK6Ipl7NhLH3JdlXZ+C59l
+ /fqDRp9cHuTjftPE0EVYs73IzhYYT7dh//e0d0CaA7PMxCdcrTuC/DCaqt1S2I/r4Y5d
+ gdC3e5dg2uifdWSbKH+LSCL8EFviO6gI1sukWUp9hOgm+OkkVNqWsxwi0RBK1hvwY9rt
+ rVRg==
+X-Gm-Message-State: AOAM531cuM4gojl2Avfrd9YpoIJqd08Lt3w5kG2qJ5oN1AmsE//Qu+gN
+ PbueHgIz+iiOidSkq2KkufvnwH6Kp/fvSRWgO5WPUQ1yniFsrfXeSzboVclcN5XzlEQ9oGz1SLk
+ tah1wcc23Rq7h90E=
+X-Received: by 2002:aa7:cd83:: with SMTP id x3mr2866646edv.373.1619512029139; 
+ Tue, 27 Apr 2021 01:27:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxd/VIFLo27ojTIItcxBL6ySjfdp4o4kWrtznM+mcQgrLlk2Un9QdvxJLmMgLng+WJabt4slQ==
+X-Received: by 2002:aa7:cd83:: with SMTP id x3mr2866619edv.373.1619512028822; 
+ Tue, 27 Apr 2021 01:27:08 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id p9sm1764617edu.79.2021.04.27.01.27.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 01:27:08 -0700 (PDT)
+Date: Tue, 27 Apr 2021 10:27:06 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>
+Subject: Re: [PATCH RESEND v2 2/6] target/arm/kvm: Add helper to detect el2
+ when using KVM
+Message-ID: <20210427082706.phzeothsgj66mnp5@gator.home>
+References: <cover.1617281290.git.haibo.xu@linaro.org>
+ <65b8771bfecada08bf02c9cf87c2f0f9cdf943b3.1617281290.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210423212014.lfcskxdfmuhtdt5a@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=like.xu@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <65b8771bfecada08bf02c9cf87c2f0f9cdf943b3.1617281290.git.haibo.xu@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,183 +95,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, wei.w.wang@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eduardo,
-
-On 2021/4/24 5:20, Eduardo Habkost wrote:
-> Hi,
+On Thu, Apr 01, 2021 at 05:55:34AM -0700, Haibo Xu wrote:
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  target/arm/kvm64.c   |  5 +++++
+>  target/arm/kvm_arm.h | 13 +++++++++++++
+>  2 files changed, 18 insertions(+)
 > 
-> Sorry for missing the previous submission of this series, and
-> thanks for resubmitting.
-
-Long time no see and thanks for your comments.
-
-> 
-> On Fri, Apr 23, 2021 at 10:20:36AM +0800, Like Xu wrote:
->> The last branch recording (LBR) is a performance monitor unit (PMU)
->> feature on Intel processors that records a running trace of the most
->> recent branches taken by the processor in the LBR stack. The QEMU
->> could configure whether it's enabled or not for each guest via CLI.
->>
->> The LBR feature would be enabled on the guest if:
->> - the KVM is enabled and the PMU is enabled and,
->> - the msr-based-feature IA32_PERF_CAPABILITIES is supporterd on KVM and,
->> - the supported returned value for lbr_fmt from this msr is not zero and,
->> - the requested guest vcpu model does support FEAT_1_ECX.CPUID_EXT_PDCM,
->> - the configured lbr-fmt value is the same as the host lbr_fmt value
->>    or use the QEMU option "-cpu host,migratable=no".
->>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Like Xu <like.xu@linux.intel.com>
->> ---
->>   target/i386/cpu.c     | 16 ++++++++++++++++
->>   target/i386/cpu.h     | 10 ++++++++++
->>   target/i386/kvm/kvm.c |  5 +++--
->>   3 files changed, 29 insertions(+), 2 deletions(-)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index ad99cad0e7..eee6da3ad8 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -6627,6 +6627,13 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->>               x86_cpu_get_supported_feature_word(w, false);
->>           uint64_t requested_features = env->features[w];
->>           uint64_t unavailable_features = requested_features & ~host_feat;
->> +        if (kvm_enabled() && w == FEAT_PERF_CAPABILITIES &&
-> 
-> If this block of code should run only once, why is this inside
-> the loop in the first place?
-> 
-> I suggest following the same pattern used for intel-pt flags and
-> moving it outside the loop.
-
-Sure, the mark_unavailable_features() will skip the check for
-feature_word(FEAT_PERF_CAPABILITIES) and avoid avoid double checking.
-
-> 
->> +            (requested_features & PERF_CAP_LBR_FMT)) {
-> 
-> What exactly is supposed to happen if the VCPU is configured with
-> LBR_FMT=0 and the host has LBR_FMT != 0 ?
-
-If the VCPU is configured with LBR_FMT=0 and the host has LBR_FMT != 0,
-the guest LBR will be enabled if "migratable=no" and
-will be disabled if "migratable=yes" by default.
-
-Some test cases and expected results can be listed as:
-
-"-cpu host,lbr-fmt=0" --> "Disable guest LBR"
-"-cpu host,lbr-fmt=5" --> "Enable guest LBR"
-"-cpu host,lbr-fmt=6" --> "Disable guest LBR and show warning"
-
-"-cpu host,migratable=no" --> "Enable guest LBR and show warning"
-"-cpu host,migratable=no,lbr-fmt=0" --> "Enable guest LBR and show warning"
-"-cpu host,migratable=no,lbr-fmt=5" --> "Enable guest LBR"
-"-cpu host,migratable=no,lbr-fmt=6" --> "Disable guest LBR and show warning"
-
-> 
-> If it shouldn't be an error, then the new kvm_exact_match_flags
-> field added in patch 2/2 becomes hard to reuse, and easy to
-> misuse (there's no code documentation indicating that a mismatch
-> is allowed if the requested bits are all zero).  In that case,
-> maybe patch 2/2 could be dropped by now.
-> 
-
-Let us drop the patch 2/2 and please help review the new version:
-
-https://lore.kernel.org/qemu-devel/20210427080948.439432-1-like.xu@linux.intel.com/
-
-> If it should be an error, this patch and 2/2 don't seem correct.
-> If correcting that, I also suggest reversing the patch order in
-> the series, so this whole block of code doesn't even need to be
-> added in the first place.
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index dff85f6db9..9cacaf2eb8 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -721,6 +721,11 @@ bool kvm_arm_steal_time_supported(void)
+>      return kvm_check_extension(kvm_state, KVM_CAP_STEAL_TIME);
+>  }
+>  
+> +bool kvm_arm_el2_supported(void)
+> +{
+> +    return kvm_check_extension(kvm_state, KVM_CAP_ARM_EL2);
+> +}
+> +
+>  QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
+>  
+>  void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
+> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+> index 34f8daa377..7d7fc7981b 100644
+> --- a/target/arm/kvm_arm.h
+> +++ b/target/arm/kvm_arm.h
+> @@ -285,6 +285,14 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
+>   */
+>  bool kvm_arm_steal_time_supported(void);
+>  
+> +/**
+> + * kvm_arm_el2_supported:
+> + *
+> + * Returns: true if KVM can enable el2(nested virtualization)
+                                         ^ please add a space
+> + * and false otherwise.
+> + */
+> +bool kvm_arm_el2_supported(void);
+> +
+>  /**
+>   * kvm_arm_aarch32_supported:
+>   *
+> @@ -398,6 +406,11 @@ static inline bool kvm_arm_steal_time_supported(void)
+>      return false;
+>  }
+>  
+> +static inline bool kvm_arm_el2_supported(void)
+> +{
+> +    return false;
+> +}
+> +
+>  /*
+>   * These functions should never actually be called without KVM support.
+>   */
+> -- 
+> 2.17.1
 > 
 > 
->> +            if ((host_feat & PERF_CAP_LBR_FMT) !=
->> +                (requested_features & PERF_CAP_LBR_FMT)) {
->> +                unavailable_features |= PERF_CAP_LBR_FMT;
->> +            }
->> +        }
->>           mark_unavailable_features(cpu, w, unavailable_features, prefix);
->>       }
->>   
->> @@ -6734,6 +6741,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->>           }
->>       }
->>   
->> +    if (cpu->lbr_fmt) {
->> +        if (!cpu->enable_pmu) {
->> +            error_setg(errp, "LBR is unsupported since guest PMU is disabled.");
->> +            return;
->> +        }
->> +        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
->> +    }
->> +
->>       /* mwait extended info: needed for Core compatibility */
->>       /* We always wake on interrupt even if host does not have the capability */
->>       cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
->> @@ -7300,6 +7315,7 @@ static Property x86_cpu_properties[] = {
->>   #endif
->>       DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
->>       DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
->> +    DEFINE_PROP_UINT8("lbr-fmt", X86CPU, lbr_fmt, 0),
->>   
->>       DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
->>                          HYPERV_SPINLOCK_NEVER_NOTIFY),
->> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->> index 570f916878..b12c879fc4 100644
->> --- a/target/i386/cpu.h
->> +++ b/target/i386/cpu.h
->> @@ -354,6 +354,7 @@ typedef enum X86Seg {
->>   #define ARCH_CAP_TSX_CTRL_MSR		(1<<7)
->>   
->>   #define MSR_IA32_PERF_CAPABILITIES      0x345
->> +#define PERF_CAP_LBR_FMT      0x3f
->>   
->>   #define MSR_IA32_TSX_CTRL		0x122
->>   #define MSR_IA32_TSCDEADLINE            0x6e0
->> @@ -1726,6 +1727,15 @@ struct X86CPU {
->>        */
->>       bool enable_pmu;
->>   
->> +    /*
->> +     * Configure LBR_FMT bits on IA32_PERF_CAPABILITIES MSR.
->> +     * This can't be enabled by default yet because it doesn't have
->> +     * ABI stability guarantees, as it is only allowed to pass all
->> +     * LBR_FMT bits returned by kvm_arch_get_supported_msr_feature()
->> +     * (that depends on host CPU and kernel capabilities) to the guest.
->> +     */
->> +    uint8_t lbr_fmt;
->> +
->>       /* LMCE support can be enabled/disabled via cpu option 'lmce=on/off'. It is
->>        * disabled by default to avoid breaking migration between QEMU with
->>        * different LMCE configurations.
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index 7fe9f52710..4d842d32a6 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -2732,8 +2732,9 @@ static void kvm_msr_entry_add_perf(X86CPU *cpu, FeatureWordArray f)
->>                                              MSR_IA32_PERF_CAPABILITIES);
->>   
->>       if (kvm_perf_cap) {
->> -        kvm_msr_entry_add(cpu, MSR_IA32_PERF_CAPABILITIES,
->> -                        kvm_perf_cap & f[FEAT_PERF_CAPABILITIES]);
->> +        kvm_perf_cap = cpu->migratable ?
->> +            (kvm_perf_cap & f[FEAT_PERF_CAPABILITIES]) : kvm_perf_cap;
->> +        kvm_msr_entry_add(cpu, MSR_IA32_PERF_CAPABILITIES, kvm_perf_cap);
->>       }
->>   }
->>   
->> -- 
->> 2.30.2
->>
->>
-> 
+
+Otherwise
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
