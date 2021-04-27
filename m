@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D912C36C89F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:27:58 +0200 (CEST)
-Received: from localhost ([::1]:59278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F9F36C8A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:29:33 +0200 (CEST)
+Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbPcz-0003lG-WC
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34950)
+	id 1lbPeW-0004w1-Q8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbPas-0002qm-Jq
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:25:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38789)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lbPd4-0004DH-W0
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:28:02 -0400
+Resent-Date: Tue, 27 Apr 2021 11:28:02 -0400
+Resent-Message-Id: <E1lbPd4-0004DH-W0@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbPap-0008DK-Mx
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:25:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619537140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5YglqOSa0HsPg7laM2G2l/ynX70zVsDvLL8Q9P+V40M=;
- b=JgJna+56d1hR0eIDwGrhdiMYphbd4OhOA3qrossEAj8U/VaDRFJ4OIFsJmgLGBKLS24Cf1
- C5RTpiqWfXsBqw6BrZ5aM+Zwpdq/53kTqOxXIjBnxalLNiDEgY5SoVu/0LPHc3LOU+w8Nw
- YHOysRsV+yqQqSgLu47pabmI1AYWJ28=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-MCg7-1YCPtqpSv8YBhI-vA-1; Tue, 27 Apr 2021 11:25:38 -0400
-X-MC-Unique: MCg7-1YCPtqpSv8YBhI-vA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D267E801B16;
- Tue, 27 Apr 2021 15:25:36 +0000 (UTC)
-Received: from [10.10.112.236] (ovpn-112-236.rdu2.redhat.com [10.10.112.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF52262677;
- Tue, 27 Apr 2021 15:25:21 +0000 (UTC)
-Subject: Re: [PATCH 1/4] hw/block/fdc: Replace disabled fprintf() by trace
- event
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210415102321.3987935-1-philmd@redhat.com>
- <20210415102321.3987935-2-philmd@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <a03561fd-92e2-813f-b3a8-b03a7f97a8f2@redhat.com>
-Date: Tue, 27 Apr 2021 11:25:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lbPd0-0000di-GX
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:28:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1619537270; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Ym1pCZ3Y01uVyETKqW9pCx+1Y9qJu8GRD5l2hxjf9Zxk8BtPHdRQZvFHob553SrABIJGjteNWnFfVqsI5tm+rGxxPZV07SLord6TfCKio0EG/Otj3cwOkG+H8VCqIwqK8jyjJNhaPC0iwf+vJC8hKhiehJKR5z03mzF2ludcjU0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1619537270;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=pwncBLItrrACrsslsa2hh9gUdI/SeFU8ZUFE0P17vA0=; 
+ b=gmiSOJHDnTz47HdzKcoVsTFd2JbXqcQSyCQRjqu33fwUMUKAXyY17FFrgVVKHxZxuuasVUGv68pOoIGSmVZz0CQ9S714SBe2vnJTWbLmAdbexS/xvEZk44WlKOwwbafQS59AP4CxzvJ3KKhez/tmf0gBSNYgMJ1RDF0bozhWGrM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1619537268070917.6956770937272;
+ Tue, 27 Apr 2021 08:27:48 -0700 (PDT)
+In-Reply-To: <20210427150824.638359-1-kraxel@redhat.com>
+Subject: Re: [PATCH v2 0/8] edid: windows fixes
+Message-ID: <161953726707.28712.10691022702932706790@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <20210415102321.3987935-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Tue, 27 Apr 2021 08:27:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,62 +67,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 6:23 AM, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   hw/block/fdc.c        | 7 +------
->   hw/block/trace-events | 1 +
->   2 files changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-> index a825c2acbae..1d3a0473678 100644
-> --- a/hw/block/fdc.c
-> +++ b/hw/block/fdc.c
-> @@ -1242,12 +1242,7 @@ static void fdctrl_external_reset_isa(DeviceState *d)
->   
->   static void fdctrl_handle_tc(void *opaque, int irq, int level)
->   {
-> -    //FDCtrl *s = opaque;
-> -
-> -    if (level) {
-> -        // XXX
-> -        FLOPPY_DPRINTF("TC pulsed\n");
-> -    }
-> +    trace_fdctrl_tc_pulse(level);
->   }
->   
-
-Do we need this function to fulfill some specific callback signature? 
-... Ah, yeah, I guess for qdev_init_gpio_in. OK.
-
->   /* Change IRQ state */
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index fa12e3a67a7..306989c193c 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -3,6 +3,7 @@
->   # fdc.c
->   fdc_ioport_read(uint8_t reg, uint8_t value) "read reg 0x%02x val 0x%02x"
->   fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
-> +fdctrl_tc_pulse(int level) "TC pulse: %u"
->   
->   # pflash_cfi01.c
->   # pflash_cfi02.c
-> 
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyNzE1MDgyNC42Mzgz
+NTktMS1rcmF4ZWxAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNDI3MTUwODI0LjYzODM1
+OS0xLWtyYXhlbEByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCB2MiAwLzhdIGVkaWQ6IHdpbmRv
+d3MgZml4ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1w
+YXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
+ZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNo
+LnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAz
+YzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRo
+dWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcv
+MjAyMTA0MjcxNTA4MjQuNjM4MzU5LTEta3JheGVsQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIx
+MDQyNzE1MDgyNC42MzgzNTktMS1rcmF4ZWxAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBi
+cmFuY2ggJ3Rlc3QnCmIzMWExYjUgZWRpZDogYWRkIHN1cHBvcnQgZm9yIERpc3BsYXlJRCBleHRl
+bnNpb24gKDVrIHJlc29sdXRpb24pCmUzOTk3NzkgZWRpZDogYWxsb3cgYXJiaXRyYXJ5LWxlbmd0
+aCBjaGVja3N1bXMKOTQ5MWQzOSBlZGlkOiBtb3ZlIHRpbWluZyBnZW5lcmF0aW9uIGludG8gYSBz
+ZXBhcmF0ZSBmdW5jdGlvbgphZTU4MGU5IGVkaWQ6IE1ha2UgcmVmcmVzaCByYXRlIGNvbmZpZ3Vy
+YWJsZQoyNDFmNDFiIGVkaWQ6IHVzZSBkdGEgZXh0ZW5zaW9uIGJsb2NrIGRlc2NyaXB0b3JzCmJl
+ZmU5NDQgZWRpZDogbW92ZSB4dHJhMyBkZXNjcmlwdG9yCmUwMzEyMjUgZWRpZDogZWRpZF9kZXNj
+X25leHQKZmQxNDA0NiBxZW11LWVkaWQ6IHVzZSBxZW11X2VkaWRfc2l6ZSgpCgo9PT0gT1VUUFVU
+IEJFR0lOID09PQoxLzggQ2hlY2tpbmcgY29tbWl0IGZkMTQwNDZjYTA3YiAocWVtdS1lZGlkOiB1
+c2UgcWVtdV9lZGlkX3NpemUoKSkKMi84IENoZWNraW5nIGNvbW1pdCBlMDMxMjI1ZDU1OGYgKGVk
+aWQ6IGVkaWRfZGVzY19uZXh0KQozLzggQ2hlY2tpbmcgY29tbWl0IGJlZmU5NDQ1MWQxMSAoZWRp
+ZDogbW92ZSB4dHJhMyBkZXNjcmlwdG9yKQo0LzggQ2hlY2tpbmcgY29tbWl0IDI0MWY0MWJmZTc3
+MiAoZWRpZDogdXNlIGR0YSBleHRlbnNpb24gYmxvY2sgZGVzY3JpcHRvcnMpCjUvOCBDaGVja2lu
+ZyBjb21taXQgYWU1ODBlOWIyZDMzIChlZGlkOiBNYWtlIHJlZnJlc2ggcmF0ZSBjb25maWd1cmFi
+bGUpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMzogRklMRTogaHcvZGlzcGxh
+eS9lZGlkLWdlbmVyYXRlLmM6MjM5OgorICAgIHVpbnQ2NF90IGNsb2NrICA9ICh1aW50NjRfdCly
+ZWZyZXNoX3JhdGUgKiAoeHJlcyArIHhibGFuaykgKiAoeXJlcyArIHlibGFuayk7CgpFUlJPUjog
+TWFjcm9zIHdpdGggY29tcGxleCB2YWx1ZXMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhl
+c2lzCiM3ODogRklMRTogaW5jbHVkZS9ody9kaXNwbGF5L2VkaWQuaDoyNToKKyNkZWZpbmUgREVG
+SU5FX0VESURfUFJPUEVSVElFUyhfc3RhdGUsIF9lZGlkX2luZm8pICAgICAgICAgICAgICAgICAg
+ICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoInhyZXMiLCBfc3RhdGUsIF9lZGlkX2lu
+Zm8ucHJlZngsIDApLCAgICAgICAgICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoInly
+ZXMiLCBfc3RhdGUsIF9lZGlkX2luZm8ucHJlZnksIDApLCAgICAgICAgICAgICAgIFwKKyAgICBE
+RUZJTkVfUFJPUF9VSU5UMzIoInhtYXgiLCBfc3RhdGUsIF9lZGlkX2luZm8ubWF4eCwgMCksICAg
+ICAgICAgICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoInltYXgiLCBfc3RhdGUsIF9l
+ZGlkX2luZm8ubWF4eSwgMCksICAgICAgICAgICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5U
+MzIoInJlZnJlc2hfcmF0ZSIsIF9zdGF0ZSwgX2VkaWRfaW5mby5yZWZyZXNoX3JhdGUsIDApCgp0
+b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDU3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOCBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi84IENoZWNraW5nIGNvbW1pdCA5NDkxZDM5NDRi
+OTggKGVkaWQ6IG1vdmUgdGltaW5nIGdlbmVyYXRpb24gaW50byBhIHNlcGFyYXRlIGZ1bmN0aW9u
+KQo3LzggQ2hlY2tpbmcgY29tbWl0IGUzOTk3NzkxNWZiYiAoZWRpZDogYWxsb3cgYXJiaXRyYXJ5
+LWxlbmd0aCBjaGVja3N1bXMpCjgvOCBDaGVja2luZyBjb21taXQgYjMxYTFiNTYxOGFkIChlZGlk
+OiBhZGQgc3VwcG9ydCBmb3IgRGlzcGxheUlEIGV4dGVuc2lvbiAoNWsgcmVzb2x1dGlvbikpCj09
+PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNDI3
+MTUwODI0LjYzODM1OS0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
