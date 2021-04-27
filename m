@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8C136C205
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:46:47 +0200 (CEST)
-Received: from localhost ([::1]:45386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF4836C20F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:48:48 +0200 (CEST)
+Received: from localhost ([::1]:49640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbKIo-0007DD-TJ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55780)
+	id 1lbKKl-0000an-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:48:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lbKFX-0005n2-UJ
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:43:24 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:41537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lbKFS-0003sL-8e
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:43:23 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id zg3so6994681ejb.8
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 02:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6tZRjbUP0WYjN89PnE7p3uYzofbPvoxLzp2E2WJcMXQ=;
- b=gvbM+oklVwBTeNJYHKovRABrzgUUobjl4fuqRialwb5cJ0NfoIEU4FAjEZ01JtJX5X
- KjCm7agMP0hR1aeEXla5nVu0fN1PTo9MY/Ou9hP9rAoFePLTNgdmRoc92enILy4+bZoK
- pSvtfXU51os5XnqSNyLKrrJZxWKGHs2qC1/Pz1vnHENMN9gGXS3IZnbgQEy4AaENhq7v
- pFmBpwcSIDUZah+s/yR8Ypks4vTGvs1ovepueJQjoGB2mA/R51cFErl+E7B10y133GOf
- 0KGBVs7IHszJVUSMnLzOtximsPx3Nj3FIpCuNdH9RZ0Kx9LwaXi2voiy48yL1y5XWkt/
- L++w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbKJV-00082y-BN
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:47:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbKJQ-0005nH-T3
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:47:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619516844;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=krFmCDcJxLT5+gaPetSe7BYsvCcjKk2OQhbuBjS8Cmk=;
+ b=RvRpGSN+peS2qzgMSitWDOA+A8EPvnNqNCiaqOR+6HV1ZjgDAmPWCBh1yxe/3WQ/toX7zh
+ ZfORXOLz4NOOm7vTZsLvKvzpH91n8rCk70K/ygx9X5mAuZC8Eay2qlJIh2S7lxWSddT0ha
+ aofC2A6nHdEG+Rxqw0jJF2lFy5S2k7k=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-McGy7q_8O5mtA0o6cnIGig-1; Tue, 27 Apr 2021 05:47:20 -0400
+X-MC-Unique: McGy7q_8O5mtA0o6cnIGig-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ j72-20020adf914e0000b02901073cdd9d65so10910421wrj.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 02:47:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6tZRjbUP0WYjN89PnE7p3uYzofbPvoxLzp2E2WJcMXQ=;
- b=uf1G677MO2O9v9tPxHB0rzyPCssddI+DMpLMiV35/pa4+7h6OAHBmzTSrQ1LYp/w3p
- X1+01pEf2faFlcKOYHrw3Q1oL+tES58jnvotlvIo2gIFM2dNzVFh291iJhPbzrk9Fh4S
- +LXFYaJ826Ut3NO4ybHExCG9yy3ulLBNMQTQ/25brbQfXoy7W08x+cUs4nCI4Q4mVX02
- xX5we215tiU1pefbERlvp0ON1uxQ1qXy78G9u0Tlu7VSV2VLNTLimw5eBzuO6zilP+LO
- JaJ0hInTa5DoXWNBmwayodFob8GwDNYzJRDrYYcbC2bE/bvQUjUUSaDVSP9FCl1fGVwi
- EW/w==
-X-Gm-Message-State: AOAM530yxOa1WYBcmOqwjHZzH+tZPJsyiPEGf8GgKMaI0FAFF8b8Tc07
- CPwWxnwsyaHQOLgYgAm+7Alqk9tWIE8uwnfMZ+CSIw==
-X-Google-Smtp-Source: ABdhPJyjXrhKV+F2UdzJ/R+s2i7hjHh5QOvxo8/VKXWnZRLU6LBXvUl6dDWh2CpE2hPrGlencsdE61oyW4eTKS4kzGo=
-X-Received: by 2002:a17:906:953:: with SMTP id
- j19mr22727676ejd.56.1619516596772; 
- Tue, 27 Apr 2021 02:43:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=krFmCDcJxLT5+gaPetSe7BYsvCcjKk2OQhbuBjS8Cmk=;
+ b=KICTlZtxZHTCXvyGmmkumTa0flAsX4Dsrc1eP3CXROXPPVFIxrwwWxkJnScGCBmjaO
+ lavKahzkt9KAg3KpBbdeauDhn+X/Wh9rubQg++uJp/Dh2/MXnVlgH191uYUP5e3AUDZr
+ xxsBQFaSEoXXfRgVOYC1WGpfqgkVoi5jlSsjHEyxh2HXeXqAMGpVHpCDtMdHtasxnza2
+ AgjodyTEkHk9OxliPNlDaNBeT7v/35nL8HVulHtoRiRb7Wj4ZmHTNbVmdspa5IX8LNc9
+ yqH4ybsdJ/NdZprThfTZ1Req2tFq058+Ry0IU7Qs8BlTtMMjDuRRlODsw7Fcj+tYJN/i
+ i3JQ==
+X-Gm-Message-State: AOAM532eFiSHrpk87F954DEnh21Z1ES29KdSPCuGyQqzvEBpnQT8C/me
+ xLwG+aAT8c6gxE98NLThBGOz7F66tRlUTb4rQcNVhxMV6DFkVI0SE2vNJNkDDLHyzq2fUtxzMCF
+ CeUMV3g7V7cPjHok=
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr14793875wrs.144.1619516838977; 
+ Tue, 27 Apr 2021 02:47:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKRITXmmzYBR5NBJzmOwmY12ZzIbzyzZVGJEcK3/35tjcaMKiOkuT+BvGjy8dMal4f+eMFWA==
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr14793846wrs.144.1619516838736; 
+ Tue, 27 Apr 2021 02:47:18 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id h8sm18116193wmq.19.2021.04.27.02.47.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 02:47:18 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 2/6] hw/arm/virt: DT: Add cpu-map
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Andrew Jones <drjones@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-3-wangyanan55@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <648ff988-35f6-1857-2194-0d3e11e0d15c@redhat.com>
+Date: Tue, 27 Apr 2021 11:47:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <cover.1617281290.git.haibo.xu@linaro.org>
-In-Reply-To: <cover.1617281290.git.haibo.xu@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Apr 2021 10:42:18 +0100
-Message-ID: <CAFEAcA8a53rCGBGVr_mb0fVJPXFaCShGTJE0bh=L5Nvw6ATz6A@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 0/6] target/arm: Add nested virtualization
- support
-To: Haibo Xu <haibo.xu@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210413080745.33004-3-wangyanan55@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,30 +101,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrea Bolognani <abologna@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ yangyicong@huawei.com, yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
+ zhukeqian1@huawei.com, Jiajie Li <lijiajie11@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 1 Apr 2021 at 13:55, Haibo Xu <haibo.xu@linaro.org> wrote:
-> This series add support for ARMv8.3/8.4 nested virtualization support
-> in KVM mode. It's based on Marc Zyngier's kernel KVM patches[1], and
-> has been tested on a FVP model to run a L2 guest with Qemu. Now the
-> feature can be enabled by "-M virt,accel=kvm -cpu host,el2=on" when
-> starting a VM.
+Hi Yanan, Drew,
 
-Why are we making the UI for "enable EL2 guest with KVM" different
-from that for "enable EL2 guest with TCG" ? Currently an EL2
-TCG guest is set up with "-M virt,virtualization=on", which then
-does everything it needs to enable virtualization on all the
-components on the board including the CPU.
+On 4/13/21 10:07 AM, Yanan Wang wrote:
+> From: Andrew Jones <drjones@redhat.com>
+> 
+> Support device tree CPU topology descriptions.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/arm/virt.c         | 41 ++++++++++++++++++++++++++++++++++++++++-
+>  include/hw/arm/virt.h |  1 +
+>  2 files changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 9f01d9041b..f4ae60ded9 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -352,10 +352,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+>      int cpu;
+>      int addr_cells = 1;
+>      const MachineState *ms = MACHINE(vms);
+> +    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+>      int smp_cpus = ms->smp.cpus;
+>  
+>      /*
+> -     * From Documentation/devicetree/bindings/arm/cpus.txt
+> +     *  See Linux Documentation/devicetree/bindings/arm/cpus.yaml
+>       *  On ARM v8 64-bit systems value should be set to 2,
+>       *  that corresponds to the MPIDR_EL1 register size.
+>       *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
+> @@ -408,8 +409,45 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+>                  ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
+>          }
+>  
+> +        if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
+> +            qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
+> +                                  qemu_fdt_alloc_phandle(ms->fdt));
+> +        }
+> +
+>          g_free(nodename);
+>      }
+> +
+> +    if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
+> +        /*
+> +         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
+> +         * In a SMP system, the hierarchy of CPUs is defined through four
+> +         * entities that are used to describe the layout of physical CPUs
+> +         * in the system: socket/cluster/core/thread.
+> +         */
+> +        qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
+> +
+> +        for (cpu = ms->smp.cpus - 1; cpu >= 0; cpu--) {
+> +            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
+> +            char *map_path;
+> +
+> +            if (ms->smp.threads > 1) {
+> +                map_path = g_strdup_printf(
+> +                    "/cpus/cpu-map/%s%d/%s%d/%s%d",
+> +                    "socket", cpu / (ms->smp.cores * ms->smp.threads),
+> +                    "core", (cpu / ms->smp.threads) % ms->smp.cores,
+> +                    "thread", cpu % ms->smp.threads);
+> +            } else {
+> +                map_path = g_strdup_printf(
+> +                    "/cpus/cpu-map/%s%d/%s%d",
+> +                    "socket", cpu / ms->smp.cores,
+> +                    "core", cpu % ms->smp.cores);
+> +            }
+> +            qemu_fdt_add_path(ms->fdt, map_path);
+> +            qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
+> +            g_free(map_path);
+> +            g_free(cpu_path);
+> +        }
+> +    }
+>  }
+>  
+>  static void fdt_add_its_gic_node(VirtMachineState *vms)
+> @@ -2769,6 +2807,7 @@ static void virt_machine_5_2_options(MachineClass *mc)
+>      virt_machine_6_0_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
+>      vmc->no_secure_gpio = true;
+> +    vmc->no_cpu_topology = true;
 
-Unless there's a strong technical reason why KVM EL2 has to
-be different, I think we should use the same switch.
+Bare with me because "machine versioning" is something new to me, I was
+expecting it to be only related to migrated fields.
+Why do we need to care about not adding the FDT node in older machines?
+Shouldn't the guest skip unknown FDT nodes?
 
-thanks
--- PMM
+Thanks,
+
+Phil.
+
+>  }
+>  DEFINE_VIRT_MACHINE(5, 2)
+>  
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 921416f918..4a4b98e4a7 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -129,6 +129,7 @@ struct VirtMachineClass {
+>      bool no_kvm_steal_time;
+>      bool acpi_expose_flash;
+>      bool no_secure_gpio;
+> +    bool no_cpu_topology;
+>  };
+>  
+>  struct VirtMachineState {
+> 
+
 
