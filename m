@@ -2,58 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F9F36C8A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:29:33 +0200 (CEST)
-Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553A636C8D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:44:18 +0200 (CEST)
+Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbPeW-0004w1-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
+	id 1lbPsm-00014e-U8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lbPd4-0004DH-W0
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:28:02 -0400
-Resent-Date: Tue, 27 Apr 2021 11:28:02 -0400
-Resent-Message-Id: <E1lbPd4-0004DH-W0@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1lbPr9-0000a7-TR
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:42:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lbPd0-0000di-GX
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:28:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619537270; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Ym1pCZ3Y01uVyETKqW9pCx+1Y9qJu8GRD5l2hxjf9Zxk8BtPHdRQZvFHob553SrABIJGjteNWnFfVqsI5tm+rGxxPZV07SLord6TfCKio0EG/Otj3cwOkG+H8VCqIwqK8jyjJNhaPC0iwf+vJC8hKhiehJKR5z03mzF2ludcjU0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619537270;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=pwncBLItrrACrsslsa2hh9gUdI/SeFU8ZUFE0P17vA0=; 
- b=gmiSOJHDnTz47HdzKcoVsTFd2JbXqcQSyCQRjqu33fwUMUKAXyY17FFrgVVKHxZxuuasVUGv68pOoIGSmVZz0CQ9S714SBe2vnJTWbLmAdbexS/xvEZk44WlKOwwbafQS59AP4CxzvJ3KKhez/tmf0gBSNYgMJ1RDF0bozhWGrM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1619537268070917.6956770937272;
- Tue, 27 Apr 2021 08:27:48 -0700 (PDT)
-In-Reply-To: <20210427150824.638359-1-kraxel@redhat.com>
-Subject: Re: [PATCH v2 0/8] edid: windows fixes
-Message-ID: <161953726707.28712.10691022702932706790@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1lbPr0-0006mI-QO
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:42:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619538145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SgX0WvwLE3UFaaM7XFEDg9tgHLEcVBICvo93kjHiZRM=;
+ b=hXqSgvgiBgsw6YzUE1dkfQFiFk/3kFVYvUpdKfWaqzUmCe5uCzhjcclFR8BkTUtU3NoM+b
+ rWmHzymVO/TrCfsINFAFWO40IAnAD0oBffMbef5u6J0AEmV5PWYAGaBei2ipIC200JONp1
+ BN6VrqLqncnAEJaoJT8oTFDoo644hRI=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-Ls-HFmavMeG9xyBJHLv6kw-1; Tue, 27 Apr 2021 11:42:21 -0400
+X-MC-Unique: Ls-HFmavMeG9xyBJHLv6kw-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ b2-20020a6567c20000b02901fda3676f83so19831905pgs.9
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 08:42:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SgX0WvwLE3UFaaM7XFEDg9tgHLEcVBICvo93kjHiZRM=;
+ b=WN5y91dsZs/y6X6oJjDqkJ0ZWmurqHwmqHMC4Gi5/cmSa1cDGA4btwMwbP9tKb9Q7w
+ IMWt/BrjkTCIevrthRMgb9L9U1BjNjFDEi264PKeMv90AGEcdTtmNAkPwom+h81hBn+E
+ BXU5v5Tos+O6Co4zBPuxh8ceMvFDery50Eu+pS02YSyLAtD4TgRTc7UOrdUJpcJdtJ/I
+ euEj7oZHMXan+fnNaSuJNFuMpl50iKJH8wh7Z1CyXp3kipH5somMNadFnZI5gxl1h0dk
+ YJYKR/LCWlBBFffZ+5Iq4GajkR1lBw/Sm2MMSWI/w1lzn4aUED2y0ceKDMzJkFPxkRao
+ loQw==
+X-Gm-Message-State: AOAM531yDPbvtexCiX9v81Pp44+xjXwQaj6wNU3cVVShnWBp7d0dnyZC
+ IayOnHDcPkyjkmhpGbwXbR1bCJ+qupDhJ6a5VHLfGa0cmz6jDnpoAUq63G/PJbGO7KWVV7l7qAr
+ qW1byLRbCRwSiSAz1zB0IsDE5jn3o6dA=
+X-Received: by 2002:a17:90a:fd95:: with SMTP id
+ cx21mr5401658pjb.137.1619538140213; 
+ Tue, 27 Apr 2021 08:42:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyX4P2TzCwlzJY9tPpbUnjP/yS8XnvzDT/BEyDNqxj9zM9Oqjgma5p4Y2L6aT+L5cWEtGOSMbdbLVJMtd83EYM=
+X-Received: by 2002:a17:90a:fd95:: with SMTP id
+ cx21mr5401628pjb.137.1619538140011; 
+ Tue, 27 Apr 2021 08:42:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Tue, 27 Apr 2021 08:27:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210423083351.2096734-1-kraxel@redhat.com>
+ <20210423083351.2096734-5-kraxel@redhat.com>
+ <CAMxuvazpGJdpdWMYa7a9M48yk48kkr8F-96HivkSvMfko8GPow@mail.gmail.com>
+ <20210427150430.ri2qq3kbcq3cyscb@sirius.home.kraxel.org>
+In-Reply-To: <20210427150430.ri2qq3kbcq3cyscb@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 27 Apr 2021 19:42:09 +0400
+Message-ID: <CAMxuvawPE86ZaG0OeOgkSeTepWNNy4Lm+i7NuT_0ANjy8=y1Cw@mail.gmail.com>
+Subject: Re: [PATCH v4 4/9] ui/vdagent: core infrastructure
+To: Gerd Hoffmann <kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000089302405c0f61b9d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,63 +94,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyNzE1MDgyNC42Mzgz
-NTktMS1rcmF4ZWxAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNDI3MTUwODI0LjYzODM1
-OS0xLWtyYXhlbEByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCB2MiAwLzhdIGVkaWQ6IHdpbmRv
-d3MgZml4ZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1w
-YXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
-ZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNo
-LnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAz
-YzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRo
-dWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcv
-MjAyMTA0MjcxNTA4MjQuNjM4MzU5LTEta3JheGVsQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIx
-MDQyNzE1MDgyNC42MzgzNTktMS1rcmF4ZWxAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBi
-cmFuY2ggJ3Rlc3QnCmIzMWExYjUgZWRpZDogYWRkIHN1cHBvcnQgZm9yIERpc3BsYXlJRCBleHRl
-bnNpb24gKDVrIHJlc29sdXRpb24pCmUzOTk3NzkgZWRpZDogYWxsb3cgYXJiaXRyYXJ5LWxlbmd0
-aCBjaGVja3N1bXMKOTQ5MWQzOSBlZGlkOiBtb3ZlIHRpbWluZyBnZW5lcmF0aW9uIGludG8gYSBz
-ZXBhcmF0ZSBmdW5jdGlvbgphZTU4MGU5IGVkaWQ6IE1ha2UgcmVmcmVzaCByYXRlIGNvbmZpZ3Vy
-YWJsZQoyNDFmNDFiIGVkaWQ6IHVzZSBkdGEgZXh0ZW5zaW9uIGJsb2NrIGRlc2NyaXB0b3JzCmJl
-ZmU5NDQgZWRpZDogbW92ZSB4dHJhMyBkZXNjcmlwdG9yCmUwMzEyMjUgZWRpZDogZWRpZF9kZXNj
-X25leHQKZmQxNDA0NiBxZW11LWVkaWQ6IHVzZSBxZW11X2VkaWRfc2l6ZSgpCgo9PT0gT1VUUFVU
-IEJFR0lOID09PQoxLzggQ2hlY2tpbmcgY29tbWl0IGZkMTQwNDZjYTA3YiAocWVtdS1lZGlkOiB1
-c2UgcWVtdV9lZGlkX3NpemUoKSkKMi84IENoZWNraW5nIGNvbW1pdCBlMDMxMjI1ZDU1OGYgKGVk
-aWQ6IGVkaWRfZGVzY19uZXh0KQozLzggQ2hlY2tpbmcgY29tbWl0IGJlZmU5NDQ1MWQxMSAoZWRp
-ZDogbW92ZSB4dHJhMyBkZXNjcmlwdG9yKQo0LzggQ2hlY2tpbmcgY29tbWl0IDI0MWY0MWJmZTc3
-MiAoZWRpZDogdXNlIGR0YSBleHRlbnNpb24gYmxvY2sgZGVzY3JpcHRvcnMpCjUvOCBDaGVja2lu
-ZyBjb21taXQgYWU1ODBlOWIyZDMzIChlZGlkOiBNYWtlIHJlZnJlc2ggcmF0ZSBjb25maWd1cmFi
-bGUpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMzogRklMRTogaHcvZGlzcGxh
-eS9lZGlkLWdlbmVyYXRlLmM6MjM5OgorICAgIHVpbnQ2NF90IGNsb2NrICA9ICh1aW50NjRfdCly
-ZWZyZXNoX3JhdGUgKiAoeHJlcyArIHhibGFuaykgKiAoeXJlcyArIHlibGFuayk7CgpFUlJPUjog
-TWFjcm9zIHdpdGggY29tcGxleCB2YWx1ZXMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhl
-c2lzCiM3ODogRklMRTogaW5jbHVkZS9ody9kaXNwbGF5L2VkaWQuaDoyNToKKyNkZWZpbmUgREVG
-SU5FX0VESURfUFJPUEVSVElFUyhfc3RhdGUsIF9lZGlkX2luZm8pICAgICAgICAgICAgICAgICAg
-ICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoInhyZXMiLCBfc3RhdGUsIF9lZGlkX2lu
-Zm8ucHJlZngsIDApLCAgICAgICAgICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoInly
-ZXMiLCBfc3RhdGUsIF9lZGlkX2luZm8ucHJlZnksIDApLCAgICAgICAgICAgICAgIFwKKyAgICBE
-RUZJTkVfUFJPUF9VSU5UMzIoInhtYXgiLCBfc3RhdGUsIF9lZGlkX2luZm8ubWF4eCwgMCksICAg
-ICAgICAgICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoInltYXgiLCBfc3RhdGUsIF9l
-ZGlkX2luZm8ubWF4eSwgMCksICAgICAgICAgICAgICAgIFwKKyAgICBERUZJTkVfUFJPUF9VSU5U
-MzIoInJlZnJlc2hfcmF0ZSIsIF9zdGF0ZSwgX2VkaWRfaW5mby5yZWZyZXNoX3JhdGUsIDApCgp0
-b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDU3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOCBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi84IENoZWNraW5nIGNvbW1pdCA5NDkxZDM5NDRi
-OTggKGVkaWQ6IG1vdmUgdGltaW5nIGdlbmVyYXRpb24gaW50byBhIHNlcGFyYXRlIGZ1bmN0aW9u
-KQo3LzggQ2hlY2tpbmcgY29tbWl0IGUzOTk3NzkxNWZiYiAoZWRpZDogYWxsb3cgYXJiaXRyYXJ5
-LWxlbmd0aCBjaGVja3N1bXMpCjgvOCBDaGVja2luZyBjb21taXQgYjMxYTFiNTYxOGFkIChlZGlk
-OiBhZGQgc3VwcG9ydCBmb3IgRGlzcGxheUlEIGV4dGVuc2lvbiAoNWsgcmVzb2x1dGlvbikpCj09
-PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNDI3
-MTUwODI0LjYzODM1OS0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+--00000000000089302405c0f61b9d
+Content-Type: text/plain; charset="UTF-8"
+
+Hi
+
+On Tue, Apr 27, 2021 at 7:04 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
+>
+> > What about the endianness of the vdagent messages?
+> >
+> > It looks like this was never well defined, but that it was settled on LE:
+> >
+> https://gitlab.freedesktop.org/spice/linux/vd_agent/-/commit/99d9d3583143aef7143ec986cebe2980fdeeb776
+> >
+> > It's worth checking or leaving a TODO, I suppose.
+>
+> Ah, good to know, adding a comment and TODO item for now.
+>
+> How does things look on the guest side?  Does vdagent work in bigendian
+> guests?  Which is pretty much s390x these days with even ppc moving to
+> little endian ...
+>
+
+Based on the commit above, I suppose there were some users on big-endian.
+
+Fwiw, the Spice protocol clearly states that it's LE (unless explicitly
+stated differently):
+https://www.spice-space.org/spice-protocol.html#_common_protocol_definition
+
+--00000000000089302405c0f61b9d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 27, 2021 at 7:04 PM Ger=
+d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0=
+ Hi,<br>
+<br>
+&gt; What about the endianness of the vdagent messages?<br>
+&gt; <br>
+&gt; It looks like this was never well defined, but that it was settled on =
+LE:<br>
+&gt; <a href=3D"https://gitlab.freedesktop.org/spice/linux/vd_agent/-/commi=
+t/99d9d3583143aef7143ec986cebe2980fdeeb776" rel=3D"noreferrer" target=3D"_b=
+lank">https://gitlab.freedesktop.org/spice/linux/vd_agent/-/commit/99d9d358=
+3143aef7143ec986cebe2980fdeeb776</a><br>
+&gt; <br>
+&gt; It&#39;s worth checking or leaving a TODO, I suppose.<br>
+<br>
+Ah, good to know, adding a comment and TODO item for now.<br>
+<br>
+How does things look on the guest side?=C2=A0 Does vdagent work in bigendia=
+n<br>
+guests?=C2=A0 Which is pretty much s390x these days with even ppc moving to=
+<br>
+little endian ...<br></blockquote><div><br></div><div>Based on the commit a=
+bove, I suppose there were some users on big-endian.</div><div><br></div><d=
+iv>Fwiw, the Spice protocol clearly states that it&#39;s LE (unless explici=
+tly stated differently):</div><div><a href=3D"https://www.spice-space.org/s=
+pice-protocol.html#_common_protocol_definition">https://www.spice-space.org=
+/spice-protocol.html#_common_protocol_definition</a></div></div></div>
+
+--00000000000089302405c0f61b9d--
+
 
