@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB12536C43A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:35:52 +0200 (CEST)
-Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C005E36C446
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:37:37 +0200 (CEST)
+Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbL4K-0005fG-1y
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38406)
+	id 1lbL60-0006nJ-RF
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lbL2I-0004xT-40
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:33:46 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:41631)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lbL4U-0006DY-6X
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:36:02 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lbL2E-0000WL-1S
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:33:44 -0400
-Received: by mail-ed1-x530.google.com with SMTP id i24so9741345edy.8
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:33:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+lfeBztJJd+9kwzd331v1ww6NajQKYOWy8Hw26UzVmw=;
- b=WHN4sCDauGFHALqR/wUQX17QL8Du7jOoPqesQkJbjV992ssp4Gxklltg/IM5tRz+cw
- J/rN9fas10BBe+c9mfS8pj+6/OFkzHlU69FWtZu1LKYRKu5wdsF79pgHpM/GpYBdRbW9
- Yyxh4SDG04Yinph+TEu3bYYR5mZC6kIUV91UxkY4gPkrBoI0yRXyn3pctVmU56AvbsWB
- 1gdmMI0ic0sGvfBahC+fsxwzjRdHEkKCfiLBOdW9kUdn8xMnDAjE4vAFMe58HamxoMmR
- BsW7JF4KFfdVYH3qZVHuKlC0UDEHUJXEQKyzwCbnvZ8LerIWrunjLYZjIgJosNhSDWJP
- SX4A==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lbL4S-0001xH-8G
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:36:01 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ n3-20020a05600c4f83b02901425630b2c2so812219wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HU/4yCgl1rj3i5y1lhl7YgDAybnUSgnMfeYGKSw62FU=;
+ b=cH82a4Mzxf7eAQt0esKPyI3zm+AmlSbW/+I17AT91JDrVgJaUNHK5GcLjMKUbpASGB
+ oUg335RNeWbzzK+mbatALd91hRJKZjkZPv2mpjPjfNhJymwC2O5G88IT4Sxh7hyz7NLX
+ 8W1PM8cLC9MbSfj01Bcnox04KdhuFaN5qN2n7Wtjg+5muDGMxSv3HepQSX9t8/D3zowM
+ RxSv1g8LeHFZuXI+ElpLA64EWTN5Dk65Azh3Qja4KcrE3OVYeA8vJWlly3w23wE6hETn
+ IYs3ZGeY0juzViiMHitM6rUboQRt3RZqV83gm6jFEEtfVmHTP0sKzT4t1VEBUf4j+17P
+ hSNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+lfeBztJJd+9kwzd331v1ww6NajQKYOWy8Hw26UzVmw=;
- b=UnwHMIXTRJOrfU8tzd2Hjs+tjB+DsOEOJyf/K47Gx0hpVB7mEBBAH9f/l8lI7URPJK
- olFRv0Zw88O+9Vvc932D+Z/1O/jrNU+gCg3zIOHwbTN0MCp0FTiAdJ8DcxRrlzFzk44A
- ls4IcTRY+2TcADyBRgezQAJ1h/WyHBiULKAiE00Nrb4G08izBsT429B/E6sK5FnSGeZ3
- GPY6b9Vv4wAmyAq6/hM/3PmnPP17O8Tj/2ESG5tb5VnspDuQfroJommj1eCECa1BjQgT
- pDRJJ1CbPVvC/pw2pVHmtbSPrYILruq4jSvU4Dck5Ot01x1BT6dWSHU576iZ0kemch8P
- a6Aw==
-X-Gm-Message-State: AOAM531WH/sF+XVgGGQZUUxJ+3ey37IX7oxQaamROb/G3W/PH3nQ4HRV
- l8npPkPu3F35uNp4nRhNkm0bel2z5nuPuLNIm5lv
-X-Google-Smtp-Source: ABdhPJwq43rtOR33OGpY+fyWeK248FrfzcNQ1UpNAE+JfZxgdA+eb45g0ctFk0sDI89t6rxibkSi0UHglExuaGlGUWE=
-X-Received: by 2002:a05:6402:4314:: with SMTP id
- m20mr3364162edc.5.1619519619673; 
- Tue, 27 Apr 2021 03:33:39 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HU/4yCgl1rj3i5y1lhl7YgDAybnUSgnMfeYGKSw62FU=;
+ b=fZE3QJaOQGvZFaNIq8ugUUpYjK44/nE5as9+TiQxxbZBkMhY+Phxs80LuxzUikEfmz
+ B3fbJVBMZQaczXTuJb4DR5m07ytdn3TUOSLxTrrBE2ygNtrwCyzmvaDJbPDkBHcvg802
+ /KAAnvczw9Kiw4YsnQOieyRYdrYM2ZXDDcaQNS4s3/BR/y34+rRWTbjrMdBpq5auceCj
+ omSXEutszWFScfZMlbVzPHe6dka2yfu/DOA6jNRmcpAqHEROp5hgIvtn5LrdvF+gsBIN
+ XGh1oTJLqpjq9occpdv1pOfcH3u5u0sIZ59WQaxmnKiKnGqrOL1csrXtVf0Z5BG2Gf4C
+ dk6Q==
+X-Gm-Message-State: AOAM533ZbwXtGzhPjrjm/XTiv8KGTMCI4pfoo9DXDTwRzJLnps2Hy8Bz
+ spmuGC679fJWuTsxOtsz4BeCT67y2/APdw==
+X-Google-Smtp-Source: ABdhPJxiSIkD37z/sQ+ck+DqeDhPEa72eZBp2wyv8XM3JxiEVBQdo2qel7aZQtM0+fWKtwVVtVlAzA==
+X-Received: by 2002:a05:600c:4f13:: with SMTP id
+ l19mr3703516wmq.47.1619519757865; 
+ Tue, 27 Apr 2021 03:35:57 -0700 (PDT)
+Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id d13sm1552982wrx.29.2021.04.27.03.35.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 03:35:57 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/mips: Only update MVPControl.EVP bit if executed on a
+ master VPE
+Date: Tue, 27 Apr 2021 12:35:55 +0200
+Message-Id: <20210427103555.112652-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20210408101252.552-1-xieyongji@bytedance.com>
- <20210408101252.552-4-xieyongji@bytedance.com>
- <YIbWxUaoP3yvad2t@stefanha-x1.localdomain>
-In-Reply-To: <YIbWxUaoP3yvad2t@stefanha-x1.localdomain>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Tue, 27 Apr 2021 18:33:28 +0800
-Message-ID: <CACycT3vfuPam7q0Cwy6COk8e=CMLx6O-bK_g5UGGu7pUVEQBrw@mail.gmail.com>
-Subject: Re: Re: [PATCH 3/3] vhost-vdpa-blk: Introduce vhost-vdpa-blk host
- device
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,98 +86,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ 1926277@bugs.launchpad.net,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 26, 2021 at 11:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Thu, Apr 08, 2021 at 06:12:52PM +0800, Xie Yongji wrote:
-> > +static const int vdpa_feature_bits[] = {
-> > +    VIRTIO_BLK_F_SIZE_MAX,
-> > +    VIRTIO_BLK_F_SEG_MAX,
-> > +    VIRTIO_BLK_F_GEOMETRY,
-> > +    VIRTIO_BLK_F_BLK_SIZE,
-> > +    VIRTIO_BLK_F_TOPOLOGY,
-> > +    VIRTIO_BLK_F_MQ,
-> > +    VIRTIO_BLK_F_RO,
-> > +    VIRTIO_BLK_F_FLUSH,
-> > +    VIRTIO_BLK_F_CONFIG_WCE,
-> > +    VIRTIO_BLK_F_DISCARD,
-> > +    VIRTIO_BLK_F_WRITE_ZEROES,
-> > +    VIRTIO_F_VERSION_1,
-> > +    VIRTIO_RING_F_INDIRECT_DESC,
-> > +    VIRTIO_RING_F_EVENT_IDX,
-> > +    VIRTIO_F_NOTIFY_ON_EMPTY,
-> > +    VHOST_INVALID_FEATURE_BIT
-> > +};
->
-> Please add VIRTIO_F_RING_PACKED so it can be implemented in vDPA in the
-> future without changes to the QEMU vhost-vdpa-blk.c code.
->
+According to the 'MIPS MT Application-Speciﬁc Extension' manual:
 
-Sure.
+  If the VPE executing the instruction is not a Master VPE,
+  with the MVP bit of the VPEConf0 register set, the EVP bit
+  is unchanged by the instruction.
 
-> > +static void vhost_vdpa_blk_device_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> > +    VHostVdpaBlk *s = VHOST_VDPA_BLK(vdev);
-> > +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
-> > +    Error *err = NULL;
-> > +    int ret;
-> > +
-> > +    s->vdpa.device_fd = qemu_open_old(s->vdpa_dev, O_RDWR);
-> > +    if (s->vdpa.device_fd == -1) {
-> > +        error_setg(errp, "vhost-vdpa-blk: open %s failed: %s",
-> > +                   s->vdpa_dev, strerror(errno));
-> > +        return;
-> > +    }
-> > +
-> > +    vhost_blk_common_realize(vbc, vhost_vdpa_blk_handle_output, &err);
-> > +    if (err != NULL) {
-> > +        error_propagate(errp, err);
-> > +        goto blk_err;
-> > +    }
-> > +
-> > +    vbc->vhost_vqs = g_new0(struct vhost_virtqueue, vbc->num_queues);
->
-> This is already done by vhost_blk_common_realize(). The old pointer is
-> overwritten and leaked here.
->
+Add the VPEConf0.MVP bit and modify the DVPE/EVPE opcodes to only
+update the MVPControl.EVP bit if executed on a master VPE.
 
-Will fix it.
+Reported-by: Hansni Bu
+Buglink: https://bugs.launchpad.net/qemu/+bug/1926277
+Fixes: f249412c749 ("mips: Add MT halting and waking of VPEs")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/cpu.h        |  1 +
+ target/mips/cp0_helper.c | 32 ++++++++++++++++++--------------
+ 2 files changed, 19 insertions(+), 14 deletions(-)
 
-> > +static const VMStateDescription vmstate_vhost_vdpa_blk = {
-> > +    .name = "vhost-vdpa-blk",
-> > +    .minimum_version_id = 1,
-> > +    .version_id = 1,
-> > +    .fields = (VMStateField[]) {
-> > +        VMSTATE_VIRTIO_DEVICE,
-> > +        VMSTATE_END_OF_LIST()
-> > +    },
-> > +};
->
-> vdpa-blk does not support live migration yet. Please remove this.
->
-> Does hw/virtio/vhost.c should automatically register a migration
-> blocker? If not, please register one.
->
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 075c24abdad..bd22fac6959 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -114,6 +114,7 @@ struct CPUMIPSMVPContext {
+ #define CP0MVPC0_PTLBE  16
+ #define CP0MVPC0_TCA    15
+ #define CP0MVPC0_PVPE   10
++#define CP0MVPC0_MVP    1
+ #define CP0MVPC0_PTC    0
+     int32_t CP0_MVPConf1;
+ #define CP0MVPC1_CIM    31
+diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+index aae2af6eccc..1e39e28808a 100644
+--- a/target/mips/cp0_helper.c
++++ b/target/mips/cp0_helper.c
+@@ -1635,12 +1635,14 @@ target_ulong helper_dvpe(CPUMIPSState *env)
+     CPUState *other_cs = first_cpu;
+     target_ulong prev = env->mvp->CP0_MVPControl;
+ 
+-    CPU_FOREACH(other_cs) {
+-        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
+-        /* Turn off all VPEs except the one executing the dvpe.  */
+-        if (&other_cpu->env != env) {
+-            other_cpu->env.mvp->CP0_MVPControl &= ~(1 << CP0MVPCo_EVP);
+-            mips_vpe_sleep(other_cpu);
++    if (env->mvp->CP0_MVPConf0 & (1 << CP0MVPC0_MVP)) {
++        CPU_FOREACH(other_cs) {
++            MIPSCPU *other_cpu = MIPS_CPU(other_cs);
++            /* Turn off all VPEs except the one executing the dvpe.  */
++            if (&other_cpu->env != env) {
++                other_cpu->env.mvp->CP0_MVPControl &= ~(1 << CP0MVPCo_EVP);
++                mips_vpe_sleep(other_cpu);
++            }
+         }
+     }
+     return prev;
+@@ -1651,15 +1653,17 @@ target_ulong helper_evpe(CPUMIPSState *env)
+     CPUState *other_cs = first_cpu;
+     target_ulong prev = env->mvp->CP0_MVPControl;
+ 
+-    CPU_FOREACH(other_cs) {
+-        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
++    if (env->mvp->CP0_MVPConf0 & (1 << CP0MVPC0_MVP)) {
++        CPU_FOREACH(other_cs) {
++            MIPSCPU *other_cpu = MIPS_CPU(other_cs);
+ 
+-        if (&other_cpu->env != env
+-            /* If the VPE is WFI, don't disturb its sleep.  */
+-            && !mips_vpe_is_wfi(other_cpu)) {
+-            /* Enable the VPE.  */
+-            other_cpu->env.mvp->CP0_MVPControl |= (1 << CP0MVPCo_EVP);
+-            mips_vpe_wake(other_cpu); /* And wake it up.  */
++            if (&other_cpu->env != env
++                /* If the VPE is WFI, don't disturb its sleep.  */
++                && !mips_vpe_is_wfi(other_cpu)) {
++                /* Enable the VPE.  */
++                other_cpu->env.mvp->CP0_MVPControl |= (1 << CP0MVPCo_EVP);
++                mips_vpe_wake(other_cpu); /* And wake it up.  */
++            }
+         }
+     }
+     return prev;
+-- 
+2.26.3
 
-Will do it.
-
-> > +#define TYPE_VHOST_VDPA_BLK "vhost-vdpa-blk"
->
-> At this stage vdpa-blk is still very new and in development. I suggest
-> naming it x-vhost-vdpa-blk so that incompatible changes can still be
-> made to the command-line/APIs. "x-" can be removed later when the
-> feature has matured.
-
-OK.
-
-Thanks,
-Yongji
 
