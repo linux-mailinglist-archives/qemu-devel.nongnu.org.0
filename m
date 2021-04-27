@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0339836C1C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:33:08 +0200 (CEST)
-Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611E236C1C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:33:35 +0200 (CEST)
+Received: from localhost ([::1]:51272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbK5b-0005oj-3k
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52876)
+	id 1lbK62-0005zv-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbK3W-0004pg-Vk
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:31:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49786)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lbK2o-0004jh-R2
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:30:16 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbK3P-0005Kr-0B
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:30:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbK3M-0004Hr-MT
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:30:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A779A2E8041
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:30:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lbK2m-00052H-Mw
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 05:30:14 -0400
+Received: by mail-ej1-x630.google.com with SMTP id l4so88524353ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 02:30:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k9u2x5D3SOubZEe3RPaRcH6N4VCiHCuSYmkbJnihiIk=;
+ b=UvSLacxnw2uKejNpLSUzJnZITiwpJusQp0SCD/z0aZ+5reuuo5go0MstucPbi6LBcE
+ 0qnOZ2vcnzV4N3xPW5jfPK3sIZpp2yJhGIMB4zZB3m9aLvw5i8YRpOng0p9xw5RQgIEM
+ 8o5WHBAsh0lSOFAciZH3gMSeO/cxiRObCrojN01F+QuKWk7ltqaCW5BteME3ukxejRI8
+ tsU4Uyl5325f6YPXhu1A4oSs8f1GvbW3diiXKQLSDtmK05Y1GVzoOVBsF9iUHDYQ20aq
+ qgpsaFAnxek+xTBFWqB8BdSIpxbV/LWLyzEAZQd5Ho1YzYUnjVwzDADjLAa5annEvAms
+ Ixvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k9u2x5D3SOubZEe3RPaRcH6N4VCiHCuSYmkbJnihiIk=;
+ b=kT9aDcuKXV/xOnusJ40iaw58Wu9OxommRpoq0FVTGqrfbxZCWpHQcUn8iVVK6cs1Wg
+ NU07iLXLbrVuQ4dGBaZ91ZZDSIjaVzAnDTK1p04jwk66q7/BGJf59C53e29SyiwmkANg
+ pMV4VptZktrGcXNl/Sv6n7jqiHdvR6ZTO3ZbfhHm48CcB8zlbgDL31Kr23U7F1t6ZkiY
+ Jry5VtT8L5oA1xVUmqqawkeiBUBEP66gYzcG04JY3waTuhOBnZsWNl/p7ZlNM2ZHDq8d
+ N4ER5wTCf4sqYozfvnAHqKtG7/9ei33jOMzlqr8+QvIGFNa7UKXCbGyvmgQ4smAqypZU
+ FK9w==
+X-Gm-Message-State: AOAM532S+cjw2Cu+d9Tllg/GuTSKaagR7H69zJOzD9sBVvdS3kEuLeJD
+ a6PRcwKn4tOok1XzXNl4tJWjCu46OKqQSc6vkzrOqA==
+X-Google-Smtp-Source: ABdhPJzJZfE+7Z3DBjjlitoNnW0LtS6FGvBzRe2CA4bO8ExtLHww2hKX5bDLEpf+Zs8bkCl+MDSSglwYtWc9aevcXIM=
+X-Received: by 2002:a17:906:6d41:: with SMTP id
+ a1mr22721695ejt.482.1619515810486; 
+ Tue, 27 Apr 2021 02:30:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Apr 2021 09:19:40 -0000
-From: Hansni Bu <1926277@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: dvpe evpe mips mt
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hansni
-X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
-X-Launchpad-Bug-Modifier: Hansni Bu (hansni)
-Message-Id: <161951518027.9817.15696784713381088226.malonedeb@soybean.canonical.com>
-Subject: [Bug 1926277] [NEW] MIPS MT dvpe does not regard VPEConf0.MVP  
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 46332977b26c0b6718fc5f2d3f14af16b81e9614
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <cover.1617281290.git.haibo.xu@linaro.org>
+ <80d8bac17a21b41b36cde3eec6c9681b93f43d7c.1617281290.git.haibo.xu@linaro.org>
+In-Reply-To: <80d8bac17a21b41b36cde3eec6c9681b93f43d7c.1617281290.git.haibo.xu@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Apr 2021 10:29:11 +0100
+Message-ID: <CAFEAcA93EC1+ctNi3uh7vXP3F+zV8kunEXdXTHkBHqd5L1Q-2w@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 3/6] target/arm/kvm: Add an option to turn
+ on/off el2 support
+To: Haibo Xu <haibo.xu@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,119 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926277 <1926277@bugs.launchpad.net>
+Cc: Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrea Bolognani <abologna@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Thu, 1 Apr 2021 at 13:55, Haibo Xu <haibo.xu@linaro.org> wrote:
+>
+> Adds an el2=[on/off] option to enable/disable el2(nested virtualization)
+> support in KVM guest vCPU.
+>
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> ---
+>  target/arm/cpu.c   | 11 ++++++++++
+>  target/arm/cpu.h   |  4 ++++
+>  target/arm/cpu64.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 67 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index ae04884408..30cc330f50 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1349,6 +1349,17 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+>                  return;
+>              }
+>          }
+> +
+> +        /*
+> +         * Currently, vCPU feature 'el2' only supported in KVM mode.
+> +         */
+> +        if (kvm_enabled()) {
+> +            arm_cpu_el2_finalize(cpu, &local_err);
+> +            if (local_err != NULL) {
+> +                error_propagate(errp, local_err);
+> +                return;
+> +            }
+> +        }
 
-Hi,
+I don't understand this. EL2 is supported in TCG as well...
 
-According to MIPS32=C2=AE Architecture for Programmers VolumeIV-f: The MIPS=
-=C2=AE
-MT Application-Speci=EF=AC=81c Extension to the MIPS32=C2=AE Architecture, =
-for
-instruction: dvpe, evpe:
-
-If the VPE executing the instruction is not a Master VPE, with the MVP
-bit of the VPEConf0 register set, the EVP bit is unchanged by the
-instruction.
-
-The pseudo code is:
-
-data =E2=86=90  MVPControl
-GPR[rt] =E2=86=90  data
-if(VPEConf0.MVP =3D 1) then
-  MVPControl.EVP =E2=86=90  sc
-endif
-
-However the helper functions of dvpe, evpe does not regard the
-VPEConf0.MVP bit, namely, it does not check if the VPE is a master VPE.
-Code is copied below as:
-
-target_ulong helper_dvpe(CPUMIPSState *env)
-{
-    CPUState *other_cs =3D first_cpu;
-    target_ulong prev =3D env->mvp->CP0_MVPControl;
-
-    CPU_FOREACH(other_cs) {
-        MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
-        /* Turn off all VPEs except the one executing the dvpe.  */
-        if (&other_cpu->env !=3D env) {
-            other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EVP);
-            mips_vpe_sleep(other_cpu);
-        }
-    }
-    return prev;
-}
-
-Is this a bug?
-
-QEMU head commit: 0cef06d18762374c94eb4d511717a4735d668a24 is checked.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: dvpe evpe mips mt
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926277
-
-Title:
-  MIPS MT dvpe does not regard VPEConf0.MVP
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  According to MIPS32=C2=AE Architecture for Programmers VolumeIV-f: The
-  MIPS=C2=AE MT Application-Speci=EF=AC=81c Extension to the MIPS32=C2=AE A=
-rchitecture,
-  for instruction: dvpe, evpe:
-
-  If the VPE executing the instruction is not a Master VPE, with the MVP
-  bit of the VPEConf0 register set, the EVP bit is unchanged by the
-  instruction.
-
-  The pseudo code is:
-
-  data =E2=86=90  MVPControl
-  GPR[rt] =E2=86=90  data
-  if(VPEConf0.MVP =3D 1) then
-    MVPControl.EVP =E2=86=90  sc
-  endif
-
-  However the helper functions of dvpe, evpe does not regard the
-  VPEConf0.MVP bit, namely, it does not check if the VPE is a master
-  VPE. Code is copied below as:
-
-  target_ulong helper_dvpe(CPUMIPSState *env)
-  {
-      CPUState *other_cs =3D first_cpu;
-      target_ulong prev =3D env->mvp->CP0_MVPControl;
-
-      CPU_FOREACH(other_cs) {
-          MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
-          /* Turn off all VPEs except the one executing the dvpe.  */
-          if (&other_cpu->env !=3D env) {
-              other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EVP);
-              mips_vpe_sleep(other_cpu);
-          }
-      }
-      return prev;
-  }
-
-  Is this a bug?
-
-  QEMU head commit: 0cef06d18762374c94eb4d511717a4735d668a24 is checked.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926277/+subscriptions
+thanks
+-- PMM
 
