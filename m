@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F148F36BD12
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 04:01:39 +0200 (CEST)
-Received: from localhost ([::1]:48366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE0436BD15
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 04:03:51 +0200 (CEST)
+Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbD2h-0000bi-1B
-	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 22:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59886)
+	id 1lbD4o-0002WS-DS
+	for lists+qemu-devel@lfdr.de; Mon, 26 Apr 2021 22:03:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lbCy8-0003pr-8n; Mon, 26 Apr 2021 21:56:56 -0400
-Received: from ozlabs.org ([203.11.71.1]:56589)
+ id 1lbCyA-0003qB-7q; Mon, 26 Apr 2021 21:56:58 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40323 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lbCy4-0000hk-35; Mon, 26 Apr 2021 21:56:55 -0400
+ id 1lbCy8-0000mV-2v; Mon, 26 Apr 2021 21:56:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FTlHV5HRsz9sXH; Tue, 27 Apr 2021 11:56:38 +1000 (AEST)
+ id 4FTlHW0gWvz9sXh; Tue, 27 Apr 2021 11:56:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1619488598;
- bh=Iii/84a2pR/rVK3P0gkdjfgu2Afo5IimUeSW22Hx/aM=;
+ d=gibson.dropbear.id.au; s=201602; t=1619488599;
+ bh=okNU2PQvvx5a3BuImarZUOGHBBU6e7djY5rTkKBRIaQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JShgQYiTbTRd+HDorE7K54KRVddpE4o8JZfNJRBvhufwigH522LL6BkgAonFKzbbf
- Zuz3u0pTCYDFx5OwdA9xY5N2i89KTR5BetYBHXQ36CYmiWgcGtcvmC5/RD5Kr06yyQ
- 1tyr7/b1gakG6rg3dU2UlYUo3ur/iX5f23Piu9jY=
-Date: Tue, 27 Apr 2021 11:47:12 +1000
+ b=GzvZwcVKOe2CJOK2T3L+mgLp/YavFHBHBQuArCrU4TtTYRf6IiEhQOhPxnbTNB+wx
+ R8HhCDJxh/x35StRUH1uWqWQFk/6ZO6EDgV5MIP2i39HO2SzE/DEqtfVub7jx++xv/
+ KnYcNK2bke2eSAf6+jTgohlMj3lCs+9IzNkDeprw=
+Date: Tue, 27 Apr 2021 11:56:21 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 4/5] hw/pci-host/raven: Manually reset the OR_IRQ device
-Message-ID: <YIdtIJhxfyZ65eQO@yekko.fritz.box>
-References: <20210424162229.3312116-1-f4bug@amsat.org>
- <20210424162229.3312116-5-f4bug@amsat.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 5/7] hw: Have machines Kconfig-select FW_CFG
+Message-ID: <YIdvRYFr2cViBM9+@yekko.fritz.box>
+References: <20210426193520.4115528-1-philmd@redhat.com>
+ <20210426193520.4115528-6-philmd@redhat.com>
+ <aec5eea-8beb-a59-fda1-4c1ba4374c5@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="slZAFVVySyo6FErL"
+ protocol="application/pgp-signature"; boundary="0jr6VXHBGqaURn2+"
 Content-Disposition: inline
-In-Reply-To: <20210424162229.3312116-5-f4bug@amsat.org>
+In-Reply-To: <aec5eea-8beb-a59-fda1-4c1ba4374c5@eik.bme.hu>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,64 +59,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Helge Deller <deller@gmx.de>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---slZAFVVySyo6FErL
+--0jr6VXHBGqaURn2+
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 24, 2021 at 06:22:28PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> The OR_IRQ device is bus-less, thus isn't reset automatically.
-> Add the raven_pcihost_reset() handler to manually reset the OR IRQ.
+On Tue, Apr 27, 2021 at 12:03:42AM +0200, BALATON Zoltan wrote:
+> On Mon, 26 Apr 2021, Philippe Mathieu-Daud=E9 wrote:
+> > Beside the loongson3-virt machine (MIPS), the following machines
+> > also use the fw_cfg device:
+> >=20
+> > - ARM: virt & sbsa-ref
+> > - HPPA: generic machine
+> > - X86: ACPI based (pc & microvm)
+> > - PPC64: various
+> > - SPARC: sun4m & sun4u
+> >=20
+> > Add their FW_CFG Kconfig dependency.
+> >=20
+> > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > ---
+> > hw/arm/Kconfig     | 2 ++
+> > hw/hppa/Kconfig    | 1 +
+> > hw/i386/Kconfig    | 2 ++
+> > hw/ppc/Kconfig     | 1 +
+> > hw/sparc/Kconfig   | 1 +
+> > hw/sparc64/Kconfig | 1 +
+> > 6 files changed, 8 insertions(+)
+> >=20
+> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > index 8c37cf00da7..3b2641e39dc 100644
+> > --- a/hw/arm/Kconfig
+> > +++ b/hw/arm/Kconfig
+> > @@ -8,6 +8,7 @@ config ARM_VIRT
+> >     imply TPM_TIS_SYSBUS
+> >     select ARM_GIC
+> >     select ACPI
+> > +    select FW_CFG
+> >     select ARM_SMMUV3
+> >     select GPIO_KEY
+> >     select FW_CFG_DMA
+> > @@ -216,6 +217,7 @@ config SBSA_REF
+> >     select PL061 # GPIO
+> >     select USB_EHCI_SYSBUS
+> >     select WDT_SBSA
+> > +    select FW_CFG
+> >=20
+> > config SABRELITE
+> >     bool
+> > diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
+> > index 22948db0256..45f40e09224 100644
+> > --- a/hw/hppa/Kconfig
+> > +++ b/hw/hppa/Kconfig
+> > @@ -14,3 +14,4 @@ config DINO
+> >     select LASIPS2
+> >     select PARALLEL
+> >     select ARTIST
+> > +    select FW_CFG
+> > diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> > index 7f91f30877f..9e4039a2dce 100644
+> > --- a/hw/i386/Kconfig
+> > +++ b/hw/i386/Kconfig
+> > @@ -52,6 +52,7 @@ config PC_ACPI
+> >     select SMBUS_EEPROM
+> >     select PFLASH_CFI01
+> >     depends on ACPI_SMBUS
+> > +    select FW_CFG
+> >=20
+> > config I440FX
+> >     bool
+> > @@ -106,6 +107,7 @@ config MICROVM
+> >     select ACPI_HW_REDUCED
+> >     select PCI_EXPRESS_GENERIC_BRIDGE
+> >     select USB_XHCI_SYSBUS
+> > +    select FW_CFG
+> >=20
+> > config X86_IOMMU
+> >     bool
+> > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> > index d11dc30509d..a7ba8283bf1 100644
+> > --- a/hw/ppc/Kconfig
+> > +++ b/hw/ppc/Kconfig
+> > @@ -131,6 +131,7 @@ config VIRTEX
+> > # Only used by 64-bit targets
+> > config FW_CFG_PPC
+> >     bool
+> > +    select FW_CFG
 >=20
-> Fixes: f40b83a4e31 ("40p: use OR gate to wire up raven PCI interrupts")
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/pci-host/prep.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> Why do we need a separate config option here if all it does is select FW_=
+CFG
+> and also in meson.build it only seems to add fw_cfg.c? (Unlike FW_CFG_DMA
+> which seems to add other files so another option makes sense for that cas=
+e).
+> Could we just use FW_CFG directly and drop the PPC specific option like y=
+ou
+> did for MIPS?
 >=20
-> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> index 0a9162fba97..275379e4c78 100644
-> --- a/hw/pci-host/prep.c
-> +++ b/hw/pci-host/prep.c
-> @@ -230,6 +230,15 @@ static void raven_change_gpio(void *opaque, int n, i=
-nt level)
->      s->contiguous_map =3D level;
->  }
-> =20
-> +static void raven_pcihost_reset(DeviceState *dev)
-> +{
-> +    PREPPCIState *s =3D RAVEN_PCI_HOST_BRIDGE(dev);
-> +
-> +    if (!s->is_legacy_prep) {
-> +        device_legacy_reset(DEVICE(&s->or_irq));
-> +    }
-> +}
-> +
->  static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
->  {
->      SysBusDevice *dev =3D SYS_BUS_DEVICE(d);
-> @@ -422,6 +431,7 @@ static void raven_pcihost_class_init(ObjectClass *kla=
-ss, void *data)
-> =20
->      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->      dc->realize =3D raven_pcihost_realizefn;
-> +    dc->reset =3D raven_pcihost_reset;
->      device_class_set_props(dc, raven_pcihost_properties);
->      dc->fw_name =3D "pci";
->  }
+> Also the comment saying "Only used by 64-bit targets" seems to be wrong as
+> it is also selected by MAC_OLDWORLD that's definitely a 32-bit machine (a=
+nd
+> MAC_NEWWORLD that can be both 32 or 64 bit) so maybe this option used to =
+do
+> something previously but now seems to be equivalent to just FW_CFG. So co=
+uld
+> it be dropped and use FW_CFG instead to simplify this or what's the reason
+> to keep a PPC specific option for it?
+
+Actually... good point.  I don't see any reason for this config option eith=
+er.
+
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
+> >=20
+> > config FDT_PPC
+> >     bool
+> > diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
+> > index 8dcb10086fd..267bf45fa21 100644
+> > --- a/hw/sparc/Kconfig
+> > +++ b/hw/sparc/Kconfig
+> > @@ -15,6 +15,7 @@ config SUN4M
+> >     select STP2000
+> >     select CHRP_NVRAM
+> >     select OR_IRQ
+> > +    select FW_CFG
+> >=20
+> > config LEON3
+> >     bool
+> > diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
+> > index 980a201bb73..c17b34b9d5b 100644
+> > --- a/hw/sparc64/Kconfig
+> > +++ b/hw/sparc64/Kconfig
+> > @@ -13,6 +13,7 @@ config SUN4U
+> >     select PCKBD
+> >     select SIMBA
+> >     select CHRP_NVRAM
+> > +    select FW_CFG
+> >=20
+> > config NIAGARA
+> >     bool
+> >=20
+
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -123,25 +221,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---slZAFVVySyo6FErL
+--0jr6VXHBGqaURn2+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCHbR8ACgkQbDjKyiDZ
-s5KOBhAA1A6h+9Kjkw7EFf2sy3H28brCunWuCVF1K67Q+r4u3FDuJRfjDL2+Lcrr
-pubP1QY7uyVtAky5VZUPGNDde8120AMZq3vwO8LPRIRpWzmrjplPY+Zs9CqASrsq
-UEddVVHW/wEVBGCLVT0R9MKd1cALhCqs2GHDuaL5DkCKtzQ+7HF8qEhWr3zI5J7z
-SJRR+x+wAie1PBybI+UJa59cEscIkEsPZaLuXb2MMw7g8AVsVLBKNCttEusPCqzs
-/+K+S8HVPD+h0t15b16ikN6mefpQyNCC03mgERBBJpxxqXOrDwPvRA3OdBNytfsE
-8Knig6K7cPn6miEOEw+4g7uo5MVcAD5C1vyqR64SWwVkQZbfZPAlsBRzp2tJg7jC
-stTBdqhwRE+UDiuxvIqKyoLShRFcdvATf6SFT+yRHtYgXdwtdtAKqqRRvn1ih9Y/
-vSo1rlJK5vtL1zGbXU/V0B7tR6m1KxBIkykq3g58VgM3u1Mmt8+b/22uT6hiUeUH
-yMmhZzWClZC5byCIU9mAWHx7pEp68hwHB7mD+ZqSXmQptjI/cFC7ol3SJ/UgGx4D
-cUp5Ep4qd0ohI73cZuWHgLhxskSHD1qkc9Xkl4BtrRWuC1gQsh9B3j3yOllh+Mwi
-ByIL2CD/WiygYv9+7S0e9FpNW+S7iCcv5rKG0WzBrJts9QfUkFA=
-=hKM0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCHb0UACgkQbDjKyiDZ
+s5Lc6Q//aOwjsOtxT4hFd1m4RBzYAgXtJGDvM3nKOZFF+CLJXgeVoZNchL5JGykQ
+44qeSRq7o5QjJOcF0Rhscw+4O7TOwBsLxhE09BBBPopGcRRPup+iG914ZAkHhnUe
+dva9let3FDbSuUAMzhYH4uUZMCbGlwQeKEX/DoryBdZYbFHCTMownvn3Dt7QWk6a
+gi6Es0jjzapa3U+XFPwf2Uq9HnrJP7wGFGv73lLHdakiA6yYCtq+0aOcyM9IenvR
+m1Y5WaTXTtObqsdTJ0PbRdCgv8mAcI1n5qyXGcjwGG07tMA/BA0LL/ZOmNBq4ORi
+OuuNgP2NK7Pbk3+WhyEV+1eR3KIEHRBbmfZiR3UeY3noJX8Kcn/icsKoMDFlXePM
+/0G1JKyMwYIchSFXXrMyVTcwDSXlNuO9sveYzc8Iw4F24qqLXnR8zyy9AC4xj6ig
+puN4btvbkFvpauoqlM2eifakNZr3Uo9F163d7BsvJ+DulQPTVKGFxsVBcWn7FSqF
+Mq/0yNNq/uoaCRy07Gee3z6PNTGh9AH7a4cct5e9kyAeAk0r/KKYiwNvDH0SaBYh
+eMlcm5aRSwPbLKkLGYddqbvTYCbbarubZipfDtlwP7weUVtT6ykiR1q5tNwkzn1r
+/wXSGP8kd8pGi5niowU+MSySEMqF83tEnozYfKcjzqTyLWi1Ma4=
+=OlSS
 -----END PGP SIGNATURE-----
 
---slZAFVVySyo6FErL--
+--0jr6VXHBGqaURn2+--
 
