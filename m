@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEBA36BEE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 07:31:57 +0200 (CEST)
-Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B531636BEFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 07:42:07 +0200 (CEST)
+Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbGKA-0003yO-82
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 01:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
+	id 1lbGU2-0005Tr-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 01:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbGJ7-0003Vp-Lw
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 01:30:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbGJ4-0006IS-9C
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 01:30:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbGJ1-0005BN-R2
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 05:30:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C984D2E806D
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 05:30:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lbGRY-0004wd-K3
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 01:39:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lbGRP-0003Jp-9m
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 01:39:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619501956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OFM7OggzMh3wxa2i4p4/vpxeY8ZCdoTE/56iTjtFzIA=;
+ b=CeKfA0qllj4GHTrmZ73GDFdbXJGVIPYR0zCSetIeveEMJYw1frJwXSx8ES2qG6hfskYFqT
+ XsY3iu5UoX0dcQA5G/mIQc5mF8urK8kbf86kOWb/CF7NfCQYYcckM8OXKpXJYSkbn528M8
+ 1gze25xBoQgV4ZTJ0jPPvGkQgU5HK5c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-UMgs_6ixOISOdL_WgEknIw-1; Tue, 27 Apr 2021 01:39:14 -0400
+X-MC-Unique: UMgs_6ixOISOdL_WgEknIw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9D67195D561
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 05:39:13 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-39.pek2.redhat.com
+ [10.72.12.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F293163EB;
+ Tue, 27 Apr 2021 05:39:08 +0000 (UTC)
+Subject: Re: [PATCH v6 1/9] hw: Add check for queue number
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20210427033951.29805-1-lulu@redhat.com>
+ <20210427033951.29805-2-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <1d1c7244-ac00-94c0-8f53-90b1b93c41a0@redhat.com>
+Date: Tue, 27 Apr 2021 13:39:06 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Apr 2021 05:24:38 -0000
-From: Wind Li <1926246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nightwend
-X-Launchpad-Bug-Reporter: Wind Li (nightwend)
-X-Launchpad-Bug-Modifier: Wind Li (nightwend)
-Message-Id: <161950107824.17271.5936509317690090363.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1926246] [NEW] chrome based apps can not be run under qemu user
- mode
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 44027f2fa5f819e9c92111826c03ea7d9df1476e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210427033951.29805-2-lulu@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,150 +83,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926246 <1926246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-chrome uses /proc/self/exe to fork render process.
-Here a simple code to reproduce the issue. It's output parent then child bu=
-t failed with qemu: unknown option 'type=3Drenderer'.
-
-Maybe we can modify exec syscall to replace /proc/self/exe to the real
-path.
-
-//gcc -o self self.c =
-
-#include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
-int main(int argc, char** argv) {
-  if(argc=3D=3D1){
-    printf ("parent\n");
-	if ( fork() =3D=3D 0 )
-    {
-        return execl("/proc/self/exe","/proc/self/exe", "--type=3Drenderer"=
-,NULL);
-    }
-  } else {
-    printf ("child\n");
-  }
-  return 0;
-}
-
-similar reports:
-https://github.com/AppImage/AppImageKit/issues/965  =
-
-https://github.com/golang/go/issues/42080  =
+ÔÚ 2021/4/27 ÉÏÎç11:39, Cindy Lu Ð´µÀ:
+> In order to support configure interrupt. we will use queue number -1
+> as configure interrupt
+> since all these device are not support the configure interrupt
+> So we will add an check here, if the idx is -1, the function
+> will return;
 
 
-Workardound:
-compile chrome or your chrome based app with a patch to content/common/chil=
-d_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
+The title is confusing since the change is specific for the guest notifiers.
+
+A better one would be "virtio: guest notifier support for config interrupt"
 
 
-diff --git a/content/common/child_process_host_impl.cc b/content/common/chi=
-ld_process_host_impl.cc
-index bc78aba80ac8..9fab74d3bae8 100644
---- a/content/common/child_process_host_impl.cc
-+++ b/content/common/child_process_host_impl.cc
-@@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flags)=
- {
- #if defined(OS_LINUX)
-   // Use /proc/self/exe rather than our known binary path so updates
-   // can't swap out the binary from underneath us.
--  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
--    child_path =3D base::FilePath(base::kProcSelfExe);
-+  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
-+    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_path)=
-) {
-+      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
-+      child_path =3D base::FilePath(base::kProcSelfExe);
-+    }
-+  }
- #endif
-
-   // On most platforms, the child executable is the same as the current
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926246
-
-Title:
-  chrome based apps can not be run under qemu user mode
-
-Status in QEMU:
-  New
-
-Bug description:
-  chrome uses /proc/self/exe to fork render process.
-  Here a simple code to reproduce the issue. It's output parent then child =
-but failed with qemu: unknown option 'type=3Drenderer'.
-
-  Maybe we can modify exec syscall to replace /proc/self/exe to the real
-  path.
-
-  //gcc -o self self.c =
-
-  #include <stdio.h>
-  #include <sys/types.h>
-  #include <unistd.h>
-  int main(int argc, char** argv) {
-    if(argc=3D=3D1){
-      printf ("parent\n");
-  	if ( fork() =3D=3D 0 )
-      {
-          return execl("/proc/self/exe","/proc/self/exe", "--type=3Drendere=
-r",NULL);
-      }
-    } else {
-      printf ("child\n");
-    }
-    return 0;
-  }
-
-  similar reports:
-  https://github.com/AppImage/AppImageKit/issues/965  =
-
-  https://github.com/golang/go/issues/42080  =
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/display/vhost-user-gpu.c    |  8 ++++++--
+>   hw/net/virtio-net.c            | 10 +++++++---
+>   hw/virtio/vhost-user-fs.c      | 11 +++++++----
+>   hw/virtio/vhost-vsock-common.c |  8 ++++++--
+>   hw/virtio/virtio-crypto.c      |  8 ++++++--
+>   5 files changed, 32 insertions(+), 13 deletions(-)
+>
+> diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+> index 51f1747c4a..d8e26cedf1 100644
+> --- a/hw/display/vhost-user-gpu.c
+> +++ b/hw/display/vhost-user-gpu.c
+> @@ -490,7 +490,9 @@ static bool
+>   vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>   {
+>       VhostUserGPU *g = VHOST_USER_GPU(vdev);
+> -
+> +    if (idx == -1) {
 
 
-  Workardound:
-  compile chrome or your chrome based app with a patch to content/common/ch=
-ild_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
+Let's introduce a macro for this instead of the magic number.
+
+Thanks
 
 
-  diff --git a/content/common/child_process_host_impl.cc b/content/common/c=
-hild_process_host_impl.cc
-  index bc78aba80ac8..9fab74d3bae8 100644
-  --- a/content/common/child_process_host_impl.cc
-  +++ b/content/common/child_process_host_impl.cc
-  @@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flag=
-s) {
-   #if defined(OS_LINUX)
-     // Use /proc/self/exe rather than our known binary path so updates
-     // can't swap out the binary from underneath us.
-  -  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
-  -    child_path =3D base::FilePath(base::kProcSelfExe);
-  +  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
-  +    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_pat=
-h)) {
-  +      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
-  +      child_path =3D base::FilePath(base::kProcSelfExe);
-  +    }
-  +  }
-   #endif
+> +        return false;
+> +    }
+>       return vhost_virtqueue_pending(&g->vhost->dev, idx);
+>   }
+>   
+> @@ -498,7 +500,9 @@ static void
+>   vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+>   {
+>       VhostUserGPU *g = VHOST_USER_GPU(vdev);
+> -
+> +    if (idx == -1) {
+> +        return;
+> +    }
+>       vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
+>   }
+>   
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 9179013ac4..78ccaa228c 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3060,7 +3060,10 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>       VirtIONet *n = VIRTIO_NET(vdev);
+>       NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+>       assert(n->vhost_started);
+> -    return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> +    if (idx != -1) {
+> +        return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> +    }
+> +    return false;
+>   }
+>   
+>   static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> @@ -3069,8 +3072,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>       VirtIONet *n = VIRTIO_NET(vdev);
+>       NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+>       assert(n->vhost_started);
+> -    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+> -                             vdev, idx, mask);
+> +    if (idx != -1) {
+> +        vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
+> +     }
+>   }
+>   
+>   static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index 1bc5d03a00..37424c2193 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -142,18 +142,21 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+>        */
+>   }
+>   
+> -static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> -                                            bool mask)
+> +static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+>   {
+>       VHostUserFS *fs = VHOST_USER_FS(vdev);
+> -
+> +    if (idx == -1) {
+> +        return;
+> +    }
+>       vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
+>   }
+>   
+>   static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>   {
+>       VHostUserFS *fs = VHOST_USER_FS(vdev);
+> -
+> +    if (idx == -1) {
+> +        return false;
+> +    }
+>       return vhost_virtqueue_pending(&fs->vhost_dev, idx);
+>   }
+>   
+> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> index 5b2ebf3496..0adf823d37 100644
+> --- a/hw/virtio/vhost-vsock-common.c
+> +++ b/hw/virtio/vhost-vsock-common.c
+> @@ -100,7 +100,9 @@ static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>                                               bool mask)
+>   {
+>       VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+> -
+> +    if (idx == -1) {
+> +        return;
+> +    }
+>       vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
+>   }
+>   
+> @@ -108,7 +110,9 @@ static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *vdev,
+>                                                  int idx)
+>   {
+>       VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+> -
+> +    if (idx == -1) {
+> +        return false;
+> +    }
+>       return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
+>   }
+>   
+> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> index 54f9bbb789..c47f4ffb24 100644
+> --- a/hw/virtio/virtio-crypto.c
+> +++ b/hw/virtio/virtio-crypto.c
+> @@ -947,7 +947,9 @@ static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>       int queue = virtio_crypto_vq2q(idx);
+>   
+>       assert(vcrypto->vhost_started);
+> -
+> +    if (idx == -1) {
+> +        return;
+> +    }
+>       cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
+>   }
+>   
+> @@ -957,7 +959,9 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>       int queue = virtio_crypto_vq2q(idx);
+>   
+>       assert(vcrypto->vhost_started);
+> -
+> +    if (idx == -1) {
+> +        return false;
+> +    }
+>       return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
+>   }
+>   
 
-     // On most platforms, the child executable is the same as the
-  current
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926246/+subscriptions
 
