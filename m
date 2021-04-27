@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C005E36C446
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:37:37 +0200 (CEST)
-Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F4636C467
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:53:00 +0200 (CEST)
+Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbL60-0006nJ-RF
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
+	id 1lbLKt-0002KK-4a
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbL4U-0006DY-6X
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:36:02 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34740)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbLIq-0001V3-9r
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:50:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbL4S-0001xH-8G
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:36:01 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- n3-20020a05600c4f83b02901425630b2c2so812219wmq.1
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HU/4yCgl1rj3i5y1lhl7YgDAybnUSgnMfeYGKSw62FU=;
- b=cH82a4Mzxf7eAQt0esKPyI3zm+AmlSbW/+I17AT91JDrVgJaUNHK5GcLjMKUbpASGB
- oUg335RNeWbzzK+mbatALd91hRJKZjkZPv2mpjPjfNhJymwC2O5G88IT4Sxh7hyz7NLX
- 8W1PM8cLC9MbSfj01Bcnox04KdhuFaN5qN2n7Wtjg+5muDGMxSv3HepQSX9t8/D3zowM
- RxSv1g8LeHFZuXI+ElpLA64EWTN5Dk65Azh3Qja4KcrE3OVYeA8vJWlly3w23wE6hETn
- IYs3ZGeY0juzViiMHitM6rUboQRt3RZqV83gm6jFEEtfVmHTP0sKzT4t1VEBUf4j+17P
- hSNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=HU/4yCgl1rj3i5y1lhl7YgDAybnUSgnMfeYGKSw62FU=;
- b=fZE3QJaOQGvZFaNIq8ugUUpYjK44/nE5as9+TiQxxbZBkMhY+Phxs80LuxzUikEfmz
- B3fbJVBMZQaczXTuJb4DR5m07ytdn3TUOSLxTrrBE2ygNtrwCyzmvaDJbPDkBHcvg802
- /KAAnvczw9Kiw4YsnQOieyRYdrYM2ZXDDcaQNS4s3/BR/y34+rRWTbjrMdBpq5auceCj
- omSXEutszWFScfZMlbVzPHe6dka2yfu/DOA6jNRmcpAqHEROp5hgIvtn5LrdvF+gsBIN
- XGh1oTJLqpjq9occpdv1pOfcH3u5u0sIZ59WQaxmnKiKnGqrOL1csrXtVf0Z5BG2Gf4C
- dk6Q==
-X-Gm-Message-State: AOAM533ZbwXtGzhPjrjm/XTiv8KGTMCI4pfoo9DXDTwRzJLnps2Hy8Bz
- spmuGC679fJWuTsxOtsz4BeCT67y2/APdw==
-X-Google-Smtp-Source: ABdhPJxiSIkD37z/sQ+ck+DqeDhPEa72eZBp2wyv8XM3JxiEVBQdo2qel7aZQtM0+fWKtwVVtVlAzA==
-X-Received: by 2002:a05:600c:4f13:: with SMTP id
- l19mr3703516wmq.47.1619519757865; 
- Tue, 27 Apr 2021 03:35:57 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id d13sm1552982wrx.29.2021.04.27.03.35.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 03:35:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips: Only update MVPControl.EVP bit if executed on a
- master VPE
-Date: Tue, 27 Apr 2021 12:35:55 +0200
-Message-Id: <20210427103555.112652-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbLIj-0002Tj-Gr
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:50:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lbLIg-0008TD-TD
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 10:50:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DBF7C2E804C
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 10:50:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Apr 2021 10:35:55 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1926277@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: dvpe evpe mips mt
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hansni philmd
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161951518027.9817.15696784713381088226.malonedeb@soybean.canonical.com>
+Message-Id: <20210427103555.112652-1-f4bug@amsat.org>
+Subject: [Bug 1926277] Re: MIPS MT dvpe does not regard VPEConf0.MVP  
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 87fbdd091ca10f0b176ade60e0a1baf54353ffb8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,15 +72,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- 1926277@bugs.launchpad.net,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1926277 <1926277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the 'MIPS MT Application-Speciﬁc Extension' manual:
+According to the 'MIPS MT Application-Speci=EF=AC=81c Extension' manual:
 
   If the VPE executing the instruction is not a Master VPE,
   with the MVP bit of the VPEConf0 register set, the EVP bit
@@ -106,7 +88,7 @@ update the MVPControl.EVP bit if executed on a master VPE.
 Reported-by: Hansni Bu
 Buglink: https://bugs.launchpad.net/qemu/+bug/1926277
 Fixes: f249412c749 ("mips: Add MT halting and waking of VPEs")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
  target/mips/cpu.h        |  1 +
  target/mips/cp0_helper.c | 32 ++++++++++++++++++--------------
@@ -129,53 +111,121 @@ index aae2af6eccc..1e39e28808a 100644
 --- a/target/mips/cp0_helper.c
 +++ b/target/mips/cp0_helper.c
 @@ -1635,12 +1635,14 @@ target_ulong helper_dvpe(CPUMIPSState *env)
-     CPUState *other_cs = first_cpu;
-     target_ulong prev = env->mvp->CP0_MVPControl;
- 
+     CPUState *other_cs =3D first_cpu;
+     target_ulong prev =3D env->mvp->CP0_MVPControl;
+ =
+
 -    CPU_FOREACH(other_cs) {
--        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
+-        MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
 -        /* Turn off all VPEs except the one executing the dvpe.  */
--        if (&other_cpu->env != env) {
--            other_cpu->env.mvp->CP0_MVPControl &= ~(1 << CP0MVPCo_EVP);
+-        if (&other_cpu->env !=3D env) {
+-            other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EVP);
 -            mips_vpe_sleep(other_cpu);
 +    if (env->mvp->CP0_MVPConf0 & (1 << CP0MVPC0_MVP)) {
 +        CPU_FOREACH(other_cs) {
-+            MIPSCPU *other_cpu = MIPS_CPU(other_cs);
++            MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
 +            /* Turn off all VPEs except the one executing the dvpe.  */
-+            if (&other_cpu->env != env) {
-+                other_cpu->env.mvp->CP0_MVPControl &= ~(1 << CP0MVPCo_EVP);
++            if (&other_cpu->env !=3D env) {
++                other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EV=
+P);
 +                mips_vpe_sleep(other_cpu);
 +            }
          }
      }
      return prev;
 @@ -1651,15 +1653,17 @@ target_ulong helper_evpe(CPUMIPSState *env)
-     CPUState *other_cs = first_cpu;
-     target_ulong prev = env->mvp->CP0_MVPControl;
- 
+     CPUState *other_cs =3D first_cpu;
+     target_ulong prev =3D env->mvp->CP0_MVPControl;
+ =
+
 -    CPU_FOREACH(other_cs) {
--        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
+-        MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
 +    if (env->mvp->CP0_MVPConf0 & (1 << CP0MVPC0_MVP)) {
 +        CPU_FOREACH(other_cs) {
-+            MIPSCPU *other_cpu = MIPS_CPU(other_cs);
- 
--        if (&other_cpu->env != env
++            MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
+ =
+
+-        if (&other_cpu->env !=3D env
 -            /* If the VPE is WFI, don't disturb its sleep.  */
 -            && !mips_vpe_is_wfi(other_cpu)) {
 -            /* Enable the VPE.  */
--            other_cpu->env.mvp->CP0_MVPControl |= (1 << CP0MVPCo_EVP);
+-            other_cpu->env.mvp->CP0_MVPControl |=3D (1 << CP0MVPCo_EVP);
 -            mips_vpe_wake(other_cpu); /* And wake it up.  */
-+            if (&other_cpu->env != env
++            if (&other_cpu->env !=3D env
 +                /* If the VPE is WFI, don't disturb its sleep.  */
 +                && !mips_vpe_is_wfi(other_cpu)) {
 +                /* Enable the VPE.  */
-+                other_cpu->env.mvp->CP0_MVPControl |= (1 << CP0MVPCo_EVP);
++                other_cpu->env.mvp->CP0_MVPControl |=3D (1 << CP0MVPCo_EVP=
+);
 +                mips_vpe_wake(other_cpu); /* And wake it up.  */
 +            }
          }
      }
      return prev;
--- 
+-- =
+
 2.26.3
 
+
+** Changed in: qemu
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926277
+
+Title:
+  MIPS MT dvpe does not regard VPEConf0.MVP
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Hi,
+
+  According to MIPS32=C2=AE Architecture for Programmers VolumeIV-f: The
+  MIPS=C2=AE MT Application-Speci=EF=AC=81c Extension to the MIPS32=C2=AE A=
+rchitecture,
+  for instruction: dvpe, evpe:
+
+  If the VPE executing the instruction is not a Master VPE, with the MVP
+  bit of the VPEConf0 register set, the EVP bit is unchanged by the
+  instruction.
+
+  The pseudo code is:
+
+  data =E2=86=90  MVPControl
+  GPR[rt] =E2=86=90  data
+  if(VPEConf0.MVP =3D 1) then
+    MVPControl.EVP =E2=86=90  sc
+  endif
+
+  However the helper functions of dvpe, evpe does not regard the
+  VPEConf0.MVP bit, namely, it does not check if the VPE is a master
+  VPE. Code is copied below as:
+
+  target_ulong helper_dvpe(CPUMIPSState *env)
+  {
+      CPUState *other_cs =3D first_cpu;
+      target_ulong prev =3D env->mvp->CP0_MVPControl;
+
+      CPU_FOREACH(other_cs) {
+          MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
+          /* Turn off all VPEs except the one executing the dvpe.  */
+          if (&other_cpu->env !=3D env) {
+              other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EVP);
+              mips_vpe_sleep(other_cpu);
+          }
+      }
+      return prev;
+  }
+
+  Is this a bug?
+
+  QEMU head commit: 0cef06d18762374c94eb4d511717a4735d668a24 is checked.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926277/+subscriptions
 
