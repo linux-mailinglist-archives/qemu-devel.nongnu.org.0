@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF10336BE76
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 06:25:49 +0200 (CEST)
-Received: from localhost ([::1]:54340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5996336BE82
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 06:32:34 +0200 (CEST)
+Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbFIC-0001vN-7E
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 00:25:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60742)
+	id 1lbFOj-0003NR-FC
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 00:32:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uenobk@gmail.com>)
- id 1lbD42-0002S5-HY; Mon, 26 Apr 2021 22:03:02 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:33475)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbFN7-0002ut-2s
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 00:30:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <uenobk@gmail.com>)
- id 1lbD40-0003Nk-Lw; Mon, 26 Apr 2021 22:03:02 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id p3so46753730ybk.0;
- Mon, 26 Apr 2021 19:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=x6ev/h+An1WJYWDmxr1+5dtgNa7FqFnjJ2Zvo68ft4s=;
- b=MyIiY24jjqKhk/6sdIVNtWxOWWHuDaS7EO/JC1Apcta+iy3P/1sJIcgyWeIs5RKDJz
- 7g8UpzwCON284mG1hkERyeKDU+loaXdhDGUamu43Ea7J/HCw505cL73KIggGguVpPEZu
- Kkj/09yHvaBmtKBS2Carp57A+UGWg1EBBCy4VAol7mEEAOIsAcq/ALTsv2qxR6gIF1co
- vZuuaUXuiFjW6XFI80l1uwTdEFuCtaPEoJGI12jtDfLtIDXOwhJRNCtYMKY6FZPrJkgP
- J61UxHwZV2PBxFbxSZjNaOkp/anewWkF72zlg9XdFIZo+apSffxmGckyvxvm1Vh/hH06
- sCyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=x6ev/h+An1WJYWDmxr1+5dtgNa7FqFnjJ2Zvo68ft4s=;
- b=rTfHznDH7V/J8fInJTMHQteCVfYHAjYe/MP1SqQYiPux6iDoM8UlEb5punlRup0iFB
- 08hr+mLcli3lvEA6Nfw/q6S946Zvq4gmyX2+knzBsqZT6pq91Youk04BIH20f6WvbPsS
- tKve75vinppfZL5jlYfBC29ElbSc+feXJNKFi7LDO2OvYc+5Z2Jjf0jGowEYutVG/OLK
- DVuyJzV4Wr/louhsWPNAns80yDsC9y+36duLIIxavwy+stIsMf8TgVfUssN1CghVs7h0
- npKiEogmyfjXBmsoXRKrBw7tdqqeBA5nCfj0/6jiMUrSQ1CA1QkV3HirXwMA/h6i/dPB
- 19Vg==
-X-Gm-Message-State: AOAM530nTvqM7cV38NV0+wKezx2nkhNjRfZUWZX/Gx6f3Phb4UFRSehR
- H6b5TuQ18gjpmnp6mMj+EjXTJRUsrh8s1Njjdg+fusxY/VVn5HGT
-X-Google-Smtp-Source: ABdhPJyn4L3YDN6eJ7RwOjws7HVhtOyrYpawpJOOt+mZJxGFeYX7E3BgbhfcWkS0qfvnt7hCIvpdRC5TsWJVhDAABNs=
-X-Received: by 2002:a5b:44e:: with SMTP id s14mr30066311ybp.11.1619488977191; 
- Mon, 26 Apr 2021 19:02:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbFN1-0002ni-Pa
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 00:30:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lbFMy-0001br-VD
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 04:30:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E9D5E2E808A
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 04:30:44 +0000 (UTC)
 MIME-Version: 1.0
-From: Katsuhiro Ueno <uenobk@gmail.com>
-Date: Tue, 27 Apr 2021 11:02:46 +0900
-Message-ID: <CA+pCdY3iG+pKKQqEVknnWF-W0wK36S4U1jxPvxmGAPp6FFvz1Q@mail.gmail.com>
-Subject: [PATCH] hw/input/hid: Add support for keys of jp106 keyboard.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Apr 2021 04:20:59 -0000
+From: Thomas Huth <1895305@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=uenobk@gmail.com; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kaniini th-huth z3ntu
+X-Launchpad-Bug-Reporter: Luca Weiss (z3ntu)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159983459206.747.8861900115459003190.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161949725965.4401.18129197045610568045.malone@gac.canonical.com>
+Subject: [Bug 1895305] Re: pthread_cancel fails with "RT33" with musl libc
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 22208a751cf24bde35ef50a0dc325a7433149bfc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 27 Apr 2021 00:24:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,34 +71,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Reply-To: Bug 1895305 <1895305@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for the following keys: KATAKANAHIRAGANA, HENKAN, MUHENKAN,
-RO, and YEN.  Before this commit, these keys did not work as expected
-when a jp106 keyboard was connected to the guest as a usb-kbd device.
+Ok, thanks, since this was a regressin in Alpine, I'm marking the bug as
+closed here.
 
-Signed-off-by: Katsuhiro Ueno <uenobk@gmail.com>
----
- hw/input/hid.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-diff --git a/hw/input/hid.c b/hw/input/hid.c
-index e1d2e46083..8aab0521f4 100644
---- a/hw/input/hid.c
-+++ b/hw/input/hid.c
-@@ -51,8 +51,8 @@ static const uint8_t hid_usage_keys[0x100] = {
-     0x45, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e,
-     0xe8, 0xe9, 0x71, 0x72, 0x73, 0x00, 0x00, 0x00,
-     0x00, 0x00, 0x00, 0x85, 0x00, 0x00, 0x00, 0x00,
--    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--    0x00, 0x00, 0x00, 0x00, 0x00, 0xe3, 0xe7, 0x65,
-+    0x88, 0x00, 0x00, 0x87, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x8a, 0x00, 0x8b, 0x00, 0x89, 0xe7, 0x65,
+-- =
 
-     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--- 
-2.24.3 (Apple Git-128)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895305
+
+Title:
+  pthread_cancel fails with "RT33" with musl libc
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  From my testing it seems that QEMU built against musl libc crashes on
+  pthread_cancel cancel calls - if the binary is also built with musl
+  libc.
+
+  Minimal sample:
+
+  #include <pthread.h>
+  #include <stdio.h>
+  #include <unistd.h>
+  void* threadfunc(void* ignored) {
+  	while (1) {
+  		pause();
+  	}
+  	return NULL;
+  }
+  int main() {
+  	pthread_t thread;
+  	pthread_create(&thread, NULL, &threadfunc, NULL);
+  	sleep(1);
+  	pthread_cancel(thread);
+  	printf("OK, alive\n");
+  }
+
+  In an Alpine Linux aarch64 chroot (on an x86_64 host) the binary will
+  just output RT33 and has exit code 161.
+
+  Using qemu-aarch64 on an x86_64 host results in the output (fish shell)
+    fish: =E2=80=9Cqemu-aarch64-static ./musl-stat=E2=80=A6=E2=80=9D termin=
+ated by signal Unknown (Unknown)
+  or (bash)
+    Real-time signal 2
+
+  and exit code 164.
+
+  It doesn't matter whether the binary is linked dynamically or static.
+  You can see my test results in the following table:
+
+  |                      | QEMU glibc | QEMU musl |
+  |----------------------|------------|-----------|
+  | binary glibc dynamic | =E2=9C=93          | =E2=9C=93         |
+  | binary glibc static  | =E2=9C=93          | =E2=9C=93         |
+  | binary musl dynamic  | =E2=9C=93          | =E2=9C=97         |
+  | binary musl static   | =E2=9C=93          | =E2=9C=97         |
+
+  Both QEMU builds are v5.1.0 (glibc v2.32 / musl v1.2.1)
+
+  I've uploaded all my compile and test commands (plus a script to
+  conveniently run them all) to https://github.com/z3ntu/qemu-
+  pthread_cancel . It also includes the built binaries if needed. The
+  test script output can be found at https://github.com/z3ntu/qemu-
+  pthread_cancel/blob/master/results.txt
+
+  Further links:
+  - https://gitlab.com/postmarketOS/pmaports/-/issues/190#note_141902075
+  - https://gitlab.com/postmarketOS/pmbootstrap/-/issues/1970
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895305/+subscriptions
 
