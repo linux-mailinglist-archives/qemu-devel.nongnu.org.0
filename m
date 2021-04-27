@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B922436CAFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 20:17:54 +0200 (CEST)
-Received: from localhost ([::1]:41546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1925E36CAFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 20:17:09 +0200 (CEST)
+Received: from localhost ([::1]:40288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbSHR-0006uI-RI
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 14:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53778)
+	id 1lbSGi-0006Gl-4h
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 14:17:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lbSDo-0005Xo-Nd
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:14:10 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lbSDm-00080o-CZ
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:14:08 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id k14so10496304wrv.5
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 11:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oL7tT4/EkZRAjRxNnXes8qHr1hKlD6EBXOmzh2nu7XY=;
- b=CG5soQITWm+R8S0Ki19y7h/RwpwNxwNKGiJ3I+eyyVTJCUBxzn+CTgj5ueQyt+ua8Y
- WH6GgkWZiIH/R+MDShlW493fobiA7TIDeSyawFbP7llB6ksipYrBsBuCBFrm6qLmp1rT
- p3BVVdUSNMeFJn7+VIDLQ50A7RgFP2ytmpHaNbLLUURRmzZMNR1vTsqiZMF4zTUVld0b
- a4kG/z7lRURoLHwNdX+HOD7p2rIF4rPx0JTgIuCVMYF2t5esAhmn7mJPwnYwR4LERG8Z
- WcJwLTLJkQnbQTzWSOMKa42TF37BmdeDX+CCa2GWOBthVaAql7ke+SjT8cF2JRfIVlxZ
- FCxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oL7tT4/EkZRAjRxNnXes8qHr1hKlD6EBXOmzh2nu7XY=;
- b=LNLs/vL21NSEibk07btq0q6bwymoi9oH9Kzdn1iOW9LLm3O3F0DV8uWpqC9pLF7oPB
- 1u3Ev/ifWl+aaMBtg8rXnK54OdqHa84CzRT2fl1iDG9WwbUQJSKqM0JuzBM/Zi7PvdI8
- ofrwV9eWK5QRekkbsMeRJdnSNCfEFEWf4jS6kZh0T0QBFdcc2lwFhpVJXCH1icSH6H6n
- tvO868gDd2wpgWZKbPuozGk6eNGFZkXae//HnPk7tL9wkLzhI2SiB8UjGw3MJLcaCkrh
- FbNaTOdXn58u4X68vQsMdqcXZP5gF1qnawV6cvGyCNDKC0s+ASIskrOKwxaghBnzzqTQ
- Jwaw==
-X-Gm-Message-State: AOAM5319aM40vSGR8S6ComWjNURNujshxof1psbxSBSPBrem8f/GURkX
- mG4k014kT47GzlhyI69xKltHa8VM0DU=
-X-Google-Smtp-Source: ABdhPJyiXYa6TZtHrREAu6vf+LzsKpKsCL0lYowZkOmcgMw4ENKmt3pdGd/KLF/nSBWR9Qz965AhwA==
-X-Received: by 2002:adf:cc89:: with SMTP id p9mr29933340wrj.223.1619547244533; 
- Tue, 27 Apr 2021 11:14:04 -0700 (PDT)
-Received: from localhost.localdomain ([102.41.168.0])
- by smtp.googlemail.com with ESMTPSA id m67sm4255325wme.27.2021.04.27.11.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 11:14:03 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/7] virtiofsd: Changed allocations of iovec to GLib's
- functions
-Date: Tue, 27 Apr 2021 20:13:33 +0200
-Message-Id: <20210427181333.148176-1-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <YIf2d8HuyPqwqt9C@work-vm>
-References: <YIf2d8HuyPqwqt9C@work-vm>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbSDQ-0005Ao-Bz
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:13:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbSDN-0007mj-8F
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:13:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619547220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n84zfeLqJ+S6phVfIT972w82aFH6HO7t/I0k1b4MgJk=;
+ b=VfXDv2kB45jWJIijzK9rHg4PTGWyqRNiJ+VhLv5Gp3haZYnsIX84dxWmbfKaT15y/QkaA3
+ ova8g/RG4Lyud3wSVVqCmNoUAaXVK4IzKYnbe7BGpgoDdxNyc9KWFgXnn/BL9XOnt/atJs
+ Sb4cYlzPppfK2kggkErVN7D4F/Q6qOM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-Gy61vOaIPNOO8xQLw52UVw-1; Tue, 27 Apr 2021 14:13:36 -0400
+X-MC-Unique: Gy61vOaIPNOO8xQLw52UVw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C5C78027E2;
+ Tue, 27 Apr 2021 18:13:35 +0000 (UTC)
+Received: from [10.10.112.236] (ovpn-112-236.rdu2.redhat.com [10.10.112.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B64210016F8;
+ Tue, 27 Apr 2021 18:13:34 +0000 (UTC)
+Subject: Re: [PATCH] floppy: remove unused function fdctrl_format_sector
+To: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20210108230137.8860-1-alxndr@bu.edu>
+ <e5115c26-2017-831b-f341-206050266739@redhat.com>
+ <453fb830-673e-d2eb-47b6-41c8ed7bad42@reactos.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <e2f6a706-7f2e-65b2-5c0d-4c717b0b3baf@redhat.com>
+Date: Tue, 27 Apr 2021 14:13:34 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <453fb830-673e-d2eb-47b6-41c8ed7bad42@reactos.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,191 +83,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:virtiofs" <virtio-fs@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:Floppy" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replaced the calls to malloc()/calloc() and their respective
-calls to free() of iovec structs with GLib's allocation and
-deallocation functions and used g_autofree when appropriate.
+On 3/14/21 3:53 AM, Hervé Poussineau wrote:
+> Le 12/03/2021 à 07:45, John Snow a écrit :
+>> On 1/8/21 6:01 PM, Alexander Bulekov wrote:
+>>> fdctrl_format_sector was added in
+>>> baca51faff ("updated floppy driver: formatting code, disk geometry 
+>>> auto detect (Jocelyn Mayer)")
+>>>
+>>> The single callsite is guarded by a check:
+>>> fdctrl->data_state & FD_STATE_FORMAT
+>>>
+>>> However, the only place where the FD_STATE_FORMAT flag is set (in
+>>> fdctrl_handle_format_track) is closely followed by the same flag being
+>>> unset, with no possibility to call fdctrl_format_sector in between.
+>>>
+>>
+>> Hm, was this code *ever* used? It's hard to tell when we go back into 
+>> the old SVN history.
+>>
+>> Does this mean that fdctrl_handle_format_track is also basically an 
+>> incomplete stub method?
+>>
+>> I'm in favor of deleting bitrotted code, but I wonder if we should 
+>> take a bigger bite.
+>>
+>> --js
+> 
+> The fdctrl_format_sector has been added in SVN revision 671 
+> (baca51faff03df59386c95d9478ede18b5be5ec8), along with 
+> FD_STATE_FORMAT/FD_FORMAT_CMD.
+> As with current code, the only place where the FD_STATE_FORMAT flag was 
+> set (in fdctrl_handle_format_track) is closely followed by the same flag 
+> being unset, with no possibility to call fdctrl_format_sector in between.
+> 
+> I can however see the following comment:
+>             /* Bochs BIOS is buggy and don't send format informations
+>              * for each sector. So, pretend all's done right now...
+>              */
+>             fdctrl->data_state &= ~FD_STATE_FORMAT;
+> 
+> which was changed in SVN revision 2295 
+> (b92090309e5ff7154e4c131438ee2d540e233955) to:
+>             /* TODO: implement format using DMA expected by the Bochs BIOS
+>              * and Linux fdformat (read 3 bytes per sector via DMA and fill
+>              * the sector with the specified fill byte
+>              */
+> 
+> This probably means that code may have worked without DMA (to be 
+> confirmed), but was disabled since its introduction due to a problem 
+> with Bochs BIOS.
+> Later, fdformat was also tested and not working.
+> 
+> Since then, lots of work has also been done in DMA handling. I 
+> especially think at bb8f32c0318cb6c6e13e09ec0f35e21eff246413, which 
+> fixed a similar problem with floppy drives on IBM 40p machine.
+> What happens when this flag unsetting is removed? Does fdformat now works?
+> 
+> I think that we should either fix the code, or remove more code 
+> (everything related to fdctrl_format_sector, FD_STATE_FORMAT, 
+> FD_FORMAT_CMD, maybe even fdctrl_handle_format_track).
+> 
+> Regards,
+> 
+> Hervé
+> 
 
-Replaced the allocation of in_sg_cpy to g_new() instead of a call
-to calloc() and a null-checking assertion. Not g_new0()
-because the buffer is immediately overwritten using memcpy.
+Alex, do you want to respin this following Hervé's suggestion for 
+additional deletions?
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
-v2 -> v3:
-    * Removed a wrongful combination of g_autofree and g_steel_pointer().
-    * Removed some goto paths that IMHO were not so useful any more.
-    * In v2, I allocated in_sg_cpy through g_new0(). This patch, I use
-      g_new() because the buffer is memcpy'd into right away so no need
-      to zero-initialize.
-    * Moved the declaration of in_sg_cpy to the top of the function
-      to match QEMU's style guidelines. 
+I doubt anyone has the time or interest to actually FIX this code, so we 
+may as well remove misleading code.
 
- tools/virtiofsd/fuse_lowlevel.c | 31 ++++++++++++-------------------
- tools/virtiofsd/fuse_virtio.c   |  8 +++-----
- 2 files changed, 15 insertions(+), 24 deletions(-)
-
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index c8bea246ab..7fe2cef1eb 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -217,9 +217,9 @@ static int send_reply(fuse_req_t req, int error, const void *arg,
- int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
- {
-     int res;
--    struct iovec *padded_iov;
-+    g_autofree struct iovec *padded_iov = NULL;
- 
--    padded_iov = malloc((count + 1) * sizeof(struct iovec));
-+    padded_iov = g_try_new(struct iovec, count + 1);
-     if (padded_iov == NULL) {
-         return fuse_reply_err(req, ENOMEM);
-     }
-@@ -228,7 +228,6 @@ int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
-     count++;
- 
-     res = send_reply_iov(req, 0, padded_iov, count);
--    free(padded_iov);
- 
-     return res;
- }
-@@ -568,7 +567,7 @@ static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct iovec *iov,
-     struct fuse_ioctl_iovec *fiov;
-     size_t i;
- 
--    fiov = malloc(sizeof(fiov[0]) * count);
-+    fiov = g_try_new(struct fuse_ioctl_iovec, count);
-     if (!fiov) {
-         return NULL;
-     }
-@@ -586,8 +585,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
-                            size_t out_count)
- {
-     struct fuse_ioctl_out arg;
--    struct fuse_ioctl_iovec *in_fiov = NULL;
--    struct fuse_ioctl_iovec *out_fiov = NULL;
-+    g_autofree struct fuse_ioctl_iovec *in_fiov = NULL;
-+    g_autofree struct fuse_ioctl_iovec *out_fiov = NULL;
-     struct iovec iov[4];
-     size_t count = 1;
-     int res;
-@@ -603,13 +602,14 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
-     /* Can't handle non-compat 64bit ioctls on 32bit */
-     if (sizeof(void *) == 4 && req->ioctl_64bit) {
-         res = fuse_reply_err(req, EINVAL);
--        goto out;
-+        return res;
-     }
- 
-     if (in_count) {
-         in_fiov = fuse_ioctl_iovec_copy(in_iov, in_count);
-         if (!in_fiov) {
--            goto enomem;
-+            res = fuse_reply_err(req, ENOMEM);
-+            return res;
-         }
- 
-         iov[count].iov_base = (void *)in_fiov;
-@@ -619,7 +619,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
-     if (out_count) {
-         out_fiov = fuse_ioctl_iovec_copy(out_iov, out_count);
-         if (!out_fiov) {
--            goto enomem;
-+            res = fuse_reply_err(req, ENOMEM);
-+            return res;
-         }
- 
-         iov[count].iov_base = (void *)out_fiov;
-@@ -628,15 +629,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
-     }
- 
-     res = send_reply_iov(req, 0, iov, count);
--out:
--    free(in_fiov);
--    free(out_fiov);
- 
-     return res;
--
--enomem:
--    res = fuse_reply_err(req, ENOMEM);
--    goto out;
- }
- 
- int fuse_reply_ioctl(fuse_req_t req, int result, const void *buf, size_t size)
-@@ -663,11 +657,11 @@ int fuse_reply_ioctl(fuse_req_t req, int result, const void *buf, size_t size)
- int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
-                          int count)
- {
--    struct iovec *padded_iov;
-+    g_autofree struct iovec *padded_iov = NULL;
-     struct fuse_ioctl_out arg;
-     int res;
- 
--    padded_iov = malloc((count + 2) * sizeof(struct iovec));
-+    padded_iov = g_try_new(struct iovec, count + 2);
-     if (padded_iov == NULL) {
-         return fuse_reply_err(req, ENOMEM);
-     }
-@@ -680,7 +674,6 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
-     memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
- 
-     res = send_reply_iov(req, 0, padded_iov, count + 2);
--    free(padded_iov);
- 
-     return res;
- }
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 9e437618fb..9b00687cb0 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -295,6 +295,8 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-     VuVirtqElement *elem = &req->elem;
-     int ret = 0;
- 
-+    g_autofree struct iovec *in_sg_cpy = NULL;
-+
-     assert(count >= 1);
-     assert(iov[0].iov_len >= sizeof(struct fuse_out_header));
- 
-@@ -347,8 +349,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-      * Build a copy of the the in_sg iov so we can skip bits in it,
-      * including changing the offsets
-      */
--    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec), in_num);
--    assert(in_sg_cpy);
-+    in_sg_cpy = g_new(struct iovec, in_num);
-     memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
-     /* These get updated as we skip */
-     struct iovec *in_sg_ptr = in_sg_cpy;
-@@ -386,7 +387,6 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-             ret = errno;
-             fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
-                      __func__, len);
--            free(in_sg_cpy);
-             goto err;
-         }
-         fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
-@@ -410,13 +410,11 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-         if (ret != len) {
-             fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
-             ret = EIO;
--            free(in_sg_cpy);
-             goto err;
-         }
-         in_sg_left -= ret;
-         len -= ret;
-     } while (in_sg_left);
--    free(in_sg_cpy);
- 
-     /* Need to fix out->len on EOF */
-     if (len) {
--- 
-2.25.1
+--js
 
 
