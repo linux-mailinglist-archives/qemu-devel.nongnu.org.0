@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09FF36C81E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 16:57:34 +0200 (CEST)
-Received: from localhost ([::1]:59410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D56336C86B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:12:35 +0200 (CEST)
+Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbP9Z-0002hE-SB
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 10:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50546)
+	id 1lbPO6-0006iV-9f
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lbP8F-0002FU-Vc
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:56:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37389)
+ (Exim 4.90_1) (envelope-from <su_yuheng@foxmail.com>)
+ id 1lbNWP-0003eB-NK
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:13:01 -0400
+Received: from out203-205-221-231.mail.qq.com ([203.205.221.231]:60406
+ helo=qq.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lbP88-0003G7-Bm
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 10:56:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619535363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C6pAXDtBgk3VCUIwm2Vt6jDMZyjPx4IaAouphXVhwrw=;
- b=Vae4JDzuf+tMtMInuX38fvHt2KMBEgnslfkZOTfzt1cojUgAo2M8aexwQvaVijgC+mb/Cn
- WdeMuhjeOTl8+zq/CnqWFX25a9IX5l6HgK+SJPo5NjGzpe4/eQWdOt6nLUrIlnBpHbT9JO
- 43SkL8klIVX6Azyrurps1Tbk18QsrzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-TRsif3HIMiiOC8RQ_Fyerg-1; Tue, 27 Apr 2021 10:56:01 -0400
-X-MC-Unique: TRsif3HIMiiOC8RQ_Fyerg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8571080DE06;
- Tue, 27 Apr 2021 14:55:59 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-176.ams2.redhat.com
- [10.36.113.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E0F36EF55;
- Tue, 27 Apr 2021 14:55:57 +0000 (UTC)
-Date: Tue, 27 Apr 2021 16:55:54 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v3 04/13] target/s390x: remove tcg-stub.c
-Message-ID: <20210427165554.46c18544.cohuck@redhat.com>
-In-Reply-To: <20210422115430.15078-5-cfontana@suse.de>
-References: <20210422115430.15078-1-cfontana@suse.de>
- <20210422115430.15078-5-cfontana@suse.de>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <su_yuheng@foxmail.com>)
+ id 1lbNWG-0000Wf-C7
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:13:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1619529161;
+ bh=zsCTlQiBLf2DM31rU6FksdvN1DBmBvK6Rsa4w+orFHM=;
+ h=From:To:Cc:Subject:Date;
+ b=WhHg+FNOS4Bnhpxp1Zv0xNgu2930RZ4j7X7uXgZXzS7ZaW6E1/ylROGKIUJRZkyfO
+ jEZdL20Rzf4n+5wSGhHTxpBrUve4344X3Pr5imj+HmkemCOV/TPqR7+0kMmMUHrKIq
+ t53VeoXmgYcTMtlVOGsQhCv9ARRdjNDJD82W0NHY=
+Received: from n248-149-034.byted.org. ([121.30.179.175])
+ by newxmesmtplogicsvrszb7.qq.com (NewEsmtp) with SMTP
+ id 12593828; Tue, 27 Apr 2021 21:04:37 +0800
+X-QQ-mid: xmsmtpt1619528677t8kqsohzr
+Message-ID: <tencent_F4EF5FC4638158CB96B434014DF9CBF62405@qq.com>
+X-QQ-XMAILINFO: OGv74GxX8vTYbmWGewXqyb4bUJMKAfrXk3DkQxAdPjt0K5us3ySOMnt2haBoEM
+ FuTQdic+NbqC2FmrlY99expZ2BOJTMwxN29pF0NZCpp0l3GFb+jpPOmQ6LKf6C3s85U9Huhb5cuZ
+ qf/tX02ZgPutIsr/0gZ/kbxOFrhNdGCdX0XNqqGLfKrW6jmDTuMzwxwoIO3HS+spENRjy1+OPCUT
+ rQw0uVZKOKdrs2K9Jkxfv4IdCddwwTEZxu6LoRJwPZbkZRKQ2Lpfx60GHC+C+UnKnG49qlOwC51v
+ SkhTsKSIVWGSl4pwi1Snviiu6CQmMUx5oVW7w9j9f1na7/tnUJnlUNwNfiOnzNS2o4WE0rIbhnAo
+ BkM6Ne7bOelY0jfKyry1FFRWGXr/lroWi67my/Sifwqd4DDUk1PLIZ0pemPoSrtYYQ28+md3eaO9
+ CWIrfiu62entUzhhuLmLpxUn6IIEe2EiTRNFKhn9tAE17vMpJDrAFdYPTHaopdXNFW59EYtOp6pD
+ dHpVNlpmSFaTlTVb6rHVb241JscH9O8ToyFTsYJd0+U8TUyRj29AzRxcLJT8NR1/pHAFxvwf0jyf
+ VV4nu7Yv9K/56aQNS/eFIWRU4u9NhNkLKraIL5eWa1o5IDpqxb9uiY7PRIN3vo1ZCYnjsRa7SUGo
+ 3mdJXbRtSwTnPg8E6y2HiAR8LuVbh1LJs3KCSPQJFfKo3/Gdxq8AMZdZzwwFmzXHB5O8Ic/OmzCF
+ 2v6SZRID40ejsu8APGF23+5GpzLTbo+U4ayJ1pom+RyHyOW8Oaqe9NovIFmF6X9T9fuPX1vVwwAA
+ wUWOmhFnTw2bFpoEexrIVq3Xj3v+A7pT5zFYPxrOBSvEuXsVoWBpxc
+From: suyuheng <su_yuheng@foxmail.com>
+To: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
+ mst@redhat.com, marcel.apfelbaum@gmail.com
+Subject: [PATCH] microvm: Enable hotplug of pcie
+Date: Tue, 27 Apr 2021 21:04:27 +0800
+X-OQ-MSGID: <20210427130427.581484-1-su_yuheng@foxmail.com>
+X-Mailer: git-send-email 2.11.0
+Received-SPF: pass client-ip=203.205.221.231;
+ envelope-from=su_yuheng@foxmail.com; helo=qq.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_DYNAMIC=0.982,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 27 Apr 2021 11:08:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,28 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Yuheng Su <suyuheng@bytedance.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Apr 2021 13:54:21 +0200
-Claudio Fontana <cfontana@suse.de> wrote:
+From: Yuheng Su <suyuheng@bytedance.com>
 
-> now that we protect all calls to the tcg-specific functions
-> with if (tcg_enabled()), we do not need the TCG stub anymore.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/tcg-stub.c  | 30 ------------------------------
->  target/s390x/meson.build |  2 +-
->  2 files changed, 1 insertion(+), 31 deletions(-)
->  delete mode 100644 target/s390x/tcg-stub.c
+Signed-off-by: Yuheng Su <suyuheng@bytedance.com>
+---
+ hw/i386/acpi-microvm.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+index ccd3303aac..4f32bf512f 100644
+--- a/hw/i386/acpi-microvm.c
++++ b/hw/i386/acpi-microvm.c
+@@ -26,6 +26,7 @@
+ 
+ #include "exec/memory.h"
+ #include "hw/acpi/acpi.h"
++#include "hw/acpi/pci.h"
+ #include "hw/acpi/aml-build.h"
+ #include "hw/acpi/bios-linker-loader.h"
+ #include "hw/acpi/generic_event_device.h"
+@@ -209,6 +210,16 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+                     x86ms->oem_table_id);
+ 
++    acpi_add_table(table_offsets, tables_blob);
++    {
++        AcpiMcfgInfo mcfg = {
++           .base = mms->gpex.ecam.base,
++           .size = mms->gpex.ecam.size,
++        };
++        build_mcfg(tables_blob, tables->linker, &mcfg, x86ms->oem_id,
++                   x86ms->oem_table_id);
++    }
++
+     xsdt = tables_blob->len;
+     build_xsdt(tables_blob, tables->linker, table_offsets, x86ms->oem_id,
+                x86ms->oem_table_id);
+-- 
+2.11.0
 
 
