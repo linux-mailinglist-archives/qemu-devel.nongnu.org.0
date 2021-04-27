@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BC636C3D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:30:37 +0200 (CEST)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC7E36C3AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 12:29:14 +0200 (CEST)
+Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbKzE-0002io-Tr
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:30:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
+	id 1lbKxt-0001T7-6i
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 06:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lbKuK-0008Dj-Pg
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:25:33 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lbKty-0003wA-AV
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:25:26 -0400
-Received: by mail-ej1-x629.google.com with SMTP id u17so88850641ejk.2
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 03:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q+Lkpe7/qSv9cQ9MBriySnduaChYcPUxSDWgHEvAbLs=;
- b=ICTANCP99yJdM/z7WAFOhMlLKDmWgHuf0vsFYhpIvgz9pEdszezXKkRMhSgdcgOg3P
- /Mx33sYqxDjZ0pgyAj7UuCfMXEaFw3garlPRyGPopAeGwD1CB+9EjW6zrjevQfi7ct8x
- N4YXNtRC4bsvaiXssBP0Qza1LUYt8fSMTw7WEIeQxBPiOUTngp/Kzg9StVFm/zKUTJLI
- taBUG8xfjS+vdy2YnJIyxqr7UuFSGpsOpmi9Dd9OiUp/8Qivw03FoU3JQ2dQ7bVFy9n3
- h2ZOSoutG9w7YBOgkr+NwRdOuFglXEDLgjZqLzpyVS5wJpzTCwRdP2SnBGIUHxXAe5Vg
- nW3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q+Lkpe7/qSv9cQ9MBriySnduaChYcPUxSDWgHEvAbLs=;
- b=scX6lIkCI5XwlKya//Su569esuXkl1HtzMR0T3YR/6j7CSSzxFkhkHvpJM+1LfkgxJ
- EbcaMHza3IiQhR35WoO/Sd3iuhzdMbd2woz/OUkMRuWqBpNDojJV8jjcCaioBIEWrdtF
- MAG1QQ/PO6hccTT9usv1XBKPGGzhYx6a1jwWYKCvCSLkjo1EXw5kiDeVDCybMaifkbY3
- VRIw5AeyP9ZjkV89cyI/9oSJ+M8G3dSKC7xcQoPzVYMFtN2UqEGML31C8Oh9AtWLyQhv
- RFVpmQK3/7UOMVSnVtcvjqeyZ6OvsMEB8i7ZNj8PqDFOdcuxXmknK05vVG5nQm2y/hv5
- aquA==
-X-Gm-Message-State: AOAM533RCSchlr21Eymld41PsMRGXdK7Exs+hHsfdVQ3+4fPyt7kwpqi
- MC6PUpCvHxRR9nEAomgEi4lpKAwlC/dfMM4jSMvI
-X-Google-Smtp-Source: ABdhPJwUdf4KZMc70QI3zDg10xWfepBr4saKNcd0k+h180rJcFFXdlNWf/ifiNHz5xKtkfenKMrUGAFW8KXa1uB/SFA=
-X-Received: by 2002:a17:907:1b11:: with SMTP id
- mp17mr22862829ejc.1.1619519106407; 
- Tue, 27 Apr 2021 03:25:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lbKvw-0000L4-IC
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:27:12 -0400
+Received: from smtpout3.3005.mail-out.ovh.net ([217.182.185.173]:52647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lbKvq-00050O-Ku
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 06:27:12 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 7509313FC9B;
+ Tue, 27 Apr 2021 10:27:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 27 Apr
+ 2021 12:27:01 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0033ab4eb1d-1842-4dc0-8e57-b3742ceaf5b8,
+ B6AA52F3D5CB607530F59D2ADE64727CB37F7539) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 27 Apr 2021 12:27:00 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/5] hw/ppc/spapr_iommu: Register machine reset handler
+Message-ID: <20210427122700.60d0a82a@bahia.lan>
+In-Reply-To: <9dcc20c7-6371-dc77-1cd4-706301ec5c54@amsat.org>
+References: <20210424162229.3312116-1-f4bug@amsat.org>
+ <20210424162229.3312116-2-f4bug@amsat.org>
+ <YIdso1hf+bXwZHmG@yekko.fritz.box>
+ <9dcc20c7-6371-dc77-1cd4-706301ec5c54@amsat.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210408101252.552-1-xieyongji@bytedance.com>
- <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
-In-Reply-To: <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Tue, 27 Apr 2021 18:24:55 +0800
-Message-ID: <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
-Subject: Re: Re: [PATCH 0/3] Introduce vhost-vdpa block device
-To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x629.google.com
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: f839ed25-cad2-45d5-bb12-83d3a54367b7
+X-Ovh-Tracer-Id: 16642489476104624632
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddvtddgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepmhhrvghithiisehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=groug@kaod.org;
+ helo=smtpout3.3005.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,91 +69,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 26, 2021 at 11:34 PM Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
->
-> On Thu, Apr 08, 2021 at 06:12:49PM +0800, Xie Yongji wrote:
-> > Since we already have some ways to emulate vDPA block device
-> > in kernel[1] or userspace[2]. This series tries to introduce a
-> > new vhost-vdpa block device for that. To use it, we can add
-> > something like:
-> >
-> > qemu-system-x86_64 \
-> >     -device vhost-vdpa-blk-pci,vdpa-dev=3D/dev/vhost-vdpa-0
->
-> This device is similar to vhost-user-blk. QEMU does not see it as a
-> block device so storage migration, I/O throttling, image formats, etc
-> are not supported. Stefano Garzarella and I discussed how vdpa-blk
-> devices could integrate more deeply with QEMU's block layer. The QEMU
-> block layer could be enabled only when necessary and otherwise bypassed
-> for maximum performance.
->
+On Tue, 27 Apr 2021 11:20:07 +0200
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-Do you mean we can make use of the shadow virtqueue for the slow path
-(I/O will go through the block layer) and add a fast path (like what
-we do now) to bypass the block layer?
+> On 4/27/21 3:45 AM, David Gibson wrote:
+> > On Sat, Apr 24, 2021 at 06:22:25PM +0200, Philippe Mathieu-Daud=C3=A9 w=
+rote:
+> >> The TYPE_SPAPR_TCE_TABLE device is bus-less, thus isn't reset
+> >> automatically.  Register a reset handler to get reset with the
+> >> machine.
+> >>
+> >> It doesn't seem to be an issue because it is that way since the
+> >> device QDev'ifycation 8 years ago, in commit a83000f5e3f
+> >> ("spapr-tce: make sPAPRTCETable a proper device").
+> >> Still, correct to have a proper API usage.
+> >=20
+> > So, the reason this works now is that we explicitly call
+> > device_reset() on the TCE table from the TCE tables "owner", either a
+> > PHB (spapr_phb_reset()) or a VIO device (spapr_vio_quiesce_one()).
+> >=20
+> > I think we want either that, or the register_reset(), not both.
+>=20
+> rtas_quiesce() seems to call a DeviceClass::reset() on the
+> children of TYPE_SPAPR_VIO_BUS:
+>=20
+> Abstract TYPE_VIO_SPAPR_DEVICE has the TYPE_SPAPR_VIO_BUS bus_type,
+> and registers the spapr_vio_busdev_reset() handler, which calls
+> spapr_vio_quiesce_one()...
+>=20
+> So either we already have 2 resets, or the bus is never reset?
+>=20
 
-> This alternative approach is similar to how vhost-net is implemented in
-> QEMU. A BlockDriver would handle the vdpa-blk device and the regular
-> virtio-blk-pci device would still be present. The virtqueues could be
-> delegated to the vdpa-blk device in order to bypass the QEMU block
-> layer.
->
-> I wanted to mention this since it's likely that this kind of vdpa-blk
-> device implementation will be posted in the future and you might be
-> interested. It makes live migration with non-shared storage possible,
-> for example.
->
+rtas_quiesce() is called when the guests definitively transition
+from the SLOF FW to the OS. It isn't a true reset path actually,
+even if it needs to reset a few devices.
 
-That would be nice, I'm looking forward to it!
+On the other hand, your patch would _really_ cause the TCE table
+device to be reset twice at machine reset AFAICT.
 
-So do you think whether it's necessary to continue this approach?
-Looks like we don't need a vhost-vdpa-blk device any more in the new
-approach.
+> The bus is created in spapr_machine_init():
+>=20
+>     /* Set up VIO bus */
+>     spapr->vio_bus =3D spapr_vio_bus_init();
+>=20
+> TYPE_SPAPR_MACHINE class registers spapr_machine_reset(), which
+> manually calls qemu_devices_reset() and spapr_drc_reset_all(),
+> but I can't understand if a callee resets vio_bus...
 
-> An issue with vhost-user-blk is that the ownership of qdev properties
-> and VIRTIO Configuration Space fields was not clearly defined. Some
-> things are handled by QEMU's vhost-user-blk code, some things are
-> handled by the vhost-user device backend, and some things are negotiated
-> between both entities. This patch series follows the existing
-> vhost-user-blk approach, which I think will show serious issues as the
-> device is more widely used and whenever virtio-blk or the implementation
-> is extended with new features. It is very hard to provide backwards
-> compatibility with the current approach where the ownership of qdev
-> properties and VIRTIO Configuration Space fields is ad-hoc and largely
-> undefined.
->
-> Since vDPA has VIRTIO Configuration Space APIs, I suggest that the
-> vhost-vDPA device controls the entire configuration space. QEMU should
-> simply forward accesses between the guest and vhost-vdpa.
->
+The vio_bus *is* reset:
 
-Does this already achieved by vhost_ops->vhost_get_config=EF=BC=9F And I wa=
-nt
-to know how to handle the endianness issue if qemu just simply does
-forwarding and doesn't care about the content of config space.
+#0  0x0000000100629a98 in spapr_vio_busdev_reset (qdev=3D0x10165c400) at /h=
+ome/greg/Work/qemu/qemu-virtiofs/include/hw/ppc/spapr_vio.h:31
+#1  0x00000001009fd32c in device_transitional_reset (obj=3D0x10165c400) at =
+/home/greg/Work/qemu/qemu-virtiofs/include/hw/qdev-core.h:17
+#2  0x0000000100a00e24 in resettable_phase_hold (obj=3D0x10165c400, opaque=
+=3D<optimized out>, type=3D<optimized out>) at ../../hw/core/resettable.c:1=
+82
+#3  0x00000001009f9108 in bus_reset_child_foreach (obj=3D<optimized out>, c=
+b=3D0x100a00cc0 <resettable_phase_hold>, opaque=3D0x0, type=3D<optimized ou=
+t>) at ../../hw/core/bus.c:97
+#4  0x0000000100a00db8 in resettable_child_foreach (rc=3D0x1014f5400, type=
+=3DRESET_TYPE_COLD, opaque=3D0x0, cb=3D0x100a00cc0 <resettable_phase_hold>,=
+ obj=3D0x10156e600) at ../../hw/core/resettable.c:96
+#5  0x0000000100a00db8 in resettable_phase_hold (obj=3D0x10156e600, opaque=
+=3D<optimized out>, type=3D<optimized out>) at ../../hw/core/resettable.c:1=
+73
+#6  0x00000001009fcaa8 in device_reset_child_foreach (obj=3D<optimized out>=
+, cb=3D0x100a00cc0 <resettable_phase_hold>, opaque=3D0x0, type=3D<optimized=
+ out>) at ../../hw/core/qdev.c:366
+#7  0x0000000100a00db8 in resettable_child_foreach (rc=3D0x1013eef90, type=
+=3DRESET_TYPE_COLD, opaque=3D0x0, cb=3D0x100a00cc0 <resettable_phase_hold>,=
+ obj=3D0x10164a0e0) at ../../hw/core/resettable.c:96
+#8  0x0000000100a00db8 in resettable_phase_hold (obj=3D0x10164a0e0, opaque=
+=3D<optimized out>, type=3D<optimized out>) at ../../hw/core/resettable.c:1=
+73
+#9  0x00000001009f9108 in bus_reset_child_foreach (obj=3D<optimized out>, c=
+b=3D0x100a00cc0 <resettable_phase_hold>, opaque=3D0x0, type=3D<optimized ou=
+t>) at ../../hw/core/bus.c:97
+#10 0x0000000100a00db8 in resettable_child_foreach (rc=3D0x1012b1a00, type=
+=3DRESET_TYPE_COLD, opaque=3D0x0, cb=3D0x100a00cc0 <resettable_phase_hold>,=
+ obj=3D0x10154d4b0) at ../../hw/core/resettable.c:96
+#11 0x0000000100a00db8 in resettable_phase_hold (obj=3Dobj@entry=3D0x10154d=
+4b0, opaque=3Dopaque@entry=3D0x0, type=3Dtype@entry=3DRESET_TYPE_COLD) at .=
+./../hw/core/resettable.c:173
+#12 0x0000000100a01794 in resettable_assert_reset (obj=3D0x10154d4b0, type=
+=3D<optimized out>) at ../../hw/core/resettable.c:60
+#13 0x0000000100a01c60 in resettable_reset (obj=3D0x10154d4b0, type=3D<opti=
+mized out>) at ../../hw/core/resettable.c:45
+#14 0x0000000100a020ec in resettable_cold_reset_fn (opaque=3D<optimized out=
+>) at ../../hw/core/resettable.c:269
+#15 0x0000000100a00718 in qemu_devices_reset () at ../../hw/core/reset.c:69
+#16 0x0000000100624024 in spapr_machine_reset (machine=3D0x101545480) at ..=
+/../hw/ppc/spapr.c:1587
+#17 0x00000001007b8128 in qemu_system_reset (reason=3D<optimized out>) at .=
+./../softmmu/runstate.c:442
+#18 0x00000001007b8fa8 in main_loop_should_exit () at ../../softmmu/runstat=
+e.c:687
+#19 0x00000001007b8fa8 in qemu_main_loop () at ../../softmmu/runstate.c:721
+#20 0x00000001002f5150 in main (argc=3D<optimized out>, argv=3D<optimized o=
+ut>, envp=3D<optimized out>) at ../../softmmu/main.c:50
 
-> Regarding qdev properties, it's a little trickier because QEMU needs to
-> do the emulated VIRTIO device setup (allocating virtqueues, setting
-> their sizes, etc). Can QEMU query this information from the vDPA device?
-> If not, which qdev properties are read-only and must match the
-> configuration of the vDPA device and which are read-write and can
-> control the vDPA device?
->
-
-Yes, that's an issue. We have to make sure the number of virtqueues
-and their size set by qemu is not greater than hardware limitation.
-Now I think we can query the max queue size, but looks like we don't
-have an interface to query the max number of virtqueues.
-
-Thanks,
-Yongji
+And it seems rtas_quiesce() could just do bus_cold_reset(&bus->bus)
+rather than open-coding the walk of vio_bus children.
 
