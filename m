@@ -2,58 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F60C36C66A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:51:58 +0200 (CEST)
-Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDAA36C683
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:56:35 +0200 (CEST)
+Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbNC0-0001ju-Sa
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42686)
+	id 1lbNGV-00033T-2W
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lbNAU-00017y-5i
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:50:22 -0400
-Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:45471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lbNAP-0004O8-Ip
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:50:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.92])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 1292A28184F;
- Tue, 27 Apr 2021 14:50:10 +0200 (CEST)
-Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 27 Apr
- 2021 14:50:10 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0069df386b5-2c89-4b96-8ac2-53ab7f6e23ea,
- B6AA52F3D5CB607530F59D2ADE64727CB37F7539) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 27 Apr 2021 14:50:08 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [for-6.1 v2 0/2] virtiofsd: Add support for FUSE_SYNCFS request
-Message-ID: <20210427145008.5d6914e9@bahia.lan>
-In-Reply-To: <YIf1TY4MbAQnCYG0@work-vm>
-References: <20210426152135.842037-1-groug@kaod.org> <YIf1TY4MbAQnCYG0@work-vm>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lbNEr-0002QD-0o; Tue, 27 Apr 2021 08:54:53 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lbNEp-0007AF-JT; Tue, 27 Apr 2021 08:54:52 -0400
+Received: by mail-wm1-x332.google.com with SMTP id n84so4576218wma.0;
+ Tue, 27 Apr 2021 05:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vbBUTqURMsbbfAK+P0NQCFJGTxEK2u5lbAtkCybb8GE=;
+ b=RV0fNdThnvG6jLP+TQkBXAdW8sT2GtnhxTnlvwfrb0GASzhj/aHRA9Z+QYJiwhS7SP
+ 6+2ZsKqY9W9H/cTfXM9pow7B91RPlRJUK3z8MRpXciBPNFOs/1LkDscmTT8WB9cZIHhL
+ q+kaqLIvT4vTDwohgR+WmVrIBt3vVmJWbi0wW615pqCXJtMCJ1GSznvy4LZ0QCOOIh5+
+ YmSEmpqp40H+eylIOSrjGJQ6kimFELnvOA/DQzo9Z9QB7e7Dd94mOERXEbvLUZ/1F+W9
+ jEoYdyWAPE54VOXo4M6bvU5ZWygqwyW81KdyXMfFLxvIFxsBRVQz1fowLHqhZx3Xcp7m
+ Yd+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vbBUTqURMsbbfAK+P0NQCFJGTxEK2u5lbAtkCybb8GE=;
+ b=X4QMUJGZ19RJpC8WUa59CMXBEFo9FwtRmRD4cwTQXwf9OAd7jkhlG88PzCG9IZIvYb
+ 2D60pIjTD6kU0ZeuNc68difkRcF9dX1dm/vfYv4jtidz/SrABHnHLFU+J5NOSDrKgmbC
+ /xaw4RNnfEv2q1goXGCdSW8+EWYPvQ3ik8OsmGA63DaAe4xM0xz4PmC2VxQ6rXh/koVR
+ 05seYm9NUKOV3EQV75rI1l6bIytauzmGy0FlK74FnbLR7/dCfQnP3/7+JwFKH9Zhb+k7
+ LC0ODe53GorUQv6gLRveVBGNJlZa3+Us36xbabC+cOQDkf99pgnAW0cIjkuPCQD17wIB
+ 62gQ==
+X-Gm-Message-State: AOAM531HwcS/QVVZkU5ji6bp+iLECV3yAlVZdxLQCCWstIeLcjS9eRKR
+ lPthjUdlOsPBEwJ7JVjFzQkDcmTHajl+rw==
+X-Google-Smtp-Source: ABdhPJzjIdUoaF0SF1EZj2Eb20ZQuBq0a/WXKdze8cf+PhTYMQ7Rz7h1feNAt+wx/sFqWfobPNV3ig==
+X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr4108149wmh.174.1619528089413; 
+ Tue, 27 Apr 2021 05:54:49 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id l12sm3868322wrm.76.2021.04.27.05.54.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 05:54:48 -0700 (PDT)
+Subject: Re: [PATCH 0/4] hw/block/fdc: Allow Kconfig-selecting ISA bus/SysBus
+ floppy controllers
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210415102321.3987935-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <88c92d3c-bf13-5d07-62df-2315fffc7d78@amsat.org>
+Date: Tue, 27 Apr 2021 14:54:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: d41ada90-96be-49ef-ba02-9fba257bfa0c
-X-Ovh-Tracer-Id: 613052500005591474
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddvtddgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefguedvhefhueeivdeiteehgfdtgeeuleegieeiieekffeitdfglefgteelleejtdenucffohhmrghinhepghhithhlrggsrdgtohhmpdhrvgguhhgrthdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
- helo=10.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210415102321.3987935-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,74 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, virtio-fs@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Max Reitz <mreitz@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Apr 2021 12:28:13 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+ping?
 
-> * Greg Kurz (groug@kaod.org) wrote:
-> > FUSE_SYNCFS allows the client to flush the host page cache.
-> > This isn't available in upstream linux yet, but the following
-> > tree can be used to test:
+On 4/15/21 12:23 PM, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> That looks OK to me; but we'll need to wait until syncfs lands in the
-> upstream kernel; we've got bitten before by stuff changing before it
-> actaully lands in the kernel.
+> The floppy disc controllers pulls in irrelevant devices (sysbus in
+> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
 > 
-
-Sure ! I'll repost an updated series when this happens.
-
-Thanks for the feedback.
-
---
-Greg
-
-> Dave
+> This series clean that by extracting each device in its own file,
+> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
 > 
-> > https://gitlab.com/gkurz/linux/-/tree/virtio-fs-sync
-> > 
-> > v2: - based on new version of FUSE_SYNCFS
-> >       https://listman.redhat.com/archives/virtio-fs/2021-April/msg00166.html
-> >     - propagate syncfs() errors to client (Vivek)
-> > 
-> > Greg Kurz (2):
-> >   Update linux headers to 5.12-rc8 + FUSE_SYNCFS
-> >   virtiofsd: Add support for FUSE_SYNCFS request
-> > 
-> >  include/standard-headers/drm/drm_fourcc.h     | 23 ++++-
-> >  include/standard-headers/linux/ethtool.h      | 54 ++++++-----
-> >  include/standard-headers/linux/fuse.h         | 13 ++-
-> >  include/standard-headers/linux/input.h        |  2 +-
-> >  .../standard-headers/rdma/vmw_pvrdma-abi.h    |  7 ++
-> >  linux-headers/asm-generic/unistd.h            |  4 +-
-> >  linux-headers/asm-mips/unistd_n32.h           |  1 +
-> >  linux-headers/asm-mips/unistd_n64.h           |  1 +
-> >  linux-headers/asm-mips/unistd_o32.h           |  1 +
-> >  linux-headers/asm-powerpc/kvm.h               |  2 +
-> >  linux-headers/asm-powerpc/unistd_32.h         |  1 +
-> >  linux-headers/asm-powerpc/unistd_64.h         |  1 +
-> >  linux-headers/asm-s390/unistd_32.h            |  1 +
-> >  linux-headers/asm-s390/unistd_64.h            |  1 +
-> >  linux-headers/asm-x86/kvm.h                   |  1 +
-> >  linux-headers/asm-x86/unistd_32.h             |  1 +
-> >  linux-headers/asm-x86/unistd_64.h             |  1 +
-> >  linux-headers/asm-x86/unistd_x32.h            |  1 +
-> >  linux-headers/linux/kvm.h                     | 89 +++++++++++++++++++
-> >  linux-headers/linux/vfio.h                    | 27 ++++++
-> >  tools/virtiofsd/fuse_lowlevel.c               | 19 ++++
-> >  tools/virtiofsd/fuse_lowlevel.h               | 13 +++
-> >  tools/virtiofsd/passthrough_ll.c              | 29 ++++++
-> >  tools/virtiofsd/passthrough_seccomp.c         |  1 +
-> >  24 files changed, 267 insertions(+), 27 deletions(-)
-> > 
-> > -- 
-> > 2.26.3
-> > 
-
+> Regards,
+> 
+> Phil.
+> 
+> Philippe Mathieu-Daudé (4):
+>   hw/block/fdc: Replace disabled fprintf() by trace event
+>   hw/block/fdc: Declare shared prototypes in fdc-internal.h
+>   hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
+>   hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
+> 
+>  hw/block/fdc-internal.h | 155 ++++++++++
+>  hw/block/fdc-isa.c      | 313 +++++++++++++++++++++
+>  hw/block/fdc-sysbus.c   | 252 +++++++++++++++++
+>  hw/block/fdc.c          | 608 +---------------------------------------
+>  MAINTAINERS             |   3 +
+>  hw/block/Kconfig        |   8 +
+>  hw/block/meson.build    |   2 +
+>  hw/block/trace-events   |   3 +
+>  hw/i386/Kconfig         |   2 +-
+>  hw/isa/Kconfig          |   6 +-
+>  hw/mips/Kconfig         |   2 +-
+>  hw/sparc/Kconfig        |   2 +-
+>  hw/sparc64/Kconfig      |   2 +-
+>  13 files changed, 751 insertions(+), 607 deletions(-)
+>  create mode 100644 hw/block/fdc-internal.h
+>  create mode 100644 hw/block/fdc-isa.c
+>  create mode 100644 hw/block/fdc-sysbus.c
+> 
 
