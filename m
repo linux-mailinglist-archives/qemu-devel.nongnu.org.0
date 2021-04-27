@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D470D36CB82
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 21:13:20 +0200 (CEST)
-Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2470436CBA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 21:29:07 +0200 (CEST)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbT91-0007ih-QI
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 15:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42226)
+	id 1lbTOL-0003ba-O2
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 15:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbT7n-0007GM-MI
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:11:59 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41845)
+ id 1lbTMO-0002gN-7c
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:27:04 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbT7l-0007cJ-Su
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:11:59 -0400
-Received: by mail-wr1-x430.google.com with SMTP id d11so2713906wrw.8
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 12:11:57 -0700 (PDT)
+ id 1lbTMM-0008QY-R8
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 15:27:03 -0400
+Received: by mail-wr1-x434.google.com with SMTP id x7so60559984wrw.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 12:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qu24o0esFGFk85wZi/RmTBhqz+vFHCBsju4uOG1HE5Q=;
- b=G11yu1jqNzUuxUP8hfQ3TlUhBtuytdBG41bgUN9gMJtNX1IlTS2I/zBkT54HmcF+yu
- jRd5vBGNQMQ8vJt5A6KWn9rM8wtyX4dfVkAIWW1E7FaxVhOvSabCmwcI+TADnhmIrebz
- btQ1qMwJsNjEjnsl/Ut2L33zeqLQWTl3cOrAlTRqccSG4vSXD67MwK604GNBx62cbgyG
- yVC7glemY2QQHOGu/PYgEextxWOaXMfqDYoZRESEtZ4T8Rs78DLvcYrwhm/qf2ktCLN9
- KvXTsjRURwEJ7UR9ZPBbkh7jSlAAhYUFfDmU18uFyDpvYbl500Nu3KSIKbpC7HHV201x
- rS/A==
+ bh=8/zyPaXhI+Qt5MdcCmG2gCC6LSJvpjKq+XMHPX6polw=;
+ b=kRMoNH+M1vSYJuoWrvCuJfjn3bkyfB9CmZlrwPfzqXEvn9GVkAuDScLpAC8Sqxo6j9
+ 8tegLDAaz4HRYx3J4Awj7jP567ezrOx+N22jRrzBWs5ODBZJ6lxkfJN72MhLi9596P2r
+ 9TBSJWiMWqu+X7Ur+QY3JcGw7Mqh/8I1aIWRbwIQvjpsgNUbRTIcsFtzmavEDE6cs004
+ Pl57YTEJ13ryie1Lat+hDXsyTgWIT4HUL3YePXUg/lYZRbDFOBTDfTpIImj81wE8g0b9
+ r7A8eK/q2TKpVFq+GsZCexA8ngNVA1U+7pv4sVm/c9h4N8XXW2AirN+kyi6YxdFfJMd8
+ Oniw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=qu24o0esFGFk85wZi/RmTBhqz+vFHCBsju4uOG1HE5Q=;
- b=oxe0Ho7WRXwLEHLgQ70n2yGLcU9RrhTMEUmFYGaNllM+PhNoyaZnOyplvbSHLgSuzU
- Nm2FQ92xN+cWAR0oOIU4W0tXa5jsqyk/rzPOoUzHnkskZPHEngMFFQ0NHgkHNLB1Gde8
- INMTq9OeQuqvI0bJTXdVfgxqAJ+7X7+ZeIZ0i74U8MWbrUtrYHxL82y+cIiaKF//aStW
- gvba575VYZk/R0J2b0/IyVPLqz/GYiKXz+TsVtrWdi+lVELUPFCbOHTWmkfaXj9GDGXG
- 4Ml93lcQeqmW1Ya373eloPZ0xzRMqf8lCL0Np05Brkd4JTBFHbWizg7EPs0DDi8CLHJe
- 9VrQ==
-X-Gm-Message-State: AOAM530nrUqtLu/yNG9VM5rANxiLUhjrpQX/cDNoWY3819iyTYHcpRiv
- oMrW5vvmRai8ugkbtH+UYngM6E3gpZ0v8w==
-X-Google-Smtp-Source: ABdhPJyE7aEMdHeVlnaXqe6RI7uMnroest7YD33bKvO0GMP7tf4HSuYIzPgA+aFXuAiHC28XllGaRA==
-X-Received: by 2002:a05:6000:362:: with SMTP id
- f2mr31479375wrf.141.1619550714845; 
- Tue, 27 Apr 2021 12:11:54 -0700 (PDT)
+ bh=8/zyPaXhI+Qt5MdcCmG2gCC6LSJvpjKq+XMHPX6polw=;
+ b=O1jmmGR0y+czx3Z6u1nTuArYUJfKboOKRWoeVzIM0N+NGIki3C8pRuPy0mq7qXmn9l
+ /jjFZSlAPrQsNKinMJa/siCrySs45dJZY8r45GqtvYYwffHOvI85UGw6JAHVUXhYj2Wl
+ doqQZKZE0bX0B5AYZg44rEoOyzffg3A2RDKjsQaIkNch7QESqW35rkIyX4idKsehpPac
+ SynH3OHNc8BBXodaBA9OmAnBc9SrYZ3I1mOm5SRPQdzHn3StRsnO4U+nQ95Y1TzRlUQ9
+ 2qvhgjbhlSGrhYDyN+1N0oj05SJevgdbQ43nuJepjjtiO/ZJIXFm7FE5fZ2a4wtJQBwD
+ 7eYQ==
+X-Gm-Message-State: AOAM532EEVIqRWkXGAib2ixaxWF5nNo2Z8U0xxsYW5yufsSL7C0GZFuN
+ WnndEZYtL0BgmWrhyGimh3S+daUwv7Yqow==
+X-Google-Smtp-Source: ABdhPJwQ1YxKDx8g76riVzV6OhAX0EpQ0zTckQfR/kPei1x8DElaDlHIblYseFGXbVAQBc8PFa1mhw==
+X-Received: by 2002:a5d:650d:: with SMTP id x13mr31219996wru.264.1619551621059; 
+ Tue, 27 Apr 2021 12:27:01 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id w22sm3740135wmc.13.2021.04.27.12.11.53
+ by smtp.gmail.com with ESMTPSA id u6sm861826wml.6.2021.04.27.12.27.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 12:11:54 -0700 (PDT)
+ Tue, 27 Apr 2021 12:27:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] target/mips: Allow building without Inter-Thread
- Communication hardware
-Date: Tue, 27 Apr 2021 21:11:52 +0200
-Message-Id: <20210427191152.260421-1-f4bug@amsat.org>
+Subject: [PATCH 0/2] hw/sparc: Kconfig fixes to build with/without the leon3
+ machine
+Date: Tue, 27 Apr 2021 21:26:56 +0200
+Message-Id: <20210427192658.266933-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,83 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Inter-Thread Communication unit (TYPE_MIPS_ITU) is an optional
-device that is only selected by a few machines. However it goes
-deep into the translation code, as the MTC0/MTHC0 SAAR helpers
-call itc_reconfigure().
-
-When building with no machine selecting the ITU component (which
-is implemented in hw/misc/mips_itu.c), we get the following link
-failure:
-
-  /usr/bin/ld: target_mips_cp0_helper.c.o: in function `helper_mtc0_saar':
-  target/mips/cp0_helper.c:1118: undefined reference to `itc_reconfigure'
-  /usr/bin/ld: target_mips_cp0_helper.c.o: in function `helper_mthc0_saar':
-  target/mips/cp0_helper.c:1135: undefined reference to `itc_reconfigure'
-
-Fix by adding a stub, built when the ITU isn't selected.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-RFC because too much Meson machinery to my taste.
-But how to deal with such architectural devices else?
-
-To reproduce:
-
-$ echo CONFIG_JAZZ=y > default-configs/devices/mips64el-softmmu.mak
-$ echo CONFIG_SEMIHOSTING=y >> default-configs/devices/mips64el-softmmu.mak
-$ configure --without-default-devices
-$ ninja qemu-system-mips64el
-$ ./qemu-system-mips64el -M magnum -S
----
- target/mips/cp0_itu-stub.c | 15 +++++++++++++++
- target/mips/meson.build    |  3 +++
- 2 files changed, 18 insertions(+)
- create mode 100644 target/mips/cp0_itu-stub.c
-
-diff --git a/target/mips/cp0_itu-stub.c b/target/mips/cp0_itu-stub.c
-new file mode 100644
-index 00000000000..995b5a09ff8
---- /dev/null
-+++ b/target/mips/cp0_itu-stub.c
-@@ -0,0 +1,15 @@
-+/*
-+ * QEMU Inter-Thread Communication Unit emulation stubs
-+ *
-+ *  Copyright (c) 2021 Philippe Mathieu-Daudé
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1-or-later
-+ */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "hw/misc/mips_itu.h"
-+
-+void itc_reconfigure(MIPSITUState *tag)
-+{
-+    /* nothing? */
-+}
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 3b131c4a7f6..a631688fae0 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -45,6 +45,9 @@
-   'cp0_helper.c',
-   'mips-semi.c',
- ))
-+mips_softmmu_ss.add(when: 'CONFIG_MIPS_ITU', if_false: files(
-+  'cp0_itu-stub.c',
-+))
- 
- mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
- 
--- 
-2.26.3
-
+This series fixes link failure when building either the leon3=0D
+machine or the sun4m ones.=0D
+=0D
+The problem is we have hardware specific code in the architectural=0D
+translation code. Move this code to hw/sparc/.=0D
+=0D
+The link failures can be reproduced doing:=0D
+=0D
+  $ echo CONFIG_LEON3=3Dy > default-configs/devices/sparc-softmmu.mak=0D
+  $ configure --without-default-devices=0D
+  $ ninja qemu-system-sparc=0D
+  $ ./qemu-system-sparc -M leon3 -S=0D
+=0D
+or:=0D
+=0D
+  $ echo CONFIG_SUN4M=3Dy > default-configs/devices/sparc-softmmu.mak=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/sparc: Allow building the leon3 machine stand-alone=0D
+  hw/sparc: Allow building without the leon3 machine=0D
+=0D
+ target/sparc/cpu.h          |  6 ----=0D
+ hw/sparc/irq.c              | 61 +++++++++++++++++++++++++++++++++++++=0D
+ hw/sparc/leon3.c            | 37 +++++++++++++++++++++-=0D
+ hw/sparc/sun4m.c            | 32 -------------------=0D
+ target/sparc/int32_helper.c | 37 ----------------------=0D
+ hw/sparc/meson.build        |  1 +=0D
+ hw/sparc/trace-events       |  2 ++=0D
+ target/sparc/trace-events   |  4 ---=0D
+ 8 files changed, 100 insertions(+), 80 deletions(-)=0D
+ create mode 100644 hw/sparc/irq.c=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
