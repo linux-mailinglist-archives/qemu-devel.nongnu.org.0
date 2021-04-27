@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021D236C718
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 15:36:10 +0200 (CEST)
-Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AE036C727
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 15:42:33 +0200 (CEST)
+Received: from localhost ([::1]:37560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbNsm-0004aA-Qi
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 09:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55088)
+	id 1lbNyy-0000AQ-Dk
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 09:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbNqb-0003qP-I7
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:33:55 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52219)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbNxO-0007el-DG
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:40:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbNqX-0004hF-1u
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:33:52 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id m5so5066497wmf.1
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 06:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oSlBoECRExsxDqWI4UCvlPSNPlCXk3V2bOqJ4paotxk=;
- b=cowiXHZeSWZMG92re9qorO3hwq66qT2+cy2U3wjx2mcC9vVMFfPivuebmuUhpL+e/i
- lJvtM26iQUADptpEtPu0pJ9orR7B3Ya8KUovwixKKJ+pcuxRwecxTk4IfOeP+0Mtmcwu
- lZ5Ei5bmeLTYo0yoNSaa4oI2zUUT0R1upvUdOjDR5/nw203sxKpmaAigHuqszf36Zj6K
- SwoQSAaFl0vxRo+11XtsdtdjAWRRRCmff5pPBq2QodYXmO/dGSm+QdbqQzSXhzi5mMjv
- q4/CiC0S+M9Yzbood52qfrP1FWkYwcfEzG8t/lQlFyh0x4CI5XKMXnSsj+wfewMyi7VO
- 8gOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=oSlBoECRExsxDqWI4UCvlPSNPlCXk3V2bOqJ4paotxk=;
- b=Gl8htUZ5jbjQxzIuNUl7x0iQLs06YLN9VM7lrkoYA/4nQw8rbcsrlbqi1rpmAflXwP
- 3Lp0vvCTnyCtT08yP/EfjLoPygkaZBadeIeRZmJWXs/3N9IDimRToRbirDAeN4Tnauhj
- rKGZH2l4XFoSUKjluJnHdvDjpXJf9kxRjT0GJafW1RDfVt3IZXSzaFmIfovxJ7N1S08N
- KjLDqr6H+BXSEQCwu9U1dLfLJ6i4CnDuNe/wmeqf3IpysE6MPK5SI4Vvlrmb+K+vmUAS
- BsM4duafbVAi1w12suyZhXxnyI52J9jAXDETiUf+WeCMGG9E2ebNuNpcINIaaRFCNqVM
- NnJg==
-X-Gm-Message-State: AOAM531/44aZVFMiGGeJOoV0BKyk2bFxknVrw6oDvm83zNZ9KzQBtonD
- MoMN0h0Tn7+WLzSVIe0iHi+kUL1whRBcbQ==
-X-Google-Smtp-Source: ABdhPJxaNGgxJmhQyzWDECrYWnBC+TOnVbQCVfuiT3idnMd/VxlYPRXZcLdyfYSYja0o0Bvb4UAI0Q==
-X-Received: by 2002:a1c:2941:: with SMTP id p62mr25185166wmp.120.1619530425520; 
- Tue, 27 Apr 2021 06:33:45 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id y11sm1762066wmi.41.2021.04.27.06.33.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 06:33:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/mips: Only update MVPControl.EVP bit if executed by
- master VPE
-Date: Tue, 27 Apr 2021 15:33:37 +0200
-Message-Id: <20210427133343.159718-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbNxM-0000Vu-EV
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 09:40:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lbNxK-0003N5-QM
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 13:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C65FF2E8144
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 13:40:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Apr 2021 13:34:24 -0000
+From: Michael Slade <1926231@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mslade
+X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Modifier: Michael Slade (mslade)
+References: <161948395808.4012.2859419220100718976.malonedeb@gac.canonical.com>
+Message-Id: <161953046409.11144.5095141606034259455.malone@wampee.canonical.com>
+Subject: [Bug 1926231] Re: SCSI passthrough of SATA cdrom -> errors &
+ performance issues
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: ec483960d08f8dd2c4efb9010020ef2bb87f74a5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,86 +70,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- 1926277@bugs.launchpad.net,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1926231 <1926231@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the 'MIPS MT Application-Speciﬁc Extension' manual:
+Just discovered that `hdparm -a 128` works around the issue (it was 256
+at boot).
 
-  If the VPE executing the instruction is not a Master VPE,
-  with the MVP bit of the VPEConf0 register set, the EVP bit
-  is unchanged by the instruction.
+-- =
 
-Modify the DVPE/EVPE opcodes to only update the MVPControl.EVP bit
-if executed on a master VPE.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926231
 
-Reported-by: Hansni Bu <https://launchpad.net/%7Ehansni/+contactuser>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1926277
-Fixes: f249412c749 ("mips: Add MT halting and waking of VPEs")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Supersedes: <20210427103555.112652-1-f4bug@amsat.org>
-v2: Check VPEConf0.MVP bit (hansni)
----
- target/mips/cp0_helper.c | 32 ++++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+Title:
+  SCSI passthrough of SATA cdrom -> errors & performance issues
 
-diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index aae2af6eccc..d5f274f5cdf 100644
---- a/target/mips/cp0_helper.c
-+++ b/target/mips/cp0_helper.c
-@@ -1635,12 +1635,14 @@ target_ulong helper_dvpe(CPUMIPSState *env)
-     CPUState *other_cs = first_cpu;
-     target_ulong prev = env->mvp->CP0_MVPControl;
- 
--    CPU_FOREACH(other_cs) {
--        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
--        /* Turn off all VPEs except the one executing the dvpe.  */
--        if (&other_cpu->env != env) {
--            other_cpu->env.mvp->CP0_MVPControl &= ~(1 << CP0MVPCo_EVP);
--            mips_vpe_sleep(other_cpu);
-+    if (env->CP0_VPEConf0 & (1 << CP0VPEC0_MVP)) {
-+        CPU_FOREACH(other_cs) {
-+            MIPSCPU *other_cpu = MIPS_CPU(other_cs);
-+            /* Turn off all VPEs except the one executing the dvpe.  */
-+            if (&other_cpu->env != env) {
-+                other_cpu->env.mvp->CP0_MVPControl &= ~(1 << CP0MVPCo_EVP);
-+                mips_vpe_sleep(other_cpu);
-+            }
-         }
-     }
-     return prev;
-@@ -1651,15 +1653,17 @@ target_ulong helper_evpe(CPUMIPSState *env)
-     CPUState *other_cs = first_cpu;
-     target_ulong prev = env->mvp->CP0_MVPControl;
- 
--    CPU_FOREACH(other_cs) {
--        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
-+    if (env->CP0_VPEConf0 & (1 << CP0VPEC0_MVP)) {
-+        CPU_FOREACH(other_cs) {
-+            MIPSCPU *other_cpu = MIPS_CPU(other_cs);
- 
--        if (&other_cpu->env != env
--            /* If the VPE is WFI, don't disturb its sleep.  */
--            && !mips_vpe_is_wfi(other_cpu)) {
--            /* Enable the VPE.  */
--            other_cpu->env.mvp->CP0_MVPControl |= (1 << CP0MVPCo_EVP);
--            mips_vpe_wake(other_cpu); /* And wake it up.  */
-+            if (&other_cpu->env != env
-+                /* If the VPE is WFI, don't disturb its sleep.  */
-+                && !mips_vpe_is_wfi(other_cpu)) {
-+                /* Enable the VPE.  */
-+                other_cpu->env.mvp->CP0_MVPControl |= (1 << CP0MVPCo_EVP);
-+                mips_vpe_wake(other_cpu); /* And wake it up.  */
-+            }
-         }
-     }
-     return prev;
--- 
-2.26.3
+Status in QEMU:
+  New
 
+Bug description:
+  qemu 5.0, compiled from git
+
+  I am passing through a SATA cdrom via SCSI passthrough, with this
+  libvirt XML:
+
+      <hostdev mode=3D'subsystem' type=3D'scsi' managed=3D'no' sgio=3D'unfi=
+ltered' rawio=3D'yes'>
+        <source>
+          <adapter name=3D'scsi_host3'/>
+          <address bus=3D'0' target=3D'0' unit=3D'0'/>
+        </source>
+        <alias name=3D'hostdev0'/>
+        <address type=3D'drive' controller=3D'0' bus=3D'0' target=3D'0' uni=
+t=3D'0'/>
+      </hostdev>
+
+  It seems to mostly work, I have written discs with it, except I am
+  getting errors that cause reads to take about 5x as long as they
+  should, under certain circumstances.  It appears to be based on the
+  guest's read block size.
+
+  I found that if on the guest I run, say `dd if=3D$some_large_file
+  bs=3D262144|pv > /dev/null`, `iostat` and `pv` disagree about how much
+  is being read by a factor of about 2.  Also many kernel messages like
+  this happen on the guest:
+
+  [  190.919684] sr 0:0:0:0: [sr0] tag#160 FAILED Result: hostbyte=3DDID_OK=
+ driverbyte=3DDRIVER_SENSE cmd_age=3D0s
+  [  190.919687] sr 0:0:0:0: [sr0] tag#160 Sense Key : Aborted Command [cur=
+rent] =
+
+  [  190.919689] sr 0:0:0:0: [sr0] tag#160 Add. Sense: I/O process terminat=
+ed
+  [  190.919691] sr 0:0:0:0: [sr0] tag#160 CDB: Read(10) 28 00 00 18 a5 5a =
+00 00 80 00
+  [  190.919694] blk_update_request: I/O error, dev sr0, sector 6460776 op =
+0x0:(READ) flags 0x80700 phys_seg 5 prio class 0
+
+  If I change to bs=3D131072 the errors stop and performance is normal.
+
+  (262144 happens to be the block size ultimately used by md5sum, which
+  is how I got here)
+
+  I also ran strace on the qemu process while it was happening, and
+  noticed SG_IO calls like this:
+
+  21748 10:06:29.330910 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x95\x5a\x00\=
+x00\x80\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D262144, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  21751 10:06:29.330976 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x94\xda\x00\=
+x00\x02\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D4096, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  21749 10:06:29.331586 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x94\xdc\x00\=
+x00\x02\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D4096, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  [etc]
+
+  I suspect qemu is the culprit because I have tried a 4.19 guest kernel
+  as well as a 5.9 one, with the same result.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926231/+subscriptions
 
