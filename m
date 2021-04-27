@@ -2,76 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8A136C52E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:34:53 +0200 (CEST)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31E836C579
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:44:01 +0200 (CEST)
+Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbLzQ-0001EJ-6u
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
+	id 1lbM8G-0003q1-Ii
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbLy9-0000TA-AS
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:33:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36212)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lbM5h-0002qk-0E; Tue, 27 Apr 2021 07:41:22 -0400
+Received: from mail-vi1eur05on2117.outbound.protection.outlook.com
+ ([40.107.21.117]:54039 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbLy6-00030G-Er
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:33:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619523209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gog22LP8U9nTc7oNDs6Bm+EUAPkbly1wWxlPLOZ4UmE=;
- b=cicBOIx99A2N51680fxPxA8jhI0KWxw2S+AIfVI4iyYydyl7rmH6L4oEoBv10dTiQgauti
- bn04kJSjRFb5ge8Qgd3bxwBcQ2EDhW+hxYUlY+xaZ5SVqH1e3KZbIhA20EmnDgMcH+Trjs
- SQ4wV2VMZq5DLLEQ/A1QOLJZn6pjtow=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-JGwb3dXbOUKqgUt6GVVOsQ-1; Tue, 27 Apr 2021 07:33:25 -0400
-X-MC-Unique: JGwb3dXbOUKqgUt6GVVOsQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC943195D560;
- Tue, 27 Apr 2021 11:33:24 +0000 (UTC)
-Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D69460CC9;
- Tue, 27 Apr 2021 11:33:14 +0000 (UTC)
-Date: Tue, 27 Apr 2021 12:33:11 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v2 2/7] virtiofds: Changed allocations of iovec to GLib's
- functions
-Message-ID: <YIf2d8HuyPqwqt9C@work-vm>
-References: <20210420154643.58439-1-ma.mandourr@gmail.com>
- <20210420154643.58439-3-ma.mandourr@gmail.com>
- <YIfmaleNOwhLLD9W@work-vm>
- <CAD-LL6gvoz0t4UND-CNdazciFoFE6ZVJ8ncZbfM3b37c8ECzbw@mail.gmail.com>
- <YIfu9eV41U6vT6iP@work-vm>
- <CAD-LL6gCTagzmR-NXZiBTJH+LOH0D4wHigVow1e0bVfyVcm4PQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lbM5c-0007D5-96; Tue, 27 Apr 2021 07:41:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PgW6KFPnPiThKmKjZSywXrRtEQygvYUpZt07sqm+rRz+tV+E+hjoO7bI3NzpK5fWs8mGxBJja1Czl2ziBIoLMEog8fuXtFL3fPYgJsyudm0F41xkRSQ1x8VblB6z7JCUfRNCxLrECKGcDpgF+ECnMQdj6bKvQ4c+b8gbR6cAS9hht2a9k+9BBseGik3ImRbjhmFkii0xjyEcn8anBM1gqulK1+Ab4kKbaQipVINLgwtpU5WRa2ke+LYB9HD8IKyC26TiPXyrE8mktr5xm2BDIZHmCYTzu/jHgjVgt/JZ+zcg1/Q9P03udOidTBL9w/pFu3rgJXGQ1P91Sfsw8QoJZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=USITtuotPwhFyDyWWnIDhu9myzzKPNwn46nzyGU0h+o=;
+ b=NjoLXT1QU6lu+1EKC3OCIOHkkZ0fqNsfLb6GbbWr7sgbohKg6mLLP/CXZGVUGMJaN0d/jeRx1fmd4b8ORs9YhVc6KosAwKbuokUsRmClIMALvBq13HAjNampWwLU92R5gbS7W13Polveel6T7d56sxUQF2arpMirgj5cPisxOeg38enH8H7VD2pfgK/9ALEIYZ1ZO97U91umu747szImflBF18p83ix7FVQb1xGWECza9Iw3JJM/6r6mp/h7iyKmmvRFGDmDnleJKGWQ1dlLcMFtpXy4F/SA7dXO6CzJzfn3OZWkJpeqEyolSJmO4gvuZiQGwyvyxAdmRYR/nf37vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=USITtuotPwhFyDyWWnIDhu9myzzKPNwn46nzyGU0h+o=;
+ b=tRfghhJoqQ37Ft41xdvqXiAnFX3dZ4HXd2+CyhFCkmsP7JMVf7BV/A0dYkdRtOczUCXQKBbD+jscFhyOn0Uh5WBxet1D7cMS8G74sSudK7EdXXTf9/CyJGNouZ/kH+BNtPxiHAmlPtbQfYxKgDoYpHWEMltSMosbdhCuY/bpo4s=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6887.eurprd08.prod.outlook.com (2603:10a6:20b:38e::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20; Tue, 27 Apr
+ 2021 11:41:09 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
+ 11:41:09 +0000
+Subject: Re: [PATCH v3 22/36] block: add bdrv_remove_filter_or_cow transaction
+ action
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, mreitz@redhat.com
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+ <20210317143529.615584-23-vsementsov@virtuozzo.com>
+ <YIbpoWMyxkgRUtki@merkur.fritz.box>
+ <f6bb0393-220f-09bf-9b2c-73fd68ee9967@virtuozzo.com>
+ <YIfw9PtwFpx1aNmx@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <57b30313-0087-8132-3779-028a691779c2@virtuozzo.com>
+Date: Tue, 27 Apr 2021 14:41:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+In-Reply-To: <YIfw9PtwFpx1aNmx@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.222]
+X-ClientProxiedBy: AM0PR06CA0099.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::40) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <CAD-LL6gCTagzmR-NXZiBTJH+LOH0D4wHigVow1e0bVfyVcm4PQ@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.222) by
+ AM0PR06CA0099.eurprd06.prod.outlook.com (2603:10a6:208:fa::40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.21 via Frontend Transport; Tue, 27 Apr 2021 11:41:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3165ad10-b66a-4619-ae52-08d9097159c4
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6887:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6887A51896409BFCA1A81EE0C1419@AS8PR08MB6887.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Gz3qjc9fegk24QA8+ul767ldembKFd3ctUjHyGGHL+2zSxpAQxW4CI2WWAGuTDo9HJvoLwtNeMUJNmpnUPFphFkjAXsrWAYdRqopdwYaSYvXjJt0phsx1XR/mz7HSJIvBzHuE2wgxBiDrDafvldj0LMLRGYeMG6F8dIwogWURzi5wJFlqNDzugbHjaESdqBhWMnTLfbSdBPsi7r5keRIWL8luT8uwKQcx0leFM7SKLDUyVrgXI8GOI4tqP+WaUxc0c5wVNR3yI4Eg2rxVup4Gjo4cWjudkoX/1yCtM7CFOGmTjNgQr1HKyQT8jf14L0n3zGrB9gY4C72hPe8PcTb2+j1P15S49bwcvCFv38uCbQRr+dThhuUPQKLi8UstZeBXlpggJ6SLB/LK0TzoBvK4WEfa4FZHSUaSni58VOjJSuhqH6IHBKrnflIUTcyUbpMMjlJyJ7DenX4rZmZjq0CCNMwNcnGpKa+MStxofvl44/InZ+TT7r19CPdqdxbcKMjbPy8Ch7ixt1i9EcEmJWFaGRPw1bIJinQMGc8HmvJRugrAPzqaYFLWgw4GARmy2tpKPm5wzDBj/IkYTGTJ86ZNcPl/viYuPY5MB2EffzhU4HLmdwB7XPbYRodjmWsTODxhpyEtKr7tY0UzxeNvvVT1NQBLcCoy9ylHipb8wUukVQKVS8g9aX0wboEzhET/GObQ4JDqzU/z2cVfo0ZiWA56iOEdc7y5Bv5f5BGKWWN59k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(396003)(376002)(136003)(346002)(366004)(16576012)(66946007)(52116002)(186003)(16526019)(66476007)(66556008)(8936002)(26005)(316002)(36756003)(478600001)(4326008)(2616005)(956004)(31696002)(86362001)(38350700002)(6486002)(38100700002)(2906002)(8676002)(31686004)(5660300002)(83380400001)(6916009)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RHhFczE1V2ROR0V2aFBCWVhmZGk4YmNrOHlUeHRlZ3FxQyt3MFdhVHBKRUlC?=
+ =?utf-8?B?VlBJRlNnQ1MyMUpzWm41eHUzcjc0OWYyblNkN0NGSnRyKzZ1QzZkRGRLSG9Z?=
+ =?utf-8?B?TXBPK24vQ1lvMnd1ejd6OVcwWDR5dURQMjQzckV2aElhbmVMRmNaMmZhQ083?=
+ =?utf-8?B?cXUzQXh0QzVqTW56Q0diREhSZnFwdS9QOHBIazQ1SW1nQmpiUm8rN1ZzMWsr?=
+ =?utf-8?B?cHk3ajFSb0VIdnZTZDFDTlZlUXBoZUxBWHM4Ly9YZVptTTVCckVkRnVzUllT?=
+ =?utf-8?B?UG1BcERFRzBLUE5WN1NldVk1b0FSTjg0MEw4ZHNxOGFVNEtLTWxXMGRQa2Jt?=
+ =?utf-8?B?Kzc0emM4LzhwdkRpa0NOV3Z6dEhHWlpkVUNYd3JidDV4cUppNWpXeVNUSU8y?=
+ =?utf-8?B?cnhkRWpyaThhQTBrTTVDaGh5VjRjTHBRV1dxQ29OSGRZQzdTN083R040Wlh1?=
+ =?utf-8?B?RGdTVWtOTlpTeWZ3aG9LZ0Z1TDU5eXRMMHBOVEhPTTNhenFvUDNTMjlUQ3Rl?=
+ =?utf-8?B?UmFCejhTRjlCRW9rcjV1S0F2U2dzNEpyOEZCVm83c3MvSnplcFFzZFpjVm52?=
+ =?utf-8?B?M0VXaUNOSU5uVWxLbUNqdDY1elFTdld5SDYrSE1PcDNHRG04dWRPaldpd1hx?=
+ =?utf-8?B?VGdOZFZ0M2dxd3M4OHlJb2N3ZHU4QjVBcFBKZ0swTUtMUWFHRDExRjQrMng0?=
+ =?utf-8?B?TWFoZ2RJeFNMa3IrYkltM3VqR2Y1eWozR2FPR3N0ZCtidFZBY3R2WDFoWTZT?=
+ =?utf-8?B?aEVGQlg0SUZxOW9LOE1KZjRHTjYzTTJWemxEQ0FvV2E5a0Z0dXh2SGF5alk5?=
+ =?utf-8?B?am1LZERITUZIU3ZOWHo2c085eVc4aVo4QWFPamo1N0FWK25iN01NN3lvYVd2?=
+ =?utf-8?B?RkJ4UXpJS1RhNVg5eVhTRHF5ajFNaFNUZHB6Ui9hSHB6MFZaVDB2aVo3ZjNM?=
+ =?utf-8?B?ZVZRN1V6dW9TWXA3S1JyamYxRExBMkM4M2xpVFNFZXYzZUdMOEVmYTlXa0Jv?=
+ =?utf-8?B?bkhlWHNuN1pxWU1ZS0JBMXNXQ1lLbm96RitVeEpLbXpPTy9zTU02Qk5uOC95?=
+ =?utf-8?B?NDE0WDZkNzEwakc1T2JBMnNld1NtVjBGS1VNWEExREY3QU12WDJlWS9iWnBV?=
+ =?utf-8?B?NFlLbk1SM1UrM1F6Z24wekFubWVidFpQVVNQU3lHL3NDLytzU2FLeXh5aDFu?=
+ =?utf-8?B?cFRwQVllT3pFNnpGcm1vaGlEbndQSVNyZ3BOWEpqTUl2cCtCc1BTV2UyVzBp?=
+ =?utf-8?B?WHNRU2tZZ3dudDdQYXZ4L1pCZmFlQzlvbXd1ODRoalVGMHUvUGhxdmU1TlA5?=
+ =?utf-8?B?eW1sUTJYbSszdW41WTdrV1k4Z0p5TlJ1eW4rQklwZFc3eDV1YS9kbU5RTjhj?=
+ =?utf-8?B?VHRrRi91eDZTdzhDdnhwZGlCeTBVQWNjTE9ScjJlczY2Y25Qemd6VDVLV1hx?=
+ =?utf-8?B?RkJIbmhHbUQ2N3cwd2x0YlM1cnRSTnlleEJVd2tHUE9QRTZRQXllc1dHSDJC?=
+ =?utf-8?B?YkFWT1p0YlcvaXdGTUl5bkhhRENCcUREN0hRYXZjMWF0ak42MUdLUS9IeEp0?=
+ =?utf-8?B?NHBlODVKcExNVlN2cU1ScUhMUVpSUjNrUUNhWHNDRlVBbEtsb0tWZjZpbjFM?=
+ =?utf-8?B?WkkyQWJGVVY2OHY0ZXpIZUc1MnJDN016cEp3VUhXQXhrMUJqMmZuaFg1U25z?=
+ =?utf-8?B?OTVpZy9xVHdWMkUrb041T1VNVHpkNnF2QnNiQzFpMU42alNCbkRPeHo1TzZS?=
+ =?utf-8?Q?ESMTbkuSYy1nZIezlabrzKHb+XfnPml588dDbE7?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3165ad10-b66a-4619-ae52-08d9097159c4
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 11:41:09.3200 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NodRRP4FOPBABzkQIKcjvFi8WEqXOZqSochzuvUKdkEfrnvT++3OBrKt7sitESTWdaN5mnWrDMC8LJ7r2Glt1BJRGNLFShnKuT9i6wFMZ0Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6887
+Received-SPF: pass client-ip=40.107.21.117;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,284 +148,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:virtiofs" <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> On Tue, Apr 27, 2021 at 1:01 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
-> wrote:
+27.04.2021 14:09, Kevin Wolf wrote:
+> Am 26.04.2021 um 19:18 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 26.04.2021 19:26, Kevin Wolf wrote:
+>>> Am 17.03.2021 um 15:35 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>> ---
+>>>>    block.c | 78 +++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+>>>>    1 file changed, 76 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/block.c b/block.c
+>>>> index 11f7ad0818..2fca1f2ad5 100644
+>>>> --- a/block.c
+>>>> +++ b/block.c
+>>>> @@ -2929,12 +2929,19 @@ static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs)
+>>>>        }
+>>>>    }
+>>>> +static void bdrv_child_free(void *opaque)
+>>>> +{
+>>>> +    BdrvChild *c = opaque;
+>>>> +
+>>>> +    g_free(c->name);
+>>>> +    g_free(c);
+>>>> +}
+>>>> +
+>>>>    static void bdrv_remove_empty_child(BdrvChild *child)
+>>>>    {
+>>>>        assert(!child->bs);
+>>>>        QLIST_SAFE_REMOVE(child, next);
+>>>> -    g_free(child->name);
+>>>> -    g_free(child);
+>>>> +    bdrv_child_free(child);
+>>>>    }
+>>>>    typedef struct BdrvAttachChildCommonState {
+>>>> @@ -4956,6 +4963,73 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
+>>>>        return ret;
+>>>>    }
+>>>> +typedef struct BdrvRemoveFilterOrCowChild {
+>>>> +    BdrvChild *child;
+>>>> +    bool is_backing;
+>>>> +} BdrvRemoveFilterOrCowChild;
+>>>> +
+>>>> +/* this doesn't restore original child bs, only the child itself */
+>>>
+>>> Hm, this comment tells me that it's intentional, but why is it correct?
+>>
+>> that's because bdrv_remove_filter_or_cow_child_abort() aborts only
+>> part of  bdrv_remove_filter_or_cow_child().
 > 
-> > * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> > > On Tue, Apr 27, 2021 at 12:25 PM Dr. David Alan Gilbert <
-> > dgilbert@redhat.com>
-> > > wrote:
-> > >
-> > > > * Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> > > > > Replaced the calls to malloc()/calloc() and their respective
-> > > > > calls to free() of iovec structs with GLib's allocation and
-> > > > > deallocation functions.
-> > > > >
-> > > > > Also, in one instance, used g_new0() instead of a calloc() call plus
-> > > > > a null-checking assertion.
-> > > > >
-> > > > > iovec structs were created locally and freed as the function
-> > > > > ends. Hence, I used g_autofree and removed the respective calls to
-> > > > > free().
-> > > > >
-> > > > > In one instance, a struct fuse_ioctl_iovec pointer is returned from a
-> > > > > function, namely, fuse_ioctl_iovec_copy. There, I used
-> > g_steal_pointer()
-> > > > > in conjunction with g_autofree, this gives the ownership of the
-> > pointer
-> > > > > to the calling function and still auto-frees the memory when the
-> > calling
-> > > > > function finishes (maintaining the symantics of previous code).
-> > > > >
-> > > > > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> > > > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > > ---
-> > > > >  tools/virtiofsd/fuse_lowlevel.c | 19 +++++++------------
-> > > > >  tools/virtiofsd/fuse_virtio.c   |  6 +-----
-> > > > >  2 files changed, 8 insertions(+), 17 deletions(-)
-> > > > >
-> > > > > diff --git a/tools/virtiofsd/fuse_lowlevel.c
-> > > > b/tools/virtiofsd/fuse_lowlevel.c
-> > > > > index 812cef6ef6..f965299ad9 100644
-> > > > > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > > > > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > > > > @@ -217,9 +217,9 @@ static int send_reply(fuse_req_t req, int error,
-> > > > const void *arg,
-> > > > >  int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int
-> > count)
-> > > > >  {
-> > > > >      int res;
-> > > > > -    struct iovec *padded_iov;
-> > > > > +    g_autofree struct iovec *padded_iov;
-> > > > >
-> > > > > -    padded_iov = malloc((count + 1) * sizeof(struct iovec));
-> > > > > +    padded_iov = g_try_new(struct iovec, count + 1);
-> > > > >      if (padded_iov == NULL) {
-> > > > >          return fuse_reply_err(req, ENOMEM);
-> > > > >      }
-> > > > > @@ -228,7 +228,6 @@ int fuse_reply_iov(fuse_req_t req, const struct
-> > > > iovec *iov, int count)
-> > > > >      count++;
-> > > > >
-> > > > >      res = send_reply_iov(req, 0, padded_iov, count);
-> > > > > -    free(padded_iov);
-> > > > >
-> > > > >      return res;
-> > > > >  }
-> > > >
-> > > > OK.
-> > > >
-> > > > > @@ -565,10 +564,10 @@ int fuse_reply_bmap(fuse_req_t req, uint64_t
-> > idx)
-> > > > >  static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct
-> > > > iovec *iov,
-> > > > >                                                        size_t count)
-> > > > >  {
-> > > > > -    struct fuse_ioctl_iovec *fiov;
-> > > > > +    g_autofree struct fuse_ioctl_iovec *fiov;
-> > > > >      size_t i;
-> > > > >
-> > > > > -    fiov = malloc(sizeof(fiov[0]) * count);
-> > > > > +    fiov = g_try_new(fuse_ioctl_iovec, count);
-> > > > >      if (!fiov) {
-> > > > >          return NULL;
-> > > > >      }
-> > > > > @@ -578,7 +577,7 @@ static struct fuse_ioctl_iovec
-> > > > *fuse_ioctl_iovec_copy(const struct iovec *iov,
-> > > > >          fiov[i].len = iov[i].iov_len;
-> > > > >      }
-> > > > >
-> > > > > -    return fiov;
-> > > > > +    return g_steal_pointer(&fiov);
-> > > > >  }
-> > > >
-> > > > This is OK, but doesn't gain anything - marking it as g_autofree'ing
-> > and
-> > > > always stealing is no benefit.
-> > > >
-> > > > >
-> > > > >  int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec
-> > *in_iov,
-> > > > > @@ -629,9 +628,6 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const
-> > > > struct iovec *in_iov,
-> > > > >
-> > > > >      res = send_reply_iov(req, 0, iov, count);
-> > > > >  out:
-> > > > > -    free(in_fiov);
-> > > > > -    free(out_fiov);
-> > > > > -
-> > > >
-> > > > I don't think you can do that - I think you're relying here on the
-> > > > g_autofree from fuse_ioclt_iovec_copy - but my understanding is that
-> > > > doesn't work; g_autofree is scoped, so it's designed to free at the end
-> > > > of fuse_ioctl_iovec_copy, fuse_reply_ioctl_retry doesn't know that the
-> > > > ion_fiov were allocated that way, so it won't get autocleaned up.
-> > > >
-> > > >
-> > > In GLib's documentation, it is clarified (w.r.t. g_autoptr but I think
-> > > similar logic applies to g_autofree)
-> > > that g_steal_pointer() "This can be very useful when combined with
-> > > g_autoptr() to prevent
-> > > the return value of a function from being automatically freed."
-> > > I think, but not 100% clear of course, that this means that the
-> > > g_autoptr-annotated memory
-> > > does not get freed at the end of the current scope, and  its "scope" is
-> > > migrated to the calling
-> > > function(to be honest I don't know how would they implement that but
-> > maybe
-> > > this is the case).
-> > > Otherwise why bother with g_autoptr'ing memory that we don't want to free
-> > > automatically and
-> > > would like to return to the calling function?
-> > >
-> > > The first example in Memory Allocation: GLib Reference Manual (gnome.org
-> > )
-> > > <
-> > https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html#g-steal-pointer
-> > >
-> > > does
-> > > annotate
-> > > the memory as g_autoptr and then returns it through g_steal_pointer. With
-> > > your logic, I think that
-> > > this example would be wrong(?)
-> >
-> > The example is correct but not quite the case you have;  the
-> > g_steal_pointer stops the g_autoptr freeing it at the end of the current
-> > scope; but it doesn't cause it to be free'd later - the caller can't
-> > tell that the function that did the allocation had a g_autofree in it;
-> > once you get outside of the function, the pointer is just a normal
-> > pointer that needs free or g_free on.
-> >
-> > I think that this is logical, yes. I think that I understand now. Can you
-> please instruct
-> me on what to do with the patch? Do you want me to resend the entire patch
-> series
-> and amend this one?
+> I see that it aborts only part of it, but why?
+> 
+> Normally, a function getting a Transaction object suggests to me that on
+> failure, all changes the function made will be reverted, not just parts
+> of the changes.
+> 
+>> Look: bdrv_remove_filter_or_cow_child() firstly do
+>> bdrv_replace_child_safe(child, NULL, tran);, so bs would be restored
+>> by .abort() of bdrv_replace_child_safe() action.
+> 
+> Ah! So the reason is not that we don't want to restore child->bs, but
+> that bdrv_replace_child_safe() is already transactionable and will
+> automatically do this.
+> 
+>> So, improved comment may look like:
+>>
+>> This doesn't restore original child bs, only the child itself. The bs
+>> would be restored by .abort() bdrv_replace_child_safe() subation of
+>> bdrv_remove_filter_or_cow_child() action.
+> 
+> "subation" is a typo for "subaction"?
+> 
+> Maybe something like this:
+> 
+>      We don't have to restore child->bs here to undo bdrv_replace_child()
+>      because that function is already transactionable and will do so in
+>      its own .abort() callback.
 
-Just resend this one as a '[PATCH v3 2/7]'
-
-Dave
+Sounds good, thanks
 
 > 
-> >
-> > > Mr. Hajnoczi already reviewed this patch  Re: [PATCH 2/8] virtiofds:
-> > > Changed allocations of iovec to GLib's functi
-> > > <https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08459.html>
-> > > in a previous version and this v2 patch series is supposed to only
-> > contain
-> > > already-reviewed patches and
-> > > remove bad ones
-> >
-> > But he didn't spot this particular problem.
-> >
-> > Dave
-> >
-> > >
-> > > > >      return res;
-> > > > >
-> > > > >  enomem:
-> > > > > @@ -663,11 +659,11 @@ int fuse_reply_ioctl(fuse_req_t req, int
-> > result,
-> > > > const void *buf, size_t size)
-> > > > >  int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct
-> > iovec
-> > > > *iov,
-> > > > >                           int count)
-> > > > >  {
-> > > > > -    struct iovec *padded_iov;
-> > > > > +    g_autofree struct iovec *padded_iov;
-> > > > >      struct fuse_ioctl_out arg;
-> > > > >      int res;
-> > > > >
-> > > > > -    padded_iov = malloc((count + 2) * sizeof(struct iovec));
-> > > > > +    padded_iov = g_try_new(struct iovec, count + 2);
-> > > > >      if (padded_iov == NULL) {
-> > > > >          return fuse_reply_err(req, ENOMEM);
-> > > > >      }
-> > > > > @@ -680,7 +676,6 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int
-> > result,
-> > > > const struct iovec *iov,
-> > > > >      memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
-> > > > >
-> > > > >      res = send_reply_iov(req, 0, padded_iov, count + 2);
-> > > > > -    free(padded_iov);
-> > > > >
-> > > > >      return res;
-> > > > >  }
-> > > >
-> > > > OK
-> > > >
-> > > > > diff --git a/tools/virtiofsd/fuse_virtio.c
-> > > > b/tools/virtiofsd/fuse_virtio.c
-> > > > > index 3e13997406..07e5d91a9f 100644
-> > > > > --- a/tools/virtiofsd/fuse_virtio.c
-> > > > > +++ b/tools/virtiofsd/fuse_virtio.c
-> > > > > @@ -347,8 +347,7 @@ int virtio_send_data_iov(struct fuse_session *se,
-> > > > struct fuse_chan *ch,
-> > > > >       * Build a copy of the the in_sg iov so we can skip bits in it,
-> > > > >       * including changing the offsets
-> > > > >       */
-> > > > > -    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec), in_num);
-> > > > > -    assert(in_sg_cpy);
-> > > > > +    g_autofree struct iovec *in_sg_cpy = g_new0(struct iovec,
-> > in_num);
-> > > > >      memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
-> > > > >      /* These get updated as we skip */
-> > > > >      struct iovec *in_sg_ptr = in_sg_cpy;
-> > > > > @@ -386,7 +385,6 @@ int virtio_send_data_iov(struct fuse_session *se,
-> > > > struct fuse_chan *ch,
-> > > > >              ret = errno;
-> > > > >              fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m)
-> > len=%zd\n",
-> > > > >                       __func__, len);
-> > > > > -            free(in_sg_cpy);
-> > > > >              goto err;
-> > > > >          }
-> > > > >          fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n",
-> > > > __func__,
-> > > > > @@ -410,13 +408,11 @@ int virtio_send_data_iov(struct fuse_session
-> > *se,
-> > > > struct fuse_chan *ch,
-> > > > >          if (ret != len) {
-> > > > >              fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
-> > > > >              ret = EIO;
-> > > > > -            free(in_sg_cpy);
-> > > > >              goto err;
-> > > > >          }
-> > > > >          in_sg_left -= ret;
-> > > > >          len -= ret;
-> > > > >      } while (in_sg_left);
-> > > > > -    free(in_sg_cpy);
-> > > >
-> > > > Yes, this is where the autofree really helps; getting rid of a few
-> > > > free's.
-> > > >
-> > > > Dave
-> > > >
-> > > > >      /* Need to fix out->len on EOF */
-> > > > >      if (len) {
-> > > > > --
-> > > > > 2.25.1
-> > > > >
-> > > > --
-> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > >
-> > > >
-> > > Thanks,
-> > > Mahmoud
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >
-> >
-> Thanks,
-> Mahmoud
+>> Probably it would be more correct to rename
+>>
+>> BdrvRemoveFilterOrCowChild -> BdrvRemoveFilterOrCowChildNoBs
+>> bdrv_remove_filter_or_cow_child_abort -> bdrv_remove_filter_or_cow_child_no_bs_abort
+>> bdrv_remove_filter_or_cow_child_commit -> bdrv_remove_filter_or_cow_child_no_bs_commit
+>>
+>> and assert on .abort() and .commit() that s->child->bs is NULL.
+> 
+> I wouldn't bother with that. It was just that the comment confused me
+> because it seemed to suggest that we actually don't want to restore
+> child->bs, when its real intention was to say that it's already restored
+> somewhere else.
+> 
+
+OK
+
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Best regards,
+Vladimir
 
