@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDDB36CDDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 23:29:20 +0200 (CEST)
-Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E4836CDEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 23:42:51 +0200 (CEST)
+Received: from localhost ([::1]:60832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbVGh-0002UC-0N
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 17:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42206)
+	id 1lbVTl-0007cG-NB
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 17:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lbVEk-0001Fm-1E
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:27:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lbVEg-0003RJ-C9
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:27:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619558832;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ghJyM737fH9JS5E/YlgV580X3NOUOQiC5VOqYGvcxrE=;
- b=K1g0PAemcwnAYUoQVWM6XIfgQBin7TUmSRSHH8COpzno0Ry6e4Ayb2w834ILHnV17HRfG7
- dhUEtgl7WWZDra1ysecZeFzsREXomLnopVk/jMWBCaLIB5xuGM/z3Npp2C4HHuMHTz1I3G
- UBwRipz7nYnZO28T32+fgpFGBnlPejk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-JGmLWNmAOISQOHgGELP-EQ-1; Tue, 27 Apr 2021 17:27:10 -0400
-X-MC-Unique: JGmLWNmAOISQOHgGELP-EQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 230FA801B14;
- Tue, 27 Apr 2021 21:27:09 +0000 (UTC)
-Received: from localhost (ovpn-116-230.rdu2.redhat.com [10.10.116.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 14FEA22710;
- Tue, 27 Apr 2021 21:27:07 +0000 (UTC)
-Date: Tue, 27 Apr 2021 17:27:07 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v8 08/11] hw/core: deprecate old reset functions and
- introduce new ones
-Message-ID: <20210427212707.3tckau5r3kraciam@habkost.net>
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
- <20200123132823.1117486-9-damien.hedde@greensocs.com>
- <9fb8a6ed-137b-7269-91f1-69c11c6d876a@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbVSI-0006w5-7h
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:41:18 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:54035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbVSC-0004Je-Ej
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 17:41:17 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id p17so3748998pjz.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 14:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vepzGBv1x3t6bweqcWp+CW3Wr0kgTq2tQ5XCt6U6rpw=;
+ b=bCh4VHPTjx9IyrErQRVg7UttcfjkIf45PxaX/5bzPadvMUQXs65LJlOB8uwTk7sxee
+ cFiUkZ8ZBt1b3pAkuQxf/uC6gEMJ5AGEQWMnuvMvJL+pvPmZZ+0rwdFxb5WkiYLvzIYm
+ 8d3uBmJoDJI8O8qdoG0Py++yG8GXFoP3G1O+aXXQcxqI42HQQ1MPH7htrne+8FZb6WLG
+ 4nxKuuJng6y+nSd3hc3N66kSW6U2wMh++TDIUOEvJKiItW4zay9eLZ8BrKM4Sk/DHHoe
+ 9ybnOpGS0o8qpNa/ssEcjgYEzna4wGD2KrulSK5AQJkMzDyQGznZoXO7LQS1BLXz1wC5
+ fllQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vepzGBv1x3t6bweqcWp+CW3Wr0kgTq2tQ5XCt6U6rpw=;
+ b=NV9iUdrgMXo87uOYCFsGydP18q9CkJPdwDxF1p6sGvsZNiXFmmKIi/fX+ZSJ7g1Kn/
+ S0ZgmbNkCiEQ+xEWFllDlVQ8MNqxLzT4nwjpSri2cjSkmS86oxCM1hv4zJRTv0giG2RW
+ 91Puv4ZQTWaXDCXQEEVkLSMjBHcjF4521JdLiQtcT91tmwmjWEL7EbtaX+Ke0WZ5EZxm
+ AW0dZvlWA8wAoBJpaZ60fLkXv31C+ixFuKUElQFdabB9+HM/u9bYdl4V4GNyDEJmQAOZ
+ /AYt1YbpyhiCEhIXVibxuO3IdJ5QkoESGkYOWpiYfsN0uJilxty9IEhwdBYIe2c/yO+M
+ RXkw==
+X-Gm-Message-State: AOAM532gcU0BD9s0C2UJd0z0CTH5u7+GRw9rooAri23wrjSSrEKupW5Z
+ ueCnHQMeR5P35WPUTYBUTtxP09QNZLO2Mw==
+X-Google-Smtp-Source: ABdhPJzxfc1YulS8NinXpmAwnupX1LreBjz8Wz47Rm4ry0w2BPo2efF49XABDY29hHwDMOWMc8qG2g==
+X-Received: by 2002:a17:902:db01:b029:eb:36ed:36f4 with SMTP id
+ m1-20020a170902db01b02900eb36ed36f4mr25981167plx.61.1619559670147; 
+ Tue, 27 Apr 2021 14:41:10 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id h8sm3318644pjt.17.2021.04.27.14.41.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Apr 2021 14:41:09 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
+Date: Tue, 27 Apr 2021 14:41:08 -0700
+Message-Id: <20210427214108.88503-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <9fb8a6ed-137b-7269-91f1-69c11c6d876a@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,133 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- Luc Michel <luc@lmichel.fr>, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, berrange@redhat.com, pbonzini@redhat.com,
- edgari@xilinx.com, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, laurent@vivier.eu, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 27, 2021 at 02:21:28PM +0200, Philippe Mathieu-Daudé wrote:
-> On 1/23/20 2:28 PM, Damien Hedde wrote:
-> > Deprecate device_legacy_reset(), qdev_reset_all() and
-> > qbus_reset_all() to be replaced by new functions
-> > device_cold_reset() and bus_cold_reset() which uses resettable API.
-> > 
-> > Also introduce resettable_cold_reset_fn() which may be used as a
-> > replacement for qdev_reset_all_fn and qbus_reset_all_fn().
-> > 
-> > Following patches will be needed to look at legacy reset call sites
-> > and switch to resettable api. The legacy functions will be removed
-> > when unused.
-> > 
-> > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> >  include/hw/qdev-core.h  | 27 +++++++++++++++++++++++++++
-> >  include/hw/resettable.h |  9 +++++++++
-> >  hw/core/bus.c           |  5 +++++
-> >  hw/core/qdev.c          |  5 +++++
-> >  hw/core/resettable.c    |  5 +++++
-> >  5 files changed, 51 insertions(+)
-> > 
-> > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> > index 1b4b420617..b84fcc32bf 100644
-> > --- a/include/hw/qdev-core.h
-> > +++ b/include/hw/qdev-core.h
-> > @@ -406,6 +406,13 @@ int qdev_walk_children(DeviceState *dev,
-> >                         qdev_walkerfn *post_devfn, qbus_walkerfn *post_busfn,
-> >                         void *opaque);
-> >  
-> > +/**
-> > + * @qdev_reset_all:
-> > + * Reset @dev. See @qbus_reset_all() for more details.
-> > + *
-> > + * Note: This function is deprecated and will be removed when it becomes unused.
-> > + * Please use device_cold_reset() now.
-> > + */
-> >  void qdev_reset_all(DeviceState *dev);
-> >  void qdev_reset_all_fn(void *opaque);
-> >  
-> > @@ -418,10 +425,28 @@ void qdev_reset_all_fn(void *opaque);
-> >   * hard reset means that qbus_reset_all will reset all state of the device.
-> >   * For PCI devices, for example, this will include the base address registers
-> >   * or configuration space.
-> > + *
-> > + * Note: This function is deprecated and will be removed when it becomes unused.
-> > + * Please use bus_cold_reset() now.
-> 
-> Some time passed, so looking at this with some retrospective.
-> 
-> If there is an effort to introduce a new API replacing another one,
-> we should try convert all the uses of the old API to the new one,
-> instead of declaring it legacy.
-> 
-> Declare an API legacy/deprecated should be the last resort if there
-> is no way to remove it. I'd recommend to move the deprecated/legacy
-> declarations in a separate header, with the '_legacy' suffix.
-> 
-> Else:
-> 
-> 1/ we never finish API conversions,
-> 2/ the new API might not be ready for all the legacy API use cases,
-> 3/ we end up having to maintain 2 different APIs.
-> 
-> 
-> So the recommendation is to use bus_cold_reset(), but it isn't
-> used anywhere...:
-> 
-> $ git grep bus_cold_reset
-> docs/devel/reset.rst:64:- ``bus_cold_reset()``
-> hw/core/bus.c:73:void bus_cold_reset(BusState *bus)
-> include/hw/qdev-core.h:715: * Please use bus_cold_reset() now.
-> include/hw/qdev-core.h:728: * bus_cold_reset:
-> include/hw/qdev-core.h:733:void bus_cold_reset(BusState *bus);
-> 
-> IMHO we shouldn't add new public prototypes without callers.
+These three features are already enabled by TCG, but are missing
+their hwcap bits.  Update HWCAP2 from linux v5.12.
 
-I agree.  We should make at least some effort to convert code to
-the new API, if only to serve as reference for people doing the
-conversion.  I'm surprised that a new function was added more
-than a year ago and nobody is using it.
+Cc: qemu-stable@nongnu.org (for 6.0.1)
+Buglink: https://bugs.launchpad.net/bugs/1926044
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/elfload.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-What happened here?  Was there some plan to convert existing code
-but it was abandoned?
-
-> 
-> I see it is similar to device_cold_reset(), but TBH I'm scared
-> to be the first one using it.
-> 
-> Regards,
-> 
-> Phil.
-> 
-> >   */
-> >  void qbus_reset_all(BusState *bus);
-> >  void qbus_reset_all_fn(void *opaque);
-> >  
-> > +/**
-> > + * device_cold_reset:
-> > + * Reset device @dev and perform a recursive processing using the resettable
-> > + * interface. It triggers a RESET_TYPE_COLD.
-> > + */
-> > +void device_cold_reset(DeviceState *dev);
-> > +
-> > +/**
-> > + * bus_cold_reset:
-> > + *
-> > + * Reset bus @bus and perform a recursive processing using the resettable
-> > + * interface. It triggers a RESET_TYPE_COLD.
-> > + */
-> > +void bus_cold_reset(BusState *bus);
-> 
-
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index c6731013fd..fc9c4f12be 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -586,6 +586,16 @@ enum {
+     ARM_HWCAP2_A64_SVESM4       = 1 << 6,
+     ARM_HWCAP2_A64_FLAGM2       = 1 << 7,
+     ARM_HWCAP2_A64_FRINT        = 1 << 8,
++    ARM_HWCAP2_A64_SVEI8MM      = 1 << 9,
++    ARM_HWCAP2_A64_SVEF32MM     = 1 << 10,
++    ARM_HWCAP2_A64_SVEF64MM     = 1 << 11,
++    ARM_HWCAP2_A64_SVEBF16      = 1 << 12,
++    ARM_HWCAP2_A64_I8MM         = 1 << 13,
++    ARM_HWCAP2_A64_BF16         = 1 << 14,
++    ARM_HWCAP2_A64_DGH          = 1 << 15,
++    ARM_HWCAP2_A64_RNG          = 1 << 16,
++    ARM_HWCAP2_A64_BTI          = 1 << 17,
++    ARM_HWCAP2_A64_MTE          = 1 << 18,
+ };
+ 
+ #define ELF_HWCAP   get_elf_hwcap()
+@@ -640,6 +650,9 @@ static uint32_t get_elf_hwcap2(void)
+     GET_FEATURE_ID(aa64_dcpodp, ARM_HWCAP2_A64_DCPODP);
+     GET_FEATURE_ID(aa64_condm_5, ARM_HWCAP2_A64_FLAGM2);
+     GET_FEATURE_ID(aa64_frint, ARM_HWCAP2_A64_FRINT);
++    GET_FEATURE_ID(aa64_rndr, ARM_HWCAP2_A64_RNG);
++    GET_FEATURE_ID(aa64_bti, ARM_HWCAP2_A64_BTI);
++    GET_FEATURE_ID(aa64_mte, ARM_HWCAP2_A64_MTE);
+ 
+     return hwcaps;
+ }
 -- 
-Eduardo
+2.25.1
 
 
