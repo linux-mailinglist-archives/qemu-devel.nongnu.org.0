@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84AC36C879
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:14:11 +0200 (CEST)
-Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D912C36C89F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 17:27:58 +0200 (CEST)
+Received: from localhost ([::1]:59278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbPPe-0008Jy-PA
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55112)
+	id 1lbPcz-0003lG-WC
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 11:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lbPKa-0003zc-0g
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:08:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25375)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbPas-0002qm-Jq
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:25:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lbPKX-0002J6-Vy
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:08:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbPap-0008DK-Mx
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 11:25:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619536133;
+ s=mimecast20190719; t=1619537140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iRN0sWOjlaApJR3LalQp1kXOI3OmFWRgtSQ9fOzQ8m8=;
- b=iLnxaPNR/7PNlZcXfvtjhfnY0sk32ZENgqxlXoJRGZjlzuIF4zjnIG3KkviGDPSlh8R6iD
- G5fXy4xkHo4ysqVkF69iExUgxBEZ/A2Vr5IiqOiG6l+mZZWEompSHb5t4hw8qIumVBmBZl
- 31Lcgxe8OuiLa+kxTW0mw1GiGP6aI4U=
+ bh=5YglqOSa0HsPg7laM2G2l/ynX70zVsDvLL8Q9P+V40M=;
+ b=JgJna+56d1hR0eIDwGrhdiMYphbd4OhOA3qrossEAj8U/VaDRFJ4OIFsJmgLGBKLS24Cf1
+ C5RTpiqWfXsBqw6BrZ5aM+Zwpdq/53kTqOxXIjBnxalLNiDEgY5SoVu/0LPHc3LOU+w8Nw
+ YHOysRsV+yqQqSgLu47pabmI1AYWJ28=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-pOVXJ9ogOeaWIR0xYMqROw-1; Tue, 27 Apr 2021 11:08:51 -0400
-X-MC-Unique: pOVXJ9ogOeaWIR0xYMqROw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-376-MCg7-1YCPtqpSv8YBhI-vA-1; Tue, 27 Apr 2021 11:25:38 -0400
+X-MC-Unique: MCg7-1YCPtqpSv8YBhI-vA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1E93107ACCA;
- Tue, 27 Apr 2021 15:08:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
- [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C9491001901;
- Tue, 27 Apr 2021 15:08:48 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4EBCF18007B0; Tue, 27 Apr 2021 17:08:25 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] edid: add support for DisplayID extension (5k
- resolution)
-Date: Tue, 27 Apr 2021 17:08:24 +0200
-Message-Id: <20210427150824.638359-9-kraxel@redhat.com>
-In-Reply-To: <20210427150824.638359-1-kraxel@redhat.com>
-References: <20210427150824.638359-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D267E801B16;
+ Tue, 27 Apr 2021 15:25:36 +0000 (UTC)
+Received: from [10.10.112.236] (ovpn-112-236.rdu2.redhat.com [10.10.112.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF52262677;
+ Tue, 27 Apr 2021 15:25:21 +0000 (UTC)
+Subject: Re: [PATCH 1/4] hw/block/fdc: Replace disabled fprintf() by trace
+ event
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210415102321.3987935-1-philmd@redhat.com>
+ <20210415102321.3987935-2-philmd@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <a03561fd-92e2-813f-b3a8-b03a7f97a8f2@redhat.com>
+Date: Tue, 27 Apr 2021 11:25:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210415102321.3987935-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,183 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Konstantin Nazarov <mail@knazarov.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Konstantin Nazarov <mail@knazarov.com>
+On 4/15/21 6:23 AM, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   hw/block/fdc.c        | 7 +------
+>   hw/block/trace-events | 1 +
+>   2 files changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+> index a825c2acbae..1d3a0473678 100644
+> --- a/hw/block/fdc.c
+> +++ b/hw/block/fdc.c
+> @@ -1242,12 +1242,7 @@ static void fdctrl_external_reset_isa(DeviceState *d)
+>   
+>   static void fdctrl_handle_tc(void *opaque, int irq, int level)
+>   {
+> -    //FDCtrl *s = opaque;
+> -
+> -    if (level) {
+> -        // XXX
+> -        FLOPPY_DPRINTF("TC pulsed\n");
+> -    }
+> +    trace_fdctrl_tc_pulse(level);
+>   }
+>   
 
-The Detailed Timing Descriptor has only 12 bits to store the
-resolution. This limits the guest to 4095 pixels.
+Do we need this function to fulfill some specific callback signature? 
+... Ah, yeah, I guess for qdev_init_gpio_in. OK.
 
-This patch adds support for the DisplayID extension, that has 2 full
-bytes for that purpose, thus allowing 5k resolutions and above.
+>   /* Change IRQ state */
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index fa12e3a67a7..306989c193c 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -3,6 +3,7 @@
+>   # fdc.c
+>   fdc_ioport_read(uint8_t reg, uint8_t value) "read reg 0x%02x val 0x%02x"
+>   fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0x%02x val 0x%02x"
+> +fdctrl_tc_pulse(int level) "TC pulse: %u"
+>   
+>   # pflash_cfi01.c
+>   # pflash_cfi02.c
+> 
 
-Based-on: <20210303152948.59943-2-akihiko.odaki@gmail.com>
-Signed-off-by: Konstantin Nazarov <mail@knazarov.com>
-Message-Id: <20210315114639.91953-3-mail@knazarov.com>
-
-[ kraxel: minor workflow tweaks ]
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/edid-generate.c | 78 +++++++++++++++++++++++++++++++++++---
- hw/display/vga-pci.c       |  2 +-
- 2 files changed, 74 insertions(+), 6 deletions(-)
-
-diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index bdd01571fc9b..f2b874d5e358 100644
---- a/hw/display/edid-generate.c
-+++ b/hw/display/edid-generate.c
-@@ -229,8 +229,8 @@ static void edid_desc_ranges(uint8_t *desc)
-     desc[7] =  30;
-     desc[8] = 160;
- 
--    /* max dot clock (1200 MHz) */
--    desc[9] = 1200 / 10;
-+    /* max dot clock (2550 MHz) */
-+    desc[9] = 2550 / 10;
- 
-     /* no extended timing information */
-     desc[10] = 0x01;
-@@ -336,15 +336,61 @@ uint32_t qemu_edid_dpi_to_mm(uint32_t dpi, uint32_t res)
-     return res * 254 / 10 / dpi;
- }
- 
-+static void init_displayid(uint8_t *did)
-+{
-+    did[0] = 0x70; /* display id extension */
-+    did[1] = 0x13; /* version 1.3 */
-+    did[2] = 4;    /* length */
-+    did[3] = 0x03; /* product type (0x03 == standalone display device) */
-+    edid_checksum(did + 1, did[2] + 4);
-+}
-+
-+static void qemu_displayid_generate(uint8_t *did, uint32_t refresh_rate,
-+                                    uint32_t xres, uint32_t yres,
-+                                    uint32_t xmm, uint32_t ymm)
-+{
-+    Timings timings;
-+    generate_timings(&timings, refresh_rate, xres, yres);
-+
-+    did[0] = 0x70; /* display id extension */
-+    did[1] = 0x13; /* version 1.3 */
-+    did[2] = 23;   /* length */
-+    did[3] = 0x03; /* product type (0x03 == standalone display device) */
-+
-+    did[5] = 0x03; /* Detailed Timings Data Block */
-+    did[6] = 0x00; /* revision */
-+    did[7] = 0x14; /* block length */
-+
-+    did[8]  = timings.clock  & 0xff;
-+    did[9]  = (timings.clock & 0xff00) >> 8;
-+    did[10] = (timings.clock & 0xff0000) >> 16;
-+
-+    did[11] = 0x88; /* leave aspect ratio undefined */
-+
-+    stw_le_p(did + 12, 0xffff & (xres - 1));
-+    stw_le_p(did + 14, 0xffff & (timings.xblank - 1));
-+    stw_le_p(did + 16, 0xffff & (timings.xfront - 1));
-+    stw_le_p(did + 18, 0xffff & (timings.xsync - 1));
-+
-+    stw_le_p(did + 20, 0xffff & (yres - 1));
-+    stw_le_p(did + 22, 0xffff & (timings.yblank - 1));
-+    stw_le_p(did + 24, 0xffff & (timings.yfront - 1));
-+    stw_le_p(did + 26, 0xffff & (timings.ysync - 1));
-+
-+    edid_checksum(did + 1, did[2] + 4);
-+}
-+
- void qemu_edid_generate(uint8_t *edid, size_t size,
-                         qemu_edid_info *info)
- {
-     uint8_t *desc = edid + 54;
-     uint8_t *xtra3 = NULL;
-     uint8_t *dta = NULL;
-+    uint8_t *did = NULL;
-     uint32_t width_mm, height_mm;
-     uint32_t refresh_rate = info->refresh_rate ? info->refresh_rate : 75000;
-     uint32_t dpi = 100; /* if no width_mm/height_mm */
-+    uint32_t large_screen = 0;
- 
-     /* =============== set defaults  =============== */
- 
-@@ -360,6 +406,9 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-     if (!info->prefy) {
-         info->prefy = 768;
-     }
-+    if (info->prefx >= 4096 || info->prefy >= 4096) {
-+        large_screen = 1;
-+    }
-     if (info->width_mm && info->height_mm) {
-         width_mm = info->width_mm;
-         height_mm = info->height_mm;
-@@ -377,6 +426,12 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-         edid_ext_dta(dta);
-     }
- 
-+    if (size >= 384 && large_screen) {
-+        did = edid + 256;
-+        edid[126]++;
-+        init_displayid(did);
-+    }
-+
-     /* =============== header information =============== */
- 
-     /* fixed */
-@@ -441,9 +496,12 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
- 
-     /* =============== descriptor blocks =============== */
- 
--    edid_desc_timing(desc, refresh_rate, info->prefx, info->prefy,
--                     width_mm, height_mm);
--    desc = edid_desc_next(edid, dta, desc);
-+    if (!large_screen) {
-+        /* The DTD section has only 12 bits to store the resolution */
-+        edid_desc_timing(desc, refresh_rate, info->prefx, info->prefy,
-+                         width_mm, height_mm);
-+        desc = edid_desc_next(edid, dta, desc);
-+    }
- 
-     xtra3 = desc;
-     edid_desc_xtra3_std(xtra3);
-@@ -472,12 +530,22 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-         desc = edid_desc_next(edid, dta, desc);
-     }
- 
-+    /* =============== display id extensions =============== */
-+
-+    if (did && large_screen) {
-+        qemu_displayid_generate(did, refresh_rate, info->prefx, info->prefy,
-+                                width_mm, height_mm);
-+    }
-+
-     /* =============== finish up =============== */
- 
-     edid_checksum(edid, 127);
-     if (dta) {
-         edid_checksum(dta, 127);
-     }
-+    if (did) {
-+        edid_checksum(did, 127);
-+    }
- }
- 
- size_t qemu_edid_size(uint8_t *edid)
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index 48d29630ab77..62fb5c38c1fd 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -49,7 +49,7 @@ struct PCIVGAState {
-     qemu_edid_info edid_info;
-     MemoryRegion mmio;
-     MemoryRegion mrs[4];
--    uint8_t edid[256];
-+    uint8_t edid[384];
- };
- 
- #define TYPE_PCI_VGA "pci-vga"
--- 
-2.30.2
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
