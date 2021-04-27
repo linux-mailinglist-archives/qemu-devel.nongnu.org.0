@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D7936C97D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:32:33 +0200 (CEST)
-Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D84936C97C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:31:42 +0200 (CEST)
+Received: from localhost ([::1]:57780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbQdU-0006yK-RR
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55998)
+	id 1lbQcf-0006Dp-5O
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:31:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lbQbT-0005xr-C0
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:30:27 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:37840)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbQal-0005Vp-8O
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:29:43 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:51856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lbQbQ-0000M2-Lf
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:30:26 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id b10so2426505iot.4
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=2zQI2nCd5iRb5A4oS5Ml9guiLmo450XZu5d51bd3+ow=;
- b=JvqKnB7pWWC8yRq6Wmkcd27aREnk7B50NPIfhRavHk7e9C2ue67G4eD4Cd49xOtZqq
- zYHYC+qkizAQkokc8Pf8M3SX6JmILRH5IWv+/ORTW2l+nA6eiH8vb82F/NfAOkNgMg24
- o0ov39lZInjAI376H9sQqvVimBll+ObaiW43YjNmamLMxvkBY7GsSgynhrxcj5zoT3N2
- j4OdK/P91vhGfVpWEPdjMlhUsKVFs16KcWpUwWdxkRJHlwKWZujvnUgPODEXQDbf4/Ro
- EhiZhZ1c6z7Udm9Tfn4SkFN3Ce8Aijq/QG1EIqXDnlVtPrL2XYXt98fhR2s5yGtwWyL9
- 9jhA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbQai-0008S2-J6
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:29:43 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id lp8so1170121pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=XyRJ4WH1gN00En8Vr6WYPxakoifvNj1+AqSyk4hj5Lw=;
+ b=HroC0mYEDGfuP6KV2NLPPLYGWl3bBBE3zQYIVW7IJfOveYa4/EAiyf2VEhCOajimxm
+ Kd/GD0Jdc2IYIx9QbvG6au9fAMhrDL1iU5LPuuON2XrKB4m/I3wlNukcMVx3Og7mqwhR
+ PnfIS2BfBNaNMPOmkfVKBDCrCJgLDi3uqa23MKCQBxHB+a01nKgWs48tugpk7AV5baV1
+ 2+0fAi0drSeF7Fl1IpdTFLGnUduPbr8tvMUEXDMJ/5js+esul+7SC9oNqoo/VgGXPzwF
+ 63sFc7qBerKChVkTHLSt2zJcbm2M2lhWlD0pBIw0amtP8QRGc6ERI2d6GVnRLE6IUzwa
+ 2uXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=2zQI2nCd5iRb5A4oS5Ml9guiLmo450XZu5d51bd3+ow=;
- b=hzwuUYnFwldnLmOqr+Y+b8n6PMhsocpKxrfbYtz5/7XsIBYUGZ5ZE6Q9tdchGHotG5
- Ng67DQW/ROFoshgfBS77HwNtfL8d1oYIaSGs2LmUuC0j7yDTMyprqmjri8/Md7QYecd6
- WnGxPBR/JuRd57GZqirZ/eKQZ5JucjwewmQaiKFNoWlI2iTcXUkVSl0mkd9Tu94iQ8jK
- PV1aa9gbgTSGpJnOGX3hdSbnPRoyHLFY9vZrbses9eN6OMsvaaP5C6uL9ggjmoFsuHKJ
- 4iElmN4QcOIeYkbNrGX+XgaFikGYj4ORuWBMs0Ph1dUUBZsB7+PHsK5mOhEMNc3jowWI
- TVDQ==
-X-Gm-Message-State: AOAM532bZFuq4FI06uaq1q7lVg9wq29DVYpES9MD5UqS2vucWXrp/E4J
- gDfsF2caIJpHafODWK2hz48Tzv6VbdSjw+hlTQM=
-X-Google-Smtp-Source: ABdhPJxEBeZNOQ+w5t4NJRXGm6PMMWap5rKKhSatKAw1vSNt8jte9E6ZgRHEZWwnZajxv1yUPgi0JfxoHsWNVmZaNpE=
-X-Received: by 2002:a6b:fa14:: with SMTP id p20mr19302332ioh.168.1619541023134; 
- Tue, 27 Apr 2021 09:30:23 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XyRJ4WH1gN00En8Vr6WYPxakoifvNj1+AqSyk4hj5Lw=;
+ b=OYYTvcIztIaQUkAH+mpu9neXeWmm+zJziIUGFBxIq8Y3LztyQOSMPaYMaYvRVTEzw1
+ PmJFDm4TyY0WXr17snIoVu5F+J4UhKPHGwMP+RnyfPbNoWDZVIO35NzA3kwskJbE5j9v
+ RF1TtFmVTVW84mOnkI9SowqYr4WjJl16tifwZeIj91+Ik7LXZGBkXc42cAv/naLRXQP4
+ xBKJJePLgr5GRRSkuTEWWrKUQnPJw0m32aT6A4kgsDyBKZx9ZuQkSu3DOj/31PCxJJyx
+ kURUPiiPDgHKy9VFjOI8g12K2NgEEwDTusCXbj7BOQpLRw4u4q3K7R+ObCMzNyhGyAMs
+ hyKA==
+X-Gm-Message-State: AOAM530hq++muBxefPUwUUXJzRMTRcO7GEPeVEpVUetO/4dsYMyKhZwu
+ 3VlbvvDrpM+xyqhZ7BNatbFLV2Y9BxG/RA==
+X-Google-Smtp-Source: ABdhPJzlW8vbbYZCq+LTHQrIx6LsT/DEitbeFdaoOBvsIIWDHpSTvIqTENktP2qqi4kI7pWLhPTM1g==
+X-Received: by 2002:a17:90a:4e81:: with SMTP id o1mr5586863pjh.7.1619540979131; 
+ Tue, 27 Apr 2021 09:29:39 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id h2sm249214pgr.37.2021.04.27.09.29.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 09:29:38 -0700 (PDT)
+Subject: Re: [PATCH 01/13] target/arm: Move constant expanders to translate.h
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210413160759.5917-1-peter.maydell@linaro.org>
+ <20210413160759.5917-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <90313af1-fd89-584f-88ae-1b8c99a827fb@linaro.org>
+Date: Tue, 27 Apr 2021 09:29:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
- <20210426152203.379dab00@redhat.com>
-In-Reply-To: <20210426152203.379dab00@redhat.com>
-From: Dev Audsin <dev.devaqemu@gmail.com>
-Date: Tue, 27 Apr 2021 17:29:37 +0100
-Message-ID: <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
-Subject: Re: [PATCH] make vfio and DAX cache work together
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
- dgilbert@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=dev.devaqemu@gmail.com; helo=mail-io1-xd2f.google.com
+In-Reply-To: <20210413160759.5917-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,48 +91,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex
+On 4/13/21 9:07 AM, Peter Maydell wrote:
+> Some of the constant expanders defined in translate.c are generically
+> useful and will be used by the separate C files for VFP and Neon once
+> they are created; move the expander definitions to translate.h.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/translate.h | 24 ++++++++++++++++++++++++
+>   target/arm/translate.c | 24 ------------------------
+>   2 files changed, 24 insertions(+), 24 deletions(-)
 
-Based on your comments and thinking a bit, wonder if it makes sense to
-allow DMA map for the DAX cache but make unexpected mappings to be not
-fatal. Please let me know your thoughts.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Dev
-
-On Mon, Apr 26, 2021 at 10:22 PM Alex Williamson
-<alex.williamson@redhat.com> wrote:
->
-> On Mon, 26 Apr 2021 21:50:38 +0100
-> Dev Audsin <dev.devaqemu@gmail.com> wrote:
->
-> > Hi Alex and David
-> >
-> > @Alex:
-> >
-> > Justification on why this region cannot be a DMA target for the device,
-> >
-> > virtio-fs with DAX is currently not compatible with NIC Pass through.
-> > When a SR-IOV VF attaches to a qemu process, vfio will try to pin the
-> > entire DAX Window but it is empty when the guest boots and will fail.
-> > A method to make VFIO and DAX to work together is to make vfio skip
-> > DAX cache.
-> >
-> > Currently DAX cache need to be set to 0, for the SR-IOV VF to be
-> > attached to Kata containers. Enabling both SR-IOV VF and DAX work
-> > together will potentially improve performance for workloads which are
-> > I/O and network intensive.
->
-> Sorry, there's no actual justification described here.  You're enabling
-> a VM with both features, virtio-fs DAX and VFIO, but there's no
-> evidence that they "work together" or that your use case is simply
-> avoiding a scenario where the device might attempt to DMA into the area
-> with this designation.  With this change, if the device were to attempt
-> to DMA into this region, it would be blocked by the IOMMU, which might
-> result in a data loss within the VM.  Justification of this change
-> needs to prove that this region can never be a DMA target for the
-> device, not simply that both features can be enabled and we hope that
-> they don't interact.  Thanks,
->
-> Alex
->
+r~
 
