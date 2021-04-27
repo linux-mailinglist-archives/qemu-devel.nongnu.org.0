@@ -2,79 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BFD36CE85
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 00:15:55 +0200 (CEST)
-Received: from localhost ([::1]:35980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D417F36CE8C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 00:20:32 +0200 (CEST)
+Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbVzm-0005DU-DC
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 18:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
+	id 1lbW4F-00077g-TG
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 18:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbVx8-0004Fy-NJ
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 18:13:10 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45851)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbVx5-00064e-PK
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 18:13:10 -0400
-Received: by mail-pg1-x532.google.com with SMTP id d10so4970270pgf.12
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 15:13:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pMfajb6glu5ASpJTnwJBybovzcDACTqQLnSunF0CWKY=;
- b=Ronh4MGurulvZRO4Q8xmyd08qUyPs4u8jhBUm2pdZxiwY3zIDj1SEVfGAZiIWOpx4j
- 5hIR1uc+tS1yn704TmJV8wmpgCRh6LrHZPwODo/neGBTkIicXalp7liG2GW0WBif8M+U
- 4y4dLJlhpkFRCmGMp1+gnb2qDuTLX1lpjv3RDXCQVJpyh9+kOhYKgbAXsFzeg/r6Gnp4
- gvPZwTVdAsqsxKA2JYD1H5OfOUTRlxV44MDOuf7kHpFuzwLy5oLpa+FUlCuKOA1t1ixV
- 7UJ9TNACtA6Da2mSafuxJEn2Ml/L1K6B6gx0TizRqSpKpF5d5RTkRfyThdtJw3iT7hjv
- 2WpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pMfajb6glu5ASpJTnwJBybovzcDACTqQLnSunF0CWKY=;
- b=KpQoaodcmM57Ctqjl/ATraXCM7UV84wyZ6/1hVR9Z4BMpwu6EPrJ4SW74xdkqRAvGa
- 2dmzYkjZOAsUE4Hr5OGjFSuAiV3o7v4t2e+OqtlrtVdESJdKyDsMshlGdhXg+0SIQsK9
- ZEfuvyuZb32FogolyNtWjUFGVTOHCqirr1nwrQPpP8+LHVJNEPbEG9VS07Mc3fzGWMa5
- 3WdU0Aiql6aoxZxkt+inY2ElmB7Bc//be3bKwYU53HqhNDMA1k+M5HHVTlT35HK9A++W
- 7zEVJ/7DqqWIO5/gVbVi9HmWQkvrSrc8KIXbA+Xydl2izHWEQX02NWPdnGDSoS8yu+Dg
- b2Kw==
-X-Gm-Message-State: AOAM532CTvTmo2w5aMt5p19u3HRw+sYuZd9txRKGmtSRz39a+vPGEs14
- B9VjjxIJnf9PA4iZcrTFJxlLsg==
-X-Google-Smtp-Source: ABdhPJxrgy17z/GD1jrs9ZLwFjiOwGtSTA1SfN9IQkalx2MB3b+j7zkSHpB9gqf9BaKU8WK157rQtQ==
-X-Received: by 2002:a63:544c:: with SMTP id e12mr5907755pgm.161.1619561585590; 
- Tue, 27 Apr 2021 15:13:05 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id r5sm2924748pjd.38.2021.04.27.15.13.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 15:13:05 -0700 (PDT)
-Subject: Re: [RFC PATCH] target/mips: Allow building without Inter-Thread
- Communication hardware
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210427191152.260421-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f48f0433-9608-3cc6-8a9a-6eef8c213c7b@linaro.org>
-Date: Tue, 27 Apr 2021 15:13:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lbW2x-0006di-N6; Tue, 27 Apr 2021 18:19:11 -0400
+Resent-Date: Tue, 27 Apr 2021 18:19:11 -0400
+Resent-Message-Id: <E1lbW2x-0006di-N6@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lbW2t-0001Dn-3j; Tue, 27 Apr 2021 18:19:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1619561931; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gdvsSOhKptWzaWiJqW1LscT4gHOPJAjiqnvRXxKccL8QYgnlTK+6jgm+tUXfCQcO7b29NJWSWn9MrTbCJszQ226ejVXgYTRP4BWAvx28IOMEumsklcqZzeS/8yDrSVahqODMxyIuZnRMP+CiowTJ+pLF5eiLtA+KlY2s/Z1pQZA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1619561931;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=v6RkTrXAdIvJaH+M3BUs5lFn4aMHSv9fze6SBqmAl9g=; 
+ b=K2qs+thRc116kkL4wZNmwmHy2doki94YsjmFix2bVIxXkDiUvsT8SUqoNO/IRaJLPP0jM8pYEsZ3rYEPrF241tMCvxR6f0Vc7ogwjH+QEPhK19OwMUUU+E0USs7qfmarjFBCD1922QlvZgf7abgrclVektA+ipdCaAMSfelisQo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1619561930050124.44847682593752;
+ Tue, 27 Apr 2021 15:18:50 -0700 (PDT)
+In-Reply-To: <20210427220615.12763-1-space.monkey.delivers@gmail.com>
+Subject: Re: [PATCH v8 0/6] RISC-V Pointer Masking implementation
+Message-ID: <161956192844.28712.8301554068785204832@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <20210427191152.260421-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: baturo.alexey@gmail.com
+Date: Tue, 27 Apr 2021 15:18:50 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,54 +65,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/21 12:11 PM, Philippe Mathieu-Daudé wrote:
-> The Inter-Thread Communication unit (TYPE_MIPS_ITU) is an optional
-> device that is only selected by a few machines. However it goes
-> deep into the translation code, as the MTC0/MTHC0 SAAR helpers
-> call itc_reconfigure().
-> 
-> When building with no machine selecting the ITU component (which
-> is implemented in hw/misc/mips_itu.c), we get the following link
-> failure:
-> 
->    /usr/bin/ld: target_mips_cp0_helper.c.o: in function `helper_mtc0_saar':
->    target/mips/cp0_helper.c:1118: undefined reference to `itc_reconfigure'
->    /usr/bin/ld: target_mips_cp0_helper.c.o: in function `helper_mthc0_saar':
->    target/mips/cp0_helper.c:1135: undefined reference to `itc_reconfigure'
-> 
-> Fix by adding a stub, built when the ITU isn't selected.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
-> RFC because too much Meson machinery to my taste.
-> But how to deal with such architectural devices else?
-> 
-> To reproduce:
-> 
-> $ echo CONFIG_JAZZ=y > default-configs/devices/mips64el-softmmu.mak
-> $ echo CONFIG_SEMIHOSTING=y >> default-configs/devices/mips64el-softmmu.mak
-> $ configure --without-default-devices
-> $ ninja qemu-system-mips64el
-> $ ./qemu-system-mips64el -M magnum -S
-> ---
->   target/mips/cp0_itu-stub.c | 15 +++++++++++++++
->   target/mips/meson.build    |  3 +++
->   2 files changed, 18 insertions(+)
->   create mode 100644 target/mips/cp0_itu-stub.c
-
-Perhaps use __attribute__((weak)) on itc_reconfigure?  Then you don't need the 
-stub at all.  You're already protecting the actual call, so there should be no 
-change needed there.
-
-We're not using weak so far, but as far as I can tell this is supported by gcc 
-on windows as well.
-
-
-r~
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyNzIyMDYxNS4xMjc2
+My0xLXNwYWNlLm1vbmtleS5kZWxpdmVyc0BnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMg
+c2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxv
+dyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDQy
+NzIyMDYxNS4xMjc2My0xLXNwYWNlLm1vbmtleS5kZWxpdmVyc0BnbWFpbC5jb20KU3ViamVjdDog
+W1BBVENIIHY4IDAvNl0gUklTQy1WIFBvaW50ZXIgTWFza2luZyBpbXBsZW1lbnRhdGlvbgoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
+ZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
+ayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4
+NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
+dy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDQyNzIyMDYx
+NS4xMjc2My0xLXNwYWNlLm1vbmtleS5kZWxpdmVyc0BnbWFpbC5jb20gLT4gcGF0Y2hldy8yMDIx
+MDQyNzIyMDYxNS4xMjc2My0xLXNwYWNlLm1vbmtleS5kZWxpdmVyc0BnbWFpbC5jb20KU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwowZDNjMDM4IEFsbG93IGV4cGVyaW1lbnRhbCBKLWV4
+dCB0byBiZSB0dXJuZWQgb24KMmU4YjAyMyBJbXBsZW1lbnQgYWRkcmVzcyBtYXNraW5nIGZ1bmN0
+aW9ucyByZXF1aXJlZCBmb3IgUklTQy1WIFBvaW50ZXIgTWFza2luZyBleHRlbnNpb24KOWNmNmNm
+MCBTdXBwb3J0IHBvaW50ZXIgbWFza2luZyBmb3IgUklTQy1WIGZvciBpL2MvZi9kL2EgdHlwZXMg
+b2YgaW5zdHJ1Y3Rpb25zCjU4M2VhOGEgUHJpbnQgbmV3IFBNIENTUnMgaW4gUUVNVSBsb2dzCmQ2
+NzRhNmQgU3VwcG9ydCBDU1JzIHJlcXVpcmVkIGZvciBSSVNDLVYgUE0gZXh0ZW5zaW9uIGV4Y2Vw
+dCBmb3IgdGhlIGgtbW9kZQo4Zjc3N2I0IEFkZCBKLWV4dGVuc2lvbiBpbnRvIFJJU0MtVgoKPT09
+IE9VVFBVVCBCRUdJTiA9PT0KMS82IENoZWNraW5nIGNvbW1pdCA4Zjc3N2I0MjU3NDkgKEFkZCBK
+LWV4dGVuc2lvbiBpbnRvIFJJU0MtVikKMi82IENoZWNraW5nIGNvbW1pdCBkNjc0YTZkYzgzODgg
+KFN1cHBvcnQgQ1NScyByZXF1aXJlZCBmb3IgUklTQy1WIFBNIGV4dGVuc2lvbiBleGNlcHQgZm9y
+IHRoZSBoLW1vZGUpCkVSUk9SOiBvcGVuIGJyYWNlICd7JyBmb2xsb3dpbmcgZnVuY3Rpb24gZGVj
+bGFyYXRpb25zIGdvIG9uIHRoZSBuZXh0IGxpbmUKIzE1MTogRklMRTogdGFyZ2V0L3Jpc2N2L2Nz
+ci5jOjE5MzoKK3N0YXRpYyBpbnQgcG9pbnRlcl9tYXNraW5nKENQVVJJU0NWU3RhdGUgKmVudiwg
+aW50IGNzcm5vKSB7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzg2OiBGSUxF
+OiB0YXJnZXQvcmlzY3YvY3NyLmM6MTcyNDoKKyAgICBbQ1NSX1VNVEVdICAgID0gICAgeyAidW10
+ZSIsICAgIHBvaW50ZXJfbWFza2luZywgcmVhZF91bXRlLCAgICB3cml0ZV91bXRlICAgIH0sCgpX
+QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzg3OiBGSUxFOiB0YXJnZXQvcmlzY3Yv
+Y3NyLmM6MTcyNToKKyAgICBbQ1NSX1VQTU1BU0tdID0gICAgeyAidXBtbWFzayIsIHBvaW50ZXJf
+bWFza2luZywgcmVhZF91cG1tYXNrLCB3cml0ZV91cG1tYXNrIH0sCgpXQVJOSU5HOiBsaW5lIG92
+ZXIgODAgY2hhcmFjdGVycwojMzg4OiBGSUxFOiB0YXJnZXQvcmlzY3YvY3NyLmM6MTcyNjoKKyAg
+ICBbQ1NSX1VQTUJBU0VdID0gICAgeyAidXBtYmFzZSIsIHBvaW50ZXJfbWFza2luZywgcmVhZF91
+cG1iYXNlLCB3cml0ZV91cG1iYXNlIH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojMzkwOiBGSUxFOiB0YXJnZXQvcmlzY3YvY3NyLmM6MTcyODoKKyAgICBbQ1NSX01NVEVdICAg
+ID0gICAgeyAibW10ZSIsICAgIHBvaW50ZXJfbWFza2luZywgcmVhZF9tbXRlLCAgICB3cml0ZV9t
+bXRlICAgIH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzkxOiBGSUxFOiB0
+YXJnZXQvcmlzY3YvY3NyLmM6MTcyOToKKyAgICBbQ1NSX01QTU1BU0tdID0gICAgeyAibXBtbWFz
+ayIsIHBvaW50ZXJfbWFza2luZywgcmVhZF9tcG1tYXNrLCB3cml0ZV9tcG1tYXNrIH0sCgpXQVJO
+SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzkyOiBGSUxFOiB0YXJnZXQvcmlzY3YvY3Ny
+LmM6MTczMDoKKyAgICBbQ1NSX01QTUJBU0VdID0gICAgeyAibXBtYmFzZSIsIHBvaW50ZXJfbWFz
+a2luZywgcmVhZF9tcG1iYXNlLCB3cml0ZV9tcG1iYXNlIH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojMzk0OiBGSUxFOiB0YXJnZXQvcmlzY3YvY3NyLmM6MTczMjoKKyAgICBb
+Q1NSX1NNVEVdICAgID0gICAgeyAic210ZSIsICAgIHBvaW50ZXJfbWFza2luZywgcmVhZF9zbXRl
+LCAgICB3cml0ZV9zbXRlICAgIH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+Mzk1OiBGSUxFOiB0YXJnZXQvcmlzY3YvY3NyLmM6MTczMzoKKyAgICBbQ1NSX1NQTU1BU0tdID0g
+ICAgeyAic3BtbWFzayIsIHBvaW50ZXJfbWFza2luZywgcmVhZF9zcG1tYXNrLCB3cml0ZV9zcG1t
+YXNrIH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzk2OiBGSUxFOiB0YXJn
+ZXQvcmlzY3YvY3NyLmM6MTczNDoKKyAgICBbQ1NSX1NQTUJBU0VdID0gICAgeyAic3BtYmFzZSIs
+IHBvaW50ZXJfbWFza2luZywgcmVhZF9zcG1iYXNlLCB3cml0ZV9zcG1iYXNlIH0sCgp0b3RhbDog
+MSBlcnJvcnMsIDkgd2FybmluZ3MsIDM2MiBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzYgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
+ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
+QVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvNiBDaGVja2luZyBjb21taXQgNTgzZWE4YTAyNmE2IChQ
+cmludCBuZXcgUE0gQ1NScyBpbiBRRU1VIGxvZ3MpCjQvNiBDaGVja2luZyBjb21taXQgOWNmNmNm
+MGE2N2Y5IChTdXBwb3J0IHBvaW50ZXIgbWFza2luZyBmb3IgUklTQy1WIGZvciBpL2MvZi9kL2Eg
+dHlwZXMgb2YgaW5zdHJ1Y3Rpb25zKQo1LzYgQ2hlY2tpbmcgY29tbWl0IDJlOGIwMjM3NzI0OSAo
+SW1wbGVtZW50IGFkZHJlc3MgbWFza2luZyBmdW5jdGlvbnMgcmVxdWlyZWQgZm9yIFJJU0MtViBQ
+b2ludGVyIE1hc2tpbmcgZXh0ZW5zaW9uKQo2LzYgQ2hlY2tpbmcgY29tbWl0IDBkM2MwMzg3YjFi
+YiAoQWxsb3cgZXhwZXJpbWVudGFsIEotZXh0IHRvIGJlIHR1cm5lZCBvbikKPT09IE9VVFBVVCBF
+TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
+cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA0MjcyMjA2MTUuMTI3
+NjMtMS1zcGFjZS5tb25rZXkuZGVsaXZlcnNAZ21haWwuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
