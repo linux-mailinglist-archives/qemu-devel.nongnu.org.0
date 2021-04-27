@@ -2,45 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE5836CA9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:50:55 +0200 (CEST)
-Received: from localhost ([::1]:51630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D63236CAAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:54:31 +0200 (CEST)
+Received: from localhost ([::1]:60252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRrK-0003Sp-Hy
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:50:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+	id 1lbRuo-00077G-8z
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lbRks-0008Ex-G6
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:44:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lbRkk-0007vg-GU
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:44:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 81EE6613E5;
- Tue, 27 Apr 2021 17:44:00 +0000 (UTC)
-Date: Tue, 27 Apr 2021 18:43:58 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v11 1/6] arm64: mte: Sync tags for pages where PTE is
- untagged
-Message-ID: <20210427174357.GA17872@arm.com>
-References: <20210416154309.22129-1-steven.price@arm.com>
- <20210416154309.22129-2-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbRqA-00039i-5x
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:49:42 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbRq8-0002WP-Du
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:49:41 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id j7so33469007pgi.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 10:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=86o9lakqk0H3lzCDbCwo/zrGKFeKPyw/HLVhGDHpQos=;
+ b=Hu22VWGnMsnnGl9c2Z1dJnP2WplVFqeu+4OrWXDpYjvLLdcdbav1GyDmUool2y47x6
+ DcPIoMkQGbb2yg/GGZAJilzu/oCyMWyrpdXB6ouR/I+iu58F6h4+WPrawnPAN3s93I6u
+ sMVAeOQd0PPdGHO2Ps9xdLyazphI2VD9YEToowQVLP+B+vjn3QOSFzkYBIw2D43KLfqu
+ 5+gJesyDbMAaLoTPPZABC4Y4nrDMybw7tlyoqjTkRvPJbZ/QEsiJRjgXSMPOd/enOAv8
+ kbjiXLEYMPAmbJ52v2HYDC/gMKHzFXc7uTnhviBSGRN7HFcgdVQmCq6pNawztPi0I5pG
+ /6TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=86o9lakqk0H3lzCDbCwo/zrGKFeKPyw/HLVhGDHpQos=;
+ b=HfjFGjnXyF1hCcfPEIeZc1631b5pb8VJ9/xLkn3KYxZWf9niL1DeRRqVH/81C0T4EM
+ XdUWtb5EXOBEt2kQPb+BiZYcRq9H8JhBKVCEePBYL/DdRq2H+9FwmBUW8XbFxxv/Etex
+ hVRbij9iBTeQ8AIqEKXyCwDQj+zi42bJN+u4RincF/6/9hyASNH+ny8Ak4AMxlbHJNhd
+ DY59T1dmSrp19B/FYMB32DjBbf0v3NcMCUb3vbgYHS7cwEZba86nPMVVCsx09BOZlD5J
+ yCMKAPAT/5Uh6U2j93EOwN1x5R+XL4TYp0hWWaYC/xgzT6+6rbOUzadG1ZAPXUYpztBz
+ aMnQ==
+X-Gm-Message-State: AOAM530yddBWnwZ3XkXGlqzR2gbto6htiCE8gWsLZW6zGuAiZXWXY2vN
+ 0xWUqPThcbRnJgIHD89R1f+zzA==
+X-Google-Smtp-Source: ABdhPJwTAfPHLPCcOeJ3ACvpEMl4jVzM0vKy1jTd1ih9GJpjF6v+vR3Yvom2oPXD2RaF4w2ud2Im/g==
+X-Received: by 2002:a62:1510:0:b029:278:4e81:ab54 with SMTP id
+ 16-20020a6215100000b02902784e81ab54mr8571679pfv.3.1619545778879; 
+ Tue, 27 Apr 2021 10:49:38 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id t19sm333370pgv.75.2021.04.27.10.49.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 10:49:38 -0700 (PDT)
+Subject: Re: [PATCH] Set the correct env->fpip for x86 float instructions
+ [cleaned]
+To: Ziqiao Kong <ziqiaokong@gmail.com>, qemu-devel@nongnu.org
+References: <20210416153430.92187-1-ziqiaokong@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dcca83eb-40e7-91a2-c8dc-73a5a51d23db@linaro.org>
+Date: Tue, 27 Apr 2021 10:49:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210416154309.22129-2-steven.price@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210416153430.92187-1-ziqiaokong@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,126 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 04:43:04PM +0100, Steven Price wrote:
-> A KVM guest could store tags in a page even if the VMM hasn't mapped
-> the page with PROT_MTE. So when restoring pages from swap we will
-> need to check to see if there are any saved tags even if !pte_tagged().
-> 
-> However don't check pages which are !pte_valid_user() as these will
-> not have been swapped out.
+On 4/16/21 8:34 AM, Ziqiao Kong wrote:
+> +++ b/target/i386/tcg/translate.c
+> @@ -6337,7 +6337,10 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                   goto unknown_op;
+>               }
+>           }
+> +        tcg_gen_movi_tl(s->tmp0, pc_start - s->cs_base);
+> +        tcg_gen_st_tl(s->tmp0, cpu_env, offsetof(CPUX86State, fpip));
 
-You should remove the pte_valid_user() mention from the commit log as
-well.
+This placement is wrong because it catches instructions that should not modify 
+FIP, like FINIT.
 
-> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-> index e17b96d0e4b5..cf4b52a33b3c 100644
-> --- a/arch/arm64/include/asm/pgtable.h
-> +++ b/arch/arm64/include/asm/pgtable.h
-> @@ -312,7 +312,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
->  		__sync_icache_dcache(pte);
->  
->  	if (system_supports_mte() &&
-> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
-> +	    pte_present(pte) && (pte_val(pte) & PTE_USER) && !pte_special(pte))
+It might be best to set a flag around this case like
 
-I would add a pte_user() macro here or, if we restore the tags only when
-the page is readable, use pte_access_permitted(pte, false). Also add a
-comment why we do this.
+   bool update_fip;
 
-There's also the pte_user_exec() case which may not have the PTE_USER
-set (exec-only permission) but I don't think it matters. We don't do tag
-checking on instruction fetches, so if the user adds a PROT_READ to it,
-it would go through set_pte_at() again. I'm not sure KVM does anything
-special with exec-only mappings at stage 2, I suspect they won't be
-accessible by the guest (but needs checking).
+   case 0xd8 .. 0xdf:
+     ...
+     update_fip = true;
+     if (mod != 3) {
+         ...
+     } else {
+         ...
+     }
+     if (update_fip) {
+         ...
+     }
+     break;
 
->  		mte_sync_tags(ptep, pte);
->  
->  	__check_racy_pte_update(mm, ptep, pte);
-> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> index b3c70a612c7a..e016ab57ea36 100644
-> --- a/arch/arm64/kernel/mte.c
-> +++ b/arch/arm64/kernel/mte.c
-> @@ -26,17 +26,23 @@ u64 gcr_kernel_excl __ro_after_init;
->  
->  static bool report_fault_once = true;
->  
-> -static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
-> +static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap,
-> +			       bool pte_is_tagged)
->  {
->  	pte_t old_pte = READ_ONCE(*ptep);
->  
->  	if (check_swap && is_swap_pte(old_pte)) {
->  		swp_entry_t entry = pte_to_swp_entry(old_pte);
->  
-> -		if (!non_swap_entry(entry) && mte_restore_tags(entry, page))
-> +		if (!non_swap_entry(entry) && mte_restore_tags(entry, page)) {
-> +			set_bit(PG_mte_tagged, &page->flags);
->  			return;
-> +		}
->  	}
->  
-> +	if (!pte_is_tagged || test_and_set_bit(PG_mte_tagged, &page->flags))
-> +		return;
+and set update_fip to false for the set of insns that either do not update FIP 
+or clear it (8.1.8 x87 fpu instruction and data (operand) pointers).
 
-I don't think we need another test_bit() here, it was done in the
-caller (bar potential races which need more thought).
+I notice you're not saving FCS to go along with this, at least for 
+CPUID.(EAX=07H,ECX=0H):EBX[bit 13] = 0.
 
-> +
->  	page_kasan_tag_reset(page);
->  	/*
->  	 * We need smp_wmb() in between setting the flags and clearing the
-> @@ -54,11 +60,13 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
->  	struct page *page = pte_page(pte);
->  	long i, nr_pages = compound_nr(page);
->  	bool check_swap = nr_pages == 1;
-> +	bool pte_is_tagged = pte_tagged(pte);
->  
->  	/* if PG_mte_tagged is set, tags have already been initialised */
->  	for (i = 0; i < nr_pages; i++, page++) {
-> -		if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> -			mte_sync_page_tags(page, ptep, check_swap);
-> +		if (!test_bit(PG_mte_tagged, &page->flags))
-> +			mte_sync_page_tags(page, ptep, check_swap,
-> +					   pte_is_tagged);
->  	}
->  }
+And if you're going to this trouble, you might want to think about FDP+FDS as 
+well.  It should be about the same amount of effort.
 
-You were right in the previous thread that if we have a race, it's
-already there even without your patches KVM patches.
 
-If it's the same pte in a multithreaded app, we should be ok as the core
-code holds the ptl (the arch code also holds the mmap_lock during
-exception handling but only as a reader, so you can have multiple
-holders).
-
-If there are multiple ptes to the same page, for example mapped with
-MAP_ANONYMOUS | MAP_SHARED, metadata recovery is done via
-arch_swap_restore() before we even set the pte and with the page locked.
-So calling lock_page() again in mte_restore_tags() would deadlock.
-
-I can see that do_swap_page() also holds the page lock around
-set_pte_at(), so I think we are covered.
-
-Any other scenario I may have missed? My understanding is that if the
-pte is the same, we have the ptl. Otherwise we have the page lock for
-shared pages.
-
--- 
-Catalin
+r~
 
