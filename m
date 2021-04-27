@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1925E36CAFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 20:17:09 +0200 (CEST)
-Received: from localhost ([::1]:40288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B29336CB09
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 20:20:13 +0200 (CEST)
+Received: from localhost ([::1]:45994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbSGi-0006Gl-4h
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 14:17:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1lbSJg-0000LD-7l
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 14:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbSDQ-0005Ao-Bz
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:13:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32603)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lbSIU-0008L9-3v
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:18:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbSDN-0007mj-8F
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:13:44 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1lbSIR-0002Ce-Sv
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 14:18:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619547220;
+ s=mimecast20190719; t=1619547534;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n84zfeLqJ+S6phVfIT972w82aFH6HO7t/I0k1b4MgJk=;
- b=VfXDv2kB45jWJIijzK9rHg4PTGWyqRNiJ+VhLv5Gp3haZYnsIX84dxWmbfKaT15y/QkaA3
- ova8g/RG4Lyud3wSVVqCmNoUAaXVK4IzKYnbe7BGpgoDdxNyc9KWFgXnn/BL9XOnt/atJs
- Sb4cYlzPppfK2kggkErVN7D4F/Q6qOM=
+ bh=XxAx4+Co4gpb6yc9/uCSKs+FhAWitsEsc+O1M+1QUig=;
+ b=YZw4T6fOUYZ9SKWIIFeWB0hvHujfwlIo2pA7rAoE75pAMKDx/MC+nLQxIGoetOHe8z7Ia7
+ YiWIUdne2wFT/Lf2ohIo2uVZdmH6YqqjK28gmpo9w6phUtNnk/6t0WPZjRW2NQx9qbN51+
+ rJYquMR9bkhU8xe3r64cemkgmULfG7o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-Gy61vOaIPNOO8xQLw52UVw-1; Tue, 27 Apr 2021 14:13:36 -0400
-X-MC-Unique: Gy61vOaIPNOO8xQLw52UVw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-495-63UbI8_UOJ-6UaE-J9lFXA-1; Tue, 27 Apr 2021 14:18:52 -0400
+X-MC-Unique: 63UbI8_UOJ-6UaE-J9lFXA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C5C78027E2;
- Tue, 27 Apr 2021 18:13:35 +0000 (UTC)
-Received: from [10.10.112.236] (ovpn-112-236.rdu2.redhat.com [10.10.112.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B64210016F8;
- Tue, 27 Apr 2021 18:13:34 +0000 (UTC)
-Subject: Re: [PATCH] floppy: remove unused function fdctrl_format_sector
-To: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20210108230137.8860-1-alxndr@bu.edu>
- <e5115c26-2017-831b-f341-206050266739@redhat.com>
- <453fb830-673e-d2eb-47b6-41c8ed7bad42@reactos.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <e2f6a706-7f2e-65b2-5c0d-4c717b0b3baf@redhat.com>
-Date: Tue, 27 Apr 2021 14:13:34 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 866211898299;
+ Tue, 27 Apr 2021 18:18:51 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 385DE6060F;
+ Tue, 27 Apr 2021 18:18:51 +0000 (UTC)
+Date: Tue, 27 Apr 2021 12:18:50 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Dev Audsin <dev.devaqemu@gmail.com>
+Subject: Re: [PATCH] make vfio and DAX cache work together
+Message-ID: <20210427121850.68d2a8dd@redhat.com>
+In-Reply-To: <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
+References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
+ <20210426152203.379dab00@redhat.com>
+ <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <453fb830-673e-d2eb-47b6-41c8ed7bad42@reactos.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,82 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:Floppy" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/14/21 3:53 AM, Hervé Poussineau wrote:
-> Le 12/03/2021 à 07:45, John Snow a écrit :
->> On 1/8/21 6:01 PM, Alexander Bulekov wrote:
->>> fdctrl_format_sector was added in
->>> baca51faff ("updated floppy driver: formatting code, disk geometry 
->>> auto detect (Jocelyn Mayer)")
->>>
->>> The single callsite is guarded by a check:
->>> fdctrl->data_state & FD_STATE_FORMAT
->>>
->>> However, the only place where the FD_STATE_FORMAT flag is set (in
->>> fdctrl_handle_format_track) is closely followed by the same flag being
->>> unset, with no possibility to call fdctrl_format_sector in between.
->>>
->>
->> Hm, was this code *ever* used? It's hard to tell when we go back into 
->> the old SVN history.
->>
->> Does this mean that fdctrl_handle_format_track is also basically an 
->> incomplete stub method?
->>
->> I'm in favor of deleting bitrotted code, but I wonder if we should 
->> take a bigger bite.
->>
->> --js
-> 
-> The fdctrl_format_sector has been added in SVN revision 671 
-> (baca51faff03df59386c95d9478ede18b5be5ec8), along with 
-> FD_STATE_FORMAT/FD_FORMAT_CMD.
-> As with current code, the only place where the FD_STATE_FORMAT flag was 
-> set (in fdctrl_handle_format_track) is closely followed by the same flag 
-> being unset, with no possibility to call fdctrl_format_sector in between.
-> 
-> I can however see the following comment:
->             /* Bochs BIOS is buggy and don't send format informations
->              * for each sector. So, pretend all's done right now...
->              */
->             fdctrl->data_state &= ~FD_STATE_FORMAT;
-> 
-> which was changed in SVN revision 2295 
-> (b92090309e5ff7154e4c131438ee2d540e233955) to:
->             /* TODO: implement format using DMA expected by the Bochs BIOS
->              * and Linux fdformat (read 3 bytes per sector via DMA and fill
->              * the sector with the specified fill byte
->              */
-> 
-> This probably means that code may have worked without DMA (to be 
-> confirmed), but was disabled since its introduction due to a problem 
-> with Bochs BIOS.
-> Later, fdformat was also tested and not working.
-> 
-> Since then, lots of work has also been done in DMA handling. I 
-> especially think at bb8f32c0318cb6c6e13e09ec0f35e21eff246413, which 
-> fixed a similar problem with floppy drives on IBM 40p machine.
-> What happens when this flag unsetting is removed? Does fdformat now works?
-> 
-> I think that we should either fix the code, or remove more code 
-> (everything related to fdctrl_format_sector, FD_STATE_FORMAT, 
-> FD_FORMAT_CMD, maybe even fdctrl_handle_format_track).
-> 
-> Regards,
-> 
-> Hervé
-> 
+On Tue, 27 Apr 2021 17:29:37 +0100
+Dev Audsin <dev.devaqemu@gmail.com> wrote:
 
-Alex, do you want to respin this following Hervé's suggestion for 
-additional deletions?
+> Hi Alex
+> 
+> Based on your comments and thinking a bit, wonder if it makes sense to
+> allow DMA map for the DAX cache but make unexpected mappings to be not
+> fatal. Please let me know your thoughts.
 
-I doubt anyone has the time or interest to actually FIX this code, so we 
-may as well remove misleading code.
+I think you're still working on the assumption that simply making the
+VM boot is an improvement, it's not.  If there's a risk that a possible
+DMA target for the device cannot be mapped, it's better that the VM
+fail to boot than to expose that risk.  Performance cannot compromise
+correctness.
 
---js
+We do allow DMA mappings to other device memory regions to fail
+non-fatally with the logic that peer-to-peer DMA is often not trusted
+to work by drivers and therefore support would be probed before
+assuming that it works.  I don't think that same logic applies here.
+
+Is there something about the definition of this particular region that
+precludes it from being a DMA target for an assigned devices?
+
+Otherwise if it's initially unpopulated, maybe something like the
+RamDiscardManager could be used to insert DMA mappings as the region
+becomes populated.
+
+Simply disabling mapping to boot with both features together, without
+analyzing how that missing mapping affects their interaction is not
+acceptable.  Thanks,
+
+Alex
+
+> On Mon, Apr 26, 2021 at 10:22 PM Alex Williamson
+> <alex.williamson@redhat.com> wrote:
+> >
+> > On Mon, 26 Apr 2021 21:50:38 +0100
+> > Dev Audsin <dev.devaqemu@gmail.com> wrote:
+> >  
+> > > Hi Alex and David
+> > >
+> > > @Alex:
+> > >
+> > > Justification on why this region cannot be a DMA target for the device,
+> > >
+> > > virtio-fs with DAX is currently not compatible with NIC Pass through.
+> > > When a SR-IOV VF attaches to a qemu process, vfio will try to pin the
+> > > entire DAX Window but it is empty when the guest boots and will fail.
+> > > A method to make VFIO and DAX to work together is to make vfio skip
+> > > DAX cache.
+> > >
+> > > Currently DAX cache need to be set to 0, for the SR-IOV VF to be
+> > > attached to Kata containers. Enabling both SR-IOV VF and DAX work
+> > > together will potentially improve performance for workloads which are
+> > > I/O and network intensive.  
+> >
+> > Sorry, there's no actual justification described here.  You're enabling
+> > a VM with both features, virtio-fs DAX and VFIO, but there's no
+> > evidence that they "work together" or that your use case is simply
+> > avoiding a scenario where the device might attempt to DMA into the area
+> > with this designation.  With this change, if the device were to attempt
+> > to DMA into this region, it would be blocked by the IOMMU, which might
+> > result in a data loss within the VM.  Justification of this change
+> > needs to prove that this region can never be a DMA target for the
+> > device, not simply that both features can be enabled and we hope that
+> > they don't interact.  Thanks,
+> >
+> > Alex
+> >  
+> 
 
 
