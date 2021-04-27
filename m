@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F27B36C9B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:46:23 +0200 (CEST)
-Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310DD36C9B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 18:47:52 +0200 (CEST)
+Received: from localhost ([::1]:44942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbQqs-0003b4-2w
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:46:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
+	id 1lbQsJ-00058J-7M
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 12:47:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbQmx-0002kL-Em
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:42:19 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40453)
+ id 1lbQpD-0003i7-Gk
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:44:41 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:33571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbQmv-0004cK-Rc
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:42:19 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id b17so5734836pgh.7
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:42:17 -0700 (PDT)
+ id 1lbQp8-0005HV-5b
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 12:44:39 -0400
+Received: by mail-pg1-x530.google.com with SMTP id t22so7508437pgu.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 09:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=WpMfbPhLOQscSZoBg+QKpJl3Np9ZqmkvmrxNZaSbj3s=;
- b=ZopxJGeLbYsyFX/BNNTMWfsQPdOrH6UOvSbbGCF+NLul2wBkS4KaUtDtubd67BbQT2
- 1e4Wk1a/NW+7yYwtB9Zb1KMIteUC7bUr4hehnB72tmYnHoTzisRq2hWWmCQzo4IXP9hi
- AhcFFnZsfXfL0NUwzZOrEh3u1axBKufyIBCdTYjYP8x5BNngHNLes88RNgLjOQBKvXFu
- SRqYTGWN0SufcvK0l+UBpRoaCXL56jjq6h/A2UV8xK5J6P1HXI3YahdwpMmrRT1QyxI3
- dT74uYYteGH51wxAD6ldNwrAxubG3ZrJW+MtGMCDVm51zeo2XuQdD1yvMw9Mbsp/65Rj
- NyEw==
+ bh=asLu7fGHYQAMsfGz9f3W0xblmFDk+m21TLKg5phBU38=;
+ b=cOFAU6Xo1u48rwBYYRvQvgTJejdVVX/8zEhbvgrM7DiWQEdztr+sjQ6aDdRxpfTORh
+ Yxii8CrZNYGTdHUWY5FXRDQ2/U6QOgVe91K1ZEj7ZDIB4jz6dV3evHiat2HXiSTyyMts
+ tGn/TIBVvNKPCU5luKqX8YHrQj8LtpLaHSRetLN+9QNcfw4r2llKI2BYVtoVZU1UkSeb
+ 6R+Ox5tsRQAyHYnE4Hf1DzJ2eGWIayMWbQOUqbVhXRNoy9YYBjqDb/JCuZzoxozp9dPD
+ uH/3pZV2XTNLxQY3VtF5w70QVln/vWGTjji6qxzz4VMxSzIAPAnRYR6KbAY/7Grz/X4J
+ iHeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WpMfbPhLOQscSZoBg+QKpJl3Np9ZqmkvmrxNZaSbj3s=;
- b=Rs2+mgUJv3ZBsCIe9DhCOufUYm8I6Q5JVbZD6qhmoFX+n9xAXwnGQDDDMDLuLPuTEr
- xo7MbK2JXcP9nAOJ3HU/ZxjN1qVbsQBxqDHGiVq+maMdLTZedGHPj8suHRNSsLsNzm09
- 0sBeRO+syuFZtqD1ASbc2XCnf/4CC3avr4MhSNvG1z8kI8zEWNObL1hG7ICr543X/TzN
- eR5ccm71+S6Ub78Y8qTsXKKrtaJMIZwFAXu3H+dwx+HsEBMVz2HkQjfFDeLbkeRO0kVm
- fxvyVM49zjeYPa2t77uRTryPi43Am5joSXgjIYrh05zWXYXAERI58fuQdayPrDQDnSfI
- d5Ww==
-X-Gm-Message-State: AOAM532ik0mORrisCxQRCKui078aZWyJH2zqvvJYjYfPhLLZTYsFSCLX
- Q87O71fehNJbx+aYV6yxtoq55xhNkr14Hg==
-X-Google-Smtp-Source: ABdhPJxKGyM+1SVRe2a3pz3wPeobik0+0Jx1qXn+P/AFVs+7xhyMtChAbY/Ly9eeA/w5ezDMIRDHLA==
-X-Received: by 2002:a63:d143:: with SMTP id c3mr22169045pgj.99.1619541736223; 
- Tue, 27 Apr 2021 09:42:16 -0700 (PDT)
+ bh=asLu7fGHYQAMsfGz9f3W0xblmFDk+m21TLKg5phBU38=;
+ b=Aq5cUzUV9x8ZEfHS7uC58BWDmHur6akWSrwgHREyYnmIBEf/yRVLsGikG3YsmI4Mm3
+ bAG+drx1m0J7rhFYWcqjLLf7S6gY39l/NTdRr/Uf3QHdmARFjIkWTGWjBladnOL3D5t6
+ 1dz9cFbydNqGLQSgeBj5s/l/ATeP1ScZqgS34F/wogZ9WoaI6JyYrPbFiOD8BkudpX0j
+ ZEltKNkSFcmheYbF2EoVxA7JSajdmFqQgKVmiUs5xYDVrMpi+BZrje0KtvqxhJRSTCTW
+ Ttr5HnF7uI6Axkg5f208qNptIJJKfgRhXjxb0YRvsgfUGKAbauSBC9hHsWgE2A6HofK5
+ mP4w==
+X-Gm-Message-State: AOAM533pIlDK2mwzdW1bSEpuLle2QFu4gSubm30icAxTgkvqhGsJ71bb
+ 5A2hxgvozWdK+5hFHfNO/ppNtU0kBOaHNw==
+X-Google-Smtp-Source: ABdhPJzlsPuOaFSKcYeiMT0/JS01tt18GuJ1Ydy/+MWibzdz+kSHm58fJew5TnzyLIbP8VPiJNn3kg==
+X-Received: by 2002:a63:1c22:: with SMTP id c34mr22446880pgc.408.1619541871337; 
+ Tue, 27 Apr 2021 09:44:31 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id o127sm3101485pfd.147.2021.04.27.09.42.15
+ by smtp.gmail.com with ESMTPSA id n203sm2089216pfd.31.2021.04.27.09.44.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 09:42:15 -0700 (PDT)
-Subject: Re: [PATCH 03/13] target/arm: Make functions used by m-nocp global
+ Tue, 27 Apr 2021 09:44:31 -0700 (PDT)
+Subject: Re: [PATCH 05/13] target/arm: Move gen_aa32 functions to
+ translate-a32.h
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-4-peter.maydell@linaro.org>
+ <20210413160759.5917-6-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e40b2ac8-0d85-56c4-32b4-b79f139a51a4@linaro.org>
-Date: Tue, 27 Apr 2021 09:42:14 -0700
+Message-ID: <3413dad6-67ee-1715-6e19-06adac14bc11@linaro.org>
+Date: Tue, 27 Apr 2021 09:44:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210413160759.5917-4-peter.maydell@linaro.org>
+In-Reply-To: <20210413160759.5917-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,29 +93,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/13/21 9:07 AM, Peter Maydell wrote:
-> We want to split out the .c.inc files which are currently included
-> into translate.c so they are separate compilation units.  To do this
-> we need to make some functions which are currently file-local to
-> translate.c have global scope; create a translate-a32.h paralleling
-> the existing translate-a64.h as a place for these declarations to
-> live, so that code moved into the new compilation units can call
-> them.
-> 
-> The functions made global here are those required by the
-> m-nocp.decode functions, except that I have converted the whole
-> family of {read,write}_neon_element* and also both the load_cpu and
-> store_cpu functions for consistency, even though m-nocp only wants a
-> few functions from each.
+> Move the various gen_aa32* functions and macros out of translate.c
+> and into translate-a32.h.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/translate-a32.h     | 57 ++++++++++++++++++++++++++++++++++
->   target/arm/translate.c         | 39 +++++------------------
->   target/arm/translate-vfp.c.inc |  2 +-
->   3 files changed, 65 insertions(+), 33 deletions(-)
->   create mode 100644 target/arm/translate-a32.h
+>   target/arm/translate-a32.h | 44 ++++++++++++++++++++++++++++++++++
+>   target/arm/translate.c     | 49 +++++++-------------------------------
+>   2 files changed, 52 insertions(+), 41 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+These functions go away with my alignment patch set, fwiw.
+
 
 r~
 
