@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68FF36CA21
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:12:14 +0200 (CEST)
-Received: from localhost ([::1]:51120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C4C36CA2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 19:16:03 +0200 (CEST)
+Received: from localhost ([::1]:59486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbRFt-0003s8-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
+	id 1lbRJa-0007Jp-LK
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 13:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbRCg-00025y-8g
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:08:54 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:45639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbRCd-0005dx-0q
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:08:54 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id i190so2220008pfc.12
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 10:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=w/yIloBiOa5RGJ1keBrumBScQzIpOuFYI5RFV6gaNrM=;
- b=MPpVP2oBcW40y/si/UoVA3YCs43imOHapV81lwIYAmg6j7X30pnfN6jHIhAr49cuIn
- e+TU/mmUc3LbjIz+ANLdViipZRsIlVpli0dtl9QoukDvozYPfAWfIEy6Yh+QzpiBSDhe
- c/uN2sP8t5D9ItzwAck9Y+HGRc3y0EksnzDWbo2IITMvZSELDwnzrApr9yjaWJVuZHs2
- rB8ikMleSislZisN2X4h9dJc6Sm6x+di7ilcgj3x2Uov+mzHp6R/Olglye0hVsXb9bXl
- j2pWVJHC82w1G3Q5e0mW3swELr8ICFX9MdRZimGEMSDjCYvXPpW9RzyuqoyyLr6Zo5Mi
- em6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=w/yIloBiOa5RGJ1keBrumBScQzIpOuFYI5RFV6gaNrM=;
- b=JxCggPXrAs+e/jhyFzsn8v0gUFBQ4DgjpvOJ1eYySrS+xMvHw/4920lrv2un4uaXDJ
- GKf1YvaCLsDPQPsNEx/MOnmLSlbGBAMCg27ERA0S+88K7MqqqY1s6IszuXopctX1+5/u
- uuP0XQtSMzW1uN2MJUS7J3SwB8P0TOdFNzw2B3RIu/OQjlRs07SpNOGXVmu5jHXtOw+C
- GfiM5h2h9vOi/cyB4QfS03t2QkGfjc4VsDZD0W8qPEI9MaCb7KyIpSjoWOCgMUhilBzp
- vX0AOEcCbPvjmLg6g/6iYw8/dc4HH6yyGKUoqBAuJlnzxd0edxKYNHXA90wn5Vc4s98z
- r36A==
-X-Gm-Message-State: AOAM532zHt4T31288rH5a5iZ9rvy47Hg+uQurUN2KTPIWWhXSEtPtHDd
- N102q5JFH0EcjxjGAjL0EOlmL4A88KFUbQ==
-X-Google-Smtp-Source: ABdhPJwEQX/Wn2IPoer53vrYADZDTYZhekRDV+796dR1tWh67tKK34qV61i5BblEdLZws6n+q1iUQg==
-X-Received: by 2002:a63:330b:: with SMTP id z11mr22664102pgz.32.1619543329113; 
- Tue, 27 Apr 2021 10:08:49 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id r32sm303757pgm.49.2021.04.27.10.08.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Apr 2021 10:08:48 -0700 (PDT)
-Subject: Re: [PATCH 13/13] target/arm: Make translate-neon.c.inc its own
- compilation unit
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbRFX-0004do-FY
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:11:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lbRFO-0007Iw-8t
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 13:11:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619543501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yXs952rf28ZpNWrSgFSCNIUZGE+NI3yBI6opm2XyKXo=;
+ b=BiQfcxleIinAYMFVIBbleH5r+0OEQ1q3Gc55jpfmJ21DLrWH7Qqf6RbltGvkE469OTNAvg
+ I4aKDrHcfYK81aUsBYeCb+p0Iw+grbOPcZvLve1jCh6iGnQ+kmklIbs1Os5+qsHtucuXkL
+ qd4fpSQd0fAzkwB6vgGgm4MapSrdrSg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-s3pFPNl0NY-21qYVfqAfwA-1; Tue, 27 Apr 2021 13:11:38 -0400
+X-MC-Unique: s3pFPNl0NY-21qYVfqAfwA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7184E801FCE;
+ Tue, 27 Apr 2021 17:11:35 +0000 (UTC)
+Received: from [10.10.112.236] (ovpn-112-236.rdu2.redhat.com [10.10.112.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9A7C6A251;
+ Tue, 27 Apr 2021 17:11:27 +0000 (UTC)
+Subject: Re: [PATCH 3/4] hw/block/fdc: Extract ISA floppy controllers to
+ fdc-isa.c
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-14-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5978430f-9a3b-b254-d91f-dfc250395ac9@linaro.org>
-Date: Tue, 27 Apr 2021 10:08:47 -0700
+References: <20210415102321.3987935-1-philmd@redhat.com>
+ <20210415102321.3987935-4-philmd@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <6b6838cd-62ce-9066-aa72-8c1b261f346d@redhat.com>
+Date: Tue, 27 Apr 2021 13:11:26 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210413160759.5917-14-peter.maydell@linaro.org>
+In-Reply-To: <20210415102321.3987935-4-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,23 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 9:07 AM, Peter Maydell wrote:
-> Switch translate-neon.c.inc from being #included into translate.c
-> to being its own compilation unit.
+On 4/15/21 6:23 AM, Philippe Mathieu-Daudé wrote:
+> Some machines use floppy controllers via the SysBus interface,
+> and don't need to pull in all the ISA code.
+> Extract the ISA specific code to a new unit: fdc-isa.c, and
+> add a new Kconfig symbol: "FDC_ISA".
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   target/arm/translate-a32.h                           |  3 +++
->   .../arm/{translate-neon.c.inc => translate-neon.c}   | 12 +++++++-----
->   target/arm/translate.c                               |  3 ---
->   target/arm/meson.build                               |  7 ++++---
->   4 files changed, 14 insertions(+), 11 deletions(-)
->   rename target/arm/{translate-neon.c.inc => translate-neon.c} (99%)
+>   hw/block/fdc-isa.c   | 313 +++++++++++++++++++++++++++++++++++++++++++
+>   hw/block/fdc.c       | 257 -----------------------------------
+>   MAINTAINERS          |   1 +
+>   hw/block/Kconfig     |   4 +
+>   hw/block/meson.build |   1 +
+>   hw/i386/Kconfig      |   2 +-
+>   hw/isa/Kconfig       |   6 +-
+>   hw/sparc64/Kconfig   |   2 +-
+>   8 files changed, 324 insertions(+), 262 deletions(-)
+>   create mode 100644 hw/block/fdc-isa.c
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+LGTM but you'll want someone else to review the Kconfig changes.
 
-r~
+Reviewed-by: John Snow <jsnow@redhat.com>
+
 
