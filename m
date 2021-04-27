@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E988736C4F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:18:21 +0200 (CEST)
-Received: from localhost ([::1]:39288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072D536C4FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:22:21 +0200 (CEST)
+Received: from localhost ([::1]:42384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbLjR-0003zk-1i
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48656)
+	id 1lbLnI-0005Qn-4u
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:22:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lbLdz-0000LM-Op
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:12:47 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:57289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lbLdt-0006dy-Oa
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:12:42 -0400
-Received: from [192.168.100.1] ([82.142.25.254]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MmkjY-1l98MB1EYw-00jqmv; Tue, 27 Apr 2021 13:12:33 +0200
-Subject: Re: [Bug 1926246] Re: chrome based apps can not be run under qemu
- user mode
-To: Bug 1926246 <1926246@bugs.launchpad.net>, qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbLlj-0004vC-Cc
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:20:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lbLlh-0002ua-9t
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 07:20:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lbLlf-0003F7-CZ
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 11:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5DF6B2E8060
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 11:20:39 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Apr 2021 11:12:32 -0000
+From: Laurent Vivier <1926246@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier nightwend
+X-Launchpad-Bug-Reporter: Wind Li (nightwend)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
 References: <161950107824.17271.5936509317690090363.malonedeb@chaenomeles.canonical.com>
  <161952108358.12222.10422963550242509957.malone@wampee.canonical.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c7f9dc51-3f95-de6f-26e0-681c92683900@vivier.eu>
-Date: Tue, 27 Apr 2021 13:12:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <161952108358.12222.10422963550242509957.malone@wampee.canonical.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JbBGlLMzjql5AeVDYkQWT2yANpgMTmjX8RtwBXugu2E9Uuhmqet
- ZL7hD+uKbzPYKtDOK37n79FoF0994I8ec+K+jrhorb0htBHAgCsaXPMQQXLwEDV1C34+M1C
- 1f9OePXBRnqmvdatHXE9ois5suHjIyoYwNGmBXd/ibtd4NqKqsOeZZgSuIaltGVux2PA7E7
- mZCJmn24SJMo/z713pdaw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VQIucw1Zu0Q=:y4ITZl4rzvo7jWL7xgTbPW
- XUVX3RJL/CauPrKjrU8Gz3EarWRnMwnU8y+hF0NW+ZM1sQPWPi3oU30dHkv0JrVv3v60vRwmJ
- SQAxwMlrSuYgifvgKjlBIqMJWnafZHUc/tBLOVR2A6IHqg0Y2oYAu91rd1G6iO5TY8KdeMT82
- 0S+/G1OCxskbJVRATeOmlI55/xz4xXUblEwQyd6QHnv+20+42eo6kYhkc6WwJcj/ozDnCNv3G
- ImPPDPOztVMNDTVtd+LpyFQkSLUCFhwbcTENI9xUfDlH8Ji6f0Cyly4UuJqT5b+VNrR5Nt5Fi
- eGWBaKyOzDenZ51u82HVz92m6/l4O5LTMN14RNUChsKLOk5ay0jjTM+GC3wNm+Fv4TnSIqP6H
- Wc1SV/kybocnFS/at342HVrsf1/spkNbxlBNW/SX3neb6bMjL6oEtUfNkCTDh8ia0OCIwx+Zo
- LODb1ilSoDYL5+UGUOO0TpaTb381Un2BR4/l8N/fgUME8iwcgnnhLJU7InXbfYbLKgrOaETKc
- praKwTgOpUDh3BmZOMI4fA=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Message-Id: <c7f9dc51-3f95-de6f-26e0-681c92683900@vivier.eu>
+Subject: Re: [Bug 1926246] Re: chrome based apps can not be run under qemu
+ user mode
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: 3946ad86d1689e99b838685931ac2e91c286ceb8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,17 +71,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1926246 <1926246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/04/2021 à 12:58, Wind Li a écrit :
+Le 27/04/2021 =C3=A0 12:58, Wind Li a =C3=A9crit=C2=A0:
 > Just found there's already a patch for this:
 > https://lists.sr.ht/~philmd/qemu/patches/8196
-> 
+> =
+
 
 Yes, you are right.
 
-I didn't see this patch because he didn't cc: me and he removed the "linux-user" tag from the subject...
+I didn't see this patch because he didn't cc: me and he removed the
+"linux-user" tag from the subject...
 
 Could you verify it actually fixes the problem?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926246
+
+Title:
+  chrome based apps can not be run under qemu user mode
+
+Status in QEMU:
+  New
+
+Bug description:
+  chrome uses /proc/self/exe to fork render process.
+  Here a simple code to reproduce the issue. It's output parent then child =
+but failed with qemu: unknown option 'type=3Drenderer'.
+
+  Maybe we can modify exec syscall to replace /proc/self/exe to the real
+  path.
+
+  //gcc -o self self.c =
+
+  #include <stdio.h>
+  #include <sys/types.h>
+  #include <unistd.h>
+  int main(int argc, char** argv) {
+    if(argc=3D=3D1){
+      printf ("parent\n");
+  	if ( fork() =3D=3D 0 )
+      {
+          return execl("/proc/self/exe","/proc/self/exe", "--type=3Drendere=
+r",NULL);
+      }
+    } else {
+      printf ("child\n");
+    }
+    return 0;
+  }
+
+  similar reports:
+  https://github.com/AppImage/AppImageKit/issues/965  =
+
+  https://github.com/golang/go/issues/42080  =
+
+
+  Workardound:
+  compile chrome or your chrome based app with a patch to content/common/ch=
+ild_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
+
+
+  diff --git a/content/common/child_process_host_impl.cc b/content/common/c=
+hild_process_host_impl.cc
+  index bc78aba80ac8..9fab74d3bae8 100644
+  --- a/content/common/child_process_host_impl.cc
+  +++ b/content/common/child_process_host_impl.cc
+  @@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flag=
+s) {
+   #if defined(OS_LINUX)
+     // Use /proc/self/exe rather than our known binary path so updates
+     // can't swap out the binary from underneath us.
+  -  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
+  -    child_path =3D base::FilePath(base::kProcSelfExe);
+  +  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
+  +    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_pat=
+h)) {
+  +      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
+  +      child_path =3D base::FilePath(base::kProcSelfExe);
+  +    }
+  +  }
+   #endif
+
+     // On most platforms, the child executable is the same as the
+  current
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926246/+subscriptions
 
