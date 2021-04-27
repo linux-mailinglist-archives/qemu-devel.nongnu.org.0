@@ -2,89 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1820236C15F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 10:58:03 +0200 (CEST)
-Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B47536C165
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 10:59:59 +0200 (CEST)
+Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbJXe-0003qm-6k
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 04:58:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
+	id 1lbJZW-0006FB-GO
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 04:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lbJVZ-0002h6-Rr
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:55:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26762)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lbJY1-0004uw-Q4; Tue, 27 Apr 2021 04:58:25 -0400
+Received: from mail-eopbgr60097.outbound.protection.outlook.com
+ ([40.107.6.97]:12257 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lbJVU-00019E-VO
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:55:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619513745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=azG+qV26VcF9f6xbZZgR1KQtP5vd4my8e2fzwYn6VQ0=;
- b=B4fvoG18/nMJH/pePJ2nLAMgkxbGZD4ARAojkDSX6aMWeLLCg2YFdSEpo5pM2Ro+kSeZqt
- VTeqBBLmsa7q/tfB91qXnmgyX/UG/4lx6IeZ9RX5631W/Tk1tWhfJlDalSzRdnKDdzi7qC
- TXTWLLfyecUgOGRakUK1f7tE+5ma3bM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-oIM8Qht4PdCegBdTgAg8EA-1; Tue, 27 Apr 2021 04:55:41 -0400
-X-MC-Unique: oIM8Qht4PdCegBdTgAg8EA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- r14-20020a1709062cceb0290373a80b4002so10988991ejr.20
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 01:55:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=azG+qV26VcF9f6xbZZgR1KQtP5vd4my8e2fzwYn6VQ0=;
- b=RRjwqUB+9oXMf/uRRnHbxcyIS0c9Yj8YAXMt5pnssC6fNjxnh7ZyoAubaq3PrYSoEt
- kKF1a7DPJetFSUReNNqOAliByc47vM2KyAQPISPv8TcnVrW3eXkw+1VzAy3MlyGamMWZ
- muEJmUNAyGfCneuzryUm1Ff7R2z+suKX6yCVHV0QP/4mKWDQFsxPHMapHoL0FZCRI6do
- IHF4IBJJjjzKiF1gDg48K2OEq776I5TAn8bKrMIzBg02nM+DHoTHQPFrmnbbnmfinB0k
- qXPcdrr+WuSn0XlXtODrAwNytiwQT+tuTn0PDx2qWYF/pjWVsebfvHRhq5LDJYaWoP8t
- iwpg==
-X-Gm-Message-State: AOAM532idR2QxcSfvXFumxTGefTTq7CSIFjfjqjegAMbClcXwuMDblVy
- JnlymG//0r9xKEsE+/UXbe4ptyveqagTaomw27FrF8+lsYfzbLuihsDfGeDH/ibAL11irhg5CxM
- wrQlTlGHQAJGn8A4=
-X-Received: by 2002:a05:6402:22af:: with SMTP id
- cx15mr3030040edb.317.1619513740505; 
- Tue, 27 Apr 2021 01:55:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvthk7qNH2XcaWzw03zsvWp0KcyebBGHKMFGfgXMLdURf9t+DV/EPwMiFW7PR//UzzN4yQ0A==
-X-Received: by 2002:a05:6402:22af:: with SMTP id
- cx15mr3030014edb.317.1619513740321; 
- Tue, 27 Apr 2021 01:55:40 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id b6sm1822387edd.18.2021.04.27.01.55.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 01:55:39 -0700 (PDT)
-Date: Tue, 27 Apr 2021 10:55:27 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Haibo Xu <haibo.xu@linaro.org>
-Subject: Re: [PATCH RESEND v2 4/6] hw/intc/arm_gicv3: Enable support for
- setting vGIC maintenance IRQ
-Message-ID: <20210427085527.fvzbmxppceutdugn@gator.home>
-References: <cover.1617281290.git.haibo.xu@linaro.org>
- <49a4944e2f148c56938380b981afe154b7a8b7ee.1617281290.git.haibo.xu@linaro.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lbJXy-0002aG-6Z; Tue, 27 Apr 2021 04:58:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QJIcpHsEiY92i5s+eKEwgNm1hbmD9Dthe3vuSazkuQkghjQzV/RGbEWZ3HYqKh4a+xoOOwjxxtyZ3otzInhhpwlOqKJFcaWkbFhMZcLnnR6y+eKBblGMh8Kzd4R5lP8odjM3fwdV1upfpRmh0Z/tzGgwJF2v+3m741wLxwlYmJnF7XoSutrKPGADiwvU8YdKcOFiOBMz6SbaBWDO7l6nBbsIQq8SZMlPKc+hk3NHdiwz3z0xtivUh/i1MZ+hfRgVKytXD5JiChiYao9na/dHumC8EfgRIWgDpNVEXhvNsPmF6ZBcdto6/zQE5EPk3/lMbo3gRRz71L1OcAzOkjExDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=90YO8bLj+Bzz0ZoKAxOjdeY6QrrQr246E2NG+Z6yM+0=;
+ b=HdB3g3zK7U0MF+f3Yn6U0P29pp5IdLf+oC+Z6Kr4l2iPuD01T0WXy/KhRix8+0rEPC36D5pbPlsZ4AdTQCyQZDRijYW0JLC4e72sf31bk+Z1h5ROhAjCDmIAetKPqahgxsfW1u573Yq31kbtPOB6J4Mqt/akR9I+kz8oVYaudWmnBhjqtfNWboGL1uURfhtXcQlsX+Icmj7SOU6hAih/0AywhpxOjj0PHDsRCTfhoesI7+oBjJgAzUPiFbUPVvZH2yA/4SOKW8CueM95jWDIbW/FFe9nCKatO93oCUjD3XIXIGAIJ9IDELN/YfCogCOyWxgsGPVHh3bjpAlzEU2sOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=90YO8bLj+Bzz0ZoKAxOjdeY6QrrQr246E2NG+Z6yM+0=;
+ b=TWHt9i4sRZ3brPnRpsGW+w8RXchfAszYytZpST6/YYGglegKMq0dgzJKnxN1Tr4zwPPb/Aswwh+eX2L91AXPFXUSzDaIfbgxYCPvJ9F3i9Mc1gPfUyJ5JHWRGdPrkphdwRx7iw/fuiP6JDL5X93CO/vyU/LL2IQ+cezh/hcP454=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4216.eurprd08.prod.outlook.com (2603:10a6:20b:89::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Tue, 27 Apr
+ 2021 08:58:16 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
+ 08:58:16 +0000
+Subject: Re: [PATCH v3 0/9] simplebench improvements
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, den@openvz.org, mreitz@redhat.com,
+ John Snow <jsnow@redhat.com>
+References: <20210323134734.72930-1-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <309b13ab-1f56-33bf-ffe5-ae7f866daa0c@virtuozzo.com>
+Date: Tue, 27 Apr 2021 11:58:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+In-Reply-To: <20210323134734.72930-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.222]
+X-ClientProxiedBy: PR1P264CA0008.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19e::13) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <49a4944e2f148c56938380b981afe154b7a8b7ee.1617281290.git.haibo.xu@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.222) by
+ PR1P264CA0008.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19e::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.25 via Frontend Transport; Tue, 27 Apr 2021 08:58:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d2c087d5-cba9-4681-b5a6-08d9095a9874
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4216:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4216D4E73B911D381E0FF296C1419@AM6PR08MB4216.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ljshKV6Eiu055NlDdrxVnWeKq0/b3VQONt8D12aIGrpitR/kqvRVYx51iT9hlkxrH41MCHBpOl5BMns2vPNXLc62e6RVaXKHyDgXXgymy8NgNTho9QNQCowF7v9jBaI0tXNdwdQy/7nvByY56ZOH75IP90XJ0+gDxDh1pm+0s0HT7abTIaugHz/HkVw0NqSlUlgdvba2LOFppcigVnXTkHFl6u9hu+HH2Ja8T/mK+iq/zZBq5og14SbJRbucYKN8zHNrQo1MD8U6ru8IzgsG12SIuEjcDrfH8/dVqnOzOZQLZM0w0dvNMhLE1WaHYqTkJgUaXGzLYrMhd5F4tE0lPN2KqdStbllJj/OW4y4B2Zc9KJwCN4FBCS14n6fJqMMjq75Wlgay2aKXBncjlj8Np1rnwtZZeCe9pGfXsMlUfRwpoJ6R6KFtVUH0vEYGh2I3MSogLfFTem6xkAegAFn1nCGsz/nF36d2dl66fWC7XTHjfX0Eund0P10G1rVdqq55TjfISV4HStt5KlRMTNbyYxtGabi7TJyQ8oN0lJH7MZo3Mzn8opArVWze1420VPTK6rxFiiV7QAjqut4JLd7sspbQFdV2j7CmU6hnD9dhetTOeI2ghcg/dVHVqRxhhfXjPGY5S3wI5OdRoetv4EV9lcNvldrhofdRHUxTSHQhkTD3M4SorEFuYePab5MAPXcBehMQYhQLrn/rIW6KBmxcPFc+6rAB7wJZ+SaFK8+OttzOKdWCFR2D2UXHGnv4GFfj17awnIGt5Izesa8Q0m+NmQY2DialocyA3bIvQMp67rk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(366004)(39830400003)(396003)(136003)(2616005)(6916009)(956004)(316002)(66476007)(31686004)(66946007)(66556008)(16576012)(31696002)(83380400001)(6486002)(478600001)(186003)(2906002)(8676002)(4326008)(38100700002)(5660300002)(52116002)(8936002)(26005)(36756003)(38350700002)(966005)(16526019)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UUNGcGFhYXBKVk42SDhXSTNtSDFOT3JhazlBbDAvR2pvRTdxbUNIWWdkQUVV?=
+ =?utf-8?B?VVFWOU9USHZqTmNOb2pYamlKMkRSTXdLZE5zMWdtQVJlUUpyQUs1eGVrL1Z2?=
+ =?utf-8?B?c1BKUkpGTnZCRTRFWDZTYm5wUWgwdGlLRnpGTTArQVI1UWtadjZLMW43YVNN?=
+ =?utf-8?B?RHpaWnYzbzhuQ1hvUnRqRmpoTGJRR0x5T242K291RHJSNTMzbFRINEMrQ1Rs?=
+ =?utf-8?B?REswQzQycUdxbmZkc1N5TDVnQlQxWi8vNXlkQ0tpbHpMbFp3UDV3VnFPYklo?=
+ =?utf-8?B?WmZDYTMreGZSWHVjbzlMQTkveWxNSWxhbEs0WC9mY09pclpScWdaOUpzc0p4?=
+ =?utf-8?B?VHVIOHhKdDFIK0QxYXB5QnhCRjQxdEpwSVZEZWljRFoxM0pKSmxrVGhtZUZz?=
+ =?utf-8?B?RXRIZzljU3NQbE9qcDdhK3phSWY4MmFiZFZzencwc3FuME9iQk9lS2w5MHkr?=
+ =?utf-8?B?cUYxUGlFNGpIYTE4ZHlxTHhvT3JqWXVPNVFQNENjVEx2b1VBVFRrK2dmUWVt?=
+ =?utf-8?B?dURiMGoybkkxWHVteXdPbGZCTDFBYWFBTlowbkJvOHBWdnBMUDg5NExtNWNO?=
+ =?utf-8?B?d2N3aVNRZHVCeXBTTzg0dVF1Tk5RNDVDdHN1Uit6MHBDVVVQc3dFSnArbVdS?=
+ =?utf-8?B?VExSVWd3VFRMNHNRYTdhT2t1SlVpSFk4MklBYVc2dXpsVFk0VS9JNGc4TUto?=
+ =?utf-8?B?U20ycmhvN1hXd1BhYjdQZlBsVlB6Vi9ubWtyL1h1dlRDcFl2QXpHNkFydVNO?=
+ =?utf-8?B?OUhSMGI5TTlhOGc0WUVmMmdKQklZVUtDVzVwU0g4aEtoTXFPSXZWajcyTmJk?=
+ =?utf-8?B?cjJvRC9aOCt0dTRRMGhzT3FjZjUwY0lpSWFINDBUdm1WMTJnbnlJeE9vdXhY?=
+ =?utf-8?B?bG5VMGZmZ1JvaG4rV1ZPeDJUWjVpUmsralV1SSsvd2JzN09WclVOTmZUTjJD?=
+ =?utf-8?B?R0IxSWlqaVZPT0wvOHVqSitpZUUyWGdUUFZMZXcrV0hZVDNpQlB6Q0R1eTlX?=
+ =?utf-8?B?cEJxOHhaNE1tVmdvOGVWN2d2NnhmNXhOOHdJdFNxSm53aS9PeG1XdVYvNS9x?=
+ =?utf-8?B?RDlTUHQ0UjFyeEdXQ24zL2NuY1NJeGhrWmE1THpFZ2RvMmMyY0l4VGpEektQ?=
+ =?utf-8?B?cTJieHhFSUljdUlSYUttdXRUc1o0UzhrakJ6RWYwZG5zYkJzV21rVDNFeElL?=
+ =?utf-8?B?eDJRbzhPMGQ0OUJuQWh5clljQk9zYVY4T3p1UmZPN1ZhTEI0dzRSUmNjZ1J0?=
+ =?utf-8?B?TlRsdXgvOUtvMDJQUWpKTmxBYVI1WHdRSmpZMXFkUkhVSnBiYThYWk1SMmNn?=
+ =?utf-8?B?SEVidlRUcHcvQVpBaXoyV3hzODFtT3NjOUZlK3JQdFNMVGkzb1ZUWmRrV29D?=
+ =?utf-8?B?TS91c3BxVGtzejhYTm1Hc0d3RU1WWFpITmxGN2pCcnA1blVJMTV1OU1WNVhs?=
+ =?utf-8?B?QzFHOGgyZjRWU1NydlJ1WVJRcEF6cE9sMU9zUFcyZXRCMXdRYnYwbDVheXZt?=
+ =?utf-8?B?OVpBQ1JzNnR4ME54cndvMnJObSt1bmFxd3dVWFFtdzFFa2EycFczdXZRVTRH?=
+ =?utf-8?B?VzZMTFFYamppb29wZ21Xc21KcDd0YlVtMng5LytxZHpEQzk1MzZGWXZ3ZjF5?=
+ =?utf-8?B?NlM0TEtzTlB6ZWNaejJiR0JsSlB4WU0xOTlzaldkb3U5MDcvLzJmMFRNZTJR?=
+ =?utf-8?B?V3VqSlVBcjcrKy95aFJSa0ljaTRzN3BqcVVsRklGYXg2VmJpTjVXLzdHKzQr?=
+ =?utf-8?Q?XRl2uKdqVmYjdAP0B6QsUBNpNWCj9XfWtqpqXzC?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2c087d5-cba9-4681-b5a6-08d9095a9874
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 08:58:16.1990 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xYH6GmZcpcMPfuONU1Ycb28JQy3T4kuOaOPPupMq6JQvu0DgRJVsiBrdYGINmGkWdHm1KlmukTOwnMiDQuS2hmtlAGyn44HAHCFozDfSzMc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4216
+Received-SPF: pass client-ip=40.107.6.97;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,117 +144,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
- philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 01, 2021 at 05:55:36AM -0700, Haibo Xu wrote:
-> Using the new VGIC KVM device attribute to set the maintenance IRQ.
-> This is fixed to use IRQ 25(PPI 9), as a platform decision matching
-> the arm64 SBSA recommendation.
+kindly ping.
+
+I probably can pull it as is when 6.0 finally released and new development phase opened..
+
+Still, John, if you have some time for it, could you look through the changes and may be give missed r-bs?
+
+changes v2->v3:
+  
+  https://patchew.org/QEMU/20210304101738.20248-1-vsementsov@virtuozzo.com/diff/20210323134734.72930-1-vsementsov@virtuozzo.com/
+
+23.03.2021 16:47, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
-> ---
->  hw/arm/virt.c                      |  5 +++++
->  hw/intc/arm_gicv3_common.c         |  1 +
->  hw/intc/arm_gicv3_kvm.c            | 16 ++++++++++++++++
->  include/hw/intc/arm_gicv3_common.h |  1 +
->  4 files changed, 23 insertions(+)
+> Here are some improvements to simplebench lib, to support my
+> "qcow2: compressed write cache" series.
 > 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index aa2bbd14e0..92d46ebcfe 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -663,6 +663,11 @@ static void create_gic(VirtMachineState *vms)
->              qdev_prop_set_uint32(vms->gic, "redist-region-count[1]",
->                  MIN(smp_cpus - redist0_count, redist1_capacity));
->          }
-> +
-> +        if (kvm_irqchip_in_kernel()) {
-> +            bool el2 = object_property_get_bool(OBJECT(first_cpu), "el2", NULL);
-> +            qdev_prop_set_bit(vms->gic, "has-virtualization-extensions", el2);
-> +        }
->      } else {
->          if (!kvm_irqchip_in_kernel()) {
->              qdev_prop_set_bit(vms->gic, "has-virtualization-extensions",
-> diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-> index 58ef65f589..3ac10c8e61 100644
-> --- a/hw/intc/arm_gicv3_common.c
-> +++ b/hw/intc/arm_gicv3_common.c
-> @@ -495,6 +495,7 @@ static Property arm_gicv3_common_properties[] = {
->      DEFINE_PROP_UINT32("num-irq", GICv3State, num_irq, 32),
->      DEFINE_PROP_UINT32("revision", GICv3State, revision, 3),
->      DEFINE_PROP_BOOL("has-security-extensions", GICv3State, security_extn, 0),
-> +    DEFINE_PROP_BOOL("has-virtualization-extensions", GICv3State, virt_extn, 0),
->      DEFINE_PROP_ARRAY("redist-region-count", GICv3State, nb_redist_regions,
->                        redist_region_count, qdev_prop_uint32, uint32_t),
->      DEFINE_PROP_END_OF_LIST(),
-> diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-> index 65a4c880a3..1e1ca66e2c 100644
-> --- a/hw/intc/arm_gicv3_kvm.c
-> +++ b/hw/intc/arm_gicv3_kvm.c
-> @@ -826,6 +826,22 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
->      kvm_device_access(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_CTRL,
->                        KVM_DEV_ARM_VGIC_CTRL_INIT, NULL, true, &error_abort);
->  
-> +    if (s->virt_extn) {
-> +        bool maint_irq_allowed;
-> +        uint32_t maint_irq = 25;
-
-Please use KVM_DEV_ARM_VGIC_GRP_MAINT_IRQ + 16, or better would be
-something like PPI(KVM_DEV_ARM_VGIC_GRP_MAINT_IRQ). We have a PPI() macro
-in virt.h. I'm not sure if/where we could move that, though.
-
-> +
-> +        maint_irq_allowed =
-> +            kvm_device_check_attr(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_MAINT_IRQ, 0);
-> +        if (!maint_irq_allowed) {
-
-I'll defer to the maintainers, but I'd rather see
-
-        if (!kvm_device_check_attr(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_MAINT_IRQ, 0)) {
-
-which is slightly longer than 80 chars, then require the use of a local
-variable and the broken assignment line.
-
-> +            error_setg(errp, "VGICv3 setting maintenance IRQ are not "
-> +                             "supported by this host kernel");
-
-"VGICv3 maintenance IRQ setting is not supported by this host kernel"
-
-Also, I think we're trying not to brake error lines like this. It makes
-grepping harder.
-
-> +            return;
-> +        }
-> +
-> +        kvm_device_access(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_MAINT_IRQ,
-> +                          0, &maint_irq, true, &error_abort);
-> +    }
-> +
->      kvm_arm_register_device(&s->iomem_dist, -1, KVM_DEV_ARM_VGIC_GRP_ADDR,
->                              KVM_VGIC_V3_ADDR_TYPE_DIST, s->dev_fd, 0);
->  
-> diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
-> index 91491a2f66..921ddc2c5f 100644
-> --- a/include/hw/intc/arm_gicv3_common.h
-> +++ b/include/hw/intc/arm_gicv3_common.h
-> @@ -220,6 +220,7 @@ struct GICv3State {
->      uint32_t num_irq;
->      uint32_t revision;
->      bool security_extn;
-> +    bool virt_extn;
->      bool irq_reset_nonsecure;
->      bool gicd_no_migration_shift_bug;
->  
-> -- 
-> 2.17.1
+> v3:
+> 01: use simpler logic
+> 02,04-06: add John's r-b
+> 07: use BooleanOptionalAction and
+>      initial_run=args.initial_run
+> 08: rewrite so that we have a new --drop-caches option
 > 
->
+> Vladimir Sementsov-Ogievskiy (9):
+>    simplebench: bench_one(): add slow_limit argument
+>    simplebench: bench_one(): support count=1
+>    simplebench/bench-backup: add --compressed option
+>    simplebench/bench-backup: add target-cache argument
+>    simplebench/bench_block_job: handle error in BLOCK_JOB_COMPLETED
+>    simplebench/bench-backup: support qcow2 source files
+>    simplebench/bench-backup: add --count and --no-initial-run
+>    simplebench/bench-backup: add --drop-caches argument
+>    MAINTAINERS: update Benchmark util: add git tree
+> 
+>   MAINTAINERS                            |  1 +
+>   scripts/simplebench/bench-backup.py    | 95 +++++++++++++++++++++-----
+>   scripts/simplebench/bench_block_job.py | 42 +++++++++++-
+>   scripts/simplebench/simplebench.py     | 28 +++++++-
+>   4 files changed, 144 insertions(+), 22 deletions(-)
+> 
 
-Thanks,
-drew 
 
+-- 
+Best regards,
+Vladimir
 
