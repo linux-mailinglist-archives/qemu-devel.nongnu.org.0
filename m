@@ -2,139 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E86136C5B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:02:28 +0200 (CEST)
-Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49F836C5BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:04:39 +0200 (CEST)
+Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbMQ7-00035C-2e
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59410)
+	id 1lbMSD-0004Fn-Re
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lbMNh-00025U-AW; Tue, 27 Apr 2021 07:59:57 -0400
-Received: from mail-vi1eur05on2101.outbound.protection.outlook.com
- ([40.107.21.101]:60960 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1lbMQq-0003o8-1M
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:03:12 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:37974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lbMNc-0001DJ-5K; Tue, 27 Apr 2021 07:59:56 -0400
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1lbMQi-0002wx-Ro
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 08:03:11 -0400
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13RBwAhG030195; Tue, 27 Apr 2021 05:02:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=p3dNnFRNiY+GIhFhxuBwz1AqdSIsA3hOHs03KWHcQJU=;
+ b=bfq0QnuwvcLxNybhzBm+rdfdQzAZdRewdt8x9/xmN8Oj1+7WNz2iOnOReYgjjetZPYM9
+ mtBiKnMZE58JFaSs4rlxu8fthR2dNmCpX5tZyyrHe8RCwpZNw4lwRiQSKuCn1m3B6rr+
+ qHyqPeMh1AXlMPTrOCrKNQcVipKz+JmidzGOcuoth/zC7JZhfThkZxXrwKmOdJedrItF
+ dP8MreUlFJHo18sxd5hZiSiULxD1Z+Tp4CWIAVN22fNVits03OYRU1iano8I/+JZeDhw
+ XwESZ0KpN8+wjAVX+kBcXl0llCbCV1QBHJV60eFEpjIc7aU1IOTWFVSNkdwLc1Ry4RcJ iA== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 385nb2bd3n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Apr 2021 05:02:47 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KYr1BAhgbtS7BnxUZSu18yUPfNEugPWMOpr+BAMSObLsvVKt5e774ubIElrNnYUUbLSiTHyb4enS0WIor9tkfhXgLsGIyZC/8bRgdHXo43TZaUGJdwUDhely6yRmBNSV8uh+m1QX5b+pAaklDVtwJ7g7MEdMi0oti1ZuqK1Dq3ytGgE4SgNc1Q9QJ1f9Pdtssu7/66dOsz9J7LfgvNZO1/o4xVwWegJFPpks4CkqmDl1vOP62RfcvzkOYNoc9JPLcjOsQtlhC7YSoHyaiE33HSPC4cI/V0+YIwCGOgwUDWYXJ6BUP6uraEc52eMDoYmaTdEhGxwSzu8vHHen7O8Bpw==
+ b=cwvoJac9g7m+sa9PCFnDRCbPYyS0wF8anD/998L0DSGeWDtQLeAxHwAON5aoPjooF26N8Wu9QtOuHoQCmd3JjLqouNX+FEVHHCH0MFsjCLr4Dw4HtMEnAePdOVmuPXQaSRPk3go9FyHjsNYLkk/+E+EQHjqPOVwT4rwWELuc5/OH1XTzPuMdW/ZnaApUJO5CcPHK2VnrLHJbdviJuVJto1X/7BjqgdSEoZY3nEtnPL1xRFV60k8DLgsHfpGVR5uIF5ygcjaZ2Fzd1bVXhsRCuWtzA3GGwfhUPJn8ikRjaE29Ej1b0PEfH0HpEHLoE2ZCIUXTL9tyQdoxszOhB1Q8kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AhMLhD0PfC4wOxbLP665F/rw4rNeUI2dDYD0J6THQKk=;
- b=ZoN0oFx+Y5r6D6eGJm00oUh+lI0CyZj9JFFN29uecrNjKVnFnd0kWU4qJamvXq5w9J0itYaHyDJ7Lmj3tsD7GgS5YVtRL73WsNRGQIOWpGyf/yXF+Ka/PCGZ+V4azdbOR6qW05oSP+sU6CDRXhmGD0Xh1pY3gNK5ZfwoLoCN7YliSNSbQvo2FwGytgP+PGjFOXXN+JcmnRCrohv0rmJeAD5Mv4RExcb4wQhBsVi0L+wqHo8a7aOWcIbEbnVpNhxjJM+YkblYN2mOZ9YAB7hauNT4sTCTh4tDfzB/BKP8obuQXfpIvkwWac3wVSwSHEyFCSBvqkhWP4vG0GmW/x+e1w==
+ bh=p3dNnFRNiY+GIhFhxuBwz1AqdSIsA3hOHs03KWHcQJU=;
+ b=PPmouQKgV5MTBPf8ENCLXhxWmBlIf5P7Kc+NvQ45vyatSmyM4SpuhKcxGY7dkfaZg6QO1idGnek77taw3vj6emoP9GVaZJeXnjlLQN0vUplzjJR+YSPIp61baVHzbkLFS+mrtee/ac/phjGNN7obJJ6FJNOBoCvU5xq9cnTvkm1n/cZfPksHWtW76RvaL0fFdHJaIbOANDffezme2ZRANrIirk3k9W5eloErFmS8+7rrYMt9n/TXCsE6wptPgsNVi9SFPcR1dL8WBDT125yZ50rUPX39uwp6AGL6w7C+T890WUsZDX+DjwGv9T5uXzcio/p1GEpFcfFeSIO4uI5iiw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AhMLhD0PfC4wOxbLP665F/rw4rNeUI2dDYD0J6THQKk=;
- b=gGDMFaLheNC24BLXnH9+FEqfcsKhVWN3PEzByO09Wh1ynwb945A+Cb+qKGc4u9+yEV5g8CrtHLhHLjzUk9QONf0q940oS+k3PylyUcaV5Nmp/VJ4KEufh0pr4ylYR0EHhOTYQeB1qd637VvnMoZGYDpEufbPGSPIEu7mw8tyuQ0=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3767.eurprd08.prod.outlook.com (2603:10a6:20b:84::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Tue, 27 Apr
- 2021 11:59:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
- 11:59:48 +0000
-Subject: Re: [PATCH 1/2] qapi: block-dirty-bitmap-merge: support allocation
- maps
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com, eblake@redhat.com, pkrempa@redhat.com,
- nshirokovskiy@virtuozzo.com, den@openvz.org
-References: <20210427111126.84307-1-vsementsov@virtuozzo.com>
- <20210427111126.84307-2-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <f11ccb8e-751e-1fea-b7f6-d2349b65bdcd@virtuozzo.com>
-Date: Tue, 27 Apr 2021 14:59:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-In-Reply-To: <20210427111126.84307-2-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.222]
-X-ClientProxiedBy: AM0PR01CA0090.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.222) by
- AM0PR01CA0090.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::31) with
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MW2PR02MB3723.namprd02.prod.outlook.com (2603:10b6:907:2::32)
+ by MWHPR02MB2608.namprd02.prod.outlook.com (2603:10b6:300:43::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25 via Frontend
- Transport; Tue, 27 Apr 2021 11:59:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d609b338-b6df-4d8d-e701-08d90973f499
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3767:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB376731B5C456481313D2499AC1419@AM6PR08MB3767.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S+CRJWXRdKk7iohS5QFzkTnZOwTIWKfthkInr0NdPUeHndjrMtnMmjWyBUHh21oTYV5wuj+hAIYWxhL0ELF+n0dsZZGHVCL5dBrDnsCP7qFIB1pN2boG7f/5iraKvN38KHBNZnXA/rzwn/7cWJMNGj2cPiucUKYI8qppmSxTo8GxDG1SBKF1sDaIIG3UTU7Dzjezw1onPqi3uZG9FiVe5+6TqqGuIjLnWMD8GF1eTfPbo4nej6gADQkmUt9fOYBBy9m0JelXhs8gnvpB0MLL4VV/yC3joM2VEoC4RoNIeZoNumBQulnxN8RsilKD2rZLPWkXiQMNIs37WVkGMseCmQpIgKbpZSsseosSTD+LmEJkmqnPmzdcIC5UGLcYXrlbv+8MWbVV5E0eEk4+giTgbwwtQDEFCrfhQkWQrBehQbxe9/cgKfBd0kOaYgcxYsPvJywOWypkve81C8N4b3eDkKV4y79Ut4pBaga86FKrNyO+mNF/6trI8PnXivJtsbGDEv8V9ZmFDPtkzT+hmKYgaqRMRZTV+8JrRE5UahopES3Rd5UWxVSE4Dy5BJCoPpPnywPtxfOjmTvr0neLcAR8cwbD+p9HSTvBqONh0VJJ2SB2PuM9pHXJnzIxXzbmX8x9mzsbuHAl25/dvBaD4yVzpra2SEtyX5gwwOkd5JEatfZ5YCXxf+uKoY7AmVAT2OXDd+1k/vaJTqZErbJjiX9D5w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39840400004)(107886003)(38100700002)(16576012)(86362001)(6916009)(2906002)(6486002)(4326008)(52116002)(36756003)(38350700002)(316002)(26005)(2616005)(186003)(66476007)(66946007)(66556008)(5660300002)(956004)(31696002)(31686004)(8676002)(8936002)(478600001)(83380400001)(16526019)(14143004)(43740500002);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.24; Tue, 27 Apr
+ 2021 12:02:45 +0000
+Received: from MW2PR02MB3723.namprd02.prod.outlook.com
+ ([fe80::3591:14f:bb39:4797]) by MW2PR02MB3723.namprd02.prod.outlook.com
+ ([fe80::3591:14f:bb39:4797%3]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
+ 12:02:44 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: RE: [PATCH v8] introduce vfio-user protocol specification
+Thread-Topic: [PATCH v8] introduce vfio-user protocol specification
+Thread-Index: AQHXMSMjtDp7nXmGRkuiYMGnZrvqnqrHBNGAgAFTRWA=
+Date: Tue, 27 Apr 2021 12:02:44 +0000
+Message-ID: <MW2PR02MB37238C9134B09733779D0DB88B419@MW2PR02MB3723.namprd02.prod.outlook.com>
+References: <20210414114122.236193-1-thanos.makatos@nutanix.com>
+ <YIbgtbUJxtuQ5PoM@stefanha-x1.localdomain>
+In-Reply-To: <YIbgtbUJxtuQ5PoM@stefanha-x1.localdomain>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-originating-ip: [78.149.4.199]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f93be973-6c6f-4b04-ac0a-08d909745e0a
+x-ms-traffictypediagnostic: MWHPR02MB2608:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR02MB2608C6DDAB980E65CE308F3A8B419@MWHPR02MB2608.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HJD4Cm+4fMTb+pI1Y6LLMOz4M/f2Q4JKzGTUWUl7V0KrYRUdr9eJ8gpt12gprejCR/2uKHGkz8606vErc/rVpUw/X06f2IZQElnsURGkkTgP4EgT2vLL/RiP/Y1WpQzY2r2iah0Ipx5UrZj1zNqUJ3jYRucmmtCNIMchkS3HuBNqhN5UmQKx3K4Ecfg5wufQjW40ZySJccMMJuCl1JCI0Gi1jzAWLQ48LWkH5z3kNxj0MLWDjCd40G6zzp+x8wlYWED3Z+0TKqTPeK8eI1j3eGOxDf8mh7KkjcQKMfTTrhPDfLmt231qYyukcwiCrNQ5tpo2FKAIYcHnse4Et+S8bYWiQ+UelkCDRVl2YplOXQ91/Xt40KdbJXwXbSu3Ije4y+cm8ISf6kD9QoGPUT9c5HJyZT9YMrv1hLpLmZAOSZZua/V8/ctX1GAFOArfbuHmzF0E1Iu9YoWviPigFixmBn2g0oKW9F7dv5VW7hTTCQJ5OTh4DNjKg3ovLSVwvZfICeIDwSZ1ZOkr6PaUBzm63ZDQB8KH+jfesPdnn8OIZ0W2HiZvnWTAykxCjOa2lhoSv/kh6v6xOBUOYEW4z374rngur9+NcCsWKbbHYWvds9s=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR02MB3723.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(346002)(396003)(376002)(39860400002)(366004)(55016002)(7696005)(54906003)(2906002)(33656002)(6506007)(66946007)(5660300002)(64756008)(4326008)(66556008)(9686003)(110136005)(38100700002)(44832011)(8936002)(83380400001)(7416002)(71200400001)(55236004)(186003)(478600001)(26005)(52536014)(66446008)(316002)(53546011)(86362001)(107886003)(76116006)(122000001)(66476007)(8676002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VnZsV1JONWZPb3VGajNCRFBKQXJBUGZNblFWbzZUa1UzTGw1elJUYnVwZ0VS?=
- =?utf-8?B?MlFodjVwZnNTRzI0dWlGUDlyclBlUTRVMndxSVhPc2F5RUhjTFNhc09VMFFU?=
- =?utf-8?B?c0ZWSWtoRS9DV1M0ME5reW9paVp5bnM5dFY2UGd6SVh3Q1YrcnlzSk5qMzJr?=
- =?utf-8?B?Z2J2RXNTc3lLQmppMU02OVEvVDlXMVNCcjhlUndtcEFOVU9JYStaWk1lMElF?=
- =?utf-8?B?SEVXaCt2ZHJJY3VjenBSenJ1TUlCK1N6aElhT3AyWWplUHNESWJiTitzUnVh?=
- =?utf-8?B?S1VWLzREanBIRVR1RTc1SkJmNkhaTC9EdVJGL1EwZ0szczhnYzBXOGxvaXBB?=
- =?utf-8?B?THBMUnlnQzkzSHc4SkVDcmpBSWp3b09UbEppTU5XUHVJTWNaZ1FiY3p5aGht?=
- =?utf-8?B?MWUyYTN3VkV3R0pIUUJvUkJzUTQ3ZmtiVjZvVGd1QWdGTGxYLzJwVDhKU1JG?=
- =?utf-8?B?S05xd2hPTzJ6akNOeE8vY1haUmlERXJRN2g4YjFBR0Y1Rm5FeFJwMDgvMEkw?=
- =?utf-8?B?anBZdG91eFQyc1ZWU1FFbDYxbkdkRXh1WmpzN0Y0eCtndWh2d1kyWjFJd1RE?=
- =?utf-8?B?clJtU3dyVzBrUXM1T3lyOVVPOXNyb3lsNzErc2dHdlgxcy9YM1JYUEsrSWhU?=
- =?utf-8?B?S1cxSVc5WGRuY0NETXF1Umg0TWphQkk5UWRSZFd5VHp6SVNzcHhPNmFrdldO?=
- =?utf-8?B?dGhGcS9LenJ3TTlTN2FkZFgrdTZBYXBBNCtWaG5XUUhlbEcybDcxV3hsWDV0?=
- =?utf-8?B?RUdXdkhmREM3a09LVDdtZFpwNEhLRkVTeEU2SXhIZityOUdIdVRzWTZqcnpu?=
- =?utf-8?B?a3RSdy9WOWFhb3YxdG9sc0ZXcy9jc3gzSFZDTm5Ddzlua0dtWDNIeVpyTlN0?=
- =?utf-8?B?ejZUWEErbWZEeURFeGZyMHJ1K3l6QkplQTRteDQyelhwZm9uQm0yaHEwTm10?=
- =?utf-8?B?OHdWNkErSE5yTlZDY0MrdEFxVmZSb3VYcU92a3A5SGJhakNIbDdZZ0svV0FM?=
- =?utf-8?B?MFA3MDNhMVExVDcvYWxJSFM2amxlSDg5UkRISlBGY05PaXBWekpYVERCZllB?=
- =?utf-8?B?QjBuYUpkaWJDcEs2VFZORllHOWhQQ1IyTnJyRFY3MmVNNVI1YjlZK1psQnhE?=
- =?utf-8?B?UlpnZkw1ajAwV0tneWM0NlVKaWt2TkszNzJ1d0MyWmNqaGlBNnZrNmRhL2pj?=
- =?utf-8?B?YlF3a2JnalNXVXN3ZkxpM1dDdi9VV2ZPK0FyS1MyZnJGYmtjK1NIaVhmZHc4?=
- =?utf-8?B?aGowUG9uQUlXVGErQzJSWVd0VENMSHR0SEVrZ0o5aURRYVdITWMzSXMrT3Rl?=
- =?utf-8?B?Q3E1T05Yb1BWQ2VRZmpMWmFDcC94OGthUVJ1Yjh2YXBLWGFnWGhUUGRYZGRJ?=
- =?utf-8?B?QlpnU2NlalUza2ZDT040MnFYb1NOQ1VlajZyN3VyREJmTHQ1WjZJb2xnY2JL?=
- =?utf-8?B?eG9VYnJXcVY3WHZyWXlTVUE3M0FiU1F3S3A2ZGxBeGpSUUlCbjNOdXdScnMy?=
- =?utf-8?B?ZEpXOEdUUDdCNjhucXpLM2M3WHBRVlJ6K1JOeXNLdUl6UzFJVERpYkU3OHFr?=
- =?utf-8?B?bGFuUXZUNFBvZ3gzZ3hFQUJVQnVxMWxnNG14M3pqamNVTmZTZFpjaC9PeGto?=
- =?utf-8?B?RFdoVmc5dkRqMng5dUdRaC9HU1p0V2RhOUlZakIxdS92RGs0ZkxBUklwSHg0?=
- =?utf-8?B?N2tFWngzajYrMmhFaG5ESnp4YlFsT1dQdWRRMWpoenQxd2p1b2t2MGNIU0pR?=
- =?utf-8?Q?1sL3gGGrbobkD2bJi+dlpPwfLXCMB1B3wbfN3u3?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d609b338-b6df-4d8d-e701-08d90973f499
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?KL2jsgrZsznc40gf9w4AV1w6MDlbt13Gg2riZDHl7JcC6d10uPvVgdrFbUAZ?=
+ =?us-ascii?Q?njCK8W5pMxGdsTLzarYU7du8f+WG07KufGQAjWcmF2EcTuetwyIRPi9X6Zua?=
+ =?us-ascii?Q?sveCxE6hkLCj8mgmju1kQwKG5p36rb/iTa5oXlpBpWN13TM4qQ8E1pT6z7q0?=
+ =?us-ascii?Q?xkF8QjrlLx4J5DK0H9QY0bypx1cSMzPKndwvE/aLmHHBgkTgj3RIRXQaVqyA?=
+ =?us-ascii?Q?W7pO3sW1TfuRVOPovlJteCWOq9UPfbem8jZ8rf99XimTikguo1jq2miOnm5V?=
+ =?us-ascii?Q?uuCKlpH0WAPq4rGmwWutYSH2xQKKNnmC+bIIVHjSUNhojeNFmfliiqgRQo14?=
+ =?us-ascii?Q?/AcWz9Dg5KWqYUjUdPsYNxM1kBg7UKwLGpQUdrryWGGu0UlJz/Pm+6XUsuOD?=
+ =?us-ascii?Q?bYqfX9yxb+Qq+t/iwGb7m2cyGm/0sMl8g2jWi/NbY7WDY+BYs1rtF+3b8JtY?=
+ =?us-ascii?Q?8WlNWEUTzj757QDWvb5Z0BfddzYPykNJV+axXv6qrkzHtzJpz0mFj+MIUja+?=
+ =?us-ascii?Q?fo+n6u4Ihwg/7aT6Zfr769H/fYKnPh5W9/uUUG2FlsikSX7VI4LvRZHeen3n?=
+ =?us-ascii?Q?O9bpKhazfzxqP5f3k9ZKVqU1KmtBsIU9nXZQ5sPHLSpftDC88Igi+5famnY+?=
+ =?us-ascii?Q?Q2g1s8cjkNqJTcqDlmdmPLlp88p9wE+ukV8GDiTuN+WwdeC/BIBOiX7H+vXN?=
+ =?us-ascii?Q?9W2FIs5E5lNTFg3pq4rc7T2Bu+qSBye9bogmQZBlMRA6c2KOBw/bAHFVamxs?=
+ =?us-ascii?Q?oQNa++I9PjCGzVF4TCSAq1C4S0zQuSO3feXqvadedtH3uNEc+pSCp5CZ2wuW?=
+ =?us-ascii?Q?J+MfDnFg/Nv+N/amRgu1JS0sV4G6ExWc8+JAciGQ97WDLepVzN3QLDJsJPXd?=
+ =?us-ascii?Q?av5l8fHBFamj7+8hiVR7JoE9iIS8NBmPiIRmb+iZrAKLJ81Qk6Shcep65Nz1?=
+ =?us-ascii?Q?4Q9uiiGz7Zq8boXECl/7ZtJMG27V0CIyv3dYtgOfFIUP+He+N8pyvB34CD4K?=
+ =?us-ascii?Q?aAQUnsYbbEvfgVJ/CEk6+Nfd4kX5XgBg+OCCXPAX/ypS6Jm45M7i2Zw5tb2K?=
+ =?us-ascii?Q?uH0J0ndteCSB4h+eJ6RCF9fX+9/rcmOooux+4aCeaB8zJ16Sc20WpzP+h9V5?=
+ =?us-ascii?Q?epRp8L73ryQ7T8PZyHnxgWxt7KOf7wvhRM1cYtVdMpp3kdUrpHemc/s6f8Ke?=
+ =?us-ascii?Q?yXTzwYOTmSc9FTEt107e8Cy/FwjhHXxiXenUy2f/XzALHYfDUgsdIMLKF12h?=
+ =?us-ascii?Q?WfrHfQMRtXHCH0Nbdvzi68ZLAjhc5oLvu1LhFuOtLbW3vtHxC1lLp8INOuII?=
+ =?us-ascii?Q?rwA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 11:59:48.0531 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ciyACFSz+4GXtDUToTuWbZ3xGAp2Zb7ff+RvyBVlTtkAcq78o00fCDYiiK/zUZdqgjUk9J7ikAFzmnWLwBOFHg41xhi69AC4Akgab+sxYRw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3767
-Received-SPF: pass client-ip=40.107.21.101;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR02MB3723.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f93be973-6c6f-4b04-ac0a-08d909745e0a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2021 12:02:44.4622 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ocY6PO7EKtqdZcaDrviJzuhE95jza19mm/pU1/9v1JLBI/+A79LtWlbaxA6WbPn/8JcLxA2YsRoGp8fOez2VcgJgrKXlsust4DJDVPEJVsg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2608
+X-Proofpoint-GUID: VqN3pfrJ0e2XbiQ7vBOtQu3FXoQ6xg4y
+X-Proofpoint-ORIG-GUID: VqN3pfrJ0e2XbiQ7vBOtQu3FXoQ6xg4y
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-27_06:2021-04-27,
+ 2021-04-27 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=thanos.makatos@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -148,97 +151,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "benjamin.walker@intel.com" <benjamin.walker@intel.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ John Levon <levon@movementarian.org>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "tina.zhang@intel.com" <tina.zhang@intel.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>,
+ "james.r.harris@intel.com" <james.r.harris@intel.com>,
+ John Levon <john.levon@nutanix.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "Kanth.Ghatraju@oracle.com" <Kanth.Ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ Christophe de Dinechin <cdupontd@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "yuvalkashtan@gmail.com" <yuvalkashtan@gmail.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "ismael@linux.com" <ismael@linux.com>,
+ "changpeng.liu@intel.com" <changpeng.liu@intel.com>,
+ "tomassetti.andrea@gmail.com" <tomassetti.andrea@gmail.com>,
+ "mpiszczek@ddn.com" <mpiszczek@ddn.com>, Cornelia Huck <cohuck@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "xiuchun.lu@intel.com" <xiuchun.lu@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.04.2021 14:11, Vladimir Sementsov-Ogievskiy wrote:
-> Add possibility to merge allocation map of specified node into target
-> bitmap.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> ---
->   qapi/block-core.json            | 31 +++++++++++++++++--
->   include/block/block_int.h       |  4 +++
->   block/dirty-bitmap.c            | 42 +++++++++++++++++++++++++
->   block/monitor/bitmap-qmp-cmds.c | 55 ++++++++++++++++++++++++++++-----
->   4 files changed, 122 insertions(+), 10 deletions(-)
-> 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 6d227924d0..0fafb043bc 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2006,6 +2006,32 @@
->     'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
->               '*persistent': 'bool', '*disabled': 'bool' } }
->   
-> +##
-> +# @AllocationMapMode:
-> +#
-> +# An enumeration of possible allocation maps that could be merged into target
-> +# bitmap.
-> +#
-> +# @top: The allocation status of the top layer of the attached storage node.
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'enum': 'AllocationMapMode',
-> +  'data': ['top'] }
-> +
-> +##
-> +# @BlockDirtyBitmapMergeExternalSource:
-> +#
-> +# @node: name of device/node which the bitmap is tracking
-> +#
-> +# @name: name of the dirty bitmap
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'BlockDirtyBitmapMergeExternalSource',
-> +  'data': { 'node': 'str', '*name': 'str',
-> +            '*allocation-map': 'AllocationMapMode' } }
-> +
->   ##
->   # @BlockDirtyBitmapMergeSource:
->   #
-> @@ -2017,7 +2043,7 @@
->   ##
->   { 'alternate': 'BlockDirtyBitmapMergeSource',
->     'data': { 'local': 'str',
-> -            'external': 'BlockDirtyBitmap' } }
-> +            'external': 'BlockDirtyBitmapMergeExternalSource' } }
->   
->   ##
->   # @BlockDirtyBitmapMerge:
-> @@ -2176,7 +2202,8 @@
->   #
->   ##
->   { 'command': 'block-dirty-bitmap-merge',
-> -  'data': 'BlockDirtyBitmapMerge' }
-> +  'data': 'BlockDirtyBitmapMerge',
-> +  'coroutine': true }
->   
->   ##
 
 
-So, what I propose makes possible to issue the following command:
+> -----Original Message-----
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+> Sent: 26 April 2021 16:48
+> To: Thanos Makatos <thanos.makatos@nutanix.com>; Peter Maydell
+> <peter.maydell@linaro.org>; Michael S. Tsirkin <mst@redhat.com>
+> Cc: qemu-devel@nongnu.org; John Levon <levon@movementarian.org>;
+> John G Johnson <john.g.johnson@oracle.com>;
+> benjamin.walker@intel.com; Elena Ufimtseva
+> <elena.ufimtseva@oracle.com>; jag.raman@oracle.com;
+> james.r.harris@intel.com; Swapnil Ingle <swapnil.ingle@nutanix.com>;
+> konrad.wilk@oracle.com; alex.williamson@redhat.com;
+> yuvalkashtan@gmail.com; tina.zhang@intel.com;
+> marcandre.lureau@redhat.com; ismael@linux.com;
+> Kanth.Ghatraju@oracle.com; Felipe Franciosi <felipe@nutanix.com>;
+> xiuchun.lu@intel.com; tomassetti.andrea@gmail.com; Raphael Norwitz
+> <raphael.norwitz@nutanix.com>; changpeng.liu@intel.com;
+> dgilbert@redhat.com; Yan Zhao <yan.y.zhao@intel.com>; Michael S . Tsirkin
+> <mst@redhat.com>; Gerd Hoffmann <kraxel@redhat.com>; Christophe de
+> Dinechin <cdupontd@redhat.com>; Jason Wang <jasowang@redhat.com>;
+> Cornelia Huck <cohuck@redhat.com>; Kirti Wankhede
+> <kwankhede@nvidia.com>; Paolo Bonzini <pbonzini@redhat.com>;
+> mpiszczek@ddn.com; John Levon <john.levon@nutanix.com>
+> Subject: Re: [PATCH v8] introduce vfio-user protocol specification
+>=20
+> On Wed, Apr 14, 2021 at 04:41:22AM -0700, Thanos Makatos wrote:
+> > This patch introduces the vfio-user protocol specification (formerly
+> > known as VFIO-over-socket), which is designed to allow devices to be
+> > emulated outside QEMU, in a separate process. vfio-user reuses the
+> > existing VFIO defines, structs and concepts.
+> >
+> > It has been earlier discussed as an RFC in:
+> > "RFC: use VFIO over a UNIX domain socket to implement device offloading=
+"
+> >
+> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> > Signed-off-by: Thanos Makatos <thanos.makatos@nutanix.com>
+> > Signed-off-by: John Levon <john.levon@nutanix.com>
+>=20
+> No review yet but I wanted to agree on the next steps once the spec has
+> been reviewed.
+>=20
+> One or more of you would be added to ./MAINTAINERS and handle future
+> patch review and pull requests for the spec.
+>=20
+> The spec will be unstable/experimental at least until QEMU vfio-user
+> implementation has landed. Otherwise it's hard to know whether the
+> protocol really works.
+>=20
+> Does this sound good?
 
-block-dirty-bitmap-merge
-   bitmaps: [{"allocation-map": "top", "node": "drive0"}]
-   node: target-node-name
-   target: target-bitmap-name
+Yes, of course.
 
-
-I've discussed it with Nikolay, and he requested a possibility of querying allocation status of base..top sub-chain (assume several snapshots was done without creating bitmaps, and we want to restore the bitmap for backup).
-
-So, we actually want something like
-
-block-dirty-bitmap-merge
-   bitmaps: [{top: "tpp-node-name", bottom: "bottom-node-name"}]
-   node: target-node-name
-   target: target-bitmap-name
-
-
--- 
-Best regards,
-Vladimir
+>=20
+> Stefan
 
