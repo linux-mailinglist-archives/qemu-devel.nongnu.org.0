@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7587E36C16A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:01:35 +0200 (CEST)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DC536C16B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 11:01:57 +0200 (CEST)
+Received: from localhost ([::1]:47662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbJb4-00082I-H6
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:01:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
+	id 1lbJbQ-0008OJ-KU
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 05:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lbJWo-0003gc-8o
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:57:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37406)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lbJYh-0005qf-DX; Tue, 27 Apr 2021 04:59:07 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lbJWj-0001s4-EW
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 04:57:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619513824;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ibRhOTDmX9mTWUtXSW8sZSvW+9+pCI58p8Vn/EBY/Ew=;
- b=SUKXf8Ck5xXGEJ2N7ddp7kxPv/PKZ3IgdtKONbbGkpGrLVO1EcG3It2oP5fdZgtEGathmv
- XJuWYq619kK1XQgz+VYIEldL5zVHhZt/eYaMy0LlcJ5syZ1s1TS7uEqiGT5Utvbj3mkzEb
- jhTnvSJq3HzoxBxH4rGL9/hRruVHNhY=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-ngtc_65lOOS1mPccCUgr2w-1; Tue, 27 Apr 2021 04:57:00 -0400
-X-MC-Unique: ngtc_65lOOS1mPccCUgr2w-1
-Received: by mail-pj1-f69.google.com with SMTP id
- p11-20020a17090ad30bb029014dcd9154e1so806200pju.0
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 01:57:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ibRhOTDmX9mTWUtXSW8sZSvW+9+pCI58p8Vn/EBY/Ew=;
- b=IK6SE69Xv3RkRwzAYsBUsNwt/4bh5iXNwnwKEXnog2c0ZE3LK9frooxd6iHFzTXGSB
- QZ275zNB4WvQBU/CuIGL/W8mrEjn/cCnIR2Iy86FVCQcgXPI8NhxMJCEomqLGtlPWsXj
- y2JrsaoJ0gGrTvVLwt0tkFnFYFkbIeOK7YnunwyWogGJ+QstzMe4r9eNmhvcKMpFjLCZ
- hFGTD2hKNvqZ2mkKYHhABoKHPdB3890ceC4hhYIIbeJt+onR7nOsfSYi4mI7aNt3bViP
- o+Dy6SGPmIEeYBu3JCvcKjEqUweBETLnMm8Wa4zjRHRY7YGwPMmjbCfSOKxb1eCBrG95
- LRLw==
-X-Gm-Message-State: AOAM530y7WEhQMaCZYlClZIZRKHRlhQJyoYhtPqPzcidmq1W42t6KkoO
- BtcjQTW8kg0Ga0QHxa9pBfMA9o5/TYNoSV9pHqjK1c8deL3hBEN2iBKEBkdZtpqsJzU6jm04l8e
- yss9YPQEVfZ5VDqgoQKFBfusgoo7D3pE=
-X-Received: by 2002:a17:90a:510d:: with SMTP id
- t13mr25018894pjh.97.1619513819144; 
- Tue, 27 Apr 2021 01:56:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQjaQ9qyFHDOFUzN8AwMjglzGUqEbDWwlCb8cYSvZxXE73GgiT3nUHKoLdl2soY4wnXxrwxxec52vmvm8p44o=
-X-Received: by 2002:a17:90a:510d:: with SMTP id
- t13mr25018876pjh.97.1619513818839; 
- Tue, 27 Apr 2021 01:56:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lbJYd-0002u9-CE; Tue, 27 Apr 2021 04:59:07 -0400
+Received: from dggeml716-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FTwc33dRBzYdPL;
+ Tue, 27 Apr 2021 16:56:35 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggeml716-chm.china.huawei.com (10.3.17.127) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 27 Apr 2021 16:58:51 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 27 Apr 2021 16:58:50 +0800
+Subject: Re: [RFC v9 15/29] vfio: Set up nested stage mappings
+To: Auger Eric <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <alex.williamson@redhat.com>
+References: <20210411120912.15770-1-eric.auger@redhat.com>
+ <20210411120912.15770-16-eric.auger@redhat.com>
+ <cea9fd63-18d6-32c5-bed0-d8783af654ce@huawei.com>
+ <a844b9fa-40e9-6443-b359-60ca7d9661aa@redhat.com>
+ <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
+ <f984c0a8-439d-ce53-bcdc-efcd28f707f4@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <8de87d47-5039-1eef-3c5e-39d21ff39ac3@huawei.com>
+Date: Tue, 27 Apr 2021 16:58:50 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210423083351.2096734-1-kraxel@redhat.com>
- <20210423083351.2096734-6-kraxel@redhat.com>
-In-Reply-To: <20210423083351.2096734-6-kraxel@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Apr 2021 12:56:47 +0400
-Message-ID: <CAMxuvaxOgK9wAvOU=PSpnnr-Se-uku08iTy2ODuG+g=pF3Ugaw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/9] ui/vdagent: add mouse support
-To: Gerd Hoffmann <kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e1eae805c0f0714f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <f984c0a8-439d-ce53-bcdc-efcd28f707f4@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,669 +71,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
+ Xingang Wang <wangxingang5@huawei.com>, chenxiang66@hisilicon.com,
+ tn@semihalf.com, shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
+ vivek.gautam@arm.com, vdumpa@nvidia.com, yi.l.liu@intel.com, peterx@redhat.com,
+ zhangfei.gao@gmail.com, wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ jean-philippe@linaro.org, zhukeqian1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e1eae805c0f0714f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Eric,
 
-On Fri, Apr 23, 2021 at 12:34 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On 2021/4/26 20:30, Auger Eric wrote:
+> Hi Kunkun,
+>
+> On 4/14/21 3:45 AM, Kunkun Jiang wrote:
+>> On 2021/4/13 20:57, Auger Eric wrote:
+>>> Hi Kunkun,
+>>>
+>>> On 4/13/21 2:10 PM, Kunkun Jiang wrote:
+>>>> Hi Eric,
+>>>>
+>>>> On 2021/4/11 20:08, Eric Auger wrote:
+>>>>> In nested mode, legacy vfio_iommu_map_notify cannot be used as
+>>>>> there is no "caching" mode and we do not trap on map.
+>>>>>
+>>>>> On Intel, vfio_iommu_map_notify was used to DMA map the RAM
+>>>>> through the host single stage.
+>>>>>
+>>>>> With nested mode, we need to setup the stage 2 and the stage 1
+>>>>> separately. This patch introduces a prereg_listener to setup
+>>>>> the stage 2 mapping.
+>>>>>
+>>>>> The stage 1 mapping, owned by the guest, is passed to the host
+>>>>> when the guest invalidates the stage 1 configuration, through
+>>>>> a dedicated PCIPASIDOps callback. Guest IOTLB invalidations
+>>>>> are cascaded downto the host through another IOMMU MR UNMAP
+>>>>> notifier.
+>>>>>
+>>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>>>
+>>>>> ---
+>>>>>
+>>>>> v7 -> v8:
+>>>>> - properly handle new IOMMUTLBEntry fields and especially
+>>>>>      propagate DOMAIN and PASID based invalidations
+>>>>>
+>>>>> v6 -> v7:
+>>>>> - remove PASID based invalidation
+>>>>>
+>>>>> v5 -> v6:
+>>>>> - add error_report_err()
+>>>>> - remove the abort in case of nested stage case
+>>>>>
+>>>>> v4 -> v5:
+>>>>> - use VFIO_IOMMU_SET_PASID_TABLE
+>>>>> - use PCIPASIDOps for config notification
+>>>>>
+>>>>> v3 -> v4:
+>>>>> - use iommu_inv_pasid_info for ASID invalidation
+>>>>>
+>>>>> v2 -> v3:
+>>>>> - use VFIO_IOMMU_ATTACH_PASID_TABLE
+>>>>> - new user API
+>>>>> - handle leaf
+>>>>>
+>>>>> v1 -> v2:
+>>>>> - adapt to uapi changes
+>>>>> - pass the asid
+>>>>> - pass IOMMU_NOTIFIER_S1_CFG when initializing the config notifier
+>>>>> ---
+>>>>>     hw/vfio/common.c     | 139
+>>>>> +++++++++++++++++++++++++++++++++++++++++--
+>>>>>     hw/vfio/pci.c        |  21 +++++++
+>>>>>     hw/vfio/trace-events |   2 +
+>>>>>     3 files changed, 157 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>>>>> index 0cd7ef2139..e369d451e7 100644
+>>>>> --- a/hw/vfio/common.c
+>>>>> +++ b/hw/vfio/common.c
+>>>>> @@ -595,6 +595,73 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry
+>>>>> *iotlb, void **vaddr,
+>>>>>         return true;
+>>>>>     }
+>>>>>     +/* Propagate a guest IOTLB invalidation to the host (nested
+>>>>> mode) */
+>>>>> +static void vfio_iommu_unmap_notify(IOMMUNotifier *n, IOMMUTLBEntry
+>>>>> *iotlb)
+>>>>> +{
+>>>>> +    VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+>>>>> +    struct vfio_iommu_type1_cache_invalidate ustruct = {};
+>>>>> +    VFIOContainer *container = giommu->container;
+>>>>> +    int ret;
+>>>>> +
+>>>>> +    assert(iotlb->perm == IOMMU_NONE);
+>>>>> +
+>>>>> +    ustruct.argsz = sizeof(ustruct);
+>>>>> +    ustruct.flags = 0;
+>>>>> +    ustruct.info.argsz = sizeof(struct iommu_cache_invalidate_info);
+>>>>> +    ustruct.info.version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
+>>>>> +    ustruct.info.cache = IOMMU_CACHE_INV_TYPE_IOTLB;
+>>>>> +
+>>>>> +    switch (iotlb->granularity) {
+>>>>> +    case IOMMU_INV_GRAN_DOMAIN:
+>>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_DOMAIN;
+>>>>> +        break;
+>>>>> +    case IOMMU_INV_GRAN_PASID:
+>>>>> +    {
+>>>>> +        struct iommu_inv_pasid_info *pasid_info;
+>>>>> +        int archid = -1;
+>>>>> +
+>>>>> +        pasid_info = &ustruct.info.granu.pasid_info;
+>>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_PASID;
+>>>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
+>>>>> +            pasid_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
+>>>>> +            archid = iotlb->arch_id;
+>>>>> +        }
+>>>>> +        pasid_info->archid = archid;
+>>>>> +        trace_vfio_iommu_asid_inv_iotlb(archid);
+>>>>> +        break;
+>>>>> +    }
+>>>>> +    case IOMMU_INV_GRAN_ADDR:
+>>>>> +    {
+>>>>> +        hwaddr start = iotlb->iova + giommu->iommu_offset;
+>>>>> +        struct iommu_inv_addr_info *addr_info;
+>>>>> +        size_t size = iotlb->addr_mask + 1;
+>>>>> +        int archid = -1;
+>>>>> +
+>>>>> +        addr_info = &ustruct.info.granu.addr_info;
+>>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_ADDR;
+>>>>> +        if (iotlb->leaf) {
+>>>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_LEAF;
+>>>>> +        }
+>>>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
+>>>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
+>>>>> +            archid = iotlb->arch_id;
+>>>>> +        }
+>>>>> +        addr_info->archid = archid;
+>>>>> +        addr_info->addr = start;
+>>>>> +        addr_info->granule_size = size;
+>>>>> +        addr_info->nb_granules = 1;
+>>>>> +        trace_vfio_iommu_addr_inv_iotlb(archid, start, size,
+>>>>> +                                        1, iotlb->leaf);
+>>>>> +        break;
+>>>>> +    }
+>>>> Should we pass a size to  host kernel here, even if vSMMU doesn't
+>>>> support
+>>>> RIL or guest kernel doesn't use RIL?
+>>>>
+>>>> It will cause TLBI issue in  this scenario: Guest kernel issues a
+>>>> TLBI cmd
+>>>> without "range" (tg = 0) to invalidate a 2M huge page. Then qemu passed
+>>>> the iova and size (4K) to host kernel. Finally, host kernel issues a
+>>>> TLBI cmd
+>>>> with "range" (4K) which can not invalidate the TLB entry of 2M huge
+>>>> page.
+>>>> (pSMMU supports RIL)
+>>> In that case the guest will loop over all 4K images belonging to the 2M
+>>> huge page and invalidate each of them. This should turn into qemu
+>>> notifications for each 4kB page, no? This is totally inefficient, hence
+>> The guest will not loop over all 4K images belonging to the 2M huge page.
+>> The iommu_iotlb_gather->pgsize will be 2M, if a page is 2M huge page. The
+>> gather->pgsize will be passed to __arm_smmu_tlb_inv_range as "granule":
+>>
+>> iommu_iotlb_gather_add_page
+>>      iommu_iotlb_sync
+>>          domain->ops->iotlb_sync
+>>              arm_smmu_iotlb_sync
+>>                  arm_smmu_tlb_inv_range_domain
+>>                      __arm_smmu_tlb_inv_range
+>>
+>> In the above mentioned scenario, guest kernel will issue a TLBI cmd only
+>> with
+>> "iova" (tg = 0).
+> I am busy fixing this case. Could you share your guest use case. It is
+> DPDK? In the positive I would be interested in getting your DPDK
+> setup/commands.
+I use UADK[1] with the accelerator Hisilicon SEC.
+./test_hisi_sec --perf --sync --pktlen 1024 --block 1024 --blknum 1 
+--times 1 --multi 1 --ctxnum 1
 
-> This patch adds support for mouse messages to the vdagent
-> implementation.  This can be enabled/disabled using the new
-> 'mouse' parameter for the vdagent chardev.  Default is on.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->
+By the way, it needs to modify some code of UADK in vSVA scenario
+to map 2M huge pages. The modified UADK I used was provided by
+@Xingang Wang
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+[1] User Space Accelerator Development Kit
+https://github.com/Linaro/uadk
 
----
->  chardev/char.c |   3 +
->  ui/vdagent.c   | 150 +++++++++++++++++++++++++++++++++++++++++++++++++
->  qapi/char.json |   4 +-
->  3 files changed, 156 insertions(+), 1 deletion(-)
+Thanks,
+Kunkun Jiang
+> Thank you in advance
 >
-> diff --git a/chardev/char.c b/chardev/char.c
-> index 398f09df19cd..9714057541fb 100644
-> --- a/chardev/char.c
-> +++ b/chardev/char.c
-> @@ -932,6 +932,9 @@ QemuOptsList qemu_chardev_opts =3D {
->          },{
->              .name =3D "logappend",
->              .type =3D QEMU_OPT_BOOL,
-> +        },{
-> +            .name =3D "mouse",
-> +            .type =3D QEMU_OPT_BOOL,
->  #ifdef CONFIG_LINUX
->          },{
->              .name =3D "tight",
-> diff --git a/ui/vdagent.c b/ui/vdagent.c
-> index 98d1a2ee3415..e914a33bae20 100644
-> --- a/ui/vdagent.c
-> +++ b/ui/vdagent.c
-> @@ -1,15 +1,25 @@
->  #include "qemu/osdep.h"
->  #include "include/qemu-common.h"
->  #include "chardev/char.h"
-> +#include "hw/qdev-core.h"
-> +#include "qemu/option.h"
-> +#include "ui/console.h"
-> +#include "ui/input.h"
->  #include "trace.h"
->
->  #include "qapi/qapi-types-char.h"
-> +#include "qapi/qapi-types-ui.h"
->
->  #include "spice/vd_agent.h"
->
-> +#define VDAGENT_MOUSE_DEFAULT true
-> +
->  struct VDAgentChardev {
->      Chardev parent;
->
-> +    /* config */
-> +    bool mouse;
-> +
->      /* guest vdagent */
->      uint32_t caps;
->      VDIChunkHeader chunk;
-> @@ -18,6 +28,14 @@ struct VDAgentChardev {
->      uint32_t msgsize;
->      uint8_t *xbuf;
->      uint32_t xoff, xsize;
-> +
-> +    /* mouse */
-> +    DeviceState mouse_dev;
-> +    uint32_t mouse_x;
-> +    uint32_t mouse_y;
-> +    uint32_t mouse_btn;
-> +    uint32_t mouse_display;
-> +    QemuInputHandlerState *mouse_hs;
->  };
->  typedef struct VDAgentChardev VDAgentChardev;
->
-> @@ -122,13 +140,113 @@ static void vdagent_send_caps(VDAgentChardev *vd)
->      g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) =
-+
->
-> sizeof(VDAgentAnnounceCapabilities) +
->                                                 sizeof(uint32_t));
-> +    VDAgentAnnounceCapabilities *caps =3D (void *)msg->data;
->
->      msg->type =3D VD_AGENT_ANNOUNCE_CAPABILITIES;
->      msg->size =3D sizeof(VDAgentAnnounceCapabilities) + sizeof(uint32_t)=
-;
-> +    if (vd->mouse) {
-> +        caps->caps[0] |=3D (1 << VD_AGENT_CAP_MOUSE_STATE);
-> +    }
->
->      vdagent_send_msg(vd, msg);
->  }
->
-> +/* ------------------------------------------------------------------ */
-> +/* mouse events                                                       */
-> +
-> +static bool have_mouse(VDAgentChardev *vd)
-> +{
-> +    return vd->mouse &&
-> +        (vd->caps & (1 << VD_AGENT_CAP_MOUSE_STATE));
-> +}
-> +
-> +static void vdagent_send_mouse(VDAgentChardev *vd)
-> +{
-> +    g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) =
-+
-> +                                               sizeof(VDAgentMouseState)=
-);
-> +    VDAgentMouseState *mouse =3D (void *)msg->data;
-> +
-> +    msg->type =3D VD_AGENT_MOUSE_STATE;
-> +    msg->size =3D sizeof(VDAgentMouseState);
-> +
-> +    mouse->x          =3D vd->mouse_x;
-> +    mouse->y          =3D vd->mouse_y;
-> +    mouse->buttons    =3D vd->mouse_btn;
-> +    mouse->display_id =3D vd->mouse_display;
-> +
-> +    vdagent_send_msg(vd, msg);
-> +}
-> +
-> +static void vdagent_pointer_event(DeviceState *dev, QemuConsole *src,
-> +                                  InputEvent *evt)
-> +{
-> +    static const int bmap[INPUT_BUTTON__MAX] =3D {
-> +        [INPUT_BUTTON_LEFT]        =3D VD_AGENT_LBUTTON_MASK,
-> +        [INPUT_BUTTON_RIGHT]       =3D VD_AGENT_RBUTTON_MASK,
-> +        [INPUT_BUTTON_MIDDLE]      =3D VD_AGENT_MBUTTON_MASK,
-> +        [INPUT_BUTTON_WHEEL_UP]    =3D VD_AGENT_UBUTTON_MASK,
-> +        [INPUT_BUTTON_WHEEL_DOWN]  =3D VD_AGENT_DBUTTON_MASK,
-> +#if 0
-> +        [INPUT_BUTTON_SIDE]        =3D VD_AGENT_SBUTTON_MASK,
-> +        [INPUT_BUTTON_EXTRA]       =3D VD_AGENT_EBUTTON_MASK,
-> +#endif
-> +    };
-> +
-> +    VDAgentChardev *vd =3D container_of(dev, struct VDAgentChardev,
-> mouse_dev);
-> +    InputMoveEvent *move;
-> +    InputBtnEvent *btn;
-> +    uint32_t xres, yres;
-> +
-> +    switch (evt->type) {
-> +    case INPUT_EVENT_KIND_ABS:
-> +        move =3D evt->u.abs.data;
-> +        xres =3D qemu_console_get_width(src, 1024);
-> +        yres =3D qemu_console_get_height(src, 768);
-> +        if (move->axis =3D=3D INPUT_AXIS_X) {
-> +            vd->mouse_x =3D qemu_input_scale_axis(move->value,
-> +                                                INPUT_EVENT_ABS_MIN,
-> +                                                INPUT_EVENT_ABS_MAX,
-> +                                                0, xres);
-> +        } else if (move->axis =3D=3D INPUT_AXIS_Y) {
-> +            vd->mouse_y =3D qemu_input_scale_axis(move->value,
-> +                                                INPUT_EVENT_ABS_MIN,
-> +                                                INPUT_EVENT_ABS_MAX,
-> +                                                0, yres);
-> +        }
-> +        vd->mouse_display =3D qemu_console_get_index(src);
-> +        break;
-> +
-> +    case INPUT_EVENT_KIND_BTN:
-> +        btn =3D evt->u.btn.data;
-> +        if (btn->down) {
-> +            vd->mouse_btn |=3D bmap[btn->button];
-> +        } else {
-> +            vd->mouse_btn &=3D ~bmap[btn->button];
-> +        }
-> +        break;
-> +
-> +    default:
-> +        /* keep gcc happy */
-> +        break;
-> +    }
-> +}
-> +
-> +static void vdagent_pointer_sync(DeviceState *dev)
-> +{
-> +    VDAgentChardev *vd =3D container_of(dev, struct VDAgentChardev,
-> mouse_dev);
-> +
-> +    if (vd->caps & (1 << VD_AGENT_CAP_MOUSE_STATE)) {
-> +        vdagent_send_mouse(vd);
-> +    }
-> +}
-> +
-> +static QemuInputHandler vdagent_mouse_handler =3D {
-> +    .name  =3D "vdagent mouse",
-> +    .mask  =3D INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_ABS,
-> +    .event =3D vdagent_pointer_event,
-> +    .sync  =3D vdagent_pointer_sync,
-> +};
-> +
->  /* ------------------------------------------------------------------ */
->  /* chardev backend                                                    */
->
-> @@ -137,6 +255,19 @@ static void vdagent_chr_open(Chardev *chr,
->                               bool *be_opened,
->                               Error **errp)
->  {
-> +    VDAgentChardev *vd =3D VDAGENT_CHARDEV(chr);
-> +    ChardevVDAgent *cfg =3D backend->u.vdagent.data;
-> +
-> +    vd->mouse =3D VDAGENT_MOUSE_DEFAULT;
-> +    if (cfg->has_mouse) {
-> +        vd->mouse =3D cfg->mouse;
-> +    }
-> +
-> +    if (vd->mouse) {
-> +        vd->mouse_hs =3D qemu_input_handler_register(&vd->mouse_dev,
-> +
->  &vdagent_mouse_handler);
-> +    }
-> +
->      *be_opened =3D true;
->  }
->
-> @@ -160,6 +291,9 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd,
-> VDAgentMessage *msg)
->      if (caps->request) {
->          vdagent_send_caps(vd);
->      }
-> +    if (have_mouse(vd) && vd->mouse_hs) {
-> +        qemu_input_handler_activate(vd->mouse_hs);
-> +    }
->  }
->
->  static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg=
-)
-> @@ -282,18 +416,34 @@ static void vdagent_chr_set_fe_open(struct Chardev
-> *chr, int fe_open)
->          /* reset state */
->          vdagent_reset_bufs(vd);
->          vd->caps =3D 0;
-> +        if (vd->mouse_hs) {
-> +            qemu_input_handler_deactivate(vd->mouse_hs);
-> +        }
->          return;
->      }
->
->      trace_vdagent_open();
->  }
->
-> +static void vdagent_chr_parse(QemuOpts *opts, ChardevBackend *backend,
-> +                              Error **errp)
-> +{
-> +    ChardevVDAgent *cfg;
-> +
-> +    backend->type =3D CHARDEV_BACKEND_KIND_VDAGENT;
-> +    cfg =3D backend->u.vdagent.data =3D g_new0(ChardevVDAgent, 1);
-> +    qemu_chr_parse_common(opts, qapi_ChardevVDAgent_base(cfg));
-> +    cfg->has_mouse =3D true;
-> +    cfg->mouse =3D qemu_opt_get_bool(opts, "mouse", VDAGENT_MOUSE_DEFAUL=
-T);
-> +}
-> +
->  /* ------------------------------------------------------------------ */
->
->  static void vdagent_chr_class_init(ObjectClass *oc, void *data)
->  {
->      ChardevClass *cc =3D CHARDEV_CLASS(oc);
->
-> +    cc->parse            =3D vdagent_chr_parse;
->      cc->open             =3D vdagent_chr_open;
->      cc->chr_write        =3D vdagent_chr_write;
->      cc->chr_set_fe_open  =3D vdagent_chr_set_fe_open;
-> diff --git a/qapi/char.json b/qapi/char.json
-> index ca5a85f76b3e..880aa8f73333 100644
-> --- a/qapi/char.json
-> +++ b/qapi/char.json
-> @@ -395,11 +395,13 @@
->  #
->  # Configuration info for vdagent.
->  #
-> +# @mouse: enable/disable mouse, default is enabled.
-> +#
->  # Since: 6.1
->  #
->  ##
->  { 'struct': 'ChardevVDAgent',
-> -  'data': { },
-> +  'data': { '*mouse': 'bool' },
->    'base': 'ChardevCommon',
->    'if': 'defined(CONFIG_SPICE_PROTOCOL)' }
->
-> --
-> 2.30.2
->
->
+> Eric
+>> Thanks,
+>> Kunkun Jiang
+>>> the support of RIL on guest side and QEMU device.
+>>>
+>>> What do I miss?
+>>>
+>>> Thanks
+>>>
+>>> Eric
+>>>> Thanks,
+>>>> Kunkun Jiang
+>>>>> +    }
+>>>>> +
+>>>>> +    ret = ioctl(container->fd, VFIO_IOMMU_CACHE_INVALIDATE, &ustruct);
+>>>>> +    if (ret) {
+>>>>> +        error_report("%p: failed to invalidate CACHE (%d)",
+>>>>> container, ret);
+>>>>> +    }
+>>>>> +}
+>>>>> +
+>>>>>     static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry
+>>>>> *iotlb)
+>>>>>     {
+>>>>>         VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+>>>>> @@ -776,6 +843,35 @@ static void
+>>>>> vfio_dma_unmap_ram_section(VFIOContainer *container,
+>>>>>         }
+>>>>>     }
+>>>>>     +static void vfio_prereg_listener_region_add(MemoryListener
+>>>>> *listener,
+>>>>> +                                            MemoryRegionSection
+>>>>> *section)
+>>>>> +{
+>>>>> +    VFIOContainer *container =
+>>>>> +        container_of(listener, VFIOContainer, prereg_listener);
+>>>>> +    Error *err = NULL;
+>>>>> +
+>>>>> +    if (!memory_region_is_ram(section->mr)) {
+>>>>> +        return;
+>>>>> +    }
+>>>>> +
+>>>>> +    vfio_dma_map_ram_section(container, section, &err);
+>>>>> +    if (err) {
+>>>>> +        error_report_err(err);
+>>>>> +    }
+>>>>> +}
+>>>>> +static void vfio_prereg_listener_region_del(MemoryListener *listener,
+>>>>> +                                     MemoryRegionSection *section)
+>>>>> +{
+>>>>> +    VFIOContainer *container =
+>>>>> +        container_of(listener, VFIOContainer, prereg_listener);
+>>>>> +
+>>>>> +    if (!memory_region_is_ram(section->mr)) {
+>>>>> +        return;
+>>>>> +    }
+>>>>> +
+>>>>> +    vfio_dma_unmap_ram_section(container, section);
+>>>>> +}
+>>>>> +
+>>>>>     static void vfio_listener_region_add(MemoryListener *listener,
+>>>>>                                          MemoryRegionSection *section)
+>>>>>     {
+>>>>> @@ -879,9 +975,10 @@ static void
+>>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>>         memory_region_ref(section->mr);
+>>>>>           if (memory_region_is_iommu(section->mr)) {
+>>>>> +        IOMMUNotify notify;
+>>>>>             VFIOGuestIOMMU *giommu;
+>>>>>             IOMMUMemoryRegion *iommu_mr =
+>>>>> IOMMU_MEMORY_REGION(section->mr);
+>>>>> -        int iommu_idx;
+>>>>> +        int iommu_idx, flags;
+>>>>>               trace_vfio_listener_region_add_iommu(iova, end);
+>>>>>             /*
+>>>>> @@ -900,8 +997,18 @@ static void
+>>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>>             llend = int128_sub(llend, int128_one());
+>>>>>             iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
+>>>>>                                                          
+>>>>> MEMTXATTRS_UNSPECIFIED);
+>>>>> -        iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
+>>>>> -                            IOMMU_NOTIFIER_IOTLB_EVENTS,
+>>>>> +
+>>>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>> +            /* IOTLB unmap notifier to propagate guest IOTLB
+>>>>> invalidations */
+>>>>> +            flags = IOMMU_NOTIFIER_UNMAP;
+>>>>> +            notify = vfio_iommu_unmap_notify;
+>>>>> +        } else {
+>>>>> +            /* MAP/UNMAP IOTLB notifier */
+>>>>> +            flags = IOMMU_NOTIFIER_IOTLB_EVENTS;
+>>>>> +            notify = vfio_iommu_map_notify;
+>>>>> +        }
+>>>>> +
+>>>>> +        iommu_notifier_init(&giommu->n, notify, flags,
+>>>>>                                 section->offset_within_region,
+>>>>>                                 int128_get64(llend),
+>>>>>                                 iommu_idx);
+>>>>> @@ -921,7 +1028,9 @@ static void
+>>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>>                 goto fail;
+>>>>>             }
+>>>>>             QLIST_INSERT_HEAD(&container->giommu_list, giommu,
+>>>>> giommu_next);
+>>>>> -        memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>>>> +        if (flags & IOMMU_NOTIFIER_MAP) {
+>>>>> +            memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>>>> +        }
+>>>>>               return;
+>>>>>         }
+>>>>> @@ -1205,10 +1314,16 @@ static const MemoryListener
+>>>>> vfio_memory_listener = {
+>>>>>         .log_sync = vfio_listener_log_sync,
+>>>>>     };
+>>>>>     +static MemoryListener vfio_memory_prereg_listener = {
+>>>>> +    .region_add = vfio_prereg_listener_region_add,
+>>>>> +    .region_del = vfio_prereg_listener_region_del,
+>>>>> +};
+>>>>> +
+>>>>>     static void vfio_listener_release(VFIOContainer *container)
+>>>>>     {
+>>>>>         memory_listener_unregister(&container->listener);
+>>>>> -    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
+>>>>> +    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU ||
+>>>>> +        container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>>             memory_listener_unregister(&container->prereg_listener);
+>>>>>         }
+>>>>>     }
+>>>>> @@ -1858,6 +1973,20 @@ static int vfio_connect_container(VFIOGroup
+>>>>> *group, AddressSpace *as,
+>>>>>                 vfio_get_iommu_info_migration(container, info);
+>>>>>             }
+>>>>>             g_free(info);
+>>>>> +
+>>>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>> +            container->prereg_listener = vfio_memory_prereg_listener;
+>>>>> +            memory_listener_register(&container->prereg_listener,
+>>>>> +                                     &address_space_memory);
+>>>>> +            if (container->error) {
+>>>>> +
+>>>>> memory_listener_unregister(&container->prereg_listener);
+>>>>> +                ret = -1;
+>>>>> +                error_propagate_prepend(errp, container->error,
+>>>>> +                                    "RAM memory listener
+>>>>> initialization failed "
+>>>>> +                                    "for container");
+>>>>> +                goto free_container_exit;
+>>>>> +            }
+>>>>> +        }
+>>>>>             break;
+>>>>>         }
+>>>>>         case VFIO_SPAPR_TCE_v2_IOMMU:
+>>>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>>>> index 5c65aa0a98..cad7deec71 100644
+>>>>> --- a/hw/vfio/pci.c
+>>>>> +++ b/hw/vfio/pci.c
+>>>>> @@ -2773,6 +2773,25 @@ static void
+>>>>> vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>>>>>         vdev->req_enabled = false;
+>>>>>     }
+>>>>>     +static int vfio_iommu_set_pasid_table(PCIBus *bus, int32_t devfn,
+>>>>> +                                      IOMMUConfig *config)
+>>>>> +{
+>>>>> +    PCIDevice *pdev = bus->devices[devfn];
+>>>>> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+>>>>> +    VFIOContainer *container = vdev->vbasedev.group->container;
+>>>>> +    struct vfio_iommu_type1_set_pasid_table info;
+>>>>> +
+>>>>> +    info.argsz = sizeof(info);
+>>>>> +    info.flags = VFIO_PASID_TABLE_FLAG_SET;
+>>>>> +    memcpy(&info.config, &config->pasid_cfg,
+>>>>> sizeof(config->pasid_cfg));
+>>>>> +
+>>>>> +    return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
+>>>>> +}
+>>>>> +
+>>>>> +static PCIPASIDOps vfio_pci_pasid_ops = {
+>>>>> +    .set_pasid_table = vfio_iommu_set_pasid_table,
+>>>>> +};
+>>>>> +
+>>>>>     static void vfio_realize(PCIDevice *pdev, Error **errp)
+>>>>>     {
+>>>>>         VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>>>>> @@ -3084,6 +3103,8 @@ static void vfio_realize(PCIDevice *pdev, Error
+>>>>> **errp)
+>>>>>         vfio_register_req_notifier(vdev);
+>>>>>         vfio_setup_resetfn_quirk(vdev);
+>>>>>     +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
+>>>>> +
+>>>>>         return;
+>>>>>       out_deregister:
+>>>>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>>>>> index 936d29d150..43696afc15 100644
+>>>>> --- a/hw/vfio/trace-events
+>>>>> +++ b/hw/vfio/trace-events
+>>>>> @@ -120,6 +120,8 @@ vfio_region_sparse_mmap_header(const char *name,
+>>>>> int index, int nr_areas) "Devic
+>>>>>     vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned
+>>>>> long end) "sparse entry %d [0x%lx - 0x%lx]"
+>>>>>     vfio_get_dev_region(const char *name, int index, uint32_t type,
+>>>>> uint32_t subtype) "%s index %d, %08x/%0x8"
+>>>>>     vfio_dma_unmap_overflow_workaround(void) ""
+>>>>> +vfio_iommu_addr_inv_iotlb(int asid, uint64_t addr, uint64_t size,
+>>>>> uint64_t nb_granules, bool leaf) "nested IOTLB invalidate asid=%d,
+>>>>> addr=0x%"PRIx64" granule_size=0x%"PRIx64" nb_granules=0x%"PRIx64"
+>>>>> leaf=%d"
+>>>>> +vfio_iommu_asid_inv_iotlb(int asid) "nested IOTLB invalidate asid=%d"
+>>>>>       # platform.c
+>>>>>     vfio_platform_base_device_init(char *name, int groupid) "%s belongs
+>>>>> to group #%d"
+>>>>
+>>> .
+>>
+> .
 
---000000000000e1eae805c0f0714f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 23, 2021 at 12:34 PM Gerd=
- Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This pa=
-tch adds support for mouse messages to the vdagent<br>
-implementation.=C2=A0 This can be enabled/disabled using the new<br>
-&#39;mouse&#39; parameter for the vdagent chardev.=C2=A0 Default is on.<br>
-<br>
-Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0chardev/char.c |=C2=A0 =C2=A03 +<br>
-=C2=A0ui/vdagent.c=C2=A0 =C2=A0| 150 ++++++++++++++++++++++++++++++++++++++=
-+++++++++++<br>
-=C2=A0qapi/char.json |=C2=A0 =C2=A04 +-<br>
-=C2=A03 files changed, 156 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/chardev/char.c b/chardev/char.c<br>
-index 398f09df19cd..9714057541fb 100644<br>
---- a/chardev/char.c<br>
-+++ b/chardev/char.c<br>
-@@ -932,6 +932,9 @@ QemuOptsList qemu_chardev_opts =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.name =3D &quot;logappend&q=
-uot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.type =3D QEMU_OPT_BOOL,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 },{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;mouse&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .type =3D QEMU_OPT_BOOL,<br>
-=C2=A0#ifdef CONFIG_LINUX<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.name =3D &quot;tight&quot;=
-,<br>
-diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
-index 98d1a2ee3415..e914a33bae20 100644<br>
---- a/ui/vdagent.c<br>
-+++ b/ui/vdagent.c<br>
-@@ -1,15 +1,25 @@<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &quot;include/qemu-common.h&quot;<br>
-=C2=A0#include &quot;chardev/char.h&quot;<br>
-+#include &quot;hw/qdev-core.h&quot;<br>
-+#include &quot;qemu/option.h&quot;<br>
-+#include &quot;ui/console.h&quot;<br>
-+#include &quot;ui/input.h&quot;<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-<br>
-=C2=A0#include &quot;qapi/qapi-types-char.h&quot;<br>
-+#include &quot;qapi/qapi-types-ui.h&quot;<br>
-<br>
-=C2=A0#include &quot;spice/vd_agent.h&quot;<br>
-<br>
-+#define VDAGENT_MOUSE_DEFAULT true<br>
-+<br>
-=C2=A0struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
-<br>
-+=C2=A0 =C2=A0 /* config */<br>
-+=C2=A0 =C2=A0 bool mouse;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* guest vdagent */<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t caps;<br>
-=C2=A0 =C2=A0 =C2=A0VDIChunkHeader chunk;<br>
-@@ -18,6 +28,14 @@ struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t msgsize;<br>
-=C2=A0 =C2=A0 =C2=A0uint8_t *xbuf;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t xoff, xsize;<br>
-+<br>
-+=C2=A0 =C2=A0 /* mouse */<br>
-+=C2=A0 =C2=A0 DeviceState mouse_dev;<br>
-+=C2=A0 =C2=A0 uint32_t mouse_x;<br>
-+=C2=A0 =C2=A0 uint32_t mouse_y;<br>
-+=C2=A0 =C2=A0 uint32_t mouse_btn;<br>
-+=C2=A0 =C2=A0 uint32_t mouse_display;<br>
-+=C2=A0 =C2=A0 QemuInputHandlerState *mouse_hs;<br>
-=C2=A0};<br>
-=C2=A0typedef struct VDAgentChardev VDAgentChardev;<br>
-<br>
-@@ -122,13 +140,113 @@ static void vdagent_send_caps(VDAgentChardev *vd)<br=
->
-=C2=A0 =C2=A0 =C2=A0g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDA=
-gentMessage) +<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 sizeof(VDAgentAnnounceCapabilities) +<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 sizeof(uint32_t));<br>
-+=C2=A0 =C2=A0 VDAgentAnnounceCapabilities *caps =3D (void *)msg-&gt;data;<=
-br>
-<br>
-=C2=A0 =C2=A0 =C2=A0msg-&gt;type =3D VD_AGENT_ANNOUNCE_CAPABILITIES;<br>
-=C2=A0 =C2=A0 =C2=A0msg-&gt;size =3D sizeof(VDAgentAnnounceCapabilities) + =
-sizeof(uint32_t);<br>
-+=C2=A0 =C2=A0 if (vd-&gt;mouse) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 caps-&gt;caps[0] |=3D (1 &lt;&lt; VD_AGENT_CAP=
-_MOUSE_STATE);<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0vdagent_send_msg(vd, msg);<br>
-=C2=A0}<br>
-<br>
-+/* ------------------------------------------------------------------ */<b=
-r>
-+/* mouse events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+<br>
-+static bool have_mouse(VDAgentChardev *vd)<br>
-+{<br>
-+=C2=A0 =C2=A0 return vd-&gt;mouse &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (vd-&gt;caps &amp; (1 &lt;&lt; VD_AGENT_CAP_MO=
-USE_STATE));<br>
-+}<br>
-+<br>
-+static void vdagent_send_mouse(VDAgentChardev *vd)<br>
-+{<br>
-+=C2=A0 =C2=A0 g_autofree VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentM=
-essage) +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0sizeof(VDAgentMouseState));<br>
-+=C2=A0 =C2=A0 VDAgentMouseState *mouse =3D (void *)msg-&gt;data;<br>
-+<br>
-+=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_MOUSE_STATE;<br>
-+=C2=A0 =C2=A0 msg-&gt;size =3D sizeof(VDAgentMouseState);<br>
-+<br>
-+=C2=A0 =C2=A0 mouse-&gt;x=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vd-&gt;mou=
-se_x;<br>
-+=C2=A0 =C2=A0 mouse-&gt;y=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vd-&gt;mou=
-se_y;<br>
-+=C2=A0 =C2=A0 mouse-&gt;buttons=C2=A0 =C2=A0 =3D vd-&gt;mouse_btn;<br>
-+=C2=A0 =C2=A0 mouse-&gt;display_id =3D vd-&gt;mouse_display;<br>
-+<br>
-+=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
-+}<br>
-+<br>
-+static void vdagent_pointer_event(DeviceState *dev, QemuConsole *src,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 InputEvent *evt)<br>
-+{<br>
-+=C2=A0 =C2=A0 static const int bmap[INPUT_BUTTON__MAX] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_LEFT]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =3D VD_AGENT_LBUTTON_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_RIGHT]=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=3D VD_AGENT_RBUTTON_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_MIDDLE]=C2=A0 =C2=A0 =C2=A0 =3D =
-VD_AGENT_MBUTTON_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_WHEEL_UP]=C2=A0 =C2=A0 =3D VD_AG=
-ENT_UBUTTON_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_WHEEL_DOWN]=C2=A0 =3D VD_AGENT_D=
-BUTTON_MASK,<br>
-+#if 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_SIDE]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =3D VD_AGENT_SBUTTON_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [INPUT_BUTTON_EXTRA]=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=3D VD_AGENT_EBUTTON_MASK,<br>
-+#endif<br>
-+=C2=A0 =C2=A0 };<br>
-+<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D container_of(dev, struct VDAgentChard=
-ev, mouse_dev);<br>
-+=C2=A0 =C2=A0 InputMoveEvent *move;<br>
-+=C2=A0 =C2=A0 InputBtnEvent *btn;<br>
-+=C2=A0 =C2=A0 uint32_t xres, yres;<br>
-+<br>
-+=C2=A0 =C2=A0 switch (evt-&gt;type) {<br>
-+=C2=A0 =C2=A0 case INPUT_EVENT_KIND_ABS:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 move =3D evt-&gt;u.abs.data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 xres =3D qemu_console_get_width(src, 1024);<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 yres =3D qemu_console_get_height(src, 768);<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (move-&gt;axis =3D=3D INPUT_AXIS_X) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse_x =3D qemu_input_sc=
-ale_axis(move-&gt;value,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 INPUT_EVENT_ABS_MIN,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 INPUT_EVENT_ABS_MAX,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 0, xres);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (move-&gt;axis =3D=3D INPUT_AXIS_Y) =
-{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse_y =3D qemu_input_sc=
-ale_axis(move-&gt;value,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 INPUT_EVENT_ABS_MIN,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 INPUT_EVENT_ABS_MAX,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 0, yres);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse_display =3D qemu_console_get_inde=
-x(src);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+<br>
-+=C2=A0 =C2=A0 case INPUT_EVENT_KIND_BTN:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D evt-&gt;u.btn.data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (btn-&gt;down) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse_btn |=3D bmap[btn-&=
-gt;button];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse_btn &amp;=3D ~bmap[=
-btn-&gt;button];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* keep gcc happy */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void vdagent_pointer_sync(DeviceState *dev)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D container_of(dev, struct VDAgentChard=
-ev, mouse_dev);<br>
-+<br>
-+=C2=A0 =C2=A0 if (vd-&gt;caps &amp; (1 &lt;&lt; VD_AGENT_CAP_MOUSE_STATE))=
- {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_mouse(vd);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static QemuInputHandler vdagent_mouse_handler =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =3D &quot;vdagent mouse&quot;,<br>
-+=C2=A0 =C2=A0 .mask=C2=A0 =3D INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_ABS,=
-<br>
-+=C2=A0 =C2=A0 .event =3D vdagent_pointer_event,<br>
-+=C2=A0 =C2=A0 .sync=C2=A0 =3D vdagent_pointer_sync,<br>
-+};<br>
-+<br>
-=C2=A0/* ------------------------------------------------------------------=
- */<br>
-=C2=A0/* chardev backend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-<br>
-@@ -137,6 +255,19 @@ static void vdagent_chr_open(Chardev *chr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool *be_opened,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D VDAGENT_CHARDEV(chr);<br>
-+=C2=A0 =C2=A0 ChardevVDAgent *cfg =3D backend-&gt;u.vdagent.data;<br>
-+<br>
-+=C2=A0 =C2=A0 vd-&gt;mouse =3D VDAGENT_MOUSE_DEFAULT;<br>
-+=C2=A0 =C2=A0 if (cfg-&gt;has_mouse) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse =3D cfg-&gt;mouse;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (vd-&gt;mouse) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;mouse_hs =3D qemu_input_handler_registe=
-r(&amp;vd-&gt;mouse_dev,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;vdagent_mouse_handler);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0*be_opened =3D true;<br>
-=C2=A0}<br>
-<br>
-@@ -160,6 +291,9 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, V=
-DAgentMessage *msg)<br>
-=C2=A0 =C2=A0 =C2=A0if (caps-&gt;request) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vdagent_send_caps(vd);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 if (have_mouse(vd) &amp;&amp; vd-&gt;mouse_hs) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_handler_activate(vd-&gt;mouse_hs);<=
-br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *=
-msg)<br>
-@@ -282,18 +416,34 @@ static void vdagent_chr_set_fe_open(struct Chardev *c=
-hr, int fe_open)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* reset state */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vdagent_reset_bufs(vd);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vd-&gt;caps =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vd-&gt;mouse_hs) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_handler_deactivate(vd=
--&gt;mouse_hs);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0trace_vdagent_open();<br>
-=C2=A0}<br>
-<br>
-+static void vdagent_chr_parse(QemuOpts *opts, ChardevBackend *backend,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 ChardevVDAgent *cfg;<br>
-+<br>
-+=C2=A0 =C2=A0 backend-&gt;type =3D CHARDEV_BACKEND_KIND_VDAGENT;<br>
-+=C2=A0 =C2=A0 cfg =3D backend-&gt;u.vdagent.data =3D g_new0(ChardevVDAgent=
-, 1);<br>
-+=C2=A0 =C2=A0 qemu_chr_parse_common(opts, qapi_ChardevVDAgent_base(cfg));<=
-br>
-+=C2=A0 =C2=A0 cfg-&gt;has_mouse =3D true;<br>
-+=C2=A0 =C2=A0 cfg-&gt;mouse =3D qemu_opt_get_bool(opts, &quot;mouse&quot;,=
- VDAGENT_MOUSE_DEFAULT);<br>
-+}<br>
-+<br>
-=C2=A0/* ------------------------------------------------------------------=
- */<br>
-<br>
-=C2=A0static void vdagent_chr_class_init(ObjectClass *oc, void *data)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0ChardevClass *cc =3D CHARDEV_CLASS(oc);<br>
-<br>
-+=C2=A0 =C2=A0 cc-&gt;parse=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vd=
-agent_chr_parse;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;open=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D vdagent_chr_open;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_write=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vdagent=
-_chr_write;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_set_fe_open=C2=A0 =3D vdagent_chr_set_fe_ope=
-n;<br>
-diff --git a/qapi/char.json b/qapi/char.json<br>
-index ca5a85f76b3e..880aa8f73333 100644<br>
---- a/qapi/char.json<br>
-+++ b/qapi/char.json<br>
-@@ -395,11 +395,13 @@<br>
-=C2=A0#<br>
-=C2=A0# Configuration info for vdagent.<br>
-=C2=A0#<br>
-+# @mouse: enable/disable mouse, default is enabled.<br>
-+#<br>
-=C2=A0# Since: 6.1<br>
-=C2=A0#<br>
-=C2=A0##<br>
-=C2=A0{ &#39;struct&#39;: &#39;ChardevVDAgent&#39;,<br>
--=C2=A0 &#39;data&#39;: { },<br>
-+=C2=A0 &#39;data&#39;: { &#39;*mouse&#39;: &#39;bool&#39; },<br>
-=C2=A0 =C2=A0&#39;base&#39;: &#39;ChardevCommon&#39;,<br>
-=C2=A0 =C2=A0&#39;if&#39;: &#39;defined(CONFIG_SPICE_PROTOCOL)&#39; }<br>
-<br>
--- <br>
-2.30.2<br>
-<br>
-</blockquote></div></div>
-
---000000000000e1eae805c0f0714f--
 
 
