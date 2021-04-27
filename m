@@ -2,100 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE3F36C5AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 13:59:06 +0200 (CEST)
-Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E86136C5B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 14:02:28 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbMMr-0001ZG-Gv
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 07:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
+	id 1lbMQ7-00035C-2e
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 08:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
- id 1lbMKv-0000zW-3g; Tue, 27 Apr 2021 07:57:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16402)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lbMNh-00025U-AW; Tue, 27 Apr 2021 07:59:57 -0400
+Received: from mail-vi1eur05on2101.outbound.protection.outlook.com
+ ([40.107.21.101]:60960 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
- id 1lbMKr-000858-D9; Tue, 27 Apr 2021 07:57:03 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13RBYhbO193646; Tue, 27 Apr 2021 07:56:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=ubxa2Wspk/PuLHB+xMQ2W9eiE8WEwfoRb5PH3B1tUDg=;
- b=rNPvNUNkaTYQtGevzAIWw298OsIOlLd/15nWSe/nNa4DTj8qvqHl++HnFPVUKijuI6qw
- 1Pzn7xsqVQLNSFaKf0z4nu4bFrPoYUHcoFxagDY1oIiPCaqnwDD7fWYD+Avy2fTFzAu+
- SachYVoXXrshXeB3XTc+vUb0MzGUQ4iW1fpEnwPO3WOXZtQzybGUQ8uNTqIX3eLuRNl2
- cLVK/RNpzhy0RkKJJfCj4ubnFkG99Fu7dkOUQGteyasINDtcnFM1FImgV3BsQLiKOtJ3
- +vgqMP3dUJw7NE2q5V+WdEz0TDfdiGaWn/YHiJE7rQ70Oc673Z2xxvz0HTAyYRoG16fo fA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 386h81hq7p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Apr 2021 07:56:57 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13RBYo0d194009;
- Tue, 27 Apr 2021 07:56:57 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 386h81hq6m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Apr 2021 07:56:57 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13RBqAGd018155;
- Tue, 27 Apr 2021 11:56:55 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 384ay8ha6g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Apr 2021 11:56:54 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 13RBuRFu32440830
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 27 Apr 2021 11:56:27 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D31111C04A;
- Tue, 27 Apr 2021 11:56:51 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0F5E11C054;
- Tue, 27 Apr 2021 11:56:50 +0000 (GMT)
-Received: from [127.0.0.1] (unknown [9.199.62.190])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 27 Apr 2021 11:56:50 +0000 (GMT)
-Subject: [PATCH] spapr: Modify ibm,get-config-addr-info2 to set DEVNUM in PE
- config address.
-From: Mahesh Salgaonkar <mahesh@linux.ibm.com>
-To: Qemu-devel <qemu-devel@nongnu.org>
-Date: Tue, 27 Apr 2021 17:26:49 +0530
-Message-ID: <161952458744.148285.11534763593153102355.stgit@jupiter>
-User-Agent: StGit/0.23
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lbMNc-0001DJ-5K; Tue, 27 Apr 2021 07:59:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KYr1BAhgbtS7BnxUZSu18yUPfNEugPWMOpr+BAMSObLsvVKt5e774ubIElrNnYUUbLSiTHyb4enS0WIor9tkfhXgLsGIyZC/8bRgdHXo43TZaUGJdwUDhely6yRmBNSV8uh+m1QX5b+pAaklDVtwJ7g7MEdMi0oti1ZuqK1Dq3ytGgE4SgNc1Q9QJ1f9Pdtssu7/66dOsz9J7LfgvNZO1/o4xVwWegJFPpks4CkqmDl1vOP62RfcvzkOYNoc9JPLcjOsQtlhC7YSoHyaiE33HSPC4cI/V0+YIwCGOgwUDWYXJ6BUP6uraEc52eMDoYmaTdEhGxwSzu8vHHen7O8Bpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AhMLhD0PfC4wOxbLP665F/rw4rNeUI2dDYD0J6THQKk=;
+ b=ZoN0oFx+Y5r6D6eGJm00oUh+lI0CyZj9JFFN29uecrNjKVnFnd0kWU4qJamvXq5w9J0itYaHyDJ7Lmj3tsD7GgS5YVtRL73WsNRGQIOWpGyf/yXF+Ka/PCGZ+V4azdbOR6qW05oSP+sU6CDRXhmGD0Xh1pY3gNK5ZfwoLoCN7YliSNSbQvo2FwGytgP+PGjFOXXN+JcmnRCrohv0rmJeAD5Mv4RExcb4wQhBsVi0L+wqHo8a7aOWcIbEbnVpNhxjJM+YkblYN2mOZ9YAB7hauNT4sTCTh4tDfzB/BKP8obuQXfpIvkwWac3wVSwSHEyFCSBvqkhWP4vG0GmW/x+e1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AhMLhD0PfC4wOxbLP665F/rw4rNeUI2dDYD0J6THQKk=;
+ b=gGDMFaLheNC24BLXnH9+FEqfcsKhVWN3PEzByO09Wh1ynwb945A+Cb+qKGc4u9+yEV5g8CrtHLhHLjzUk9QONf0q940oS+k3PylyUcaV5Nmp/VJ4KEufh0pr4ylYR0EHhOTYQeB1qd637VvnMoZGYDpEufbPGSPIEu7mw8tyuQ0=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3767.eurprd08.prod.outlook.com (2603:10a6:20b:84::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Tue, 27 Apr
+ 2021 11:59:48 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Tue, 27 Apr 2021
+ 11:59:48 +0000
+Subject: Re: [PATCH 1/2] qapi: block-dirty-bitmap-merge: support allocation
+ maps
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com, eblake@redhat.com, pkrempa@redhat.com,
+ nshirokovskiy@virtuozzo.com, den@openvz.org
+References: <20210427111126.84307-1-vsementsov@virtuozzo.com>
+ <20210427111126.84307-2-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <f11ccb8e-751e-1fea-b7f6-d2349b65bdcd@virtuozzo.com>
+Date: Tue, 27 Apr 2021 14:59:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+In-Reply-To: <20210427111126.84307-2-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Bz5VV9mGpfsprWqlqEtmWAZaDIg8UWrp
-X-Proofpoint-GUID: OV-obHfSy_noI2skILG-F6OwRqWMDLxP
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-27_06:2021-04-27,
- 2021-04-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- clxscore=1011 lowpriorityscore=0 bulkscore=0 impostorscore=0 mlxscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104270086
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=mahesh@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HEXHASH_WORD=1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [185.215.60.222]
+X-ClientProxiedBy: AM0PR01CA0090.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.222) by
+ AM0PR01CA0090.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25 via Frontend
+ Transport; Tue, 27 Apr 2021 11:59:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d609b338-b6df-4d8d-e701-08d90973f499
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3767:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB376731B5C456481313D2499AC1419@AM6PR08MB3767.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S+CRJWXRdKk7iohS5QFzkTnZOwTIWKfthkInr0NdPUeHndjrMtnMmjWyBUHh21oTYV5wuj+hAIYWxhL0ELF+n0dsZZGHVCL5dBrDnsCP7qFIB1pN2boG7f/5iraKvN38KHBNZnXA/rzwn/7cWJMNGj2cPiucUKYI8qppmSxTo8GxDG1SBKF1sDaIIG3UTU7Dzjezw1onPqi3uZG9FiVe5+6TqqGuIjLnWMD8GF1eTfPbo4nej6gADQkmUt9fOYBBy9m0JelXhs8gnvpB0MLL4VV/yC3joM2VEoC4RoNIeZoNumBQulnxN8RsilKD2rZLPWkXiQMNIs37WVkGMseCmQpIgKbpZSsseosSTD+LmEJkmqnPmzdcIC5UGLcYXrlbv+8MWbVV5E0eEk4+giTgbwwtQDEFCrfhQkWQrBehQbxe9/cgKfBd0kOaYgcxYsPvJywOWypkve81C8N4b3eDkKV4y79Ut4pBaga86FKrNyO+mNF/6trI8PnXivJtsbGDEv8V9ZmFDPtkzT+hmKYgaqRMRZTV+8JrRE5UahopES3Rd5UWxVSE4Dy5BJCoPpPnywPtxfOjmTvr0neLcAR8cwbD+p9HSTvBqONh0VJJ2SB2PuM9pHXJnzIxXzbmX8x9mzsbuHAl25/dvBaD4yVzpra2SEtyX5gwwOkd5JEatfZ5YCXxf+uKoY7AmVAT2OXDd+1k/vaJTqZErbJjiX9D5w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39840400004)(107886003)(38100700002)(16576012)(86362001)(6916009)(2906002)(6486002)(4326008)(52116002)(36756003)(38350700002)(316002)(26005)(2616005)(186003)(66476007)(66946007)(66556008)(5660300002)(956004)(31696002)(31686004)(8676002)(8936002)(478600001)(83380400001)(16526019)(14143004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VnZsV1JONWZPb3VGajNCRFBKQXJBUGZNblFWbzZUa1UzTGw1elJUYnVwZ0VS?=
+ =?utf-8?B?MlFodjVwZnNTRzI0dWlGUDlyclBlUTRVMndxSVhPc2F5RUhjTFNhc09VMFFU?=
+ =?utf-8?B?c0ZWSWtoRS9DV1M0ME5reW9paVp5bnM5dFY2UGd6SVh3Q1YrcnlzSk5qMzJr?=
+ =?utf-8?B?Z2J2RXNTc3lLQmppMU02OVEvVDlXMVNCcjhlUndtcEFOVU9JYStaWk1lMElF?=
+ =?utf-8?B?SEVXaCt2ZHJJY3VjenBSenJ1TUlCK1N6aElhT3AyWWplUHNESWJiTitzUnVh?=
+ =?utf-8?B?S1VWLzREanBIRVR1RTc1SkJmNkhaTC9EdVJGL1EwZ0szczhnYzBXOGxvaXBB?=
+ =?utf-8?B?THBMUnlnQzkzSHc4SkVDcmpBSWp3b09UbEppTU5XUHVJTWNaZ1FiY3p5aGht?=
+ =?utf-8?B?MWUyYTN3VkV3R0pIUUJvUkJzUTQ3ZmtiVjZvVGd1QWdGTGxYLzJwVDhKU1JG?=
+ =?utf-8?B?S05xd2hPTzJ6akNOeE8vY1haUmlERXJRN2g4YjFBR0Y1Rm5FeFJwMDgvMEkw?=
+ =?utf-8?B?anBZdG91eFQyc1ZWU1FFbDYxbkdkRXh1WmpzN0Y0eCtndWh2d1kyWjFJd1RE?=
+ =?utf-8?B?clJtU3dyVzBrUXM1T3lyOVVPOXNyb3lsNzErc2dHdlgxcy9YM1JYUEsrSWhU?=
+ =?utf-8?B?S1cxSVc5WGRuY0NETXF1Umg0TWphQkk5UWRSZFd5VHp6SVNzcHhPNmFrdldO?=
+ =?utf-8?B?dGhGcS9LenJ3TTlTN2FkZFgrdTZBYXBBNCtWaG5XUUhlbEcybDcxV3hsWDV0?=
+ =?utf-8?B?RUdXdkhmREM3a09LVDdtZFpwNEhLRkVTeEU2SXhIZityOUdIdVRzWTZqcnpu?=
+ =?utf-8?B?a3RSdy9WOWFhb3YxdG9sc0ZXcy9jc3gzSFZDTm5Ddzlua0dtWDNIeVpyTlN0?=
+ =?utf-8?B?ejZUWEErbWZEeURFeGZyMHJ1K3l6QkplQTRteDQyelhwZm9uQm0yaHEwTm10?=
+ =?utf-8?B?OHdWNkErSE5yTlZDY0MrdEFxVmZSb3VYcU92a3A5SGJhakNIbDdZZ0svV0FM?=
+ =?utf-8?B?MFA3MDNhMVExVDcvYWxJSFM2amxlSDg5UkRISlBGY05PaXBWekpYVERCZllB?=
+ =?utf-8?B?QjBuYUpkaWJDcEs2VFZORllHOWhQQ1IyTnJyRFY3MmVNNVI1YjlZK1psQnhE?=
+ =?utf-8?B?UlpnZkw1ajAwV0tneWM0NlVKaWt2TkszNzJ1d0MyWmNqaGlBNnZrNmRhL2pj?=
+ =?utf-8?B?YlF3a2JnalNXVXN3ZkxpM1dDdi9VV2ZPK0FyS1MyZnJGYmtjK1NIaVhmZHc4?=
+ =?utf-8?B?aGowUG9uQUlXVGErQzJSWVd0VENMSHR0SEVrZ0o5aURRYVdITWMzSXMrT3Rl?=
+ =?utf-8?B?Q3E1T05Yb1BWQ2VRZmpMWmFDcC94OGthUVJ1Yjh2YXBLWGFnWGhUUGRYZGRJ?=
+ =?utf-8?B?QlpnU2NlalUza2ZDT040MnFYb1NOQ1VlajZyN3VyREJmTHQ1WjZJb2xnY2JL?=
+ =?utf-8?B?eG9VYnJXcVY3WHZyWXlTVUE3M0FiU1F3S3A2ZGxBeGpSUUlCbjNOdXdScnMy?=
+ =?utf-8?B?ZEpXOEdUUDdCNjhucXpLM2M3WHBRVlJ6K1JOeXNLdUl6UzFJVERpYkU3OHFr?=
+ =?utf-8?B?bGFuUXZUNFBvZ3gzZ3hFQUJVQnVxMWxnNG14M3pqamNVTmZTZFpjaC9PeGto?=
+ =?utf-8?B?RFdoVmc5dkRqMng5dUdRaC9HU1p0V2RhOUlZakIxdS92RGs0ZkxBUklwSHg0?=
+ =?utf-8?B?N2tFWngzajYrMmhFaG5ESnp4YlFsT1dQdWRRMWpoenQxd2p1b2t2MGNIU0pR?=
+ =?utf-8?Q?1sL3gGGrbobkD2bJi+dlpPwfLXCMB1B3wbfN3u3?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d609b338-b6df-4d8d-e701-08d90973f499
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 11:59:48.0531 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ciyACFSz+4GXtDUToTuWbZ3xGAp2Zb7ff+RvyBVlTtkAcq78o00fCDYiiK/zUZdqgjUk9J7ikAFzmnWLwBOFHg41xhi69AC4Akgab+sxYRw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3767
+Received-SPF: pass client-ip=40.107.21.101;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,116 +148,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Oliver O'Halloran <oohall@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Qemu-ppc <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With upstream kernel, especially after commit 98ba956f6a389
-("powerpc/pseries/eeh: Rework device EEH PE determination") we see that KVM
-guest isn't able to enable EEH option for PCI pass-through devices anymore.
-
-[root@atest-guest ~]# dmesg | grep EEH
-[    0.032337] EEH: pSeries platform initialized
-[    0.298207] EEH: No capable adapters found: recovery disabled.
-[root@atest-guest ~]#
-
-So far the linux kernel was assuming pe_config_addr equal to device's
-config_addr and using it to enable EEH on the PE through ibm,set-eeh-option
-RTAS call. Which wasn't the correct way as per PAPR. The linux kernel
-commit 98ba956f6a389 fixed this flow. With that fixed, linux now gets the
-PE config address first using the ibm,get-config-addr-info2 RTAS call, and
-then uses the found address as argument to ibm,set-eeh-option RTAS call to
-enable EEH on the PCI device. This works on PowerVM lpar but fails in qemu
-KVM guests. This is because ibm,set-eeh-option RTAS call in qemu expects PE
-config address bits 16:20 be populated with device number (DEVNUM).
-
-The rtas call ibm,get-config-addr-info2 in qemu always returns the PE
-config address in form of "00BB0001" (i.e.  <00><BUS><DEVFN><REG>) where
-"BB" represents the bus number of PE's primary bus and with device number
-information always set to zero. However until commit 98ba956f6a389 this
-return value wasn't used to enable EEH on the PCI device.
-
-Now in qemu guest with recent kernel the ibm,set-eeh-option RTAS call fails
-with -3 return value indicating that there is no PCI device exist for the
-specified pe config address. The rtas_ibm_set_eeh_option call uses
-pci_find_device() to get the PC device that matches specific bus and devfn
-extracted from PE config address passed as argument. Since the DEVFN part
-of PE config always contains zero, pci_find_device() fails to find the
-specific PCI device and hence fails to enable the EEH capability.
-
-hw/ppc/spapr_pci_vfio.c: spapr_phb_vfio_eeh_set_option()
-   case RTAS_EEH_ENABLE: {
-        PCIHostState *phb;
-        PCIDevice *pdev;
-
-        /*
-         * The EEH functionality is enabled on basis of PCI device,
-         * instead of PE. We need check the validity of the PCI
-         * device address.
-         */
-        phb = PCI_HOST_BRIDGE(sphb);
-        pdev = pci_find_device(phb->bus,
-                               (addr >> 16) & 0xFF, (addr >> 8) & 0xFF);
-        if (!pdev || !object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
-            return RTAS_OUT_PARAM_ERROR;
-        }
-
-hw/pci/pci.c:pci_find_device()
-
-PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
-{
-    bus = pci_find_bus_nr(bus, bus_num);
-
-    if (!bus)
-        return NULL;
-
-    return bus->devices[devfn];
-}
-
-This patch fixes this issue by populating DEVNUM field (bits 16:20) of PE
-config address with device number.
-
-After this fix guest is able to find EEH capable devices and enable EEH
-recovery on it.
-
-[root@atest-guest ~]# dmesg | grep EEH
-[    0.048139] EEH: pSeries platform initialized
-[    0.405115] EEH: Capable adapter found: recovery enabled.
-[root@atest-guest ~]#
-
-Signed-off-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
----
- hw/ppc/spapr_pci.c |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index feba18cb12..d6b0c380c8 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -538,8 +538,9 @@ static void rtas_ibm_get_config_addr_info2(PowerPCCPU *cpu,
-     }
- 
-     /*
--     * We always have PE address of form "00BB0001". "BB"
--     * represents the bus number of PE's primary bus.
-+     * Return PE address of form "00BBD001". "BB" represents the
-+     * bus number of PE's primary bus and "D" represents the device number.
-+     * Guest uses this PE address to enable EEH on this pci device.
-      */
-     option = rtas_ld(args, 3);
-     switch (option) {
-@@ -550,7 +551,8 @@ static void rtas_ibm_get_config_addr_info2(PowerPCCPU *cpu,
-             goto param_error_exit;
-         }
- 
--        rtas_st(rets, 1, (pci_bus_num(pci_get_bus(pdev)) << 16) + 1);
-+        rtas_st(rets, 1, (pci_bus_num(pci_get_bus(pdev)) << 16) |
-+                         (PCI_DEVFN(PCI_SLOT(pdev->devfn), 0) << 8) | 1);
-         break;
-     case RTAS_GET_PE_MODE:
-         rtas_st(rets, 1, RTAS_PE_MODE_SHARED);
+27.04.2021 14:11, Vladimir Sementsov-Ogievskiy wrote:
+> Add possibility to merge allocation map of specified node into target
+> bitmap.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json            | 31 +++++++++++++++++--
+>   include/block/block_int.h       |  4 +++
+>   block/dirty-bitmap.c            | 42 +++++++++++++++++++++++++
+>   block/monitor/bitmap-qmp-cmds.c | 55 ++++++++++++++++++++++++++++-----
+>   4 files changed, 122 insertions(+), 10 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 6d227924d0..0fafb043bc 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2006,6 +2006,32 @@
+>     'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
+>               '*persistent': 'bool', '*disabled': 'bool' } }
+>   
+> +##
+> +# @AllocationMapMode:
+> +#
+> +# An enumeration of possible allocation maps that could be merged into target
+> +# bitmap.
+> +#
+> +# @top: The allocation status of the top layer of the attached storage node.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'enum': 'AllocationMapMode',
+> +  'data': ['top'] }
+> +
+> +##
+> +# @BlockDirtyBitmapMergeExternalSource:
+> +#
+> +# @node: name of device/node which the bitmap is tracking
+> +#
+> +# @name: name of the dirty bitmap
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'BlockDirtyBitmapMergeExternalSource',
+> +  'data': { 'node': 'str', '*name': 'str',
+> +            '*allocation-map': 'AllocationMapMode' } }
+> +
+>   ##
+>   # @BlockDirtyBitmapMergeSource:
+>   #
+> @@ -2017,7 +2043,7 @@
+>   ##
+>   { 'alternate': 'BlockDirtyBitmapMergeSource',
+>     'data': { 'local': 'str',
+> -            'external': 'BlockDirtyBitmap' } }
+> +            'external': 'BlockDirtyBitmapMergeExternalSource' } }
+>   
+>   ##
+>   # @BlockDirtyBitmapMerge:
+> @@ -2176,7 +2202,8 @@
+>   #
+>   ##
+>   { 'command': 'block-dirty-bitmap-merge',
+> -  'data': 'BlockDirtyBitmapMerge' }
+> +  'data': 'BlockDirtyBitmapMerge',
+> +  'coroutine': true }
+>   
+>   ##
 
 
+So, what I propose makes possible to issue the following command:
+
+block-dirty-bitmap-merge
+   bitmaps: [{"allocation-map": "top", "node": "drive0"}]
+   node: target-node-name
+   target: target-bitmap-name
+
+
+I've discussed it with Nikolay, and he requested a possibility of querying allocation status of base..top sub-chain (assume several snapshots was done without creating bitmaps, and we want to restore the bitmap for backup).
+
+So, we actually want something like
+
+block-dirty-bitmap-merge
+   bitmaps: [{top: "tpp-node-name", bottom: "bottom-node-name"}]
+   node: target-node-name
+   target: target-bitmap-name
+
+
+-- 
+Best regards,
+Vladimir
 
