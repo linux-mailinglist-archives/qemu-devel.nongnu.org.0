@@ -2,76 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58E136BF64
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 08:42:41 +0200 (CEST)
-Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E063436C009
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Apr 2021 09:24:00 +0200 (CEST)
+Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbHQe-00088d-Ip
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 02:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45724)
+	id 1lbI4e-0002Bp-1A
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 03:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lbHP1-0007ee-MQ
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:40:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42264)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lbI3U-0001gL-Lh
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 03:22:48 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:19554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lbHOy-0003O5-3N
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 02:40:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619505654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nUzXVkOwMrVTbM1o7/K4W/oypU9K4I/fEOeh6DCyyfo=;
- b=Fos8gNRwRPVGmhH0Ki+qXhPEPgAmEyqvMWeRElokMxzWsBLfo8h1LL0t2xbyxT9avyrNBs
- JrZbeHXWSkYRgMjexPs7D40Sl8oFRY5pByms0asxsmV4BLaOMdoM1X+xuUBZrPagnupEMO
- zkAhhrAYaTGNT1MoNQ+pymI585DmIqc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-5ShvQ6UFO2GruDnvJ2TvAw-1; Tue, 27 Apr 2021 02:40:52 -0400
-X-MC-Unique: 5ShvQ6UFO2GruDnvJ2TvAw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B281718B6142
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 06:40:51 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-153.pek2.redhat.com
- [10.72.13.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEFA853CC6;
- Tue, 27 Apr 2021 06:40:46 +0000 (UTC)
-Subject: Re: [PATCH v6 2/9] virtio-pci:decouple virtqueue from interrupt
- setting process
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
-References: <20210427033951.29805-1-lulu@redhat.com>
- <20210427033951.29805-3-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <78e0debd-a63f-cffc-b252-b138fef4c12d@redhat.com>
-Date: Tue, 27 Apr 2021 14:40:44 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210427033951.29805-3-lulu@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lbI3R-0002mW-FO
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 03:22:48 -0400
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20210427072236epoutp03fca31ce0bc60356c699dd505fefc8886~5phaQoIns1169811698epoutp03E
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 07:22:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20210427072236epoutp03fca31ce0bc60356c699dd505fefc8886~5phaQoIns1169811698epoutp03E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1619508156;
+ bh=1CJZK826RmW2Fc+5wxQzCQgMDVCJC214XX0W5TIFP4g=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=ITUfRAe77zWTReBQ/pjMN3AN9rq0kjxodRqAILRtw4wYNRY19VT4LwB7ivpy2oCTa
+ 5yHc10mEt7km1FiL6xgL5/FJNJF6xD4iHfnKuIqpMIdTD+t4pf+7NUHaZee7DT3KfP
+ 3vVvVRHgDNcmy6OUuCnBw7/lJDELgWstL2C60RqU=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210427072236epcas5p1b04080359cfac8ddbc0f0e91287115e5~5phZghpjj0581805818epcas5p1w;
+ Tue, 27 Apr 2021 07:22:36 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 70.3B.09606.BBBB7806; Tue, 27 Apr 2021 16:22:35 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20210427063530epcas5p4c260382227175e68d29da6d10957ad95~5o4SJWTQz2969329693epcas5p4J;
+ Tue, 27 Apr 2021 06:35:30 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210427063530epsmtrp16d39e41e4a4270b1092a34f3e4b5efea~5o4SIkgZF0086500865epsmtrp1I;
+ Tue, 27 Apr 2021 06:35:30 +0000 (GMT)
+X-AuditID: b6c32a49-bdbff70000002586-7f-6087bbbb3126
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ BB.6C.08163.2B0B7806; Tue, 27 Apr 2021 15:35:30 +0900 (KST)
+Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
+ [107.108.221.178]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210427063529epsmtip2a032c0759ce924d01fdc6caeb6b95eb0~5o4Qw16Fp0450104501epsmtip2G;
+ Tue, 27 Apr 2021 06:35:29 +0000 (GMT)
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/nvme/ctrl: fix csi field for cns 0x00 and 0x11
+Date: Tue, 27 Apr 2021 12:00:52 +0530
+Message-Id: <20210427063052.31078-1-anaidu.gollu@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEIsWRmVeSWpSXmKPExsWy7bCmuu7u3e0JBseuW1u83nmc2eLK/vOM
+ FvsPfmO1mHToGqPFkoupFvNuKVvMetfOZnG8dweLxetJ/1kdOD1+nGtn8zi34zy7x6ZVnWwe
+ T65tZvJ4v+8qm0ffllWMAWxRXDYpqTmZZalF+nYJXBm71wkWXOSv+Dcpu4FxDU8XIyeHhICJ
+ xNRfd9m6GLk4hAR2M0oc+fGIFcL5xChx78EMRgjnM6PE3EmvWGBaLp3fB1W1i1Fiy/GzrCAJ
+ IYFOJokPn6NBbDYBI4nZb98wgtgiApISv7tOM4PYzCA7vs3VAbGFBVwl3k7eDTaURUBVYvqN
+ dqA7ODh4BWwldk23h9glL7F6wwFmkF0SAofYJT6+fcoKkXCRaFlxHuogYYlXx7ewQ9hSEi/7
+ 24BsdiC7WuJwEURrB6PEscsb2CBK7CX+PZvGCLKKWUBTYv0ufYiwrMTUU+uYIK7kk+j9/YQJ
+ Is4rsWMejK0mseDWd6hNMhIz/9yGusZD4vSR82yQUIiVWN1xnW0Co+wshA0LGBlXMUqmFhTn
+ pqcWmxYY5qWW6xUn5haX5qXrJefnbmIEJwMtzx2Mdx980DvEyMTBeIhRgoNZSYSXbVdrghBv
+ SmJlVWpRfnxRaU5q8SFGaQ4WJXFeQefqBCGB9MSS1OzU1ILUIpgsEwenVAOTtuPxAr4/3y9F
+ tr3f2OjU9m9+nvNxm7gbVQbf3SRW3vq+bwMn0/8X0w0nH2X1cjbJv/ru7rMlAtP3B0ovP1Sl
+ tnZjPLvJL2+e6xNyi6/dq/5mWrB7SvMFlfJFTGv3NxSsbJ0+b/OWT6qb9ytP2vZ0V/A/Lv59
+ LBNyhI5dk/oh93DvvALdWcHN9xPO2z2RC1pmZvPpHUdhnnVGx9Sy20VXF2vLbebaL/761pPA
+ rB2TDutrXOyNZff+Ftt7ifn7BAlmn5ev2xTk5D+e/pTKWbzzZJI1M0d4tq1jCZu45S1BplOr
+ VkmtCmN75S/cu+3cPIU2gfrF7OeW83CEF6X0BVW7Xdq6at0m6by6gsNbZv1bpcRSnJFoqMVc
+ VJwIANOQTad1AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmluLIzCtJLcpLzFFi42LZdlhJXnfThvYEg+dH5Sxe7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozd6wQLLvJX/JuU3cC4hqeLkZNDQsBE
+ 4tL5faxdjFwcQgI7GCWuT9/EDJGQkfh1aiqULSyx8t9zdoiidiaJfXeXs4Ek2ASMJGa/fcMI
+ YosISEr87jrNDFLELHCUUeJy+2QWkISwgKvE28m7wWwWAVWJ6TfagZo5OHgFbCV2TbeHWCAv
+ sXrDAeYJjDwLGBlWMUqmFhTnpucWGxYY5aWW6xUn5haX5qXrJefnbmIEh5eW1g7GPas+6B1i
+ ZOJgPMQowcGsJMLLtqs1QYg3JbGyKrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWp
+ RTBZJg5OqQYmhmQ7P87krz+Lyn8/6eyWl22ZLMXcKfD3yplJOl6vf84+Nd/ht2/XF6ZO7eum
+ 8iGr7mtmONWucOF+IL2qXnO+2oFjv6SlfN751EbMszgv5MEl9FVPVzmz1Wzl0b0rmg5+S9t9
+ jNP6plbK/bq7ES80S1bcZMtIMDV6tt84/GFNSweTX7VjTUOhD9Ob6KVrDF+++LuJV5SRK7Os
+ 5wiTvNiRZgntSHUm3u8blqveSRSJTbG6arZzydOP50TmsXvc/9Dbuera/C+P+Q5W/lJnF71j
+ sjW3UPVAmWSB5W+L+49mcYm+mX9R6rVGb7N5cpKG+cy5936c2eT55E0j07av0W2lQluf3PZ+
+ o7bZRyfyw1olluKMREMt5qLiRAB6WD9sngIAAA==
+X-CMS-MailID: 20210427063530epcas5p4c260382227175e68d29da6d10957ad95
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210427063530epcas5p4c260382227175e68d29da6d10957ad95
+References: <CGME20210427063530epcas5p4c260382227175e68d29da6d10957ad95@epcas5p4.samsung.com>
+Received-SPF: pass client-ip=203.254.224.33;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout3.samsung.com
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.219,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,207 +118,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
+ its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+As per the TP 4056d Namespace types CNS 0x00 and CNS 0x11
+CSI field shouldn't use but it is being used for these two
+Identify command CNS values, fix that.
 
-ÔÚ 2021/4/27 ÉÏÎç11:39, Cindy Lu Ð´µÀ:
-> Now the code for interrupt/vector are coupling
-> with the vq number, this patch will decouple the vritqueue
-> numbers from these functions.
+Remove 'nvme_csi_has_nvm_support()' helper as suggested by
+Klaus we can safely assume NVM command set support for all
+namespaces.
 
+Suggested-by: Klaus Jensen <its@irrelevant.dk>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+---
+-v2: add sugggestions from Klaus
+We can Remove 'nvme_csi_has_nvm_support()' helper, we can
+assume NVM command set support for all namespaces.
 
-So you need to describe why such kind of decoupling is needed,
+ hw/nvme/ctrl.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-
->
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
-> ---
->   hw/virtio/virtio-pci.c | 51 ++++++++++++++++++++++++------------------
->   1 file changed, 29 insertions(+), 22 deletions(-)
->
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 36524a5728..2b7e6cc0d9 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -691,23 +691,17 @@ static void kvm_virtio_pci_vq_vector_release(VirtIOPCIProxy *proxy,
->   }
->   
->   static int kvm_virtio_pci_irqfd_use(VirtIOPCIProxy *proxy,
-> -                                 unsigned int queue_no,
-> +                                 EventNotifier *n,
->                                    unsigned int vector)
->   {
->       VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
-> -    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-> -    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
-> -    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
->       return kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, n, NULL, irqfd->virq);
->   }
->   
->   static void kvm_virtio_pci_irqfd_release(VirtIOPCIProxy *proxy,
-> -                                      unsigned int queue_no,
-> +                                      EventNotifier *n ,
->                                         unsigned int vector)
->   {
-> -    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-> -    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
-> -    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
->       VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
->       int ret;
->   
-> @@ -722,7 +716,8 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
->       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->       unsigned int vector;
->       int ret, queue_no;
-> -
-> +    VirtQueue *vq;
-> +    EventNotifier *n;
->       for (queue_no = 0; queue_no < nvqs; queue_no++) {
->           if (!virtio_queue_get_num(vdev, queue_no)) {
->               break;
-> @@ -739,7 +734,9 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
->            * Otherwise, delay until unmasked in the frontend.
->            */
->           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
-> -            ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
-> +            vq = virtio_get_queue(vdev, queue_no);
-> +            n = virtio_queue_get_guest_notifier(vq);
-> +            ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
->               if (ret < 0) {
->                   kvm_virtio_pci_vq_vector_release(proxy, vector);
->                   goto undo;
-> @@ -755,7 +752,9 @@ undo:
->               continue;
->           }
->           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
-> -            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
-> +            vq = virtio_get_queue(vdev, queue_no);
-> +            n = virtio_queue_get_guest_notifier(vq);
-> +            kvm_virtio_pci_irqfd_release(proxy, n, vector);
->           }
->           kvm_virtio_pci_vq_vector_release(proxy, vector);
->       }
-> @@ -769,7 +768,8 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
->       unsigned int vector;
->       int queue_no;
->       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> -
-> +    VirtQueue *vq;
-> +    EventNotifier *n;
->       for (queue_no = 0; queue_no < nvqs; queue_no++) {
->           if (!virtio_queue_get_num(vdev, queue_no)) {
->               break;
-> @@ -782,7 +782,9 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
->            * Otherwise, it was cleaned when masked in the frontend.
->            */
->           if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
-> -            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
-> +            vq = virtio_get_queue(vdev, queue_no);
-> +            n = virtio_queue_get_guest_notifier(vq);
-> +            kvm_virtio_pci_irqfd_release(proxy, n, vector);
->           }
->           kvm_virtio_pci_vq_vector_release(proxy, vector);
->       }
-> @@ -791,12 +793,11 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
->   static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
->                                          unsigned int queue_no,
->                                          unsigned int vector,
-> -                                       MSIMessage msg)
-> +                                       MSIMessage msg,
-> +                                        EventNotifier *n)
-
-
-So you switch to use EventNotifier but keep using queue_no/vector, this 
-looks kind of duplication.
-
-If we can keep queue_no or virtio_queue_get_guest_notifier working as in 
-the past, I don't see any reason for this effort.
-
-Thanks
-
-
->   {
->       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> -    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
-> -    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
->       VirtIOIRQFD *irqfd;
->       int ret = 0;
->   
-> @@ -823,14 +824,15 @@ static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
->               event_notifier_set(n);
->           }
->       } else {
-> -        ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
-> +        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
->       }
->       return ret;
->   }
->   
->   static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
->                                                unsigned int queue_no,
-> -                                             unsigned int vector)
-> +                                             unsigned int vector,
-> +                                             EventNotifier *n)
->   {
->       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->       VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> @@ -841,7 +843,7 @@ static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
->       if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
->           k->guest_notifier_mask(vdev, queue_no, true);
->       } else {
-> -        kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
-> +        kvm_virtio_pci_irqfd_release(proxy, n, vector);
->       }
->   }
->   
-> @@ -851,6 +853,7 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
->       VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
->       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->       VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
-> +    EventNotifier *n;
->       int ret, index, unmasked = 0;
->   
->       while (vq) {
-> @@ -859,7 +862,8 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
->               break;
->           }
->           if (index < proxy->nvqs_with_notifiers) {
-> -            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg);
-> +            n = virtio_queue_get_guest_notifier(vq);
-> +            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg, n);
->               if (ret < 0) {
->                   goto undo;
->               }
-> @@ -875,7 +879,8 @@ undo:
->       while (vq && unmasked >= 0) {
->           index = virtio_get_queue_index(vq);
->           if (index < proxy->nvqs_with_notifiers) {
-> -            virtio_pci_vq_vector_mask(proxy, index, vector);
-> +            n = virtio_queue_get_guest_notifier(vq);
-> +            virtio_pci_vq_vector_mask(proxy, index, vector, n);
->               --unmasked;
->           }
->           vq = virtio_vector_next_queue(vq);
-> @@ -888,15 +893,17 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
->       VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
->       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->       VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
-> +    EventNotifier *n;
->       int index;
->   
->       while (vq) {
->           index = virtio_get_queue_index(vq);
-> +         n = virtio_queue_get_guest_notifier(vq);
->           if (!virtio_queue_get_num(vdev, index)) {
->               break;
->           }
->           if (index < proxy->nvqs_with_notifiers) {
-> -            virtio_pci_vq_vector_mask(proxy, index, vector);
-> +            virtio_pci_vq_vector_mask(proxy, index, vector, n);
->           }
->           vq = virtio_vector_next_queue(vq);
->       }
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 2e7498a73e..7fcd699235 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4178,16 +4178,6 @@ static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *n, NvmeRequest *req)
+     return nvme_c2h(n, id, sizeof(id), req);
+ }
+ 
+-static inline bool nvme_csi_has_nvm_support(NvmeNamespace *ns)
+-{
+-    switch (ns->csi) {
+-    case NVME_CSI_NVM:
+-    case NVME_CSI_ZONED:
+-        return true;
+-    }
+-    return false;
+-}
+-
+ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+ {
+     trace_pci_nvme_identify_ctrl();
+@@ -4244,7 +4234,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+         }
+     }
+ 
+-    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
++    if (active || ns->csi == NVME_CSI_NVM) {
+         return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
+     }
+ 
+@@ -4315,7 +4305,7 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
+         }
+     }
+ 
+-    if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
++    if (c->csi == NVME_CSI_NVM) {
+         return nvme_rpt_empty_id_struct(n, req);
+     } else if (c->csi == NVME_CSI_ZONED && ns->csi == NVME_CSI_ZONED) {
+         return nvme_c2h(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZoned),
+-- 
+2.17.1
 
 
