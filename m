@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A72936DFC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:40:39 +0200 (CEST)
-Received: from localhost ([::1]:60332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB3C36DFFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:56:09 +0200 (CEST)
+Received: from localhost ([::1]:44618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbq34-0002XI-4D
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
+	id 1lbqI5-0002bQ-1G
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpxF-000646-H5
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:37 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:41773)
+ id 1lbpxG-00065a-MN
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:38 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpwx-0004is-SH
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:37 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- y22-20020a17090a8b16b0290150ae1a6d2bso9699289pjn.0
+ id 1lbpwy-0004j3-Bn
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:38 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ y22-20020a17090a8b16b0290150ae1a6d2bso9699299pjn.0
  for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=98u88U7fkuo5HbNaAbqWqzoS298FvDgsPdHfpqhJggU=;
- b=tooRbEflV/SnoAwrPkX6H9oQ6XmY7jfXKDQSn4IW1yV2RpREdlNTLMX0PA0khfgKRU
- roR5wWGKdvaX2VFzKzNNGjTSe6J6m2NdSIJXqvhLFz3ScDjTMJLW+tFyiJmcAm8Rdadl
- Fq46G0EUwhPGxTupSoKCN8YcETih2CKhfhlRKX8zBb+mQbs2HU2tC0cQYwymwWef5u5d
- KmlxHHuUL76N0Fyru4Ey5/4/IYzY1nIqLtaGsy+rmEEyL8eol6Fj+L75X3jRh/y5+TME
- IbN99u9RK20W8LuHgv5HKS2iUttA8wY9pOs5l49x0sjwu0URmZjy+w9z9WxZohLl77DJ
- EG1Q==
+ bh=ld1aOOPFCTaDlIM4pseMTjUT2N/AiXsA3fl7Bo9Xfu4=;
+ b=PC4rOSN52eqF1IWhTmwsVrG2RyppGJdWOOkCljx/JFXuiJjNaJe8gyJ0n42aLYRYsR
+ 7l9FU1dQaMgj9bbqqBD+oZQUCQ0mIiSqXsIPO9K0GySJe1ZCBrtmPRUNtVk4izBG7m+A
+ QSVSpmN6lGbnmv2nCl+bmil/dR/dY0Q0Q9MKogeXFFrOkJKOgFEaGmjpaFqJ5Q8CrML/
+ HoA2iuOgK7vfnjyjJivXGu4wWTqo2GfT9YG8SysSLyerkCiLvOwakUNcnKUMcuE0ySUe
+ swsoaZ51jbVgr0aZJ2kcRVocsnpJHIHFbnzfrV9vdO3sRkVd5Xc3FQ63dsD4VO+7Y5ra
+ EWMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=98u88U7fkuo5HbNaAbqWqzoS298FvDgsPdHfpqhJggU=;
- b=AW0IYxBLFhSwp+Dvr4smWLX0t8fZqsiTg781PaJyRmYYgF4kTeRK990ENKc4ae0kTv
- kaABtAoamrHs9hCKRerlwRuB0LR9QgvQU2iIDacscAxsxxFkrHRU885rUefL/pTd1Czg
- vDCU9caPtTAIPZmhjk3MAR+iDestoXBw0OeO67o1QdZORF/D9wLUiZwTx1Z5xOM0rJgJ
- kwsqJH7AWIC/62GgSS+RS+/SzYodiuCIhX4K8nlAqN0I6EqDp2ntVYOeeQLP7HjBp2UZ
- rMCKR8OX/lKGsbZv4aEU1C70RbASnLLREV3IwV00KE3SnVOk6nfIWg/8hvg2ReGKtm4e
- iMtQ==
-X-Gm-Message-State: AOAM533/1KiZX82s/Twl+J2bZvP5gWRS7/16o+X6quy8ysOk5VkL3Fg3
- JTnlBHiBusukfktQ29d9Nm1vxmRGdrd97A==
-X-Google-Smtp-Source: ABdhPJzYXiX5d18FXiX1AT9YS7ZYwcLW0sfYUHF16mqjayvR3weVJvfA18TeGeSYn+a80cC8ChVYRg==
-X-Received: by 2002:a17:90a:ad84:: with SMTP id
- s4mr5650212pjq.162.1619638458475; 
- Wed, 28 Apr 2021 12:34:18 -0700 (PDT)
+ bh=ld1aOOPFCTaDlIM4pseMTjUT2N/AiXsA3fl7Bo9Xfu4=;
+ b=gpKQPRUUdDjHoF9j/IcsLbj4cLRt9QtlLNwxD9DUD9lb0PLylQO7HbKWkI9EU7IjXt
+ sa1KRGOTa6vIBVesGq/7MM1Z8wjXLM8JrArTr+cFom3oKyvMp8SJ3MiC3tlGVLwCCyg7
+ 7Q4NGxdxcVp1P31g4y3oy/kUs46T3aCHJ1XYjlWmK7Wr2dcyQCV3DlfF/voDSWtmlAM9
+ 8mrY4Fsrf9r+5Lrp+O6yQZNC0t3E7yzPgILsZoTLBuhIFaUumwSNmc2+t673T1ODu/ub
+ X1cSXybRQUf/nR57bwO7SF23zNG+vWhmiE51QoO+BB9P4YBbOzSIcGWis/tLDIiVBjIl
+ FSOQ==
+X-Gm-Message-State: AOAM53109891gUFMFHibWVwIJCMYTUpS0HAhkxg05gaw/Ms6ygZcu8ZU
+ mMKygnk37S8tLwzOXttl0PVUvOTecbt24w==
+X-Google-Smtp-Source: ABdhPJzLXuxz1jcOk9T0cpTs51vICRngvVd96T0urPEDowVyc2oS6eBta9IoJZ7C5EeAZQ6CEqZ30A==
+X-Received: by 2002:a17:90a:a505:: with SMTP id
+ a5mr34071344pjq.58.1619638459021; 
+ Wed, 28 Apr 2021 12:34:19 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id h21sm403725pfo.211.2021.04.28.12.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 28 Apr 2021 12:34:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] linux-user/s390x: Clean up signal.c
-Date: Wed, 28 Apr 2021 12:34:07 -0700
-Message-Id: <20210428193408.233706-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/15] linux-user/s390x: Handle vector regs in signal stack
+Date: Wed, 28 Apr 2021 12:34:08 -0700
+Message-Id: <20210428193408.233706-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210428193408.233706-1-richard.henderson@linaro.org>
 References: <20210428193408.233706-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,140 +89,151 @@ Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reorder the function bodies to correspond to the kernel source.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/s390x/signal.c | 67 ++++++++++++++++++++++++---------------
- 1 file changed, 41 insertions(+), 26 deletions(-)
+ linux-user/s390x/signal.c | 62 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 60 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 839a7ae4b3..9d470e4ca0 100644
+index 9d470e4ca0..b537646e60 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -133,6 +133,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
- {
-     sigframe *frame;
-     abi_ulong frame_addr;
-+    abi_ulong restorer;
+@@ -50,6 +50,12 @@ typedef struct {
+     target_s390_fp_regs     fpregs;
+ } target_sigregs;
  
-     frame_addr = get_sigframe(ka, env, sizeof(*frame));
-     trace_user_setup_frame(env, frame_addr);
-@@ -141,28 +142,39 @@ void setup_frame(int sig, struct target_sigaction *ka,
-         return;
++typedef struct {
++    uint64_t vxrs_low[16];
++    uint64_t vxrs_high[16][2];
++    uint8_t reserved[128];
++} target_sigregs_ext;
++
+ typedef struct {
+     abi_ulong oldmask[_SIGCONTEXT_NSIG_WORDS];
+     abi_ulong sregs;
+@@ -60,15 +66,20 @@ typedef struct {
+     target_sigcontext sc;
+     target_sigregs sregs;
+     int signo;
++    target_sigregs_ext sregs_ext;
+     uint16_t retcode;
+ } sigframe;
+ 
++#define TARGET_UC_VXRS 2
++
+ struct target_ucontext {
+     abi_ulong tuc_flags;
+     abi_ulong tuc_link;
+     target_stack_t tuc_stack;
+     target_sigregs tuc_mcontext;
+-    target_sigset_t tuc_sigmask;   /* mask last for extensibility */
++    target_sigset_t tuc_sigmask;
++    uint8_t reserved[128 - sizeof(target_sigset_t)];
++    target_sigregs_ext tuc_mcontext_ext;
+ };
+ 
+ typedef struct {
+@@ -128,6 +139,24 @@ static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
      }
- 
-+    /* Set up backchain. */
-+    __put_user(env->regs[15], (abi_ulong *) frame);
-+
-+    /* Create struct sigcontext on the signal stack. */
-     /* Make sure that we're initializing all of oldmask. */
-     QEMU_BUILD_BUG_ON(ARRAY_SIZE(frame->sc.oldmask) != 1);
-     __put_user(set->sig[0], &frame->sc.oldmask[0]);
--
--    save_sigregs(env, &frame->sregs);
--
-     __put_user(frame_addr + offsetof(sigframe, sregs), &frame->sc.sregs);
- 
--    /* Set up to return from userspace.  If provided, use a stub
--       already in userspace.  */
-+    /* Create _sigregs on the signal stack */
-+    save_sigregs(env, &frame->sregs);
-+
-+    /*
-+     * ??? The kernel uses regs->gprs[2] here, which is not yet the signo.
-+     * Moreover the comment talks about allowing backtrace, which is really
-+     * done by the r15 copy above.
-+     */
-+    __put_user(sig, &frame->signo);
-+
-+    /*
-+     * Set up to return from userspace.
-+     * If provided, use a stub already in userspace.
-+     */
-     if (ka->sa_flags & TARGET_SA_RESTORER) {
--        env->regs[14] = ka->sa_restorer;
-+        restorer = ka->sa_restorer;
-     } else {
--        env->regs[14] = frame_addr + offsetof(sigframe, retcode);
-+        restorer = frame_addr + offsetof(sigframe, retcode);
-         __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn,
-                    &frame->retcode);
-     }
- 
--    /* Set up backchain. */
--    __put_user(env->regs[15], (abi_ulong *) frame);
--
-     /* Set up registers for signal handler */
-+    env->regs[14] = restorer;
-     env->regs[15] = frame_addr;
-     /* Force default amode and default user address space control. */
-     env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
-@@ -180,8 +192,6 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     env->regs[5] = 0; /* FIXME: regs->int_parm_long */
-     env->regs[6] = 0; /* FIXME: current->thread.last_break */
- 
--    /* Place signal number on stack to allow backtrace from handler.  */
--    __put_user(env->regs[2], &frame->signo);
-     unlock_user_struct(frame, frame_addr, 1);
  }
  
-@@ -191,6 +201,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
++static void save_sigregs_ext(CPUS390XState *env, target_sigregs_ext *ext)
++{
++    int i;
++
++    /*
++     * if (MACHINE_HAS_VX) ...
++     * That said, we always allocate the stack storage and the
++     * space is always available in env.
++     */
++    for (i = 0; i < 16; ++i) {
++       __put_user(env->vregs[i][1], &ext->vxrs_low[i]);
++    }
++    for (i = 0; i < 16; ++i) {
++       __put_user(env->vregs[i + 16][0], &ext->vxrs_high[i][0]);
++       __put_user(env->vregs[i + 16][1], &ext->vxrs_high[i][1]);
++    }
++}
++
+ void setup_frame(int sig, struct target_sigaction *ka,
+                  target_sigset_t *set, CPUS390XState *env)
  {
+@@ -161,6 +190,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
+      */
+     __put_user(sig, &frame->signo);
+ 
++    /* Create sigregs_ext on the signal stack. */
++    save_sigregs_ext(env, &frame->sregs_ext);
++
+     /*
+      * Set up to return from userspace.
+      * If provided, use a stub already in userspace.
+@@ -202,6 +234,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
      rt_sigframe *frame;
      abi_ulong frame_addr;
-+    abi_ulong restorer;
+     abi_ulong restorer;
++    abi_ulong uc_flags;
  
      frame_addr = get_sigframe(ka, env, sizeof *frame);
      trace_user_setup_rt_frame(env, frame_addr);
-@@ -199,29 +210,33 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         return;
-     }
+@@ -229,10 +262,15 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     tswap_siginfo(&frame->info, info);
  
--    tswap_siginfo(&frame->info, info);
-+    /* Set up backchain. */
-+    __put_user(env->regs[15], (abi_ulong *) frame);
- 
--    /* Create the ucontext.  */
+     /* Create ucontext on the signal stack. */
 -    __put_user(0, &frame->uc.tuc_flags);
--    __put_user((abi_ulong)0, (abi_ulong *)&frame->uc.tuc_link);
--    target_save_altstack(&frame->uc.tuc_stack, env);
--    save_sigregs(env, &frame->uc.tuc_mcontext);
--    tswap_sigset(&frame->uc.tuc_sigmask, set);
--
--    /* Set up to return from userspace.  If provided, use a stub
--       already in userspace.  */
-+    /*
-+     * Set up to return from userspace.
-+     * If provided, use a stub already in userspace.
-+     */
-     if (ka->sa_flags & TARGET_SA_RESTORER) {
--        env->regs[14] = ka->sa_restorer;
-+        restorer = ka->sa_restorer;
-     } else {
--        env->regs[14] = frame_addr + offsetof(typeof(*frame), retcode);
-+        restorer = frame_addr + offsetof(typeof(*frame), retcode);
-         __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
-                    &frame->retcode);
-     }
- 
--    /* Set up backchain. */
--    __put_user(env->regs[15], (abi_ulong *) frame);
-+    /* Create siginfo on the signal stack. */
-+    tswap_siginfo(&frame->info, info);
-+
-+    /* Create ucontext on the signal stack. */
-+    __put_user(0, &frame->uc.tuc_flags);
-+    __put_user(0, &frame->uc.tuc_link);
-+    target_save_altstack(&frame->uc.tuc_stack, env);
-+    save_sigregs(env, &frame->uc.tuc_mcontext);
-+    tswap_sigset(&frame->uc.tuc_sigmask, set);
++    uc_flags = 0;
++    if (s390_has_feat(S390_FEAT_VECTOR)) {
++        uc_flags |= TARGET_UC_VXRS;
++    }
++    __put_user(uc_flags, &frame->uc.tuc_flags);
+     __put_user(0, &frame->uc.tuc_link);
+     target_save_altstack(&frame->uc.tuc_stack, env);
+     save_sigregs(env, &frame->uc.tuc_mcontext);
++    save_sigregs_ext(env, &frame->uc.tuc_mcontext_ext);
+     tswap_sigset(&frame->uc.tuc_sigmask, set);
  
      /* Set up registers for signal handler */
-+    env->regs[14] = restorer;
-     env->regs[15] = frame_addr;
-     /* Force default amode and default user address space control. */
-     env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
+@@ -271,6 +309,24 @@ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+     }
+ }
+ 
++static void restore_sigregs_ext(CPUS390XState *env, target_sigregs_ext *ext)
++{
++    int i;
++
++    /*
++     * if (MACHINE_HAS_VX) ...
++     * That said, we always allocate the stack storage and the
++     * space is always available in env.
++     */
++    for (i = 0; i < 16; ++i) {
++       __get_user(env->vregs[i][1], &ext->vxrs_low[i]);
++    }
++    for (i = 0; i < 16; ++i) {
++       __get_user(env->vregs[i + 16][0], &ext->vxrs_high[i][0]);
++       __get_user(env->vregs[i + 16][1], &ext->vxrs_high[i][1]);
++    }
++}
++
+ long do_sigreturn(CPUS390XState *env)
+ {
+     sigframe *frame;
+@@ -292,6 +348,7 @@ long do_sigreturn(CPUS390XState *env)
+     set_sigmask(&set); /* ~_BLOCKABLE? */
+ 
+     restore_sigregs(env, &frame->sregs);
++    restore_sigregs_ext(env, &frame->sregs_ext);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+@@ -313,6 +370,7 @@ long do_rt_sigreturn(CPUS390XState *env)
+     set_sigmask(&set); /* ~_BLOCKABLE? */
+ 
+     restore_sigregs(env, &frame->uc.tuc_mcontext);
++    restore_sigregs_ext(env, &frame->uc.tuc_mcontext_ext);
+ 
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
 -- 
 2.25.1
 
