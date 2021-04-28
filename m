@@ -2,91 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C9E36D4DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 11:35:04 +0200 (CEST)
-Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB09F36D4E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 11:38:36 +0200 (CEST)
+Received: from localhost ([::1]:55746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbgb1-0001x3-Do
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 05:35:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42724)
+	id 1lbgeR-0003Jj-NY
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 05:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lbgZ2-0001PH-8O
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 05:33:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42025)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lbgco-0002jt-Gq; Wed, 28 Apr 2021 05:36:54 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lbgYx-0002fM-TK
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 05:32:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619602375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EGWaJrcMiHs5cYsCEDV6Ych53V8aZClsOUvxyZU99Lo=;
- b=MgZ/W/OHYf1viITi4inVSleuQNq4YOl/8y51/FFz+f+68a5tWLwgoI6BJOdGJZ/FuuQKlO
- ewmnWw/vgq/LLzS9nf32pNdi6gn4d5YO/HdFpFIJ/Y1a4bntHouSU9wAmU5Xs6E+mpCJeK
- 9xwGx3//YGsSjxpeFxWn9WKxmsJkujU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-JCvO0ur2PAagGPCZlyNqGQ-1; Wed, 28 Apr 2021 05:32:52 -0400
-X-MC-Unique: JCvO0ur2PAagGPCZlyNqGQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 65-20020adf82c70000b0290107593a42c3so10500658wrc.5
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 02:32:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EGWaJrcMiHs5cYsCEDV6Ych53V8aZClsOUvxyZU99Lo=;
- b=A7xci4FzCAXpsRsOQS24urTactWX5L1yo8Ln3A2LwyfvI7AZoWhirZatrjoL2tJjb1
- GSizyQinAnWf0eNPmT9qP16My6rkUT3MPzr6OAgkMAOwUz1/hS67DR6LdhQaYVC73eU2
- IlNOQavmgoX/ALE/84C3UKqNDwtYVYmmKE2mwMh9IzufwOZa4LxmqWNk7j+Xz2hCYKot
- 9EucUJFoq08tQGzRj/JBwq6L9XhEIbQ6lq61vqreZWAYyQGLLdBSQIQUTx06VVsIU8/7
- smFpuHeYqgeSsJPNvVVRK1UMO8q/iXs4pz0IPpRJkcQ4aGNwueEGyZhiQaHtZoWpRTQf
- 4/1Q==
-X-Gm-Message-State: AOAM530tCSOb2lXQ4LnOGGyXS351qfkcRLxLTI1iOi3cVtG4az5Kxc8m
- 02k0BeCrDgeguvODi9PWMhVt+MXVpFHRMBsEzjiG864o3SxDeFOB/zjpdyxLgtY2Q/ciy0KhS16
- Ea8CbZSHfjtR95Pk=
-X-Received: by 2002:a1c:e409:: with SMTP id b9mr3411320wmh.189.1619602371619; 
- Wed, 28 Apr 2021 02:32:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymQAsgfJwLIF7x77K+RVgshw4bhTQhqqe1Fldj6jSM81eJYrMscHyPzJ0XyNFdVF4fOOAL3Q==
-X-Received: by 2002:a1c:e409:: with SMTP id b9mr3411286wmh.189.1619602371364; 
- Wed, 28 Apr 2021 02:32:51 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e839c7.dip0.t-ipconnect.de.
- [217.232.57.199])
- by smtp.gmail.com with ESMTPSA id g19sm3018639wme.48.2021.04.28.02.32.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 02:32:50 -0700 (PDT)
-Subject: Re: [PATCH] hw/ide: Fix crash when plugging a piix3-ide device into
- the x-remote machine
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20210416125256.2039734-1-thuth@redhat.com>
- <YIkpzdUkgHs4vYCe@stefanha-x1.localdomain>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1fea2e39-c1c7-215f-843e-fc593ff7f47c@redhat.com>
-Date: Wed, 28 Apr 2021 11:32:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lbgcl-0004o5-SF; Wed, 28 Apr 2021 05:36:54 -0400
+Received: from dggeml755-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FVYNJ64Nrz5vHX;
+ Wed, 28 Apr 2021 17:33:36 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggeml755-chm.china.huawei.com (10.1.199.136) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Wed, 28 Apr 2021 17:36:44 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Wed, 28 Apr 2021 17:36:43 +0800
+Subject: Re: [RFC PATCH v2 6/6] hw/arm/virt: Replace smp_parse with one that
+ prefers cores
+To: Andrew Jones <drjones@redhat.com>
+References: <20210413080745.33004-1-wangyanan55@huawei.com>
+ <20210413080745.33004-7-wangyanan55@huawei.com>
+ <20210427145856.5qaetgzdl6ovnoni@gator.home>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <f3d5172b-13a5-a8d3-8cdb-03788e43fc52@huawei.com>
+Date: Wed, 28 Apr 2021 17:36:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <YIkpzdUkgHs4vYCe@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20210427145856.5qaetgzdl6ovnoni@gator.home>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,33 +68,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-arm@nongnu.org, Alistair
+ Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ yangyicong@huawei.com, yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
+ zhukeqian1@huawei.com, Jiajie Li <lijiajie11@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/04/2021 11.24, Stefan Hajnoczi wrote:
-> On Fri, Apr 16, 2021 at 02:52:56PM +0200, Thomas Huth wrote:
->> @@ -158,7 +166,11 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
->>   
->>       vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
->>   
->> -    pci_piix_init_ports(d);
->> +    rc = pci_piix_init_ports(d);
->> +    if (rc) {
->> +        error_setg_errno(errp, -rc, "Failed to realize %s",
->> +                         object_get_typename(OBJECT(dev)));
->> +    }
-> 
-> Is there an error message explaining the reason for the failure
-> somewhere. I can't see one in the patch and imagine users will be
-> puzzled/frustrated by a generic "Failed to realize" error message. Can
-> you make it more meaningful?
 
-Do you have a suggestion for a better message?
+On 2021/4/27 22:58, Andrew Jones wrote:
+> On Tue, Apr 13, 2021 at 04:07:45PM +0800, Yanan Wang wrote:
+>> From: Andrew Jones <drjones@redhat.com>
+>>
+>> The virt machine type has never used the CPU topology parameters, other
+>> than number of online CPUs and max CPUs. When choosing how to allocate
+>> those CPUs the default has been to assume cores. In preparation for
+>> using the other CPU topology parameters let's use an smp_parse that
+>> prefers cores over sockets. We can also enforce the topology matches
+>> max_cpus check because we have no legacy to preserve.
+>>
+>> Signed-off-by: Andrew Jones <drjones@redhat.com>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/arm/virt.c | 76 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 76 insertions(+)
+> Thanks, this patch matches [1]. Of course, I've always considered this
+> patch to be something of an RFC, though. Is there any harm in defaulting
+> to sockets over cores? If not, I wonder if we shouldn't just leave the
+> default as it is to avoid a mach-virt specific smp parser. The "no
+> topology" compat variable will keep existing machine types from switching
+> from cores to sockets, so we don't need to worry about that.
+>
+> [1] https://github.com/rhdrjones/qemu/commit/c0670b1bccb4d08c7cf7c6957cc8878a2af131dd
+For CPU topology population, ARM64 kernel will firstly try to parse ACPI 
+PPTT table
+and then DT in function init_cpu_topology(), if failed it will rely on 
+the MPIDR value
+in function store_cpu_topology(). But MPIDR can not be trusted and is 
+ignored for
+any topology deduction. And instead, topology of one single socket with 
+multiple
+cores is made, which can not represent the real underlying system topology.
+I think this is the reason why VMs will in default prefer cores over 
+sockets if no
+topology description is provided.
 
-  Thomas
+With the feature introduced by this series, guest kernel can 
+successfully get cpu
+information from one of the two (ACPI or DT) for topology population.
 
+According to above analysis, IMO, whether the parsing logic is "sockets 
+over cores" or
+"cores over sockets", it just provide different topology information and 
+consequently
+different scheduling performance. Apart from this, I think there will 
+not any harm or
+problems caused.
+
+So maybe it's fine that we just use the arch-neutral parsing logic?
+How do you think ?
+
+Thanks,
+Yanan
+> Thanks,
+> drew
+>
+>
+> .
 
