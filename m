@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612D336D676
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 13:30:05 +0200 (CEST)
-Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1E036D677
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 13:30:13 +0200 (CEST)
+Received: from localhost ([::1]:46280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbiOK-0002m3-F3
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 07:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42418)
+	id 1lbiOS-0002uz-BR
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 07:30:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lbiMf-0001Zq-ND
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lbiMc-0001Zd-1u
  for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:28:21 -0400
-Resent-Date: Wed, 28 Apr 2021 07:28:21 -0400
-Resent-Message-Id: <E1lbiMf-0001Zq-ND@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lbiMZ-0003BT-K4
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:28:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619609276; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nY53ReabmgfJNbHwJ0Rzz+wCipYL19PHRieyC6gEmBjM0AS4tMEqcn+WcOmoDJP2rYJJEknQMIljmHLPVfkV7HBu82pXTM9KXIjQ9QHVuhJyeqqgcBBwOWnrkeZpgIek/XMdhHl/mjcxEi6DPwYecrXc6yjwL2oP+Y3Xusu+9Ns=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619609276;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=OtluK+CVydxqImOcYwtli6MyGqPseZfZz0CmyG9fpOQ=; 
- b=McXDmaYgFwdOThRPMGAMyPkNTbfxJhaxbFDObLwaREo3DdnxZVzKWBr0H+a7cvFvllKtIWRmwp/XSk109HPAUTGVvuQWApINbXYDV2DLDmGrGMMXqQCoEesjLSFkC4HXliKLbwcvi2NOrlH8IKrPjIfK9MoexXkz95iOUKYTx/I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1619609275137532.2673712144623;
- Wed, 28 Apr 2021 04:27:55 -0700 (PDT)
-In-Reply-To: <20210428110100.27757-1-dgilbert@redhat.com>
-Subject: Re: [PATCH v3 00/26] virtiofs dax patches
-Message-ID: <161960927380.28712.9846523327641876447@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lbiMZ-0003D1-Pd
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:28:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619609295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7h5otiS1/0dEfJIr9jk6bEygj5XWo3up45fNAdmxsCQ=;
+ b=dq2mPh697zmAXPK0LtndmPBsORmPrlWnMCV+47RnAwjm2YfSkdCAvemni4mCkQ/tlfKdSL
+ dwCpH/zKtDOkN7+iBcDt16Vv1duVVY6hTK1yoDwVtXXCOVzWDtRfuxxBCzk5qhwRPOm5iW
+ U3x7QuRVCj8OhaAJMbLw4BEVG5gZ6Z0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-q_EXMMu_MjCnRJXjXKb6zw-1; Wed, 28 Apr 2021 07:28:11 -0400
+X-MC-Unique: q_EXMMu_MjCnRJXjXKb6zw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD37A801106;
+ Wed, 28 Apr 2021 11:28:10 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7CAB6B8E5;
+ Wed, 28 Apr 2021 11:28:05 +0000 (UTC)
+Date: Wed, 28 Apr 2021 13:28:04 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 00/36] block: update graph permissions update
+Message-ID: <YIlGxMrdooxXxbOJ@merkur.fritz.box>
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dgilbert@redhat.com
-Date: Wed, 28 Apr 2021 04:27:55 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,120 +75,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: virtio-fs@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org,
- vgoyal@redhat.com, groug@kaod.org
+Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyODExMDEwMC4yNzc1
-Ny0xLWRnaWxiZXJ0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDQyODExMDEwMC4yNzc1
-Ny0xLWRnaWxiZXJ0QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIHYzIDAwLzI2XSB2aXJ0aW9m
-cyBkYXggcGF0Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
-cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
-dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
-cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
-aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczov
-L2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0
-Y2hldy8yMDIxMDQxNTEwMjMyMS4zOTg3OTM1LTEtcGhpbG1kQHJlZGhhdC5jb20gLT4gcGF0Y2hl
-dy8yMDIxMDQxNTEwMjMyMS4zOTg3OTM1LTEtcGhpbG1kQHJlZGhhdC5jb20KIC0gW3RhZyB1cGRh
-dGVdICAgICAgcGF0Y2hldy8yMDIxMDQyMjE0NTMzNS42NTgxNC0xLW1yZWl0ekByZWRoYXQuY29t
-IC0+IHBhdGNoZXcvMjAyMTA0MjIxNDUzMzUuNjU4MTQtMS1tcmVpdHpAcmVkaGF0LmNvbQogLSBb
-dGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNDI3MTM1MTQ3LjExMTIxOC0xLWx2aXZpZXJA
-cmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwNDI3MTM1MTQ3LjExMTIxOC0xLWx2aXZpZXJAcmVk
-aGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNDI3MTkyNjU4LjI2Njkz
-My0xLWY0YnVnQGFtc2F0Lm9yZyAtPiBwYXRjaGV3LzIwMjEwNDI3MTkyNjU4LjI2NjkzMy0xLWY0
-YnVnQGFtc2F0Lm9yZwogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNDI4MTEwMTAw
-LjI3NzU3LTEtZGdpbGJlcnRAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwNDI4MTEwMTAwLjI3
-NzU3LTEtZGdpbGJlcnRAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3Qn
-CmNjZjA3MTQgdmlydGlvZnNkOiBBc2sgcWVtdSB0byBkcm9wIENBUF9GU0VUSUQgaWYgY2xpZW50
-IGFza2VkIGZvciBpdApkYWUwMDY3IHZob3N0LXVzZXItZnM6IEltcGxlbWVudCBkcm9wIENBUF9G
-U0VUSUQgZnVuY3Rpb25hbGl0eQphZGRjMDA0IHZob3N0LXVzZXItZnM6IEV4dGVuZCBWaG9zdFVz
-ZXJGU1NsYXZlTXNnIHRvIHBhc3MgYWRkaXRpb25hbCBpbmZvCmJmNGNlMmEgREFYOnZpcnRpb2Zz
-ZDogaW1wbGVtZW50IEZVU0VfSU5JVCBtYXBfYWxpZ25tZW50IGZpZWxkCjE4OGYwNzQgREFYL3Vu
-bWFwIHZpcnRpb2ZzZDogcm91dGUgdW5tYXBwYWJsZSB3cml0ZSB0byBzbGF2ZSBjb21tYW5kCjli
-Y2Q3MzAgREFYL3VubWFwIHZpcnRpb2ZzZDogUm91dGUgdW5tYXBwYWJsZSByZWFkcwpiOTViYjVj
-IERBWC91bm1hcCB2aXJ0aW9mc2Q6IFBhcnNlIHVubWFwcGFibGUgZWxlbWVudHMKZTk4YmRhMCBE
-QVgvdW5tYXAgdmlydGlvZnNkOiBBZGQgd3JhcHBlcnMgZm9yIFZIT1NUX1VTRVJfU0xBVkVfRlNf
-SU8KZjhiYzExNSBEQVgvdW5tYXA6IHZpcnRpb2ZzZDogQWRkIFZIT1NUX1VTRVJfU0xBVkVfRlNf
-SU8KZTU2M2E0OSBEQVg6IHZpcnRpb2ZzZDogUGVyZm9ybSBhbiB1bm1hcCBvbiBkZXN0cm95CjQ5
-NzdmZWQgREFYOiB2aXJ0aW9mc2Q6IHJvdXRlIHNlIGRvd24gdG8gZGVzdHJveSBtZXRob2QKZTg2
-ZDk5OSBEQVg6IHZpcnRpb2ZzZDogTWFrZSBsb19yZW1vdmVtYXBwaW5nKCkgd29yawpiNDNlZDE4
-IERBWDogdmlydGlvZnNkOiBXaXJlIHVwIHBhc3N0aHJvdWdoX2xsJ3MgbG9fc2V0dXBtYXBwaW5n
-CjgwYjY2MTMgREFYOiB2aXJ0aW9mc2Q6IEFkZCBzZXR1cC9yZW1vdmUgbWFwcGluZyBoYW5kbGVy
-cyB0byBwYXNzdGhyb3VnaF9sbAo0OTdhNTUxIERBWDogdmlydGlvZnNkOiBBZGQgc2V0dXAvcmVt
-b3ZlIG1hcHBpbmdzIGZ1c2UgY29tbWFuZHMKYTY4YWM2OCBEQVg6IHZpcnRpb2ZzZCBBZGQgY2Fj
-aGUgYWNjZXNzb3IgZnVuY3Rpb25zCjQ3ZmQ4NDEgREFYOiB2aXJ0aW8tZnM6IEZpbGwgaW4gc2xh
-dmUgY29tbWFuZHMgZm9yIG1hcHBpbmcKZTIyYjRmMiBEQVg6IHZpcnRpby1mczogQWRkIHZob3N0
-LXVzZXIgc2xhdmUgY29tbWFuZHMgZm9yIG1hcHBpbmcKNDNjZWZjMSBEQVg6IHZpcnRpby1mczog
-QWRkIGNhY2hlIEJBUgplZTNkMGRhIERBWDogdmlydGlvOiBBZGQgc2hhcmVkIG1lbW9yeSBjYXBh
-YmlsaXR5Cjk1MzJiOTEgREFYIHN1YnByb2plY3RzL2xpYnZob3N0LXVzZXI6IEFkZCB2aXJ0aW8t
-ZnMgc2xhdmUgdHlwZXMKN2E1MTBlZCBEQVg6IGxpYnZob3N0LXVzZXI6IEFsbG93IHBvcHBpbmcg
-YSBxdWV1ZSBlbGVtZW50IHdpdGggYmFkIHBvaW50ZXJzCjc5ODI0ZDUgREFYOiBsaWJ2aG9zdC11
-c2VyOiBSb3V0ZSBzbGF2ZSBtZXNzYWdlIHBheWxvYWQKNGQ1MDNkMCBEQVg6IHZob3N0LXVzZXI6
-IFJld29yayBzbGF2ZSByZXR1cm4gdmFsdWVzCmQxOGZkOTcgdmlydGlvZnNkOiBEb24ndCBhc3N1
-bWUgaGVhZGVyIGxheW91dAozMDFiYTI0IHZpcnRpb2ZzOiBGaXh1cCBwcmludGYgYXJncwoKPT09
-IE9VVFBVVCBCRUdJTiA9PT0KMS8yNiBDaGVja2luZyBjb21taXQgMzAxYmEyNDdlY2NhICh2aXJ0
-aW9mczogRml4dXAgcHJpbnRmIGFyZ3MpCjIvMjYgQ2hlY2tpbmcgY29tbWl0IGQxOGZkOTc3ZjBj
-NSAodmlydGlvZnNkOiBEb24ndCBhc3N1bWUgaGVhZGVyIGxheW91dCkKMy8yNiBDaGVja2luZyBj
-b21taXQgNGQ1MDNkMDNiZmI2IChEQVg6IHZob3N0LXVzZXI6IFJld29yayBzbGF2ZSByZXR1cm4g
-dmFsdWVzKQo0LzI2IENoZWNraW5nIGNvbW1pdCA3OTgyNGQ1N2FjOWMgKERBWDogbGlidmhvc3Qt
-dXNlcjogUm91dGUgc2xhdmUgbWVzc2FnZSBwYXlsb2FkKQo1LzI2IENoZWNraW5nIGNvbW1pdCA3
-YTUxMGVkZjExNjkgKERBWDogbGlidmhvc3QtdXNlcjogQWxsb3cgcG9wcGluZyBhIHF1ZXVlIGVs
-ZW1lbnQgd2l0aCBiYWQgcG9pbnRlcnMpCjYvMjYgQ2hlY2tpbmcgY29tbWl0IDk1MzJiOTE3ZmVj
-NCAoREFYIHN1YnByb2plY3RzL2xpYnZob3N0LXVzZXI6IEFkZCB2aXJ0aW8tZnMgc2xhdmUgdHlw
-ZXMpCjcvMjYgQ2hlY2tpbmcgY29tbWl0IGVlM2QwZGFlYmM3NiAoREFYOiB2aXJ0aW86IEFkZCBz
-aGFyZWQgbWVtb3J5IGNhcGFiaWxpdHkpCjgvMjYgQ2hlY2tpbmcgY29tbWl0IDQzY2VmYzE4YmQ5
-YiAoREFYOiB2aXJ0aW8tZnM6IEFkZCBjYWNoZSBCQVIpCjkvMjYgQ2hlY2tpbmcgY29tbWl0IGUy
-MmI0ZjI1NmEyMiAoREFYOiB2aXJ0aW8tZnM6IEFkZCB2aG9zdC11c2VyIHNsYXZlIGNvbW1hbmRz
-IGZvciBtYXBwaW5nKQoxMC8yNiBDaGVja2luZyBjb21taXQgNDdmZDg0MTM2ZDZmIChEQVg6IHZp
-cnRpby1mczogRmlsbCBpbiBzbGF2ZSBjb21tYW5kcyBmb3IgbWFwcGluZykKMTEvMjYgQ2hlY2tp
-bmcgY29tbWl0IGE2OGFjNjhkY2Y0MSAoREFYOiB2aXJ0aW9mc2QgQWRkIGNhY2hlIGFjY2Vzc29y
-IGZ1bmN0aW9ucykKMTIvMjYgQ2hlY2tpbmcgY29tbWl0IDQ5N2E1NTE4YTkzMSAoREFYOiB2aXJ0
-aW9mc2Q6IEFkZCBzZXR1cC9yZW1vdmUgbWFwcGluZ3MgZnVzZSBjb21tYW5kcykKMTMvMjYgQ2hl
-Y2tpbmcgY29tbWl0IDgwYjY2MTM1M2NkNCAoREFYOiB2aXJ0aW9mc2Q6IEFkZCBzZXR1cC9yZW1v
-dmUgbWFwcGluZyBoYW5kbGVycyB0byBwYXNzdGhyb3VnaF9sbCkKMTQvMjYgQ2hlY2tpbmcgY29t
-bWl0IGI0M2VkMTg1MzVjNCAoREFYOiB2aXJ0aW9mc2Q6IFdpcmUgdXAgcGFzc3Rocm91Z2hfbGwn
-cyBsb19zZXR1cG1hcHBpbmcpCjE1LzI2IENoZWNraW5nIGNvbW1pdCBlODZkOTk5ZmMxOGMgKERB
-WDogdmlydGlvZnNkOiBNYWtlIGxvX3JlbW92ZW1hcHBpbmcoKSB3b3JrKQoxNi8yNiBDaGVja2lu
-ZyBjb21taXQgNDk3N2ZlZDE5MmUzIChEQVg6IHZpcnRpb2ZzZDogcm91dGUgc2UgZG93biB0byBk
-ZXN0cm95IG1ldGhvZCkKMTcvMjYgQ2hlY2tpbmcgY29tbWl0IGU1NjNhNDlkNGIyYSAoREFYOiB2
-aXJ0aW9mc2Q6IFBlcmZvcm0gYW4gdW5tYXAgb24gZGVzdHJveSkKMTgvMjYgQ2hlY2tpbmcgY29t
-bWl0IGY4YmMxMTUwOTJkOCAoREFYL3VubWFwOiB2aXJ0aW9mc2Q6IEFkZCBWSE9TVF9VU0VSX1NM
-QVZFX0ZTX0lPKQoxOS8yNiBDaGVja2luZyBjb21taXQgZTk4YmRhMGM1ODFkIChEQVgvdW5tYXAg
-dmlydGlvZnNkOiBBZGQgd3JhcHBlcnMgZm9yIFZIT1NUX1VTRVJfU0xBVkVfRlNfSU8pCkVSUk9S
-OiB1bm5lY2Vzc2FyeSB3aGl0ZXNwYWNlIGJlZm9yZSBhIHF1b3RlZCBuZXdsaW5lCiMxMDA6IEZJ
-TEU6IHRvb2xzL3ZpcnRpb2ZzZC9mdXNlX3ZpcnRpby5jOjExODM6CisgICAgZnVzZV9sb2coRlVT
-RV9MT0dfREVCVUcsICIlczogcmVzdWx0PSUiIFBSSWQ2NCAiIFxuIiwgX19mdW5jX18sIHJlc3Vs
-dCk7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDc1IGxpbmVzIGNoZWNrZWQKClBhdGNo
-IDE5LzI2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyMC8yNiBDaGVja2luZyBjb21taXQg
-Yjk1YmI1YzIyNzg5IChEQVgvdW5tYXAgdmlydGlvZnNkOiBQYXJzZSB1bm1hcHBhYmxlIGVsZW1l
-bnRzKQoyMS8yNiBDaGVja2luZyBjb21taXQgOWJjZDczMGRmZTY2IChEQVgvdW5tYXAgdmlydGlv
-ZnNkOiBSb3V0ZSB1bm1hcHBhYmxlIHJlYWRzKQoyMi8yNiBDaGVja2luZyBjb21taXQgMTg4ZjA3
-NDU1NGQzIChEQVgvdW5tYXAgdmlydGlvZnNkOiByb3V0ZSB1bm1hcHBhYmxlIHdyaXRlIHRvIHNs
-YXZlIGNvbW1hbmQpCjIzLzI2IENoZWNraW5nIGNvbW1pdCBiZjRjZTJhZjM3NWMgKERBWDp2aXJ0
-aW9mc2Q6IGltcGxlbWVudCBGVVNFX0lOSVQgbWFwX2FsaWdubWVudCBmaWVsZCkKMjQvMjYgQ2hl
-Y2tpbmcgY29tbWl0IGFkZGMwMDQ3YWY0YSAodmhvc3QtdXNlci1mczogRXh0ZW5kIFZob3N0VXNl
-ckZTU2xhdmVNc2cgdG8gcGFzcyBhZGRpdGlvbmFsIGluZm8pCjI1LzI2IENoZWNraW5nIGNvbW1p
-dCBkYWUwMDY3NmE4NzggKHZob3N0LXVzZXItZnM6IEltcGxlbWVudCBkcm9wIENBUF9GU0VUSUQg
-ZnVuY3Rpb25hbGl0eSkKMjYvMjYgQ2hlY2tpbmcgY29tbWl0IGNjZjA3MTQ0ODRhZiAodmlydGlv
-ZnNkOiBBc2sgcWVtdSB0byBkcm9wIENBUF9GU0VUSUQgaWYgY2xpZW50IGFza2VkIGZvciBpdCkK
-RVJST1I6IHVubmVjZXNzYXJ5IHdoaXRlc3BhY2UgYmVmb3JlIGEgcXVvdGVkIG5ld2xpbmUKIzEy
-NTogRklMRTogdG9vbHMvdmlydGlvZnNkL2Z1c2VfdmlydGlvLmM6MTMxOToKICAgICBmdXNlX2xv
-ZyhGVVNFX0xPR19ERUJVRywgIiVzOiByZXN1bHQ9JSIgUFJJZDY0ICIgXG4iLCBfX2Z1bmNfXywg
-cmVzdWx0KTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgODggbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggMjYvMjYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09
-PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNDI4MTEwMTAwLjI3NzU3LTEt
-ZGdpbGJlcnRAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+Am 17.03.2021 um 15:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Hi all!
+> 
+> Finally, I finished v3. Phew.
+> 
+> Missed a soft-freeze. Should we consider it a bugfix? There are bugfixes
+> here but they are mostly theoretical. So, up to Kevin, should it go to
+> current release or to the next..
+> 
+> The main point of the series is fixing some permission update problems
+> (see patches 01-03 as examples), that in turn makes possible more clean
+> inserting and removing of filters (see patch 26 where .active field is
+> dropped finally from backup-top filter, we don't need a workaround
+> anymore).
+> 
+> The series brings util/transactions.c (patch 10) and use of it in
+> block.c, which allows clean block graph change transactions, with
+> possibility of reverting all modifications (movement and removement of
+> children, changing aio context, changing permissions) in reverse order
+> on failure path.
+> 
+> The series also helps Alberto's "Allow changing bs->file on reopen"
+> which we want to merge prior dropping x- prefix from blockdev-reopen
+> command.
+
+Ok, I made it through the whole series. Looking quite good, I just had
+some minor comments, but maybe not quite trival enough to just fix them
+up while applying.
+
+I had comments on patches 1, 4, 8, 18 and 22. With these addressed, you
+can add to all patches in the whole series:
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+
+v4 should then be the final version. :-)
+
+Kevin
+
 
