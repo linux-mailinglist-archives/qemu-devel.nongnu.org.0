@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7660036D9F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:57:07 +0200 (CEST)
-Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED9C36D9D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:50:51 +0200 (CEST)
+Received: from localhost ([::1]:55920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblcg-0008Pj-KG
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51142)
+	id 1lblWc-0001aZ-TV
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblUM-0000SV-QM
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:48:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblUL-0005OO-2K
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:48:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619621308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=83Zj+dsuhexjgd/SgHplHVTJG66SKX+lzdg4qh7kEEs=;
- b=U5m2ucg6MFQVbs+a9WgKLwS5rBEkyzg0iU4CspCaZM2P+aNX9Quh4v5XS9sfo9BvjYITrf
- Ai8/kXePynet+YGR2MfwmUsI7tfGv+5jZXxjMApsIcHTXBFsaQmxkXC7ADXuGXEOTV+Gc+
- OtbBWQP4dzCLg9CMnQQsMLY+7+HZuIo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-HGrQ8G_TPbeqDwEtmV3qYw-1; Wed, 28 Apr 2021 10:48:26 -0400
-X-MC-Unique: HGrQ8G_TPbeqDwEtmV3qYw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s7-20020adfc5470000b0290106eef17cbdso19009418wrf.11
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:48:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lblVG-0000kQ-Aw
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:49:26 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lblVC-0005xR-0r
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:49:26 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id h7so4396098plt.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=AGf9MC1aB2MkLkO15YrgBoFZemTAePxM33VsbbzX0fA=;
+ b=nabsdUXhhWSCkZtwTCefYMXLaWNBxV0AZOQ3IS+xiimSK6M8lmVWUtYzqpKCMGQgYf
+ Y75ZnEq1oM54C4RAomOf0H/j+TD33RP8axxQCCWuP6DsApeHimi9oxkUEy1g1o5rgD57
+ nA6YAoWlmtfXENnr35MiR9Xxe+7SDqPdFQhnzMSbZdapsDn1C5RwLZaVYyAlszEAX2aY
+ Tl7HOMRBvw3/4cnLYySeTQBC2ECQw4aP195R/2A0QXq5lgCFezcE83HKwU71AJX70HEV
+ QFXIkbJxFOBSAtxRjngk1Fj/Fddtuad5oq3at0LOSFmsKW0IMt7iNZc4R8RdfTJu+2JN
+ wykg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=83Zj+dsuhexjgd/SgHplHVTJG66SKX+lzdg4qh7kEEs=;
- b=ackSddVa8t0cUR16uKJFYB7jfNVbjDYemrf5TdNcds6qlim7Tx221N5FVuR5n5AgRB
- MjvOiV8d9gLtzMQttRJsJnFEIoj8VNNGEYz0Bu21icX/bVCEsk1Fb8xqNH2s2q3vKC5M
- OZo8PqnspyrP3v4t61eZoUG0l37Xm7K3n0Z32MFRO0YTE5SshXA7UPfQV7MnUdWQaUFE
- gXUPHNEJ6+ZadzuT/p62qiJ/yNYnB9oP5pN0urx+kT0yyviEKdboge61OOKPLyomcxH9
- vvx+sBaYgmqTWVWb0ljwaLjth+TQZdQ21/IzJYsSlpnM6ZaHnpfQXVlBe8vPs1KfPNmY
- ZDJQ==
-X-Gm-Message-State: AOAM532E9AVxsYI/2rfkgd+eVLHXGYOro8zsM7U8EAKmN4er+lOd1omL
- e0RExbaPH2FJ9b95HhIP3VlT3IluveBW5c1znS6x3BJvy0NFZEAiZhwkR/MO88oeutsb2kBqcLO
- d+3D18e014HO3Prn9wFjDsrC/L100R5WvPaoYMeWKkqPFLOY0mDqTEFc/ZHh/j3ED
-X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr9674144wrs.395.1619621304970; 
- Wed, 28 Apr 2021 07:48:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEs5bd5RqVL5vd2VlgsEeNXl4a3N3MaBffMj5bJxs65Yuh6F5f9rhRrK7ShwYHY5QYDe/M4w==
-X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr9674113wrs.395.1619621304790; 
- Wed, 28 Apr 2021 07:48:24 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id d22sm229722wrc.50.2021.04.28.07.48.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 07:48:24 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] util/meson: Build iov/hexdump/buffer_is_zero with
- virtiofsd
-Date: Wed, 28 Apr 2021 16:48:13 +0200
-Message-Id: <20210428144813.417170-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210428144813.417170-1-philmd@redhat.com>
-References: <20210428144813.417170-1-philmd@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AGf9MC1aB2MkLkO15YrgBoFZemTAePxM33VsbbzX0fA=;
+ b=ifIWHeNLiA5syOHqcmWXUWTliXtK27LDRMd+zH/d7qIVC55AEL0qDRR/ZYPlnYfrTi
+ noPCIWp4ff9j7Xut8QeieB5+ydH/xGskTYhOF7WpfD6rtzYBX/WRAfDY3+/TqFoxkVdI
+ lEdBtbRgVVlNRoWo3jj+klP+d7A9Er9tmZh2hyyaDKrOv+3Sm5WyXKeWcVSBrJh7CdQU
+ g+OBiSpsiCEBbSezAMT3sGw5m07rYkD+uzNcqmVcXlJ4h+4IJbAN+dAhBWB2d1u4+T+n
+ BZuMeWAPmeJUB8GJ5B8VlBKfeZYEXfllD6VVZtgaxNDdjJSGnbZ974CQHuV1hGZvCIkW
+ O5Zw==
+X-Gm-Message-State: AOAM530lyL+9ipghOTtmIsrWG2UdLzdrmkQJNQRAMfXUgse7ldLV3dr5
+ VPkte17K8tQcqAZcWvzFiZAK5A==
+X-Google-Smtp-Source: ABdhPJwE66wBCVuyOnMaGX4LUM+C/eWcEuyMN2EfW+o7e3IyKtnxmClEzEgTB4BeFl6TnYiM3UcOtA==
+X-Received: by 2002:a17:90b:388c:: with SMTP id
+ mu12mr4444460pjb.51.1619621360672; 
+ Wed, 28 Apr 2021 07:49:20 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id 5sm48274pfi.43.2021.04.28.07.49.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 07:49:20 -0700 (PDT)
+Subject: Re: [PATCH v2 2/4] hw/sparc64: Remove unused "hw/char/serial.h" header
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210428141655.387430-1-f4bug@amsat.org>
+ <20210428141655.387430-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e4c963ce-d013-bd47-0c65-a60c19022315@linaro.org>
+Date: Wed, 28 Apr 2021 07:49:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210428141655.387430-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,63 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When not explicitly select a sysemu target or the QEMU tools and
-building virtiofsd, libqemuutil.a has missing symbols:
+On 4/28/21 7:16 AM, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   hw/sparc64/sparc64.c | 1 -
+>   1 file changed, 1 deletion(-)
 
-  /usr/bin/ld: tools/virtiofsd/virtiofsd.p/fuse_virtio.c.o: in function `virtio_send_msg':
-  tools/virtiofsd/fuse_virtio.c:236: undefined reference to `iov_size'
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  /usr/bin/ld: libqemuutil.a(util_iov.c.o): in function `iov_hexdump':
-  util/iov.c:240: undefined reference to `qemu_hexdump'
-
-  /usr/bin/ld: libqemuutil.a(util_iov.c.o): in function `qemu_iovec_is_zero':
-  util/iov.c:494: undefined reference to `buffer_is_zero'
-
-Fix by linking bufferiszero/hexdump/iov objects when building
-virtiofsd (regardless of sysemu / tools).
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- util/meson.build | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/util/meson.build b/util/meson.build
-index 510765cde46..c2eda2d1374 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -59,12 +59,10 @@
-   util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
-   util_ss.add(files('base64.c'))
-   util_ss.add(files('buffer.c'))
--  util_ss.add(files('bufferiszero.c'))
-   util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
-   util_ss.add(files('hbitmap.c'))
--  util_ss.add(files('hexdump.c'))
-   util_ss.add(files('iova-tree.c'))
--  util_ss.add(files('iov.c', 'qemu-sockets.c', 'uri.c'))
-+  util_ss.add(files('qemu-sockets.c', 'uri.c'))
-   util_ss.add(files('lockcnt.c'))
-   util_ss.add(files('main-loop.c'))
-   util_ss.add(files('nvdimm-utils.c'))
-@@ -83,3 +81,9 @@
-                                         if_false: files('filemonitor-stub.c'))
-   util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
- endif
-+
-+if have_block or config_host.has_key('CONFIG_VHOST_USER_FS')
-+  util_ss.add(files('hexdump.c'))
-+  util_ss.add(files('bufferiszero.c'))
-+  util_ss.add(files('iov.c'))
-+endif
--- 
-2.26.3
+r~
 
 
