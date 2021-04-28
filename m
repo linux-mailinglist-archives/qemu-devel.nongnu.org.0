@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A313D36E056
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 22:33:28 +0200 (CEST)
-Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5FB36E0D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 23:14:53 +0200 (CEST)
+Received: from localhost ([::1]:36696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbqsB-0000c2-9N
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 16:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
+	id 1lbrWG-0000Pf-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 17:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbqpa-0008Sq-Cw
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 16:30:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35048)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbrUX-0008QG-GY
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 17:13:05 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbqpX-0002n4-8n
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 16:30:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbqpU-00036m-68
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 20:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F31F72E8041
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 20:30:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbrUV-0002VH-D9
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 17:13:05 -0400
+Received: by mail-pl1-x630.google.com with SMTP id v20so6298830plo.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 14:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9Z5oboDzxXxzdKEckLj8+ZETX/D+qWm3IQEciGdoewA=;
+ b=akPzOmoMDjGqkfbykltI6yrLwynKEDenrff7owHESCagDUCqPM3l9N+V7QeAGUZajS
+ e1TN6dTp5VF1iO0QrHxxUpb+wa4BOu+WlF/3Y1DHcBQMzJBUZSGXr/DohqH6Qiwfgg8p
+ nXV2orYIMwaZhQsmQrWoKUlBPFkiUozz3wGXS+4bMKi+5P8v9aEwWtFdfyQSPo5PEniq
+ 6CqoxOXGyjBO/r6DNh/HfuYqLNx8QDZvSXGAHqHJvZjw7vh1IgCQeYQIy5TnKhSs8aie
+ xKq7cY9OkCPxQkZ7hxG8qobLDooOinJnMRjoRtOeqWJmWW7aq95hIkUgvR1Vf1PGzgIU
+ MU/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9Z5oboDzxXxzdKEckLj8+ZETX/D+qWm3IQEciGdoewA=;
+ b=ZW2u+xtfquFXrapuF3HZpfeaxK2xASoUpt20IM3R1wDvh66bw5abjGodt0+A0E9Up5
+ ZB6MxTROupybK0z+oCO7Z2F6PIySARosv69zvYUF4Xt5DZbeiJbVrl0oCmiCuFzVInmi
+ fvPqnqh2XInSALsJh4t899C4ddIqVjX428qPIXijus12XBDLc+5dCntUV6JVLbsZXtoY
+ IjLo5A8npqST7/o40WHqVenwEJrQf2wJmsS61LL4vRyZ3r7Lusk45b4nzkOBfTq7gbXr
+ /MHiskwgZMTmdQBMb/hmXRUeoVtZH6ErgAGJtzxVYM4LXeTtaqRjnUWmNZsbUydBZN6W
+ sj9g==
+X-Gm-Message-State: AOAM533N7jEePOmoEMwxx20IELFDjw63FOMFvl0YxZ5O+kStw4OpwY8C
+ 10mL1A1ORgTW3krJ2X2fieOYzA==
+X-Google-Smtp-Source: ABdhPJykPHYH7ljgEfg9hxtkHcKtQQQ+Q45Lb3ZD9ojE/INhSUv7aDt67GL1GeW83h61FafSxdfeXQ==
+X-Received: by 2002:a17:90a:a613:: with SMTP id
+ c19mr5992463pjq.117.1619644381837; 
+ Wed, 28 Apr 2021 14:13:01 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id u18sm539332pfm.4.2021.04.28.14.13.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 14:13:01 -0700 (PDT)
+Subject: Re: [PATCH v4 00/26] Hexagon (target/hexagon) update
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c28f4f95-fdfc-c67e-d9fb-dea67b56e337@linaro.org>
+Date: Wed, 28 Apr 2021 14:12:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Apr 2021 20:24:18 -0000
-From: Jeff <1926497@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: m68k q800
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jrmuizel laurent-vivier
-X-Launchpad-Bug-Reporter: Jeff (jrmuizel)
-X-Launchpad-Bug-Modifier: Jeff (jrmuizel)
-References: <161963801251.13717.437360863998468941.malonedeb@wampee.canonical.com>
-Message-Id: <161964145838.11446.12669599372584530876.malone@soybean.canonical.com>
-Subject: [Bug 1926497] Re: dp83932 stops working after a short while
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: f6608f9aa4cd263f30460ed82e770908206d6a4a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,57 +87,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926497 <1926497@bugs.launchpad.net>
+Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kernel in my m68k disk image is vmlinux-4.16.0-1-m68k which is
-presumably what comes from
-https://cdimage.debian.org/cdimage/ports/10.0/m68k/iso-cd/debian-10.0
--m68k-NETINST-1.iso. Is there a debian image that uses a newer kernel?
+On 4/8/21 6:07 PM, Taylor Simpson wrote:
+> This patch series is a significant update for the Hexagon target
+>      The first 16 patches address feedback from Richard Henderson
+>      <richard.henderson@linaro.org>  and Philippe Mathieu-Daud�<f4bug@amsat.org>
+>      The next 10 patches add the remaining instructions for the Hexagon
+>      scalar core
+> 
+> The patches are logically independent but are organized as a series to
+> avoid potential conflicts if they are merged out of order.
+> 
+> Note that the new test cases require an updated toolchain/container.
 
--- =
+https://gitlab.com/rth7680/qemu/-/jobs/1216248227
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926497
+The clang-user job errors out with
 
-Title:
-  dp83932 stops working after a short while
 
-Status in QEMU:
-  New
+> ../target/hexagon/genptr.c:31:20: error: unused function 'gen_read_reg' [-Werror,-Wunused-function]
+> static inline TCGv gen_read_reg(TCGv result, int num)
+>                    ^
+> ../target/hexagon/genptr.c:322:20: error: unused function 'gen_set_byte' [-Werror,-Wunused-function]
+> static inline void gen_set_byte(int N, TCGv result, TCGv src)
+>                    ^
 
-Bug description:
-  Following the instructions here
-  https://wiki.qemu.org/Documentation/Platforms/m68k I was able to
-  successfully install debian. However, running apt-get update stalls
-  after the first 1-2MB.
 
-  root@debian:~# apt-get update
-  Get:1 http://ftp.ports.debian.org/debian-ports sid InRelease [55.3 kB]
-  Ign:1 http://ftp.ports.debian.org/debian-ports sid InRelease
-  Get:2 http://ftp.ports.debian.org/debian-ports sid/main all Packages [8,7=
-35 kB]
-  18% [2 Packages 2,155 kB/8,735 kB 25%]
-
-  After running apt-get update. I don't seem to be able to send any
-  packets anymore. ping host lookups fail and a subsequent apt-get
-  update makes no progress.
-
-  I'm launching qemu with:
-
-    qemu-system-m68k -boot c \
-   -M q800 -serial none -serial mon:stdio -m 1000M \
-   -net nic,model=3Ddp83932 -net user \
-   -append "root=3D/dev/sda2 rw console=3DttyS0 console=3Dtty" \
-   -kernel vmlinux-4.16.0-1-m68k \
-   -initrd initrd.img-4.16.0-1-m68k \
-   -drive file=3Dm68k-deb10.qcow2,format=3Dqcow2 \
-   -nographic
-
-  I see this with qemu v6.0.0-rc5
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926497/+subscriptions
+r~
 
