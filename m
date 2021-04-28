@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BAD36D094
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 04:38:10 +0200 (CEST)
-Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A0E36D09F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 04:42:24 +0200 (CEST)
+Received: from localhost ([::1]:55810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lba5a-0006K4-1F
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 22:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1lba9f-0007OX-VO
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 22:42:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lba4Q-0005tV-Kz
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 22:36:58 -0400
-Received: from mga14.intel.com ([192.55.52.115]:46889)
+ id 1lba8g-0006xu-BU
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 22:41:22 -0400
+Received: from mga01.intel.com ([192.55.52.88]:41481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lba4N-0008Rv-JK
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 22:36:58 -0400
-IronPort-SDR: fxerEDtqdaD/CO4qk+KFe8AUxCXk78Jw/biFe5AdRfzY7LDWJYv5t9HpEFQ2i5TeXPNFrAB3rP
- 5RWTJqNdPwgg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9967"; a="196195250"
-X-IronPort-AV: E=Sophos;i="5.82,256,1613462400"; d="scan'208";a="196195250"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2021 19:36:53 -0700
-IronPort-SDR: IIXXdgnst9mTDrViN4TqJXrD87zPMeGl9sm6yfDK/my0ZQATxBPYKxD5YUTJ8+hpD/+N9hK5s8
- mKkKKaZUrB3A==
+ id 1lba8e-0003Hd-8F
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 22:41:22 -0400
+IronPort-SDR: MHUN3BLdUjpL3vzbcfu39etADXceVgEz3AfR9CGNcJTZxYGxYPY2n/XRhCJ0NqffKtAO35p5s8
+ 9kR8wp1KiUQQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9967"; a="217355462"
+X-IronPort-AV: E=Sophos;i="5.82,257,1613462400"; d="scan'208";a="217355462"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2021 19:41:17 -0700
+IronPort-SDR: hHVg4KK8IHcOnS1yEQq9ce2b9qMAVZWqDVEPcQld9KBbcjd8rhVZZusC/qt5AfvQRkk8Y6y73R
+ DH6Sib6QH8CA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,257,1613462400"; d="scan'208";a="526322255"
+X-IronPort-AV: E=Sophos;i="5.82,257,1613462400"; d="scan'208";a="447807583"
 Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
  ([10.239.48.212])
- by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2021 19:36:51 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2021 19:41:15 -0700
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: pbonzini@redhat.com,
 	richard.henderson@linaro.org,
 	ehabkost@redhat.com
-Subject: [PATCH v2] i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
-Date: Wed, 28 Apr 2021 10:36:50 +0800
-Message-Id: <1619577410-151709-1-git-send-email-robert.hu@linux.intel.com>
+Subject: [PATCH RESEND v2] i386/cpu: Remove the deprecated cpu model
+ 'Icelake-Client'
+Date: Wed, 28 Apr 2021 10:41:13 +0800
+Message-Id: <1619577673-152264-1-git-send-email-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=robert.hu@linux.intel.com; helo=mga14.intel.com
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=robert.hu@linux.intel.com; helo=mga01.intel.com
 X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
 X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,9 +72,12 @@ from code.
 
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
 ---
-P.S.
-Since previously no its deprecation info was recorded in
-docs/system/deprecated.rst, nothing to update it.
+(Sorry, forgot to append changelog in last send.)
+Changelog:
+v2:
+    Update removed-features.rst.
+    Since previously no its deprecation info was recorded in
+docs/system/deprecated.rst, nothing to update in it.
 ---
  docs/system/removed-features.rst |   5 ++
  target/i386/cpu.c                | 118 ---------------------------------------
