@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC9E36D0DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 05:27:19 +0200 (CEST)
-Received: from localhost ([::1]:40470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9437736D0DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 05:28:16 +0200 (CEST)
+Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbar8-0006Gi-H4
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 23:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51380)
+	id 1lbas3-0007GL-Ns
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 23:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lbapb-0005rb-53
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 23:25:43 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:39698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lbapZ-0003UV-Ip
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 23:25:42 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id z1so72021747ybf.6
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 20:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b9QRWBn1sNL/LURhRdlj0mKDd0hrlKd1TUE1j8dMHg0=;
- b=KnpsS+GaPcTWZgeG8+vuf89/cHu8MieOYM7s3zzXw6z9I/4HhomhFAlQAEf72+IJul
- zuSJGnzfoRSIqg/qZ8afCj9s5aS4yaZVLcdejWzCHATdJ3S3dPvWMnZnNZfWRVP9DCeL
- miI44gv7BNnJHtaHh4mps2BOvlUk0JoXUuy9YQdZY3+rH0Kjwx0UIj+lwyuT8o9TbRkv
- m2UeaS94ZNhPMt+w3oTEm5EKcm0R4wv/+UsHBJW3hU5K+qmVOFuKXYFd43RK1tHRKnsm
- Yb3FNxFOGV/tzTp+WggeaCfAkawXI9K+4dNShx7QgJdTGahbsmI7PWRHvvwt6hG7PTeG
- lnFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b9QRWBn1sNL/LURhRdlj0mKDd0hrlKd1TUE1j8dMHg0=;
- b=i6HK0qkrjvTpCpMUlcwnhdt0/usACagzxphghixvGUmIHzHpOVFLNXJ8B+Mt9E917u
- 68uLS0DkfmuDUmWk3vAXfSVK3QRKSLJlQ6xFRNNmMcZHurEDskKaoNVkw/KQtdq4/NOL
- k6GX1l3b+u/oPfiSEXGnLTLfnw2UP59SZavYaFFsigyVTaQpFC8IeznFjfSo3jvGDNHj
- pPP2363Ne35s6Nz06wTIz8XQ7JJ0QG725qFwPQLIRunYclG8UxgpeRpyu6zmeNfzno6t
- 7voOQr2PZIvMfYx8ERyH2HO/GmYCBtsGmvOBeXgdNp1PLuy9Sll3FUKP7roo19N4Q/Ze
- yS2A==
-X-Gm-Message-State: AOAM530hwJxqaIDppqtoeqCm1RK1hesDaGuzleFKX3rGEcp7cxk/t1LA
- HVeVCQw8qUMMCYDLHx3ktKvp1gFat2RIxCTE+qo=
-X-Google-Smtp-Source: ABdhPJwPH4VR201BbPJeMNWPi5+CuXF1l5J11bNY3oMYhfy5u1hUHESYX0wZ/PaSedbYKbV3/I9y6PpxSCBrb5YMHe4=
-X-Received: by 2002:a25:424e:: with SMTP id p75mr22218024yba.161.1619580338679; 
- Tue, 27 Apr 2021 20:25:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lbaqt-0006bs-PA
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 23:27:04 -0400
+Received: from mga12.intel.com ([192.55.52.136]:12388)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lbaqm-0004OI-9f
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 23:27:03 -0400
+IronPort-SDR: KvWNXk1l7qX6284axSMmIYKyZyDibekRfb1gzeZ0oPEpUKSIdBM+XZB5TNmLMHwBf5XKWAmV13
+ zN5ba1ug6liw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9967"; a="176127522"
+X-IronPort-AV: E=Sophos;i="5.82,257,1613462400"; d="scan'208";a="176127522"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2021 20:26:50 -0700
+IronPort-SDR: QDzlOmTT+hAbLHMaM0bEyP7DoFE5Rt9tOua0JhfREDIvQ8hnJj9XFgC1J8D84NnUAFxujSSuhj
+ q95BWPjM+opg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,257,1613462400"; d="scan'208";a="393278291"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga007.fm.intel.com with ESMTP; 27 Apr 2021 20:26:50 -0700
+Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 27 Apr 2021 20:26:49 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 28 Apr 2021 11:26:48 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
+ Wed, 28 Apr 2021 11:26:48 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, "Eric
+ Blake" <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
+Subject: RE: [PATCH V6 0/6] Passthrough specific network traffic in COLO
+Thread-Topic: [PATCH V6 0/6] Passthrough specific network traffic in COLO
+Thread-Index: AQHXNfjlRIjnq99tzk2zKjLrwVWDearJUGqQ
+Date: Wed, 28 Apr 2021 03:26:48 +0000
+Message-ID: <17dd014de70d4181858198d0187e4fea@intel.com>
+References: <20210420151537.64360-1-chen.zhang@intel.com>
+In-Reply-To: <20210420151537.64360-1-chen.zhang@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20210416153430.92187-1-ziqiaokong@gmail.com>
- <dcca83eb-40e7-91a2-c8dc-73a5a51d23db@linaro.org>
-In-Reply-To: <dcca83eb-40e7-91a2-c8dc-73a5a51d23db@linaro.org>
-From: Ziqiao Kong <ziqiaokong@gmail.com>
-Date: Wed, 28 Apr 2021 11:25:27 +0800
-Message-ID: <CAM0BWNCX8qqoAeKe8aPk4aih6m_fyrG_T=-H7tP8GsVbVWCXpg@mail.gmail.com>
-Subject: Re: [PATCH] Set the correct env->fpip for x86 float instructions
- [cleaned]
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,58 +86,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for your review! I did a full re-read of the Intel Manual about
-x87 programming just now and would send another patch to handle
-FCS:FIP and FDS:FDP.
+Please give me for comments for this series, Ping....
 
-Ziqiao
+Thanks
+Chen
 
-On Wed, Apr 28, 2021 at 1:49 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 4/16/21 8:34 AM, Ziqiao Kong wrote:
-> > +++ b/target/i386/tcg/translate.c
-> > @@ -6337,7 +6337,10 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> >                   goto unknown_op;
-> >               }
-> >           }
-> > +        tcg_gen_movi_tl(s->tmp0, pc_start - s->cs_base);
-> > +        tcg_gen_st_tl(s->tmp0, cpu_env, offsetof(CPUX86State, fpip));
->
-> This placement is wrong because it catches instructions that should not modify
-> FIP, like FINIT.
->
-> It might be best to set a flag around this case like
->
->    bool update_fip;
->
->    case 0xd8 .. 0xdf:
->      ...
->      update_fip = true;
->      if (mod != 3) {
->          ...
->      } else {
->          ...
->      }
->      if (update_fip) {
->          ...
->      }
->      break;
->
-> and set update_fip to false for the set of insns that either do not update FIP
-> or clear it (8.1.8 x87 fpu instruction and data (operand) pointers).
->
-> I notice you're not saving FCS to go along with this, at least for
-> CPUID.(EAX=07H,ECX=0H):EBX[bit 13] = 0.
->
-> And if you're going to this trouble, you might want to think about FDP+FDS as
-> well.  It should be about the same amount of effort.
->
->
-> r~
+> -----Original Message-----
+> From: Zhang, Chen <chen.zhang@intel.com>
+> Sent: Tuesday, April 20, 2021 11:16 PM
+> To: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
+> Gilbert <dgilbert@redhat.com>; Markus Armbruster <armbru@redhat.com>;
+> Daniel P. Berrang=E9 <berrange@redhat.com>; Gerd Hoffmann
+> <kraxel@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>
+> Cc: Zhang Chen <zhangckid@gmail.com>; Zhang, Chen
+> <chen.zhang@intel.com>; Lukas Straub <lukasstraub2@web.de>
+> Subject: [PATCH V6 0/6] Passthrough specific network traffic in COLO
+>=20
+> Due to some real user scenarios don't need to monitor all traffic.
+> And qemu net-filter also need function to more detailed flow control.
+> This series give user ability to passthrough kinds of COLO network stream=
+.
+>=20
+> For example, windows guest user want to enable windows remote desktop
+> to touch guest(UDP/TCP 3389), This case use UDP and TCP mixed, and the tc=
+p
+> part payload always different caused by real desktop display data(for gue=
+st
+> time/ mouse display....).
+>=20
+> Another case is some real user application will actively transmit informa=
+tion
+> include guest time part, primary guest send data with time 10:01.000, At =
+the
+> same time secondary guest send data with time 10:01.001, it will always
+> trigger COLO checkpoint(live migrate) to drop guest performance.
+>=20
+>   V6:
+>     - Change QAPI IPFlowSpec protocol from enum to str.
+>     - Use getprotobyname to handle the protocols.
+>     - Optimize code in net.
+>=20
+>   V5:
+>     - Squash original 1-3 QAPI patches together.
+>     - Rename some data structures to avoid misunderstanding.
+>     - Reuse InetSocketAddressBase in IPFlowSpec.
+>     - Add new function in util/qemu-sockets.c to parse
+>       InetSocketAddressBase.
+>     - Update HMP command define to reuse current code.
+>     - Add more comments.
+>=20
+>   V4:
+>     - Fix QAPI code conflict for V6.0 merged patches.
+>     - Note this feature for V6.1.
+>=20
+>   V3:
+>     - Add COLO passthrough list lock.
+>     - Add usage demo and more comments.
+>=20
+>   V2:
+>     - Add the n-tuple support.
+>     - Add some qapi definitions.
+>     - Support multi colo-compare objects.
+>     - Support setup each rules for each objects individually.
+>     - Clean up COLO compare definition to .h file.
+>     - Rebase HMP command for stable tree.
+>     - Add redundant rules check.
+>=20
+>=20
+> Zhang Chen (6):
+>   qapi/net: Add IPFlowSpec and QMP command for COLO passthrough
+>   util/qemu-sockets.c: Add inet_parse_base to handle
+>     InetSocketAddressBase
+>   hmp-commands: Add new HMP command for COLO passthrough
+>   net/colo-compare: Move data structure and define to .h file.
+>   net/colo-compare: Add passthrough list to CompareState
+>   net/net.c: Add handler for COLO passthrough connection
+>=20
+>  hmp-commands.hx        |  26 +++++++
+>  include/monitor/hmp.h  |   2 +
+>  include/qemu/sockets.h |   1 +
+>  monitor/hmp-cmds.c     |  82 ++++++++++++++++++++
+>  net/colo-compare.c     | 162 +++++++++++-----------------------------
+>  net/colo-compare.h     | 118 +++++++++++++++++++++++++++++
+>  net/net.c              | 166 +++++++++++++++++++++++++++++++++++++++++
+>  qapi/net.json          |  68 +++++++++++++++++
+>  util/qemu-sockets.c    |  14 ++++
+>  9 files changed, 519 insertions(+), 120 deletions(-)
+>=20
+> --
+> 2.25.1
+
 
