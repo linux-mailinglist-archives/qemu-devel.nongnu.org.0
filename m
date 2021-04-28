@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0328D36D66B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 13:27:00 +0200 (CEST)
-Received: from localhost ([::1]:40644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F51236D672
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 13:29:12 +0200 (CEST)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbiLL-0000Vr-3h
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 07:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
+	id 1lbiNT-0001TC-8D
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 07:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbiJl-0008Lb-Tn
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:25:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbiJi-0001X7-Bx
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:25:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619609117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SyHgPNquuAlJXovQtiGb+w+zJRfnIwoNP9RvVozbDwo=;
- b=KNMF1PS17gaMs2JUCfSrV/k+a3Hp4We+FFVsQSDohx3lS7qsCsfskXNLOD1zWzDVP4AT2W
- E90ZvhZCv1tXZTPBLB893vMefzjfSQhjhQ8FPcYfGw4w0EKfq7N2YHhqEbZzzXSrCGvYNG
- UgG4OBBUTGjKIsQLAR1bSq/yZGzFS1E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-TPZXbqz0NrOuc-IB99oktw-1; Wed, 28 Apr 2021 07:25:15 -0400
-X-MC-Unique: TPZXbqz0NrOuc-IB99oktw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 88-20020adf95610000b029010758d8d7e2so10540448wrs.19
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 04:25:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1lbiLn-00010W-5F
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:27:27 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:37520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1lbiLf-0002hK-6y
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 07:27:24 -0400
+Received: by mail-ed1-x531.google.com with SMTP id s15so73785756edd.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 04:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kGc6qdly7t4Jmb3Q633HyKSMzabyNqzLRU4wrIOJ9Ps=;
+ b=U5cI6RYr7YkMy7jL2mtZ7Rj0j1t7HRGXyhWbzY3J2VTTt8DU1/BTGIYjtcBRe+n+0K
+ wNlkTQuwyUgMFT6CU/dfpPWLFogmWQ0IkxPJTmXVSV/DcKCfgns+5bs7mtkyj7nPQ+1Y
+ tzI2w92bipwJjox6aMfFcKILMhNYhPg7v+4z3F4y/6oqq+da0EoWTmeC49vUL8G4oSI3
+ L2RNM5S8bdhH9Wj7KZT4/dOnr/5upe+r/79pypwf7kdOTFTT/euTNqgfdIVgLQ+XSKWX
+ apXcx39v+gdYm3g4XQ9Yt4ndVUzraESJAwyudo47j9oDuy16X2r0Ohu9s0t24hGHFZD9
+ onqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SyHgPNquuAlJXovQtiGb+w+zJRfnIwoNP9RvVozbDwo=;
- b=Mqy0+YF5ggd/KVZRbGF2S8PQFCPLiUtFRyiM2LPMH7qKuyUEyfk7GFE+N/0B7WqWFu
- /PTgi7NWzL9r/qPLBmZzQnYiufw+U+oMF8KXBLIGh7KG7VLShfMHn7NOZ3HTZCws5rzi
- yXhPxJ6GmUrTmcKXpSNEoGGXRVWqvjuI50G8XfE5ut5UDrkhqR1Bt0uxahJMBq+hNiVE
- IPLhEs6MbZUur6vU5IcPfRFsZ83d8NI02wCwq2JqKlAwroXVY0x+cAMlvzIJp1cc6oF8
- haBUfm5HlQyzEczgaF3VY/VDt9cfK1OJ52GfwCT3mZER+ByeWLhfWv/KL/tmDNFTTaLB
- fCCQ==
-X-Gm-Message-State: AOAM532sUCqQnQGuEMQ8THrnNiWYdBhg1FyIwUrQRnVsP/kr5hpcZ/VW
- e1whzzzf5ggwAwhe4/81czrMIFi5kEWEg2TAsGBb0zT5AmS0ScVzH3IWtgziPvQ15sMjubAnPiW
- yIblaWvCmj5N2SKw=
-X-Received: by 2002:a05:600c:210f:: with SMTP id
- u15mr4011101wml.115.1619609114557; 
- Wed, 28 Apr 2021 04:25:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzbnAVVH1AqvqM9MgVLZ5C+ihrSc7igl+FM5Lsd66LV6fN9zTOHo3Zg0kPFkexN288FVmm3Sg==
-X-Received: by 2002:a05:600c:210f:: with SMTP id
- u15mr4011062wml.115.1619609114220; 
- Wed, 28 Apr 2021 04:25:14 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c2sm3417109wmr.22.2021.04.28.04.25.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 04:25:13 -0700 (PDT)
-Subject: Re: [PATCH 0/4] hw/block/fdc: Allow Kconfig-selecting ISA bus/SysBus
- floppy controllers
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210415102321.3987935-1-philmd@redhat.com>
- <edae6f90-6658-0ad0-7516-74073d9be0c2@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0a713d9b-9ce2-0e9b-b515-f26ce09c0443@redhat.com>
-Date: Wed, 28 Apr 2021 13:25:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kGc6qdly7t4Jmb3Q633HyKSMzabyNqzLRU4wrIOJ9Ps=;
+ b=APpGbhv3b/oCvWwOJVeE8nX3gEwhnxlqc3MFpWR0ZpMMOV+v6/IiOqG2FBXQjE1QQM
+ UCGWRzYPqWQUAG+0+3LFcriLkGPGMupFSYP7UDmL093hvncX8cqsr6PJRtaFpkK/AiQs
+ 4zeOvuKQ8DDB8rNBFoCPJF8+TvE0AjXQ9Y8VapgkWojsQpl0GuL2lN/5PKFFR7SHq/pc
+ zsV5qFQOVHiJCaaH6nLvmXslTa21o5tbAauhwjcKLmnrngDoH7NdlL0JdCKgNRTmfIY8
+ pDqY9G6OF1ABZ5KlxA5ijafrz3Wm0rNNixQiEnYFaD4Y1WcLYidqMmbT4djvl+xSq4js
+ LfEA==
+X-Gm-Message-State: AOAM531Zd8iFEBvKhYf1tXm8xj5QpT1D1GcSR63b1l1A1DqRL86u9ejW
+ /oBRbDLxQheUeaNx15L31rUPP2vMNCxUFuZxIJf/
+X-Google-Smtp-Source: ABdhPJy0kAejELaa0nJroOmPeZ/U1c8kgzEn6N+YTWE8ugNGz869tau3SlVapOaKz5OTf0QtIkVnhzQH4zRB7BLkIhw=
+X-Received: by 2002:a05:6402:4314:: with SMTP id
+ m20mr10278459edc.5.1619609234054; 
+ Wed, 28 Apr 2021 04:27:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <edae6f90-6658-0ad0-7516-74073d9be0c2@ilande.co.uk>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210408101252.552-1-xieyongji@bytedance.com>
+ <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
+ <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
+ <YIgfh632Evrdid12@stefanha-x1.localdomain>
+In-Reply-To: <YIgfh632Evrdid12@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Wed, 28 Apr 2021 19:27:03 +0800
+Message-ID: <CACycT3sV_Bv63Y5pvYV=e2-B5c3Lky2UWWc4tk=DDN0tKs=6Ng@mail.gmail.com>
+Subject: Re: Re: Re: [PATCH 0/3] Introduce vhost-vdpa block device
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,76 +82,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/21 9:57 AM, Mark Cave-Ayland wrote:
-> On 15/04/2021 11:23, Philippe Mathieu-Daudé wrote:
-> 
->> Hi,
->>
->> The floppy disc controllers pulls in irrelevant devices (sysbus in
->> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
->>
->> This series clean that by extracting each device in its own file,
->> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
->>
->> Regards,
->>
->> Phil.
->>
->> Philippe Mathieu-Daudé (4):
->>    hw/block/fdc: Replace disabled fprintf() by trace event
->>    hw/block/fdc: Declare shared prototypes in fdc-internal.h
->>    hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
->>    hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
->>
->>   hw/block/fdc-internal.h | 155 ++++++++++
->>   hw/block/fdc-isa.c      | 313 +++++++++++++++++++++
->>   hw/block/fdc-sysbus.c   | 252 +++++++++++++++++
->>   hw/block/fdc.c          | 608 +---------------------------------------
->>   MAINTAINERS             |   3 +
->>   hw/block/Kconfig        |   8 +
->>   hw/block/meson.build    |   2 +
->>   hw/block/trace-events   |   3 +
->>   hw/i386/Kconfig         |   2 +-
->>   hw/isa/Kconfig          |   6 +-
->>   hw/mips/Kconfig         |   2 +-
->>   hw/sparc/Kconfig        |   2 +-
->>   hw/sparc64/Kconfig      |   2 +-
->>   13 files changed, 751 insertions(+), 607 deletions(-)
->>   create mode 100644 hw/block/fdc-internal.h
->>   create mode 100644 hw/block/fdc-isa.c
->>   create mode 100644 hw/block/fdc-sysbus.c
-> 
-> This basically looks good to me. You may be able to simplify this
-> further by removing the global legacy init functions
-> fdctrl_init_sysbus() and sun4m_fdctrl_init(): from what I can see
-> fdctrl_init_sysbus() is only used in hw/mips/jazz.c and
-> sun4m_fdctrl_init() is only used in hw/sparc/sun4m.c so you might as
-> well inline them or move the functions to the relevant files.
+On Tue, Apr 27, 2021 at 10:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+>
+> On Tue, Apr 27, 2021 at 06:24:55PM +0800, Yongji Xie wrote:
+> > On Mon, Apr 26, 2021 at 11:34 PM Stefan Hajnoczi <stefanha@redhat.com> =
+wrote:
+> > >
+> > > On Thu, Apr 08, 2021 at 06:12:49PM +0800, Xie Yongji wrote:
+> > > > Since we already have some ways to emulate vDPA block device
+> > > > in kernel[1] or userspace[2]. This series tries to introduce a
+> > > > new vhost-vdpa block device for that. To use it, we can add
+> > > > something like:
+> > > >
+> > > > qemu-system-x86_64 \
+> > > >     -device vhost-vdpa-blk-pci,vdpa-dev=3D/dev/vhost-vdpa-0
+> > >
+> > > This device is similar to vhost-user-blk. QEMU does not see it as a
+> > > block device so storage migration, I/O throttling, image formats, etc
+> > > are not supported. Stefano Garzarella and I discussed how vdpa-blk
+> > > devices could integrate more deeply with QEMU's block layer. The QEMU
+> > > block layer could be enabled only when necessary and otherwise bypass=
+ed
+> > > for maximum performance.
+> > >
+> >
+> > Do you mean we can make use of the shadow virtqueue for the slow path
+> > (I/O will go through the block layer) and add a fast path (like what
+> > we do now) to bypass the block layer?
+>
+> Yes.
+>
+> > > This alternative approach is similar to how vhost-net is implemented =
+in
+> > > QEMU. A BlockDriver would handle the vdpa-blk device and the regular
+> > > virtio-blk-pci device would still be present. The virtqueues could be
+> > > delegated to the vdpa-blk device in order to bypass the QEMU block
+> > > layer.
+> > >
+> > > I wanted to mention this since it's likely that this kind of vdpa-blk
+> > > device implementation will be posted in the future and you might be
+> > > interested. It makes live migration with non-shared storage possible,
+> > > for example.
+> > >
+> >
+> > That would be nice, I'm looking forward to it!
+> >
+> > So do you think whether it's necessary to continue this approach?
+> > Looks like we don't need a vhost-vdpa-blk device any more in the new
+> > approach.
+>
+> There is no code for the vdpa-blk BlockDriver yet and the implementation
+> will be more complex than this patch series (more risk the feature could
+> be delayed).
+>
+> If you need vdpa-blk as soon as possible then this patch series may be a
+> pragmatic solution. As long as it doesn't limit the vdpa-blk interface
+> in a way that prevents the BlockDriver implementation then I think QEMU
+> could support both.
+>
+> In the long term the vdpa-blk BlockDriver could replace -device
+> vdpa-blk-pci since the performance should be identical and it supports
+> more use cases.
+>
+> It's up to you. You're welcome to wait for the BlockDriver, work
+> together with Stefano on the BlockDriver, or continue with your patch
+> series.
+>
 
-But both use FDCtrlSysBus which this series makes local to
-hw/block/fdc-sysbus.c, and use fdctrl_init_drives() which is declared in
-hw/block/fdc-internal.h, and use FloppyBus (also declared there).
+I like the new idea! Let me wait for it.
 
-Apparently they do that to initialize the fdctrl->dma_chann field...
-Which should be a property, but FDCtrl isn't QOM... So not that
-easy, it requires more work.
+> > > An issue with vhost-user-blk is that the ownership of qdev properties
+> > > and VIRTIO Configuration Space fields was not clearly defined. Some
+> > > things are handled by QEMU's vhost-user-blk code, some things are
+> > > handled by the vhost-user device backend, and some things are negotia=
+ted
+> > > between both entities. This patch series follows the existing
+> > > vhost-user-blk approach, which I think will show serious issues as th=
+e
+> > > device is more widely used and whenever virtio-blk or the implementat=
+ion
+> > > is extended with new features. It is very hard to provide backwards
+> > > compatibility with the current approach where the ownership of qdev
+> > > properties and VIRTIO Configuration Space fields is ad-hoc and largel=
+y
+> > > undefined.
+> > >
+> > > Since vDPA has VIRTIO Configuration Space APIs, I suggest that the
+> > > vhost-vDPA device controls the entire configuration space. QEMU shoul=
+d
+> > > simply forward accesses between the guest and vhost-vdpa.
+> > >
+> >
+> > Does this already achieved by vhost_ops->vhost_get_config=EF=BC=9F And =
+I want
+> > to know how to handle the endianness issue if qemu just simply does
+> > forwarding and doesn't care about the content of config space.
+>
+> QEMU just copies bytes betwen the driver and the device via
+> vdpa_config_ops->get/set_config(). I don't think it needs to worry about
+> endianness in VIRTIO Configuration Space access code or did I miss
+> something?
+>
+> My understanding is that vDPA currently supports same-endian Legacy and
+> little-endian Modern devices. Cross-endian Legacy devices are currently
+> not supported because there is no API to set endianness.
+>
 
-> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+OK, I get you.
 
-Thanks!
+> If such an API is added in the future, then QEMU can use it to tell the
+> vDPA device about guest endianness. QEMU still won't need to modify
+> Configuration Space data itself.
+>
+> > > Regarding qdev properties, it's a little trickier because QEMU needs =
+to
+> > > do the emulated VIRTIO device setup (allocating virtqueues, setting
+> > > their sizes, etc). Can QEMU query this information from the vDPA devi=
+ce?
+> > > If not, which qdev properties are read-only and must match the
+> > > configuration of the vDPA device and which are read-write and can
+> > > control the vDPA device?
+> > >
+> >
+> > Yes, that's an issue. We have to make sure the number of virtqueues
+> > and their size set by qemu is not greater than hardware limitation.
+> > Now I think we can query the max queue size, but looks like we don't
+> > have an interface to query the max number of virtqueues.
+>
+> Okay, this is something that Jason and Stefano can discuss more. Ideally
+> the QEMU command-line does not need to duplicate information about the
+> vDPA device. The vdpa management tool
+> (https://github.com/shemminger/iproute2/tree/main/vdpa) and VDUSE
+> virtio-blk device will probably be where the main device configuration
+> happens.
+>
+> As a starting point, can you describe how your VDUSE virtio-blk device
+> is configured? Does it have a command-line/config file/RPC API to set
+> the number of virtqueues, block size, etc?
+>
 
-Phil.
+Yes, we have a command-line to set those properties, something like:
 
+qemu-storage-daemon \
+      --chardev socket,id=3Dcharmonitor,path=3D/tmp/qmp.sock,server,nowait =
+\
+      --monitor chardev=3Dcharmonitor \
+      --blockdev
+driver=3Dhost_device,cache.direct=3Don,aio=3Dnative,filename=3D/dev/nullb0,=
+node-name=3Ddisk0
+\
+      --export type=3Dvduse-blk,id=3Dtest,node-name=3Ddisk0,writable=3Don,n=
+ame=3Dvduse-null,num-queues=3D16,queue-size=3D128
+
+Thanks,
+Yongji
 
