@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D15E36D227
+	by mail.lfdr.de (Postfix) with ESMTPS id 984B636D226
 	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 08:23:22 +0200 (CEST)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbdbV-00047q-5t
+	id 1lbdbV-000497-59
 	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 02:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54952)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbdY7-0002nX-2d
+ id 1lbdY7-0002nf-8d
  for qemu-devel@nongnu.org; Wed, 28 Apr 2021 02:19:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45912)
+Received: from indium.canonical.com ([91.189.90.7]:45926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbdY2-0004h5-2D
+ id 1lbdY2-0004hN-4a
  for qemu-devel@nongnu.org; Wed, 28 Apr 2021 02:19:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbdY0-0003n7-2y
+ id 1lbdY0-0003ni-Jc
  for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 06:19:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0FA022E815A
+ by loganberry.canonical.com (Postfix) with ESMTP id 83B432E815D
  for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 06:19:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Apr 2021 06:01:04 -0000
-From: Thomas Huth <1295587@bugs.launchpad.net>
+Date: Wed, 28 Apr 2021 06:07:53 -0000
+From: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
+ <601946@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: sb16
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alvarezviu aslopes crobinso dennis123321
- milasudril th-huth volitank
-X-Launchpad-Bug-Reporter: alvarez (alvarezviu)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140321093246.9788.71300.malonedeb@soybean.canonical.com>
-Message-Id: <161958966487.16689.12997137092074185475.malone@chaenomeles.canonical.com>
-Subject: [Bug 1295587] Re: Temporal freeze and slowdown while using emulated
- sb16
+X-Launchpad-Bug-Commenters: akfypznt-rjp2-nw2wga2s bonzini dl9pf jes-sorensen
+ jinankjain oernii quentin.casasnovas socketpair
+ th-huth ubuntubmw
+X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
+ =?utf-8?q?_=28socketpair=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
+ =?utf-8?q?_=28socketpair=29?=
+References: <20100705154408.6052.2473.malonedeb@potassium.ubuntu.com>
+Message-Id: <161959007457.10926.11384801189901678938.launchpad@soybean.canonical.com>
+Subject: [Bug 601946] Re: [Feature request] qemu-img multi-threaded compressed
+ image conversion
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 0a7fbc53b2a0914758368d027e01aad12fadac41
+X-Launchpad-Hash: 4785f3e977d4d07a39d38a862fd53909e5f9516b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,73 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1295587 <1295587@bugs.launchpad.net>
+Reply-To: Bug 601946 <601946@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to
-another system. For this we need to know which bugs are still valid
-and which could be closed already. Thus we are setting older bugs to
-"Incomplete" now.
-
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
-
-
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: Incomplete =3D> New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1295587
+https://bugs.launchpad.net/bugs/601946
 
 Title:
-  Temporal freeze and slowdown while using emulated sb16
+  [Feature request] qemu-img multi-threaded compressed image conversion
 
 Status in QEMU:
-  Incomplete
+  New
 
 Bug description:
-  I have been carrying around this bug since previous versions and on
-  different machines: When I use the -soundhw sb16 option, while playing
-  any sound on the virtual machine it temporally freezes the emulated
-  machine and loops the last bit of such sound effect for 1-2 minutes,
-  then goes back to normal speed (until a new sound is played).
+  Feature request:
+  qemu-img multi-threaded compressed image conversion
 
-  Console shows:
-
-  =C2=A0sb16: warning: command 0xf9,1 is not truly understood yet
-  =C2=A0sb16: warning: command 0xf9,1 is not truly understood yet
-  (...)
-  main-loop: WARNING: I/O thread spun for 1000 iterations
-
-  -One of my emulated machines is Windows 3.11: I managed to overrun
-  this bug by switching from the local 1.5 version of the sound blaster
-  driver to the 1.0, although since I updated qemu it freezes that
-  machine, so I can't test if it still works.
-
-  I am using the 1.7.90 version, but I suffered this bug for over one
-  year (confirmed in version 2.0.0-rc0 too)
-
-  this bug happens anytime I use the -soundhw sb16 switch, but the full
-  command I am using in this specific case is:
-
-  qemu-system-i386 -localtime -cpu pentium -m 32 -display sdl -vga
-  cirrus -hda c.img -cdrom win95stuff.iso -net nic,model=3Dne2k_pci -net
-  user -soundhw sb16
-
-  This bug appears on all my machines: Pentium III running Slackware
-  13.0 and freeBSD 10; Dual core T2400, both in Arch, Gentoo and
-  Slackware 14.1 (all 32 bits), and a Dual core T4400 64 bits with
-  Gentoo and Slackware. Same problem in all of those systems after
-  compiling instead of using the distro packages....
+  Suppose I want to convert raw image to compressed qcow2. Multi-
+  threaded conversion will be much faster, because bottleneck is
+  compressing data.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1295587/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/601946/+subscriptions
 
