@@ -2,82 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6B136D9A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:36:45 +0200 (CEST)
-Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7641C36D9AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:38:02 +0200 (CEST)
+Received: from localhost ([::1]:47006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblIy-00050g-5Y
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48460)
+	id 1lblKD-00061T-Hf
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1lblI0-0004UV-Pn
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:35:44 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1lblHz-00063f-7h
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:35:44 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- n3-20020a05600c4f83b02901425630b2c2so2693633wmq.1
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:35:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=P0UrzXXfDU1NIhaorwKyi9p9/YICu8XeqJ1T+PH/XTs=;
- b=nxKasS1Lh35CSNmc9q4i0dr26btgsl9w04pLBVJxQqMW1R7zU7gTbeaYuj7KZLoJtH
- EpoYncX0eSzqMwW9kakLLQiV5GWVmEAW6bREImXG/Wi3fRg2sm3JVxWs+bT8yvDM17g9
- 5SrWDW+qa09xmDFBLOF8YveTEw7JR3OzecocxrBY+IgLohcFtYkDGLbAITT13r+p8ITp
- HkPoF0JYrpeQpiapCOFVU29nRJlMOpWeA4e6RF1JC4Olv9G3MMj7/+F0r9MLqaBLJFwH
- LckNbARP45clcSpAQFIvDNlXeVmyjduwuRzphhQWZKmgXnxZGsNLOs8vNyTLNDpSvKNB
- UwoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P0UrzXXfDU1NIhaorwKyi9p9/YICu8XeqJ1T+PH/XTs=;
- b=shSbn1bZ5vc15cCC4wciEbDBS5GPwtvqFyfFfO0zgIezI+IVvYLGY5kwtVZHdFD7Ry
- iI2BzuER9sblQWY3DlqNnTV0h8o0KRgdV9w+muvBbBVDPYZ5kpSxVvUDhMhl7y2wPocH
- UcNJCEjGA7jkniAGy2fIWuAmTb86KY+lfXgw9idG2ev8ZO5vO+oKgT5dcGNdCLqQb7Tl
- zupLwcFZQHKCfMUdX4WwW6KrfWZ9k26EuWPctZuZBmYSHm0sm2tJJAZcvoz46id6e7jJ
- bwX5me5EmRt5W/FpTAqSB6B5iO5mS96sBzzLYrnnJjQ8x9iHV8DJN74PTDf5dhBx9jct
- UJhQ==
-X-Gm-Message-State: AOAM5313c8f77+mKJNSYz5uao0WmpZBgSeKGtQLn4XpMRrpORgwZMIrp
- 06zjZzfmpp6OZDJqZVfRBw/n4g==
-X-Google-Smtp-Source: ABdhPJyBETtC85ETB4sMHMuxkPMx7u8TOhQXiO2GpCeCmViWsuG3HsW7xDTfZtLd42mYzzg8+ZZcSA==
-X-Received: by 2002:a7b:c303:: with SMTP id k3mr32359371wmj.100.1619620541595; 
- Wed, 28 Apr 2021 07:35:41 -0700 (PDT)
-Received: from localhost.localdomain
- (lfbn-tou-1-1482-80.w90-89.abo.wanadoo.fr. [90.89.5.80])
- by smtp.gmail.com with ESMTPSA id m15sm187858wrx.32.2021.04.28.07.35.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 07:35:41 -0700 (PDT)
-Subject: Re: [PATCH v2 3/4] hw/sparc64: Fix code style for checkpatch.pl
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210428141655.387430-1-f4bug@amsat.org>
- <20210428141655.387430-4-f4bug@amsat.org>
-From: Fred Konrad <konrad@adacore.com>
-Message-ID: <d40685e9-e655-24f0-d76e-ac53eb61885c@adacore.com>
-Date: Wed, 28 Apr 2021 16:35:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210428141655.387430-4-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lblJL-0005Yn-1N; Wed, 28 Apr 2021 10:37:07 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lblJJ-0006xL-4g; Wed, 28 Apr 2021 10:37:06 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13SEYDmD043444; Wed, 28 Apr 2021 10:37:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=mo5PgRqeWkO+EDqT5TkTfcMCTbKnxOsEwzVKiQ+JjhQ=;
+ b=HJO9Bfl7OIYHJ2DKXBgzIqXnYbsuy7Jw1rXURUcShyhzbDadkHIzs56hp5iIGJeql4d2
+ xEvtwKyPR26Pwa+W0mNLojDmj2J+J2ls5CZ/B7RP/zwn76FxG6nJhZplMurlZas8e3CH
+ AT3kVhleh7dixiXOq7jeQ98DS82nlLLN/so4V3vpEz6UxVB9T/NKodsHRNKLVqmnIIsb
+ 2uDTw4swa+j6sKhlkeXiW2zRj7BeWgAzA+pzHqEqidYmDaxqRBFQa2u81LQ/HpoNpzsA
+ VdoeMyreQSv9vt+hric1yGS9o+5mrLcJHy0TlTQNU5NaF7/Z+57JzoJRQ99WTm6qjf1z UQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3878w9swv9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Apr 2021 10:37:01 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13SEZ4Yl047305;
+ Wed, 28 Apr 2021 10:37:00 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3878w9swta-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Apr 2021 10:37:00 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13SEIW5K030160;
+ Wed, 28 Apr 2021 14:36:58 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 384akh93aw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Apr 2021 14:36:57 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13SEasZw44630396
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Apr 2021 14:36:54 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 34480AE051;
+ Wed, 28 Apr 2021 14:36:54 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 225F0AE045;
+ Wed, 28 Apr 2021 14:36:54 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 28 Apr 2021 14:36:54 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id AE05DE12F7; Wed, 28 Apr 2021 16:36:53 +0200 (CEST)
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v2] vfio-ccw: Attempt to clean up all IRQs on error
+Date: Wed, 28 Apr 2021 16:36:52 +0200
+Message-Id: <20210428143652.1571487-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: B_c3NydqMyz-fLRZGI_smM2XEYg1gSj8
+X-Proofpoint-GUID: Eb7MXcbqjX8AGb_VcSNG1y_Abci4xRzU
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=konrad@adacore.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-28_09:2021-04-28,
+ 2021-04-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999
+ spamscore=0 priorityscore=1501 phishscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104280098
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,54 +108,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The vfio_ccw_unrealize() routine makes an unconditional attempt to
+unregister every IRQ notifier, though they may not have been registered
+in the first place (when running on an older kernel, for example).
 
+Let's mirror this behavior in the error cleanups in vfio_ccw_realize()
+so that if/when new IRQs are added, it is less confusing to recognize
+the necessary procedures. The worst case scenario would be some extra
+messages about an undefined IRQ, but since this is an error exit that
+won't be the only thing to worry about.
 
-Le 4/28/21 à 4:16 PM, Philippe Mathieu-Daudé a écrit :
-> We are going to move this code, fix its style first.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+And regarding those messages, let's change it to a warning instead of
+an error, to better reflect their severity. The existing code in both
+paths handles everything anyway.
 
-Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Signed-off-by: Eric Farman <farman@linux.ibm.com>
+---
 
-> ---
->   hw/sparc64/sparc64.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/sparc64/sparc64.c b/hw/sparc64/sparc64.c
-> index cc0b9bd30d3..fd29a79edc0 100644
-> --- a/hw/sparc64/sparc64.c
-> +++ b/hw/sparc64/sparc64.c
-> @@ -48,14 +48,18 @@ void cpu_check_irqs(CPUSPARCState *env)
->           return;
->       }
->       cs = env_cpu(env);
-> -    /* check if TM or SM in SOFTINT are set
-> -       setting these also causes interrupt 14 */
-> +    /*
-> +     * check if TM or SM in SOFTINT are set
-> +     * setting these also causes interrupt 14
-> +     */
->       if (env->softint & (SOFTINT_TIMER | SOFTINT_STIMER)) {
->           pil |= 1 << 14;
->       }
->   
-> -    /* The bit corresponding to psrpil is (1<< psrpil), the next bit
-> -       is (2 << psrpil). */
-> +    /*
-> +     * The bit corresponding to psrpil is (1<< psrpil),
-> +     * the next bit is (2 << psrpil).
-> +     */
->       if (pil < (2 << env->psrpil)) {
->           if (cs->interrupt_request & CPU_INTERRUPT_HARD) {
->               trace_sparc64_cpu_check_irqs_reset_irq(env->interrupt_index);
-> 
+Notes:
+    v1->v2:
+     - Downgrade unregister IRQ message from error to warning [CH]
+    
+    v1: https://lore.kernel.org/qemu-devel/20210427142511.2125733-1-farman@linux.ibm.com/
+
+ hw/vfio/ccw.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+index 400bc07fe2..f64dd850db 100644
+--- a/hw/vfio/ccw.c
++++ b/hw/vfio/ccw.c
+@@ -470,7 +470,7 @@ static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev,
+ 
+     if (vfio_set_irq_signaling(&vcdev->vdev, irq, 0,
+                                VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
+-        error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
++        warn_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
+     }
+ 
+     qemu_set_fd_handler(event_notifier_get_fd(notifier),
+@@ -690,7 +690,7 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
+     if (vcdev->crw_region) {
+         vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX, &err);
+         if (err) {
+-            goto out_crw_notifier_err;
++            goto out_irq_notifier_err;
+         }
+     }
+ 
+@@ -705,7 +705,9 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
+ 
+     return;
+ 
+-out_crw_notifier_err:
++out_irq_notifier_err:
++    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_REQ_IRQ_INDEX);
++    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX);
+     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
+ out_io_notifier_err:
+     vfio_ccw_put_region(vcdev);
+-- 
+2.25.1
+
 
