@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A045D36D735
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 14:24:44 +0200 (CEST)
-Received: from localhost ([::1]:54054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D419236D74E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 14:28:29 +0200 (CEST)
+Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbjFD-0003XD-4e
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 08:24:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
+	id 1lbjIp-0005r5-Dd
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 08:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lbjC8-00028A-Lw
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:21:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lbjBx-0001Hl-O5
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:21:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619612478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QVk7PRjZpc1WmRJu65ZMq2aqmJ8Q+KBufZvuKtF1hpQ=;
- b=LAERl2HiO/G6cqAvbGT9N9c7DlMhjXtP/vxixzCKQUHzmgxsmforOuPHUOLGpejrBmJMZ8
- 21m/LhGUwaJQihWZue3DtSgZCZBhyNXWZRFR+yKOFmvJDHz0+POCe/THJ6GU+U/jQEOsBZ
- sHJxhLSa5Lc6WOj9Di5ooyq8ps9TYKE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-t-cXHL4ENgWhk0g1MoHsCQ-1; Wed, 28 Apr 2021 08:21:17 -0400
-X-MC-Unique: t-cXHL4ENgWhk0g1MoHsCQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- cz7-20020a0564021ca7b02903853d41d8adso17476315edb.17
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 05:21:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lbjDT-0003E0-EJ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:22:55 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1lbjDR-0001zx-1j
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:22:55 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id 10so1072913pfl.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 05:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=fnY+SEeW4g37OK6SFGalUweKAF0mr9r5Uak1BgtfjGI=;
+ b=xvyXZVsJ4wTidUVonTPM8QrqiLlw11kVmwox4/oS1+rWwRh5PxuPjNwFN2tyIavmYR
+ /RXKf3CUl6k4/q7Vm7WNOIDoK69eFVr4PU4veE9+Tr6x0PL+Osc6v1OiMwofENhg6srv
+ E4lTHBrMlxAFfiL2GIdcyz0iLWLDs+6H6NxxnqnpqHB5yNyQT3GYDkCLgC6lnz/ECz/9
+ jDz0671xFrxADjaVKB9pB8Kz835hfoC0arGWJYdCS03Yz2jqHHYUogUUUk+DyP7nA4hx
+ 1jVlvhm6ujiWrzw9GFCqQncbhY5FQ7RirYDiSYfDaLZtCLC6xzStEkGo3nJgTfemT0xE
+ eR5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QVk7PRjZpc1WmRJu65ZMq2aqmJ8Q+KBufZvuKtF1hpQ=;
- b=PiFxLLKyoCqw9Ts7+KIquAY1AvWJ5t0pIy/3IllKP/u5vN2l4+Wk/qjIiun3S0iCP1
- 57rKJcjENeJr7JVFBdy8p2KodhwAEn9A99oD7nlR4uKondnWcAFJ4uehFsYRxJggrJQ+
- yOU6xKpLJ1TcwrA7OJuK0GCxajQiaLfxUDac2CRhXJvEvFB99C/luAe+BwLqlnpGYGRz
- Ke94V4pzmvPjcvHu+kmLkC7zXNpvW3qNUzXJdHHgj9LcBVFn5YbqdeS/kPpIsrxc4JNb
- ATHL1ctKzyoFEw5Vg4+RAGRXa/yzTLktGx2NsIxc/bo7JyR6yI0rPZckI/8SB/qvzknS
- rDpg==
-X-Gm-Message-State: AOAM531YomElW1i2w9bOsccVnpX+qyh2XSg+HL/HvfG48o//ZZ2GpZIp
- TYdvZ2f2JsT9E0q/QcbARI0O6+//5omGGxjvTei2n9tIavknZPVd22G0L0cmpN3ia2n1OYKTlh5
- g5TutHk9UmTir4go=
-X-Received: by 2002:a17:906:6959:: with SMTP id
- c25mr18054579ejs.392.1619612475545; 
- Wed, 28 Apr 2021 05:21:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbQX9bWHpBL+e0/67NfQpobyS3mqobXjb3XOqnolKa4evLOosorEOxDOa12Q2/9JRz58rvpQ==
-X-Received: by 2002:a17:906:6959:: with SMTP id
- c25mr18054560ejs.392.1619612475361; 
- Wed, 28 Apr 2021 05:21:15 -0700 (PDT)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id bh14sm1816421ejb.104.2021.04.28.05.21.14
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=fnY+SEeW4g37OK6SFGalUweKAF0mr9r5Uak1BgtfjGI=;
+ b=WwPbnT9naxhyMVT8LeTLBumwjnWzmQRG6qecejwiHelnXGOWBdZ5EFn/5fxqhJhRej
+ FO81AwQT3+TsVTSK2ClEAjeIaPyWmvETbaxcUgRYzxi93PSDU76XLfam2GYu3XZGWJyt
+ V/TCcPDAPlT9tG+hxLU9IxZ5os1EyjYH3b6D9y/aVCjl6HiQEqCQlavsxnRJ2RjaHWaW
+ +8IL3QGYUsXrJ3wyds3q3Hhe7jDmX3/SwZ+ahJWpIfdTj9tg/xRspxITzeaevW+93Y3O
+ adEYXAeBVLxuoBAGsrzIFyD04m7LGEfdZ96kLSFr41DGPTLM8Ct8g0uzzaJJtkyxZVVX
+ +fNw==
+X-Gm-Message-State: AOAM533Tc0VFiYOapgI8AMzOBmVm18u+gnJSd3eowszd9xUDYZ5LQ3hc
+ hs2HJ/uEV+RGBcoF0jrJoh9c9g==
+X-Google-Smtp-Source: ABdhPJypjAElPoaq5Zz8XJVKVL7eJmFIBC995racPhT4f4E2WBlO6RgeXl3En/y5KWTVj9WM2Krvmg==
+X-Received: by 2002:a05:6a00:8a:b029:260:e095:8581 with SMTP id
+ c10-20020a056a00008ab0290260e0958581mr28618960pfj.43.1619612570129; 
+ Wed, 28 Apr 2021 05:22:50 -0700 (PDT)
+Received: from localhost ([136.185.154.93])
+ by smtp.gmail.com with ESMTPSA id v130sm1734021pfc.25.2021.04.28.05.22.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 05:21:14 -0700 (PDT)
-Date: Wed, 28 Apr 2021 14:21:12 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Yongji Xie <xieyongji@bytedance.com>
-Subject: Re: [PATCH 0/3] Introduce vhost-vdpa block device
-Message-ID: <20210428122112.saxrwawnzv5y3ebq@steredhat>
-References: <20210408101252.552-1-xieyongji@bytedance.com>
- <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
- <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
- <YIgfh632Evrdid12@stefanha-x1.localdomain>
- <CACycT3sV_Bv63Y5pvYV=e2-B5c3Lky2UWWc4tk=DDN0tKs=6Ng@mail.gmail.com>
+ Wed, 28 Apr 2021 05:22:49 -0700 (PDT)
+Date: Wed, 28 Apr 2021 17:52:47 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: stratos-dev@op-lists.linaro.org, rust-vmm@lists.opendev.org
+Subject: [RUST] Add crate for generic vhost-user-i2c backend daemon
+Message-ID: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
 MIME-Version: 1.0
-In-Reply-To: <CACycT3sV_Bv63Y5pvYV=e2-B5c3Lky2UWWc4tk=DDN0tKs=6Ng@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: NeoMutt/20180716-391-311a52
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,88 +81,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
+ Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Trilok Soni <tsoni@quicinc.com>,
+ Mike Holmes <mike.holmes@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 28, 2021 at 07:27:03PM +0800, Yongji Xie wrote:
->On Tue, Apr 27, 2021 at 10:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->>
->> On Tue, Apr 27, 2021 at 06:24:55PM +0800, Yongji Xie wrote:
->> > On Mon, Apr 26, 2021 at 11:34 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->> > >
->> > > On Thu, Apr 08, 2021 at 06:12:49PM +0800, Xie Yongji wrote:
->> > > > Since we already have some ways to emulate vDPA block device
->> > > > in kernel[1] or userspace[2]. This series tries to introduce a
->> > > > new vhost-vdpa block device for that. To use it, we can add
->> > > > something like:
->> > > >
->> > > > qemu-system-x86_64 \
->> > > >     -device vhost-vdpa-blk-pci,vdpa-dev=/dev/vhost-vdpa-0
->> > >
->> > > This device is similar to vhost-user-blk. QEMU does not see it as a
->> > > block device so storage migration, I/O throttling, image formats, etc
->> > > are not supported. Stefano Garzarella and I discussed how vdpa-blk
->> > > devices could integrate more deeply with QEMU's block layer. The QEMU
->> > > block layer could be enabled only when necessary and otherwise bypassed
->> > > for maximum performance.
->> > >
->> >
->> > Do you mean we can make use of the shadow virtqueue for the slow path
->> > (I/O will go through the block layer) and add a fast path (like what
->> > we do now) to bypass the block layer?
->>
->> Yes.
->>
->> > > This alternative approach is similar to how vhost-net is implemented in
->> > > QEMU. A BlockDriver would handle the vdpa-blk device and the regular
->> > > virtio-blk-pci device would still be present. The virtqueues could be
->> > > delegated to the vdpa-blk device in order to bypass the QEMU block
->> > > layer.
->> > >
->> > > I wanted to mention this since it's likely that this kind of vdpa-blk
->> > > device implementation will be posted in the future and you might be
->> > > interested. It makes live migration with non-shared storage possible,
->> > > for example.
->> > >
->> >
->> > That would be nice, I'm looking forward to it!
->> >
->> > So do you think whether it's necessary to continue this approach?
->> > Looks like we don't need a vhost-vdpa-blk device any more in the new
->> > approach.
->>
->> There is no code for the vdpa-blk BlockDriver yet and the implementation
->> will be more complex than this patch series (more risk the feature could
->> be delayed).
->>
->> If you need vdpa-blk as soon as possible then this patch series may be a
->> pragmatic solution. As long as it doesn't limit the vdpa-blk interface
->> in a way that prevents the BlockDriver implementation then I think QEMU
->> could support both.
->>
->> In the long term the vdpa-blk BlockDriver could replace -device
->> vdpa-blk-pci since the performance should be identical and it supports
->> more use cases.
->>
->> It's up to you. You're welcome to wait for the BlockDriver, work
->> together with Stefano on the BlockDriver, or continue with your patch
->> series.
->>
->
->I like the new idea! Let me wait for it.
->
+Hello,
 
-Thanks for this great discussion!
+In my earlier attempt [1], I implemented the vhost-user-i2c backend
+deamon for QEMU (though the code was generic enough to be used with
+any hypervisor).
 
-I'll keep you updated and I'll CC you on the RFC when I have something 
-ready.
+And here is a Rust implementation of the vhost-user-i2c backend
+daemon. Again this is generic enough to be used with any hypervisor
+and can live in its own repository now:
 
-Cheers,
-Stefano
+  https://github.com/vireshk/vhost-user-i2c
 
+I am not sure what's the process to get this merged to Rust-vmm.
+Can someone help ? Is that the right thing to do ?
+
+-------------------------8<-------------------------
+
+Here are other details (which are same since the earlier Qemu
+attempt):
+
+This is an initial implementation of a generic vhost-user backend for
+the I2C bus. This is based of the virtio specifications (already merged)
+for the I2C bus.
+
+The kernel virtio I2C driver is still under review, here [2] is the latest
+version (v10):
+
+The backend is implemented as a vhost-user device because we want to
+experiment in making portable backends that can be used with multiple
+hypervisors.  We also want to support backends isolated in their own
+separate service VMs with limited memory cross-sections with the
+principle guest. This is part of a wider initiative by Linaro called
+"project Stratos" for which you can find information here:
+
+  https://collaborate.linaro.org/display/STR/Stratos+Home
+
+I2C Testing:
+------------
+
+I didn't have access to a real hardware where I can play with a I2C
+client device (like RTC, eeprom, etc) to verify the working of the
+backend daemon, so I decided to test it on my x86 box itself with
+hierarchy of two ARM64 guests.
+
+The first ARM64 guest was passed "-device ds1338,address=0x20" option,
+so it could emulate a ds1338 RTC device, which connects to an I2C bus.
+Once the guest came up, ds1338 device instance was created within the
+guest kernel by doing:
+
+  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
+
+[
+  Note that this may end up binding the ds1338 device to its driver,
+  which won't let our i2c daemon talk to the device. For that we need to
+  manually unbind the device from the driver:
+
+  echo 0-0020 > /sys/bus/i2c/devices/0-0020/driver/unbind
+]
+
+After this is done, you will get /dev/rtc1. This is the device we wanted
+to emulate, which will be accessed by the vhost-user-i2c backend daemon
+via the /dev/i2c-0 file present in the guest VM.
+
+At this point we need to start the backend daemon and give it a
+socket-path to talk to from qemu (you can pass -v to it to get more
+detailed messages):
+
+  target/debug/vhost-user-i2c --socket-path=vi2c.sock -l 0:32
+
+[ Here, 0:32 is the bus/device mapping, 0 for /dev/i2c-0 and 32 (i.e.
+0x20) is client address of ds1338 that we used while creating the
+device. ]
+
+Now we need to start the second level ARM64 guest (from within the first
+guest) to get the i2c-virtio.c Linux driver up. The second level guest
+is passed the following options to connect to the same socket:
+
+  -chardev socket,path=vi2c.sock,id=vi2c \
+  -device vhost-user-i2c-pci,chardev=vi2c,id=i2c
+
+Once the second level guest boots up, we will see the i2c-virtio bus at
+/sys/bus/i2c/devices/i2c-X/. From there we can now make it emulate the
+ds1338 device again by doing:
+
+  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
+
+[ This time we want ds1338's driver to be bound to the device, so it
+should be enabled in the kernel as well. ]
+
+And we will get /dev/rtc1 device again here in the second level guest.
+Now we can play with the rtc device with help of hwclock utility and we
+can see the following sequence of transfers happening if we try to
+update rtc's time from system time.
+
+hwclock -w -f /dev/rtc1 (in guest2) ->
+  Reaches i2c-virtio.c (Linux bus driver in guest2) ->
+    transfer over virtio ->
+      Reaches the qemu's vhost-i2c device emulation (running over guest1) ->
+        Reaches the backend daemon vhost-user-i2c started earlier (in guest1) ->
+          ioctl(/dev/i2c-0, I2C_RDWR, ..); (in guest1) ->
+            reaches qemu's hw/rtc/ds1338.c (running over host)
+
+
+
+SMBUS Testing:
+--------------
+
+I wasn't required to have such a tedious setup for testing out with
+SMBUS devices. I was able to emulate a SMBUS device on my x86 machine
+using i2c-stub driver.
+
+$ modprobe i2c-stub chip_addr=0x20
+//Boot the arm64 guest now with i2c-virtio driver and then do:
+$ echo al3320a 0x20 > /sys/class/i2c-adapter/i2c-0/new_device
+$ cat /sys/bus/iio/devices/iio:device0/in_illuminance_raw
+
+That's it.
+
+I hope I was able to give a clear picture of my test setup here :)
+
+-- 
+viresh
+
+[1] https://lore.kernel.org/qemu-devel/cover.1617278395.git.viresh.kumar@linaro.org/
+[2] https://lore.kernel.org/lkml/226a8d5663b7bb6f5d06ede7701eedb18d1bafa1.1616493817.git.jie.deng@intel.com/
 
