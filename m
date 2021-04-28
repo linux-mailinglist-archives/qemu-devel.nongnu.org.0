@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072C836D8EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 15:56:11 +0200 (CEST)
-Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E049A36D8FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 15:58:38 +0200 (CEST)
+Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbkfi-00086o-2k
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 09:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
+	id 1lbki5-0003qh-Vo
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 09:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lbkdO-0006Pu-8w
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:53:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24402)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lbkfv-0001Zs-TT
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:56:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lbkdL-0005q7-41
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:53:45 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lbkfu-0007RL-4F
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:56:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619618022;
+ s=mimecast20190719; t=1619618181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7ZvA6877j74uuAODw5bx82QoE/QHuDDE5BCssUPG1/0=;
- b=M70aF+ThnQsalQAUoxNkF9y4M7GsamNaj5Q4edEjZ0uDyUY1n0gC2ECdwXx/L9G0oAWulv
- ncfkg0u+AgiyYTpkBCteqH7YMeXTkaNmXY0xfk42G/FQ28rpcq25WLjhFcg6GIldf7DkIe
- 5YHzAz07omeIn8H4kKK2JPRDVUrwJLw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-xI-rkYMGPSOAH0OpMBP4Yw-1; Wed, 28 Apr 2021 09:53:40 -0400
-X-MC-Unique: xI-rkYMGPSOAH0OpMBP4Yw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o14-20020a5d474e0000b029010298882dadso22361566wrs.2
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 06:53:40 -0700 (PDT)
+ bh=Litgp0tE5vvQbVgO+itgVxmLbaGa9do1wsdBmjnGJGE=;
+ b=cQ7jFYQT1HkipHd0dvHPseG7usJgD4g+XZyTuSudsLJiqq0FhuMf9vom8jdFdc5kG+4EvV
+ +an+NoM0Ea/dLSvloz+Xhn6I1Vh48Y4Zx635Ivmn4m0FHey4BYyaLvJktDvpgFsY90pyWi
+ KAmkD3j9WXtUvjN6Foe/8zyiektJ6Tg=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-q43A8SFAPgSiA08YbCAklw-1; Wed, 28 Apr 2021 09:56:17 -0400
+X-MC-Unique: q43A8SFAPgSiA08YbCAklw-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ u24-20020a0568301f18b02902a53900ec66so2427338otg.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 06:56:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=7ZvA6877j74uuAODw5bx82QoE/QHuDDE5BCssUPG1/0=;
- b=A6rtrNvEpMSGt3eV7u/l8SYkgSybNaPnWJxLILhZU6UoQLopDYqx9ATNR5YJKaDsB1
- 0wo5ucnIxGeIqMv+aql8Wf9WKh9V2FfRT+CvC/T0Ls39h7rOUE8vjG8WjsPEJ2OvWnJ6
- FUmcVO7yOv7TMkYPAZhXfy6iHiRlNSF9+jZHT3JTIWwJYUvN0UbfSXY9FbxXBflQ3GDi
- Yb3rR53oj8bJyKYFOCJ1aDTwsgSjQ0WkPP+49QfSka1ecvz4G2Rwd3OQv+033jLW7kNX
- x8VSUXe8PMEn60FOZ5doRKvRACQ4RY5sCDd0aZ4k2AM7nPXiWZVY5v4RgXURMOPmcSDw
- 6H4g==
-X-Gm-Message-State: AOAM533cfPu3F/pLYVIi35QBiQZOCP3ZwiH9msaY3aNVogJVw6U964Cq
- 36Qj0fx2xdqTG6uQAY+WvzBt0/r0/+DcoUW+DquIKkSrUIQ4gAmn33szbQ9r92rhPNP1cydN7Do
- +EM0ewp2IwcoCoTM=
-X-Received: by 2002:a05:600c:19d1:: with SMTP id
- u17mr30412809wmq.111.1619618019213; 
- Wed, 28 Apr 2021 06:53:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYU7YsYg+2h1O2ASjouwaRI0P5KIjoToTIdfZ6LAPFm6ul5+2vzFncsFR9rWUVRw3b82fcZg==
-X-Received: by 2002:a05:600c:19d1:: with SMTP id
- u17mr30412784wmq.111.1619618018925; 
- Wed, 28 Apr 2021 06:53:38 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f38:2400:62f4:c5fa:ba13:ac32?
- (p200300d82f38240062f4c5faba13ac32.dip0.t-ipconnect.de.
- [2003:d8:2f38:2400:62f4:c5fa:ba13:ac32])
- by smtp.gmail.com with ESMTPSA id u9sm3697445wmc.38.2021.04.28.06.53.38
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Litgp0tE5vvQbVgO+itgVxmLbaGa9do1wsdBmjnGJGE=;
+ b=ZFbl+XsOelqlbM4Om/dCTg8u53UPTZZRF0PH1+O/EjBI2ad7tVEDngPmUh+ivQYTHS
+ JBpasOkqPx1cBI+sbiByqbNGJnwl5ODEJPyio89bHQ0gLk2tU9t1aOC5U+hccRZrtHMq
+ ruWuBEwwhvTf6a/W9GHaD56qht0x1AIAELNwf5KSVo/BN9d+7OofgrV/220+QyBq23YQ
+ TK55UauH983JdOLh6ZobBawZzgiLEjhwHFFHsLAXggOK1PoBl+E53C5hlntAtcnQLcmB
+ znARhibx63PUBBm4r9OKe6IX1BOj/3p14DqgiX4hVJHBAxx0NZfdaeeODYNT9unJgmUE
+ ywKQ==
+X-Gm-Message-State: AOAM5339eEnLIL+CaAz7HLYEN1TeTJpaY3UmiotH2CZEPb4wYIyaJQ5A
+ o5ijgPc0b8uFgthTtRYT+Ou98rwkjO6yZ4apSsUSiX5rnl+bv3Y67/QhloTONAwKuIKWY5C/GMJ
+ VdH8vSBdcY2qOuf8=
+X-Received: by 2002:a9d:12b5:: with SMTP id g50mr24577408otg.97.1619618176634; 
+ Wed, 28 Apr 2021 06:56:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/pdX6IidYfiWOtnBaXMTh4d4yOP9z6qiKEI1VZriLxZwa6yOVM0Kznadzq9LcNi1wdtgTLA==
+X-Received: by 2002:a9d:12b5:: with SMTP id g50mr24577397otg.97.1619618176448; 
+ Wed, 28 Apr 2021 06:56:16 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id v26sm11991ott.4.2021.04.28.06.56.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 06:53:38 -0700 (PDT)
-Subject: Re: [PATCH 1/3] linux-user/s390x: Fix sigframe types
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210428033204.133471-1-richard.henderson@linaro.org>
- <20210428033204.133471-2-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <d38428bc-e933-5b99-1555-cd456d6f0fad@redhat.com>
-Date: Wed, 28 Apr 2021 15:53:38 +0200
+ Wed, 28 Apr 2021 06:56:16 -0700 (PDT)
+Subject: Re: [PATCH] tools/meson.build: Error on enabling virtiofsd and
+ have_system is false
+To: Mahmoud Mandour <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
+References: <20210428133507.52066-1-ma.mandourr@gmail.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <e1059890-79ab-eae6-1db1-5c4033f7b584@redhat.com>
+Date: Wed, 28 Apr 2021 08:56:15 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210428033204.133471-2-richard.henderson@linaro.org>
+In-Reply-To: <20210428133507.52066-1-ma.mandourr@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -103,97 +98,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- laurent@vivier.eu
+Cc: pbonzini@redhat.com, dgilbert@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.04.21 05:32, Richard Henderson wrote:
-> Noticed via gitlab clang-user job:
+On 4/28/21 8:35 AM, Mahmoud Mandour wrote:
+> Previously, on configuring with --enable-virtiofsd and specifying
+> a target list that does not contain a full-system emulation target,
+> a spurious error message is emitted. This patch introduces a
+> meaningful error message for such case.
 > 
->    TEST    signals on s390x
-> ../linux-user/s390x/signal.c:258:9: runtime error: \
->    1.84467e+19 is outside the range of representable values of \
->    type 'unsigned long'
-> 
-> Which points to the fact that we were performing a double-to-uint64_t
-> conversion while storing the fp registers, instead of just copying
-> the data across.
-> 
-> Turns out there are several errors:
-> 
-> target_ulong is the size of the target register, whereas abi_ulong
-> is the target 'unsigned long' type.  Not a big deal here, since we
-> only support 64-bit s390x, but not correct either.
-> 
-> In target_sigcontext and target ucontext, we used a host pointer
-> instead of a target pointer, aka abi_ulong.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 > ---
->   linux-user/s390x/signal.c | 23 ++++++++++++-----------
->   1 file changed, 12 insertions(+), 11 deletions(-)
+>  tools/meson.build | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-> index b68b44ae7e..e5bc4f0358 100644
-> --- a/linux-user/s390x/signal.c
-> +++ b/linux-user/s390x/signal.c
-> @@ -37,13 +37,14 @@
->   
->   typedef struct {
->       target_psw_t psw;
-> -    target_ulong gprs[__NUM_GPRS];
-> -    unsigned int acrs[__NUM_ACRS];
-> +    abi_ulong gprs[__NUM_GPRS];
-> +    abi_uint acrs[__NUM_ACRS];
->   } target_s390_regs_common;
->   
->   typedef struct {
-> -    unsigned int fpc;
-> -    double   fprs[__NUM_FPRS];
-> +    uint32_t fpc;
-> +    uint32_t pad;
-> +    uint64_t fprs[__NUM_FPRS];
->   } target_s390_fp_regs;
->   
->   typedef struct {
-> @@ -51,22 +52,22 @@ typedef struct {
->       target_s390_fp_regs     fpregs;
->   } target_sigregs;
->   
-> -struct target_sigcontext {
-> -    target_ulong   oldmask[_SIGCONTEXT_NSIG_WORDS];
-> -    target_sigregs *sregs;
-> -};
-> +typedef struct {
-> +    abi_ulong oldmask[_SIGCONTEXT_NSIG_WORDS];
-> +    abi_ulong sregs;
-> +} target_sigcontext;
->   
->   typedef struct {
->       uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
-> -    struct target_sigcontext sc;
-> +    target_sigcontext sc;
->       target_sigregs sregs;
->       int signo;
->       uint8_t retcode[S390_SYSCALL_SIZE];
->   } sigframe;
->   
->   struct target_ucontext {
-> -    target_ulong tuc_flags;
-> -    struct target_ucontext *tuc_link;
-> +    abi_ulong tuc_flags;
-> +    abi_ulong tuc_link;
->       target_stack_t tuc_stack;
->       target_sigregs tuc_mcontext;
->       target_sigset_t tuc_sigmask;   /* mask last for extensibility */
-> 
+> diff --git a/tools/meson.build b/tools/meson.build
+> index 3e5a0abfa2..f6a4ced2f4 100644
+> --- a/tools/meson.build
+> +++ b/tools/meson.build
+> @@ -5,7 +5,9 @@ have_virtiofsd = (targetos == 'linux' and
+>      'CONFIG_VHOST_USER' in config_host)
+>  
+>  if get_option('virtiofsd').enabled()
+> -  if not have_virtiofsd
+> +  if not have_system
+> +    error('virtiofsd requires full-system emulation target(s)')
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+I am not entirely sure if this is true. The error message before this
+patch is applied is:
 
--- 
+	../tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd
+	requires libcap-ng-devel and seccomp-devel
+
+From what I know about virtiofsd, I know it definitely depends on those
+two things.
+
+Is it possible that the error here is that the top-level meson.build is
+not properly collecting the seccomp and libcap-ng dependencies if the
+configure invocation doesn't require a system emulation target?
+
 Thanks,
 
-David / dhildenb
+Connor
+
+> +  elif not have_virtiofsd
+>      if targetos != 'linux'
+>        error('virtiofsd requires Linux')
+>      elif not seccomp.found() or not libcap_ng.found()
+> 
 
 
