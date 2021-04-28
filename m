@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D234836D76F
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 14:34:42 +0200 (CEST)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1EB36D77A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 14:36:34 +0200 (CEST)
+Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbjOr-0001fI-RB
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 08:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60958)
+	id 1lbjQf-0003V3-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 08:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbjL9-00085p-4O
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:30:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33100)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbjNW-0001bR-Qu
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:33:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbjL6-0006Md-3K
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:30:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbjNT-0007tX-IQ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:33:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619613045;
+ s=mimecast20190719; t=1619613194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RFMaNcfD4i64hD5CgpUAkqBhzh7lLu8n56NmIY9pkEY=;
- b=DcZDDc3sPqMz6EwrLtNjxYtQuCg8okDXdmgJ3VUmrmXuioO8kI+ggA/DBkwBITFhwjFIS9
- wyrqvkGBc4jE6HDBQRmzlQpgLqMQw2anjE+Bt+P+QzBFuLI1vWAanpqavQglz+mK1+PYHy
- Gbn6Eu48D+41Ef+U6A8tSG8lHXxSSe4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-_zj7daqsOzuc32xnZ4HynQ-1; Wed, 28 Apr 2021 08:30:43 -0400
-X-MC-Unique: _zj7daqsOzuc32xnZ4HynQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso19034wre.8
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 05:30:43 -0700 (PDT)
+ bh=JDgLDVKJ28xzv5/2R0oY9/v19J5nF237XZ5DCsYwAoE=;
+ b=Xu5UTJ3DVvZtnDPLdplPTfzdDC2Un39I5CUWzsqn0kcbIp2tgLgsdinrzkHzrKQ+hgwzzl
+ nSREu7UmiZwjLA73iiBwkdPJ+NgtGuilx44/Sw+KKBrW2MNHdTQojetZNfiwEGVBMKz1Ls
+ lpGlkmSJ0Jg59W/up3tRb6cSboByJjE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-TgiB6mkgODenLbQ3WBph7w-1; Wed, 28 Apr 2021 08:33:12 -0400
+X-MC-Unique: TgiB6mkgODenLbQ3WBph7w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t18-20020adfdc120000b02900ffe4432d8bso22320195wri.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 05:33:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RFMaNcfD4i64hD5CgpUAkqBhzh7lLu8n56NmIY9pkEY=;
- b=qDlwvKZGZLkdQPXheA49bZKIcW9kvHcloH4NLsbKBeIO1SrxcBHW2xAGZe38CYq0Ag
- hwibExYMV/ldmYZ4YRNtFlJ53QY3hMdDdcMW5bmF40aAbLBAEu9oSJJpsZum7x9GSYLM
- 5rQJB//InjzHMAJdB+aZsM5hBLLyjvKzuYT64X/iDAgT6Be1n4F3og2oyy8efj+X9N/M
- 9HulQ5ucgj+jP5aBbN8Y9VAdcgOLV6zczWfoaKy9KLMZ8N0G8+u1NQmsoWYQAWk4+8W0
- Z3n1AVEpl6OWnr7T2eKVndrItjx7uEWLZ8DWORITte3RRhO/ZXAXvyCI8zHGUPGAzfqB
- i+2g==
-X-Gm-Message-State: AOAM530IdTMZTLdyqzphdOfU4h6czMBUMdfXD1PaQSSg4txEmpOet1lA
- 8izmSNh+Sf+hUzniLCZ9cXy8x0iLUJ2ahB//5O0Et0jwusGpOQlIXi6IeWH2Lj+Hy0E0enLh9av
- EkoovBvuIJ/mkFcU=
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr36420888wrn.262.1619613042629; 
- Wed, 28 Apr 2021 05:30:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuJr4sniF/9+LYzfvNBZOHkxWFsyq5W0svt58qXweS/vnsUkGGk5yfyzk2WJOQkISmBibVEw==
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr36420850wrn.262.1619613042389; 
- Wed, 28 Apr 2021 05:30:42 -0700 (PDT)
+ bh=JDgLDVKJ28xzv5/2R0oY9/v19J5nF237XZ5DCsYwAoE=;
+ b=f5k2lV0ItDMk4mozEo7b1/IYFWwwWfFx7llxUM9sETegVGef7Dk6Y7dDD+ptN+1V+5
+ ugrEux8mrLkfHSpfQ8ixOplOLwazkvtRD00h9OD2qAUVMLYLr7hW2glxvXYfLdN2sMjh
+ 6rzC0+hxapB7h2DFI7m6w1JQxreCc2f8Ylcvqj0Ern/syzIAQACKGT3wRuw3dYHCwAjb
+ YmD60gwj0tWaCfoaGTQ8sVhIezMIBLL4fQCaorwjeXjBllzzOMSeeUjseAmNcRyQnV88
+ WdsBV7ixlK6Dliw7n3jW2xHtdfgVHaVoi8wIeD8MpxCCtBxOECcGVI2IvkD9drq0Ib/1
+ 7QNQ==
+X-Gm-Message-State: AOAM530Kh9qgql9onTy68G4KsX+QJdlQzcVAOQchx97Sz5lYhSESbx3x
+ 7DChofa84G3FM4zD9DotzOmfU7oadxyPfcmdfHZngVG1CluLpBonLJl3yzcnWEzrRpEVXYIr5V3
+ 3DZk8LOL3veA2nGc=
+X-Received: by 2002:a5d:5308:: with SMTP id e8mr10044434wrv.228.1619613191023; 
+ Wed, 28 Apr 2021 05:33:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwB91g4cuOjeTXD21cavvuJFb2RfphNKXrOzaZB7AI+BvhlPEtZ4fw4MgCgu/IpDmJ0ZkT6A==
+X-Received: by 2002:a5d:5308:: with SMTP id e8mr10044414wrv.228.1619613190904; 
+ Wed, 28 Apr 2021 05:33:10 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id d13sm6317429wrx.29.2021.04.28.05.30.41
+ by smtp.gmail.com with ESMTPSA id l9sm8210878wrz.7.2021.04.28.05.33.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 05:30:41 -0700 (PDT)
-Subject: Re: [PATCH 4/4] hw/block/fdc: Extract SysBus floppy controllers to
- fdc-sysbus.c
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+ Wed, 28 Apr 2021 05:33:10 -0700 (PDT)
+Subject: Re: [PATCH 0/4] hw/block/fdc: Allow Kconfig-selecting ISA bus/SysBus
+ floppy controllers
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20210415102321.3987935-1-philmd@redhat.com>
- <20210415102321.3987935-5-philmd@redhat.com>
- <0812a48a-36c6-8152-e8f1-f97c755b9f55@redhat.com>
+ <edae6f90-6658-0ad0-7516-74073d9be0c2@ilande.co.uk>
+ <0a713d9b-9ce2-0e9b-b515-f26ce09c0443@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3053142c-7588-92ea-00a2-96847c08c0e9@redhat.com>
-Date: Wed, 28 Apr 2021 14:30:40 +0200
+Message-ID: <06a1e1fe-925b-ff52-50ea-eb5d3eed2454@redhat.com>
+Date: Wed, 28 Apr 2021 14:33:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <0812a48a-36c6-8152-e8f1-f97c755b9f55@redhat.com>
+In-Reply-To: <0a713d9b-9ce2-0e9b-b515-f26ce09c0443@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -105,82 +106,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Max Reitz <mreitz@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
  Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/21 7:34 PM, John Snow wrote:
-> On 4/15/21 6:23 AM, Philippe Mathieu-Daudé wrote:
->> Some machines use floppy controllers via the SysBus interface,
->> and don't need to pull in all the SysBus code.
->> Extract the SysBus specific code to a new unit: fdc-sysbus.c,
->> and add a new Kconfig symbol: "FDC_SYSBUS".
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 4/28/21 1:25 PM, Philippe Mathieu-Daudé wrote:
+> On 4/28/21 9:57 AM, Mark Cave-Ayland wrote:
+
+>> This basically looks good to me. You may be able to simplify this
+>> further by removing the global legacy init functions
+>> fdctrl_init_sysbus() and sun4m_fdctrl_init(): from what I can see
+>> fdctrl_init_sysbus() is only used in hw/mips/jazz.c and
+>> sun4m_fdctrl_init() is only used in hw/sparc/sun4m.c so you might as
+>> well inline them or move the functions to the relevant files.
 > 
-> LGTM, but again you'll want someone to review the Kconfig changes. It
-> looks reasonable to me at a glance, but I just don't know what I don't
-> know there.
+> But both use FDCtrlSysBus which this series makes local to
+> hw/block/fdc-sysbus.c, and use fdctrl_init_drives() which is declared in
+> hw/block/fdc-internal.h, and use FloppyBus (also declared there).
 > 
-> I'm trusting you somewhat that you've audited the proper dependencies
-> for each subsystem and that these have been accurately described via
-> Kconfig -- my knowledge of non-x86 platforms is a bit meager, so I am
-> relying on CI to tell me if this breaks anything I care about.
+> Apparently they do that to initialize the fdctrl->dma_chann field...
+> Which should be a property, but FDCtrl isn't QOM... So not that
+> easy, it requires more work.
 
-The way I test these Kconfig changes is configuring with
---without-default-devices, and build/test for each machine doing:
-
-$ echo $MACHINE=y > default-configs/devices/$arch-softmmu.mak
-
-(I overwrite because currently we don't support having a base
-config different than the default-configs one).
-
-For example for the SPARCbook machine:
-
-$ echo CONFIG_SUN4M=y > default-configs/devices/sparc-softmmu.mak
-$ ninja qemu-system-sparc
-$ qemu-system-sparc -M SPARCbook -S
-
-Or for the Jazz machine:
-
-$ echo CONFIG_JAZZ=y > default-configs/devices/mips64el-softmmu.mak
-$ echo CONFIG_SEMIHOSTING=y >> default-configs/devices/mips64el-softmmu.mak
-$ ninja qemu-system-mips64el
-$ ./qemu-system-mips64el -M pica61 -S
-
-(The CONFIG_SEMIHOSTING is a particular kludge pending another series)
-
-But unfortunately there are predating bugs breaking this testing.
-
-I'll add this information in the respin's cover.
-
-> Would love to get an ACK from Mark Cave-Ayland and Hervé Poussineau if
-> possible, but if they're not available to take a quick peek, we'll try
-> to get this in closer to the beginning of the dev window to maximize
-> problem-finding time.
-
-The sun4m maintainer is Artyom.
-
-> Reviewed-by: John Snow <jsnow@redhat.com>
-
-Thanks!
-
-> 
->> ---
->>   hw/block/fdc-sysbus.c | 252 ++++++++++++++++++++++++++++++++++++++++++
->>   hw/block/fdc.c        | 220 ------------------------------------
->>   MAINTAINERS           |   1 +
->>   hw/block/Kconfig      |   4 +
->>   hw/block/meson.build  |   1 +
->>   hw/block/trace-events |   2 +
->>   hw/mips/Kconfig       |   2 +-
->>   hw/sparc/Kconfig      |   2 +-
->>   8 files changed, 262 insertions(+), 222 deletions(-)
->>   create mode 100644 hw/block/fdc-sysbus.c
+Hmm FDCtrl doesn't have to be a QOM object, it is a simple embedded
+structure. It should be doable then.
 
 
