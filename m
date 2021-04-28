@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE2336DDD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:07:26 +0200 (CEST)
-Received: from localhost ([::1]:37118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF2836DDFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:14:25 +0200 (CEST)
+Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbnen-0000am-N4
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40256)
+	id 1lbnlY-0008PS-EL
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbnbz-0007OF-Sj
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:04:31 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33566)
+ id 1lbnc6-0007SL-NB
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:04:38 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:42699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbnby-0005gJ-Bb
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:04:31 -0400
-Received: by mail-wr1-x429.google.com with SMTP id n2so10664798wrm.0
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 10:04:29 -0700 (PDT)
+ id 1lbnc4-0005ht-Tu
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:04:38 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ a22-20020a05600c2256b029014294520f18so4893394wmm.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 10:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pi4Yqp/Ga3uNxjsupGFLY1gAQ5ebMQowaCuPTS7xonw=;
- b=GxlgsrYCVusN/Q/fwa6c60LGwupHB6Dc3VhOtigEydalOP9jT61c9XMa3paurKakRm
- y1MtSIckNuDdCJbPEBcw1sqp0tTDeu38iN8GEF2b8Ztjcahh72k3U3oeDQb/QW/NnrlO
- hnY/rgjbppTSlK/CpCErghoLYgr98aDvir7lFjL+pYnBI/dzmE8JeniQPOg6XBQncDZY
- KioualR7aaV957V8UN0pj1sgcHYFVDCnRS70wzH7tPUI1DVQGJfO/XfqL0FKHnorHPTV
- yStSGtc4eFRrlFg5fJh8aBdslt5zMAXUFKF7GsQnB1kmAfDYOEa8U9JXD+1DXkT0eZhv
- /oCw==
+ bh=fGOvaajXfmrpLSnOyhpIroCQXe3e+OS5MF3gQarLZWU=;
+ b=iCOTMCz3EzGzAzpcxWcX5x1G+hXKWOdrKX0sZCq7fFMkKDjwx5x9qjfhhzuR6NViiQ
+ RqNCxDvSGD/+mM90KESVgCAxlwKLO85iy8pDi/4JLYekKRX0fkeF/eFJgkcV2Im4hRhC
+ 19hJMlJj7+v00KHg3QmRVcrVP/KT/gvQJZSQ7yb9ofl2DinEV3pVsIa3JKQ5bkAKgu+H
+ oxMyKF6wv4hUYTRTHa9bpRmz52Xz/uFq37hVOWO3NdXTkiEn9hFajpscc4xKIqN1dqJt
+ xrJtOd0mExKFPYQ9FGbb7MkiNmKsjgdRK+BtxUPdrJv+DXxlXJnMfaDRHMlyBpx915hk
+ ajew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pi4Yqp/Ga3uNxjsupGFLY1gAQ5ebMQowaCuPTS7xonw=;
- b=IY11PZMKT4NrwwlTy5QVoagvguuydgLTPwWGzigAthz9jfXfBgSOPzqu7+jMwXxkc+
- HczD3JtxKRGPMv3PPNQPytcNtLQJIDma5nt5GELIyCYzLy1pmX2izOViPZzOms9WFuWR
- MuMoWq0WfNPrDKaN9uHlxkrb8NBWL4ex48a0/uYTCREvfnCJrRKJ0zLdbqxqpuTUL449
- IoJZKLd+6k4I5bD4xSFCnO4BYgX/4aIzFUkquWbEyqc0mRAbeELBREN5pgod9rx5cwMB
- eNz1zgotX8it/KtaFDd12+FvPwV666aUEO1yCSzy7t81qJeIFfLwHalnRytOD6I6Y1/2
- /0mA==
-X-Gm-Message-State: AOAM531bFUpWdkjFJHAmDTTZc/e05aQJl14GyPYUFawCugYpZTP/ue4T
- MszRjVk2yjrbSl7F3GHgZkZWkpbgP5XytA==
-X-Google-Smtp-Source: ABdhPJxjQM33GzEe2r4BP3keMsKNCXfq8FWimFGRm6CU2/XjrbBk/9AzhgGe6I7XGtTSO3rEdDv+pw==
-X-Received: by 2002:a05:6000:1547:: with SMTP id
- 7mr5360614wry.388.1619629468770; 
- Wed, 28 Apr 2021 10:04:28 -0700 (PDT)
+ bh=fGOvaajXfmrpLSnOyhpIroCQXe3e+OS5MF3gQarLZWU=;
+ b=KBI4G1ZGNtMOoDSGq9aiJi9seQHZWiD6SYibDVF4JoJgkwDqjZzIeq+cgCR1ll8net
+ sOmClFpymW8Z7NPpltUz4zQtPF2c663psu5S5Lef1Ys88TegV2A6fgulbww11oSRfYdn
+ wmoJs0DF3d0kOpFFULPSGjLJWu6CigNMWd/mpC/yphlyYX8EFUUTEjl2Dk67IiRP7h2N
+ BNseIz4Fc43enyFgh49yFDxrLblIMJI+Lq28TIBUb4sro/EBxV4zDVdQyP4Pf79bp7uD
+ B9Ml/QSE2Uwop39WFYCtyOMRPZik7qtNB2eUDBEaOE0yRZD2ni/CrCFE6R8qs/1cINIJ
+ diAw==
+X-Gm-Message-State: AOAM532TTOpYOndlOGd7cQWebOObXRHK7hZ9atW7DTsj7/Hss/O+59DZ
+ e15IsCZn0WnG3NsyoCN9flzPjIbTEjuWlQ==
+X-Google-Smtp-Source: ABdhPJz9BHqN4OAeqZgyfxoORiTACduJgY4PcBwcGKVQXivPhXN8sRzO3fqwFTy9nlMvlRyUFdGAuA==
+X-Received: by 2002:a1c:a949:: with SMTP id s70mr5750147wme.84.1619629473525; 
+ Wed, 28 Apr 2021 10:04:33 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id n5sm411720wrx.92.2021.04.28.10.04.27
+ by smtp.gmail.com with ESMTPSA id k188sm8964572wmf.18.2021.04.28.10.04.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 10:04:28 -0700 (PDT)
+ Wed, 28 Apr 2021 10:04:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/30] target/mips: Simplify meson TCG rules
-Date: Wed, 28 Apr 2021 19:03:41 +0200
-Message-Id: <20210428170410.479308-2-f4bug@amsat.org>
+Subject: [PATCH v4 02/30] target/mips: Move IEEE rounding mode array to new
+ source file
+Date: Wed, 28 Apr 2021 19:03:42 +0200
+Message-Id: <20210428170410.479308-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210428170410.479308-1-f4bug@amsat.org>
 References: <20210428170410.479308-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,32 +95,83 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have the mips_tcg_ss source set for TCG-specific files,
-use it for mxu_translate.c and tx79_translate.c to simplify a bit.
+restore_msa_fp_status() is declared inlined in fpu_helper.h,
+and uses the ieee_rm[] array. Therefore any code calling
+restore_msa_fp_status() must have access to this ieee_rm[] array.
+
+kvm_mips_get_fpu_registers(), which is in target/mips/kvm.c,
+calls restore_msa_fp_status.
+
+Except this tiny array, the rest of fpu_helper.c is only useful
+for the TCG accelerator.
+
+To be able to restrict fpu_helper.c to TCG, we need to move the
+ieee_rm[] array to a new source file.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/meson.build | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ target/mips/fpu.c        | 18 ++++++++++++++++++
+ target/mips/fpu_helper.c |  8 --------
+ target/mips/meson.build  |  1 +
+ 3 files changed, 19 insertions(+), 8 deletions(-)
+ create mode 100644 target/mips/fpu.c
 
+diff --git a/target/mips/fpu.c b/target/mips/fpu.c
+new file mode 100644
+index 00000000000..39a2f7fd22e
+--- /dev/null
++++ b/target/mips/fpu.c
+@@ -0,0 +1,18 @@
++/*
++ * Helpers for emulation of FPU-related MIPS instructions.
++ *
++ *  Copyright (C) 2004-2005  Jocelyn Mayer
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++#include "qemu/osdep.h"
++#include "fpu/softfloat-helpers.h"
++#include "fpu_helper.h"
++
++/* convert MIPS rounding mode in FCR31 to IEEE library */
++const FloatRoundMode ieee_rm[4] = {
++    float_round_nearest_even,
++    float_round_to_zero,
++    float_round_up,
++    float_round_down
++};
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 6dd853259e2..8ce56ed7c81 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -38,14 +38,6 @@
+ #define FP_TO_INT32_OVERFLOW 0x7fffffff
+ #define FP_TO_INT64_OVERFLOW 0x7fffffffffffffffULL
+ 
+-/* convert MIPS rounding mode in FCR31 to IEEE library */
+-const FloatRoundMode ieee_rm[4] = {
+-    float_round_nearest_even,
+-    float_round_to_zero,
+-    float_round_up,
+-    float_round_down
+-};
+-
+ target_ulong helper_cfc1(CPUMIPSState *env, uint32_t reg)
+ {
+     target_ulong arg1 = 0;
 diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 3b131c4a7f6..3733d1200f7 100644
+index 3733d1200f7..5fcb211ca9a 100644
 --- a/target/mips/meson.build
 +++ b/target/mips/meson.build
-@@ -26,10 +26,9 @@
-   'translate_addr_const.c',
-   'txx9_translate.c',
+@@ -9,6 +9,7 @@
+ mips_ss = ss.source_set()
+ mips_ss.add(files(
+   'cpu.c',
++  'fpu.c',
+   'gdbstub.c',
  ))
--mips_ss.add(when: ['CONFIG_TCG', 'TARGET_MIPS64'], if_true: files(
-+mips_tcg_ss.add(when: 'TARGET_MIPS64', if_true: files(
-   'tx79_translate.c',
--))
--mips_tcg_ss.add(when: 'TARGET_MIPS64', if_false: files(
-+), if_false: files(
-   'mxu_translate.c',
- ))
- 
+ mips_tcg_ss = ss.source_set()
 -- 
 2.26.3
 
