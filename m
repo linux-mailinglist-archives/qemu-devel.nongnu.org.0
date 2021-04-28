@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F8D36D9F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:57:15 +0200 (CEST)
-Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09CFF36D9FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:03:59 +0200 (CEST)
+Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblco-0000Ic-SV
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:57:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52850)
+	id 1lbljJ-0004gU-Tf
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lblb1-0007SA-Jp
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:55:25 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:33557)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lblgi-0003KE-7w
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:01:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lblat-00012m-C9
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:55:21 -0400
-Received: by mail-pg1-x534.google.com with SMTP id t22so9651840pgu.0
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dMkvDjMYr05gqkWj7xCDSFD2+V68r814jBCNIHlXJ1k=;
- b=K/rPThOtTaoiWgPuUiLl2OkBm4RTQ1tNqziMwsx5f4EgZdhBbIiZPEHdtcBFmLZK0N
- dxTK/iH9jC81oU7tja5yPCQXU9qiHUm8uqMyi4k+iW5/BkbXk5qHdK507QbHq2rjEMKh
- Zk/XiAoO2AM6/3f60GDN3lcBaxUh1y5oKmSCVw5d/Xpyf15p41GYFY/A2i4SJCaBrHEr
- z6OPJTkZsRPYNs5ifHK70qCJ3/w4L5y3Y+1GrwWBbbz3q5IfZlN+98svkF/uIAowJw6w
- ycmfBmWo9UYD/jgUCxoVQPTpsvKG2VGvUDtmxTWM+SkY5/lboWwsjUq3t8tL8D/IjnuW
- tkiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dMkvDjMYr05gqkWj7xCDSFD2+V68r814jBCNIHlXJ1k=;
- b=Sb993xTKvKtLed6H0m8PN3PGpV26TdGbbkEndyS1zMdpz9dtnB5lo7wU7WSMPWvNpD
- Ouj8uJdecv74gwJYmfkLiM1wszaZLn4EWRRXwYnJYCEZQpudd8ZJHEyWbFV7ny5WzMZ/
- SvHkGh6V5K0A8BeAyrSTH2WXBhwEOd3mY9db8Oy+ks6r0nElKuhXEzs0hL8jBeV4YH6e
- 4WLfcFkkIzmuv+AUN3uv11EtizL0s6IlGHrkLTKoOfplmlAKKbnGctC0UMGSyWnhj7Yx
- q9t50zNjBL4JTH8RgBz0301CVXK3X+dNw6c3HEGIGA1YflTLin+oNc7sbAsLyXu8uHaC
- +bAg==
-X-Gm-Message-State: AOAM530F7+chUg35PCJzPvTdo5tOP+kIAmhXAy7HajA1w+lhbOrnDLvo
- a0U5bRoduxq1j5qkbgAjaWB7OA==
-X-Google-Smtp-Source: ABdhPJy5jdiQ9PidnLzVyKzWb/02VsvaGq/BWGEugGj2X9yJvjwS7GFTTGuEKq3dy+EfRlpHSq/KBw==
-X-Received: by 2002:a63:4a44:: with SMTP id j4mr27082160pgl.283.1619621713647; 
- Wed, 28 Apr 2021 07:55:13 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id a129sm67334pfa.36.2021.04.28.07.55.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 07:55:13 -0700 (PDT)
-Subject: Re: [PATCH v2 02/15] target/ppc: Add cia field to DisasContext
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
- <20210427171649.364699-3-luis.pires@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4b41040a-57b6-7350-d879-3e5c25314b58@linaro.org>
-Date: Wed, 28 Apr 2021 07:55:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lblgf-0004Vp-S0
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:01:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lblga-0003YX-Vu
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 15:01:08 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EB42B2E8144
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 15:01:08 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210427171649.364699-3-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Apr 2021 14:54:38 -0000
+From: Thomas Huth <1822798@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jayshreephulare1 th-huth
+X-Launchpad-Bug-Reporter: Jayshree Phulare (jayshreephulare1)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155421416733.11748.993612847677239700.malonedeb@soybean.canonical.com>
+Message-Id: <161962167887.11021.5167796019846355346.malone@soybean.canonical.com>
+Subject: [Bug 1822798] Re: The hover of " Full list of releases " is not
+ effective even not visible.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
+X-Launchpad-Hash: fd8123aa4fc43eec8f920eab6000a3c8b5bc9c08
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,21 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- matheus.ferst@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
+Reply-To: Bug 1822798 <1822798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/21 10:16 AM, Luis Pires wrote:
-> From: Richard Henderson<richard.henderson@linaro.org>
-> 
-> Signed-off-by: Richard Henderson<richard.henderson@linaro.org>
-> ---
->   target/ppc/translate.c | 34 ++++++++++++++++++----------------
->   1 file changed, 18 insertions(+), 16 deletions(-)
+This is an automated cleanup. This bug report has been moved
+to QEMU's new bug tracker on gitlab.com and thus gets marked
+as 'expired' now. Please continue with the discussion here:
 
-When a patch passes through your hands, it should contain your S-o-b.
+ https://gitlab.com/qemu-project/qemu/-/issues/48
 
 
-r~
+** Changed in: qemu
+       Status: New =3D> Expired
+
+** Changed in: qemu
+     Assignee: Jayshree Phulare (jayshreephulare1) =3D> (unassigned)
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #48
+   https://gitlab.com/qemu-project/qemu/-/issues/48
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1822798
+
+Title:
+  The hover of " Full list of releases " is not effective even not
+  visible.
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  The hover effect of "Full list of releases " on QEMU website that is
+  https://www.qemu.org/ is not visible and hence effective so made it
+  the issue on git hub and even committed it.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1822798/+subscriptions
 
