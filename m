@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1501436DFEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:51:57 +0200 (CEST)
-Received: from localhost ([::1]:33310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1700336DFE0
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:47:32 +0200 (CEST)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbqE0-0006II-67
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56382)
+	id 1lbq9j-0001JZ-6u
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:47:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lbq0M-0000ow-3V
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:37:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1lbq0J-0006W3-9y
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:37:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619638664;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qk3p//70fwYTN4/xAeXKIEFda66iOqpWxzCmc1EPF98=;
- b=BcVmk6f93deYIqK0vukn1LDMOW7M3GpS4LGFPRzOA89xcOV61LV0MWweEZT3kXJj6zOTVI
- n4zSVxGFfJztW6ncxmi50GaflU1O0z1nA3Yu1nAAGnUv1CnyEkbCm0z5xcuBRH74C8jkSK
- 5Kb/b0cW7bYp6A7rgdk0OEJF7Ap2j14=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-mZT_LprYO0uzHegqexRfhw-1; Wed, 28 Apr 2021 15:37:42 -0400
-X-MC-Unique: mZT_LprYO0uzHegqexRfhw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8050918B9ECB;
- Wed, 28 Apr 2021 19:37:41 +0000 (UTC)
-Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49D3860E3A;
- Wed, 28 Apr 2021 19:37:41 +0000 (UTC)
-Date: Wed, 28 Apr 2021 13:37:40 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] make vfio and DAX cache work together
-Message-ID: <20210428133740.6ccbbba6@redhat.com>
-In-Reply-To: <YIm0w2RgQgosIyiB@work-vm>
-References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
- <20210426152203.379dab00@redhat.com>
- <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
- <20210427121850.68d2a8dd@redhat.com> <YIhfWoRgJtaKZhh8@work-vm>
- <CANsN3OSs4GyT10P6xUp-s823U8VnWAmihWXQ1jSnF07wyYjxuA@mail.gmail.com>
- <YIm0w2RgQgosIyiB@work-vm>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbq2g-0003IP-Nc
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:40:19 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:42611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbq2d-0007bh-41
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:40:14 -0400
+Received: by mail-pg1-x536.google.com with SMTP id m12so4754257pgr.9
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=X0s1IdWhRCezC/0wJ7HAxW3aCajYx//leWPBHECgsC8=;
+ b=yWInUALLxW1wIlZo37o/X+RjwnnrzF+frC3kXAuZZiZ6q9TFkrZlMiFGSMTFc8hmLQ
+ i5lALEOmirZMe7WWAadLPc+R2tAgQoJXkN+HTNv1Mb62v3gNU00DGd/drRiwIOTX/rZn
+ hUVMwVSiHBOPe6RY4MT2xt6ZuJqkYyPN08/AVXrAo8S6FKxvdiqZiFUgOGs35OYnGm5F
+ oW6bTsBqmZEGi4LLX3OIiu94vYewKHvYhILt5S0g5nKqj+hNTemiwndt3koA6bL7+ovQ
+ +14XqY40yLCGWKRDUudrzsPg5e/ocoT80bBPCAFfS4+iw4Iwh0Kz8LHe5AeP6Tc4vd1z
+ NADA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X0s1IdWhRCezC/0wJ7HAxW3aCajYx//leWPBHECgsC8=;
+ b=A8yf+U2K6j8qPavrQ7PQ2LIBIXwGsb68pRW+LNBHlAasRSua84xI/hkgrR9/aqMDQX
+ wjIxkjpn5PbgNmwNnRqY/a04KkO1dWQv/Y5iD9Fp9Zwh7qn32bj0O4wWGYi9+2vs/Cd/
+ OTphpEQ2UTAGH2z2yf0Q1UiwSJ11GnHKn2jvOzmhI+yY8FldGDVlc9EncpB/Ze+9YIh6
+ h5Y4kiAebvyZHIxgxCYIa6KotRf30yxvzasINy/VTlz0/giXnEzVZ8E589Q4SBCEPxSD
+ W/7I5gFq/f8KjDkQ4OvcqFUikOe96YXU3ySUl1szd9F35dpZFh7h7u73pF7y5YhnxuvF
+ qt3w==
+X-Gm-Message-State: AOAM533ezNvntqyak1Du/lIpyx/PEEpZiTzRGZsYU+2GpAu8EpOFNOBe
+ QM5SnK21CwqQFMCkKovjGhZIwA==
+X-Google-Smtp-Source: ABdhPJxwXXClpO8wiHhFbTerU6dGwEPox9SFPcweIWmb+V9NIvvBsGtf0geJp+jf3FQehcjNAZ3k5A==
+X-Received: by 2002:a63:ef4e:: with SMTP id c14mr28292095pgk.166.1619638809292; 
+ Wed, 28 Apr 2021 12:40:09 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id u20sm471975pgl.27.2021.04.28.12.40.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 12:40:09 -0700 (PDT)
+Subject: Re: [PATCH v2 00/15] linux-user/s390x: some signal fixes
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20210428193408.233706-1-richard.henderson@linaro.org>
+Message-ID: <93c9a9e7-ffdb-7ed8-522a-0f6c32b448f5@linaro.org>
+Date: Wed, 28 Apr 2021 12:40:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210428193408.233706-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +86,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dev Audsin <dev.devaqemu@gmail.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ laurent@vivier.eu, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Apr 2021 20:17:23 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On 4/28/21 12:33 PM, Richard Henderson wrote:
+> Version 2 splits lazy do-it-all patch.
+> Patch 1 has an additional fix, so I dropped the r-b.
 
-> * Dev Audsin (dev.devaqemu@gmail.com) wrote:
-> > Thanks Dave for your explanation.
-> > Any suggestions on how to make VFIO not attempt to map into the
-> > unaccessible and unallocated RAM.  
-> 
-> I'm not sure;:
-> 
-> static bool vfio_listener_skipped_section(MemoryRegionSection *section)
-> {
->     return (!memory_region_is_ram(section->mr) &&
->             !memory_region_is_iommu(section->mr)) ||
->            section->offset_within_address_space & (1ULL << 63);
-> }
-> 
-> I'm declaring that region with memory_region_init_ram_ptr;  should I be?
-> it's not quite like RAM.
-> But then I *do* want a kvm slot for it, and I do want it to be accessed
-> by mapping rather htan calling IO functions; that makes me think mr->ram
-> has to be true.
-> But then do we need to add another flag to memory-regions; if we do,
-> what is it;
->    a) We don't want an 'is_virtio_fs' - it needs to be more generic
->    b) 'no_vfio' also feels wrong
-> 
-> Is perhaps 'not_lockable' the right thing to call it?
+... and I realized as I hit send that this depends on the 
+target_restore_altstack cleanup that's part of
 
-This reasoning just seems to lead back to "it doesn't work, therefore
-don't do it" rather than identifying the property of the region that
-makes it safe not to map it for device DMA (assuming that's actually
-the case).  It's clearly "RAM" as far as QEMU is concerned given how
-it's created, but does it actually appear in the VM as generic physical
-RAM that the guest OS could program to the device as a DMA target?  If
-not, what property makes that so, create a flag for that.  Thanks,
+https://patchew.org/QEMU/20210426025334.1168495-1-richard.henderson@linaro.org/
 
-Alex
+For avoidance of doubt:
+https://gitlab.com/rth7680/qemu/-/tree/fix-signals
 
+
+r~
 
