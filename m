@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8664036DDE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:09:31 +0200 (CEST)
-Received: from localhost ([::1]:45680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFD636DDD4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:06:14 +0200 (CEST)
+Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbngo-0004BF-Iy
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36268)
+	id 1lbndd-0008LB-T0
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbnQk-0008WQ-HP
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:52:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28008)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lbnbM-00072L-BY
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:03:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lbnQh-0000ex-TR
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:52:53 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lbnbJ-0005Pn-LO
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:03:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619628767;
+ s=mimecast20190719; t=1619629428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FGt0H2U+ZTVWIduKksB45XsXQfgq/phiYy7CSbpl/SM=;
- b=Q8OIqXpr/KlA7qqyoynb1GMDEzPltS190ND62EcvDZCUWLnP3w0KYi0IonVNzVLJ1FXcH3
- ZF0ZAzP5KUQ99zFcIj8sw1T8F4hFhSW88pdo88s6fnD7AsRVMkrEn+lYf6xHRilbwg8aO0
- XCZisc9PjEL9DLuR1wOzkUa6CeRiM6E=
+ bh=1flRRt3jVH+tDHQlOfm5aGNs6n3AoqCdtDDhP+9SmRM=;
+ b=AB+7tOf/d098ZG+l7r6dItn6zQg0cyOVWtbfdta/1sWyexqD+Bq4evQvJzRGvA/Nkg1gIC
+ qrR0R9ADTtLZTYAuEywIzQhgixvt528a+DPOxpdmYyhDJlvccJnMKRij3V1zHpK/IIuMhn
+ c+jK9GUwYz8TWZnuPNxwMwFHgCiry8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-YjpRlr3NOruiiUe2Nwprfw-1; Wed, 28 Apr 2021 12:52:45 -0400
-X-MC-Unique: YjpRlr3NOruiiUe2Nwprfw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-271-4Z0tzxhWNQiCDxuXxH1i7Q-1; Wed, 28 Apr 2021 13:03:46 -0400
+X-MC-Unique: 4Z0tzxhWNQiCDxuXxH1i7Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C896C801106;
- Wed, 28 Apr 2021 16:52:44 +0000 (UTC)
-Received: from work-vm (ovpn-115-35.ams2.redhat.com [10.36.115.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D7ED60E3A;
- Wed, 28 Apr 2021 16:52:35 +0000 (UTC)
-Date: Wed, 28 Apr 2021 17:52:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 0/2] virtiofsd: Meson build fixes
-Message-ID: <YImS0CTG5OgqLgFe@work-vm>
-References: <20210428144813.417170-1-philmd@redhat.com>
- <CAFEAcA9_5C4sLwb-MXwg-yCgN+Esb0mop=baCv5kgoW58UPQzA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D26DC189829B;
+ Wed, 28 Apr 2021 17:03:44 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 237C95F729;
+ Wed, 28 Apr 2021 17:03:30 +0000 (UTC)
+Date: Wed, 28 Apr 2021 19:03:29 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 00/36] block: update graph permissions update
+Message-ID: <YImVYUQbIZC9T3Pz@merkur.fritz.box>
+References: <20210428151804.439460-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9_5C4sLwb-MXwg-yCgN+Esb0mop=baCv5kgoW58UPQzA@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210428151804.439460-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,33 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Wed, 28 Apr 2021 at 15:53, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> >
-> > A pair of fixes to allow building virtiofsd without sysemu/tools.
-> >
-> > Should this configuration be tested in CI?
+Am 28.04.2021 um 17:17 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Hi all!
 > 
-> Does the configuration make sense to support? I thought
-> virtiofsd was only of use with system emulation ?
+> And here is v4.
 
-It probably is; although arguably it makes sense to build
-virtiofsd by itself without either emulation.
+Thanks, applied to the block branch.
 
-Dave
+Though the error message shown by the test in patch 18 does need some
+improvement on top. We should probably name both conflicting users and
+who blocks whom in a way that is neutral as to which user is the new
+one.
 
-> thanks
-> -- PMM
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Also, curious that again patch 7 (and only patch 7) got From: mangled by
+the mailing list. Seems there is something in it that Mailman doesn't
+like?
+
+Kevin
 
 
