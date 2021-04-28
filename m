@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F2536DD17
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:33:50 +0200 (CEST)
-Received: from localhost ([::1]:37254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969FB36DD2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:36:06 +0200 (CEST)
+Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbn8G-0000pQ-V3
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
+	id 1lbnAT-0002Vy-LM
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lbn5O-0007rF-MF
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:30:52 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lbn5M-0006si-86
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:30:50 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- a22-20020a05600c2256b0290142870824e9so2895875wmm.0
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Tl/1T7NIaqL4l1+3Mwst7zbtCSxIlw7ws13tPycf0es=;
- b=F25RPGrktKCAoY+ur/WpvLMciK7vddrpMvldO+nHt5ylFsy9F9aogG3tvPbjCRZLjr
- cHX7x6FQVMWaa1omNS7/ukdpApmmN8YzHBd0VdKUp+yeip2svhn5CvQev6rB4mGR9RXd
- xvfddE6p/q3xC8922Cb1PbpTPFWoe9V9BJUcfA6pmy22fUWegvU0Hb213MzFDpP4vfI5
- biIsJmkUWrpB8CenLk3kOCY7utbYyFUjzepRtlAkn10v9ktoS6SBSk8UXtufxucpV79n
- 7lNLVr0efV8SJ+tHPk0g0Qr+mxtLNC1nmxsY3ZVHkcIE2y5hO2XEd4Itm1JviDCSe7B2
- 3cFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Tl/1T7NIaqL4l1+3Mwst7zbtCSxIlw7ws13tPycf0es=;
- b=arXuiUh2VNSBVE7VIgCGvVUwQc8+9rLX4A+svazYxV2ne+VZAIkShbMt7WqHXx0aB7
- ObOkZQz85XI1MeZEubJhKdK8jzkI5391aN96x8Km2GFgxBEPaj9g9pcQUDFLaf0aSARM
- aimGNHb1aJAg2yWMmxI4a1ENoYFI06wOLu3VSfK6uurtbdmAbLiuchssFGi/qceQ7MAN
- VOsnJ3mXzgEzmxmdDFNY0lB9HHMonuZJ2T7iEefPRbP7ip75KAIoIiRr6OfLDMYU9c+7
- Z8amHiInzTqT8WaEPH/gyUp7paRP7D7SMpABp+317hXg85xOW3AB3TtW2Bec3okWr3JC
- ydBA==
-X-Gm-Message-State: AOAM533E76tEO3lFhrdINJ1xACuZpgx+iMGyUYpHBYz7REsMUtZgQ1KT
- rWZ47aGbJxgPmT51Ltfy+Wh+cQ==
-X-Google-Smtp-Source: ABdhPJzk4A92gCystc5JXkTrcAbyQD6cFbseszX9UrzJxwbDzAnpq06dI5zrIS7mDT+49C7Jnz1psQ==
-X-Received: by 2002:a1c:2:: with SMTP id 2mr32474546wma.113.1619627446326;
- Wed, 28 Apr 2021 09:30:46 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y8sm381625wru.27.2021.04.28.09.30.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 09:30:45 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A7C3E1FF7E;
- Wed, 28 Apr 2021 17:30:44 +0100 (BST)
-References: <20210427185524.281883-1-thuth@redhat.com>
-User-agent: mu4e 1.5.12; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] cirrus.yml: Fix the MSYS2 task
-Date: Wed, 28 Apr 2021 17:30:26 +0100
-In-reply-to: <20210427185524.281883-1-thuth@redhat.com>
-Message-ID: <87a6pis763.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lbn84-0001Qf-H8
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:33:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lbn80-0000CM-DY
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:33:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619627611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NaaL3pZShYuph3XhAb3tj4IZCJjIpT5TogklEYi3w6w=;
+ b=ZDHPei7NHN1m+u2Etl60fjed0dTgsrf13aDSez6sLRjsnW/Sjz+l9gxIN5M++gUA5X2QYt
+ 0kalTl0uwN5g8oXkjjmZWnO0Rhrheg1GTlGHNxjW6d0Bl1NbsLLJtmycoYlmmCFCmz83V5
+ aJYqfPITAHVlxsvRhKdr/j2ZjjD8Yq8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-443-OyTuH6NaMMOgF5hyA49oEA-1; Wed, 28 Apr 2021 12:33:28 -0400
+X-MC-Unique: OyTuH6NaMMOgF5hyA49oEA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 421318030DD;
+ Wed, 28 Apr 2021 16:33:26 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-188.ams2.redhat.com
+ [10.36.114.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2ABD5C224;
+ Wed, 28 Apr 2021 16:33:12 +0000 (UTC)
+Subject: Re: [PATCH 5/7] hw: Have machines Kconfig-select FW_CFG
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210426193520.4115528-1-philmd@redhat.com>
+ <20210426193520.4115528-6-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <f2768d1f-9031-fa23-dfd0-aa3108d6e04c@redhat.com>
+Date: Wed, 28 Apr 2021 18:33:11 +0200
 MIME-Version: 1.0
+In-Reply-To: <20210426193520.4115528-6-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,26 +80,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 04/26/21 21:35, Philippe Mathieu-Daudé wrote:
+> Beside the loongson3-virt machine (MIPS), the following machines
+> also use the fw_cfg device:
+> 
+> - ARM: virt & sbsa-ref
+> - HPPA: generic machine
+> - X86: ACPI based (pc & microvm)
 
-Thomas Huth <thuth@redhat.com> writes:
+It's correct, but the way this is formulated is confusing, for me
+anyway. Can you please write "(pc (i440fx, q35) & microvm)"?
 
-> The MSYS2 task in the Cirrus-CI is currently failing with error messages
-> like this:
->
->  warning: database file for 'ucrt64' does not exist (use '-Sy' to downloa=
-d)
->  :: Starting core system upgrade...
->   there is nothing to do
->  :: Starting full system upgrade...
->  error: failed to prepare transaction (could not find database)
+Because, we frequently use "pc" interchangeably with "i440fx", and so I
+was missing q35 from the list.
 
-Ahh I missed the earlier error. Queued to testing/next, thanks.
-<snip>
+Thanks
+Laszlo
 
---=20
-Alex Benn=C3=A9e
+> - PPC64: various
+> - SPARC: sun4m & sun4u
+> 
+> Add their FW_CFG Kconfig dependency.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  hw/arm/Kconfig     | 2 ++
+>  hw/hppa/Kconfig    | 1 +
+>  hw/i386/Kconfig    | 2 ++
+>  hw/ppc/Kconfig     | 1 +
+>  hw/sparc/Kconfig   | 1 +
+>  hw/sparc64/Kconfig | 1 +
+>  6 files changed, 8 insertions(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 8c37cf00da7..3b2641e39dc 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -8,6 +8,7 @@ config ARM_VIRT
+>      imply TPM_TIS_SYSBUS
+>      select ARM_GIC
+>      select ACPI
+> +    select FW_CFG
+>      select ARM_SMMUV3
+>      select GPIO_KEY
+>      select FW_CFG_DMA
+> @@ -216,6 +217,7 @@ config SBSA_REF
+>      select PL061 # GPIO
+>      select USB_EHCI_SYSBUS
+>      select WDT_SBSA
+> +    select FW_CFG
+>  
+>  config SABRELITE
+>      bool
+> diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
+> index 22948db0256..45f40e09224 100644
+> --- a/hw/hppa/Kconfig
+> +++ b/hw/hppa/Kconfig
+> @@ -14,3 +14,4 @@ config DINO
+>      select LASIPS2
+>      select PARALLEL
+>      select ARTIST
+> +    select FW_CFG
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index 7f91f30877f..9e4039a2dce 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -52,6 +52,7 @@ config PC_ACPI
+>      select SMBUS_EEPROM
+>      select PFLASH_CFI01
+>      depends on ACPI_SMBUS
+> +    select FW_CFG
+>  
+>  config I440FX
+>      bool
+> @@ -106,6 +107,7 @@ config MICROVM
+>      select ACPI_HW_REDUCED
+>      select PCI_EXPRESS_GENERIC_BRIDGE
+>      select USB_XHCI_SYSBUS
+> +    select FW_CFG
+>  
+>  config X86_IOMMU
+>      bool
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index d11dc30509d..a7ba8283bf1 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -131,6 +131,7 @@ config VIRTEX
+>  # Only used by 64-bit targets
+>  config FW_CFG_PPC
+>      bool
+> +    select FW_CFG
+>  
+>  config FDT_PPC
+>      bool
+> diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
+> index 8dcb10086fd..267bf45fa21 100644
+> --- a/hw/sparc/Kconfig
+> +++ b/hw/sparc/Kconfig
+> @@ -15,6 +15,7 @@ config SUN4M
+>      select STP2000
+>      select CHRP_NVRAM
+>      select OR_IRQ
+> +    select FW_CFG
+>  
+>  config LEON3
+>      bool
+> diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
+> index 980a201bb73..c17b34b9d5b 100644
+> --- a/hw/sparc64/Kconfig
+> +++ b/hw/sparc64/Kconfig
+> @@ -13,6 +13,7 @@ config SUN4U
+>      select PCKBD
+>      select SIMBA
+>      select CHRP_NVRAM
+> +    select FW_CFG
+>  
+>  config NIAGARA
+>      bool
+> 
+
 
