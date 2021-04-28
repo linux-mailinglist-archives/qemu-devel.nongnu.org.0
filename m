@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346F236DD0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:33:05 +0200 (CEST)
-Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F2536DD17
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:33:50 +0200 (CEST)
+Received: from localhost ([::1]:37254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbn7Y-0008HY-9T
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1lbn8G-0000pQ-V3
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lbn4K-00078c-QZ
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:29:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lbn4H-0006Tp-PW
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:29:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619627380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Co/dMFKm0k4Bh5ngAGA6PebzSt63Cg+l8mYlMiLmNds=;
- b=GlmRKk3Pb5r7MoLm2HZtWygoEbyaLTD5FXWw5PTXsYoXWa3NvC4QttWHnRY1zg6iBbiQyh
- efcHbr7JErKK/gqJBk81X678Nd5CBhjm5pwXerzGD+h0ZdB1guJcD4fxZGzkxAW2tj37BV
- PLgDA/Ws7wKUh9ROQXFLi2iTw2WJny0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-ZdhyTsCXNkaxII5kekdtxQ-1; Wed, 28 Apr 2021 12:29:38 -0400
-X-MC-Unique: ZdhyTsCXNkaxII5kekdtxQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A28107ACE4
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 16:29:37 +0000 (UTC)
-Received: from localhost (unknown [10.22.9.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9300C60CC9;
- Wed, 28 Apr 2021 16:29:30 +0000 (UTC)
-Date: Wed, 28 Apr 2021 12:29:30 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH] Deprecate pmem=on with non-DAX capable backend file
-Message-ID: <20210428162929.bgwyol24brh2avfa@habkost.net>
-References: <20210111203332.740815-1-imammedo@redhat.com>
- <20210427204848.ubgncujxjxcufpul@habkost.net>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lbn5O-0007rF-MF
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:30:52 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lbn5M-0006si-86
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:30:50 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ a22-20020a05600c2256b0290142870824e9so2895875wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Tl/1T7NIaqL4l1+3Mwst7zbtCSxIlw7ws13tPycf0es=;
+ b=F25RPGrktKCAoY+ur/WpvLMciK7vddrpMvldO+nHt5ylFsy9F9aogG3tvPbjCRZLjr
+ cHX7x6FQVMWaa1omNS7/ukdpApmmN8YzHBd0VdKUp+yeip2svhn5CvQev6rB4mGR9RXd
+ xvfddE6p/q3xC8922Cb1PbpTPFWoe9V9BJUcfA6pmy22fUWegvU0Hb213MzFDpP4vfI5
+ biIsJmkUWrpB8CenLk3kOCY7utbYyFUjzepRtlAkn10v9ktoS6SBSk8UXtufxucpV79n
+ 7lNLVr0efV8SJ+tHPk0g0Qr+mxtLNC1nmxsY3ZVHkcIE2y5hO2XEd4Itm1JviDCSe7B2
+ 3cFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Tl/1T7NIaqL4l1+3Mwst7zbtCSxIlw7ws13tPycf0es=;
+ b=arXuiUh2VNSBVE7VIgCGvVUwQc8+9rLX4A+svazYxV2ne+VZAIkShbMt7WqHXx0aB7
+ ObOkZQz85XI1MeZEubJhKdK8jzkI5391aN96x8Km2GFgxBEPaj9g9pcQUDFLaf0aSARM
+ aimGNHb1aJAg2yWMmxI4a1ENoYFI06wOLu3VSfK6uurtbdmAbLiuchssFGi/qceQ7MAN
+ VOsnJ3mXzgEzmxmdDFNY0lB9HHMonuZJ2T7iEefPRbP7ip75KAIoIiRr6OfLDMYU9c+7
+ Z8amHiInzTqT8WaEPH/gyUp7paRP7D7SMpABp+317hXg85xOW3AB3TtW2Bec3okWr3JC
+ ydBA==
+X-Gm-Message-State: AOAM533E76tEO3lFhrdINJ1xACuZpgx+iMGyUYpHBYz7REsMUtZgQ1KT
+ rWZ47aGbJxgPmT51Ltfy+Wh+cQ==
+X-Google-Smtp-Source: ABdhPJzk4A92gCystc5JXkTrcAbyQD6cFbseszX9UrzJxwbDzAnpq06dI5zrIS7mDT+49C7Jnz1psQ==
+X-Received: by 2002:a1c:2:: with SMTP id 2mr32474546wma.113.1619627446326;
+ Wed, 28 Apr 2021 09:30:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y8sm381625wru.27.2021.04.28.09.30.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Apr 2021 09:30:45 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A7C3E1FF7E;
+ Wed, 28 Apr 2021 17:30:44 +0100 (BST)
+References: <20210427185524.281883-1-thuth@redhat.com>
+User-agent: mu4e 1.5.12; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] cirrus.yml: Fix the MSYS2 task
+Date: Wed, 28 Apr 2021 17:30:26 +0100
+In-reply-to: <20210427185524.281883-1-thuth@redhat.com>
+Message-ID: <87a6pis763.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210427204848.ubgncujxjxcufpul@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,55 +87,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 27, 2021 at 04:48:48PM -0400, Eduardo Habkost wrote:
-> On Mon, Jan 11, 2021 at 03:33:32PM -0500, Igor Mammedov wrote:
-> > It is not safe to pretend that emulated NVDIMM supports
-> > persistence while backend actually failed to enable it
-> > and used non-persistent mapping as fall back.
-> > Instead of falling-back, QEMU should be more strict and
-> > error out with clear message that it's not supported.
-> > So if user asks for persistence (pmem=on), they should
-> > store backing file on NVDIMM.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> I'm queueing this for 6.1, after changing "since 6.0" to "since 6.1".
-> 
-> Sorry for letting it fall through the cracks.
 
-This caused build failures[1] and I had to apply the following
-fixup.
+Thomas Huth <thuth@redhat.com> writes:
 
-[1] https://gitlab.com/ehabkost/qemu/-/jobs/1216917482#L3444
+> The MSYS2 task in the Cirrus-CI is currently failing with error messages
+> like this:
+>
+>  warning: database file for 'ucrt64' does not exist (use '-Sy' to downloa=
+d)
+>  :: Starting core system upgrade...
+>   there is nothing to do
+>  :: Starting full system upgrade...
+>  error: failed to prepare transaction (could not find database)
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/system/deprecated.rst | 1 +
- 1 file changed, 1 insertion(+)
+Ahh I missed the earlier error. Queued to testing/next, thanks.
+<snip>
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index cc8d810be1a..c55c4bceb00 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -257,6 +257,7 @@ is (a) not DAX capable or (b) not on a filesystem that support direct mapping
- of persistent memory, is not safe and may lead to data loss or corruption in case
- of host crash.
- Options are:
-+
-     - modify VM configuration to set ``pmem=off`` to continue using fake NVDIMM
-       (without persistence guaranties) with backing file on non DAX storage
-     - move backing file to NVDIMM storage and keep ``pmem=on``
--- 
-2.30.2
-
--- 
-Eduardo
-
+--=20
+Alex Benn=C3=A9e
 
