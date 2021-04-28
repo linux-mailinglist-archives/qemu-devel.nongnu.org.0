@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5456B36D9D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:51:20 +0200 (CEST)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05B836D9FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:00:27 +0200 (CEST)
+Received: from localhost ([::1]:50424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblX5-0001vq-EP
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
+	id 1lblfu-0002XE-RF
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:00:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lblVQ-0000vm-Qq
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:49:36 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:46025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lblVP-00066i-67
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:49:36 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- gc22-20020a17090b3116b02901558435aec1so5535706pjb.4
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GbDXv+L+U69Nr+QEnLbTORfD6v6+5G+BjzeX0aU6qEQ=;
- b=IzIuxmRr2FSSAcK1O/OeJdiw6XRkTB7C8dKTmrMcXDZR1jG0lh2RPo5fY32fmp/fBc
- kAlOi9HmgJqrD8PoudvpLSG2PYGtmz7mxUClIhd9/LKdvjEbpvsPpMpMU1zsIhFa/AMM
- WlpGd1qM4bI98vuX5GkIF5w3MAotyotVYDyRmo5SAK/q60kdMC9F6aKHHKhGxLlzVUwx
- 0Z9g6mhnqZaoCQD8rrvdL/Ta3tbO1pQAuS8yGOC89Opa3ote33RsUqaxUoR/PmwEMHIq
- gK2y8SSB3ZMH2ZjMHus5VCoToppX70AI9MG3ckl7rUUcExtG44CZW+emERt3Y4olImJJ
- 3rrA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblXD-0002hE-4u
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:51:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblX7-000786-6V
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:51:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619621479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g5UVnzr3otyLygfTMQs43mdwu2iWIZCyu67yAj8n1NY=;
+ b=Gg74fsAp2WAiqpLMdwR3kFgdQgjGEuMI9Wa1F5gUtoynGXgFy2mCZNInWBJio1Z1Rz5vyu
+ xQKpw9E6rZraqROHM6t06tGI7xo3jCge5CsNQBDybrOoTiV5xH822wD1wPtOT0d1ifFmSW
+ c1X63rJOLvM9lOtncxUFmLaKwHh5PMU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-UYKK2wcBPGWBzwhvT5ADNw-1; Wed, 28 Apr 2021 10:51:15 -0400
+X-MC-Unique: UYKK2wcBPGWBzwhvT5ADNw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x10-20020adfc18a0000b029010d83c83f2aso220756wre.8
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:51:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GbDXv+L+U69Nr+QEnLbTORfD6v6+5G+BjzeX0aU6qEQ=;
- b=Vlbte/2ZmY6bkDbWzQ2lQEeYamT2REW1x1Wt1czzo7BDsUDrKAc4Gm8mPrNvXj6/cf
- 9D+Eyk+NhTQRAm3OjNCdlKkuNv4NvbbgrC8BScb2pk7+BMDyPmJx5Z4YWMWdXuj8zC5C
- O7ABpUl8XrIGBWeJA9C5alP+gm7ibYcPxki4LDUIs4HlhjFF/hhpMt8BrhK3LLEEBrLd
- jSWHpKHT6wUQ4brMbuMXMFCAObYh28oJJFUU1tQMRuwI4TJUlXt+pUVtLK5SLg74y+Od
- 2hh8T5Rs/R3SChUoxzezBNwYv4xsaEFyWXV66KeJxIIhEInDkEPgTraEtcYhOlhJL4eZ
- 8ziQ==
-X-Gm-Message-State: AOAM533C8sRitdwI/8EKbPbxBk09fcMWvzRdNXg24xe2ZW0IvAT6p84L
- OWoqo2tfU0BzIcmm/QVcxctezw==
-X-Google-Smtp-Source: ABdhPJz3ngeQf2+E8hY4sVhCqyd2alGKV8+fcsAQLhhbPZtnXpwgGs/t+sTw59vcjptOjrHEDGwXfA==
-X-Received: by 2002:a17:90a:f68f:: with SMTP id
- cl15mr4421408pjb.99.1619621373807; 
- Wed, 28 Apr 2021 07:49:33 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id b7sm143708pjq.36.2021.04.28.07.49.32
+ bh=g5UVnzr3otyLygfTMQs43mdwu2iWIZCyu67yAj8n1NY=;
+ b=YbeYhZUqo2BqZt7Au/TLMsY8FErb5KrvaLxOvlgRUhkk9xrJSelxSvzR8dX1HRk8V5
+ AFDB6Enb0oDeWMUbNmLU59kMica8KQuvDD64gyRC0nTVXigAyOT3hWMyeYNPI/TPw+RL
+ 3eO9k5a3mztjSACA7/beDGco4LPlPFxlfDhmYrriumQLa8ZR7vjLPU2XgEsCUyvJPVIQ
+ Xq244o08NoLipkRITYnylSC6Q6z18vPCKbFNKpzq0HYlJ570bFXK6bJ+7BTIp+kyp5Uk
+ jv6KxemG7lS6267xKda2VrSp8zH852VWtfyMX9oD05TnmCppaCVbR851kLl1Rbc7Z+Ch
+ qQIw==
+X-Gm-Message-State: AOAM5337y8HvqEyBe9aCcgUxVIlK7yL4Vl7HpzdO5nZD3WvGP1I4tFHR
+ fccLCSpLAI+ipOtJdbyCzjW4Si2xCE8X7QmSxx2AGT+rRANjPkGz/oLPlKUfyfqPGV6mH91nKip
+ sxqpMIxScz1o+10A=
+X-Received: by 2002:a5d:5141:: with SMTP id u1mr36840539wrt.207.1619621474873; 
+ Wed, 28 Apr 2021 07:51:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpK9tCAeR/cYyTSnIJ0XbTRNebsXcXUlnzjTsVI3cCYGmm85KlrQHSXILOJoq1iSWYdWgT0Q==
+X-Received: by 2002:a5d:5141:: with SMTP id u1mr36840521wrt.207.1619621474737; 
+ Wed, 28 Apr 2021 07:51:14 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id i11sm243503wrp.56.2021.04.28.07.51.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 07:49:33 -0700 (PDT)
-Subject: Re: [PATCH v2 3/4] hw/sparc64: Fix code style for checkpatch.pl
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210428141655.387430-1-f4bug@amsat.org>
- <20210428141655.387430-4-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <54e2357c-8774-2152-51c0-03c56c5f8f80@linaro.org>
-Date: Wed, 28 Apr 2021 07:49:31 -0700
+ Wed, 28 Apr 2021 07:51:14 -0700 (PDT)
+Subject: Re: [PATCH] tools/meson.build: Error on enabling virtiofsd and
+ have_system is false
+To: Connor Kuehl <ckuehl@redhat.com>, Mahmoud Mandour
+ <ma.mandourr@gmail.com>, qemu-devel@nongnu.org
+References: <20210428133507.52066-1-ma.mandourr@gmail.com>
+ <e1059890-79ab-eae6-1db1-5c4033f7b584@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <55319a65-1f67-f767-3091-cd3207c8c949@redhat.com>
+Date: Wed, 28 Apr 2021 16:51:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210428141655.387430-4-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <e1059890-79ab-eae6-1db1-5c4033f7b584@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,22 +101,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: pbonzini@redhat.com, dgilbert@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/21 7:16 AM, Philippe Mathieu-Daudé wrote:
-> We are going to move this code, fix its style first.
+On 4/28/21 3:56 PM, Connor Kuehl wrote:
+> On 4/28/21 8:35 AM, Mahmoud Mandour wrote:
+>> Previously, on configuring with --enable-virtiofsd and specifying
+>> a target list that does not contain a full-system emulation target,
+>> a spurious error message is emitted. This patch introduces a
+>> meaningful error message for such case.
+>>
+>> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+>> ---
+>>  tools/meson.build | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/tools/meson.build b/tools/meson.build
+>> index 3e5a0abfa2..f6a4ced2f4 100644
+>> --- a/tools/meson.build
+>> +++ b/tools/meson.build
+>> @@ -5,7 +5,9 @@ have_virtiofsd = (targetos == 'linux' and
+>>      'CONFIG_VHOST_USER' in config_host)
+>>  
+>>  if get_option('virtiofsd').enabled()
+>> -  if not have_virtiofsd
+>> +  if not have_system
+>> +    error('virtiofsd requires full-system emulation target(s)')
 > 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   hw/sparc64/sparc64.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
+> I am not entirely sure if this is true. The error message before this
+> patch is applied is:
+> 
+> 	../tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd
+> 	requires libcap-ng-devel and seccomp-devel
+> 
+> From what I know about virtiofsd, I know it definitely depends on those
+> two things.
+> 
+> Is it possible that the error here is that the top-level meson.build is
+> not properly collecting the seccomp and libcap-ng dependencies if the
+> configure invocation doesn't require a system emulation target?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This series should fix your problems:
+https://patchew.org/QEMU/20210428144813.417170-1-philmd@redhat.com/
 
-r~
 
