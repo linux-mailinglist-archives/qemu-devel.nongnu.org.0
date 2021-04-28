@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B598836CFE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 02:07:15 +0200 (CEST)
-Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08E136CFE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 02:08:57 +0200 (CEST)
+Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbXjW-0008FI-AP
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 20:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
+	id 1lbXlA-0000j0-OM
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 20:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbXi1-0007jP-2z
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 20:05:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41666)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbXkI-0000H9-2Q
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 20:08:02 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lbXhy-0000Cm-OX
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 20:05:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lbXhw-0003ak-FL
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 00:05:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 667742E8024
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 00:05:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lbXkE-0001hE-Av
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 20:08:01 -0400
+Received: by mail-pg1-x533.google.com with SMTP id z16so2582245pga.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 17:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QUeIwPzJ4wfzKmUFSs3zia1ajsMWz/DDoyNx6rk0OyY=;
+ b=Dr6XdPgscbV86QMQSLJ+CupZoVVgAxuiUMl2HYrK5I5NBNMM+agtDoM5OZlNofwk5B
+ NzLlPZaxYpBqFPntCevcLuRxMkl9wyX13fZq8rLPmTihj+Wf++ZR/V10G7T79utslN1Y
+ MBQ2mzNBM5avv/Q2QSdIfhXKBjm1moNay1fku13V+Pilz11zMFUVzLAakORYsCS2fHgM
+ RsHXSErp83b/JfrnI8ZwcvJ0akHsY8ik2clnKWF2dvs+olEuuC0QtXFEuWKqaWmWMnj0
+ eJBtxMx3utG/NLprqMAgpKVwUTAeUhAgzX2Y2Ed8/MKJDpciLCOtwH7mk4q/Z3lS5Ab6
+ nzUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QUeIwPzJ4wfzKmUFSs3zia1ajsMWz/DDoyNx6rk0OyY=;
+ b=hI4IQOBhsnr+iLm86htwVugd8m3j2SlwMAkrU8Uwy73w8MF8bdhd2Q7Qzxrg60sFgo
+ zXQkIuwvyiPgepn14856Q72K+VG4DqbwFLBxTn0TphMom/ljjaiWnzl/IgaGmsK8QKzJ
+ +TEJipOr84RFquVr27WPsrQ99Af+ns9s4Hvh+IIH0L8F79V0ZyzHty6+zbU9dx3WLGQt
+ Ea+gwck6t4+dAExeiFyKzZ8SA13VraRkWk3QSxqlpf3rleLIRSlc8SsAyS5nfkWaDgdw
+ RktIoTVNQmxYEDPtQiTL+tWx2xBZsAcyg4ma21PHxogCxpL2RamIAiuWp00pLCEMY60y
+ 7vmA==
+X-Gm-Message-State: AOAM531OnMcJ9GXeFoLE83C/Cvpog/bZyn/o3RFT30h3fXUVwJYX6bp1
+ tEzfccCCnc8NGRI4ADTT6oUtRQ==
+X-Google-Smtp-Source: ABdhPJx6CAr536aYpqZNjiJGiZ2GgcstZtO4bp/f/Fm8Nv+mt0E50zdR+3UZJ4Sqa1aPv+wDVA57pA==
+X-Received: by 2002:a63:2265:: with SMTP id t37mr23534535pgm.452.1619568475818; 
+ Tue, 27 Apr 2021 17:07:55 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id z188sm695347pgb.89.2021.04.27.17.07.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 17:07:52 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/2] hw/sparc: Allow building without the leon3 machine
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210427192658.266933-1-f4bug@amsat.org>
+ <20210427192658.266933-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6300f36d-077b-491f-5ef1-ed2126a2db7c@linaro.org>
+Date: Tue, 27 Apr 2021 17:07:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Apr 2021 23:58:46 -0000
-From: Vitaly Buka <1926044@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: arm mte user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rth vitalybuka
-X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
-X-Launchpad-Bug-Modifier: Vitaly Buka (vitalybuka)
-References: <161931792564.17271.10395230459178895166.malonedeb@chaenomeles.canonical.com>
- <161956001517.10625.2379653538605536900.malone@soybean.canonical.com>
-Message-Id: <CAMr+8yQy-QZrqOhEpaFB1sQ0iuT2gncL5r4eNzTSWON_noZMzg@mail.gmail.com>
-Subject: Re: [Bug 1926044] Re: QEMU-user doesn't report HWCAP2_MTE
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f9f562f07f129de414c16be22a405ff0964e0018"; Instance="production"
-X-Launchpad-Hash: 98b9cc612ab85369f5b78eeae8f6f332cf46d773
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210427192658.266933-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,116 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926044 <1926044@bugs.launchpad.net>
+Cc: Fabien Chouteau <chouteau@adacore.com>, Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for the quick fix!
+On 4/27/21 12:26 PM, Philippe Mathieu-Daudé wrote:
+> When building without the leon3 machine, we get this link failure:
+> 
+>    /usr/bin/ld: target_sparc_int32_helper.c.o: in function `leon3_irq_manager':
+>    target/sparc/int32_helper.c:172: undefined reference to `leon3_irq_ack'
+> 
+> This is because the leon3_irq_ack() is declared in hw/sparc/leon3.c,
+> which is only build when CONFIG_LEON3 is selected.
+> 
+> Fix by moving the leon3_cache_control_int() / leon3_irq_manager()
+> (which are specific to the leon3 machine) to hw/sparc/leon3.c.
+> Move the trace events along (but don't rename them).
+> 
+> leon3_irq_ack() is now locally used, declare it static to reduce
+> its scope.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+> RFC: The problem is we have hardware specific code in the
+> architectural translation code. I wish there was a better
+> alternative rather than moving this code to hw/sparc/.
+> ---
 
-On Tue, Apr 27, 2021 at 2:55 PM Richard Henderson <
-1926044@bugs.launchpad.net> wrote:
+This one seems dead obvious.  I think this code should have been in 
+hw/sparc/leon3.c to begin with.
 
->
-> https://patchew.org/QEMU/20210427214108.88503-1-richard.henderson@linaro.=
-org/
->
-> This has missed 6.0, but should be acceptable to roll into 6.0.1.
->
-> --
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1926044
->
-> Title:
->   QEMU-user doesn't report HWCAP2_MTE
->
-> Status in QEMU:
->   In Progress
->
-> Bug description:
->   Reproducible on ffa090bc56e73e287a63261e70ac02c0970be61a
->
->   Host Debian 5.10.24 x86_64 GNU
->
->   Configured with "configure --disable-system --enable-linux-user
->   --static"
->
->   This one works and prints "OK" as expected:
->   clang tests/tcg/aarch64/mte-3.c -target aarch64-linux-gnu
-> -fsanitize=3Dmemtag -march=3Darmv8+memtag
->   qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out && echo OK
->
->
->   This one fails and print "0":
->   cat mytest.c
->   #include <stdio.h>
->   #include <sys/auxv.h>
->
->   #ifndef HWCAP2_MTE
->   #define HWCAP2_MTE (1 << 18)
->   #endif
->
->   int main(int ac, char **av)
->   {
->       printf("%d\n", (int)(getauxval(AT_HWCAP2) & HWCAP2_MTE));
->   }
->
->
->   clang mytest.c -target aarch64-linux-gnu  -fsanitize=3Dmemtag
-> -march=3Darmv8+memtag
->   qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1926044/+subscriptions
->
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926044
-
-Title:
-  QEMU-user doesn't report HWCAP2_MTE
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Reproducible on ffa090bc56e73e287a63261e70ac02c0970be61a
-
-  Host Debian 5.10.24 x86_64 GNU
-
-  Configured with "configure --disable-system --enable-linux-user
-  --static"
-
-  This one works and prints "OK" as expected:
-  clang tests/tcg/aarch64/mte-3.c -target aarch64-linux-gnu  -fsanitize=3Dm=
-emtag -march=3Darmv8+memtag
-  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out && echo OK
-
-  =
-
-  This one fails and print "0":
-  cat mytest.c
-  #include <stdio.h>
-  #include <sys/auxv.h>
-
-  #ifndef HWCAP2_MTE
-  #define HWCAP2_MTE (1 << 18)
-  #endif
-
-  int main(int ac, char **av)
-  {
-      printf("%d\n", (int)(getauxval(AT_HWCAP2) & HWCAP2_MTE));
-  }
-
-  =
-
-  clang mytest.c -target aarch64-linux-gnu  -fsanitize=3Dmemtag -march=3Dar=
-mv8+memtag
-  qemu-aarch64 --cpu max -L /usr/aarch64-linux-gnu ./a.out
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926044/+subscriptions
+r~
 
