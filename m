@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1312336D46A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 11:04:15 +0200 (CEST)
-Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367C636D481
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 11:06:54 +0200 (CEST)
+Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbg7B-0001Fp-B0
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 05:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
+	id 1lbg9l-0002Px-Ag
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 05:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lbg5p-0000r2-OO
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 05:02:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lbg5l-0001Yp-Li
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 05:02:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619600564;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iRcKeuTP9bGXmQHjcAwL2Bn0WaVyNb7aRCc7v/7K2VI=;
- b=EkyyrW9PgVIr39B/yDtuCznxi9ivp+cEL2k3sdhsKjlcvfC2/HIM9HATtVVO9vChzkCfGb
- JeQm8jL4i/aU4oAUSOJrWV9qn7cufSvuOagjy69tI0axQSrrBBZejkyTv0fSmaGOzUrVES
- bXMlW3BxHXg0d1HY0PAU9ahtYN2R53U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-dsEnaTIePviXJ8HNULeTRw-1; Wed, 28 Apr 2021 05:02:39 -0400
-X-MC-Unique: dsEnaTIePviXJ8HNULeTRw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F352107ACC7;
- Wed, 28 Apr 2021 09:02:38 +0000 (UTC)
-Received: from redhat.com (ovpn-113-129.ams2.redhat.com [10.36.113.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DAEE19C45;
- Wed, 28 Apr 2021 09:02:36 +0000 (UTC)
-Date: Wed, 28 Apr 2021 10:02:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: socket.c added support for unix domain socket datagram transport
-Message-ID: <YIkkqZHfMDAUlitX@redhat.com>
-References: <1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com>
- <20210423172940.14f48b49@elisabeth> <YIL0Ehmfgc1J9Ci9@redhat.com>
- <20210423185408.6d5d14f0@redhat.com> <YIa4iGzTl+ecfbzH@redhat.com>
- <20210427235229.5cf8711c@elisabeth>
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1lbg8N-0001xO-PH
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 05:05:27 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1lbg8L-00039V-Cj
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 05:05:27 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id h4so53151189wrt.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 02:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=adacore-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nn/NHPqnxAetQqES2AeTF8N6lv/vJYqFMVwWFP7NXAg=;
+ b=aPjvCZ6iF+2NPNNemnwOYvSOJm4e1onfVyT4UUbpNFl+jk9nTBoWBEHw/PUK0T/Oy/
+ H/2TlwC61RbGBSrM2SnkG0NkOxvNDtYieK5urS9SXCcCqycVmzTCPmwnXyQuGvtlTXho
+ 3ApeTmkSWH5x6XhFxrVv22NdAblXvbmjgkuyEPetMILfcMlBF6eCHwpj9Ea99nPRgfzs
+ 8cevGmoHKdVdrob4YWqU6hrv6LOZW8uJgNcsi8+v35BlCnsFivt9GNAWEM1ZBnhzeTry
+ hMe/nFj6V2YNIpq9jCLYwVcsHFqldpAwb1/yePCH/9gFqwBIE3vlPkGi0P+xot96ceHa
+ FGQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nn/NHPqnxAetQqES2AeTF8N6lv/vJYqFMVwWFP7NXAg=;
+ b=YPPXHMp6Rzr1zt8cdRP7+Mrsj8AiEEBx8dEsr5+UVD5i9hr3zta6P/Z+tZwDpC/Oam
+ je5nA7CXCYR+0K5B3qkc4RlcNck2IMFnE0xSXDo8zTN/qgUVKhPyEwBfLF1HlqJP2pMq
+ QwURConzw6vQDAzFtkTDecDXa1NypLZ4ykDw9MIgMNdKFFKaGVFe0me7A+axjq3sBukZ
+ pggVQF+Uc9FWImg3uO9wIhEaSBkNRfAmpvZ95pHnqGDsgJGP3erERFN/2klZu3YTTSVp
+ XFRAFY8+8OdIdIaIGqs+tf8P5wWSH/NzDoUFAqodwteIitIEV7YXuVAg6vWsOei44ave
+ yAfQ==
+X-Gm-Message-State: AOAM532TtDI4Zczvwb8rbAaD2m8BSXiXihpWDLqZ7Fm+WbBbXMOfjaXA
+ HM8y11DoYQWPZXFQFd5hFpSfEg==
+X-Google-Smtp-Source: ABdhPJxcoWY15yy3jZEcML49akQrrJSnL5j4CPlx1ZIdDnpTb9JjudV8pTtVeJfBcWOjup+5NcyGtA==
+X-Received: by 2002:adf:f84e:: with SMTP id d14mr25962382wrq.342.1619600722820; 
+ Wed, 28 Apr 2021 02:05:22 -0700 (PDT)
+Received: from localhost.localdomain
+ (lfbn-tou-1-1482-80.w90-89.abo.wanadoo.fr. [90.89.5.80])
+ by smtp.gmail.com with ESMTPSA id u14sm7117074wrq.65.2021.04.28.02.05.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 02:05:22 -0700 (PDT)
+Subject: Re: [PATCH 0/2] hw/sparc: Kconfig fixes to build with/without the
+ leon3 machine
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210427192658.266933-1-f4bug@amsat.org>
+From: Fred Konrad <konrad@adacore.com>
+Message-ID: <8367c951-d068-c87d-1171-df0548591767@adacore.com>
+Date: Wed, 28 Apr 2021 11:05:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210427235229.5cf8711c@elisabeth>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20210427192658.266933-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=konrad@adacore.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,236 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Ralph Schmieder <ralph.schmieder@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 27, 2021 at 11:52:29PM +0200, Stefano Brivio wrote:
-> On Mon, 26 Apr 2021 13:56:40 +0100
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > The pain we're feeling is largely because the design of the net
-> > option syntax is one of the oldest parts of QEMU and has only
-> > been very partially improved upon. It is certainly not using
-> > QAPI best practice, if we look at this:
-> > 
-> >   { 'struct': 'NetdevSocketOptions',
-> >     'data': {
-> >       '*fd':        'str',
-> >       '*listen':    'str',
-> >       '*connect':   'str',
-> >       '*mcast':     'str',
-> >       '*localaddr': 'str',
-> >       '*udp':       'str' } }
-> > 
-> > Then some things come to mind
-> > 
-> >  - We're not provinding a way to say what kind of "fd" is
-> >    passed in - is it a UDP/TCP FD, is it a listener or
-> >    client FD, is it unicast or multicast FD. Though QEMU
-> >    can interogate the socket to discover this I guess.
+
+
+Le 4/27/21 à 9:26 PM, Philippe Mathieu-Daudé a écrit :
+> This series fixes link failure when building either the leon3
+> machine or the sun4m ones.
 > 
-> Some form of probing was already added in commit 894022e61601 ("net:
-> check if the file descriptor is valid before using it"). Does qemu need
-> to care, though, once the socket is connected? That is, what would it
-> do with that information?
-
-The only thing it really has to care about is the distinction between
-a listener socket and a data socket.
-
-> >  - All of the properties there except "fd" are encoding two values
-> >    in a single property - address + port. This is an anti-pattern
-> > 
-> >  - No support for ipv4=on|off and ipv6=on|off flags to control
-> >    dual-stack usage.
+> The problem is we have hardware specific code in the architectural
+> translation code. Move this code to hw/sparc/.
 > 
-> I wonder if this needs to be explicit -- it might simply derive from
-> addressing.
-
-This is explicitly everywhere we use sockets in QEMU - it is part
-of the SocketAddress QAPI schema.
-
-Consider an address "::", this is an IPv6 address, but depending on
-how you configure the socket it can accept either IPv6-only or both
-IPv6 and IPv4 incoming connections.
-
-If passing a hostname instead of a raw address, then  the ipv4/ipv6
-flags control whether we use all the returned DNS entries.
-
-> > The "right" way to fix most of this long term is a radical change
-> > to introduce use of the SocketAddress struct.
-> > 
-> > I could envisage something like this
-> > 
-> >   { 'enum': 'NetdevSocketMode',
-> >     'data':  ['dgram', 'client', 'server'] }
-> > 
-> >   { 'struct': 'NetdevSocketOptions',
-> >     'data': {
-> >       'addr':      'SocketAddress',
-> >       '*localaddr': 'SocketAddress',
-> >       '*mode':      'NetdevSocketMode' } }
-> > 
-> > 
-> >  - A TCP client
-> > 
-> >       addr.type = inet
-> >       addr.host = 192.168.1.1
-> >       mode = client
-> >
-> >  - A TCP server on all interfaces
-> > 
-> >       addr.type = inet
-> >       addr.host = 
-> >       mode = server
-> > 
-> >  - A TCP server on a specific interface
-> > 
-> >       addr.type = inet
-> >       addr.host = 192.168.1.1
-> >       mode = server
-> > 
-> >  - A TCP server on all interfaces, without IPv4
-> > 
-> >       addr.type = inet
-> >       addr.host = 
-> >       addr.has_ipv4 = true
-> >       addr.ipv4 = false
-> >       mode = server
+> The link failures can be reproduced doing:
 > 
-> ...perhaps it would be more consistent with other consolidated
-> practices to have addr.type = inet | inet6... and perhaps call it
-> addr.family.
->
-> Also, for "mode" (that could be called "type" to reflect
-> parameters for socket(2)), we should probably support SOCK_SEQPACKET as
-> well ("seq"?).
+>    $ echo CONFIG_LEON3=y > default-configs/devices/sparc-softmmu.mak
+>    $ configure --without-default-devices
+>    $ ninja qemu-system-sparc
 
-The naming I use here is determined by the QAPI 'SocketAddress'
-struct which has a 'type' field, and separate 'ipv4' and 'ipv6'
-flags.
+Indeed:
 
+libqemu-sparc-softmmu.fa.p/target_sparc_win_helper.c.o: \
+In function `cpu_put_psr':
+xxx/qemu/build/../target/sparc/win_helper.c:91: \
+   undefined reference to `cpu_check_irqs'
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+>    $ ./qemu-system-sparc -M leon3 -S
 > 
-> >  - A UDP unicast transport
-> > 
-> >       addr.type = inet
-> >       addr.host = 192.168.1.1
-> >       mode = dgram
-> > 
-> >  - A UDP unicast transport with local addr
-> > 
-> >       addr.type = inet
-> >       addr.host = 192.168.1.1
-> >       localaddr.type = inet
-> >       localaddr.host = 192.168.1.2
-> >       mode = dgram
-> > 
-> >  - A UDP multicast transport
-> > 
-> >      addr.type = inet
-> >      addr.host = 224.0.23.166
-> >      mode = dgram
-> > 
-> >  - A UNIX stream client
-> > 
-> >       addr.type = unix
-> >       addr.path = /some/socket
-> >       mode = client
-> > 
-> >  - A UNIX stream server
-> > 
-> >       addr.type = unix
-> >       addr.path = /some/socket
-> >       mode = server
-> > 
-> >  - A UNIX dgram transport
-> > 
-> >       addr.type = unix
-> >       addr.path = /some/socket
-> >       mode = dgram
-> > 
-> > 
-> > Now, of course you're just interested in adding UNIX socket support.
-> > 
-> > This design I've outlined above is very much "boiling the ocean".
-> > Thus I'm not requesting you implement this, unless you have a strong
-> > desire to get heavily involved in some QEMU refactoring work.
+> or:
 > 
-> I don't really have a strong desire to do that, but to my naive eyes it
-> doesn't look that complicated, I'll give it a try.
-
-The hard bit is always the backwards compatibility for existing usage....
-
-
-> > The key question is whether we try to graft UNIX socket support onto
-> > the existing args ("connect"/"listen") or try to do something more
-> > explicit.
-> > 
-> > Given the desire to have both dgram + stream support, I'd be inclined
-> > to do something more explicit, that's slightly more aligned with a
-> > possible future best praactice QAPI design
-> > 
-> > 
-> > IOW, we could take a simplified variant of the above as follows:
-> > 
-> > 
-> >   { 'enum': 'NetdevSocketMode',
-> >     'data':  ['dgram', 'client', 'server'] }
-> > 
-> >   { 'struct': 'NetdevSocketOptions',
-> >     'data': {
-> >       '*fd':        'str',
-> >       '*listen':    'str',
-> >       '*connect':   'str',
-> >       '*mcast':     'str',
-> >       '*localaddr': 'str',
-> >       '*udp':       'str',
-> >       '*path':      'str' } }
-> >       '*localpath': 'str' } }
-> > 
-> > 
-> > Cli examples:
-> > 
-> >  * Unix stream client
-> > 
-> >   -netdev socket,path=/wibble,mode=client
-> > 
-> >  * Unix stream server
-> >  
-> >   -netdev socket,path=/wibble,mode=server
-> > 
-> >  * Unix datagram 
-> > 
-> >   -netdev socket,path=/wibble,mode=dgram
-> >   -netdev socket,path=/wibble,localpath=/fish,mode=dgram
+>    $ echo CONFIG_SUN4M=y > default-configs/devices/sparc-softmmu.mak
 > 
-> I think this looks reasonable, I'm not sure about "localpath",
-> because also /wibble is local in some sense.
-
-"local" as in local to the process, rather than "local" as in
-local to the host.
-
-> I don't know what would be a good implementation practice to keep the
-> current options available -- should this be done with some new code
-> that applies a translation to the new parameters?
-
-At the CLI parser side we'd just do translation to the new QAPI style
-usually, but I'm not sure how to handle the existing QAPI stuff though.
-
-Perhaps just add new fields to "NetdevSocketOptions" and deprecate
-existing ones that become obsolete.
-
-The only other alternative is a parallel type to completely obsolete
-NetdevSocketOptions, but I'm not sure what we'd call that.
-
-I had added Markus / Eric to CC to get advice on QAPI side here..
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> Philippe Mathieu-Daudé (2):
+>    hw/sparc: Allow building the leon3 machine stand-alone
+>    hw/sparc: Allow building without the leon3 machine
+> 
+>   target/sparc/cpu.h          |  6 ----
+>   hw/sparc/irq.c              | 61 +++++++++++++++++++++++++++++++++++++
+>   hw/sparc/leon3.c            | 37 +++++++++++++++++++++-
+>   hw/sparc/sun4m.c            | 32 -------------------
+>   target/sparc/int32_helper.c | 37 ----------------------
+>   hw/sparc/meson.build        |  1 +
+>   hw/sparc/trace-events       |  2 ++
+>   target/sparc/trace-events   |  4 ---
+>   8 files changed, 100 insertions(+), 80 deletions(-)
+>   create mode 100644 hw/sparc/irq.c
+> 
 
