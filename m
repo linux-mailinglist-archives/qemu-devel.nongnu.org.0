@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C47036DFEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:53:00 +0200 (CEST)
-Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1040C36DFF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:55:44 +0200 (CEST)
+Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbqF1-0007LK-CH
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
+	id 1lbqHf-0002H5-3q
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpx4-0005wb-HD
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:27 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52737)
+ id 1lbpx8-00060x-Mo
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:30 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpwv-0004fP-87
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:26 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id lr7so15201704pjb.2
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:16 -0700 (PDT)
+ id 1lbpwv-0004gC-UI
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:29 -0400
+Received: by mail-pl1-x629.google.com with SMTP id 20so29483362pll.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cm5TMYYSdbHhrEfgw+Q+FUKj8miS2gdnBD1hAWEVD3E=;
- b=X0KPTs/JjEjv/hdhe+C0sEdi+C4DTA3noNV8I7esXJEmsML3YRfbWScBmz0QigNdKg
- KmrbIeXkRJm2k+sVk12FXLfD3dkWbD8dmrx7QqyHuZ6Ieq+3IlWJ9RTSMhvwq5J/ME5s
- AaYYmaaiLovRhL94HHs4KAy+ntM50TE39qd8jFPsDOg+WwreOSGLYIfsL8T9/RewUkNq
- v6Ahv2PehCFrCGhTYz8zPYUCUDNJ4uOgWixx7xZuo5D4hQy2JpXj/ZAcngjjajsmjJP/
- gqIUM4y3cZ2/N6QPbGDcTgT0kLzE80IJSybdk5RLlyOYnost0oTBEgmj7ybaNpe+xMHH
- JJJQ==
+ bh=vh0kfN5CfXJgIuyczvf+DwPn2SrN7UGjddvSaX9nPq0=;
+ b=UuIAdgLHbb3Kb7qU3A+f+M2tVJ/6JhxlzSzxzerbusJUr5b5s89R5g3eDqZ+Z+ieXW
+ KIeJWR+pbZhviZB3FP5aghJkcIbfd/LUISELu54NoW/Bs+YB1FZGNqxitism6AWFJ3l+
+ iyvxN6XJdrgiNAr/rq9xkjuHJ/WFDAbm7iA5oVbWtCucVamm0mGcLV/IWkgk3XxoxOg2
+ Lgdu0j0nYm/R4e7sQSHBsamTvIVsCt07yabVVmx1eCeD+PMiQiB75EuoIRNPYVtDa+ds
+ ep9MhplDOe7YeuHGvduGx4pOpAEp7KJ7iZYrlBUJ1U8C+jEB0DEwsQIXy5sjyPvYcojx
+ wt+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cm5TMYYSdbHhrEfgw+Q+FUKj8miS2gdnBD1hAWEVD3E=;
- b=UwHniMyTw5sz3NjDCNG9kPco9pDYd9vH03y0X9BUEYZFJ3S6os9KwpwhCyMwM8RrB2
- kCkODzhGsSKM5y1EPWaw7aCZYds0wJo1PXCO49/CPDJhL/Dbap5uH4USKOHpuug14x2l
- M3wxlMkEf2Kpf445ErnSWJTi+jYPcr/qGmdxBI0w6xVbeZZhmNX3VoNXXhyh1TKPUN7C
- dZhhfcIJQoJ2dmgfK/6LtuZHKvy+hULH3c3LsSo0BH9OGT1kZraQfn98YkhnxKCl0DN8
- RzH1iQIA1OrTd8m2TOL/jb3QqGGrUxM0d+jWJw2cB3PcmqKb5b+4tMMpQXPJu+Ay9/FS
- u19w==
-X-Gm-Message-State: AOAM531XOme2EIZiHUKyw9j0BiM3baxxlZjVWwnDLsxSQHgGr34FBPG8
- i5+P3IWRTdTLno2HR2Nr7jPGAehltOvZEA==
-X-Google-Smtp-Source: ABdhPJyiqLG+JplrlyNivE9cPsI1+Iun3CixsFKP4BQhqYHiHMeS0MKyEtPYoevZ/OWqnE2vC5rDOQ==
-X-Received: by 2002:a17:90b:e95:: with SMTP id
- fv21mr19337108pjb.107.1619638455801; 
- Wed, 28 Apr 2021 12:34:15 -0700 (PDT)
+ bh=vh0kfN5CfXJgIuyczvf+DwPn2SrN7UGjddvSaX9nPq0=;
+ b=FZGwOZbja9e9JmThTKM1eOEIV8IQ2gp/ufCCrcy98D5M21E8Q14Y4v3fibE4A5Xjxi
+ BhAoAV3Ob/fjIcuB2B1nXiKgW1i4ma51LUWxdcWtZ6x/qBGyqJSbF+nU7mzBhOiRfsuA
+ bU/bmOcdlo/VWnfiu+XWNACidlTUDT9oYhbvwGvqsoWNtGMCpZVLAtjcn9dJUWuawy7s
+ USv+YNXh8v5Gs/UByEF+vW0wkjA7KX3iyLTBr00A8RMf6aot8hF6PnOcORvdw8ePJoVd
+ x5aIslq3IwVg7Jw+jedcTygvTZasyEA89AKN1WX60h/cns3sO788THgz5dETWNICirdE
+ BlmQ==
+X-Gm-Message-State: AOAM533ccOdaWjl4XlBInQeJAuXSUfW40e+1kF0sHyFLyTrvBRDU83A0
+ ggR7iWjSXQkHcMAV8Vf9mQIXFgzttHRW/g==
+X-Google-Smtp-Source: ABdhPJyOlhDkkgmnl+OhbIv4rNdGzaRuT1B/UVeRgoq+KVgHG0VsxiP3R2olDH4TpyiyMNUP6YDG4w==
+X-Received: by 2002:a17:90a:9409:: with SMTP id
+ r9mr34377738pjo.157.1619638456430; 
+ Wed, 28 Apr 2021 12:34:16 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id h21sm403725pfo.211.2021.04.28.12.34.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 12:34:15 -0700 (PDT)
+ Wed, 28 Apr 2021 12:34:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/15] linux-user/s390x: Set psw.mask properly for the
- signal handler
-Date: Wed, 28 Apr 2021 12:34:03 -0700
-Message-Id: <20210428193408.233706-11-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/15] linux-user/s390x: Add stub sigframe argument for
+ last_break
+Date: Wed, 28 Apr 2021 12:34:04 -0700
+Message-Id: <20210428193408.233706-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210428193408.233706-1-richard.henderson@linaro.org>
 References: <20210428193408.233706-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,38 +89,55 @@ Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that PSW_ADDR_{64,32} are called PSW_MASK_{EA,BA}
-in the kernel source.
+In order to properly present these arguments, we need to add
+code to target/s390x to record LowCore parameters for user-only.
+
+But in the meantime, at least zero the missing last_break
+argument, and fixup the comment style in the vicinity.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/s390x/signal.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ linux-user/s390x/signal.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 64a9eab097..17f617c655 100644
+index 17f617c655..bc41b01c5d 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -162,6 +162,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
- 
-     /* Set up registers for signal handler */
-     env->regs[15] = frame_addr;
-+    /* Force default amode and default user address space control. */
-+    env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
-+                  | (env->psw.mask & ~PSW_MASK_ASC);
+@@ -167,13 +167,16 @@ void setup_frame(int sig, struct target_sigaction *ka,
+                   | (env->psw.mask & ~PSW_MASK_ASC);
      env->psw.addr = ka->_sa_handler;
  
-     env->regs[2] = sig; //map_signal(sig);
-@@ -215,6 +218,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+-    env->regs[2] = sig; //map_signal(sig);
++    env->regs[2] = sig;
+     env->regs[3] = frame_addr += offsetof(typeof(*frame), sc);
  
-     /* Set up registers for signal handler */
-     env->regs[15] = frame_addr;
-+    /* Force default amode and default user address space control. */
-+    env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
-+                  | (env->psw.mask & ~PSW_MASK_ASC);
+-    /* We forgot to include these in the sigcontext.
+-       To avoid breaking binary compatibility, they are passed as args. */
+-    env->regs[4] = 0; // FIXME: no clue... current->thread.trap_no;
+-    env->regs[5] = 0; // FIXME: no clue... current->thread.prot_addr;
++    /*
++     * We forgot to include these in the sigcontext.
++     * To avoid breaking binary compatibility, they are passed as args.
++     */
++    env->regs[4] = 0; /* FIXME: regs->int_code & 127 */
++    env->regs[5] = 0; /* FIXME: regs->int_parm_long */
++    env->regs[6] = 0; /* FIXME: current->thread.last_break */
+ 
+     /* Place signal number on stack to allow backtrace from handler.  */
+     __put_user(env->regs[2], &frame->signo);
+@@ -223,9 +226,10 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+                   | (env->psw.mask & ~PSW_MASK_ASC);
      env->psw.addr = ka->_sa_handler;
  
-     env->regs[2] = sig; //map_signal(sig);
+-    env->regs[2] = sig; //map_signal(sig);
++    env->regs[2] = sig;
+     env->regs[3] = frame_addr + offsetof(typeof(*frame), info);
+     env->regs[4] = frame_addr + offsetof(typeof(*frame), uc);
++    env->regs[5] = 0; /* FIXME: current->thread.last_break */
+ }
+ 
+ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
 -- 
 2.25.1
 
