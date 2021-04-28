@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835C336DADA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:08:55 +0200 (CEST)
-Received: from localhost ([::1]:39266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C9936DADB
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:09:04 +0200 (CEST)
+Received: from localhost ([::1]:39848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblo6-0002Rg-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55206)
+	id 1lbloF-0002gE-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lblky-0007OX-Ha
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:05:40 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:44737)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lblnA-0001bW-Vh
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:07:57 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lblkv-0007Ha-RJ
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:05:40 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- m6-20020a17090a8586b02901507e1acf0fso9286793pjn.3
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 08:05:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lblmz-0000BT-0m
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:07:56 -0400
+Received: by mail-ed1-x533.google.com with SMTP id e7so74560321edu.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 08:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XQnoNzQSb/reSlret35ypzUXdizbnO081fMDAoEZRDg=;
- b=IsiuP6pL9sETCUempwqN9PGTSoCmxMm8t6h2tl5tXisbSOKxfgMnJLW2mzFBOO/bfs
- sp8TjZlYRBUGrPHIwmM+gFTndjdJguhAc2XT919XOWui+HIxQTo0HIeOCPZ45orxEcNn
- 7XcqNHaf4aa2jULBiqqY4essplTUaVX7NQz7Vt/RzUKJ+O/GrzQM1nHvzhy2Omtw7M1d
- EOsV61d33MlK2all1iFf7ag/dhgrabky++Cf+AlAGX3GPoqTGasm/4dyfgpN8Zj1wSZd
- 5TZbkbVgsIZc+ly+oM6J0WvFMni7VDpklaP0YRaa52CJwvO1yNyw3goY+kV+PU/Z4zvs
- i3fA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G/GbyKPkzgDTapgT1IsYa8jdWyNgQMx80EFgYzhgjPA=;
+ b=YjzcrlpfUfueB69qdqSLD1pb6m6MVejw28untXHSWpvgvjfenxRvx2Oat0Hz+robsG
+ FWNktzyj9L6OcoJfcgQkVPuzW3OwhYqw+2hBfXSqx7wzyt5628F9cu65MuDjalk+F+cd
+ BGuquPi8ojEIneY/axCPFYQ7Q+ibO9lVOBL4JfTYASMmF89+I5WUWJxK+TLjC6HjDjYQ
+ uMycU0zmbmZpqJpvo8dXPzJxTR2M0VCx3lZqKt9ftkcD+tDO+ggi08YfmlTKo3inzBp8
+ lcZnIUEiaRp6rTeutVrEREeK8XUw+9mccADtepTqMwWMbr0WQANPOeSnK2XH/kyPEc20
+ tQlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XQnoNzQSb/reSlret35ypzUXdizbnO081fMDAoEZRDg=;
- b=bfh8LHX5Z/T9c2cck6zLI5WH5j/jNNgTMCcRZgLu0vPKMS1scdmbxwYQsxkfUBQdhV
- PE1i7qx2URBZpIQJoU9YnAqXOUxuM2fX81eHnCMzcMViT1LUd11wlQWDG2N1By+bSzBQ
- 9/SBLaPo/uIR1XSnzc7Vvw6zGXblY3JOBfhrrRMI5lTbctbCtdaB7DiIpqzL3RIAKuAz
- phHB9HEFehUXMk6yScy/5YgjMWdUJrYFX2w2Yuu7y08EV5/k38Z4DGuZMnpp/sjiur3X
- rRaMZMru3JOpghKR68BWIKtJXlv6fAJNxEWePI+nyZUThmZBojjpJPxdr8N+Ld9QlTx/
- LuTA==
-X-Gm-Message-State: AOAM5313bqYc9TL3lS+tM/z9GQs8dsTBhSt4c8uAHpYmbtRgTtSzBsIG
- XxaBLryYg/wv0bnj/D9aQcvW9g==
-X-Google-Smtp-Source: ABdhPJy6uS9vt5EyN0X5uwMm5eOZAL2MDd88ORHlNjUJN/eWqwmUtgSirqvXh59ex/yqUcXiAa/SHw==
-X-Received: by 2002:a17:90a:352:: with SMTP id
- 18mr32521711pjf.223.1619622336132; 
- Wed, 28 Apr 2021 08:05:36 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 16sm5334763pjk.15.2021.04.28.08.05.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 08:05:35 -0700 (PDT)
-Subject: Re: [PATCH v2 04/15] target/ppc: Move DISAS_NORETURN setting into
- gen_exception*
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
- <20210427171649.364699-5-luis.pires@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <905b2240-82b9-cdaf-922a-0d334a7288a7@linaro.org>
-Date: Wed, 28 Apr 2021 08:05:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G/GbyKPkzgDTapgT1IsYa8jdWyNgQMx80EFgYzhgjPA=;
+ b=aYD1c22oojwPs1smbxrn4v+4iWVIkBY2zykP2S8YhCqT7f/ZGgt1gn2lqwgEE9lPma
+ CqPadm+RToojfy0LR/AUZTCsuftz34nmhqyqfDmxRToX1R33uf7EmhiZJniWdGs+IES5
+ kEF4XoSBXznd6d8vtPs9mh1t3cQOq4fAcJbe1sFuXIpXbdmKN3U69kCHzJkO9Yfmszpf
+ IdljJv+Fvxj9N85/iuxZlFtZ3VsKPa+nHGWg7+e+pN3gwPYJAeBqwEjnae3qzUNYc6Cc
+ cD8AcANwAg37zMjPgeOvQRGiYkA1DB7iEiz2YpFYsKsIdsePEfbyBHtH01Yco7kyYbYS
+ eDeA==
+X-Gm-Message-State: AOAM532IIX4ZmA9svpQOnRMad72Z6Br/4PlOe3eqTQOEDglwYyhJxqF3
+ FzUbdB62CNZmWy1DnQ/mYmLIGDcUbZ7z1azwf+tncw==
+X-Google-Smtp-Source: ABdhPJyUs/0y1dpMA+DCHjx1L1gNV1TAD1XVv+cA3+w4c42YgAtp/4Vt+LZfr27b4swlF/CQ9td85zfAnRR4dM+MRQI=
+X-Received: by 2002:a05:6402:12d3:: with SMTP id
+ k19mr687202edx.52.1619622463416; 
+ Wed, 28 Apr 2021 08:07:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210427171649.364699-5-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+References: <20210428144813.417170-1-philmd@redhat.com>
+ <20210428144813.417170-2-philmd@redhat.com>
+In-Reply-To: <20210428144813.417170-2-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 28 Apr 2021 16:06:42 +0100
+Message-ID: <CAFEAcA9chk8aEqe0jrYQouF0=UpznTrR+J8puVgNvf1VipPm2A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] meson: Check for seccomp/cap-ng libraries if
+ virtiofsd is enabled
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -91,32 +81,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- matheus.ferst@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/21 10:16 AM, Luis Pires wrote:
-> -static inline void gen_stop_exception(DisasContext *ctx)
-> +static inline void gen_end_tb_exception(DisasContext *ctx, uint32_t excp)
->   {
-> -    gen_update_nip(ctx, ctx->base.pc_next);
-> -    ctx->exception = POWERPC_EXCP_STOP;
-> +    /* No need to update nip for SYNC/BRANCH, as execution flow will change */
-> +    if ((excp != POWERPC_EXCP_SYNC) &&
-> +        (excp != POWERPC_EXCP_BRANCH))
-> +    {
-> +        gen_update_nip(ctx, ctx->base.pc_next);
-> +    }
-> +    ctx->exception = excp;
-> +    ctx->base.is_jmp = DISAS_NORETURN;
->   }
+On Wed, 28 Apr 2021 at 15:55, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 
-Hmm.  You didn't actually raise the exception, so you can't set DISAS_NORETURN 
-that way.  It looks like you should be using gen_exception_nip().
+(cc'ing Paolo for a meson.build question below...)
 
-And as side notes: (1) no need for extra parentheses, (2) brace is misplaced.
+> When not explicitly select a sysemu target and building virtiofsd,
+> the seccomp/cap-ng libraries are not resolved, leading to this error:
+>
+>   $ configure --target-list=3Di386-linux-user --disable-tools --enable-vi=
+rtiofsd
+>   tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd requires =
+libcap-ng-devel and seccomp-devel
+>
+> Fix by checking the seccomp/cap-ng libraries if virtiofsd is built.
+>
+> Reported-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  meson.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index c6f4b0cf5e8..b466b418fed 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -393,14 +393,14 @@
+>  endif
+>
+>  seccomp =3D not_found
+> -if not get_option('seccomp').auto() or have_system or have_tools
+> +if not get_option('seccomp').auto() or have_system or have_tools or not =
+get_option('virtiofsd').auto()
+>    seccomp =3D dependency('libseccomp', version: '>=3D2.3.0',
+>                         required: get_option('seccomp'),
+>                         method: 'pkg-config', kwargs: static_kwargs)
+>  endif
+>
+>  libcap_ng =3D not_found
+> -if not get_option('cap_ng').auto() or have_system or have_tools
+> +if not get_option('cap_ng').auto() or have_system or have_tools or not g=
+et_option('virtiofsd').auto()
+>    libcap_ng =3D cc.find_library('cap-ng', has_headers: ['cap-ng.h'],
+>                                required: get_option('cap_ng'),
+>                                kwargs: static_kwargs)
 
+Now we have "virtiofsd requires cap-ng and seccomp" recorded in three
+places in different meson.build files:
+ * here, if this patch goes in
+ * in tools/meson.build, in its logic for setting have_virtiofsd
+   (I generously do not count the "decide which error message to print"
+   logic in that file as a separate item in this list...)
+ * in tools/virtiofsd/meson.build, where the executable('virtiofsd', ...)
+   lists them in its dependencies: setting
 
-r~
+Is there some way to avoid this duplication?
+
+thanks
+-- PMM
 
