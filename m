@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1731536DD2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:37:57 +0200 (CEST)
-Received: from localhost ([::1]:43562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EC736DD2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:38:23 +0200 (CEST)
+Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbnCG-0003db-6J
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56048)
+	id 1lbnCg-0004H0-9Y
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:38:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbn9T-0002QQ-3z
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:35:03 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:38442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbn9Q-0000rI-L3
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:35:02 -0400
-Received: by mail-pl1-x629.google.com with SMTP id o16so19549959plg.5
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4LZEHcMxypBZR5IOssG2yDi20GGzjiqgvJHoLZbj4x4=;
- b=X2SdtEzgpeNS+Zno1KPUeevXFfuPf3K4BMKd5KDfYQMCofVrETTM6H7+nqy9YwZuz5
- FHPNgbXqgW3M4oTkilaz27l3yq1iVCs4wRSuzjx+G/9cURRd6809IwEKYKaC4PICEi55
- U/8SLWZISyYJbx1jYUOtjGd/NzEehUIMxp6GdG8vYyluO1i1i7I0TjXfR92byLqiBAVT
- phZ8aWkPGm+faEwWN6ik4X4+Ca3lzjXF5uNpDR/To4W1mQdv/RV2F631n6Z54DVmuPPM
- aUE4he50XQpsngQoxwhiqGgG6FbvcYC6+kJ/37q2P+DA7Ui2MDlhnkHG6qOW7H6qc0I3
- EQEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4LZEHcMxypBZR5IOssG2yDi20GGzjiqgvJHoLZbj4x4=;
- b=LZN83imfyFHMRxmsSjrEtB6OK2dqJXNsXJ4lSWJ78UDJdue4iUQJV584B6uEv6n/9x
- VWjiizL87WfC21cbnsg2ngiYDboQdHC8C9BwhRag0BcPzkUoxi5pfmOKput6kXm6RoVq
- MMl8yN/z/3P8sf2zawkJEmjplMepzYZFDIpE2Zmka1vIhiIMlC1h00ElCc3O1VSuqiAH
- Y5FPdwF0PYpZuIcYcFoPCLUM2JvGA8kZY2gogWEL5Wk/o8vNwmMWffr3KLnfFKv1XI3I
- PnLVvVZzCR9owR5ZfTSi5Q+eYfy2A7Wlx//nOG6q3p4SSfJukR+3SsywOMz2YZyxub9J
- n6Dw==
-X-Gm-Message-State: AOAM530k3MITReE5SN0Y1+suaPd4HYW/h/ulxe3OlHJZvBekkQi8J+uE
- eWG8K9riO4wuvvk65UPaF8Iq+Q==
-X-Google-Smtp-Source: ABdhPJz/eqGqsU8hZBSQAlIuqyt1YWbS+WQEOww9ALn6nNkIv7jsw98bh1ySzoKWSuSyQdfHOQoS5w==
-X-Received: by 2002:a17:90b:f87:: with SMTP id
- ft7mr34321342pjb.11.1619627698508; 
- Wed, 28 Apr 2021 09:34:58 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id h133sm214881pfe.32.2021.04.28.09.34.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 09:34:58 -0700 (PDT)
-Subject: Re: [PATCH 1/2] meson: Check for seccomp/cap-ng libraries if
- virtiofsd is enabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210428144813.417170-1-philmd@redhat.com>
- <20210428144813.417170-2-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <15dbfc38-f0ba-65f1-382c-3ce5b961f108@linaro.org>
-Date: Wed, 28 Apr 2021 09:34:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lbnA1-0002sJ-H1
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:35:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lbn9z-0001Ar-5x
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:35:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619627734;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wjy2TuNAowimD11QcF4B40DCawzqKi7hL8gIYLaeLUM=;
+ b=jVfoibbEIEcTZ6eobK7QbHaToedzecCz29eRqmyEa8/+tZ1ydFWLaEQ8sBnxUxCOKMwnCu
+ x7gOTk+TpaAb+NkxSj86qPMRngw0/lB6vFXvzmmtGX9ZkPVL0LgglSV2Y5ldGw5BUtmG8r
+ RzOHDc4Q2aprCAPQQh3MWqUjV+rj+zw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-nn4u9FWpNvi4ncMekz7avA-1; Wed, 28 Apr 2021 12:35:30 -0400
+X-MC-Unique: nn4u9FWpNvi4ncMekz7avA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 760711009632;
+ Wed, 28 Apr 2021 16:35:29 +0000 (UTC)
+Received: from localhost (unknown [10.22.9.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C2EA6064B;
+ Wed, 28 Apr 2021 16:35:14 +0000 (UTC)
+Date: Wed, 28 Apr 2021 12:35:13 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v6 00/15] RAM_NORESERVE, MAP_NORESERVE and hostmem
+ "reserve" property
+Message-ID: <20210428163513.sx6rim2s7tkz5ss7@habkost.net>
+References: <20210421122624.12292-1-david@redhat.com>
+ <20210421210611.wradfrdrbw6ebcdn@habkost.net>
+ <df7ac86b-7371-5518-9914-f24e9efc91f8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210428144813.417170-2-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <df7ac86b-7371-5518-9914-f24e9efc91f8@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,42 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/21 7:48 AM, Philippe Mathieu-Daudé wrote:
->   seccomp = not_found
-> -if not get_option('seccomp').auto() or have_system or have_tools
-> +if not get_option('seccomp').auto() or have_system or have_tools or not get_option('virtiofsd').auto()
->     seccomp = dependency('libseccomp', version: '>=2.3.0',
->                          required: get_option('seccomp'),
->                          method: 'pkg-config', kwargs: static_kwargs)
+On Fri, Apr 23, 2021 at 12:35:35PM +0200, David Hildenbrand wrote:
+> On 21.04.21 23:06, Eduardo Habkost wrote:
+> > On Wed, Apr 21, 2021 at 02:26:09PM +0200, David Hildenbrand wrote:
+> > > Based-on: 20210406080126.24010-1-david@redhat.com
+> > > 
+> > > Some cleanups previously sent in other context (resizeable allocations),
+> > > followed by RAM_NORESERVE, implementing it under Linux using MAP_NORESERVE,
+> > > and letting users configure it for memory backens using the "reserve"
+> > > property (default: true).
+> > > 
+> > > MAP_NORESERVE under Linux has in the context of QEMU an effect on
+> > > 1) Private/shared anonymous memory
+> > > -> memory-backend-ram,id=mem0,size=10G
+> > > 2) Private fd-based mappings
+> > > -> memory-backend-file,id=mem0,size=10G,mem-path=/dev/shm/0
+> > > -> memory-backend-memfd,id=mem0,size=10G
+> > > 3) Private/shared hugetlb mappings
+> > > -> memory-backend-memfd,id=mem0,size=10G,hugetlb=on,hugetlbsize=2M
+> > > 
+> > > With MAP_NORESERVE/"reserve=off", we won't be reserving swap space (1/2) or
+> > > huge pages (3) for the whole memory region.
+> > > 
+> > > The target use case is virtio-mem, which dynamically exposes memory
+> > > inside a large, sparse memory area to the VM. MAP_NORESERVE tells the OS
+> > > "this mapping might be very sparse". This essentially allows
+> > > avoiding having to set "/proc/sys/vm/overcommit_memory == 1") when using
+> > > virtio-mem and also supporting hugetlbfs in the future.
+> > 
+> > For the memory backend and machine core code:
+> > 
+> > Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+> > 
+> 
+> Thanks Eduardo. I assume Paolo will be the right maintainer to pick this up?
+> (I hope he'll have time to look at this and some of my
+> pending-for-a-long-time series soon :( )
 
-This construct is wrong, both before and after, as I read it.
+I can pick it up (or you could merge it through your tree if you
+prefer), but I would like to get at least an Acked-by from Paolo
+first.
 
-not get_option(foo).auto() is true for both enabled and disabled.  If disabled, 
-why are we examining the dependency?  If auto, if we have all of the 
-dependencies we want to enable the feature -- if we don't probe for the 
-dependency, how can we enable it?
+On the other hand, maybe v7 is mature enough to not require
+waiting too much longer.
 
-This error seems to be offset by the OR have_* tests, for which the logic also 
-seems off.
+-- 
+Eduardo
 
-I think the test should have been
-
-   if (have_system or have_tools) and
-      (not get_option('seccomp').disabled() or
-       not get_option('virtiofsd').disabled())
-
-Then we need to combine the required: argument, probably like
-
-   required: get_option('seccomp').enabled() or
-             get_option('virtiofsd').enabled()
-
-
-r~
 
