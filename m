@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE2636D053
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 03:38:54 +0200 (CEST)
-Received: from localhost ([::1]:36844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9D436D086
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 04:23:51 +0200 (CEST)
+Received: from localhost ([::1]:42836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbZAD-0004ki-Nr
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 21:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33638)
+	id 1lbZrh-00018I-OB
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 22:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
- id 1lbZ9A-0004KD-QA
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 21:37:48 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
- id 1lbZ97-0005XL-QU
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 21:37:48 -0400
-Received: by mail-ej1-x634.google.com with SMTP id u17so92266164ejk.2
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 18:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=k/JshcvO2BRCtWwrO1IVLzcCYSawU2AeyCoVQGhw8g4=;
- b=sqBSEBC2crSCxiczO9QJlV27PLU3cZ5EKkKbS0p/NP+++pmsQd/vWMeGQz2tb+mG0S
- k5p9F/TEaEpw9k3Fxzb4EVPb8+RYC1PYeSLtF7SWjd2Rn1Se9/DSfctL8wT0GSN5WYwh
- Qir0kYELIHHGbMixgaQTm6dQ/EDyo/JaizrCotVW7lQ5Y0W+5scq0qL9NmvagYprluDh
- sTRiVXesHDXxE7FOdH6OySUmZB1ewPuSkYQl+Mu54H0hGDJR7BWMSdz4zn+wcvlZeR6A
- 0KgSyDb+KU1dkYtrm/BUfweZZNUmj/7H3HPffmB1HDHTkIsbRGKIsck9+xSkEcCl0Zzy
- ZbEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=k/JshcvO2BRCtWwrO1IVLzcCYSawU2AeyCoVQGhw8g4=;
- b=p3xTGk771v+mwaTU0pUtWRGJ48eM7WuRGZm9MT4f4cJYXhLGoIHZ8Cf864qVtjehnp
- X3m2tGOrs1UssgyGi3tRf981uryyLC4qherdsbF6mmjWy85A5efmS35J951V0HxrFqZj
- jXrgTPFl5VgZuudTKFg8GIDEX83yPLCoSP/TKA8bS76oPwDuIc5ClYFg9SVXatsA3Awr
- +RvvM/dn7vp/FzgkifyHUln5/CkJIhH22H+KZUXP1wYDyd2QCyfcKFJdxm/KWM1QAYtU
- KmtqeonTtBm+s2ntZH8/CHmqk1/Bf8t9NSNyi1t6D10aglxD+jWSZ5j9kJ9Dlb15gayD
- qKvw==
-X-Gm-Message-State: AOAM533gucXqWSCELnsOmXw/hLGLiuz9OllF0AgJg2FcRnZCfzDpNEID
- Q1yl+vdQDCA0a91wEUbJVKKgCYIyuNxiTpsvTjc=
-X-Google-Smtp-Source: ABdhPJysx76tcjMigf+7u1kK0l6adGuDezhiQ9iZrT9IFoZ0R/rAUC99nnqZxwc7Qz4sTiVR24kiMSOHZtvcWeo+eac=
-X-Received: by 2002:a17:906:9244:: with SMTP id
- c4mr619779ejx.293.1619573864088; 
- Tue, 27 Apr 2021 18:37:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lbZqV-0000UN-5j
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 22:22:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32183)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lbZqS-000840-71
+ for qemu-devel@nongnu.org; Tue, 27 Apr 2021 22:22:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619576551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6ayJ/6OUW6sw4lby+b9AHYA+UxK5B8VWlx/nAccgyO4=;
+ b=hhrFq3U42Kt4QqUkZIVLHTWWz3HWTL9l95iXoyydO5mpiZqUaSeaQ1Y+p5Jj1ljLOkJOmX
+ znCBqoHh66eI+AEWXPdIEN0R0iD9mMzW4vLghjPO2V/3DHEgxGhifUni2Gu97izr57PuCN
+ 8iwCRXIgjWHrb8h4RbqU0vYBHuX21ds=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-chrPua1RPbGASUtA_fzJ_A-1; Tue, 27 Apr 2021 22:22:27 -0400
+X-MC-Unique: chrPua1RPbGASUtA_fzJ_A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEF2B803622;
+ Wed, 28 Apr 2021 02:22:26 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-131.pek2.redhat.com
+ [10.72.12.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C745B5D9C0;
+ Wed, 28 Apr 2021 02:22:23 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] eBPF RSS support for virtio-net
+To: Andrew Melnichenko <andrew@daynix.com>
+References: <20210412082512.14998-1-andrew@daynix.com>
+ <94e8d3e4-7c63-4b42-109d-2c655ac118ba@redhat.com>
+ <CABcq3pE1GUCxrjo=Vj-w_e+hKhhCnQa_YC6B4cfC1qm_Wh2pNQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <ddfc2621-ecbd-d985-c284-6c6c56563429@redhat.com>
+Date: Wed, 28 Apr 2021 10:22:21 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-Received: by 2002:a17:906:389b:0:0:0:0 with HTTP; Tue, 27 Apr 2021 18:37:43
- -0700 (PDT)
-In-Reply-To: <CA+rFky7OWZUHdUgn1xFDTO6b-Y72KL=JjxjVYAFDMYh7H9DwRw@mail.gmail.com>
-References: <YIaPdjz7PpvwVPP/@work-vm>
- <925db5d2-f3f7-96cb-4549-8880408f018@eik.bme.hu>
- <CA+rFky7OWZUHdUgn1xFDTO6b-Y72KL=JjxjVYAFDMYh7H9DwRw@mail.gmail.com>
-From: Andrew Randrianasulu <randrianasulu@gmail.com>
-Date: Wed, 28 Apr 2021 04:37:43 +0300
-Message-ID: <CA+rFky5-FzxjFDJND8a8iQ1XYZ7PsBkYkK4CFO7X6mjAqD+sBg@mail.gmail.com>
-Subject: Re: X on old (non-x86) Linux guests
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: multipart/alternative; boundary="000000000000db497b05c0fe6c22"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=randrianasulu@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CABcq3pE1GUCxrjo=Vj-w_e+hKhhCnQa_YC6B4cfC1qm_Wh2pNQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.218,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,212 +85,305 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kraxel@redhat.com" <kraxel@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000db497b05c0fe6c22
-Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday, April 28, 2021, Andrew Randrianasulu <randrianasulu@gmail.com>
-wrote:
-
->
->
-> On Monday, April 26, 2021, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
->> Hello,
->>
->> On Mon, 26 Apr 2021, Dr. David Alan Gilbert wrote:
->>
->>>  Over the weekend I got a Red Hat 6.x (not RHEL!) for Alpha booting
->>> under QEMU which was pretty neat.  But I failed to find a succesful
->>> combination to get X working; has anyone any suggestions?
->>>
->>
->> Adding Andrew who has experimented with old X framebuffer so he may
->> remember something more but that was on x86.
->
->
->
-> Sorry, I still away from my desktop (with notes/logs), not sure when
-> return..
-> I do not think I tried something that old.. Kernel 2.2 i guess, before any
-> attempt at r128 drm Kernel module was written (in 2.4?) and so before ddx
-> attempted to use that (as it tries by default in much newer distros)
->
-> I tried Last debian for alpha, (5.0.x?) on qemu, it had bugs in cirrusfb
-> in 2.6.26 Kernel so i compiled like 2.6.32.last inside emulated system..
-> This made fb works, But still there was no X for me... (can't recall exact
-> error - May be even sigabort or sigbus - but do not count on my memory on
-> this... /)
->
-> Notes i used for launching qemu -
-> https://virtuallyfun.com/wordpress/2014/02/19/alpha-linux-on-qemu/
-> But Sadly pre-compressed disk image from that post really gone (it uses
-> funny error Page telling you to use login/password, yet file can't be
-> downloaded...)
->
+在 2021/4/27 下午6:47, Andrew Melnichenko 写道:
+> Hi,
+> I've checked the issue. Apparently, libbpf can't work with a 
+> skeleton on Debian.
+> Version check would not help - versioning differs at different distros.
 
 
-Upd:
-https://web.archive.org/web/20191021110430/https://vpsland.superglobalmegacorp.com/old/install/linux/DecAlpha/alpha-linux.7z
+So you meant the libbpf version is too old?
 
-This May give you kernel/initrd/disk image..
+
+> I've added a small check:
+>
+>     diff --git a/meson.build b/meson.build
+>     index ca551dd15d..4a51a25643 100644
+>     --- a/meson.build
+>     +++ b/meson.build
+>     @@ -1018,6 +1018,20 @@ endif
+>
+>      # libbpf
+>      libbpf = dependency('libbpf', required: get_option('bpf'))
+>     +if libbpf.found() and not cc.links('''
+>     +   #include <bpf/libbpf.h>
+>     +   int main(void)
+>     +   {
+>     +     bpf_object__destroy_skeleton(NULL);
+>     +     return 0;
+>     +   }''', dependencies: libbpf)
+>     +  libbpf = not_found
+>     +  if get_option('bpf').enabled()
+>     +    error('libbpf skeleton test failed')
+>     +  else
+>     +    warning('libbpf skeleton test failed, disabling')
+>     +  endif
+>     +endif
+>
+>      if get_option('cfi')
+>        cfi_flags=[]
+>
+>
+> Is it possible to prepare an additional patch or should I prepare new 
+> eBPFv7 patches?
+
+
+Please send V7.
+
+Thanks
+
 
 >
 >
->>  That distro was from around 2000; the challenge is since we don't have
->>> VESA on non-x86, we can't change mode that way, so generic XF86_SVGA
->>> doesn't want to play with any of the devices.
->>>
->>>  I also tried the ati device, but the accelerated mach64 driver
->>> didn't recognise that ID.
->>>
->>
->> The ati-vga partially emulates an ATI Rage128 Pro so it won't work with
->> mach64 driver that is older and while functionally similar has different
->> registers. You probably need to load aty128fb and then set a mode with
->> fbset then may need to edit X conf but I forgot which option was neded,
->> something about UseFb or similar so it won't try to change mode itself but
->> use the already set Linux FB because otherwise it did not detect the card
->> properly but I don'r remember the details so may be wrong. Also some 2D
->> accel is emulated so may work without disabling it but I think has some
->> bugs so it may have glitches.
->>
->>  Has anyone found any combo that works?
->>> I suspect using one of the existing devices, lying about PCI ID, and
->>> then turning off all accelerations might have a chance but I've not got
->>> that far.
->>>
->>
->> Changing the PCI ID may not help as these ATI chips have different
->> registers so only compatible with the right drivers. I've tried to use
->> current ati-vga with a Mac ROM that expects mach64 but it did not work.
->>
->> It may help to add -trace enable="ati*" and maybe also enable some debug
->> defines in ati_int.h to see if it accesses the card at all but with the
->> right driver that works with Rage128Pro it should produce some picture at
->> least in fb console and we could run X with it on x86 before.
->>
->> More info on ati-vga is here: https://osdn.net/projects/qmig
->> a/wiki/SubprojectAti
->>
->> By the way, last time I've experimented with it I've found that mouse
->> pointer getting out of sync and jumping around is probably a result of
->> mouse acceleration on the host is not taken into account when tracking
->> guest pointer position. Is that possible and is there a way to fix it?
->>
->> Regards,
->> BALATON Zoltan
->>
+> On Sun, Apr 25, 2021 at 6:32 AM Jason Wang <jasowang@redhat.com 
+> <mailto:jasowang@redhat.com>> wrote:
+>
+>
+>     在 2021/4/12 下午4:25, Andrew Melnychenko 写道:
+>     > This set of patches introduces the usage of eBPF for packet steering
+>     > and RSS hash calculation:
+>     > * RSS(Receive Side Scaling) is used to distribute network packets to
+>     > guest virtqueues by calculating packet hash
+>     > * Additionally adding support for the usage of RSS with vhost
+>     >
+>     > The eBPF works on kernels 5.8+
+>     > On earlier kerneld it fails to load and the RSS feature is reported
+>     > only without vhost and implemented in 'in-qemu' software.
+>     >
+>     > Implementation notes:
+>     > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+>     > Added libbpf dependency and eBPF support.
+>     > The eBPF program is part of the qemu and presented as an array
+>     > of BPF ELF file data. The eBPF array file initially generated by
+>     bpftool.
+>     > The compilation of eBPF is not part of QEMU build and can be done
+>     > using provided Makefile.ebpf.
+>     > Added changes to virtio-net and vhost, primary eBPF RSS is used.
+>     > 'in-qemu' RSS used in the case of hash population and as a
+>     fallback option.
+>     > For vhost, the hash population feature is not reported to the guest.
+>     >
+>     > Please also see the documentation in PATCH 6/7.
+>     >
+>     > Known issues:
+>     > * hash population not supported by eBPF RSS: 'in-qemu' RSS used
+>     > as a fallback, also, hash population feature is not reported to
+>     guests
+>     > with vhost.
+>     > * IPv6 extensions still in progress.
+>
+>
+>     Want to merge but it fails to build on Debian 10.9:
+>
+>     dpkg -l | grep libbpf
+>     ii  libbpf-dev:amd64              4.19.181-1 amd64        eBPF helper
+>     library (development files)
+>     ii  libbpf4.19:amd64              4.19.181-1 amd64        eBPF helper
+>     library (shared library)
+>
+>     I configure use --enable-bpf --target-list=x86_64-softmmu, and I get:
+>
+>     [3/1375] Compiling C object libcommon.fa.p/ebpf_ebpf_rss.c.o
+>     FAILED: libcommon.fa.p/ebpf_ebpf_rss.c.o
+>     cc -Ilibcommon.fa.p -I. -I.. -I../slirp -I../slirp/src
+>     -I../dtc/libfdt
+>     -I../capstone/include/capstone -Iqapi -Itrace -Iui -Iui/shader
+>     -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/uuid
+>     -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+>     -I/usr/include/gio-unix-2.0 -I/usr/include/pixman-1
+>     -fdiagnostics-color=auto -pipe -Wall -Winvalid-pch -Werror -std=gnu99
+>     -O2 -g -isystem /home/devel/git/qemu/linux-headers -isystem
+>     linux-headers -iquote . -iquote /home/devel/git/qemu -iquote
+>     /home/devel/git/qemu/include -iquote
+>     /home/devel/git/qemu/disas/libvixl
+>     -iquote /home/devel/git/qemu/tcg/i386 -iquote
+>     /home/devel/git/qemu/accel/tcg -pthread -U_FORTIFY_SOURCE
+>     -D_FORTIFY_SOURCE=2 -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
+>     -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
+>     -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
+>     -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
+>     -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+>     -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+>     -Wimplicit-fallthrough=2 -Wno-missing-include-dirs
+>     -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong
+>     -fPIC -MD
+>     -MQ libcommon.fa.p/ebpf_ebpf_rss.c.o -MF
+>     libcommon.fa.p/ebpf_ebpf_rss.c.o.d -o
+>     libcommon.fa.p/ebpf_ebpf_rss.c.o
+>     -c ../ebpf/ebpf_rss.c
+>     In file included from ../ebpf/ebpf_rss.c:23:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: In function
+>     ‘rss_bpf__destroy’:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:32:3: error: implicit
+>     declaration of function ‘bpf_object__destroy_skeleton’; did you mean
+>     ‘bpf_object__kversion’? [-Werror=implicit-function-declaration]
+>         bpf_object__destroy_skeleton(obj->skeleton);
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>         bpf_object__kversion
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:32:3: error: nested
+>     extern
+>     declaration of ‘bpf_object__destroy_skeleton’ [-Werror=nested-externs]
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: At top level:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:40:33: error: ‘struct
+>     bpf_object_open_opts’ declared inside parameter list will not be
+>     visible
+>     outside of this definition or declaration [-Werror]
+>       rss_bpf__open_opts(const struct bpf_object_open_opts *opts)
+>                                       ^~~~~~~~~~~~~~~~~~~~
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: In function
+>     ‘rss_bpf__open_opts’:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:49:6: error: implicit
+>     declaration of function ‘bpf_object__open_skeleton’; did you mean
+>     ‘bpf_object__open_buffer’? [-Werror=implicit-function-declaration]
+>        if (bpf_object__open_skeleton(obj->skeleton, opts))
+>            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>            bpf_object__open_buffer
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:49:6: error: nested
+>     extern
+>     declaration of ‘bpf_object__open_skeleton’ [-Werror=nested-externs]
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: In function
+>     ‘rss_bpf__load’:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:67:9: error: implicit
+>     declaration of function ‘bpf_object__load_skeleton’; did you mean
+>     ‘bpf_object__load’? [-Werror=implicit-function-declaration]
+>        return bpf_object__load_skeleton(obj->skeleton);
+>               ^~~~~~~~~~~~~~~~~~~~~~~~~
+>               bpf_object__load
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:67:9: error: nested
+>     extern
+>     declaration of ‘bpf_object__load_skeleton’ [-Werror=nested-externs]
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: In function
+>     ‘rss_bpf__attach’:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:88:9: error: implicit
+>     declaration of function ‘bpf_object__attach_skeleton’; did you mean
+>     ‘bpf_object__for_each_safe’? [-Werror=implicit-function-declaration]
+>        return bpf_object__attach_skeleton(obj->skeleton);
+>               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>               bpf_object__for_each_safe
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:88:9: error: nested
+>     extern
+>     declaration of ‘bpf_object__attach_skeleton’ [-Werror=nested-externs]
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: In function
+>     ‘rss_bpf__detach’:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:94:9: error: implicit
+>     declaration of function ‘bpf_object__detach_skeleton’; did you mean
+>     ‘bpf_object__for_each_safe’? [-Werror=implicit-function-declaration]
+>        return bpf_object__detach_skeleton(obj->skeleton);
+>               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>               bpf_object__for_each_safe
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:94:9: error: nested
+>     extern
+>     declaration of ‘bpf_object__detach_skeleton’ [-Werror=nested-externs]
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:94:9: error: ‘return’
+>     with
+>     a value, in function returning void [-Werror]
+>        return bpf_object__detach_skeleton(obj->skeleton);
+>               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:92:1: note: declared here
+>       rss_bpf__detach(struct rss_bpf *obj)
+>       ^~~~~~~~~~~~~~~
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h: In function
+>     ‘rss_bpf__create_skeleton’:
+>     /home/devel/git/qemu/ebpf/rss.bpf.skeleton.h:102:53: error:
+>     dereferencing pointer to incomplete type ‘struct bpf_object_skeleton’
+>        s = (struct bpf_object_skeleton *)calloc(1, sizeof(*s));
+>                                                           ^~
+>     cc1: all warnings being treated as errors
+>
+>     Thanks
+>
+>
+>     >
+>     > Changes since v1:
+>     > * using libbpf instead of direct 'bpf' system call.
+>     > * added libbpf dependency to the configure/meson scripts.
+>     > * changed python script for eBPF .h file generation.
+>     > * changed eBPF program - reading L3 proto from ethernet frame.
+>     > * added TUNSETSTEERINGEBPF define for TUN.
+>     > * changed the maintainer's info.
+>     > * added license headers.
+>     > * refactored code.
+>     >
+>     > Changes since v2:
+>     > * using bpftool for eBPF skeleton generation.
+>     > * ebpf_rss is refactored to use skeleton generated by bpftool.
+>     > * added/adjasted license in comment sections and in eBPF file.
+>     > * rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
+>     > * virtio-net eBPF rss refactored. Now eBPF initialized during
+>     realize().
+>     >
+>     > Changes since v3:
+>     > * rebased to last master.
+>     > * fixed issue with failed build without libbpf.
+>     > * fixed ebpf loading without rss option.
+>     > * refactored labels in ebpf_rss.c
+>     >
+>     > Changes since v4:
+>     > * refactored configure/meson script.
+>     > * added checks for load_bytes in ebpf.
+>     > * documentation added to the index.
+>     > * refactored Makefile and rss.bpf.c.
+>     > * rebased to last master.
+>     >
+>     > Changes since v5:
+>     > * fixed issue with dstopt parsing in the eBPF program.
+>     > * added fragment packet parsing to skip L4.
+>     >
+>     > Andrew (7):
+>     >    net/tap: Added TUNSETSTEERINGEBPF code.
+>     >    net: Added SetSteeringEBPF method for NetClientState.
+>     >    ebpf: Added eBPF RSS program.
+>     >    ebpf: Added eBPF RSS loader.
+>     >    virtio-net: Added eBPF RSS to virtio-net.
+>     >    docs: Added eBPF documentation.
+>     >    MAINTAINERS: Added eBPF maintainers information.
+>     >
+>     >   MAINTAINERS                    |   8 +
+>     >   configure                      |   8 +-
+>     >   docs/devel/ebpf_rss.rst        | 125 ++++++++
+>     >   docs/devel/index.rst           |   1 +
+>     >   ebpf/ebpf_rss-stub.c           |  40 +++
+>     >   ebpf/ebpf_rss.c                | 165 ++++++++++
+>     >   ebpf/ebpf_rss.h                |  44 +++
+>     >   ebpf/meson.build               |   1 +
+>     >   ebpf/rss.bpf.skeleton.h        | 431 +++++++++++++++++++++++++
+>     >   ebpf/trace-events              |   4 +
+>     >   ebpf/trace.h                   |   2 +
+>     >   hw/net/vhost_net.c             |   3 +
+>     >   hw/net/virtio-net.c            | 115 ++++++-
+>     >   include/hw/virtio/virtio-net.h |   4 +
+>     >   include/net/net.h              |   2 +
+>     >   meson.build                    |   9 +
+>     >   meson_options.txt              |   2 +
+>     >   net/tap-bsd.c                  |   5 +
+>     >   net/tap-linux.c                |  13 +
+>     >   net/tap-linux.h                |   1 +
+>     >   net/tap-solaris.c              |   5 +
+>     >   net/tap-stub.c                 |   5 +
+>     >   net/tap.c                      |   9 +
+>     >   net/tap_int.h                  |   1 +
+>     >   net/vhost-vdpa.c               |   2 +
+>     >   tools/ebpf/Makefile.ebpf       |  22 ++
+>     >   tools/ebpf/rss.bpf.c           | 569
+>     +++++++++++++++++++++++++++++++++
+>     >   27 files changed, 1592 insertions(+), 4 deletions(-)
+>     >   create mode 100644 docs/devel/ebpf_rss.rst
+>     >   create mode 100644 ebpf/ebpf_rss-stub.c
+>     >   create mode 100644 ebpf/ebpf_rss.c
+>     >   create mode 100644 ebpf/ebpf_rss.h
+>     >   create mode 100644 ebpf/meson.build
+>     >   create mode 100644 ebpf/rss.bpf.skeleton.h
+>     >   create mode 100644 ebpf/trace-events
+>     >   create mode 100644 ebpf/trace.h
+>     >   create mode 100755 tools/ebpf/Makefile.ebpf
+>     >   create mode 100644 tools/ebpf/rss.bpf.c
+>     >
 >
 
---000000000000db497b05c0fe6c22
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Wednesday, April 28, 2021, Andrew Randrianasulu &lt;<a href=3D"m=
-ailto:randrianasulu@gmail.com">randrianasulu@gmail.com</a>&gt; wrote:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><br><br>On Monday, April 26, 2021, BALATON Zol=
-tan &lt;<a href=3D"mailto:balaton@eik.bme.hu" target=3D"_blank">balaton@eik=
-.bme.hu</a>&gt; wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hello,<br>
-<br>
-On Mon, 26 Apr 2021, Dr. David Alan Gilbert wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0Over the weekend I got a Red Hat 6.x (not RHEL!) for Alpha booting<br=
->
-under QEMU which was pretty neat.=C2=A0 But I failed to find a succesful<br=
->
-combination to get X working; has anyone any suggestions?<br>
-</blockquote>
-<br>
-Adding Andrew who has experimented with old X framebuffer so he may remembe=
-r something more but that was on x86.</blockquote><div><br></div><div><br><=
-/div><div>Sorry, I still away from my desktop (with notes/logs), not sure w=
-hen return..=C2=A0</div><div>I do not think I tried something that old.. Ke=
-rnel 2.2 i guess, before any attempt at r128 drm Kernel module was written =
-(in 2.4?) and so before ddx attempted to use that (as it tries by default i=
-n much newer distros)=C2=A0</div><div><br></div><div>I tried Last debian fo=
-r alpha, (5.0.x?) on qemu, it had bugs in cirrusfb in 2.6.26 Kernel so i co=
-mpiled like 2.6.32.last inside emulated system.. This made fb works, But st=
-ill there was no X for me... (can&#39;t recall exact error - May be even si=
-gabort or sigbus - but do not count on my memory on this... /)=C2=A0</div><=
-div><br></div><div>Notes i used for launching qemu -=C2=A0</div><div><a hre=
-f=3D"https://virtuallyfun.com/wordpress/2014/02/19/alpha-linux-on-qemu/" ta=
-rget=3D"_blank">https://virtuallyfun.com/<wbr>wordpress/2014/02/19/alpha-<w=
-br>linux-on-qemu/</a></div><div>But Sadly pre-compressed disk image from th=
-at post really gone (it uses funny error Page telling you to use login/pass=
-word, yet file can&#39;t be downloaded...)=C2=A0</div></blockquote><div><br=
-></div><div><br></div><div>Upd:=C2=A0</div><div><a href=3D"https://web.arch=
-ive.org/web/20191021110430/https://vpsland.superglobalmegacorp.com/old/inst=
-all/linux/DecAlpha/alpha-linux.7z">https://web.archive.org/web/201910211104=
-30/https://vpsland.superglobalmegacorp.com/old/install/linux/DecAlpha/alpha=
--linux.7z</a></div><div><br></div><div>This May give you kernel/initrd/disk=
- image..</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div><br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0That distro was from around 2000; the challenge is since we don&#39;t=
- have<br>
-VESA on non-x86, we can&#39;t change mode that way, so generic XF86_SVGA<br=
->
-doesn&#39;t want to play with any of the devices.<br>
-<br>
-=C2=A0I also tried the ati device, but the accelerated mach64 driver<br>
-didn&#39;t recognise that ID.<br>
-</blockquote>
-<br>
-The ati-vga partially emulates an ATI Rage128 Pro so it won&#39;t work with=
- mach64 driver that is older and while functionally similar has different r=
-egisters. You probably need to load aty128fb and then set a mode with fbset=
- then may need to edit X conf but I forgot which option was neded, somethin=
-g about UseFb or similar so it won&#39;t try to change mode itself but use =
-the already set Linux FB because otherwise it did not detect the card prope=
-rly but I don&#39;r remember the details so may be wrong. Also some 2D acce=
-l is emulated so may work without disabling it but I think has some bugs so=
- it may have glitches.<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0Has anyone found any combo that works?<br>
-I suspect using one of the existing devices, lying about PCI ID, and<br>
-then turning off all accelerations might have a chance but I&#39;ve not got=
-<br>
-that far.<br>
-</blockquote>
-<br>
-Changing the PCI ID may not help as these ATI chips have different register=
-s so only compatible with the right drivers. I&#39;ve tried to use current =
-ati-vga with a Mac ROM that expects mach64 but it did not work.<br>
-<br>
-It may help to add -trace enable=3D&quot;ati*&quot; and maybe also enable s=
-ome debug defines in ati_int.h to see if it accesses the card at all but wi=
-th the right driver that works with Rage128Pro it should produce some pictu=
-re at least in fb console and we could run X with it on x86 before.<br>
-<br>
-More info on ati-vga is here: <a href=3D"https://osdn.net/projects/qmiga/wi=
-ki/SubprojectAti" target=3D"_blank">https://osdn.net/projects/qmig<wbr>a/wi=
-ki/SubprojectAti</a><br>
-<br>
-By the way, last time I&#39;ve experimented with it I&#39;ve found that mou=
-se pointer getting out of sync and jumping around is probably a result of m=
-ouse acceleration on the host is not taken into account when tracking guest=
- pointer position. Is that possible and is there a way to fix it?<br>
-<br>
-Regards,<br>
-BALATON Zoltan<br>
-</blockquote>
-</blockquote>
-
---000000000000db497b05c0fe6c22--
 
