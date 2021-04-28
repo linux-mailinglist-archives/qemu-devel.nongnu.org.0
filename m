@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE0236D0E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 05:33:46 +0200 (CEST)
-Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EA336D105
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 05:57:48 +0200 (CEST)
+Received: from localhost ([::1]:42358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbaxN-0000zB-PK
-	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 23:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1lbbKW-000393-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 27 Apr 2021 23:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbaw4-000858-P0
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 23:32:26 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:44973)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1lbbIz-0002iC-Mw; Tue, 27 Apr 2021 23:56:05 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbaw1-00008y-QF
- for qemu-devel@nongnu.org; Tue, 27 Apr 2021 23:32:24 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- m6-20020a17090a8586b02901507e1acf0fso8361027pjn.3
- for <qemu-devel@nongnu.org>; Tue, 27 Apr 2021 20:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UK1YbqqlmWYWZ3nCDAZqXJgWrK622W4kr3AfSUK6QPg=;
- b=fcFoqTBjCqcj/0QvoQKQBtF/pBlujHhlzsVqEmlvQNSRyO2OnpnrgUkBrgLEyz5uhv
- ZitYcppbUHDNACe3rU7NIy7fBz9zSK6bEGSwl9VMcke8N5KbQ69H/cMyGA5hXp197k0y
- G7oSLQEBvxVVSqI3zNQO4fhoCjO+E2Xk6dk5tNo4aekxhK7uEgzzWQoT6srTGEb6VdYF
- 4BbOlK17g6yvE0xlQAqQDrLqf7v7ejSLsKrBFcNvYSc2XFowaC9uZq/e965KKp2Vs487
- gr+P6uMwYv1/9YfMSEJLc1d/6o1JYnhDNwUETYjegcxSIlnUkA2W57TWYOjHpnotSrUx
- Viug==
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1lbbIw-0008KP-RS; Tue, 27 Apr 2021 23:56:05 -0400
+Received: by mail-ed1-x531.google.com with SMTP id q6so13207301edr.3;
+ Tue, 27 Apr 2021 20:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qiYAgm99hUAo8brkDHA22bGmSOobnwKhkraFZBtwTI0=;
+ b=CbPVWOoTUpza3IAU8zGuCmE0J81KE76Ep7mQmbMngr0CXFOA2I7a6MM0+yKy4/9/vD
+ PQDc13AZK4ZbPREFygpkH8UZDgDWffsclj34vkPviRzeNHMjZTD6K12Fi2MpIjPe1hXH
+ CQfOXSwrpbhDUthkNGUHzYHrGWcKecRMsy7B0xGT5iPDogBxbYUSlYsxQDl5ZiCXP0ME
+ 1wcslCDI+YnwY4grNOnw97dpkZcEISHOAQdbxzUbX+6KQUO9vKj1CSrkI6Bmo3MnHCTo
+ d/YBQp4//JTc/z4OgqxlVuGWXx1g6n+wGsPqtqMpQ3lqf7usuLpEXWIvhTRufRzENNZn
+ NOfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UK1YbqqlmWYWZ3nCDAZqXJgWrK622W4kr3AfSUK6QPg=;
- b=tAX4GmDd8Ri5p6Q+XPI5HustC3BWeETyhVboG84XtBfW/Or0ia9WCRNNs6j4UNlqfL
- sDqMyrF+K6lJAdtt4BPDJFKSBEbrKzjYItDfkMx9SdtcfJUztmStHsd6oWoBHhCg3rpQ
- UmwsYQ4EVEN+fpzFPa19bWJfw3z7hlqK0WnYX81LJ0lQxHoDeT9fXzjzrnfvKvP+SkVN
- qJ846nLsu/itGFbmTN0HRVWI1xnVdR9E9SQlC6S0ZPK8uqT+kXJYrFf0bXL/1UZc54df
- mbF9cQHkj/wbStvvTMCxwT006M9X/scjewwnOf42UTzv0AIY07XFmQabe8dnXcuks4F4
- A02Q==
-X-Gm-Message-State: AOAM530LXd/JzO5yJurhezPQawdsSQcCKKRYOJLeNfTbqmfm7m2rc0sF
- +LrJUPg/ayhLYjgYvXeMn64kzNime4wFdg==
-X-Google-Smtp-Source: ABdhPJzvAkX9JMGz2G8tClGHd5HivNN99Dk4FjTY1FEj9LfO7wHnIHx48toxy0kTO9eYNCx3Hc0H6w==
-X-Received: by 2002:a17:902:7b8e:b029:ec:982d:7a7e with SMTP id
- w14-20020a1709027b8eb02900ec982d7a7emr27912209pll.55.1619580740428; 
- Tue, 27 Apr 2021 20:32:20 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 18sm3572335pji.30.2021.04.27.20.32.18
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qiYAgm99hUAo8brkDHA22bGmSOobnwKhkraFZBtwTI0=;
+ b=q6JSBiMVnaqRWy0CvbjwdKajGflYL/oGMe5gCmF9HF5Mw6Og0Z8j+7EjOraUpUHenJ
+ y+6uIsyuIa8tWnn/4u4UFRsbQSl1y8AbUsEoJR42qI807h70xc7Y7YgxI2fwl110xy5Y
+ IIZBaiFBiXaRQgT/76t16k3RkpVOgRluibTB4pTLq//0ltQbaKObS+Qejt812LOWRI0G
+ Dh+wKfaSsgPLZc7wvmsyzUVVtqKWRrfRpTpLS9IATmHN4Ih/H27g1A3ylEH7RhogzpE3
+ b4buRDF1MgFiqmmNXC1Ydr+VVLQ8mAeyNbKwhXI4ENQvckoynkk35U0PKIxoK4rVIdst
+ BY1w==
+X-Gm-Message-State: AOAM531qqVLsF/cDgWmrZQTkSdrNGF+OKjlTf6YFEukPfKt6HcSMZ3GI
+ a+tQ4ve6ICCRzumU4hAON3g=
+X-Google-Smtp-Source: ABdhPJzdCuFRifQ3I5UdBP+JC+oPoEw+NTyw80Z69kBKomi/WZF9L1WmQZbz4Wm/QhR+QnHIR1xJyw==
+X-Received: by 2002:aa7:d2da:: with SMTP id k26mr8262788edr.156.1619582160591; 
+ Tue, 27 Apr 2021 20:56:00 -0700 (PDT)
+Received: from neptune.lab ([46.39.228.82])
+ by smtp.googlemail.com with ESMTPSA id i2sm1057182ejv.99.2021.04.27.20.55.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 20:32:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] linux-user/s390x: Handle vector regs in signal stack
-Date: Tue, 27 Apr 2021 20:32:04 -0700
-Message-Id: <20210428033204.133471-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210428033204.133471-1-richard.henderson@linaro.org>
-References: <20210428033204.133471-1-richard.henderson@linaro.org>
+ Tue, 27 Apr 2021 20:56:00 -0700 (PDT)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
+To: 
+Subject: [PATCH RESEND v8 2/6] [RISCV_PM] Support CSRs required for RISC-V PM
+ extension except for the h-mode
+Date: Wed, 28 Apr 2021 06:55:53 +0300
+Message-Id: <20210428035553.4701-1-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,157 +80,411 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- laurent@vivier.eu, david@redhat.com
+Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
 ---
- linux-user/s390x/signal.c | 62 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 2 deletions(-)
+resend:
+  minor codestyle fix
 
-diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index fb7065f243..57752a2a96 100644
---- a/linux-user/s390x/signal.c
-+++ b/linux-user/s390x/signal.c
-@@ -51,6 +51,12 @@ typedef struct {
-     target_s390_fp_regs     fpregs;
- } target_sigregs;
+ target/riscv/cpu.c      |   5 +
+ target/riscv/cpu.h      |  12 ++
+ target/riscv/cpu_bits.h |  66 +++++++++++
+ target/riscv/csr.c      | 240 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 323 insertions(+)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 7d6ed80f6b..c04911ec05 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -473,6 +473,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
++        if (cpu->cfg.ext_j) {
++#ifndef CONFIG_USER_ONLY
++            env->mmte |= PM_EXT_INITIAL;
++#endif
++        }
+         if (cpu->cfg.ext_v) {
+             target_misa |= RVV;
+             if (!is_power_of_2(cpu->cfg.vlen)) {
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0ea9fc65c8..19aa3b4769 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -238,6 +238,18 @@ struct CPURISCVState {
  
-+typedef struct {
-+    uint64_t vxrs_low[16];
-+    uint64_t vxrs_high[16][2];
-+    uint8_t reserved[128];
-+} target_sigregs_ext;
-+
- typedef struct {
-     abi_ulong oldmask[_SIGCONTEXT_NSIG_WORDS];
-     abi_ulong sregs;
-@@ -61,15 +67,20 @@ typedef struct {
-     target_sigcontext sc;
-     target_sigregs sregs;
-     int signo;
-+    target_sigregs_ext sregs_ext;
-     uint8_t retcode[S390_SYSCALL_SIZE];
- } sigframe;
- 
-+#define TARGET_UC_VXRS 2
-+
- struct target_ucontext {
-     abi_ulong tuc_flags;
-     abi_ulong tuc_link;
-     target_stack_t tuc_stack;
-     target_sigregs tuc_mcontext;
--    target_sigset_t tuc_sigmask;   /* mask last for extensibility */
-+    target_sigset_t tuc_sigmask;
-+    uint8_t reserved[128 - sizeof(target_sigset_t)];
-+    target_sigregs_ext tuc_mcontext_ext;
- };
- 
- typedef struct {
-@@ -129,6 +140,24 @@ static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
-     }
- }
- 
-+static void save_sigregs_ext(CPUS390XState *env, target_sigregs_ext *ext)
-+{
-+    int i;
+     /* True if in debugger mode.  */
+     bool debugger;
 +
 +    /*
-+     * if (MACHINE_HAS_VX) ...
-+     * That said, we always allocate the stack storage and the
-+     * space is always available in env.
++     * CSRs for PM
++     * TODO: move these csr to appropriate groups
 +     */
-+    for (i = 0; i < 16; ++i) {
-+       __put_user(env->vregs[i][1], &ext->vxrs_low[i]);
-+    }
-+    for (i = 0; i < 16; ++i) {
-+       __put_user(env->vregs[i + 16][0], &ext->vxrs_high[i][0]);
-+       __put_user(env->vregs[i + 16][1], &ext->vxrs_high[i][1]);
-+    }
-+}
++    target_ulong mmte;
++    target_ulong mpmmask;
++    target_ulong mpmbase;
++    target_ulong spmmask;
++    target_ulong spmbase;
++    target_ulong upmmask;
++    target_ulong upmbase;
+ #endif
+ 
+     float_status fp_status;
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index caf4599207..f8e7cdb99b 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -354,6 +354,21 @@
+ #define CSR_MHPMCOUNTER30H  0xb9e
+ #define CSR_MHPMCOUNTER31H  0xb9f
+ 
++/* Custom user register */
++#define CSR_UMTE            0x8c0
++#define CSR_UPMMASK         0x8c1
++#define CSR_UPMBASE         0x8c2
 +
- void setup_frame(int sig, struct target_sigaction *ka,
-                  target_sigset_t *set, CPUS390XState *env)
- {
-@@ -156,6 +185,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     /* Place signal number on stack to allow backtrace from handler.  */
-     __put_user(sig, &frame->signo);
- 
-+    /* Create sigregs_ext on the signal stack. */
-+    save_sigregs_ext(env, &frame->sregs_ext);
++/* Custom machine register */
++#define CSR_MMTE            0x7c0
++#define CSR_MPMMASK         0x7c1
++#define CSR_MPMBASE         0x7c2
 +
-     /*
-      * Set up to return from userspace.
-      * If provided, use a stub already in userspace.
-@@ -196,6 +228,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
- {
-     rt_sigframe *frame;
-     abi_ulong frame_addr;
-+    abi_ulong uc_flags;
++/* Custom supervisor register */
++#define CSR_SMTE            0x9c0
++#define CSR_SPMMASK         0x9c1
++#define CSR_SPMBASE         0x9c2
++
+ /* Legacy Machine Protection and Translation (priv v1.9.1) */
+ #define CSR_MBASE           0x380
+ #define CSR_MBOUND          0x381
+@@ -592,4 +607,55 @@
+ #define MIE_UTIE                           (1 << IRQ_U_TIMER)
+ #define MIE_SSIE                           (1 << IRQ_S_SOFT)
+ #define MIE_USIE                           (1 << IRQ_U_SOFT)
++
++/* general mte CSR bits*/
++#define PM_ENABLE       0x00000001ULL
++#define PM_CURRENT      0x00000002ULL
++#define PM_XS_MASK      0x00000003ULL
++
++/* PM XS bits values */
++#define PM_EXT_DISABLE  0x00000000ULL
++#define PM_EXT_INITIAL  0x00000001ULL
++#define PM_EXT_CLEAN    0x00000002ULL
++#define PM_EXT_DIRTY    0x00000003ULL
++
++/* offsets for every pair of control bits per each priv level */
++#define XS_OFFSET    0ULL
++#define U_OFFSET     2ULL
++#define S_OFFSET     4ULL
++#define M_OFFSET     6ULL
++
++#define PM_XS_BITS   (PM_XS_MASK << XS_OFFSET)
++#define U_PM_ENABLE  (PM_ENABLE  << U_OFFSET)
++#define U_PM_CURRENT (PM_CURRENT << U_OFFSET)
++#define S_PM_ENABLE  (PM_ENABLE  << S_OFFSET)
++#define S_PM_CURRENT (PM_CURRENT << S_OFFSET)
++#define M_PM_ENABLE  (PM_ENABLE  << M_OFFSET)
++
++/* mmte CSR bits */
++#define MMTE_PM_XS_BITS     PM_XS_BITS
++#define MMTE_U_PM_ENABLE    U_PM_ENABLE
++#define MMTE_U_PM_CURRENT   U_PM_CURRENT
++#define MMTE_S_PM_ENABLE    S_PM_ENABLE
++#define MMTE_S_PM_CURRENT   S_PM_CURRENT
++#define MMTE_M_PM_ENABLE    M_PM_ENABLE
++#define MMTE_MASK           (MMTE_U_PM_ENABLE | MMTE_U_PM_CURRENT | \
++                             MMTE_S_PM_ENABLE | MMTE_S_PM_CURRENT | \
++                             MMTE_M_PM_ENABLE | MMTE_PM_XS_BITS)
++
++/* smte CSR bits */
++#define SMTE_PM_XS_BITS     PM_XS_BITS
++#define SMTE_U_PM_ENABLE    U_PM_ENABLE
++#define SMTE_U_PM_CURRENT   U_PM_CURRENT
++#define SMTE_S_PM_ENABLE    S_PM_ENABLE
++#define SMTE_S_PM_CURRENT   S_PM_CURRENT
++#define SMTE_MASK           (SMTE_U_PM_ENABLE | SMTE_U_PM_CURRENT | \
++                             SMTE_S_PM_ENABLE | SMTE_S_PM_CURRENT | \
++                             SMTE_PM_XS_BITS)
++
++/* umte CSR bits */
++#define UMTE_U_PM_ENABLE    U_PM_ENABLE
++#define UMTE_U_PM_CURRENT   U_PM_CURRENT
++#define UMTE_MASK           (UMTE_U_PM_ENABLE | MMTE_U_PM_CURRENT)
++
+ #endif
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index d2585395bf..bef65c5ae1 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -184,6 +184,39 @@ static int hmode32(CPURISCVState *env, int csrno)
  
-     frame_addr = get_sigframe(ka, env, sizeof *frame);
-     trace_user_setup_rt_frame(env, frame_addr);
-@@ -223,10 +256,15 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     tswap_siginfo(&frame->info, info);
- 
-     /* Create the ucontext.  */
--    __put_user(0, &frame->uc.tuc_flags);
-+    uc_flags = 0;
-+    if (s390_has_feat(S390_FEAT_VECTOR)) {
-+        uc_flags |= TARGET_UC_VXRS;
-+    }
-+    __put_user(uc_flags, &frame->uc.tuc_flags);
-     __put_user(0, &frame->uc.tuc_link);
-     target_save_altstack(&frame->uc.tuc_stack, env);
-     save_sigregs(env, &frame->uc.tuc_mcontext);
-+    save_sigregs_ext(env, &frame->uc.tuc_mcontext_ext);
-     tswap_sigset(&frame->uc.tuc_sigmask, set);
- 
-     /* Set up registers for signal handler */
-@@ -265,6 +303,24 @@ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
-     }
  }
  
-+static void restore_sigregs_ext(CPUS390XState *env, target_sigregs_ext *ext)
++static int umode(CPURISCVState *env, int csrno)
 +{
-+    int i;
-+
-+    /*
-+     * if (MACHINE_HAS_VX) ...
-+     * That said, we always allocate the stack storage and the
-+     * space is always available in env.
-+     */
-+    for (i = 0; i < 16; ++i) {
-+       __get_user(env->vregs[i][1], &ext->vxrs_low[i]);
-+    }
-+    for (i = 0; i < 16; ++i) {
-+       __get_user(env->vregs[i + 16][0], &ext->vxrs_high[i][0]);
-+       __get_user(env->vregs[i + 16][1], &ext->vxrs_high[i][1]);
-+    }
++    return -!riscv_has_ext(env, RVU);
 +}
 +
- long do_sigreturn(CPUS390XState *env)
++/* Checks if PointerMasking registers could be accessed */
++static int pointer_masking(CPURISCVState *env, int csrno)
++{
++    /* Check if j-ext is present */
++    int j_check = -!riscv_has_ext(env, RVJ);
++    int mode_check = 0;
++    int csr_priv = get_field(csrno, 0x300);
++    /* check if particular mode is present */
++    switch (csr_priv) {
++    case PRV_M:
++        mode_check = any(env, csrno);
++        break;
++    case PRV_S:
++        mode_check = smode(env, csrno);
++        break;
++    case PRV_U:
++        mode_check = umode(env, csrno);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    /* raise fault if no j-ext or particular mode are present */
++    if (j_check < 0) {
++        return -RISCV_EXCP_ILLEGAL_INST;
++    }
++    return mode_check;
++}
++
+ static int pmp(CPURISCVState *env, int csrno)
  {
-     sigframe *frame;
-@@ -286,6 +342,7 @@ long do_sigreturn(CPUS390XState *env)
-     set_sigmask(&set); /* ~_BLOCKABLE? */
+     return -!riscv_feature(env, RISCV_FEATURE_PMP);
+@@ -1263,6 +1296,200 @@ static int write_pmpaddr(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
  
-     restore_sigregs(env, &frame->sregs);
-+    restore_sigregs_ext(env, &frame->sregs_ext);
++/*
++ * Functions to access Pointer Masking feature registers
++ * We have to check if current priv lvl could modify
++ * csr in given mode
++ */
++static int check_pm_current_disabled(CPURISCVState *env, int csrno)
++{
++    int csr_priv = get_field(csrno, 0x300);
++    /*
++     * If priv lvls differ that means we're accessing csr from higher priv lvl,
++     * so allow the access
++     */
++    if (env->priv != csr_priv) {
++        return 0;
++    }
++    int cur_bit_pos;
++    switch (env->priv) {
++    case PRV_M:
++        /* m-mode is always allowed to modify registers, so allow */
++        return 0;
++    case PRV_S:
++        cur_bit_pos = S_PM_CURRENT;
++        break;
++    case PRV_U:
++        cur_bit_pos = U_PM_CURRENT;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    int pm_current = get_field(env->mmte, cur_bit_pos);
++    /* It's same priv lvl, so we allow to modify csr only if pm_current==1 */
++    return !pm_current;
++}
++
++static int read_mmte(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->mmte & MMTE_MASK;
++    return  0;
++}
++
++static int write_mmte(CPURISCVState *env, int csrno, target_ulong val)
++{
++    target_ulong wpri_val = val & MMTE_MASK;
++    if (val != wpri_val) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "MMTE: WPRI violation written 0x%lx vs expected 0x%lx\n",
++                      val, wpri_val);
++    }
++    env->mmte = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
++static int read_smte(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->mmte & SMTE_MASK;
++    return 0;
++}
++
++static int write_smte(CPURISCVState *env, int csrno, target_ulong val)
++{
++    target_ulong wpri_val = val & SMTE_MASK;
++    if (val != wpri_val) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "SMTE: WPRI violation written 0x%lx vs expected 0x%lx\n",
++                      val, wpri_val);
++    }
++    if (check_pm_current_disabled(env, csrno)) {
++        return 0;
++    }
++    target_ulong new_val = val | (env->mmte & ~SMTE_MASK);
++    write_mmte(env, csrno, new_val);
++    return 0;
++}
++
++static int read_umte(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->mmte & UMTE_MASK;
++    return 0;
++}
++
++static int write_umte(CPURISCVState *env, int csrno, target_ulong val)
++{
++    target_ulong wpri_val = val & UMTE_MASK;
++    if (val != wpri_val) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "UMTE: WPRI violation written 0x%lx vs expected 0x%lx\n",
++                      val, wpri_val);
++    }
++    if (check_pm_current_disabled(env, csrno)) {
++        return 0;
++    }
++    target_ulong new_val = val | (env->mmte & ~UMTE_MASK);
++    write_mmte(env, csrno, new_val);
++    return 0;
++}
++
++static int read_mpmmask(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->mpmmask;
++    return 0;
++}
++
++static int write_mpmmask(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->mpmmask = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
++static int read_spmmask(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->spmmask;
++    return 0;
++}
++
++static int write_spmmask(CPURISCVState *env, int csrno, target_ulong val)
++{
++    if (check_pm_current_disabled(env, csrno)) {
++        return 0;
++    }
++    env->spmmask = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
++static int read_upmmask(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->upmmask;
++    return 0;
++}
++
++static int write_upmmask(CPURISCVState *env, int csrno, target_ulong val)
++{
++    if (check_pm_current_disabled(env, csrno)) {
++        return 0;
++    }
++    env->upmmask = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
++static int read_mpmbase(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->mpmbase;
++    return 0;
++}
++
++static int write_mpmbase(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->mpmbase = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
++static int read_spmbase(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->spmbase;
++    return 0;
++}
++
++static int write_spmbase(CPURISCVState *env, int csrno, target_ulong val)
++{
++    if (check_pm_current_disabled(env, csrno)) {
++        return 0;
++    }
++    env->spmbase = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
++static int read_upmbase(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->upmbase;
++    return 0;
++}
++
++static int write_upmbase(CPURISCVState *env, int csrno, target_ulong val)
++{
++    if (check_pm_current_disabled(env, csrno)) {
++        return 0;
++    }
++    env->upmbase = val;
++    env->mstatus |= MSTATUS_XS | MSTATUS_SD;
++    env->mmte |= PM_EXT_DIRTY;
++    return 0;
++}
++
+ #endif
  
-     unlock_user_struct(frame, frame_addr, 0);
-     return -TARGET_QEMU_ESIGRETURN;
-@@ -308,6 +365,7 @@ long do_rt_sigreturn(CPUS390XState *env)
+ /*
+@@ -1494,6 +1721,19 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_PMPADDR14] =  { "pmpaddr14", pmp, read_pmpaddr, write_pmpaddr },
+     [CSR_PMPADDR15] =  { "pmpaddr15", pmp, read_pmpaddr, write_pmpaddr },
  
-     target_restore_altstack(&frame->uc.tuc_stack, env);
-     restore_sigregs(env, &frame->uc.tuc_mcontext);
-+    restore_sigregs_ext(env, &frame->uc.tuc_mcontext_ext);
- 
-     unlock_user_struct(frame, frame_addr, 0);
-     return -TARGET_QEMU_ESIGRETURN;
++    /* User Pointer Masking */
++    [CSR_UMTE]    =    { "umte",    pointer_masking, read_umte,    write_umte    },
++    [CSR_UPMMASK] =    { "upmmask", pointer_masking, read_upmmask, write_upmmask },
++    [CSR_UPMBASE] =    { "upmbase", pointer_masking, read_upmbase, write_upmbase },
++    /* Machine Pointer Masking */
++    [CSR_MMTE]    =    { "mmte",    pointer_masking, read_mmte,    write_mmte    },
++    [CSR_MPMMASK] =    { "mpmmask", pointer_masking, read_mpmmask, write_mpmmask },
++    [CSR_MPMBASE] =    { "mpmbase", pointer_masking, read_mpmbase, write_mpmbase },
++    /* Supervisor Pointer Masking */
++    [CSR_SMTE]    =    { "smte",    pointer_masking, read_smte,    write_smte    },
++    [CSR_SPMMASK] =    { "spmmask", pointer_masking, read_spmmask, write_spmmask },
++    [CSR_SPMBASE] =    { "spmbase", pointer_masking, read_spmbase, write_spmbase },
++
+     /* Performance Counters */
+     [CSR_HPMCOUNTER3]    = { "hpmcounter3",    ctr,    read_zero },
+     [CSR_HPMCOUNTER4]    = { "hpmcounter4",    ctr,    read_zero },
 -- 
-2.25.1
+2.20.1
 
 
