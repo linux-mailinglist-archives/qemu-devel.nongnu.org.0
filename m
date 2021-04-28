@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1514636DD04
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:30:10 +0200 (CEST)
-Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346F236DD0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:33:05 +0200 (CEST)
+Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbn4i-00075v-Rw
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:30:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50914)
+	id 1lbn7Y-0008HY-9T
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:33:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lbn06-0002jr-Dw
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:25:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24677)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lbn4K-00078c-QZ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:29:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lbn03-0004FM-1j
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:25:22 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lbn4H-0006Tp-PW
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:29:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619627118;
+ s=mimecast20190719; t=1619627380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eBdNOg2n+/RCuootEMPQndqR/oMDHOVm5dkHImnr1nc=;
- b=HmkA8dNkb0PrUsdqXIQz3elxcOnEBabvIUuZCUwMtaWW5+EX6+QZUVfdfQdBAV77u/jJuE
- Xp/8TrC+it0WLmFedIqz9pAUpIwPPonWyMC5T7KMlB/1S7NMm2+XAiY6FSWW3Hyt3ChpMJ
- 01Hj+/OUFFrLnc8tO7pvGLT7hRUYDiM=
+ bh=Co/dMFKm0k4Bh5ngAGA6PebzSt63Cg+l8mYlMiLmNds=;
+ b=GlmRKk3Pb5r7MoLm2HZtWygoEbyaLTD5FXWw5PTXsYoXWa3NvC4QttWHnRY1zg6iBbiQyh
+ efcHbr7JErKK/gqJBk81X678Nd5CBhjm5pwXerzGD+h0ZdB1guJcD4fxZGzkxAW2tj37BV
+ PLgDA/Ws7wKUh9ROQXFLi2iTw2WJny0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-yc2DmH4iMKe_qfcCmGqlyQ-1; Wed, 28 Apr 2021 12:25:16 -0400
-X-MC-Unique: yc2DmH4iMKe_qfcCmGqlyQ-1
+ us-mta-288-ZdhyTsCXNkaxII5kekdtxQ-1; Wed, 28 Apr 2021 12:29:38 -0400
+X-MC-Unique: ZdhyTsCXNkaxII5kekdtxQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CBF210CE781;
- Wed, 28 Apr 2021 16:25:15 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-188.ams2.redhat.com
- [10.36.114.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33FA560C05;
- Wed, 28 Apr 2021 16:25:03 +0000 (UTC)
-Subject: Re: [PATCH 4/7] hw/acpi/vmgenid: Make ACPI_VMGENID depends on FW_CFG
- Kconfig
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210426193520.4115528-1-philmd@redhat.com>
- <20210426193520.4115528-5-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <d35a5ecd-3fef-a178-f06e-90f3ceea49a5@redhat.com>
-Date: Wed, 28 Apr 2021 18:25:02 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A28107ACE4
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 16:29:37 +0000 (UTC)
+Received: from localhost (unknown [10.22.9.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9300C60CC9;
+ Wed, 28 Apr 2021 16:29:30 +0000 (UTC)
+Date: Wed, 28 Apr 2021 12:29:30 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] Deprecate pmem=on with non-DAX capable backend file
+Message-ID: <20210428162929.bgwyol24brh2avfa@habkost.net>
+References: <20210111203332.740815-1-imammedo@redhat.com>
+ <20210427204848.ubgncujxjxcufpul@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20210426193520.4115528-5-philmd@redhat.com>
+In-Reply-To: <20210427204848.ubgncujxjxcufpul@habkost.net>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,42 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-riscv@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: thuth@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/26/21 21:35, Philippe Mathieu-Daudé wrote:
-> The TYPE_VMGENID device depends on fw_cfg:
+On Tue, Apr 27, 2021 at 04:48:48PM -0400, Eduardo Habkost wrote:
+> On Mon, Jan 11, 2021 at 03:33:32PM -0500, Igor Mammedov wrote:
+> > It is not safe to pretend that emulated NVDIMM supports
+> > persistence while backend actually failed to enable it
+> > and used non-persistent mapping as fall back.
+> > Instead of falling-back, QEMU should be more strict and
+> > error out with clear message that it's not supported.
+> > So if user asks for persistence (pmem=on), they should
+> > store backing file on NVDIMM.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
->   $ git grep \ fw_cfg hw/acpi/vmgenid.c
->   hw/acpi/vmgenid.c:128:    fw_cfg_add_file(s, VMGENID_GUID_FW_CFG_FILE, guid->data,
->   hw/acpi/vmgenid.c:131:    fw_cfg_add_file_callback(s, VMGENID_ADDR_FW_CFG_FILE, NULL, NULL, NULL,
+> I'm queueing this for 6.1, after changing "since 6.0" to "since 6.1".
 > 
-> Add the proper Kconfig dependency.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/acpi/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-> index 1932f66af8d..b9dc932d2a7 100644
-> --- a/hw/acpi/Kconfig
-> +++ b/hw/acpi/Kconfig
-> @@ -40,5 +40,6 @@ config ACPI_VMGENID
->      bool
->      default y
->      depends on PC
-> +    select FW_CFG
->  
->  config ACPI_HW_REDUCED
-> 
+> Sorry for letting it fall through the cracks.
 
-The intent is certainly correct and the implementation looks plausible.
+This caused build failures[1] and I had to apply the following
+fixup.
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+[1] https://gitlab.com/ehabkost/qemu/-/jobs/1216917482#L3444
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ docs/system/deprecated.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index cc8d810be1a..c55c4bceb00 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -257,6 +257,7 @@ is (a) not DAX capable or (b) not on a filesystem that support direct mapping
+ of persistent memory, is not safe and may lead to data loss or corruption in case
+ of host crash.
+ Options are:
++
+     - modify VM configuration to set ``pmem=off`` to continue using fake NVDIMM
+       (without persistence guaranties) with backing file on non DAX storage
+     - move backing file to NVDIMM storage and keep ``pmem=on``
+-- 
+2.30.2
+
+-- 
+Eduardo
 
 
