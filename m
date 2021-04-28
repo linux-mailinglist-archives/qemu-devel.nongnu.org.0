@@ -2,71 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7652036E0DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 23:21:16 +0200 (CEST)
-Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3558F36E102
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 23:35:03 +0200 (CEST)
+Received: from localhost ([::1]:52662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbrcR-0002gK-0l
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 17:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54730)
+	id 1lbrpm-0007ov-99
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 17:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lbrae-0001pk-3Y
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 17:19:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30919)
+ (Exim 4.90_1) (envelope-from <tsoni@quicinc.com>) id 1lbnkq-0000Lk-5n
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:13:40 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:35665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lbraV-00063Z-L8
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 17:19:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619644752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CD47q1NDGUUL4Iy68PIht5wYhqjYa9JmVp/QQGnCV9c=;
- b=Noeen+V08TK4afUejP6lTEAHQWHZHuZjeqnp1uIVWeMCyPxdQRYa7G2vXbElEneserevMh
- Nx1M17dzSIg1Er9fCZXpKG5/Fb91lNYJF8L3hzsc6d6KNFWw5elXan0E4hekTr/tLH4s4+
- gw7cnkRebLyS5gkMsn/hpzJgv4CYEwU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-5BDQrq2_O32gvCDxQhqTyg-1; Wed, 28 Apr 2021 17:19:10 -0400
-X-MC-Unique: 5BDQrq2_O32gvCDxQhqTyg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAEC4107ACCA;
- Wed, 28 Apr 2021 21:19:08 +0000 (UTC)
-Received: from localhost (unknown [10.22.9.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F86861008;
- Wed, 28 Apr 2021 21:19:08 +0000 (UTC)
-Date: Wed, 28 Apr 2021 17:19:08 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Like Xu <like.xu@linux.intel.com>
-Subject: Re: [PATCH v2] target/i386: add "-cpu, lbr-fmt=*" support to enable
- guest LBR
-Message-ID: <20210428211908.ysogzmzh2ulpajgq@habkost.net>
-References: <20210427080948.439432-1-like.xu@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <tsoni@quicinc.com>) id 1lbnkn-0001Ct-6o
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:13:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1619630016; x=1620234816;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=SrWEjZGeoKr5e+Fclx9TnalV0U2dOwwtUiovQyD88ac=;
+ b=sfnrV4/b0AkFO/M/EqOz80L5YpStNy5qTUv5ll+8tI4FhS8M2u/Hm5KL
+ 8LHu2lW0KVIi32x1EuB9XjRYK+y4v4fyUH/TLK3grqSiwLzg1tEPVYA+y
+ r7JBr1ttamY/rqFY+bJEMY80kDjUtfQRHI0Np1q1S27qeu/hm/UomF39M Y=;
+IronPort-SDR: R+jcR22mF8pDkJi6BHFXl3IzQ/7b0CeXN2vJgKdyZOIX4IUPpx6KKc50mkHJuy7SI+aDalGFm5
+ 2xkqRM1UkTjk6dn5fgNvaz+eyGBSvWZ4S/OPHdVw4RzPv+tqvg/fu/yDbS2JvO9aLmNOWLyRkl
+ uEXEQUCcm0WRxGAtZ7XM8+KKsOgEI4uaVYgrXP+ftoHAzT58bKHksLKzMlqJyjUt7YgeydUp99
+ fE0fUF+QxjX4M4IRO7ActAsPhZe0X24mqIE0qozZx0CR9QUeaArD54YO1o7SuJOCNJ7h2ET+eU
+ gi0=
+X-IronPort-RemoteIP: 104.47.55.105
+X-IronPort-MID: 30163
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_O365
+X-IronPort-MailFlowPolicy: $RELAYED
+Received: from mail-mw2nam10lp2105.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.105])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2021 17:13:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lXD8vvvHFh5Q4bXW3BUfi8pFjMgl5OGKqaUsjD366CVvX7oDkqjI790PPGxYqHY5Mn5j5WMz7fHSnloFpZGX71Fejqvq+M3YcYzZFlsqBtKeyV8NMNZZON3p8tuIvv/yrwv95jQVnDfoeKkMYzcEWgffCyWJDSafn1A+5/kcItG9my39XkTByV0J78cCtkxIPK1yL1kxtzuAWKBNy5BxrTbWl3b5uTHo+Iz+u+tDgaPdB1wA5kr+ymEEe1RYNPagViCDGK9VCAAoSxJBA9hqNUwZClJoOW9tgy2PXXILvMI0mpQ67GpM+7J7aED9tkdL8GquPFuqUxT6KKmLgXvkUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MR352cDrDmZUtd0ZrA0fIPtMJmUN0AwXT93caN5qdEo=;
+ b=D2HMzj+LBn2bJEzc3z1GIgSjox2GfxYtu8duYqHLbFvp+h1Dk6bkZIGBh6zGbnq4yRBxpqyOlbW7dxt8BhUEJaBwNhpDHKMW8hrj3vJXg5EnoNl4aM7aasE0UdofFGeKygAcOVDSVnvGQAixBEpsjQO8O/0reLeTUwBwzAuWBJuSRYT9fjIytvdaJwjj/ve3LegdQC5zYnpy8O7BzyCiKPDJ+1a8yEE0KDrmCsiJ/lyU/yhTwd3dzj+P2DFmuxLRk1ncp5aZnhDcsqlguM5p8pWcG2M9l8j1aEv+sZRE2pZ/tfzzpnkvBzj+ombnvaYox5oEGl/19BbJJvHOIFKdXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BY5PR02MB6931.namprd02.prod.outlook.com (2603:10b6:a03:232::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Wed, 28 Apr
+ 2021 17:13:32 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::e84f:f62a:4384:b16e]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::e84f:f62a:4384:b16e%6]) with mapi id 15.20.4065.026; Wed, 28 Apr 2021
+ 17:13:32 +0000
+From: Trilok Soni <tsoni@quicinc.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>, "stratos-dev@op-lists.linaro.org"
+ <stratos-dev@op-lists.linaro.org>, "rust-vmm@lists.opendev.org"
+ <rust-vmm@lists.opendev.org>
+Subject: RE: [RUST] Add crate for generic vhost-user-i2c backend daemon
+Thread-Topic: [RUST] Add crate for generic vhost-user-i2c backend daemon
+Thread-Index: AQHXPCk3ArzJr3k09kiUN4EG3FfQgKrKKVcQ
+Date: Wed, 28 Apr 2021 17:13:32 +0000
+Message-ID: <BY5PR02MB6772BFF2315EEF33E187D468B0409@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
+In-Reply-To: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [76.176.58.9]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: efec7755-6ced-4bbc-6011-08d90a68f357
+x-ms-traffictypediagnostic: BY5PR02MB6931:
+x-microsoft-antispam-prvs: <BY5PR02MB693180BA50E77323424F8039B0409@BY5PR02MB6931.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nX2gA8UNhvtot8hIrj8LFSZhED4eeJF37Bc56Td6Er65WHH7b2jVqp2KfM9ruVr1Nwn12x1/SSP2QZzFSQt37J3gMHIxMGtYmav1oac9WetSWbRNsVSqyVEJV7m41xlYYB1W0TRsAGzis0AbyDQpdkRmdJuJHXalYpTigyZFDysvGNsDXIu/wxNMCeHAwMfulbbjKLi2IHU+lqf04FKktrdy9FVCqQXw5f11zT1cqezw5yybj2MO4qT8hOXRgeN9WUcN2pO+4UqHlXx8uIT2hgRh/qx47DKb/L6V3Sqj6xnvTMikwzTvsrwHBUV2DZIdgzdx/iy17/2DGFZOG6m2WL3vMQK2is30A70jZVDsY3QDwYboDybKZi1naVLQP3GV3VQeybs5pSUJb40F4exuwprVNw2n0yV2XSp56RsjjrlKxyMQTkMh6XrKxTORhdQO6Ivz/LUoPgEXMRfitbwkyihHs1FMr7yDz2AlNPhla5AmCLQcLPFFHN5MEf1M3OqxZmBb+haeMUi0am430LfaTyDk6g9c6fR8aTktHRXJ2VVjOwARGLu6Y9G1REBJarHSSM9DCUJWrQaJ5CKUg2lJ7gcE9WC97i4njYcE2vjmIuYc7sZVZcgpNWrfzeKVxMhE16u+WdncPX067Re5YkLTkdzVbnwPb8kgrn/+74k3e7+CFgkYJ9WEOFwh5gAKxlNYrBu/AOFV3h/nu5CIbLEzOLcUWmZHRe5YNgUIz7nMuRg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39860400002)(366004)(346002)(376002)(76116006)(122000001)(6506007)(66946007)(52536014)(53546011)(4326008)(33656002)(110136005)(8676002)(66476007)(38100700002)(7696005)(54906003)(478600001)(66556008)(7416002)(26005)(86362001)(9686003)(966005)(66574015)(55016002)(316002)(5660300002)(83380400001)(2906002)(8936002)(71200400001)(186003)(64756008)(66446008)(41533002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?Y59BkFucfYQmNH217xyz/OSsI6T4RnFfnLDJ3CMBn/lOfQRYGsDwZtd6Il?=
+ =?iso-8859-1?Q?hgwMjCaFR0UflxjlAJGUbkNXAuqPrrBGwjGdNp+PvmRfJ1aQdqxSqcBLH6?=
+ =?iso-8859-1?Q?zERFlZDpLij3X6MQuni/rY0AMpyEyKp9cDkES3CEmNl3Np+gnjyp5NyJZe?=
+ =?iso-8859-1?Q?4gKxvojqpfqAchf0qvuQTgPEQMISoLMjQVrww7qrp9s73i3kMAlW9K0fca?=
+ =?iso-8859-1?Q?Vw4rrrMijEaxwBNlotPU0cuRX0gQ9O/0IHyzByVqpQWUxh5mao2EJwpcoy?=
+ =?iso-8859-1?Q?w+SoL7EhsTHydWe1M6mjNwhv/mekwTx/sH4uDwxV/YuhioBN8g1B9NHlhJ?=
+ =?iso-8859-1?Q?BlUlPplR6MUxoKfUc+V/mlf/jpghKv9X8rDKX89OB1f7sn8eJj4Om+RA6O?=
+ =?iso-8859-1?Q?nR/MXouPgT7FJuXPKHwnVF60SB71Ez41vhZyr42Q82uGeUmE8L1+5DgKOU?=
+ =?iso-8859-1?Q?ffFPYR0Wz0T3P5IQIQd08VIYhGNc2kW7ZzbZzuh2siPdOa6k9rofIgl8/C?=
+ =?iso-8859-1?Q?B8f32+WbhgSrYMdrByqRnTYTzmYF7pYbuH2iytjdl7EQT718TUrrIu7n0P?=
+ =?iso-8859-1?Q?SwPAePmzVnDdgQpCA4hHMoi217S72Z9/vetxsKYUr+LHFupJURbCrnBJg3?=
+ =?iso-8859-1?Q?2FjWMM0Dj15nrnUSgL3G6yLUyXRTM8J8WeIIb5yRLQ+ZX1MBx/b7PNf175?=
+ =?iso-8859-1?Q?EmYWcLj5swOFYHnGOIwFF/Bxx2JVMpUMhAnye/dXPKz3x3uab67JVpK7av?=
+ =?iso-8859-1?Q?l3ly2AGRqv/pUSqCV4io5eBHn5095X1TLtDf6vbUvcMwFN/PgL1LzPOqMO?=
+ =?iso-8859-1?Q?NC8FEsuU1Sw359xcmxGKCjPSww2pScv/Nx4znrGy0XQOSyp9cpi8mznrXl?=
+ =?iso-8859-1?Q?W3fTIO8KIggBWecEU5UHynauJhE3uU+7b5mSw8TYmhBO7N4DPKkXOBfZS/?=
+ =?iso-8859-1?Q?8mEgzrt5SsQlu5eK3tGYI24B0HLf94RrrL8xmUeoQXtei5I9zvil9/Td5i?=
+ =?iso-8859-1?Q?QLfy5Oj/VvorlOwrtL89xkcWLy+VCsrMBmTF0d87M4qskV/ieglrxArty5?=
+ =?iso-8859-1?Q?Aj9JJot6OpykPh9Ke80tuDBuHS/XvRWRoioFG1bGVz1i5MN2WjA326e5Cb?=
+ =?iso-8859-1?Q?o8mZAmWIP6Ps/R3cKJCgV7iF+BVzrFL5mPATSI3LUBpmhBYa7zS23wdkqk?=
+ =?iso-8859-1?Q?kPpQjLUfGBH+uxhgfWlkruYELAHL3Qj3EKzPTTLV+4Ttq/CZijRl89PLXM?=
+ =?iso-8859-1?Q?uChLMcqa0/iQcRWo/65HLHS4wKx/CngI7KLtFHIBt0xYY18W/Y2Nw1t36f?=
+ =?iso-8859-1?Q?6uyl0tPTLd6gWyBVDHFpLKw4yrPXKT7haq/zd/9eyKz6Zw0=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20210427080948.439432-1-like.xu@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efec7755-6ced-4bbc-6011-08d90a68f357
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2021 17:13:32.3499 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: C34aKwiuEmOsIdsaVP6AlvD4tVUhlCaKNbvF6n1SAvApcWkGfpqtHWt5ks59B2bopJXkL974Ga9F8//siHr33Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6931
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsoni@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 28 Apr 2021 17:32:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,318 +148,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, wei.w.wang@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
+ Bill Mills <bill.mills@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
+ =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 27, 2021 at 04:09:48PM +0800, Like Xu wrote:
-> The last branch recording (LBR) is a performance monitor unit (PMU)
-> feature on Intel processors that records a running trace of the most
-> recent branches taken by the processor in the LBR stack. The QEMU
-> could configure whether it's enabled or not for each guest via CLI.
-> 
-> The LBR feature would be enabled on the guest if:
-> - the KVM is enabled and the PMU is enabled and,
-> - the msr-based-feature IA32_PERF_CAPABILITIES is supporterd on KVM and,
-> - the supported returned value for lbr_fmt from this msr is not zero and,
-> - the requested guest vcpu model does support FEAT_1_ECX.CPUID_EXT_PDCM,
-> - the configured lbr-fmt value is the same as the host lbr_fmt value
->   OR use the QEMU option "-cpu host,migratable=no".
+Viresh,
 
-I don't understand why "migratable" matters here.  "migratable"
-is just a convenience property to get better defaults when using
-"-cpu host".  I don't know why it would change the lbr-fmt
-validation rules.
+For rust-vmm, you need to create the new issue in the right project. You ca=
+n probably pick up vmm-reference project at rust-vmm and ask for the new cr=
+ate. You can also send email to rust-vmm mailing list but github "issues" f=
+eature is used heavily in the rust-vmm project. There is also bi-weekly mee=
+tings which is attended by me, Vatsa and rust-vmm developers where it can b=
+e put up as agenda.=20
 
-> 
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
-> ---
+The minimal requirement for the new crate is to have less (or almost none) =
+dependencies on other crates so that they can be independently tested in th=
+e rust-vmm CI. Anyways, please file a new issue and I will ask Vatsa and ot=
+hers to comment there.=20
 
-A changelog explaining what you changed since v1 would have been
-useful here.
+https://github.com/rust-vmm/vhost-user-backend
+http://lists.opendev.org/pipermail/rust-vmm/2021-March/000406.html
 
->  target/i386/cpu.c     | 34 ++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h     | 10 ++++++++++
->  target/i386/kvm/kvm.c | 10 ++++++++--
->  3 files changed, 52 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index ad99cad0e7..9c8e54aa6f 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6623,6 +6623,10 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->      }
->  
->      for (w = 0; w < FEATURE_WORDS; w++) {
-> +        if (w == FEAT_PERF_CAPABILITIES) {
-> +            continue;
-> +        }
-> +
+---Trilok Soni
 
-Why exactly is this necessary?  I expected to be completely OK to
-call mark_unavailable_features() multiple times for the same
-FeatureWord.
+-----Original Message-----
+From: Viresh Kumar <viresh.kumar@linaro.org>=20
+Sent: Wednesday, April 28, 2021 5:23 AM
+To: stratos-dev@op-lists.linaro.org; rust-vmm@lists.opendev.org
+Cc: Vincent Guittot <vincent.guittot@linaro.org>; Mike Holmes <mike.holmes@=
+linaro.org>; Bill Mills <bill.mills@linaro.org>; Alex Benn=E9e <alex.bennee=
+@linaro.org>; Arnd Bergmann <arnd.bergmann@linaro.com>; Jie Deng <jie.deng@=
+intel.com>; qemu-devel@nongnu.org; Trilok Soni <tsoni@quicinc.com>
+Subject: [RUST] Add crate for generic vhost-user-i2c backend daemon
 
-If there's a reason why this is necessary, I suggest adding a
-comment explaining why.
+-------------------------------------------------------------------------
+CAUTION: This email originated from outside of the organization.
+-------------------------------------------------------------------------
 
->          uint64_t host_feat =
->              x86_cpu_get_supported_feature_word(w, false);
->          uint64_t requested_features = env->features[w];
-> @@ -6630,6 +6634,27 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->          mark_unavailable_features(cpu, w, unavailable_features, prefix);
->      }
->  
-> +    uint64_t host_perf_cap =
-> +        x86_cpu_get_supported_feature_word(FEAT_PERF_CAPABILITIES, false);
-> +    if (!cpu->lbr_fmt && !cpu->migratable) {
-> +        cpu->lbr_fmt = host_perf_cap & PERF_CAP_LBR_FMT;
+Hello,
 
-"migratable=no" is not a request to override explicit user
-settings.  This is why we have the ~env->user_features masking
-inside x86_cpu_expand_features() when initializing
-env->features[].
+In my earlier attempt [1], I implemented the vhost-user-i2c backend deamon =
+for QEMU (though the code was generic enough to be used with any hypervisor=
+).
 
-In either case, I don't understand why you need the lines above.
-"migratable=no" should already trigger the x86_cpu_get_supported_feature_word()
-loop inside x86_cpu_expand_features(), and it should initialize
-env->features[FEAT_PERF_CAPABILITIES] with the host value.  Isn't
-that code working for you?
+And here is a Rust implementation of the vhost-user-i2c backend daemon. Aga=
+in this is generic enough to be used with any hypervisor and can live in it=
+s own repository now:
 
+  https://github.com/vireshk/vhost-user-i2c
 
-> +        if (cpu->lbr_fmt) {
-> +            info_report("vPMU: The value of lbr-fmt has been adjusted "
-> +                        "to 0x%lx and guest LBR is enabled.",
-> +                        host_perf_cap & PERF_CAP_LBR_FMT);
+I am not sure what's the process to get this merged to Rust-vmm.
+Can someone help ? Is that the right thing to do ?
 
+-------------------------8<-------------------------
 
-From your other message:
+Here are other details (which are same since the earlier Qemu
+attempt):
 
-(I'm assuming your examples are for a lbr-fmt=5 host)
+This is an initial implementation of a generic vhost-user backend for the I=
+2C bus. This is based of the virtio specifications (already merged) for the=
+ I2C bus.
 
-> "-cpu host,migratable=no" --> "Enable guest LBR and show warning"
+The kernel virtio I2C driver is still under review, here [2] is the latest =
+version (v10):
 
-Enabling guest LBR in this case is 100% OK, isn't it?  I don't
-think you need to show a warning.
+The backend is implemented as a vhost-user device because we want to experi=
+ment in making portable backends that can be used with multiple hypervisors=
+.  We also want to support backends isolated in their own separate service =
+VMs with limited memory cross-sections with the principle guest. This is pa=
+rt of a wider initiative by Linaro called "project Stratos" for which you c=
+an find information here:
 
+  https://collaborate.linaro.org/display/STR/Stratos+Home
 
-> "-cpu host,migratable=no,lbr-fmt=0" --> "Enable guest LBR and show warning"
+I2C Testing:
+------------
 
-Why?  In this case, we should do what the user asked for whenever
-possible, and the user is explicitly asking lbr-fmt to be 0.
+I didn't have access to a real hardware where I can play with a I2C client =
+device (like RTC, eeprom, etc) to verify the working of the backend daemon,=
+ so I decided to test it on my x86 box itself with hierarchy of two ARM64 g=
+uests.
 
-> "-cpu host,migratable=no,lbr-fmt=5" --> "Enable guest LBR"
+The first ARM64 guest was passed "-device ds1338,address=3D0x20" option, so=
+ it could emulate a ds1338 RTC device, which connects to an I2C bus.
+Once the guest came up, ds1338 device instance was created within the guest=
+ kernel by doing:
 
-Looks OK.
+  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
 
-> "-cpu host,migratable=no,lbr-fmt=6" --> "Disable guest LBR and show warning"
+[
+  Note that this may end up binding the ds1338 device to its driver,
+  which won't let our i2c daemon talk to the device. For that we need to
+  manually unbind the device from the driver:
 
-Makes sense to me[1].
+  echo 0-0020 > /sys/bus/i2c/devices/0-0020/driver/unbind
+]
 
+After this is done, you will get /dev/rtc1. This is the device we wanted to=
+ emulate, which will be accessed by the vhost-user-i2c backend daemon via t=
+he /dev/i2c-0 file present in the guest VM.
 
-> +        }
-> +    } else {
-> +        uint64_t requested_lbr_fmt = cpu->lbr_fmt & PERF_CAP_LBR_FMT;
-> +        if (requested_lbr_fmt && kvm_enabled()) {
+At this point we need to start the backend daemon and give it a socket-path=
+ to talk to from qemu (you can pass -v to it to get more detailed messages)=
+:
 
+  target/debug/vhost-user-i2c --socket-path=3Dvi2c.sock -l 0:32
 
-From your other message:
+[ Here, 0:32 is the bus/device mapping, 0 for /dev/i2c-0 and 32 (i.e.
+0x20) is client address of ds1338 that we used while creating the device. ]
 
-> "-cpu host,lbr-fmt=0" --> "Disable guest LBR"
+Now we need to start the second level ARM64 guest (from within the first
+guest) to get the i2c-virtio.c Linux driver up. The second level guest is p=
+assed the following options to connect to the same socket:
 
-Makes sense to me.  I understand this as a confirmation that it's
-OK to have a guest/host mismatch if guest LBR=0.
+  -chardev socket,path=3Dvi2c.sock,id=3Dvi2c \
+  -device vhost-user-i2c-pci,chardev=3Dvi2c,id=3Di2c
 
-> "-cpu host,lbr-fmt=5" --> "Enable guest LBR"
+Once the second level guest boots up, we will see the i2c-virtio bus at /sy=
+s/bus/i2c/devices/i2c-X/. From there we can now make it emulate the
+ds1338 device again by doing:
 
-Makes sense to me.
+  echo ds1338 0x20 > /sys/bus/i2c/devices/i2c-0/new_device
 
-> "-cpu host,lbr-fmt=6" --> "Disable guest LBR and show warning"
+[ This time we want ds1338's driver to be bound to the device, so it should=
+ be enabled in the kernel as well. ]
 
-Makes sense to me[1].
+And we will get /dev/rtc1 device again here in the second level guest.
+Now we can play with the rtc device with help of hwclock utility and we can=
+ see the following sequence of transfers happening if we try to update rtc'=
+s time from system time.
 
-
-[1] As long as "show warning" becomes "fatal error" if enforce=1.
-    mark_unavailable_features() should make sure this happens.
-
-    Or maybe we should make this an error?  It would be even
-    better.  The example code below makes it an error.
-
-
-> +            if (requested_lbr_fmt != (host_perf_cap & PERF_CAP_LBR_FMT)) {
-> +                cpu->lbr_fmt = 0;
-> +                warn_report("vPMU: The supported lbr-fmt value on the host "
-> +                            "is 0x%lx and guest LBR is disabled.",
-> +                            host_perf_cap & PERF_CAP_LBR_FMT);
-> +            }
-> +        }
-> +    }
-> +
->      if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
->          kvm_enabled()) {
->          KVMState *s = CPU(cpu)->kvm_state;
-> @@ -6734,6 +6759,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->          }
->      }
->  
-> +    if (cpu->lbr_fmt) {
-> +        if (!cpu->enable_pmu) {
-> +            error_setg(errp, "LBR is unsupported since guest PMU is disabled.");
-> +            return;
-> +        }
-> +        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-
-This doesn't seem right, as we should still do what the user
-asked for if "lbr-fmt=0" is used.
-
-You need to differentiate "lbr-fmt=0" from "lbr-fmt not set"
-somehow.  I suggest initializing lbr_fmt to 0xFF by default,
-so you can override env->features[FEAT_PERF_CAPABILITIES]
-when lbr_fmt != 0xFF (even if lbr_fmt=0).
-
-Something like this:
-
-  #define LBR_FMT_UNSET 0xff
-  ...
-  DEFINE_PROP_UINT8("lbr-fmt", X86CPU, lbr_fmt, LBR_FMT_UNSET)
-  ...
-
-  void x86_cpu_realizefn(...)
-  {
-      ...
-      if (cpu->lbr_fmt != LBR_FMT_UNSET) {
-          if ((cpu->lbr_fmt & LBR_FMT_FMT) != cpu->lbr_fmt) {
-              error_setg(errp, "invalid lbr-fmt" ...);
-              return;
-          }
-          env->features[FEAT_PERF_CAPABILITIES] &= ~PERF_CAP_LBR_FMT;
-          env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-      }
-      /* If lbr_fmt == LBR_FMT_UNSET, the default value of env->features[]
-       * will be used as is (and it may depend on the "migratable" flag)
-       */
-      ...
-      /*
-       * We can always validate env->features[FEAT_PERF_CAPABILITIES],
-       * no matter how it was initialized:
-       */
-      uint64_t requested_lbr_fmt =
-          env->features[FEAT_PERF_CAPABILITIES] & PERF_CAP_LBR_FMT;
-      if (requested_lbr_fmt && kvm_enabled()) {
-          /* Maybe this code will work out of the box for all
-           * accelerators, but checking kvm_enabled() is safer.
-           */
-          uint64_t host_perf_cap =
-              x86_cpu_get_supported_feature_word(FEAT_PERF_CAPABILITIES, false);
-          uint64_t host_lbr_fmt = host_perf_cap & PERF_CAP_LBR_FMT;
-          if (!cpu->enable_pmu) {
-              error_setg(errp, "LBR is unsupported without pmu=on");
-              return;
-          }
-          if (requested_lbr_fmt != host_lbr_fmt)) {
-              /* An error is better than a warning */
-              error_setg(errp, "lbr-fmt mismatch" ...);
-              /* probably a good idea to include requested_lbr_fmt
-               * and host_lbr_fmt in the error message */
-              return;
-          }
-      }
-      ...
-  }
+hwclock -w -f /dev/rtc1 (in guest2) ->
+  Reaches i2c-virtio.c (Linux bus driver in guest2) ->
+    transfer over virtio ->
+      Reaches the qemu's vhost-i2c device emulation (running over guest1) -=
+>
+        Reaches the backend daemon vhost-user-i2c started earlier (in guest=
+1) ->
+          ioctl(/dev/i2c-0, I2C_RDWR, ..); (in guest1) ->
+            reaches qemu's hw/rtc/ds1338.c (running over host)
 
 
 
-> +    }
-> +
->      /* mwait extended info: needed for Core compatibility */
->      /* We always wake on interrupt even if host does not have the capability */
->      cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
-> @@ -7300,6 +7333,7 @@ static Property x86_cpu_properties[] = {
->  #endif
->      DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
->      DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
-> +    DEFINE_PROP_UINT8("lbr-fmt", X86CPU, lbr_fmt, 0),
->  
->      DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
->                         HYPERV_SPINLOCK_NEVER_NOTIFY),
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 570f916878..b12c879fc4 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -354,6 +354,7 @@ typedef enum X86Seg {
->  #define ARCH_CAP_TSX_CTRL_MSR		(1<<7)
->  
->  #define MSR_IA32_PERF_CAPABILITIES      0x345
-> +#define PERF_CAP_LBR_FMT      0x3f
->  
->  #define MSR_IA32_TSX_CTRL		0x122
->  #define MSR_IA32_TSCDEADLINE            0x6e0
-> @@ -1726,6 +1727,15 @@ struct X86CPU {
->       */
->      bool enable_pmu;
->  
-> +    /*
-> +     * Configure LBR_FMT bits on IA32_PERF_CAPABILITIES MSR.
-> +     * This can't be enabled by default yet because it doesn't have
-> +     * ABI stability guarantees, as it is only allowed to pass all
-> +     * LBR_FMT bits returned by kvm_arch_get_supported_msr_feature()
-> +     * (that depends on host CPU and kernel capabilities) to the guest.
-> +     */
-> +    uint8_t lbr_fmt;
-> +
->      /* LMCE support can be enabled/disabled via cpu option 'lmce=on/off'. It is
->       * disabled by default to avoid breaking migration between QEMU with
->       * different LMCE configurations.
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 7fe9f52710..aa926984ae 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -2732,8 +2732,14 @@ static void kvm_msr_entry_add_perf(X86CPU *cpu, FeatureWordArray f)
->                                             MSR_IA32_PERF_CAPABILITIES);
->  
->      if (kvm_perf_cap) {
-> -        kvm_msr_entry_add(cpu, MSR_IA32_PERF_CAPABILITIES,
-> -                        kvm_perf_cap & f[FEAT_PERF_CAPABILITIES]);
-> +        kvm_perf_cap = (cpu->migratable) ?
-> +            (kvm_perf_cap & f[FEAT_PERF_CAPABILITIES]) : kvm_perf_cap;
+SMBUS Testing:
+--------------
 
-I don't understand why you are checking cpu->migratable here.
-The CPU code should ensure f[FEAT_PERF_CAPABILITIES] is
-initialized correctly before calling kvm_arch_init_vcpu().
+I wasn't required to have such a tedious setup for testing out with SMBUS d=
+evices. I was able to emulate a SMBUS device on my x86 machine using i2c-st=
+ub driver.
 
-> +
-> +        if (!cpu->lbr_fmt) {
-> +            kvm_perf_cap &= ~PERF_CAP_LBR_FMT;
-> +        }
+$ modprobe i2c-stub chip_addr=3D0x20
+//Boot the arm64 guest now with i2c-virtio driver and then do:
+$ echo al3320a 0x20 > /sys/class/i2c-adapter/i2c-0/new_device
+$ cat /sys/bus/iio/devices/iio:device0/in_illuminance_raw
 
-Likewise: this should be done by the CPU initialization code
-before kvm_arch_init_vcpu() gets called.
+That's it.
 
-The existing code looks weird here: what's the purpose of the
-kvm_arch_get_supported_msr_feature() call in this function?
+I hope I was able to give a clear picture of my test setup here :)
 
-env->features[] is supposed to reflect what the guest actually
-sees.  x86_cpu_realizefn()/x86_cpu_filter_features() is supposed
-to ensure that before calling kvm_arch_init_vcpu().  If there's a
-mismatch between env->features and what the guest sees, we have a
-problem.
+--
+viresh
 
-If you want to be 100% sure, maybe you can add an assert() here.
-But if the function is receiving invalid input it's too late to
-fix the value.
-
-> +
-> +        kvm_msr_entry_add(cpu, MSR_IA32_PERF_CAPABILITIES, kvm_perf_cap);
->      }
->  }
->  
-> -- 
-> 2.30.2
-> 
-
--- 
-Eduardo
+[1] https://lore.kernel.org/qemu-devel/cover.1617278395.git.viresh.kumar@li=
+naro.org/
+[2] https://lore.kernel.org/lkml/226a8d5663b7bb6f5d06ede7701eedb18d1bafa1.1=
+616493817.git.jie.deng@intel.com/
 
 
