@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89CE36D9F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:54:54 +0200 (CEST)
-Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7660036D9F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:57:07 +0200 (CEST)
+Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblaX-0006B2-Rq
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1lblcg-0008Pj-KG
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblUI-0000Oc-Kj
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:48:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39903)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblUM-0000SV-QM
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:48:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblUG-0005Jt-Sq
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:48:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblUL-0005OO-2K
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:48:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619621303;
+ s=mimecast20190719; t=1619621308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WeY203+P5NVvUR+HqtO0eHSRfFihkq9FUk8m472HInQ=;
- b=XEbwJ15c+uamLxzx4WHu8YRobo9fFS1nzKtkcYmUfLWFSBlNvInFQULiGJbiUJ1dIYgr40
- 5lRx3BKYMOOubVUXPkosPxel3XQQvk56XShSItK6jM7RWbIlCdtP/WcK/skVaSTXeD62QX
- 6xFIYQxWzQoWl16qRBVbzLlPU+z3ngI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-FcgmsuC7MpKCVh-4zjP8jQ-1; Wed, 28 Apr 2021 10:48:22 -0400
-X-MC-Unique: FcgmsuC7MpKCVh-4zjP8jQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 65-20020adf82c70000b0290107593a42c3so10913747wrc.5
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:48:21 -0700 (PDT)
+ bh=83Zj+dsuhexjgd/SgHplHVTJG66SKX+lzdg4qh7kEEs=;
+ b=U5m2ucg6MFQVbs+a9WgKLwS5rBEkyzg0iU4CspCaZM2P+aNX9Quh4v5XS9sfo9BvjYITrf
+ Ai8/kXePynet+YGR2MfwmUsI7tfGv+5jZXxjMApsIcHTXBFsaQmxkXC7ADXuGXEOTV+Gc+
+ OtbBWQP4dzCLg9CMnQQsMLY+7+HZuIo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-HGrQ8G_TPbeqDwEtmV3qYw-1; Wed, 28 Apr 2021 10:48:26 -0400
+X-MC-Unique: HGrQ8G_TPbeqDwEtmV3qYw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s7-20020adfc5470000b0290106eef17cbdso19009418wrf.11
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:48:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WeY203+P5NVvUR+HqtO0eHSRfFihkq9FUk8m472HInQ=;
- b=A4U3IJc+jdd38izpn+f2q/qG5vwEmP729Hsp6WxHZG2G0l4B2bFPYbsF8prrztvLq2
- OvhQGEL8IdaWraF6fprQvJ6+n2MpwvHReDpi6wXU29UkIOTJF0X0glXvQAxN5RlNMtB4
- PL9UvEKm8w7ScC5ZOoZS54nN4WeD09PGujzVe1+qbAWrQ89iF4RCJDQ/iXn6RRwE44Dq
- r5e2l0HB9c/clvP5mnU36buZaHQeh4LoZbDGVNHNDU8BMgijBtv04CMGvn/HbqsHV7A7
- DfCYnJaR9tu/ZDOYr0uMLSyjk9PbVeUN9Pi+CZ4GsxLll1owJeMohdO7cBIYgOumkVEj
- YYdA==
-X-Gm-Message-State: AOAM530LtJ4yjH+faklwSWIGEudffnQWnEUkJcNhsFoDA93XeiQQ9i/a
- GtFnTu4EpG9MWll977kzyzKtHNBQfNlDYLFNK0f5n2NPGt2Xks0Pp+0L0Jv088ilkOooXd9PTpc
- yORxEFnpP0hrjMKFiypeUXox8yhg67S6dsBZcasazNib2LK4by+ATuPo/SFN13HG9
-X-Received: by 2002:a1c:c910:: with SMTP id f16mr5066513wmb.136.1619621300552; 
- Wed, 28 Apr 2021 07:48:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNqXKjxYXdQcCY7V7uF9rGUWRL5xXh+xxzGf8gqlsKV2yGNov5KW3UJDSfdBBuZFh+E0Ztuw==
-X-Received: by 2002:a1c:c910:: with SMTP id f16mr5066481wmb.136.1619621300280; 
- Wed, 28 Apr 2021 07:48:20 -0700 (PDT)
+ bh=83Zj+dsuhexjgd/SgHplHVTJG66SKX+lzdg4qh7kEEs=;
+ b=ackSddVa8t0cUR16uKJFYB7jfNVbjDYemrf5TdNcds6qlim7Tx221N5FVuR5n5AgRB
+ MjvOiV8d9gLtzMQttRJsJnFEIoj8VNNGEYz0Bu21icX/bVCEsk1Fb8xqNH2s2q3vKC5M
+ OZo8PqnspyrP3v4t61eZoUG0l37Xm7K3n0Z32MFRO0YTE5SshXA7UPfQV7MnUdWQaUFE
+ gXUPHNEJ6+ZadzuT/p62qiJ/yNYnB9oP5pN0urx+kT0yyviEKdboge61OOKPLyomcxH9
+ vvx+sBaYgmqTWVWb0ljwaLjth+TQZdQ21/IzJYsSlpnM6ZaHnpfQXVlBe8vPs1KfPNmY
+ ZDJQ==
+X-Gm-Message-State: AOAM532E9AVxsYI/2rfkgd+eVLHXGYOro8zsM7U8EAKmN4er+lOd1omL
+ e0RExbaPH2FJ9b95HhIP3VlT3IluveBW5c1znS6x3BJvy0NFZEAiZhwkR/MO88oeutsb2kBqcLO
+ d+3D18e014HO3Prn9wFjDsrC/L100R5WvPaoYMeWKkqPFLOY0mDqTEFc/ZHh/j3ED
+X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr9674144wrs.395.1619621304970; 
+ Wed, 28 Apr 2021 07:48:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwEs5bd5RqVL5vd2VlgsEeNXl4a3N3MaBffMj5bJxs65Yuh6F5f9rhRrK7ShwYHY5QYDe/M4w==
+X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr9674113wrs.395.1619621304790; 
+ Wed, 28 Apr 2021 07:48:24 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id j15sm262777wrt.17.2021.04.28.07.48.19
+ by smtp.gmail.com with ESMTPSA id d22sm229722wrc.50.2021.04.28.07.48.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 07:48:19 -0700 (PDT)
+ Wed, 28 Apr 2021 07:48:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] meson: Check for seccomp/cap-ng libraries if virtiofsd is
- enabled
-Date: Wed, 28 Apr 2021 16:48:12 +0200
-Message-Id: <20210428144813.417170-2-philmd@redhat.com>
+Subject: [PATCH 2/2] util/meson: Build iov/hexdump/buffer_is_zero with
+ virtiofsd
+Date: Wed, 28 Apr 2021 16:48:13 +0200
+Message-Id: <20210428144813.417170-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210428144813.417170-1-philmd@redhat.com>
 References: <20210428144813.417170-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -103,41 +103,54 @@ Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When not explicitly select a sysemu target and building virtiofsd,
-the seccomp/cap-ng libraries are not resolved, leading to this error:
+When not explicitly select a sysemu target or the QEMU tools and
+building virtiofsd, libqemuutil.a has missing symbols:
 
-  $ configure --target-list=i386-linux-user --disable-tools --enable-virtiofsd
-  tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd requires libcap-ng-devel and seccomp-devel
+  /usr/bin/ld: tools/virtiofsd/virtiofsd.p/fuse_virtio.c.o: in function `virtio_send_msg':
+  tools/virtiofsd/fuse_virtio.c:236: undefined reference to `iov_size'
 
-Fix by checking the seccomp/cap-ng libraries if virtiofsd is built.
+  /usr/bin/ld: libqemuutil.a(util_iov.c.o): in function `iov_hexdump':
+  util/iov.c:240: undefined reference to `qemu_hexdump'
 
-Reported-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+  /usr/bin/ld: libqemuutil.a(util_iov.c.o): in function `qemu_iovec_is_zero':
+  util/iov.c:494: undefined reference to `buffer_is_zero'
+
+Fix by linking bufferiszero/hexdump/iov objects when building
+virtiofsd (regardless of sysemu / tools).
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ util/meson.build | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index c6f4b0cf5e8..b466b418fed 100644
---- a/meson.build
-+++ b/meson.build
-@@ -393,14 +393,14 @@
+diff --git a/util/meson.build b/util/meson.build
+index 510765cde46..c2eda2d1374 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -59,12 +59,10 @@
+   util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
+   util_ss.add(files('base64.c'))
+   util_ss.add(files('buffer.c'))
+-  util_ss.add(files('bufferiszero.c'))
+   util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
+   util_ss.add(files('hbitmap.c'))
+-  util_ss.add(files('hexdump.c'))
+   util_ss.add(files('iova-tree.c'))
+-  util_ss.add(files('iov.c', 'qemu-sockets.c', 'uri.c'))
++  util_ss.add(files('qemu-sockets.c', 'uri.c'))
+   util_ss.add(files('lockcnt.c'))
+   util_ss.add(files('main-loop.c'))
+   util_ss.add(files('nvdimm-utils.c'))
+@@ -83,3 +81,9 @@
+                                         if_false: files('filemonitor-stub.c'))
+   util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
  endif
- 
- seccomp = not_found
--if not get_option('seccomp').auto() or have_system or have_tools
-+if not get_option('seccomp').auto() or have_system or have_tools or not get_option('virtiofsd').auto()
-   seccomp = dependency('libseccomp', version: '>=2.3.0',
-                        required: get_option('seccomp'),
-                        method: 'pkg-config', kwargs: static_kwargs)
- endif
- 
- libcap_ng = not_found
--if not get_option('cap_ng').auto() or have_system or have_tools
-+if not get_option('cap_ng').auto() or have_system or have_tools or not get_option('virtiofsd').auto()
-   libcap_ng = cc.find_library('cap-ng', has_headers: ['cap-ng.h'],
-                               required: get_option('cap_ng'),
-                               kwargs: static_kwargs)
++
++if have_block or config_host.has_key('CONFIG_VHOST_USER_FS')
++  util_ss.add(files('hexdump.c'))
++  util_ss.add(files('bufferiszero.c'))
++  util_ss.add(files('iov.c'))
++endif
 -- 
 2.26.3
 
