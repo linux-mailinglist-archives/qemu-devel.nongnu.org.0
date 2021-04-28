@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8995636D9E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:53:33 +0200 (CEST)
-Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE6B36D9ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:54:22 +0200 (CEST)
+Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblZE-00046M-Io
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52338)
+	id 1lbla1-0005Qd-2e
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblYG-0003Gd-CF
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:52:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lblYE-0007sv-Jo
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:52:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619621549;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bNCwhcll3/4y+2Vskt4kh23AsRJwKCCdvf6mEg6HRhI=;
- b=W7QMKIKvOxSwg4UkbQMiK8D6kUh/o2HXH/uyHu5SMijavlupss9V2EF2xKYG0rGmzedwJP
- +bTYac2Kifst785t/tOyOjnCfCq/+vni9HNzQrYholjDAQy1/oG6yGy7lXQoEk9UL6gO21
- 8fie8afI496UnZGXW/ap3NanCe6sHgM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-X0QJ4D7_NgicTm83ZvhdSQ-1; Wed, 28 Apr 2021 10:52:27 -0400
-X-MC-Unique: X0QJ4D7_NgicTm83ZvhdSQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 89-20020adf83e20000b029010c35eb9917so4551821wre.1
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:52:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lblYp-00049o-SJ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:53:07 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:44646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lblYo-0008Fh-AQ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:53:07 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id m11so732185pfc.11
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ipEGKqF6yIsN9R+Io8P8kjdHB51ztvNPey6/Zi2PWoc=;
+ b=xkQrmrhyx6vT/fCrC6NiDZ6RtWDzcQNGcsCiQMj0EycNqH5PULilqs+NCH08kfrA5U
+ WIWqysGfgURomhNMWpYvUbdJ3mtxsGZUuSRJtagAjXDwA0TWXR1phm4ui2iezBx5RI1e
+ 5md8BghtOTwE9rlXjfLexztFfSvaU4yt2HCly7f4lTJOmrfrBSsg2Z6ivchN7jhwNv8w
+ 63RTTV1hPwqGGGJI2camc7g1OqQKC/7do3ovpXuA+LuqTY1c0kw4rF+4XBReB7AZaRkz
+ 4gg70a/2I6Cz7Q8DkXcvgTqtudFJ7iI57XHMCMrXhXXW68xJGmT+eGjL2bwNK+E5VThH
+ kpDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bNCwhcll3/4y+2Vskt4kh23AsRJwKCCdvf6mEg6HRhI=;
- b=Ny8EVWTh0aD7MJ/CCnMkR+KsF5VjO7/thNzFbvxW39kAJ/FSSbtaX7NoScflnPgmFq
- oj+P8LwQVOVwUFwi8hdBXNwZi0rkr7Jmq0y09GWAy8q+anocB+x0se4CvTonh7yWIgxH
- W0qNbQzvWjqbuDByDcsimxM1jb9XEkJXTyg3BREtM2csVAf1bI5JSYYD06wNgBasFOKt
- EVEsHH4W7shoyk78Xqx53MKICl+ma4Ph4ojuHNbxM7cRY9kJZK+qTfiCxhAWPJeuY6ac
- kCeRbzZ2J2PH9ErNNEvOFi9nMWIOmuPAJvFoii9sPCffn+s6FLIbJriXAOh7fCDay4Iq
- EYiQ==
-X-Gm-Message-State: AOAM5308k6Ta8zsh/U+vfEKtfJIEM7OZqAtiDnTPrZpVmw9sY/X74abi
- SVdcNMCQv2tv3CS7QW4Lf0nhs9fXedsCRITnWnRuizkFN5UrcgVKLHGpSut7HteFNOweIVgoFbh
- UtxU8ezJwpyChBwM=
-X-Received: by 2002:a05:6000:18ae:: with SMTP id
- b14mr36540921wri.211.1619621546539; 
- Wed, 28 Apr 2021 07:52:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz57u3M5S4qDU4b/oebYUthPzyh2r9cvggAowbA13K4LnnRKjp1Yy096JksmDIS1CoZAzcXXA==
-X-Received: by 2002:a05:6000:18ae:: with SMTP id
- b14mr36540902wri.211.1619621546368; 
- Wed, 28 Apr 2021 07:52:26 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id j13sm197706wrw.93.2021.04.28.07.52.25
+ bh=ipEGKqF6yIsN9R+Io8P8kjdHB51ztvNPey6/Zi2PWoc=;
+ b=BI3NNdOjYqhNAQOMHT0/NEjifckzszqP5C9ZsfqJhfrQTvyBbiraw/jEkbATSBoR3o
+ DCjhk35mXNq3+ka1mbN3y4FW1IPF9SzLLF0UqtObNcJzasPj/dqcFEH7UueRabMf+sFz
+ Lob53Gt8/lnM5YOnjtyRf3D3ZzZF5tcCUMsyLpVpfMgAsCCZVSN4dj+/skmiFPjUOXo/
+ J/lcH3L1S/Pk+Cdk1CAZZOAwPzpY0Cpyax/zY5udJImw3bP5V9Kzc1nnijUmIWWYrMLe
+ oGuzYwitQzUF3uuB2HdeP3Wrl+wk0yeOuQIdxJOlAwgUw1TjxkfbSn0v537ocf9AwFPC
+ NHkQ==
+X-Gm-Message-State: AOAM531eo9Zxlhxi6fKuFayAe0Exos4CINRYEXo4GSGrj8Y9Vkl8Lw9+
+ towgbra5ee6Wh+OK/HG/fz1WRQ==
+X-Google-Smtp-Source: ABdhPJxxzN0InyIPT3wZ4yrRXF60LfzTyfxTxltfYsECByW24A8xFTc2gR4pZViXJF+7YEi1Zy3KTA==
+X-Received: by 2002:a62:4c3:0:b029:27c:892f:8e22 with SMTP id
+ 186-20020a6204c30000b029027c892f8e22mr4528102pfe.6.1619621584742; 
+ Wed, 28 Apr 2021 07:53:04 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id 18sm162004pji.30.2021.04.28.07.53.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 07:52:26 -0700 (PDT)
-Subject: Re: [PATCH 2/2] util/meson: Build iov/hexdump/buffer_is_zero with
- virtiofsd
-To: qemu-devel@nongnu.org
-References: <20210428144813.417170-1-philmd@redhat.com>
- <20210428144813.417170-3-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <baed1872-7a87-2aae-a042-0cfaf280ad9d@redhat.com>
-Date: Wed, 28 Apr 2021 16:52:25 +0200
+ Wed, 28 Apr 2021 07:53:04 -0700 (PDT)
+Subject: Re: [PATCH v2 4/4] hw/sparc*: Move cpu_check_irqs() to target/sparc/
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210428141655.387430-1-f4bug@amsat.org>
+ <20210428141655.387430-5-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9ebea8b9-7481-3ea9-3e05-b08bd5ad4ac5@linaro.org>
+Date: Wed, 28 Apr 2021 07:53:02 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210428144813.417170-3-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210428141655.387430-5-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,66 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/21 4:48 PM, Philippe Mathieu-Daudé wrote:
-> When not explicitly select a sysemu target or the QEMU tools and
-> building virtiofsd, libqemuutil.a has missing symbols:
+On 4/28/21 7:16 AM, Philippe Mathieu-Daudé wrote:
+> Since cpu_check_irqs() doesn't reference to anything outside
+> of CPUSPARCState, it better belongs to the architectural code
+> in target/, rather than the hardware specific code in hw/.
 > 
->   /usr/bin/ld: tools/virtiofsd/virtiofsd.p/fuse_virtio.c.o: in function `virtio_send_msg':
->   tools/virtiofsd/fuse_virtio.c:236: undefined reference to `iov_size'
+> Note: while we moved the trace events, we don't rename them.
 > 
->   /usr/bin/ld: libqemuutil.a(util_iov.c.o): in function `iov_hexdump':
->   util/iov.c:240: undefined reference to `qemu_hexdump'
+> Remark: this allows us to build the leon3 machine stand alone,
+> fixing this link failure (because cpu_check_irqs is defined in
+> hw/sparc/sun4m.c which is only built when CONFIG_SUN4M is selected):
 > 
->   /usr/bin/ld: libqemuutil.a(util_iov.c.o): in function `qemu_iovec_is_zero':
->   util/iov.c:494: undefined reference to `buffer_is_zero'
+>    /usr/bin/ld: target_sparc_win_helper.c.o: in function `cpu_put_psr':
+>    target/sparc/win_helper.c:91: undefined reference to `cpu_check_irqs'
 > 
-> Fix by linking bufferiszero/hexdump/iov objects when building
-> virtiofsd (regardless of sysemu / tools).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->  util/meson.build | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/util/meson.build b/util/meson.build
-> index 510765cde46..c2eda2d1374 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -59,12 +59,10 @@
->    util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
->    util_ss.add(files('base64.c'))
->    util_ss.add(files('buffer.c'))
-> -  util_ss.add(files('bufferiszero.c'))
->    util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
->    util_ss.add(files('hbitmap.c'))
-> -  util_ss.add(files('hexdump.c'))
->    util_ss.add(files('iova-tree.c'))
-> -  util_ss.add(files('iov.c', 'qemu-sockets.c', 'uri.c'))
-> +  util_ss.add(files('qemu-sockets.c', 'uri.c'))
->    util_ss.add(files('lockcnt.c'))
->    util_ss.add(files('main-loop.c'))
->    util_ss.add(files('nvdimm-utils.c'))
-> @@ -83,3 +81,9 @@
->                                          if_false: files('filemonitor-stub.c'))
->    util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
->  endif
-> +
-> +if have_block or config_host.has_key('CONFIG_VHOST_USER_FS')
-> +  util_ss.add(files('hexdump.c'))
-> +  util_ss.add(files('bufferiszero.c'))
+>   hw/sparc/sun4m.c            | 32 ------------------
+>   hw/sparc64/sparc64.c        | 66 -------------------------------------
+>   target/sparc/int32_helper.c | 33 +++++++++++++++++++
+>   target/sparc/int64_helper.c | 66 +++++++++++++++++++++++++++++++++++++
+>   hw/sparc/trace-events       |  2 --
+>   hw/sparc64/trace-events     |  4 ---
+>   target/sparc/trace-events   |  8 +++++
+>   7 files changed, 107 insertions(+), 104 deletions(-)
 
-Doh it isn't sorted :/ and maybe better subject:
-"Build virtiofsd with iov/hexdump/buffer_is_zero objects"?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +  util_ss.add(files('iov.c'))
-> +endif
-> 
-
+r~
 
