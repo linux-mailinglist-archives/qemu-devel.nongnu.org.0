@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7547336D86C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 15:39:04 +0200 (CEST)
-Received: from localhost ([::1]:47212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D1F36D862
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 15:37:12 +0200 (CEST)
+Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbkP9-0008KJ-GP
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 09:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54534)
+	id 1lbkNL-0007m0-0O
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 09:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lbkIq-0004n8-II; Wed, 28 Apr 2021 09:32:32 -0400
-Received: from [201.28.113.2] (port=55124 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lbkIo-0001x1-Gk; Wed, 28 Apr 2021 09:32:32 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 28 Apr 2021 10:31:20 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id B8D918013BA;
- Wed, 28 Apr 2021 10:31:19 -0300 (-03)
-Subject: Re: [PATCH v2 11/15] target/ppc: Move D/DS/X-form integer loads to
- decodetree
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
- <20210427171649.364699-12-luis.pires@eldorado.org.br>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <756a8039-02a8-2cfd-a7ad-d73df9d50438@eldorado.org.br>
-Date: Wed, 28 Apr 2021 10:31:19 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lbkM7-0006tZ-Cr
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:35:55 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lbkM4-0003yc-Jv
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:35:55 -0400
+Received: by mail-wr1-x433.google.com with SMTP id e5so34440372wrg.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 06:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Vrn4k5SYwkNyUKB1dvZjdZnyTqzOl/VJqwvLbl2/tIw=;
+ b=qqNbhXMe3SAA8dFdCe01RgYBAZ35qfOqtGEuawvMRnktKMEXpYuNFjMEAIwBZmbwkN
+ HC4EmjEJAkk2hp5Pe7hCU/KDtt0Ufv1DUopniunpR2g7ZAu8aUnjcQEQPtBbeA+EA4rv
+ EWrPYP49EpTYzWkk6uSEApkrtCqcAF6GVCz2hdKy1ZG099Nf2/NLnhOe+S9q9NIIF5Jv
+ kR3rUW24F18AjAljJahcq4NUd3VB7zVOZLORi8elMSfImaqPh69sAHP9ulg/PrnOUCPP
+ qo2mqBfcrC4JTU0oL/++RbZrT52iCm2hm9/MNcErftpnaNT7OT6SfqtfzVtY92feTJbo
+ eGfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Vrn4k5SYwkNyUKB1dvZjdZnyTqzOl/VJqwvLbl2/tIw=;
+ b=jja9TePfOcs9aCNLW/rrGxJfPQrI5oLpw8n/6YTf3w25BXzRZnonGkzkGZY87BSZaT
+ 7P5AhNjIWNgmd9pP4RlJ8vZZ1WU1fP6WajAC6b5ihWMrHYvWaiVP7AHvrDbonL82Tl1L
+ Pu1z1F0jVVYfETR/GzDkew6hgezNRIIlGFpTpDmQ+fNIaw7nYo54GQA1eMashntQB322
+ 86pkW2PNI7M3gNtN5Fo67qzsOoXf/977HMxPZdImLUIBho+ZGhu9pu89Ubn3+arfe1PG
+ o8+eagJ3eF8K/228Bb5A75skMiEedIkboSDknIdqiSmC5vV/cnaz0+u2oJZbmR3o5D02
+ qlKQ==
+X-Gm-Message-State: AOAM531xx9IfWRQCsu0YepZ0Grh3qMGsuI6kK8tV2v+TW8AVHissdgrp
+ WO4xWljdbBe+iobO/jhRDmQWdvhWh+g=
+X-Google-Smtp-Source: ABdhPJwTHx04my9y9KOnMofYdbsIIpyAhkYYHn0MVB+3K1YRIWxk7CTneHi9Ntg5R7+HJu2xgo2oRw==
+X-Received: by 2002:a05:6000:184a:: with SMTP id
+ c10mr36680737wri.237.1619616948434; 
+ Wed, 28 Apr 2021 06:35:48 -0700 (PDT)
+Received: from localhost.localdomain ([197.61.118.208])
+ by smtp.googlemail.com with ESMTPSA id q128sm6827177wma.39.2021.04.28.06.35.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Apr 2021 06:35:47 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tools/meson.build: Error on enabling virtiofsd and
+ have_system is false
+Date: Wed, 28 Apr 2021 15:35:07 +0200
+Message-Id: <20210428133507.52066-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210427171649.364699-12-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 28 Apr 2021 13:31:20.0196 (UTC)
- FILETIME=[C632AC40:01D73C32]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,76 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- richard.henderson@linaro.org, f4bug@amsat.org, david@gibson.dropbear.id.au
+Cc: pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ dgilbert@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/04/2021 14:16, Luis Pires wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
-> 
-> These are all connected by macros in the legacy decoding.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/insn32.decode                   |  37 ++++
->   target/ppc/translate.c                     | 136 ++-------------
->   target/ppc/translate/fixedpoint-impl.c.inc | 188 +++++++++++++++++++++
->   3 files changed, 238 insertions(+), 123 deletions(-)
-> 
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index 878d2f2f66..bf39ce5c15 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -20,6 +20,43 @@
->   &D              rt ra si
->   @D              ...... rt:5 ra:5 si:s16                 &D
->   
-> +%ds_si          2:s14  !function=times_4
-> +@DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
-> +
-> +&X              rt ra rb
-> +@X              ...... rt:5 ra:5 rb:5 .......... .      &X
-> +
+Previously, on configuring with --enable-virtiofsd and specifying
+a target list that does not contain a full-system emulation target,
+a spurious error message is emitted. This patch introduces a
+meaningful error message for such case.
 
-This is a bit problematic, the instruction form isn't enough to decide its
-fields. Eg. setb is X-form, but the fields are rt:5 bfa:3, setbc is also 
-X-form
-and the fields are rt:5 ba:5. In fact, for the X-form, there is a whole 
-page of
-field designations in PowerISA v3.1.
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+ tools/meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I would break this into three cases:
-  - Some forms have single field designations. Eg. B, XLS, XX4;
-  - Others have multiple designations but are just alternative names for the
-    fields. Eg. DQ, DS, M;
-  - And there are forms with multiple designations, with a variable 
-number of
-    fields that may overlap each other. Eg. X, XFX, XX2.
+diff --git a/tools/meson.build b/tools/meson.build
+index 3e5a0abfa2..f6a4ced2f4 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -5,7 +5,9 @@ have_virtiofsd = (targetos == 'linux' and
+     'CONFIG_VHOST_USER' in config_host)
+ 
+ if get_option('virtiofsd').enabled()
+-  if not have_virtiofsd
++  if not have_system
++    error('virtiofsd requires full-system emulation target(s)')
++  elif not have_virtiofsd
+     if targetos != 'linux'
+       error('virtiofsd requires Linux')
+     elif not seccomp.found() or not libcap_ng.found()
+-- 
+2.25.1
 
-The first is a non-issue, just use the form name as done here. The 
-second seems
-tractable, we could pick one field name for each part of the insn and 
-still use
-the form name as the identifier for args_def/fmt_def. The last case will 
-likely
-require multiple fmt_defs for each form, in which case we would need to 
-come up
-with a pattern to name them.
-
-Looking at what Binutils did when they added Power10 support, it seems 
-that the
-insn form is just a hint for opcode positions, and fields are specified 
-for each
-insn. The sad part of this kind of approach is that it would leave us 
-with, eg.
-arg_LBZX and arg_LBZUX instead of a single arg_X, making it harder to put
-multiple insns under the same implementation.
-
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
