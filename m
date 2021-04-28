@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A557B36DFE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:49:55 +0200 (CEST)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FC836DFF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:53:28 +0200 (CEST)
+Received: from localhost ([::1]:37066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbqC2-0003lk-MO
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55220)
+	id 1lbqFT-0007qL-5U
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpwy-0005vc-FQ
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:26 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:34759)
+ id 1lbpx6-0005z4-Lk
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:28 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:35736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpwt-0004dh-PE
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:19 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- t2-20020a17090a0242b0290155433387beso3652968pje.1
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:15 -0700 (PDT)
+ id 1lbpwu-0004er-FX
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:26 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id c19so8558643pfv.2
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VEYCuDHkcV/lHpGQXOvQlgAwlC6Cxm9+fq9gwubDK9c=;
- b=cUAg8UYhUdhvrmG7jC0kKW5w6chVGCENRnYXT+yO8Cc0V+VNwBjTTtPIFPgBHO7MjI
- nV+dt8Nk2miTBTLKuI7PIs2opjf4AyV/cjYiETVx3ADgXPZQauHNAFXwVPsYqLUtHaj2
- HLdUmhgdIMvJnOhz/Ury6STEBkkaPpsuvnQxXmZvsMA9/zLSPNI8u89ahGUwV29JlF4I
- IwqwV67cZ1vhtK8jmq143I069qKLEO3Q0h+L1QaZmz+EgX3RXId137bh2tGzzkZ6S+IY
- F2sQKMmmyv8Ue3WVhTXTGbWEkV7uFPBikIpSzg8XYCCvLbpq+K1M1eGKsJkuPGbgC44E
- c/SQ==
+ bh=QsjGwtPl+BBfkIl5lrH7yu7GOPcN5GtbMrNa8PNGqig=;
+ b=x8IjsIadr9yYK6/prYuf35p2vPokhrmWwGPNYB2/VDm/BlbQsWB6h4eNF0TX5+HseH
+ E06j3RQza/32oneAlOX7gE7IC1hTMDHfoa7DcdgRl/Oe0VmVIuWA6/YmEi+N2QUPd84R
+ VTeG0K0q8sJVhCbepSt4tNnwlZ9jdprAl1NK4eFfPfc/ZpCJDJ/X3gIh36O13ABH1GkD
+ ltMTp8MPiHv9H0eEhE1nAxdlRzfDlWbLh0R3BMGSrMk4JTGLw5jyNgmcnMTWRpN3WOos
+ T7LLouCFpC/8Y5HAuheJS1RunDQ6UWw3cJOVYy47D7hbleGPWOaZYyGXJbYvTniDZmWs
+ MSSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VEYCuDHkcV/lHpGQXOvQlgAwlC6Cxm9+fq9gwubDK9c=;
- b=ASr1QvRxI62/5l28Upn6DI5IuQtmhID/qMg7Y1U2qCGyUON9/+JNnmjjcZd8Wntp8x
- zBYdi7k5D/iSKDJIV7ysg7t4sebeWUy3Wu5ozkJUXJyjE0MPlRzXDUxAYw20VgQtG+l1
- qlaHfUsR18fJqeKimmAqlviRFsijXd1ZRMisWN6iiHdTj+LCGKgh+6zAr/c1RsaG0A/D
- MM1Ii2WeprASlhdlpbeehV77YxKKXQaRgKyogChDnh05R9tnp8veJC78mTf+HyenYza+
- UaHk/FTbKlR/YEGY7EAM73ZrgZq7OI8NRcv4zQldxJ7+OpvdkLBeiecQ864Lm3KXN17o
- QUEQ==
-X-Gm-Message-State: AOAM5305w9H3cU1tNiEnkI6aQZgPwrobFNJOYRKkVDvJzgA20G+DBOki
- mpPcqMibhxSinxDrlXgs9zmN+STF5oxjBg==
-X-Google-Smtp-Source: ABdhPJzkSgibthsfzLMbRbzL4y+GBDTPZUoOcAkezT3Egadh6sGsfb2D99waonRq7z3mSEzYsuu8pA==
-X-Received: by 2002:a17:90a:f195:: with SMTP id
- bv21mr5591852pjb.56.1619638454370; 
- Wed, 28 Apr 2021 12:34:14 -0700 (PDT)
+ bh=QsjGwtPl+BBfkIl5lrH7yu7GOPcN5GtbMrNa8PNGqig=;
+ b=kbfDDuz3D3mx1Sv9UCPZIRS4CfCNDGD++ksWElqLvMHcZlEFejzOzozsdePYK/3qA0
+ 3y+VsGDs3Pdo+d0sLyQk/km6sOIGUJWVPDYNo42Ki1wNIAWgHEdVYFTffdSPFvGiMaox
+ QcBHNq8LRfD8ArCftcNxC5BxikiytPVu6YmSdCfEUk3Bi3tz3I70xmtLAzjOK+gnw/yJ
+ elOBxYhEA/fIiO/uEZhxnEpycjNptd5fLpXpHvV4n2M2DHmQRydDnHu7RT0V05PGTjq9
+ MwtBnPV9f7n38UAxOB7Q5AeTkARHsJRP+2eBusnm2mRTnfdg82fVLsejkKndJHBS2aZh
+ kH1A==
+X-Gm-Message-State: AOAM530JcwSKHT2mh4+575bV5lqAUu6I3VdR7WSMWngyqTMK5Ev3i85U
+ PodYdFaXUt29qJJgZclDllcxX8CXa9B1gA==
+X-Google-Smtp-Source: ABdhPJzcDbG0gxWQQGLMcmjmSwcYUq4zGMEwrY/qnPiBd8yTqLweux5gZDc71LXE3u7y+pOpo1klTA==
+X-Received: by 2002:a63:ff09:: with SMTP id k9mr7500501pgi.35.1619638455178;
+ Wed, 28 Apr 2021 12:34:15 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id h21sm403725pfo.211.2021.04.28.12.34.13
+ by smtp.gmail.com with ESMTPSA id h21sm403725pfo.211.2021.04.28.12.34.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 28 Apr 2021 12:34:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/15] linux-user/s390x: Tidy save_sigregs
-Date: Wed, 28 Apr 2021 12:34:01 -0700
-Message-Id: <20210428193408.233706-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/15] linux-user/s390x: Clean up single-use gotos in
+ signal.c
+Date: Wed, 28 Apr 2021 12:34:02 -0700
+Message-Id: <20210428193408.233706-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210428193408.233706-1-richard.henderson@linaro.org>
 References: <20210428193408.233706-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,49 +88,98 @@ Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "save" routines copied from the kernel, which are currently
-commented out, are unnecessary in qemu.  We can copy from env
-where the kernel needs special instructions.  Fix comment style.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/s390x/signal.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ linux-user/s390x/signal.c | 29 ++++++++---------------------
+ 1 file changed, 8 insertions(+), 21 deletions(-)
 
 diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 4dde55d4d5..eabfe4293f 100644
+index eabfe4293f..64a9eab097 100644
 --- a/linux-user/s390x/signal.c
 +++ b/linux-user/s390x/signal.c
-@@ -104,23 +104,25 @@ get_sigframe(struct target_sigaction *ka, CPUS390XState *env, size_t frame_size)
- static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
- {
-     int i;
--    //save_access_regs(current->thread.acrs); FIXME
+@@ -137,7 +137,8 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     frame_addr = get_sigframe(ka, env, sizeof(*frame));
+     trace_user_setup_frame(env, frame_addr);
+     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
+-        goto give_sigsegv;
++        force_sigsegv(sig);
++        return;
+     }
  
--    /* Copy a 'clean' PSW mask to the user to avoid leaking
--       information about whether PER is currently on.  */
-+    /*
-+     * Copy a 'clean' PSW mask to the user to avoid leaking
-+     * information about whether PER is currently on.
-+     */
-     __put_user(env->psw.mask, &sregs->regs.psw.mask);
-     __put_user(env->psw.addr, &sregs->regs.psw.addr);
-+
-     for (i = 0; i < 16; i++) {
-         __put_user(env->regs[i], &sregs->regs.gprs[i]);
+     __put_user(set->sig[0], &frame->sc.oldmask[0]);
+@@ -174,10 +175,6 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     /* Place signal number on stack to allow backtrace from handler.  */
+     __put_user(env->regs[2], &frame->signo);
+     unlock_user_struct(frame, frame_addr, 1);
+-    return;
+-
+-give_sigsegv:
+-    force_sigsegv(sig);
+ }
+ 
+ void setup_rt_frame(int sig, struct target_sigaction *ka,
+@@ -190,7 +187,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     frame_addr = get_sigframe(ka, env, sizeof *frame);
+     trace_user_setup_rt_frame(env, frame_addr);
+     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
+-        goto give_sigsegv;
++        force_sigsegv(sig);
++        return;
      }
-     for (i = 0; i < 16; i++) {
-         __put_user(env->aregs[i], &sregs->regs.acrs[i]);
+ 
+     tswap_siginfo(&frame->info, info);
+@@ -222,10 +220,6 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     env->regs[2] = sig; //map_signal(sig);
+     env->regs[3] = frame_addr + offsetof(typeof(*frame), info);
+     env->regs[4] = frame_addr + offsetof(typeof(*frame), uc);
+-    return;
+-
+-give_sigsegv:
+-    force_sigsegv(sig);
+ }
+ 
+ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+@@ -259,7 +253,8 @@ long do_sigreturn(CPUS390XState *env)
+ 
+     trace_user_do_sigreturn(env, frame_addr);
+     if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
+-        goto badframe;
++        force_sig(TARGET_SIGSEGV);
++        return -TARGET_QEMU_ESIGRETURN;
      }
-+
-     /*
-      * We have to store the fp registers to current->thread.fp_regs
-      * to merge them with the emulated registers.
-      */
--    //save_fp_regs(&current->thread.fp_regs); FIXME
-     for (i = 0; i < 16; i++) {
-         __put_user(*get_freg(env, i), &sregs->fpregs.fprs[i]);
+     __get_user(target_set.sig[0], &frame->sc.oldmask[0]);
+ 
+@@ -270,10 +265,6 @@ long do_sigreturn(CPUS390XState *env)
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+-
+-badframe:
+-    force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUS390XState *env)
+@@ -284,7 +275,8 @@ long do_rt_sigreturn(CPUS390XState *env)
+ 
+     trace_user_do_rt_sigreturn(env, frame_addr);
+     if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
+-        goto badframe;
++        force_sig(TARGET_SIGSEGV);
++        return -TARGET_QEMU_ESIGRETURN;
      }
+     target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
+ 
+@@ -296,9 +288,4 @@ long do_rt_sigreturn(CPUS390XState *env)
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
+-
+-badframe:
+-    unlock_user_struct(frame, frame_addr, 0);
+-    force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
+ }
 -- 
 2.25.1
 
