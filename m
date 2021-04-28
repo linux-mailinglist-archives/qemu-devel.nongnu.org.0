@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833E436DD7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:50:30 +0200 (CEST)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1034236DD9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:55:37 +0200 (CEST)
+Received: from localhost ([::1]:47580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbnOP-0005ak-IX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
+	id 1lbnTM-0001K7-0b
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLp-00041z-Fm
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:49 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:33586)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLt-00048j-EM
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:53 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:42578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLm-0006gT-VG
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:49 -0400
-Received: by mail-lf1-x135.google.com with SMTP id j4so60829921lfp.0
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:47:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLm-0006gg-VE
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:53 -0400
+Received: by mail-lf1-x135.google.com with SMTP id d27so43489633lfv.9
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ibirWkv6uSYSQxoczRpL46TKKwuomQRszme/uUDeX18=;
- b=mP+OTK3MuJ+5goWsnhXiNWiZU/dslJyRz6FrBrhyDj5mLhEXDLuZ4SVV9MFSW5773b
- 1Gr95LAApA1nlV2OOZpRxdoAwHoaGjRSDUDHhHFrp2AYXA8XzN2BsifbD2Jc6i3+HGda
- euJH11OushZYNzw+qNHQF784JtJZxW0kuRkciyVBotReBVpjrgfxh/MlZft7psfpUSuq
- Vlrw3mMqeUABXH2C8uKouq63UyLsooyJOsiz84H5f4Pp2wGDVIApCq/QhB8vQrWj7ecU
- +dbpIyP69pSE7PldJwcl58vmbyMr1f+zYicpUtbS6hG+DSkWq67w95cD0+I2PEOB8ymz
- oFDA==
+ bh=v3yo78votzBUx2BxhduTni1w+nb0etUonkzgNxiZBWQ=;
+ b=KTfCIAXpI44HBo9jnKj4yV7bUPL+rl1hjPsecUxP+hzp0Bau8Ey1+5Ysps196EWgf6
+ WJyb8TgPfc6Z8c+CDXgJgnQnt9O2hsHlxj+FLMw+dno1Zth7+Jl4Q3Cd3tdNbNqN0Mmj
+ 8rGHPbGbIdKrfaq2KoXRhrS7tjp3x6MVOuvv+6u2xr6cUjtvWh+xvJn83muyMldiadrC
+ WRinJ/D63WvCxHrpCxUTo17SsO4nW1mRkeTe7G51Hk+vMSCx+D7HqFiUIFP76UCVVE2z
+ 6Fz/D1a0r1qybUAHwkpT0DG8BNX7LHIi3dtb54woXan5SAPyKoykYgWxjL/J/Fq9VaUl
+ l68g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ibirWkv6uSYSQxoczRpL46TKKwuomQRszme/uUDeX18=;
- b=ptuBoZTIeXboQ7T1iiNxD3q2+Jo90mJ4yCNiadj3Er+tLeH3UzNU6yVGoWXbvDd9/z
- 7IZLy/4rXPZsDwKkOPLnffYv5Upq3fKIgOpxH0GzsIa5O6ndAinwErTCEhIsDGSM9IFG
- DPzibGzki/H4ULuRqqv0G6LvUl51Z3zYVvJYG9cIssRduUieV01VY3zMrOl6vBUkV3RV
- 0pReoPI4Z5csdhlJtLtc4HyTrwW3AqB6VlX7bYqwAYpdgmDbDpsqE00EAz/5LoO1PuJ6
- aV1KmiAriLK7IckVl2X0qvwesBCW/ezlJiyKqQtIcIVH1qDOq8ltyGlkHkJQkTsdwwC7
- q/PA==
-X-Gm-Message-State: AOAM530yL+t7+EcBN3WBOXpodS+Yjz1xeyFsGxCfu/GjNmpDJpWP1rL1
- VrtkIsweRyGe8uhtwfH8GmO8eA==
-X-Google-Smtp-Source: ABdhPJxm1wvGDTYMaVKyyDbP6Szz2XpR+KXG+RnsYJBudntJpMnxjqvyEt2QV/JNhOG1vxFH53UK5Q==
-X-Received: by 2002:ac2:4883:: with SMTP id x3mr3711223lfc.494.1619628463908; 
- Wed, 28 Apr 2021 09:47:43 -0700 (PDT)
+ bh=v3yo78votzBUx2BxhduTni1w+nb0etUonkzgNxiZBWQ=;
+ b=VVTldlL8FlsZn1+Tgm9BMMqIa7keNCumW71BbvkElJlJsS+bkyLYPoPexCw8j1OWi/
+ mDUg5rXLnORHDTC61+EYE1jcAxK5iNnxwcXONaJoEMJmzzCuX1gT0nRujr2QugwY2oxr
+ Fk7zuCZ8NRODmPtrRtnIC6KbYpEb/JPSmut5Qyft8cT4+WRdjXhV1YX1qsyFz9ghaUAe
+ 3aowj0u9RC17AXB9ncimcPW6dQBEjnTxB2lwAINrMd51edSm87AHcBXr5k4A0+pyDQ9i
+ xZcqDVEQkvifm2rRBopBufctLKojbY01VXEsjV3aelbaXfGjZLhb5HBFn2ix7lJWeMEw
+ KQyA==
+X-Gm-Message-State: AOAM5328UicQ1wWBazjHfVWwivstkqfb8NcSRVwszEQRWftBTDbYKKTP
+ 98FzRiA58NC6eviIU+wKclIGbg==
+X-Google-Smtp-Source: ABdhPJzQKNwa4ra7E+qbqbAaE8BJnRp0Pfijq0CqgGzEcukklGLfBo+fehGpFg0lRrKjyMJoRWfs8g==
+X-Received: by 2002:a05:6512:34cb:: with SMTP id
+ w11mr21390093lfr.267.1619628464923; 
+ Wed, 28 Apr 2021 09:47:44 -0700 (PDT)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id v24sm86302lfp.195.2021.04.28.09.47.42
+ by smtp.gmail.com with ESMTPSA id v24sm86302lfp.195.2021.04.28.09.47.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 09:47:43 -0700 (PDT)
+ Wed, 28 Apr 2021 09:47:44 -0700 (PDT)
 From: Andrew Melnychenko <andrew@daynix.com>
 To: jasowang@redhat.com,
 	mst@redhat.com
-Subject: [PATCH v7 1/7] net/tap: Added TUNSETSTEERINGEBPF code.
-Date: Wed, 28 Apr 2021 19:47:27 +0300
-Message-Id: <20210428164733.56547-2-andrew@daynix.com>
+Subject: [PATCH v7 2/7] net: Added SetSteeringEBPF method for NetClientState.
+Date: Wed, 28 Apr 2021 19:47:28 +0300
+Message-Id: <20210428164733.56547-3-andrew@daynix.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210428164733.56547-1-andrew@daynix.com>
 References: <20210428164733.56547-1-andrew@daynix.com>
@@ -86,25 +87,138 @@ Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Additional code that will be used for eBPF setting steering routine.
+For now, that method supported only by Linux TAP.
+Linux TAP uses TUNSETSTEERINGEBPF ioctl.
 
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 ---
- net/tap-linux.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/net/net.h |  2 ++
+ net/tap-bsd.c     |  5 +++++
+ net/tap-linux.c   | 13 +++++++++++++
+ net/tap-solaris.c |  5 +++++
+ net/tap-stub.c    |  5 +++++
+ net/tap.c         |  9 +++++++++
+ net/tap_int.h     |  1 +
+ 7 files changed, 40 insertions(+)
 
-diff --git a/net/tap-linux.h b/net/tap-linux.h
-index 2f36d100fc..1d06fe0de6 100644
---- a/net/tap-linux.h
-+++ b/net/tap-linux.h
-@@ -31,6 +31,7 @@
- #define TUNSETQUEUE  _IOW('T', 217, int)
- #define TUNSETVNETLE _IOW('T', 220, int)
- #define TUNSETVNETBE _IOW('T', 222, int)
-+#define TUNSETSTEERINGEBPF _IOR('T', 224, int)
+diff --git a/include/net/net.h b/include/net/net.h
+index 1ef536d771..5d1508081f 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -61,6 +61,7 @@ typedef int (SetVnetBE)(NetClientState *, bool);
+ typedef struct SocketReadState SocketReadState;
+ typedef void (SocketReadStateFinalize)(SocketReadState *rs);
+ typedef void (NetAnnounce)(NetClientState *);
++typedef bool (SetSteeringEBPF)(NetClientState *, int);
  
- #endif
+ typedef struct NetClientInfo {
+     NetClientDriver type;
+@@ -82,6 +83,7 @@ typedef struct NetClientInfo {
+     SetVnetLE *set_vnet_le;
+     SetVnetBE *set_vnet_be;
+     NetAnnounce *announce;
++    SetSteeringEBPF *set_steering_ebpf;
+ } NetClientInfo;
  
+ struct NetClientState {
+diff --git a/net/tap-bsd.c b/net/tap-bsd.c
+index 77aaf674b1..4f64f31e98 100644
+--- a/net/tap-bsd.c
++++ b/net/tap-bsd.c
+@@ -259,3 +259,8 @@ int tap_fd_get_ifname(int fd, char *ifname)
+ {
+     return -1;
+ }
++
++int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++{
++    return -1;
++}
+diff --git a/net/tap-linux.c b/net/tap-linux.c
+index b0635e9e32..9584769740 100644
+--- a/net/tap-linux.c
++++ b/net/tap-linux.c
+@@ -316,3 +316,16 @@ int tap_fd_get_ifname(int fd, char *ifname)
+     pstrcpy(ifname, sizeof(ifr.ifr_name), ifr.ifr_name);
+     return 0;
+ }
++
++int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++{
++    if (ioctl(fd, TUNSETSTEERINGEBPF, (void *) &prog_fd) != 0) {
++        error_report("Issue while setting TUNSETSTEERINGEBPF:"
++                    " %s with fd: %d, prog_fd: %d",
++                    strerror(errno), fd, prog_fd);
++
++       return -1;
++    }
++
++    return 0;
++}
+diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+index 0475a58207..d85224242b 100644
+--- a/net/tap-solaris.c
++++ b/net/tap-solaris.c
+@@ -255,3 +255,8 @@ int tap_fd_get_ifname(int fd, char *ifname)
+ {
+     return -1;
+ }
++
++int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++{
++    return -1;
++}
+diff --git a/net/tap-stub.c b/net/tap-stub.c
+index de525a2e69..a0fa25804b 100644
+--- a/net/tap-stub.c
++++ b/net/tap-stub.c
+@@ -85,3 +85,8 @@ int tap_fd_get_ifname(int fd, char *ifname)
+ {
+     return -1;
+ }
++
++int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++{
++    return -1;
++}
+diff --git a/net/tap.c b/net/tap.c
+index bae895e287..f5686bbf77 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -347,6 +347,14 @@ static void tap_poll(NetClientState *nc, bool enable)
+     tap_write_poll(s, enable);
+ }
+ 
++static bool tap_set_steering_ebpf(NetClientState *nc, int prog_fd)
++{
++    TAPState *s = DO_UPCAST(TAPState, nc, nc);
++    assert(nc->info->type == NET_CLIENT_DRIVER_TAP);
++
++    return tap_fd_set_steering_ebpf(s->fd, prog_fd) == 0;
++}
++
+ int tap_get_fd(NetClientState *nc)
+ {
+     TAPState *s = DO_UPCAST(TAPState, nc, nc);
+@@ -372,6 +380,7 @@ static NetClientInfo net_tap_info = {
+     .set_vnet_hdr_len = tap_set_vnet_hdr_len,
+     .set_vnet_le = tap_set_vnet_le,
+     .set_vnet_be = tap_set_vnet_be,
++    .set_steering_ebpf = tap_set_steering_ebpf,
+ };
+ 
+ static TAPState *net_tap_fd_init(NetClientState *peer,
+diff --git a/net/tap_int.h b/net/tap_int.h
+index 225a49ea48..547f8a5a28 100644
+--- a/net/tap_int.h
++++ b/net/tap_int.h
+@@ -44,5 +44,6 @@ int tap_fd_set_vnet_be(int fd, int vnet_is_be);
+ int tap_fd_enable(int fd);
+ int tap_fd_disable(int fd);
+ int tap_fd_get_ifname(int fd, char *ifname);
++int tap_fd_set_steering_ebpf(int fd, int prog_fd);
+ 
+ #endif /* NET_TAP_INT_H */
 -- 
 2.31.1
 
