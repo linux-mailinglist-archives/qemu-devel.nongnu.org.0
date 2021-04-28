@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA8A36D703
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 14:09:00 +0200 (CEST)
-Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A045D36D735
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 14:24:44 +0200 (CEST)
+Received: from localhost ([::1]:54054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbizz-0007Hi-91
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 08:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53122)
+	id 1lbjFD-0003XD-4e
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 08:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lbix0-0005UB-F6
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:05:54 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:39819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lbiwt-00017G-Nc
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:05:50 -0400
-Received: by mail-io1-xd34.google.com with SMTP id k25so19590847iob.6
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 05:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MteE/g/KmQ9BlQnYvGg30lhYeZdvbq7IAml0pL394Qs=;
- b=CrynjyOVZL6/shRVFdLnrQGrZTnnRxkeu6U7/7CMFwrHUpjHPnIjS37cZfn81ZETkg
- WxAC7nFoW7Q1/GgHnoMf96M7K3LArUbdpMufhtPSkxt+g+y3gp1hImC8V+ED/v1o8cqM
- 78Hvj/VCwbEps8WYk18TEgvr7fSnK8IK+fwzr3QsRhAhmhkQCIwcA9ozeb7T9GsQ9M2i
- tOJn0afXqGd17F4A2FaCX8gLiaLy1CxXXcGAD27RxxyS+Ne2gpXGEKcwkSKPfDBy1C4k
- mHGl/j66yPl7T8up46UQwEcHuudeysikg7dmsfGvCkgNqUc7uqBhmpxJknupEQX4u+WP
- VRjg==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lbjC8-00028A-Lw
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:21:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lbjBx-0001Hl-O5
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 08:21:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619612478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QVk7PRjZpc1WmRJu65ZMq2aqmJ8Q+KBufZvuKtF1hpQ=;
+ b=LAERl2HiO/G6cqAvbGT9N9c7DlMhjXtP/vxixzCKQUHzmgxsmforOuPHUOLGpejrBmJMZ8
+ 21m/LhGUwaJQihWZue3DtSgZCZBhyNXWZRFR+yKOFmvJDHz0+POCe/THJ6GU+U/jQEOsBZ
+ sHJxhLSa5Lc6WOj9Di5ooyq8ps9TYKE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565-t-cXHL4ENgWhk0g1MoHsCQ-1; Wed, 28 Apr 2021 08:21:17 -0400
+X-MC-Unique: t-cXHL4ENgWhk0g1MoHsCQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ cz7-20020a0564021ca7b02903853d41d8adso17476315edb.17
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 05:21:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MteE/g/KmQ9BlQnYvGg30lhYeZdvbq7IAml0pL394Qs=;
- b=a38muvd1FoWioVw4HgFxlJLrnFPNa9XsMdmaYWfgBTZKUInkVx/L8SVzctQK4SZIeh
- 36MBU0IN+t0opI86sZYtxPgvApujUbBqontJUUPlA78TlTqorQAex7LIEl8d0Q9sW2E3
- IlOWbSiRfqiw7OZjkvvp/K962FeXqPRTcGENRbpJCxD1NEONCUCfCVZhgTTt3yP57SAk
- ztnbTFRV/rUoA9eNdl5KxmzOTeIqicQ7wsSM6f/CbUeSys9bOg8sSRMd46xBZk902L9X
- LrQPWQCVrAvFrIdkG2xJ7EUIpuNzSflzoIE6XAKdc7W4rJHlE8iT6aQFvK4yehP4Mlvf
- hmZg==
-X-Gm-Message-State: AOAM53074oeasui2YB1F2OzkaQt9LVKKnrukikXZo49h/Eheu52o4u2I
- 21Z6cGBhOfg6Yv+cXLrVuvm7TcuPzLtu+/b6i5c=
-X-Google-Smtp-Source: ABdhPJxTkJLt+MGqyaYsRzxqQXLyGjYyCYjVO08zvaZwDx2+vpiA2EQqK4gKDorDcT2pI/Z1crFwWmPucJSgzl8GEJU=
-X-Received: by 2002:a05:6638:2515:: with SMTP id
- v21mr26862139jat.110.1619611542943; 
- Wed, 28 Apr 2021 05:05:42 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QVk7PRjZpc1WmRJu65ZMq2aqmJ8Q+KBufZvuKtF1hpQ=;
+ b=PiFxLLKyoCqw9Ts7+KIquAY1AvWJ5t0pIy/3IllKP/u5vN2l4+Wk/qjIiun3S0iCP1
+ 57rKJcjENeJr7JVFBdy8p2KodhwAEn9A99oD7nlR4uKondnWcAFJ4uehFsYRxJggrJQ+
+ yOU6xKpLJ1TcwrA7OJuK0GCxajQiaLfxUDac2CRhXJvEvFB99C/luAe+BwLqlnpGYGRz
+ Ke94V4pzmvPjcvHu+kmLkC7zXNpvW3qNUzXJdHHgj9LcBVFn5YbqdeS/kPpIsrxc4JNb
+ ATHL1ctKzyoFEw5Vg4+RAGRXa/yzTLktGx2NsIxc/bo7JyR6yI0rPZckI/8SB/qvzknS
+ rDpg==
+X-Gm-Message-State: AOAM531YomElW1i2w9bOsccVnpX+qyh2XSg+HL/HvfG48o//ZZ2GpZIp
+ TYdvZ2f2JsT9E0q/QcbARI0O6+//5omGGxjvTei2n9tIavknZPVd22G0L0cmpN3ia2n1OYKTlh5
+ g5TutHk9UmTir4go=
+X-Received: by 2002:a17:906:6959:: with SMTP id
+ c25mr18054579ejs.392.1619612475545; 
+ Wed, 28 Apr 2021 05:21:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbQX9bWHpBL+e0/67NfQpobyS3mqobXjb3XOqnolKa4evLOosorEOxDOa12Q2/9JRz58rvpQ==
+X-Received: by 2002:a17:906:6959:: with SMTP id
+ c25mr18054560ejs.392.1619612475361; 
+ Wed, 28 Apr 2021 05:21:15 -0700 (PDT)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id bh14sm1816421ejb.104.2021.04.28.05.21.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Apr 2021 05:21:14 -0700 (PDT)
+Date: Wed, 28 Apr 2021 14:21:12 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Yongji Xie <xieyongji@bytedance.com>
+Subject: Re: [PATCH 0/3] Introduce vhost-vdpa block device
+Message-ID: <20210428122112.saxrwawnzv5y3ebq@steredhat>
+References: <20210408101252.552-1-xieyongji@bytedance.com>
+ <YIbdYdxD0CDcX+C2@stefanha-x1.localdomain>
+ <CACycT3sU3LDnAvk_iefo=91L91=8TNRQJfKyRvOy2EOtiesBMw@mail.gmail.com>
+ <YIgfh632Evrdid12@stefanha-x1.localdomain>
+ <CACycT3sV_Bv63Y5pvYV=e2-B5c3Lky2UWWc4tk=DDN0tKs=6Ng@mail.gmail.com>
 MIME-Version: 1.0
-References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
- <20210426152203.379dab00@redhat.com>
- <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
- <20210427121850.68d2a8dd@redhat.com> <YIhfWoRgJtaKZhh8@work-vm>
-In-Reply-To: <YIhfWoRgJtaKZhh8@work-vm>
-From: Dev Audsin <dev.devaqemu@gmail.com>
-Date: Wed, 28 Apr 2021 13:04:57 +0100
-Message-ID: <CANsN3OSs4GyT10P6xUp-s823U8VnWAmihWXQ1jSnF07wyYjxuA@mail.gmail.com>
-Subject: Re: [PATCH] make vfio and DAX cache work together
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=dev.devaqemu@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CACycT3sV_Bv63Y5pvYV=e2-B5c3Lky2UWWc4tk=DDN0tKs=6Ng@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,110 +100,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Dave for your explanation.
-Any suggestions on how to make VFIO not attempt to map into the
-unaccessible and unallocated RAM.
+On Wed, Apr 28, 2021 at 07:27:03PM +0800, Yongji Xie wrote:
+>On Tue, Apr 27, 2021 at 10:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>>
+>> On Tue, Apr 27, 2021 at 06:24:55PM +0800, Yongji Xie wrote:
+>> > On Mon, Apr 26, 2021 at 11:34 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>> > >
+>> > > On Thu, Apr 08, 2021 at 06:12:49PM +0800, Xie Yongji wrote:
+>> > > > Since we already have some ways to emulate vDPA block device
+>> > > > in kernel[1] or userspace[2]. This series tries to introduce a
+>> > > > new vhost-vdpa block device for that. To use it, we can add
+>> > > > something like:
+>> > > >
+>> > > > qemu-system-x86_64 \
+>> > > >     -device vhost-vdpa-blk-pci,vdpa-dev=/dev/vhost-vdpa-0
+>> > >
+>> > > This device is similar to vhost-user-blk. QEMU does not see it as a
+>> > > block device so storage migration, I/O throttling, image formats, etc
+>> > > are not supported. Stefano Garzarella and I discussed how vdpa-blk
+>> > > devices could integrate more deeply with QEMU's block layer. The QEMU
+>> > > block layer could be enabled only when necessary and otherwise bypassed
+>> > > for maximum performance.
+>> > >
+>> >
+>> > Do you mean we can make use of the shadow virtqueue for the slow path
+>> > (I/O will go through the block layer) and add a fast path (like what
+>> > we do now) to bypass the block layer?
+>>
+>> Yes.
+>>
+>> > > This alternative approach is similar to how vhost-net is implemented in
+>> > > QEMU. A BlockDriver would handle the vdpa-blk device and the regular
+>> > > virtio-blk-pci device would still be present. The virtqueues could be
+>> > > delegated to the vdpa-blk device in order to bypass the QEMU block
+>> > > layer.
+>> > >
+>> > > I wanted to mention this since it's likely that this kind of vdpa-blk
+>> > > device implementation will be posted in the future and you might be
+>> > > interested. It makes live migration with non-shared storage possible,
+>> > > for example.
+>> > >
+>> >
+>> > That would be nice, I'm looking forward to it!
+>> >
+>> > So do you think whether it's necessary to continue this approach?
+>> > Looks like we don't need a vhost-vdpa-blk device any more in the new
+>> > approach.
+>>
+>> There is no code for the vdpa-blk BlockDriver yet and the implementation
+>> will be more complex than this patch series (more risk the feature could
+>> be delayed).
+>>
+>> If you need vdpa-blk as soon as possible then this patch series may be a
+>> pragmatic solution. As long as it doesn't limit the vdpa-blk interface
+>> in a way that prevents the BlockDriver implementation then I think QEMU
+>> could support both.
+>>
+>> In the long term the vdpa-blk BlockDriver could replace -device
+>> vdpa-blk-pci since the performance should be identical and it supports
+>> more use cases.
+>>
+>> It's up to you. You're welcome to wait for the BlockDriver, work
+>> together with Stefano on the BlockDriver, or continue with your patch
+>> series.
+>>
+>
+>I like the new idea! Let me wait for it.
+>
 
-Best
-Dev
+Thanks for this great discussion!
 
-On Tue, Apr 27, 2021 at 8:00 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > On Tue, 27 Apr 2021 17:29:37 +0100
-> > Dev Audsin <dev.devaqemu@gmail.com> wrote:
-> >
-> > > Hi Alex
-> > >
-> > > Based on your comments and thinking a bit, wonder if it makes sense to
-> > > allow DMA map for the DAX cache but make unexpected mappings to be not
-> > > fatal. Please let me know your thoughts.
-> >
-> > I think you're still working on the assumption that simply making the
-> > VM boot is an improvement, it's not.  If there's a risk that a possible
-> > DMA target for the device cannot be mapped, it's better that the VM
-> > fail to boot than to expose that risk.  Performance cannot compromise
-> > correctness.
-> >
-> > We do allow DMA mappings to other device memory regions to fail
-> > non-fatally with the logic that peer-to-peer DMA is often not trusted
-> > to work by drivers and therefore support would be probed before
-> > assuming that it works.  I don't think that same logic applies here.
-> >
-> > Is there something about the definition of this particular region that
-> > precludes it from being a DMA target for an assigned devices?
->
-> It's never really the ram that's used.
-> This area is really a chunk of VMA that's mmap'd over by (chunks of)
-> normal files in the underlying exported filesystem.  The actual RAM
-> block itself is just a placeholder for the VMA, and is normally mapped
-> PROT_NONE until an actual file is mapped on top of it.
-> That cache bar is a mapping containing multiple separate file chunk
-> mappings.
->
-> So I guess the problems for VFIO are:
->   a) At the start it's unmapped, unaccessible, unallocated ram.
->   b) Later it's arbitrary chunks of ondisk files.
->
-> [on a bad day, and it's bad even without vfio, someone truncates the
-> file mapping]
->
-> Dave
->
-> > Otherwise if it's initially unpopulated, maybe something like the
-> > RamDiscardManager could be used to insert DMA mappings as the region
-> > becomes populated.
-> >
-> > Simply disabling mapping to boot with both features together, without
-> > analyzing how that missing mapping affects their interaction is not
-> > acceptable.  Thanks,
-> >
-> > Alex
-> >
-> > > On Mon, Apr 26, 2021 at 10:22 PM Alex Williamson
-> > > <alex.williamson@redhat.com> wrote:
-> > > >
-> > > > On Mon, 26 Apr 2021 21:50:38 +0100
-> > > > Dev Audsin <dev.devaqemu@gmail.com> wrote:
-> > > >
-> > > > > Hi Alex and David
-> > > > >
-> > > > > @Alex:
-> > > > >
-> > > > > Justification on why this region cannot be a DMA target for the device,
-> > > > >
-> > > > > virtio-fs with DAX is currently not compatible with NIC Pass through.
-> > > > > When a SR-IOV VF attaches to a qemu process, vfio will try to pin the
-> > > > > entire DAX Window but it is empty when the guest boots and will fail.
-> > > > > A method to make VFIO and DAX to work together is to make vfio skip
-> > > > > DAX cache.
-> > > > >
-> > > > > Currently DAX cache need to be set to 0, for the SR-IOV VF to be
-> > > > > attached to Kata containers. Enabling both SR-IOV VF and DAX work
-> > > > > together will potentially improve performance for workloads which are
-> > > > > I/O and network intensive.
-> > > >
-> > > > Sorry, there's no actual justification described here.  You're enabling
-> > > > a VM with both features, virtio-fs DAX and VFIO, but there's no
-> > > > evidence that they "work together" or that your use case is simply
-> > > > avoiding a scenario where the device might attempt to DMA into the area
-> > > > with this designation.  With this change, if the device were to attempt
-> > > > to DMA into this region, it would be blocked by the IOMMU, which might
-> > > > result in a data loss within the VM.  Justification of this change
-> > > > needs to prove that this region can never be a DMA target for the
-> > > > device, not simply that both features can be enabled and we hope that
-> > > > they don't interact.  Thanks,
-> > > >
-> > > > Alex
-> > > >
-> > >
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+I'll keep you updated and I'll CC you on the RFC when I have something 
+ready.
+
+Cheers,
+Stefano
+
 
