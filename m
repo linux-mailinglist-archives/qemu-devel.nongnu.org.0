@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBCD36DE91
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:44:47 +0200 (CEST)
-Received: from localhost ([::1]:54546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD74536DE90
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:44:37 +0200 (CEST)
+Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lboEw-0002Hc-IE
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46290)
+	id 1lboEm-00024z-V1
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:44:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbnzz-0004qN-53
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:29:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23926)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lbo2I-0006mv-HW
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:31:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbnzv-00087E-9R
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:29:18 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lbo2E-0000pS-Jy
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:31:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619630954;
+ s=mimecast20190719; t=1619631098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ft7AsfLT38lKQnO0Vzs1l8qjmjgwtYnPzE/amFKSrLQ=;
- b=Ph6CgyXraTlw/GDwHNa5SzID6lq9rzNWDpL1iQ3f2lErG1qKuWisgAEBLNDGcPLO8Ucj4y
- w7ERAGM5+GeGlb58AhgHyfsJJAF2a6nStbdb9S+pYfQEGoyt2dLYgunDrwSP19XzOomOI2
- lzjxvX1/nVKZ2SJoyhVGOJrmd2EO7DQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-0tqeNMe3P2SFGIrk2I6tjA-1; Wed, 28 Apr 2021 13:29:11 -0400
-X-MC-Unique: 0tqeNMe3P2SFGIrk2I6tjA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- b16-20020a7bc2500000b029014587f5376dso244367wmj.1
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 10:29:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ft7AsfLT38lKQnO0Vzs1l8qjmjgwtYnPzE/amFKSrLQ=;
- b=r8+IcayCgbvX0lVRqGvx6niXL8+tPhz9MNGJnFRBvewApfMp+jp70lFRy1CJganhyY
- P790aFuFBJ+zGJ8Iu5ahUH3OvnfCqWoFyOYs9MNMuy9IwScxS59iOJQk+MIV880CcKSQ
- F1/k2jXNgxfe56Px/OVBkwfRdyZ/zHBJ+VBT1WUsZslLbfh5O2OLwFGUgHKf1Urh28b0
- HcD5zVO3Tj6+alNVyt995qzQU/Qu5Xgl4uMv1IB/Xwg74z11vV48FtDVR+rvkxo0Gou/
- cv/ValQgWyzFAkJAHu0enNSttkSxgDHAjbjX7N0j0AX5JMvp2urDmiT257V7QdY2e/Ib
- WT5A==
-X-Gm-Message-State: AOAM533ye8cm2BDev3r320QhuXbUJ7UrWstkzVpZgpo+nl61nDYsU1l7
- 9xrbRhhjRf3e6+RAIfxwuBjAbSZDKU9UenJ2UKj87ShYAzgS+q2eSuFIIk9yPdrHDC7Bc+4p132
- Oqj7SJu1yh8XirD4=
-X-Received: by 2002:a05:600c:4e8e:: with SMTP id
- f14mr978515wmq.177.1619630950651; 
- Wed, 28 Apr 2021 10:29:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOfka5HVv7TZUOtcJ8Jz+7yNoK9tdJuphFL+Cw/D7OTBEe1WO4BhXCIEvxB0La069jEaIzCg==
-X-Received: by 2002:a05:600c:4e8e:: with SMTP id
- f14mr978497wmq.177.1619630950420; 
- Wed, 28 Apr 2021 10:29:10 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id j22sm520721wra.46.2021.04.28.10.29.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 10:29:10 -0700 (PDT)
-Subject: Re: [PATCH 7/7] hw/nvram: Do not build FW_CFG if not required
-To: qemu-devel@nongnu.org, Laszlo Ersek <lersek@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210426193520.4115528-1-philmd@redhat.com>
- <20210426193520.4115528-8-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9174c9b8-bd6e-fde3-fb70-f563d7f99d58@redhat.com>
-Date: Wed, 28 Apr 2021 19:29:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=e91BdbYVGH49P+iexS74Ot65vmFS2HNqis/KB25dY7I=;
+ b=XWGZ0Msi6fvo/tcq+dyJOElbyz5yO+FUeGn28jvS4uPcAPL16Tv32eWbcii7yCuWNzTt2p
+ 3vVw5THPabco5VNQTjAp5AOm3TUZQIiJDCs7LqahPFuerfz6JdpakKZIIk9wtQCjQZoOx8
+ XB+hAoHd608cNqbMRMExRYLF458tm6E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-NgttYOchMCWHSzvVyDA8cQ-1; Wed, 28 Apr 2021 13:31:34 -0400
+X-MC-Unique: NgttYOchMCWHSzvVyDA8cQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEE56BBF04;
+ Wed, 28 Apr 2021 17:31:32 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C55F76F977;
+ Wed, 28 Apr 2021 17:31:19 +0000 (UTC)
+Date: Wed, 28 Apr 2021 19:31:13 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH 1/5] vhost-user-blk: Don't reconnect during initialisation
+Message-ID: <YImb4XGSPiD/gpnT@merkur.fritz.box>
+References: <20210422170221.285006-1-kwolf@redhat.com>
+ <20210422170221.285006-2-kwolf@redhat.com>
+ <20210428162529.GA20148@raphael-debian-dev>
 MIME-Version: 1.0
-In-Reply-To: <20210426193520.4115528-8-philmd@redhat.com>
+In-Reply-To: <20210428162529.GA20148@raphael-debian-dev>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,138 +77,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "den-plotnikov@yandex-team.ru" <den-plotnikov@yandex-team.ru>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/26/21 9:35 PM, Philippe Mathieu-Daudé wrote:
-> If the Kconfig 'FW_CFG' symbol is not selected, it is pointless
-> to build the fw_cfg device. Update the stubs.
+Am 28.04.2021 um 18:52 hat Raphael Norwitz geschrieben:
+> Given what you've shown with the use-after-free, I agree the changes
+> need to be reverted. I'm a little uneasy about removing the reconnect
+> logic from the device realization completely though.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  stubs/fw_cfg.c       | 49 ++++++++++++++++++++++++++++++++++++++++++--
->  hw/nvram/meson.build |  2 +-
->  2 files changed, 48 insertions(+), 3 deletions(-)
+> On Thu, Apr 22, 2021 at 07:02:17PM +0200, Kevin Wolf wrote:
+> > This is a partial revert of commits 77542d43149 and bc79c87bcde.
+> > 
+> > Usually, an error during initialisation means that the configuration was
+> > wrong. Reconnecting won't make the error go away, but just turn the
+> > error condition into an endless loop. Avoid this and return errors
+> > again.
+> > 
+> 
+> Is that nessesarily true? As I understand it the main usecases for
+> device reconnect are to allow a device backend to be restarted after a
+> failure or to allow the backend to be upgraded without restarting the
+> guest. I agree - misconfiguration could be a common cause of a device
+> backend crashing at realize time, but couldn't there be others? Maybe
+> transient memory pressure?
+> 
+> Especially in the case where one process is connecting to many different
+> vhost-user-blk instances, I could imagine power-ons and incoming
+> migrations racing with backend restarts quite frequently. Should
+> these cases cause failures?
+> 
+> We can still hit the infinite looping case you describe post-realize.
+> Why should we treat pre-realize differently?
 
-Answering here to Laszlo's comment from:
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg05858.html
+I think there is one main difference between realize() and later
+operation, which is that we can actually deliver an error to the user
+during realize(). When we're just starting QEMU and processing the CLI
+arguments, failure is very obvious, and in the context of QMP
+device-add, the client is actively waiting for a result, too.
 
-On 4/28/21 6:44 PM, Laszlo Ersek wrote:
-> I don't understand why we need to add *more code* (stubs / boilerplate)
-> if our goal is (apparently) to build QEMU with *fewer* devices.
+Later on, there is no good way to communicate an error (writes to stderr
+just end up in some logfile at best, QAPI events can be missed), and
+even if there were, we would have to do something with the guest until
+the user/management application actually reacts to the error. The latter
+is not a problem during realize() because the device wasn't even plugged
+in yet.
 
-The list of callers:
+So I think there are good reasons why it could make sense to distinguish
+initialisation and operation.
 
-hw/acpi/bios-linker-loader.c:177:    return fw_cfg &&
-fw_cfg_dma_enabled(fw_cfg);
-hw/acpi/core.c:640:        fw_cfg_add_file(fw_cfg, "etc/system-states",
-g_memdup(suspend, 6), 6);
-hw/acpi/ghes.c:383:    fw_cfg_add_file(s, ACPI_GHES_ERRORS_FW_CFG_FILE,
-hardware_error->data,
-hw/acpi/ghes.c:387:    fw_cfg_add_file_callback(s,
-ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
-hw/acpi/nvdimm.c:912:    fw_cfg_add_file(fw_cfg, NVDIMM_DSM_MEM_FILE,
-state->dsm_mem->data,
-hw/acpi/vmgenid.c:128:    fw_cfg_add_file(s, VMGENID_GUID_FW_CFG_FILE,
-guid->data,
-hw/acpi/vmgenid.c:131:    fw_cfg_add_file_callback(s,
-VMGENID_ADDR_FW_CFG_FILE, NULL, NULL, NULL,
-hw/arm/virt-acpi-build.c:870:    fw_cfg_add_file(vms->fw_cfg,
-ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
-hw/arm/virt.c:1531:        fw_cfg_add_file(vms->fw_cfg,
-"etc/smbios/smbios-tables",
-hw/arm/virt.c:1533:        fw_cfg_add_file(vms->fw_cfg,
-"etc/smbios/smbios-anchor",
-hw/core/loader.c:1017:        fw_cfg_add_file(fw_cfg, fw_file_name,
-data, rom->romsize);
-hw/core/loader.c:1074:        fw_cfg_add_file_callback(fw_cfg, fw_file_name,
-hw/core/loader.c:1254:    fw_cfg_set_order_override(fw_cfg, order);
-hw/core/loader.c:1261:    fw_cfg_reset_order_override(fw_cfg);
-hw/core/loader.c:919:        fw_cfg_modify_file(fw_cfg, id +
-strlen("/rom@"), host, length);
-hw/display/ramfb.c:131:    fw_cfg_add_file_callback(fw_cfg, "etc/ramfb",
-hw/hppa/machine.c:104:    fw_cfg_add_file(fw_cfg,
-"/etc/firmware-min-version",
-hw/hppa/machine.c:108:    fw_cfg_add_file(fw_cfg, "/etc/cpu/tlb_entries",
-hw/hppa/machine.c:112:    fw_cfg_add_file(fw_cfg, "/etc/cpu/btlb_entries",
-hw/hppa/machine.c:116:    fw_cfg_add_file(fw_cfg, "/etc/power-button-addr",
-hw/i386/acpi-build.c:2638:    fw_cfg_add_file(x86ms->fw_cfg,
-ACPI_BUILD_TPMLOG_FILE,
-hw/i386/acpi-build.c:2648:        fw_cfg_add_file(x86ms->fw_cfg,
-"etc/tpm/config",
-hw/i386/acpi-build.c:2667:
-fw_cfg_add_file_callback(x86ms->fw_cfg, ACPI_BUILD_RSDP_FILE,
-hw/i386/fw_cfg.c:130:    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-hw/i386/fw_cfg.c:181:    fw_cfg_add_file(fw_cfg,
-"etc/msr_feature_control", val, sizeof(*val));
-hw/i386/fw_cfg.c:85:        fw_cfg_add_file(fw_cfg,
-"etc/smbios/smbios-tables",
-hw/i386/fw_cfg.c:87:        fw_cfg_add_file(fw_cfg,
-"etc/smbios/smbios-anchor",
-hw/i386/microvm.c:329:    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-hw/i386/pc.c:977:        fw_cfg_add_file(fw_cfg,
-"etc/reserved-memory-end", val, sizeof(*val));
-hw/i386/x86.c:1078:    if (linuxboot_dma_enabled &&
-fw_cfg_dma_enabled(fw_cfg)) {
-hw/isa/lpc_ich9.c:421:        fw_cfg_add_file(fw_cfg,
-"etc/smi/supported-features",
-hw/isa/lpc_ich9.c:428:        fw_cfg_add_file_callback(fw_cfg,
-"etc/smi/requested-features",
-hw/isa/lpc_ich9.c:433:        fw_cfg_add_file_callback(fw_cfg,
-"etc/smi/features-ok",
-hw/misc/pvpanic-isa.c:60:    fw_cfg_add_file(fw_cfg, "etc/pvpanic-port",
-pvpanic_port,
-hw/misc/vmcoreinfo.c:60:    fw_cfg_add_file_callback(fw_cfg,
-FW_CFG_VMCOREINFO_FILENAME,
-hw/ppc/mac_newworld.c:526:            fw_cfg_add_file(fw_cfg,
-"ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
-hw/ppc/mac_oldworld.c:371:            fw_cfg_add_file(fw_cfg,
-"ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
-hw/vfio/igd.c:565:    fw_cfg_add_file(fw_cfg_find(), "etc/igd-bdsm-size",
-hw/vfio/pci-quirks.c:1201:    fw_cfg_add_file(fw_cfg_find(),
-"etc/igd-opregion",
-softmmu/vl.c:1183:        if (!fw_cfg_add_from_generator(fw_cfg, name,
-gen_id, errp)) {
-softmmu/vl.c:1196:    fw_cfg_set_order_override(fw_cfg,
-FW_CFG_ORDER_OVERRIDE_USER);
-softmmu/vl.c:1197:    fw_cfg_add_file(fw_cfg, name, buf, size);
-softmmu/vl.c:1198:    fw_cfg_reset_order_override(fw_cfg);
+> > Additionally, calling vhost_user_blk_disconnect() from the chardev event
+> > handler could result in use-after-free because none of the
+> > initialisation code expects that the device could just go away in the
+> > middle. So removing the call fixes crashes in several places.
+> > 
+> > For example, using a num-queues setting that is incompatible with the
+> > backend would result in a crash like this (dereferencing dev->opaque,
+> > which is already NULL):
+> > 
+> >  #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
+> >  #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
+> >  #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> >  #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
+> >  #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+> >  #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
+> >  #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
+> >  #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
+> >  #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
+> >  #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
+> > 
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  hw/block/vhost-user-blk.c | 54 ++++++++++-----------------------------
+> >  1 file changed, 13 insertions(+), 41 deletions(-)
+> > 
+> > diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> > index f5e9682703..e824b0a759 100644
+> > --- a/hw/block/vhost-user-blk.c
+> > +++ b/hw/block/vhost-user-blk.c
+> > @@ -50,6 +50,8 @@ static const int user_feature_bits[] = {
+> >      VHOST_INVALID_FEATURE_BIT
+> >  };
+> >  
+> > +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
+> > +
+> >  static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+> >  {
+> >      VHostUserBlk *s = VHOST_USER_BLK(vdev);
+> > @@ -362,19 +364,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
+> >      vhost_dev_cleanup(&s->dev);
+> >  }
+> >  
+> > -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+> > -                                 bool realized);
+> > -
+> > -static void vhost_user_blk_event_realize(void *opaque, QEMUChrEvent event)
+> > -{
+> > -    vhost_user_blk_event(opaque, event, false);
+> > -}
+> > -
+> > -static void vhost_user_blk_event_oper(void *opaque, QEMUChrEvent event)
+> > -{
+> > -    vhost_user_blk_event(opaque, event, true);
+> > -}
+> > -
+> >  static void vhost_user_blk_chr_closed_bh(void *opaque)
+> >  {
+> >      DeviceState *dev = opaque;
+> > @@ -382,12 +371,11 @@ static void vhost_user_blk_chr_closed_bh(void *opaque)
+> >      VHostUserBlk *s = VHOST_USER_BLK(vdev);
+> >  
+> >      vhost_user_blk_disconnect(dev);
+> > -    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL,
+> > -            vhost_user_blk_event_oper, NULL, opaque, NULL, true);
+> > +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
+> > +                             NULL, opaque, NULL, true);
+> >  }
+> >  
+> > -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+> > -                                 bool realized)
+> > +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+> >  {
+> >      DeviceState *dev = opaque;
+> >      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > @@ -401,17 +389,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+> >          }
+> >          break;
+> >      case CHR_EVENT_CLOSED:
+> > -        /*
+> > -         * Closing the connection should happen differently on device
+> > -         * initialization and operation stages.
+> > -         * On initalization, we want to re-start vhost_dev initialization
+> > -         * from the very beginning right away when the connection is closed,
+> > -         * so we clean up vhost_dev on each connection closing.
+> > -         * On operation, we want to postpone vhost_dev cleanup to let the
+> > -         * other code perform its own cleanup sequence using vhost_dev data
+> > -         * (e.g. vhost_dev_set_log).
+> > -         */
+> > -        if (realized && !runstate_check(RUN_STATE_SHUTDOWN)) {
+> > +        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
+> >              /*
+> >               * A close event may happen during a read/write, but vhost
+> >               * code assumes the vhost_dev remains setup, so delay the
+> > @@ -431,8 +409,6 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+> >               * knowing its type (in this case vhost-user).
+> >               */
+> >              s->dev.started = false;
+> > -        } else {
+> > -            vhost_user_blk_disconnect(dev);
+> >          }
+> >          break;
+> >      case CHR_EVENT_BREAK:
+> > @@ -490,31 +466,27 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
+> >      s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
+> >      s->connected = false;
+> >  
+> > -    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
+> > -                             vhost_user_blk_event_realize, NULL, (void *)dev,
+> > -                             NULL, true);
+> > -
+> > -reconnect:
+> >      if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
+> >          error_report_err(err);
+> >          goto virtio_err;
+> >      }
+> >  
+> > -    /* check whether vhost_user_blk_connect() failed or not */
+> > -    if (!s->connected) {
+> > -        goto reconnect;
+> > +    if (vhost_user_blk_connect(dev) < 0) {
+> > +        qemu_chr_fe_disconnect(&s->chardev);
+> > +        goto virtio_err;
+> >      }
+> > +    assert(s->connected);
+> 
+> Maybe a good compromise here would be to retry some small number of
+> times (or even just once) so that cases like daemon upgrades and
+> recoverable crashes racing with power-ons and incoming migrations
+> don't result in failures?
+> 
+> As a more general solution, we could have a user defined parameter to
+> specify a number of repeated connection failures to allow both pre and
+> post realize before bringing QEMU down. Thoughts?
 
-From this list,
+Retrying once or even a small number of times sounds reasonable enough.
+At first I thought it wouldn't help because restarting the daemon might
+take some time, but with qemu_chr_fe_wait_connected() we already wait
+until we can successfully connect in each iteration, and we would only
+retry for errors that happen afterwards.
 
-I'd like to simplify hw/acpi/bios-linker-loader.c, but later.
+But I think what we really want to do before retrying is distinguishing
+errors that are actually related to the connection itself from errors
+that relate to the content of the communication (i.e. invalid requests
+or configuration).
+In fact, I think the error I hit wasn't even produced on the remote
+side, it came from QEMU itself. Making vhost_user_blk_connect() return
+-EAGAIN in the right cases and reconnecting only there sounds much
+better than just blindly retrying.
 
-The remaining core components are hw/core/loader.c and softmmu/vl.c:
+Of course, adjusting error reporting so that we can distinguish these
+cases will probably touch much more places than would be appropriate for
+this patch, so I'd suggest that we indeed just revert the reconnection
+during realize() in this series, but then try to add some more selective
+retry logic back on top of it (without using the event handler, which
+only made everything more complicated in a function that waits
+synchronously anyway).
 
-hw/core/loader.c:1017:        fw_cfg_add_file(fw_cfg, fw_file_name,
-data, rom->romsize);
-hw/core/loader.c:1074:        fw_cfg_add_file_callback(fw_cfg, fw_file_name,
-hw/core/loader.c:1254:    fw_cfg_set_order_override(fw_cfg, order);
-hw/core/loader.c:1261:    fw_cfg_reset_order_override(fw_cfg);
-hw/core/loader.c:919:        fw_cfg_modify_file(fw_cfg, id +
-strlen("/rom@"), host, length);
-
-softmmu/vl.c:1183:        if (!fw_cfg_add_from_generator(fw_cfg, name,
-gen_id, errp)) {
-softmmu/vl.c:1196:    fw_cfg_set_order_override(fw_cfg,
-FW_CFG_ORDER_OVERRIDE_USER);
-softmmu/vl.c:1197:    fw_cfg_add_file(fw_cfg, name, buf, size);
-softmmu/vl.c:1198:    fw_cfg_reset_order_override(fw_cfg);
-
-Bah, I thought vl.c was generic code, but it is target-specific,
-so we could add '#include CONFIG_DEVICES' and add more #ifdef'ry
-on CONFIG_FW_CFG.
-
-Less stubs VS more #ifdef'ry...
-
-It is not clear to me how to modularize this from the core code.
-
-TBC...
-
-Thanks,
-
-Phil.
+Kevin
 
 
