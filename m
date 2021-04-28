@@ -2,58 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477A736D994
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:28:47 +0200 (CEST)
-Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4480336D99C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 16:30:51 +0200 (CEST)
+Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lblBG-0001JD-D9
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
+	id 1lblDG-0002JH-A4
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 10:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lbl7k-0007Xv-28
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:25:08 -0400
-Resent-Date: Wed, 28 Apr 2021 10:25:08 -0400
-Resent-Message-Id: <E1lbl7k-0007Xv-28@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21376)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lblC6-0001sl-3R
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:29:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lbl7g-0007uU-A0
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:25:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619619892; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bNCFMCbPHwskwiICpGa4Mz9589IeYGyY9Qw+dSee1X2gejQj1oqIh9w0+7Ww9vcnBpVO1IAm2Al/hVzianUJsJ3ZMwBG5YDssEDju8R8B84TrrIwAtF6kVoiWESWMjaXTg88GCpR6uKFix9uq8+tn+f8xA8u87XaDZxQCeChvbU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619619892;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=fhZFGalZZLc21bvDEH++b/aZzuZE94IsBotTpo+IDqg=; 
- b=iVMf3bvkfdmwWDTCYRyjMc99kEQ5L8uWm1RJCms6RXuJdOlROcHvRZM6nJr928bo7SHc6gd91fxpH0EGhrR2UaxlevT6lsVRWbcVASeGyZX2c60uh5orR7vkEtDNs97jsdQD6+LwhIIW0gv3aICQ5yZDqPlHo1AHd2TcSNKCt7I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1619619888198711.7171870411476;
- Wed, 28 Apr 2021 07:24:48 -0700 (PDT)
-In-Reply-To: <20b7f194-066f-c3bf-a830-deb1cde8f1be@adacore.com>
-Subject: Re: [RFC] AVR watchdog
-Message-ID: <161961988712.28712.4865215555453296540@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lblC2-00021P-8o
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 10:29:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619620172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l8yRGmBIrXEkeH1Pa4ng4Evj6xN8noAI4vETN9vL7ck=;
+ b=LcYcV8aOd+u5yf5bX5iSRGMdoDXvaB2ZatmhJAyZZzzZbETp/usF+i0rf2YS/gEdCw4Wae
+ ukYPJQ0f09tuO36xFsZrQfQAY5L3XjKNIbz9tzcVHu6jFdty5LqPXKBGtnp9FSTxXRIxim
+ NtUQNX27Mxkc2AbXdM51wV+k0h/7XOo=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-FyzYSjyHPfWLDSFTnUro0Q-1; Wed, 28 Apr 2021 10:29:27 -0400
+X-MC-Unique: FyzYSjyHPfWLDSFTnUro0Q-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ c11-20020a544e8b0000b029013d55eb5c1aso25356608oiy.8
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 07:29:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=l8yRGmBIrXEkeH1Pa4ng4Evj6xN8noAI4vETN9vL7ck=;
+ b=LbrExj8gMsLaBuJjxn+QZ1d1tnLbG8R20yKXZVWXxXaN3zmzATzQLTTFTOc7hpkdoD
+ EoVLjHwc3Sp5shOfHYNmG4+/5iDmeO3d+GSU850t6zGqoWrrk1F73JPjZhPmNquK9lFA
+ vD705fjRZb6iqv66XynG7bbTNZaU2wupiOt5wuADS+INyEgMagdettmsNftKPNFIEkax
+ liHls8J/XeuiL0lZuaAqVJC+vvN1ng1qZX9KMA9L87eXlUbvarsbi06CqWvHn6qSxOWy
+ Nl2/K68gc/3X9lAahjmJzz2uFGvRXw9y5JUWbiAk6JbyJBbN8zTuk5gtf8hnLnTOKVcw
+ NUAg==
+X-Gm-Message-State: AOAM5325+hk8E40VI1YcmH9pyCagLrcJ0ciE0FOW+4r3m9OCzO+FpJoi
+ ZRKdFzGwvzBvWqewzGhbuXIzpKgKIl4lbVFzl74HZ1bWc1aH7pgXsZaQtViSBFJhZ21ZHnM5Zpz
+ BaEQHWX5TyTMvo/I=
+X-Received: by 2002:aca:c68a:: with SMTP id w132mr3143349oif.130.1619620166901; 
+ Wed, 28 Apr 2021 07:29:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXlsYQNG487mS51E8UIH6l8yTG293sKRoxcgsZTyGAtdpBT6ZnZ++zZqBYdJZ/7oyGk3aFGg==
+X-Received: by 2002:aca:c68a:: with SMTP id w132mr3143335oif.130.1619620166680; 
+ Wed, 28 Apr 2021 07:29:26 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id q20sm8113oic.41.2021.04.28.07.29.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 07:29:26 -0700 (PDT)
+Subject: Re: [PATCH] tools/meson.build: Error on enabling virtiofsd and
+ have_system is false
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+References: <20210428133507.52066-1-ma.mandourr@gmail.com>
+ <e1059890-79ab-eae6-1db1-5c4033f7b584@redhat.com>
+ <CAD-LL6iLpZSAUHquK=gJyXGS3rqOCJZqt0smV29ifeE5ZgZNQA@mail.gmail.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <d5fc9d07-22fa-de61-ab7a-038419351190@redhat.com>
+Date: Wed, 28 Apr 2021 09:29:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: konrad@adacore.com
-Date: Wed, 28 Apr 2021 07:24:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAD-LL6iLpZSAUHquK=gJyXGS3rqOCJZqt0smV29ifeE5ZgZNQA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,35 +100,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mrolnik@gmail.com, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMGI3ZjE5NC0wNjZmLWMzYmYt
-YTgzMC1kZWIxY2RlOGYxYmVAYWRhY29yZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMGI3ZjE5NC0wNjZm
-LWMzYmYtYTgzMC1kZWIxY2RlOGYxYmVAYWRhY29yZS5jb20KU3ViamVjdDogW1JGQ10gQVZSIHdh
-dGNoZG9nCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFy
-c2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
-YW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5w
-bCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4
-Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHVi
-LmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIw
-YjdmMTk0LTA2NmYtYzNiZi1hODMwLWRlYjFjZGU4ZjFiZUBhZGFjb3JlLmNvbSAtPiBwYXRjaGV3
-LzIwYjdmMTk0LTA2NmYtYzNiZi1hODMwLWRlYjFjZGU4ZjFiZUBhZGFjb3JlLmNvbQpTd2l0Y2hl
-ZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjlkMjY3YzQgQVZSIHdhdGNoZG9nCgo9PT0gT1VUUFVU
-IEJFR0lOID09PQpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDog
-MSBlcnJvcnMsIDAgd2FybmluZ3MsIDE1IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA5ZDI2N2M0Y2U3
-NzMgKEFWUiB3YXRjaGRvZykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBF
-TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
-cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjBiN2YxOTQtMDY2Zi1jM2Jm
-LWE4MzAtZGViMWNkZThmMWJlQGFkYWNvcmUuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+On 4/28/21 9:13 AM, Mahmoud Mandour wrote:
+>> I am not entirely sure if this is true. The error message before this
+>> patch is applied is:
+>>
+>>         ../tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd
+>>         requires libcap-ng-devel and seccomp-devel
+>>
+>> From what I know about virtiofsd, I know it definitely depends on those
+>> two things.
+>>
+>> Is it possible that the error here is that the top-level meson.build is
+>> not properly collecting the seccomp and libcap-ng dependencies if the
+>> configure invocation doesn't require a system emulation target?
+> I also thought that this is the case since I also specifically get this
+> error message
+> if I enable virtiofsd and specify a target list with only Linux-user
+> targets while nothing
+> in tools/meson.build specifies so. But I think that even if it correctly
+> managed the
+> dependencies it would include and build virtiofsd unnecessarily and that's
+> not what we want(?)
+
+I think that's exactly what we want for the default case because
+virtiofsd is enabled by default (../configure --help).
+
+Even if the virtiofsd dependencies are satisfied, if one doesn't want to
+build virtiofsd, they can pass --disable-virtiofsd to the configure
+invocation.
+
+Connor
+
 
