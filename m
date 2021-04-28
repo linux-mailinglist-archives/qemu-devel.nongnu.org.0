@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718CF36DD70
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:47:51 +0200 (CEST)
-Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B44736DD9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:54:36 +0200 (CEST)
+Received: from localhost ([::1]:45474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbnLq-0003NI-IA
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
+	id 1lbnSN-0000Ph-GH
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lbnIm-0001sM-4R
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:44:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43083)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1lbnIc-0005CZ-Ul
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:44:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619628268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fJEZXICncaqh/Go404E1SX+UKYu0fdxoo0vPvlvBCJs=;
- b=E7DMY82Ehr0ObWiIBEhIStLAP8ioXby+ULJBrP2nHmykAemGzTDvCpjHXsMqt8t72oZrBj
- 6PC7VIWInYGAH+rBX+w02TxgNStREY5/IfLbiaUR1BIrNUozmft8hnXoQSviM4BzU1+Oik
- Gc6BCLmvcdooQyWaOeK4vZaYuikoo3g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-PbmDhwr4P9CjY-oZTgkERg-1; Wed, 28 Apr 2021 12:44:26 -0400
-X-MC-Unique: PbmDhwr4P9CjY-oZTgkERg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42458801B1A;
- Wed, 28 Apr 2021 16:44:25 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-188.ams2.redhat.com
- [10.36.114.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E21E19C45;
- Wed, 28 Apr 2021 16:44:18 +0000 (UTC)
-Subject: Re: [PATCH 6/7] hw/{arm,hppa,riscv}: Add fw_cfg arch-specific stub
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210426193520.4115528-1-philmd@redhat.com>
- <20210426193520.4115528-7-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <8b8be0b8-1f1a-d0fe-7fd3-682f34043df6@redhat.com>
-Date: Wed, 28 Apr 2021 18:44:17 +0200
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLr-00045K-TG
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:51 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:34644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLm-0006gR-V8
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:51 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id o5so39944424ljc.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ri1D87PooVqTAv17ZFucWpjGQl9CnT5+KR8nIrs0nbY=;
+ b=M6wg1z328DoaCsMjv3kivUNQFSLuMv59mqoAvvphAErBTX/bjYr1cRflJ9+53TklSx
+ MOub6fEgulToTHualF5Mi1Bv2XvzyWiA9k7sbHiUu7YWkRoi5eRyOyJJmchil4lPUTJ0
+ fegK6KI1EHd85zXRb9OGllM6kTpWvJOl3rP3CET5Dunx2FM6Mbd2jM6nnqjaiE7USzBr
+ eoQ5ETYNf3OmwNvO5jR0kW7Q6nhpTi9OWLVXH41Lb3S36gKyJjFMTiMpWdytcO7r10Zz
+ vfiA4XFWdeP78LbfROrI8WCSbqvWV7uANiceIRyU7hoipwrqQ5DJfct/b8w+W8DQbehw
+ dk3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ri1D87PooVqTAv17ZFucWpjGQl9CnT5+KR8nIrs0nbY=;
+ b=Z6MGa48uoYRZ49Qzi8Dk4Af335wcjsPYePNzO6rE1+ziJ9jvvj0XbgIW+wU5A9y4T5
+ k9KQpsh4bUosOp+F8qoy4QLvyGxe8Y+LTcqjqHct5GSMbUPowqNNek7/H3AZi4Aheqpx
+ c/MNN0MuVDXCJEbFD5J112J/ZQb4oygPxLCpgDwGxbggRE6F9BiPlt6nO4hJtW+cPGh7
+ kc6f0/cySnBMO00ET5GzU0E8vpI2C9jPKjGVBRcLYx/a61uXVxi2julJVtZAchdQWNId
+ 8sCJ0Du3jl6dgFvzYj0n6iVo1hNj0VLrLqxD3lzzaa8QgqNpg6n7yEAP0hbGCLBmTax+
+ ayYA==
+X-Gm-Message-State: AOAM532nPk1ehXU2chUHt1T7SfWpW+J8whvOqlDl57NkUck7JyYekj47
+ hmrUFLQ0E2bIU82OsCb70gUtQA==
+X-Google-Smtp-Source: ABdhPJxIIOxaQbHghOc3rxc2/R7Hs37kKsjBiMu5msd9wdiERMlZ2yN7r9gGvFAIlK52g3LmZLnKug==
+X-Received: by 2002:a2e:a60c:: with SMTP id v12mr22167799ljp.310.1619628462786; 
+ Wed, 28 Apr 2021 09:47:42 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id v24sm86302lfp.195.2021.04.28.09.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Apr 2021 09:47:42 -0700 (PDT)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: jasowang@redhat.com,
+	mst@redhat.com
+Subject: [PATCH v7 0/7] eBPF RSS support for virtio-net.
+Date: Wed, 28 Apr 2021 19:47:26 +0300
+Message-Id: <20210428164733.56547-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210426193520.4115528-7-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::22e;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x22e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,184 +79,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Helge Deller <deller@gmx.de>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/26/21 21:35, Philippe Mathieu-Daudé wrote:
-> The ARM, HPPA and RISC-V architectures don't declare any fw_cfg
-> specific key. To simplify the buildsys machinery and allow building
-> QEMU without the fw_cfg device (in the next commit), first add a
-> per-architecture empty stub defining the fw_cfg_arch_key_name().
-> 
-> Update the MAINTAINERS section to cover the various target-specific
-> fw_cfg.c files.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/arm/fw_cfg.c      | 19 +++++++++++++++++++
->  hw/hppa/fw_cfg.c     | 19 +++++++++++++++++++
->  hw/riscv/fw_cfg.c    | 19 +++++++++++++++++++
->  MAINTAINERS          |  2 +-
->  hw/arm/meson.build   |  1 +
->  hw/hppa/meson.build  |  1 +
->  hw/riscv/meson.build |  1 +
->  7 files changed, 61 insertions(+), 1 deletion(-)
->  create mode 100644 hw/arm/fw_cfg.c
->  create mode 100644 hw/hppa/fw_cfg.c
->  create mode 100644 hw/riscv/fw_cfg.c
+This set of patches introduces the usage of eBPF for packet steering
+and RSS hash calculation:
+* RSS(Receive Side Scaling) is used to distribute network packets to
+guest virtqueues by calculating packet hash
+* Additionally adding support for the usage of RSS with vhost
 
-So, I haven't commented on the Kconfig symbol wrangling yet (my comment
-would be a blanket "Acked-by" anyway... sorry, not really my cup of
-tea), but at this point:
+The eBPF works on kernels 5.8+
+On earlier kerneld it fails to load and the RSS feature is reported
+only without vhost and implemented in 'in-qemu' software.
 
-I don't understand why we need to add *more code* (stubs / boilerplate)
-if our goal is (apparently) to build QEMU with *fewer* devices.
+Implementation notes:
+Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+Added libbpf dependency and eBPF support.
+The eBPF program is part of the qemu and presented as an array
+of BPF ELF file data. The eBPF array file initially generated by bpftool.
+The compilation of eBPF is not part of QEMU build and can be done
+using provided Makefile.ebpf.
+Added changes to virtio-net and vhost, primary eBPF RSS is used.
+'in-qemu' RSS used in the case of hash population and as a fallback option.
+For vhost, the hash population feature is not reported to the guest.
 
-Sorry for being dense. My total knowledge about stubs in QEMU is this:
-for some QMP methods (and for some QGA methods, dependent on OS), we
-need stubs. When they are invoked, they report "sorry, not implemented".
-That's it: all I know about stubs.
+Please also see the documentation in PATCH 6/7.
 
-So... the commit message here says "simplify the buildsys", and the next
-commit message says, paraphrased, "don't build fw_cfg unless we need it"
--- but why does that require more C-language code? It seems like we have
-some function *calls* that shouldn't exist in an fw-cfg-less machine, in
-the first place.
+Known issues:
+* hash population not supported by eBPF RSS: 'in-qemu' RSS used
+as a fallback, also, hash population feature is not reported to guests
+with vhost.
+* IPv6 extensions still in progress.
 
-Again, sorry, I'm totally dense on this.
+Changes since v1:
+* using libbpf instead of direct 'bpf' system call.
+* added libbpf dependency to the configure/meson scripts.
+* changed python script for eBPF .h file generation.
+* changed eBPF program - reading L3 proto from ethernet frame.
+* added TUNSETSTEERINGEBPF define for TUN.
+* changed the maintainer's info.
+* added license headers.
+* refactored code.
 
-Thanks
-Laszlo
+Changes since v2:
+* using bpftool for eBPF skeleton generation.
+* ebpf_rss is refactored to use skeleton generated by bpftool.
+* added/adjasted license in comment sections and in eBPF file.
+* rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
+* virtio-net eBPF rss refactored. Now eBPF initialized during realize().
 
-> 
-> diff --git a/hw/arm/fw_cfg.c b/hw/arm/fw_cfg.c
-> new file mode 100644
-> index 00000000000..de2bca9c76c
-> --- /dev/null
-> +++ b/hw/arm/fw_cfg.c
-> @@ -0,0 +1,19 @@
-> +/*
-> + * QEMU fw_cfg helpers (ARM specific)
-> + *
-> + * Copyright (c) 2021 Red Hat, Inc.
-> + *
-> + * Author:
-> + *   Philippe Mathieu-Daudé <philmd@redhat.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/mips/fw_cfg.h"
-> +#include "hw/nvram/fw_cfg.h"
-> +
-> +const char *fw_cfg_arch_key_name(uint16_t key)
-> +{
-> +    return NULL;
-> +}
-> diff --git a/hw/hppa/fw_cfg.c b/hw/hppa/fw_cfg.c
-> new file mode 100644
-> index 00000000000..322b03068c7
-> --- /dev/null
-> +++ b/hw/hppa/fw_cfg.c
-> @@ -0,0 +1,19 @@
-> +/*
-> + * QEMU fw_cfg helpers (HPPA specific)
-> + *
-> + * Copyright (c) 2021 Red Hat, Inc.
-> + *
-> + * Author:
-> + *   Philippe Mathieu-Daudé <philmd@redhat.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/mips/fw_cfg.h"
-> +#include "hw/nvram/fw_cfg.h"
-> +
-> +const char *fw_cfg_arch_key_name(uint16_t key)
-> +{
-> +    return NULL;
-> +}
-> diff --git a/hw/riscv/fw_cfg.c b/hw/riscv/fw_cfg.c
-> new file mode 100644
-> index 00000000000..8e3d2a8bdea
-> --- /dev/null
-> +++ b/hw/riscv/fw_cfg.c
-> @@ -0,0 +1,19 @@
-> +/*
-> + * QEMU fw_cfg helpers (RISC-V specific)
-> + *
-> + * Copyright (c) 2021 Red Hat, Inc.
-> + *
-> + * Author:
-> + *   Philippe Mathieu-Daudé <philmd@redhat.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/mips/fw_cfg.h"
-> +#include "hw/nvram/fw_cfg.h"
-> +
-> +const char *fw_cfg_arch_key_name(uint16_t key)
-> +{
-> +    return NULL;
-> +}
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 36055f14c59..ab8f030d4c0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2162,7 +2162,7 @@ R: Laszlo Ersek <lersek@redhat.com>
->  R: Gerd Hoffmann <kraxel@redhat.com>
->  S: Supported
->  F: docs/specs/fw_cfg.txt
-> -F: hw/nvram/fw_cfg*.c
-> +F: hw/*/fw_cfg*.c
->  F: stubs/fw_cfg.c
->  F: include/hw/nvram/fw_cfg.h
->  F: include/standard-headers/linux/qemu_fw_cfg.h
-> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-> index be39117b9b6..fd278de916f 100644
-> --- a/hw/arm/meson.build
-> +++ b/hw/arm/meson.build
-> @@ -1,6 +1,7 @@
->  arm_ss = ss.source_set()
->  arm_ss.add(files('boot.c'), fdt)
->  arm_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('sysbus-fdt.c'))
-> +arm_ss.add(when: 'CONFIG_FW_CFG', if_true: files('fw_cfg.c'))
->  arm_ss.add(when: 'CONFIG_ARM_VIRT', if_true: files('virt.c'))
->  arm_ss.add(when: 'CONFIG_ACPI', if_true: files('virt-acpi-build.c'))
->  arm_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic_boards.c'))
-> diff --git a/hw/hppa/meson.build b/hw/hppa/meson.build
-> index 1deae83aee8..10494cc24b7 100644
-> --- a/hw/hppa/meson.build
-> +++ b/hw/hppa/meson.build
-> @@ -1,4 +1,5 @@
->  hppa_ss = ss.source_set()
->  hppa_ss.add(when: 'CONFIG_DINO', if_true: files('pci.c', 'machine.c', 'dino.c', 'lasi.c'))
-> +hppa_ss.add(when: 'CONFIG_FW_CFG', if_true: files('fw_cfg.c'))
->  
->  hw_arch += {'hppa': hppa_ss}
-> diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-> index 275c0f7eb7c..ab4d3adb924 100644
-> --- a/hw/riscv/meson.build
-> +++ b/hw/riscv/meson.build
-> @@ -8,5 +8,6 @@
->  riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
->  riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
->  riscv_ss.add(when: 'CONFIG_MICROCHIP_PFSOC', if_true: files('microchip_pfsoc.c'))
-> +riscv_ss.add(when: 'CONFIG_FW_CFG', if_true: files('fw_cfg.c'))
->  
->  hw_arch += {'riscv': riscv_ss}
-> 
+Changes since v3:
+* rebased to last master.
+* fixed issue with failed build without libbpf.
+* fixed ebpf loading without rss option.
+* refactored labels in ebpf_rss.c
+
+Changes since v4:
+* refactored configure/meson script.
+* added checks for load_bytes in ebpf.
+* documentation added to the index.
+* refactored Makefile and rss.bpf.c.
+* rebased to last master.
+
+Changes since v5:
+* fixed issue with dstopt parsing in the eBPF program.
+* added fragment packet parsing to skip L4.
+
+Changes since v6:
+* Added eBPF skeleton check to the meson.build file.
+
+Andrew (7):
+  net/tap: Added TUNSETSTEERINGEBPF code.
+  net: Added SetSteeringEBPF method for NetClientState.
+  ebpf: Added eBPF RSS program.
+  ebpf: Added eBPF RSS loader.
+  virtio-net: Added eBPF RSS to virtio-net.
+  docs: Added eBPF documentation.
+  MAINTAINERS: Added eBPF maintainers information.
+
+ MAINTAINERS                    |   8 +
+ configure                      |   8 +-
+ docs/devel/ebpf_rss.rst        | 125 ++++++++
+ docs/devel/index.rst           |   1 +
+ ebpf/ebpf_rss-stub.c           |  40 +++
+ ebpf/ebpf_rss.c                | 165 ++++++++++
+ ebpf/ebpf_rss.h                |  44 +++
+ ebpf/meson.build               |   1 +
+ ebpf/rss.bpf.skeleton.h        | 431 +++++++++++++++++++++++++
+ ebpf/trace-events              |   4 +
+ ebpf/trace.h                   |   2 +
+ hw/net/vhost_net.c             |   3 +
+ hw/net/virtio-net.c            | 115 ++++++-
+ include/hw/virtio/virtio-net.h |   4 +
+ include/net/net.h              |   2 +
+ meson.build                    |  23 ++
+ meson_options.txt              |   2 +
+ net/tap-bsd.c                  |   5 +
+ net/tap-linux.c                |  13 +
+ net/tap-linux.h                |   1 +
+ net/tap-solaris.c              |   5 +
+ net/tap-stub.c                 |   5 +
+ net/tap.c                      |   9 +
+ net/tap_int.h                  |   1 +
+ net/vhost-vdpa.c               |   2 +
+ tools/ebpf/Makefile.ebpf       |  22 ++
+ tools/ebpf/rss.bpf.c           | 569 +++++++++++++++++++++++++++++++++
+ 27 files changed, 1606 insertions(+), 4 deletions(-)
+ create mode 100644 docs/devel/ebpf_rss.rst
+ create mode 100644 ebpf/ebpf_rss-stub.c
+ create mode 100644 ebpf/ebpf_rss.c
+ create mode 100644 ebpf/ebpf_rss.h
+ create mode 100644 ebpf/meson.build
+ create mode 100644 ebpf/rss.bpf.skeleton.h
+ create mode 100644 ebpf/trace-events
+ create mode 100644 ebpf/trace.h
+ create mode 100755 tools/ebpf/Makefile.ebpf
+ create mode 100644 tools/ebpf/rss.bpf.c
+
+-- 
+2.31.1
 
 
