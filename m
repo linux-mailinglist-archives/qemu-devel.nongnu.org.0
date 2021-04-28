@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB3C36DFFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:56:09 +0200 (CEST)
-Received: from localhost ([::1]:44618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9687C36E004
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 21:58:40 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbqI5-0002bQ-1G
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:56:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55404)
+	id 1lbqKV-0005RI-MT
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 15:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpxG-00065a-MN
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbpxH-00066i-Ng
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbpx4-0004kR-E1
  for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:38 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbpwy-0004j3-Bn
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 15:34:38 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- y22-20020a17090a8b16b0290150ae1a6d2bso9699299pjn.0
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ld1aOOPFCTaDlIM4pseMTjUT2N/AiXsA3fl7Bo9Xfu4=;
- b=PC4rOSN52eqF1IWhTmwsVrG2RyppGJdWOOkCljx/JFXuiJjNaJe8gyJ0n42aLYRYsR
- 7l9FU1dQaMgj9bbqqBD+oZQUCQ0mIiSqXsIPO9K0GySJe1ZCBrtmPRUNtVk4izBG7m+A
- QSVSpmN6lGbnmv2nCl+bmil/dR/dY0Q0Q9MKogeXFFrOkJKOgFEaGmjpaFqJ5Q8CrML/
- HoA2iuOgK7vfnjyjJivXGu4wWTqo2GfT9YG8SysSLyerkCiLvOwakUNcnKUMcuE0ySUe
- swsoaZ51jbVgr0aZJ2kcRVocsnpJHIHFbnzfrV9vdO3sRkVd5Xc3FQ63dsD4VO+7Y5ra
- EWMw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619638463;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=laUx6DMpA+Wp0v5UndTwoc6RlF+pIwqmyGI1kLxWG8o=;
+ b=cNBQ4qetP/c9qZ6w2zEf7zkrsn1d4AD8bdSSfJUtp6afPYRbpvRVJzhvNhgTQjCvDISQU5
+ /zRf6oVgp3Vh7HFgldjFxCSWvifRIWZfReV/BMhTB2n4JJVvRRJT8qL16Pn9d8Q9YCAcr6
+ PlZwa17GGVYhqjolqeDE84cvSzawwG8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-fW_rQW-mNsS1oD0dq9Sq8g-1; Wed, 28 Apr 2021 15:34:21 -0400
+X-MC-Unique: fW_rQW-mNsS1oD0dq9Sq8g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q18-20020adfc5120000b029010c2bdd72adso4940132wrf.16
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 12:34:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ld1aOOPFCTaDlIM4pseMTjUT2N/AiXsA3fl7Bo9Xfu4=;
- b=gpKQPRUUdDjHoF9j/IcsLbj4cLRt9QtlLNwxD9DUD9lb0PLylQO7HbKWkI9EU7IjXt
- sa1KRGOTa6vIBVesGq/7MM1Z8wjXLM8JrArTr+cFom3oKyvMp8SJ3MiC3tlGVLwCCyg7
- 7Q4NGxdxcVp1P31g4y3oy/kUs46T3aCHJ1XYjlWmK7Wr2dcyQCV3DlfF/voDSWtmlAM9
- 8mrY4Fsrf9r+5Lrp+O6yQZNC0t3E7yzPgILsZoTLBuhIFaUumwSNmc2+t673T1ODu/ub
- X1cSXybRQUf/nR57bwO7SF23zNG+vWhmiE51QoO+BB9P4YBbOzSIcGWis/tLDIiVBjIl
- FSOQ==
-X-Gm-Message-State: AOAM53109891gUFMFHibWVwIJCMYTUpS0HAhkxg05gaw/Ms6ygZcu8ZU
- mMKygnk37S8tLwzOXttl0PVUvOTecbt24w==
-X-Google-Smtp-Source: ABdhPJzLXuxz1jcOk9T0cpTs51vICRngvVd96T0urPEDowVyc2oS6eBta9IoJZ7C5EeAZQ6CEqZ30A==
-X-Received: by 2002:a17:90a:a505:: with SMTP id
- a5mr34071344pjq.58.1619638459021; 
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=laUx6DMpA+Wp0v5UndTwoc6RlF+pIwqmyGI1kLxWG8o=;
+ b=oU1Y6DTNsDSfW6XwsM7C/Q+3wLMd2zlyOhhVjP7yb+5wei1ZAk22hTjtWgoYbsm0HB
+ /JENIoEBA6Xdd42GX2avCYZzTqMnYq4IuCSxE8SKWYXQYEbU4rK/N0lUs/H+OjSGFbH8
+ PiTYKvNFfmjHXS+gJbk4MhL6hhHXBP86N+aK6sL8lMdskkCO/W6xhJpqLNt8yLFU+wS6
+ EGcaH34uH8yHZVpzw9QhI54rAVy3Uua2zDFmxul00HUFuKyTzXEEwjNl0LEM0oCXt2yc
+ 6+d6NEvV203VEuQWAPdlmEu9gZHUYatLgTY4eHff7d4zlJYNdU//x+W2PZD4694ng9NG
+ Xw7g==
+X-Gm-Message-State: AOAM532hpZ4ZYvSrkq6plHg+vomXivDaEbvOotYzgbocSqgVwBkyglnz
+ 9O4n2TOMcRFaszXwtdxeQk0Uk+K/n70h+/cSRay77rJxJNnBuRf0hXA/3IabhIOoBvkXd15r72Z
+ 2LiuqJtAY6LVrz6s=
+X-Received: by 2002:adf:df09:: with SMTP id y9mr12522675wrl.282.1619638460125; 
+ Wed, 28 Apr 2021 12:34:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPz3HXD8D+UymH3GL/euj7z6qPSCDziTUIdTILocCTLIzgeuh8y3D4I3YEwYYb4aVwhq0vbg==
+X-Received: by 2002:adf:df09:: with SMTP id y9mr12522649wrl.282.1619638459955; 
  Wed, 28 Apr 2021 12:34:19 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id h21sm403725pfo.211.2021.04.28.12.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 12:34:18 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/15] linux-user/s390x: Handle vector regs in signal stack
-Date: Wed, 28 Apr 2021 12:34:08 -0700
-Message-Id: <20210428193408.233706-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210428193408.233706-1-richard.henderson@linaro.org>
-References: <20210428193408.233706-1-richard.henderson@linaro.org>
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id d14sm1028564wrp.12.2021.04.28.12.34.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Apr 2021 12:34:19 -0700 (PDT)
+Subject: Re: [PATCH 2/2] util/meson: Build iov/hexdump/buffer_is_zero with
+ virtiofsd
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210428144813.417170-1-philmd@redhat.com>
+ <20210428144813.417170-3-philmd@redhat.com>
+ <e06f3f24-9ff2-bf3c-91c4-178af60c6c59@linaro.org>
+ <160e4c85-e8c0-304d-7151-1040f8d310ba@redhat.com>
+ <a4dabeaf-4df8-2779-f028-3d135fe84bef@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3e3fabf2-9fed-6d15-51b3-eb0c284852ac@redhat.com>
+Date: Wed, 28 Apr 2021 21:34:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <a4dabeaf-4df8-2779-f028-3d135fe84bef@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,157 +103,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- laurent@vivier.eu, david@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/s390x/signal.c | 62 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 2 deletions(-)
+On 4/28/21 9:24 PM, Richard Henderson wrote:
+> On 4/28/21 10:56 AM, Philippe Mathieu-Daudé wrote:
+>> Are you suggesting to remove the 'if have_block' check? This makes build
+>> a the files pointlessly for user-mode-only builds...
+> 
+> But since the objects are not included in the binary, I don't care.
+> 
+> The build system is already too complex, and building a couple of extra
+> small files makes only milliseconds of difference.
 
-diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 9d470e4ca0..b537646e60 100644
---- a/linux-user/s390x/signal.c
-+++ b/linux-user/s390x/signal.c
-@@ -50,6 +50,12 @@ typedef struct {
-     target_s390_fp_regs     fpregs;
- } target_sigregs;
- 
-+typedef struct {
-+    uint64_t vxrs_low[16];
-+    uint64_t vxrs_high[16][2];
-+    uint8_t reserved[128];
-+} target_sigregs_ext;
-+
- typedef struct {
-     abi_ulong oldmask[_SIGCONTEXT_NSIG_WORDS];
-     abi_ulong sregs;
-@@ -60,15 +66,20 @@ typedef struct {
-     target_sigcontext sc;
-     target_sigregs sregs;
-     int signo;
-+    target_sigregs_ext sregs_ext;
-     uint16_t retcode;
- } sigframe;
- 
-+#define TARGET_UC_VXRS 2
-+
- struct target_ucontext {
-     abi_ulong tuc_flags;
-     abi_ulong tuc_link;
-     target_stack_t tuc_stack;
-     target_sigregs tuc_mcontext;
--    target_sigset_t tuc_sigmask;   /* mask last for extensibility */
-+    target_sigset_t tuc_sigmask;
-+    uint8_t reserved[128 - sizeof(target_sigset_t)];
-+    target_sigregs_ext tuc_mcontext_ext;
- };
- 
- typedef struct {
-@@ -128,6 +139,24 @@ static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
-     }
- }
- 
-+static void save_sigregs_ext(CPUS390XState *env, target_sigregs_ext *ext)
-+{
-+    int i;
-+
-+    /*
-+     * if (MACHINE_HAS_VX) ...
-+     * That said, we always allocate the stack storage and the
-+     * space is always available in env.
-+     */
-+    for (i = 0; i < 16; ++i) {
-+       __put_user(env->vregs[i][1], &ext->vxrs_low[i]);
-+    }
-+    for (i = 0; i < 16; ++i) {
-+       __put_user(env->vregs[i + 16][0], &ext->vxrs_high[i][0]);
-+       __put_user(env->vregs[i + 16][1], &ext->vxrs_high[i][1]);
-+    }
-+}
-+
- void setup_frame(int sig, struct target_sigaction *ka,
-                  target_sigset_t *set, CPUS390XState *env)
- {
-@@ -161,6 +190,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
-      */
-     __put_user(sig, &frame->signo);
- 
-+    /* Create sigregs_ext on the signal stack. */
-+    save_sigregs_ext(env, &frame->sregs_ext);
-+
-     /*
-      * Set up to return from userspace.
-      * If provided, use a stub already in userspace.
-@@ -202,6 +234,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     rt_sigframe *frame;
-     abi_ulong frame_addr;
-     abi_ulong restorer;
-+    abi_ulong uc_flags;
- 
-     frame_addr = get_sigframe(ka, env, sizeof *frame);
-     trace_user_setup_rt_frame(env, frame_addr);
-@@ -229,10 +262,15 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     tswap_siginfo(&frame->info, info);
- 
-     /* Create ucontext on the signal stack. */
--    __put_user(0, &frame->uc.tuc_flags);
-+    uc_flags = 0;
-+    if (s390_has_feat(S390_FEAT_VECTOR)) {
-+        uc_flags |= TARGET_UC_VXRS;
-+    }
-+    __put_user(uc_flags, &frame->uc.tuc_flags);
-     __put_user(0, &frame->uc.tuc_link);
-     target_save_altstack(&frame->uc.tuc_stack, env);
-     save_sigregs(env, &frame->uc.tuc_mcontext);
-+    save_sigregs_ext(env, &frame->uc.tuc_mcontext_ext);
-     tswap_sigset(&frame->uc.tuc_sigmask, set);
- 
-     /* Set up registers for signal handler */
-@@ -271,6 +309,24 @@ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
-     }
- }
- 
-+static void restore_sigregs_ext(CPUS390XState *env, target_sigregs_ext *ext)
-+{
-+    int i;
-+
-+    /*
-+     * if (MACHINE_HAS_VX) ...
-+     * That said, we always allocate the stack storage and the
-+     * space is always available in env.
-+     */
-+    for (i = 0; i < 16; ++i) {
-+       __get_user(env->vregs[i][1], &ext->vxrs_low[i]);
-+    }
-+    for (i = 0; i < 16; ++i) {
-+       __get_user(env->vregs[i + 16][0], &ext->vxrs_high[i][0]);
-+       __get_user(env->vregs[i + 16][1], &ext->vxrs_high[i][1]);
-+    }
-+}
-+
- long do_sigreturn(CPUS390XState *env)
- {
-     sigframe *frame;
-@@ -292,6 +348,7 @@ long do_sigreturn(CPUS390XState *env)
-     set_sigmask(&set); /* ~_BLOCKABLE? */
- 
-     restore_sigregs(env, &frame->sregs);
-+    restore_sigregs_ext(env, &frame->sregs_ext);
- 
-     unlock_user_struct(frame, frame_addr, 0);
-     return -TARGET_QEMU_ESIGRETURN;
-@@ -313,6 +370,7 @@ long do_rt_sigreturn(CPUS390XState *env)
-     set_sigmask(&set); /* ~_BLOCKABLE? */
- 
-     restore_sigregs(env, &frame->uc.tuc_mcontext);
-+    restore_sigregs_ext(env, &frame->uc.tuc_mcontext_ext);
- 
-     target_restore_altstack(&frame->uc.tuc_stack, env);
- 
--- 
-2.25.1
+Maybe for libqemuutil.a (this does make a difference with the Python
+QAPI generated files - another series).
+
+I'll wait if we get to a consensus about what exactly is virtiofsd,
+then revisit this series.
+
+Thanks!
+
+Phil.
 
 
