@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F028036DBAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:31:39 +0200 (CEST)
-Received: from localhost ([::1]:40962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24BB36DC53
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:48:20 +0200 (CEST)
+Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbmA6-0007Lo-Uv
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
+	id 1lbmQE-0005Wl-Ci
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lblxw-0005nu-F7; Wed, 28 Apr 2021 11:19:13 -0400
-Received: from mail-eopbgr30098.outbound.protection.outlook.com
- ([40.107.3.98]:58735 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ id 1lblxy-0005oY-2J; Wed, 28 Apr 2021 11:19:13 -0400
+Received: from mail-eopbgr00103.outbound.protection.outlook.com
+ ([40.107.0.103]:52805 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lblxj-0001uH-5D; Wed, 28 Apr 2021 11:19:00 -0400
+ id 1lblxl-0001yK-6g; Wed, 28 Apr 2021 11:19:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FkU4EZt+Ys1BTnRLEmBgcwZZ3+1sLGPMEM6jawxl7iFTwg/Z6imkC21GlA6czN71navtHknwVziJsuRXP/cPBVV5NmOBD0XUEhK2bIcyrCcljCA61AAC3B5lo+gn6bZgS1R+6UZK233suhlwzdKIqe0lxc2wjkUeM1ijc7e8QWno7eceuYi02ZUiFJ4i6ppgkBpf86Wdq41rEh2IcaEOhbiR2rY373iEr769Lfmk5hn+SvxpSqB8VpoLcYdK6ta5fp/pGMesBSNHGiT4aD2UsA6wGZaUK/LPKQdSsaGm/6N5Ro1XC4C8EwE86z5P5QIEaFLI/gI0qDVnPTIY1phDtA==
+ b=j6BKqWOXC0xqLKBtgw3Ma89STzaeqTClX6rUAAaocXRk/XbwB22K285VhLXfK/XRsIk2QcluNZxV9kxIsKwcQL9pNbZ6wvpvxf3nKNfrtP4nR4j2SNJum3D4IzvltvTnmyb3/X1IRPeP7tZEi+Zy/SQ/HYMbOh7chvtt2MBB5mTF3ht06g6FoZmRFFUYYqM0eWGiJNYwjdPSj8Y3lyT4TI5Skss4mOIBZctgi5mbzl09iVCzlVs0NOXEEBo/F5lMqMHY1ym5XDYQkIE8n1Yp95kFA3fif0sOLch665d9H1otdaBv8Nh9N+yJJlc58RL+PfIVuNtY+Zubv096LWr1bA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d2+tV2FMrGSSkzrYmtyH9O+NsjPqNwLzweJ4ff+SUuo=;
- b=OttzcHgpli19GC6+knyXIRwlPNczIxPex/oK1BUsSTQKDKcbWG8c1+W1j1rwh7Qv5qozCqTWCzlUcQ4/BxgrhKiajYLm2H5deYbysoOIy3++TViS7e5rK1zBYfI7K35oLCEoFAw1OArE0vlvtNbdCA8/3e+0UYupJPQtKQTY/kRUDGaWb8RPiJPVSYKWiLtH9vEiS2WUKZ4ytoKlGxg2fk/9LQMyu2NXyG78pMyHpUbfj46AHni73yceeagBXvW+r9ILQ4CYJxZUlAt7ZdgCjiFu+Ix5v+g3SUEStYoqQ4ykrZAqzfqNASq2YAC8R+Mrtk2mYnQh1g4xQhGgWfzSVA==
+ bh=6+x9m+EDn0dnT0qYqjHjJC6p9yPVH0tlnWLSqDYQ4/Y=;
+ b=X3Y2ekriu1otONVdC+euHql3J39Cbh5wT4JZi7jeUHOD7GxCkq7gz4cVjWZnCupPJlI6RtvJuUWF1u8+kaJgH9EE1M6hiC+WPnBP/B67C58dAzmOu6taXl83wFz17nXDba4OeD1bbmTV7mxxqOiV76FeWDrLclVR/Y2dElriPZraeYrEJl4q9IFfnLRv4pCMWbmbRRH8nRE8EqUxVI9Ra4Fnb/oBoCIDcqwlwe0DJ45/IM4ysva6j1lKAiODHKgSA7BpPkpQQNko91V0QMEHtPzoEvP38n/nLs+TXzyN1rJFIiL8/L4jYlX2KPA79DmFwngVXSHPfcKhMXO/HshDAg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d2+tV2FMrGSSkzrYmtyH9O+NsjPqNwLzweJ4ff+SUuo=;
- b=lW2AyFDg+FG45TpPL40K7TQ7I3f9pPe/HYs/s0mOggP9LUPXaKoX9LQYaVkmxVT6kqM++Bjs7hlgbmL7nJJyY3c8JsFc9TPGOlNwPOW2gtDyX1r+nft3KZDJgpWGr3h8sSoKFuM6xGsYwKhoEQgfM2iuEdsck9CZ+e7GW+HB9sk=
+ bh=6+x9m+EDn0dnT0qYqjHjJC6p9yPVH0tlnWLSqDYQ4/Y=;
+ b=d+ln8Wt0gPCR/kjbCX9+QuXB4qlWQjVKNUx3kcx228k2ETpQUmvnQDpLHm1/0vFsRNAEC98YhA680KF+eWiWgkyRk40pfIrUUUWF6402YGb13rCg/KAwfvdWABnxpV+19mK16Hy1AxXs1GpkdT7O1MQTp8dO1Wfd4qPBhqrtUao=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6151.eurprd08.prod.outlook.com (2603:10a6:20b:290::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Wed, 28 Apr
- 2021 15:18:40 +0000
+ 2021 15:18:41 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Wed, 28 Apr 2021
- 15:18:40 +0000
+ 15:18:41 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
  stefanha@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v4 16/36] block: add bdrv_replace_child_safe() transaction
- action
-Date: Wed, 28 Apr 2021 18:17:44 +0300
-Message-Id: <20210428151804.439460-17-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 17/36] block: fix bdrv_replace_node_common
+Date: Wed, 28 Apr 2021 18:17:45 +0300
+Message-Id: <20210428151804.439460-18-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210428151804.439460-1-vsementsov@virtuozzo.com>
 References: <20210428151804.439460-1-vsementsov@virtuozzo.com>
@@ -67,56 +66,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.251) by
  HE1PR09CA0045.eurprd09.prod.outlook.com (2603:10a6:7:3c::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.27 via Frontend Transport; Wed, 28 Apr 2021 15:18:39 +0000
+ 15.20.4087.27 via Frontend Transport; Wed, 28 Apr 2021 15:18:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 94d6f3b8-3a99-4256-5398-08d90a58e76e
+X-MS-Office365-Filtering-Correlation-Id: 37af1231-b0a9-4db4-e870-08d90a58e814
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6151:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB615118A5588DC5FA6BD07201C1409@AS8PR08MB6151.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:159;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6151B97DCC0AF406DB634209C1409@AS8PR08MB6151.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ds3gWjRsrkv2v7QQiFFnwi6aGH0gg6n1PkXQxvx4Ze24GRawBqBNkSrc0bkOm6e2V2uQEKbREGrQ8A1MRPnkaibbxV57hR1u3ttEhlsZgq/xvNf5Wa+07bx6l7UDpXIShHUEn1JLaCACWmpJrQ0iQd+caueg+UgqELkUz5XWDvH6ZtEvd/Y1JMdva4EnqDDV9ai4LNUw6d/21QM6Sl0QC70e27g+2c6snGeFiLsrzE7tOoUgg1LdGKsLNcl+c10DFxD4j2NuVDQAyfjWvozaheXhGUeIvhyYSSw8YyPdc/dUS3QX3jGajsamhjPwo0SLZYbqAbFIwYstlrgNuBgk66fpOjglbwnF35y+unTRpOVONSoSezuT7woY3CrCmQmIV5lB+jkBSH66iX7IR2JRF1jheLy4y5yIqeaYj9DFppp+GwSuZJnUGcejJhapEMCaHi8zcXoo8OWHOnF1pxUYlFoRKCzAf3hUPp31dj5lUURzPC4ZR+gnnX6csUBX7xVhRPeEPe5mK9RGQzt7e8g0nIzIe9z0fI7qOU1YMVlC+bO6ajnAHqYHfryQ1eolm762Pzh/mreYpmVCRZEguyz6nmilvPxfBMCs1fv+MIN/rGiWb4pIAJjN7cR2lOc94eZ/hNWKRPJzUR5zPkrUKHQNwx0h4oPqlrIkw0J2ipz6x7IYTOfnbjhsVm/ktCK5IMkM
+X-Microsoft-Antispam-Message-Info: n7U0qsR9E57u5NeonG15ZHb0+qQuOq1EheMobsgFClKDH6lMicJ9MlWoh7EkoCi7Ay1aKi9km9xwgucyDzh+a0FuSsJUFzT64+DnCwcVa2UDWWMQoKjKGXjgYQy5ZLqWJjeRVrrCF6pN9RyalqFtQctd1D2yJdTsdyt6Us5vEID3q9k+i4VGrXwkSpFTWc+ya233/aBWfCiZoiAonny+LxmuLhXEsIF1B0z0cOS3jDfqPZIH/71MDhoMQPwx50g88bKGh7/YP0V/Fv0RavDrVZL0fu3eAANf9arcTCijMcruT7ydWuND4ioKzrWu1Qnsc8jkl1uZ/BX6ToxzEcq8bGYJ1mfZbUZMftMtz+na7h4zADuwJSdPu8S66mdJUGyF8nfMqlEla2yPuMbYIaslGL29btH46XxJcVGTKFslRFzs1NOe+3uVEEbe1dvayI/9hVnOohCnbEy/TFr3WGLLEIG/4cOICSqVZpjdgPI0xB1UVsj8XGf8QLY8Tz7TgFNHaa5bFea+TnjY0nRDhkXyXVU1k/62u3HAaEGOxTzFKVV9KouH4P7ttP9LN9M/mitLGiJlaynUZnLfYaZJ+BnXAYV5O0k0t6QZM2EYH95RjZR/jEIMEQxAyLnsl/jTQh8FgkV5OWaCq/frGoqd9uoNDvXdAKC0JXubgOMsDKxzgkZnGF1y69TbZkSEbiLlDt87
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(376002)(396003)(136003)(366004)(346002)(478600001)(52116002)(36756003)(26005)(956004)(86362001)(6916009)(6666004)(5660300002)(316002)(186003)(6506007)(6512007)(2906002)(83380400001)(16526019)(4326008)(6486002)(66556008)(66476007)(8676002)(66946007)(1076003)(8936002)(2616005)(38350700002)(38100700002)(69590400013);
+ SFS:(4636009)(39840400004)(376002)(396003)(136003)(366004)(346002)(478600001)(52116002)(36756003)(26005)(956004)(86362001)(6916009)(5660300002)(316002)(186003)(6506007)(6512007)(2906002)(83380400001)(16526019)(4326008)(6486002)(66556008)(66476007)(8676002)(66946007)(1076003)(8936002)(2616005)(38350700002)(38100700002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?4OZ0RWdQjBqdU1gIxlZ+dQRyPrm6dNEWXX/bJaIBya5ADdkoKTBDUIFN5gkI?=
- =?us-ascii?Q?T0Rrqn9VrlYrycF1H2bq/BCocQGJQ7cpI3l5eMNZz+fD073S7eWHilfIRDFm?=
- =?us-ascii?Q?THyS9G7vItLWuAQoMNTl/EMMS39aptelSE9R88HRm2DN8FbbcnMLf7D3XwaA?=
- =?us-ascii?Q?+2fS+NdSSxbNLuoMvl6A9Ml2TUFHw+MZ7jTewSCXrRVsTTuQ3KjZft18rDns?=
- =?us-ascii?Q?gdUx1HmXpt0M7YGPpECgdezZYv3mIhh8FOLIE11XhX9Ua4IjDWu56pnGJog9?=
- =?us-ascii?Q?fWpu+EtDOudk5mWSMEsdJ0dp4YCYZqYMLKYdOw1NXpaA0uU1Naxqap8iS33p?=
- =?us-ascii?Q?7/iNrL2KJHH0xNmz+5xHX97z7VdkLa/DUXRkReciWkXu4LePE19LVjgtraxg?=
- =?us-ascii?Q?BRuNXN53YEoy2tc8ciDGJjNGEiAWZETzCHphJgVFcHWNsal94WL0V60rdLGJ?=
- =?us-ascii?Q?QAefywQgSO64j+l/64u21l+b6ytUEiOMax2KsegG0NBs1gkunYOWvMSdXqan?=
- =?us-ascii?Q?35/EgksnFzriKzAlaqTgr3mk2O6CnNdPIeQEkwjRScHOi2iaOcs05g+/0Clh?=
- =?us-ascii?Q?3J7iVozVc9BVqsxqH6pEdi+hS1VZ2Um1/DovgaxORSd7/DldDda52+4o6t8z?=
- =?us-ascii?Q?VGsiCXpe3z4k1eWZ8zl9r3DYl7OTVn+iDgXzzKcb27MexkyamxHoJvXL1kWM?=
- =?us-ascii?Q?LRHljhg7sXpmsaB0YhOn9jWdZMERijh3eio2Lmv7S8hZhKazwjAl/pQqiCtu?=
- =?us-ascii?Q?izUQfFrbnWbc1x01ii8Sv+hv+fUiqTaoBllxKjoihJssmHdeGrxTKt6q1Q5X?=
- =?us-ascii?Q?+9bmMJs/ymbJm/d++5L97TPq4y7+5Lmgowle9lCJ7iK6sJIq32Cf9B6Bprvl?=
- =?us-ascii?Q?uY4sgjeY/MioW/04TGTZzS+GRv0U80wOMD5y+GO9jKba0WqHj6Ep/VFrN2hM?=
- =?us-ascii?Q?QjHsArut2lh+dmjlyd1sDM1D0AhNENEQKHoR7XkAurjmoZOM2LZLhicn63PV?=
- =?us-ascii?Q?kgo/hiB0Kv2+Vz7h/pe47iCevVrjhYqsQa6GOJsLvK6Ig6LB329Yw7bO7qXe?=
- =?us-ascii?Q?Xr9/7ZnDCTRowtpiQEYK4fy4X1NBc8s0alW2/OsOPWtjcnAzzozaxWvdvzH/?=
- =?us-ascii?Q?DRo4QEHD9Y/SSnzVjTcvwrs4FHDjNurvdsZ/eMVffAG58AhCzC51gQhofWFo?=
- =?us-ascii?Q?0+lyoS0ZelLVkXTlp5ux7uDEoPuYcpnlKPaVFu4a7MWQvSFa+G9GlKzEkQ9D?=
- =?us-ascii?Q?lIlY3bAgp2xlLvApkP3P1Q82461pO5JHvvUG6M6FIWeoM1EBVOOQY8eswq5N?=
- =?us-ascii?Q?I7eaV2yzlKRWSP3u0MWdj8eS?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?au2rL9dW4MRTtbQw64hLqy//xHEIhfNlhnINCgougPA2xSL4q0u16EsWxo16?=
+ =?us-ascii?Q?40wjluwQCXcNiiMBCa/O6On5TGeZmt9dCHbMj+eI2Jp71gYw96eLkOFM1wvd?=
+ =?us-ascii?Q?EAlR1gNtblKZTvRHlnG/yKzv9MZAHt3/8G06C0Olb+HPRsDSm1hlaf/sRKzm?=
+ =?us-ascii?Q?j2p/OSgaUN7LuKTMbKmCOQamOT7WqLmD5MmBncdBEzf5BZqjyyVZPUTkbV36?=
+ =?us-ascii?Q?Z/9D0Pxm2FItbASxWIKxvjYSGnKj1T3XTxR9vVmum8fPk7/ISGZTMSVThGoQ?=
+ =?us-ascii?Q?+oIZLRttWJOpC6bN3S9kgf9yvTru3QK+xhV7D3ASmtdJjVN/y0FXHG715c8h?=
+ =?us-ascii?Q?fHqlCKhTXDWMmfPiGq8tNzvltdYDPs8PkbQgJ08xmo4RDP/uLUu8+xlqECwM?=
+ =?us-ascii?Q?a77P6+e746rxx6/i0reYm3GOF23JhyxdvGm/btTJS2VITZEmmJ0ENfeg0W0M?=
+ =?us-ascii?Q?X6zs/knuDwc4vbixZryHC3FDQu7f192m9Nuosas4r9ssnfqCTz+04H4KIvlX?=
+ =?us-ascii?Q?qWqLs6+JSkR9Rso1SqpPGnO3x7eLJgZl7GT/9lbacQtymxn5cOPeea8aGk4p?=
+ =?us-ascii?Q?6UPUbW+q3KaKwHMiGPsmMlBuLmdSvTAdeijQLhjhnU5kQR3qrHEBIvLsPjUg?=
+ =?us-ascii?Q?HRY4ncqA5lwn4naU8Casyx1dXJrBYlriK6SOBvwLSPIzLVrDSaQnGEQ0FUqg?=
+ =?us-ascii?Q?gxh6ffeTsIhW+xBob9Sttd0noYaj/5BCj2WLdMH2By/e8vHHrkfayCZZ425h?=
+ =?us-ascii?Q?KqzGK+2LApAcd51R1GZ6SdrIQC6niQlBfxZvzuUlED3bpnQlmbdBKDzgDlWY?=
+ =?us-ascii?Q?S9QLTR2sr/Jz3oZeO3rBCeJVLF9BAO/0/IhHQZWCHd75u30rjb8zQw91SV0h?=
+ =?us-ascii?Q?f3UPJBUF3Kr7hBvrAaRGecJRLjzr2wtzPgLHwxa4ct9vTDyeoQ5asw6BQZCO?=
+ =?us-ascii?Q?d9/49T2qbMxlO/Ra2Y5atzXc2+0jyQCZvrTQbQU35RWLDaLTTU0TN/6pgLpP?=
+ =?us-ascii?Q?YUJhlBUQ9m6gtEEqR3SyZKkyFsGNgBkc1CFh4AABu8ztMvXdEAhYUZ96nz1V?=
+ =?us-ascii?Q?4U9qKLyo0ElZM150HIfv4uEaDObhdv2AlHJH0vHIWke8417I5SdLlYdIphjW?=
+ =?us-ascii?Q?wAS2cKbSm918RjNbDN5Hm7hSHPE0MNNGRcSx1mTm02N+XwCbM1KBNxTMh6ry?=
+ =?us-ascii?Q?YXFPWDmUAl+2d65eds9n6fKNvpEWJfyyHU1XcRCPY36Y//Ap/9geogvOdsfq?=
+ =?us-ascii?Q?SaWuaS43YZLKEYHSax4DbZt1tFBV/cJqj3ZaBS71N1klLRyfLgpyE+wa1u3g?=
+ =?us-ascii?Q?FVGQkaXwF+oR4FYTelmJ4Ht4?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94d6f3b8-3a99-4256-5398-08d90a58e76e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37af1231-b0a9-4db4-e870-08d90a58e814
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:18:40.7087 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:18:41.7909 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NfrtrmweCXOhcWy5x/+1CRDLd1/kuM0goKjca/PUC7I2CabD8Z1KdmGirESzHWrUWjeKEfc6EqN5p404Q7oNfjaFSKq+z7rkLmY5Vl0MpOY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: JI7YhoRwyybQwEdqybgslYFcFA2uqZC5qxZlDavFhWIquhSTu05zGC6DgzP6/T0J53Pf2K6urjx/6xO58a/HBKPAzA+VbTUlmJ6UDEDeIwQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6151
-Received-SPF: pass client-ip=40.107.3.98;
+Received-SPF: pass client-ip=40.107.0.103;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,86 +139,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be used in the following commit.
+inore_children thing doesn't help to track all propagated permissions
+of children we want to ignore. The simplest way to correctly update
+permissions is update graph first and then do permission update. In
+this case we just referesh permissions for the whole subgraph (in
+topological-sort defined order) and everything is correctly calculated
+automatically without any ignore_children.
+
+So, refactor bdrv_replace_node_common to first do graph update and then
+refresh the permissions.
+
+Test test_parallel_exclusive_write() now pass, so move it out of
+debugging "if".
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ block.c                          | 43 +++++++++++++-------------------
+ tests/unit/test-bdrv-graph-mod.c |  4 +--
+ 2 files changed, 20 insertions(+), 27 deletions(-)
 
 diff --git a/block.c b/block.c
-index 98b7bc179c..a5305662dc 100644
+index a5305662dc..6040b9dea0 100644
 --- a/block.c
 +++ b/block.c
-@@ -83,6 +83,9 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
-                                            BdrvChildRole child_role,
-                                            Error **errp);
+@@ -2273,7 +2273,6 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+  *
+  * Note: real unref of old_bs is done only on commit.
+  */
+-__attribute__((unused))
+ static void bdrv_replace_child_safe(BdrvChild *child, BlockDriverState *new_bs,
+                                     Transaction *tran)
+ {
+@@ -4877,8 +4876,9 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+                                     bool auto_skip, Error **errp)
+ {
+     BdrvChild *c, *next;
+-    GSList *list = NULL, *p;
+-    uint64_t perm = 0, shared = BLK_PERM_ALL;
++    Transaction *tran = tran_new();
++    g_autoptr(GHashTable) found = NULL;
++    g_autoptr(GSList) refresh_list = NULL;
+     int ret;
  
-+static void bdrv_replace_child_noperm(BdrvChild *child,
-+                                      BlockDriverState *new_bs);
-+
- static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
-                                *queue, Error **errp);
- static void bdrv_reopen_commit(BDRVReopenState *reopen_state);
-@@ -2237,6 +2240,57 @@ static int bdrv_drv_set_perm(BlockDriverState *bs, uint64_t perm,
-     return 0;
- }
+     /* Make sure that @from doesn't go away until we have successfully attached
+@@ -4889,7 +4889,12 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+     assert(bdrv_get_aio_context(from) == bdrv_get_aio_context(to));
+     bdrv_drained_begin(from);
  
-+typedef struct BdrvReplaceChildState {
-+    BdrvChild *child;
-+    BlockDriverState *old_bs;
-+} BdrvReplaceChildState;
+-    /* Put all parents into @list and calculate their cumulative permissions */
++    /*
++     * Do the replacement without permission update.
++     * Replacement may influence the permissions, we should calculate new
++     * permissions based on new graph. If we fail, we'll roll-back the
++     * replacement.
++     */
+     QLIST_FOREACH_SAFE(c, &from->parents, next_parent, next) {
+         assert(c->bs == from);
+         if (!should_update_child(c, to)) {
+@@ -4907,36 +4912,24 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+                        c->name, from->node_name);
+             goto out;
+         }
+-        list = g_slist_prepend(list, c);
+-        perm |= c->perm;
+-        shared &= c->shared_perm;
++        bdrv_replace_child_safe(c, to, tran);
+     }
+ 
+-    /* Check whether the required permissions can be granted on @to, ignoring
+-     * all BdrvChild in @list so that they can't block themselves. */
+-    ret = bdrv_check_update_perm(to, NULL, perm, shared, list, errp);
+-    if (ret < 0) {
+-        bdrv_abort_perm_update(to);
+-        goto out;
+-    }
++    found = g_hash_table_new(NULL, NULL);
+ 
+-    /* Now actually perform the change. We performed the permission check for
+-     * all elements of @list at once, so set the permissions all at once at the
+-     * very end. */
+-    for (p = list; p != NULL; p = p->next) {
+-        c = p->data;
++    refresh_list = bdrv_topological_dfs(refresh_list, found, to);
++    refresh_list = bdrv_topological_dfs(refresh_list, found, from);
+ 
+-        bdrv_ref(to);
+-        bdrv_replace_child_noperm(c, to);
+-        bdrv_unref(from);
++    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
++    if (ret < 0) {
++        goto out;
+     }
+ 
+-    bdrv_set_perm(to);
+-
+     ret = 0;
+ 
+ out:
+-    g_slist_free(list);
++    tran_finalize(tran, ret);
 +
-+static void bdrv_replace_child_commit(void *opaque)
-+{
-+    BdrvReplaceChildState *s = opaque;
-+
-+    bdrv_unref(s->old_bs);
-+}
-+
-+static void bdrv_replace_child_abort(void *opaque)
-+{
-+    BdrvReplaceChildState *s = opaque;
-+    BlockDriverState *new_bs = s->child->bs;
-+
-+    /* old_bs reference is transparently moved from @s to @s->child */
-+    bdrv_replace_child_noperm(s->child, s->old_bs);
-+    bdrv_unref(new_bs);
-+}
-+
-+static TransactionActionDrv bdrv_replace_child_drv = {
-+    .commit = bdrv_replace_child_commit,
-+    .abort = bdrv_replace_child_abort,
-+    .clean = g_free,
-+};
-+
-+/*
-+ * bdrv_replace_child_safe
-+ *
-+ * Note: real unref of old_bs is done only on commit.
-+ */
-+__attribute__((unused))
-+static void bdrv_replace_child_safe(BdrvChild *child, BlockDriverState *new_bs,
-+                                    Transaction *tran)
-+{
-+    BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
-+    *s = (BdrvReplaceChildState) {
-+        .child = child,
-+        .old_bs = child->bs,
-+    };
-+    tran_add(tran, &bdrv_replace_child_drv, s);
-+
-+    if (new_bs) {
-+        bdrv_ref(new_bs);
-+    }
-+    bdrv_replace_child_noperm(child, new_bs);
-+    /* old_bs reference is transparently moved from @child to @s */
-+}
-+
- /*
-  * Check whether permissions on this node can be changed in a way that
-  * @cumulative_perms and @cumulative_shared_perms are the new cumulative
+     bdrv_drained_end(from);
+     bdrv_unref(from);
+ 
+diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
+index e64e81a07c..7b3c8b437a 100644
+--- a/tests/unit/test-bdrv-graph-mod.c
++++ b/tests/unit/test-bdrv-graph-mod.c
+@@ -408,10 +408,10 @@ int main(int argc, char *argv[])
+                     test_should_update_child);
+     g_test_add_func("/bdrv-graph-mod/parallel-perm-update",
+                     test_parallel_perm_update);
++    g_test_add_func("/bdrv-graph-mod/parallel-exclusive-write",
++                    test_parallel_exclusive_write);
+ 
+     if (debug) {
+-        g_test_add_func("/bdrv-graph-mod/parallel-exclusive-write",
+-                        test_parallel_exclusive_write);
+         g_test_add_func("/bdrv-graph-mod/append-greedy-filter",
+                         test_append_greedy_filter);
+     }
 -- 
 2.29.2
 
