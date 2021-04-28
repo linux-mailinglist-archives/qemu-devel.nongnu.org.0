@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736F536D82C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 15:19:28 +0200 (CEST)
-Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E3236D84B
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 15:28:38 +0200 (CEST)
+Received: from localhost ([::1]:33972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbk6B-00081n-IM
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 09:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47820)
+	id 1lbkF3-0002LJ-7o
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 09:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
- id 1lbk51-0007ZU-4G
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:18:15 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
- id 1lbk4z-00010E-4k
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:18:14 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id u17so94689502ejk.2
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 06:18:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=/LvSbKZj1cm2TRrCe0Gb+aH9jx9NWBWERgn4NKzNYRs=;
- b=TK4YDQtdxQ9mkYlq37+xtlonXZ9psAGY4MvWC26QpbnDOM9it7GhBaqruJMsGXs3wM
- ImS1x/z9CGfdiy353EkeGg0ZVKdBinaSHXIErgvn3QlPIjXax09J+5oGFSrxwcsqmmjo
- njv4dXwXsBW0TQkZYhz5oBta7dTab7FRqQgkT3SVN+R/AdI8kdLn6NLfEjVcFLeVyVnd
- HaBsW/0DvWcTB5BUGed0tvdy53XtgWTVcZq933nGS8JdnrOpmUjz0cM9ZFziSE+X7196
- RHoLAj1R6Yg+ZSHVqR1O0UAkxnJo2MrCsD8EKv5UZNZeoCcPlFCHXduaEGYIAMTJQm4s
- Fd9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=/LvSbKZj1cm2TRrCe0Gb+aH9jx9NWBWERgn4NKzNYRs=;
- b=nCC+z1fSimRNzInpQs3YKrzwpyV6hLb+uHOfdelJkp+gvVgvAKo0iVxXPMvriXL/o3
- Ey5cIZ7+J024g/EodNA2vJNoipq5/9k6cY+/WfcIEd3/nkRCDToE5eWo5GNThN8qdYHM
- 546yWs0tQfwNzanJ9lA6CkNw1EI6qdLC6aueW6F/KgLbYmJbVKiYRL+lbHACS4ywpUdv
- on4+I3OG6EhGCalLy4Gpa5W9fTKj5EAJrdu13rApCyIpiLUyACn+qs/znBFdOFYBs00h
- xKNJ08dTryDZyvMYLlR2NSSeTjgnrP3IjIaHLcUWm/xuwR4z0HGjVzknAeEYlkMJSxJn
- Xzdw==
-X-Gm-Message-State: AOAM532ubSVUjKjM2OYWgt4ohm3wX1ilJ99b/T05xDGXcVKEKLp61cNA
- cyRiWCmdYIkcR3e7UkObhyzuPX/lohThxKqUgXM=
-X-Google-Smtp-Source: ABdhPJzy91Mz0hfwpomL/nc0Y9M2OdMQdi5ISL6kbxcv/FMA3fBm1UIloocH0a180yxXiXd+N7O6v9EiJHINtoOOMGw=
-X-Received: by 2002:a17:906:f41:: with SMTP id
- h1mr29366557ejj.399.1619615891570; 
- Wed, 28 Apr 2021 06:18:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lbkDG-0001aN-PU
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:26:46 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lbkDC-0006d9-99
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 09:26:46 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FVfJw5SDrz72f5N;
+ Wed, 28 Apr 2021 21:16:00 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 28 Apr 2021 15:26:36 +0200
+Received: from localhost (10.52.123.69) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 28 Apr
+ 2021 14:26:35 +0100
+Date: Wed, 28 Apr 2021 14:25:01 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Chris Browy <cbrowy@avery-design.com>
+Subject: Re: [PATCH v5 cxl2.0-v3-doe 3/6] hw/pci: PCIe Data Object Exchange
+ implementation
+Message-ID: <20210428142501.00002825@Huawei.com>
+In-Reply-To: <1619458099-13734-1-git-send-email-cbrowy@avery-design.com>
+References: <1619454964-10190-1-git-send-email-cbrowy@avery-design.com>
+ <1619458099-13734-1-git-send-email-cbrowy@avery-design.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 MIME-Version: 1.0
-Received: by 2002:a17:906:389b:0:0:0:0 with HTTP; Wed, 28 Apr 2021 06:18:10
- -0700 (PDT)
-In-Reply-To: <b5ed0e7-86fa-3157-3b5a-506f9aff5cac@eik.bme.hu>
-References: <YIaPdjz7PpvwVPP/@work-vm>
- <925db5d2-f3f7-96cb-4549-8880408f018@eik.bme.hu>
- <CA+rFky7OWZUHdUgn1xFDTO6b-Y72KL=JjxjVYAFDMYh7H9DwRw@mail.gmail.com>
- <CA+rFky5-FzxjFDJND8a8iQ1XYZ7PsBkYkK4CFO7X6mjAqD+sBg@mail.gmail.com>
- <b5ed0e7-86fa-3157-3b5a-506f9aff5cac@eik.bme.hu>
-From: Andrew Randrianasulu <randrianasulu@gmail.com>
-Date: Wed, 28 Apr 2021 16:18:10 +0300
-Message-ID: <CA+rFky7Qt51B=cKtX6BhTiJDfhmH5SRxuktXktB0YnmCbynS5g@mail.gmail.com>
-Subject: Re: X on old (non-x86) Linux guests
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: multipart/alternative; boundary="000000000000e3c40d05c108356c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=randrianasulu@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.123.69]
+X-ClientProxiedBy: lhreml751-chm.china.huawei.com (10.201.108.201) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,140 +68,625 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kraxel@redhat.com" <kraxel@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: ben.widawsky@intel.com, david@redhat.com, vishal.l.verma@intel.com,
+ jgroves@micron.com, qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
+ armbru@redhat.com, mst@redhat.com, tyshao@avery-design.com.tw,
+ imammedo@redhat.com, hchkuo@avery-design.com.tw, dan.j.williams@intel.com,
+ ira.weiny@intel.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e3c40d05c108356c
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 26 Apr 2021 13:28:19 -0400
+Chris Browy <cbrowy@avery-design.com> wrote:
 
-On Wednesday, April 28, 2021, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+> From: hchkuo <hchkuo@avery-design.com.tw>
+> 
+> PCIe Data Object Exchange (DOE) implementation for QEMU referring to
+> "PCIe Data Object Exchange ECN, March 12, 2020".
+> 
+> The patch supports multiple DOE capabilities for a single PCIe device in
+> QEMU. For each capability, a static array of DOEProtocol should be
+> passed to pcie_doe_init(). The protocols in that array will be
+> registered under the DOE capability structure. For each protocol, vendor
+> ID, type, and corresponding callback function (handle_request()) should
+> be implemented. This callback function represents how the DOE request
+> for corresponding protocol will be handled.
+> 
+> pcie_doe_{read/write}_config() must be appended to corresponding PCI
+> device's config_read/write() handler to enable DOE access. In
+> pcie_doe_read_config(), false will be returned if pci_config_read()
+> offset is not within DOE capability range. In pcie_doe_write_config(),
+> the function will be early returned if not within the related DOE range.
+> 
+> Signed-off-by: Chris Browy <cbrowy@avery-design.com>
 
-> On Wed, 28 Apr 2021, Andrew Randrianasulu wrote:
->
->> On Wednesday, April 28, 2021, Andrew Randrianasulu <
->> randrianasulu@gmail.com>
->> wrote:
->>
->>> On Monday, April 26, 2021, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>>
->>>> On Mon, 26 Apr 2021, Dr. David Alan Gilbert wrote:
->>>>
->>>>>  Over the weekend I got a Red Hat 6.x (not RHEL!) for Alpha booting
->>>>> under QEMU which was pretty neat.  But I failed to find a succesful
->>>>> combination to get X working; has anyone any suggestions?
->>>>>
->>>>>
->>>> Adding Andrew who has experimented with old X framebuffer so he may
->>>> remember something more but that was on x86.
->>>>
->>>
->>>
->>>
->>> Sorry, I still away from my desktop (with notes/logs), not sure when
->>> return..
->>> I do not think I tried something that old.. Kernel 2.2 i guess, before
->>> any
->>> attempt at r128 drm Kernel module was written (in 2.4?) and so before ddx
->>> attempted to use that (as it tries by default in much newer distros)
->>>
->>
-> Maybe it would work better with newer RedHat than 6.0? I think I've seen
-> images up to at least 7.1 that supported alpha but I don't know how to boot
-> them. I could get kernel and installer running with -kernel -initrd but did
-> not find the CD on the defailt CMD646 controller (seems to only have driver
-> for one SCSI controller) so I'm not sure how to try this. Trying to just
-> boot from the CD without -kernel -initrd it just stops after displaying
-> "Hello" in top left but that could be something about alpha firmware I
-> don't know how to use.
+You probably also want Huai-Cheng Kuo's sign-off to match the From on this
+series - otherwise the DCO chain is a little unclear.
 
+Subject to a few things I've commented on inline...
 
-I think alpha firmware is incomplete, not like real Alpha firmware..
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-I found you can try to install rh 7.1 on alpha from Hard drive or network
-(ftp/http)
+> ---
+>  MAINTAINERS               |   7 +
+>  hw/pci/meson.build        |   1 +
+>  hw/pci/pcie_doe.c         | 374 ++++++++++++++++++++++++++++++++++++++
+>  include/hw/pci/pcie.h     |   1 +
+>  include/hw/pci/pcie_doe.h | 123 +++++++++++++
+>  5 files changed, 506 insertions(+)
+>  create mode 100644 hw/pci/pcie_doe.c
+>  create mode 100644 include/hw/pci/pcie_doe.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f9097ed9e7..e77e9892e3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1681,6 +1681,13 @@ F: docs/pci*
+>  F: docs/specs/*pci*
+>  F: default-configs/pci.mak
+>  
+> +PCIE DOE
+> +M: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
+> +M: Chris Browy <cbrowy@avery-design.com>
+> +S: Supported
+> +F: include/hw/pci/pcie_doe.h
+> +F: hw/pci/pcie_doe.c
+> +
+>  ACPI/SMBIOS
+>  M: Michael S. Tsirkin <mst@redhat.com>
+>  M: Igor Mammedov <imammedo@redhat.com>
+> diff --git a/hw/pci/meson.build b/hw/pci/meson.build
+> index 5c4bbac817..115e50222f 100644
+> --- a/hw/pci/meson.build
+> +++ b/hw/pci/meson.build
+> @@ -12,6 +12,7 @@ pci_ss.add(files(
+>  # allow plugging PCIe devices into PCI buses, include them even if
+>  # CONFIG_PCI_EXPRESS=n.
+>  pci_ss.add(files('pcie.c', 'pcie_aer.c'))
+> +pci_ss.add(files('pcie_doe.c'))
+>  softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
+>  softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
+>  
+> diff --git a/hw/pci/pcie_doe.c b/hw/pci/pcie_doe.c
+> new file mode 100644
+> index 0000000000..b2affff933
+> --- /dev/null
+> +++ b/hw/pci/pcie_doe.c
+> @@ -0,0 +1,374 @@
+> +/*
+> + * PCIe Data Object Exchange
+> + *
+> + * Copyright (C) 2021 Avery Design Systems, Inc.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +#include "qemu/range.h"
+> +#include "hw/pci/pci.h"
+> +#include "hw/pci/pcie.h"
+> +#include "hw/pci/pcie_doe.h"
+> +#include "hw/pci/msi.h"
+> +#include "hw/pci/msix.h"
+> +
+> +#define DWORD_BYTE 4
+> +#define BYTE_LSHIFT(b, pos) (b << ((pos) * 8))
+> +#define BYTE_RSHIFT(b, pos) (b >> ((pos) * 8))
+> +
+> +struct doe_discovery_req {
+> +    DOEHeader header;
+> +    uint8_t index;
+> +    uint8_t reserved[3];
+> +} QEMU_PACKED;
+> +
+> +struct doe_discovery_rsp {
+> +    DOEHeader header;
+> +    uint16_t vendor_id;
+> +    uint8_t data_obj_type;
+> +    uint8_t next_index;
+> +} QEMU_PACKED;
+> +
+> +static bool pcie_doe_discovery(DOECap *doe_cap)
+> +{
+> +    struct doe_discovery_req *req = pcie_doe_get_write_mbox_ptr(doe_cap);
+> +    struct doe_discovery_rsp rsp;
+> +    uint8_t index = req->index;
+> +    DOEProtocol *prot;
+> +
+> +    /* Discard request if length does not match doe_discovery */
+> +    if (pcie_doe_get_obj_len(req) <
+> +        DIV_ROUND_UP(sizeof(struct doe_discovery_req), DWORD_BYTE)) {
 
-https://web.archive.org/web/20011120235248/http://www.redhat.com/docs/manuals/linux/RHL-7.1-Manual/alpha-install-guide/s1-guimode-sel-method.html
+I'm a bit in two minds here, but maybe sizeof(*req) is better in this
+case.  It looks a bit odd if you do though as querying the length of
+itself to compare with actual length.
 
-But this requires network boot disk... Not sure from where you can get
-it...
+> +        return false;
+> +    }
+> +
+> +    rsp.header = (DOEHeader) {
+> +        .vendor_id = PCI_VENDOR_ID_PCI_SIG,
+> +        .data_obj_type = PCI_SIG_DOE_DISCOVERY,
+> +        .length = DIV_ROUND_UP(sizeof(struct doe_discovery_rsp), DWORD_BYTE),
+> +    };
+> +
+> +    /* Point to the requested protocol, index 0 must be Discovery */
+> +    if (index == 0) {
+> +        rsp.vendor_id = PCI_VENDOR_ID_PCI_SIG;
+> +        rsp.data_obj_type = PCI_SIG_DOE_DISCOVERY;
+> +    } else {
+> +        if (index < doe_cap->protocol_num) {
+> +            prot = &doe_cap->protocols[index - 1];
+> +            rsp.vendor_id = prot->vendor_id;
+> +            rsp.data_obj_type = prot->data_obj_type;
+> +        } else {
+> +            rsp.vendor_id = 0xFFFF;
+> +            rsp.data_obj_type = 0xFF;
+> +        }
+> +    }
+> +
+> +    if (index + 1 == doe_cap->protocol_num) {
+> +        rsp.next_index = 0;
+> +    } else {
+> +        rsp.next_index = index + 1;
+> +    }
+> +
+> +    pcie_doe_set_rsp(doe_cap, &rsp);
+> +
+> +    return true;
+> +}
+> +
+> +static void pcie_doe_reset_mbox(DOECap *st)
+> +{
+> +    st->read_mbox_idx = 0;
+> +    st->read_mbox_len = 0;
+> +    st->write_mbox_len = 0;
+> +
+> +    memset(st->read_mbox, 0, PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
+> +    memset(st->write_mbox, 0, PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
+> +}
+> +
+> +void pcie_doe_init(PCIDevice *dev, DOECap *doe_cap, uint16_t offset,
+> +                   DOEProtocol *protocols, bool intr, uint16_t vec)
+> +{
+> +    pcie_add_capability(dev, PCI_EXT_CAP_ID_DOE, 0x1, offset,
+> +                        PCI_DOE_SIZEOF);
+> +
+> +    doe_cap->pdev = dev;
+> +    doe_cap->offset = offset;
+> +
+> +    /* Configure MSI/MSI-X */
+> +    if (intr && (msi_present(dev) || msix_present(dev))) {
+> +        doe_cap->cap.intr = intr;
+> +        doe_cap->cap.vec = vec;
+> +    }
+> +
+> +    doe_cap->write_mbox = g_malloc0(PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
+> +    doe_cap->read_mbox = g_malloc0(PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
+> +
+> +    pcie_doe_reset_mbox(doe_cap);
+> +
+> +    /* Register self-defined protocols */
+> +    doe_cap->protocols = protocols;
+> +    for (; protocols->vendor_id; protocols++) {
+> +        doe_cap->protocol_num++;
+> +    }
+> +    assert(doe_cap->protocol_num < PCI_DOE_PROTOCOL_NUM_MAX);
+> +
+> +    /* Increment discovery protocol */
+> +    doe_cap->protocol_num++;
+> +}
+> +
+> +void pcie_doe_fini(DOECap *doe_cap)
+> +{
+> +    g_free(doe_cap->read_mbox);
+> +    g_free(doe_cap->write_mbox);
+> +    g_free(doe_cap);
+> +}
+> +
+> +uint32_t pcie_doe_build_protocol(DOEProtocol *p)
+> +{
+> +    return DATA_OBJ_BUILD_HEADER1(p->vendor_id, p->data_obj_type);
+> +}
+> +
+> +void *pcie_doe_get_write_mbox_ptr(DOECap *doe_cap)
+> +{
+> +    return doe_cap->write_mbox;
+> +}
+> +
+> +/*
+> + * Copy the response to read mailbox buffer
+> + * This might be called in self-defined handle_request() if a DOE response is
+> + * required in the corresponding protocol
+> + */
+> +void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp)
+> +{
+> +    uint32_t len = pcie_doe_get_obj_len(rsp);
+> +
+> +    memcpy(doe_cap->read_mbox + doe_cap->read_mbox_len, rsp, len * DWORD_BYTE);
+> +    doe_cap->read_mbox_len += len;
+> +}
+> +
+> +uint32_t pcie_doe_get_obj_len(void *obj)
+> +{
+> +    uint32_t len;
+> +
+> +    if (!obj) {
+> +        return 0;
+> +    }
+> +
+> +    /* Only lower 18 bits are valid */
+> +    len = DATA_OBJ_LEN_MASK(((DOEHeader *)obj)->length);
+> +
+> +    /* DOE ECN Table 7-x1b: a value of 00000h indicates 2^18 DW */
+> +    return (len) ? len : PCI_DOE_DW_SIZE_MAX;
+> +}
+> +
+> +static void pcie_doe_irq_assert(DOECap *doe_cap)
+> +{
+> +    PCIDevice *dev = doe_cap->pdev;
+> +
+> +    if (doe_cap->cap.intr && doe_cap->ctrl.intr) {
+> +        if (doe_cap->status.intr) {
+> +            return;
+> +        }
+> +        doe_cap->status.intr = 1;
+> +
+> +        /* Notifies interrupt, legacy IRQ is not supported */
+> +        if (msix_enabled(dev)) {
+> +            msix_notify(dev, doe_cap->cap.vec);
+> +        } else if (msi_enabled(dev)) {
+> +            msi_notify(dev, doe_cap->cap.vec);
+> +        }
+> +    }
+> +}
+> +
+> +static void pcie_doe_set_ready(DOECap *doe_cap, bool rdy)
+> +{
+> +    doe_cap->status.ready = rdy;
+> +
+> +    if (rdy) {
+> +        pcie_doe_irq_assert(doe_cap);
+> +    }
+> +}
+> +
+> +static void pcie_doe_set_error(DOECap *doe_cap, bool err)
+> +{
+> +    doe_cap->status.error = err;
+> +
+> +    if (err) {
+> +        pcie_doe_irq_assert(doe_cap);
+> +    }
+> +}
+> +
+> +/*
+> + * Check incoming request in write_mbox for protocol format
+> + */
+> +static void pcie_doe_prepare_rsp(DOECap *doe_cap)
+> +{
+> +    bool success = false;
+> +    int p;
+> +    bool (*handle_request)(DOECap *) = NULL;
+> +
+> +    if (doe_cap->status.error) {
+> +        return;
+> +    }
+> +
+> +    if (doe_cap->write_mbox[0] ==
+> +        DATA_OBJ_BUILD_HEADER1(PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_DISCOVERY)) {
+> +        handle_request = pcie_doe_discovery;
+> +    } else {
+> +        for (p = 0; p < doe_cap->protocol_num - 1; p++) {
+> +            if (doe_cap->write_mbox[0] ==
+> +                pcie_doe_build_protocol(&doe_cap->protocols[p])) {
+> +                handle_request = doe_cap->protocols[p].handle_request;
+> +                break;
+> +            }
+> +        }
+> +    }
+> +
+> +    /*
+> +     * DOE ECN 6.xx.1:
+> +     * If the number of DW transferred does not match the
+> +     * indicated Length for a data object, then the
+> +     * data object must be silently discarded.
+> +     */
+> +    if (doe_cap->write_mbox_len ==
+> +        pcie_doe_get_obj_len(pcie_doe_get_write_mbox_ptr(doe_cap))) {
+> +        success = handle_request(doe_cap);
 
->
-> Regards,
-> BALATON Zoltan
->
+Superficially looks like there is no protection on handle_request == NULL.
+Whilst it might not be possible, that's not locally apparent so perhaps
+add a sanity check here.
 
---000000000000e3c40d05c108356c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +    }
+> +
+> +    if (success) {
+> +        pcie_doe_set_ready(doe_cap, 1);
+> +    } else {
+> +        pcie_doe_reset_mbox(doe_cap);
+> +    }
+> +}
+> +
+> +/*
+> + * Read from DOE config space.
+> + * Return false if the address not within DOE_CAP range.
+> + */
+> +bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
+> +                          uint32_t *buf)
+> +{
+> +    uint32_t shift, mask = 0xFFFFFFFF;
+> +    uint16_t doe_offset = doe_cap->offset;
+> +
+> +    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
+> +                           PCI_DOE_SIZEOF - 4, addr)) {
+> +        return false;
+> +    }
+> +
+> +    addr -= doe_offset;
+> +    *buf = 0;
+> +
+> +    if (range_covers_byte(PCI_EXP_DOE_CAP, DWORD_BYTE, addr)) {
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, INTR_SUPP,
+> +                          doe_cap->cap.intr);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM,
+> +                          doe_cap->cap.vec);
+> +    } else if (range_covers_byte(PCI_EXP_DOE_CTRL, DWORD_BYTE, addr)) {
+> +        /* Must return ABORT=0 and GO=0 */
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_CONTROL, DOE_INTR_EN,
+> +                          doe_cap->ctrl.intr);
+> +    } else if (range_covers_byte(PCI_EXP_DOE_STATUS, DWORD_BYTE, addr)) {
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_BUSY,
+> +                          doe_cap->status.busy);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS,
+> +                          doe_cap->status.intr);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_ERROR,
+> +                          doe_cap->status.error);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DATA_OBJ_RDY,
+> +                          doe_cap->status.ready);
+> +    /* Mailbox should be DW accessed */
+> +    } else if (addr == PCI_EXP_DOE_RD_DATA_MBOX && size == DWORD_BYTE) {
+> +        if (doe_cap->status.ready && !doe_cap->status.error) {
+> +            *buf = doe_cap->read_mbox[doe_cap->read_mbox_idx];
+> +        }
+> +    }
+> +
+> +    /* Process Alignment */
+> +    shift = addr % DWORD_BYTE;
+> +    *buf = BYTE_RSHIFT(*buf, shift);
+> +    mask = BYTE_RSHIFT(mask, DWORD_BYTE - size);
+> +    *buf &= mask;
+> +
+> +    return true;
+> +}
+> +
+> +/*
+> + * Write to DOE config space.
+> + * Return if the address not within DOE_CAP range or receives an abort
+> + */
+> +void pcie_doe_write_config(DOECap *doe_cap,
+> +                           uint32_t addr, uint32_t val, int size)
+> +{
+> +    uint16_t doe_offset = doe_cap->offset;
+> +    uint32_t shift;
+> +
+> +    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
+> +                           PCI_DOE_SIZEOF - 4, addr)) {
+> +        return;
+> +    }
+> +
+> +    /* Process Alignment */
+> +    shift = addr % DWORD_BYTE;
+> +    addr -= (doe_offset + shift);
+> +    val = BYTE_LSHIFT(val, shift);
+> +
+> +    switch (addr) {
+> +    case PCI_EXP_DOE_CTRL:
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_ABORT)) {
+> +            pcie_doe_set_ready(doe_cap, 0);
+> +            pcie_doe_set_error(doe_cap, 0);
+> +            pcie_doe_reset_mbox(doe_cap);
+> +            return;
+> +        }
+> +
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_GO)) {
+> +            pcie_doe_prepare_rsp(doe_cap);
+> +        }
+> +
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_INTR_EN)) {
+> +            doe_cap->ctrl.intr = 1;
+> +        /* Clear interrupt bit located within the first byte */
+> +        } else if (shift == 0) {
+> +            doe_cap->ctrl.intr = 0;
+> +        }
+> +        break;
+> +    case PCI_EXP_DOE_STATUS:
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS)) {
+> +            doe_cap->status.intr = 0;
+> +        }
+> +        break;
+> +    case PCI_EXP_DOE_RD_DATA_MBOX:
+> +        /* Mailbox should be DW accessed */
+> +        if (size != DWORD_BYTE) {
+> +            return;
+> +        }
+> +        doe_cap->read_mbox_idx++;
+> +        if (doe_cap->read_mbox_idx == doe_cap->read_mbox_len) {
+> +            pcie_doe_reset_mbox(doe_cap);
+> +            pcie_doe_set_ready(doe_cap, 0);
+> +        } else if (doe_cap->read_mbox_idx > doe_cap->read_mbox_len) {
+> +            /* Underflow */
+> +            pcie_doe_set_error(doe_cap, 1);
+> +        }
+> +        break;
+> +    case PCI_EXP_DOE_WR_DATA_MBOX:
+> +        /* Mailbox should be DW accessed */
+> +        if (size != DWORD_BYTE) {
+> +            return;
+> +        }
+> +        doe_cap->write_mbox[doe_cap->write_mbox_len] = val;
+> +        doe_cap->write_mbox_len++;
+> +        break;
+> +    case PCI_EXP_DOE_CAP:
+> +        /* fallthrough */
+> +    default:
+> +        break;
+> +    }
+> +}
+> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+> index 14c58ebdb6..47d6f66e52 100644
+> --- a/include/hw/pci/pcie.h
+> +++ b/include/hw/pci/pcie.h
+> @@ -25,6 +25,7 @@
+>  #include "hw/pci/pcie_regs.h"
+>  #include "hw/pci/pcie_aer.h"
+>  #include "hw/hotplug.h"
+> +#include "hw/pci/pcie_doe.h"
+>  
+>  typedef enum {
+>      /* for attention and power indicator */
+> diff --git a/include/hw/pci/pcie_doe.h b/include/hw/pci/pcie_doe.h
+> new file mode 100644
+> index 0000000000..dc2c872f4d
+> --- /dev/null
+> +++ b/include/hw/pci/pcie_doe.h
+> @@ -0,0 +1,123 @@
+> +/*
+> + * PCIe Data Object Exchange
+> + *
+> + * Copyright (C) 2021 Avery Design Systems, Inc.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef PCIE_DOE_H
+> +#define PCIE_DOE_H
+> +
+> +#include "qemu/range.h"
+> +#include "qemu/typedefs.h"
+> +#include "hw/register.h"
+> +
+> +/*
+> + * Referene:
+> + * PCIe Data Object Exchange (DOE) ECN, March 12, 2020
+> + */
+> +/* Capabilities Register - 7.9.xx.2 */
+> +#define PCI_EXP_DOE_CAP             0x04
+> +REG32(PCI_DOE_CAP_REG, 0)
+> +    FIELD(PCI_DOE_CAP_REG, INTR_SUPP, 0, 1)
+> +    FIELD(PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM, 1, 11)
+> +
+> +/* Control Register - 7.9.xx.3 */
+> +#define PCI_EXP_DOE_CTRL            0x08
+> +REG32(PCI_DOE_CAP_CONTROL, 0)
+> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_ABORT, 0, 1)
+> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_INTR_EN, 1, 1)
+> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_GO, 31, 1)
+> +
+> +/* Status Register - 7.9.xx.4 */
+> +#define PCI_EXP_DOE_STATUS          0x0c
+> +REG32(PCI_DOE_CAP_STATUS, 0)
+> +    FIELD(PCI_DOE_CAP_STATUS, DOE_BUSY, 0, 1)
+> +    FIELD(PCI_DOE_CAP_STATUS, DOE_INTR_STATUS, 1, 1)
+> +    FIELD(PCI_DOE_CAP_STATUS, DOE_ERROR, 2, 1)
+> +    FIELD(PCI_DOE_CAP_STATUS, DATA_OBJ_RDY, 31, 1)
+> +
+> +/* Write Data Mailbox Register - 7.9.xx.5 */
+> +#define PCI_EXP_DOE_WR_DATA_MBOX    0x10
+> +
+> +/* Read Data Mailbox Register - 7.9.xx.6 */
+> +#define PCI_EXP_DOE_RD_DATA_MBOX    0x14
+> +
+> +/* PCI-SIG defined Data Object Types - Table 7-x2 */
+> +#define PCI_SIG_DOE_DISCOVERY       0x00
+> +
+> +#define PCI_DOE_DW_SIZE_MAX         (1 << 18)
+> +#define PCI_DOE_PROTOCOL_NUM_MAX    256
+> +
+> +#define DATA_OBJ_BUILD_HEADER1(v, p)    ((p << 16) | v)
+> +#define DATA_OBJ_LEN_MASK(l)        (l & (PCI_DOE_DW_SIZE_MAX - 1))
 
-<br><br>On Wednesday, April 28, 2021, BALATON Zoltan &lt;<a href=3D"mailto:=
-balaton@eik.bme.hu">balaton@eik.bme.hu</a>&gt; wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">On Wed, 28 Apr 2021, Andrew Randrianasulu wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Wednesday, April 28, 2021, Andrew Randrianasulu &lt;<a href=3D"mailto:ra=
-ndrianasulu@gmail.com" target=3D"_blank">randrianasulu@gmail.com</a>&gt;<br=
->
-wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Monday, April 26, 2021, BALATON Zoltan &lt;<a href=3D"mailto:balaton@eik=
-.bme.hu" target=3D"_blank">balaton@eik.bme.hu</a>&gt; wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Mon, 26 Apr 2021, Dr. David Alan Gilbert wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0Over the weekend I got a Red Hat 6.x (not RHEL!) for Alpha booting<br=
->
-under QEMU which was pretty neat.=C2=A0 But I failed to find a succesful<br=
->
-combination to get X working; has anyone any suggestions?<br>
-<br>
-</blockquote>
-<br>
-Adding Andrew who has experimented with old X framebuffer so he may<br>
-remember something more but that was on x86.<br>
-</blockquote>
-<br>
-<br>
-<br>
-Sorry, I still away from my desktop (with notes/logs), not sure when<br>
-return..<br>
-I do not think I tried something that old.. Kernel 2.2 i guess, before any<=
-br>
-attempt at r128 drm Kernel module was written (in 2.4?) and so before ddx<b=
-r>
-attempted to use that (as it tries by default in much newer distros)<br>
-</blockquote></blockquote>
-<br>
-Maybe it would work better with newer RedHat than 6.0? I think I&#39;ve see=
-n images up to at least 7.1 that supported alpha but I don&#39;t know how t=
-o boot them. I could get kernel and installer running with -kernel -initrd =
-but did not find the CD on the defailt CMD646 controller (seems to only hav=
-e driver for one SCSI controller) so I&#39;m not sure how to try this. Tryi=
-ng to just boot from the CD without -kernel -initrd it just stops after dis=
-playing &quot;Hello&quot; in top left but that could be something about alp=
-ha firmware I don&#39;t know how to use.</blockquote><div><br></div><div>I =
-think alpha firmware is incomplete, not like real Alpha firmware..=C2=A0</d=
-iv><div><br></div><div>I found you can try to install rh 7.1 on alpha from =
-Hard drive or network (ftp/http)</div><div><br></div><div><a href=3D"https:=
-//web.archive.org/web/20011120235248/http://www.redhat.com/docs/manuals/lin=
-ux/RHL-7.1-Manual/alpha-install-guide/s1-guimode-sel-method.html">https://w=
-eb.archive.org/web/20011120235248/http://www.redhat.com/docs/manuals/linux/=
-RHL-7.1-Manual/alpha-install-guide/s1-guimode-sel-method.html</a></div><div=
-><br></div><div>But this requires network boot disk... Not sure from where =
-you can get it...=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Regards,<br>
-BALATON Zoltan<br>
-</blockquote>
+in Macros, parameters passed in should have () around them to avoid running
+into unexpected precedence issues.  Eg DATA_OBJ_LEN_MASK((1 << 32) + 4) is not
+going to do what you'd expect.
 
---000000000000e3c40d05c108356c--
+#define DATA_OBJ_LEN_MASK(l)	((l) & (PCI_DOE_DW_SIZE_MASK - 1);
+
+l is also a nasty character to use, so maybe len is more appropriate so the
+eye can't parse it as 1.
+
+> +
+> +typedef struct DOEHeader DOEHeader;
+> +typedef struct DOEProtocol DOEProtocol;
+> +typedef struct DOECap DOECap;
+> +
+> +struct DOEHeader {
+> +    uint16_t vendor_id;
+> +    uint8_t data_obj_type;
+> +    uint8_t reserved;
+> +    uint32_t length;
+> +} QEMU_PACKED;
+> +
+> +/* Protocol infos and rsp function callback */
+> +struct DOEProtocol {
+> +    uint16_t vendor_id;
+> +    uint8_t data_obj_type;
+> +    bool (*handle_request)(DOECap *);
+> +};
+> +
+> +struct DOECap {
+> +    /* Owner */
+> +    PCIDevice *pdev;
+> +
+> +    uint16_t offset;
+> +
+> +    struct {
+> +        bool intr;
+> +        uint16_t vec;
+> +    } cap;
+> +
+> +    struct {
+> +        bool abort;
+> +        bool intr;
+> +        bool go;
+> +    } ctrl;
+> +
+> +    struct {
+> +        bool busy;
+> +        bool intr;
+> +        bool error;
+> +        bool ready;
+> +    } status;
+> +
+> +    uint32_t *write_mbox;
+> +    uint32_t *read_mbox;
+> +
+> +    /* Mailbox position indicator */
+> +    uint32_t read_mbox_idx;
+> +    uint32_t read_mbox_len;
+> +    uint32_t write_mbox_len;
+> +
+> +    /* Protocols and its callback response */
+> +    DOEProtocol *protocols;
+> +    uint16_t protocol_num;
+> +};
+> +
+> +void pcie_doe_init(PCIDevice *pdev, DOECap *doe_cap, uint16_t offset,
+> +                   DOEProtocol *protocols, bool intr, uint16_t vec);
+> +void pcie_doe_fini(DOECap *doe_cap);
+> +bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
+> +                          uint32_t *buf);
+> +void pcie_doe_write_config(DOECap *doe_cap, uint32_t addr,
+> +                           uint32_t val, int size);
+> +uint32_t pcie_doe_build_protocol(DOEProtocol *p);
+> +void *pcie_doe_get_write_mbox_ptr(DOECap *doe_cap);
+> +void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp);
+> +uint32_t pcie_doe_get_obj_len(void *obj);
+> +#endif /* PCIE_DOE_H */
+
 
