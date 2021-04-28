@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D7336DE0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:18:06 +0200 (CEST)
-Received: from localhost ([::1]:37884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AC736DE49
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:28:34 +0200 (CEST)
+Received: from localhost ([::1]:41160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbnp7-0004a3-Pc
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40830)
+	id 1lbnzF-0001vW-0b
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbndc-00018v-MH
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:06:12 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45811)
+ id 1lbndl-0001HM-QV
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:06:22 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lbndb-0006ZC-6A
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:06:12 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h4so54794362wrt.12
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 10:06:10 -0700 (PDT)
+ id 1lbndg-0006bW-EC
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 13:06:21 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id h15so11587277wre.11
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 10:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kmC/c7HfZL6KsbHDqY+pDUb4saJpKTFpx4rhG/OKbHA=;
- b=VQL53lUmOnj3UECIR1qJ2QhPFhB0YffT49pk6s8T+dQ4CLZCai1TIqPuurlX4ATaZZ
- 2BNO+0pOEZdzDEAQzsynYNsnRyHTfip0IhVrJYIGc6OKYKEwD2val8a+dzfc/xslMvqa
- j6WOrJL10CPciDo8BrksiMflWAbMluFRBQE4lmyxr6P73vzPbeRsn3/LPLkP8T/uCh3D
- OTyhQwlR9GLhTOQEoUW5tnIEBn8oKvreFp/s0Q2nq1dFJ7YYy4jGZ3KSt8sd/NOTbLYS
- owNwU7qTCi/yNzwSa6HI21BcEyiIJ6rJuX/BJIWl++BYeZDWW12HLsJnCbCkxZgBzh2+
- ikAQ==
+ bh=tn2MzTrz7xwfpKYZAt9e7EHE2771er0S6seDM+df6hc=;
+ b=chMIc7ugskdXUfGWNYfEr9IL9quipWYmFjLPuF34VY5iwOtD32XPM61PQLx1xFy/e+
+ 4KVnsbih9+twOgc93LtV7nri41JrBejiKzUyHqBkbaN1MYUPqMiGmikorag4HK06MXsN
+ fR3l/HgRbCWnOgLu40oKEsgDOzrBgyJcP+3qS9v/Ps7W5MWKvB+C6Er6o4yTI6gm1XOp
+ yi+eByEevGjyVM4hEvIrFaT8Dnj4+uxybgmHCdTcS/4dsbOxwaW6wIsMySbDJFmA9mmv
+ I8N7Hd/HfN7Rzp5fzBqE0B92LBEOpjyrMBFf6UlEvYFykCAqyNMevblD5ho0XITghIds
+ wzPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kmC/c7HfZL6KsbHDqY+pDUb4saJpKTFpx4rhG/OKbHA=;
- b=Fdm29vpyxOCziPQFWhKQ2GxEVLQ9KULkbczgipGAirsD4bXAEMfi0B4zHuyIUizNz6
- r0We9HbLhH90Ah13ieOE0TM9i8bdk0ZUQdm/BbarsoXjub8DEtvTxHaCy4K5/YeOjHY/
- oVx6ZJm7oSZhxMuYppXo0ptTR+7yZQP0Z47VaOj9+te2bpyUxWF8Bf4cKE3zWHnkzi0N
- ud7Kyv2IJx+SvncIaOdT4oEOFmZipWfVXCwphzzT5+U4pnw6bJCbnDBhGYWE8oW4nul3
- fUqVz0MEB5bd3fm1PdC/tXzu+/akz+aY0dp6JZzDYDuEPnw0Ftt02+F5zF79ytThL/MU
- gI/Q==
-X-Gm-Message-State: AOAM532ZQPc0fsTAqjF+2giGlYXCdkXOQf+uJsiPBwRQD7QRMgY6AfkT
- v1N1LCLvU7pXoyvGxjVbXUyUuFg7WlPFDQ==
-X-Google-Smtp-Source: ABdhPJyssGiowuYhER2dF5TReqE/kDhFgnZB23s/r4cvAa7IR3fSYXIJyRqaBcjN6gud1TWhM0RH/Q==
-X-Received: by 2002:adf:e404:: with SMTP id g4mr2298612wrm.240.1619629569374; 
- Wed, 28 Apr 2021 10:06:09 -0700 (PDT)
+ bh=tn2MzTrz7xwfpKYZAt9e7EHE2771er0S6seDM+df6hc=;
+ b=PAN+KCjGzguiov70r0Sb4NbSRJOBMQ6Nzmfb6cgChoIYLlvp/OeegOCk9BKKxA69LX
+ WN+lnKzKFVhug/71hfgHPIVqA12ju2h0+rMoqVVDnbq9zuaQgMNSJ+t4EyaJUYOPONNY
+ UgFuE9CYBKgkuw2ixyrYxM13VTRE0ClW+ZANH2ABlVlUcfV888tqRmgO48+O9hMW8U5k
+ i+Fa9uTud76HLLEzlHOqyXjTozLNjHTSL0TbiwRrUXG6GL0pLo6Nim+a1dz/3L2BZX3e
+ Xw/PvK5FxRZsV19NfG8ApdwAspBIlHC9rC8uW0Z9OkchoPpI1PncVvC4FC3ZHlRA97BY
+ nDxQ==
+X-Gm-Message-State: AOAM532OBN5oTYBq3hpf2tBvTiufesW8zPx0nSzDCexBHXwCFxOsAlwy
+ HM5rzXgve/QCS0KaleJbEH0iH25XRZzLnw==
+X-Google-Smtp-Source: ABdhPJxi2jhAvNCHXwv7A8TYsMQZTiMpj93nmCJBiYwgF5NvxVQIkRzyRntEZiI8kO/Y7kR5gI4Agw==
+X-Received: by 2002:adf:f80f:: with SMTP id s15mr3953974wrp.341.1619629574227; 
+ Wed, 28 Apr 2021 10:06:14 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id j13sm409561wrw.93.2021.04.28.10.06.08
+ by smtp.gmail.com with ESMTPSA id l14sm346220wmq.4.2021.04.28.10.06.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 10:06:08 -0700 (PDT)
+ Wed, 28 Apr 2021 10:06:13 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/30] target/mips: Restrict cpu_mips_get_random() /
- update_pagemask() to TCG
-Date: Wed, 28 Apr 2021 19:03:58 +0200
-Message-Id: <20210428170410.479308-19-f4bug@amsat.org>
+Subject: [PATCH v4 19/30] target/mips: Move sysemu TCG-specific code to
+ tcg/sysemu/ subfolder
+Date: Wed, 28 Apr 2021 19:03:59 +0200
+Message-Id: <20210428170410.479308-20-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210428170410.479308-1-f4bug@amsat.org>
 References: <20210428170410.479308-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,59 +94,435 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move cp0_helper.c and mips-semi.c to the new tcg/sysemu/ folder,
+adapting the Meson machinery.
+
+Move the opcode definitions to tcg/sysemu_helper.h.inc.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h         | 4 ----
- target/mips/tcg/tcg-internal.h | 9 +++++++++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ target/mips/helper.h                      | 166 +--------------------
+ target/mips/tcg/sysemu_helper.h.inc       | 168 ++++++++++++++++++++++
+ target/mips/{ => tcg/sysemu}/cp0_helper.c |   0
+ target/mips/{ => tcg/sysemu}/mips-semi.c  |   0
+ target/mips/meson.build                   |   5 -
+ target/mips/tcg/meson.build               |   3 +
+ target/mips/tcg/sysemu/meson.build        |   4 +
+ 7 files changed, 179 insertions(+), 167 deletions(-)
+ create mode 100644 target/mips/tcg/sysemu_helper.h.inc
+ rename target/mips/{ => tcg/sysemu}/cp0_helper.c (100%)
+ rename target/mips/{ => tcg/sysemu}/mips-semi.c (100%)
+ create mode 100644 target/mips/tcg/sysemu/meson.build
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index be32102a2ac..6bac8ef704a 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -165,7 +165,6 @@ void r4k_helper_tlbr(CPUMIPSState *env);
- void r4k_helper_tlbinv(CPUMIPSState *env);
- void r4k_helper_tlbinvf(CPUMIPSState *env);
- void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
--uint32_t cpu_mips_get_random(CPUMIPSState *env);
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index 709494445dd..bc308e5db13 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -2,10 +2,6 @@ DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
+ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+ DEF_HELPER_1(raise_exception_debug, noreturn, env)
  
- void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                     vaddr addr, unsigned size,
-@@ -237,9 +236,6 @@ void cpu_mips_stop_count(CPUMIPSState *env);
- /* helper.c */
- void mmu_init(CPUMIPSState *env, const mips_def_t *def);
- 
--/* op_helper.c */
--void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+-#ifndef CONFIG_USER_ONLY
+-DEF_HELPER_1(do_semihosting, void, env)
+-#endif
 -
- static inline void mips_env_set_pc(CPUMIPSState *env, target_ulong value)
- {
-     env->active_tc.PC = value & ~(target_ulong)1;
-diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
-index 24438667f47..b65580af211 100644
---- a/target/mips/tcg/tcg-internal.h
-+++ b/target/mips/tcg/tcg-internal.h
-@@ -11,10 +11,19 @@
- #define MIPS_TCG_INTERNAL_H
+ #ifdef TARGET_MIPS64
+ DEF_HELPER_4(sdl, void, env, tl, tl, int)
+ DEF_HELPER_4(sdr, void, env, tl, tl, int)
+@@ -42,164 +38,6 @@ DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
  
- #include "hw/core/cpu.h"
-+#include "cpu.h"
+ DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
  
- void mips_cpu_do_interrupt(CPUState *cpu);
- bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
+-#ifndef CONFIG_USER_ONLY
+-/* CP0 helpers */
+-DEF_HELPER_1(mfc0_mvpcontrol, tl, env)
+-DEF_HELPER_1(mfc0_mvpconf0, tl, env)
+-DEF_HELPER_1(mfc0_mvpconf1, tl, env)
+-DEF_HELPER_1(mftc0_vpecontrol, tl, env)
+-DEF_HELPER_1(mftc0_vpeconf0, tl, env)
+-DEF_HELPER_1(mfc0_random, tl, env)
+-DEF_HELPER_1(mfc0_tcstatus, tl, env)
+-DEF_HELPER_1(mftc0_tcstatus, tl, env)
+-DEF_HELPER_1(mfc0_tcbind, tl, env)
+-DEF_HELPER_1(mftc0_tcbind, tl, env)
+-DEF_HELPER_1(mfc0_tcrestart, tl, env)
+-DEF_HELPER_1(mftc0_tcrestart, tl, env)
+-DEF_HELPER_1(mfc0_tchalt, tl, env)
+-DEF_HELPER_1(mftc0_tchalt, tl, env)
+-DEF_HELPER_1(mfc0_tccontext, tl, env)
+-DEF_HELPER_1(mftc0_tccontext, tl, env)
+-DEF_HELPER_1(mfc0_tcschedule, tl, env)
+-DEF_HELPER_1(mftc0_tcschedule, tl, env)
+-DEF_HELPER_1(mfc0_tcschefback, tl, env)
+-DEF_HELPER_1(mftc0_tcschefback, tl, env)
+-DEF_HELPER_1(mfc0_count, tl, env)
+-DEF_HELPER_1(mfc0_saar, tl, env)
+-DEF_HELPER_1(mfhc0_saar, tl, env)
+-DEF_HELPER_1(mftc0_entryhi, tl, env)
+-DEF_HELPER_1(mftc0_status, tl, env)
+-DEF_HELPER_1(mftc0_cause, tl, env)
+-DEF_HELPER_1(mftc0_epc, tl, env)
+-DEF_HELPER_1(mftc0_ebase, tl, env)
+-DEF_HELPER_2(mftc0_configx, tl, env, tl)
+-DEF_HELPER_1(mfc0_lladdr, tl, env)
+-DEF_HELPER_1(mfc0_maar, tl, env)
+-DEF_HELPER_1(mfhc0_maar, tl, env)
+-DEF_HELPER_2(mfc0_watchlo, tl, env, i32)
+-DEF_HELPER_2(mfc0_watchhi, tl, env, i32)
+-DEF_HELPER_2(mfhc0_watchhi, tl, env, i32)
+-DEF_HELPER_1(mfc0_debug, tl, env)
+-DEF_HELPER_1(mftc0_debug, tl, env)
+-#ifdef TARGET_MIPS64
+-DEF_HELPER_1(dmfc0_tcrestart, tl, env)
+-DEF_HELPER_1(dmfc0_tchalt, tl, env)
+-DEF_HELPER_1(dmfc0_tccontext, tl, env)
+-DEF_HELPER_1(dmfc0_tcschedule, tl, env)
+-DEF_HELPER_1(dmfc0_tcschefback, tl, env)
+-DEF_HELPER_1(dmfc0_lladdr, tl, env)
+-DEF_HELPER_1(dmfc0_maar, tl, env)
+-DEF_HELPER_2(dmfc0_watchlo, tl, env, i32)
+-DEF_HELPER_2(dmfc0_watchhi, tl, env, i32)
+-DEF_HELPER_1(dmfc0_saar, tl, env)
+-#endif /* TARGET_MIPS64 */
+-
+-DEF_HELPER_2(mtc0_index, void, env, tl)
+-DEF_HELPER_2(mtc0_mvpcontrol, void, env, tl)
+-DEF_HELPER_2(mtc0_vpecontrol, void, env, tl)
+-DEF_HELPER_2(mttc0_vpecontrol, void, env, tl)
+-DEF_HELPER_2(mtc0_vpeconf0, void, env, tl)
+-DEF_HELPER_2(mttc0_vpeconf0, void, env, tl)
+-DEF_HELPER_2(mtc0_vpeconf1, void, env, tl)
+-DEF_HELPER_2(mtc0_yqmask, void, env, tl)
+-DEF_HELPER_2(mtc0_vpeopt, void, env, tl)
+-DEF_HELPER_2(mtc0_entrylo0, void, env, tl)
+-DEF_HELPER_2(mtc0_tcstatus, void, env, tl)
+-DEF_HELPER_2(mttc0_tcstatus, void, env, tl)
+-DEF_HELPER_2(mtc0_tcbind, void, env, tl)
+-DEF_HELPER_2(mttc0_tcbind, void, env, tl)
+-DEF_HELPER_2(mtc0_tcrestart, void, env, tl)
+-DEF_HELPER_2(mttc0_tcrestart, void, env, tl)
+-DEF_HELPER_2(mtc0_tchalt, void, env, tl)
+-DEF_HELPER_2(mttc0_tchalt, void, env, tl)
+-DEF_HELPER_2(mtc0_tccontext, void, env, tl)
+-DEF_HELPER_2(mttc0_tccontext, void, env, tl)
+-DEF_HELPER_2(mtc0_tcschedule, void, env, tl)
+-DEF_HELPER_2(mttc0_tcschedule, void, env, tl)
+-DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
+-DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
+-DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
+-DEF_HELPER_2(mtc0_context, void, env, tl)
+-DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
+-DEF_HELPER_2(mtc0_pagemask, void, env, tl)
+-DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
+-DEF_HELPER_2(mtc0_segctl0, void, env, tl)
+-DEF_HELPER_2(mtc0_segctl1, void, env, tl)
+-DEF_HELPER_2(mtc0_segctl2, void, env, tl)
+-DEF_HELPER_2(mtc0_pwfield, void, env, tl)
+-DEF_HELPER_2(mtc0_pwsize, void, env, tl)
+-DEF_HELPER_2(mtc0_wired, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf0, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf1, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf2, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf3, void, env, tl)
+-DEF_HELPER_2(mtc0_srsconf4, void, env, tl)
+-DEF_HELPER_2(mtc0_hwrena, void, env, tl)
+-DEF_HELPER_2(mtc0_pwctl, void, env, tl)
+-DEF_HELPER_2(mtc0_count, void, env, tl)
+-DEF_HELPER_2(mtc0_saari, void, env, tl)
+-DEF_HELPER_2(mtc0_saar, void, env, tl)
+-DEF_HELPER_2(mthc0_saar, void, env, tl)
+-DEF_HELPER_2(mtc0_entryhi, void, env, tl)
+-DEF_HELPER_2(mttc0_entryhi, void, env, tl)
+-DEF_HELPER_2(mtc0_compare, void, env, tl)
+-DEF_HELPER_2(mtc0_status, void, env, tl)
+-DEF_HELPER_2(mttc0_status, void, env, tl)
+-DEF_HELPER_2(mtc0_intctl, void, env, tl)
+-DEF_HELPER_2(mtc0_srsctl, void, env, tl)
+-DEF_HELPER_2(mtc0_cause, void, env, tl)
+-DEF_HELPER_2(mttc0_cause, void, env, tl)
+-DEF_HELPER_2(mtc0_ebase, void, env, tl)
+-DEF_HELPER_2(mttc0_ebase, void, env, tl)
+-DEF_HELPER_2(mtc0_config0, void, env, tl)
+-DEF_HELPER_2(mtc0_config2, void, env, tl)
+-DEF_HELPER_2(mtc0_config3, void, env, tl)
+-DEF_HELPER_2(mtc0_config4, void, env, tl)
+-DEF_HELPER_2(mtc0_config5, void, env, tl)
+-DEF_HELPER_2(mtc0_lladdr, void, env, tl)
+-DEF_HELPER_2(mtc0_maar, void, env, tl)
+-DEF_HELPER_2(mthc0_maar, void, env, tl)
+-DEF_HELPER_2(mtc0_maari, void, env, tl)
+-DEF_HELPER_3(mtc0_watchlo, void, env, tl, i32)
+-DEF_HELPER_3(mtc0_watchhi, void, env, tl, i32)
+-DEF_HELPER_3(mthc0_watchhi, void, env, tl, i32)
+-DEF_HELPER_2(mtc0_xcontext, void, env, tl)
+-DEF_HELPER_2(mtc0_framemask, void, env, tl)
+-DEF_HELPER_2(mtc0_debug, void, env, tl)
+-DEF_HELPER_2(mttc0_debug, void, env, tl)
+-DEF_HELPER_2(mtc0_performance0, void, env, tl)
+-DEF_HELPER_2(mtc0_errctl, void, env, tl)
+-DEF_HELPER_2(mtc0_taglo, void, env, tl)
+-DEF_HELPER_2(mtc0_datalo, void, env, tl)
+-DEF_HELPER_2(mtc0_taghi, void, env, tl)
+-DEF_HELPER_2(mtc0_datahi, void, env, tl)
+-
+-#if defined(TARGET_MIPS64)
+-DEF_HELPER_2(dmtc0_entrylo0, void, env, i64)
+-DEF_HELPER_2(dmtc0_entrylo1, void, env, i64)
+-#endif
+-
+-/* MIPS MT functions */
+-DEF_HELPER_2(mftgpr, tl, env, i32)
+-DEF_HELPER_2(mftlo, tl, env, i32)
+-DEF_HELPER_2(mfthi, tl, env, i32)
+-DEF_HELPER_2(mftacx, tl, env, i32)
+-DEF_HELPER_1(mftdsp, tl, env)
+-DEF_HELPER_3(mttgpr, void, env, tl, i32)
+-DEF_HELPER_3(mttlo, void, env, tl, i32)
+-DEF_HELPER_3(mtthi, void, env, tl, i32)
+-DEF_HELPER_3(mttacx, void, env, tl, i32)
+-DEF_HELPER_2(mttdsp, void, env, tl)
+-DEF_HELPER_0(dmt, tl)
+-DEF_HELPER_0(emt, tl)
+-DEF_HELPER_1(dvpe, tl, env)
+-DEF_HELPER_1(evpe, tl, env)
+-
+-/* R6 Multi-threading */
+-DEF_HELPER_1(dvp, tl, env)
+-DEF_HELPER_1(evp, tl, env)
+-#endif /* !CONFIG_USER_ONLY */
+-
+ /* microMIPS functions */
+ DEF_HELPER_4(lwm, void, env, tl, tl, i32)
+ DEF_HELPER_4(swm, void, env, tl, tl, i32)
+@@ -783,4 +621,8 @@ DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
  
-+#if !defined(CONFIG_USER_ONLY)
-+
-+void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
-+
-+uint32_t cpu_mips_get_random(CPUMIPSState *env);
-+
+ DEF_HELPER_3(cache, void, env, tl, i32)
+ 
++#ifndef CONFIG_USER_ONLY
++#include "tcg/sysemu_helper.h.inc"
 +#endif /* !CONFIG_USER_ONLY */
 +
- #endif
+ #include "msa_helper.h.inc"
+diff --git a/target/mips/tcg/sysemu_helper.h.inc b/target/mips/tcg/sysemu_helper.h.inc
+new file mode 100644
+index 00000000000..d136c4160a7
+--- /dev/null
++++ b/target/mips/tcg/sysemu_helper.h.inc
+@@ -0,0 +1,168 @@
++/*
++ *  QEMU MIPS sysemu helpers
++ *
++ *  Copyright (c) 2004-2005 Jocelyn Mayer
++ *  Copyright (c) 2006 Marius Groeger (FPU operations)
++ *  Copyright (c) 2006 Thiemo Seufer (MIPS32R2 support)
++ *  Copyright (c) 2009 CodeSourcery (MIPS16 and microMIPS support)
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++
++DEF_HELPER_1(do_semihosting, void, env)
++
++/* CP0 helpers */
++DEF_HELPER_1(mfc0_mvpcontrol, tl, env)
++DEF_HELPER_1(mfc0_mvpconf0, tl, env)
++DEF_HELPER_1(mfc0_mvpconf1, tl, env)
++DEF_HELPER_1(mftc0_vpecontrol, tl, env)
++DEF_HELPER_1(mftc0_vpeconf0, tl, env)
++DEF_HELPER_1(mfc0_random, tl, env)
++DEF_HELPER_1(mfc0_tcstatus, tl, env)
++DEF_HELPER_1(mftc0_tcstatus, tl, env)
++DEF_HELPER_1(mfc0_tcbind, tl, env)
++DEF_HELPER_1(mftc0_tcbind, tl, env)
++DEF_HELPER_1(mfc0_tcrestart, tl, env)
++DEF_HELPER_1(mftc0_tcrestart, tl, env)
++DEF_HELPER_1(mfc0_tchalt, tl, env)
++DEF_HELPER_1(mftc0_tchalt, tl, env)
++DEF_HELPER_1(mfc0_tccontext, tl, env)
++DEF_HELPER_1(mftc0_tccontext, tl, env)
++DEF_HELPER_1(mfc0_tcschedule, tl, env)
++DEF_HELPER_1(mftc0_tcschedule, tl, env)
++DEF_HELPER_1(mfc0_tcschefback, tl, env)
++DEF_HELPER_1(mftc0_tcschefback, tl, env)
++DEF_HELPER_1(mfc0_count, tl, env)
++DEF_HELPER_1(mfc0_saar, tl, env)
++DEF_HELPER_1(mfhc0_saar, tl, env)
++DEF_HELPER_1(mftc0_entryhi, tl, env)
++DEF_HELPER_1(mftc0_status, tl, env)
++DEF_HELPER_1(mftc0_cause, tl, env)
++DEF_HELPER_1(mftc0_epc, tl, env)
++DEF_HELPER_1(mftc0_ebase, tl, env)
++DEF_HELPER_2(mftc0_configx, tl, env, tl)
++DEF_HELPER_1(mfc0_lladdr, tl, env)
++DEF_HELPER_1(mfc0_maar, tl, env)
++DEF_HELPER_1(mfhc0_maar, tl, env)
++DEF_HELPER_2(mfc0_watchlo, tl, env, i32)
++DEF_HELPER_2(mfc0_watchhi, tl, env, i32)
++DEF_HELPER_2(mfhc0_watchhi, tl, env, i32)
++DEF_HELPER_1(mfc0_debug, tl, env)
++DEF_HELPER_1(mftc0_debug, tl, env)
++#ifdef TARGET_MIPS64
++DEF_HELPER_1(dmfc0_tcrestart, tl, env)
++DEF_HELPER_1(dmfc0_tchalt, tl, env)
++DEF_HELPER_1(dmfc0_tccontext, tl, env)
++DEF_HELPER_1(dmfc0_tcschedule, tl, env)
++DEF_HELPER_1(dmfc0_tcschefback, tl, env)
++DEF_HELPER_1(dmfc0_lladdr, tl, env)
++DEF_HELPER_1(dmfc0_maar, tl, env)
++DEF_HELPER_2(dmfc0_watchlo, tl, env, i32)
++DEF_HELPER_2(dmfc0_watchhi, tl, env, i32)
++DEF_HELPER_1(dmfc0_saar, tl, env)
++#endif /* TARGET_MIPS64 */
++
++DEF_HELPER_2(mtc0_index, void, env, tl)
++DEF_HELPER_2(mtc0_mvpcontrol, void, env, tl)
++DEF_HELPER_2(mtc0_vpecontrol, void, env, tl)
++DEF_HELPER_2(mttc0_vpecontrol, void, env, tl)
++DEF_HELPER_2(mtc0_vpeconf0, void, env, tl)
++DEF_HELPER_2(mttc0_vpeconf0, void, env, tl)
++DEF_HELPER_2(mtc0_vpeconf1, void, env, tl)
++DEF_HELPER_2(mtc0_yqmask, void, env, tl)
++DEF_HELPER_2(mtc0_vpeopt, void, env, tl)
++DEF_HELPER_2(mtc0_entrylo0, void, env, tl)
++DEF_HELPER_2(mtc0_tcstatus, void, env, tl)
++DEF_HELPER_2(mttc0_tcstatus, void, env, tl)
++DEF_HELPER_2(mtc0_tcbind, void, env, tl)
++DEF_HELPER_2(mttc0_tcbind, void, env, tl)
++DEF_HELPER_2(mtc0_tcrestart, void, env, tl)
++DEF_HELPER_2(mttc0_tcrestart, void, env, tl)
++DEF_HELPER_2(mtc0_tchalt, void, env, tl)
++DEF_HELPER_2(mttc0_tchalt, void, env, tl)
++DEF_HELPER_2(mtc0_tccontext, void, env, tl)
++DEF_HELPER_2(mttc0_tccontext, void, env, tl)
++DEF_HELPER_2(mtc0_tcschedule, void, env, tl)
++DEF_HELPER_2(mttc0_tcschedule, void, env, tl)
++DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
++DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
++DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
++DEF_HELPER_2(mtc0_context, void, env, tl)
++DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
++DEF_HELPER_2(mtc0_pagemask, void, env, tl)
++DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
++DEF_HELPER_2(mtc0_segctl0, void, env, tl)
++DEF_HELPER_2(mtc0_segctl1, void, env, tl)
++DEF_HELPER_2(mtc0_segctl2, void, env, tl)
++DEF_HELPER_2(mtc0_pwfield, void, env, tl)
++DEF_HELPER_2(mtc0_pwsize, void, env, tl)
++DEF_HELPER_2(mtc0_wired, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf0, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf1, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf2, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf3, void, env, tl)
++DEF_HELPER_2(mtc0_srsconf4, void, env, tl)
++DEF_HELPER_2(mtc0_hwrena, void, env, tl)
++DEF_HELPER_2(mtc0_pwctl, void, env, tl)
++DEF_HELPER_2(mtc0_count, void, env, tl)
++DEF_HELPER_2(mtc0_saari, void, env, tl)
++DEF_HELPER_2(mtc0_saar, void, env, tl)
++DEF_HELPER_2(mthc0_saar, void, env, tl)
++DEF_HELPER_2(mtc0_entryhi, void, env, tl)
++DEF_HELPER_2(mttc0_entryhi, void, env, tl)
++DEF_HELPER_2(mtc0_compare, void, env, tl)
++DEF_HELPER_2(mtc0_status, void, env, tl)
++DEF_HELPER_2(mttc0_status, void, env, tl)
++DEF_HELPER_2(mtc0_intctl, void, env, tl)
++DEF_HELPER_2(mtc0_srsctl, void, env, tl)
++DEF_HELPER_2(mtc0_cause, void, env, tl)
++DEF_HELPER_2(mttc0_cause, void, env, tl)
++DEF_HELPER_2(mtc0_ebase, void, env, tl)
++DEF_HELPER_2(mttc0_ebase, void, env, tl)
++DEF_HELPER_2(mtc0_config0, void, env, tl)
++DEF_HELPER_2(mtc0_config2, void, env, tl)
++DEF_HELPER_2(mtc0_config3, void, env, tl)
++DEF_HELPER_2(mtc0_config4, void, env, tl)
++DEF_HELPER_2(mtc0_config5, void, env, tl)
++DEF_HELPER_2(mtc0_lladdr, void, env, tl)
++DEF_HELPER_2(mtc0_maar, void, env, tl)
++DEF_HELPER_2(mthc0_maar, void, env, tl)
++DEF_HELPER_2(mtc0_maari, void, env, tl)
++DEF_HELPER_3(mtc0_watchlo, void, env, tl, i32)
++DEF_HELPER_3(mtc0_watchhi, void, env, tl, i32)
++DEF_HELPER_3(mthc0_watchhi, void, env, tl, i32)
++DEF_HELPER_2(mtc0_xcontext, void, env, tl)
++DEF_HELPER_2(mtc0_framemask, void, env, tl)
++DEF_HELPER_2(mtc0_debug, void, env, tl)
++DEF_HELPER_2(mttc0_debug, void, env, tl)
++DEF_HELPER_2(mtc0_performance0, void, env, tl)
++DEF_HELPER_2(mtc0_errctl, void, env, tl)
++DEF_HELPER_2(mtc0_taglo, void, env, tl)
++DEF_HELPER_2(mtc0_datalo, void, env, tl)
++DEF_HELPER_2(mtc0_taghi, void, env, tl)
++DEF_HELPER_2(mtc0_datahi, void, env, tl)
++
++#if defined(TARGET_MIPS64)
++DEF_HELPER_2(dmtc0_entrylo0, void, env, i64)
++DEF_HELPER_2(dmtc0_entrylo1, void, env, i64)
++#endif
++
++/* MIPS MT functions */
++DEF_HELPER_2(mftgpr, tl, env, i32)
++DEF_HELPER_2(mftlo, tl, env, i32)
++DEF_HELPER_2(mfthi, tl, env, i32)
++DEF_HELPER_2(mftacx, tl, env, i32)
++DEF_HELPER_1(mftdsp, tl, env)
++DEF_HELPER_3(mttgpr, void, env, tl, i32)
++DEF_HELPER_3(mttlo, void, env, tl, i32)
++DEF_HELPER_3(mtthi, void, env, tl, i32)
++DEF_HELPER_3(mttacx, void, env, tl, i32)
++DEF_HELPER_2(mttdsp, void, env, tl)
++DEF_HELPER_0(dmt, tl)
++DEF_HELPER_0(emt, tl)
++DEF_HELPER_1(dvpe, tl, env)
++DEF_HELPER_1(evpe, tl, env)
++
++/* R6 Multi-threading */
++DEF_HELPER_1(dvp, tl, env)
++DEF_HELPER_1(evp, tl, env)
+diff --git a/target/mips/cp0_helper.c b/target/mips/tcg/sysemu/cp0_helper.c
+similarity index 100%
+rename from target/mips/cp0_helper.c
+rename to target/mips/tcg/sysemu/cp0_helper.c
+diff --git a/target/mips/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+similarity index 100%
+rename from target/mips/mips-semi.c
+rename to target/mips/tcg/sysemu/mips-semi.c
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 9a507937ece..a55af1cd6cf 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -47,11 +47,6 @@
+ 
+ mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+ 
+-mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+-  'cp0_helper.c',
+-  'mips-semi.c',
+-))
+-
+ mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
+ 
+ target_arch += {'mips': mips_ss}
+diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
+index b74fa04303e..2cffc5a5ac6 100644
+--- a/target/mips/tcg/meson.build
++++ b/target/mips/tcg/meson.build
+@@ -1,3 +1,6 @@
+ if have_user
+   subdir('user')
+ endif
++if have_system
++  subdir('sysemu')
++endif
+diff --git a/target/mips/tcg/sysemu/meson.build b/target/mips/tcg/sysemu/meson.build
+new file mode 100644
+index 00000000000..5c3024e7760
+--- /dev/null
++++ b/target/mips/tcg/sysemu/meson.build
+@@ -0,0 +1,4 @@
++mips_softmmu_ss.add(files(
++  'cp0_helper.c',
++  'mips-semi.c',
++))
 -- 
 2.26.3
 
