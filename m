@@ -2,142 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF18136DDAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:57:21 +0200 (CEST)
-Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA9136DDD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 19:06:35 +0200 (CEST)
+Received: from localhost ([::1]:35642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbnV3-0003A7-26
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36150)
+	id 1lbndy-0008Q6-QN
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 13:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1lbnQ9-0008Aw-Sw; Wed, 28 Apr 2021 12:52:17 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:12508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1lbnQ7-0000PX-6r; Wed, 28 Apr 2021 12:52:17 -0400
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13SGqBEJ026779; Wed, 28 Apr 2021 09:52:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=gLgXwWw53ZDZm4gNWlMMmNCc8dD2981PWgWDSwY9ZpY=;
- b=Ri35Q7+dDPpDWWTEAy9Ywg5siUvE7VlgR39W5dlMASQ4Qkf0NcOolN1SsAjyS4Uspv2k
- VR+GLZwSKgR98Bw2UhjmQz6s8pBW9aHoKQ1ryDO00Zd5zed4ImMeJSKRv7GZ1bjwlaUg
- 3Ge27Ln+kWiRYzLW8WmtauMxM9nahpqjrmn0Aak2UUNGdvsOHjBni9cL2L0JQTVN9O5C
- jr8YleZu/IALUTFyW0etbUvS5P7tTpIDbF7Q+jy/fdWW6qjkuYhAp+NSuRvgVswymItG
- Pr7hoW98WCCnm1HSVES+C3O2C2pFBuI1AYhBC/O9p3wrtIT05kijtuhWrQ8NSLyHZC3Z aw== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
- by mx0b-002c1b01.pphosted.com with ESMTP id 386fc3bkhj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Apr 2021 09:52:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FIU4uibnL/SNRDj8NqXIFtVCU6JSXSPQxJ8SI0LXAjG1NgwH+5LoDzSYiIEnohoVAapNGnC9JPzi5gS5DwWI8Otr4SrhkpE3PO8MajKq4FF4mBzgdvgf9h6NgjoOBGsFB4LBAQHuS8umKjJYAnx+27NPmIc4j0KagIBoV3KGUJoTCrh8nP1q8+e7kejiaeJgVO2s//lm6qWC7hZtAeI0Y+OzeO8SUtuvGqgugk3CjKxcrh/6zx7e1J95cgNvrF04blUBqEb9pDe4XLGmBuPHHxdqYOOeo41Mh+KJgQvG577ETkwDjnNNmOJRNmfCkr1hBjF+ndpkGuAGD5HZz16+Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gLgXwWw53ZDZm4gNWlMMmNCc8dD2981PWgWDSwY9ZpY=;
- b=DQ5rsU+lqdPBCDmljaj8wQ9UawJZksqJul61Uo9SHzFA8UCPQs89fJMK0wieS54RAUlm2BDPq47N+aII5yPWAGVGpEl+i1fg4DppC8medJ7qjV/HHqhscbdB0OAzm2BWT+b+dbOsvGc2/BRY86KxIiPULuEDaboSDmAHIlCLhFblwsSdPB4AHRiTK8xEKCr7AlQfU2d6guVGn/rCAJAul/+a4Em2r+1QPkXEcek8c/slkoeBtU6nk95Ng1owiX3dGEhiA7JaKzBzJIqyDgNluOWIQE3cv04ZLKkQpIyYDoxqUWqUJAEX2vScBm+EjI/qAN+rvqcliZ+Zy7FXIOom+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com (2603:10b6:805:b1::24)
- by SN6PR02MB4032.namprd02.prod.outlook.com (2603:10b6:805:2b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.23; Wed, 28 Apr
- 2021 16:52:08 +0000
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::bdbb:69ac:63f9:fc33]) by SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::bdbb:69ac:63f9:fc33%7]) with mapi id 15.20.4065.026; Wed, 28 Apr 2021
- 16:52:08 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/5] vhost-user-blk: Don't reconnect during initialisation
-Thread-Topic: [PATCH 1/5] vhost-user-blk: Don't reconnect during initialisation
-Thread-Index: AQHXN5luvZM5Xi2MZEaKiL49u8fLParKJwGA
-Date: Wed, 28 Apr 2021 16:52:08 +0000
-Message-ID: <20210428162529.GA20148@raphael-debian-dev>
-References: <20210422170221.285006-1-kwolf@redhat.com>
- <20210422170221.285006-2-kwolf@redhat.com>
-In-Reply-To: <20210422170221.285006-2-kwolf@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.10.1 (2018-07-13)
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [69.122.45.60]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1b61069e-ff14-42df-39fd-08d90a65f62e
-x-ms-traffictypediagnostic: SN6PR02MB4032:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR02MB40320914777C26715D1F2923EA409@SN6PR02MB4032.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CE11yqZBP92KRbjS/wuK4eUQlf3a7tPrJO0UMs4LtCJvuuFAtpkpqGXQZBbLxbOFqMeY4XAsPmG3B4ryCj+lbIOXDCn2LgiJMHefchSgUFNO/odAI4mEfxnl4RvZ10Rm4U8jGI+bmyVc8Sl0mENAisVcMtEAfWv3f95uDQfdK6hhdQWG02ljZTO0nVH7w3girnv2h22AKFIHqYaG0ttMDOR0xToM2tqilmNumgbMNCTbHW2FQjvYieaE2NFvglIDmCf6VF35mVPG/fcmpGlf4VBqIMghawagWU9gKDjMrCULAy/wwanq+QkIlS8RECOf0d1+tU7SlH975xzrkn7UZLghNxo1SjQ6jhFmBjyPane1x41yntXKGBzuSpxXkNEztcB+eedRuBkYEaOZMLVn1zIVg5XsNrO/VQ44ZWU0XE9e+ZAaUjAh3FP6imrZ7YNPOPDEyBZcbs/YlF2y1CyLG5Cr8LJk8SCTqN/9M9NmjS1XsyRIvwJs7EargxRPUfOU7gnczcJ/5/KsXdJfIC2AG4lAdMvOST9yF34MmpeArnuzvK+ds4NWkO4BmQd4UmpF32B0HmL46Siphv9T2DH2Q9xJ1HoQ2QFwFZ0b8pHMehs=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4543.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(39860400002)(346002)(376002)(136003)(396003)(366004)(64756008)(8936002)(6916009)(6506007)(71200400001)(33656002)(76116006)(122000001)(91956017)(66946007)(4326008)(186003)(66556008)(66446008)(44832011)(66476007)(8676002)(5660300002)(9686003)(38100700002)(54906003)(1076003)(2906002)(33716001)(6486002)(6512007)(86362001)(26005)(83380400001)(478600001)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?NCwNq0202Q3/2s84IFfX7QRDAQEYEH+Oc3iVVoEmjtM8EDupxhomJDcJRlMM?=
- =?us-ascii?Q?wZKGaCKdJnmkGtjqSRSoN7ltXDC3qEwqcce73tjaVMRWs8H5uHgXiSgoyPcx?=
- =?us-ascii?Q?i4abclyEqCIi2rqMoRJ9MmrFeXg8e93pYGI1ntOjEDMc32FTloNW9Ww0KWuu?=
- =?us-ascii?Q?dN8P0pkIsDaLrhujGVf9IseZFKlGAKtiMf3R43WK3vdffvZpX3yHCiUf7/+r?=
- =?us-ascii?Q?SGRSQDUOINgoULVRm96i5c6K2ChQ5qKk85EAMXHZNq8KXpp1wcuOCwVYWBE9?=
- =?us-ascii?Q?Mb5wfxdGsoyoTg2QSeOHOqRMsAyxV3kaXGUmcq5jhsdDwKrce7dXtk1X12y+?=
- =?us-ascii?Q?Xb4/lDVbKhhdSSQORRPMgpIp5vDE2cc9FkV60SPDZ1OFq/jbyVwfXg0T9EnR?=
- =?us-ascii?Q?MR5A4b3xe48ncvUc4c46BJSd3xe4oWQGh/Bq1u5JC8QdKiykyWAckipg2XFI?=
- =?us-ascii?Q?TdX9yD1f2I1xTEbhZiPxOqLzqyx6UNrrMgZCM1agejiJVKrN8NQNaffeQQNb?=
- =?us-ascii?Q?TfSulaRyJlHrbehBsTJChcQT33icGiWnLDVbJegu4gWF/yCAu0gT95vmzuLP?=
- =?us-ascii?Q?FJqy4oeSWvflutrKWx8VEkUjD1i5U7oIxQ027/ksLGZW23zNozeX24DRJIhI?=
- =?us-ascii?Q?cU6mmGrLvYnPkNmiYqW7oYjUHr7YlEOrYHFa1sUTXNHyshhGLr0AnxL45OSS?=
- =?us-ascii?Q?jeEOs/9iwfE7uADX+UR+LyOPgSq1gpBYASWrzbo7/FyE4uVSYz/U41NYeNZ5?=
- =?us-ascii?Q?gGqgXzNbV7nRKWUYSqmLop+gaJtFitXHSSQhpJRHJ2M5KyxavMbWo/5dMY1T?=
- =?us-ascii?Q?6Ck+l28QZfWh+YoR2YGAkxyyHaN+kaKIdUZIAmY7vcxNwYxF8lrkvXB3y1A8?=
- =?us-ascii?Q?AdtlnvgBs+9RXaRD6YaZBVTNLghTyTdiEGEFMuJbOM1Y8+rJ8Kt/0nkUtveX?=
- =?us-ascii?Q?IrGBRzwWXAcs7WyGTZVVjlpo54ZoQ4ouDQLwAQ2XAmX5B5zdw8qOYR4yaGDY?=
- =?us-ascii?Q?mzFekZu1jKLn97HiXVnFM3mN9TMbSD/CgmDMqafjsu5DKeZG8b1qwSU6ecun?=
- =?us-ascii?Q?qpUffyh8g4d+Vflx3/O5wUnJV+SGVN9/F9LnhlER7+KS2ELXPtrQuuey8AXw?=
- =?us-ascii?Q?ecSV0nO2RzGRDVKGAkgP5PIeZPoEl+j0kxqB5IXlCdc9i215gajYYM3wrYdQ?=
- =?us-ascii?Q?nYxxYhBZjZFtPQxidAytrM4daLVDGh30BjIIF8rCx0m3gSkkj0fHkotjcmQr?=
- =?us-ascii?Q?8JpW3BSws2zG8CRh0paOQnzEbCIjTbuhgyMf9xGUcmatmubMybWjAEJqO9Mw?=
- =?us-ascii?Q?Pd7gSDW3cRvzOxB5T9x4IWOF?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <205A0CF6E789BE4980D53CCE31806BE5@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLw-0004Ep-NQ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:56 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:33581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lbnLp-0006iK-4O
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 12:47:56 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id j4so60830197lfp.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 09:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xq/OvjTH2is2UWToqs44VAaFRY9WG8PyWXw+IDOft3I=;
+ b=n+ajjEfzWzhVg9TbnEO5qMxvgzEN4nopQnfMsso0GamuO6Kcj/7JFW2diS5799ISFy
+ nv9I3l4uuH21ouJaU4lylhDW5sllqqLfBbJcbHfqh5Ars9ekrR3DrVtXVRTh9NqNKOFt
+ RKXEbYZjns+rVva3QR/0WCn5NJ6Rz4V3A/bgJlD+TcmpcjrxH1+8og3KGBeBciLvPi9D
+ OPvfBxCxP3H4D2HglhBGCTMgr9QYZHV0Qz0Wv5L+hLRrWs/4lUyOOWeu6MJsomwmBkUW
+ IMSmhqft5ng1PVBoBZw/XwizmoSG59fiFQ72e/OV/RX/wjs+211cotNUOqUaAth1QQcp
+ B2cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xq/OvjTH2is2UWToqs44VAaFRY9WG8PyWXw+IDOft3I=;
+ b=RV9RnLefsmmdNB4aTcUeKce6t2phsOSJhb9kHqTOqE6P3fqJnnTVpu+JFBDbemtBml
+ N0rfEizYwsmRc0LiLCp3iFJ7PTXGEpZXZ1isKYn2jC9ro70fbDTz9j3t7wggzzpJPeR/
+ Xo1PGx/g3JBgkBo7p3FT/IcFgo98cdBlH/rfFJhSyeQK9kvv/MRg3UlFoD/4xWex7xb5
+ sC5dYidxkECq0LZqmvn8foS7PNCDNx7jzKOwmtulFqehzJiABhccm47UxwAl6sdXBdOG
+ 9/xoiZKIWYwm8rxqJ29mC2kavtcGFiyAphRBbDDCjFbBjkt7BhxYuMNyxPLT7PIC4fcZ
+ hzxw==
+X-Gm-Message-State: AOAM532Pc5OqT3o2icaC7mWUWCj9swR9E8Nl4mc/Gzv7BcmeDD+Ob4YR
+ Te67OnBsaTI0WTo9kefu0d0o9g==
+X-Google-Smtp-Source: ABdhPJzWjwk41WQsrf8y3dWg8XHNJL5AbRAriMuOjQ08BhuWcMwbsk+3+tMz7U9o+h+EJgTl5V47Vw==
+X-Received: by 2002:ac2:523c:: with SMTP id i28mr20847209lfl.438.1619628466969; 
+ Wed, 28 Apr 2021 09:47:46 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id v24sm86302lfp.195.2021.04.28.09.47.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Apr 2021 09:47:46 -0700 (PDT)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: jasowang@redhat.com,
+	mst@redhat.com
+Subject: [PATCH v7 4/7] ebpf: Added eBPF RSS loader.
+Date: Wed, 28 Apr 2021 19:47:30 +0300
+Message-Id: <20210428164733.56547-5-andrew@daynix.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210428164733.56547-1-andrew@daynix.com>
+References: <20210428164733.56547-1-andrew@daynix.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4543.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b61069e-ff14-42df-39fd-08d90a65f62e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2021 16:52:08.6345 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aI7XTkPKSK2Vwsto2fdYzKKdFJTj2xQVB18aYIGqv9i1XCu94xkVWYsvccb6k1ueJq6RWEdlYzkcoiVOY9EknJIcRjcO/XKD0dLEWGY2wiA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4032
-X-Proofpoint-GUID: v_vCzIjamY91kmajuG2HLDILWbiwKkip
-X-Proofpoint-ORIG-GUID: v_vCzIjamY91kmajuG2HLDILWbiwKkip
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-28_10:2021-04-28,
- 2021-04-28 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::12e;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -150,222 +81,885 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "den-plotnikov@yandex-team.ru" <den-plotnikov@yandex-team.ru>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Given what you've shown with the use-after-free, I agree the changes
-need to be reverted. I'm a little uneasy about removing the reconnect
-logic from the device realization completely though.
+Added function that loads RSS eBPF program.
+Added stub functions for RSS eBPF loader.
+Added meson and configuration options.
 
-On Thu, Apr 22, 2021 at 07:02:17PM +0200, Kevin Wolf wrote:
-> This is a partial revert of commits 77542d43149 and bc79c87bcde.
->=20
-> Usually, an error during initialisation means that the configuration was
-> wrong. Reconnecting won't make the error go away, but just turn the
-> error condition into an endless loop. Avoid this and return errors
-> again.
->=20
+By default, eBPF feature enabled if libbpf is present in the build system.
+libbpf checked in configuration shell script and meson script.
 
-Is that nessesarily true? As I understand it the main usecases for
-device reconnect are to allow a device backend to be restarted after a
-failure or to allow the backend to be upgraded without restarting the
-guest. I agree - misconfiguration could be a common cause of a device
-backend crashing at realize time, but couldn't there be others? Maybe
-transient memory pressure?
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ configure               |   8 +-
+ ebpf/ebpf_rss-stub.c    |  40 ++++
+ ebpf/ebpf_rss.c         | 165 +++++++++++++++
+ ebpf/ebpf_rss.h         |  44 ++++
+ ebpf/meson.build        |   1 +
+ ebpf/rss.bpf.skeleton.h | 431 ++++++++++++++++++++++++++++++++++++++++
+ ebpf/trace-events       |   4 +
+ ebpf/trace.h            |   2 +
+ meson.build             |  23 +++
+ meson_options.txt       |   2 +
+ 10 files changed, 719 insertions(+), 1 deletion(-)
+ create mode 100644 ebpf/ebpf_rss-stub.c
+ create mode 100644 ebpf/ebpf_rss.c
+ create mode 100644 ebpf/ebpf_rss.h
+ create mode 100644 ebpf/meson.build
+ create mode 100644 ebpf/rss.bpf.skeleton.h
+ create mode 100644 ebpf/trace-events
+ create mode 100644 ebpf/trace.h
 
-Especially in the case where one process is connecting to many different
-vhost-user-blk instances, I could imagine power-ons and incoming
-migrations racing with backend restarts quite frequently. Should
-these cases cause failures?
+diff --git a/configure b/configure
+index 4f374b4889..7d9e0391a0 100755
+--- a/configure
++++ b/configure
+@@ -348,6 +348,7 @@ vhost_vsock="$default_feature"
+ vhost_user="no"
+ vhost_user_blk_server="auto"
+ vhost_user_fs="$default_feature"
++bpf="auto"
+ kvm="auto"
+ hax="auto"
+ hvf="auto"
+@@ -1228,6 +1229,10 @@ for opt do
+   ;;
+   --enable-membarrier) membarrier="yes"
+   ;;
++  --disable-bpf) bpf="disabled"
++  ;;
++  --enable-bpf) bpf="enabled"
++  ;;
+   --disable-blobs) blobs="false"
+   ;;
+   --with-pkgversion=*) pkgversion="$optarg"
+@@ -1865,6 +1870,7 @@ disabled with --disable-FEATURE, default is enabled if available
+   vhost-user      vhost-user backend support
+   vhost-user-blk-server    vhost-user-blk server support
+   vhost-vdpa      vhost-vdpa kernel backend support
++  bpf             BPF kernel support
+   spice           spice
+   rbd             rados block device (rbd)
+   libiscsi        iscsi support
+@@ -6423,7 +6429,7 @@ NINJA=$ninja $meson setup \
+         -Dattr=$attr -Ddefault_devices=$default_devices \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+-        -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi \
++        -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+         $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
+ 	-Dtcg_interpreter=$tcg_interpreter \
+         $cross_arg \
+diff --git a/ebpf/ebpf_rss-stub.c b/ebpf/ebpf_rss-stub.c
+new file mode 100644
+index 0000000000..e71e229190
+--- /dev/null
++++ b/ebpf/ebpf_rss-stub.c
+@@ -0,0 +1,40 @@
++/*
++ * eBPF RSS stub file
++ *
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ *  Yuri Benditovich <yuri.benditovich@daynix.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "ebpf/ebpf_rss.h"
++
++void ebpf_rss_init(struct EBPFRSSContext *ctx)
++{
++
++}
++
++bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx)
++{
++    return false;
++}
++
++bool ebpf_rss_load(struct EBPFRSSContext *ctx)
++{
++    return false;
++}
++
++bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
++                      uint16_t *indirections_table, uint8_t *toeplitz_key)
++{
++    return false;
++}
++
++void ebpf_rss_unload(struct EBPFRSSContext *ctx)
++{
++
++}
+diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
+new file mode 100644
+index 0000000000..118c68da83
+--- /dev/null
++++ b/ebpf/ebpf_rss.c
+@@ -0,0 +1,165 @@
++/*
++ * eBPF RSS loader
++ *
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ *  Andrew Melnychenko <andrew@daynix.com>
++ *  Yuri Benditovich <yuri.benditovich@daynix.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++
++#include <bpf/libbpf.h>
++#include <bpf/bpf.h>
++
++#include "hw/virtio/virtio-net.h" /* VIRTIO_NET_RSS_MAX_TABLE_LEN */
++
++#include "ebpf/ebpf_rss.h"
++#include "ebpf/rss.bpf.skeleton.h"
++#include "trace.h"
++
++void ebpf_rss_init(struct EBPFRSSContext *ctx)
++{
++    if (ctx != NULL) {
++        ctx->obj = NULL;
++    }
++}
++
++bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx)
++{
++    return ctx != NULL && ctx->obj != NULL;
++}
++
++bool ebpf_rss_load(struct EBPFRSSContext *ctx)
++{
++    struct rss_bpf *rss_bpf_ctx;
++
++    if (ctx == NULL) {
++        return false;
++    }
++
++    rss_bpf_ctx = rss_bpf__open();
++    if (rss_bpf_ctx == NULL) {
++        trace_ebpf_error("eBPF RSS", "can not open eBPF RSS object");
++        goto error;
++    }
++
++    bpf_program__set_socket_filter(rss_bpf_ctx->progs.tun_rss_steering_prog);
++
++    if (rss_bpf__load(rss_bpf_ctx)) {
++        trace_ebpf_error("eBPF RSS", "can not load RSS program");
++        goto error;
++    }
++
++    ctx->obj = rss_bpf_ctx;
++    ctx->program_fd = bpf_program__fd(
++            rss_bpf_ctx->progs.tun_rss_steering_prog);
++    ctx->map_configuration = bpf_map__fd(
++            rss_bpf_ctx->maps.tap_rss_map_configurations);
++    ctx->map_indirections_table = bpf_map__fd(
++            rss_bpf_ctx->maps.tap_rss_map_indirection_table);
++    ctx->map_toeplitz_key = bpf_map__fd(
++            rss_bpf_ctx->maps.tap_rss_map_toeplitz_key);
++
++    return true;
++error:
++    rss_bpf__destroy(rss_bpf_ctx);
++    ctx->obj = NULL;
++
++    return false;
++}
++
++static bool ebpf_rss_set_config(struct EBPFRSSContext *ctx,
++                                struct EBPFRSSConfig *config)
++{
++    uint32_t map_key = 0;
++
++    if (!ebpf_rss_is_loaded(ctx)) {
++        return false;
++    }
++    if (bpf_map_update_elem(ctx->map_configuration,
++                            &map_key, config, 0) < 0) {
++        return false;
++    }
++    return true;
++}
++
++static bool ebpf_rss_set_indirections_table(struct EBPFRSSContext *ctx,
++                                            uint16_t *indirections_table,
++                                            size_t len)
++{
++    uint32_t i = 0;
++
++    if (!ebpf_rss_is_loaded(ctx) || indirections_table == NULL ||
++       len > VIRTIO_NET_RSS_MAX_TABLE_LEN) {
++        return false;
++    }
++
++    for (; i < len; ++i) {
++        if (bpf_map_update_elem(ctx->map_indirections_table, &i,
++                                indirections_table + i, 0) < 0) {
++            return false;
++        }
++    }
++    return true;
++}
++
++static bool ebpf_rss_set_toepliz_key(struct EBPFRSSContext *ctx,
++                                     uint8_t *toeplitz_key)
++{
++    uint32_t map_key = 0;
++
++    /* prepare toeplitz key */
++    uint8_t toe[VIRTIO_NET_RSS_MAX_KEY_SIZE] = {};
++
++    if (!ebpf_rss_is_loaded(ctx) || toeplitz_key == NULL) {
++        return false;
++    }
++    memcpy(toe, toeplitz_key, VIRTIO_NET_RSS_MAX_KEY_SIZE);
++    *(uint32_t *)toe = ntohl(*(uint32_t *)toe);
++
++    if (bpf_map_update_elem(ctx->map_toeplitz_key, &map_key, toe,
++                            0) < 0) {
++        return false;
++    }
++    return true;
++}
++
++bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
++                      uint16_t *indirections_table, uint8_t *toeplitz_key)
++{
++    if (!ebpf_rss_is_loaded(ctx) || config == NULL ||
++        indirections_table == NULL || toeplitz_key == NULL) {
++        return false;
++    }
++
++    if (!ebpf_rss_set_config(ctx, config)) {
++        return false;
++    }
++
++    if (!ebpf_rss_set_indirections_table(ctx, indirections_table,
++                                      config->indirections_len)) {
++        return false;
++    }
++
++    if (!ebpf_rss_set_toepliz_key(ctx, toeplitz_key)) {
++        return false;
++    }
++
++    return true;
++}
++
++void ebpf_rss_unload(struct EBPFRSSContext *ctx)
++{
++    if (!ebpf_rss_is_loaded(ctx)) {
++        return;
++    }
++
++    rss_bpf__destroy(ctx->obj);
++    ctx->obj = NULL;
++}
+diff --git a/ebpf/ebpf_rss.h b/ebpf/ebpf_rss.h
+new file mode 100644
+index 0000000000..bf3f2572c7
+--- /dev/null
++++ b/ebpf/ebpf_rss.h
+@@ -0,0 +1,44 @@
++/*
++ * eBPF RSS header
++ *
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ *  Andrew Melnychenko <andrew@daynix.com>
++ *  Yuri Benditovich <yuri.benditovich@daynix.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_EBPF_RSS_H
++#define QEMU_EBPF_RSS_H
++
++struct EBPFRSSContext {
++    void *obj;
++    int program_fd;
++    int map_configuration;
++    int map_toeplitz_key;
++    int map_indirections_table;
++};
++
++struct EBPFRSSConfig {
++    uint8_t redirect;
++    uint8_t populate_hash;
++    uint32_t hash_types;
++    uint16_t indirections_len;
++    uint16_t default_queue;
++} __attribute__((packed));
++
++void ebpf_rss_init(struct EBPFRSSContext *ctx);
++
++bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx);
++
++bool ebpf_rss_load(struct EBPFRSSContext *ctx);
++
++bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
++                      uint16_t *indirections_table, uint8_t *toeplitz_key);
++
++void ebpf_rss_unload(struct EBPFRSSContext *ctx);
++
++#endif /* QEMU_EBPF_RSS_H */
+diff --git a/ebpf/meson.build b/ebpf/meson.build
+new file mode 100644
+index 0000000000..9cd0635370
+--- /dev/null
++++ b/ebpf/meson.build
+@@ -0,0 +1 @@
++common_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
+diff --git a/ebpf/rss.bpf.skeleton.h b/ebpf/rss.bpf.skeleton.h
+new file mode 100644
+index 0000000000..126683eb87
+--- /dev/null
++++ b/ebpf/rss.bpf.skeleton.h
+@@ -0,0 +1,431 @@
++/* SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause) */
++
++/* THIS FILE IS AUTOGENERATED! */
++#ifndef __RSS_BPF_SKEL_H__
++#define __RSS_BPF_SKEL_H__
++
++#include <stdlib.h>
++#include <bpf/libbpf.h>
++
++struct rss_bpf {
++	struct bpf_object_skeleton *skeleton;
++	struct bpf_object *obj;
++	struct {
++		struct bpf_map *tap_rss_map_configurations;
++		struct bpf_map *tap_rss_map_indirection_table;
++		struct bpf_map *tap_rss_map_toeplitz_key;
++	} maps;
++	struct {
++		struct bpf_program *tun_rss_steering_prog;
++	} progs;
++	struct {
++		struct bpf_link *tun_rss_steering_prog;
++	} links;
++};
++
++static void
++rss_bpf__destroy(struct rss_bpf *obj)
++{
++	if (!obj)
++		return;
++	if (obj->skeleton)
++		bpf_object__destroy_skeleton(obj->skeleton);
++	free(obj);
++}
++
++static inline int
++rss_bpf__create_skeleton(struct rss_bpf *obj);
++
++static inline struct rss_bpf *
++rss_bpf__open_opts(const struct bpf_object_open_opts *opts)
++{
++	struct rss_bpf *obj;
++
++	obj = (struct rss_bpf *)calloc(1, sizeof(*obj));
++	if (!obj)
++		return NULL;
++	if (rss_bpf__create_skeleton(obj))
++		goto err;
++	if (bpf_object__open_skeleton(obj->skeleton, opts))
++		goto err;
++
++	return obj;
++err:
++	rss_bpf__destroy(obj);
++	return NULL;
++}
++
++static inline struct rss_bpf *
++rss_bpf__open(void)
++{
++	return rss_bpf__open_opts(NULL);
++}
++
++static inline int
++rss_bpf__load(struct rss_bpf *obj)
++{
++	return bpf_object__load_skeleton(obj->skeleton);
++}
++
++static inline struct rss_bpf *
++rss_bpf__open_and_load(void)
++{
++	struct rss_bpf *obj;
++
++	obj = rss_bpf__open();
++	if (!obj)
++		return NULL;
++	if (rss_bpf__load(obj)) {
++		rss_bpf__destroy(obj);
++		return NULL;
++	}
++	return obj;
++}
++
++static inline int
++rss_bpf__attach(struct rss_bpf *obj)
++{
++	return bpf_object__attach_skeleton(obj->skeleton);
++}
++
++static inline void
++rss_bpf__detach(struct rss_bpf *obj)
++{
++	return bpf_object__detach_skeleton(obj->skeleton);
++}
++
++static inline int
++rss_bpf__create_skeleton(struct rss_bpf *obj)
++{
++	struct bpf_object_skeleton *s;
++
++	s = (struct bpf_object_skeleton *)calloc(1, sizeof(*s));
++	if (!s)
++		return -1;
++	obj->skeleton = s;
++
++	s->sz = sizeof(*s);
++	s->name = "rss_bpf";
++	s->obj = &obj->obj;
++
++	/* maps */
++	s->map_cnt = 3;
++	s->map_skel_sz = sizeof(*s->maps);
++	s->maps = (struct bpf_map_skeleton *)calloc(s->map_cnt, s->map_skel_sz);
++	if (!s->maps)
++		goto err;
++
++	s->maps[0].name = "tap_rss_map_configurations";
++	s->maps[0].map = &obj->maps.tap_rss_map_configurations;
++
++	s->maps[1].name = "tap_rss_map_indirection_table";
++	s->maps[1].map = &obj->maps.tap_rss_map_indirection_table;
++
++	s->maps[2].name = "tap_rss_map_toeplitz_key";
++	s->maps[2].map = &obj->maps.tap_rss_map_toeplitz_key;
++
++	/* programs */
++	s->prog_cnt = 1;
++	s->prog_skel_sz = sizeof(*s->progs);
++	s->progs = (struct bpf_prog_skeleton *)calloc(s->prog_cnt, s->prog_skel_sz);
++	if (!s->progs)
++		goto err;
++
++	s->progs[0].name = "tun_rss_steering_prog";
++	s->progs[0].prog = &obj->progs.tun_rss_steering_prog;
++	s->progs[0].link = &obj->links.tun_rss_steering_prog;
++
++	s->data_sz = 8088;
++	s->data = (void *)"\
++\x7f\x45\x4c\x46\x02\x01\x01\0\0\0\0\0\0\0\0\0\x01\0\xf7\0\x01\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\x18\x1d\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\x40\0\x0a\0\
++\x01\0\xbf\x18\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x4c\xff\0\0\0\0\xbf\xa7\
++\0\0\0\0\0\0\x07\x07\0\0\x4c\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x06\0\0\0\0\0\0\x18\x01\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x07\0\0\0\0\0\0\
++\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x66\x02\0\0\0\0\xbf\x79\0\0\
++\0\0\0\0\x15\x09\x64\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01\0\0\0\0\0\x05\
++\0\x5d\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc0\xff\0\0\0\0\x7b\x1a\xb8\xff\
++\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8\xff\0\0\0\0\x7b\x1a\xa0\xff\0\0\0\
++\0\x63\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0\0\0\0\x7b\x1a\x88\xff\0\0\0\0\x7b\
++\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0\x7b\x1a\x70\xff\0\0\0\0\x7b\x1a\
++\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b\x1a\x58\xff\0\0\0\0\x7b\x1a\x50\
++\xff\0\0\0\0\x15\x08\x4c\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\
++\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\xb7\x02\0\0\x0c\0\0\0\xb7\
++\x04\0\0\x02\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x44\0\0\0\x67\0\0\0\x20\0\0\0\
++\x77\0\0\0\x20\0\0\0\x55\0\x11\0\0\0\0\0\xb7\x02\0\0\x10\0\0\0\x69\xa1\xd0\xff\
++\0\0\0\0\xbf\x13\0\0\0\0\0\0\xdc\x03\0\0\x10\0\0\0\x15\x03\x02\0\0\x81\0\0\x55\
++\x03\x0c\0\xa8\x88\0\0\xb7\x02\0\0\x14\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\
++\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\xb7\x04\0\0\x02\0\0\0\xb7\x05\0\0\0\0\0\0\
++\x85\0\0\0\x44\0\0\0\x69\xa1\xd0\xff\0\0\0\0\x67\0\0\0\x20\0\0\0\x77\0\0\0\x20\
++\0\0\0\x15\0\x01\0\0\0\0\0\x05\0\x2f\x02\0\0\0\0\x15\x01\x2e\x02\0\0\0\0\x7b\
++\x9a\x30\xff\0\0\0\0\x15\x01\x57\0\x86\xdd\0\0\x55\x01\x3b\0\x08\0\0\0\x7b\x7a\
++\x20\xff\0\0\0\0\xb7\x07\0\0\x01\0\0\0\x73\x7a\x50\xff\0\0\0\0\xb7\x01\0\0\0\0\
++\0\0\x63\x1a\xe0\xff\0\0\0\0\x7b\x1a\xd8\xff\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\
++\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\xb7\x02\0\
++\0\0\0\0\0\xb7\x04\0\0\x14\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\x67\
++\0\0\0\x20\0\0\0\x77\0\0\0\x20\0\0\0\x55\0\x1a\x02\0\0\0\0\x69\xa1\xd6\xff\0\0\
++\0\0\x55\x01\x01\0\0\0\0\0\xb7\x07\0\0\0\0\0\0\x61\xa1\xdc\xff\0\0\0\0\x63\x1a\
++\x5c\xff\0\0\0\0\x61\xa1\xe0\xff\0\0\0\0\x63\x1a\x60\xff\0\0\0\0\x73\x7a\x56\
++\xff\0\0\0\0\x71\xa9\xd9\xff\0\0\0\0\x71\xa1\xd0\xff\0\0\0\0\x67\x01\0\0\x02\0\
++\0\0\x57\x01\0\0\x3c\0\0\0\x7b\x1a\x40\xff\0\0\0\0\x79\xa7\x20\xff\0\0\0\0\xbf\
++\x91\0\0\0\0\0\0\x57\x01\0\0\xff\0\0\0\x15\x01\x19\0\0\0\0\0\x71\xa1\x56\xff\0\
++\0\0\0\x55\x01\x17\0\0\0\0\0\x57\x09\0\0\xff\0\0\0\x15\x09\x7a\x01\x11\0\0\0\
++\x55\x09\x14\0\x06\0\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\x53\xff\0\0\0\0\xb7\x01\
++\0\0\0\0\0\0\x63\x1a\xe0\xff\0\0\0\0\x7b\x1a\xd8\xff\0\0\0\0\x7b\x1a\xd0\xff\0\
++\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\x79\
++\xa2\x40\xff\0\0\0\0\xb7\x04\0\0\x14\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\
++\0\0\0\x67\0\0\0\x20\0\0\0\x77\0\0\0\x20\0\0\0\x55\0\xf4\x01\0\0\0\0\x69\xa1\
++\xd0\xff\0\0\0\0\x6b\x1a\x58\xff\0\0\0\0\x69\xa1\xd2\xff\0\0\0\0\x6b\x1a\x5a\
++\xff\0\0\0\0\x71\xa1\x50\xff\0\0\0\0\x15\x01\xd4\0\0\0\0\0\x71\x62\x03\0\0\0\0\
++\0\x67\x02\0\0\x08\0\0\0\x71\x61\x02\0\0\0\0\0\x4f\x12\0\0\0\0\0\0\x71\x63\x04\
++\0\0\0\0\0\x71\x61\x05\0\0\0\0\0\x67\x01\0\0\x08\0\0\0\x4f\x31\0\0\0\0\0\0\x67\
++\x01\0\0\x10\0\0\0\x4f\x21\0\0\0\0\0\0\x71\xa2\x53\xff\0\0\0\0\x79\xa0\x30\xff\
++\0\0\0\0\x15\x02\x06\x01\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x02\0\0\0\x15\
++\x02\x03\x01\0\0\0\0\x61\xa1\x5c\xff\0\0\0\0\x63\x1a\xa0\xff\0\0\0\0\x61\xa1\
++\x60\xff\0\0\0\0\x63\x1a\xa4\xff\0\0\0\0\x69\xa1\x58\xff\0\0\0\0\x6b\x1a\xa8\
++\xff\0\0\0\0\x69\xa1\x5a\xff\0\0\0\0\x6b\x1a\xaa\xff\0\0\0\0\x05\0\x65\x01\0\0\
++\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\x51\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x7b\x1a\
++\xf0\xff\0\0\0\0\x7b\x1a\xe8\xff\0\0\0\0\x7b\x1a\xe0\xff\0\0\0\0\x7b\x1a\xd8\
++\xff\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xd0\xff\
++\xff\xff\xb7\x01\0\0\x28\0\0\0\x7b\x1a\x40\xff\0\0\0\0\xbf\x81\0\0\0\0\0\0\xb7\
++\x02\0\0\0\0\0\0\xb7\x04\0\0\x28\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\
++\0\x67\0\0\0\x20\0\0\0\x77\0\0\0\x20\0\0\0\x55\0\x10\x01\0\0\0\0\x79\xa1\xe0\
++\xff\0\0\0\0\x63\x1a\x64\xff\0\0\0\0\x77\x01\0\0\x20\0\0\0\x63\x1a\x68\xff\0\0\
++\0\0\x79\xa1\xd8\xff\0\0\0\0\x63\x1a\x5c\xff\0\0\0\0\x77\x01\0\0\x20\0\0\0\x63\
++\x1a\x60\xff\0\0\0\0\x79\xa1\xe8\xff\0\0\0\0\x63\x1a\x6c\xff\0\0\0\0\x77\x01\0\
++\0\x20\0\0\0\x63\x1a\x70\xff\0\0\0\0\x79\xa1\xf0\xff\0\0\0\0\x63\x1a\x74\xff\0\
++\0\0\0\x77\x01\0\0\x20\0\0\0\x63\x1a\x78\xff\0\0\0\0\x71\xa9\xd6\xff\0\0\0\0\
++\x25\x09\xff\0\x3c\0\0\0\xb7\x01\0\0\x01\0\0\0\x6f\x91\0\0\0\0\0\0\x18\x02\0\0\
++\x01\0\0\0\0\0\0\0\0\x18\0\x1c\x5f\x21\0\0\0\0\0\0\x55\x01\x01\0\0\0\0\0\x05\0\
++\xf8\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x6b\x1a\xfe\xff\0\0\0\0\xb7\x01\0\0\x28\0\0\
++\0\x7b\x1a\x40\xff\0\0\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\x8c\xff\xff\xff\x7b\
++\x1a\x18\xff\0\0\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\x7c\xff\xff\xff\x7b\x1a\
++\x10\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x7b\x1a\x28\xff\0\0\0\0\x7b\x7a\x20\xff\0\
++\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xfe\xff\xff\xff\xbf\x81\0\0\0\0\0\0\x79\
++\xa2\x40\xff\0\0\0\0\xb7\x04\0\0\x02\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\
++\0\0\0\x67\0\0\0\x20\0\0\0\x77\0\0\0\x20\0\0\0\x15\0\x01\0\0\0\0\0\x05\0\x90\
++\x01\0\0\0\0\xbf\x91\0\0\0\0\0\0\x15\x01\x23\0\x3c\0\0\0\x15\x01\x59\0\x2c\0\0\
++\0\x55\x01\x5a\0\x2b\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xf8\xff\0\0\0\0\xbf\xa3\
++\0\0\0\0\0\0\x07\x03\0\0\xf8\xff\xff\xff\xbf\x81\0\0\0\0\0\0\x79\xa2\x40\xff\0\
++\0\0\0\xb7\x04\0\0\x04\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\xbf\x01\
++\0\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\x55\x01\x03\x01\0\0\0\
++\0\x71\xa1\xfa\xff\0\0\0\0\x55\x01\x4b\0\x02\0\0\0\x71\xa1\xf9\xff\0\0\0\0\x55\
++\x01\x49\0\x02\0\0\0\x71\xa1\xfb\xff\0\0\0\0\x55\x01\x47\0\x01\0\0\0\x79\xa2\
++\x40\xff\0\0\0\0\x07\x02\0\0\x08\0\0\0\xbf\x81\0\0\0\0\0\0\x79\xa3\x18\xff\0\0\
++\0\0\xb7\x04\0\0\x10\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\xbf\x01\0\
++\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\x55\x01\xf2\0\0\0\0\0\
++\xb7\x01\0\0\x01\0\0\0\x73\x1a\x55\xff\0\0\0\0\x05\0\x39\0\0\0\0\0\xb7\x01\0\0\
++\0\0\0\0\x6b\x1a\xf8\xff\0\0\0\0\xb7\x09\0\0\x02\0\0\0\xb7\x07\0\0\x1e\0\0\0\
++\x05\0\x0e\0\0\0\0\0\x79\xa2\x38\xff\0\0\0\0\x0f\x29\0\0\0\0\0\0\xbf\x92\0\0\0\
++\0\0\0\x07\x02\0\0\x01\0\0\0\x71\xa3\xff\xff\0\0\0\0\x67\x03\0\0\x03\0\0\0\x2d\
++\x23\x02\0\0\0\0\0\x79\xa7\x20\xff\0\0\0\0\x05\0\x2b\0\0\0\0\0\x07\x07\0\0\xff\
++\xff\xff\xff\xbf\x72\0\0\0\0\0\0\x67\x02\0\0\x20\0\0\0\x77\x02\0\0\x20\0\0\0\
++\x15\x02\xf9\xff\0\0\0\0\x7b\x9a\x38\xff\0\0\0\0\x79\xa1\x40\xff\0\0\0\0\x0f\
++\x19\0\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xf8\xff\xff\xff\xbf\x81\0\0\0\
++\0\0\0\xbf\x92\0\0\0\0\0\0\xb7\x04\0\0\x02\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\
++\0\x44\0\0\0\xbf\x01\0\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\
++\x55\x01\x94\0\0\0\0\0\x71\xa2\xf8\xff\0\0\0\0\x55\x02\x0f\0\xc9\0\0\0\x07\x09\
++\0\0\x02\0\0\0\xbf\x81\0\0\0\0\0\0\xbf\x92\0\0\0\0\0\0\x79\xa3\x10\xff\0\0\0\0\
++\xb7\x04\0\0\x10\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\xbf\x01\0\0\0\
++\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\x55\x01\x87\0\0\0\0\0\xb7\
++\x01\0\0\x01\0\0\0\x73\x1a\x54\xff\0\0\0\0\x79\xa7\x20\xff\0\0\0\0\x05\0\x07\0\
++\0\0\0\0\xb7\x09\0\0\x01\0\0\0\x15\x02\xd1\xff\0\0\0\0\x71\xa9\xf9\xff\0\0\0\0\
++\x07\x09\0\0\x02\0\0\0\x05\0\xce\xff\0\0\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\x56\
++\xff\0\0\0\0\x71\xa1\xff\xff\0\0\0\0\x67\x01\0\0\x03\0\0\0\x79\xa2\x40\xff\0\0\
++\0\0\x0f\x12\0\0\0\0\0\0\x07\x02\0\0\x08\0\0\0\x7b\x2a\x40\xff\0\0\0\0\x71\xa9\
++\xfe\xff\0\0\0\0\x25\x09\x0e\0\x3c\0\0\0\xb7\x01\0\0\x01\0\0\0\x6f\x91\0\0\0\0\
++\0\0\x18\x02\0\0\x01\0\0\0\0\0\0\0\0\x18\0\x1c\x5f\x21\0\0\0\0\0\0\x55\x01\x01\
++\0\0\0\0\0\x05\0\x07\0\0\0\0\0\x79\xa1\x28\xff\0\0\0\0\x07\x01\0\0\x01\0\0\0\
++\x7b\x1a\x28\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\x55\x01\
++\x82\xff\x0b\0\0\0\x05\0\x10\xff\0\0\0\0\x15\x09\xf8\xff\x87\0\0\0\x05\0\xfd\
++\xff\0\0\0\0\x71\xa1\x51\xff\0\0\0\0\x79\xa0\x30\xff\0\0\0\0\x15\x01\x17\x01\0\
++\0\0\0\x71\x62\x03\0\0\0\0\0\x67\x02\0\0\x08\0\0\0\x71\x61\x02\0\0\0\0\0\x4f\
++\x12\0\0\0\0\0\0\x71\x63\x04\0\0\0\0\0\x71\x61\x05\0\0\0\0\0\x67\x01\0\0\x08\0\
++\0\0\x4f\x31\0\0\0\0\0\0\x67\x01\0\0\x10\0\0\0\x4f\x21\0\0\0\0\0\0\x71\xa2\x53\
++\xff\0\0\0\0\x15\x02\x3d\0\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x10\0\0\0\
++\x15\x02\x3a\0\0\0\0\0\xbf\xa2\0\0\0\0\0\0\x07\x02\0\0\x5c\xff\xff\xff\x71\xa4\
++\x54\xff\0\0\0\0\xbf\x23\0\0\0\0\0\0\x15\x04\x02\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\
++\x07\x03\0\0\x7c\xff\xff\xff\x67\x01\0\0\x38\0\0\0\xc7\x01\0\0\x38\0\0\0\x65\
++\x01\x01\0\xff\xff\xff\xff\xbf\x32\0\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\
++\x6c\xff\xff\xff\x71\xa5\x55\xff\0\0\0\0\xbf\x34\0\0\0\0\0\0\x15\x05\x02\0\0\0\
++\0\0\xbf\xa4\0\0\0\0\0\0\x07\x04\0\0\x8c\xff\xff\xff\x65\x01\x01\0\xff\xff\xff\
++\xff\xbf\x43\0\0\0\0\0\0\x61\x21\x04\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x61\x24\0\
++\0\0\0\0\0\x4f\x41\0\0\0\0\0\0\x7b\x1a\xa0\xff\0\0\0\0\x61\x21\x08\0\0\0\0\0\
++\x61\x22\x0c\0\0\0\0\0\x67\x02\0\0\x20\0\0\0\x4f\x12\0\0\0\0\0\0\x7b\x2a\xa8\
++\xff\0\0\0\0\x61\x31\0\0\0\0\0\0\x61\x32\x04\0\0\0\0\0\x61\x34\x08\0\0\0\0\0\
++\x61\x33\x0c\0\0\0\0\0\x69\xa5\x5a\xff\0\0\0\0\x6b\x5a\xc2\xff\0\0\0\0\x69\xa5\
++\x58\xff\0\0\0\0\x6b\x5a\xc0\xff\0\0\0\0\x67\x03\0\0\x20\0\0\0\x4f\x43\0\0\0\0\
++\0\0\x7b\x3a\xb8\xff\0\0\0\0\x67\x02\0\0\x20\0\0\0\x4f\x12\0\0\0\0\0\0\x7b\x2a\
++\xb0\xff\0\0\0\0\x05\0\x6b\0\0\0\0\0\x71\xa2\x52\xff\0\0\0\0\x15\x02\x04\0\0\0\
++\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x04\0\0\0\x15\x02\x01\0\0\0\0\0\x05\0\xf7\
++\xfe\0\0\0\0\x57\x01\0\0\x01\0\0\0\x15\x01\xd3\0\0\0\0\0\x61\xa1\x5c\xff\0\0\0\
++\0\x63\x1a\xa0\xff\0\0\0\0\x61\xa1\x60\xff\0\0\0\0\x63\x1a\xa4\xff\0\0\0\0\x05\
++\0\x5e\0\0\0\0\0\x71\xa2\x52\xff\0\0\0\0\x15\x02\x1e\0\0\0\0\0\xbf\x12\0\0\0\0\
++\0\0\x57\x02\0\0\x20\0\0\0\x15\x02\x1b\0\0\0\0\0\xbf\xa2\0\0\0\0\0\0\x07\x02\0\
++\0\x5c\xff\xff\xff\x71\xa4\x54\xff\0\0\0\0\xbf\x23\0\0\0\0\0\0\x15\x04\x02\0\0\
++\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\x7c\xff\xff\xff\x57\x01\0\0\0\x01\0\0\
++\x15\x01\x01\0\0\0\0\0\xbf\x32\0\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\x6c\
++\xff\xff\xff\x71\xa5\x55\xff\0\0\0\0\xbf\x34\0\0\0\0\0\0\x15\x05\x02\0\0\0\0\0\
++\xbf\xa4\0\0\0\0\0\0\x07\x04\0\0\x8c\xff\xff\xff\x15\x01\xc3\xff\0\0\0\0\x05\0\
++\xc1\xff\0\0\0\0\xb7\x09\0\0\x3c\0\0\0\x79\xa7\x20\xff\0\0\0\0\x67\0\0\0\x20\0\
++\0\0\x77\0\0\0\x20\0\0\0\x15\0\xa5\xfe\0\0\0\0\x05\0\xb0\0\0\0\0\0\x15\x09\x07\
++\xff\x87\0\0\0\x05\0\xa2\xfe\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x08\0\0\0\
++\x15\x02\xab\0\0\0\0\0\xbf\xa2\0\0\0\0\0\0\x07\x02\0\0\x5c\xff\xff\xff\x71\xa4\
++\x54\xff\0\0\0\0\xbf\x23\0\0\0\0\0\0\x15\x04\x02\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\
++\x07\x03\0\0\x7c\xff\xff\xff\x57\x01\0\0\x40\0\0\0\x15\x01\x01\0\0\0\0\0\xbf\
++\x32\0\0\0\0\0\0\x61\x23\x04\0\0\0\0\0\x67\x03\0\0\x20\0\0\0\x61\x24\0\0\0\0\0\
++\0\x4f\x43\0\0\0\0\0\0\x7b\x3a\xa0\xff\0\0\0\0\x61\x23\x08\0\0\0\0\0\x61\x22\
++\x0c\0\0\0\0\0\x67\x02\0\0\x20\0\0\0\x4f\x32\0\0\0\0\0\0\x7b\x2a\xa8\xff\0\0\0\
++\0\x15\x01\x1c\0\0\0\0\0\x71\xa1\x55\xff\0\0\0\0\x15\x01\x1a\0\0\0\0\0\x61\xa1\
++\x98\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\x61\xa2\x94\xff\0\0\0\0\x4f\x21\0\0\0\0\
++\0\0\x7b\x1a\xb8\xff\0\0\0\0\x61\xa1\x90\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\x61\
++\xa2\x8c\xff\0\0\0\0\x05\0\x19\0\0\0\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\x52\xff\
++\0\0\0\0\xb7\x01\0\0\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\
++\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\x79\xa2\x40\xff\0\0\0\0\xb7\x04\0\
++\0\x08\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\x67\0\0\0\x20\0\0\0\x77\
++\0\0\0\x20\0\0\0\x55\0\x7d\0\0\0\0\0\x05\0\x88\xfe\0\0\0\0\xb7\x09\0\0\x2b\0\0\
++\0\x05\0\xc6\xff\0\0\0\0\x61\xa1\x78\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\x61\xa2\
++\x74\xff\0\0\0\0\x4f\x21\0\0\0\0\0\0\x7b\x1a\xb8\xff\0\0\0\0\x61\xa1\x70\xff\0\
++\0\0\0\x67\x01\0\0\x20\0\0\0\x61\xa2\x6c\xff\0\0\0\0\x4f\x21\0\0\0\0\0\0\x7b\
++\x1a\xb0\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x07\x07\0\0\x04\0\0\0\x61\x03\0\0\0\0\
++\0\0\xb7\x05\0\0\0\0\0\0\x05\0\x4e\0\0\0\0\0\xaf\x52\0\0\0\0\0\0\xbf\x75\0\0\0\
++\0\0\0\x0f\x15\0\0\0\0\0\0\x71\x55\0\0\0\0\0\0\x67\x03\0\0\x01\0\0\0\xbf\x50\0\
++\0\0\0\0\0\x77\0\0\0\x07\0\0\0\x4f\x03\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\
++\0\x39\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x30\0\0\0\0\0\0\xaf\x02\0\0\0\0\0\0\xbf\
++\x50\0\0\0\0\0\0\x77\0\0\0\x06\0\0\0\x57\0\0\0\x01\0\0\0\x67\x03\0\0\x01\0\0\0\
++\x4f\x03\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x3a\0\0\0\xc7\0\0\0\x3f\0\0\
++\0\x5f\x30\0\0\0\0\0\0\xaf\x02\0\0\0\0\0\0\x67\x03\0\0\x01\0\0\0\xbf\x50\0\0\0\
++\0\0\0\x77\0\0\0\x05\0\0\0\x57\0\0\0\x01\0\0\0\x4f\x03\0\0\0\0\0\0\xbf\x40\0\0\
++\0\0\0\0\x67\0\0\0\x3b\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x30\0\0\0\0\0\0\xaf\x02\0\
++\0\0\0\0\0\x67\x03\0\0\x01\0\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x04\0\0\0\x57\0\
++\0\0\x01\0\0\0\x4f\x03\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x3c\0\0\0\xc7\
++\0\0\0\x3f\0\0\0\x5f\x30\0\0\0\0\0\0\xaf\x02\0\0\0\0\0\0\xbf\x50\0\0\0\0\0\0\
++\x77\0\0\0\x03\0\0\0\x57\0\0\0\x01\0\0\0\x67\x03\0\0\x01\0\0\0\x4f\x03\0\0\0\0\
++\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x3d\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x30\0\0\0\
++\0\0\0\xaf\x02\0\0\0\0\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x02\0\0\0\x57\0\0\0\
++\x01\0\0\0\x67\x03\0\0\x01\0\0\0\x4f\x03\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\
++\0\0\x3e\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x30\0\0\0\0\0\0\xaf\x02\0\0\0\0\0\0\xbf\
++\x50\0\0\0\0\0\0\x77\0\0\0\x01\0\0\0\x57\0\0\0\x01\0\0\0\x67\x03\0\0\x01\0\0\0\
++\x4f\x03\0\0\0\0\0\0\x57\x04\0\0\x01\0\0\0\x87\x04\0\0\0\0\0\0\x5f\x34\0\0\0\0\
++\0\0\xaf\x42\0\0\0\0\0\0\x57\x05\0\0\x01\0\0\0\x67\x03\0\0\x01\0\0\0\x4f\x53\0\
++\0\0\0\0\0\x07\x01\0\0\x01\0\0\0\xbf\x25\0\0\0\0\0\0\x15\x01\x0b\0\x24\0\0\0\
++\xbf\xa2\0\0\0\0\0\0\x07\x02\0\0\xa0\xff\xff\xff\x0f\x12\0\0\0\0\0\0\x71\x24\0\
++\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x38\0\0\0\xc7\0\0\0\x38\0\0\0\xb7\x02\
++\0\0\0\0\0\0\x65\0\xa9\xff\xff\xff\xff\xff\xbf\x32\0\0\0\0\0\0\x05\0\xa7\xff\0\
++\0\0\0\xbf\x21\0\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\x15\x01\
++\x0e\0\0\0\0\0\x71\x63\x06\0\0\0\0\0\x71\x64\x07\0\0\0\0\0\x67\x04\0\0\x08\0\0\
++\0\x4f\x34\0\0\0\0\0\0\x3f\x41\0\0\0\0\0\0\x2f\x41\0\0\0\0\0\0\x1f\x12\0\0\0\0\
++\0\0\x63\x2a\x50\xff\0\0\0\0\xbf\xa2\0\0\0\0\0\0\x07\x02\0\0\x50\xff\xff\xff\
++\x18\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\x55\0\x05\0\0\0\0\0\
++\x71\x61\x08\0\0\0\0\0\x71\x60\x09\0\0\0\0\0\x67\0\0\0\x08\0\0\0\x4f\x10\0\0\0\
++\0\0\0\x95\0\0\0\0\0\0\0\x69\0\0\0\0\0\0\0\x05\0\xfd\xff\0\0\0\0\x02\0\0\0\x04\
++\0\0\0\x0a\0\0\0\x01\0\0\0\0\0\0\0\x02\0\0\0\x04\0\0\0\x28\0\0\0\x01\0\0\0\0\0\
++\0\0\x02\0\0\0\x04\0\0\0\x02\0\0\0\x80\0\0\0\0\0\0\0\x47\x50\x4c\x20\x76\x32\0\
++\0\0\0\0\0\x10\0\0\0\0\0\0\0\x01\x7a\x52\0\x08\x7c\x0b\x01\x0c\0\0\0\x18\0\0\0\
++\x18\0\0\0\0\0\0\0\0\0\0\0\xd8\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\0\xa0\0\0\0\x04\0\xf1\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\x60\x02\0\0\0\0\x03\0\x20\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x3f\x02\0\0\0\0\
++\x03\0\xd0\x0f\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xed\x01\0\0\0\0\x03\0\x10\x10\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\xd4\x01\0\0\0\0\x03\0\x20\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\xa3\x01\0\0\0\0\x03\0\xb8\x12\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x63\x01\0\0\0\0\
++\x03\0\x48\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x2a\x01\0\0\0\0\x03\0\x10\x13\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\xe1\0\0\0\0\0\x03\0\xa0\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\x2e\x02\0\0\0\0\x03\0\x28\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x68\x02\0\0\0\0\x03\
++\0\xc0\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x36\x02\0\0\0\0\x03\0\xc8\x13\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\x22\x01\0\0\0\0\x03\0\xe8\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\x02\x01\0\0\0\0\x03\0\x40\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xd9\0\0\0\0\0\x03\0\
++\xf8\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x26\x02\0\0\0\0\x03\0\x20\x0e\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\xcc\x01\0\0\0\0\x03\0\x60\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x9b\
++\x01\0\0\0\0\x03\0\xc8\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x5b\x01\0\0\0\0\x03\0\
++\x20\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x7c\x01\0\0\0\0\x03\0\x48\x08\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\x53\x01\0\0\0\0\x03\0\xb8\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1a\
++\x01\0\0\0\0\x03\0\xe0\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x84\x01\0\0\0\0\x03\0\
++\xb8\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1e\x02\0\0\0\0\x03\0\xd8\x09\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\xc4\x01\0\0\0\0\x03\0\x70\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x93\
++\x01\0\0\0\0\x03\0\xa8\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x74\x01\0\0\0\0\x03\0\
++\xf0\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x4b\x01\0\0\0\0\x03\0\0\x0a\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\x12\x01\0\0\0\0\x03\0\x10\x0a\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xfa\0\
++\0\0\0\0\x03\0\xc0\x0a\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x58\x02\0\0\0\0\x03\0\x88\
++\x0a\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x16\x02\0\0\0\0\x03\0\xb8\x0a\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\xe5\x01\0\0\0\0\x03\0\xc0\x0f\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xbc\x01\
++\0\0\0\0\x03\0\0\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x8b\x01\0\0\0\0\x03\0\x18\x0e\
++\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xd1\0\0\0\0\0\x03\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\0\x50\x02\0\0\0\0\x03\0\x20\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0e\x02\0\0\0\0\
++\x03\0\x48\x0f\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x6c\x01\0\0\0\0\x03\0\xb0\x04\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\x43\x01\0\0\0\0\x03\0\xc8\x0c\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\xc9\0\0\0\0\0\x03\0\xf8\x0c\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x06\x02\0\0\0\0\x03\
++\0\xd0\x0a\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x3b\x01\0\0\0\0\x03\0\x98\x0b\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\xf2\0\0\0\0\0\x03\0\xb8\x0b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x48\
++\x02\0\0\0\0\x03\0\xf0\x0b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xfe\x01\0\0\0\0\x03\0\
++\xf8\x0b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xdd\x01\0\0\0\0\x03\0\0\x0c\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\xb4\x01\0\0\0\0\x03\0\x30\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0a\
++\x01\0\0\0\0\x03\0\x90\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xc1\0\0\0\0\0\x03\0\xa8\
++\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xba\0\0\0\0\0\x03\0\xd0\x01\0\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\xf6\x01\0\0\0\0\x03\0\xe0\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xac\x01\0\
++\0\0\0\x03\0\x30\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x33\x01\0\0\0\0\x03\0\x80\x0e\
++\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xea\0\0\0\0\0\x03\0\x98\x0e\0\0\0\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x6b\0\0\0\x11\0\x06\
++\0\0\0\0\0\0\0\0\0\x07\0\0\0\0\0\0\0\x25\0\0\0\x11\0\x05\0\0\0\0\0\0\0\0\0\x14\
++\0\0\0\0\0\0\0\x82\0\0\0\x11\0\x05\0\x28\0\0\0\0\0\0\0\x14\0\0\0\0\0\0\0\x01\0\
++\0\0\x11\0\x05\0\x14\0\0\0\0\0\0\0\x14\0\0\0\0\0\0\0\x40\0\0\0\x12\0\x03\0\0\0\
++\0\0\0\0\0\0\xd8\x13\0\0\0\0\0\0\x28\0\0\0\0\0\0\0\x01\0\0\0\x3a\0\0\0\x50\0\0\
++\0\0\0\0\0\x01\0\0\0\x3c\0\0\0\x80\x13\0\0\0\0\0\0\x01\0\0\0\x3b\0\0\0\x1c\0\0\
++\0\0\0\0\0\x01\0\0\0\x38\0\0\0\0\x74\x61\x70\x5f\x72\x73\x73\x5f\x6d\x61\x70\
++\x5f\x74\x6f\x65\x70\x6c\x69\x74\x7a\x5f\x6b\x65\x79\0\x2e\x74\x65\x78\x74\0\
++\x6d\x61\x70\x73\0\x74\x61\x70\x5f\x72\x73\x73\x5f\x6d\x61\x70\x5f\x63\x6f\x6e\
++\x66\x69\x67\x75\x72\x61\x74\x69\x6f\x6e\x73\0\x74\x75\x6e\x5f\x72\x73\x73\x5f\
++\x73\x74\x65\x65\x72\x69\x6e\x67\x5f\x70\x72\x6f\x67\0\x2e\x72\x65\x6c\x74\x75\
++\x6e\x5f\x72\x73\x73\x5f\x73\x74\x65\x65\x72\x69\x6e\x67\0\x5f\x6c\x69\x63\x65\
++\x6e\x73\x65\0\x2e\x72\x65\x6c\x2e\x65\x68\x5f\x66\x72\x61\x6d\x65\0\x74\x61\
++\x70\x5f\x72\x73\x73\x5f\x6d\x61\x70\x5f\x69\x6e\x64\x69\x72\x65\x63\x74\x69\
++\x6f\x6e\x5f\x74\x61\x62\x6c\x65\0\x72\x73\x73\x2e\x62\x70\x66\x2e\x63\0\x2e\
++\x73\x74\x72\x74\x61\x62\0\x2e\x73\x79\x6d\x74\x61\x62\0\x4c\x42\x42\x30\x5f\
++\x39\0\x4c\x42\x42\x30\x5f\x38\x39\0\x4c\x42\x42\x30\x5f\x36\x39\0\x4c\x42\x42\
++\x30\x5f\x35\x39\0\x4c\x42\x42\x30\x5f\x31\x39\0\x4c\x42\x42\x30\x5f\x31\x30\
++\x39\0\x4c\x42\x42\x30\x5f\x39\x38\0\x4c\x42\x42\x30\x5f\x37\x38\0\x4c\x42\x42\
++\x30\x5f\x34\x38\0\x4c\x42\x42\x30\x5f\x31\x38\0\x4c\x42\x42\x30\x5f\x38\x37\0\
++\x4c\x42\x42\x30\x5f\x34\x37\0\x4c\x42\x42\x30\x5f\x33\x37\0\x4c\x42\x42\x30\
++\x5f\x31\x37\0\x4c\x42\x42\x30\x5f\x31\x30\x37\0\x4c\x42\x42\x30\x5f\x39\x36\0\
++\x4c\x42\x42\x30\x5f\x37\x36\0\x4c\x42\x42\x30\x5f\x36\x36\0\x4c\x42\x42\x30\
++\x5f\x34\x36\0\x4c\x42\x42\x30\x5f\x33\x36\0\x4c\x42\x42\x30\x5f\x32\x36\0\x4c\
++\x42\x42\x30\x5f\x31\x30\x36\0\x4c\x42\x42\x30\x5f\x36\x35\0\x4c\x42\x42\x30\
++\x5f\x34\x35\0\x4c\x42\x42\x30\x5f\x33\x35\0\x4c\x42\x42\x30\x5f\x34\0\x4c\x42\
++\x42\x30\x5f\x35\x34\0\x4c\x42\x42\x30\x5f\x34\x34\0\x4c\x42\x42\x30\x5f\x32\
++\x34\0\x4c\x42\x42\x30\x5f\x31\x30\x34\0\x4c\x42\x42\x30\x5f\x39\x33\0\x4c\x42\
++\x42\x30\x5f\x38\x33\0\x4c\x42\x42\x30\x5f\x35\x33\0\x4c\x42\x42\x30\x5f\x34\
++\x33\0\x4c\x42\x42\x30\x5f\x32\x33\0\x4c\x42\x42\x30\x5f\x31\x30\x33\0\x4c\x42\
++\x42\x30\x5f\x38\x32\0\x4c\x42\x42\x30\x5f\x35\x32\0\x4c\x42\x42\x30\x5f\x31\
++\x30\x32\0\x4c\x42\x42\x30\x5f\x39\x31\0\x4c\x42\x42\x30\x5f\x38\x31\0\x4c\x42\
++\x42\x30\x5f\x37\x31\0\x4c\x42\x42\x30\x5f\x36\x31\0\x4c\x42\x42\x30\x5f\x35\
++\x31\0\x4c\x42\x42\x30\x5f\x34\x31\0\x4c\x42\x42\x30\x5f\x32\x31\0\x4c\x42\x42\
++\x30\x5f\x31\x31\0\x4c\x42\x42\x30\x5f\x31\x31\x31\0\x4c\x42\x42\x30\x5f\x31\
++\x30\x31\0\x4c\x42\x42\x30\x5f\x38\x30\0\x4c\x42\x42\x30\x5f\x36\x30\0\x4c\x42\
++\x42\x30\x5f\x35\x30\0\x4c\x42\x42\x30\x5f\x31\x30\0\x4c\x42\x42\x30\x5f\x31\
++\x31\x30\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xaa\
++\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xa0\x1a\0\0\0\0\0\0\x71\x02\0\
++\0\0\0\0\0\0\0\0\0\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1a\0\0\0\x01\0\0\
++\0\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\0\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x5a\0\0\0\x01\0\0\0\x06\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\0\0\xd8\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x08\0\
++\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x56\0\0\0\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\x60\x1a\0\0\0\0\0\0\x30\0\0\0\0\0\0\0\x09\0\0\0\x03\0\0\0\x08\0\0\0\0\0\0\0\
++\x10\0\0\0\0\0\0\0\x20\0\0\0\x01\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x18\
++\x14\0\0\0\0\0\0\x3c\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\
++\0\0\0\x6c\0\0\0\x01\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x54\x14\0\0\0\0\0\
++\0\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x78\0\0\
++\0\x01\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x60\x14\0\0\0\0\0\0\x30\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x74\0\0\0\x09\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x90\x1a\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\x09\0\0\0\
++\x07\0\0\0\x08\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\xb2\0\0\0\x02\0\0\0\0\0\0\0\0\0\
++\0\0\0\0\0\0\0\0\0\0\x90\x14\0\0\0\0\0\0\xd0\x05\0\0\0\0\0\0\x01\0\0\0\x39\0\0\
++\0\x08\0\0\0\0\0\0\0\x18\0\0\0\0\0\0\0";
++
++	return 0;
++err:
++	bpf_object__destroy_skeleton(s);
++	return -1;
++}
++
++#endif /* __RSS_BPF_SKEL_H__ */
+diff --git a/ebpf/trace-events b/ebpf/trace-events
+new file mode 100644
+index 0000000000..411b1e2be3
+--- /dev/null
++++ b/ebpf/trace-events
+@@ -0,0 +1,4 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# ebpf-rss.c
++ebpf_error(const char *s1, const char *s2) "error in %s: %s"
+diff --git a/ebpf/trace.h b/ebpf/trace.h
+new file mode 100644
+index 0000000000..ad570e6691
+--- /dev/null
++++ b/ebpf/trace.h
+@@ -0,0 +1,2 @@
++#include "trace/trace-ebpf.h"
++
+diff --git a/meson.build b/meson.build
+index c6f4b0cf5e..4a51a25643 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1016,6 +1016,23 @@ if not get_option('fuse_lseek').disabled()
+   endif
+ endif
+ 
++# libbpf
++libbpf = dependency('libbpf', required: get_option('bpf'))
++if libbpf.found() and not cc.links('''
++   #include <bpf/libbpf.h>
++   int main(void)
++   {
++     bpf_object__destroy_skeleton(NULL);
++     return 0;
++   }''', dependencies: libbpf)
++  libbpf = not_found
++  if get_option('bpf').enabled()
++    error('libbpf skeleton test failed')
++  else
++    warning('libbpf skeleton test failed, disabling')
++  endif
++endif
++
+ if get_option('cfi')
+   cfi_flags=[]
+   # Check for dependency on LTO
+@@ -1115,6 +1132,7 @@ endif
+ config_host_data.set('CONFIG_GTK', gtk.found())
+ config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
+ config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
++config_host_data.set('CONFIG_EBPF', libbpf.found())
+ config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
+ config_host_data.set('CONFIG_LIBNFS', libnfs.found())
+ config_host_data.set('CONFIG_RBD', rbd.found())
+@@ -1785,6 +1803,7 @@ if have_system
+     'backends',
+     'backends/tpm',
+     'chardev',
++    'ebpf',
+     'hw/9pfs',
+     'hw/acpi',
+     'hw/adc',
+@@ -1976,6 +1995,9 @@ subdir('accel')
+ subdir('plugins')
+ subdir('bsd-user')
+ subdir('linux-user')
++subdir('ebpf')
++
++common_ss.add(libbpf)
+ 
+ bsd_user_ss.add(files('gdbstub.c'))
+ specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+@@ -2680,6 +2702,7 @@ summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
+ summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
+ summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
+ summary_info += {'libcap-ng support': libcap_ng.found()}
++summary_info += {'bpf support': libbpf.found()}
+ # TODO: add back protocol and server version
+ summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
+ summary_info += {'rbd support':       rbd.found()}
+diff --git a/meson_options.txt b/meson_options.txt
+index 9734019995..58bc80ecfb 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -56,6 +56,8 @@ option('bzip2', type : 'feature', value : 'auto',
+        description: 'bzip2 support for DMG images')
+ option('cap_ng', type : 'feature', value : 'auto',
+        description: 'cap_ng support')
++option('bpf', type : 'feature', value : 'auto',
++        description: 'eBPF support')
+ option('cocoa', type : 'feature', value : 'auto',
+        description: 'Cocoa user interface (macOS only)')
+ option('curl', type : 'feature', value : 'auto',
+-- 
+2.31.1
 
-We can still hit the infinite looping case you describe post-realize.
-Why should we treat pre-realize differently?
-
-> Additionally, calling vhost_user_blk_disconnect() from the chardev event
-> handler could result in use-after-free because none of the
-> initialisation code expects that the device could just go away in the
-> middle. So removing the call fixes crashes in several places.
->=20
-> For example, using a num-queues setting that is incompatible with the
-> backend would result in a crash like this (dereferencing dev->opaque,
-> which is already NULL):
->=20
->  #0  0x0000555555d0a4bd in vhost_user_read_cb (source=3D0x5555568f4690, c=
-ondition=3D(G_IO_IN | G_IO_HUP), opaque=3D0x7fffffffcbf0) at ../hw/virtio/v=
-host-user.c:313
->  #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=3D0x555=
-557c3f750, callback=3D0x555555d0a478 <vhost_user_read_cb>, user_data=3D0x7f=
-ffffffcbf0) at ../io/channel-watch.c:84
->  #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2=
-.0.so.0
->  #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/=
-libglib-2.0.so.0
->  #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
->  #5  0x0000555555d0a724 in vhost_user_read (dev=3D0x555557bc62f8, msg=3D0=
-x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
->  #6  0x0000555555d0ee6b in vhost_user_get_config (dev=3D0x555557bc62f8, c=
-onfig=3D0x555557bc62ac "", config_len=3D60) at ../hw/virtio/vhost-user.c:21=
-33
->  #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=3D0x555557bc62f8, c=
-onfig=3D0x555557bc62ac "", config_len=3D60) at ../hw/virtio/vhost.c:1566
->  #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=3D0x555557b=
-c60b0, errp=3D0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
->  #9  0x0000555555d08f6d in virtio_device_realize (dev=3D0x555557bc60b0, e=
-rrp=3D0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  hw/block/vhost-user-blk.c | 54 ++++++++++-----------------------------
->  1 file changed, 13 insertions(+), 41 deletions(-)
->=20
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index f5e9682703..e824b0a759 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -50,6 +50,8 @@ static const int user_feature_bits[] =3D {
->      VHOST_INVALID_FEATURE_BIT
->  };
-> =20
-> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
-> +
->  static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *co=
-nfig)
->  {
->      VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
-> @@ -362,19 +364,6 @@ static void vhost_user_blk_disconnect(DeviceState *d=
-ev)
->      vhost_dev_cleanup(&s->dev);
->  }
-> =20
-> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-> -                                 bool realized);
-> -
-> -static void vhost_user_blk_event_realize(void *opaque, QEMUChrEvent even=
-t)
-> -{
-> -    vhost_user_blk_event(opaque, event, false);
-> -}
-> -
-> -static void vhost_user_blk_event_oper(void *opaque, QEMUChrEvent event)
-> -{
-> -    vhost_user_blk_event(opaque, event, true);
-> -}
-> -
->  static void vhost_user_blk_chr_closed_bh(void *opaque)
->  {
->      DeviceState *dev =3D opaque;
-> @@ -382,12 +371,11 @@ static void vhost_user_blk_chr_closed_bh(void *opaq=
-ue)
->      VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
-> =20
->      vhost_user_blk_disconnect(dev);
-> -    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL,
-> -            vhost_user_blk_event_oper, NULL, opaque, NULL, true);
-> +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_eve=
-nt,
-> +                             NULL, opaque, NULL, true);
->  }
-> =20
-> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-> -                                 bool realized)
-> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
->  {
->      DeviceState *dev =3D opaque;
->      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> @@ -401,17 +389,7 @@ static void vhost_user_blk_event(void *opaque, QEMUC=
-hrEvent event,
->          }
->          break;
->      case CHR_EVENT_CLOSED:
-> -        /*
-> -         * Closing the connection should happen differently on device
-> -         * initialization and operation stages.
-> -         * On initalization, we want to re-start vhost_dev initializatio=
-n
-> -         * from the very beginning right away when the connection is clo=
-sed,
-> -         * so we clean up vhost_dev on each connection closing.
-> -         * On operation, we want to postpone vhost_dev cleanup to let th=
-e
-> -         * other code perform its own cleanup sequence using vhost_dev d=
-ata
-> -         * (e.g. vhost_dev_set_log).
-> -         */
-> -        if (realized && !runstate_check(RUN_STATE_SHUTDOWN)) {
-> +        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
->              /*
->               * A close event may happen during a read/write, but vhost
->               * code assumes the vhost_dev remains setup, so delay the
-> @@ -431,8 +409,6 @@ static void vhost_user_blk_event(void *opaque, QEMUCh=
-rEvent event,
->               * knowing its type (in this case vhost-user).
->               */
->              s->dev.started =3D false;
-> -        } else {
-> -            vhost_user_blk_disconnect(dev);
->          }
->          break;
->      case CHR_EVENT_BREAK:
-> @@ -490,31 +466,27 @@ static void vhost_user_blk_device_realize(DeviceSta=
-te *dev, Error **errp)
->      s->vhost_vqs =3D g_new0(struct vhost_virtqueue, s->num_queues);
->      s->connected =3D false;
-> =20
-> -    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-> -                             vhost_user_blk_event_realize, NULL, (void *=
-)dev,
-> -                             NULL, true);
-> -
-> -reconnect:
->      if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
->          error_report_err(err);
->          goto virtio_err;
->      }
-> =20
-> -    /* check whether vhost_user_blk_connect() failed or not */
-> -    if (!s->connected) {
-> -        goto reconnect;
-> +    if (vhost_user_blk_connect(dev) < 0) {
-> +        qemu_chr_fe_disconnect(&s->chardev);
-> +        goto virtio_err;
->      }
-> +    assert(s->connected);
-
-Maybe a good compromise here would be to retry some small number of
-times (or even just once) so that cases like daemon upgrades and
-recoverable crashes racing with power-ons and incoming migrations
-don't result in failures?=20
-
-As a more general solution, we could have a user defined parameter to
-specify a number of repeated connection failures to allow both pre and
-post realize before bringing QEMU down. Thoughts?
-
-> =20
->      ret =3D vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
->                                 sizeof(struct virtio_blk_config));
->      if (ret < 0) {
->          error_report("vhost-user-blk: get block config failed");
-> -        goto reconnect;
-> +        goto virtio_err;
->      }
-> =20
-> -    /* we're fully initialized, now we can operate, so change the handle=
-r */
-> +    /* we're fully initialized, now we can operate, so add the handler *=
-/
->      qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-> -                             vhost_user_blk_event_oper, NULL, (void *)de=
-v,
-> +                             vhost_user_blk_event, NULL, (void *)dev,
->                               NULL, true);
->      return;
-> =20
-> --=20
-> 2.30.2
-> =
 
