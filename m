@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF7A36DBD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:36:45 +0200 (CEST)
-Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC1336DBB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 17:33:10 +0200 (CEST)
+Received: from localhost ([::1]:43724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbmF1-0003tC-Rv
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
+	id 1lbmBZ-0000Aw-UL
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 11:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lblxj-0005m8-QF; Wed, 28 Apr 2021 11:18:51 -0400
-Received: from mail-eopbgr70127.outbound.protection.outlook.com
- ([40.107.7.127]:16352 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1lblxi-0005lX-Ka; Wed, 28 Apr 2021 11:18:51 -0400
+Received: from mail-db8eur05on2106.outbound.protection.outlook.com
+ ([40.107.20.106]:17025 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lblxg-0001nK-7c; Wed, 28 Apr 2021 11:18:51 -0400
+ id 1lblxg-0001uP-Io; Wed, 28 Apr 2021 11:18:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AphroLkzChhfqK8xEBwXuzoW+Eyn+THNhxVnZVVGUTHLOSvMce1StepZ6fEAWmnRS7H7t041tL8sYkn6CT4pRXApqn3n/PsIfirfmdWEl8QZlVG1U7r/otOw/BGU7COYDFrl+onmfjWGaW55m5sq127p7bFW1OqetlmJQBqUC9e0x9fQrzuXRPkt9n4f4IX5VWcNs39OSS1ZFEWvQ176h4zI0QZwM3pKksLxzCW6BmQsqS4cHB215AnFYoCeTemjWCXDpg4PO0CQ35H24+0pG25bRv6Z4FOCBJtXK7bJLiVaG1spt3jsU1VhtfCyVO6F2/gESZmCBk3vmy+X9IPVzw==
+ b=Nwa+mEYn4xwcmLmXdgpe2rEUBUcvKRfAyXqWuy6W5eEAB5N+JMlzKMl6v9JOy3J4E16eBhXx0eV6DSomWx+uew/5G6aPGg1M+4gqWsGtMruKrpLZ/Xny7EXuV5P837cUtmAtBnv7KEb2Nqadg/wAAZACP9gBRY/JYXCURWB7SeiXhAomLcyK8Sf+HJE2dFVz+fwKLASTVICjL0C21pj6HYix0jsjqYDmzHoxF2JVLwSmxNVFiaQlMGO0+d5ylJN3nL45B0waJeb1UlaKAf+4I2nGEoHu+8rN8Z3+1TeeVnUa85+oWV7w94JYRggUc+Epxwqkvn92Bl8o/LRLpbwaSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CZWiUiLbDBPSH51cYG45BETE4Y0hVNBIrv+eT9F7UTI=;
- b=JjDXwaUm2ewmka6SEYNusjhW2YwTgUyKT37FolzpkGxJBrzUMoRlNQYnFRwPRPNvfUVYgFBnAr+znClBzjjwkGvr6QHlFrNIHs1Ztu+7TBNzUGm/CA/gfbeiikmheugD/63IdYiZ1mGP9MeUz5KvRjnujBywgGDfklNRdNFVslym8OejDpFKxsv4D9VpugKleblxMyZzGr5+oOdeDsirQ3+yHU1zaR48B0VcnaHY8dSG5p9F3CF4eyXGXJgbe4+hidhIdPgdeimAojmUEF5u0Y4l5Sgm+GDfcylcYNXdt9MgkphTEG/IezNf6xWe9kbfd6KOe3gM5Hvs+w51F1uT8A==
+ bh=nTxNDb/H5pG6wn4VlXrTlpgMuCCoiDfiJ6xRPS/7nn8=;
+ b=mBVAD/AlXw4ZXnScNyNh9ZHmVjrzpOboE7OT3fmbYCXVTyM9BZ3FVfBb0CHztUPmKL3AFODCmJ8DAJdRQtb+wv6/8Gk93w6S/8eFaznZkGfDkwt29NufyPSAcFgnyr1nIWevmyjy9g+B9C4htLzkFFRHl02m4iQjqBc1vrQSsn8Zut2ma3/2JbZiFbJF6+FLaOmt8eVdWzz79f9KIjSW1Z7+opxj+8VOWSEcSt6jd+AzD99DW+9dL/8kyUOnqQ1H/oiBvjiqcT7X4SyFH44uWDPwboLvxAVdvTDGlyGs+vRxwtf4c/zMW678RMyGqwpb5iQXnAmsEPyNLAgFrg5PXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CZWiUiLbDBPSH51cYG45BETE4Y0hVNBIrv+eT9F7UTI=;
- b=HdSOMi5W+HjclRO4TckWQ6lhFcUdLcAf0wTbraTwIUdEHhxivMOHf/ffIqpTurs9+j74kRAH8lkew6iOMuq3HZekTMN5eAbSWFnrFgVRKU2f8ITTvTtWqRqwGF1nvmzzNPvrNpvTOlY59pgJEdehWTVGwO7XbHhGN2gr6f/dRx0=
+ bh=nTxNDb/H5pG6wn4VlXrTlpgMuCCoiDfiJ6xRPS/7nn8=;
+ b=gkoaNNMQ82GyWTEWzsWvsc8ReeLOohA9j7FqQlkDBEMMqc38zASKWOkJD+q6VbZ98yZGkpNvf82E4Ir6OoQoy+RrTUJL2AG7waceXnzJ5fZsDZdXFekjmMQG1APbapfYdYZcs5LeEA32zCATu3pw+thGN3w3kQW9ynniRDYgGrQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB5909.eurprd08.prod.outlook.com (2603:10a6:20b:297::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Wed, 28 Apr
- 2021 15:18:27 +0000
+ 2021 15:18:28 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4065.027; Wed, 28 Apr 2021
- 15:18:27 +0000
+ 15:18:28 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
  stefanha@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, Alberto Garcia <berto@igalia.com>
-Subject: [PATCH v4 05/36] block: BdrvChildClass: add .get_parent_aio_context
- handler
-Date: Wed, 28 Apr 2021 18:17:33 +0300
-Message-Id: <20210428151804.439460-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 06/36] block: drop ctx argument from bdrv_root_attach_child
+Date: Wed, 28 Apr 2021 18:17:34 +0300
+Message-Id: <20210428151804.439460-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210428151804.439460-1-vsementsov@virtuozzo.com>
 References: <20210428151804.439460-1-vsementsov@virtuozzo.com>
@@ -67,64 +66,63 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.251) by
  HE1PR09CA0045.eurprd09.prod.outlook.com (2603:10a6:7:3c::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.27 via Frontend Transport; Wed, 28 Apr 2021 15:18:26 +0000
+ 15.20.4087.27 via Frontend Transport; Wed, 28 Apr 2021 15:18:27 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 15ff5ee6-c081-43f7-798f-08d90a58df95
+X-MS-Office365-Filtering-Correlation-Id: 8aa9c5e3-563f-422a-9a2a-08d90a58e047
 X-MS-TrafficTypeDiagnostic: AS8PR08MB5909:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB5909019BF1602E19E4DF5732C1409@AS8PR08MB5909.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB590980D67862A5AC6131BB28C1409@AS8PR08MB5909.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:576;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nZwvYAJC0sCuBNZmpSWhOK/mH1pJYeLV36/gl2ckuuUPXO34LtW+SvNs0CUEImdZ6fNCPnTqS6S7+8tAGRV/BACATeO7sFbL2vr79o+rJtuU9LoWC/rsY71kOdCsSuJmhmB4rpC13yyK5Iuec2B6z3qj6eko8JFG2HIkoKdtWFPBXVQ3FJNoS6EvsC+GxsdW6vXsb54pyUn+KkjhsYkEmR5StBd2+pHBcO/paWEDOqrnzgX+Qu3a2iArx6ICM3JCPy7OduJGMKMEisV8bh53ymzxDdmLtLbqkVw2XDOQSKsreBqZhXEf8YhG/tKK/8lwlbmCSWhy0XLTxXvq6FOMCslH4Q98LK2FXxwZ1ZOmpJHFDPDv6Mxq3ECx4svyiI+pgEkSBnckTiMyAi9wMkapCUZG0ruDyCryGGnd8fDKVd2BaQem+rVzuyqIaPrn5EPQ/N8A2hsxq1aR6xHx5643YOI0NCeuSl4h1pf/eh9PvPwwUq/3gW4cH1T37jMFdMXfhC1CKyPMAiZxnaJt4i4UktTzaIfyTt5Ex8YNzC+I60qju/AWygq/UPAkhHsq1FaT9s7o3PaQ4EaDgwTAXBs3qkCrLh4oOe0dOcJAvye6casrBQv424j3i1/Re/PIHstHXPa8wGtL7lQ48p7sAEUOasdTWSGgcgbZS+9dcR3+i1cd3xSofNvWgYF82SYCaCc31M9LOmZkYvl7dLNZFz2qCw==
+X-Microsoft-Antispam-Message-Info: CaJKxd5YAbQwplqd6oOG6ThXJHrjr7792uWOziX4tCNQmSdnnvjXNXabAP8fIhWOa5GPZlXZlTE8jTPOC68mbwYvtKHvuvYzoI7PpN4jvNPLmyql4AKLlnm2qUUx+qbgow+savVubWsPk8X9FVIdZDCwVxNNWrzOHUGIhmXsrTQiLtufrJqsv/kaI4zfl1Gx6ZEjzsQNZ6V8s3IAwZpJRj1XwK8nPC9WDbhQNZG7zga3vOHylObC/uHJbbxdDBusVGUi1ActCGv6O5gEYEkaw9ao8tqPY6PfyuTOI9AmGzRpnaYU/PxvuExFpjwKGb6fOviYVujQPFqfmuXGQ4u4xGoI35SG6furdqWsU2Kac2t4jmhReIbdLNrfhGtiUXjni89JrU/rb62Qykl04fRQ3KndvBNB/LYzRJZX6Zawzo1o3tLmZn6FgBMxPf3Gg4df+wXIJiC5ThhjO/o+oeglOO0WfPaGUSRgIRyqQbKYYeYqIib1sRN/iSD0v2ghNfrmovub48lXuPm//kjLzmlzFlc5mU1F0pK9NXod2BqP4bGwjjh/u8/eYZ7oNdIgEjcneFtIv1wpf+a7uzGnX+k27V8ekUprDzDfXUTlE55LCDBS1+2BnQwosUFtL48l7bFL3UHvY0p7L+ROBImk0Zd2c7ozdcX+3ntxOEaNj+qrna4WXokLCqKvDJPyUI15BNVz
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(396003)(366004)(136003)(39830400003)(8676002)(478600001)(83380400001)(8936002)(36756003)(5660300002)(4326008)(6486002)(52116002)(6512007)(2906002)(6666004)(6506007)(66946007)(26005)(86362001)(38100700002)(186003)(16526019)(6916009)(38350700002)(66556008)(66476007)(316002)(956004)(2616005)(1076003)(69590400013)(142923001);
+ SFS:(4636009)(346002)(376002)(396003)(366004)(136003)(39830400003)(8676002)(478600001)(83380400001)(8936002)(36756003)(5660300002)(4326008)(6486002)(52116002)(6512007)(2906002)(6666004)(6506007)(66946007)(26005)(86362001)(38100700002)(186003)(16526019)(6916009)(38350700002)(66556008)(66476007)(316002)(956004)(2616005)(1076003)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?DXXokVg0wE+ePPNRObz3QkQRA5k7kR3bMcKzCvPvO0Bz88o00srPTnttPj0T?=
- =?us-ascii?Q?Rl2J7EU6gPCNuIeQ/jGoCZ8CpIaNH5UA7FnXfSj1JCj/bhAqF/QJlcnX+UQK?=
- =?us-ascii?Q?PTMrTQEgDL1BxP5w9My108DcRY2rb5AXTycWaXNqP9hbgv1H0szSWDy5aUL3?=
- =?us-ascii?Q?J5n6rGESP3aGefMhGYiOGohHhSNdu2jYBA2bjm5BuyLv2i2s4Uio0+metjki?=
- =?us-ascii?Q?ErcWO8b7pgMSix4yGbrERmniW85+r2eSaWgS+aKcjazOMx6WjW+NladnNc3F?=
- =?us-ascii?Q?PKZ1iXzgZwyvsF3RHpNk+/rh5IZmsqcBY0To+DXH+pxwAbcz9ZswYpsV876e?=
- =?us-ascii?Q?4JmIqdXFJ70GBaiJgpIzSXsAQqPl/InhsTXzV99NAEh2dB1L37x/1CjWApbZ?=
- =?us-ascii?Q?CCJ+Nhn2c6aqB6BlbsE93tsIo6I/SsDO6grlFWCveT6l9jIDLNz+k4aZhkc3?=
- =?us-ascii?Q?YwKOWmFy4cfTgBV4gKB7g+Cb15E7jb3glKfeD2//9D2mJIasWUwPGq0+ypcP?=
- =?us-ascii?Q?c4MzMCNyai0kUvKTxg4hiyyHhpGMiy6ewytg3Tj3cpaZKhdejfQ6qeVNR2zC?=
- =?us-ascii?Q?aMWr3SYeQe5mHDLdbYvQ28nexU/3gKfHqlrhnODpIHbhDmiM+ZfP3Kh9zPnc?=
- =?us-ascii?Q?W4LK1/9cr7y8YKi8pqSej7LN1uBOlid0bxb8QDh59R63Lu3dIUsUqlzuIw52?=
- =?us-ascii?Q?z44KntoR/aWgIAIJHgjlCrh3ln78e9iSSUpTxjjzrHhA53hSOdAU530CNaKH?=
- =?us-ascii?Q?F+LkfNCY81oNGQHS5t3rWf6S6CQZi3tsftf1yt+wjMJ+lBd7NZCc6X/gDDCn?=
- =?us-ascii?Q?rbptl+wYGCYW1QlauOOAfpZfXKCLcmwOIrLuILtqqR9KUryPcWtIu1japHoV?=
- =?us-ascii?Q?JyukSL9wYeChZ5abo4k2rhQoIRoXJGA4Ys2+UFNlJ78lXdnytahmGo+6tU8G?=
- =?us-ascii?Q?s46iP/kIIExKWFjT4tHWhv74/c5baLfmb+F+PyWxwF7h9qI4JozknjfTrFOR?=
- =?us-ascii?Q?TwJuYdjOkIfUDJLbcyNoq5cuROSN3I0o+kjW8E8TIWDHgVbOSwZkR/yk1SYs?=
- =?us-ascii?Q?xjtTrtBnSr4vUXbnw6oZkmj9JxbLO+MKJtl9HCYwLGZ5BCJ3ad12z1p6Cg50?=
- =?us-ascii?Q?X/7Sm4rsNrTIlcJBl9ekEuMDuJ/RWN9Ldi13mSWCncBwrAld8+mwpX36iPg6?=
- =?us-ascii?Q?iUJvhgCyrXKyIrCLnZLFRnTlvaJkPm6bE6hyweHtiT/cc+wJT4QoWHwa9/YM?=
- =?us-ascii?Q?gu0ckJARWltI///WLAbXWKduVJ49TYo8klgjXel6MIMaLr4k6DV0HJSmT4JM?=
- =?us-ascii?Q?pS8PrV7sKLYpSZdbATKTrZ0q?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?az1kdouxkF1tO69tbUBlKPAIDR5z+rPZkqRFefY9vHvFmAroao81Wn+dYekS?=
+ =?us-ascii?Q?06uXts71BmNLoBI6yXl1pJiBI3+6ZQ6vzXH5qw00Y6J+7I6UQ31LUsiTnTUJ?=
+ =?us-ascii?Q?jxXfUf95HUP5MFs0UjaMoaJKAzRZDsNzOaGXlqe4svLCbkyoEnP7Yhowmvi5?=
+ =?us-ascii?Q?9bDLIWR9+VcXYLwvw8PfjVTuGb4zRpe+uMa15GN9AUA7cbGjTflzS3J2slqY?=
+ =?us-ascii?Q?zykGLkfozbYAGxf8cPlrbs+cNFiSwSWZEu/K0tdV8+hzGb99h0anhyS+Eoix?=
+ =?us-ascii?Q?GV4KcPDBW/CCPzVoAhXddIBjltjPgIUs8wCYwkYmwQr3c5Q5u8cLEx3+JBOL?=
+ =?us-ascii?Q?zXBA9q/XQflKINCRp0kZmp7fPB5X2ZSDobdWG6NWARyXJQUgqHppDxgdeafA?=
+ =?us-ascii?Q?9FVVWnYZ+oXmjs2DT0PKWxYc1gkIzwIp/HF9iZ7f7S8V8l7hZ9cp0EAUnN2T?=
+ =?us-ascii?Q?kTpLcR8OPeEfhvRw1HR7Aj66GCRL97GQDXJ0fEeBwpGajuE6XfJjzvoEnU96?=
+ =?us-ascii?Q?PO+w9X0IN5kzJlbR5kj72i+icqIXyJXWNrbQZkxY9VK9rcKGOQJ56E8csVL4?=
+ =?us-ascii?Q?QA6CSmfcZTf1kaON0KXhFcKnOkG6BWlCSwMPnU8Foxk3ITc3oxNq7Nfz9Om9?=
+ =?us-ascii?Q?NTskTIayq9N6bykhcxwmC/vJ+K9dlDa+5jSaSstnP65s7A7ZK0Y6ZMntR1Ur?=
+ =?us-ascii?Q?TSLyYdG7qYFUmS0pJag8ff8o+2Nttkd+uVpx+MD9eU7TVTwoHWAD7YeqTN0S?=
+ =?us-ascii?Q?Cpsx5COBE2VkQVW8vppyud68y9+rFSYArzbHv+zoO519ughVhkUG2L0hbNxR?=
+ =?us-ascii?Q?gP9xDKzdOgFD/4DZgGh9W0R3TbeGzssu0e24GGMN6HNDyShAAmkGhz1zrTIE?=
+ =?us-ascii?Q?B/eNat6CNJsAlEh+E6oxjeS/oQ4qlbwSBDWuB7+jCv3pf28cngbn414+sf9A?=
+ =?us-ascii?Q?p9G+GTreQR6dH9ISGU2n+6RHBsg9/5u7iw8HptNCr31A8F2jn1eTydCxMvdP?=
+ =?us-ascii?Q?zXRk4jjN1n8lG63IwDRCUvRs9G2lFkq/tfHPUtje8m2N9KG8uORA49hq6eYV?=
+ =?us-ascii?Q?bMD4WgQJ113KS0yGZb0vfvdtfoOnWW6M9pCcywCINrSfRVxKvdpDD7ILIKF2?=
+ =?us-ascii?Q?NGZA44REj3vTiCmCLnJtwh6ko5nu8RoY4eDtQITKhmU4kf3suDGB6TtFMwMT?=
+ =?us-ascii?Q?Cffveh2AlmMEQcUQsjTdnKcoeyWiCOGz0ZFMpksKtpOIEnzzzLmBrk6ynI2+?=
+ =?us-ascii?Q?oXZSLqoDACcGHJk0lXOY6MLq17/OU65NblnsXky1QmpgC9Tsr8Aes8Q55H5R?=
+ =?us-ascii?Q?gAan7a7HeDXX/IUeQg26zSsL?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15ff5ee6-c081-43f7-798f-08d90a58df95
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8aa9c5e3-563f-422a-9a2a-08d90a58e047
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:18:27.5494 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2021 15:18:28.6964 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gPfVAmURASQ0htPaDs2NCmnqZQ75nr0qt8QbjCqA3oE0fLTSuIkk0aDI43dX2A/Yyf6ONe8qRSdu6CzuK/4YKp6ofDgoS2hHx7QXLSk18IM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: SQJTmTDvUYeRNWRIwNYxjezJNbKrcTsoFS9KBMEBUqFbBwTG16TnXIK/owEzEhbn32rCBo2JNOctvV0dcd1tet08kltuHco8a/Tnwd7rdBE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5909
-Received-SPF: pass client-ip=40.107.7.127;
+Received-SPF: pass client-ip=40.107.20.106;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,132 +138,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new handler to get aio context and implement it in all child
-classes. Add corresponding public interface to be used soon.
+Passing parent aio context is redundant, as child_class and parent
+opaque pointer are enough to retrieve it. Drop the argument and use new
+bdrv_child_get_parent_aio_context() interface.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block.h     |  2 ++
- include/block/block_int.h |  2 ++
- block.c                   | 13 +++++++++++++
- block/block-backend.c     |  9 +++++++++
- blockjob.c                |  8 ++++++++
- 5 files changed, 34 insertions(+)
+ include/block/block_int.h | 1 -
+ block.c                   | 8 +++++---
+ block/block-backend.c     | 4 ++--
+ blockjob.c                | 3 +--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index b3f6e509d4..54279baa95 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -702,6 +702,8 @@ bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
-                                     GSList **ignore, Error **errp);
- bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-                               GSList **ignore, Error **errp);
-+AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c);
-+
- int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz);
- int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo);
- 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 88e4111939..737ec632c4 100644
+index 737ec632c4..dd2de6bd1d 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -789,6 +789,8 @@ struct BdrvChildClass {
-     bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
-                             GSList **ignore, Error **errp);
-     void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
-+
-+    AioContext *(*get_parent_aio_context)(BdrvChild *child);
- };
- 
- extern const BdrvChildClass child_of_bds;
+@@ -1308,7 +1308,6 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildClass *child_class,
+                                   BdrvChildRole child_role,
+-                                  AioContext *ctx,
+                                   uint64_t perm, uint64_t shared_perm,
+                                   void *opaque, Error **errp);
+ void bdrv_root_unref_child(BdrvChild *child);
 diff --git a/block.c b/block.c
-index 1e7e8907e4..2833912436 100644
+index 2833912436..54436c951e 100644
 --- a/block.c
 +++ b/block.c
-@@ -1394,6 +1394,13 @@ static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
-     return 0;
- }
- 
-+static AioContext *bdrv_child_cb_get_parent_aio_context(BdrvChild *c)
-+{
-+    BlockDriverState *bs = c->opaque;
-+
-+    return bdrv_get_aio_context(bs);
-+}
-+
- const BdrvChildClass child_of_bds = {
-     .parent_is_bds   = true,
-     .get_parent_desc = bdrv_child_get_parent_desc,
-@@ -1407,8 +1414,14 @@ const BdrvChildClass child_of_bds = {
-     .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
-     .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
-     .update_filename = bdrv_child_cb_update_filename,
-+    .get_parent_aio_context = bdrv_child_cb_get_parent_aio_context,
- };
- 
-+AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c)
-+{
-+    return c->klass->get_parent_aio_context(c);
-+}
-+
- static int bdrv_open_flags(BlockDriverState *bs, int flags)
+@@ -2700,13 +2700,13 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildClass *child_class,
+                                   BdrvChildRole child_role,
+-                                  AioContext *ctx,
+                                   uint64_t perm, uint64_t shared_perm,
+                                   void *opaque, Error **errp)
  {
-     int open_flags = flags;
+     BdrvChild *child;
+     Error *local_err = NULL;
+     int ret;
++    AioContext *ctx;
+ 
+     ret = bdrv_check_update_perm(child_bs, NULL, perm, shared_perm, NULL, errp);
+     if (ret < 0) {
+@@ -2726,6 +2726,8 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+         .opaque         = opaque,
+     };
+ 
++    ctx = bdrv_child_get_parent_aio_context(child);
++
+     /* If the AioContexts don't match, first try to move the subtree of
+      * child_bs into the AioContext of the new parent. If this doesn't work,
+      * try moving the parent into the AioContext of child_bs instead. */
+@@ -2786,8 +2788,8 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+                     perm, shared_perm, &perm, &shared_perm);
+ 
+     child = bdrv_root_attach_child(child_bs, child_name, child_class,
+-                                   child_role, bdrv_get_aio_context(parent_bs),
+-                                   perm, shared_perm, parent_bs, errp);
++                                   child_role, perm, shared_perm, parent_bs,
++                                   errp);
+     if (child == NULL) {
+         return NULL;
+     }
 diff --git a/block/block-backend.c b/block/block-backend.c
-index 413af51f3b..3f656ef361 100644
+index 3f656ef361..e4892fd6a5 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -298,6 +298,13 @@ static void blk_root_detach(BdrvChild *child)
-     }
- }
+@@ -435,7 +435,7 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
  
-+static AioContext *blk_root_get_parent_aio_context(BdrvChild *c)
-+{
-+    BlockBackend *blk = c->opaque;
-+
-+    return blk_get_aio_context(blk);
-+}
-+
- static const BdrvChildClass child_root = {
-     .inherit_options    = blk_root_inherit_options,
- 
-@@ -318,6 +325,8 @@ static const BdrvChildClass child_root = {
- 
-     .can_set_aio_ctx    = blk_root_can_set_aio_ctx,
-     .set_aio_ctx        = blk_root_set_aio_ctx,
-+
-+    .get_parent_aio_context = blk_root_get_parent_aio_context,
- };
- 
- /*
+     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
+                                        BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                                       blk->ctx, perm, BLK_PERM_ALL, blk, errp);
++                                       perm, BLK_PERM_ALL, blk, errp);
+     if (!blk->root) {
+         blk_unref(blk);
+         return NULL;
+@@ -849,7 +849,7 @@ int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+     bdrv_ref(bs);
+     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
+                                        BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                                       blk->ctx, blk->perm, blk->shared_perm,
++                                       blk->perm, blk->shared_perm,
+                                        blk, errp);
+     if (blk->root == NULL) {
+         return -EPERM;
 diff --git a/blockjob.c b/blockjob.c
-index 207e8c7fd9..160bf38b19 100644
+index 160bf38b19..2fe1d788ba 100644
 --- a/blockjob.c
 +++ b/blockjob.c
-@@ -163,6 +163,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
-     job->job.aio_context = ctx;
- }
- 
-+static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
-+{
-+    BlockJob *job = c->opaque;
-+
-+    return job->job.aio_context;
-+}
-+
- static const BdrvChildClass child_job = {
-     .get_parent_desc    = child_job_get_parent_desc,
-     .drained_begin      = child_job_drained_begin,
-@@ -171,6 +178,7 @@ static const BdrvChildClass child_job = {
-     .can_set_aio_ctx    = child_job_can_set_aio_ctx,
-     .set_aio_ctx        = child_job_set_aio_ctx,
-     .stay_at_node       = true,
-+    .get_parent_aio_context = child_job_get_parent_aio_context,
- };
- 
- void block_job_remove_all_bdrv(BlockJob *job)
+@@ -229,8 +229,7 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     if (need_context_ops && job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_release(job->job.aio_context);
+     }
+-    c = bdrv_root_attach_child(bs, name, &child_job, 0,
+-                               job->job.aio_context, perm, shared_perm, job,
++    c = bdrv_root_attach_child(bs, name, &child_job, 0, perm, shared_perm, job,
+                                errp);
+     if (need_context_ops && job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_acquire(job->job.aio_context);
 -- 
 2.29.2
 
