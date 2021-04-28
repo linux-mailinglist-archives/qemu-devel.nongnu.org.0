@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D63C36DCB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:09:32 +0200 (CEST)
-Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1450736DCC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 18:14:28 +0200 (CEST)
+Received: from localhost ([::1]:44516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbmkl-0007dN-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34052)
+	id 1lbmpV-0003DT-SY
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 12:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbmCZ-0002eG-SH
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:34:13 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:43988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lbmCX-0000rv-H6
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:34:11 -0400
-Received: by mail-pf1-x430.google.com with SMTP id e15so7206826pfv.10
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 08:34:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/J0IW8P9vEV2Z37yQrgJjI41QgkAJfufdXlBjdgpZ4I=;
- b=CnygDZUmkopfTxyrX/UREBagEJc34FH22BNyldc/L4hEeEsn8T8gw3Lky1Z3Gpiu8I
- FuvteXG+qDmt/XbJxUoOCaLTUGKe/GuXOgWuV21iAFWWaqvp+DYzIeYYssRgkkfi5EkD
- DHYRgdWoAaRmaFnobzqV70Q7AoinfFcJZVmfYomvK047+05G1yfetL4QKv3Yb4NclBSv
- cLpoLjXcxQRDZzOHiO2z7aQuzHMg+ZKN50fOMQozv8KHl0/LGN4VBXG97hIgVl7FCh8b
- X6MXS4WC9RjAyiKMf8Y4BE5JRuQpAeZ+8b08d2iY3f1ieSwRAgbR5C9/QyHO0Pg98CUM
- 7xcg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbmCf-0002mq-9S
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:34:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lbmCd-0000uV-7T
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 11:34:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619624054;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uz/4CW8hNTcdcqaoC6PlPkM71z/XjfFrNW9esv66KJw=;
+ b=el2s86yo2V5doOWYKTdORT9RPrBO5suzgtFVm/SDNdydvWLwS+CYwg1Z0rLmUPQrPkfHEG
+ qmYfApjGAshgUSKML1GZv+P1T116JrqSo/P14R6TZbPbRRXA0YEedUda2oOKEB29urFKS3
+ b97mW8Us4z7dzt3T2oFqw0O1E/QDrYM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-Bj3ubY_xPZS8F0YU26e1ig-1; Wed, 28 Apr 2021 11:34:11 -0400
+X-MC-Unique: Bj3ubY_xPZS8F0YU26e1ig-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d78-20020a1c1d510000b0290132794b7801so5299893wmd.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 08:34:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/J0IW8P9vEV2Z37yQrgJjI41QgkAJfufdXlBjdgpZ4I=;
- b=a43LJu2bSw6Mq9uAyp+fisj/dl6cm4JOdBApvex1XyyO1XR7BE2KabZoKZQ8rPO7av
- A6B5zZx0CW45GJ48ft/ZecAm9LZeE5y/Kqbgwp3uV7t0PUxVTWXs+j/MgZThc+Me98le
- S0VeHmdvzddTb/MHx0OLwWjIuYc/Na2F/417wVbhitkya8mgF5LrtyrGVku+q06k6cRR
- 5Em6dzfo3Z18Ui89OzC5QQAnk/yI/Gg95EPJMzd0PkLxFotKid/bZUwimFABfVyeq1uZ
- RjtrnDjJPwFLZueXvDnSmE9N+khYEHOWIjELSz8lTuIdjsvF5j8/Emv9hgUdU1HBHV02
- ABvw==
-X-Gm-Message-State: AOAM533q/xSRRshmO9O+Qd26wKDHFqAbogl+cRHNriVIFq2kTGxaYXr8
- B7jkPb0abuhizVKFdO7VGatU4w==
-X-Google-Smtp-Source: ABdhPJxNvleArfZZfEVL2IyuymNSq0vOXWcvTvJ6V7HbKPn6ksLVaCM6TV61KdYH8CYHUuvtx3sYwg==
-X-Received: by 2002:a62:dd41:0:b029:24c:27a4:48f1 with SMTP id
- w62-20020a62dd410000b029024c27a448f1mr28346758pff.42.1619624047778; 
- Wed, 28 Apr 2021 08:34:07 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id q8sm105650pfk.137.2021.04.28.08.34.07
+ bh=Uz/4CW8hNTcdcqaoC6PlPkM71z/XjfFrNW9esv66KJw=;
+ b=l1r/v8s1QFRn4Jms/1MDQB7mgTROUIZChB+Cmck0/dBmey8mIT+I5FK0yyuLblJiZ8
+ C4v9sT/SSzncTAN+Q7Ae+y+yH6jK4qiSNHNWqJQWKsJYsmC1w0qICkDN2qZ+GjVWjUYc
+ f3FOWCRs/xvdGf0Gjxfe42AGx25YTlKbZYmms/5+Wp+jI+pgiKCZ4qnYaz2bnmpFA2OH
+ /M2fZLV5DnoQH+zVo/tq2IvORaf6vXmAWwTFrRI/m33LIpqWlLhro49quvpOZJGluzwM
+ NlGOrOvxBg6PjK4cFvcQzKL8prxO0upNFWBi2matIRWEFjmJnrs5DuEWVrk4w/KVGQte
+ oUcQ==
+X-Gm-Message-State: AOAM532GvgMrzLjVepV9/zlchc2qVOnSPJceFKbhzXq0ax0ea1I0tcCq
+ t0v9wiPxVKDk46WVx4KW/g7pnH7isJmS0BDRE2ErS0qfoNQ6x6BmXXZjM4jW3/MFX8DKzVx36XF
+ Zz2bF3AYGseVaLzM=
+X-Received: by 2002:a5d:47cc:: with SMTP id o12mr36711368wrc.227.1619624050032; 
+ Wed, 28 Apr 2021 08:34:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBhOQzvoBfIa22mQIQGqbdGuqwNjQTce1b4NEl48R2pLxwmdvg8sK9wfUPnupQ7JiEu+SV8Q==
+X-Received: by 2002:a5d:47cc:: with SMTP id o12mr36711337wrc.227.1619624049839; 
+ Wed, 28 Apr 2021 08:34:09 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id n5sm68418wrx.92.2021.04.28.08.34.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Apr 2021 08:34:07 -0700 (PDT)
-Subject: Re: [PATCH v2 11/15] target/ppc: Move D/DS/X-form integer loads to
- decodetree
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210427171649.364699-1-luis.pires@eldorado.org.br>
- <20210427171649.364699-12-luis.pires@eldorado.org.br>
- <756a8039-02a8-2cfd-a7ad-d73df9d50438@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dcc18978-8145-d388-1753-64d82b36d001@linaro.org>
-Date: Wed, 28 Apr 2021 08:34:05 -0700
+ Wed, 28 Apr 2021 08:34:09 -0700 (PDT)
+Subject: Re: [PATCH 1/2] meson: Check for seccomp/cap-ng libraries if
+ virtiofsd is enabled
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210428144813.417170-1-philmd@redhat.com>
+ <20210428144813.417170-2-philmd@redhat.com>
+ <CAFEAcA9chk8aEqe0jrYQouF0=UpznTrR+J8puVgNvf1VipPm2A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <afabff90-7af3-f4fe-86de-e0c169e286dd@redhat.com>
+Date: Wed, 28 Apr 2021 17:34:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <756a8039-02a8-2cfd-a7ad-d73df9d50438@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA9chk8aEqe0jrYQouF0=UpznTrR+J8puVgNvf1VipPm2A@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,42 +101,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br, f4bug@amsat.org,
- david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/21 6:31 AM, Matheus K. Ferst wrote:
-> This is a bit problematic, the instruction form isn't enough to decide its
-> fields. Eg. setb is X-form, but the fields are rt:5 bfa:3, setbc is also X-form
-> and the fields are rt:5 ba:5. In fact, for the X-form, there is a whole page of
-> field designations in PowerISA v3.1.
+On 4/28/21 5:06 PM, Peter Maydell wrote:
+> On Wed, 28 Apr 2021 at 15:55, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
 > 
-> I would break this into three cases:
->   - Some forms have single field designations. Eg. B, XLS, XX4;
->   - Others have multiple designations but are just alternative names for the
->     fields. Eg. DQ, DS, M;
->   - And there are forms with multiple designations, with a variable number of
->     fields that may overlap each other. Eg. X, XFX, XX2.
+> (cc'ing Paolo for a meson.build question below...)
 > 
-> The first is a non-issue, just use the form name as done here. The second seems
-> tractable, we could pick one field name for each part of the insn and still use
-> the form name as the identifier for args_def/fmt_def. The last case will likely
-> require multiple fmt_defs for each form, in which case we would need to come up
-> with a pattern to name them.
-
-Yep.
-
+>> When not explicitly select a sysemu target and building virtiofsd,
+>> the seccomp/cap-ng libraries are not resolved, leading to this error:
+>>
+>>   $ configure --target-list=i386-linux-user --disable-tools --enable-virtiofsd
+>>   tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd requires libcap-ng-devel and seccomp-devel
+>>
+>> Fix by checking the seccomp/cap-ng libraries if virtiofsd is built.
+>>
+>> Reported-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  meson.build | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index c6f4b0cf5e8..b466b418fed 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -393,14 +393,14 @@
+>>  endif
+>>
+>>  seccomp = not_found
+>> -if not get_option('seccomp').auto() or have_system or have_tools
+>> +if not get_option('seccomp').auto() or have_system or have_tools or not get_option('virtiofsd').auto()
+>>    seccomp = dependency('libseccomp', version: '>=2.3.0',
+>>                         required: get_option('seccomp'),
+>>                         method: 'pkg-config', kwargs: static_kwargs)
+>>  endif
+>>
+>>  libcap_ng = not_found
+>> -if not get_option('cap_ng').auto() or have_system or have_tools
+>> +if not get_option('cap_ng').auto() or have_system or have_tools or not get_option('virtiofsd').auto()
+>>    libcap_ng = cc.find_library('cap-ng', has_headers: ['cap-ng.h'],
+>>                                required: get_option('cap_ng'),
+>>                                kwargs: static_kwargs)
 > 
-> Looking at what Binutils did when they added Power10 support, it seems that the
-> insn form is just a hint for opcode positions, and fields are specified for each
-> insn. The sad part of this kind of approach is that it would leave us with, eg.
-> arg_LBZX and arg_LBZUX instead of a single arg_X, making it harder to put
-> multiple insns under the same implementation.
+> Now we have "virtiofsd requires cap-ng and seccomp" recorded in three
+> places in different meson.build files:
+>  * here, if this patch goes in
+>  * in tools/meson.build, in its logic for setting have_virtiofsd
+>    (I generously do not count the "decide which error message to print"
+>    logic in that file as a separate item in this list...)
+>  * in tools/virtiofsd/meson.build, where the executable('virtiofsd', ...)
+>    lists them in its dependencies: setting
+> 
+> Is there some way to avoid this duplication?
 
-You'll just make up names for those that are used by more than one instruction. 
-  E.g. X, X_rc, X_l, X_wc_pl, etc.
+I noticed that too, I think the problem is we never considered the case
+of a standalone binary buildable without sysemu / tools, such virtiofsd.
+
+TIL virtiofsd is not a tool, so tools/meson.build needs rework, in
+particular to remove the 'have_tools' but maybe to move it out of
+tools/:
+
+have_virtiofsd = (targetos == 'linux' and
+    have_tools and
+    seccomp.found() and
+    libcap_ng.found() and
+    'CONFIG_VHOST_USER' in config_host)
+
+If virtiofsd requires Linux, shouldn't we check it directly
+in ./configure, not allowing --enable-virtiofsd on non-linux
+hosts?
+Maybe it is there for cross-compilation... Is it supported to
+cross-build it on non-Linux hosts?
 
 
-r~
+It could be clearer to use:
+
+  want_virtiofsd = get_option('virtiofsd').auto()
+
+
+BTW to test I used:
+
+  $ configure --target-list=i386-linux-user --disable-tools
+--enable-virtiofsd
+  $ ninja tools/virtiofsd/virtiofsd
+
 
