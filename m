@@ -2,47 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D3436D5D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 12:31:42 +0200 (CEST)
-Received: from localhost ([::1]:38166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B5136D5D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Apr 2021 12:33:32 +0200 (CEST)
+Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbhTp-0004vZ-Tw
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 06:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57646)
+	id 1lbhVb-000621-F0
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 06:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lbhSo-0004UX-4F; Wed, 28 Apr 2021 06:30:38 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41598)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbhTz-0005P0-GR
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 06:31:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lbhSm-0003Xw-5f; Wed, 28 Apr 2021 06:30:37 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BD532B0E5;
- Wed, 28 Apr 2021 10:30:32 +0000 (UTC)
-Subject: Re: [RFC v3 13/13] MAINTAINERS: update s390x directories
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20210422115430.15078-1-cfontana@suse.de>
- <20210422115430.15078-14-cfontana@suse.de>
- <20210427170047.2cf0d6c0.cohuck@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <8d527589-8fcb-4c87-55b3-530173c7a1a7@suse.de>
-Date: Wed, 28 Apr 2021 12:30:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lbhTx-0004LU-JQ
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 06:31:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619605909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mjvmg9LlEpVSK1chOBrjgyfYfbujA4I0+6/VYY4DFgE=;
+ b=R9N+THACueiyUsfc4f7HpBh4uLtLfcqyZ6UfAqMRbZJ7m/9xD9tODU5eURKAzEv/kw8Yge
+ aCzlrHaAmln7Cd4+8G/IagmeXHxKnmcgKswJzBd9ljTCvjQk3kLkBUs/I1sKd21KAGmVnq
+ UXNIPcofAmJQGBUD4AsGJ1MT+0EHI+g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-r8jQ65lbPVOiCcwpYS5c-g-1; Wed, 28 Apr 2021 06:31:45 -0400
+X-MC-Unique: r8jQ65lbPVOiCcwpYS5c-g-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ m18-20020a0564025112b0290378d2a266ebso26569195edd.15
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 03:31:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mjvmg9LlEpVSK1chOBrjgyfYfbujA4I0+6/VYY4DFgE=;
+ b=qPjr9PVfkP1QHd16tJIAvIpTVq6YTHNTTQ0bJA3KQ5QcxkZS2VIVfM3TbH38YUERgr
+ mBwa0CEQt4c9NwzuiDgx+9//WaD3DXjbT1WUsHosVAj0F42YY7r/QMDYp9r2HXWEcKj0
+ iu8EeI5mjmmgEM5OXZn9gs6bKkE1OYgoawYpS51Lt3r5NaB4Fxb8Y2ISZastOvqj9Y1k
+ vka8CkNXpZYI8kSA4wkusBy7JjGH3eliYcQNqcn9iDZjCaHy/o5QPUF6mH8XpZBr7RXd
+ Dab+h3UrDdN69pAMoxQBOAy7rOS/t9t4IpwpMdiwes57TY0vUSh7tr8j1CsCJI9pNKmF
+ 1tfA==
+X-Gm-Message-State: AOAM5308YCkMph92FXFLOGdMOT/pzEMOnjpPnTvfZlV5hEflcO44/7L6
+ SXSB3dg9VT58QOCS4KYWHURZhP7b3rRQeGByODjRnRjGwxg5Sxdn/1TDwwArGImdrg4bUWN01dI
+ LvCyTGdEyA1mSCpE=
+X-Received: by 2002:a17:906:8319:: with SMTP id
+ j25mr21664382ejx.413.1619605904219; 
+ Wed, 28 Apr 2021 03:31:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyA1vk3z6B+tBR4+8ROGUAUoJOX4Na+/4cNxLncQ77MmD5Gh2JrMpel9aFKy0HalsXOWcW2og==
+X-Received: by 2002:a17:906:8319:: with SMTP id
+ j25mr21664346ejx.413.1619605903990; 
+ Wed, 28 Apr 2021 03:31:43 -0700 (PDT)
+Received: from gator (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id l7sm1719252ejk.115.2021.04.28.03.31.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Apr 2021 03:31:43 -0700 (PDT)
+Date: Wed, 28 Apr 2021 12:31:41 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+Message-ID: <20210428103141.5qfhzcqko6hxhxee@gator>
+References: <20210413083147.34236-1-wangyanan55@huawei.com>
+ <20210413083147.34236-3-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210427170047.2cf0d6c0.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210413083147.34236-3-wangyanan55@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,122 +97,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ qemu-devel@nongnu.org, yangyicong@huawei.com,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Cornelia,
-
-On 4/27/21 5:00 PM, Cornelia Huck wrote:
-> On Thu, 22 Apr 2021 13:54:30 +0200
-> Claudio Fontana <cfontana@suse.de> wrote:
+On Tue, Apr 13, 2021 at 04:31:45PM +0800, Yanan Wang wrote:
+> There is a separate function virt_smp_parse() in hw/virt/arm.c used
+> to parse cpu topology for the ARM machines. So add parsing of -smp
+> cluster parameter in it, then total number of logical cpus will be
+> calculated like: max_cpus = sockets * clusters * cores * threads.
 > 
->> After the reshuffling, update MAINTAINERS accordingly.
->> Make use of the new directories:
->>
->> target/s390x/kvm/
->> target/s390x/tcg/
+> In virt_smp_parse(), the computing logic of missing values prefers
+> cores over sockets over threads. And for compatibility, the value
+> of clusters will be set as default 1 if not explicitly specified.
 > 
-> Is there anything left in target/s390x/ that is neither in kvm/ nor in
-
-Btw the series still does not include the move of TCGCPUOps to a tcg CPU class accel in tcg/,
-if ok with you all I would do it in a later series, but let me know if you'd like it here instead.
-
-After this series, there is still:
-
-cpu class code, cpu-*
-machine.c
-arch_dump.c
-cpu_models*
-cpu_features*
-helper.c
-diag.c
-interrupt.c
-ioinst.c
-
-mmu_helper.c [ part of this could be still split between tcg/ and kvm/ but it is not a clear call]
-sigp.c       [ same here, could be investigated for further split, but likely common parts would remain here]
-
-Many of these items match the S390 KVM CPUs section, which in some cases should probably instead be more in the general section:
-
-S390 KVM CPUs
-M: Halil Pasic <pasic@linux.ibm.com>
-M: Cornelia Huck <cohuck@redhat.com>
-M: Christian Borntraeger <borntraeger@de.ibm.com>
-S: Supported
-F: target/s390x/kvm/
-F: target/s390x/ioinst.[ch]
-F: target/s390x/machine.c
-F: target/s390x/sigp.c
-F: target/s390x/cpu_features*.[ch]
-F: target/s390x/cpu_models*.[ch]
-F: hw/s390x/pv.c
-F: include/hw/s390x/pv.h
-F: hw/intc/s390_flic.c
-F: hw/intc/s390_flic_kvm.c
-F: include/hw/s390x/s390_flic.h
-F: gdb-xml/s390*.xml
-T: git https://gitlab.com/cohuck/qemu.git s390-next
-T: git https://github.com/borntraeger/qemu.git s390-next
-L: qemu-s390x@nongnu.org
-
-
-> tcg/? It seems that will only be covered by the general s390
-> maintainers entry.
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/arm/virt.c | 32 ++++++++++++++++++--------------
+>  1 file changed, 18 insertions(+), 14 deletions(-)
 > 
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  MAINTAINERS | 8 +++-----
->>  1 file changed, 3 insertions(+), 5 deletions(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7de873c9f5..3d738bd4fc 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -315,7 +315,7 @@ S390 TCG CPUs
->>  M: Richard Henderson <richard.henderson@linaro.org>
->>  M: David Hildenbrand <david@redhat.com>
->>  S: Maintained
->> -F: target/s390x/
->> +F: target/s390x/tcg
->>  F: hw/s390x/
-> 
-> Unrelated: I'm wondering how much sense it makes to have the whole of
-> hw/s390x/ under the tcg section... but if the maintainers are not
-> complaining, I'm happy to leave it there :)
-> 
->>  F: disas/s390.c
->>  F: tests/tcg/s390x/
->> @@ -417,14 +417,12 @@ M: Halil Pasic <pasic@linux.ibm.com>
->>  M: Cornelia Huck <cohuck@redhat.com>
->>  M: Christian Borntraeger <borntraeger@de.ibm.com>
->>  S: Supported
->> -F: target/s390x/kvm.c
->> -F: target/s390x/kvm_s390x.h
->> -F: target/s390x/kvm-stub.c
->> +F: target/s390x/kvm/
->>  F: target/s390x/ioinst.[ch]
->>  F: target/s390x/machine.c
->>  F: target/s390x/sigp.c
->>  F: target/s390x/cpu_features*.[ch]
->> -F: target/s390x/cpu_models.[ch]
->> +F: target/s390x/cpu_models*.[ch]
->>  F: hw/s390x/pv.c
->>  F: include/hw/s390x/pv.h
->>  F: hw/intc/s390_flic.c
-> 
-> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 57ef961cb5..51797628db 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2639,35 +2639,38 @@ static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+>      if (opts) {
+>          unsigned cpus = qemu_opt_get_number(opts, "cpus", 0);
+>          unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
+> +        unsigned clusters = qemu_opt_get_number(opts, "clusters", 1);
+>          unsigned cores = qemu_opt_get_number(opts, "cores", 0);
+>          unsigned threads = qemu_opt_get_number(opts, "threads", 0);
+> +        VirtMachineState *vms = VIRT_MACHINE(ms);
+>  
+>          /*
+> -         * Compute missing values; prefer cores over sockets and
+> -         * sockets over threads.
+> +         * Compute missing values; prefer cores over sockets and sockets
+> +         * over threads. For compatibility, value of clusters will have
+> +         * been set as default 1 if not explicitly specified.
+>           */
+>          if (cpus == 0 || cores == 0) {
+>              sockets = sockets > 0 ? sockets : 1;
+>              threads = threads > 0 ? threads : 1;
+>              if (cpus == 0) {
+>                  cores = cores > 0 ? cores : 1;
+> -                cpus = cores * threads * sockets;
+> +                cpus = sockets * clusters * cores * threads;
+>              } else {
+>                  ms->smp.max_cpus = qemu_opt_get_number(opts, "maxcpus", cpus);
+> -                cores = ms->smp.max_cpus / (sockets * threads);
+> +                cores = ms->smp.max_cpus / (sockets * clusters * threads);
+>              }
+>          } else if (sockets == 0) {
+>              threads = threads > 0 ? threads : 1;
+> -            sockets = cpus / (cores * threads);
+> +            sockets = cpus / (clusters * cores * threads);
+>              sockets = sockets > 0 ? sockets : 1;
 
-Let me know if you need further changes here,
-or if they should be in a separate context.
+If we initialize clusters to zero instead of one and add lines in
+'cpus == 0 || cores == 0' and 'sockets == 0' like
+'clusters = clusters > 0 ? clusters : 1' as needed, then I think we can
+add
 
-Thanks!
+ } else if (clusters == 0) {
+     threads = threads > 0 ? threads : 1;
+     clusters = cpus / (sockets * cores * thread);
+     clusters = clusters > 0 ? clusters : 1;
+ }
 
-Claudio
+here.
+
+>          } else if (threads == 0) {
+> -            threads = cpus / (cores * sockets);
+> +            threads = cpus / (sockets * clusters * cores);
+>              threads = threads > 0 ? threads : 1;
+> -        } else if (sockets * cores * threads < cpus) {
+> +        } else if (sockets * clusters * cores * threads < cpus) {
+>              error_report("cpu topology: "
+> -                         "sockets (%u) * cores (%u) * threads (%u) < "
+> -                         "smp_cpus (%u)",
+> -                         sockets, cores, threads, cpus);
+> +                         "sockets (%u) * clusters (%u) * cores (%u) * "
+> +                         "threads (%u) < smp_cpus (%u)",
+> +                         sockets, clusters, cores, threads, cpus);
+>              exit(1);
+>          }
+>  
+> @@ -2678,11 +2681,11 @@ static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+>              exit(1);
+>          }
+>  
+> -        if (sockets * cores * threads != ms->smp.max_cpus) {
+> +        if (sockets * clusters * cores * threads != ms->smp.max_cpus) {
+>              error_report("cpu topology: "
+> -                         "sockets (%u) * cores (%u) * threads (%u)"
+> -                         "!= maxcpus (%u)",
+> -                         sockets, cores, threads,
+> +                         "sockets (%u) * clusters (%u) * cores (%u) * "
+> +                         "threads (%u) != maxcpus (%u)",
+> +                         sockets, clusters, cores, threads,
+>                           ms->smp.max_cpus);
+>              exit(1);
+>          }
+> @@ -2691,6 +2694,7 @@ static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+>          ms->smp.cores = cores;
+>          ms->smp.threads = threads;
+>          ms->smp.sockets = sockets;
+> +        vms->smp_clusters = clusters;
+>      }
+>  
+>      if (ms->smp.cpus > 1) {
+> -- 
+> 2.19.1
+>
+
+Thanks,
+drew 
 
 
