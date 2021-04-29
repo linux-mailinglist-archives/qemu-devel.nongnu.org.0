@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6204B36EAE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:50:59 +0200 (CEST)
-Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECBF36EAE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:52:33 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc68A-0000Ru-Fo
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49892)
+	id 1lc69h-0002NZ-2q
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lc66J-0007gz-7T
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:49:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44103)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lc66P-0007te-Bk
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:49:09 -0400
+Resent-Date: Thu, 29 Apr 2021 08:49:09 -0400
+Resent-Message-Id: <E1lc66P-0007te-Bk@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lc66G-00064h-91
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:49:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619700538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UyP1vHsWvF63T/gja4bOEPqcZKp2itGXJqyylH9d+gg=;
- b=QVK6KLPpYn9YSbAYv5kQt3mb8UgXk5QwjdfjjmtqyHFoHdy0nZi+ZNRMh4Cecz8gsP88Ht
- jrFNTFasPuIH1B4nLAeqnhDB4HwjR+9PTe6W98N/ZlOjXQbHCV/Mmz+V5BDA1wmtMNVsIP
- HOzNv7M1hVuQ3IBb6iBG887LkY0Qf2M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-fxep1FEyP6KwJN6ZOeYGxg-1; Thu, 29 Apr 2021 08:48:56 -0400
-X-MC-Unique: fxep1FEyP6KwJN6ZOeYGxg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3184180362D;
- Thu, 29 Apr 2021 12:48:55 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-217.ams2.redhat.com [10.36.114.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF5AA14108;
- Thu, 29 Apr 2021 12:48:53 +0000 (UTC)
-Date: Thu, 29 Apr 2021 14:48:52 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: Re: [PATCH 1/5] vhost-user-blk: Don't reconnect during initialisation
-Message-ID: <YIqrNP7eg5EV0/iY@merkur.fritz.box>
-References: <20210422170221.285006-1-kwolf@redhat.com>
- <20210422170221.285006-2-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lc66M-000689-Cl
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:49:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1619700538; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=eNF2gDrwPJnIr9JH1SQY0jZIoRSLKYExg222rQrt+h/WQJjajoWD4CpD8AGR1elzQWdnxxuBVHU2FzbIzcLofuV0JehI4K0p92rnR4jFoHbvpCTdH33ryXrBWcb/b0UeYadYdUwjcfqGFwJU8zboJtqiSk4Ikav/bUp4yVQ8XJQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1619700538;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=PuehiIxIK1XGkkRMp7BzENy7r8hFjdsWs+QCD9E0jI8=; 
+ b=HCzqSmX4u/zNzFlwQ6Qv2jhLIwyuwbUp0npvE3cBYo9wytOALenDsQVA3PSCtEs3U2qjwxXc/7V8FEtopcsJkT8sa/euhyjqt/DgpRSDO222db3jhQRjHCZHKllGkXNKjOFWVxIRWYUQW1jUCRWG5WQZ9y0MPiL2TbwWyVpCHXM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1619700534562740.6649702966682;
+ Thu, 29 Apr 2021 05:48:54 -0700 (PDT)
+In-Reply-To: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
+Subject: Re: [RFC PATCH 00/27] Virtio sound card implementation
+Message-ID: <161970053307.16153.2059359149562578159@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <20210422170221.285006-2-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: chouhan.shreyansh2702@gmail.com
+Date: Thu, 29 Apr 2021 05:48:54 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,175 +67,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den-plotnikov@yandex-team.ru, mst@redhat.com, qemu-devel@nongnu.org,
- raphael.norwitz@nutanix.com
+Reply-To: qemu-devel@nongnu.org
+Cc: chouhan.shreyansh2702@gmail.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.04.2021 um 19:02 hat Kevin Wolf geschrieben:
-> This is a partial revert of commits 77542d43149 and bc79c87bcde.
-> 
-> Usually, an error during initialisation means that the configuration was
-> wrong. Reconnecting won't make the error go away, but just turn the
-> error condition into an endless loop. Avoid this and return errors
-> again.
-> 
-> Additionally, calling vhost_user_blk_disconnect() from the chardev event
-> handler could result in use-after-free because none of the
-> initialisation code expects that the device could just go away in the
-> middle. So removing the call fixes crashes in several places.
-> 
-> For example, using a num-queues setting that is incompatible with the
-> backend would result in a crash like this (dereferencing dev->opaque,
-> which is already NULL):
-> 
->  #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
->  #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
->  #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
->  #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
->  #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
->  #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
->  #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
->  #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
->  #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
->  #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  hw/block/vhost-user-blk.c | 54 ++++++++++-----------------------------
->  1 file changed, 13 insertions(+), 41 deletions(-)
-> 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index f5e9682703..e824b0a759 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -50,6 +50,8 @@ static const int user_feature_bits[] = {
->      VHOST_INVALID_FEATURE_BIT
->  };
->  
-> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
-> +
->  static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
->  {
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
-> @@ -362,19 +364,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
->      vhost_dev_cleanup(&s->dev);
->  }
->  
-> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-> -                                 bool realized);
-> -
-> -static void vhost_user_blk_event_realize(void *opaque, QEMUChrEvent event)
-> -{
-> -    vhost_user_blk_event(opaque, event, false);
-> -}
-> -
-> -static void vhost_user_blk_event_oper(void *opaque, QEMUChrEvent event)
-> -{
-> -    vhost_user_blk_event(opaque, event, true);
-> -}
-> -
->  static void vhost_user_blk_chr_closed_bh(void *opaque)
->  {
->      DeviceState *dev = opaque;
-> @@ -382,12 +371,11 @@ static void vhost_user_blk_chr_closed_bh(void *opaque)
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
->  
->      vhost_user_blk_disconnect(dev);
-> -    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL,
-> -            vhost_user_blk_event_oper, NULL, opaque, NULL, true);
-> +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
-> +                             NULL, opaque, NULL, true);
->  }
->  
-> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-> -                                 bool realized)
-> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
->  {
->      DeviceState *dev = opaque;
->      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> @@ -401,17 +389,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
->          }
->          break;
->      case CHR_EVENT_CLOSED:
-> -        /*
-> -         * Closing the connection should happen differently on device
-> -         * initialization and operation stages.
-> -         * On initalization, we want to re-start vhost_dev initialization
-> -         * from the very beginning right away when the connection is closed,
-> -         * so we clean up vhost_dev on each connection closing.
-> -         * On operation, we want to postpone vhost_dev cleanup to let the
-> -         * other code perform its own cleanup sequence using vhost_dev data
-> -         * (e.g. vhost_dev_set_log).
-> -         */
-> -        if (realized && !runstate_check(RUN_STATE_SHUTDOWN)) {
-> +        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
->              /*
->               * A close event may happen during a read/write, but vhost
->               * code assumes the vhost_dev remains setup, so delay the
-> @@ -431,8 +409,6 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
->               * knowing its type (in this case vhost-user).
->               */
->              s->dev.started = false;
-> -        } else {
-> -            vhost_user_blk_disconnect(dev);
->          }
->          break;
->      case CHR_EVENT_BREAK:
-> @@ -490,31 +466,27 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
->      s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
->      s->connected = false;
->  
-> -    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-> -                             vhost_user_blk_event_realize, NULL, (void *)dev,
-> -                             NULL, true);
-> -
-> -reconnect:
->      if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
->          error_report_err(err);
->          goto virtio_err;
->      }
-
-Preexisting bug: We have to set errp before jumping to virtio_err,
-otherwise the caller (virtio_device_realize()) will take this as success
-and crash when it later tries to access things that we've already freed
-in the error path.
-
-> -    /* check whether vhost_user_blk_connect() failed or not */
-> -    if (!s->connected) {
-> -        goto reconnect;
-> +    if (vhost_user_blk_connect(dev) < 0) {
-> +        qemu_chr_fe_disconnect(&s->chardev);
-> +        goto virtio_err;
-
-Here I'm newly introducing the same bug (fixed again by patch 2).
-
->      }
-> +    assert(s->connected);
->  
->      ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
->                                 sizeof(struct virtio_blk_config));
->      if (ret < 0) {
->          error_report("vhost-user-blk: get block config failed");
-> -        goto reconnect;
-> +        goto virtio_err;
-
-And this one is wrong, too.
-
->      }
->  
-> -    /* we're fully initialized, now we can operate, so change the handler */
-> +    /* we're fully initialized, now we can operate, so add the handler */
->      qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-> -                             vhost_user_blk_event_oper, NULL, (void *)dev,
-> +                             vhost_user_blk_event, NULL, (void *)dev,
->                               NULL, true);
->      return;
-
-So maybe patch 2 should come first and also fix the preexisting bug, and
-of course this patch needs a v2 that doesn't introduce the new instances
-of the bug.
-
-Kevin
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQyOTEyMDQ0NS42OTQ0
+MjAtMS1jaG91aGFuLnNocmV5YW5zaDI3MDJAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
+IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
+b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0
+MjkxMjA0NDUuNjk0NDIwLTEtY2hvdWhhbi5zaHJleWFuc2gyNzAyQGdtYWlsLmNvbQpTdWJqZWN0
+OiBbUkZDIFBBVENIIDAwLzI3XSBWaXJ0aW8gc291bmQgY2FyZCBpbXBsZW1lbnRhdGlvbgoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
+ZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
+ayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4
+NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
+dy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDQyOTEyMDQ0
+NS42OTQ0MjAtMS1jaG91aGFuLnNocmV5YW5zaDI3MDJAZ21haWwuY29tIC0+IHBhdGNoZXcvMjAy
+MTA0MjkxMjA0NDUuNjk0NDIwLTEtY2hvdWhhbi5zaHJleWFuc2gyNzAyQGdtYWlsLmNvbQpTd2l0
+Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjI4YWNhZTggdmlydGlvLXNuZDogQWRkIHJ4IHZx
+IGFuZCBzdHViIGhhbmRsZXIKZjEzMDA3NyB2aXJ0aW8tc25kOiBBZGQgZXZlbnQgdnEgYW5kIGEg
+aGFuZGxlciBzdHViCmJhNDNjNTggdmlydGlvLXNuZDogQWRkIHR4IHZxIGFuZCBoYW5kbGVyCmQx
+ZmFlM2MgdmlydGlvLXNuZDogQWRkIGNvZGUgdG8gZGV2aWNlIHVucmVhbGl6ZSBmdW5jdGlvbgo1
+NjMzZmMxIHZpcnRpby1zbmQ6IFJlcGxhY2VkIGdvdG8gd2l0aCBpZiBlbHNlCmRmMmFjYTggdmly
+dGlvLXNuZDogQWRkIFZJUlRJT19TTkRfUl9QQ01fUkVMRUFTRSBoYW5kbGVyCjRkNWI5NzYgdmly
+dGlvLXNuZDogQWRkIFZJUlRJT19TTkRfUl9QQ01fU1RPUCBoYW5kbGVyCjljNzkyYjIgdmlydGlv
+LXNuZDogQWRkIFZJUklUT19TTkRfUl9QQ01fU1RBUlQgaGFuZGxlcgphZDA3ZTJjIHZpcnRpby1z
+bmQ6IEFkZCBjYWxsYmFjayBmb3IgU1dWb2ljZU91dAo2YTllNDdkIHZpcnRpby1zbmQ6IEFkZCBk
+ZWZhdWx0IGNvbmZpZ3MgdG8gcmVhbGl6ZSBmbgo3NWM2MmM4IHZpcnRpby1zbmQ6IEFkZCBWSVJU
+SU9fU05EX1JfUENNX1BSRVBBUkUgaGFuZGxlcgo2NDA0M2JkIHZpcnRpby1zbmQ6IEFkZCBWSVJJ
+VE9fU05EX1JfUENNX1NFVF9QQVJBTVMgaGFuZGxlCmJiNWZlNWQgdmlydGlvLXNuZDogQWRkIFZJ
+UlRJT19TTkRfUl9QQ01fSU5GTyBoYW5kbGVyCjg1OGRlMGUgdmlydGlvLXNuZDogQWRkIHN0dWIg
+Zm9yIFZJUlRJT19TTkRfUl9KQUNLX1JFTUFQIGhhbmRsZXIKYTE1OTZlNSB2aXJ0aW8tc25kOiBB
+ZGQgVklSVElPX1NORF9SX0pBQ0tfSU5GTyBoYW5kbGVyCmQzMDMzNjUgdmlydGlvLXNuZDogQWRk
+IGNvbnRyb2wgdmlydHF1ZXVlIGhhbmRsZXIKNGM0OWY5MiB2aXJ0aW8tc25kOiBBZGQgbWFjcm9z
+IGZvciBsb2dnaW5nCjUwNDk0MmEgdmlydGlvLXNuZDogQWRkIGNvZGUgZm9yIHRoZSByZWFsaXpl
+IGZ1bmN0aW9uCmQ3ZmFkMzQgdmlydGlvLXNuZDogQWRkIGNvZGUgZm9yIHNldCBjb25maWcgZnVu
+Y3Rpb24KZjFkNTFmMyB2aXJ0aW8tc25kOiBBZGQgY29kZSBmb3IgZ2V0IGNvbmZpZyBmdW5jdGlv
+bgpjZmM0MDRmIHZpcnRpby1zbmQ6IEFkZCBwcm9wZXJ0aWVzIGZvciBjbGFzcyBpbml0CmIwYjRm
+YTIgdmlydGlvLXNuZDogQWRkIFBDSSB3cmFwcGVyIGNvZGUgZm9yIFZpcnRJT1NvdW5kCjBhMDYw
+NmEgdmlydGlvLXNuZDogQWRkIGRldmljZSBpbXBsZW1lbnRhdGlvbiBzdHJ1Y3R1cmVzCmU1NzQ4
+OGEgdmlydGlvLXNuZDogQWRkIGNobWFwIGNvbnRyb2wgc3RydWN0dXJlcwpmOGZhZjdlIHZpcnRp
+by1zbmQ6IEFkZCBQQ00gY29udHJvbCBzdHJ1Y3R1cmVzCmJhMWNjOGIgdmlydGlvLXNuZDogQWRk
+IGphY2sgY29udHJvbCBzdHJ1Y3R1cmVzCmNjMjQxM2EgdmlydGlvLXNuZDogQWRkIHZpcnRpbyBz
+b3VuZCBoZWFkZXIgZmlsZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yNyBDaGVja2luZyBjb21t
+aXQgY2MyNDEzYTg1MmI4ICh2aXJ0aW8tc25kOiBBZGQgdmlydGlvIHNvdW5kIGhlYWRlciBmaWxl
+KQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0ZXhwZWN0ZWQgaW4gc3RyaW5n
+IGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUyOS4KV0FSTklORzogYWRkZWQs
+IG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5n
+PwojMTc6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdz
+LCA5NyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzI3IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+CjIvMjcgQ2hlY2tpbmcgY29tbWl0IGJhMWNjOGJhMzM5OSAodmlydGlvLXNuZDogQWRkIGphY2sg
+Y29udHJvbCBzdHJ1Y3R1cmVzKQozLzI3IENoZWNraW5nIGNvbW1pdCBmOGZhZjdlYzlhNzEgKHZp
+cnRpby1zbmQ6IEFkZCBQQ00gY29udHJvbCBzdHJ1Y3R1cmVzKQo0LzI3IENoZWNraW5nIGNvbW1p
+dCBlNTc0ODhhZTY3NjcgKHZpcnRpby1zbmQ6IEFkZCBjaG1hcCBjb250cm9sIHN0cnVjdHVyZXMp
+CjUvMjcgQ2hlY2tpbmcgY29tbWl0IDBhMDYwNmFiZTk2YyAodmlydGlvLXNuZDogQWRkIGRldmlj
+ZSBpbXBsZW1lbnRhdGlvbiBzdHJ1Y3R1cmVzKQo2LzI3IENoZWNraW5nIGNvbW1pdCBiMGI0ZmEy
+NDE0NTggKHZpcnRpby1zbmQ6IEFkZCBQQ0kgd3JhcHBlciBjb2RlIGZvciBWaXJ0SU9Tb3VuZCkK
+VXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBl
+cSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBt
+b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
+IzMwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
+NzkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi8yNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3
+LzI3IENoZWNraW5nIGNvbW1pdCBjZmM0MDRmMGQyZmYgKHZpcnRpby1zbmQ6IEFkZCBwcm9wZXJ0
+aWVzIGZvciBjbGFzcyBpbml0KQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkYWNwaV90ZXN0
+ZXhwZWN0ZWQgaW4gc3RyaW5nIGVxIGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMTUy
+OS4KV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
+TkVSUyBuZWVkIHVwZGF0aW5nPwojNDE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAg
+ZXJyb3JzLCAxIHdhcm5pbmdzLCAxMzggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNy8yNyBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgo4LzI3IENoZWNraW5nIGNvbW1pdCBmMWQ1MWYzZDNhNmQgKHZp
+cnRpby1zbmQ6IEFkZCBjb2RlIGZvciBnZXQgY29uZmlnIGZ1bmN0aW9uKQo5LzI3IENoZWNraW5n
+IGNvbW1pdCBkN2ZhZDM0ZGFjZjEgKHZpcnRpby1zbmQ6IEFkZCBjb2RlIGZvciBzZXQgY29uZmln
+IGZ1bmN0aW9uKQoxMC8yNyBDaGVja2luZyBjb21taXQgNTA0OTQyYTJmMjM1ICh2aXJ0aW8tc25k
+OiBBZGQgY29kZSBmb3IgdGhlIHJlYWxpemUgZnVuY3Rpb24pCjExLzI3IENoZWNraW5nIGNvbW1p
+dCA0YzQ5ZjkyM2E1ZGQgKHZpcnRpby1zbmQ6IEFkZCBtYWNyb3MgZm9yIGxvZ2dpbmcpCjEyLzI3
+IENoZWNraW5nIGNvbW1pdCBkMzAzMzY1NTU4OWIgKHZpcnRpby1zbmQ6IEFkZCBjb250cm9sIHZp
+cnRxdWV1ZSBoYW5kbGVyKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojMjM6IEZJTEU6IGh3L2F1ZGlvL3ZpcnRpby1zbmQuYzoxMDQ6
+CisvKiBUaGUgY29udHJvbCBxdWV1ZSBoYW5kbGVyLiBQb3BzIGFuIGVsZW1lbnQgZnJvbSB0aGUg
+Y29udHJvbCB2aXJ0cXVldWUsCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDgzIGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDEyLzI3IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjEzLzI3IENo
+ZWNraW5nIGNvbW1pdCBhMTU5NmU1OWIwNWYgKHZpcnRpby1zbmQ6IEFkZCBWSVJUSU9fU05EX1Jf
+SkFDS19JTkZPIGhhbmRsZXIpCjE0LzI3IENoZWNraW5nIGNvbW1pdCA4NThkZTBlZDQ0ODMgKHZp
+cnRpby1zbmQ6IEFkZCBzdHViIGZvciBWSVJUSU9fU05EX1JfSkFDS19SRU1BUCBoYW5kbGVyKQox
+NS8yNyBDaGVja2luZyBjb21taXQgYmI1ZmU1ZDQ1YzIzICh2aXJ0aW8tc25kOiBBZGQgVklSVElP
+X1NORF9SX1BDTV9JTkZPIGhhbmRsZXIpCjE2LzI3IENoZWNraW5nIGNvbW1pdCA2NDA0M2JkZWYw
+MmMgKHZpcnRpby1zbmQ6IEFkZCBWSVJJVE9fU05EX1JfUENNX1NFVF9QQVJBTVMgaGFuZGxlKQpX
+QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzU6IEZJTEU6IGh3L2F1ZGlvL3ZpcnRp
+by1zbmQuYzoyOTQ6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHZpcnRpb19zbmRfcGNtX3NldF9wYXJhbXMgKnBhcmFtcykKCnRvdGFsOiAwIGVycm9ycywg
+MSB3YXJuaW5ncywgMTEyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzI3IGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjE3LzI3IENoZWNraW5nIGNvbW1pdCA3NWM2MmM4NTc4ODQgKHZpcnRpby1z
+bmQ6IEFkZCBWSVJUSU9fU05EX1JfUENNX1BSRVBBUkUgaGFuZGxlcikKV0FSTklORzogQmxvY2sg
+Y29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE2ODogRklMRTog
+aHcvYXVkaW8vdmlydGlvLXNuZC5jOjUyNjoKKyAgICAgICAgLyogc3QtPnZvaWNlLm91dCA9IEFV
+RF9vcGVuX291dCgmcy0+Y2FyZCwKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRp
+bmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxNzU6IEZJTEU6IGh3L2F1ZGlvL3ZpcnRpby1zbmQu
+Yzo1MzM6CisgICAgICAgIC8qIHN0LT52b2ljZS5pbiA9IEFVRF9vcGVuX2luKCZzLT5jYXJkLAoK
+dG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCAyMTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTcv
+MjcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMjcgQ2hlY2tpbmcgY29tbWl0IDZhOWU0
+N2RmMGExNiAodmlydGlvLXNuZDogQWRkIGRlZmF1bHQgY29uZmlncyB0byByZWFsaXplIGZuKQpB
+cmd1bWVudCAibSIgaXNuJ3QgbnVtZXJpYyBpbiBudW1lcmljIGVxICg9PSkgYXQgLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgbGluZSAyODMwLgpBcmd1bWVudCAibSIgaXNuJ3QgbnVtZXJpYyBpbiBu
+dW1lcmljIGVxICg9PSkgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyODMwLgpVc2Ug
+b2YgdW5pbml0aWFsaXplZCB2YWx1ZSAkMSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBzdHJpbmcg
+YXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyODMxLgpFUlJPUjogZG8gbm90IHVzZSBD
+OTkgLy8gY29tbWVudHMKIzI0OiBGSUxFOiBody9hdWRpby92aXJ0aW8tc25kLmM6Njg2OgorICAg
+IC8vIHNldCBkZWZhdWx0IHBhcmFtcyBmb3IgYWxsIHN0cmVhbXMKCkVSUk9SOiBFcnJvciBtZXNz
+YWdlcyBzaG91bGQgbm90IGNvbnRhaW4gbmV3bGluZXMKIzQ0OiBGSUxFOiBody9hdWRpby92aXJ0
+aW8tc25kLmM6NzA2OgorICAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiQ2FuJ3QgaW5pdGFs
+aXplIHN0cmVhbSBwYXJhbXMuXG4iKTsKCkVSUk9SOiBFcnJvciBtZXNzYWdlcyBzaG91bGQgbm90
+IGNvbnRhaW4gbmV3bGluZXMKIzQ5OiBGSUxFOiBody9hdWRpby92aXJ0aW8tc25kLmM6NzExOgor
+ICAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiQ2FuJ3QgcHJlcGFyZSBzdHJlYW1zLlxuIik7
+CgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzU1OiBGSUxFOiBody9hdWRpby92
+aXJ0aW8tc25kLmM6NzE3OgorICAgICAgICAvLyBUT0RPOiBGb3Igbm93IHRoZSBoZGFfZm5fbmlk
+IGNvbm5lY3RzIHRoZSBzdGFydGluZyBzdHJlYW1zIHRvIHRoZXNlCgpFUlJPUjogZG8gbm90IHVz
+ZSBDOTkgLy8gY29tbWVudHMKIzU2OiBGSUxFOiBody9hdWRpby92aXJ0aW8tc25kLmM6NzE4Ogor
+ICAgICAgICAvLyBqYWNrcy4gVGhpcyBpc24ndCB3b3JraW5nIGZvciBub3cgc2luY2UgdGhlIGRp
+cmVjdGlvbnMgd2lsbCBiZSB3cm9uZwoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRz
+CiM1NzogRklMRTogaHcvYXVkaW8vdmlydGlvLXNuZC5jOjcxOToKKyAgICAgICAgLy8gZm9yIGEg
+ZmV3IGphY2tzLiBTaW1pbGFybHkgdGhlIGNhcGFiaWxpdGllcyBhcmUganVzdCBwbGFjZWhvbGRl
+cnMuCgpFUlJPUjogdW5uZWNlc3NhcnkgY2FzdCBtYXkgaGlkZSBidWdzLCB1c2UgZ19uZXcwIGlu
+c3RlYWQKIzU4OiBGSUxFOiBody9hdWRpby92aXJ0aW8tc25kLmM6NzIwOgorICAgICAgICBzLT5q
+YWNrc1tpXSA9ICh2aXJ0aW9fc25kX2phY2sgKilnX21hbGxvYzAoc2l6ZW9mKHZpcnRpb19zbmRf
+amFjaykpOwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM2MTogRklMRTogaHcvYXVk
+aW8vdmlydGlvLXNuZC5jOjcyMzoKKyAgICAgICAgcy0+amFja3NbaV0tPmhkYV9yZWdfZGVmY29u
+ZiA9ICgoQUNfSkFDS19QT1JUX0NPTVBMRVggPDwgQUNfREVGQ0ZHX1BPUlRfQ09OTl9TSElGVCkg
+fAoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM2MjogRklMRTogaHcvYXVkaW8vdmly
+dGlvLXNuZC5jOjcyNDoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChB
+Q19KQUNLX0xJTkVfT1VUICAgICA8PCBBQ19ERUZDRkdfREVWSUNFX1NISUZUKSAgICB8CgpFUlJP
+UjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzYzOiBGSUxFOiBody9hdWRpby92aXJ0aW8tc25k
+LmM6NzI1OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKEFDX0pBQ0tf
+Q09OTl8xXzggICAgIDw8IEFDX0RFRkNGR19DT05OX1RZUEVfU0hJRlQpIHwKCkVSUk9SOiBsaW5l
+IG92ZXIgOTAgY2hhcmFjdGVycwojNjQ6IEZJTEU6IGh3L2F1ZGlvL3ZpcnRpby1zbmQuYzo3MjY6
+CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoQUNfSkFDS19DT0xPUl9H
+UkVFTiAgPDwgQUNfREVGQ0ZHX0NPTE9SX1NISUZUKSAgICAgfAoKdG90YWw6IDExIGVycm9ycywg
+MCB3YXJuaW5ncywgNTEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTgvMjcgaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KCjE5LzI3IENoZWNraW5nIGNvbW1pdCBhZDA3ZTJjMzc1ZGYgKHZpcnRpby1z
+bmQ6IEFkZCBjYWxsYmFjayBmb3IgU1dWb2ljZU91dCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
+YXJhY3RlcnMKIzEyOTogRklMRTogaHcvYXVkaW8vdmlydGlvLXNuZC5jOjU3NToKKyAgICAgICAg
+aW50IGN1cnJfZWxlbV9zaXplID0gaW92X3NpemUoc3QtPmVsZW1zW2ldLT5vdXRfc2csIHN0LT5l
+bGVtc1tpXS0+b3V0X251bSkKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTgzIGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDE5LzI3IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIwLzI3IENo
+ZWNraW5nIGNvbW1pdCA5Yzc5MmIyMjZiZjQgKHZpcnRpby1zbmQ6IEFkZCBWSVJJVE9fU05EX1Jf
+UENNX1NUQVJUIGhhbmRsZXIpCjIxLzI3IENoZWNraW5nIGNvbW1pdCA0ZDViOTc2MjQ4MGUgKHZp
+cnRpby1zbmQ6IEFkZCBWSVJUSU9fU05EX1JfUENNX1NUT1AgaGFuZGxlcikKMjIvMjcgQ2hlY2tp
+bmcgY29tbWl0IGRmMmFjYTg0OGRmYiAodmlydGlvLXNuZDogQWRkIFZJUlRJT19TTkRfUl9QQ01f
+UkVMRUFTRSBoYW5kbGVyKQoyMy8yNyBDaGVja2luZyBjb21taXQgNTYzM2ZjMTRjZmU3ICh2aXJ0
+aW8tc25kOiBSZXBsYWNlZCBnb3RvIHdpdGggaWYgZWxzZSkKMjQvMjcgQ2hlY2tpbmcgY29tbWl0
+IGQxZmFlM2NkNjI4YiAodmlydGlvLXNuZDogQWRkIGNvZGUgdG8gZGV2aWNlIHVucmVhbGl6ZSBm
+dW5jdGlvbikKMjUvMjcgQ2hlY2tpbmcgY29tbWl0IGJhNDNjNTg5NWIzMyAodmlydGlvLXNuZDog
+QWRkIHR4IHZxIGFuZCBoYW5kbGVyKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
+NzA6IEZJTEU6IGh3L2F1ZGlvL3ZpcnRpby1zbmQuYzo5NzM6CisgICAgICAgIGlmIChpb3Zfc2l6
+ZShlbGVtLT5pbl9zZywgZWxlbS0+aW5fbnVtKSA8IHNpemVvZih2aXJ0aW9fc25kX3BjbV9zdGF0
+dXMpIHx8CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzE6IEZJTEU6IGh3L2F1
+ZGlvL3ZpcnRpby1zbmQuYzo5NzQ6CisgICAgICAgICAgICBpb3Zfc2l6ZShlbGVtLT5vdXRfc2cs
+IGVsZW0tPm91dF9udW0pIDwgc2l6ZW9mKHZpcnRpb19zbmRfcGNtX3hmZXIpKSB7Cgp0b3RhbDog
+MCBlcnJvcnMsIDIgd2FybmluZ3MsIDgwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDI1LzI3IGhhcyBz
+dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
+IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
+UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI2LzI3IENoZWNraW5nIGNvbW1pdCBmMTMwMDc3MjAzNzkg
+KHZpcnRpby1zbmQ6IEFkZCBldmVudCB2cSBhbmQgYSBoYW5kbGVyIHN0dWIpCjI3LzI3IENoZWNr
+aW5nIGNvbW1pdCAyOGFjYWU4MzM4MmYgKHZpcnRpby1zbmQ6IEFkZCByeCB2cSBhbmQgc3R1YiBo
+YW5kbGVyKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2Rl
+OiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
+cy8yMDIxMDQyOTEyMDQ0NS42OTQ0MjAtMS1jaG91aGFuLnNocmV5YW5zaDI3MDJAZ21haWwuY29t
+L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
