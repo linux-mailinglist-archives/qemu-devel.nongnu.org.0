@@ -2,91 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF1A36E5CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:19:09 +0200 (CEST)
-Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131D936E5D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:23:00 +0200 (CEST)
+Received: from localhost ([::1]:45378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc0x1-0000aZ-Qu
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
+	id 1lc10l-00046S-4Z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lc0uQ-0006du-70
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:16:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55690)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc0yH-0002l8-5J
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:20:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lc0uN-0005QN-5h
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:16:25 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc0yE-0007tJ-4z
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:20:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619680582;
+ s=mimecast20190719; t=1619680821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5kODNF6sl4laBWmaC+KsVT3MtdFLItz86paGYwOmeB0=;
- b=WnPBd8Fqlj7HuT0KriY4JKy80r1IKyU1n6TT0ozEpuNss5lAEevMnj+HhavypRKg+K7crC
- aI4XJL9tE83TYiBrwz9NQYCSPD3ft+GGmZxR688uqksQ9uXus07kythBcUf4e8VMEFa7An
- Eq5TXXFiSJAHcLUNgCssNOREG9+WGw0=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-rUSutEM4PdSeBy8dWREWUA-1; Thu, 29 Apr 2021 03:16:18 -0400
-X-MC-Unique: rUSutEM4PdSeBy8dWREWUA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- s23-20020a1709069617b02903907023c7c0so2794626ejx.0
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:16:18 -0700 (PDT)
+ bh=5gJ1sDyySLIW59/+rvhVuPm4u8US9cchsJbbeyBusSI=;
+ b=e2kUDbRB4E+KKT75vrFVEj6v1tWKsFP590E4kXthaDTyJqEx0H1Ct/JluQZjzUVw+qw8ld
+ ZKPzA8jfMV/Sf5AOL5gqNiIC4s59utaVrzEQMfhdBUghyn390jhiQQqcfsq1x130BI4h/+
+ D+FA+pCEokoQVbUip7jcSo7xz1TMg2g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-7mwPaHyWMzuuvK2L3QR-Xg-1; Thu, 29 Apr 2021 03:20:19 -0400
+X-MC-Unique: 7mwPaHyWMzuuvK2L3QR-Xg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v186-20020a1cacc30000b0290137364410e2so4380930wme.3
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:20:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5kODNF6sl4laBWmaC+KsVT3MtdFLItz86paGYwOmeB0=;
- b=DUEi7a09LmaR0b8x8Sh7ub0PhjdPrmZk7kvgX+np1PQyGC9qnN4oo4875W0ckY0cMt
- OnfDouc5CtUZxua0sMGm2Uvdl4ZKfcYrEHIsmkXt0C5mQAhLCWfCAJwI5SC5Yuk5QGbC
- chpYB2ipkOnN0O61EC42GMdM3wAw5JljHsRYiOKv3Xm8LlKFOoOMVDrRZcvbt3U7FtGO
- sl0l9yvJcbNZbC0LxdMpQmSifRju6TBxtAM2nCOnVg617bcfx+N29OVnLDtbJm+xXdPG
- OrV3tWOF3k+wm2etVeO8nY2fH33TS5IHYKnydXe+VDo0bjIgYNsZn+wdMR1ImcrPIjQQ
- WPHw==
-X-Gm-Message-State: AOAM532xQUX1a7cUPc8iGy5QKWa8ZCmvq714HydZOtmoBbvedHjQmm3Y
- uPF0MrYupERR5KlS/V3VdQVNTYyoUQFHwOimVyxgN2lD9lUTE/qhlAYFK2G4sxUqArkruVdonKf
- HNaxp18dzz2Eu4Bk=
-X-Received: by 2002:a17:906:9444:: with SMTP id
- z4mr2272424ejx.330.1619680577149; 
- Thu, 29 Apr 2021 00:16:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7JhX7Y5rx1izAe6pvoI1L22Sxf5XQv4np2zwFFq7KB6C/G40Muqa9YYAVggnf2lDcfaFGGw==
-X-Received: by 2002:a17:906:9444:: with SMTP id
- z4mr2272406ejx.330.1619680576952; 
- Thu, 29 Apr 2021 00:16:16 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id nd36sm1252416ejc.21.2021.04.29.00.16.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 00:16:16 -0700 (PDT)
-Date: Thu, 29 Apr 2021 09:16:14 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
- virt_smp_parse
-Message-ID: <20210429071614.lywpbfpeyclqxnke@gator.home>
-References: <20210413083147.34236-1-wangyanan55@huawei.com>
- <20210413083147.34236-3-wangyanan55@huawei.com>
- <20210428103141.5qfhzcqko6hxhxee@gator>
- <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5gJ1sDyySLIW59/+rvhVuPm4u8US9cchsJbbeyBusSI=;
+ b=aoyhiqKjbZhfzu26/+Ew4C7/ykUZcwV/f1O79Z45F7GBVCw/kgp3/oZCe1iMv7a1Jm
+ EIZT1cBqnSvSKJ9mLR2ccKJUW/tjalN7uiYJL+fCuUgftGeZD/FTbiwi9f01Ktq79tme
+ ci91CiR08FyKXCA3PoXv51cuvBBbJjvgy0tiDbrbf3Im3EMqGhjNmk6J+fZeDbK+1DKx
+ ccl54Q+BhFzcrwao/x/5C1A3+TWUuwYmSSAFgpqyN6bru/DxHqiX46xOtXFtgZJliA/8
+ ZtI93qWMr2zLbK3M7024dLpLmthWuuS6xp/5nX8awqN0pmpUW0CuiRO8EQJOJR8PS8WZ
+ QvGg==
+X-Gm-Message-State: AOAM530mfSTU3SoI2NH1rU54OFYsxayJGWuiHfNfmhcplToWOuzsqgn1
+ dLvKlhRHZWDwyiZkpzaNpOoOLi29/oEzmICCmIM+myYVU5OmImzDNIrCQLABAm+nKdPtALdLleX
+ MHvozpts8mPuqIeQ=
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr35155159wmm.153.1619680818049; 
+ Thu, 29 Apr 2021 00:20:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkGNs0po4iNqmvjd1t30FqgWAAJP4SRsuH/ly3IYHtqOCWRhBnf3traj78kvBRFpAxdHn4Jw==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr35155135wmm.153.1619680817825; 
+ Thu, 29 Apr 2021 00:20:17 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6158.dip0.t-ipconnect.de. [91.12.97.88])
+ by smtp.gmail.com with ESMTPSA id
+ r18sm3723418wrs.90.2021.04.29.00.20.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Apr 2021 00:20:17 -0700 (PDT)
+Subject: Re: [PATCH v2 10/15] linux-user/s390x: Set psw.mask properly for the
+ signal handler
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210428193408.233706-1-richard.henderson@linaro.org>
+ <20210428193408.233706-11-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <3534d6c2-e5b0-a3b2-47b6-867d1305cc5e@redhat.com>
+Date: Thu, 29 Apr 2021 09:20:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
+In-Reply-To: <20210428193408.233706-11-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,103 +103,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 10:14:37AM +0800, wangyanan (Y) wrote:
-> On 2021/4/28 18:31, Andrew Jones wrote:
-> > On Tue, Apr 13, 2021 at 04:31:45PM +0800, Yanan Wang wrote:
-> > >           } else if (sockets == 0) {
-> > >               threads = threads > 0 ? threads : 1;
-> > > -            sockets = cpus / (cores * threads);
-> > > +            sockets = cpus / (clusters * cores * threads);
-> > >               sockets = sockets > 0 ? sockets : 1;
-> > If we initialize clusters to zero instead of one and add lines in
-> > 'cpus == 0 || cores == 0' and 'sockets == 0' like
-> > 'clusters = clusters > 0 ? clusters : 1' as needed, then I think we can
-> > add
-> > 
-> >   } else if (clusters == 0) {
-> >       threads = threads > 0 ? threads : 1;
-> >       clusters = cpus / (sockets * cores * thread);
-> >       clusters = clusters > 0 ? clusters : 1;
-> >   }
-> > 
-> > here.
-> I have thought about this kind of format before, but there is a little bit
-> difference between these two ways. Let's chose the better and more
-> reasonable one of the two.
+On 28.04.21 21:34, Richard Henderson wrote:
+> Note that PSW_ADDR_{64,32} are called PSW_MASK_{EA,BA}
+> in the kernel source.
 > 
-> Way A currently in this patch:
-> If value of clusters is not explicitly specified in -smp command line, we
-> assume
-> that users don't want to support clusters, for compatibility we initialized
-> the
-> value to 1. So that with cmdline "-smp cpus=24, sockets=2, cores=6", we will
-> parse out the topology description like below:
-> cpus=24, sockets=2, clusters=1, cores=6, threads=2
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/s390x/signal.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> Way B that you suggested for this patch:
-> Whether value of clusters is explicitly specified in -smp command line or
-> not,
-> we assume that clusters are supported and calculate the value. So that with
-> cmdline "-smp cpus=24, sockets=2, cores=6", we will parse out the topology
-> description like below:
-> cpus =24, sockets=2, clusters=2, cores=6, threads=1
+> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+> index 64a9eab097..17f617c655 100644
+> --- a/linux-user/s390x/signal.c
+> +++ b/linux-user/s390x/signal.c
+> @@ -162,6 +162,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
+>   
+>       /* Set up registers for signal handler */
+>       env->regs[15] = frame_addr;
+> +    /* Force default amode and default user address space control. */
+> +    env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
+> +                  | (env->psw.mask & ~PSW_MASK_ASC);
+>       env->psw.addr = ka->_sa_handler;
+>   
+>       env->regs[2] = sig; //map_signal(sig);
+> @@ -215,6 +218,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>   
+>       /* Set up registers for signal handler */
+>       env->regs[15] = frame_addr;
+> +    /* Force default amode and default user address space control. */
+> +    env->psw.mask = PSW_MASK_64 | PSW_MASK_32 | PSW_ASC_PRIMARY
+> +                  | (env->psw.mask & ~PSW_MASK_ASC);
+>       env->psw.addr = ka->_sa_handler;
+>   
+>       env->regs[2] = sig; //map_signal(sig);
 > 
-> But I think maybe we should not assume too much about what users think
-> through the -smp command line. We should just assume that all levels of
-> cpu topology are supported and calculate them, and users should be more
-> careful if they want to get the expected results with not so complete
-> cmdline.
-> If I'm right, then Way B should be better. :)
->
 
-Hi Yanan,
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-We're already assuming the user wants to describe clusters to the guest
-because we require at least one per socket. If we want the user to have a
-choice between using clusters or not, then I guess we need to change the
-logic in the PPTT and the cpu-map to only generate the cluster level when
-the number of clusters is not zero. And then change this parser to not
-require clusters at all.
-
-I'm not a big fan of these auto-calculated values either, but the
-documentation says that it'll do that, and it's been done that way
-forever, so I think we're stuck with it for the -smp option. Hmm, I was
-just about to say that x86 computes all its values, but I see the most
-recently added one, 'dies', is implemented the way you're proposing we
-implement 'clusters', i.e. default to one and don't calculate it when it's
-missing. I actually consider that either a documentation bug or an smp
-parsing bug, though.
-
-Another possible option, for Arm, because only the cpus and maxcpus
-parameters of -smp have ever worked, is to document, for Arm, that if even
-one parameter other than cpus or maxcpus is provided, then all parameters
-must be provided. We can still decide if clusters=0 is valid, but we'll
-enforce that everything is explicit and that the product (with or without
-clusters) matches maxcpus.
-
-Requiring every parameter might be stricter than necessary, though, I
-think we're mostly concerned with cpus/maxcpus, sockets, and cores.
-clusters can default to one or zero (whatever we choose and document),
-threads can default to one, and cpus can default to maxcpus or maxcpus can
-default to cpus, but at least one of those must be provided. And, if
-sockets are provided, then cores must be provided and vice versa. If
-neither sockets nor cores are provided, then nothing else besides cpus and
-maxcpus may be provided, and that would mean to not generate any topology
-descriptions for the guest.
-
+-- 
 Thanks,
-drew
+
+David / dhildenb
 
 
