@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB96336E763
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 10:52:41 +0200 (CEST)
-Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B5036E779
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 10:57:10 +0200 (CEST)
+Received: from localhost ([::1]:56306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc2PY-0001Si-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 04:52:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54258)
+	id 1lc2Tt-00031O-EK
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 04:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lc2Og-00012s-Oa
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 04:51:46 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:38614)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lc2OZ-0004B0-Gy
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 04:51:46 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id b131so2035768ybg.5
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 01:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tcUia/fHxLc5KpopokYl8pfooQFy07JRhf/E3qmJD6w=;
- b=goEI1egR1MojPwTandDupf1P3buZPiHmzwV/qdbsWejr24uYPeIzNOC3WMlF8jsEGE
- iXT+itwpIfjEHOGr9LrXsEw95s0LagyUaAup+QRpS1ugtRlQbiPdeNYOIZbuj7RrWKJg
- g0iqWhBSJRD1MvVUXdFAaO5pf0Z51tmdbKyTv8nFRG0gzU+gWhHqPdBEF7NNFfyC6gbj
- K/Bt8OicbMASAl481h+pcHJEVHNvNDxuhVqcBQ2Ki94q658bSyXKr/Lhve7Ak6fWmBmv
- CeBikieuY/UDkYWA6ZrUdfCJ3NfMVpywPDV6txIAnKPoCuMK2yHwf44+j+ccDIvSs6JJ
- GKMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tcUia/fHxLc5KpopokYl8pfooQFy07JRhf/E3qmJD6w=;
- b=lzewkKvHOkmTY+hx+/DbVqr7eAS0ZL+RjtNl6hQs94t4WfTdrg/C8rle+Z1GPSEPQ9
- DoaVrqrpDGIauBsInmreSWoWRFeDBcawUKeC6K6yVZK+SvL9emML9pEFwGWezC5/s3nM
- KeY6yvNrkCVsIsdb8s64i/g1e3WjRQMmtVt0FI52y3CkPY6GmkVfULU2F+hhq5GtT1wC
- Lbt7f6/ODzWNzYsUwAh5sx3KaeNZ0IYN7GGifwvpo/HF7Nr/TaWrcN49TiCbfBl9lA5u
- JM758GnF2T8sIJ1EWeO+6tS/l26+gLY9DqsJfL3ukHBvj4YF9wKvYMpUUVUf9+J8xqv8
- oRJQ==
-X-Gm-Message-State: AOAM530JIjQNl1i6BhWT6SvCu2d00W7Q6xZ9HMREzQruKjWPs5lcT8Lu
- lLKuafU1B1kzyJ3k9nVqxufdUhaBFlTXepn92Iop8eZ3fMjmSA==
-X-Google-Smtp-Source: ABdhPJwomwpmnmUU4jZbCjpOUWSfgVK/eMoN9N4UchW+yicEl0YDh04Sl/+vfqHS2aKy8ZwTjh6XhYpZ4EWSRFTjSfo=
-X-Received: by 2002:a25:6d85:: with SMTP id
- i127mr33336296ybc.479.1619686295712; 
- Thu, 29 Apr 2021 01:51:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lc2T4-0002Tw-Ry; Thu, 29 Apr 2021 04:56:18 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lc2T0-0006xe-Cs; Thu, 29 Apr 2021 04:56:18 -0400
+Received: from dggeml706-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FW8Q16kSxz148Dy;
+ Thu, 29 Apr 2021 16:52:09 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggeml706-chm.china.huawei.com (10.3.17.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 29 Apr 2021 16:56:07 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 29 Apr 2021 16:56:07 +0800
+Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+To: Andrew Jones <drjones@redhat.com>
+References: <20210413083147.34236-1-wangyanan55@huawei.com>
+ <20210413083147.34236-3-wangyanan55@huawei.com>
+ <20210428103141.5qfhzcqko6hxhxee@gator>
+ <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
+ <20210429071614.lywpbfpeyclqxnke@gator.home>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <ce557539-ac8f-7245-747b-8212a4857811@huawei.com>
+Date: Thu, 29 Apr 2021 16:56:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20210405131420.598273-1-basil@daynix.com>
- <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
-In-Reply-To: <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Thu, 29 Apr 2021 11:51:24 +0300
-Message-ID: <CAJ28CFQUzsYiBFVuE+zkNqV_AYy1=1MdkdT-6YE4kOtkjmx7yA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
- instead of 10
-To: Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000004dcea305c1189a9c"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b30;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210429071614.lywpbfpeyclqxnke@gator.home>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +70,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Michael Roth <michael.roth@amd.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Michael S .
+ Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
+ yangyicong@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ prime.zeng@hisilicon.com, Igor
+ Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004dcea305c1189a9c
-Content-Type: text/plain; charset="UTF-8"
 
-ping
-
-On Thu, Apr 22, 2021 at 10:43 AM Konstantin Kostiuk <konstantin@daynix.com>
-wrote:
-
-> ping
+On 2021/4/29 15:16, Andrew Jones wrote:
+> On Thu, Apr 29, 2021 at 10:14:37AM +0800, wangyanan (Y) wrote:
+>> On 2021/4/28 18:31, Andrew Jones wrote:
+>>> On Tue, Apr 13, 2021 at 04:31:45PM +0800, Yanan Wang wrote:
+>>>>            } else if (sockets == 0) {
+>>>>                threads = threads > 0 ? threads : 1;
+>>>> -            sockets = cpus / (cores * threads);
+>>>> +            sockets = cpus / (clusters * cores * threads);
+>>>>                sockets = sockets > 0 ? sockets : 1;
+>>> If we initialize clusters to zero instead of one and add lines in
+>>> 'cpus == 0 || cores == 0' and 'sockets == 0' like
+>>> 'clusters = clusters > 0 ? clusters : 1' as needed, then I think we can
+>>> add
+>>>
+>>>    } else if (clusters == 0) {
+>>>        threads = threads > 0 ? threads : 1;
+>>>        clusters = cpus / (sockets * cores * thread);
+>>>        clusters = clusters > 0 ? clusters : 1;
+>>>    }
+>>>
+>>> here.
+>> I have thought about this kind of format before, but there is a little bit
+>> difference between these two ways. Let's chose the better and more
+>> reasonable one of the two.
+>>
+>> Way A currently in this patch:
+>> If value of clusters is not explicitly specified in -smp command line, we
+>> assume
+>> that users don't want to support clusters, for compatibility we initialized
+>> the
+>> value to 1. So that with cmdline "-smp cpus=24, sockets=2, cores=6", we will
+>> parse out the topology description like below:
+>> cpus=24, sockets=2, clusters=1, cores=6, threads=2
+>>
+>> Way B that you suggested for this patch:
+>> Whether value of clusters is explicitly specified in -smp command line or
+>> not,
+>> we assume that clusters are supported and calculate the value. So that with
+>> cmdline "-smp cpus=24, sockets=2, cores=6", we will parse out the topology
+>> description like below:
+>> cpus =24, sockets=2, clusters=2, cores=6, threads=1
+>>
+>> But I think maybe we should not assume too much about what users think
+>> through the -smp command line. We should just assume that all levels of
+>> cpu topology are supported and calculate them, and users should be more
+>> careful if they want to get the expected results with not so complete
+>> cmdline.
+>> If I'm right, then Way B should be better. :)
+>>
+> Hi Yanan,
 >
-> On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
+> We're already assuming the user wants to describe clusters to the guest
+> because we require at least one per socket. If we want the user to have a
+> choice between using clusters or not, then I guess we need to change the
+> logic in the PPTT and the cpu-map to only generate the cluster level when
+> the number of clusters is not zero. And then change this parser to not
+> require clusters at all.
+Hi Drew,
+
+I think this kind of change will introduce more complexity and actually 
+is not necessary.
+Not generating cluster level at all and generating cluster level (one 
+per socket) are same
+to kernel. Without cluster description provided, kernel will initialize 
+all cores in the same
+cluster which also means one cluster per socket.
+
+So we should only ensure value of clusters per socket is one if we don't 
+want to use clusters,
+and don't need to care about whether or not to generate description in 
+PPTT and cpu-map.
+Is this right?
+> I'm not a big fan of these auto-calculated values either, but the
+> documentation says that it'll do that, and it's been done that way
+> forever, so I think we're stuck with it for the -smp option. Hmm, I was
+> just about to say that x86 computes all its values, but I see the most
+> recently added one, 'dies', is implemented the way you're proposing we
+> implement 'clusters', i.e. default to one and don't calculate it when it's
+> missing. I actually consider that either a documentation bug or an smp
+> parsing bug, though.
+My propose originally came from implementation of x86.
+> Another possible option, for Arm, because only the cpus and maxcpus
+> parameters of -smp have ever worked, is to document, for Arm, that if even
+> one parameter other than cpus or maxcpus is provided, then all parameters
+> must be provided. We can still decide if clusters=0 is valid, but we'll
+> enforce that everything is explicit and that the product (with or without
+> clusters) matches maxcpus.
+Requiring every parameter explicitly will be most stable but indeed strict.
+
+Currently all the parsers use way B to calculate value of thread if it 
+is not provided explicitly.
+So users should ensure the -smp cmdline they provided can result in that 
+parsed threads will
+be 1 if they don't want to support multiple threads in one core.
+
+Very similar to thread, users should also ensure the provided cmdline 
+can result in that parsed
+clusters will be 1 if they don't want to support multiple clusters in 
+one socket.
+
+So I'm wondering if we can just add some commit in the documentation to 
+tell users that they
+should ensure this if they don't want support it. And as for calculation 
+of clusters, we follow
+the logic of other parameters as you suggested in way B.
+
+Thanks,
+Yanan
 >
->> Currently Requester freeze times out after 10 seconds, while
->> the default timeout for Writer Freeze is 60 seconds. according to
->> VSS Documentation [1].
->> [1]:
->> https://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-backup-under-vss
->>
->> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
->>
->> Signed-off-by: Basil Salman <bsalman@daynix.com>
->> Signed-off-by: Basil Salman <basil@daynix.com>
->> ---
->>  qga/vss-win32/requester.cpp | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
->> index 5378c55d23..940a2c8f55 100644
->> --- a/qga/vss-win32/requester.cpp
->> +++ b/qga/vss-win32/requester.cpp
->> @@ -18,7 +18,7 @@
->>  #include <inc/win2003/vsbackup.h>
->>
->>  /* Max wait time for frozen event (VSS can only hold writes for 10
->> seconds) */
->> -#define VSS_TIMEOUT_FREEZE_MSEC 10000
->> +#define VSS_TIMEOUT_FREEZE_MSEC 60000
->>
->>  /* Call QueryStatus every 10 ms while waiting for frozen event */
->>  #define VSS_TIMEOUT_EVENT_MSEC 10
->> --
->> 2.17.2
->>
->>
-
---0000000000004dcea305c1189a9c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Thu, Apr 22, 2021 at 10:43 AM Konstantin Kostiu=
-k &lt;<a href=3D"mailto:konstantin@daynix.com">konstantin@daynix.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
-r=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &lt;<a href=
-=3D"mailto:basil@daynix.com" target=3D"_blank">basil@daynix.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Currently Re=
-quester freeze times out after 10 seconds, while<br>
-the default timeout for Writer Freeze is 60 seconds. according to<br>
-VSS Documentation [1].<br>
-[1]: <a href=3D"https://docs.microsoft.com/en-us/windows/win32/vss/overview=
--of-processing-a-backup-under-vss" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-ba=
-ckup-under-vss</a><br>
-<br>
-Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1909073" =
-rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.c=
-gi?id=3D1909073</a><br>
-<br>
-Signed-off-by: Basil Salman &lt;<a href=3D"mailto:bsalman@daynix.com" targe=
-t=3D"_blank">bsalman@daynix.com</a>&gt;<br>
-Signed-off-by: Basil Salman &lt;<a href=3D"mailto:basil@daynix.com" target=
-=3D"_blank">basil@daynix.com</a>&gt;<br>
----<br>
-=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp<br>
-index 5378c55d23..940a2c8f55 100644<br>
---- a/qga/vss-win32/requester.cpp<br>
-+++ b/qga/vss-win32/requester.cpp<br>
-@@ -18,7 +18,7 @@<br>
-=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
-<br>
-=C2=A0/* Max wait time for frozen event (VSS can only hold writes for 10 se=
-conds) */<br>
--#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
-+#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
-<br>
-=C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event */<br>
-=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
--- <br>
-2.17.2<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---0000000000004dcea305c1189a9c--
+> Requiring every parameter might be stricter than necessary, though, I
+> think we're mostly concerned with cpus/maxcpus, sockets, and cores.
+> clusters can default to one or zero (whatever we choose and document),
+> threads can default to one, and cpus can default to maxcpus or maxcpus can
+> default to cpus, but at least one of those must be provided. And, if
+> sockets are provided, then cores must be provided and vice versa. If
+> neither sockets nor cores are provided, then nothing else besides cpus and
+> maxcpus may be provided, and that would mean to not generate any topology
+> descriptions for the guest.
+> Thanks,
+> drew
+>
+> .
 
