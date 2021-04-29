@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4366136EA7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:28:48 +0200 (CEST)
-Received: from localhost ([::1]:40704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0349336EA3F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:24:03 +0200 (CEST)
+Received: from localhost ([::1]:59252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc5mh-0006zu-9n
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39426)
+	id 1lc5i6-0002wK-0s
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:24:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1lc5Qg-0007sV-3C
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:02 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:33782)
+ id 1lc5Qi-0007xP-6Z
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:04 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:43006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1lc5Qb-0000VU-EL
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:01 -0400
-Received: by mail-pg1-x531.google.com with SMTP id t22so11732264pgu.0
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 05:05:56 -0700 (PDT)
+ id 1lc5Qf-0000Ve-08
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:03 -0400
+Received: by mail-pg1-x535.google.com with SMTP id m12so6239118pgr.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 05:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gwpABH7Q/RCzO/0p2BVP3Xs7gCzcoNuIVG636eSZ3cI=;
- b=Z4Rmk0l6rdo5x/MMoWHpsFjRGt90PnqygQCyOVyy+aSMkVWA6Pm9HqzV8df1DhoQTi
- TykVPgZBDhB5RG1O3aJR3z3N4tXY5hFIANOH2rm5vsvBKNJdhjydD8jKoEq3zVSQrrZL
- Qjk5Kj1h6inNcVyPDI3kfsUT/gVKcKHm7s36EyrNnPv63BK5RAIv0L5C38D2mjM1CdZZ
- IXX0Iwe8r3Usu3l9kSY+En0zfq+H6qTSE62wRIYGUOLvZLw2GcL7ZbH7fpR0htJvICIx
- 1wkCBaeVltaZtybp+gPcZvMRX1FjRzy1gPplVwdXvR19HRuAwvwPMoDzYmKqo+uPd5Ao
- Jk9g==
+ bh=MY3Eyo8BOW5/bnFZwe0nuVTvNJ6IL5ISEGXVEww/96g=;
+ b=UkX45I7m8OQG0Zgpqkw3uTIbRIt6ppKIqGmJALAW9u8+KIBGWSoHwEimdXdMNsbjKi
+ Mlscm+LUBMLKzaKdyMAfWLJ0pBDS3I2BS3JJ2JJJAYPdBrr1CC7AahYJVhDGkCIUpfBm
+ IWblxuzr1ymJL9F73RIlZZFwAQ2YRzR1bD9yRucQh/0ad+EfnIGYDa9AZCqNokVvZjJC
+ 3HuRrNN/RqfSdYqbWpfpOuRrF38AxV4f/QLewi7ENpvBO26eP+aE8AV4t6BI3nt3UDVy
+ VnvDnZsmPuDUQYSrtQTPy6MuWNX+RcaNh1HNi+vliuHrTv8+CQouv7XL87UeB9B/wxWx
+ Uayw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gwpABH7Q/RCzO/0p2BVP3Xs7gCzcoNuIVG636eSZ3cI=;
- b=tXnqCrji8iCMogRD4k/KHN+uPlVBOgXm9flEtM1EfbSPq4TnqxIxo4IOCfOVOlGkjI
- TbK8MxQKylyXrFk4buT065mYwjqGwPwXDoqxGHqi3y3LtolMaiQK/CNe9ezq9tQvPmNV
- i9c4kwNwiuUKp7yn9tu4w/QzKTQ+hvz3MZLHXmJ3fuCijfid+IQAWxakLjDid2YwS47B
- QZqYZp/eLNz/OOrFWISRkL+B7mgwic2cTtbOwG8aDhD4FfSvegCCXdbNY75rPUxoIYiz
- riIAZ+vQcuLtAIOX+vL/6zxLDB1kT+Sa/LF51N2+VheoAzrKx4qYWPZcnhTaMwf9pOji
- /WZw==
-X-Gm-Message-State: AOAM530eTgbWa5805L04BG68gS2YMzOH8215v+BYbOmFi4d/R5H4vTw4
- CrIedpJTKXyL7vvtGQDfH2k=
-X-Google-Smtp-Source: ABdhPJyQK4qpHMFLWwEtlzgR6qX95Gvf/0LY+xXs+qiUjHLf23olUEq6WZwMaet5ewfEF30I2nMvcQ==
-X-Received: by 2002:a62:5ec7:0:b029:227:3253:3f62 with SMTP id
- s190-20020a625ec70000b029022732533f62mr32664234pfb.54.1619697956009; 
- Thu, 29 Apr 2021 05:05:56 -0700 (PDT)
+ bh=MY3Eyo8BOW5/bnFZwe0nuVTvNJ6IL5ISEGXVEww/96g=;
+ b=VxRjQGDYb+OHbJrahZD5hnDuqP24jKZqxdfGkTrzmBZ+B14pJ2Qoo1FavQjsdOlbE6
+ SJSTaYktUikDTjfu+PydhUzACIs2OckkdV/QYHXLnDYzcCVwtRkm4ovCTcKCl7fYpyp7
+ YNB4Gg2jjhrtHGOfvWEnAH1dpGKn9rl/UXBfhqiRe0uSU79l6Nko7Ams3ZYrqVhI/nPV
+ S3QhPK7o1bSI4eBEWhSHCMM/cSUMoYm7Nxh/l0UuX7BpP+F8xWwadPqAmulXV/DWIzFE
+ gZYusAOX0P0Q6VO4p5R6dRSdWXLCTMl5neE0lZUkPLAIq4IXz+EPRVWtn8pk+hkrIWlh
+ FtCw==
+X-Gm-Message-State: AOAM532V3Ky63Ji6cXS1nS6V8k8uRYnUCM/FZLPpuLpVJLdxnuXvtGiz
+ rpZLlOq2hAAPwYbAc/GYnlGEluVmRNrAcHexYwA=
+X-Google-Smtp-Source: ABdhPJwENxyHlbxOUo9JHKW4njQ0KSi8ChNyUHjf6BDzPKYqnC45161W9PN+p4SUe1WHHXPpUF64fg==
+X-Received: by 2002:a65:4341:: with SMTP id k1mr8594477pgq.178.1619697958283; 
+ Thu, 29 Apr 2021 05:05:58 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:6008:61b4:c0b1:be0f:608e:9a45])
- by smtp.gmail.com with ESMTPSA id p6sm713643pjg.35.2021.04.29.05.05.53
+ by smtp.gmail.com with ESMTPSA id p6sm713643pjg.35.2021.04.29.05.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 05:05:55 -0700 (PDT)
+ Thu, 29 Apr 2021 05:05:58 -0700 (PDT)
 From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 To: kraxel@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH 10/27] virtio-snd: Add code for the realize function
-Date: Thu, 29 Apr 2021 17:34:28 +0530
-Message-Id: <20210429120445.694420-11-chouhan.shreyansh2702@gmail.com>
+Subject: [RFC PATCH 11/27] virtio-snd: Add macros for logging
+Date: Thu, 29 Apr 2021 17:34:29 +0530
+Message-Id: <20210429120445.694420-12-chouhan.shreyansh2702@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,57 +90,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 ---
- hw/audio/virtio-snd.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ hw/audio/virtio-snd.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
-index edaeffd6b7..caad157705 100644
+index caad157705..a93674ea72 100644
 --- a/hw/audio/virtio-snd.c
 +++ b/hw/audio/virtio-snd.c
-@@ -97,8 +97,43 @@ static uint64_t virtio_snd_get_features(VirtIODevice *vdev, uint64_t features,
-     return vdev->host_features;
- }
+@@ -39,6 +39,10 @@
+ #define VIRTIO_SOUND_HDA_FN_NID_OUT 0
+ #define VIRTIO_SOUND_HDA_FN_NID_IN 1
  
-+/*
-+ * Initializes the VirtIOSound card device. Validates the configuration
-+ * passed by the command line. Initializes the virtqueues. Allocates resources
-+ * for and initializes streams, jacks and chmaps.
-+ *
-+ * @dev: VirtIOSound card device
-+ * @errp: Set if there is an error
-+ */
- static void virtio_snd_device_realize(DeviceState *dev, Error **errp)
++#define virtio_snd_log(...) AUD_log("virtio sound info", __VA_ARGS__)
++#define virtio_snd_warn(...) AUD_log("virtio sound warn", __VA_ARGS__)
++#define virtio_snd_err(...) AUD_log("virtio sound err", __VA_ARGS__)
++
+ static void virtio_snd_get_config(VirtIODevice *vdev, uint8_t *config)
  {
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VirtIOSound *s = VIRTIO_SOUND(dev);
-+
-+    virtio_init(vdev, "virtio-snd", VIRTIO_ID_SOUND, sizeof(virtio_snd_config));
-+
-+    /* set number of jacks and streams */
-+    if (s->snd_conf.jacks > 8) {
-+        error_setg(errp, "Invalid number of jacks: %d", s->snd_conf.jacks);
-+        return;
-+    }
-+    if (s->snd_conf.streams < 1 || s->snd_conf.streams > 10) {
-+        error_setg(errp, "Invalid number of streams: %d", s->snd_conf.streams);
-+        return;
-+    }
-+
-+    if (s->snd_conf.chmaps > VIRTIO_SND_CHMAP_MAX_SIZE) {
-+        error_setg(errp, "Invalid number of channel maps: %d",
-+                   s->snd_conf.chmaps);
-+        return;
-+    }
-+
-+    /* set up QEMUSoundCard and audiodev */
-+    AUD_register_card ("virtio_snd_card", &s->card);
-+
-+    s->streams = g_new0(virtio_snd_pcm_stream *, s->snd_conf.streams);
-+    s->pcm_params = g_new0(virtio_snd_pcm_params *, s->snd_conf.streams);
-+    s->jacks = g_new0(virtio_snd_jack *, s->snd_conf.jacks);
+     VirtIOSound *s = VIRTIO_SOUND(vdev);
+@@ -175,4 +179,8 @@ static void virtio_register_types(void)
+     type_register_static(&virtio_snd_dev_info);
  }
  
- static void virtio_snd_device_unrealize(DeviceState *dev)
++#undef virtio_snd_log
++#undef virtio_snd_warn
++#undef virtio_snd_err
++
+ type_init(virtio_register_types)
 -- 
 2.25.1
 
