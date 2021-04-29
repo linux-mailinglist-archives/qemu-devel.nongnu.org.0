@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ABB36ECEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:03:13 +0200 (CEST)
-Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5FE36ECFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:06:47 +0200 (CEST)
+Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc8C8-0007LS-En
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55006)
+	id 1lc8Fa-0001D4-53
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lc8AJ-0006Nc-VL
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:01:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lc8AC-0007ha-Fy
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:01:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619708463;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NeFzO8oi1a/ZP3+HXtZWR4VXqHHXQGuUzUtcIpnS4VY=;
- b=WNLOmGQ3v+mmFmoORlSPOvIvQ2ZfUKoK2ZZmSSuyJvS/fgjOTJbLiHhqdaH16QyYhUPnhc
- aH7D+k2qbUB4h0guK776cJbClP3oZvPP6gmhq/Pqh6JxnanRCj2LaCEOEtfZxjXJH72Zmp
- coK5V5ZeSciLS8d4hTYq8vQttI0rerI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-iz_yuyyqMoWGHTd3tGrryg-1; Thu, 29 Apr 2021 11:00:59 -0400
-X-MC-Unique: iz_yuyyqMoWGHTd3tGrryg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CDF76D258;
- Thu, 29 Apr 2021 15:00:58 +0000 (UTC)
-Received: from localhost (ovpn-114-114.ams2.redhat.com [10.36.114.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 41FB719C45;
- Thu, 29 Apr 2021 15:00:39 +0000 (UTC)
-Date: Thu, 29 Apr 2021 16:00:38 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
-Message-ID: <20210429150038.GT26415@redhat.com>
-References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
- <20210429142259.GR26415@redhat.com>
- <YIrFmZgh5IAeiLdm@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lc8EY-00006f-De
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:05:42 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lc8EW-0002H1-LS
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:05:42 -0400
+Received: by mail-wr1-x434.google.com with SMTP id e5so38635484wrg.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 08:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EYhlmfXvj2ehmhYhTHmVrEzBYH9XcJWGUNpRkjlx2AE=;
+ b=T5i4CzWmHR19yJbUWul6oSWIxjPMixj63A9eAawvAxkT8ct66WFPQQZVPrOPnwdNpZ
+ XavtSn81jKg1zLM7r6Q9NaeMTLozXFpnOuPQU54oSUY1XXnIpHOya9FfntHFnGjt+QHb
+ mSs/zexiKIEZXsQVYSZBep0b8cy9DtMXQhShERKfTFPRTf55NWDQZXQYWuyQ3G9GHQAd
+ LOyq5yCI60uwAlmRK6/PC0PwDWa5VitInuPKLt8u4g7NvlSVWi1pZmP1A5XVJ/ZfqOzx
+ Q9f/GhBCquzve3Q0aPEQMzWghhiPZf8GzU0F67iMPqLlIjuZnyaON/zZbNQVERx0Vcq0
+ fcKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EYhlmfXvj2ehmhYhTHmVrEzBYH9XcJWGUNpRkjlx2AE=;
+ b=JCQtwOaS4ySuhaxiQdfBQ812aY+V+zmUiINqVoDxNlkXKg6V4dMNkdK+IsKC8MippE
+ tF3th46rALK/9YxVI91U6px0yxA860Ob91n+8Bd4tziYhlzE2AjERFTEvLZAIk4W1TIn
+ +uZSj/RXqryaRuNUKSabjLvjymOY5q/YTOZyu1CArzCfb11Sl9nISI8cjbZ0LQS6yhwu
+ hOXZfPuDrQFJr8kQTMH7F8pjuBAJuHFPZ6Dyg1IQVm1ZI7GVGO9JiDuLaBE4BGtganU+
+ xp4uFO3Z6FAq4DipQdtDqyNooEeJFjpel1dVfQs+Ry03oLzXlhbxwNk151O9PR6EXtYJ
+ tvAw==
+X-Gm-Message-State: AOAM530RFLe2RxAE10lbByU1nx5w9dY08fY2urv3CkXT53hjrr4l4q/+
+ Fh8+znBsNDzZouPRIfwhK0I=
+X-Google-Smtp-Source: ABdhPJwQX4Gnbmlga84WXMQeC4ikex4Hcz6pmrECkx17F5vk8sY+xerce5NhLVM91JlNcHUDmQOfGg==
+X-Received: by 2002:adf:f212:: with SMTP id p18mr296782wro.120.1619708738570; 
+ Thu, 29 Apr 2021 08:05:38 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id y19sm10647978wmj.28.2021.04.29.08.05.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Apr 2021 08:05:37 -0700 (PDT)
+Subject: Re: Let's remove some deprecated stuff
+To: Gerd Hoffmann <kraxel@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <87y2d1csxe.fsf@dusky.pond.sub.org>
+ <bd90409c-14d0-2732-0056-9fec8383479a@redhat.com>
+ <20210429124049.z7qtkufk2wgvvd5i@sirius.home.kraxel.org>
+ <YIqwsUAGEvfazbvZ@merkur.fritz.box>
+ <20210429134612.rtnoy5yo3v36h4l7@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bbaac55c-4877-82f8-1a70-bd62ff79a25f@amsat.org>
+Date: Thu, 29 Apr 2021 17:05:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YIrFmZgh5IAeiLdm@stefanha-x1.localdomain>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210429134612.rtnoy5yo3v36h4l7@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,108 +92,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- Alberto Garcia <berto@igalia.com>, slp@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
- Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Robert Hoo <robert.hu@linux.intel.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 03:41:29PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Apr 29, 2021 at 03:22:59PM +0100, Richard W.M. Jones wrote:
-> > On Thu, Apr 29, 2021 at 03:05:50PM +0100, Stefan Hajnoczi wrote:
-> > > The purpose of this preview release is to discuss both the API design
-> > > and general direction of the project. API documentation is available
-> > > here:
-> > > 
-> > >   https://gitlab.com/libblkio/libblkio/-/blob/v0.1.0/docs/blkio.rst
-> > 
-> > libvirt originally, and now libnbd, keep a per-thread error message
-> > (stored in thread-local storage).  It's a lot nicer than having to
-> > pass &errmsg to every function.  You can just write:
-> > 
-> >  if (nbd_connect_tcp (nbd, "remote", "nbd") == -1) {
-> >    fprintf (stderr,
-> >             "failed to connect to remote server: %s (errno = %d)\n",
-> >             nbd_get_error (), nbd_get_errno ());
-> >    exit (EXIT_FAILURE);
-> >  }
-> > 
-> > (https://libguestfs.org/libnbd.3.html#ERROR-HANDLING)
-> > 
-> > It means you can extend the range of error information available in
-> > future.  Also you can return a 'const char *' and the application
-> > doesn't have to worry about lifetimes, at least in the common case.
-> 
-> Thanks for sharing the idea, I think it would work well for libblkio
-> too.
-> 
-> Do you ignore the dlclose(3) memory leak?
+On 4/29/21 3:46 PM, Gerd Hoffmann wrote:
 
-I believe this mechanism in libnbd ensures there is no leak in the
-ordinary shared library (not dlopen/dlclose) case:
+> Hmm.  Not so easy I suspect.  While most sound cards map to a single
+> device there are exceptions.  pcspk is build-in and hda is two devices.
 
-https://gitlab.com/nbdkit/libnbd/-/blob/f9257a9fdc68706a4079deb4ced61e1d468f28d6/lib/errors.c#L35
+What do you mean by "pcspk is build-in"?
 
-However I'm not sure what happens in the dlopen case, so I'm going to
-test that out now ...
+Do you mean "the 'pcspk' audiodev is build in the 8254 PIT device"?
+(see pcspk_audio_init).
 
-> > > Examples are available here:
-> > > 
-> > >   https://gitlab.com/libblkio/libblkio/-/tree/v0.1.0/examples
-> > > 
-> > > The goal is to eventually include the following drivers:
-> > > - Linux io_uring
-> > > - NVMe (VFIO and vfio-user)
-> > > - virtio-blk (VFIO, vfio-user, vhost-user-blk, and vhost-vdpa-blk)
-> > >
-> > > There are a few reasons why libblkio is needed:
-> > > 
-> > > 1. QEMU, Ceph, GlusterFS, MariaDB, and other programs have been adding
-> > >    more low-level block I/O code, most of it duplicated. Usually only
-> > >    one or two of Linux AIO, io_uring, userspace drivers, vhost-user
-> > >    drivers, etc are implemented. This makes it difficult to benefit from
-> > >    the latest advances in high-performance block I/O.
-> > > 
-> > > 2. Coding to a standard API makes it possible to introduce new
-> > >    optimizations or hardware interfaces without costly changes to the
-> > >    software stack.
-> > > 
-> > > 3. A client library is needed so applications can take advantage of
-> > >    qemu-storage-daemon's vhost-user-blk exports.
-> > > 
-> > > 4. Implementing block I/O as a library allows QEMU to use Rust for new
-> > >    code without messy QEMU internal API bindings. Note that libblkio
-> > >    currently does not provide a Rust crate, it only offers a C API.
-> > 
-> > This is where I get confused about what this library actually does.
-> > It's not just a nicer wrapper around io_uring, but what is it actually
-> > doing?
-> 
-> It's a library for what QEMU calls protocol drivers (POSIX files,
-> userspace NVMe driver, etc). In particular, anything offering
-> multi-queue block I/O fits into libblkio.
-> 
-> It is not intended to replace libnbd or other network storage libraries.
-> libblkio's properties API is synchronous to keep things simple for
-> applications. Attaching to network storage needs to be asynchronous,
-> although the libblkio API could be extended if people want to support
-> network storage.
-
-I think what confuses me is why is NVMe any different from io_uring?
-ie would this work?
-
-$ blkio-info --output=json io_uring path=/dev/nvme0
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-df lists disk usage of guests without needing to install any
-software inside the virtual machine.  Supports Linux and Windows.
-http://people.redhat.com/~rjones/virt-df/
-
+FWIW I'm using this device as example to work on the PWM API,
+and I see the AUD API as a generic DSP processing one.
+And in my TODO I have "split pcspk audiodev backend from 8254".
 
