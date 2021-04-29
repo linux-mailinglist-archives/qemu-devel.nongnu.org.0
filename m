@@ -2,146 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7D636EADE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:50:27 +0200 (CEST)
-Received: from localhost ([::1]:56132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6204B36EAE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:50:59 +0200 (CEST)
+Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc67e-0008RW-Sk
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:50:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
+	id 1lc68A-0000Ru-Fo
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1lc663-0007L5-PC; Thu, 29 Apr 2021 08:48:47 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:53124)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lc66J-0007gz-7T
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:49:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1lc660-0005un-W5; Thu, 29 Apr 2021 08:48:47 -0400
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13TCm63n007949; Thu, 29 Apr 2021 05:48:41 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=Mze4n9dipsXbKlrkBJMwIlh7BC91g+PxVi7dn6tlvkA=;
- b=rkvCcfr1kE9RVhUyfZm/uW00zPtyCLQdo8n0SdkNF/2ag2g4pczcksK/Ra9O95D5Wu5q
- fk+cY9lOyu3YO06/a6TTK7nILorpBSPWE1uwDUQOCAIAlJIq0q+yNtI9Z3aNx0JoRPAw
- FM8OgY4BUuELPZFOacBvVyAp/mIKw+G/fQGH6rZh588dMZLwHYoUOvjJkqV+1OKrEC9N
- wm4fHfyKzX2eNbdF96M8dkpwn9hv0r9bZ8Vu/1dpwwkPkX1IQwXuuc2S8AS+yRIYKxnj
- 6w9s1nnkyNYh5wxZL8pA5NK/zEY9khdteD0yXyJeNcgHBmQKmqaMeeZegiAiRLrLkIvL Rw== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
- by mx0a-002c1b01.pphosted.com with ESMTP id 387f7t1gdj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Apr 2021 05:48:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K1pn6oKPc6iwE+24vIF3M23a1alqfvxsbLwH1ukL3Zav9PeDadEtAXZ7H/bEf+sGLfC45t/XIPVDe59UlFLvkLdIC/ZjuFTA+Fy3ejb9fQnUp5P29LzLewEZdPgB+qsamVvxPGv9nTiX0+iwvHhAj3tSqGo5VQ8liggr7WRvExE/I/Tl2b2/nGIASVByJ27ZalSEJu+7cH0Qys3nadGhrAEahBhJxjf3YRSwYTw/4wAjirjUtVupW4zwXQfsnZGIeg6rOcVxJbYiDFRHXpnMT6jWSmMSAe222RNK/5xC+BHl4WQ3e6IloZT9GpDf/NDcWSB/z3cGAOKT8En6yPApzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mze4n9dipsXbKlrkBJMwIlh7BC91g+PxVi7dn6tlvkA=;
- b=RQ3wZbR3pxop7cW0A9NnTYy4yHwmWEbJ9J3JD+TFVLJDVGGG9/Ok3GJMlFglKBFb56toSts56CbNY6/t8Nt2vEfRag3aoUYvQlDI6g0FEuqL3WLdb9wwRKHBysQS3bJ+qL8ip3baOgo9QV3/QK1GvHNEjueZNnxdSldls5IxIP+p9qMx+jhEyyCRx4wNUUOgJyfTIniUWo2atkmJYnSe88XKOGklPOkm1VdruWVXkhNGuqm8bkp3HNjZo5HUjf1TcFC6RZzzfTb4ieLi2QoZMu+YkOuAT4WGRcycrC5VdAPjEBtKEzyEmndzSrxJ9iMxNkhWrk3RFMBvhQVLwe26yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com (2603:10b6:805:b1::24)
- by SN6PR02MB4224.namprd02.prod.outlook.com (2603:10b6:805:33::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20; Thu, 29 Apr
- 2021 12:48:38 +0000
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::bdbb:69ac:63f9:fc33]) by SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::bdbb:69ac:63f9:fc33%7]) with mapi id 15.20.4065.026; Thu, 29 Apr 2021
- 12:48:38 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 4/5] virtio: Fail if iommu_platform is requested, but
- unsupported
-Thread-Topic: [PATCH 4/5] virtio: Fail if iommu_platform is requested, but
- unsupported
-Thread-Index: AQHXN5lWW/llp3lkL06gnwadtyn+KqrKWQeAgADtZYCAADZOgA==
-Date: Thu, 29 Apr 2021 12:48:38 +0000
-Message-ID: <20210429124833.GA21125@raphael-debian-dev>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lc66G-00064h-91
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:49:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619700538;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UyP1vHsWvF63T/gja4bOEPqcZKp2itGXJqyylH9d+gg=;
+ b=QVK6KLPpYn9YSbAYv5kQt3mb8UgXk5QwjdfjjmtqyHFoHdy0nZi+ZNRMh4Cecz8gsP88Ht
+ jrFNTFasPuIH1B4nLAeqnhDB4HwjR+9PTe6W98N/ZlOjXQbHCV/Mmz+V5BDA1wmtMNVsIP
+ HOzNv7M1hVuQ3IBb6iBG887LkY0Qf2M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-fxep1FEyP6KwJN6ZOeYGxg-1; Thu, 29 Apr 2021 08:48:56 -0400
+X-MC-Unique: fxep1FEyP6KwJN6ZOeYGxg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3184180362D;
+ Thu, 29 Apr 2021 12:48:55 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-217.ams2.redhat.com [10.36.114.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF5AA14108;
+ Thu, 29 Apr 2021 12:48:53 +0000 (UTC)
+Date: Thu, 29 Apr 2021 14:48:52 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: Re: [PATCH 1/5] vhost-user-blk: Don't reconnect during initialisation
+Message-ID: <YIqrNP7eg5EV0/iY@merkur.fritz.box>
 References: <20210422170221.285006-1-kwolf@redhat.com>
- <20210422170221.285006-5-kwolf@redhat.com>
- <20210428192431.GC20605@raphael-debian-dev>
- <YIp9k9AC2jwIMnYA@merkur.fritz.box>
-In-Reply-To: <YIp9k9AC2jwIMnYA@merkur.fritz.box>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.10.1 (2018-07-13)
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [69.122.45.60]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5fb709ea-5035-4b25-253c-08d90b0d1c2b
-x-ms-traffictypediagnostic: SN6PR02MB4224:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR02MB42246EEBEE74141BCB599902EA5F9@SN6PR02MB4224.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4s2mqm4P4ZAjVjLsGoXGM37iCZ4s26Kcf9b9+YUB6egPw+M8lSBzmnHQxwcHjDVANPJpU2MpJeIEdRbewkoo0+teQVBxA3k+UNx3uTlOrG8Baw0nLS4gBEjCSNbR9VLG3DdVMUQJ5A+ykrYAaUOjJpP8qaihQ1qh0RcZpI9yVtFbMlUqwYJIEZ8BeqGRGT6cg9/CTzN91MgKYAe49vwUd+ZZhGoZtehXHe36cWuXtmhkgl+HwNGlaKJWVbAlpNifHW6LfkWs/6oFzAYwB+AQH8QSIkHkBtG/7MANsjIdnHM7opw+grIEjguT7eiVTl5vhDkNeNAFkFQkHcsdx8O5uAefElZoDWlq2ekGx5icRSklYa9xADGvEn/QSDL8l2r0TBPcmLwqo2dXxCpFF6R88kSEkRJWz0ee1K7ZDyNKrW0ovxEKmNvLJK6vWn4tbvIDY3Fv+Mf9n/j1fRdcszUkPqAW20cqcdn4BXVRPDmL+KCf5HxMFhaeHwiHHBIpywGcAqKpmFTfXVls71Zl8BYyoEIPcXENKPRK1NjL3SkMwtoI8KTJu+8MtvR8N07qjJAoSfHjP9hnCTIuNUX7v8Om8zw2dBRMCAh6/T12Edqeh6lGqMQBnbVl++/qkywtIgQgyMEu2Q4C/k+aXIabiEFMxX9tbC1W3QdBYDJeUflJVGHFwDtMr2f3EE7heQh/9TfQ
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4543.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(396003)(136003)(376002)(366004)(39860400002)(346002)(83380400001)(71200400001)(6916009)(33656002)(86362001)(6512007)(8676002)(122000001)(76116006)(5660300002)(38100700002)(66446008)(64756008)(66946007)(91956017)(66556008)(66476007)(33716001)(478600001)(4326008)(186003)(26005)(6506007)(44832011)(54906003)(316002)(2906002)(9686003)(6486002)(8936002)(966005)(1076003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?UcEQ9XjoUkuTXt3hi40AsCfw09/imKC6dpV+lXPlnkNxFv6boKMxIuMVxEE9?=
- =?us-ascii?Q?gvMvvc+yVuHWFkf29G+QYZqddZorDZVlh/Yd7MVxkJZGY7F20IbPWqMKn6PD?=
- =?us-ascii?Q?vdXu/4bWD204qWQ7kfasRI2YV6v6brQmnNWWlppFCIqmZMA6phIzSvwMAnIa?=
- =?us-ascii?Q?0TLxzOKHj31xoG9p3hIwrleG7UO9II6NeEDWagWZkyFzfCnh5zzak8pI/cdM?=
- =?us-ascii?Q?gtPNOOFkiCQFW1xyCwPVvtAIU8FfP+i/StF3LkckBqVO0o6pW0nBmJr+x0D2?=
- =?us-ascii?Q?2fdVsBoHpluWhfPcLX0jfnrXYHES90rViOc0zmcySpUkxaekH+qjnm5nOBC3?=
- =?us-ascii?Q?zxypacmqEe0C7ifP8CpkrarNPolRxVm0czYPlhdpAwl0t1Xg2RdvQIQYLnIz?=
- =?us-ascii?Q?/FLkAYPZmyo4kW2LMLTYW+S5TEdMHoH3RGMaUnQQZ/cfsph7ForI9KnQ0bcK?=
- =?us-ascii?Q?6prhL7jeHYdYuPgrtgqSQi4GF/2VryIvQsKMsXGy+p4ayFn6dNmyszzATUus?=
- =?us-ascii?Q?7XNiD9aoukOk59l8NtdkxpRHzI5RueAhmr87erAsKOvXYGPjI/qSzivdaEDL?=
- =?us-ascii?Q?X9YQUvuBWEAKHkt0tzrSwmWxTXFRFDniV+XA8Dx7P4xV7Ac6tDRH2wEyZsZE?=
- =?us-ascii?Q?YhzhT3GAupauW2QrAFklAgya5Ms4ZyhLqH3UEgLabHy2PfhlmXGzuo+ei8X5?=
- =?us-ascii?Q?ktH1NJ4p8FHjlWDxNMG5gRyv0N+AzYxYTL5B0gC4Xg/4hTekGMyQWejEBNDk?=
- =?us-ascii?Q?WzNT/Q44cWsF6VxNaWkeFpICFShjkbMimsFQ4E/irzdURI3PoKnKrr8dAjpo?=
- =?us-ascii?Q?bTYQikpm0cfwOphUavuWZ/SstOf/FeyrjCRKG2NzblexUen49xXluyg/VdAN?=
- =?us-ascii?Q?EJodRAyaYHnVONZdIzqBoFqEQvyENBK/3UsyN5jHoekO41FrSDNax09djAxc?=
- =?us-ascii?Q?DGrHMc+JvoTl8rx5bDV0RDHai2nEJKpc76fCUdyzRin+cn1a/UNiWFjlS9QB?=
- =?us-ascii?Q?FenEp3u2mmXRuOrQSKJtarzthuvdiTx9uRNoG+tYf54beIdovMjl9Irb7/1S?=
- =?us-ascii?Q?vVJg5QcH0Bb3wePJqWtjGRlghIqgeRxJVr+kObRq93Jw/22VmlXta1NQVwKm?=
- =?us-ascii?Q?+hN/44eld9DmdeNfPcvTdwHZ+c1hwlClHblE3ke3L9iymjfdKM6k9IPeQNCa?=
- =?us-ascii?Q?dEEVlmydqW7ekqPs+3Uqn08hF+vTmoIhWif8xHnYwf6I8pIZjJkdfCV4+I6L?=
- =?us-ascii?Q?O11gcgWegYr34kjs83RgybUjUVIM6sSNoJnTiUrBA9r6UAmLVOx2Z9EOlKFQ?=
- =?us-ascii?Q?auKU/H0HVPFBN1doT1UfA0Lo?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B5DBA325003E394FBE9B65A7F353337B@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ <20210422170221.285006-2-kwolf@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4543.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fb709ea-5035-4b25-253c-08d90b0d1c2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2021 12:48:38.3436 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c2hERZw5Dy6ChHwhONnLkuuVGajqP6PyqPN0BduaSQ365JRZhsqE3AgaNIz4YXdlOrGyQuBsj4LA1RELqewvMlNkdbikWU5vCgKiKr18n1s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4224
-X-Proofpoint-GUID: k5oGFqmQe3OUU41bvYSQ8KoOg8k-1jLd
-X-Proofpoint-ORIG-GUID: k5oGFqmQe3OUU41bvYSQ8KoOg8k-1jLd
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-29_06:2021-04-28,
- 2021-04-29 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+In-Reply-To: <20210422170221.285006-2-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -154,87 +76,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "den-plotnikov@yandex-team.ru" <den-plotnikov@yandex-team.ru>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: den-plotnikov@yandex-team.ru, mst@redhat.com, qemu-devel@nongnu.org,
+ raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Got it - thanks for the clarification.
+Am 22.04.2021 um 19:02 hat Kevin Wolf geschrieben:
+> This is a partial revert of commits 77542d43149 and bc79c87bcde.
+> 
+> Usually, an error during initialisation means that the configuration was
+> wrong. Reconnecting won't make the error go away, but just turn the
+> error condition into an endless loop. Avoid this and return errors
+> again.
+> 
+> Additionally, calling vhost_user_blk_disconnect() from the chardev event
+> handler could result in use-after-free because none of the
+> initialisation code expects that the device could just go away in the
+> middle. So removing the call fixes crashes in several places.
+> 
+> For example, using a num-queues setting that is incompatible with the
+> backend would result in a crash like this (dereferencing dev->opaque,
+> which is already NULL):
+> 
+>  #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
+>  #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
+>  #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+>  #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
+>  #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
+>  #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
+>  #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
+>  #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
+>  #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
+>  #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  hw/block/vhost-user-blk.c | 54 ++++++++++-----------------------------
+>  1 file changed, 13 insertions(+), 41 deletions(-)
+> 
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index f5e9682703..e824b0a759 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -50,6 +50,8 @@ static const int user_feature_bits[] = {
+>      VHOST_INVALID_FEATURE_BIT
+>  };
+>  
+> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
+> +
+>  static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+>  {
+>      VHostUserBlk *s = VHOST_USER_BLK(vdev);
+> @@ -362,19 +364,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
+>      vhost_dev_cleanup(&s->dev);
+>  }
+>  
+> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+> -                                 bool realized);
+> -
+> -static void vhost_user_blk_event_realize(void *opaque, QEMUChrEvent event)
+> -{
+> -    vhost_user_blk_event(opaque, event, false);
+> -}
+> -
+> -static void vhost_user_blk_event_oper(void *opaque, QEMUChrEvent event)
+> -{
+> -    vhost_user_blk_event(opaque, event, true);
+> -}
+> -
+>  static void vhost_user_blk_chr_closed_bh(void *opaque)
+>  {
+>      DeviceState *dev = opaque;
+> @@ -382,12 +371,11 @@ static void vhost_user_blk_chr_closed_bh(void *opaque)
+>      VHostUserBlk *s = VHOST_USER_BLK(vdev);
+>  
+>      vhost_user_blk_disconnect(dev);
+> -    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL,
+> -            vhost_user_blk_event_oper, NULL, opaque, NULL, true);
+> +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
+> +                             NULL, opaque, NULL, true);
+>  }
+>  
+> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+> -                                 bool realized)
+> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+>  {
+>      DeviceState *dev = opaque;
+>      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> @@ -401,17 +389,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+>          }
+>          break;
+>      case CHR_EVENT_CLOSED:
+> -        /*
+> -         * Closing the connection should happen differently on device
+> -         * initialization and operation stages.
+> -         * On initalization, we want to re-start vhost_dev initialization
+> -         * from the very beginning right away when the connection is closed,
+> -         * so we clean up vhost_dev on each connection closing.
+> -         * On operation, we want to postpone vhost_dev cleanup to let the
+> -         * other code perform its own cleanup sequence using vhost_dev data
+> -         * (e.g. vhost_dev_set_log).
+> -         */
+> -        if (realized && !runstate_check(RUN_STATE_SHUTDOWN)) {
+> +        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
+>              /*
+>               * A close event may happen during a read/write, but vhost
+>               * code assumes the vhost_dev remains setup, so delay the
+> @@ -431,8 +409,6 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
+>               * knowing its type (in this case vhost-user).
+>               */
+>              s->dev.started = false;
+> -        } else {
+> -            vhost_user_blk_disconnect(dev);
+>          }
+>          break;
+>      case CHR_EVENT_BREAK:
+> @@ -490,31 +466,27 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
+>      s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
+>      s->connected = false;
+>  
+> -    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
+> -                             vhost_user_blk_event_realize, NULL, (void *)dev,
+> -                             NULL, true);
+> -
+> -reconnect:
+>      if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
+>          error_report_err(err);
+>          goto virtio_err;
+>      }
 
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Preexisting bug: We have to set errp before jumping to virtio_err,
+otherwise the caller (virtio_device_realize()) will take this as success
+and crash when it later tries to access things that we've already freed
+in the error path.
 
-On Thu, Apr 29, 2021 at 11:34:11AM +0200, Kevin Wolf wrote:
-> Am 28.04.2021 um 21:24 hat Raphael Norwitz geschrieben:
-> > On Thu, Apr 22, 2021 at 07:02:20PM +0200, Kevin Wolf wrote:
-> > > Commit 2943b53f6 (' virtio: force VIRTIO_F_IOMMU_PLATFORM') made sure
-> > > that vhost can't just reject VIRTIO_F_IOMMU_PLATFORM when it was
-> > > requested. However, just adding it back to the negotiated flags isn't
-> > > right either because it promises support to the guest that the device
-> > > actually doesn't support. One example of a vhost-user device that
-> > > doesn't have support for the flag is the vhost-user-blk export of QEM=
-U.
-> > >=20
-> > > Instead of successfully creating a device that doesn't work, just fai=
-l
-> > > to plug the device when it doesn't support the feature, but it was
-> > > requested. This results in much clearer error messages.
-> > >=20
-> > > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1935019
-> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > > ---
-> > >  hw/virtio/virtio-bus.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >=20
-> > > diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> > > index d6332d45c3..859978d248 100644
-> > > --- a/hw/virtio/virtio-bus.c
-> > > +++ b/hw/virtio/virtio-bus.c
-> > > @@ -69,6 +69,11 @@ void virtio_bus_device_plugged(VirtIODevice *vdev,=
- Error **errp)
-> > >          return;
-> > >      }
-> > >
-> >=20
-> > Can you explain this check a little more?
-> >=20
-> > Above we have:
-> > bool has_iommu =3D virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFOR=
-M);
->=20
-> If I underdstand the code correctly, at this point this is still the
-> unchanged value of the iommu_platform=3Don|off qdev property as given by
-> the user.
->=20
-> > and then we get the host features from the bckend:
-> > vdev->host_features =3D vdc->get_features(vdev, vdev->host_features
->=20
-> Yes, and now a flag is only set if the user had requested it and the
-> backend also supports it.
->=20
-> > So as is this is catching the case where vdev->host_features had
-> > VIRTIO_F_IOMMU_PLATFORM set before (by default?), but doesn't now that
-> > the features have been retrieved?=20
-> >=20
-> > Why not just:
-> >     if (!virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
->=20
-> We don't want to fail if the user hadn't even requested the feature, but
-> just if it was requested, but could not be provided.
->
-> > > +    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_P=
-LATFORM)) {
-> > > +        error_setg(errp, "iommu_platform=3Dtrue is not supported by =
-the device");
-> > > +        return;
-> > > +    }
-> > > +
-> > >      if (klass->device_plugged !=3D NULL) {
-> > >          klass->device_plugged(qbus->parent, &local_err);
-> > >      }
->=20
-> Kevin
-> =
+> -    /* check whether vhost_user_blk_connect() failed or not */
+> -    if (!s->connected) {
+> -        goto reconnect;
+> +    if (vhost_user_blk_connect(dev) < 0) {
+> +        qemu_chr_fe_disconnect(&s->chardev);
+> +        goto virtio_err;
+
+Here I'm newly introducing the same bug (fixed again by patch 2).
+
+>      }
+> +    assert(s->connected);
+>  
+>      ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
+>                                 sizeof(struct virtio_blk_config));
+>      if (ret < 0) {
+>          error_report("vhost-user-blk: get block config failed");
+> -        goto reconnect;
+> +        goto virtio_err;
+
+And this one is wrong, too.
+
+>      }
+>  
+> -    /* we're fully initialized, now we can operate, so change the handler */
+> +    /* we're fully initialized, now we can operate, so add the handler */
+>      qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
+> -                             vhost_user_blk_event_oper, NULL, (void *)dev,
+> +                             vhost_user_blk_event, NULL, (void *)dev,
+>                               NULL, true);
+>      return;
+
+So maybe patch 2 should come first and also fix the preexisting bug, and
+of course this patch needs a v2 that doesn't introduce the new instances
+of the bug.
+
+Kevin
+
 
