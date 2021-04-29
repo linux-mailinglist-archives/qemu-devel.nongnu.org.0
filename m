@@ -2,69 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BFD36E3BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 05:39:00 +0200 (CEST)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882A936E3CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 05:50:56 +0200 (CEST)
+Received: from localhost ([::1]:37514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbxVz-0005BA-5l
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 23:38:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50526)
+	id 1lbxhX-0007Sq-Be
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 23:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lbxUw-0004mF-79
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 23:37:54 -0400
-Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:41767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lbxUr-0006Q6-VI
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 23:37:53 -0400
-Received: by mail-vk1-xa2f.google.com with SMTP id o17so14201231vko.8
- for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 20:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q//IJ6jOY7PKY2eEEhCmEvwr2p7VIGuIEvkm1mYmYU0=;
- b=ssWa60dWYtCcgMGpdQcEiMHJ5+fcSl8kq99EZ2CyfSpHmaADqdGjri52qrt80xicDN
- VNd5Ac5ieb00eG2peT/66anJsciY9xIymAfkKUvJVc/2v+EEIUCBihDPvcasKj37pSlF
- IJFKJYUJaeKon8mEg+gQWtbapU7PDJzeVi2EqGX1rhMAY1CTzkDyVNN8i1OEK4dnpTl9
- lp0wEnEZsZPMJccQW5SxsuW5RGv7mJk1ukxdGGFzaWbllD6T0SsHPwBGsato/TRDTpiN
- HbpGxVKw+HfaSpdJfAxRdHc4ajJ5xIFvsRGdm1Abwn6Jak2YDBMyA0fTjCgKn1aEaQ4f
- vhWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q//IJ6jOY7PKY2eEEhCmEvwr2p7VIGuIEvkm1mYmYU0=;
- b=C7k05hC7QA7DTy9uiKo0TRyzy/lpWqktav+BDH2dILHUm/oXItLjYrORBu5IbqKP6k
- NVcqIe/zwHypgcnIyVww9p4f6J3aYw/iIGvlBHTFG2m6kNoI8lRjqGLBXCzAwmPnZYBj
- p0SgA2yzsynIl1SdDEpbmLPcq16trVFhyrPkHVGby9vEvrm/8jLHnjUwKb2olB31eAe7
- X5zo9500FkfT+BxAAeVxfKygW3Z/Aujv/+izz0dNUWTXO2sZBHzlSWaJKzIkbbxAQ1LB
- RLXgEAl8dJbsXdRVkK1dBFlJNwR1xwXzAfEgI1E81uU7zespMMC7o9uoz/f5tceKMPf6
- beXA==
-X-Gm-Message-State: AOAM532MP15hotZns5depyB6xPZu+5GrzFqmA2f/1Uzr8y1W1ddVKi2a
- +hSaVk/hAovHIp2XPLPR5WJpcUkVL47LHISUR5NTDWjUD8z54A==
-X-Google-Smtp-Source: ABdhPJzvLrQHWEbznXO9bLl0Ex8Z/HPnmkSNSpJloBuR+ArF+nbpn7cr3KJ8v2abk913m+fIUpys3iJBNBO4BLq8AuM=
-X-Received: by 2002:a1f:3105:: with SMTP id x5mr4369199vkx.8.1619667467353;
- Wed, 28 Apr 2021 20:37:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1lbxfZ-0006Pw-TC; Wed, 28 Apr 2021 23:48:53 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1lbxfW-0006mq-Gm; Wed, 28 Apr 2021 23:48:53 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13T3WcCX075405; Wed, 28 Apr 2021 23:48:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=OAgkGXxPDmtmIHCaGcleE7WQ23ZAERsX5oYcImhqkew=;
+ b=UVNF/3+5pCq7PcHVSRJBpKYA8wDphCv7ebFarxu+uy114Zo93bjKfvf0B3us3eseFHwH
+ FBO3a5b3kr9FARsXUJ3LlKn7PqrAfZUD/flxcQcZtHDmVYtejElrzdo4cMnzXSP+LuxR
+ LhZsAFNJb3kMnE4zloiMOmX9KahqDEgrLU2bTTs3b82CzQYKFkztGPw5hImpim0Vxkxx
+ AZSY0z2yNntxnHx1Nj3x5ajcBqt/Nnt5YeRIVBaqEnSgVnk5Ile7Id3LNvZaLNa+eTC4
+ 8978n9pLcKUeQtHyZhQFoLAx4yMoga0MJhdoy0orPSEnVZ7cZhaMyuSQARLUVpCsMfl7 Qw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 387mey8s2a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Apr 2021 23:48:32 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13T3XYmG086830;
+ Wed, 28 Apr 2021 23:48:32 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 387mey8s0n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Apr 2021 23:48:31 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13T3mTf6014680;
+ Thu, 29 Apr 2021 03:48:29 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03fra.de.ibm.com with ESMTP id 384ay8s7kn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Apr 2021 03:48:29 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13T3mP4140567142
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Apr 2021 03:48:25 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C3C83A405C;
+ Thu, 29 Apr 2021 03:48:25 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9DC1FA405B;
+ Thu, 29 Apr 2021 03:48:22 +0000 (GMT)
+Received: from [172.17.0.2] (unknown [9.40.192.207])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 29 Apr 2021 03:48:22 +0000 (GMT)
+Subject: [PATCH v4 0/3] nvdimm: Enable sync-dax property for nvdimm
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To: david@gibson.dropbear.id.au, groug@kaod.org, qemu-ppc@nongnu.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ imammedo@redhat.com, xiaoguangrong.eric@gmail.com,
+ peter.maydell@linaro.org, eblake@redhat.com, qemu-arm@nongnu.org,
+ richard.henderson@linaro.org, pbonzini@redhat.com,
+ marcel.apfelbaum@gmail.com, stefanha@redhat.com,
+ haozhong.zhang@intel.com, shameerali.kolothum.thodi@huawei.com,
+ kwangwoo.lee@sk.com, armbru@redhat.com
+Date: Wed, 28 Apr 2021 23:48:21 -0400
+Message-ID: <161966810162.652.13723419108625443430.stgit@17be908f7c1c>
+User-Agent: StGit/0.21
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: aTHRR_JU5GCOfaP9i1AGdGDO8lWxvAfL
+X-Proofpoint-ORIG-GUID: x6d2-73zIa9M9euqmgE-bnVB_D7xfhir
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210415033925.1290401-1-dje@google.com>
-In-Reply-To: <20210415033925.1290401-1-dje@google.com>
-From: Doug Evans <dje@google.com>
-Date: Wed, 28 Apr 2021 20:37:10 -0700
-Message-ID: <CADPb22SBzeHj75aaNnJKN2Ov--=MExh5CuZCYRZO7gK8A-A-Lw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/4] Add support for ipv6 host forwarding
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000000c23a005c1143847"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2f;
- envelope-from=dje@google.com; helo=mail-vk1-xa2f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-29_02:2021-04-28,
+ 2021-04-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 impostorscore=0
+ lowpriorityscore=0 adultscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ phishscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104290025
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,284 +114,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
+ qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com,
+ bharata@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000c23a005c1143847
-Content-Type: text/plain; charset="UTF-8"
+The nvdimm devices are expected to ensure write persistence during power
+failure kind of scenarios.
 
-Ping.
+The libpmem has architecture specific instructions like dcbf on POWER
+to flush the cache data to backend nvdimm device during normal writes
+followed by explicit flushes if the backend devices are not synchronous
+DAX capable.
 
-On Wed, Apr 14, 2021 at 8:39 PM Doug Evans <dje@google.com> wrote:
+Qemu - virtual nvdimm devices are memory mapped. The dcbf in the guest
+and the subsequent flush doesn't traslate to actual flush to the backend
+file on the host in case of file backed v-nvdimms. This is addressed by
+virtio-pmem in case of x86_64 by making explicit flushes translating to
+fsync at qemu.
 
-> This patchset takes the original patch from Maxim,
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
-> and updates it.
->
-> Option hostfwd is extended to support ipv6 addresses.
-> Commands hostfwd_add, hostfwd_remove are extended as well.
->
-> The libslirp part of the patch has been committed upstream,
-> and is now in qemu. See patch 1/4.
->
-> Changes from v5:
->
-> 1/4 slirp: Advance libslirp submodule to current master
-> NOTE TO REVIEWERS: It may be a better use of everyone's time if a
-> maintainer takes on advancing QEMU's libslirp to libslirp's master.
-> Beyond that, I really don't know what to do except submit this patch as
-> is currently provided.
->
-> 2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
->
-> Also split out parsing of ipv4=on|off, ipv6=on|off
->
-> 3/4: net/slirp.c: Refactor address parsing
->
-> Use InetSocketAddress and getaddrinfo().
-> Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
->
-> 4/4: net: Extend host forwarding to support IPv6
->
-> Recognize ipv4=,ipv6= options.
->
-> Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been deleted:
-> the churn on this patch series needs to be reduced.
-> This change is not required, and can easily be done in a later patch.
->
-> Changes from v4:
->
-> 1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support
-> NOTE TO REVIEWERS: I need some hand-holding to know what The Right
-> way to submit this particular patch is.
->
-> - no change
->
-> 2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
->
-> - move recognition of "[]:port" to separate patch
-> - allow passing NULL for ip_v6
-> - fix some formatting issues
->
-> 3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
->
-> - new in this patchset revision
->
-> 4/5 net/slirp.c: Refactor address parsing
->
-> - was 3/4 in v4
-> - fix some formatting issues
->
-> 5/5 net: Extend host forwarding to support IPv6
->
-> - was 4/4 in v4
-> - fix some formatting issues
->
-> Changes from v3:
->
-> 1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support
->
-> - pick up latest libslirp patch to reject ipv6 addr-any for guest address
->   - libslirp currently only provides a stateless DHCPv6 server, which means
->     it can't know in advance what the guest's IP address is, and thus
->     cannot do the "addr-any -> guest ip address" translation that is done
->     for ipv4
->
-> 2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
->
-> - this patch is new in v4
->   - provides new utility: inet_parse_host_and_port, updates inet_parse
->     to use it
->
-> 3/4 net/slirp.c: Refactor address parsing
->
-> - this patch renamed from 2/3 to 3/4
-> - call inet_parse_host_and_port from util/qemu-sockets.c
-> - added tests/acceptance/hostfwd.py
->
-> 4/4 net: Extend host forwarding to support IPv6
->
-> - this patch renamed from 3/3 to 4/4
-> - ipv6 support added to existing hostfwd option, commands
->   - instead of creating new ipv6 option, commands
-> - added tests to tests/acceptance/hostfwd.py
->
-> Changes from v2:
-> - split out libslirp commit
-> - clarify spelling of ipv6 addresses in docs
-> - tighten parsing of ipv6 addresses
->
-> Change from v1:
-> - libslirp part is now upstream
-> - net/slirp.c changes split into two pieces (refactor, add ipv6)
-> - added docs
->
-> Doug Evans (4):
->   slirp: Advance libslirp submodule to add ipv6 host-forward support
->   util/qemu-sockets.c: Split host:port parsing out of inet_parse
->   net/slirp.c: Refactor address parsing
->   net: Extend host forwarding to support IPv6
->
->  hmp-commands.hx             |  18 ++-
->  include/qemu/sockets.h      |   5 +
->  net/slirp.c                 | 236 ++++++++++++++++++++++++++----------
->  slirp                       |   2 +-
->  tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++
->  util/qemu-sockets.c         |  82 +++++++++----
->  6 files changed, 436 insertions(+), 92 deletions(-)
->  create mode 100644 tests/acceptance/hostfwd.py
->
-> --
-> 2.31.1.295.g9ea45b61b8-goog
->
->
+On SPAPR, the issue is addressed by adding a new hcall to
+request for an explicit flush from the guest ndctl driver when the backend
+nvdimm cannot ensure write persistence with dcbf alone. So, the approach
+here is to convey when the hcall flush is required in a device tree
+property. The guest makes the hcall when the property is found, instead
+of relying on dcbf.
 
---0000000000000c23a005c1143847
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+A new device property sync-dax is added to the nvdimm device. When the 
+sync-dax is 'writeback'(default for PPC), device property
+"hcall-flush-required" is set, and the guest makes hcall H_SCM_FLUSH
+requesting for an explicit flush. 
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Pin=
-g.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Wed, Apr 14, 2021 at 8:39 PM Doug Evans &lt;<a href=3D"mailto:dj=
-e@google.com">dje@google.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">This patchset takes the original patch from Max=
-im,<br>
-<a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.htm=
-l" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-d=
-evel@nongnu.org/msg569573.html</a><br>
-and updates it.<br>
-<br>
-Option hostfwd is extended to support ipv6 addresses.<br>
-Commands hostfwd_add, hostfwd_remove are extended as well.<br>
-<br>
-The libslirp part of the patch has been committed upstream,<br>
-and is now in qemu. See patch 1/4.<br>
-<br>
-Changes from v5:<br>
-<br>
-1/4 slirp: Advance libslirp submodule to current master<br>
-NOTE TO REVIEWERS: It may be a better use of everyone&#39;s time if a<br>
-maintainer takes on advancing QEMU&#39;s libslirp to libslirp&#39;s master.=
-<br>
-Beyond that, I really don&#39;t know what to do except submit this patch as=
-<br>
-is currently provided.<br>
-<br>
-2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-<br>
-Also split out parsing of ipv4=3Don|off, ipv6=3Don|off<br>
-<br>
-3/4: net/slirp.c: Refactor address parsing<br>
-<br>
-Use InetSocketAddress and getaddrinfo().<br>
-Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.<br>
-<br>
-4/4: net: Extend host forwarding to support IPv6<br>
-<br>
-Recognize ipv4=3D,ipv6=3D options.<br>
-<br>
-Note: v5&#39;s 3/5 &quot;Recognize []:port (empty ipv6 address)&quot; has b=
-een deleted:<br>
-the churn on this patch series needs to be reduced.<br>
-This change is not required, and can easily be done in a later patch.<br>
-<br>
-Changes from v4:<br>
-<br>
-1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support<br>
-NOTE TO REVIEWERS: I need some hand-holding to know what The Right<br>
-way to submit this particular patch is.<br>
-<br>
-- no change<br>
-<br>
-2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-<br>
-- move recognition of &quot;[]:port&quot; to separate patch<br>
-- allow passing NULL for ip_v6<br>
-- fix some formatting issues<br>
-<br>
-3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)<br>
-<br>
-- new in this patchset revision<br>
-<br>
-4/5 net/slirp.c: Refactor address parsing<br>
-<br>
-- was 3/4 in v4<br>
-- fix some formatting issues<br>
-<br>
-5/5 net: Extend host forwarding to support IPv6<br>
-<br>
-- was 4/4 in v4<br>
-- fix some formatting issues<br>
-<br>
-Changes from v3:<br>
-<br>
-1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support<br>
-<br>
-- pick up latest libslirp patch to reject ipv6 addr-any for guest address<b=
-r>
-=C2=A0 - libslirp currently only provides a stateless DHCPv6 server, which =
-means<br>
-=C2=A0 =C2=A0 it can&#39;t know in advance what the guest&#39;s IP address =
-is, and thus<br>
-=C2=A0 =C2=A0 cannot do the &quot;addr-any -&gt; guest ip address&quot; tra=
-nslation that is done<br>
-=C2=A0 =C2=A0 for ipv4<br>
-<br>
-2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-<br>
-- this patch is new in v4<br>
-=C2=A0 - provides new utility: inet_parse_host_and_port, updates inet_parse=
-<br>
-=C2=A0 =C2=A0 to use it<br>
-<br>
-3/4 net/slirp.c: Refactor address parsing<br>
-<br>
-- this patch renamed from 2/3 to 3/4<br>
-- call inet_parse_host_and_port from util/qemu-sockets.c<br>
-- added tests/acceptance/hostfwd.py<br>
-<br>
-4/4 net: Extend host forwarding to support IPv6<br>
-<br>
-- this patch renamed from 3/3 to 4/4<br>
-- ipv6 support added to existing hostfwd option, commands<br>
-=C2=A0 - instead of creating new ipv6 option, commands<br>
-- added tests to tests/acceptance/hostfwd.py<br>
-<br>
-Changes from v2:<br>
-- split out libslirp commit<br>
-- clarify spelling of ipv6 addresses in docs<br>
-- tighten parsing of ipv6 addresses<br>
-<br>
-Change from v1:<br>
-- libslirp part is now upstream<br>
-- net/slirp.c changes split into two pieces (refactor, add ipv6)<br>
-- added docs<br>
-<br>
-Doug Evans (4):<br>
-=C2=A0 slirp: Advance libslirp submodule to add ipv6 host-forward support<b=
-r>
-=C2=A0 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-=C2=A0 net/slirp.c: Refactor address parsing<br>
-=C2=A0 net: Extend host forwarding to support IPv6<br>
-<br>
-=C2=A0hmp-commands.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 18 ++-<br>
-=C2=A0include/qemu/sockets.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
-=C2=A0net/slirp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 236 ++++++++++++++++++++++++++----------<br>
-=C2=A0slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A0tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++<br>
-=C2=A0util/qemu-sockets.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 82 +++++=
-++++----<br>
-=C2=A06 files changed, 436 insertions(+), 92 deletions(-)<br>
-=C2=A0create mode 100644 tests/acceptance/hostfwd.py<br>
-<br>
--- <br>
-2.31.1.295.g9ea45b61b8-goog<br>
-<br>
-</blockquote></div>
+sync-dax is "unsafe" on all other platforms(x86, ARM) and old pseries machines
+prior to 5.2 on PPC. sync-dax="writeback" on ARM and x86_64 is prevented
+now as the flush semantics are unimplemented.
 
---0000000000000c23a005c1143847--
+When the backend file is actually synchronous DAX capable and no explicit
+flushes are required, the sync-dax mode 'direct' is to be used.
+
+The below demonstration shows the map_sync behavior with sync-dax writeback &
+direct.
+(https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c)
+
+The pmem0 is from nvdimm with With sync-dax=direct, and pmem1 is from
+nvdimm with syn-dax=writeback, mounted as
+/dev/pmem0 on /mnt1 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+/dev/pmem1 on /mnt2 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+
+[root@atest-guest ~]# ./mapsync /mnt1/newfile ----> When sync-dax=unsafe/direct
+[root@atest-guest ~]# ./mapsync /mnt2/newfile ----> when sync-dax=writeback
+Failed to mmap  with Operation not supported
+
+The first patch does the header file cleanup necessary for the
+subsequent ones. Second patch implements the hcall, adds the necessary
+vmstate properties to spapr machine structure for carrying the hcall
+status during save-restore. The nature of the hcall being asynchronus,
+the patch uses aio utilities to offload the flush. The third patch adds
+the 'sync-dax' device property and enables the device tree property
+for the guest to utilise the hcall.
+
+The kernel changes to exploit this hcall is at
+https://github.com/linuxppc/linux/commit/75b7c05ebf9026.patch
+
+---
+v3 - https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg07916.html
+Changes from v3:
+      - Fixed the forward declaration coding guideline violations in 1st patch.
+      - Removed the code waiting for the flushes to complete during migration,
+        instead restart the flush worker on destination qemu in post load.
+      - Got rid of the randomization of the flush tokens, using simple
+        counter.
+      - Got rid of the redundant flush state lock, relying on the BQL now.
+      - Handling the memory-backend-ram usage
+      - Changed the sync-dax symantics from on/off to 'unsafe','writeback' and 'direct'.
+	Added prevention code using 'writeback' on arm and x86_64.
+      - Fixed all the miscellaneous comments.
+
+v2 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg07031.html
+Changes from v2:
+      - Using the thread pool based approach as suggested
+      - Moved the async hcall handling code to spapr_nvdimm.c along
+        with some simplifications
+      - Added vmstate to preserve the hcall status during save-restore
+        along with pre_save handler code to complete all ongoning flushes.
+      - Added hw_compat magic for sync-dax 'on' on previous machines.
+      - Miscellanious minor fixes.
+
+v1 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06330.html
+Changes from v1
+      - Fixed a missed-out unlock
+      - using QLIST_FOREACH instead of QLIST_FOREACH_SAFE while generating token
+
+Shivaprasad G Bhat (3):
+      spapr: nvdimm: Forward declare and move the definitions
+      spapr: nvdimm: Implement H_SCM_FLUSH hcall
+      nvdimm: Enable sync-dax device property for nvdimm
+
+
+ hw/arm/virt.c                 |   28 ++++
+ hw/i386/pc.c                  |   28 ++++
+ hw/mem/nvdimm.c               |   52 +++++++
+ hw/ppc/spapr.c                |   16 ++
+ hw/ppc/spapr_nvdimm.c         |  285 +++++++++++++++++++++++++++++++++++++++++
+ include/hw/mem/nvdimm.h       |   11 ++
+ include/hw/ppc/spapr.h        |   11 +-
+ include/hw/ppc/spapr_nvdimm.h |   27 ++--
+ qapi/common.json              |   20 +++
+ 9 files changed, 455 insertions(+), 23 deletions(-)
+
+--
+Signature
+
 
