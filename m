@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9915236E87D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:16:59 +0200 (CEST)
-Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1D536E8A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:22:33 +0200 (CEST)
+Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc3j8-0006po-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
+	id 1lc3oW-0001RZ-7o
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3dE-0003j4-Qo
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:10:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58704)
+ id 1lc3mn-0000lL-JA
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:20:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3dB-0001CO-RN
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:10:52 -0400
+ id 1lc3mk-0006Wj-Uq
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:20:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lc3dA-0002FW-9O
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:10:48 +0000
+ id 1lc3mj-0003Qv-FN
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:20:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 45EB72E8026
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:10:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 725B82E8144
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:20:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 10:05:25 -0000
-From: Laurent Vivier <1926521@bugs.launchpad.net>
+Date: Thu, 29 Apr 2021 10:08:39 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1734474@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm maemo n800 nokia
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: vitalybuka
-X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <161964685051.14413.3981056017382622620.malonedeb@wampee.canonical.com>
-Message-Id: <161969072577.4348.2109232265331786087.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1926521] Re: QEMU-user ignores MADV_DONTNEED
+X-Launchpad-Bug-Commenters: mvoloshin philmd pmaydell
+X-Launchpad-Bug-Reporter: MVoloshin (mvoloshin)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <151163832560.18460.16214125618253771985.malonedeb@gac.canonical.com>
+Message-Id: <161969091972.10438.8144059352568125988.malone@gac.canonical.com>
+Subject: [Bug 1734474] Re: Maemo does not boot on emulated N800
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 9dc8dd395a84446333e1f67ec3da9660c64a0195
+X-Launchpad-Hash: 69073e6548de8d3b310f336bc5f7bd4783e4673a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,91 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926521 <1926521@bugs.launchpad.net>
+Reply-To: Bug 1734474 <1734474@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: linux-user
+Fixed in v5.2.0?
+ab135622cf4 ("tmp105: Correct handling of temperature limit checks")
+e1919889ef7 ("hw/misc/tmp105: reset the T_low and T_High registers")
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926521
+https://bugs.launchpad.net/bugs/1734474
 
 Title:
-  QEMU-user ignores MADV_DONTNEED
+  Maemo does not boot on emulated N800
 
 Status in QEMU:
-  New
+  In Progress
 
 Bug description:
-  There is comment int the code "This is a hint, so ignoring and returning =
-success is ok"
-  https://github.com/qemu/qemu/blob/b1cffefa1b163bce9aebc3416f562c1d3886eea=
-a/linux-user/syscall.c#L11941
-
-  But it seems incorrect with the current state of Linux
-
-  "man madvise" or https://man7.org/linux/man-pages/man2/madvise.2.html
-  says the following:
-  >>  These advice values do not influence the semantics
-  >>       of the application (except in the case of MADV_DONTNEED)
-
-  >> After a successful MADV_DONTNEED operation, the semantics
-  >> of memory access in the specified region are changed:
-  >> subsequent accesses of pages in the range will succeed,
-  >> but will result in either repopulating the memory contents
-  >> from the up-to-date contents of the underlying mapped file
-  >> (for shared file mappings, shared anonymous mappings, and
-  >> shmem-based techniques such as System V shared memory
-  >> segments) or zero-fill-on-demand pages for anonymous
-  >> private mappings.
-
-  Some applications use this behavior clear memory and it
-  would be nice to be able to run them on QEMU without
-  workarounds.
-
-  Reproducer on "Debian 5.10.24 x86_64 GNU/Linux" as a host.
-
-  =
-
-  ```
-  #include "assert.h"
-  #include "stdio.h"
-  #include <sys/mman.h>
-  #include <errno.h>
-
-  int main() {
-    char *P =3D (char *)mmap(0, 4096, PROT_READ | PROT_WRITE,
-                           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    assert(P);
-    *P =3D 'A';
-    while (madvise(P, 4096, MADV_DONTNEED) =3D=3D -1 && errno =3D=3D EAGAIN=
-) {
-    }
-    assert(*P =3D=3D 0);
-
-    printf("OK\n");
-  }
-
-  /*
-  gcc /tmp/madvice.c -o /tmp/madvice
-
-  qemu-x86_64 /tmp/madvice
-  madvice: /tmp/madvice.c:13: main: Assertion `*P =3D=3D 0' failed.
-  qemu: uncaught target signal 6 (Aborted) - core dumped
-  Aborted
-
-  /tmp/madvice
-  OK
-
-  =
-
-  */
-
-  ```
+  I start QEMU with qemu-system-arm-m 130 -M n800 -kernel zImage.1 -mtdbloc=
+k maemo.img -append "root=3D/dev/mtdblock3 rootfstype=3Djffs2"
+  On QEMU 1.2.0 see "NOKIA" logo and then desktop appears, but on 1.5.0 and=
+ newer (including latest versions) I see only white screen and no signs of =
+life. Was this caused by regression or any syntax change?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926521/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1734474/+subscriptions
 
