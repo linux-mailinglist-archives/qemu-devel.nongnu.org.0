@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE4936E8D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:32:49 +0200 (CEST)
-Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F4336E8F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:37:35 +0200 (CEST)
+Received: from localhost ([::1]:60686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc3yS-0007YO-Fl
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
+	id 1lc434-0002J2-3Y
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3wo-0006Jc-Fw
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:31:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34512)
+ id 1lc41H-0001T8-My
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:35:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3wj-0004aI-TV
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:31:06 -0400
+ id 1lc41F-00078v-H3
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:35:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lc3wh-0004bo-C7
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:30:59 +0000
+ id 1lc41E-0005Au-Bq
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:35:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 538ED2E815F
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:30:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 53F762E8030
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:35:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 10:24:53 -0000
-From: Thomas Huth <1862887@bugs.launchpad.net>
+Date: Thu, 29 Apr 2021 10:26:01 -0000
+From: Thomas Huth <1883560@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: audio
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: build linux-user mips
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrs-hoy
-X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
+X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic laurent-vivier th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158149024287.24857.8410135131433041908.malonedeb@gac.canonical.com>
-Message-Id: <161969189375.9976.18203696755144722408.launchpad@gac.canonical.com>
-Subject: [Bug 1862887] Re: qemu does not load pulseaudio modules properly
+References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
+Message-Id: <161969196203.3730.5874967706687329312.malone@chaenomeles.canonical.com>
+Subject: [Bug 1883560] Re: mips linux-user builds occasionly crash randomly
+ only to be fixed by a full clean re-build
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 6f3c46a2c9745dc97dfd8e49e969881a264d7a4e
+X-Launchpad-Hash: 50624cffb38f880c19cbc9a9269504a241c8ac19
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,108 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862887 <1862887@bugs.launchpad.net>
+Reply-To: Bug 1883560 <1883560@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags removed: builds
-** Tags added: audio
+Does this problem still persist after we've switched the build system to
+meson?
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862887
+https://bugs.launchpad.net/bugs/1883560
 
 Title:
-  qemu does not load pulseaudio modules properly
+  mips linux-user builds occasionly crash randomly only to be fixed by a
+  full clean re-build
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  Hello,
+  From time to time I find check-tcg crashes with a one of the MIPS
+  binaries. The last time it crashed was running the test:
 
-  This is on Arch-linux(latest) and the qemu 4.2.0 version made from git cl=
-one https://github.com/spheenik/qemu.git
-  with:
-   ./configure --prefix=3D/opt/qemu-test --python=3D/usr/bin/python2 --targ=
-et-list=3Dx86_64-softmmu =
+    ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
+  user/threadcount
 
-  --audio-drv-list=3Dpa --disable-werror
-  added to the build.
+  Inevitably after some time noodling around wondering what could be
+  causing this weird behaviour I wonder if it is a build issue. I wipe
+  all the mips* build directories, re-run configure and re-build and
+  voila problem goes away.
 
-  I've been workin on a passthrough Windows 10 vm this month and have been =
-steadily seeing some promising progress. My block/issue at the moment is in=
-tegrating the audio now that the GPU has been succesfully passed through. =
+  It seems there must be some sort of build artefact which isn't being
+  properly re-generated on a build update which causes weird problems.
+  Additional data point if I:
 
-  I've been going back and forth between the audio options for Pulseaudio a=
-nd cannot change the following issue:
-  pulseaudio: pa_context_connect() failed
-  pulseaudio: Reason: Connection refused
-  pulseaudio: Failed to initialize PA contextlibusb: error [udev_hotplug_ev=
-ent] ignoring udev action bind
-  I leave my current operable build followed by some of the options that I =
-have tried using to correct this despite the following errors not changing
+    rm -rf mips64el-linux-user
+    ../../configure
+    make
 
-  This is my current operable build:
+  then I see failures in mip32 builds - eg:
 
-  #!/bin/bash
+      GEN     mipsn32el-linux-user/config-target.h
+    In file included from /home/alex/lsrc/qemu.git/linux-user/syscall_defs.=
+h:10,
+                     from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
+                     from /home/alex/lsrc/qemu.git/linux-user/linuxload.c:5:
+    /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error: unter=
+minated #ifndef
+     #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
 
-  vmname=3D"windows10vm"
+    make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69: linux-user/linuxlo=
+ad.o] Error 1
+    make[1]: *** Waiting for unfinished jobs....
 
-  if ps -ef | grep /opt/qemu-test/bin/qemu-system-x86_64 | grep -q multifun=
-ction=3Don; then
-  echo "A passthrough VM is already running." &
-  exit 1
+  which implies there is a cross dependency between different targets
+  somewhere. If I executed:
 
-  else
+    rm -rf mips*
 
-  /opt/qemu-test/bin/qemu-system-x86_64 \
-  -m 12G \
-  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../win2.i=
-mg \
-  -drive file=3D.../Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom \
-  -drive file=3D.../virtio-win-0.1.171.iso,index=3D2,media=3Dcdrom \
-  -boot order=3Ddc \
-  -bios /usr/share/ovmf/x64/OVMF_CODE.fd \
-  -name $vmname,process=3D$vmname \
-  -machine type=3Dq35,accel=3Dkvm,vmport=3Doff \
-  -cpu host,kvm=3Doff \
-  -smp 3,sockets=3D1,cores=3D3,threads=3D1 \
-  -device virtio-balloon \
-  -rtc clock=3Dhost,base=3Dlocaltime \
-  -vga none \
-  -nographic \
-  -serial none \
-  -parallel none \
-  -soundhw hda \
-  -usb \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device vfio-pci,host=3D...,multifunction=3Don \
-  -device vfio-pci,host=3D... \
-  -device e1000,netdev=3Dnet0 \
-  -netdev user,id=3Dnet0,hostfwd=3Dtcp::...-:22 \
-
-  Here's a list of setting combinations I had tried to resolve this:
-
-  #export QEMU_AUDIO_DRV=3Dpa
-  #QEMU_ALSA_DAC_BUFFER_SIZE=3D512 QEMU_ALSA_DAC_PERIOD_SIZE=3D170
-  #export QEMU_PA_SAMPLES=3D8192 =
-
-  #export QEMU_AUDIO_TIMER_PERIOD=3D99
-  #export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
-  #export QEMU_PA_SINK=3Dalsa_output.usb-C-Media_Electronics_Inc._USB_Audio=
-_Device-00.analog-stereo
-  #export QEMU_PA_SOURCE=3Dinput
-
-  -audiodev pa,id=3Dpa1,server=3Dserver=3D/run/user/1000/pulse/native
-
-  At best I have removed an XDG_RUNTIME_DIR error but other than that
-  this build has no audio compatability.
+  before re-configuring and re-building then everything works again.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862887/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1883560/+subscriptions
 
