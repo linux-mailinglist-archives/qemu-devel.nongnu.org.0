@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7247536E4BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 08:09:59 +0200 (CEST)
-Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1E036E4E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 08:28:57 +0200 (CEST)
+Received: from localhost ([::1]:34296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbzs6-0007KU-0T
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 02:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44818)
+	id 1lc0AS-0002R9-9n
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 02:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbzql-0006t3-7L
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 02:08:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lbzqh-00061t-Py
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 02:08:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619676510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A3MVecfm8eIsfldfiM30P/z+uNFuixYJ0XAfjlMTRa4=;
- b=Mc/WNSux7HrzsmKlDya97mbW+9pd09Eh6C0G3Jjii+k0MfkoL4L4uTvl+ZQCsEXn3/1gYb
- s84zE2uf8wnBuTdfX7IB1q0wyL2a2KeLLcTz2Fd1hSafP2cYcerwu62MYzl4l5znUOCuiy
- alGPlgXKuI1beahyeC6VT+lusUi508g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-H9JMysZDO-6l3fHH-QETWA-1; Thu, 29 Apr 2021 02:08:28 -0400
-X-MC-Unique: H9JMysZDO-6l3fHH-QETWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A6F118982A3;
- Thu, 29 Apr 2021 06:08:27 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5058219714;
- Thu, 29 Apr 2021 06:08:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DE4F5113525D; Thu, 29 Apr 2021 08:08:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] hw/ide: Fix crash when plugging a piix3-ide device into
- the x-remote machine
-References: <20210416125256.2039734-1-thuth@redhat.com>
- <4c1c6e99-066e-f916-31dc-acb50caa5320@redhat.com>
- <YIgXlp9Auj+b00aN@stefanha-x1.localdomain>
- <bf5d8b58-3364-3f61-0c89-53f16c64bcb3@redhat.com>
- <5bbdc5d9-692e-63bb-2ad6-38a5711c4021@redhat.com>
- <9714a87d-95f7-a6f0-4c35-a7e9d1aa1144@redhat.com>
- <YIkpXqg5/wV1QNZB@stefanha-x1.localdomain>
- <87mtti1oie.fsf@dusky.pond.sub.org>
- <YImsxg/G2u659nkI@stefanha-x1.localdomain>
-Date: Thu, 29 Apr 2021 08:08:21 +0200
-In-Reply-To: <YImsxg/G2u659nkI@stefanha-x1.localdomain> (Stefan Hajnoczi's
- message of "Wed, 28 Apr 2021 19:43:18 +0100")
-Message-ID: <87h7jpipwq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lc08j-0001zb-Vy
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 02:27:10 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:43689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lc08g-0000JX-2U
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 02:27:09 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id t24so8113240oic.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 23:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=azgJfdtceO/DLWcy2vvLysjVJTWl0vQ4G4a1Muy+aKo=;
+ b=fmlTBdmtas+3CfQQgKx+u+jnQThm0cCzyvYRMLeunmTiP5/ENKXuvmBHHWDNmmKM/z
+ HbOlmmraU52+hh7XuRfcCDVdHKFfQjl8yFScQgWHLy1H/axoWUJ9mGVyF9Y3AOEHydUY
+ pzNpnT6dYWo0Y3FXaI/bKLIfQQaYnSrHQYaEt7Q68FNx7CxCMIOmb11hSxeROqGz0+6w
+ OIVO1MCn2NwWBFV259nX4Ol0jkMoQqCQEfPurInsL/Ms6ig+fCTmIeKadAfNN4O/dKG8
+ aBL+tcqgtps+Cs5GyRvV9zRBAY7F0OYW9FMLYKBkOjOXCaLVAg3OOyaJ++sBtzEt4+Dn
+ TKCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=azgJfdtceO/DLWcy2vvLysjVJTWl0vQ4G4a1Muy+aKo=;
+ b=s/HKSQUJHqjeuSXEFtbUXibDYHf4nc71ie4ZSo5bZBBNDO7Saee1AFhj/f7Y6JOvx7
+ 7blG9PL9WXa4tPfgpxvrezdsEzckJbrWXbUNqU+zH9KZO8mniqv35c/wrb97AGaj/V1b
+ TVsNp+WAHnqJnZc7Yd/yCBcXEO7IHXP/NTAkDbcPZgtfYsrWQ9aJxVKn4yPEsYn99ONh
+ Zd5OYoSvmcjcRNiAzBOVlrhdo42e6P4OAwc3vPbZ87T0bZZ2bculpWCitMBAvOtYvNEN
+ 4lDYGywIY4zt5lpbwUG+W52rKMJRWPdpTVVX5K+Lk8o0Sm6ip4bPNB3zbPynyNTCC9fR
+ 3dZw==
+X-Gm-Message-State: AOAM532kWwBVWAnpdkl7KXvAatVVZKGt2t4o64ZYXpNO5+XiGeTQ3b1L
+ jikigFmx7/MGKWxZK6RrAUghDxmMrteapj6P3oS9bYwlSDA=
+X-Google-Smtp-Source: ABdhPJwvS30Co7mhSQyhmQe5oQg7ty+g660xkph1YHSnBADaX6qyXYsC0wX64JYrj3fZod5efxDdJ82wqur6MgpP8w0=
+X-Received: by 2002:a05:6808:f12:: with SMTP id
+ m18mr22226936oiw.62.1619677623650; 
+ Wed, 28 Apr 2021 23:27:03 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <161963801251.13717.437360863998468941.malonedeb@wampee.canonical.com>
+ <161964487066.14015.8898428089827057186.malone@wampee.canonical.com>
+In-Reply-To: <161964487066.14015.8898428089827057186.malone@wampee.canonical.com>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Thu, 29 Apr 2021 08:26:51 +0200
+Message-ID: <CABLmASGjYD=okbcHbENPjRfhkrvBKtTKGsY7yGXTkeC398+btg@mail.gmail.com>
+Subject: Re: [Bug 1926497] Re: dp83932 stops working after a short while
+To: Bug 1926497 <1926497@bugs.launchpad.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x22a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,59 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
-
-> On Wed, Apr 28, 2021 at 04:18:17PM +0200, Markus Armbruster wrote:
->> Stefan Hajnoczi <stefanha@redhat.com> writes:
-
-[...]
-
->> > The approach in this patch is okay but we should keep in mind it only
->> > solves piix3-ide. ISA provides a non-qdev backdoor API and there may be
->> > more instances of this type of bug.
->> >
->> > A qdev fix would address the root cause and make it possible to drop the
->> > backdoor API, but that's probably too much work for little benefit.
->> 
->> What do you mean by backdoor API?  Global @isabus?
+On Wed, Apr 28, 2021 at 11:31 PM Jeff <1926497@bugs.launchpad.net> wrote:
 >
-> Yes. It's also strange that isa_get_irq(ISADevice *dev, unsigned isairq)
-> accepts dev = NULL as a valid argument.
+> It looks like using
+> https://cdimage.debian.org/cdimage/ports/snapshots/2021-04-17/debian-10.0.0
+> -m68k-NETINST-1.iso instead fixes the issue. Perhaps the instruction on
+> https://wiki.qemu.org/Documentation/Platforms/m68k should be updated.
+>
+> --
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1926497
+>
+> Title:
+>   dp83932 stops working after a short while
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   Following the instructions here
+>   https://wiki.qemu.org/Documentation/Platforms/m68k I was able to
+>   successfully install debian. However, running apt-get update stalls
+>   after the first 1-2MB.
+>
+>   root@debian:~# apt-get update
+>   Get:1 http://ftp.ports.debian.org/debian-ports sid InRelease [55.3 kB]
+>   Ign:1 http://ftp.ports.debian.org/debian-ports sid InRelease
+>   Get:2 http://ftp.ports.debian.org/debian-ports sid/main all Packages [8,735 kB]
+>   18% [2 Packages 2,155 kB/8,735 kB 25%]
+>
+>   After running apt-get update. I don't seem to be able to send any
+>   packets anymore. ping host lookups fail and a subsequent apt-get
+>   update makes no progress.
+>
+>   I'm launching qemu with:
+>
+>     qemu-system-m68k -boot c \
+>    -M q800 -serial none -serial mon:stdio -m 1000M \
+>    -net nic,model=dp83932 -net user \
+>    -append "root=/dev/sda2 rw console=ttyS0 console=tty" \
+>    -kernel vmlinux-4.16.0-1-m68k \
+>    -initrd initrd.img-4.16.0-1-m68k \
+>    -drive file=m68k-deb10.qcow2,format=qcow2 \
+>    -nographic
+>
+>   I see this with qemu v6.0.0-rc5
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1926497/+subscriptions
 
-@isabus is static in hw/isa/isa-bus.c.  Uses:
+I've updated the page to include:
 
-* Limit isa_bus_new() to one ISA bus.  Arbitrary restriction; multiple
-  ISA buses could work with suitable memory mapping and IRQ wiring.
-  "Single ISA bus" assumptions could of course hide elsewhere in the
-  code.
-
-* Implied argument to isa_get_irq(), isa_register_ioport(),
-  isa_register_portio_list(), isa_address_space(),
-  isa_address_space_io().
-
-  isa_get_irq() asserts that a non-null @dev is a child of @isabus.
-  This means we don't actually need @isabus, except when @dev is null.
-  I suspect two separate functions would be cleaner: one taking an
-  ISABus * argument, and a wrapper taking an ISADevice * argument.
-
-  isa_address_space() and isa_address_space_io() work the same, less the
-  assertion.
-
-  isa_register_ioport() and isa_register_portio_list() take a non-null
-  @dev argument.  They don't actually need @isabus.
-
-To eliminate global @isabus, we need to fix up the callers passing null
-@dev.  Clean solution: plumb the ISABus returned by isa_bus_new() to the
-call sites.  Where that's impractical, we can also get it from QOM, like
-build_dsdt_microvm() does.
-
+Please note that the instructions below use kernel versions that might
+have been superseded by newer ones on the most recent installation cd
+images! Also, during installation on hard disk image the update
+process might install a newer kernel. Always make sure to extract the
+latest kernel and initrd.gz from your hard disk image after
+installation or update and replace the kernel names in the examples
+below with what is currently installed.
 
