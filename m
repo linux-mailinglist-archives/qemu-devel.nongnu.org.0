@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB35036E8BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:28:42 +0200 (CEST)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE4936E8D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:32:49 +0200 (CEST)
+Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc3uU-0004hi-0W
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45356)
+	id 1lc3yS-0007YO-Fl
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lc3sp-0003Lm-A8
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:26:59 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:40863)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lc3wo-0006Jc-Fw
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:31:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lc3sn-0001z3-F1
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:26:58 -0400
-Received: by mail-ed1-x534.google.com with SMTP id c22so14266893edn.7
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 03:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=weDF1A8SGlTybcc3s+87vTGpHZg7m650Ts73PE0uym4=;
- b=TFqudgFKaAWGnbP3/FTEXUxwMoOAnLZpRVQNrWgGPnW0Jtva6O4PTXaJ0WyjqKq+Mt
- IdW6XOXWYFDgyk5Celhv31W2y7IEFf48DJNgGB2eiQz8jSFi02TA8B/hbowp0mgnYE4w
- /XUELO6y+f73IcBYA241kxXTje71VEsIHcbJyKBuX6WTi2qItWL0lJD+LxV7v5ET4lq9
- XkU4n0AHQeZiU9DYomDWHy+553hzgUMebFwnTnR3C2oUywx/EMiJAsZVmC+XQ2yXKom6
- WtOKjzemfbmRIqG6zJ01H2nN4KB/kUW8s+bGiFXGlfTwX4DMf6bUrykTA7ZpdX4JVXzu
- SJAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=weDF1A8SGlTybcc3s+87vTGpHZg7m650Ts73PE0uym4=;
- b=DOnNsFSqK1WOsm9+UszYrxPCtAA74xSV8ktThYfSfvUL8SVr67tueIwArEyTJMMbmX
- jIYbh+pPN5jfg2670+nCFEh+blsZyWU5gM07LUaoZsCuuzZYQBQmIdFkL8py/C/sP4h8
- xq5TAgU6lew6YibwKf6mdiSWe2oAxrEzgMJjawz8aYCpCry+CI1rELrsXT1SHPd0VQW8
- AL6lv5/L1Uq0UJ0XWrog7d67/RHHzvuRfSmDPGkyC9MBV91Q6qv9mi5Tf50xhKu/Amp9
- KKUrsiLw3dCbISsDDtuzgmeGSsFZ2CZeC1HgDHqkBCwWt7++VrtRGbIfNJQ5iBRmo4Yb
- /CRg==
-X-Gm-Message-State: AOAM532f3+NuJI2vjIMXsBi1jeN5wQFhL01iVpw1uoox5uERQi0bQqfe
- EUCfjDalVjSKUcEjGbfOA1+zCnkrHyIr1A3XMy6X0g==
-X-Google-Smtp-Source: ABdhPJwhyUvEDMXr7Z0GxgOillP9C70ocC4R/U9zFJWCAZ8IN8CXG/p5FFnyUMTyOkqaAZTlaXlRwTS7pCQM4PhTito=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr17155623edt.36.1619692015252; 
- Thu, 29 Apr 2021 03:26:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lc3wj-0004aI-TV
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:31:06 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lc3wh-0004bo-C7
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:30:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 538ED2E815F
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:30:59 +0000 (UTC)
 MIME-Version: 1.0
-References: <87y2d1csxe.fsf@dusky.pond.sub.org>
-In-Reply-To: <87y2d1csxe.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Apr 2021 11:25:54 +0100
-Message-ID: <CAFEAcA8_vU_zbFE8CNsW2Stpz_C=6f=hUO0A3iaSvGW46CLL9A@mail.gmail.com>
-Subject: Re: Let's remove some deprecated stuff
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Apr 2021 10:24:53 -0000
+From: Thomas Huth <1862887@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: audio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chrs-hoy
+X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158149024287.24857.8410135131433041908.malonedeb@gac.canonical.com>
+Message-Id: <161969189375.9976.18203696755144722408.launchpad@gac.canonical.com>
+Subject: [Bug 1862887] Re: qemu does not load pulseaudio modules properly
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 6f3c46a2c9745dc97dfd8e49e969881a264d7a4e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,59 +70,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Reply-To: Bug 1862887 <1862887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Apr 2021 at 11:02, Markus Armbruster <armbru@redhat.com> wrote:
->
-> If you're cc'ed, you added a section to docs/system/deprecated.rst that
-> is old enough to permit removal.  This is *not* a demand to remove, it's
-> a polite request to consider whether the time for removal has come.
-> Extra points for telling us in a reply.  "We should remove, but I can't
-> do it myself right now" is a valid answer.  Let's review the file:
+** Tags removed: builds
+** Tags added: audio
 
-> I'm not sure there's anything to remove here, but anyway, Peter Maydell:
+-- =
 
-This isn't one of mine -- I just show up in git blame because this
-section predates the conversion from texi to rst. It was originally
-added by Eduardo (cc'd) in commit aa5b9692871.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862887
 
->     Runnability guarantee of CPU models (since 4.1.0)
->     '''''''''''''''''''''''''''''''''''''''''''''''''
->
->     Previous versions of QEMU never changed existing CPU models in
->     ways that introduced additional host software or hardware
->     requirements to the VM.  This allowed management software to
->     safely change the machine type of an existing VM without
->     introducing new requirements ("runnability guarantee").  This
->     prevented CPU models from being updated to include CPU
->     vulnerability mitigations, leaving guests vulnerable in the
->     default configuration.
->
->     The CPU model runnability guarantee won't apply anymore to
->     existing CPU models.  Management software that needs runnability
->     guarantees must resolve the CPU model aliases using the
->     ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
->     command.
->
->     While those guarantees are kept, the return value of
->     ``query-cpu-definitions`` will have existing CPU model aliases
->     point to a version that doesn't break runnability guarantees
->     (specifically, version 1 of those CPU models).  In future QEMU
->     versions, aliases will point to newer CPU model versions
->     depending on the machine type, so management software must
->     resolve CPU model aliases before starting a virtual machine.
+Title:
+  qemu does not load pulseaudio modules properly
 
-thanks
--- PMM
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  This is on Arch-linux(latest) and the qemu 4.2.0 version made from git cl=
+one https://github.com/spheenik/qemu.git
+  with:
+   ./configure --prefix=3D/opt/qemu-test --python=3D/usr/bin/python2 --targ=
+et-list=3Dx86_64-softmmu =
+
+  --audio-drv-list=3Dpa --disable-werror
+  added to the build.
+
+  I've been workin on a passthrough Windows 10 vm this month and have been =
+steadily seeing some promising progress. My block/issue at the moment is in=
+tegrating the audio now that the GPU has been succesfully passed through. =
+
+  I've been going back and forth between the audio options for Pulseaudio a=
+nd cannot change the following issue:
+  pulseaudio: pa_context_connect() failed
+  pulseaudio: Reason: Connection refused
+  pulseaudio: Failed to initialize PA contextlibusb: error [udev_hotplug_ev=
+ent] ignoring udev action bind
+  I leave my current operable build followed by some of the options that I =
+have tried using to correct this despite the following errors not changing
+
+  This is my current operable build:
+
+  #!/bin/bash
+
+  vmname=3D"windows10vm"
+
+  if ps -ef | grep /opt/qemu-test/bin/qemu-system-x86_64 | grep -q multifun=
+ction=3Don; then
+  echo "A passthrough VM is already running." &
+  exit 1
+
+  else
+
+  /opt/qemu-test/bin/qemu-system-x86_64 \
+  -m 12G \
+  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../win2.i=
+mg \
+  -drive file=3D.../Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom \
+  -drive file=3D.../virtio-win-0.1.171.iso,index=3D2,media=3Dcdrom \
+  -boot order=3Ddc \
+  -bios /usr/share/ovmf/x64/OVMF_CODE.fd \
+  -name $vmname,process=3D$vmname \
+  -machine type=3Dq35,accel=3Dkvm,vmport=3Doff \
+  -cpu host,kvm=3Doff \
+  -smp 3,sockets=3D1,cores=3D3,threads=3D1 \
+  -device virtio-balloon \
+  -rtc clock=3Dhost,base=3Dlocaltime \
+  -vga none \
+  -nographic \
+  -serial none \
+  -parallel none \
+  -soundhw hda \
+  -usb \
+  -device usb-host,vendorid=3D...,productid=3D... \
+  -device usb-host,vendorid=3D...,productid=3D... \
+  -device usb-host,vendorid=3D...,productid=3D... \
+  -device vfio-pci,host=3D...,multifunction=3Don \
+  -device vfio-pci,host=3D... \
+  -device e1000,netdev=3Dnet0 \
+  -netdev user,id=3Dnet0,hostfwd=3Dtcp::...-:22 \
+
+  Here's a list of setting combinations I had tried to resolve this:
+
+  #export QEMU_AUDIO_DRV=3Dpa
+  #QEMU_ALSA_DAC_BUFFER_SIZE=3D512 QEMU_ALSA_DAC_PERIOD_SIZE=3D170
+  #export QEMU_PA_SAMPLES=3D8192 =
+
+  #export QEMU_AUDIO_TIMER_PERIOD=3D99
+  #export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
+  #export QEMU_PA_SINK=3Dalsa_output.usb-C-Media_Electronics_Inc._USB_Audio=
+_Device-00.analog-stereo
+  #export QEMU_PA_SOURCE=3Dinput
+
+  -audiodev pa,id=3Dpa1,server=3Dserver=3D/run/user/1000/pulse/native
+
+  At best I have removed an XDG_RUNTIME_DIR error but other than that
+  this build has no audio compatability.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862887/+subscriptions
 
