@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E612336EF3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 19:57:48 +0200 (CEST)
-Received: from localhost ([::1]:54770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8087236EF51
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 20:06:34 +0200 (CEST)
+Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcAv5-0005u2-Gb
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 13:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
+	id 1lcB3Z-0007y1-IC
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 14:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lcAst-0004Gm-1A
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 13:55:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25423)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lcB1K-0006yu-7u
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 14:04:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lcAsl-0006QZ-EA
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 13:55:29 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lcB1G-00039U-8R
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 14:04:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619718921;
+ s=mimecast20190719; t=1619719449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=f6RmY9lSzVscYshg1sKs49EYcSMfINot3XsTvQ80A3k=;
- b=YjMHWBXMTZuEcGmORwJMU+eS2orbvydDeJTyGoPfQx9sbprmFMLrH+dpxrTtUqM4M5A/4F
- sKAQ4ztA4K7ElDwPXFICiMJUX+hzJSBltmIa9oYn6GGmxSq99GRSnk2TCpRto6Ra5c/pde
- ahfsY/NTxA8Dkp8WUDZAXCDMsf4qFdc=
+ bh=oIDx2Icj+w74gZe6K6R+sHS9lQa7bNL0j49eBNRowJg=;
+ b=hBcu2KYr158hS+pWvErT12xcDn1C2sE4L0OcwQC07KhALP1jGR3MJTiKhU8G5EzHdesbWo
+ pgrkcBSYZe85qBOXYnDnQ4bAzyay779F2Io/y/9ZSWDb6oRhA1cdKGdxUINzKcM4SdXJHe
+ gSgc+Ak7RA5rPKv8p6FnnjuCH2r+Dhw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-eMN-ADivM7-diwiZq2ozUg-1; Thu, 29 Apr 2021 13:55:19 -0400
-X-MC-Unique: eMN-ADivM7-diwiZq2ozUg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-24-ec6r92IwOY6ETpJjydtmww-1; Thu, 29 Apr 2021 14:04:07 -0400
+X-MC-Unique: ec6r92IwOY6ETpJjydtmww-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD9FE8042C7;
- Thu, 29 Apr 2021 17:55:18 +0000 (UTC)
-Received: from work-vm (ovpn-114-250.ams2.redhat.com [10.36.114.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9D3A19726;
- Thu, 29 Apr 2021 17:55:12 +0000 (UTC)
-Date: Thu, 29 Apr 2021 18:55:09 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] make vfio and DAX cache work together
-Message-ID: <YIry/WqbeRvD4zCa@work-vm>
-References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
- <20210426152203.379dab00@redhat.com>
- <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
- <20210427121850.68d2a8dd@redhat.com> <YIhfWoRgJtaKZhh8@work-vm>
- <CANsN3OSs4GyT10P6xUp-s823U8VnWAmihWXQ1jSnF07wyYjxuA@mail.gmail.com>
- <YIm0w2RgQgosIyiB@work-vm> <20210428133740.6ccbbba6@redhat.com>
- <YIpyA+ZoOYxX0c06@work-vm>
- <20210429070901.52402ac2@x1.home.shazbot.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 742BC107ACE6
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:04:06 +0000 (UTC)
+Received: from localhost (ovpn-115-66.phx2.redhat.com [10.3.115.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49AF85DF26;
+ Thu, 29 Apr 2021 18:04:03 +0000 (UTC)
+Date: Thu, 29 Apr 2021 12:32:34 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Let's remove some deprecated stuff
+Message-ID: <20210429163234.4luvlypmn4gb63v4@habkost.net>
+References: <87y2d1csxe.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20210429070901.52402ac2@x1.home.shazbot.org>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <87y2d1csxe.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,95 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dev Audsin <dev.devaqemu@gmail.com>, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alex Williamson (alex.williamson@redhat.com) wrote:
-> On Thu, 29 Apr 2021 09:44:51 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
++Jiri, +Daniel, +Igor
+
+On Thu, Apr 29, 2021 at 11:59:41AM +0200, Markus Armbruster wrote:
+[...]
+> I'm not sure there's anything to remove here, but anyway, Peter Maydell:
 > 
-> > * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > > On Wed, 28 Apr 2021 20:17:23 +0100
-> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > >   
-> > > > * Dev Audsin (dev.devaqemu@gmail.com) wrote:  
-> > > > > Thanks Dave for your explanation.
-> > > > > Any suggestions on how to make VFIO not attempt to map into the
-> > > > > unaccessible and unallocated RAM.    
-> > > > 
-> > > > I'm not sure;:
-> > > > 
-> > > > static bool vfio_listener_skipped_section(MemoryRegionSection *section)
-> > > > {
-> > > >     return (!memory_region_is_ram(section->mr) &&
-> > > >             !memory_region_is_iommu(section->mr)) ||
-> > > >            section->offset_within_address_space & (1ULL << 63);
-> > > > }
-> > > > 
-> > > > I'm declaring that region with memory_region_init_ram_ptr;  should I be?
-> > > > it's not quite like RAM.
-> > > > But then I *do* want a kvm slot for it, and I do want it to be accessed
-> > > > by mapping rather htan calling IO functions; that makes me think mr->ram
-> > > > has to be true.
-> > > > But then do we need to add another flag to memory-regions; if we do,
-> > > > what is it;
-> > > >    a) We don't want an 'is_virtio_fs' - it needs to be more generic
-> > > >    b) 'no_vfio' also feels wrong
-> > > > 
-> > > > Is perhaps 'not_lockable' the right thing to call it?  
-> > > 
-> > > This reasoning just seems to lead back to "it doesn't work, therefore
-> > > don't do it" rather than identifying the property of the region that
-> > > makes it safe not to map it for device DMA (assuming that's actually
-> > > the case).   
-> > 
-> > Yes, I'm struggling to get to what that generic form of that property
-> > is, possibly because I've not got an example of another case to compare
-> > it with.
-> > 
-> > > It's clearly "RAM" as far as QEMU is concerned given how
-> > > it's created, but does it actually appear in the VM as generic physical
-> > > RAM that the guest OS could program to the device as a DMA target?  If
-> > > not, what property makes that so, create a flag for that.  Thanks,  
-> > 
-> > The guest sees it as a PCI-bar; so it knows it's not 'generic physical
-> > RAM' - but can a guest set other BARs (like frame buffers or pmem) as
-> > DMA targets?  If so, how do I distinguish our bar?
+
+This one is mine.
+
+There's no code to remove, but the intention is to eventually
+change default_cpu_version to CPU_VERSION_LATEST on newer machine
+types.
+
 > 
-> They can, this is how peer-to-peer DMA between devices works.  However,
-> we can perhaps take advantage that drivers are generally a bit more
-> cautious in probing that this type of DMA works before relying on it,
-> and declare it with memory_region_init_ram_device_ptr() which vfio
-> would not consider fatal if it fails to map it.  The other semantic
-> difference is that ram_device_mem_ops are used for read/write access to
-> avoid some of the opcodes that are not meant to be used for physical
-> device memory with the default memcpy ops.  If you expect this region
-> to be mapped as a kvm memory slot, presumably these would never get
-> used anyway.  Thanks,
+>     Runnability guarantee of CPU models (since 4.1.0)
+>     '''''''''''''''''''''''''''''''''''''''''''''''''
+> 
+>     Previous versions of QEMU never changed existing CPU models in
+>     ways that introduced additional host software or hardware
+>     requirements to the VM.  This allowed management software to
+>     safely change the machine type of an existing VM without
+>     introducing new requirements ("runnability guarantee").  This
+>     prevented CPU models from being updated to include CPU
+>     vulnerability mitigations, leaving guests vulnerable in the
+>     default configuration.
+> 
+>     The CPU model runnability guarantee won't apply anymore to
+>     existing CPU models.  Management software that needs runnability
+>     guarantees must resolve the CPU model aliases using the
+>     ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
+>     command.
+> 
+>     While those guarantees are kept, the return value of
+>     ``query-cpu-definitions`` will have existing CPU model aliases
+>     point to a version that doesn't break runnability guarantees
+>     (specifically, version 1 of those CPU models).  In future QEMU
+>     versions, aliases will point to newer CPU model versions
+>     depending on the machine type, so management software must
+>     resolve CPU model aliases before starting a virtual machine.
 
-Oh, nice, I hadn't spotted memory_region_init_ram_device_ptr();
+libvirt had no time to adapt to this yet.  As far as I
+understand, they need the following series to be merged first so
+they can more easily resolve the unversioned CPU model name
+aliases:
 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 7afd9495c9..11fb9b5979 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -604,7 +604,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-             return;
-         }
- 
--        memory_region_init_ram_ptr(&fs->cache, OBJECT(vdev),
-+        memory_region_init_ram_device_ptr(&fs->cache, OBJECT(vdev),
-                                    "virtio-fs-cache",
-                                    fs->conf.cache_size, cache_ptr);
-     }
+https://lore.kernel.org/qemu-devel/20201013230457.150630-1-ehabkost@redhat.com
 
-apparently still works for us; Dev does that fix it for you?
+I need to rebase that series and resubmit.
 
-Dave
-
-> Alex
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eduardo
 
 
