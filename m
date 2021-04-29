@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8087236EF51
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B4136EF50
 	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 20:06:34 +0200 (CEST)
-Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcB3Z-0007y1-IC
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 14:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44414)
+	id 1lcB3Y-0007vb-N9
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 14:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lcB1K-0006yu-7u
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 14:04:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23428)
+ id 1lcB1L-00070n-UJ
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 14:04:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lcB1G-00039U-8R
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 14:04:14 -0400
+ id 1lcB1F-00038E-BQ
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 14:04:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619719449;
+ s=mimecast20190719; t=1619719448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oIDx2Icj+w74gZe6K6R+sHS9lQa7bNL0j49eBNRowJg=;
- b=hBcu2KYr158hS+pWvErT12xcDn1C2sE4L0OcwQC07KhALP1jGR3MJTiKhU8G5EzHdesbWo
- pgrkcBSYZe85qBOXYnDnQ4bAzyay779F2Io/y/9ZSWDb6oRhA1cdKGdxUINzKcM4SdXJHe
- gSgc+Ak7RA5rPKv8p6FnnjuCH2r+Dhw=
+ bh=kjDS+KrbfFoM5P37fRkEddgeJmivGpq36JSQRKXg1KY=;
+ b=Q6AwjIBchi5AO6ZCizvJi0KnbprYsDnsLFHxOImgjKWLK8VLdjmXBhoW2NVy6EFrPJlytI
+ 6Ivx2PSXgqgyneYUOXh6WpOm4XsqpL1FNqH/8EO5qXNLUusLHyD8BqRWx7h8jqrc6tiy4U
+ 9jiJVSN+Y2UMK0D28W2QSZhsZ+VXKO4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-ec6r92IwOY6ETpJjydtmww-1; Thu, 29 Apr 2021 14:04:07 -0400
-X-MC-Unique: ec6r92IwOY6ETpJjydtmww-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-582-oHloBzMCPbGMR4ypzMWYmQ-1; Thu, 29 Apr 2021 14:04:04 -0400
+X-MC-Unique: oHloBzMCPbGMR4ypzMWYmQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 742BC107ACE6
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:04:06 +0000 (UTC)
-Received: from localhost (ovpn-115-66.phx2.redhat.com [10.3.115.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49AF85DF26;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 334071006C87;
  Thu, 29 Apr 2021 18:04:03 +0000 (UTC)
-Date: Thu, 29 Apr 2021 12:32:34 -0400
+Received: from localhost (ovpn-115-66.phx2.redhat.com [10.3.115.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86A4F5B6A2;
+ Thu, 29 Apr 2021 18:03:53 +0000 (UTC)
+Date: Thu, 29 Apr 2021 14:03:52 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: Let's remove some deprecated stuff
-Message-ID: <20210429163234.4luvlypmn4gb63v4@habkost.net>
-References: <87y2d1csxe.fsf@dusky.pond.sub.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] virtio-blk: drop deprecated scsi=on|off property
+Message-ID: <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
+References: <20210429155221.1226561-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87y2d1csxe.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210429155221.1226561-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,59 +77,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Christoph Hellwig <hch@lst.de>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Jiri, +Daniel, +Igor
+On Thu, Apr 29, 2021 at 04:52:21PM +0100, Stefan Hajnoczi wrote:
+> The scsi=on|off property was deprecated in QEMU 5.0 and can be removed
+> completely at this point.
+> 
+> Drop the scsi=on|off option. It was only available on Legacy virtio-blk
+> devices. Linux v5.6 already dropped support for it.
+> 
+> Remove the hw_compat_2_4[] property assignment since scsi=on|off no
+> longer exists. Old guests with Legacy virtio-blk devices no longer see
+> the SCSI host features bit.
+> 
 
-On Thu, Apr 29, 2021 at 11:59:41AM +0200, Markus Armbruster wrote:
+This means pc-2.4 will now break guest ABI if using virtio-blk
+devices, correct?
+
+This looks like a sign we should have deprecated pc-2.4 a long
+time ago.
+
+> Live migrating old guests from an old QEMU with the SCSI feature bit
+> enabled will fail with "Features 0x... unsupported. Allowed features:
+> 0x...". We've followed the QEMU deprecation policy so users have been
+> warned...
+> 
+
+Were they really warned, though?  People running
+"-machine pc-i440fx-2.4" might be completely unaware that it was
+silently enabling a deprecated feature.
+
+Can we have this documented in a more explicit way?  Maybe just a
+comment at hw_compat_2_4 would be enough, to warn people doing
+backports and rebases downstream.
+
+Can we make QEMU refuse to start if using pc-2.4 + virtio-blk
+together, just to be sure?
+
+An alternative would be keeping the property (and the
+hw_compat_2_4 entry) just to keep pc-2.4 working (until pc-2.4 is
+deprecated and removed), but refusing to realize the device if
+the feature is enabled.
+
+
+> I have tested that libvirt still works when the property is absent. It
+> no longer adds scsi=on|off to the command-line.
+> 
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Peter Krempa <pkrempa@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
 [...]
-> I'm not sure there's anything to remove here, but anyway, Peter Maydell:
-> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 40def78183..286f18ec6d 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -194,8 +194,6 @@ GlobalProperty hw_compat_2_5[] = {
+>  const size_t hw_compat_2_5_len = G_N_ELEMENTS(hw_compat_2_5);
+>  
+>  GlobalProperty hw_compat_2_4[] = {
+> -    /* Optional because the 'scsi' property is Linux-only */
+> -    { "virtio-blk-device", "scsi", "true", .optional = true },
+>      { "e1000", "extra_mac_registers", "off" },
+>      { "virtio-pci", "x-disable-pcie", "on" },
+>      { "virtio-pci", "migrate-extra", "off" },
 
-This one is mine.
-
-There's no code to remove, but the intention is to eventually
-change default_cpu_version to CPU_VERSION_LATEST on newer machine
-types.
-
-> 
->     Runnability guarantee of CPU models (since 4.1.0)
->     '''''''''''''''''''''''''''''''''''''''''''''''''
-> 
->     Previous versions of QEMU never changed existing CPU models in
->     ways that introduced additional host software or hardware
->     requirements to the VM.  This allowed management software to
->     safely change the machine type of an existing VM without
->     introducing new requirements ("runnability guarantee").  This
->     prevented CPU models from being updated to include CPU
->     vulnerability mitigations, leaving guests vulnerable in the
->     default configuration.
-> 
->     The CPU model runnability guarantee won't apply anymore to
->     existing CPU models.  Management software that needs runnability
->     guarantees must resolve the CPU model aliases using the
->     ``alias-of`` field returned by the ``query-cpu-definitions`` QMP
->     command.
-> 
->     While those guarantees are kept, the return value of
->     ``query-cpu-definitions`` will have existing CPU model aliases
->     point to a version that doesn't break runnability guarantees
->     (specifically, version 1 of those CPU models).  In future QEMU
->     versions, aliases will point to newer CPU model versions
->     depending on the machine type, so management software must
->     resolve CPU model aliases before starting a virtual machine.
-
-libvirt had no time to adapt to this yet.  As far as I
-understand, they need the following series to be merged first so
-they can more easily resolve the unversioned CPU model name
-aliases:
-
-https://lore.kernel.org/qemu-devel/20201013230457.150630-1-ehabkost@redhat.com
-
-I need to rebase that series and resubmit.
 
 -- 
 Eduardo
