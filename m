@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3554F36E81F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 11:42:48 +0200 (CEST)
-Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF6936E842
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 11:57:02 +0200 (CEST)
+Received: from localhost ([::1]:56428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc3C3-00060F-Ad
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 05:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35534)
+	id 1lc3Pp-0000lD-Rc
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 05:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc3Ad-0005X5-MO
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:41:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43512)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc3AU-0000Li-RY
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619689269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gd7T+NTg3ibJHJWqFhb/4RRAg87ghEqc0r7n/8HkKXk=;
- b=Yo5FqVG0xiwb4TNLZ8/fww48QsvmWnMzNXwwS+MFVGeEydWGWsbJmI/nja1wBrFPlbEUPk
- MjolmwM3y5ysnunq63a7MiYUAQNswGlbqzH7UJicHdIWO4eE4oDNurv5aUEzSei84SFFSE
- DGQRmcHPUxGKA/v0oF7QGt/+mIjdSMY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-ph2eefTMPyeND2Q59Gx5Zg-1; Thu, 29 Apr 2021 05:41:08 -0400
-X-MC-Unique: ph2eefTMPyeND2Q59Gx5Zg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j128-20020a1c55860000b02901384b712094so5843465wmb.2
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 02:41:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Gd7T+NTg3ibJHJWqFhb/4RRAg87ghEqc0r7n/8HkKXk=;
- b=EBqy3QSxjbBjAe+O8oIF3Tpeks5vWS1N5Gm85OtSReJ5UZfBU2spLZKMEuLAflyf4t
- 1G6RrRTK9lbQamnr+MiIx8a13we3LrPoi6mUVff1sk+4oH8LyjQp8aQC1c4Q8dyx75VL
- Sv9cqCgiGQszk4QNhqW9UaUYALkN2uDAANmyOyJ+93zn4E0mXryfweisq70aMy/a4z8w
- IxlKtrxsoVMiM+5dOYZW92kppKJUrBJc+ytav7Z7eC72DIc/me0hz7GU/ge6LKUrCMoP
- 7zKe1CAdzb+dcjgO5jdEgwqY/DVHsgOb0766zTRVkWY+mhi7bsxM4kaDtoHsZtvwcIoP
- 7eEA==
-X-Gm-Message-State: AOAM533zfOWgNyTIkAE4Fcb8GS0HHkxFFj2sXt09r8I1a1DCVuaaoS0o
- 3Os9kU78r+87fhuFmZSMYDyBuf2nx3i3QUDRec9ZzJDOeUBOnlOn2b7DjcQcjsIi7k3gTfzHO7W
- j3/EO9bmpX2zQqWM=
-X-Received: by 2002:a5d:6c6e:: with SMTP id r14mr41845279wrz.403.1619689265795; 
- Thu, 29 Apr 2021 02:41:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7AVqZ2vHIr8def0gM74759pABqzCqjHpybWM69BHbkdfSUNaXCOhGyJDpZLzPafKK/vwHWg==
-X-Received: by 2002:a5d:6c6e:: with SMTP id r14mr41845243wrz.403.1619689265557; 
- Thu, 29 Apr 2021 02:41:05 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id f25sm4354505wrd.67.2021.04.29.02.41.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Apr 2021 02:41:05 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] gitlab-ci: Add a job to build virtiofsd standalone
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210429083346.61030-1-philmd@redhat.com>
- <20210429083346.61030-3-philmd@redhat.com> <YIpxy4jSazVrYFJ9@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ec32c324-5c6b-efb2-3dc9-16f2b2d5f588@redhat.com>
-Date: Thu, 29 Apr 2021 11:41:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lc3Ob-0008Nd-Ac
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:55:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lc3OY-0000pd-Ua
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:55:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lc3OX-0000in-5L
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 09:55:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 275D22E804C
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 09:55:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YIpxy4jSazVrYFJ9@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Apr 2021 09:50:13 -0000
+From: Thomas Huth <1916344@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: libslirp mac networking osx podman slirp user-mode
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: adamchappell imperialguy programmingkidx th-huth
+X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
+Message-Id: <161968981369.12516.1820257422922362263.launchpad@soybean.canonical.com>
+Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
+ on Mac OS X host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: daf9b143ed47420f5142136a717f6062a05acbe7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,67 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/21 10:43 AM, Daniel P. Berrangé wrote:
-> On Thu, Apr 29, 2021 at 10:33:46AM +0200, Philippe Mathieu-Daudé wrote:
->> Add a job which builds virtiofsd without any emulation or tool.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> https://gitlab.com/philmd/qemu/-/jobs/1222007991
->> Duration: 7 minutes 48 seconds
->> ---
->>  .gitlab-ci.yml | 13 +++++++++++++
->>  1 file changed, 13 insertions(+)
->>
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index 52d65d6c04f..ba3c7ade6ca 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -800,6 +800,19 @@ build-libvhost-user:
->>      - meson
->>      - ninja
->>  
->> +build-virtiofsd-fedora:
->> +  <<: *native_build_job_definition
->> +  needs:
->> +    job: amd64-fedora-container
->> +  variables:
->> +    IMAGE: fedora
->> +    CONFIGURE_ARGS: --enable-virtiofsd
->> +        --disable-system --disable-user --disable-tools --disable-docs
->> +  artifacts:
->> +    expire_in: 2 days
->> +    paths:
->> +      - build/tools/virtiofsd/virtiofsd
-> 
-> I'm not convinced that this job is justiable given our need to keep
-> the total CI pipeline size constrained. The precedent this sets is
-> that we need to test every configure args combination for each binary
-> we build. That is not scalable as a pattern. Neither this virtiofsd
-> arg scenario, nor others is going to be commonly used by downstream
-> consumers of QEMU, so the payoff from having this job is also small.
+** Tags removed: qemu
 
-I'm not sure "our current pipelines is too busy because we don't have
-a clear idea what is tested and what is duplicated" justifies no more
-tests can be added, but it is a effective way to have the current set
-cleaned.
+-- =
 
-Anyhow, if mainstream isn't interested by this configuration, it could
-be added to the virtio-fs/qemu fork. Alternatively mainstream with:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916344
 
-  only:
-    variables:
-      - $CI_PROJECT_NAMESPACE == 'virtio-fs'
+Title:
+  User mode networking not working properly on QEMU on Mac OS X host
 
+Status in QEMU:
+  New
+
+Bug description:
+  Steps to reproduce:
+
+  1. Install QEMU using homebrew on Mac OS X (I tried on Catalina and Big S=
+ur)
+  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
+  3. Install podman inside the guest
+  4. Run podman pull alpine
+
+  The result is:
+
+  [root@localhost ~]# podman pull alpine
+  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
+es.conf)
+  Trying to pull docker.io/library/alpine:latest...
+  Getting image source signatures
+  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
+iB / 2.7MiB
+  =C2=A0=C2=A0unexpected EOF
+  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
+1171596/1": error happened during read: unexpected EOF
+
+  This is happening because QEMU is telling the guest that the TCP
+  connection is closed even before reading all the data from the host
+  socket and forwarding it to the guest.
+
+  This issue doesn't happen on a Linux host. So, that tells me that this
+  has something to do with QEMU installation on Mac OS X.
+
+  This could be a slirp related issue. So, QEMU/slirp may need to work
+  together on fixing this. Here's the link to the libslirp issue:
+
+  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
 
