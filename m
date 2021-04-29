@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6502A36F307
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 01:43:40 +0200 (CEST)
-Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E4836F30C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 01:46:44 +0200 (CEST)
+Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcGJn-0005tb-Co
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 19:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49356)
+	id 1lcGMl-00012w-FU
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 19:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lcGFZ-0003zc-GL
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:39:24 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:39908)
+ id 1lcGGZ-0004RS-9O
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:40:19 -0400
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:35481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lcGFU-0002yf-EQ
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:39:17 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id g1so8831756qtq.6
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 16:39:10 -0700 (PDT)
+ id 1lcGGW-0003P1-HP
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:40:19 -0400
+Received: by mail-qk1-x732.google.com with SMTP id 66so29474651qkf.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 16:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1WjyilCHrOCoe9btRhUkYLzDH7J/V+a56/cnVBX3G5A=;
- b=Rh+HLeGg+qIfhjUWrk/kr+lwnbjpAV21O8XxRJf169qFchSYzghlH7pl8EJ4pAddPv
- Y4xF/pWliVy525BupkyP0gS7JXvHX6tHregq8DxWMWtP3KHzqw5XqcJmyKvbZZ4jGoru
- qoIgwjyXN5NT7iseofnfACRB31kedDvGWyMkkAhHSHagZZiLewAogyibcTFr2K/BVoUL
- GnlY4+n3vtxmOVSH7CVXII/iH8SyzyqaNi7XfqA4ugjLLYMUqhhZfeEW5aSyp20HyuD5
- FuyatYqDlFwBo2hLyjjxg4ZuwrGGEUv2PNqSnaorW4YyQ7AjXijN+oC+Id0CSldZNIur
- 2IyQ==
+ bh=2nTJRUHDZ7+k/8NYx0aCvynDedCdlApFadmMYuEyup4=;
+ b=JJyk6hzEmxQTYNijXWGMiwokH+usQap7KjanMR3XvrdOpR8vIeGeNjpNT4DyplOc5X
+ nnXp/RZwNWuhDFpHcF2g9fhnzEZcOMQmVDeuRrlS96oOp1UsSolnF/6U8g1ETZe9WDU4
+ pPwPjMIjL9hJQJAVQCSW1RugcouJakjcuuH03jZ+hNAEuKqXD/weXDZR0nfwpsedaqdq
+ pqpV3Qu/lldNNO3BD/RxC5olq1xtl08ZcVH93zD6Kl9k6cNPl0cEMXjab97S8PRDKHEx
+ 9W70P/J/GaiUNrJTZMUsce2Rx/bWI9l2L2BFsCBFYSZ5uvoUV1Hn5CUau48Jte3kC44d
+ 7OwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1WjyilCHrOCoe9btRhUkYLzDH7J/V+a56/cnVBX3G5A=;
- b=bG+Njks+yDxCZLU2ThPyH2LoSpByUrE9o85ibqtKwK77izy5qbNWIK6YD5wtDwKySM
- 1O8tZu7yhcGvQQ7qxVWQ479yZOZ4riCYR1y0M/tWekgi6m7xOP4/QOVotJQhX8HNQio+
- 1DVVEvl+FXH1314cz2M4BXIgzyzajDY9uFMTNB0u9zsbQMmQN5gi/K8pieHnCGyKwuM/
- 3v9UL/Fg2qgoGEljXincDIvK4w54m3jEwpAIUyRaT+2g6Glj1JUzX2glQuL9Oj+8yHle
- BBt4MxsNn4/zBtAeVsDbQwom4WUwHpTJIphuEli+1+I4XwvPZUM0/p5zcnTTXW1NUwwU
- jq2A==
-X-Gm-Message-State: AOAM5333pJeu40iFM8bDskbqQQrlZhsii7okJaZelsNOPRcGs0vTym7V
- vK4KnGTdppa659WJV6a9b9f7tA==
-X-Google-Smtp-Source: ABdhPJw6kzMp/OY3fIkVzPDRKNgxzhQbh3kNEZT9OadaZLB7Oiv8p39FHxU/ggkWmrD+vxfPQSJY2w==
-X-Received: by 2002:ac8:5d52:: with SMTP id g18mr2002080qtx.380.1619739549796; 
- Thu, 29 Apr 2021 16:39:09 -0700 (PDT)
+ bh=2nTJRUHDZ7+k/8NYx0aCvynDedCdlApFadmMYuEyup4=;
+ b=Xlpr4yPAn9OjsUSsg8oYYx2Cv2uPc6yXQKBveDhAffh47UVfAyselNlOAS7HXIghmN
+ OycRfLEI4+TprfY0CUryfs1aldugcT5mnVrvEewVp3ZZRZ4lLyeyMjHiJlL9oC/DXXXI
+ ZLf3siTGwGhYkP0pvXnSCFe7nU0BKQWFvDaoxnnPIgU0nraP0rMxZf5DTkYh8B13DI79
+ PCcHDf3RQkaqCIObokIElb958VYrG9sFZ/zrOUS88hbib2sBsW/Mx7TfghVUbf029KOL
+ qyzLKWdULLTxFp61nViNCCPl8thTdCuLBe3Tzy9hVAC7AViczMU076HZf15uaRivV86P
+ VIbQ==
+X-Gm-Message-State: AOAM530gE22apuKwVbExMbnQJG61eRHCdcdLwKXwiOjpBfWJfl+D0WOj
+ jLe9oewGsfXD/O6jGJBsqnI1ng==
+X-Google-Smtp-Source: ABdhPJz5U1T/Rti1d+jmeiAeoU4IrcHqGo5Ua2W/CtVEaXZAZNVTLEwYS8or7BI2LMMDF0cuXTSp2w==
+X-Received: by 2002:a37:de0e:: with SMTP id h14mr2290181qkj.465.1619739615419; 
+ Thu, 29 Apr 2021 16:40:15 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-stsvon1503w-grc-23-174-92-28-28.dsl.bell.ca. [174.92.28.28])
- by smtp.gmail.com with ESMTPSA id v19sm131997qkp.65.2021.04.29.16.39.09
+ by smtp.gmail.com with ESMTPSA id a3sm1039211qto.2.2021.04.29.16.40.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 16:39:09 -0700 (PDT)
-Message-ID: <1e49836d3b2d0525ee69053ec50c98ace1cd35db.camel@linaro.org>
-Subject: Re: [PATCH v2 5/8] hw/intc: GICv3 ITS Feature enablement
+ Thu, 29 Apr 2021 16:40:15 -0700 (PDT)
+Message-ID: <37bc65348ddfd15d18e53f0064eed072bc345d22.camel@linaro.org>
+Subject: Re: [PATCH v2 6/8] hw/intc: GICv3 redistributor ITS processing
 From: shashi.mallela@linaro.org
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Apr 2021 19:39:08 -0400
-In-Reply-To: <CAFEAcA_ppzeWMaViry4LrLCVjJVHwChTu3d5J3bZLxZ7wK8TRg@mail.gmail.com>
+Date: Thu, 29 Apr 2021 19:40:14 -0400
+In-Reply-To: <89852279ad379f2e50563dd47eb67376262355c0.camel@linaro.org>
 References: <20210401024152.203896-1-shashi.mallela@linaro.org>
- <20210401024152.203896-6-shashi.mallela@linaro.org>
- <CAFEAcA_ppzeWMaViry4LrLCVjJVHwChTu3d5J3bZLxZ7wK8TRg@mail.gmail.com>
+ <20210401024152.203896-7-shashi.mallela@linaro.org>
+ <CAFEAcA-bPmPRSLdXOxTHxJ2m1H11pPggwvyCdLFM-hK8U+Qq7A@mail.gmail.com>
+ <89852279ad379f2e50563dd47eb67376262355c0.camel@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x82f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x732.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,321 +92,368 @@ Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-04-19 at 11:51 +0100, Peter Maydell wrote:
+On Thu, 2021-04-29 at 18:16 -0400, shashi.mallela@linaro.org wrote:
+On Mon, 2021-04-19 at 13:44 +0100, Peter Maydell wrote:
 > On Thu, 1 Apr 2021 at 03:41, Shashi Mallela <
 > shashi.mallela@linaro.org> wrote:
-> > Added properties to enable ITS feature and define qemu system
-> > address space memory in gicv3 common,setup distributor and
-> > redistributor registers to indicate LPI support.
-> > 
+> > Implemented lpi processing at redistributor to get lpi config info
+> > from lpi configuration table,determine priority,set pending state
+> > in
+> > lpi pending table and forward the lpi to cpuif.Added logic to
+> > invoke
+> > redistributor lpi processing with translated LPI which set/clear
+> > LPI
+> > from ITS device as part of ITS INT,CLEAR,DISCARD command and
+> > GITS_TRANSLATER processing.
+> 
+> Nit: commas should all have a space following.
+> 
 > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
 > > ---
-> >  hw/intc/arm_gicv3_common.c         | 16 ++++++++++++++++
-> >  hw/intc/arm_gicv3_dist.c           | 22 ++++++++++++++++++++--
-> >  hw/intc/arm_gicv3_redist.c         | 28 +++++++++++++++++++++++++-
-> > --
-> >  hw/intc/gicv3_internal.h           | 17 +++++++++++++++++
-> >  include/hw/intc/arm_gicv3_common.h |  8 ++++++++
-> >  5 files changed, 86 insertions(+), 5 deletions(-)
+> >  hw/intc/arm_gicv3.c        |   6 ++
+> >  hw/intc/arm_gicv3_cpuif.c  |  15 +++--
+> >  hw/intc/arm_gicv3_its.c    |   9 ++-
+> >  hw/intc/arm_gicv3_redist.c | 124
+> > +++++++++++++++++++++++++++++++++++++
+> >  hw/intc/gicv3_internal.h   |   9 +++
+> >  5 files changed, 158 insertions(+), 5 deletions(-)
 > > 
-> > diff --git a/hw/intc/arm_gicv3_common.c
-> > b/hw/intc/arm_gicv3_common.c
-> > index 58ef65f589..3bfc52f7fa 100644
-> > --- a/hw/intc/arm_gicv3_common.c
-> > +++ b/hw/intc/arm_gicv3_common.c
-> > @@ -156,6 +156,7 @@ static const VMStateDescription
-> > vmstate_gicv3_cpu = {
-> >          VMSTATE_UINT32(gicr_waker, GICv3CPUState),
-> >          VMSTATE_UINT64(gicr_propbaser, GICv3CPUState),
-> >          VMSTATE_UINT64(gicr_pendbaser, GICv3CPUState),
-> > +        VMSTATE_BOOL(lpi_outofrange, GICv3CPUState),
-> >          VMSTATE_UINT32(gicr_igroupr0, GICv3CPUState),
-> >          VMSTATE_UINT32(gicr_ienabler0, GICv3CPUState),
-> >          VMSTATE_UINT32(gicr_ipendr0, GICv3CPUState),
-> > @@ -227,6 +228,7 @@ static const VMStateDescription vmstate_gicv3 =
-> > {
-> >      .priority = MIG_PRI_GICV3,
-> >      .fields = (VMStateField[]) {
-> >          VMSTATE_UINT32(gicd_ctlr, GICv3State),
-> > +        VMSTATE_UINT32(gicd_typer, GICv3State),
-> >          VMSTATE_UINT32_ARRAY(gicd_statusr, GICv3State, 2),
-> >          VMSTATE_UINT32_ARRAY(group, GICv3State, GICV3_BMP_SIZE),
-> >          VMSTATE_UINT32_ARRAY(grpmod, GICv3State, GICV3_BMP_SIZE),
-> 
-> You can't add fields to an existing VMStateDescription like this
-> without extra effort to handle migration compatibility.
-> What are we trying to achieve with the extra fields?
-> GICD_TYPER is read-only, I think.
-> I don't think we need an lpi_outofrange flag: we should just
-> naturally
-> handle this as part of working with the GITR_PROPBASER.IDbits field.
-> 
-> Removed all fields to VMStateDescription,handled as part of working 
-> with GITR_PROPBASER.IDbits field
->
-> > @@ -381,6 +383,16 @@ static void
-> > arm_gicv3_common_realize(DeviceState *dev, Error **errp)
-> >              (1 << 24) |
-> >              (i << 8) |
-> >              (last << 4);
+> > diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
+> > index 66eaa97198..618fa1af95 100644
+> > --- a/hw/intc/arm_gicv3.c
+> > +++ b/hw/intc/arm_gicv3.c
+> > @@ -166,6 +166,12 @@ static void
+> > gicv3_redist_update_noirqset(GICv3CPUState *cs)
+> >          cs->hppi.grp = gicv3_irq_group(cs->gic, cs, cs->hppi.irq);
+> >      }
+> > 
+> > +    if (cs->gic->lpi_enable) {
+> > +        if (gicv3_redist_update_lpi(cs)) {
+> > +            seenbetter = true;
+> > +        }
+> > +    }
 > > +
-> > +        if (s->lpi_enable) {
-> > +            s->cpu[i].gicr_typer |= GICR_TYPER_PLPIS;
-> > +
-> > +            if (!s->sysmem) {
-> > +                error_setg(errp,
-> > +                    "Redist-ITS: Guest 'sysmem' reference link not
-> > set");
-> > +                return;
-> > +            }
+> >      /* If the best interrupt we just found would preempt whatever
+> >       * was the previous best interrupt before this update, then
+> >       * we know it's definitely the best one now.
+> > diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+> > index 43ef1d7a84..c225b80f66 100644
+> > --- a/hw/intc/arm_gicv3_cpuif.c
+> > +++ b/hw/intc/arm_gicv3_cpuif.c
+> > @@ -899,9 +899,14 @@ static void icc_activate_irq(GICv3CPUState
+> > *cs, int irq)
+> >          cs->gicr_ipendr0 = deposit32(cs->gicr_ipendr0, irq, 1, 0);
+> >          gicv3_redist_update(cs);
+> >      } else {
+> > -        gicv3_gicd_active_set(cs->gic, irq);
+> > -        gicv3_gicd_pending_clear(cs->gic, irq);
+> > -        gicv3_update(cs->gic, irq, 1);
+> > +        if (irq >= GICV3_LPI_INTID_START) {
+> > +            gicv3_redist_lpi_pending(cs, irq, 0);
+> > +            gicv3_redist_update(cs);
+> > +        } else {
+> > +            gicv3_gicd_active_set(cs->gic, irq);
+> > +            gicv3_gicd_pending_clear(cs->gic, irq);
+> > +            gicv3_update(cs->gic, irq, 1);
 > > +        }
 > >      }
 > >  }
 > > 
-> > @@ -406,6 +418,7 @@ static void arm_gicv3_common_reset(DeviceState
-> > *dev)
-> >          cs->gicr_waker = GICR_WAKER_ProcessorSleep |
-> > GICR_WAKER_ChildrenAsleep;
-> >          cs->gicr_propbaser = 0;
-> >          cs->gicr_pendbaser = 0;
-> > +        cs->lpi_outofrange = false;
-> >          /* If we're resetting a TZ-aware GIC as if secure firmware
-> >           * had set it up ready to start a kernel in non-secure, we
-> >           * need to set interrupts to group 1 so the kernel can use
-> > them.
-> > @@ -494,9 +507,12 @@ static Property arm_gicv3_common_properties[]
-> > = {
-> >      DEFINE_PROP_UINT32("num-cpu", GICv3State, num_cpu, 1),
-> >      DEFINE_PROP_UINT32("num-irq", GICv3State, num_irq, 32),
-> >      DEFINE_PROP_UINT32("revision", GICv3State, revision, 3),
-> > +    DEFINE_PROP_BOOL("has-lpi", GICv3State, lpi_enable, 0),
-> >      DEFINE_PROP_BOOL("has-security-extensions", GICv3State,
-> > security_extn, 0),
-> >      DEFINE_PROP_ARRAY("redist-region-count", GICv3State,
-> > nb_redist_regions,
-> >                        redist_region_count, qdev_prop_uint32,
-> > uint32_t),
-> > +    DEFINE_PROP_LINK("sysmem", GICv3State, sysmem,
-> > TYPE_MEMORY_REGION,
-> > +                     MemoryRegion *),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> > 
-> > diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-> > index b65f56f903..96a317a8ef 100644
-> > --- a/hw/intc/arm_gicv3_dist.c
-> > +++ b/hw/intc/arm_gicv3_dist.c
-> > @@ -366,12 +366,15 @@ static MemTxResult gicd_readl(GICv3State *s,
-> > hwaddr offset,
-> >          return MEMTX_OK;
-> >      case GICD_TYPER:
-> >      {
-> > +        bool lpi_supported = false;
-> >          /* For this implementation:
-> >           * No1N == 1 (1-of-N SPI interrupts not supported)
-> >           * A3V == 1 (non-zero values of Affinity level 3
-> > supported)
-> >           * IDbits == 0xf (we support 16-bit interrupt identifiers)
-> >           * DVIS == 0 (Direct virtual LPI injection not supported)
-> > -         * LPIS == 0 (LPIs not supported)
-> > +         * LPIS == 1 (LPIs are supported if affinity routing is
-> > enabled)
-> > +         * num_LPIs == 0b00000 (bits [15:11],Number of LPIs as
-> > indicated
-> > +         *                      by GICD_TYPER.IDbits)
-> 
-> We support LPIs, but we have none ? That doesn't sound right, and
-> it's
-> not what the code below reports.
-> The interpretation as per spec here is that number of LPIs indication
-> comes from GICD_TYPER.IDbits with bits being set to 0b00000
-> 
-> >           * MBIS == 0 (message-based SPIs not supported)
-> >           * SecurityExtn == 1 if security extns supported
-> >           * CPUNumber == 0 since for us ARE is always 1
-> > @@ -385,8 +388,23 @@ static MemTxResult gicd_readl(GICv3State *s,
-> > hwaddr offset,
+> > @@ -1337,7 +1342,9 @@ static void icc_eoir_write(CPUARMState *env,
+> > const ARMCPRegInfo *ri,
+> >           * valid interrupt value read from the Interrupt
+> > Acknowledge
+> >           * register" and so this is UNPREDICTABLE. We choose to
+> > ignore it.
 > >           */
-> >          bool sec_extn = !(s->gicd_ctlr & GICD_CTLR_DS);
-> > 
-> > +        /*
-> > +         * With securityextn on,LPIs are supported when affinity
-> > routing
-> 
-> (missing space after comma)
-> 
-> > +         * is enabled for non-secure state and if off LPIs are
-> > supported
-> > +         * when affinity routing is enabled.
-> > +         */
-> > +        if (s->lpi_enable) {
-> > +            if (sec_extn) {
-> > +                lpi_supported = (s->gicd_ctlr & GICD_CTLR_ARE_NS);
-> > +            } else {
-> > +                lpi_supported = (s->gicd_ctlr & GICD_CTLR_ARE);
-> > +            }
+> > -        return;
+> > +        if (!(cs->gic->lpi_enable && (irq >=
+> > GICV3_LPI_INTID_START))) {
+> > +            return;
 > > +        }
-> > +
-> >          *data = (1 << 25) | (1 << 24) | (sec_extn << 10) |
-> > -            (0xf << 19) | itlinesnumber;
-> > +            (lpi_supported << GICD_TYPER_LPIS_OFFSET) |
-> > (GICD_TYPER_IDBITS <<
-> > +            GICD_TYPER_IDBITS_OFFSET) | itlinesnumber;
-> > +        s->gicd_typer = *data;
-> >          return MEMTX_OK;
+> 
+> This condition is in the wrong place. I think what you are trying to
+> do is modify "what is the set of numbers we consider to be valid IRQ
+> numbers", in which case you want to be changing the outer
+> "if (irq >= cs->gic->num_irq)" condition, not adding an extra one
+> inside it.
+> 
+> More importantly, the thing this condition is guarding is that
+> the code below it assumes that IRQ numbers are in range for the
+> GIC's own internal non-LPI interrupts. If you allow numbers
+> > = cs->gic->num_irq through, then you will get array overruns
+> when icc_deactivate_irq() tries to clear its Active bit.
+> 
 > >      }
-> >      case GICD_IIDR:
+> > 
+> >      if (icc_highest_active_group(cs) != grp) {
+> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> > index 0e3f176809..41e1e8b2a8 100644
+> > --- a/hw/intc/arm_gicv3_its.c
+> > +++ b/hw/intc/arm_gicv3_its.c
+> > @@ -226,6 +226,7 @@ static MemTxResult process_int(GICv3ITSState
+> > *s, uint64_t value,
+> >      bool ite_valid = false;
+> >      uint64_t cte = 0;
+> >      bool cte_valid = false;
+> > +    uint64_t rdbase;
+> >      uint8_t buff[ITS_ITT_ENTRY_SIZE];
+> >      uint64_t itt_addr;
+> > 
+> > @@ -278,12 +279,18 @@ static MemTxResult process_int(GICv3ITSState
+> > *s, uint64_t value,
+> >               * since with a physical address the target address
+> > must be
+> >               * 64KB aligned
+> >               */
+> > -
+> > +            rdbase = (cte >> 1U) & RDBASE_MASK;
+> 
+> What's going on here? Shouldn't this be in a previous patch ?
+> > 
+> No,this part relates to the ITS processing wherein the rdbase is
+extracted and used for subsequent redistributor trigger
+> > >              /*
+> >               * Current implementation only supports rdbase ==
+> > procnum
+> >               * Hence rdbase physical address is ignored
+> >               */
+> >          } else {
+> > +            rdbase = (cte >> 1U) & RDBASE_PROCNUM_MASK;
+> > +            if ((cmd == CLEAR) || (cmd == DISCARD)) {
+> > +                gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase],
+> > pIntid, 0);
+> > +            } else {
+> > +                gicv3_redist_process_lpi(&s->gicv3->cpu[rdbase],
+> > pIntid, 1);
+> > +            }
+> > 
+> >              if (cmd == DISCARD) {
+> >                  /* remove mapping from interrupt translation table
+> > */
 > > diff --git a/hw/intc/arm_gicv3_redist.c
 > > b/hw/intc/arm_gicv3_redist.c
-> > index 8645220d61..325b974e70 100644
+> > index 325b974e70..71c648a616 100644
 > > --- a/hw/intc/arm_gicv3_redist.c
 > > +++ b/hw/intc/arm_gicv3_redist.c
-> > @@ -248,10 +248,16 @@ static MemTxResult gicr_writel(GICv3CPUState
+> > @@ -254,6 +254,8 @@ static MemTxResult gicr_writel(GICv3CPUState
 > > *cs, hwaddr offset,
-> >      case GICR_CTLR:
-> >          /* For our implementation, GICR_TYPER.DPGS is 0 and so all
-> >           * the DPG bits are RAZ/WI. We don't do anything
-> > asynchronously,
-> > -         * so UWP and RWP are RAZ/WI. And GICR_TYPER.LPIS is 0 (we
-> > don't
-> > -         * implement LPIs) so Enable_LPIs is RES0. So there are no
-> > writable
-> > -         * bits for us.
-> > +         * so UWP and RWP are RAZ/WI. GICR_TYPER.LPIS is 1 (we
-> > +         * implement LPIs) so Enable_LPIs is programmable.
-> >           */
-> > +        if (cs->gicr_typer & GICR_TYPER_PLPIS) {
-> > +            if (value & GICR_CTLR_ENABLE_LPIS) {
-> > +                cs->gicr_ctlr |= GICR_CTLR_ENABLE_LPIS;
-> > +            } else {
-> > +                cs->gicr_ctlr &= ~GICR_CTLR_ENABLE_LPIS;
+> >          if (cs->gicr_typer & GICR_TYPER_PLPIS) {
+> >              if (value & GICR_CTLR_ENABLE_LPIS) {
+> >                  cs->gicr_ctlr |= GICR_CTLR_ENABLE_LPIS;
+> > +                /* Check for any pending interr in pending table
+> > */
+> > +                gicv3_redist_update(cs);
+> >              } else {
+> >                  cs->gicr_ctlr &= ~GICR_CTLR_ENABLE_LPIS;
+> >              }
+> > @@ -548,6 +550,128 @@ MemTxResult gicv3_redist_write(void *opaque,
+> > hwaddr offset, uint64_t data,
+> >      return r;
+> >  }
+> > 
+> > +bool gicv3_redist_update_lpi(GICv3CPUState *cs)
+> 
+> Could we have a comment explaining what this function does, please ?
+> 
+> > +{
+> > +    AddressSpace *as = &cs->gic->sysmem_as;
+> > +    uint64_t lpict_baddr, lpipt_baddr;
+> > +    uint32_t pendt_size = 0;
+> > +    uint8_t lpite;
+> > +    uint8_t prio, pend;
+> > +    int i;
+> > +    bool seenbetter = false;
+> > +
+> > +    if ((!cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) || !cs-
+> > >gicr_propbaser ||
+> > +        !cs->gicr_pendbaser || cs->lpi_outofrange) {
+> > +        return seenbetter;
+> > +    }
+> > +
+> > +    lpict_baddr = FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER,
+> > PHYADDR);
+> > +    lpict_baddr <<= R_GICR_PROPBASER_PHYADDR_SHIFT;
+> > +
+> > +    lpipt_baddr =  FIELD_EX64(cs->gicr_pendbaser, GICR_PENDBASER,
+> > PHYADDR);
+> > +    lpipt_baddr <<= R_GICR_PENDBASER_PHYADDR_SHIFT;
+> > +
+> > +    /* Determine the highest priority pending interrupt among LPIs
+> > */
+> > +    pendt_size = (1UL << (FIELD_EX64(cs->gicr_propbaser,
+> > GICR_PROPBASER,
+> > +                          IDBITS) - 1));
+> 
+> This is where you should be handling "actually the table is empty"
+> or "table size is capped at the implementation's maximum size".
+> 
+> > +
+> > +    for (i = 0; i < pendt_size; i++) {
+> > +        address_space_read(as, lpipt_baddr +
+> > +                (((GICV3_LPI_INTID_START + i) / 8) *
+> > sizeof(pend)),
+> > +                MEMTXATTRS_UNSPECIFIED, &pend, sizeof(pend));
+> > +
+> > +        if ((1 << ((GICV3_LPI_INTID_START + i) % 8)) & pend) {
+> > +            address_space_read(as, lpict_baddr + (i *
+> > sizeof(lpite)),
+> > +                      MEMTXATTRS_UNSPECIFIED, &lpite,
+> > sizeof(lpite));
+> > +
+> > +            prio = ((lpite >> LPI_CTE_PRIORITY_OFFSET) &
+> > +                     LPI_CTE_PRIORITY_MASK);
+> > +            prio &= LPI_PRIORITY_MASK;
+> > +
+> > +            if (prio < cs->hppi.prio) {
+> > +                cs->hppi.irq = GICV3_LPI_INTID_START + i;
+> > +                cs->hppi.prio = prio;
+> > +                /* LPIs are always non-secure Grp1 interrupts */
+> > +                cs->hppi.grp = GICV3_G1NS;
+> > +                seenbetter = true;
 > > +            }
 > > +        }
-> >          return MEMTX_OK;
-> >      case GICR_STATUSR:
-> >          /* RAZ/WI for our implementation */
-> > @@ -275,6 +281,14 @@ static MemTxResult gicr_writel(GICv3CPUState
-> > *cs, hwaddr offset,
-> >          cs->gicr_waker = value;
-> >          return MEMTX_OK;
-> >      case GICR_PROPBASER:
-> > +        if (FIELD_EX64(value, GICR_PROPBASER, IDBITS) <
-> > +            GICR_PROPBASER_IDBITS_THRESHOLD) {
-> > +            cs->lpi_outofrange = true;
+> > +    }
 > 
-> I don't think you should need to special case this. It just means
-> "turns out
-> that the LPI table is effectively zero length". When code doing LPI
-> table
-> lookups calculates the LPI table size (which it needs to do anyway)
-> it can
-> just catch the "turns out to be negative" case then.
+> Oof. How big is an LPI configuration table, typically? I'm not sure
+> we want
+> to be scanning the entire LPI configuration table in guest memory for
+> every
+> time gicv3_redist_update() is called if we can avoid it.
 > 
+> A bit of benchmarking of how much this slows down emulation might
+> be interesting.
+> 
+> The implementation scans the full LPI pending table,but only scans
+> the LPI config table entry for which the pending bit is set on
+every 
+> gicv3_redist_update.
+> With preliminary testing on linux guest os and kvm-unit-tests didnt
+observe any noticeable delay during the ITS processing
+ 
+> > +    return seenbetter;
+> > +}
+> > +
+> > +void gicv3_redist_lpi_pending(GICv3CPUState *cs, int irq, int
+> > level)
+> > +{
+> > +    AddressSpace *as = &cs->gic->sysmem_as;
+> > +    uint64_t lpipt_baddr;
+> > +    bool ispend = false;
+> > +    uint8_t pend;
+> > +
+> > +    /*
+> > +     * get the bit value corresponding to this irq in the
+> > +     * lpi pending table
+> > +     */
+> > +    lpipt_baddr = FIELD_EX64(cs->gicr_pendbaser, GICR_PENDBASER,
+> > PHYADDR);
+> > +    lpipt_baddr <<= R_GICR_PENDBASER_PHYADDR_SHIFT;
+> > +
+> > +    address_space_read(as, lpipt_baddr + ((irq / 8) *
+> > sizeof(pend)),
+> > +                         MEMTXATTRS_UNSPECIFIED, &pend,
+> > sizeof(pend));
+> > +    ispend = ((pend >> (irq % 8)) & 0x1);
+> > +
+> > +    if (ispend) {
+> > +        if (!level) {
+> > +            /*
+> > +             * clear the pending bit and update the lpi pending
+> > table
+> > +             */
+> > +            pend &= ~(1 << (irq % 8));
+> > +
+> > +            address_space_write(as, lpipt_baddr + ((irq / 8) *
+> > sizeof(pend)),
+> > +                                 MEMTXATTRS_UNSPECIFIED, &pend,
+> > sizeof(pend));
 > > +        }
-> > +        if (FIELD_EX64(value, GICR_PROPBASER, IDBITS) >
-> > GICD_TYPER_IDBITS) {
-> > +            value &= ~R_GICR_PROPBASER_IDBITS_MASK;
-> > +            value |= GICD_TYPER_IDBITS;
+> > +    } else {
+> > +        if (level) {
+> > +            /*
+> > +             * if pending bit is not already set for this
+> > irq,turn-on the
+> > +             * pending bit and update the lpi pending table
+> > +             */
+> > +            pend |= (1 << (irq % 8));
+> > +
+> > +            address_space_write(as, lpipt_baddr + ((irq / 8) *
+> > sizeof(pend)),
+> > +                                 MEMTXATTRS_UNSPECIFIED, &pend,
+> > sizeof(pend));
 > > +        }
-> 
-> This isn't what the spec says happens. It says that if the value the
-> guest writes
-> in this field is larger than GICD_TYPER.IDbits, then the
-> GICD_TYPER.IDBits value
-> applies. That doesn't mean the value reads back as GICD_TYPER.IDBits.
-> 
-> How you want to handle this depends on what's going on, but it
-> probably mostly
-> looks like "code that cares about GICR_PROPBASER.IDBits will do
-> MIN(field_value, GICD_TYPER_IDBITS) to find the effective value of
-> the field".
-> 
-> >          cs->gicr_propbaser = deposit64(cs->gicr_propbaser, 0, 32,
-> > value);
-> >          return MEMTX_OK;
-> >      case GICR_PROPBASER + 4:
-> > @@ -397,6 +411,14 @@ static MemTxResult gicr_writell(GICv3CPUState
-> > *cs, hwaddr offset,
+> > +    }
+> > +}
+> > 
+> > +void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int
+> > level)
+> > +{
+> > +    AddressSpace *as = &cs->gic->sysmem_as;
+> > +    uint64_t lpict_baddr;
+> > +    uint8_t lpite;
+> > +
+> > +    if ((!cs->gicr_ctlr & GICR_CTLR_ENABLE_LPIS) || !cs-
+> > >gicr_propbaser ||
+> > +         !cs->gicr_pendbaser || cs->lpi_outofrange) {
+> > +        return;
+> > +    }
+> > +
+> > +    lpict_baddr = FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER,
+> > PHYADDR);
+> > +    lpict_baddr <<= R_GICR_PROPBASER_PHYADDR_SHIFT;
+> > +
+> > +    /* get the lpi config table entry corresponding to this irq */
+> > +    address_space_read(as, lpict_baddr + ((irq -
+> > GICV3_LPI_INTID_START) *
+> > +                        sizeof(lpite)), MEMTXATTRS_UNSPECIFIED,
+> > +                        &lpite, sizeof(lpite));
+> > +
+> > +    /* check if this irq is enabled before proceeding further */
+> > +    if (!(lpite & LPI_CTE_ENABLED)) {
+> > +        return;
+> > +    }
+> > +
+> > +    /* set/clear the pending bit for this irq */
+> > +    gicv3_redist_lpi_pending(cs, irq, level);
+> > +
+> > +    gicv3_redist_update(cs);
+> > +}
+> > +
+> >  void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level)
 > >  {
-> >      switch (offset) {
-> >      case GICR_PROPBASER:
-> > +        if (FIELD_EX64(value, GICR_PROPBASER, IDBITS) <
-> > +            GICR_PROPBASER_IDBITS_THRESHOLD) {
-> > +            cs->lpi_outofrange = true;
-> > +        }
-> > +        if (FIELD_EX64(value, GICR_PROPBASER, IDBITS) >
-> > GICD_TYPER_IDBITS) {
-> > +            value &= ~R_GICR_PROPBASER_IDBITS_MASK;
-> > +            value |= GICD_TYPER_IDBITS;
-> > +        }
-> 
-> Same comments as above.
-> 
-> >          cs->gicr_propbaser = value;
-> >          return MEMTX_OK;
-> >      case GICR_PENDBASER:
+> >      /* Update redistributor state for a change in an external PPI
+> > input line */
 > > diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-> > index e9f9aa6722..a2718704d4 100644
+> > index a2718704d4..4c97c22850 100644
 > > --- a/hw/intc/gicv3_internal.h
 > > +++ b/hw/intc/gicv3_internal.h
-> > @@ -68,6 +68,9 @@
-> >  #define GICD_CTLR_E1NWF             (1U << 7)
-> >  #define GICD_CTLR_RWP               (1U << 31)
+> > @@ -306,6 +306,12 @@ FIELD(GITS_TYPER, CIL, 36, 1)
 > > 
-> > +#define GICD_TYPER_LPIS_OFFSET         17
-> > +#define GICD_TYPER_IDBITS_OFFSET       19
-> > +#define GICD_TYPER_IDBITS_MASK       0x1f
-> >  /* 16 bits EventId */
-> >  #define GICD_TYPER_IDBITS            0xf
+> >  #define L1TABLE_ENTRY_SIZE         8
 > > 
-> > @@ -126,6 +129,20 @@
-> >  #define GICR_WAKER_ProcessorSleep    (1U << 1)
-> >  #define GICR_WAKER_ChildrenAsleep    (1U << 2)
+> > +#define LPI_CTE_ENABLE_OFFSET      0
+> > +#define LPI_CTE_ENABLED          VALID_MASK
+> > +#define LPI_CTE_PRIORITY_OFFSET    2
+> > +#define LPI_CTE_PRIORITY_MASK     ((1U << 6) - 1)
+> > +#define LPI_PRIORITY_MASK         0xfc
+> > +
+> >  #define GITS_CMDQ_ENTRY_SIZE               32
+> >  #define NUM_BYTES_IN_DW                     8
 > > 
-> > +FIELD(GICR_PROPBASER, IDBITS, 0, 5)
-> > +FIELD(GICR_PROPBASER, INNERCACHE, 7, 3)
-> > +FIELD(GICR_PROPBASER, SHAREABILITY, 10, 2)
-> > +FIELD(GICR_PROPBASER, PHYADDR, 12, 40)
-> > +FIELD(GICR_PROPBASER, OUTERCACHE, 56, 3)
-> > +
-> > +#define GICR_PROPBASER_IDBITS_THRESHOLD          0xd
-> > +
-> > +FIELD(GICR_PENDBASER, INNERCACHE, 7, 3)
-> > +FIELD(GICR_PENDBASER, SHAREABILITY, 10, 2)
-> > +FIELD(GICR_PENDBASER, PHYADDR, 16, 36)
-> > +FIELD(GICR_PENDBASER, OUTERCACHE, 56, 3)
-> > +FIELD(GICR_PENDBASER, PTZ, 62, 1)
-> > +
-> >  #define ICC_CTLR_EL1_CBPR           (1U << 0)
-> >  #define ICC_CTLR_EL1_EOIMODE        (1U << 1)
-> >  #define ICC_CTLR_EL1_PMHE           (1U << 6)
-> > diff --git a/include/hw/intc/arm_gicv3_common.h
-> > b/include/hw/intc/arm_gicv3_common.h
-> > index 3a710592a9..db3989484d 100644
-> > --- a/include/hw/intc/arm_gicv3_common.h
-> > +++ b/include/hw/intc/arm_gicv3_common.h
-> > @@ -175,6 +175,13 @@ struct GICv3CPUState {
-> >      uint32_t gicr_nsacr;
-> >      uint8_t gicr_ipriorityr[GIC_INTERNAL];
-> > 
-> > +    /*
-> > +     * flag to indicate LPIs are out of range
-> > +     * since IDbits from GICR_PROPBASER is less
-> > +     * than 0b1101
-> > +     */
-> > +    bool lpi_outofrange;
-> > +
-> >      /* CPU interface */
-> >      uint64_t icc_sre_el1;
-> >      uint64_t icc_ctlr_el1[2];
-> > @@ -221,6 +228,7 @@ struct GICv3State {
-> >      uint32_t num_cpu;
-> >      uint32_t num_irq;
-> >      uint32_t revision;
-> > +    bool lpi_enable;
-> >      bool security_extn;
-> >      bool irq_reset_nonsecure;
-> >      bool gicd_no_migration_shift_bug;
+> > @@ -444,6 +450,9 @@ MemTxResult gicv3_redist_write(void *opaque,
+> > hwaddr offset, uint64_t data,
+> >                                 unsigned size, MemTxAttrs attrs);
+> >  void gicv3_dist_set_irq(GICv3State *s, int irq, int level);
+> >  void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level);
+> > +void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int
+> > level);
+> > +void gicv3_redist_lpi_pending(GICv3CPUState *cs, int irq, int
+> > level);
+> > +bool gicv3_redist_update_lpi(GICv3CPUState *cs);
+> >  void gicv3_redist_send_sgi(GICv3CPUState *cs, int grp, int irq,
+> > bool ns);
+> >  void gicv3_init_cpuif(GICv3State *s);
 > 
 > thanks
 > -- PMM
