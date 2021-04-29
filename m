@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA9A36EDA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:50:29 +0200 (CEST)
-Received: from localhost ([::1]:42412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B358536EDB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:56:40 +0200 (CEST)
+Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc8vs-0002hs-4y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38632)
+	id 1lc91r-00064A-QI
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lc8u6-0001yp-KX
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:48:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22688)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lc8wx-0003T0-KV
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:51:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lc8u3-0005zQ-Da
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:48:37 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lc8wu-0007LV-6V
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619711314;
+ s=mimecast20190719; t=1619711491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/gMFmdEugAYzvRlwf9gJGWoC8aMbOnKlV7++YJJOj9o=;
- b=NudZvec82dGSxDLcTDv0K+3RsJJfTPhtZKVDUaNrIdpUfd3tecrDxEChvjc5g4VuYOSHJB
- mdtdMV8F6amZR093acnhaleH1myiEaxmF3rpRlDdy+ShgmrCXD28IgdxklYvclMsZe9SPp
- ED/k8r8zPQWah29aHPCSXQxjiOmoUtw=
+ bh=4YnSvyCj85L4kUDLME8OO9VZroxvkYERO5HzwSn37DY=;
+ b=hudl3/JUMMQPwsOUY3qhntZGLUFIr12i67KmOgTSRogmx7uotT1KM+c3rYsh0FpDGksWD7
+ fOH6K6USZqeMr8QebtCJ21iuHwpKIAuWeKIn3NPAgsegZIVXl0ZeUWsXfw4aZHuKSkeRTg
+ UI28IQkvSDue13ml8lYAdK63T7kxv94=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554--kvrj40CNv64AyMXEAZXeg-1; Thu, 29 Apr 2021 11:48:30 -0400
-X-MC-Unique: -kvrj40CNv64AyMXEAZXeg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-217-xuCGz-JFOUStvd8H8ePJPQ-1; Thu, 29 Apr 2021 11:51:29 -0400
+X-MC-Unique: xuCGz-JFOUStvd8H8ePJPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFDF0802938;
- Thu, 29 Apr 2021 15:48:29 +0000 (UTC)
-Received: from work-vm (ovpn-114-250.ams2.redhat.com [10.36.114.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C797C100760B;
- Thu, 29 Apr 2021 15:48:21 +0000 (UTC)
-Date: Thu, 29 Apr 2021 16:48:19 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, vgoyal@redhat.com, stefanha@redhat.com,
- groug@kaod.org, chirantan@chromium.org
-Subject: Re: [PATCH v3 06/26] DAX subprojects/libvhost-user: Add virtio-fs
- slave types
-Message-ID: <YIrVQ8TUkgropuOw@work-vm>
-References: <20210428110100.27757-1-dgilbert@redhat.com>
- <20210428110100.27757-7-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 793728014C1;
+ Thu, 29 Apr 2021 15:51:27 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-217.ams2.redhat.com [10.36.114.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E6725D6DC;
+ Thu, 29 Apr 2021 15:51:17 +0000 (UTC)
+Date: Thu, 29 Apr 2021 17:51:16 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
+Message-ID: <YIrV9MqlqwUhJR+B@merkur.fritz.box>
+References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210428110100.27757-7-dgilbert@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bUxbtpLEQjw4SYOv"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,95 +76,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com
+Cc: pkrempa@redhat.com, Alberto Garcia <berto@igalia.com>, slp@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, rjones@redhat.com,
+ mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Add virtio-fs definitions to libvhost-user
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+--bUxbtpLEQjw4SYOv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm going to need to rework this
+Am 29.04.2021 um 16:05 hat Stefan Hajnoczi geschrieben:
+> Hi,
+> A preview release of libblkio, a library for high-performance block I/O,
+> is now available:
+>=20
+>   https://gitlab.com/libblkio/libblkio/-/tree/v0.1.0
+>=20
+> Applications are increasingly integrating high-performance I/O
+> interfaces such as Linux io_uring, userspace device drivers, and
+> vhost-user device support. The effort required to add each of these
+> low-level interfaces into an application is relatively high. libblkio
+> provides a single API for efficiently accessing block devices and
+> eliminates the need to write custom code for each one.
+>=20
+> The library is not yet ready to use and currently lacks many features.
+> In fact, I hope this news doesn't spread too far yet because libblkio is
+> at a very early stage, but feedback from the QEMU community is necessary
+> at this time.
 
-> +/* Structures carried over the slave channel back to QEMU */
-> +#define VHOST_USER_FS_SLAVE_MAX_ENTRIES 32
-> +
-> +/* For the flags field of VhostUserFSSlaveMsg */
-> +#define VHOST_USER_FS_FLAG_MAP_R (1u << 0)
-> +#define VHOST_USER_FS_FLAG_MAP_W (1u << 1)
-> +
-> +typedef struct {
-> +    /* Offsets within the file being mapped */
-> +    uint64_t fd_offset;
-> +    /* Offsets within the cache */
-> +    uint64_t c_offset;
-> +    /* Lengths of sections */
-> +    uint64_t len;
-> +    /* Flags, from VHOST_USER_FS_FLAG_* */
-> +    uint64_t flags;
-> +} VhostUserFSSlaveMsgEntry;
-> +
-> +typedef struct {
-> +    /* Number of entries */
-> +    uint16_t count;
-> +    /* Spare */
-> +    uint16_t align;
-> +
-> +    VhostUserFSSlaveMsgEntry entries[];
-> +} VhostUserFSSlaveMsg;
-> +
->  typedef struct VhostUserMemoryRegion {
->      uint64_t guest_phys_addr;
->      uint64_t memory_size;
-> @@ -197,6 +224,7 @@ typedef struct VhostUserMsg {
->          VhostUserConfig config;
->          VhostUserVringArea area;
->          VhostUserInflight inflight;
-> +        VhostUserFSSlaveMsg fs;
->      } payload;
->  
->      int fds[VHOST_MEMORY_BASELINE_NREGIONS];
+I'm a bit worried about the configuration interface. This looks an awful
+lot like plain QOM properties, which have proven to result in both very
+verbose (not to say messy) and rather error prone implementations.
 
-This fails Clang's build; because 'fs' is part of a union and
-given it's entries[] is a variable length type, and is not
-at the end of the union.   It's got a good point - I really don't know
-how gcc copes here; but also, what are vhost-user's rules
-on the length of 'payload' - it looks like me putting
-a larger message in there will break other demons.
+You have to write setters/getters for every property, even if it usually
+ends up doing the same thing, storing the value somewhere. Worse, these
+getters and setters have to work in very different circumstances, namely
+initialisation where you usually have to store the value away so that it
+can be checked for consistency with other properties in .realize() or
+.complete(), and property updates during runtime. Often enough, we
+forget the latter and create bugs. If we don't create bugs, we usually
+start with 'if (realized)' and have two completely different code paths.
+Another common bug in QOM objects is forgetting to check if mandatory
+properties were actually set.
 
-I'd changed it from a fixed size array to variable size based
-on Chirantan's comments on v1; but now I'm not even convinced
-the fixed size was right, given that I'm not convinced I'm
-allowed to change the length of payload.
+Did you already consider these problems and decided to go this way
+anyway, or is this more of an accidental design? And if the former, what
+were the reasons that made it appealing?
 
-Dave
+Alternatives in QEMU are qdev properties (which are internally QOM
+properties, but provide default implementations and are at least
+automatically read-only after realize, avoiding that whole class of
+bugs) and QAPI.
+If this was QEMU code, I would of course go for QAPI, but a library is
+something different and adding the code generator would probably be a
+bit too much anyway. But the idea in the resulting code would be dealing
+with native structs instead of a bunch of function calls. This would
+probably be the least error prone way for the implementation, but of
+course, it would make binary compatibility a bit harder when adding new
+properties.
 
-> @@ -693,4 +721,16 @@ void vu_queue_get_avail_bytes(VuDev *vdev, VuVirtq *vq, unsigned int *in_bytes,
->  bool vu_queue_avail_bytes(VuDev *dev, VuVirtq *vq, unsigned int in_bytes,
->                            unsigned int out_bytes);
->  
-> +/**
-> + * vu_fs_cache_request: Send a slave message for an fs client
-> + * @dev: a VuDev context
-> + * @req: The request type (map, unmap, sync)
-> + * @fd: an fd (only required for map, else must be -1)
-> + * @fsm: The body of the message
-> + *
-> + * Returns: 0 or above for success, nevative errno on error
-> + */
-> +int64_t vu_fs_cache_request(VuDev *dev, VhostUserSlaveRequest req, int fd,
-> +                            VhostUserFSSlaveMsg *fsm);
-> +
->  #endif /* LIBVHOST_USER_H */
-> -- 
-> 2.31.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thinking a bit further, we'll likely get the same problems as with QOM
+in other places, too, e.g. how do you introspect which properties exist
+in a given build?
+
+Kevin
+
+--bUxbtpLEQjw4SYOv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmCK1fQACgkQfwmycsiP
+L9YJYhAArSKbZvzJ4xqUXf++guf6rpZ6f6xiBWfeEG/kgTYtuDYWbOKTnVA0BbID
+A9pawuywfYVe6G7GYikR7EnPz7V3gZSGuMYQcdHPRjyi6GNOArprnYrblrbTpTWA
+8BXK9YfJIt/gGEAmydo8xgZR+iZ3oh/uwijJ5qqMdHpoHnB2vgVPu/2d5YwAsl5c
+msHXP+/YAiTx4Sm78IIKc439P2PY3Mh6UCz2ZHCKudcs3IjU+NBbYfe0ZvvtjRdl
+4M252GcEslG+ghfEg8lS+sVPLAE7Sa1aX7Nbdv25dRE0ZK8cUSPnOs8Cz/m8qM9e
+ePnJxqzMZkLvrEmUmXzbQL1IKPO78jINj4ntT2VKtofX+al7fpKl9d02w3QKe0iR
+MevcCa4NqN73gFB7mxkzsqQuD/HCUzi9P5UGqqQ6dZHYBz6EKau4qRm10tAYsepZ
+7QktKYqAgV+DMFDbNgSzjeFkdLwrkS5CRrojpwsmt8zTCYzeM0RXuA9crBSbbmDJ
+8wEsXfdzDXqeann5h9vkQdDKm1h18lbLO6OlMM/FSW/Ly3uhHOK9dX9ixe3Fe93l
+bNnw6/5yHrcT1nZQFqv34HjfbFOLIIfVmuAfqcp3xLizqf76PG5uUlrZnrBDhHLq
+VAdfffcWBlv0su6HEpW6t8eqCwXrQZOoTc8cY1AvG12QXVvE7bs=
+=8fSE
+-----END PGP SIGNATURE-----
+
+--bUxbtpLEQjw4SYOv--
 
 
