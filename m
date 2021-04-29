@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31CC36E9A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 13:35:12 +0200 (CEST)
-Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41F336E9AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 13:37:31 +0200 (CEST)
+Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc4wp-0004gH-Uf
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 07:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58522)
+	id 1lc4z5-0006Uj-4b
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 07:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4pm-0007wM-DI
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29598)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4q7-0008Vz-1X
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:28:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4pk-0003Vv-9e
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:27:54 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4q5-0003ii-4i
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:28:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619695671;
+ s=mimecast20190719; t=1619695692;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UNce5xZGYwSY6mhN845V4iwjhXo75SIJ2plRmjN8C/4=;
- b=g3EA8tYAjo4TzR3DGeXLk/QdmMItbfyutoZPY5MPCZ6K8+S5p+G107QCu+ns0M45APmgXp
- mHSImTMJ/5/EIMmPwX6p1A+T5MPY4S7rpqvbEv5ft7GpYQPU2ujqKBoCiPbo8+9iEVULAM
- LOQETDsFdS7CRLHvkFuh/vh5pDZGihA=
+ bh=7PW44Lst8XBAAdn5kkQIDnWPWN8/Rz050wyZ5Uvo4x0=;
+ b=ShSts4c9gVTIE/P9kXT0lR7cqjV8+Lh+0OAMfVZUPbtGbuOfPSLdME6LtoLsLPnm48Px6j
+ 2JFr4YgckJokSDgmpZWgT7MLrXPkbgujlipWooQYo85dwQDTjA5TKPGG6/XJ4zyXU6TwL0
+ voXOK4oG5b6bCdB7nFq9t7O0Qble02I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-5Pvl26hHO4OBYFbRkMiEmQ-1; Thu, 29 Apr 2021 07:27:50 -0400
-X-MC-Unique: 5Pvl26hHO4OBYFbRkMiEmQ-1
+ us-mta-588-1UbaSJttMsa2-hkT9Sr_yQ-1; Thu, 29 Apr 2021 07:28:10 -0400
+X-MC-Unique: 1UbaSJttMsa2-hkT9Sr_yQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DF1A8042A6;
- Thu, 29 Apr 2021 11:27:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C4A36D50F;
+ Thu, 29 Apr 2021 11:28:09 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-50.ams2.redhat.com [10.36.114.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C705F67CC4;
- Thu, 29 Apr 2021 11:27:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7E4D67879;
+ Thu, 29 Apr 2021 11:27:51 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/10] numa: Teach ram block notifiers about resizeable ram
- blocks
-Date: Thu, 29 Apr 2021 13:27:00 +0200
-Message-Id: <20210429112708.12291-3-david@redhat.com>
+Subject: [PATCH v5 04/10] migration/ram: Handle RAM block resizes during
+ precopy
+Date: Thu, 29 Apr 2021 13:27:02 +0200
+Message-Id: <20210429112708.12291-5-david@redhat.com>
 In-Reply-To: <20210429112708.12291-1-david@redhat.com>
 References: <20210429112708.12291-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URG_BIZ=0.573 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,324 +78,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paul Durrant <paul@xen.org>, Juan Quintela <quintela@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, haxm-team@intel.com,
- Wenchao Wang <wenchao.wang@intel.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Colin Xu <colin.xu@intel.com>
+ Juan Quintela <quintela@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ram block notifiers are currently not aware of resizes. To properly
-handle resizes during migration, we want to teach ram block notifiers about
-resizeable ram.
+Resizing while migrating is dangerous and does not work as expected.
+The whole migration code works on the usable_length of ram blocks and does
+not expect this to change at random points in time.
 
-Introduce the basic infrastructure but keep using max_size in the
-existing notifiers. Supply the max_size when adding and removing ram
-blocks. Also, notify on resizes.
+In the case of precopy, the ram block size must not change on the source,
+after syncing the RAM block list in ram_save_setup(), so as long as the
+guest is still running on the source.
 
-Acked-by: Paul Durrant <paul@xen.org>
+Resizing can be trigger *after* (but not during) a reset in
+ACPI code by the guest
+- hw/arm/virt-acpi-build.c:acpi_ram_update()
+- hw/i386/acpi-build.c:acpi_ram_update()
+
+Use the ram block notifier to get notified about resizes. Let's simply
+cancel migration and indicate the reason. We'll continue running on the
+source. No harm done.
+
+Update the documentation. Postcopy will be handled separately.
+
 Reviewed-by: Peter Xu <peterx@redhat.com>
-Cc: xen-devel@lists.xenproject.org
-Cc: haxm-team@intel.com
-Cc: Paul Durrant <paul@xen.org>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Wenchao Wang <wenchao.wang@intel.com>
-Cc: Colin Xu <colin.xu@intel.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/core/numa.c             | 22 +++++++++++++++++-----
- hw/i386/xen/xen-mapcache.c |  7 ++++---
- include/exec/ramlist.h     | 13 +++++++++----
- softmmu/physmem.c          | 12 ++++++++++--
- target/i386/hax/hax-mem.c  |  5 +++--
- target/i386/sev.c          | 18 ++++++++++--------
- util/vfio-helpers.c        | 16 ++++++++--------
- 7 files changed, 61 insertions(+), 32 deletions(-)
+ include/exec/memory.h | 10 ++++++----
+ migration/migration.c |  9 +++++++--
+ migration/migration.h |  1 +
+ migration/ram.c       | 31 +++++++++++++++++++++++++++++++
+ softmmu/physmem.c     |  5 +++--
+ 5 files changed, 48 insertions(+), 8 deletions(-)
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 7f08c27a6d..921bf86ab4 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -806,11 +806,12 @@ void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms)
- static int ram_block_notify_add_single(RAMBlock *rb, void *opaque)
- {
-     const ram_addr_t max_size = qemu_ram_get_max_length(rb);
-+    const ram_addr_t size = qemu_ram_get_used_length(rb);
-     void *host = qemu_ram_get_host_addr(rb);
-     RAMBlockNotifier *notifier = opaque;
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 5728a681b2..c8b9088924 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -131,7 +131,7 @@ typedef struct IOMMUTLBEvent {
+ #define RAM_SHARED     (1 << 1)
  
-     if (host) {
--        notifier->ram_block_added(notifier, host, max_size);
-+        notifier->ram_block_added(notifier, host, size, max_size);
-     }
-     return 0;
+ /* Only a portion of RAM (used_length) is actually used, and migrated.
+- * This used_length size can change across reboots.
++ * Resizing RAM while migrating can result in the migration being canceled.
+  */
+ #define RAM_RESIZEABLE (1 << 2)
+ 
+@@ -955,7 +955,9 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+  *                                     RAM.  Accesses into the region will
+  *                                     modify memory directly.  Only an initial
+  *                                     portion of this RAM is actually used.
+- *                                     The used size can change across reboots.
++ *                                     Changing the size while migrating
++ *                                     can result in the migration being
++ *                                     canceled.
+  *
+  * @mr: the #MemoryRegion to be initialized.
+  * @owner: the object that tracks the region's reference count
+@@ -1586,8 +1588,8 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr);
+ 
+ /* memory_region_ram_resize: Resize a RAM region.
+  *
+- * Only legal before guest might have detected the memory size: e.g. on
+- * incoming migration, or right after reset.
++ * Resizing RAM while migrating can result in the migration being canceled.
++ * Care has to be taken if the guest might have already detected the memory.
+  *
+  * @mr: a memory region created with @memory_region_init_resizeable_ram.
+  * @newsize: the new size the region
+diff --git a/migration/migration.c b/migration/migration.c
+index 8ca034136b..2dea8e2fc6 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -223,13 +223,18 @@ void migration_object_init(void)
+     dirty_bitmap_mig_init();
  }
-@@ -827,20 +828,31 @@ void ram_block_notifier_remove(RAMBlockNotifier *n)
-     QLIST_REMOVE(n, next);
+ 
++void migration_cancel(void)
++{
++    migrate_fd_cancel(current_migration);
++}
++
+ void migration_shutdown(void)
+ {
+     /*
+      * Cancel the current migration - that will (eventually)
+      * stop the migration using this structure
+      */
+-    migrate_fd_cancel(current_migration);
++    migration_cancel();
+     object_unref(OBJECT(current_migration));
+ 
+     /*
+@@ -2310,7 +2315,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+ 
+ void qmp_migrate_cancel(Error **errp)
+ {
+-    migrate_fd_cancel(migrate_get_current());
++    migration_cancel();
  }
  
--void ram_block_notify_add(void *host, size_t size)
-+void ram_block_notify_add(void *host, size_t size, size_t max_size)
- {
-     RAMBlockNotifier *notifier;
+ void qmp_migrate_continue(MigrationStatus state, Error **errp)
+diff --git a/migration/migration.h b/migration/migration.h
+index db6708326b..f7b388d718 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -375,5 +375,6 @@ int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque);
+ void migration_make_urgent_request(void);
+ void migration_consume_urgent_request(void);
+ bool migration_rate_limit(void);
++void migration_cancel(void);
  
-     QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
--        notifier->ram_block_added(notifier, host, size);
-+        notifier->ram_block_added(notifier, host, size, max_size);
-     }
- }
+ #endif
+diff --git a/migration/ram.c b/migration/ram.c
+index 4682f3625c..195fabbab0 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -53,6 +53,7 @@
+ #include "block.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpu-throttle.h"
++#include "sysemu/runstate.h"
+ #include "savevm.h"
+ #include "qemu/iov.h"
+ #include "multifd.h"
+@@ -4138,8 +4139,38 @@ static SaveVMHandlers savevm_ram_handlers = {
+     .resume_prepare = ram_resume_prepare,
+ };
  
--void ram_block_notify_remove(void *host, size_t size)
-+void ram_block_notify_remove(void *host, size_t size, size_t max_size)
- {
-     RAMBlockNotifier *notifier;
- 
-     QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
--        notifier->ram_block_removed(notifier, host, size);
-+        notifier->ram_block_removed(notifier, host, size, max_size);
++static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host,
++                                      size_t old_size, size_t new_size)
++{
++    ram_addr_t offset;
++    RAMBlock *rb = qemu_ram_block_from_host(host, false, &offset);
++    Error *err = NULL;
++
++    if (ramblock_is_ignored(rb)) {
++        return;
++    }
++
++    if (!migration_is_idle()) {
++        /*
++         * Precopy code on the source cannot deal with the size of RAM blocks
++         * changing at random points in time - especially after sending the
++         * RAM block sizes in the migration stream, they must no longer change.
++         * Abort and indicate a proper reason.
++         */
++        error_setg(&err, "RAM block '%s' resized during precopy.", rb->idstr);
++        migrate_set_error(migrate_get_current(), err);
++        error_free(err);
++        migration_cancel();
 +    }
 +}
 +
-+void ram_block_notify_resize(void *host, size_t old_size, size_t new_size)
-+{
-+    RAMBlockNotifier *notifier;
++static RAMBlockNotifier ram_mig_ram_notifier = {
++    .ram_block_resized = ram_mig_ram_block_resized,
++};
 +
-+    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-+        if (notifier->ram_block_resized) {
-+            notifier->ram_block_resized(notifier, host, old_size, new_size);
-+        }
-     }
+ void ram_mig_init(void)
+ {
+     qemu_mutex_init(&XBZRLE.lock);
+     register_savevm_live("ram", 0, 4, &savevm_ram_handlers, &ram_state);
++    ram_block_notifier_add(&ram_mig_ram_notifier);
  }
-diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
-index 5b120ed44b..d6dcea65d1 100644
---- a/hw/i386/xen/xen-mapcache.c
-+++ b/hw/i386/xen/xen-mapcache.c
-@@ -169,7 +169,8 @@ static void xen_remap_bucket(MapCacheEntry *entry,
- 
-     if (entry->vaddr_base != NULL) {
-         if (!(entry->flags & XEN_MAPCACHE_ENTRY_DUMMY)) {
--            ram_block_notify_remove(entry->vaddr_base, entry->size);
-+            ram_block_notify_remove(entry->vaddr_base, entry->size,
-+                                    entry->size);
-         }
-         if (munmap(entry->vaddr_base, entry->size) != 0) {
-             perror("unmap fails");
-@@ -211,7 +212,7 @@ static void xen_remap_bucket(MapCacheEntry *entry,
-     }
- 
-     if (!(entry->flags & XEN_MAPCACHE_ENTRY_DUMMY)) {
--        ram_block_notify_add(vaddr_base, size);
-+        ram_block_notify_add(vaddr_base, size, size);
-     }
- 
-     entry->vaddr_base = vaddr_base;
-@@ -452,7 +453,7 @@ static void xen_invalidate_map_cache_entry_unlocked(uint8_t *buffer)
-     }
- 
-     pentry->next = entry->next;
--    ram_block_notify_remove(entry->vaddr_base, entry->size);
-+    ram_block_notify_remove(entry->vaddr_base, entry->size, entry->size);
-     if (munmap(entry->vaddr_base, entry->size) != 0) {
-         perror("unmap fails");
-         exit(-1);
-diff --git a/include/exec/ramlist.h b/include/exec/ramlist.h
-index 26704aa3b0..ece6497ee2 100644
---- a/include/exec/ramlist.h
-+++ b/include/exec/ramlist.h
-@@ -65,15 +65,20 @@ void qemu_mutex_lock_ramlist(void);
- void qemu_mutex_unlock_ramlist(void);
- 
- struct RAMBlockNotifier {
--    void (*ram_block_added)(RAMBlockNotifier *n, void *host, size_t size);
--    void (*ram_block_removed)(RAMBlockNotifier *n, void *host, size_t size);
-+    void (*ram_block_added)(RAMBlockNotifier *n, void *host, size_t size,
-+                            size_t max_size);
-+    void (*ram_block_removed)(RAMBlockNotifier *n, void *host, size_t size,
-+                              size_t max_size);
-+    void (*ram_block_resized)(RAMBlockNotifier *n, void *host, size_t old_size,
-+                              size_t new_size);
-     QLIST_ENTRY(RAMBlockNotifier) next;
- };
- 
- void ram_block_notifier_add(RAMBlockNotifier *n);
- void ram_block_notifier_remove(RAMBlockNotifier *n);
--void ram_block_notify_add(void *host, size_t size);
--void ram_block_notify_remove(void *host, size_t size);
-+void ram_block_notify_add(void *host, size_t size, size_t max_size);
-+void ram_block_notify_remove(void *host, size_t size, size_t max_size);
-+void ram_block_notify_resize(void *host, size_t old_size, size_t new_size);
- 
- void ram_block_dump(Monitor *mon);
- 
 diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index bd2c0dc4ec..d6463f203d 100644
+index d6463f203d..4834003d47 100644
 --- a/softmmu/physmem.c
 +++ b/softmmu/physmem.c
-@@ -1810,6 +1810,7 @@ static int memory_try_enable_merging(void *addr, size_t len)
-  */
- int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
- {
-+    const ram_addr_t oldsize = block->used_length;
-     const ram_addr_t unaligned_size = newsize;
- 
-     assert(block);
-@@ -1846,6 +1847,11 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
-         return -EINVAL;
-     }
- 
-+    /* Notify before modifying the ram block and touching the bitmaps. */
-+    if (block->host) {
-+        ram_block_notify_resize(block->host, oldsize, newsize);
-+    }
-+
-     cpu_physical_memory_clear_dirty_range(block->offset, block->used_length);
-     block->used_length = newsize;
-     cpu_physical_memory_set_dirty_range(block->offset, block->used_length,
-@@ -2013,7 +2019,8 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
-             qemu_madvise(new_block->host, new_block->max_length,
-                          QEMU_MADV_DONTFORK);
-         }
--        ram_block_notify_add(new_block->host, new_block->max_length);
-+        ram_block_notify_add(new_block->host, new_block->used_length,
-+                             new_block->max_length);
-     }
+@@ -1801,8 +1801,9 @@ static int memory_try_enable_merging(void *addr, size_t len)
+     return qemu_madvise(addr, len, QEMU_MADV_MERGEABLE);
  }
  
-@@ -2192,7 +2199,8 @@ void qemu_ram_free(RAMBlock *block)
-     }
- 
-     if (block->host) {
--        ram_block_notify_remove(block->host, block->max_length);
-+        ram_block_notify_remove(block->host, block->used_length,
-+                                block->max_length);
-     }
- 
-     qemu_mutex_lock_ramlist();
-diff --git a/target/i386/hax/hax-mem.c b/target/i386/hax/hax-mem.c
-index 35495f5e82..8d44edbffd 100644
---- a/target/i386/hax/hax-mem.c
-+++ b/target/i386/hax/hax-mem.c
-@@ -293,7 +293,8 @@ static MemoryListener hax_memory_listener = {
-     .priority = 10,
- };
- 
--static void hax_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
-+static void hax_ram_block_added(RAMBlockNotifier *n, void *host, size_t size,
-+                                size_t max_size)
- {
-     /*
-      * We must register each RAM block with the HAXM kernel module, or
-@@ -304,7 +305,7 @@ static void hax_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
-      * host physical pages for the RAM block as part of this registration
-      * process, hence the name hax_populate_ram().
-      */
--    if (hax_populate_ram((uint64_t)(uintptr_t)host, size) < 0) {
-+    if (hax_populate_ram((uint64_t)(uintptr_t)host, max_size) < 0) {
-         fprintf(stderr, "HAX failed to populate RAM\n");
-         abort();
-     }
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 72b9e2ab40..9cfe5afe31 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -181,7 +181,8 @@ sev_set_guest_state(SevGuestState *sev, SevState new_state)
- }
- 
- static void
--sev_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
-+sev_ram_block_added(RAMBlockNotifier *n, void *host, size_t size,
-+                    size_t max_size)
- {
-     int r;
-     struct kvm_enc_region range;
-@@ -198,19 +199,20 @@ sev_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
-     }
- 
-     range.addr = (__u64)(unsigned long)host;
--    range.size = size;
-+    range.size = max_size;
- 
--    trace_kvm_memcrypt_register_region(host, size);
-+    trace_kvm_memcrypt_register_region(host, max_size);
-     r = kvm_vm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_REG_REGION, &range);
-     if (r) {
-         error_report("%s: failed to register region (%p+%#zx) error '%s'",
--                     __func__, host, size, strerror(errno));
-+                     __func__, host, max_size, strerror(errno));
-         exit(1);
-     }
- }
- 
- static void
--sev_ram_block_removed(RAMBlockNotifier *n, void *host, size_t size)
-+sev_ram_block_removed(RAMBlockNotifier *n, void *host, size_t size,
-+                      size_t max_size)
- {
-     int r;
-     struct kvm_enc_region range;
-@@ -227,13 +229,13 @@ sev_ram_block_removed(RAMBlockNotifier *n, void *host, size_t size)
-     }
- 
-     range.addr = (__u64)(unsigned long)host;
--    range.size = size;
-+    range.size = max_size;
- 
--    trace_kvm_memcrypt_unregister_region(host, size);
-+    trace_kvm_memcrypt_unregister_region(host, max_size);
-     r = kvm_vm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_UNREG_REGION, &range);
-     if (r) {
-         error_report("%s: failed to unregister region (%p+%#zx)",
--                     __func__, host, size);
-+                     __func__, host, max_size);
-     }
- }
- 
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 92b9565797..911115b86e 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -459,26 +459,26 @@ fail_container:
-     return ret;
- }
- 
--static void qemu_vfio_ram_block_added(RAMBlockNotifier *n,
--                                      void *host, size_t size)
-+static void qemu_vfio_ram_block_added(RAMBlockNotifier *n, void *host,
-+                                      size_t size, size_t max_size)
- {
-     QEMUVFIOState *s = container_of(n, QEMUVFIOState, ram_notifier);
-     int ret;
- 
--    trace_qemu_vfio_ram_block_added(s, host, size);
--    ret = qemu_vfio_dma_map(s, host, size, false, NULL);
-+    trace_qemu_vfio_ram_block_added(s, host, max_size);
-+    ret = qemu_vfio_dma_map(s, host, max_size, false, NULL);
-     if (ret) {
--        error_report("qemu_vfio_dma_map(%p, %zu) failed: %s", host, size,
-+        error_report("qemu_vfio_dma_map(%p, %zu) failed: %s", host, max_size,
-                      strerror(-ret));
-     }
- }
- 
--static void qemu_vfio_ram_block_removed(RAMBlockNotifier *n,
--                                        void *host, size_t size)
-+static void qemu_vfio_ram_block_removed(RAMBlockNotifier *n, void *host,
-+                                        size_t size, size_t max_size)
- {
-     QEMUVFIOState *s = container_of(n, QEMUVFIOState, ram_notifier);
-     if (host) {
--        trace_qemu_vfio_ram_block_removed(s, host, size);
-+        trace_qemu_vfio_ram_block_removed(s, host, max_size);
-         qemu_vfio_dma_unmap(s, host);
-     }
- }
+-/* Only legal before guest might have detected the memory size: e.g. on
+- * incoming migration, or right after reset.
++/*
++ * Resizing RAM while migrating can result in the migration being canceled.
++ * Care has to be taken if the guest might have already detected the memory.
+  *
+  * As memory core doesn't know how is memory accessed, it is up to
+  * resize callback to update device state and/or add assertions to detect
 -- 
 2.30.2
 
