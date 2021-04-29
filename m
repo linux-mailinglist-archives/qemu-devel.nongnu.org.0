@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F4336E8F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:37:35 +0200 (CEST)
-Received: from localhost ([::1]:60686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C8936E8D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:32:39 +0200 (CEST)
+Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc434-0002J2-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:37:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
+	id 1lc3yI-0007Hx-CW
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:32:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc41H-0001T8-My
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:35:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35074)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lc3wU-00062z-VF
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:30:46 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc41F-00078v-H3
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:35:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lc41E-0005Au-Bq
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:35:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 53F762E8030
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:35:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lc3wT-0004PI-Bf
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:30:46 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id w3so99138756ejc.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 03:30:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WZMW8rZa8JiefjVoIlMAdTAnYotZua4qnNl5p8AWfUw=;
+ b=WI8YMImP/2k3+kjiVFMIlu1T7ogXDrRIb7Dv1sf5gnhjt5z7005WScXDGkGxiO1BKg
+ mCrvq2JPWEWUpv9RlArWAoatAZKzusccODbpyusP5JfENxFvWQzBQc5thI8ZfD9Rw+by
+ O4NaHdpzPueoyti7XTz34FLLxInkJyI+PeurRKF39nLVGAkNV3cdu5ujHJWyYQdej9bB
+ fcLuNqWHBCBstPE8NWjr73fsN6d94+UbfU5YfwaEZIz9myAEdCVVCZg0vBfIIRfoZXvF
+ J4lkzTPZXwl1KRs+ScSsDLbFCIxWhBGDTj2VqnIthPCXF43nO8wLn++TZGW3TyJu3vYg
+ FpaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WZMW8rZa8JiefjVoIlMAdTAnYotZua4qnNl5p8AWfUw=;
+ b=XbeG3AuPXFkKjMVjLregKmXNkWJElbxfBwP/Bor1fwkU9hJSlHYYAxVqAF4i2QNJaJ
+ 5Cs3oUaZuQJzmsab7gbxC42ndiJFYBXP80o3TZVIWT7c1DAvWo0whSjLJAjsnv19PTgs
+ VFi/NRUYWCPJ3qmklHg+qsUrAS85D2hYidPjChff0hXooqp8/H9e01nWESFHIWKujcwD
+ OJmyVwk7siMR9YcI8ld9EPQAD7WzpTAKGzvqZZALwf2D0gNRsChAMmsMHR5gzTrGY856
+ rYnK63z4eSN20RWLOpe5gQgg8+YhrUeFq1v/5aMO7tnM1GtTOzW4fpbLYOzFuFqpfbBE
+ FRKQ==
+X-Gm-Message-State: AOAM532uK8O6FzvfobdVV0/Lo6zxBhTbQ+QnWMncC/ua2KFMMwaNuixa
+ +ikIa5RRKBzZuazfIS034CVLkCBm8fR00MI2hh0u067gENc=
+X-Google-Smtp-Source: ABdhPJxSZbTFDW1+kDEGTfEEmJxVbInI4zPoMbJc+0vza1Losno+IRcc0kSiAgk6kyc6X/0NDvZa+yUq6s47jIeCIaw=
+X-Received: by 2002:a17:906:8303:: with SMTP id
+ j3mr34107303ejx.85.1619692243165; 
+ Thu, 29 Apr 2021 03:30:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <87y2d1csxe.fsf@dusky.pond.sub.org>
+ <20210429101842.hupkajdlkttq6l4v@sirius.home.kraxel.org>
+ <YIqJY1Z4jqruCu17@redhat.com>
+In-Reply-To: <YIqJY1Z4jqruCu17@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Apr 2021 11:29:42 +0100
+Message-ID: <CAFEAcA-_UTcs-XgPD6OLnKBUYJ9xnYRg9FAorinxejp7XZCxpQ@mail.gmail.com>
+Subject: Re: Let's remove some deprecated stuff
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 10:26:01 -0000
-From: Thomas Huth <1883560@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: build linux-user mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159223432851.7281.13140123017230519248.malonedeb@gac.canonical.com>
-Message-Id: <161969196203.3730.5874967706687329312.malone@chaenomeles.canonical.com>
-Subject: [Bug 1883560] Re: mips linux-user builds occasionly crash randomly
- only to be fixed by a full clean re-build
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 50624cffb38f880c19cbc9a9269504a241c8ac19
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,71 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883560 <1883560@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
+ Robert Hoo <robert.hu@linux.intel.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Does this problem still persist after we've switched the build system to
-meson?
+On Thu, 29 Apr 2021 at 11:28, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+>
+> On Thu, Apr 29, 2021 at 12:18:42PM +0200, Gerd Hoffmann wrote:
+> >   Hi,
+> >
+> > >     ``QEMU_AUDIO_`` environment variables and ``-audio-help`` (since =
+4.0)
+> > >     Creating sound card devices and vnc without ``audiodev=3D`` prope=
+rty (since 4.2)
+> > >     Creating sound card devices using ``-soundhw`` (since 5.1)
+> >
+> > I think these three should be dropped together, to minimize disruption.
+> >
+> > Where do we strand in terms of libvirt support?  IIRC audiodev=3D suppo=
+rt
+> > in libvirt is rather recent (merged this year).  I'd tend to wait a bit
+> > longer because of that.
+> >
+> > Daniel?
+>
+> Libvirt added supoort for -audio in 7.2.0, release April 4th, so only
+> one month ago.
+>
+> If we drop the features in QEMU in this dev cycle though, this won't
+> impact most users until QEMU 6.1 releases in mid August. I'm perfectly
+> ok with people who use unreleased QEMU git master needing to update
+> their libvirt. The final release date is far enough away that distros
+> will have had new enough libvirt for a good while.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+It does feel to me that dropping the old options now would be being
+a bit over-eager, though. The deprecation cycle time is a minimum, not
+a target :-)
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883560
-
-Title:
-  mips linux-user builds occasionly crash randomly only to be fixed by a
-  full clean re-build
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  From time to time I find check-tcg crashes with a one of the MIPS
-  binaries. The last time it crashed was running the test:
-
-    ./mips64el-linux-user/qemu-mips64el ./tests/tcg/mips64el-linux-
-  user/threadcount
-
-  Inevitably after some time noodling around wondering what could be
-  causing this weird behaviour I wonder if it is a build issue. I wipe
-  all the mips* build directories, re-run configure and re-build and
-  voila problem goes away.
-
-  It seems there must be some sort of build artefact which isn't being
-  properly re-generated on a build update which causes weird problems.
-  Additional data point if I:
-
-    rm -rf mips64el-linux-user
-    ../../configure
-    make
-
-  then I see failures in mip32 builds - eg:
-
-      GEN     mipsn32el-linux-user/config-target.h
-    In file included from /home/alex/lsrc/qemu.git/linux-user/syscall_defs.=
-h:10,
-                     from /home/alex/lsrc/qemu.git/linux-user/qemu.h:16,
-                     from /home/alex/lsrc/qemu.git/linux-user/linuxload.c:5:
-    /home/alex/lsrc/qemu.git/linux-user/mips64/syscall_nr.h:1: error: unter=
-minated #ifndef
-     #ifndef LINUX_USER_MIPS64_SYSCALL_NR_H
-
-    make[1]: *** [/home/alex/lsrc/qemu.git/rules.mak:69: linux-user/linuxlo=
-ad.o] Error 1
-    make[1]: *** Waiting for unfinished jobs....
-
-  which implies there is a cross dependency between different targets
-  somewhere. If I executed:
-
-    rm -rf mips*
-
-  before re-configuring and re-building then everything works again.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883560/+subscriptions
+-- PMM
 
