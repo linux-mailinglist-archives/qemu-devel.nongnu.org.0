@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09FF36ECC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:51:07 +0200 (CEST)
-Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A9236ECC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:52:04 +0200 (CEST)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc80Q-0008K0-CI
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
+	id 1lc81L-0000z7-OC
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lc7yx-0007m3-KK
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:49:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lc7yu-0000Ql-Ol
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:49:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619707771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0rc3Wuy8myfd+WAAAaS7nBg4EOyvnzksGfg3Qb5zljI=;
- b=S43GQ6zNf6yrGJa2gCulWeSFhPP5qobnlH3SnkaPq8ot6GeyCWoS3/EU7sNypsZQWAHNyS
- nKN2o0MzYmHWBBEjRegYQW7KaULynPC/1rLEQHKpoYhGUILdfIG6YYYgB1ri94Xg+gc7Mv
- +G0kSAuGhY8S0j/6zXiyrwXzVHSxJLk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-w7LSY9VeN_6C9HaKMw80GA-1; Thu, 29 Apr 2021 10:49:18 -0400
-X-MC-Unique: w7LSY9VeN_6C9HaKMw80GA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13E6F1009607;
- Thu, 29 Apr 2021 14:49:17 +0000 (UTC)
-Received: from localhost (ovpn-115-28.ams2.redhat.com [10.36.115.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E8FA19726;
- Thu, 29 Apr 2021 14:49:15 +0000 (UTC)
-Date: Thu, 29 Apr 2021 15:49:14 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: Let's remove some deprecated stuff
-Message-ID: <YIrHanNiZV0ikQ6g@stefanha-x1.localdomain>
-References: <87y2d1csxe.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lc801-0008Rh-LF
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:50:41 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lc7zz-0001DS-0U
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:50:41 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t18so9652657wry.1
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 07:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=cw61hbwST9sLc+VSI4Gm/Qb3TWC0JxioRAzm3gTOqCU=;
+ b=zPjah97b54tdTpx4hIOpkUbk36rpR9LsFS6DToV1xRzKtlhQt561KpHGmD9RBeotpn
+ 2np5pwJfRBWP9zRW2VG5zquQyJMdQDyNztjscxWq1IanJ6FDCGOnCp+mBYBlPLOmZkBo
+ 2XmZW7GCleArDtUH2mloh2dYDthRfsnMXAtvFd6NPVmpz7+LFrJoix3yuVVstCEGeKxp
+ UrpRZL9TucGaeliqUz9Ggy18WGcW2uY0LEJLFYACoGwL1YnEE7HmUhk//m1jS2wRCHuv
+ SpTsSNk/bxlqJYUuTKeIYAsPZUSX6S0f0S8EwVCIyjTRS84H7Zg1d7izOeYW5UzKb2ei
+ ns4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=cw61hbwST9sLc+VSI4Gm/Qb3TWC0JxioRAzm3gTOqCU=;
+ b=DPR29MahNzV2iQ46ve+2iIcikKGtNeYxtTUAvAAt07HGgtExMPsJ9iQflMqVKLILoT
+ lE8/8d/O0dbdMe2duTyDBBUvtvaqG6QdmtivEk8nu0udVUsPn23x5iFuGgBK6BSy56D7
+ jGkx3pjHtfVAiXYcwv5G5Fb/nERxjuF0ILf+k3JQkZIPueVpuZ06XajZMWXEs+mByaac
+ aXl0xPlOXQwQi3E7biQZjZpM28a01t8NDx76hDfmQxMA0+yF2lj2QRfAVRr2jrHhYUBP
+ SQ+2OFQfk0XWsPF//UGGNs7rsg2DQmc6eUt5g9qXLsv0HwazqCwx/C9CQ4ShHOB3F50i
+ 5LiA==
+X-Gm-Message-State: AOAM530sLl1wRmc3Rh3q4FMzvPWDugIitnTV9eI64vjHTb3vY4Z2FIKR
+ MNxKWn0fw1/5Hp4nh/uql9gwEA==
+X-Google-Smtp-Source: ABdhPJyET3DrUWGr35oZQiWAIZpHb12LFe/xbwIl/c7YnGAp1dsSK5/4ghBRXyta1CRnAJWayu2mWg==
+X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr159412wrz.105.1619707837189;
+ Thu, 29 Apr 2021 07:50:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v13sm5337904wrt.65.2021.04.29.07.50.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Apr 2021 07:50:36 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 56D871FF7E;
+ Thu, 29 Apr 2021 15:50:35 +0100 (BST)
+References: <20210415163304.4120052-1-philmd@redhat.com>
+ <20210415163304.4120052-3-philmd@redhat.com>
+User-agent: mu4e 1.5.12; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 02/12] accel: Introduce 'query-accels' QMP command
+Date: Thu, 29 Apr 2021 15:50:25 +0100
+In-reply-to: <20210415163304.4120052-3-philmd@redhat.com>
+Message-ID: <87tunpw3es.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87y2d1csxe.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eADlaK3KKVn08JQ/"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,60 +87,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Robert Hoo <robert.hu@linux.intel.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- dirty.ice.hu@gmail.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---eADlaK3KKVn08JQ/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 29, 2021 at 11:59:41AM +0200, Markus Armbruster wrote:
-> Stefan Hajnoczi:
->=20
->     ``-device virtio-blk,scsi=3Don|off`` (since 5.0.0)
->     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->=20
->     The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  =
-VIRTIO 1.0
->     and later do not support it because the virtio-scsi device was introd=
-uced for
->     full SCSI support.  Use virtio-scsi instead when SCSI passthrough is =
-required.
->=20
->     Note this also applies to ``-device virtio-blk-pci,scsi=3Don|off``, w=
-hich is an
->     alias.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Thanks for sending this reminder!
+> Introduce the 'query-accels' QMP command which returns a list
+> of built-in accelerator names.
+>
+> - Accelerator is a QAPI enum of all existing accelerators,
+>
+> - AcceleratorInfo is a QAPI structure providing accelerator
+>   specific information. Currently the common structure base
+>   provides the name of the accelerator, while the specific
+>   part is empty, but each accelerator can expand it.
+>
+> - 'query-accels' QMP command returns a list of @AcceleratorInfo
+>
+> For example on a KVM-only build we get:
+>
+>     { "execute": "query-accels" }
+>     {
+>         "return": [
+>             {
+>                 "name": "qtest"
+>             },
+>             {
+>                 "name": "kvm"
+>             }
+>         ]
+>     }
+>
+> Note that we can't make the enum values or union branches conditional
+> because of target-specific poisoning of accelerator definitions.
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-I'm writing a patch to remove this and if nothing breaks I'll send it
-for QEMU 6.1.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Stefan
-
---eADlaK3KKVn08JQ/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCKx2kACgkQnKSrs4Gr
-c8hLmwgAghy+wEjZjwbPFLK7R05xZAHn3h+I0RmcS/z80jmDUJ/yc9pHMf5q9HsA
-wFoKPTOsCzAEcfpkrq9bcHi1ILaXwSQT2OdP7qLf/Fm9FwuDiUF3sOXZrx2WzHzH
-yQfJG2Lz5uCx4P4GTR9xgvOrQFArV9mUinmf4EDzQxojBt3pZTvlEVMcBzkJeEt2
-ZBWwWB9JawY6irx9vZKZ5cHYIPJIeP//Axlpz5OWAXgzgDz0R3aKDotdesVu2cNg
-sPgOFTbmUPe3tdoIh2QrLUtZVEpWGC7M3Ic7r1Apty4LHEJOq/sfsFXJeB8o4gjP
-6+e8rc51XFFFjYHQT/+P9b6dAHeiuw==
-=gk6Q
------END PGP SIGNATURE-----
-
---eADlaK3KKVn08JQ/--
-
+--=20
+Alex Benn=C3=A9e
 
