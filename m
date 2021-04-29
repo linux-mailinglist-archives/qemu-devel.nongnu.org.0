@@ -2,67 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF6936E842
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 11:57:02 +0200 (CEST)
-Received: from localhost ([::1]:56428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4342736E83F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 11:56:41 +0200 (CEST)
+Received: from localhost ([::1]:54766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc3Pp-0000lD-Rc
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 05:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37960)
+	id 1lc3PT-0008WC-QR
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 05:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3Ob-0008Nd-Ac
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:55:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3OY-0000pd-Ua
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:55:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lc3OX-0000in-5L
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 09:55:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 275D22E804C
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 09:55:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc3O8-0007wO-Fy
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:55:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc3O4-0000Rw-DX
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 05:55:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619690111;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j+T2I4FvIa6RhcZsuDUflbflDG/hk7WctC0CKh+Wa90=;
+ b=GZgabzScmiS81KqWjVbEWz8/HFXLcrhtezyxQ5GNc/kZP8AhQAZVBPXZeXdpXGKKMlWYUq
+ MXitE+F1+GZM8mrbJguk1a5hOGhM1TsUQpHLFPJR/ThaOPSHaMNvbFn+e7JtIjNKHzzf2g
+ CtycFqHbF+2dlERW2d0QoUsOU4ucFH8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-s1J6rDbsO-y_dpXbSHPkNg-1; Thu, 29 Apr 2021 05:55:04 -0400
+X-MC-Unique: s1J6rDbsO-y_dpXbSHPkNg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 60-20020adf85420000b0290109440de5e9so8133538wrh.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 02:55:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j+T2I4FvIa6RhcZsuDUflbflDG/hk7WctC0CKh+Wa90=;
+ b=duaTG/ePX8GbECKn33WCw9D48M/nWJqyGPX297ofvtFaMggo3oOugdJU30AAu4wjyf
+ LmWZ6ur9F/8o+ehfJmLuLIFe61NbVJCagv42nb/rpdQGQ36sdW8V1MTf0yoM6ra4pubO
+ hIVfFUV4BlV7B3vZM/HeUkFoPgs8detVzMoNxAOP4qUUHNoKx2sKabd0SW2NRYC4kQXk
+ vbKOlGf5LuwwzZXV10w4I5sRLJK7nnmWgZW9gIxRS51qLNqU3l7Z9PkA60+CA0UVAnbu
+ SR4iQN+Ibpj0++uhJFrEEbVKPtUIw69n73ju5RY73/leVMSuQeDV2Jb0T1Nz+7G+yXKZ
+ KW8Q==
+X-Gm-Message-State: AOAM530GsdFkeAqIvDX0KVdsrzPTY/Q/JH4rzLJ+4pugr9LJwOuH+psD
+ bQpGfwI4VkpVyykDxBg6xikfKUPNKAx6afNG4WgFQ7EbIEeb2Db/eGPkk/bTnONexazpZxM6oZJ
+ naQU3Lf5wjqYIJTw=
+X-Received: by 2002:a5d:4d86:: with SMTP id b6mr1350364wru.387.1619690103161; 
+ Thu, 29 Apr 2021 02:55:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKjKziVr59pnn7b/7z+eGCfuE1fvPbYiXky86iEuLvvLAwJ/3Qtj3E3AwHaytb8VzN4ernVQ==
+X-Received: by 2002:a5d:4d86:: with SMTP id b6mr1350327wru.387.1619690102931; 
+ Thu, 29 Apr 2021 02:55:02 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id e12sm3843731wrt.51.2021.04.29.02.55.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Apr 2021 02:55:02 -0700 (PDT)
+Subject: Re: [PATCH] meson: change buildtype when debug_info=no
+To: Joelle van Dyne <j@getutm.app>
+References: <20210428195558.16960-1-j@getutm.app>
+ <dd5fc80e-c08a-95a5-57e9-28a123196eff@redhat.com>
+ <CA+E+eSD11QHWh5HUZT+74_1k3-KPAym09An6=8BtSKjROAY_fA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d68bafad-2618-dd60-bc9b-f5a85b6954aa@redhat.com>
+Date: Thu, 29 Apr 2021 11:55:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 09:50:13 -0000
-From: Thomas Huth <1916344@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: libslirp mac networking osx podman slirp user-mode
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: adamchappell imperialguy programmingkidx th-huth
-X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
-Message-Id: <161968981369.12516.1820257422922362263.launchpad@soybean.canonical.com>
-Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
- on Mac OS X host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: daf9b143ed47420f5142136a717f6062a05acbe7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CA+E+eSD11QHWh5HUZT+74_1k3-KPAym09An6=8BtSKjROAY_fA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,59 +100,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags removed: qemu
+On 4/29/21 9:33 AM, Joelle van Dyne wrote:
+> On Wed, Apr 28, 2021 at 10:07 PM Philippe Mathieu-Daudé
+> <philmd@redhat.com> wrote:
+>>
+>> On 4/28/21 9:55 PM, Joelle van Dyne wrote:
+>>> Meson defaults builds to 'debugoptimized' which adds '-g -O2'
+>>> to CFLAGS. If the user specifies '--disable-debug-info' we
+>>> should instead build with 'release' which does not emit any
+>>> debug info.
+>>>
+>>> Signed-off-by: Joelle van Dyne <j@getutm.app>
+>>> ---
+>>>  configure | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/configure b/configure
+>>> index 4f374b4889..5c3568cbc3 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -6398,6 +6398,7 @@ NINJA=$ninja $meson setup \
+>>>          --sysconfdir "$sysconfdir" \
+>>>          --localedir "$localedir" \
+>>>          --localstatedir "$local_statedir" \
+>>> +        --buildtype $(if test "$debug_info" = yes; then echo "debugoptimized"; else echo "release"; fi) \
+>>
+>> NAck. You are changing the default (which is 'debug') to 'release'.
+> 
+> I thought 'debugoptimized' was the default? From my build logs,
+> there's always '-g -O2' which is why I needed to make this change. The
+> default for 'debug_info' is yes so this keeps it on 'debugoptimized'
+> and uses 'release' when explicitly disabling debug_info.
 
--- =
+Again, I'm not concerned between 'debugoptimized' VS 'debug',
+I'm worried to use 'release', because of the b_ndebug=if-release
+option which disable assertions (unsupported QEMU build mode).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916344
+Also, 'release' sets optimization=3 which isn't supported neither.
 
-Title:
-  User mode networking not working properly on QEMU on Mac OS X host
+Per https://mesonbuild.com/Builtin-options.html#build-type-options
 
-Status in QEMU:
-  New
+  All other combinations of debug and optimization set buildtype
+  to 'custom'.
 
-Bug description:
-  Steps to reproduce:
+So maybe this is what you want, with debug=false and optimization=2?
 
-  1. Install QEMU using homebrew on Mac OS X (I tried on Catalina and Big S=
-ur)
-  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
-  3. Install podman inside the guest
-  4. Run podman pull alpine
+> 
+>>
+>> This should be at least mentioned in the commit description, but
+>> I don't think this is what we want here. 'release' enables -O3,
+>> which is certainly not supported. The 'debug' profile is what we
+>> have been and are testing.
+>>
+>> I'd be OK if you had used "debugoptimized else debug".
+>>
+>> The mainstream project would rather use 'debug'/'debugoptimized', or
+>> 'minsize', which are already tested. We might consider allowing forks
+>> to use 'plain' profile eventually. But the 'release' type is an
+>> unsupported landmine IMHO.
+>>
+>> If you want to use something else, it should be an explicit argument
+>> to ./configure, then you are on your own IMO.
+> 
+> What do I need to avoid '-g'?
 
-  The result is:
+Why don't you simply use ./configure --extra-cflags='-g0 -O2'?
 
-  [root@localhost ~]# podman pull alpine
-  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
-es.conf)
-  Trying to pull docker.io/library/alpine:latest...
-  Getting image source signatures
-  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
-iB / 2.7MiB
-  =C2=A0=C2=A0unexpected EOF
-  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
-1171596/1": error happened during read: unexpected EOF
+Regards,
 
-  This is happening because QEMU is telling the guest that the TCP
-  connection is closed even before reading all the data from the host
-  socket and forwarding it to the guest.
+Phil.
 
-  This issue doesn't happen on a Linux host. So, that tells me that this
-  has something to do with QEMU installation on Mac OS X.
-
-  This could be a slirp related issue. So, QEMU/slirp may need to work
-  together on fixing this. Here's the link to the libslirp issue:
-
-  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
 
