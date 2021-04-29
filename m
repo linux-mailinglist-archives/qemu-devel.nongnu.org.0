@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A9236ECC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:52:04 +0200 (CEST)
-Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E020236ECCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:55:04 +0200 (CEST)
+Received: from localhost ([::1]:46952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc81L-0000z7-OC
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52214)
+	id 1lc84F-00030X-RB
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lc801-0008Rh-LF
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:50:41 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34519)
+ id 1lc81e-0001b4-7i
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:52:22 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lc7zz-0001DS-0U
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:50:41 -0400
-Received: by mail-wr1-x432.google.com with SMTP id t18so9652657wry.1
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 07:50:38 -0700 (PDT)
+ id 1lc81c-0002GJ-O9
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:52:21 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ o26-20020a1c4d1a0000b0290146e1feccdaso310194wmh.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 07:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=cw61hbwST9sLc+VSI4Gm/Qb3TWC0JxioRAzm3gTOqCU=;
- b=zPjah97b54tdTpx4hIOpkUbk36rpR9LsFS6DToV1xRzKtlhQt561KpHGmD9RBeotpn
- 2np5pwJfRBWP9zRW2VG5zquQyJMdQDyNztjscxWq1IanJ6FDCGOnCp+mBYBlPLOmZkBo
- 2XmZW7GCleArDtUH2mloh2dYDthRfsnMXAtvFd6NPVmpz7+LFrJoix3yuVVstCEGeKxp
- UrpRZL9TucGaeliqUz9Ggy18WGcW2uY0LEJLFYACoGwL1YnEE7HmUhk//m1jS2wRCHuv
- SpTsSNk/bxlqJYUuTKeIYAsPZUSX6S0f0S8EwVCIyjTRS84H7Zg1d7izOeYW5UzKb2ei
- ns4A==
+ bh=TfUYlS670S8Nq/PE6EUsCQtD4491n2sJaMMhtTeTDa4=;
+ b=L12cbGkxjMrMAJBqXswtc6gAT5NipffSJ9KHLjPqo1wCo01ufzEXjfvtQH3w3ZB3eo
+ MFCbLrFMF8Tdc2t0sdd1wOUTDrbC/0V8dcxPo4MkD1pLi5FUSkE2aDVw19xcWL00Rm1Z
+ bdyimfeh1hOzBoFvnhdg6U3/N2LuaeytD3IBGBqYGLteIWXUGIqpU29lM6x4N++pzeSu
+ 71asqzJg4g4/Lz90g7AdXoDzL4MUKyPRI7hJVL67Z2SZFEyaA2vmkeZfxq/9MTCbKNkP
+ GkflgN422m33v/lcbcHAkvaznoZWkK6VdXzDRTzDSbSHp8r7NPTqrvkG+QglcA85RRNh
+ 9WFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=cw61hbwST9sLc+VSI4Gm/Qb3TWC0JxioRAzm3gTOqCU=;
- b=DPR29MahNzV2iQ46ve+2iIcikKGtNeYxtTUAvAAt07HGgtExMPsJ9iQflMqVKLILoT
- lE8/8d/O0dbdMe2duTyDBBUvtvaqG6QdmtivEk8nu0udVUsPn23x5iFuGgBK6BSy56D7
- jGkx3pjHtfVAiXYcwv5G5Fb/nERxjuF0ILf+k3JQkZIPueVpuZ06XajZMWXEs+mByaac
- aXl0xPlOXQwQi3E7biQZjZpM28a01t8NDx76hDfmQxMA0+yF2lj2QRfAVRr2jrHhYUBP
- SQ+2OFQfk0XWsPF//UGGNs7rsg2DQmc6eUt5g9qXLsv0HwazqCwx/C9CQ4ShHOB3F50i
- 5LiA==
-X-Gm-Message-State: AOAM530sLl1wRmc3Rh3q4FMzvPWDugIitnTV9eI64vjHTb3vY4Z2FIKR
- MNxKWn0fw1/5Hp4nh/uql9gwEA==
-X-Google-Smtp-Source: ABdhPJyET3DrUWGr35oZQiWAIZpHb12LFe/xbwIl/c7YnGAp1dsSK5/4ghBRXyta1CRnAJWayu2mWg==
-X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr159412wrz.105.1619707837189;
- Thu, 29 Apr 2021 07:50:37 -0700 (PDT)
+ bh=TfUYlS670S8Nq/PE6EUsCQtD4491n2sJaMMhtTeTDa4=;
+ b=cPkX2An46mxyWLZZr3PFxDQZGZAM0gh11NAMsR3dLb28eL9Opp3jE7JoD4kPg5UG3y
+ VGdyPXe4ToiE+nVGuoqpXnVrWzB4p7/LPXAsOEyImF/BR3wl6NxCkzgVjjok/TY2llAy
+ EqxoKZscOOwa7gp6lZAzoNEk02OTSiv+jlzKPgYjmFNDVDVV1kZEMCJDLzFofy4GlkfH
+ cRfwKk/4gaY4WbbDFsBk0wekoTm7K94rPk6w0y9UTKslcAU07+4lci/3vwZdbC0o8dam
+ axBta+CESEEsuAYb9l3aO8vo4L0py4FA9TqFBPLKLOSHcJ4YZqJydtgQKA76T6XbwhQk
+ 56Rg==
+X-Gm-Message-State: AOAM532qeToG1biVToqrXF+PJWi8ilS1b9y0Uk8Y0TYhd0cJ1zlxcr+P
+ YtuIvaGLKbLx7OY7cOfrDFgt0g==
+X-Google-Smtp-Source: ABdhPJz+qgdIlQ42cas/5IbFy0hBkn2HBwswcDwMWsP6ML0pcCxJeJZOfn//cMdPBz1AT176p8Tjhg==
+X-Received: by 2002:a1c:f305:: with SMTP id q5mr10919257wmq.96.1619707939231; 
+ Thu, 29 Apr 2021 07:52:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v13sm5337904wrt.65.2021.04.29.07.50.35
+ by smtp.gmail.com with ESMTPSA id h14sm6551191wrq.45.2021.04.29.07.52.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 07:50:36 -0700 (PDT)
+ Thu, 29 Apr 2021 07:52:18 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 56D871FF7E;
- Thu, 29 Apr 2021 15:50:35 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 5C81A1FF7E;
+ Thu, 29 Apr 2021 15:52:17 +0100 (BST)
 References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-3-philmd@redhat.com>
+ <20210415163304.4120052-4-philmd@redhat.com>
 User-agent: mu4e 1.5.12; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 02/12] accel: Introduce 'query-accels' QMP command
-Date: Thu, 29 Apr 2021 15:50:25 +0100
-In-reply-to: <20210415163304.4120052-3-philmd@redhat.com>
-Message-ID: <87tunpw3es.fsf@linaro.org>
+Subject: Re: [PATCH v4 03/12] tests/qtest: Add qtest_has_accel() method
+Date: Thu, 29 Apr 2021 15:52:12 +0100
+In-reply-to: <20210415163304.4120052-4-philmd@redhat.com>
+Message-ID: <87r1itw3by.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,40 +104,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> Introduce the 'query-accels' QMP command which returns a list
-> of built-in accelerator names.
->
-> - Accelerator is a QAPI enum of all existing accelerators,
->
-> - AcceleratorInfo is a QAPI structure providing accelerator
->   specific information. Currently the common structure base
->   provides the name of the accelerator, while the specific
->   part is empty, but each accelerator can expand it.
->
-> - 'query-accels' QMP command returns a list of @AcceleratorInfo
->
-> For example on a KVM-only build we get:
->
->     { "execute": "query-accels" }
->     {
->         "return": [
->             {
->                 "name": "qtest"
->             },
->             {
->                 "name": "kvm"
->             }
->         ]
->     }
->
-> Note that we can't make the enum values or union branches conditional
-> because of target-specific poisoning of accelerator definitions.
+> Introduce the qtest_has_accel() method which allows a runtime
+> query on whether a QEMU instance has an accelerator built-in.
 >
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
