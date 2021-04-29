@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E5E36E616
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:34:51 +0200 (CEST)
-Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB1E36E64B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:52:38 +0200 (CEST)
+Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc1CE-0004U3-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:34:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
+	id 1lc1TR-0008SJ-9f
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lc1B2-0003El-VE
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:33:36 -0400
-Received: from mail-il1-f180.google.com ([209.85.166.180]:35358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lc1B1-00076K-89
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:33:36 -0400
-Received: by mail-il1-f180.google.com with SMTP id r5so13442730ilb.2
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:33:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc1SU-00080u-CC
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:51:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38248)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc1SP-0001El-G2
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:51:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619682691;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=heO5W4cbihg1SmYjYVunw8HLQJ65Q7FWpRhEtNzao9M=;
+ b=OnbDsjgrvKaZHcI7mNBpaqcwTXdf9nq734AYLgv80QTePmBGpn/no52kEz7H38MYvuYdOB
+ jHmTVZ7vBLgzqyFAsnNZOhljuoZsXEGmKkROHXOPjXFRiL1mlGtadU5XKOHyKhhMru8kjO
+ DhYwVVeDPZT07rBVE3xfvV2GKEWkIQ4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-uD_V98x1MX-jt1CI7_U3LA-1; Thu, 29 Apr 2021 03:51:29 -0400
+X-MC-Unique: uD_V98x1MX-jt1CI7_U3LA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v2-20020a0560001622b0290106e28f8af8so21000680wrb.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:51:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=C+vVLwgt9+sFmJpK2KARylC2815+iplcbXpcHRsyeX4=;
- b=fS4vyRuGBuvgAcj9owVWxALJaKA/bGkRjYlCrfUD2k3sQeG4Rl5nGeCbqyKxmWvznZ
- R04SekahCVp1+POYvo1RgqcmcpOw4yYdm8Rc0j9sCHo2EjbpW+Wngnj+9POf5PFt0me9
- 7R5KCMS9Abhrz8uXHov0TK6XP1m2rGeA92sdsfplvvBPvMU6NhgjAs5L2JQh0zhvePHZ
- 9SwwGwRlAvfmUPw8c1b1fizMwEWw7+ah9fEDiTBscTD9XYwxI/TYMSfzEYtI+d/FHp4F
- LygIAUyL2QDfe83gHAPEcifdx16UqCCBTsS24ofXlL3GpND+PMYwxY9Yj3TL3lwItNxl
- 4Xxg==
-X-Gm-Message-State: AOAM531IPS6gRSy8DnSSURysvoNKDeg/mC16LuRXNkEL92FjzvtL4ZdG
- NE9L028IpG4O2RKNlo9bt4r6SMedaKs=
-X-Google-Smtp-Source: ABdhPJxhdD/yi7NvJdUDmtgxaHCmeSrpQh9D3S7kGWUaXDKAjcuo6WaGqLVMxwLbQqirtHZlysC0iQ==
-X-Received: by 2002:a92:c944:: with SMTP id i4mr25547725ilq.305.1619681614085; 
- Thu, 29 Apr 2021 00:33:34 -0700 (PDT)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45])
- by smtp.gmail.com with ESMTPSA id q5sm1074465iop.17.2021.04.29.00.33.33
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=heO5W4cbihg1SmYjYVunw8HLQJ65Q7FWpRhEtNzao9M=;
+ b=IK8YGWdSulHBeBVYJS0dkrcY0TTnqO2r/vh5JEpC6f59ujweAbRVTL7hf0BNqQ7tck
+ j4JzbCQB4wdhDOjU2gopuzYitiJfWIa7Sov2/umIdGaqCrfNRCJU4Tzwx1ANRB38yaAH
+ 27yTK+04TdCZgBfcpMby09xeRbC/aAiO9s7mlHvqxiPu+x4A/VuVj3+aiOXvm9bBp239
+ MJVh4+nCGGj0AFsQM2SSbV7r7vVtHOreEkx7t8lABRExLdqjDXc/P2mXxZRLor3E01dj
+ 1z9TODdgk4yfRhzp71S6LGWatXHxi4w7kxGjI/zuW37sNS1MGreYwVtgDX9dU7YBKhhj
+ yzpA==
+X-Gm-Message-State: AOAM531VAcbP1QViPuE9wfZYDe3yY8AnKLhKVLUaE0alpxBUgfpVhklO
+ j00BpOA29K0prdYgJJRlV9rrbWsLxJAML54h89/M2Kh01adUahc7Gf8aebgxOQ0NBHTSDMIxtv0
+ PwHt9WR24Rp29POE=
+X-Received: by 2002:a5d:4412:: with SMTP id z18mr27212583wrq.103.1619682688732; 
+ Thu, 29 Apr 2021 00:51:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEgqoTuL31rrzT+X/kWc3AONI0XCtCEM4VGuTcwxyAV6XQH14Tm8lXiVLqycU+zNHj0kduxw==
+X-Received: by 2002:a5d:4412:: with SMTP id z18mr27212554wrq.103.1619682688410; 
+ Thu, 29 Apr 2021 00:51:28 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6158.dip0.t-ipconnect.de. [91.12.97.88])
+ by smtp.gmail.com with ESMTPSA id
+ x8sm3526294wru.70.2021.04.29.00.51.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Apr 2021 00:33:33 -0700 (PDT)
-Received: by mail-io1-f45.google.com with SMTP id b9so12719212iod.13
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:33:33 -0700 (PDT)
-X-Received: by 2002:a5d:8b56:: with SMTP id c22mr27367336iot.84.1619681613399; 
- Thu, 29 Apr 2021 00:33:33 -0700 (PDT)
+ Thu, 29 Apr 2021 00:51:28 -0700 (PDT)
+Subject: Re: [PATCH v1] vhost-vdpa: Set discarding of RAM broken when
+ initializing the backend
+To: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+References: <20210302162129.52912-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <d82faa0d-d3cf-9a68-3793-fdc66224c185@redhat.com>
+Date: Thu, 29 Apr 2021 09:51:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210428195558.16960-1-j@getutm.app>
- <dd5fc80e-c08a-95a5-57e9-28a123196eff@redhat.com>
-In-Reply-To: <dd5fc80e-c08a-95a5-57e9-28a123196eff@redhat.com>
-From: Joelle van Dyne <j@getutm.app>
-Date: Thu, 29 Apr 2021 00:33:22 -0700
-X-Gmail-Original-Message-ID: <CA+E+eSD11QHWh5HUZT+74_1k3-KPAym09An6=8BtSKjROAY_fA@mail.gmail.com>
-Message-ID: <CA+E+eSD11QHWh5HUZT+74_1k3-KPAym09An6=8BtSKjROAY_fA@mail.gmail.com>
-Subject: Re: [PATCH] meson: change buildtype when debug_info=no
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.180; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f180.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210302162129.52912-1-david@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,67 +100,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Joelle van Dyne <j@getutm.app>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 28, 2021 at 10:07 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 4/28/21 9:55 PM, Joelle van Dyne wrote:
-> > Meson defaults builds to 'debugoptimized' which adds '-g -O2'
-> > to CFLAGS. If the user specifies '--disable-debug-info' we
-> > should instead build with 'release' which does not emit any
-> > debug info.
-> >
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > ---
-> >  configure | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/configure b/configure
-> > index 4f374b4889..5c3568cbc3 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -6398,6 +6398,7 @@ NINJA=3D$ninja $meson setup \
-> >          --sysconfdir "$sysconfdir" \
-> >          --localedir "$localedir" \
-> >          --localstatedir "$local_statedir" \
-> > +        --buildtype $(if test "$debug_info" =3D yes; then echo "debugo=
-ptimized"; else echo "release"; fi) \
->
-> NAck. You are changing the default (which is 'debug') to 'release'.
+On 02.03.21 17:21, David Hildenbrand wrote:
+> Similar to VFIO, vDPA will go ahead an map+pin all guest memory. Memory
+> that used to be discarded will get re-populated and if we
+> discard+re-access memory after mapping+pinning, the pages mapped into the
+> vDPA IOMMU will go out of sync with the actual pages mapped into the user
+> space page tables.
+> 
+> Set discarding of RAM broken such that:
+> - virtio-mem and vhost-vdpa run mutually exclusive
+> - virtio-balloon is inhibited and no memory discards will get issued
+> 
+> In the future, we might be able to support coordinated discarding of RAM
+> as used by virtio-mem and as planned for VFIO.
+> 
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Cindy Lu <lulu@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+> 
+> Note: I was not actually able to reproduce/test as I fail to get the
+> vdpa_sim/vdpa_sim_net running on upstream Linux (whetever vdpa, vhost_vdpa,
+> vdpa_sim, vdpa_sim_net modules I probe, and in which order, no vdpa devices
+> appear under /sys/bus/vdpa/devices/ or /dev/).
+> 
+> ---
+>   hw/virtio/vhost-vdpa.c | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 01d2101d09..86058d4041 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -278,6 +278,17 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
+>       uint64_t features;
+>       assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+>       trace_vhost_vdpa_init(dev, opaque);
+> +    int ret;
+> +
+> +    /*
+> +     * Similar to VFIO, we end up pinning all guest memory and have to
+> +     * disable discarding of RAM.
+> +     */
+> +    ret = ram_block_discard_disable(true);
+> +    if (ret) {
+> +        error_report("Cannot set discarding of RAM broken");
+> +        return ret;
+> +    }
+>   
+>       v = opaque;
+>       v->dev = dev;
+> @@ -302,6 +313,8 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+>       memory_listener_unregister(&v->listener);
+>   
+>       dev->opaque = NULL;
+> +    ram_block_discard_disable(false);
+> +
+>       return 0;
+>   }
+>   
+> 
 
-I thought 'debugoptimized' was the default? From my build logs,
-there's always '-g -O2' which is why I needed to make this change. The
-default for 'debug_info' is yes so this keeps it on 'debugoptimized'
-and uses 'release' when explicitly disabling debug_info.
+@MST, do you have this on your radar? thanks
 
->
-> This should be at least mentioned in the commit description, but
-> I don't think this is what we want here. 'release' enables -O3,
-> which is certainly not supported. The 'debug' profile is what we
-> have been and are testing.
->
-> I'd be OK if you had used "debugoptimized else debug".
->
-> The mainstream project would rather use 'debug'/'debugoptimized', or
-> 'minsize', which are already tested. We might consider allowing forks
-> to use 'plain' profile eventually. But the 'release' type is an
-> unsupported landmine IMHO.
->
-> If you want to use something else, it should be an explicit argument
-> to ./configure, then you are on your own IMO.
+-- 
+Thanks,
 
-What do I need to avoid '-g'?
+David / dhildenb
 
--j
-
->
-> Regards,
->
-> Phil.
->
 
