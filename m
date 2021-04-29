@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09F436F2E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 01:39:16 +0200 (CEST)
-Received: from localhost ([::1]:44342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B659C36F308
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 01:44:00 +0200 (CEST)
+Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcGFW-0003Gr-QP
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 19:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49018)
+	id 1lcGK7-0006Ud-QC
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 19:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lcGD7-0002S6-MZ
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:36:45 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:44939)
+ id 1lcGEJ-0003SY-Sz
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:38:01 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:33402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lcGD4-0001ln-Ql
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:36:45 -0400
-Received: by mail-qk1-x736.google.com with SMTP id 190so12358972qkl.11
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 16:36:41 -0700 (PDT)
+ id 1lcGEB-0002O3-IY
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:37:58 -0400
+Received: by mail-qk1-x729.google.com with SMTP id o5so69047373qkb.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 16:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7veU9ku6WjKzQTNgKrZGWNc/gqaHar14RSsOo8l5s4w=;
- b=KdwFy91q0DP3RrFhYs1RLO5CyinB0aGUmp3bX2/SR5OF9CEzH0MgmKaCDc+vfvmBaN
- IWSbaXwkN6Di08F2Qtc1WUh+bxP/b1+tfUh+qSRLHQKFo+0MYkmwgkRX8IClE1bfCK7f
- WxPcyWCZR/Xfvm1FvJjDSgFCNJ/3GdfQRyQ9k+huybtUp8tWlQt96kvq8Xs+JQpoY+LO
- 6TrXsD3tJAJ2Cx9IQu071z3o5beeEv02vw/SLswGJDm3zrm9gHH7shj4k4suTL6wiHy6
- DWnRXqsncrUVBIBO6Wx0w7Aljr6M2Y86TitRRgRQa6zlonaa22n9qd/skCDQTo5upufM
- NS0Q==
+ bh=yxs3g63Bfu7uw+P6905bkCJPUzMrtjNPO0AuFdpm0iE=;
+ b=Huxtqn0/GTYVPHh9Dpt2z+Vsek/W4qA5G/NL+YyNuEtOQ8Ey3eP5Z4/2o3pCzg8ltB
+ lkyy0ZuQjVl3ORL6qxR5KrKEWmtK/mknVJBrXu9QxPsJalXqjN0WxuCoHEXOAP3anAwL
+ p22HYvjL8heWz7g8wrrqqgaB2eAzQyh56Hn2uS9S2ycWeVD1o/DwbYNZvCZHxF5kIHyF
+ UF5KXrkyMbk/q6BM+E0iFK7FyIUkbo1p1GNWcH3w0D6AfSospP1ZLIjNnLVFgXqtiTeF
+ 51S0fL7e160rhlp69fi82ZIx4ILgkiu//LaRK/fbslAaeCWNy3LUe1J79X/b0hTMc9z7
+ RpdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7veU9ku6WjKzQTNgKrZGWNc/gqaHar14RSsOo8l5s4w=;
- b=FL+M2zzpXcJuES5a/Am7WBD3Zt9Mk1uEMLDK6xyQ3Av69QkD0LFPyTIsnSktpsKpFP
- 2CF3R5rDu494vTuMBGfwOtSRJaWoFUxnZz66FPQ1Kvc6j2cXn3g7I3voJaW/qbXPnWkX
- 0q9MjfYCdGSzxpru1Gf3ou7NLX1sCmQGyx+Y+F54rPzR3lb+vkCK99vUAfFSXzMAIIL6
- xsoJ+uxKd9n0mgPQWmdL40yA7dvUaDkPzMRk2wZFpvp6MudxvBAirx22S5CSUZtbe37D
- xFNbumOC5qA3Fvat5+WkUjECbATle9zlLkm9o/A63n/hXf3zLpD9c0Ht3lfLciss5Nxr
- 2a+w==
-X-Gm-Message-State: AOAM5332gYiHdz4sS5apLHIGPHWuswsQNzegTom8E4hrFTAPqsaebkbs
- lPHlq+MSbGnoEz/56vfAlX2Ezg==
-X-Google-Smtp-Source: ABdhPJx2EM5q8tbdHpb7EGftbrWYYm8/0yWh5N77/qYp8NNdcZYU0C61eUtndnITvyhYNYHH/tg6vA==
-X-Received: by 2002:a37:390:: with SMTP id 138mr2387947qkd.136.1619739400114; 
- Thu, 29 Apr 2021 16:36:40 -0700 (PDT)
+ bh=yxs3g63Bfu7uw+P6905bkCJPUzMrtjNPO0AuFdpm0iE=;
+ b=h8+T23pXrMWEJcegHFTFUW7Ob7HI8QAoJjAh1iDU3UJ7QnZ43k6kEs1A2+fgvCfTti
+ bejVHOdWfRIX4UNmfkSHZzQmWKgW/KCwEF9CcHRknvmhcmg0QQWtzxRn5+kxRuBG7Xsn
+ wWtTvJbzISj2wjZbnJkEVizxaMFXlQWXxRdIe4aWe5+p03VlPenZ3Yg+qoTUDepWx8J3
+ T7ACK5iQiAcNQ61ib+G6+UYUmP8JSiOWa0yGRqkKzVjlzk0JmftP1tCsCdehGeCm2JKj
+ t+Gky6J0wczBb6+q678ChGxGaX51VqB0ZFLtehxWF0rnI9+IpWPibXMeVWziP4+LP1Iy
+ dJRw==
+X-Gm-Message-State: AOAM5324mSpCggvVrj7KC5eC++oyIFzlPp1IcppI9fdcHIiQU4aGyXaC
+ Q7XeECnQyNUX+kvB55q7t3Ajag==
+X-Google-Smtp-Source: ABdhPJw23wfC5wd1fO5neswyVWIV6/c9Mbwt1p3xy6sGfuvdqIPWY1tI4CC8U1bccVc1AWK/Hkt2lw==
+X-Received: by 2002:a37:7e03:: with SMTP id z3mr2365459qkc.367.1619739468320; 
+ Thu, 29 Apr 2021 16:37:48 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-stsvon1503w-grc-23-174-92-28-28.dsl.bell.ca. [174.92.28.28])
- by smtp.gmail.com with ESMTPSA id f5sm135779qkk.12.2021.04.29.16.36.39
+ by smtp.gmail.com with ESMTPSA id j129sm102518qkf.110.2021.04.29.16.37.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 16:36:39 -0700 (PDT)
-Message-ID: <6e91d0458e38b4e782dc8e61de3ee0f875f8a56a.camel@linaro.org>
-Subject: Re: [PATCH v2 1/8] hw/intc: GICv3 ITS initial framework
+ Thu, 29 Apr 2021 16:37:47 -0700 (PDT)
+Message-ID: <444590421f702c420ef5e4a73ea3bfec261a53c8.camel@linaro.org>
+Subject: Re: [PATCH v2 2/8] hw/intc: GICv3 ITS register definitions added
 From: shashi.mallela@linaro.org
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Apr 2021 19:36:38 -0400
-In-Reply-To: <CAFEAcA8OCs-sL1Zu-PwkadTvto3pJWO8VLcxfqmH7JGHXdeQuw@mail.gmail.com>
+Date: Thu, 29 Apr 2021 19:37:47 -0400
+In-Reply-To: <937a2923445e3ff629c9799a8579c470d2636375.camel@linaro.org>
 References: <20210401024152.203896-1-shashi.mallela@linaro.org>
- <20210401024152.203896-2-shashi.mallela@linaro.org>
- <CAFEAcA8OCs-sL1Zu-PwkadTvto3pJWO8VLcxfqmH7JGHXdeQuw@mail.gmail.com>
+ <20210401024152.203896-3-shashi.mallela@linaro.org>
+ <CAFEAcA93tEGMAhB-ZBNu3=J+AWLehsvpwiOZQNqTqZPucYNBgg@mail.gmail.com>
+ <937a2923445e3ff629c9799a8579c470d2636375.camel@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,556 +92,670 @@ Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-04-16 at 18:21 +0100, Peter Maydell wrote:
+On Thu, 2021-04-29 at 17:46 -0400, shashi.mallela@linaro.org wrote:
+On Fri, 2021-04-16 at 19:54 +0100, Peter Maydell wrote:
 > On Thu, 1 Apr 2021 at 03:41, Shashi Mallela <
 > shashi.mallela@linaro.org> wrote:
-> > Added register definitions relevant to ITS,implemented overall
-> > ITS device framework with stubs for ITS control and translater
-> > regions read/write,extended ITS common to handle mmio init between
-> > existing kvm device and newer qemu device.
+> > Defined descriptors for ITS device table,collection table and ITS
+> > command queue entities.Implemented register read/write functions,
+> > extract ITS table parameters and command queue parameters,extended
+> > gicv3 common to capture qemu address space(which host the ITS table
+> > platform memories required for subsequent ITS processing) and
+> > initialize the same in its device.
 > > 
 > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
 > > ---
-> >  hw/intc/arm_gicv3_its.c                | 334
+> >  hw/intc/arm_gicv3_its.c                | 313
 > > +++++++++++++++++++++++++
-> >  hw/intc/arm_gicv3_its_common.c         |  12 +-
-> >  hw/intc/arm_gicv3_its_kvm.c            |   2 +-
-> >  hw/intc/gicv3_internal.h               |  86 ++++++-
-> >  hw/intc/meson.build                    |   1 +
-> >  include/hw/intc/arm_gicv3_its_common.h |  12 +-
-> >  6 files changed, 430 insertions(+), 17 deletions(-)
-> >  create mode 100644 hw/intc/arm_gicv3_its.c
-> 
-> Overall I think the structure of the patchset and of the device
-> is good, so I'm just going to dive into more detailed review
-> comments.
-> 
-> Have accepted and addressed all the comments and will share the
-> updated patch sets soon,responding to comments which need 
->  clarification in all the relevant patch sets 
-> 
-> > +static MemTxResult its_trans_writew(GICv3ITSState *s, hwaddr
-> > offset,
-> > +                               uint64_t value, MemTxAttrs attrs)
+> >  hw/intc/arm_gicv3_its_common.c         |  42 ++++
+> >  hw/intc/gicv3_internal.h               |  33 ++-
+> >  include/hw/intc/arm_gicv3_common.h     |   4 +
+> >  include/hw/intc/arm_gicv3_its_common.h |  28 +++
+> >  5 files changed, 414 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+> > index 209120d102..81373f049d 100644
+> > --- a/hw/intc/arm_gicv3_its.c
+> > +++ b/hw/intc/arm_gicv3_its.c
+> > @@ -28,6 +28,131 @@ struct GICv3ITSClass {
+> >      void (*parent_reset)(DeviceState *dev);
+> >  };
+> > 
+> > +static bool extract_table_params(GICv3ITSState *s, int index)
 > > +{
-> > +    MemTxResult result = MEMTX_OK;
+> > +    uint16_t num_pages = 0;
+> > +    uint8_t  page_sz_type;
+> > +    uint8_t type;
+> > +    uint32_t page_sz = 0;
+> > +    uint64_t value = s->baser[index];
 > > +
-> > +    return result;
+> > +    num_pages = FIELD_EX64(value, GITS_BASER, SIZE);
+> > +    page_sz_type = FIELD_EX64(value, GITS_BASER, PAGESIZE);
+> > +
+> > +    if (page_sz_type == 0) {
+> > +        page_sz = GITS_ITT_PAGE_SIZE_0;
+> > +    } else if (page_sz_type == 0) {
+> > +        page_sz = GITS_ITT_PAGE_SIZE_1;
+> > +    } else if (page_sz_type == 2) {
+> > +        page_sz = GITS_ITT_PAGE_SIZE_2;
+> > +    } else {
+> > +        return false;
+> 
+> The spec says that page_sz+type = 0b11 should be treated as 0b10.
+> So we could log this as a guest error if you like but otherwise
+> should handle it the same way we do 0b10.
+> 
+> > +    }
+> 
+> if (x == CONST1) {
+> } else if (x == CONST2) {
+> } else {
+> }
+> 
+> is usually clearer written with switch(). (There are other instances
+> of this pattern below.)
+> 
+> > +
+> > +    type = FIELD_EX64(value, GITS_BASER, TYPE);
+> > +
+> > +    if (type == GITS_ITT_TYPE_DEVICE) {
+> > +        s->dt.valid = FIELD_EX64(value, GITS_BASER, VALID);
+> > +
+> > +        if (s->dt.valid) {
+> > +            s->dt.indirect = FIELD_EX64(value, GITS_BASER,
+> > INDIRECT);
+> > +            s->dt.entry_sz = FIELD_EX64(value, GITS_BASER,
+> > ENTRYSIZE);
+> > +
+> > +            if (!s->dt.indirect) {
+> > +                s->dt.max_entries = ((num_pages + 1) * page_sz) /
+> > +                                                       s-
+> > >dt.entry_sz;
+> > +            } else {
+> > +                s->dt.max_entries = ((((num_pages + 1) * page_sz)
+> > /
+> > +                                        L1TABLE_ENTRY_SIZE) *
+> > +                                    (page_sz / s->dt.entry_sz));
+> > +            }
+> > +
+> > +            s->dt.max_devids = (1UL << (FIELD_EX64(s->typer,
+> > GITS_TYPER,
+> > +                                                    DEVBITS) +
+> > 1));
+> > +
+> > +            if ((page_sz == GITS_ITT_PAGE_SIZE_0) ||
+> > +                    (page_sz == GITS_ITT_PAGE_SIZE_1)) {
+> > +                s->dt.base_addr = FIELD_EX64(value, GITS_BASER,
+> > PHYADDR);
+> > +                s->dt.base_addr <<= R_GITS_BASER_PHYADDR_SHIFT;
+> > +            } else if (page_sz == GITS_ITT_PAGE_SIZE_2) {
+> > +                s->dt.base_addr = FIELD_EX64(value, GITS_BASER,
+> > PHYADDRL_64K) <<
+> > +                                  R_GITS_BASER_PHYADDRL_64K_SHIFT;
+> > +                  s->dt.base_addr |= ((value >>
+> > R_GITS_BASER_PHYADDR_SHIFT) &
+> > +                                       R_GITS_BASER_PHYADDRH_64K_M
+> > ASK) <<
+> > +                                       R_GITS_BASER_PHYADDRH_64K_S
+> > HIFT;
+> > +            }
+> > +        }
+> > +    } else if (type == GITS_ITT_TYPE_COLLECTION) {
+> > +        s->ct.valid = FIELD_EX64(value, GITS_BASER, VALID);
+> > +
+> > +        /*
+> > +         * GITS_TYPER.HCC is 0 for this implementation
+> > +         * hence writes are discarded if ct.valid is 0
+> > +         */
+> > +        if (s->ct.valid) {
+> > +            s->ct.indirect = FIELD_EX64(value, GITS_BASER,
+> > INDIRECT);
+> > +            s->ct.entry_sz = FIELD_EX64(value, GITS_BASER,
+> > ENTRYSIZE);
+> > +
+> > +            if (!s->ct.indirect) {
+> > +                s->ct.max_entries = ((num_pages + 1) * page_sz) /
+> > +                                      s->ct.entry_sz;
+> > +            } else {
+> > +                s->ct.max_entries = ((((num_pages + 1) * page_sz)
+> > /
+> > +                                      L1TABLE_ENTRY_SIZE) *
+> > +                                      (page_sz / s->ct.entry_sz));
+> > +            }
+> > +
+> > +            if (FIELD_EX64(s->typer, GITS_TYPER, CIL)) {
+> > +                s->ct.max_collids = (1UL << (FIELD_EX64(s->typer,
+> > GITS_TYPER,
+> > +                                                         CIDBITS)
+> > + 1));
+> > +            } else {
+> > +                /* 16-bit CollectionId supported when CIL == 0 */
+> > +                s->ct.max_collids = (1UL << 16);
+> > +            }
+> > +
+> > +            if ((page_sz == GITS_ITT_PAGE_SIZE_0) ||
+> > +                 (page_sz == GITS_ITT_PAGE_SIZE_1)) {
+> > +                s->ct.base_addr = FIELD_EX64(value, GITS_BASER,
+> > PHYADDR);
+> > +                s->ct.base_addr <<= R_GITS_BASER_PHYADDR_SHIFT;
+> > +            } else if (page_sz == GITS_ITT_PAGE_SIZE_2) {
+> > +                s->ct.base_addr = FIELD_EX64(value, GITS_BASER,
+> > PHYADDRL_64K) <<
+> > +                                    R_GITS_BASER_PHYADDRL_64K_SHIF
+> > T;
+> > +                s->ct.base_addr |= ((value >>
+> > R_GITS_BASER_PHYADDR_SHIFT) &
+> > +                                     R_GITS_BASER_PHYADDRH_64K_MAS
+> > K) <<
+> > +                                     R_GITS_BASER_PHYADDRH_64K_SHI
+> > FT;
+> > +            }
+> > +        }
+> > +    } else {
+> > +        /* unsupported ITS table type */
+> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Unsupported ITS table
+> > type %d",
+> > +                         __func__, type);
+> 
+> This should never happen, because the TYPE field in a GITS_BASER
+> register
+> is read-only. The model should insure that the guest can never write
+> to
+> these bits. Then you can just assert() that the field is valid, if
+> you like.
+> 
+> > +        return false;
+> > +    }
+> > +    return true;
 > > +}
 > > +
-> > +static MemTxResult its_trans_writel(GICv3ITSState *s, hwaddr
-> > offset,
-> > +                               uint64_t value, MemTxAttrs attrs)
+> > +static bool extract_cmdq_params(GICv3ITSState *s)
 > > +{
-> > +    MemTxResult result = MEMTX_OK;
+> > +    uint16_t num_pages = 0;
+> > +    uint64_t value = s->cbaser;
 > > +
-> > +    return result;
+> > +    num_pages = FIELD_EX64(value, GITS_CBASER, SIZE);
+> > +
+> > +    s->cq.valid = FIELD_EX64(value, GITS_CBASER, VALID);
+> > +
+> > +    if (!num_pages || !s->cq.valid) {
+> 
+> Why do you think num_pages == 0 is not valid ?
+> Have rectified this
+> > +        return false;
+> > +    }
+> > +
+> > +    if (s->cq.valid) {
+> > +        s->cq.max_entries = ((num_pages + 1) *
+> > GITS_ITT_PAGE_SIZE_0) /
+> > +                                                GITS_CMDQ_ENTRY_SI
+> > ZE;
+> > +        s->cq.base_addr = FIELD_EX64(value, GITS_CBASER, PHYADDR);
+> > +        s->cq.base_addr <<= R_GITS_CBASER_PHYADDR_SHIFT;
+> > +    }
+> > +    return true;
 > > +}
 > > +
-> > +static MemTxResult gicv3_its_translation_write(void *opaque,
-> > hwaddr offset,
-> > +                               uint64_t data, unsigned size,
-> > MemTxAttrs attrs)
-> > +{
-> > +    GICv3ITSState *s = (GICv3ITSState *)opaque;
-> > +    MemTxResult result;
-> > +
-> > +    switch (size) {
-> > +    case 2:
-> > +        result = its_trans_writew(s, offset, data, attrs);
+> >  static MemTxResult its_trans_writew(GICv3ITSState *s, hwaddr
+> > offset,
+> >                                 uint64_t value, MemTxAttrs attrs)
+> >  {
+> > @@ -126,7 +251,75 @@ static MemTxResult its_writel(GICv3ITSState
+> > *s, hwaddr offset,
+> >                                 uint64_t value, MemTxAttrs
+> > attrs)>  {
+> >      MemTxResult result = MEMTX_OK;
+> > +    int index;
+> > +    uint64_t temp = 0;
+> > 
+> > +    switch (offset) {
+> > +    case GITS_CTLR:
+> > +        s->ctlr |= (value & ~(s->ctlr));
 > > +        break;
-> > +    case 4:
-> > +        result = its_trans_writel(s, offset, data, attrs);
+> > +    case GITS_CBASER:
+> > +        /* GITS_CBASER register becomes RO if ITS is already
+> > enabled */
+> 
+> The spec says writes are UNPREDICTABLE, not RO. We can make an
+> impdef choice to interpret that as RO for our convenience, but
+> the comment should note that it is our IMPDEF choice.
+> 
+> > +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+> > +            s->cbaser = deposit64(s->cbaser, 0, 32, value);
+> > +            s->creadr = 0;
+> > +        }
+> > +        break;
+> > +    case GITS_CBASER + 4:
+> > +        /* GITS_CBASER register becomes RO if ITS is already
+> > enabled */
+> > +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+> > +            s->cbaser = deposit64(s->cbaser, 32, 32, value);
+> > +            if (!extract_cmdq_params(s)) {
+> 
+> You should postpone trying to parse the CBASER fields until
+> the guest enables the ITS by writing to GITS_CTLR.Enabled.
+> Because CBASER is a 64-bit register that can be written as two
+> 32-bit halves, the guest might choose to write the two halves
+> in either order, and you won't have a full valid CBASER.
+> If you wait until the ITS is enabled then you know the guest
+> should have written the register values completely then.
+> Similarly with BASER.
+> 
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                       "%s: error extracting GITS_CBASER
+> > parameters "
+> > +                       TARGET_FMT_plx "\n", __func__, offset);
+> > +                s->cbaser = 0;
+> 
+> Clearing CBASER if the guest writes an invalid value to it
+> doesn't seem right. Since you have these expanded-out structs,
+> you can just treat any bogus values as if the guest had written
+> VALID=0, and leave the actual guest-written value in s->cbaser.
+> (In fact I think the only case when extract_cmdq_params()
+> can reasonably return false is exactly when VALID=0, so in
+> that case you might as well drop the bool return type from it
+> completely.)
+> 
+> > +                result = MEMTX_ERROR;
+> 
+> I don't recommend using MEMTX_ERROR here for this kind of
+> "the guest wrote a value to a valid register but there happened
+> to be something wrong with the value it wrote". The intention
+> with the arm_gicv3_dist.c code structure that you've copied
+> here for the ITS was simply to use MEMTX_ERROR to capture "this
+> register doesn't exist for this size" to be able to have a
+> single LOG_GUEST_ERROR message for that at the top level
+> function.
+> 
+> For more complicated stuff like this you should just report a
+> suitable specific LOG_GUEST_ERROR directly in extract_cmdq_params()
+> and return MEMTX_OK. (The code you have for BASER will actually
+> report
+> three different log messages for a single guest mistake -- once
+> inside
+> extract_table_params(), once in the code in this function that calls
+> extract_table_params(), and then once in gicv3_its_read(). One is
+> sufficient.)
+> 
+> > +            } else {
+> > +                s->creadr = 0;
+> > +            }
+> > +        }
+> > +        break;
+> > +    case GITS_CWRITER:
+> > +        s->cwriter = deposit64(s->cwriter, 0, 32, value);
+> > +        break;
+> > +    case GITS_CWRITER + 4:
+> > +        s->cwriter = deposit64(s->cwriter, 32, 32, value);
+> > +        break;
+> > +    case GITS_BASER ... GITS_BASER + 0x3f:
+> > +        /* GITS_BASERn registers become RO if ITS is already
+> > enabled */
+> > +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+> > +            index = (offset - GITS_BASER) / 8;
+> > +
+> > +            if (offset & 7) {
+> > +                temp = s->baser[index];
+> > +                temp = deposit64(temp, 32, 32, (value &
+> > ~GITS_BASER_VAL_MASK));
+> > +                s->baser[index] |= temp;
+> > +
+> > +                if (!extract_table_params(s, index)) {
+> > +                    qemu_log_mask(LOG_GUEST_ERROR,
+> > +                        "%s: error extracting GITS_BASER
+> > parameters "
+> > +                        TARGET_FMT_plx "\n", __func__, offset);
+> > +                    s->baser[index] = 0;
+> > +                    result = MEMTX_ERROR;
+> > +                }
+> > +            } else {
+> > +                s->baser[index] =  deposit64(s->baser[index], 0,
+> > 32, value);
+> > +            }
+> > +        }
+> 
+> Pretty much all the remarks I made earlier about CBASER apply here
+> too.
+> 
+> Also, 'unimplemented' BASER registers are supposed to be RES0, and
+> I don't think we actually implement more than either 2 or 3, right?
+> we implement only 2 BASER registers one for device table and one
+for collection table
+> 
+> > +        break;
+> > +    case GITS_IIDR:
+> > +    case GITS_TYPER:
+> > +    case GITS_CREADR:
+> > +        /* RO registers, ignore the write */
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +            "%s: invalid guest write to RO register at offset "
+> > +            TARGET_FMT_plx "\n", __func__, offset);
+> > +        break;
+> 
+> I wouldn't personally bother explicitly reporting write-to-RO-
+> register
+> here: if you just let the default case handle it then the log in
+> the caller will do a LOG_GUEST_ERROR for you.
+> 
+> > +    default:
+> > +        result = MEMTX_ERROR;
+> > +        break;
+> > +    }
+> >      return result;
+> >  }
+> > 
+> > @@ -142,7 +382,52 @@ static MemTxResult its_writell(GICv3ITSState
+> > *s, hwaddr offset,
+> >                                 uint64_t value, MemTxAttrs attrs)
+> >  {
+> >      MemTxResult result = MEMTX_OK;
+> > +    int index;
+> > 
+> > +    switch (offset) {
+> > +    case GITS_BASER ... GITS_BASER + 0x3f:
+> > +        /* GITS_BASERn registers become RO if ITS is already
+> > enabled */
+> > +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+> > +            index = (offset - GITS_BASER) / 8;
+> > +            s->baser[index] |= (value & ~GITS_BASER_VAL_MASK);
+> > +            if (!extract_table_params(s, index)) {
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                        "%s: error extracting GITS_BASER
+> > parameters "
+> > +                        TARGET_FMT_plx "\n", __func__, offset);
+> > +                s->baser[index] = 0;
+> > +                result = MEMTX_ERROR;
+> > +            }
+> > +        }
+> > +        break;
+> > +    case GITS_CBASER:
+> > +        /* GITS_CBASER register becomes RO if ITS is already
+> > enabled */
+> > +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+> > +            s->cbaser = value;
+> > +            if (!extract_cmdq_params(s)) {
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                       "%s: error extracting GITS_CBASER
+> > parameters "
+> > +                       TARGET_FMT_plx "\n", __func__, offset);
+> > +                s->cbaser = 0;
+> > +                result = MEMTX_ERROR;
+> > +            } else {
+> > +                s->creadr = 0;
+> > +            }
+> > +        }
+> > +        break;
+> > +    case GITS_CWRITER:
+> > +        s->cwriter = value;
+> > +        break;
+> > +    case GITS_TYPER:
+> > +    case GITS_CREADR:
+> > +        /* RO register, ignore the write */
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "%s: invalid guest write to RO register at
+> > offset "
+> > +                      TARGET_FMT_plx "\n", __func__, offset);
 > > +        break;
 > > +    default:
 > > +        result = MEMTX_ERROR;
 > > +        break;
 > > +    }
-> > +
-> > +    if (result == MEMTX_ERROR) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: invalid guest write at offset "
-> > TARGET_FMT_plx
-> > +                      "size %u\n", __func__, offset, size);
-> > +        /*
-> > +         * The spec requires that reserved registers are RAZ/WI;
-> > +         * so use MEMTX_ERROR returns from leaf functions as a way
-> > to
-> > +         * trigger the guest-error logging but don't return it to
-> > +         * the caller, or we'll cause a spurious guest data abort.
-> > +         */
-> > +        result = MEMTX_OK;
-> > +    }
-> > +    return result;
-> > +}
 > 
-> There is exactly one register in the translation register frame, so
-> having this generic top level write function that calls out to
-> separate writew and writel functions is overkill and ends up
-> with duplication of code. I would suggest you just fold the
-> implementation into gicv3_its_translation_write(), which would
-> end up looking something like
+> Comments on the 32-bit write function apply here too.
 > 
->     switch (offset) {
->     case GITS_TRANSLATER:
->         if (s->ctlr & ITS_CTLR_ENABLED) {
->             /* 16 bit accesses behave as writes with bits [31:16]
-> zero */
->             s->translater = value;
->             devid = attrs.requester_id;
->             process_int(s, s->translater, devid, NONE);
->         }
->         break;
->     default:
->         break;
->     }
->     return MEMTX_OK;
-> 
-> which handles both the 16 and 32 bit case. You can tell the
-> core memory system code not to hand you 8 or 64 bit accesses
-> using fields in the MemoryRegionOps; see below.
-> 
-> > +static MemTxResult gicv3_its_translation_read(void *opaque, hwaddr
-> > offset,
-> > +                              uint64_t *data, unsigned size,
-> > MemTxAttrs attrs)
-> > +{
-> > +    qemu_log_mask(LOG_GUEST_ERROR,
-> > +        "%s: Invalid read from translation register area at offset
-> > "
-> > +        TARGET_FMT_plx "\n", __func__, offset);
-> > +    return MEMTX_ERROR;
-> > +}
-> > +
-> > +static MemTxResult its_writeb(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t value, MemTxAttrs attrs)
-> > +{
-> > +    qemu_log_mask(LOG_UNIMP,
-> > +                "%s: unsupported byte write to register at offset
-> > "
-> > +                TARGET_FMT_plx "\n", __func__, offset);
-> > +    return MEMTX_ERROR;
-> > +}
-> > +
-> > +static MemTxResult its_readb(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t *data, MemTxAttrs attrs)
-> > +{
-> > +    qemu_log_mask(LOG_UNIMP,
-> > +                "%s: unsupported byte read from register at offset
-> > "
-> > +                TARGET_FMT_plx "\n", __func__, offset);
-> > +    return MEMTX_ERROR;
-> > +}
-> > +
-> > +static MemTxResult its_writew(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t value, MemTxAttrs attrs)
-> > +{
-> > +    qemu_log_mask(LOG_UNIMP,
-> > +        "%s: unsupported word write to register at offset "
-> > +        TARGET_FMT_plx "\n", __func__, offset);
-> > +    return MEMTX_ERROR;
-> > +}
-> > +
-> > +static MemTxResult its_readw(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t *data, MemTxAttrs attrs)
-> > +{
-> > +    qemu_log_mask(LOG_UNIMP,
-> > +        "%s: unsupported word read from register at offset "
-> > +        TARGET_FMT_plx "\n", __func__, offset);
-> > +    return MEMTX_ERROR;
-> > +}
-> 
-> Similarly, there are no byte or halfword accessible registers
-> on the ITS, so these are unnecessary; just use MemoryRegionOps
-> to cause the core code to reject them.
-> 
-> > +static MemTxResult its_writel(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t value, MemTxAttrs attrs)
-> > +{
-> > +    MemTxResult result = MEMTX_OK;
-> > +
-> > +    return result;
-> > +}
-> > +
-> > +static MemTxResult its_readl(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t *data, MemTxAttrs attrs)
-> > +{
-> > +    MemTxResult result = MEMTX_OK;
-> > +
-> > +    return result;
-> > +}
-> > +
-> > +static MemTxResult its_writell(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t value, MemTxAttrs attrs)
-> > +{
-> > +    MemTxResult result = MEMTX_OK;
-> > +
-> > +    return result;
-> > +}
-> > +
-> > +static MemTxResult its_readll(GICv3ITSState *s, hwaddr offset,
-> > +                               uint64_t *data, MemTxAttrs attrs)
-> > +{
-> > +    MemTxResult result = MEMTX_OK;
-> > +
-> > +    return result;
-> > +}
-> > +
-> > +static MemTxResult gicv3_its_read(void *opaque, hwaddr offset,
-> > uint64_t *data,
-> > +                              unsigned size, MemTxAttrs attrs)
-> > +{
-> > +    GICv3ITSState *s = (GICv3ITSState *)opaque;
-> > +    MemTxResult result;
-> > +
-> > +    switch (size) {
-> > +    case 1:
-> > +        result = its_readb(s, offset, data, attrs);
-> > +        break;
-> > +    case 2:
-> > +        result = its_readw(s, offset, data, attrs);
-> > +        break;
-> > +    case 4:
-> > +        result = its_readl(s, offset, data, attrs);
-> > +        break;
-> > +    case 8:
-> > +        result = its_readll(s, offset, data, attrs);
-> > +        break;
-> > +    default:
-> > +        result = MEMTX_ERROR;
-> > +        break;
-> > +    }
-> > +
-> > +    if (result == MEMTX_ERROR) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: invalid guest read at offset "
-> > TARGET_FMT_plx
-> > +                      "size %u\n", __func__, offset, size);
-> > +        /*
-> > +         * The spec requires that reserved registers are RAZ/WI;
-> > +         * so use MEMTX_ERROR returns from leaf functions as a way
-> > to
-> > +         * trigger the guest-error logging but don't return it to
-> > +         * the caller, or we'll cause a spurious guest data abort.
-> > +         */
-> > +        result = MEMTX_OK;
-> > +        *data = 0;
-> > +    }
-> > +    return result;
-> > +}
-> > +
-> > +static MemTxResult gicv3_its_write(void *opaque, hwaddr offset,
-> > uint64_t data,
-> > +                               unsigned size, MemTxAttrs attrs)
-> > +{
-> > +    GICv3ITSState *s = (GICv3ITSState *)opaque;
-> > +    MemTxResult result;
-> > +
-> > +    switch (size) {
-> > +    case 1:
-> > +        result = its_writeb(s, offset, data, attrs);
-> > +        break;
-> > +    case 2:
-> > +        result = its_writew(s, offset, data, attrs);
-> > +        break;
-> > +    case 4:
-> > +        result = its_writel(s, offset, data, attrs);
-> > +        break;
-> > +    case 8:
-> > +        result = its_writell(s, offset, data, attrs);
-> > +        break;
-> > +    default:
-> > +        result = MEMTX_ERROR;
-> > +        break;
-> > +    }
-> > +
-> > +    if (result == MEMTX_ERROR) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: invalid guest write at offset "
-> > TARGET_FMT_plx
-> > +                      "size %u\n", __func__, offset, size);
-> > +        /*
-> > +         * The spec requires that reserved registers are RAZ/WI;
-> > +         * so use MEMTX_ERROR returns from leaf functions as a way
-> > to
-> > +         * trigger the guest-error logging but don't return it to
-> > +         * the caller, or we'll cause a spurious guest data abort.
-> > +         */
-> > +        result = MEMTX_OK;
-> > +    }
-> > +    return result;
-> > +}
-> > +
-> > +static const MemoryRegionOps gicv3_its_control_ops = {
-> > +    .read_with_attrs = gicv3_its_read,
-> > +    .write_with_attrs = gicv3_its_write,
-> > +    .endianness = DEVICE_NATIVE_ENDIAN,
-> 
->        .valid.min_access_size = 4,
->        .valid.max_access_size = 8,
->        .impl.min_access_size = 4,
->        .impl.max_access_size = 8,
-> 
-> And then you don't need to handle 1 and 2 in your read/write fns.
-> 
-> 
-> > +};
-> > +
-> > +static const MemoryRegionOps gicv3_its_translation_ops = {
-> > +    .read_with_attrs = gicv3_its_translation_read,
-> > +    .write_with_attrs = gicv3_its_translation_write,
-> > +    .endianness = DEVICE_NATIVE_ENDIAN,
-> 
-> Similarly here set the valid and impl min and max to 2 and 4.
-> 
-> > +};
-> > +
-> > +static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> > +
-> > +    gicv3_its_init_mmio(s, &gicv3_its_control_ops,
+> >      return result;
+> >  }
+> > @@ -250,6 +557,9 @@ static void gicv3_arm_its_realize(DeviceState
+> > *dev, Error **errp)
+> >      GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
+> > 
+> >      gicv3_its_init_mmio(s, &gicv3_its_control_ops,
 > > &gicv3_its_translation_ops);
-> > +}
 > > +
-> > +static void gicv3_its_reset(DeviceState *dev)
-> > +{
-> > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> > +    GICv3ITSClass *c = ARM_GICV3_ITS_GET_CLASS(s);
-> > +
-> > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
-> > +        c->parent_reset(dev);
-> > +
-> > +        /* set the ITS default features supported */
-> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
-> > +                                       GITS_TYPE_PHYSICAL);
-> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER,
-> > ITT_ENTRY_SIZE,
-> > +                                       ITS_ITT_ENTRY_SIZE);
-> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS,
-> > ITS_IDBITS);
-> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS,
-> > ITS_DEVBITS);
-> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
-> > +        s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIDBITS,
-> > ITS_CIDBITS);
+> > +    address_space_init(&s->gicv3->sysmem_as, s->gicv3->sysmem,
+> > +                        "gicv3-its-sysmem");
 > 
-> This is a read-only constant value. Two options:
->  (1) set s->typer in realize, not in reset (this is how we handle
->      GICR_TYPER)
->  (2) don't have an s->typer at all, and just return the right
->      constant value when in the read function (this is how we
->      handle GICD_TYPER)
-> Implemented option 1
+> Indent here seems wrong -- the second line should be lined up with
+> the first, so the '"' is below the '&'. I think I noticed some of
+> this
+> in patch 1 as well, so worth going through and checking that.
 > 
-> > +
-> > +        /*
-> > +         * We claim to be an ARM r0p0 with a zero ProductID.
-> > +         * This is the same as an r0p0 GIC-500.
-> > +         */
-> > +        s->iidr = gicv3_iidr();
+> >  }
+> > 
+> >  static void gicv3_its_reset(DeviceState *dev)
+> > @@ -259,6 +569,9 @@ static void gicv3_its_reset(DeviceState *dev)
+> > 
+> >      if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
+> >          c->parent_reset(dev);
+> > +        memset(&s->dt, 0, sizeof(s->dt));
+> > +        memset(&s->ct, 0, sizeof(s->ct));
+> > +        memset(&s->cq, 0, sizeof(s->cq));
 > 
-> IIDR is constant, so just call gicv3_iidr() to get its value directly
-> in the register read function.
+> Would be cleaner to first set the baser/cbaser registers to their
+> reset values and then just call the function that calculates these
+> struct fields based on the register values.
 > 
-> > +
-> > +        /* Quiescent bit reset to 1 */
-> > +        s->ctlr = FIELD_DP32(s->ctlr, GITS_CTLR, QUIESCENT, 1);
-> > +
-> > +        /*
-> > +         * setting GITS_BASER0.Type = 0b001 (Device)
-> > +         *         GITS_BASER1.Type = 0b100 (Collection Table)
-> > +         *         GITS_BASER<n>.Type,where n = 3 to 7 are 0b00
-> > (Unimplemented)
-> > +         *         GITS_BASER<0,1>.Page_Size = 64KB
-> > +         * and default translation table entry size to 16 bytes
-> > +         */
-> > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER, TYPE,
-> > +                                              GITS_ITT_TYPE_DEVICE
-> > );
-> > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER,
-> > PAGESIZE,
-> > +                                              GITS_BASER_PAGESIZE_
-> > 64K);
-> > +        s->baser[0] = FIELD_DP64(s->baser[0], GITS_BASER,
-> > ENTRYSIZE,
-> > +                                              GITS_DTE_SIZE);
-> > +
-> > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER, TYPE,
-> > +                                              GITS_ITT_TYPE_COLLEC
-> > TION);
-> > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER,
-> > PAGESIZE,
-> > +                                              GITS_BASER_PAGESIZE_
-> > 64K);
-> > +        s->baser[1] = FIELD_DP64(s->baser[1], GITS_BASER,
-> > ENTRYSIZE,
-> > +                                              GITS_CTE_SIZE);
-> > +    }
-> > +}
-> > +
-> > +static Property gicv3_its_props[] = {
-> > +    DEFINE_PROP_LINK("parent-gicv3", GICv3ITSState, gicv3, "arm-
-> > gicv3",
-> > +                     GICv3State *),
-> > +    DEFINE_PROP_END_OF_LIST(),
-> > +};
-> > +
-> > +static void gicv3_its_class_init(ObjectClass *klass, void *data)
-> > +{
-> > +    DeviceClass *dc = DEVICE_CLASS(klass);
-> > +    GICv3ITSClass *ic = ARM_GICV3_ITS_CLASS(klass);
-> > +
-> > +    dc->realize = gicv3_arm_its_realize;
-> > +    device_class_set_props(dc, gicv3_its_props);
-> > +    device_class_set_parent_reset(dc, gicv3_its_reset, &ic-
-> > >parent_reset);
-> > +}
-> > +
-> > +static const TypeInfo gicv3_its_info = {
-> > +    .name = TYPE_ARM_GICV3_ITS,
-> > +    .parent = TYPE_ARM_GICV3_ITS_COMMON,
-> > +    .instance_size = sizeof(GICv3ITSState),
-> > +    .class_init = gicv3_its_class_init,
-> > +    .class_size = sizeof(GICv3ITSClass),
-> > +};
-> > +
-> > +static void gicv3_its_register_types(void)
-> > +{
-> > +    type_register_static(&gicv3_its_info);
-> > +}
-> > +
-> > +type_init(gicv3_its_register_types)
+> >          /* set the ITS default features supported */
+> >          s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
 > > diff --git a/hw/intc/arm_gicv3_its_common.c
 > > b/hw/intc/arm_gicv3_its_common.c
-> > index 66c4c6a188..80cc9ec6d8 100644
+> > index 80cc9ec6d8..9c5c71f350 100644
 > > --- a/hw/intc/arm_gicv3_its_common.c
 > > +++ b/hw/intc/arm_gicv3_its_common.c
-> > @@ -50,12 +50,16 @@ static int gicv3_its_post_load(void *opaque,
-> > int version_id)
+> > @@ -48,6 +48,42 @@ static int gicv3_its_post_load(void *opaque, int
+> > version_id)
+> >      return 0;
+> >  }
 > > 
+> > +static const VMStateDescription vmstate_its_dtdesc = {
+> > +    .name = "arm_gicv3_its_dtdesc",
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_BOOL(valid, DevTableDesc),
+> > +        VMSTATE_BOOL(indirect, DevTableDesc),
+> > +        VMSTATE_UINT16(entry_sz, DevTableDesc),
+> > +        VMSTATE_UINT32(max_entries, DevTableDesc),
+> > +        VMSTATE_UINT32(max_devids, DevTableDesc),
+> > +        VMSTATE_UINT64(base_addr, DevTableDesc),
+> > +        VMSTATE_END_OF_LIST(),
+> > +    },
+> > +};
+> > +
+> > +static const VMStateDescription vmstate_its_ctdesc = {
+> > +    .name = "arm_gicv3_its_ctdesc",
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_BOOL(valid, CollTableDesc),
+> > +        VMSTATE_BOOL(indirect, CollTableDesc),
+> > +        VMSTATE_UINT16(entry_sz, CollTableDesc),
+> > +        VMSTATE_UINT32(max_entries, CollTableDesc),
+> > +        VMSTATE_UINT32(max_collids, CollTableDesc),
+> > +        VMSTATE_UINT64(base_addr, CollTableDesc),
+> > +        VMSTATE_END_OF_LIST(),
+> > +    },
+> > +};
+> > +
+> > +static const VMStateDescription vmstate_its_cqdesc = {
+> > +    .name = "arm_gicv3_its_cqdesc",
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_BOOL(valid, CmdQDesc),
+> > +        VMSTATE_UINT32(max_entries, CmdQDesc),
+> > +        VMSTATE_UINT64(base_addr, CmdQDesc),
+> > +        VMSTATE_END_OF_LIST(),
+> > +    },
+> > +};
+> 
+> Do these really need migrating, or are they just expanded out values
+> that can be recalculated from the BASER and CBASER register values?
+> If so then it would be simpler to recalculate in a migration post-
+> load
+> function.
+> have removed all the migration specific variables and implemented
+> migration post-load to recalculate the required values
+> 
+> > +
 > >  static const VMStateDescription vmstate_its = {
 > >      .name = "arm_gicv3_its",
-> > +    .version_id = 1,
-> > +    .minimum_version_id = 1,
-> >      .pre_save = gicv3_its_pre_save,
+> >      .version_id = 1,
+> > @@ -56,6 +92,12 @@ static const VMStateDescription vmstate_its = {
 > >      .post_load = gicv3_its_post_load,
 > >      .priority = MIG_PRI_GICV3_ITS,
 > >      .fields = (VMStateField[]) {
+> > +        VMSTATE_STRUCT(dt, GICv3ITSState, 0, vmstate_its_dtdesc,
+> > +                        DevTableDesc),
+> > +        VMSTATE_STRUCT(ct, GICv3ITSState, 0, vmstate_its_ctdesc,
+> > +                        CollTableDesc),
+> > +        VMSTATE_STRUCT(cq, GICv3ITSState, 0, vmstate_its_cqdesc,
+> > +                        CmdQDesc),
+> 
+> As noted previously, you can't just add fields to a
+> VMStateDescription;
+> retaining migration compatibility requires more than that.
+> 
 > >          VMSTATE_UINT32(ctlr, GICv3ITSState),
-> > +        VMSTATE_UINT32(translater, GICv3ITSState),
+> >          VMSTATE_UINT32(translater, GICv3ITSState),
 > >          VMSTATE_UINT32(iidr, GICv3ITSState),
-> > +        VMSTATE_UINT64(typer, GICv3ITSState),
+> > diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+> > index 96cfe2dff9..b7701e8ca5 100644
+> > --- a/hw/intc/gicv3_internal.h
+> > +++ b/hw/intc/gicv3_internal.h
+> > @@ -246,13 +246,14 @@ FIELD(GITS_BASER, INNERCACHE, 59, 3)
+> >  FIELD(GITS_BASER, INDIRECT, 62, 1)
+> >  FIELD(GITS_BASER, VALID, 63, 1)
+> > 
+> > -#define GITS_BASER_PAGESIZE_4K                0
+> > -#define GITS_BASER_PAGESIZE_16K               1
+> > -#define GITS_BASER_PAGESIZE_64K               2
+> > -
+> > -#define GITS_ITT_TYPE_DEVICE                  1ULL
+> > -#define GITS_ITT_TYPE_COLLECTION              4ULL
 > 
-> You cannot change a VMStateDescription like this -- you will break
-> migration compatibility. Luckily, in this case there's no need:
-> GITS_TYPER is read-only, so it doesn't need to be migrated, and
-> GITS_TRANSLATER is not a real contains-state register (it's write-
-> only),
-> so there's no new state there either. Neither needs to be a new field
-> in the GICv3ITSState structure either (though typer could be if you
-> prefer).
+> You just added these in the previous patch, don't move them
+> in this one. Have patch 1 put them in the right place in the file
+> to start with.
 > 
-> >          VMSTATE_UINT64(cbaser, GICv3ITSState),
-> >          VMSTATE_UINT64(cwriter, GICv3ITSState),
-> >          VMSTATE_UINT64(creadr, GICv3ITSState),
-> > @@ -99,15 +103,16 @@ static const MemoryRegionOps
-> > gicv3_its_trans_ops = {
-> >      .endianness = DEVICE_NATIVE_ENDIAN,
-> >  };
-> > +/**
-> > + * Default features advertised by this version of ITS
-> > + */
-> > +/* Physical LPIs supported */
-> > +#define GITS_TYPE_PHYSICAL           (1U << 0)
+> > +FIELD(GITS_CBASER, SIZE, 0, 8)
+> > +FIELD(GITS_CBASER, SHAREABILITY, 10, 2)
+> > +FIELD(GITS_CBASER, PHYADDR, 12, 40)
+> > +FIELD(GITS_CBASER, OUTERCACHE, 53, 3)
+> > +FIELD(GITS_CBASER, INNERCACHE, 59, 3)
+> > +FIELD(GITS_CBASER, VALID, 63, 1)
+> > 
+> > +FIELD(GITS_CTLR, ENABLED, 0, 1)
+> >  FIELD(GITS_CTLR, QUIESCENT, 31, 1)
+> > 
+> >  FIELD(GITS_TYPER, PHYSICAL, 0, 1)
+> > @@ -264,6 +265,26 @@ FIELD(GITS_TYPER, PTA, 19, 1)
+> >  FIELD(GITS_TYPER, CIDBITS, 32, 4)
+> >  FIELD(GITS_TYPER, CIL, 36, 1)
+> > 
+> > +#define ITS_CTLR_ENABLED               (1U)  /* ITS Enabled */
 > > +
-> > +/*
-> > + * 11 bytes Interrupt translation Table Entry size
-> > + * Valid = 1 bit,InterruptType = 1 bit,
-> > + * Size of LPI number space[considering max 24 bits],
-> > + * Size of LPI number space[considering max 24 bits],
-> > + * ICID = 16 bits,
-> > + * vPEID = 16 bits
-> > + */
-> > +#define ITS_ITT_ENTRY_SIZE            0xB
+> > +#define
+> > GITS_BASER_VAL_MASK                  (R_GITS_BASER_ENTRYSIZE_MASK |
+> > \
+> > +                                              R_GITS_BASER_TYPE_MA
+> > SK)
 > > +
-> > +/* 16 bits EventId */
-> > +#define ITS_IDBITS                   GICD_TYPER_IDBITS
+> > +#define GITS_BASER_PAGESIZE_4K                0
+> > +#define GITS_BASER_PAGESIZE_16K               1
+> > +#define GITS_BASER_PAGESIZE_64K               2
 > > +
-> > +/* 16 bits DeviceId */
-> > +#define ITS_DEVBITS                   0xF
+> > +#define GITS_ITT_TYPE_DEVICE                  1ULL
+> > +#define GITS_ITT_TYPE_COLLECTION              4ULL
 > > +
-> > +/* 16 bits CollectionId */
-> > +#define ITS_CIDBITS                  0xF
+> > +#define GITS_ITT_PAGE_SIZE_0      0x1000
+> > +#define GITS_ITT_PAGE_SIZE_1      0x4000
+> > +#define GITS_ITT_PAGE_SIZE_2      0x10000
 > > +
-> > +/*
-> > + * 8 bytes Device Table Entry size
-> > + * Valid = 1 bit,ITTAddr = 44 bits,Size = 5 bits
-> > + */
-> > +#define GITS_DTE_SIZE                 (0x8ULL)
+> > +#define L1TABLE_ENTRY_SIZE         8
 > > +
-> > +/*
-> > + * 8 bytes Collection Table Entry size
-> > + * Valid = 1 bit,RDBase = 36 bits(considering max RDBASE)
-> > + */
-> > +#define GITS_CTE_SIZE                 (0x8ULL)
+> > +#define GITS_CMDQ_ENTRY_SIZE               32
 > > +
+> >  /**
+> >   * Default features advertised by this version of ITS
+> >   */
+> > diff --git a/include/hw/intc/arm_gicv3_common.h
+> > b/include/hw/intc/arm_gicv3_common.h
+> > index 91491a2f66..b0f2414fa3 100644
+> > --- a/include/hw/intc/arm_gicv3_common.h
+> > +++ b/include/hw/intc/arm_gicv3_common.h
+> > @@ -226,12 +226,16 @@ struct GICv3State {
+> >      int dev_fd; /* kvm device fd if backed by kvm vgic support */
+> >      Error *migration_blocker;
+> > 
+> > +    MemoryRegion *sysmem;
+> > +    AddressSpace sysmem_as;
 > 
-> Is this the same data structure the in-kernel KVM ITS uses, or is
-> it just one specific to the QEMU emulated implementation ?
-> This is specific to QEMU emulated implementation
+> I think these would be better named "dma" and "dma_as", because
+> from the ITS' point of view that's what they are. There's no inherent
+> requirement that they be connected to the system address space in
+> particular.
 > 
-> >  /* Special interrupt IDs */
-> >  #define INTID_SECURE 1020
-> >  #define INTID_NONSECURE 1021
-> > diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> > index 1c299039f6..53472239f0 100644
-> > --- a/hw/intc/meson.build
-> > +++ b/hw/intc/meson.build
-> > @@ -8,6 +8,7 @@ softmmu_ss.add(when: 'CONFIG_ARM_GIC', if_true:
-> > files(
-> >    'arm_gicv3_dist.c',
-> >    'arm_gicv3_its_common.c',
-> >    'arm_gicv3_redist.c',
-> > +  'arm_gicv3_its.c',
-> >  ))
-> >  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true:
-> > files('etraxfs_pic.c'))
-> >  softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true:
-> > files('heathrow_pic.c'))
+> > +
+> >      /* Distributor */
+> > 
+> >      /* for a GIC with the security extensions the NS banked
+> > version of this
+> >       * register is just an alias of bit 1 of the S banked version.
+> >       */
+> >      uint32_t gicd_ctlr;
+> > +    uint32_t gicd_typer;
+> 
+> What's this for ? You shouldn't need to be adding new distributor
+> state fields.
+> removed
+> 
+> >      uint32_t gicd_statusr[2];
+> >      GIC_DECLARE_BITMAP(group);        /* GICD_IGROUPR */
+> >      GIC_DECLARE_BITMAP(grpmod);       /* GICD_IGRPMODR */
 > > diff --git a/include/hw/intc/arm_gicv3_its_common.h
 > > b/include/hw/intc/arm_gicv3_its_common.h
-> > index 5a0952b404..08bc5652ed 100644
+> > index 08bc5652ed..b7eca57221 100644
 > > --- a/include/hw/intc/arm_gicv3_its_common.h
 > > +++ b/include/hw/intc/arm_gicv3_its_common.h
-> > @@ -25,17 +25,24 @@
-> >  #include "hw/intc/arm_gicv3_common.h"
-> >  #include "qom/object.h"
+> > @@ -43,6 +43,30 @@
 > > 
-> > +#define TYPE_ARM_GICV3_ITS "arm-gicv3-its"
+> >  #define GITS_PIDR2       0xFFE8
+> > 
+> > +typedef struct {
+> > +    bool valid;
+> > +    bool indirect;
+> > +    uint16_t entry_sz;
+> > +    uint32_t max_entries;
+> > +    uint32_t max_devids;
+> > +    uint64_t base_addr;
+> > +} DevTableDesc;
 > > +
-> >  #define ITS_CONTROL_SIZE 0x10000
-> >  #define ITS_TRANS_SIZE   0x10000
-> >  #define ITS_SIZE         (ITS_CONTROL_SIZE + ITS_TRANS_SIZE)
-> > 
-> >  #define GITS_CTLR        0x0
-> >  #define GITS_IIDR        0x4
-> > +#define GITS_TYPER       0x8
-> >  #define GITS_CBASER      0x80
-> >  #define GITS_CWRITER     0x88
-> >  #define GITS_CREADR      0x90
-> >  #define GITS_BASER       0x100
-> > 
-> > +#define GITS_TRANSLATER  0x0040
+> > +typedef struct {
+> > +    bool valid;
+> > +    bool indirect;
+> > +    uint16_t entry_sz;
+> > +    uint32_t max_entries;
+> > +    uint32_t max_collids;
+> > +    uint64_t base_addr;
+> > +} CollTableDesc;
 > > +
-> > +#define GITS_PIDR2       0xFFE8
-> 
-> You probably don't want an offset for GITS_PIDR2 specifically.
-> Compare handling of GICD_IDREGS in the distributor emulation.
-> Tried re-using the GICD_IDREGS offset for GITS_PIDR2,but from testing
-> observed that the linux kernel driver and kvm-unit-tests both relied
-> on using the 0xFFE8 offset instead of 0xFFD0 (used by GICD & GICR) to
-> complete ITS initialization and setup
+> > +typedef struct {
+> > +    bool valid;
+> > +    uint32_t max_entries;
+> > +    uint64_t base_addr;
+> > +} CmdQDesc;
+> > +
+> >  struct GICv3ITSState {
+> >      SysBusDevice parent_obj;
+> > 
+> > @@ -66,6 +90,10 @@ struct GICv3ITSState {
+> >      uint64_t creadr;
+> >      uint64_t baser[8];
+> > 
+> > +    DevTableDesc  dt;
+> > +    CollTableDesc ct;
+> > +    CmdQDesc      cq;
+> > +
+> >      Error *migration_blocker;
+> >  };
+> > 
+> > --
+> > 2.27.0
 > 
 > thanks
 > -- PMM
