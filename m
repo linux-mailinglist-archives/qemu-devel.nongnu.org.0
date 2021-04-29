@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243A736E4ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 08:37:09 +0200 (CEST)
-Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B714C36E576
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:02:38 +0200 (CEST)
+Received: from localhost ([::1]:41832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc0IO-0003w7-0v
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 02:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51318)
+	id 1lc0h3-00076m-Bp
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:02:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc0Gu-0003OP-T3
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 02:35:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49460)
+ id 1lc0fd-0006fx-V9
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:01:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc0Gr-0004zH-W9
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 02:35:36 -0400
+ id 1lc0fb-0004eB-Dy
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:01:09 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lc0Gp-0002qb-V3
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 06:35:31 +0000
+ id 1lc0fZ-0004pe-IJ
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 07:01:05 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BFBF42E8031
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 06:35:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 869D22E80F3
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 07:01:05 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 06:26:51 -0000
-From: Howard Spoelstra <1926497@bugs.launchpad.net>
+Date: Thu, 29 Apr 2021 06:53:09 -0000
+From: Thomas Huth <1914870@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: m68k q800
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cat-7 jrmuizel laurent-vivier
-X-Launchpad-Bug-Reporter: Jeff (jrmuizel)
-X-Launchpad-Bug-Modifier: Howard Spoelstra (cat-7)
-References: <161963801251.13717.437360863998468941.malonedeb@wampee.canonical.com>
- <161964487066.14015.8898428089827057186.malone@wampee.canonical.com>
-Message-Id: <CABLmASGjYD=okbcHbENPjRfhkrvBKtTKGsY7yGXTkeC398+btg@mail.gmail.com>
-Subject: Re: [Bug 1926497] Re: dp83932 stops working after a short while
+X-Launchpad-Bug-Commenters: philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161262934089.14056.18327208796436481224.malonedeb@soybean.canonical.com>
+Message-Id: <161967918961.3819.10541066860655535803.malone@chaenomeles.canonical.com>
+Subject: [Bug 1914870] Re: libvixl compilation failure on Debian unstable
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: e4f40c9c8a5acd5dec66abe7825a41cf0ea1667a
+X-Launchpad-Hash: a657bd6c6a694baf322135d7fe528915f98534ad
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,114 +70,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926497 <1926497@bugs.launchpad.net>
+Reply-To: Bug 1914870 <1914870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 28, 2021 at 11:31 PM Jeff <1926497@bugs.launchpad.net> wrote:
->
-> It looks like using
-> https://cdimage.debian.org/cdimage/ports/snapshots/2021-04-17/debian-10.0=
-.0
-> -m68k-NETINST-1.iso instead fixes the issue. Perhaps the instruction on
-> https://wiki.qemu.org/Documentation/Platforms/m68k should be updated.
->
-> --
-> You received this bug notification because you are a member of qemu-
-> devel-ml, which is subscribed to QEMU.
-> https://bugs.launchpad.net/bugs/1926497
->
-> Title:
->   dp83932 stops working after a short while
->
-> Status in QEMU:
->   New
->
-> Bug description:
->   Following the instructions here
->   https://wiki.qemu.org/Documentation/Platforms/m68k I was able to
->   successfully install debian. However, running apt-get update stalls
->   after the first 1-2MB.
->
->   root@debian:~# apt-get update
->   Get:1 http://ftp.ports.debian.org/debian-ports sid InRelease [55.3 kB]
->   Ign:1 http://ftp.ports.debian.org/debian-ports sid InRelease
->   Get:2 http://ftp.ports.debian.org/debian-ports sid/main all Packages [8=
-,735 kB]
->   18% [2 Packages 2,155 kB/8,735 kB 25%]
->
->   After running apt-get update. I don't seem to be able to send any
->   packets anymore. ping host lookups fail and a subsequent apt-get
->   update makes no progress.
->
->   I'm launching qemu with:
->
->     qemu-system-m68k -boot c \
->    -M q800 -serial none -serial mon:stdio -m 1000M \
->    -net nic,model=3Ddp83932 -net user \
->    -append "root=3D/dev/sda2 rw console=3DttyS0 console=3Dtty" \
->    -kernel vmlinux-4.16.0-1-m68k \
->    -initrd initrd.img-4.16.0-1-m68k \
->    -drive file=3Dm68k-deb10.qcow2,format=3Dqcow2 \
->    -nographic
->
->   I see this with qemu v6.0.0-rc5
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1926497/+subscriptions
-
-I've updated the page to include:
-
-Please note that the instructions below use kernel versions that might
-have been superseded by newer ones on the most recent installation cd
-images! Also, during installation on hard disk image the update
-process might install a newer kernel. Always make sure to extract the
-latest kernel and initrd.gz from your hard disk image after
-installation or update and replace the kernel names in the examples
-below with what is currently installed.
+I think we had some c++ related fixes merged in the last weeks ... is
+this still reproducible with the current 6.0-rc5 version of QEMU?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926497
+https://bugs.launchpad.net/bugs/1914870
 
 Title:
-  dp83932 stops working after a short while
+  libvixl compilation failure on Debian unstable
 
 Status in QEMU:
   New
 
 Bug description:
-  Following the instructions here
-  https://wiki.qemu.org/Documentation/Platforms/m68k I was able to
-  successfully install debian. However, running apt-get update stalls
-  after the first 1-2MB.
+  As of commit 0e324626306:
 
-  root@debian:~# apt-get update
-  Get:1 http://ftp.ports.debian.org/debian-ports sid InRelease [55.3 kB]
-  Ign:1 http://ftp.ports.debian.org/debian-ports sid InRelease
-  Get:2 http://ftp.ports.debian.org/debian-ports sid/main all Packages [8,7=
-35 kB]
-  18% [2 Packages 2,155 kB/8,735 kB 25%]
+  $ lsb_release -d
+  Description:    Debian GNU/Linux bullseye/sid
 
-  After running apt-get update. I don't seem to be able to send any
-  packets anymore. ping host lookups fail and a subsequent apt-get
-  update makes no progress.
+  Project version: 5.2.50
+  C compiler for the host machine: cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.=
+2.1 20210110")
+  C linker for the host machine: cc ld.bfd 2.35.1
+  C++ compiler for the host machine: c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6)=
+ 10.2.1 20210110")
+  C++ linker for the host machine: c++ ld.bfd 2.35.1
 
-  I'm launching qemu with:
+  [6/79] Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
+  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o =
 
-    qemu-system-m68k -boot c \
-   -M q800 -serial none -serial mon:stdio -m 1000M \
-   -net nic,model=3Ddp83932 -net user \
-   -append "root=3D/dev/sda2 rw console=3DttyS0 console=3Dtty" \
-   -kernel vmlinux-4.16.0-1-m68k \
-   -initrd initrd.img-4.16.0-1-m68k \
-   -drive file=3Dm68k-deb10.qcow2,format=3Dqcow2 \
-   -nographic
+  c++ -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui/shader -I/usr/include/c=
+apstone -I/usr/include/glib-2.0 -I/usr/lib/hppa-linux-gnu/glib-2.0/include =
+-fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -We=
+rror -std=3Dgnu++11 -O2 -g -isystem /home/philmd/qemu/linux-headers -isyste=
+m linux-headers -iquote . -iquote /home/philmd/qemu -iquote /home/philmd/qe=
+mu/include -iquote /home/philmd/qemu/disas/libvixl -iquote /home/philmd/qem=
+u/tcg/hppa -iquote /home/philmd/qemu/accel/tcg -pthread -D__STDC_LIMIT_MACR=
+OS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -U_FORTIFY_SOURCE -D_FOR=
+TIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE =
+-Wundef -Wwrite-strings -fno-strict-aliasing -fno-common -fwrapv -Wtype-lim=
+its -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty=
+-body -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno=
+-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ li=
+bcommon.fa.p/disas_libvixl_vixl_utils.cc.o -MF libcommon.fa.p/disas_libvixl=
+_vixl_utils.cc.o.d -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../di=
+sas/libvixl/vixl/utils.cc
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:36:43: error: missing binary operator before token =
+"("
+     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
+        |                                           ^
+  /usr/include/string.h:53:62: error: missing binary operator before token =
+"("
+     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISO=
+C2X)
+        |                                                              ^
+  /usr/include/string.h:165:21: error: missing binary operator before token=
+ "("
+    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
+        |                     ^
+  /usr/include/string.h:174:43: error: missing binary operator before token=
+ "("
+    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_U=
+SE (ISOC2X)
+        |                                           ^
+  /usr/include/string.h:492:19: error: missing binary operator before token=
+ "("
+    492 | #if __GNUC_PREREQ (3,4)
+        |                   ^
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:28:1: error: =E2=80=98__BEGIN_DECLS=E2=80=99 does n=
+ot name a type
+     28 | __BEGIN_DECLS
+        | ^~~~~~~~~~~~~
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:44:8: error: =E2=80=98size_t=E2=80=99 has not been =
+declared
+     44 |        size_t __n) __THROW __nonnull ((1, 2));
+        |        ^~~~~~
+  /usr/include/string.h:44:20: error: expected initializer before =E2=80=98=
+__THROW=E2=80=99
+     44 |        size_t __n) __THROW __nonnull ((1, 2));
+        |                    ^~~~~~~
+  /usr/include/string.h:47:56: error: =E2=80=98size_t=E2=80=99 has not been=
+ declared
+     47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+        |                                                        ^~~~~~
+  /usr/include/string.h:48:6: error: expected initializer before =E2=80=98_=
+_THROW=E2=80=99
+     48 |      __THROW __nonnull ((1, 2));
+        |      ^~~~~~~
+  /usr/include/string.h:61:42: error: =E2=80=98size_t=E2=80=99 has not been=
+ declared
+     61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __no=
+nnull ((1));
+        |                                          ^~~~~~
 
-  I see this with qemu v6.0.0-rc5
+  Is there a package dependency missing?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926497/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914870/+subscriptions
 
