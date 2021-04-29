@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5FE36ECFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:06:47 +0200 (CEST)
-Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6D936ED1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:09:55 +0200 (CEST)
+Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc8Fa-0001D4-53
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56220)
+	id 1lc8Ic-0003kq-68
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lc8EY-00006f-De
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:05:42 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lc8EW-0002H1-LS
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:05:42 -0400
-Received: by mail-wr1-x434.google.com with SMTP id e5so38635484wrg.7
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 08:05:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EYhlmfXvj2ehmhYhTHmVrEzBYH9XcJWGUNpRkjlx2AE=;
- b=T5i4CzWmHR19yJbUWul6oSWIxjPMixj63A9eAawvAxkT8ct66WFPQQZVPrOPnwdNpZ
- XavtSn81jKg1zLM7r6Q9NaeMTLozXFpnOuPQU54oSUY1XXnIpHOya9FfntHFnGjt+QHb
- mSs/zexiKIEZXsQVYSZBep0b8cy9DtMXQhShERKfTFPRTf55NWDQZXQYWuyQ3G9GHQAd
- LOyq5yCI60uwAlmRK6/PC0PwDWa5VitInuPKLt8u4g7NvlSVWi1pZmP1A5XVJ/ZfqOzx
- Q9f/GhBCquzve3Q0aPEQMzWghhiPZf8GzU0F67iMPqLlIjuZnyaON/zZbNQVERx0Vcq0
- fcKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EYhlmfXvj2ehmhYhTHmVrEzBYH9XcJWGUNpRkjlx2AE=;
- b=JCQtwOaS4ySuhaxiQdfBQ812aY+V+zmUiINqVoDxNlkXKg6V4dMNkdK+IsKC8MippE
- tF3th46rALK/9YxVI91U6px0yxA860Ob91n+8Bd4tziYhlzE2AjERFTEvLZAIk4W1TIn
- +uZSj/RXqryaRuNUKSabjLvjymOY5q/YTOZyu1CArzCfb11Sl9nISI8cjbZ0LQS6yhwu
- hOXZfPuDrQFJr8kQTMH7F8pjuBAJuHFPZ6Dyg1IQVm1ZI7GVGO9JiDuLaBE4BGtganU+
- xp4uFO3Z6FAq4DipQdtDqyNooEeJFjpel1dVfQs+Ry03oLzXlhbxwNk151O9PR6EXtYJ
- tvAw==
-X-Gm-Message-State: AOAM530RFLe2RxAE10lbByU1nx5w9dY08fY2urv3CkXT53hjrr4l4q/+
- Fh8+znBsNDzZouPRIfwhK0I=
-X-Google-Smtp-Source: ABdhPJwQX4Gnbmlga84WXMQeC4ikex4Hcz6pmrECkx17F5vk8sY+xerce5NhLVM91JlNcHUDmQOfGg==
-X-Received: by 2002:adf:f212:: with SMTP id p18mr296782wro.120.1619708738570; 
- Thu, 29 Apr 2021 08:05:38 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id y19sm10647978wmj.28.2021.04.29.08.05.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Apr 2021 08:05:37 -0700 (PDT)
-Subject: Re: Let's remove some deprecated stuff
-To: Gerd Hoffmann <kraxel@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <87y2d1csxe.fsf@dusky.pond.sub.org>
- <bd90409c-14d0-2732-0056-9fec8383479a@redhat.com>
- <20210429124049.z7qtkufk2wgvvd5i@sirius.home.kraxel.org>
- <YIqwsUAGEvfazbvZ@merkur.fritz.box>
- <20210429134612.rtnoy5yo3v36h4l7@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bbaac55c-4877-82f8-1a70-bd62ff79a25f@amsat.org>
-Date: Thu, 29 Apr 2021 17:05:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lc8Ha-0003Fb-Vl
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:08:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lc8HX-0004VZ-Bb
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:08:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619708926;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gXZzGWbj5L5oMfDV93Fl9fi+mfTYowjVnGqCjTkufo4=;
+ b=QWUZ3lZtSSiWV7xtLWJkrZ0xJyF8e7lvRewqMnPfy+H6J9u7Li+LOyd//Vuvem1Nmjhbsu
+ 4/Rw8iBRscjImhDso03YPIvEQ4taBrKUxs/2AKDSKEgueE2f8GPS4ws+rb1CL6OHrSWCIk
+ VeJAxgkF18oM8AMaLlm/B0Iv39DwVeo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-fqDe3Uy4MLCLgfM7shuopw-1; Thu, 29 Apr 2021 11:08:39 -0400
+X-MC-Unique: fqDe3Uy4MLCLgfM7shuopw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E11D1936B65;
+ Thu, 29 Apr 2021 15:08:38 +0000 (UTC)
+Received: from redhat.com (ovpn-115-232.ams2.redhat.com [10.36.115.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 928D85D9C6;
+ Thu, 29 Apr 2021 15:08:25 +0000 (UTC)
+Date: Thu, 29 Apr 2021 16:08:22 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
+Message-ID: <YIrL5kE+0ULVN2lK@redhat.com>
+References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
+ <20210429142259.GR26415@redhat.com>
+ <YIrFmZgh5IAeiLdm@stefanha-x1.localdomain>
+ <20210429150038.GT26415@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210429134612.rtnoy5yo3v36h4l7@sirius.home.kraxel.org>
+In-Reply-To: <20210429150038.GT26415@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,27 +84,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
+ Alberto Garcia <berto@igalia.com>, slp@redhat.com, qemu-block@nongnu.org,
  Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>, Robert Hoo <robert.hu@linux.intel.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ philmd@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/21 3:46 PM, Gerd Hoffmann wrote:
+On Thu, Apr 29, 2021 at 04:00:38PM +0100, Richard W.M. Jones wrote:
+> On Thu, Apr 29, 2021 at 03:41:29PM +0100, Stefan Hajnoczi wrote:
+> > On Thu, Apr 29, 2021 at 03:22:59PM +0100, Richard W.M. Jones wrote:
+> > > On Thu, Apr 29, 2021 at 03:05:50PM +0100, Stefan Hajnoczi wrote:
+> > > > The purpose of this preview release is to discuss both the API design
+> > > > and general direction of the project. API documentation is available
+> > > > here:
+> > > > 
+> > > >   https://gitlab.com/libblkio/libblkio/-/blob/v0.1.0/docs/blkio.rst
+> > > 
+> > > libvirt originally, and now libnbd, keep a per-thread error message
+> > > (stored in thread-local storage).  It's a lot nicer than having to
+> > > pass &errmsg to every function.  You can just write:
+> > > 
+> > >  if (nbd_connect_tcp (nbd, "remote", "nbd") == -1) {
+> > >    fprintf (stderr,
+> > >             "failed to connect to remote server: %s (errno = %d)\n",
+> > >             nbd_get_error (), nbd_get_errno ());
+> > >    exit (EXIT_FAILURE);
+> > >  }
+> > > 
+> > > (https://libguestfs.org/libnbd.3.html#ERROR-HANDLING)
+> > > 
+> > > It means you can extend the range of error information available in
+> > > future.  Also you can return a 'const char *' and the application
+> > > doesn't have to worry about lifetimes, at least in the common case.
+> > 
+> > Thanks for sharing the idea, I think it would work well for libblkio
+> > too.
+> > 
+> > Do you ignore the dlclose(3) memory leak?
+> 
+> I believe this mechanism in libnbd ensures there is no leak in the
+> ordinary shared library (not dlopen/dlclose) case:
+> 
+> https://gitlab.com/nbdkit/libnbd/-/blob/f9257a9fdc68706a4079deb4ced61e1d468f28d6/lib/errors.c#L35
+> 
+> However I'm not sure what happens in the dlopen case, so I'm going to
+> test that out now ...
 
-> Hmm.  Not so easy I suspect.  While most sound cards map to a single
-> device there are exceptions.  pcspk is build-in and hda is two devices.
+pthread_key destructors are a disaster waiting to happen with
+dlclose, if the dlclose happens while non-main threads are
+still running. When those threads exit, they'll run the
+destructor which points to a function that is no longer
+resident in memory.
 
-What do you mean by "pcspk is build-in"?
+IOW if you have destrutors, then you need to make sure your
+library uses "-z nodelete" when linking, to turn dlclose()
+into a no-op.
 
-Do you mean "the 'pcspk' audiodev is build in the 8254 PIT device"?
-(see pcspk_audio_init).
+  commit 8e44e5593eb9b89fbc0b54fde15f130707a0d81e
+  Author: Daniel P. Berrangé <berrange@redhat.com>
+  Date:   Thu Sep 1 17:57:06 2011 +0100
 
-FWIW I'm using this device as example to work on the PWM API,
-and I see the AUD API as a generic DSP processing one.
-And in my TODO I have "split pcspk audiodev backend from 8254".
+    Prevent crash from dlclose() of libvirt.so
+    
+    When libvirt calls virInitialize it creates a thread local
+    for the virErrorPtr storage, and registers a callback to
+    cleanup memory when a thread exits. When libvirt is dlclose()d
+    or otherwise made non-resident, the callback function is
+    removed from memory, but the thread local may still exist
+    and if a thread later exists, it will invoke the callback
+    and SEGV. There may also be other thread locals with callbacks
+    pointing to libvirt code, so it is in general never safe to
+    unload libvirt.so from memory once initialized.
+    
+    To allow dlclose() to succeed, but keep libvirt.so resident
+    in memory, link with '-z nodelete'. This issue was first
+    found with the libvirt CIM provider, but can potentially
+    hit many of the dynamic language bindings which all ultimately
+    involve dlopen() in some way, either on libvirt.so itself,
+    or on the glue code for the binding which in turns links
+    to libvirt
+
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
