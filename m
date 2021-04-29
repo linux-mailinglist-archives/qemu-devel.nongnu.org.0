@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF07C36EA2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:15:36 +0200 (CEST)
-Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D809D36EA7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:29:31 +0200 (CEST)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc5Zv-00053H-N6
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
+	id 1lc5nO-0007oo-TX
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1lc5Qs-00087N-T3
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:16 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:43916)
+ id 1lc5R2-00089m-UH
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:25 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1lc5Qo-0000bD-If
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:14 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- f6-20020a17090a6546b029015088cf4a1eso10829291pjs.2
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 05:06:10 -0700 (PDT)
+ id 1lc5Qr-0000bV-59
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:06:24 -0400
+Received: by mail-pf1-x433.google.com with SMTP id a12so3619880pfc.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 05:06:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FUwTYo4Bm975EnC5JO2hCKsveB8utELXrho2hxTNlIs=;
- b=BLKOs7bnYq36gzkpR9w57P5pqMcpng4xPW91M9/+0D5VvLc0tG2VduOIUgCad0DTgd
- vGLbTZgj5N/3kPC4XjuOKkkj5NZk0OT/P0Td91SZXH/pv6lN4oBexS7u0kb0pHs0ln04
- 27b+HVWxRTL0hi3/93ZE4WADQ4B6/NInv2rzDdIHBwqdfM6c0Hafv687wo/Vn8ubwxtC
- 3IMA3uUN1LyQvl8VQF05eFywCIml1ByuA0Znq2wSJYq5Wmhr2zR5J4YcJ9afeyM9IFJz
- zfqnRbPvY9khl2RILMsCo8C/hEvLnJzPxT58uXf+ajO8Gh6F7rqzspdok2E6YQa61IVq
- 7Chg==
+ bh=uLBtfbqH8J3EHVhSF1F5M9+NmnEaU+y5Z8djRQCP00Q=;
+ b=UR0LbY8uistU7Y5d0p135bc4tF1uQs5j08NcGFqnZAbtyx/GOWGeSCs1uiKSlTgtDx
+ QFiW6ZRLeQVuJlN2hity1PtGmlpAU058KUI6YcnCokCmA2OxK6Ve86/WYyXpaQOamXDE
+ E6E3WTfr+mR8ZNxnvvjeHiAP+waj2T4WsW+lyPXHTyn0xLWIZKIN+XKZvxfC96dZBMoz
+ YYdRkU4eKa8ft0usVIoUSxpeIS7J6nwK3Rx19VU/MvWprGhykKFi85BTyUGLKGV1NVRW
+ 84pCE4yinhSvz3a9FvM9VmW1rTsJ71Sd8bcwW1ToI5RqaiILthvpZkUHqGogMaP8thDe
+ UN/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FUwTYo4Bm975EnC5JO2hCKsveB8utELXrho2hxTNlIs=;
- b=Hc6UD5uSEvoaNcx752Trwx8LeaNElmacAuYNDibxzZTylmsDA9cXgNPdgEucdVmCdL
- FjrGqOKX+826yQbxlKY3Rgb0F8ATOvh81EppGbga28ZPzhlwDcLwDXmPMFURU1NLx17G
- 6imDNETwLEBAl8tymPesktRaiTAImZg9MX0tCTV9iy7yavPl7BBc2FYhe8+wgegxKA6x
- VMMVCR2Pmx45BL3OoS3ederPYU3VWPERFUNpZSpfwl82nKsUcZhL6Vue6mTe6zTitor1
- 58sWtMr0WFI2fDzlQC7kgYAIPstvPaYUuOSMThpTA4E6Bqe9czWTwUZcsFFWs0KhcvbO
- 2Rrg==
-X-Gm-Message-State: AOAM5331JoP2zMPVVsHitTsQLrmrCquy9O1N0GjvqDZ2+PrVFiTiVvE8
- nkwAQC6Twe7orll/CvEjMs8=
-X-Google-Smtp-Source: ABdhPJyuERrK+7ev+eBqpXkN+T5A1hUuY1qqeVd7Y7dpduyVEn6Dgxk8oxPyix/vSKZPrfh1Rx46Wg==
-X-Received: by 2002:a17:90a:ce92:: with SMTP id
- g18mr9079916pju.214.1619697969302; 
- Thu, 29 Apr 2021 05:06:09 -0700 (PDT)
+ bh=uLBtfbqH8J3EHVhSF1F5M9+NmnEaU+y5Z8djRQCP00Q=;
+ b=KhnqXh667MSbzFLWitrclTtCqzXP4Bw5Jd0xYrt3dZHSNbx94IPKms8Bdpz0nyiVHo
+ WSeMqD0UYuxx8mK6QGbfOg/gMoV+onSiH/kH+BiqADiWI2CBecdCYir3HY59PoFUHq4z
+ TVpC0eIaGnprR4FPrqVbBgwW8PN+DF/T4rdm5oXoI/RcSe8q6oIquJwXoZB5gBdy1LiK
+ hx7GGt92rprzHac2qcC6dUiT4JGefYrgClzXCE89V+uF7Gx08AXLy//95d9ybWJVogUG
+ W64LfwcU/YkNie4Y1sdePC0lcysfmJkeRCzWrcw9bx/nO7G3D3KyeDKpaT+cWApIJTfk
+ a62A==
+X-Gm-Message-State: AOAM532aZbSjnfam/ZkPpp5JxrfLkU/AhFTgyVkoNDIPwysBLVukWXRG
+ 4V01rpdMsmhbN6cjPcg3OOM=
+X-Google-Smtp-Source: ABdhPJwSTTsZn4GZ77Y/d3Zpuiz7p7wR1J6YRA5NTFIw/hax8D9AEuSKfLxNXjtYkx4FXvNjH91KgQ==
+X-Received: by 2002:a63:4866:: with SMTP id x38mr31865597pgk.135.1619697971655; 
+ Thu, 29 Apr 2021 05:06:11 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:6008:61b4:c0b1:be0f:608e:9a45])
- by smtp.gmail.com with ESMTPSA id p6sm713643pjg.35.2021.04.29.05.06.07
+ by smtp.gmail.com with ESMTPSA id p6sm713643pjg.35.2021.04.29.05.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 05:06:09 -0700 (PDT)
+ Thu, 29 Apr 2021 05:06:11 -0700 (PDT)
 From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 To: kraxel@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH 15/27] virtio-snd: Add VIRTIO_SND_R_PCM_INFO handler
-Date: Thu, 29 Apr 2021 17:34:33 +0530
-Message-Id: <20210429120445.694420-16-chouhan.shreyansh2702@gmail.com>
+Subject: [RFC PATCH 16/27] virtio-snd: Add VIRITO_SND_R_PCM_SET_PARAMS handle
+Date: Thu, 29 Apr 2021 17:34:34 +0530
+Message-Id: <20210429120445.694420-17-chouhan.shreyansh2702@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,117 +88,133 @@ Cc: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Added handler for the VIRTIO_SND_R_PCM_SET_PARAMS control request.
+The handler was split up into two functions in so that the code
+could be reused in the realize function.
+
 Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 ---
- hw/audio/virtio-snd.c | 88 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 87 insertions(+), 1 deletion(-)
+ hw/audio/virtio-snd.c | 100 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 99 insertions(+), 1 deletion(-)
 
 diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
-index 527eed6132..bc99cd58d6 100644
+index bc99cd58d6..4e9764de08 100644
 --- a/hw/audio/virtio-snd.c
 +++ b/hw/audio/virtio-snd.c
-@@ -196,6 +196,91 @@ static uint32_t virtio_snd_handle_jack_remap(VirtIOSound *s,
-     return sz;
+@@ -281,6 +281,103 @@ done:
+     return sizeof(virtio_snd_hdr) + sz;
  }
  
 +/*
-+ * Get a specific stream from the virtio sound card device.
++ * Set the given stream params.
++ * Called by both virtio_snd_handle_pcm_set_params and during device
++ * initialization.
++ * Returns a virtio sound status VIRTIO_SND_S_*
 + *
 + * @s: VirtIOSound card device
-+ * @stream: Stream id
-+ *
-+ * Returns NULL if function fails.
-+ * TODO: Make failure more explicit. Output can be NULL if the stream number
-+ *       is valid but the stream hasn't been allocated yet.
++ * @params: The PCM params as defined in the virtio specification
 + */
-+static virtio_snd_pcm_stream *virtio_snd_pcm_get_stream(VirtIOSound *s,
-+                                                        uint32_t stream)
++static uint32_t virtio_snd_pcm_set_params_impl(VirtIOSound *s,
++                                               virtio_snd_pcm_set_params *params)
 +{
-+    if (stream >= s->snd_conf.streams) {
-+        virtio_snd_err("Invalid stream request %d\n", stream);
-+        return NULL;
++    uint32_t st = params->hdr.stream_id;
++    if (st > s->snd_conf.streams || !(s->pcm_params)) {
++        virtio_error(VIRTIO_DEVICE(s), "Streams not initalized\n");
++        return VIRTIO_SND_S_BAD_MSG;
 +    }
-+    return s->streams[stream];
++
++    if (!s->pcm_params[st]) {
++        s->pcm_params[st] = g_new0(virtio_snd_pcm_params, 1);
++    }
++    virtio_snd_pcm_params *st_params = s->pcm_params[st];
++
++    st_params->features = params->features;
++    st_params->buffer_bytes = params->buffer_bytes;
++    st_params->period_bytes = params->period_bytes;
++
++    if (params->channel < 1 || params->channel > AUDIO_MAX_CHANNELS) {
++        virtio_snd_err("Number of channels not supported\n");
++        return VIRTIO_SND_S_NOT_SUPP;
++    }
++    st_params->channel = params->channel;
++
++    uint32_t supported_formats = 1 << VIRTIO_SND_PCM_FMT_S8 |
++                                 1 << VIRTIO_SND_PCM_FMT_U8 |
++                                 1 << VIRTIO_SND_PCM_FMT_S16 |
++                                 1 << VIRTIO_SND_PCM_FMT_U16 |
++                                 1 << VIRTIO_SND_PCM_FMT_S32 |
++                                 1 << VIRTIO_SND_PCM_FMT_U32 |
++                                 1 << VIRTIO_SND_PCM_FMT_FLOAT;
++
++    uint32_t supported_rates = 1 << VIRTIO_SND_PCM_RATE_5512 |
++                               1 << VIRTIO_SND_PCM_RATE_8000 |
++                               1 << VIRTIO_SND_PCM_RATE_11025 |
++                               1 << VIRTIO_SND_PCM_RATE_16000 |
++                               1 << VIRTIO_SND_PCM_RATE_22050 |
++                               1 << VIRTIO_SND_PCM_RATE_32000 |
++                               1 << VIRTIO_SND_PCM_RATE_44100 |
++                               1 << VIRTIO_SND_PCM_RATE_48000 |
++                               1 << VIRTIO_SND_PCM_RATE_64000 |
++                               1 << VIRTIO_SND_PCM_RATE_88200 |
++                               1 << VIRTIO_SND_PCM_RATE_96000 |
++                               1 << VIRTIO_SND_PCM_RATE_176399 |
++                               1 << VIRTIO_SND_PCM_RATE_192000 |
++                               1 << VIRTIO_SND_PCM_RATE_384000;
++
++    if (!(supported_formats & (1 << params->format))) {
++        virtio_snd_err("Stream format not supported\n");
++        return VIRTIO_SND_S_NOT_SUPP;
++    }
++    st_params->format = params->format;
++
++    if (!(supported_rates & (1 << params->rate))) {
++        virtio_snd_err("Stream rate not supported\n");
++        return VIRTIO_SND_S_NOT_SUPP;
++    }
++    st_params->rate = params->rate;
++
++    st_params->period_bytes = params->period_bytes;
++    st_params->buffer_bytes = params->buffer_bytes;
++    return VIRTIO_SND_S_OK;
 +}
 +
 +/*
-+ * Handle the VIRTIO_SND_R_PCM_INFO request.
-+ * The function writes the info structs to the request element.
++ * Handles the VIRTIO_SND_R_PCM_SET_PARAMS request.
++ * The function writes the response to the virtqueue element.
 + * Returns the used size in bytes.
 + *
 + * @s: VirtIOSound card device
 + * @elem: The request element from control queue
 + */
-+static uint32_t virtio_snd_handle_pcm_info(VirtIOSound *s,
-+                                           VirtQueueElement *elem)
++static uint32_t virtio_snd_handle_pcm_set_params(VirtIOSound *s,
++                                                 VirtQueueElement *elem)
 +{
-+    virtio_snd_query_info req;
++    virtio_snd_pcm_set_params req;
 +    uint32_t sz;
 +    sz = iov_to_buf(elem->out_sg, elem->out_num, 0, &req, sizeof(req));
-+    assert(sz == sizeof(virtio_snd_query_info));
++    assert(sz == sizeof(virtio_snd_pcm_set_params));
 +
 +    virtio_snd_hdr resp;
-+    if (iov_size(elem->in_sg, elem->in_num) <
-+        sizeof(virtio_snd_hdr) + req.size * req.count) {
-+        virtio_snd_err("pcm info: buffer too small, got: %lu, needed: %lu\n",
-+                iov_size(elem->in_sg, elem->in_num),
-+                sizeof(virtio_snd_pcm_info));
-+        resp.code = VIRTIO_SND_S_BAD_MSG;
-+        goto done;
-+    }
++    resp.code = virtio_snd_pcm_set_params_impl(s, &req);
 +
-+    virtio_snd_pcm_stream *stream;
-+    virtio_snd_pcm_info *pcm_info = g_new0(virtio_snd_pcm_info, req.count);
-+    for (int i = req.start_id; i < req.start_id + req.count; i++) {
-+        stream = virtio_snd_pcm_get_stream(s, i);
-+
-+        if (!stream) {
-+            virtio_snd_err("Invalid stream id: %d\n", i);
-+            resp.code = VIRTIO_SND_S_BAD_MSG;
-+            goto done;
-+        }
-+
-+        pcm_info[i - req.start_id].hdr.hda_fn_nid = stream->hda_fn_nid;
-+        pcm_info[i - req.start_id].features = stream->features;
-+        pcm_info[i - req.start_id].formats = stream->formats;
-+        pcm_info[i - req.start_id].rates = stream->rates;
-+        pcm_info[i - req.start_id].direction = stream->direction;
-+        pcm_info[i - req.start_id].channels_min = stream->channels_min;
-+        pcm_info[i - req.start_id].channels_max = stream->channels_max;
-+
-+        memset(&pcm_info[i].padding, 0, sizeof(pcm_info[i].padding));
-+    }
-+
-+    resp.code = VIRTIO_SND_S_OK;
-+done:
 +    sz = iov_from_buf(elem->in_sg, elem->in_num, 0, &resp, sizeof(resp));
 +    assert(sz == sizeof(virtio_snd_hdr));
-+
-+    if (resp.code == VIRTIO_SND_S_BAD_MSG) {
-+        g_free(pcm_info);
-+        return sz;
-+    }
-+
-+    sz = iov_from_buf(elem->in_sg, elem->in_num, sizeof(virtio_snd_hdr),
-+                      pcm_info, sizeof(virtio_snd_pcm_info) * req.count);
-+    assert(sz == req.size * req.count);
-+    g_free(pcm_info);
-+    return sizeof(virtio_snd_hdr) + sz;
++    return sz;
 +}
 +
  /* The control queue handler. Pops an element from the control virtqueue,
   * checks the header and performs the requested action. Finally marks the
   * element as used.
-@@ -241,7 +326,8 @@ static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-             sz = virtio_snd_handle_jack_remap(s, elem);
+@@ -329,7 +426,8 @@ static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+             sz = virtio_snd_handle_pcm_info(s, elem);
              goto done;
-         } else if (ctrl.code == VIRTIO_SND_R_PCM_INFO) {
--            virtio_snd_log("VIRTIO_SND_R_PCM_INFO");
-+            sz = virtio_snd_handle_pcm_info(s, elem);
-+            goto done;
          } else if (ctrl.code == VIRTIO_SND_R_PCM_SET_PARAMS) {
-             virtio_snd_log("VIRTIO_SND_R_PCM_SET_PARAMS");
+-            virtio_snd_log("VIRTIO_SND_R_PCM_SET_PARAMS");
++            sz = virtio_snd_handle_pcm_set_params(s, elem);
++            goto done;
          } else if (ctrl.code == VIRTIO_SND_R_PCM_PREPARE) {
+             virtio_snd_log("VIRTIO_SND_R_PCM_PREPARE");
+         } else if (ctrl.code == VIRTIO_SND_R_PCM_START) {
 -- 
 2.25.1
 
