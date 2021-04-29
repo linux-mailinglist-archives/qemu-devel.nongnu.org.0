@@ -2,135 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6311036E380
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 05:07:46 +0200 (CEST)
-Received: from localhost ([::1]:47412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FFC36E385
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 05:09:11 +0200 (CEST)
+Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lbx1k-0006WQ-WD
-	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 23:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
+	id 1lbx39-0007QT-19
+	for lists+qemu-devel@lfdr.de; Wed, 28 Apr 2021 23:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1lbx0T-00065v-1c
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 23:06:25 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:50075)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lbx1x-0006zB-QW
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 23:07:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1lbx0P-0008A7-1H
- for qemu-devel@nongnu.org; Wed, 28 Apr 2021 23:06:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1619665580; x=1620270380;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=Lvy+eBXwueNwiAADyXX+jAPhvaNUQu5Uco6F/MAoI2Y=;
- b=J//HTrr67kRIbpqU2VGIhPw/AXenwy1y54CnYs4j9F2ZijpCEwqtW36J
- lxdO5ty6Zpj9giIOqyYPzmoxDNqaKFwxoXq7IVe7v4xWcjNrY2akG/XEI
- be7uTF6aROU8O7AteQdOXopVdROwFz781xKYYhEKCufPNCPckNNw3eacq 4=;
-IronPort-SDR: pflGp/pLPPou3OoRfwzMUDPC5V5kQwVpcANeHpkX9TLwp0JXzluHJgRQdpuKmLNeeobpSksJ2Y
- bQvZPILomBicynMN6bj9WW4OEPitHi/v7tlxPw4Dw54kME7tQV3rm+T4KreJtnVFlau4sz5gUg
- Soah5wiiaaekPbvMKEd4aeXYGrEhJu7kapRZuSnaJg+qcb0rIGmXtaLW6b8gUSheCSGquTKH4m
- xGiQUUjysVmbuWjj7GqLjWmCW8xlhVmP3aJOZ8tD4e3QcIyWEnCmZgM0UV4gw85iPEBJzKoPJ/
- ZWc=
-X-IronPort-RemoteIP: 104.47.55.101
-X-IronPort-MID: 31703
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_O365
-X-IronPort-MailFlowPolicy: $RELAYED
-Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.101])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 03:06:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K3L2NJLIrek515SRpSbSVYrKlcD15IwDrx9/9kshyOt9N1Pc2lj2V19l+g5rikIGuRoRgPlVVKjTMN5Cka/eLgmHGi1HBRm5roc3nwBZoQ/E1inWwPgVhYrrE/NnDUBYsjLagYMRnm7o+KOlbmi8h6lFJp/zuqdENSud5arwhp3I+ft/0KdO7xE+pEPCnsh7YBHorxne+4VnM3c224KtYbz3JPSBOlSnDv8qCWk4OgwMkOLJ1shua7g0U1F9+BPx+CzxCODkhlAltr3aE6G4lPVchBE597NFZceIQMQHfraoXOO6weR9O65by2fyvQBx9VJHsDC5xOjq9PQwlIjudA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CG9I+hG00g6mXsZtCTsfWREBeEzLQFSG0k40YwVG6GI=;
- b=n/3Ly5MI0QfC338Gn3IsqSW2OZPKRH65rZ0Jkh14gZ827Xj3sVV7hXTvtqrYxdwYsCld+LosMoIwE+p/tRvP2U5HHvLLgfWkihZLZ7az46I/8hFPW2Qq8rcypACvhBmmlxK0FHdo+kN2qPdVVltTXSs31uFAaAMT3OPkiuUrrvW6kVteg1n+lo8QrD+/0AiXO7zP/TuQQmR2Fug0+tSCUL6S4ZJ9pICMXGMyDnFw4nm1PbQ2n3zyBXuUe1u5WLVqprEmwCBqPp9mjigPZl+dOXZAg4+goJYQwtT4USGKjcWrIykCMLlKST4T2DnW+8e/geZHhv1s5QaheOxNibW0yQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
- by SA2PR02MB7532.namprd02.prod.outlook.com (2603:10b6:806:142::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.24; Thu, 29 Apr
- 2021 03:06:12 +0000
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::5485:c29a:8c18:d524]) by SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::5485:c29a:8c18:d524%4]) with mapi id 15.20.4065.026; Thu, 29 Apr 2021
- 03:06:11 +0000
-From: Brian Cain <bcain@quicinc.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: sysemu SMP scheduling
-Thread-Topic: sysemu SMP scheduling
-Thread-Index: Adc8n0itzR/EMJiXTqeVhMIxQYfjfA==
-Date: Thu, 29 Apr 2021 03:06:11 +0000
-Message-ID: <SN6PR02MB42050931F622257CB4DF8C02B85F9@SN6PR02MB4205.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=quicinc.com;
-x-originating-ip: [172.58.102.155]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: be9941af-9cd3-4dba-af04-08d90abbbe62
-x-ms-traffictypediagnostic: SA2PR02MB7532:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SA2PR02MB7532C47EC09D89FCC56C0878B85F9@SA2PR02MB7532.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Po0F/sJU3fK7MQJLppVSCtAZfOcRp0ZKfsoN6XeQtj2AL9boSPZyldasn02XA1tEruda5w2EbfIiel3Xy9BgtHHGClZF/3xFr4Iq7N1pDlI0C6alQ3RZ+MdpmnkBr4cD79uKV75f3kMyNxv6aTogeO5wpuI/9Ab51T0uU+TCVbfVCVPY08n6PWrNDvF5ydSk4ivW7flFLJNKaemV/ELnCCDnx1GHUCcnnR+qv22gByskAJP4jDg18bWcT7UQx+fpDmxq8gI+eLVtRzwdWtmQM3DITf6RiZY8r3FQT3/cln1zTZBRy7se69S/OJAYziGlG8JPE+vhXUfGJh/0FCOOAk42fBsrLLs/NDvyvuXanCXXSLuYJtKZCd1O9i+Pwu64sFAGdp7siYE8rSjwYXbXZwA0dny1zGM/0s4UntK4t4Hqamt/J+o8Q1w9qahj4MVfyjZ1WDkRkwZckWRBTqECoz5939GCKx061No7ze+3YrrJJx6OGi8w854DsV6CMRnDGUvG+G+399HlfHFWFxz1GxxZqhNGn+i6zgIBLOuzSH5BgFY2DT/xoGGltHQuY+ZHIuDPnIg4H1zMoF4ZyLRKECgBTpQL32dNFV2gFB/p4R0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(39860400002)(136003)(396003)(366004)(9686003)(26005)(7116003)(7696005)(38100700002)(3480700007)(83380400001)(66946007)(55016002)(6916009)(316002)(54906003)(66476007)(8676002)(4326008)(2906002)(71200400001)(64756008)(86362001)(66446008)(186003)(76116006)(8936002)(6506007)(66556008)(478600001)(5660300002)(52536014)(122000001)(33656002)(107886003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?FhxuQUh2+6QcFN+E1FV6mFxWdU0EYMdLa02C08DveqbPYJrn7v9Gn74aApvZ?=
- =?us-ascii?Q?/TAVnB9wlxjuiQXF+zmdh8pZFiERS8v7YBgJRiNTxlfuUAZPwfOv0JDuCI1K?=
- =?us-ascii?Q?IiOQBmu6gaw/nVwmQ32jgwPJymvbbTPNGcS0MGbqAREh6C7vkw7S9Z03G0XC?=
- =?us-ascii?Q?Rte4skPQXUmtrWEq1cyyinYC8+H42o4a9AyQGPJJeK/9nTg4yXJOsAvX9/Vo?=
- =?us-ascii?Q?BdpQMVzoDcVagC6/rWpvBeie720VjiGcLCh2k3Fj/6DI2+pBlJKkZZU0WZ5w?=
- =?us-ascii?Q?z0VKTR2av9WN0pZ8eMhb6Ouy801Rns+5PigyPQptO/eV+nk0XSo4BgoSYuYM?=
- =?us-ascii?Q?3r2rtqcuVJUPDApZRtp6FTecUoos3OdutK5DOC43CTwW9FQdCHvscBrYwcQb?=
- =?us-ascii?Q?7pUayC4C5AQKjG+Qgp6u5pI+cubJlfOtqYalVqBICy8jRazzvkEWDDh7UzLi?=
- =?us-ascii?Q?xa9XH5i9fP8OV2zuIs2uRqRTGk8x2y3z4NWMeXO4rymT2r20oMlz7QvvufsF?=
- =?us-ascii?Q?2SZdTUk26N/6g0+D9d29hGC0S0QuhUe5pCoWmMfJKuK2qEWpwcBGpRwfO7Hy?=
- =?us-ascii?Q?PbBg7R9EBwOrekq1zOl8ewbyDzFpFIj7y4yY6ZmzYmT+04WXVkBMZX7rFhcS?=
- =?us-ascii?Q?b5STu7emvP26Ns6JWTlmmfB5TyeyCI64eRdHWdl73wCJM0bzCdo6o6xQ2E6n?=
- =?us-ascii?Q?AfpvgQPHTCoR1lYWm4Mq9MUSmdx3ZtwMmOMuYrx4/DKj1BIJbv+pEmbrfNRY?=
- =?us-ascii?Q?YrPMKZ8BeIPIT961lZPrN73tj1nDjvVcP7tJV3s3bvCEcpH1U8RBXh40wZkX?=
- =?us-ascii?Q?BLVq4rT4rFNI2ZajtzT+zVkB9Vg0OrVZ6P9qfM2yAWdkPfKyzKhZxwUeQnQD?=
- =?us-ascii?Q?3u0SaG6iBfzDS552+ogxnf0wRNw1P4qafdhsbgvQeCJzkZnlschK/SnBxhx2?=
- =?us-ascii?Q?zOK0rmuETaOSVWbwa+sYVSbLV13Wp5uGkWQYPAsOy7egxnUW8Hen7iIxEot4?=
- =?us-ascii?Q?N76uU6jaYUYEs5DAuTSfoh4ZQZ3Gebx9xXC4pOqbtBCQDoSnBicb3Q9tTxNf?=
- =?us-ascii?Q?Im+N00qT0gdoxnsEZp9oOYlwS1RLvMMxRLIY5mEuFS8Md5EtJgOTJGPcgAjv?=
- =?us-ascii?Q?pH24b1CF1kLAnWHxWnPCttoLUuAZAuZlxBp3c86Osb3oUg0YZS/GrP9UHxDV?=
- =?us-ascii?Q?r4PJN+hSAn4Lgyysvs0jlUB8L3H7wzxSKr2kd6yYrVb9jGPRlw58ZC10WQ/v?=
- =?us-ascii?Q?t+rb5qkV581TQQI1HcR5G8x16yVzEcQRj8bBLYd3r9bu7aEWZmX9CKZxHsig?=
- =?us-ascii?Q?GqQ2utCaudquoxN57bq3nSLe?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lbx1t-0000zP-G6
+ for qemu-devel@nongnu.org; Wed, 28 Apr 2021 23:07:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619665672;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LsHf/7DvSG/IW8BagDqveSKHhn1QNEXPOEKlhKuDg2Y=;
+ b=SUU2olGZaw5C9RVDTbS/X3LEMfKhldt5lGbgVVdT2UZvlcS0p8XaaNuVJ41F3D01xlmMkA
+ /yL9tHMTjO1dI5cIITMOOGFVa/kMLllokI/msIQbGz0MflPwif21KwmPT7hfqJZVlZ3i45
+ ozQBoyO1KK9Zj3f/kHTArQfTJWOAHgo=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-If4iwxYeNAGbFOHcUMwKKQ-1; Wed, 28 Apr 2021 23:07:50 -0400
+X-MC-Unique: If4iwxYeNAGbFOHcUMwKKQ-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ h22-20020aa786d60000b029027d0956e914so2244544pfo.23
+ for <qemu-devel@nongnu.org>; Wed, 28 Apr 2021 20:07:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LsHf/7DvSG/IW8BagDqveSKHhn1QNEXPOEKlhKuDg2Y=;
+ b=UeIA7F43WVj0Tyfp1/94JwwhXffoKwPfPj/bT8eqOm5/x+aP7zeJf2mlr4KlDj6zS4
+ W0YqBHMt2lUsae1Dl8hYeNAAbBDu7YjvU/LjUUbd200OiqNx2lF37zhFAgnc5KGBcCuh
+ EZany8NxPRrmljFkjysaUwH9cn+fj8Q4ejfuxpRWnwph9riU4XojuP7k/64K06EcLHuK
+ aXHFwFy3jUeJ9o0OgoIyfqbeSZj+y33nWSgei9p94n+S04zFGWra+lz/AayE6L6WcCQt
+ hIIixFCaq90++aZm3bEIYrLDxdoptAr8xWKf6zU2fJhSGyNOJ6gKNTuK5bJMl/Dv0y4x
+ 4EGQ==
+X-Gm-Message-State: AOAM533ZFM8FF3w1/uwAb6XP+2eCMu/r+lpEbjUnOrUC8NXf61B3X8vE
+ GnPLQwwBLqHu+RIsvlkrouFbnEoQzwd3nYrAmFnYivWcCb4wJaZ+XqcVpKuhy1Diu3YVl/ojTMr
+ geb5phJHe8Ah6mhYr88HCdH9ojqicSMQ=
+X-Received: by 2002:a17:90a:bb93:: with SMTP id
+ v19mr7286092pjr.127.1619665669050; 
+ Wed, 28 Apr 2021 20:07:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuDFjLJc3yTBwhoXqpk7sPdcg7SlV2sYmKz1mIHg44zaCryUCGQjfAm+MvXp2kIuObrduXIHTYdj7nYIBTM00=
+X-Received: by 2002:a17:90a:bb93:: with SMTP id
+ v19mr7286075pjr.127.1619665668723; 
+ Wed, 28 Apr 2021 20:07:48 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4205.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be9941af-9cd3-4dba-af04-08d90abbbe62
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2021 03:06:11.7397 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RLJ2FjG3GXQ1u7odDeqBsl9MPcfEfFsjLE9pMvzTMIkKpfEsY+RCsd8yTjKlGX5XrRxMa2rsBY3oyumO248lxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7532
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=bcain@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210427033951.29805-1-lulu@redhat.com>
+ <20210427033951.29805-8-lulu@redhat.com>
+ <35563de7-7cc2-2972-d08c-0a58473dbb27@redhat.com>
+In-Reply-To: <35563de7-7cc2-2972-d08c-0a58473dbb27@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 29 Apr 2021 11:07:11 +0800
+Message-ID: <CACLfguUXwHGJupgQfPXA-HeWOMUycxniFoca_P7G8Be50Oxt3Q@mail.gmail.com>
+Subject: Re: [PATCH v6 7/9] virtio-pci: add support for configure interrupt
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -143,40 +92,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- Michael Lambert <mlambert@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sid Manning <sidneym@quicinc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some hexagon use cases, we would prefer to have finer grained schedulin=
-g among multiple guest cores/threads.  We haven't been able to determine ex=
-actly what kind of scheduling algorithm is operating in the baseline case. =
- If the current hw thread is ready-to-run and is spinning over a tight loop=
- that never hits any exceptions, would it ever yield to another thread afte=
-r so-many iterations/TBs executed?  Or perhaps since we're executing transl=
-ated blocks there's just no yield opportunity available?
+On Tue, Apr 27, 2021 at 3:12 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/4/27 =E4=B8=8A=E5=8D=8811:39, Cindy Lu =E5=86=99=E9=81=93:
+> > Add support for configure interrupt, use kvm_irqfd_assign and set the
+> > gsi to kernel. When the configure notifier was eventfd_signal by host
+> > kernel, this will finally inject an msix interrupt to guest
+> > ---
+> >   hw/virtio/virtio-pci.c | 186 ++++++++++++++++++++++++++--------------=
+-
+> >   1 file changed, 120 insertions(+), 66 deletions(-)
+> >
+> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> > index 2b7e6cc0d9..07d28dd367 100644
+> > --- a/hw/virtio/virtio-pci.c
+> > +++ b/hw/virtio/virtio-pci.c
+> > @@ -664,12 +664,10 @@ static uint32_t virtio_read_config(PCIDevice *pci=
+_dev,
+> >   }
+> >
+> >   static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
+> > -                                        unsigned int queue_no,
+> >                                           unsigned int vector)
+> >   {
+> >       VirtIOIRQFD *irqfd =3D &proxy->vector_irqfd[vector];
+> >       int ret;
+> > -
+>
+>
+> Unnecessary changes.
+>
+will fix this
+>
+> >       if (irqfd->users =3D=3D 0) {
+> >           ret =3D kvm_irqchip_add_msi_route(kvm_state, vector, &proxy->=
+pci_dev);
+> >           if (ret < 0) {
+> > @@ -708,93 +706,120 @@ static void kvm_virtio_pci_irqfd_release(VirtIOP=
+CIProxy *proxy,
+> >       ret =3D kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, n, irqfd=
+->virq);
+> >       assert(ret =3D=3D 0);
+> >   }
+> > -
+>
+>
+> So did here.
+>
+will fix this
+>
+> > -static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+> > + static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_n=
+o,
+> > +                                      EventNotifier **n, unsigned int =
+*vector)
+>
+>
+> The indentation looks not correct.
+>
+>
+> >   {
+> >       PCIDevice *dev =3D &proxy->pci_dev;
+> >       VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > -    VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> > -    unsigned int vector;
+> > -    int ret, queue_no;
+> >       VirtQueue *vq;
+> > -    EventNotifier *n;
+> > -    for (queue_no =3D 0; queue_no < nvqs; queue_no++) {
+> > +
+> > +    if (queue_no =3D=3D -1) {
+> > +        *n =3D virtio_get_config_notifier(vdev);
+> > +        *vector =3D vdev->config_vector;
+> > +    } else {
+> >           if (!virtio_queue_get_num(vdev, queue_no)) {
+> > -            break;
+> > -        }
+> > -        vector =3D virtio_queue_vector(vdev, queue_no);
+> > -        if (vector >=3D msix_nr_vectors_allocated(dev)) {
+> > -            continue;
+> > -        }
+> > -        ret =3D kvm_virtio_pci_vq_vector_use(proxy, queue_no, vector);
+> > -        if (ret < 0) {
+> > -            goto undo;
+> > -        }
+> > -        /* If guest supports masking, set up irqfd now.
+> > -         * Otherwise, delay until unmasked in the frontend.
+> > -         */
+> > -        if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> > -            vq =3D virtio_get_queue(vdev, queue_no);
+> > -            n =3D virtio_queue_get_guest_notifier(vq);
+> > -            ret =3D kvm_virtio_pci_irqfd_use(proxy, n, vector);
+> > -            if (ret < 0) {
+> > -                kvm_virtio_pci_vq_vector_release(proxy, vector);
+> > -                goto undo;
+> > -            }
+> > +            return -1;
+> >           }
+> > +        *vector =3D virtio_queue_vector(vdev, queue_no);
+> > +        vq =3D virtio_get_queue(vdev, queue_no);
+> > +        *n =3D virtio_queue_get_guest_notifier(vq);
+> > +    }
+> > +    if (*vector >=3D msix_nr_vectors_allocated(dev)) {
+> > +        return -1;
+> >       }
+> >       return 0;
+> > +}
+> >
+> > +static int kvm_virtio_pci_vector_use_one(VirtIOPCIProxy *proxy, int qu=
+eue_no)
+> > +{
+>
+>
+> Let's use separate patch for the introducing of
+> kvm_virtio_pci_vector_user/release_one().
+>
+> And then do the config interrupt support on top.
+>
+Sure, will fix this
+> Thanks
+>
 
-We came up with a design for this finer-grained scheduling feature, but are=
- re-examining whether or not it should be necessary and if it is necessary,=
- whether it should have been designed like so.  We haven't seen a similar e=
-xample in other targets, so we'd love to get feedback on the approach.
-
-In the TranslatorOps .tb_stop() we generate code like so:
-
-	if the current count of ready-to-run threads >=3D 2:
-		tb_count++
-		if tb_count > THRESHOLD:
-			gen_exception(EXCP_YIELD);
-			tb_count =3D 0
-			gen exit_tb
-
-- "current count of ready-to-run threads" is based on the values in the CPU=
- state.  When entering a wait/halt mode, we set the appropriate state and c=
-all cpu_stop_current().
-- Is EXCP_YIELD an appropriate mechanism for this feature?  It seems like m=
-aybe it has no special handling, but any exception can trigger a yield?
-
--Brian
 
