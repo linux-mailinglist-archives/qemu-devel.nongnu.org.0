@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B535436ED25
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:12:16 +0200 (CEST)
-Received: from localhost ([::1]:40520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCBA36ED45
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 17:18:47 +0200 (CEST)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc8Kt-00055o-Rl
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
+	id 1lc8RB-0007sj-TF
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 11:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc8J5-0004X1-Vz
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:10:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34532)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc8ON-00072s-IL
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:15:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc8J4-0005Dx-9l
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:10:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lc8OK-0007rf-Kc
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 11:15:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619709021;
+ s=mimecast20190719; t=1619709347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G+CkLtUjD5IoIZJAbNeYQM0I6kO+AZj8Cn3OrDcpS1A=;
- b=SVdcHK9ZYTjnIOdaocQtYkyXeYJLYkolw75lRF7YIF5CIOg8LDC5GcCh4qoxUPimzD4xcP
- 2Rds5nMC4oDLkTNs8TQIr09kWKwloqCdAOwZ22dIfCZSvQdfSfq/FZQtZZ9g/pGO+RPxsg
- BFBIPQoY0XCPAQKBLPtYoGkz2p3ElQI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-fJFfcg9bP2O5qjuBt2aBIw-1; Thu, 29 Apr 2021 11:10:20 -0400
-X-MC-Unique: fJFfcg9bP2O5qjuBt2aBIw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- x10-20020a1ce00a0000b029013893b0532cso3513604wmg.2
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 08:10:20 -0700 (PDT)
+ bh=yWpYqOP8M/byLYaSt5vf0TcEwP2jkO1hy+10aaoWSWI=;
+ b=Gwu02iZo1K/P7hRV3IniL80MhDoVozuUf+vIEx4eXRXXnZ74+fnOWZsBTW128D9jPgG6H3
+ HZ08xvkkz8k6aFK87oQ/VwdaZtopcp1UH0gSXX7GeVSLNXTiYrjZJ2fVF2mX0vNUzYvvqg
+ +HLMB5ueFVjcIt0nMn+ip9G4eGqCRMY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-zfRvmht1NEqGEWsy4dkDSg-1; Thu, 29 Apr 2021 11:15:44 -0400
+X-MC-Unique: zfRvmht1NEqGEWsy4dkDSg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v2-20020a7bcb420000b0290146b609814dso261286wmj.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 08:15:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=G+CkLtUjD5IoIZJAbNeYQM0I6kO+AZj8Cn3OrDcpS1A=;
- b=O/0CPaitA++r1zpds6bAzi4gXUEaz8hgVDtnPHj69NS02MLExddkKOHh6Hx9Px5B5U
- XfjT6/TvcQiuQRnrVdNqHDKllz9y88alCWh97Zn+cmXM9xNU7n8eyAL2tNfkjj7CqsSL
- W3bc6zu4X0FeWZRvuKaYJsZ11HH1utPK5aSvi4Kx9mgYUc2GvpU1CnYlWn290JXAzC4R
- e0pfRac17wpnv8Vw60hWtUT6a9xVc//2g8znKpCKTOhrVRU01InhkQUNs3G3xd/BkXP1
- srj58pnekumEvzxX/3AKOecwcCdbqQxKw/kkC9LEKN4UTZEkLo9q4oh4LdGehoVcmV0H
- jlZQ==
-X-Gm-Message-State: AOAM532L0+gdpz2Iu7nrc2qpiVbix3yrVgiciWdgPFNrhDjYJQkK8M8F
- Z3s4sVRNH8kcG8eguBdeTk68b4vXSCCbpCBeEbUcAM/1ACi5p21r2GjzJOwJsMToUaHXWzxjT/k
- ir64QlsvsBqyelcs=
-X-Received: by 2002:adf:efca:: with SMTP id i10mr301165wrp.316.1619709018418; 
- Thu, 29 Apr 2021 08:10:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy87M52LACj3AXqLEZxl6rwifqZ4fel8lvkJVVPxBtq33Vg2+lq8MgQ+NoI7VyOKWAHKAwPUg==
-X-Received: by 2002:adf:efca:: with SMTP id i10mr301137wrp.316.1619709018279; 
- Thu, 29 Apr 2021 08:10:18 -0700 (PDT)
+ bh=yWpYqOP8M/byLYaSt5vf0TcEwP2jkO1hy+10aaoWSWI=;
+ b=RDaq/MPPg1tzotexeZ9UYWjEPSpiLNNiWVh+clIIb0pDf9OZYHdz1o/ENPIG29p1up
+ kbze8LNvrp9Am6/SOFm9l+mvlcCpYSUAyZ3eomaEDLdHvrr+++ZB43iELuyS1oVxo3uN
+ CPi+ymKZytZRQWjmcf65rGQweWPcdOT81nCgoiLD04f4eyT7gcGSw7gRq+z046PLja2V
+ tMQ9Ufn/4CjyCVZj05NceHEjnltBQLPZ2GBqQ8uddoymmbjj4PIi0uMr/+9CmI8a568V
+ j4YzL9QjDIXH22RjZlwwp5OcqFv/khP26Pj+9RVbB2bu6d3F2vccro+04B85ApGnni6F
+ FldA==
+X-Gm-Message-State: AOAM531ECbDYY86Eys+oIYbbdrkVgRZc5xulzYvQYLRQu5yrvIkCnR+p
+ jFE4qBWxHc+Jum3rP+b/CS5NfNPUPWzrWFd0H5ARDpze/QPziH80sqxRq43w63kUDgFgoc/81dK
+ tL4vplq0CQo0nt7E=
+X-Received: by 2002:adf:b307:: with SMTP id j7mr271259wrd.351.1619709342992;
+ Thu, 29 Apr 2021 08:15:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMgfZCyiu3kGGv41unMeLnTgj3JEEgSdNTO5Vo7LJzQBA7RnTESw8zmoBShQt644FP2LnYow==
+X-Received: by 2002:adf:b307:: with SMTP id j7mr271224wrd.351.1619709342792;
+ Thu, 29 Apr 2021 08:15:42 -0700 (PDT)
 Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id k15sm5146526wro.87.2021.04.29.08.10.16
+ by smtp.gmail.com with ESMTPSA id q4sm4966578wrs.21.2021.04.29.08.15.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Apr 2021 08:10:17 -0700 (PDT)
-Subject: Re: [PATCH v4 10/12] qtest/qmp-cmd-test: Make test build-independent
- from accelerator
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-11-philmd@redhat.com>
- <87lf91ir1m.fsf@dusky.pond.sub.org>
- <1de6b3f8-7d7c-9280-4cd3-633a19dd9b8e@redhat.com>
- <874kfprzrw.fsf@dusky.pond.sub.org>
+ Thu, 29 Apr 2021 08:15:42 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] meson: Select 'have_system' when virtiofsd is
+ enabled
+To: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210429083346.61030-1-philmd@redhat.com>
+ <20210429083346.61030-2-philmd@redhat.com>
+ <4823bd07-2b96-5503-7959-853fc61372ef@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <603c7934-ea16-baf8-9ae5-ab221db345c7@redhat.com>
-Date: Thu, 29 Apr 2021 17:10:15 +0200
+Message-ID: <2656ae7e-248d-90e3-a1ae-b13a78226ad0@redhat.com>
+Date: Thu, 29 Apr 2021 17:15:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <874kfprzrw.fsf@dusky.pond.sub.org>
+In-Reply-To: <4823bd07-2b96-5503-7959-853fc61372ef@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -103,72 +102,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/21 3:22 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->>>> Now than we can probe if the TCG accelerator is available
->>>> at runtime with a QMP command, do it once at the beginning
->>>> and only register the tests we can run.
->>>> We can then replace the #ifdef'ry by a runtime check.
->>>>
->>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>
->>> Please read the last remark first.  The other ones are detail; feel free
->>> to skip them until we're done with the last one.
->>>
->>>> ---
->>>>  tests/qtest/qmp-cmd-test.c | 18 ++++++++++++++----
->>>>  1 file changed, 14 insertions(+), 4 deletions(-)
+On 4/29/21 3:50 PM, Connor Kuehl wrote:
+> On 4/29/21 3:33 AM, Philippe Mathieu-Daudé wrote:
+>> When not explicitly select a sysemu target and building virtiofsd,
+>> the seccomp/cap-ng libraries are not resolved, leading to this error:
 >>
->>>> +    tcg_accel_available = qtest_has_accel("tcg");
->>>> +
->>>
->>> When does tcg_accel_available differ from defined(CONFIG_TCG)?
+>>   $ configure --target-list=i386-linux-user --disable-tools --enable-virtiofsd
+>>   tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd requires libcap-ng-devel and seccomp-devel
 >>
->> qtest_has_accel("tcg") is a runtime check, while defined(CONFIG_TCG)
->> is build-time.
+>> Fix by enabling sysemu (have_system) when virtiofsd is built.
+>>
+>> Reported-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  meson.build | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index c6f4b0cf5e8..f858935ad95 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -51,6 +51,8 @@
+>>    have_system = have_system or target.endswith('-softmmu')
+>>  endforeach
+>>  have_tools = 'CONFIG_TOOLS' in config_host
+>> +# virtiofsd depends on sysemu
+>> +have_system = have_system or not get_option('virtiofsd').disabled()
 > 
-> Let me rephrase my question: under what conditions can the values of
-> qtest_has_accel("tcg") and defined(CONFIG_TCG) differ?
+> I don't think we should satisfy virtiofsd dependencies transiently by
+> depending on system emulation targets.
+> 
+> It's my understanding (and I'm happy to be corrected on this) that the
+> virtiofsd binary is orthogonal to system emulation tools. Consider a
+> situation in which someone wants to develop virtiofsd but doesn't want
+> to wait for the rest of QEMU to build and instead use their own
+> qemu-system-x86_64 installed by their distro.
 
-They are currently the same, so this patch is a no-op. *But* it
-allows us to remove the global dependence on CONFIG_TCG in the
-Meson machinery (see the last commit in this series).
+This is what I understood in your previous thread with Mahmoud.
 
-Is that missing part of the commit description?
+Peter questioned this orthogonality in v1, asking why virtiofsd is
+in the QEMU repository then...
 
-"This will allow us to remove the global CONFIG_TCG dependency
-in our Meson machinery in a pair of commits."?
-
->> Having tests doing runtime checking allow to:
+> Connor
+> 
+>>  have_block = have_system or have_tools
+>>  
+>>  python = import('python').find_installation()
 >>
->> - have easier reviews, having less #ifdef'ry
->> - build them once for all targets
->> - build them once for all ./configure options
->>   (thinking about CI, the a single job could build the tests, then
->>   we run them using the QEMU binaries from other jobs)
->> - use the same binaries to test the built binary and the distribution
->>   installed one
->> - remove the dependencies between tests and binaries
->>
->>>
->>>>      g_test_init(&argc, &argv, NULL);
->>>>  
->>>>      qmp_schema_init(&schema);
->>>
 > 
 
 
