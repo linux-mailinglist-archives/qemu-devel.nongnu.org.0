@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41F336E9AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 13:37:31 +0200 (CEST)
-Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634AB36E9AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 13:39:52 +0200 (CEST)
+Received: from localhost ([::1]:41432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc4z5-0006Uj-4b
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 07:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
+	id 1lc51L-0007U5-Gh
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 07:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4q7-0008Vz-1X
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:28:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20371)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4q9-0000Ai-RV
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:28:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4q5-0003ii-4i
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:28:14 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc4q8-0003km-6N
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 07:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619695692;
+ s=mimecast20190719; t=1619695695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7PW44Lst8XBAAdn5kkQIDnWPWN8/Rz050wyZ5Uvo4x0=;
- b=ShSts4c9gVTIE/P9kXT0lR7cqjV8+Lh+0OAMfVZUPbtGbuOfPSLdME6LtoLsLPnm48Px6j
- 2JFr4YgckJokSDgmpZWgT7MLrXPkbgujlipWooQYo85dwQDTjA5TKPGG6/XJ4zyXU6TwL0
- voXOK4oG5b6bCdB7nFq9t7O0Qble02I=
+ bh=nq+3IeRzoepyEJ0CosTis2dz02HyPiq+/3zoaugBJJ8=;
+ b=Fx+lnElSeUJnlwtYx2L57uzIoHqr6reH2viNszTJHsQvz2FPvGPT7sb7Tr4shIIR41F8T5
+ rDXgB+6TCxTwDAzSho6ydF1YfCfyK+5YN4Fv2ESMcvDIkCe9y3azxO+HUZscOEQk8zPp7a
+ laFj5yU5k3srzVHH3r9ciYfinZcUZ/4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-1UbaSJttMsa2-hkT9Sr_yQ-1; Thu, 29 Apr 2021 07:28:10 -0400
-X-MC-Unique: 1UbaSJttMsa2-hkT9Sr_yQ-1
+ us-mta-33-kbDAFACiOna2dFJuuTsvxw-1; Thu, 29 Apr 2021 07:28:13 -0400
+X-MC-Unique: kbDAFACiOna2dFJuuTsvxw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C4A36D50F;
- Thu, 29 Apr 2021 11:28:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C993803622;
+ Thu, 29 Apr 2021 11:28:12 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-50.ams2.redhat.com [10.36.114.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7E4D67879;
- Thu, 29 Apr 2021 11:27:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0730E17177;
+ Thu, 29 Apr 2021 11:28:09 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 04/10] migration/ram: Handle RAM block resizes during
- precopy
-Date: Thu, 29 Apr 2021 13:27:02 +0200
-Message-Id: <20210429112708.12291-5-david@redhat.com>
+Subject: [PATCH v5 05/10] exec: Relax range check in ram_block_discard_range()
+Date: Thu, 29 Apr 2021 13:27:03 +0200
+Message-Id: <20210429112708.12291-6-david@redhat.com>
 In-Reply-To: <20210429112708.12291-1-david@redhat.com>
 References: <20210429112708.12291-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URG_BIZ=0.573 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,181 +86,39 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Resizing while migrating is dangerous and does not work as expected.
-The whole migration code works on the usable_length of ram blocks and does
-not expect this to change at random points in time.
-
-In the case of precopy, the ram block size must not change on the source,
-after syncing the RAM block list in ram_save_setup(), so as long as the
-guest is still running on the source.
-
-Resizing can be trigger *after* (but not during) a reset in
-ACPI code by the guest
-- hw/arm/virt-acpi-build.c:acpi_ram_update()
-- hw/i386/acpi-build.c:acpi_ram_update()
-
-Use the ram block notifier to get notified about resizes. Let's simply
-cancel migration and indicate the reason. We'll continue running on the
-source. No harm done.
-
-Update the documentation. Postcopy will be handled separately.
+We want to make use of ram_block_discard_range() in the RAM block resize
+callback when growing a RAM block, *before* used_length is changed.
+Let's relax the check. As RAM blocks always mmap the whole max_length area,
+we cannot corrupt unrelated data.
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/exec/memory.h | 10 ++++++----
- migration/migration.c |  9 +++++++--
- migration/migration.h |  1 +
- migration/ram.c       | 31 +++++++++++++++++++++++++++++++
- softmmu/physmem.c     |  5 +++--
- 5 files changed, 48 insertions(+), 8 deletions(-)
+ softmmu/physmem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 5728a681b2..c8b9088924 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -131,7 +131,7 @@ typedef struct IOMMUTLBEvent {
- #define RAM_SHARED     (1 << 1)
- 
- /* Only a portion of RAM (used_length) is actually used, and migrated.
-- * This used_length size can change across reboots.
-+ * Resizing RAM while migrating can result in the migration being canceled.
-  */
- #define RAM_RESIZEABLE (1 << 2)
- 
-@@ -955,7 +955,9 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
-  *                                     RAM.  Accesses into the region will
-  *                                     modify memory directly.  Only an initial
-  *                                     portion of this RAM is actually used.
-- *                                     The used size can change across reboots.
-+ *                                     Changing the size while migrating
-+ *                                     can result in the migration being
-+ *                                     canceled.
-  *
-  * @mr: the #MemoryRegion to be initialized.
-  * @owner: the object that tracks the region's reference count
-@@ -1586,8 +1588,8 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr);
- 
- /* memory_region_ram_resize: Resize a RAM region.
-  *
-- * Only legal before guest might have detected the memory size: e.g. on
-- * incoming migration, or right after reset.
-+ * Resizing RAM while migrating can result in the migration being canceled.
-+ * Care has to be taken if the guest might have already detected the memory.
-  *
-  * @mr: a memory region created with @memory_region_init_resizeable_ram.
-  * @newsize: the new size the region
-diff --git a/migration/migration.c b/migration/migration.c
-index 8ca034136b..2dea8e2fc6 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -223,13 +223,18 @@ void migration_object_init(void)
-     dirty_bitmap_mig_init();
- }
- 
-+void migration_cancel(void)
-+{
-+    migrate_fd_cancel(current_migration);
-+}
-+
- void migration_shutdown(void)
- {
-     /*
-      * Cancel the current migration - that will (eventually)
-      * stop the migration using this structure
-      */
--    migrate_fd_cancel(current_migration);
-+    migration_cancel();
-     object_unref(OBJECT(current_migration));
- 
-     /*
-@@ -2310,7 +2315,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
- 
- void qmp_migrate_cancel(Error **errp)
- {
--    migrate_fd_cancel(migrate_get_current());
-+    migration_cancel();
- }
- 
- void qmp_migrate_continue(MigrationStatus state, Error **errp)
-diff --git a/migration/migration.h b/migration/migration.h
-index db6708326b..f7b388d718 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -375,5 +375,6 @@ int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque);
- void migration_make_urgent_request(void);
- void migration_consume_urgent_request(void);
- bool migration_rate_limit(void);
-+void migration_cancel(void);
- 
- #endif
-diff --git a/migration/ram.c b/migration/ram.c
-index 4682f3625c..195fabbab0 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -53,6 +53,7 @@
- #include "block.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/cpu-throttle.h"
-+#include "sysemu/runstate.h"
- #include "savevm.h"
- #include "qemu/iov.h"
- #include "multifd.h"
-@@ -4138,8 +4139,38 @@ static SaveVMHandlers savevm_ram_handlers = {
-     .resume_prepare = ram_resume_prepare,
- };
- 
-+static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host,
-+                                      size_t old_size, size_t new_size)
-+{
-+    ram_addr_t offset;
-+    RAMBlock *rb = qemu_ram_block_from_host(host, false, &offset);
-+    Error *err = NULL;
-+
-+    if (ramblock_is_ignored(rb)) {
-+        return;
-+    }
-+
-+    if (!migration_is_idle()) {
-+        /*
-+         * Precopy code on the source cannot deal with the size of RAM blocks
-+         * changing at random points in time - especially after sending the
-+         * RAM block sizes in the migration stream, they must no longer change.
-+         * Abort and indicate a proper reason.
-+         */
-+        error_setg(&err, "RAM block '%s' resized during precopy.", rb->idstr);
-+        migrate_set_error(migrate_get_current(), err);
-+        error_free(err);
-+        migration_cancel();
-+    }
-+}
-+
-+static RAMBlockNotifier ram_mig_ram_notifier = {
-+    .ram_block_resized = ram_mig_ram_block_resized,
-+};
-+
- void ram_mig_init(void)
- {
-     qemu_mutex_init(&XBZRLE.lock);
-     register_savevm_live("ram", 0, 4, &savevm_ram_handlers, &ram_state);
-+    ram_block_notifier_add(&ram_mig_ram_notifier);
- }
 diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index d6463f203d..4834003d47 100644
+index 4834003d47..4e587de150 100644
 --- a/softmmu/physmem.c
 +++ b/softmmu/physmem.c
-@@ -1801,8 +1801,9 @@ static int memory_try_enable_merging(void *addr, size_t len)
-     return qemu_madvise(addr, len, QEMU_MADV_MERGEABLE);
- }
+@@ -3503,7 +3503,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+         goto err;
+     }
  
--/* Only legal before guest might have detected the memory size: e.g. on
-- * incoming migration, or right after reset.
-+/*
-+ * Resizing RAM while migrating can result in the migration being canceled.
-+ * Care has to be taken if the guest might have already detected the memory.
-  *
-  * As memory core doesn't know how is memory accessed, it is up to
-  * resize callback to update device state and/or add assertions to detect
+-    if ((start + length) <= rb->used_length) {
++    if ((start + length) <= rb->max_length) {
+         bool need_madvise, need_fallocate;
+         if (!QEMU_IS_ALIGNED(length, rb->page_size)) {
+             error_report("ram_block_discard_range: Unaligned length: %zx",
+@@ -3570,7 +3570,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+     } else {
+         error_report("ram_block_discard_range: Overrun block '%s' (%" PRIu64
+                      "/%zx/" RAM_ADDR_FMT")",
+-                     rb->idstr, start, length, rb->used_length);
++                     rb->idstr, start, length, rb->max_length);
+     }
+ 
+ err:
 -- 
 2.30.2
 
