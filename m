@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4D136EBF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:06:16 +0200 (CEST)
-Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C150836EC0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:07:34 +0200 (CEST)
+Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc7J1-0006pf-BX
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
+	id 1lc7KH-00005v-SS
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lc7HY-0005rh-Rv
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:04:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46525)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lc7Iz-0007SA-Ou
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:06:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lc7HQ-0007Rr-FI
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:04:43 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lc7Iw-0008HT-E7
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619705074;
+ s=mimecast20190719; t=1619705169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BaO1TlaHM3QCCt5c1jYluyDXymMwDmdbLjVFtOcWswc=;
- b=blvmzII8jhMbL+mUPskeiLeL8L9KhXsmUzMC/6u8LD7FwAUihBkN29W9DEvQbcV2qOBhk+
- 4Qmi6Os88flVe/zW0SvC8nD18gGfhoMB+C8gaTOL4+5D8Go54Cm1Nv1udBZ2mlFjYNWsfK
- pvF5/t05unSiQ3PlO9Wzi4iUIxGCt1c=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=vxZ3nYBiuffmPvJD1gRu5bXFyyw7D4HwoPrTSYOaONk=;
+ b=Yhm3e5mgwW1qC/p7/voiksaWoWtUyKz66oXoWmsDkiKl6BGuhOTpakJ0G34COYydZH9jJB
+ 7IF5HDjLi23vSp0me3s7zxS9UGGJ8eR11YXKjKySCRlX0oBXuOQUoJYmt8Ta2tZ+PP2g3t
+ 24rU+qMvgOghobkk5gDYrHCLDNb1szU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-jIgybuDRMt-cg-pORwbqcw-1; Thu, 29 Apr 2021 10:04:31 -0400
-X-MC-Unique: jIgybuDRMt-cg-pORwbqcw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-103-8A1RmUHdPrWsFIkpBNzxKQ-1; Thu, 29 Apr 2021 10:06:05 -0400
+X-MC-Unique: 8A1RmUHdPrWsFIkpBNzxKQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DB7A80DDEF;
- Thu, 29 Apr 2021 14:04:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B057F5C1A3;
- Thu, 29 Apr 2021 14:04:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 40FDC113525D; Thu, 29 Apr 2021 16:04:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8ABE107ACF2;
+ Thu, 29 Apr 2021 14:06:03 +0000 (UTC)
+Received: from localhost (ovpn-115-28.ams2.redhat.com [10.36.115.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3B617058F;
+ Thu, 29 Apr 2021 14:05:51 +0000 (UTC)
+Date: Thu, 29 Apr 2021 15:05:50 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] migration: Drop redundant query-migrate result @blocked
-Date: Thu, 29 Apr 2021 16:04:24 +0200
-Message-Id: <20210429140424.2802929-1-armbru@redhat.com>
+Subject: [ANNOUNCE] libblkio v0.1.0 preview release
+Message-ID: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LQ4M5sH9wMzA8tyB"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -76,117 +75,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, dgilbert@redhat.com,
- peterx@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
+ Alberto Garcia <berto@igalia.com>, slp@redhat.com, qemu-block@nongnu.org,
+ rjones@redhat.com, mreitz@redhat.com,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Result @blocked is redundant.  Unfortunately, we realized this too
-close to the release to risk dropping it, so we deprecated it
-instead, in commit e11ce6c06.
+--LQ4M5sH9wMzA8tyB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Since it was deprecated from the start, we can delete it without
-the customary grace period.  Do so.
+Hi,
+A preview release of libblkio, a library for high-performance block I/O,
+is now available:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
-v3: We picked the alternative "[PATCH] migration: Deprecate redundant
-    query-migrate result @blocked" for 6.0 (commit e11ce6c065).  v3 is
-    v2 squashed into a clean revert that commit.  I kept the R-bys for
-    v1 and v2.
+  https://gitlab.com/libblkio/libblkio/-/tree/v0.1.0
 
-v2: Commit message improved.
+Applications are increasingly integrating high-performance I/O
+interfaces such as Linux io_uring, userspace device drivers, and
+vhost-user device support. The effort required to add each of these
+low-level interfaces into an application is relatively high. libblkio
+provides a single API for efficiently accessing block devices and
+eliminates the need to write custom code for each one.
 
- qapi/migration.json   |  6 ------
- migration/migration.c | 29 +++++++++++++----------------
- monitor/hmp-cmds.c    |  2 +-
- 3 files changed, 14 insertions(+), 23 deletions(-)
+The library is not yet ready to use and currently lacks many features.
+In fact, I hope this news doesn't spread too far yet because libblkio is
+at a very early stage, but feedback from the QEMU community is necessary
+at this time.
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 0b17cce46b..7a5bdf9a0d 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -228,11 +228,6 @@
- #                   Present and non-empty when migration is blocked.
- #                   (since 6.0)
- #
--# @blocked: True if outgoing migration is blocked (since 6.0)
--#
--# Features:
--# @deprecated: Member @blocked is deprecated.  Use @blocked-reasons instead.
--#
- # Since: 0.14
- ##
- { 'struct': 'MigrationInfo',
-@@ -246,7 +241,6 @@
-            '*setup-time': 'int',
-            '*cpu-throttle-percentage': 'int',
-            '*error-desc': 'str',
--           'blocked': { 'type': 'bool', 'features': [ 'deprecated' ] },
-            '*blocked-reasons': ['str'],
-            '*postcopy-blocktime' : 'uint32',
-            '*postcopy-vcpu-blocktime': ['uint32'],
-diff --git a/migration/migration.c b/migration/migration.c
-index 8ca034136b..fdadee290e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1073,27 +1073,24 @@ static void populate_vfio_info(MigrationInfo *info)
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-+    GSList *cur_blocker = migration_blockers;
- 
--    info->blocked = migration_is_blocked(NULL);
--    info->has_blocked_reasons = info->blocked;
-     info->blocked_reasons = NULL;
--    if (info->blocked) {
--        GSList *cur_blocker = migration_blockers;
- 
--        /*
--         * There are two types of reasons a migration might be blocked;
--         * a) devices marked in VMState as non-migratable, and
--         * b) Explicit migration blockers
--         * We need to add both of them here.
--         */
--        qemu_savevm_non_migratable_list(&info->blocked_reasons);
-+    /*
-+     * There are two types of reasons a migration might be blocked;
-+     * a) devices marked in VMState as non-migratable, and
-+     * b) Explicit migration blockers
-+     * We need to add both of them here.
-+     */
-+    qemu_savevm_non_migratable_list(&info->blocked_reasons);
- 
--        while (cur_blocker) {
--            QAPI_LIST_PREPEND(info->blocked_reasons,
--                              g_strdup(error_get_pretty(cur_blocker->data)));
--            cur_blocker = g_slist_next(cur_blocker);
--        }
-+    while (cur_blocker) {
-+        QAPI_LIST_PREPEND(info->blocked_reasons,
-+                          g_strdup(error_get_pretty(cur_blocker->data)));
-+        cur_blocker = g_slist_next(cur_blocker);
-     }
-+    info->has_blocked_reasons = info->blocked_reasons != NULL;
- 
-     switch (s->state) {
-     case MIGRATION_STATUS_NONE:
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 0ad5b77477..d9bef63373 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -224,7 +224,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
- 
-     migration_global_dump(mon);
- 
--    if (info->blocked) {
-+    if (info->blocked_reasons) {
-         strList *reasons = info->blocked_reasons;
-         monitor_printf(mon, "Outgoing migration blocked:\n");
-         while (reasons) {
--- 
-2.26.3
+The purpose of this preview release is to discuss both the API design
+and general direction of the project. API documentation is available
+here:
+
+  https://gitlab.com/libblkio/libblkio/-/blob/v0.1.0/docs/blkio.rst
+
+Examples are available here:
+
+  https://gitlab.com/libblkio/libblkio/-/tree/v0.1.0/examples
+
+The goal is to eventually include the following drivers:
+- Linux io_uring
+- NVMe (VFIO and vfio-user)
+- virtio-blk (VFIO, vfio-user, vhost-user-blk, and vhost-vdpa-blk)
+
+There are a few reasons why libblkio is needed:
+
+1. QEMU, Ceph, GlusterFS, MariaDB, and other programs have been adding
+   more low-level block I/O code, most of it duplicated. Usually only
+   one or two of Linux AIO, io_uring, userspace drivers, vhost-user
+   drivers, etc are implemented. This makes it difficult to benefit from
+   the latest advances in high-performance block I/O.
+
+2. Coding to a standard API makes it possible to introduce new
+   optimizations or hardware interfaces without costly changes to the
+   software stack.
+
+3. A client library is needed so applications can take advantage of
+   qemu-storage-daemon's vhost-user-blk exports.
+
+4. Implementing block I/O as a library allows QEMU to use Rust for new
+   code without messy QEMU internal API bindings. Note that libblkio
+   currently does not provide a Rust crate, it only offers a C API.
+
+For QEMU integration the next step is a libblkio BlockDriver. This new
+BlockDriver will provide libblkio functionality to QEMU. Eventually
+libblkio will provide block/file-posix.c, block/nvme.c, and the upcoming
+vhost-vdpa-blk functionality and the QEMU code can be simplified or
+removed.
+
+libblkio does not contain an event loop implementation or disk image
+format drivers and that functionality will not be part of libblkio.
+
+How to participate:
+1. Share your thoughts on the direction and your requirements.
+2. Review the API docs and give feedback.
+3. Write a libblkio driver for NVMe VFIO/vfio-user, virtio-blk
+   VFIO/vfio-user, vhost-user-blk. Or just a null driver for
+   benchmarking/testing :).
+4. Integrate libblkio into Ceph, GlusterFS, MariaDB, etc.
+
+I am now beginning QEMU and fio integration. Stefano Garzarella is
+looking at adding a vhost-vdpa-blk driver to libblkio.
+
+Stefan
+
+--LQ4M5sH9wMzA8tyB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCKvT4ACgkQnKSrs4Gr
+c8gRvAgAwINL8XvLg4hrn1k5B1oJDqtVjZQUA3hBr6qZDRO+H4QgxmERX1uE/KkJ
+bNrhqOzvWmPp0cylWu6akNBmr+4NpCDZvYpBLwbHkxz44l76A4xP0muib9NlKpS4
+RNbuHK0XOqNsGqDGUYTEi8df1OsOPAp/pnZ4F/4hOUTd2ZlTA3lrc70+wWTwpWFz
+oYvB2c9Qi6bkoqm7RDO3p2TROy+Y+O71Wp2MAAREMwDksUo6EPtXEklUCJU6QnJD
+t0TnM04CTN0SwheaDl4WkbEElpDqB3AbNTjbqpvNR+/hwiLtMaLx50HOcF/kIlsP
+1WbWst4xwoFRm31tBSD7yUquTDkfKA==
+=yFCu
+-----END PGP SIGNATURE-----
+
+--LQ4M5sH9wMzA8tyB--
 
 
