@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE9636E59F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:11:14 +0200 (CEST)
-Received: from localhost ([::1]:47322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1BA36E5A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 09:13:20 +0200 (CEST)
+Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc0pN-0001HP-7K
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:11:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33550)
+	id 1lc0rP-0002Yq-Hu
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 03:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lc0o6-0000ou-6Q
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:09:54 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:38844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lc0o4-0001nC-8D
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:09:53 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id o16so20649694plg.5
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=UMabfqlUxzRETAW1Vq6TUtjVCtCaQLS+XMoxqICXnqI=;
- b=vWXRMOD2DO9bDTW/TcisSP5Z86kR9chnUxjGxpywxU9j6nXTTjLWQmLPmGvxFzvyeg
- VUIiig2OY13SaRJXgo0wnSYcqWlFMswKSQiO6jni3r8us8qD4C/BlXebGAIVaYgpLKw6
- ctrHs0+50LMlGRoAmOtP//yXfqLoOopb4ifYz2cohZ444WYC8H+PGUSsl4WdVs9rGErt
- RIFAZ6R1JDwE0KxD3enQIiAgkzgPVKLKKOoGCZq1t1xsS4BNLpII3HL3AcMJ9VU/PWT1
- aAPRthgayqi3O51aLgNSSRJoNuLCURANeHl8qRcTmFR6WuH3nsVEVKXph/i0nxv/mHE9
- Y9mw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc0on-0001D4-L8
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:10:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lc0oh-00029v-Pm
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 03:10:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619680230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9MopYfrd3lbfWS8ltX8V4l3mVRcIBuTe1QLylzw0Dy4=;
+ b=aGUwRHfC5nu5Tt29CYqCpx6U7qVwMkuPdlYzwQ6QL13qY6bzC6ElgwUklyKKSBWbxX7dhu
+ cSrPaXbp8ueniMPtwR3U350sempUkSpU1/f+Q+bIejktHcyirbwxnPcHIoW3LwHr2XVCLc
+ XZPYfuGUtCe0Hw66q+I1ybUHknUcYyc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-eyVWpS9aNKuvseTJlZ2PoA-1; Thu, 29 Apr 2021 03:10:28 -0400
+X-MC-Unique: eyVWpS9aNKuvseTJlZ2PoA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l2-20020adf9f020000b029010d6bb7f1cbso2847182wrf.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 00:10:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=UMabfqlUxzRETAW1Vq6TUtjVCtCaQLS+XMoxqICXnqI=;
- b=l/BeI3Sxkiqb9MKGwjwHjZtZrlkAg8sxpSfUjTdjhsXXafjsx50bjhn1bhCKb2D9nb
- lUNgx1dwj/TxBIW5pYVzDNMzgKE1ZKkFCFdl0EdJTWod/rFyUVZxRRIcfVP+/Ea0I2wK
- 9JQTysykR41leYCFGXZdm52Jb69QLk+k266KpZc10siOQxOoQbA+oRb+dYjnYV7FSoM9
- z/Aa2JJSUQRE+JxcrjePcxB4Glr0OilPGHQxvDRExwiDIsWRCPS5rE8HzQH5I+mjZgol
- AqutDHaS/PiwXSuJ3gRGVfo/wscf+6xk+b33vextyN9Rw3MrGuTbEjnGBDZNZbttLCrU
- 6l4A==
-X-Gm-Message-State: AOAM533py+U/QgU4w29uDt2CL9nCtU/1sAAhSN3yat36F6vnNaqMdL0Q
- btOS+u4zyN6z3wcE4wNdZ30ntw==
-X-Google-Smtp-Source: ABdhPJyicix2Pv2Sd7kfag4jYP2GHB95F6XqYPp7i4u+VywmVcDbsZuJeYtd29bf7lzls2DjO2ZRdQ==
-X-Received: by 2002:a17:90a:c203:: with SMTP id
- e3mr11499028pjt.168.1619680190178; 
- Thu, 29 Apr 2021 00:09:50 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
- by smtp.gmail.com with ESMTPSA id s43sm1540089pfw.164.2021.04.29.00.09.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 00:09:49 -0700 (PDT)
-Date: Thu, 29 Apr 2021 12:39:46 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Trilok Soni <tsoni@quicinc.com>
-Subject: Re: [RUST] Add crate for generic vhost-user-i2c backend daemon
-Message-ID: <20210429070946.a6tw2gzzs6qyrtz6@vireshk-i7>
-References: <20210428122247.ymwshfuoojxzsebf@vireshk-i7>
- <BY5PR02MB6772BFF2315EEF33E187D468B0409@BY5PR02MB6772.namprd02.prod.outlook.com>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=9MopYfrd3lbfWS8ltX8V4l3mVRcIBuTe1QLylzw0Dy4=;
+ b=bVjbvmHEJrW2XMmxUekIiJoTPgGC4kgyzMkWvsKfBm8MpqMcj1iefxxElKfCSdeigL
+ 3f3zrkL2cBTEbfocFKIrZzE0mGq2w15E3IBogzcTIWlskmxJ5u/Dr0LjOpsQZTnuV4py
+ QFghKISQnquD6sSy/iugic+Vqwo6bUgX0q5okyOu2+iXJQI69NeuU0jpxmYAmaiGqQMn
+ 7M/9lbK+EFY2DYHv2NHFk+eqsqMgdCZ0JBbpPIRsLhx0IQlWMKNKRQoQuHygXikhh3qv
+ FEYGHyVdkpOehk7ZF3/ZQ+26EPGpb1X/RANip9JH8sffv9EvlkM14KiO2ank5B/qjRC6
+ L0Sw==
+X-Gm-Message-State: AOAM5337Qf6gGafkcTd898tXnAxnZLE+MLi/CzmV9hF6+T0N8smWW9+S
+ 0nX0OotPU0AALpaSb9V/BXzsAZGl1B8Tj1LIO1BzrBA9J+cynpx7QhTcfBh5HTudQZIRxSwk8qG
+ Mxiak7wBVfCD1uYo=
+X-Received: by 2002:a5d:64e4:: with SMTP id g4mr7532655wri.366.1619680227129; 
+ Thu, 29 Apr 2021 00:10:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxo7bqIBHe+uE3ENz/Uhq3wn/mSDrjNSopJjupZxVuuAjnjBFjiCWEOm19y1RUE9ZfFVXoyiQ==
+X-Received: by 2002:a5d:64e4:: with SMTP id g4mr7532622wri.366.1619680226760; 
+ Thu, 29 Apr 2021 00:10:26 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6158.dip0.t-ipconnect.de. [91.12.97.88])
+ by smtp.gmail.com with ESMTPSA id
+ e10sm3345329wrw.20.2021.04.29.00.10.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Apr 2021 00:10:26 -0700 (PDT)
+Subject: Re: [PATCH v2 01/15] linux-user/s390x: Fix sigframe types
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210428193408.233706-1-richard.henderson@linaro.org>
+ <20210428193408.233706-2-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <d5f5cf98-56e5-4000-62c0-7bbffe40b9a4@redhat.com>
+Date: Thu, 29 Apr 2021 09:10:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BY5PR02MB6772BFF2315EEF33E187D468B0409@BY5PR02MB6772.namprd02.prod.outlook.com>
-User-Agent: NeoMutt/20180716-391-311a52
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210428193408.233706-2-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,44 +100,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
- Bill Mills <bill.mills@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
- "rust-vmm@lists.opendev.org" <rust-vmm@lists.opendev.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "stratos-dev@op-lists.linaro.org" <stratos-dev@op-lists.linaro.org>
+Cc: thuth@redhat.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28-04-21, 17:13, Trilok Soni wrote:
-> Viresh,
+On 28.04.21 21:33, Richard Henderson wrote:
+> Noticed via gitlab clang-user job:
 > 
-> For rust-vmm, you need to create the new issue in the right project.
-> You can probably pick up vmm-reference project at rust-vmm and ask
-> for the new crate.
+>    TEST    signals on s390x
+> ../linux-user/s390x/signal.c:258:9: runtime error: \
+>    1.84467e+19 is outside the range of representable values of \
+>    type 'unsigned long'
+> 
+> Which points to the fact that we were performing a double-to-uint64_t
+> conversion while storing the fp registers, instead of just copying
+> the data across.
+> 
+> Turns out there are several errors:
+> 
+> target_ulong is the size of the target register, whereas abi_ulong
+> is the target 'unsigned long' type.  Not a big deal here, since we
+> only support 64-bit s390x, but not correct either.
+> 
+> In target_sigcontext and target ucontext, we used a host pointer
+> instead of a target pointer, aka abi_ulong.
+> 
+> Fixing this allows the removal of a cast to __put_user.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/s390x/signal.c | 26 +++++++++++++-------------
+>   1 file changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+> index b68b44ae7e..707fb603d7 100644
+> --- a/linux-user/s390x/signal.c
+> +++ b/linux-user/s390x/signal.c
+> @@ -37,13 +37,14 @@
+>   
+>   typedef struct {
+>       target_psw_t psw;
+> -    target_ulong gprs[__NUM_GPRS];
+> -    unsigned int acrs[__NUM_ACRS];
+> +    abi_ulong gprs[__NUM_GPRS];
+> +    abi_uint acrs[__NUM_ACRS];
+>   } target_s390_regs_common;
+>   
+>   typedef struct {
+> -    unsigned int fpc;
+> -    double   fprs[__NUM_FPRS];
+> +    uint32_t fpc;
+> +    uint32_t pad;
+> +    uint64_t fprs[__NUM_FPRS];
+>   } target_s390_fp_regs;
+>   
+>   typedef struct {
+> @@ -51,22 +52,22 @@ typedef struct {
+>       target_s390_fp_regs     fpregs;
+>   } target_sigregs;
+>   
+> -struct target_sigcontext {
+> -    target_ulong   oldmask[_SIGCONTEXT_NSIG_WORDS];
+> -    target_sigregs *sregs;
+> -};
+> +typedef struct {
+> +    abi_ulong oldmask[_SIGCONTEXT_NSIG_WORDS];
+> +    abi_ulong sregs;
+> +} target_sigcontext;
+>   
+>   typedef struct {
+>       uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
+> -    struct target_sigcontext sc;
+> +    target_sigcontext sc;
+>       target_sigregs sregs;
+>       int signo;
+>       uint8_t retcode[S390_SYSCALL_SIZE];
+>   } sigframe;
+>   
+>   struct target_ucontext {
+> -    target_ulong tuc_flags;
+> -    struct target_ucontext *tuc_link;
+> +    abi_ulong tuc_flags;
+> +    abi_ulong tuc_link;
+>       target_stack_t tuc_stack;
+>       target_sigregs tuc_mcontext;
+>       target_sigset_t tuc_sigmask;   /* mask last for extensibility */
+> @@ -143,8 +144,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+>   
+>       save_sigregs(env, &frame->sregs);
+>   
+> -    __put_user((abi_ulong)(unsigned long)&frame->sregs,
+> -               (abi_ulong *)&frame->sc.sregs);
+> +    __put_user((abi_ulong)(unsigned long)&frame->sregs, &frame->sc.sregs);
+>   
+>       /* Set up to return from userspace.  If provided, use a stub
+>          already in userspace.  */
+> 
 
-Done.
-
-https://github.com/rust-vmm/vmm-reference/issues/118
-
-> There is also bi-weekly meetings which is attended by me, Vatsa and
-> rust-vmm developers where it can be put up as agenda. 
-
-That would be great.
-
-> The minimal requirement for the new crate is to have less (or almost
-> none) dependencies on other crates so that they can be independently
-> tested in the rust-vmm CI.
-
-It depends on a bunch of crates, specially vhost and
-vhost-user-backend.
-
-> Anyways, please file a new issue and I
-> will ask Vatsa and others to comment there. 
-
-Thanks Trilok.
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
-viresh
+Thanks,
+
+David / dhildenb
+
 
