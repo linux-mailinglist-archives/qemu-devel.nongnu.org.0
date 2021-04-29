@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F6036EEF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 19:32:51 +0200 (CEST)
-Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E612336EF3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 19:57:48 +0200 (CEST)
+Received: from localhost ([::1]:54770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcAWw-0006Rd-EQ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 13:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35618)
+	id 1lcAv5-0005u2-Gb
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 13:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lcASX-0004j8-Gf
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 13:28:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49663)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lcAst-0004Gm-1A
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 13:55:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lcASU-0000Ha-FF
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 13:28:16 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lcAsl-0006QZ-EA
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 13:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619717293;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1619718921;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qEj9rTbRYL/4FuC3vNeTZtjh+C+YHb6HJW/7DPiM/h8=;
- b=RbDAuJdnLZ8EG/LsQ8YTLeS/Jdav2/6p31I9qipr5AL06TqB6H+wbgQj5mzh2iiVd+libS
- 7lAQn13O9COx4jQaXdFT24W9IXJs2Mu7MG3mMaEqcNtFf8UO0S9WhtqusmbpqhYu4kZdXl
- Zzehjm6s/S9+vf0tMxUGb5pJaRndHkk=
+ bh=f6RmY9lSzVscYshg1sKs49EYcSMfINot3XsTvQ80A3k=;
+ b=YjMHWBXMTZuEcGmORwJMU+eS2orbvydDeJTyGoPfQx9sbprmFMLrH+dpxrTtUqM4M5A/4F
+ sKAQ4ztA4K7ElDwPXFICiMJUX+hzJSBltmIa9oYn6GGmxSq99GRSnk2TCpRto6Ra5c/pde
+ ahfsY/NTxA8Dkp8WUDZAXCDMsf4qFdc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-ZEuEL4v1PRi4B51YOxUsow-1; Thu, 29 Apr 2021 13:28:03 -0400
-X-MC-Unique: ZEuEL4v1PRi4B51YOxUsow-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-550-eMN-ADivM7-diwiZq2ozUg-1; Thu, 29 Apr 2021 13:55:19 -0400
+X-MC-Unique: eMN-ADivM7-diwiZq2ozUg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B27F1922036;
- Thu, 29 Apr 2021 17:28:02 +0000 (UTC)
-Received: from redhat.com (ovpn-115-232.ams2.redhat.com [10.36.115.232])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F89B6E407;
- Thu, 29 Apr 2021 17:27:51 +0000 (UTC)
-Date: Thu, 29 Apr 2021 18:27:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: libnbd thread-local errors and dlclose (was: Re: [ANNOUNCE]
- libblkio v0.1.0 preview release)
-Message-ID: <YIrslDHSt/y7WrdB@redhat.com>
-References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
- <20210429142259.GR26415@redhat.com>
- <YIrFmZgh5IAeiLdm@stefanha-x1.localdomain>
- <20210429150038.GT26415@redhat.com> <YIrL5kE+0ULVN2lK@redhat.com>
- <20210429171732.GX26415@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD9FE8042C7;
+ Thu, 29 Apr 2021 17:55:18 +0000 (UTC)
+Received: from work-vm (ovpn-114-250.ams2.redhat.com [10.36.114.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9D3A19726;
+ Thu, 29 Apr 2021 17:55:12 +0000 (UTC)
+Date: Thu, 29 Apr 2021 18:55:09 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] make vfio and DAX cache work together
+Message-ID: <YIry/WqbeRvD4zCa@work-vm>
+References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
+ <20210426152203.379dab00@redhat.com>
+ <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
+ <20210427121850.68d2a8dd@redhat.com> <YIhfWoRgJtaKZhh8@work-vm>
+ <CANsN3OSs4GyT10P6xUp-s823U8VnWAmihWXQ1jSnF07wyYjxuA@mail.gmail.com>
+ <YIm0w2RgQgosIyiB@work-vm> <20210428133740.6ccbbba6@redhat.com>
+ <YIpyA+ZoOYxX0c06@work-vm>
+ <20210429070901.52402ac2@x1.home.shazbot.org>
 MIME-Version: 1.0
-In-Reply-To: <20210429171732.GX26415@redhat.com>
+In-Reply-To: <20210429070901.52402ac2@x1.home.shazbot.org>
 User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -86,91 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- Alberto Garcia <berto@igalia.com>, slp@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- philmd@redhat.com, sgarzare@redhat.com
+Cc: Dev Audsin <dev.devaqemu@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 06:17:32PM +0100, Richard W.M. Jones wrote:
-> On Thu, Apr 29, 2021 at 04:08:22PM +0100, Daniel P. Berrangé wrote:
-> > On Thu, Apr 29, 2021 at 04:00:38PM +0100, Richard W.M. Jones wrote:
-> > > On Thu, Apr 29, 2021 at 03:41:29PM +0100, Stefan Hajnoczi wrote:
-> > > > On Thu, Apr 29, 2021 at 03:22:59PM +0100, Richard W.M. Jones wrote:
-> > > > > libvirt originally, and now libnbd, keep a per-thread error message
-> > > > > (stored in thread-local storage).  It's a lot nicer than having to
-> > > > > pass &errmsg to every function.  You can just write:
-> > > > > 
-> > > > >  if (nbd_connect_tcp (nbd, "remote", "nbd") == -1) {
-> > > > >    fprintf (stderr,
-> > > > >             "failed to connect to remote server: %s (errno = %d)\n",
-> > > > >             nbd_get_error (), nbd_get_errno ());
-> > > > >    exit (EXIT_FAILURE);
-> > > > >  }
-> > > > > 
-> > > > > (https://libguestfs.org/libnbd.3.html#ERROR-HANDLING)
-> > > > > 
-> > > > > It means you can extend the range of error information available in
-> > > > > future.  Also you can return a 'const char *' and the application
-> > > > > doesn't have to worry about lifetimes, at least in the common case.
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Thu, 29 Apr 2021 09:44:51 +0100
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> 
+> > * Alex Williamson (alex.williamson@redhat.com) wrote:
+> > > On Wed, 28 Apr 2021 20:17:23 +0100
+> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > >   
+> > > > * Dev Audsin (dev.devaqemu@gmail.com) wrote:  
+> > > > > Thanks Dave for your explanation.
+> > > > > Any suggestions on how to make VFIO not attempt to map into the
+> > > > > unaccessible and unallocated RAM.    
 > > > > 
-> > > > Thanks for sharing the idea, I think it would work well for libblkio
-> > > > too.
+> > > > I'm not sure;:
 > > > > 
-> > > > Do you ignore the dlclose(3) memory leak?
+> > > > static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+> > > > {
+> > > >     return (!memory_region_is_ram(section->mr) &&
+> > > >             !memory_region_is_iommu(section->mr)) ||
+> > > >            section->offset_within_address_space & (1ULL << 63);
+> > > > }
+> > > > 
+> > > > I'm declaring that region with memory_region_init_ram_ptr;  should I be?
+> > > > it's not quite like RAM.
+> > > > But then I *do* want a kvm slot for it, and I do want it to be accessed
+> > > > by mapping rather htan calling IO functions; that makes me think mr->ram
+> > > > has to be true.
+> > > > But then do we need to add another flag to memory-regions; if we do,
+> > > > what is it;
+> > > >    a) We don't want an 'is_virtio_fs' - it needs to be more generic
+> > > >    b) 'no_vfio' also feels wrong
+> > > > 
+> > > > Is perhaps 'not_lockable' the right thing to call it?  
 > > > 
-> > > I believe this mechanism in libnbd ensures there is no leak in the
-> > > ordinary shared library (not dlopen/dlclose) case:
-> > > 
-> > > https://gitlab.com/nbdkit/libnbd/-/blob/f9257a9fdc68706a4079deb4ced61e1d468f28d6/lib/errors.c#L35
-> > > 
-> > > However I'm not sure what happens in the dlopen case, so I'm going to
-> > > test that out now ...
+> > > This reasoning just seems to lead back to "it doesn't work, therefore
+> > > don't do it" rather than identifying the property of the region that
+> > > makes it safe not to map it for device DMA (assuming that's actually
+> > > the case).   
 > > 
-> > pthread_key destructors are a disaster waiting to happen with
-> > dlclose, if the dlclose happens while non-main threads are
-> > still running. When those threads exit, they'll run the
-> > destructor which points to a function that is no longer
-> > resident in memory.
+> > Yes, I'm struggling to get to what that generic form of that property
+> > is, possibly because I've not got an example of another case to compare
+> > it with.
+> > 
+> > > It's clearly "RAM" as far as QEMU is concerned given how
+> > > it's created, but does it actually appear in the VM as generic physical
+> > > RAM that the guest OS could program to the device as a DMA target?  If
+> > > not, what property makes that so, create a flag for that.  Thanks,  
+> > 
+> > The guest sees it as a PCI-bar; so it knows it's not 'generic physical
+> > RAM' - but can a guest set other BARs (like frame buffers or pmem) as
+> > DMA targets?  If so, how do I distinguish our bar?
 > 
-> While libnbd had a memory leak there, now fixed by:
-> 
-> https://gitlab.com/nbdkit/libnbd/-/commit/026d281c57dd95485cc9bf829918b5efd9e32ddb
+> They can, this is how peer-to-peer DMA between devices works.  However,
+> we can perhaps take advantage that drivers are generally a bit more
+> cautious in probing that this type of DMA works before relying on it,
+> and declare it with memory_region_init_ram_device_ptr() which vfio
+> would not consider fatal if it fails to map it.  The other semantic
+> difference is that ram_device_mem_ops are used for read/write access to
+> avoid some of the opcodes that are not meant to be used for physical
+> device memory with the default memcpy ops.  If you expect this region
+> to be mapped as a kvm memory slot, presumably these would never get
+> used anyway.  Thanks,
 
-So on dlclose(), the errors_free() method will be run by the linker.
+Oh, nice, I hadn't spotted memory_region_init_ram_device_ptr();
 
-The pthread_key_delete method doesn't run the cleanup callbacks, so
-your fix here frees the thread local error string in the thread that
-called dlclose explicitly.
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index 7afd9495c9..11fb9b5979 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -604,7 +604,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+ 
+-        memory_region_init_ram_ptr(&fs->cache, OBJECT(vdev),
++        memory_region_init_ram_device_ptr(&fs->cache, OBJECT(vdev),
+                                    "virtio-fs-cache",
+                                    fs->conf.cache_size, cache_ptr);
+     }
 
-If any other thread had an error string associated with the thread
-local, that will still be leaked.  I don't see any attractive way
-to avoid that leak.
+apparently still works for us; Dev does that fix it for you?
 
-IOW, I think the fix is incomplete, but its better than nothing,
-and I don't have suggestion to improve it.
+Dave
 
-> I don't actually think we have the bug you're describing.  We have a
-> destructor (errors_free()) which runs on dlclose, which deletes the
-> thread-local storage key, so the destructor will not run after the
-> library has been unloaded.
-> 
-> I added a test for this which works fine for me:
-> 
-> https://gitlab.com/nbdkit/libnbd/-/commit/831d142787aba4f5b638418e02cf7e0f2a051565
-
-Yes, I think your using of ELF destructor function is enough in this
-scenario.
-
-Regards,
-Daniel
+> Alex
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
