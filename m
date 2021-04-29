@@ -2,67 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAE036F0CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 22:07:34 +0200 (CEST)
-Received: from localhost ([::1]:49616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFC836F0C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 22:05:17 +0200 (CEST)
+Received: from localhost ([::1]:47384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcCwf-00009q-Ga
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 16:07:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44466)
+	id 1lcCuS-0007XC-7T
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 16:05:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcCv0-00085w-9N
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 16:05:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcCux-0004op-Vh
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 16:05:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcCuu-0005Tj-Gt
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 20:05:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 773212E8144
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 20:05:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lcCsW-0006ys-Um; Thu, 29 Apr 2021 16:03:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lcCsU-0003Ss-Gw; Thu, 29 Apr 2021 16:03:16 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13TK2wOP102587; Thu, 29 Apr 2021 16:03:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=jZtbfR0ippCDOWQD+mDDez9EsbbHEs7TxD8noTY/lrc=;
+ b=lX9UAD2jVJgCSArrQj4cAmcp+e02SQjd+JozBOZDCq1NU6gmqMOIEcOXGgog22/FUF4e
+ jO9K/ozyGOe1jy/sid0nHPBo175t0qXtgDM4PqFFpKIENZ0tTNrZo7Pf3fRXpSEI8zuV
+ fJDLTyBP3aDMDEe8Vh1hXbvIqbdEsvyyPY8Mq+D0GoQuROT0mNAGr0rYqd2QCCc2GS8o
+ 8u7zmtiPq2oG1Ddy1TWB04Np9RHRJrEmC/Q7LUH0j+S8Kzp+hL1XGEw2oBfci9c8sNja
+ +088MTOa2ptOr0dY4QDtME+BTYgDuYqalVBWuQLmx6bqhT8nRurd4f9dAUBx8aIZ3I/w Nw== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38802562qu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Apr 2021 16:03:04 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13TJpUw6022197;
+ Thu, 29 Apr 2021 20:03:03 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma02dal.us.ibm.com with ESMTP id 387r6qw35c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Apr 2021 20:03:03 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13TK32Zh30147040
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 29 Apr 2021 20:03:02 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 866B4AC05E;
+ Thu, 29 Apr 2021 20:03:02 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8A9FAC062;
+ Thu, 29 Apr 2021 20:03:01 +0000 (GMT)
+Received: from localhost (unknown [9.211.156.251])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu, 29 Apr 2021 20:03:01 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/7] target/ppc: Created !TCG SPR registration macro
+In-Reply-To: <20210429162130.2412-3-bruno.larsen@eldorado.org.br>
+References: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
+ <20210429162130.2412-3-bruno.larsen@eldorado.org.br>
+Date: Thu, 29 Apr 2021 17:02:59 -0300
+Message-ID: <87eees3ll8.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 19:57:29 -0000
-From: Laurent Vivier <1926202@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier paleozogt
-X-Launchpad-Bug-Reporter: Aaron Simmons (paleozogt)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <161946668777.4160.5631099934527280207.malonedeb@gac.canonical.com>
- <161971684257.12516.15770974975327375872.malone@soybean.canonical.com>
-Message-Id: <cfe73364-ca02-fcf8-2e19-db61ca986f4b@vivier.eu>
-Subject: Re: [Bug 1926202] Re: qemu-user can't run some ppc binaries
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 2f38ff4797a731af5fea76e379a9ce1b06226939
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: i3L8pAb1lc_3L7lzRGQhwjmrB39XbBNb
+X-Proofpoint-ORIG-GUID: i3L8pAb1lc_3L7lzRGQhwjmrB39XbBNb
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-29_10:2021-04-28,
+ 2021-04-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 adultscore=0 spamscore=0 suspectscore=0 mlxscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104290128
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,67 +100,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926202 <1926202@bugs.launchpad.net>
+Cc: lucas.araujo@eldorado.org.br, luis.pires@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org, "Bruno Larsen
+ \(billionai\)" <bruno.larsen@eldorado.org.br>, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/04/2021 =C3=A0 19:20, Aaron Simmons a =C3=A9crit=C2=A0:
-> Thanks for looking into this.  What reference did you use to check which
-> ISA "cmpb" is in?
-> =
+"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> writes:
 
+> Added macros for spr_register and spr_register_kvm that can
+> ignore SPR RW callbacks, in preparation to support building
+> without TCG.
+>
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> ---
+>  target/ppc/translate_init.c.inc | 22 ++++++++++++++++++----
+>  1 file changed, 18 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+> index 6235eb7536..3ddcfefb62 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -720,6 +720,7 @@ static inline void vscr_init(CPUPPCState *env, uint32_t val)
+>      helper_mtvscr(env, val);
+>  }
+>  
+> +#ifdef CONFIG_TCG
+>  #ifdef CONFIG_USER_ONLY
+>  #define spr_register_kvm(env, num, name, uea_read, uea_write,                  \
+>                           oea_read, oea_write, one_reg_id, initial_value)       \
+> @@ -728,7 +729,7 @@ static inline void vscr_init(CPUPPCState *env, uint32_t val)
+>                              oea_read, oea_write, hea_read, hea_write,          \
+>                              one_reg_id, initial_value)                         \
+>      _spr_register(env, num, name, uea_read, uea_write, initial_value)
+> -#else
+> +#else /*CONFIG_USER_ONLY */
 
-It's in the QEMU source, but you can check the specs:
+Missing a space after the first *
 
-POWER ISA 2.04 -> no cmpb
+>  #if !defined(CONFIG_KVM)
+>  #define spr_register_kvm(env, num, name, uea_read, uea_write,                  \
+>                           oea_read, oea_write, one_reg_id, initial_value)       \
+> @@ -739,7 +740,7 @@ static inline void vscr_init(CPUPPCState *env, uint32_t val)
+>                              one_reg_id, initial_value)                         \
+>      _spr_register(env, num, name, uea_read, uea_write,                         \
+>                    oea_read, oea_write, hea_read, hea_write, initial_value)
+> -#else
+> +#else /* CONFIG_KVM */
+>  #define spr_register_kvm(env, num, name, uea_read, uea_write,                  \
+>                           oea_read, oea_write, one_reg_id, initial_value)       \
+>      _spr_register(env, num, name, uea_read, uea_write,                         \
 
-https://wiki.raptorcs.com/w/images/6/65/PowerISA_V2.04-FINAL.Public.pdf
+This won't work if you don't include the change to _spr_register as well.
 
-POWER ISA 2.05 -> cmpb
+> @@ -751,8 +752,21 @@ static inline void vscr_init(CPUPPCState *env, uint32_t val)
+>      _spr_register(env, num, name, uea_read, uea_write,                         \
+>                    oea_read, oea_write, hea_read, hea_write,                    \
+>                    one_reg_id, initial_value)
+> -#endif
+> -#endif
+> +#endif /* CONFIG_KVM */
+> +#endif /* CONFIG_USER_ONLY */
+> +#else /* CONFIG_TCG */
+> +#ifdef CONFIG_KVM /* sanity check. should always enter this */
+> +#define spr_register_kvm(env, num, name, uea_read, uea_write,                  \
+> +                         oea_read, oea_write, one_reg_id, initial_value)       \
+> +    _spr_register(env, num, name, one_reg_id, initial_value)
+> +#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,               \
+> +                            oea_read, oea_write, hea_read, hea_write,          \
+> +                            one_reg_id, initial_value)                         \
+> +    _spr_register(env, num, name, one_reg_id, initial_value)
+> +#else /* CONFIG_KVM */
+> +#error "Either TCG or KVM should be condigured"
 
-https://wiki.raptorcs.com/w/images/5/50/PowerISA_V2.05.pdf
+configured
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926202
-
-Title:
-  qemu-user can't run some ppc binaries
-
-Status in QEMU:
-  New
-
-Bug description:
-  qemu-user v6.0.0-rc5, built in static mode, will crash for certain ppc
-  binaries.  It seems to have something to do with glibc for some Centos
-  versions.  The problem is easiest to see with statically-linked
-  binaries.
-
-  The attached Dockerfile shows how to produce a ppc binary that will
-  crash qemu-user.  Here is how to reproduce the problem:
-
-  $ uname -m
-  x86_64
-
-  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p
-  yes
-
-  $ docker build -t qemu-bug:centos -f Dockerfile.centos .
-
-  $ docker run --rm -it -v$PWD:$PWD -w$PWD qemu-bug:centos cp
-  /helloworld-centos.static.ppc .
-
-  $ qemu-ppc-static --version
-  qemu-ppc version 5.2.95 (v6.0.0-rc5)
-  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
-
-  $ qemu-ppc-static ./helloworld-centos.static.ppc
-  emu: uncaught target signal 4 (Illegal instruction) - core dumped
-  [1]    16678 illegal hardware instruction (core dumped)  qemu-ppc-static =
-./helloworld-centos.static.ppc
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926202/+subscriptions
+> +#endif /* CONFIG_KVM */
+> +#endif /* CONFIG_TCG */
+>  
+>  #define spr_register(env, num, name, uea_read, uea_write,                      \
+>                       oea_read, oea_write, initial_value)                       \
 
