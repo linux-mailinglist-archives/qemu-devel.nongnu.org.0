@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FD636EBF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:05:37 +0200 (CEST)
-Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4D136EBF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:06:16 +0200 (CEST)
+Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc7IO-00067Z-Ct
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
+	id 1lc7J1-0006pf-BX
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lc7Gr-00053C-S2
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:04:01 -0400
-Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:45548)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lc7HY-0005rh-Rv
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:04:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lc7Go-00071G-3a
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:04:01 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id DD41A285FF2;
- Thu, 29 Apr 2021 16:03:45 +0200 (CEST)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 29 Apr
- 2021 16:03:44 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0016c8b2eef-31f8-4f98-95ae-10d72cd6f142,
- 79FD99B9F35441B55338C578C1C3445AC83C88D3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 2/2] spapr.h: increase FDT_MAX_SIZE
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20210408204049.221802-1-danielhb413@gmail.com>
- <20210408204049.221802-3-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <e1820a74-ba04-8e49-35fd-ca50e75ae611@kaod.org>
-Date: Thu, 29 Apr 2021 16:03:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lc7HQ-0007Rr-FI
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:04:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619705074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BaO1TlaHM3QCCt5c1jYluyDXymMwDmdbLjVFtOcWswc=;
+ b=blvmzII8jhMbL+mUPskeiLeL8L9KhXsmUzMC/6u8LD7FwAUihBkN29W9DEvQbcV2qOBhk+
+ 4Qmi6Os88flVe/zW0SvC8nD18gGfhoMB+C8gaTOL4+5D8Go54Cm1Nv1udBZ2mlFjYNWsfK
+ pvF5/t05unSiQ3PlO9Wzi4iUIxGCt1c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-jIgybuDRMt-cg-pORwbqcw-1; Thu, 29 Apr 2021 10:04:31 -0400
+X-MC-Unique: jIgybuDRMt-cg-pORwbqcw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DB7A80DDEF;
+ Thu, 29 Apr 2021 14:04:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B057F5C1A3;
+ Thu, 29 Apr 2021 14:04:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 40FDC113525D; Thu, 29 Apr 2021 16:04:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] migration: Drop redundant query-migrate result @blocked
+Date: Thu, 29 Apr 2021 16:04:24 +0200
+Message-Id: <20210429140424.2802929-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210408204049.221802-3-danielhb413@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 944e304e-9ea7-498c-8f8b-135bbc2a4c2e
-X-Ovh-Tracer-Id: 13601152353892404131
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgedgjedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgedvieejfedvhfduhfffueevheeludffhfdvkeehleegtddttdfhieegveeghfffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,50 +76,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, berrange@redhat.com, dgilbert@redhat.com,
+ peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 10:40 PM, Daniel Henrique Barboza wrote:
-> Certain SMP topologies stress, e.g. 1 thread/core, 2048 cores and
-> 1 socket, stress the current maximum size of the pSeries FDT:
-> 
-> Calling ibm,client-architecture-support...qemu-system-ppc64: error
-> creating device tree: (fdt_setprop(fdt, offset,
-> "ibm,processor-segment-sizes", segs, sizeof(segs))): FDT_ERR_NOSPACE
-> 
-> 2048 is the default NR_CPUS value for the pSeries kernel. It's expected
-> that users will want QEMU to be able to handle this kind of
-> configuration.
-> 
-> Bumping FDT_MAX_SIZE to 2MB is enough for these setups to be created.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  include/hw/ppc/spapr.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index bf7cab7a2c..3deb382678 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -95,7 +95,7 @@ typedef enum {
->  #define SPAPR_CAP_FIXED_CCD             0x03
->  #define SPAPR_CAP_FIXED_NA              0x10 /* Lets leave a bit of a gap... */
->  
-> -#define FDT_MAX_SIZE                    0x100000
-> +#define FDT_MAX_SIZE                    0x200000
->  
->  /*
->   * NUMA related macros. MAX_DISTANCE_REF_POINTS was taken
-> 
+Result @blocked is redundant.  Unfortunately, we realized this too
+close to the release to risk dropping it, so we deprecated it
+instead, in commit e11ce6c06.
 
-FYI,
+Since it was deprecated from the start, we can delete it without
+the customary grace period.  Do so.
 
-On a very large system, I also had to bump the FDT_MAX_SIZE value in 
-softmmu/device-tree.c because QEMU is parsing the host DT. 
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+v3: We picked the alternative "[PATCH] migration: Deprecate redundant
+    query-migrate result @blocked" for 6.0 (commit e11ce6c065).  v3 is
+    v2 squashed into a clean revert that commit.  I kept the R-bys for
+    v1 and v2.
 
-Thanks,
+v2: Commit message improved.
 
-C.
+ qapi/migration.json   |  6 ------
+ migration/migration.c | 29 +++++++++++++----------------
+ monitor/hmp-cmds.c    |  2 +-
+ 3 files changed, 14 insertions(+), 23 deletions(-)
+
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 0b17cce46b..7a5bdf9a0d 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -228,11 +228,6 @@
+ #                   Present and non-empty when migration is blocked.
+ #                   (since 6.0)
+ #
+-# @blocked: True if outgoing migration is blocked (since 6.0)
+-#
+-# Features:
+-# @deprecated: Member @blocked is deprecated.  Use @blocked-reasons instead.
+-#
+ # Since: 0.14
+ ##
+ { 'struct': 'MigrationInfo',
+@@ -246,7 +241,6 @@
+            '*setup-time': 'int',
+            '*cpu-throttle-percentage': 'int',
+            '*error-desc': 'str',
+-           'blocked': { 'type': 'bool', 'features': [ 'deprecated' ] },
+            '*blocked-reasons': ['str'],
+            '*postcopy-blocktime' : 'uint32',
+            '*postcopy-vcpu-blocktime': ['uint32'],
+diff --git a/migration/migration.c b/migration/migration.c
+index 8ca034136b..fdadee290e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1073,27 +1073,24 @@ static void populate_vfio_info(MigrationInfo *info)
+ static void fill_source_migration_info(MigrationInfo *info)
+ {
+     MigrationState *s = migrate_get_current();
++    GSList *cur_blocker = migration_blockers;
+ 
+-    info->blocked = migration_is_blocked(NULL);
+-    info->has_blocked_reasons = info->blocked;
+     info->blocked_reasons = NULL;
+-    if (info->blocked) {
+-        GSList *cur_blocker = migration_blockers;
+ 
+-        /*
+-         * There are two types of reasons a migration might be blocked;
+-         * a) devices marked in VMState as non-migratable, and
+-         * b) Explicit migration blockers
+-         * We need to add both of them here.
+-         */
+-        qemu_savevm_non_migratable_list(&info->blocked_reasons);
++    /*
++     * There are two types of reasons a migration might be blocked;
++     * a) devices marked in VMState as non-migratable, and
++     * b) Explicit migration blockers
++     * We need to add both of them here.
++     */
++    qemu_savevm_non_migratable_list(&info->blocked_reasons);
+ 
+-        while (cur_blocker) {
+-            QAPI_LIST_PREPEND(info->blocked_reasons,
+-                              g_strdup(error_get_pretty(cur_blocker->data)));
+-            cur_blocker = g_slist_next(cur_blocker);
+-        }
++    while (cur_blocker) {
++        QAPI_LIST_PREPEND(info->blocked_reasons,
++                          g_strdup(error_get_pretty(cur_blocker->data)));
++        cur_blocker = g_slist_next(cur_blocker);
+     }
++    info->has_blocked_reasons = info->blocked_reasons != NULL;
+ 
+     switch (s->state) {
+     case MIGRATION_STATUS_NONE:
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 0ad5b77477..d9bef63373 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -224,7 +224,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+ 
+     migration_global_dump(mon);
+ 
+-    if (info->blocked) {
++    if (info->blocked_reasons) {
+         strList *reasons = info->blocked_reasons;
+         monitor_printf(mon, "Outgoing migration blocked:\n");
+         while (reasons) {
+-- 
+2.26.3
+
 
