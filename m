@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7327036EA0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:09:20 +0200 (CEST)
-Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AB936EA22
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 14:14:22 +0200 (CEST)
+Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc5Tr-0000bf-I4
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:09:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
+	id 1lc5Yi-0004Cz-RA
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 08:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1lc5QH-0007Ti-2a
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:05:37 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:38411)
+ id 1lc5QJ-0007Xd-JY
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:05:39 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1lc5QF-0000CK-CY
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:05:36 -0400
-Received: by mail-pf1-x432.google.com with SMTP id j6so6552886pfh.5
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 05:05:34 -0700 (PDT)
+ id 1lc5QH-0000DX-DI
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 08:05:39 -0400
+Received: by mail-pf1-x433.google.com with SMTP id c19so1294705pfv.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 05:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Za8sRghFjDzzxeX3eHzOdIRG0vujpkNJzbRMPY5/TEc=;
- b=FTnzF63FxrfnYd2xX0GpI+Q0kYUCnprxObjI5iONAK+E+lOkXHS8H0cgJ3M/zJoDu3
- yYpGQ7SWRS5/9iS2lB2cRYE3h+Aityq5gbR0nUfbWgMY7ve914xuafVlIHdTUAwgA8c2
- N124aVJ0YcHfURjB3wC7GpyXQxz/qO4XiDOs9dOZZUBMoHz4HhutniRNGkmrlAgbHp8b
- dxoawv3ynR5gsIgSmnAKdvdOelP5i0W03WdFb/+v0OwNmN1sYmDGRxjrKt9vTRj8s5wh
- ZeCQwTUa9qYjeSJb+/WSZEHCtfHS/w/0/HVWknYGKPB8dVWLWKGQRDRvG4QdNfiTJ9RP
- us2Q==
+ bh=5ig1JXhD7v222C44og9xc1xsmm+l6y1xpCVdKjFd1wk=;
+ b=uEQ6j+Eji63Nkp/Foouz7M9kbFrqEN5nZdqd/VzTp9SaA+ohXu4B55S7oJQtk1IvLY
+ 1AaNdRrdARquvsRbqo5m/NjWkAMkuEbEyajLTJpfRmUwgFyspYiF4HYrfyppSr4otiPp
+ 50hOizE01CrYbetw+dIUmJ86m1jxMR6bUa54NgDA38v1rhFaq2WO6mLiSlTV2aPUKMAP
+ IULfsz+eheBJhazpKYFP+ZkKFUje/1g8GYaxBdHUj6xI5vruukdyhrpGyUq2JzNbG7zq
+ Z+JlUG1XRIJqfmM5a9mTjQBxy+LY2fuzxJ1C01LXcHix7D32aqOtsrCgW4ABrW4Q1XLZ
+ VJuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Za8sRghFjDzzxeX3eHzOdIRG0vujpkNJzbRMPY5/TEc=;
- b=Rd4s4NWXzDSPdMlKe7mLbS5HSWJfcfJzW2wIyfPVFUYyxBNzqNyoNkmA+qGdnU7XnQ
- xpvLXXXQPUv98CWByrQj7hvC8Xnfp9eizABXYKkijy04E+N9R484JN1m2uLxqHKN5ric
- 2pZsMKfH05BQ5B+UGkiYw019MPvZKcq7TD3cha+cJcGd6xvr3cMKo6keGUtZnXJKfTO4
- MSYhfwansuJb2iA7jSm5zv3FCY8YvSrj0wqAt3bX5JnqRCZr2FTolg5gRpDBvYQJKuB1
- RLm009PaSMx8RGXLqv4AUnXy5zT3IbtrPYcN0MC31X69s3U1/qtyLyyn2/hiQnP1fXPg
- dRBg==
-X-Gm-Message-State: AOAM532BP88qlQSZ0aXZ7lj/QLi1wzh7gz5cCEqETCw3J8lApiZY6009
- /GK01Wn+e1ukXScL7d9ORic=
-X-Google-Smtp-Source: ABdhPJy1hecTGumO5YKDH4T+Ws0r0GecHXQoj74UhWuSMfJjFd0pSByULzoxOvi6KAb3cWn+AwRJkw==
-X-Received: by 2002:a05:6a00:1a02:b029:27f:f7ce:49d8 with SMTP id
- g2-20020a056a001a02b029027ff7ce49d8mr1823454pfv.24.1619697934013; 
- Thu, 29 Apr 2021 05:05:34 -0700 (PDT)
+ bh=5ig1JXhD7v222C44og9xc1xsmm+l6y1xpCVdKjFd1wk=;
+ b=emoLyEGZ4+c69IPbH7PPahq7egcvwh350qaX90PlMu/zJgWcslBC9EVS88EMqrzmXd
+ qLIJI1yZUTk00yGE8OccpoOnkhRgejXDMvslScUMxeBcdou183jCFJh68MnUo2e8BR3q
+ YXJKdBGVTPjXRW7xywfgkxMIiCq5v03Ngmi2b8+8XieoGHH0Sz/9E+OhSY8A3SJZ4BR0
+ 9WulaewB0RvFcvoRn56XAGJRMSAS+SIK5NR34thazI8/Fy+ewJUWOnN528V7s6gFrYeU
+ TaFLafHgsGG5jD+jx50dGeGTW7ucBFPUKQJxG2H5H3JkDfxQMv8KT57Z6zui52e1wq/x
+ xoFA==
+X-Gm-Message-State: AOAM530WVfylJvnDcJ4LVAS3e2W0HnJauMlIT3scqgbVxsKAYlgqqLsX
+ bpbzweUl4g0BcraOCGvrUPA=
+X-Google-Smtp-Source: ABdhPJxDufT8Hp6JvS9msZ90vmTQksOb8NIXxmezYm3FZd+HLfcvYP25hGYbABS+LB1ZM67sUKAMGQ==
+X-Received: by 2002:a63:6f8e:: with SMTP id
+ k136mr32876614pgc.326.1619697936151; 
+ Thu, 29 Apr 2021 05:05:36 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:6008:61b4:c0b1:be0f:608e:9a45])
- by smtp.gmail.com with ESMTPSA id p6sm713643pjg.35.2021.04.29.05.05.31
+ by smtp.gmail.com with ESMTPSA id p6sm713643pjg.35.2021.04.29.05.05.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 05:05:33 -0700 (PDT)
+ Thu, 29 Apr 2021 05:05:35 -0700 (PDT)
 From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 To: kraxel@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH 01/27] virtio-snd: Add virtio sound header file
-Date: Thu, 29 Apr 2021 17:34:19 +0530
-Message-Id: <20210429120445.694420-2-chouhan.shreyansh2702@gmail.com>
+Subject: [RFC PATCH 02/27] virtio-snd: Add jack control structures
+Date: Thu, 29 Apr 2021 17:34:20 +0530
+Message-Id: <20210429120445.694420-3-chouhan.shreyansh2702@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,118 +89,63 @@ Cc: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added device configuration and common definitions to the header
-file.
+Added structures for handling jack control requests
+to the header file.
 
 Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 ---
- include/hw/virtio/virtio-snd.h | 97 ++++++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
- create mode 100644 include/hw/virtio/virtio-snd.h
+ include/hw/virtio/virtio-snd.h | 40 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/include/hw/virtio/virtio-snd.h b/include/hw/virtio/virtio-snd.h
-new file mode 100644
-index 0000000000..bbbf174c51
---- /dev/null
+index bbbf174c51..f58b06a949 100644
+--- a/include/hw/virtio/virtio-snd.h
 +++ b/include/hw/virtio/virtio-snd.h
-@@ -0,0 +1,97 @@
-+/*
-+ * Virtio Sound Device
-+ */
+@@ -94,4 +94,44 @@ typedef struct virtio_snd_info {
+     uint32_t hda_fn_nid;
+ } virtio_snd_info;
+ 
++/* JACK CONTROL MESSAGES */
 +
-+#ifndef QEMU_VIRTIO_SOUND_H
-+#define QEMU_VIRTIO_SOUND_H
-+
-+#include "qemu/units.h"
-+#include "hw/virtio/virtio.h"
-+#include "qemu/queue.h"
-+#include "audio/audio.h"
-+#include "audio/audio_int.h"
-+
-+#define VIRTIO_ID_SOUND 25
-+
-+/* CONFIGURATION SPACE */
-+
-+typedef struct virtio_snd_config {
-+    /* # of jacks available */
-+    uint32_t jacks;
-+    /* # of streams avalable */
-+    uint32_t streams;
-+    /* # chmaps available */
-+    uint32_t chmaps;
-+} virtio_snd_config;
-+
-+/* COMMON DEFINITIONS */
-+
-+/* supported sample data directions. */
-+enum {
-+    VIRTIO_SND_D_OUTPUT = 0,
-+    VIRTIO_SND_D_INPUT
-+};
-+
-+enum {
-+    /* jack control request types */
-+    VIRTIO_SND_R_JACK_INFO = 1,
-+    VIRTIO_SND_R_JACK_REMAP,
-+
-+    /* PCM control request types */
-+    VIRTIO_SND_R_PCM_INFO = 0x0100,
-+    VIRTIO_SND_R_PCM_SET_PARAMS,
-+    VIRTIO_SND_R_PCM_PREPARE,
-+    VIRTIO_SND_R_PCM_RELEASE,
-+    VIRTIO_SND_R_PCM_START,
-+    VIRTIO_SND_R_PCM_STOP,
-+
-+    /* channel map control request type */
-+    VIRTIO_SND_R_CHMAP_INFO = 0x200,
-+
-+    /* jack event types */
-+    VIRTIO_SND_EVT_JACK_CONNECTED = 0x1000,
-+    VIRTIO_SND_EVT_JACK_DISCONNECTED,
-+
-+    /* PCM event types */
-+    VIRTIO_SND_EVT_PCM_PERIOD_ELAPSED = 0x1100,
-+    VIRTIO_SND_EVT_PCM_XRUN,
-+
-+    /* common status codes */
-+    VIRTIO_SND_S_OK = 0x8000,
-+    VIRTIO_SND_S_BAD_MSG,
-+    VIRTIO_SND_S_NOT_SUPP,
-+    VIRTIO_SND_S_IO_ERR
-+};
-+
-+/* common header for request/response*/
-+typedef struct virtio_snd_hdr {
-+    uint32_t code;
-+} virtio_snd_hdr;
-+
-+/* event notification */
-+typedef struct virtio_snd_event {
-+    /* VIRTIO_SND_EVT_* */
++typedef struct virtio_snd_jack_hdr {
++    /* VIRTIO_SND_R_JACK_* */
 +    virtio_snd_hdr hdr;
-+    /* Optional event data */
-+    uint32_t data;
-+} virtio_snd_event;
++    /* 0 to (virtio_snd_config.jacks - 1) */
++    uint32_t jack_id;
++} virtio_snd_jack_hdr;
 +
-+/* common control request to query an item information */
-+typedef struct virtio_snd_query_info {
-+    /* VIRTIO_SND_R_*_INFO */
-+    struct virtio_snd_hdr hdr;
-+    /* item start identifier */
-+    uint32_t start_id;
-+    /* # of items to query */
-+    uint32_t count;
-+    /* size of a single item information in bytes */
-+    uint32_t size;
-+} virtio_snd_query_info;
++/* Supported jack features */
++enum {
++    VIRTIO_SND_F_JACK_REMAP = 0
++};
 +
-+/* common item information header */
-+typedef struct virtio_snd_info {
-+    /* functional group node id (HDA Spec 7.1.2) */
-+    uint32_t hda_fn_nid;
-+} virtio_snd_info;
++/* jack information structure */
++typedef struct virtio_snd_jack_info {
++    /* common header */
++    virtio_snd_info hdr;
++    /* 1 << VIRTIO_SND_JACK_F_* */
++    uint32_t features;
++    /* pin default configuration from HDA spec */
++    uint32_t hda_reg_defconf;
++    /* pin capabilities from HDA spec */
++    uint32_t hda_reg_caps;
++    /* connection status (0: disconnected, 1: connected) */
++    uint8_t connected;
 +
-+#endif
++    uint8_t padding[7];
++} virtio_snd_jack_info;
++
++/* jack remapping control request */
++typedef struct virtio_snd_jack_remap {
++    /* .code = VIRTIO_SND_R_JACK_REMAP */
++    virtio_snd_jack_hdr hdr;
++    /* selected association number */
++    uint32_t association;
++    /* selected sequence number */
++    uint32_t sequence;
++} virtio_snd_jack_remap;
++
+ #endif
 -- 
 2.25.1
 
