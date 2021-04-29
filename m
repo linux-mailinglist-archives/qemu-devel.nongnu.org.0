@@ -2,92 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E95736EBA1
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 15:52:32 +0200 (CEST)
-Received: from localhost ([::1]:45912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F94B36EBA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 15:54:24 +0200 (CEST)
+Received: from localhost ([::1]:48914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc75j-00088D-CW
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 09:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
+	id 1lc77X-00011C-D4
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 09:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lc74K-0007Co-Me
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:51:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43899)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lc76k-0000Zj-8O
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:53:34 -0400
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:36936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lc74H-00080i-5O
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:51:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619704260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DlUByuIvCWF32kNVF9fxFY3k3zIAPGIBYGFpSto+0vA=;
- b=U2XhQ/q83XzpwSHMZtSm3+ha3Y1RqIACDyWRXWH7VM0wa04LcdW7SZyB1z4qfUcbzrLt7f
- vTX8gWhKNp7/f9mW1Z/MSSfznRIzzb6qVUqbQxykj8Z5FOR6P46LcXakfhfhbd2CHyKW9f
- yeM+ISlo/8WTi/Qj+N7wy6hpqHSCEe4=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-GnbMEMPnPLyGdT2JBGMMtA-1; Thu, 29 Apr 2021 09:50:56 -0400
-X-MC-Unique: GnbMEMPnPLyGdT2JBGMMtA-1
-Received: by mail-oo1-f69.google.com with SMTP id
- w13-20020a4ab6cd0000b02901eb16e42655so16113505ooo.11
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 06:50:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DlUByuIvCWF32kNVF9fxFY3k3zIAPGIBYGFpSto+0vA=;
- b=K37JCuBKK3L9oEkL2yzlB+ADoCTj4Y9Hvy3RbfcwS0tjWFYp9hbad0R88DoOP3r2PH
- pIEJ+2C738OfFk44OEBIxVDMrLwHFCZvUJ4TujxEak7SATs6131TmTYxRWVa7pGMvZx5
- 8k8IH1fNE0Bu30gc9IdY871VIOwk6Qy7rIk9EVXOS1QEczTpsZ1IoERo5qeSy+SNUQah
- VTrMsFe1WLimwkTkKeqIdLKhlsuFFCG1y16/ySUDHldanay9mBBogFsaF0ZLOmCrdw8j
- e/8ebiM9FccdOYeIEPr3vt2OvODzRFESdGw+VKEtE7pb5gPU2GmNLoXvo4nO/+iCWwnD
- Tzww==
-X-Gm-Message-State: AOAM533NuaqSI+JnnznrkZ0Kq/7hiZ/bUm1bb3OxNfSo28ZMyqlGOfzB
- HgfdYemCC01nmCYZ2LBopoKugTZ4Ih3gCaTusgZClpDBzn6ZpIJ91kOw3sHa3Tocj/AJhqgi/EM
- GdE5BkDh8n+RUHmQ=
-X-Received: by 2002:a9d:6c58:: with SMTP id g24mr14366071otq.315.1619704255661; 
- Thu, 29 Apr 2021 06:50:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRXtpLPl3DzexzUJ1LvEPMVQfKr3sH1sx+KCFBx7OFYSO0iUX0pZOmT1Q9nmjYqRu8gkeJzw==
-X-Received: by 2002:a9d:6c58:: with SMTP id g24mr14366057otq.315.1619704255498; 
- Thu, 29 Apr 2021 06:50:55 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- g5sm676725oiy.24.2021.04.29.06.50.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Apr 2021 06:50:55 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] meson: Select 'have_system' when virtiofsd is
- enabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210429083346.61030-1-philmd@redhat.com>
- <20210429083346.61030-2-philmd@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <4823bd07-2b96-5503-7959-853fc61372ef@redhat.com>
-Date: Thu, 29 Apr 2021 08:50:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lc76h-00012V-FY
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:53:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=MexV3GJ/PLVU7Zfxm3UPyufD1hDm1rwPttQvcuUpflo=; b=KL2IuT6RJsETxUzsBgmiesbuxK
+ 0LHT+3t4Gep66enqpIVBEmZ4tQh8C1AruxIvA++WoQjePc3kEBexPrmrIvZyRyRztvjiB2M9tDAM+
+ uZbHSgxHUz+5FHvel4oktDcW2LTWz/VBcgrl9xA77y/gfS0xMir9kRFRwxqkVCO6yIQY=;
+Date: Thu, 29 Apr 2021 15:53:22 +0200
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH  v1 18/25] tests/tcg/tricore: Add clz test
+Message-ID: <20210429135322.5usmsnv5ylo5g2n2@schnipp-desktop>
+References: <20210419145435.14083-1-alex.bennee@linaro.org>
+ <20210419145435.14083-19-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210429083346.61030-2-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210419145435.14083-19-alex.bennee@linaro.org>
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.4.29.134515, AntiVirus-Engine: 5.82.0,
+ AntiVirus-Data: 2021.3.29.5820001
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=35341789, da=107313470,
+ mc=590, sc=4, hc=586, sp=0, fso=35341789, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::18;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,56 +67,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/21 3:33 AM, Philippe Mathieu-DaudÃ© wrote:
-> When not explicitly select a sysemu target and building virtiofsd,
-> the seccomp/cap-ng libraries are not resolved, leading to this error:
+On Mon, Apr 19, 2021 at 03:54:28PM +0100, Alex Bennée wrote:
+> From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 > 
->   $ configure --target-list=i386-linux-user --disable-tools --enable-virtiofsd
->   tools/meson.build:12:6: ERROR: Problem encountered: virtiofsd requires libcap-ng-devel and seccomp-devel
-> 
-> Fix by enabling sysemu (have_system) when virtiofsd is built.
-> 
-> Reported-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
+> Tested-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20210305170045.869437-9-kbastian@mail.uni-paderborn.de>
 > ---
->  meson.build | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meson.build b/meson.build
-> index c6f4b0cf5e8..f858935ad95 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -51,6 +51,8 @@
->    have_system = have_system or target.endswith('-softmmu')
->  endforeach
->  have_tools = 'CONFIG_TOOLS' in config_host
-> +# virtiofsd depends on sysemu
-> +have_system = have_system or not get_option('virtiofsd').disabled()
+>  tests/tcg/tricore/Makefile.softmmu-target      |  1 +
+>  tests/tcg/tricore/Makefile.softmmu-target.orig | 18 ++++++++++++++++++
 
-I don't think we should satisfy virtiofsd dependencies transiently by
-depending on system emulation targets.
+Whoops, that file slipped in. Can you remove that, Alex?
 
-It's my understanding (and I'm happy to be corrected on this) that the
-virtiofsd binary is orthogonal to system emulation tools. Consider a
-situation in which someone wants to develop virtiofsd but doesn't want
-to wait for the rest of QEMU to build and instead use their own
-qemu-system-x86_64 installed by their distro.
-
-Connor
-
->  have_block = have_system or have_tools
->  
->  python = import('python').find_installation()
-> 
-
+Cheers,
+Bastian
 
