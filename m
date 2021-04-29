@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D620436EC3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:17:00 +0200 (CEST)
-Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490EA36EC36
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 16:15:42 +0200 (CEST)
+Received: from localhost ([::1]:54390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc7TP-0000fP-Tk
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43600)
+	id 1lc7S9-000743-Au
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 10:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lc7QH-0005Yw-3P
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:13:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:36527)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lc7QC-0005PC-Oa
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:13:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:38029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lc7QE-0004U7-Lr
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:13:44 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lc7Q8-0004PU-K7
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 10:13:40 -0400
 Received: from quad ([82.142.25.254]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N9dbx-1lYy9V3f9x-015ZUS; Thu, 29
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M4rkF-1lcw6I29f5-0020DG; Thu, 29
  Apr 2021 16:13:29 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] exec/memory: Extract address_space_set() from
- dma_memory_set()
-Date: Thu, 29 Apr 2021 16:13:24 +0200
-Message-Id: <20210429141326.69245-2-laurent@vivier.eu>
+Subject: [PATCH v3 2/3] hw/elf_ops: clear uninitialized segment space
+Date: Thu, 29 Apr 2021 16:13:25 +0200
+Message-Id: <20210429141326.69245-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210429141326.69245-1-laurent@vivier.eu>
 References: <20210429141326.69245-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:21ZHYbI2/DrpcalKCabwqS6hSp2aXCTwYVhUc+Kru3WSAZqfFoW
- XlElmR7a2s1FtrsZDyCt9wmK675KspaYZ7ZOoM5v4448L+6TVi3nNtYaDPKg6YpXkmy0c+G
- PTQYpr7SvogP+vhs3/jdE1WSxIjsenStzZPjD0myE9utZU5BZC/4ZtXsiV1khmUHwl3JuOz
- fLcCl9pwdRwnK9T/CCqew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yaN70zbQI/8=:emvGAiDa+XwpO5ExOpDbYv
- gcRA8pa9rjOTuymKWUYEix6zdDdC5WxG+bxAM8Ureakb61J7nIWxwmU0ak8s5eaY8wrye0Xm7
- vr0PAZmS6GWDxIA3awPOSBbPbalWIgMHiBvvnXk6rAljsJd83Y8Wb8kpYjFy/yM8mZWKreqiu
- TeGFR/H9Lw5206NQ4pf1UgsTkqDmRB8c8ocfayHlaambNmx1i67uhvJ4Ms9wXR9Q/Cs9BuKAE
- AkHKsQrxr+R+oq5J25YeHsdj7kxQJHkQ1W27Rcl3B2SD47a7lsTZpvmDwyCeFz6url6echR6J
- ZLrOkLW5Zv9F82NEViyuL9m+daKdOR4Lk3QcEiaoaViBYfi/Tg/Qj38inQOAd0Y42UaKp/JKL
- 33rof0KZAqOsoN46O4AQ4J+JH55tSDc28lTHkR9KJ98zG+OkNoZfph3OGkU6/3K0dUi+8qh6J
- Hi6hg/GZ3zkXudLz05VAPDyes6z2IC2sKmSeXjikASXXBps3i+AlrX4bHBN4w4F8sr+5klWFH
- 4b19KZF0TVDRQk+JNGlOrk=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:viLJk4n520eg09CF1TiSSwulH4BUJ85htBBKNhaLy05Ks3p/rO6
+ MNJ69xdBtzW0niT7bd7t6eRffj0O0/+bMdcL7upBDU1fdhT9taWePuSkWoFLqUmZHeNXANy
+ SSFr8XbvWReMQeQYHR/c63Jmau6+C2uOiH5hhEPZL9XHQBR1afwdvnTO9tO8wkIxeWxG/bg
+ iPmcEVvC6YXIfkxkRaoDA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MNNvyC8tVd4=:j875aqkGwTHEFF0wTPS6hE
+ M8uxw893HKW08ulezI0o6XceaaQ4z53J1wx1xVOZG1CHM+IqFxRtaa4VHvzhLArsnRPqiqua1
+ i4pPRWDWjhT6IGBVlDNw4d8ip8j/V5c5I49nvwgEJVfjcJ60zNn3KTckkOxjDb5bY7OMxbHVs
+ m72ufIsYl5dqaBVjyysBfD488lILHspvlm0wq6mbCer7CWqy122SQEJ66g3bFDYnDmNzR6C+A
+ 8r0ivJ5C6L4I+T1MYJ7+mO/hIbliBYINnI4erDhVd1hKx0n80pqjYU0sZRKJLeMMtDEbyaR5z
+ iIOA1oeTbwUDUV+M2CE+FmxCFwsappcjwuN5qawro7hCmc2vBMLDdBj5pnz82tzNyz1fBY+vR
+ YAoqeyHtsHBtCkP/vZiXHYmmOlIjmzvzp/oKmTZJ05qmNJ2uj+kEje4p6J+eo1Gjt8uAHgrZO
+ V/lM7HBwzuOuFB2vT0zYO3XpgPBPuNjV1cgsRvfYMJF0VJy6hmW7BUHoFyMKVA+ZABGVNJzuF
+ GnuOddFeAC1bXGGi1Ew7D8=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,108 +72,48 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+When the mem_size of the segment is bigger than the file_size,
+and if this space doesn't overlap another segment, it needs
+to be cleared.
 
-dma_memory_set() does a DMA barrier, set the address space with
-a constant value. The constant value filling code is not specific
-to DMA and can be used for AddressSpace. Extract it as a new
-helper: address_space_set().
+This bug is very similar to the one we had for linux-user,
+22d113b52f41 ("linux-user: Fix loading of BSS segments"),
+where .bss section is encoded as an extension of the the data
+one by setting the segment p_memsz > p_filesz.
 
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+[PMD: Use recently added address_space_set()]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/exec/memory.h | 16 ++++++++++++++++
- softmmu/dma-helpers.c | 16 +---------------
- softmmu/physmem.c     | 19 +++++++++++++++++++
- 3 files changed, 36 insertions(+), 15 deletions(-)
+ include/hw/elf_ops.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 5728a681b27d..192139af58e9 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2568,6 +2568,22 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-     }
- }
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index 6ee458e7bc3c..29f4c43e231d 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -562,6 +562,19 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+                     if (res != MEMTX_OK) {
+                         goto fail;
+                     }
++                    /*
++                     * We need to zero'ify the space that is not copied
++                     * from file
++                     */
++                    if (file_size < mem_size) {
++                        res = address_space_set(as ? as : &address_space_memory,
++                                                addr + file_size, 0,
++                                                mem_size - file_size,
++                                                MEMTXATTRS_UNSPECIFIED);
++                        if (res != MEMTX_OK) {
++                            goto fail;
++                        }
++                    }
+                 }
+             }
  
-+/**
-+ * address_space_set: Fill address space with a constant byte.
-+ *
-+ * Return a MemTxResult indicating whether the operation succeeded
-+ * or failed (eg unassigned memory, device rejected the transaction,
-+ * IOMMU fault).
-+ *
-+ * @as: #AddressSpace to be accessed
-+ * @addr: address within that address space
-+ * @c: constant byte to fill the memory
-+ * @len: the number of bytes to fill with the constant byte
-+ * @attrs: memory transaction attributes
-+ */
-+MemTxResult address_space_set(AddressSpace *as, hwaddr addr,
-+                              uint8_t c, hwaddr len, MemTxAttrs attrs);
-+
- #ifdef NEED_CPU_H
- /* enum device_endian to MemOp.  */
- static inline MemOp devend_memop(enum device_endian end)
-diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index 7d766a5e89a3..8e1e7ad53206 100644
---- a/softmmu/dma-helpers.c
-+++ b/softmmu/dma-helpers.c
-@@ -23,21 +23,7 @@ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
- {
-     dma_barrier(as, DMA_DIRECTION_FROM_DEVICE);
- 
--#define FILLBUF_SIZE 512
--    uint8_t fillbuf[FILLBUF_SIZE];
--    int l;
--    MemTxResult error = MEMTX_OK;
--
--    memset(fillbuf, c, FILLBUF_SIZE);
--    while (len > 0) {
--        l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
--        error |= address_space_write(as, addr, MEMTXATTRS_UNSPECIFIED,
--                                     fillbuf, l);
--        len -= l;
--        addr += l;
--    }
--
--    return error;
-+    return address_space_set(as, addr, c, len, MEMTXATTRS_UNSPECIFIED);
- }
- 
- void qemu_sglist_init(QEMUSGList *qsg, DeviceState *dev, int alloc_hint,
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 85034d9c11e3..c9117527ae71 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2891,6 +2891,25 @@ MemTxResult address_space_rw(AddressSpace *as, hwaddr addr, MemTxAttrs attrs,
-     }
- }
- 
-+MemTxResult address_space_set(AddressSpace *as, hwaddr addr,
-+                              uint8_t c, hwaddr len, MemTxAttrs attrs)
-+{
-+#define FILLBUF_SIZE 512
-+    uint8_t fillbuf[FILLBUF_SIZE];
-+    int l;
-+    MemTxResult error = MEMTX_OK;
-+
-+    memset(fillbuf, c, FILLBUF_SIZE);
-+    while (len > 0) {
-+        l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
-+        error |= address_space_write(as, addr, attrs, fillbuf, l);
-+        len -= l;
-+        addr += l;
-+    }
-+
-+    return error;
-+}
-+
- void cpu_physical_memory_rw(hwaddr addr, void *buf,
-                             hwaddr len, bool is_write)
- {
 -- 
 2.31.1
 
