@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7114836E8BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:28:10 +0200 (CEST)
-Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40C736E896
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 12:20:47 +0200 (CEST)
+Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc3tx-0003Xn-GE
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45106)
+	id 1lc3mo-0000Ne-Rr
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 06:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3rk-0002cq-RM
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:25:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lc3rh-0001Iy-0d
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:25:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lc3re-0003xk-N3
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:25:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A835C2E8157
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 10:25:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lc3l6-0008P4-Ib
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lc3l2-0005Rw-VB
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 06:18:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619691530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nx345XqD3W/utCpT4psZWOo1l/H9ftbnflhePnSfM6s=;
+ b=JPBVqQHv5NyvRcPhq9PjWl1QDaUx7oaY9Or1wbTdP0b4ZmjMrmbTSsGJK8HHakvK2yUm6X
+ c2xfLUPUVPzkjKxnGjio9gFgk+2hsqaeMl8jEsS4gPg0hecz0i9l6Yqy7vajr+bWZdHXmz
+ lMCc8xnaOQbfPgdQRVzPM0wbyLfJuSE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-INl64WDkNIu3_OKz_NzHGQ-1; Thu, 29 Apr 2021 06:18:48 -0400
+X-MC-Unique: INl64WDkNIu3_OKz_NzHGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F8BC1898298;
+ Thu, 29 Apr 2021 10:18:47 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
+ [10.36.112.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB54A5D735;
+ Thu, 29 Apr 2021 10:18:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3A0D81800604; Thu, 29 Apr 2021 12:18:42 +0200 (CEST)
+Date: Thu, 29 Apr 2021 12:18:42 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Let's remove some deprecated stuff
+Message-ID: <20210429101842.hupkajdlkttq6l4v@sirius.home.kraxel.org>
+References: <87y2d1csxe.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Apr 2021 10:16:10 -0000
-From: Laurent Vivier <1926521@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier vitalybuka
-X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <161964685051.14413.3981056017382622620.malonedeb@wampee.canonical.com>
-Message-Id: <161969137040.10894.5860292869455188766.malone@gac.canonical.com>
-Subject: [Bug 1926521] Re: QEMU-user ignores MADV_DONTNEED
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: b957e430af3537901108f70cadb29c7bb17dac1e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87y2d1csxe.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,94 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926521 <1926521@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Robert Hoo <robert.hu@linux.intel.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had a tentative patch in the past:
+  Hi,
 
-[PATCH v3] linux-user: add support for MADV_DONTNEED
-https://patchew.org/QEMU/20180827084037.25316-1-simon.hausmann@qt.io/
+>     ``QEMU_AUDIO_`` environment variables and ``-audio-help`` (since 4.0)
+>     Creating sound card devices and vnc without ``audiodev=`` property (since 4.2)
+>     Creating sound card devices using ``-soundhw`` (since 5.1)
 
--- =
+I think these three should be dropped together, to minimize disruption.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926521
+Where do we strand in terms of libvirt support?  IIRC audiodev= support
+in libvirt is rather recent (merged this year).  I'd tend to wait a bit
+longer because of that.
 
-Title:
-  QEMU-user ignores MADV_DONTNEED
+Daniel?
 
-Status in QEMU:
-  New
+take care,
+  Gerd
 
-Bug description:
-  There is comment int the code "This is a hint, so ignoring and returning =
-success is ok"
-  https://github.com/qemu/qemu/blob/b1cffefa1b163bce9aebc3416f562c1d3886eea=
-a/linux-user/syscall.c#L11941
-
-  But it seems incorrect with the current state of Linux
-
-  "man madvise" or https://man7.org/linux/man-pages/man2/madvise.2.html
-  says the following:
-  >>  These advice values do not influence the semantics
-  >>       of the application (except in the case of MADV_DONTNEED)
-
-  >> After a successful MADV_DONTNEED operation, the semantics
-  >> of memory access in the specified region are changed:
-  >> subsequent accesses of pages in the range will succeed,
-  >> but will result in either repopulating the memory contents
-  >> from the up-to-date contents of the underlying mapped file
-  >> (for shared file mappings, shared anonymous mappings, and
-  >> shmem-based techniques such as System V shared memory
-  >> segments) or zero-fill-on-demand pages for anonymous
-  >> private mappings.
-
-  Some applications use this behavior clear memory and it
-  would be nice to be able to run them on QEMU without
-  workarounds.
-
-  Reproducer on "Debian 5.10.24 x86_64 GNU/Linux" as a host.
-
-  =
-
-  ```
-  #include "assert.h"
-  #include "stdio.h"
-  #include <sys/mman.h>
-  #include <errno.h>
-
-  int main() {
-    char *P =3D (char *)mmap(0, 4096, PROT_READ | PROT_WRITE,
-                           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    assert(P);
-    *P =3D 'A';
-    while (madvise(P, 4096, MADV_DONTNEED) =3D=3D -1 && errno =3D=3D EAGAIN=
-) {
-    }
-    assert(*P =3D=3D 0);
-
-    printf("OK\n");
-  }
-
-  /*
-  gcc /tmp/madvice.c -o /tmp/madvice
-
-  qemu-x86_64 /tmp/madvice
-  madvice: /tmp/madvice.c:13: main: Assertion `*P =3D=3D 0' failed.
-  qemu: uncaught target signal 6 (Aborted) - core dumped
-  Aborted
-
-  /tmp/madvice
-  OK
-
-  =
-
-  */
-
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926521/+subscriptions
 
