@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8E136EB7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 15:44:15 +0200 (CEST)
-Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA3136EB96
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Apr 2021 15:49:19 +0200 (CEST)
+Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lc6xi-0006yr-3C
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 09:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35636)
+	id 1lc72c-0004lp-5u
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 09:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lc6ux-0005FB-JE
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:41:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25424)
+ id 1lc6v3-0005QM-LJ
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:41:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lc6uu-0002YU-KU
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:41:23 -0400
+ id 1lc6v1-0002eo-U3
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 09:41:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619703678;
+ s=mimecast20190719; t=1619703687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EqsUVszJoWDAzbTByKZLXqJyoxdRjmLsXocgE4TVN2E=;
- b=QpeWAq00G6XYdM03F4G+FXetDTQhanEo0K9XSKTCeTb9Q8n0VdW1o+LfMBZFMQiU6nZ6HN
- yuJNvSYSxjDZcd/r+8il54IAwwJEAcrR6C3EQDcRbAdnp2GY77xH4GRbPOVyMuOWcj+Lmo
- GUx+ERB1+5oMmQQZNY1Z98Ub4P2K4CQ=
+ bh=We1zZDJqXr65g8j+1L71psk2lqix3XVZIyeTb7L2dhQ=;
+ b=ehBqCIx+V9aLAQaggJVq0evq4hTMFZzZPWDbUl/VuJdzdIVyIQjMagfqv1ATk9uK83osQr
+ aaSNcc0UmDmAPQXaI9Ix+nLJ7zh4cRQSFBURRbaUwC84z5sjRuiQGgirc2as7ipR33DKee
+ JqaZUL1ftlY/4gSiA/DjQ1OgEd9U4p8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-9FO-egn4NqO_5mPlG8TKIw-1; Thu, 29 Apr 2021 09:41:16 -0400
-X-MC-Unique: 9FO-egn4NqO_5mPlG8TKIw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-395-isX_bXiVPMaAlmz_MMwvvA-1; Thu, 29 Apr 2021 09:41:25 -0400
+X-MC-Unique: isX_bXiVPMaAlmz_MMwvvA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F275C8BEB82
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 13:41:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92533CC64C
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 13:41:24 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA6DC5D9C6;
- Thu, 29 Apr 2021 13:41:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 717AC19C44;
+ Thu, 29 Apr 2021 13:41:18 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/9] qapi: introduce IfPredicateList and IfAny
-Date: Thu, 29 Apr 2021 17:40:27 +0400
-Message-Id: <20210429134032.1125111-5-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 5/9] qapi: add IfNot
+Date: Thu, 29 Apr 2021 17:40:28 +0400
+Message-Id: <20210429134032.1125111-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
 References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,69 +86,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Refactor IfAll class, to introduce a base class IfPredicateList and add
-IfAny for the 'any' conditions.
+Introduce IfNot predicate class, for 'not' condition expressions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- scripts/qapi/common.py | 32 +++++++++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 5 deletions(-)
+ scripts/qapi/common.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 59a7ee2f32..102d347348 100644
+index 102d347348..6236bfc457 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -224,23 +224,45 @@ def __eq__(self, other: object) -> bool:
+@@ -224,6 +224,28 @@ def __eq__(self, other: object) -> bool:
          return self.option == other.option
  
  
--class IfAll(IfPredicate):
-+class IfPredicateList(IfPredicate):
-+    C_SEP = ""
-+    DOC_SEP = ""
++class IfNot(IfPredicate):
++    def __init__(self, pred: IfPredicate):
++        self.pred = pred
 +
-     def __init__(self, pred_list: Sequence[IfPredicate]):
-         self.pred_list = pred_list
- 
-     def cgen(self) -> str:
--        return " && ".join([p.cgen() for p in self.pred_list])
-+        sep = " " + self.C_SEP + " "
-+        gen = sep.join([p.cgen() for p in self.pred_list])
-+        if len(self.pred_list) == 1:
-+            return gen
-+        return "(%s)" % gen
- 
-     def docgen(self) -> str:
--        return " and ".join([p.docgen() for p in self.pred_list])
-+        sep = " " + self.DOC_SEP + " "
-+        gen = sep.join([p.docgen() for p in self.pred_list])
-+        if len(self.pred_list) == 1:
-+            return gen
-+        return "(%s)" % gen
- 
-     def __bool__(self) -> bool:
-         return bool(self.pred_list)
- 
-     def __repr__(self) -> str:
--        return f"IfAll({self.pred_list})"
-+        ty = type(self)
-+        return f"{ty.__qualname__}({self.pred_list})"
- 
-     def __eq__(self, other: object) -> bool:
--        if not isinstance(other, IfAll):
++    def docgen(self) -> str:
++        return "not " + self.pred.docgen()
++
++    def cgen(self) -> str:
++        return "!" + self.pred.cgen()
++
++    def __bool__(self) -> bool:
++        return bool(self.pred)
++
++    def __repr__(self) -> str:
++        return f"IfNot({self.pred!r})"
++
++    def __eq__(self, other: object) -> bool:
 +        if not isinstance(other, type(self)):
-             return False
-         return self.pred_list == other.pred_list
++            return False
++        return self.pred == other.pred
 +
 +
-+class IfAll(IfPredicateList):
-+    C_SEP = "&&"
-+    DOC_SEP = "and"
-+
-+
-+class IfAny(IfPredicateList):
-+    C_SEP = "||"
-+    DOC_SEP = "or"
+ class IfPredicateList(IfPredicate):
+     C_SEP = ""
+     DOC_SEP = ""
 -- 
 2.29.0
 
