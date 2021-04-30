@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9062336FCFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:04:39 +0200 (CEST)
-Received: from localhost ([::1]:35808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD3A36FD92
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:19:09 +0200 (CEST)
+Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcUh4-0006g4-LF
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38324)
+	id 1lcUv6-0000qN-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcUeg-0005EY-Hu
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:02:11 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:46690)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcUrj-0007aF-Vh
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:15:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcUeY-00087P-2N
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:02:10 -0400
-Received: by mail-ej1-x632.google.com with SMTP id u21so105754557ejo.13
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XpcsnLoqO7jgTcNLBmaOBZohlAlFQrlnWr8/XIQbmqw=;
- b=RIQQR60A3stpQfHSBAfO1lXWFhen3s6D84G/AFxhk54UaUl4Hueur12MwOANEA39Uz
- ms2C6C42JZaYewdJ4PrDZdQSl4z1EXPkDngj3AYitYVfwuQ1OX5B+oqYaIfQgREv1mHG
- 0YVNqzr+rJcrDuyYMrmDKEOeKp6YMUMHy/25xslablk23Pg/oLgjyQge/CJLp3Dc1L85
- 9NrUE0YhQRmBdMxqcPItrcz8efYIfAEwtWldr3E5TQsocSbr2V35Rdcv+FMt0WDxwXeN
- vSnvI29LfJcLRiJG/SvGk1ux72H9wTa6iLOQWOC5PDvTqG6yTs0E6rkYF+sa5MsKnQnJ
- kzLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XpcsnLoqO7jgTcNLBmaOBZohlAlFQrlnWr8/XIQbmqw=;
- b=c4/Lx5lN7NyoVebWVJ7lUpf81ZtVrljEXYGs2B2yELDOlpdpPmx3t6JDi0pE/Fr84E
- i2DMaO+fGZAPkqhskYC7aRA0T1hlRgbR+tUJQNDRkClYC4Y2xpLdzngtS05VHaf3/hqY
- tp0ae73LJvR+HWXQK8/rcbQ5pmXrv8+zKmN3mz7JcQIdipysBoNCwZ0d9mFnBQPnWhSY
- SXY5ZPKK2an/WPCRlymEorhsCWOQA/PAtThYrkLmYacD5PP3etpa/qLpMBlOR/nOuMGd
- Uwv6vga+KhI1GVVe+rGP4t03BwBXAlmmnSS+p/GmmwxS90tRR4ch/LpWATs5TUK7ARRa
- C4Kg==
-X-Gm-Message-State: AOAM532K8mozRuzvd4N1a3ZVjvR4J5LFSiiLEnYsf4cc2lcPv2YOQWdq
- BWKnufN7mV9DcAKTx1zjizzJrTyd1ADKlQ3sVcMy3Q==
-X-Google-Smtp-Source: ABdhPJxyiwntazVZoREIVBjoozb3QeaPbO2OPxTDGrjS3QW1puQVyw4vtBryKlGH/dw4LK/AfuCdLaqF77qg2Z3OFmQ=
-X-Received: by 2002:a17:906:364d:: with SMTP id
- r13mr5021130ejb.250.1619794920452; 
- Fri, 30 Apr 2021 08:02:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcUrh-0006Fo-KM
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:15:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcUrf-0000nQ-LA
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:15:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E7542E8031
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:15:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210430105147.125840-1-kwolf@redhat.com>
-In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Apr 2021 16:00:58 +0100
-Message-ID: <CAFEAcA9569geV2stm4crmXNjn1nM7EQrYGzv=fZLjmT--_CsJw@mail.gmail.com>
-Subject: Re: [PULL 00/39] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 15:05:41 -0000
+From: Anisse Astier <1926782@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anisse
+X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
+X-Launchpad-Bug-Modifier: Anisse Astier (anisse)
+Message-Id: <161979514177.9618.12499713444538330547.malonedeb@gac.canonical.com>
+Subject: [Bug 1926782] [NEW] configure script --extra-cflags not passed to
+ config-meson.cross
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 3f3f8050bdbd1499731563effdf417444ada3ea0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,36 +69,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Reply-To: Bug 1926782 <1926782@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 11:51, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit ccdf06c1db192152ac70a1dd974c624f566cb7d4:
->
->   Open 6.1 development tree (2021-04-30 11:15:40 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 68bf7336533faa6aa90fdd4558edddbf5d8ef814:
->
->   vhost-user-blk: Fail gracefully on too large queue size (2021-04-30 12:27:48 +0200)
->
-> ----------------------------------------------------------------
-> Block layer patches
->
-> - Fix permission update order problems with block graph changes
-> - qemu-img convert: Unshare write permission for source
-> - vhost-user-blk: Fail gracefully on too large queue size
+Public bug reported:
 
+Since qemu 5.2, when building, the configure would not finish, but would
+return this error instead:
 
-Applied, thanks.
+   qemu ../meson.build:852:2: ERROR: C header 'sasl/sasl.h' not found
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+This is for a cross build, and I invoke qemu with the --extra-cflags and
+--extra-ldflags containing all the proper paths to the headers,
+libraries etc. It worked properly with qemu 3.1 to 5.1.
 
--- PMM
+After looking into the configure script, it seems that meson is passed
+the CFLAGS environment variable instead of QEMU_CFLAGS, and only the
+latter contains the --extra-cflags argument:
+
+    echo "c_args =3D [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
+
+Using the CFLAGS and LDFLAGS environment variable instead of --extra-
+cflags and --extra-ldflags fixes the issue.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926782
+
+Title:
+  configure script --extra-cflags not passed to config-meson.cross
+
+Status in QEMU:
+  New
+
+Bug description:
+  Since qemu 5.2, when building, the configure would not finish, but
+  would return this error instead:
+
+     qemu ../meson.build:852:2: ERROR: C header 'sasl/sasl.h' not found
+
+  This is for a cross build, and I invoke qemu with the --extra-cflags
+  and --extra-ldflags containing all the proper paths to the headers,
+  libraries etc. It worked properly with qemu 3.1 to 5.1.
+
+  After looking into the configure script, it seems that meson is passed
+  the CFLAGS environment variable instead of QEMU_CFLAGS, and only the
+  latter contains the --extra-cflags argument:
+
+      echo "c_args =3D [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
+
+  Using the CFLAGS and LDFLAGS environment variable instead of --extra-
+  cflags and --extra-ldflags fixes the issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926782/+subscriptions
 
