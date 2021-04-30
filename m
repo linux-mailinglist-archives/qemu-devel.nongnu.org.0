@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E5D37000B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:56:35 +0200 (CEST)
-Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E5F36FFE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:46:46 +0200 (CEST)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcXNS-0001SU-BM
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41586)
+	id 1lcXDy-00076Y-00
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lcWqR-0001nf-Lg
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:22:28 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lcWqP-0001Df-Sg
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:22:27 -0400
-Received: by mail-wr1-x435.google.com with SMTP id x7so71378430wrw.10
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 10:22:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=+qY2YoTIPQ4KS4VIm6VWGKbgeeSdE4+cK3bKi7KO+vc=;
- b=ce66AN0eO+EJCvDb24TATDfpRwsgNQMEwCOAKFI+rNgIl+/ZLsXw7mSkBEGNO2IIm7
- XIA5Ibndh3j9wK3NyIZ6EmAPq3K9h5gpyYH4trS1Xv2B0VGsWU2l49T44qONxvQx1rkc
- /JuIypmXz8idqk3HruEzCsGwVCiX9SMpTZIhXdqqDn857kBsmdmD9jvTkFBY/Y2tDDE6
- xDka81WBvEGcdmbYNzRv4fw1fWR9KesLMnFeLFcgWU/WTqMruKRBMHn7o/bAn08/f3Ob
- wRWcSl0mra1TKJ5hExYy/ndexwnBl9Q96OA+2b/ugwNixNrBnMFzZ1jOjNU4vCjhZslx
- vTEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=+qY2YoTIPQ4KS4VIm6VWGKbgeeSdE4+cK3bKi7KO+vc=;
- b=AiqaTvnDSTmZ7P9mtaf8Z9TEmZSeBJy/gno8jbvP4sCp45G43saFF1t5fwMoNeydT3
- zMtqEVcJxpwgIXlZycauxc/2BXc2LDQSg9oO3m974nkOd3X5HaiTdFC7pesx1w+0rFjv
- KA724XYBJZnsYDJxi9J6yuKxrUBHiKfcq+f9uK6l34/gKST1b/PDg0tXxOO/7LhciWh3
- cLMz/Fwrj3DHsAiMoY7RjJsP3SSukxiihTcGnYzqI4Bs6kd1RiLQQgaeUrqbOEsZlMjD
- zFDeLYICS+1qMaqt7Nto7VlKBnaAhxlV8/AShxd7ouPn5JdR4+21UrOjwb+vaLbFmhpP
- p0WA==
-X-Gm-Message-State: AOAM531Fxc0kKo1G0AXEKCglVR/HQgEcm3PwuOJ8y5vuHlCscgaFtS95
- Th1mXhO/6iWwTKiHj810B5Yl6w==
-X-Google-Smtp-Source: ABdhPJxNzUN2sIgvnVc5aKt77wvLscO2evWNDKeg6wxlEsl+mOB19QuOYC3jPJeLmcwTLEms8m/8/Q==
-X-Received: by 2002:adf:8b02:: with SMTP id n2mr8171765wra.259.1619803344368; 
- Fri, 30 Apr 2021 10:22:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p5sm3610038wma.45.2021.04.30.10.22.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 10:22:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BA8BA1FF7E;
- Fri, 30 Apr 2021 18:22:22 +0100 (BST)
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-12-philmd@redhat.com>
-User-agent: mu4e 1.5.12; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 11/12] tests/qtest: Do not restrict bios-tables-test
- to Aarch64 hosts anymore
-Date: Fri, 30 Apr 2021 18:21:27 +0100
-In-reply-to: <20210415163304.4120052-12-philmd@redhat.com>
-Message-ID: <87pmybvga9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lcWrE-0002dn-88; Fri, 30 Apr 2021 13:23:16 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:50949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lcWrC-0001XY-9k; Fri, 30 Apr 2021 13:23:15 -0400
+Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MbSTX-1l1XHD3BlJ-00bpKf; Fri, 30 Apr 2021 19:23:11 +0200
+Subject: Re: [PATCH v1] scripts: fix generation update-binfmts templates
+To: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>,
+ qemu-devel@nongnu.org
+References: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <436af2d7-322b-914e-5dac-3d5ed2b2f770@vivier.eu>
+Date: Fri, 30 Apr 2021 19:23:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:NFyQ3HpTLj4i8SrKtE0h25GkusBUB8NDbKm1xid68as9iWp65Fm
+ RNM/YvW+j2p2k4MgKr6hFniaDD1obdmOg7tW4dqj6JbhSNb8bTZjohuS+suBWHNWp0SDBH9
+ t+59kbzGwShuuC2OXp95lCFFaU9Gi01kwhcgG4mzeGV1GYIGsvmPVI3rU6AiQFpKBsUIdJv
+ bsBLE1wJIkknyd6nUQOzA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HgD6AcgG9Ik=:0FOg48JMzSUXCVJvQnxcvE
+ L9ohouHkkVpj4I9kPKGHjkkAdYF2Z0lP98NB2jK6dSxnpJ2ChXf8/oKZUtdeDOYgD5eLPoBqw
+ iuM9oRiYwxL7dgDE2/Xh1W+3Jax8KnWkwxBEA9vtSbmwnZ/OmmYSMALXAloApriOH1Vx49qAK
+ XyVe66S1TkdbEJZyKRRINuXXQ9eoUVC9Q5uIg156jI8gG/1yPqAb4VVJ5NY65fu6KhFAsHJ73
+ BM7wSt7Nf3HSFsABBaDCEKvWAR/08U5eQ8fL6sPNWZ/wmOfvumMkGcFo4bcsBiAHCDmujochW
+ SjYW23UKiaUqAwHBFFk/iELWFxJBv/oocEx22IyJBIU7B7IPG2VhdUBsZ/+eMe5tIfquPJ8CV
+ CuQr1ixOIkjQWCExH82Q1iBaeIo+Y3cR334yIkMfii0XQDKriGRec2CjrxEO0aUGOVFSzk7iT
+ kT9hS08iKsO0y7C5ohqI5XQBgz+CjrPLoP5Tw7iERmXSc4TwtxW4UC0IAu6+nra75hZ6YtfFs
+ 8Fe+LsmFZsu3b5hfb46N6E=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,66 +67,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> Since commit 82bf7ae84ce ("target/arm: Remove KVM support for
-> 32-bit Arm hosts") we can remove the comment / check added in
-> commit ab6b6a77774 and directly run the bios-tables-test.
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Le 23/03/2021 à 13:34, Silvano Cirujano Cuesta a écrit :
+> This patch fixes the update-binfmts templates being used in the script
+> scripts/qemu-binfmt-conf.sh when the option --debian is used.
+> 
+> Fixed issues are:
+> - Typo in flag 'credentials' (previously 'credential').
+> - Missing flags 'preserve' and 'fix_binary'.
+> 
+> Reference: https://manpages.debian.org/buster/binfmt-support/update-binfmts.8.en.html#FORMAT_FILES
+> 
+> Signed-off-by: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>
 > ---
->  tests/qtest/meson.build | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 0c767389217..46de073d155 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -175,14 +175,13 @@
->     'boot-serial-test',
->     'hexloader-test']
->=20=20
-> -# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make
-> bios-tables-test unconditional
+>  scripts/qemu-binfmt-conf.sh | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+> index 573b5dc6ac..7de996d536 100755
+> --- a/scripts/qemu-binfmt-conf.sh
+> +++ b/scripts/qemu-binfmt-conf.sh
+> @@ -294,7 +294,9 @@ package qemu-$cpu
+>  interpreter $qemu
+>  magic $magic
+>  mask $mask
+> -credential $CREDENTIAL
+> +credentials $CREDENTIAL
+> +preserve $PRESERVE_ARG0
+> +fix_binary $PERSISTENT
+>  EOF
+>  }
+>  
+> 
 
-Yeah this one has been fixed for some time I reckon. Once I fixed my
-cross compile detection scripts I was able to run them all with 32 bit
-ARM binaries.
+Applied to my trivial-patches branch.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-
->  qtests_aarch64 =3D \
-> -  (cpu !=3D 'arm' ? ['bios-tables-test'] : []) +                        =
-                          \
->    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-devic=
-e-test'] : []) +        \
->    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-devic=
-e-swtpm-test'] : []) +  \
->    ['arm-cpu-features',
->     'numa-test',
->     'boot-serial-test',
-> +   'bios-tables-test',
->     'xlnx-can-test',
->     'migration-test']
-
-
---=20
-Alex Benn=C3=A9e
+Thanks,
+Laurent
 
