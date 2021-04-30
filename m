@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF7C36F99D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:51:37 +0200 (CEST)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E906D36F9A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:56:55 +0200 (CEST)
+Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRgG-0005bN-54
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37246)
+	id 1lcRlO-0003VQ-Ul
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm8-0005cp-SF
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54488)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQmD-0005oo-Cd
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm2-00033Z-4f
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:36 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQmB-00039K-5S
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619780009;
+ s=mimecast20190719; t=1619780018;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MpIMkvDE1/MvEqZPHsVtsIy/HkcHhuurWSDBt05hmRE=;
- b=Ee0eICaVZQyU23wIwo2dfj1rJB1h1Z0V7Bh0poDv5IWe4lplPQiohbgDWM6D1znxiddtNm
- AFvfN4VY0voc4rfjXaNn+kNSbKHrd++kRmVFbnSVeuuJvhVKVygf9aS0NkS2BFAr9LARA2
- m9DMOai3uBk4d/B4GX/PC5lCX91X4a8=
+ bh=DjIeT/WiWRDurtoI3vFNR7zyuT2KA+jSuQmbkmYbOOI=;
+ b=aI8J9DM5P8CcWq+2bNBEwAcTAuuO5YpmIW2fhpjOy9rOGro1H2iCoV6xjGOampSiaYMXpl
+ 5YT51EgATNF0TqF0ZbMVMF7Bzmzzb9zY2ZiuQPhcrclXNxW4tSG/62D9t0exRXLGIxvoq7
+ garb8ilS8B8LP+TnMe9sTxH8Z+AWsMg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-2QcoUOdjOBKilK6Uv8IJrw-1; Fri, 30 Apr 2021 06:53:27 -0400
-X-MC-Unique: 2QcoUOdjOBKilK6Uv8IJrw-1
+ us-mta-370-dd0A9VVoMGOxmXKKXZPKgw-1; Fri, 30 Apr 2021 06:53:36 -0400
+X-MC-Unique: dd0A9VVoMGOxmXKKXZPKgw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 903EA9196B2;
- Fri, 30 Apr 2021 10:53:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B9950219;
+ Fri, 30 Apr 2021 10:53:25 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0BB35F707;
- Fri, 30 Apr 2021 10:53:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D771017177;
+ Fri, 30 Apr 2021 10:53:24 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 36/39] block: refactor bdrv_node_check_perm()
-Date: Fri, 30 Apr 2021 12:51:44 +0200
-Message-Id: <20210430105147.125840-37-kwolf@redhat.com>
+Subject: [PULL 37/39] block: Add BDRV_O_NO_SHARE for blk_new_open()
+Date: Fri, 30 Apr 2021 12:51:45 +0200
+Message-Id: <20210430105147.125840-38-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,121 +80,87 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Normally, blk_new_open() just shares all permissions. This was fine
+originally when permissions only protected against uses in the same
+process because no other part of the code would actually get to access
+the block nodes opened with blk_new_open(). However, since we use it for
+file locking now, unsharing permissions becomes desirable.
 
-Now, bdrv_node_check_perm() is called only with fresh cumulative
-permissions, so its actually "refresh_perm".
+Add a new BDRV_O_NO_SHARE flag that is used in blk_new_open() to unshare
+any permissions that can be unshared.
 
-Move permission calculation to the function. Also, drop unreachable
-error message and rewrite the remaining one to be more generic (as now
-we don't know which node is added and which was already here).
-
-Add also Virtuozzo copyright, as big work is done at this point.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-37-vsementsov@virtuozzo.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210422164344.283389-2-kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c                | 38 +++++++++++---------------------------
- tests/qemu-iotests/245 |  2 +-
- 2 files changed, 12 insertions(+), 28 deletions(-)
+ include/block/block.h |  1 +
+ block/block-backend.c | 19 +++++++++++++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/block.c b/block.c
-index df8fa6003c..874c22c43e 100644
---- a/block.c
-+++ b/block.c
-@@ -2,6 +2,7 @@
-  * QEMU System Emulator block driver
-  *
-  * Copyright (c) 2003 Fabrice Bellard
-+ * Copyright (c) 2020 Virtuozzo International GmbH.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-@@ -2270,22 +2271,18 @@ static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs,
- }
+diff --git a/include/block/block.h b/include/block/block.h
+index 8d5b3ecebd..82185965ff 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -102,6 +102,7 @@ typedef struct HDGeometry {
+     uint32_t cylinders;
+ } HDGeometry;
  
- /*
-- * Check whether permissions on this node can be changed in a way that
-- * @cumulative_perms and @cumulative_shared_perms are the new cumulative
-- * permissions of all its parents. This involves checking whether all necessary
-- * permission changes to child nodes can be performed.
-- *
-- * A call to this function must always be followed by a call to bdrv_set_perm()
-- * or bdrv_abort_perm_update().
-+ * Refresh permissions in @bs subtree. The function is intended to be called
-+ * after some graph modification that was done without permission update.
-  */
--static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
--                                uint64_t cumulative_perms,
--                                uint64_t cumulative_shared_perms,
--                                Transaction *tran, Error **errp)
-+static int bdrv_node_refresh_perm(BlockDriverState *bs, BlockReopenQueue *q,
-+                                  Transaction *tran, Error **errp)
- {
-     BlockDriver *drv = bs->drv;
-     BdrvChild *c;
-     int ret;
-+    uint64_t cumulative_perms, cumulative_shared_perms;
-+
-+    bdrv_get_cumulative_perm(bs, &cumulative_perms, &cumulative_shared_perms);
- 
-     /* Write permissions never work with read-only images */
-     if ((cumulative_perms & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED)) &&
-@@ -2294,15 +2291,8 @@ static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-         if (!bdrv_is_writable_after_reopen(bs, NULL)) {
-             error_setg(errp, "Block node is read-only");
-         } else {
--            uint64_t current_perms, current_shared;
--            bdrv_get_cumulative_perm(bs, &current_perms, &current_shared);
--            if (current_perms & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED)) {
--                error_setg(errp, "Cannot make block node read-only, there is "
--                           "a writer on it");
--            } else {
--                error_setg(errp, "Cannot make block node read-only and create "
--                           "a writer on it");
--            }
-+            error_setg(errp, "Read-only block node '%s' cannot support "
-+                       "read-write users", bdrv_get_node_name(bs));
-         }
- 
-         return -EPERM;
-@@ -2358,7 +2348,6 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
-                                    Transaction *tran, Error **errp)
- {
-     int ret;
--    uint64_t cumulative_perms, cumulative_shared_perms;
++#define BDRV_O_NO_SHARE    0x0001 /* don't share permissions */
+ #define BDRV_O_RDWR        0x0002
+ #define BDRV_O_RESIZE      0x0004 /* request permission for resizing the node */
+ #define BDRV_O_SNAPSHOT    0x0008 /* open the file read only and save writes in a snapshot */
+diff --git a/block/block-backend.c b/block/block-backend.c
+index e4892fd6a5..6fca9853e1 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -407,15 +407,19 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
+     BlockBackend *blk;
      BlockDriverState *bs;
+     uint64_t perm = 0;
++    uint64_t shared = BLK_PERM_ALL;
  
-     for ( ; list; list = list->next) {
-@@ -2368,12 +2357,7 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
-             return -EINVAL;
-         }
+-    /* blk_new_open() is mainly used in .bdrv_create implementations and the
+-     * tools where sharing isn't a concern because the BDS stays private, so we
+-     * just request permission according to the flags.
++    /*
++     * blk_new_open() is mainly used in .bdrv_create implementations and the
++     * tools where sharing isn't a major concern because the BDS stays private
++     * and the file is generally not supposed to be used by a second process,
++     * so we just request permission according to the flags.
+      *
+      * The exceptions are xen_disk and blockdev_init(); in these cases, the
+      * caller of blk_new_open() doesn't make use of the permissions, but they
+      * shouldn't hurt either. We can still share everything here because the
+-     * guest devices will add their own blockers if they can't share. */
++     * guest devices will add their own blockers if they can't share.
++     */
+     if ((flags & BDRV_O_NO_IO) == 0) {
+         perm |= BLK_PERM_CONSISTENT_READ;
+         if (flags & BDRV_O_RDWR) {
+@@ -425,8 +429,11 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
+     if (flags & BDRV_O_RESIZE) {
+         perm |= BLK_PERM_RESIZE;
+     }
++    if (flags & BDRV_O_NO_SHARE) {
++        shared = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
++    }
  
--        bdrv_get_cumulative_perm(bs, &cumulative_perms,
--                                 &cumulative_shared_perms);
--
--        ret = bdrv_node_check_perm(bs, q, cumulative_perms,
--                                   cumulative_shared_perms,
--                                   tran, errp);
-+        ret = bdrv_node_refresh_perm(bs, q, tran, errp);
-         if (ret < 0) {
-             return ret;
-         }
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 11104b9208..fc5297e268 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -905,7 +905,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         # We can't reopen hd1 to read-only, as block-stream requires it to be
-         # read-write
-         self.reopen(opts['backing'], {'read-only': True},
--                    "Cannot make block node read-only, there is a writer on it")
-+                    "Read-only block node 'hd1' cannot support read-write users")
+-    blk = blk_new(qemu_get_aio_context(), perm, BLK_PERM_ALL);
++    blk = blk_new(qemu_get_aio_context(), perm, shared);
+     bs = bdrv_open(filename, reference, options, flags, errp);
+     if (!bs) {
+         blk_unref(blk);
+@@ -435,7 +442,7 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
  
-         # We can't remove hd2 while the stream job is ongoing
-         opts['backing']['backing'] = None
+     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
+                                        BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                                       perm, BLK_PERM_ALL, blk, errp);
++                                       perm, shared, blk, errp);
+     if (!blk->root) {
+         blk_unref(blk);
+         return NULL;
 -- 
 2.30.2
 
