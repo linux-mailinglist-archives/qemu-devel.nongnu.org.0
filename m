@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF9D36FE44
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:08:57 +0200 (CEST)
-Received: from localhost ([::1]:59814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F8436FE56
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:16:39 +0200 (CEST)
+Received: from localhost ([::1]:44096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcVhI-0002tT-C9
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:08:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
+	id 1lcVok-0008Kl-01
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:16:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcVZq-0006zp-NR
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:01:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36856)
+ id 1lcVZo-0006yH-3Y
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:01:13 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcVZl-0004x4-Kr
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:01:14 -0400
+ id 1lcVZl-0004x5-V1
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:01:11 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcVZh-00078s-Jq
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:01:05 +0000
+ id 1lcVZh-00076u-SO
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:01:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A8E1C2E8193
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:01:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2FDF22E817D
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:01:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 15:47:13 -0000
+Date: Fri, 30 Apr 2021 15:50:39 -0000
 From: Anisse Astier <1926782@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: anisse
 X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
 X-Launchpad-Bug-Modifier: Anisse Astier (anisse)
 References: <161979514177.9618.12499713444538330547.malonedeb@gac.canonical.com>
-Message-Id: <161979763369.10894.2197839419345059622.malone@gac.canonical.com>
+Message-Id: <161979783991.4004.3675808104077848138.malone@chaenomeles.canonical.com>
 Subject: [Bug 1926782] Re: configure script --extra-cflags not passed to
  config-meson.cross
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: c7de629a37cb873944a95a659c7289adf1206344
+X-Launchpad-Hash: a9a9a239c747535a38cba1aa52915d8a96f97c8a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,51 +74,11 @@ Reply-To: Bug 1926782 <1926782@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is my full invocation of the configure script:
+Sorry, this is the "fixed" version, but you get the idea of how I invoke it=
+. sasl.h is present in =
 
-CFLAGS=3D" -isystem /home/anisse/dev/qemu-cross/build/usr/include" \
-LDFLAGS=3D"-Wl,--gc-sections -Wl,-Y/home/anisse/dev/qemu-cross/build/lib -W=
-l,-Y/home/anisse/dev/qemu-cross/build/usr/lib -Wl,-rpath-link,/home/anisse/=
-dev/qemu-cross/build/lib -Wl,-rpath-link,/home/anisse/dev/qemu-cross/build/=
-usr/lib" \
-PKG_CONFIG=3Dpkg-config \
-PKG_CONFIG_LIBDIR=3D"/home/anisse/dev/qemu-cross/build/usr/lib/pkgconfig" \
-PKG_CONFIG_SYSROOT_DIR=3D"/home/anisse/dev/qemu-cross/build" \
-./configure $(cat ../features) --enable-vnc --enable-vnc-sasl --enable-vnc-=
-jpeg --enable-vnc-png --target-list=3Daarch64-softmmu --cross-prefix=3D/opt=
-/toolchains/aarch64-musl-1.2.2-gcc-10.2.0-binutils-2.36-gdb-7.12.1-1/bin/aa=
-rch64-linux-musl-
-
-And the content of the ./features file:
-
---enable-system --disable-user --disable-linux-user --disable-bsd-user
---disable-docs --disable-guest-agent --disable-guest-agent-msi --enable-
-pie --disable-modules --disable-module-upgrades --disable-debug-tcg
---disable-debug-info --disable-sparse --disable-safe-stack --disable-
-gnutls --disable-nettle --disable-gcrypt --disable-auth-pam --disable-
-sdl --disable-sdl-image --disable-gtk --disable-vte --disable-curses
---disable-iconv --enable-vnc --enable-vnc-sasl --enable-vnc-jpeg
---enable-vnc-png --disable-cocoa --disable-virtfs --disable-virtiofsd
---disable-libudev --disable-mpath --disable-xen --disable-xen-pci-
-passthrough --disable-brlapi --disable-curl --enable-membarrier
---enable-fdt --enable-kvm --disable-hax --disable-hvf --disable-whpx
---disable-rdma --disable-pvrdma --disable-vde --disable-netmap
---disable-linux-aio --disable-linux-io-uring --disable-cap-ng --disable-
-attr --enable-vhost-net --enable-vhost-vsock --enable-vhost-scsi
---enable-vhost-crypto --enable-vhost-kernel --enable-vhost-user
---disable-vhost-user-blk-server --disable-vhost-vdpa --disable-spice
---disable-rbd --disable-libiscsi --disable-libnfs --disable-smartcard
---disable-u2f --enable-libusb --disable-live-block-migration --disable-
-usb-redir --disable-lzo --disable-snappy --disable-bzip2 --disable-lzfse
---disable-zstd --disable-seccomp --disable-coroutine-pool --disable-
-glusterfs --disable-tpm --disable-libssh --disable-numa --disable-
-libxml2 --disable-tcmalloc --disable-jemalloc --disable-avx2 --disable-
-avx512f --disable-replication --disable-opengl --disable-virglrenderer
---disable-xfsctl --disable-qom-cast-debug --enable-tools --disable-bochs
---disable-cloop --disable-dmg --enable-qcow1 --enable-vdi --disable-
-vvfat --disable-qed --disable-parallels --disable-sheepdog --enable-
-crypto-afalg --disable-capstone --disable-debug-mutex --disable-libpmem
---disable-xkbcommon --disable-rng-none --disable-libdaxctl
+/home/anisse/dev/qemu-cross/build/usr/include/sasl/sasl.h ; this path is pa=
+ssed through -isystem.
 
 -- =
 
