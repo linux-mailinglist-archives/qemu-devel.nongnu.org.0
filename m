@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA7136FA4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 14:33:45 +0200 (CEST)
-Received: from localhost ([::1]:54510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD4436FA6E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 14:37:48 +0200 (CEST)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcSL2-00010b-T8
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 08:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44610)
+	id 1lcSOx-0004Rd-8f
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 08:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcRSL-0001CT-6u
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:37:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33214)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcRSR-0001Eh-0a
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:37:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcRSC-0001kG-Vz
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:37:12 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcRSK-0001o0-Th
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:37:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619782624;
+ s=mimecast20190719; t=1619782632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/2MSFZWInfdpArGGLWTQmBx3MJx3cUf05FRzeb35Kdg=;
- b=ealUJhrWQpi/oTydEMK1+CEnt+oRfEU/8/iiniiZhw55iyJJwGD3Z30wznTV4okKHhaMJg
- ghds+eWgO33m+AQ9CV0c+mXF5br63P+DwLTGdnkrXujD225jvAOrV/pFOWOnNoIVY8PnxR
- nYmwMvNG+cjF76z+QoEVuVa72ne/6IM=
+ bh=w1HS3FPzeemdBuzJ0MMLNIXg7ZaeNhkU7tj//MSnykU=;
+ b=f61AOPlCQQPwuWoqLtV9Ft+s8GpfgmnHODzaaA9FvMAT1rBtfxyiYJWkKZvHipKFQraBOk
+ zgOhgs8O22Id/LkYjeDD9lQPQgkcCWbeo00MTisaSqLibYCjMQ88L08I1UWSS+UYYu2gz7
+ Ax2h7MKulkPr56xD4XRqSN1SCZEph+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-6EQMCg-BMoOVY43vXgNv8Q-1; Fri, 30 Apr 2021 07:37:00 -0400
-X-MC-Unique: 6EQMCg-BMoOVY43vXgNv8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-132-1NLom1taMGSV-tIvzPrDvQ-1; Fri, 30 Apr 2021 07:37:08 -0400
+X-MC-Unique: 1NLom1taMGSV-tIvzPrDvQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 750AB1020C24;
- Fri, 30 Apr 2021 11:36:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A965B9196A1;
+ Fri, 30 Apr 2021 11:37:07 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
  [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 293291007624;
- Fri, 30 Apr 2021 11:36:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 071925D719;
+ Fri, 30 Apr 2021 11:37:01 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DA40718007A4; Fri, 30 Apr 2021 13:35:47 +0200 (CEST)
+ id E726F18007A5; Fri, 30 Apr 2021 13:35:47 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/16] virtio-gpu: add virtio-gpu-gl-pci
-Date: Fri, 30 Apr 2021 13:35:45 +0200
-Message-Id: <20210430113547.1816178-15-kraxel@redhat.com>
+Subject: [PATCH v2 15/16] modules: add have_vga
+Date: Fri, 30 Apr 2021 13:35:46 +0200
+Message-Id: <20210430113547.1816178-16-kraxel@redhat.com>
 In-Reply-To: <20210430113547.1816178-1-kraxel@redhat.com>
 References: <20210430113547.1816178-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,113 +85,45 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, tina.zhang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add pci proxy for virtio-gpu-gl-device.
+Introduce a symbol which can be used to prevent display modules which
+need vga support being loaded into system emulators with CONFIG_VGA=n.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/virtio-gpu-pci-gl.c | 55 ++++++++++++++++++++++++++++++++++
- util/module.c                  |  2 ++
- hw/display/meson.build         |  5 ++++
- 3 files changed, 62 insertions(+)
- create mode 100644 hw/display/virtio-gpu-pci-gl.c
+ include/hw/display/vga.h | 6 ++++++
+ hw/display/vga.c         | 2 ++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-pci-gl.c b/hw/display/virtio-gpu-pci-gl.c
-new file mode 100644
-index 000000000000..902dda345275
---- /dev/null
-+++ b/hw/display/virtio-gpu-pci-gl.c
-@@ -0,0 +1,55 @@
+diff --git a/include/hw/display/vga.h b/include/hw/display/vga.h
+index ca0003dbfd92..5f7825e0e368 100644
+--- a/include/hw/display/vga.h
++++ b/include/hw/display/vga.h
+@@ -11,6 +11,12 @@
+ 
+ #include "exec/hwaddr.h"
+ 
 +/*
-+ * Virtio video device
-+ *
-+ * Copyright Red Hat
-+ *
-+ * Authors:
-+ *  Dave Airlie
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
++ * modules can reference this symbol to avoid being loaded
++ * into system emulators without vga support
 + */
++extern bool have_vga;
 +
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/virtio-bus.h"
-+#include "hw/virtio/virtio-gpu-pci.h"
-+#include "qom/object.h"
-+
-+#define TYPE_VIRTIO_GPU_GL_PCI "virtio-gpu-gl-pci"
-+typedef struct VirtIOGPUGLPCI VirtIOGPUGLPCI;
-+DECLARE_INSTANCE_CHECKER(VirtIOGPUGLPCI, VIRTIO_GPU_GL_PCI,
-+                         TYPE_VIRTIO_GPU_GL_PCI)
-+
-+struct VirtIOGPUGLPCI {
-+    VirtIOGPUPCIBase parent_obj;
-+    VirtIOGPUGL vdev;
-+};
-+
-+static void virtio_gpu_gl_initfn(Object *obj)
-+{
-+    VirtIOGPUGLPCI *dev = VIRTIO_GPU_GL_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VIRTIO_GPU_GL);
-+    VIRTIO_GPU_PCI_BASE(obj)->vgpu = VIRTIO_GPU_BASE(&dev->vdev);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo virtio_gpu_gl_pci_info = {
-+    .generic_name = TYPE_VIRTIO_GPU_GL_PCI,
-+    .parent = TYPE_VIRTIO_GPU_PCI_BASE,
-+    .instance_size = sizeof(VirtIOGPUGLPCI),
-+    .instance_init = virtio_gpu_gl_initfn,
-+};
-+
-+static void virtio_gpu_gl_pci_register_types(void)
-+{
-+    virtio_pci_types_register(&virtio_gpu_gl_pci_info);
-+}
-+
-+type_init(virtio_gpu_gl_pci_register_types)
-diff --git a/util/module.c b/util/module.c
-index c8f3e5a0a736..fc545c35bcd2 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -183,6 +183,7 @@ static const struct {
-     { "ui-spice-app",   "chardev-spice" },
+ enum vga_retrace_method {
+     VGA_RETRACE_DUMB,
+     VGA_RETRACE_PRECISE
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 836ad50c7b6d..28a90e30d0cf 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -39,6 +39,8 @@
+ //#define DEBUG_VGA_MEM
+ //#define DEBUG_VGA_REG
  
-     { "hw-display-virtio-gpu-gl", "hw-display-virtio-gpu" },
-+    { "hw-display-virtio-gpu-pci-gl", "hw-display-virtio-gpu-pci" },
- 
- #ifdef CONFIG_OPENGL
-     { "ui-egl-headless", "ui-opengl"    },
-@@ -307,6 +308,7 @@ static struct {
-     { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
-     { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
-     { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
-+    { "virtio-gpu-gl-pci",     "hw-", "display-virtio-gpu-pci-gl" },
-     { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
-     { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
-     { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 3c3e47c47ed1..8ca2e7ab6362 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -73,6 +73,11 @@ if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
-   virtio_gpu_pci_ss.add(when: ['CONFIG_VHOST_USER_GPU', 'CONFIG_VIRTIO_PCI'],
-                         if_true: files('vhost-user-gpu-pci.c'))
-   hw_display_modules += {'virtio-gpu-pci': virtio_gpu_pci_ss}
++bool have_vga = true;
 +
-+  virtio_gpu_pci_gl_ss = ss.source_set()
-+  virtio_gpu_pci_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI', 'CONFIG_VIRGL', opengl],
-+                           if_true: [files('virtio-gpu-pci-gl.c'), pixman])
-+  hw_display_modules += {'virtio-gpu-pci-gl': virtio_gpu_pci_gl_ss}
- endif
+ /* 16 state changes per vertical frame @60 Hz */
+ #define VGA_TEXT_CURSOR_PERIOD_MS       (1000 * 2 * 16 / 60)
  
- if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
 -- 
 2.30.2
 
