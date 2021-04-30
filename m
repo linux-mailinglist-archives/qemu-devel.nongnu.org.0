@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2FE370056
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 20:17:33 +0200 (CEST)
-Received: from localhost ([::1]:59966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641C3370068
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 20:23:08 +0200 (CEST)
+Received: from localhost ([::1]:44696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcXhk-0004jU-Nc
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 14:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50066)
+	id 1lcXn8-00021F-NF
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 14:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lcXT2-0006yd-4n; Fri, 30 Apr 2021 14:02:20 -0400
-Received: from [201.28.113.2] (port=55913 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lcXT0-0001ms-5W; Fri, 30 Apr 2021 14:02:19 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 30 Apr 2021 15:02:13 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 491AD8013C2;
- Fri, 30 Apr 2021 15:02:13 -0300 (-03)
-Subject: Re: [PATCH v3 25/30] target/ppc: Move ADDI, ADDIS to decodetree,
- implement PADDI
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210430011543.1017113-1-richard.henderson@linaro.org>
- <20210430011543.1017113-26-richard.henderson@linaro.org>
- <0ed61faa-327c-68a9-d449-541a6a9f3224@eldorado.org.br>
- <b1c975ec-d698-e055-3166-68f8bdf4fbee@linaro.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <34531538-03a7-1fd7-c80b-439a2822e0be@eldorado.org.br>
-Date: Fri, 30 Apr 2021 15:02:13 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <mail@nh2.me>)
+ id 1lcXji-0000JK-Au; Fri, 30 Apr 2021 14:19:35 -0400
+Received: from mail.nh2.me ([116.202.188.98]:58451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mail@nh2.me>)
+ id 1lcXjd-0008Lz-0C; Fri, 30 Apr 2021 14:19:33 -0400
+Subject: Re: [PATCH] net/slirp: Fix incorrect permissions on samba >= 2.0.5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nh2.me; s=mail;
+ t=1619806763; bh=LulrvU14HVCiKrjE4s0AH/ldm5wtr8Ww1U++dtPzdtc=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=jBnKKMKNk4fN6Q4yZjgk0Msowz+s//LsF41p4VEn3V+0ahhaVcoEh3+GQm0lJ61I1
+ 9q3tRq5eM8JXtf/iHy+Ouw6ruh5vl2T+ftLqz5E9gxyBIzJv4vfziUoWuai3zXlNej
+ NMOzKRvZD8TnUYhFJhuk5xuIXyaKgVzIcYEEs/W2ljrDLBGFUhx+vMQBmTeEkl+VqR
+ EMoltsSCBFhmkwxLGQVmw7Q5vQcjvstFKk5Unpp/wOm1rO1HlgJqx2PPI9CHwD+MIr
+ ZQDzo3A0IgALj9oWUhk4SRztGAm9xOB7BTCo/jhZqSxJSFZQpUdXHW+Y3QIvnBAJRa
+ XGBS9AMjXAwGw==
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-stable <qemu-stable@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <c2b98872-4649-c291-bfb2-0fd5b3d40ac4@nh2.me>
+ <CAFEAcA-TxOys5d=SAqwqU749j3-UoBf+WsWpMYZW_35w1r2ypQ@mail.gmail.com>
+From: =?UTF-8?Q?Niklas_Hamb=c3=bcchen?= <mail@nh2.me>
+Message-ID: <55c9d253-8f4c-cd06-77b4-fbbb26cda619@nh2.me>
+Date: Fri, 30 Apr 2021 20:19:21 +0200
 MIME-Version: 1.0
-In-Reply-To: <b1c975ec-d698-e055-3166-68f8bdf4fbee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA-TxOys5d=SAqwqU749j3-UoBf+WsWpMYZW_35w1r2ypQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Apr 2021 18:02:13.0769 (UTC)
- FILETIME=[F2E89790:01D73DEA]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=116.202.188.98; envelope-from=mail@nh2.me;
+ helo=mail.nh2.me
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,74 +60,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
- lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/04/2021 11:31, Richard Henderson wrote:
-> On 4/30/21 7:05 AM, Matheus K. Ferst wrote:
->>> +ADDI            000001 10 0--.-- ..................     \
->>> +                001110 ..... ..... ................     @PLS_D
->>
->> I'm not sure about this. It's a bit surprising to find ADDI here, and 
->> the comment that explains why is likely to be ignored after the big 
->> copyright header.
-> 
-> You could move the comment closer, and replicate, e.g.
-> 
-> ADDI .... \
->       .... @PLS_D # PADDI
-> 
-> 
+On 4/30/21 7:29 PM, Peter Maydell wrote:
+> If we add 'force user=whoever' to the [global] section, is it then
+> unnecessary to also specify it in the [qemu] section ?
 
-If we keep this naming, IMHO moving the comment closer looks better.
+I believe it is, yes.
 
->> I'd prefer to keep a trans_PADDI like
->>
->>  > static bool trans_PADDI(DisasContext *ctx, arg_PLS_D *a)
->>  > {
->>  >     if(!resolve_PLS_D(ctx, a)) {
->>  >         return false;
->>  >     }
->>  >     return trans_ADDI(ctx, a);
->>  > }
-> 
-> But in this case ADDI probably doesn't use PLS_D.  You could use
-> 
-> static bool trans_PADDI(DisasContext *ctx, arg_PLS_D *a)
-> {
->      arg_D d;
->      if (!resolve_PLS_D(ctx, &d, a)) {
->          return false;
->      }
->      return trans_ADDI(ctx, &d);
-> }
-> 
-> making sure to use int64_t in the offset for arg_D.
-> 
+Source: https://www.samba.org/~ab/output/htmldocs/manpages-3/smb.conf.5.html#id2506183
 
-We'd keep trans_ADDI with the same signature to avoid creating an arg_D 
-on the stack. Patch 4 added type specification, maybe we can define an 
-arg_D within arg_PLD_D? I'll play a bit to see if it works.
+> All S parameters can also be specified in the [global] section - in which case they will define the default behavior for all services.
 
->> It's the middle way between v2 and v3. trans_ADDI code is reused, 
->> it'll probably be optimized as a tail call, and resolve_PLS_D is not 
->> called when it's not needed.
-> 
-> My version won't tail-call, because of the escaping local storage, but I 
-> don't see how you can avoid it.
-> 
-> 
-> r~
+And `force user (S)` in those docs is an "S parameter".
 
-I haven't been able to test it properly yet, but at least on godbolt it 
-seems that the compiler prefers to inline over tail call, so maybe 
-that's not a problem.
-
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+My patch does not remove the one in [qemu] because I found it somewhat nice to have the settings for "who owns management dirs like 'locks'" and "who owns the files inside the [qemu] share" both be stated explicitly.
+It makes it a bit more obvious what's going on.
 
