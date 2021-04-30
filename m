@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E50F36F342
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 02:49:31 +0200 (CEST)
-Received: from localhost ([::1]:47006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FFC36F36C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:18:18 +0200 (CEST)
+Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcHLW-0004bF-12
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 20:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
+	id 1lcHnM-0004k1-Hp
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
- id 1lcGNs-0003aN-EW
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:47:52 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:40371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
- id 1lcGNn-0007e7-DK
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 19:47:52 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id E3DAA5C00CE;
- Thu, 29 Apr 2021 19:47:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 29 Apr 2021 19:47:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noronha.eti.br;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=mesmtp; bh=TnvD4gWTUv
- LiU6hHTbYCZ9unVM2ZluFbYX0IDEPSfxo=; b=Xz/bv4pH/03hrQ9vhCe6t3meLG
- 9dU1UxHfv27XV30jiSnTh9TCE+kUY4M1YGaMVaf/9v7ZcbwJ2DebHdlnx/DlWS9s
- XMWQED6hEI1dHKL6KYIGKMyHjiyy60qt2BEoWXLip7sOdoEmgvfRLbQygj18iVqd
- zvvQg15qoxkKYP0qs=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=TnvD4gWTUvLiU6hHTbYCZ9unVM2ZluFbYX0IDEPSfxo=; b=MWpdtj8s
- /LvjScZ2Lt66D9QYBzhA4A+FuQiYX4jZ8y2Ke89tRgG0pHJCuL7dAD6Dh9S41ndX
- sMHxnYvdDU78P+GToHvcu2o8P0f0sQy40TwFZSRnCiuSZ6BlN2pET/vY+7/KEBLx
- uT6E3UkLO3ZPgIQ//rmY+QWdsaJqzHbr++lAqp37A33U8q40Tl/N6zf/CSUI7DKa
- HrXl+QMGTSgwGaQikB1tD6gSJ8SkTmOD+7ecINUtg8IV0I/0aXM9DVQyw9VjjyKA
- QUjkEI1vruGBe01B/T5v1ANVU/Nbwd0K5SCeA7WEE00gxJuf2Jf1uwSEHY+HKOgm
- mx305z0Pqgh+5Q==
-X-ME-Sender: <xms:okWLYBB6UMUpwpgcy9dnm8bmmohFq0Aog_eKpJ4ZK9x0mz45pIJ7GA>
- <xme:okWLYPh0pP-8DIT-giviDyXf-sdlJHMSa09LrSu1ixWGtrNqeTa3u2pgHNLx3O9dY
- jO2bbHXMj7qSemjrA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvhedgvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpehguhhsthgr
- vhhosehnohhrohhnhhgrrdgvthhirdgsrhenucggtffrrghtthgvrhhnpeevhfdvjeelve
- etiedutdfhleegleffkeffjefgtdeggfekheehledttdffvdelleenucffohhmrghinhep
- rghpphhlvgdrtghomhenucfkphepvddtuddrkedtrddurdeinecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhushhtrghvohesnhhorhhonhhh
- rgdrvghtihdrsghr
-X-ME-Proxy: <xmx:okWLYMn1HHauj82v3_5ksKwUxnrpMzZX3onFUaOroI2n4gIPo2_o4g>
- <xmx:okWLYLyoVncZSndpWAMH_ItdZzyyISioSCsVBvul_qIUORSFh34S_g>
- <xmx:okWLYGSEEn2I5jdb9sI0XMU4Koy5BLuEEY7LikX7Of2H9BnkHRu-6A>
- <xmx:okWLYEdvKFqOnp_iU9C79LJrcNHJR6SL-7g7zZ4oNwqbKX46JVsE2w>
-Received: from Gustavos-Mini.box (unknown [201.80.1.6])
- by mail.messagingengine.com (Postfix) with ESMTPA;
- Thu, 29 Apr 2021 19:47:45 -0400 (EDT)
-From: gustavo@noronha.eti.br
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcHl9-0002ho-Cu
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:15:59 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcHkw-0007T5-D3
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:15:58 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id b15so3108905pfl.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GrdtElB814vaLEZruyiN644RWDvcacearj6l44ufE8w=;
+ b=Jh8nOLYjhGRce0ruc9Ba3jNEYOaaY/VLAyX9YgolLkluBT8B022BTXPojd5iVYKWvu
+ TcqSLaBbxhxbknCZMK6RZgd+WV8Wb153ozk0bRXh4KN8vwjs+TIICzs2ltZ0iJwFAyQX
+ bX2hTK1e2lbpwFILx5i1oCDf2UZDJ+f96DPbpH1N7CrBLx7E9kMgccRSjrq25EZGQ2Qi
+ UnnmqBD/+bmOAZf1Spj8reHa8VA4NW8LSB/jHsMXqqAh/srEMtNKzXxiISqr6tF8+djb
+ p+namNSwd3ERXhA6dfN1X7//rt0xjsWF0eSPPYQ2WFzU4yUEUDrG7cZvGAKlGb3PdhcK
+ fdNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GrdtElB814vaLEZruyiN644RWDvcacearj6l44ufE8w=;
+ b=P1b20jX83EoJJecy9SHy+/eNMU7bXRg6DGGKio4KS5Zm0fXJs1+b9+H+cZL6zy/poi
+ LRV8uVIM6ppOXwL3qDR6zhfLTfNLXrY7SHNJvaQavwTufGyZkjb3zhYfTtxBPRTdVfZh
+ jw5k/hSrI/b1r4NIQ9S1+hwhC2uOT7lVN4BC5wxUCqCBFFf/zBVMc6KWXizVZ1WwQhOJ
+ NqYfkkzlEChpZ4Kd3yoT6eVq/tUfMpzrv9Geitpzi+iWGCBvuRDxOFAr5dydEVSUlsZ6
+ Mq5TZqi0T2J8DRIWS8RMdHcduFmTlsmxI2W8EgVLlwu5O9u1Hj+UQXl0vAWLvF4CVdFh
+ CUXg==
+X-Gm-Message-State: AOAM532yDOpALzmH89DYhlxIhnNkbh1PKmBHmzf0FEC4o+uhoWjhbQCw
+ DDwyvKKqwknIzSYo1CCH2glzvG40FNRSBQ==
+X-Google-Smtp-Source: ABdhPJzpk5WTiN2WNjTWcS5pryHO2lLP3PpwMHqsbs1axGuP1oogZCR5QgQ9EXVoVAWU1ihhiOKqTQ==
+X-Received: by 2002:aa7:9108:0:b029:251:7caf:cec with SMTP id
+ 8-20020aa791080000b02902517caf0cecmr2690295pfh.13.1619745344706; 
+ Thu, 29 Apr 2021 18:15:44 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Apr 2021 18:15:44 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ui/cocoa: add option to swap Option and Command,
- enable by default
-Date: Thu, 29 Apr 2021 20:47:05 -0300
-Message-Id: <20210429234705.83206-3-gustavo@noronha.eti.br>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210429234705.83206-1-gustavo@noronha.eti.br>
-References: <20210429234705.83206-1-gustavo@noronha.eti.br>
+Subject: [PATCH v3 00/30] Base for adding PowerPC 64-bit instructions
+Date: Thu, 29 Apr 2021 18:15:13 -0700
+Message-Id: <20210430011543.1017113-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=gustavo@noronha.eti.br;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 29 Apr 2021 20:48:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,206 +82,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Peter Maydell ' <peter.maydell@linaro.org>,
- 'Markus Armbruster ' <armbru@redhat.com>,
- Gustavo Noronha Silva <gustavo@noronha.eti.br>,
- 'Gerd Hoffmann ' <kraxel@redhat.com>
+Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
+ lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+Changes for v3:
+  * More changes for decodetree.
+  * Cleanup exception/is_jmp logic to the point exception is removed.
+  * Fold in Luis' isa check for prefixed insn support.
+  * Share trans_* between prefixed and non-prefixed instructions.
+  * Use macros to minimize the trans_* boilerplate.
+  * Fix decode mistake for STHX/STHXU.
 
-On Mac OS X the Option key maps to Alt and Command to Super/Meta. This change
-swaps them around so that Alt is the key closer to the space bar and Meta/Super
-is between Control and Alt, like on non-Mac keyboards.
 
-It is a cocoa display option, enabled by default.
+r~
 
-Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
----
- qapi/ui.json    |  7 +++++-
- qemu-options.hx |  1 +
- ui/cocoa.m      | 66 +++++++++++++++++++++++++++++++++++++++++--------
- 3 files changed, 63 insertions(+), 11 deletions(-)
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 77bc00fd0d..02db684251 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1098,9 +1098,14 @@
- #                   a global grab on key events. (default: off)
- #                   See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
- #
-+# @swap-option-command: Swaps the Option and Command keys so that their key codes
-+#                       match their position on non-Mac keyboards and you can use
-+#                       Meta/Super and Alt where you expect them. (default: on)
-+#
- ##
- { 'struct'  : 'DisplayCocoa',
--  'data'    : { '*full-grab'     : 'bool' } }
-+  'data'    : { '*full-grab'           : 'bool',
-+                '*swap-option-command' : 'bool' } }
- 
- ##
- # @DisplayType:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index a77505241f..d6137eedac 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1785,6 +1785,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_COCOA)
-     "-display cocoa[,full_grab=on|off]\n"
-+    "              [,swap_option_command=on|off]\n"
- #endif
- #if defined(CONFIG_OPENGL)
-     "-display egl-headless[,rendernode=<file>]\n"
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index f1e4449082..879e568a9d 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -73,6 +73,7 @@
-     int width;
-     int height;
-     bool full_grab;
-+    bool swap_option_command;
- } QEMUScreen;
- 
- static void cocoa_update(DisplayChangeListener *dcl,
-@@ -327,6 +328,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
- - (BOOL) isMouseGrabbed;
- - (BOOL) isAbsoluteEnabled;
- - (BOOL) isFullGrabEnabled;
-+- (BOOL) isSwapOptionCommandEnabled;
- - (float) cdx;
- - (float) cdy;
- - (QEMUScreen) gscreen;
-@@ -648,6 +650,13 @@ - (void) setFullGrab:(id)sender to:(BOOL)value
-     screen.full_grab = value;
- }
- 
-+- (void) setSwapOptionCommand:(id)sender
-+{
-+    COCOA_DEBUG("QemuCocoaView: setSwapOptionCommand\n");
-+
-+    screen.swap_option_command = true;
-+}
-+
- - (void) toggleKey: (int)keycode {
-     qkbd_state_key_event(kbd, keycode, !qkbd_state_key_get(kbd, keycode));
- }
-@@ -797,12 +806,22 @@ - (bool) handleEventLocked:(NSEvent *)event
-         qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
-     }
-     if (!(modifiers & NSEventModifierFlagOption)) {
--        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
--        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-+        if ([self isSwapOptionCommandEnabled]) {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-+        } else {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-+        }
-     }
-     if (!(modifiers & NSEventModifierFlagCommand)) {
--        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
--        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-+        if ([self isSwapOptionCommandEnabled]) {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-+        } else {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-+        }
-     }
- 
-     switch ([event type]) {
-@@ -834,13 +853,21 @@ - (bool) handleEventLocked:(NSEvent *)event
- 
-                 case kVK_Option:
-                     if (!!(modifiers & NSEventModifierFlagOption)) {
--                        [self toggleKey:Q_KEY_CODE_ALT];
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_META_L];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_ALT];
-+                        }
-                     }
-                     break;
- 
-                 case kVK_RightOption:
-                     if (!!(modifiers & NSEventModifierFlagOption)) {
--                        [self toggleKey:Q_KEY_CODE_ALT_R];
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_META_R];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_ALT_R];
-+                        }
-                     }
-                     break;
- 
-@@ -848,15 +875,21 @@ - (bool) handleEventLocked:(NSEvent *)event
-                 case kVK_Command:
-                     if (isMouseGrabbed &&
-                         !!(modifiers & NSEventModifierFlagCommand)) {
--                        [self toggleKey:Q_KEY_CODE_META_L];
--                    }
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_ALT];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_META_L];
-+                        }                    }
-                     break;
- 
-                 case kVK_RightCommand:
-                     if (isMouseGrabbed &&
-                         !!(modifiers & NSEventModifierFlagCommand)) {
--                        [self toggleKey:Q_KEY_CODE_META_R];
--                    }
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_ALT_R];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_META_R];
-+                        }                    }
-                     break;
-             }
-             break;
-@@ -1085,6 +1118,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
- - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
- - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
- - (BOOL) isFullGrabEnabled {return screen.full_grab;}
-+- (BOOL) isSwapOptionCommandEnabled {return screen.swap_option_command;}
- - (float) cdx {return cdx;}
- - (float) cdy {return cdy;}
- - (QEMUScreen) gscreen {return screen;}
-@@ -1271,6 +1305,13 @@ - (void) setFullGrab:(id)sender to:(BOOL)value
-     [cocoaView setFullGrab:sender to:value];
- }
- 
-+- (void) setSwapOptionCommand:(id)sender
-+{
-+    COCOA_DEBUG("QemuCocoaAppController: setSwapOptionCommand\n");
-+
-+    [cocoaView setSwapOptionCommand:sender];
-+}
-+
- /* Tries to find then open the specified filename */
- - (void) openDocumentation: (NSString *) filename
- {
-@@ -1953,6 +1994,11 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
-             [[controller delegate] setFullGrab: nil to:opts->u.cocoa.full_grab];
-         });
-     }
-+    if (!opts->u.cocoa.has_swap_option_command || opts->u.cocoa.swap_option_command) {
-+        dispatch_async(dispatch_get_main_queue(), ^{
-+            [[controller delegate] setSwapOptionCommand: nil];
-+        });
-+    }
-     if (opts->has_show_cursor && opts->show_cursor) {
-         cursor_hide = 0;
-     };
+Luis Fernando Fujita Pires (1):
+  decodetree: Add support for 64-bit instructions
+
+Richard Henderson (29):
+  decodetree: Introduce whex and whexC helpers
+  decodetree: More use of f-strings
+  decodetree: Extend argument set syntax to allow types
+  target/ppc: Add cia field to DisasContext
+  target/ppc: Split out decode_legacy
+  target/ppc: Move DISAS_NORETURN setting into gen_exception*
+  target/ppc: Remove special case for POWERPC_SYSCALL
+  target/ppc: Remove special case for POWERPC_EXCP_TRAP
+  target/ppc: Simplify gen_debug_exception
+  target/ppc: Introduce DISAS_{EXIT,CHAIN}{,_UPDATE}
+  target/ppc: Replace POWERPC_EXCP_SYNC with DISAS_EXIT
+  target/ppc: Remove unnecessary gen_io_end calls
+  target/ppc: Introduce gen_icount_io_start
+  target/ppc: Replace POWERPC_EXCP_STOP with DISAS_EXIT_UPDATE
+  target/ppc: Replace POWERPC_EXCP_BRANCH with DISAS_NORETURN
+  target/ppc: Remove DisasContext.exception
+  target/ppc: Move single-step check to ppc_tr_tb_stop
+  target/ppc: Tidy exception vs exit_tb
+  target/ppc: Mark helper_raise_exception* as noreturn
+  target/ppc: Use translator_loop_temp_check
+  target/ppc: Introduce macros to check isa extensions
+  target/ppc: Add infrastructure for prefixed insns
+  target/ppc: Move page crossing check to ppc_tr_translate_insn
+  target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
+  target/ppc: Implement PNOP
+  target/ppc: Move D/DS/X-form integer loads to decodetree
+  target/ppc: Implement prefixed integer load instructions
+  target/ppc: Move D/DS/X-form integer stores to decodetree
+  target/ppc: Implement prefixed integer store instructions
+
+ docs/devel/decodetree.rst                  |  11 +-
+ target/ppc/cpu.h                           |   5 +-
+ target/ppc/helper.h                        |   4 +-
+ target/ppc/insn32.decode                   |  91 +++
+ target/ppc/insn64.decode                   |  71 +++
+ tests/decode/succ_argset_type1.decode      |   1 +
+ linux-user/ppc/cpu_loop.c                  |   6 -
+ target/ppc/translate.c                     | 672 +++++++++------------
+ target/ppc/translate/fixedpoint-impl.c.inc | 200 ++++++
+ target/ppc/translate_init.c.inc            | 143 +----
+ scripts/decodetree.py                      | 172 +++---
+ target/ppc/meson.build                     |   9 +
+ 12 files changed, 772 insertions(+), 613 deletions(-)
+ create mode 100644 target/ppc/insn32.decode
+ create mode 100644 target/ppc/insn64.decode
+ create mode 100644 tests/decode/succ_argset_type1.decode
+ create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
+
 -- 
-2.24.3 (Apple Git-128)
+2.25.1
 
 
