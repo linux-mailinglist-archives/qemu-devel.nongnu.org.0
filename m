@@ -2,75 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DB8370016
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 20:00:27 +0200 (CEST)
-Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574F1370020
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 20:04:02 +0200 (CEST)
+Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcXRC-00054Q-EG
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 14:00:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
+	id 1lcXUe-0005dE-0b
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 14:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lcX9o-0004bZ-SJ
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:42:28 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:41788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dev.devaqemu@gmail.com>)
- id 1lcX9m-0001M2-Tp
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:42:28 -0400
-Received: by mail-io1-xd31.google.com with SMTP id f21so32468411ioh.8
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 10:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jl4uES12pKonCmk010DAD/WMlnckCJU91Af/UAAnP5w=;
- b=LDmzzQoTFPUzhVSWRv5XEiKwphKTi+tLtKfkAQ/Lk44ieq45cb0kcCXiv/0FQPON5n
- zcjsoaEUBIAkk9BhjgPdvYTl7UfToIfiQwe/q0THpbgsHdS/ZfY1VwT8L0lGeZbR8ow7
- ZM2DKgw22T7XNdP/e1R0R8m6Z0jZfEVl7gwC5ofavzzl8rkE7dUtqX0naIbGGfQfh2kS
- 0Uk8gVlhjCnInkTufbHl5GkAK6JICSpkIoVdum+Oymmlc834HaZ1G1jKrkVxkaoO/Cq6
- Ra+Cf9dsgQKfDwqW+jE/ec9XERsuzo9NlYaCR/QVINqVqOLSQ/Jp0mQPiknGy9ECaPYr
- c6kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jl4uES12pKonCmk010DAD/WMlnckCJU91Af/UAAnP5w=;
- b=X1JHP1rWMQPh2+g6s5RfV8feQvvFeVy0XHLyl7JXzz4+JYTACloglD0XcDIhyueCcm
- kqnzUSUGnRrMFq8+8hvG1CCCe97qhX919c4ZDcfRuj9fwqZd+D53G9RMoTWX7Odfji0x
- pJUXz4MW5lpkkLy/9Az6CrmcVuzufsCwbEBDKB6l+h8AvY0zZcMfF74bCoLVHGPUmeQH
- M1sd0HuXabpb0Q0gOGAOpJfMmOp7M+8ljoY0/wOYJ2yRdOyL4G82eKmUeF0yqNmnpAGJ
- rDQefkoq6geF2+0fnD0gMjAWBj/Fg7iGd91PNZ7jN6PvOTpjmHeQrmjt/C1UQZ3aGYnF
- w44w==
-X-Gm-Message-State: AOAM532Wh8asrjyDfizxXWgGDqc2XC6XSkPu2OhpUOfpV671yCc0ZVLA
- TT6Kj2QMdxfYmfb+ko8vBYVBHZ6Co5ovOIXTLoE=
-X-Google-Smtp-Source: ABdhPJwpefAz8Wt6s3paLZ91hJyR4rQ4ebB/pMe2bCZ6B247EQNINXAKEW879zmCtCmlvGefbPIKZ/v0+DVE+KigvOA=
-X-Received: by 2002:a6b:5907:: with SMTP id n7mr4391483iob.3.1619804545200;
- Fri, 30 Apr 2021 10:42:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lcWuH-0006th-Fh; Fri, 30 Apr 2021 13:26:25 -0400
+Received: from [201.28.113.2] (port=37315 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lcWuE-00031M-TC; Fri, 30 Apr 2021 13:26:24 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 30 Apr 2021 14:26:19 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id BA5EA8013C2;
+ Fri, 30 Apr 2021 14:26:18 -0300 (-03)
+Subject: Re: [PATCH v2 4/7] target/ppc: turned SPR R/W callbacks not static
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
+ <20210429162130.2412-5-bruno.larsen@eldorado.org.br>
+ <00258d05-3bb3-2ba3-07e5-19f766eded35@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <383cae11-61d0-22d6-7cc7-6f37bfe945f4@eldorado.org.br>
+Date: Fri, 30 Apr 2021 14:26:18 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <CANsN3OTN5Q1DfhC01UGwh4nBEDXxb6=gLtWozh_oFUcc=Fd8DA@mail.gmail.com>
- <20210426152203.379dab00@redhat.com>
- <CANsN3OQ4nr=CKXd_DFUAE7CeeOsgEkBBNb5n5vmNMM3P2+t-Cg@mail.gmail.com>
- <20210427121850.68d2a8dd@redhat.com> <YIhfWoRgJtaKZhh8@work-vm>
- <CANsN3OSs4GyT10P6xUp-s823U8VnWAmihWXQ1jSnF07wyYjxuA@mail.gmail.com>
- <YIm0w2RgQgosIyiB@work-vm> <20210428133740.6ccbbba6@redhat.com>
- <YIpyA+ZoOYxX0c06@work-vm> <20210429070901.52402ac2@x1.home.shazbot.org>
- <YIry/WqbeRvD4zCa@work-vm>
-In-Reply-To: <YIry/WqbeRvD4zCa@work-vm>
-From: Dev Audsin <dev.devaqemu@gmail.com>
-Date: Fri, 30 Apr 2021 18:41:39 +0100
-Message-ID: <CANsN3OS5zXQ4_8jwssweNER-ff-KwA8SYomJfOMZ90FhNVUAZQ@mail.gmail.com>
-Subject: Re: [PATCH] make vfio and DAX cache work together
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=dev.devaqemu@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <00258d05-3bb3-2ba3-07e5-19f766eded35@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------713BB5057F71FF59F653F9DB"
+Content-Language: en-US
+X-OriginalArrivalTime: 30 Apr 2021 17:26:19.0056 (UTC)
+ FILETIME=[EE997B00:01D73DE5]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,105 +60,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, lucas.araujo@eldorado.org.br,
+ luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks David. I did a quick test with the above patch and it seems to
-work for me. With this patch, apparently I can  create a VM with
-SR-IOV VF and DAX cache ( virtio_fs_cache_size = 1024).
+This is a multi-part message in MIME format.
+--------------713BB5057F71FF59F653F9DB
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks
-Dev
 
-On Thu, Apr 29, 2021 at 6:55 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
+On 30/04/2021 00:40, Richard Henderson wrote:
+> On 4/29/21 9:21 AM, Bruno Larsen (billionai) wrote:
+>> @@ -234,19 +235,19 @@ static void spr_read_tbu(DisasContext *ctx, int 
+>> gprn, int sprn)
+>>   }
+>>     ATTRIBUTE_UNUSED
+>> -static void spr_read_atbl(DisasContext *ctx, int gprn, int sprn)
+>> +void spr_read_atbl(DisasContext *ctx, int gprn, int sprn)
+>>   {
 >
-> * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > On Thu, 29 Apr 2021 09:44:51 +0100
-> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> >
-> > > * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > > > On Wed, 28 Apr 2021 20:17:23 +0100
-> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > >
-> > > > > * Dev Audsin (dev.devaqemu@gmail.com) wrote:
-> > > > > > Thanks Dave for your explanation.
-> > > > > > Any suggestions on how to make VFIO not attempt to map into the
-> > > > > > unaccessible and unallocated RAM.
-> > > > >
-> > > > > I'm not sure;:
-> > > > >
-> > > > > static bool vfio_listener_skipped_section(MemoryRegionSection *section)
-> > > > > {
-> > > > >     return (!memory_region_is_ram(section->mr) &&
-> > > > >             !memory_region_is_iommu(section->mr)) ||
-> > > > >            section->offset_within_address_space & (1ULL << 63);
-> > > > > }
-> > > > >
-> > > > > I'm declaring that region with memory_region_init_ram_ptr;  should I be?
-> > > > > it's not quite like RAM.
-> > > > > But then I *do* want a kvm slot for it, and I do want it to be accessed
-> > > > > by mapping rather htan calling IO functions; that makes me think mr->ram
-> > > > > has to be true.
-> > > > > But then do we need to add another flag to memory-regions; if we do,
-> > > > > what is it;
-> > > > >    a) We don't want an 'is_virtio_fs' - it needs to be more generic
-> > > > >    b) 'no_vfio' also feels wrong
-> > > > >
-> > > > > Is perhaps 'not_lockable' the right thing to call it?
-> > > >
-> > > > This reasoning just seems to lead back to "it doesn't work, therefore
-> > > > don't do it" rather than identifying the property of the region that
-> > > > makes it safe not to map it for device DMA (assuming that's actually
-> > > > the case).
-> > >
-> > > Yes, I'm struggling to get to what that generic form of that property
-> > > is, possibly because I've not got an example of another case to compare
-> > > it with.
-> > >
-> > > > It's clearly "RAM" as far as QEMU is concerned given how
-> > > > it's created, but does it actually appear in the VM as generic physical
-> > > > RAM that the guest OS could program to the device as a DMA target?  If
-> > > > not, what property makes that so, create a flag for that.  Thanks,
-> > >
-> > > The guest sees it as a PCI-bar; so it knows it's not 'generic physical
-> > > RAM' - but can a guest set other BARs (like frame buffers or pmem) as
-> > > DMA targets?  If so, how do I distinguish our bar?
-> >
-> > They can, this is how peer-to-peer DMA between devices works.  However,
-> > we can perhaps take advantage that drivers are generally a bit more
-> > cautious in probing that this type of DMA works before relying on it,
-> > and declare it with memory_region_init_ram_device_ptr() which vfio
-> > would not consider fatal if it fails to map it.  The other semantic
-> > difference is that ram_device_mem_ops are used for read/write access to
-> > avoid some of the opcodes that are not meant to be used for physical
-> > device memory with the default memcpy ops.  If you expect this region
-> > to be mapped as a kvm memory slot, presumably these would never get
-> > used anyway.  Thanks,
+> You can drop the ATTRIBUTE_UNUSED at the same time.
 >
-> Oh, nice, I hadn't spotted memory_region_init_ram_device_ptr();
+> It was only there to stop the static symbol from being signaled as 
+> unused; for a non-static symbol, the compiler obviously can't tell.
+ah, that makes sense. Dropped it, thanks!
+>> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+>> new file mode 100644
+>> index 0000000000..b573a23e7b
+>> --- /dev/null
+>> +++ b/target/ppc/spr_tcg.h
+>> @@ -0,0 +1,121 @@
+>> +#ifndef SPR_TCG_H
+>> +#define SPR_TCG_H
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "cpu.h"
+>> +#include "exec/translator.h"
+>> +#include "tcg/tcg.h"
 >
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index 7afd9495c9..11fb9b5979 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -604,7 +604,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
->              return;
->          }
+> All new files get copyright headers.  No headers include osdep.h. It 
+> doesn't appear that you need any headers for this file; just add
 >
-> -        memory_region_init_ram_ptr(&fs->cache, OBJECT(vdev),
-> +        memory_region_init_ram_device_ptr(&fs->cache, OBJECT(vdev),
->                                     "virtio-fs-cache",
->                                     fs->conf.cache_size, cache_ptr);
->      }
+> typedef struct DisasContext DisasContext;
 >
-> apparently still works for us; Dev does that fix it for you?
+> to the top of the file.
+
+Apparently, I don't even need to do that. I'm not sure what I've 
+changed, but now I don't need neither the cpu.h nor the typedef. I can 
+just not include anything, so I dropped them all.
+
 >
-> Dave
 >
-> > Alex
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+> r~
+-- 
+Bruno Piazera Larsen Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station> 
+Departamento Computação Embarcada Analista de Software Trainee Aviso 
+Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+--------------713BB5057F71FF59F653F9DB
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 30/04/2021 00:40, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:00258d05-3bb3-2ba3-07e5-19f766eded35@linaro.org">On
+      4/29/21 9:21 AM, Bruno Larsen (billionai) wrote:
+      <br>
+      <blockquote type="cite">@@ -234,19 +235,19 @@ static void
+        spr_read_tbu(DisasContext *ctx, int gprn, int sprn)
+        <br>
+          }
+        <br>
+            ATTRIBUTE_UNUSED
+        <br>
+        -static void spr_read_atbl(DisasContext *ctx, int gprn, int
+        sprn)
+        <br>
+        +void spr_read_atbl(DisasContext *ctx, int gprn, int sprn)
+        <br>
+          {
+        <br>
+      </blockquote>
+      <br>
+      You can drop the ATTRIBUTE_UNUSED at the same time.
+      <br>
+      <br>
+      It was only there to stop the static symbol from being signaled as
+      unused; for a non-static symbol, the compiler obviously can't
+      tell.
+      <br>
+    </blockquote>
+    ah, that makes sense. Dropped it, thanks!<br>
+    <blockquote type="cite"
+      cite="mid:00258d05-3bb3-2ba3-07e5-19f766eded35@linaro.org">
+      <blockquote type="cite">diff --git a/target/ppc/spr_tcg.h
+        b/target/ppc/spr_tcg.h
+        <br>
+        new file mode 100644
+        <br>
+        index 0000000000..b573a23e7b
+        <br>
+        --- /dev/null
+        <br>
+        +++ b/target/ppc/spr_tcg.h
+        <br>
+        @@ -0,0 +1,121 @@
+        <br>
+        +#ifndef SPR_TCG_H
+        <br>
+        +#define SPR_TCG_H
+        <br>
+        +
+        <br>
+        +#include "qemu/osdep.h"
+        <br>
+        +#include "cpu.h"
+        <br>
+        +#include "exec/translator.h"
+        <br>
+        +#include "tcg/tcg.h"
+        <br>
+      </blockquote>
+      <br>
+      All new files get copyright headers.  No headers include osdep.h. 
+      It doesn't appear that you need any headers for this file; just
+      add
+      <br>
+      <br>
+      typedef struct DisasContext DisasContext;
+      <br>
+      <br>
+      to the top of the file.
+      <br>
+    </blockquote>
+    <p>Apparently, I don't even need to do that. I'm not sure what I've
+      changed, but now I don't need neither the cpu.h nor the typedef. I
+      can just not include anything, so I dropped them all.<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:00258d05-3bb3-2ba3-07e5-19f766eded35@linaro.org">
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a>
+      Departamento Computação Embarcada
+      Analista de Software Trainee
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------713BB5057F71FF59F653F9DB--
 
