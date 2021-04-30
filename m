@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C660836F6BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:51:45 +0200 (CEST)
-Received: from localhost ([::1]:33578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2335436F6CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:59:55 +0200 (CEST)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcNw8-0003RB-TN
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59132)
+	id 1lcO41-0007Ko-No
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:59:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lcNuh-0002R8-2o
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:50:15 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lcNuf-0005aI-9e
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:50:14 -0400
-Received: by mail-ed1-x533.google.com with SMTP id d14so17707834edc.12
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 00:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+5TLmRR2OhlwGRMjU/FX1nwSDIuxC+KPoyDRwHsh2pI=;
- b=nyW3MrZv/WMkl9jNQTGklYnNfZmq51nMvwigim4qKgSbwCt05xnCfz1AWka2R1xyvS
- czRPqTzKTLMLoUnWwW+CsnjIWyOlDocGVwgfZDQ0BOSyOKxCHRwJAHskpfxhETmS3BOg
- IJfMxMKGUlHmBJC6gg7g1rLPY4S5IJThxm6nCxsVHWF0g3JFJCpkLxPLuza2xCmNTQv3
- OgN8HiVaZ/m2iypKhNqtTTAsaj93lBqlTz4J2rw2bea1v42+xoSxjwrc29yuVOlGZqtH
- k66AwE2/F2F+rtNI3hEa1CCuR0Wryw5AvXUCCxQPtPoT/Mm8tuUARj0QLD5h2i0pLX0U
- yH3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+5TLmRR2OhlwGRMjU/FX1nwSDIuxC+KPoyDRwHsh2pI=;
- b=ldEHQ07YfKhCYYOsSvv0pR2zJvy4ffgu9xEJitjFyjPjE+fmwRnpr4Nv7WAbasZ9ll
- ui1ZriPKgPqzC3K1rNTESM76fevKLh/M41D1LV6m56v+h87V5QgK+f1EQGKeTMs4zCVA
- XdMp9mozZmhBiTRRE0qloPhSc/9qYEz7UNhH4/sLZTzhN3vrwI1KHZseb+81pQxf4OYL
- j2XjV0mpcL++el9TniOvFz6s6SJAaBcZbn6b4abe4n9g7pp9FWsuVy6TemON4jtvqOfb
- 4ZP3hDcRbo+WfsOt2WhQDA1TvRpLPhJnNDaw7xdajcGQbHCMxpFqJqMjw1Jm1k2eOPYk
- WqdA==
-X-Gm-Message-State: AOAM5315fKlPnUIaTsmFLJUMpICDVqGuKMowhskLqk+0+oOjYUQHYT3k
- lCO/mJIrnCu/kgmburNp3gQ7PpmSS1Q=
-X-Google-Smtp-Source: ABdhPJywyfTojkCjfen2VBH1l+ftzedGd5L2O2G61PT/dQkdZxBfJtsgoHJLTT6YFAmIT8J/P/sxAA==
-X-Received: by 2002:a05:6402:351:: with SMTP id
- r17mr4213098edw.186.1619769010029; 
- Fri, 30 Apr 2021 00:50:10 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c12sm696134edx.54.2021.04.30.00.50.09
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 00:50:09 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] oslib-win32: do not rely on macro to get redefined function
- name
-Date: Fri, 30 Apr 2021 09:50:08 +0200
-Message-Id: <20210430075008.138817-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.30.1
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1lcO2m-0006e8-E8
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:58:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1lcO2j-0002dn-A7
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:58:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619769511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8iHExsZ2m+mAFJX3nRD4G6SJG+KA0IVj1+Vi46udoRU=;
+ b=A20jlqArZGU0GCl8e6SAG1cWj5VB78aQRgZOhp0P3Li5O/5xPpgDs2uWLk3zcgEn/IhQFD
+ +JU65lAZERpqvP798e8uO6XSC83cIFFiDWZq4e0aPMCgvFCJqzhZhTMtONcC2nVrvZjXHx
+ cGstBGy+wGeWLF4IqsJJ5s3KRyYzbe0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-FrBfPZuvPLyxTN6_ettI6Q-1; Fri, 30 Apr 2021 03:58:29 -0400
+X-MC-Unique: FrBfPZuvPLyxTN6_ettI6Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C299107ACCD;
+ Fri, 30 Apr 2021 07:58:28 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B91A75C237;
+ Fri, 30 Apr 2021 07:58:15 +0000 (UTC)
+Date: Fri, 30 Apr 2021 09:58:12 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] virtio-blk: drop deprecated scsi=on|off property
+Message-ID: <YIu4lDTeg1TZKWZg@angien.pipo.sk>
+References: <20210429155221.1226561-1-stefanha@redhat.com>
+ <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
+ <87lf905icy.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87lf905icy.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Windows with glib <2.50, g_poll is redefined to use the variant
-defined in util/oslib-win32.c.  Use the same name in the declaration
-and definition for ease of grepping.
+On Fri, Apr 30, 2021 at 09:42:05 +0200, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > On Thu, Apr 29, 2021 at 04:52:21PM +0100, Stefan Hajnoczi wrote:
+> >> The scsi=on|off property was deprecated in QEMU 5.0 and can be removed
+> >> completely at this point.
+> >> 
+> >> Drop the scsi=on|off option. It was only available on Legacy virtio-blk
+> >> devices. Linux v5.6 already dropped support for it.
+> >> 
+> >> Remove the hw_compat_2_4[] property assignment since scsi=on|off no
+> >> longer exists. Old guests with Legacy virtio-blk devices no longer see
+> >> the SCSI host features bit.
+> >> 
+> >
+> > This means pc-2.4 will now break guest ABI if using virtio-blk
+> > devices, correct?
+> >
+> > This looks like a sign we should have deprecated pc-2.4 a long
+> > time ago.
+> 
+> The last batch of PC machine type retiring was pc-1.0 to pc-1.3:
+> deprecated in 5.0 (commit 30d2a17b4, Dec 2019), dropped in 6.0 (commit
+> f862ddbb1, just weeks ago).  pc-1.3 was a bit over seven years old when
+> we released 5.0.  pc-2.4 will be six years old by the time we release
+> 6.1.  Fair game?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- util/oslib-win32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index f68b8012bb..13418f68c0 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -472,7 +472,7 @@ static int poll_rest(gboolean poll_msgs, HANDLE *handles, gint nhandles,
-     return 0;
- }
- 
--gint g_poll(GPollFD *fds, guint nfds, gint timeout)
-+gint g_poll_fixed(GPollFD *fds, guint nfds, gint timeout)
- {
-     HANDLE handles[MAXIMUM_WAIT_OBJECTS];
-     gboolean poll_msgs = FALSE;
--- 
-2.30.1
+As a data-point, libvirt will be dropping support for <qemu-2.10
+(release, not the machine type) in the upcomming release. I'm not sure
+whether that justifies more deprecation though.
 
 
