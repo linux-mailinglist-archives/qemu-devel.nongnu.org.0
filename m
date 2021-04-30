@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B2E36F83C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:57:19 +0200 (CEST)
-Received: from localhost ([::1]:56762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E899A36F83F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:00:44 +0200 (CEST)
+Received: from localhost ([::1]:58994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcPte-0000h3-3F
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54222)
+	id 1lcPwy-0001hJ-0Z
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:00:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcPrr-0008K3-Dt
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:55:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56844)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcPvS-0001G7-Kl
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:59:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcPrm-0003GK-1S
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:55:26 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcPvR-0005IH-4t
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:59:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619776520;
+ s=mimecast20190719; t=1619776748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cQeIoq8fqcfo5LdSPtK3qpQlVaLchG9Cqurk9RdlWaw=;
- b=FftgqWP2u8CY+lzz0Gvq5n+KzPIXvsEsODZksrRYvTLJ+HTYq/oEJu5r5kh6F4lmCEgtod
- gkdz+eGdufF+YGcOlCBD+a3ru2ao0AXi5F6jxk25re3oMSn5PsNFGjPscuYCgc4PGSkRL6
- Rq4B3AWxb794vLGPwz6j+gLVVT4RfjY=
+ bh=GqJwCbnOWtnZGHPpyhMX97bWcHb1M+gsepLCI9C8kHo=;
+ b=KTunUefBb43DlPdawSIs3+iwwczBdE8dXUwNiZH38IqNRRqfU0j2uBGA4o2vN1Y3F/lodr
+ u+QLnULuSQWdO3C3F70i0P98cdTcPML7A/chn3jgxWF8vWrcjzmQN2i/gxoneO7B0+sUDy
+ i4DyqkzGzDEP1J9Z0WJVDbxaJB7bGIo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-j9orgGkKOwilfERsk7O2TQ-1; Fri, 30 Apr 2021 05:55:16 -0400
-X-MC-Unique: j9orgGkKOwilfERsk7O2TQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-328-zTZ6wgl2Mq27_eoy1IJGyA-1; Fri, 30 Apr 2021 05:59:06 -0400
+X-MC-Unique: zTZ6wgl2Mq27_eoy1IJGyA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C13C06D249;
- Fri, 30 Apr 2021 09:55:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CDD06D4E3;
+ Fri, 30 Apr 2021 09:59:05 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
  [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EEA7C579B1;
- Fri, 30 Apr 2021 09:55:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D187419C45;
+ Fri, 30 Apr 2021 09:59:01 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5D39D1800380; Fri, 30 Apr 2021 11:55:10 +0200 (CEST)
-Date: Fri, 30 Apr 2021 11:55:10 +0200
+ id 2CC8E1800380; Fri, 30 Apr 2021 11:59:00 +0200 (CEST)
+Date: Fri, 30 Apr 2021 11:59:00 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Subject: Re: [RFC PATCH 09/27] virtio-snd: Add code for set config function
-Message-ID: <20210430095510.izkmd6wykiquxpap@sirius.home.kraxel.org>
+Subject: Re: [RFC PATCH 11/27] virtio-snd: Add macros for logging
+Message-ID: <20210430095900.jffpqshlae6yf5gf@sirius.home.kraxel.org>
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
- <20210429120445.694420-10-chouhan.shreyansh2702@gmail.com>
+ <20210429120445.694420-12-chouhan.shreyansh2702@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210429120445.694420-10-chouhan.shreyansh2702@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210429120445.694420-12-chouhan.shreyansh2702@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,32 +83,28 @@ Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 05:34:27PM +0530, Shreyansh Chouhan wrote:
+On Thu, Apr 29, 2021 at 05:34:29PM +0530, Shreyansh Chouhan wrote:
 > Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 > ---
 >  hw/audio/virtio-snd.c | 8 ++++++++
 >  1 file changed, 8 insertions(+)
 > 
 > diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
-> index afa38adee7..edaeffd6b7 100644
+> index caad157705..a93674ea72 100644
 > --- a/hw/audio/virtio-snd.c
 > +++ b/hw/audio/virtio-snd.c
-> @@ -54,6 +54,14 @@ static void virtio_snd_get_config(VirtIODevice *vdev, uint8_t *config)
+> @@ -39,6 +39,10 @@
+>  #define VIRTIO_SOUND_HDA_FN_NID_OUT 0
+>  #define VIRTIO_SOUND_HDA_FN_NID_IN 1
 >  
->  static void virtio_snd_set_config(VirtIODevice *vdev, const uint8_t *config)
->  {
-> +    VirtIOSound *s = VIRTIO_SOUND(vdev);
-> +    virtio_snd_config sndcfg;
-> +
-> +    memcpy(&sndcfg, config, sizeof(virtio_snd_config));
-> +
-> +    memcpy(&s->snd_conf.jacks, &sndcfg.jacks, sizeof(uint32_t));
-> +    memcpy(&s->snd_conf.streams, &sndcfg.streams, sizeof(uint32_t));
-> +    memcpy(&s->snd_conf.chmaps, &sndcfg.streams, sizeof(uint32_t));
+> +#define virtio_snd_log(...) AUD_log("virtio sound info", __VA_ARGS__)
+> +#define virtio_snd_warn(...) AUD_log("virtio sound warn", __VA_ARGS__)
+> +#define virtio_snd_err(...) AUD_log("virtio sound err", __VA_ARGS__)
 
-This is static device information for the driver, the driver should not
-be able to change those.  I think you can simply leave the set_config
-empty (i.e. just drop this patch).
+Warnings and errors meant for the user should use error_report() and
+warn_report().
+
+For most debug messages it is better to use tracepoints instead.
 
 take care,
   Gerd
