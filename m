@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B23B370292
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 23:01:30 +0200 (CEST)
-Received: from localhost ([::1]:42232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A71C3702DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 23:16:50 +0200 (CEST)
+Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcaGP-0000Qz-JE
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 17:01:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53218)
+	id 1lcaVF-0000wG-8l
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 17:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcZm4-0004Ej-FB
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:30:10 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42740)
+ id 1lcZmK-0004VQ-Eu
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:30:24 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:37520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcZlm-0007h5-2D
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:30:08 -0400
-Received: by mail-pf1-x429.google.com with SMTP id b27so905342pfp.9
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:29:39 -0700 (PDT)
+ id 1lcZlm-0007hU-AD
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:30:24 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id h20so37235677plr.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bYBvAAL6DC7Hi2Mjo18sNLpM8Gq57yT/LKmwPXamUwE=;
- b=vGvjRHTVa3JK48nDwrfipfb4ZCugRkn+EOX/G4k2gLqNpPm02UxGUhC4DFsQcjr58q
- TUZyYcdonisdsMTO+gU59VZYka025arMZPlgh8Mkq6bIGByvhPbAZc/3Kh7AlG0HfVrq
- HJttUddHR9dAZ88xOAuwwwSCbv36hoaBvkCKhINitT/0TIQkWxER+1Dgy0xW7cVGeUJi
- xW/t0lXDyBVya4YDhL97c9RvFDlagT6mZP1xwjQFMCRX63qCf3icgObJSkvtEg5VtY/Z
- PJ6T6SldJOVniv/IWARuufoCtfu1rqa1Oyacaz2fPjsdHee/RMH8QcraIOTtvio9TLM2
- 8TBQ==
+ bh=bn7hUPo4Fn4gj8R8dHIFe5YgNO7lh3cxv0iB6D6VY7Q=;
+ b=Li5SAExOXC1Tq8T0hs1GZHOMpUjWqgmuU/z1uDiOM+DwNbiiEShCeUxO2YuQRH3P0q
+ UN/Yz9Mc4uG836Nd361Zo4/uwpALV6VaBqEhhlxBti/Txbtoax2osSx+AAJuRN9mTz9v
+ SI5ZXCLa3OcXHfJv+0oBZIeFD9l/SzHjFF5jlwrRh2SxkA5Y6E1MfBsGO8gijOMM2AQx
+ DIrOU6SCNaSxKawGttnVlwnyqsYw+q91MX35u8DOVovQcOfEVz37ko4xKeq+WubFsLdp
+ nvRlG7hhwK2ezNw89YtUm307AGpp/MyPcpzfCZD55XkZyFJOlwTDsVIqaaoLPgBTNlrF
+ I/rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bYBvAAL6DC7Hi2Mjo18sNLpM8Gq57yT/LKmwPXamUwE=;
- b=l+qlEioxUh6Dz3qLmoorb0o9UUKEy/vbGRZ9Lwnf/1fQhaocmCXRiGjOJgMJQ+i22y
- /ZYs/F6jqyoaqyw7yBLWjWbV65v7x3pq6sulahCzdxk0PDy04VUiaHnVNlBSu1iegtkk
- tfOdzlhHoHmvrA/Nt9mXG+iqALU7Lln2VpRvDcscW9RR5TmLYohco4mISiU2pA9/H1Xm
- B4qfnqKYJHLXDOESVT/kNE7SRFASvse2vH/Me5AMdqZfLAe4ylqgzVedUu0dA5D/y5c+
- kgDLiccPlyIMjbq0hdMVu0//s/4nB+cXhjcPGEfHNWdo/+dDzdFnf+gIFub5Khg4PzmV
- 3PNw==
-X-Gm-Message-State: AOAM533wm8Jjw2vytBOCtGs+UbBg8GcnLQfNF+nPKpaKweZ/3QF2TZcq
- 0fh4NuMIWYyp9GfJPWh8AM+rkVEMEvfZTQ==
-X-Google-Smtp-Source: ABdhPJwsPnNfjnGAYFOJoenP/6Zq03Mq+QifMt6A4k3AjLFHR118NUW6NxbPClhQjZ2D6D2CT37eZg==
-X-Received: by 2002:aa7:80c1:0:b029:262:ab5f:adc5 with SMTP id
- a1-20020aa780c10000b0290262ab5fadc5mr6747237pfn.60.1619814578788; 
- Fri, 30 Apr 2021 13:29:38 -0700 (PDT)
+ bh=bn7hUPo4Fn4gj8R8dHIFe5YgNO7lh3cxv0iB6D6VY7Q=;
+ b=A1JEi2U2Vugg594xRWzbS0G1UUs89RI78WL15fkRdqwbSAsEPnEAbtEGxQ4EfPvc5d
+ xnJFCfoebBh1hKPeNfnRX5QiOQGbTgH9zQIVTjejigcJHeJN5qumlEYlp6sH6nqfeYXJ
+ lQOe3Zi32c/2pLtUOxQX2eOeaiZOfls/f3FXOVyQIDG1SqVHuHxXDdi8W3kBYaOnuEg9
+ cZaT4WEaQtzJLdIkN9z5g24tOTz28MwJRXbwv4kdSrg8dEZjp+9mqsKCZ5TJPGks625E
+ L48/tvhNsl1+hZ74kjzl6bG3Vum60pIOschz4J6gEfCzqTfUglwPm+hnWOri2Ip1SFk6
+ jyng==
+X-Gm-Message-State: AOAM530BmJwV3xgh7Hn1XSfpcWQ7ZdVkNpLq6SimaJykv97xBjopgnuc
+ p3M7vI6I/U3b8KZYCLMk16RynX3LR/hoYQ==
+X-Google-Smtp-Source: ABdhPJyth42XIl+ylEmJ4X+kblc9xdlE/UPKiCdNDrVxv1y+gwRMe8q2jrbu9u49UXpGa5W0kZUihA==
+X-Received: by 2002:a17:90a:510d:: with SMTP id
+ t13mr6759819pjh.97.1619814579416; 
+ Fri, 30 Apr 2021 13:29:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id q23sm3788781pgt.42.2021.04.30.13.29.38
+ by smtp.gmail.com with ESMTPSA id q23sm3788781pgt.42.2021.04.30.13.29.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 13:29:38 -0700 (PDT)
+ Fri, 30 Apr 2021 13:29:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 44/82] target/arm: Implement SVE2 scatter store insns
-Date: Fri, 30 Apr 2021 13:25:32 -0700
-Message-Id: <20210430202610.1136687-45-richard.henderson@linaro.org>
+Subject: [PATCH v6 45/82] target/arm: Implement SVE2 gather load insns
+Date: Fri, 30 Apr 2021 13:25:33 -0700
+Message-Id: <20210430202610.1136687-46-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430202610.1136687-1-richard.henderson@linaro.org>
 References: <20210430202610.1136687-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,65 +89,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stephen Long <steplong@quicinc.com>
 
-Add decoding logic for SVE2 64-bit/32-bit scatter non-temporal
-store insns.
+Add decoding logic for SVE2 64-bit/32-bit gather non-temporal
+load insns.
 
 64-bit
-* STNT1B (vector plus scalar)
-* STNT1H (vector plus scalar)
-* STNT1W (vector plus scalar)
-* STNT1D (vector plus scalar)
+* LDNT1SB
+* LDNT1B (vector plus scalar)
+* LDNT1SH
+* LDNT1H (vector plus scalar)
+* LDNT1SW
+* LDNT1W (vector plus scalar)
+* LDNT1D (vector plus scalar)
 
 32-bit
-* STNT1B (vector plus scalar)
-* STNT1H (vector plus scalar)
-* STNT1W (vector plus scalar)
+* LDNT1SB
+* LDNT1B (vector plus scalar)
+* LDNT1SH
+* LDNT1H (vector plus scalar)
+* LDNT1W (vector plus scalar)
 
 Signed-off-by: Stephen Long <steplong@quicinc.com>
-Message-Id: <20200422141553.8037-1-steplong@quicinc.com>
+Message-Id: <20200422152343.12493-1-steplong@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve.decode      | 10 ++++++++++
+ target/arm/sve.decode      | 11 +++++++++++
  target/arm/translate-sve.c |  8 ++++++++
- 2 files changed, 18 insertions(+)
+ 2 files changed, 19 insertions(+)
 
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 7645587469..5cfe6df0d2 100644
+index 5cfe6df0d2..c3958bed6a 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1388,3 +1388,13 @@ UMLSLT_zzzw     01000100 .. 0 ..... 010 111 ..... .....  @rda_rn_rm
- 
+@@ -1389,6 +1389,17 @@ UMLSLT_zzzw     01000100 .. 0 ..... 010 111 ..... .....  @rda_rn_rm
  CMLA_zzzz       01000100 esz:2 0 rm:5 0010 rot:2 rn:5 rd:5  ra=%reg_movprfx
  SQRDCMLAH_zzzz  01000100 esz:2 0 rm:5 0011 rot:2 rn:5 rd:5  ra=%reg_movprfx
+ 
++### SVE2 Memory Gather Load Group
 +
-+### SVE2 Memory Store Group
++# SVE2 64-bit gather non-temporal load
++#   (scalar plus unpacked 32-bit unscaled offsets)
++LDNT1_zprz      1100010 msz:2 00 rm:5 1 u:1 0 pg:3 rn:5 rd:5 \
++                &rprr_gather_load xs=0 esz=3 scale=0 ff=0
 +
-+# SVE2 64-bit scatter non-temporal store (vector plus scalar)
-+STNT1_zprz      1110010 .. 00 ..... 001 ... ..... ..... \
-+                @rprr_scatter_store xs=2 esz=3 scale=0
++# SVE2 32-bit gather non-temporal load (scalar plus 32-bit unscaled offsets)
++LDNT1_zprz      1000010 msz:2 00 rm:5 10 u:1 pg:3 rn:5 rd:5 \
++                &rprr_gather_load xs=0 esz=2 scale=0 ff=0
 +
-+# SVE2 32-bit scatter non-temporal store (vector plus scalar)
-+STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
-+                @rprr_scatter_store xs=0 esz=2 scale=0
+ ### SVE2 Memory Store Group
+ 
+ # SVE2 64-bit scatter non-temporal store (vector plus scalar)
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index eea8b6f1d0..0356b6a124 100644
+index 0356b6a124..a74c15b23f 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -6167,6 +6167,14 @@ static bool trans_ST1_zpiz(DisasContext *s, arg_ST1_zpiz *a)
+@@ -6015,6 +6015,14 @@ static bool trans_LD1_zpiz(DisasContext *s, arg_LD1_zpiz *a)
      return true;
  }
  
-+static bool trans_STNT1_zprz(DisasContext *s, arg_ST1_zprz *a)
++static bool trans_LDNT1_zprz(DisasContext *s, arg_LD1_zprz *a)
 +{
 +    if (!dc_isar_feature(aa64_sve2, s)) {
 +        return false;
 +    }
-+    return trans_ST1_zprz(s, a);
++    return trans_LD1_zprz(s, a);
 +}
 +
- /*
-  * Prefetches
-  */
+ /* Indexed by [mte][be][xs][msz].  */
+ static gen_helper_gvec_mem_scatter * const scatter_store_fn32[2][2][2][3] = {
+     { /* MTE Inactive */
 -- 
 2.25.1
 
