@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA34370349
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 23:57:06 +0200 (CEST)
-Received: from localhost ([::1]:54716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A435370308
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 23:37:21 +0200 (CEST)
+Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcb8C-00064r-It
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 17:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59578)
+	id 1lcap6-00005K-KL
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 17:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lcaIY-0004K6-5w
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 17:03:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38894)
+ id 1lcaIb-0004WC-RN
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 17:03:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lcaIT-0000uQ-Ly
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 17:03:40 -0400
+ id 1lcaIY-0000wq-G8
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 17:03:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619816616;
+ s=mimecast20190719; t=1619816621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P8l7iV3c0Zq7yDNJbijJhSCv2L6sEi5uB+a9ZQyVb2I=;
- b=N7z+WUPkwVcSoP2TrAML2WNDIvUsAZRdOXa7pvsUeSMQt+eowz3jPSBx2vOI9J45mGXqwN
- uU4CoZhLdff4dB8OFyjoZzN2AsMdU0Dn3GeRmSt9eCo8nj264RWov8gdZKXc73j1fYUEoy
- N4F9Mmw12HenhuZStvWvoodP8S5ILM4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-Eg6nmTzwOxmSNK7psXB0Xw-1; Fri, 30 Apr 2021 17:03:34 -0400
-X-MC-Unique: Eg6nmTzwOxmSNK7psXB0Xw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- k9-20020a17090646c9b029039d323bd239so2361913ejs.16
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 14:03:34 -0700 (PDT)
+ bh=suwXjvVsqkwmF6MvJzuNPvRyp3i4hOsB6SPBCUv73Cg=;
+ b=BwB/P+ulAn8OdS3PKWv5yjt3B3Cx7ySXHqLr9qsN2lcBSF+RWJXCr0zhoUWdvckpoW6zBO
+ ZTlMM9ALzyNv9EPKa1+mFWec8scRUSV5s1Cxvkob+npOKrjoFM0dg5E0zLP8WrJ/Vp4nZD
+ 9t1W0n7XgOqx0qCRpCNSWLam/KixJWs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-65-LwEnhrCENHm7Ik2xLv0YcQ-1; Fri, 30 Apr 2021 17:03:39 -0400
+X-MC-Unique: LwEnhrCENHm7Ik2xLv0YcQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d13-20020a056402144db0290387e63c95d8so6348282edx.11
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 14:03:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=P8l7iV3c0Zq7yDNJbijJhSCv2L6sEi5uB+a9ZQyVb2I=;
- b=eoQsBybq9XHEyXGZ7j41Jwt+ufpgZv7bvEd36d986kX3QtuLYWchGNWP7Nn7U7fv9u
- wKu6XG8zAKKtZKqwIHvo33569j5YWlrSAnqH/EoPhwXENoH/7I9etIieS1u6XEKsomrW
- VU2fz4MMLE2uPm2ubCSJIV3PSfD0g5WwY+hON6Zu6v0ESFt21NXG/ygBG+TAclschKz8
- cqjtygiSDYnmGh7im8RxmxBxJCXhJya1jGHEYhZ4+Xz3hkTEpxpWnHQ/5n90nKhls4ED
- 2rSeveLGOZA/3dRDbMFI1kYdIvDAFydg8rX7nolBLVXfLCLKPtM9Ianq0Nk8Jseo5DXk
- W3Pw==
-X-Gm-Message-State: AOAM532Y7gOnD8acomXZh6Urzmg8HtQzO7Rr4zlxo4ios7AYsupUhA0x
- J6VX3+RoHDezzumU2sUQJ3b6KfD0GYz96Ah2hA5VnwTJpOS3qYh7xitQezA8OwgqhQiK2oyWRS7
- P0ywAcPmQcVdilN7AkO+JIC1zS9pvP2AtfgKWW8xOxLCaf0yiB72yRUD0znLQWyuNbfQ=
-X-Received: by 2002:aa7:dc15:: with SMTP id b21mr8403071edu.350.1619816612725; 
- Fri, 30 Apr 2021 14:03:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysW1X1tqKqu3LbXgZccdWU1gyKjNcggvR7arqObUhAZ+e2QMCd+7+s1veUN9igpO9Hjj5EVw==
-X-Received: by 2002:aa7:dc15:: with SMTP id b21mr8403036edu.350.1619816612410; 
- Fri, 30 Apr 2021 14:03:32 -0700 (PDT)
+ bh=suwXjvVsqkwmF6MvJzuNPvRyp3i4hOsB6SPBCUv73Cg=;
+ b=AqVN+TAL35DqsYe6vpM8Kt3PuPFoEJ/8FVEJ+M5uwnLeAwrPn+NAy6iTtg2vkEe1eH
+ E34PSlcB6IXWkUJLhczVpclaKdEeJIMKXUjmiqcQ1gdayICWd7KW1xT0CLCYfBr1ezUS
+ u6k6Fpn6u6ZmYTwsX32CvKlio7E52d5cgAlYmyajttIweW8pi2KG5gA7R+BfSiecXcpY
+ fdPZZQYCAyWooQZnLgJaSZN40YtavING5m8+XG2PGFw/Ml3sfU60DPOkryDUEj+o1ODw
+ O8k+YoKA+uFAr7phGduoTFBkShaOrSy4g8NYn9rCE4Ba4iE6hxIMZuH9AeWWU1DMlYy9
+ FxaQ==
+X-Gm-Message-State: AOAM532mhgSolhFeHvySBFKE+z66USnes2JHLHnXqAInXaNxvw/0Hl8G
+ xQNGf/1jyCO3Jdl4l/QH9scOVAWdVPCrTXCoEQeBnGxLUrBe45gt/1L+59OiWwjMYkfH+kSxAC6
+ RIfBUIyAQRFgdKwHVzxu62joCMovIBY+zDGYv1EzkbivhBBXhqhU/f9ZMb7nNJKnVnsM=
+X-Received: by 2002:a17:907:10cb:: with SMTP id
+ rv11mr6431714ejb.379.1619816617256; 
+ Fri, 30 Apr 2021 14:03:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUCLKz8btHJq6EgJIwCx6uSVl9oA3tqX12ZoLpetLANwIVmdeI65IZ6WH2pKxn5Fr6c2sohA==
+X-Received: by 2002:a17:907:10cb:: with SMTP id
+ rv11mr6431672ejb.379.1619816616862; 
+ Fri, 30 Apr 2021 14:03:36 -0700 (PDT)
 Received: from localhost.localdomain (mob-194-230-155-107.cgn.sunrise.net.
  [194.230.155.107])
- by smtp.gmail.com with ESMTPSA id a24sm649344edr.74.2021.04.30.14.03.31
+ by smtp.gmail.com with ESMTPSA id p24sm2515390edt.5.2021.04.30.14.03.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 14:03:31 -0700 (PDT)
-Subject: Re: [PATCH v3 04/15] qemu-iotests: add option to attach gdbserver
+ Fri, 30 Apr 2021 14:03:36 -0700 (PDT)
+Subject: Re: [PATCH v3 05/15] qemu-iotests: delay QMP socket timers
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20210414170352.29927-1-eesposit@redhat.com>
- <20210414170352.29927-5-eesposit@redhat.com>
- <e06a8560-641b-bf10-230c-fa99a21998c8@redhat.com>
+ <20210414170352.29927-6-eesposit@redhat.com>
+ <df1df43e-cfdc-ddeb-f7c1-f9399f252b35@redhat.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <4189f418-ef3f-bb94-585a-5efc95ef1257@redhat.com>
-Date: Fri, 30 Apr 2021 23:03:30 +0200
+Message-ID: <bb2c8f3c-f1cf-6213-b67d-7b1ff2102992@redhat.com>
+Date: Fri, 30 Apr 2021 23:03:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <e06a8560-641b-bf10-230c-fa99a21998c8@redhat.com>
+In-Reply-To: <df1df43e-cfdc-ddeb-f7c1-f9399f252b35@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -89,7 +91,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,81 +112,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 30/04/2021 13:38, Max Reitz wrote:
+On 30/04/2021 13:59, Max Reitz wrote:
 > On 14.04.21 19:03, Emanuele Giuseppe Esposito wrote:
->> Add -gdb flag and GDB_QEMU environmental variable
->> to python tests to attach a gdbserver to each qemu instance.
-> 
-> Well, this patch doesn’t do this, but OK.
-
-Maybe "define" rather than "add"? In the sense of defining the "-gdb" 
-option, which is what it actually does.
-
-> 
-> Out of interest: Why gdbserver and not “just” gdb?  On Fedora, those are 
-> separate packages, so I don’t have gdbserver installed, that’s why I’m 
-> asking.
-
-As far as I have tried, using only gdb with ./check is very hard to use, 
-because the stdout is filtered out by the script.
-So invoking gdb attaches it to QEMU, but it is not possible to start 
-execution (run command) or interact with it, because of the python 
-script filtering. This leaves the test hanging.
-
-gdbserver is just something that a gdb client can attach to (for 
-example, in another console or even in another host) for example with 
-the command
-# gdb -iex "target remote localhost:12345" . This provides a nice and 
-separate gdb monitor to the client.
-
-Emanuele
-> 
-> (I’ve also never used gdbserver before.  From what I can tell, it’s 
-> basically just a limited version of gdb so it only serves as a server.)
-> 
->> if -gdb is not provided but $GDB_QEMU is set, ignore the
->> environmental variable.
-> 
-> s/environmental/environment/
-> 
+>> Attaching a gdbserver implies that the qmp socket
+>> should wait indefinitely for an answer from QEMU.
 >>
 >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 >> ---
->>   tests/qemu-iotests/check      |  6 +++++-
->>   tests/qemu-iotests/iotests.py |  4 ++++
->>   tests/qemu-iotests/testenv.py | 15 ++++++++++++---
->>   3 files changed, 21 insertions(+), 4 deletions(-)
+>>   python/qemu/machine.py        |  3 +++
+>>   tests/qemu-iotests/iotests.py | 10 +++++++++-
+>>   2 files changed, 12 insertions(+), 1 deletion(-)
 >>
->> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
->> index d1c87ceaf1..6186495eee 100755
->> --- a/tests/qemu-iotests/check
->> +++ b/tests/qemu-iotests/check
->> @@ -33,6 +33,9 @@ def make_argparser() -> argparse.ArgumentParser:
->>                      help='pretty print output for make check')
->>       p.add_argument('-d', dest='debug', action='store_true', 
->> help='debug')
->> +    p.add_argument('-gdb', action='store_true',
->> +                   help="start gdbserver with $GDB_QEMU options. \
->> +                         Default is localhost:12345")
+>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+>> index 12752142c9..d6142271c2 100644
+>> --- a/python/qemu/machine.py
+>> +++ b/python/qemu/machine.py
+>> @@ -409,6 +409,9 @@ def _launch(self) -> None:
+>>                                          stderr=subprocess.STDOUT,
+>>                                          shell=False,
+>>                                          close_fds=False)
+>> +
+>> +        if 'gdbserver' in self._wrapper:
+>> +            self._qmp_timer = None
 > 
-> That makes it sound like this were the default for the `-gdb` option. 
-> Since `-gdb` is just a switch, it doesn’t have a default (apart from 
-> being off by default).
+> Why doesn’t __init__() evaluate this?  This here doesn’t feel like the 
+> right place for it.  If we want to evaluate it here, self._qmp_timer 
+> shouldn’t exist, and instead the timeout should be a _post_launch() 
+> parameter.  (Which I would have nothing against, by the way.)
+
+Uhm.. I got another comment in a previous version where for the "event" 
+callbacks it was better a property than passing around a parameter. 
+Which I honestly agree.
+
+What should __init__() do? The check here is to see if the invocation 
+has gdb (and a couple of patches ahead also valgrind), to remove the timer.
+If I understand what you mean, you want something like
+def __init__(self, timer):
+
+But from my understanding, the class hierarchy is:
+QEMUMachine: in machine.py
+QEMUQtestMachine(QEMUMachine): in qtest.py
+VM(qtest.QEMUQtestMachine): in iotests.py
+VM() is then invoked in each test.
+
+So this is not easily reachable by check.py, to pass the parameter into 
+__init__
+
 > 
-> So I’d rephrase this at least to “The default options are 
-> 'localhost:12345'”.  Or maybe “start gdbserver with $GDB_QEMU options 
-> ('localhost:12345' if $GDB_QEMU is empty)”.
+> Also, mypy complains that this variable is a float, so iotest 297 (which 
+> runs mypy) fails.
+
+This and all mistakes of test 297 (mypy) is my fault: I did not have 
+pylint-3 installed thus when testing it skipped the 297 test.
+
 > 
-> Also, $GDB_QEMU as a name is a bit strange, because it does not specify 
-> which gdb to use; it just gives the options to use for gdb. 
-> $GDB_QEMU_OPTIONS would be more in line with the naming of the rest of 
-> the environment variables (or just $GDB_OPTIONS).
+>>           self._post_launch()
+>>       def _early_cleanup(self) -> None:
+>> diff --git a/tests/qemu-iotests/iotests.py 
+>> b/tests/qemu-iotests/iotests.py
+>> index 05d0dc0751..380527245e 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -478,7 +478,10 @@ def log(msg: Msg,
+>>   class Timeout:
+>>       def __init__(self, seconds, errmsg="Timeout"):
+>> -        self.seconds = seconds
+>> +        if qemu_gdb:
+>> +            self.seconds = 3000
+>> +        else:
+>> +            self.seconds = seconds
+> 
+> We might as well completely disable the timeout then, that would be more 
+> honest, I think.  (I.e. to make __enter__ and __exit__ no-ops.)
+> 
+>>           self.errmsg = errmsg
+>>       def __enter__(self):
+>>           signal.signal(signal.SIGALRM, self.timeout)
+>> @@ -684,6 +687,11 @@ def qmp_to_opts(self, obj):
+>>               output_list += [key + '=' + obj[key]]
+>>           return ','.join(output_list)
+>> +    def get_qmp_events(self, wait: bool = False) -> List[QMPMessage]:
+>> +        if qemu_gdb:
+>> +            wait = 0.0
+> 
+> First, this is a bool.  I can see that qmp.py expects a
+> Union[bool, float], but machine.py expects just a bool.  (Also, mypy 
+> complains that this specific `wait` here is a `bool`.  You can see that 
+> by running iotest 297.)
+
+I think here machine.py should reflect the qmp.py behavior and have an 
+Union[bool, float] too.
+> 
+> Second, I don’t understand this.  If the caller wants to block waiting 
+> on an event, then that should have nothing to do with whether we have 
+> gdb running or not.  As far as I understand, setting wait to 0.0 is the 
+> same as wait = False, i.e. we don’t block and just return None 
+> immediately if there is no pending event.
+
+You're right, this might not be needed here. The problem I had was that 
+calling gdb and pausing at a breakpoint or something for a while would 
+make the QMP socket timeout, thus aborting the whole test. In order to 
+avoid that, I need to stop or delay timers.
+
+I can't remember why I added this check here. At some point I am sure 
+the test was failing because of socket timeout expiration, but I cannot 
+reproduce the problem when commenting out this check above in 
+get_qmp_events. The other check in patch 3 should be enough.
+
+Emanuele
 > 
 > Max
 > 
->>       p.add_argument('-misalign', action='store_true',
->>                      help='misalign memory allocations')
->>       p.add_argument('--color', choices=['on', 'off', 'auto'],
+>> +        return super().get_qmp_events(wait=wait)
+>> +
+>>       def get_qmp_events_filtered(self, wait=60.0):
+>>           result = []
+>>           for ev in self.get_qmp_events(wait=wait):
+>>
 > 
 
 
