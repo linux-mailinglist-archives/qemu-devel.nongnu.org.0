@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A475536FF6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:23:12 +0200 (CEST)
-Received: from localhost ([::1]:38528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D61136FF58
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:17:52 +0200 (CEST)
+Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWr9-0001Bu-Md
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36948)
+	id 1lcWlz-0005El-4S
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcWUb-0007iv-PF
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:59:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50276)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcWUU-0002DH-Bq
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:59:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcWUR-0007LF-JL
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:59:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 903402E8144
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:59:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lcWI7-0001UZ-0q; Fri, 30 Apr 2021 12:47:02 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:56471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lcWI0-0000dp-7S; Fri, 30 Apr 2021 12:46:58 -0400
+Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MUooJ-1m3ECm0iyf-00Qmhu; Fri, 30 Apr 2021 18:46:49 +0200
+Subject: Re: [PATCH v1] scripts: fix generation update-binfmts templates
+To: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>,
+ qemu-devel@nongnu.org
+References: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <3fe1825b-e5e4-dfd8-b4ce-038bb7aed800@vivier.eu>
+Date: Fri, 30 Apr 2021 18:46:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 16:45:52 -0000
-From: Thomas Huth <1622582@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: q35 sata windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 4o-ubrgtu-59 jnsnow luoyonggang th-huth
-X-Launchpad-Bug-Reporter: Dennis (4o-ubrgtu-59)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160912115104.2358.5193.malonedeb@wampee.canonical.com>
-Message-Id: <161980115230.9976.5175762961576626648.malone@gac.canonical.com>
-Subject: [Bug 1622582] Re: Can't install Windows 7 with q35 (SATA)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 7409097de555a0f2c7586d4e7851e590750787d3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:nWbW0Cqhp2CqZdSj5dEgb6zj8SVoUK0yUgNUhtYOXekdKfbuXjW
+ TP0E8UMlcVCqJ6knOpu0Pvmc+19OIQ5asMkkO34ikiela6E23Dcponjgz0rs+USuGwoQFNT
+ 3CKEe58pvyj8FMKzp8LIxzAoDuEj+b52vnMd/Xnv4a3DeWgAbUGYPmjuAOawB4ZATLhrzxd
+ RNFulPUObbVLG3RPVMI+g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:C5yx/s1BWBo=:fraLRFjBrD3fAEHKRwPgzq
+ IN0PLhzH4vPMADgrQThwCLBXPaSGWyVVl1y83ZdvY9592a0ZXln4jz8+xAs3JndwPh98eXdkI
+ nrIqc6mp8KA9WXIMc1trLg5ccE/uNB0BanhLqwNC+HnIpebUFN04d8VgrOXaZwr+FN9OaGYLb
+ oN6BA3ld3sXKPDmG6lpe6+hkX6QKNGpCyKsI5b8RlEYenvlCAXxm/uZQHL/avks1J+I0JJhoR
+ XwkvUMgCy8acBHOBA3hcs/3jnLeTR45zeC41zqY4N9lEStNfkGS9hBr/Emz48fT1keByFOyVN
+ esw/16bBWOuTHVI57TZYZRiShJnSz5lPJGSgRMAdVL6+AGAypRFSZo32Ba6bONsYz/UfO6Lt/
+ czr90VNCYsOPzeSbfV9RhWb60PD2tBTic5tcvmu2+Txl9jpSsdYOFRweXe+KTWAhJajXx6p8L
+ 4Wp7SZ0wtVyXrNFzzy15PjdYJa0W/xACNQPsDnML//wd+LkNZhFl+/DdFjorGGsoX5LLR8ek2
+ 6NbOHI49rJdhj59fCZ+FFw=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,113 +67,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1622582 <1622582@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved
-to QEMU's new bug tracker on gitlab.com and thus gets marked
-as 'expired' now. Please continue with the discussion here:
+Le 23/03/2021 à 13:34, Silvano Cirujano Cuesta a écrit :
+> This patch fixes the update-binfmts templates being used in the script
+> scripts/qemu-binfmt-conf.sh when the option --debian is used.
+> 
+> Fixed issues are:
+> - Typo in flag 'credentials' (previously 'credential').
+> - Missing flags 'preserve' and 'fix_binary'.
+> 
+> Reference: https://manpages.debian.org/buster/binfmt-support/update-binfmts.8.en.html#FORMAT_FILES
+> 
+> Signed-off-by: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>
+> ---
+>  scripts/qemu-binfmt-conf.sh | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+> index 573b5dc6ac..7de996d536 100755
+> --- a/scripts/qemu-binfmt-conf.sh
+> +++ b/scripts/qemu-binfmt-conf.sh
+> @@ -294,7 +294,9 @@ package qemu-$cpu
+>  interpreter $qemu
+>  magic $magic
+>  mask $mask
+> -credential $CREDENTIAL
+> +credentials $CREDENTIAL
+> +preserve $PRESERVE_ARG0
+> +fix_binary $PERSISTENT
+>  EOF
+>  }
+>  
+> 
 
- https://gitlab.com/qemu-project/qemu/-/issues/55
-
-
-** Changed in: qemu
-       Status: Confirmed =3D> Expired
-
-** Changed in: qemu
-     Assignee: John Snow (jnsnow) =3D> (unassigned)
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #55
-   https://gitlab.com/qemu-project/qemu/-/issues/55
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1622582
-
-Title:
-  Can't install Windows 7 with q35 (SATA)
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  I'm trying to install Windows 7 on a q35 machine on a "SATA disk". If
-  I use q35 the installation is extremely slow. With extremely slow I
-  mean, that the first few minutes (10-15 minutes) on the second
-  installation step (copying files to disk) nothing happens. Than there
-  is some progress, maybe until 9% and than there is "silence" for
-  another 10 minutes or so. Therefore I used iotop (with --only option)
-  in order to see, if there are any disk operations. But as I mentioned,
-  only a few times qemu writes something to disk (with about < 1M/s).
-  But most of the time there is nothing from qemu. Therefore the
-  installation lasts over an hour. But even worse, after installation I
-  can't boot Windows. Windows-Start-Manager tells me, that windows
-  couldn't be loaded because the kernel is missing or corrupt (Status
-  0xc0000221, File: \Windows\system32\ntoskrnl.exe). If I use IDE on q35
-  or pc-i440fx-2.6 everything works fine. There is a continuous
-  installation progress and iotop shows continuous disk writes with max
-  30M/s (but also 5M/s and other values...).
-
-  I've tried qemu 2.6.0, 2.6.1 and 2.7.0 (all versions from git).
-
-  My host machine: =
-
-  Ubuntu 14.04.5 LTS
-  3.13.0-95-generic #142-Ubuntu SMP Fri Aug 12 17:00:09 UTC 2016 x86_64 x86=
-_64 x86_64 GNU/Linux
-  Intel(R) Core(TM) i5-3470 CPU
-  16 GB RAM
-
-  =
-
-  I used the following commands:
-
-  "Standard" command
-  qemu-system-x86_64 -m 2048 -machine q35,accel=3Dkvm -cpu host,kvm=3Doff -=
-smp 1,sockets=3D1,cores=3D1,threads=3D1 -enable-kvm -hda win7_qemu_standard=
-_q35.qcow2 -cdrom win7proX64.iso -boot order=3Dd
-
-  I think by using -hda sata will be used?!?
-
-  With explicit ahci:
-  qemu-system-x86_64 -m 2048 -machine q35,accel=3Dkvm -cpu host,kvm=3Doff -=
-smp 1,sockets=3D1,cores=3D1,threads=3D1 -enable-kvm -drive file=3Dwin7_qemu=
-_standard_q35.qcow2,media=3Ddisk,if=3Dnone,id=3Dsata-disk -device ich9-ahci=
-,id=3Dahci -device ide-drive,drive=3Dsata-disk,bus=3Dahci.0 -drive file=3Dw=
-in7proX64.iso,media=3Dcdrom,if=3Dnone,id=3Dsata-cdrom -device ide-cd,drive=
-=3Dsata-cdrom,bus=3Dahci.1 -boot order=3Dd
-
-  I don't know if this is totally correct, because it's a little bit
-  weird that I have to use ide-drive on a ich9 bus.
-
-  Without kvm there is a continious disk write with 100 K/s - 5 M/s (works =
-only with qemu 2.7.0, otherwise I get a 0x000000D1 bluescreen on the setup =
-start screen):
-  qemu-system-x86_64 -m 2048 -machine q35 -cpu IvyBridge -hda win7_qemu_sta=
-ndard_q35.qcow2 -cdrom win7proX64.iso -boot order=3Dd
-
-  But with all three commands the installed Windows is not working,
-  because always the same error occurs: windows couldn't be loaded
-  because kernel is missing or corrupt
-
-  Interestingly both commands ("standard" command and with explicit
-  ahci) works very well with a Windows 10 installation.
-
-  In my opinion it's a "SATA problem", because if I use e.g. piix4-ide inst=
-ead of ich9-ahci it works:
-  qemu-system-x86_64 -m 2048 -machine q35,accel=3Dkvm -cpu host,kvm=3Doff -=
-smp 1,sockets=3D1,cores=3D1,threads=3D1 -enable-kvm -drive file=3Dwin7_qemu=
-_standard_q35.qcow2,media=3Ddisk,if=3Dnone,id=3Dide-disk -device piix4-ide,=
-id=3Dide -device ide-drive,drive=3Dide-disk,bus=3Dide.0 -drive file=3Dwin7p=
-roX64.iso,media=3Dcdrom,if=3Dnone,id=3Dide-cdrom -device ide-cd,drive=3Dide=
--cdrom,bus=3Dide.1 -boot order=3Dd
-
-  With this command there is a continuous disk write and the
-  installation is bootable.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1622582/+subscriptions
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
