@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BAB36F846
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:04:47 +0200 (CEST)
-Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784A336F848
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:06:26 +0200 (CEST)
+Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcQ0s-0003fH-1S
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:04:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55770)
+	id 1lcQ2T-0005EQ-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
- id 1lcPzL-0002ny-As
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:03:11 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:44481)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcQ0e-00049q-Fg
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:04:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
- id 1lcPzJ-0007cH-3v
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:03:11 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id C0A255C00EC;
- Fri, 30 Apr 2021 06:03:07 -0400 (EDT)
-Received: from imap36 ([10.202.2.86])
- by compute7.internal (MEProxy); Fri, 30 Apr 2021 06:03:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noronha.eti.br;
- h=mime-version:message-id:in-reply-to:references:date:from:to
- :cc:subject:content-type; s=mesmtp; bh=4P8hZAdn8twAD0Pu2xMfGAEdp
- PR163DPDjK6bM8qSZU=; b=DP4DzCbd3CZ5hT8Bm1dTbxvVplDftzUaCO5yPUGzx
- ihF3IYceZTV0Fyv6LYEPxv8bs9xfX6/A9zMUNhX2uIdkptTUxseBcMcqvugo+SZL
- OFk/Mm0N5OlnRwMFAW5lz3zTBssKJz5J0702YPeBltz32bx3ARaJoSf+UzSN4EIR
- jE=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=4P8hZA
- dn8twAD0Pu2xMfGAEdpPR163DPDjK6bM8qSZU=; b=aSWRBczpcUG0kAGQ65U8Pu
- JIZSVM7xIekhSn5vu7zjl0huACQTca5jwyQdwMJtcxU9YmKLmVDE9FDJIv4d63SJ
- YC/HoTZMADUf7RicJ1z3En8OWSrlKgwcqv/qL5XHE0+xlV4MVl9WSXIGc9aZOV6Q
- Z94bsSjzAQt5TB0hbw+Tfo2QKM+uc7xk9bRs1yPoHgbCn20qjId4rcFcLT1Lu3yq
- AhAza1UbyaF6+691opgzg5d5mBDuRS7OMAms2HGeHOlamAHsMQ3nK4f/FWfUqfS2
- /bkPSlLejWm5FwBQENUBz4OIy4i9KqfSGZu9+R7+SmiJCkgIkHKsRpMmYVsrH7AA
- ==
-X-ME-Sender: <xms:29WLYMSZVhVqMgKOKagYu-MoxJD2tm_ab6VT8nQvTYoDouax6rHSyA>
- <xme:29WLYJysq-ScdcIVKjCn7J0cNeGRI0tK7TF3ve4c02ga_FMAgGWsnqdZlVkV00G_s
- AdyrqQh_I4F-BVE5Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdfiuhhs
- thgrvhhoucfpohhrohhnhhgrucfuihhlvhgrfdcuoehguhhsthgrvhhosehnohhrohhnhh
- grrdgvthhirdgsrheqnecuggftrfgrthhtvghrnhepuddvgfeuffdtheefvdeukeefheeu
- hfetheeuvdehvdeileelhedtleehheelieelnecuffhomhgrihhnpegrphhplhgvrdgtoh
- hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhu
- shhtrghvohesnhhorhhonhhhrgdrvghtihdrsghr
-X-ME-Proxy: <xmx:29WLYJ3-XPkIcxqykW9AKnwbXSsreSPmRpoOupAuMMj-J_YH-SnTjA>
- <xmx:29WLYADj-NzcEiZ8Tg0ETdKGDm1FUv3lLGpXbFtin2w5lFH9sUeaWw>
- <xmx:29WLYFhrLjIyScRu9pSUU8Ew2v09fcigdES2vh-EsXksSYTn1Ec1Cg>
- <xmx:29WLYFZOaft883f4aEcjhQOc6DUk1d7MztJT7ksN6Rxh-8N30JRtDw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 2A80B10E0089; Fri, 30 Apr 2021 06:03:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-403-gbc3c488b23-fm-20210419.005-gbc3c488b
-Mime-Version: 1.0
-Message-Id: <9e59000c-eb07-45b2-8b39-3a705561c440@www.fastmail.com>
-In-Reply-To: <87wnsk5jd3.fsf@dusky.pond.sub.org>
-References: <20210429234705.83206-1-gustavo@noronha.eti.br>
- <20210429234705.83206-2-gustavo@noronha.eti.br>
- <87wnsk5jd3.fsf@dusky.pond.sub.org>
-Date: Fri, 30 Apr 2021 07:02:46 -0300
-From: "Gustavo Noronha Silva" <gustavo@noronha.eti.br>
-To: "'Markus Armbruster '" <armbru@redhat.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_1/2]_ui/cocoa:_capture_all_keys_and_combos_when_mou?=
- =?UTF-8?Q?se_is_grabbed?=
-Content-Type: text/plain
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=gustavo@noronha.eti.br;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcQ0Y-0008Qs-R1
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:04:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619777065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qi/wgJzQyVzvvcCZtwD7MCOLuRAX0OD0K/6R2VJaXM8=;
+ b=BQobhuazzeTB2nzI0j1coujyaHaZdK0LMn4Z/kaQBoeBAK7uw4pMvAHaqEjbWQWoIfpPEa
+ Du1qAzRl9CZ96C17WqRAKKSrvZ/kafMQScX19l6XbGO8mWTr2nRFICndUPSaI6Adglg/Mg
+ jpzl9XL58FqAgleac3oytC16Mz1zTYo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-R3DTLQdsP0SX2gEmnVtr-g-1; Fri, 30 Apr 2021 06:04:24 -0400
+X-MC-Unique: R3DTLQdsP0SX2gEmnVtr-g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6A826DD2A;
+ Fri, 30 Apr 2021 10:04:22 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-68.ams2.redhat.com
+ [10.36.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 803EF421F;
+ Fri, 30 Apr 2021 10:04:17 +0000 (UTC)
+Subject: Re: [PATCH] block: simplify write-threshold and drop write notifiers
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210421220950.105017-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <8496a111-5721-923d-2e82-920f2e77233a@redhat.com>
+Date: Fri, 30 Apr 2021 12:04:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210421220950.105017-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,30 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Peter Maydell ' <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- 'Gerd Hoffmann ' <kraxel@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, eesposit@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Markus,
-
-On Fri, Apr 30, 2021, at 4:20 AM, Markus Armbruster wrote:
-> Please indent like this
+On 22.04.21 00:09, Vladimir Sementsov-Ogievskiy wrote:
+> write-notifiers are used only for write-threshold. New code for such
+> purpose should create filters.
 > 
->    # @full-grab: Capture all key presses, including system combos. This
->    #             requires accessibility permissions, since it performs
->    #             a global grab on key events. (default: off)
->    #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+> Let's handle write-threshold simply in generic code and drop write
+> notifiers at all.
+> 
+> Also move part of write-threshold API that is used only for testing to
+> the test.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
+> I agree that this could be split into 2-3 parts and not combining
+> everything into one. But I'm tired now.
 
-Will do, but just to be sure, the surrounding comments have the second to last lines lined up to the C in Capture there, I assume that is what you mean?
- 
-> I hope the link is permanent.
+Er...  You should have put it off until the next day then? O:)
 
-So do I. I have found Apple to be fairly consistent in providing at least proper redirection to newer versions of the documentation while learning about Cocoa and the Mac itself (first timer, just interested in the M1 to be quite honest), so I'm fairly confident it will survive.
+It should be multiple patches.  At least one to move the write threshold 
+update to block/io.c, and then another to drop write notifiers.
 
-Thanks for the review! I'll send a v2 later today.
+> I can send v2 if needed, so
+> consider it as RFC. Or take as is if you think it's not too much-in-one.
+> 
+> I also suggest this as a prepartion (and partly substitution) for
+> "[PATCH v2 0/8] Block layer thread-safety, continued"
+> 
+>   include/block/block_int.h         | 12 -----
+>   include/block/write-threshold.h   | 24 ---------
+>   block.c                           |  1 -
+>   block/io.c                        | 21 +++++---
+>   block/write-threshold.c           | 87 ++-----------------------------
+>   tests/unit/test-write-threshold.c | 38 ++++++++++++++
+>   6 files changed, 54 insertions(+), 129 deletions(-)
 
-Cheers,
+[...]
 
-Gustavo
+> diff --git a/block/io.c b/block/io.c
+> index ca2dca3007..e0aa775952 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -36,6 +36,8 @@
+>   #include "qemu/main-loop.h"
+>   #include "sysemu/replay.h"
+>   
+> +#include "qapi/qapi-events-block-core.h"
+> +
+>   /* Maximum bounce buffer for copy-on-read and write zeroes, in bytes */
+>   #define MAX_BOUNCE_BUFFER (32768 << BDRV_SECTOR_BITS)
+>   
+> @@ -1974,6 +1976,8 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
+>              child->perm & BLK_PERM_RESIZE);
+>   
+>       switch (req->type) {
+> +        uint64_t write_threshold;
+> +
+
+Works, but I think this is the first time I see a variable declared in a 
+switch block.  What I usually do for such cases is to put a block after 
+the label.  (i.e. case X: { uint64_t write_threshold; ... })
+
+But it wouldn’t hurt to just declare this at the beginning of 
+bdrv_co_write_req_prepare(), I think.
+
+>       case BDRV_TRACKED_WRITE:
+>       case BDRV_TRACKED_DISCARD:
+>           if (flags & BDRV_REQ_WRITE_UNCHANGED) {
+> @@ -1981,8 +1985,15 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
+>           } else {
+>               assert(child->perm & BLK_PERM_WRITE);
+>           }
+> -        return notifier_with_return_list_notify(&bs->before_write_notifiers,
+> -                                                req);
+> +        write_threshold = qatomic_read(&bs->write_threshold_offset);
+> +        if (write_threshold > 0 && offset + bytes > write_threshold) {
+> +            qapi_event_send_block_write_threshold(
+> +                bs->node_name,
+> +                offset + bytes - write_threshold,
+> +                write_threshold);
+> +            qatomic_set(&bs->write_threshold_offset, 0);
+> +        }
+
+I’d put all of this into a function in block/write-threshold.c that’s 
+called from here.
+
+Max
+
+> +        return 0;
+>       case BDRV_TRACKED_TRUNCATE:
+>           assert(child->perm & BLK_PERM_RESIZE);
+>           return 0;
+> @@ -3137,12 +3148,6 @@ bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov)
+>       return true;
+>   }
+>   
+> -void bdrv_add_before_write_notifier(BlockDriverState *bs,
+> -                                    NotifierWithReturn *notifier)
+> -{
+> -    notifier_with_return_list_add(&bs->before_write_notifiers, notifier);
+> -}
+> -
+>   void bdrv_io_plug(BlockDriverState *bs)
+>   {
+>       BdrvChild *child;
+
 
