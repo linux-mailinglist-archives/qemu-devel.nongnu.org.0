@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA5336FF07
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:57:50 +0200 (CEST)
-Received: from localhost ([::1]:44308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA27636FF2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:07:21 +0200 (CEST)
+Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWSb-0004Gw-P1
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
+	id 1lcWbo-0004KS-Nr
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:07:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWC7-0005c4-Fb; Fri, 30 Apr 2021 12:40:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:44745)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lcW5B-0000uS-LD; Fri, 30 Apr 2021 12:33:41 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWC5-0008Bv-F4; Fri, 30 Apr 2021 12:40:47 -0400
-Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MJW5G-1lrzhs1pMm-00JtqL; Fri, 30 Apr 2021 18:40:20 +0200
-Subject: Re: [PATCH v2 05/12] mc146818rtc: put it into the 'misc' category
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-trivial@nongnu.org
-References: <20201130083630.2520597-1-ganqixin@huawei.com>
- <20201130083630.2520597-6-ganqixin@huawei.com>
- <8c45ab34-2534-d5ad-ca0b-43b49a681e55@redhat.com>
- <65fe4d98-7f79-191e-34c5-c3e5021d2f36@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <93f06ce8-b51e-9804-739a-4c89f2e1d2c4@vivier.eu>
-Date: Fri, 30 Apr 2021 18:40:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lcW58-00073C-82; Fri, 30 Apr 2021 12:33:37 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13UG4f0V098685; Fri, 30 Apr 2021 12:33:18 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 388merabjs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Apr 2021 12:33:18 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UGPe0C024753;
+ Fri, 30 Apr 2021 16:33:16 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 384ay8kapg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Apr 2021 16:33:15 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13UGXD1N32506260
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Apr 2021 16:33:13 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 860CE4204C;
+ Fri, 30 Apr 2021 16:33:12 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5AA354205F;
+ Fri, 30 Apr 2021 16:33:12 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 30 Apr 2021 16:33:12 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.40.192])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id AA2DD220193;
+ Fri, 30 Apr 2021 18:33:11 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 01/18] aspeed/smc: Use the RAM memory region for DMAs
+Date: Fri, 30 Apr 2021 18:33:01 +0200
+Message-Id: <20210430163309.4182922-2-clg@kaod.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210430163309.4182922-1-clg@kaod.org>
+References: <20210430163309.4182922-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <65fe4d98-7f79-191e-34c5-c3e5021d2f36@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pzikn9uHNeP+Ngr+yQ6XyA/EHUW+KGf7MrGy/ltYTCB17BRYCn+
- BnQ/bfxZUYWd09Wh25MffbzYQKVizDACzKwJgruwQqelyxs7PxII8QoSXGNqBqXCrR0po9q
- q6shoIgkrIHdYQ/EXNtclDYTentn74WG8Qlw2E6+VPrJHkQHYfiQcAdDUlvTOvw/TySUTR2
- KBYI1LSJinsUdcqOglGug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Tqt6PT2LqGc=:S69MjH1hroDTgRNqaOagWR
- I/jpME5H6dwcmHAwVjNMfFngXs8m/tgx1eMnJqM4cgLhYw4ScsGyA/EX1Z2ue6+K7jMxNta1l
- gK2xWqiwxFwblA/+2ugj6HBYuKLw+kza5tUOmuj/n7sbOCvcTi0j4S3Cwna7RyIMFTP1/Ptas
- DfKD8j6ltwWWTE4ZN1420fyTdd5TN5VeCw1C7XRS+SBcHnztL7UdxG4w33A5mLZqrS8dSRmkm
- QJCW+1oE9TP91JAkQC0bbfoVvvJ4krYe0bzkvRZ0cO0Cjkz9U2K0yeDQFJqunBHe5xOW71FO2
- ezQ19gzPElDoeq1ggvg9iQPkrEk0pfoxeivPVJPvevuOf1KQWjTUdwg4iasn2B8tq2DEATTr3
- nW+Q6N1InH/qPbTHb9Ixb/a59RKEwfgZQu/6XHPMmGdeWx/9I3iPVDFj6RiHsmo/rMndNTvcC
- aM6V8gB26RTleaNvz21PEBM5DANF8dtZRtjSplWynzVrtdaUWFfXQsRLEP9ghf8HpoM/mVzhW
- 6+8r/2LNy04TE/EU923aao=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: MiZ7w07KYWrem5mLFpPugI8PeC-rCrtI
+X-Proofpoint-GUID: MiZ7w07KYWrem5mLFpPugI8PeC-rCrtI
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-30_10:2021-04-30,
+ 2021-04-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=539 mlxscore=0
+ spamscore=0 clxscore=1034 impostorscore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104300108
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,48 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Gan Qixin <ganqixin@huawei.com>, kuhn.chenqun@huawei.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/03/2021 à 18:23, Philippe Mathieu-Daudé a écrit :
-> On 12/21/20 12:53 PM, Thomas Huth wrote:
->> On 30/11/2020 09.36, Gan Qixin wrote:
->>> The category of the mc146818rtc device is not set, put it into the 'misc'
->>> category.
->>>
->>> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
->>> ---
->>> Cc: Michael S. Tsirkin <mst@redhat.com>
->>> ---
->>>  hw/rtc/mc146818rtc.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
->>> index 7a38540cb9..39edca0996 100644
->>> --- a/hw/rtc/mc146818rtc.c
->>> +++ b/hw/rtc/mc146818rtc.c
->>> @@ -1039,6 +1039,7 @@ static void rtc_class_initfn(ObjectClass *klass, void *data)
->>>      dc->vmsd = &vmstate_rtc;
->>>      isa->build_aml = rtc_build_aml;
->>>      device_class_set_props(dc, mc146818rtc_properties);
->>> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->>>  }
->>
->> I wonder whether this device should be user_creatable at all (e.g. it uses a
->> hard-coded IO port)... Anyway setting the category certainly does not hurt,
->> thus:
->>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-> Can this go via qemu-trivial?
-> 
+Instead of passing the memory address space region, simply use the RAM
+memory region instead. This simplifies RAM accesses.
 
-Applied to my trivial-patches branch.
+This patch breaks migration compatibility.
 
-Thanks,
-Laurent
+Fixes: c4e1f0b48322 ("aspeed/smc: Add support for DMAs")
+Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20210407171637.777743-2-clg@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/arm/aspeed.c     | 2 +-
+ hw/ssi/aspeed_smc.c | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a17b75f4940a..1cf5a15c8098 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -327,7 +327,7 @@ static void aspeed_machine_init(MachineState *machine=
+)
+     object_property_set_int(OBJECT(&bmc->soc), "num-cs", amc->num_cs,
+                             &error_abort);
+     object_property_set_link(OBJECT(&bmc->soc), "dram",
+-                             OBJECT(&bmc->ram_container), &error_abort);
++                             OBJECT(machine->ram), &error_abort);
+     if (machine->kernel_filename) {
+         /*
+          * When booting with a -kernel command line there is no u-boot
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 16addee4dc8d..6f72fb028e59 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -178,8 +178,7 @@
+  *   0: 4 bytes
+  *   0x7FFFFF: 32M bytes
+  */
+-#define DMA_DRAM_ADDR(s, val)   ((s)->sdram_base | \
+-                                 ((val) & (s)->ctrl->dma_dram_mask))
++#define DMA_DRAM_ADDR(s, val)   ((val) & (s)->ctrl->dma_dram_mask)
+ #define DMA_FLASH_ADDR(s, val)  ((s)->ctrl->flash_window_base | \
+                                 ((val) & (s)->ctrl->dma_flash_mask))
+ #define DMA_LENGTH(val)         ((val) & 0x01FFFFFC)
+--=20
+2.26.3
 
 
