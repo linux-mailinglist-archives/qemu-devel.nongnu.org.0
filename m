@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36D036FBE2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:06:02 +0200 (CEST)
-Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F0836FBEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:11:25 +0200 (CEST)
+Received: from localhost ([::1]:59256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcTmL-0004qu-OJ
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51500)
+	id 1lcTrY-0001Gl-DY
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcTjt-0003Nr-Vm
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:03:30 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcTjs-0007mq-A9
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:03:29 -0400
-Received: by mail-ej1-x633.google.com with SMTP id n2so105421858ejy.7
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 07:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pOyDmqnhM9jStYHgQFPGMMUOIX0c11D/fgAuY07ZQpc=;
- b=Z8+WNkKNoylKT4JIhF4YGFSHGK8+hdpnS7M9MYoZWe4LHx5ZFLs5ruVtNumuDj2Io2
- 1fTwcsjuagzCi/6e4NU15UVv4PTXPzI6acQBFjGwAvExfGQeggsCBH5lRSv3xSEEsOhj
- GltWHg/Ejk8PikcyEy0G9Rw7+yqQEc8ExLRoex8qs9SKghMTuCXFDnKxvswZIxAMTiqF
- vzzcaVy5Ozk/uf+l38uDNQ22qT28FwV/UYx1f107aSN7I+WX5TI0THSsZNhU6JyRbyy9
- E+2S/3xUGQgHywdZdsR03/pk2baiy8Rfq3c6uU8skE9yfIUYlcvv/ungfSRYNL4GKefp
- 89Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pOyDmqnhM9jStYHgQFPGMMUOIX0c11D/fgAuY07ZQpc=;
- b=WcVyYy+ANHizKh6BNKexQsa7R4jmn7vys0aEcHGPbGIgCBfsc+jgkbr7AjAvViH3Vt
- 3Km3s2Atm3VhvxNHNMufBM79ybz5baKMLIzOIlOLmraoinIzTq9lmcidQD+bu7B8Nvf7
- 6EjWJn2lHPVHSuGrTc9B5PQBIalU2Udkl9im/s0DIDbeWBiBG40n1AOIOxk2PxfY/VgS
- /grkrpAqjrUcK8GrsFTwsPFdcBh5EZHkye9A3OMd//RhQnA+WjPChtrxE24+dNDzIs0j
- wCtzsce5RPfEmOheLbSd0/Lw62YVcLd1xnPo67DLdC1Vh+JC92WiBFmGAhPExOc8beao
- sV0Q==
-X-Gm-Message-State: AOAM530vMIOxUKKEv8DAMfBlEFPdTnwM/vTk5DJMLFatBVB1dAAbzlqa
- r3oGsJAeSlz6X1C7Y703Az567m1SRygxX2rzCkHt1w==
-X-Google-Smtp-Source: ABdhPJxAth4fyGMq5j4AsD6uJqd/y856zNXc3/nUhbUbpDzV0GPrSIBFq6qPdtXm2k2EbhHD7ddmYgdS31uP/1h3+xk=
-X-Received: by 2002:a17:906:364d:: with SMTP id
- r13mr4716249ejb.250.1619791406789; 
- Fri, 30 Apr 2021 07:03:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lcTnO-00073h-VA; Fri, 30 Apr 2021 10:07:06 -0400
+Received: from [201.28.113.2] (port=36837 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lcTnM-0001Pk-Ef; Fri, 30 Apr 2021 10:07:06 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 30 Apr 2021 11:05:56 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 5E1248013C2;
+ Fri, 30 Apr 2021 11:05:56 -0300 (-03)
+Subject: Re: [PATCH v3 25/30] target/ppc: Move ADDI, ADDIS to decodetree,
+ implement PADDI
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210430011543.1017113-1-richard.henderson@linaro.org>
+ <20210430011543.1017113-26-richard.henderson@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <0ed61faa-327c-68a9-d449-541a6a9f3224@eldorado.org.br>
+Date: Fri, 30 Apr 2021 11:05:56 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210427214108.88503-1-richard.henderson@linaro.org>
-In-Reply-To: <20210427214108.88503-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Apr 2021 15:02:24 +0100
-Message-ID: <CAFEAcA_Xd_gEsoU4PAH_77sApORURsMJDGF5Y4fa6ovqBOxKzA@mail.gmail.com>
-Subject: Re: [PATCH] linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210430011543.1017113-26-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 30 Apr 2021 14:05:56.0783 (UTC)
+ FILETIME=[F0C433F0:01D73DC9]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,27 +60,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable <qemu-stable@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
+ lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Apr 2021 at 22:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These three features are already enabled by TCG, but are missing
-> their hwcap bits.  Update HWCAP2 from linux v5.12.
->
-> Cc: qemu-stable@nongnu.org (for 6.0.1)
-> Buglink: https://bugs.launchpad.net/bugs/1926044
+On 29/04/2021 22:15, Richard Henderson wrote:
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/elfload.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>   target/ppc/insn32.decode                   | 12 +++++++
+>   target/ppc/insn64.decode                   | 15 +++++++++
+>   target/ppc/translate.c                     | 29 ----------------
+>   target/ppc/translate/fixedpoint-impl.c.inc | 39 ++++++++++++++++++++++
+>   4 files changed, 66 insertions(+), 29 deletions(-)
+> 
+> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> index b175441209..52d9b355d4 100644
+> --- a/target/ppc/insn32.decode
+> +++ b/target/ppc/insn32.decode
+> @@ -16,3 +16,15 @@
+>   # You should have received a copy of the GNU Lesser General Public
+>   # License along with this library; if not, see <http://www.gnu.org/licenses/>.
+>   #
+> +
+> +&D              rt ra si
+> +@D              ...... rt:5 ra:5 si:s16                 &D
+> +
+> +# If a prefix is allowed, decode with default values.
+> +&PLS_D          rt ra si:int64_t r:bool
+> +@PLS_D          ...... rt:5 ra:5 si:s16                 &PLS_D r=0
+> +
+> +### Fixed-Point Arithmetic Instructions
+> +
+> +ADDI            001110 ..... ..... ................     @PLS_D
+> +ADDIS           001111 ..... ..... ................     @D
+> diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+> index 9fc45d0614..f4272df724 100644
+> --- a/target/ppc/insn64.decode
+> +++ b/target/ppc/insn64.decode
+> @@ -16,3 +16,18 @@
+>   # You should have received a copy of the GNU Lesser General Public
+>   # License along with this library; if not, see <http://www.gnu.org/licenses/>.
+>   #
+> +
+> +# Many all of these instruction names would be prefixed by "P",
+> +# but we share code with the non-prefixed instruction.
+> +
+> +# Format MLS:D and 8LS:D
+> +&PLS_D          rt ra si:int64_t r:bool  !extern
+> +%pls_si         32:s18 0:16
+> +@PLS_D          ...... .. ... r:1 .. .................. \
+> +                ...... rt:5 ra:5 ................       \
+> +                &PLS_D si=%pls_si
+> +
+> +### Fixed-Point Arithmetic Instructions
+> +
+> +ADDI            000001 10 0--.-- ..................     \
+> +                001110 ..... ..... ................     @PLS_D
 
+I'm not sure about this. It's a bit surprising to find ADDI here, and 
+the comment that explains why is likely to be ignored after the big 
+copyright header.
 
+<snip>
 
-Applied to target-arm.next, thanks.
+> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+> index b740083605..7af1b3bcf5 100644
+> --- a/target/ppc/translate/fixedpoint-impl.c.inc
+> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
+> @@ -16,3 +16,42 @@
+>    * You should have received a copy of the GNU Lesser General Public
+>    * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+>    */
+> +
+> +/*
+> + * Incorporate CIA into the constant when R=1.
+> + * Validate that when R=1, RA=0.
+> + */
+> +static bool resolve_PLS_D(DisasContext *ctx, arg_PLS_D *a)
+> +{
+> +    if (a->r) {
+> +        if (unlikely(a->ra != 0)) {
+> +            gen_invalid(ctx);
+> +            return false;
+> +        }
+> +        a->si += ctx->cia;
+> +    }
+> +    return true;
+> +}
+> +
+> +static bool trans_ADDI(DisasContext *ctx, arg_PLS_D *a)
+> +{
+> +    if (resolve_PLS_D(ctx, a)) {
+> +        if (a->ra) {
+> +            tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_gpr[a->ra], a->si);
+> +        } else {
+> +            tcg_gen_movi_tl(cpu_gpr[a->rt], a->si);
+> +        }
+> +    }
+> +    return true;
+> +}
+> +
 
--- PMM
+I'd prefer to keep a trans_PADDI like
+
+ > static bool trans_PADDI(DisasContext *ctx, arg_PLS_D *a)
+ > {
+ >     if(!resolve_PLS_D(ctx, a)) {
+ >         return false;
+ >     }
+ >     return trans_ADDI(ctx, a);
+ > }
+
+It's the middle way between v2 and v3. trans_ADDI code is reused, it'll 
+probably be optimized as a tail call, and resolve_PLS_D is not called 
+when it's not needed.
+
+> +static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
+> +{
+> +    int si = a->si << 16;
+> +    if (a->ra) {
+> +        tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_gpr[a->ra], si);
+> +    } else {
+> +        tcg_gen_movi_tl(cpu_gpr[a->rt], si);
+> +    }
+> +    return true;
+> +}
+> 
+
+I'd also keep this as in the last version, where trans_ADDI is called.
+
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
