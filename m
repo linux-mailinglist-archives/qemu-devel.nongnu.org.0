@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E5636F843
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:04:05 +0200 (CEST)
-Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BAB36F846
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:04:47 +0200 (CEST)
+Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcQ0C-00037p-3N
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55672)
+	id 1lcQ0s-0003fH-1S
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:04:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcPyk-0002X2-Ih
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:02:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60553)
+ (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
+ id 1lcPzL-0002ny-As
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:03:11 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:44481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcPyi-0007I6-SI
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:02:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619776952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OXtVbHYLkG4jXjrsYtAEwwvVePiF7C/g4Y0jnUWvHbo=;
- b=Vifqlv1zv9a2J/cVt+lclYBCMdxFa2TrjvuZHmoFdIwomPAEZyyCGszT+6N8K/vm8QfjW0
- kd3ESGBtEQetySPf0tMrbiPuVRRhmzUNGXC4NTmnE0rZzkCoLVQ0sEU/M/JzeMRoNCk40i
- T2v+zWzvBux+pQreRLKKXyYFF+Ew4gk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-9yYgX5hpM06k_RoCF246Fg-1; Fri, 30 Apr 2021 06:02:30 -0400
-X-MC-Unique: 9yYgX5hpM06k_RoCF246Fg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A598107ACCD;
- Fri, 30 Apr 2021 10:02:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
- [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 543CF5D9C6;
- Fri, 30 Apr 2021 10:02:25 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A69451800380; Fri, 30 Apr 2021 12:02:23 +0200 (CEST)
-Date: Fri, 30 Apr 2021 12:02:23 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Subject: Re: [RFC PATCH 12/27] virtio-snd: Add control virtqueue handler
-Message-ID: <20210430100223.un4lrgjawd7cqokh@sirius.home.kraxel.org>
-References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
- <20210429120445.694420-13-chouhan.shreyansh2702@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20210429120445.694420-13-chouhan.shreyansh2702@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
+ id 1lcPzJ-0007cH-3v
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:03:11 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id C0A255C00EC;
+ Fri, 30 Apr 2021 06:03:07 -0400 (EDT)
+Received: from imap36 ([10.202.2.86])
+ by compute7.internal (MEProxy); Fri, 30 Apr 2021 06:03:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noronha.eti.br;
+ h=mime-version:message-id:in-reply-to:references:date:from:to
+ :cc:subject:content-type; s=mesmtp; bh=4P8hZAdn8twAD0Pu2xMfGAEdp
+ PR163DPDjK6bM8qSZU=; b=DP4DzCbd3CZ5hT8Bm1dTbxvVplDftzUaCO5yPUGzx
+ ihF3IYceZTV0Fyv6LYEPxv8bs9xfX6/A9zMUNhX2uIdkptTUxseBcMcqvugo+SZL
+ OFk/Mm0N5OlnRwMFAW5lz3zTBssKJz5J0702YPeBltz32bx3ARaJoSf+UzSN4EIR
+ jE=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=4P8hZA
+ dn8twAD0Pu2xMfGAEdpPR163DPDjK6bM8qSZU=; b=aSWRBczpcUG0kAGQ65U8Pu
+ JIZSVM7xIekhSn5vu7zjl0huACQTca5jwyQdwMJtcxU9YmKLmVDE9FDJIv4d63SJ
+ YC/HoTZMADUf7RicJ1z3En8OWSrlKgwcqv/qL5XHE0+xlV4MVl9WSXIGc9aZOV6Q
+ Z94bsSjzAQt5TB0hbw+Tfo2QKM+uc7xk9bRs1yPoHgbCn20qjId4rcFcLT1Lu3yq
+ AhAza1UbyaF6+691opgzg5d5mBDuRS7OMAms2HGeHOlamAHsMQ3nK4f/FWfUqfS2
+ /bkPSlLejWm5FwBQENUBz4OIy4i9KqfSGZu9+R7+SmiJCkgIkHKsRpMmYVsrH7AA
+ ==
+X-ME-Sender: <xms:29WLYMSZVhVqMgKOKagYu-MoxJD2tm_ab6VT8nQvTYoDouax6rHSyA>
+ <xme:29WLYJysq-ScdcIVKjCn7J0cNeGRI0tK7TF3ve4c02ga_FMAgGWsnqdZlVkV00G_s
+ AdyrqQh_I4F-BVE5Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedgvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdfiuhhs
+ thgrvhhoucfpohhrohhnhhgrucfuihhlvhgrfdcuoehguhhsthgrvhhosehnohhrohhnhh
+ grrdgvthhirdgsrheqnecuggftrfgrthhtvghrnhepuddvgfeuffdtheefvdeukeefheeu
+ hfetheeuvdehvdeileelhedtleehheelieelnecuffhomhgrihhnpegrphhplhgvrdgtoh
+ hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhu
+ shhtrghvohesnhhorhhonhhhrgdrvghtihdrsghr
+X-ME-Proxy: <xmx:29WLYJ3-XPkIcxqykW9AKnwbXSsreSPmRpoOupAuMMj-J_YH-SnTjA>
+ <xmx:29WLYADj-NzcEiZ8Tg0ETdKGDm1FUv3lLGpXbFtin2w5lFH9sUeaWw>
+ <xmx:29WLYFhrLjIyScRu9pSUU8Ew2v09fcigdES2vh-EsXksSYTn1Ec1Cg>
+ <xmx:29WLYFZOaft883f4aEcjhQOc6DUk1d7MztJT7ksN6Rxh-8N30JRtDw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 2A80B10E0089; Fri, 30 Apr 2021 06:03:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-403-gbc3c488b23-fm-20210419.005-gbc3c488b
+Mime-Version: 1.0
+Message-Id: <9e59000c-eb07-45b2-8b39-3a705561c440@www.fastmail.com>
+In-Reply-To: <87wnsk5jd3.fsf@dusky.pond.sub.org>
+References: <20210429234705.83206-1-gustavo@noronha.eti.br>
+ <20210429234705.83206-2-gustavo@noronha.eti.br>
+ <87wnsk5jd3.fsf@dusky.pond.sub.org>
+Date: Fri, 30 Apr 2021 07:02:46 -0300
+From: "Gustavo Noronha Silva" <gustavo@noronha.eti.br>
+To: "'Markus Armbruster '" <armbru@redhat.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_1/2]_ui/cocoa:_capture_all_keys_and_combos_when_mou?=
+ =?UTF-8?Q?se_is_grabbed?=
+Content-Type: text/plain
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=gustavo@noronha.eti.br;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,19 +95,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: 'Peter Maydell ' <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ 'Gerd Hoffmann ' <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hey Markus,
 
-> +        } else if (ctrl.code == VIRTIO_SND_R_JACK_INFO) {
-> +            virtio_snd_log("VIRTIO_SND_R_JACK_INFO");
+On Fri, Apr 30, 2021, at 4:20 AM, Markus Armbruster wrote:
+> Please indent like this
+> 
+>    # @full-grab: Capture all key presses, including system combos. This
+>    #             requires accessibility permissions, since it performs
+>    #             a global grab on key events. (default: off)
+>    #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
 
-For that kind of tracing / debug logging it is useful to have
-enum -> string mapping helper function(s).
+Will do, but just to be sure, the surrounding comments have the second to last lines lined up to the C in Capture there, I assume that is what you mean?
+ 
+> I hope the link is permanent.
 
-take care,
-  Gerd
+So do I. I have found Apple to be fairly consistent in providing at least proper redirection to newer versions of the documentation while learning about Cocoa and the Mac itself (first timer, just interested in the M1 to be quite honest), so I'm fairly confident it will survive.
 
+Thanks for the review! I'll send a v2 later today.
+
+Cheers,
+
+Gustavo
 
