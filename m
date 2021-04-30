@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649DC36FBB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 15:47:28 +0200 (CEST)
-Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEC036FBC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 15:53:36 +0200 (CEST)
+Received: from localhost ([::1]:43870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcTUN-00019Q-FK
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 09:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
+	id 1lcTaJ-0008SP-CR
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 09:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcSFA-0005um-QY
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 08:27:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcSF4-0004B0-7M
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 08:27:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619785652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=beKLOIWCsFidtgCIESRmEqMg0agCstSgnovusb+rPJU=;
- b=L6oJfVIo0M8gYpNOsabWJ5ALrqyKpnnRixA6YhC2Ny4906J9I9ICkBOnJg1tKilzxJw10a
- DyyTYeiZQ5qzTeHoUcUZpDonYSDTxpA9T/QF8gjIOXIHC1+1zAXZfUD5ttDGWhLan6trp4
- oB2IUr9NqYHsZ4WXnVa15Bt58Gxo9Kc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-lKKlLGksNzWZzosDwPWESQ-1; Fri, 30 Apr 2021 08:27:30 -0400
-X-MC-Unique: lKKlLGksNzWZzosDwPWESQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73863800C7A;
- Fri, 30 Apr 2021 12:27:29 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-68.ams2.redhat.com
- [10.36.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C792060843;
- Fri, 30 Apr 2021 12:27:27 +0000 (UTC)
-Subject: Re: [PATCH v3 08/15] docs/devel/testing: add -gdb option to the
- debugging section of QEMU iotests
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210414170352.29927-1-eesposit@redhat.com>
- <20210414170352.29927-9-eesposit@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <eabf6735-842e-b898-c460-07267cee1627@redhat.com>
-Date: Fri, 30 Apr 2021 14:27:26 +0200
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lcSlG-0001Lb-Dh; Fri, 30 Apr 2021 09:00:50 -0400
+Received: from [201.28.113.2] (port=18734 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lcSlA-0005UE-JC; Fri, 30 Apr 2021 09:00:50 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 30 Apr 2021 10:00:40 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id ECF078013C2;
+ Fri, 30 Apr 2021 10:00:39 -0300 (-03)
+Subject: Re: [PATCH v3 17/30] target/ppc: Remove DisasContext.exception
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210430011543.1017113-1-richard.henderson@linaro.org>
+ <20210430011543.1017113-18-richard.henderson@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <42925c13-ec33-0e88-e4f0-c6a10ce91f82@eldorado.org.br>
+Date: Fri, 30 Apr 2021 10:00:39 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210414170352.29927-9-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210430011543.1017113-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 30 Apr 2021 13:00:40.0383 (UTC)
+ FILETIME=[D268FCF0:01D73DC0]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,56 +59,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
+ lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.04.21 19:03, Emanuele Giuseppe Esposito wrote:
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+On 29/04/2021 22:15, Richard Henderson wrote:
+> Now that we have removed all of the fake exceptions, and all real
+> exceptions exit via DISAS_NORETURN, we can remove this field.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   docs/devel/testing.rst | 7 +++++++
->   1 file changed, 7 insertions(+)
+>   target/ppc/translate.c | 22 ++--------------------
+>   1 file changed, 2 insertions(+), 20 deletions(-)
 > 
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index b7e2370e7e..2ee77a057b 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -229,6 +229,13 @@ Debugging a test case
->   QEMU iotests offers some options to debug a failing test, that can be
->   given as options to the ``check`` script:
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 276a4a2a79..d78071a4a4 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -259,15 +259,12 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
+>        * These are all synchronous exceptions, we set the PC back to the
+>        * faulting instruction
+>        */
+> -    if (ctx->exception == POWERPC_EXCP_NONE) {
+> -        gen_update_nip(ctx, ctx->cia);
+> -    }
+> +    gen_update_nip(ctx, ctx->cia);
+>       t0 = tcg_const_i32(excp);
+>       t1 = tcg_const_i32(error);
+>       gen_helper_raise_exception_err(cpu_env, t0, t1);
+>       tcg_temp_free_i32(t0);
+>       tcg_temp_free_i32(t1);
+> -    ctx->exception = excp;
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   }
 >   
-> +* ``-gdb`` wraps ``gdbsever`` to the QEMU binary,
-> +  so it is possible to connect to it via gdb.
-> +  One way to do so is via ``gdb -iex "target remote $GDB_QEMU"``
-> +  The default address is ``localhost:12345``, and can be changed
-> +  by setting the ``$GDB_QEMU`` environmental variable.
-
-*environment variable
-
-> +  The final command line will be ``gdbserver $GDB_QEMU $QEMU ...``
-> +
-
-I think the order in this explanation is ordered not quite right, 
-because it uses $GDB_QEMU before explaining what it is.  (Also, I 
-suppose $GDB_QEMU might contain other options than the socket address, 
-so "target remote $GDB_QEMU" does not necessarily work.)  I’d 
-reorder/change it to:
-
-``-gdb`` wraps every QEMU invocation in a ``gdbserver``, which waits for 
-a connection from a gdb client.  The options given to ``gdbserver`` 
-(e.g. the address on which to listen for connections) are taken from the 
-``$GDB_QEMU`` environment variable.  By default (if ``$GDB_QEMU`` is 
-empty), it listens on ``localhost:12345``.
-You can connect to it for example with ``gdb -iex "target remote 
-$addr"``, where ``$addr`` is the address ``gdbserver`` listens on.
-
-Max
-
->   * ``-d`` (debug) just increases the logging verbosity, showing
->     for example the QMP commands and answers.
+> @@ -279,13 +276,10 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
+>        * These are all synchronous exceptions, we set the PC back to the
+>        * faulting instruction
+>        */
+> -    if (ctx->exception == POWERPC_EXCP_NONE) {
+> -        gen_update_nip(ctx, ctx->cia);
+> -    }
+> +    gen_update_nip(ctx, ctx->cia);
+>       t0 = tcg_const_i32(excp);
+>       gen_helper_raise_exception(cpu_env, t0);
+>       tcg_temp_free_i32(t0);
+> -    ctx->exception = excp;
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   }
 >   
+> @@ -298,7 +292,6 @@ static void gen_exception_nip(DisasContext *ctx, uint32_t excp,
+>       t0 = tcg_const_i32(excp);
+>       gen_helper_raise_exception(cpu_env, t0);
+>       tcg_temp_free_i32(t0);
+> -    ctx->exception = excp;
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   }
+>   
+> @@ -7919,7 +7912,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       CPUPPCState *env = cs->env_ptr;
+>       int bound;
+>   
+> -    ctx->exception = POWERPC_EXCP_NONE;
+>       ctx->spr_cb = env->spr_cb;
+>       ctx->pr = msr_pr;
+>       ctx->mem_idx = env->dmmu_idx;
+> @@ -8067,16 +8059,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+>                    "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
+>                    opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+>       }
+> -
+> -    if (ctx->base.is_jmp == DISAS_NEXT) {
+> -        switch (ctx->exception) {
+> -        case POWERPC_EXCP_NONE:
+> -            break;
+> -        default:
+> -            /* Every other ctx->exception should have set NORETURN. */
+> -            g_assert_not_reached();
+> -        }
+> -    }
+>   }
+>   
+>   static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 > 
 
+You removed the uses, but left the field.
+
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
