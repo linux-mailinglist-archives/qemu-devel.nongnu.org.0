@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCEC36F7B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:21:51 +0200 (CEST)
-Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D3536F7AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:18:28 +0200 (CEST)
+Received: from localhost ([::1]:56140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcPLK-00040T-A4
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46838)
+	id 1lcPI3-0000yl-UF
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPBl-0004Sz-8F
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34654)
+ id 1lcPBj-0004RN-7p
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPBc-0003oS-6u
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:56 -0400
+ id 1lcPBb-0003ng-UH
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcPBb-00024s-0p
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:47 +0000
+ id 1lcPBZ-00024s-TH
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 031FD2E8157
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DC48E2E815C
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 09:01:14 -0000
-From: Thomas Huth <1911666@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 09:02:10 -0000
+From: Thomas Huth <1912846@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=groug@kaod.org; 
-X-Launchpad-Bug-Tags: security
-X-Launchpad-Bug-Information-Type: Public Security
+ assignee=None; 
+X-Launchpad-Bug-Tags: iommu
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: philmd pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eperezma th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Eugenio_P=C3=A9rez_=28eperezma=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161062144281.6686.4298628422758083377.malonedeb@wampee.canonical.com>
-Message-Id: <161977327601.4988.13687873452119404003.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1911666] Re: ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU
- Privilege Escalation Vulnerability
+References: <161134565058.20216.456048884922676547.malonedeb@wampee.canonical.com>
+Message-Id: <161977333033.4255.3694041294416100830.malone@chaenomeles.canonical.com>
+Subject: [Bug 1912846] Re: Assertion hit on hot-unplugging virtio iommu
+ enabled device
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 498477605765ab7ecc313f1b29c8a6c6fcf8dbf0
+X-Launchpad-Hash: 4e4225207991e4c8e2f0002ab2a9a4e679c8d260
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,125 +72,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911666 <1911666@bugs.launchpad.net>
+Reply-To: Bug 1912846 <1912846@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fixed here:
+https://gitlab.com/qemu-project/qemu/-/commit/f6ab64c05f8a6229bf6
+
 ** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911666
+https://bugs.launchpad.net/bugs/1912846
 
 Title:
-  ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU Privilege Escalation
-  Vulnerability
+  Assertion hit on hot-unplugging virtio iommu enabled device
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  -- CVSS -----------------------------------------
+  From commit ("2d24a646 device-core: use RCU for
+  list of children of a bus") an assertion is hit when
+  removing a iommu aware virtio device, since as->listeners
+  are not properly removed. To reproduce:
 
-  7.5: AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H
+  /home/qemu/build/x86_64-softmmu/qemu-system-x86_64 -qmp tcp:0:4444,server=
+,nowait ... \
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev tap,id=3Dhostnet0,vhostforce=3Don,vhost=
+=3Don \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet=
+0,mac=3D52:54:00:14:18:cc,bus=3Dpci.1,addr=3D0x0,iommu_platform=3Don,ats=3D=
+on
 
-  -- ABSTRACT -------------------------------------
+  In QMP:
+  {'execute': 'qmp_capabilities'}
+  {"execute": "device_del", "arguments": {"id": "net0"} }
 
-  Trend Micro's Zero Day Initiative has identified a vulnerability affectin=
-g the following products:
-  QEMU - QEMU
-
-  -- VULNERABILITY DETAILS ------------------------
-
-  Version tested:5.0.0-rc3
-  Installer file:qemu-5.0.0-rc3.tar.xz
-  Platform tested:ubuntu 18.04 x64 desktop
-  Analysis Basically v9fs* functions called from guest kernel are executed =
-under specific thread(I call it main thread later). But when it calls some =
-file related system calls, qemu uses its own coroutine thread(worker thread=
-). Then it returns(yield return) without waiting result of system call and =
-start to execute next v9fs* function.
-
-  In v9fsmarkfidsunreclaim() function, it stores fidlist member (head of
-  singly linked list) to its stack.
-
-   ->
-  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
-7/hw/9pfs/9p.c#L506
-
-  And if it uses coroutine, it restore fid_list from stack and restart
-  whole loop.
-
-   ->
-  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
-7/hw/9pfs/9p.c#L526
-
-  v9fsclunk() function calls clunkfid() which unlink fid from list, and
-  free it.
-
-   ->
-  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
-7/hw/9pfs/9p.c#L2060-L2091
-
-  So if v9fsclunk() is called while v9fsmarkfidsunreclaim()'s coroutine
-  is being executed, it restores "FREED" fidp from stack and use it.
-
-  it can be reproduced with the qemu binary, which is given
-  it can also be reproduced with own ASAN build (5.0.0-rc3 and 4.2.0 are te=
-sted)
-
-  ../qemu-5.0.0-rc3/x86_64-softmmu/qemu-system-x86_64 -M pc -kernel
-  ./bzImage -initrd ./rootfs.cpio -append "root=3D/dev/ram console=3Dtty1
-  console=3DttyS0 rdinit=3D/bin/sh" -nographic -enable-kvm -fsdev
-  local,id=3Dtest_dev,path=3D/home/xxx/sandbox,security_model=3Dnone -device
-  virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dvictim_tag
-
-  $ ./do.sh
-  expected ASAN report is printed
-  the race is in coroutine, so the threads are the same one
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-   =3D=3D46645=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
- 0x610000047948 at pc 0x5563d8c28f0f bp0
-  READ of size 2 at 0x610000047948 thread T0
-
-     #0 0x5563d8c28f0e in v9fs_mark_fids_unreclaim hw/9pfs/9p.c:508
-     #1 0x5563d8c3e9e3 in v9fs_remove hw/9pfs/9p.c:2988
-     #2 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
-     #3 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
-
-     0x610000047948 is located 8 bytes inside of 192-byte region
-  [0x610000047940,0x610000047a00) freed by thread T0 here:
-
-    #0 0x7fadafa5f7a8 in __interceptor_free (/usr/lib/x86_64-linux-gnu/liba=
-san.so.4+0xde7a8)
-    #1 0x5563d8c27a60 in free_fid hw/9pfs/9p.c:371
-    #2 0x5563d8c27fcc in put_fid hw/9pfs/9p.c:396
-    #3 0x5563d8c37267 in v9fs_clunk hw/9pfs/9p.c:2085
-    #4 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
-    #5 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
-
-  previously allocated by thread T0 here:
-     #0 0x7fadafa5fd28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/l=
-ibasan.so.4+0xded28)
-     #1 0x7fadaf0c8b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x51b10)
-     #2 0x5563d8c30ecc in v9fs_attach hw/9pfs/9p.c:1412
-     #3 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
-     #4 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
-
-  =
-
-  This vulnerability was discovered by:
-
-  Ryota Shiga(@Garyo) of Flatt Security working with Trend Micro Zero
-  Day Initiative
+  And crash:
+  ../softmmu/memory.c:2818: do_address_space_destroy: Assertion `QTAILQ_EMP=
+TY(&as->listeners)' failed.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911666/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1912846/+subscriptions
 
