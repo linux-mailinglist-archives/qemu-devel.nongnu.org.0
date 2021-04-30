@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB00436F44E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 05:14:13 +0200 (CEST)
-Received: from localhost ([::1]:45866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB21736F454
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 05:15:27 +0200 (CEST)
+Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcJbW-0005c9-5O
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 23:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47206)
+	id 1lcJcl-0006Xq-07
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 23:15:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcJaV-000514-5F
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 23:13:07 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36626)
+ id 1lcJah-0005Dt-5c
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 23:13:19 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcJaN-0004Wh-G3
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 23:13:05 -0400
-Received: by mail-pl1-x634.google.com with SMTP id a11so4981415plh.3
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 20:12:58 -0700 (PDT)
+ id 1lcJae-0004hg-AL
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 23:13:18 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id m11so4361301pfc.11
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 20:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+GoX7PdG/628H+TzhmwFytC1Uv/He/fSKNL0uMxk4mY=;
- b=U7wrFslSbwTLocrWG6IvwnZT1rV8qdgSkcpf2l++ZOglADjGvnePrS5qqzNZSB4ciq
- 7NE6+9LzihX6d4STotDwHCJo7yJf+2HGh/mbHiQHCXN751cGOAjoR8FUIIJdU7tA0kqS
- AHuFhWf5gDIF6Eid1aJaNUg2twU683O/YGKDZfZ6z0HrT0xzIv3fS4ziwC5Ho5WtGKNL
- mooSp+EhK8Dt3C58Qmag2Mx6hcmUHVkjP1CRF49lYMOeb6A0QMJuogLAonKu6EgFYSxo
- d5sh0ZuMZ3lMOMmbKNUC/J3dOBMtlWNjksPqIL4FvkXNGLSb/QWBb+0kYrg5SX8DJ0GR
- IiHA==
+ bh=t8ouAQpoWnBpPmE/MjiM7+GP9SVXxgn8dRqsf5VfeA4=;
+ b=vW+Q8h0XgIYXg2uAo3+CEXOOSwIcyX9AB4rFSaHfzvLiKSSswk5uJ/ZRAZZdPHsSxy
+ I5Nat8PcPFr5YASRtAOtM5NvueqSxOlzSgI/Ph4R1SKxmdkR1ClGL1NLXL3IG89yjMUn
+ T8yCuRyVL9NeOIKJAu1F7QNLuKEyrzYmK/Q9Eame8FZjgFBer3ODsO3u8vciLJ9+f28t
+ b5Rore8NocIcS+gWYysSYxG9o4J2NAHepJHTV1h52a9lEiWbwFFmxN9wBAjLF6PQdypv
+ sr2ftdJwleyWldc8EZhDlUoR4fo8m1QDXFR/jXxbeyWq07tzdGUS0sl0JXUXBWdUBLK4
+ AHUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+GoX7PdG/628H+TzhmwFytC1Uv/He/fSKNL0uMxk4mY=;
- b=claYTMJtjWFBj/N3T7OFiuZ1zolA6YLqjnx5/47DYGQ1RAnacpIMpd+oauu4s2Rqcs
- c39i3NleAy3gmR2r4zHACKZSOA8OyRtEWA7RYKIdD69Z7znl62PxTrNIG5tZzXN2iAjj
- kcVTLaAE3aRgTkl/U1tR9C6CKTLPMIJoYxjSErmAtheIWjlHVy76kciMEolvrvrSOZvL
- hcV9I++LbjdsWgxE0sHTt2wwKN3VYQ1xwffHxlIC1jEAetqR4NI+qIW2vmgZi4CwQ0d/
- wjf6NUkbMy2GeQzbsVVCxdXFZ93/6epo4paJNXwNLelJKvfKowCHYzhf4aQrMf6AjcjD
- 9U3Q==
-X-Gm-Message-State: AOAM532GV6Ift6Bakyv62urUEO5FTwDla4pGP+3lZ5vtvLgCGr4QMmqG
- q0oUHXS0hudfA88oH32utkji+Q==
-X-Google-Smtp-Source: ABdhPJympsH7HJ5yzvGEBKEtuzjSw7aIWfevoTKNtPLwcKcRDxTT7ERJU9sokj676oumbkpjM0J6tQ==
-X-Received: by 2002:a17:902:6b43:b029:e6:3d73:e9fb with SMTP id
- g3-20020a1709026b43b02900e63d73e9fbmr3190049plt.37.1619752377394; 
- Thu, 29 Apr 2021 20:12:57 -0700 (PDT)
+ bh=t8ouAQpoWnBpPmE/MjiM7+GP9SVXxgn8dRqsf5VfeA4=;
+ b=DuqKPhlC9EbuTJe7TtJVfTgQ0moNNiPjAc1bY55foabPlg+ics0xN31Y+UulzfGzss
+ 8CMYkqmij+V+TMI4xVm8SWCAYXB4WagGiH3OUDX2WawCpexCSFWlItWtJzDwfnbxKGHm
+ VRyW28Rp2iam5VAKtEXnDNrGVBxvmmBV2H9vs9vZoIJi6d/LvLH8uM+cMCH6f9OeN5vV
+ sZ5ZGqaZHaA/SF2XoFfxisuqyF+ddSmhfrA38qGRjml2m8PFuofCDsVw35nBhcY5E4oB
+ TaPatjQieaXLqSseMFE89UCriV199P5BeJnJHBOUw8D521nN5MvSgjKlLBAShIQ0zxWp
+ 4XRQ==
+X-Gm-Message-State: AOAM532mfLTFbKTcPy2E/VmEthMvPOEhxsZEc8r9zSgO8Bo4Ub23FDIE
+ w/lmAVse2xnfIz1O1LjXv1zW5g==
+X-Google-Smtp-Source: ABdhPJxPLo7NDL2JelgeOUKp1aXdxGTzhnm57kTtjfvcOJYGYAznxYQ/+NtJWkco8hK3BqZhzU55Qw==
+X-Received: by 2002:a05:6a00:1409:b029:27f:fb6a:24b5 with SMTP id
+ l9-20020a056a001409b029027ffb6a24b5mr3128125pfu.18.1619752394474; 
+ Thu, 29 Apr 2021 20:13:14 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 15sm1324663pgb.61.2021.04.29.20.12.55
+ by smtp.gmail.com with ESMTPSA id n20sm381460pjq.45.2021.04.29.20.13.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Apr 2021 20:12:55 -0700 (PDT)
-Subject: Re: [PATCH v2 0/7] target/ppc: untangle cpu init from translation
+ Thu, 29 Apr 2021 20:13:14 -0700 (PDT)
+Subject: Re: [PATCH v2 1/7] target/ppc: move opcode table logic to translate.c
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
  qemu-devel@nongnu.org
 References: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
+ <20210429162130.2412-2-bruno.larsen@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <72bbf3a7-4fdc-1a71-2f13-f953db5be8a4@linaro.org>
-Date: Thu, 29 Apr 2021 20:12:53 -0700
+Message-ID: <2e3c4f17-1bec-7e3d-ca99-8b5da661ce6d@linaro.org>
+Date: Thu, 29 Apr 2021 20:13:12 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
+In-Reply-To: <20210429162130.2412-2-bruno.larsen@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,22 +97,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/21 9:21 AM, Bruno Larsen (billionai) wrote:
-> This series requires the patch proposed in
-> <20210426184706.48040-1-bruno.larsen@eldorado.org.br>
+> code motion to remove opcode callback table from
+> translate_init.c.inc to translate.c in preparation to remove
+> the #include <translate_init.c.inc> from translate.c. Also created
+> destroy_ppc_opcodes and removed that logic from ppc_cpu_unrealize
+> 
+> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+> ---
+>   target/ppc/internal.h           |   8 +
+>   target/ppc/translate.c          | 394 ++++++++++++++++++++++++++++++++
+>   target/ppc/translate_init.c.inc | 391 +------------------------------
+>   3 files changed, 403 insertions(+), 390 deletions(-)
 
-FYI, for the benefit of tooling, use "Based-on: message-id" which will allow 
-patchew to construct a patch repository.
-
-As is,
-
-https://patchew.org/QEMU/20210429162130.2412-1-bruno.larsen@eldorado.org.br/
-
-reports "Failed in applying to current master". Compare that to
-
-https://patchew.org/QEMU/20210416210240.1591291-1-richard.henderson@linaro.org/
-
-(which, no coincidence, is the first one I could think of that uses Based-on).
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
