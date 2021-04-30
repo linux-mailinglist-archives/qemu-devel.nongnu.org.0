@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2EC36FEE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:50:36 +0200 (CEST)
-Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B6736FE8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:31:55 +0200 (CEST)
+Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWLb-0004VR-3e
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57132)
+	id 1lcW3V-0006qc-9K
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVxR-0001Q0-K4
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:25:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32023)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVxa-0001c3-EE
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:25:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVxP-0004IK-R5
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:25:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVxU-0004KM-HC
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:25:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619799934;
+ s=mimecast20190719; t=1619799939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q0q+PVZkRpHjkgV8Clf4ufwkVBb96ymjjweCH0oDKVY=;
- b=XKkkPxp+/jJZkeWl3j7XFkhtDx4qXqMx++ZprY0Pus4aebX0imwVe1Fm2nNUOLVVl8qEvU
- njRfiPJoQP3szcSWhdu+538qr+b7GousHKnylVXoqgYRrd4SG9J5lxeS1BxfqMpqqRbThy
- XQS3uptczx7VnFSnQUHT9H8v130w7/o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-qhop7FMFN6eCAPR0d0M3-w-1; Fri, 30 Apr 2021 12:25:33 -0400
-X-MC-Unique: qhop7FMFN6eCAPR0d0M3-w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 4-20020adf91840000b029010d9c088599so1710006wri.10
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:25:33 -0700 (PDT)
+ bh=gB7HrfP9JiCLO2S9Qgx/afIOpRLRteER0wJyUW0tVjw=;
+ b=KMGDc2FHF826FR+awjmr9/U2+xTKhvWQcu+wjXcy4ZvLuXkCl8UJDItOL6b+OrPmXe9Exp
+ 7UWsZCeqHzipKvUlLib4Hhm0DZtEfBVIENK+lqE2zV6m2DaFddKlbG+9BrInfKA/KUyE05
+ jZuojWojEoieFaYTnkoi+NqFt8/osSg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-M0fU7G5bO3yFcYNoTNF9gg-1; Fri, 30 Apr 2021 12:25:38 -0400
+X-MC-Unique: M0fU7G5bO3yFcYNoTNF9gg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 93-20020adf80e60000b0290106fab45006so21206895wrl.20
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:25:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q0q+PVZkRpHjkgV8Clf4ufwkVBb96ymjjweCH0oDKVY=;
- b=H4cT7aJ0wDM9+Q6Pf5x+fl1KaRg7exbb4fpg75mBNwgJXCJHkowbn67iWH8uJ4YPAA
- iVhQxpj6Sb1GHFP84Xsj4c413LyAOWQnZlZprLLzGSeF/7les1BbbI1VXkoYj1/13e06
- 3Jj+fkNtehv5+CvLuhPHvi9t/MPkzpmstn4eR8BDY0vYbEg+2HBBVG+z4/78pdG5PSTE
- iyJ1hiY3iI00SbydNXg3Yzm8uNi9Rw7i/edXNwGAcKZMAUP5sQS93mMlRRtnWDH4dvlB
- 0aBDC/+j29w/cL0UYM1ueEpmQE8pWiSBFyZfaASRFSz+RfYz3ZDIuNRW4u2k3ghPhdgN
- pfcg==
-X-Gm-Message-State: AOAM533ELLbhhDPC6QUmvx60zVu80YWpKDpty+6LpILbxzDcJX7RC1SP
- OrPgmRyXGp4yuhmKVz63jRtnxsMbpb03SGZNLibSTs0+jnbIB6YXSAbYV69oOUQqVI0ceor4YSW
- dNE4F29XSk89CIttmFsH1D3Iy74gRgx783DBGyl8ZVSpRXM6Cn17LnH8sQiOafdSP
-X-Received: by 2002:a05:6000:1084:: with SMTP id
- y4mr8215938wrw.364.1619799932022; 
- Fri, 30 Apr 2021 09:25:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWvd94iWDs7QWXEsbG9ptXDumLhtGDra5yu/nrAB5VmX50YwVihrIOgL3ZDYwaYGvLa3gxOg==
-X-Received: by 2002:a05:6000:1084:: with SMTP id
- y4mr8215911wrw.364.1619799931800; 
- Fri, 30 Apr 2021 09:25:31 -0700 (PDT)
+ bh=gB7HrfP9JiCLO2S9Qgx/afIOpRLRteER0wJyUW0tVjw=;
+ b=lLNEWq3ROA8ILDoPZ9rysEK6dfb44mrsIRxNxe/BIFPqXgHMRiJjoJrQ2gfkyai5VJ
+ 5zHbXF8WJ+6hGbQfwiLbUTnQ7pdF2ShwldbbKBhEMpvEof/i9yJIFe5e01yPRxSWKL1w
+ Z9cgQDvGgf4c6TBtsZhr8rWjZs7BcEa+b7lqgTUmLX5112otdeg3VCnM/HLGPLI8Glii
+ b59xaAx9b/feBmck1qXBZDESwmds7In6iATgH4L6v5qt5xFBYVUTcc6GFkAloBH8xqBV
+ UGIblRRZvgKg7GW5beA5KYxvG4E07PM9CN0tK0PeLSBhnRP1SvYuLk0lHeqn6aqGKJAJ
+ A8HA==
+X-Gm-Message-State: AOAM531wXOADl6r16SOgTnKTT9yVM/Cqn6AV19R2vnQg/sYANlb0iXFZ
+ iEQN0gMGPrzZbCg8OIbOoy3N9lWxZUAJvDuzDRvXAH9gZYHVBOP1T+Wi6Nme7AzStpaRA/+35fH
+ e2eMfKIXnrHX7BWSGO/tZ4Z+cSVUmLL0mBJw62gnewZ+ZO9hMaRYoTyx69NV1P9dO
+X-Received: by 2002:a05:600c:3643:: with SMTP id
+ y3mr17079476wmq.159.1619799936803; 
+ Fri, 30 Apr 2021 09:25:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+KyZNJykbyKouIX1D2w8MWC4uDz/zRYICCgIwlYwdp01y8vAH3k9LVLOxIZCZp+WyKxKihg==
+X-Received: by 2002:a05:600c:3643:: with SMTP id
+ y3mr17079453wmq.159.1619799936587; 
+ Fri, 30 Apr 2021 09:25:36 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id a15sm2828323wrr.53.2021.04.30.09.25.30
+ by smtp.gmail.com with ESMTPSA id s6sm15817797wms.0.2021.04.30.09.25.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 09:25:31 -0700 (PDT)
+ Fri, 30 Apr 2021 09:25:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] block/vvfat: Fix leak of BDRVVVFATState::used_clusters
-Date: Fri, 30 Apr 2021 18:25:17 +0200
-Message-Id: <20210430162519.271607-3-philmd@redhat.com>
+Subject: [PATCH 3/4] block/vvfat: Fix leak of mapping_t::path
+Date: Fri, 30 Apr 2021 18:25:18 +0200
+Message-Id: <20210430162519.271607-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210430162519.271607-1-philmd@redhat.com>
 References: <20210430162519.271607-1-philmd@redhat.com>
@@ -103,59 +103,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-used_clusters is allocated in enable_write_target(), called by
-vvfat_open(), but never free'd.
-Allocate it using GLib API, and free it in vvfat_close().
+read_directory() keeps pointers to alloc'ed data in path ...:
 
-This fixes (QEMU built with --enable-sanitizers):
+ 743 static int read_directory(BDRVVVFATState* s, int mapping_index)
+ 744 {
+ ...
+ 792         buffer = g_malloc(length);
+ ...
+ 828         /* create mapping for this file */
+ 829         if(!is_dot && !is_dotdot && (S_ISDIR(st.st_mode) || st.st_size)) {
+ 830             s->current_mapping = array_get_next(&(s->mapping));
+ ...
+ 847             s->current_mapping->path=buffer;
 
-  Direct leak of 64508 byte(s) in 1 object(s) allocated from:
-      #0 0x55d7a36378f7 in calloc (qemu-system-x86_64+0x1dab8f7)
-      #1 0x55d7a5e14246 in enable_write_target block/vvfat.c:3145:24
-      #2 0x55d7a5e123aa in vvfat_open block/vvfat.c:1236:19
-      #3 0x55d7a5a5363f in bdrv_open_driver block.c:1526:15
-      #4 0x55d7a5a9d369 in bdrv_open_common block.c:1802:11
-      #5 0x55d7a5a609f1 in bdrv_open_inherit block.c:3444:11
-      #6 0x55d7a5a65411 in bdrv_open_child_bs block.c:3079:10
-      #7 0x55d7a5a60079 in bdrv_open_inherit block.c:3391:19
-      #8 0x55d7a5a65da3 in bdrv_open block.c:3537:12
-      #9 0x55d7a5b33f6a in blk_new_open block/block-backend.c:421:10
-      #10 0x55d7a5a0a33e in blockdev_init blockdev.c:610:15
-      #11 0x55d7a5a088e7 in drive_new blockdev.c:994:11
-      #12 0x55d7a51b10c4 in drive_init_func softmmu/vl.c:636:12
-      #13 0x55d7a620e148 in qemu_opts_foreach util/qemu-option.c:1167:14
-      #14 0x55d7a51b0e20 in configure_blockdev softmmu/vl.c:695:9
-      #15 0x55d7a51a70b5 in qemu_create_early_backends softmmu/vl.c:1895:5
-      #16 0x55d7a519bf87 in qemu_init softmmu/vl.c:3551:5
-      #17 0x55d7a366f619 in main softmmu/main.c:49:5
+... but these pointers are never free'd. Free them in vvfat_close(),
+to fix (QEMU built with --enable-sanitizers):
+
+  Direct leak of 148 byte(s) in 6 object(s) allocated from:
+    #0 0x55d7a363773f in malloc (qemu-system-x86_64+0x1dab73f)
+    #1 0x7f55c6447958 in g_malloc (/lib64/libglib-2.0.so.0+0x58958)
+    #2 0x55d7a5e17679 in init_directories block/vvfat.c:962:16
+    #3 0x55d7a5e1251e in vvfat_open block/vvfat.c:1255:9
+    #4 0x55d7a5a5363f in bdrv_open_driver block.c:1526:15
+    #5 0x55d7a5a9d369 in bdrv_open_common block.c:1802:11
+    #6 0x55d7a5a609f1 in bdrv_open_inherit block.c:3444:11
+    #7 0x55d7a5a65411 in bdrv_open_child_bs block.c:3079:10
+    #8 0x55d7a5a60079 in bdrv_open_inherit block.c:3391:19
+    #9 0x55d7a5a65da3 in bdrv_open block.c:3537:12
+    #10 0x55d7a5b33f6a in blk_new_open block/block-backend.c:421:10
+    #11 0x55d7a5a0a33e in blockdev_init blockdev.c:610:15
+    #12 0x55d7a5a088e7 in drive_new blockdev.c:994:11
+    #13 0x55d7a51b10c4 in drive_init_func softmmu/vl.c:636:12
+    #14 0x55d7a620e148 in qemu_opts_foreach util/qemu-option.c:1167:14
+    #15 0x55d7a51b0e20 in configure_blockdev softmmu/vl.c:695:9
+    #16 0x55d7a51a70b5 in qemu_create_early_backends softmmu/vl.c:1895:5
+    #17 0x55d7a519bf87 in qemu_init softmmu/vl.c:3551:5
+    #18 0x55d7a366f619 in main softmmu/main.c:49:5
 
 Fixes: a046433a161 ("Major overhaul of the virtual FAT driver for read/write support")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/vvfat.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ block/vvfat.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/block/vvfat.c b/block/vvfat.c
-index 5a4a7915220..2cc21787600 100644
+index 2cc21787600..c193a816646 100644
 --- a/block/vvfat.c
 +++ b/block/vvfat.c
-@@ -3142,7 +3142,7 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
-     int size = sector2cluster(s, s->sector_count);
-     QDict *options;
+@@ -3228,6 +3228,11 @@ static void vvfat_close(BlockDriverState *bs)
+ {
+     BDRVVVFATState *s = bs->opaque;
  
--    s->used_clusters = calloc(size, 1);
-+    s->used_clusters = g_malloc0(size);
- 
-     array_init(&(s->commits), sizeof(commit_t));
- 
-@@ -3233,6 +3233,7 @@ static void vvfat_close(BlockDriverState *bs)
++    for (unsigned j = 0; j < s->mapping.next; j++) {
++        mapping_t *mapping = array_get(&(s->mapping), j);
++
++        g_free(mapping->path);
++    }
+     vvfat_close_current_file(s);
+     array_free(&(s->fat));
      array_free(&(s->directory));
-     array_free(&(s->mapping));
-     g_free(s->cluster_buffer);
-+    g_free(s->used_clusters);
-     g_free(s->qcow_filename);
- 
-     if (s->qcow) {
 -- 
 2.26.3
 
