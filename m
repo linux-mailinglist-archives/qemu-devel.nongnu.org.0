@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC63B36F531
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 06:54:56 +0200 (CEST)
-Received: from localhost ([::1]:49966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883EA36F546
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 07:10:37 +0200 (CEST)
+Received: from localhost ([::1]:58256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcLB1-0007Oj-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 00:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32770)
+	id 1lcLQC-00034r-5b
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 01:10:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1lcLA6-0006ii-Lj
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 00:53:59 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1lcLA3-0005UO-Sz
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 00:53:58 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- f15-20020a05600c4e8fb029013f5599b8a9so975093wmq.1
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 21:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UGRVbFEa+O4nql4wL8JLwDHK88SuI1CttvKEIpPLdho=;
- b=tAZOlBWC/dpe7X4h3LVF4JPHUHPKhmGC5Jgq5flDvzlS3SEXGQc+S+M+lae8i5pcJC
- 6NAUgtRCZwc3HQzDsVVo0m/tz+J3cZIZvocq8XlIVFfQt7aiiRAbNdWH3Ae6FpqwCtJu
- ILuQFcAgM/H2XmlV+JYAKfSMQtdgfdg62aDqg5pgLb8PcLaNUa6rmbG0wmUH3Re22mtf
- ywos2ak6Rr+c39ESQDCiWiffWvFwMVReNNkvrqMWszfAHiLk/YHsBuIEdiLC5Q/D2MCK
- PFcaX04lZdC+ZfZUmxdj5jGWROUUyT/cEtvmtnG1DGJ//x2Ja31TqsJVBM/7bGrG7v2e
- JZKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UGRVbFEa+O4nql4wL8JLwDHK88SuI1CttvKEIpPLdho=;
- b=YkVARcz3n3ILVbhfckBj/BrZLrSj238U27oqjBbWInZm+W8PG5/YEfSYA1h+3YJkox
- ewojbAPjiJLCGmvv5SNgB28+anp3P0pMWkUdME4flfbrSyeXNYRq+LKiGNeuKx6GyqM7
- V3hFbI6sMmHQP5LQzVN6HHAGfB0qDjF0zcuEITBwUDLzce5v5OR0DFZfERBTq9mG8v/j
- 2zZ3ZBxuS4gfHw/ixOH54chK+2aYhQcxUpRpgbcmIHSSTc7oywHgCugf9ajEh8Zuquas
- +CeXYoCwRCwmiytBPJMZHDuhR0RWIW9rB54nIQ7KMAciFj7FnPQsDhbaI04GXH5w3rlF
- xJSw==
-X-Gm-Message-State: AOAM531JECwkFrKKFP3B0ZAKDQUS4tsGeG/9kuhIBaoNOyfYx9JgvPnh
- RPE1+aZVS8aBdOaNba/ZenB2Zzb7vSjfXjmhSbpxxA==
-X-Google-Smtp-Source: ABdhPJz6ciYc399ey9eit4UZvScEpLv5uRf/WYCuteudvmF//NfaJHTVN7DyPq6zhLx3l7ORcT1VPGnVqp22VhrZSEo=
-X-Received: by 2002:a7b:c348:: with SMTP id l8mr14781328wmj.152.1619758433260; 
- Thu, 29 Apr 2021 21:53:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lcLOw-0002Y6-DB; Fri, 30 Apr 2021 01:09:18 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lcLOt-0008Sq-5Y; Fri, 30 Apr 2021 01:09:18 -0400
+Received: from dggeml762-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FWgLS15Kqz5gqS;
+ Fri, 30 Apr 2021 13:05:52 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggeml762-chm.china.huawei.com (10.1.199.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 30 Apr 2021 13:09:01 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 30 Apr 2021 13:09:00 +0800
+Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+To: Andrew Jones <drjones@redhat.com>
+References: <20210413083147.34236-1-wangyanan55@huawei.com>
+ <20210413083147.34236-3-wangyanan55@huawei.com>
+ <20210428103141.5qfhzcqko6hxhxee@gator>
+ <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
+ <20210429071614.lywpbfpeyclqxnke@gator.home>
+ <ce557539-ac8f-7245-747b-8212a4857811@huawei.com>
+ <20210429110229.7jtz6hfrfvqdkrbx@gator>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <f5b264ff-58ed-0cd2-3b84-42fa1724b8ac@huawei.com>
+Date: Fri, 30 Apr 2021 13:09:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20210412065246.1853-1-jiangyifei@huawei.com>
- <20210412065246.1853-8-jiangyifei@huawei.com>
-In-Reply-To: <20210412065246.1853-8-jiangyifei@huawei.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 30 Apr 2021 10:23:41 +0530
-Message-ID: <CAAhSdy34aVwGEW-_Z=FkOkrAGrTsaS-11Ck6gJg77wwUSXe=zw@mail.gmail.com>
-Subject: Re: [PATCH RFC v5 07/12] hw/riscv: PLIC update external interrupt by
- KVM when kvm enabled
-To: Yifei Jiang <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::32c;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210429110229.7jtz6hfrfvqdkrbx@gator>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,155 +72,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, KVM General <kvm@vger.kernel.org>,
- libvir-list@redhat.com, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <anup.patel@wdc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- yinyipeng <yinyipeng1@huawei.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- kvm-riscv@lists.infradead.org, Alistair Francis <Alistair.Francis@wdc.com>,
- fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Michael S .
+ Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
+ yangyicong@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ prime.zeng@hisilicon.com, Igor
+ Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 12, 2021 at 12:24 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Only support supervisor external interrupt currently.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
-> ---
->  hw/intc/sifive_plic.c    | 29 ++++++++++++++++++++---------
->  target/riscv/kvm-stub.c  |  5 +++++
->  target/riscv/kvm.c       | 20 ++++++++++++++++++++
->  target/riscv/kvm_riscv.h |  1 +
->  4 files changed, 46 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 97a1a27a9a..2746eb7a05 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -31,6 +31,8 @@
->  #include "target/riscv/cpu.h"
->  #include "sysemu/sysemu.h"
->  #include "migration/vmstate.h"
-> +#include "sysemu/kvm.h"
-> +#include "kvm_riscv.h"
->
->  #define RISCV_DEBUG_PLIC 0
->
-> @@ -147,15 +149,24 @@ static void sifive_plic_update(SiFivePLICState *plic)
->              continue;
->          }
->          int level = sifive_plic_irqs_pending(plic, addrid);
-> -        switch (mode) {
-> -        case PLICMode_M:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
-> -            break;
-> -        case PLICMode_S:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-> -            break;
-> -        default:
-> -            break;
-> +        if (kvm_enabled()) {
-> +            if (mode == PLICMode_M) {
-> +                continue;
-> +            }
-> +            kvm_riscv_set_irq(RISCV_CPU(cpu), IRQ_S_EXT, level);
-> +        } else {
-> +            switch (mode) {
-> +            case PLICMode_M:
-> +                riscv_cpu_update_mip(RISCV_CPU(cpu),
-> +                                     MIP_MEIP, BOOL_TO_MASK(level));
-> +                break;
-> +            case PLICMode_S:
-> +                riscv_cpu_update_mip(RISCV_CPU(cpu),
-> +                                     MIP_SEIP, BOOL_TO_MASK(level));
-> +                break;
-> +            default:
-> +                break;
-> +            }
+Hi Drew,
 
-I am not comfortable with this patch.
+On 2021/4/29 19:02, Andrew Jones wrote:
+> On Thu, Apr 29, 2021 at 04:56:06PM +0800, wangyanan (Y) wrote:
+>> On 2021/4/29 15:16, Andrew Jones wrote:
+>>> On Thu, Apr 29, 2021 at 10:14:37AM +0800, wangyanan (Y) wrote:
+>>>> On 2021/4/28 18:31, Andrew Jones wrote:
+>>>>> On Tue, Apr 13, 2021 at 04:31:45PM +0800, Yanan Wang wrote:
+>>>>>>             } else if (sockets == 0) {
+>>>>>>                 threads = threads > 0 ? threads : 1;
+>>>>>> -            sockets = cpus / (cores * threads);
+>>>>>> +            sockets = cpus / (clusters * cores * threads);
+>>>>>>                 sockets = sockets > 0 ? sockets : 1;
+>>>>> If we initialize clusters to zero instead of one and add lines in
+>>>>> 'cpus == 0 || cores == 0' and 'sockets == 0' like
+>>>>> 'clusters = clusters > 0 ? clusters : 1' as needed, then I think we can
+>>>>> add
+>>>>>
+>>>>>     } else if (clusters == 0) {
+>>>>>         threads = threads > 0 ? threads : 1;
+>>>>>         clusters = cpus / (sockets * cores * thread);
+>>>>>         clusters = clusters > 0 ? clusters : 1;
+>>>>>     }
+>>>>>
+>>>>> here.
+>>>> I have thought about this kind of format before, but there is a little bit
+>>>> difference between these two ways. Let's chose the better and more
+>>>> reasonable one of the two.
+>>>>
+>>>> Way A currently in this patch:
+>>>> If value of clusters is not explicitly specified in -smp command line, we
+>>>> assume
+>>>> that users don't want to support clusters, for compatibility we initialized
+>>>> the
+>>>> value to 1. So that with cmdline "-smp cpus=24, sockets=2, cores=6", we will
+>>>> parse out the topology description like below:
+>>>> cpus=24, sockets=2, clusters=1, cores=6, threads=2
+>>>>
+>>>> Way B that you suggested for this patch:
+>>>> Whether value of clusters is explicitly specified in -smp command line or
+>>>> not,
+>>>> we assume that clusters are supported and calculate the value. So that with
+>>>> cmdline "-smp cpus=24, sockets=2, cores=6", we will parse out the topology
+>>>> description like below:
+>>>> cpus =24, sockets=2, clusters=2, cores=6, threads=1
+>>>>
+>>>> But I think maybe we should not assume too much about what users think
+>>>> through the -smp command line. We should just assume that all levels of
+>>>> cpu topology are supported and calculate them, and users should be more
+>>>> careful if they want to get the expected results with not so complete
+>>>> cmdline.
+>>>> If I'm right, then Way B should be better. :)
+>>>>
+>>> Hi Yanan,
+>>>
+>>> We're already assuming the user wants to describe clusters to the guest
+>>> because we require at least one per socket. If we want the user to have a
+>>> choice between using clusters or not, then I guess we need to change the
+>>> logic in the PPTT and the cpu-map to only generate the cluster level when
+>>> the number of clusters is not zero. And then change this parser to not
+>>> require clusters at all.
+>> Hi Drew,
+>>
+>> I think this kind of change will introduce more complexity and actually is
+>> not necessary.
+>> Not generating cluster level at all and generating cluster level (one per
+>> socket) are same
+>> to kernel. Without cluster description provided, kernel will initialize all
+>> cores in the same
+>> cluster which also means one cluster per socket.
+> Which kernel? All kernels? One without the cluster support patches [1]?
+>
+> [1] https://lore.kernel.org/lkml/20210420001844.9116-1-song.bao.hua@hisilicon.com/#t
+I'm sorry, I didn't make it clear. :)
+I actually mean the ARM64 kernel, with or without [1].
 
-This way we will endup calling kvm_riscv_set_irq() from various
-places in hw/intc and hw/riscv.
+Without [1]: Kernel doesn't care about cluster. When populating cpu 
+topology, it directly
+finds the hierarchy node with "physical package flag" as package when 
+parsing ACPI, and
+finds the core node's parent as package when parsing DT. So even we 
+provide cluster level
+description (one per socket), the parsing results will be the same as 
+not providing at all.
 
-I suggest to extend riscv_cpu_update_mip() such that when kvm is
-enabled riscv_cpu_update_mip() will:
-1) Consider only MIP_SEIP bit in "mask" parameter and all other
-    bits in "mask" parameter will be ignored probably with warning
-2) When the MIP_SEIP bit is set in "mask" call kvm_riscv_set_irq()
-to change the IRQ state in the KVM module.
+With [1]: Kernel finds the core hierarchy node's parent as cluster when 
+parsing ACPI. So if
+we don't provide cluster level description, package will be taken as 
+cluster. And if we provide
+the description (one per socket), the parsing result will also be the same.
 
-Regards,
-Anup
+That's why I said that we just need to provide description of cluster 
+(one per socket) if we
+don't want to make use of it in VMs.
 
->          }
->      }
+[1] 
+https://lore.kernel.org/lkml/20210420001844.9116-1-song.bao.hua@hisilicon.com/#t
+>> So we should only ensure value of clusters per socket is one if we don't
+>> want to use clusters,
+>> and don't need to care about whether or not to generate description in PPTT
+>> and cpu-map.
+>> Is this right?
+> Depends on your answer to my 'which kernel' questions.
 >
-> diff --git a/target/riscv/kvm-stub.c b/target/riscv/kvm-stub.c
-> index 39b96fe3f4..4e8fc31a21 100644
-> --- a/target/riscv/kvm-stub.c
-> +++ b/target/riscv/kvm-stub.c
-> @@ -23,3 +23,8 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
->  {
->      abort();
->  }
-> +
-> +void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
-> +{
-> +    abort();
-> +}
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index 79c931acb4..da63535812 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -453,6 +453,26 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
->      env->gpr[11] = cpu->env.fdt_addr;          /* a1 */
->  }
+>>> I'm not a big fan of these auto-calculated values either, but the
+>>> documentation says that it'll do that, and it's been done that way
+>>> forever, so I think we're stuck with it for the -smp option. Hmm, I was
+>>> just about to say that x86 computes all its values, but I see the most
+>>> recently added one, 'dies', is implemented the way you're proposing we
+>>> implement 'clusters', i.e. default to one and don't calculate it when it's
+>>> missing. I actually consider that either a documentation bug or an smp
+>>> parsing bug, though.
+>> My propose originally came from implementation of x86.
+>>> Another possible option, for Arm, because only the cpus and maxcpus
+>>> parameters of -smp have ever worked, is to document, for Arm, that if even
+>>> one parameter other than cpus or maxcpus is provided, then all parameters
+>>> must be provided. We can still decide if clusters=0 is valid, but we'll
+>>> enforce that everything is explicit and that the product (with or without
+>>> clusters) matches maxcpus.
+>> Requiring every parameter explicitly will be most stable but indeed strict.
+>>
+>> Currently all the parsers use way B to calculate value of thread if it is
+>> not provided explicitly.
+>> So users should ensure the -smp cmdline they provided can result in that
+>> parsed threads will
+>> be 1 if they don't want to support multiple threads in one core.
+>>
+>> Very similar to thread, users should also ensure the provided cmdline can
+>> result in that parsed
+>> clusters will be 1 if they don't want to support multiple clusters in one
+>> socket.
+>>
+>> So I'm wondering if we can just add some commit in the documentation to tell
+>> users that they
+>> should ensure this if they don't want support it. And as for calculation of
+>> clusters, we follow
+>> the logic of other parameters as you suggested in way B.
+>>
+>> Thanks,
+>> Yanan
+>>> Requiring every parameter might be stricter than necessary, though, I
+>>> think we're mostly concerned with cpus/maxcpus, sockets, and cores.
+>>> clusters can default to one or zero (whatever we choose and document),
+>>> threads can default to one, and cpus can default to maxcpus or maxcpus can
+>>> default to cpus, but at least one of those must be provided. And, if
+>>> sockets are provided, then cores must be provided and vice versa. If
+>>> neither sockets nor cores are provided, then nothing else besides cpus and
+>>> maxcpus may be provided, and that would mean to not generate any topology
+>>> descriptions for the guest.
+> I still don't know. I think I prefer making -smp more strict (even for
+> other architectures, but that's more difficult to do than for Arm.) What I
+> wrote above isn't that bad. We only require one of cpus or maxcpus (pretty
+> much everybody already does that anyway), and then, if given sockets
+> or cores, the other will also be required. I assume anybody who bothers to
+> specify one or the other would already specify both anyway.
+I agree to make -smp more strict. We want to expose the cpu topology 
+information
+to guest kernel, so that it can take advantage of the information for 
+better scheduling.
+ From this point of view, we hope the topology descriptions are 
+accurately specified
+but not automatically populated.
+
+But I think the requirement for ARM "if even one parameter other than 
+cpus or maxcpus
+is provided then all parameters must be provided" will be better. This 
+can ensure the
+whole accurate users-specified topology. As you mentioned, if anybody 
+who bothers
+to specify one, why not also specify the others.
+
+I can add the requirement for ARM in the documentation, and also check 
+the parameters
+in virt_smp_parse. Will this be fine?
+
+Thanks,
+Yanan
+> Thanks,
+> drew
 >
-> +void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
-> +{
-> +    int ret;
-> +    unsigned virq = level ? KVM_INTERRUPT_SET : KVM_INTERRUPT_UNSET;
-> +
-> +    if (irq != IRQ_S_EXT) {
-> +        return;
-> +    }
-> +
-> +    if (!kvm_enabled()) {
-> +        return;
-> +    }
-> +
-> +    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_INTERRUPT, &virq);
-> +    if (ret < 0) {
-> +        perror("Set irq failed");
-> +        abort();
-> +    }
-> +}
-> +
->  bool kvm_arch_cpu_check_are_resettable(void)
->  {
->      return true;
-> diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-> index f38c82bf59..ed281bdce0 100644
-> --- a/target/riscv/kvm_riscv.h
-> +++ b/target/riscv/kvm_riscv.h
-> @@ -20,5 +20,6 @@
->  #define QEMU_KVM_RISCV_H
->
->  void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
-> +void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
->
->  #endif
-> --
-> 2.19.1
->
->
-> --
-> kvm-riscv mailing list
-> kvm-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kvm-riscv
+> .
 
