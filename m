@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3C33703DE
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 01:00:48 +0200 (CEST)
-Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B853703ED
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 01:08:21 +0200 (CEST)
+Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcc7p-0006wG-KM
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 19:00:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
+	id 1lccFA-0000Kg-6r
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 19:08:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcc5o-0006Xb-PM
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:58:40 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcc5n-0000VW-26
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:58:40 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id u17so107626403ejk.2
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4DK9gMqtb+maJw2WuB0jtYlj9eVQuccew2j0oi3l314=;
- b=jp0mmutU6GNfjZNWPKd6wi7p/Hf18ee38ENEzhhFHRUopLd4bQI6w0XZOHh/ZObwMN
- RKq+XYke5CS/BPec54uQjgBWjObv68uI569aJea1jwxwxuOif+ve2UsIDPPO1DsobfTU
- +rm+0o08kcOvf4r+UolEQAHSo3cQNV7CFYKDpO/qdkyHoKwHQhZczzkvlvFaMFx+2M9v
- 8mk+YpuiFVmre5XdDE9LxuMGwHxxcKXwp4fk5qk7ba2SJ5yEWdYWqB2+RQPfa/8Wk/Di
- gfHzmmE2Sr5g8B0dHwXWlPWriw4kJkTLVx9iYmOchhk3yUTcqy/K/GscpyHLyh7kt5Mj
- x7ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4DK9gMqtb+maJw2WuB0jtYlj9eVQuccew2j0oi3l314=;
- b=hLaqyFDgPX9O+QsKk+8xaUuckYagPOtBTmPEJ0p3NMyeAYTAA6oyrH/evfGbLWkH3E
- 0HL5peaeZaWEhpEw7wqMNsRiN3WfiXdEUsNjxc2Rbl2/EdaEsIUH+1w+n/xNOPQ4TFyN
- EAiazH5nxWy7rwuK9oucQuVRE6tmktdFa0ZuRFXbXpEgWX4Kg7mfzGsZXNOMnsVbxTOD
- hS/6VLwoa1sa+d81VSk+wDSswCxG8bjLfVTpIH9VIgQH6JBSBdTdUSA2+PpDE24mXzen
- S4KAknJc+UynFaZDMA5QvyWsAG7MtmU3xlVvap9A9E7QWQbcS03VypVA46An0+olTCTs
- BnHA==
-X-Gm-Message-State: AOAM531zQv7uKERkAtG3UM3SI8fzdpcksqSvdkUtHOgH6FSvMR+fxnxO
- OJz8w2QNbkbMwKewHk0DLWbyoZMMxCJDZfPd1BDpkg==
-X-Google-Smtp-Source: ABdhPJxasP1+cuWcPBZKhj4e0bY3BHtDm9Bicc8/WEZlIRxrut+BfVcGJEVTCok/0LxsH2GypHBmDHF9hZWT7RlEsTw=
-X-Received: by 2002:a17:906:11cc:: with SMTP id
- o12mr6850727eja.85.1619823517193; 
- Fri, 30 Apr 2021 15:58:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lccEA-0008Mo-OX
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 19:07:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lccE3-0005Sg-2Y
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 19:07:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619824029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5GATnIFHJgLISpZCG709lZ/54ID7JHRuM/CKp3fcSfo=;
+ b=QdGcGV8+X+pbH1cTm6fhsTGllzSfGQPXD+Av3I3kVO59t3Mx0rqqEfeKM2qYsgtixW2w6P
+ oD2LHzpUc/RpPOP5eo1b41PxFW8LT23HxjYJC8dDAxNLCrvW0srF3kjhoxtKQX6b/u4SDF
+ fBjRx5qNgeKjuv4NNcasZOQsmTTjnG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-21-hRRQNOUiWTOj60L4hSg-1; Fri, 30 Apr 2021 19:07:07 -0400
+X-MC-Unique: 21-hRRQNOUiWTOj60L4hSg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40BC080B71D
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 23:07:06 +0000 (UTC)
+Received: from localhost (ovpn-115-66.phx2.redhat.com [10.3.115.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5BEE76E31;
+ Fri, 30 Apr 2021 23:07:05 +0000 (UTC)
+Date: Fri, 30 Apr 2021 19:07:05 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v6 01/19] i386: keep hyperv_vendor string up-to-date
+Message-ID: <20210430230705.pdxvufj73haq5hno@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
+ <20210422161130.652779-2-vkuznets@redhat.com>
 MIME-Version: 1.0
-References: <20200122111517.33223-1-quintela@redhat.com>
- <20200122111517.33223-5-quintela@redhat.com>
-In-Reply-To: <20200122111517.33223-5-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Apr 2021 23:57:34 +0100
-Message-ID: <CAFEAcA8XG2ATagb=ed5oDW=PsMBzAYoQK3DN6Os3_oMusYkAuA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] migration-test: Make sure that multifd and cancel
- works
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210422161130.652779-2-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,60 +78,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 at 11:20, Juan Quintela <quintela@redhat.com> wrote:
->
-> Test that this sequerce works:
->
-> - launch source
-> - launch target
-> - start migration
-> - cancel migration
-> - relaunch target
-> - do migration again
->
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Thu, Apr 22, 2021 at 06:11:12PM +0200, Vitaly Kuznetsov wrote:
+> When cpu->hyperv_vendor is not set manually we default to "Microsoft Hv"
+> and in 'hv_passthrough' mode we get the information from the host. This
+> information is stored in cpu->hyperv_vendor_id[] array but we don't update
+> cpu->hyperv_vendor string so e.g. QMP's query-cpu-model-expansion output
+> is incorrect.
 
-A year-old commit, but we've just got around to running Coverity
-on the tests/ directory, and it spotted this one:
+I was confused for a while because this can't happen until patch
+15/19 is applied.  Probably worth a note in the commit message
+indicating that hyperv_handle_properties() will be called by
+x86_cpu_expand_features() in the future.
 
->  static void migrate_set_capability(QTestState *who, const char *capability,
->                                     bool value)
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  target/i386/cpu.c     | 19 +++++++++----------
+>  target/i386/kvm/kvm.c |  5 +++++
+>  2 files changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index ad99cad0e7ce..2d05df232329 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -6665,17 +6665,16 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
+>  
+>      /* Hyper-V vendor id */
+>      if (!cpu->hyperv_vendor) {
+> -        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
+> -    } else {
+> -        len = strlen(cpu->hyperv_vendor);
+> -
+> -        if (len > 12) {
+> -            warn_report("hv-vendor-id truncated to 12 characters");
+> -            len = 12;
+> -        }
+> -        memset(cpu->hyperv_vendor_id, 0, 12);
+> -        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
+> +        object_property_set_str(OBJECT(cpu), "hv-vendor-id", "Microsoft Hv",
+> +                                &error_abort);
+> +    }
+> +    len = strlen(cpu->hyperv_vendor);
+> +    if (len > 12) {
+> +        warn_report("hv-vendor-id truncated to 12 characters");
+> +        len = 12;
+>      }
+> +    memset(cpu->hyperv_vendor_id, 0, 12);
+> +    memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
 
-The 3rd argument to migrate_set_capability() is a bool...
+Existing issue: hardcoded 12 as the size of hyperv_vendor_id here
+(compare with the code you add below using sizeof()).  I don't
+think this should hold the whole series, so it can be fixed in a
+follow up patch if necessary.
 
+>  
+>      /* 'Hv#1' interface identification*/
+>      cpu->hyperv_interface_id[0] = 0x31237648;
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 7fe9f527103c..ab073a5e9c44 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1215,6 +1215,11 @@ static int hyperv_handle_properties(CPUState *cs,
+>              cpu->hyperv_vendor_id[0] = c->ebx;
+>              cpu->hyperv_vendor_id[1] = c->ecx;
+>              cpu->hyperv_vendor_id[2] = c->edx;
+> +            cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
+> +                                           sizeof(cpu->hyperv_vendor_id) + 1);
+> +            memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
+> +                   sizeof(cpu->hyperv_vendor_id));
+> +            cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] = 0;
 
-> +static void test_multifd_tcp_cancel(void)
-> +{
+I don't like having to do manual g_realloc() + memcpy() here
+(calling object_property_set_str() would be simpler), but I
+believe it will be easier to clean this up after this whole
+series is applied.
 
-> +    migrate_set_parameter_int(from, "downtime-limit", 1);
-> +    /* 300MB/s */
-> +    migrate_set_parameter_int(from, "max-bandwidth", 30000000);
-> +
-> +    migrate_set_parameter_int(from, "multifd-channels", 16);
-> +    migrate_set_parameter_int(to, "multifd-channels", 16);
-> +
-> +    migrate_set_capability(from, "multifd", "true");
-> +    migrate_set_capability(to, "multifd", "true");
+Reluctantly:
 
-...but here you pass it the character string '"true"' rather than
-the boolean value 'true'.
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-This works by fluke since the implicit comparison of the literal string
-against NULL will evaluate to true, but it isn't really right :-)
+>          }
+>  
+>          c = cpuid_find_entry(cpuid, HV_CPUID_INTERFACE, 0);
+> -- 
+> 2.30.2
+> 
 
-CID 1432373, 1432292, 1432288.
+-- 
+Eduardo
 
-There seem to be 7 uses of the string "true" when the boolean
-was intended; I don't know why Coverity only found 3 issues.
-
-thanks
--- PMM
 
