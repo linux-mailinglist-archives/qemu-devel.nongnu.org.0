@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0933736FE12
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:53:56 +0200 (CEST)
-Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7767436FE2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:57:51 +0200 (CEST)
+Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcVSl-0000zl-3L
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
+	id 1lcVWY-0005R1-Jk
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVPM-0007t2-Iu
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:50:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVPE-0000qs-6M
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:50:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619797814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rePuRUmiJLdH/917Gz9nV9f0upTX5GXwfFmefbXYyi0=;
- b=bGfUaHaqe7EtOr4Hi6UsnWS1yHlX7hfaRMuSooV7M2fksf27Q1uOR1splGG0QC6FoKCwIi
- BEhIGYN8BQ+j3RGeXej+myn7hSB3TaTkiqbuh5GdooxgZ+uhpTpMTS9WsUGD69w9dRwvJU
- It4TkgdQ+I0g+N3Y5ACPs2nWjKHZkho=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-23B2BKk8PQm8iWBZTx5H9w-1; Fri, 30 Apr 2021 11:50:13 -0400
-X-MC-Unique: 23B2BKk8PQm8iWBZTx5H9w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso3394768wre.8
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:50:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1lcVUw-0003v1-2Y
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:56:10 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:37612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1lcVUt-00034C-Ij
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:56:09 -0400
+Received: by mail-qk1-x733.google.com with SMTP id t17so42664281qkg.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:56:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:message-id:in-reply-to:references:subject
+ :mime-version; bh=2I7MhnhFDXeBr9l6HPYDzdWjfdkPS7Q5DRF5ootVzNA=;
+ b=BNntTL58erEpl0GACiUHqqf24oMPyA+yKeSBLimpgaggnrGHPYxi/brdLN8zLKPu3z
+ VTeABAbuwP7s/oP8fpqNbueShFMxyJqS1xahHbbZWgbFVcuX3a1a72sZfsmVwD2TlsxS
+ ssU+g4Fc/luPhslgBZOB62An7s/58pLkcX4hpakX1JPLU4WFnVxQ/Lm+VSV4blo715k7
+ noFZ70EbjrV/6Gr3KUQUhZVRWJAybdRVXdbKiXmbQZ1LPVipY5AaTKs7lTv/7H6lMZyJ
+ jDMLjjBugwDfoTNFIWgIA0FA7zhsFqnG4/bQIYK7vcHafFOA6M3q44JujbsHvb3kKP+j
+ eGIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rePuRUmiJLdH/917Gz9nV9f0upTX5GXwfFmefbXYyi0=;
- b=snge5AGH02vCkAeqI9ksGHRqglY2CP4GYF7shNHtqeo/MslfBQ6jqJFQLWciJG2dax
- V1UEhV96ipP1bjq1di/0AZQx58s/cLjTEGpc4ss2jdf9nt+VE2ng3+Z7NwJEEkiS/e/W
- XznB5EYAHhL2ssK1F8n5hhKdFp3dg98hMQEamvKm67OUb7i+hShMqZmf/DlAlKYIKXbe
- KoLHymhhokLetz6HZX2g72coFeEhOVqGZOZiYnvoDNtQSbR2hjMSUDGw2sxlaT9bDhhs
- 2HpcaKabUCrGojHNZpnXuiWcHXwoRjT2xOmMm/QvLKb0I5zCfnQg3O6ZL3SbEYGMg1Ev
- ndFg==
-X-Gm-Message-State: AOAM531Iw9CqVXQiqjtZtyzfqIQtReRp+NGCF2PNdfozopcsGe8h0WFN
- 14ir/wDNEuTFiKl/K37Fg9An0fUf7X6VJTG2GCBCU/ScHORMLg0Uo+PjIdnwkH5CAEPBG0ASiFb
- lUiA/GY1V87WVGsxwRK9Pyq+GXCmZvK48wSTO9mw+aZEhUl+ujw8llqMgxJhHuLzE
-X-Received: by 2002:a5d:648e:: with SMTP id o14mr4567351wri.27.1619797811704; 
- Fri, 30 Apr 2021 08:50:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyffMx0y3ZAkVjuP/N2GjT+l6HIG1+RM1o58430MeT8aaNw2e6UYVpEyBNS772g5Uo8a3kqpA==
-X-Received: by 2002:a5d:648e:: with SMTP id o14mr4567316wri.27.1619797811433; 
- Fri, 30 Apr 2021 08:50:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+ :references:subject:mime-version;
+ bh=2I7MhnhFDXeBr9l6HPYDzdWjfdkPS7Q5DRF5ootVzNA=;
+ b=P3H70dsvvy8K08WuMpjKzjJ8MOEw9S/3nybJHmgL3L+VJ5eBusMyRfcMMNsaC6vQl8
+ LJoiU8MoZNbuDfN8raO+Oh0p6keNkyLF7x9ee4WHqa7PZpa2wylkZ1FIZiSL+XkeRRW8
+ 7CHgBV/Umig4FaZxCmw5jcbrhJf5KqKW5Hl0puv6REw9e9KTNcZFFNvaD2EO4xJODiAQ
+ cNGlJ9pEn1w+QP+mJZXNdD7SVSXEYV7J7fneo+sqYg3I8tFynG3bc2O3xcLoVeUjsxNw
+ wo3vOMKA7bkuk6nI2XpRWBqvWn4A5GwYP6tPaiKxxCQ62GGxqZ3U6O83XSqO5asZvTmm
+ Jh3w==
+X-Gm-Message-State: AOAM531NK/Y/cLZk2MJtCfxWda5arogUEILsm/oHuu9z3RXVjoGrTjl0
+ YgChcl8jQoouqT9GeRpSioMV/9DXO5UUJw==
+X-Google-Smtp-Source: ABdhPJx7+4fLbxuLzoUIzCGF0XyJcvlKymq7OwyB1x8KfIxdzSQn8i+BPEJlGwYBiuX1ZvGRja9RTA==
+X-Received: by 2002:a05:620a:1657:: with SMTP id
+ c23mr5979833qko.264.1619798164527; 
+ Fri, 30 Apr 2021 08:56:04 -0700 (PDT)
 Received: from localhost.localdomain
- (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id d13sm2734708wrx.29.2021.04.30.08.50.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 08:50:11 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] ui: Fix memory leak in qemu_xkeymap_mapping_table()
-Date: Fri, 30 Apr 2021 17:50:09 +0200
-Message-Id: <20210430155009.259755-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
+ (bras-base-stsvon1503w-grc-23-174-92-28-28.dsl.bell.ca. [174.92.28.28])
+ by smtp.gmail.com with ESMTPSA id a21sm1763024qkk.45.2021.04.30.08.56.04
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 30 Apr 2021 08:56:04 -0700 (PDT)
+Date: Fri, 30 Apr 2021 11:56:00 -0400
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <4B93C023-32E5-468F-80A8-DF58C8CD442F@getmailspring.com>
+In-Reply-To: <CAFEAcA8EXUu8nfqz2Xn_Rke4Nk+cvdOuZOoFSfGkN6FFeTJ=yQ@mail.gmail.com>
+References: <CAFEAcA8EXUu8nfqz2Xn_Rke4Nk+cvdOuZOoFSfGkN6FFeTJ=yQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] hw/intc: GICv3 ITS initial framework
+X-Mailer: Mailspring
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/alternative; boundary="608c2890_3c7f7cc7_12a1"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x733.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_IMAGE_ONLY_20=1.546, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,79 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refactor qemu_xkeymap_mapping_table() to have a single exit point,
-so we can easily free the memory allocated by XGetAtomName().
+--608c2890_3c7f7cc7_12a1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-This fixes when running a binary configured with --enable-sanitizers:
+Have taken care of it.please ignore PIDR2 changes in the current patchset ,will update the latest changes in the next patchset version
 
-  Direct leak of 22 byte(s) in 1 object(s) allocated from:
-      #0 0x561344a7473f in malloc (qemu-system-x86_64+0x1dab73f)
-      #1 0x7fa4d9dc08aa in XGetAtomName (/lib64/libX11.so.6+0x2a8aa)
+Thanks
+Shashi
 
-Fixes: 2ec78706d18 ("ui: convert GTK and SDL1 frontends to keycodemapdb")
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- ui/x_keymap.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+On Apr 30 2021, at 6:09 am, Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Fri, 30 Apr 2021 at 00:36, <shashi.mallela@linaro.org> wrote:
+> >
+> > On Fri, 2021-04-16 at 18:21 +0100, Peter Maydell wrote:
+> > > On Thu, 1 Apr 2021 at 03:41, Shashi Mallela <
+> > > shashi.mallela@linaro.org> wrote:
+> > > > +#define GITS_PIDR2 0xFFE8
+> > >
+> > > You probably don't want an offset for GITS_PIDR2 specifically.
+> > > Compare handling of GICD_IDREGS in the distributor emulation.
+> > > Tried re-using the GICD_IDREGS offset for GITS_PIDR2,but from testing
+> > > observed that the linux kernel driver and kvm-unit-tests both relied
+> > > on using the 0xFFE8 offset instead of 0xFFD0 (used by GICD & GICR) to
+> > > complete ITS initialization and setup
+>
+> I didn't mean "just put PIDR2 at the GICD_IDREGS offset", which
+> obviously won't work, I meant "implement the whole set of ID registers
+> (of which PIDR2 is one in the middle) in the same way we implement that
+> set on the other GIC components".
+>
+> -- PMM
+--608c2890_3c7f7cc7_12a1
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-diff --git a/ui/x_keymap.c b/ui/x_keymap.c
-index 555086fb6bd..2ce7b899615 100644
---- a/ui/x_keymap.c
-+++ b/ui/x_keymap.c
-@@ -56,6 +56,7 @@ const guint16 *qemu_xkeymap_mapping_table(Display *dpy, size_t *maplen)
- {
-     XkbDescPtr desc;
-     const gchar *keycodes = NULL;
-+    const guint16 *map;
- 
-     /* There is no easy way to determine what X11 server
-      * and platform & keyboard driver is in use. Thus we
-@@ -83,21 +84,21 @@ const guint16 *qemu_xkeymap_mapping_table(Display *dpy, size_t *maplen)
-     if (check_for_xwin(dpy)) {
-         trace_xkeymap_keymap("xwin");
-         *maplen = qemu_input_map_xorgxwin_to_qcode_len;
--        return qemu_input_map_xorgxwin_to_qcode;
-+        map = qemu_input_map_xorgxwin_to_qcode;
-     } else if (check_for_xquartz(dpy)) {
-         trace_xkeymap_keymap("xquartz");
-         *maplen = qemu_input_map_xorgxquartz_to_qcode_len;
--        return qemu_input_map_xorgxquartz_to_qcode;
-+        map = qemu_input_map_xorgxquartz_to_qcode;
-     } else if ((keycodes && g_str_has_prefix(keycodes, "evdev")) ||
-                (XKeysymToKeycode(dpy, XK_Page_Up) == 0x70)) {
-         trace_xkeymap_keymap("evdev");
-         *maplen = qemu_input_map_xorgevdev_to_qcode_len;
--        return qemu_input_map_xorgevdev_to_qcode;
-+        map = qemu_input_map_xorgevdev_to_qcode;
-     } else if ((keycodes && g_str_has_prefix(keycodes, "xfree86")) ||
-                (XKeysymToKeycode(dpy, XK_Page_Up) == 0x63)) {
-         trace_xkeymap_keymap("kbd");
-         *maplen = qemu_input_map_xorgkbd_to_qcode_len;
--        return qemu_input_map_xorgkbd_to_qcode;
-+        map = qemu_input_map_xorgkbd_to_qcode;
-     } else {
-         trace_xkeymap_keymap("NULL");
-         g_warning("Unknown X11 keycode mapping '%s'.\n"
-@@ -109,6 +110,10 @@ const guint16 *qemu_xkeymap_mapping_table(Display *dpy, size_t *maplen)
-                   "  - xprop -root\n"
-                   "  - xdpyinfo\n",
-                   keycodes ? keycodes : "<null>");
--        return NULL;
-+        map = NULL;
-     }
-+    if (keycodes) {
-+        XFree((void *)keycodes);
-+    }
-+    return map;
- }
--- 
-2.26.3
+<div>Have taken care of it.please ignore PIDR2 changes in the current pat=
+chset&nbsp; ,will update the latest changes in the next patchset version<=
+/div><br><div>Thanks</div><div>Shashi</div><br><div class=3D=22gmail=5Fqu=
+ote=5Fattribution=22>On Apr 30 2021, at 6:09 am, Peter Maydell &lt;peter.=
+maydell=40linaro.org&gt; wrote:</div><blockquote><div><div>On =46ri, 30 A=
+pr 2021 at 00:36, &lt;shashi.mallela=40linaro.org&gt; wrote:</div><div>&g=
+t;</div><div>&gt; On =46ri, 2021-04-16 at 18:21 +0100, Peter Maydell wrot=
+e:</div><div>&gt; &gt; On Thu, 1 Apr 2021 at 03:41, Shashi Mallela &lt;</=
+div><div>&gt; &gt; shashi.mallela=40linaro.org&gt; wrote:</div><div>&gt; =
+&gt; &gt; +=23define GITS=5FPIDR2 0x=46=46E8</div><div>&gt; &gt;</div><di=
+v>&gt; &gt; You probably don't want an offset for GITS=5FPIDR2 specifical=
+ly.</div><div>&gt; &gt; Compare handling of GICD=5FIDREGS in the distribu=
+tor emulation.</div><div>&gt; &gt; Tried re-using the GICD=5FIDREGS offse=
+t for GITS=5FPIDR2,but from testing</div><div>&gt; &gt; observed that the=
+ linux kernel driver and kvm-unit-tests both relied</div><div>&gt; &gt; o=
+n using the 0x=46=46E8 offset instead of 0x=46=46D0 (used by GICD &amp; G=
+ICR) to</div><div>&gt; &gt; complete ITS initialization and setup</div><b=
+r><div>I didn't mean =22just put PIDR2 at the GICD=5FIDREGS offset=22, wh=
+ich</div><div>obviously won't work, I meant =22implement the whole set of=
+ ID registers</div><div>(of which PIDR2 is one in the middle) in the same=
+ way we implement that</div><div>set on the other GIC components=22.</div=
+><br><div>-- PMM</div></div></blockquote><img class=3D=22mailspring-open=22=
+ alt=3D=22Sent from Mailspring=22 width=3D=220=22 height=3D=220=22 style=3D=
+=22border:0; width:0; height:0;=22 src=3D=22https://link.getmailspring.co=
+m/open/4B93C023-32E5-468=46-80A8-D=4658C8CD442=46=40getmailspring.com=3Fm=
+e=3D2a4b90d6&amp;recipient=3DcWVtdS1kZXZlbEBub25nbnUub3Jn=22>
+--608c2890_3c7f7cc7_12a1--
 
 
