@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC80936F79D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:11:30 +0200 (CEST)
-Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530F236F791
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:08:06 +0200 (CEST)
+Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcPBK-0003rO-3c
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45556)
+	id 1lcP81-0001Mi-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcP61-0008VD-5O
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:06:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59772)
+ id 1lcP60-0008UV-R4
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:06:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcP5z-0000Qw-Fr
+ id 1lcP5y-0000Pe-Sl
  for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:06:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcP5y-0008Vf-7B
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:58 +0000
+ id 1lcP5x-0008Rm-7W
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2E9512E815A
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:58 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 259E92E8144
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 08:54:36 -0000
-From: Thomas Huth <1294227@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 08:55:10 -0000
+From: Thomas Huth <1523811@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Tags: assert fuzzer usb
+X-Launchpad-Bug-Information-Type: Public Security
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cdall jnsnow m-smarduch pmaydell th-huth
-X-Launchpad-Bug-Reporter: Mario Smarduch (m-smarduch)
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: cwmyung janitor joveler kraxel-redhat philmd
+ th-huth
+X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140318172403.30474.3932.malonedeb@soybean.canonical.com>
-Message-Id: <161977287739.13825.5984271101510312596.launchpad@wampee.canonical.com>
-Subject: [Bug 1294227] Re: migration wrong handling of KVM_GET_DIRTY_LOG ioctl
+References: <20151208084519.14688.79647.malonedeb@wampee.canonical.com>
+Message-Id: <161977291095.4862.13695534305849116970.malone@chaenomeles.canonical.com>
+Subject: [Bug 1523811] Re: USB assert failure on dev-storage.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 844fe63e4f9b17446f81179661f26025dadd1f65
+X-Launchpad-Hash: 44ea226d17d22e6f0875444897ece81fb63752ae
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,43 +72,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1294227 <1294227@bugs.launchpad.net>
+Reply-To: Bug 1523811 <1523811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+https://gitlab.com/qemu-project/qemu/-/commit/39912c14da07a2d
+
 ** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+       Status: Confirmed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1294227
+https://bugs.launchpad.net/bugs/1523811
 
 Title:
-  migration wrong handling of KVM_GET_DIRTY_LOG ioctl
+  USB assert failure on dev-storage.c
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  In the code below kvm_vm_ioctl(...) can return --errno !=3D -1 from ioctl=
- call,  but return only checks for -1. =
+  On executing the attached python script in the guest OS, QEMU dies
+  with assert failure:
 
-  Found during KVM-ARM migration which apperead to go through but was actua=
-lly failing getting =
+  [run python script in guest root shell]
+  # python a.py
 
-  memslot dirty bitmap.
+  [host message]
+  qemu-system-x86_64: hw/usb/dev-storage.c:445: usb_msd_handle_data: Assert=
+ion `le32_to_cpu(s->csw.residue) =3D=3D 0' failed.
+  Aborted (core dumped)
 
-  static int kvm_physical_sync_dirty_bitmap(....)
-  {
-   ....
-   if(kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) =3D=3D -1) {
-     - err out
-   }
-   ... continue
-  }
+  When I detach the kernel driver and send CBW and reattach it again, witho=
+ut conforming to the command/data/status protocol, QEMU dies.
+  I think this is due to misimplementation of Command/Data/Status protocol =
+in Bulk-only transfer.
+  This kind of assert failure can be misused by malwares to avoid being ana=
+lyzed by terminating only in the virtual environments and still execute the=
+ malicious code in real machines.
+  Before running python script, make sure to change a.py that it should poi=
+nts to usb mass storage's vid and pid.
+
+  QEMU was running on these environment :
+  [CPU model]    Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
+  [qemu version] QEMU 2.5.0-rc2 (compiled from source, gcc 4.8.4)
+  [host info]    Ubuntu 14.04.3, x86_64, 3.19.0-32-generic
+  [guest info]   Ubuntu 14.04.3, x86_64, 3.19.0-28-generic
+  [QEMU argument]
+  x86_64-softmmu/qemu-system-x86_64 -hda /media/hdd/img/ubuntu1404.qcow2.5 \
+  =C2=A0-m 512 \
+  =C2=A0--usbdevice disk:format=3Dqcow2:../usb.img.5 \
+  =C2=A0--enable-kvm
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1294227/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1523811/+subscriptions
 
