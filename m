@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDAE36F776
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:02:10 +0200 (CEST)
-Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D63936F7D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:25:25 +0200 (CEST)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcP2E-0004Ht-Rn
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:02:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43562)
+	id 1lcPOm-0007lE-5T
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lcP02-0003bT-4C; Fri, 30 Apr 2021 04:59:50 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2977)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lcOzy-0005HW-E1; Fri, 30 Apr 2021 04:59:49 -0400
-Received: from dggeml757-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FWmTV6b3zzYd14;
- Fri, 30 Apr 2021 16:57:18 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggeml757-chm.china.huawei.com (10.1.199.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 30 Apr 2021 16:59:37 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 30 Apr 2021 16:59:36 +0800
-Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
- virt_smp_parse
-To: Andrew Jones <drjones@redhat.com>
-References: <20210413083147.34236-1-wangyanan55@huawei.com>
- <20210413083147.34236-3-wangyanan55@huawei.com>
- <20210428103141.5qfhzcqko6hxhxee@gator>
- <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
- <20210429071614.lywpbfpeyclqxnke@gator.home>
- <ce557539-ac8f-7245-747b-8212a4857811@huawei.com>
- <20210429110229.7jtz6hfrfvqdkrbx@gator>
- <f5b264ff-58ed-0cd2-3b84-42fa1724b8ac@huawei.com>
- <20210430064125.3b5fjolwqculrjxz@gator.home>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <612c71d5-83cd-d055-48a4-e06153837f8d@huawei.com>
-Date: Fri, 30 Apr 2021 16:59:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcPBm-0004Wk-Mq
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcPBh-0003pS-F6
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcPBd-000283-77
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 347F42E815D
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210430064125.3b5fjolwqculrjxz@gator.home>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 09:00:34 -0000
+From: Thomas Huth <1909247@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: cve fuzzer qemu security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland mauro-cascella philmd pjps
+X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
+Message-Id: <161977323535.4732.17160298625241163988.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
+ in hw/scsi/esp.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 22926050498b4c8ee2520ada1580661a8f8d5ff7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,223 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
- yangyicong@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- prime.zeng@hisilicon.com, Igor
- Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Changed in: qemu
+       Status: Fix Committed =3D> Fix Released
 
-On 2021/4/30 14:41, Andrew Jones wrote:
-> On Fri, Apr 30, 2021 at 01:09:00PM +0800, wangyanan (Y) wrote:
->> Hi Drew,
->>
->> On 2021/4/29 19:02, Andrew Jones wrote:
->>> On Thu, Apr 29, 2021 at 04:56:06PM +0800, wangyanan (Y) wrote:
->>>> On 2021/4/29 15:16, Andrew Jones wrote:
->>>>> On Thu, Apr 29, 2021 at 10:14:37AM +0800, wangyanan (Y) wrote:
->>>>>> On 2021/4/28 18:31, Andrew Jones wrote:
->>>>>>> On Tue, Apr 13, 2021 at 04:31:45PM +0800, Yanan Wang wrote:
->>>>>>>>              } else if (sockets == 0) {
->>>>>>>>                  threads = threads > 0 ? threads : 1;
->>>>>>>> -            sockets = cpus / (cores * threads);
->>>>>>>> +            sockets = cpus / (clusters * cores * threads);
->>>>>>>>                  sockets = sockets > 0 ? sockets : 1;
->>>>>>> If we initialize clusters to zero instead of one and add lines in
->>>>>>> 'cpus == 0 || cores == 0' and 'sockets == 0' like
->>>>>>> 'clusters = clusters > 0 ? clusters : 1' as needed, then I think we can
->>>>>>> add
->>>>>>>
->>>>>>>      } else if (clusters == 0) {
->>>>>>>          threads = threads > 0 ? threads : 1;
->>>>>>>          clusters = cpus / (sockets * cores * thread);
->>>>>>>          clusters = clusters > 0 ? clusters : 1;
->>>>>>>      }
->>>>>>>
->>>>>>> here.
->>>>>> I have thought about this kind of format before, but there is a little bit
->>>>>> difference between these two ways. Let's chose the better and more
->>>>>> reasonable one of the two.
->>>>>>
->>>>>> Way A currently in this patch:
->>>>>> If value of clusters is not explicitly specified in -smp command line, we
->>>>>> assume
->>>>>> that users don't want to support clusters, for compatibility we initialized
->>>>>> the
->>>>>> value to 1. So that with cmdline "-smp cpus=24, sockets=2, cores=6", we will
->>>>>> parse out the topology description like below:
->>>>>> cpus=24, sockets=2, clusters=1, cores=6, threads=2
->>>>>>
->>>>>> Way B that you suggested for this patch:
->>>>>> Whether value of clusters is explicitly specified in -smp command line or
->>>>>> not,
->>>>>> we assume that clusters are supported and calculate the value. So that with
->>>>>> cmdline "-smp cpus=24, sockets=2, cores=6", we will parse out the topology
->>>>>> description like below:
->>>>>> cpus =24, sockets=2, clusters=2, cores=6, threads=1
->>>>>>
->>>>>> But I think maybe we should not assume too much about what users think
->>>>>> through the -smp command line. We should just assume that all levels of
->>>>>> cpu topology are supported and calculate them, and users should be more
->>>>>> careful if they want to get the expected results with not so complete
->>>>>> cmdline.
->>>>>> If I'm right, then Way B should be better. :)
->>>>>>
->>>>> Hi Yanan,
->>>>>
->>>>> We're already assuming the user wants to describe clusters to the guest
->>>>> because we require at least one per socket. If we want the user to have a
->>>>> choice between using clusters or not, then I guess we need to change the
->>>>> logic in the PPTT and the cpu-map to only generate the cluster level when
->>>>> the number of clusters is not zero. And then change this parser to not
->>>>> require clusters at all.
->>>> Hi Drew,
->>>>
->>>> I think this kind of change will introduce more complexity and actually is
->>>> not necessary.
->>>> Not generating cluster level at all and generating cluster level (one per
->>>> socket) are same
->>>> to kernel. Without cluster description provided, kernel will initialize all
->>>> cores in the same
->>>> cluster which also means one cluster per socket.
->>> Which kernel? All kernels? One without the cluster support patches [1]?
->>>
->>> [1] https://lore.kernel.org/lkml/20210420001844.9116-1-song.bao.hua@hisilicon.com/#t
->> I'm sorry, I didn't make it clear. :)
->> I actually mean the ARM64 kernel, with or without [1].
->>
->> Without [1]: Kernel doesn't care about cluster. When populating cpu
->> topology, it directly
->> finds the hierarchy node with "physical package flag" as package when
->> parsing ACPI, and
->> finds the core node's parent as package when parsing DT. So even we provide
->> cluster level
->> description (one per socket), the parsing results will be the same as not
->> providing at all.
->>
->> With [1]: Kernel finds the core hierarchy node's parent as cluster when
->> parsing ACPI. So if
->> we don't provide cluster level description, package will be taken as
->> cluster. And if we provide
->> the description (one per socket), the parsing result will also be the same.
->>
->> That's why I said that we just need to provide description of cluster (one
->> per socket) if we
->> don't want to make use of it in VMs.
-> OK, that sounds good.
->
->> [1] https://lore.kernel.org/lkml/20210420001844.9116-1-song.bao.hua@hisilicon.com/#t
->>>> So we should only ensure value of clusters per socket is one if we don't
->>>> want to use clusters,
->>>> and don't need to care about whether or not to generate description in PPTT
->>>> and cpu-map.
->>>> Is this right?
->>> Depends on your answer to my 'which kernel' questions.
->>>
->>>>> I'm not a big fan of these auto-calculated values either, but the
->>>>> documentation says that it'll do that, and it's been done that way
->>>>> forever, so I think we're stuck with it for the -smp option. Hmm, I was
->>>>> just about to say that x86 computes all its values, but I see the most
->>>>> recently added one, 'dies', is implemented the way you're proposing we
->>>>> implement 'clusters', i.e. default to one and don't calculate it when it's
->>>>> missing. I actually consider that either a documentation bug or an smp
->>>>> parsing bug, though.
->>>> My propose originally came from implementation of x86.
->>>>> Another possible option, for Arm, because only the cpus and maxcpus
->>>>> parameters of -smp have ever worked, is to document, for Arm, that if even
->>>>> one parameter other than cpus or maxcpus is provided, then all parameters
->>>>> must be provided. We can still decide if clusters=0 is valid, but we'll
->>>>> enforce that everything is explicit and that the product (with or without
->>>>> clusters) matches maxcpus.
->>>> Requiring every parameter explicitly will be most stable but indeed strict.
->>>>
->>>> Currently all the parsers use way B to calculate value of thread if it is
->>>> not provided explicitly.
->>>> So users should ensure the -smp cmdline they provided can result in that
->>>> parsed threads will
->>>> be 1 if they don't want to support multiple threads in one core.
->>>>
->>>> Very similar to thread, users should also ensure the provided cmdline can
->>>> result in that parsed
->>>> clusters will be 1 if they don't want to support multiple clusters in one
->>>> socket.
->>>>
->>>> So I'm wondering if we can just add some commit in the documentation to tell
->>>> users that they
->>>> should ensure this if they don't want support it. And as for calculation of
->>>> clusters, we follow
->>>> the logic of other parameters as you suggested in way B.
->>>>
->>>> Thanks,
->>>> Yanan
->>>>> Requiring every parameter might be stricter than necessary, though, I
->>>>> think we're mostly concerned with cpus/maxcpus, sockets, and cores.
->>>>> clusters can default to one or zero (whatever we choose and document),
->>>>> threads can default to one, and cpus can default to maxcpus or maxcpus can
->>>>> default to cpus, but at least one of those must be provided. And, if
->>>>> sockets are provided, then cores must be provided and vice versa. If
->>>>> neither sockets nor cores are provided, then nothing else besides cpus and
->>>>> maxcpus may be provided, and that would mean to not generate any topology
->>>>> descriptions for the guest.
->>> I still don't know. I think I prefer making -smp more strict (even for
->>> other architectures, but that's more difficult to do than for Arm.) What I
->>> wrote above isn't that bad. We only require one of cpus or maxcpus (pretty
->>> much everybody already does that anyway), and then, if given sockets
->>> or cores, the other will also be required. I assume anybody who bothers to
->>> specify one or the other would already specify both anyway.
->> I agree to make -smp more strict. We want to expose the cpu topology
->> information
->> to guest kernel, so that it can take advantage of the information for better
->> scheduling.
->>  From this point of view, we hope the topology descriptions are accurately
->> specified
->> but not automatically populated.
->>
->> But I think the requirement for ARM "if even one parameter other than cpus
->> or maxcpus
->> is provided then all parameters must be provided" will be better. This can
->> ensure the
->> whole accurate users-specified topology. As you mentioned, if anybody who
->> bothers
->> to specify one, why not also specify the others.
->>
->> I can add the requirement for ARM in the documentation, and also check the
->> parameters
->> in virt_smp_parse. Will this be fine?
-> We sort of have to support command lines that are missing 'maxcpus' and
-> 'clusters', unless we work together with libvirt to make the change.
-> Currently libvirt will generate '-smp 16,sockets=16,cores=1,threads=1'
-> from '<vcpu placement='static'>16</vcpu>'.
-I see. And libvirt currently doesn't support cluster in xml, which means
-we can not generate complete cmdlines with cluster in it through
-<topology ...> specification in xml.
-> That's sufficient for our
-> stricter, but not completely strict requirements. And, I still think
-> 'threads' could be optional, because there's a good chance the user
-> doesn't want to describe them, so a default of 1 is good enough.
-So the parsing logic can be repeated like this:
-We require at least one of cpus and maxcpus specified explicitly, and 
-default
-cluster/thread to 1 if not explicitly specified. And require both of 
-sockets and
-cores if one of them is specified.
+-- =
 
-This is consistent with what you mentioned yesterday.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909247
 
-Thanks,
-Yanan
->   Also,
-> given maxcpus, but not cpus, it's pretty obvious that cpus should equal
-> maxcpus.
->
-> Thanks,
-> drew
->
-> .
+Title:
+  QEMU: use after free vulnerability in esp_do_dma() in hw/scsi/esp.c
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  A use-after-free vulnerability was found in the am53c974 SCSI host bus
+  adapter emulation of QEMU. It could occur in the esp_do_dma() function
+  in hw/scsi/esp.c while handling the 'Information Transfer' command
+  (CMD_TI). A privileged guest user may abuse this flaw to crash the
+  QEMU process on the host, resulting in a denial of service or
+  potential code execution with the privileges of the QEMU process.
+
+  This issue was reported by Cheolwoo Myung (Seoul National University).
+
+  Original report:
+  Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in
+  am53c974 emulator of QEMU enabled ASan.
+
+  It occurs while transferring information, as it does not check the
+  buffer to be transferred.
+
+  A malicious guest user/process could use this flaw to crash the QEMU
+  process resulting in DoS scenario.
+
+  To reproduce this issue, please run the QEMU with the following command
+  line.
+
+  # To enable ASan option, please set configuration with the following
+  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
+tizers
+  $ make
+
+  # To reproduce this issue, please run the QEMU process with the following=
+ command line
+  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
+disk,format=3Draw \
+  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
+  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+
+  Please find attached the disk images to reproduce this issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909247/+subscriptions
 
