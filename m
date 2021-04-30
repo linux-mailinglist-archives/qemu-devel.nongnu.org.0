@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F75836FE0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:51:33 +0200 (CEST)
-Received: from localhost ([::1]:33338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111CF36FE26
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:56:15 +0200 (CEST)
+Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcVQR-0007aZ-1R
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49476)
+	id 1lcVV0-0002QV-47
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:56:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVNI-0006jU-NO
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:48:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39287)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lcVP8-0007jo-Dk
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:50:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcVNE-00009c-EN
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:48:15 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lcVP5-0000n2-2j
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:50:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619797691;
+ s=mimecast20190719; t=1619797806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+x/qTPdW3YLPmwHvuPmRKO/hohfXbBaE1IyjrzUmUK4=;
- b=ELOoQBU56MLVUUOCmFRPtgkhMl0UFf4s1Dh22G6Rlpfb00L1yQhTZEsaUoCfmeFMBEuaTB
- iCv9MAnRr8OX3WNTORmglu8BOnsqlGNmSQbNDX+Ii8ge75BCnx0r95ojkh+F6HsIq2awhX
- R3sz9+AA67c3PI8A+DBvsd+OgQ/LWF8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-COBuiVhgMbmtTWxnIFpd9w-1; Fri, 30 Apr 2021 11:48:08 -0400
-X-MC-Unique: COBuiVhgMbmtTWxnIFpd9w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c205-20020a1c9ad60000b02901477e6d427bso589651wme.1
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:48:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+x/qTPdW3YLPmwHvuPmRKO/hohfXbBaE1IyjrzUmUK4=;
- b=lM3CUc9Unro8A4QjhjLKQ7s9ESwZ6mv8aYwGnbuiMHUmINiVq5qmkSgefhTkDBm3JT
- U99YhKtb9+BvKfswtP5/CHSeNxziK92uNh4qTzHtEODiZEy9/+F4MyQuUziGPLEAbZku
- FVFnxwvED+zvn8XIW976q9CSPjck5GAOLB4n9TMlsslMmsmXCuzHTfR7BsoPckelA5O8
- /y2sVw0jXyCPJOD4vFfrdWzygk/jepBdvKiPJ0MLc+5xO3FS7w5bC8wm1v4oSAESMev2
- hw8MovVVXeJi0u1uYChhfWahIDJUbkBcez1OQBvsVMwFSxgu7YHnW6L+D8KwHU2adp7L
- QqqA==
-X-Gm-Message-State: AOAM533Yleqe84C5kIBU8+vYnNlH1IHw0gGZKnBYGg9kY3hMJz8h/y5G
- 48ru9LM+/W2V090A/GiXNVFT+A6y1t5a+ONMcskVodwv2eAZDc1tgWWMPbeHfIU0Ggx5ubrcz9L
- L7aWjam9YS1LvkiU=
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr3383736wma.5.1619797687484;
- Fri, 30 Apr 2021 08:48:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMkS9AbSkmqvF2CBhomjcPA4ZtwsJg0ML1NaJ1q0lv/j7cs5DP8T99Liw9Lf8uh3ePMkbAYw==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr3383708wma.5.1619797687230;
- Fri, 30 Apr 2021 08:48:07 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id j13sm2615429wrw.93.2021.04.30.08.48.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 08:48:06 -0700 (PDT)
-Subject: Re: [PATCH v4 10/12] qtest/qmp-cmd-test: Make test build-independent
- from accelerator
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-11-philmd@redhat.com>
- <87lf91ir1m.fsf@dusky.pond.sub.org>
- <1de6b3f8-7d7c-9280-4cd3-633a19dd9b8e@redhat.com>
- <874kfprzrw.fsf@dusky.pond.sub.org>
- <603c7934-ea16-baf8-9ae5-ab221db345c7@redhat.com>
- <87zgxgnvtv.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <32bc66bc-1ccf-c146-52ac-83c7b4913930@redhat.com>
-Date: Fri, 30 Apr 2021 17:48:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=eI7HZy+Qyeh7zH+vFaAShb/g0kluDK75k5NY8F+ir7s=;
+ b=IugztAxLSTL34A1FfzvGaIONRV1jTfnSRh15wbRbTrXHDqNClb3gGdfWPak1xrlr8RNPWy
+ i6lxB7KQsrGphrrDIByL5/+P/RPBsTlpk7D643xCGnRwja6G90Y/Wszyh5pUkOz/CWIPxq
+ 3QXQDIPPIzTi9WDl0fFs+kKuMnc/stE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-Mq2PYjhVOgWiFZbF8GbVaQ-1; Fri, 30 Apr 2021 11:50:03 -0400
+X-MC-Unique: Mq2PYjhVOgWiFZbF8GbVaQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F351801106;
+ Fri, 30 Apr 2021 15:50:01 +0000 (UTC)
+Received: from localhost (ovpn-112-107.ams2.redhat.com [10.36.112.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B14AD5D9E2;
+ Fri, 30 Apr 2021 15:49:56 +0000 (UTC)
+Date: Fri, 30 Apr 2021 16:49:55 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
+Message-ID: <YIwnI0ML0BEkQ1iE@stefanha-x1.localdomain>
+References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
+ <YIrV9MqlqwUhJR+B@merkur.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <87zgxgnvtv.fsf@dusky.pond.sub.org>
+In-Reply-To: <YIrV9MqlqwUhJR+B@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="S/EdYP1ionSX9wMr"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,85 +79,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: pkrempa@redhat.com, Alberto Garcia <berto@igalia.com>, slp@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, rjones@redhat.com,
+ mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 8:13 AM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->> On 4/29/21 3:22 PM, Markus Armbruster wrote:
->>> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->>>>>> Now than we can probe if the TCG accelerator is available
->>>>>> at runtime with a QMP command, do it once at the beginning
->>>>>> and only register the tests we can run.
->>>>>> We can then replace the #ifdef'ry by a runtime check.
->>>>>>
->>>>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>
->>>>> Please read the last remark first.  The other ones are detail; feel free
->>>>> to skip them until we're done with the last one.
->>>>>
->>>>>> ---
->>>>>>  tests/qtest/qmp-cmd-test.c | 18 ++++++++++++++----
->>>>>>  1 file changed, 14 insertions(+), 4 deletions(-)
->>>>
->>>>>> +    tcg_accel_available = qtest_has_accel("tcg");
->>>>>> +
->>>>>
->>>>> When does tcg_accel_available differ from defined(CONFIG_TCG)?
->>>>
->>>> qtest_has_accel("tcg") is a runtime check, while defined(CONFIG_TCG)
->>>> is build-time.
->>>
->>> Let me rephrase my question: under what conditions can the values of
->>> qtest_has_accel("tcg") and defined(CONFIG_TCG) differ?
->>
->> They are currently the same, so this patch is a no-op. *But* it
->> allows us to remove the global dependence on CONFIG_TCG in the
->> Meson machinery (see the last commit in this series).
->>
->> Is that missing part of the commit description?
->>
->> "This will allow us to remove the global CONFIG_TCG dependency
->> in our Meson machinery in a pair of commits."?
-> 
-> Do you mean "in the next two commits"?
+--S/EdYP1ionSX9wMr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes.
+On Thu, Apr 29, 2021 at 05:51:16PM +0200, Kevin Wolf wrote:
+> Am 29.04.2021 um 16:05 hat Stefan Hajnoczi geschrieben:
+> > Hi,
+> > A preview release of libblkio, a library for high-performance block I/O=
+,
+> > is now available:
+> >=20
+> >   https://gitlab.com/libblkio/libblkio/-/tree/v0.1.0
+> >=20
+> > Applications are increasingly integrating high-performance I/O
+> > interfaces such as Linux io_uring, userspace device drivers, and
+> > vhost-user device support. The effort required to add each of these
+> > low-level interfaces into an application is relatively high. libblkio
+> > provides a single API for efficiently accessing block devices and
+> > eliminates the need to write custom code for each one.
+> >=20
+> > The library is not yet ready to use and currently lacks many features.
+> > In fact, I hope this news doesn't spread too far yet because libblkio i=
+s
+> > at a very early stage, but feedback from the QEMU community is necessar=
+y
+> > at this time.
+>=20
+> I'm a bit worried about the configuration interface. This looks an awful
+> lot like plain QOM properties, which have proven to result in both very
+> verbose (not to say messy) and rather error prone implementations.
+>=20
+> You have to write setters/getters for every property, even if it usually
+> ends up doing the same thing, storing the value somewhere. Worse, these
+> getters and setters have to work in very different circumstances, namely
+> initialisation where you usually have to store the value away so that it
+> can be checked for consistency with other properties in .realize() or
+> .complete(), and property updates during runtime. Often enough, we
+> forget the latter and create bugs. If we don't create bugs, we usually
+> start with 'if (realized)' and have two completely different code paths.
+> Another common bug in QOM objects is forgetting to check if mandatory
+> properties were actually set.
+>
+> Did you already consider these problems and decided to go this way
+> anyway, or is this more of an accidental design? And if the former, what
+> were the reasons that made it appealing?
 
-> Please also note that the probing at run-time always gives the same
-> result as the compile-time check it replaces.
-> 
-> I don't understand what exactly the conversion to probing enables and
-> how, but I believe I don't have to.
+That's true. Here is the code to reject accesses when the instance is
+not initialized:
 
-This series is removing some limitations in qtests to help Claudio work:
+  self.must_be_initialized()?;
 
-x86: https://www.mail-archive.com/qemu-devel@nongnu.org/msg793885.html
-arm: https://www.mail-archive.com/qemu-devel@nongnu.org/msg799328.html
-s390x: https://www.mail-archive.com/qemu-devel@nongnu.org/msg800254.html
+It's very concise but you still need to remember to add it.
 
-which allow building with different sets of accelerators (and more).
+The overall reasons for choosing the properties API were:
 
-Claudio/Paolo could better explain :)
+1. It keeps the library's API very minimal (just generic getters/setters
+   for primitive types). It minimizes ABI compatibility issues because
+   there are no configuration structs or functions exported by the
+   library.
 
+2. It's trivial to have a string setter/getter that automatically
+   converts to the primitive type representation, so application config
+   file or command-line values can easily be set.
 
-What I like from feature tested at runtime is we can run qtests using
-older binaries, binaries built with different configure flags, or the
-binaries installed by the distribution.
+   This is kind of the inverse of what you're saying. If the library
+   offers dedicated interfaces for each configuration value then the
+   library doesn't need getters/setters for each one but all
+   applications need special-purpose code for each configuration value.
 
-Thanks,
+That said, this is exactly why I published the preview release. If
+someone has a better way to do this or the feedback is just that this is
+bad style, then I'm happy to change it.
 
-Phil.
+> Alternatives in QEMU are qdev properties (which are internally QOM
+> properties, but provide default implementations and are at least
+> automatically read-only after realize, avoiding that whole class of
+> bugs) and QAPI.
+> If this was QEMU code, I would of course go for QAPI, but a library is
+> something different and adding the code generator would probably be a
+> bit too much anyway. But the idea in the resulting code would be dealing
+> with native structs instead of a bunch of function calls. This would
+> probably be the least error prone way for the implementation, but of
+> course, it would make binary compatibility a bit harder when adding new
+> properties.
+
+An alternative I considered was the typestate and builder patterns:
+
+  /* Create a new io_uring driver in the uninitialized state */
+  struct blkio_iou_uninit *blkio_new_io_uring(void);
+
+  /* Uninitialized state property setters */
+  int blkio_iou_uninit_set_path(struct blkio_iou_uninit *u,
+                                const char *path);
+  int blkio_iou_uninit_set_direct(struct blkio_iou_uninit *u,
+                                  bool o_direct);
+  ...
+
+  /* Transition to initialized state. Frees u on success. */
+  struct blkio_iou_init *blkio_iou_init(struct blkio_iou_uninit *u);
+
+  /* Initialized state property setters/getters */
+  int blkio_iou_init_get_capacity(struct blkio_iou_init *i,
+                                  uint64_t *capacity);
+  ...
+
+  /* Transition to started state. Frees i on success. */
+  struct blkio_iou_started *blkio_iou_start(struct blkio_iou_init *i);
+
+  ...
+
+  /* Transition back to initialized state. Frees s on success. */
+  struct blkio_iou_init *blkio_iou_stop(struct blkio_iou_started *s);
+
+On the plus side:
+
+- No state checks are needed because an API won't even exist if it's
+  unavailable in a given state (uninitialized/initialized/started).
+
+- State structs come with pre-initialized default values, so the caller
+  only needs to set non-default values. For example O_DIRECT is false by
+  default and callers happy with that don't need to set the property.
+
+- ABI compatibility is easy since the state structs are opaque (their
+  size is not defined) and new properties can be added at any time.
+
+On the minus side:
+
+- Completely static. Hard to introspect and requires a dedicated call
+  site for each property (applications cannot simply assign a property
+  string given to them on the command-line). This means every single
+  property must be explicitly coded into every application :(.
+
+- So many functions! This makes understanding the API harder.
+
+- Very verbose. The function and type names get long and there is a lot
+  of repetition in the API.
+
+> Thinking a bit further, we'll likely get the same problems as with QOM
+> in other places, too, e.g. how do you introspect which properties exist
+> in a given build?
+
+Right, there is no introspection although probing individual properties
+is possible (-ENOENT). Adding introspection wouldn't be hard but the
+library API just doesn't exist today.
+
+Stefan
+
+--S/EdYP1ionSX9wMr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCMJyMACgkQnKSrs4Gr
+c8jU4Qf/ZpcgLw7cKp52Idfg8ezNGPUaaC+OrGSdiaOKKKeMxzYNwZnhyaKk0AYO
+9w2vaiO3b3KQNwdbyyqcxz107Eo3jh7yqPlBVykLrYZUMSKrnvrjyw3MFN5Vsxp9
+DlQwr/k0P3MEYTfn9fVGZBbbQ8VyLY9aG2oIEIB+/ZuRCzVowNmfPzzpf2+d0Des
+veI+E5ZdT3bFFIVy50SYgrnP45UwgkCO93xFqCf4V7k587hoZ7BlzL7EacOmakqu
+TcloFy9evXdyxpOlj4oHDt3EyPn6RjOpxszT9vd47Y3+g/4hlMXV/HGEEdHT+dQd
+oo31JaKA1KhRrrVvYjOvSlmZc7KNvQ==
+=brnu
+-----END PGP SIGNATURE-----
+
+--S/EdYP1ionSX9wMr--
 
 
