@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E9436FBDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:04:59 +0200 (CEST)
-Received: from localhost ([::1]:44882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886F736FBE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:08:02 +0200 (CEST)
+Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcTlK-0003lW-Pm
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50748)
+	id 1lcToH-0007KZ-G4
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcThN-0000bZ-8q
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcThI-00069d-KB
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:00:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcThF-000796-Rl
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 14:00:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C855B2E815D
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 14:00:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcTch-0004VT-82
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:56:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55361)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcTcf-0003Ez-DT
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:56:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619790960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hF/EIJgJvBrv102KMNDjsSOyDqSwvQu0LcCfAAjFRMM=;
+ b=GDQ5I0Ss9L66PYcnodTJEADeOh1tIqrWv2KwJjGEXOZHCGwV/KU7UJdpGLK9zgglTV1Ozy
+ mBj8407TMffs/BLjtSYrz00ceveocI5J+CcvQ9t7SFB0MaOCUWG/1zEVK75SDA1AFbbsP8
+ ZncrAhLk7dnfIMoHlCBTg6fvqILhrX8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-4RPaQ-YuPauzLiJJTrWLwA-1; Fri, 30 Apr 2021 09:55:58 -0400
+X-MC-Unique: 4RPaQ-YuPauzLiJJTrWLwA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB6C2107ACC7;
+ Fri, 30 Apr 2021 13:55:57 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-68.ams2.redhat.com
+ [10.36.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F8E42B1AA;
+ Fri, 30 Apr 2021 13:55:55 +0000 (UTC)
+Subject: Re: [PATCH v3 15/15] docs/devel/testing: add -p option to the debug
+ section of QEMU iotests
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210414170352.29927-1-eesposit@redhat.com>
+ <20210414170352.29927-16-eesposit@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <544b24e0-799e-c5d1-686b-9545a8b68218@redhat.com>
+Date: Fri, 30 Apr 2021 15:55:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 13:52:23 -0000
-From: Peter Maydell <1926759@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui pmaydell
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
-Message-Id: <161979074316.10821.15751743028681043578.malone@gac.canonical.com>
-Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 6738402460c62af12c33a9165b70f1ab1c0fb039
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210414170352.29927-16-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,51 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The aarch64 kernel traps and handles WFI as a NOP: https://git.kernel.org/p=
-ub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3Dc219bc4e9205 -- so =
-that's probably the most sensible implementation for our linux-user mode. (=
-The aarch32 kernel doesn't trap it, yet, but =
+On 14.04.21 19:03, Emanuele Giuseppe Esposito wrote:
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   docs/devel/testing.rst | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 62902cfd2d..0c18fc4571 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -246,6 +246,10 @@ given as options to the ``check`` script:
+>   * ``-d`` (debug) just increases the logging verbosity, showing
+>     for example the QMP commands and answers.
+>   
+> +* ``-p`` (print) allows QEMU binary stdout to be shown in the
 
-"WFI is a NOP" is a valid architectural implementation anyway.)
+stderr, too.
 
--- =
+> +  test console, instead of saving it into a log file in
+> +  ``$TEST_DIR/qemu-machine-<random_string>``.
+> +
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926759
+It doesn’t allow this, though, it forces it.  That means that tests that 
+use the log will fail (e.g. 245)[1].  That is, I’d drop the “allows” and 
+just state “redirect QEMU’s stdout and stderr to the test output, 
+instead of...”.
 
-Title:
-  WFI instruction results in unhandled CPU exception
+[1] I realize that all tests will technically fail with -p, because the 
+reference output differs, but 245 will not just fail because of that 
+difference, but because two of its cases actually really fail.
+No need to make a note of this, though.  It’s just that “allows” sounds 
+a bit like qemu could choose to put some info into the test output and 
+some into the log, when really it’s all or nothing (-p or not -p).
 
-Status in QEMU:
-  Confirmed
+Max
 
-Bug description:
-  Hi
+>   Test case groups
+>   ----------------
+>   
+> 
 
-  I refer to the WFI instruction. The bytecode is 0xe320f003. After the
-  execution, qemu exit with the following  crash log.
-
-  qemu: unhandled CPU exception 0x10001 - aborting
-  R00=3D00000001 R01=3D40800b34 R02=3D40800b3c R03=3D000102ec
-  R04=3D00010a28 R05=3D00010158 R06=3D00087460 R07=3D00010158
-  R08=3D00000000 R09=3D00000000 R10=3D00085b7c R11=3D408009f4
-  R12=3D40800a08 R13=3D408009f0 R14=3D0001057c R15=3D000102f8
-  PSR=3D60000010 -ZC- A usr32
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f5c=
-21d0fa12
-
-  WFI aims to enter a low-power state and wait for interrupt. The raised
-  exception seems not a right behavior. I can provide a testcase if you
-  needed. Many thanks.
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926759/+subscriptions
 
