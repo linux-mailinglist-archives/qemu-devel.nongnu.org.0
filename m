@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A992A36FF64
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:22:09 +0200 (CEST)
-Received: from localhost ([::1]:35662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C5D36FF71
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:24:45 +0200 (CEST)
+Received: from localhost ([::1]:45340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWq8-0008MI-KN
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37536)
+	id 1lcWse-0003xp-4n
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWWV-0000WR-Fp; Fri, 30 Apr 2021 13:01:51 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:48677)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lcWZ2-0002W5-Ql; Fri, 30 Apr 2021 13:04:28 -0400
+Received: from smtpout2.3005.mail-out.ovh.net ([46.105.54.81]:42673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWWT-0002eh-HU; Fri, 30 Apr 2021 13:01:51 -0400
-Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MDPuq-1lkjRr3kAQ-00AVJk; Fri, 30 Apr 2021 19:01:42 +0200
-Subject: Re: [PATCH] baum: Fix crash when Braille output is not available
-To: Thomas Huth <thuth@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
-References: <20210310160815.3411019-1-samuel.thibault@ens-lyon.org>
- <8624f8c8-d541-051a-13f6-f05d685fefde@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <60cd5c4c-26f6-87f6-81b1-e9fcc1440659@vivier.eu>
-Date: Fri, 30 Apr 2021 19:01:40 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lcWZ0-000337-PP; Fri, 30 Apr 2021 13:04:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 458CE13B21F;
+ Fri, 30 Apr 2021 17:04:24 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 30 Apr
+ 2021 19:04:23 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006a7d3ee33-784e-45c9-83d4-9f028c9638da,
+ 9A331A41C0BF42F629797A62CE73732E2E9A8538) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PULL 00/18] aspeed queue
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210430163309.4182922-1-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <6ce25b08-1329-9578-1be1-902f3460fbcb@kaod.org>
+Date: Fri, 30 Apr 2021 19:04:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <8624f8c8-d541-051a-13f6-f05d685fefde@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <20210430163309.4182922-1-clg@kaod.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:s/ANIcAQREBTiXq9A0iAwaoGz8dfpDxrL3yEqMh6S+0IRZk1BeD
- VZ6p6AaPSgl7PYSY1W4bQ/sZQdCX1PuYuZilU2bN5rsJ71HB/OveMYiUOACf12FYIE8P7rP
- OTcXWscBGk/DBtOeQFiJGnsZjfHt/QJUeMpXfjjepjONd7h+r3e2L2qlWWLgnyepgxeAo+w
- rOCoQd5gMgsMB8hC9ckTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pk0rhs9atdo=:jnTIEn7bB6gJF/CzGmG3eh
- net/vf/whkviAZBMtFXWehPGdpxtbIMB764n+RuGOGgSaRYc2mbFhNQkzTHhBHXhYVhnHJ8zn
- QnUXYwf9tCq/alaJp75pLtw4uG4stg7IE5gHCQHsobeYoBe+ermQY2E6Jm0kaiTZdD7xKYTFi
- lvhTsDThJRyvYjsVcCsPiuxtfEKCfYKDTEPOMkh6nuHMpM3wFE/gupwI+16YQTZShCJADSgHy
- y7brw+BPSNKsJRDYNoYjqM+d20d8BhkylsU54I9Yx8jezMXBV0R1ApVqvJN02N5vCobfbgiQc
- +a3FTxMyRhHvdi91ZLLHz961Y0o3s450E/D45YsMj34IZ3ww74q0uytNdRCqJqvp2a5QN9R2S
- 6WcxRVRlEbAUxgi7FY6KzxrLEcOUnv3KbYOn6kq17O5Sykvg2jz5LzClkJfrzFqHzIX9w8+45
- zesYspGWWlNegkjeCcEV8QhCz8Wwky0Jk6Ur/6W8RsqmoaVmUwzpLrJSbKFeOdqdsGLS+JQ+f
- 1G7QHSEe2LKgrMCtMM1WfU=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 02c4a9d2-b5a4-4106-8d49-3c34c0066f9b
+X-Ovh-Tracer-Id: 4078009463558147037
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehuedtheeghfdvhedtueelteegvdefueektdefiefhffffieduuddtudfhgfevtdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout2.3005.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,49 +68,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2021 à 18:23, Thomas Huth a écrit :
-> On 10/03/2021 17.08, Samuel Thibault wrote:
->> When Braille output is not available, the backend properly reports being
->> unable to be created, but 5f8e93c3e262 ("util/qemu-timer: Make timer_free()
->> imply timer_del()") made the timer_free() call now refuse any NULL
->> parameter. char_braille_finalize thus now has to be more careful with
->> calling it on baum->cellCount_timer.
->>
->> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
->> ---
->>   chardev/baum.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/chardev/baum.c b/chardev/baum.c
->> index 5deca778bc..aca5bf12fb 100644
->> --- a/chardev/baum.c
->> +++ b/chardev/baum.c
->> @@ -631,7 +631,9 @@ static void char_braille_finalize(Object *obj)
->>   {
->>       BaumChardev *baum = BAUM_CHARDEV(obj);
->>   -    timer_free(baum->cellCount_timer);
->> +    if (baum->cellCount_timer) {
->> +        timer_free(baum->cellCount_timer);
->> +    }
->>       if (baum->brlapi) {
->>           brlapi__closeConnection(baum->brlapi);
->>           g_free(baum->brlapi);
-> 
-> I just tried to debug this problem, too, and came to the same conclusion.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-> 
+Peter,
 
-Applied to my trivial-patches branch.
+On 4/30/21 6:33 PM, Cédric Le Goater wrote:
+> The following changes since commit 609d7596524ab204ccd71ef42c9eee4c7c338ea4:
+> 
+>   Update version for v6.0.0 release (2021-04-29 18:05:29 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/legoater/qemu/ tags/pull-aspeed-20210430
+> 
+> for you to fetch changes up to 1401dcd8aac9039797b995bfab078877a820c9c5:
+> 
+>   aspeed: Add support for the quanta-q7l1-bmc board (2021-04-30 10:30:42 +0200)
+> 
+> ----------------------------------------------------------------
+> Aspeed patches :
+> 
+> * Fixes for the DMA space
+> * New model for ASPEED's Hash and Crypto Engine (Joel and Klaus)
+> * Acceptance tests (Joel)
+> * A fix for the XDMA  model
+> * Some extra features for the SMC controller.
+> * Two new boards : rainier-bmc and quanta-q7l1-bmc (Patrick)
+
+I sent the patchset in two rounds: 0-9 and 10-18, so the threading 
+is broken :/ Sorry about that.
 
 Thanks,
-Laurent
+
+C.
 
