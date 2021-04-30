@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B61336FC4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:25:05 +0200 (CEST)
-Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC6B36FC82
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:36:04 +0200 (CEST)
+Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcU4m-0004yq-K7
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:25:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
+	id 1lcUFP-0003mr-LJ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcU3D-0003bl-4u
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:23:27 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:46954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcU39-0002M6-VO
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:23:26 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- u14-20020a17090a1f0eb029014e38011b09so1843214pja.5
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 07:23:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FmXAZs3IUZUMOYlbGkVhXna2YmnPZP0m6+bIotg8g0c=;
- b=XnNwW1w5oMgpheU8GZuHzJStbT4rpe9kFODFreQAKUuB6g7AlIXHyqtMKhXTa2Hx7s
- ppNZWqNU44EONGZupsdlkF6wUmiJPsNzfXtIRgGOZnMxiRVdMiZM4xxgW28eNs/stWrE
- XglhNa/sqq0ILLaksZ3wNzV4OFE7QsrGYviq5Xj6uxxtxNWb7q2ApfGzrXD984bGzN5Y
- IL2zUZNJL9a2oDjQ5CrqnpGjbH8zVgMK2F9OJXD9vFPt9G597/IYVGtq4g4vGpjsfDvo
- xf3T/TD7dqwWKiH36O6SU/hZ9s3Jv8uEyvETcdSrxEhF2iL0LTxN9/1H8fpgpOfNs0PM
- GBlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FmXAZs3IUZUMOYlbGkVhXna2YmnPZP0m6+bIotg8g0c=;
- b=K+hevRx7w2CzAYTgnVAmUPFuBiJ/5VRypAcxdEmx7mPx3twNrmtHAs2eRWt7tCdvEY
- aCqszgL4XE6spdZRG0GLrvvnga4/EAYW338MQz0+oHau/LIEm8of6ma0XM3Y/Hw2Wzgm
- C7QVpRxBfcV7NRKBE5qsbK1iPBtG+Et2KkQbSA9ru5RkwoevqRYu22wvyC2fZwEipAEQ
- r7RDbBFZPWREcC+b81GkqZgDyv/MtVaaQTgNeOBSpmF3PRubFBlHBKzXbFQ0jaOE0HmS
- JcpEyU04pfRH4vbh6uunzUlxv2q7sx8vcaLuD32mmqnSc8MtTBIT4Unxapgh1rBqhtNb
- BhBA==
-X-Gm-Message-State: AOAM530dqG0cZTN7nQc6eAaD/hC7KxFybksw/zUqjl3utYjfye5fTKqp
- BCRvDTOocysUuYXtCGcMSu1bUg==
-X-Google-Smtp-Source: ABdhPJx/XPUJ+4JEixPczNEvnbj0j4qT6Q7KS4yZJmn4YuKPfCTNfrFpaIfuYzXF70h3v4bzP8evnQ==
-X-Received: by 2002:a17:902:c106:b029:ee:a12b:c097 with SMTP id
- 6-20020a170902c106b02900eea12bc097mr2472363pli.27.1619792601754; 
- Fri, 30 Apr 2021 07:23:21 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id b5sm3783413pgb.0.2021.04.30.07.23.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 07:23:21 -0700 (PDT)
-Subject: Re: [PATCH v3 25/30] target/ppc: Move ADDI, ADDIS to decodetree,
- implement PADDI
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20210430011543.1017113-1-richard.henderson@linaro.org>
- <20210430011543.1017113-26-richard.henderson@linaro.org>
- <CP2PR80MB3668052FF0C559D6D092B0C7DA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dbe523e8-3482-1ead-082a-7829c1551be9@linaro.org>
-Date: Fri, 30 Apr 2021 07:23:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lcTIm-0005H3-Aw
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:35:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lcTIe-0007yq-IK
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:35:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619789719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=e1A8VnjojSJQ5+ko4/MQxxKDB7vWUxrINadjgz+uFos=;
+ b=P51mFSILOrbC05TUcSr4aHNRfJXT1dqXeQffstmneGGwqo8uDi8Y2ZHMadbjqru4VRm4bL
+ ziGlpLMtZLgj9WuektU0c1RRSMWgnuivnDWlvJb8JxXdQ6KEAd/xbjsljymdLJ6j1ZEbzk
+ gMHoMbJVqU2Dk0CIXIeafjG+UYrO6t8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-fsqdrwrNOV6AdXreC3myxA-1; Fri, 30 Apr 2021 09:35:16 -0400
+X-MC-Unique: fsqdrwrNOV6AdXreC3myxA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 074BE8AADF5;
+ Fri, 30 Apr 2021 13:34:45 +0000 (UTC)
+Received: from wainer-laptop.localdomain.com (ovpn-116-202.gru2.redhat.com
+ [10.97.116.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBD855E7A3;
+ Fri, 30 Apr 2021 13:34:18 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] tests/acceptance: Handle tests with "cpu" tag
+Date: Fri, 30 Apr 2021 10:34:07 -0300
+Message-Id: <20210430133414.39905-1-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CP2PR80MB3668052FF0C559D6D092B0C7DA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,48 +76,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "f4bug@amsat.org" <f4bug@amsat.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
- Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
- Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: wrampazz@redhat.com, philmd@redhat.com, pavel.dovgaluk@ispras.ru,
+ crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 4:23 AM, Luis Fernando Fujita Pires wrote:
-> I think we should reconsider using the same .decode file for both 32- and
-> 64-bit instructions, to avoid duplicating argument set definitions, and to
-> keep the prefixed instructions close to their non-prefixed counterparts.
-varinsnwidth assumes there is no easy way to determine, before decoding, the 
-width of the instruction.  The way this is implemented in decodetree is vastly 
-less optimal than what we can do with a few lines for ppc.
+Currently the acceptance tests tagged with "machine" have the "-M TYPE"
+automatically added to the list of arguments of the QEMUMachine object.
+In other words, that option is passed to the launched QEMU. On this
+series it is implemented the same feature but instead for tests marked
+with "cpu".
 
-In addition, there's a rough spot in %field definitions.  You can't share those 
-between patterns of different sizes, which can get confusing.  Have a look at 
-target/rx, and the definitions of %b[23]_r_0, which is the same field for 2 and 
-3-byte insns.
+There is a caveat, however, in case the test needs additional arguments to
+the CPU type they cannot be passed via tag, because the tags parser split
+values by comma (limitation which Avocado plans to address, see
+https://github.com/avocado-framework/avocado/issues/45410). For example, in
+tests/acceptance/x86_cpu_model_versions.py, there are cases where:
 
-The replication of argument set definitions is unfortunate, but in the end will 
-only be a handful of lines.  We could probably come up with a way to avoid that 
-too, via a decodetree extension, if you really insist.  (My vague idea there 
-would put the argument set definitions into a 3rd file, included on the 
-decodetree command-line.)
+  * -cpu is set to "Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+  * if it was tagged like "cpu:Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+    then the parser would break it into 4 tags ("cpu:Cascadelake-Server",
+    "x-force-features=on", "check=off", "enforce=off")
+  * resulting on "-cpu Cascadelake-Server" and the remaining arguments are ignored.
 
-> And, in order to share the trans_PADDI/ADDI implementation, maybe add something to decodetree.py to allow us to specify that an instruction shares the trans_XX() implementation from another one, such as:
-> ADDI            001110 ..... ..... ................     @PLS_D_32 !impl=PADDI
+It was introduced the avocado_qemu.Test.set_vm_arg() method to deal with
+cases like the example above, so that one can tag it as "cpu:Cascadelake-Server"
+AND call self.set_vm_args('-cpu', "Cascadelake-Server,x-force-features=on,check=off,enforce=off"),
+and that results on the reset of the initial value of -cpu.
 
-This is done by using the same name up front.
-If you like, add a comment to give the real instruction name.
+This series was tested on CI (https://gitlab.com/wainersm/qemu/-/pipelines/294640198)
+and with the following code:
 
-PADDI   001110 ..... ..... ................     @PLS_D_32 # ADDI
+from avocado_qemu import Test
 
+class CPUTest(Test):
+    def test_cpu(self):
+        """
+        :avocado: tags=cpu:host
+        """
+        # The cpu property is set to the tag value, or None on its absence
+        self.assertEqual(self.cpu, "host")
+        # The created VM has the '-cpu host' option
+        self.assertIn("-cpu host", " ".join(self.vm._args))
+        self.vm.launch()
 
-> This way, we could (and would need to, in fact) keep the 'P' in the prefixed instruction names, but at the same time avoid having extra trans_XX functions just calling another one without any additional code.
+    def test_cpu_none(self):
+        self.assertEqual(self.cpu, None)
+        self.assertNotIn('-cpu', self.vm._args)
 
-I don't understand this at all.
+    def test_cpu_reset(self):
+        """
+        :avocado: tags=cpu:host
+        """
+        self.assertIn("-cpu host", " ".join(self.vm._args))
+        self.set_vm_arg("-cpu", "Cascadelake-Server,x-force-features=on")
+        self.assertNotIn("-cpu host", " ".join(self.vm._args))
+        self.assertIn("-cpu Cascadelake-Server,x-force-features=on", " ".join(self.vm._args))
 
+Changes:
+ - v2 -> v3:
+   - The arg and value parameters of set_vm_arg() are now mandatories and
+     fixed an index out of bounds bug [crosa]
+   - Rebased. Needed to adapt the (new) boot_xen.py test (patch 03)
+ - v1 -> v2:
+   - Recognize the cpu value passed via test parameter [crosa]
+   - Fixed tags (patch 02) on preparation to patch 03 [crosa]
+   - Added QEMUMachine.args property (patch 04) so that _args could be handled
+     without pylint complaining (protected property)
+   - Added Test.set_vm_arg() (patch 05) to handle the corner case [crosa]
 
+Wainer dos Santos Moschetta (7):
+  tests/acceptance: Automatic set -cpu to the test vm
+  tests/acceptance: Fix mismatch on cpu tagged tests
+  tests/acceptance: Let the framework handle "cpu:VALUE" tagged tests
+  tests/acceptance: Tagging tests with "cpu:VALUE"
+  python/qemu: Add args property to the QEMUMachine class
+  tests/acceptance: Add set_vm_arg() to the Test class
+  tests/acceptance: Handle cpu tag on x86_cpu_model_versions tests
 
-r~
+ docs/devel/testing.rst                     | 17 +++++++++
+ python/qemu/machine.py                     |  5 +++
+ tests/acceptance/avocado_qemu/__init__.py  | 26 ++++++++++++++
+ tests/acceptance/boot_linux.py             |  3 --
+ tests/acceptance/boot_linux_console.py     | 16 +++++----
+ tests/acceptance/boot_xen.py               |  1 -
+ tests/acceptance/machine_mips_malta.py     |  7 ++--
+ tests/acceptance/pc_cpu_hotplug_props.py   |  2 +-
+ tests/acceptance/replay_kernel.py          | 17 ++++-----
+ tests/acceptance/reverse_debugging.py      |  2 +-
+ tests/acceptance/tcg_plugins.py            | 15 ++++----
+ tests/acceptance/virtio-gpu.py             |  4 +--
+ tests/acceptance/x86_cpu_model_versions.py | 40 +++++++++++++++++-----
+ 13 files changed, 112 insertions(+), 43 deletions(-)
+
+-- 
+2.29.2
+
 
