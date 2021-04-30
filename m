@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEE836F96F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:37:39 +0200 (CEST)
-Received: from localhost ([::1]:45414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECEB36F982
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:41:39 +0200 (CEST)
+Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRSk-0000bu-F5
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36596)
+	id 1lcRWc-0004Aa-1P
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkt-00045F-I6
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQku-00045X-Fm
  for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33341)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkn-0002RE-23
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:18 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkr-0002Uh-ED
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619779932;
+ s=mimecast20190719; t=1619779936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XtC+YiJNW+JtxzMvznROYF1hErGyKKeaSwnCI2MEui0=;
- b=Qo8u1izs0Ax2gzhF7oK0L3u3KrW2yGNHiMfdwQYT+MKYRob9Ffix6nn7kNH+uVDLabYl/f
- SRn/YsQscvlrSrmrLM6BxiKI8QOLWfdbk8IZmKjkR2Rreg+FklIlGvQd1bwv3IwR5TACTp
- fOkOiwCJMVuw4kdDzjjzPC0KLuG+LNY=
+ bh=rGoJwNVvhlQTgMhwGQUBxm3mKCbGk8OzRyLkMBl1tqg=;
+ b=Ru3idc9o8VyBqpp2xLEYYjyCtgX9HnrI6gJ8Hjcs0d/HCurbA0VZQ9cg3eHXZ5AuISymV6
+ rjoLkfgAJUTvkWnIpHpIk4zK+YuSVy9MEOTgYKfFyB7d/5zodpGiG5KPbGKFLx7wBf3yUQ
+ 0VnKLX80qxwyrCfi6xcRvMBehzJY1Zw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-EI4nN9XTO_ygdkoNALLLIA-1; Fri, 30 Apr 2021 06:52:10 -0400
-X-MC-Unique: EI4nN9XTO_ygdkoNALLLIA-1
+ us-mta-573-pOBxAmCpORaeSczatvtquw-1; Fri, 30 Apr 2021 06:52:12 -0400
+X-MC-Unique: pOBxAmCpORaeSczatvtquw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19E51107ACE3;
- Fri, 30 Apr 2021 10:52:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C571801106;
+ Fri, 30 Apr 2021 10:52:11 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01C6817177;
- Fri, 30 Apr 2021 10:52:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACF6217177;
+ Fri, 30 Apr 2021 10:52:10 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/39] block: bdrv_refresh_perms: check for parents permissions
- conflict
-Date: Fri, 30 Apr 2021 12:51:17 +0200
-Message-Id: <20210430105147.125840-10-kwolf@redhat.com>
+Subject: [PULL 11/39] block: rewrite bdrv_child_try_set_perm() using
+ bdrv_refresh_perms()
+Date: Fri, 30 Apr 2021 12:51:19 +0200
+Message-Id: <20210430105147.125840-12-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,112 +83,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Add additional check that node parents do not interfere with each
-other. This should not hurt existing callers and allows in further
-patch use bdrv_refresh_perms() to update a subtree of changed
-BdrvChild (check that change is correct).
-
-New check will substitute bdrv_check_update_perm() in following
-permissions refactoring, so keep error messages the same to avoid
-unit test result changes.
+We are going to drop recursive bdrv_child_* functions, so stop use them
+in bdrv_child_try_set_perm() as a first step.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-10-vsementsov@virtuozzo.com>
+Message-Id: <20210428151804.439460-12-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 54 insertions(+), 9 deletions(-)
+ block.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/block.c b/block.c
-index 34c728d7e4..fd621f0403 100644
+index 0ee0c2f29a..4511766825 100644
 --- a/block.c
 +++ b/block.c
-@@ -2026,6 +2026,57 @@ bool bdrv_is_writable(BlockDriverState *bs)
-     return bdrv_is_writable_after_reopen(bs, NULL);
- }
- 
-+static char *bdrv_child_user_desc(BdrvChild *c)
-+{
-+    if (c->klass->get_parent_desc) {
-+        return c->klass->get_parent_desc(c);
-+    }
-+
-+    return g_strdup("another user");
-+}
-+
-+static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
-+{
-+    g_autofree char *user = NULL;
-+    g_autofree char *perm_names = NULL;
-+
-+    if ((b->perm & a->shared_perm) == b->perm) {
-+        return true;
-+    }
-+
-+    perm_names = bdrv_perm_names(b->perm & ~a->shared_perm);
-+    user = bdrv_child_user_desc(a);
-+    error_setg(errp, "Conflicts with use by %s as '%s', which does not "
-+               "allow '%s' on %s",
-+               user, a->name, perm_names, bdrv_get_node_name(b->bs));
-+
-+    return false;
-+}
-+
-+static bool bdrv_parent_perms_conflict(BlockDriverState *bs, Error **errp)
-+{
-+    BdrvChild *a, *b;
-+
-+    /*
-+     * During the loop we'll look at each pair twice. That's correct because
-+     * bdrv_a_allow_b() is asymmetric and we should check each pair in both
-+     * directions.
-+     */
-+    QLIST_FOREACH(a, &bs->parents, next_parent) {
-+        QLIST_FOREACH(b, &bs->parents, next_parent) {
-+            if (a == b) {
-+                continue;
-+            }
-+
-+            if (!bdrv_a_allow_b(a, b, errp)) {
-+                return true;
-+            }
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static void bdrv_child_perm(BlockDriverState *bs, BlockDriverState *child_bs,
-                             BdrvChild *c, BdrvChildRole role,
-                             BlockReopenQueue *reopen_queue,
-@@ -2203,15 +2254,6 @@ void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *perm,
-     *shared_perm = cumulative_shared_perms;
- }
- 
--static char *bdrv_child_user_desc(BdrvChild *c)
--{
--    if (c->klass->get_parent_desc) {
--        return c->klass->get_parent_desc(c);
--    }
--
--    return g_strdup("another user");
--}
--
- char *bdrv_perm_names(uint64_t perm)
+@@ -2454,11 +2454,16 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
+                             Error **errp)
  {
-     struct perm_name {
-@@ -2355,6 +2397,9 @@ static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
+     Error *local_err = NULL;
++    Transaction *tran = tran_new();
      int ret;
-     uint64_t perm, shared_perm;
  
-+    if (bdrv_parent_perms_conflict(bs, errp)) {
-+        return -EPERM;
-+    }
-     bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
-     ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, errp);
+-    ret = bdrv_child_check_perm(c, NULL, perm, shared, NULL, &local_err);
++    bdrv_child_set_perm_safe(c, perm, shared, tran);
++
++    ret = bdrv_refresh_perms(c->bs, &local_err);
++
++    tran_finalize(tran, ret);
++
      if (ret < 0) {
+-        bdrv_child_abort_perm_update(c);
+         if ((perm & ~c->perm) || (c->shared_perm & ~shared)) {
+             /* tighten permissions */
+             error_propagate(errp, local_err);
+@@ -2472,12 +2477,9 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
+             error_free(local_err);
+             ret = 0;
+         }
+-        return ret;
+     }
+ 
+-    bdrv_child_set_perm(c);
+-
+-    return 0;
++    return ret;
+ }
+ 
+ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp)
 -- 
 2.30.2
 
