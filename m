@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9291336F662
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:27:46 +0200 (CEST)
-Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB9C36F65B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:24:06 +0200 (CEST)
+Received: from localhost ([::1]:34434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcNYv-0007MI-Ba
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
+	id 1lcNVN-0004lV-Hl
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcNX3-0005nB-9X
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:25:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcNX0-00082x-Vj
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:25:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcNWz-0008JR-Dk
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 07:25:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 660522E8144
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 07:25:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcNS0-0001H9-9D
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:20:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcNRy-0004aS-54
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:20:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619767233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mnUoLs2M+w2FtPj4hx3E8DqxPH3f2XmjyIjniFZo0NQ=;
+ b=RB7F99fkoqGxekjTJ3tWia6L/AqFQByFMXVk5iIVp3kwmMomvAo+PlEyTo2itAwqs0WGXc
+ 38ILIU92EDqrPjkm8e5QWDBgvbr6Ytn3E1mxeHeYCuYWgPiGx2Bplr9lphFJU5HmlmufDe
+ M6iHXM/q8ZZhiMOu3mJjMBQPYaokIsc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-VR_u4AQqNr-JBZ9maJpY3A-1; Fri, 30 Apr 2021 03:20:31 -0400
+X-MC-Unique: VR_u4AQqNr-JBZ9maJpY3A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3110F1A8A71;
+ Fri, 30 Apr 2021 07:20:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72254679E7;
+ Fri, 30 Apr 2021 07:20:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EAE8B113525D; Fri, 30 Apr 2021 09:20:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: gustavo@noronha.eti.br
+Subject: Re: [PATCH 1/2] ui/cocoa: capture all keys and combos when mouse is
+ grabbed
+References: <20210429234705.83206-1-gustavo@noronha.eti.br>
+ <20210429234705.83206-2-gustavo@noronha.eti.br>
+Date: Fri, 30 Apr 2021 09:20:24 +0200
+In-Reply-To: <20210429234705.83206-2-gustavo@noronha.eti.br>
+ (gustavo@noronha.eti.br's message of "Thu, 29 Apr 2021 20:47:04
+ -0300")
+Message-ID: <87wnsk5jd3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 07:18:20 -0000
-From: Thomas Huth <1813201@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aortega halfdog pmaydell th-huth
-X-Launchpad-Bug-Reporter: Alberto Ortega (aortega)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154835963658.2045.2300981728946163161.malonedeb@wampee.canonical.com>
-Message-Id: <161976710179.10390.3956641288661289270.launchpad@gac.canonical.com>
-Subject: [Bug 1813201] Re: QEMU TCG i386 / x86_64 system emulation crash when
- executing int instruction
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 18deb603b39064d484664b2b5b426ac670c77807
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,100 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1813201 <1813201@bugs.launchpad.net>
+Cc: 'Peter Maydell ' <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ 'Gerd Hoffmann ' <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+gustavo@noronha.eti.br writes:
 
--- =
+> From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+>
+> Applications such as Gnome may use Alt-Tab and Super-Tab for different
+> purposes, some use Ctrl-arrows so we want to allow qemu to handle
+> everything when it captures the mouse/keyboard.
+>
+> However, Mac OS handles some combos like Command-Tab and Ctrl-arrows
+> at an earlier part of the event handling chain, not letting qemu see it.
+>
+> We add a global Event Tap that allows qemu to see all events when the
+> mouse is grabbed. Note that this requires additional permissions.
+>
+> See:
+>
+> https://developer.apple.com/documentation/coregraphics/1454426-cgeventtapcreate?language=objc#discussion
+> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+>
+> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+> ---
+>  qapi/ui.json    | 15 ++++++++++
+>  qemu-options.hx |  3 ++
+>  ui/cocoa.m      | 73 +++++++++++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 89 insertions(+), 2 deletions(-)
+>
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 1052ca9c38..77bc00fd0d 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1088,6 +1088,20 @@
+>  { 'struct'  : 'DisplayCurses',
+>    'data'    : { '*charset'       : 'str' } }
+>  
+> +##
+> +# @DisplayCocoa:
+> +#
+> +# Cocoa display options.
+> +#
+> +# @full-grab:       Capture all key presses, including system combos. This
+> +#                   requires accessibility permissions, since it performs
+> +#                   a global grab on key events. (default: off)
+> +#                   See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1813201
+Please indent like this
 
-Title:
-  QEMU TCG i386 / x86_64 system emulation crash when executing int
-  instruction
+   # @full-grab: Capture all key presses, including system combos. This
+   #             requires accessibility permissions, since it performs
+   #             a global grab on key events. (default: off)
+   #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
 
-Status in QEMU:
-  Fix Released
+I hope the link is permanent.
 
-Bug description:
-  QEMU version:
-  -------------
+> +#
+> +##
+> +{ 'struct'  : 'DisplayCocoa',
+> +  'data'    : { '*full-grab'     : 'bool' } }
+> +
+>  ##
+>  # @DisplayType:
+>  #
+> @@ -1153,6 +1167,7 @@
+>                  '*gl'            : 'DisplayGLMode' },
+>    'discriminator' : 'type',
+>    'data'    : { 'gtk'            : 'DisplayGTK',
+> +                'cocoa'          : 'DisplayCocoa',
+>                  'curses'         : 'DisplayCurses',
+>                  'egl-headless'   : 'DisplayEGLHeadless'} }
+>  
 
-  qemu from git, master branch commit
-  d058a37a6e8daa8d71a6f2b613eb415b69363755
+With indentation tidied up, QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
-  Release versions are also affected.
-
-  Summary:
-  --------
-
-  QEMU i386 and x86_64 system emulation crash when executing the
-  following "int" instruction:
-
-  cd08  int 8
-
-  This generates a kernel NULL pointer dereference error in Linux, and a
-  BSOD error in Windows.
-
-  No special permissions are required to execute the instruction, any
-  unprivileged user can execute it.
-
-  This issue has been reproduced in QEMU running in TCG mode. KVM is not
-  affected.
-
-  Kernel panic log:
-
-  [  111.091138] BUG: unable to handle kernel NULL pointer dereference at 0=
-0000014
-  [  111.092145] IP: [<ce0513ad>] doublefault_fn+0xd/0x130
-  [  111.092145] *pdpt =3D 0000000000000000 *pde =3D f000ff53f000ff53 [  11=
-1.092145] =
-
-  [  111.092145] Oops: 0000 [#1] SMP
-  [  111.092145] Modules linked in: kvm_amd bochs_drm ppdev ttm drm_kms_hel=
-per drm kvm irqbypass evdev pcspkr serio_raw sg parport_pc parport button i=
-p_tables x_tables autofs4 ext4 crc16 jbd2 crc32c_generic fscrypto ecb xts l=
-rw gf128mul ablk_helper cryptd aes_i586 mbcache sr_mod sd_mod cdrom ata_gen=
-eric ata_piix libata psmouse e1000 scsi_mod i2c_piix4 floppy
-  [  111.092145] CPU: 0 PID: 409 Comm: int8.elf Not tainted 4.9.0-8-686-pae=
- #1 Debian 4.9.130-2
-  [  111.092145] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
-  [  111.092145] task: f6c88a80 task.stack: f6e52000
-  [  111.092145] EIP: 0060:[<ce0513ad>] EFLAGS: 00004086 CPU: 0
-  [  111.092145] EIP is at doublefault_fn+0xd/0x130
-  [  111.092145] EAX: 00000000 EBX: 00000000 ECX: 00000000 EDX: 00000000
-  [  111.092145] ESI: 00000000 EDI: 00000000 EBP: ce8f13fc ESP: ce8f13d4
-  [  111.092145]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
-  [  111.092145] CR0: 8005003b CR2: 00000014 CR3: 0e8e1000 CR4: 000006f0
-  [  111.092145] Stack:
-  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
-00000 00000000
-  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
-00000 00000000
-  [  111.092145]  00000000 00000000 00000000 00000000 fed00000 ce474ad0 000=
-00000 00017d78
-  [  111.092145] Call Trace:
-  [  111.092145] Code: 86 fd ff eb a3 89 f6 8d bc 27 00 00 00 00 55 89 e5 3=
-e 8d 74 26 00 5d e9 e2 79 fd ff 66 90 55 89 e5 56 53 83 ec 20 3e 8d 74 26 0=
-0 <65> a1 14 00 00 00 89 45 f4 31 c0 31 c0 c7 45 f0 00 00 00 00 66
-  [  111.092145] EIP: [<ce0513ad>] [  111.092145] doublefault_fn+0xd/0x130
-  [  111.092145]  SS:ESP 0068:ce8f13d4
-  [  111.092145] CR2: 0000000000000014
-  [  111.092145] ---[ end trace 8afa7884b76cafc1 ]---
-
-  Testcase:
-  ---------
-
-  void main() {
-          asm("int $0x8");
-  }
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1813201/+subscriptions
 
