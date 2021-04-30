@@ -2,53 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF7136FC9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:41:22 +0200 (CEST)
-Received: from localhost ([::1]:52628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBA736FC97
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:39:47 +0200 (CEST)
+Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcUKX-000676-Ms
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
+	id 1lcUIz-000654-Ro
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lcUF5-00041d-Bo; Fri, 30 Apr 2021 10:35:43 -0400
-Received: from [201.28.113.2] (port=3971 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lcUF2-0000YC-OF; Fri, 30 Apr 2021 10:35:42 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 30 Apr 2021 11:35:37 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id CCDCD8013C2;
- Fri, 30 Apr 2021 11:35:36 -0300 (-03)
-Subject: Re: [PATCH v2 7/7] target/ppc: isolated cpu init from translation
- logic
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
- <20210429162130.2412-8-bruno.larsen@eldorado.org.br>
- <27263531-91ed-b051-ca43-b105ec44d19e@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <35bc4efd-bc56-f726-b0dc-b99e35f7642d@eldorado.org.br>
-Date: Fri, 30 Apr 2021 11:35:36 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcUG3-0004uS-8F
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:36:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59150)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcUFz-0001Di-Bo
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 10:36:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619793397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xyNMeTlyi4plOuAVjpESnPSeo20AMQWhIGHvO75h3ug=;
+ b=dyMRw5jGN1866+/GO5t31o1BtjGgIYE01tKu7xR7tLaMt0a7QwyIWYutYWmtFnhoMwQwZ0
+ aufemTxH2HD5ofLC6N0i+lGXRHUmjeg775mURk+MltRG9slYfzsGjvwl5wI3WjGJSEbBnK
+ KHTqJil2Rc3N4XVBowFvPsLrvBDzfaw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-Xar6r2vGP5yPNQu8ZXqgvQ-1; Fri, 30 Apr 2021 10:36:35 -0400
+X-MC-Unique: Xar6r2vGP5yPNQu8ZXqgvQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D61BD6414C;
+ Fri, 30 Apr 2021 14:36:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 423FD6A03B;
+ Fri, 30 Apr 2021 14:36:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B3CB2113525D; Fri, 30 Apr 2021 16:36:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Gustavo Noronha Silva" <gustavo@noronha.eti.br>
+Subject: Re: [PATCH 1/2] ui/cocoa: capture all keys and combos when mouse is
+ grabbed
+References: <20210429234705.83206-1-gustavo@noronha.eti.br>
+ <20210429234705.83206-2-gustavo@noronha.eti.br>
+ <87wnsk5jd3.fsf@dusky.pond.sub.org>
+ <9e59000c-eb07-45b2-8b39-3a705561c440@www.fastmail.com>
+ <52473af1-017d-41e9-95d1-4a33948bfd9d@www.fastmail.com>
+ <87r1isxcm2.fsf@dusky.pond.sub.org>
+ <7debaf60-9f07-41c3-948e-1fe19196d4bc@www.fastmail.com>
+Date: Fri, 30 Apr 2021 16:36:29 +0200
+In-Reply-To: <7debaf60-9f07-41c3-948e-1fe19196d4bc@www.fastmail.com> (Gustavo
+ Noronha Silva's message of "Fri, 30 Apr 2021 09:02:23 -0300")
+Message-ID: <878s4zon4i.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <27263531-91ed-b051-ca43-b105ec44d19e@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------19A4CB66BF2F723D8F25B3BA"
-Content-Language: en-US
-X-OriginalArrivalTime: 30 Apr 2021 14:35:37.0113 (UTC)
- FILETIME=[15ED0090:01D73DCE]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,145 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, lucas.araujo@eldorado.org.br,
- luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: 'Peter Maydell ' <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ 'Gerd Hoffmann ' <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------19A4CB66BF2F723D8F25B3BA
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+"Gustavo Noronha Silva" <gustavo@noronha.eti.br> writes:
 
-
-On 30/04/2021 01:25, Richard Henderson wrote:
-> On 4/29/21 9:21 AM, Bruno Larsen (billionai) wrote:
->> @@ -49,7 +54,12 @@ static inline void vscr_init(CPUPPCState *env, 
->> uint32_t val)
->>   {
->>       /* Altivec always uses round-to-nearest */
->>       set_float_rounding_mode(float_round_nearest_even, 
->> &env->vec_status);
->> -    helper_mtvscr(env, val);
->> +    /*
->> +     * This comment is here just so the project will build.
->> +     * The current solution is in another patch and will be
->> +     * added when we figure out an internal fork of qemu
->> +     */
->> +    /* helper_mtvscr(env, val); */
->>   }
+> Hey,
 >
-> (1) this is a separate change to splitting out cpu_init.c.
-Oh, yeah. I was going to remove this change for now, it was for building 
-with disable-tcg, which is still not working
-> (2) you can't even do this without introducing a regression.
-
-The plan is to not just remove, but change with a common function. on a 
-future series, though.
-
-I'm just slightly concerned now that make check has not seen anything...
-
+> On Fri, Apr 30, 2021, at 7:58 AM, Markus Armbruster wrote:
+>> > I did not add a Since: here because I wasn't sure how that is handled. Should I add something or is that taken care of at the time of release somehow?
+>> 
+>> You should add (since 6.1) at the end, like this
+>> 
+>> # @full-grab: Capture all key presses, including system combos. This
+>> #             requires accessibility permissions, since it performs
+>> #             a global grab on key events. (default: off)
+>> #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+>> #             (Since 6.1)
+>> 
+>> Same for @swap-option-command in the next patch.
+>> 
+>> Glad you asked, I'm quite prone to not noticing missing these in
+>> review...
 >
->
-> r~
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station> 
+> One last question, please bear with me =). Looking at the other options I see that some have a single Since tag for the whole thing, I assume because they were all added in one go. For instance, @DisplayGLMode has a single Since: 3.0 at the bottom and not one for each of the options. Should I do that as well considering I'm adding @DisplayCocoa, or is the per-option Since still preferred?
 
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+You're right.
 
---------------19A4CB66BF2F723D8F25B3BA
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+The
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 30/04/2021 01:25, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:27263531-91ed-b051-ca43-b105ec44d19e@linaro.org">On
-      4/29/21 9:21 AM, Bruno Larsen (billionai) wrote:
-      <br>
-      <blockquote type="cite">@@ -49,7 +54,12 @@ static inline void
-        vscr_init(CPUPPCState *env, uint32_t val)
-        <br>
-          {
-        <br>
-              /* Altivec always uses round-to-nearest */
-        <br>
-              set_float_rounding_mode(float_round_nearest_even,
-        &amp;env-&gt;vec_status);
-        <br>
-        -    helper_mtvscr(env, val);
-        <br>
-        +    /*
-        <br>
-        +     * This comment is here just so the project will build.
-        <br>
-        +     * The current solution is in another patch and will be
-        <br>
-        +     * added when we figure out an internal fork of qemu
-        <br>
-        +     */
-        <br>
-        +    /* helper_mtvscr(env, val); */
-        <br>
-          }
-        <br>
-      </blockquote>
-      <br>
-      (1) this is a separate change to splitting out cpu_init.c.
-      <br>
-    </blockquote>
-    Oh, yeah. I was going to remove this change for now, it was for
-    building with disable-tcg, which is still not working<br>
-    <blockquote type="cite"
-      cite="mid:27263531-91ed-b051-ca43-b105ec44d19e@linaro.org">(2) you
-      can't even do this without introducing a regression.
-      <br>
-    </blockquote>
-    <p>The plan is to not just remove, but change with a common
-      function. on a future series, though.<br>
-    </p>
-    <p>I'm just slightly concerned now that make check has not seen
-      anything...<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:27263531-91ed-b051-ca43-b105ec44d19e@linaro.org">
-      <br>
-      <br>
-      r~
-      <br>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen</div>
-    <div class="moz-signature">
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a> <br>
-    </div>
-    <div class="moz-signature">
-      Departamento Computação Embarcada <br>
-    </div>
-    <div class="moz-signature">
-      Analista de Software Trainee <br>
-    </div>
-    <div class="moz-signature">
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+    # Since: X.Y
 
---------------19A4CB66BF2F723D8F25B3BA--
+lines apply to the whole definition.  Since you're adding one, that's
+what you should use.
+
+Only when you change a definition later do you add (Since X.Y) to the
+appropriate doc string part.
+
+I blame Friday for my negligence.  Thanks for paying attention!
+
 
