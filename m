@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD6836F7A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:14:59 +0200 (CEST)
-Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0054936F7A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:14:53 +0200 (CEST)
+Received: from localhost ([::1]:48864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcPEg-00069w-Rg
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:14:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46778)
+	id 1lcPEa-00067X-2x
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPBh-0004Q2-M0
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34424)
+ id 1lcPBa-0004P2-Ft
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPBY-0003ld-7Q
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:49 -0400
+ id 1lcPBX-0003lP-7C
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcPBW-000254-Sl
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:42 +0000
+ id 1lcPBV-00024r-Fn
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D85842E815B
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 665182E815A
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 09:04:10 -0000
-From: Thomas Huth <1914236@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 09:04:49 -0000
+From: Thomas Huth <1916501@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: cve security
-X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: mauro-cascella pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jcfaracco mrashish th-huth xanclic
+X-Launchpad-Bug-Reporter: Maya (mrashish)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161227122749.4264.9390983978445748910.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161977345271.11402.3047938498187208668.launchpad@soybean.canonical.com>
-Subject: [Bug 1914236] Re: QEMU: scsi: use-after-free in
- mptsas_process_scsi_io_request() of mptsas1068 emulator
+References: <161400808000.28728.8511381080583624216.malonedeb@soybean.canonical.com>
+Message-Id: <161977348990.11026.1953002061916081658.malone@gac.canonical.com>
+Subject: [Bug 1916501] Re: qemu-img convert segfaults with specific URL
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 6a5ffefa4fd8cc36b773d8e0515d8327c88d824f
+X-Launchpad-Hash: db056706db7baeccf063fc2f763a7e420c64d9aa
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,132 +70,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914236 <1914236@bugs.launchpad.net>
+Reply-To: Bug 1916501 <1916501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+https://gitlab.com/qemu-project/qemu/-/commit/0f418a207696b37f05d
+
 ** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914236
+https://bugs.launchpad.net/bugs/1916501
 
 Title:
-  QEMU: scsi: use-after-free in mptsas_process_scsi_io_request() of
-  mptsas1068 emulator
+  qemu-img convert segfaults with specific URL
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  * Cheolwoo Myung of Seoul National University reported a use-after-free i=
-ssue in the SCSI Megaraid
-    emulator of the QEMU.
+  Using what is currently the latest git: (commit
+  00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462, Date:   Sun Feb 21 19:52:58
+  2021 +0000)
 
-  * It occurs while handling mptsas_process_scsi_io_request(), as it does n=
-ot
-    check a list in s->pending.
-
-  * This was found in version 5.2.0 (master)
-
-  =3D=3D31872=3D=3DERROR: AddressSanitizer: heap-use-after-free on address
-  0x60c000107568 at pc 0x564514950c7c bp 0x7fff524ef4b0 sp 0x7fff524ef4a0 W=
-RITE of size 8 at 0x60c000107568 thread T0
-  #0 0x564514950c7b in mptsas_process_scsi_io_request ../hw/scsi/mptsas.c:3=
-06
-  #1 0x564514950c7b in mptsas_fetch_request ../hw/scsi/mptsas.c:775
-  #2 0x564514950c7b in mptsas_fetch_requests ../hw/scsi/mptsas.c:790
-  #3 0x56451585c25d in aio_bh_poll ../util/async.c:164
-  #4 0x5645158d7e7d in aio_dispatch ../util/aio-posix.c:381
-  #5 0x56451585be2d in aio_ctx_dispatch ../util/async.c:306
-  #6 0x7f1cc8af4416 in g_main_context_dispatch
-  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c416)
-  #7 0x56451583f059 in glib_pollfds_poll ../util/main-loop.c:221
-  #8 0x56451583f059 in os_host_main_loop_wait ../util/main-loop.c:244
-  #9 0x56451583f059 in main_loop_wait ../util/main-loop.c:520
-  #10 0x56451536b181 in qemu_main_loop ../softmmu/vl.c:1537
-  #11 0x5645143ddd3d in main ../softmmu/main.c:50
-  #12 0x7f1cc2650b96 in __libc_start_main
-  (/lib/x86_64-linux-gnu/libc.so.6+0x21b96)
-  #13 0x5645143eece9 in _start
-  (/home/cwmyung/prj/hyfuzz/src/qemu-repro/build/qemu-system-i386+0x1d55ce9)
-
-  0x60c000107568 is located 104 bytes inside of 120-byte region
-  [0x60c000107500,0x60c000107578)
-  freed by thread T0 here:
-  #0 0x7f1cca9777a8 in __interceptor_free
-  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xde7a8)
-  #1 0x56451495008b in mptsas_process_scsi_io_request ../hw/scsi/mptsas.c:3=
-58
-  #2 0x56451495008b in mptsas_fetch_request ../hw/scsi/mptsas.c:775
-  #3 0x56451495008b in mptsas_fetch_requests ../hw/scsi/mptsas.c:790
-  #4 0x7fff524ef8bf (<unknown module>)
-
-  previously allocated by thread T0 here:
-  #0 0x7f1cca977d28 in __interceptor_calloc
-  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
-  #1 0x7f1cc8af9b10 in g_malloc0
-  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51b10)
-  #2 0x7fff524ef8bf (<unknown module>)
-
-  SUMMARY: AddressSanitizer: heap-use-after-free ../hw/scsi/mptsas.c:306
-  in mptsas_process_scsi_io_request
-  Shadow bytes around the buggy address:
-  0x0c1880018e50: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
-  0x0c1880018e60: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
-  0x0c1880018e70: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-  0x0c1880018e80: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
-  0x0c1880018e90: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
-  =3D>0x0c1880018ea0: fd fd fd fd fd fd fd fd fd fd fd fd fd[fd]fd fa
-  0x0c1880018eb0: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
-  0x0c1880018ec0: 00 00 00 00 00 00 00 fa fa fa fa fa fa fa fa fa
-  0x0c1880018ed0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x0c1880018ee0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x0c1880018ef0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable: 00
-  Partially addressable: 01 02 03 04 05 06 07
-  Heap left redzone: fa
-  Freed heap region: fd
-  Stack left redzone: f1
-  Stack mid redzone: f2
-  Stack right redzone: f3
-  Stack after return: f5
-  Stack use after scope: f8
-  Global redzone: f9
-  Global init order: f6
-  Poisoned by user: f7
-  Container overflow: fc
-  Array cookie: ac
-  Intra object redzone: bb
-  ASan internal: fe
-  Left alloca redzone: ca
-  Right alloca redzone: cb
-  =3D=3D31872=3D=3DABORTING
+  $ ./build/qemu-img convert -f qcow2 -O raw https://download.cirros-cloud.=
+net/0.4.0/cirros-0.4.0-x86_64-disk.img out.img
+  Segmentation fault (core dumped)
 
   =
 
-  To reproduce this issue, please run the QEMU with the following command
-  line.
+  Backtrace for convenience:
+  qemu: qemu_mutex_lock_impl: Invalid argument
 
-  =
-
-  # To enable ASan option, please set configuration with the following comm=
-and
-  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
-tizers
-  $ make
-
-  # To reproduce this issue, please run the QEMU process with the
-  following command line.
-  $ ./qemu-system-i386 -m 512 -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device
-  mptsas1068,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive
-  id=3DSysDisk,if=3Dnone,file=3D./disk.img
+  Thread 1 "qemu-img" received signal SIGABRT, Aborted.
+  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+  (gdb) bt
+  #0  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+  #1  0x00007ffff77ae8a4 in abort () from /lib64/libc.so.6
+  #2  0x00005555556705b2 in error_exit (err=3D<optimized out>, msg=3Dmsg@en=
+try=3D0x5555556b69a0 <__func__.31> "qemu_mutex_lock_impl") at ../util/qemu-=
+thread-posix.c:37
+  #3  0x0000555555670945 in qemu_mutex_lock_impl (mutex=3D0x555555ae3758, f=
+ile=3D0x5555556827a2 "../block/curl.c", line=3D406) at ../util/qemu-thread-=
+posix.c:81
+  #4  0x000055555559a05b in curl_multi_do (arg=3D0x555555aad2a0) at ../bloc=
+k/curl.c:406
+  #5  0x000055555566193a in aio_dispatch_handler (ctx=3Dctx@entry=3D0x55555=
+5737790, node=3D0x555555b14150) at ../util/aio-posix.c:329
+  #6  0x0000555555662072 in aio_dispatch_handlers (ctx=3D0x555555737790) at=
+ ../util/aio-posix.c:372
+  #7  aio_dispatch (ctx=3D0x555555737790) at ../util/aio-posix.c:382
+  #8  0x000055555564442e in aio_ctx_dispatch (source=3D<optimized out>, cal=
+lback=3D<optimized out>, user_data=3D<optimized out>) at ../util/async.c:306
+  #9  0x00007ffff7cfda9f in g_main_context_dispatch () from /lib64/libglib-=
+2.0.so.0
+  #10 0x000055555566f2c8 in glib_pollfds_poll () at ../util/main-loop.c:232
+  #11 os_host_main_loop_wait (timeout=3D4397000000) at ../util/main-loop.c:=
+255
+  #12 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-=
+loop.c:531
+  #13 0x0000555555581edd in convert_do_copy (s=3D0x7fffffffd3a0) at ../qemu=
+-img.c:2139
+  #14 img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ../qe=
+mu-img.c:2738
+  #15 0x00005555555783b1 in main (argc=3D7, argv=3D<optimized out>) at ../q=
+emu-img.c:5536
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914236/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916501/+subscriptions
 
