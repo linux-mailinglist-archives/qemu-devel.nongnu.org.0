@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDDC36FD52
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:06:39 +0200 (CEST)
-Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767FB36FCFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:03:52 +0200 (CEST)
+Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcUj0-0000hW-Vn
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
+	id 1lcUgJ-00063R-1J
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcUds-0004b4-IC
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51558)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcUdO-0004Sv-Cm
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:00:50 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcUdk-0007by-DR
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:20 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcUde-00071q-G2
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:06 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DBB392E8179
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:02 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcUdM-0007O4-CR
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:00:49 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id q6so23721081edr.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:00:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uRgQS2okwtgqny/NiUqmw2rKVLqaJ+Ina8935USIjmo=;
+ b=f01+tvGsmuSloqd6fKHE6lfx2AcBMX0WqQzF0sym0eo6b5FbTapVmYcQTrv7EFhtM8
+ TCmZXt3VxKBrnyk61awBaAq81+G+YEPKzc1N6G4NUWzv/IpCAEfifldX/r6+rtKDiDfv
+ 6UtNvybuwfYq/6r/d7fy5z8PBVOZ/7LMcCW3n53lXrR43nG6NGr8twPLyFdbvo5PS5Dl
+ ao4/TamVSfMDGacbogI07BQqc+4SzO8svYyp2Wm1SxX64lpJaDgcMD44q4ACLlaF+NOc
+ fyejmpi1zA4dOJhSNX5C1ZmuPI5LwttkEaoRlP38QU/S3LNuKY6Bdf75FmYLzhbhYkEN
+ 7uKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uRgQS2okwtgqny/NiUqmw2rKVLqaJ+Ina8935USIjmo=;
+ b=CXpn+MzmXQzWUfM8/58s3hj0LVyZVVSYSFFhbl/C4wyn6PUEFNn05Prpr9wa2yy1SE
+ KkHFSgUuiU/Btz4EVp9HqcvhI8ARgpzoPaW0qFLFbzoq+FcbA1heA2ByjnUraWNUEr+K
+ tY+RzkjWZixbkr84599oFqN+90iWuZgTDWRdaLPgxJjsu/z8cbRhnz4HqmE6Vh4aljmk
+ jk70qBdelBRouT8cWRNkbCoGXkiUwNOzoIJqoNkc6BuBQoYahNbu6yo2sfzcLxIn2tXy
+ P+vOvgzQcbH9R5crkNlyF464e3YOli6g6KBi89HBZvVwgr6hFjvtcpknoIc44wvmj1RQ
+ PQDA==
+X-Gm-Message-State: AOAM53001jybbzpOPIscM8GUx7y2nucsE1nNQW5Hf5UysqQHJIIjle81
+ ubVWzi6RXgUgqoEDmWtHKTG0VYV/FD32V9rstsDmNw==
+X-Google-Smtp-Source: ABdhPJx/U0S4sMRjPUK5I440Fp7hcZLR4XbOIeXkr+Y78cgq1LLagmSEkzVIocA1h7sTYwLlAtC2F2Y1owf9H3094/w=
+X-Received: by 2002:a05:6402:416:: with SMTP id
+ q22mr6468389edv.204.1619794846597; 
+ Fri, 30 Apr 2021 08:00:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 14:54:43 -0000
-From: JIANG Muhui <1926759@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui pmaydell
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
-References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
-Message-Id: <161979448308.11493.1737430121082712562.malone@soybean.canonical.com>
-Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 60b5c3dacb84fa15ca2b7b8ac4b3b4894fb5333e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210430145220.303801-1-pbonzini@redhat.com>
+In-Reply-To: <20210430145220.303801-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Apr 2021 15:59:44 +0100
+Message-ID: <CAFEAcA_snF5tQ5VaO=t=o9cz4HPm9ECRpaOLDWbkXW=zcVtiuA@mail.gmail.com>
+Subject: Re: [PATCH] coverity-scan: list components,
+ move model to scripts/coverity-scan
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,59 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I agree with this implementation. Though WFI seems make no sense for a
-userspace program, we should not have assumption that the userspace
-program will not use this instruction.
+On Fri, 30 Apr 2021 at 15:52, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Place all files that can be useful to rebuild the Coverity
+> configuration in scripts/coverity-scan: the existing model
+> file, and the components setup.
+>
+> The Markdown syntax was tested with Pandoc (but in any case
+> is meant more as a human-readable reference than as a part
+> of documentation).
+>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  scripts/coverity-scan/COMPONENTS.md           | 154 ++++++++++++++++++
+>  .../model.c}                                  |   0
+>  2 files changed, 154 insertions(+)
+>  create mode 100644 scripts/coverity-scan/COMPONENTS.md
+>  rename scripts/{coverity-model.c => coverity-scan/model.c} (100%)
 
-It seems ARM manual does not defined the implementation of function
-EnterLowPowerState();  However, before executing this instruction, there
-are some checks like below:
+MAINTAINERS has a section
 
-if PSTATE.EL =3D=3D EL0 then
-     // Check for traps described by the OS which may be EL1 or EL2.
-     AArch32.CheckForWFxTrap(EL1, FALSE);
+# Coverity model
+# M: Markus Armbruster <armbru@redhat.com>
+# S: Supported
+# F: scripts/coverity-model.c
 
-I am not sure whether it is complex/required to implement this in QEMU.
-Maybe patch the WFI as a NOP looks like the best idea at this moment.
+which needs updating for the file move.
 
--- =
+Should we just combine that with the following section?
+# Coverity Scan integration
+# M: Peter Maydell <peter.maydell@linaro.org>
+# S: Maintained
+# F: scripts/coverity-scan/
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926759
+Otherwise
 
-Title:
-  WFI instruction results in unhandled CPU exception
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Hi
-
-  I refer to the WFI instruction. The bytecode is 0xe320f003. After the
-  execution, qemu exit with the following  crash log.
-
-  qemu: unhandled CPU exception 0x10001 - aborting
-  R00=3D00000001 R01=3D40800b34 R02=3D40800b3c R03=3D000102ec
-  R04=3D00010a28 R05=3D00010158 R06=3D00087460 R07=3D00010158
-  R08=3D00000000 R09=3D00000000 R10=3D00085b7c R11=3D408009f4
-  R12=3D40800a08 R13=3D408009f0 R14=3D0001057c R15=3D000102f8
-  PSR=3D60000010 -ZC- A usr32
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f5c=
-21d0fa12
-
-  WFI aims to enter a low-power state and wait for interrupt. The raised
-  exception seems not a right behavior. I can provide a testcase if you
-  needed. Many thanks.
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926759/+subscriptions
+thanks
+-- PMM
 
