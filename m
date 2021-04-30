@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E5F36FFE2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:46:46 +0200 (CEST)
-Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F6436FFDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:46:22 +0200 (CEST)
+Received: from localhost ([::1]:33868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcXDy-00076Y-00
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41736)
+	id 1lcXDZ-0006ep-3W
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWrE-0002dn-88; Fri, 30 Apr 2021 13:23:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:50949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWrC-0001XY-9k; Fri, 30 Apr 2021 13:23:15 -0400
-Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MbSTX-1l1XHD3BlJ-00bpKf; Fri, 30 Apr 2021 19:23:11 +0200
-Subject: Re: [PATCH v1] scripts: fix generation update-binfmts templates
-To: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>,
- qemu-devel@nongnu.org
-References: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <436af2d7-322b-914e-5dac-3d5ed2b2f770@vivier.eu>
-Date: Fri, 30 Apr 2021 19:23:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lcWvs-000199-1u
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:28:04 -0400
+Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:41814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lcWvp-0003m3-L5
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:28:03 -0400
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ u48-20020a4a97330000b02901fa060b8066so965371ooi.8
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 10:28:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2OkwiX6GCbC0EZtNw2bGTkv6iCiDNG0f3hxJpeAYM5Y=;
+ b=hehggAW2KHLWjrgOlpEyQgyC7yMFmve1+DOx1U8Gv1z1OeG3ulJaGrrPNtLXL6CLua
+ Eu82QIwWKZFY401F4q/fGA67XwkieNIdoorNl483f3Rh3+iJXVuKh010UQQc5cZiYll5
+ +LZfqoysyADo6Wlk62XhIfdwCGy5KcHB0MxrTKD2jvjWwfr1f8Py0+2NVQBo7ZALSFlX
+ c1jLn56ldyHzt/p7tH5G4LGvZJpToTrZZS7ow83MswxQ1FyJtHyNXeXq19XvenOFumzr
+ OPJEYfozN8q9RQTIrXBBs4XNeiCEO1nF/h9HAUEgBsRbMFPfA8JmjoIWyFA8cvw2XQqI
+ hu7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2OkwiX6GCbC0EZtNw2bGTkv6iCiDNG0f3hxJpeAYM5Y=;
+ b=eXiuq5cY/G6bMgd9uY53cBEqgX41iPOYoak3cP8nwRpSImEc3YCIm5r2hLpDTWBQCn
+ vNGXF9Vzh6lQribam53MqJXYieqJ8HVct2u+AUnaiyQib/UAUjNQdYooA08bISLz14gN
+ 5v/8qGcHMyrL41HJ6D3Jc74/bRHRemaMGJNhugBAN9FysizAcY+SSwfCZ5iI05Be6PCY
+ iIqpChHzhVyfDhmMdFzZY0V1Icx5gSFTkyvPS19CUawswWAU3qvlCXe7nqdIz4wLZu2o
+ 2D87mXxRgLG5dnDfCK1vNpiHbe4DgB/qNkgPMbaxSaxHJWi0jwqpj6IEr2H+VOQWlj34
+ gluw==
+X-Gm-Message-State: AOAM532jLmT/S0+sbe+slglTiyAKNYf3UQetJx+PO5NcAqlTD8fNCSo9
+ IWj/JqCs2NNxAoq+r22GIsk2TMxye5hyVQ==
+X-Google-Smtp-Source: ABdhPJycB522nmZd8NOgaBeO7D2BluwZOusC7nAwEUf78FtZ+IcWGI4PUEKyK2DVSOz3n+weldtoew==
+X-Received: by 2002:a4a:b4cb:: with SMTP id g11mr5434974ooo.41.1619803679572; 
+ Fri, 30 Apr 2021 10:27:59 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id d207sm297587oob.7.2021.04.30.10.27.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 30 Apr 2021 10:27:58 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] bsd-user: minor cleanup patches
+Date: Fri, 30 Apr 2021 11:27:41 -0600
+Message-Id: <20210430172746.99818-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-In-Reply-To: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NFyQ3HpTLj4i8SrKtE0h25GkusBUB8NDbKm1xid68as9iWp65Fm
- RNM/YvW+j2p2k4MgKr6hFniaDD1obdmOg7tW4dqj6JbhSNb8bTZjohuS+suBWHNWp0SDBH9
- t+59kbzGwShuuC2OXp95lCFFaU9Gi01kwhcgG4mzeGV1GYIGsvmPVI3rU6AiQFpKBsUIdJv
- bsBLE1wJIkknyd6nUQOzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HgD6AcgG9Ik=:0FOg48JMzSUXCVJvQnxcvE
- L9ohouHkkVpj4I9kPKGHjkkAdYF2Z0lP98NB2jK6dSxnpJ2ChXf8/oKZUtdeDOYgD5eLPoBqw
- iuM9oRiYwxL7dgDE2/Xh1W+3Jax8KnWkwxBEA9vtSbmwnZ/OmmYSMALXAloApriOH1Vx49qAK
- XyVe66S1TkdbEJZyKRRINuXXQ9eoUVC9Q5uIg156jI8gG/1yPqAb4VVJ5NY65fu6KhFAsHJ73
- BM7wSt7Nf3HSFsABBaDCEKvWAR/08U5eQ8fL6sPNWZ/wmOfvumMkGcFo4bcsBiAHCDmujochW
- SjYW23UKiaUqAwHBFFk/iELWFxJBv/oocEx22IyJBIU7B7IPG2VhdUBsZ/+eMe5tIfquPJ8CV
- CuQr1ixOIkjQWCExH82Q1iBaeIo+Y3cR334yIkMfii0XQDKriGRec2CjrxEO0aUGOVFSzk7iT
- kT9hS08iKsO0y7C5ohqI5XQBgz+CjrPLoP5Tw7iERmXSc4TwtxW4UC0IAu6+nra75hZ6YtfFs
- 8Fe+LsmFZsu3b5hfb46N6E=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Received-SPF: none client-ip=2607:f8b0:4864:20::c2d;
+ envelope-from=imp@bsdimp.com; helo=mail-oo1-xc2d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,44 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: kevans@freebsd.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/03/2021 à 13:34, Silvano Cirujano Cuesta a écrit :
-> This patch fixes the update-binfmts templates being used in the script
-> scripts/qemu-binfmt-conf.sh when the option --debian is used.
-> 
-> Fixed issues are:
-> - Typo in flag 'credentials' (previously 'credential').
-> - Missing flags 'preserve' and 'fix_binary'.
-> 
-> Reference: https://manpages.debian.org/buster/binfmt-support/update-binfmts.8.en.html#FORMAT_FILES
-> 
-> Signed-off-by: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>
-> ---
->  scripts/qemu-binfmt-conf.sh | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-> index 573b5dc6ac..7de996d536 100755
-> --- a/scripts/qemu-binfmt-conf.sh
-> +++ b/scripts/qemu-binfmt-conf.sh
-> @@ -294,7 +294,9 @@ package qemu-$cpu
->  interpreter $qemu
->  magic $magic
->  mask $mask
-> -credential $CREDENTIAL
-> +credentials $CREDENTIAL
-> +preserve $PRESERVE_ARG0
-> +fix_binary $PERSISTENT
->  EOF
->  }
->  
-> 
+The following changes since commit ffa090bc56e73e287a63261e70ac02c0970be61a:
 
-Applied to my trivial-patches branch.
+  target/s390x: fix s390_probe_access to check PAGE_WRITE_ORG for writeability (2021-04-23 14:10:56 +0100)
 
-Thanks,
-Laurent
+are available in the Git repository at:
+
+  https://gitlab.com/bsdimp/qemu.git tags/pull-bsd-user-20210430
+
+for you to fetch changes up to 58b3beb483d08066548d84eccd007b9d8bd24a2b:
+
+  bsd-user: style tweak: Put {} around all if/else/for statements (2021-04-30 09:14:06 -0600)
+
+----------------------------------------------------------------
+bsd-user: start to cleanup the mess
+
+A number of small cleanups to get started. All the checkpatch.pl warnings for
+bsdload.c have been fixed, as well as a warning from qemu.h (though more remain
+and this patch series fails the format check still). I've also fixed a
+compile-time warning about a missing break.
+
+----------------------------------------------------------------
+Warner Losh (5):
+      bsd-user: whitespace changes
+      bsd-user: style tweak: keyword space (
+      bsd-user: style tweak: return is not a function, eliminate ()
+      bsd-user: put back a break; that had gone missing...
+      bsd-user: style tweak: Put {} around all if/else/for statements
+
+ bsd-user/bsdload.c | 55 +++++++++++++++++++++++++++---------------------------
+ bsd-user/qemu.h    |  4 ++--
+ bsd-user/syscall.c |  1 +
+ 3 files changed, 31 insertions(+), 29 deletions(-)
+
+-- 
+2.22.1
+
 
