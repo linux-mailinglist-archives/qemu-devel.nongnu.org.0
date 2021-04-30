@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A0136F968
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:36:54 +0200 (CEST)
-Received: from localhost ([::1]:43144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B8E36F977
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:39:50 +0200 (CEST)
+Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRS1-0007vv-E8
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36978)
+	id 1lcRUr-0002cP-4J
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlw-00058U-3a
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31533)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQly-0005Dl-Uh
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlp-0002wW-FT
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:23 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlp-0002xL-GZ
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619779993;
+ s=mimecast20190719; t=1619779996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T189Q0QUh9XV6UADbeyqKX32ROea417kcSxPzNhzp14=;
- b=GDkN4yady1g+8FGEx405j0IY82/5IMm6hynZ3A4ledA473Q88KS/09Qh0d8leBxED9+hHY
- 3RsYNUYU5pR/BIN7UoLoz7iEd8otKzH9O//hU/4WywJO7mPqZpQAwdb7EAWAwSUDrjNVtE
- 3BF5dZbYm6PPFWBV5gEhZnAHBPxOPlc=
+ bh=5nzzCpE86slvO2dMIOS5Z+9DVmIuJPgswUd5kRnIisY=;
+ b=cMpacyOTpNWvoQyq8gai95hsDGggNm9IDDr32HjMnEfOrmXzJEagdKfO9FKmWWv4HaGVyK
+ UkoYsRDyyKaxlr5P22VtTd8n+juXz97+8hssKYUQMos12nIbT+D7wqPOSRB6tLmjEgsyBn
+ k/ObsxZUMYrSYCpvoJG6CuL14pBkZlM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-wsN3adTrPDKult5W5lhD2g-1; Fri, 30 Apr 2021 06:53:10 -0400
-X-MC-Unique: wsN3adTrPDKult5W5lhD2g-1
+ us-mta-526-p0X9TVEvNomVsJZxwmyTuA-1; Fri, 30 Apr 2021 06:53:12 -0400
+X-MC-Unique: p0X9TVEvNomVsJZxwmyTuA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A360F1014C04;
- Fri, 30 Apr 2021 10:53:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFAAD100AA32;
+ Fri, 30 Apr 2021 10:53:10 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACBB16787F;
- Fri, 30 Apr 2021 10:53:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED3A567881;
+ Fri, 30 Apr 2021 10:53:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 24/39] block/backup-top: drop .active
-Date: Fri, 30 Apr 2021 12:51:32 +0200
-Message-Id: <20210430105147.125840-25-kwolf@redhat.com>
+Subject: [PULL 25/39] block: drop ignore_children for permission update
+ functions
+Date: Fri, 30 Apr 2021 12:51:33 +0200
+Message-Id: <20210430105147.125840-26-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,137 +83,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We don't need this workaround anymore: bdrv_append is already smart
-enough and we can use new bdrv_drop_filter().
-
-This commit efficiently reverts also recent 705dde27c6c53b73, which
-checked .active on io path. Still it said that the problem should be
-theoretical. And the logic of filter removement is changed anyway.
+This argument is always NULL. Drop it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-25-vsementsov@virtuozzo.com>
+Message-Id: <20210428151804.439460-26-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/backup-top.c         | 47 +-------------------------------------
- tests/qemu-iotests/283.out |  2 +-
- 2 files changed, 2 insertions(+), 47 deletions(-)
+ block.c | 38 +++++++++++---------------------------
+ 1 file changed, 11 insertions(+), 27 deletions(-)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 62d09f213e..425e3778be 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -37,7 +37,6 @@
- typedef struct BDRVBackupTopState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
--    bool active;
-     int64_t cluster_size;
- } BDRVBackupTopState;
+diff --git a/block.c b/block.c
+index 68dfd822dd..46af5852ab 100644
+--- a/block.c
++++ b/block.c
+@@ -1988,7 +1988,6 @@ static int bdrv_fill_options(QDict **options, const char *filename,
+ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+                                   uint64_t new_used_perm,
+                                   uint64_t new_shared_perm,
+-                                  GSList *ignore_children,
+                                   Error **errp);
  
-@@ -45,12 +44,6 @@ static coroutine_fn int backup_top_co_preadv(
-         BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-         QEMUIOVector *qiov, int flags)
- {
--    BDRVBackupTopState *s = bs->opaque;
--
--    if (!s->active) {
--        return -EIO;
--    }
--
-     return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
+ typedef struct BlockReopenQueueEntry {
+@@ -2065,9 +2064,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
+     return false;
  }
  
-@@ -60,10 +53,6 @@ static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t offset,
-     BDRVBackupTopState *s = bs->opaque;
-     uint64_t off, end;
- 
--    if (!s->active) {
--        return -EIO;
--    }
--
-     if (flags & BDRV_REQ_WRITE_UNCHANGED) {
-         return 0;
-     }
-@@ -137,21 +126,6 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                   uint64_t perm, uint64_t shared,
-                                   uint64_t *nperm, uint64_t *nshared)
+-static bool bdrv_parent_perms_conflict(BlockDriverState *bs,
+-                                       GSList *ignore_children,
+-                                       Error **errp)
++static bool bdrv_parent_perms_conflict(BlockDriverState *bs, Error **errp)
  {
--    BDRVBackupTopState *s = bs->opaque;
--
--    if (!s->active) {
--        /*
--         * The filter node may be in process of bdrv_append(), which firstly do
--         * bdrv_set_backing_hd() and then bdrv_replace_node(). This means that
--         * we can't unshare BLK_PERM_WRITE during bdrv_append() operation. So,
--         * let's require nothing during bdrv_append() and refresh permissions
--         * after it (see bdrv_backup_top_append()).
--         */
--        *nperm = 0;
--        *nshared = BLK_PERM_ALL;
--        return;
--    }
--
-     if (!(role & BDRV_CHILD_FILTERED)) {
-         /*
-          * Target child
-@@ -241,17 +215,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-     }
-     appended = true;
+     BdrvChild *a, *b;
  
--    /*
--     * bdrv_append() finished successfully, now we can require permissions
--     * we want.
--     */
--    state->active = true;
--    ret = bdrv_child_refresh_perms(top, top->backing, errp);
--    if (ret < 0) {
--        error_prepend(errp, "Cannot set permissions for backup-top filter: ");
--        goto fail;
--    }
+@@ -2077,12 +2074,8 @@ static bool bdrv_parent_perms_conflict(BlockDriverState *bs,
+      * directions.
+      */
+     QLIST_FOREACH(a, &bs->parents, next_parent) {
+-        if (g_slist_find(ignore_children, a)) {
+-            continue;
+-        }
 -
-     state->cluster_size = cluster_size;
-     state->bcs = block_copy_state_new(top->backing, state->target,
-                                       cluster_size, perf->use_copy_range,
-@@ -268,7 +231,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
+         QLIST_FOREACH(b, &bs->parents, next_parent) {
+-            if (a == b || g_slist_find(ignore_children, b)) {
++            if (a == b) {
+                 continue;
+             }
  
- fail:
-     if (appended) {
--        state->active = false;
-         bdrv_backup_top_drop(top);
-     } else {
-         bdrv_unref(top);
-@@ -283,16 +245,9 @@ void bdrv_backup_top_drop(BlockDriverState *bs)
+@@ -2310,7 +2303,6 @@ static void bdrv_replace_child_safe(BdrvChild *child, BlockDriverState *new_bs,
+ static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
+                                 uint64_t cumulative_perms,
+                                 uint64_t cumulative_shared_perms,
+-                                GSList *ignore_children,
+                                 Transaction *tran, Error **errp)
  {
-     BDRVBackupTopState *s = bs->opaque;
+     BlockDriver *drv = bs->drv;
+@@ -2393,7 +2385,6 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
+                                   bool use_cumulative_perms,
+                                   uint64_t cumulative_perms,
+                                   uint64_t cumulative_shared_perms,
+-                                  GSList *ignore_children,
+                                   Transaction *tran, Error **errp)
+ {
+     int ret;
+@@ -2404,7 +2395,7 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
  
--    bdrv_drained_begin(bs);
-+    bdrv_drop_filter(bs, &error_abort);
+         ret = bdrv_node_check_perm(bs, q, cumulative_perms,
+                                    cumulative_shared_perms,
+-                                   ignore_children, tran, errp);
++                                   tran, errp);
+         if (ret < 0) {
+             return ret;
+         }
+@@ -2415,7 +2406,7 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
+     for ( ; list; list = list->next) {
+         bs = list->data;
  
-     block_copy_state_free(s->bcs);
+-        if (bdrv_parent_perms_conflict(bs, ignore_children, errp)) {
++        if (bdrv_parent_perms_conflict(bs, errp)) {
+             return -EINVAL;
+         }
  
--    s->active = false;
--    bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
--    bdrv_replace_node(bs, bs->backing->bs, &error_abort);
--    bdrv_set_backing_hd(bs, NULL, &error_abort);
--
--    bdrv_drained_end(bs);
--
-     bdrv_unref(bs);
+@@ -2424,7 +2415,7 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
+ 
+         ret = bdrv_node_check_perm(bs, q, cumulative_perms,
+                                    cumulative_shared_perms,
+-                                   ignore_children, tran, errp);
++                                   tran, errp);
+         if (ret < 0) {
+             return ret;
+         }
+@@ -2435,19 +2426,17 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
+ 
+ static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
+                            uint64_t cumulative_perms,
+-                           uint64_t cumulative_shared_perms,
+-                           GSList *ignore_children, Error **errp)
++                           uint64_t cumulative_shared_perms, Error **errp)
+ {
+     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
+     return bdrv_check_perm_common(list, q, true, cumulative_perms,
+-                                  cumulative_shared_perms, ignore_children,
+-                                  NULL, errp);
++                                  cumulative_shared_perms, NULL, errp);
  }
-diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
-index 73eb75102f..97e62a4c94 100644
---- a/tests/qemu-iotests/283.out
-+++ b/tests/qemu-iotests/283.out
-@@ -5,7 +5,7 @@
- {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
- {"return": {}}
- {"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
--{"error": {"class": "GenericError", "desc": "Cannot set permissions for backup-top filter: Conflicts with use by source as 'image', which does not allow 'write' on base"}}
-+{"error": {"class": "GenericError", "desc": "Cannot append backup-top filter: Conflicts with use by source as 'image', which does not allow 'write' on base"}}
  
- === backup-top should be gone after job-finalize ===
+ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
+                                    Transaction *tran, Error **errp)
+ {
+-    return bdrv_check_perm_common(list, q, false, 0, 0, NULL, tran, errp);
++    return bdrv_check_perm_common(list, q, false, 0, 0, tran, errp);
+ }
  
+ /*
+@@ -2576,7 +2565,6 @@ char *bdrv_perm_names(uint64_t perm)
+ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+                                   uint64_t new_used_perm,
+                                   uint64_t new_shared_perm,
+-                                  GSList *ignore_children,
+                                   Error **errp)
+ {
+     BdrvChild *c;
+@@ -2588,10 +2576,6 @@ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+     assert(new_shared_perm & BLK_PERM_WRITE_UNCHANGED);
+ 
+     QLIST_FOREACH(c, &bs->parents, next_parent) {
+-        if (g_slist_find(ignore_children, c)) {
+-            continue;
+-        }
+-
+         if ((new_used_perm & c->shared_perm) != new_used_perm) {
+             char *user = bdrv_child_user_desc(c);
+             char *perm_names = bdrv_perm_names(new_used_perm & ~c->shared_perm);
+@@ -2621,7 +2605,7 @@ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+     }
+ 
+     return bdrv_check_perm(bs, q, cumulative_perms, cumulative_shared_perms,
+-                           ignore_children, errp);
++                           errp);
+ }
+ 
+ static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
+@@ -4244,7 +4228,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+     QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
+         BDRVReopenState *state = &bs_entry->state;
+         ret = bdrv_check_perm(state->bs, bs_queue, state->perm,
+-                              state->shared_perm, NULL, errp);
++                              state->shared_perm, errp);
+         if (ret < 0) {
+             goto cleanup_perm;
+         }
+@@ -4256,7 +4240,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+                             bs_queue, state->perm, state->shared_perm,
+                             &nperm, &nshared);
+             ret = bdrv_check_update_perm(state->new_backing_bs, NULL,
+-                                         nperm, nshared, NULL, errp);
++                                         nperm, nshared, errp);
+             if (ret < 0) {
+                 goto cleanup_perm;
+             }
 -- 
 2.30.2
 
