@@ -2,52 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5689636F60B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:58:16 +0200 (CEST)
-Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7F336F605
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:56:41 +0200 (CEST)
+Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcN6N-00039O-Di
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46344)
+	id 1lcN4q-00018y-Mx
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMfm-0006Iw-2K
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:30:47 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63436)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lcMqH-0000l9-IP
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:41:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMfb-00015T-RK
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:30:45 -0400
-IronPort-SDR: jBD2NbEERwWkcw2ufd05OvQychVK51wqACleE1P5ne0RIMnwjiQk4CTqB8NfzQBoDmLke8S+7z
- mZgbZJngy6mw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023205"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023205"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 23:29:09 -0700
-IronPort-SDR: 0n9foTQjyzU7Sutn/xIDNEiPqZ56kcnhIStLmufEQrWE279os8/JrpgkWD9QJu7IcjU32je1Kp
- 09BqVrBr/vzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258711"
-Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:29:08 -0700
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH 32/32] doc: Add the SGX doc
-Date: Fri, 30 Apr 2021 14:24:55 +0800
-Message-Id: <20210430062455.8117-33-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
-In-Reply-To: <20210430062455.8117-1-yang.zhong@intel.com>
-References: <20210430062455.8117-1-yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lcMqC-0007Y8-7i
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:41:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619764890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cCfRI7nDY6M3W8Er5W8Oo5AEqaWnbh1itUlwv8LIrIw=;
+ b=YFuFlkVrbkMTcnqozz0KCUvoKH9p/atDwk6kegb15FbsUBZP1iPMA4kILoOw+64AOKPMON
+ Bb8UumbYZLo4pdS5LbTXY8n3AjpiwX5f+vUVASWOncVOy7YLk+bE3keHgy3QzRMSDYA9mj
+ WZSO/VfoPj9jpF7hSJFBLkivgXhDK70=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-VPTzY7yrOTaT5TGh_RZuCw-1; Fri, 30 Apr 2021 02:41:29 -0400
+X-MC-Unique: VPTzY7yrOTaT5TGh_RZuCw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d6-20020a0564020786b0290387927a37e2so8875608edy.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 23:41:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cCfRI7nDY6M3W8Er5W8Oo5AEqaWnbh1itUlwv8LIrIw=;
+ b=jlhvts7tsYDxFTQiBwLNImf/o66ojY5XauakdFoVRkYYjNUqHgfsboLHryvMTVGnGs
+ OJlLvFkq16bc6ZCcCIxmaePronQxMKcQHeqaHfuecEEByHNHSDqIIbYciG0WDuuKWzkl
+ 6LgofLN8vcxf3k4rwMsKMAXqxCJcNBFtFTqp4sdKMG2AS8hKipOHzRwZ4Yn25iMkXZ9H
+ 7PCD43TujW0q8T5mIRimXvHkFDhZYdyIHjf2cH6Ep4WDY6oaJnLDJZYT6dcyzwy8Sibs
+ 6AMA5figZ+/7fFt+3It5/CToyIRqFJdGZXC65fu0F4xk+yRIalDS6XXYRV4KwxFDOmIt
+ Et2Q==
+X-Gm-Message-State: AOAM533qycfgxQc5h3Ko14YT/8YiVQ3RQ/4E1RLhIFIGcAbzQvi/eu25
+ cz+REq79Mt/7ITakyBoOzYidEM8Jjvxfw5xd7S5rKQSoJ1wSChtw5XtL1ma/aOGw9lEs2fvHeLm
+ d2bPKWrACu2bMJmw=
+X-Received: by 2002:a05:6402:b88:: with SMTP id
+ cf8mr3805070edb.227.1619764887876; 
+ Thu, 29 Apr 2021 23:41:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2H0YlEyHoEfY9cF8EXK3HSmbgRdoyaMFbJ2RO7Ig25ak9X26dVa9p/poV7FyI8FSyI6tlnQ==
+X-Received: by 2002:a05:6402:b88:: with SMTP id
+ cf8mr3805037edb.227.1619764887578; 
+ Thu, 29 Apr 2021 23:41:27 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id rs28sm1337257ejb.35.2021.04.29.23.41.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Apr 2021 23:41:27 -0700 (PDT)
+Date: Fri, 30 Apr 2021 08:41:25 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: "wangyanan (Y)" <wangyanan55@huawei.com>
+Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+Message-ID: <20210430064125.3b5fjolwqculrjxz@gator.home>
+References: <20210413083147.34236-1-wangyanan55@huawei.com>
+ <20210413083147.34236-3-wangyanan55@huawei.com>
+ <20210428103141.5qfhzcqko6hxhxee@gator>
+ <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
+ <20210429071614.lywpbfpeyclqxnke@gator.home>
+ <ce557539-ac8f-7245-747b-8212a4857811@huawei.com>
+ <20210429110229.7jtz6hfrfvqdkrbx@gator>
+ <f5b264ff-58ed-0cd2-3b84-42fa1724b8ac@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=yang.zhong@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+In-Reply-To: <f5b264ff-58ed-0cd2-3b84-42fa1724b8ac@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,200 +103,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
- seanjc@google.com
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ qemu-devel@nongnu.org, yangyicong@huawei.com,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
+ Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+On Fri, Apr 30, 2021 at 01:09:00PM +0800, wangyanan (Y) wrote:
+> Hi Drew,
+> 
+> On 2021/4/29 19:02, Andrew Jones wrote:
+> > On Thu, Apr 29, 2021 at 04:56:06PM +0800, wangyanan (Y) wrote:
+> > > On 2021/4/29 15:16, Andrew Jones wrote:
+> > > > On Thu, Apr 29, 2021 at 10:14:37AM +0800, wangyanan (Y) wrote:
+> > > > > On 2021/4/28 18:31, Andrew Jones wrote:
+> > > > > > On Tue, Apr 13, 2021 at 04:31:45PM +0800, Yanan Wang wrote:
+> > > > > > >             } else if (sockets == 0) {
+> > > > > > >                 threads = threads > 0 ? threads : 1;
+> > > > > > > -            sockets = cpus / (cores * threads);
+> > > > > > > +            sockets = cpus / (clusters * cores * threads);
+> > > > > > >                 sockets = sockets > 0 ? sockets : 1;
+> > > > > > If we initialize clusters to zero instead of one and add lines in
+> > > > > > 'cpus == 0 || cores == 0' and 'sockets == 0' like
+> > > > > > 'clusters = clusters > 0 ? clusters : 1' as needed, then I think we can
+> > > > > > add
+> > > > > > 
+> > > > > >     } else if (clusters == 0) {
+> > > > > >         threads = threads > 0 ? threads : 1;
+> > > > > >         clusters = cpus / (sockets * cores * thread);
+> > > > > >         clusters = clusters > 0 ? clusters : 1;
+> > > > > >     }
+> > > > > > 
+> > > > > > here.
+> > > > > I have thought about this kind of format before, but there is a little bit
+> > > > > difference between these two ways. Let's chose the better and more
+> > > > > reasonable one of the two.
+> > > > > 
+> > > > > Way A currently in this patch:
+> > > > > If value of clusters is not explicitly specified in -smp command line, we
+> > > > > assume
+> > > > > that users don't want to support clusters, for compatibility we initialized
+> > > > > the
+> > > > > value to 1. So that with cmdline "-smp cpus=24, sockets=2, cores=6", we will
+> > > > > parse out the topology description like below:
+> > > > > cpus=24, sockets=2, clusters=1, cores=6, threads=2
+> > > > > 
+> > > > > Way B that you suggested for this patch:
+> > > > > Whether value of clusters is explicitly specified in -smp command line or
+> > > > > not,
+> > > > > we assume that clusters are supported and calculate the value. So that with
+> > > > > cmdline "-smp cpus=24, sockets=2, cores=6", we will parse out the topology
+> > > > > description like below:
+> > > > > cpus =24, sockets=2, clusters=2, cores=6, threads=1
+> > > > > 
+> > > > > But I think maybe we should not assume too much about what users think
+> > > > > through the -smp command line. We should just assume that all levels of
+> > > > > cpu topology are supported and calculate them, and users should be more
+> > > > > careful if they want to get the expected results with not so complete
+> > > > > cmdline.
+> > > > > If I'm right, then Way B should be better. :)
+> > > > > 
+> > > > Hi Yanan,
+> > > > 
+> > > > We're already assuming the user wants to describe clusters to the guest
+> > > > because we require at least one per socket. If we want the user to have a
+> > > > choice between using clusters or not, then I guess we need to change the
+> > > > logic in the PPTT and the cpu-map to only generate the cluster level when
+> > > > the number of clusters is not zero. And then change this parser to not
+> > > > require clusters at all.
+> > > Hi Drew,
+> > > 
+> > > I think this kind of change will introduce more complexity and actually is
+> > > not necessary.
+> > > Not generating cluster level at all and generating cluster level (one per
+> > > socket) are same
+> > > to kernel. Without cluster description provided, kernel will initialize all
+> > > cores in the same
+> > > cluster which also means one cluster per socket.
+> > Which kernel? All kernels? One without the cluster support patches [1]?
+> > 
+> > [1] https://lore.kernel.org/lkml/20210420001844.9116-1-song.bao.hua@hisilicon.com/#t
+> I'm sorry, I didn't make it clear. :)
+> I actually mean the ARM64 kernel, with or without [1].
+> 
+> Without [1]: Kernel doesn't care about cluster. When populating cpu
+> topology, it directly
+> finds the hierarchy node with "physical package flag" as package when
+> parsing ACPI, and
+> finds the core node's parent as package when parsing DT. So even we provide
+> cluster level
+> description (one per socket), the parsing results will be the same as not
+> providing at all.
+> 
+> With [1]: Kernel finds the core hierarchy node's parent as cluster when
+> parsing ACPI. So if
+> we don't provide cluster level description, package will be taken as
+> cluster. And if we provide
+> the description (one per socket), the parsing result will also be the same.
+> 
+> That's why I said that we just need to provide description of cluster (one
+> per socket) if we
+> don't want to make use of it in VMs.
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- docs/intel-sgx.txt | 173 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 173 insertions(+)
- create mode 100644 docs/intel-sgx.txt
+OK, that sounds good.
 
-diff --git a/docs/intel-sgx.txt b/docs/intel-sgx.txt
-new file mode 100644
-index 0000000000..4fc3fd3564
---- /dev/null
-+++ b/docs/intel-sgx.txt
-@@ -0,0 +1,173 @@
-+===============================
-+Software Guard eXtensions (SGX)
-+===============================
-+
-+Overview
-+========
-+
-+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
-+for memory accesses in order to provide security accesses for sensitive
-+applications and data. SGX allows an application to use it's pariticular
-+address space as an *enclave*, which is a protected area provides confidentiality
-+and integrity even in the presence of privileged malware. Accesses to the
-+enclave memory area from any software not resident in the enclave are prevented,
-+including those from privileged software.
-+
-+Virtual SGX
-+===========
-+
-+SGX feature is exposed to guest via SGX CPUID. Looking at SGX CPUID, we can
-+report the same CPUID info to guest as on host for most of SGX CPUID. With
-+reporting the same CPUID guest is able to use full capacity of SGX, and KVM
-+doesn't need to emulate those info.
-+
-+The guest's EPC base and size are determined by Qemu, and KVM needs Qemu to
-+notify such info to it before it can initialize SGX for guest.
-+
-+Virtual EPC
-+-----------
-+
-+By default, Qemu does not assign EPC to a VM, i.e. fully enabling SGX in a VM
-+requires explicit allocation of EPC to the VM. Similar to other specialized
-+memory types, e.g. hugetlbfs, EPC is exposed as a memory backend. For a number
-+of reasons, a EPC memory backend can only be realized via an 'sgx-epc' device.
-+Standard memory backend options such as prealloc are supported by EPC.
-+
-+SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be realized
-+prior to realizing the vCPUs themselves, which occurs long before generic
-+devices are parsed and realized.  Because of this, 'sgx-epc' devices must be
-+created via the dedicated -sgx-epc command, i.e. cannot be created through
-+the generic -devices command.  On the plus side, this limitation means that
-+EPC does not require -maxmem as EPC is not treated as {cold,hot}plugged memory.
-+
-+Qemu does not artificially restrict the number of EPC sections exposed to a
-+guest, e.g. Qemu will happily allow you to create 64 1M EPC sections. Be aware
-+that some kernels may not recognize all EPC sections, e.g. the Linux SGX driver
-+is hardwired to support only 8 EPC sections.
-+
-+The following Qemu snippet creates two EPC sections, with 64M pre-allocated
-+to the VM and an additional 28M mapped but not allocated:
-+
-+ -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+ -sgx-epc id=epc1,memdev=mem1 \
-+ -object memory-backend-epc,id=mem2,size=28M \
-+ -sgx-epc id=epc2,memdev=mem2
-+
-+Note:
-+
-+The size and location of the virtual EPC are far less restricted compared
-+to physical EPC. Because physical EPC is protected via range registers,
-+the size of the physical EPC must be a power of two (though software sees
-+a subset of the full EPC, e.g. 92M or 128M) and the EPC must be naturally
-+aligned.  KVM SGX's virtual EPC is purely a software construct and only
-+requires the size and location to be page aligned. Qemu enforces the EPC
-+size is a multiple of 4k and will ensure the base of the EPC is 4k aligned.
-+To simplify the implementation, EPC is always located above 4g in the guest
-+physical address space.
-+
-+Migration
-+---------
-+
-+Qemu/KVM doesn't prevent live migrating SGX VMs, although from hardware's
-+perspective, SGX doesn't support live migration, since both EPC and the SGX
-+key hierarchy are bound to the physical platform. However live migration
-+can be supported in the sense if guest software stack can support recreating
-+enclaves when it suffers sudden lose of EPC; and if guest enclaves can detect
-+SGX keys being changed, and handle gracefully. For instance, when ERESUME fails
-+with #PF.SGX, guest software can gracefully detect it and recreate enclaves;
-+and when enclave fails to unseal sensitive information from outside, it can
-+detect such error and sensitive information can be provisioned to it again.
-+
-+CPUID
-+-----
-+
-+Due to its myriad dependencies, SGX is currently not listed as supported
-+in any of Qemu's built-in CPU configuration. To expose SGX (and SGX Launch
-+Control) to a guest, you must either use `-cpu host` to pass-through the
-+host CPU model, or explicitly enable SGX when using a built-in CPU model,
-+e.g. via `-cpu <model>,+sgx` or `-cpu <model>,+sgx,+sgxlc`.
-+
-+All SGX sub-features enumerated through CPUID, e.g. SGX2, MISCSELECT,
-+ATTRIBUTES, etc... can be restricted via CPUID flags. Be aware that enforcing
-+restriction of MISCSELECT, ATTRIBUTES and XFRM requires intercepting ECREATE,
-+i.e. may marginally reduce SGX performance in the guest. All SGX sub-features
-+controlled via -cpu are prefixed with "sgx", e.g.:
-+
-+$ qemu-system-x86_64 -cpu help | xargs printf "%s\n" | grep sgx
-+  sgx
-+  sgx-debug
-+  sgx-encls-c
-+  sgx-enclv
-+  sgx-exinfo
-+  sgx-kss
-+  sgx-mode64
-+  sgx-provisionkey
-+  sgx-tokenkey
-+  sgx1
-+  sgx2
-+  sgxlc
-+
-+The following Qemu snippet passes through the host CPU (and host physical
-+address width) but restricts access to the provision and EINIT token keys:
-+
-+ -cpu host,host-phys-bits,-sgx-provisionkey,-sgx-tokenkey
-+
-+Note:
-+
-+SGX sub-features cannot be emulated, i.e. sub-features that are not present
-+in hardware cannot be forced on via '-cpu'.
-+
-+Virtualize SGX Launch Control
-+-----------------------------
-+
-+Qemu SGX support for Launch Control (LC) is passive, in the sense that it
-+does not actively change the LC configuration.  Qemu SGX provides the user
-+the ability to set/clear the CPUID flag (and by extension the associated
-+IA32_FEATURE_CONTROL MSR bit in fw_cfg) and saves/restores the LE Hash MSRs
-+when getting/putting guest state, but Qemu does not add new controls to
-+directly modify the LC configuration.  Similar to hardware behavior, locking
-+the LC configuration to a non-Intel value is left to guest firmware.  Unlike
-+host bios setting for SGX launch control(LC), there is no special bios setting
-+for SGX guest by our design. If host is in locked mode, we can still allow
-+creating VM with SGX.
-+
-+Feature Control
-+---------------
-+
-+Qemu SGX updates the `etc/msr_feature_control` fw_cfg entry to set the SGX
-+(bit 18) and SGX LC (bit 17) flags based on their respective CPUID support,
-+i.e. existing guest firmware will automatically set SGX and SGX LC accordingly,
-+assuming said firmware supports fw_cfg.msr_feature_control.
-+
-+Launch a guest
-+==============
-+
-+To launch a SGX guest
-+${QEMU} \
-+   -cpu host,+sgx-provisionkey \
-+   -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+   -sgx-epc id=epc1,memdev=mem1 \
-+   -object memory-backend-epc,id=mem2,size=28M \
-+   -sgx-epc id=epc2,memdev=mem2
-+
-+Utilizing SGX in the guest requires a kernel/OS with SGX support.
-+
-+The support can be determined in guest by:
-+$ grep sgx /proc/cpuinfo
-+
-+Check the SGX epc info in the Guest:
-+$ dmesg | grep sgx
-+[    1.242142] sgx: EPC section 0x180000000-0x181bfffff
-+[    1.242319] sgx: EPC section 0x181c00000-0x1837fffff
-+
-+References
-+==========
-+
-+SGX Homepage:
-+https://software.intel.com/sgx
-+
-+SGX SDK:
-+https://github.com/intel/linux-sgx.git
-+
-+SGX SPEC:
-+Intel SDM Volume 3
--- 
-2.29.2.334.gfaefdd61ec
+> 
+> [1] https://lore.kernel.org/lkml/20210420001844.9116-1-song.bao.hua@hisilicon.com/#t
+> > > So we should only ensure value of clusters per socket is one if we don't
+> > > want to use clusters,
+> > > and don't need to care about whether or not to generate description in PPTT
+> > > and cpu-map.
+> > > Is this right?
+> > Depends on your answer to my 'which kernel' questions.
+> > 
+> > > > I'm not a big fan of these auto-calculated values either, but the
+> > > > documentation says that it'll do that, and it's been done that way
+> > > > forever, so I think we're stuck with it for the -smp option. Hmm, I was
+> > > > just about to say that x86 computes all its values, but I see the most
+> > > > recently added one, 'dies', is implemented the way you're proposing we
+> > > > implement 'clusters', i.e. default to one and don't calculate it when it's
+> > > > missing. I actually consider that either a documentation bug or an smp
+> > > > parsing bug, though.
+> > > My propose originally came from implementation of x86.
+> > > > Another possible option, for Arm, because only the cpus and maxcpus
+> > > > parameters of -smp have ever worked, is to document, for Arm, that if even
+> > > > one parameter other than cpus or maxcpus is provided, then all parameters
+> > > > must be provided. We can still decide if clusters=0 is valid, but we'll
+> > > > enforce that everything is explicit and that the product (with or without
+> > > > clusters) matches maxcpus.
+> > > Requiring every parameter explicitly will be most stable but indeed strict.
+> > > 
+> > > Currently all the parsers use way B to calculate value of thread if it is
+> > > not provided explicitly.
+> > > So users should ensure the -smp cmdline they provided can result in that
+> > > parsed threads will
+> > > be 1 if they don't want to support multiple threads in one core.
+> > > 
+> > > Very similar to thread, users should also ensure the provided cmdline can
+> > > result in that parsed
+> > > clusters will be 1 if they don't want to support multiple clusters in one
+> > > socket.
+> > > 
+> > > So I'm wondering if we can just add some commit in the documentation to tell
+> > > users that they
+> > > should ensure this if they don't want support it. And as for calculation of
+> > > clusters, we follow
+> > > the logic of other parameters as you suggested in way B.
+> > > 
+> > > Thanks,
+> > > Yanan
+> > > > Requiring every parameter might be stricter than necessary, though, I
+> > > > think we're mostly concerned with cpus/maxcpus, sockets, and cores.
+> > > > clusters can default to one or zero (whatever we choose and document),
+> > > > threads can default to one, and cpus can default to maxcpus or maxcpus can
+> > > > default to cpus, but at least one of those must be provided. And, if
+> > > > sockets are provided, then cores must be provided and vice versa. If
+> > > > neither sockets nor cores are provided, then nothing else besides cpus and
+> > > > maxcpus may be provided, and that would mean to not generate any topology
+> > > > descriptions for the guest.
+> > I still don't know. I think I prefer making -smp more strict (even for
+> > other architectures, but that's more difficult to do than for Arm.) What I
+> > wrote above isn't that bad. We only require one of cpus or maxcpus (pretty
+> > much everybody already does that anyway), and then, if given sockets
+> > or cores, the other will also be required. I assume anybody who bothers to
+> > specify one or the other would already specify both anyway.
+> I agree to make -smp more strict. We want to expose the cpu topology
+> information
+> to guest kernel, so that it can take advantage of the information for better
+> scheduling.
+> From this point of view, we hope the topology descriptions are accurately
+> specified
+> but not automatically populated.
+> 
+> But I think the requirement for ARM "if even one parameter other than cpus
+> or maxcpus
+> is provided then all parameters must be provided" will be better. This can
+> ensure the
+> whole accurate users-specified topology. As you mentioned, if anybody who
+> bothers
+> to specify one, why not also specify the others.
+> 
+> I can add the requirement for ARM in the documentation, and also check the
+> parameters
+> in virt_smp_parse. Will this be fine?
+
+We sort of have to support command lines that are missing 'maxcpus' and
+'clusters', unless we work together with libvirt to make the change.
+Currently libvirt will generate '-smp 16,sockets=16,cores=1,threads=1'
+from '<vcpu placement='static'>16</vcpu>'. That's sufficient for our
+stricter, but not completely strict requirements. And, I still think
+'threads' could be optional, because there's a good chance the user
+doesn't want to describe them, so a default of 1 is good enough. Also,
+given maxcpus, but not cpus, it's pretty obvious that cpus should equal
+maxcpus.
+
+Thanks,
+drew
 
 
