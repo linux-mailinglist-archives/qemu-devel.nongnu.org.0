@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386A236F5D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:42:49 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BED36F5D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:44:47 +0200 (CEST)
+Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMrQ-0001ST-8v
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
+	id 1lcMtK-0004hM-UD
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMe2-0004YX-EB
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:58 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63447)
+ id 1lcMeL-0004gg-5g
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:18 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMe0-00017U-AI
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:58 -0400
-IronPort-SDR: Sy4neC9M8LyP4PCGBFdRss4tDXCLUj3236TgV/vaQtuo+7h+FQ2X+6cPJ7//8stYD+/UgpVJyH
- B4mDQxD+fE/w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023073"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023073"
+ id 1lcMeB-00016y-JK
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:16 -0400
+IronPort-SDR: AlcbbZOiIMwMnTorQ4WE1YQcFXK5eLjlm/eZDPSw+gIm0w10aebmdW4W8nmQb6LYJaXc/o5ZZc
+ pTHmnWkE1sBA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023076"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023076"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 23:28:37 -0700
-IronPort-SDR: F5SoN0dbOpPJApm0zpQldWAQEaY1BYFPrf67ioW+vieeMvm0PydhFGzJY5b1s3LVaZN7PsGvJc
- y0IbrNcvZ/FQ==
+ 29 Apr 2021 23:28:38 -0700
+IronPort-SDR: SpR9BkzZcP3fIFITu3MfG0p1ghNud5CLStwYAxoNxWugeIINvFxceCbV0vky98UyzZOX+c4kUT
+ Pny/Mmej4jCw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258492"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258498"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:35 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:37 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH 13/32] linux-headers: Add placeholder for
- KVM_CAP_SGX_ATTRIBUTE
-Date: Fri, 30 Apr 2021 14:24:36 +0800
-Message-Id: <20210430062455.8117-14-yang.zhong@intel.com>
+Subject: [RESEND PATCH 14/32] i386: kvm: Add support for exposing PROVISIONKEY
+ to guest
+Date: Fri, 30 Apr 2021 14:24:37 +0800
+Message-Id: <20210430062455.8117-15-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210430062455.8117-1-yang.zhong@intel.com>
 References: <20210430062455.8117-1-yang.zhong@intel.com>
@@ -69,28 +69,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-KVM_CAP_SGX_ATTRIBUTE is a proposed capability for Intel SGX that can be
-used by userspace to enable privileged attributes, e.g. access to the
-PROVISIONKEY.
+If the guest want to fully use SGX, the guest needs to be able to
+access provisioning key. Add a new KVM_CAP_SGX_ATTRIBUTE to KVM to
+support provisioning key to KVM guests.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- linux-headers/linux/kvm.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/cpu.c          |  5 ++++-
+ target/i386/kvm/kvm.c      | 29 +++++++++++++++++++++++++++++
+ target/i386/kvm/kvm_i386.h |  2 ++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 020b62a619..0961b03007 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
- #define KVM_CAP_SYS_HYPERV_CPUID 191
- #define KVM_CAP_DIRTY_LOG_RING 192
-+#define KVM_CAP_SGX_ATTRIBUTE 195
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index e630e57f03..63253bf606 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6015,7 +6015,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+             *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
  
- #ifdef KVM_CAP_IRQ_ROUTING
+             /* Access to PROVISIONKEY requires additional credentials. */
+-            *eax &= ~(1U << 4);
++            if ((*eax & (1U << 4)) &&
++                !kvm_enable_sgx_provisioning(cs->kvm_state)) {
++                *eax &= ~(1U << 4);
++            }
+         }
+ #endif
+         break;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index fa495a6f9e..c2fba39bd4 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -4555,6 +4555,35 @@ void kvm_arch_update_guest_debug(CPUState *cpu, struct kvm_guest_debug *dbg)
+     }
+ }
  
++static bool has_sgx_provisioning;
++
++static bool __kvm_enable_sgx_provisioning(KVMState *s)
++{
++    int fd, ret;
++
++    if (!kvm_vm_check_extension(s, KVM_CAP_SGX_ATTRIBUTE)) {
++        return false;
++    }
++
++    fd = qemu_open_old("/dev/sgx_provision", O_RDONLY);
++    if (fd < 0) {
++        return false;
++    }
++
++    ret = kvm_vm_enable_cap(s, KVM_CAP_SGX_ATTRIBUTE, 0, fd);
++    if (ret) {
++        error_report("Could not enable SGX PROVISIONKEY: %s", strerror(-ret));
++        exit(1);
++    }
++    close(fd);
++    return true;
++}
++
++bool kvm_enable_sgx_provisioning(KVMState *s)
++{
++    return MEMORIZE(__kvm_enable_sgx_provisioning(s), has_sgx_provisioning);
++}
++
+ static bool host_supports_vmx(void)
+ {
+     uint32_t ecx, unused;
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index dc72508389..7bab91aecb 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -50,4 +50,6 @@ bool kvm_hv_vpindex_settable(void);
+ 
+ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
+ 
++bool kvm_enable_sgx_provisioning(KVMState *s);
++
+ #endif
 -- 
 2.29.2.334.gfaefdd61ec
 
