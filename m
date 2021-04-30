@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FB036F5EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:49:25 +0200 (CEST)
-Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1C336F5E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:49:19 +0200 (CEST)
+Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMxo-0000U4-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:49:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46068)
+	id 1lcMxi-0000Pl-7q
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMeh-0005JE-HQ
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:39 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63436)
+ id 1lcMer-0005i7-AB
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:49 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMee-00015T-LS
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:39 -0400
-IronPort-SDR: 9HIb8l0AU95iCwyYLEv3EhdIapHSWLY3U1QPd49iCpW7UBohxma5my9gCcCCh0qgT/vPcForeD
- /LDPiUXinSAg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023097"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023097"
+ id 1lcMem-00017U-LK
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:49 -0400
+IronPort-SDR: pwrbvlk+MulhIQIjk+xCQXT1XWni4NBPwYRxeWPZeMgBGBj76ZJBk9HZS6MSa1QM8OGX0E5ZCc
+ wDQ4T9Ylwq5Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023103"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023103"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 23:28:48 -0700
-IronPort-SDR: IyjTwf9cD86kZ4NaA/yWkJ/F4kz9cjKlCl5gqMsiLxfr4g/9ZMOqtZUxRlm4Z4NKK3zqJChuTH
- 7EacKq3/8GNQ==
+ 29 Apr 2021 23:28:50 -0700
+IronPort-SDR: rrf1DDfNMKCONulbGR6pNZJgzJKpiaO5hm2UtMr0BfWdfYjw1oVuaMI05bjsY6iZya9q4qXtyc
+ 8cq0m2HUjwDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258601"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258604"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:47 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:48 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH 20/32] i386: acpi: Add SGX EPC entry to ACPI tables
-Date: Fri, 30 Apr 2021 14:24:43 +0800
-Message-Id: <20210430062455.8117-21-yang.zhong@intel.com>
+Subject: [RESEND PATCH 21/32] q35: Add support for SGX EPC
+Date: Fri, 30 Apr 2021 14:24:44 +0800
+Message-Id: <20210430062455.8117-22-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210430062455.8117-1-yang.zhong@intel.com>
 References: <20210430062455.8117-1-yang.zhong@intel.com>
@@ -68,62 +68,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-The ACPI Device entry for SGX EPC is essentially a hack whose primary
-purpose is to provide software with a way to autoprobe SGX support,
-e.g. to allow software to implement SGX support as a driver.  Details
-on the individual EPC sections are not enumerated through ACPI tables,
-i.e. software must enumerate the EPC sections via CPUID.  Furthermore,
-software expects to see only a single EPC Device in the ACPI tables
-regardless of the number of EPC sections in the system.
-
-However, several versions of Windows do rely on the ACPI tables to
-enumerate the address and size of the EPC.  So, regardless of the number
-of EPC sections exposed to the guest, create exactly *one* EPC device
-with a _CRS entry that spans the entirety of all EPC sections (which are
-guaranteed to be contiguous in Qemu).
-
-Note, NUMA support for EPC memory is intentionally not considered as
-enumerating EPC NUMA information is not yet defined for bare metal.
+Enable SGX EPC virtualization, which is currently only support by KVM.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/acpi-build.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ hw/i386/pc_q35.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index de98750aef..cbcf6ba740 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1801,6 +1801,28 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(sb_scope, dev);
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 53450190f5..e7af29a94b 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -177,6 +177,9 @@ static void pc_q35_init(MachineState *machine)
+         x86ms->below_4g_mem_size = machine->ram_size;
      }
  
-+    if (pcms->sgx_epc) {
-+        uint64_t epc_base = pcms->sgx_epc->base;
-+        uint64_t epc_size = pcms->sgx_epc->size;
-+
-+        dev = aml_device("EPC");
-+        aml_append(dev, aml_name_decl("_HID", aml_eisaid("INT0E0C")));
-+        aml_append(dev, aml_name_decl("_STR",
-+                                      aml_unicode("Enclave Page Cache 1.0")));
-+        crs = aml_resource_template();
-+        aml_append(crs,
-+                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-+                                    AML_MAX_FIXED, AML_NON_CACHEABLE,
-+                                    AML_READ_WRITE, 0, epc_base,
-+                                    epc_base + epc_size - 1, 0, epc_size));
-+        aml_append(dev, aml_name_decl("_CRS", crs));
-+
-+        method = aml_method("_STA", 0, AML_NOTSERIALIZED);
-+        aml_append(method, aml_return(aml_int(0x0f)));
-+        aml_append(dev, method);
-+
-+        aml_append(sb_scope, dev);
++    if (sgx_epc_enabled) {
++        pc_machine_init_sgx_epc(pcms);
 +    }
-     aml_append(dsdt, sb_scope);
+     x86_cpus_init(x86ms, pcmc->default_cpu_version);
  
-     /* copy AML table into ACPI tables blob and patch header there */
+     kvmclock_create(pcmc->kvmclock_create_always);
 -- 
 2.29.2.334.gfaefdd61ec
 
