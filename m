@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7906F36FCFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:03:58 +0200 (CEST)
-Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA30836FD5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:10:01 +0200 (CEST)
+Received: from localhost ([::1]:45172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcUgP-0006G0-2x
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:03:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38160)
+	id 1lcUmH-0003A3-19
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcUdz-0004jP-GD
+ id 1lcUdz-0004jK-5c
  for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:27 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52604)
+Received: from indium.canonical.com ([91.189.90.7]:52648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcUdw-0007iI-EP
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:27 -0400
+ id 1lcUdw-0007jI-Fc
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:26 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcUds-00071q-HV
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:20 +0000
+ id 1lcUds-00073d-QM
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:21 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5676B2E81B8
+ by loganberry.canonical.com (Postfix) with ESMTP id B81A82E8168
  for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:16 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 14:51:01 -0000
-From: Anisse Astier <1843711@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 14:51:59 -0000
+From: Anisse Astier <1828608@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anisse th-huth
+X-Launchpad-Bug-Commenters: anisse berrange th-huth
 X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
 X-Launchpad-Bug-Modifier: Anisse Astier (anisse)
-References: <156829271040.1120.16860411935336460779.malonedeb@wampee.canonical.com>
-Message-Id: <161979426177.13437.7098249241620813652.malone@wampee.canonical.com>
-Subject: [Bug 1843711] Re: qemu-xhci device should detect if libusb host
- supports streams
+References: <155750549613.15038.5455007066011551794.malonedeb@wampee.canonical.com>
+Message-Id: <161979432022.4988.12847600532179968618.malone@chaenomeles.canonical.com>
+Subject: [Bug 1828608] Re: Chardev websocket might not support pasting more
+ than a few chars
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: e65b2f2c429d445163ede05e47213cc23d98be79
+X-Launchpad-Hash: 9c0cbfb30a0f0ee91e265448aa958ae7c315f4ea
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,12 +70,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843711 <1843711@bugs.launchpad.net>
+Reply-To: Bug 1828608 <1828608@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a suggestion that would really help anyone using trying to use
-xhci passthrough on a platform without streams.
+The bug is still present.
 
 ** Changed in: qemu
        Status: Incomplete =3D> New
@@ -85,34 +83,25 @@ xhci passthrough on a platform without streams.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843711
+https://bugs.launchpad.net/bugs/1828608
 
 Title:
-  qemu-xhci device should detect if libusb host supports streams
+  Chardev websocket might not support pasting more than a few chars
 
 Status in QEMU:
   New
 
 Bug description:
-  When using USB=C2=A0passthrough with the qemu-xhci (and nec-usb-xhci),
-  streams are enabled by default, but if the host xHCI controller
-  doesn't support them, it will trigger hard-to-debug UAS guest errors.
+  When sending more than 4-5 characters on the websocket serial console
+  (with pasting for example), the guest might not receive all of them,
+  or worse interpret the input as Magic SysRq keys.
 
-  This should be possible to detect since the kernel returns ENOSYS (errno =
-38) when xhci host controller does not support streams:
-              libusb: error [do_streams_ioctl] streams-ioctl failed error -=
-1 errno 38
-              qemu: libusb_alloc_streams: -99 [OTHER]
+  This might be due to the io loop not checking the backend readiness
+  before calling the read function.
 
-  Maybe libusb should return a dedicated error instead of
-  LIBUSB_ERROR_OTHER in this case, but qemu does not handle any other
-  error code anyway.
-
-  Just trying to enable streams before enabling them in qemu should do
-  it. I don't know if it should be done in hcd-xhci.c, host-libusb.c or
-  elsewhere, but this would be detectable at launch instead of a static
-  option true/false, maybe a ternary with auto would be better.
+  Attached patched fixes the problem on my system. I'm not sure it's the
+  proper approach, this is just to start discussion.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843711/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1828608/+subscriptions
 
