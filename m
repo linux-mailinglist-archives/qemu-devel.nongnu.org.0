@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E171536F62A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:07:47 +0200 (CEST)
-Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E9336F62F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:10:35 +0200 (CEST)
+Received: from localhost ([::1]:55544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcNFa-0003Ef-HA
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50712)
+	id 1lcNII-00068U-7L
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:10:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lcNBp-0000yZ-7s
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:03:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lcNBn-0003ca-GE
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:03:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619766230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QpyiuJnMVvqqiaEBQGKuhT50y3H1YqT+DDb2GukLK4A=;
- b=HZwjkOJMcj3DfWHkshC8xP68LTDsh2eX7OEdog3jIcYupCFEk5gWq5myGRhGSd9CY/MKBf
- lyrphBNkQxQ2aUzVtbdq7Rr4Ob85jhBapwDqCW2jt/n4EI3b/GRlRt9olL3rdg2uyWY5lP
- bp8PwpiKRakZ1qgaMvs3agNZvgb1fic=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-umGCO_VgMwuBF9aSZUp5rQ-1; Fri, 30 Apr 2021 03:03:48 -0400
-X-MC-Unique: umGCO_VgMwuBF9aSZUp5rQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- ne22-20020a1709077b96b02903803a047edeso13255299ejc.3
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 00:03:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lcNDY-0002B0-G6; Fri, 30 Apr 2021 03:05:40 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lcNDW-0004Yv-S4; Fri, 30 Apr 2021 03:05:40 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id t4so20391915ejo.0;
+ Fri, 30 Apr 2021 00:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LPdx+jF0CLWeUsQ3inDtRtcpQVPPegXbGAOTsItkSTY=;
+ b=S/AFQ0e9PcXbBAy7d+XacLvh1mDmf6shCQ0nOJJNjzLfnClpe7qQgqLuJERARpuXsk
+ jwsRTHh0Fp/jTF7JPQVF5Ts6zurC+0PE+Gnoe3lkb/NsE4uwU45iiqoYeglDyule3EuZ
+ kFVNznLqaAXUsBh6IlJ0drK5kmXnUWNgHbjrmRXO7NJ5nKr39AiDLx/oEJnX3EuUKOkZ
+ AmI7di6f4xcR44/+MbPlYGB1641iWaEbxPNRWcJmzuVxSwJM/yBNM73wzaAXEKyJLb1h
+ KzsPQIu7T+4zwFRvqsO8EYXb/OiH0HF0ePaI1tW+AyHB73jFGGf6EnTEC2ZbzE+tGFwg
+ 3+6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QpyiuJnMVvqqiaEBQGKuhT50y3H1YqT+DDb2GukLK4A=;
- b=q0ocWEwPWxesnbYPzDDYqldGRC4Af5G5Ri0F1ziVmCNrjMZuWI/p4X/Cytps+A2g1z
- YsNvrGw8JrRiFbTqppFg4Fhrhb1txmUI4tLvVyFrsI2bmYrdQU6eEevpLVAnS+IYH/Tl
- Ut0inOyKvgor2fvzUFlVDp/RCoQ3n9EOFDe2b7xnLbsY2ZkLQ7nw5uBNUaC7UbPs8k54
- rYeprXlw5QH0Z0EYc5WiYY/iWcHSfGOd/odRgiJmi4roF/qtH9uc4r9cY0iK0NQrIkAn
- bwiQHkeGHPbMIpVDsnyjPaVNXXiGghcSFQj9UIMLUJvoqSNSyeLE4SEEASOs95bBNHf7
- cAoA==
-X-Gm-Message-State: AOAM533IToXKOZZNMuRNq1FhibmC4IysBx6P+WeLQABhpQk7C1LsW8ms
- WbjlVq0skWdsww4px/QyjCDjVSK9qvbmzF3IwaZ4bJWlHvfDRAzkPiBTkntpAM4lgqwDf8aoqAx
- UURtazfI7VGB7KOs=
-X-Received: by 2002:aa7:cb48:: with SMTP id w8mr3941678edt.55.1619766226710;
- Fri, 30 Apr 2021 00:03:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyttCYHN/9P2taVkl9O19ct216AYKFlsftJQvzcLAuwsLwsNsoiZNVS7PxFkvq8KUyd1MB44A==
-X-Received: by 2002:aa7:cb48:: with SMTP id w8mr3941662edt.55.1619766226488;
- Fri, 30 Apr 2021 00:03:46 -0700 (PDT)
-Received: from steredhat (host-79-46-211-24.retail.telecomitalia.it.
- [79.46.211.24])
- by smtp.gmail.com with ESMTPSA id e16sm1394706ejr.33.2021.04.30.00.03.45
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LPdx+jF0CLWeUsQ3inDtRtcpQVPPegXbGAOTsItkSTY=;
+ b=ozJBjWWzXzxlsbUqrm76AptwopSdhZX0cC8WjCv8mTLboRGM6NtH0XgG+4YxkGImJA
+ uXdQSjkNZrX3lBoB4b7+hGxUqfJIdj0ngeDieiSks+7SmmGJ3TUeUMq1cRnE+T5mWxrR
+ 5WkOWIwT7CH4GCHUQhIDhTGCw3UdT5xpxqSg8kwyi/OKBH3VBhhm8POJ140x5k8zGReX
+ tV8lDXpDPt1/eXJTyUkja2Km0ZKaS4VzhLWjZV14vqOhIfohAE9CTGHdNLN66H0ZHY+k
+ HfNVwPNQbpVeVTp3cME4vB9HXqsvaqlEkFpKAGC2+7Q4i+GoNlqCySO/oICk2E7q0J2d
+ 9Qow==
+X-Gm-Message-State: AOAM532luyrAxJuvG86BnCVywn+EeDGQgRi6F5cEkjqIjs1c5XSM1utW
+ 3Eb8Zeg4jenIrw3daKEzo40=
+X-Google-Smtp-Source: ABdhPJxqU56/A3NDtzY10R8IeNCTh/k/9BHHKWKrQ3kC3gHCblS/NrFBNWvtOI8GYHH2wlsvCCkTZA==
+X-Received: by 2002:a17:906:90d4:: with SMTP id
+ v20mr2669274ejw.275.1619766336518; 
+ Fri, 30 Apr 2021 00:05:36 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id t15sm578532edr.55.2021.04.30.00.05.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 00:03:46 -0700 (PDT)
-Date: Fri, 30 Apr 2021 09:03:43 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v3 3/3] hw/core/loader: clear uninitialized ROM space
-Message-ID: <20210430070343.5eswejwbfrhng6wk@steredhat>
-References: <20210429141326.69245-1-laurent@vivier.eu>
- <20210429141326.69245-4-laurent@vivier.eu>
+ Fri, 30 Apr 2021 00:05:36 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH] docs/system: riscv: Include shakti_c machine documentation
+Date: Fri, 30 Apr 2021 15:05:34 +0800
+Message-Id: <20210430070534.1487242-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210429141326.69245-4-laurent@vivier.eu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,19 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 04:13:26PM +0200, Laurent Vivier wrote:
->As for "hw/elf_ops: clear uninitialized segment space" we need to
->clear the uninitialized space when the ELF is set in ROM.
->
->Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+shakti_c machine documentation was missed in the riscv target doc.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+---
+
+ docs/system/target-riscv.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
+index 8d5946fbbb..4b3c78382c 100644
+--- a/docs/system/target-riscv.rst
++++ b/docs/system/target-riscv.rst
+@@ -67,6 +67,7 @@ undocumented; you can get a complete list by running
+    :maxdepth: 1
+ 
+    riscv/microchip-icicle-kit
++   riscv/shakti-c
+    riscv/sifive_u
+ 
+ RISC-V CPU features
+-- 
+2.25.1
 
 
