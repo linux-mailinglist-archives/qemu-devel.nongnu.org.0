@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3F736FF1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:02:45 +0200 (CEST)
-Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2AC36FF49
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:13:42 +0200 (CEST)
+Received: from localhost ([::1]:48408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWXM-0007uN-CH
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
+	id 1lcWhx-0001bp-5j
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:13:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcWCF-0005sX-GJ
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:40:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44474)
+ id 1lcWH2-0000He-87
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:45:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcWCC-0008DK-Lt
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:40:55 -0400
+ id 1lcWH0-0000SR-8z
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:45:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcWCA-0004GM-43
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:40:50 +0000
+ id 1lcWGx-00058D-OK
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:45:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E6BE02E815C
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:40:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A2D4D2E816F
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:45:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 16:34:55 -0000
-From: Thomas Huth <1827005@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 16:36:54 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1793635@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: hvf
+X-Launchpad-Bug-Tags: pflash u-boot
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cuser2 th-huth
-X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155660771706.7289.11621855018434071577.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161980049536.4348.5825777284662939142.malone@chaenomeles.canonical.com>
-Subject: [Bug 1827005] Re: hvf: ubuntu iso boot menu issue
+X-Launchpad-Bug-Commenters: philmd prosupcn th-huth
+X-Launchpad-Bug-Reporter: prosup (prosupcn)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <153750467250.30674.744561051616772902.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161980061492.4935.13580560410210445961.malone@chaenomeles.canonical.com>
+Subject: [Bug 1793635] Re: Using pflash with u-boot,
+ when CONFIG_SYS_FLASH_USE_BUFFER_WRITE were defined,
+ envirment args won't be able to save correctly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 7e6e9347b80d9b115d3ef07f530972fd091f8e3b
+X-Launchpad-Hash: c25e48e91ea5acd5ed978c66634d201e853a905c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,54 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1827005 <1827005@bugs.launchpad.net>
+Reply-To: Bug 1793635 <1793635@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to
-another system. For this we need to know which bugs are still valid
-and which could be closed already. Thus we are setting older bugs to
-"Incomplete" now.
-
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
-
+No update from the reporter after 5 months, so closing the bug.
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd) =3D> (unassigned)
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1827005
+https://bugs.launchpad.net/bugs/1793635
 
 Title:
-  hvf: ubuntu iso boot menu issue
+  Using pflash with u-boot,when CONFIG_SYS_FLASH_USE_BUFFER_WRITE were
+  defined,envirment args won't be able to save correctly
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  With hvf acceleration on macOS, ubuntu server installation ISO boot
-  language menu shows fractured images.
+  Generated a u-boot image with qemu_arm_defconfig,did some modification to=
+ qemu-arm.h.
+  Before added "CONFIG_SYS_FLASH_USE_BUFFER_WRITE",call saveenv in u-boot c=
+ommand line can save the envirment but painful slow.
 
-  To reproduce the issue:
-  ./x86_64-softmmu/qemu-system-x86_64 -m 800 -accel hvf -cdrom ~/ubuntu-16.=
-04.4-server-amd64.iso
-
-  Control:
-  ./x86_64-softmmu/qemu-system-x86_64 -m 800 -accel tcg -cdrom ~/ubuntu-16.=
-04.4-server-amd64.iso
-
-  Host: macOS Mojave 10.14.3
-  Guest: Ubuntu Server 16.04.4 ISO
-  QEMU: version 3.1.94 (v4.0.0-rc4)
+  after added it,seems the action took no time,but the data won't be
+  saved correctly,reset the board to boot again(i'd waited a while to
+  reset the board) ,the u-boot will tell you enviremnt checksum
+  mismatch,using the default.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1827005/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1793635/+subscriptions
 
