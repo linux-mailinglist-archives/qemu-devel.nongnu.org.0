@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2412F37035B
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:12:35 +0200 (CEST)
-Received: from localhost ([::1]:46324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB53370367
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:19:46 +0200 (CEST)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcbNB-0007CH-Oc
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36364)
+	id 1lcbU8-0000UW-RM
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cennedee@protonmail.com>)
- id 1lcamt-0007jj-OH; Fri, 30 Apr 2021 17:35:03 -0400
-Received: from mail-40137.protonmail.ch ([185.70.40.137]:58355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cennedee@protonmail.com>)
- id 1lcamq-0000m2-LE; Fri, 30 Apr 2021 17:35:03 -0400
-Date: Fri, 30 Apr 2021 21:34:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1619818490;
- bh=/UTzgRglq2koKH0w/UaBTvK78WfrbfeSRziifYBYPzY=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=RvgEKSMg5kmpomKF9knhF0kId3h4w5waPyAPY+RHcBN5CIWHml75u2Npms+ACZLN7
- QgTsViL4AO5sqt2dEAomx0A00Y6cAc8UlbJgMVdpRfPW2zKAmWW3QfDQE6S/wi64Ct
- vJluYIyyrzWfshv6jWz7WprNPRnJa4rH0EYmqLXg=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-From: cennedee <cennedee@protonmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Juan Quintela <quintela@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: [PATCH] Add missing coroutine_fn function signature to functions
-Message-ID: <8y2vfZuyQoZPUsO-9E_Vl_x5LG4S3-ewrNqvmbgOTUHPglYpU2A0-jjdIh78JySlGCqhHgfXXezC_HGTIbSdlsqcT9YzUKr0b_FKp1OLk00=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcbT6-0008Og-6E
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:18:40 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcbT3-0002d9-2F
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:18:39 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id c22so20696659edn.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:18:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sgH7Xc+JhEbXlE/S/ZuEZ1wzZmQvnH2wnbQUqCsZd68=;
+ b=MokzxTG4w+vw0S6v1qCm+dIvBXJw+gJG25P189Kmx8HrXl/B9nni1PW8RV0mTljnsI
+ lD6ngoLAzc1Q4fIKdwEZoxFrr1b7pPSlMj3U6ramQiiZuDIMuZd/rWrind59x+apGrj9
+ S8tltb5n02plq/9eyghNTubZyMQ3kZuHJidD0/KqYtXxTc85g98lEsXkFU5zZDjh3rvI
+ HwiOC2W1LP8brW7iEtmWP7uT5G2WZocGmvCJ4HNg4gjX8YUaM+GwmLX1GHBFq/R/YgSn
+ ikxYR1AB7rJu4SXvoG1NptcTpSX27u7DsL5K0ovQWg4qME5KQXTKJ7Tc1tdOB5zdYLck
+ Km1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sgH7Xc+JhEbXlE/S/ZuEZ1wzZmQvnH2wnbQUqCsZd68=;
+ b=Wz+uAzlyRXfbFlD9Fp2c9W7WAH6yTsdcoTWDPcqyEJiBLv7Laq8xvRRJKDjsdMF42l
+ PQrgN/JzEpIpN4dspu814N6QtVPo59uQIkTg3ALG0qkvRavNJpBJLG7zTeLjuFf7lD/Z
+ MVQLMrLg3Sx+UyaQUxV74rZPoDIc+fZYCWgLfhqQ4jnF8WV82iLIZYecvnfBsuHlTCvs
+ GahV4f9xMT9utTtAh6HMSJkUlTnzr3uQ1wkqcIqRxqYgdXl4TK4zFk6YA+OQATpGPnvp
+ 7+yUXg1rdhYvTM2PvPIkCHgcEvSkHYFY9U3PHb++tVj7GzDSfKXx9ATggzy0qOfxgMDC
+ 5wWg==
+X-Gm-Message-State: AOAM533zB8EBZLFsELRbs2FsG1xquidaiD2zBiMd8hNS/WQZWLAtW4ym
+ pNQG8iJCnS75zhdxRP5GTQ63eYsv36LjV/enq+AKQA==
+X-Google-Smtp-Source: ABdhPJwp1RsTi8RMKC0TolJLx1cU4dujwJxl9ry7GqSThy9qtZ/AIvQ8nxzXoZac54bHxS8uxfJFtYwlhz65IUHEda4=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr8599727edu.100.1619821115092; 
+ Fri, 30 Apr 2021 15:18:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210430163309.4182922-1-clg@kaod.org>
+In-Reply-To: <20210430163309.4182922-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Apr 2021 23:17:32 +0100
+Message-ID: <CAFEAcA9qz1SLh5Ws7C-xUqvnCJWfFyjjwc8STj4mdUxmCw0spw@mail.gmail.com>
+Subject: Re: [PULL 00/18] aspeed queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.70.40.137;
- envelope-from=cennedee@protonmail.com; helo=mail-40137.protonmail.ch
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 30 Apr 2021 18:11:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,104 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cennedee <cennedee@protonmail.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 447601c28d5ed0b1208a0560390f760e75ce5613 Mon Sep 17 00:00:00 2001
-From: Cenne Dee <cennedee+qemu-devel@protonmail.com>
-Date: Fri, 30 Apr 2021 15:52:28 -0400
-Subject: [PATCH] Add missing coroutine_fn function signature to functions
+On Fri, 30 Apr 2021 at 17:33, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The following changes since commit 609d7596524ab204ccd71ef42c9eee4c7c338e=
+a4:
+>
+>   Update version for v6.0.0 release (2021-04-29 18:05:29 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/legoater/qemu/ tags/pull-aspeed-20210430
+>
+> for you to fetch changes up to 1401dcd8aac9039797b995bfab078877a820c9c5:
+>
+>   aspeed: Add support for the quanta-q7l1-bmc board (2021-04-30 10:30:42 =
++0200)
+>
+> ----------------------------------------------------------------
+> Aspeed patches :
+>
+> * Fixes for the DMA space
+> * New model for ASPEED's Hash and Crypto Engine (Joel and Klaus)
+> * Acceptance tests (Joel)
+> * A fix for the XDMA  model
+> * Some extra features for the SMC controller.
+> * Two new boards : rainier-bmc and quanta-q7l1-bmc (Patrick)
+>
 
-Patch adds the signature for all relevant functions ending with _co
-or those that use them.
+Fails to build, OSX:
 
-Signed-off-by: Cenne Dee <cennedee+qemu-devel@protonmail.com>
----
- block/block-gen.h             | 2 +-
- migration/migration.c         | 2 +-
- monitor/hmp.c                 | 2 +-
- scsi/qemu-pr-helper.c         | 2 +-
- tests/unit/test-thread-pool.c | 4 ++--
- 5 files changed, 6 insertions(+), 6 deletions(-)
+../../hw/misc/aspeed_hace.c:128:49: error: incompatible pointer types
+passing 'size_t *' (aka 'unsigned long *') to parameter of type
+'hwaddr *' (aka 'unsigned long long *')
+[-Werror,-Wincompatible-pointer-types]
+                                                &iov[i].iov_len, false,
+                                                ^~~~~~~~~~~~~~~
+/Users/pm215/src/qemu-for-merges/include/exec/memory.h:2439:33: note:
+passing argument to parameter 'plen' here
+                        hwaddr *plen, bool is_write, MemTxAttrs attrs);
+                                ^
+1 error generated.
 
-diff --git a/block/block-gen.h b/block/block-gen.h
-index f80cf48..4963372 100644
---- a/block/block-gen.h
-+++ b/block/block-gen.h
-@@ -36,7 +36,7 @@ typedef struct BdrvPollCo {
-     Coroutine *co; /* Keep pointer here for debugging */
- } BdrvPollCo;
+(OpenBSD reports the same, but there it is only a warning.)
 
--static inline int bdrv_poll_co(BdrvPollCo *s)
-+static inline int coroutine_fn bdrv_poll_co(BdrvPollCo *s)
- {
-     assert(!qemu_in_coroutine());
+Same thing is also a build failure on 32-bit hosts (where the types
+are genuinely different sizes):
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 8ca0341..1acade8 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -539,7 +539,7 @@ static void process_incoming_migration_bh(void *opaque)
-     migration_incoming_state_destroy();
- }
+../../hw/misc/aspeed_hace.c: In function 'do_hash_operation':
+../../hw/misc/aspeed_hace.c:128:49: error: passing argument 3 of
+'address_space_map' from incompatible pointer type
+[-Werror=3Dincompatible-pointer-types]
+                                                 &iov[i].iov_len, false,
+                                                 ^
+In file included from /home/peter.maydell/qemu/include/hw/sysbus.h:7:0,
+                 from /home/peter.maydell/qemu/include/hw/misc/aspeed_hace.=
+h:12,
+                 from ../../hw/misc/aspeed_hace.c:14:
+/home/peter.maydell/qemu/include/exec/memory.h:2438:7: note: expected
+'hwaddr * {aka long long unsigned int *}' but argument is of type
+'size_t * {aka unsigned int *}'
+ void *address_space_map(AddressSpace *as, hwaddr addr,
+       ^~~~~~~~~~~~~~~~~
 
--static void process_incoming_migration_co(void *opaque)
-+static void coroutine_fn process_incoming_migration_co(void *opaque)
- {
-     MigrationIncomingState *mis =3D migration_incoming_get_current();
-     PostcopyState ps;
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 6c0b33a..0a16d61 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1068,7 +1068,7 @@ typedef struct HandleHmpCommandCo {
-     bool done;
- } HandleHmpCommandCo;
-
--static void handle_hmp_command_co(void *opaque)
-+static void coroutine_fn handle_hmp_command_co(void *opaque)
- {
-     HandleHmpCommandCo *data =3D opaque;
-     data->cmd->cmd(data->mon, data->qdict);
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 7b9389b..7c1ed2a 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -175,7 +175,7 @@ static int do_sgio_worker(void *opaque)
-     return status;
- }
-
--static int do_sgio(int fd, const uint8_t *cdb, uint8_t *sense,
-+static int coroutine_fn do_sgio(int fd, const uint8_t *cdb, uint8_t *sense=
-,
-                     uint8_t *buf, int *sz, int dir)
- {
-     ThreadPool *pool =3D aio_get_thread_pool(qemu_get_aio_context());
-diff --git a/tests/unit/test-thread-pool.c b/tests/unit/test-thread-pool.c
-index 70dc631..21fc118 100644
---- a/tests/unit/test-thread-pool.c
-+++ b/tests/unit/test-thread-pool.c
-@@ -72,7 +72,7 @@ static void test_submit_aio(void)
-     g_assert_cmpint(data.ret, =3D=3D, 0);
- }
-
--static void co_test_cb(void *opaque)
-+static void coroutine_fn co_test_cb(void *opaque)
- {
-     WorkerTestData *data =3D opaque;
-
-@@ -90,7 +90,7 @@ static void co_test_cb(void *opaque)
-     /* The test continues in test_submit_co, after aio_poll... */
- }
-
--static void test_submit_co(void)
-+static void coroutine_fn test_submit_co(void)
- {
-     WorkerTestData data;
-     Coroutine *co =3D qemu_coroutine_create(co_test_cb, &data);
---
-2.31.1
-
-
+thanks
+-- PMM
 
