@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148F536F947
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:27:30 +0200 (CEST)
-Received: from localhost ([::1]:55056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E0236F919
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:17:21 +0200 (CEST)
+Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRIv-00011n-3V
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36450)
+	id 1lcR96-0004sZ-C9
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:17:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkk-0003ui-2J
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50908)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkl-0003xg-Qw
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkf-0002M4-SK
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:09 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkg-0002Mb-OY
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619779925;
+ s=mimecast20190719; t=1619779926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B21dPMKC4WJRf4ovCexPhVRUFwi+qrjoEE/PoORfs3U=;
- b=DuIFAoFQ/8edi65b3WIfetkmm4mypqZWhYlllaBeoJKA1sjeoSjCblALhm3cgFDit6rfhf
- a1gTQhPtaxyMvWSkZFdrC8ksD1GWc3fEepdkysx8SB0f7pOK8NLZA9fhE7Hgy41zdo2FW+
- FKZx4xpiBxlUunEhA1KF8YdP4Sp1L9U=
+ bh=oAiwuZAVHMJK66utKZDLqsGI/fNf64LHvLZUVCGYvLM=;
+ b=NTYIq/xlCwRX0om3OKrC83vZ0gnpI+rYccGUGEFKXQi+ZyklKR0/FD/OcDkRIJmBN8caem
+ IFrzU0Dr0nFaoUJ+YCGYwZ/deiIlhDDcdzgbhgy7nB1jcc7bAzzzse1CW9HmnpVN06rE/A
+ rOI2NRvl9jJnOXmzATA7XuV4zRtR1uk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-_tB60vHOMMWB9kMInVQWnA-1; Fri, 30 Apr 2021 06:52:02 -0400
-X-MC-Unique: _tB60vHOMMWB9kMInVQWnA-1
+ us-mta-154-Dg0Dtf4nMmu-DFbPe0HoLA-1; Fri, 30 Apr 2021 06:52:04 -0400
+X-MC-Unique: Dg0Dtf4nMmu-DFbPe0HoLA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 022959196AE;
- Fri, 30 Apr 2021 10:52:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C17A501F8;
+ Fri, 30 Apr 2021 10:52:03 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF165F707;
- Fri, 30 Apr 2021 10:52:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 487955F707;
+ Fri, 30 Apr 2021 10:52:02 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/39] block: BdrvChildClass: add .get_parent_aio_context
- handler
-Date: Fri, 30 Apr 2021 12:51:13 +0200
-Message-Id: <20210430105147.125840-6-kwolf@redhat.com>
+Subject: [PULL 06/39] block: drop ctx argument from bdrv_root_attach_child
+Date: Fri, 30 Apr 2021 12:51:14 +0200
+Message-Id: <20210430105147.125840-7-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,134 +82,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Add new handler to get aio context and implement it in all child
-classes. Add corresponding public interface to be used soon.
+Passing parent aio context is redundant, as child_class and parent
+opaque pointer are enough to retrieve it. Drop the argument and use new
+bdrv_child_get_parent_aio_context() interface.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-6-vsementsov@virtuozzo.com>
+Message-Id: <20210428151804.439460-7-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block.h     |  2 ++
- include/block/block_int.h |  2 ++
- block.c                   | 13 +++++++++++++
- block/block-backend.c     |  9 +++++++++
- blockjob.c                |  8 ++++++++
- 5 files changed, 34 insertions(+)
+ include/block/block_int.h | 1 -
+ block.c                   | 8 +++++---
+ block/block-backend.c     | 4 ++--
+ blockjob.c                | 3 +--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index b3f6e509d4..54279baa95 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -702,6 +702,8 @@ bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
-                                     GSList **ignore, Error **errp);
- bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-                               GSList **ignore, Error **errp);
-+AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c);
-+
- int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz);
- int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo);
- 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 88e4111939..737ec632c4 100644
+index 737ec632c4..dd2de6bd1d 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -789,6 +789,8 @@ struct BdrvChildClass {
-     bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
-                             GSList **ignore, Error **errp);
-     void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
-+
-+    AioContext *(*get_parent_aio_context)(BdrvChild *child);
- };
- 
- extern const BdrvChildClass child_of_bds;
+@@ -1308,7 +1308,6 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildClass *child_class,
+                                   BdrvChildRole child_role,
+-                                  AioContext *ctx,
+                                   uint64_t perm, uint64_t shared_perm,
+                                   void *opaque, Error **errp);
+ void bdrv_root_unref_child(BdrvChild *child);
 diff --git a/block.c b/block.c
-index 1e7e8907e4..2833912436 100644
+index 2833912436..54436c951e 100644
 --- a/block.c
 +++ b/block.c
-@@ -1394,6 +1394,13 @@ static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
-     return 0;
- }
- 
-+static AioContext *bdrv_child_cb_get_parent_aio_context(BdrvChild *c)
-+{
-+    BlockDriverState *bs = c->opaque;
-+
-+    return bdrv_get_aio_context(bs);
-+}
-+
- const BdrvChildClass child_of_bds = {
-     .parent_is_bds   = true,
-     .get_parent_desc = bdrv_child_get_parent_desc,
-@@ -1407,8 +1414,14 @@ const BdrvChildClass child_of_bds = {
-     .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
-     .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
-     .update_filename = bdrv_child_cb_update_filename,
-+    .get_parent_aio_context = bdrv_child_cb_get_parent_aio_context,
- };
- 
-+AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c)
-+{
-+    return c->klass->get_parent_aio_context(c);
-+}
-+
- static int bdrv_open_flags(BlockDriverState *bs, int flags)
+@@ -2700,13 +2700,13 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildClass *child_class,
+                                   BdrvChildRole child_role,
+-                                  AioContext *ctx,
+                                   uint64_t perm, uint64_t shared_perm,
+                                   void *opaque, Error **errp)
  {
-     int open_flags = flags;
+     BdrvChild *child;
+     Error *local_err = NULL;
+     int ret;
++    AioContext *ctx;
+ 
+     ret = bdrv_check_update_perm(child_bs, NULL, perm, shared_perm, NULL, errp);
+     if (ret < 0) {
+@@ -2726,6 +2726,8 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+         .opaque         = opaque,
+     };
+ 
++    ctx = bdrv_child_get_parent_aio_context(child);
++
+     /* If the AioContexts don't match, first try to move the subtree of
+      * child_bs into the AioContext of the new parent. If this doesn't work,
+      * try moving the parent into the AioContext of child_bs instead. */
+@@ -2786,8 +2788,8 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+                     perm, shared_perm, &perm, &shared_perm);
+ 
+     child = bdrv_root_attach_child(child_bs, child_name, child_class,
+-                                   child_role, bdrv_get_aio_context(parent_bs),
+-                                   perm, shared_perm, parent_bs, errp);
++                                   child_role, perm, shared_perm, parent_bs,
++                                   errp);
+     if (child == NULL) {
+         return NULL;
+     }
 diff --git a/block/block-backend.c b/block/block-backend.c
-index 413af51f3b..3f656ef361 100644
+index 3f656ef361..e4892fd6a5 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -298,6 +298,13 @@ static void blk_root_detach(BdrvChild *child)
-     }
- }
+@@ -435,7 +435,7 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
  
-+static AioContext *blk_root_get_parent_aio_context(BdrvChild *c)
-+{
-+    BlockBackend *blk = c->opaque;
-+
-+    return blk_get_aio_context(blk);
-+}
-+
- static const BdrvChildClass child_root = {
-     .inherit_options    = blk_root_inherit_options,
- 
-@@ -318,6 +325,8 @@ static const BdrvChildClass child_root = {
- 
-     .can_set_aio_ctx    = blk_root_can_set_aio_ctx,
-     .set_aio_ctx        = blk_root_set_aio_ctx,
-+
-+    .get_parent_aio_context = blk_root_get_parent_aio_context,
- };
- 
- /*
+     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
+                                        BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                                       blk->ctx, perm, BLK_PERM_ALL, blk, errp);
++                                       perm, BLK_PERM_ALL, blk, errp);
+     if (!blk->root) {
+         blk_unref(blk);
+         return NULL;
+@@ -849,7 +849,7 @@ int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+     bdrv_ref(bs);
+     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
+                                        BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                                       blk->ctx, blk->perm, blk->shared_perm,
++                                       blk->perm, blk->shared_perm,
+                                        blk, errp);
+     if (blk->root == NULL) {
+         return -EPERM;
 diff --git a/blockjob.c b/blockjob.c
-index 207e8c7fd9..160bf38b19 100644
+index 160bf38b19..2fe1d788ba 100644
 --- a/blockjob.c
 +++ b/blockjob.c
-@@ -163,6 +163,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
-     job->job.aio_context = ctx;
- }
- 
-+static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
-+{
-+    BlockJob *job = c->opaque;
-+
-+    return job->job.aio_context;
-+}
-+
- static const BdrvChildClass child_job = {
-     .get_parent_desc    = child_job_get_parent_desc,
-     .drained_begin      = child_job_drained_begin,
-@@ -171,6 +178,7 @@ static const BdrvChildClass child_job = {
-     .can_set_aio_ctx    = child_job_can_set_aio_ctx,
-     .set_aio_ctx        = child_job_set_aio_ctx,
-     .stay_at_node       = true,
-+    .get_parent_aio_context = child_job_get_parent_aio_context,
- };
- 
- void block_job_remove_all_bdrv(BlockJob *job)
+@@ -229,8 +229,7 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     if (need_context_ops && job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_release(job->job.aio_context);
+     }
+-    c = bdrv_root_attach_child(bs, name, &child_job, 0,
+-                               job->job.aio_context, perm, shared_perm, job,
++    c = bdrv_root_attach_child(bs, name, &child_job, 0, perm, shared_perm, job,
+                                errp);
+     if (need_context_ops && job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_acquire(job->job.aio_context);
 -- 
 2.30.2
 
