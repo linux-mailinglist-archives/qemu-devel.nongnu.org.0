@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6923836F8F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:07:32 +0200 (CEST)
-Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FDE36F8F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:13:20 +0200 (CEST)
+Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcQzb-0008Mx-FE
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1lcR5D-0007OS-6j
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcQUX-0007vX-AA
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:35:25 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45852)
+ id 1lcQUY-0007yf-G2
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:35:26 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcQUI-0001QM-Pr
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:35:25 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so490387wmh.4
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 03:35:10 -0700 (PDT)
+ id 1lcQUL-0001QQ-5L
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:35:26 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ k4-20020a7bc4040000b02901331d89fb83so1383924wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 03:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gcENlcUoIW2DXr+RXZyS/ON8OhNCnCdIA9S9X9dh+SY=;
- b=G/KtIf0dSrYLEJfhwBkQN3t9hkjVBOfYwrxetK+DrdJuap/S9iUf/qavL55pXODzgB
- hE0wbhpmmpNZ8K9DwDdnjPRl+9PLGBzwZ8qs/8dymlzoHChCm2S4O15uTIaGQ7w2b+Dq
- a2GmqBoHdOYUTbr6slKhptMK5w7A2oyqB4mMi2BRPpt1kgTghkJyDsYMFNOSgfsJVIYk
- dyt7QRh+XKxuBH6A9i80ntOcH7L4omBFabKHKjJZ92+1GBrr+PLo25M+thfNdrLOk544
- +tzTbrO3S3ba+MD/qH5GyAdRbnToDt/eoa3SZkPOGCdkbMVHY690G3nzypsVXgk6JGAG
- QS9Q==
+ bh=sdqS0yyWxOc4e8zr39heD6oB/Twh6FeMcv9FfbnuPVY=;
+ b=W8pSxENSFL7sZyrHOTdLmdObzjMpk4jpsQPZc8lxO34xFm63a+QUFP+BJI0yJQU5gd
+ XUXhYQrFmM68I37eXa5RcTL3JB9T0RCcL+tt4j5zfrEcaCNK7e/ir06voGFovmTcw91j
+ YLG9NWCyUANni5fuvF+swc454duBAPHhvyrO0QjSJki75QpakH49q7bL5jsktHwMKzFA
+ Lc8vgjnjxU4ppXvbkTdRlAaN2m9DYtaGy54WAalH2V+rNiyDikwB9nQaxQgWwgNe25y+
+ SR1cnzGdYhdG6jrsTi5nWMnGF6KKRbWr63xPUiBodLmcWzbOo6yNZPJt85+eCC7GIRF6
+ 4Rlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gcENlcUoIW2DXr+RXZyS/ON8OhNCnCdIA9S9X9dh+SY=;
- b=D/wjYWikKYonvhU4V+CIV3Vk3U5qcEYtbLej8QGRPqZbNQAYO/AcKa8izseoNek/xA
- HFzMYy/DN26VAgFbp18icU/eYVW6gs/uCez6FkPauivcWEpxphUT2d4prYN5cFLvMa7+
- qtBsyxvZXJM9ZyHy8l2u4FUftRKSe9HS6eHGGVw9twQKmPuEmLSmkSb8OBMVPKHIaYKw
- 2whSUQAKTQvoZZBh92skRkuQoMPheznpI8Tkfl6srzwkdPz0E++TqO1KS/VhGhc7kjHZ
- Mr/1nk1iIxcPhj/ObkQTsQ7YfUE2B3aSivAoP+MpBDeo8vkGcwtNkSG8nyEXR5bTw6io
- qv2A==
-X-Gm-Message-State: AOAM530DGHsvwqLOVw/x4/oYIT/sijS7tRhpmJbK1y9+0pK1nsFLsWfW
- RbfA7HHmiyJpssSox/qzhjfeF+DCt6lpkFZq
-X-Google-Smtp-Source: ABdhPJzz9MK6YEwcargc2EkfRzLm9kDPcSbJmADlFkaunwDYn0KCa/vTuulTOLz+y2vZeKgSq/maVw==
-X-Received: by 2002:a1c:7402:: with SMTP id p2mr15865061wmc.88.1619778909450; 
- Fri, 30 Apr 2021 03:35:09 -0700 (PDT)
+ bh=sdqS0yyWxOc4e8zr39heD6oB/Twh6FeMcv9FfbnuPVY=;
+ b=OfDk9ewE2zeviDHzE1w8mIo/z1h44K6FeS6ZtZGTu+/ERGKhCSACw/fHkFpqem79Mq
+ NEf/fIC8WCkzc3CuFsVadjwhvJ83RlN4IsuA+y4pjpIFD4I+Tcob3KXBp+Bt5D9XH9EP
+ IW1+jOVS8LU7vZC+NDO3YiJBVrOA14LMQuS8QBq1STs8fpuikLVOanr/hvD4AcYICWRy
+ 0KP2yxynPX1Pb/Ul0EtKLjjunT/ISEgVHmnRZU7RMP3arPYocSfgRSV7nE5caYmR4mUG
+ s8zcQZ/v20UAl3l+cf1qS9ODxKCvjHSLCqmBxRzXyH8t1Nze8GYwjr0qe4wpozcIStjl
+ WHfg==
+X-Gm-Message-State: AOAM533Rcbl4AxYXzgTM2CaHXFHx1ebwqtXyxttwthKeoCCVrcGa7QuZ
+ dACfMKhmqlMtRyJuEajE+MGEEbjvT2FoNaT5
+X-Google-Smtp-Source: ABdhPJw+/YGZ6stgUlDNjfZHmdWF5HT7s9pQ6/fJWVIPyQqGR2Gjk7k62RHSND7kE/lmgdwCkpi3Ag==
+X-Received: by 2002:a1c:7e45:: with SMTP id z66mr5341299wmc.126.1619778910160; 
+ Fri, 30 Apr 2021 03:35:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 18sm12997817wmo.47.2021.04.30.03.35.08
+ by smtp.gmail.com with ESMTPSA id 18sm12997817wmo.47.2021.04.30.03.35.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 30 Apr 2021 03:35:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/43] hw: add compat machines for 6.1
-Date: Fri, 30 Apr 2021 11:34:36 +0100
-Message-Id: <20210430103437.4140-43-peter.maydell@linaro.org>
+Subject: [PULL 43/43] hw/pci-host/gpex: Don't fault for unmapped parts of MMIO
+ and PIO windows
+Date: Fri, 30 Apr 2021 11:34:37 +0100
+Message-Id: <20210430103437.4140-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210430103437.4140-1-peter.maydell@linaro.org>
 References: <20210430103437.4140-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,232 +88,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+Currently the gpex PCI controller implements no special behaviour for
+guest accesses to areas of the PIO and MMIO where it has not mapped
+any PCI devices, which means that for Arm you end up with a CPU
+exception due to a data abort.
 
-Add 6.1 machine types for arm/i440fx/q35/s390x/spapr.
+Most host OSes expect "like an x86 PC" behaviour, where bad accesses
+like this return -1 for reads and ignore writes.  In the interests of
+not being surprising, make host CPU accesses to these windows behave
+as -1/discard where there's no mapped PCI device.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Message-id: 20210331111900.118274-1-cohuck@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The old behaviour generally didn't cause any problems, because
+almost always the guest OS will map the PCI devices and then only
+access where it has mapped them. One corner case where you will see
+this kind of access is if Linux attempts to probe legacy ISA
+devices via a PIO window access. So far the only case where we've
+seen this has been via the syzkaller fuzzer.
+
+Reported-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Message-id: 20210325163315.27724-1-peter.maydell@linaro.org
+Fixes: https://bugs.launchpad.net/qemu/+bug/1918917
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- hw/arm/virt.c              |  7 ++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 17 ++++++++++++++---
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- 9 files changed, 70 insertions(+), 7 deletions(-)
+ include/hw/pci-host/gpex.h |  4 +++
+ hw/core/machine.c          |  4 ++-
+ hw/pci-host/gpex.c         | 56 ++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 60 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index ad6c8fd5376..3d55d2bd62c 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -353,6 +353,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
+diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
+index d48a020a952..fcf8b638200 100644
+--- a/include/hw/pci-host/gpex.h
++++ b/include/hw/pci-host/gpex.h
+@@ -49,8 +49,12 @@ struct GPEXHost {
  
-+extern GlobalProperty hw_compat_6_0[];
-+extern const size_t hw_compat_6_0_len;
+     MemoryRegion io_ioport;
+     MemoryRegion io_mmio;
++    MemoryRegion io_ioport_window;
++    MemoryRegion io_mmio_window;
+     qemu_irq irq[GPEX_NUM_IRQS];
+     int irq_num[GPEX_NUM_IRQS];
 +
- extern GlobalProperty hw_compat_5_2[];
- extern const size_t hw_compat_5_2_len;
++    bool allow_unmapped_accesses;
+ };
  
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index dcf060b7918..1522a3359a9 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -197,6 +197,9 @@ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
- 
-+extern GlobalProperty pc_compat_6_0[];
-+extern const size_t pc_compat_6_0_len;
-+
- extern GlobalProperty pc_compat_5_2[];
- extern const size_t pc_compat_5_2_len;
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 9f01d9041b6..fee696fb0e3 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2757,10 +2757,15 @@ static void machvirt_machine_init(void)
- }
- type_init(machvirt_machine_init);
- 
-+static void virt_machine_6_1_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
-+
- static void virt_machine_6_0_options(MachineClass *mc)
- {
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(6, 0)
-+DEFINE_VIRT_MACHINE(6, 0)
- 
- static void virt_machine_5_2_options(MachineClass *mc)
- {
+ struct GPEXConfig {
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 40def78183a..cebcdcc3511 100644
+index cebcdcc3511..0f5ce43d0c2 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -36,6 +36,9 @@
+@@ -36,7 +36,9 @@
  #include "hw/virtio/virtio.h"
  #include "hw/virtio/virtio-pci.h"
  
-+GlobalProperty hw_compat_6_0[] = {};
-+const size_t hw_compat_6_0_len = G_N_ELEMENTS(hw_compat_6_0);
-+
+-GlobalProperty hw_compat_6_0[] = {};
++GlobalProperty hw_compat_6_0[] = {
++    { "gpex-pcihost", "allow-unmapped-accesses", "false" },
++};
+ const size_t hw_compat_6_0_len = G_N_ELEMENTS(hw_compat_6_0);
+ 
  GlobalProperty hw_compat_5_2[] = {
-     { "ICH9-LPC", "smm-compat", "on"},
-     { "PIIX4_PM", "smm-compat", "on"},
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8a84b25a031..364816efc9d 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -96,6 +96,9 @@
- #include "trace.h"
- #include CONFIG_DEVICES
+diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
+index 2bdbe7b4561..a6752fac5e8 100644
+--- a/hw/pci-host/gpex.c
++++ b/hw/pci-host/gpex.c
+@@ -83,12 +83,51 @@ static void gpex_host_realize(DeviceState *dev, Error **errp)
+     int i;
  
-+GlobalProperty pc_compat_6_0[] = {};
-+const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
+     pcie_host_mmcfg_init(pex, PCIE_MMCFG_SIZE_MAX);
++    sysbus_init_mmio(sbd, &pex->mmio);
 +
- GlobalProperty pc_compat_5_2[] = {
-     { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
- };
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 46cc951073b..4e8edffeaf6 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -415,7 +415,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
++    /*
++     * Note that the MemoryRegions io_mmio and io_ioport that we pass
++     * to pci_register_root_bus() are not the same as the
++     * MemoryRegions io_mmio_window and io_ioport_window that we
++     * expose as SysBus MRs. The difference is in the behaviour of
++     * accesses to addresses where no PCI device has been mapped.
++     *
++     * io_mmio and io_ioport are the underlying PCI view of the PCI
++     * address space, and when a PCI device does a bus master access
++     * to a bad address this is reported back to it as a transaction
++     * failure.
++     *
++     * io_mmio_window and io_ioport_window implement "unmapped
++     * addresses read as -1 and ignore writes"; this is traditional
++     * x86 PC behaviour, which is not mandated by the PCI spec proper
++     * but expected by much PCI-using guest software, including Linux.
++     *
++     * In the interests of not being unnecessarily surprising, we
++     * implement it in the gpex PCI host controller, by providing the
++     * _window MRs, which are containers with io ops that implement
++     * the 'background' behaviour and which hold the real PCI MRs as
++     * subregions.
++     */
+     memory_region_init(&s->io_mmio, OBJECT(s), "gpex_mmio", UINT64_MAX);
+     memory_region_init(&s->io_ioport, OBJECT(s), "gpex_ioport", 64 * 1024);
+ 
+-    sysbus_init_mmio(sbd, &pex->mmio);
+-    sysbus_init_mmio(sbd, &s->io_mmio);
+-    sysbus_init_mmio(sbd, &s->io_ioport);
++    if (s->allow_unmapped_accesses) {
++        memory_region_init_io(&s->io_mmio_window, OBJECT(s),
++                              &unassigned_io_ops, OBJECT(s),
++                              "gpex_mmio_window", UINT64_MAX);
++        memory_region_init_io(&s->io_ioport_window, OBJECT(s),
++                              &unassigned_io_ops, OBJECT(s),
++                              "gpex_ioport_window", 64 * 1024);
++
++        memory_region_add_subregion(&s->io_mmio_window, 0, &s->io_mmio);
++        memory_region_add_subregion(&s->io_ioport_window, 0, &s->io_ioport);
++        sysbus_init_mmio(sbd, &s->io_mmio_window);
++        sysbus_init_mmio(sbd, &s->io_ioport_window);
++    } else {
++        sysbus_init_mmio(sbd, &s->io_mmio);
++        sysbus_init_mmio(sbd, &s->io_ioport);
++    }
++
+     for (i = 0; i < GPEX_NUM_IRQS; i++) {
+         sysbus_init_irq(sbd, &s->irq[i]);
+         s->irq_num[i] = -1;
+@@ -108,6 +147,16 @@ static const char *gpex_host_root_bus_path(PCIHostState *host_bridge,
+     return "0000:00";
  }
  
--static void pc_i440fx_6_0_machine_options(MachineClass *m)
-+static void pc_i440fx_6_1_machine_options(MachineClass *m)
++static Property gpex_host_properties[] = {
++    /*
++     * Permit CPU accesses to unmapped areas of the PIO and MMIO windows
++     * (discarding writes and returning -1 for reads) rather than aborting.
++     */
++    DEFINE_PROP_BOOL("allow-unmapped-accesses", GPEXHost,
++                     allow_unmapped_accesses, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void gpex_host_class_init(ObjectClass *klass, void *data)
  {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -424,6 +424,18 @@ static void pc_i440fx_6_0_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -117,6 +166,7 @@ static void gpex_host_class_init(ObjectClass *klass, void *data)
+     dc->realize = gpex_host_realize;
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->fw_name = "pci";
++    device_class_set_props(dc, gpex_host_properties);
  }
  
-+DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-+                      pc_i440fx_6_1_machine_options);
-+
-+static void pc_i440fx_6_0_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_6_1_machine_options(m);
-+    m->alias = NULL;
-+    m->is_default = false;
-+    compat_props_add(m->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-+    compat_props_add(m->compat_props, pc_compat_6_0, pc_compat_6_0_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v6_0, "pc-i440fx-6.0", NULL,
-                       pc_i440fx_6_0_machine_options);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 53450190f54..458ed41c65d 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -345,7 +345,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_6_0_machine_options(MachineClass *m)
-+static void pc_q35_6_1_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -353,6 +353,17 @@ static void pc_q35_6_0_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-+                   pc_q35_6_1_machine_options);
-+
-+static void pc_q35_6_0_machine_options(MachineClass *m)
-+{
-+    pc_q35_6_1_machine_options(m);
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-+    compat_props_add(m->compat_props, pc_compat_6_0, pc_compat_6_0_len);
-+}
-+
- DEFINE_Q35_MACHINE(v6_0, "pc-q35-6.0", NULL,
-                    pc_q35_6_0_machine_options);
- 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e4be00b732a..529ff056dd2 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4605,14 +4605,25 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
-     type_init(spapr_machine_register_##suffix)
- 
- /*
-- * pseries-6.0
-+ * pseries-6.1
-  */
--static void spapr_machine_6_0_class_options(MachineClass *mc)
-+static void spapr_machine_6_1_class_options(MachineClass *mc)
- {
-     /* Defaults for the latest behaviour inherited from the base class */
- }
- 
--DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
-+DEFINE_SPAPR_MACHINE(6_1, "6.1", true);
-+
-+/*
-+ * pseries-6.0
-+ */
-+static void spapr_machine_6_0_class_options(MachineClass *mc)
-+{
-+    spapr_machine_6_1_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-+}
-+
-+DEFINE_SPAPR_MACHINE(6_0, "6.0", false);
- 
- /*
-  * pseries-5.2
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 2972b607f36..56b52d2d309 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -795,14 +795,26 @@ bool css_migration_enabled(void)
-     }                                                                         \
-     type_init(ccw_machine_register_##suffix)
- 
-+static void ccw_machine_6_1_instance_options(MachineState *machine)
-+{
-+}
-+
-+static void ccw_machine_6_1_class_options(MachineClass *mc)
-+{
-+}
-+DEFINE_CCW_MACHINE(6_1, "6.1", true);
-+
- static void ccw_machine_6_0_instance_options(MachineState *machine)
- {
-+    ccw_machine_6_1_instance_options(machine);
- }
- 
- static void ccw_machine_6_0_class_options(MachineClass *mc)
- {
-+    ccw_machine_6_1_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
- }
--DEFINE_CCW_MACHINE(6_0, "6.0", true);
-+DEFINE_CCW_MACHINE(6_0, "6.0", false);
- 
- static void ccw_machine_5_2_instance_options(MachineState *machine)
- {
+ static void gpex_host_initfn(Object *obj)
 -- 
 2.20.1
 
