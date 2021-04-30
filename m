@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A675036FF2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:08:17 +0200 (CEST)
-Received: from localhost ([::1]:36710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3F736FF1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:02:45 +0200 (CEST)
+Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWci-00057B-NC
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
+	id 1lcWXM-0007uN-CH
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lcW6l-0002K0-FT; Fri, 30 Apr 2021 12:35:15 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:15922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lcW6e-0007FU-85; Fri, 30 Apr 2021 12:35:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1619800508;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=nuzFdV0QUWkg3W9rmcl5jJaiMd5QRUHMmTZ+jdAfApE=;
- b=ISFBOjBF4vXMMNCUvBsTaaGsuNJiT9Oq67OZxf8VyjUqDAGF/SOdnIEs
- Lwk7QcrZJva/Hcm2Oh72yz/rU1tgcRL9JcdUUO4xx9XQ6GhNdBI0dhqID
- s/ihHwk98SDBzxTEVbxYtE+EpCjTWGO+EnE0v4UQP5TcyJSkU1kFnhGJ4 8=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: igWuJsrqlCI9Of4M0spP8n5YBZ9E8QnoSwW2sgtj2zvUMrgmiA91yOwVrZ/ocIB4lULTxBkzOM
- 0rhlKQ/InPzoIOMh8LPld722hKkPOa3kiONqAqoI7IyAb/Gbed2+2IrNINtnXNtZ8woTYad27G
- bIg7uvtl/UggzugCH3G8pGOT63sLSUYvOeb0swKcNkEJU5OyuOrEv4Pf4hQn/gaDDW1Aqzj0hD
- ghO1vPTkGn8lT+LoefDQ5PtNLJ0vWG+xVzSrUB10GxYBdsEfixVe1Rbhbz1ubrcLJSytiWjXag
- tlA=
-X-SBRS: 5.1
-X-MesageID: 44335315
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-IronPort-HdrOrdr: A9a23:EsZLaq+pZ1uLW4KgT/9uk+A8I+orLtY04lQ7vn1ZYzY9SKKlvu
- qpm+kW0gKxtS0YX2sulcvFFK6LR37d8pAd2/h0AZ6JWg76tGy0aLxz9IeK+UyHJwTS/vNQvJ
- 0BT4FQE9v1ZGIXse/fwC2VV+kt28OG9qfAv5a6815IQRtxY69tqydVYzzrcXFefwVNCZonGJ
- f03KMuzFDMRV0tYtmmHX5AZuDfprTw5fXbSCQbDB0q4hTmt1KVwYP9eiL24j4uFxdGwbIv6g
- H+4m7E2pk=
-X-IronPort-AV: E=Sophos;i="5.82,263,1613451600"; d="scan'208";a="44335315"
-To: <qemu-devel@nongnu.org>
-CC: Anthony PERARD <anthony.perard@citrix.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>, Kevin Wolf
- <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- <xen-devel@lists.xenproject.org>, <qemu-block@nongnu.org>
-Subject: [PATCH] xen-block: Use specific blockdev driver
-Date: Fri, 30 Apr 2021 17:34:32 +0100
-Message-ID: <20210430163432.468894-1-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcWCF-0005sX-GJ
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:40:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcWCC-0008DK-Lt
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcWCA-0004GM-43
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E6BE02E815C
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 16:40:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.144;
- envelope-from=anthony.perard@citrix.com; helo=esa4.hc3370-68.iphmx.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 16:34:55 -0000
+From: Thomas Huth <1827005@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hvf
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cuser2 th-huth
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155660771706.7289.11621855018434071577.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161980049536.4348.5825777284662939142.malone@chaenomeles.canonical.com>
+Subject: [Bug 1827005] Re: hvf: ubuntu iso boot menu issue
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 7e6e9347b80d9b115d3ef07f530972fd091f8e3b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,59 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1827005 <1827005@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-From: Anthony PERARD <anthony.perard@citrix.com>
+The QEMU project is currently considering to move its bug tracking to
+another system. For this we need to know which bugs are still valid
+and which could be closed already. Thus we are setting older bugs to
+"Incomplete" now.
 
-... when a xen-block backend instance is created via xenstore.
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
 
-Following 8d17adf34f50 ("block: remove support for using "file" driver
-with block/char devices"), using the "file" blockdev driver for
-everything doesn't work anymore, we need to use the "host_device"
-driver when the disk image is a block device and "file" driver when it
-is a regular file.
+Thank you and sorry for the inconvenience.
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
- hw/block/xen-block.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 83754a434481..674953f1adee 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -728,6 +728,8 @@ static XenBlockDrive *xen_block_drive_create(const char *id,
-     XenBlockDrive *drive = NULL;
-     QDict *file_layer;
-     QDict *driver_layer;
-+    struct stat st;
-+    int rc;
- 
-     if (params) {
-         char **v = g_strsplit(params, ":", 2);
-@@ -761,7 +763,17 @@ static XenBlockDrive *xen_block_drive_create(const char *id,
-     file_layer = qdict_new();
-     driver_layer = qdict_new();
- 
--    qdict_put_str(file_layer, "driver", "file");
-+    rc = stat(filename, &st);
-+    if (rc) {
-+        error_setg_errno(errp, errno, "Could not stat file '%s'", filename);
-+        goto done;
-+    }
-+    if (S_ISBLK(st.st_mode)) {
-+        qdict_put_str(file_layer, "driver", "host_device");
-+    } else {
-+        qdict_put_str(file_layer, "driver", "file");
-+    }
-+
-     qdict_put_str(file_layer, "filename", filename);
-     g_free(filename);
- 
--- 
-Anthony PERARD
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1827005
+
+Title:
+  hvf: ubuntu iso boot menu issue
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  With hvf acceleration on macOS, ubuntu server installation ISO boot
+  language menu shows fractured images.
+
+  To reproduce the issue:
+  ./x86_64-softmmu/qemu-system-x86_64 -m 800 -accel hvf -cdrom ~/ubuntu-16.=
+04.4-server-amd64.iso
+
+  Control:
+  ./x86_64-softmmu/qemu-system-x86_64 -m 800 -accel tcg -cdrom ~/ubuntu-16.=
+04.4-server-amd64.iso
+
+  Host: macOS Mojave 10.14.3
+  Guest: Ubuntu Server 16.04.4 ISO
+  QEMU: version 3.1.94 (v4.0.0-rc4)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1827005/+subscriptions
 
