@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6C236F5F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:51:35 +0200 (CEST)
-Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A70E36F626
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:04:04 +0200 (CEST)
+Received: from localhost ([::1]:41346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMzu-0002a9-D4
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48300)
+	id 1lcNBz-0000Ay-Am
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcMwb-0000pp-5p
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:48:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24328)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lcN7W-0004PQ-Vp
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:59:27 -0400
+Received: from mga14.intel.com ([192.55.52.115]:27738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcMwV-000301-49
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:48:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619765281;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2gLoCwHNURlP8Fo5OI4EpYz1jtFQFNXs6YWnfKl8k30=;
- b=Pq2qbjsRA1iREZMxHW4q1Q4unZnt+ca8K1E+rVmsQmok+F3KIFxMP8U/CDNEXFb7RDEVw6
- EwzMF4zBHLZ4/gAvaFsKqQiMAc40Oj3XeNKhe3qI1qOVUAyx0Bu6WRowPjudXMIrifbkce
- xoO9AuBC4hcgqqh+bSuR0dLTFmTu+bo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-GCAY7FYOPrKHrm3q6z2iEQ-1; Fri, 30 Apr 2021 02:47:59 -0400
-X-MC-Unique: GCAY7FYOPrKHrm3q6z2iEQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A5D7189829E;
- Fri, 30 Apr 2021 06:47:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63EB2679E7;
- Fri, 30 Apr 2021 06:47:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DAB05113525D; Fri, 30 Apr 2021 08:47:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: Let's remove some deprecated stuff
-References: <87y2d1csxe.fsf@dusky.pond.sub.org> <YIqLPNScbDYCS89t@redhat.com>
-Date: Fri, 30 Apr 2021 08:47:52 +0200
-In-Reply-To: <YIqLPNScbDYCS89t@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 29 Apr 2021 11:32:28 +0100")
-Message-ID: <87v984nu93.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lcN7T-0000wk-TP
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:59:26 -0400
+IronPort-SDR: /Ao4bEYeuNaF5Iw3bxmGS4qH3ygdIcIb6l143Q7UZCJj8uIQCPWYhTIzjSgntzvngN1C3fnMZD
+ cP590FcFaT2Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="196773559"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="196773559"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 23:59:12 -0700
+IronPort-SDR: 2KogMkrZYYcOR96I2Ow+E3d+PbwRUcyF/0b0/YnxA6bzSb8EqTPyqk1u497Q7lem2p1opWxbgL
+ j2frScFyQfrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="605575583"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by orsmga005.jf.intel.com with ESMTP; 29 Apr 2021 23:59:12 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 29 Apr 2021 23:59:11 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 29 Apr 2021 23:59:11 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2106.013;
+ Thu, 29 Apr 2021 23:59:11 -0700
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: RE: [PATCH v2 07/12] virtio-gpu: Add virtio_gpu_resource_create_blob
+Thread-Topic: [PATCH v2 07/12] virtio-gpu: Add virtio_gpu_resource_create_blob
+Thread-Index: AQHXNbORkc2XoTpqakm7y9eO0n1QrKrKKFqAgAKGo9A=
+Date: Fri, 30 Apr 2021 06:59:11 +0000
+Message-ID: <f849fc8706bc49e5be67b6f240e5e7bc@intel.com>
+References: <20210420065347.2685768-1-vivek.kasireddy@intel.com>
+ <20210420065347.2685768-8-vivek.kasireddy@intel.com>
+ <20210428091643.rkqmgwptjbhyvpim@sirius.home.kraxel.org>
+In-Reply-To: <20210428091643.rkqmgwptjbhyvpim@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+MIME-Version: 1.0
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,50 +84,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathi?= =?utf-8?Q?eu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Robert Hoo <robert.hu@linux.intel.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Hi Gerd,
 
-> On Thu, Apr 29, 2021 at 11:59:41AM +0200, Markus Armbruster wrote:
->> Myself, but I only documented it; it's actually Kevin Wolf:
->>=20
->>     ``blockdev-open-tray``, ``blockdev-close-tray`` argument ``device`` =
-(since 2.8.0)
->>     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
-'''''''''''''
->>=20
->>     Use argument ``id`` instead.
->>=20
->>     ``eject`` argument ``device`` (since 2.8.0)
->>     '''''''''''''''''''''''''''''''''''''''''''
->>=20
->>     Use argument ``id`` instead.
->>=20
->>     ``blockdev-change-medium`` argument ``device`` (since 2.8.0)
->>     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->>=20
->>     Use argument ``id`` instead.
->>=20
->>     ``block_set_io_throttle`` argument ``device`` (since 2.8.0)
->>     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->>=20
->>     Use argument ``id`` instead.
->
-> FYI, I did prepare patches for these already, but they broke the iotests.
->
-> I found it difficult to figure out the right fix for the iotests, becuase
-> IIUC "device" and "id" values are different, and I didn't see what "id"
-> to use when args are still using -drive, not -blockdev.
+> >      res->remapsz =3D QEMU_ALIGN_UP(res->remapsz,
+> > qemu_real_host_page_size);
+> >
+> >      res->remapped =3D mmap(NULL, res->remapsz, PROT_READ, @@ -152,7
+> > +155,9 @@ void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resourc=
+e *res)
+> >          pdata =3D res->remapped;
+> >      }
+> >
+> > -    (void) pdata;
+> > +    if (pdata) {
+> > +        res->blob =3D pdata;
+> > +    }
+> >  }
+>=20
+> That is confusing.  Patch #2 introduces code which is removed here (proba=
+bly leftovers
+> from udmabuf prototype which didn't use blob resources).  I think it woul=
+d be useful to
+> merge patch #2 with this one.
+[Kasireddy, Vivek] Ok, will do.
 
-Rebase and post as RFC to solicit clues or even fixes?
+>=20
+> Also we might cleanup things a bit.  Do we need separate remapsz + blob_s=
+ize fields in the
+> first place?  Probably not ...
+[Kasireddy, Vivek] Right, we don't. I was also going to slightly change the=
+ names of some
+of the new functions in v3 to keep them consistent with the rest of the cod=
+e. Do you have
+any additional feedback for the other patches that I can include in v3?
 
-[...]
+>=20
+> take care,
+>   Gerd
+>=20
+> PS: Can you explicitly cc me on the next version of the patch series?
+>     Some patches (this one for example) are on the list only and not in
+>     my inbox.  Thanks.
+[Kasireddy, Vivek] Sure. I was hoping that including the Based-on-patch-by
+tag would do just that but looks like it doesn't.=20
+
+Thanks,
+Vivek
 
 
