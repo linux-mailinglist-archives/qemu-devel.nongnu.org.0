@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA30836FD5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:10:01 +0200 (CEST)
-Received: from localhost ([::1]:45172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDDC36FD52
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 17:06:39 +0200 (CEST)
+Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcUmH-0003A3-19
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
+	id 1lcUj0-0000hW-Vn
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 11:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcUdz-0004jK-5c
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:27 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52648)
+ id 1lcUds-0004b4-IC
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcUdw-0007jI-Fc
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:26 -0400
+ id 1lcUdk-0007by-DR
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 11:01:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcUds-00073d-QM
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:21 +0000
+ id 1lcUde-00071q-G2
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B81A82E8168
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:16 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DBB392E8179
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:01:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 14:51:59 -0000
-From: Anisse Astier <1828608@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 14:54:43 -0000
+From: JIANG Muhui <1926759@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anisse berrange th-huth
-X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
-X-Launchpad-Bug-Modifier: Anisse Astier (anisse)
-References: <155750549613.15038.5455007066011551794.malonedeb@wampee.canonical.com>
-Message-Id: <161979432022.4988.12847600532179968618.malone@chaenomeles.canonical.com>
-Subject: [Bug 1828608] Re: Chardev websocket might not support pasting more
- than a few chars
+X-Launchpad-Bug-Commenters: muhui pmaydell
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
+References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
+Message-Id: <161979448308.11493.1737430121082712562.malone@soybean.canonical.com>
+Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 9c0cbfb30a0f0ee91e265448aa958ae7c315f4ea
+X-Launchpad-Hash: 60b5c3dacb84fa15ca2b7b8ac4b3b4894fb5333e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,38 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828608 <1828608@bugs.launchpad.net>
+Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bug is still present.
+I agree with this implementation. Though WFI seems make no sense for a
+userspace program, we should not have assumption that the userspace
+program will not use this instruction.
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+It seems ARM manual does not defined the implementation of function
+EnterLowPowerState();  However, before executing this instruction, there
+are some checks like below:
+
+if PSTATE.EL =3D=3D EL0 then
+     // Check for traps described by the OS which may be EL1 or EL2.
+     AArch32.CheckForWFxTrap(EL1, FALSE);
+
+I am not sure whether it is complex/required to implement this in QEMU.
+Maybe patch the WFI as a NOP looks like the best idea at this moment.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828608
+https://bugs.launchpad.net/bugs/1926759
 
 Title:
-  Chardev websocket might not support pasting more than a few chars
+  WFI instruction results in unhandled CPU exception
 
 Status in QEMU:
-  New
+  Confirmed
 
 Bug description:
-  When sending more than 4-5 characters on the websocket serial console
-  (with pasting for example), the guest might not receive all of them,
-  or worse interpret the input as Magic SysRq keys.
+  Hi
 
-  This might be due to the io loop not checking the backend readiness
-  before calling the read function.
+  I refer to the WFI instruction. The bytecode is 0xe320f003. After the
+  execution, qemu exit with the following  crash log.
 
-  Attached patched fixes the problem on my system. I'm not sure it's the
-  proper approach, this is just to start discussion.
+  qemu: unhandled CPU exception 0x10001 - aborting
+  R00=3D00000001 R01=3D40800b34 R02=3D40800b3c R03=3D000102ec
+  R04=3D00010a28 R05=3D00010158 R06=3D00087460 R07=3D00010158
+  R08=3D00000000 R09=3D00000000 R10=3D00085b7c R11=3D408009f4
+  R12=3D40800a08 R13=3D408009f0 R14=3D0001057c R15=3D000102f8
+  PSR=3D60000010 -ZC- A usr32
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f5c=
+21d0fa12
+
+  WFI aims to enter a low-power state and wait for interrupt. The raised
+  exception seems not a right behavior. I can provide a testcase if you
+  needed. Many thanks.
+
+  Regards
+  Muhui
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828608/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926759/+subscriptions
 
