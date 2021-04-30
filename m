@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5663703C0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:53:18 +0200 (CEST)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3C33703DE
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 01:00:48 +0200 (CEST)
+Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcc0b-0005OB-R5
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55238)
+	id 1lcc7p-0006wG-KM
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 19:00:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lcbzM-0004yR-VR
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:52:02 -0400
-Resent-Date: Fri, 30 Apr 2021 18:52:00 -0400
-Resent-Message-Id: <E1lcbzM-0004yR-VR@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lcbzI-0004nH-Lx
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:52:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1619823107; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=DOahIcszI1/mFyW5Oz8gya5OEhbMG+1Cd0hzcQhXYgC+l2QHLZQh+0YetxYEjnQ0y5MiFYqSKqbL8Vq81s3deOy74FH2wa0sYwLCz1pgjfWc2ty7juBlmSNceev/thyy/AA2hF22uZqCvPRnDQuz6js3ilfTl0JP6yU39H44DZY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619823107;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=bhqgSOq35HrtO4zHdY9xiT5/8RIyCszLmvrcf9tVQoo=; 
- b=m4ljh/W4SUR2A+vjIIRA3dBv2kScD1lhS5MjwU0n++wODEGu/b4C63HIxOWKse8JZD9OBOBChA+ToA9sJ0qj+Q40nq7B9CbYbW9lEOFhzn4HZwfvDYiefK6r3I7PyS1cVmEf9oAG9mDcsEI4W3D3rLWb3hoWRH/+Xqd+cSnj53k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1619823105830665.4184527608462;
- Fri, 30 Apr 2021 15:51:45 -0700 (PDT)
-In-Reply-To: <20210430223701.176696-1-ziqiaokong@gmail.com>
-Subject: Re: [PATCH v3] Set the correct env->fpip for x86 float instructions
-Message-ID: <161982310453.14179.11842301629878729440@d887ba82c771>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcc5o-0006Xb-PM
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:58:40 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcc5n-0000VW-26
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:58:40 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id u17so107626403ejk.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4DK9gMqtb+maJw2WuB0jtYlj9eVQuccew2j0oi3l314=;
+ b=jp0mmutU6GNfjZNWPKd6wi7p/Hf18ee38ENEzhhFHRUopLd4bQI6w0XZOHh/ZObwMN
+ RKq+XYke5CS/BPec54uQjgBWjObv68uI569aJea1jwxwxuOif+ve2UsIDPPO1DsobfTU
+ +rm+0o08kcOvf4r+UolEQAHSo3cQNV7CFYKDpO/qdkyHoKwHQhZczzkvlvFaMFx+2M9v
+ 8mk+YpuiFVmre5XdDE9LxuMGwHxxcKXwp4fk5qk7ba2SJ5yEWdYWqB2+RQPfa/8Wk/Di
+ gfHzmmE2Sr5g8B0dHwXWlPWriw4kJkTLVx9iYmOchhk3yUTcqy/K/GscpyHLyh7kt5Mj
+ x7ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4DK9gMqtb+maJw2WuB0jtYlj9eVQuccew2j0oi3l314=;
+ b=hLaqyFDgPX9O+QsKk+8xaUuckYagPOtBTmPEJ0p3NMyeAYTAA6oyrH/evfGbLWkH3E
+ 0HL5peaeZaWEhpEw7wqMNsRiN3WfiXdEUsNjxc2Rbl2/EdaEsIUH+1w+n/xNOPQ4TFyN
+ EAiazH5nxWy7rwuK9oucQuVRE6tmktdFa0ZuRFXbXpEgWX4Kg7mfzGsZXNOMnsVbxTOD
+ hS/6VLwoa1sa+d81VSk+wDSswCxG8bjLfVTpIH9VIgQH6JBSBdTdUSA2+PpDE24mXzen
+ S4KAknJc+UynFaZDMA5QvyWsAG7MtmU3xlVvap9A9E7QWQbcS03VypVA46An0+olTCTs
+ BnHA==
+X-Gm-Message-State: AOAM531zQv7uKERkAtG3UM3SI8fzdpcksqSvdkUtHOgH6FSvMR+fxnxO
+ OJz8w2QNbkbMwKewHk0DLWbyoZMMxCJDZfPd1BDpkg==
+X-Google-Smtp-Source: ABdhPJxasP1+cuWcPBZKhj4e0bY3BHtDm9Bicc8/WEZlIRxrut+BfVcGJEVTCok/0LxsH2GypHBmDHF9hZWT7RlEsTw=
+X-Received: by 2002:a17:906:11cc:: with SMTP id
+ o12mr6850727eja.85.1619823517193; 
+ Fri, 30 Apr 2021 15:58:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ziqiaokong@gmail.com
-Date: Fri, 30 Apr 2021 15:51:45 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20200122111517.33223-1-quintela@redhat.com>
+ <20200122111517.33223-5-quintela@redhat.com>
+In-Reply-To: <20200122111517.33223-5-quintela@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Apr 2021 23:57:34 +0100
+Message-ID: <CAFEAcA8XG2ATagb=ed5oDW=PsMBzAYoQK3DN6Os3_oMusYkAuA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] migration-test: Make sure that multifd and cancel
+ works
+To: Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,48 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, ziqiaokong@gmail.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQzMDIyMzcwMS4xNzY2
-OTYtMS16aXFpYW9rb25nQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNDMwMjIzNzAxLjE3
-NjY5Ni0xLXppcWlhb2tvbmdAZ21haWwuY29tClN1YmplY3Q6IFtQQVRDSCB2M10gU2V0IHRoZSBj
-b3JyZWN0IGVudi0+ZnBpcCBmb3IgeDg2IGZsb2F0IGluc3RydWN0aW9ucwoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
-fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
-aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
-PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
-ZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
-L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDQzMDIyMzcwMS4xNzY2OTYt
-MS16aXFpYW9rb25nQGdtYWlsLmNvbSAtPiBwYXRjaGV3LzIwMjEwNDMwMjIzNzAxLjE3NjY5Ni0x
-LXppcWlhb2tvbmdAZ21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNDky
-OTUyOSBTZXQgdGhlIGNvcnJlY3QgZW52LT5mcGlwIGZvciB4ODYgZmxvYXQgaW5zdHJ1Y3Rpb25z
-Cgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYmVmb3JlIHRoZSBv
-cGVuIHBhcmVudGhlc2lzICcoJwojOTUwOiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvdHJhbnNsYXRl
-LmM6NjIyNDoKKyAgICAgICAgICAgICAgICAgICAgc3dpdGNoKHJtKSB7CgpFUlJPUjogdHJhaWxp
-bmcgd2hpdGVzcGFjZQojMTE0NTogRklMRTogdGFyZ2V0L2kzODYvdGNnL3RyYW5zbGF0ZS5jOjYz
-NzU6CisgICAgICAgICAgICAgICAgdGNnX2dlbl9zdF90bChzLT5UMCwgY3B1X2Vudiwgb2Zmc2V0
-b2YoQ1BVWDg2U3RhdGUsIGZwaXApKTsgICAgICAgICAgICAgICAgJAoKRVJST1I6IGxpbmUgb3Zl
-ciA5MCBjaGFyYWN0ZXJzCiMxMTQ1OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvdHJhbnNsYXRlLmM6
-NjM3NToKKyAgICAgICAgICAgICAgICB0Y2dfZ2VuX3N0X3RsKHMtPlQwLCBjcHVfZW52LCBvZmZz
-ZXRvZihDUFVYODZTdGF0ZSwgZnBpcCkpOyAgICAgICAgICAgICAgICAKCldBUk5JTkc6IGxpbmUg
-b3ZlciA4MCBjaGFyYWN0ZXJzCiMxMTUzOiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvdHJhbnNsYXRl
-LmM6NjM4MzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9mZnNldG9mKENQVVg4
-NlN0YXRlLCBzZWdzW2xhc3Rfc2VnXS5zZWxlY3RvcikpOwoKdG90YWw6IDMgZXJyb3JzLCAxIHdh
-cm5pbmdzLCAxMTEyIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA0OTI5NTI5NWJlYjcgKFNldCB0aGUg
-Y29ycmVjdCBlbnYtPmZwaXAgZm9yIHg4NiBmbG9hdCBpbnN0cnVjdGlvbnMpIGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3
-aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
-Lm9yZy9sb2dzLzIwMjEwNDMwMjIzNzAxLjE3NjY5Ni0xLXppcWlhb2tvbmdAZ21haWwuY29tL3Rl
-c3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
-YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5
-b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Wed, 22 Jan 2020 at 11:20, Juan Quintela <quintela@redhat.com> wrote:
+>
+> Test that this sequerce works:
+>
+> - launch source
+> - launch target
+> - start migration
+> - cancel migration
+> - relaunch target
+> - do migration again
+>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+A year-old commit, but we've just got around to running Coverity
+on the tests/ directory, and it spotted this one:
+
+>  static void migrate_set_capability(QTestState *who, const char *capability,
+>                                     bool value)
+
+The 3rd argument to migrate_set_capability() is a bool...
+
+
+> +static void test_multifd_tcp_cancel(void)
+> +{
+
+> +    migrate_set_parameter_int(from, "downtime-limit", 1);
+> +    /* 300MB/s */
+> +    migrate_set_parameter_int(from, "max-bandwidth", 30000000);
+> +
+> +    migrate_set_parameter_int(from, "multifd-channels", 16);
+> +    migrate_set_parameter_int(to, "multifd-channels", 16);
+> +
+> +    migrate_set_capability(from, "multifd", "true");
+> +    migrate_set_capability(to, "multifd", "true");
+
+...but here you pass it the character string '"true"' rather than
+the boolean value 'true'.
+
+This works by fluke since the implicit comparison of the literal string
+against NULL will evaluate to true, but it isn't really right :-)
+
+CID 1432373, 1432292, 1432288.
+
+There seem to be 7 uses of the string "true" when the boolean
+was intended; I don't know why Coverity only found 3 issues.
+
+thanks
+-- PMM
 
