@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FED36F373
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:22:37 +0200 (CEST)
-Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E3636F371
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:21:57 +0200 (CEST)
+Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcHrY-0000Su-1y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
+	id 1lcHqu-0008DZ-Hb
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:21:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHlD-0002mK-3I
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:03 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:38901)
+ id 1lcHlB-0002kG-Eh
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:01 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHky-0007U5-20
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:02 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- f11-20020a17090a638bb02901524d3a3d48so827974pjj.3
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:47 -0700 (PDT)
+ id 1lcHkz-0007UJ-Ie
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:01 -0400
+Received: by mail-pg1-x530.google.com with SMTP id z16so7445554pga.1
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XDA7d3QjWWFtV2qtFhcmd5DNvHMTMh2+SFPB7dy5cBY=;
- b=AEFId7+IGe3+y2uGgLt5bTbhVM3Tfl47D6lroUbNEdXDn8eFyGEXo84Dv+a6Dx64BO
- lh8o0H4blkdQXVS4oY9OBIPedzHhPl0cUwiIcM+DncBNQCXgDMapgoIfme5Ju7BoYitk
- AR/TTUFLPttsjCt0ntp784jDCsSIbU++vM80w5f4IdSyU4C/TPw0lctlLY2dpgxbq3+B
- QWPoyvpIz7NqtVjiezVu+NQtq4DIWZcldOI/hFp+L3CINxZ9wDjJqk2atHwzJew4gk36
- boghk08zoqR+iW1aotluHIJ5G3YQ4oDqiJ8ub8VBtKCJhTyg/dHXOL5aE8lJSH7QEokq
- EjLA==
+ bh=ZTuVGlYcdxM3KgVRg58NcnxnAH+jbo2FXAOFg2CqtP8=;
+ b=uc9wU/hflZreY4W8cmTmrHyN+EQyjySLC1PeGjOZa0mXDoZBfVp299UdtqGj67dFdU
+ YhdV2VHn4BTQRdCCbsRdX+f7SigcYH26HQxWpgbfJVBk44S4cv9OsgVMw0k/3v6rqUyT
+ LJXndzlGV2pmA6oT3iveJvhsHOwuT3b9tPBBcxpGwXJgYFYJZhiigqd95O5INFKcUPk/
+ mMHAuD5j0RXvWwla5jPcSDbDnxAjAVjrvILcO6s4fsICbOZdnUawBqSg1Xzhg8u40/jN
+ FXm1IY1bSvxFA85SvfdS8o5n/9shVAS80hLVumxkJoqGpnd5Zi/dWpMuXbctQeEHf8bY
+ 5LWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XDA7d3QjWWFtV2qtFhcmd5DNvHMTMh2+SFPB7dy5cBY=;
- b=GHKAAJfihA3JH+SkJl3yYUMHmSkT2qBqxm6D2M5X2BOIY4hlCAiD4+elxIutbaDTYG
- rBI7oJtlXO1DmjiHl133qU8CnXMRVSRaBBY7aPJvOaLETEW3no2ulIdh+jFLCLiBPhkK
- frSwW8o44u56po0jbd69j6NwhEZxIheMVcPe3y+nIS0SkuV5VKTto1E15bGMvTBzZHlD
- sYbd1gCfDZHuVLKAiw1MK9zLQsEvqolOkUSB0Pz0tksxdxeXVU5lWgat2iHrfwfbcvZN
- yQhHiK4iB/qm6y/2irZiBEw6dpT3TNXO9JEH7hNBH1Yc4dIuLszq5lg/ieK+AjdNcPor
- f1Lg==
-X-Gm-Message-State: AOAM533qHyLQUrUnUn1VDjvn32G5W7t0Zq9wDzooswRyQCpBYUN2TqAr
- 5kKYBEu2IEhXG9MD4agCGLdBtDfU8IiF7Q==
-X-Google-Smtp-Source: ABdhPJzVWj195awrtpIEdyH5GtefpchxUuET5R+QXuuGUez+aRAX4uwxUllNp4CoTOWcMRZyd2GN+w==
-X-Received: by 2002:a17:90b:4a4e:: with SMTP id
- lb14mr11979641pjb.115.1619745346670; 
- Thu, 29 Apr 2021 18:15:46 -0700 (PDT)
+ bh=ZTuVGlYcdxM3KgVRg58NcnxnAH+jbo2FXAOFg2CqtP8=;
+ b=KYDX0gbKcfYbEcYEI9MjoXCzHlFr8mPw3+NTEI08dZzBTnouPge45eGG6PrkcJWirM
+ FflONmQwhq4HCjwYrrJwHoSgQXJO/AmBOutGhhTcYB+EDn0EUOlJqt9jgX59NfS5T4NJ
+ /wsU6zcWJYhQevG/BXu+qDiyRoFgwN93HQIc3lJVaPRL+XIuEP6PbUig97RRravt1kek
+ oI+m77FvRY5se3h6iqFi2HeuvJ5mKcK9SrB3cSsxKYNJPkWcw+uYjY1Oq17asYSDegqY
+ 0GOFi0tTzUAJAD3T7TrU1EN3M5/sWnrXV2cxMnc5ZuVRXOcqttRQQ62roSrGqR9HyuRj
+ P6YQ==
+X-Gm-Message-State: AOAM530GztYSTbIh/aMCnB1zjSuNhTV4SYx/xdtnT1OoqfXgB/lA3X9j
+ 7+G9SWZD9XXkpdDp/nRAkYZtt0cxTR81xw==
+X-Google-Smtp-Source: ABdhPJwJZIuiYhmfulqJCjnUCpbgIySU/4pGRhTAnGo51i2ZMNsvylhIwasu6iaYjhg+ybxnHNg9TQ==
+X-Received: by 2002:a65:40c7:: with SMTP id u7mr2333083pgp.29.1619745347251;
+ Thu, 29 Apr 2021 18:15:47 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 18:15:46 -0700 (PDT)
+ Thu, 29 Apr 2021 18:15:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/30] decodetree: Add support for 64-bit instructions
-Date: Thu, 29 Apr 2021 18:15:16 -0700
-Message-Id: <20210430011543.1017113-4-richard.henderson@linaro.org>
+Subject: [PATCH v3 04/30] decodetree: Extend argument set syntax to allow types
+Date: Thu, 29 Apr 2021 18:15:17 -0700
+Message-Id: <20210430011543.1017113-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430011543.1017113-1-richard.henderson@linaro.org>
 References: <20210430011543.1017113-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,97 +88,160 @@ Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
+Rather than force all structure members to be 'int',
+allow the type of the member to be specified.
 
-Allow '64' to be specified for the instruction width command line params
-and use the appropriate extract and deposit functions in that case.
-
-This will be used to implement the new 64-bit Power ISA 3.1 instructions.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Message-Id: <CP2PR80MB3668E123E2EFDB0ACD3A46F1DA759@CP2PR80MB3668.lamprd80.prod.outlook.com>
-[rth: Drop the change to the field type; use bitop_width instead of separate
-variables for extract/deposit; use "ull" for 64-bit constants.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- scripts/decodetree.py | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ docs/devel/decodetree.rst             | 11 ++++---
+ tests/decode/succ_argset_type1.decode |  1 +
+ scripts/decodetree.py                 | 45 +++++++++++++++++----------
+ 3 files changed, 36 insertions(+), 21 deletions(-)
+ create mode 100644 tests/decode/succ_argset_type1.decode
 
+diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
+index 74f66bf46e..49ea50c2a7 100644
+--- a/docs/devel/decodetree.rst
++++ b/docs/devel/decodetree.rst
+@@ -40,9 +40,6 @@ and returns an integral value extracted from there.
+ 
+ A field with no ``unnamed_fields`` and no ``!function`` is in error.
+ 
+-FIXME: the fields of the structure into which this result will be stored
+-is restricted to ``int``.  Which means that we cannot expand 64-bit items.
+-
+ Field examples:
+ 
+ +---------------------------+---------------------------------------------+
+@@ -66,9 +63,14 @@ Argument Sets
+ Syntax::
+ 
+   args_def    := '&' identifier ( args_elt )+ ( !extern )?
+-  args_elt    := identifier
++  args_elt    := identifier (':' identifier)?
+ 
+ Each *args_elt* defines an argument within the argument set.
++If the form of the *args_elt* contains a colon, the first
++identifier is the argument name and the second identifier is
++the argument type.  If the colon is missing, the argument
++type will be ``int``.
++
+ Each argument set will be rendered as a C structure "arg_$name"
+ with each of the fields being one of the member arguments.
+ 
+@@ -86,6 +88,7 @@ Argument set examples::
+ 
+   &reg3       ra rb rc
+   &loadstore  reg base offset
++  &longldst   reg base offset:int64_t
+ 
+ 
+ Formats
+diff --git a/tests/decode/succ_argset_type1.decode b/tests/decode/succ_argset_type1.decode
+new file mode 100644
+index 0000000000..ed946b420d
+--- /dev/null
++++ b/tests/decode/succ_argset_type1.decode
+@@ -0,0 +1 @@
++&asdf b:bool c:uint64_t a
 diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index d5da101167..f85da45ee3 100644
+index f85da45ee3..a03dc6b5e3 100644
 --- a/scripts/decodetree.py
 +++ b/scripts/decodetree.py
-@@ -27,6 +27,7 @@
- import getopt
+@@ -165,11 +165,15 @@ def is_contiguous(bits):
+         return -1
  
- insnwidth = 32
-+bitop_width = 32
- insnmask = 0xffffffff
- variablewidth = False
- fields = {}
-@@ -112,7 +113,9 @@ def whexC(val):
-     """Return a hex string for val padded for insnwidth,
-        and with the proper suffix for a C constant."""
-     suffix = ''
--    if val >= 0x80000000:
-+    if val >= 0x100000000:
-+        suffix = 'ull'
-+    elif val >= 0x80000000:
-         suffix = 'u'
-     return whex(val) + suffix
  
-@@ -199,11 +202,9 @@ def __str__(self):
-         return str(self.pos) + ':' + s + str(self.len)
+-def eq_fields_for_args(flds_a, flds_b):
+-    if len(flds_a) != len(flds_b):
++def eq_fields_for_args(flds_a, arg):
++    if len(flds_a) != len(arg.fields):
+         return False
++    # Only allow inference on default types
++    for t in arg.types:
++        if t != 'int':
++            return False
+     for k, a in flds_a.items():
+-        if k not in flds_b:
++        if k not in arg.fields:
+             return False
+     return True
  
-     def str_extract(self):
--        if self.sign:
--            extr = 'sextract32'
--        else:
--            extr = 'extract32'
--        return f'{extr}(insn, {self.pos}, {self.len})'
-+        global bitop_width
-+        s = 's' if self.sign else ''
-+        return f'{s}extract{bitop_width}(insn, {self.pos}, {self.len})'
+@@ -313,10 +317,11 @@ def __ne__(self, other):
  
-     def __eq__(self, other):
-         return self.sign == other.sign and self.mask == other.mask
-@@ -224,6 +225,7 @@ def __str__(self):
-         return str(self.subs)
+ class Arguments:
+     """Class representing the extracted fields of a format"""
+-    def __init__(self, nm, flds, extern):
++    def __init__(self, nm, flds, types, extern):
+         self.name = nm
+         self.extern = extern
+-        self.fields = sorted(flds)
++        self.fields = flds
++        self.types = types
  
-     def str_extract(self):
-+        global bitop_width
-         ret = '0'
-         pos = 0
-         for f in reversed(self.subs):
-@@ -231,7 +233,7 @@ def str_extract(self):
-             if pos == 0:
-                 ret = ext
-             else:
--                ret = f'deposit32({ret}, {pos}, {32 - pos}, {ext})'
-+                ret = f'deposit{bitop_width}({ret}, {pos}, {bitop_width - pos}, {ext})'
-             pos += f.len
-         return ret
+     def __str__(self):
+         return self.name + ' ' + str(self.fields)
+@@ -327,8 +332,8 @@ def struct_name(self):
+     def output_def(self):
+         if not self.extern:
+             output('typedef struct {\n')
+-            for n in self.fields:
+-                output('    int ', n, ';\n')
++            for (n, t) in zip(self.fields, self.types):
++                output(f'    {t} {n};\n')
+             output('} ', self.struct_name(), ';\n\n')
+ # end Arguments
  
-@@ -1270,6 +1272,7 @@ def main():
-     global insntype
-     global insnmask
-     global decode_function
-+    global bitop_width
-     global variablewidth
+@@ -719,21 +724,27 @@ def parse_arguments(lineno, name, toks):
      global anyextern
  
-@@ -1299,6 +1302,10 @@ def main():
-             if insnwidth == 16:
-                 insntype = 'uint16_t'
-                 insnmask = 0xffff
-+            elif insnwidth == 64:
-+                insntype = 'uint64_t'
-+                insnmask = 0xffffffffffffffff
-+                bitop_width = 64
-             elif insnwidth != 32:
-                 error(0, 'cannot handle insns of width', insnwidth)
-         else:
+     flds = []
++    types = []
+     extern = False
+-    for t in toks:
+-        if re.fullmatch('!extern', t):
++    for n in toks:
++        if re.fullmatch('!extern', n):
+             extern = True
+             anyextern = True
+             continue
+-        if not re.fullmatch(re_C_ident, t):
+-            error(lineno, f'invalid argument set token "{t}"')
+-        if t in flds:
+-            error(lineno, f'duplicate argument "{t}"')
+-        flds.append(t)
++        if re.fullmatch(re_C_ident + ':' + re_C_ident, n):
++            (n, t) = n.split(':')
++        elif re.fullmatch(re_C_ident, n):
++            t = 'int'
++        else:
++            error(lineno, f'invalid argument set token "{n}"')
++        if n in flds:
++            error(lineno, f'duplicate argument "{n}"')
++        flds.append(n)
++        types.append(t)
+ 
+     if name in arguments:
+         error(lineno, 'duplicate argument set', name)
+-    arguments[name] = Arguments(name, flds, extern)
++    arguments[name] = Arguments(name, flds, types, extern)
+ # end parse_arguments
+ 
+ 
+@@ -760,11 +771,11 @@ def infer_argument_set(flds):
+     global decode_function
+ 
+     for arg in arguments.values():
+-        if eq_fields_for_args(flds, arg.fields):
++        if eq_fields_for_args(flds, arg):
+             return arg
+ 
+     name = decode_function + str(len(arguments))
+-    arg = Arguments(name, flds.keys(), False)
++    arg = Arguments(name, flds.keys(), ['int'] * len(flds), False)
+     arguments[name] = arg
+     return arg
+ 
 -- 
 2.25.1
 
