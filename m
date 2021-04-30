@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B1E36F650
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:18:29 +0200 (CEST)
-Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9291336F662
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:27:46 +0200 (CEST)
+Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcNPw-0005pr-EJ
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52696)
+	id 1lcNYv-0007MI-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lcNLA-0000V4-DA; Fri, 30 Apr 2021 03:13:32 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:39579)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcNX3-0005nB-9X
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lcNL8-0000YT-AE; Fri, 30 Apr 2021 03:13:32 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id g14so21725879edy.6;
- Fri, 30 Apr 2021 00:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hr7WBN7LJpivKnR16YvVaYZxrxR4MYRItX8SSH5ptMI=;
- b=EzV7XYbplhxYKxTwPQvpmuvYxjoGg4ivD7/2CoLmw5NVHyrtbwWguOLxaHsHWkdvgT
- ZrUhAnsGa6MmIkXSviO6R01XN0FYD5ZgQOIrmtb8DaZoh6DEO+ZjIt/wpGO4B+2FzImc
- Qy6qdbrKj13gom9d95ngqaZBXjssZnRoItot9e0ke7QS2rEfqtvB2Plt9/Eodc9IB2/v
- HQLpNl1/VsqALPqRafkQF8Pvqo47CKze73jlLGI/3geoEgUbvfJSmmi2UjI0RX0yoyba
- B57igtma4ncBEpOYE3Sb5wlQqL0/y2oXEjLdaWw1yYPqQRb4NUTJeua3nzjYUHeu4f0p
- DaNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hr7WBN7LJpivKnR16YvVaYZxrxR4MYRItX8SSH5ptMI=;
- b=JMvTtO17OEzF5XAnq2VNm4G8s6lf0S24ZT6K9gklevobYOELiy04FfDb0Fy56qbQ4A
- yCaQYVqOlGxGoY3OGqQTyDbgFjVlKojnckPnruVX7zanbEiM3quo/AOugIUHrBQU92Zg
- 8kUWqTjZZodL2VElufqjdtF8zXm48aQ93LoKwF9lHNc2i6EOKhEo+5oYYYuCWhmiwczf
- R1V05k7uUT+IOeRIYcLdvIjaCw87jeZHit46wtRhRzgMcaLS3LLME0cHr/ujbFIzww2v
- AUukh6IOqcM3xtWxd6z8GI+HcttLQGQPYLulw8w7nO7dIhEFJANY14IWbW50ucszYRNZ
- U0gw==
-X-Gm-Message-State: AOAM530IY+aXpeSEXIHmcE7h8cotlJN7HDIOYRoF8N0p824x00ssKO4H
- fuFOfqFag9gWZmIaBf7Tl+y7kzgiBcU=
-X-Google-Smtp-Source: ABdhPJwwGRDys/cP8yslOFNS33fu87+8W6QxViyapTHiCW7jyFPEyY1pPuPoSzad38qjJWCw/5Agdw==
-X-Received: by 2002:a05:6402:2686:: with SMTP id
- w6mr3943743edd.226.1619766808627; 
- Fri, 30 Apr 2021 00:13:28 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id b19sm574462edd.66.2021.04.30.00.13.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 00:13:28 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v2 8/8] hw/riscv: microchip_pfsoc: Support direct kernel boot
-Date: Fri, 30 Apr 2021 15:13:02 +0800
-Message-Id: <20210430071302.1489082-8-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210430071302.1489082-1-bmeng.cn@gmail.com>
-References: <20210430071302.1489082-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcNX0-00082x-Vj
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:25:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcNWz-0008JR-Dk
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 07:25:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 660522E8144
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 07:25:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 07:18:20 -0000
+From: Thomas Huth <1813201@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aortega halfdog pmaydell th-huth
+X-Launchpad-Bug-Reporter: Alberto Ortega (aortega)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <154835963658.2045.2300981728946163161.malonedeb@wampee.canonical.com>
+Message-Id: <161976710179.10390.3956641288661289270.launchpad@gac.canonical.com>
+Subject: [Bug 1813201] Re: QEMU TCG i386 / x86_64 system emulation crash when
+ executing int instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 18deb603b39064d484664b2b5b426ac670c77807
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,211 +72,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Reply-To: Bug 1813201 <1813201@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+** Changed in: qemu
+       Status: Fix Committed =3D> Fix Released
 
-At present the Microchip Icicle Kit machine only supports using
-'-bios' to load the HSS, and does not support '-kernel' for direct
-kernel booting just like other RISC-V machines do. One has to use
-U-Boot which is chain-loaded by HSS, to load a kernel for testing.
-This is not so convenient.
+-- =
 
-Adding '-kernel' support together with the existing '-bios', we
-follow the following table to select which payload we execute:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813201
 
-  -bios |    -kernel | payload
-  ------+------------+--------
-      N |          N | HSS
-      Y | don't care | HSS
-      N |          Y | kernel
+Title:
+  QEMU TCG i386 / x86_64 system emulation crash when executing int
+  instruction
 
-This ensures backwards compatibility with how we used to expose
-'-bios' to users. When '-kernel' is used for direct boot, '-dtb'
-must be present to provide a valid device tree for the board,
-as we don't generate device tree.
+Status in QEMU:
+  Fix Released
 
-When direct kernel boot is used, the OpenSBI fw_dynamic BIOS image
-is used to boot a payload like U-Boot or OS kernel directly.
+Bug description:
+  QEMU version:
+  -------------
 
-Documentation is updated to describe the direct kernel boot. Note
-as of today there is still no PolarFire SoC support in the upstream
-Linux kernel hence the document does not include instructions for
-that. It will be updated in the future.
+  qemu from git, master branch commit
+  d058a37a6e8daa8d71a6f2b613eb415b69363755
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
+  Release versions are also affected.
 
-(no changes since v1)
+  Summary:
+  --------
 
- docs/system/riscv/microchip-icicle-kit.rst | 30 ++++++--
- hw/riscv/microchip_pfsoc.c                 | 81 +++++++++++++++++++++-
- 2 files changed, 103 insertions(+), 8 deletions(-)
+  QEMU i386 and x86_64 system emulation crash when executing the
+  following "int" instruction:
 
-diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
-index e803131763..54ced661e3 100644
---- a/docs/system/riscv/microchip-icicle-kit.rst
-+++ b/docs/system/riscv/microchip-icicle-kit.rst
-@@ -31,17 +31,37 @@ Boot options
- 
- The ``microchip-icicle-kit`` machine can start using the standard -bios
- functionality for loading its BIOS image, aka Hart Software Services (HSS_).
--HSS loads the second stage bootloader U-Boot from an SD card. It does not
--support direct kernel loading via the -kernel option. One has to load kernel
--from U-Boot.
-+HSS loads the second stage bootloader U-Boot from an SD card. Then a kernel
-+can be loaded from U-Boot. It also supports direct kernel booting via the
-+-kernel option along with the device tree blob via -dtb. When direct kernel
-+boot is used, the OpenSBI fw_dynamic BIOS image is used to boot a payload
-+like U-Boot or OS kernel directly.
-+
-+The user provided DTB should have the following requirements:
-+
-+* The /cpus node should contain at least one subnode for E51 and the number
-+  of subnodes should match QEMU's ``-smp`` option
-+* The /memory reg size should match QEMU’s selected ram_size via ``-m``
-+* Should contain a node for the CLINT device with a compatible string
-+  "riscv,clint0"
-+
-+QEMU follows below truth table to select which payload to execute:
-+
-+=====  ========== =======
-+-bios     -kernel payload
-+=====  ========== =======
-+    N           N     HSS
-+    Y  don't care     HSS
-+    N           Y  kernel
-+=====  ========== =======
- 
- The memory is set to 1537 MiB by default which is the minimum required high
- memory size by HSS. A sanity check on ram size is performed in the machine
- init routine to prompt user to increase the RAM size to > 1537 MiB when less
- than 1537 MiB ram is detected.
- 
--Boot the machine
------------------
-+Running HSS
-+-----------
- 
- HSS 2020.12 release is tested at the time of writing. To build an HSS image
- that can be booted by the ``microchip-icicle-kit`` machine, type the following
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index c4146b7a6b..1919c09f2f 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -53,6 +53,7 @@
- #include "hw/riscv/microchip_pfsoc.h"
- #include "hw/intc/sifive_clint.h"
- #include "hw/intc/sifive_plic.h"
-+#include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
- 
- /*
-@@ -462,6 +463,12 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-     MemoryRegion *mem_high = g_new(MemoryRegion, 1);
-     MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
-     uint64_t mem_high_size;
-+    hwaddr firmware_load_addr;
-+    const char *firmware_name;
-+    bool kernel_as_payload = false;
-+    target_ulong firmware_end_addr, kernel_start_addr;
-+    uint64_t kernel_entry;
-+    uint32_t fdt_load_addr;
-     DriveInfo *dinfo = drive_get_next(IF_SD);
- 
-     /* Sanity check on RAM size */
-@@ -506,9 +513,6 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-                                 memmap[MICROCHIP_PFSOC_DRAM_HI_ALIAS].base,
-                                 mem_high_alias);
- 
--    /* Load the firmware */
--    riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
--
-     /* Attach an SD card */
-     if (dinfo) {
-         CadenceSDHCIState *sdhci = &(s->soc.sdhci);
-@@ -518,6 +522,77 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-                                 &error_fatal);
-         qdev_realize_and_unref(card, sdhci->bus, &error_fatal);
-     }
-+
-+    /*
-+     * We follow the following table to select which payload we execute.
-+     *
-+     *  -bios |    -kernel | payload
-+     * -------+------------+--------
-+     *      N |          N | HSS
-+     *      Y | don't care | HSS
-+     *      N |          Y | kernel
-+     *
-+     * This ensures backwards compatibility with how we used to expose -bios
-+     * to users but allows them to run through direct kernel booting as well.
-+     *
-+     * When -kernel is used for direct boot, -dtb must be present to provide
-+     * a valid device tree for the board, as we don't generate device tree.
-+     */
-+
-+    if (machine->kernel_filename && machine->dtb) {
-+        int fdt_size;
-+        machine->fdt = load_device_tree(machine->dtb, &fdt_size);
-+        if (!machine->fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+
-+        firmware_name = RISCV64_BIOS_BIN;
-+        firmware_load_addr = memmap[MICROCHIP_PFSOC_DRAM_LO].base;
-+        kernel_as_payload = true;
-+    }
-+
-+    if (!kernel_as_payload) {
-+        firmware_name = BIOS_FILENAME;
-+        firmware_load_addr = RESET_VECTOR;
-+    }
-+
-+    /* Load the firmware */
-+    firmware_end_addr = riscv_find_and_load_firmware(machine, firmware_name,
-+                                                     firmware_load_addr, NULL);
-+
-+    if (kernel_as_payload) {
-+        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
-+                                                         firmware_end_addr);
-+
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+                                         kernel_start_addr, NULL);
-+
-+        if (machine->initrd_filename) {
-+            hwaddr start;
-+            hwaddr end = riscv_load_initrd(machine->initrd_filename,
-+                                           machine->ram_size, kernel_entry,
-+                                           &start);
-+            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-+                                  "linux,initrd-start", start);
-+            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-+                                  "linux,initrd-end", end);
-+        }
-+
-+        if (machine->kernel_cmdline) {
-+            qemu_fdt_setprop_string(machine->fdt, "/chosen",
-+                                    "bootargs", machine->kernel_cmdline);
-+        }
-+
-+        /* Compute the fdt load address in dram */
-+        fdt_load_addr = riscv_load_fdt(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-+                                       machine->ram_size, machine->fdt);
-+        /* Load the reset vector */
-+        riscv_setup_rom_reset_vec(machine, &s->soc.u_cpus, firmware_load_addr,
-+                                  memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
-+                                  memmap[MICROCHIP_PFSOC_ENVM_DATA].size,
-+                                  kernel_entry, fdt_load_addr, machine->fdt);
-+    }
- }
- 
- static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
--- 
-2.25.1
+  cd08  int 8
 
+  This generates a kernel NULL pointer dereference error in Linux, and a
+  BSOD error in Windows.
+
+  No special permissions are required to execute the instruction, any
+  unprivileged user can execute it.
+
+  This issue has been reproduced in QEMU running in TCG mode. KVM is not
+  affected.
+
+  Kernel panic log:
+
+  [  111.091138] BUG: unable to handle kernel NULL pointer dereference at 0=
+0000014
+  [  111.092145] IP: [<ce0513ad>] doublefault_fn+0xd/0x130
+  [  111.092145] *pdpt =3D 0000000000000000 *pde =3D f000ff53f000ff53 [  11=
+1.092145] =
+
+  [  111.092145] Oops: 0000 [#1] SMP
+  [  111.092145] Modules linked in: kvm_amd bochs_drm ppdev ttm drm_kms_hel=
+per drm kvm irqbypass evdev pcspkr serio_raw sg parport_pc parport button i=
+p_tables x_tables autofs4 ext4 crc16 jbd2 crc32c_generic fscrypto ecb xts l=
+rw gf128mul ablk_helper cryptd aes_i586 mbcache sr_mod sd_mod cdrom ata_gen=
+eric ata_piix libata psmouse e1000 scsi_mod i2c_piix4 floppy
+  [  111.092145] CPU: 0 PID: 409 Comm: int8.elf Not tainted 4.9.0-8-686-pae=
+ #1 Debian 4.9.130-2
+  [  111.092145] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
+  [  111.092145] task: f6c88a80 task.stack: f6e52000
+  [  111.092145] EIP: 0060:[<ce0513ad>] EFLAGS: 00004086 CPU: 0
+  [  111.092145] EIP is at doublefault_fn+0xd/0x130
+  [  111.092145] EAX: 00000000 EBX: 00000000 ECX: 00000000 EDX: 00000000
+  [  111.092145] ESI: 00000000 EDI: 00000000 EBP: ce8f13fc ESP: ce8f13d4
+  [  111.092145]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+  [  111.092145] CR0: 8005003b CR2: 00000014 CR3: 0e8e1000 CR4: 000006f0
+  [  111.092145] Stack:
+  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
+00000 00000000
+  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
+00000 00000000
+  [  111.092145]  00000000 00000000 00000000 00000000 fed00000 ce474ad0 000=
+00000 00017d78
+  [  111.092145] Call Trace:
+  [  111.092145] Code: 86 fd ff eb a3 89 f6 8d bc 27 00 00 00 00 55 89 e5 3=
+e 8d 74 26 00 5d e9 e2 79 fd ff 66 90 55 89 e5 56 53 83 ec 20 3e 8d 74 26 0=
+0 <65> a1 14 00 00 00 89 45 f4 31 c0 31 c0 c7 45 f0 00 00 00 00 66
+  [  111.092145] EIP: [<ce0513ad>] [  111.092145] doublefault_fn+0xd/0x130
+  [  111.092145]  SS:ESP 0068:ce8f13d4
+  [  111.092145] CR2: 0000000000000014
+  [  111.092145] ---[ end trace 8afa7884b76cafc1 ]---
+
+  Testcase:
+  ---------
+
+  void main() {
+          asm("int $0x8");
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813201/+subscriptions
 
