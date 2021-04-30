@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9495F36F936
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:26:11 +0200 (CEST)
-Received: from localhost ([::1]:50714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E065F36F958
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:29:35 +0200 (CEST)
+Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRHe-0007gW-LG
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36662)
+	id 1lcRKr-0002ie-LG
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQl4-0004Mu-T6
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28451)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlp-0004zx-NF
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQl3-0002b7-0H
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:52:30 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQld-0002sc-4j
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619779948;
+ s=mimecast20190719; t=1619779984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zwbR8u2geGKnrD7jkQ34KoJdh+wl2xJWl600xi8CCjY=;
- b=BNKl46vygZosnu9SkGQT7E/3gUjXzz4TwcXW+okSLzT4HwCcA9kf9wtBbjR+ureTCC7Nv9
- N54J596O5MjEdq1EZBe5Sd7SDPoAFW7K5v8Mh3NZQtnKI5F8mDcLfFXIWnaR4JW7UY6yiC
- n2egq4SF86xZIXxPwnXQGdyTc+UEBlM=
+ bh=CBDT2E8Wyu5aG0s7RRaIF1dB0zYW8RJDXDd7WI8hMiU=;
+ b=JRjMXbxfP12zMUwBKoMlOU3iZR71C8o/M1YqNq3KywOIiA3gVIXlYMDC3OXODHjKL1DKCh
+ BGg9sDqYVlWPLJTbJgq5ot7qTR5h8g2bafKri5P5TevhxBeAUMzWsAZoLghjLlcKFVCxOB
+ MCrPsiha22mJwo/uF4SiAkaNLm9Tw9I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-Z5lftDuFMAejP4lOvVkD1Q-1; Fri, 30 Apr 2021 06:52:26 -0400
-X-MC-Unique: Z5lftDuFMAejP4lOvVkD1Q-1
+ us-mta-531-DxvywT-hO2CtC3iaqu7zdw-1; Fri, 30 Apr 2021 06:53:01 -0400
+X-MC-Unique: DxvywT-hO2CtC3iaqu7zdw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FD6A8186E1;
- Fri, 30 Apr 2021 10:52:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEF876DD2C;
+ Fri, 30 Apr 2021 10:53:00 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A83467889;
- Fri, 30 Apr 2021 10:52:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B93E3761F5;
+ Fri, 30 Apr 2021 10:52:59 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/39] block: add bdrv_drv_set_perm transaction action
-Date: Fri, 30 Apr 2021 12:51:22 +0200
-Message-Id: <20210430105147.125840-15-kwolf@redhat.com>
+Subject: [PULL 17/39] block: fix bdrv_replace_node_common
+Date: Fri, 30 Apr 2021 12:51:25 +0200
+Message-Id: <20210430105147.125840-18-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,126 +82,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Refactor calling driver callbacks to a separate transaction action to
-be used later.
+inore_children thing doesn't help to track all propagated permissions
+of children we want to ignore. The simplest way to correctly update
+permissions is update graph first and then do permission update. In
+this case we just referesh permissions for the whole subgraph (in
+topological-sort defined order) and everything is correctly calculated
+automatically without any ignore_children.
+
+So, refactor bdrv_replace_node_common to first do graph update and then
+refresh the permissions.
+
+Test test_parallel_exclusive_write() now pass, so move it out of
+debugging "if".
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-15-vsementsov@virtuozzo.com>
+Message-Id: <20210428151804.439460-18-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 70 ++++++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 54 insertions(+), 16 deletions(-)
+ block.c                          | 43 +++++++++++++-------------------
+ tests/unit/test-bdrv-graph-mod.c |  4 +--
+ 2 files changed, 20 insertions(+), 27 deletions(-)
 
 diff --git a/block.c b/block.c
-index cbcc4c15a0..ab7a4d13d8 100644
+index a5305662dc..6040b9dea0 100644
 --- a/block.c
 +++ b/block.c
-@@ -2189,6 +2189,54 @@ static void bdrv_child_set_perm_safe(BdrvChild *c, uint64_t perm,
-     }
- }
- 
-+static void bdrv_drv_set_perm_commit(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+    uint64_t cumulative_perms, cumulative_shared_perms;
-+
-+    if (bs->drv->bdrv_set_perm) {
-+        bdrv_get_cumulative_perm(bs, &cumulative_perms,
-+                                 &cumulative_shared_perms);
-+        bs->drv->bdrv_set_perm(bs, cumulative_perms, cumulative_shared_perms);
-+    }
-+}
-+
-+static void bdrv_drv_set_perm_abort(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+
-+    if (bs->drv->bdrv_abort_perm_update) {
-+        bs->drv->bdrv_abort_perm_update(bs);
-+    }
-+}
-+
-+TransactionActionDrv bdrv_drv_set_perm_drv = {
-+    .abort = bdrv_drv_set_perm_abort,
-+    .commit = bdrv_drv_set_perm_commit,
-+};
-+
-+static int bdrv_drv_set_perm(BlockDriverState *bs, uint64_t perm,
-+                             uint64_t shared_perm, Transaction *tran,
-+                             Error **errp)
-+{
-+    if (!bs->drv) {
-+        return 0;
-+    }
-+
-+    if (bs->drv->bdrv_check_perm) {
-+        int ret = bs->drv->bdrv_check_perm(bs, perm, shared_perm, errp);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-+
-+    if (tran) {
-+        tran_add(tran, &bdrv_drv_set_perm_drv, bs);
-+    }
-+
-+    return 0;
-+}
-+
- /*
-  * Check whether permissions on this node can be changed in a way that
-  * @cumulative_perms and @cumulative_shared_perms are the new cumulative
-@@ -2249,12 +2297,10 @@ static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-         return 0;
-     }
- 
--    if (drv->bdrv_check_perm) {
--        ret = drv->bdrv_check_perm(bs, cumulative_perms,
--                                   cumulative_shared_perms, errp);
--        if (ret < 0) {
--            return ret;
--        }
-+    ret = bdrv_drv_set_perm(bs, cumulative_perms, cumulative_shared_perms, NULL,
-+                            errp);
-+    if (ret < 0) {
-+        return ret;
-     }
- 
-     /* Drivers that never have children can omit .bdrv_child_perm() */
-@@ -2322,9 +2368,7 @@ static void bdrv_node_abort_perm_update(BlockDriverState *bs)
-         return;
-     }
- 
--    if (drv->bdrv_abort_perm_update) {
--        drv->bdrv_abort_perm_update(bs);
--    }
-+    bdrv_drv_set_perm_abort(bs);
- 
-     QLIST_FOREACH(c, &bs->children, next) {
-         bdrv_child_set_perm_abort(c);
-@@ -2342,7 +2386,6 @@ static void bdrv_abort_perm_update(BlockDriverState *bs)
- 
- static void bdrv_node_set_perm(BlockDriverState *bs)
+@@ -2273,7 +2273,6 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+  *
+  * Note: real unref of old_bs is done only on commit.
+  */
+-__attribute__((unused))
+ static void bdrv_replace_child_safe(BdrvChild *child, BlockDriverState *new_bs,
+                                     Transaction *tran)
  {
--    uint64_t cumulative_perms, cumulative_shared_perms;
-     BlockDriver *drv = bs->drv;
-     BdrvChild *c;
+@@ -4877,8 +4876,9 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+                                     bool auto_skip, Error **errp)
+ {
+     BdrvChild *c, *next;
+-    GSList *list = NULL, *p;
+-    uint64_t perm = 0, shared = BLK_PERM_ALL;
++    Transaction *tran = tran_new();
++    g_autoptr(GHashTable) found = NULL;
++    g_autoptr(GSList) refresh_list = NULL;
+     int ret;
  
-@@ -2350,12 +2393,7 @@ static void bdrv_node_set_perm(BlockDriverState *bs)
-         return;
+     /* Make sure that @from doesn't go away until we have successfully attached
+@@ -4889,7 +4889,12 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+     assert(bdrv_get_aio_context(from) == bdrv_get_aio_context(to));
+     bdrv_drained_begin(from);
+ 
+-    /* Put all parents into @list and calculate their cumulative permissions */
++    /*
++     * Do the replacement without permission update.
++     * Replacement may influence the permissions, we should calculate new
++     * permissions based on new graph. If we fail, we'll roll-back the
++     * replacement.
++     */
+     QLIST_FOREACH_SAFE(c, &from->parents, next_parent, next) {
+         assert(c->bs == from);
+         if (!should_update_child(c, to)) {
+@@ -4907,36 +4912,24 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+                        c->name, from->node_name);
+             goto out;
+         }
+-        list = g_slist_prepend(list, c);
+-        perm |= c->perm;
+-        shared &= c->shared_perm;
++        bdrv_replace_child_safe(c, to, tran);
      }
  
--    bdrv_get_cumulative_perm(bs, &cumulative_perms, &cumulative_shared_perms);
--
--    /* Update this node */
--    if (drv->bdrv_set_perm) {
--        drv->bdrv_set_perm(bs, cumulative_perms, cumulative_shared_perms);
+-    /* Check whether the required permissions can be granted on @to, ignoring
+-     * all BdrvChild in @list so that they can't block themselves. */
+-    ret = bdrv_check_update_perm(to, NULL, perm, shared, list, errp);
+-    if (ret < 0) {
+-        bdrv_abort_perm_update(to);
+-        goto out;
 -    }
-+    bdrv_drv_set_perm_commit(bs);
++    found = g_hash_table_new(NULL, NULL);
  
-     /* Drivers that never have children can omit .bdrv_child_perm() */
-     if (!drv->bdrv_child_perm) {
+-    /* Now actually perform the change. We performed the permission check for
+-     * all elements of @list at once, so set the permissions all at once at the
+-     * very end. */
+-    for (p = list; p != NULL; p = p->next) {
+-        c = p->data;
++    refresh_list = bdrv_topological_dfs(refresh_list, found, to);
++    refresh_list = bdrv_topological_dfs(refresh_list, found, from);
+ 
+-        bdrv_ref(to);
+-        bdrv_replace_child_noperm(c, to);
+-        bdrv_unref(from);
++    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
++    if (ret < 0) {
++        goto out;
+     }
+ 
+-    bdrv_set_perm(to);
+-
+     ret = 0;
+ 
+ out:
+-    g_slist_free(list);
++    tran_finalize(tran, ret);
++
+     bdrv_drained_end(from);
+     bdrv_unref(from);
+ 
+diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
+index e64e81a07c..7b3c8b437a 100644
+--- a/tests/unit/test-bdrv-graph-mod.c
++++ b/tests/unit/test-bdrv-graph-mod.c
+@@ -408,10 +408,10 @@ int main(int argc, char *argv[])
+                     test_should_update_child);
+     g_test_add_func("/bdrv-graph-mod/parallel-perm-update",
+                     test_parallel_perm_update);
++    g_test_add_func("/bdrv-graph-mod/parallel-exclusive-write",
++                    test_parallel_exclusive_write);
+ 
+     if (debug) {
+-        g_test_add_func("/bdrv-graph-mod/parallel-exclusive-write",
+-                        test_parallel_exclusive_write);
+         g_test_add_func("/bdrv-graph-mod/append-greedy-filter",
+                         test_append_greedy_filter);
+     }
 -- 
 2.30.2
 
