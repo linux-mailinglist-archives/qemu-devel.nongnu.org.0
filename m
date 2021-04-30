@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D61136FF58
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:17:52 +0200 (CEST)
-Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FA936FF6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:23:04 +0200 (CEST)
+Received: from localhost ([::1]:38310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWlz-0005El-4S
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:17:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34254)
+	id 1lcWr1-00016f-Vo
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWI7-0001UZ-0q; Fri, 30 Apr 2021 12:47:02 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:56471)
+ id 1lcWJh-0003cx-Fx; Fri, 30 Apr 2021 12:48:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:44643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcWI0-0000dp-7S; Fri, 30 Apr 2021 12:46:58 -0400
+ id 1lcWJf-0000pU-AM; Fri, 30 Apr 2021 12:48:37 -0400
 Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MUooJ-1m3ECm0iyf-00Qmhu; Fri, 30 Apr 2021 18:46:49 +0200
-Subject: Re: [PATCH v1] scripts: fix generation update-binfmts templates
-To: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>,
- qemu-devel@nongnu.org
-References: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MsIfc-1lJUI90HZC-00tmdX; Fri, 30 Apr 2021 18:48:31 +0200
+Subject: Re: [PATCH] net/slirp: Fix incorrect permissions on samba >= 2.0.5
+To: =?UTF-8?Q?Niklas_Hamb=c3=bcchen?= <mail@nh2.me>, qemu-devel@nongnu.org
+References: <c2b98872-4649-c291-bfb2-0fd5b3d40ac4@nh2.me>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <3fe1825b-e5e4-dfd8-b4ce-038bb7aed800@vivier.eu>
-Date: Fri, 30 Apr 2021 18:46:47 +0200
+Message-ID: <1cc238f3-c695-4975-3e26-de98da916ff0@vivier.eu>
+Date: Fri, 30 Apr 2021 18:48:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210323123457.23747-1-silvano.cirujano-cuesta@siemens.com>
+In-Reply-To: <c2b98872-4649-c291-bfb2-0fd5b3d40ac4@nh2.me>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nWbW0Cqhp2CqZdSj5dEgb6zj8SVoUK0yUgNUhtYOXekdKfbuXjW
- TP0E8UMlcVCqJ6knOpu0Pvmc+19OIQ5asMkkO34ikiela6E23Dcponjgz0rs+USuGwoQFNT
- 3CKEe58pvyj8FMKzp8LIxzAoDuEj+b52vnMd/Xnv4a3DeWgAbUGYPmjuAOawB4ZATLhrzxd
- RNFulPUObbVLG3RPVMI+g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C5yx/s1BWBo=:fraLRFjBrD3fAEHKRwPgzq
- IN0PLhzH4vPMADgrQThwCLBXPaSGWyVVl1y83ZdvY9592a0ZXln4jz8+xAs3JndwPh98eXdkI
- nrIqc6mp8KA9WXIMc1trLg5ccE/uNB0BanhLqwNC+HnIpebUFN04d8VgrOXaZwr+FN9OaGYLb
- oN6BA3ld3sXKPDmG6lpe6+hkX6QKNGpCyKsI5b8RlEYenvlCAXxm/uZQHL/avks1J+I0JJhoR
- XwkvUMgCy8acBHOBA3hcs/3jnLeTR45zeC41zqY4N9lEStNfkGS9hBr/Emz48fT1keByFOyVN
- esw/16bBWOuTHVI57TZYZRiShJnSz5lPJGSgRMAdVL6+AGAypRFSZo32Ba6bONsYz/UfO6Lt/
- czr90VNCYsOPzeSbfV9RhWb60PD2tBTic5tcvmu2+Txl9jpSsdYOFRweXe+KTWAhJajXx6p8L
- 4Wp7SZ0wtVyXrNFzzy15PjdYJa0W/xACNQPsDnML//wd+LkNZhFl+/DdFjorGGsoX5LLR8ek2
- 6NbOHI49rJdhj59fCZ+FFw=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:CmHZIYCLNhRw3X49Zqv5paIiFcAtphDGJUK9pHroz+9CydrGqvO
+ Dgp4o+NWSckO4Mjnei7wdO4NYN8r+zz6NM4NHOoFei4+a5skXz14bCiDBuNZIdrQvKKG/99
+ tcQJGziQ33AspTnPQaY8RbxZK72SgSuxW+x30ZEpWWylzpAqGyws/goVBPrFuqso5SjnQi3
+ sj2Jm5JoQ0wEdyl1n/OfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lgPrVUiV+YU=:SAUOoJsYsP/AwhcD8ZZ/lz
+ DEhLfLoqOdYDdlBgUaR5B+ivmcLIsH5kZqEzEzutNSYRolvbpWwnNDeg5Mg+wTkmwd0lidJqj
+ UiQVv6S6nK2/CozZbc5Ld0tjXpilZn3zlAfZib6HqcJqPr1m2mYSju1OHchWXU/OoJROs3U4L
+ E8FStCDRYnF3eUdwP+/m1HTKeIynfS87nRdnMWLEA8ufTSU0me3RYZVjd2Q8QLM0W/VBpV2Ig
+ DGENf41qihk6R2eNdxRjUFawCyZz5b9jWETCUvSH2u4Vr7EuCAcOB7Gd1MuKPytcfbcuh4T3U
+ /DW6ZjRLR7Mba0J+rd+QL2H1jquIrlXHhPOmucRPHsWYQ8W88uoQ5tdTBQgqlQqyJjK6IhfeA
+ YsIcoDgKSo66hkwMgph7rbhhsnXib//C7eI3EhhrIAWSAtuErGUwYfQF1nd76akbhcnTWHVJX
+ kkUmjUVrq4c7LmSAhhjqJSANeAipiGmZ2718lg0t+z2//aGlOBYSkQ8QpqIZUaMtM57jjfayl
+ SjYmiYIWzxMOINtACpLhpc=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,41 +66,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: qemu-trivial@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/03/2021 à 13:34, Silvano Cirujano Cuesta a écrit :
-> This patch fixes the update-binfmts templates being used in the script
-> scripts/qemu-binfmt-conf.sh when the option --debian is used.
+CC: +Samuel
+
+Le 23/02/2021 à 03:41, Niklas Hambüchen a écrit :
+> As the added commend and `man smb.conf` explain, starting
+> with that samba version, `force user` must be configured
+> in `[global]` in order to access the configured `smb_dir`.
 > 
-> Fixed issues are:
-> - Typo in flag 'credentials' (previously 'credential').
-> - Missing flags 'preserve' and 'fix_binary'.
+> This broke `-net user,smb=/path/to/folder`:
 > 
-> Reference: https://manpages.debian.org/buster/binfmt-support/update-binfmts.8.en.html#FORMAT_FILES
+> The `chdir` into e.g. `/run/user/0/qemu-smb.DCZ8Y0` failed.
+> In verbose logs, this manifested as:
 > 
-> Signed-off-by: Silvano Cirujano Cuesta <silvano.cirujano-cuesta@siemens.com>
+>     [..., effective(65534, 65534), real(65534, 0)] /source3/smbd/service.c:159(chdir_current_service)
+>       chdir (/run/user/0) failed, reason: Permission denied
+> 
+>     [..., effective(65534, 65534), real(65534, 0)] /source3/smbd/service.c:167(chdir_current_service)
+>       chdir (/run/user/0) failed, reason: Permission denied
+> 
+>     [..., effective(65534, 65534), real(65534, 0)] /source3/smbd/uid.c:448(change_to_user_internal)
+>       change_to_user_internal: chdir_current_service() failed!
+> 
+> This commit fixes it by setting the `[global]` force user to
+> the user that owns the directories `smbd` needs to access.
+> 
+> Signed-off-by: Niklas Hambüchen <mail@nh2.me>
 > ---
->  scripts/qemu-binfmt-conf.sh | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  net/slirp.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-> index 573b5dc6ac..7de996d536 100755
-> --- a/scripts/qemu-binfmt-conf.sh
-> +++ b/scripts/qemu-binfmt-conf.sh
-> @@ -294,7 +294,9 @@ package qemu-$cpu
->  interpreter $qemu
->  magic $magic
->  mask $mask
-> -credential $CREDENTIAL
-> +credentials $CREDENTIAL
-> +preserve $PRESERVE_ARG0
-> +fix_binary $PERSISTENT
->  EOF
->  }
->  
+> diff --git a/net/slirp.c b/net/slirp.c
+> index be914c0be0..82387bdb19 100644
+> --- a/net/slirp.c
+> +++ b/net/slirp.c
+> @@ -850,6 +850,11 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
+>      }
+>      fprintf(f,
+>              "[global]\n"
+> +            "# In Samba 2.0.5 and above the 'force user' parameter\n"
+> +            "# also causes the primary group of the forced user to be used\n"
+> +            "# as the primary group for all file activity.\n"
+> +            "# This includes the various directories set below.\n"
+> +            "force user=%s\n"
+>              "private dir=%s\n"
+>              "interfaces=127.0.0.1\n"
+>              "bind interfaces only=yes\n"
+> @@ -871,6 +876,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
+>              "read only=no\n"
+>              "guest ok=yes\n"
+>              "force user=%s\n",
+> +            passwd->pw_name,
+>              s->smb_dir,
+>              s->smb_dir,
+>              s->smb_dir,
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
