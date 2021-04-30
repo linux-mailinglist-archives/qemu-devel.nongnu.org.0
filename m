@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CB336FEF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:53:18 +0200 (CEST)
-Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9B836FEF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:54:07 +0200 (CEST)
+Received: from localhost ([::1]:34658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWOD-0007PH-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59352)
+	id 1lcWP0-000083-RC
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lcW5A-0000sH-DQ; Fri, 30 Apr 2021 12:33:36 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lcW53-00072Z-CH; Fri, 30 Apr 2021 12:33:34 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13UGEVqj154299; Fri, 30 Apr 2021 12:33:23 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 388n868h5x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 12:33:23 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13UGFGsi159173;
- Fri, 30 Apr 2021 12:33:23 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 388n868h4k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 12:33:22 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UGMwsS026192;
- Fri, 30 Apr 2021 16:33:21 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 384akh9ueq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 16:33:20 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 13UGWrT612124566
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Apr 2021 16:32:53 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B10111C05B;
- Fri, 30 Apr 2021 16:33:18 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3730211C04C;
- Fri, 30 Apr 2021 16:33:18 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 30 Apr 2021 16:33:18 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.40.192])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 67710220193;
- Fri, 30 Apr 2021 18:33:17 +0200 (CEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 09/18] tests/acceptance: Test ast2400 and ast2500 machines
-Date: Fri, 30 Apr 2021 18:33:09 +0200
-Message-Id: <20210430163309.4182922-10-clg@kaod.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210430163309.4182922-1-clg@kaod.org>
-References: <20210430163309.4182922-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: DhnpDMYI9muBgJtw91FmTEs9r2drkJ6F
-X-Proofpoint-GUID: nmNwED1bNwRPpgJqr12ol6BZ_fv5LHvk
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcW8g-0003Qk-BH
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:37:15 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:39924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcW8e-0007cK-3N
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:37:13 -0400
+Received: by mail-pf1-x431.google.com with SMTP id c17so14236790pfn.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:37:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=XcSIRjlVGJpecBDsZL6t9hPOFPhzYQZTBWsX2fwtOg8=;
+ b=tGZPWODHY9sJw/8Br6XbLv0kEiBps01N4FhMizhyCWa+Xj+bQv8BOIAppeoMWSeAzx
+ Jd61YFdNH97AcYu2Yz0ijXP/nRqqEwt7/4feSLuFGK0q26gDEJnUU9Hv69rrixrAhjhO
+ 4WAyzgh1NDV1BYEXzWPmwc9ss+JrQ27qdHiX7rRi7a5Ne6X/yPjZVCpXtfU8F8cP52Yn
+ xYpecBtOZdY4olGiD9YfsqWwzXZt8d3HUYfOOKKR6KhcoSlLSM0MG0/aFJn9ORhKz9sn
+ z4uXaUio/qGRXQeB1sshFH2VwD++79dMd6Qu6GiNjAguuxnFxIsycX3I1UYKOLWgb7aP
+ g3yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XcSIRjlVGJpecBDsZL6t9hPOFPhzYQZTBWsX2fwtOg8=;
+ b=RkZeZ7bLJIPDblC8LKSuc9m5lxkzyW4XKZfxXWqU1B3UtPCHzp2ZgTY1q18YWdlnWv
+ D3ycHjwcozcm2RW2yDFMsWqr942ghuw8czOrt0pp4Ay8Fz1Mxg1r0y0TGOZsggdowkWl
+ fwn7rsQNtzQerNwkrq/QE24ORK9yyR0bo6alBXe3DOVBOa/LZ/nYhEh2N4l6blq7Clx5
+ /Nniuer/1zWy6b/rm6wLgH6GsYV8dUxClq+TlmkSnGNRI3qLLc4g0owg9Kx7F6nnlxs0
+ cZI8VIXzVJhq/MAFABh1hvsU9q/eYS0oDZlRGRe6tWfLNJn9Wr+Y9olQC4Al/mSwIqCg
+ 8wvg==
+X-Gm-Message-State: AOAM533Ty/ajYa4j+PUQ37P5+vgbM31w+4bcHqkCE5PPsXppbtLRReil
+ hjNkvzDuHoRheOhnivufjnjnIrqxgDGgGg==
+X-Google-Smtp-Source: ABdhPJyMg6LmElAO/yfq3/C/ZaTVbNF0ZDtVRd6xexkLOQfrOUQs4zjpgwWz+8rRtpWQhw9z8fKNBg==
+X-Received: by 2002:a62:ee09:0:b029:247:56aa:dfa6 with SMTP id
+ e9-20020a62ee090000b029024756aadfa6mr5600976pfi.69.1619800630491; 
+ Fri, 30 Apr 2021 09:37:10 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id j24sm2426224pjy.1.2021.04.30.09.37.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Apr 2021 09:37:10 -0700 (PDT)
+Subject: Re: [PATCH v2 05/13] target/arm: Move gen_aa32 functions to
+ translate-a32.h
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210430132740.10391-1-peter.maydell@linaro.org>
+ <20210430132740.10391-6-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <210a5e3f-9083-0d90-cb88-7e059ec446df@linaro.org>
+Date: Fri, 30 Apr 2021 09:37:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-30_10:2021-04-30,
- 2021-04-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 adultscore=0 clxscore=1034
- bulkscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104300108
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210430132740.10391-6-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,104 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+On 4/30/21 6:27 AM, Peter Maydell wrote:
+> Move the various gen_aa32* functions and macros out of translate.c
+> and into translate-a32.h.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/translate-a32.h | 53 ++++++++++++++++++++++++++++++++++++++
+>   target/arm/translate.c     | 51 ++++++++++++------------------------
+>   2 files changed, 69 insertions(+), 35 deletions(-)
 
-Test MTD images from the OpenBMC project on AST2400 and AST2500 SoCs
-from ASPEED, by booting Palmetto and Romulus BMC machines.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The images are fetched from OpenBMC's release directory on github.
-
-Cc: Cleber Rosa <crosa@redhat.com>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Co-developed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-[ clg : - removed comment
-        - removed ending self.vm.shutdown() ]
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20210304123951.163411-2-joel@jms.id.au>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210407171637.777743-12-clg@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- tests/acceptance/boot_linux_console.py | 43 ++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
-_linux_console.py
-index 1ca32ecf253b..37bca7358583 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -1010,6 +1010,49 @@ def test_arm_vexpressa9(self):
-         self.vm.add_args('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.d=
-tb')
-         self.do_test_advcal_2018('16', tar_hash, 'winter.zImage')
-=20
-+    def test_arm_ast2400_palmetto_openbmc_v2_9_0(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:palmetto-bmc
-+        """
-+
-+        image_url =3D ('https://github.com/openbmc/openbmc/releases/downlo=
-ad/2.9.0/'
-+                     'obmc-phosphor-image-palmetto.static.mtd')
-+        image_hash =3D ('3e13bbbc28e424865dc42f35ad672b10f2e82cdb11846bb28=
-fa625b48beafd0d')
-+        image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_hash,
-+                                      algorithm=3D'sha256')
-+
-+        self.do_test_arm_aspeed(image_path)
-+
-+    def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:romulus-bmc
-+        """
-+
-+        image_url =3D ('https://github.com/openbmc/openbmc/releases/downlo=
-ad/2.9.0/'
-+                     'obmc-phosphor-image-romulus.static.mtd')
-+        image_hash =3D ('820341076803f1955bc31e647a512c79f9add4f5233d06976=
-78bab4604c7bb25')
-+        image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_hash,
-+                                      algorithm=3D'sha256')
-+
-+        self.do_test_arm_aspeed(image_path)
-+
-+    def do_test_arm_aspeed(self, image):
-+        self.vm.set_console()
-+        self.vm.add_args('-drive', 'file=3D' + image + ',if=3Dmtd,format=
-=3Draw',
-+                         '-net', 'nic')
-+        self.vm.launch()
-+
-+        self.wait_for_console_pattern("U-Boot 2016.07")
-+        self.wait_for_console_pattern("## Loading kernel from FIT Image at=
- 20080000")
-+        self.wait_for_console_pattern("Starting kernel ...")
-+        self.wait_for_console_pattern("Booting Linux on physical CPU 0x0")
-+        self.wait_for_console_pattern(
-+                "aspeed-smc 1e620000.spi: read control register: 203b0641")
-+        self.wait_for_console_pattern("ftgmac100 1e660000.ethernet eth0: i=
-rq ")
-+        self.wait_for_console_pattern("systemd[1]: Set hostname to")
-+
-     def test_m68k_mcf5208evb(self):
-         """
-         :avocado: tags=3Darch:m68k
---=20
-2.26.3
-
+r~
 
