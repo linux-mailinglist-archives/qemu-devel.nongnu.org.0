@@ -2,74 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301DA3702EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 23:23:26 +0200 (CEST)
-Received: from localhost ([::1]:46114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA17E3702F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 23:29:24 +0200 (CEST)
+Received: from localhost ([::1]:33794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcabd-0000RW-6T
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 17:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53646)
+	id 1lcahP-0006wm-RA
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 17:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcZmf-0004xE-Md
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:30:45 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:36780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcZlw-0007oi-Vn
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:30:45 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id p4so1772908pfo.3
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kpdZDVpYUbdNl8Imm7Lczl+8zIvDSosqNuzK4QWcI1g=;
- b=XYkNSFN9n4cMNNKaT3b9EIefAaRzAvv5I3veEoRh388TteTKFy+89BfDEdl8/mENM6
- RIUuDk1I0xly0pXO/ZzJninYSYOawoEz7yqzJ4KwGEotaxzlBGs+embmjGFY151J7NV2
- b/QkcTShBQcgreKJ6aSd4ZG6m4GdkYAyueOuq0zCBMP7EAE6w8kQDXcnrajMWdsrOyjh
- qPs73VFdXQvPuFRCMpDAp9FzqpP0XJ7jwqVTs/C/1Et9mjrPwLYSdaXHYrqrAEIcil8q
- kmxK+/ODyQIS8kmPxnBSR327KHc3ExfJJlHKR5vdk6xO39YpwP6gc/5nxfaAK/snSkR5
- PiBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kpdZDVpYUbdNl8Imm7Lczl+8zIvDSosqNuzK4QWcI1g=;
- b=XSbGQ5yt/PFkNWcs8k+yIYR5Qu8S0KqG6R24fN8UNlV4OVGWX9g9l+38xrBvuctBt8
- +YK7K0KbMI19ogzVKh416zkAf55WKiqNhm6IRcQ7d1OYAvYs0G4FlevIwM8zTRyAWWpN
- 6sf97I4f3S3Escxbwmn793zIS8rqc39UN34lhrd1hCx7tUyf+R4HhZ0F8I2fdINMDFeh
- 1jJmeULFR2pDOTQplt2qACfjd4SzOqevcvmFIzrbZokiUsfkJ29kXqsywzFFx5tVmDhc
- RCJ5ICHuJwrzRYlGFHSJRvza78mEqBeQ8Pibm52gzh3m7wxjMpx+p1y9hWzSNsis9I0W
- FDnw==
-X-Gm-Message-State: AOAM53352qVN7FToo0U/QBSFXmFcDX9Tkchgj/Es+w09SsQrnJ6YfQNU
- dZ4t+lsdM1hACRvmDcODvQRxoNx0cJGwzg==
-X-Google-Smtp-Source: ABdhPJyf0mQAGw98vMz7PMn5NYoVLX+84sgczvt0dryKAnu31O5uHjZnMmI0m0f2e/JmEBM1E3Ulsg==
-X-Received: by 2002:aa7:8103:0:b029:247:74a8:e54d with SMTP id
- b3-20020aa781030000b029024774a8e54dmr6540683pfi.60.1619814598857; 
- Fri, 30 Apr 2021 13:29:58 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id q23sm3788781pgt.42.2021.04.30.13.29.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 13:29:58 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 77/82] target/arm: Fix decode for VDOT (indexed)
-Date: Fri, 30 Apr 2021 13:26:05 -0700
-Message-Id: <20210430202610.1136687-78-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210430202610.1136687-1-richard.henderson@linaro.org>
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1lcZsm-0003zj-9X; Fri, 30 Apr 2021 16:37:04 -0400
+Received: from mail-eopbgr750092.outbound.protection.outlook.com
+ ([40.107.75.92]:21933 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1lcZsi-00037A-QX; Fri, 30 Apr 2021 16:37:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lPZCvacXH78QaOepMK/cYFk34+2n2J7zaqnQz6FRv9OSyNElALXmklKQkhUMYFMCRhG6VOKRIL2ICz410kDBODZbTkDfKMM7h29ydW4bKYqO7pGDvv9Ep6GhtVMmN9gzhEyCnnt+HoNIZeDxDzP4OJjK6jL8uY03UHqtdy3rTxRcAZN3Ln1ipy8oGNAxckgfISGqPU6pHOM4ETpuwvr1CM8KblwDTixvUVcvN2RZxdHmtwt77+qO6LzmiFpn9Ug83E2DQP3sQe1F+gQEwpxQ9IhI95Ml9bTWz90lBzLV9YqWwKJiEfnntGkZcCb+c1THHJpC3JWbrhRcH1sNrOGgXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0s9kNechTqqkCCZOXhWC+GwSje3zgm5jL6sKPQok8nk=;
+ b=afcKXHqActbhtrJm9+HzjEFYs1PezjavOXPbNcbOO60EZqGWT/T9fBk9/Uu2MeqMk0x/z/hjli3/YmiESc2CnSBZCH5JrlmsE1RVBTyOVJjew8rX0pSZggLaJ3d/5U6DyDkOHcaT3lZ1/XME1U+oCzEUuUX55vgWVOy9J9R86rMTWK8BhZeQIxawmeX+qfPDbjM3hd2NCnqyFnJZen4gu2hny89WP4LSwXMA1aez3c3nID2wQNdbpvEYc4MPIdJkXyfcB1LahVWrWnWGd/On0Iaetd7Gi1+1qtdqOjRcYnMLOFaia3dt35sZRTQ96B4maqN1CfK87v0xxkQI/Bn4/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
+ header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0s9kNechTqqkCCZOXhWC+GwSje3zgm5jL6sKPQok8nk=;
+ b=vcqyg87IFTmk3CskYxQTCnJe6NQtdQAsK+wOe+WIwPZ0orZeTWfag9oUjIevzM1CHcpVIesefmGs+5NpnXpc13NCtu7bZI8SFZJuGRkxWpcu7mqxjPm1G7jMqGsBKZNvTQ1DD1oR0LPY2CKFCuzHL2ESuIu9/BN9p4hSaARqupsiDnGD+QxcraAdtSgNIjnxFda+f7oMrhf8PisuD3A0mdcDA9i+5Q3v2fhYj7TQEaonUlPZpZJXBoH6qb2PnrfEH/tY1iWn7yOUUylx8gwGxEbTFB3/92MBEpzw0RCn5PgRRwl8SY/x5jNFnXAOgB/6y8Bu7MKb6CTeGjfGby1uVg==
+Received: from CP2PR80MB3668.lamprd80.prod.outlook.com (2603:10d6:102:31::10)
+ by CP2PR80MB1969.lamprd80.prod.outlook.com (2603:10d6:101:7::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.35; Fri, 30 Apr
+ 2021 20:36:58 +0000
+Received: from CP2PR80MB3668.lamprd80.prod.outlook.com
+ ([fe80::3810:ddb8:af7:cd9d]) by CP2PR80MB3668.lamprd80.prod.outlook.com
+ ([fe80::3810:ddb8:af7:cd9d%2]) with mapi id 15.20.4065.027; Fri, 30 Apr 2021
+ 20:36:58 +0000
+From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v3 06/30] target/ppc: Split out decode_legacy
+Thread-Topic: [PATCH v3 06/30] target/ppc: Split out decode_legacy
+Thread-Index: AQHXPV5eC8PiHVY6DUeG9zkU1BwCYKrNhk+g
+Date: Fri, 30 Apr 2021 20:36:57 +0000
+Message-ID: <CP2PR80MB366840440FFCEAEB6B773E73DA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+References: <20210430011543.1017113-1-richard.henderson@linaro.org>
+ <20210430011543.1017113-7-richard.henderson@linaro.org>
+In-Reply-To: <20210430011543.1017113-7-richard.henderson@linaro.org>
+Accept-Language: pt-BR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
+x-originating-ip: [191.205.120.173]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 89846682-89f5-4c1b-53ba-08d90c17b35a
+x-ms-traffictypediagnostic: CP2PR80MB1969:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CP2PR80MB1969A4B9E47F773E75585420DA5E9@CP2PR80MB1969.lamprd80.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:400;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ClUDXoXyZlYJ5d/WXsybBepHhw6OqJwzdopx7IdhcV4rsk8426Unk1TvnkIHmd3n09A2HqtAdAvGaG+RlliVztmxJlNBeDKPETrS7jOpt3ovP4oToWStIx1Q+0ktvYXWqnsQgzNVo7puGpIzqw/XwI1W7xstAn/G/k9HRDvsQHHMEUQUX2opHk41r8gng2C3yWQBAXd+ZcvQ4oBnv3bC15TLWywd1jK9DZAikv/iFlcbJjy/q4Tgmkpg/Tu2c/93CUQ9Do9zvpd3T1lbSLRxzKyxtfLn11xa3aiglHnNTFWSJQV2CTX70VfQ28WfVk1jGu5oRtuOSIizH3gA+xGJ7VgRhApy5UH2G6bYExkZeyVNjUBI0UgqweG/68cOElrrqd438N41dXgnsXsq4OCQmRHTJx9Pc/C5MbVCkzUDpex/BeYAPMKLYr4MgvbZGGidgKLrLhdnpXsLlv79MIGabXtvtTLe/PMhWJvRUYNzynql7cCUl+lH1fD6nzfT/rxmghjPrjNFbgdzTKicleu5CcdkrILUipWEiPZaHnRnkE/cvjZWLl94SZUe8WcsQgOv4qD5L3PsqTW1chz/mjF5yDuvrINwyV7Pq0RoFGDunLw=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CP2PR80MB3668.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39840400004)(136003)(376002)(346002)(396003)(366004)(2906002)(38100700002)(122000001)(4326008)(66476007)(8936002)(83380400001)(8676002)(64756008)(66446008)(76116006)(52536014)(66556008)(71200400001)(558084003)(6506007)(478600001)(5660300002)(86362001)(66946007)(55016002)(33656002)(186003)(316002)(54906003)(9686003)(110136005)(7696005)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?6JfzHrZcuUheGM55Ryq17vbslNQZDZyHg/Pot+taX5V9SfFCMKQp2IdEs+3l?=
+ =?us-ascii?Q?3YCerm+hkPbauN7mHXWDC7G8xQq+HdLmF4uU8DPn/C3XzuOc6jQlana3Y142?=
+ =?us-ascii?Q?5fvjUp8RiHZ1F9XZ6N/laGlsdfCiPguFs49nryWKUkLx/e4x8on3UlWH3nca?=
+ =?us-ascii?Q?bRMHcixjr2Pn57be917b67ZFz+72SAcQAaGrJ4L5Ba+4DVWbnKqX6fEqYjWW?=
+ =?us-ascii?Q?1CLldAZuqpADAnjTdAdAQPR3FiKHgnv1JofA45H2susN8wGBX7xJxAteehQB?=
+ =?us-ascii?Q?IPtre6qho5iiwmYxO6/8q3UFWAjLT0HuxWlHsgl5+T920Hxiqb5MdrZDKgHb?=
+ =?us-ascii?Q?KCS9sgfNgoTdLFXN6u92L50zW0ZJsVzgA/1sY1fkSSf089cxrJMcOy9mfpmY?=
+ =?us-ascii?Q?a3P6/wmcLxtvP2v6+XGmcPnVoK93RBqVY3H7tb+i/0DGU6J2FlEzDC0IP0NI?=
+ =?us-ascii?Q?GYO0OKXOlbRlCfe1LDkthgfC7EefqEDDp+WpdC/OYNGIqA+XRdGoAfCPvkYI?=
+ =?us-ascii?Q?XIn2Qn98Ep5mYye1vyB87AMn/dCRhstmH2TzSxWzurgTxHwyVeCAbw9vK8L9?=
+ =?us-ascii?Q?Em3STzyzdPTkReRbNb+Er1jNJqbBNq+QV8ILnzlJCZlnYUor+B4NUwYyt5mV?=
+ =?us-ascii?Q?tOIpdIGJvmaShNq3RxzV6PxJpwmMZFiS44iCBoOtJDdKFUzVY+8OT9sUTHoY?=
+ =?us-ascii?Q?8y96M6jVTKRf/PZEs1b1DWg2a2fyINkcQKcdMrAQtUNilNg3XTLlpbRbkwNH?=
+ =?us-ascii?Q?/k4np4t5f9U71M0tAHz+VeZyN7a33jcY116RWDYHhCKuT4I+B/5/4GeNt6fC?=
+ =?us-ascii?Q?io+6i0+d6sTTTUnYfvKTpdQBgFP2JAxcTJWHHVJfqU29ogrPYPxfPgLz8LPM?=
+ =?us-ascii?Q?sQRTIHX6ncuug+MGJwu67wYiQWTTpSfweTyzAKAuaHCGZlpXMPDvI/c5CRb2?=
+ =?us-ascii?Q?2FsAccHSnENExr8cDhBs68xMpvWxjBKaQZOU1sbx6Ace2Bu49XAo/KH5D1zu?=
+ =?us-ascii?Q?N7x3ICIBkvuWDGNb2FoHC4gDZCCuUPbTUIrepwP1v3rSxdVB4qAnCWUQbxyK?=
+ =?us-ascii?Q?Fw4TCG61Z0mxrpiLxm2qtWl4kBCuM7Jnoe3pOCPHmOXQmU7vDZe/57DDLhRn?=
+ =?us-ascii?Q?hxFr9dEO/vImmy0UAlXyFsgGY3TQPXFM/IGYwojUr83PHM/92X2VsvfTeGHp?=
+ =?us-ascii?Q?vvgju5SM/vBAg2MkCz5vkYgI6WOkHRt2PBjs5DQNne3WjC5wz+VJG8XaKqEP?=
+ =?us-ascii?Q?w8Hqk1+0qVhmhRFsvdLO0z2bZDTrA7nSQ1xG3CJlWXCw6dhtk05BOldIxOfd?=
+ =?us-ascii?Q?8cc/Eyzv4Im0tBkjDHkR4EyF?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-OriginatorOrg: eldorado.org.br
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CP2PR80MB3668.lamprd80.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89846682-89f5-4c1b-53ba-08d90c17b35a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2021 20:36:58.0289 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: whhXlHZ0ve5hQA5NDUW2fUafykzfQr0feJrkdqNzS+JXGeX0hfdrMQjudFBD2KukDQ6Iz7q3TebvxQE028miEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP2PR80MB1969
+Received-SPF: pass client-ip=40.107.75.92;
+ envelope-from=luis.pires@eldorado.org.br;
+ helo=NAM02-BL2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,157 +131,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: "f4bug@amsat.org" <f4bug@amsat.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
+ Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were extracting the M register twice, once incorrectly
-as M:vm and once correctly as rm.  Remove the incorrect
-name and remove the incorrect decode.
+From: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/ppc/translate.c | 115 +++++++++++++++++++++++------------------
+>  1 file changed, 64 insertions(+), 51 deletions(-)
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/neon-shared.decode |  4 +-
- target/arm/translate-neon.c   | 90 +++++++++++++++--------------------
- 2 files changed, 40 insertions(+), 54 deletions(-)
-
-diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
-index ca0c699072..facb621450 100644
---- a/target/arm/neon-shared.decode
-+++ b/target/arm/neon-shared.decode
-@@ -61,8 +61,8 @@ VCMLA_scalar   1111 1110 0 . rot:2 .... .... 1000 . q:1 index:1 0 vm:4 \
- VCMLA_scalar   1111 1110 1 . rot:2 .... .... 1000 . q:1 . 0 .... \
-                vm=%vm_dp vn=%vn_dp vd=%vd_dp size=2 index=0
- 
--VDOT_scalar    1111 1110 0 . 10 .... .... 1101 . q:1 index:1 u:1 rm:4 \
--               vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+VDOT_scalar    1111 1110 0 . 10 .... .... 1101 . q:1 index:1 u:1 vm:4 \
-+               vn=%vn_dp vd=%vd_dp
- 
- %vfml_scalar_q0_rm 0:3 5:1
- %vfml_scalar_q1_index 5:1 3:1
-diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index a0e267694b..52b75ff76f 100644
---- a/target/arm/translate-neon.c
-+++ b/target/arm/translate-neon.c
-@@ -151,6 +151,36 @@ static void neon_store_element64(int reg, int ele, MemOp size, TCGv_i64 var)
-     }
- }
- 
-+static bool do_neon_ddda(DisasContext *s, int q, int vd, int vn, int vm,
-+                         int data, gen_helper_gvec_4 *fn_gvec)
-+{
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (((vd | vn | vm) & 0x10) && !dc_isar_feature(aa32_simd_r32, s)) {
-+        return false;
-+    }
-+
-+    /*
-+     * UNDEF accesses to odd registers for each bit of Q.
-+     * Q will be 0b111 for all Q-reg instructions, otherwise
-+     * when we have mixed Q- and D-reg inputs.
-+     */
-+    if (((vd & 1) * 4 | (vn & 1) * 2 | (vm & 1)) & q) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    int opr_sz = q ? 16 : 8;
-+    tcg_gen_gvec_4_ool(vfp_reg_offset(1, vd),
-+                       vfp_reg_offset(1, vn),
-+                       vfp_reg_offset(1, vm),
-+                       vfp_reg_offset(1, vd),
-+                       opr_sz, opr_sz, data, fn_gvec);
-+    return true;
-+}
-+
- static bool do_neon_ddda_fpst(DisasContext *s, int q, int vd, int vn, int vm,
-                               int data, ARMFPStatusFlavour fp_flavor,
-                               gen_helper_gvec_4_ptr *fn_gvec_ptr)
-@@ -241,35 +271,13 @@ static bool trans_VCADD(DisasContext *s, arg_VCADD *a)
- 
- static bool trans_VDOT(DisasContext *s, arg_VDOT *a)
- {
--    int opr_sz;
--    gen_helper_gvec_4 *fn_gvec;
--
-     if (!dc_isar_feature(aa32_dp, s)) {
-         return false;
-     }
--
--    /* UNDEF accesses to D16-D31 if they don't exist. */
--    if (!dc_isar_feature(aa32_simd_r32, s) &&
--        ((a->vd | a->vn | a->vm) & 0x10)) {
--        return false;
--    }
--
--    if ((a->vn | a->vm | a->vd) & a->q) {
--        return false;
--    }
--
--    if (!vfp_access_check(s)) {
--        return true;
--    }
--
--    opr_sz = (1 + a->q) * 8;
--    fn_gvec = a->u ? gen_helper_gvec_udot_b : gen_helper_gvec_sdot_b;
--    tcg_gen_gvec_4_ool(vfp_reg_offset(1, a->vd),
--                       vfp_reg_offset(1, a->vn),
--                       vfp_reg_offset(1, a->vm),
--                       vfp_reg_offset(1, a->vd),
--                       opr_sz, opr_sz, 0, fn_gvec);
--    return true;
-+    return do_neon_ddda(s, a->q * 7, a->vd, a->vn, a->vm, 0,
-+                        a->u
-+                        ? gen_helper_gvec_udot_b
-+                        : gen_helper_gvec_sdot_b);
- }
- 
- static bool trans_VFML(DisasContext *s, arg_VFML *a)
-@@ -323,35 +331,13 @@ static bool trans_VCMLA_scalar(DisasContext *s, arg_VCMLA_scalar *a)
- 
- static bool trans_VDOT_scalar(DisasContext *s, arg_VDOT_scalar *a)
- {
--    gen_helper_gvec_4 *fn_gvec;
--    int opr_sz;
--
-     if (!dc_isar_feature(aa32_dp, s)) {
-         return false;
-     }
--
--    /* UNDEF accesses to D16-D31 if they don't exist. */
--    if (!dc_isar_feature(aa32_simd_r32, s) &&
--        ((a->vd | a->vn) & 0x10)) {
--        return false;
--    }
--
--    if ((a->vd | a->vn) & a->q) {
--        return false;
--    }
--
--    if (!vfp_access_check(s)) {
--        return true;
--    }
--
--    fn_gvec = a->u ? gen_helper_gvec_udot_idx_b : gen_helper_gvec_sdot_idx_b;
--    opr_sz = (1 + a->q) * 8;
--    tcg_gen_gvec_4_ool(vfp_reg_offset(1, a->vd),
--                       vfp_reg_offset(1, a->vn),
--                       vfp_reg_offset(1, a->rm),
--                       vfp_reg_offset(1, a->vd),
--                       opr_sz, opr_sz, a->index, fn_gvec);
--    return true;
-+    return do_neon_ddda(s, a->q * 6, a->vd, a->vn, a->vm, a->index,
-+                        a->u
-+                        ? gen_helper_gvec_udot_idx_b
-+                        : gen_helper_gvec_sdot_idx_b);
- }
- 
- static bool trans_VFML_scalar(DisasContext *s, arg_VFML_scalar *a)
--- 
-2.25.1
+Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 
 
