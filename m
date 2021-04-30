@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B4436F5CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:42:00 +0200 (CEST)
-Received: from localhost ([::1]:37690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88FF36F5D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:44:17 +0200 (CEST)
+Received: from localhost ([::1]:46058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMqd-0008Nj-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
+	id 1lcMsq-0003cr-Pw
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMdr-0004Pu-07
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:50 -0400
+ id 1lcMdz-0004S6-Tg
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:55 -0400
 Received: from mga11.intel.com ([192.55.52.93]:63447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMdh-00017U-NY
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:46 -0400
-IronPort-SDR: +fSxKvdtfyPYxIyjSUnKVhAJsOJru7h7bcXi6u+q5tcowiA+wfhVORyr2VKd1j/y0Akt+dv8th
- 2OH64Qh3CD9w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023061"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023061"
+ id 1lcMdr-00017U-Rb
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:55 -0400
+IronPort-SDR: gGzhAn/VZImuuUUfYLARk6lpn+1wSDNwP3v8Wa7R9/PW6fsiSe4CbsJQxqNiWQyZlZvqVlDN0e
+ XlU5wnQu7PYA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023064"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023064"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 23:28:28 -0700
-IronPort-SDR: HEnlWbLSLR2zzAA7kVCGWzCtiyAlR+QsGl2Ilco95YWWjdlpUhz/YjSCyIfuMrnZHD0/ZdxY2c
- qtPYGBDanqRw==
+ 29 Apr 2021 23:28:30 -0700
+IronPort-SDR: eJajggHX46uMU9O5O0eDAwkWM1kpsRoHICuTNWVsM4G97Xx40fLlEULF28OJLFAElqHYXhvsPQ
+ G8GhyGVUnLgA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258469"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258478"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:26 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:28 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH 08/32] i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
-Date: Fri, 30 Apr 2021 14:24:31 +0800
-Message-Id: <20210430062455.8117-9-yang.zhong@intel.com>
+Subject: [RESEND PATCH 09/32] i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+Date: Fri, 30 Apr 2021 14:24:32 +0800
+Message-Id: <20210430062455.8117-10-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210430062455.8117-1-yang.zhong@intel.com>
 References: <20210430062455.8117-1-yang.zhong@intel.com>
@@ -68,11 +68,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-CPUID leaf 12_0_EBX is an Intel-defined feature bits leaf enumerating
-the platform's SGX extended capabilities.  Currently there is a single
-capabilitiy:
+CPUID leaf 12_1_EAX is an Intel-defined feature bits leaf enumerating
+the platform's SGX capabilities that may be utilized by an enclave, e.g.
+whether or not an enclave can gain access to the provision key.
+Currently there are six capabilities:
 
-  - EXINFO: record information about #PFs and #GPs in the enclave's SSA
+  - INIT: set when the enclave has has been initialized by EINIT.  Cannot
+          be set by software, i.e. forced to zero in CPUID.
+  - DEBUG: permits a debugger to read/write into the enclave.
+  - MODE64BIT: the enclave runs in 64-bit mode
+  - PROVISIONKEY: grants has access to the provision key
+  - EINITTOKENKEY: grants access to the EINIT token key, i.e. the
+                   enclave can generate EINIT tokens
+  - KSS: Key Separation and Sharing enabled for the enclave.
+
+Note that the entirety of CPUID.0x12.0x1, i.e. all registers, enumerates
+the allowed ATTRIBUTES (128 bits), but only bits 31:0 are directly
+exposed to the user (via FEAT_12_1_EAX).  Bits 63:32 are currently all
+reserved and bits 127:64 correspond to the allowed XSAVE Feature Request
+Mask, which is calculated based on other CPU features, e.g. XSAVE, MPX,
+AVX, etc... and is not exposed to the user.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
@@ -82,27 +97,27 @@ Signed-off-by: Yang Zhong <yang.zhong@intel.com>
  2 files changed, 22 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5443f69fa5..e723f52e22 100644
+index e723f52e22..ec12e12a33 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -677,6 +677,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
+@@ -678,6 +678,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
  #define TCG_14_0_ECX_FEATURES 0
  #define TCG_SGX_12_0_EAX_FEATURES 0
-+#define TCG_SGX_12_0_EBX_FEATURES 0
+ #define TCG_SGX_12_0_EBX_FEATURES 0
++#define TCG_SGX_12_1_EAX_FEATURES 0
  
  typedef enum FeatureWordType {
     CPUID_FEATURE_WORD,
-@@ -1345,6 +1346,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+@@ -1366,6 +1367,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
          },
-         .tcg_features = TCG_SGX_12_0_EAX_FEATURES,
+         .tcg_features = TCG_SGX_12_0_EBX_FEATURES,
      },
 +
-+    [FEAT_SGX_12_0_EBX] = {
++    [FEAT_SGX_12_1_EAX] = {
 +        .type = CPUID_FEATURE_WORD,
 +        .feat_names = {
-+            "sgx-exinfo" , NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
++            NULL, "sgx-debug", "sgx-mode64", NULL,
++            "sgx-provisionkey", "sgx-tokenkey", NULL, "sgx-kss",
 +            NULL, NULL, NULL, NULL,
 +            NULL, NULL, NULL, NULL,
 +            NULL, NULL, NULL, NULL,
@@ -112,23 +127,23 @@ index 5443f69fa5..e723f52e22 100644
 +        },
 +        .cpuid = {
 +            .eax = 0x12,
-+            .needs_ecx = true, .ecx = 0,
-+            .reg = R_EBX,
++            .needs_ecx = true, .ecx = 1,
++            .reg = R_EAX,
 +        },
-+        .tcg_features = TCG_SGX_12_0_EBX_FEATURES,
++        .tcg_features = TCG_SGX_12_1_EAX_FEATURES,
 +    },
  };
  
  typedef struct FeatureMask {
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7aba71a982..a3c91d5848 100644
+index a3c91d5848..9df748119f 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -550,6 +550,7 @@ typedef enum FeatureWord {
-     FEAT_VMX_VMFUNC,
+@@ -551,6 +551,7 @@ typedef enum FeatureWord {
      FEAT_14_0_ECX,
      FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
-+    FEAT_SGX_12_0_EBX,  /* CPUID[EAX=0x12,ECX=0].EBX (SGX MISCSELECT[31:0]) */
+     FEAT_SGX_12_0_EBX,  /* CPUID[EAX=0x12,ECX=0].EBX (SGX MISCSELECT[31:0]) */
++    FEAT_SGX_12_1_EAX,  /* CPUID[EAX=0x12,ECX=1].EAX (SGX ATTRIBUTES[31:0]) */
      FEATURE_WORDS,
  } FeatureWord;
  
