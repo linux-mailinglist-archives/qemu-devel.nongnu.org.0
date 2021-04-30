@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B8E36F977
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:39:50 +0200 (CEST)
-Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7F736F999
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:50:35 +0200 (CEST)
+Received: from localhost ([::1]:44970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRUr-0002cP-4J
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
+	id 1lcRfG-0003qp-BS
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQly-0005Dl-Uh
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43858)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlz-0005G3-Q3
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlp-0002xL-GZ
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:26 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQlr-0002xe-Cr
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619779996;
+ s=mimecast20190719; t=1619779998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5nzzCpE86slvO2dMIOS5Z+9DVmIuJPgswUd5kRnIisY=;
- b=cMpacyOTpNWvoQyq8gai95hsDGggNm9IDDr32HjMnEfOrmXzJEagdKfO9FKmWWv4HaGVyK
- UkoYsRDyyKaxlr5P22VtTd8n+juXz97+8hssKYUQMos12nIbT+D7wqPOSRB6tLmjEgsyBn
- k/ObsxZUMYrSYCpvoJG6CuL14pBkZlM=
+ bh=i0jEBM3UZPH4m/JZa3GBtkZlLans7Hy0JUN7g5q0V24=;
+ b=Mw+2w2uPWVUefNedABnm4VlY6MDRNvcaQ09EnDP2KUyeQlxHRUqQ1JQFbgi3sziESdVJpj
+ Lnn/PfBFCoHea4RKM0kjpk7Fy1c+XnXfMPSQx1MEg5YNlK3nFwQc8Yzluxlsm9oLtEB12s
+ a8vEpNsOqoUkUSUPnvGWIw8aG0zb6xk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-p0X9TVEvNomVsJZxwmyTuA-1; Fri, 30 Apr 2021 06:53:12 -0400
-X-MC-Unique: p0X9TVEvNomVsJZxwmyTuA-1
+ us-mta-111-Sc3D3erNOnKgB4LXjQs3XA-1; Fri, 30 Apr 2021 06:53:16 -0400
+X-MC-Unique: Sc3D3erNOnKgB4LXjQs3XA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFAAD100AA32;
- Fri, 30 Apr 2021 10:53:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 230CF1009637;
+ Fri, 30 Apr 2021 10:53:12 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED3A567881;
- Fri, 30 Apr 2021 10:53:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 328D05F707;
+ Fri, 30 Apr 2021 10:53:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 25/39] block: drop ignore_children for permission update
- functions
-Date: Fri, 30 Apr 2021 12:51:33 +0200
-Message-Id: <20210430105147.125840-26-kwolf@redhat.com>
+Subject: [PULL 26/39] block: make bdrv_unset_inherits_from to be a transaction
+ action
+Date: Fri, 30 Apr 2021 12:51:34 +0200
+Message-Id: <20210430105147.125840-27-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,165 +83,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-This argument is always NULL. Drop it.
+To be used in the further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-26-vsementsov@virtuozzo.com>
+Message-Id: <20210428151804.439460-27-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 38 +++++++++++---------------------------
- 1 file changed, 11 insertions(+), 27 deletions(-)
+ block.c | 46 ++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 42 insertions(+), 4 deletions(-)
 
 diff --git a/block.c b/block.c
-index 68dfd822dd..46af5852ab 100644
+index 46af5852ab..1dc14908ac 100644
 --- a/block.c
 +++ b/block.c
-@@ -1988,7 +1988,6 @@ static int bdrv_fill_options(QDict **options, const char *filename,
- static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
-                                   uint64_t new_used_perm,
-                                   uint64_t new_shared_perm,
--                                  GSList *ignore_children,
-                                   Error **errp);
- 
- typedef struct BlockReopenQueueEntry {
-@@ -2065,9 +2064,7 @@ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
-     return false;
+@@ -3205,11 +3205,49 @@ void bdrv_root_unref_child(BdrvChild *child)
+     bdrv_unref(child_bs);
  }
  
--static bool bdrv_parent_perms_conflict(BlockDriverState *bs,
--                                       GSList *ignore_children,
--                                       Error **errp)
-+static bool bdrv_parent_perms_conflict(BlockDriverState *bs, Error **errp)
- {
-     BdrvChild *a, *b;
- 
-@@ -2077,12 +2074,8 @@ static bool bdrv_parent_perms_conflict(BlockDriverState *bs,
-      * directions.
-      */
-     QLIST_FOREACH(a, &bs->parents, next_parent) {
--        if (g_slist_find(ignore_children, a)) {
--            continue;
--        }
--
-         QLIST_FOREACH(b, &bs->parents, next_parent) {
--            if (a == b || g_slist_find(ignore_children, b)) {
-+            if (a == b) {
-                 continue;
-             }
- 
-@@ -2310,7 +2303,6 @@ static void bdrv_replace_child_safe(BdrvChild *child, BlockDriverState *new_bs,
- static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-                                 uint64_t cumulative_perms,
-                                 uint64_t cumulative_shared_perms,
--                                GSList *ignore_children,
-                                 Transaction *tran, Error **errp)
- {
-     BlockDriver *drv = bs->drv;
-@@ -2393,7 +2385,6 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
-                                   bool use_cumulative_perms,
-                                   uint64_t cumulative_perms,
-                                   uint64_t cumulative_shared_perms,
--                                  GSList *ignore_children,
-                                   Transaction *tran, Error **errp)
- {
-     int ret;
-@@ -2404,7 +2395,7 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
- 
-         ret = bdrv_node_check_perm(bs, q, cumulative_perms,
-                                    cumulative_shared_perms,
--                                   ignore_children, tran, errp);
-+                                   tran, errp);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -2415,7 +2406,7 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
-     for ( ; list; list = list->next) {
-         bs = list->data;
- 
--        if (bdrv_parent_perms_conflict(bs, ignore_children, errp)) {
-+        if (bdrv_parent_perms_conflict(bs, errp)) {
-             return -EINVAL;
-         }
- 
-@@ -2424,7 +2415,7 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
- 
-         ret = bdrv_node_check_perm(bs, q, cumulative_perms,
-                                    cumulative_shared_perms,
--                                   ignore_children, tran, errp);
-+                                   tran, errp);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -2435,19 +2426,17 @@ static int bdrv_check_perm_common(GSList *list, BlockReopenQueue *q,
- 
- static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-                            uint64_t cumulative_perms,
--                           uint64_t cumulative_shared_perms,
--                           GSList *ignore_children, Error **errp)
-+                           uint64_t cumulative_shared_perms, Error **errp)
- {
-     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
-     return bdrv_check_perm_common(list, q, true, cumulative_perms,
--                                  cumulative_shared_perms, ignore_children,
--                                  NULL, errp);
-+                                  cumulative_shared_perms, NULL, errp);
- }
- 
- static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
-                                    Transaction *tran, Error **errp)
- {
--    return bdrv_check_perm_common(list, q, false, 0, 0, NULL, tran, errp);
-+    return bdrv_check_perm_common(list, q, false, 0, 0, tran, errp);
- }
- 
- /*
-@@ -2576,7 +2565,6 @@ char *bdrv_perm_names(uint64_t perm)
- static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
-                                   uint64_t new_used_perm,
-                                   uint64_t new_shared_perm,
--                                  GSList *ignore_children,
-                                   Error **errp)
++typedef struct BdrvSetInheritsFrom {
++    BlockDriverState *bs;
++    BlockDriverState *old_inherits_from;
++} BdrvSetInheritsFrom;
++
++static void bdrv_set_inherits_from_abort(void *opaque)
++{
++    BdrvSetInheritsFrom *s = opaque;
++
++    s->bs->inherits_from = s->old_inherits_from;
++}
++
++static TransactionActionDrv bdrv_set_inherits_from_drv = {
++    .abort = bdrv_set_inherits_from_abort,
++    .clean = g_free,
++};
++
++/* @tran is allowed to be NULL. In this case no rollback is possible */
++static void bdrv_set_inherits_from(BlockDriverState *bs,
++                                   BlockDriverState *new_inherits_from,
++                                   Transaction *tran)
++{
++    if (tran) {
++        BdrvSetInheritsFrom *s = g_new(BdrvSetInheritsFrom, 1);
++
++        *s = (BdrvSetInheritsFrom) {
++            .bs = bs,
++            .old_inherits_from = bs->inherits_from,
++        };
++
++        tran_add(tran, &bdrv_set_inherits_from_drv, s);
++    }
++
++    bs->inherits_from = new_inherits_from;
++}
++
+ /**
+  * Clear all inherits_from pointers from children and grandchildren of
+  * @root that point to @root, where necessary.
++ * @tran is allowed to be NULL. In this case no rollback is possible
+  */
+-static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child)
++static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child,
++                                     Transaction *tran)
  {
      BdrvChild *c;
-@@ -2588,10 +2576,6 @@ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
-     assert(new_shared_perm & BLK_PERM_WRITE_UNCHANGED);
  
-     QLIST_FOREACH(c, &bs->parents, next_parent) {
--        if (g_slist_find(ignore_children, c)) {
--            continue;
--        }
--
-         if ((new_used_perm & c->shared_perm) != new_used_perm) {
-             char *user = bdrv_child_user_desc(c);
-             char *perm_names = bdrv_perm_names(new_used_perm & ~c->shared_perm);
-@@ -2621,7 +2605,7 @@ static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+@@ -3224,12 +3262,12 @@ static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child)
+             }
+         }
+         if (c == NULL) {
+-            child->bs->inherits_from = NULL;
++            bdrv_set_inherits_from(child->bs, NULL, tran);
+         }
      }
  
-     return bdrv_check_perm(bs, q, cumulative_perms, cumulative_shared_perms,
--                           ignore_children, errp);
-+                           errp);
+     QLIST_FOREACH(c, &child->bs->children, next) {
+-        bdrv_unset_inherits_from(root, c);
++        bdrv_unset_inherits_from(root, c, tran);
+     }
  }
  
- static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
-@@ -4244,7 +4228,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
-     QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
-         BDRVReopenState *state = &bs_entry->state;
-         ret = bdrv_check_perm(state->bs, bs_queue, state->perm,
--                              state->shared_perm, NULL, errp);
-+                              state->shared_perm, errp);
-         if (ret < 0) {
-             goto cleanup_perm;
-         }
-@@ -4256,7 +4240,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
-                             bs_queue, state->perm, state->shared_perm,
-                             &nperm, &nshared);
-             ret = bdrv_check_update_perm(state->new_backing_bs, NULL,
--                                         nperm, nshared, NULL, errp);
-+                                         nperm, nshared, errp);
-             if (ret < 0) {
-                 goto cleanup_perm;
-             }
+@@ -3240,7 +3278,7 @@ void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
+         return;
+     }
+ 
+-    bdrv_unset_inherits_from(parent, child);
++    bdrv_unset_inherits_from(parent, child, NULL);
+     bdrv_root_unref_child(child);
+ }
+ 
 -- 
 2.30.2
 
