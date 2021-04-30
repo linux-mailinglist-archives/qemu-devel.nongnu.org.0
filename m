@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848E136F7FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:36:27 +0200 (CEST)
-Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1714B36F7F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:33:03 +0200 (CEST)
+Received: from localhost ([::1]:59918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcPZS-0007kb-Kd
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
+	id 1lcPWA-0006Mt-6m
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPKf-0004Mx-Sv
+ id 1lcPKf-0004MT-OC
  for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:21:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37486)
+Received: from indium.canonical.com ([91.189.90.7]:37414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPKb-00009E-4Y
+ id 1lcPKZ-00008a-Uo
  for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:21:09 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcPKX-0003HV-EQ
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:21:01 +0000
+ id 1lcPKW-0003IZ-Dk
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:21:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C98172E81D5
+ by loganberry.canonical.com (Postfix) with ESMTP id 0DABD2E81B0
  for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:20:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 09:14:40 -0000
-From: Thomas Huth <1909256@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 09:14:53 -0000
+From: Thomas Huth <1914696@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=roolebo@gmail.com; 
-X-Launchpad-Bug-Information-Type: Public
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public Security
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell roolebo
-X-Launchpad-Bug-Reporter: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pmaydell zhijianli88
+X-Launchpad-Bug-Reporter: lizhijian (zhijianli88)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160884296870.1780.12540070136312087397.malonedeb@soybean.canonical.com>
-Message-Id: <161977408189.13919.4408169211534255654.launchpad@wampee.canonical.com>
-Subject: [Bug 1909256] Re: compile failure if gnutls headers not on default
- include path
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+References: <161249398803.13999.15324457641617983607.malonedeb@soybean.canonical.com>
+Message-Id: <161977409487.14478.17692040654085788984.launchpad@wampee.canonical.com>
+Subject: [Bug 1914696] Re: aarch64: migration failed: Segmentation fault (core
+ dumped)
+X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: ce0c54677259c4683953f31b8051f4202cd74152
+X-Launchpad-Hash: 3a02d2ffa772d87b6e68a780ed5ae97842bf550d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909256 <1909256@bugs.launchpad.net>
+Reply-To: Bug 1914696 <1914696@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,65 +81,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 -- =
 
 You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909256
+devel-ml, which is subscribed to the bug report.
+https://bugs.launchpad.net/bugs/1914696
 
 Title:
-  compile failure if gnutls headers not on default include path
+  aarch64: migration failed: Segmentation fault (core dumped)
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  If the gnutls headers are not on the default compiler include path,
-  then configure correctly finds them and config-host.mak sets up the
-  variables:
+  reproduce:
 
-  GNUTLS_CFLAGS=3D-I/opt/homebrew/Cellar/gnutls/3.6.15/include -I/opt/homeb=
-rew/Cellar/nettle/3.6/include -I/opt/homebrew/Cellar/libtasn1/4.16.0/includ=
-e -I/opt/homebrew/Cellar/libidn2/2.3.0/include -I/opt/homebrew/Cellar/p11-k=
-it/0.23.22/include/p11-kit-1
-  GNUTLS_LIBS=3D-L/opt/homebrew/Cellar/gnutls/3.6.15/lib -lgnutls
+  arch: aarch64
+  source qemu: v4.2.0
+  destination qemu: 1ed9228f63ea4bcc0ae240365305ee264e9189ce
 
-  but meson fails to put GNUTLS_CFLAGS in the compiler arguments and so
-  you get compile failures like:
+  cmdline:
+  source: =
 
-  [2/1865] Compiling C object qemu-nbd.p/qemu-nbd.c.o
-  FAILED: qemu-nbd.p/qemu-nbd.c.o =
+  $ ./aarch64-softmmu/qemu-system-aarch64     -name 'avocado-vt-vm1'    -ma=
+chine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024=
+      -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor st=
+dio
+  (qemu) =
 
-  cc -Iqemu-nbd.p -I. -I../.. -Iqapi -Itrace -Iui -Iui/shader -I/opt/homebr=
-ew/Cellar/glib/2.66.4/include -I/opt/homebrew/Cellar/glib/2.66.4/include/gl=
-ib-2.0 -I/opt/homebrew/Cellar/glib/2.66.4/lib/glib-2.0/include -I/opt/homeb=
-rew/opt/gettext/include -I/opt/homebrew/Cellar/pcre/8.44/include -Xclang -f=
-color-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -g -DOS_OBJECT_USE=
-_OBJC=3D0 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstri=
-ct-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototype=
-s -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition -Wtype-li=
-mits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempt=
-y-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-initiali=
-zer-overrides -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-stri=
-ng-plus-int -Wno-typedef-redefinition -Wno-tautological-type-limit-compare =
--fstack-protector-strong -iquote /Users/pm215/qemu/tcg/aarch64 -iquote . -i=
-quote /Users/pm215/qemu -iquote /Users/pm215/qemu/accel/tcg -iquote /Users/=
-pm215/qemu/include -iquote /Users/pm215/qemu/disas/libvixl -MD -MQ qemu-nbd=
-.p/qemu-nbd.c.o -MF qemu-nbd.p/qemu-nbd.c.o.d -o qemu-nbd.p/qemu-nbd.c.o -c=
- ../../qemu-nbd.c
-  In file included from ../../qemu-nbd.c:30:
-  In file included from /Users/pm215/qemu/include/block/nbd.h:25:
-  /Users/pm215/qemu/include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/g=
-nutls.h' file not found
-  #include <gnutls/gnutls.h>
-           ^~~~~~~~~~~~~~~~~
-  1 error generated.
+  (qemu) migrate -d tcp:10.19.241.167:888
+  (qemu) info status
+  VM status: paused (postmigrate)
+
+  destination: =
+
+  ./build/aarch64-softmmu/qemu-system-aarch64 -name 'avocado-vt-vm1'  -mach=
+ine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024  =
+    -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdi=
+o -incoming tcp:0:888
+  QEMU 5.2.50 monitor - type 'help' for more information
+  (qemu) Segmentation fault (core dumped)
 
   =
 
-  The compiler errors happen for any .c file that includes block/nbd.h and =
-also for files in tests that include gnutls.h directly, and for files that =
-directly or indirectly include crypto/tlssession.c.
+  i have bisected and confirmed that the first bad commit is: [f9506e162c33=
+e87b609549157dd8431fcc732085] target/arm: Remove ARM_FEATURE_VFP*
 
-  My meson-foo is insufficient to suggest the correct fix...
+  bisect log:
+  git bisect log
+  # bad: [1ed9228f63ea4bcc0ae240365305ee264e9189ce] Merge remote-tracking b=
+ranch 'remotes/ericb/tags/pull-nbd-2021-02-02-v2' into staging
+  git bisect bad 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+  # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.=
+2.0 release
+  git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
+  # bad: [59093cc407cb044c72aa786006a07bd404eb36b9] hw/char: Convert the Ib=
+ex UART to use the registerfields API
+  git bisect bad 59093cc407cb044c72aa786006a07bd404eb36b9
+  # bad: [4dabf39592e92d692c6f2a1633571114ae25d843] aspeed/smc: Fix DMA sup=
+port for AST2600
+  git bisect bad 4dabf39592e92d692c6f2a1633571114ae25d843
+  # good: [93c86fff53a267f657e79ec07dcd04b63882e330] Merge remote-tracking =
+branch 'remotes/pmaydell/tags/pull-target-arm-20200207' into staging
+  git bisect good 93c86fff53a267f657e79ec07dcd04b63882e330
+  # bad: [2ac031d171ccd18c973014d9978b4a63f0ad5fb0] Merge remote-tracking b=
+ranch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging
+  git bisect bad 2ac031d171ccd18c973014d9978b4a63f0ad5fb0
+  # good: [4036b7d1cd9fb1097a5f4bc24d7d31744256260f] target/arm: Use isar_f=
+eature function for testing AA32HPD feature
+  git bisect good 4036b7d1cd9fb1097a5f4bc24d7d31744256260f
+  # good: [002375895c10df40615fc615e2639f49e0c442fe] tests/iotests: be a li=
+ttle more forgiving on the size test
+  git bisect good 002375895c10df40615fc615e2639f49e0c442fe
+  # good: [c695724868ce4049fd79c5a509880dbdf171e744] target/riscv: Emulate =
+TIME CSRs for privileged mode
+  git bisect good c695724868ce4049fd79c5a509880dbdf171e744
+  # good: [f67957e17cbf8fc3cc5d1146a2db2023404578b0] target/arm: Add isar_f=
+eature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
+  git bisect good f67957e17cbf8fc3cc5d1146a2db2023404578b0
+  # bad: [a1229109dec4375259d3fff99f362405aab7917a] target/arm: Implement v=
+8.4-RCPC
+  git bisect bad a1229109dec4375259d3fff99f362405aab7917a
+  # bad: [906b60facc3d3dd3af56cb1a7860175d805e10a3] target/arm: Add formats=
+ for some vfp 2 and 3-register insns
+  git bisect bad 906b60facc3d3dd3af56cb1a7860175d805e10a3
+  # good: [c52881bbc22b50db99a6c37171ad3eea7d959ae6] target/arm: Replace AR=
+M_FEATURE_VFP4 with isar_feature_aa32_simdfmac
+  git bisect good c52881bbc22b50db99a6c37171ad3eea7d959ae6
+  # good: [f0f6d5c81be47d593e5ece7f06df6fba4c15738b] target/arm: Move the v=
+fp decodetree calls next to the base isa
+  git bisect good f0f6d5c81be47d593e5ece7f06df6fba4c15738b
+  # bad: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: Remove ARM_=
+FEATURE_VFP*
+  git bisect bad f9506e162c33e87b609549157dd8431fcc732085
+  # good: [bfa8a370d2f5d4ed03f7a7e2987982f15fe73758] linux-user/arm: Replac=
+e ARM_FEATURE_VFP* tests for HWCAP
+  git bisect good bfa8a370d2f5d4ed03f7a7e2987982f15fe73758
+  # first bad commit: [f9506e162c33e87b609549157dd8431fcc732085] target/arm=
+: Remove ARM_FEATURE_VFP*
+
+  =
+
+  the root cause is that, some feature bit is not consistent any more with =
+below changes in this commit:
+  diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+  index b29b0eddfc..05aa9711cd 100644
+  --- a/target/arm/cpu.h
+  +++ b/target/arm/cpu.h
+  @@ -1880,7 +1880,6 @@ QEMU_BUILD_BUG_ON(ARRAY_SIZE(((ARMCPU *)0)->ccsidr)=
+ <=3D R_V7M_CSSELR_INDEX_MASK);
+    * mapping in linux-user/elfload.c:get_elf_hwcap().
+    */
+   enum arm_features {
+  -    ARM_FEATURE_VFP,
+       ARM_FEATURE_AUXCR,  /* ARM1026 Auxiliary control register.  */
+       ARM_FEATURE_XSCALE, /* Intel XScale extensions.  */
+       ARM_FEATURE_IWMMXT, /* Intel iwMMXt extension.  */
+  @@ -1889,7 +1888,6 @@ enum arm_features {
+       ARM_FEATURE_V7,
+       ARM_FEATURE_THUMB2,
+       ARM_FEATURE_PMSA,   /* no MMU; may have Memory Protection Unit */
+  -    ARM_FEATURE_VFP3,
+       ARM_FEATURE_NEON,
+       ARM_FEATURE_M, /* Microcontroller profile.  */
+       ARM_FEATURE_OMAPCP, /* OMAP specific CP15 ops handling.  */
+  @@ -1900,7 +1898,6 @@ enum arm_features {
+       ARM_FEATURE_V5,
+       ARM_FEATURE_STRONGARM,
+       ARM_FEATURE_VAPA, /* cp15 VA to PA lookups */
+  -    ARM_FEATURE_VFP4, /* VFPv4 (implies that NEON is v2) */
+       ARM_FEATURE_GENERIC_TIMER,
+       ARM_FEATURE_MVFR, /* Media and VFP Feature Registers 0 and 1 */
+       ARM_FEATURE_DUMMY_C15_REGS, /* RAZ/WI all of cp15 crn=3D15 */
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909256/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914696/+subscriptions
 
