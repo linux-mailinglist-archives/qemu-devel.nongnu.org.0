@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23CA36F9A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:53:31 +0200 (CEST)
-Received: from localhost ([::1]:54332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DB736F9A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:54:37 +0200 (CEST)
+Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRi6-0007fW-NG
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37372)
+	id 1lcRjA-0000zM-3c
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQmE-0005qm-41
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36110)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQmB-0005jf-4l
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQmC-0003AE-6G
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:41 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm4-00035C-Bf
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619780019;
+ s=mimecast20190719; t=1619780011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jjDPy6h2GQbuQPDIrNborb6rASENS5Vv9LFPLy7WiFs=;
- b=S/fDdzA1duCyniQAHlyjkosw4nf6Oi9LVji0teGS58aEb8G863B7vYg0CjTKEw/APZRGWS
- lCOgiPOlBP3At0vb0caRHdgWEUDEW2+SCsah+8S6xMu1FzXXMp6fTVCP63QSJ6JfV7YiEl
- HX+JH0Yw8926zhkFJIdkWxwthLUCCuE=
+ bh=xJXTnYgm5ycSHl9jxDYLbMKAb6J0Zi1xO0AE44jiTz0=;
+ b=hZGIqGmq3wkLBCNpvXfn00zbchccqRbH8UH43YOqlSkla6XP/cB1VD7/EpHp41VWqCynrZ
+ +syCGIATsTg8uTy3N2vSPYSU0hRT3OQ1wZ2T7CNztZ5wrHgCpbYaUBSQSWiP8tkgcvC46z
+ leelsPsj35TpUcBwHNz3Crk279rGF5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-pwKQDj4GOZ-wAbnnLxGXdA-1; Fri, 30 Apr 2021 06:53:37 -0400
-X-MC-Unique: pwKQDj4GOZ-wAbnnLxGXdA-1
+ us-mta-458-MTLYE1mzM7y8OziVYZ317Q-1; Fri, 30 Apr 2021 06:53:29 -0400
+X-MC-Unique: MTLYE1mzM7y8OziVYZ317Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 335755B38D;
- Fri, 30 Apr 2021 10:53:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 691FC106BB2A;
+ Fri, 30 Apr 2021 10:53:28 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 438455F707;
- Fri, 30 Apr 2021 10:53:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79FEF5F707;
+ Fri, 30 Apr 2021 10:53:27 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 38/39] qemu-img convert: Unshare write permission for source
-Date: Fri, 30 Apr 2021 12:51:46 +0200
-Message-Id: <20210430105147.125840-39-kwolf@redhat.com>
+Subject: [PULL 39/39] vhost-user-blk: Fail gracefully on too large queue size
+Date: Fri, 30 Apr 2021 12:51:47 +0200
+Message-Id: <20210430105147.125840-40-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,9 +53,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,47 +80,43 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For a successful conversion of an image, we must make sure that its
-content doesn't change during the conversion.
+virtio_add_queue() aborts when queue_size > VIRTQUEUE_MAX_SIZE, so
+vhost_user_blk_device_realize() should check this before calling it.
 
-A special case of this is using the same image file both as the source
-and as the destination. If both input and output format are raw, the
-operation would just be useless work, with other formats it is a sure
-way to destroy the image. This will now fail because the image file
-can't be opened a second time for the output when opening it for the
-input has already acquired file locks to unshare BLK_PERM_WRITE.
+Simple reproducer:
 
-Nevertheless, if there is some reason in a special case why it is
-actually okay to allow writes to the image while it is being converted,
--U can still be used to force sharing all permissions.
+qemu-system-x86_64 \
+    -chardev null,id=foo \
+    -device vhost-user-blk-pci,queue-size=4096,chardev=foo
 
-Note that for most image formats, BLK_PERM_WRITE would already be
-unshared by the format driver, so this only really makes a difference
-for raw source images (but any output format).
-
-Reported-by: Xueqiang Wei <xuwei@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1935014
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210422164344.283389-3-kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210413165654.50810-1-kwolf@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-img.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/vhost-user-blk.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index babb5573ab..a5993682aa 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2146,7 +2146,7 @@ static void set_rate_limit(BlockBackend *blk, int64_t rate_limit)
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 0b5b9d44cd..f5e9682703 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -467,6 +467,11 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
+         error_setg(errp, "vhost-user-blk: queue size must be non-zero");
+         return;
+     }
++    if (s->queue_size > VIRTQUEUE_MAX_SIZE) {
++        error_setg(errp, "vhost-user-blk: queue size must not exceed %d",
++                   VIRTQUEUE_MAX_SIZE);
++        return;
++    }
  
- static int img_convert(int argc, char **argv)
- {
--    int c, bs_i, flags, src_flags = 0;
-+    int c, bs_i, flags, src_flags = BDRV_O_NO_SHARE;
-     const char *fmt = NULL, *out_fmt = NULL, *cache = "unsafe",
-                *src_cache = BDRV_DEFAULT_CACHE, *out_baseimg = NULL,
-                *out_filename, *out_baseimg_param, *snapshot_name = NULL;
+     if (!vhost_user_init(&s->vhost_user, &s->chardev, errp)) {
+         return;
 -- 
 2.30.2
 
