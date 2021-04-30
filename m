@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167FB37022C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 22:37:12 +0200 (CEST)
-Received: from localhost ([::1]:51624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D560370276
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 22:52:40 +0200 (CEST)
+Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcZss-0002lg-Ob
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 16:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52002)
+	id 1lca7r-0005S9-C9
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 16:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcZii-00008m-2V
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:26:40 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:37843)
+ id 1lcZin-0000IP-Fm
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:26:45 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:34690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcZiS-00065q-Vw
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:26:39 -0400
-Received: by mail-pf1-x435.google.com with SMTP id b15so5008792pfl.4
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:26:24 -0700 (PDT)
+ id 1lcZiU-00066J-0l
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 16:26:45 -0400
+Received: by mail-pl1-x636.google.com with SMTP id h7so8664656plt.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1T/TF/O8cuPuJru/dQDvvvNN7AjjLNborpcatweuNPQ=;
- b=S59PrQZQSC77IZgLEIpErMEf0MkIrdaF3uE0u9P5yqJgKeFariqFO+1+AcfE/WVxkQ
- EsrkpDNw8J0XtT/a4u5FcVxGydOt/fuoFG0lWo+kyeBbA4awACs0tZfqRpsAQIg7CAkm
- zMoIn/9skax9d+rRXTG3KVuOtvVHnpm9ZWdHtacz57iKnnIKytWPVqreQeoU/1QlTtXI
- bMO4Z0SQ5vn9rK/lVR6nwfLoL6EqNyEtLGlsU71OhzNb03lr+LjBBz/d31JmSpwe7nAS
- blHZ9C6Tcz98Ae9SnD9cs3i6XyMb40HVf/eO7hM1Wga7auIJEbzvsNpfq+aoVyEy2/7b
- Ho5A==
+ bh=KjnryLyEOHY0qpMOVIlDWjkao3wWlEhJ3Rqkl3sc8kg=;
+ b=ej9WJAx7rkgoiWLLxSA7csW1oED2yhDxmuSX3Ns9eo/Z8USq5srHkRxOsSZt2CXfdT
+ F58rbEI2uh42SgmF0l4O2pC0VWl6H284qCFhUvXYxgIHebOkQw5/Y5dKHsmRfHzoVZ1C
+ 51zM9Ywc1Sl4JHpOM5FkCkEag1TWC0xBpScNy9uPo6AuP/fSaybbhNeCJ3jPUkdqTYP6
+ dC+f4DC9lQAvw5ybgJXkh4y4B9a08F3l6WQhaky4ac/ME7dB8VGOCtiuU3cLdiVVs2hZ
+ KAA1cGROn9byUpHZ+/VdMzp5iFuaY1Sp3lQFSoCAcFXhaYD39WEsKo6bqKHKepbAU2Kl
+ C+/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1T/TF/O8cuPuJru/dQDvvvNN7AjjLNborpcatweuNPQ=;
- b=Xxw8qy6y+SmeFM3x/5QXLd1n0Uq4q3GPUSX76eh1+Ii717bEGu3VCnFuSAbqH9mDJ7
- 9XaZzjpGAc6/6g3fWrgQZ8wL8IofMKvcbUktxlJ0sDS2uPcDRkkfGl/JrGeDjFeWOeZH
- KJaxqkneYDttEtJ3ZUeoWSnDG84Zy3tZtXb1EKPw+XSNUJXaKTrvL4H4iqPL2JH3rCSl
- 8cW1y2dZd/OXOjOYu1PWgLnaUNfejvqtUfGYCMEXSHniO/cafWrwFhYwje8Cb6SjT7k/
- HwIznwWdFPL4W9a8ikeLUYSov31yFFjEBxDCrHAvLgANJaVL1EEPDdBBvkT5y6H8pc40
- whLQ==
-X-Gm-Message-State: AOAM530xLMDCQUxoS6F+cw5Os6PBy9LIzuKPGUBFOiBTYYhXjn0yDY8k
- 6CHKQrwE0+LtHcZzc9YT/yyiWqRdjVF5RA==
-X-Google-Smtp-Source: ABdhPJz7+AyGsWtQ3wdCacCSmh/W/X6ppdRt6rqp5agAX65bPkut0rZGOqUo2BTKezudtoW/QXxhFw==
-X-Received: by 2002:a05:6a00:a95:b029:25c:eb77:723a with SMTP id
- b21-20020a056a000a95b029025ceb77723amr6410804pfl.23.1619814383527; 
- Fri, 30 Apr 2021 13:26:23 -0700 (PDT)
+ bh=KjnryLyEOHY0qpMOVIlDWjkao3wWlEhJ3Rqkl3sc8kg=;
+ b=aY0EZ4PHDnb75OP//SsuxhrpR1+TLY02F0LybwpPP8Fva+CPXptQqdsSJ2PhxCx8El
+ 5rNlIb0pTmeRB8hT+WG6C2hS0TpzANh8DWSjm4llGHgQqNG4aHIajlZvQXMKo9+8NoxA
+ I15XsBQ+oDfg7rFW77KUWXdufcAa5jMxE5Ix5QzWc3U3t8sweeL9rgD9y0kz/EmWZ7Nl
+ LbFW/znhD4QyhMCVLrY7pe9IuXkYyBJYCdqDCk61QDOfVAl9YqBXUWPah4q8bwfRpHKb
+ ye3E+qH5dDOpRcNtd5pPFBu67Pt6aehLJ5WUMQBtiqWzw6cxpESQANwIbx1wH7tobOWU
+ We9g==
+X-Gm-Message-State: AOAM5310LtldxoljX5e3vb31SfCf+leqLpwSTjBwfGhdRpbtfJP7kDbf
+ 6V4pYDbVaE+I3D0lMYiOmo6INYcyHFUXNA==
+X-Google-Smtp-Source: ABdhPJwppq1OzKAuShSpQKn2J34/0rWkC3nEnumWY9oV3LPvuPhTO3XwPBoETcE7m+BlmTUc/330dg==
+X-Received: by 2002:a17:902:7444:b029:ed:5334:40b6 with SMTP id
+ e4-20020a1709027444b02900ed533440b6mr6873726plt.35.1619814384223; 
+ Fri, 30 Apr 2021 13:26:24 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id e6sm2905257pfd.219.2021.04.30.13.26.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 13:26:23 -0700 (PDT)
+ Fri, 30 Apr 2021 13:26:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 20/82] target/arm: Implement SVE2 integer add/subtract long
- with carry
-Date: Fri, 30 Apr 2021 13:25:08 -0700
-Message-Id: <20210430202610.1136687-21-richard.henderson@linaro.org>
+Subject: [PATCH v6 21/82] target/arm: Implement SVE2 bitwise shift right and
+ accumulate
+Date: Fri, 30 Apr 2021 13:25:09 -0700
+Message-Id: <20210430202610.1136687-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430202610.1136687-1-richard.henderson@linaro.org>
 References: <20210430202610.1136687-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,114 +90,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fix sel indexing and argument order (laurent desnogues).
----
- target/arm/helper-sve.h    |  3 +++
- target/arm/sve.decode      |  6 ++++++
- target/arm/sve_helper.c    | 34 ++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c | 23 +++++++++++++++++++++++
- 4 files changed, 66 insertions(+)
+ target/arm/sve.decode      |  8 ++++++++
+ target/arm/translate-sve.c | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 229fb396b2..4a62012850 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -2416,3 +2416,6 @@ DEF_HELPER_FLAGS_5(sve2_uabal_s, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve2_uabal_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_5(sve2_adcl_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(sve2_adcl_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 56b7353bfa..79046d81e3 100644
+index 79046d81e3..d3c4ec6dd1 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1247,3 +1247,9 @@ SABALB          01000101 .. 0 ..... 1100 00 ..... .....  @rda_rn_rm
- SABALT          01000101 .. 0 ..... 1100 01 ..... .....  @rda_rn_rm
- UABALB          01000101 .. 0 ..... 1100 10 ..... .....  @rda_rn_rm
- UABALT          01000101 .. 0 ..... 1100 11 ..... .....  @rda_rn_rm
+@@ -1253,3 +1253,11 @@ UABALT          01000101 .. 0 ..... 1100 11 ..... .....  @rda_rn_rm
+ # ADC and SBC decoded via size in helper dispatch.
+ ADCLB           01000101 .. 0 ..... 11010 0 ..... .....  @rda_rn_rm
+ ADCLT           01000101 .. 0 ..... 11010 1 ..... .....  @rda_rn_rm
 +
-+## SVE2 integer add/subtract long with carry
++## SVE2 bitwise shift right and accumulate
 +
-+# ADC and SBC decoded via size in helper dispatch.
-+ADCLB           01000101 .. 0 ..... 11010 0 ..... .....  @rda_rn_rm
-+ADCLT           01000101 .. 0 ..... 11010 1 ..... .....  @rda_rn_rm
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 4871e90d9b..0049ad861f 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -1264,6 +1264,40 @@ DO_ZZZW_ACC(sve2_uabal_d, uint64_t, uint32_t,     , H1_4, DO_ABD)
- 
- #undef DO_ZZZW_ACC
- 
-+void HELPER(sve2_adcl_s)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int sel = H4(extract32(desc, SIMD_DATA_SHIFT, 1));
-+    uint32_t inv = -extract32(desc, SIMD_DATA_SHIFT + 1, 1);
-+    uint32_t *a = va, *n = vn;
-+    uint64_t *d = vd, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 8; ++i) {
-+        uint32_t e1 = a[2 * i + H4(0)];
-+        uint32_t e2 = n[2 * i + sel] ^ inv;
-+        uint64_t c = extract64(m[i], 32, 1);
-+        /* Compute and store the entire 33-bit result at once. */
-+        d[i] = c + e1 + e2;
-+    }
-+}
-+
-+void HELPER(sve2_adcl_d)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int sel = extract32(desc, SIMD_DATA_SHIFT, 1);
-+    uint64_t inv = -(uint64_t)extract32(desc, SIMD_DATA_SHIFT + 1, 1);
-+    uint64_t *d = vd, *a = va, *n = vn, *m = vm;
-+
-+    for (i = 0; i < opr_sz / 8; i += 2) {
-+        Int128 e1 = int128_make64(a[i]);
-+        Int128 e2 = int128_make64(n[i + sel] ^ inv);
-+        Int128 c = int128_make64(m[i + 1] & 1);
-+        Int128 r = int128_add(int128_add(e1, e2), c);
-+        d[i + 0] = int128_getlo(r);
-+        d[i + 1] = int128_gethi(r);
-+    }
-+}
-+
- #define DO_BITPERM(NAME, TYPE, OP) \
- void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
- {                                                              \
++# TODO: Use @rda and %reg_movprfx here.
++SSRA            01000101 .. 0 ..... 1110 00 ..... .....  @rd_rn_tszimm_shr
++USRA            01000101 .. 0 ..... 1110 01 ..... .....  @rd_rn_tszimm_shr
++SRSRA           01000101 .. 0 ..... 1110 10 ..... .....  @rd_rn_tszimm_shr
++URSRA           01000101 .. 0 ..... 1110 11 ..... .....  @rd_rn_tszimm_shr
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 6ac50fd61f..6f5e39b741 100644
+index 6f5e39b741..c11074cccc 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -6371,3 +6371,26 @@ static bool trans_UABALT(DisasContext *s, arg_rrrr_esz *a)
+@@ -6394,3 +6394,37 @@ static bool trans_ADCLT(DisasContext *s, arg_rrrr_esz *a)
  {
-     return do_abal(s, a, true, true);
+     return do_adcl(s, a, true);
  }
 +
-+static bool do_adcl(DisasContext *s, arg_rrrr_esz *a, bool sel)
++static bool do_sve2_fn2i(DisasContext *s, arg_rri_esz *a, GVecGen2iFn *fn)
 +{
-+    static gen_helper_gvec_4 * const fns[2] = {
-+        gen_helper_sve2_adcl_s,
-+        gen_helper_sve2_adcl_d,
-+    };
-+    /*
-+     * Note that in this case the ESZ field encodes both size and sign.
-+     * Split out 'subtract' into bit 1 of the data field for the helper.
-+     */
-+    return do_sve2_zzzz_ool(s, a, fns[a->esz & 1], (a->esz & 2) | sel);
++    if (a->esz < 0 || !dc_isar_feature(aa64_sve2, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        unsigned vsz = vec_full_reg_size(s);
++        unsigned rd_ofs = vec_full_reg_offset(s, a->rd);
++        unsigned rn_ofs = vec_full_reg_offset(s, a->rn);
++        fn(a->esz, rd_ofs, rn_ofs, a->imm, vsz, vsz);
++    }
++    return true;
 +}
 +
-+static bool trans_ADCLB(DisasContext *s, arg_rrrr_esz *a)
++static bool trans_SSRA(DisasContext *s, arg_rri_esz *a)
 +{
-+    return do_adcl(s, a, false);
++    return do_sve2_fn2i(s, a, gen_gvec_ssra);
 +}
 +
-+static bool trans_ADCLT(DisasContext *s, arg_rrrr_esz *a)
++static bool trans_USRA(DisasContext *s, arg_rri_esz *a)
 +{
-+    return do_adcl(s, a, true);
++    return do_sve2_fn2i(s, a, gen_gvec_usra);
++}
++
++static bool trans_SRSRA(DisasContext *s, arg_rri_esz *a)
++{
++    return do_sve2_fn2i(s, a, gen_gvec_srsra);
++}
++
++static bool trans_URSRA(DisasContext *s, arg_rri_esz *a)
++{
++    return do_sve2_fn2i(s, a, gen_gvec_ursra);
 +}
 -- 
 2.25.1
