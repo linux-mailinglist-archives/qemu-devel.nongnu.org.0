@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092B136F374
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:23:27 +0200 (CEST)
-Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19E136F375
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:23:29 +0200 (CEST)
+Received: from localhost ([::1]:48166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcHsM-0000yt-2p
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1lcHsO-00017M-N4
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHlH-0002w1-Dl
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:07 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:42997)
+ id 1lcHlL-00030o-SH
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:12 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHl3-0007X1-Vi
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:06 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- j6-20020a17090adc86b02900cbfe6f2c96so890463pjv.1
+ id 1lcHl5-0007XD-8k
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:11 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id t13so9516082pji.4
  for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TsKRE3i/n4/0bXPCvuEuwUe3xdoGP8klreSD2fnz1lk=;
- b=o6TyBAN/E3u/JOIDIxuaJDUBZSxd9EqQoPtO2LO0iFRp2gEOg18FY5GsKxtu+5aFeC
- Mu1ITWJHq9Xp9vfwO1/vCdrTECqGV7/Sqv6W9T3C1JBg/Ya9hG6+atsDdhgyNvRztdtx
- U5+RMzjENCu5PZc4AUXVnoinjB+OZlq8gfvXAAfic9LOOxV4R1XzNrAR337m1xUbyyiu
- Ql7xBN5tkMGKM1Jr9i2jE0XKj/xhxBiTehiGIlCDiXZe6kXKjqgBiZuFqSs5DPe0uTcN
- 6YYoSNoYEMiy6ELIBDNYOG6Su+7m+zxPVCM5DKQOm7M0ZATdo9nHnvYy8n7Ga/owIZZd
- qbIA==
+ bh=GtzxgNF32jBOW0rDu46zgnrIq+Tr4i7MyBybLCPP5F4=;
+ b=pVeWUI2yN7WtPNi2VOm/Oo874xvs4K82CUJ8V7aJbKlWDd2TzXcMSiY8p3iqseb5YB
+ F4358xlolmbHkmEsNPjwRyqXU/OC+Yr5vZHYdYV0YYy1MGJt3MedY5KEuSTyCAxfegG2
+ MuYB7l55/yHnuWTxVEbzMfNgkclOHwilSLHb0+HfwgRo8LVo7W0L/jv56AhcaXPKpmcl
+ 6okhB0SDfoMLgIit33Hhia/eKojCFKPWpX1cetzazSyYslHU2e2XYguFy9jaEYsBo8fc
+ XS1ed64kH1wE0MK1LmqEqO5iCPWD71gz4EyCD3LuT92TrdEbxv4ai2od/Kqss6NVW0x1
+ zcKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TsKRE3i/n4/0bXPCvuEuwUe3xdoGP8klreSD2fnz1lk=;
- b=ETYBn9M5e9tBODz6//Fjib+zizNowYeOeg/EiJPGGOYCf0yqhB1Dj2putlHBsiycgw
- 6nfTk9UelSbWK54RKBge/siTzSlm6CSWt9TnF/lEIhQE16xRIDDuQL2l+pmgV0wZa0vL
- JUfPiEs13pjbJ6tJV431epkI1PSC3z8dzFm61neXg7HC4FA9HIOa2MbhF/FJt3JwwvVM
- xpJB+WROJFGrki1MzaBC7EUxvRhQW6qtjJJWp6ReI1iRz0n8r7VHr7Gbq0ZZzwE0FE+5
- eMwSLKIXuxiZLfitEu4j/gy7Ku0ARV194R6ZeX50qwR5b3DRtiYHpGRIZesF6HEpeMmI
- KDuw==
-X-Gm-Message-State: AOAM5325TwSDvMQQ6hXlc3zpYhoVslPKtmwwj9EXHCYIt86GMBTWV1t2
- WdHIr6pUwhtYdMUleIF5GcmUxv6iYXbAsw==
-X-Google-Smtp-Source: ABdhPJz/CbH9vRnZiDv97a2LCSRh6mF36P4ycpd0cfb9++MXHHbbeZqICCk9piHkmv64KUdU7m0spg==
-X-Received: by 2002:a17:90a:9f44:: with SMTP id
- q4mr12274182pjv.233.1619745351368; 
+ bh=GtzxgNF32jBOW0rDu46zgnrIq+Tr4i7MyBybLCPP5F4=;
+ b=fv0GsxRGgVbAiYuFyRRp6//fNCsZM1LUZwa0LqQmguwJZn89Q4Zudb4D4tWys+3WTb
+ 2LD8/DD6JRdeYPTYBwUSCxqdR6DxOBnE35ywYmdtZBxBcpt+1Tmba9BNeGn2VkcvWlgZ
+ 9bb8G2MRJ2GH5ygTtGQaVPVqLqjZv/uE4G2v18EwMHKVDN7CG5brricmF2XJLFl1qAVj
+ 8yI5R4QnYqfmOPhSU5rFaHNKIk028YNkVHDxsgc3IrzSRZiT/sE3SyQAFWrgxmLowtHR
+ SATh2/bVlf6Ce1TpP7LxajgM5PApiHqhdPpx5qqAXUPH1by04N896R0TuZab5qIpJEba
+ 0iqw==
+X-Gm-Message-State: AOAM533NDGesXBKrIuY8ABgSOdHLZbFcSPOoLMnZPHmy1Naal9SVWJL3
+ ybkzpXxeOJQnwrBLCH/ghdN7ButqmeRt9w==
+X-Google-Smtp-Source: ABdhPJzAzwwCRHG807FUZPE4bfoc7aIbPj3EpodkwUPL0q1Q7fnP/kX2QP41XS3PYDW2SqoiKNnWUA==
+X-Received: by 2002:a17:90b:b05:: with SMTP id
+ bf5mr2848277pjb.123.1619745351990; 
  Thu, 29 Apr 2021 18:15:51 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.50
+ by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 29 Apr 2021 18:15:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/30] target/ppc: Simplify gen_debug_exception
-Date: Thu, 29 Apr 2021 18:15:23 -0700
-Message-Id: <20210430011543.1017113-11-richard.henderson@linaro.org>
+Subject: [PATCH v3 11/30] target/ppc: Introduce DISAS_{EXIT,CHAIN}{,_UPDATE}
+Date: Thu, 29 Apr 2021 18:15:24 -0700
+Message-Id: <20210430011543.1017113-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430011543.1017113-1-richard.henderson@linaro.org>
 References: <20210430011543.1017113-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,47 +89,122 @@ Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two of the call sites that use gen_debug_exception have already
-updated NIP.  Only ppc_tr_breakpoint_check requires the update.
+Rewrite ppc_tr_tb_stop to handle these new codes.
+
+Convert ctx->exception into these new codes at the end of
+ppc_tr_translate_insn, prior to pushing the change back
+throughout translate.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ target/ppc/translate.c | 75 ++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 65 insertions(+), 10 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 5efa4d6566..b58e2ac8dc 100644
+index b58e2ac8dc..7dbdf3d047 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -327,19 +327,7 @@ static uint32_t gen_prep_dbgex(DisasContext *ctx)
+@@ -183,6 +183,11 @@ struct DisasContext {
+     uint64_t insns_flags2;
+ };
  
- static void gen_debug_exception(DisasContext *ctx)
++#define DISAS_EXIT         DISAS_TARGET_0  /* exit to main loop, pc updated */
++#define DISAS_EXIT_UPDATE  DISAS_TARGET_1  /* exit to main loop, pc stale */
++#define DISAS_CHAIN        DISAS_TARGET_2  /* lookup next tb, pc updated */
++#define DISAS_CHAIN_UPDATE DISAS_TARGET_3  /* lookup next tb, pc stale */
++
+ /* Return true iff byteswap is needed in a scalar memop */
+ static inline bool need_byteswap(const DisasContext *ctx)
  {
--    TCGv_i32 t0;
--
--    /*
--     * These are all synchronous exceptions, we set the PC back to the
--     * faulting instruction
--     */
--    if ((ctx->exception != POWERPC_EXCP_BRANCH) &&
--        (ctx->exception != POWERPC_EXCP_SYNC)) {
--        gen_update_nip(ctx, ctx->base.pc_next);
--    }
--    t0 = tcg_const_i32(EXCP_DEBUG);
--    gen_helper_raise_exception(cpu_env, t0);
--    tcg_temp_free_i32(t0);
-+    gen_helper_raise_exception(cpu_env, tcg_constant_i32(EXCP_DEBUG));
-     ctx->base.is_jmp = DISAS_NORETURN;
+@@ -8080,28 +8085,78 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                  opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+     }
+ 
+-    if (ctx->base.is_jmp == DISAS_NEXT
+-        && ctx->exception != POWERPC_EXCP_NONE) {
+-        ctx->base.is_jmp = DISAS_TOO_MANY;
++    if (ctx->base.is_jmp == DISAS_NEXT) {
++        switch (ctx->exception) {
++        case POWERPC_EXCP_NONE:
++            break;
++        case POWERPC_EXCP_BRANCH:
++            ctx->base.is_jmp = DISAS_NORETURN;
++            break;
++        case POWERPC_EXCP_SYNC:
++        case POWERPC_EXCP_STOP:
++            ctx->base.is_jmp = DISAS_EXIT;
++            break;
++        default:
++            /* Every other ctx->exception should have set NORETURN. */
++            g_assert_not_reached();
++        }
+     }
  }
  
-@@ -8040,6 +8028,7 @@ static bool ppc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
  {
      DisasContext *ctx = container_of(dcbase, DisasContext, base);
++    DisasJumpType is_jmp = ctx->base.is_jmp;
++    target_ulong nip = ctx->base.pc_next;
  
-+    gen_update_nip(ctx, ctx->base.pc_next);
-     gen_debug_exception(ctx);
-     /*
-      * The address covered by the breakpoint must be included in
+-    if (ctx->base.is_jmp == DISAS_NORETURN) {
++    if (is_jmp == DISAS_NORETURN) {
++        /* We have already exited the TB. */
+         return;
+     }
+ 
+-    if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_goto_tb(ctx, 0, ctx->base.pc_next);
+-    } else if (ctx->exception != POWERPC_EXCP_BRANCH) {
+-        if (unlikely(ctx->base.singlestep_enabled)) {
+-            gen_debug_exception(ctx);
++    /* Honor single stepping. */
++    if (unlikely(ctx->base.singlestep_enabled)) {
++        switch (is_jmp) {
++        case DISAS_TOO_MANY:
++        case DISAS_EXIT_UPDATE:
++        case DISAS_CHAIN_UPDATE:
++            gen_update_nip(ctx, nip);
++            break;
++        case DISAS_EXIT:
++        case DISAS_CHAIN:
++            break;
++        default:
++            g_assert_not_reached();
+         }
+-        /* Generate the return instruction */
++        gen_debug_exception(ctx);
++        return;
++    }
++
++    switch (is_jmp) {
++    case DISAS_TOO_MANY:
++        if (use_goto_tb(ctx, nip)) {
++            tcg_gen_goto_tb(0);
++            gen_update_nip(ctx, nip);
++            tcg_gen_exit_tb(ctx->base.tb, 0);
++            break;
++        }
++        /* fall through */
++    case DISAS_CHAIN_UPDATE:
++        gen_update_nip(ctx, nip);
++        /* fall through */
++    case DISAS_CHAIN:
++        tcg_gen_lookup_and_goto_ptr();
++        break;
++
++    case DISAS_EXIT_UPDATE:
++        gen_update_nip(ctx, nip);
++        /* fall through */
++    case DISAS_EXIT:
+         tcg_gen_exit_tb(NULL, 0);
++        break;
++
++    default:
++        g_assert_not_reached();
+     }
+ }
+ 
 -- 
 2.25.1
 
