@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5242B36F6DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 10:08:01 +0200 (CEST)
-Received: from localhost ([::1]:49116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB0136F6E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 10:08:29 +0200 (CEST)
+Received: from localhost ([::1]:49998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcOBr-0002Dt-Nc
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 04:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34334)
+	id 1lcOCK-0002bQ-LU
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 04:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcO8V-0000tq-DG
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:04:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35441)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcOA2-0001gz-5v
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:06:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcO8P-0006G6-2Y
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:04:26 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lcO9u-00076U-LC
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:06:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619769860;
+ s=mimecast20190719; t=1619769957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XbsdPB3b/dBCAPUd2rf8A7phVYV+ihkX3+47lh36JrE=;
- b=E4OL5HcnLgEp3xtCwDQV8Zbsp74Y4iYdCmkYGOWgHoWTvloD017HtiDlkXFs6ITav4osgN
- gc4grJjRjJqE2YUWSxZGAksIrtkUhTL9JDdGH4WHwMBDby5pJKdQlhOn8vl5cPYPQ6rTPM
- qXSZk9ECL0Q4g39gxBrsH2G4lSqEWS4=
+ bh=+WsDIANFSHwco/b8kiSvFoXBqLrWnGls+eeVYdRXIiw=;
+ b=eNjWN1U29UbuQBew0nLCJbYl47qdU5fUMtMQN/hV2TxZIsaDmXLlgmAEsAiJZRD/j8zNNj
+ LQKh14NKMhtkgir5iPhX+PkIlebil/kN4buMycXsp1f+FipaFBiU+gfIdWM1IbMXUigzLg
+ RU2cZir0JHOIVBbej/K2bG9zuAyyuKI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-suQEqqRQPG6ccP_8nYnVhg-1; Fri, 30 Apr 2021 04:04:18 -0400
-X-MC-Unique: suQEqqRQPG6ccP_8nYnVhg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-209-7ss70apMOxKqIVHYlXdCIA-1; Fri, 30 Apr 2021 04:05:53 -0400
+X-MC-Unique: 7ss70apMOxKqIVHYlXdCIA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 099A9107ACCA;
- Fri, 30 Apr 2021 08:04:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA7CF8030CA;
+ Fri, 30 Apr 2021 08:05:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
  [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85DE860CD0;
- Fri, 30 Apr 2021 08:04:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 651E3101E249;
+ Fri, 30 Apr 2021 08:05:52 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 82CCA1800380; Fri, 30 Apr 2021 10:04:14 +0200 (CEST)
-Date: Fri, 30 Apr 2021 10:04:14 +0200
+ id AD1FE1800380; Fri, 30 Apr 2021 10:05:50 +0200 (CEST)
+Date: Fri, 30 Apr 2021 10:05:50 +0200
 From: 'Gerd Hoffmann ' <kraxel@redhat.com>
 To: gustavo@noronha.eti.br
-Subject: Re: [PATCH 2/2] ui/cocoa: add option to swap Option and Command,
- enable by default
-Message-ID: <20210430080414.a7ee4ygiamd32ihg@sirius.home.kraxel.org>
+Subject: Re: [PATCH 1/2] ui/cocoa: capture all keys and combos when mouse is
+ grabbed
+Message-ID: <20210430080550.twoujiljpcskvcla@sirius.home.kraxel.org>
 References: <20210429234705.83206-1-gustavo@noronha.eti.br>
- <20210429234705.83206-3-gustavo@noronha.eti.br>
+ <20210429234705.83206-2-gustavo@noronha.eti.br>
 MIME-Version: 1.0
-In-Reply-To: <20210429234705.83206-3-gustavo@noronha.eti.br>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210429234705.83206-2-gustavo@noronha.eti.br>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,36 +85,28 @@ Cc: 'Peter Maydell ' <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> @@ -797,12 +806,22 @@ - (bool) handleEventLocked:(NSEvent *)event
->          qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
->      }
->      if (!(modifiers & NSEventModifierFlagOption)) {
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-> +        if ([self isSwapOptionCommandEnabled]) {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-> +        } else {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-> +        }
->      }
->      if (!(modifiers & NSEventModifierFlagCommand)) {
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-> +        if ([self isSwapOptionCommandEnabled]) {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-> +        } else {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-> +        }
->      }
+On Thu, Apr 29, 2021 at 08:47:04PM -0300, gustavo@noronha.eti.br wrote:
+> From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+> 
+> Applications such as Gnome may use Alt-Tab and Super-Tab for different
+> purposes, some use Ctrl-arrows so we want to allow qemu to handle
+> everything when it captures the mouse/keyboard.
+> 
+> However, Mac OS handles some combos like Command-Tab and Ctrl-arrows
+> at an earlier part of the event handling chain, not letting qemu see it.
+> 
+> We add a global Event Tap that allows qemu to see all events when the
+> mouse is grabbed. Note that this requires additional permissions.
+> 
+> See:
+> 
+> https://developer.apple.com/documentation/coregraphics/1454426-cgeventtapcreate?language=objc#discussion
+> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
 
-Wouldn't it be easier to swap the bits in the modifiers variable once
-instead of having lots of isSwapOptionCommandEnabled checks in the code?
+Looks all sensible to me, I'd like to have the opinion from the MacOS
+experts for this one though.
 
-take care,
+thanks,
   Gerd
 
 
