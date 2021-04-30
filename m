@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BED36F5D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:44:47 +0200 (CEST)
-Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB2136F5E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:47:24 +0200 (CEST)
+Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMtK-0004hM-UD
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1lcMvr-0007Oo-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:47:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMeL-0004gg-5g
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:18 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63439)
+ id 1lcMeP-0004hO-NI
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:22 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMeB-00016y-JK
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:16 -0400
-IronPort-SDR: AlcbbZOiIMwMnTorQ4WE1YQcFXK5eLjlm/eZDPSw+gIm0w10aebmdW4W8nmQb6LYJaXc/o5ZZc
- pTHmnWkE1sBA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023076"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023076"
+ id 1lcMeC-00017U-SS
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:21 -0400
+IronPort-SDR: 0+TjIEMg1TCsEVBUXJqo0i94NbwU+quzygHHMQAd70NsjVGekIlYPKt75xijuVFEQHzOqzPgQM
+ uMHMiMpuf7Cw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023078"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023078"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 23:28:38 -0700
-IronPort-SDR: SpR9BkzZcP3fIFITu3MfG0p1ghNud5CLStwYAxoNxWugeIINvFxceCbV0vky98UyzZOX+c4kUT
- Pny/Mmej4jCw==
+ 29 Apr 2021 23:28:40 -0700
+IronPort-SDR: BCF58sudKhfX31JXrvHmKsvDWIe8g7gLljvPm6s4+oh4rg6wEW74fjtNGfMEzvzsvXZvcpmaki
+ AvoiUqojPlnw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258498"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258503"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:37 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:38 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH 14/32] i386: kvm: Add support for exposing PROVISIONKEY
- to guest
-Date: Fri, 30 Apr 2021 14:24:37 +0800
-Message-Id: <20210430062455.8117-15-yang.zhong@intel.com>
+Subject: [RESEND PATCH 15/32] i386: Propagate SGX CPUID sub-leafs to KVM
+Date: Fri, 30 Apr 2021 14:24:38 +0800
+Message-Id: <20210430062455.8117-16-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210430062455.8117-1-yang.zhong@intel.com>
 References: <20210430062455.8117-1-yang.zhong@intel.com>
@@ -69,85 +68,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-If the guest want to fully use SGX, the guest needs to be able to
-access provisioning key. Add a new KVM_CAP_SGX_ATTRIBUTE to KVM to
-support provisioning key to KVM guests.
+The SGX sub-leafs are enumerated at CPUID 0x12.  Indices 0 and 1 are
+always present when SGX is supported, and enumerate SGX features and
+capabilities.  Indices >=2 are directly correlated with the platform's
+EPC sections.  Because the number of EPC sections is dynamic and user
+defined, the number of SGX sub-leafs is "NULL" terminated.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/cpu.c          |  5 ++++-
- target/i386/kvm/kvm.c      | 29 +++++++++++++++++++++++++++++
- target/i386/kvm/kvm_i386.h |  2 ++
- 3 files changed, 35 insertions(+), 1 deletion(-)
+ target/i386/kvm/kvm.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e630e57f03..63253bf606 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6015,7 +6015,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
- 
-             /* Access to PROVISIONKEY requires additional credentials. */
--            *eax &= ~(1U << 4);
-+            if ((*eax & (1U << 4)) &&
-+                !kvm_enable_sgx_provisioning(cs->kvm_state)) {
-+                *eax &= ~(1U << 4);
-+            }
-         }
- #endif
-         break;
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index fa495a6f9e..c2fba39bd4 100644
+index c2fba39bd4..ecb5f56d95 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -4555,6 +4555,35 @@ void kvm_arch_update_guest_debug(CPUState *cpu, struct kvm_guest_debug *dbg)
-     }
- }
+@@ -1615,6 +1615,25 @@ int kvm_arch_init_vcpu(CPUState *cs)
+             }
+             break;
+         case 0x7:
++        case 0x12:
++            for (j = 0; ; j++) {
++                c->function = i;
++                c->flags = KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
++                c->index = j;
++                cpu_x86_cpuid(env, i, j, &c->eax, &c->ebx, &c->ecx, &c->edx);
++
++                if (j > 1 && (c->eax & 0xf) != 1) {
++                    break;
++                }
++
++                if (cpuid_i == KVM_MAX_CPUID_ENTRIES) {
++                    fprintf(stderr, "cpuid_data is full, no space for "
++                                "cpuid(eax:0x12,ecx:0x%x)\n", j);
++                    abort();
++                }
++                c = &cpuid_data.entries[cpuid_i++];
++            }
++            break;
+         case 0x14: {
+             uint32_t times;
  
-+static bool has_sgx_provisioning;
-+
-+static bool __kvm_enable_sgx_provisioning(KVMState *s)
-+{
-+    int fd, ret;
-+
-+    if (!kvm_vm_check_extension(s, KVM_CAP_SGX_ATTRIBUTE)) {
-+        return false;
-+    }
-+
-+    fd = qemu_open_old("/dev/sgx_provision", O_RDONLY);
-+    if (fd < 0) {
-+        return false;
-+    }
-+
-+    ret = kvm_vm_enable_cap(s, KVM_CAP_SGX_ATTRIBUTE, 0, fd);
-+    if (ret) {
-+        error_report("Could not enable SGX PROVISIONKEY: %s", strerror(-ret));
-+        exit(1);
-+    }
-+    close(fd);
-+    return true;
-+}
-+
-+bool kvm_enable_sgx_provisioning(KVMState *s)
-+{
-+    return MEMORIZE(__kvm_enable_sgx_provisioning(s), has_sgx_provisioning);
-+}
-+
- static bool host_supports_vmx(void)
- {
-     uint32_t ecx, unused;
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index dc72508389..7bab91aecb 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -50,4 +50,6 @@ bool kvm_hv_vpindex_settable(void);
- 
- uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
- 
-+bool kvm_enable_sgx_provisioning(KVMState *s);
-+
- #endif
 -- 
 2.29.2.334.gfaefdd61ec
 
