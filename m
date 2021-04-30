@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6723936FA07
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 14:19:18 +0200 (CEST)
-Received: from localhost ([::1]:54294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF99D36FA0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 14:20:16 +0200 (CEST)
+Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcS73-0005vK-EW
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 08:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42386)
+	id 1lcS7z-0006s8-P7
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 08:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcRFX-00061P-QK
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:24:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39381)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcRFg-00066B-82
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:24:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcRFV-0003AB-1G
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:23:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcRFc-0003Cv-9U
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 07:24:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619781836;
+ s=mimecast20190719; t=1619781843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kU/thrpum2PmG9OlU1wZY/97dJ51AWeDZ5siAvtGTH4=;
- b=IuGIOEJGvpEyexlIU+ik3lGMnddH/jVxyB20W3HINblBJomYSNBBMkf/vTRIvoMl3+gkHH
- 502qfkSNrAzWK9M7gcr30RULwgNwj44mnFQHP8vVqPqerLt9ei5v+Nwfk1Wianga8Igz90
- Klx6bbRf/5cw9E0M4eWZdSkg7eYiaDw=
+ bh=XhLyTEKOOTPy3fd09VzDMu10ompmkNiqq2fnOYBiXwo=;
+ b=Ksh96OsIL4v2mQB/gUfuH14RgeLyLFknW3FoqOGIiivd7mTFU+fIp6CmrurKOtVSbgh968
+ g0n++OPrIvDGAlXNlbQUo6qWwqOXgyq9CBgAYThzakhCM07DHHbPbs5Oks393S03iOQBI+
+ PGW+14Ao7WYRX33veEwC0K6GfcVp1MA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-xTJDUe2wN8CcRjAZHYRJBw-1; Fri, 30 Apr 2021 07:23:54 -0400
-X-MC-Unique: xTJDUe2wN8CcRjAZHYRJBw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-539-ac4YdU45PCSTfhqSa-AF2Q-1; Fri, 30 Apr 2021 07:24:00 -0400
+X-MC-Unique: ac4YdU45PCSTfhqSa-AF2Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB60A800C7A;
- Fri, 30 Apr 2021 11:23:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 765B31020C43;
+ Fri, 30 Apr 2021 11:23:59 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-114-68.ams2.redhat.com
  [10.36.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 241646E71D;
- Fri, 30 Apr 2021 11:23:51 +0000 (UTC)
-Subject: Re: [PATCH v3 02/15] python: qemu: pass the wrapper field from
- QEMUQtestmachine to QEMUMachine
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B0B6070583;
+ Fri, 30 Apr 2021 11:23:57 +0000 (UTC)
+Subject: Re: [PATCH v3 03/15] docs/devel/testing: add debug section to the
+ QEMU iotests chapter
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20210414170352.29927-1-eesposit@redhat.com>
- <20210414170352.29927-3-eesposit@redhat.com>
+ <20210414170352.29927-4-eesposit@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
-Message-ID: <4d917da4-4500-864f-54ac-3fafc816b375@redhat.com>
-Date: Fri, 30 Apr 2021 13:23:50 +0200
+Message-ID: <ea095307-698f-085a-a1d4-b76d679b3810@redhat.com>
+Date: Fri, 30 Apr 2021 13:23:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210414170352.29927-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210414170352.29927-4-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,34 +90,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14.04.21 19:03, Emanuele Giuseppe Esposito wrote:
+> Introduce the "Debugging a test case" section, in preparation
+> to the additional flags that will be added in the next patches.
+> 
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   python/qemu/qtest.py | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   docs/devel/testing.rst | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-> index 39a0cf62fe..c18eae96c6 100644
-> --- a/python/qemu/qtest.py
-> +++ b/python/qemu/qtest.py
-> @@ -111,6 +111,7 @@ class QEMUQtestMachine(QEMUMachine):
->       def __init__(self,
->                    binary: str,
->                    args: Sequence[str] = (),
-> +                 wrapper: Sequence[str] = (),
->                    name: Optional[str] = None,
->                    test_dir: str = "/var/tmp",
->                    socket_scm_helper: Optional[str] = None,
-> @@ -119,7 +120,8 @@ def __init__(self,
->               name = "qemu-%d" % os.getpid()
->           if sock_dir is None:
->               sock_dir = test_dir
-> -        super().__init__(binary, args, name=name, test_dir=test_dir,
-> +        super().__init__(binary, args, wrapper=wrapper, name=name,
-> +                         test_dir=test_dir,
->                            socket_scm_helper=socket_scm_helper,
->                            sock_dir=sock_dir)
->           self._qtest: Optional[QEMUQtestProtocol] = None
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 1434a50cc4..b7e2370e7e 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -224,6 +224,14 @@ another application on the host may have locked the file, possibly leading to a
+>   test failure.  If using such devices are explicitly desired, consider adding
+>   ``locking=off`` option to disable image locking.
+>   
+> +Debugging a test case
+> +-----------------------
+> +QEMU iotests offers some options to debug a failing test, that can be
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+-,
+
+Max
+
+> +given as options to the ``check`` script:
+> +
+> +* ``-d`` (debug) just increases the logging verbosity, showing
+> +  for example the QMP commands and answers.
+> +
+>   Test case groups
+>   ----------------
+>   
+> 
 
 
