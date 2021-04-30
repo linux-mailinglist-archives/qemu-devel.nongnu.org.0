@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052A736FED1
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:43:10 +0200 (CEST)
-Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B3836FEC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:39:36 +0200 (CEST)
+Received: from localhost ([::1]:59554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWEO-0005bl-Qj
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57930)
+	id 1lcWAx-0003J0-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcVzd-00043W-10
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:27:54 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55978)
+ id 1lcW03-0004cG-A4
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:28:19 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcVza-0005HM-LH
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:27:52 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id n127so26335948wmb.5
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:27:49 -0700 (PDT)
+ id 1lcW01-0005Um-Ov
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 12:28:19 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ i21-20020a05600c3555b029012eae2af5d4so1998611wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gnnYrKly1sT0monoPu44e520fulazCIwH+PEWQIdUx0=;
- b=isQDtedFmsksWrx90sJbXgK+Wtp3Kl9CFl7LsWUMJJhWtxePid0H2hSEDfdoxefanK
- y9IioKXZbMc3KlgmGcndjrbp5n3LvfqnFBuB7I5npNLnFyLar3NpGJnbHBD8ghdAw5kp
- EsgIyMcqSHkNptXlT7qYHEVuOlzw/1hrQ7mOcMsJdvfMgr+kSGmstNPO4HvuDVlrzFgU
- P4dpaOseDvNKtfX9Iu7/i5K3uP5dVVENVvCrfjncOL2PijtvPQNBF/t7onW4Z41SEyz1
- i6T6FSsnfZ5SRKo+3k1OzmVoudULNKuoILZguyP0DpCr/+Pb56pILMHaGWHM+kE1tH6E
- YHLw==
+ bh=N/iCpIloddZcmo7M81/SYtO+doA5SALtCG6/F42TUjs=;
+ b=QkKC7K+kcJK3DqId/tYMa8U5Lii1Q1kAIE5Z58SH29Aoav02kOZJcGRVmVm8G7VyJ4
+ s91FJB8XYyRr4v9tL5PfwWNVexDIA9Gx2OkI+JCzViOQsTXAMrLwNcf4luyWTalxhqxy
+ yvETrY6taZlLT679XqsenBKkDe+Q/4+M8iMthMTmkQ5k2102Jv6o5B7oVoi0VEa0QoOe
+ TzM/fwZZ9SslyGl11GZkMCsahuMEzr6nGLww9lIG3PMGTjW23i8EOnhexVHHYKlb9YmB
+ Eo7Sw5nLL2DxznvmOatisRp9qaR/WvmPNRVLT27FWrNiaWrqrMd2Sk74MoNVtmRtelCV
+ eWtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gnnYrKly1sT0monoPu44e520fulazCIwH+PEWQIdUx0=;
- b=ke0s37jzf9oZ997uhDzh03voIPHPxR5buHlry15b5Zemmc8qUJU6QPAWB0aGHXjGbw
- 5AUhrCmkdQtNmOiBlYc5B0J0moJdYFSKXZDJusYi2mX1JVSs373eUTJqD87XcQPbJJSg
- 3ADJbdobSSae3kOjtwa0YEgkx9t3gBcS79/DL9SozYeU836DzGCUClo+8Wc0mi8aXhj5
- Cz3VoegYReXTysg+nB0iutP8E7tqW3trgGwAUgGZQ4yd/ixVlSMbqxNsUKr4BOu3KJM3
- 1olKFTkdyJId04JhwrDCb7ylqRp8lA8fSfrOdRM9Qtvx2fmJKaTEtY078c9rCKoGSBWm
- 4ycQ==
-X-Gm-Message-State: AOAM530E6vJDpGdoQjQtj/NfYaCRNkWy+CJjDKt3UHpO7tRDdW/tz9Ox
- AyMQgKWhjfTXw7nLXl3XjeUh4Y722VrSJ5B4
-X-Google-Smtp-Source: ABdhPJwTvPVfucSI1KtmvTDgP4ZZkZ+QuCL58z+Q0YmCPwN9AdkvgXifMW/U0DL1c2j7M5GwXEWjig==
-X-Received: by 2002:a1c:7501:: with SMTP id o1mr7097098wmc.65.1619800067968;
- Fri, 30 Apr 2021 09:27:47 -0700 (PDT)
+ bh=N/iCpIloddZcmo7M81/SYtO+doA5SALtCG6/F42TUjs=;
+ b=PvvML2RdvoyjkBr8g46MhAEdQi6uAfJitlu1iI41rieoV5wvWqnwWI6LeX0B+uP8qO
+ wlV1lYgofaWy9cxhlq0elgU5gCSYUo+pLMrhtkgIaRzQ7h2cCkY87MCGJ2AMc7C++rLk
+ Tr40TtEtaUzDCd2kuLJiXui/DTH9YVftWBL0z5BOKece6if6xwcOJ8v5to8M1hX7qLC9
+ rblo4Itc37krpOdWfJoPtd6H9okdTC9/36GgQ2lFT/f7Isu3aslY5ka1Hjfgsx0TePiF
+ ZvlJ3PjoEyJGwo4K4JQt1nt3gfqpHVW4fj7SZrs8Gs4MUhevrCr9bGuGvFrMrOrmuYaS
+ iF2g==
+X-Gm-Message-State: AOAM530520fISnjjIp35A6XAXen8mULg1EkokBWnzRGdvZ45YMak5XaY
+ q2+XHdZrP7BQq85Ej9M82aDxYatmsDvZ+L76
+X-Google-Smtp-Source: ABdhPJyk6qnwyVj9XWAkZBZz6PEg/48wUKDKD7FFSOHTm4BvUKi2etVhlB8M03G6mg996Ga8aJ8UCw==
+X-Received: by 2002:a1c:1f4f:: with SMTP id f76mr7057670wmf.14.1619800095216; 
+ Fri, 30 Apr 2021 09:28:15 -0700 (PDT)
 Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id f18sm11702926wmg.26.2021.04.30.09.27.46
+ by smtp.gmail.com with ESMTPSA id x8sm2756820wrs.25.2021.04.30.09.28.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 09:27:47 -0700 (PDT)
-Subject: Re: [PATCH v2 10/13] target/arm: Delete unused typedef
+ Fri, 30 Apr 2021 09:28:14 -0700 (PDT)
+Subject: Re: [PATCH v2 11/13] target/arm: Move NeonGenThreeOpEnvFn typedef to
+ translate.h
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210430132740.10391-1-peter.maydell@linaro.org>
- <20210430132740.10391-11-peter.maydell@linaro.org>
+ <20210430132740.10391-12-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f18c7c7c-b75d-6a79-518f-71b14a6a0fd4@amsat.org>
-Date: Fri, 30 Apr 2021 18:27:46 +0200
+Message-ID: <5900ea67-02ec-9646-bf40-20786e15bd8c@amsat.org>
+Date: Fri, 30 Apr 2021 18:28:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210430132740.10391-11-peter.maydell@linaro.org>
+In-Reply-To: <20210430132740.10391-12-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,13 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/30/21 3:27 PM, Peter Maydell wrote:
-> The VFPGenFixPointFn typedef is unused; delete it.
+> Move the NeonGenThreeOpEnvFn typedef to translate.h together
+> with the other similar typedefs.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate.c | 2 --
->  1 file changed, 2 deletions(-)
+>  target/arm/translate.h | 2 ++
+>  target/arm/translate.c | 3 ---
+>  2 files changed, 2 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
