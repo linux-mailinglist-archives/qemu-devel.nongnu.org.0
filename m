@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6A2370377
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:29:02 +0200 (CEST)
-Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAE6370382
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:32:20 +0200 (CEST)
+Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcbd7-0004r0-6M
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51332)
+	id 1lcbgJ-0006Ir-V2
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lcbc6-0004QN-Ue
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:27:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lcbc3-0007vf-T3
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:27:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619821673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sAZmsHV+0FR5h6OQ/ELT+vydk2Eye99tPqv3pjLTN8g=;
- b=FfEC6iepJSllRYGIo54lN9CS6iPacvhXy3jy1gz3JUxucNnLkJYzIgB5VTAtjxDAUEyOzP
- S4PwFCWySBNNDwfLkbkLNVR+Lcozafh8ylXAr9mUfv4q/Gf6bmYkNhBa8OeLbKv05CkhDL
- 06tREpjZRbmIPUCfrLSdzVO5Z97zI8k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-rLOZZS9XOK-FJXQ5FauFWw-1; Fri, 30 Apr 2021 18:27:51 -0400
-X-MC-Unique: rLOZZS9XOK-FJXQ5FauFWw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BFB88189C3;
- Fri, 30 Apr 2021 22:27:50 +0000 (UTC)
-Received: from localhost (ovpn-115-66.phx2.redhat.com [10.3.115.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CC922C167;
- Fri, 30 Apr 2021 22:27:50 +0000 (UTC)
-Date: Fri, 30 Apr 2021 18:27:49 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Like Xu <like.xu@linux.intel.com>
-Subject: Re: [PATCH v2] target/i386: add "-cpu, lbr-fmt=*" support to enable
- guest LBR
-Message-ID: <20210430222749.xane2ewbu6jka6fz@habkost.net>
-References: <20210427080948.439432-1-like.xu@linux.intel.com>
- <20210428211908.ysogzmzh2ulpajgq@habkost.net>
- <2dddf3ba-27d8-7297-1b70-16ca8e09088d@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcbdn-0005MN-Ly
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:29:43 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:39888)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcbdh-0000Tj-CK
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:29:43 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ z6-20020a17090a1706b0290155e8a752d8so2486816pjd.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zsEzWsN3pPAgjeAcvJd2z6Hy+m+c5yzeXbyLzkLCTvg=;
+ b=VjDfcIdJnsu0xjed6V+XRvDTA2c75GtrbhQ79s/XvCUc8UPvX5DFx7F0lR/fPKW2Gy
+ DPWBGQyNmSSSoilhjY1Cjy7EjD3gVxrT9xYMwJ99MnT9Q0xXBZddr7nca8g2ZicBq5ir
+ RHYEDF1NWMRfIoBd+KVvMboGCS7+gejGJ802Kt9ZK/VBHTPscX4HjrIjF/yVJ+WLcOL9
+ wn1BuKps2J02U/Jdrio0TyfHsXLImBM8ubGDRf7tjfM2Q82mEtnTKx1mhfZM3j4xOV42
+ +BbUwMwf5Bo6cEzNPfGgy25tZEmgPb6Lbf5qa9KilJa6Px69I9ew+8z597WQfIAiISK3
+ eAJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zsEzWsN3pPAgjeAcvJd2z6Hy+m+c5yzeXbyLzkLCTvg=;
+ b=bibPLPM/vgS7s7aHLfsOhjFCMaPWERpGtyPHi6Nd/f5kDtAJir+X7g3JW7NWykFFe0
+ mZwE6EAbgEGO/nnmADpzl4ecuOSHzcivHLuOzpzD/s//EptHnJFMJ27TjLaGq6qZhxdC
+ e088a+HzOt+wnPWf5A7+v9H3pILV//CRbZLZZ/7VymG3BSmAScKQ/J+Iya1BpI35fLGt
+ BuKPvUao5IKUbXbieMSWongKc//MdgFQ9MWgsj9bC2QtfXND5L0hq8/jbetoapbNBgq5
+ DrluE3YrOWP7N8dTSuajfi17snQdJ7sXUUssXATQCqhkFbg6ynv28gmeGq+RAS3oaymJ
+ Ru3Q==
+X-Gm-Message-State: AOAM533KbNpsE3AqoaGoL+p/IyKF99gG5uw+mMPbeoceEjlnMZ91je/9
+ +Sx+40R+byiBJs4bnN3HE18CsA==
+X-Google-Smtp-Source: ABdhPJwVmz+YbDU/lAw0cvD881PtzyA/U/qc9/UtnpanudopZ07pulj1Jqd6QovPaREn/tHSvNX3Ug==
+X-Received: by 2002:a17:90b:2394:: with SMTP id
+ mr20mr7277981pjb.167.1619821775752; 
+ Fri, 30 Apr 2021 15:29:35 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id e8sm2932244pfv.177.2021.04.30.15.29.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Apr 2021 15:29:35 -0700 (PDT)
+Subject: Re: [PATCH v3 25/30] target/ppc: Move ADDI, ADDIS to decodetree,
+ implement PADDI
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20210430011543.1017113-1-richard.henderson@linaro.org>
+ <20210430011543.1017113-26-richard.henderson@linaro.org>
+ <CP2PR80MB3668052FF0C559D6D092B0C7DA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+ <dbe523e8-3482-1ead-082a-7829c1551be9@linaro.org>
+ <CP2PR80MB366816D43C01D14799FB3325DA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+ <88c4159e-1272-43d7-b0c5-cbac16f8fbec@linaro.org>
+ <CP2PR80MB3668BB4E7E2F524D3BEAC18ADA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fabc793e-768d-5c4b-6158-0b67b83f4655@linaro.org>
+Date: Fri, 30 Apr 2021 15:29:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <2dddf3ba-27d8-7297-1b70-16ca8e09088d@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CP2PR80MB3668BB4E7E2F524D3BEAC18ADA5E9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,71 +96,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, wei.w.wang@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: "f4bug@amsat.org" <f4bug@amsat.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
+ Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 30, 2021 at 11:20:08AM +0800, Like Xu wrote:
-[...]
-> > > +    if (cpu->lbr_fmt) {
-> > > +        if (!cpu->enable_pmu) {
-> > > +            error_setg(errp, "LBR is unsupported since guest PMU is disabled.");
-> > > +            return;
-> > > +        }
-> > > +        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-> > 
-> > This doesn't seem right, as we should still do what the user
-> > asked for if "lbr-fmt=0" is used.
-> > 
-> > You need to differentiate "lbr-fmt=0" from "lbr-fmt not set"
-> > somehow.  I suggest initializing lbr_fmt to 0xFF by default,
-> > so you can override env->features[FEAT_PERF_CAPABILITIES]
-> > when lbr_fmt != 0xFF (even if lbr_fmt=0).
+On 4/30/21 1:32 PM, Luis Fernando Fujita Pires wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+>> On 4/30/21 11:45 AM, Luis Fernando Fujita Pires wrote:
+>>> I think we can already pass multiple files to decodetree.py and it will handle
+>> them correctly. I just didn't find a way to do that from the meson build files,
+>> which assume decodetree will always use a single input file.
+>>
+>> Oh, riscv does this via extra_args:.
+>>
+>> r~
 > 
-> 
-> > 
-> > Something like this:
-> > 
-> >    #define LBR_FMT_UNSET 0xff
-> >    ...
-> >    DEFINE_PROP_UINT8("lbr-fmt", X86CPU, lbr_fmt, LBR_FMT_UNSET)
-> >    ...
-> > 
-> >    void x86_cpu_realizefn(...)
-> >    {
-> >        ...
-> >        if (cpu->lbr_fmt != LBR_FMT_UNSET) {
-> >            if ((cpu->lbr_fmt & LBR_FMT_FMT) != cpu->lbr_fmt) {
-> >                error_setg(errp, "invalid lbr-fmt" ...);
-> >                return;
-> >            }
-> >            env->features[FEAT_PERF_CAPABILITIES] &= ~PERF_CAP_LBR_FMT;
-> >            env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-> >        }
-> >        /* If lbr_fmt == LBR_FMT_UNSET, the default value of env->features[]
-> >         * will be used as is (and it may depend on the "migratable" flag)
-> >         */
-> 
-> How about the user use "-cpu host,lbr-fmt=0xff" ?
-> 
-> The proposed code does nothing about warning or error,
-> but implicitly uses the the default value of env->features[]
-> 
-> Users may have an illusion that the "lbr-fmt=0xff" is a "valid" lbr-fmt
-> and it may enable guest LBR (depend on the "migratable" flag).
+> The build system probably will fail to detect that a rebuild is needed if the file passed in through extra_args is changed though, right?
 
-You are correct, lbr-fmt=0xff will be synonymous to "use default
-lbr-fmt", but this won't be obvious.
+Oh, true.  Good thing there are patches for riscv to remove that.  :-P
 
-You can avoid this by validating the user-provided value in a
-property setter.  Or you could just document that 0xff has a
-special meaning, to avoid a custom setter.  I believe custom
-setters are more likely to cause us problems in the future than
-users fiddling with obviously an invalid lbr-fmt value.
 
--- 
-Eduardo
-
+r~
 
