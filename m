@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3137137036E
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:21:20 +0200 (CEST)
-Received: from localhost ([::1]:52510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E316B370371
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 00:24:45 +0200 (CEST)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcbVf-0001fp-AR
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
+	id 1lcbYz-0003n6-0C
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 18:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcbU9-0000rI-Up
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:19:46 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44023)
+ id 1lcbY9-0003Fv-MX
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:23:53 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcbU5-0003GS-T2
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:19:45 -0400
-Received: by mail-ej1-x636.google.com with SMTP id l4so107393791ejc.10
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:19:41 -0700 (PDT)
+ id 1lcbY7-0005ds-UM
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 18:23:53 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ j3-20020a05600c4843b02901484662c4ebso735107wmo.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 15:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s69swnRzpykzAej4Nz/f6AqqvO7/sIYFPkzweVc94/E=;
- b=ClnAPmgfFZs0OSs8iQSKI5oTyOt8pxnKRXsQNGO9Ar7MGZ+V4Kl8hCNvGuwv0XHixp
- n6f9XGs1ldx9dSeSrAUh43JLFzd54a1zrWBsW2IlUkOpXLMKAX01U7qfdNN3UUbPqrhF
- euBSgTUrTYmARwbUbOtYU9tTqZCeCDhRVR82GND6STPTSh/1KiZ9YcheyOZyK8J/zE0E
- 03MkmoEKTNlFQpO0QlidtzAhNrRFyMSG2FKV7VzfNGnDYC+ZdgPSsSk3YAUYZ5iCBlKl
- 8OeNswcD5FCgYao51FfWI9E5RTYHl7J7SL8kK+ji1kYTbi1ZnqqX0Wvj79qZLUf1PsuR
- 5DNw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U+20hUiagOV8D+dhZIu/lGuSxoJFQH5E6+upCy4ag+4=;
+ b=DUDhqmD8zgoZstFcUG323aqCjVEIQhrsA0NCP2lyR7DyAuW4KySlkcgETz2B7uuAiA
+ uwbL166GuBUwP69XZG/foYWjGb+NV1bCglt64Q4Qrj+EbYFCd642R8Nsu3OpJqqFG8OR
+ OKilsSSSTPcpDbcKnOr+YS80Y3bVu33dm8ib6ht5C7Wwhtb/5ldpcBTLC13VP+FOnnih
+ RuGCrSmF2+3ApyyWqtNn+Ssd7xFMh9dmmJZzFY50ug7RzcwHUlDMaHQb+ASn4tg6vs2k
+ 32OQlZv0QQEQXzDqA6Uh4riGtJc+EyaS6OcRb1Kq7LtDtasKja2SHeL6lxy4Y6gCeh9e
+ GabA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s69swnRzpykzAej4Nz/f6AqqvO7/sIYFPkzweVc94/E=;
- b=hW8KVfQ9E0bIFR9CH5Wqt/dp85qKl47YekwX4NKbyCzhd5xKDd2ql4LRcQXdSP6BpC
- MO3IVVVktcapldhgkAyF2IjNrJM67qq+x9ZBnOTkeO3rUDBqjKqc4YToI3n5Bf79TXFE
- 2Md4A+TtiKOmNlMIxsMtboX3T++2sEk1AHBffTUKOsxsfF2JjULXaUcpA2wtAtP4KCb+
- H75KRzTAP85PUn184IXZ1Y2S/qY/sMgW4QquO6DzNnZ61mYYLB2ttd0QfcH1ak3fj0qB
- lPBS9gzXV8C79qxisAne4l/JSnGwYyQINqFdt1c/uQFgiLNFi/bqCtawE2/xRLTa/Cuq
- g4Hw==
-X-Gm-Message-State: AOAM5331GZBGfwKBIcE0+l7OiFyny8AMBp7jG8eGXxTJ4g43ZlhOHQy7
- m+UYz3hQXSNRv7d78v8f2qZW3ECaQpXCQSjN+K9XdQ==
-X-Google-Smtp-Source: ABdhPJwz+SWyWY3rjzzYsDU+AzgpubafAxFh2SbY+59aGI/sfgqV5w1a/OvSPdseSgb/3au99Ge+ZF/PNfQO0wAOeBo=
-X-Received: by 2002:a17:906:6d41:: with SMTP id
- a1mr6730786ejt.482.1619821180423; 
- Fri, 30 Apr 2021 15:19:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210430163309.4182922-1-clg@kaod.org>
- <CAFEAcA9qz1SLh5Ws7C-xUqvnCJWfFyjjwc8STj4mdUxmCw0spw@mail.gmail.com>
-In-Reply-To: <CAFEAcA9qz1SLh5Ws7C-xUqvnCJWfFyjjwc8STj4mdUxmCw0spw@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U+20hUiagOV8D+dhZIu/lGuSxoJFQH5E6+upCy4ag+4=;
+ b=Kwg6u9ltWiChQzRZ2E+RbA4jezlyWizFVEiI9FPld8ARw72f5w7E9It90yLhvIxqD2
+ KnIn4fvVoQQeT4o+tp9WzoTxLRXv9x2LT63GIJTnfY4bw+PSuKJDh1KGk+8NGCNfEx9I
+ oLYyBcf1/4PzS9wS82SsptzYAEUZOxSWAU0GxWMwyoR6N008fXVjTxB5n3/RpU4sb9Et
+ NIN6cYU/d8RDO/enfBt0kzJHEZwq0XPfjTH8g56XHfKvEplNQzWarnzG3ufnAkwy8UIj
+ sC9PjwoCk5dD3sDlGm1TwyhNK8WCt+Z5Z8yCUXEW8be7yexJNKooERTZ5fecS+s1B4no
+ KvNg==
+X-Gm-Message-State: AOAM532+sysBqAw7gk7UFHW3S73iSLTii9Yxq8XNBx0KAzDnigRZbGzX
+ Jxoq+Qy5XJbGZ58cBP62id8mDw==
+X-Google-Smtp-Source: ABdhPJwvngFjlLgNo2u5aWQ8NaGdYg1i3KuUBeajC7aBAjgsEnXHs06eJBJ8Z5OoxNlFxM188j3s7w==
+X-Received: by 2002:a05:600c:b4c:: with SMTP id
+ k12mr18949797wmr.186.1619821430395; 
+ Fri, 30 Apr 2021 15:23:50 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p18sm3719208wrs.68.2021.04.30.15.23.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Apr 2021 15:23:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Apr 2021 23:18:38 +0100
-Message-ID: <CAFEAcA_2fuec2KiY=ayUf6e1y-nEuBtdU4KwL5un_mgaBaXrcw@mail.gmail.com>
-Subject: Re: [PULL 00/18] aspeed queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/sd/omap_mmc: Use device_cold_reset() instead of
+ device_legacy_reset()
+Date: Fri, 30 Apr 2021 23:23:48 +0100
+Message-Id: <20210430222348.8514-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,32 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 23:17, Peter Maydell <peter.maydell@linaro.org> wrote:
-> Same thing is also a build failure on 32-bit hosts (where the types
-> are genuinely different sizes):
->
-> ../../hw/misc/aspeed_hace.c: In function 'do_hash_operation':
-> ../../hw/misc/aspeed_hace.c:128:49: error: passing argument 3 of
-> 'address_space_map' from incompatible pointer type
-> [-Werror=incompatible-pointer-types]
->                                                  &iov[i].iov_len, false,
->                                                  ^
-> In file included from /home/peter.maydell/qemu/include/hw/sysbus.h:7:0,
->                  from /home/peter.maydell/qemu/include/hw/misc/aspeed_hace.h:12,
->                  from ../../hw/misc/aspeed_hace.c:14:
-> /home/peter.maydell/qemu/include/exec/memory.h:2438:7: note: expected
-> 'hwaddr * {aka long long unsigned int *}' but argument is of type
-> 'size_t * {aka unsigned int *}'
->  void *address_space_map(AddressSpace *as, hwaddr addr,
->        ^~~~~~~~~~~~~~~~~
+The omap_mmc_reset() function resets its SD card via
+device_legacy_reset().  We know that the SD card does not have a qbus
+of its own, so the new device_cold_reset() function (which resets
+both the device and its child buses) is equivalent here to
+device_legacy_reset() and we can just switch to the new API.
 
-If you like you can repro this on the gitlab CI where we have
-cross-build jobs for the 32-bit targets, eg:
-https://gitlab.com/qemu-project/qemu/-/jobs/1227559504
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+cc'ing Markus who was interested in conversions away from
+the legacy API. As warned, the conversion patch itself is
+not very interesting as the difficulty is all in confirming
+that the device being reset has no qbuses...
 
--- PMM
+ hw/sd/omap_mmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
+index 1f946908fe1..b67def63813 100644
+--- a/hw/sd/omap_mmc.c
++++ b/hw/sd/omap_mmc.c
+@@ -318,7 +318,7 @@ void omap_mmc_reset(struct omap_mmc_s *host)
+      * into any bus, and we must reset it manually. When omap_mmc is
+      * QOMified this must move into the QOM reset function.
+      */
+-    device_legacy_reset(DEVICE(host->card));
++    device_cold_reset(DEVICE(host->card));
+ }
+ 
+ static uint64_t omap_mmc_read(void *opaque, hwaddr offset,
+-- 
+2.20.1
+
 
