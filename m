@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8B436FBA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 15:41:04 +0200 (CEST)
-Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ABD236FB9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 15:38:15 +0200 (CEST)
+Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcTOB-0001gu-0b
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 09:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37286)
+	id 1lcTLS-0007F7-JU
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 09:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcSzf-0008KY-Bm
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:15:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55200)
+ id 1lcSze-0008Im-0c
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:15:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcSzb-0005Rc-J9
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:15:43 -0400
+ id 1lcSzb-0005Rk-JY
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:15:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcSzZ-0000ae-7c
+ id 1lcSzZ-0000an-Md
  for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 18D1C2E815D
+ by loganberry.canonical.com (Postfix) with ESMTP id 934C42E815D
  for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:15:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 13:06:39 -0000
+Date: Fri, 30 Apr 2021 13:07:09 -0000
 From: Peter Maydell <1926759@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: muhui pmaydell
 X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
-Message-Id: <161978799999.13872.740841507041177543.malone@wampee.canonical.com>
+Message-Id: <161978802953.14164.8117563437212788134.malone@wampee.canonical.com>
 Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 34b193ff80bb8cc4ae84e6ae4f0f82214ee27a38
+X-Launchpad-Hash: ab0022e0d4fa60fbf628f3bf0a61421465918635
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,7 +74,7 @@ Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please provide a test case binary and your QEMU command line.
+Oh, and the QEMU version you're using as well, please.
 
 -- =
 
