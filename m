@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4FE36FEE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:50:00 +0200 (CEST)
-Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4A036FEF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 18:55:19 +0200 (CEST)
+Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcWL1-0003xw-AB
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59434)
+	id 1lcWQA-00017w-HA
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 12:55:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lcW5I-00011W-0M; Fri, 30 Apr 2021 12:33:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48938)
+ id 1lcW5A-0000sW-Gp; Fri, 30 Apr 2021 12:33:36 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lcW5F-00074U-D6; Fri, 30 Apr 2021 12:33:43 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1lcW55-00072x-6n; Fri, 30 Apr 2021 12:33:36 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13UGPcej154219; Fri, 30 Apr 2021 12:33:21 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 388n2h8x39-1
+ 13UGXGOO051802; Fri, 30 Apr 2021 12:33:23 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 388m5nu4mb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 12:33:20 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UGNKbp023585;
- Fri, 30 Apr 2021 16:33:19 GMT
+ Fri, 30 Apr 2021 12:33:23 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13UGXMsH053039;
+ Fri, 30 Apr 2021 12:33:22 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 388m5nu4kg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Apr 2021 12:33:22 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UGPZA4025311;
+ Fri, 30 Apr 2021 16:33:20 GMT
 Received: from b06cxnps4076.portsmouth.uk.ibm.com
  (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 384ay8kapk-1
+ by ppma04fra.de.ibm.com with ESMTP id 384ay8hu7s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 16:33:18 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
+ Fri, 30 Apr 2021 16:33:20 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
  by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13UGXG3w27132226
+ 13UGXH9F26280256
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Apr 2021 16:33:16 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 586F142059;
- Fri, 30 Apr 2021 16:33:16 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E34554204C;
- Fri, 30 Apr 2021 16:33:15 +0000 (GMT)
+ Fri, 30 Apr 2021 16:33:17 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D70DF11C052;
+ Fri, 30 Apr 2021 16:33:17 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 74F1811C050;
+ Fri, 30 Apr 2021 16:33:17 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 30 Apr 2021 16:33:15 +0000 (GMT)
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 30 Apr 2021 16:33:17 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.40.192])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id CED6E22016C;
- Fri, 30 Apr 2021 18:33:14 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id A571422016C;
+ Fri, 30 Apr 2021 18:33:16 +0200 (CEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 06/18] hw: Model ASPEED's Hash and Crypto Engine
-Date: Fri, 30 Apr 2021 18:33:06 +0200
-Message-Id: <20210430163309.4182922-7-clg@kaod.org>
+Subject: [PULL 08/18] tests/qtest: Add test for Aspeed HACE
+Date: Fri, 30 Apr 2021 18:33:08 +0200
+Message-Id: <20210430163309.4182922-9-clg@kaod.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210430163309.4182922-1-clg@kaod.org>
 References: <20210430163309.4182922-1-clg@kaod.org>
@@ -63,19 +70,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: t2jTU1u97e43TVU9SlGGcoD--867gqjs
-X-Proofpoint-ORIG-GUID: t2jTU1u97e43TVU9SlGGcoD--867gqjs
+X-Proofpoint-GUID: afiMGT3w6PH05I_kFkc2KYZ4LNZ8xu0X
+X-Proofpoint-ORIG-GUID: esdE0m8RRKEbFVo-UcYrz4rmIkhK_wV1
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-30_10:2021-04-30,
  2021-04-30 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- mlxscore=0 mlxlogscore=999 lowpriorityscore=0 suspectscore=0 adultscore=0
- clxscore=1034 impostorscore=0 priorityscore=1501 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104300108
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+ clxscore=1034
+ priorityscore=1501 suspectscore=0 mlxscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104060000 definitions=main-2104300109
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,8 +101,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>
@@ -104,521 +110,579 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-The HACE (Hash and Crypto Engine) is a device that offloads MD5, SHA1,
-SHA2, RSA and other cryptographic algorithms.
+This adds a test for the Aspeed Hash and Crypto (HACE) engine. It tests
+the currently implemented behavior of the hash functionality.
 
-This initial model implements a subset of the device's functionality;
-currently only MD5/SHA hashing, and on the ast2600's scatter gather
-engine.
+The tests are similar, but are cut/pasted instead of broken out into a
+common function so the assert machinery produces useful output when a
+test fails.
 
+Co-developed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Co-developed-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-Message-Id: <20210409000253.1475587-2-joel@jms.id.au>
+Message-Id: <20210409000253.1475587-4-joel@jms.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- docs/system/arm/aspeed.rst    |   1 +
- include/hw/misc/aspeed_hace.h |  43 ++++
- hw/misc/aspeed_hace.c         | 389 ++++++++++++++++++++++++++++++++++
- hw/misc/meson.build           |   1 +
- 4 files changed, 434 insertions(+)
- create mode 100644 include/hw/misc/aspeed_hace.h
- create mode 100644 hw/misc/aspeed_hace.c
+ tests/qtest/aspeed_hace-test.c | 469 +++++++++++++++++++++++++++++++++
+ MAINTAINERS                    |   1 +
+ tests/qtest/meson.build        |   3 +
+ 3 files changed, 473 insertions(+)
+ create mode 100644 tests/qtest/aspeed_hace-test.c
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index d1fb8f25b39c..23a1468cd175 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -49,6 +49,7 @@ Supported devices
-  * Ethernet controllers
-  * Front LEDs (PCA9552 on I2C bus)
-  * LPC Peripheral Controller (a subset of subdevices are supported)
-+ * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
-=20
-=20
- Missing devices
-diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.=
-h
+diff --git a/tests/qtest/aspeed_hace-test.c b/tests/qtest/aspeed_hace-tes=
+t.c
 new file mode 100644
-index 000000000000..94d5ada95fa2
+index 000000000000..09ee31545e41
 --- /dev/null
-+++ b/include/hw/misc/aspeed_hace.h
-@@ -0,0 +1,43 @@
++++ b/tests/qtest/aspeed_hace-test.c
+@@ -0,0 +1,469 @@
 +/*
-+ * ASPEED Hash and Crypto Engine
-+ *
-+ * Copyright (C) 2021 IBM Corp.
++ * QTest testcase for the ASPEED Hash and Crypto Engine
 + *
 + * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef ASPEED_HACE_H
-+#define ASPEED_HACE_H
-+
-+#include "hw/sysbus.h"
-+
-+#define TYPE_ASPEED_HACE "aspeed.hace"
-+#define TYPE_ASPEED_AST2400_HACE TYPE_ASPEED_HACE "-ast2400"
-+#define TYPE_ASPEED_AST2500_HACE TYPE_ASPEED_HACE "-ast2500"
-+#define TYPE_ASPEED_AST2600_HACE TYPE_ASPEED_HACE "-ast2600"
-+OBJECT_DECLARE_TYPE(AspeedHACEState, AspeedHACEClass, ASPEED_HACE)
-+
-+#define ASPEED_HACE_NR_REGS (0x64 >> 2)
-+
-+struct AspeedHACEState {
-+    SysBusDevice parent;
-+
-+    MemoryRegion iomem;
-+    qemu_irq irq;
-+
-+    uint32_t regs[ASPEED_HACE_NR_REGS];
-+
-+    MemoryRegion *dram_mr;
-+    AddressSpace dram_as;
-+};
-+
-+
-+struct AspeedHACEClass {
-+    SysBusDeviceClass parent_class;
-+
-+    uint32_t src_mask;
-+    uint32_t dest_mask;
-+    uint32_t hash_mask;
-+};
-+
-+#endif /* _ASPEED_HACE_H_ */
-diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-new file mode 100644
-index 000000000000..be7f99ea7947
---- /dev/null
-+++ b/hw/misc/aspeed_hace.c
-@@ -0,0 +1,389 @@
-+/*
-+ * ASPEED Hash and Crypto Engine
-+ *
-+ * Copyright (C) 2021 IBM Corp.
-+ *
-+ * Joel Stanley <joel@jms.id.au>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Copyright 2021 IBM Corp.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "hw/misc/aspeed_hace.h"
-+#include "qapi/error.h"
-+#include "migration/vmstate.h"
-+#include "crypto/hash.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/irq.h"
 +
-+#define R_CRYPT_CMD     (0x10 / 4)
++#include "libqos/libqtest.h"
++#include "qemu-common.h"
++#include "qemu/bitops.h"
 +
-+#define R_STATUS        (0x1c / 4)
-+#define HASH_IRQ        BIT(9)
-+#define CRYPT_IRQ       BIT(12)
-+#define TAG_IRQ         BIT(15)
++#define HACE_CMD                 0x10
++#define  HACE_SHA_BE_EN          BIT(3)
++#define  HACE_MD5_LE_EN          BIT(2)
++#define  HACE_ALGO_MD5           0
++#define  HACE_ALGO_SHA1          BIT(5)
++#define  HACE_ALGO_SHA224        BIT(6)
++#define  HACE_ALGO_SHA256        (BIT(4) | BIT(6))
++#define  HACE_ALGO_SHA512        (BIT(5) | BIT(6))
++#define  HACE_ALGO_SHA384        (BIT(5) | BIT(6) | BIT(10))
++#define  HACE_SG_EN              BIT(18)
 +
-+#define R_HASH_SRC      (0x20 / 4)
-+#define R_HASH_DEST     (0x24 / 4)
-+#define R_HASH_SRC_LEN  (0x2c / 4)
++#define HACE_STS                 0x1c
++#define  HACE_RSA_ISR            BIT(13)
++#define  HACE_CRYPTO_ISR         BIT(12)
++#define  HACE_HASH_ISR           BIT(9)
++#define  HACE_RSA_BUSY           BIT(2)
++#define  HACE_CRYPTO_BUSY        BIT(1)
++#define  HACE_HASH_BUSY          BIT(0)
++#define HACE_HASH_SRC            0x20
++#define HACE_HASH_DIGEST         0x24
++#define HACE_HASH_KEY_BUFF       0x28
++#define HACE_HASH_DATA_LEN       0x2c
++#define HACE_HASH_CMD            0x30
++/* Scatter-Gather Hash */
++#define SG_LIST_LEN_LAST         BIT(31)
++struct AspeedSgList {
++        uint32_t len;
++        uint32_t addr;
++} __attribute__ ((__packed__));
 +
-+#define R_HASH_CMD      (0x30 / 4)
-+/* Hash algorithm selection */
-+#define  HASH_ALGO_MASK                 (BIT(4) | BIT(5) | BIT(6))
-+#define  HASH_ALGO_MD5                  0
-+#define  HASH_ALGO_SHA1                 BIT(5)
-+#define  HASH_ALGO_SHA224               BIT(6)
-+#define  HASH_ALGO_SHA256               (BIT(4) | BIT(6))
-+#define  HASH_ALGO_SHA512_SERIES        (BIT(5) | BIT(6))
-+/* SHA512 algorithm selection */
-+#define  SHA512_HASH_ALGO_MASK          (BIT(10) | BIT(11) | BIT(12))
-+#define  HASH_ALGO_SHA512_SHA512        0
-+#define  HASH_ALGO_SHA512_SHA384        BIT(10)
-+#define  HASH_ALGO_SHA512_SHA256        BIT(11)
-+#define  HASH_ALGO_SHA512_SHA224        (BIT(10) | BIT(11))
-+/* HMAC modes */
-+#define  HASH_HMAC_MASK                 (BIT(7) | BIT(8))
-+#define  HASH_DIGEST                    0
-+#define  HASH_DIGEST_HMAC               BIT(7)
-+#define  HASH_DIGEST_ACCUM              BIT(8)
-+#define  HASH_HMAC_KEY                  (BIT(7) | BIT(8))
-+/* Cascaded operation modes */
-+#define  HASH_ONLY                      0
-+#define  HASH_ONLY2                     BIT(0)
-+#define  HASH_CRYPT_THEN_HASH           BIT(1)
-+#define  HASH_HASH_THEN_CRYPT           (BIT(0) | BIT(1))
-+/* Other cmd bits */
-+#define  HASH_IRQ_EN                    BIT(9)
-+#define  HASH_SG_EN                     BIT(18)
-+/* Scatter-gather data list */
-+#define SG_LIST_LEN_SIZE                4
-+#define SG_LIST_LEN_MASK                0x0FFFFFFF
-+#define SG_LIST_LEN_LAST                BIT(31)
-+#define SG_LIST_ADDR_SIZE               4
-+#define SG_LIST_ADDR_MASK               0x7FFFFFFF
-+#define SG_LIST_ENTRY_SIZE              (SG_LIST_LEN_SIZE + SG_LIST_ADDR=
-_SIZE)
-+#define ASPEED_HACE_MAX_SG              256        /* max number of entr=
-ies */
++/*
++ * Test vector is the ascii "abc"
++ *
++ * Expected results were generated using command line utitiles:
++ *
++ *  echo -n -e 'abc' | dd of=3D/tmp/test
++ *  for hash in sha512sum sha256sum md5sum; do $hash /tmp/test; done
++ *
++ */
++static const uint8_t test_vector[] =3D {0x61, 0x62, 0x63};
 +
-+static const struct {
-+    uint32_t mask;
-+    QCryptoHashAlgorithm algo;
-+} hash_algo_map[] =3D {
-+    { HASH_ALGO_MD5, QCRYPTO_HASH_ALG_MD5 },
-+    { HASH_ALGO_SHA1, QCRYPTO_HASH_ALG_SHA1 },
-+    { HASH_ALGO_SHA224, QCRYPTO_HASH_ALG_SHA224 },
-+    { HASH_ALGO_SHA256, QCRYPTO_HASH_ALG_SHA256 },
-+    { HASH_ALGO_SHA512_SERIES | HASH_ALGO_SHA512_SHA512, QCRYPTO_HASH_AL=
-G_SHA512 },
-+    { HASH_ALGO_SHA512_SERIES | HASH_ALGO_SHA512_SHA384, QCRYPTO_HASH_AL=
-G_SHA384 },
-+    { HASH_ALGO_SHA512_SERIES | HASH_ALGO_SHA512_SHA256, QCRYPTO_HASH_AL=
-G_SHA256 },
-+};
++static const uint8_t test_result_sha512[] =3D {
++    0xdd, 0xaf, 0x35, 0xa1, 0x93, 0x61, 0x7a, 0xba, 0xcc, 0x41, 0x73, 0x=
+49,
++    0xae, 0x20, 0x41, 0x31, 0x12, 0xe6, 0xfa, 0x4e, 0x89, 0xa9, 0x7e, 0x=
+a2,
++    0x0a, 0x9e, 0xee, 0xe6, 0x4b, 0x55, 0xd3, 0x9a, 0x21, 0x92, 0x99, 0x=
+2a,
++    0x27, 0x4f, 0xc1, 0xa8, 0x36, 0xba, 0x3c, 0x23, 0xa3, 0xfe, 0xeb, 0x=
+bd,
++    0x45, 0x4d, 0x44, 0x23, 0x64, 0x3c, 0xe8, 0x0e, 0x2a, 0x9a, 0xc9, 0x=
+4f,
++    0xa5, 0x4c, 0xa4, 0x9f};
 +
-+static int hash_algo_lookup(uint32_t reg)
++static const uint8_t test_result_sha256[] =3D {
++    0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea, 0x41, 0x41, 0x40, 0x=
+de,
++    0x5d, 0xae, 0x22, 0x23, 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x=
+9c,
++    0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad};
++
++static const uint8_t test_result_md5[] =3D {
++    0x90, 0x01, 0x50, 0x98, 0x3c, 0xd2, 0x4f, 0xb0, 0xd6, 0x96, 0x3f, 0x=
+7d,
++    0x28, 0xe1, 0x7f, 0x72};
++
++/*
++ * The Scatter-Gather Test vector is the ascii "abc" "def" "ghi", broken
++ * into blocks of 3 characters as shown
++ *
++ * Expected results were generated using command line utitiles:
++ *
++ *  echo -n -e 'abcdefghijkl' | dd of=3D/tmp/test
++ *  for hash in sha512sum sha256sum; do $hash /tmp/test; done
++ *
++ */
++static const uint8_t test_vector_sg1[] =3D {0x61, 0x62, 0x63, 0x64, 0x65=
+, 0x66};
++static const uint8_t test_vector_sg2[] =3D {0x67, 0x68, 0x69};
++static const uint8_t test_vector_sg3[] =3D {0x6a, 0x6b, 0x6c};
++
++static const uint8_t test_result_sg_sha512[] =3D {
++    0x17, 0x80, 0x7c, 0x72, 0x8e, 0xe3, 0xba, 0x35, 0xe7, 0xcf, 0x7a, 0x=
+f8,
++    0x23, 0x11, 0x6d, 0x26, 0xe4, 0x1e, 0x5d, 0x4d, 0x6c, 0x2f, 0xf1, 0x=
+f3,
++    0x72, 0x0d, 0x3d, 0x96, 0xaa, 0xcb, 0x6f, 0x69, 0xde, 0x64, 0x2e, 0x=
+63,
++    0xd5, 0xb7, 0x3f, 0xc3, 0x96, 0xc1, 0x2b, 0xe3, 0x8b, 0x2b, 0xd5, 0x=
+d8,
++    0x84, 0x25, 0x7c, 0x32, 0xc8, 0xf6, 0xd0, 0x85, 0x4a, 0xe6, 0xb5, 0x=
+40,
++    0xf8, 0x6d, 0xda, 0x2e};
++
++static const uint8_t test_result_sg_sha256[] =3D {
++    0xd6, 0x82, 0xed, 0x4c, 0xa4, 0xd9, 0x89, 0xc1, 0x34, 0xec, 0x94, 0x=
+f1,
++    0x55, 0x1e, 0x1e, 0xc5, 0x80, 0xdd, 0x6d, 0x5a, 0x6e, 0xcd, 0xe9, 0x=
+f3,
++    0xd3, 0x5e, 0x6e, 0x4a, 0x71, 0x7f, 0xbd, 0xe4};
++
++
++static void write_regs(QTestState *s, uint32_t base, uint32_t src,
++                       uint32_t length, uint32_t out, uint32_t method)
 +{
-+    int i;
-+
-+    reg &=3D HASH_ALGO_MASK | SHA512_HASH_ALGO_MASK;
-+
-+    for (i =3D 0; i < ARRAY_SIZE(hash_algo_map); i++) {
-+        if (reg =3D=3D hash_algo_map[i].mask) {
-+            return hash_algo_map[i].algo;
-+        }
-+    }
-+
-+    return -1;
++        qtest_writel(s, base + HACE_HASH_SRC, src);
++        qtest_writel(s, base + HACE_HASH_DIGEST, out);
++        qtest_writel(s, base + HACE_HASH_DATA_LEN, length);
++        qtest_writel(s, base + HACE_HASH_CMD, HACE_SHA_BE_EN | method);
 +}
 +
-+static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode=
-)
++static void test_md5(const char *machine, const uint32_t base,
++                     const uint32_t src_addr)
++
 +{
-+    struct iovec iov[ASPEED_HACE_MAX_SG];
-+    g_autofree uint8_t *digest_buf;
-+    size_t digest_len =3D 0;
-+    int i;
++    QTestState *s =3D qtest_init(machine);
 +
-+    if (sg_mode) {
-+        uint32_t len =3D 0;
++    uint32_t digest_addr =3D src_addr + 0x01000000;
++    uint8_t digest[16] =3D {0};
 +
-+        for (i =3D 0; !(len & SG_LIST_LEN_LAST); i++) {
-+            uint32_t addr, src;
++    /* Check engine is idle, no busy or irq bits set */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
 +
-+            if (i =3D=3D ASPEED_HACE_MAX_SG) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                        "aspeed_hace: guest failed to set end of sg list=
- marker\n");
-+                break;
-+            }
++    /* Write test vector into memory */
++    qtest_memwrite(s, src_addr, test_vector, sizeof(test_vector));
 +
-+            src =3D s->regs[R_HASH_SRC] + (i * SG_LIST_ENTRY_SIZE);
++    write_regs(s, base, src_addr, sizeof(test_vector), digest_addr, HACE=
+_ALGO_MD5);
 +
-+            len =3D address_space_ldl_le(&s->dram_as, src,
-+                                       MEMTXATTRS_UNSPECIFIED, NULL);
-+
-+            addr =3D address_space_ldl_le(&s->dram_as, src + SG_LIST_LEN=
-_SIZE,
-+                                        MEMTXATTRS_UNSPECIFIED, NULL);
-+            addr &=3D SG_LIST_ADDR_MASK;
-+
-+            iov[i].iov_len =3D len & SG_LIST_LEN_MASK;
-+            iov[i].iov_base =3D address_space_map(&s->dram_as,
-+                                                addr,
-+                                                &iov[i].iov_len, false,
-+                                                MEMTXATTRS_UNSPECIFIED);
-+        }
-+    } else {
-+        hwaddr len =3D s->regs[R_HASH_SRC_LEN];
-+
-+        iov[0].iov_len =3D len;
-+        iov[0].iov_base =3D address_space_map(&s->dram_as, s->regs[R_HAS=
-H_SRC],
-+                                            &len, false,
-+                                            MEMTXATTRS_UNSPECIFIED);
-+        i =3D 1;
-+    }
-+
-+    if (qcrypto_hash_bytesv(algo, iov, i, &digest_buf, &digest_len, NULL=
-) < 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__)=
++    /* Check hash IRQ status is asserted */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0x00000200)=
 ;
-+        return;
-+    }
 +
-+    if (address_space_write(&s->dram_as, s->regs[R_HASH_DEST],
-+                            MEMTXATTRS_UNSPECIFIED,
-+                            digest_buf, digest_len)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "aspeed_hace: address space write failed\n");
-+    }
++    /* Clear IRQ status and check status is deasserted */
++    qtest_writel(s, base + HACE_STS, 0x00000200);
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
 +
-+    for (; i > 0; i--) {
-+        address_space_unmap(&s->dram_as, iov[i - 1].iov_base,
-+                            iov[i - 1].iov_len, false,
-+                            iov[i - 1].iov_len);
-+    }
++    /* Read computed digest from memory */
++    qtest_memread(s, digest_addr, digest, sizeof(digest));
++
++    /* Check result of computation */
++    g_assert_cmpmem(digest, sizeof(digest),
++                    test_result_md5, sizeof(digest));
++
++    qtest_quit(s);
++}
++
++static void test_sha256(const char *machine, const uint32_t base,
++                        const uint32_t src_addr)
++{
++    QTestState *s =3D qtest_init(machine);
++
++    const uint32_t digest_addr =3D src_addr + 0x1000000;
++    uint8_t digest[32] =3D {0};
++
++    /* Check engine is idle, no busy or irq bits set */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Write test vector into memory */
++    qtest_memwrite(s, src_addr, test_vector, sizeof(test_vector));
++
++    write_regs(s, base, src_addr, sizeof(test_vector), digest_addr, HACE=
+_ALGO_SHA256);
++
++    /* Check hash IRQ status is asserted */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0x00000200)=
+;
++
++    /* Clear IRQ status and check status is deasserted */
++    qtest_writel(s, base + HACE_STS, 0x00000200);
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Read computed digest from memory */
++    qtest_memread(s, digest_addr, digest, sizeof(digest));
++
++    /* Check result of computation */
++    g_assert_cmpmem(digest, sizeof(digest),
++                    test_result_sha256, sizeof(digest));
++
++    qtest_quit(s);
++}
++
++static void test_sha512(const char *machine, const uint32_t base,
++                        const uint32_t src_addr)
++{
++    QTestState *s =3D qtest_init(machine);
++
++    const uint32_t digest_addr =3D src_addr + 0x1000000;
++    uint8_t digest[64] =3D {0};
++
++    /* Check engine is idle, no busy or irq bits set */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Write test vector into memory */
++    qtest_memwrite(s, src_addr, test_vector, sizeof(test_vector));
++
++    write_regs(s, base, src_addr, sizeof(test_vector), digest_addr, HACE=
+_ALGO_SHA512);
++
++    /* Check hash IRQ status is asserted */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0x00000200)=
+;
++
++    /* Clear IRQ status and check status is deasserted */
++    qtest_writel(s, base + HACE_STS, 0x00000200);
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Read computed digest from memory */
++    qtest_memread(s, digest_addr, digest, sizeof(digest));
++
++    /* Check result of computation */
++    g_assert_cmpmem(digest, sizeof(digest),
++                    test_result_sha512, sizeof(digest));
++
++    qtest_quit(s);
++}
++
++static void test_sha256_sg(const char *machine, const uint32_t base,
++                        const uint32_t src_addr)
++{
++    QTestState *s =3D qtest_init(machine);
++
++    const uint32_t src_addr_1 =3D src_addr + 0x1000000;
++    const uint32_t src_addr_2 =3D src_addr + 0x2000000;
++    const uint32_t src_addr_3 =3D src_addr + 0x3000000;
++    const uint32_t digest_addr =3D src_addr + 0x4000000;
++    uint8_t digest[32] =3D {0};
++    struct AspeedSgList array[] =3D {
++        {  cpu_to_le32(sizeof(test_vector_sg1)),
++           cpu_to_le32(src_addr_1) },
++        {  cpu_to_le32(sizeof(test_vector_sg2)),
++           cpu_to_le32(src_addr_2) },
++        {  cpu_to_le32(sizeof(test_vector_sg3) | SG_LIST_LEN_LAST),
++           cpu_to_le32(src_addr_3) },
++    };
++
++    /* Check engine is idle, no busy or irq bits set */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Write test vector into memory */
++    qtest_memwrite(s, src_addr_1, test_vector_sg1, sizeof(test_vector_sg=
+1));
++    qtest_memwrite(s, src_addr_2, test_vector_sg2, sizeof(test_vector_sg=
+2));
++    qtest_memwrite(s, src_addr_3, test_vector_sg3, sizeof(test_vector_sg=
+3));
++    qtest_memwrite(s, src_addr, array, sizeof(array));
++
++    write_regs(s, base, src_addr,
++               (sizeof(test_vector_sg1)
++                + sizeof(test_vector_sg2)
++                + sizeof(test_vector_sg3)),
++               digest_addr, HACE_ALGO_SHA256 | HACE_SG_EN);
++
++    /* Check hash IRQ status is asserted */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0x00000200)=
+;
++
++    /* Clear IRQ status and check status is deasserted */
++    qtest_writel(s, base + HACE_STS, 0x00000200);
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Read computed digest from memory */
++    qtest_memread(s, digest_addr, digest, sizeof(digest));
++
++    /* Check result of computation */
++    g_assert_cmpmem(digest, sizeof(digest),
++                    test_result_sg_sha256, sizeof(digest));
++
++    qtest_quit(s);
++}
++
++static void test_sha512_sg(const char *machine, const uint32_t base,
++                        const uint32_t src_addr)
++{
++    QTestState *s =3D qtest_init(machine);
++
++    const uint32_t src_addr_1 =3D src_addr + 0x1000000;
++    const uint32_t src_addr_2 =3D src_addr + 0x2000000;
++    const uint32_t src_addr_3 =3D src_addr + 0x3000000;
++    const uint32_t digest_addr =3D src_addr + 0x4000000;
++    uint8_t digest[64] =3D {0};
++    struct AspeedSgList array[] =3D {
++        {  cpu_to_le32(sizeof(test_vector_sg1)),
++           cpu_to_le32(src_addr_1) },
++        {  cpu_to_le32(sizeof(test_vector_sg2)),
++           cpu_to_le32(src_addr_2) },
++        {  cpu_to_le32(sizeof(test_vector_sg3) | SG_LIST_LEN_LAST),
++           cpu_to_le32(src_addr_3) },
++    };
++
++    /* Check engine is idle, no busy or irq bits set */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Write test vector into memory */
++    qtest_memwrite(s, src_addr_1, test_vector_sg1, sizeof(test_vector_sg=
+1));
++    qtest_memwrite(s, src_addr_2, test_vector_sg2, sizeof(test_vector_sg=
+2));
++    qtest_memwrite(s, src_addr_3, test_vector_sg3, sizeof(test_vector_sg=
+3));
++    qtest_memwrite(s, src_addr, array, sizeof(array));
++
++    write_regs(s, base, src_addr,
++               (sizeof(test_vector_sg1)
++                + sizeof(test_vector_sg2)
++                + sizeof(test_vector_sg3)),
++               digest_addr, HACE_ALGO_SHA512 | HACE_SG_EN);
++
++    /* Check hash IRQ status is asserted */
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0x00000200)=
+;
++
++    /* Clear IRQ status and check status is deasserted */
++    qtest_writel(s, base + HACE_STS, 0x00000200);
++    g_assert_cmphex(qtest_readl(s, base + HACE_STS), =3D=3D, 0);
++
++    /* Read computed digest from memory */
++    qtest_memread(s, digest_addr, digest, sizeof(digest));
++
++    /* Check result of computation */
++    g_assert_cmpmem(digest, sizeof(digest),
++                    test_result_sg_sha512, sizeof(digest));
++
++    qtest_quit(s);
++}
++
++struct masks {
++    uint32_t src;
++    uint32_t dest;
++    uint32_t len;
++};
++
++static const struct masks ast2600_masks =3D {
++    .src  =3D 0x7fffffff,
++    .dest =3D 0x7ffffff8,
++    .len  =3D 0x0fffffff,
++};
++
++static const struct masks ast2500_masks =3D {
++    .src  =3D 0x3fffffff,
++    .dest =3D 0x3ffffff8,
++    .len  =3D 0x0fffffff,
++};
++
++static const struct masks ast2400_masks =3D {
++    .src  =3D 0x0fffffff,
++    .dest =3D 0x0ffffff8,
++    .len  =3D 0x0fffffff,
++};
++
++static void test_addresses(const char *machine, const uint32_t base,
++                           const struct masks *expected)
++{
++    QTestState *s =3D qtest_init(machine);
 +
 +    /*
-+     * Set status bits to indicate completion. Testing shows hardware se=
-ts
-+     * these irrespective of HASH_IRQ_EN.
++     * Check command mode is zero, meaning engine is in direct access mo=
+de,
++     * as this affects the masking behavior of the HASH_SRC register.
 +     */
-+    s->regs[R_STATUS] |=3D HASH_IRQ;
++    g_assert_cmphex(qtest_readl(s, base + HACE_CMD), =3D=3D, 0);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_SRC), =3D=3D, 0);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DIGEST), =3D=3D, 0);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DATA_LEN), =3D=3D, 0=
+);
++
++
++    /* Check that the address masking is correct */
++    qtest_writel(s, base + HACE_HASH_SRC, 0xffffffff);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_SRC), =3D=3D, expect=
+ed->src);
++
++    qtest_writel(s, base + HACE_HASH_DIGEST, 0xffffffff);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DIGEST), =3D=3D, exp=
+ected->dest);
++
++    qtest_writel(s, base + HACE_HASH_DATA_LEN, 0xffffffff);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DATA_LEN), =3D=3D, e=
+xpected->len);
++
++    /* Reset to zero */
++    qtest_writel(s, base + HACE_HASH_SRC, 0);
++    qtest_writel(s, base + HACE_HASH_DIGEST, 0);
++    qtest_writel(s, base + HACE_HASH_DATA_LEN, 0);
++
++    /* Check that all bits are now zero */
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_SRC), =3D=3D, 0);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DIGEST), =3D=3D, 0);
++    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DATA_LEN), =3D=3D, 0=
+);
++
++    qtest_quit(s);
 +}
 +
-+static uint64_t aspeed_hace_read(void *opaque, hwaddr addr, unsigned int=
- size)
++/* ast2600 */
++static void test_md5_ast2600(void)
 +{
-+    AspeedHACEState *s =3D ASPEED_HACE(opaque);
-+
-+    addr >>=3D 2;
-+
-+    if (addr >=3D ASPEED_HACE_NR_REGS) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx=
- "\n",
-+                      __func__, addr << 2);
-+        return 0;
-+    }
-+
-+    return s->regs[addr];
++    test_md5("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
 +}
 +
-+static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-+                              unsigned int size)
++static void test_sha256_ast2600(void)
 +{
-+    AspeedHACEState *s =3D ASPEED_HACE(opaque);
-+    AspeedHACEClass *ahc =3D ASPEED_HACE_GET_CLASS(s);
-+
-+    addr >>=3D 2;
-+
-+    if (addr >=3D ASPEED_HACE_NR_REGS) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRI=
-x "\n",
-+                      __func__, addr << 2);
-+        return;
-+    }
-+
-+    switch (addr) {
-+    case R_STATUS:
-+        if (data & HASH_IRQ) {
-+            data &=3D ~HASH_IRQ;
-+
-+            if (s->regs[addr] & HASH_IRQ) {
-+                qemu_irq_lower(s->irq);
-+            }
-+        }
-+        break;
-+    case R_HASH_SRC:
-+        data &=3D ahc->src_mask;
-+        break;
-+    case R_HASH_DEST:
-+        data &=3D ahc->dest_mask;
-+        break;
-+    case R_HASH_SRC_LEN:
-+        data &=3D 0x0FFFFFFF;
-+        break;
-+    case R_HASH_CMD: {
-+        int algo;
-+        data &=3D ahc->hash_mask;
-+
-+        if ((data & HASH_HMAC_MASK)) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: HMAC engine command mode %"PRIx64" not im=
-plemented",
-+                          __func__, (data & HASH_HMAC_MASK) >> 8);
-+        }
-+        if (data & BIT(1)) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: Cascaded mode not implemented",
-+                          __func__);
-+        }
-+        algo =3D hash_algo_lookup(data);
-+        if (algo < 0) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                        "%s: Invalid hash algorithm selection 0x%"PRIx64=
-"\n",
-+                        __func__, data & ahc->hash_mask);
-+                break;
-+        }
-+        do_hash_operation(s, algo, data & HASH_SG_EN);
-+
-+        if (data & HASH_IRQ_EN) {
-+            qemu_irq_raise(s->irq);
-+        }
-+        break;
-+    }
-+    case R_CRYPT_CMD:
-+        qemu_log_mask(LOG_UNIMP, "%s: Crypt commands not implemented\n",
-+                       __func__);
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    s->regs[addr] =3D data;
++    test_sha256("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
 +}
 +
-+static const MemoryRegionOps aspeed_hace_ops =3D {
-+    .read =3D aspeed_hace_read,
-+    .write =3D aspeed_hace_write,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-+    .valid =3D {
-+        .min_access_size =3D 1,
-+        .max_access_size =3D 4,
-+    },
-+};
-+
-+static void aspeed_hace_reset(DeviceState *dev)
++static void test_sha256_sg_ast2600(void)
 +{
-+    struct AspeedHACEState *s =3D ASPEED_HACE(dev);
-+
-+    memset(s->regs, 0, sizeof(s->regs));
++    test_sha256_sg("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
 +}
 +
-+static void aspeed_hace_realize(DeviceState *dev, Error **errp)
++static void test_sha512_ast2600(void)
 +{
-+    AspeedHACEState *s =3D ASPEED_HACE(dev);
-+    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-+
-+    sysbus_init_irq(sbd, &s->irq);
-+
-+    memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_hace_ops, s,
-+            TYPE_ASPEED_HACE, 0x1000);
-+
-+    if (!s->dram_mr) {
-+        error_setg(errp, TYPE_ASPEED_HACE ": 'dram' link not set");
-+        return;
-+    }
-+
-+    address_space_init(&s->dram_as, s->dram_mr, "dram");
-+
-+    sysbus_init_mmio(sbd, &s->iomem);
++    test_sha512("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
 +}
 +
-+static Property aspeed_hace_properties[] =3D {
-+    DEFINE_PROP_LINK("dram", AspeedHACEState, dram_mr,
-+                     TYPE_MEMORY_REGION, MemoryRegion *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+
-+static const VMStateDescription vmstate_aspeed_hace =3D {
-+    .name =3D TYPE_ASPEED_HACE,
-+    .version_id =3D 1,
-+    .minimum_version_id =3D 1,
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, AspeedHACEState, ASPEED_HACE_NR_REGS)=
-,
-+        VMSTATE_END_OF_LIST(),
-+    }
-+};
-+
-+static void aspeed_hace_class_init(ObjectClass *klass, void *data)
++static void test_sha512_sg_ast2600(void)
 +{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+
-+    dc->realize =3D aspeed_hace_realize;
-+    dc->reset =3D aspeed_hace_reset;
-+    device_class_set_props(dc, aspeed_hace_properties);
-+    dc->vmsd =3D &vmstate_aspeed_hace;
++    test_sha512_sg("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
 +}
 +
-+static const TypeInfo aspeed_hace_info =3D {
-+    .name =3D TYPE_ASPEED_HACE,
-+    .parent =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size =3D sizeof(AspeedHACEState),
-+    .class_init =3D aspeed_hace_class_init,
-+    .class_size =3D sizeof(AspeedHACEClass)
-+};
-+
-+static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *dat=
-a)
++static void test_addresses_ast2600(void)
 +{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedHACEClass *ahc =3D ASPEED_HACE_CLASS(klass);
-+
-+    dc->desc =3D "AST2400 Hash and Crypto Engine";
-+
-+    ahc->src_mask =3D 0x0FFFFFFF;
-+    ahc->dest_mask =3D 0x0FFFFFF8;
-+    ahc->hash_mask =3D 0x000003ff; /* No SG or SHA512 modes */
++    test_addresses("-machine ast2600-evb", 0x1e6d0000, &ast2600_masks);
 +}
 +
-+static const TypeInfo aspeed_ast2400_hace_info =3D {
-+    .name =3D TYPE_ASPEED_AST2400_HACE,
-+    .parent =3D TYPE_ASPEED_HACE,
-+    .class_init =3D aspeed_ast2400_hace_class_init,
-+};
-+
-+static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *dat=
-a)
++/* ast2500 */
++static void test_md5_ast2500(void)
 +{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedHACEClass *ahc =3D ASPEED_HACE_CLASS(klass);
-+
-+    dc->desc =3D "AST2500 Hash and Crypto Engine";
-+
-+    ahc->src_mask =3D 0x3fffffff;
-+    ahc->dest_mask =3D 0x3ffffff8;
-+    ahc->hash_mask =3D 0x000003ff; /* No SG or SHA512 modes */
++    test_md5("-machine ast2500-evb", 0x1e6e3000, 0x80000000);
 +}
 +
-+static const TypeInfo aspeed_ast2500_hace_info =3D {
-+    .name =3D TYPE_ASPEED_AST2500_HACE,
-+    .parent =3D TYPE_ASPEED_HACE,
-+    .class_init =3D aspeed_ast2500_hace_class_init,
-+};
-+
-+static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *dat=
-a)
++static void test_sha256_ast2500(void)
 +{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedHACEClass *ahc =3D ASPEED_HACE_CLASS(klass);
-+
-+    dc->desc =3D "AST2600 Hash and Crypto Engine";
-+
-+    ahc->src_mask =3D 0x7FFFFFFF;
-+    ahc->dest_mask =3D 0x7FFFFFF8;
-+    ahc->hash_mask =3D 0x00147FFF;
++    test_sha256("-machine ast2500-evb", 0x1e6e3000, 0x80000000);
 +}
 +
-+static const TypeInfo aspeed_ast2600_hace_info =3D {
-+    .name =3D TYPE_ASPEED_AST2600_HACE,
-+    .parent =3D TYPE_ASPEED_HACE,
-+    .class_init =3D aspeed_ast2600_hace_class_init,
-+};
-+
-+static void aspeed_hace_register_types(void)
++static void test_sha512_ast2500(void)
 +{
-+    type_register_static(&aspeed_ast2400_hace_info);
-+    type_register_static(&aspeed_ast2500_hace_info);
-+    type_register_static(&aspeed_ast2600_hace_info);
-+    type_register_static(&aspeed_hace_info);
++    test_sha512("-machine ast2500-evb", 0x1e6e3000, 0x80000000);
 +}
 +
-+type_init(aspeed_hace_register_types);
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 21034dc60a81..1e7b8b064bd1 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -109,6 +109,7 @@ softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: f=
-iles('pvpanic-isa.c'))
- softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c=
-'))
- softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-+  'aspeed_hace.c',
-   'aspeed_lpc.c',
-   'aspeed_scu.c',
-   'aspeed_sdmc.c',
++static void test_addresses_ast2500(void)
++{
++    test_addresses("-machine ast2500-evb", 0x1e6e3000, &ast2500_masks);
++}
++
++/* ast2400 */
++static void test_md5_ast2400(void)
++{
++    test_md5("-machine palmetto-bmc", 0x1e6e3000, 0x40000000);
++}
++
++static void test_sha256_ast2400(void)
++{
++    test_sha256("-machine palmetto-bmc", 0x1e6e3000, 0x40000000);
++}
++
++static void test_sha512_ast2400(void)
++{
++    test_sha512("-machine palmetto-bmc", 0x1e6e3000, 0x40000000);
++}
++
++static void test_addresses_ast2400(void)
++{
++    test_addresses("-machine palmetto-bmc", 0x1e6e3000, &ast2400_masks);
++}
++
++int main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("ast2600/hace/addresses", test_addresses_ast2600);
++    qtest_add_func("ast2600/hace/sha512", test_sha512_ast2600);
++    qtest_add_func("ast2600/hace/sha256", test_sha256_ast2600);
++    qtest_add_func("ast2600/hace/md5", test_md5_ast2600);
++
++    qtest_add_func("ast2600/hace/sha512_sg", test_sha512_sg_ast2600);
++    qtest_add_func("ast2600/hace/sha256_sg", test_sha256_sg_ast2600);
++
++    qtest_add_func("ast2500/hace/addresses", test_addresses_ast2500);
++    qtest_add_func("ast2500/hace/sha512", test_sha512_ast2500);
++    qtest_add_func("ast2500/hace/sha256", test_sha256_ast2500);
++    qtest_add_func("ast2500/hace/md5", test_md5_ast2500);
++
++    qtest_add_func("ast2400/hace/addresses", test_addresses_ast2400);
++    qtest_add_func("ast2400/hace/sha512", test_sha512_ast2400);
++    qtest_add_func("ast2400/hace/sha256", test_sha256_ast2400);
++    qtest_add_func("ast2400/hace/md5", test_md5_ast2400);
++
++    return g_test_run();
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 36055f14c594..0d8814650900 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1026,6 +1026,7 @@ F: include/hw/misc/pca9552*.h
+ F: hw/net/ftgmac100.c
+ F: include/hw/net/ftgmac100.h
+ F: docs/system/arm/aspeed.rst
++F: tests/qtest/*aspeed*
+=20
+ NRF51
+ M: Joel Stanley <joel@jms.id.au>
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 0c7673892179..f241ba0636a3 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -161,12 +161,15 @@ qtests_npcm7xx =3D \
+    'npcm7xx_timer-test',
+    'npcm7xx_watchdog_timer-test'] + \
+    (slirp.found() ? ['npcm7xx_emc-test'] : [])
++qtests_aspeed =3D \
++  ['aspeed_hace-test']
+ qtests_arm =3D \
+   (config_all_devices.has_key('CONFIG_MPS2') ? ['sse-timer-test'] : []) =
++ \
+   (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-ap=
+b-dualtimer-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_CMSDK_APB_TIMER') ? ['cmsdk-apb-ti=
+mer-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_CMSDK_APB_WATCHDOG') ? ['cmsdk-apb=
+-watchdog-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-te=
+st'] : []) +         \
++  (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : [])=
+ + \
+   (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) +=
+ \
+   ['arm-cpu-features',
+    'microbit-test',
 --=20
 2.26.3
 
