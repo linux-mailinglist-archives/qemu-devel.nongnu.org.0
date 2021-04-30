@@ -2,87 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0EC36F92E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:23:45 +0200 (CEST)
-Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA9C36F928
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:21:47 +0200 (CEST)
+Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRFI-0004bD-68
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35956)
+	id 1lcRDO-0001ox-V1
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lcQiG-00010D-W8
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:49:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52206)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkZ-0003Z2-Di
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:51:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lcQiE-0000pE-Iz
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:49:36 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQkX-0002GH-Fb
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:51:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619779773;
+ s=mimecast20190719; t=1619779916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f4lI9W48YGze8+hoSLaASvFlUv9fGm1sQpXqoYtZp7A=;
- b=RQA9quZ0DvatySiIrZ6laGHQXJVhfm0VuNn2I5YgEVA/AzsQyVj43Bgwa/8p5KE4aZGXnY
- fUvTBpXXySWerMULyEm83bocx/AvYW7XG9sVKzNrX6RukgmkbUZL6uXwm2vOHA2Dvkvski
- A+k7jMkQx+FUzr7RhcZ+RYrV2sVAjc8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-sOrP5Vz_OFKa6LFn3I6d_w-1; Fri, 30 Apr 2021 06:49:31 -0400
-X-MC-Unique: sOrP5Vz_OFKa6LFn3I6d_w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- t7-20020a1cc3070000b029014131bbe82eso713169wmf.3
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 03:49:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=f4lI9W48YGze8+hoSLaASvFlUv9fGm1sQpXqoYtZp7A=;
- b=Wtd29B0lfHA298M9Azezg+U+fgJDk8qZOUAGzjQutTjcXY8C+3EOz7xpUmYt8k/gaA
- v7rcN0vu/J8dSDPDGTEVdVgF5iWplTiC8JP17FSyxQme+c/EZnZl3r86vyV7D6AwbFQf
- rdXtIeNLyPpdCg/3P4PtVVc/M1orm+SzWrsCfaFohU9BfbA3r7nfHMrWm+f2nUhRCJw/
- d+u6Mxg2nTCpdwbbbTWEoA5GtLckomru/uUVGBx+yT61mJ8ZlufM4PcSgmjBihwFrQ+E
- Z8CTr6s484HG2G5YmsMvRf9bKOIAtrkOTCk7Thr3XMIJEdRed/I/QKiHg8zi4Dv0D6n0
- sLHQ==
-X-Gm-Message-State: AOAM53106sl5QEI+KCHmx/FBkCjQYgm7NeyyAi1gXsLj3hA2eE6Ij8DK
- eZuthN7WALb9MhSjT2JmTCiNPlE0MVKvot5G0Z9oOueYXkPGysw3of9QErevw5Kdnz1o05qFEZE
- m1dkSZWq8PAfjGM0=
-X-Received: by 2002:adf:ec0d:: with SMTP id x13mr5913517wrn.281.1619779770486; 
- Fri, 30 Apr 2021 03:49:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxi+we4Eqnmk9PvIoM4x44cIgiX+xXTzu3OWy2p7iUlrj27PwJ/cFgfXG5LkYhcXKvDSFh9ng==
-X-Received: by 2002:adf:ec0d:: with SMTP id x13mr5913496wrn.281.1619779770334; 
- Fri, 30 Apr 2021 03:49:30 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id y5sm1815356wrm.61.2021.04.30.03.49.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 03:49:30 -0700 (PDT)
-Date: Fri, 30 Apr 2021 12:49:27 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v2 2/4] hw/arm/virt: Parse -smp cluster parameter in
- virt_smp_parse
-Message-ID: <20210430104927.do6cxs6yw6yqlq6e@gator.home>
-References: <20210413083147.34236-3-wangyanan55@huawei.com>
- <20210428103141.5qfhzcqko6hxhxee@gator>
- <262dba57-437c-36aa-7a86-8f0c59751887@huawei.com>
- <20210429071614.lywpbfpeyclqxnke@gator.home>
- <ce557539-ac8f-7245-747b-8212a4857811@huawei.com>
- <20210429110229.7jtz6hfrfvqdkrbx@gator>
- <f5b264ff-58ed-0cd2-3b84-42fa1724b8ac@huawei.com>
- <20210430064125.3b5fjolwqculrjxz@gator.home>
- <20210430070131.kkavbosw27ze4iuh@gator.home>
- <dedb07c3-b6fa-ccb0-9d06-65c7866238db@huawei.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ND7UM81496YG6PaHyIIQtEd37Cw4i033ZMjsyyUKdx8=;
+ b=F471nEdlKwemTmcjiijDpxIQV5eI+BRov7/BeLoppGQHwM5J7vVoltz1taJY4+03c9KwMS
+ GRE8IPRKXDj4jnk80yb003dIh6OHiv0vEziLI83ScCOT6U+I7wMCS6HSI9mYdSpDfhiHlT
+ qOR0AkB2B5SEQxlGax8BOhnpfi8iU3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-pnpV4FhdO0CCeWt3mgSFOQ-1; Fri, 30 Apr 2021 06:51:54 -0400
+X-MC-Unique: pnpV4FhdO0CCeWt3mgSFOQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CD4F18982A1;
+ Fri, 30 Apr 2021 10:51:53 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B62617177;
+ Fri, 30 Apr 2021 10:51:52 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/39] Block layer patches
+Date: Fri, 30 Apr 2021 12:51:08 +0200
+Message-Id: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <dedb07c3-b6fa-ccb0-9d06-65c7866238db@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -103,82 +73,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- qemu-devel@nongnu.org, yangyicong@huawei.com,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 30, 2021 at 05:33:42PM +0800, wangyanan (Y) wrote:
-> 
-> On 2021/4/30 15:01, Andrew Jones wrote:
-> > On Fri, Apr 30, 2021 at 08:41:25AM +0200, Andrew Jones wrote:
-> > > On Fri, Apr 30, 2021 at 01:09:00PM +0800, wangyanan (Y) wrote:
-> > > > But I think the requirement for ARM "if even one parameter other than cpus
-> > > > or maxcpus
-> > > > is provided then all parameters must be provided" will be better. This can
-> > > > ensure the
-> > > > whole accurate users-specified topology. As you mentioned, if anybody who
-> > > > bothers
-> > > > to specify one, why not also specify the others.
-> > > > 
-> > > > I can add the requirement for ARM in the documentation, and also check the
-> > > > parameters
-> > > > in virt_smp_parse. Will this be fine?
-> > > We sort of have to support command lines that are missing 'maxcpus' and
-> > > 'clusters', unless we work together with libvirt to make the change.
-> > > Currently libvirt will generate '-smp 16,sockets=16,cores=1,threads=1'
-> > > from '<vcpu placement='static'>16</vcpu>'. That's sufficient for our
-> > > stricter, but not completely strict requirements. And, I still think
-> > > 'threads' could be optional, because there's a good chance the user
-> > > doesn't want to describe them, so a default of 1 is good enough. Also,
-> > > given maxcpus, but not cpus, it's pretty obvious that cpus should equal
-> > > maxcpus.
-> > > 
-> > We also still need just 'cpus' or just 'maxcpus' to work, since that
-> > already works now. So, at least these should work
-> > 
-> >   -smp N
-> >   -smp maxcpus=N
-> >   -smp N,maxcpus=M
-> >   -smp N,sockets=N,cores=1,threads=1
-> >   -smp N,maxcpus=M,sockets=M,cores=1,threads=1
-> > 
-> > since they work today, even though no topology is described.
-> Yes. I forgot this point that we should consider the compat.
-> > If we want to
-> > describe a topology for the first three, then we'll have to pick one,
-> > which brings us back to the sockets over cores stuff. Or, we could choose
-> > to just not generate topology descriptions when none is provided.
-> I find that both preferring cores over sockets and not generating topology
-> descriptions
-> when none is provided can't solve everything. We can only ensure guest will
-> get one
-> socket with multiple cores with qemu cmdline "-smp N".
-> 
-> But if we specify N cpus without any other parameters in libvirt xml, a qemu
-> cmdline like
-> "-smp N, sockets=N, cores=1,threads=1" will be generated, and as a result
-> guest will get
-> N sockets. In this case, we still can't avoid the silent change.
-> 
-> So maybe we should just prefer sockets over cores like the general
-> smp_parse() and libvirt,
-> and let users use "-smp N, sockets=1, cores=N,threads=1" to get what they
-> want if they
-> use version 6.0 or later.
+The following changes since commit ccdf06c1db192152ac70a1dd974c624f566cb7d4:
 
-Rather than doing the preference of sockets over cores thing, let's
-require that sockets, cores, and one of maxcpus or cpus are provided,
-as we discussed in the other mail.
+  Open 6.1 development tree (2021-04-30 11:15:40 +0100)
 
-Thanks,
-drew
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to 68bf7336533faa6aa90fdd4558edddbf5d8ef814:
+
+  vhost-user-blk: Fail gracefully on too large queue size (2021-04-30 12:27:48 +0200)
+
+----------------------------------------------------------------
+Block layer patches
+
+- Fix permission update order problems with block graph changes
+- qemu-img convert: Unshare write permission for source
+- vhost-user-blk: Fail gracefully on too large queue size
+
+----------------------------------------------------------------
+Kevin Wolf (3):
+      block: Add BDRV_O_NO_SHARE for blk_new_open()
+      qemu-img convert: Unshare write permission for source
+      vhost-user-blk: Fail gracefully on too large queue size
+
+Vladimir Sementsov-Ogievskiy (36):
+      tests/test-bdrv-graph-mod: add test_parallel_exclusive_write
+      tests/test-bdrv-graph-mod: add test_parallel_perm_update
+      tests/test-bdrv-graph-mod: add test_append_greedy_filter
+      block: bdrv_append(): don't consume reference
+      block: BdrvChildClass: add .get_parent_aio_context handler
+      block: drop ctx argument from bdrv_root_attach_child
+      block: make bdrv_reopen_{prepare,commit,abort} private
+      util: add transactions.c
+      block: bdrv_refresh_perms: check for parents permissions conflict
+      block: refactor bdrv_child* permission functions
+      block: rewrite bdrv_child_try_set_perm() using bdrv_refresh_perms()
+      block: inline bdrv_child_*() permission functions calls
+      block: use topological sort for permission update
+      block: add bdrv_drv_set_perm transaction action
+      block: add bdrv_list_* permission update functions
+      block: add bdrv_replace_child_safe() transaction action
+      block: fix bdrv_replace_node_common
+      block: add bdrv_attach_child_common() transaction action
+      block: add bdrv_attach_child_noperm() transaction action
+      block: split out bdrv_replace_node_noperm()
+      block: adapt bdrv_append() for inserting filters
+      block: add bdrv_remove_filter_or_cow transaction action
+      block: introduce bdrv_drop_filter()
+      block/backup-top: drop .active
+      block: drop ignore_children for permission update functions
+      block: make bdrv_unset_inherits_from to be a transaction action
+      block: make bdrv_refresh_limits() to be a transaction action
+      block: add bdrv_set_backing_noperm() transaction action
+      block: bdrv_reopen_multiple(): move bdrv_flush to separate pre-prepare
+      block: bdrv_reopen_multiple: refresh permissions on updated graph
+      block: drop unused permission update functions
+      block: inline bdrv_check_perm_common()
+      block: inline bdrv_replace_child()
+      block: refactor bdrv_child_set_perm_safe() transaction action
+      block: rename bdrv_replace_child_safe() to bdrv_replace_child()
+      block: refactor bdrv_node_check_perm()
+
+ include/block/block.h                 |   14 +-
+ include/block/block_int.h             |    8 +-
+ include/qemu/transactions.h           |   63 ++
+ block.c                               | 1329 ++++++++++++++++++++-------------
+ block/backup-top.c                    |   48 +-
+ block/block-backend.c                 |   30 +-
+ block/commit.c                        |    1 +
+ block/file-posix.c                    |   91 +--
+ block/io.c                            |   31 +-
+ block/mirror.c                        |    3 -
+ blockdev.c                            |    4 -
+ blockjob.c                            |   11 +-
+ hw/block/vhost-user-blk.c             |    5 +
+ qemu-img.c                            |    2 +-
+ tests/unit/test-bdrv-drain.c          |    2 +-
+ tests/unit/test-bdrv-graph-mod.c      |  209 +++++-
+ util/transactions.c                   |   96 +++
+ MAINTAINERS                           |    6 +
+ tests/qemu-iotests/245                |    2 +-
+ tests/qemu-iotests/283.out            |    2 +-
+ tests/qemu-iotests/tests/qsd-jobs.out |    2 +-
+ util/meson.build                      |    1 +
+ 22 files changed, 1280 insertions(+), 680 deletions(-)
+ create mode 100644 include/qemu/transactions.h
+ create mode 100644 util/transactions.c
 
 
