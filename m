@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784A336F848
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:06:26 +0200 (CEST)
-Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774C636F85F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 12:18:37 +0200 (CEST)
+Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcQ2T-0005EQ-Ha
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
+	id 1lcQEG-0004Mc-JB
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 06:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcQ0e-00049q-Fg
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:04:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lcQ0Y-0008Qs-R1
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:04:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619777065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qi/wgJzQyVzvvcCZtwD7MCOLuRAX0OD0K/6R2VJaXM8=;
- b=BQobhuazzeTB2nzI0j1coujyaHaZdK0LMn4Z/kaQBoeBAK7uw4pMvAHaqEjbWQWoIfpPEa
- Du1qAzRl9CZ96C17WqRAKKSrvZ/kafMQScX19l6XbGO8mWTr2nRFICndUPSaI6Adglg/Mg
- jpzl9XL58FqAgleac3oytC16Mz1zTYo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-R3DTLQdsP0SX2gEmnVtr-g-1; Fri, 30 Apr 2021 06:04:24 -0400
-X-MC-Unique: R3DTLQdsP0SX2gEmnVtr-g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6A826DD2A;
- Fri, 30 Apr 2021 10:04:22 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-68.ams2.redhat.com
- [10.36.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 803EF421F;
- Fri, 30 Apr 2021 10:04:17 +0000 (UTC)
-Subject: Re: [PATCH] block: simplify write-threshold and drop write notifiers
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210421220950.105017-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <8496a111-5721-923d-2e82-920f2e77233a@redhat.com>
-Date: Fri, 30 Apr 2021 12:04:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcQBi-0002ja-V5
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:15:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcQBg-0007HL-0t
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:15:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcQBc-000352-Qb
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 10:15:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9EAC42E816C
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 10:15:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210421220950.105017-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 10:06:14 -0000
+From: Thomas Huth <1826175@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: avladu berrange chadkennedyonline fonthime
+ pmaydell th-huth
+X-Launchpad-Bug-Reporter: Gwendolyn Haller (fonthime)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155609955691.16667.3366200166619949036.malonedeb@soybean.canonical.com>
+Message-Id: <161977717429.10956.13776967824920970447.malone@gac.canonical.com>
+Subject: [Bug 1826175] Re: Compilation on MSYS2/MinGW-w64 fails with error:
+ "No rule to make target capstone.lib"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 23c803520d0b7b12d3f37bdf28207b998eea5472
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,114 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, eesposit@redhat.com,
- qemu-devel@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com
+Reply-To: Bug 1826175 <1826175@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.04.21 00:09, Vladimir Sementsov-Ogievskiy wrote:
-> write-notifiers are used only for write-threshold. New code for such
-> purpose should create filters.
-> 
-> Let's handle write-threshold simply in generic code and drop write
-> notifiers at all.
-> 
-> Also move part of write-threshold API that is used only for testing to
-> the test.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
-> 
-> I agree that this could be split into 2-3 parts and not combining
-> everything into one. But I'm tired now.
+As far as I can see we're using a capstone version now that contains the
+commit with the fix, so I'm closing this bug. If you are still having
+problems, please open again or file a new bug ticket.
 
-Er...  You should have put it off until the next day then? O:)
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-It should be multiple patches.  At least one to move the write threshold 
-update to block/io.c, and then another to drop write notifiers.
+-- =
 
-> I can send v2 if needed, so
-> consider it as RFC. Or take as is if you think it's not too much-in-one.
-> 
-> I also suggest this as a prepartion (and partly substitution) for
-> "[PATCH v2 0/8] Block layer thread-safety, continued"
-> 
->   include/block/block_int.h         | 12 -----
->   include/block/write-threshold.h   | 24 ---------
->   block.c                           |  1 -
->   block/io.c                        | 21 +++++---
->   block/write-threshold.c           | 87 ++-----------------------------
->   tests/unit/test-write-threshold.c | 38 ++++++++++++++
->   6 files changed, 54 insertions(+), 129 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1826175
 
-[...]
+Title:
+  Compilation on MSYS2/MinGW-w64 fails with error: "No rule to make
+  target capstone.lib"
 
-> diff --git a/block/io.c b/block/io.c
-> index ca2dca3007..e0aa775952 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -36,6 +36,8 @@
->   #include "qemu/main-loop.h"
->   #include "sysemu/replay.h"
->   
-> +#include "qapi/qapi-events-block-core.h"
-> +
->   /* Maximum bounce buffer for copy-on-read and write zeroes, in bytes */
->   #define MAX_BOUNCE_BUFFER (32768 << BDRV_SECTOR_BITS)
->   
-> @@ -1974,6 +1976,8 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
->              child->perm & BLK_PERM_RESIZE);
->   
->       switch (req->type) {
-> +        uint64_t write_threshold;
-> +
+Status in QEMU:
+  Fix Released
 
-Works, but I think this is the first time I see a variable declared in a 
-switch block.  What I usually do for such cases is to put a block after 
-the label.  (i.e. case X: { uint64_t write_threshold; ... })
+Bug description:
+  I submitted this bug to Capstone directly but I figured it'd be useful
+  to post it here too. The IS_MINGW check in the Makefile for Capstone
+  fails under MSYS2 MinGW-w64 because cc --version doesn't have mingw in
+  the output anymore:
 
-But it wouldn’t hurt to just declare this at the beginning of 
-bdrv_co_write_req_prepare(), I think.
+  $ whereis cc
+  cc: /mingw64/bin/cc.exe
 
->       case BDRV_TRACKED_WRITE:
->       case BDRV_TRACKED_DISCARD:
->           if (flags & BDRV_REQ_WRITE_UNCHANGED) {
-> @@ -1981,8 +1985,15 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
->           } else {
->               assert(child->perm & BLK_PERM_WRITE);
->           }
-> -        return notifier_with_return_list_notify(&bs->before_write_notifiers,
-> -                                                req);
-> +        write_threshold = qatomic_read(&bs->write_threshold_offset);
-> +        if (write_threshold > 0 && offset + bytes > write_threshold) {
-> +            qapi_event_send_block_write_threshold(
-> +                bs->node_name,
-> +                offset + bytes - write_threshold,
-> +                write_threshold);
-> +            qatomic_set(&bs->write_threshold_offset, 0);
-> +        }
+  $ cc --version
+  cc.exe (Rev2, Built by MSYS2 project) 8.3.0
+  Copyright (C) 2018 Free Software Foundation, Inc.
+  This is free software; see the source for copying conditions.  There is NO
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
+E.
 
-I’d put all of this into a function in block/write-threshold.c that’s 
-called from here.
+  Really simple patch:
 
-Max
+  diff --git "a/Makefile" "b/Makefile"
+  index 063f50db..1d9f042e 100644
+  --- "a/Makefile"
+  +++ "b/Makefile"
+  @@ -288,7 +288,7 @@ CFLAGS :=3D $(CFLAGS:-fPIC=3D)
+   # On Windows we need the shared library to be executable
+   else
+   # mingw?
+  -IS_MINGW :=3D $(shell $(CC) --version | grep -i mingw | wc -l)
+  +IS_MINGW :=3D $(shell $(CC) --version | grep -i msys2 | wc -l)
+   ifeq ($(IS_MINGW),1)
+   EXT =3D dll
+   AR_EXT =3D lib
 
-> +        return 0;
->       case BDRV_TRACKED_TRUNCATE:
->           assert(child->perm & BLK_PERM_RESIZE);
->           return 0;
-> @@ -3137,12 +3148,6 @@ bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov)
->       return true;
->   }
->   
-> -void bdrv_add_before_write_notifier(BlockDriverState *bs,
-> -                                    NotifierWithReturn *notifier)
-> -{
-> -    notifier_with_return_list_add(&bs->before_write_notifiers, notifier);
-> -}
-> -
->   void bdrv_io_plug(BlockDriverState *bs)
->   {
->       BdrvChild *child;
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1826175/+subscriptions
 
