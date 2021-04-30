@@ -2,79 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6F836F59F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:15:11 +0200 (CEST)
-Received: from localhost ([::1]:58830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB3F36F5B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:31:48 +0200 (CEST)
+Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMQg-0001FA-93
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43902)
+	id 1lcMgj-00060V-72
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:31:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcMPZ-0000hd-5o
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:14:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44668)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lcMdV-0004KW-Cc
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:25 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcMPW-0001Ao-5Y
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:14:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619763236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7PY1X3UxjYrQgYnT77dNqi4Fh23S4UjNQ0/L+jJ16YQ=;
- b=G0EiEUOQS+MxYYAMmu7A6iS8pfCMIOUVDCQyKpI9uueS30NEGFoU/nTLXy6gdtrWJuowGK
- 2gazPRPFdRkxGvy8RascIQ1za5lMtziCt+aYGBrMX+DKJhaUix+Rangg+Z3Wn84dD2q7Eq
- CvYHPoLrYKHp/uC1lIkqjTzMQsuv19g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-1bkxU83HM6mNOnVvXuWfmA-1; Fri, 30 Apr 2021 02:13:54 -0400
-X-MC-Unique: 1bkxU83HM6mNOnVvXuWfmA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A567D64149;
- Fri, 30 Apr 2021 06:13:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FEB22DAC5;
- Fri, 30 Apr 2021 06:13:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 97E79113525D; Fri, 30 Apr 2021 08:13:48 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 10/12] qtest/qmp-cmd-test: Make test
- build-independent from accelerator
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-11-philmd@redhat.com>
- <87lf91ir1m.fsf@dusky.pond.sub.org>
- <1de6b3f8-7d7c-9280-4cd3-633a19dd9b8e@redhat.com>
- <874kfprzrw.fsf@dusky.pond.sub.org>
- <603c7934-ea16-baf8-9ae5-ab221db345c7@redhat.com>
-Date: Fri, 30 Apr 2021 08:13:48 +0200
-In-Reply-To: <603c7934-ea16-baf8-9ae5-ab221db345c7@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 29 Apr 2021 17:10:15
- +0200")
-Message-ID: <87zgxgnvtv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lcMdT-00015T-9U
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:28:25 -0400
+IronPort-SDR: qZVWquVi6om0GzHuVERHDeGOApLSeSFwBBFStqtANc3Lmv6O4PFLkVMwYfqkUeBssyUFjLWNJc
+ 48xNXN/+J7rw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023012"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023012"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2021 23:28:12 -0700
+IronPort-SDR: nYElQYacRnbmPLjQOFVdnY8a1wqMLzp18IE/N8dRHrr0iu4rUeJHTJBV5gTcrY6NLPTDn7b1A5
+ RMo9exw1lINw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258410"
+Received: from icx-2s.bj.intel.com ([10.240.192.119])
+ by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:10 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [RESEND PATCH 00/32] Qemu SGX virtualization
+Date: Fri, 30 Apr 2021 14:24:23 +0800
+Message-Id: <20210430062455.8117-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=yang.zhong@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,67 +59,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?Q?P=2EBerrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
+ seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Since Sean Christopherson has left Intel and i am responsible for Qemu SGX
+upstream work. His @intel.com address will be bouncing and his new email(
+seanjc@google.com) is also in CC lists.
 
-> On 4/29/21 3:22 PM, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>>>> Now than we can probe if the TCG accelerator is available
->>>>> at runtime with a QMP command, do it once at the beginning
->>>>> and only register the tests we can run.
->>>>> We can then replace the #ifdef'ry by a runtime check.
->>>>>
->>>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>>
->>>> Please read the last remark first.  The other ones are detail; feel fr=
-ee
->>>> to skip them until we're done with the last one.
->>>>
->>>>> ---
->>>>>  tests/qtest/qmp-cmd-test.c | 18 ++++++++++++++----
->>>>>  1 file changed, 14 insertions(+), 4 deletions(-)
->>>
->>>>> +    tcg_accel_available =3D qtest_has_accel("tcg");
->>>>> +
->>>>
->>>> When does tcg_accel_available differ from defined(CONFIG_TCG)?
->>>
->>> qtest_has_accel("tcg") is a runtime check, while defined(CONFIG_TCG)
->>> is build-time.
->>=20
->> Let me rephrase my question: under what conditions can the values of
->> qtest_has_accel("tcg") and defined(CONFIG_TCG) differ?
->
-> They are currently the same, so this patch is a no-op. *But* it
-> allows us to remove the global dependence on CONFIG_TCG in the
-> Meson machinery (see the last commit in this series).
->
-> Is that missing part of the commit description?
->
-> "This will allow us to remove the global CONFIG_TCG dependency
-> in our Meson machinery in a pair of commits."?
+This series is Qemu SGX virtualization implementation rebased on latest
+Qemu release.
 
-Do you mean "in the next two commits"?
+You can find Qemu repo here:
 
-Please also note that the probing at run-time always gives the same
-result as the compile-time check it replaces.
+     https://github.com/intel/qemu-sgx.git upstream
 
-I don't understand what exactly the conversion to probing enables and
-how, but I believe I don't have to.
+If you want to try sgx, you can also get the kernel/kvm code from upstream
+branch of kvm-sgx repo on github:
 
-[...]
+     https://github.com/intel/kvm-sgx.git upstream
+
+Notice: The kvm SGX patch series has been queued by Paolo in 4/17. This Qemu
+series still depend on above kvm-sgx upstream branch, so the KVM_CAP_SGX_ATTRIBUTE
+will be changed to 196 once the linux release merge all kvm SGX series.
+
+To simplify, you'd better install kvm-sgx on host and guest, which can support
+SGX on host and guest kernel. And to me, use below reference command to boot
+SGX guest:
+
+     #qemu-system-x86_64 \
+         ...... \
+         -cpu host,+sgx_provisionkey \
+         -sgx-epc id=epc1,memdev=mem1 \
+         -object memory-backend-epc,id=mem1,size=64M,prealloc=on
+
+Overview
+========
+
+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
+for memory accesses in order to provide security accesses for sensitive
+applications and data. SGX allows an application to use it's pariticular
+address space as an *enclave*, which is a protected area provides confidentiality
+and integrity even in the presence of privileged malware. Accesses to the
+enclave memory area from any software not resident in the enclave are prevented,
+including those from privileged software.
+
+SGX virtaulization
+==================
+
+The KVM SGX creates one new misc device, sgx_vepc, and Qemu will open '/dev/sgx_vepc'
+device node to mmap() host EPC memory to guest. The Qemu also adds 'sgx-epc' device
+to expose EPC sections to guest through CPUID and ACPI table.  The Qemu SGX also
+supports multiple virtual EPC sections to guest, we just put them together physically
+contiguous for the sake of simplicity. The kernel SGX NUMA has been merged into Linux
+tip tree, we will support this function in the next phase.
+
+Although the current host SGX subsystem can not support SGX2 feature, the KVM/Qemu
+implementation still expose this feature to guest. Guest SGX2 support doesn't have
+interaction with host kernel SGX driver, the SGX guest can normally use those new
+instructions.
+
+As for SGX virtualization detailed infomation, please reference docs/intel-sgx.txt
+docuement(patch 32).
+
+Sean Christopherson (22):
+  memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+  hostmem: Add hostmem-epc as a backend for SGX EPC
+  i386: Add 'sgx-epc' device to expose EPC sections to guest
+  vl: Add "sgx-epc" option to expose SGX EPC sections to guest
+  i386: Add primary SGX CPUID and MSR defines
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+  i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+  i386: Add feature control MSR dependency when SGX is enabled
+  i386: Update SGX CPUID info according to hardware/KVM/user input
+  linux-headers: Add placeholder for KVM_CAP_SGX_ATTRIBUTE
+  i386: kvm: Add support for exposing PROVISIONKEY to guest
+  i386: Propagate SGX CPUID sub-leafs to KVM
+  Adjust min CPUID level to 0x12 when SGX is enabled
+  hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+  hw/i386/pc: Account for SGX EPC sections when calculating device
+    memory
+  i386/pc: Add e820 entry for SGX EPC section(s)
+  i386: acpi: Add SGX EPC entry to ACPI tables
+  q35: Add support for SGX EPC
+  i440fx: Add support for SGX EPC
+  doc: Add the SGX doc
+
+Yang Zhong (10):
+  qom: Add memory-backend-epc ObjectOptions support
+  hostmem: Add the reset interface for EPC backend reset
+  sgx-epc: Add the reset interface for sgx-epc virt device
+  qmp: Add query-sgx command
+  hmp: Add 'info sgx' command
+  i386: Add sgx_get_info() interface
+  bitops: Support 32 and 64 bit mask macro
+  qmp: Add the qmp_query_sgx_capabilities()
+  Kconfig: Add CONFIG_SGX support
+  sgx-epc: Add the fill_device_info() callback support
+
+ backends/hostmem-epc.c                   | 106 ++++++
+ backends/hostmem-memfd.c                 |   2 +-
+ backends/meson.build                     |   1 +
+ default-configs/devices/i386-softmmu.mak |   1 +
+ docs/intel-sgx.txt                       | 173 +++++++++
+ hmp-commands-info.hx                     |  15 +
+ hw/i386/Kconfig                          |   5 +
+ hw/i386/acpi-build.c                     |  22 ++
+ hw/i386/fw_cfg.c                         |  10 +-
+ hw/i386/meson.build                      |   1 +
+ hw/i386/pc.c                             |  15 +-
+ hw/i386/pc_piix.c                        |   4 +
+ hw/i386/pc_q35.c                         |   3 +
+ hw/i386/sgx-epc.c                        | 451 +++++++++++++++++++++++
+ hw/i386/sgx-stub.c                       |  13 +
+ hw/misc/ivshmem.c                        |   2 +-
+ hw/remote/memory.c                       |   2 +-
+ hw/vfio/common.c                         |   1 +
+ include/exec/memory.h                    |  15 +
+ include/hw/i386/pc.h                     |  10 +
+ include/hw/i386/sgx-epc.h                |  70 ++++
+ include/monitor/hmp.h                    |   1 +
+ include/qemu/bitops.h                    |   7 +
+ linux-headers/linux/kvm.h                |   1 +
+ monitor/hmp-cmds.c                       |  32 ++
+ monitor/qmp-cmds.c                       |  19 +
+ qapi/machine.json                        |  26 +-
+ qapi/misc.json                           |  61 +++
+ qapi/qom.json                            |   2 +
+ qemu-options.hx                          |   8 +
+ softmmu/globals.c                        |   1 +
+ softmmu/memory.c                         |  12 +-
+ softmmu/physmem.c                        |   2 +-
+ softmmu/vl.c                             |   9 +
+ stubs/meson.build                        |   1 +
+ stubs/sgx-stub.c                         |  12 +
+ target/i386/cpu.c                        | 168 ++++++++-
+ target/i386/cpu.h                        |  16 +
+ target/i386/kvm/kvm.c                    |  75 ++++
+ target/i386/kvm/kvm_i386.h               |   2 +
+ target/i386/machine.c                    |  20 +
+ tests/qtest/qmp-cmd-test.c               |   2 +
+ 42 files changed, 1387 insertions(+), 12 deletions(-)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 docs/intel-sgx.txt
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 hw/i386/sgx-stub.c
+ create mode 100644 include/hw/i386/sgx-epc.h
+ create mode 100644 stubs/sgx-stub.c
+
+-- 
+2.29.2.334.gfaefdd61ec
 
 
