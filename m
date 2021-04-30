@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FFC36F36C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:18:18 +0200 (CEST)
-Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847A936F36D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:18:27 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcHnM-0004k1-Hp
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:18:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1lcHnW-00057m-IA
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHl9-0002ho-Cu
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:15:59 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37797)
+ id 1lcHlB-0002kL-FL
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:01 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:36472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHkw-0007T5-D3
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:15:58 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id b15so3108905pfl.4
- for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:45 -0700 (PDT)
+ id 1lcHky-0007TD-20
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:01 -0400
+Received: by mail-pg1-x532.google.com with SMTP id j7so38953057pgi.3
+ for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GrdtElB814vaLEZruyiN644RWDvcacearj6l44ufE8w=;
- b=Jh8nOLYjhGRce0ruc9Ba3jNEYOaaY/VLAyX9YgolLkluBT8B022BTXPojd5iVYKWvu
- TcqSLaBbxhxbknCZMK6RZgd+WV8Wb153ozk0bRXh4KN8vwjs+TIICzs2ltZ0iJwFAyQX
- bX2hTK1e2lbpwFILx5i1oCDf2UZDJ+f96DPbpH1N7CrBLx7E9kMgccRSjrq25EZGQ2Qi
- UnnmqBD/+bmOAZf1Spj8reHa8VA4NW8LSB/jHsMXqqAh/srEMtNKzXxiISqr6tF8+djb
- p+namNSwd3ERXhA6dfN1X7//rt0xjsWF0eSPPYQ2WFzU4yUEUDrG7cZvGAKlGb3PdhcK
- fdNA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lUjIcZ7tDPA2pVLJ4XGtPvwfZ6yYWNyletjpFzr8LcY=;
+ b=bHd7WOgF8e3a/qYhevor+lNwrYd6d4mRLm+nj7jY8y68/zbWVnp6l6KDbUCB0H/865
+ jZscwS+vO6PnDIsQiv0jBtpPF6QSlB30cJq/sQ4HQdFYy+fRpJwK342D4hfse5MgNQrZ
+ nSpyGuhcWB2Js6UjqnQ3oTyx3WaonhVYczxh2hrnv4tf7sAlNxahYVmvzbH9UUBZK2BR
+ CdAutvYQwPi/Qy2fuYC4Qjy/8t+C5UeocmmMkolN3m1icz1Lq4QyyYofE7zx9uL+Qf2W
+ O2HQmDHYVsU2B3O/kevAfR0X75vkVqm0CmlHo1mPpDqJUOLCfLHinCgr6E5ZYBg1XLvT
+ S1fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GrdtElB814vaLEZruyiN644RWDvcacearj6l44ufE8w=;
- b=P1b20jX83EoJJecy9SHy+/eNMU7bXRg6DGGKio4KS5Zm0fXJs1+b9+H+cZL6zy/poi
- LRV8uVIM6ppOXwL3qDR6zhfLTfNLXrY7SHNJvaQavwTufGyZkjb3zhYfTtxBPRTdVfZh
- jw5k/hSrI/b1r4NIQ9S1+hwhC2uOT7lVN4BC5wxUCqCBFFf/zBVMc6KWXizVZ1WwQhOJ
- NqYfkkzlEChpZ4Kd3yoT6eVq/tUfMpzrv9Geitpzi+iWGCBvuRDxOFAr5dydEVSUlsZ6
- Mq5TZqi0T2J8DRIWS8RMdHcduFmTlsmxI2W8EgVLlwu5O9u1Hj+UQXl0vAWLvF4CVdFh
- CUXg==
-X-Gm-Message-State: AOAM532yDOpALzmH89DYhlxIhnNkbh1PKmBHmzf0FEC4o+uhoWjhbQCw
- DDwyvKKqwknIzSYo1CCH2glzvG40FNRSBQ==
-X-Google-Smtp-Source: ABdhPJzpk5WTiN2WNjTWcS5pryHO2lLP3PpwMHqsbs1axGuP1oogZCR5QgQ9EXVoVAWU1ihhiOKqTQ==
-X-Received: by 2002:aa7:9108:0:b029:251:7caf:cec with SMTP id
- 8-20020aa791080000b02902517caf0cecmr2690295pfh.13.1619745344706; 
- Thu, 29 Apr 2021 18:15:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lUjIcZ7tDPA2pVLJ4XGtPvwfZ6yYWNyletjpFzr8LcY=;
+ b=SGShHWVabup2/iFckDxILte//ZeEgbw/TzVjfPpYc2tSKnTe75tfEsRAdRaLeG+1I+
+ G3aQycMlzISAbfdpt67LDMJOuBP7IwJryMee1e3EvNz5MfIzurxlTsfUWqD+QumEdECO
+ +5KYlPR8qAUJP3/8O/tetzKTLSd2SNocS5NV2EAweGlhJcgvblJYUyblI6R/1ECAbB4Y
+ fwh+2bUL6VSjjLIBYzdNEIwJNwOiVjCyomI3zXf/WwmZwc36yJ0mHxYjuDHrxW+aENz+
+ 0cm1207SKF0HYRGgYWG5KROup1YM+uxmiYdqiqxKkVAZEYBJ0yK6yEW6US4FvXbSY3O2
+ KIKQ==
+X-Gm-Message-State: AOAM533FeshQIgOpLVcCGFK/Q12ME0jOTYkbDRR+mPQj5JFzOyonYhQN
+ NeqGnR7huwIr1qZGMnylFaI4Y0aUSKUM2g==
+X-Google-Smtp-Source: ABdhPJx0wIKMjbDC4ZU3+xLFkq9xOc+ubl2J8sof5GDtSmZJYaos9V9uTRu7sjnSqW3YzKnDQjeX3w==
+X-Received: by 2002:a62:dd50:0:b029:27a:69c8:55b6 with SMTP id
+ w77-20020a62dd500000b029027a69c855b6mr2451954pff.6.1619745345439; 
+ Thu, 29 Apr 2021 18:15:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.43
+ by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Apr 2021 18:15:44 -0700 (PDT)
+ Thu, 29 Apr 2021 18:15:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/30] Base for adding PowerPC 64-bit instructions
-Date: Thu, 29 Apr 2021 18:15:13 -0700
-Message-Id: <20210430011543.1017113-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/30] decodetree: Introduce whex and whexC helpers
+Date: Thu, 29 Apr 2021 18:15:14 -0700
+Message-Id: <20210430011543.1017113-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210430011543.1017113-1-richard.henderson@linaro.org>
+References: <20210430011543.1017113-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,70 +89,162 @@ Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v3:
-  * More changes for decodetree.
-  * Cleanup exception/is_jmp logic to the point exception is removed.
-  * Fold in Luis' isa check for prefixed insn support.
-  * Share trans_* between prefixed and non-prefixed instructions.
-  * Use macros to minimize the trans_* boilerplate.
-  * Fix decode mistake for STHX/STHXU.
+Form a hex constant of the appropriate insnwidth.
+Begin using f-strings on changed lines.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ scripts/decodetree.py | 66 +++++++++++++++++++++++++------------------
+ 1 file changed, 38 insertions(+), 28 deletions(-)
 
-r~
-
-
-Luis Fernando Fujita Pires (1):
-  decodetree: Add support for 64-bit instructions
-
-Richard Henderson (29):
-  decodetree: Introduce whex and whexC helpers
-  decodetree: More use of f-strings
-  decodetree: Extend argument set syntax to allow types
-  target/ppc: Add cia field to DisasContext
-  target/ppc: Split out decode_legacy
-  target/ppc: Move DISAS_NORETURN setting into gen_exception*
-  target/ppc: Remove special case for POWERPC_SYSCALL
-  target/ppc: Remove special case for POWERPC_EXCP_TRAP
-  target/ppc: Simplify gen_debug_exception
-  target/ppc: Introduce DISAS_{EXIT,CHAIN}{,_UPDATE}
-  target/ppc: Replace POWERPC_EXCP_SYNC with DISAS_EXIT
-  target/ppc: Remove unnecessary gen_io_end calls
-  target/ppc: Introduce gen_icount_io_start
-  target/ppc: Replace POWERPC_EXCP_STOP with DISAS_EXIT_UPDATE
-  target/ppc: Replace POWERPC_EXCP_BRANCH with DISAS_NORETURN
-  target/ppc: Remove DisasContext.exception
-  target/ppc: Move single-step check to ppc_tr_tb_stop
-  target/ppc: Tidy exception vs exit_tb
-  target/ppc: Mark helper_raise_exception* as noreturn
-  target/ppc: Use translator_loop_temp_check
-  target/ppc: Introduce macros to check isa extensions
-  target/ppc: Add infrastructure for prefixed insns
-  target/ppc: Move page crossing check to ppc_tr_translate_insn
-  target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
-  target/ppc: Implement PNOP
-  target/ppc: Move D/DS/X-form integer loads to decodetree
-  target/ppc: Implement prefixed integer load instructions
-  target/ppc: Move D/DS/X-form integer stores to decodetree
-  target/ppc: Implement prefixed integer store instructions
-
- docs/devel/decodetree.rst                  |  11 +-
- target/ppc/cpu.h                           |   5 +-
- target/ppc/helper.h                        |   4 +-
- target/ppc/insn32.decode                   |  91 +++
- target/ppc/insn64.decode                   |  71 +++
- tests/decode/succ_argset_type1.decode      |   1 +
- linux-user/ppc/cpu_loop.c                  |   6 -
- target/ppc/translate.c                     | 672 +++++++++------------
- target/ppc/translate/fixedpoint-impl.c.inc | 200 ++++++
- target/ppc/translate_init.c.inc            | 143 +----
- scripts/decodetree.py                      | 172 +++---
- target/ppc/meson.build                     |   9 +
- 12 files changed, 772 insertions(+), 613 deletions(-)
- create mode 100644 target/ppc/insn32.decode
- create mode 100644 target/ppc/insn64.decode
- create mode 100644 tests/decode/succ_argset_type1.decode
- create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
-
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 4637b633e7..0861e5d503 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -102,6 +102,21 @@ def str_fields(fields):
+     return r[1:]
+ 
+ 
++def whex(val):
++    """Return a hex string for val padded for insnwidth"""
++    global insnwidth
++    return f'0x{val:0{insnwidth // 4}x}'
++
++
++def whexC(val):
++    """Return a hex string for val padded for insnwidth,
++       and with the proper suffix for a C constant."""
++    suffix = ''
++    if val >= 0x80000000:
++        suffix = 'u'
++    return whex(val) + suffix
++
++
+ def str_match_bits(bits, mask):
+     """Return a string pretty-printing BITS/MASK"""
+     global insnwidth
+@@ -477,11 +492,8 @@ def output_code(self, i, extracted, outerbits, outermask):
+             if outermask != p.fixedmask:
+                 innermask = p.fixedmask & ~outermask
+                 innerbits = p.fixedbits & ~outermask
+-                output(ind, 'if ((insn & ',
+-                       '0x{0:08x}) == 0x{1:08x}'.format(innermask, innerbits),
+-                       ') {\n')
+-                output(ind, '    /* ',
+-                       str_match_bits(p.fixedbits, p.fixedmask), ' */\n')
++                output(ind, f'if ((insn & {whexC(innermask)}) == {whexC(innerbits)}) {{\n')
++                output(ind, f'    /* {str_match_bits(p.fixedbits, p.fixedmask)} */\n')
+                 p.output_code(i + 4, extracted, p.fixedbits, p.fixedmask)
+                 output(ind, '}\n')
+             else:
+@@ -500,12 +512,12 @@ def __init__(self, fm, tm):
+ 
+     def str1(self, i):
+         ind = str_indent(i)
+-        r = '{0}{1:08x}'.format(ind, self.fixedmask)
++        r = ind + whex(self.fixedmask)
+         if self.format:
+             r += ' ' + self.format.name
+         r += ' [\n'
+         for (b, s) in self.subs:
+-            r += '{0}  {1:08x}:\n'.format(ind, b)
++            r += ind + f'  {whex(b)}:\n'
+             r += s.str1(i + 4) + '\n'
+         r += ind + ']'
+         return r
+@@ -529,16 +541,16 @@ def output_code(self, i, extracted, outerbits, outermask):
+         if sh > 0:
+             # Propagate SH down into the local functions.
+             def str_switch(b, sh=sh):
+-                return '(insn >> {0}) & 0x{1:x}'.format(sh, b >> sh)
++                return f'(insn >> {sh}) & {b >> sh:#x}'
+ 
+             def str_case(b, sh=sh):
+-                return '0x{0:x}'.format(b >> sh)
++                return hex(b >> sh)
+         else:
+             def str_switch(b):
+-                return 'insn & 0x{0:08x}'.format(b)
++                return f'insn & {whexC(b)}'
+ 
+             def str_case(b):
+-                return '0x{0:08x}'.format(b)
++                return whexC(b)
+ 
+         output(ind, 'switch (', str_switch(self.thismask), ') {\n')
+         for b, s in sorted(self.subs):
+@@ -962,19 +974,19 @@ def parse_generic(lineno, parent_pat, name, toks):
+ 
+     # Validate the masks that we have assembled.
+     if fieldmask & fixedmask:
+-        error(lineno, 'fieldmask overlaps fixedmask (0x{0:08x} & 0x{1:08x})'
+-                      .format(fieldmask, fixedmask))
++        error(lineno, 'fieldmask overlaps fixedmask ',
++              f'({whex(fieldmask)} & {whex(fixedmask)})')
+     if fieldmask & undefmask:
+-        error(lineno, 'fieldmask overlaps undefmask (0x{0:08x} & 0x{1:08x})'
+-                      .format(fieldmask, undefmask))
++        error(lineno, 'fieldmask overlaps undefmask ',
++              f'({whex(fieldmask)} & {whex(undefmask)})')
+     if fixedmask & undefmask:
+-        error(lineno, 'fixedmask overlaps undefmask (0x{0:08x} & 0x{1:08x})'
+-                      .format(fixedmask, undefmask))
++        error(lineno, 'fixedmask overlaps undefmask ',
++              f'({whex(fixedmask)} & {whex(undefmask)})')
+     if not is_format:
+         allbits = fieldmask | fixedmask | undefmask
+         if allbits != insnmask:
+-            error(lineno, 'bits left unspecified (0x{0:08x})'
+-                          .format(allbits ^ insnmask))
++            error(lineno, 'bits left unspecified ',
++                  f'({whex(allbits ^ insnmask)})')
+ # end parse_general
+ 
+ 
+@@ -1104,10 +1116,9 @@ def __init__(self, m, w):
+ 
+     def str1(self, i):
+         ind = str_indent(i)
+-        r = '{0}{1:08x}'.format(ind, self.mask)
+-        r += ' [\n'
++        r = ind + whex(self.mask) + ' [\n'
+         for (b, s) in self.subs:
+-            r += '{0}  {1:08x}:\n'.format(ind, b)
++            r += ind + f'  {whex(b)}:\n'
+             r += s.str1(i + 4) + '\n'
+         r += ind + ']'
+         return r
+@@ -1131,16 +1142,16 @@ def output_code(self, i, extracted, outerbits, outermask):
+         if sh > 0:
+             # Propagate SH down into the local functions.
+             def str_switch(b, sh=sh):
+-                return '(insn >> {0}) & 0x{1:x}'.format(sh, b >> sh)
++                return f'(insn >> {sh}) & {b >> sh:#x}'
+ 
+             def str_case(b, sh=sh):
+-                return '0x{0:x}'.format(b >> sh)
++                return hex(b >> sh)
+         else:
+             def str_switch(b):
+-                return 'insn & 0x{0:08x}'.format(b)
++                return f'insn & {whexC(b)}'
+ 
+             def str_case(b):
+-                return '0x{0:08x}'.format(b)
++                return whexC(b)
+ 
+         output(ind, 'switch (', str_switch(self.mask), ') {\n')
+         for b, s in sorted(self.subs):
+@@ -1162,8 +1173,7 @@ def __init__(self, m, w):
+         self.width = w
+ 
+     def str1(self, i):
+-        ind = str_indent(i)
+-        return '{0}{1:08x}'.format(ind, self.mask)
++        return str_indent(i) + whex(self.mask)
+ 
+     def __str__(self):
+         return self.str1(0)
 -- 
 2.25.1
 
