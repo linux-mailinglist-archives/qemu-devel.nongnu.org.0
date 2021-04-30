@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35E536F97C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:41:16 +0200 (CEST)
-Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A2536F9A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 13:53:56 +0200 (CEST)
+Received: from localhost ([::1]:55300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcRWF-0003q0-LX
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37170)
+	id 1lcRiU-00084r-MK
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 07:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm4-0005Rv-JM
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48729)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm6-0005VZ-0E
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm1-00032z-7R
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:32 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lcQm1-00033F-LB
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 06:53:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1619780008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rzteYmPsxwSYpl9R4TLvqic/2NwMJ9RrqyiM56p5kzc=;
- b=JfFDf+pkaVodRqJtisOqTtcfNhUaPaBiZPMlaPXaICob2rhKZMCmMUk+I2FMoPwK4ouVmO
- GchE+jfoS4RaMAf9q2CRcI+fX462fo0I7se6dh9ENWz8nDR46Os9sWfvrcYlQEdiFeqIkR
- JTVNjel2zAN5vKqJpAEacHBpPkyx1Yk=
+ bh=wpr8gabRkcLG7L31OTWG/Hc0C0zIVLQXhXt7NP3YHJc=;
+ b=GNvBRD3q9WIAbYCk4+eRSPqjPq9ImBbDWk/Npoy1kAvtAYD85pWNhmmcPAr3E6URorS69I
+ oa/e9KmqZkSYqriWHpVdIfT1c9W0fX8qVNmy/BA6ln5e6qGbRYBUzpas46SQ3rlqwGo5Hs
+ yCXy2evXrDCkKKr4knFJyba4hmZp0sg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-V58Kuk-8Odm2_xGFRA3lOg-1; Fri, 30 Apr 2021 06:53:25 -0400
-X-MC-Unique: V58Kuk-8Odm2_xGFRA3lOg-1
+ us-mta-270-C5DVH2ClNyib9gxcYU4AvQ-1; Fri, 30 Apr 2021 06:53:26 -0400
+X-MC-Unique: C5DVH2ClNyib9gxcYU4AvQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E196F106BAF2;
- Fri, 30 Apr 2021 10:53:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22AEA801106;
+ Fri, 30 Apr 2021 10:53:22 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F12265F707;
- Fri, 30 Apr 2021 10:53:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 335AE17177;
+ Fri, 30 Apr 2021 10:53:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 33/39] block: inline bdrv_replace_child()
-Date: Fri, 30 Apr 2021 12:51:41 +0200
-Message-Id: <20210430105147.125840-34-kwolf@redhat.com>
+Subject: [PULL 34/39] block: refactor bdrv_child_set_perm_safe() transaction
+ action
+Date: Fri, 30 Apr 2021 12:51:42 +0200
+Message-Id: <20210430105147.125840-35-kwolf@redhat.com>
 In-Reply-To: <20210430105147.125840-1-kwolf@redhat.com>
 References: <20210430105147.125840-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,145 +83,138 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-bdrv_replace_child() has only one caller, the second argument is
-unused. Inline it now. This triggers deletion of some more unused
-interfaces.
+Old interfaces dropped, nobody directly calls
+bdrv_child_set_perm_abort() and bdrv_child_set_perm_commit(), so we can
+use personal state structure for the action and stop exploiting
+BdrvChild structure. Also, drop "_safe" suffix which is redundant now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210428151804.439460-34-vsementsov@virtuozzo.com>
+Message-Id: <20210428151804.439460-35-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 101 ++++++++++----------------------------------------------
- 1 file changed, 18 insertions(+), 83 deletions(-)
+ include/block/block_int.h |  5 ----
+ block.c                   | 63 ++++++++++++++-------------------------
+ 2 files changed, 22 insertions(+), 46 deletions(-)
 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index dd2de6bd1d..c823f5b1b3 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -813,11 +813,6 @@ struct BdrvChild {
+      */
+     uint64_t shared_perm;
+ 
+-    /* backup of permissions during permission update procedure */
+-    bool has_backup_perm;
+-    uint64_t backup_perm;
+-    uint64_t backup_shared_perm;
+-
+     /*
+      * This link is frozen: the child can neither be replaced nor
+      * detached from the parent.
 diff --git a/block.c b/block.c
-index 38bd2ea32e..2362c934a4 100644
+index 2362c934a4..7b2a8844f6 100644
 --- a/block.c
 +++ b/block.c
-@@ -2401,42 +2401,6 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
-     return 0;
+@@ -2135,59 +2135,40 @@ static GSList *bdrv_topological_dfs(GSList *list, GHashTable *found,
+     return g_slist_prepend(list, bs);
  }
  
--static void bdrv_node_set_perm(BlockDriverState *bs)
+-static void bdrv_child_set_perm_commit(void *opaque)
 -{
--    BlockDriver *drv = bs->drv;
--    BdrvChild *c;
+-    BdrvChild *c = opaque;
 -
--    if (!drv) {
--        return;
--    }
--
--    bdrv_drv_set_perm_commit(bs);
--
--    /* Drivers that never have children can omit .bdrv_child_perm() */
--    if (!drv->bdrv_child_perm) {
--        assert(QLIST_EMPTY(&bs->children));
--        return;
--    }
--
--    /* Update all children */
--    QLIST_FOREACH(c, &bs->children, next) {
--        bdrv_child_set_perm_commit(c);
--    }
+-    c->has_backup_perm = false;
 -}
--
--static void bdrv_list_set_perm(GSList *list)
--{
--    for ( ; list; list = list->next) {
--        bdrv_node_set_perm((BlockDriverState *)list->data);
--    }
--}
--
--static void bdrv_set_perm(BlockDriverState *bs)
--{
--    g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
--    return bdrv_list_set_perm(list);
--}
--
- void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *perm,
-                               uint64_t *shared_perm)
++typedef struct BdrvChildSetPermState {
++    BdrvChild *child;
++    uint64_t old_perm;
++    uint64_t old_shared_perm;
++} BdrvChildSetPermState;
+ 
+ static void bdrv_child_set_perm_abort(void *opaque)
  {
-@@ -2776,52 +2740,6 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
-     }
+-    BdrvChild *c = opaque;
+-    /*
+-     * We may have child->has_backup_perm unset at this point, as in case of
+-     * _check_ stage of permission update failure we may _check_ not the whole
+-     * subtree.  Still, _abort_ is called on the whole subtree anyway.
+-     */
+-    if (c->has_backup_perm) {
+-        c->perm = c->backup_perm;
+-        c->shared_perm = c->backup_shared_perm;
+-        c->has_backup_perm = false;
+-    }
++    BdrvChildSetPermState *s = opaque;
++
++    s->child->perm = s->old_perm;
++    s->child->shared_perm = s->old_shared_perm;
  }
+ 
+ static TransactionActionDrv bdrv_child_set_pem_drv = {
+     .abort = bdrv_child_set_perm_abort,
+-    .commit = bdrv_child_set_perm_commit,
++    .clean = g_free,
+ };
  
 -/*
-- * Updates @child to change its reference to point to @new_bs, including
-- * checking and applying the necessary permission updates both to the old node
-- * and to @new_bs.
+- * With tran=NULL needs to be followed by direct call to either
+- * bdrv_child_set_perm_commit() or bdrv_child_set_perm_abort().
 - *
-- * NULL is passed as @new_bs for removing the reference before freeing @child.
-- *
-- * If @new_bs is not NULL, bdrv_check_perm() must be called beforehand, as this
-- * function uses bdrv_set_perm() to update the permissions according to the new
-- * reference that @new_bs gets.
-- *
-- * Callers must ensure that child->frozen is false.
+- * With non-NULL tran needs to be followed by tran_abort() or tran_commit()
+- * instead.
 - */
--static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs)
--{
--    BlockDriverState *old_bs = child->bs;
--
--    /* Asserts that child->frozen == false */
--    bdrv_replace_child_noperm(child, new_bs);
--
+-static void bdrv_child_set_perm_safe(BdrvChild *c, uint64_t perm,
+-                                     uint64_t shared, Transaction *tran)
++static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm,
++                                uint64_t shared, Transaction *tran)
+ {
+-    if (!c->has_backup_perm) {
+-        c->has_backup_perm = true;
+-        c->backup_perm = c->perm;
+-        c->backup_shared_perm = c->shared_perm;
+-    }
 -    /*
--     * Start with the new node's permissions.  If @new_bs is a (direct
--     * or indirect) child of @old_bs, we must complete the permission
--     * update on @new_bs before we loosen the restrictions on @old_bs.
--     * Otherwise, bdrv_check_perm() on @old_bs would re-initiate
--     * updating the permissions of @new_bs, and thus not purely loosen
--     * restrictions.
+-     * Note: it's OK if c->has_backup_perm was already set, as we can find the
+-     * same c twice during check_perm procedure
 -     */
--    if (new_bs) {
--        bdrv_set_perm(new_bs);
--    }
--
--    if (old_bs) {
--        /*
--         * Update permissions for old node. We're just taking a parent away, so
--         * we're loosening restrictions. Errors of permission update are not
--         * fatal in this case, ignore them.
--         */
--        bdrv_refresh_perms(old_bs, NULL);
--
--        /* When the parent requiring a non-default AioContext is removed, the
--         * node moves back to the main AioContext */
--        bdrv_try_set_aio_context(old_bs, qemu_get_aio_context(), NULL);
--    }
--}
--
- static void bdrv_child_free(void *opaque)
- {
-     BdrvChild *c = opaque;
-@@ -2989,8 +2907,25 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
++    BdrvChildSetPermState *s = g_new(BdrvChildSetPermState, 1);
++
++    *s = (BdrvChildSetPermState) {
++        .child = c,
++        .old_perm = c->perm,
++        .old_shared_perm = c->shared_perm,
++    };
  
- static void bdrv_detach_child(BdrvChild *child)
- {
--    bdrv_replace_child(child, NULL);
-+    BlockDriverState *old_bs = child->bs;
-+
-+    bdrv_replace_child_noperm(child, NULL);
-     bdrv_remove_empty_child(child);
-+
-+    if (old_bs) {
-+        /*
-+         * Update permissions for old node. We're just taking a parent away, so
-+         * we're loosening restrictions. Errors of permission update are not
-+         * fatal in this case, ignore them.
-+         */
-+        bdrv_refresh_perms(old_bs, NULL);
-+
-+        /*
-+         * When the parent requiring a non-default AioContext is removed, the
-+         * node moves back to the main AioContext
-+         */
-+        bdrv_try_set_aio_context(old_bs, qemu_get_aio_context(), NULL);
-+    }
+     c->perm = perm;
+     c->shared_perm = shared;
+ 
+-    if (tran) {
+-        tran_add(tran, &bdrv_child_set_pem_drv, c);
+-    }
++    tran_add(tran, &bdrv_child_set_pem_drv, s);
  }
  
- /*
+ static void bdrv_drv_set_perm_commit(void *opaque)
+@@ -2367,7 +2348,7 @@ static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
+         bdrv_child_perm(bs, c->bs, c, c->role, q,
+                         cumulative_perms, cumulative_shared_perms,
+                         &cur_perm, &cur_shared);
+-        bdrv_child_set_perm_safe(c, cur_perm, cur_shared, tran);
++        bdrv_child_set_perm(c, cur_perm, cur_shared, tran);
+     }
+ 
+     return 0;
+@@ -2466,7 +2447,7 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
+     Transaction *tran = tran_new();
+     int ret;
+ 
+-    bdrv_child_set_perm_safe(c, perm, shared, tran);
++    bdrv_child_set_perm(c, perm, shared, tran);
+ 
+     ret = bdrv_refresh_perms(c->bs, &local_err);
+ 
 -- 
 2.30.2
 
