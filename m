@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37B636F73E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 10:39:51 +0200 (CEST)
-Received: from localhost ([::1]:59940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51C536F74D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 10:47:08 +0200 (CEST)
+Received: from localhost ([::1]:40194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcOgg-0002LV-VA
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 04:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
+	id 1lcOnj-0006AE-Q8
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 04:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lcOas-0005Ts-0Z
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:33:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lcOan-0006d7-7t
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:33:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619771624;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/yJ8wFAyrSdoCQrKo+Bu5pp5R9TQbyjO7vQpiyXupA8=;
- b=XGsLqRrBwyD4i4y2bnK3EVNEFbpRfNIA7G4n+l0/z/TGw9EzmEZ/YGJwDDOMhKTSbtw2nW
- 23PJzzqQRn82FtWk0Rz43u9Vj13A7aqpoq2B+1O177rDNhjSSgpv+LdPzF7Im/KluWhRwI
- fPsjakWpDaW3DvQcylWnqzsDhgjg1tA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-csQRZ8sXNMuN1WOwh04Xyw-1; Fri, 30 Apr 2021 04:33:39 -0400
-X-MC-Unique: csQRZ8sXNMuN1WOwh04Xyw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B08D8049C5;
- Fri, 30 Apr 2021 08:33:38 +0000 (UTC)
-Received: from redhat.com (ovpn-113-103.ams2.redhat.com [10.36.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DD695D9C6;
- Fri, 30 Apr 2021 08:33:35 +0000 (UTC)
-Date: Fri, 30 Apr 2021 09:33:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v1] tests/migration: introduce multifd into guestperf
-Message-ID: <YIvA3bfScp8yQwjB@redhat.com>
-References: <cover.1616171924.git.huangy81@chinatelecom.cn>
- <cfeeb04d17ad932c42a9871294058b77429ad1b7.1616171924.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcOjn-0004j8-FI
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:43:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcOjj-0003nw-Q1
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 04:43:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcOjh-00062u-Id
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:42:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8B1682E8165
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 08:42:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <cfeeb04d17ad932c42a9871294058b77429ad1b7.1616171924.git.huangy81@chinatelecom.cn>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 08:34:59 -0000
+From: Thomas Huth <1906905@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: sparc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mark-cave-ayland philmd th-huth yapkv
+X-Launchpad-Bug-Reporter: yapkv (yapkv)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160714087524.10652.4920404623701840898.malonedeb@soybean.canonical.com>
+Message-Id: <161977170004.9618.1688359131963949131.malone@gac.canonical.com>
+Subject: [Bug 1906905] Re: qemu-system-sparc stucked while booting using
+ ss20_v2.25_rom 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: db80a1b4783db898fde4f505015056053374fc10
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,48 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1906905 <1906905@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 20, 2021 at 01:04:56AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman <huangy81@chinatelecom.cn>
-> 
-> Guestperf tool does not cover the multifd-enabled migration
-> currently, it is worth supporting so that developers can
-> analysis the migration performance with all kinds of
-> migration.
-> 
-> To request that multifd is enabled, with 4 channels:
-> $ ./tests/migration/guestperf.py \
->     --multifd --multifd-channels 4 --output output.json
-> 
-> To run the entire standardized set of multifd-enabled
-> comparisons, with unix migration:
-> $ ./tests/migration/guestperf-batch.py \
->     --dst-host localhost --transport unix \
->     --filter compr-multifd* --output outputdir
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> ---
->  tests/migration/guestperf/comparison.py | 14 ++++++++++++++
->  tests/migration/guestperf/engine.py     | 16 ++++++++++++++++
->  tests/migration/guestperf/scenario.py   | 12 ++++++++++--
->  tests/migration/guestperf/shell.py      | 10 +++++++++-
->  4 files changed, 49 insertions(+), 3 deletions(-)
+Fix has been included here:
+https://gitlab.com/qemu-project/qemu/-/commit/62a9b228b5fefe0f9e364d
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Released
 
-I'll queue it, sorry for the delay in responding to this.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906905
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  qemu-system-sparc stucked while booting using ss20_v2.25_rom
 
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  I cannot boot up OBP using the current (5.1) version of qemu with
+  ss20_v2.25_rom. It just stuck at "Power-ON reset" and hanged.  However
+  using the previous version from 2015 I can successfully both up the
+  OBP.
+
+  qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25.rom -nographic
+
+  Power-ON Reset
+
+  (*hang)
+
+  regards
+  Yap KV
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906905/+subscriptions
 
