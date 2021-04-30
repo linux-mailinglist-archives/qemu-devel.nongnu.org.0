@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1C336F5E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:49:19 +0200 (CEST)
-Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C7A36F5C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 08:38:41 +0200 (CEST)
+Received: from localhost ([::1]:57762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcMxi-0000Pl-7q
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46132)
+	id 1lcMnQ-0004tB-4b
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 02:38:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMer-0005i7-AB
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:49 -0400
-Received: from mga11.intel.com ([192.55.52.93]:63447)
+ id 1lcMes-0005lI-HZ
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:50 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lcMem-00017U-LK
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:49 -0400
-IronPort-SDR: pwrbvlk+MulhIQIjk+xCQXT1XWni4NBPwYRxeWPZeMgBGBj76ZJBk9HZS6MSa1QM8OGX0E5ZCc
- wDQ4T9Ylwq5Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023103"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023103"
+ id 1lcMeq-00016y-Ob
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 02:29:50 -0400
+IronPort-SDR: xU+9MhP8/L58LNXomIDpkpQOei5kXGJCdKiVq8UXCD71gLAls9Zl852W6bk0uiz5ZkxR0+MR6Z
+ PsvQDEaCR7Nw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="194023107"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="194023107"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2021 23:28:50 -0700
-IronPort-SDR: rrf1DDfNMKCONulbGR6pNZJgzJKpiaO5hm2UtMr0BfWdfYjw1oVuaMI05bjsY6iZya9q4qXtyc
- 8cq0m2HUjwDw==
+ 29 Apr 2021 23:28:51 -0700
+IronPort-SDR: sQ065Q4diUvPnltGEauS79HV0kDnv/CUAJpZxbWH3eJ8/M0T5MIj0a4YRzm2xAalNeIGosyyGe
+ cRySi2vTScCA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258604"
+X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; d="scan'208";a="387258608"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:48 -0700
+ by orsmga003.jf.intel.com with ESMTP; 29 Apr 2021 23:28:50 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH 21/32] q35: Add support for SGX EPC
-Date: Fri, 30 Apr 2021 14:24:44 +0800
-Message-Id: <20210430062455.8117-22-yang.zhong@intel.com>
+Subject: [RESEND PATCH 22/32] i440fx: Add support for SGX EPC
+Date: Fri, 30 Apr 2021 14:24:45 +0800
+Message-Id: <20210430062455.8117-23-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210430062455.8117-1-yang.zhong@intel.com>
 References: <20210430062455.8117-1-yang.zhong@intel.com>
@@ -73,23 +73,24 @@ Enable SGX EPC virtualization, which is currently only support by KVM.
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/pc_q35.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/i386/pc_piix.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 53450190f5..e7af29a94b 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -177,6 +177,9 @@ static void pc_q35_init(MachineState *machine)
-         x86ms->below_4g_mem_size = machine->ram_size;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 46cc951073..7ced457146 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -156,6 +156,10 @@ static void pc_init1(MachineState *machine,
+         }
      }
  
 +    if (sgx_epc_enabled) {
 +        pc_machine_init_sgx_epc(pcms);
 +    }
++
      x86_cpus_init(x86ms, pcmc->default_cpu_version);
  
-     kvmclock_create(pcmc->kvmclock_create_always);
+     if (pcmc->kvmclock_enabled) {
 -- 
 2.29.2.334.gfaefdd61ec
 
