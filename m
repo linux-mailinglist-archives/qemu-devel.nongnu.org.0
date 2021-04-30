@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5782D36FC5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:28:09 +0200 (CEST)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F6736FBDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:03:14 +0200 (CEST)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcU7k-0007Ft-F8
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
+	id 1lcTjd-0002Bo-NL
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcTBf-00063N-6K
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:28:07 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34751)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcTXT-0006Vi-IG
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:50:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcTBT-0003xl-7b
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:28:06 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso396005wmc.1
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 06:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Ziv4ut6jaiRoePWGy7KWl5QjX47CoE0VaiX3H3AeiJc=;
- b=QhqfpNTluwMU7ljz3DFUgbuaVZsdtQeRNhccGkBFnzWgCHg79LqCn95kosUfr51jWb
- ndVV1aivoEDWa2BsuLgPu1NSOQLCxL5HEmjDTITp02vSCoe1FStbM7+Ylhn/QxklTdAp
- rJ40NzVnTaqku7YJah0IvqQaL3YCLLnzyU658q0Vy1HZ4PeADgycTrMNKx/ELI7mAyS0
- Qfh2oH77lZUqEnQ3Rcs5NUAtpGb45tswQjAC77HPhJTcEi7SAOSTT5/Ic5sF6ZpxpgwW
- zFoAmkprT/iTyqqw2KYRCoJjo/vBsJOfXCSlyMZMU484YwSi0CmTj2EClFn44nCD3Zjo
- egkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ziv4ut6jaiRoePWGy7KWl5QjX47CoE0VaiX3H3AeiJc=;
- b=oCG8QELS22GupJt8/ZMluanTrmEeHGhxlEF/2ann3YqFNK6juSM4UcHspK1N/ThW5z
- Lodfi5naAKEacbs8rVOR5Z8EdfktPdE9gKscrD2YyMuyG/Ylclnb1xDyg4RQBlzdBsqI
- PASLwfuU+u0Vvj8xgWwRt+tSISX8vkdYUGw1ZesssF9sQyu9rzuIHcAuHZmbCfEp5zyp
- WIfg6TYysOeomEPWHELA5+rHbpI2B+sJ0tU7cAS4c5CfV9xSbdc7E59cQs1kIcF+C9n6
- 7MOa2CHSEhTs2rorDJjguOqyv9LHq8vHgiB34X9iZ2VAgHrVfYmKndz1Fr1sX/yjT4U5
- Uurw==
-X-Gm-Message-State: AOAM530MciouQM89RnvKasrny8Un7+l56TMrMlGKcI/SISWtRa5o36CO
- /g5vwUWt27FedlthNM4ls7q5hqHkukdO69ig
-X-Google-Smtp-Source: ABdhPJzNcvjlIAatsryKQHqvI22PE7ZJXVAQacbdy3DAdml5PxHpZnMNxBaaghxPv8lcTE/Gsidsyg==
-X-Received: by 2002:a7b:c312:: with SMTP id k18mr6239147wmj.89.1619789272925; 
- Fri, 30 Apr 2021 06:27:52 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b8sm2420349wrx.15.2021.04.30.06.27.52
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 06:27:52 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/13] target/arm: Make translate-neon.c.inc its own
- compilation unit
-Date: Fri, 30 Apr 2021 14:27:40 +0100
-Message-Id: <20210430132740.10391-14-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210430132740.10391-1-peter.maydell@linaro.org>
-References: <20210430132740.10391-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcTXR-00005b-B2
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:50:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcTXO-0005tI-V1
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:50:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E85692E8144
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 13:50:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Apr 2021 13:40:59 -0000
+From: Peter Maydell <1926759@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: muhui pmaydell
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
+Message-Id: <161979005966.3730.2285025997447056905.malone@chaenomeles.canonical.com>
+Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 04726636e8030b07f8890a514519f398a454d6e7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,102 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch translate-neon.c.inc from being #included into translate.c
-to being its own compilation unit.
+Crash repros on current QEMU.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-a32.h                           |  3 +++
- .../arm/{translate-neon.c.inc => translate-neon.c}   | 12 +++++++-----
- target/arm/translate.c                               |  3 ---
- target/arm/meson.build                               |  7 ++++---
- 4 files changed, 14 insertions(+), 11 deletions(-)
- rename target/arm/{translate-neon.c.inc => translate-neon.c} (99%)
+This is a bug, in that we shouldn't crash like this. However, it doesn't
+really make any sense for a userspace program (which is what a binary
+run by qemu-arm is) to execute the WFI instruction, which is largely
+intended for OSes to use. If your guest binary needs to use WFI, you
+should probably be running it on the system emulation QEMU, which does
+handle WFI correctly.
 
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 3ddb76b76b5..c997f4e3216 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -24,6 +24,9 @@
- bool disas_m_nocp(DisasContext *dc, uint32_t insn);
- bool disas_vfp(DisasContext *s, uint32_t insn);
- bool disas_vfp_uncond(DisasContext *s, uint32_t insn);
-+bool disas_neon_dp(DisasContext *s, uint32_t insn);
-+bool disas_neon_ls(DisasContext *s, uint32_t insn);
-+bool disas_neon_shared(DisasContext *s, uint32_t insn);
- 
- void load_reg_var(DisasContext *s, TCGv_i32 var, int reg);
- void arm_gen_condlabel(DisasContext *s);
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c
-similarity index 99%
-rename from target/arm/translate-neon.c.inc
-rename to target/arm/translate-neon.c
-index 73bf376ed32..658bd275dac 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c
-@@ -20,11 +20,13 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
--/*
-- * This file is intended to be included from translate.c; it uses
-- * some macros and definitions provided by that file.
-- * It might be possible to convert it to a standalone .c file eventually.
-- */
-+#include "qemu/osdep.h"
-+#include "tcg/tcg-op.h"
-+#include "tcg/tcg-op-gvec.h"
-+#include "exec/exec-all.h"
-+#include "exec/gen-icount.h"
-+#include "translate.h"
-+#include "translate-a32.h"
- 
- static inline int plus1(DisasContext *s, int x)
- {
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 18de16ebd0a..455352bcf60 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -1206,9 +1206,6 @@ void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop)
- 
- #define ARM_CP_RW_BIT   (1 << 20)
- 
--/* Include the Neon decoder */
--#include "translate-neon.c.inc"
--
- static inline void iwmmxt_load_reg(TCGv_i64 var, int reg)
- {
-     tcg_gen_ld_i64(var, cpu_env, offsetof(CPUARMState, iwmmxt.regs[reg]));
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index f6360f33f11..5bfaf43b500 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -1,8 +1,8 @@
- gen = [
-   decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
--  decodetree.process('neon-shared.decode', extra_args: '--static-decode=disas_neon_shared'),
--  decodetree.process('neon-dp.decode', extra_args: '--static-decode=disas_neon_dp'),
--  decodetree.process('neon-ls.decode', extra_args: '--static-decode=disas_neon_ls'),
-+  decodetree.process('neon-shared.decode', extra_args: '--decode=disas_neon_shared'),
-+  decodetree.process('neon-dp.decode', extra_args: '--decode=disas_neon_dp'),
-+  decodetree.process('neon-ls.decode', extra_args: '--decode=disas_neon_ls'),
-   decodetree.process('vfp.decode', extra_args: '--decode=disas_vfp'),
-   decodetree.process('vfp-uncond.decode', extra_args: '--decode=disas_vfp_uncond'),
-   decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
-@@ -27,6 +27,7 @@ arm_ss.add(files(
-   'tlb_helper.c',
-   'translate.c',
-   'translate-m-nocp.c',
-+  'translate-neon.c',
-   'translate-vfp.c',
-   'vec_helper.c',
-   'vfp_helper.c',
--- 
-2.20.1
 
+** Changed in: qemu
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926759
+
+Title:
+  WFI instruction results in unhandled CPU exception
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Hi
+
+  I refer to the WFI instruction. The bytecode is 0xe320f003. After the
+  execution, qemu exit with the following  crash log.
+
+  qemu: unhandled CPU exception 0x10001 - aborting
+  R00=3D00000001 R01=3D40800b34 R02=3D40800b3c R03=3D000102ec
+  R04=3D00010a28 R05=3D00010158 R06=3D00087460 R07=3D00010158
+  R08=3D00000000 R09=3D00000000 R10=3D00085b7c R11=3D408009f4
+  R12=3D40800a08 R13=3D408009f0 R14=3D0001057c R15=3D000102f8
+  PSR=3D60000010 -ZC- A usr32
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f5c=
+21d0fa12
+
+  WFI aims to enter a low-power state and wait for interrupt. The raised
+  exception seems not a right behavior. I can provide a testcase if you
+  needed. Many thanks.
+
+  Regards
+  Muhui
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926759/+subscriptions
 
