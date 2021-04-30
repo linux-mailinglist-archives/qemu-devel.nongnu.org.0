@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F20E36FF96
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:34:56 +0200 (CEST)
-Received: from localhost ([::1]:38694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EEA36FFB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 19:36:30 +0200 (CEST)
+Received: from localhost ([::1]:42616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcX2V-00053Y-8D
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37468)
+	id 1lcX41-0006ke-7I
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 13:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lcWWD-0000Kp-6v; Fri, 30 Apr 2021 13:01:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4748)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lcWWA-0002Xn-2C; Fri, 30 Apr 2021 13:01:32 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13UGnoIr081905; Fri, 30 Apr 2021 13:01:19 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 388nrsr7v8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 13:01:18 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UGwNIY022663;
- Fri, 30 Apr 2021 17:01:16 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 384akh9ujt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 17:01:16 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 13UH0nd633358160
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Apr 2021 17:00:49 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B613711C050;
- Fri, 30 Apr 2021 17:01:13 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 81A6211C054;
- Fri, 30 Apr 2021 17:01:13 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 30 Apr 2021 17:01:13 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.40.192])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id DD87322016C;
- Fri, 30 Apr 2021 19:01:12 +0200 (CEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/18] aspeed: Add support for the rainier-bmc board
-Date: Fri, 30 Apr 2021 19:01:06 +0200
-Message-Id: <20210430170108.10261-7-clg@kaod.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210430170108.10261-1-clg@kaod.org>
-References: <20210430170108.10261-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcWfB-0000fu-6i
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:10:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcWf9-0004xR-4G
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 13:10:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcWf7-0000TN-6K
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 17:10:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2B2D92E8024
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 17:10:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: y5YcHfE3G1-EsDwu_i6ZghNc3Z90gp8U
-X-Proofpoint-ORIG-GUID: y5YcHfE3G1-EsDwu_i6ZghNc3Z90gp8U
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-30_10:2021-04-30,
- 2021-04-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1034
- impostorscore=0 priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104300109
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Date: Fri, 30 Apr 2021 17:02:00 -0000
+From: Thomas Huth <1808928@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: bitmaps block dirt qcow2
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: catborise jnsnow th-huth
+X-Launchpad-Bug-Reporter: Ali Sag (catborise)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <154511858636.8591.3431958243733477284.malonedeb@gac.canonical.com>
+Message-Id: <161980212085.14478.16899779942470374969.malone@wampee.canonical.com>
+Subject: [Bug 1808928] Re: Bitmap Extra data is not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: b34d8da09f0d3a0e7e75eb9da9e2e1272517cc0c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,156 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Reply-To: Bug 1808928 <1808928@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Rainier BMC board is a board for the middle range POWER10 IBM systems=
-.
+This is an automated cleanup. This bug report has been moved
+to QEMU's new bug tracker on gitlab.com and thus gets marked
+as 'expired' now. Please continue with the discussion here:
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20210407171637.777743-19-clg@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/arm/aspeed.c | 79 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ https://gitlab.com/qemu-project/qemu/-/issues/58
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index cefa0f13527e..490a8a202239 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -146,6 +146,10 @@ struct AspeedMachineState {
- #define TACOMA_BMC_HW_STRAP1  0x00000000
- #define TACOMA_BMC_HW_STRAP2  0x00000040
-=20
-+/* Rainier hardware value: (QEMU prototype) */
-+#define RAINIER_BMC_HW_STRAP1 0x00000000
-+#define RAINIER_BMC_HW_STRAP2 0x00000000
-+
- /*
-  * The max ram region is for firmwares that scan the address space
-  * with load/store to guess how much RAM the SoC has.
-@@ -629,6 +633,58 @@ static void g220a_bmc_i2c_init(AspeedMachineState *b=
-mc)
-                           eeprom_buf);
- }
-=20
-+static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc =3D &bmc->soc;
-+
-+    /* The rainier expects a TMP275 but a TMP105 is compatible */
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), TYPE_TMP10=
-5,
-+                     0x48);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), TYPE_TMP10=
-5,
-+                     0x49);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), TYPE_TMP10=
-5,
-+                     0x4a);
-+
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), TYPE_TMP10=
-5,
-+                     0x48);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), TYPE_TMP10=
-5,
-+                     0x49);
-+
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), TYPE_TMP10=
-5,
-+                     0x48);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), TYPE_TMP10=
-5,
-+                     0x4a);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), TYPE_TMP10=
-5,
-+                     0x4b);
-+
-+    /* Bus 7: TODO dps310@76 */
-+    /* Bus 7: TODO max31785@52 */
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x61);
-+    /* Bus 7: TODO si7021-a20@20 */
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), TYPE_TMP10=
-5,
-+                     0x48);
-+
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), TYPE_TMP10=
-5,
-+                     0x48);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), TYPE_TMP10=
-5,
-+                     0x4a);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552",=
- 0x61);
-+    /* Bus 8: ucd90320@11 */
-+    /* Bus 8: ucd90320@b */
-+    /* Bus 8: ucd90320@c */
-+
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp423", =
-0x4c);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp423", =
-0x4d);
-+
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 10), "tmp423",=
- 0x4c);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 10), "tmp423",=
- 0x4d);
-+
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), TYPE_TMP1=
-05,
-+                     0x48);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), TYPE_TMP1=
-05,
-+                     0x49);
-+}
-+
- static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
- {
-     return ASPEED_MACHINE(obj)->mmio_exec;
-@@ -889,6 +945,25 @@ static void aspeed_machine_g220a_class_init(ObjectCl=
-ass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
- };
-=20
-+static void aspeed_machine_rainier_class_init(ObjectClass *oc, void *dat=
-a)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       =3D "IBM Rainier BMC (Cortex A7)";
-+    amc->soc_name  =3D "ast2600-a1";
-+    amc->hw_strap1 =3D RAINIER_BMC_HW_STRAP1;
-+    amc->hw_strap2 =3D RAINIER_BMC_HW_STRAP2;
-+    amc->fmc_model =3D "mx66l1g45g";
-+    amc->spi_model =3D "mx66l1g45g";
-+    amc->num_cs    =3D 2;
-+    amc->macs_mask  =3D ASPEED_MAC2_ON | ASPEED_MAC3_ON;
-+    amc->i2c_init  =3D rainier_bmc_i2c_init;
-+    mc->default_ram_size =3D 1 * GiB;
-+    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static const TypeInfo aspeed_machine_types[] =3D {
-     {
-         .name          =3D MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -930,6 +1005,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
-         .name          =3D MACHINE_TYPE_NAME("g220a-bmc"),
-         .parent        =3D TYPE_ASPEED_MACHINE,
-         .class_init    =3D aspeed_machine_g220a_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("rainier-bmc"),
-+        .parent        =3D TYPE_ASPEED_MACHINE,
-+        .class_init    =3D aspeed_machine_rainier_class_init,
-     }, {
-         .name          =3D TYPE_ASPEED_MACHINE,
-         .parent        =3D TYPE_MACHINE,
---=20
-2.26.3
 
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
+
+** Changed in: qemu
+     Assignee: John Snow (jnsnow) =3D> (unassigned)
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #58
+   https://gitlab.com/qemu-project/qemu/-/issues/58
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1808928
+
+Title:
+  Bitmap Extra data is not supported
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  i am using dirty bitmaps and drive-backup. It works as aspected.
+
+  Lately, i encounter a disastrous error. There is not any information
+  about that situation. I cannot reach/open/attach/info or anything with
+  a qcow2 file.
+
+  virsh version
+  Compiled against library: libvirt 4.10.0
+  Using library: libvirt 4.10.0
+  Using API: QEMU 4.10.0
+  Running hypervisor: QEMU 2.12.0
+
+  "qemu-img: Could not open '/var/lib/libvirt/images/test.qcow2': Bitmap
+  extra data is not supported"
+
+  what is that mean? what should i do?
+  i cannot remove bitmap. i cannot open image or query.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1808928/+subscriptions
 
