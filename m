@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB9C36F65B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:24:06 +0200 (CEST)
-Received: from localhost ([::1]:34434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FE636F663
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 09:28:04 +0200 (CEST)
+Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcNVN-0004lV-Hl
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53768)
+	id 1lcNZD-0007rn-2u
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 03:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcNS0-0001H9-9D
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:20:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22782)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcNXF-00068F-Qp
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:26:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcNRy-0004aS-54
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:20:35 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcNXD-00089m-Ej
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 03:26:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619767233;
+ s=mimecast20190719; t=1619767558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mnUoLs2M+w2FtPj4hx3E8DqxPH3f2XmjyIjniFZo0NQ=;
- b=RB7F99fkoqGxekjTJ3tWia6L/AqFQByFMXVk5iIVp3kwmMomvAo+PlEyTo2itAwqs0WGXc
- 38ILIU92EDqrPjkm8e5QWDBgvbr6Ytn3E1mxeHeYCuYWgPiGx2Bplr9lphFJU5HmlmufDe
- M6iHXM/q8ZZhiMOu3mJjMBQPYaokIsc=
+ bh=X4kRnvDPPFGd2xJOR91+Cf8YaoJL/b2AWGlgAD0DQII=;
+ b=ZjFaHB+0iBWmpAPT9L57jpH3ajxt6PMrhjgSmqOQsC/C3mJTrCsGIDrN49xFPiw4YjLFSQ
+ AUEGw3Ar7bEvUMk6i+HUMbWDoAcX349QNauWe0Cbc74uywyYSltn+8L5vCZEeKJKgKDAo4
+ c0/ZYVzPDPy1z/Fydsu3W2Z2sAfMDMQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-VR_u4AQqNr-JBZ9maJpY3A-1; Fri, 30 Apr 2021 03:20:31 -0400
-X-MC-Unique: VR_u4AQqNr-JBZ9maJpY3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-525-8YDfiNoyO9StUOYa2arZOw-1; Fri, 30 Apr 2021 03:25:54 -0400
+X-MC-Unique: 8YDfiNoyO9StUOYa2arZOw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3110F1A8A71;
- Fri, 30 Apr 2021 07:20:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 383C0107ACCA;
+ Fri, 30 Apr 2021 07:25:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72254679E7;
- Fri, 30 Apr 2021 07:20:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D8D319C45;
+ Fri, 30 Apr 2021 07:25:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EAE8B113525D; Fri, 30 Apr 2021 09:20:24 +0200 (CEST)
+ id 8567F113525D; Fri, 30 Apr 2021 09:25:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: gustavo@noronha.eti.br
-Subject: Re: [PATCH 1/2] ui/cocoa: capture all keys and combos when mouse is
- grabbed
+Subject: Re: [PATCH 2/2] ui/cocoa: add option to swap Option and Command,
+ enable by default
 References: <20210429234705.83206-1-gustavo@noronha.eti.br>
- <20210429234705.83206-2-gustavo@noronha.eti.br>
-Date: Fri, 30 Apr 2021 09:20:24 +0200
-In-Reply-To: <20210429234705.83206-2-gustavo@noronha.eti.br>
- (gustavo@noronha.eti.br's message of "Thu, 29 Apr 2021 20:47:04
+ <20210429234705.83206-3-gustavo@noronha.eti.br>
+Date: Fri, 30 Apr 2021 09:25:47 +0200
+In-Reply-To: <20210429234705.83206-3-gustavo@noronha.eti.br>
+ (gustavo@noronha.eti.br's message of "Thu, 29 Apr 2021 20:47:05
  -0300")
-Message-ID: <87wnsk5jd3.fsf@dusky.pond.sub.org>
+Message-ID: <87r1is5j44.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -91,73 +91,74 @@ gustavo@noronha.eti.br writes:
 
 > From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
 >
-> Applications such as Gnome may use Alt-Tab and Super-Tab for different
-> purposes, some use Ctrl-arrows so we want to allow qemu to handle
-> everything when it captures the mouse/keyboard.
+> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This change
+> swaps them around so that Alt is the key closer to the space bar and Meta/Super
+> is between Control and Alt, like on non-Mac keyboards.
 >
-> However, Mac OS handles some combos like Command-Tab and Ctrl-arrows
-> at an earlier part of the event handling chain, not letting qemu see it.
->
-> We add a global Event Tap that allows qemu to see all events when the
-> mouse is grabbed. Note that this requires additional permissions.
->
-> See:
->
-> https://developer.apple.com/documentation/coregraphics/1454426-cgeventtapcreate?language=objc#discussion
-> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+> It is a cocoa display option, enabled by default.
 >
 > Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
 > ---
->  qapi/ui.json    | 15 ++++++++++
->  qemu-options.hx |  3 ++
->  ui/cocoa.m      | 73 +++++++++++++++++++++++++++++++++++++++++++++++--
->  3 files changed, 89 insertions(+), 2 deletions(-)
+>  qapi/ui.json    |  7 +++++-
+>  qemu-options.hx |  1 +
+>  ui/cocoa.m      | 66 +++++++++++++++++++++++++++++++++++++++++--------
+>  3 files changed, 63 insertions(+), 11 deletions(-)
 >
 > diff --git a/qapi/ui.json b/qapi/ui.json
-> index 1052ca9c38..77bc00fd0d 100644
+> index 77bc00fd0d..02db684251 100644
 > --- a/qapi/ui.json
 > +++ b/qapi/ui.json
-> @@ -1088,6 +1088,20 @@
->  { 'struct'  : 'DisplayCurses',
->    'data'    : { '*charset'       : 'str' } }
+> @@ -1098,9 +1098,14 @@
+   ##
+   # @DisplayCocoa:
+   #
+   # Cocoa display options.
+   #
+   # @full-grab:       Capture all key presses, including system combos. This
+   #                   requires accessibility permissions, since it performs
+>  #                   a global grab on key events. (default: off)
+>  #                   See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+>  #
+> +# @swap-option-command: Swaps the Option and Command keys so that their key codes
+
+Please use imperative mood consistently: "Swap", like "Capture" above.
+
+> +#                       match their position on non-Mac keyboards and you can use
+> +#                       Meta/Super and Alt where you expect them. (default: on)
+> +#
+
+Drop the blank comment line, and break your lines a bit earlier.
+
+>  ##
+
+Like this:
+
+   ##
+   # @DisplayCocoa:
+   #
+   # Cocoa display options.
+   #
+   # @full-grab:       Capture all key presses, including system combos. This
+   #                   requires accessibility permissions, since it performs
+   #                   a global grab on key events. (default: off)
+   #                   See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+   #
+   # @swap-option-command: Swap the Option and Command keys so that their key
+   #                       codes match their position on non-Mac keyboards and
+   #                       you can use Meta/Super and Alt where you expect
+   #                       them. (default: on)
+   ##
+
+
+>  { 'struct'  : 'DisplayCocoa',
+> -  'data'    : { '*full-grab'     : 'bool' } }
+> +  'data'    : { '*full-grab'           : 'bool',
+> +                '*swap-option-command' : 'bool' } }
 >  
-> +##
-> +# @DisplayCocoa:
-> +#
-> +# Cocoa display options.
-> +#
-> +# @full-grab:       Capture all key presses, including system combos. This
-> +#                   requires accessibility permissions, since it performs
-> +#                   a global grab on key events. (default: off)
-> +#                   See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
-
-Please indent like this
-
-   # @full-grab: Capture all key presses, including system combos. This
-   #             requires accessibility permissions, since it performs
-   #             a global grab on key events. (default: off)
-   #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
-
-I hope the link is permanent.
-
-> +#
-> +##
-> +{ 'struct'  : 'DisplayCocoa',
-> +  'data'    : { '*full-grab'     : 'bool' } }
-> +
 >  ##
 >  # @DisplayType:
->  #
-> @@ -1153,6 +1167,7 @@
->                  '*gl'            : 'DisplayGLMode' },
->    'discriminator' : 'type',
->    'data'    : { 'gtk'            : 'DisplayGTK',
-> +                'cocoa'          : 'DisplayCocoa',
->                  'curses'         : 'DisplayCurses',
->                  'egl-headless'   : 'DisplayEGLHeadless'} }
->  
 
-With indentation tidied up, QAPI schema
+With the doc comment tidied up, QAPI schema
 Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
