@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F1B36FC0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:22:52 +0200 (CEST)
-Received: from localhost ([::1]:52858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A683E36FC59
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:26:58 +0200 (CEST)
+Received: from localhost ([::1]:34506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcU2d-00026t-Gq
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40408)
+	id 1lcU6Z-0006Ju-Tu
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcTBb-0005uk-S8
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:28:03 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38809)
+ id 1lcTBe-000618-BE
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:28:06 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lcTBO-0003vK-5x
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:28:03 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id l14so745903wrx.5
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 06:27:49 -0700 (PDT)
+ id 1lcTBP-0003vT-6O
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:28:06 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k4-20020a7bc4040000b02901331d89fb83so1681065wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 06:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WOqjrj/e9xRiNa1HS9aJmQcDMZVyUnFFfhTHfQgPJAA=;
- b=ftX3kY7x4nYciFrcfhu2vbj1sqpCyA9QJuVlgly4uKmZOm7m3GVSJNt8GKftbvTInv
- oTmDTaxCVBLEZGYE7eb0HhMzj89BhJDyZUWtYDEFMhGTQVHxvGQiA5EIByRsWSXXQFf6
- PWR3x8bjQIp+M1yrL3iLBb8tiw+2HlgFQzzhYGSUTJmeq/broPP9PjNrLi3RZ4DqS/SR
- RK5b0Cq7iCM877gLvY3yGx9fblt6fuFw1PJzwW0KO3f8CtImoZoYmVxHS87v2w85HzCP
- juO589kxIMcM8NA1QQdErWeDs1vPyJrn24U7QYBBdqcNc4tOXFe9TczowWDTt3H4jjmR
- hECQ==
+ bh=F5srNWLoR+tJvJGu3iqRKMB8Wtmf8qQwcyjFl8XuJIQ=;
+ b=LPOSVhE8fPkoBHNc97geEb8eAKe7nnwTEuTYNy5dTIicpVv+/H12+dsq/owd8HGKOp
+ dR2SqayywT5wxneaov7ta1K22iLwfC70I7pdMthjabVUlJehVUYq5dT2Fy3nSYwM94yC
+ DDKH/NQr2qWKqm3dYArilss7EBG8HerD8VAUEG1+3YU9ZUcTKtvfleMAPRrF+ZWhc8Iy
+ CQoDnywBnOkHP4lymw2twsblbfm3HFrgg/4elyP03uLQn7cNOqHL1BXCie7mA8lR7MZx
+ F5plBe6xl1QmELukNQpnAnJDchLEp8kHKHKxe2KgefKEhiWLS1eBWKrmUuDCqdhEeNDN
+ jOAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WOqjrj/e9xRiNa1HS9aJmQcDMZVyUnFFfhTHfQgPJAA=;
- b=VBIkVClNYFGFvyUCLeC1/VcO//8MGuAS3E5hezChGQj937BvuSIx0G2ercL2twm+iT
- z0keOOLFV+W18aMVaXtx7fSSgKCpdZy8ivyPbCEmZOgOTJ9KYm/NA+W//hv1ts/8mfA9
- s4O0wROTx+9OeBsEWTFTGYTldwk85cKWhlvbB6T+Cl9YwwipiAuKG3Yes+x9kl3+RyKm
- xq0S9UHo8WUo6m3b4zlks8xsIdA/S452gsd9UeN3DH7jIJq86hRf1Nert9FU62+4EF6W
- uUWt8f/X7mdC7Ma9oLfCazpDQ3eeK5kOf+K+NUUek6VNUF+9fUAvu/VxgIpnZA0dwbkP
- ITgQ==
-X-Gm-Message-State: AOAM532di8eGWGJi/6SYEX5XzGrmFfOQUjvQTj/YUf6W9QcrZPhbzbbY
- 1wBIKsQ6RS3TT6roDKu4GpKIp7YJv8zgwKiG
-X-Google-Smtp-Source: ABdhPJzsD9DU3Clfqvw+XTeF7DRXJIT4ILuqLDZMkFNiDW/7OzjUTiV2vPT4wCHhW6IV5hh9fEhR/g==
-X-Received: by 2002:adf:9d48:: with SMTP id o8mr6838964wre.183.1619789268681; 
- Fri, 30 Apr 2021 06:27:48 -0700 (PDT)
+ bh=F5srNWLoR+tJvJGu3iqRKMB8Wtmf8qQwcyjFl8XuJIQ=;
+ b=bj1uq5XXBg8DiEuLPvjIwtNfsBfl756AaX9Tjf+JvjUG5UgSg3Xg+HOQW+jrfK75yo
+ zu7XT8pKlq8aQQaH/2kpyURRyE9gJs6TXTdz7ka/NuFEqM70zMWMF5goURb7olFv32fy
+ oW1fBrY+G9WF6MHip704ITWyh02ZzLkBv7ZUoogCtCtKJMitpqqNSojWXP2y2bC/BJ18
+ kre4mycgceRv9OC5wqoAHiOZh9t9KrAY5sV1p++bxCBnVwdDH5uM7TdTUjVFZ8NHjONR
+ 2RkzO8mwXnQ8s192See3yhmVoKH8Aha5PRQyf/k68AdgQSkDQ4mnFoTumSix1X9f+9wK
+ 3Dcw==
+X-Gm-Message-State: AOAM5304wZ+jQ0iz0F0H7wnSNI1UgG00SlHMUvpIJzTyeSVYg7cqen9j
+ 2zDx35ZHpRXTDpg8lhHHoB1WuATNKv92oOYT
+X-Google-Smtp-Source: ABdhPJyV0W2wCRggpWdXdc2/vXG5NFWuhjfg9pTbCECgt8iDeSEThUNXvKPB7Y/phLwFvSDbIh2RDw==
+X-Received: by 2002:a1c:60c2:: with SMTP id u185mr6098606wmb.157.1619789269467; 
+ Fri, 30 Apr 2021 06:27:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id b8sm2420349wrx.15.2021.04.30.06.27.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Apr 2021 06:27:48 -0700 (PDT)
+ Fri, 30 Apr 2021 06:27:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/13] target/arm: Make functions used by translate-vfp
- global
-Date: Fri, 30 Apr 2021 14:27:34 +0100
-Message-Id: <20210430132740.10391-8-peter.maydell@linaro.org>
+Subject: [PATCH v2 08/13] target/arm: Make translate-vfp.c.inc its own
+ compilation unit
+Date: Fri, 30 Apr 2021 14:27:35 +0100
+Message-Id: <20210430132740.10391-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210430132740.10391-1-peter.maydell@linaro.org>
 References: <20210430132740.10391-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,157 +89,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the remaining functions which are needed by translate-vfp.c.inc
-global.
+Switch translate-vfp.c.inc from being #included into translate.c
+to being its own compilation unit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: made gen_set_cpsr and gen_set_condexec not inline at rth's suggestion
----
- target/arm/translate-a32.h | 18 ++++++++++++++++++
- target/arm/translate.c     | 25 ++++++++-----------------
- 2 files changed, 26 insertions(+), 17 deletions(-)
+ target/arm/translate-a32.h                          |  2 ++
+ target/arm/{translate-vfp.c.inc => translate-vfp.c} | 12 +++++++-----
+ target/arm/translate.c                              |  3 +--
+ target/arm/meson.build                              |  5 +++--
+ 4 files changed, 13 insertions(+), 9 deletions(-)
+ rename target/arm/{translate-vfp.c.inc => translate-vfp.c} (99%)
 
 diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 522aa83636a..326cbafe996 100644
+index 326cbafe996..e767366f694 100644
 --- a/target/arm/translate-a32.h
 +++ b/target/arm/translate-a32.h
-@@ -30,6 +30,13 @@ void read_neon_element32(TCGv_i32 dest, int reg, int ele, MemOp memop);
- void read_neon_element64(TCGv_i64 dest, int reg, int ele, MemOp memop);
- void write_neon_element32(TCGv_i32 src, int reg, int ele, MemOp memop);
- void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop);
-+TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs);
-+void gen_set_cpsr(TCGv_i32 var, uint32_t mask);
-+void gen_set_condexec(DisasContext *s);
-+void gen_set_pc_im(DisasContext *s, target_ulong val);
-+void gen_lookup_tb(DisasContext *s);
-+long vfp_reg_offset(bool dp, unsigned reg);
-+long neon_full_reg_offset(unsigned reg);
+@@ -22,6 +22,8 @@
  
- static inline TCGv_i32 load_cpu_offset(int offset)
- {
-@@ -57,6 +64,8 @@ static inline TCGv_i32 load_reg(DisasContext *s, int reg)
-     return tmp;
- }
+ /* Prototypes for autogenerated disassembler functions */
+ bool disas_m_nocp(DisasContext *dc, uint32_t insn);
++bool disas_vfp(DisasContext *s, uint32_t insn);
++bool disas_vfp_uncond(DisasContext *s, uint32_t insn);
  
-+void store_reg(DisasContext *s, int reg, TCGv_i32 var);
-+
- void gen_aa32_ld_internal_i32(DisasContext *s, TCGv_i32 val,
-                               TCGv_i32 a32, int index, MemOp opc);
- void gen_aa32_st_internal_i32(DisasContext *s, TCGv_i32 val,
-@@ -110,4 +119,13 @@ DO_GEN_ST(32, MO_UL)
- #undef DO_GEN_LD
- #undef DO_GEN_ST
+ void load_reg_var(DisasContext *s, TCGv_i32 var, int reg);
+ void arm_gen_condlabel(DisasContext *s);
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c
+similarity index 99%
+rename from target/arm/translate-vfp.c.inc
+rename to target/arm/translate-vfp.c
+index 1004d1fd095..3da84f30a01 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c
+@@ -20,11 +20,13 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
  
-+#if defined(CONFIG_USER_ONLY)
-+#define IS_USER(s) 1
-+#else
-+#define IS_USER(s) (s->user)
-+#endif
-+
-+/* Set NZCV flags from the high 4 bits of var.  */
-+#define gen_set_nzcv(var) gen_set_cpsr(var, CPSR_NZCV)
-+
- #endif
+-/*
+- * This file is intended to be included from translate.c; it uses
+- * some macros and definitions provided by that file.
+- * It might be possible to convert it to a standalone .c file eventually.
+- */
++#include "qemu/osdep.h"
++#include "tcg/tcg-op.h"
++#include "tcg/tcg-op-gvec.h"
++#include "exec/exec-all.h"
++#include "exec/gen-icount.h"
++#include "translate.h"
++#include "translate-a32.h"
+ 
+ /* Include the generated VFP decoder */
+ #include "decode-vfp.c.inc"
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c8b9cedfcfd..c83f2205b67 100644
+index c83f2205b67..6aec494e81d 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -52,12 +52,6 @@
- #include "translate.h"
- #include "translate-a32.h"
+@@ -1224,8 +1224,7 @@ static TCGv_ptr vfp_reg_ptr(bool dp, int reg)
  
--#if defined(CONFIG_USER_ONLY)
--#define IS_USER(s) 1
--#else
--#define IS_USER(s) (s->user)
--#endif
--
- /* These are TCG temporaries used only by the legacy iwMMXt decoder */
- static TCGv_i64 cpu_V0, cpu_V1, cpu_M0;
- /* These are TCG globals which alias CPUARMState fields */
-@@ -209,7 +203,7 @@ void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
-  * This is used for load/store for which use of PC implies (literal),
-  * or ADD that implies ADR.
-  */
--static TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs)
-+TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs)
- {
-     TCGv_i32 tmp = tcg_temp_new_i32();
+ #define ARM_CP_RW_BIT   (1 << 20)
  
-@@ -223,7 +217,7 @@ static TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs)
+-/* Include the VFP and Neon decoders */
+-#include "translate-vfp.c.inc"
++/* Include the Neon decoder */
+ #include "translate-neon.c.inc"
  
- /* Set a CPU register.  The source must be a temporary and will be
-    marked as dead.  */
--static void store_reg(DisasContext *s, int reg, TCGv_i32 var)
-+void store_reg(DisasContext *s, int reg, TCGv_i32 var)
- {
-     if (reg == 15) {
-         /* In Thumb mode, we must ignore bit 0.
-@@ -264,15 +258,12 @@ static void store_sp_checked(DisasContext *s, TCGv_i32 var)
- #define gen_sxtb16(var) gen_helper_sxtb16(var, var)
- #define gen_uxtb16(var) gen_helper_uxtb16(var, var)
- 
--
--static inline void gen_set_cpsr(TCGv_i32 var, uint32_t mask)
-+void gen_set_cpsr(TCGv_i32 var, uint32_t mask)
- {
-     TCGv_i32 tmp_mask = tcg_const_i32(mask);
-     gen_helper_cpsr_write(cpu_env, var, tmp_mask);
-     tcg_temp_free_i32(tmp_mask);
- }
--/* Set NZCV flags from the high 4 bits of var.  */
--#define gen_set_nzcv(var) gen_set_cpsr(var, CPSR_NZCV)
- 
- static void gen_exception_internal(int excp)
- {
-@@ -697,7 +688,7 @@ void arm_gen_test_cc(int cc, TCGLabel *label)
-     arm_free_cc(&cmp);
- }
- 
--static inline void gen_set_condexec(DisasContext *s)
-+void gen_set_condexec(DisasContext *s)
- {
-     if (s->condexec_mask) {
-         uint32_t val = (s->condexec_cond << 4) | (s->condexec_mask >> 1);
-@@ -707,7 +698,7 @@ static inline void gen_set_condexec(DisasContext *s)
-     }
- }
- 
--static inline void gen_set_pc_im(DisasContext *s, target_ulong val)
-+void gen_set_pc_im(DisasContext *s, target_ulong val)
- {
-     tcg_gen_movi_i32(cpu_R[15], val);
- }
-@@ -1074,7 +1065,7 @@ static void gen_exception_el(DisasContext *s, int excp, uint32_t syn,
- }
- 
- /* Force a TB lookup after an instruction that changes the CPU state.  */
--static inline void gen_lookup_tb(DisasContext *s)
-+void gen_lookup_tb(DisasContext *s)
- {
-     tcg_gen_movi_i32(cpu_R[15], s->base.pc_next);
-     s->base.is_jmp = DISAS_EXIT;
-@@ -1109,7 +1100,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
- /*
-  * Return the offset of a "full" NEON Dreg.
-  */
--static long neon_full_reg_offset(unsigned reg)
-+long neon_full_reg_offset(unsigned reg)
- {
-     return offsetof(CPUARMState, vfp.zregs[reg >> 1].d[reg & 1]);
- }
-@@ -1135,7 +1126,7 @@ static long neon_element_offset(int reg, int element, MemOp memop)
- }
- 
- /* Return the offset of a VFP Dreg (dp = true) or VFP Sreg (dp = false). */
--static long vfp_reg_offset(bool dp, unsigned reg)
-+long vfp_reg_offset(bool dp, unsigned reg)
- {
-     if (dp) {
-         return neon_element_offset(reg, 0, MO_64);
+ static inline void iwmmxt_load_reg(TCGv_i64 var, int reg)
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index bbee1325bc4..f6360f33f11 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -3,8 +3,8 @@ gen = [
+   decodetree.process('neon-shared.decode', extra_args: '--static-decode=disas_neon_shared'),
+   decodetree.process('neon-dp.decode', extra_args: '--static-decode=disas_neon_dp'),
+   decodetree.process('neon-ls.decode', extra_args: '--static-decode=disas_neon_ls'),
+-  decodetree.process('vfp.decode', extra_args: '--static-decode=disas_vfp'),
+-  decodetree.process('vfp-uncond.decode', extra_args: '--static-decode=disas_vfp_uncond'),
++  decodetree.process('vfp.decode', extra_args: '--decode=disas_vfp'),
++  decodetree.process('vfp-uncond.decode', extra_args: '--decode=disas_vfp_uncond'),
+   decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
+   decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
+   decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
+@@ -27,6 +27,7 @@ arm_ss.add(files(
+   'tlb_helper.c',
+   'translate.c',
+   'translate-m-nocp.c',
++  'translate-vfp.c',
+   'vec_helper.c',
+   'vfp_helper.c',
+   'cpu_tcg.c',
 -- 
 2.20.1
 
