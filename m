@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530F236F791
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:08:06 +0200 (CEST)
-Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A6836F793
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:09:08 +0200 (CEST)
+Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcP81-0001Mi-Dk
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1lcP91-0002bf-JP
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcP60-0008UV-R4
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:06:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59718)
+ id 1lcP5z-0008S5-9e
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:05:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcP5y-0000Pe-Sl
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:06:00 -0400
+ id 1lcP5x-0000PY-8p
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:05:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcP5x-0008Rm-7W
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:57 +0000
+ id 1lcP5w-0008Rl-51
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 259E92E8144
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:57 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 20CF72E815A
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:05:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 08:55:10 -0000
-From: Thomas Huth <1523811@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 08:55:32 -0000
+From: Thomas Huth <1614609@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: assert fuzzer usb
-X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: cwmyung janitor joveler kraxel-redhat philmd
- th-huth
-X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kai-0 pmaydell th-huth
+X-Launchpad-Bug-Reporter: Kai Poeritz (kai-0)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20151208084519.14688.79647.malonedeb@wampee.canonical.com>
-Message-Id: <161977291095.4862.13695534305849116970.malone@chaenomeles.canonical.com>
-Subject: [Bug 1523811] Re: USB assert failure on dev-storage.c
+References: <20160818161525.30268.81700.malonedeb@gac.canonical.com>
+Message-Id: <161977293343.14478.14571198272547534214.launchpad@wampee.canonical.com>
+Subject: [Bug 1614609] Re: alphabetical order of monitor options
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 44ea226d17d22e6f0875444897ece81fb63752ae
+X-Launchpad-Hash: cd76c496b63a6cb5b4261fd2acec85e7c8de0427
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,60 +70,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1523811 <1523811@bugs.launchpad.net>
+Reply-To: Bug 1614609 <1614609@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://gitlab.com/qemu-project/qemu/-/commit/39912c14da07a2d
-
 ** Changed in: qemu
-       Status: Confirmed =3D> Fix Released
+       Status: Fix Committed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1523811
+https://bugs.launchpad.net/bugs/1614609
 
 Title:
-  USB assert failure on dev-storage.c
+  alphabetical order of monitor options
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  On executing the attached python script in the guest OS, QEMU dies
-  with assert failure:
+  Looking for the 'continue'/'resume' option I found this order that was no=
+t quite 'alphabetical'.
+  It had me overlook the 'cont' option at glance. Which is just a little im=
+practical.
 
-  [run python script in guest root shell]
-  # python a.py
+  ...
+  boot_set bootdevice -- define new values for the boot device list
+  change device filename [format [read-only-mode]] -- change a removable me=
+dium, optional format
+  chardev-add args -- add chardev
+  chardev-remove id -- remove chardev
+  client_migrate_info protocol hostname port tls-port cert-subject -- set m=
+igration information for remote display
+  closefd closefd name -- close a file descriptor previously passed via SCM=
+ rights
+  commit device|all -- commit changes to the disk images (if -snapshot is u=
+sed) or backing files
+  cpu index -- set the default CPU
+  cpu-add id -- add cpu
+  c|cont  -- resume emulation
+  delvm tag|id -- delete a VM snapshot from its tag or id
+  ...
 
-  [host message]
-  qemu-system-x86_64: hw/usb/dev-storage.c:445: usb_msd_handle_data: Assert=
-ion `le32_to_cpu(s->csw.residue) =3D=3D 0' failed.
-  Aborted (core dumped)
+  I tested this list with 'sort' just to make sure and make a point:
 
-  When I detach the kernel driver and send CBW and reattach it again, witho=
-ut conforming to the command/data/status protocol, QEMU dies.
-  I think this is due to misimplementation of Command/Data/Status protocol =
-in Bulk-only transfer.
-  This kind of assert failure can be misused by malwares to avoid being ana=
-lyzed by terminating only in the virtual environments and still execute the=
- malicious code in real machines.
-  Before running python script, make sure to change a.py that it should poi=
-nts to usb mass storage's vid and pid.
+  $ cat Desktop/order-orig.txt =
 
-  QEMU was running on these environment :
-  [CPU model]    Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
-  [qemu version] QEMU 2.5.0-rc2 (compiled from source, gcc 4.8.4)
-  [host info]    Ubuntu 14.04.3, x86_64, 3.19.0-32-generic
-  [guest info]   Ubuntu 14.04.3, x86_64, 3.19.0-28-generic
-  [QEMU argument]
-  x86_64-softmmu/qemu-system-x86_64 -hda /media/hdd/img/ubuntu1404.qcow2.5 \
-  =C2=A0-m 512 \
-  =C2=A0--usbdevice disk:format=3Dqcow2:../usb.img.5 \
-  =C2=A0--enable-kvm
+  boot_set
+  change
+  chardev-add
+  chardev-remove
+  client_migrate_info
+  closefd
+  commit
+  cpu
+  cpu-add
+  c|cont
+  delvm
+  $ cat Desktop/order-orig.txt | sort
+  boot_set
+  c|cont
+  change
+  chardev-add
+  chardev-remove
+  client_migrate_info
+  closefd
+  commit
+  cpu
+  cpu-add
+  delvm
+  $
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1523811/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1614609/+subscriptions
 
