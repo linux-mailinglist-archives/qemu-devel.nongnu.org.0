@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDB936F7B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:19:47 +0200 (CEST)
-Received: from localhost ([::1]:58528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCEC36F7B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 11:21:51 +0200 (CEST)
+Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcPJK-0001xO-J8
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
+	id 1lcPLK-00040T-A4
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 05:21:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPBl-0004UE-Nh
+ id 1lcPBl-0004Sz-8F
  for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34718)
+Received: from indium.canonical.com ([91.189.90.7]:34654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcPBh-0003pH-Dm
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:57 -0400
+ id 1lcPBc-0003oS-6u
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 05:11:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcPBc-000283-9i
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:48 +0000
+ id 1lcPBb-00024s-0p
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 486232E815C
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 031FD2E8157
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 09:11:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Apr 2021 09:00:59 -0000
-From: Thomas Huth <1910723@bugs.launchpad.net>
+Date: Fri, 30 Apr 2021 09:01:14 -0000
+From: Thomas Huth <1911666@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: cve fuzzer security
-X-Launchpad-Bug-Information-Type: Public
+ assignee=groug@kaod.org; 
+X-Launchpad-Bug-Tags: security
+X-Launchpad-Bug-Information-Type: Public Security
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland mauro-cascella
-X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: philmd pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161010205447.5394.7992680653208743690.malonedeb@gac.canonical.com>
-Message-Id: <161977326003.4862.292355423884577395.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1910723] Re: NULL pointer dereference issues in am53c974 SCSI
- host bus adapter
+References: <161062144281.6686.4298628422758083377.malonedeb@wampee.canonical.com>
+Message-Id: <161977327601.4988.13687873452119404003.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1911666] Re: ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU
+ Privilege Escalation Vulnerability
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: dc0d701a6ac47b0337ccf11f6a2d5162a50470f9
+X-Launchpad-Hash: 498477605765ab7ecc313f1b29c8a6c6fcf8dbf0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910723 <1910723@bugs.launchpad.net>
+Reply-To: Bug 1911666 <1911666@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,126 +83,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910723
+https://bugs.launchpad.net/bugs/1911666
 
 Title:
-  NULL pointer dereference issues in am53c974 SCSI host bus adapter
+  ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU Privilege Escalation
+  Vulnerability
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Two NULL pointer dereference issues were found in the am53c974 SCSI
-  host bus adapter emulation of QEMU. They could occur while handling
-  the 'Information Transfer' command (CMD_TI) in function handle_ti() in
-  hw/scsi/esp.c, and could be abused by a malicious guest to crash the
-  QEMU process on the host resulting in a denial of service.
+  -- CVSS -----------------------------------------
 
-  Both issues were reported by Cheolwoo Myung (Seoul National
-  University). To reproduce them, configure and run QEMU as follows.
-  Please find attached the required disk images.
+  7.5: AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H
 
-  $ ./configure --target-list=3Dx86_64-softmmu --enable-kvm --enable-saniti=
-zers
-  $ make
-  $ ./qemu-system-x86_64 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=
-=3Ddisk,format=3Draw \
-  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
-  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+  -- ABSTRACT -------------------------------------
 
-  Additional info:
-  RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909766
-  RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909769
+  Trend Micro's Zero Day Initiative has identified a vulnerability affectin=
+g the following products:
+  QEMU - QEMU
 
-  ASAN logs:
-  =3D=3D672133=3D=3D         =
+  -- VULNERABILITY DETAILS ------------------------
 
-  hw/scsi/scsi-bus.c:1385:12: runtime error: member access within null poin=
-ter of type 'struct SCSIRequest'
-  AddressSanitizer:DEADLYSIGNAL                                            =
-                                =
+  Version tested:5.0.0-rc3
+  Installer file:qemu-5.0.0-rc3.tar.xz
+  Platform tested:ubuntu 18.04 x64 desktop
+  Analysis Basically v9fs* functions called from guest kernel are executed =
+under specific thread(I call it main thread later). But when it calls some =
+file related system calls, qemu uses its own coroutine thread(worker thread=
+). Then it returns(yield return) without waiting result of system call and =
+start to execute next v9fs* function.
 
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+  In v9fsmarkfidsunreclaim() function, it stores fidlist member (head of
+  singly linked list) to its stack.
 
-  =3D=3D672133=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
-00000171 (pc 0x55bd63e20b85 bp 0x7f4b6fffdfa0 sp 0x7f4b6fffdf70 T7)
-  =3D=3D672133=3D=3DThe signal is caused by a READ memory access.         =
+   ->
+  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
+7/hw/9pfs/9p.c#L506
 
-  =3D=3D672133=3D=3DHint: address points to the zero page.                 =
-                                        =
+  And if it uses coroutine, it restore fid_list from stack and restart
+  whole loop.
 
-      #0 0x55bd63e20b85 in scsi_req_continue hw/scsi/scsi-bus.c:1385
-      #1 0x55bd63ab34fb in esp_do_dma hw/scsi/esp.c:453       =
+   ->
+  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
+7/hw/9pfs/9p.c#L526
 
-      #2 0x55bd63ab4b3c in handle_ti hw/scsi/esp.c:549          =
+  v9fsclunk() function calls clunkfid() which unlink fid from list, and
+  free it.
 
-      #3 0x55bd63ab72a9 in esp_reg_write hw/scsi/esp.c:691                 =
+   ->
+  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
+7/hw/9pfs/9p.c#L2060-L2091
 
-      #4 0x55bd63d7b5dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
+  So if v9fsclunk() is called while v9fsmarkfidsunreclaim()'s coroutine
+  is being executed, it restores "FREED" fidp from stack and use it.
 
-      #5 0x55bd645d55a3 in memory_region_write_accessor softmmu/memory.c:491
-      #6 0x55bd645d5a24 in access_with_adjusted_size softmmu/memory.c:552
-      #7 0x55bd645e2baa in memory_region_dispatch_write softmmu/memory.c:15=
-01
-      #8 0x55bd646b75ff in flatview_write_continue softmmu/physmem.c:2759
-      #9 0x55bd646b79d1 in flatview_write softmmu/physmem.c:2799
-      #10 0x55bd646b8341 in address_space_write softmmu/physmem.c:2891   =
+  it can be reproduced with the qemu binary, which is given
+  it can also be reproduced with own ASAN build (5.0.0-rc3 and 4.2.0 are te=
+sted)
 
-      #11 0x55bd646b83f9 in address_space_rw softmmu/physmem.c:2901
-      #12 0x55bd648c4736 in kvm_handle_io accel/kvm/kvm-all.c:2285
-      #13 0x55bd648c69c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
-      #14 0x55bd647b2413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
-      #15 0x55bd64f560de in qemu_thread_start util/qemu-thread-posix.c:521
-      #16 0x7f4b981763f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
-      #17 0x7f4b980a3902 in __GI___clone (/lib64/libc.so.6+0x101902)
+  ../qemu-5.0.0-rc3/x86_64-softmmu/qemu-system-x86_64 -M pc -kernel
+  ./bzImage -initrd ./rootfs.cpio -append "root=3D/dev/ram console=3Dtty1
+  console=3DttyS0 rdinit=3D/bin/sh" -nographic -enable-kvm -fsdev
+  local,id=3Dtest_dev,path=3D/home/xxx/sandbox,security_model=3Dnone -device
+  virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dvictim_tag
 
-  ---
-
-  =3D=3D672020=3D=3D
-  hw/scsi/esp.c:196:62: runtime error: member access within null pointer of=
- type 'struct SCSIDevice'
-  AddressSanitizer:DEADLYSIGNAL                                            =
-                                =
+  $ ./do.sh
+  expected ASAN report is printed
+  the race is in coroutine, so the threads are the same one
 
   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   =3D=3D46645=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
+ 0x610000047948 at pc 0x5563d8c28f0f bp0
+  READ of size 2 at 0x610000047948 thread T0
 
-  =3D=3D672020=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
-00000098 (pc 0x559bc99946fd bp 0x7f08bd737fb0 sp 0x7f08bd737f70 T7)
-  =3D=3D672020=3D=3DThe signal is caused by a READ memory access.         =
+     #0 0x5563d8c28f0e in v9fs_mark_fids_unreclaim hw/9pfs/9p.c:508
+     #1 0x5563d8c3e9e3 in v9fs_remove hw/9pfs/9p.c:2988
+     #2 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
+     #3 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
 
-  =3D=3D672020=3D=3DHint: address points to the zero page.                 =
-                                        =
+     0x610000047948 is located 8 bytes inside of 192-byte region
+  [0x610000047940,0x610000047a00) freed by thread T0 here:
 
-      #0 0x559bc99946fd in do_busid_cmd hw/scsi/esp.c:196        =
+    #0 0x7fadafa5f7a8 in __interceptor_free (/usr/lib/x86_64-linux-gnu/liba=
+san.so.4+0xde7a8)
+    #1 0x5563d8c27a60 in free_fid hw/9pfs/9p.c:371
+    #2 0x5563d8c27fcc in put_fid hw/9pfs/9p.c:396
+    #3 0x5563d8c37267 in v9fs_clunk hw/9pfs/9p.c:2085
+    #4 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
+    #5 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
 
-      #1 0x559bc9994e71 in do_cmd hw/scsi/esp.c:220           =
+  previously allocated by thread T0 here:
+     #0 0x7fadafa5fd28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/l=
+ibasan.so.4+0xded28)
+     #1 0x7fadaf0c8b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x51b10)
+     #2 0x5563d8c30ecc in v9fs_attach hw/9pfs/9p.c:1412
+     #3 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
+     #4 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
 
-      #2 0x559bc999ae81 in handle_ti hw/scsi/esp.c:555          =
+  =
 
-      #3 0x559bc999d2a9 in esp_reg_write hw/scsi/esp.c:691                 =
+  This vulnerability was discovered by:
 
-      #4 0x559bc9c615dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
-
-      #5 0x559bca4bb5a3 in memory_region_write_accessor softmmu/memory.c:491
-      #6 0x559bca4bba24 in access_with_adjusted_size softmmu/memory.c:552
-      #7 0x559bca4c8baa in memory_region_dispatch_write softmmu/memory.c:15=
-01
-      #8 0x559bca59d5ff in flatview_write_continue softmmu/physmem.c:2759
-      #9 0x559bca59d9d1 in flatview_write softmmu/physmem.c:2799
-      #10 0x559bca59e341 in address_space_write softmmu/physmem.c:2891   =
-
-      #11 0x559bca59e3f9 in address_space_rw softmmu/physmem.c:2901
-      #12 0x559bca7aa736 in kvm_handle_io accel/kvm/kvm-all.c:2285
-      #13 0x559bca7ac9c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
-      #14 0x559bca698413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
-      #15 0x559bcae3c0de in qemu_thread_start util/qemu-thread-posix.c:521
-      #16 0x7f08e57ba3f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
-      #17 0x7f08e56e7902 in __GI___clone (/lib64/libc.so.6+0x101902)
+  Ryota Shiga(@Garyo) of Flatt Security working with Trend Micro Zero
+  Day Initiative
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910723/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1911666/+subscriptions
 
