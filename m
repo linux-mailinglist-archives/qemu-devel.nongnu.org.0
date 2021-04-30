@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4D336FBE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:10:08 +0200 (CEST)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD6336FBED
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 16:13:04 +0200 (CEST)
+Received: from localhost ([::1]:37330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcTqH-00013S-S2
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37312)
+	id 1lcTt9-0003sw-7j
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 10:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcSzm-0008PI-8l; Fri, 30 Apr 2021 09:15:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:36025)
+ id 1lcT17-0001nz-Gl; Fri, 30 Apr 2021 09:17:13 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:57129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lcSzi-0005ZR-Sr; Fri, 30 Apr 2021 09:15:49 -0400
+ id 1lcT0z-0006Lc-8w; Fri, 30 Apr 2021 09:17:13 -0400
 Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MJmbB-1lsDco48kb-00K7Q3; Fri, 30 Apr 2021 15:15:32 +0200
-Subject: Re: [PATCH 2/3] hw/ide: Add Kconfig dependency MICRODRIVE -> PCMCIA
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MTAJr-1m0VFg3yhj-00UdKs; Fri, 30 Apr 2021 15:16:56 +0200
+Subject: Re: [PATCH 3/3] hw/pcmcia: Do not register PCMCIA type if not required
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210424222057.3434459-1-f4bug@amsat.org>
- <20210424222057.3434459-3-f4bug@amsat.org>
+ <20210424222057.3434459-4-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <2d261477-1c80-2bf4-b9a7-c4a8c6f96204@vivier.eu>
-Date: Fri, 30 Apr 2021 15:15:30 +0200
+Message-ID: <224bb111-585d-fa11-6a36-fb9a9f0eb7c4@vivier.eu>
+Date: Fri, 30 Apr 2021 15:16:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210424222057.3434459-3-f4bug@amsat.org>
+In-Reply-To: <20210424222057.3434459-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RwoVAG/kMqlrAUiGUgtxmkMw2dLGS9jKgk+F10RwzZgcWr334RP
- OYLNJp9uItOEUAoiyt52LZG2j3Kktl+NYwrc+3aeyGljgL+Z/aJongdSfV/mid/zOWVHsIQ
- gJJz4k99P+BZ0SSim8RZUEloRQ4O1WNa0GEB8N3e7p0rg/DOl6KMWV7WzONxL2wwSdUi14H
- w1Wn6yNjdUuBKYZEXoSFg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J3+friCS7MI=:F28/MohQFr7c/3o5kjxOlW
- 99Ts07lo83e+85emw9gHf2u7cbHzVs/ECH1MBTsU8+GP1PiMmE80hpATkPegcnDgWYx+bwoeN
- W5eKPcuczzv0ttEmBtTE7ZWr3k/lPN4Gnrt74yson8n/0By8oV67OsJCKnwPlZi2sQ7lrb3tl
- EKsjOEv+kYAvLrgie6eXOwnQiF7lCFBokdBca7fy2ls7sfrdZoTe0S0ndJGxVohbw7JUBT3ty
- z2Fx5a3TzVCVAfLbqqyjfJragfNuvnaE35qkjkctRORg6ymuz9iGFdDkEFM16ztowhXJseU+U
- OrIQUAmFEAIYIHckvc0qxpthY3wCbl8a4/zunImdoixYqNei2X0F2FvgYVnaplJ5sbg3SH8D/
- fcYoI5E2+4o9fua01rFyV73JNptH7uW7cM8VZgD6Dom5zwEXWwXt1FXEt1oaYG8A/mRs8yp83
- mi7FVZwnKX4L8q/KWSrWWKLwsBt3x0wkoD6uNy/24oH/XRNX6d3fvXkE8ckmu7VZ2rX1Vu9AG
- tMJO+xSehM//a9BNYh9MY4=
+X-Provags-ID: V03:K1:H4MOLWgczDgmUzBHTynduUDT8i4nCsuxBp5RkxsiJRZyshe4bmE
+ r/h/99eyfWH1HwLTvaFvWnTcEjWEgTHlFyOCQJniyyklPEkRosoLcUGwe18KsPlkBgoRpNh
+ UCjdIM05vLS3ueInEtgeqp/Ra56aw4ViQTPEhbYrQeowqKoyyednBGibk/HMoWJtF6WoLj4
+ 5BW58wVaYoX7enwgAq7RA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:upLJ7otRu7Y=:jRaOx/86aRpz1ky3My0hFy
+ VtLrIgUEigHKx699E0n/tY65XEEnHmhZwIKhNIjj5qt88R8ZrF264TfbBPP1CzM1uVOZ7tldl
+ 5RQs6VNBydxWaUKObCX8UT2Hr0uuYxg38s5BEfSGpuGfWrgTmT7TWx18f5CfK+bpf58sFLN0p
+ ssMK/Nm7E+KXJvfJlKtnDWSmNREgWLfSPp3oyEyHVBsrWHrTUGaEoI0AVKMb5OMo8zd51XR+X
+ U/i0gFs0OANYWsY4dc215ZKa7vsRTFWPLbymg5wz+qSxLMEjBul0Oa8cTQ29/LKRMKP0GrxdS
+ LlidLAih3DFmnUlE07UTLSAsoDw6iT1E2sxOWQ2S2SeM8wy3yj7NY0uA4vjGuy4iJWAiFrfsC
+ 049VnwGmnIkKnaqwM7Iyx0BztC5Cwniwv78HF7ZdKVk2wg8fcm289o6d6f+CycksD6fdxgxjJ
+ Q1pEFMZtHIQMiEIaExNql1/g9EUo+TdMfdjNS0QmfwBJ+56aXCW3Mk6r0yHRPUfOuWgipnQS0
+ 4mtagkfcLQbqugw95R2XHE=
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -75,31 +75,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 25/04/2021 à 00:20, Philippe Mathieu-Daudé a écrit :
-> The Microdrive Compact Flash can be plugged on a PCMCIA bus.
-> Express the dependency using the 'depends on' Kconfig expression.
+> If the Kconfig 'PCMCIA' value is not selected, it is pointless
+> to build the PCMCIA core components.
+> 
+> (Currently only one machine of the ARM targets requires this).
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/ide/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/pcmcia/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
-> index 5d9106b1ac2..8e2c8934549 100644
-> --- a/hw/ide/Kconfig
-> +++ b/hw/ide/Kconfig
-> @@ -41,6 +41,7 @@ config IDE_VIA
->  config MICRODRIVE
->      bool
->      select IDE_QDEV
-> +    depends on PCMCIA
->  
->  config AHCI
->      bool
+> diff --git a/hw/pcmcia/meson.build b/hw/pcmcia/meson.build
+> index ab50bd325d6..51f2512b8ed 100644
+> --- a/hw/pcmcia/meson.build
+> +++ b/hw/pcmcia/meson.build
+> @@ -1,2 +1,2 @@
+> -softmmu_ss.add(files('pcmcia.c'))
+> +softmmu_ss.add(when: 'CONFIG_PCMCIA', if_true: files('pcmcia.c'))
+>  softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx.c'))
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
 
