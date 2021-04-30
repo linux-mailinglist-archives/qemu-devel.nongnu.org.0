@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927AA36F3B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:33:58 +0200 (CEST)
-Received: from localhost ([::1]:45924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E414536F3BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 03:36:53 +0200 (CEST)
+Received: from localhost ([::1]:54470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcI2X-0003gl-Lp
-	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:33:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34108)
+	id 1lcI5N-0007Cy-1M
+	for lists+qemu-devel@lfdr.de; Thu, 29 Apr 2021 21:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHlT-0003BL-46
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:19 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:41907)
+ id 1lcHlV-0003E3-Iq
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:21 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcHl7-0007YV-3a
- for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:18 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- y22-20020a17090a8b16b0290150ae1a6d2bso912702pjn.0
+ id 1lcHl7-0007ZE-5B
+ for qemu-devel@nongnu.org; Thu, 29 Apr 2021 21:16:21 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id y1so20090389plg.11
  for <qemu-devel@nongnu.org>; Thu, 29 Apr 2021 18:15:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=otPhcvbNJ17mxlPliTzuao80JoAxdfhn5Twl3YLl2dY=;
- b=d4p4Wqjgb26lk8uPtCQSMef/IKxLF+wPfemCHxHoNEqkLwwBRMoEslZHE1YJf1iDZI
- NJ2ypzKS4i6Xz/eDxIIusdfSJ11LXbRGkimaVTgtIbxHZl0E+cfPjKTb0xgdteWEHFDy
- w2UcBcuuUmQ/rb5xgH3VR8A5eFxA2gGJOUxuo0HezMk9detdJwRAO7qao+Ckd8NKT0ZS
- a+stD+jTzsV5WbF+e1CmjMAxR2x83rctMfnxnN62hsRVSP2jdaz540SroNuBTIi3c8SP
- Y5Tsx3TcQ791JKr/87vMYKAMfqotgX4vryJ3j8vHpOzh6/F6hLmVzy9Pt+hU2+9BYCBY
- Yx2w==
+ bh=lvFYTR21Ndabo3puJK2zdhaYlEZw9zSgHgo2egIRWs4=;
+ b=a+bd3fVBebYnYMekKuIPsNqYpbCviq35aTyaqOhXO69rx3ZAvZ7ugZod2rC0b56AXj
+ saqninyBAR7vAwZcGD30uvDMD+Gw5PWD6lgoDliMHdZuLvQUCN34ovCh9heKTjc1TBwS
+ E+HTyxIPk/guHB4v/1CRcIYJqei8DPR6IDSI/gQgdmPtFuI2kQZFcc1z7IPchcwqec3/
+ wYL/YDOhMKOyY4Z5QH5bHlZstUiNsi5V43SGv9h3AP2UkGkfJmxG7h3qRmK6RFA8N//N
+ LQIb1TVNdyQ592hDcGC9GZsmEbiTPCl/82wiAxSqBeTVV+aZIZ4CeSQO+9wExNnVB5zW
+ VkPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=otPhcvbNJ17mxlPliTzuao80JoAxdfhn5Twl3YLl2dY=;
- b=iiOqxwzLwfXzp365s/C7yOWWFCVbkBVnez9Q8KsKzaLO0DOVOQDlmkNTYQa0KNZTwg
- pKSpR3BBJ94U2m9qhTIEykfz0v+dmMF/nppRq4eiz5CS3O+DWo3lxmwguWRvk/Vxrpt2
- VkLH7ixLRka4Mx6zIuIBdrSftuy+AbsMYOfaAHQSNulTL/R75LVjQUBeR5Iygf2iO/Kl
- acsatP0w9t2/QKtS0VuC1WmKFTFQb7apRCjdOEA038kaF2jJEh71jo93L8TiZ4D9XOBC
- 5GjUA6KonafN0bsYNHlYUcV+S8BKleh04HP1pxQCageyYLTuEpp/BK5rQY/N2i2HhcoF
- goUA==
-X-Gm-Message-State: AOAM532uJZnnSIhCv/eTOuHKUgnEGBH/aTaUDHzK3TVOoZlxNrqYFF5J
- NANCUneWXVPyk5ZFNOkKgsYQiAQRV4R/JA==
-X-Google-Smtp-Source: ABdhPJwlFn77pbcopN+CYsePq2uouNSyQqJ99k0Y7m/kxEU6pYdFJrke+OSJzLYNNzlKvnBxJSDD7w==
-X-Received: by 2002:a17:902:4d:b029:ec:94df:c9aa with SMTP id
- 71-20020a170902004db02900ec94dfc9aamr2779364pla.7.1619745355265; 
+ bh=lvFYTR21Ndabo3puJK2zdhaYlEZw9zSgHgo2egIRWs4=;
+ b=qosJiEbm1dQVhTfKCnVPtb5o+Rff9ZEo+5AeX91xry5XGjm7fW+CwcrfMY9Ci1ekYG
+ iqb0c/u6v1yEQfRzkOfmSbEkHCo6UchckLl/thBkjZQxAgFgzbFFVunMaq+/fom+p4H7
+ yTikJuntNf1DzzH7sp+Fz540Hwts8r/yX5owgowbuM8MtJhbSpndguPd3Zg0z/rgPlXs
+ VSIw4vS5Wi6L/s3Mpvr+gcsFxV7E6/945DTSZdR/c35QmEw8TyG6g2DJ6TGakuowfTCP
+ tMHjHFbkbFaqnKIk+Vl6bzc25YRszJpoFKLTH8ZtcVHrDj0qiGnMxRo6xfVdE2iOpIJA
+ DWqQ==
+X-Gm-Message-State: AOAM533U/KtBk8N45+6qmLCPhcdn0sKUgkfkSc5AqCWZHjcKLTjS8ZiM
+ AaeBfJbua2vFTD+nE8i3gbHCfbJ/p38boA==
+X-Google-Smtp-Source: ABdhPJzJBNgABF4ZIlkTKaZ8RAoVdpS1VV3ilNK/9XU4F4NSKUpB+uU71u2monpcuXJ2yLVA3AdB5A==
+X-Received: by 2002:a17:90b:4b11:: with SMTP id
+ lx17mr8922216pjb.130.1619745355895; 
  Thu, 29 Apr 2021 18:15:55 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.54
+ by smtp.gmail.com with ESMTPSA id 1sm161277pjx.46.2021.04.29.18.15.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 29 Apr 2021 18:15:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/30] target/ppc: Replace POWERPC_EXCP_BRANCH with
- DISAS_NORETURN
-Date: Thu, 29 Apr 2021 18:15:29 -0700
-Message-Id: <20210430011543.1017113-17-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/30] target/ppc: Remove DisasContext.exception
+Date: Thu, 29 Apr 2021 18:15:30 -0700
+Message-Id: <20210430011543.1017113-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210430011543.1017113-1-richard.henderson@linaro.org>
 References: <20210430011543.1017113-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,97 +89,83 @@ Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The translation of branch instructions always results in exit from
-the TB.  Remove the synthetic "exception" after no more uses.
+Now that we have removed all of the fake exceptions, and all real
+exceptions exit via DISAS_NORETURN, we can remove this field.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.h          | 2 --
- linux-user/ppc/cpu_loop.c | 3 ---
- target/ppc/translate.c    | 8 ++------
- 3 files changed, 2 insertions(+), 11 deletions(-)
+ target/ppc/translate.c | 22 ++--------------------
+ 1 file changed, 2 insertions(+), 20 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 9bb370abba..5b22eb64dc 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -131,8 +131,6 @@ enum {
-     POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
-     /* EOL                                                                   */
-     POWERPC_EXCP_NB       = 103,
--    /* QEMU exceptions: used internally during code translation              */
--    POWERPC_EXCP_BRANCH       = 0x201, /* branch instruction                 */
-     /* QEMU exceptions: special cases we want to stop translation            */
-     POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
- };
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index 4c308835bd..adf5a8a4e6 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -423,9 +423,6 @@ void cpu_loop(CPUPPCState *env)
-             cpu_abort(cs, "Maintenance exception while in user mode. "
-                       "Aborting\n");
-             break;
--        case POWERPC_EXCP_BRANCH:   /* branch instruction:                   */
--            /* We just stopped because of a branch. Go on */
--            break;
-         case POWERPC_EXCP_SYSCALL_USER:
-             /* system call in user-mode emulation */
-             /* WARNING:
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 82fdf0bb77..276a4a2a79 100644
+index 276a4a2a79..d78071a4a4 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -3769,7 +3769,6 @@ static void gen_b(DisasContext *ctx)
- {
-     target_ulong li, target;
- 
--    ctx->exception = POWERPC_EXCP_BRANCH;
-     /* sign extend LI */
-     li = LI(ctx->opcode);
-     li = (li ^ 0x02000000) - 0x02000000;
-@@ -3783,6 +3782,7 @@ static void gen_b(DisasContext *ctx)
-     }
-     gen_update_cfar(ctx, ctx->cia);
-     gen_goto_tb(ctx, 0, target);
-+    ctx->base.is_jmp = DISAS_NORETURN;
+@@ -259,15 +259,12 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
+      * These are all synchronous exceptions, we set the PC back to the
+      * faulting instruction
+      */
+-    if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->cia);
+-    }
++    gen_update_nip(ctx, ctx->cia);
+     t0 = tcg_const_i32(excp);
+     t1 = tcg_const_i32(error);
+     gen_helper_raise_exception_err(cpu_env, t0, t1);
+     tcg_temp_free_i32(t0);
+     tcg_temp_free_i32(t1);
+-    ctx->exception = excp;
+     ctx->base.is_jmp = DISAS_NORETURN;
  }
  
- #define BCOND_IM  0
-@@ -3795,7 +3795,6 @@ static void gen_bcond(DisasContext *ctx, int type)
-     uint32_t bo = BO(ctx->opcode);
-     TCGLabel *l1;
-     TCGv target;
--    ctx->exception = POWERPC_EXCP_BRANCH;
- 
-     if (type == BCOND_LR || type == BCOND_CTR || type == BCOND_TAR) {
-         target = tcg_temp_local_new();
-@@ -3902,6 +3901,7 @@ static void gen_bcond(DisasContext *ctx, int type)
-         gen_set_label(l1);
-         gen_goto_tb(ctx, 1, ctx->base.pc_next);
-     }
-+    ctx->base.is_jmp = DISAS_NORETURN;
+@@ -279,13 +276,10 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
+      * These are all synchronous exceptions, we set the PC back to the
+      * faulting instruction
+      */
+-    if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->cia);
+-    }
++    gen_update_nip(ctx, ctx->cia);
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
+-    ctx->exception = excp;
+     ctx->base.is_jmp = DISAS_NORETURN;
  }
  
- static void gen_bc(DisasContext *ctx)
-@@ -8057,7 +8057,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     /* Check trace mode exceptions */
-     if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
-                  (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
--                 ctx->exception != POWERPC_EXCP_BRANCH &&
-                  ctx->base.is_jmp != DISAS_NORETURN)) {
-         uint32_t excp = gen_prep_dbgex(ctx);
-         gen_exception_nip(ctx, excp, ctx->base.pc_next);
-@@ -8073,9 +8072,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         switch (ctx->exception) {
-         case POWERPC_EXCP_NONE:
-             break;
--        case POWERPC_EXCP_BRANCH:
--            ctx->base.is_jmp = DISAS_NORETURN;
+@@ -298,7 +292,6 @@ static void gen_exception_nip(DisasContext *ctx, uint32_t excp,
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
+-    ctx->exception = excp;
+     ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -7919,7 +7912,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     CPUPPCState *env = cs->env_ptr;
+     int bound;
+ 
+-    ctx->exception = POWERPC_EXCP_NONE;
+     ctx->spr_cb = env->spr_cb;
+     ctx->pr = msr_pr;
+     ctx->mem_idx = env->dmmu_idx;
+@@ -8067,16 +8059,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                  "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
+                  opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+     }
+-
+-    if (ctx->base.is_jmp == DISAS_NEXT) {
+-        switch (ctx->exception) {
+-        case POWERPC_EXCP_NONE:
 -            break;
-         default:
-             /* Every other ctx->exception should have set NORETURN. */
-             g_assert_not_reached();
+-        default:
+-            /* Every other ctx->exception should have set NORETURN. */
+-            g_assert_not_reached();
+-        }
+-    }
+ }
+ 
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.25.1
 
