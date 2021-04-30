@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E8336FBC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 15:53:36 +0200 (CEST)
-Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE9236FBCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Apr 2021 15:56:02 +0200 (CEST)
+Received: from localhost ([::1]:52524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcTaJ-00019y-2b
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 09:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
+	id 1lcTcf-0003Z6-4G
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 09:56:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lcTJ1-0005e9-Al
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:35:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30035)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lcTIY-000560-9W
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:35:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lcTIv-0008Ds-1J
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:35:43 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lcTIL-0007qT-1N
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 09:35:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619789736;
+ s=mimecast20190719; t=1619789697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O4BOOaXPe8Kuzccz1aS2grvfaVdsqyBeB/wA3uOnaqk=;
- b=aMnIInUhK/nCFzf5VuD+i2g0CePEJnx9nK42htw8bz2Ll9I6duCecI0fdBUQsBFSgn7yNG
- 4ff3s6YpCDj5YNbluNNlDVMtDHEo9/ww2V1/oZ7GSaJuq7rwSI0TvUgRGY0KEjxCPvcoWX
- LmVGl4OcjoIXCNMq6X1idpRl5uUZlrU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-NAaXOMMJP9iFnvfDx_GIWg-1; Fri, 30 Apr 2021 09:35:32 -0400
-X-MC-Unique: NAaXOMMJP9iFnvfDx_GIWg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BB9801B28;
- Fri, 30 Apr 2021 13:35:31 +0000 (UTC)
-Received: from wainer-laptop.localdomain.com (ovpn-116-202.gru2.redhat.com
- [10.97.116.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C96415D9E2;
- Fri, 30 Apr 2021 13:35:25 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/7] tests/acceptance: Handle cpu tag on
- x86_cpu_model_versions tests
-Date: Fri, 30 Apr 2021 10:34:14 -0300
-Message-Id: <20210430133414.39905-8-wainersm@redhat.com>
-In-Reply-To: <20210430133414.39905-1-wainersm@redhat.com>
-References: <20210430133414.39905-1-wainersm@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=grzWLZRznpxqzFOGgX9dbi9o7h4KuPzbTBVqPKPVJcw=;
+ b=NHPQxMARwqkB3MazH1/aWLixOPnh36bRxeM65Cj8qxyA2a35PYUDz6GlrmdrwF1Pa5O5eo
+ RO/J9wG9/hg+6MD6Thh12Yu8UCZW1fbj14v53oPTX7RbaWxNxd0dn3LerPl5x+gC99jz35
+ lH4tATLPSdj5PD+SJ7ZslgHvNpf//jI=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-HNlSSHhZP5mEJpNT5QjYYw-1; Fri, 30 Apr 2021 09:34:55 -0400
+X-MC-Unique: HNlSSHhZP5mEJpNT5QjYYw-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ e4-20020a05683013c4b02902a2640456dcso17605583otq.23
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 06:34:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=grzWLZRznpxqzFOGgX9dbi9o7h4KuPzbTBVqPKPVJcw=;
+ b=a90/lXtnfwiIwWKpmN8YacencQFHUTIgE+2xbD47pmo3DKpmENvPKDw6LWJH2b3UdS
+ giPZomz7ooznMBdGQhf2KjQK27vLqyQkFBjG+/Du4f5wU/i/VHW+VN8TlINDLY9U0gjJ
+ /8/sySkwyKSMLpgKf+xffyUJuQgWpWfizF+Ejh1+dshdqb0UU3yuts6C54OSX9Is7qi+
+ n3vXzON2OiHiYJvAZ3q/wAz4mtUzYcVyTjQWyjJDXZ1N+6PKETDW9MsFuS8zcq26qBaA
+ PQxpePqsV2bHxKlV8TryedDPIu5nsVuV03YY1/5kTnGJdUI5Hobb/mjU7pYxazaOL13v
+ krnQ==
+X-Gm-Message-State: AOAM5322HqDvjekG6+MwTVQxRjrBrRGetLjsfY911sYNsgty8ZjxpIJu
+ kJVeBdFXaTEfbuhldogAr8vn+UHHIfzQyOGiN/e5AoFqBkRWzx4ZP1vkRDs1V6/Q4L7FvtGDK59
+ tLorur/78lHG2pm8=
+X-Received: by 2002:a9d:7e95:: with SMTP id m21mr3718053otp.76.1619789693923; 
+ Fri, 30 Apr 2021 06:34:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy59wG3E45InoeuXvyuHwFwB8Flv852G//m598bBrjlzwGjB+RuBfDRSaGKUaKrSoTVWuZnpw==
+X-Received: by 2002:a9d:7e95:: with SMTP id m21mr3718040otp.76.1619789693732; 
+ Fri, 30 Apr 2021 06:34:53 -0700 (PDT)
+Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id r189sm787546oif.8.2021.04.30.06.34.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Apr 2021 06:34:53 -0700 (PDT)
+From: Connor Kuehl <ckuehl@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] Document qemu-img options data_file and data_file_raw
+Date: Fri, 30 Apr 2021 08:34:52 -0500
+Message-Id: <20210430133452.253102-1-ckuehl@redhat.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,143 +90,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, philmd@redhat.com, pavel.dovgaluk@ispras.ru,
- crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
- aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some test cases on x86_cpu_model_versions.py are corner cases because they
-need to pass extra options to the -cpu argument. Once the avocado_qemu
-framework will set -cpu automatically, the value should be reset. This changed
-those tests so to call set_vm_arg() to overwrite the -cpu value.
+The contents of this patch were initially developed and posted by Han
+Han[1], however, it appears the original patch was not applied. Since
+then, the relevant documentation has been moved and adapted to a new
+format.
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+I've taken most of the original wording and tweaked it according to
+some of the feedback from the original patch submission. I've also
+adapted it to restructured text, which is the format the documentation
+currently uses.
+
+[1] https://lists.nongnu.org/archive/html/qemu-block/2019-10/msg01253.html
+
+Fixes: https://bugzilla.redhat.com/1763105
+Signed-off-by: Han Han <hhan@redhat.com>
+Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
 ---
- tests/acceptance/x86_cpu_model_versions.py | 40 +++++++++++++++++-----
- 1 file changed, 32 insertions(+), 8 deletions(-)
+Changes since v1:
+  * Clarify different behaviors with these options when using qemu-img
+    create vs amend (Max)
+  * Touch on the negative case of how the file becomes inconsistent
+    (John)
 
-diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
-index 77ed8597a4..0e9feda62d 100644
---- a/tests/acceptance/x86_cpu_model_versions.py
-+++ b/tests/acceptance/x86_cpu_model_versions.py
-@@ -252,10 +252,13 @@ def get_cpu_prop(self, prop):
-     def test_4_1(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.1
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         # machine-type only:
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server,x-force-features=on,check=off,'
-+                        'enforce=off')
-         self.vm.launch()
-         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server should not have arch-capabilities')
-@@ -263,9 +266,12 @@ def test_4_1(self):
-     def test_4_0(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.0
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server,x-force-features=on,check=off,'
-+                        'enforce=off')
-         self.vm.launch()
-         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server should not have arch-capabilities')
-@@ -273,10 +279,13 @@ def test_4_0(self):
-     def test_set_4_0(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.0
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         # command line must override machine-type if CPU model is not versioned:
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,+arch-capabilities')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server,x-force-features=on,check=off,'
-+                        'enforce=off,+arch-capabilities')
-         self.vm.launch()
-         self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-                         'pc-i440fx-4.0 + Cascadelake-Server,+arch-capabilities should have arch-capabilities')
-@@ -284,9 +293,12 @@ def test_set_4_0(self):
-     def test_unset_4_1(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.1
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,-arch-capabilities')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server,x-force-features=on,check=off,'
-+                        'enforce=off,-arch-capabilities')
-         self.vm.launch()
-         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server,-arch-capabilities should not have arch-capabilities')
-@@ -294,10 +306,13 @@ def test_unset_4_1(self):
-     def test_v1_4_0(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.0
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         # versioned CPU model overrides machine-type:
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=on,check=off,enforce=off')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server-v1,x-force-features=on,check=off,'
-+                        'enforce=off')
-         self.vm.launch()
-         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server-v1 should not have arch-capabilities')
-@@ -305,9 +320,12 @@ def test_v1_4_0(self):
-     def test_v2_4_0(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.0
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=on,check=off,enforce=off')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server-v2,x-force-features=on,check=off,'
-+                        'enforce=off')
-         self.vm.launch()
-         self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-                         'pc-i440fx-4.0 + Cascadelake-Server-v2 should have arch-capabilities')
-@@ -315,10 +333,13 @@ def test_v2_4_0(self):
-     def test_v1_set_4_0(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.0
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         # command line must override machine-type and versioned CPU model:
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=on,check=off,enforce=off,+arch-capabilities')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server-v1,x-force-features=on,check=off,'
-+                        'enforce=off,+arch-capabilities')
-         self.vm.launch()
-         self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-                         'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-capabilities should have arch-capabilities')
-@@ -326,9 +347,12 @@ def test_v1_set_4_0(self):
-     def test_v2_unset_4_1(self):
-         """
-         :avocado: tags=machine:pc-i440fx-4.1
-+        :avocado: tags=cpu:Cascadelake-Server
-         """
-         self.vm.add_args('-S')
--        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=on,check=off,enforce=off,-arch-capabilities')
-+        self.set_vm_arg('-cpu',
-+                        'Cascadelake-Server-v2,x-force-features=on,check=off,'
-+                        'enforce=off,-arch-capabilities')
-         self.vm.launch()
-         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server-v2,-arch-capabilities should not have arch-capabilities')
+ docs/tools/qemu-img.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index c9efcfaefc..87b4a65535 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -866,6 +866,26 @@ Supported image file formats:
+     issue ``lsattr filename`` to check if the NOCOW flag is set or not
+     (Capital 'C' is NOCOW flag).
+ 
++  ``data_file``
++    Filename where all guest data will be stored. If this option is used,
++    the qcow2 file will only contain the image's metadata.
++
++    Note: Data loss will occur if the given filename already exists when
++    using this option with ``qemu-img create`` since ``qemu-img`` will create
++    the data file anew, overwriting the file's original contents. To simply
++    update the reference to point to the given pre-existing file, use
++    ``qemu-img amend``.
++
++  ``data_file_raw``
++    If this option is set to ``on``, QEMU will always keep the external
++    data file consistent as a standalone read-only raw image. It does
++    this by forwarding updates through to the raw image in addition to
++    updating the image metadata. If set to ``off``, QEMU will only
++    update the image metadata without forwarding the changes through
++    to the raw image. The default value is ``off``.
++
++    This option can only be enabled if ``data_file`` is set.
++
+ ``Other``
+ 
+   QEMU also supports various other image file formats for
 -- 
-2.29.2
+2.30.2
 
 
