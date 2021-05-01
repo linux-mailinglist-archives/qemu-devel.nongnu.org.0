@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D165F3704A4
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 03:13:23 +0200 (CEST)
-Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E3D3704EC
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 04:09:55 +0200 (CEST)
+Received: from localhost ([::1]:48540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lceCA-0007W0-Ui
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 21:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46722)
+	id 1lcf4s-0005qt-A1
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 22:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lceAu-0006yE-8a
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 21:12:05 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34647)
+ (Exim 4.90_1) (envelope-from <katsuu@gmail.com>)
+ id 1lcf3i-0005IT-Oe; Fri, 30 Apr 2021 22:08:42 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:33548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lceAn-0002ll-Di
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 21:12:04 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- t2-20020a17090a0242b0290155433387beso7537772pje.1
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 18:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zFDg4jBrQ2aYW4TSYjlQgl7fZspfnlz8JMcKtHh2R3w=;
- b=mbk7htlyxVRbDd8dsLhHjCstISj050ZNupDe5ASaq7+zfhQ4zLXawWPGnHL2CQqRVd
- h2+l+ILNGxJlkqgL0MzGDpiu6lUYi1gk0wPbKq7dg5NmZqxwiXlKm6o1nRUb6MD0oob0
- CLGEK3oNa7w0t2jomQdUcZArjbzubKiJP5yHom8VndfPiH6USbF6GQ5JBhdBoL6U0EJ2
- sZ/4VCR/LQacv0C+vnAnA84fiRJJmB+W8SAQ/l03dUGUd0F5HYwlQ6tWPx+F4j2oI5/e
- J+oXNHzjW1Uxg/E8faPvY+Vb8eKGeQ4Ico11UwV8F8gTDB/JHwiX8nMv9khtlzEmeDXv
- 6Fqw==
+ (Exim 4.90_1) (envelope-from <katsuu@gmail.com>)
+ id 1lcf3h-0003Hf-8Y; Fri, 30 Apr 2021 22:08:42 -0400
+Received: by mail-ed1-x535.google.com with SMTP id g10so239066edb.0;
+ Fri, 30 Apr 2021 19:08:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IQ1HyKjMmBYKB1SMhz+mNCbW0/KH0qETd4EbXQvJS5I=;
+ b=JWjHMH9q9yqTd15AWmu/1SlKYcLdu0OreaNUy9KpxwTZEoTUpiPX7djmfJ1ViTW2NY
+ GfXXrX9iBVAXOmMOtoF9N2cMN86Kc1a38IbrsY7B5JpGhDTWEAwMN6OQ6H8MnHaV4ygO
+ Hcu0kTdB8bNGtdt+3A4Xj1JmeOSaExu3idqdda/q2Pr19WxheWUoIVYXUNCDI+pce4C0
+ 0ciI3zPI528QlV4bA/QgK0TjBl+tyRdFDC9UNMugmaqPKY9jJuBvVKXwjbmODadZQPT/
+ lgT6DUal8FUq8/hhnHGgivRm9LGXNA3Hs18tshKf36lR3VbC2v5r6GfGP/xB4+TCfcb+
+ Hvow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zFDg4jBrQ2aYW4TSYjlQgl7fZspfnlz8JMcKtHh2R3w=;
- b=Vh02y3Bl99MHA/bJDux/WqbE14PBBTMGbDW17CeilrN1Pl1SKN2GJTPIIuMNpww/EK
- CoulMomcOc91xA+ZqSuh9iHkPVT5ImP9VlmvK1ureIpXwD5I+6JIZs+ByVLl9OSKAG64
- SeKQmZuZHuAZ2FW0FlOsWIYLc+xNB0LJ5xDBp46lQuU7CmcXFXEyi16Lld1RHUzggcye
- Amya9KLCsPv2ITBHI2/QlURzIoFsIjouzqUl0UFxxEM+uUjvNy81e5IEmgI6zaS9pgP5
- LZv2zjiWz99iGPDZPZdzHXpDWk5mdxgc4rtHvhY+GWPbjiDWXBgKVfQiuDfMP1yuJyHl
- ZQsw==
-X-Gm-Message-State: AOAM531XdfJL5HVHZjq7qDWunOOfxcyugPPYEpPdi9Hy8EkeaLok5Cl3
- VoUfm8T87JFYJRALDb+wKrFuwQ==
-X-Google-Smtp-Source: ABdhPJxnedHNAHy4l9933uF/SeV4dqiQC2P1qFyI4su/z72y2OQYyDX8Dne1FKH09OR2Ao+J+xq7Jw==
-X-Received: by 2002:a17:90b:3684:: with SMTP id
- mj4mr18472372pjb.50.1619831515074; 
- Fri, 30 Apr 2021 18:11:55 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id w9sm3129110pfn.213.2021.04.30.18.11.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 18:11:54 -0700 (PDT)
-Subject: Re: [PATCH v3 7/7] target/ppc: isolated cpu init from translation
- logic
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
- <20210430193533.82136-8-bruno.larsen@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1dfe7536-8dc9-ef5e-188b-d8e985be0816@linaro.org>
-Date: Fri, 30 Apr 2021 18:11:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IQ1HyKjMmBYKB1SMhz+mNCbW0/KH0qETd4EbXQvJS5I=;
+ b=G7q6ourotkTLkvwdvDsYInN93yyyJ+u1yJ5J+WmziayxJEHoysHhMyIc01FFpgETo7
+ U137ZC8k3yVgjH2My5A3hJ8J7P+m6rL3q8bbNBlG8ESfbqZ4vSFY4DiLx4ZMeSM30ioO
+ fYnbByITZB0RJE9yoVuy6Y4VjtlD/rJf98XMSWtUDZbTodD58GmZ6M0lNK2TXs6Nioqa
+ GkwRY/UIcgtpYUlulYfQQmhYutXRzQFZFBWR3UFO8Htrfq4XLpHpLuVGb+fGD9guozBd
+ +fyMRurg//zWPjTSoT1GhHTAV0gRq8wTtjQXDdUvBeb77iCDPvXTxkpa7Y5cjkvLqBbn
+ RxEA==
+X-Gm-Message-State: AOAM5318vOtwp16Au5eTO33wrF3KYmmr4fO6OmJ3E3R1PVV6viJXAnIf
+ u1B8zI3e0p/56EK05BNTj/DoSW1IinB2qH+Y8Pc=
+X-Google-Smtp-Source: ABdhPJyh9wNXCKcm9JcnL/HHQURB/rhUtT4f0QtkbeOHprO6BrsoM8QYXMy4FIxegkwJJXVmZ/l1xLLCGhwUak0XsAk=
+X-Received: by 2002:a05:6402:142:: with SMTP id s2mr9308949edu.2.1619834918412; 
+ Fri, 30 Apr 2021 19:08:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210430193533.82136-8-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+References: <CA+pCdY09+OQfXq3YmRNuQE59ACOq7Py2q4hqOwgq4PnepCXhTA@mail.gmail.com>
+ <2571b8c3-3e2b-f90e-6077-05232a52c711@redhat.com>
+In-Reply-To: <2571b8c3-3e2b-f90e-6077-05232a52c711@redhat.com>
+From: Katsuhiro Ueno <uenobk@gmail.com>
+Date: Sat, 1 May 2021 11:08:22 +0900
+Message-ID: <CANrJRqLyfijWWbrAwpQLrWuH1-hmraGnx2EQO4GaTH6D1TVxEQ@mail.gmail.com>
+Subject: Re: [PATCH] meson: Set implicit_include_directories to false
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=katsuu@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,36 +75,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 12:35 PM, Bruno Larsen (billionai) wrote:
-> +++ b/target/ppc/cpu_init.c
-> @@ -18,6 +18,7 @@
->    * License along with this library; if not, see<http://www.gnu.org/licenses/>.
->    */
->   
-> +#include "qemu/osdep.h"
->   #include "disas/dis-asm.h"
->   #include "exec/gdbstub.h"
->   #include "kvm_ppc.h"
-> @@ -42,7 +43,10 @@
->   #include "fpu/softfloat.h"
->   #include "qapi/qapi-commands-machine-target.h"
->   
-> +#include "helper_regs.h"
-> +#include "internal.h"
->   #include "spr_tcg.h"
+2021-04-30 16:48 Paolo Bonzini <pbonzini@redhat.com>:
+>
+> On 29/04/21 04:43, Katsuhiro Ueno wrote:
+> > Without this, libvixl cannot be compiled with macOS 11.3 SDK due to
+> > include file name conflict (usr/include/c++/v1/version conflicts with
+> > VERSION).
+> >
+> > Signed-off-by: Katsuhiro Ueno <uenobk@gmail.com>
+> > ---
+> >   meson.build | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meson.build b/meson.build
+> > index c6f4b0cf5e..d007bff8c3 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -2129,6 +2129,7 @@ common_all = common_ss.apply(config_all, strict: false)
+> >   common_all = static_library('common',
+> >                               build_by_default: false,
+> >                               sources: common_all.sources() + genh,
+> > +                            implicit_include_directories: false,
+> >                               dependencies: common_all.dependencies(),
+> >                               name_suffix: 'fa')
+> >
+>
+> Can you include the difference in the include paths (the -I and -iquote
+> arguments)?  There are many cases in which we rely on having the current
+> source directory in the build path, for example all inclusions of "trace.h".
 
-You need "exec/helper-proto.h" until you deal with helper_mtvscr().
+This only removes -I.. (current (top-level) source directory) from the
+arguments. The meson manual says that it also removes -I. (current
+(top-level) build directory) but -I. is still in the arguments (I am
+not sure why). This does not change any -iquote argument.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As far as I know, this does not affect the inclusions of "trace.h"
+because each "trace.h" is in the same directory as the files that
+include it, and the top-level build directory, which has the "trace"
+directory containing generated "trace-*.h" files, is still in the
+include path.
 
-
-r~
+--
+Katsuhiro Ueno
 
