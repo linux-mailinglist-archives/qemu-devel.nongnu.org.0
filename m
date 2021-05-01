@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07653706AB
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:37:51 +0200 (CEST)
-Received: from localhost ([::1]:39254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F32D3706A1
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:33:08 +0200 (CEST)
+Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcm4M-0007q7-L8
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
+	id 1lclzn-0002Em-50
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lclxK-0000V4-VE
- for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:35 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33516)
+ id 1lclxM-0000Va-KC
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:38 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lclxH-0005UR-9Y
- for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:32 -0400
-Received: by mail-ed1-x532.google.com with SMTP id g10so861346edb.0
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 02:30:30 -0700 (PDT)
+ id 1lclxK-0005Up-JW
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:36 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id a4so744277ejk.1
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 02:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W0byWahx5yMOctAwKUijW0hvjeAo428m5s8AS5DrbDY=;
- b=jVmkUbIPSDAd/auZkVC2xOS8CnXwMHQWCcH5odGEoZnBvuWYdAGTR666GxibgDrk0A
- nt0p+Z+WwByaNW/SNWzW1b3ACH8Ba2JLJfLIkHtx+Hcmou5hF+MzrqEXT732XAl5Kx+b
- X7i/IbRLjYjBBgIRWm8nhwozPqQ6JHoXNlVfa49WlJV6YOSUu1J2Lpgw7a2w0LsB6WLO
- poHfe1afMaOHmVgvkNIRwZDzHgb/WR8OnNqFZX2g39oqEpHp4POEzXuNlsyBvA4YG88v
- Zcesy2SYob9zitpbWA5zOl3UV2csvkLf5c1720jAgAUIceyEqR5z317qpURodnOAL3+X
- dcRw==
+ bh=RLsjIcAP3wwlVBjq4iu7pWS+PTeCNrkyXNVSx//IWes=;
+ b=tCf9CNMfTRsh9C+bZYg9QePmnBa+jNnQZkyEdJukjSYIxjZolUJJOC7TMXbH1LBgjL
+ BYBAwG0yKcKESkLrbAvKzYaGAvPVCnheapndz+GRoLqzPdJHPCzW991aPhUzoi+DSHpP
+ DhzbFGb4MejqocGNxq1ha7KC2TkRMwep9Y6YMa2txM0SZYZpuYE5mgVWtdxqSI723I9a
+ NXN+scFynJ2N4L7JxQdCIei5aufbwVqhq43QNd5RCX6eY5yixV6Gx85TaxO3uj4ZnDOj
+ F+sRrJ+R97jkOUxwgmibnMC2bTZKCZjlgjc10vftiJLetI/Ejjt4c5Af/k29zxugP6H/
+ u9NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=W0byWahx5yMOctAwKUijW0hvjeAo428m5s8AS5DrbDY=;
- b=OonqBEeEkqX7YtTnzHvSxXNu5xWIRjN6tyzz9v/Hybu0tJwlwHCZZZDp9kluUzMzNt
- EMmj9igC/4y0G0NgybrH3Ha9rN4Prnblc3cgg1BuKGzVONfchPpwtigoTGbhLjZFHzSp
- phcGDHZHkFdeAIJFzvaPOHAPMd/ejK2HfyXxo/dXIN3aNGhOmr0QjlQJR8YhOcIHwXHv
- BvOQGApunQiHJwoQLH0KGL+4etx8GtLkl0mcDHSa29iEUGT6lxx0hFFONfcGnt1jNkAI
- XcxM6cPE7UNl1vDqKaYZItjGuq8F6Owd9DFldZQSdEo+/tdTzDczmK3rQ6jlhPs+9Bno
- cdSw==
-X-Gm-Message-State: AOAM532ZGiK+j3mxsJPW5hUv69nKrXXpFhpt9cSH+q6cGqt2A4jjGOl+
- SHrSL+dwFuk7nkzHmEtKBSUBvzlXhfo=
-X-Google-Smtp-Source: ABdhPJxhD3JIUFQrBtu1M3ZGVZXVkWNNfOHPEJmSfEjqLO8s2XI4oodnO6kYRNOEILQEDvBMzjvttQ==
-X-Received: by 2002:a50:cdd1:: with SMTP id h17mr10484518edj.178.1619861429994; 
- Sat, 01 May 2021 02:30:29 -0700 (PDT)
+ bh=RLsjIcAP3wwlVBjq4iu7pWS+PTeCNrkyXNVSx//IWes=;
+ b=LnkHk1tv88zl1KmFRYI9bm5ZKuh4Eba5/dwCabNPVMbjf4578Qnf/rJnwie5Ojse2e
+ e1Pqf99JVxlj985y8sYyvbKMdKndWKP7lRG75XpCQlWgMV8QDVugEv27EIXE2+YZX3zt
+ gafYK5Q4JYQ/Q9pC+LNXPHV0iXqA0adryKB80IeUtLumZ/D16wRsNSJ+6XR4ZbbBC/ZG
+ y57wEKFgY/IroFVNVHfBW/RZxMmz99fNycV52cH7CBEqwCQ2PWNMk/NYBEh44+Uro13T
+ B4kpabVqCXYo2Ic55apioEElcGaZzUrotjwu5dvydloPg2rakJL+SkUBf9RiGCwC87j5
+ VAfA==
+X-Gm-Message-State: AOAM533UbjDdNlDQ9+Q3UR5nqaTaiv9mKqoe5A5LVy1DLVjNk0QzLcAH
+ 95M7ZN3A5HFzVApXspVx/rTUEcpVeXo=
+X-Google-Smtp-Source: ABdhPJz+0ETHqPRA3lNvkcQc94JLZ6QAKpqT/zs6lG4ZPse+bD9w0yU6gLMl43TNqz//vdI+WfeOGA==
+X-Received: by 2002:a17:906:bb0e:: with SMTP id
+ jz14mr8165753ejb.285.1619861430705; 
+ Sat, 01 May 2021 02:30:30 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id ga33sm4632721ejc.11.2021.05.01.02.30.29
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id ga33sm4632721ejc.11.2021.05.01.02.30.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 02:30:29 -0700 (PDT)
+ Sat, 01 May 2021 02:30:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/10] oslib-win32: do not rely on macro to get redefined
- function name
-Date: Sat,  1 May 2021 11:30:17 +0200
-Message-Id: <20210501093026.189429-2-pbonzini@redhat.com>
+Subject: [PULL 02/10] Add NVMM accelerator: configure and build logic
+Date: Sat,  1 May 2021 11:30:18 +0200
+Message-Id: <20210501093026.189429-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210501093026.189429-1-pbonzini@redhat.com>
 References: <20210501093026.189429-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,31 +84,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kamil Rytarowski <kamil@NetBSD.org>, Reinoud Zandijk <reinoud@NetBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Windows with glib <2.50, g_poll is redefined to use the variant
-defined in util/oslib-win32.c.  Use the same name in the declaration
-and definition for ease of grepping.
+From: Reinoud Zandijk <reinoud@NetBSD.org>
 
+Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
+Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
+
+Message-Id: <20210402202535.11550-2-reinoud@NetBSD.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/oslib-win32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/Kconfig     |  3 +++
+ configure         |  8 +++++++-
+ meson.build       | 14 ++++++++++++++
+ meson_options.txt |  2 ++
+ qemu-options.hx   |  8 ++++----
+ 5 files changed, 30 insertions(+), 5 deletions(-)
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index f68b8012bb..13418f68c0 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -472,7 +472,7 @@ static int poll_rest(gboolean poll_msgs, HANDLE *handles, gint nhandles,
-     return 0;
- }
+diff --git a/accel/Kconfig b/accel/Kconfig
+index 461104c771..8bdedb7d15 100644
+--- a/accel/Kconfig
++++ b/accel/Kconfig
+@@ -1,6 +1,9 @@
+ config WHPX
+     bool
  
--gint g_poll(GPollFD *fds, guint nfds, gint timeout)
-+gint g_poll_fixed(GPollFD *fds, guint nfds, gint timeout)
- {
-     HANDLE handles[MAXIMUM_WAIT_OBJECTS];
-     gboolean poll_msgs = FALSE;
++config NVMM
++    bool
++
+ config HAX
+     bool
+ 
+diff --git a/configure b/configure
+index 4f374b4889..268460d63d 100755
+--- a/configure
++++ b/configure
+@@ -352,6 +352,7 @@ kvm="auto"
+ hax="auto"
+ hvf="auto"
+ whpx="auto"
++nvmm="auto"
+ rdma="$default_feature"
+ pvrdma="$default_feature"
+ gprof="no"
+@@ -1107,6 +1108,10 @@ for opt do
+   ;;
+   --enable-hvf) hvf="enabled"
+   ;;
++  --disable-nvmm) nvmm="disabled"
++  ;;
++  --enable-nvmm) nvmm="enabled"
++  ;;
+   --disable-whpx) whpx="disabled"
+   ;;
+   --enable-whpx) whpx="enabled"
+@@ -1848,6 +1853,7 @@ disabled with --disable-FEATURE, default is enabled if available
+   kvm             KVM acceleration support
+   hax             HAX acceleration support
+   hvf             Hypervisor.framework acceleration support
++  nvmm            NVMM acceleration support
+   whpx            Windows Hypervisor Platform acceleration support
+   rdma            Enable RDMA-based migration
+   pvrdma          Enable PVRDMA support
+@@ -6410,7 +6416,7 @@ NINJA=$ninja $meson setup \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+         -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug \
+         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+-        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
++        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
+         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
+         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+diff --git a/meson.build b/meson.build
+index c6f4b0cf5e..14dd3fe068 100644
+--- a/meson.build
++++ b/meson.build
+@@ -87,6 +87,7 @@ if cpu in ['x86', 'x86_64']
+   accelerator_targets += {
+     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
+     'CONFIG_HVF': ['x86_64-softmmu'],
++    'CONFIG_NVMM': ['i386-softmmu', 'x86_64-softmmu'],
+     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
+   }
+ endif
+@@ -170,6 +171,7 @@ version_res = []
+ coref = []
+ iokit = []
+ emulator_link_args = []
++nvmm =not_found
+ hvf = not_found
+ if targetos == 'windows'
+   socket = cc.find_library('ws2_32')
+@@ -227,6 +229,14 @@ if not get_option('hax').disabled()
+     accelerators += 'CONFIG_HAX'
+   endif
+ endif
++if targetos == 'netbsd'
++  if cc.has_header('nvmm.h', required: get_option('nvmm'))
++    nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
++  endif
++  if nvmm.found()
++    accelerators += 'CONFIG_NVMM'
++  endif
++endif
+ 
+ tcg_arch = config_host['ARCH']
+ if not get_option('tcg').disabled()
+@@ -271,6 +281,9 @@ endif
+ if 'CONFIG_HVF' not in accelerators and get_option('hvf').enabled()
+   error('HVF not available on this platform')
+ endif
++if 'CONFIG_NVMM' not in accelerators and get_option('nvmm').enabled()
++  error('NVMM not available on this platform')
++endif
+ if 'CONFIG_WHPX' not in accelerators and get_option('whpx').enabled()
+   error('WHPX not available on this platform')
+ endif
+@@ -2576,6 +2589,7 @@ if have_system
+   summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
+   summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
+   summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
++  summary_info += {'NVMM support':      config_all.has_key('CONFIG_NVMM')}
+   summary_info += {'Xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
+   if config_host.has_key('CONFIG_XEN_BACKEND')
+     summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
+diff --git a/meson_options.txt b/meson_options.txt
+index 9734019995..91034420a1 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -33,6 +33,8 @@ option('whpx', type: 'feature', value: 'auto',
+        description: 'WHPX acceleration support')
+ option('hvf', type: 'feature', value: 'auto',
+        description: 'HVF acceleration support')
++option('nvmm', type: 'feature', value: 'auto',
++       description: 'NVMM acceleration support')
+ option('xen', type: 'feature', value: 'auto',
+        description: 'Xen backend support')
+ option('xen_pci_passthrough', type: 'feature', value: 'auto',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index fd21002bd6..dadf11fae9 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -26,7 +26,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "-machine [type=]name[,prop[=value][,...]]\n"
+     "                selects emulated machine ('-machine help' for list)\n"
+     "                property accel=accel1[:accel2[:...]] selects accelerator\n"
+-    "                supported accelerators are kvm, xen, hax, hvf, whpx or tcg (default: tcg)\n"
++    "                supported accelerators are kvm, xen, hax, hvf, nvmm, whpx or tcg (default: tcg)\n"
+     "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
+     "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
+     "                mem-merge=on|off controls memory merge support (default: on)\n"
+@@ -58,7 +58,7 @@ SRST
+ 
+     ``accel=accels1[:accels2[:...]]``
+         This is used to enable an accelerator. Depending on the target
+-        architecture, kvm, xen, hax, hvf, whpx or tcg can be available.
++        architecture, kvm, xen, hax, hvf, nvmm, whpx or tcg can be available.
+         By default, tcg is used. If there is more than one accelerator
+         specified, the next one is used if the previous one fails to
+         initialize.
+@@ -135,7 +135,7 @@ ERST
+ 
+ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "-accel [accel=]accelerator[,prop[=value][,...]]\n"
+-    "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
++    "                select accelerator (kvm, xen, hax, hvf, nvmm, whpx or tcg; use 'help' for a list)\n"
+     "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
+     "                kernel-irqchip=on|off|split controls accelerated irqchip support (default=on)\n"
+     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
+@@ -145,7 +145,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+ SRST
+ ``-accel name[,prop=value[,...]]``
+     This is used to enable an accelerator. Depending on the target
+-    architecture, kvm, xen, hax, hvf, whpx or tcg can be available. By
++    architecture, kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By
+     default, tcg is used. If there is more than one accelerator
+     specified, the next one is used if the previous one fails to
+     initialize.
 -- 
 2.31.1
 
