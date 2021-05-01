@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D694D3708E2
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 22:13:44 +0200 (CEST)
-Received: from localhost ([::1]:38792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76553708F2
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 22:42:40 +0200 (CEST)
+Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcvzj-0002Sx-Eq
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 16:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
+	id 1lcwRj-00034y-Eo
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 16:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1lcvyF-0001vQ-If; Sat, 01 May 2021 16:12:11 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:45857)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcwQf-0002GJ-Uu
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 16:41:33 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:42690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1lcvyC-0006HK-M5; Sat, 01 May 2021 16:12:10 -0400
-Received: by mail-ot1-x330.google.com with SMTP id
- f75-20020a9d03d10000b0290280def9ab76so1583755otf.12; 
- Sat, 01 May 2021 13:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:cc:references:from:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wUTupG1ciOFu3wWEybiL9ryNjvgtT6aHKOAzGYFRyMw=;
- b=IP31ftSyRABTKjhWgAp/tRSg6Ci5mXQT3AGkvQ5NOaaYkVQ+fE7QAZVcT+6hfCcK79
- WRERFOAAxSwt/2nzM7udbl3bTR0q4v/+XMeKHk9z/c6xg/4jkKPFtWZBLZdBzvrN2uQq
- 2xrNjxafZpaF5z21rkaKUjuDmOccEw7Zz1Fjd2lb42z/892gM3yoqx4byvfrCYMVIB9M
- WIbK+HT+tUryDSzv80ly6ib1UClN3ONVfiY+XZCrgtfK+hez5cfBoHZRfXYPH7CRkUU7
- 4xRNyPIwxNcfgog4Br7JlX2xgm64V2IFl1T8Vmbihj33N+VgqyI75usoMgycdgfYrikL
- PVBA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lcwQd-0006SH-QJ
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 16:41:33 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id j28so1962151edy.9
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 13:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+VsECP6zRussTtZj3QNQBfMgj7DEqtv7fg3sql2jnJE=;
+ b=VBLXucetxUW+975kb2qN8rJINtiXW8DYUIs1+T8WP5N1HsOJUnCO4KOlwY6sABgWx9
+ yulI0oa9GYGD8hVlaFvupYt+qTCHd4V8CI4voTxE//jgSMgvWob2KOgsupZN6yI/3Ihe
+ 6ZCwJRTUUbROshby0WKcfROSJPWVKCAXF1ZMnrmHlYFXlVVA1k4Su2paatUaKylT2YNm
+ L9+S48o6umT9j/SNZye3tR39hlsiLwaZAVd40eUXi8Z5H2YNn/W5omkwggJYUaWfVlbO
+ +SbYfvZfKkbx3rpPzHctDRkDNK5aWhqR2l2/2fAhLYsHymqcsJyJXCkSZUhWl66KdpUs
+ IdvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wUTupG1ciOFu3wWEybiL9ryNjvgtT6aHKOAzGYFRyMw=;
- b=NJlxfHPsMLxxtMGwOKaU3MwxoD3OcZ8FsFJjn5L1cCgGChIMDbNR1UKbHl8p81CkKF
- gK2uDES/8hglR0HGvQqyfPGXolIzC2szDD0+lsoy1t54GpO7Q8cHVxtjP+Im1izLLu/M
- F13hqD4y4PCc4iwlX5N8NHLc8vEBWoO8uE7u4b0jGFgjgLC1NvGAwT3dekgiuWfSTg4B
- 4UFkpi52MO99dsYH0fXQyKNu07wxxKk6S2sFuEwe9s3OQV6XM7V2909qHDWWb5QXVSjR
- foQQsmn4dEtNpqmVfTI6SV6aEpd4zfh2C1EKF4ur0NW9767E8jesBNwFaUlkhzTRbQG/
- +RmQ==
-X-Gm-Message-State: AOAM531I6TjDLySBxZxK6Ljv8tARS0NcZsn0N11WrXvuVPdSAcoVkgHb
- veGkowuaHl03eUXB2x2+k5U=
-X-Google-Smtp-Source: ABdhPJwONXFZ+Mwlfc9TD3iI8bzpCB/LtIpd9+Eig7O77Vv4w6Sul9HdeurkekD2j9EibrJI+mJm2Q==
-X-Received: by 2002:a9d:a4e:: with SMTP id 72mr8716338otg.229.1619899926174;
- Sat, 01 May 2021 13:12:06 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- i9sm1594595oog.17.2021.05.01.13.12.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 May 2021 13:12:05 -0700 (PDT)
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <20210106063504.10841-1-bmeng.cn@gmail.com>
- <20210106063504.10841-4-bmeng.cn@gmail.com>
- <20210430144136.GA2880420@roeck-us.net>
- <CAEUhbmUTLecMcr0=vmBeYJZeK6CdZY4SZcYiOu0E9AawY41+Cg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v3 3/4] hw/arm: sabrelite: Connect the Ethernet PHY at
- address 6
-Message-ID: <72acebfa-be17-cca5-ce6a-443ef4d23fce@roeck-us.net>
-Date: Sat, 1 May 2021 13:12:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+VsECP6zRussTtZj3QNQBfMgj7DEqtv7fg3sql2jnJE=;
+ b=f9H8pNxJ9pySUerAXaNRjLP85OH+loIC85npjuG4eAj07CdeOhqbzpxaQ7YXgK/5cG
+ h6uns76/YF37b1oVzOTcpzF7wGw4NGJ1qyGTfYyHSeNXZupSaPgTkwzJKeu+VtQY7eta
+ AGdwfxUfDg5n4Gg4wjukBoa2lMYdw1qaiv4v8JsvIRya6OpY+Ww4xtmywhnIHOCNcU9s
+ 4+5Lj6fftHtULeoc8Xw00a0yl+Gcayu47KDyXO7kLaEAz2YyrpWEAcmXAGqIYV34b+hk
+ VS5wAaI6waB5QDdocgy5okv/BBqWCLXsNvcn+K7+cLlwRZSxX8iZj4BHtRDOiFdGhg2S
+ QTyA==
+X-Gm-Message-State: AOAM530BYc//U5nVIm9VM0CTaH4w5Qce/cUr93mmJ4gJ/xoPu6Bo6UUV
+ PPlV7YkvV1Eol15bgw3bpnReas2Ey1YIY02Jxamr/w==
+X-Google-Smtp-Source: ABdhPJzH/hr6kFxcNgUZTp3QqB0lTNboZjtDSY7BqUwC7G4M4SDM8F1MweM7KJL4xcmaqMdqyLB2T+rtU+k8QRscqh4=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr12622034edt.36.1619901689783; 
+ Sat, 01 May 2021 13:41:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmUTLecMcr0=vmBeYJZeK6CdZY4SZcYiOu0E9AawY41+Cg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x330.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20210501184324.1338186-1-richard.henderson@linaro.org>
+In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 1 May 2021 21:40:26 +0100
+Message-ID: <CAFEAcA_fP6kPWn=A9EO1H09WN2awZhjkYjTXhSo-r_ttRtp9NQ@mail.gmail.com>
+Subject: Re: [PULL 00/31] target/hexagon patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,87 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 9:28 PM, Bin Meng wrote:
-> On Fri, Apr 30, 2021 at 10:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> Hi,
->>
->> On Wed, Jan 06, 2021 at 02:35:03PM +0800, Bin Meng wrote:
->>> From: Bin Meng <bin.meng@windriver.com>
->>>
->>> At present, when booting U-Boot on QEMU sabrelite, we see:
->>>
->>>   Net:   Board Net Initialization Failed
->>>   No ethernet found.
->>>
->>> U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
->>> U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
->>> board, the Ethernet PHY is at address 6. Adjust this by updating the
->>> "fec-phy-num" property of the fsl_imx6 SoC object.
->>>
->>> With this change, U-Boot sees the PHY but complains MAC address:
->>>
->>>   Net:   using phy at 6
->>>   FEC [PRIME]
->>>   Error: FEC address not set.
->>>
->>> This is due to U-Boot tries to read the MAC address from the fuse,
->>> which QEMU does not have any valid content filled in. However this
->>> does not prevent the Ethernet from working in QEMU. We just need to
->>> set up the MAC address later in the U-Boot command shell, by:
->>>
->>>   => setenv ethaddr 00:11:22:33:44:55
->>>
->>
->> With this patch in place, the standard Ethernet interface no longer works when
->> booting sabrelite Linux images directly (without u-boot) using the following
->> qemu command.
->>         qemu-system-arm -M sabrelite -kernel arch/arm/boot/zImage
->>         ...
->>
->> The Ethernet interface still instantiates, but packet transfer to the host
->> no longer works. Reverting this patch fixes the problem for me.
->>
->> Is there a qemu command line parameter that is now necessary to instantiate
->> the Ethernet interface when booting Linux ?
-> 
-> Enabling "guest_errors" shows that Linux kernel fec driver is trying
-> to read PHY at address 0, which is not what we want.
-> 
-> [imx.fec.phy]imx_phy_read: Bad phy num 0
-> 
-> The device tree blob of the sabrelite does not contain a node for the
-> ethernet phy specifying phy address, so I suspect Linux kernel driver
-> is using default phy address 0 instead.
-> 
-> Could you please test on a real hardware to see what happens?
-> 
+On Sat, 1 May 2021 at 19:43, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 8f860d2633baf9c2b6261f703f86e394c6bc22ca:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-04-30' into staging (2021-04-30 16:02:00 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-hex-20210501
+>
+> for you to fetch changes up to 26f7c044ad234c3dfa7ca2ddf047a71d815e66dc:
+>
+>   Hexagon (target/hexagon) CABAC decode bin (2021-05-01 08:31:43 -0700)
+>
+> ----------------------------------------------------------------
+> Minor cleanups.
+> Finish the rest of the hexagon integer instructions.
+>
+> ----------------------------------------------------------------
 
-The problem is that qemu returns 0 when the OS tries to read from a
-non-existing PHY. Linux expects it to return 0xffff, and believes that
-a PHY is there if 0 is returned. This helps:
+Build failure on the gitlab CI "clang-user" job:
+https://gitlab.com/qemu-project/qemu/-/jobs/1229108656
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index f03450c028..3c90c38e26 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -285,7 +285,7 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
-     if (phy != s->phy_num) {
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
-                       TYPE_IMX_FEC, __func__, phy);
--        return 0;
-+        return 0xffff;
-     }
+../target/hexagon/genptr.c:31:20: error: unused function
+'gen_read_reg' [-Werror,-Wunused-function]
+static inline TCGv gen_read_reg(TCGv result, int num)
+^
+../target/hexagon/genptr.c:322:20: error: unused function
+'gen_set_byte' [-Werror,-Wunused-function]
+static inline void gen_set_byte(int N, TCGv result, TCGv src)
+^
 
-Note that this is not really a guest error; any OS can and likely
-will scan the MII bus for connected phy chips.
+(this is clang being stricter than gcc about unused static
+inline functions again.)
 
-Guenter
+thanks
+-- PMM
 
