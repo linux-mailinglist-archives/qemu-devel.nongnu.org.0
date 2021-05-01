@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B1D370760
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 15:15:13 +0200 (CEST)
-Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91DF370766
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 15:22:13 +0200 (CEST)
+Received: from localhost ([::1]:39914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcpSi-0006S8-Eh
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 09:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
+	id 1lcpZU-0000dr-RI
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 09:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcpRU-0005cY-2I
- for qemu-devel@nongnu.org; Sat, 01 May 2021 09:13:56 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53827)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcpY7-00088B-2Z
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 09:20:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcpRS-0004Tf-8I
- for qemu-devel@nongnu.org; Sat, 01 May 2021 09:13:55 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id s82so611645wmf.3
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 06:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QMGnkp+UveHbbZ6DHBCkbTwhWVKQuDWe5peCfiEJtrQ=;
- b=JDYsorTP9NWjf8294whDWtQo0aH0XEyOCU55T/droEG7oI0dfE8721MC2VyUTXZM0v
- 8AB+nSzK3COr9wxZuK9jROSMCFYzsb7EhkQ+logGzmiBkvRJu9OCV/Oega+nRQ0TBEwU
- QrAlyp7B6vrQQpM0fQb4ABeXDCx4XtWmJJ90cyLm517Perf/uKhKABs5DewZjmGod1PQ
- r22YppWQVryvZAZ7P0BWTnPVF8EK0dT4UOKtTmD+RKwLre/PVwEc/pt2MWAP7mvmuZ3e
- jHT0rwyAeabiZkSsmqpet7D5PLT4lYlJKrunVTWeT8LTEAp8EMXrBFE8RkBhrrKoQFql
- zJrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QMGnkp+UveHbbZ6DHBCkbTwhWVKQuDWe5peCfiEJtrQ=;
- b=fb3CUr/qwSF8wv0OP/3YOK/OvZdRo8XIltjvSwjRNEGpK2EuPgF38I2jnfk27sqs7c
- FxTaDR6F7fSaQSXwGYQ+3eLLdf8LjsamhOVVMnsAllGcL3SDFHMKRhQJnkfPZ8v/M2g9
- qvhNyc/8j5jlT1Mjcs8WC+QmqRfDu18PbkcphAgUwpGm8w6y4x9FlmvPF5MlOhXiVI+k
- rzV9LD02JkL7byEin3QIy9eYGrfxRR1IUYYX3J09m9ce2VC80qIWGGMhSHY6C5ZqGBpp
- TTZjUuwigir/ciC3o263P1qjNT9ik5mpeuFuXHy8QWz2e9KaP3ONKK+LRG2RM37j0rnL
- MkqA==
-X-Gm-Message-State: AOAM531SK56Dn3ufBkXvBLWTs2WYky6r/tnPcgqHm55yumbMZYURswec
- /d+D9hWS60bq66LXLb+oMXV8dmFdEzd0yNzA
-X-Google-Smtp-Source: ABdhPJyLtxmKfyjtZiwkqZ02SDuzkGkVdalM2CJ8aa52s8yDZzuhWLlGBG2ddyK2wQWlVCivzz1w/w==
-X-Received: by 2002:a1c:9897:: with SMTP id a145mr13779535wme.9.1619874832327; 
- Sat, 01 May 2021 06:13:52 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id v18sm6744448wro.18.2021.05.01.06.13.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 May 2021 06:13:51 -0700 (PDT)
-Subject: Re: [Bug 1861677] Re: wavcapture crash with pulseaudio
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Bug 1861677 <1861677@bugs.launchpad.net>, qemu-devel@nongnu.org
-References: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
- <161986065342.4935.14510629788143038327.launchpad@chaenomeles.canonical.com>
- <98db3a34-3820-79e4-9423-b5c0fdd3674d@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <688dc944-f8be-54fe-6466-47cd261c2987@amsat.org>
-Date: Sat, 1 May 2021 15:13:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lcpY0-0000I9-Cs
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 09:20:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lcpXw-0004Ws-Re
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 13:20:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CECFC2E8157
+ for <qemu-devel@nongnu.org>; Sat,  1 May 2021 13:20:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <98db3a34-3820-79e4-9423-b5c0fdd3674d@t-online.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 01 May 2021 13:13:50 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1861677@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: audio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
+Message-Id: <688dc944-f8be-54fe-6466-47cd261c2987@amsat.org>
+Subject: Re: [Bug 1861677] Re: wavcapture crash with pulseaudio
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: cf269da89852ba29fb184bae8efba0f7df3230e8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,25 +73,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1861677 <1861677@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/21 3:01 PM, Volker Rümelin wrote:
+On 5/1/21 3:01 PM, Volker R=C3=BCmelin wrote:
 >> You received this bug notification because you are a member of qemu-
 >> devel-ml, which is subscribed to QEMU.
 >>https://bugs.launchpad.net/bugs/1861677
 >>
 >> Title:
->>  wavcapture crash with pulseaudio
+>> =C2=A0wavcapture crash with pulseaudio
 >>
 >> Status in QEMU:
->>  New
-> 
+>> =C2=A0New
+> =
+
 > Hi Philippe,
-> 
-> this bug was fixed with commit cbaf25d1f5 "audio: fix wavcapture segfault".
+> =
+
+> this bug was fixed with commit cbaf25d1f5 "audio: fix wavcapture segfault=
+".
 
 Indeed, thanks!
 
 Phil.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861677
+
+Title:
+  wavcapture crash with pulseaudio
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  As of commit 28db64fce55,
+  using demo from QEMU advent calendar 2018 day 1:
+  https://www.qemu-advent-calendar.org/2018/download/day01.tar.xz
+
+  $ qemu-system-x86_64 -M pc \
+    -net none -soundhw pcspk \
+    -drive file=3Dday01/fbird.img,format=3Draw,if=3Dfloppy \
+    -monitor stdio -S
+  (qemu) info qtree =
+
+  bus: main-system-bus
+    type System
+    dev: i440FX-pcihost, id ""
+      bus: pci.0
+        dev: PIIX3, id ""
+          bus: isa.0
+            dev: isa-pcspk, id ""
+              audiodev =3D "pa"
+              iobase =3D 97 (0x61)
+              migrate =3D true
+  (qemu) wavcapture out.wav pa
+  (qemu) cont
+  (qemu) # Press 'up' key in demo
+  Segmentation fault (core dumped)
+
+  (gdb) bt
+  #0  0x0000555bfef0dc51 in audio_pcm_sw_write (sw=3D0x555c01333930, buf=3D=
+0x0, size=3D14728) at audio/audio.c:725
+  #1  0x0000555bfef10a49 in audio_capture_mix_and_clear (hw=3D0x555c012379b=
+0, rpos=3D0, samples=3D3682) at audio/audio.c:1054
+  #2  0x0000555bfef11059 in audio_run_out (s=3D0x555c01235550) at audio/aud=
+io.c:1186
+  #3  0x0000555bfef11894 in audio_run (s=3D0x555c01235550, msg=3D0x555bff3e=
+37e8 "timer") at audio/audio.c:1355
+  #4  0x0000555bfef10334 in audio_timer (opaque=3D0x555c01235550) at audio/=
+audio.c:831
+  #5  0x0000555bff33f041 in timerlist_run_timers (timer_list=3D0x555c00377b=
+50) at util/qemu-timer.c:588
+  #6  0x0000555bff33f0eb in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at util/qemu-timer.c:602
+  #7  0x0000555bff33f3b6 in qemu_clock_run_all_timers () at util/qemu-timer=
+.c:688
+  #8  0x0000555bff33fb60 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:525
+  #9  0x0000555bfef0187c in main_loop () at vl.c:1683
+  #10 0x0000555bfef090ab in main (argc=3D12, argv=3D0x7ffec49184c8, envp=3D=
+0x7ffec4918530) at vl.c:4438
+  (gdb) p *sw
+  $1 =3D {card =3D 0x0, s =3D 0x0, info =3D {bits =3D 16, sign =3D 1, freq =
+=3D 44100, nchannels =3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176=
+400, swap_endianness =3D 0}, conv =3D 0x555bfef0ced1 <noop_conv>, ratio =3D=
+ 4294967296, buf =3D 0x555c0123f6f0, =
+
+    rate =3D 0x555c007c0ec0, total_hw_samples_mixed =3D 0, active =3D 1, em=
+pty =3D 1, hw =3D 0x555c014b12a0, name =3D 0x0, vol =3D {mute =3D 0, r =3D =
+4294967296, l =3D 4294967296}, callback =3D {opaque =3D 0x0, fn =3D 0x0}, e=
+ntries =3D {le_next =3D 0x0, =
+
+      le_prev =3D 0x555c014b1310}}
+  (gdb) p *sw->hw
+  $2 =3D {s =3D 0x555c01235550, enabled =3D 1, poll_mode =3D 0, pending_dis=
+able =3D 0, info =3D {bits =3D 16, sign =3D 1, freq =3D 44100, nchannels =
+=3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176400, swap_endianness =
+=3D 0}, =
+
+    clip =3D 0x555bfef16376 <clip_natural_int16_t_from_stereo>, ts_helper =
+=3D 0, mix_buf =3D 0x555c0059d680, buf_emul =3D 0x0, pos_emul =3D 0, pendin=
+g_emul =3D 0, size_emul =3D 0, samples =3D 16384, sw_head =3D {lh_first =3D=
+ 0x555c01333930}, cap_head =3D {
+      lh_first =3D 0x0}, pcm_ops =3D 0x0, entries =3D {le_next =3D 0x0, le_=
+prev =3D 0x0}}
+
+  sw->hw->pcm_ops is NULL.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861677/+subscriptions
 
