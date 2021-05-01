@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAE837091A
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 23:42:27 +0200 (CEST)
-Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136AC37091C
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 23:50:25 +0200 (CEST)
+Received: from localhost ([::1]:46918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcxNa-0005rb-4L
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 17:42:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42550)
+	id 1lcxVH-0007jq-Tm
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 17:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcxLd-0004qZ-G4; Sat, 01 May 2021 17:40:25 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46880)
+ id 1lcxUL-0007B5-Fg; Sat, 01 May 2021 17:49:25 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcxLb-00081T-PJ; Sat, 01 May 2021 17:40:25 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x5so1616321wrv.13;
- Sat, 01 May 2021 14:40:22 -0700 (PDT)
+ id 1lcxUJ-0004tl-E6; Sat, 01 May 2021 17:49:24 -0400
+Received: by mail-wr1-x431.google.com with SMTP id l13so44659wru.11;
+ Sat, 01 May 2021 14:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MJlFOEX6SMfEv/Sg3eKV3dLl1BJyvIbA6xeAWdn1M6k=;
- b=ErxeFrH0rk1cYamXADcNLIWrw4w8mjy4mMKOpI6rER8SWPg0oO8zaTlw4JpLFSOS3z
- 9fQ+wHmpY0Ig+uX73gEgfHuC+9f08Tu+/T5d9IjFzllSaadHPBW2quYH8jVi+hGSD129
- t+LaMHaOZtLgWojGTzPTaMXcetI57E/rnocEi+pUi5mponW5XtEFCvEONu1SjyeabPyi
- PKgUk3I1RkshDKe/X4uPPob96n0hHwptr8Xk/HOjYUBlWAdPDRN0QGeCKT8uUuXS1JEH
- FNw8zk2Sv19Nb1i4w38CK3w8934cR+06gGBPpSYKGSby+w+nt8/Mmbl7E+bb1rHz3EZW
- KsQg==
+ bh=jea/l/VEXedTxoCrfocFgcnm3WQ+V38GUtbHb+MoKOA=;
+ b=IxvxxTNB+5viLsSnzBZADLBNTXC4ApmQiUGoMO42mNuowBIBE3ULeZNiROmz0ihAZh
+ LoAINx55SOfZ3hucH+xUHZHC5WZ47N18Rk+7YblbwHDLMm9aRHSntvXDUznCMqvsAsiF
+ 6u/L2/irDhmXI6uiAXbqqL9H8wJIQorCIzsrB4H5JqyjLpKVuqi9ULRXttCrP3R0+rLc
+ ILTS3C3JO1risf5Ihd70ww6Ysf/sNZG2LH6GuCT+1yoHa2eo97NXY0tK4LghhA/8OHQg
+ hNrYm5/z5tN4rdbisZAe2MMNDurcnWKjHir+KXddLk+aaOzXpuNzUo7Gt1lpbhPyoSD+
+ XBJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MJlFOEX6SMfEv/Sg3eKV3dLl1BJyvIbA6xeAWdn1M6k=;
- b=MhHI4Lui3RO+qYHKauumgw9D0oo9UyqxfYHtZPO3vwKVK9IGE9ugaPaVOgzsAWnaE+
- ShYYPvBFkMAMIJfUwFq2dWASlwzpMFJvl2v30mfsz+A+4LAml4UIf0SXe9l8jPdPoa/s
- ZADMz1p3pF7xhJDuylN77b/rzjR6mGOvj9Fm84c4/y/bm0gLzLbXtx2n/YHVLO/mJqVe
- B6oKLmpXBO5micBv4IxbetUkfzwz4XjJ7XE8x63Hrh1vDbqKzurr+L1JQD0iS+mUcKZ5
- yBt4EIeS7WqAhCfy1xQ5UwixhJgUFbk+PyIMm9fW7TYQSou++BQEN6706BDiWBXjnh4e
- u41Q==
-X-Gm-Message-State: AOAM530ciCY/EeIhtJ4YiGK9FXZgJiAxm2q5cRQlrWFz5+mhnywSgrc/
- M9/LWuAyF1eNZC1SN8+FFRrwA44yJu6QxylN
-X-Google-Smtp-Source: ABdhPJzib+s7sIb8F/QCAGVXdERDF0r7eYjX4CFopfEpOfLDj9tWwORIsAmgvwlYr/rQQ5Pvwy9bbw==
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr15308175wru.206.1619905219598; 
- Sat, 01 May 2021 14:40:19 -0700 (PDT)
+ bh=jea/l/VEXedTxoCrfocFgcnm3WQ+V38GUtbHb+MoKOA=;
+ b=W9u4vb5Iri3vsR5deXBtj1915hdUprgralr2uSrS6Bh4i7nTRqar5Q9pgfIF3aDk61
+ ptKPSF+MaRx7ArqDtxOh/kUFzpZ9Gi6uzscR09FxfSypF1prwOg2KUsrYw6FkNQVwGTe
+ H9/wj/xt6Mt5ZoQK3EHc7PAjfECCsSG51M9pLW5hOMerJODSGYqWOKTNMhvu2pIckmnR
+ 9jEqE2DR1WR6zTJDim9zdRuMzN3AUxF9Iq3hf2EhL4JtUeq7s1+1oraJIfhaOHTL/HiL
+ ljuTEuXwtVhdNiVXecKxyXFuJGQyQpho0XNRyKawpTdf/FGgHVx/hZ+vU98wYStHfnzB
+ Ypfw==
+X-Gm-Message-State: AOAM5339If0/BnbtvfycqeLf9beLcejtWDvcIfUhc9sfhdexbX4zwIQF
+ saF9vxpnT/LZek3Vhg9quEk=
+X-Google-Smtp-Source: ABdhPJw0PSEUpyKInKFd8M72wwsVySHkGhP4MsuFOTYC2fc3oAN7c/QUW8qgxMtkBuxNbeuohGzNoA==
+X-Received: by 2002:adf:cc85:: with SMTP id p5mr15800250wrj.75.1619905761192; 
+ Sat, 01 May 2021 14:49:21 -0700 (PDT)
 Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id z7sm7032416wrl.11.2021.05.01.14.40.18
+ by smtp.gmail.com with ESMTPSA id y8sm8668676wru.27.2021.05.01.14.49.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 May 2021 14:40:18 -0700 (PDT)
-Subject: Re: [PATCH v3 3/4] hw/arm: sabrelite: Connect the Ethernet PHY at
- address 6
-To: Guenter Roeck <linux@roeck-us.net>, Bin Meng <bmeng.cn@gmail.com>
-References: <20210106063504.10841-1-bmeng.cn@gmail.com>
- <20210106063504.10841-4-bmeng.cn@gmail.com>
- <20210430144136.GA2880420@roeck-us.net>
- <CAEUhbmUTLecMcr0=vmBeYJZeK6CdZY4SZcYiOu0E9AawY41+Cg@mail.gmail.com>
- <72acebfa-be17-cca5-ce6a-443ef4d23fce@roeck-us.net>
+ Sat, 01 May 2021 14:49:20 -0700 (PDT)
+Subject: Re: [PATCH 1/2] hw/timer/etraxfs_timer: Qdev'ify reset()
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210423233652.3042941-1-f4bug@amsat.org>
+ <20210423233652.3042941-2-f4bug@amsat.org>
+ <cb232237-3fa9-c170-2bde-941a6193b90b@vivier.eu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6f92b247-cc78-1e26-5809-2ae4809be5c6@amsat.org>
-Date: Sat, 1 May 2021 23:40:17 +0200
+Message-ID: <25aab6f3-4cc2-5cc7-003f-2c4b9ea56907@amsat.org>
+Date: Sat, 1 May 2021 23:49:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <72acebfa-be17-cca5-ce6a-443ef4d23fce@roeck-us.net>
+In-Reply-To: <cb232237-3fa9-c170-2bde-941a6193b90b@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,91 +88,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: qemu-trivial@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/21 10:12 PM, Guenter Roeck wrote:
-> On 4/30/21 9:28 PM, Bin Meng wrote:
->> On Fri, Apr 30, 2021 at 10:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
->>>
->>> Hi,
->>>
->>> On Wed, Jan 06, 2021 at 02:35:03PM +0800, Bin Meng wrote:
->>>> From: Bin Meng <bin.meng@windriver.com>
->>>>
->>>> At present, when booting U-Boot on QEMU sabrelite, we see:
->>>>
->>>>   Net:   Board Net Initialization Failed
->>>>   No ethernet found.
->>>>
->>>> U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
->>>> U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
->>>> board, the Ethernet PHY is at address 6. Adjust this by updating the
->>>> "fec-phy-num" property of the fsl_imx6 SoC object.
->>>>
->>>> With this change, U-Boot sees the PHY but complains MAC address:
->>>>
->>>>   Net:   using phy at 6
->>>>   FEC [PRIME]
->>>>   Error: FEC address not set.
->>>>
->>>> This is due to U-Boot tries to read the MAC address from the fuse,
->>>> which QEMU does not have any valid content filled in. However this
->>>> does not prevent the Ethernet from working in QEMU. We just need to
->>>> set up the MAC address later in the U-Boot command shell, by:
->>>>
->>>>   => setenv ethaddr 00:11:22:33:44:55
->>>>
->>>
->>> With this patch in place, the standard Ethernet interface no longer works when
->>> booting sabrelite Linux images directly (without u-boot) using the following
->>> qemu command.
->>>         qemu-system-arm -M sabrelite -kernel arch/arm/boot/zImage
->>>         ...
->>>
->>> The Ethernet interface still instantiates, but packet transfer to the host
->>> no longer works. Reverting this patch fixes the problem for me.
->>>
->>> Is there a qemu command line parameter that is now necessary to instantiate
->>> the Ethernet interface when booting Linux ?
+On 5/1/21 6:46 PM, Laurent Vivier wrote:
+> Le 24/04/2021 à 01:36, Philippe Mathieu-Daudé a écrit :
+>> TYPE_ETRAX_FS_TIMER is a sysbus device, so its DeviceClass::reset()
+>> handler is called automatically when its qbus parent is reset.
+>> Convert the generic reset to a qdev one, and remove the
+>> qemu_register_reset() call.
 >>
->> Enabling "guest_errors" shows that Linux kernel fec driver is trying
->> to read PHY at address 0, which is not what we want.
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  hw/timer/etraxfs_timer.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
 >>
->> [imx.fec.phy]imx_phy_read: Bad phy num 0
->>
->> The device tree blob of the sabrelite does not contain a node for the
->> ethernet phy specifying phy address, so I suspect Linux kernel driver
->> is using default phy address 0 instead.
->>
->> Could you please test on a real hardware to see what happens?
+>> diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
+>> index 5379006086f..3cfab3e3284 100644
+>> --- a/hw/timer/etraxfs_timer.c
+>> +++ b/hw/timer/etraxfs_timer.c
+>> @@ -309,9 +309,9 @@ static const MemoryRegionOps timer_ops = {
+>>      }
+>>  };
+>>  
+>> -static void etraxfs_timer_reset(void *opaque)
+>> +static void etraxfs_timer_reset(DeviceState *dev)
+>>  {
+>> -    ETRAXTimerState *t = opaque;
+>> +    ETRAXTimerState *t = ETRAX_TIMER(dev);
+>>  
+>>      ptimer_transaction_begin(t->ptimer_t0);
+>>      ptimer_stop(t->ptimer_t0);
+>> @@ -343,7 +343,6 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
+>>      memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
+>>                            "etraxfs-timer", 0x5c);
+>>      sysbus_init_mmio(sbd, &t->mmio);
+>> -    qemu_register_reset(etraxfs_timer_reset, t);
+>>  }
+>>  
+>>  static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
+>> @@ -351,6 +350,7 @@ static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
+>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>>  
+>>      dc->realize = etraxfs_timer_realize;
+>> +    dc->reset = etraxfs_timer_reset;
+>>  }
+>>  
+>>  static const TypeInfo etraxfs_timer_info = {
 >>
 > 
-> The problem is that qemu returns 0 when the OS tries to read from a
-> non-existing PHY. Linux expects it to return 0xffff, and believes that
-> a PHY is there if 0 is returned.
-
-Correct.
-
-> This helps:
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > 
-> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-> index f03450c028..3c90c38e26 100644
-> --- a/hw/net/imx_fec.c
-> +++ b/hw/net/imx_fec.c
-> @@ -285,7 +285,7 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
->      if (phy != s->phy_num) {
->          qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
->                        TYPE_IMX_FEC, __func__, phy);
-> -        return 0;
-> +        return 0xffff;
->      }
+> But according to the comment in DeviceClass, we should use the resettable interface now:
 > 
-> Note that this is not really a guest error; any OS can and likely
-> will scan the MII bus for connected phy chips.
+> docs/devel/reset.rst
 
-Correct. This should be a trace event instead.
+Eh... As a first step, I think we gain in removing the
+qemu_register_reset() call.
+
+It seems overkill to use the 3-state reset interface,
+but if it is deprecated, then OK.
+
+Thanks for reviewing,
+
+Phil.
 
