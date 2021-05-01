@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879B93705CF
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 08:04:24 +0200 (CEST)
-Received: from localhost ([::1]:40582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3D23705DF
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 08:21:22 +0200 (CEST)
+Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcijn-0007h1-D1
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 02:04:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
+	id 1lcj0D-0004hP-Kf
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 02:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lciit-0007I2-Rw
- for qemu-devel@nongnu.org; Sat, 01 May 2021 02:03:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lciir-0001ut-AA
- for qemu-devel@nongnu.org; Sat, 01 May 2021 02:03:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619849004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DEcMKJx1ajYF3IPF9lYHFGdtv7/nGIQcyUfat3bSDzU=;
- b=VRwmJ8qr/gxKq0z47j+JZ8BoA0/ELkO2SorMXTtM5BUPUx0taLqlVLycmx/EIoRnl/V2h7
- LNtYEA1dJatNOWRdt3LYh6iQ86N0CZTAJ1mNcKAkGrcvIs1HyeiUDi2Xk3OoINydFShzRJ
- iG+5Vf1qI6jefNvT/MUq7tA3urD1Ev0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-323h78-cMMycZ64gczFghQ-1; Sat, 01 May 2021 02:03:20 -0400
-X-MC-Unique: 323h78-cMMycZ64gczFghQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A94D6801B12;
- Sat,  1 May 2021 06:03:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 793795D9CC;
- Sat,  1 May 2021 06:03:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F326A113525D; Sat,  1 May 2021 08:03:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] coverity-scan: list components, move model to
- scripts/coverity-scan
-References: <20210430145220.303801-1-pbonzini@redhat.com>
- <CAFEAcA_snF5tQ5VaO=t=o9cz4HPm9ECRpaOLDWbkXW=zcVtiuA@mail.gmail.com>
-Date: Sat, 01 May 2021 08:03:17 +0200
-In-Reply-To: <CAFEAcA_snF5tQ5VaO=t=o9cz4HPm9ECRpaOLDWbkXW=zcVtiuA@mail.gmail.com>
- (Peter Maydell's message of "Fri, 30 Apr 2021 15:59:44 +0100")
-Message-ID: <87k0ojkn2y.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lciyd-0004ID-Th
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 02:19:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lciya-00064z-QM
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 02:19:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lciyZ-0001te-8t
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 06:19:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 352CC2E815A
+ for <qemu-devel@nongnu.org>; Sat,  1 May 2021 06:19:39 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 01 May 2021 06:08:13 -0000
+From: Thomas Huth <661696@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fpu windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: blauwirbel bonzini chalkerx morten+one-ubuntu-com
+ pmaydell th-huth
+X-Launchpad-Bug-Reporter: Chalkerx (chalkerx)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20101016120808.18780.42547.malonedeb@soybean.canonical.com>
+Message-Id: <161984929364.4812.8035625476860203425.malone@chaenomeles.canonical.com>
+Subject: [Bug 661696] Re: incomplete emulation of fstenv under TCG
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 5f9036b320c30cd60f4922a6219ad84546500a86
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,58 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 661696 <661696@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This is an automated cleanup. This bug report has been moved
+to QEMU's new bug tracker on gitlab.com and thus gets marked
+as 'expired' now. Please continue with the discussion here:
 
-> On Fri, 30 Apr 2021 at 15:52, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> Place all files that can be useful to rebuild the Coverity
->> configuration in scripts/coverity-scan: the existing model
->> file, and the components setup.
->>
->> The Markdown syntax was tested with Pandoc (but in any case
->> is meant more as a human-readable reference than as a part
->> of documentation).
->>
->> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  scripts/coverity-scan/COMPONENTS.md           | 154 ++++++++++++++++++
->>  .../model.c}                                  |   0
->>  2 files changed, 154 insertions(+)
->>  create mode 100644 scripts/coverity-scan/COMPONENTS.md
->>  rename scripts/{coverity-model.c => coverity-scan/model.c} (100%)
->
-> MAINTAINERS has a section
->
-> # Coverity model
-> # M: Markus Armbruster <armbru@redhat.com>
-> # S: Supported
-> # F: scripts/coverity-model.c
->
-> which needs updating for the file move.
+ https://gitlab.com/qemu-project/qemu/-/issues/67
 
-With that:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-> Should we just combine that with the following section?
-> # Coverity Scan integration
-> # M: Peter Maydell <peter.maydell@linaro.org>
-> # S: Maintained
-> # F: scripts/coverity-scan/
+** Changed in: qemu
+       Status: Confirmed =3D> Expired
 
-I can review model patches, but I know nothing about the Coverity Scan
-integration.  You do.
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #67
+   https://gitlab.com/qemu-project/qemu/-/issues/67
 
-As is, MAINTAINERS reflects this split in expertise.  Combining the two
-sections loses that.  Do we care?
+-- =
 
-> Otherwise
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/661696
 
+Title:
+  incomplete emulation of fstenv under TCG
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Steps to reproduce:
+
+  1) Install Windows (tried XP and 7) in qemu (tried qemu without kvm
+  and qemu-kvm).
+
+  2) Get OllyDbg ( http://ollydbg.de/odbg200.zip ).
+
+  3) Use some Metasploit-encoded file, example included.
+
+  It is not a virus!
+
+  File was generated with Metasploit, command (if i remember it right):
+  `msfpayload windows/exec cmd=3Dnotepad R | msfencode -e
+  x86/shikata_ga_nai -t exe -o cmd_exec_notepad.shikata_ga_nai.exe`.
+
+  4) Launch the file under Windows in qemu, make sure it opens a
+  notepad.
+
+  5) Open file under OllyDbg, run (F9) it there. It opens a notpad.
+  Close OllyDbg.
+
+  6) Open file under OllyDbg, trace over (Ctrl+F12) it there. It fails with=
+ `Access violation when writing to [some address]`.
+  Command: 316A 13, XOR DWORD PTR DS:[EDX+13],EBP =
+
+
+  Under native Windows, the trace over command works fine.
+
+  Under VMware the trace works fine.
+  Under VirtualBox it also fails (checked in the spring).
+
+  $ qemu-kvm --version
+  QEMU PC emulator version 0.12.5 (qemu-kvm-0.12.5), Copyright (c) 2003-200=
+8 Fabrice Bellard
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/661696/+subscriptions
 
