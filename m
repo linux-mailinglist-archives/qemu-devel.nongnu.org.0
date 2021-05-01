@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799FD370607
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 08:51:18 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2BB37062F
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 09:27:22 +0200 (CEST)
+Received: from localhost ([::1]:42312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcjT7-0000GQ-FV
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 02:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
+	id 1lck24-0008BY-JB
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 03:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcjRH-0008Aa-HP
- for qemu-devel@nongnu.org; Sat, 01 May 2021 02:49:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lcjRE-0001ei-Cu
- for qemu-devel@nongnu.org; Sat, 01 May 2021 02:49:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619851754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GQuSgOqjT5t4JPI+VWrFwEnP/v1SuMcxBUNWicLdpUE=;
- b=RCOgsq3HCNiN8sPHD0oWEz6aM6tlSHdW6sA9xi7DQOCZC3U6g/8a9XeZ+uTVZSzcGgfB0k
- k788uTgbCx2FzI1UqPnRmEjfGJA/dPDwQrmrTl3KMlHv71+VH1Auamrm/xulZsMaxR2YjJ
- 8sFVcCrTtW1nJir6nAO4rhhjf8T4+v8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-W7NNr2tKPtKtf7YPCGDkWQ-1; Sat, 01 May 2021 02:49:12 -0400
-X-MC-Unique: W7NNr2tKPtKtf7YPCGDkWQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 712B510066E5;
- Sat,  1 May 2021 06:49:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7873F2B0D2;
- Sat,  1 May 2021 06:49:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F25AD113525D; Sat,  1 May 2021 08:49:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 10/12] qtest/qmp-cmd-test: Make test
- build-independent from accelerator
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-11-philmd@redhat.com>
- <87lf91ir1m.fsf@dusky.pond.sub.org>
- <1de6b3f8-7d7c-9280-4cd3-633a19dd9b8e@redhat.com>
- <874kfprzrw.fsf@dusky.pond.sub.org>
- <603c7934-ea16-baf8-9ae5-ab221db345c7@redhat.com>
- <87zgxgnvtv.fsf@dusky.pond.sub.org>
- <32bc66bc-1ccf-c146-52ac-83c7b4913930@redhat.com>
-Date: Sat, 01 May 2021 08:49:05 +0200
-In-Reply-To: <32bc66bc-1ccf-c146-52ac-83c7b4913930@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 30 Apr 2021 17:48:05
- +0200")
-Message-ID: <87fsz7kkym.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1lcjze-0006u6-04; Sat, 01 May 2021 03:24:50 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45853)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1lcjzb-0003Uh-3u; Sat, 01 May 2021 03:24:49 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ gc22-20020a17090b3116b02901558435aec1so505843pjb.4; 
+ Sat, 01 May 2021 00:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zfvkNQcRZO6ExgWxh+A+1DOQQc5CbIZINDKG9+kk75o=;
+ b=BTKPNTUm1WKrKPfzVVcJzk2272pSNyclQAaOBxVF2nXeFPgwZmuuJlAKV5oNJE9May
+ 4HCLBLPoj1F7H6Q6WAOmYUxEfBMCVNiDqDCxWWSNUlq7K9GBve2ynMVpVqk5AQWDX+ko
+ CAiryii+ftIGtO/JvDx0pbI4DCDvXrLXGVc1BVtPwLW0O3XRadyT4/iJRiDhico9VLKQ
+ 0qLnJkn5mesU4IYfrWIOtVt1MUq0cfecWJmafjLaSDBsBktUn6F4/KEuZeX9n8u4Tl20
+ XYqH7ZY8tcNHqHUtS3Lvr7mld+ojEzzovM11ArW5rMZ5ThOQi1nlEiO+EImoyPjMCtZF
+ a9nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zfvkNQcRZO6ExgWxh+A+1DOQQc5CbIZINDKG9+kk75o=;
+ b=oLjErObaj5awfmFJcuIlK59GpiO1iaGn5KHZpDz+6hDx/5Cw+NxEIIoKHvrLNSAz+c
+ U7+6zT0gSZ0WV16ZwJLqs+z9SlodNSgoCvwPMUNC6PjR0hDovcdDiD0S1kqdBhq42Mq9
+ Ypa8H7INGKxpe7kT8BFycgBT8to2LngIG/ldDsTnyEJDlou8dL9hZg5Qptu+LIYyT9AJ
+ wJu/0ltpTodIe2P20/zLiAh9DqzVT4QjdhGdu4PySzzWSrFk9E00s6b12z2c/JzsJCs/
+ StOa/9Tf9RgSwek1mIBRoClVgc00e08sW6BR3VbrASnu/duk1m+rlrDM4U73da3U3/9N
+ 5xxw==
+X-Gm-Message-State: AOAM530z3R55zaBj6hB0o0aSm6GzDz/sfIirDjuM1twf+YNSkcZemjQg
+ 4VszlnExUdclDirD4x3UrM0WnAwDlqU=
+X-Google-Smtp-Source: ABdhPJzr16aTJ4TMOXSODmFgv+YVyfQb4SmVXAldJzigUwVaHOtNYRFLOEtgGfziwhNohdU+iRbAdQ==
+X-Received: by 2002:a17:902:c404:b029:ea:f0a9:6060 with SMTP id
+ k4-20020a170902c404b02900eaf0a96060mr9283352plk.9.1619853884406; 
+ Sat, 01 May 2021 00:24:44 -0700 (PDT)
+Received: from bobo.ibm.com ([61.68.127.20])
+ by smtp.gmail.com with ESMTPSA id 14sm3868577pfi.145.2021.05.01.00.24.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 May 2021 00:24:44 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH 0/2] ppc: rework AIL logic, add POWER10 exception model 
+Date: Sat,  1 May 2021 17:24:33 +1000
+Message-Id: <20210501072436.145444-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,97 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?Q?P=2EBerrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>
+Cc: Fabiano Rosas <farosas@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@fr.ibm.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Here are the last 2 patches of this series rebased on the ppc-for-6.1
+tree.  I've tidied up the comments and control flow around the reserved
+values of AIL, so different behaviours/reasons are treated individually
+which hopefully addresses David's comments.
 
-> On 4/30/21 8:13 AM, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>> On 4/29/21 3:22 PM, Markus Armbruster wrote:
->>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>>>>>> Now than we can probe if the TCG accelerator is available
->>>>>>> at runtime with a QMP command, do it once at the beginning
->>>>>>> and only register the tests we can run.
->>>>>>> We can then replace the #ifdef'ry by a runtime check.
->>>>>>>
->>>>>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>>>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>>>>
->>>>>> Please read the last remark first.  The other ones are detail; feel =
-free
->>>>>> to skip them until we're done with the last one.
->>>>>>
->>>>>>> ---
->>>>>>>  tests/qtest/qmp-cmd-test.c | 18 ++++++++++++++----
->>>>>>>  1 file changed, 14 insertions(+), 4 deletions(-)
->>>>>
->>>>>>> +    tcg_accel_available =3D qtest_has_accel("tcg");
->>>>>>> +
->>>>>>
->>>>>> When does tcg_accel_available differ from defined(CONFIG_TCG)?
->>>>>
->>>>> qtest_has_accel("tcg") is a runtime check, while defined(CONFIG_TCG)
->>>>> is build-time.
->>>>
->>>> Let me rephrase my question: under what conditions can the values of
->>>> qtest_has_accel("tcg") and defined(CONFIG_TCG) differ?
->>>
->>> They are currently the same, so this patch is a no-op. *But* it
->>> allows us to remove the global dependence on CONFIG_TCG in the
->>> Meson machinery (see the last commit in this series).
->>>
->>> Is that missing part of the commit description?
->>>
->>> "This will allow us to remove the global CONFIG_TCG dependency
->>> in our Meson machinery in a pair of commits."?
->>=20
->> Do you mean "in the next two commits"?
->
-> Yes.
->
->> Please also note that the probing at run-time always gives the same
->> result as the compile-time check it replaces.
->>=20
->> I don't understand what exactly the conversion to probing enables and
->> how, but I believe I don't have to.
->
-> This series is removing some limitations in qtests to help Claudio work:
->
-> x86: https://www.mail-archive.com/qemu-devel@nongnu.org/msg793885.html
-> arm: https://www.mail-archive.com/qemu-devel@nongnu.org/msg799328.html
-> s390x: https://www.mail-archive.com/qemu-devel@nongnu.org/msg800254.html
->
-> which allow building with different sets of accelerators (and more).
->
-> Claudio/Paolo could better explain :)
+On real hardware, setting LPCR[AIL] to a reserved value (e.g., 1 on
+POWER9) causes the register to retain that value but it's treated like
+0, which matches what the patch does.
 
-Will this lead to different values of qtest_has_accel("tcg") and
-defined(CONFIG_TCG) within a single build tree?
+Thanks,
+Nick
 
-> What I like from feature tested at runtime is we can run qtests using
-> older binaries, binaries built with different configure flags, or the
-> binaries installed by the distribution.
+Nicholas Piggin (2):
+  target/ppc: rework AIL logic in interrupt delivery
+  target/ppc: Add POWER10 exception model
 
-Running with binaries build from a different HEAD seems unlikely to be
-useful.  Any failures are just as likely to be caused bu the version
-mismatch as by actual bugs.  Binaries for the same HEAD built for
-another configuration can be made to work (this patch doesn't yet
-suffice), but why should I care?
+ hw/ppc/spapr_hcall.c            |   8 +-
+ target/ppc/cpu-qom.h            |   2 +
+ target/ppc/cpu.h                |  13 +-
+ target/ppc/excp_helper.c        | 217 +++++++++++++++++++++++---------
+ target/ppc/translate.c          |   3 +-
+ target/ppc/translate_init.c.inc |   4 +-
+ 6 files changed, 171 insertions(+), 76 deletions(-)
 
-What I don't like is yet another moving part.
-
-I'm not sure this is a good trade.  Quite possibly because I still don't
-fully understand what we're trying to accomplish here :)
+-- 
+2.23.0
 
 
