@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F863706A7
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:35:41 +0200 (CEST)
-Received: from localhost ([::1]:33304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BEE3706A2
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:33:10 +0200 (CEST)
+Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcm2G-0005Oq-1n
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48500)
+	id 1lclzn-0002Fr-Ix
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lclxQ-0000Ww-Kh
+ id 1lclxQ-0000X0-M3
  for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:40 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:33511)
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:42931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lclxM-0005We-EO
- for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:37 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id g10so861494edb.0
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 02:30:35 -0700 (PDT)
+ id 1lclxM-0005XJ-WC
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:38 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id j28so802619edy.9
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 02:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vV+zf/1bQAsAUU58HSRZ4dlpBrgD7hp3E95gfiSrSSU=;
- b=bpIuWhjZ2nzPFbOu7002l6tZwChP/rerP8/I8dfo0dUEGKrCCuWZNs+A2onB2z5Prr
- +hPeV+axbsU7fNZRWeNBLHEkfUq0NqXPvRucTcmpctB3XSzDWwxTCso5URS4kbR+k7mA
- oMDlPaOkXOdGoAt0MdwT5HbfxxGjhtQloS5iVKBZqFBTFSRyUdMqNVxR7+b05ciSyAuH
- 0Rynm8JcBxy4O0BNC9RpqHGlGTewLZLbPrJX3z5C1IcynNSHClgf3fX29G8ibo6ybjpG
- a+qZmC98HHEUsQAi4jfnxUAoaXiYJdyohkHnskcI5rd1xKS7qBnOcDUIR2A29oyO+/8o
- SljA==
+ bh=L9PXy0iMaEYQMrwCKAeGdUKr08wU5yIXqMSKYA5860o=;
+ b=B2PIv/tzp7fyBzt7RUnqeVe8QmfWR2f6+R6l7dqA63Sif3wGlmFhPQk7NIiQu0SHsX
+ Y2yOCnC4YxQPcHG/2WHoLLY39GaUx+alWr4ciHlzF/8QXer7SgPBQNwQkphSGrFHC1Mt
+ mtB8IXsrKP15R+nIQE/ksN1ZqqeT/XD9Kq7h2vwZgPw1QRWbVLqFLxjyNz8Vnl6nzCup
+ T8Pau3zaDppJXC5BFVwSR0HPtly5j0Ih5LaMVQZ7ICC5+pTYWO49NOaXkQ2FmbVFRaIb
+ M0p21yJfHjL8gfZgqWXYIyrl3Lhs4yLcMPv1m+ItvyoYeOs7L16dWaRkT4sxdpispX55
+ rD7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vV+zf/1bQAsAUU58HSRZ4dlpBrgD7hp3E95gfiSrSSU=;
- b=TWWMn5R3UfLS5+6eQ1QCJELWD6Hb3oVom8HKim61MUj+bXNhUrKCIIeazQV+2lRghw
- WVjp6EaoMNBKdfkKB5sOXOKyWkAWx+ba7tZUaUgtfna9+53Y1S1jd5zPxzdBqvyA7fEh
- SSilaIoSRzpSB2tFEETy9uF6ueIEHf/hsYI7tyj8BMT3CHfFiT4cQD3ar0pLlbOj7ZpL
- PQ9lqQck4FJTtE0a+J0ZV3r0Z1uVky3+6fPGxzNc/w8mHczhnjheC8lsFfqyoqMjb08p
- haccSdx862cRIN6+GBWKgEtWNOXlE4cudpVRINKuxWugClw34IZiIDcLQyH5upHUm0wH
- UFUg==
-X-Gm-Message-State: AOAM533ER2U7VufYoYPGtTLEHa0QQN71T59ZWwlRbQwAfxMuK2OANc1i
- /AZnQENh5tgx8uVJJlAQDwLKGZrMFcA=
-X-Google-Smtp-Source: ABdhPJyFKcXsACahlNrb4dlSpT4jRGihbX1YIzwNSmi7eAN25aAd3My/59s3/aLvllgLeqfc4Id0Hg==
-X-Received: by 2002:a05:6402:268f:: with SMTP id
- w15mr1968039edd.321.1619861435040; 
+ bh=L9PXy0iMaEYQMrwCKAeGdUKr08wU5yIXqMSKYA5860o=;
+ b=naJVVRx2A3GURsNd0GwfPixsUxKRUjRbcNwjbpYVQEs+VZLVB4r7jKl/ttUH81oFMH
+ hz/a4D0K0wYCbDoa6XRa+22+AyBgZonzsXleTXlzDLCQu37UcXCJiAYEKi2mAzmsn5Ta
+ deBaZqBozwYgNMV/bSEVWN+VMNun3VEBZFGGwNpddt5znzMc6J/kqa09fG8rjfzEAaRF
+ j61I87yHPLXJ6jCReomGr/H7+SQfnJmJDKg380TZlj6J7zw5DV7m2E81WggTS9oegZdm
+ QKT2sfowVXSJYJbIfVHz6nfcV0H7acWmR0CbU4aTI10oRfrQsomkxuLIP9RsG5E5Og8a
+ fyKw==
+X-Gm-Message-State: AOAM532faA1Zduq+NPoyiqXeDD8al0//gLTw+6RHs2j/un1EXfK9f9/b
+ gkQ5RobnDRCmr6tuIrGcedw9GUULd9A=
+X-Google-Smtp-Source: ABdhPJyElUG0hlsdciXLrKVecbv4W4rTVZgx40/3OwJe2ANFb1jEv/ImYNR52Vd+e8iO0Ipg35GIQA==
+X-Received: by 2002:a05:6402:254a:: with SMTP id
+ l10mr10561337edb.145.1619861435806; 
  Sat, 01 May 2021 02:30:35 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id ga33sm4632721ejc.11.2021.05.01.02.30.33
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id ga33sm4632721ejc.11.2021.05.01.02.30.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 02:30:33 -0700 (PDT)
+ Sat, 01 May 2021 02:30:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] ratelimit: protect with a mutex
-Date: Sat,  1 May 2021 11:30:22 +0200
-Message-Id: <20210501093026.189429-7-pbonzini@redhat.com>
+Subject: [PULL 07/10] slirp: add configure option to disable smbd
+Date: Sat,  1 May 2021 11:30:23 +0200
+Message-Id: <20210501093026.189429-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210501093026.189429-1-pbonzini@redhat.com>
 References: <20210501093026.189429-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
  envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
@@ -85,122 +85,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now, rate limiting is protected by the AioContext mutex, which is
-taken for example both by the block jobs and by qmp_block_job_set_speed
-(via find_block_job).
+From: Joelle van Dyne <j@getutm.app>
 
-We would like to remove the dependency of block layer code on the
-AioContext mutex, since most drivers and the core I/O code are already
-not relying on it.  However, there is no existing lock that can easily
-be taken by both ratelimit_set_speed and ratelimit_calculate_delay,
-especially because the latter might run in coroutine context (and
-therefore under a CoMutex) but the former will not.
+Replace Windows specific macro with a more generic feature detection
+macro. Allows slirp smb feature to be disabled manually as well.
 
-Since concurrent calls to ratelimit_calculate_delay are not possible,
-one idea could be to use a seqlock to get a snapshot of slice_ns and
-slice_quota.  But for now keep it simple, and just add a mutex to the
-RateLimit struct; block jobs are generally not performance critical to
-the point of optimizing the clock cycles spent in synchronization.
-
-This also requires the introduction of init/destroy functions, so
-add them to the two users of ratelimit.h.
-
+Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Message-Id: <20210315180341.31638-5-j@getutm.app>
+[Use $default_feature as the default. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/block-copy.c       |  2 ++
- blockjob.c               |  3 +++
- include/qemu/ratelimit.h | 14 ++++++++++++++
- 3 files changed, 19 insertions(+)
+ configure   | 26 +++++++++++++++++++++++---
+ meson.build |  2 +-
+ net/slirp.c | 16 ++++++++--------
+ 3 files changed, 32 insertions(+), 12 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 39ae481c8b..9b4af00614 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -230,6 +230,7 @@ void block_copy_state_free(BlockCopyState *s)
-         return;
+diff --git a/configure b/configure
+index 268460d63d..ccc58ccc46 100755
+--- a/configure
++++ b/configure
+@@ -464,6 +464,7 @@ gettext="auto"
+ fuse="auto"
+ fuse_lseek="auto"
+ multiprocess="auto"
++slirp_smbd="$default_feature"
+ 
+ malloc_trim="auto"
+ gio="$default_feature"
+@@ -836,8 +837,6 @@ do
+     fi
+ done
+ 
+-: ${smbd=${SMBD-/usr/sbin/smbd}}
+-
+ # Default objcc to clang if available, otherwise use CC
+ if has clang; then
+   objcc=clang
+@@ -1570,6 +1569,10 @@ for opt do
+   ;;
+   --disable-gio) gio=no
+   ;;
++  --enable-slirp-smbd) slirp_smbd=yes
++  ;;
++  --disable-slirp-smbd) slirp_smbd=no
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1925,6 +1928,7 @@ disabled with --disable-FEATURE, default is enabled if available
+   fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
+   multiprocess    Out of process device emulation support
+   gio             libgio support
++  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
+ 
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -5261,6 +5265,19 @@ case "$slirp" in
+     ;;
+ esac
+ 
++# Check for slirp smbd dupport
++: ${smbd=${SMBD-/usr/sbin/smbd}}
++if test "$slirp_smbd" != "no" ; then
++  if test "$mingw32" = "yes" ; then
++    if test "$slirp_smbd" = "yes" ; then
++      error_exit "Host smbd not supported on this platform."
++    fi
++    slirp_smbd=no
++  else
++    slirp_smbd=yes
++  fi
++fi
++
+ ##########################################
+ # check for usable __NR_keyctl syscall
+ 
+@@ -5536,7 +5553,10 @@ fi
+ if test "$guest_agent" = "yes" ; then
+   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
+ fi
+-echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
++if test "$slirp_smbd" = "yes" ; then
++  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
++  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
++fi
+ if test "$vde" = "yes" ; then
+   echo "CONFIG_VDE=y" >> $config_host_mak
+   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 14dd3fe068..cf0bcf6b53 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2464,7 +2464,7 @@ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+ if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
+   summary_info += {'wixl':            wixl.found() ? wixl.full_path() : false}
+ endif
+-if slirp_opt != 'disabled'
++if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
+   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
+ endif
+ summary(summary_info, bool_yn: true, section: 'Host binaries')
+diff --git a/net/slirp.c b/net/slirp.c
+index a01a0fccd3..1d9cb3bd6b 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -27,7 +27,7 @@
+ #include "net/slirp.h"
+ 
+ 
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
+ #include <pwd.h>
+ #include <sys/wait.h>
+ #endif
+@@ -91,7 +91,7 @@ typedef struct SlirpState {
+     Slirp *slirp;
+     Notifier poll_notifier;
+     Notifier exit_notifier;
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
+     gchar *smb_dir;
+ #endif
+     GSList *fwd;
+@@ -104,7 +104,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
+ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
+ static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
+ 
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
+ static int slirp_smb(SlirpState *s, const char *exported_dir,
+                      struct in_addr vserver_addr, Error **errp);
+ static void slirp_smb_cleanup(SlirpState *s);
+@@ -377,7 +377,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+     struct in6_addr ip6_prefix;
+     struct in6_addr ip6_host;
+     struct in6_addr ip6_dns;
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
+     struct in_addr smbsrv = { .s_addr = 0 };
+ #endif
+     NetClientState *nc;
+@@ -487,7 +487,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+         return -1;
      }
  
-+    ratelimit_destroy(&s->rate_limit);
-     bdrv_release_dirty_bitmap(s->copy_bitmap);
-     shres_destroy(s->mem);
-     g_free(s);
-@@ -289,6 +290,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-         s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
+     if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
+         error_setg(errp, "Failed to parse SMB address");
+         return -1;
+@@ -602,7 +602,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+             }
+         }
      }
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
+     if (smb_export) {
+         if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
+             goto error;
+@@ -794,7 +794,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
  
-+    ratelimit_init(&s->rate_limit);
-     QLIST_INIT(&s->tasks);
-     QLIST_INIT(&s->calls);
- 
-diff --git a/blockjob.c b/blockjob.c
-index 207e8c7fd9..46f15befe8 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -87,6 +87,7 @@ void block_job_free(Job *job)
- 
-     block_job_remove_all_bdrv(bjob);
-     blk_unref(bjob->blk);
-+    ratelimit_destroy(&bjob->limit);
-     error_free(bjob->blocker);
  }
  
-@@ -435,6 +436,8 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
-     assert(job->job.driver->free == &block_job_free);
-     assert(job->job.driver->user_resume == &block_job_user_resume);
+-#ifndef _WIN32
++#if defined(CONFIG_SLIRP_SMBD)
  
-+    ratelimit_init(&job->limit);
-+
-     job->blk = blk;
- 
-     job->finalize_cancelled_notifier.notify = block_job_event_cancelled;
-diff --git a/include/qemu/ratelimit.h b/include/qemu/ratelimit.h
-index 01da8d63f1..003ea6d5a3 100644
---- a/include/qemu/ratelimit.h
-+++ b/include/qemu/ratelimit.h
-@@ -14,9 +14,11 @@
- #ifndef QEMU_RATELIMIT_H
- #define QEMU_RATELIMIT_H
- 
-+#include "qemu/lockable.h"
- #include "qemu/timer.h"
- 
- typedef struct {
-+    QemuMutex lock;
-     int64_t slice_start_time;
-     int64_t slice_end_time;
-     uint64_t slice_quota;
-@@ -40,6 +42,7 @@ static inline int64_t ratelimit_calculate_delay(RateLimit *limit, uint64_t n)
-     int64_t now = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-     double delay_slices;
- 
-+    QEMU_LOCK_GUARD(&limit->lock);
-     assert(limit->slice_quota && limit->slice_ns);
- 
-     if (limit->slice_end_time < now) {
-@@ -65,9 +68,20 @@ static inline int64_t ratelimit_calculate_delay(RateLimit *limit, uint64_t n)
-     return limit->slice_end_time - now;
+ /* automatic user mode samba server configuration */
+ static void slirp_smb_cleanup(SlirpState *s)
+@@ -909,7 +909,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
+     return 0;
  }
  
-+static inline void ratelimit_init(RateLimit *limit)
-+{
-+    qemu_mutex_init(&limit->lock);
-+}
-+
-+static inline void ratelimit_destroy(RateLimit *limit)
-+{
-+    qemu_mutex_destroy(&limit->lock);
-+}
-+
- static inline void ratelimit_set_speed(RateLimit *limit, uint64_t speed,
-                                        uint64_t slice_ns)
+-#endif /* !defined(_WIN32) */
++#endif /* defined(CONFIG_SLIRP_SMBD) */
+ 
+ static int guestfwd_can_read(void *opaque)
  {
-+    QEMU_LOCK_GUARD(&limit->lock);
-     limit->slice_ns = slice_ns;
-     limit->slice_quota = MAX(((double)speed * slice_ns) / 1000000000ULL, 1);
- }
 -- 
 2.31.1
 
