@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C78237092F
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 00:25:23 +0200 (CEST)
-Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11D4370932
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 00:33:13 +0200 (CEST)
+Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcy37-00087O-Q1
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 18:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47990)
+	id 1lcyAi-0002cd-B4
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 18:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcy24-0007ZU-Nb
- for qemu-devel@nongnu.org; Sat, 01 May 2021 18:24:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcy22-0000Oe-7H
- for qemu-devel@nongnu.org; Sat, 01 May 2021 18:24:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619907853;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9MuaLmZ9c8TYz83S97fJohihh8jWN2HtbczG9ZHrqjk=;
- b=Oa0WVuwi72Ads+CYs4zWXTu6NgA8uztMl6pn0+qjhUFfPM07wWSYKsmlh80VIZvphtmYp1
- QYrokWkKgol3PIyw8tlvndnhBv3tu07cKDUrTf1n/3NVLs3aabkWizIFssUSEc16pqCdXR
- 5u2cy8nhnBkP0O2T7IpYX/HDFG6uQXE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-dUGyeQ7kNGq_G4saajlUsw-1; Sat, 01 May 2021 18:24:11 -0400
-X-MC-Unique: dUGyeQ7kNGq_G4saajlUsw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r12-20020adfc10c0000b029010d83323601so1251598wre.22
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 15:24:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcy9U-0001hc-EE
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 18:31:56 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:46964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lcy9S-00051X-HW
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 18:31:56 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id q9so1043802pgl.13
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 15:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=89vUrRx/QacWH1ue+QntEaeriquYf0HMx+Akm4+IWl8=;
+ b=oTpHr1oRwVpS/+pgMNws9Y8WrEhGgO6rwNP4Uax8PQX36OnE6GQeRI09TYb1gjIdK8
+ li44zdEvLdK00KLYrv77+95psIM7ZFM4p+hy7MAHvDL+QSyX/kBdJoygWKhE5D0FYcsv
+ z0APVT3zP2LtzEPr0kh3LbgZiBNnshh9FQzjE9SRkLKsNigpMJKsJH6wWoJVemWtGlDQ
+ C66+nAdOXF55VeYZ2A8yu/WyH2TO9ZiUJN1BKC0zTY4jNxBR/1Uakow4i7HUigLSqTmm
+ NbxXx3XTHMukgSIcRYKGxN4RXZZcY88UCwo3JQJZ/rvC2fsDCB89AxZxm8tjxFFBnf/u
+ GTzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9MuaLmZ9c8TYz83S97fJohihh8jWN2HtbczG9ZHrqjk=;
- b=oQdOHnJFewJ5HSnC1VivcT2QgjZhsZXIlpp3QQ4+oaI65WtE6JRRA+tfTcVQjsJvVx
- TQGaK++w/nhArtaqStc+LYr3FQSIfUBpgGsqalqSAJXVp5iJcXbQfA8rwyqnpBBCPeHI
- UiTgo1E17MFonfuULJG1PZg1BTZNWX6sQ+Y7dRlSoU9vZg7eq5FP8daiVaW/ogleyBlg
- SpwwUcuvNA4twwP6kmhk0vjuQTl+I1NAkk6M2Zq6o85oZVFESoqTiiJ3qGyaTYJf/tZM
- yMpLA723dyGQWHG6EF1jDBV0seL1pe8BvNsi3tIsrt2TvNiPdTXeKgWNK6wLKvmWMSCc
- kuUA==
-X-Gm-Message-State: AOAM533M2862ksS9KuUJP7kDrJy4S2/5eBhNRWfBjOTFVQdz6/QpM6fp
- NcR1s5Xi2O3wsH3YPZGDYCiN+7QreWhzSFRMA0QF3Q+7NGde4MuzGpX0Vv4TVEdPW03fsTOQqjz
- HjLxHiGQ5tviZq4I=
-X-Received: by 2002:adf:ed4b:: with SMTP id u11mr16012595wro.293.1619907850526; 
- Sat, 01 May 2021 15:24:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBgzwQH6BGEtBRcAGRbRMWzMX34TEakgD8Ib2ErTFvdp2WP5Fv9mSgKagxGkaLDoWjFESjJQ==
-X-Received: by 2002:adf:ed4b:: with SMTP id u11mr16012567wro.293.1619907850340; 
- Sat, 01 May 2021 15:24:10 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id l25sm6728390wmi.17.2021.05.01.15.24.09
+ bh=89vUrRx/QacWH1ue+QntEaeriquYf0HMx+Akm4+IWl8=;
+ b=KTfxezl6g1JjQo8wby/X6Th8DZvdYJvS5lebhfQeE20bOWR6xiaggH8iiXZcvbPv9E
+ +KL+GPhEQL9qwOJQf2fsN0n9zZbnk0PjbmFR51qxgDrXSQ65ekul6kuTMA9RxdR44kRR
+ ciAX9uJA5tnvOh3N7kYKT4TM8Z5lJ4aCMKa42PLM+uh5SxYp+OVQzWs8r4RC0Ku7LZss
+ fULYBcoDRczvgC1eeANBJRbA6PDPsjnRFMnFrKSA0nnND2g1HUj12kj5RtEXZlYbgTX+
+ uANTECr5MOjIVrfFJWYvdrPOyfOsK0wjC0p6XjJHI2DItjY5x/Hb2lJdkeIRsO1c3uoL
+ SbBA==
+X-Gm-Message-State: AOAM530Ys4qv3O25gObuICCZ87qke2JjArU9vbwW9mJOOGunp6/+AldZ
+ 3qNafXSflfiP/UyVoXCbEepUjTtpWi3tcg==
+X-Google-Smtp-Source: ABdhPJz4rD+gklee9HPcPrwe4ayueZx8AgF+1aIUB52/GcXNu+Na2GHV1t9SYqqpsmEbu3YqCB9rlg==
+X-Received: by 2002:aa7:8213:0:b029:27f:62d:ed71 with SMTP id
+ k19-20020aa782130000b029027f062ded71mr11337394pfi.48.1619908312742; 
+ Sat, 01 May 2021 15:31:52 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id e65sm5575785pfe.9.2021.05.01.15.31.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 May 2021 15:24:09 -0700 (PDT)
-Subject: Re: [PATCH v4 02/12] accel: Introduce 'query-accels' QMP command
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210415163304.4120052-1-philmd@redhat.com>
- <20210415163304.4120052-3-philmd@redhat.com>
- <2f6ef548-cff4-273f-5680-f79bda85e197@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b126892b-de53-bfe0-33fe-4757797affda@redhat.com>
-Date: Sun, 2 May 2021 00:24:08 +0200
+ Sat, 01 May 2021 15:31:52 -0700 (PDT)
+Subject: Re: [PULL 00/31] target/hexagon patch queue
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210501184324.1338186-1-richard.henderson@linaro.org>
+ <CAFEAcA_fP6kPWn=A9EO1H09WN2awZhjkYjTXhSo-r_ttRtp9NQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <73263e2d-ec9e-6eba-f6f1-bd2f3de3fc94@linaro.org>
+Date: Sat, 1 May 2021 15:31:50 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <2f6ef548-cff4-273f-5680-f79bda85e197@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA_fP6kPWn=A9EO1H09WN2awZhjkYjTXhSo-r_ttRtp9NQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.22,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,78 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 9:03 PM, Eric Blake wrote:
-> On 4/15/21 11:32 AM, Philippe Mathieu-Daudé wrote:
->> Introduce the 'query-accels' QMP command which returns a list
->> of built-in accelerator names.
->>
->> - Accelerator is a QAPI enum of all existing accelerators,
->>
->> - AcceleratorInfo is a QAPI structure providing accelerator
->>   specific information. Currently the common structure base
->>   provides the name of the accelerator, while the specific
->>   part is empty, but each accelerator can expand it.
->>
->> - 'query-accels' QMP command returns a list of @AcceleratorInfo
->>
->> For example on a KVM-only build we get:
->>
->>     { "execute": "query-accels" }
->>     {
->>         "return": [
->>             {
->>                 "name": "qtest"
->>             },
->>             {
->>                 "name": "kvm"
->>             }
->>         ]
->>     }
->>
->> Note that we can't make the enum values or union branches conditional
->> because of target-specific poisoning of accelerator definitions.
->>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> Since v3: Simplify over-engineered AcceleratorInfo (Markus, kept Eric R-b)
->> Since v2: @since 6.0 -> 6.1, added note (Eric)
->> Since v1: 'type' -> 'name' in comments
+On 5/1/21 1:40 PM, Peter Maydell wrote:
+> Build failure on the gitlab CI "clang-user" job:
+> https://gitlab.com/qemu-project/qemu/-/jobs/1229108656
 > 
->> +++ b/qapi/machine.json
->> @@ -1274,3 +1274,50 @@
->>  ##
->>  { 'event': 'MEM_UNPLUG_ERROR',
->>    'data': { 'device': 'str', 'msg': 'str' } }
->> +
->> +##
->> +# @Accelerator:
->> +#
->> +# An enumeration of accelerator names.
->> +#
->> +# Since: 6.1
->> +##
->> +{ 'enum': 'Accelerator',
->> +  'data': [ 'qtest', 'tcg', 'kvm', 'hax', 'hvf', 'whpx', 'xen' ] }
+> ../target/hexagon/genptr.c:31:20: error: unused function
+> 'gen_read_reg' [-Werror,-Wunused-function]
+> static inline TCGv gen_read_reg(TCGv result, int num)
+> ^
+> ../target/hexagon/genptr.c:322:20: error: unused function
+> 'gen_set_byte' [-Werror,-Wunused-function]
+> static inline void gen_set_byte(int N, TCGv result, TCGv src)
+> ^
 > 
-> There's no requirement for enums to be in any order, although if the
-> list is likely to get larger over time, lexicographic order makes it
-> easier to know where to insert new entries.  Up to you whether it is
-> worth sorting, and your decision does not invalidate my R-b.
+> (this is clang being stricter than gcc about unused static
+> inline functions again.)
 
-OK will do, thanks!
+Dangit, I merged Taylor's patch to fix this Friday and then tagged from the 
+wrong machine today.
 
+
+r~
 
