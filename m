@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B0D37088C
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 20:54:02 +0200 (CEST)
-Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E3F370898
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 20:57:55 +0200 (CEST)
+Received: from localhost ([::1]:58620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcukc-0000aj-1J
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 14:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
+	id 1lcuoK-0004B9-IP
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 14:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuai-0008Gb-4m
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:48 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:36649)
+ id 1lcuai-0008IL-QD
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:49 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:39916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuaU-00005w-FL
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:46 -0400
-Received: by mail-pg1-x532.google.com with SMTP id j7so851233pgi.3
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:33 -0700 (PDT)
+ id 1lcuaW-00007D-T9
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:48 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id c17so1332573pfn.6
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yx4G4Iv5ZatKfDFJ7Be+L669qIe/zhze2py593an1Pk=;
- b=bqlWAoAjf0vLM6ZSq/nGgFvIZMhTkCTi3EPqY3kVEcmWUlFEum3D7QS+cwxgCIxFiG
- 6ZRCSScL2C7zoB7wUfv93YL0B4on48jpAss9OMsUM9yMKpSWc13vcTCzfR6RiYcGhbjd
- migLJyYXrWBT8VfyMdjsD7SHvpRanr0oEF1f1+lgOky0DQXqkZzWuBdE/EPIrq5MRDpK
- 73w+/2E/sOErgF3Cw6JCtGy9Qm/0s+DFiZ4Pn3kO0Y8ilmp3VZG87VmXywTjan/zTrTh
- /ZVmPZz9RwkMqRtDN4fZ/xYZk3BqCR/Kii32Zr3va2xBmMB/u75Ls8OxycXKnk2RMMW5
- E8+w==
+ bh=+4RlndkABy70UiZ/oy2xt6QweGU3hHu478DrMWi7zZE=;
+ b=e51n+J8I+6gUKATw3RxuvBZxsSGh2hDmWSJeLx2tMsnJPvev0JexRaEn8YXLCV+njF
+ tCdSdfvOriohl4rS20Ady6QSRq/A9iX9CdVl7yUMX45ZeCiPYHwY/5U4Dv2D3MCszJy/
+ r6wOl8OXCk3CTxMz7pcoey1gnJLlx3vybJa7Mdwd2dN7ma2ay8o1djXStCwey1brPwXW
+ S599M20kKm4HYgVtD4IVmTLirLVli1hLR8Tdb0AYiMjA6ouAuV6BcNRQ+JQnvvvf0A+M
+ fcCIBmODXntZDz4oDOxzG0P2I24AeyYM/eOEJElZhRPgoWKjAy7V/tOhNW0QNNmn2keR
+ 3Pig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yx4G4Iv5ZatKfDFJ7Be+L669qIe/zhze2py593an1Pk=;
- b=qkpwbg176FPSKm93jVF7597L/gaDIyyqR6hoV2BuUCC18ZlhbjSojyKyGLarWus6bX
- dF9Y3mE9s8WaYYr+33HE1W7i/xPV79gYqA14GnUIbQi7IAfbzKDA+u7CXU9LuMeVLz1E
- TgJN4spz5/di2/RnAlRlcbIZ7282ZkUbVuiSDKRS9uvRutzrNMT08takErS0Yrnt0vpR
- htvhjUj8uPVVmE7SjvUnjdmzit6nKqu6l9E52DwO7rErrElq4swehlpT4ZTDqEmqm0h7
- nYLLD8ItcH0cvWpImvwd3tUrHykbXgdyiCCAsVUX+P0WdFo9Mf5TsfwVt8ZFnpiqFEul
- 7LyA==
-X-Gm-Message-State: AOAM530bVNnN3b3FDdINWhpX8pOzI/va7rVCvD4COQV5Oq91sGBwCLNn
- zVI/PT/TdGLI7iieCQFijgl6ZEVcwV15jg==
-X-Google-Smtp-Source: ABdhPJyXzIvAHb8tvNY13Jdr2pflTsf0tZT8xtr0r7DR+qMuh7cGZnSIqD11OJoEIdVOvdSiZau9Gw==
-X-Received: by 2002:a63:a0c:: with SMTP id 12mr10238251pgk.247.1619894613150; 
- Sat, 01 May 2021 11:43:33 -0700 (PDT)
+ bh=+4RlndkABy70UiZ/oy2xt6QweGU3hHu478DrMWi7zZE=;
+ b=qB9sy/UMHV7aLwUTYRbB0y0cZDrtIxXJ6C5DwtZNlPpzN0mJ+05tpkE2MvMOCaQDOE
+ 2QhRGfDUKaiF4u3ex8yFvad0YKZS49OnCsUDfqt/59GWmfTjile4mp387/Bc4qTxBmKF
+ VomFHzsxooewlddcHsagXk7SPTq+hJ9ywbIkdrEk9m0DO6XvF45oTcghMfNP5OaZNqiv
+ 50nfIT3lX0YS9H4ObU016f1F9tXmsd7BXQfC8AnD0KcibqdJQLnd5EvOARXB3aDbT5iS
+ IsI8RsH9eAdEk7Sc8iClOY4/MjelZHODSPh4Qrfx6kniMRd9+HcK1E/0VC5hL44q4R1e
+ SCng==
+X-Gm-Message-State: AOAM5302bLyBlNnDvjE8uzTySpYIUY+LaZE5Vw8iTHSpYQGiEFuaJgg4
+ Q8zpLxom20PS+lgcWW+6jpCSVc/mC7ePWA==
+X-Google-Smtp-Source: ABdhPJwf77Jv0lTlep5O6Kf28SL1EJ7MOtpmZq/AKC3R0cgXUkDAdgrWMUOiW365b0pOSWJaEPPMTQ==
+X-Received: by 2002:a05:6a00:150d:b029:27a:ce95:bb0e with SMTP id
+ q13-20020a056a00150db029027ace95bb0emr10672878pfu.64.1619894615568; 
+ Sat, 01 May 2021 11:43:35 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.32
+ by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 11:43:32 -0700 (PDT)
+ Sat, 01 May 2021 11:43:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/31] Hexagon (target/hexagon) change variables from int to
- bool when appropriate
-Date: Sat,  1 May 2021 11:43:05 -0700
-Message-Id: <20210501184324.1338186-13-richard.henderson@linaro.org>
+Subject: [PULL 16/31] Hexagon (target/hexagon) replace float32_mul_pow2 with
+ float32_scalbn
+Date: Sat,  1 May 2021 11:43:09 -0700
+Message-Id: <20210501184324.1338186-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
 References: <20210501184324.1338186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,8 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,420 +92,72 @@ From: Taylor Simpson <tsimpson@quicinc.com>
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-8-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-12-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/cpu_bits.h  |  2 +-
- target/hexagon/insn.h      | 21 +++++-----
- target/hexagon/translate.h |  2 +-
- target/hexagon/decode.c    | 80 +++++++++++++++++++-------------------
- target/hexagon/op_helper.c |  8 ++--
- target/hexagon/translate.c |  6 +--
- 6 files changed, 60 insertions(+), 59 deletions(-)
+ target/hexagon/arch.c | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/target/hexagon/cpu_bits.h b/target/hexagon/cpu_bits.h
-index 96af834d0e..96fef71729 100644
---- a/target/hexagon/cpu_bits.h
-+++ b/target/hexagon/cpu_bits.h
-@@ -47,7 +47,7 @@ static inline uint32_t iclass_bits(uint32_t encoding)
-     return iclass;
- }
- 
--static inline int is_packet_end(uint32_t endocing)
-+static inline bool is_packet_end(uint32_t endocing)
- {
-     uint32_t bits = parse_bits(endocing);
-     return ((bits == 0x3) || (bits == 0x0));
-diff --git a/target/hexagon/insn.h b/target/hexagon/insn.h
-index 5756a1d0ca..2e345912a8 100644
---- a/target/hexagon/insn.h
-+++ b/target/hexagon/insn.h
-@@ -40,14 +40,15 @@ struct Instruction {
- 
-     uint32_t iclass:6;
-     uint32_t slot:3;
--    uint32_t part1:1;        /*
-+    uint32_t which_extended:1;    /* If has an extender, which immediate */
-+    uint32_t new_value_producer_slot:4;
-+
-+    bool part1;              /*
-                               * cmp-jumps are split into two insns.
-                               * set for the compare and clear for the jump
-                               */
--    uint32_t extension_valid:1;   /* Has a constant extender attached */
--    uint32_t which_extended:1;    /* If has an extender, which immediate */
--    uint32_t is_endloop:1;   /* This is an end of loop */
--    uint32_t new_value_producer_slot:4;
-+    bool extension_valid;   /* Has a constant extender attached */
-+    bool is_endloop;   /* This is an end of loop */
-     int32_t immed[IMMEDS_MAX];    /* immediate field */
- };
- 
-@@ -58,13 +59,13 @@ struct Packet {
-     uint16_t encod_pkt_size_in_bytes;
- 
-     /* Pre-decodes about COF */
--    uint32_t pkt_has_cof:1;          /* Has any change-of-flow */
--    uint32_t pkt_has_endloop:1;
-+    bool pkt_has_cof;          /* Has any change-of-flow */
-+    bool pkt_has_endloop;
- 
--    uint32_t pkt_has_dczeroa:1;
-+    bool pkt_has_dczeroa;
- 
--    uint32_t pkt_has_store_s0:1;
--    uint32_t pkt_has_store_s1:1;
-+    bool pkt_has_store_s0;
-+    bool pkt_has_store_s1;
- 
-     Insn insn[INSTRUCTIONS_MAX];
- };
-diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
-index 0ecfbd7d52..97b12a7d18 100644
---- a/target/hexagon/translate.h
-+++ b/target/hexagon/translate.h
-@@ -36,7 +36,7 @@ typedef struct DisasContext {
-     int preg_log_idx;
-     DECLARE_BITMAP(pregs_written, NUM_PREGS);
-     uint8_t store_width[STORES_MAX];
--    uint8_t s1_store_processed;
-+    bool s1_store_processed;
- } DisasContext;
- 
- static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
-diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
-index 65d97ce64b..dffe1d1972 100644
---- a/target/hexagon/decode.c
-+++ b/target/hexagon/decode.c
-@@ -340,8 +340,8 @@ static void decode_split_cmpjump(Packet *pkt)
-         if (GET_ATTRIB(pkt->insn[i].opcode, A_NEWCMPJUMP)) {
-             last = pkt->num_insns;
-             pkt->insn[last] = pkt->insn[i];    /* copy the instruction */
--            pkt->insn[last].part1 = 1;    /* last instruction does the CMP */
--            pkt->insn[i].part1 = 0;    /* existing instruction does the JUMP */
-+            pkt->insn[last].part1 = true;      /* last insn does the CMP */
-+            pkt->insn[i].part1 = false;        /* existing insn does the JUMP */
-             pkt->num_insns++;
-         }
-     }
-@@ -354,7 +354,7 @@ static void decode_split_cmpjump(Packet *pkt)
+diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
+index bb51f19a3d..40b6e3d0c0 100644
+--- a/target/hexagon/arch.c
++++ b/target/hexagon/arch.c
+@@ -143,12 +143,6 @@ void arch_fpop_end(CPUHexagonState *env)
      }
  }
  
--static int decode_opcode_can_jump(int opcode)
-+static bool decode_opcode_can_jump(int opcode)
+-static float32 float32_mul_pow2(float32 a, uint32_t p, float_status *fp_status)
+-{
+-    float32 b = make_float32((SF_BIAS + p) << SF_MANTBITS);
+-    return float32_mul(a, b, fp_status);
+-}
+-
+ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
+                          float_status *fp_status)
  {
-     if ((GET_ATTRIB(opcode, A_JUMP)) ||
-         (GET_ATTRIB(opcode, A_CALL)) ||
-@@ -362,15 +362,15 @@ static int decode_opcode_can_jump(int opcode)
-         (opcode == J2_pause)) {
-         /* Exception to A_JUMP attribute */
-         if (opcode == J4_hintjumpr) {
--            return 0;
-+            return false;
+@@ -217,22 +211,22 @@ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
+         if ((n_exp - d_exp + SF_BIAS) <= SF_MANTBITS) {
+             /* Near quotient underflow / inexact Q */
+             PeV = 0x80;
+-            RtV = float32_mul_pow2(RtV, -64, fp_status);
+-            RsV = float32_mul_pow2(RsV, 64, fp_status);
++            RtV = float32_scalbn(RtV, -64, fp_status);
++            RsV = float32_scalbn(RsV, 64, fp_status);
+         } else if ((n_exp - d_exp + SF_BIAS) > (SF_MAXEXP - 24)) {
+             /* Near quotient overflow */
+             PeV = 0x40;
+-            RtV = float32_mul_pow2(RtV, 32, fp_status);
+-            RsV = float32_mul_pow2(RsV, -32, fp_status);
++            RtV = float32_scalbn(RtV, 32, fp_status);
++            RsV = float32_scalbn(RsV, -32, fp_status);
+         } else if (n_exp <= SF_MANTBITS + 2) {
+-            RtV = float32_mul_pow2(RtV, 64, fp_status);
+-            RsV = float32_mul_pow2(RsV, 64, fp_status);
++            RtV = float32_scalbn(RtV, 64, fp_status);
++            RsV = float32_scalbn(RsV, 64, fp_status);
+         } else if (d_exp <= 1) {
+-            RtV = float32_mul_pow2(RtV, 32, fp_status);
+-            RsV = float32_mul_pow2(RsV, 32, fp_status);
++            RtV = float32_scalbn(RtV, 32, fp_status);
++            RsV = float32_scalbn(RsV, 32, fp_status);
+         } else if (d_exp > 252) {
+-            RtV = float32_mul_pow2(RtV, -32, fp_status);
+-            RsV = float32_mul_pow2(RsV, -32, fp_status);
++            RtV = float32_scalbn(RtV, -32, fp_status);
++            RsV = float32_scalbn(RsV, -32, fp_status);
          }
--        return 1;
-+        return true;
-     }
- 
--    return 0;
-+    return false;
- }
- 
--static int decode_opcode_ends_loop(int opcode)
-+static bool decode_opcode_ends_loop(int opcode)
- {
-     return GET_ATTRIB(opcode, A_HWLOOP0_END) ||
-            GET_ATTRIB(opcode, A_HWLOOP1_END);
-@@ -383,9 +383,9 @@ static void decode_set_insn_attr_fields(Packet *pkt)
-     int numinsns = pkt->num_insns;
-     uint16_t opcode;
- 
--    pkt->pkt_has_cof = 0;
--    pkt->pkt_has_endloop = 0;
--    pkt->pkt_has_dczeroa = 0;
-+    pkt->pkt_has_cof = false;
-+    pkt->pkt_has_endloop = false;
-+    pkt->pkt_has_dczeroa = false;
- 
-     for (i = 0; i < numinsns; i++) {
-         opcode = pkt->insn[i].opcode;
-@@ -394,14 +394,14 @@ static void decode_set_insn_attr_fields(Packet *pkt)
+         RdV = 0;
+         ret = 1;
+@@ -274,7 +268,7 @@ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
+         /* Basic checks passed */
+         r_exp = float32_getexp(RsV);
+         if (r_exp <= 24) {
+-            RsV = float32_mul_pow2(RsV, 64, fp_status);
++            RsV = float32_scalbn(RsV, 64, fp_status);
+             PeV = 0xe0;
          }
- 
-         if (GET_ATTRIB(opcode, A_DCZEROA)) {
--            pkt->pkt_has_dczeroa = 1;
-+            pkt->pkt_has_dczeroa = true;
-         }
- 
-         if (GET_ATTRIB(opcode, A_STORE)) {
-             if (pkt->insn[i].slot == 0) {
--                pkt->pkt_has_store_s0 = 1;
-+                pkt->pkt_has_store_s0 = true;
-             } else {
--                pkt->pkt_has_store_s1 = 1;
-+                pkt->pkt_has_store_s1 = true;
-             }
-         }
- 
-@@ -422,9 +422,9 @@ static void decode_set_insn_attr_fields(Packet *pkt)
-  */
- static void decode_shuffle_for_execution(Packet *packet)
- {
--    int changed = 0;
-+    bool changed = false;
-     int i;
--    int flag;    /* flag means we've seen a non-memory instruction */
-+    bool flag;    /* flag means we've seen a non-memory instruction */
-     int n_mems;
-     int last_insn = packet->num_insns - 1;
- 
-@@ -437,7 +437,7 @@ static void decode_shuffle_for_execution(Packet *packet)
-     }
- 
-     do {
--        changed = 0;
-+        changed = false;
-         /*
-          * Stores go last, must not reorder.
-          * Cannot shuffle stores past loads, either.
-@@ -445,13 +445,13 @@ static void decode_shuffle_for_execution(Packet *packet)
-          * then a store, shuffle the store to the front.  Don't shuffle
-          * stores wrt each other or a load.
-          */
--        for (flag = n_mems = 0, i = last_insn; i >= 0; i--) {
-+        for (flag = false, n_mems = 0, i = last_insn; i >= 0; i--) {
-             int opcode = packet->insn[i].opcode;
- 
-             if (flag && GET_ATTRIB(opcode, A_STORE)) {
-                 decode_send_insn_to(packet, i, last_insn - n_mems);
-                 n_mems++;
--                changed = 1;
-+                changed = true;
-             } else if (GET_ATTRIB(opcode, A_STORE)) {
-                 n_mems++;
-             } else if (GET_ATTRIB(opcode, A_LOAD)) {
-@@ -466,7 +466,7 @@ static void decode_shuffle_for_execution(Packet *packet)
-                  * a .new value
-                  */
-             } else {
--                flag = 1;
-+                flag = true;
-             }
-         }
- 
-@@ -474,7 +474,7 @@ static void decode_shuffle_for_execution(Packet *packet)
-             continue;
-         }
-         /* Compares go first, may be reordered wrt each other */
--        for (flag = 0, i = 0; i < last_insn + 1; i++) {
-+        for (flag = false, i = 0; i < last_insn + 1; i++) {
-             int opcode = packet->insn[i].opcode;
- 
-             if ((strstr(opcode_wregs[opcode], "Pd4") ||
-@@ -483,7 +483,7 @@ static void decode_shuffle_for_execution(Packet *packet)
-                 /* This should be a compare (not a store conditional) */
-                 if (flag) {
-                     decode_send_insn_to(packet, i, 0);
--                    changed = 1;
-+                    changed = true;
-                     continue;
-                 }
-             } else if (GET_ATTRIB(opcode, A_IMPLICIT_WRITES_P3) &&
-@@ -495,18 +495,18 @@ static void decode_shuffle_for_execution(Packet *packet)
-                  */
-                 if (flag) {
-                     decode_send_insn_to(packet, i, 0);
--                    changed = 1;
-+                    changed = true;
-                     continue;
-                 }
-             } else if (GET_ATTRIB(opcode, A_IMPLICIT_WRITES_P0) &&
-                        !GET_ATTRIB(opcode, A_NEWCMPJUMP)) {
-                 if (flag) {
-                     decode_send_insn_to(packet, i, 0);
--                    changed = 1;
-+                    changed = true;
-                     continue;
-                 }
-             } else {
--                flag = 1;
-+                flag = true;
-             }
-         }
-         if (changed) {
-@@ -543,7 +543,7 @@ static void decode_apply_extenders(Packet *packet)
-     int i;
-     for (i = 0; i < packet->num_insns; i++) {
-         if (GET_ATTRIB(packet->insn[i].opcode, A_IT_EXTENDER)) {
--            packet->insn[i + 1].extension_valid = 1;
-+            packet->insn[i + 1].extension_valid = true;
-             apply_extender(packet, i + 1, packet->insn[i].immed[0]);
-         }
-     }
-@@ -764,7 +764,7 @@ static void decode_add_endloop_insn(Insn *insn, int loopnum)
-     }
- }
- 
--static int decode_parsebits_is_loopend(uint32_t encoding32)
-+static bool decode_parsebits_is_loopend(uint32_t encoding32)
- {
-     uint32_t bits = parse_bits(encoding32);
-     return bits == 0x2;
-@@ -775,8 +775,11 @@ decode_set_slot_number(Packet *pkt)
- {
-     int slot;
-     int i;
--    int hit_mem_insn = 0;
--    int hit_duplex = 0;
-+    bool hit_mem_insn = false;
-+    bool hit_duplex = false;
-+    bool slot0_found = false;
-+    bool slot1_found = false;
-+    int slot1_iidx = 0;
- 
-     /*
-      * The slots are encoded in reverse order
-@@ -801,7 +804,7 @@ decode_set_slot_number(Packet *pkt)
-         if ((GET_ATTRIB(pkt->insn[i].opcode, A_MEMLIKE) ||
-              GET_ATTRIB(pkt->insn[i].opcode, A_MEMLIKE_PACKET_RULES)) &&
-             !hit_mem_insn) {
--            hit_mem_insn = 1;
-+            hit_mem_insn = true;
-             pkt->insn[i].slot = 0;
-             continue;
-         }
-@@ -818,7 +821,7 @@ decode_set_slot_number(Packet *pkt)
-     for (i = pkt->num_insns - 1; i >= 0; i--) {
-         /* First subinsn always goes to slot 0 */
-         if (GET_ATTRIB(pkt->insn[i].opcode, A_SUBINSN) && !hit_duplex) {
--            hit_duplex = 1;
-+            hit_duplex = true;
-             pkt->insn[i].slot = 0;
-             continue;
-         }
-@@ -830,13 +833,10 @@ decode_set_slot_number(Packet *pkt)
-     }
- 
-     /* Fix the exceptions - slot 1 is never empty, always aligns to slot 0 */
--    int slot0_found = 0;
--    int slot1_found = 0;
--    int slot1_iidx = 0;
-     for (i = pkt->num_insns - 1; i >= 0; i--) {
-         /* Is slot0 used? */
-         if (pkt->insn[i].slot == 0) {
--            int is_endloop = (pkt->insn[i].opcode == J2_endloop01);
-+            bool is_endloop = (pkt->insn[i].opcode == J2_endloop01);
-             is_endloop |= (pkt->insn[i].opcode == J2_endloop0);
-             is_endloop |= (pkt->insn[i].opcode == J2_endloop1);
- 
-@@ -845,17 +845,17 @@ decode_set_slot_number(Packet *pkt)
-              * slot0 for endloop
-              */
-             if (!is_endloop) {
--                slot0_found = 1;
-+                slot0_found = true;
-             }
-         }
-         /* Is slot1 used? */
-         if (pkt->insn[i].slot == 1) {
--            slot1_found = 1;
-+            slot1_found = true;
-             slot1_iidx = i;
-         }
-     }
-     /* Is slot0 empty and slot1 used? */
--    if ((slot0_found == 0) && (slot1_found == 1)) {
-+    if ((!slot0_found) && slot1_found) {
-         /* Then push it to slot0 */
-         pkt->insn[slot1_iidx].slot = 0;
-     }
-@@ -873,7 +873,7 @@ int decode_packet(int max_words, const uint32_t *words, Packet *pkt,
- {
-     int num_insns = 0;
-     int words_read = 0;
--    int end_of_packet = 0;
-+    bool end_of_packet = false;
-     int new_insns = 0;
-     uint32_t encoding32;
- 
-@@ -890,7 +890,7 @@ int decode_packet(int max_words, const uint32_t *words, Packet *pkt,
-          * decode works
-          */
-         if (pkt->insn[num_insns].opcode == A4_ext) {
--            pkt->insn[num_insns + 1].extension_valid = 1;
-+            pkt->insn[num_insns + 1].extension_valid = true;
-         }
-         num_insns += new_insns;
-         words_read++;
-@@ -913,7 +913,7 @@ int decode_packet(int max_words, const uint32_t *words, Packet *pkt,
-         decode_add_endloop_insn(&pkt->insn[pkt->num_insns++], 0);
-     }
-     if (words_read >= 3) {
--        uint32_t has_loop0, has_loop1;
-+        bool has_loop0, has_loop1;
-         has_loop0 = decode_parsebits_is_loopend(words[0]);
-         has_loop1 = decode_parsebits_is_loopend(words[1]);
-         if (has_loop0 && has_loop1) {
-diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-index 7ac85549db..1d91fa2743 100644
---- a/target/hexagon/op_helper.c
-+++ b/target/hexagon/op_helper.c
-@@ -948,8 +948,8 @@ static bool is_inf_prod(int32_t a, int32_t b)
- float32 HELPER(sffma_lib)(CPUHexagonState *env, float32 RxV,
-                           float32 RsV, float32 RtV)
- {
--    int infinp;
--    int infminusinf;
-+    bool infinp;
-+    bool infminusinf;
-     float32 tmp;
- 
-     arch_fpop_start(env);
-@@ -982,8 +982,8 @@ float32 HELPER(sffma_lib)(CPUHexagonState *env, float32 RxV,
- float32 HELPER(sffms_lib)(CPUHexagonState *env, float32 RxV,
-                           float32 RsV, float32 RtV)
- {
--    int infinp;
--    int infminusinf;
-+    bool infinp;
-+    bool infminusinf;
-     float32 tmp;
- 
-     arch_fpop_start(env);
-diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index 49ec8b76ed..04684221ca 100644
---- a/target/hexagon/translate.c
-+++ b/target/hexagon/translate.c
-@@ -177,7 +177,7 @@ static void gen_start_packet(DisasContext *ctx, Packet *pkt)
-         ctx->store_width[i] = 0;
-     }
-     tcg_gen_movi_tl(hex_pkt_has_store_s1, pkt->pkt_has_store_s1);
--    ctx->s1_store_processed = 0;
-+    ctx->s1_store_processed = false;
- 
- #if HEX_DEBUG
-     /* Handy place to set a breakpoint before the packet executes */
-@@ -210,7 +210,7 @@ static void mark_implicit_reg_write(DisasContext *ctx, Insn *insn,
-                                     int attrib, int rnum)
- {
-     if (GET_ATTRIB(insn->opcode, attrib)) {
--        int is_predicated = GET_ATTRIB(insn->opcode, A_CONDEXEC);
-+        bool is_predicated = GET_ATTRIB(insn->opcode, A_CONDEXEC);
-         if (is_predicated && !is_preloaded(ctx, rnum)) {
-             tcg_gen_mov_tl(hex_new_value[rnum], hex_gpr[rnum]);
-         }
-@@ -354,7 +354,7 @@ void process_store(DisasContext *ctx, Packet *pkt, int slot_num)
-     if (slot_num == 1 && ctx->s1_store_processed) {
-         return;
-     }
--    ctx->s1_store_processed = 1;
-+    ctx->s1_store_processed = true;
- 
-     if (is_predicated) {
-         TCGv cancelled = tcg_temp_new();
+         RdV = 0;
 -- 
 2.25.1
 
