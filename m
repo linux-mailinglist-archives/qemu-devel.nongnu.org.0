@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F32D3706A1
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:33:08 +0200 (CEST)
-Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BB53706AD
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:38:20 +0200 (CEST)
+Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lclzn-0002Em-50
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
+	id 1lcm4p-0008Gn-Mm
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lclxM-0000Va-KC
- for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:38 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34562)
+ id 1lclxQ-0000Wz-Kl
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:40 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lclxK-0005Up-JW
- for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:36 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id a4so744277ejk.1
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 02:30:31 -0700 (PDT)
+ id 1lclxK-0005VV-Jk
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 05:30:38 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id h10so778512edt.13
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 02:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RLsjIcAP3wwlVBjq4iu7pWS+PTeCNrkyXNVSx//IWes=;
- b=tCf9CNMfTRsh9C+bZYg9QePmnBa+jNnQZkyEdJukjSYIxjZolUJJOC7TMXbH1LBgjL
- BYBAwG0yKcKESkLrbAvKzYaGAvPVCnheapndz+GRoLqzPdJHPCzW991aPhUzoi+DSHpP
- DhzbFGb4MejqocGNxq1ha7KC2TkRMwep9Y6YMa2txM0SZYZpuYE5mgVWtdxqSI723I9a
- NXN+scFynJ2N4L7JxQdCIei5aufbwVqhq43QNd5RCX6eY5yixV6Gx85TaxO3uj4ZnDOj
- F+sRrJ+R97jkOUxwgmibnMC2bTZKCZjlgjc10vftiJLetI/Ejjt4c5Af/k29zxugP6H/
- u9NA==
+ bh=MglONCkDVzFg6ZRdEbrPawOYrTidNYXfrsJgJxbPPp8=;
+ b=L26I//6SdE3D9+X2mCjIcD3pfgyMbabF1QdmeNnLzees8HC6WlE464eqFxBxSsWfFa
+ fJ1nz2EskssflzgPaIyEwFMIjSoVT7NQdHOYVNGMWSzN8/vY0Kqf/FXSYVj9wAzPDYth
+ oSVQYFA0Jqea0ZQwsK4QJXjwHUCE/sOSPJDvIQ0ZOr3/PYDbMkzo12Hl8GkuDNLzN01X
+ QHdbr0ZSEmVhw7H4856OBEg22h5w6q5SMncCyyhmzrxwsO5OcITD2mvA+zYrQvuwzwyB
+ bBFklNbBpOYvodPsxgFvqQdqjN7eazUqG1EAjckSjnmhOl6xIboI2VinnwiFNAnOJyn3
+ evqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RLsjIcAP3wwlVBjq4iu7pWS+PTeCNrkyXNVSx//IWes=;
- b=LnkHk1tv88zl1KmFRYI9bm5ZKuh4Eba5/dwCabNPVMbjf4578Qnf/rJnwie5Ojse2e
- e1Pqf99JVxlj985y8sYyvbKMdKndWKP7lRG75XpCQlWgMV8QDVugEv27EIXE2+YZX3zt
- gafYK5Q4JYQ/Q9pC+LNXPHV0iXqA0adryKB80IeUtLumZ/D16wRsNSJ+6XR4ZbbBC/ZG
- y57wEKFgY/IroFVNVHfBW/RZxMmz99fNycV52cH7CBEqwCQ2PWNMk/NYBEh44+Uro13T
- B4kpabVqCXYo2Ic55apioEElcGaZzUrotjwu5dvydloPg2rakJL+SkUBf9RiGCwC87j5
- VAfA==
-X-Gm-Message-State: AOAM533UbjDdNlDQ9+Q3UR5nqaTaiv9mKqoe5A5LVy1DLVjNk0QzLcAH
- 95M7ZN3A5HFzVApXspVx/rTUEcpVeXo=
-X-Google-Smtp-Source: ABdhPJz+0ETHqPRA3lNvkcQc94JLZ6QAKpqT/zs6lG4ZPse+bD9w0yU6gLMl43TNqz//vdI+WfeOGA==
-X-Received: by 2002:a17:906:bb0e:: with SMTP id
- jz14mr8165753ejb.285.1619861430705; 
- Sat, 01 May 2021 02:30:30 -0700 (PDT)
+ bh=MglONCkDVzFg6ZRdEbrPawOYrTidNYXfrsJgJxbPPp8=;
+ b=bLmwryY4n5AGYb0dRijHWxIx9qnt/zJ/Cx0PiI/UY/SPg03r3BAwvxInBZ9e5gGw9V
+ hQDH/t3Nfqyd0V3we/78mmpZoJz87ThfruC8i4JowrAgQyBBdXPqQE+LqQuh7guPjDWk
+ NMB32AEsbIE/yle9W11+RiZ2jysmcAU8Hd8iht2FQDKaAAB1kb/140O6SgLLYEWnkZT/
+ l55V7lLxc/I2Y5vX7J43opt/iEMJdyjy441+FfUVhUFjS5rSuDzdVMAQ7mvbaSD8q9Jl
+ AmM61yotIasU/Cen6gCT+KFyvBR2YbQb/hKzpMuTPpqVyQ6y00ruUhYSsHqD4iRFjSdv
+ CVvw==
+X-Gm-Message-State: AOAM532LySjTHHPsi8qDWN3DW4e7Ml8RnGaKdGSUJHMKybdMw3Ud1zX5
+ QAZNYFD9ArrMQro7ba63F2Eb1kbulhw=
+X-Google-Smtp-Source: ABdhPJxcWHTdMeN5ZkVGsv2hmnPctmLZPELeMwCljmr4BJC49iI0khFlrJwEgSSF0w8UQ/gv/HzTJQ==
+X-Received: by 2002:aa7:c914:: with SMTP id b20mr10949813edt.199.1619861431724; 
+ Sat, 01 May 2021 02:30:31 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id ga33sm4632721ejc.11.2021.05.01.02.30.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 02:30:30 -0700 (PDT)
+ Sat, 01 May 2021 02:30:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/10] Add NVMM accelerator: configure and build logic
-Date: Sat,  1 May 2021 11:30:18 +0200
-Message-Id: <20210501093026.189429-3-pbonzini@redhat.com>
+Subject: [PULL 03/10] Add NVMM accelerator: x86 CPU support
+Date: Sat,  1 May 2021 11:30:19 +0200
+Message-Id: <20210501093026.189429-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210501093026.189429-1-pbonzini@redhat.com>
 References: <20210501093026.189429-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,176 +92,1425 @@ From: Reinoud Zandijk <reinoud@NetBSD.org>
 Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
 Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
 
-Message-Id: <20210402202535.11550-2-reinoud@NetBSD.org>
+Message-Id: <20210402202535.11550-3-reinoud@NetBSD.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/Kconfig     |  3 +++
- configure         |  8 +++++++-
- meson.build       | 14 ++++++++++++++
- meson_options.txt |  2 ++
- qemu-options.hx   |  8 ++++----
- 5 files changed, 30 insertions(+), 5 deletions(-)
+ target/i386/meson.build           |    1 +
+ target/i386/nvmm/meson.build      |    8 +
+ target/i386/nvmm/nvmm-accel-ops.c |  111 +++
+ target/i386/nvmm/nvmm-accel-ops.h |   24 +
+ target/i386/nvmm/nvmm-all.c       | 1226 +++++++++++++++++++++++++++++
+ 5 files changed, 1370 insertions(+)
+ create mode 100644 target/i386/nvmm/meson.build
+ create mode 100644 target/i386/nvmm/nvmm-accel-ops.c
+ create mode 100644 target/i386/nvmm/nvmm-accel-ops.h
+ create mode 100644 target/i386/nvmm/nvmm-all.c
 
-diff --git a/accel/Kconfig b/accel/Kconfig
-index 461104c771..8bdedb7d15 100644
---- a/accel/Kconfig
-+++ b/accel/Kconfig
-@@ -1,6 +1,9 @@
- config WHPX
-     bool
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index c4bf20b319..b0c04f3d89 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -19,6 +19,7 @@ i386_softmmu_ss.add(files(
+ subdir('kvm')
+ subdir('hax')
+ subdir('whpx')
++subdir('nvmm')
+ subdir('hvf')
+ subdir('tcg')
  
-+config NVMM
-+    bool
+diff --git a/target/i386/nvmm/meson.build b/target/i386/nvmm/meson.build
+new file mode 100644
+index 0000000000..733e334083
+--- /dev/null
++++ b/target/i386/nvmm/meson.build
+@@ -0,0 +1,8 @@
++i386_softmmu_ss.add(when: 'CONFIG_NVMM', if_true:
++  files(
++  'nvmm-all.c',
++  'nvmm-accel-ops.c',
++  )
++)
 +
- config HAX
-     bool
- 
-diff --git a/configure b/configure
-index 4f374b4889..268460d63d 100755
---- a/configure
-+++ b/configure
-@@ -352,6 +352,7 @@ kvm="auto"
- hax="auto"
- hvf="auto"
- whpx="auto"
-+nvmm="auto"
- rdma="$default_feature"
- pvrdma="$default_feature"
- gprof="no"
-@@ -1107,6 +1108,10 @@ for opt do
-   ;;
-   --enable-hvf) hvf="enabled"
-   ;;
-+  --disable-nvmm) nvmm="disabled"
-+  ;;
-+  --enable-nvmm) nvmm="enabled"
-+  ;;
-   --disable-whpx) whpx="disabled"
-   ;;
-   --enable-whpx) whpx="enabled"
-@@ -1848,6 +1853,7 @@ disabled with --disable-FEATURE, default is enabled if available
-   kvm             KVM acceleration support
-   hax             HAX acceleration support
-   hvf             Hypervisor.framework acceleration support
-+  nvmm            NVMM acceleration support
-   whpx            Windows Hypervisor Platform acceleration support
-   rdma            Enable RDMA-based migration
-   pvrdma          Enable PVRDMA support
-@@ -6410,7 +6416,7 @@ NINJA=$ninja $meson setup \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-         -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug \
-         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
--        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
-+        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
-         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-diff --git a/meson.build b/meson.build
-index c6f4b0cf5e..14dd3fe068 100644
---- a/meson.build
-+++ b/meson.build
-@@ -87,6 +87,7 @@ if cpu in ['x86', 'x86_64']
-   accelerator_targets += {
-     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
-     'CONFIG_HVF': ['x86_64-softmmu'],
-+    'CONFIG_NVMM': ['i386-softmmu', 'x86_64-softmmu'],
-     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
-   }
- endif
-@@ -170,6 +171,7 @@ version_res = []
- coref = []
- iokit = []
- emulator_link_args = []
-+nvmm =not_found
- hvf = not_found
- if targetos == 'windows'
-   socket = cc.find_library('ws2_32')
-@@ -227,6 +229,14 @@ if not get_option('hax').disabled()
-     accelerators += 'CONFIG_HAX'
-   endif
- endif
-+if targetos == 'netbsd'
-+  if cc.has_header('nvmm.h', required: get_option('nvmm'))
-+    nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
-+  endif
-+  if nvmm.found()
-+    accelerators += 'CONFIG_NVMM'
-+  endif
-+endif
- 
- tcg_arch = config_host['ARCH']
- if not get_option('tcg').disabled()
-@@ -271,6 +281,9 @@ endif
- if 'CONFIG_HVF' not in accelerators and get_option('hvf').enabled()
-   error('HVF not available on this platform')
- endif
-+if 'CONFIG_NVMM' not in accelerators and get_option('nvmm').enabled()
-+  error('NVMM not available on this platform')
-+endif
- if 'CONFIG_WHPX' not in accelerators and get_option('whpx').enabled()
-   error('WHPX not available on this platform')
- endif
-@@ -2576,6 +2589,7 @@ if have_system
-   summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
-   summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
-   summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
-+  summary_info += {'NVMM support':      config_all.has_key('CONFIG_NVMM')}
-   summary_info += {'Xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
-   if config_host.has_key('CONFIG_XEN_BACKEND')
-     summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
-diff --git a/meson_options.txt b/meson_options.txt
-index 9734019995..91034420a1 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -33,6 +33,8 @@ option('whpx', type: 'feature', value: 'auto',
-        description: 'WHPX acceleration support')
- option('hvf', type: 'feature', value: 'auto',
-        description: 'HVF acceleration support')
-+option('nvmm', type: 'feature', value: 'auto',
-+       description: 'NVMM acceleration support')
- option('xen', type: 'feature', value: 'auto',
-        description: 'Xen backend support')
- option('xen_pci_passthrough', type: 'feature', value: 'auto',
-diff --git a/qemu-options.hx b/qemu-options.hx
-index fd21002bd6..dadf11fae9 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -26,7 +26,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "-machine [type=]name[,prop[=value][,...]]\n"
-     "                selects emulated machine ('-machine help' for list)\n"
-     "                property accel=accel1[:accel2[:...]] selects accelerator\n"
--    "                supported accelerators are kvm, xen, hax, hvf, whpx or tcg (default: tcg)\n"
-+    "                supported accelerators are kvm, xen, hax, hvf, nvmm, whpx or tcg (default: tcg)\n"
-     "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
-     "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
-     "                mem-merge=on|off controls memory merge support (default: on)\n"
-@@ -58,7 +58,7 @@ SRST
- 
-     ``accel=accels1[:accels2[:...]]``
-         This is used to enable an accelerator. Depending on the target
--        architecture, kvm, xen, hax, hvf, whpx or tcg can be available.
-+        architecture, kvm, xen, hax, hvf, nvmm, whpx or tcg can be available.
-         By default, tcg is used. If there is more than one accelerator
-         specified, the next one is used if the previous one fails to
-         initialize.
-@@ -135,7 +135,7 @@ ERST
- 
- DEF("accel", HAS_ARG, QEMU_OPTION_accel,
-     "-accel [accel=]accelerator[,prop[=value][,...]]\n"
--    "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
-+    "                select accelerator (kvm, xen, hax, hvf, nvmm, whpx or tcg; use 'help' for a list)\n"
-     "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
-     "                kernel-irqchip=on|off|split controls accelerated irqchip support (default=on)\n"
-     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
-@@ -145,7 +145,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
- SRST
- ``-accel name[,prop=value[,...]]``
-     This is used to enable an accelerator. Depending on the target
--    architecture, kvm, xen, hax, hvf, whpx or tcg can be available. By
-+    architecture, kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By
-     default, tcg is used. If there is more than one accelerator
-     specified, the next one is used if the previous one fails to
-     initialize.
++i386_softmmu_ss.add(when: 'CONFIG_NVMM', if_true: nvmm)
+diff --git a/target/i386/nvmm/nvmm-accel-ops.c b/target/i386/nvmm/nvmm-accel-ops.c
+new file mode 100644
+index 0000000000..f788f75289
+--- /dev/null
++++ b/target/i386/nvmm/nvmm-accel-ops.c
+@@ -0,0 +1,111 @@
++/*
++ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
++ *
++ * NetBSD Virtual Machine Monitor (NVMM) accelerator for QEMU.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/kvm_int.h"
++#include "qemu/main-loop.h"
++#include "sysemu/cpus.h"
++#include "qemu/guest-random.h"
++
++#include "sysemu/nvmm.h"
++#include "nvmm-accel-ops.h"
++
++static void *qemu_nvmm_cpu_thread_fn(void *arg)
++{
++    CPUState *cpu = arg;
++    int r;
++
++    assert(nvmm_enabled());
++
++    rcu_register_thread();
++
++    qemu_mutex_lock_iothread();
++    qemu_thread_get_self(cpu->thread);
++    cpu->thread_id = qemu_get_thread_id();
++    current_cpu = cpu;
++
++    r = nvmm_init_vcpu(cpu);
++    if (r < 0) {
++        fprintf(stderr, "nvmm_init_vcpu failed: %s\n", strerror(-r));
++        exit(1);
++    }
++
++    /* signal CPU creation */
++    cpu_thread_signal_created(cpu);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
++
++    do {
++        if (cpu_can_run(cpu)) {
++            r = nvmm_vcpu_exec(cpu);
++            if (r == EXCP_DEBUG) {
++                cpu_handle_guest_debug(cpu);
++            }
++        }
++        while (cpu_thread_is_idle(cpu)) {
++            qemu_cond_wait_iothread(cpu->halt_cond);
++        }
++        qemu_wait_io_event_common(cpu);
++    } while (!cpu->unplug || cpu_can_run(cpu));
++
++    nvmm_destroy_vcpu(cpu);
++    cpu_thread_signal_destroyed(cpu);
++    qemu_mutex_unlock_iothread();
++    rcu_unregister_thread();
++    return NULL;
++}
++
++static void nvmm_start_vcpu_thread(CPUState *cpu)
++{
++    char thread_name[VCPU_THREAD_NAME_SIZE];
++
++    cpu->thread = g_malloc0(sizeof(QemuThread));
++    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
++    qemu_cond_init(cpu->halt_cond);
++    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/NVMM",
++             cpu->cpu_index);
++    qemu_thread_create(cpu->thread, thread_name, qemu_nvmm_cpu_thread_fn,
++                       cpu, QEMU_THREAD_JOINABLE);
++}
++
++/*
++ * Abort the call to run the virtual processor by another thread, and to
++ * return the control to that thread.
++ */
++static void nvmm_kick_vcpu_thread(CPUState *cpu)
++{
++    cpu->exit_request = 1;
++    cpus_kick_thread(cpu);
++}
++
++static void nvmm_accel_ops_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
++
++    ops->create_vcpu_thread = nvmm_start_vcpu_thread;
++    ops->kick_vcpu_thread = nvmm_kick_vcpu_thread;
++
++    ops->synchronize_post_reset = nvmm_cpu_synchronize_post_reset;
++    ops->synchronize_post_init = nvmm_cpu_synchronize_post_init;
++    ops->synchronize_state = nvmm_cpu_synchronize_state;
++    ops->synchronize_pre_loadvm = nvmm_cpu_synchronize_pre_loadvm;
++}
++
++static const TypeInfo nvmm_accel_ops_type = {
++    .name = ACCEL_OPS_NAME("nvmm"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = nvmm_accel_ops_class_init,
++    .abstract = true,
++};
++
++static void nvmm_accel_ops_register_types(void)
++{
++    type_register_static(&nvmm_accel_ops_type);
++}
++type_init(nvmm_accel_ops_register_types);
+diff --git a/target/i386/nvmm/nvmm-accel-ops.h b/target/i386/nvmm/nvmm-accel-ops.h
+new file mode 100644
+index 0000000000..43e24adcaf
+--- /dev/null
++++ b/target/i386/nvmm/nvmm-accel-ops.h
+@@ -0,0 +1,24 @@
++/*
++ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
++ *
++ * NetBSD Virtual Machine Monitor (NVMM) accelerator for QEMU.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef NVMM_CPUS_H
++#define NVMM_CPUS_H
++
++#include "sysemu/cpus.h"
++
++int nvmm_init_vcpu(CPUState *cpu);
++int nvmm_vcpu_exec(CPUState *cpu);
++void nvmm_destroy_vcpu(CPUState *cpu);
++
++void nvmm_cpu_synchronize_state(CPUState *cpu);
++void nvmm_cpu_synchronize_post_reset(CPUState *cpu);
++void nvmm_cpu_synchronize_post_init(CPUState *cpu);
++void nvmm_cpu_synchronize_pre_loadvm(CPUState *cpu);
++
++#endif /* NVMM_CPUS_H */
+diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
+new file mode 100644
+index 0000000000..dfa690d65d
+--- /dev/null
++++ b/target/i386/nvmm/nvmm-all.c
+@@ -0,0 +1,1226 @@
++/*
++ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
++ *
++ * NetBSD Virtual Machine Monitor (NVMM) accelerator for QEMU.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/address-spaces.h"
++#include "exec/ioport.h"
++#include "qemu-common.h"
++#include "qemu/accel.h"
++#include "sysemu/nvmm.h"
++#include "sysemu/cpus.h"
++#include "sysemu/runstate.h"
++#include "qemu/main-loop.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "qemu/queue.h"
++#include "migration/blocker.h"
++#include "strings.h"
++
++#include "nvmm-accel-ops.h"
++
++#include <nvmm.h>
++
++struct qemu_vcpu {
++    struct nvmm_vcpu vcpu;
++    uint8_t tpr;
++    bool stop;
++
++    /* Window-exiting for INTs/NMIs. */
++    bool int_window_exit;
++    bool nmi_window_exit;
++
++    /* The guest is in an interrupt shadow (POP SS, etc). */
++    bool int_shadow;
++};
++
++struct qemu_machine {
++    struct nvmm_capability cap;
++    struct nvmm_machine mach;
++};
++
++/* -------------------------------------------------------------------------- */
++
++static bool nvmm_allowed;
++static struct qemu_machine qemu_mach;
++
++static struct qemu_vcpu *
++get_qemu_vcpu(CPUState *cpu)
++{
++    return (struct qemu_vcpu *)cpu->hax_vcpu;
++}
++
++static struct nvmm_machine *
++get_nvmm_mach(void)
++{
++    return &qemu_mach.mach;
++}
++
++/* -------------------------------------------------------------------------- */
++
++static void
++nvmm_set_segment(struct nvmm_x64_state_seg *nseg, const SegmentCache *qseg)
++{
++    uint32_t attrib = qseg->flags;
++
++    nseg->selector = qseg->selector;
++    nseg->limit = qseg->limit;
++    nseg->base = qseg->base;
++    nseg->attrib.type = __SHIFTOUT(attrib, DESC_TYPE_MASK);
++    nseg->attrib.s = __SHIFTOUT(attrib, DESC_S_MASK);
++    nseg->attrib.dpl = __SHIFTOUT(attrib, DESC_DPL_MASK);
++    nseg->attrib.p = __SHIFTOUT(attrib, DESC_P_MASK);
++    nseg->attrib.avl = __SHIFTOUT(attrib, DESC_AVL_MASK);
++    nseg->attrib.l = __SHIFTOUT(attrib, DESC_L_MASK);
++    nseg->attrib.def = __SHIFTOUT(attrib, DESC_B_MASK);
++    nseg->attrib.g = __SHIFTOUT(attrib, DESC_G_MASK);
++}
++
++static void
++nvmm_set_registers(CPUState *cpu)
++{
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    struct nvmm_machine *mach = get_nvmm_mach();
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    struct nvmm_x64_state *state = vcpu->state;
++    uint64_t bitmap;
++    size_t i;
++    int ret;
++
++    assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
++
++    /* GPRs. */
++    state->gprs[NVMM_X64_GPR_RAX] = env->regs[R_EAX];
++    state->gprs[NVMM_X64_GPR_RCX] = env->regs[R_ECX];
++    state->gprs[NVMM_X64_GPR_RDX] = env->regs[R_EDX];
++    state->gprs[NVMM_X64_GPR_RBX] = env->regs[R_EBX];
++    state->gprs[NVMM_X64_GPR_RSP] = env->regs[R_ESP];
++    state->gprs[NVMM_X64_GPR_RBP] = env->regs[R_EBP];
++    state->gprs[NVMM_X64_GPR_RSI] = env->regs[R_ESI];
++    state->gprs[NVMM_X64_GPR_RDI] = env->regs[R_EDI];
++#ifdef TARGET_X86_64
++    state->gprs[NVMM_X64_GPR_R8]  = env->regs[R_R8];
++    state->gprs[NVMM_X64_GPR_R9]  = env->regs[R_R9];
++    state->gprs[NVMM_X64_GPR_R10] = env->regs[R_R10];
++    state->gprs[NVMM_X64_GPR_R11] = env->regs[R_R11];
++    state->gprs[NVMM_X64_GPR_R12] = env->regs[R_R12];
++    state->gprs[NVMM_X64_GPR_R13] = env->regs[R_R13];
++    state->gprs[NVMM_X64_GPR_R14] = env->regs[R_R14];
++    state->gprs[NVMM_X64_GPR_R15] = env->regs[R_R15];
++#endif
++
++    /* RIP and RFLAGS. */
++    state->gprs[NVMM_X64_GPR_RIP] = env->eip;
++    state->gprs[NVMM_X64_GPR_RFLAGS] = env->eflags;
++
++    /* Segments. */
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_CS], &env->segs[R_CS]);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_DS], &env->segs[R_DS]);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_ES], &env->segs[R_ES]);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_FS], &env->segs[R_FS]);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_GS], &env->segs[R_GS]);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_SS], &env->segs[R_SS]);
++
++    /* Special segments. */
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_GDT], &env->gdt);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_LDT], &env->ldt);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_TR], &env->tr);
++    nvmm_set_segment(&state->segs[NVMM_X64_SEG_IDT], &env->idt);
++
++    /* Control registers. */
++    state->crs[NVMM_X64_CR_CR0] = env->cr[0];
++    state->crs[NVMM_X64_CR_CR2] = env->cr[2];
++    state->crs[NVMM_X64_CR_CR3] = env->cr[3];
++    state->crs[NVMM_X64_CR_CR4] = env->cr[4];
++    state->crs[NVMM_X64_CR_CR8] = qcpu->tpr;
++    state->crs[NVMM_X64_CR_XCR0] = env->xcr0;
++
++    /* Debug registers. */
++    state->drs[NVMM_X64_DR_DR0] = env->dr[0];
++    state->drs[NVMM_X64_DR_DR1] = env->dr[1];
++    state->drs[NVMM_X64_DR_DR2] = env->dr[2];
++    state->drs[NVMM_X64_DR_DR3] = env->dr[3];
++    state->drs[NVMM_X64_DR_DR6] = env->dr[6];
++    state->drs[NVMM_X64_DR_DR7] = env->dr[7];
++
++    /* FPU. */
++    state->fpu.fx_cw = env->fpuc;
++    state->fpu.fx_sw = (env->fpus & ~0x3800) | ((env->fpstt & 0x7) << 11);
++    state->fpu.fx_tw = 0;
++    for (i = 0; i < 8; i++) {
++        state->fpu.fx_tw |= (!env->fptags[i]) << i;
++    }
++    state->fpu.fx_opcode = env->fpop;
++    state->fpu.fx_ip.fa_64 = env->fpip;
++    state->fpu.fx_dp.fa_64 = env->fpdp;
++    state->fpu.fx_mxcsr = env->mxcsr;
++    state->fpu.fx_mxcsr_mask = 0x0000FFFF;
++    assert(sizeof(state->fpu.fx_87_ac) == sizeof(env->fpregs));
++    memcpy(state->fpu.fx_87_ac, env->fpregs, sizeof(env->fpregs));
++    for (i = 0; i < CPU_NB_REGS; i++) {
++        memcpy(&state->fpu.fx_xmm[i].xmm_bytes[0],
++            &env->xmm_regs[i].ZMM_Q(0), 8);
++        memcpy(&state->fpu.fx_xmm[i].xmm_bytes[8],
++            &env->xmm_regs[i].ZMM_Q(1), 8);
++    }
++
++    /* MSRs. */
++    state->msrs[NVMM_X64_MSR_EFER] = env->efer;
++    state->msrs[NVMM_X64_MSR_STAR] = env->star;
++#ifdef TARGET_X86_64
++    state->msrs[NVMM_X64_MSR_LSTAR] = env->lstar;
++    state->msrs[NVMM_X64_MSR_CSTAR] = env->cstar;
++    state->msrs[NVMM_X64_MSR_SFMASK] = env->fmask;
++    state->msrs[NVMM_X64_MSR_KERNELGSBASE] = env->kernelgsbase;
++#endif
++    state->msrs[NVMM_X64_MSR_SYSENTER_CS]  = env->sysenter_cs;
++    state->msrs[NVMM_X64_MSR_SYSENTER_ESP] = env->sysenter_esp;
++    state->msrs[NVMM_X64_MSR_SYSENTER_EIP] = env->sysenter_eip;
++    state->msrs[NVMM_X64_MSR_PAT] = env->pat;
++    state->msrs[NVMM_X64_MSR_TSC] = env->tsc;
++
++    bitmap =
++        NVMM_X64_STATE_SEGS |
++        NVMM_X64_STATE_GPRS |
++        NVMM_X64_STATE_CRS  |
++        NVMM_X64_STATE_DRS  |
++        NVMM_X64_STATE_MSRS |
++        NVMM_X64_STATE_FPU;
++
++    ret = nvmm_vcpu_setstate(mach, vcpu, bitmap);
++    if (ret == -1) {
++        error_report("NVMM: Failed to set virtual processor context,"
++            " error=%d", errno);
++    }
++}
++
++static void
++nvmm_get_segment(SegmentCache *qseg, const struct nvmm_x64_state_seg *nseg)
++{
++    qseg->selector = nseg->selector;
++    qseg->limit = nseg->limit;
++    qseg->base = nseg->base;
++
++    qseg->flags =
++        __SHIFTIN((uint32_t)nseg->attrib.type, DESC_TYPE_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.s, DESC_S_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.dpl, DESC_DPL_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.p, DESC_P_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.avl, DESC_AVL_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.l, DESC_L_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.def, DESC_B_MASK) |
++        __SHIFTIN((uint32_t)nseg->attrib.g, DESC_G_MASK);
++}
++
++static void
++nvmm_get_registers(CPUState *cpu)
++{
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    struct nvmm_machine *mach = get_nvmm_mach();
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    struct nvmm_x64_state *state = vcpu->state;
++    uint64_t bitmap, tpr;
++    size_t i;
++    int ret;
++
++    assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
++
++    bitmap =
++        NVMM_X64_STATE_SEGS |
++        NVMM_X64_STATE_GPRS |
++        NVMM_X64_STATE_CRS  |
++        NVMM_X64_STATE_DRS  |
++        NVMM_X64_STATE_MSRS |
++        NVMM_X64_STATE_FPU;
++
++    ret = nvmm_vcpu_getstate(mach, vcpu, bitmap);
++    if (ret == -1) {
++        error_report("NVMM: Failed to get virtual processor context,"
++            " error=%d", errno);
++    }
++
++    /* GPRs. */
++    env->regs[R_EAX] = state->gprs[NVMM_X64_GPR_RAX];
++    env->regs[R_ECX] = state->gprs[NVMM_X64_GPR_RCX];
++    env->regs[R_EDX] = state->gprs[NVMM_X64_GPR_RDX];
++    env->regs[R_EBX] = state->gprs[NVMM_X64_GPR_RBX];
++    env->regs[R_ESP] = state->gprs[NVMM_X64_GPR_RSP];
++    env->regs[R_EBP] = state->gprs[NVMM_X64_GPR_RBP];
++    env->regs[R_ESI] = state->gprs[NVMM_X64_GPR_RSI];
++    env->regs[R_EDI] = state->gprs[NVMM_X64_GPR_RDI];
++#ifdef TARGET_X86_64
++    env->regs[R_R8]  = state->gprs[NVMM_X64_GPR_R8];
++    env->regs[R_R9]  = state->gprs[NVMM_X64_GPR_R9];
++    env->regs[R_R10] = state->gprs[NVMM_X64_GPR_R10];
++    env->regs[R_R11] = state->gprs[NVMM_X64_GPR_R11];
++    env->regs[R_R12] = state->gprs[NVMM_X64_GPR_R12];
++    env->regs[R_R13] = state->gprs[NVMM_X64_GPR_R13];
++    env->regs[R_R14] = state->gprs[NVMM_X64_GPR_R14];
++    env->regs[R_R15] = state->gprs[NVMM_X64_GPR_R15];
++#endif
++
++    /* RIP and RFLAGS. */
++    env->eip = state->gprs[NVMM_X64_GPR_RIP];
++    env->eflags = state->gprs[NVMM_X64_GPR_RFLAGS];
++
++    /* Segments. */
++    nvmm_get_segment(&env->segs[R_ES], &state->segs[NVMM_X64_SEG_ES]);
++    nvmm_get_segment(&env->segs[R_CS], &state->segs[NVMM_X64_SEG_CS]);
++    nvmm_get_segment(&env->segs[R_SS], &state->segs[NVMM_X64_SEG_SS]);
++    nvmm_get_segment(&env->segs[R_DS], &state->segs[NVMM_X64_SEG_DS]);
++    nvmm_get_segment(&env->segs[R_FS], &state->segs[NVMM_X64_SEG_FS]);
++    nvmm_get_segment(&env->segs[R_GS], &state->segs[NVMM_X64_SEG_GS]);
++
++    /* Special segments. */
++    nvmm_get_segment(&env->gdt, &state->segs[NVMM_X64_SEG_GDT]);
++    nvmm_get_segment(&env->ldt, &state->segs[NVMM_X64_SEG_LDT]);
++    nvmm_get_segment(&env->tr, &state->segs[NVMM_X64_SEG_TR]);
++    nvmm_get_segment(&env->idt, &state->segs[NVMM_X64_SEG_IDT]);
++
++    /* Control registers. */
++    env->cr[0] = state->crs[NVMM_X64_CR_CR0];
++    env->cr[2] = state->crs[NVMM_X64_CR_CR2];
++    env->cr[3] = state->crs[NVMM_X64_CR_CR3];
++    env->cr[4] = state->crs[NVMM_X64_CR_CR4];
++    tpr = state->crs[NVMM_X64_CR_CR8];
++    if (tpr != qcpu->tpr) {
++        qcpu->tpr = tpr;
++        cpu_set_apic_tpr(x86_cpu->apic_state, tpr);
++    }
++    env->xcr0 = state->crs[NVMM_X64_CR_XCR0];
++
++    /* Debug registers. */
++    env->dr[0] = state->drs[NVMM_X64_DR_DR0];
++    env->dr[1] = state->drs[NVMM_X64_DR_DR1];
++    env->dr[2] = state->drs[NVMM_X64_DR_DR2];
++    env->dr[3] = state->drs[NVMM_X64_DR_DR3];
++    env->dr[6] = state->drs[NVMM_X64_DR_DR6];
++    env->dr[7] = state->drs[NVMM_X64_DR_DR7];
++
++    /* FPU. */
++    env->fpuc = state->fpu.fx_cw;
++    env->fpstt = (state->fpu.fx_sw >> 11) & 0x7;
++    env->fpus = state->fpu.fx_sw & ~0x3800;
++    for (i = 0; i < 8; i++) {
++        env->fptags[i] = !((state->fpu.fx_tw >> i) & 1);
++    }
++    env->fpop = state->fpu.fx_opcode;
++    env->fpip = state->fpu.fx_ip.fa_64;
++    env->fpdp = state->fpu.fx_dp.fa_64;
++    env->mxcsr = state->fpu.fx_mxcsr;
++    assert(sizeof(state->fpu.fx_87_ac) == sizeof(env->fpregs));
++    memcpy(env->fpregs, state->fpu.fx_87_ac, sizeof(env->fpregs));
++    for (i = 0; i < CPU_NB_REGS; i++) {
++        memcpy(&env->xmm_regs[i].ZMM_Q(0),
++            &state->fpu.fx_xmm[i].xmm_bytes[0], 8);
++        memcpy(&env->xmm_regs[i].ZMM_Q(1),
++            &state->fpu.fx_xmm[i].xmm_bytes[8], 8);
++    }
++
++    /* MSRs. */
++    env->efer = state->msrs[NVMM_X64_MSR_EFER];
++    env->star = state->msrs[NVMM_X64_MSR_STAR];
++#ifdef TARGET_X86_64
++    env->lstar = state->msrs[NVMM_X64_MSR_LSTAR];
++    env->cstar = state->msrs[NVMM_X64_MSR_CSTAR];
++    env->fmask = state->msrs[NVMM_X64_MSR_SFMASK];
++    env->kernelgsbase = state->msrs[NVMM_X64_MSR_KERNELGSBASE];
++#endif
++    env->sysenter_cs  = state->msrs[NVMM_X64_MSR_SYSENTER_CS];
++    env->sysenter_esp = state->msrs[NVMM_X64_MSR_SYSENTER_ESP];
++    env->sysenter_eip = state->msrs[NVMM_X64_MSR_SYSENTER_EIP];
++    env->pat = state->msrs[NVMM_X64_MSR_PAT];
++    env->tsc = state->msrs[NVMM_X64_MSR_TSC];
++
++    x86_update_hflags(env);
++}
++
++static bool
++nvmm_can_take_int(CPUState *cpu)
++{
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    struct nvmm_machine *mach = get_nvmm_mach();
++
++    if (qcpu->int_window_exit) {
++        return false;
++    }
++
++    if (qcpu->int_shadow || !(env->eflags & IF_MASK)) {
++        struct nvmm_x64_state *state = vcpu->state;
++
++        /* Exit on interrupt window. */
++        nvmm_vcpu_getstate(mach, vcpu, NVMM_X64_STATE_INTR);
++        state->intr.int_window_exiting = 1;
++        nvmm_vcpu_setstate(mach, vcpu, NVMM_X64_STATE_INTR);
++
++        return false;
++    }
++
++    return true;
++}
++
++static bool
++nvmm_can_take_nmi(CPUState *cpu)
++{
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++
++    /*
++     * Contrary to INTs, NMIs always schedule an exit when they are
++     * completed. Therefore, if window-exiting is enabled, it means
++     * NMIs are blocked.
++     */
++    if (qcpu->nmi_window_exit) {
++        return false;
++    }
++
++    return true;
++}
++
++/*
++ * Called before the VCPU is run. We inject events generated by the I/O
++ * thread, and synchronize the guest TPR.
++ */
++static void
++nvmm_vcpu_pre_run(CPUState *cpu)
++{
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    struct nvmm_machine *mach = get_nvmm_mach();
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    struct nvmm_x64_state *state = vcpu->state;
++    struct nvmm_vcpu_event *event = vcpu->event;
++    bool has_event = false;
++    bool sync_tpr = false;
++    uint8_t tpr;
++    int ret;
++
++    qemu_mutex_lock_iothread();
++
++    tpr = cpu_get_apic_tpr(x86_cpu->apic_state);
++    if (tpr != qcpu->tpr) {
++        qcpu->tpr = tpr;
++        sync_tpr = true;
++    }
++
++    /*
++     * Force the VCPU out of its inner loop to process any INIT requests
++     * or commit pending TPR access.
++     */
++    if (cpu->interrupt_request & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR)) {
++        cpu->exit_request = 1;
++    }
++
++    if (!has_event && (cpu->interrupt_request & CPU_INTERRUPT_NMI)) {
++        if (nvmm_can_take_nmi(cpu)) {
++            cpu->interrupt_request &= ~CPU_INTERRUPT_NMI;
++            event->type = NVMM_VCPU_EVENT_INTR;
++            event->vector = 2;
++            has_event = true;
++        }
++    }
++
++    if (!has_event && (cpu->interrupt_request & CPU_INTERRUPT_HARD)) {
++        if (nvmm_can_take_int(cpu)) {
++            cpu->interrupt_request &= ~CPU_INTERRUPT_HARD;
++            event->type = NVMM_VCPU_EVENT_INTR;
++            event->vector = cpu_get_pic_interrupt(env);
++            has_event = true;
++        }
++    }
++
++    /* Don't want SMIs. */
++    if (cpu->interrupt_request & CPU_INTERRUPT_SMI) {
++        cpu->interrupt_request &= ~CPU_INTERRUPT_SMI;
++    }
++
++    if (sync_tpr) {
++        ret = nvmm_vcpu_getstate(mach, vcpu, NVMM_X64_STATE_CRS);
++        if (ret == -1) {
++            error_report("NVMM: Failed to get CPU state,"
++                " error=%d", errno);
++        }
++
++        state->crs[NVMM_X64_CR_CR8] = qcpu->tpr;
++
++        ret = nvmm_vcpu_setstate(mach, vcpu, NVMM_X64_STATE_CRS);
++        if (ret == -1) {
++            error_report("NVMM: Failed to set CPU state,"
++                " error=%d", errno);
++        }
++    }
++
++    if (has_event) {
++        ret = nvmm_vcpu_inject(mach, vcpu);
++        if (ret == -1) {
++            error_report("NVMM: Failed to inject event,"
++                " error=%d", errno);
++        }
++    }
++
++    qemu_mutex_unlock_iothread();
++}
++
++/*
++ * Called after the VCPU ran. We synchronize the host view of the TPR and
++ * RFLAGS.
++ */
++static void
++nvmm_vcpu_post_run(CPUState *cpu, struct nvmm_vcpu_exit *exit)
++{
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    uint64_t tpr;
++
++    env->eflags = exit->exitstate.rflags;
++    qcpu->int_shadow = exit->exitstate.int_shadow;
++    qcpu->int_window_exit = exit->exitstate.int_window_exiting;
++    qcpu->nmi_window_exit = exit->exitstate.nmi_window_exiting;
++
++    tpr = exit->exitstate.cr8;
++    if (qcpu->tpr != tpr) {
++        qcpu->tpr = tpr;
++        qemu_mutex_lock_iothread();
++        cpu_set_apic_tpr(x86_cpu->apic_state, qcpu->tpr);
++        qemu_mutex_unlock_iothread();
++    }
++}
++
++/* -------------------------------------------------------------------------- */
++
++static void
++nvmm_io_callback(struct nvmm_io *io)
++{
++    MemTxAttrs attrs = { 0 };
++    int ret;
++
++    ret = address_space_rw(&address_space_io, io->port, attrs, io->data,
++        io->size, !io->in);
++    if (ret != MEMTX_OK) {
++        error_report("NVMM: I/O Transaction Failed "
++            "[%s, port=%u, size=%zu]", (io->in ? "in" : "out"),
++            io->port, io->size);
++    }
++
++    /* Needed, otherwise infinite loop. */
++    current_cpu->vcpu_dirty = false;
++}
++
++static void
++nvmm_mem_callback(struct nvmm_mem *mem)
++{
++    cpu_physical_memory_rw(mem->gpa, mem->data, mem->size, mem->write);
++
++    /* Needed, otherwise infinite loop. */
++    current_cpu->vcpu_dirty = false;
++}
++
++static struct nvmm_assist_callbacks nvmm_callbacks = {
++    .io = nvmm_io_callback,
++    .mem = nvmm_mem_callback
++};
++
++/* -------------------------------------------------------------------------- */
++
++static int
++nvmm_handle_mem(struct nvmm_machine *mach, struct nvmm_vcpu *vcpu)
++{
++    int ret;
++
++    ret = nvmm_assist_mem(mach, vcpu);
++    if (ret == -1) {
++        error_report("NVMM: Mem Assist Failed [gpa=%p]",
++            (void *)vcpu->exit->u.mem.gpa);
++    }
++
++    return ret;
++}
++
++static int
++nvmm_handle_io(struct nvmm_machine *mach, struct nvmm_vcpu *vcpu)
++{
++    int ret;
++
++    ret = nvmm_assist_io(mach, vcpu);
++    if (ret == -1) {
++        error_report("NVMM: I/O Assist Failed [port=%d]",
++            (int)vcpu->exit->u.io.port);
++    }
++
++    return ret;
++}
++
++static int
++nvmm_handle_rdmsr(struct nvmm_machine *mach, CPUState *cpu,
++    struct nvmm_vcpu_exit *exit)
++{
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    struct nvmm_x64_state *state = vcpu->state;
++    uint64_t val;
++    int ret;
++
++    switch (exit->u.rdmsr.msr) {
++    case MSR_IA32_APICBASE:
++        val = cpu_get_apic_base(x86_cpu->apic_state);
++        break;
++    case MSR_MTRRcap:
++    case MSR_MTRRdefType:
++    case MSR_MCG_CAP:
++    case MSR_MCG_STATUS:
++        val = 0;
++        break;
++    default: /* More MSRs to add? */
++        val = 0;
++        error_report("NVMM: Unexpected RDMSR 0x%x, ignored",
++            exit->u.rdmsr.msr);
++        break;
++    }
++
++    ret = nvmm_vcpu_getstate(mach, vcpu, NVMM_X64_STATE_GPRS);
++    if (ret == -1) {
++        return -1;
++    }
++
++    state->gprs[NVMM_X64_GPR_RAX] = (val & 0xFFFFFFFF);
++    state->gprs[NVMM_X64_GPR_RDX] = (val >> 32);
++    state->gprs[NVMM_X64_GPR_RIP] = exit->u.rdmsr.npc;
++
++    ret = nvmm_vcpu_setstate(mach, vcpu, NVMM_X64_STATE_GPRS);
++    if (ret == -1) {
++        return -1;
++    }
++
++    return 0;
++}
++
++static int
++nvmm_handle_wrmsr(struct nvmm_machine *mach, CPUState *cpu,
++    struct nvmm_vcpu_exit *exit)
++{
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    struct nvmm_x64_state *state = vcpu->state;
++    uint64_t val;
++    int ret;
++
++    val = exit->u.wrmsr.val;
++
++    switch (exit->u.wrmsr.msr) {
++    case MSR_IA32_APICBASE:
++        cpu_set_apic_base(x86_cpu->apic_state, val);
++        break;
++    case MSR_MTRRdefType:
++    case MSR_MCG_STATUS:
++        break;
++    default: /* More MSRs to add? */
++        error_report("NVMM: Unexpected WRMSR 0x%x [val=0x%lx], ignored",
++            exit->u.wrmsr.msr, val);
++        break;
++    }
++
++    ret = nvmm_vcpu_getstate(mach, vcpu, NVMM_X64_STATE_GPRS);
++    if (ret == -1) {
++        return -1;
++    }
++
++    state->gprs[NVMM_X64_GPR_RIP] = exit->u.wrmsr.npc;
++
++    ret = nvmm_vcpu_setstate(mach, vcpu, NVMM_X64_STATE_GPRS);
++    if (ret == -1) {
++        return -1;
++    }
++
++    return 0;
++}
++
++static int
++nvmm_handle_halted(struct nvmm_machine *mach, CPUState *cpu,
++    struct nvmm_vcpu_exit *exit)
++{
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    int ret = 0;
++
++    qemu_mutex_lock_iothread();
++
++    if (!((cpu->interrupt_request & CPU_INTERRUPT_HARD) &&
++          (env->eflags & IF_MASK)) &&
++        !(cpu->interrupt_request & CPU_INTERRUPT_NMI)) {
++        cpu->exception_index = EXCP_HLT;
++        cpu->halted = true;
++        ret = 1;
++    }
++
++    qemu_mutex_unlock_iothread();
++
++    return ret;
++}
++
++static int
++nvmm_inject_ud(struct nvmm_machine *mach, struct nvmm_vcpu *vcpu)
++{
++    struct nvmm_vcpu_event *event = vcpu->event;
++
++    event->type = NVMM_VCPU_EVENT_EXCP;
++    event->vector = 6;
++    event->u.excp.error = 0;
++
++    return nvmm_vcpu_inject(mach, vcpu);
++}
++
++static int
++nvmm_vcpu_loop(CPUState *cpu)
++{
++    struct CPUX86State *env = (CPUArchState *)cpu->env_ptr;
++    struct nvmm_machine *mach = get_nvmm_mach();
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++    struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    struct nvmm_vcpu_exit *exit = vcpu->exit;
++    int ret;
++
++    /*
++     * Some asynchronous events must be handled outside of the inner
++     * VCPU loop. They are handled here.
++     */
++    if (cpu->interrupt_request & CPU_INTERRUPT_INIT) {
++        nvmm_cpu_synchronize_state(cpu);
++        do_cpu_init(x86_cpu);
++        /* set int/nmi windows back to the reset state */
++    }
++    if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
++        cpu->interrupt_request &= ~CPU_INTERRUPT_POLL;
++        apic_poll_irq(x86_cpu->apic_state);
++    }
++    if (((cpu->interrupt_request & CPU_INTERRUPT_HARD) &&
++         (env->eflags & IF_MASK)) ||
++        (cpu->interrupt_request & CPU_INTERRUPT_NMI)) {
++        cpu->halted = false;
++    }
++    if (cpu->interrupt_request & CPU_INTERRUPT_SIPI) {
++        nvmm_cpu_synchronize_state(cpu);
++        do_cpu_sipi(x86_cpu);
++    }
++    if (cpu->interrupt_request & CPU_INTERRUPT_TPR) {
++        cpu->interrupt_request &= ~CPU_INTERRUPT_TPR;
++        nvmm_cpu_synchronize_state(cpu);
++        apic_handle_tpr_access_report(x86_cpu->apic_state, env->eip,
++            env->tpr_access_type);
++    }
++
++    if (cpu->halted) {
++        cpu->exception_index = EXCP_HLT;
++        qatomic_set(&cpu->exit_request, false);
++        return 0;
++    }
++
++    qemu_mutex_unlock_iothread();
++    cpu_exec_start(cpu);
++
++    /*
++     * Inner VCPU loop.
++     */
++    do {
++        if (cpu->vcpu_dirty) {
++            nvmm_set_registers(cpu);
++            cpu->vcpu_dirty = false;
++        }
++
++        if (qcpu->stop) {
++            cpu->exception_index = EXCP_INTERRUPT;
++            qcpu->stop = false;
++            ret = 1;
++            break;
++        }
++
++        nvmm_vcpu_pre_run(cpu);
++
++        if (qatomic_read(&cpu->exit_request)) {
++            nvmm_vcpu_stop(vcpu);
++        }
++
++        /* Read exit_request before the kernel reads the immediate exit flag */
++        smp_rmb();
++        ret = nvmm_vcpu_run(mach, vcpu);
++        if (ret == -1) {
++            error_report("NVMM: Failed to exec a virtual processor,"
++                " error=%d", errno);
++            break;
++        }
++
++        nvmm_vcpu_post_run(cpu, exit);
++
++        switch (exit->reason) {
++        case NVMM_VCPU_EXIT_NONE:
++            break;
++        case NVMM_VCPU_EXIT_STOPPED:
++            /*
++             * The kernel cleared the immediate exit flag; cpu->exit_request
++             * must be cleared after
++             */
++            smp_wmb();
++            qcpu->stop = true;
++            break;
++        case NVMM_VCPU_EXIT_MEMORY:
++            ret = nvmm_handle_mem(mach, vcpu);
++            break;
++        case NVMM_VCPU_EXIT_IO:
++            ret = nvmm_handle_io(mach, vcpu);
++            break;
++        case NVMM_VCPU_EXIT_INT_READY:
++        case NVMM_VCPU_EXIT_NMI_READY:
++        case NVMM_VCPU_EXIT_TPR_CHANGED:
++            break;
++        case NVMM_VCPU_EXIT_HALTED:
++            ret = nvmm_handle_halted(mach, cpu, exit);
++            break;
++        case NVMM_VCPU_EXIT_SHUTDOWN:
++            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++            cpu->exception_index = EXCP_INTERRUPT;
++            ret = 1;
++            break;
++        case NVMM_VCPU_EXIT_RDMSR:
++            ret = nvmm_handle_rdmsr(mach, cpu, exit);
++            break;
++        case NVMM_VCPU_EXIT_WRMSR:
++            ret = nvmm_handle_wrmsr(mach, cpu, exit);
++            break;
++        case NVMM_VCPU_EXIT_MONITOR:
++        case NVMM_VCPU_EXIT_MWAIT:
++            ret = nvmm_inject_ud(mach, vcpu);
++            break;
++        default:
++            error_report("NVMM: Unexpected VM exit code 0x%lx [hw=0x%lx]",
++                exit->reason, exit->u.inv.hwcode);
++            nvmm_get_registers(cpu);
++            qemu_mutex_lock_iothread();
++            qemu_system_guest_panicked(cpu_get_crash_info(cpu));
++            qemu_mutex_unlock_iothread();
++            ret = -1;
++            break;
++        }
++    } while (ret == 0);
++
++    cpu_exec_end(cpu);
++    qemu_mutex_lock_iothread();
++
++    qatomic_set(&cpu->exit_request, false);
++
++    return ret < 0;
++}
++
++/* -------------------------------------------------------------------------- */
++
++static void
++do_nvmm_cpu_synchronize_state(CPUState *cpu, run_on_cpu_data arg)
++{
++    nvmm_get_registers(cpu);
++    cpu->vcpu_dirty = true;
++}
++
++static void
++do_nvmm_cpu_synchronize_post_reset(CPUState *cpu, run_on_cpu_data arg)
++{
++    nvmm_set_registers(cpu);
++    cpu->vcpu_dirty = false;
++}
++
++static void
++do_nvmm_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
++{
++    nvmm_set_registers(cpu);
++    cpu->vcpu_dirty = false;
++}
++
++static void
++do_nvmm_cpu_synchronize_pre_loadvm(CPUState *cpu, run_on_cpu_data arg)
++{
++    cpu->vcpu_dirty = true;
++}
++
++void nvmm_cpu_synchronize_state(CPUState *cpu)
++{
++    if (!cpu->vcpu_dirty) {
++        run_on_cpu(cpu, do_nvmm_cpu_synchronize_state, RUN_ON_CPU_NULL);
++    }
++}
++
++void nvmm_cpu_synchronize_post_reset(CPUState *cpu)
++{
++    run_on_cpu(cpu, do_nvmm_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
++}
++
++void nvmm_cpu_synchronize_post_init(CPUState *cpu)
++{
++    run_on_cpu(cpu, do_nvmm_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
++}
++
++void nvmm_cpu_synchronize_pre_loadvm(CPUState *cpu)
++{
++    run_on_cpu(cpu, do_nvmm_cpu_synchronize_pre_loadvm, RUN_ON_CPU_NULL);
++}
++
++/* -------------------------------------------------------------------------- */
++
++static Error *nvmm_migration_blocker;
++
++/*
++ * The nvmm_vcpu_stop() mechanism breaks races between entering the VMM
++ * and another thread signaling the vCPU thread to exit.
++ */
++
++static void
++nvmm_ipi_signal(int sigcpu)
++{
++    if (current_cpu) {
++        struct qemu_vcpu *qcpu = get_qemu_vcpu(current_cpu);
++        struct nvmm_vcpu *vcpu = &qcpu->vcpu;
++        nvmm_vcpu_stop(vcpu);
++    }
++}
++
++static void
++nvmm_init_cpu_signals(void)
++{
++    struct sigaction sigact;
++    sigset_t set;
++
++    /* Install the IPI handler. */
++    memset(&sigact, 0, sizeof(sigact));
++    sigact.sa_handler = nvmm_ipi_signal;
++    sigaction(SIG_IPI, &sigact, NULL);
++
++    /* Allow IPIs on the current thread. */
++    sigprocmask(SIG_BLOCK, NULL, &set);
++    sigdelset(&set, SIG_IPI);
++    pthread_sigmask(SIG_SETMASK, &set, NULL);
++}
++
++int
++nvmm_init_vcpu(CPUState *cpu)
++{
++    struct nvmm_machine *mach = get_nvmm_mach();
++    struct nvmm_vcpu_conf_cpuid cpuid;
++    struct nvmm_vcpu_conf_tpr tpr;
++    Error *local_error = NULL;
++    struct qemu_vcpu *qcpu;
++    int ret, err;
++
++    nvmm_init_cpu_signals();
++
++    if (nvmm_migration_blocker == NULL) {
++        error_setg(&nvmm_migration_blocker,
++            "NVMM: Migration not supported");
++
++        (void)migrate_add_blocker(nvmm_migration_blocker, &local_error);
++        if (local_error) {
++            error_report_err(local_error);
++            migrate_del_blocker(nvmm_migration_blocker);
++            error_free(nvmm_migration_blocker);
++            return -EINVAL;
++        }
++    }
++
++    qcpu = g_malloc0(sizeof(*qcpu));
++    if (qcpu == NULL) {
++        error_report("NVMM: Failed to allocate VCPU context.");
++        return -ENOMEM;
++    }
++
++    ret = nvmm_vcpu_create(mach, cpu->cpu_index, &qcpu->vcpu);
++    if (ret == -1) {
++        err = errno;
++        error_report("NVMM: Failed to create a virtual processor,"
++            " error=%d", err);
++        g_free(qcpu);
++        return -err;
++    }
++
++    memset(&cpuid, 0, sizeof(cpuid));
++    cpuid.mask = 1;
++    cpuid.leaf = 0x00000001;
++    cpuid.u.mask.set.edx = CPUID_MCE | CPUID_MCA | CPUID_MTRR;
++    ret = nvmm_vcpu_configure(mach, &qcpu->vcpu, NVMM_VCPU_CONF_CPUID,
++        &cpuid);
++    if (ret == -1) {
++        err = errno;
++        error_report("NVMM: Failed to configure a virtual processor,"
++            " error=%d", err);
++        g_free(qcpu);
++        return -err;
++    }
++
++    ret = nvmm_vcpu_configure(mach, &qcpu->vcpu, NVMM_VCPU_CONF_CALLBACKS,
++        &nvmm_callbacks);
++    if (ret == -1) {
++        err = errno;
++        error_report("NVMM: Failed to configure a virtual processor,"
++            " error=%d", err);
++        g_free(qcpu);
++        return -err;
++    }
++
++    if (qemu_mach.cap.arch.vcpu_conf_support & NVMM_CAP_ARCH_VCPU_CONF_TPR) {
++        memset(&tpr, 0, sizeof(tpr));
++        tpr.exit_changed = 1;
++        ret = nvmm_vcpu_configure(mach, &qcpu->vcpu, NVMM_VCPU_CONF_TPR, &tpr);
++        if (ret == -1) {
++            err = errno;
++            error_report("NVMM: Failed to configure a virtual processor,"
++                " error=%d", err);
++            g_free(qcpu);
++            return -err;
++        }
++    }
++
++    cpu->vcpu_dirty = true;
++    cpu->hax_vcpu = (struct hax_vcpu_state *)qcpu;
++
++    return 0;
++}
++
++int
++nvmm_vcpu_exec(CPUState *cpu)
++{
++    int ret, fatal;
++
++    while (1) {
++        if (cpu->exception_index >= EXCP_INTERRUPT) {
++            ret = cpu->exception_index;
++            cpu->exception_index = -1;
++            break;
++        }
++
++        fatal = nvmm_vcpu_loop(cpu);
++
++        if (fatal) {
++            error_report("NVMM: Failed to execute a VCPU.");
++            abort();
++        }
++    }
++
++    return ret;
++}
++
++void
++nvmm_destroy_vcpu(CPUState *cpu)
++{
++    struct nvmm_machine *mach = get_nvmm_mach();
++    struct qemu_vcpu *qcpu = get_qemu_vcpu(cpu);
++
++    nvmm_vcpu_destroy(mach, &qcpu->vcpu);
++    g_free(cpu->hax_vcpu);
++}
++
++/* -------------------------------------------------------------------------- */
++
++static void
++nvmm_update_mapping(hwaddr start_pa, ram_addr_t size, uintptr_t hva,
++    bool add, bool rom, const char *name)
++{
++    struct nvmm_machine *mach = get_nvmm_mach();
++    int ret, prot;
++
++    if (add) {
++        prot = PROT_READ | PROT_EXEC;
++        if (!rom) {
++            prot |= PROT_WRITE;
++        }
++        ret = nvmm_gpa_map(mach, hva, start_pa, size, prot);
++    } else {
++        ret = nvmm_gpa_unmap(mach, hva, start_pa, size);
++    }
++
++    if (ret == -1) {
++        error_report("NVMM: Failed to %s GPA range '%s' PA:%p, "
++            "Size:%p bytes, HostVA:%p, error=%d",
++            (add ? "map" : "unmap"), name, (void *)(uintptr_t)start_pa,
++            (void *)size, (void *)hva, errno);
++    }
++}
++
++static void
++nvmm_process_section(MemoryRegionSection *section, int add)
++{
++    MemoryRegion *mr = section->mr;
++    hwaddr start_pa = section->offset_within_address_space;
++    ram_addr_t size = int128_get64(section->size);
++    unsigned int delta;
++    uintptr_t hva;
++
++    if (!memory_region_is_ram(mr)) {
++        return;
++    }
++
++    /* Adjust start_pa and size so that they are page-aligned. */
++    delta = qemu_real_host_page_size - (start_pa & ~qemu_real_host_page_mask);
++    delta &= ~qemu_real_host_page_mask;
++    if (delta > size) {
++        return;
++    }
++    start_pa += delta;
++    size -= delta;
++    size &= qemu_real_host_page_mask;
++    if (!size || (start_pa & ~qemu_real_host_page_mask)) {
++        return;
++    }
++
++    hva = (uintptr_t)memory_region_get_ram_ptr(mr) +
++        section->offset_within_region + delta;
++
++    nvmm_update_mapping(start_pa, size, hva, add,
++        memory_region_is_rom(mr), mr->name);
++}
++
++static void
++nvmm_region_add(MemoryListener *listener, MemoryRegionSection *section)
++{
++    memory_region_ref(section->mr);
++    nvmm_process_section(section, 1);
++}
++
++static void
++nvmm_region_del(MemoryListener *listener, MemoryRegionSection *section)
++{
++    nvmm_process_section(section, 0);
++    memory_region_unref(section->mr);
++}
++
++static void
++nvmm_transaction_begin(MemoryListener *listener)
++{
++    /* nothing */
++}
++
++static void
++nvmm_transaction_commit(MemoryListener *listener)
++{
++    /* nothing */
++}
++
++static void
++nvmm_log_sync(MemoryListener *listener, MemoryRegionSection *section)
++{
++    MemoryRegion *mr = section->mr;
++
++    if (!memory_region_is_ram(mr)) {
++        return;
++    }
++
++    memory_region_set_dirty(mr, 0, int128_get64(section->size));
++}
++
++static MemoryListener nvmm_memory_listener = {
++    .begin = nvmm_transaction_begin,
++    .commit = nvmm_transaction_commit,
++    .region_add = nvmm_region_add,
++    .region_del = nvmm_region_del,
++    .log_sync = nvmm_log_sync,
++    .priority = 10,
++};
++
++static void
++nvmm_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
++{
++    struct nvmm_machine *mach = get_nvmm_mach();
++    uintptr_t hva = (uintptr_t)host;
++    int ret;
++
++    ret = nvmm_hva_map(mach, hva, size);
++
++    if (ret == -1) {
++        error_report("NVMM: Failed to map HVA, HostVA:%p "
++            "Size:%p bytes, error=%d",
++            (void *)hva, (void *)size, errno);
++    }
++}
++
++static struct RAMBlockNotifier nvmm_ram_notifier = {
++    .ram_block_added = nvmm_ram_block_added
++};
++
++/* -------------------------------------------------------------------------- */
++
++static int
++nvmm_accel_init(MachineState *ms)
++{
++    int ret, err;
++
++    ret = nvmm_init();
++    if (ret == -1) {
++        err = errno;
++        error_report("NVMM: Initialization failed, error=%d", errno);
++        return -err;
++    }
++
++    ret = nvmm_capability(&qemu_mach.cap);
++    if (ret == -1) {
++        err = errno;
++        error_report("NVMM: Unable to fetch capability, error=%d", errno);
++        return -err;
++    }
++    if (qemu_mach.cap.version < NVMM_KERN_VERSION) {
++        error_report("NVMM: Unsupported version %u", qemu_mach.cap.version);
++        return -EPROGMISMATCH;
++    }
++    if (qemu_mach.cap.state_size != sizeof(struct nvmm_x64_state)) {
++        error_report("NVMM: Wrong state size %u", qemu_mach.cap.state_size);
++        return -EPROGMISMATCH;
++    }
++
++    ret = nvmm_machine_create(&qemu_mach.mach);
++    if (ret == -1) {
++        err = errno;
++        error_report("NVMM: Machine creation failed, error=%d", errno);
++        return -err;
++    }
++
++    memory_listener_register(&nvmm_memory_listener, &address_space_memory);
++    ram_block_notifier_add(&nvmm_ram_notifier);
++
++    printf("NetBSD Virtual Machine Monitor accelerator is operational\n");
++    return 0;
++}
++
++int
++nvmm_enabled(void)
++{
++    return nvmm_allowed;
++}
++
++static void
++nvmm_accel_class_init(ObjectClass *oc, void *data)
++{
++    AccelClass *ac = ACCEL_CLASS(oc);
++    ac->name = "NVMM";
++    ac->init_machine = nvmm_accel_init;
++    ac->allowed = &nvmm_allowed;
++}
++
++static const TypeInfo nvmm_accel_type = {
++    .name = ACCEL_CLASS_NAME("nvmm"),
++    .parent = TYPE_ACCEL,
++    .class_init = nvmm_accel_class_init,
++};
++
++static void
++nvmm_type_init(void)
++{
++    type_register_static(&nvmm_accel_type);
++}
++
++type_init(nvmm_type_init);
 -- 
 2.31.1
 
