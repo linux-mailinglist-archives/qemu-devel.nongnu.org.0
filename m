@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6B3370890
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 20:57:19 +0200 (CEST)
-Received: from localhost ([::1]:57690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACA1370881
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 20:51:47 +0200 (CEST)
+Received: from localhost ([::1]:41352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcunm-0003oH-A0
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 14:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44386)
+	id 1lcuiQ-0005PV-I8
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 14:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuaY-0008Ea-Ni
+ id 1lcuaY-0008EG-3l
  for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:38 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:35493)
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuaT-0008V8-66
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:38 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id i13so1346828pfu.2
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:32 -0700 (PDT)
+ id 1lcuaT-0008Vw-RW
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:37 -0400
+Received: by mail-pf1-x433.google.com with SMTP id p4so1343094pfo.3
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2LxA893QCcSE5NR8FvdeWPmP4th9kBJwNhUIEaAJdaM=;
- b=iU4TjVXdD8+XQbDhc2xH4kXxlKjDNnb+k2ZQPEOozkkgApVkyRXNhsC3YLN/ghH3FC
- efwCjI/2iulyCktabJ9Db9anzOsab5jVA5kqWZorBQ1lVxBo8dxy7eK3VUz61p2RJRfW
- hRvMuuNqhCP0dW/6eczrQWolVb3N1WJ7DS08CRT0nEVnEDi8Ox6/v2nmZrcB9cn2a2R0
- aCotAz6bnXvgdxIe+QX9n8WS4WMjVMkfUaPvadRHlxLx9THHGtN6Kh+66y2v8Xz0F9dX
- 6yGy/bQwbK9XHgDO0Njx83vSF08dTi7/vziQaPhgM4VjxH0NIlH8wRlHyhkLsVA8W5z0
- 6KIQ==
+ bh=exZ7GiFA5pPXMXe8dVROehinsUtAPvg6uCK8aQ+whzU=;
+ b=gG83qsEYGnAyFBmh5QDmmoQ1WVJMFQIFVXP/eVGyVyzV3S1MEcka+bbsHvdWOUlF0A
+ R7kV1cXFVgUX1xDCqper9ZkMiogvpD77GDG777UVXiB2WTCEZPEgghOn5xOXxxeHT8D0
+ 8CPsSs7klw/y+8HI2okLJq07PGy6SnnggNIfbKpjEN2MCy9bF8EeyEHDlqeSLuj4K9t2
+ 7JGviEoctPtks/Tv3Q0X2JsqWPwgNtTVsxSFB2iRnZ7Yy9IOmRA20EJDpmVir/pNW0fG
+ tppIuCC4g9vgFeDETR4BFpHF9j/EQAXjZPGc6tRjH0OIEKRvKNwGAykWs6rDU58ft46W
+ tPYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2LxA893QCcSE5NR8FvdeWPmP4th9kBJwNhUIEaAJdaM=;
- b=GFN9/ttmvVHKDhrPwx8aVd4z7Q/Ou0q1Q9488vB2Y+PVtuTCZUDMDd/nuvLZkbUhaP
- Q8B6UzVJb2g7QmShssskBbYT3AY14WMTWraD38l7Wdp8D9m6dv3CBZevpCGiNfLRSHIr
- j+3CsAC0Vp0Odk+nO7vpKJs/p8VyGiJ6GBNQmjMuU8orhL4y6fxy68UgoV8mabM2wzjJ
- ABs7AmEJuPpUYrSf9EyMaKti7p9EBO3NLZZtlFqUDl/cpoVO1B1+95yFYO00xgx/dd47
- eEQdwiRpatsCwT27YN0BCSYqUoXLTIRsI/W46xXUBtT1HXNKZ21yHuk0QzFssqarIsKH
- +Exg==
-X-Gm-Message-State: AOAM532uVuE2A7gzj69eb234qGOOa7Q8r3uZWYFvVbLXSq0pnzCGEsZM
- co9Lj948LcfLbCCUQ+zpWvHq2GB8m4EMSQ==
-X-Google-Smtp-Source: ABdhPJwqcWydEi4HWoJbqHqHKV8X6V7LZ8itPy9pDpfwSJXlnJLS9hyuezIx/9r7mN7+6t5ITe2jAw==
-X-Received: by 2002:a65:4486:: with SMTP id l6mr10536924pgq.347.1619894611885; 
- Sat, 01 May 2021 11:43:31 -0700 (PDT)
+ bh=exZ7GiFA5pPXMXe8dVROehinsUtAPvg6uCK8aQ+whzU=;
+ b=AscqJggxAsggUd37Gi8cwci6k00YcpraGD49d2MITqYPdBW/U0cqW2KqhbXte8oUJO
+ iO1s+doMfomyE1mLAwPV90XWBDPddPqtrtnSJktApvX26BbUPKIKjcPY7kMkMFtn5B+O
+ 4CNJVCjB/tqyU6jecZ6MOMl8KXiCU58JgyuuRT/zENKF5dEzuVEszB14N+1JbkGogCEP
+ DI7RI9Q6RwKkodeR6EYZOdx9TONiNNhR0gbum9PtSZQdJlRS9M6QhBlluwwbQG5eh2S7
+ 2dxdB1P2Y3p+boFPiOOHhp0y+saURAp/K4LqakgH9uBb7KZ6m3EDbBiw9fbiWcd6aUqq
+ FtYA==
+X-Gm-Message-State: AOAM5331OjXVT1wJS1h5TDvqx4KzdyCTXmflPO8kxuKTJPHkieCPDn55
+ PO6ODoLJRCTCRbA0KjobLrLkALkrm1GXaQ==
+X-Google-Smtp-Source: ABdhPJwCGL0s7xQ5CypZ5mohOIYzPGURq6QtfstWzFm3j93X0LuwSIH81SKWVDy/4FNRL/jJu+JtSA==
+X-Received: by 2002:a05:6a00:2389:b029:28c:ede4:8a60 with SMTP id
+ f9-20020a056a002389b029028cede48a60mr8081606pfc.54.1619894612476; 
+ Sat, 01 May 2021 11:43:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.31
+ by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 11:43:31 -0700 (PDT)
+ Sat, 01 May 2021 11:43:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/31] Hexagon (target/hexagon) properly generate TB end for
- DISAS_NORETURN
-Date: Sat,  1 May 2021 11:43:03 -0700
-Message-Id: <20210501184324.1338186-11-richard.henderson@linaro.org>
+Subject: [PULL 11/31] Hexagon (target/hexagon) decide if pred has been written
+ at TCG gen time
+Date: Sat,  1 May 2021 11:43:04 -0700
+Message-Id: <20210501184324.1338186-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
 References: <20210501184324.1338186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,167 +90,178 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-When exiting a TB, generate all the code before returning from
-hexagon_tr_translate_packet so that nothing needs to be done in
-hexagon_tr_tb_stop.
+Multiple writes to the same preg are and'ed together.  Rather than
+generating a runtime check, we can determine at TCG generation time
+if the predicate has previously been written in the packet.
+
+Test added to tests/tcg/hexagon/misc.c
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-6-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-7-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/translate.h |  3 --
- target/hexagon/translate.c | 62 ++++++++++++++++++++------------------
- 2 files changed, 33 insertions(+), 32 deletions(-)
+ target/hexagon/translate.h      |  2 ++
+ target/hexagon/genptr.c         | 22 +++++++++++++++-------
+ target/hexagon/translate.c      |  9 +++++++--
+ tests/tcg/hexagon/misc.c        | 19 +++++++++++++++++++
+ target/hexagon/gen_tcg_funcs.py |  2 +-
+ 5 files changed, 44 insertions(+), 10 deletions(-)
 
 diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
-index 938f7fbb9f..12506c8caf 100644
+index 12506c8caf..0ecfbd7d52 100644
 --- a/target/hexagon/translate.h
 +++ b/target/hexagon/translate.h
-@@ -86,8 +86,5 @@ extern TCGv hex_llsc_addr;
- extern TCGv hex_llsc_val;
- extern TCGv_i64 hex_llsc_val_i64;
+@@ -34,6 +34,7 @@ typedef struct DisasContext {
+     DECLARE_BITMAP(regs_written, TOTAL_PER_THREAD_REGS);
+     int preg_log[PRED_WRITES_MAX];
+     int preg_log_idx;
++    DECLARE_BITMAP(pregs_written, NUM_PREGS);
+     uint8_t store_width[STORES_MAX];
+     uint8_t s1_store_processed;
+ } DisasContext;
+@@ -60,6 +61,7 @@ static inline void ctx_log_pred_write(DisasContext *ctx, int pnum)
+ {
+     ctx->preg_log[ctx->preg_log_idx] = pnum;
+     ctx->preg_log_idx++;
++    set_bit(pnum, ctx->pregs_written);
+ }
  
--void gen_exception(int excp);
--void gen_exception_debug(void);
--
- void process_store(DisasContext *ctx, Packet *pkt, int slot_num);
+ static inline bool is_preloaded(DisasContext *ctx, int num)
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index 07d970fc6c..6b74344795 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -119,20 +119,28 @@ static void gen_log_reg_write_pair(int rnum, TCGv_i64 val)
  #endif
+ }
+ 
+-static inline void gen_log_pred_write(int pnum, TCGv val)
++static inline void gen_log_pred_write(DisasContext *ctx, int pnum, TCGv val)
+ {
+     TCGv zero = tcg_const_tl(0);
+     TCGv base_val = tcg_temp_new();
+     TCGv and_val = tcg_temp_new();
+     TCGv pred_written = tcg_temp_new();
+ 
+-    /* Multiple writes to the same preg are and'ed together */
+     tcg_gen_andi_tl(base_val, val, 0xff);
+-    tcg_gen_and_tl(and_val, base_val, hex_new_pred_value[pnum]);
+-    tcg_gen_andi_tl(pred_written, hex_pred_written, 1 << pnum);
+-    tcg_gen_movcond_tl(TCG_COND_NE, hex_new_pred_value[pnum],
+-                       pred_written, zero,
+-                       and_val, base_val);
++
++    /*
++     * Section 6.1.3 of the Hexagon V67 Programmer's Reference Manual
++     *
++     * Multiple writes to the same preg are and'ed together
++     * If this is the first predicate write in the packet, do a
++     * straight assignment.  Otherwise, do an and.
++     */
++    if (!test_bit(pnum, ctx->pregs_written)) {
++        tcg_gen_mov_tl(hex_new_pred_value[pnum], base_val);
++    } else {
++        tcg_gen_and_tl(hex_new_pred_value[pnum],
++                       hex_new_pred_value[pnum], base_val);
++    }
+     tcg_gen_ori_tl(hex_pred_written, hex_pred_written, 1 << pnum);
+ 
+     tcg_temp_free(zero);
 diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index e235fdb315..9f2a531969 100644
+index 9f2a531969..49ec8b76ed 100644
 --- a/target/hexagon/translate.c
 +++ b/target/hexagon/translate.c
-@@ -54,16 +54,40 @@ static const char * const hexagon_prednames[] = {
-   "p0", "p1", "p2", "p3"
- };
- 
--void gen_exception(int excp)
-+static void gen_exception_raw(int excp)
- {
-     TCGv_i32 helper_tmp = tcg_const_i32(excp);
-     gen_helper_raise_exception(cpu_env, helper_tmp);
-     tcg_temp_free_i32(helper_tmp);
+@@ -172,6 +172,7 @@ static void gen_start_packet(DisasContext *ctx, Packet *pkt)
+     ctx->reg_log_idx = 0;
+     bitmap_zero(ctx->regs_written, TOTAL_PER_THREAD_REGS);
+     ctx->preg_log_idx = 0;
++    bitmap_zero(ctx->pregs_written, NUM_PREGS);
+     for (i = 0; i < STORES_MAX; i++) {
+         ctx->store_width[i] = 0;
+     }
+@@ -226,7 +227,7 @@ static void mark_implicit_pred_write(DisasContext *ctx, Insn *insn,
+     }
  }
  
--void gen_exception_debug(void)
-+static void gen_exec_counters(DisasContext *ctx)
+-static void mark_implicit_writes(DisasContext *ctx, Insn *insn)
++static void mark_implicit_reg_writes(DisasContext *ctx, Insn *insn)
  {
--    gen_exception(EXCP_DEBUG);
-+    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
-+                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
-+    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
-+                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_FP,  HEX_REG_FP);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SP,  HEX_REG_SP);
+@@ -235,7 +236,10 @@ static void mark_implicit_writes(DisasContext *ctx, Insn *insn)
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SA0, HEX_REG_SA0);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_LC1, HEX_REG_LC1);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SA1, HEX_REG_SA1);
 +}
-+
-+static void gen_end_tb(DisasContext *ctx)
-+{
-+    gen_exec_counters(ctx);
-+    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
-+    if (ctx->base.singlestep_enabled) {
-+        gen_exception_raw(EXCP_DEBUG);
-+    } else {
-+        tcg_gen_exit_tb(NULL, 0);
-+    }
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+}
-+
-+static void gen_exception_end_tb(DisasContext *ctx, int excp)
-+{
-+    gen_exec_counters(ctx);
-+    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
-+    gen_exception_raw(excp);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+
- }
  
- #if HEX_DEBUG
-@@ -225,8 +249,7 @@ static void gen_insn(CPUHexagonState *env, DisasContext *ctx,
-         mark_implicit_writes(ctx, insn);
++static void mark_implicit_pred_writes(DisasContext *ctx, Insn *insn)
++{
+     mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P0, 0);
+     mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P1, 1);
+     mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P2, 2);
+@@ -246,8 +250,9 @@ static void gen_insn(CPUHexagonState *env, DisasContext *ctx,
+                      Insn *insn, Packet *pkt)
+ {
+     if (insn->generate) {
+-        mark_implicit_writes(ctx, insn);
++        mark_implicit_reg_writes(ctx, insn);
          insn->generate(env, ctx, insn, pkt);
++        mark_implicit_pred_writes(ctx, insn);
      } else {
--        gen_exception(HEX_EXCP_INVALID_OPCODE);
--        ctx->base.is_jmp = DISAS_NORETURN;
-+        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_OPCODE);
+         gen_exception_end_tb(ctx, HEX_EXCP_INVALID_OPCODE);
      }
+diff --git a/tests/tcg/hexagon/misc.c b/tests/tcg/hexagon/misc.c
+index 458759f7b1..e5d78b471f 100644
+--- a/tests/tcg/hexagon/misc.c
++++ b/tests/tcg/hexagon/misc.c
+@@ -264,6 +264,22 @@ static long long creg_pair(int x, int y)
+     return retval;
  }
  
-@@ -447,14 +470,6 @@ static void update_exec_counters(DisasContext *ctx, Packet *pkt)
-     ctx->num_insns += num_real_insns;
- }
- 
--static void gen_exec_counters(DisasContext *ctx)
--{
--    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
--                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
--    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
--                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
--}
--
- static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
++/* Check that predicates are auto-and'ed in a packet */
++static int auto_and(void)
++{
++    int retval;
++    asm ("r5 = #1\n\t"
++         "{\n\t"
++         "    p0 = cmp.eq(r1, #1)\n\t"
++         "    p0 = cmp.eq(r1, #2)\n\t"
++         "}\n\t"
++         "%0 = p0\n\t"
++         : "=r"(retval)
++         :
++         : "r5", "p0");
++    return retval;
++}
++
+ int main()
  {
-     gen_reg_writes(ctx);
-@@ -478,7 +493,7 @@ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
- #endif
  
-     if (pkt->pkt_has_cof) {
--        ctx->base.is_jmp = DISAS_NORETURN;
-+        gen_end_tb(ctx);
-     }
+@@ -375,6 +391,9 @@ int main()
+     res = test_clrtnew(2, 7);
+     check(res, 7);
+ 
++    res = auto_and();
++    check(res, 0);
++
+     puts(err ? "FAIL" : "PASS");
+     return err;
  }
- 
-@@ -491,8 +506,7 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
- 
-     nwords = read_packet_words(env, ctx, words);
-     if (!nwords) {
--        gen_exception(HEX_EXCP_INVALID_PACKET);
--        ctx->base.is_jmp = DISAS_NORETURN;
-+        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_PACKET);
-         return;
-     }
- 
-@@ -505,8 +519,7 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
-         gen_commit_packet(ctx, &pkt);
-         ctx->base.pc_next += pkt.encod_pkt_size_in_bytes;
-     } else {
--        gen_exception(HEX_EXCP_INVALID_PACKET);
--        ctx->base.is_jmp = DISAS_NORETURN;
-+        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_PACKET);
-     }
- }
- 
-@@ -536,9 +549,7 @@ static bool hexagon_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
- 
--    tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
--    ctx->base.is_jmp = DISAS_NORETURN;
--    gen_exception_debug();
-+    gen_exception_end_tb(ctx, EXCP_DEBUG);
-     /*
-      * The address covered by the breakpoint must be included in
-      * [tb->pc, tb->pc + tb->size) in order to for it to be
-@@ -601,19 +612,12 @@ static void hexagon_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-         gen_exec_counters(ctx);
-         tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
-         if (ctx->base.singlestep_enabled) {
--            gen_exception_debug();
-+            gen_exception_raw(EXCP_DEBUG);
-         } else {
-             tcg_gen_exit_tb(NULL, 0);
-         }
-         break;
-     case DISAS_NORETURN:
--        gen_exec_counters(ctx);
--        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
--        if (ctx->base.singlestep_enabled) {
--            gen_exception_debug();
--        } else {
--            tcg_gen_exit_tb(NULL, 0);
--        }
-         break;
-     default:
-         g_assert_not_reached();
+diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
+index db9f663a77..7ceb25b5f6 100755
+--- a/target/hexagon/gen_tcg_funcs.py
++++ b/target/hexagon/gen_tcg_funcs.py
+@@ -316,7 +316,7 @@ def genptr_dst_write(f, tag, regtype, regid):
+             print("Bad register parse: ", regtype, regid)
+     elif (regtype == "P"):
+         if (regid in {"d", "e", "x"}):
+-            f.write("    gen_log_pred_write(%s%sN, %s%sV);\n" % \
++            f.write("    gen_log_pred_write(ctx, %s%sN, %s%sV);\n" % \
+                 (regtype, regid, regtype, regid))
+             f.write("    ctx_log_pred_write(ctx, %s%sN);\n" % \
+                 (regtype, regid))
 -- 
 2.25.1
 
