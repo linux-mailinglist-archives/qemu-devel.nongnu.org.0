@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BC33706B4
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 11:47:10 +0200 (CEST)
-Received: from localhost ([::1]:57770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D13706BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 12:00:17 +0200 (CEST)
+Received: from localhost ([::1]:41460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcmDN-0007BL-41
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 05:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
+	id 1lcmQ3-000457-VJ
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 06:00:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcmBq-0006Yj-94; Sat, 01 May 2021 05:45:34 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35418)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lcmBo-00068s-75; Sat, 01 May 2021 05:45:34 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a4so493950wrr.2;
- Sat, 01 May 2021 02:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HRqI8rPP4IoLWY/LUFpkTvk9B4mdwTWd9FTvS1rw8Oo=;
- b=mPO7vsPQIWN0qN0IbE7XdZPw1EbHlbLfqzCM0ftpPFWWHzv7IJFzGcfqE6QJ8FHLCy
- 0K9ch5Ep0qXQhxx4BeoxGBCQfRNGwl3wwpnzx037uL09b7mY/Fttrmw4qsMl/AwjcjS9
- 2MDnssDV4Mx1OpYmFMCvtHG4L2juoBdZ+6Ui/u8tx7wbBEsgPAmUqhEVRFoFlqrBx/r2
- pHUTFDq9HprimDzSFtMjjD73+IIV+Sceswg4oiboqeC3sqmip641ulH+pItVw+oZxJCc
- RIETyKZVB21e93lIrNyn7WxUdXzJaHnl2bKAJPhYIZIHsm8d41HyEwgpYC+omtKoDfai
- NmrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HRqI8rPP4IoLWY/LUFpkTvk9B4mdwTWd9FTvS1rw8Oo=;
- b=Rdfkw5kN46OLah2Q1eOSxVbxfBzLtwt4H0BEso6UpQ2VbtbbnX+aUVu4dtvwmQiqov
- 9bqwL2pS3dLNd5x/LlOZ84oYZsd54AiQEyAAohh56BRXirdt6KxYOPT4u0wi08bvsMxj
- OdMdZDoAe8OkIvUTjhUwKBhuS31rY0AYUnMi3ilRX6J+2wmPbftIxYLv+6mQtVwEEzir
- quZSomgvDy4H1AyCksOppneqOXjrTWwZTRyC8OciDn6SIg/bgdcvvn+/Nk/bl34BQzrX
- lWfaRTnRV8q50fjxkoTpDTcGJjDfPh8uIry9O6izPloYVSQywXqp5JxrS66D9OgEcSpq
- DLLg==
-X-Gm-Message-State: AOAM5314M1Q5Y15rDdHYa9Us+cDID2AhlGaE4slFwvDwpp6U+9KMBh8V
- fiN3CXSAso2fD71HRph4xLfsLnqY1rV8FPUu
-X-Google-Smtp-Source: ABdhPJwbBiF2IVjKaqS4nEPZmL7GERtWnwdqNXRk6Yq81CIuVoxmCzLudlf5IVq/p5oP2sZDnp+cSA==
-X-Received: by 2002:a5d:51d2:: with SMTP id n18mr12791955wrv.69.1619862329792; 
- Sat, 01 May 2021 02:45:29 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id v20sm5336007wmj.15.2021.05.01.02.45.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 May 2021 02:45:29 -0700 (PDT)
-Subject: Re: [PATCH] hw/sd/omap_mmc: Use device_cold_reset() instead of
- device_legacy_reset()
-To: Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210430222348.8514-1-peter.maydell@linaro.org>
- <87o8dvknfo.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e487354c-bcb8-4ec8-daff-f630db80f84e@amsat.org>
-Date: Sat, 1 May 2021 11:45:27 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lcmOf-00037j-Gp; Sat, 01 May 2021 05:58:51 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:56133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lcmOb-0005qn-OD; Sat, 01 May 2021 05:58:49 -0400
+Received: from [192.168.100.1] ([82.142.15.170]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MbAYo-1l1Wpi1p3A-00bYM7; Sat, 01 May 2021 11:58:30 +0200
+Subject: Re: [Trivial] docs: More precisely describe memory-backend-*::id's
+ user
+To: Robert Hoo <robert.hu@linux.intel.com>, mjt@tls.msk.ru,
+ qemu-trivial@nongnu.org
+References: <1619080922-83527-1-git-send-email-robert.hu@linux.intel.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <fd3f6329-2eb3-9a75-0337-2c927447528f@vivier.eu>
+Date: Sat, 1 May 2021 11:58:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87o8dvknfo.fsf@dusky.pond.sub.org>
+In-Reply-To: <1619080922-83527-1-git-send-email-robert.hu@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Provags-ID: V03:K1:oi95i08pVMJMmLJvPMaZ8dVFJENnUMQG5MJPEhBQGcPk/YZILm8
+ KT4nwj7mcRorwL1wm916ftfwhICwxAJ+ociS0U2HYSRi7qZsqV4M2eZ9/0gPfpwVW/GmDL8
+ 7Cd4CDYN1zByEBJKhE2z3eWW/sUejPsb1oyZPFLoESh6WsizsjAxHxuagGcU3R0EeLEfETI
+ oekKVVhENdcmIVcATCn1g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:B/ZHnJy6nQw=:VJZz8LOdd9k1uSgGEj/Nw+
+ jnHtRNeSrk8yZ7GAcnVWDkhcEqIqouXx/kz5ui/YB1C0UXvZEw5zAjzYxQTyTVdIbzysMfCKU
+ 4ocdsT7sh0LSWazWmQyNKe9asfpMCzSr/TLZJpt4CIic6bwgkLb9wZAH5TzTf0ai71044EJ2w
+ bR01MtEiEN2jeeZL277c3ar4PmVzLGLyTS5UYspRQtP32PeMfyXMAIEDl3/vdtsq3BGyjSFNe
+ F/vRW2ZR4hhwGhUThJYZ/r2nJRrGt4GEj4q1va0gPHEhbcjvVVt5d7aXmjyiAbR6WSzlK4/Du
+ 4kVxCukQou5uWB/Pd9wHZ6D82+rdE6gDCgg1yaMYR0HdSBMbIzhmqHgfSlThmH0ZetM++AS54
+ RmkTLo0DBIZuvqVhT10r2tBEd6txQqPFZcqzaxX47Z280qZstsLOKSdIVk5G991wd9uQ8F2Dp
+ MkCp5274f+JVul8Cqti+frtKGHJ1VXNYoGqPLXh+cuZ4/1KNuyV93WdaePu/oUKOFJmAFvo3v
+ FREn2MeQCb/1jRywdrWuWo=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,44 +68,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: robert.hu@intel.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/21 7:55 AM, Markus Armbruster wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
+Le 22/04/2021 à 10:42, Robert Hoo a écrit :
+> 'id' of memory-backend-{file,ram} is not only for '-numa''s reference, but
+> also other parameters like '-device nvdimm'.
+> More clearly call out this to avoid misinterpretation.
 > 
->> The omap_mmc_reset() function resets its SD card via
->> device_legacy_reset().  We know that the SD card does not have a qbus
->> of its own, so the new device_cold_reset() function (which resets
->> both the device and its child buses) is equivalent here to
->> device_legacy_reset() and we can just switch to the new API.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->> ---
->> cc'ing Markus who was interested in conversions away from
->> the legacy API. As warned, the conversion patch itself is
->> not very interesting as the difficulty is all in confirming
->> that the device being reset has no qbuses...
+> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+> ---
+>  qemu-options.hx | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> The commit messsage makes this helpful.  Thanks!
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index fd21002..635dc8a 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4508,11 +4508,11 @@ SRST
+>          the guest RAM with huge pages.
+>  
+>          The ``id`` parameter is a unique ID that will be used to
+> -        reference this memory region when configuring the ``-numa``
+> -        argument.
+> +        reference this memory region in other parameters, e.g. ``-numa``,
+> +        ``-device nvdimm``, etc.
+>  
+>          The ``size`` option provides the size of the memory region, and
+> -        accepts common suffixes, eg ``500M``.
+> +        accepts common suffixes, e.g. ``500M``.
+>  
+>          The ``mem-path`` provides the path to either a shared memory or
+>          huge page filesystem mount.
+> 
 
-Looking in archives, Damien did convert devices in v3:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg634100.html
+Applied to my trivial-patches branch.
 
-But it got lost after telling him cold/warn was not enough,
-and better would be a multi-phase reset. Full thread:
-https://www.mail-archive.com/qemu-block@nongnu.org/msg54084.html
+Thanks,
+Laurent
 
-> I wonder whether we should add a hint to device_legacy_reset()'s
-> comment.
-
-I'd rather convert and remove device_legacy_reset().
-
-Regards,
-
-Phil.
 
