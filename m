@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC5C3708BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:17:23 +0200 (CEST)
-Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197313708C5
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:22:47 +0200 (CEST)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcv7C-0006DG-Qn
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46414)
+	id 1lcvCQ-0003nA-6o
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcui3-0006Tq-Lk
+ id 1lcui3-0006Tm-0i
  for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:24 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:42986)
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:44758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcui0-0003lI-Ds
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:23 -0400
-Received: by mail-pl1-x633.google.com with SMTP id v13so671130ple.9
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:51:19 -0700 (PDT)
+ id 1lcui0-0003lu-NY
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:22 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ m6-20020a17090a8586b02901507e1acf0fso1044991pjn.3
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:51:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cDkTlWjDspe7eeKU7hYAA5ZhW5FnQSaWorntDqhx4CU=;
- b=ADrejI6v+/LH78RZi+37vKZoI4xdjFwPpXiijvuMPxPYr0TvArxci/aY5P45JkNjnA
- rSB9RCi6GV3TnxliGwWb8CKTFDiNDIa59mxnA53K/agWc6w5jPPZZEb2mwmYci8Neaxv
- 1sFCOhwa9f5XW81qTyw66mqvXEsVZGowRQbQkeMMmCHJwnjT2iZ09/TtyB82kqzpUr0G
- 5R+6BSuIU/9iqN7/HC3RwWuRZjT+KVyNA3Esuzi6F0Xowi5uLv3dFlY6Ksy9As2Yy0xg
- vEwknsn1zGvlEA3wfXac1Vo/3QtxZwG1bs+pjc5AD5KSnugvfwA5vVGMUILzkwD413HO
- 49qQ==
+ bh=62gsPCfJVVTudyksYSpOQ+QZs8msMspH2baL2k/3Zs8=;
+ b=WOtHaIlBBfI8yhFm7hvzZUG3yHF5o0cxenbWiVhn7qikPYIdCBNDZZw1Uzs5dMu8sd
+ GgVly6SyMQfHNDQTzcu0HTOm9Iv3s28iwv7LvA7FwxGW2XvoRiJn8Avtz5BF9HxIHAN7
+ D6xFo8L2eLPEqMEaHQDZnJqZcCj5yMujs5dFApib6CXR2z33LItpzJ33bFbJ30/jOqXp
+ t4P3P555Xp+XYGB4Lb7SQ3XptwvZz1ieG7xueqznjzFa5K+8y1V11Phv+Rg3nwQihxwp
+ svXp8ysNA6PjHUN7TFxNb1S19iOslgnq1Jy/taI4C2dDBs4eRkvss428Nuymt5XMWkHu
+ ntdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cDkTlWjDspe7eeKU7hYAA5ZhW5FnQSaWorntDqhx4CU=;
- b=LbOjpFxnnAmzAwIAqkar9gTvZGuFycMMq7Me51ec3Gdf8GN3PxoCztjtAohkxrLtSB
- p6TSXo0MbXSAFNizgcXNDEqs11pDsuRiEjEFcR4RtU0P0ulfEj4JbX8nQIWQ5yg8/piM
- mHN/WXTFZU+7XVeuXi3NA07hNN0lA30bhWzUAmFINoMQejDBXo1eQsrl/OcaPdDHD3hu
- 4C5vn4AuIrRbgiUNNrM+4ucwT4qA4WhrgdfZH1a4J8lC2Rz7AJovNwcMSl2ug9xX+uBK
- JvfhPnVhAfPI0J4/GhZmiyeq6hGsShEZsefcH/dbb9By0abFFzK4Oh/28NWyknfDpc+7
- iZLg==
-X-Gm-Message-State: AOAM530m9os3/9lLILbFHX0YuKP8+dSYW3/KrL/pSx6eXKB/hEG7Fmwr
- yKLDphCnLrL591XjYZc0WQ8BNL885vQ5WQ==
-X-Google-Smtp-Source: ABdhPJwkXmEvRteLKlqnjCj8xjljJOLN+qwtY2Rb+hxgRQyXGGVkyVEjm/L2QFttsYaNyhVOFLc5sg==
-X-Received: by 2002:a17:90a:cc0b:: with SMTP id
- b11mr12026989pju.190.1619895078822; 
- Sat, 01 May 2021 11:51:18 -0700 (PDT)
+ bh=62gsPCfJVVTudyksYSpOQ+QZs8msMspH2baL2k/3Zs8=;
+ b=Yoj8bjxpm0dGCmzpSEOmxLjk1IiZoyXmSypvcAlVAYrsNUkEaegWLputwwilpgDNRx
+ g6zBCTokYjl9EkAEohdBu52l7KytnxT0CbUu6HuESV4jv/sT6g9g+AqqfjvC5mJKYFF3
+ gLxd81g/KG1zRG8n4HGXU79miG/v1IRR3ZQiBLNFJnLhgEpFgFJmCgYqkZeq8T5Ht8Bd
+ jBf6yoJkl9pwzYMIpnbGDeK9vdzqHI2iE8kZpFOTJAC1AVTOyve/IwtHdb/5KE28DU7u
+ KtFN1RsLcam2w4RPVEgCEkeUKiGbws/+zw2WFaX6xEmHJD6c6i187Pj2V2iV/JXQtmYO
+ uZmw==
+X-Gm-Message-State: AOAM532CYct4P/YtL6PPA/EngzkBtY+N6EaZLUjtHVBMwPApQDg2b/Mp
+ ikYfUYnsXrlp5dtwYTM6C4oJ1SAr9pe2vg==
+X-Google-Smtp-Source: ABdhPJzGhZzujTnG9oxrLZVbGFGGHTWK1p7OEofoUEitSxO71UNjTJXX2LIynFTgFtoaLJtQAAw0fg==
+X-Received: by 2002:a17:902:c404:b029:ea:f0a9:6060 with SMTP id
+ k4-20020a170902c404b02900eaf0a96060mr11752669plk.9.1619895079445; 
+ Sat, 01 May 2021 11:51:19 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id k17sm4971360pfa.68.2021.05.01.11.51.18
+ by smtp.gmail.com with ESMTPSA id k17sm4971360pfa.68.2021.05.01.11.51.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 11:51:18 -0700 (PDT)
+ Sat, 01 May 2021 11:51:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] decodetree: Introduce whex and whexC helpers
-Date: Sat,  1 May 2021 11:51:13 -0700
-Message-Id: <20210501185116.1338875-3-richard.henderson@linaro.org>
+Subject: [PULL 3/5] decodetree: More use of f-strings
+Date: Sat,  1 May 2021 11:51:14 -0700
+Message-Id: <20210501185116.1338875-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210501185116.1338875-1-richard.henderson@linaro.org>
 References: <20210501185116.1338875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,163 +88,173 @@ Cc: peter.maydell@linaro.org, Luis Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Form a hex constant of the appropriate insnwidth.
-Begin using f-strings on changed lines.
-
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- scripts/decodetree.py | 66 +++++++++++++++++++++++++------------------
- 1 file changed, 38 insertions(+), 28 deletions(-)
+ scripts/decodetree.py | 50 ++++++++++++++++++++-----------------------
+ 1 file changed, 23 insertions(+), 27 deletions(-)
 
 diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index 4637b633e7..0861e5d503 100644
+index 0861e5d503..d5da101167 100644
 --- a/scripts/decodetree.py
 +++ b/scripts/decodetree.py
-@@ -102,6 +102,21 @@ def str_fields(fields):
-     return r[1:]
+@@ -59,9 +59,9 @@ def error_with_file(file, lineno, *args):
  
+     prefix = ''
+     if file:
+-        prefix += '{0}:'.format(file)
++        prefix += f'{file}:'
+     if lineno:
+-        prefix += '{0}:'.format(lineno)
++        prefix += f'{lineno}:'
+     if prefix:
+         prefix += ' '
+     print(prefix, end='error: ', file=sys.stderr)
+@@ -203,7 +203,7 @@ def str_extract(self):
+             extr = 'sextract32'
+         else:
+             extr = 'extract32'
+-        return '{0}(insn, {1}, {2})'.format(extr, self.pos, self.len)
++        return f'{extr}(insn, {self.pos}, {self.len})'
  
-+def whex(val):
-+    """Return a hex string for val padded for insnwidth"""
-+    global insnwidth
-+    return f'0x{val:0{insnwidth // 4}x}'
-+
-+
-+def whexC(val):
-+    """Return a hex string for val padded for insnwidth,
-+       and with the proper suffix for a C constant."""
-+    suffix = ''
-+    if val >= 0x80000000:
-+        suffix = 'u'
-+    return whex(val) + suffix
-+
-+
- def str_match_bits(bits, mask):
-     """Return a string pretty-printing BITS/MASK"""
-     global insnwidth
-@@ -477,11 +492,8 @@ def output_code(self, i, extracted, outerbits, outermask):
-             if outermask != p.fixedmask:
-                 innermask = p.fixedmask & ~outermask
-                 innerbits = p.fixedbits & ~outermask
--                output(ind, 'if ((insn & ',
--                       '0x{0:08x}) == 0x{1:08x}'.format(innermask, innerbits),
--                       ') {\n')
--                output(ind, '    /* ',
--                       str_match_bits(p.fixedbits, p.fixedmask), ' */\n')
-+                output(ind, f'if ((insn & {whexC(innermask)}) == {whexC(innerbits)}) {{\n')
-+                output(ind, f'    /* {str_match_bits(p.fixedbits, p.fixedmask)} */\n')
-                 p.output_code(i + 4, extracted, p.fixedbits, p.fixedmask)
-                 output(ind, '}\n')
+     def __eq__(self, other):
+         return self.sign == other.sign and self.mask == other.mask
+@@ -227,11 +227,11 @@ def str_extract(self):
+         ret = '0'
+         pos = 0
+         for f in reversed(self.subs):
++            ext = f.str_extract()
+             if pos == 0:
+-                ret = f.str_extract()
++                ret = ext
              else:
-@@ -500,12 +512,12 @@ def __init__(self, fm, tm):
+-                ret = 'deposit32({0}, {1}, {2}, {3})' \
+-                      .format(ret, pos, 32 - pos, f.str_extract())
++                ret = f'deposit32({ret}, {pos}, {32 - pos}, {ext})'
+             pos += f.len
+         return ret
  
-     def str1(self, i):
-         ind = str_indent(i)
--        r = '{0}{1:08x}'.format(ind, self.fixedmask)
-+        r = ind + whex(self.fixedmask)
-         if self.format:
-             r += ' ' + self.format.name
-         r += ' [\n'
-         for (b, s) in self.subs:
--            r += '{0}  {1:08x}:\n'.format(ind, b)
-+            r += ind + f'  {whex(b)}:\n'
-             r += s.str1(i + 4) + '\n'
-         r += ind + ']'
-         return r
-@@ -529,16 +541,16 @@ def output_code(self, i, extracted, outerbits, outermask):
-         if sh > 0:
-             # Propagate SH down into the local functions.
-             def str_switch(b, sh=sh):
--                return '(insn >> {0}) & 0x{1:x}'.format(sh, b >> sh)
-+                return f'(insn >> {sh}) & {b >> sh:#x}'
- 
-             def str_case(b, sh=sh):
--                return '0x{0:x}'.format(b >> sh)
-+                return hex(b >> sh)
+@@ -675,11 +675,11 @@ def parse_field(lineno, name, toks):
+             subtoks = t.split(':')
+             sign = False
          else:
-             def str_switch(b):
--                return 'insn & 0x{0:08x}'.format(b)
-+                return f'insn & {whexC(b)}'
+-            error(lineno, 'invalid field token "{0}"'.format(t))
++            error(lineno, f'invalid field token "{t}"')
+         po = int(subtoks[0])
+         le = int(subtoks[1])
+         if po + le > insnwidth:
+-            error(lineno, 'field {0} too large'.format(t))
++            error(lineno, f'field {t} too large')
+         f = Field(sign, po, le)
+         subs.append(f)
+         width += le
+@@ -724,9 +724,9 @@ def parse_arguments(lineno, name, toks):
+             anyextern = True
+             continue
+         if not re.fullmatch(re_C_ident, t):
+-            error(lineno, 'invalid argument set token "{0}"'.format(t))
++            error(lineno, f'invalid argument set token "{t}"')
+         if t in flds:
+-            error(lineno, 'duplicate argument "{0}"'.format(t))
++            error(lineno, f'duplicate argument "{t}"')
+         flds.append(t)
  
-             def str_case(b):
--                return '0x{0:08x}'.format(b)
-+                return whexC(b)
- 
-         output(ind, 'switch (', str_switch(self.thismask), ') {\n')
-         for b, s in sorted(self.subs):
-@@ -962,19 +974,19 @@ def parse_generic(lineno, parent_pat, name, toks):
- 
-     # Validate the masks that we have assembled.
-     if fieldmask & fixedmask:
--        error(lineno, 'fieldmask overlaps fixedmask (0x{0:08x} & 0x{1:08x})'
--                      .format(fieldmask, fixedmask))
-+        error(lineno, 'fieldmask overlaps fixedmask ',
-+              f'({whex(fieldmask)} & {whex(fixedmask)})')
-     if fieldmask & undefmask:
--        error(lineno, 'fieldmask overlaps undefmask (0x{0:08x} & 0x{1:08x})'
--                      .format(fieldmask, undefmask))
-+        error(lineno, 'fieldmask overlaps undefmask ',
-+              f'({whex(fieldmask)} & {whex(undefmask)})')
-     if fixedmask & undefmask:
--        error(lineno, 'fixedmask overlaps undefmask (0x{0:08x} & 0x{1:08x})'
--                      .format(fixedmask, undefmask))
-+        error(lineno, 'fixedmask overlaps undefmask ',
-+              f'({whex(fixedmask)} & {whex(undefmask)})')
-     if not is_format:
-         allbits = fieldmask | fixedmask | undefmask
-         if allbits != insnmask:
--            error(lineno, 'bits left unspecified (0x{0:08x})'
--                          .format(allbits ^ insnmask))
-+            error(lineno, 'bits left unspecified ',
-+                  f'({whex(allbits ^ insnmask)})')
- # end parse_general
- 
- 
-@@ -1104,10 +1116,9 @@ def __init__(self, m, w):
- 
-     def str1(self, i):
-         ind = str_indent(i)
--        r = '{0}{1:08x}'.format(ind, self.mask)
--        r += ' [\n'
-+        r = ind + whex(self.mask) + ' [\n'
-         for (b, s) in self.subs:
--            r += '{0}  {1:08x}:\n'.format(ind, b)
-+            r += ind + f'  {whex(b)}:\n'
-             r += s.str1(i + 4) + '\n'
-         r += ind + ']'
-         return r
-@@ -1131,16 +1142,16 @@ def output_code(self, i, extracted, outerbits, outermask):
-         if sh > 0:
-             # Propagate SH down into the local functions.
-             def str_switch(b, sh=sh):
--                return '(insn >> {0}) & 0x{1:x}'.format(sh, b >> sh)
-+                return f'(insn >> {sh}) & {b >> sh:#x}'
- 
-             def str_case(b, sh=sh):
--                return '0x{0:x}'.format(b >> sh)
-+                return hex(b >> sh)
+     if name in arguments:
+@@ -895,14 +895,14 @@ def parse_generic(lineno, parent_pat, name, toks):
+                 flen = flen[1:]
+             shift = int(flen, 10)
+             if shift + width > insnwidth:
+-                error(lineno, 'field {0} exceeds insnwidth'.format(fname))
++                error(lineno, f'field {fname} exceeds insnwidth')
+             f = Field(sign, insnwidth - width - shift, shift)
+             flds = add_field(lineno, flds, fname, f)
+             fixedbits <<= shift
+             fixedmask <<= shift
+             undefmask <<= shift
          else:
-             def str_switch(b):
--                return 'insn & 0x{0:08x}'.format(b)
-+                return f'insn & {whexC(b)}'
+-            error(lineno, 'invalid token "{0}"'.format(t))
++            error(lineno, f'invalid token "{t}"')
+         width += shift
  
-             def str_case(b):
--                return '0x{0:08x}'.format(b)
-+                return whexC(b)
+     if variablewidth and width < insnwidth and width % 8 == 0:
+@@ -914,7 +914,7 @@ def parse_generic(lineno, parent_pat, name, toks):
  
-         output(ind, 'switch (', str_switch(self.mask), ') {\n')
-         for b, s in sorted(self.subs):
-@@ -1162,8 +1173,7 @@ def __init__(self, m, w):
-         self.width = w
+     # We should have filled in all of the bits of the instruction.
+     elif not (is_format and width == 0) and width != insnwidth:
+-        error(lineno, 'definition has {0} bits'.format(width))
++        error(lineno, f'definition has {width} bits')
  
-     def str1(self, i):
--        ind = str_indent(i)
--        return '{0}{1:08x}'.format(ind, self.mask)
-+        return str_indent(i) + whex(self.mask)
+     # Do not check for fields overlapping fields; one valid usage
+     # is to be able to duplicate fields via import.
+@@ -932,8 +932,7 @@ def parse_generic(lineno, parent_pat, name, toks):
+         if arg:
+             for f in flds.keys():
+                 if f not in arg.fields:
+-                    error(lineno, 'field {0} not in argument set {1}'
+-                                  .format(f, arg.name))
++                    error(lineno, f'field {f} not in argument set {arg.name}')
+         else:
+             arg = infer_argument_set(flds)
+         if name in formats:
+@@ -960,13 +959,12 @@ def parse_generic(lineno, parent_pat, name, toks):
+         arg = fmt.base
+         for f in flds.keys():
+             if f not in arg.fields:
+-                error(lineno, 'field {0} not in argument set {1}'
+-                              .format(f, arg.name))
++                error(lineno, f'field {f} not in argument set {arg.name}')
+             if f in fmt.fields.keys():
+-                error(lineno, 'field {0} set by format and pattern'.format(f))
++                error(lineno, f'field {f} set by format and pattern')
+         for f in arg.fields:
+             if f not in flds.keys() and f not in fmt.fields.keys():
+-                error(lineno, 'field {0} not initialized'.format(f))
++                error(lineno, f'field {f} not initialized')
+         pat = Pattern(name, lineno, fmt, fixedbits, fixedmask,
+                       undefmask, fieldmask, flds, width)
+         parent_pat.pats.append(pat)
+@@ -1097,7 +1095,7 @@ def parse_file(f, parent_pat):
+         elif re.fullmatch(re_pat_ident, name):
+             parse_generic(start_lineno, parent_pat, name, toks)
+         else:
+-            error(lineno, 'invalid token "{0}"'.format(name))
++            error(lineno, f'invalid token "{name}"')
+         toks = []
  
-     def __str__(self):
-         return self.str1(0)
+     if nesting != 0:
+@@ -1131,9 +1129,8 @@ def output_code(self, i, extracted, outerbits, outermask):
+ 
+         # If we need to load more bytes to test, do so now.
+         if extracted < self.width:
+-            output(ind, 'insn = ', decode_function,
+-                   '_load_bytes(ctx, insn, {0}, {1});\n'
+-                   .format(extracted // 8, self.width // 8));
++            output(ind, f'insn = {decode_function}_load_bytes',
++                   f'(ctx, insn, {extracted // 8}, {self.width // 8});\n')
+             extracted = self.width
+ 
+         # Attempt to aid the compiler in producing compact switch statements.
+@@ -1184,9 +1181,8 @@ def output_code(self, i, extracted, outerbits, outermask):
+ 
+         # If we need to load more bytes, do so now.
+         if extracted < self.width:
+-            output(ind, 'insn = ', decode_function,
+-                   '_load_bytes(ctx, insn, {0}, {1});\n'
+-                   .format(extracted // 8, self.width // 8));
++            output(ind, f'insn = {decode_function}_load_bytes',
++                   f'(ctx, insn, {extracted // 8}, {self.width // 8});\n')
+             extracted = self.width
+         output(ind, 'return insn;\n')
+ # end SizeLeaf
+@@ -1220,7 +1216,7 @@ def build_size_tree(pats, width, outerbits, outermask):
+         for p in pats:
+             pnames.append(p.name + ':' + p.file + ':' + str(p.lineno))
+         error_with_file(pats[0].file, pats[0].lineno,
+-                        'overlapping patterns size {0}:'.format(width), pnames)
++                        f'overlapping patterns size {width}:', pnames)
+ 
+     bins = {}
+     for i in pats:
 -- 
 2.25.1
 
