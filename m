@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D211370630
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 09:27:26 +0200 (CEST)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6211A370631
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 09:27:35 +0200 (CEST)
+Received: from localhost ([::1]:43096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lck29-0008Ib-Ea
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 03:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
+	id 1lck2I-0008US-FA
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 03:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lcjzf-0006vY-Vq; Sat, 01 May 2021 03:24:51 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:46606)
+ id 1lcjzj-00073U-KS; Sat, 01 May 2021 03:24:55 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lcjzd-0003YA-S0; Sat, 01 May 2021 03:24:51 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id s20so157653plr.13;
- Sat, 01 May 2021 00:24:49 -0700 (PDT)
+ id 1lcjzh-0003aH-EM; Sat, 01 May 2021 03:24:55 -0400
+Received: by mail-pf1-x435.google.com with SMTP id p4so677779pfo.3;
+ Sat, 01 May 2021 00:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=evwPWxFbg++RdgeYJYEEF07pvcfOxDn6UBMVw2R8gZ4=;
- b=Dnmwn550bczleaRSag1j29z2PgznPWYCjajdp57eUuQJnHymktrzSnOdDbG0NU5sY+
- Z+pyfdfu0evZbbHYrJXDtdTW3jwGpm5k+45T4k8BoJe2fNLmhgPTiJVbP6CHZmKM+SuL
- fWTU8/C0Us0KzrPav2BID1v6L5RagtYHiqFBoyzUptJgvl5zYu7Ig9eUkuUSbNhIQczY
- CpxJjC+I4rLXHJyrx1GGnciXeIjTMMkhR5PNhZ7yLT2X4wcSidh5BIdqI3PLedn0WF/s
- BySwHJxjJl8l4QzAyIKXpzezfQ6OZ1FLIx0g3fAMtZnjxG8aWZL8NlgQsmfHNgho1Wz8
- cvug==
+ bh=E0F9/KLOhWuCyN1oXQD9/ojrA34JN8vWaK0Zg0xgVWM=;
+ b=AdDE5JVDYyAzHd03pgT6U+EUk9xqTDJ6ZYR1A9sLzCbM3xjdkKGP7QB8RLTUJrgtP4
+ wQlvE3ZKNM5v3RvyE2NGuyaLqvOiZJHmgcAl/8b9csCgCfphqTjGnaYmOHgCFBJjjop6
+ 261wOz3Oqtpf4/OSFjY7RkUv9NahTIPudAkRUjg/dTKWSob4mrciI7GmzhmS4Wwu6zUR
+ HrXTfyNT0GTiOSsLylMZjNblOtBtc3xe/CzhSYfksFaEsw1EeXa3Yjg8tL06uU6onXse
+ NMK0zUy3fBPlz1C3ZkFxHJEsN3wUK5WBI4g9t1sQnpotslgEDljfivTz+UBr1WOj61Yt
+ 2Agg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=evwPWxFbg++RdgeYJYEEF07pvcfOxDn6UBMVw2R8gZ4=;
- b=X2KEvNyEv5xwuLoObVq/htx6qUiKLLYW6qhmC3psIEpFqsZ+pUeM1tki3hA6pUPjn2
- FHhb+QCU28StSFn2rHR/IWJmtRC/ySzpuXl0Jb1AWwG9km2eRxpb9RzDky/eJxZ+gcl2
- M+jkDgzDBYqPdhyOSwyLV7qvj0QzrMV9gBUh/qffNF6XQuZdysot2zASEgvKY7ocnZvg
- mIA66GGsntnzqP7fqdUNSPYqJsoos8etn2JcoCzLDCMp/QLoCB2qDNpXkUd+tDDHNuYS
- yeKGqXH+DVqeMsyNYPKDLwD3p0CDpM4O7k70dHHs/KLFsiC0MLZzKsMMdjxwLqFyKCui
- EFVg==
-X-Gm-Message-State: AOAM530trfoMNxaYLyynPxWbAEg8Q7a/M6et40GlVxCuaF2Qw78Lfya9
- lmPi7/KlHlsV6RogR3NbtvYnLpjkjmQ=
-X-Google-Smtp-Source: ABdhPJzCc3pjUDnR0tvOGUDCPOYcL6WEdhr6NqSIQmHW5d6rQftfKdYqSkqetLCKxW2GKb2d/MY2Jw==
-X-Received: by 2002:a17:902:c40c:b029:ed:7032:649c with SMTP id
- k12-20020a170902c40cb02900ed7032649cmr9573434plk.74.1619853887992; 
- Sat, 01 May 2021 00:24:47 -0700 (PDT)
+ bh=E0F9/KLOhWuCyN1oXQD9/ojrA34JN8vWaK0Zg0xgVWM=;
+ b=FuA9sumJkjKykS7DMv8L1KWRbQiMX0DvvMDHURJ7+Q8BnRLW7m4xxV+JWMltH3k8QE
+ 4nHWjSjdWsPsa+nNFGEbSgPQp6jhLxmIaWIEfPPG7wo5ZhtZIA6UxLyuj53nIktRIfU+
+ qBdZuil/NkXPuwgZEgD4KaOOB2o2Vp6N1Cqc3BJPwQ7K4XLP+VX0xKdeZ9+Dh4ne+TJ4
+ arnTidcCDwTBZ64isk3h/bHkZn+wurAfHd2Ml8OQTNKnCbCB/Si6HKdELn8JsrKQcpef
+ VsXopyB8CRJSHZIN1vksV5Ep934YuSHxp4AIGzXTbecc8AdMGpfzM/++EhZO7wKt5ks0
+ fglw==
+X-Gm-Message-State: AOAM533eZoW3d0KCfsLbAQ5Eo70JdnTPVfemUKWCIbs11Ta6SK2wQGxp
+ uxGDsxFjfgzFfmbnwjHlWiLpN8Wd8Ws=
+X-Google-Smtp-Source: ABdhPJzyPSLbv2p13IEvicN8sv/Th7SqgxXKEN2se7pSVofrpbWcZWi66HV9i2MZkFHmOVS7j2XUqQ==
+X-Received: by 2002:a65:420d:: with SMTP id c13mr8313273pgq.370.1619853891591; 
+ Sat, 01 May 2021 00:24:51 -0700 (PDT)
 Received: from bobo.ibm.com ([61.68.127.20])
- by smtp.gmail.com with ESMTPSA id 14sm3868577pfi.145.2021.05.01.00.24.44
+ by smtp.gmail.com with ESMTPSA id 14sm3868577pfi.145.2021.05.01.00.24.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 00:24:47 -0700 (PDT)
+ Sat, 01 May 2021 00:24:51 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH 1/2] target/ppc: rework AIL logic in interrupt delivery
-Date: Sat,  1 May 2021 17:24:34 +1000
-Message-Id: <20210501072436.145444-2-npiggin@gmail.com>
+Subject: [PATCH 2/2] target/ppc: Add POWER10 exception model
+Date: Sat,  1 May 2021 17:24:35 +1000
+Message-Id: <20210501072436.145444-3-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20210501072436.145444-1-npiggin@gmail.com>
 References: <20210501072436.145444-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,308 +89,183 @@ Cc: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AIL logic is becoming unmanageable spread all over powerpc_excp(),
-and it is slated to get even worse with POWER10 support.
-
-Move it all to a new helper function.
+POWER10 adds a new bit that modifies interrupt behaviour, LPCR[HAIL],
+and it removes support for the LPCR[AIL]=0b10 mode.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Tested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr_hcall.c            |   3 +-
- target/ppc/cpu.h                |   8 --
- target/ppc/excp_helper.c        | 165 ++++++++++++++++++++------------
- target/ppc/translate_init.c.inc |   2 +-
- 4 files changed, 108 insertions(+), 70 deletions(-)
+ hw/ppc/spapr_hcall.c            |  7 ++++-
+ target/ppc/cpu-qom.h            |  2 ++
+ target/ppc/cpu.h                |  5 +--
+ target/ppc/excp_helper.c        | 54 +++++++++++++++++++++++++++++++--
+ target/ppc/translate.c          |  3 +-
+ target/ppc/translate_init.c.inc |  2 +-
+ 6 files changed, 65 insertions(+), 8 deletions(-)
 
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 7b5cd3553c..2fbe04a689 100644
+index 2fbe04a689..7275d0bba1 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -1395,7 +1395,8 @@ static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
-         return H_P4;
+@@ -1396,7 +1396,12 @@ static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
      }
  
--    if (mflags == AIL_RESERVED) {
-+    if (mflags == 1) {
-+        /* AIL=1 is reserved */
+     if (mflags == 1) {
+-        /* AIL=1 is reserved */
++        /* AIL=1 is reserved in POWER8/POWER9/POWER10 */
++        return H_UNSUPPORTED_FLAG;
++    }
++
++    if (mflags == 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
++        /* AIL=2 is reserved in POWER10 (ISA v3.1) */
          return H_UNSUPPORTED_FLAG;
      }
  
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 8c18bb0762..be24a501fc 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2405,14 +2405,6 @@ enum {
-     HMER_XSCOM_STATUS_MASK      = PPC_BITMASK(21, 23),
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index 118baf8d41..06b6571bc9 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -116,6 +116,8 @@ enum powerpc_excp_t {
+     POWERPC_EXCP_POWER8,
+     /* POWER9 exception model           */
+     POWERPC_EXCP_POWER9,
++    /* POWER10 exception model           */
++    POWERPC_EXCP_POWER10,
  };
  
--/* Alternate Interrupt Location (AIL) */
--enum {
--    AIL_NONE                = 0,
--    AIL_RESERVED            = 1,
--    AIL_0001_8000           = 2,
--    AIL_C000_0000_0000_4000 = 3,
--};
--
  /*****************************************************************************/
- 
- #define is_isa300(ctx) (!!(ctx->insns_flags2 & PPC2_ISA300))
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index be24a501fc..8a076fab48 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -354,10 +354,11 @@ typedef struct ppc_v3_pate_t {
+ #define LPCR_PECE_U_SHIFT (63 - 19)
+ #define LPCR_PECE_U_MASK  (0x7ull << LPCR_PECE_U_SHIFT)
+ #define LPCR_HVEE         PPC_BIT(17) /* Hypervisor Virt Exit Enable */
+-#define LPCR_RMLS_SHIFT   (63 - 37)
++#define LPCR_RMLS_SHIFT   (63 - 37)   /* RMLS (removed in ISA v3.0) */
+ #define LPCR_RMLS         (0xfull << LPCR_RMLS_SHIFT)
++#define LPCR_HAIL         PPC_BIT(37) /* ISA v3.1 HV AIL=3 equivalent */
+ #define LPCR_ILE          PPC_BIT(38)
+-#define LPCR_AIL_SHIFT    (63 - 40)      /* Alternate interrupt location */
++#define LPCR_AIL_SHIFT    (63 - 40)   /* Alternate interrupt location */
+ #define LPCR_AIL          (3ull << LPCR_AIL_SHIFT)
+ #define LPCR_UPRT         PPC_BIT(41) /* Use Process Table */
+ #define LPCR_EVIRT        PPC_BIT(42) /* Enhanced Virtualisation */
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 344af66f66..73360bb872 100644
+index 73360bb872..5e30a5a056 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -136,25 +136,111 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
-     return POWERPC_EXCP_RESET;
- }
- 
--static uint64_t ppc_excp_vector_offset(CPUState *cs, int ail)
-+/*
-+ * AIL - Alternate Interrupt Location, a mode that allows interrupts to be
-+ * taken with the MMU on, and which uses an alternate location (e.g., so the
-+ * kernel/hv can map the vectors there with an effective address).
+@@ -170,7 +170,27 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+  * +-------------------------------------------------------+
+  *
+  * The difference with POWER9 being that MSR[HV] 0->1 interrupts can be sent to
+- * the hypervisor in AIL mode if the guest is radix.
++ * the hypervisor in AIL mode if the guest is radix. This is good for
++ * performance but allows the guest to influence the AIL of hypervisor
++ * interrupts using its MSR, and also the hypervisor must disallow guest
++ * interrupts (MSR[HV] 0->0) from using AIL if the hypervisor does not want to
++ * use AIL for its MSR[HV] 0->1 interrupts.
 + *
-+ * An interrupt is considered to be taken "with AIL" or "AIL applies" if they
-+ * are delivered in this way. AIL requires the LPCR to be set to enable this
-+ * mode, and then a number of conditions have to be true for AIL to apply.
++ * POWER10 addresses those issues with a new LPCR[HAIL] bit that is applied to
++ * interrupts that begin execution with MSR[HV]=1 (so both MSR[HV] 0->1 and
++ * MSR[HV] 1->1).
 + *
-+ * First of all, SRESET, MCE, and HMI are always delivered without AIL, because
-+ * they specifically want to be in real mode (e.g., the MCE might be signaling
-+ * a SLB multi-hit which requires SLB flush before the MMU can be enabled).
++ * HAIL=1 is equivalent to AIL=3, for interrupts delivered with MSR[HV]=1.
 + *
-+ * After that, behaviour depends on the current MSR[IR], MSR[DR], MSR[HV],
-+ * whether or not the interrupt changes MSR[HV] from 0 to 1, and the current
-+ * radix mode (LPCR[HR]).
-+ *
-+ * POWER8, POWER9 with LPCR[HR]=0
-+ * | LPCR[AIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
-+ * +-----------+-------------+---------+-------------+-----+
-+ * | a         | 00/01/10    | x       | x           | 0   |
-+ * | a         | 11          | 0       | 1           | 0   |
-+ * | a         | 11          | 1       | 1           | a   |
-+ * | a         | 11          | 0       | 0           | a   |
-+ * +-------------------------------------------------------+
-+ *
-+ * POWER9 with LPCR[HR]=1
-+ * | LPCR[AIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
-+ * +-----------+-------------+---------+-------------+-----+
-+ * | a         | 00/01/10    | x       | x           | 0   |
-+ * | a         | 11          | x       | x           | a   |
-+ * +-------------------------------------------------------+
-+ *
-+ * The difference with POWER9 being that MSR[HV] 0->1 interrupts can be sent to
-+ * the hypervisor in AIL mode if the guest is radix.
-+ */
-+static inline void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
-+                                      target_ulong msr,
-+                                      target_ulong *new_msr,
-+                                      target_ulong *vector)
- {
--    uint64_t offset = 0;
-+#if defined(TARGET_PPC64)
-+    CPUPPCState *env = &cpu->env;
-+    bool mmu_all_on = ((msr >> MSR_IR) & 1) && ((msr >> MSR_DR) & 1);
-+    bool hv_escalation = !(msr & MSR_HVB) && (*new_msr & MSR_HVB);
-+    int ail = 0;
++ * POWER10 behaviour is
++ * | LPCR[AIL] | LPCR[HAIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
++ * +-----------+------------+-------------+---------+-------------+-----+
++ * | a         | h          | 00/01/10    | 0       | 0           | 0   |
++ * | a         | h          | 11          | 0       | 0           | a   |
++ * | a         | h          | x           | 0       | 1           | h   |
++ * | a         | h          | 00/01/10    | 1       | 1           | 0   |
++ * | a         | h          | 11          | 1       | 1           | h   |
++ * +--------------------------------------------------------------------+
+  */
+ static inline void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+                                       target_ulong msr,
+@@ -213,6 +233,32 @@ static inline void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+             /* AIL=1 is reserved, treat it like AIL=0 */
+             return;
+         }
 +
-+    if (excp == POWERPC_EXCP_MCHECK ||
-+        excp == POWERPC_EXCP_RESET ||
-+        excp == POWERPC_EXCP_HV_MAINT) {
-+        /* SRESET, MCE, HMI never apply AIL */
-+        return;
-+    }
- 
--    switch (ail) {
--    case AIL_NONE:
--        break;
--    case AIL_0001_8000:
--        offset = 0x18000;
--        break;
--    case AIL_C000_0000_0000_4000:
--        offset = 0xc000000000004000ull;
--        break;
--    default:
--        cpu_abort(cs, "Invalid AIL combination %d\n", ail);
--        break;
-+    if (excp_model == POWERPC_EXCP_POWER8 ||
-+        excp_model == POWERPC_EXCP_POWER9) {
-+        if (!mmu_all_on) {
-+            /* AIL only works if MSR[IR] and MSR[DR] are both enabled. */
-+            return;
-+        }
-+        if (hv_escalation && !(env->spr[SPR_LPCR] & LPCR_HR)) {
++    } else if (excp_model == POWERPC_EXCP_POWER10) {
++        if (!mmu_all_on && !hv_escalation) {
 +            /*
-+             * AIL does not work if there is a MSR[HV] 0->1 transition and the
-+             * partition is in HPT mode. For radix guests, such interrupts are
-+             * allowed to be delivered to the hypervisor in ail mode.
++             * AIL works for HV interrupts even with guest MSR[IR/DR] disabled.
++             * Guest->guest and HV->HV interrupts do require MMU on.
 +             */
 +            return;
 +        }
 +
-+        ail = (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
++        if (*new_msr & MSR_HVB) {
++            if (!(env->spr[SPR_LPCR] & LPCR_HAIL)) {
++                /* HV interrupts depend on LPCR[HAIL] */
++                return;
++            }
++            ail = 3; /* HAIL=1 gives AIL=3 behaviour for HV interrupts */
++        } else {
++            ail = (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
++        }
 +	if (ail == 0) {
 +            return;
 +        }
-+        if (ail == 1) {
-+            /* AIL=1 is reserved, treat it like AIL=0 */
++        if (ail == 1 || ail == 2) {
++            /* AIL=1 and AIL=2 are reserved, treat them like AIL=0 */
 +            return;
 +        }
-+    } else {
-+        /* Other processors do not support AIL */
-+        return;
-     }
- 
--    return offset;
-+    /*
-+     * AIL applies, so the new MSR gets IR and DR set, and an offset applied
-+     * to the new IP.
-+     */
-+    *new_msr |= (1 << MSR_IR) | (1 << MSR_DR);
-+
-+    if (excp != POWERPC_EXCP_SYSCALL_VECTORED) {
-+        if (ail == 2) {
-+            *vector |= 0x0000000000018000ull;
-+        } else if (ail == 3) {
-+            *vector |= 0xc000000000004000ull;
-+        }
-+    } else {
-+        /*
-+	 * scv AIL is a little different. AIL=2 does not change the address,
-+	 * only the MSR. AIL=3 replaces the 0x17000 base with 0xc...3000.
-+	 */
-+        if (ail == 3) {
-+            *vector &= ~0x0000000000017000ull; /* Un-apply the base offset */
-+            *vector |= 0xc000000000003000ull; /* Apply scv's AIL=3 offset */
-+        }
-+    }
-+#endif
- }
- 
- static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
-@@ -197,7 +283,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-     target_ulong msr, new_msr, vector;
--    int srr0, srr1, asrr0, asrr1, lev = -1, ail;
-+    int srr0, srr1, asrr0, asrr1, lev = -1;
-     bool lpes0;
- 
-     qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
-@@ -238,25 +324,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-      *
-      * On anything else, we behave as if LPES0 is 1
-      * (externals don't alter MSR:HV)
--     *
--     * AIL is initialized here but can be cleared by
--     * selected exceptions
-      */
+     } else {
+         /* Other processors do not support AIL */
+         return;
+@@ -328,7 +374,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
  #if defined(TARGET_PPC64)
      if (excp_model == POWERPC_EXCP_POWER7 ||
          excp_model == POWERPC_EXCP_POWER8 ||
-         excp_model == POWERPC_EXCP_POWER9) {
+-        excp_model == POWERPC_EXCP_POWER9) {
++        excp_model == POWERPC_EXCP_POWER9 ||
++        excp_model == POWERPC_EXCP_POWER10) {
          lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
--        if (excp_model != POWERPC_EXCP_POWER7) {
--            ail = (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
--        } else {
--            ail = 0;
--        }
      } else
  #endif /* defined(TARGET_PPC64) */
-     {
-         lpes0 = true;
--        ail = 0;
-     }
- 
-     /*
-@@ -315,7 +392,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-              */
-             new_msr |= (target_ulong)MSR_HVB;
+@@ -848,7 +895,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+             new_msr |= (target_ulong)1 << MSR_LE;
          }
--        ail = 0;
- 
-         /* machine check exceptions don't have ME set */
-         new_msr &= ~((target_ulong)1 << MSR_ME);
-@@ -519,7 +595,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-                           "exception %d with no HV support\n", excp);
-             }
-         }
--        ail = 0;
-         break;
-     case POWERPC_EXCP_DSEG:      /* Data segment exception                   */
-     case POWERPC_EXCP_ISEG:      /* Instruction segment exception            */
-@@ -790,24 +865,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-     }
- #endif
- 
--    /*
--     * AIL only works if MSR[IR] and MSR[DR] are both enabled.
--     */
--    if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
--        ail = 0;
--    }
--
--    /*
--     * AIL does not work if there is a MSR[HV] 0->1 transition and the
--     * partition is in HPT mode. For radix guests, such interrupts are
--     * allowed to be delivered to the hypervisor in ail mode.
--     */
--    if ((new_msr & MSR_HVB) && !(msr & MSR_HVB)) {
--        if (!(env->spr[SPR_LPCR] & LPCR_HR)) {
--            ail = 0;
--        }
--    }
--
-     vector = env->excp_vectors[excp];
-     if (vector == (target_ulong)-1ULL) {
-         cpu_abort(cs, "Raised an exception without defined vector %d\n",
-@@ -848,23 +905,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-         /* Save MSR */
-         env->spr[srr1] = msr;
- 
--        /* Handle AIL */
--        if (ail) {
--            new_msr |= (1 << MSR_IR) | (1 << MSR_DR);
--            vector |= ppc_excp_vector_offset(cs, ail);
--        }
--
+-    } else if (excp_model == POWERPC_EXCP_POWER9) {
++    } else if (excp_model == POWERPC_EXCP_POWER9 ||
++               excp_model == POWERPC_EXCP_POWER10) {
+         if (new_msr & MSR_HVB) {
+             if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
+                 new_msr |= (target_ulong)1 << MSR_LE;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index a53463b9b8..3bbd4cf6ac 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7731,7 +7731,8 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
  #if defined(TARGET_PPC64)
-     } else {
--        /* scv AIL is a little different */
--        if (ail) {
--            new_msr |= (1 << MSR_IR) | (1 << MSR_DR);
--        }
--        if (ail == AIL_C000_0000_0000_4000) {
--            vector |= 0xc000000000003000ull;
--        } else {
--            vector |= 0x0000000000017000ull;
--        }
-         vector += lev * 0x20;
- 
-         env->lr = env->nip;
-@@ -872,6 +914,9 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
- #endif
+     if (env->excp_model == POWERPC_EXCP_POWER7 ||
+         env->excp_model == POWERPC_EXCP_POWER8 ||
+-        env->excp_model == POWERPC_EXCP_POWER9)  {
++        env->excp_model == POWERPC_EXCP_POWER9 ||
++        env->excp_model == POWERPC_EXCP_POWER10)  {
+         qemu_fprintf(f, "HSRR0 " TARGET_FMT_lx " HSRR1 " TARGET_FMT_lx "\n",
+                      env->spr[SPR_HSRR0], env->spr[SPR_HSRR1]);
      }
- 
-+    /* This can update new_msr and vector if AIL applies */
-+    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
-+
-     powerpc_set_excp_state(cpu, vector, new_msr);
- }
- 
 diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 9ab2c32cc4..01fa76e4a0 100644
+index 01fa76e4a0..78cd2243f4 100644
 --- a/target/ppc/translate_init.c.inc
 +++ b/target/ppc/translate_init.c.inc
-@@ -3457,7 +3457,7 @@ static void init_excp_POWER9(CPUPPCState *env)
- 
- #if !defined(CONFIG_USER_ONLY)
-     env->excp_vectors[POWERPC_EXCP_HVIRT]    = 0x00000EA0;
--    env->excp_vectors[POWERPC_EXCP_SYSCALL_VECTORED] = 0x00000000;
-+    env->excp_vectors[POWERPC_EXCP_SYSCALL_VECTORED] = 0x00017000;
+@@ -9317,7 +9317,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+     pcc->radix_page_info = &POWER10_radix_page_info;
+     pcc->lrg_decr_bits = 56;
  #endif
- }
- 
+-    pcc->excp_model = POWERPC_EXCP_POWER9;
++    pcc->excp_model = POWERPC_EXCP_POWER10;
+     pcc->bus_model = PPC_FLAGS_INPUT_POWER9;
+     pcc->bfd_mach = bfd_mach_ppc64;
+     pcc->flags = POWERPC_FLAG_VRE | POWERPC_FLAG_SE |
 -- 
 2.23.0
 
