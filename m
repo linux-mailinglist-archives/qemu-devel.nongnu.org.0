@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFE33708AA
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:06:11 +0200 (CEST)
-Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC583708A4
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:04:57 +0200 (CEST)
+Received: from localhost ([::1]:46566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcuwM-0002uv-1g
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:06:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
+	id 1lcuvA-0002RS-I4
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuam-0008LI-So
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:52 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:52113)
+ id 1lcuav-00005h-Mz
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:44:01 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuaY-00008w-Cp
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:52 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id lp8so794014pjb.1
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:37 -0700 (PDT)
+ id 1lcuaa-00009G-6g
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:44:01 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id q9so822063pgl.13
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YwG/b/Ju2JoZgacaVeefdHMOmTrNBfuVIrbtO2SSiSg=;
- b=uhQtyhUGQxGPBWwtTanI+Wk38nhNVwF8oSCmYxTICh52zY45Kxflt1DC8/9hY5l7Us
- HXIUcpsEZdMU+O5aOqJlVF4Klie3Mrflzw+THyHfDLwY2++osNEy4OrlNlHfL7KsErZY
- s1ztLTaMM/pl2m7jqyUyWCAr/ISCOI6s7wRnJhJ9a43pcQIPyIFSmeCc8A/YL6Z432u6
- JJGiyvxDwW3EPAMxfZxQYTgJurY9CH628ALIWGWJ9ivLHilOpBt2JYbuIy14QBD0Pkoc
- v1OQV+l0mZH0VhWEfEan7XXZ22U6DrGTRuKILt4sQvMtGn0OE5AERpXjED2Os9EGaFmY
- t+vQ==
+ bh=UdUcyujGpauXTdAtiBYYXQP2ZLdHxofdS+1N9npM370=;
+ b=seAeEaysSIoFwvdPVYfmq67UdDIwtDln0GTddotClzQC8qleZs4B1BSJ2wyG6vgEcf
+ ADwS3k9ydZOVB0hYIkx4lC0LnG0twp/eJQn5C/FcYuYNeFomdbF9FvKKDIpRym6YL6Hb
+ Xc7vLfS1NFqLN+63Sm+qUOAkIeHu+ZBpbSpJIIw1MvpJ2DnuEL86jSmayot/PyAUwun7
+ 61Oxr0f0cw4StiguTl3J9M2WdsEyV8ih6q7Eu4fyACBJbe5eotaMoXThNrggguZcqr4e
+ 80shO3By7JY0GaRNxOXhf1psPbEjN6sZBxrScrqsKLiy3vVmhwb4vQxdqQ195hHsJvIl
+ gAgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YwG/b/Ju2JoZgacaVeefdHMOmTrNBfuVIrbtO2SSiSg=;
- b=dlt07+MDyWC9PuVzyjPLh/erdNaI+GxxG628hQeB3TCqEwpncPs41QTUtr9NwpcfK/
- AY99wawPbawWi5oxvRqvadmAeMSrtN8SpEa5lqIrZEIzbIXLkLZwaTdzw9/n/wXRX1JT
- 6hRkutdzMAOtpJ+/gxdHGY1vSRatsLZMOPZLrfADJimhiWhVWhd57xemByuQoV7FK7xh
- X0iOapisxbf9wm+jnwmXfHSzMyqHusF25WGRqOrR9aYQuFI6i6oNkNIYvrpWiUY8YIeA
- XisdgKsVarQ+DZgCSsLtAZTgqFYT/gZ+YhJAi3GeRMyMMYVLOkQOej40tBNJArNip8Bb
- uUhQ==
-X-Gm-Message-State: AOAM530iwVE/PEW8wMCdYpxpCnYoRVUaPKGZbXE8RvP3vnN3Pc2MG1mr
- c/vHzOJCyimPWL5uekvScTQjyGmJGCPyhw==
-X-Google-Smtp-Source: ABdhPJx0R5FmOYS3s5w9tygqZ5yC44H1Dj2G7L4/NI+53zUAomSV5RrxQzoqb38/ceR9FFS23CqMkQ==
-X-Received: by 2002:a17:90a:414a:: with SMTP id
- m10mr20893214pjg.63.1619894616936; 
- Sat, 01 May 2021 11:43:36 -0700 (PDT)
+ bh=UdUcyujGpauXTdAtiBYYXQP2ZLdHxofdS+1N9npM370=;
+ b=IJm3BCOYtQrctMLWzEYCAIfAFsFMDoRFF/4MPAODDyc+s4mFhtmuwi3Kb7oixBR0e9
+ RQN0fz2KTEho/bPQ2x2vFKKpHNzQM2JR0cI3SUUNw1rWdgNvr6d6b+5ePlaZq4qCbZEl
+ gbVbyI+8tByrsgDG7z+pwoLNVrszgVSI391iYdiE7uYrUfNBra1Ae0ZRaS7136p8z691
+ /mJnrrVoq9kgAH7hiObmWtbyDnTjyE4UX6XK0wRIacobYHczpkbtkzvihC012HOzj24X
+ iCM81x8RLF1Jr/j2sTU14BvaL4ONHBc7KdvbWcjwJbB3X6UKs20jGANBYLM4gApBbrnF
+ D4mA==
+X-Gm-Message-State: AOAM532CdBPgMtvoI0ekqbbJddlpkvQMmPtwkdwRaA7MOoni1z9r3eYl
+ 9Ug1N4slFa89kUTpvSA9bIWuvD/DI7mGmw==
+X-Google-Smtp-Source: ABdhPJySxQLzxD8aXPgBMrMGO2zO4NcJbgklAjHmWrKT3q25OGFZxh2IVbGXlLpoi5B2xep35A8ZuA==
+X-Received: by 2002:a65:52c3:: with SMTP id z3mr10394387pgp.338.1619894618208; 
+ Sat, 01 May 2021 11:43:38 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.36
+ by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 11:43:36 -0700 (PDT)
+ Sat, 01 May 2021 11:43:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/31] Hexagon (target/hexagon) cleanup ternary operators in
- semantics
-Date: Sat,  1 May 2021 11:43:11 -0700
-Message-Id: <20210501184324.1338186-19-richard.henderson@linaro.org>
+Subject: [PULL 20/31] Hexagon (target/hexagon) move QEMU_GENERATE to only be
+ on during macros.h
+Date: Sat,  1 May 2021 11:43:13 -0700
+Message-Id: <20210501184324.1338186-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
 References: <20210501184324.1338186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,81 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-Change  (cond ? (res = x) : (res = y)) to res = (cond ? x : y)
-
-This makes the semnatics easier to for idef-parser to deal with
-
-The following instructions are impacted
-    C2_any8
-    C2_all8
-    C2_mux
-    C2_muxii
-    C2_muxir
-    C2_muxri
-
+Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-14-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-16-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/imported/compare.idef | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ target/hexagon/genptr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/hexagon/imported/compare.idef b/target/hexagon/imported/compare.idef
-index 3551467854..abd016ffb5 100644
---- a/target/hexagon/imported/compare.idef
-+++ b/target/hexagon/imported/compare.idef
-@@ -198,11 +198,11 @@ Q6INSN(C4_or_orn,"Pd4=or(Ps4,or(Pt4,!Pu4))",ATTRIBS(A_CRSLOT23),
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index 6b74344795..b87e264ccf 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -15,7 +15,6 @@
+  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
  
- Q6INSN(C2_any8,"Pd4=any8(Ps4)",ATTRIBS(A_CRSLOT23),
- "Logical ANY of low 8 predicate bits",
--{ PsV ? (PdV=0xff) : (PdV=0x00); })
-+{ PdV = (PsV ? 0xff : 0x00); })
+-#define QEMU_GENERATE
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+ #include "cpu.h"
+@@ -24,7 +23,9 @@
+ #include "insn.h"
+ #include "opcodes.h"
+ #include "translate.h"
++#define QEMU_GENERATE       /* Used internally by macros.h */
+ #include "macros.h"
++#undef QEMU_GENERATE
+ #include "gen_tcg.h"
  
- Q6INSN(C2_all8,"Pd4=all8(Ps4)",ATTRIBS(A_CRSLOT23),
- "Logical ALL of low 8 predicate bits",
--{ (PsV==0xff) ? (PdV=0xff) : (PdV=0x00); })
-+{ PdV = (PsV == 0xff ? 0xff : 0x00); })
- 
- Q6INSN(C2_vitpack,"Rd32=vitpack(Ps4,Pt4)",ATTRIBS(),
- "Pack the odd and even bits of two predicate registers",
-@@ -212,7 +212,7 @@ Q6INSN(C2_vitpack,"Rd32=vitpack(Ps4,Pt4)",ATTRIBS(),
- 
- Q6INSN(C2_mux,"Rd32=mux(Pu4,Rs32,Rt32)",ATTRIBS(),
- "Scalar MUX",
--{ (fLSBOLD(PuV)) ? (RdV=RsV):(RdV=RtV); })
-+{ RdV = (fLSBOLD(PuV) ? RsV : RtV); })
- 
- 
- Q6INSN(C2_cmovenewit,"if (Pu4.new) Rd32=#s12",ATTRIBS(A_ARCHV2),
-@@ -269,18 +269,18 @@ Q6INSN(C2_ccombinewf,"if (!Pu4) Rdd32=combine(Rs32,Rt32)",ATTRIBS(A_ARCHV2),
- 
- Q6INSN(C2_muxii,"Rd32=mux(Pu4,#s8,#S8)",ATTRIBS(A_ARCHV2),
- "Scalar MUX immediates",
--{ fIMMEXT(siV); (fLSBOLD(PuV)) ? (RdV=siV):(RdV=SiV); })
-+{ fIMMEXT(siV); RdV = (fLSBOLD(PuV) ? siV : SiV); })
- 
- 
- 
- Q6INSN(C2_muxir,"Rd32=mux(Pu4,Rs32,#s8)",ATTRIBS(A_ARCHV2),
- "Scalar MUX register immediate",
--{ fIMMEXT(siV); (fLSBOLD(PuV)) ? (RdV=RsV):(RdV=siV); })
-+{ fIMMEXT(siV); RdV = (fLSBOLD(PuV) ? RsV : siV); })
- 
- 
- Q6INSN(C2_muxri,"Rd32=mux(Pu4,#s8,Rs32)",ATTRIBS(A_ARCHV2),
- "Scalar MUX register immediate",
--{ fIMMEXT(siV); (fLSBOLD(PuV)) ? (RdV=siV):(RdV=RsV); })
-+{ fIMMEXT(siV); RdV = (fLSBOLD(PuV) ? siV : RsV); })
- 
- 
- 
+ static inline TCGv gen_read_preg(TCGv pred, uint8_t num)
 -- 
 2.25.1
 
