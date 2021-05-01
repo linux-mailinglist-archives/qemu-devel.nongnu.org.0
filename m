@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6980B37093B
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 00:43:27 +0200 (CEST)
-Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DAF37093D
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 00:45:15 +0200 (CEST)
+Received: from localhost ([::1]:41778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcyKc-0003MG-H6
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 18:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49664)
+	id 1lcyMM-0005p8-43
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 18:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcyEn-00052t-CD
- for qemu-devel@nongnu.org; Sat, 01 May 2021 18:37:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35475)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcyEs-0005Em-6Y
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 18:37:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcyEl-0008Vu-He
- for qemu-devel@nongnu.org; Sat, 01 May 2021 18:37:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lcyEq-00007v-Ms
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 18:37:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619908642;
+ s=mimecast20190719; t=1619908648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/QexIH/VTNKxOuVblouGzmBuPgjBWLL7wx7SLN7JtrI=;
- b=ENeYPdc6rba3mL2XulpWCMnx4Sv9AjHeBNZZE3hNeUjlgqGNUYHNoI4dfro68t4G/grBnt
- 0jUh6jujOXZA6ChiJ+nu5npyZ2AIdV9ayxmwovwkBScp4TIfFlhQWoAA3orPdfAf88w4vU
- 2Bj7bEP6AMzVN6LzcK62be11f9rqSrU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-xvV2BEoOOfeHPxfc42sdSg-1; Sat, 01 May 2021 18:37:21 -0400
-X-MC-Unique: xvV2BEoOOfeHPxfc42sdSg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 88-20020adf95610000b029010758d8d7e2so1266631wrs.19
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 15:37:21 -0700 (PDT)
+ bh=NSr0ATvoVPT94Kw0PlP2HcPHUZbWsmv1leCf95/HD08=;
+ b=MO1xT4mVSLlQLG9pWhhnYcisPVqyBjlnujVph3nPvkCTRmtlKxc1pQjjvXETb0q3efO8bt
+ aO3r8s/Mk4QBudRCAacQuKdeIA5XJF41Yk7vEyC4PQCxTw/vzDshuHxHTx4rfkPbPvsNUr
+ zZwsyysVatSGlNDadUSZwXS0YYcK76I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-3X4nQ5tEOY2bXv3KLe9ALg-1; Sat, 01 May 2021 18:37:26 -0400
+X-MC-Unique: 3X4nQ5tEOY2bXv3KLe9ALg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a7-20020adfc4470000b029010d875c66edso1264523wrg.23
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 15:37:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/QexIH/VTNKxOuVblouGzmBuPgjBWLL7wx7SLN7JtrI=;
- b=pHpTWTa6OH/E4AaCfobQctwVLXFGGDWQ+67+rfu1GBwZAFvYC6BKrJfvi8q8jsPKmo
- IZzplf4DIIM7jPKpuGTLgRbc1DKDsvO7ME/W2+r4D6lNd6LXIRQBfYirEAXjZ0VAfpul
- +8Xah0Z1CsQs5bVmTqU3IZppvya6RWkXXYD5H38j5ZUYL8vA5V95EzrdBMdWkzAIMuI7
- BzLd7XEJqqKv34UZEy6x6u54jG29grJslXuiAX1KOo4s7hmOdGYoDVIev2ITckabqfN9
- jY7kljnDo9OveRL61JQUz0+TBIOq/s38YCZQB7R7x4gS5wxnJmUVxPSYDUbo5gGaXDfM
- H05A==
-X-Gm-Message-State: AOAM531HsNY606Zy1Pqop+IFpETHH8HqP2eAnkf4wlXPtJurdjXGcUdU
- 9GKcTR1U0p+lzbrraX6doDCm6RGVfkLePgO4MNN0gj0jgm4llR4BaUK2FvnVjoKBkC2q3PaCG8r
- DvKlusytkgvz+oTm1M3Z0yFNAwbpPVFDGD/9VG2EB0eVvOY46Z642MZLVEOrNmOr8
-X-Received: by 2002:a7b:c382:: with SMTP id s2mr9239121wmj.75.1619908640294;
- Sat, 01 May 2021 15:37:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzfH+8IfuCWS4C80siMbM4CRyn1o7/pTPOyHVuWmCT4uwbcWqFgSop1wAWwfA2cuLdKdEB3wQ==
-X-Received: by 2002:a7b:c382:: with SMTP id s2mr9239092wmj.75.1619908640083;
- Sat, 01 May 2021 15:37:20 -0700 (PDT)
+ bh=NSr0ATvoVPT94Kw0PlP2HcPHUZbWsmv1leCf95/HD08=;
+ b=Ou7HuKNadNwZwSC1WU4evZTy/VSDs/eEvRb/HRst+e8jCaWNe3nSwE77hLeiaS2Vwm
+ w4RK0UGLAHcp1OQiBcVb5+NPXbmeGqJkXTr2SS3VdWbQlV/Ob+Cq1HF6Ej+IQCEmnFN0
+ QY2oCbs6co/bmsmmCy6PuaElCEr5i9vkXBAX2cgN7F70LFSJymMsWIVj6WC7qPaXN0OZ
+ 4sCOIY2EgngsgHAd9+aCMwJiLqpwN9CAbo6boGZwfAg/wALslqpkqyJOKvEy5IlO2jy0
+ lbXndk30Utn9iYExMw2Vhkoxl5ltLz6lO1XQjidHel6yDlYrUg8PDmkuPFKpZjv9/NFu
+ cF0g==
+X-Gm-Message-State: AOAM531610npFY54hNrNGvG4R/gQDWzPkxFzCqP5+ZyYzj4kyZsZ64uK
+ vp2qtQ5Kq2ngaFmne8kvumkYUtASpO2NkI8aM4MQNwso5XE6RSNWKw43oQn3oCCuZ4A6B9odvkI
+ 0mkqzZin26QlztrHf+owF+h0POdxpfMH+XyFCJbjn9T7M7fYmpJt1OpTACXa6hVBI
+X-Received: by 2002:a5d:6d48:: with SMTP id k8mr15615936wri.93.1619908645445; 
+ Sat, 01 May 2021 15:37:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHlDmMb/Hu2EcSuWjOkP9gCFn8An4aP1VyRAf3WRmO5rwvrL7se7YiZsfzpfi6wQhgecdN1w==
+X-Received: by 2002:a5d:6d48:: with SMTP id k8mr15615905wri.93.1619908645226; 
+ Sat, 01 May 2021 15:37:25 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id t17sm6524586wmq.12.2021.05.01.15.37.18
+ by smtp.gmail.com with ESMTPSA id n2sm8024960wmb.32.2021.05.01.15.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 15:37:19 -0700 (PDT)
+ Sat, 01 May 2021 15:37:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/10] qtest/bios-tables-test: Make test build-independent
- from accelerator
-Date: Sun,  2 May 2021 00:36:36 +0200
-Message-Id: <20210501223638.510712-9-philmd@redhat.com>
+Subject: [PATCH v5 09/10] qtest/migration-test: Skip tests if KVM not builtin
+ on s390x/ppc64
+Date: Sun,  2 May 2021 00:36:37 +0200
+Message-Id: <20210501223638.510712-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210501223638.510712-1-philmd@redhat.com>
 References: <20210501223638.510712-1-philmd@redhat.com>
@@ -95,172 +95,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now than we can probe if the TCG accelerator is available
-at runtime with a QMP command, do it once at the beginning
-and only register the tests we can run.
-We can then replace the #ifdef'ry by an assertion.
+We might have a s390x/ppc64 QEMU binary built without the KVM
+accelerator (configured with --disable-kvm).
+Checking for /dev/kvm accessibility isn't enough, also check for the
+accelerator in the binary.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 99 ++++++++++++++++++----------------
- 1 file changed, 52 insertions(+), 47 deletions(-)
+ tests/qtest/migration-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 156d4174aa3..a4c7bddf6f3 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -97,6 +97,7 @@ typedef struct {
-     QTestState *qts;
- } test_data;
- 
-+static bool tcg_accel_available;
- static char disk[] = "tests/acpi-test-disk-XXXXXX";
- static const char *data_dir = "tests/data/acpi";
- #ifdef CONFIG_IASL
-@@ -718,15 +719,11 @@ static void test_acpi_one(const char *params, test_data *data)
-     char *args;
-     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
- 
--#ifndef CONFIG_TCG
--    if (data->tcg_only) {
--        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
--        return;
--    }
--#endif /* CONFIG_TCG */
-+    assert(!data->tcg_only || tcg_accel_available);
- 
-     args = test_acpi_create_args(data, params, use_uefi);
-     data->qts = qtest_init(args);
-+
-     test_acpi_load_tables(data, use_uefi);
- 
-     if (getenv(ACPI_REBUILD_EXPECTED_AML)) {
-@@ -1504,6 +1501,8 @@ int main(int argc, char *argv[])
-     const char *arch = qtest_get_arch();
-     int ret;
- 
-+    tcg_accel_available = qtest_has_accel("tcg");
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-@@ -1512,56 +1511,62 @@ int main(int argc, char *argv[])
-             return ret;
-         }
-         qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
--        qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
--        qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
-         qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
--        qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-+        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
-         qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
-                        test_acpi_piix4_no_root_hotplug);
-         qtest_add_func("acpi/piix4/pci-hotplug/no_bridge_hotplug",
-                        test_acpi_piix4_no_bridge_hotplug);
-         qtest_add_func("acpi/piix4/pci-hotplug/off",
-                        test_acpi_piix4_no_acpi_pci_hotplug);
--        qtest_add_func("acpi/q35", test_acpi_q35_tcg);
--        qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
--        qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
--        qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
--        qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
--        qtest_add_func("acpi/piix4/cpuhp", test_acpi_piix4_tcg_cphp);
--        qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
--        qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
--        qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
--        qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
--        qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
--        qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
--        qtest_add_func("acpi/piix4/smm-compat",
--                       test_acpi_piix4_tcg_smm_compat);
--        qtest_add_func("acpi/piix4/smm-compat-nosmm",
--                       test_acpi_piix4_tcg_smm_compat_nosmm);
--        qtest_add_func("acpi/piix4/nohpet", test_acpi_piix4_tcg_nohpet);
--        qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
--        qtest_add_func("acpi/q35/smm-compat",
--                       test_acpi_q35_tcg_smm_compat);
--        qtest_add_func("acpi/q35/smm-compat-nosmm",
--                       test_acpi_q35_tcg_smm_compat_nosmm);
--        qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
--        qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
--        qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
--        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
--        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
--        qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
--        qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
--        qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
--        qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
--        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
--        if (strcmp(arch, "x86_64") == 0) {
--            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+        if (tcg_accel_available) {
-+            qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
-+            qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
-+            qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-+            qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-+            qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
-+            qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
-+            qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
-+            qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
-+            qtest_add_func("acpi/piix4/cpuhp", test_acpi_piix4_tcg_cphp);
-+            qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
-+            qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
-+            qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
-+            qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
-+            qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-+            qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
-+            qtest_add_func("acpi/piix4/smm-compat",
-+                           test_acpi_piix4_tcg_smm_compat);
-+            qtest_add_func("acpi/piix4/smm-compat-nosmm",
-+                           test_acpi_piix4_tcg_smm_compat_nosmm);
-+            qtest_add_func("acpi/piix4/nohpet", test_acpi_piix4_tcg_nohpet);
-+            qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
-+            qtest_add_func("acpi/q35/smm-compat",
-+                           test_acpi_q35_tcg_smm_compat);
-+            qtest_add_func("acpi/q35/smm-compat-nosmm",
-+                           test_acpi_q35_tcg_smm_compat_nosmm);
-+            qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
-+            qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-+            qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+            qtest_add_func("acpi/piix4/acpihmat",
-+                           test_acpi_piix4_tcg_acpi_hmat);
-+            qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-+            qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-+            qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
-+            qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-+            qtest_add_func("acpi/microvm/ioapic2",
-+                           test_acpi_microvm_ioapic2_tcg);
-+            if (strcmp(arch, "x86_64") == 0) {
-+                qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+            }
-         }
-     } else if (strcmp(arch, "aarch64") == 0) {
--        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
--        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
--        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
--        qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-+        if (tcg_accel_available) {
-+            qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-+            qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-+            qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-+            qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-+        }
-         qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3a711bb4929..c32a2aa30a2 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1408,7 +1408,7 @@ int main(int argc, char **argv)
+      */
+     if (g_str_equal(qtest_get_arch(), "ppc64") &&
+         (access("/sys/module/kvm_hv", F_OK) ||
+-         access("/dev/kvm", R_OK | W_OK))) {
++         access("/dev/kvm", R_OK | W_OK) || !qtest_has_accel("kvm"))) {
+         g_test_message("Skipping test: kvm_hv not available");
+         return g_test_run();
      }
-     ret = g_test_run();
+@@ -1419,7 +1419,7 @@ int main(int argc, char **argv)
+      */
+     if (g_str_equal(qtest_get_arch(), "s390x")) {
+ #if defined(HOST_S390X)
+-        if (access("/dev/kvm", R_OK | W_OK)) {
++        if (access("/dev/kvm", R_OK | W_OK) || !qtest_has_accel("kvm")) {
+             g_test_message("Skipping test: kvm not available");
+             return g_test_run();
+         }
 -- 
 2.26.3
 
