@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819FD37089B
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 20:59:07 +0200 (CEST)
-Received: from localhost ([::1]:33452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76B13708A0
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:01:54 +0200 (CEST)
+Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcupW-0005Q0-IS
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 14:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44718)
+	id 1lcusE-0007Fm-07
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcub6-0000Da-4l
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:44:12 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:46660)
+ id 1lcuab-0008Fo-Jm
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:45 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuah-0000Bg-Sw
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:44:11 -0400
-Received: by mail-pg1-x534.google.com with SMTP id q9so822185pgl.13
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:45 -0700 (PDT)
+ id 1lcuaV-00006U-2c
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:41 -0400
+Received: by mail-pg1-x534.google.com with SMTP id z16so856795pga.1
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2kUR6kjNrXJCFiJbcl64HX+GrqwPLfmUocnmkgqarp4=;
- b=YZVhZ/d03ysXGreJDYN350yvi8opuQX8/ZFdpDjj7Ec0FJ7sA3H0qgF6k//80DDR8k
- 3oZ6H6mhzKw5sr+aFhSIOc9KHPvG7MLnPp2McyeCJbpwOBXhxzkMY07eIizu0+9Bf62c
- dqsymT4CZjezjUae5W33NUNLhHbWwCt8G/Ncnmc5D96Teiejaecw9WyDttOhvMqCjUnP
- 16KMLhWQTCP2yUrVFkiWxIa8Q97T3ICMmvA8SfxvTGhRNHTg5dzUiD+OA3uh3h9wZosz
- RIBHCbg7Mak189LJguD9Uu+irdPG/TYE7rJ2Tng9NUY2fwq5hmVpr7/38osbrA1TAQ6G
- zyTQ==
+ bh=WUDOODL8OY/WyPfVJS6CSPQqXcHEI2wa1hK51LclNQc=;
+ b=qYbAaejOLbwkVgR2PztywNdwkLGma2MY1rAMOU3oBa0s8X1QY7sARe0b0UE5vQ9Zg2
+ GA7tORNWfwTKZV94e1ZUONQ/E74tmmbB+to3E+jNnllgS5nogQjIkSGUJju3aUcjYJmC
+ MSoc2x9QdoQL6RaF28aqV6qiPZ5anIwaH1WT8YCHvNo/fOJD7WsUfeOhAvRvDaJijpLh
+ /QtDgQmTaxNntb1qu8+PosBqWIjABLLoq/h4L/Q3MMiO5C7obfjGdSd7o7qMr+OXVMcK
+ cLN1EEHu6+kA0d0ns/6n6UGi2toopyZEAPpLzimE2HtpNCPU6tXKYQWtIhKbAcP908iI
+ aDZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2kUR6kjNrXJCFiJbcl64HX+GrqwPLfmUocnmkgqarp4=;
- b=DWw3CytppqxbUuWesO0034eQ+k5uykoetY01dTjoefNbU5pHaQlChm91Q2k+Mv4PC7
- g6NJbdrHcPwTatEvXqy045blOQIU3LlFWqsx8TPwlE70CeEpXToqneOzPpyF5YeaBFO4
- CxTUaiSDok3QLDtidrsudRdmiwPE3oTxOTRWU4B6cGavgmm9Vxy1KlzYwIDcJ8Z07TFM
- RBVkbt6sb56gpqhohXEGs8af8keNOVxuOGQJ1uD81BPZJhRLXQM9QjDp7IO70lf4a2hJ
- LvDvzL9f3K8froNifzZkcKCebn8XDD2ZliWs9sZefQ8t3+3BzC3N7flEoqCteu7D1Dij
- DbZw==
-X-Gm-Message-State: AOAM531dHpDp9MtGg59PxErYMT29qAQ87nZs+k3rrIlG/qSetjkfWCsB
- 6Zmw+t3vnqG3a81nYhsuT0kp6CG8IOgqNA==
-X-Google-Smtp-Source: ABdhPJyWt0nMnkJ8X1EEMVgCb79Ru/AE/ue+5UgDFzH0s5n7W9yGbX4zHshf/1Im3XGzk4RaY0uYHw==
-X-Received: by 2002:a63:f311:: with SMTP id l17mr10121317pgh.405.1619894624822; 
- Sat, 01 May 2021 11:43:44 -0700 (PDT)
+ bh=WUDOODL8OY/WyPfVJS6CSPQqXcHEI2wa1hK51LclNQc=;
+ b=ISbL0HoskTgqNkLGYNW8ESRjxCs4IX2y+meTXpr0pO0tJuhGa6BXbgvlOJ5ToalNyA
+ Mt1NX0EppFbM5+oSJwdhrm7Nus1icrrr4n3rlMwUfXJzfrZd3Sk2xPLbQ+5ghto8EIzv
+ cSUR5wiAkaHJYixkbP74VmrnbMFd4L1gJW1tyWxw7H91nYqBhcVwVLruDk47OpZbg7yk
+ GlorbtstmopHinXZ0chI+6e9Cq8ajaKL+F0/uQ9vSAUSXLMmKnx0v++zfM5PTW+3rr7f
+ tH+WkzrLZwXtrtAS7ZgAu+skJZdHG296hgAMKO0fqZiiRBHGrX5nw40HupKrFUV5it0t
+ iIpA==
+X-Gm-Message-State: AOAM530bAVyGmEz0BPXezkOTBfsJtsBDKsZVdSOobexaAnZvFkLdViEw
+ rcUH+e/1MiCwsXB3JdnMhuBz7eB2y91UnA==
+X-Google-Smtp-Source: ABdhPJwqctVCqF05shUypKgzarKJgbOyDLZcx4QaeE+g+roUaKpiNmdszW4Y5f18TYCVHDhQGwJZOQ==
+X-Received: by 2002:a63:211c:: with SMTP id h28mr10248010pgh.278.1619894613667; 
+ Sat, 01 May 2021 11:43:33 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.44
+ by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 11:43:44 -0700 (PDT)
+ Sat, 01 May 2021 11:43:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/31] Hexagon (target/hexagon) load into shifted register
- instructions
-Date: Sat,  1 May 2021 11:43:23 -0700
-Message-Id: <20210501184324.1338186-31-richard.henderson@linaro.org>
+Subject: [PULL 13/31] Hexagon (target/hexagon) remove unused carry_from_add64
+ function
+Date: Sat,  1 May 2021 11:43:06 -0700
+Message-Id: <20210501184324.1338186-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
 References: <20210501184324.1338186-1-richard.henderson@linaro.org>
@@ -89,593 +89,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-The following instructions are added
-    L2_loadalignb_io          Ryy32 = memb_fifo(Rs32+#s11:1)
-    L2_loadalignh_io          Ryy32 = memh_fifo(Rs32+#s11:1)
-    L4_loadalignb_ur          Ryy32 = memb_fifo(Rt32<<#u2+#U6)
-    L4_loadalignh_ur          Ryy32 = memh_fifo(Rt32<<#u2+#U6)
-    L4_loadalignb_ap          Ryy32 = memb_fifo(Re32=#U6)
-    L4_loadalignh_ap          Ryy32 = memh_fifo(Re32=#U6)
-    L2_loadalignb_pr          Ryy32 = memb_fifo(Rx32++Mu2)
-    L2_loadalignh_pr          Ryy32 = memh_fifo(Rx32++Mu2)
-    L2_loadalignb_pbr         Ryy32 = memb_fifo(Rx32++Mu2:brev)
-    L2_loadalignh_pbr         Ryy32 = memh_fifo(Rx32++Mu2:brev)
-    L2_loadalignb_pi          Ryy32 = memb_fifo(Rx32++#s4:1)
-    L2_loadalignh_pi          Ryy32 = memh_fifo(Rx32++#s4:1)
-    L2_loadalignb_pci         Ryy32 = memb_fifo(Rx32++#s4:1:circ(Mu2))
-    L2_loadalignh_pci         Ryy32 = memh_fifo(Rx32++#s4:1:circ(Mu2))
-    L2_loadalignb_pcr         Ryy32 = memb_fifo(Rx32++I:circ(Mu2))
-    L2_loadalignh_pcr         Ryy32 = memh_fifo(Rx32++I:circ(Mu2))
-
-Test cases in tests/tcg/hexagon/load_align.c
-
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-26-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-9-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/gen_tcg.h              |  66 ++++
- tests/tcg/hexagon/load_align.c        | 415 ++++++++++++++++++++++++++
- target/hexagon/imported/encode_pp.def |   3 +
- target/hexagon/imported/ldst.idef     |  19 ++
- tests/tcg/hexagon/Makefile.target     |   1 +
- 5 files changed, 504 insertions(+)
- create mode 100644 tests/tcg/hexagon/load_align.c
+ target/hexagon/arch.h   |  1 -
+ target/hexagon/macros.h |  2 --
+ target/hexagon/arch.c   | 13 -------------
+ 3 files changed, 16 deletions(-)
 
-diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h
-index 1120aaed4e..18fcdbc7e4 100644
---- a/target/hexagon/gen_tcg.h
-+++ b/target/hexagon/gen_tcg.h
-@@ -260,6 +260,72 @@
- #define fGEN_TCG_L2_loadbsw4_pi(SHORTCODE) \
-     fGEN_TCG_loadbXw4(GET_EA_pi, true)
+diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
+index 1f7f03693a..6e0b0d9a24 100644
+--- a/target/hexagon/arch.h
++++ b/target/hexagon/arch.h
+@@ -22,7 +22,6 @@
  
-+/*
-+ * These instructions load a half word, shift the destination right by 16 bits
-+ * and place the loaded value in the high half word of the destination pair.
-+ * The GET_EA macro determines the addressing mode.
-+ */
-+#define fGEN_TCG_loadalignh(GET_EA) \
-+    do { \
-+        TCGv tmp = tcg_temp_new(); \
-+        TCGv_i64 tmp_i64 = tcg_temp_new_i64(); \
-+        GET_EA;  \
-+        fLOAD(1, 2, u, EA, tmp);  \
-+        tcg_gen_extu_i32_i64(tmp_i64, tmp); \
-+        tcg_gen_shri_i64(RyyV, RyyV, 16); \
-+        tcg_gen_deposit_i64(RyyV, RyyV, tmp_i64, 48, 16); \
-+        tcg_temp_free(tmp); \
-+        tcg_temp_free_i64(tmp_i64); \
-+    } while (0)
-+
-+#define fGEN_TCG_L4_loadalignh_ur(SHORTCODE) \
-+    fGEN_TCG_loadalignh(fEA_IRs(UiV, RtV, uiV))
-+#define fGEN_TCG_L2_loadalignh_io(SHORTCODE) \
-+    fGEN_TCG_loadalignh(fEA_RI(RsV, siV))
-+#define fGEN_TCG_L2_loadalignh_pci(SHORTCODE) \
-+    fGEN_TCG_loadalignh(GET_EA_pci)
-+#define fGEN_TCG_L2_loadalignh_pcr(SHORTCODE) \
-+    fGEN_TCG_loadalignh(GET_EA_pcr(1))
-+#define fGEN_TCG_L4_loadalignh_ap(SHORTCODE) \
-+    fGEN_TCG_loadalignh(GET_EA_ap)
-+#define fGEN_TCG_L2_loadalignh_pr(SHORTCODE) \
-+    fGEN_TCG_loadalignh(GET_EA_pr)
-+#define fGEN_TCG_L2_loadalignh_pbr(SHORTCODE) \
-+    fGEN_TCG_loadalignh(GET_EA_pbr)
-+#define fGEN_TCG_L2_loadalignh_pi(SHORTCODE) \
-+    fGEN_TCG_loadalignh(GET_EA_pi)
-+
-+/* Same as above, but loads a byte instead of half word */
-+#define fGEN_TCG_loadalignb(GET_EA) \
-+    do { \
-+        TCGv tmp = tcg_temp_new(); \
-+        TCGv_i64 tmp_i64 = tcg_temp_new_i64(); \
-+        GET_EA;  \
-+        fLOAD(1, 1, u, EA, tmp);  \
-+        tcg_gen_extu_i32_i64(tmp_i64, tmp); \
-+        tcg_gen_shri_i64(RyyV, RyyV, 8); \
-+        tcg_gen_deposit_i64(RyyV, RyyV, tmp_i64, 56, 8); \
-+        tcg_temp_free(tmp); \
-+        tcg_temp_free_i64(tmp_i64); \
-+    } while (0)
-+
-+#define fGEN_TCG_L2_loadalignb_io(SHORTCODE) \
-+    fGEN_TCG_loadalignb(fEA_RI(RsV, siV))
-+#define fGEN_TCG_L4_loadalignb_ur(SHORTCODE) \
-+    fGEN_TCG_loadalignb(fEA_IRs(UiV, RtV, uiV))
-+#define fGEN_TCG_L2_loadalignb_pci(SHORTCODE) \
-+    fGEN_TCG_loadalignb(GET_EA_pci)
-+#define fGEN_TCG_L2_loadalignb_pcr(SHORTCODE) \
-+    fGEN_TCG_loadalignb(GET_EA_pcr(0))
-+#define fGEN_TCG_L4_loadalignb_ap(SHORTCODE) \
-+    fGEN_TCG_loadalignb(GET_EA_ap)
-+#define fGEN_TCG_L2_loadalignb_pr(SHORTCODE) \
-+    fGEN_TCG_loadalignb(GET_EA_pr)
-+#define fGEN_TCG_L2_loadalignb_pbr(SHORTCODE) \
-+    fGEN_TCG_loadalignb(GET_EA_pbr)
-+#define fGEN_TCG_L2_loadalignb_pi(SHORTCODE) \
-+    fGEN_TCG_loadalignb(GET_EA_pi)
-+
- /*
-  * Predicated loads
-  * Here is a primer to understand the tag names
-diff --git a/tests/tcg/hexagon/load_align.c b/tests/tcg/hexagon/load_align.c
-new file mode 100644
-index 0000000000..12fc9cbd8f
---- /dev/null
-+++ b/tests/tcg/hexagon/load_align.c
-@@ -0,0 +1,415 @@
-+/*
-+ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/*
-+ * Test load align instructions
-+ *
-+ * Example
-+ *     r1:0 = memh_fifo(r1+#0)
-+ * loads a half word from memory, shifts the destination register
-+ * right by one half word and inserts the loaded value into the high
-+ * half word of the destination.
-+ *
-+ * There are 8 addressing modes and byte and half word variants, for a
-+ * total of 16 instructions to test
-+ */
-+
-+#include <stdio.h>
-+#include <string.h>
-+
-+int err;
-+
-+char buf[16] __attribute__((aligned(1 << 16)));
-+
-+void init_buf(void)
-+{
-+    int i;
-+    for (i = 0; i < 16; i++) {
-+        buf[i] = i + 1;
-+    }
-+}
-+
-+void __check(int line, long long result, long long expect)
-+{
-+    if (result != expect) {
-+        printf("ERROR at line %d: 0x%016llx != 0x%016llx\n",
-+               line, result, expect);
-+        err++;
-+    }
-+}
-+
-+#define check(RES, EXP) __check(__LINE__, RES, EXP)
-+
-+void __checkp(int line, void *p, void *expect)
-+{
-+    if (p != expect) {
-+        printf("ERROR at line %d: 0x%p != 0x%p\n", line, p, expect);
-+        err++;
-+    }
-+}
-+
-+#define checkp(RES, EXP) __checkp(__LINE__, RES, EXP)
-+
-+/*
-+ ****************************************************************************
-+ * _io addressing mode (addr + offset)
-+ */
-+#define LOAD_io(SZ, RES, ADDR, OFF) \
-+    __asm__( \
-+        "%0 = mem" #SZ "_fifo(%1+#" #OFF ")\n\t" \
-+        : "+r"(RES) \
-+        : "r"(ADDR))
-+#define LOAD_io_b(RES, ADDR, OFF) \
-+    LOAD_io(b, RES, ADDR, OFF)
-+#define LOAD_io_h(RES, ADDR, OFF) \
-+    LOAD_io(h, RES, ADDR, OFF)
-+
-+#define TEST_io(NAME, SZ, SIZE, EXP1, EXP2, EXP3, EXP4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    LOAD_io_##SZ(result, buf, 0 * (SIZE)); \
-+    check(result, (EXP1)); \
-+    LOAD_io_##SZ(result, buf, 1 * (SIZE)); \
-+    check(result, (EXP2)); \
-+    LOAD_io_##SZ(result, buf, 2 * (SIZE)); \
-+    check(result, (EXP3)); \
-+    LOAD_io_##SZ(result, buf, 3 * (SIZE)); \
-+    check(result, (EXP4)); \
-+}
-+
-+TEST_io(loadalignb_io, b, 1,
-+        0x01ffffffffffffffLL, 0x0201ffffffffffffLL,
-+        0x030201ffffffffffLL, 0x04030201ffffffffLL)
-+TEST_io(loadalignh_io, h, 2,
-+        0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+        0x060504030201ffffLL, 0x0807060504030201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _ur addressing mode (index << offset + base)
-+ */
-+#define LOAD_ur(SZ, RES, SHIFT, IDX) \
-+    __asm__( \
-+        "%0 = mem" #SZ "_fifo(%1<<#" #SHIFT " + ##buf)\n\t" \
-+        : "+r"(RES) \
-+        : "r"(IDX))
-+#define LOAD_ur_b(RES, SHIFT, IDX) \
-+    LOAD_ur(b, RES, SHIFT, IDX)
-+#define LOAD_ur_h(RES, SHIFT, IDX) \
-+    LOAD_ur(h, RES, SHIFT, IDX)
-+
-+#define TEST_ur(NAME, SZ, SHIFT, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    LOAD_ur_##SZ(result, (SHIFT), 0); \
-+    check(result, (RES1)); \
-+    LOAD_ur_##SZ(result, (SHIFT), 1); \
-+    check(result, (RES2)); \
-+    LOAD_ur_##SZ(result, (SHIFT), 2); \
-+    check(result, (RES3)); \
-+    LOAD_ur_##SZ(result, (SHIFT), 3); \
-+    check(result, (RES4)); \
-+}
-+
-+TEST_ur(loadalignb_ur, b, 1,
-+        0x01ffffffffffffffLL, 0x0301ffffffffffffLL,
-+        0x050301ffffffffffLL, 0x07050301ffffffffLL)
-+TEST_ur(loadalignh_ur, h, 1,
-+        0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+        0x060504030201ffffLL, 0x0807060504030201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _ap addressing mode (addr = base)
-+ */
-+#define LOAD_ap(SZ, RES, PTR, ADDR) \
-+    __asm__(  \
-+        "%0 = mem" #SZ "_fifo(%1 = ##" #ADDR ")\n\t" \
-+        : "+r"(RES), "=r"(PTR))
-+#define LOAD_ap_b(RES, PTR, ADDR) \
-+    LOAD_ap(b, RES, PTR, ADDR)
-+#define LOAD_ap_h(RES, PTR, ADDR) \
-+    LOAD_ap(h, RES, PTR, ADDR)
-+
-+#define TEST_ap(NAME, SZ, SIZE, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    void *ptr; \
-+    LOAD_ap_##SZ(result, ptr, (buf + 0 * (SIZE))); \
-+    check(result, (RES1)); \
-+    checkp(ptr, &buf[0 * (SIZE)]); \
-+    LOAD_ap_##SZ(result, ptr, (buf + 1 * (SIZE))); \
-+    check(result, (RES2)); \
-+    checkp(ptr, &buf[1 * (SIZE)]); \
-+    LOAD_ap_##SZ(result, ptr, (buf + 2 * (SIZE))); \
-+    check(result, (RES3)); \
-+    checkp(ptr, &buf[2 * (SIZE)]); \
-+    LOAD_ap_##SZ(result, ptr, (buf + 3 * (SIZE))); \
-+    check(result, (RES4)); \
-+    checkp(ptr, &buf[3 * (SIZE)]); \
-+}
-+
-+TEST_ap(loadalignb_ap, b, 1,
-+        0x01ffffffffffffffLL, 0x0201ffffffffffffLL,
-+        0x030201ffffffffffLL, 0x04030201ffffffffLL)
-+TEST_ap(loadalignh_ap, h, 2,
-+        0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+        0x060504030201ffffLL, 0x0807060504030201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _rp addressing mode (addr ++ modifer-reg)
-+ */
-+#define LOAD_pr(SZ, RES, PTR, INC) \
-+    __asm__( \
-+        "m0 = %2\n\t" \
-+        "%0 = mem" #SZ "_fifo(%1++m0)\n\t" \
-+        : "+r"(RES), "+r"(PTR) \
-+        : "r"(INC) \
-+        : "m0")
-+#define LOAD_pr_b(RES, PTR, INC) \
-+    LOAD_pr(b, RES, PTR, INC)
-+#define LOAD_pr_h(RES, PTR, INC) \
-+    LOAD_pr(h, RES, PTR, INC)
-+
-+#define TEST_pr(NAME, SZ, SIZE, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    void *ptr = buf; \
-+    LOAD_pr_##SZ(result, ptr, (SIZE)); \
-+    check(result, (RES1)); \
-+    checkp(ptr, &buf[1 * (SIZE)]); \
-+    LOAD_pr_##SZ(result, ptr, (SIZE)); \
-+    check(result, (RES2)); \
-+    checkp(ptr, &buf[2 * (SIZE)]); \
-+    LOAD_pr_##SZ(result, ptr, (SIZE)); \
-+    check(result, (RES3)); \
-+    checkp(ptr, &buf[3 * (SIZE)]); \
-+    LOAD_pr_##SZ(result, ptr, (SIZE)); \
-+    check(result, (RES4)); \
-+    checkp(ptr, &buf[4 * (SIZE)]); \
-+}
-+
-+TEST_pr(loadalignb_pr, b, 1,
-+        0x01ffffffffffffffLL, 0x0201ffffffffffffLL,
-+        0x030201ffffffffffLL, 0x04030201ffffffffLL)
-+TEST_pr(loadalignh_pr, h, 2,
-+        0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+        0x060504030201ffffLL, 0x0807060504030201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _pbr addressing mode (addr ++ modifer-reg:brev)
-+ */
-+#define LOAD_pbr(SZ, RES, PTR) \
-+    __asm__( \
-+        "r4 = #(1 << (16 - 3))\n\t" \
-+        "m0 = r4\n\t" \
-+        "%0 = mem" #SZ "_fifo(%1++m0:brev)\n\t" \
-+        : "+r"(RES), "+r"(PTR) \
-+        : \
-+        : "r4", "m0")
-+#define LOAD_pbr_b(RES, PTR) \
-+    LOAD_pbr(b, RES, PTR)
-+#define LOAD_pbr_h(RES, PTR) \
-+    LOAD_pbr(h, RES, PTR)
-+
-+#define TEST_pbr(NAME, SZ, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    void *ptr = buf; \
-+    LOAD_pbr_##SZ(result, ptr); \
-+    check(result, (RES1)); \
-+    LOAD_pbr_##SZ(result, ptr); \
-+    check(result, (RES2)); \
-+    LOAD_pbr_##SZ(result, ptr); \
-+    check(result, (RES3)); \
-+    LOAD_pbr_##SZ(result, ptr); \
-+    check(result, (RES4)); \
-+}
-+
-+TEST_pbr(loadalignb_pbr, b,
-+    0x01ffffffffffffffLL, 0x0501ffffffffffffLL,
-+    0x030501ffffffffffLL, 0x07030501ffffffffLL)
-+TEST_pbr(loadalignh_pbr, h,
-+    0x0201ffffffffffffLL, 0x06050201ffffffffLL,
-+    0x040306050201ffffLL, 0x0807040306050201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _pi addressing mode (addr ++ inc)
-+ */
-+#define LOAD_pi(SZ, RES, PTR, INC) \
-+    __asm__( \
-+        "%0 = mem" #SZ "_fifo(%1++#" #INC ")\n\t" \
-+        : "+r"(RES), "+r"(PTR))
-+#define LOAD_pi_b(RES, PTR, INC) \
-+    LOAD_pi(b, RES, PTR, INC)
-+#define LOAD_pi_h(RES, PTR, INC) \
-+    LOAD_pi(h, RES, PTR, INC)
-+
-+#define TEST_pi(NAME, SZ, INC, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    void *ptr = buf; \
-+    LOAD_pi_##SZ(result, ptr, (INC)); \
-+    check(result, (RES1)); \
-+    checkp(ptr, &buf[1 * (INC)]); \
-+    LOAD_pi_##SZ(result, ptr, (INC)); \
-+    check(result, (RES2)); \
-+    checkp(ptr, &buf[2 * (INC)]); \
-+    LOAD_pi_##SZ(result, ptr, (INC)); \
-+    check(result, (RES3)); \
-+    checkp(ptr, &buf[3 * (INC)]); \
-+    LOAD_pi_##SZ(result, ptr, (INC)); \
-+    check(result, (RES4)); \
-+    checkp(ptr, &buf[4 * (INC)]); \
-+}
-+
-+TEST_pi(loadalignb_pi, b, 1,
-+        0x01ffffffffffffffLL, 0x0201ffffffffffffLL,
-+        0x030201ffffffffffLL, 0x04030201ffffffffLL)
-+TEST_pi(loadalignh_pi, h, 2,
-+        0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+        0x060504030201ffffLL, 0x0807060504030201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _pci addressing mode (addr ++ inc:circ)
-+ */
-+#define LOAD_pci(SZ, RES, PTR, START, LEN, INC) \
-+    __asm__( \
-+        "r4 = %3\n\t" \
-+        "m0 = r4\n\t" \
-+        "cs0 = %2\n\t" \
-+        "%0 = mem" #SZ "_fifo(%1++#" #INC ":circ(m0))\n\t" \
-+        : "+r"(RES), "+r"(PTR) \
-+        : "r"(START), "r"(LEN) \
-+        : "r4", "m0", "cs0")
-+#define LOAD_pci_b(RES, PTR, START, LEN, INC) \
-+    LOAD_pci(b, RES, PTR, START, LEN, INC)
-+#define LOAD_pci_h(RES, PTR, START, LEN, INC) \
-+    LOAD_pci(h, RES, PTR, START, LEN, INC)
-+
-+#define TEST_pci(NAME, SZ, LEN, INC, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    void *ptr = buf; \
-+    LOAD_pci_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES1)); \
-+    checkp(ptr, &buf[(1 * (INC)) % (LEN)]); \
-+    LOAD_pci_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES2)); \
-+    checkp(ptr, &buf[(2 * (INC)) % (LEN)]); \
-+    LOAD_pci_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES3)); \
-+    checkp(ptr, &buf[(3 * (INC)) % (LEN)]); \
-+    LOAD_pci_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES4)); \
-+    checkp(ptr, &buf[(4 * (INC)) % (LEN)]); \
-+}
-+
-+TEST_pci(loadalignb_pci, b, 2, 1,
-+    0x01ffffffffffffffLL, 0x0201ffffffffffffLL,
-+    0x010201ffffffffffLL, 0x02010201ffffffffLL)
-+TEST_pci(loadalignh_pci, h, 4, 2,
-+    0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+    0x020104030201ffffLL, 0x0403020104030201LL)
-+
-+/*
-+ ****************************************************************************
-+ * _pcr addressing mode (addr ++ I:circ(modifier-reg))
-+ */
-+#define LOAD_pcr(SZ, RES, PTR, START, LEN, INC) \
-+    __asm__( \
-+        "r4 = %2\n\t" \
-+        "m1 = r4\n\t" \
-+        "cs1 = %3\n\t" \
-+        "%0 = mem" #SZ "_fifo(%1++I:circ(m1))\n\t" \
-+        : "+r"(RES), "+r"(PTR) \
-+        : "r"((((INC) & 0x7f) << 17) | ((LEN) & 0x1ffff)), \
-+          "r"(START) \
-+        : "r4", "m1", "cs1")
-+#define LOAD_pcr_b(RES, PTR, START, LEN, INC) \
-+    LOAD_pcr(b, RES, PTR, START, LEN, INC)
-+#define LOAD_pcr_h(RES, PTR, START, LEN, INC) \
-+    LOAD_pcr(h, RES, PTR, START, LEN, INC)
-+
-+#define TEST_pcr(NAME, SZ, SIZE, LEN, INC, RES1, RES2, RES3, RES4) \
-+void test_##NAME(void) \
-+{ \
-+    long long result = ~0LL; \
-+    void *ptr = buf; \
-+    LOAD_pcr_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES1)); \
-+    checkp(ptr, &buf[(1 * (INC) * (SIZE)) % (LEN)]); \
-+    LOAD_pcr_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES2)); \
-+    checkp(ptr, &buf[(2 * (INC) * (SIZE)) % (LEN)]); \
-+    LOAD_pcr_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES3)); \
-+    checkp(ptr, &buf[(3 * (INC) * (SIZE)) % (LEN)]); \
-+    LOAD_pcr_##SZ(result, ptr, buf, (LEN), (INC)); \
-+    check(result, (RES4)); \
-+    checkp(ptr, &buf[(4 * (INC) * (SIZE)) % (LEN)]); \
-+}
-+
-+TEST_pcr(loadalignb_pcr, b, 1, 2, 1,
-+    0x01ffffffffffffffLL, 0x0201ffffffffffffLL,
-+    0x010201ffffffffffLL, 0x02010201ffffffffLL)
-+TEST_pcr(loadalignh_pcr, h, 2, 4, 1,
-+    0x0201ffffffffffffLL, 0x04030201ffffffffLL,
-+    0x020104030201ffffLL, 0x0403020104030201LL)
-+
-+int main()
-+{
-+    init_buf();
-+
-+    test_loadalignb_io();
-+    test_loadalignh_io();
-+
-+    test_loadalignb_ur();
-+    test_loadalignh_ur();
-+
-+    test_loadalignb_ap();
-+    test_loadalignh_ap();
-+
-+    test_loadalignb_pr();
-+    test_loadalignh_pr();
-+
-+    test_loadalignb_pbr();
-+    test_loadalignh_pbr();
-+
-+    test_loadalignb_pi();
-+    test_loadalignh_pi();
-+
-+    test_loadalignb_pci();
-+    test_loadalignh_pci();
-+
-+    test_loadalignb_pcr();
-+    test_loadalignh_pcr();
-+
-+    puts(err ? "FAIL" : "PASS");
-+    return err ? 1 : 0;
-+}
-diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
-index e3582ebb29..dc4eba4f68 100644
---- a/target/hexagon/imported/encode_pp.def
-+++ b/target/hexagon/imported/encode_pp.def
-@@ -348,6 +348,9 @@ STD_LD_ENC(bzw2,"0 011")
- STD_LD_ENC(bsw4,"0 111")
- STD_LD_ENC(bsw2,"0 001")
+ uint64_t interleave(uint32_t odd, uint32_t even);
+ uint64_t deinterleave(uint64_t src);
+-uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c);
+ int32_t conv_round(int32_t a, int n);
+ void arch_fpop_start(CPUHexagonState *env);
+ void arch_fpop_end(CPUHexagonState *env);
+diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
+index cfcb8173ba..8cb211dfde 100644
+--- a/target/hexagon/macros.h
++++ b/target/hexagon/macros.h
+@@ -341,8 +341,6 @@ static inline void gen_logical_not(TCGv dest, TCGv src)
+ #define fWRITE_LC0(VAL) WRITE_RREG(HEX_REG_LC0, VAL)
+ #define fWRITE_LC1(VAL) WRITE_RREG(HEX_REG_LC1, VAL)
  
-+STD_LDX_ENC(alignh,"0 010")
-+STD_LDX_ENC(alignb,"0 100")
-+
- STD_LD_ENC(rb,  "1 000")
- STD_LD_ENC(rub, "1 001")
- STD_LD_ENC(rh,  "1 010")
-diff --git a/target/hexagon/imported/ldst.idef b/target/hexagon/imported/ldst.idef
-index 95c0470757..359d3b744e 100644
---- a/target/hexagon/imported/ldst.idef
-+++ b/target/hexagon/imported/ldst.idef
-@@ -80,6 +80,25 @@ ATTRIBS(A_LOAD),"2",
+-#define fCARRY_FROM_ADD(A, B, C) carry_from_add64(A, B, C)
+-
+ #define fSET_OVERFLOW() SET_USR_FIELD(USR_OVF, 1)
+ #define fSET_LPCFG(VAL) SET_USR_FIELD(USR_LPCFG, (VAL))
+ #define fGET_LPCFG (GET_USR_FIELD(USR_LPCFG))
+diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
+index 09de124818..699e2cfb8f 100644
+--- a/target/hexagon/arch.c
++++ b/target/hexagon/arch.c
+@@ -76,19 +76,6 @@ uint64_t deinterleave(uint64_t src)
+     return myeven | (myodd << 32);
+ }
  
- 
- 
-+STD_LD_AMODES(loadalignh, "Ryy32=memh_fifo", "Load Half-word into shifted vector",
-+ATTRIBS(A_LOAD),"1",
-+{
-+ fHIDE(size8u_t tmpV;)
-+ fLOAD(1,2,u,EA,tmpV);
-+ RyyV = (((size8u_t)RyyV)>>16)|(tmpV<<48);
-+},1)
-+
-+
-+STD_LD_AMODES(loadalignb, "Ryy32=memb_fifo", "Load byte into shifted vector",
-+ATTRIBS(A_LOAD),"0",
-+{
-+ fHIDE(size8u_t tmpV;)
-+ fLOAD(1,1,u,EA,tmpV);
-+ RyyV = (((size8u_t)RyyV)>>8)|(tmpV<<56);
-+},0)
-+
-+
-+
- 
- /* The set of addressing modes standard to all Store instructions */
- #define STD_ST_AMODES(TAG,DEST,OPER,DESCR,ATTRIB,SHFT,SEMANTICS,SCALE)\
-diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-index 183f4e2efe..0992787d50 100644
---- a/tests/tcg/hexagon/Makefile.target
-+++ b/tests/tcg/hexagon/Makefile.target
-@@ -45,6 +45,7 @@ HEX_TESTS += mem_noshuf
- HEX_TESTS += circ
- HEX_TESTS += brev
- HEX_TESTS += load_unpack
-+HEX_TESTS += load_align
- HEX_TESTS += atomics
- HEX_TESTS += fpstuff
- 
+-uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c)
+-{
+-    uint64_t tmpa, tmpb, tmpc;
+-    tmpa = fGETUWORD(0, a);
+-    tmpb = fGETUWORD(0, b);
+-    tmpc = tmpa + tmpb + c;
+-    tmpa = fGETUWORD(1, a);
+-    tmpb = fGETUWORD(1, b);
+-    tmpc = tmpa + tmpb + fGETUWORD(1, tmpc);
+-    tmpc = fGETUWORD(1, tmpc);
+-    return tmpc;
+-}
+-
+ int32_t conv_round(int32_t a, int n)
+ {
+     int64_t val;
 -- 
 2.25.1
 
