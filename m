@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E2037075A
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 15:14:08 +0200 (CEST)
-Received: from localhost ([::1]:60034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B1D370760
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 15:15:13 +0200 (CEST)
+Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcpRf-0005OW-7S
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 09:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57850)
+	id 1lcpSi-0006S8-Eh
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 09:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1lcpPt-0004Nk-Hn; Sat, 01 May 2021 09:12:17 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:44907)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lcpRU-0005cY-2I
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 09:13:56 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1lcpPr-0003YZ-OI; Sat, 01 May 2021 09:12:17 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- z25-20020a9d65d90000b02902a560806ca7so983682oth.11; 
- Sat, 01 May 2021 06:12:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lcpRS-0004Tf-8I
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 09:13:55 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id s82so611645wmf.3
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 06:13:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8MiVVkIZNW/ltqxDo5KpIq5+cCUCDJhuFtfHkkPt4Iw=;
- b=j5l6L/0Za9rNlEDBDJE5g2NOtDcOPY+s2Mu3uW1G5DYTM5QYaPUQx9HMO4OGzD4eAb
- ZOPRNvDGAZ5KsKLFLu6BbwTa8x83d6MEwR8F52hgr8ix05AXoDM9KfrF+3KMPWng27w1
- d58pd/jiN02ljsHHJkSXLKMjNH0R94a3X8y95tJS9rncHZuAgWnHAVQutH9HsR3NIY2M
- xAYXPVbzCyyo0gBBPmqWZkK+tycnFmBvDrVnvg9YGpOhjpE1xmvOTwp0qVyGgwbsBlRx
- 5vQAnEfQiTv/0sl9eJ+1CNMr9xcg51C2zcF8D7phrnER0DNjQwIPXbu/sJH01aOCB7Yf
- Mhgg==
+ bh=QMGnkp+UveHbbZ6DHBCkbTwhWVKQuDWe5peCfiEJtrQ=;
+ b=JDYsorTP9NWjf8294whDWtQo0aH0XEyOCU55T/droEG7oI0dfE8721MC2VyUTXZM0v
+ 8AB+nSzK3COr9wxZuK9jROSMCFYzsb7EhkQ+logGzmiBkvRJu9OCV/Oega+nRQ0TBEwU
+ QrAlyp7B6vrQQpM0fQb4ABeXDCx4XtWmJJ90cyLm517Perf/uKhKABs5DewZjmGod1PQ
+ r22YppWQVryvZAZ7P0BWTnPVF8EK0dT4UOKtTmD+RKwLre/PVwEc/pt2MWAP7mvmuZ3e
+ jHT0rwyAeabiZkSsmqpet7D5PLT4lYlJKrunVTWeT8LTEAp8EMXrBFE8RkBhrrKoQFql
+ zJrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8MiVVkIZNW/ltqxDo5KpIq5+cCUCDJhuFtfHkkPt4Iw=;
- b=eXEPlas0W493T4X2Zrw9oQYtKCDneQ3zw//0+UBqbHsjKcDsSo6XToIJcQMaW5/TVE
- HaGg9D3gamnQmZMkoUw5NtfJEoADtndbCAEfh5Bc80azrzr4FjhfyzSybBMDgej8i7p2
- zwvN6bp/UgxDNSIhe/Xbk72/XKqhJUWeXNH44KKPFP11h3q73FgVS6O3pyT6ED8TV6en
- ljH0bSQQSXZ6GdheCP3RSe3HNkwy4rX8RzGFap+ioNz7tmZXnD178YEf0y1/429Mx4ak
- NJ9yp4kamcOYgklMg49lmRDT6j9LizZbzfUpCvwe2mIgNRkdyfz/N5rfvmvfjzQqaMYt
- 2n4g==
-X-Gm-Message-State: AOAM531zbzO/qPWAEgS4tBd3I07vJt5mWTwqHju7XjGafEa8IYtAY1t8
- VAODzFO0bmgILhLtGaLW4sc=
-X-Google-Smtp-Source: ABdhPJyvpDTnjkPP0oggjVJWAblGQLBtFnf+wyw/4gxTp49rCSMI+7nmoTd72NnN4EgGefjzRSJhQg==
-X-Received: by 2002:a9d:5a4:: with SMTP id 33mr7491285otd.328.1619874734130;
- Sat, 01 May 2021 06:12:14 -0700 (PDT)
-Received: from server.roeck-us.net
- (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
- by smtp.gmail.com with ESMTPSA id y8sm1472460oie.28.2021.05.01.06.12.12
+ bh=QMGnkp+UveHbbZ6DHBCkbTwhWVKQuDWe5peCfiEJtrQ=;
+ b=fb3CUr/qwSF8wv0OP/3YOK/OvZdRo8XIltjvSwjRNEGpK2EuPgF38I2jnfk27sqs7c
+ FxTaDR6F7fSaQSXwGYQ+3eLLdf8LjsamhOVVMnsAllGcL3SDFHMKRhQJnkfPZ8v/M2g9
+ qvhNyc/8j5jlT1Mjcs8WC+QmqRfDu18PbkcphAgUwpGm8w6y4x9FlmvPF5MlOhXiVI+k
+ rzV9LD02JkL7byEin3QIy9eYGrfxRR1IUYYX3J09m9ce2VC80qIWGGMhSHY6C5ZqGBpp
+ TTZjUuwigir/ciC3o263P1qjNT9ik5mpeuFuXHy8QWz2e9KaP3ONKK+LRG2RM37j0rnL
+ MkqA==
+X-Gm-Message-State: AOAM531SK56Dn3ufBkXvBLWTs2WYky6r/tnPcgqHm55yumbMZYURswec
+ /d+D9hWS60bq66LXLb+oMXV8dmFdEzd0yNzA
+X-Google-Smtp-Source: ABdhPJyLtxmKfyjtZiwkqZ02SDuzkGkVdalM2CJ8aa52s8yDZzuhWLlGBG2ddyK2wQWlVCivzz1w/w==
+X-Received: by 2002:a1c:9897:: with SMTP id a145mr13779535wme.9.1619874832327; 
+ Sat, 01 May 2021 06:13:52 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id v18sm6744448wro.18.2021.05.01.06.13.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 May 2021 06:12:13 -0700 (PDT)
-Subject: Re: [PATCH v3 3/4] hw/arm: sabrelite: Connect the Ethernet PHY at
- address 6
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <20210106063504.10841-1-bmeng.cn@gmail.com>
- <20210106063504.10841-4-bmeng.cn@gmail.com>
- <20210430144136.GA2880420@roeck-us.net>
- <CAEUhbmUTLecMcr0=vmBeYJZeK6CdZY4SZcYiOu0E9AawY41+Cg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <c57026be-01fb-41ad-b7c2-093a3704bf16@roeck-us.net>
-Date: Sat, 1 May 2021 06:12:11 -0700
+ Sat, 01 May 2021 06:13:51 -0700 (PDT)
+Subject: Re: [Bug 1861677] Re: wavcapture crash with pulseaudio
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Bug 1861677 <1861677@bugs.launchpad.net>, qemu-devel@nongnu.org
+References: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
+ <161986065342.4935.14510629788143038327.launchpad@chaenomeles.canonical.com>
+ <98db3a34-3820-79e4-9423-b5c0fdd3674d@t-online.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <688dc944-f8be-54fe-6466-47cd261c2987@amsat.org>
+Date: Sat, 1 May 2021 15:13:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmUTLecMcr0=vmBeYJZeK6CdZY4SZcYiOu0E9AawY41+Cg@mail.gmail.com>
+In-Reply-To: <98db3a34-3820-79e4-9423-b5c0fdd3674d@t-online.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x333.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -92,71 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 9:28 PM, Bin Meng wrote:
-> On Fri, Apr 30, 2021 at 10:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
+On 5/1/21 3:01 PM, Volker Rümelin wrote:
+>> You received this bug notification because you are a member of qemu-
+>> devel-ml, which is subscribed to QEMU.
+>>https://bugs.launchpad.net/bugs/1861677
 >>
->> Hi,
+>> Title:
+>>  wavcapture crash with pulseaudio
 >>
->> On Wed, Jan 06, 2021 at 02:35:03PM +0800, Bin Meng wrote:
->>> From: Bin Meng <bin.meng@windriver.com>
->>>
->>> At present, when booting U-Boot on QEMU sabrelite, we see:
->>>
->>>   Net:   Board Net Initialization Failed
->>>   No ethernet found.
->>>
->>> U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
->>> U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
->>> board, the Ethernet PHY is at address 6. Adjust this by updating the
->>> "fec-phy-num" property of the fsl_imx6 SoC object.
->>>
->>> With this change, U-Boot sees the PHY but complains MAC address:
->>>
->>>   Net:   using phy at 6
->>>   FEC [PRIME]
->>>   Error: FEC address not set.
->>>
->>> This is due to U-Boot tries to read the MAC address from the fuse,
->>> which QEMU does not have any valid content filled in. However this
->>> does not prevent the Ethernet from working in QEMU. We just need to
->>> set up the MAC address later in the U-Boot command shell, by:
->>>
->>>   => setenv ethaddr 00:11:22:33:44:55
->>>
->>
->> With this patch in place, the standard Ethernet interface no longer works when
->> booting sabrelite Linux images directly (without u-boot) using the following
->> qemu command.
->>         qemu-system-arm -M sabrelite -kernel arch/arm/boot/zImage
->>         ...
->>
->> The Ethernet interface still instantiates, but packet transfer to the host
->> no longer works. Reverting this patch fixes the problem for me.
->>
->> Is there a qemu command line parameter that is now necessary to instantiate
->> the Ethernet interface when booting Linux ?
+>> Status in QEMU:
+>>  New
 > 
-> Enabling "guest_errors" shows that Linux kernel fec driver is trying
-> to read PHY at address 0, which is not what we want.
+> Hi Philippe,
 > 
-> [imx.fec.phy]imx_phy_read: Bad phy num 0
-> 
-> The device tree blob of the sabrelite does not contain a node for the
-> ethernet phy specifying phy address, so I suspect Linux kernel driver
-> is using default phy address 0 instead.
-> 
-> Could you please test on a real hardware to see what happens?
-> 
+> this bug was fixed with commit cbaf25d1f5 "audio: fix wavcapture segfault".
 
-I don't have access to real hardware, sorry.
+Indeed, thanks!
 
-Guenter
-
+Phil.
 
