@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A233708BB
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:14:18 +0200 (CEST)
-Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BECC43708BA
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:14:12 +0200 (CEST)
+Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcv4D-0003bH-6G
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44738)
+	id 1lcv47-0003Qu-R8
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:14:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcub7-0000H1-I7
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:44:13 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:40938)
+ id 1lcui1-0006Rd-08
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:21 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuah-0000Bs-TY
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:44:13 -0400
-Received: by mail-pg1-x536.google.com with SMTP id y30so837573pgl.7
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:46 -0700 (PDT)
+ id 1lcuhz-0003kZ-2O
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:20 -0400
+Received: by mail-pg1-x534.google.com with SMTP id i14so849481pgk.5
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:51:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=w/02MvMcvcwaLo+V4KLVseMUFm3Gl9HzSInjVPGbUvE=;
- b=PERtAMuCESOLDrFrNfXu0avkQ/KhrMN/BW3j11HEoa8gnAeRyaFNW/iKd0WuxjhG9h
- TFeDbYmsEeG7g8L7GfOFtt9456XEGCKo+3pgiS/8PLbI0mTdWRxfH0wjpx7k8pCpvrnc
- 7IrfS4Hsa6Pff2e4PWxelcOxgO3xDk+dn9zVi891LtmyhaFVxTZB0ELmMGp4myHaBuJ2
- n9IPkWHtCp8Go0vl4F/5BU9+mCQuAgCZn8xVPNUAPLAYq2q+U2MsTSsRZoVV6b42QB9d
- rgiEhdmOoMmCAqFD+kW29cgpc7pY6pB3EcKCdONax3vi6mjR10asFwoufdAQf7wcO6hV
- WZ9A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AMLKr9oDHcVOpzZ1zRNW7GiVm/jcytwR8TFZ/kEnpH0=;
+ b=rgyG498TV0DxitSszdgmO6S1FcXus/Znezwwe1AD14tuEOerHCGPjy0LKsp6u214UC
+ uneGdRYO7PWn738ODNBuRkHmYuYH5imt5LqaB6t+rWtHpqDcFfL93dygcuezEuAsymMB
+ aCei5I4dkrqAkEc+DJmOFxBNtq2s6sZHmPjcQ1nI+W0XKwJYPnyFXLxM8/B331LzIlqb
+ vPyWyIzvltSaJDKp9v+iuI29Em8koxE0qj15NA7GVb4qU+e4rJc2ergExrbMj7rhh/a0
+ g9xFl3+puix75NDsfWkJNS0vpGsaUqqnRVrz+PPKpTMM8QZ4gE88wiDGrozeJKwGEUhf
+ uSQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=w/02MvMcvcwaLo+V4KLVseMUFm3Gl9HzSInjVPGbUvE=;
- b=K74k9u/Z6/6EuQHPz2B0eNW7mMGvyMBBzl4Loq4sKmV6d7lEn+A+7zjuD8L9qGpQrt
- PWP6Twf3nv1+J6kYLBIntitqbpz7U+TYJN+f8MDaiL3ssCXQp48WiEvRX6WhphRxJvTw
- Q57K3FxpfAW55DXGb4oI5IcaAGobL9Z5rLf2mVtgTarJuatR4616fWdIvrEhOsrDyvg0
- YPacvHzyHTFMUGijfU32hlIE9mRnyDR9/E6jiZqAVlP5pbVVcbi4P4gpY/DVtrsGoQoY
- drmFZLgQvGyXZx1D3CVeLqHt2NjKbVsOzHU3miI+hnITK1OLYId13vJOKXwCBTKJcWhY
- 3mGw==
-X-Gm-Message-State: AOAM530+wNM+NWl1udrKAqs+Bx9VPQnyMh0bdRibGdTOY6l5X6tlaTT/
- klA6uVWkRcTAAjCOgQgbeHKLMkMCpVliqg==
-X-Google-Smtp-Source: ABdhPJy3bONBj9uRsobBGQF4jNJIAaJ2Xqkr904E3wJGrlg+5wjarLzp2u8BtT3KD0F5NBisJpM8/A==
-X-Received: by 2002:a63:cf57:: with SMTP id b23mr10292880pgj.328.1619894625458; 
- Sat, 01 May 2021 11:43:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AMLKr9oDHcVOpzZ1zRNW7GiVm/jcytwR8TFZ/kEnpH0=;
+ b=gR95gDDMUIewDUviz75EnSHewZxR3iW4nBJ18q9uffs6xmKujKu0dIh6Vm5Ally3WK
+ 967hCAeEttgqQTVx45f5zCtBle/jUjaD6EIaSeBDWtzrQeyPxVd7o9dCYa6YwTr3Oy2+
+ bSxPH7WCCnzWuCoRQssu1jstqdFsaFOslvOdn09QSJwrEhVwhpsYKB1QyWCCGhI7btaK
+ MvCtSZCACu/VsYq2YdAvY4JBF71i8+WvoGYUMUDnHDY827nl7++hEqWYPePJ+gnqTfQq
+ CfA0BJkRGuFoqH6lpyF6yqp6PBYev/yiWAwIsMFy40PW2st/XgCEwFe30JBA4Qu8/ATR
+ UAFw==
+X-Gm-Message-State: AOAM531AsVu659EpRoGb2dgYxE1WiULP5juSSd6E3GSzDTyQMa+5o5Cz
+ HdRan8JtzsHV8RI9vGXttQDBXpvVj9fb4Q==
+X-Google-Smtp-Source: ABdhPJz93Z+/UObZGePCfukuHakgyTIUXlitFp5A5FwloPGjYE4i21FqpF8NHd9QyP30fUD5SrVCUw==
+X-Received: by 2002:a62:e90a:0:b029:28e:62a0:a3df with SMTP id
+ j10-20020a62e90a0000b029028e62a0a3dfmr2303388pfh.31.1619895077615; 
+ Sat, 01 May 2021 11:51:17 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.44
+ by smtp.gmail.com with ESMTPSA id k17sm4971360pfa.68.2021.05.01.11.51.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 11:43:45 -0700 (PDT)
+ Sat, 01 May 2021 11:51:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/31] Hexagon (target/hexagon) CABAC decode bin
-Date: Sat,  1 May 2021 11:43:24 -0700
-Message-Id: <20210501184324.1338186-32-richard.henderson@linaro.org>
+Subject: [PULL 0/5] tcg patch queue
+Date: Sat,  1 May 2021 11:51:11 -0700
+Message-Id: <20210501185116.1338875-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
-References: <20210501184324.1338186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,323 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Taylor Simpson <tsimpson@quicinc.com>
+The following changes since commit 8f860d2633baf9c2b6261f703f86e394c6bc22ca:
 
-The following instruction is added
-    S2_cabacdecbin            Rdd32=decbin(Rss32,Rtt32)
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-04-30' into staging (2021-04-30 16:02:00 +0100)
 
-Test cases added to tests/tcg/hexagon/misc.c
+are available in the Git repository at:
 
-Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-27-git-send-email-tsimpson@quicinc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/hexagon/arch.h                 |  4 ++
- target/hexagon/macros.h               |  7 +++
- target/hexagon/arch.c                 | 91 +++++++++++++++++++++++++++
- tests/tcg/hexagon/misc.c              | 28 +++++++++
- target/hexagon/imported/encode_pp.def |  1 +
- target/hexagon/imported/macros.def    | 15 +++++
- target/hexagon/imported/shift.idef    | 47 ++++++++++++++
- 7 files changed, 193 insertions(+)
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210501
 
-diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
-index 3e0c334209..70918065d3 100644
---- a/target/hexagon/arch.h
-+++ b/target/hexagon/arch.h
-@@ -20,6 +20,10 @@
- 
- #include "qemu/int128.h"
- 
-+extern const uint8_t rLPS_table_64x4[64][4];
-+extern const uint8_t AC_next_state_MPS_64[64];
-+extern const uint8_t AC_next_state_LPS_64[64];
-+
- uint64_t interleave(uint32_t odd, uint32_t even);
- uint64_t deinterleave(uint64_t src);
- int32_t conv_round(int32_t a, int n);
-diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-index ec5bf60f5e..b726c3b791 100644
---- a/target/hexagon/macros.h
-+++ b/target/hexagon/macros.h
-@@ -222,6 +222,13 @@ static inline void gen_pred_cancel(TCGv pred, int slot_num)
-     (((HIBIT) - (LOWBIT) + 1) ? \
-         extract64((INREG), (LOWBIT), ((HIBIT) - (LOWBIT) + 1)) : \
-         0LL)
-+#define fINSERT_RANGE(INREG, HIBIT, LOWBIT, INVAL) \
-+    do { \
-+        int width = ((HIBIT) - (LOWBIT) + 1); \
-+        INREG = (width >= 0 ? \
-+            deposit64((INREG), (LOWBIT), width, (INVAL)) : \
-+            INREG); \
-+    } while (0)
- 
- #define f8BITSOF(VAL) ((VAL) ? 0xff : 0x00)
- 
-diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index dee852e106..68a55b3bd4 100644
---- a/target/hexagon/arch.c
-+++ b/target/hexagon/arch.c
-@@ -27,6 +27,97 @@
- #define SF_MANTBITS    23
- #define float32_nan    make_float32(0xffffffff)
- 
-+/*
-+ * These three tables are used by the cabacdecbin instruction
-+ */
-+const uint8_t rLPS_table_64x4[64][4] = {
-+    {128, 176, 208, 240},
-+    {128, 167, 197, 227},
-+    {128, 158, 187, 216},
-+    {123, 150, 178, 205},
-+    {116, 142, 169, 195},
-+    {111, 135, 160, 185},
-+    {105, 128, 152, 175},
-+    {100, 122, 144, 166},
-+    {95, 116, 137, 158},
-+    {90, 110, 130, 150},
-+    {85, 104, 123, 142},
-+    {81, 99, 117, 135},
-+    {77, 94, 111, 128},
-+    {73, 89, 105, 122},
-+    {69, 85, 100, 116},
-+    {66, 80, 95, 110},
-+    {62, 76, 90, 104},
-+    {59, 72, 86, 99},
-+    {56, 69, 81, 94},
-+    {53, 65, 77, 89},
-+    {51, 62, 73, 85},
-+    {48, 59, 69, 80},
-+    {46, 56, 66, 76},
-+    {43, 53, 63, 72},
-+    {41, 50, 59, 69},
-+    {39, 48, 56, 65},
-+    {37, 45, 54, 62},
-+    {35, 43, 51, 59},
-+    {33, 41, 48, 56},
-+    {32, 39, 46, 53},
-+    {30, 37, 43, 50},
-+    {29, 35, 41, 48},
-+    {27, 33, 39, 45},
-+    {26, 31, 37, 43},
-+    {24, 30, 35, 41},
-+    {23, 28, 33, 39},
-+    {22, 27, 32, 37},
-+    {21, 26, 30, 35},
-+    {20, 24, 29, 33},
-+    {19, 23, 27, 31},
-+    {18, 22, 26, 30},
-+    {17, 21, 25, 28},
-+    {16, 20, 23, 27},
-+    {15, 19, 22, 25},
-+    {14, 18, 21, 24},
-+    {14, 17, 20, 23},
-+    {13, 16, 19, 22},
-+    {12, 15, 18, 21},
-+    {12, 14, 17, 20},
-+    {11, 14, 16, 19},
-+    {11, 13, 15, 18},
-+    {10, 12, 15, 17},
-+    {10, 12, 14, 16},
-+    {9, 11, 13, 15},
-+    {9, 11, 12, 14},
-+    {8, 10, 12, 14},
-+    {8, 9, 11, 13},
-+    {7, 9, 11, 12},
-+    {7, 9, 10, 12},
-+    {7, 8, 10, 11},
-+    {6, 8, 9, 11},
-+    {6, 7, 9, 10},
-+    {6, 7, 8, 9},
-+    {2, 2, 2, 2}
-+};
-+
-+const uint8_t AC_next_state_MPS_64[64] = {
-+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-+    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-+    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-+    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-+    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-+    61, 62, 62, 63
-+};
-+
-+
-+const uint8_t AC_next_state_LPS_64[64] = {
-+    0, 0, 1, 2, 2, 4, 4, 5, 6, 7,
-+    8, 9, 9, 11, 11, 12, 13, 13, 15, 15,
-+    16, 16, 18, 18, 19, 19, 21, 21, 22, 22,
-+    23, 24, 24, 25, 26, 26, 27, 27, 28, 29,
-+    29, 30, 30, 30, 31, 32, 32, 33, 33, 33,
-+    34, 34, 35, 35, 35, 36, 36, 36, 37, 37,
-+    37, 38, 38, 63
-+};
-+
- #define BITS_MASK_8 0x5555555555555555ULL
- #define PAIR_MASK_8 0x3333333333333333ULL
- #define NYBL_MASK_8 0x0f0f0f0f0f0f0f0fULL
-diff --git a/tests/tcg/hexagon/misc.c b/tests/tcg/hexagon/misc.c
-index e5d78b471f..17c39198fc 100644
---- a/tests/tcg/hexagon/misc.c
-+++ b/tests/tcg/hexagon/misc.c
-@@ -231,6 +231,14 @@ static void check(int val, int expect)
-     }
- }
- 
-+static void check64(long long val, long long expect)
-+{
-+    if (val != expect) {
-+        printf("ERROR: 0x%016llx != 0x%016llx\n", val, expect);
-+        err++;
-+    }
-+}
-+
- uint32_t init[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
- uint32_t array[10];
- 
-@@ -264,6 +272,16 @@ static long long creg_pair(int x, int y)
-     return retval;
- }
- 
-+static long long decbin(long long x, long long y, int *pred)
-+{
-+    long long retval;
-+    asm ("%0 = decbin(%2, %3)\n\t"
-+         "%1 = p0\n\t"
-+         : "=r"(retval), "=r"(*pred)
-+         : "r"(x), "r"(y));
-+    return retval;
-+}
-+
- /* Check that predicates are auto-and'ed in a packet */
- static int auto_and(void)
- {
-@@ -282,6 +300,8 @@ static int auto_and(void)
- 
- int main()
- {
-+    long long res64;
-+    int pred;
- 
-     memcpy(array, init, sizeof(array));
-     S4_storerhnew_rr(array, 4, 0xffff);
-@@ -391,6 +411,14 @@ int main()
-     res = test_clrtnew(2, 7);
-     check(res, 7);
- 
-+    res64 = decbin(0xf0f1f2f3f4f5f6f7LL, 0x7f6f5f4f3f2f1f0fLL, &pred);
-+    check64(res64, 0x357980003700010cLL);
-+    check(pred, 0);
-+
-+    res64 = decbin(0xfLL, 0x1bLL, &pred);
-+    check64(res64, 0x78000100LL);
-+    check(pred, 1);
-+
-     res = auto_and();
-     check(res, 0);
- 
-diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
-index dc4eba4f68..35ae3d2369 100644
---- a/target/hexagon/imported/encode_pp.def
-+++ b/target/hexagon/imported/encode_pp.def
-@@ -1767,6 +1767,7 @@ SH_RRR_ENC(S4_vxsubaddh,        "0001","01-","-","110","ddddd")
- SH_RRR_ENC(S4_vxaddsubhr,       "0001","11-","-","00-","ddddd")
- SH_RRR_ENC(S4_vxsubaddhr,       "0001","11-","-","01-","ddddd")
- SH_RRR_ENC(S4_extractp_rp,      "0001","11-","-","10-","ddddd")
-+SH_RRR_ENC(S2_cabacdecbin,      "0001","11-","-","11-","ddddd") /* implicit P0 write */
- 
- 
- DEF_FIELDROW_DESC32(ICLASS_S3op" 0010 -------- PP------ --------","[#2] Rdd=(Rss,Rtt,Pu)")
-diff --git a/target/hexagon/imported/macros.def b/target/hexagon/imported/macros.def
-index 56c99b1d64..32ed3bf8fc 100755
---- a/target/hexagon/imported/macros.def
-+++ b/target/hexagon/imported/macros.def
-@@ -92,6 +92,21 @@ DEF_MACRO(
-     /* attribs */
- )
- 
-+
-+DEF_MACRO(
-+    fINSERT_RANGE,
-+        {
-+            int offset=LOWBIT;
-+            int width=HIBIT-LOWBIT+1;
-+            /* clear bits where new bits go */
-+            INREG &= ~(((fCONSTLL(1)<<width)-1)<<offset);
-+            /* OR in new bits */
-+            INREG |= ((INVAL & ((fCONSTLL(1)<<width)-1)) << offset);
-+        },
-+    /* attribs */
-+)
-+
-+
- DEF_MACRO(
-     f8BITSOF,
-     ( (VAL) ? 0xff : 0x00),
-diff --git a/target/hexagon/imported/shift.idef b/target/hexagon/imported/shift.idef
-index e328ab7329..b32c4e04d1 100644
---- a/target/hexagon/imported/shift.idef
-+++ b/target/hexagon/imported/shift.idef
-@@ -1029,6 +1029,53 @@ Q6INSN(S4_clbpaddi,"Rd32=add(clb(Rss32),#s6)",ATTRIBS(A_ARCHV2),
- { RdV = (fMAX(fCL1_8(RssV),fCL1_8(~RssV)))+siV;})
- 
- 
-+
-+Q6INSN(S2_cabacdecbin,"Rdd32=decbin(Rss32,Rtt32)",ATTRIBS(A_ARCHV3),"CABAC decode bin",
-+{
-+    fHIDE(size4u_t state;)
-+    fHIDE(size4u_t valMPS;)
-+    fHIDE(size4u_t bitpos;)
-+    fHIDE(size4u_t range;)
-+    fHIDE(size4u_t offset;)
-+    fHIDE(size4u_t rLPS;)
-+    fHIDE(size4u_t rMPS;)
-+
-+    state =  fEXTRACTU_RANGE( fGETWORD(1,RttV) ,5,0);
-+    valMPS = fEXTRACTU_RANGE( fGETWORD(1,RttV) ,8,8);
-+    bitpos = fEXTRACTU_RANGE( fGETWORD(0,RttV) ,4,0);
-+    range =  fGETWORD(0,RssV);
-+    offset = fGETWORD(1,RssV);
-+
-+    /* calculate rLPS */
-+    range <<= bitpos;
-+    offset <<= bitpos;
-+    rLPS = rLPS_table_64x4[state][ (range >>29)&3];
-+    rLPS  = rLPS << 23;   /* left aligned */
-+
-+    /* calculate rMPS */
-+    rMPS= (range&0xff800000) - rLPS;
-+
-+    /* most probable region */
-+    if (offset < rMPS) {
-+        RddV = AC_next_state_MPS_64[state];
-+        fINSERT_RANGE(RddV,8,8,valMPS);
-+        fINSERT_RANGE(RddV,31,23,(rMPS>>23));
-+        fSETWORD(1,RddV,offset);
-+        fWRITE_P0(valMPS);
-+
-+
-+    }
-+    /* least probable region */
-+    else {
-+        RddV = AC_next_state_LPS_64[state];
-+        fINSERT_RANGE(RddV,8,8,((!state)?(1-valMPS):(valMPS)));
-+        fINSERT_RANGE(RddV,31,23,(rLPS>>23));
-+        fSETWORD(1,RddV,(offset-rMPS));
-+        fWRITE_P0((valMPS^1));
-+    }
-+})
-+
-+
- Q6INSN(S2_clb,"Rd32=clb(Rs32)",ATTRIBS(),
- "Count leading bits", {RdV = fMAX(fCL1_4(RsV),fCL1_4(~RsV));})
- 
--- 
-2.25.1
+for you to fetch changes up to af93ccacc772019298be4c3e47251cdaa60d0c21:
 
+  decodetree: Extend argument set syntax to allow types (2021-05-01 11:45:35 -0700)
+
+----------------------------------------------------------------
+Include cleanups.
+Decodetree enhancements for power10.
+
+----------------------------------------------------------------
+Luis Fernando Fujita Pires (1):
+      decodetree: Add support for 64-bit instructions
+
+Philippe Mathieu-Daudé (1):
+      exec: Remove accel/tcg/ from include paths
+
+Richard Henderson (3):
+      decodetree: Introduce whex and whexC helpers
+      decodetree: More use of f-strings
+      decodetree: Extend argument set syntax to allow types
+
+ docs/devel/decodetree.rst             |  11 ++-
+ meson.build                           |   1 -
+ include/exec/helper-gen.h             |   4 +-
+ include/exec/helper-proto.h           |   4 +-
+ include/exec/helper-tcg.h             |   4 +-
+ tests/decode/succ_argset_type1.decode |   1 +
+ scripts/decodetree.py                 | 172 +++++++++++++++++++---------------
+ 7 files changed, 112 insertions(+), 85 deletions(-)
+ create mode 100644 tests/decode/succ_argset_type1.decode
 
