@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3473705BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 07:43:09 +0200 (CEST)
-Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D0F3705C8
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 07:52:22 +0200 (CEST)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lciPE-00061w-H6
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 01:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45748)
+	id 1lciY9-0001Xa-Ts
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 01:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lciN5-0005Vg-29
- for qemu-devel@nongnu.org; Sat, 01 May 2021 01:40:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57926)
+ id 1lciWU-0000Oe-4Z
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 01:50:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lciN1-0000o1-9t
- for qemu-devel@nongnu.org; Sat, 01 May 2021 01:40:54 -0400
+ id 1lciWS-0008DC-7V
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 01:50:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lciMz-0007yw-5J
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 05:40:49 +0000
+ id 1lciWQ-0008KZ-BY
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 05:50:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 207712E815C
- for <qemu-devel@nongnu.org>; Sat,  1 May 2021 05:40:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4FCC42E8144
+ for <qemu-devel@nongnu.org>; Sat,  1 May 2021 05:50:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 01 May 2021 05:30:50 -0000
-From: Thomas Huth <1859021@bugs.launchpad.net>
+Date: Sat, 01 May 2021 05:42:31 -0000
+From: Thomas Huth <1918302@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm tcg testcase
+X-Launchpad-Bug-Tags: arm semihosting
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell th-huth
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
+X-Launchpad-Bug-Commenters: ajbennee pmaydell statham-arm th-huth
+X-Launchpad-Bug-Reporter: Simon Tatham (statham-arm)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157857629827.5165.2496570379985305724.malonedeb@gac.canonical.com>
-Message-Id: <161984705017.11699.12626381046838515342.malone@soybean.canonical.com>
-Subject: [Bug 1859021] Re: qemu-system-aarch64 (tcg): cval + voff overflow not
- handled, causes qemu to hang
+References: <161530383644.26074.10419563158373925479.malonedeb@gac.canonical.com>
+Message-Id: <161984775202.12465.2815071261418206717.malone@soybean.canonical.com>
+Subject: [Bug 1918302] Re: qemu-system-arm segfaults while servicing
+ SYS_HEAPINFO
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 77395c4a6fc62eed7afa0b89e778d78f02b22105
+X-Launchpad-Hash: e8ffbd20ac0b6a989fc3740fe026fb4f39388486
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859021 <1859021@bugs.launchpad.net>
+Reply-To: Bug 1918302 <1918302@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,7 +80,7 @@ This is an automated cleanup. This bug report has been moved
 to QEMU's new bug tracker on gitlab.com and thus gets marked
 as 'expired' now. Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/60
+ https://gitlab.com/qemu-project/qemu/-/issues/61
 
 
 ** Changed in: qemu
@@ -89,67 +89,40 @@ as 'expired' now. Please continue with the discussion here:
 ** Changed in: qemu
      Assignee: Alex Benn=C3=A9e (ajbennee) =3D> (unassigned)
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #60
-   https://gitlab.com/qemu-project/qemu/-/issues/60
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #61
+   https://gitlab.com/qemu-project/qemu/-/issues/61
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859021
+https://bugs.launchpad.net/bugs/1918302
 
 Title:
-  qemu-system-aarch64 (tcg):  cval + voff overflow not handled, causes
-  qemu to hang
+  qemu-system-arm segfaults while servicing SYS_HEAPINFO
 
 Status in QEMU:
   Expired
 
 Bug description:
-  The Armv8 architecture reference manual states that for any timer set
-  (e.g. CNTP* and CNTV*), the condition for such timer to generate an
-  interrupt (if enabled & unmasked) is:
+  I compiled QEMU version 5.2.0 from source on Ubuntu 18.04, and tried
+  to use it to run the attached bare-metal Arm hello-world image, using
+  the command line
 
-  CVAL <=3D CNT(P/V)CT
+  qemu-system-arm -M microbit -semihosting -nographic -device
+  loader,file=3Dhello.hex
 
-  Although this is arguably sloppy coding, I have seen code that is
-  therefore assuming it can set CVAL to a very high value (e.g.
-  UINT64_MAX) and leave the interrupt enabled in CTL, and never get the
-  interrupt.
+  The result was that qemu-system-arm itself died of a segfault.
+  Compiling it for debugging, the location of the segfault was in
+  target/arm/arm-semi.c, in the case handler for the semihosting call
+  TARGET_SYS_HEAPINFO, on line 1020 which assigns to 'rambase':
 
-  On latest master commit as the time of writing, there is an integer
-  overflow in target/arm/helper.c gt_recalc_timer affecting the virtual
-  timer when the interrupt is enabled in CTL:
+              const struct arm_boot_info *info =3D env->boot_info;
+              target_ulong rambase =3D info->loader_start;
 
-      /* Next transition is when we hit cval */
-      nexttick =3D gt->cval + offset;
-
-  When this overflow happens, I notice that qemu is no longer responsive an=
-d that I have to SIGKILL the process:
-      - qemu takes nearly all the cpu time of the cores it is running on (e=
-.g. 50% cpu usage if running on half the cores) and is completely unrespons=
-ive
-      - no guest interrupt (reported via -d int) is generated
-
-  Here the minimal code example to reproduce the issue:
-
-      mov     x0, #1
-      msr     cntvoff_el2, x0
-      mov     x0, #-1
-      msr     cntv_cval_el0, x0
-      mov     x0, #1
-      msr     cntv_ctl_el0, x0 // interrupt generation enabled, not masked;=
- qemu will start to hang here
-
-  Options used:
-  -nographic -machine virt,virtualization=3Don,gic-version=3D2,accel=3Dtcg =
--cpu cortex-a57
-  -smp 4 -m 1024 -kernel whatever.elf -d unimp,guest_errors,int -semihostin=
-g-config enable,target=3Dnative
-  -serial mon:stdio
-
-  Version used: 4.2
+  and the problem seems to be that 'info', aka env->boot_info, is NULL
+  in this context.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859021/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1918302/+subscriptions
 
