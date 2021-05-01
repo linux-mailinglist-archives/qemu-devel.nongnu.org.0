@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECC43708BA
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:14:12 +0200 (CEST)
-Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0F23708A3
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:03:27 +0200 (CEST)
+Received: from localhost ([::1]:42188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcv47-0003Qu-R8
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46360)
+	id 1lcuti-0000fl-6V
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcui1-0006Rd-08
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:21 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38599)
+ id 1lcui2-0006Ti-HB
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:24 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuhz-0003kZ-2O
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:20 -0400
-Received: by mail-pg1-x534.google.com with SMTP id i14so849481pgk.5
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:51:18 -0700 (PDT)
+ id 1lcuhz-0003lB-Pb
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:51:22 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ l10-20020a17090a850ab0290155b06f6267so3444760pjn.5
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AMLKr9oDHcVOpzZ1zRNW7GiVm/jcytwR8TFZ/kEnpH0=;
- b=rgyG498TV0DxitSszdgmO6S1FcXus/Znezwwe1AD14tuEOerHCGPjy0LKsp6u214UC
- uneGdRYO7PWn738ODNBuRkHmYuYH5imt5LqaB6t+rWtHpqDcFfL93dygcuezEuAsymMB
- aCei5I4dkrqAkEc+DJmOFxBNtq2s6sZHmPjcQ1nI+W0XKwJYPnyFXLxM8/B331LzIlqb
- vPyWyIzvltSaJDKp9v+iuI29Em8koxE0qj15NA7GVb4qU+e4rJc2ergExrbMj7rhh/a0
- g9xFl3+puix75NDsfWkJNS0vpGsaUqqnRVrz+PPKpTMM8QZ4gE88wiDGrozeJKwGEUhf
- uSQw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MSp5lRgjBRrXqczyQWvsoXEiHZoFgBy6aeylHhLetBE=;
+ b=B+44fskOVmU0wMMz5PCemfAGi0+oR2wue0LcxEHZ4Hs/ax9Tl8UqMU4uTgDwJPkWfZ
+ 9nnYBihzTs6U9kmxYgXAJfxO7gRt0zTcoPI4pjsuU3vEScScd5ulovKKt3Tw6CKdsi7s
+ ckrRrvXYGbvT90yh9a+9yohXcM3wYStSaAhSd9c/ofk3XWfn16Usl6SmHBONVxll1MTz
+ +gtwwEeal+ptRE+pFHdlKIgB6WZBAn0BIKUxW0hz7eyhSwnzKzpmvSsMyHldXF5vOSIy
+ 8q/tWpjV6FpAeh6DTa7TtCFmEXHW2kkm2u1HjnJqVsfCR67nLUoBKBd3SFfoZyoeY2Uh
+ Wj1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AMLKr9oDHcVOpzZ1zRNW7GiVm/jcytwR8TFZ/kEnpH0=;
- b=gR95gDDMUIewDUviz75EnSHewZxR3iW4nBJ18q9uffs6xmKujKu0dIh6Vm5Ally3WK
- 967hCAeEttgqQTVx45f5zCtBle/jUjaD6EIaSeBDWtzrQeyPxVd7o9dCYa6YwTr3Oy2+
- bSxPH7WCCnzWuCoRQssu1jstqdFsaFOslvOdn09QSJwrEhVwhpsYKB1QyWCCGhI7btaK
- MvCtSZCACu/VsYq2YdAvY4JBF71i8+WvoGYUMUDnHDY827nl7++hEqWYPePJ+gnqTfQq
- CfA0BJkRGuFoqH6lpyF6yqp6PBYev/yiWAwIsMFy40PW2st/XgCEwFe30JBA4Qu8/ATR
- UAFw==
-X-Gm-Message-State: AOAM531AsVu659EpRoGb2dgYxE1WiULP5juSSd6E3GSzDTyQMa+5o5Cz
- HdRan8JtzsHV8RI9vGXttQDBXpvVj9fb4Q==
-X-Google-Smtp-Source: ABdhPJz93Z+/UObZGePCfukuHakgyTIUXlitFp5A5FwloPGjYE4i21FqpF8NHd9QyP30fUD5SrVCUw==
-X-Received: by 2002:a62:e90a:0:b029:28e:62a0:a3df with SMTP id
- j10-20020a62e90a0000b029028e62a0a3dfmr2303388pfh.31.1619895077615; 
- Sat, 01 May 2021 11:51:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MSp5lRgjBRrXqczyQWvsoXEiHZoFgBy6aeylHhLetBE=;
+ b=dx0JDiTNJ8i4hkAjt4eAffuOYJWTCTvWcnuaGdtOe97CsK5bMSJlMaXOE/otxMGl9i
+ OsOWllXnqED/xQLHB+uCdvPUSnO9adYFQop2m/rF42oHEbIrIVkiP6mOkxtQRPaSex5m
+ ZDViuT8vFuG2lha2sreJDHGkwvqc1rHx7/gGf++wGPvnbaGdidsk0ZZk802/J9v6Lf1U
+ ggtB6KLGEt9NsycRRKASQXlkzV1QdFej9X/cizopJ2D0cKlhib8cdxRCzTMLFdD1RHwU
+ K6dURS52Oa6u8AtUuUgGTnGE0sSdUjHT94YpcRoA+Oza87ww+YIbmNJ/oitVARfRfjYZ
+ wS4Q==
+X-Gm-Message-State: AOAM532L7cMH5m1C7Rvwktqp80FUbT4MR1+sXOnibhneX71JyS9kjcgJ
+ xD9bPEqMNBQ+nL/+tDGniAFym6TENDK8qg==
+X-Google-Smtp-Source: ABdhPJxF1IuJtbgcCUrTr8uom8KACQHQmADyWaiOuWuu14LtWmLGTfXX3bwOcbIld5v/6I0Uq+6scw==
+X-Received: by 2002:a17:902:b494:b029:e7:36be:9ce7 with SMTP id
+ y20-20020a170902b494b02900e736be9ce7mr11537495plr.43.1619895078228; 
+ Sat, 01 May 2021 11:51:18 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id k17sm4971360pfa.68.2021.05.01.11.51.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 01 May 2021 11:51:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] tcg patch queue
-Date: Sat,  1 May 2021 11:51:11 -0700
-Message-Id: <20210501185116.1338875-1-richard.henderson@linaro.org>
+Subject: [PULL 1/5] exec: Remove accel/tcg/ from include paths
+Date: Sat,  1 May 2021 11:51:12 -0700
+Message-Id: <20210501185116.1338875-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210501185116.1338875-1-richard.henderson@linaro.org>
+References: <20210501185116.1338875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,45 +85,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8f860d2633baf9c2b6261f703f86e394c6bc22ca:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-04-30' into staging (2021-04-30 16:02:00 +0100)
+When TCG is enabled, the accel/tcg/ include path is added to the
+project global include search list. This accel/tcg/ directory
+contains a header named "internal.h" which, while intented to
+be internal to accel/tcg/, is accessible by all files compiled
+when TCG is enabled. This might lead to problem with other
+directories using the same "internal.h" header name:
 
-are available in the Git repository at:
+  $ git ls-files | fgrep /internal.h
+  accel/tcg/internal.h
+  include/hw/ide/internal.h
+  target/hexagon/internal.h
+  target/mips/internal.h
+  target/ppc/internal.h
+  target/s390x/internal.h
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210501
+As we don't need to expose accel/tcg/ internals to the rest of
+the code base, simplify by removing it from the include search
+list, and include the accel/tcg/ public headers relative to the
+project root search path (which is already in the generic include
+search path).
 
-for you to fetch changes up to af93ccacc772019298be4c3e47251cdaa60d0c21:
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Message-Id: <20210413081008.3409459-1-f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ meson.build                 | 1 -
+ include/exec/helper-gen.h   | 4 ++--
+ include/exec/helper-proto.h | 4 ++--
+ include/exec/helper-tcg.h   | 4 ++--
+ 4 files changed, 6 insertions(+), 7 deletions(-)
 
-  decodetree: Extend argument set syntax to allow types (2021-05-01 11:45:35 -0700)
+diff --git a/meson.build b/meson.build
+index c6f4b0cf5e..d8bb1ec5aa 100644
+--- a/meson.build
++++ b/meson.build
+@@ -258,7 +258,6 @@ if not get_option('tcg').disabled()
+     tcg_arch = 'riscv'
+   endif
+   add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
+-                        '-iquote', meson.current_source_dir() / 'accel/tcg',
+                         language: ['c', 'cpp', 'objc'])
+ 
+   accelerators += 'CONFIG_TCG'
+diff --git a/include/exec/helper-gen.h b/include/exec/helper-gen.h
+index 29c02f85dc..1c2e7a8ed3 100644
+--- a/include/exec/helper-gen.h
++++ b/include/exec/helper-gen.h
+@@ -81,8 +81,8 @@ static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+ #include "trace/generated-helpers-wrappers.h"
+-#include "tcg-runtime.h"
+-#include "plugin-helpers.h"
++#include "accel/tcg/tcg-runtime.h"
++#include "accel/tcg/plugin-helpers.h"
+ 
+ #undef DEF_HELPER_FLAGS_0
+ #undef DEF_HELPER_FLAGS_1
+diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+index 659f9298e8..ba100793a7 100644
+--- a/include/exec/helper-proto.h
++++ b/include/exec/helper-proto.h
+@@ -39,8 +39,8 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+ 
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+-#include "tcg-runtime.h"
+-#include "plugin-helpers.h"
++#include "accel/tcg/tcg-runtime.h"
++#include "accel/tcg/plugin-helpers.h"
+ 
+ #undef IN_HELPER_PROTO
+ 
+diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
+index 27870509a2..6888514635 100644
+--- a/include/exec/helper-tcg.h
++++ b/include/exec/helper-tcg.h
+@@ -60,8 +60,8 @@
+ 
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+-#include "tcg-runtime.h"
+-#include "plugin-helpers.h"
++#include "accel/tcg/tcg-runtime.h"
++#include "accel/tcg/plugin-helpers.h"
+ 
+ #undef str
+ #undef DEF_HELPER_FLAGS_0
+-- 
+2.25.1
 
-----------------------------------------------------------------
-Include cleanups.
-Decodetree enhancements for power10.
-
-----------------------------------------------------------------
-Luis Fernando Fujita Pires (1):
-      decodetree: Add support for 64-bit instructions
-
-Philippe Mathieu-Daudé (1):
-      exec: Remove accel/tcg/ from include paths
-
-Richard Henderson (3):
-      decodetree: Introduce whex and whexC helpers
-      decodetree: More use of f-strings
-      decodetree: Extend argument set syntax to allow types
-
- docs/devel/decodetree.rst             |  11 ++-
- meson.build                           |   1 -
- include/exec/helper-gen.h             |   4 +-
- include/exec/helper-proto.h           |   4 +-
- include/exec/helper-tcg.h             |   4 +-
- tests/decode/succ_argset_type1.decode |   1 +
- scripts/decodetree.py                 | 172 +++++++++++++++++++---------------
- 7 files changed, 112 insertions(+), 85 deletions(-)
- create mode 100644 tests/decode/succ_argset_type1.decode
 
