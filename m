@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91DF370766
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 15:22:13 +0200 (CEST)
-Received: from localhost ([::1]:39914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F9B370765
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 15:22:12 +0200 (CEST)
+Received: from localhost ([::1]:39832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcpZU-0000dr-RI
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 09:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
+	id 1lcpZT-0000bg-1l
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 09:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcpY7-00088B-2Z
- for qemu-devel@nongnu.org; Sat, 01 May 2021 09:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42338)
+ id 1lcpY5-000885-9A
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 09:20:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lcpY0-0000I9-Cs
- for qemu-devel@nongnu.org; Sat, 01 May 2021 09:20:46 -0400
+ id 1lcpXy-0000Hb-Pt
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 09:20:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lcpXw-0004Ws-Re
+ id 1lcpXw-0004Wv-8d
  for <qemu-devel@nongnu.org>; Sat, 01 May 2021 13:20:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CECFC2E8157
+ by loganberry.canonical.com (Postfix) with ESMTP id 3624E2E815B
  for <qemu-devel@nongnu.org>; Sat,  1 May 2021 13:20:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 01 May 2021 13:13:50 -0000
+Date: Sat, 01 May 2021 13:13:59 -0000
 From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1861677@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,14 +45,14 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 References: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
-Message-Id: <688dc944-f8be-54fe-6466-47cd261c2987@amsat.org>
-Subject: Re: [Bug 1861677] Re: wavcapture crash with pulseaudio
+Message-Id: <161987484000.9618.16126357867827043363.malone@gac.canonical.com>
+Subject: [Bug 1861677] Re: wavcapture crash with pulseaudio
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: cf269da89852ba29fb184bae8efba0f7df3230e8
+X-Launchpad-Hash: f52636024c6857fab9ba49497eb0c4c350f7c8b9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -77,27 +77,10 @@ Reply-To: Bug 1861677 <1861677@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/21 3:01 PM, Volker R=C3=BCmelin wrote:
->> You received this bug notification because you are a member of qemu-
->> devel-ml, which is subscribed to QEMU.
->>https://bugs.launchpad.net/bugs/1861677
->>
->> Title:
->> =C2=A0wavcapture crash with pulseaudio
->>
->> Status in QEMU:
->> =C2=A0New
-> =
+Fixed in v5.1.0, commit cbaf25d1f59 ("audio: fix wavcapture segfault").
 
-> Hi Philippe,
-> =
-
-> this bug was fixed with commit cbaf25d1f5 "audio: fix wavcapture segfault=
-".
-
-Indeed, thanks!
-
-Phil.
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
 -- =
 
