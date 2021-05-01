@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76B13708A0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:01:54 +0200 (CEST)
-Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7513708A1
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 21:01:56 +0200 (CEST)
+Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lcusE-0007Fm-07
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44438)
+	id 1lcusF-0007Hr-BQ
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 15:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuab-0008Fo-Jm
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:45 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34511)
+ id 1lcuai-0008HM-EP
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:48 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lcuaV-00006U-2c
- for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:41 -0400
-Received: by mail-pg1-x534.google.com with SMTP id z16so856795pga.1
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:34 -0700 (PDT)
+ id 1lcuaV-00006d-FZ
+ for qemu-devel@nongnu.org; Sat, 01 May 2021 14:43:48 -0400
+Received: by mail-pg1-x532.google.com with SMTP id m12so829374pgr.9
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 11:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WUDOODL8OY/WyPfVJS6CSPQqXcHEI2wa1hK51LclNQc=;
- b=qYbAaejOLbwkVgR2PztywNdwkLGma2MY1rAMOU3oBa0s8X1QY7sARe0b0UE5vQ9Zg2
- GA7tORNWfwTKZV94e1ZUONQ/E74tmmbB+to3E+jNnllgS5nogQjIkSGUJju3aUcjYJmC
- MSoc2x9QdoQL6RaF28aqV6qiPZ5anIwaH1WT8YCHvNo/fOJD7WsUfeOhAvRvDaJijpLh
- /QtDgQmTaxNntb1qu8+PosBqWIjABLLoq/h4L/Q3MMiO5C7obfjGdSd7o7qMr+OXVMcK
- cLN1EEHu6+kA0d0ns/6n6UGi2toopyZEAPpLzimE2HtpNCPU6tXKYQWtIhKbAcP908iI
- aDZA==
+ bh=ANqvCljUwyEEHHedDj3/bUM/EvfjNzycWYdOdklpBSg=;
+ b=FDphD1SovhgYYeZsb5ONkplhdEcaGaFD6GWJXRFSD10rs1IFqyX92NwqWvKOwV2OKy
+ VrXuXkJXArKqsQE6AkykrJXhW4eZyYoTwrfbGGzmJ3+At7HX/aWDCiJ/YH6PXpwSEu3q
+ /5Q2KLk0KRs/bbGdIbPBcxYmAlZNFUgIuSI6OfADkgDyO7RTtM3jL4NfyFUXwBtRDNCa
+ QesapefgMLyHEYO9s/yexwZx6FZGGAGUID6cXepZjJvRCaX8YoIuqrCs39ZsSutDvRWp
+ yPHJWS6sz3Vi7h559Ag2YwvuD30vi/1yq9K7xpL+oVmlUxD0czc1e1I37KuQ3dqGN/oA
+ us0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WUDOODL8OY/WyPfVJS6CSPQqXcHEI2wa1hK51LclNQc=;
- b=ISbL0HoskTgqNkLGYNW8ESRjxCs4IX2y+meTXpr0pO0tJuhGa6BXbgvlOJ5ToalNyA
- Mt1NX0EppFbM5+oSJwdhrm7Nus1icrrr4n3rlMwUfXJzfrZd3Sk2xPLbQ+5ghto8EIzv
- cSUR5wiAkaHJYixkbP74VmrnbMFd4L1gJW1tyWxw7H91nYqBhcVwVLruDk47OpZbg7yk
- GlorbtstmopHinXZ0chI+6e9Cq8ajaKL+F0/uQ9vSAUSXLMmKnx0v++zfM5PTW+3rr7f
- tH+WkzrLZwXtrtAS7ZgAu+skJZdHG296hgAMKO0fqZiiRBHGrX5nw40HupKrFUV5it0t
- iIpA==
-X-Gm-Message-State: AOAM530bAVyGmEz0BPXezkOTBfsJtsBDKsZVdSOobexaAnZvFkLdViEw
- rcUH+e/1MiCwsXB3JdnMhuBz7eB2y91UnA==
-X-Google-Smtp-Source: ABdhPJwqctVCqF05shUypKgzarKJgbOyDLZcx4QaeE+g+roUaKpiNmdszW4Y5f18TYCVHDhQGwJZOQ==
-X-Received: by 2002:a63:211c:: with SMTP id h28mr10248010pgh.278.1619894613667; 
- Sat, 01 May 2021 11:43:33 -0700 (PDT)
+ bh=ANqvCljUwyEEHHedDj3/bUM/EvfjNzycWYdOdklpBSg=;
+ b=kRw3e+jlrXklpRCvhKpvXiaMKpIgEi0MnwVQmvQ3ZKRgLVyd4TF0SahIQfL40pTI6l
+ fr2srUVb8cvNGdyE4x6kbNC1azwLckrxcRBKTlETSeeA+pCVGzLSKbsq9jPfVW+OuX6T
+ 2u5oPkmvrKCTwsae2x36cvmvi5WwSpdxSGPjTHFsO+p3uA5ITJ/nVaevZ1BHyG/M4PVo
+ jnqiOiYu/oCKLKp5S88Z6fqbd4PgQoallcUwYefZjbDdSWyxrg9lafZ/TO5tvduEWSoe
+ 1sEarGMc6yV/ZPautOFFMX1H00o9BlsaHt9erfUbJC1iM3VfguXLsWmVUYXl+CiMBeGu
+ CxWA==
+X-Gm-Message-State: AOAM531zoHhcDmFHKIo6B7SVfjCyNH+50Tpczk4vAjmgEmq3EhOKGaQV
+ tkI73Hp4ztXeIkMPgPiR6JIfIH1BPlIiRg==
+X-Google-Smtp-Source: ABdhPJyAhe6P/pGkZ16WmAh8bojrIjRAXvvDa0bL2wEh/rDKudeuGxo11LxyRycsfmPXMTRPzWPZCA==
+X-Received: by 2002:aa7:9731:0:b029:28e:46dd:97c7 with SMTP id
+ k17-20020aa797310000b029028e46dd97c7mr3310814pfg.27.1619894614246; 
+ Sat, 01 May 2021 11:43:34 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id i11sm5309088pfa.108.2021.05.01.11.43.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 01 May 2021 11:43:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/31] Hexagon (target/hexagon) remove unused carry_from_add64
- function
-Date: Sat,  1 May 2021 11:43:06 -0700
-Message-Id: <20210501184324.1338186-14-richard.henderson@linaro.org>
+Subject: [PULL 14/31] Hexagon (target/hexagon) change type of
+ softfloat_roundingmodes
+Date: Sat,  1 May 2021 11:43:07 -0700
+Message-Id: <20210501184324.1338186-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210501184324.1338186-1-richard.henderson@linaro.org>
 References: <20210501184324.1338186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,63 +93,25 @@ From: Taylor Simpson <tsimpson@quicinc.com>
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-9-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-10-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/arch.h   |  1 -
- target/hexagon/macros.h |  2 --
- target/hexagon/arch.c   | 13 -------------
- 3 files changed, 16 deletions(-)
+ target/hexagon/arch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
-index 1f7f03693a..6e0b0d9a24 100644
---- a/target/hexagon/arch.h
-+++ b/target/hexagon/arch.h
-@@ -22,7 +22,6 @@
- 
- uint64_t interleave(uint32_t odd, uint32_t even);
- uint64_t deinterleave(uint64_t src);
--uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c);
- int32_t conv_round(int32_t a, int n);
- void arch_fpop_start(CPUHexagonState *env);
- void arch_fpop_end(CPUHexagonState *env);
-diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-index cfcb8173ba..8cb211dfde 100644
---- a/target/hexagon/macros.h
-+++ b/target/hexagon/macros.h
-@@ -341,8 +341,6 @@ static inline void gen_logical_not(TCGv dest, TCGv src)
- #define fWRITE_LC0(VAL) WRITE_RREG(HEX_REG_LC0, VAL)
- #define fWRITE_LC1(VAL) WRITE_RREG(HEX_REG_LC1, VAL)
- 
--#define fCARRY_FROM_ADD(A, B, C) carry_from_add64(A, B, C)
--
- #define fSET_OVERFLOW() SET_USR_FIELD(USR_OVF, 1)
- #define fSET_LPCFG(VAL) SET_USR_FIELD(USR_LPCFG, (VAL))
- #define fGET_LPCFG (GET_USR_FIELD(USR_LPCFG))
 diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index 09de124818..699e2cfb8f 100644
+index 699e2cfb8f..bb51f19a3d 100644
 --- a/target/hexagon/arch.c
 +++ b/target/hexagon/arch.c
-@@ -76,19 +76,6 @@ uint64_t deinterleave(uint64_t src)
-     return myeven | (myodd << 32);
- }
+@@ -95,7 +95,7 @@ int32_t conv_round(int32_t a, int n)
  
--uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c)
--{
--    uint64_t tmpa, tmpb, tmpc;
--    tmpa = fGETUWORD(0, a);
--    tmpb = fGETUWORD(0, b);
--    tmpc = tmpa + tmpb + c;
--    tmpa = fGETUWORD(1, a);
--    tmpb = fGETUWORD(1, b);
--    tmpc = tmpa + tmpb + fGETUWORD(1, tmpc);
--    tmpc = fGETUWORD(1, tmpc);
--    return tmpc;
--}
--
- int32_t conv_round(int32_t a, int n)
- {
-     int64_t val;
+ /* Floating Point Stuff */
+ 
+-static const int softfloat_roundingmodes[] = {
++static const FloatRoundMode softfloat_roundingmodes[] = {
+     float_round_nearest_even,
+     float_round_to_zero,
+     float_round_down,
 -- 
 2.25.1
 
