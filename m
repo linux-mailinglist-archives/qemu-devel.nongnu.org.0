@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C8C37049F
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 03:08:48 +0200 (CEST)
-Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D165F3704A4
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 May 2021 03:13:23 +0200 (CEST)
+Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lce7j-0005to-N4
-	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 21:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1lceCA-0007W0-Ui
+	for lists+qemu-devel@lfdr.de; Fri, 30 Apr 2021 21:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lce5c-0004xp-V7
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 21:06:37 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:44878)
+ id 1lceAu-0006yE-8a
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 21:12:05 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lce5a-0008ES-B8
- for qemu-devel@nongnu.org; Fri, 30 Apr 2021 21:06:36 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- m6-20020a17090a8586b02901507e1acf0fso230406pjn.3
- for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 18:06:33 -0700 (PDT)
+ id 1lceAn-0002ll-Di
+ for qemu-devel@nongnu.org; Fri, 30 Apr 2021 21:12:04 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ t2-20020a17090a0242b0290155433387beso7537772pje.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Apr 2021 18:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=L8GK6Qo0OE8WTL1fP1bkLpJbrPvI3KJiXdXio+O7MZM=;
- b=VisVlW8bymXPVVlgau1h29TKatpBP9uzARNaZ99ORU9eJPcFQJS9ZQ06tYsJof2vB/
- 3dofLcy6/RyWtzmwp1xiotXvrbyzA2vD88xsmYm2tEMF/LFQAAq9CW3jVtRjaKAehN6y
- 5YZev0CcmC+oGZ388iE8/2/NYXGQs0r5mXB6VIlnYRvflfPdQNzxQBEJHZIRM5NYA+mM
- c5DJMcOpZuG7LNJJRSRhmfoN7gzIsPvml13ajpnvtSAzywWZ+ZtUjyYzd5Zm30jbtYGT
- LFUDgc29vkVtHjNGQdyYUOzKjqIqT3+YUCEUAiH5XmKDp2l6sFCTFhTCzGWDZ52drO3b
- mqiQ==
+ bh=zFDg4jBrQ2aYW4TSYjlQgl7fZspfnlz8JMcKtHh2R3w=;
+ b=mbk7htlyxVRbDd8dsLhHjCstISj050ZNupDe5ASaq7+zfhQ4zLXawWPGnHL2CQqRVd
+ h2+l+ILNGxJlkqgL0MzGDpiu6lUYi1gk0wPbKq7dg5NmZqxwiXlKm6o1nRUb6MD0oob0
+ CLGEK3oNa7w0t2jomQdUcZArjbzubKiJP5yHom8VndfPiH6USbF6GQ5JBhdBoL6U0EJ2
+ sZ/4VCR/LQacv0C+vnAnA84fiRJJmB+W8SAQ/l03dUGUd0F5HYwlQ6tWPx+F4j2oI5/e
+ J+oXNHzjW1Uxg/E8faPvY+Vb8eKGeQ4Ico11UwV8F8gTDB/JHwiX8nMv9khtlzEmeDXv
+ 6Fqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L8GK6Qo0OE8WTL1fP1bkLpJbrPvI3KJiXdXio+O7MZM=;
- b=WZky90vCH2opoyHl2ObXROTv67IIA4gALGMpsE9/Sr0FIU7E+i2r7SptTqSvrER5fu
- bPf/PPeFz3aAUvNsIV7hakI1FqojBsvar+GOmjDAkaNQbg3bocxzJqKKe8KpdiBiRxVr
- 1/9cXCPscDOpI5hpwaYgSio7E4zI3qPQwzeMs/DlSy1z5adqJWRlpN4VXucua2Pa40Kk
- vDXxz7kAO7OSK/ODCp0hS1uVM7kNz+EpFEeEoORYHIcih9C9ODvms0yeJwtXE+JCbMA4
- mHLnk+KLr+vFGFk8PRv5bkej1g6ncmLn0K501IWAlhXgM664C7sx2GVExiGKLofb95Gp
- bOmw==
-X-Gm-Message-State: AOAM532d9wKrHPUnSQPOJXTb0VueyaQiA4HJsaobqzggrsmk2EZzJpy4
- wdfoenvM/qxCKDA4P1MPPZr0mQ==
-X-Google-Smtp-Source: ABdhPJxd9521U3ZKDfQTOuwytXafxkb36Ue8PlEQ1LzW/VV1IcS5xk2ozaPCsF7Yokqgd1wNLAoLbw==
-X-Received: by 2002:a17:90a:ae10:: with SMTP id
- t16mr8409713pjq.86.1619831193052; 
- Fri, 30 Apr 2021 18:06:33 -0700 (PDT)
+ bh=zFDg4jBrQ2aYW4TSYjlQgl7fZspfnlz8JMcKtHh2R3w=;
+ b=Vh02y3Bl99MHA/bJDux/WqbE14PBBTMGbDW17CeilrN1Pl1SKN2GJTPIIuMNpww/EK
+ CoulMomcOc91xA+ZqSuh9iHkPVT5ImP9VlmvK1ureIpXwD5I+6JIZs+ByVLl9OSKAG64
+ SeKQmZuZHuAZ2FW0FlOsWIYLc+xNB0LJ5xDBp46lQuU7CmcXFXEyi16Lld1RHUzggcye
+ Amya9KLCsPv2ITBHI2/QlURzIoFsIjouzqUl0UFxxEM+uUjvNy81e5IEmgI6zaS9pgP5
+ LZv2zjiWz99iGPDZPZdzHXpDWk5mdxgc4rtHvhY+GWPbjiDWXBgKVfQiuDfMP1yuJyHl
+ ZQsw==
+X-Gm-Message-State: AOAM531XdfJL5HVHZjq7qDWunOOfxcyugPPYEpPdi9Hy8EkeaLok5Cl3
+ VoUfm8T87JFYJRALDb+wKrFuwQ==
+X-Google-Smtp-Source: ABdhPJxnedHNAHy4l9933uF/SeV4dqiQC2P1qFyI4su/z72y2OQYyDX8Dne1FKH09OR2Ao+J+xq7Jw==
+X-Received: by 2002:a17:90b:3684:: with SMTP id
+ mj4mr18472372pjb.50.1619831515074; 
+ Fri, 30 Apr 2021 18:11:55 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id x22sm3219538pfa.24.2021.04.30.18.06.32
+ by smtp.gmail.com with ESMTPSA id w9sm3129110pfn.213.2021.04.30.18.11.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Apr 2021 18:06:32 -0700 (PDT)
-Subject: Re: [PATCH v3 5/7] target/ppc: removed VSCR from SPR registration
+ Fri, 30 Apr 2021 18:11:54 -0700 (PDT)
+Subject: Re: [PATCH v3 7/7] target/ppc: isolated cpu init from translation
+ logic
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
  qemu-devel@nongnu.org
 References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
- <20210430193533.82136-6-bruno.larsen@eldorado.org.br>
+ <20210430193533.82136-8-bruno.larsen@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cd6fc5a4-e1c9-11d8-8b0e-4bfc64afebce@linaro.org>
-Date: Fri, 30 Apr 2021 18:06:30 -0700
+Message-ID: <1dfe7536-8dc9-ef5e-188b-d8e985be0816@linaro.org>
+Date: Fri, 30 Apr 2021 18:11:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210430193533.82136-6-bruno.larsen@eldorado.org.br>
+In-Reply-To: <20210430193533.82136-8-bruno.larsen@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,19 +99,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/30/21 12:35 PM, Bruno Larsen (billionai) wrote:
-> Since vscr is not an spr, its initialization was removed from the
-> spr registration functions, and moved to the relevant init_procs.
-> 
-> We may look into adding vscr to the reset path instead of the init
-> path (as suggested by David Gibson), but this looked like a good
-> enough solution for now.
-> 
-> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
-> ---
->   target/ppc/translate_init.c.inc | 20 +++++++++++++-------
->   1 file changed, 13 insertions(+), 7 deletions(-)
+> +++ b/target/ppc/cpu_init.c
+> @@ -18,6 +18,7 @@
+>    * License along with this library; if not, see<http://www.gnu.org/licenses/>.
+>    */
+>   
+> +#include "qemu/osdep.h"
+>   #include "disas/dis-asm.h"
+>   #include "exec/gdbstub.h"
+>   #include "kvm_ppc.h"
+> @@ -42,7 +43,10 @@
+>   #include "fpu/softfloat.h"
+>   #include "qapi/qapi-commands-machine-target.h"
+>   
+> +#include "helper_regs.h"
+> +#include "internal.h"
+>   #include "spr_tcg.h"
 
+You need "exec/helper-proto.h" until you deal with helper_mtvscr().
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
