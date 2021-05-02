@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9593370A6E
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 08:23:56 +0200 (CEST)
-Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C80370A72
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 08:25:33 +0200 (CEST)
+Received: from localhost ([::1]:50018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ld5WF-0007Ca-8P
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 02:23:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46792)
+	id 1ld5Xo-0008AK-6Q
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 02:25:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1ld5U1-0006ej-BJ
- for qemu-devel@nongnu.org; Sun, 02 May 2021 02:21:41 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:46911)
+ id 1ld5VC-00073X-5l
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 02:22:50 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:37404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1ld5Tz-0004MF-07
- for qemu-devel@nongnu.org; Sun, 02 May 2021 02:21:37 -0400
-Received: by mail-lj1-x233.google.com with SMTP id u20so3003114lja.13
- for <qemu-devel@nongnu.org>; Sat, 01 May 2021 23:21:33 -0700 (PDT)
+ id 1ld5V0-00054C-V6
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 02:22:45 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id 2so3392025lft.4
+ for <qemu-devel@nongnu.org>; Sat, 01 May 2021 23:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=wK2nZcsHH7BdcNYfwv1Yd4778uloPga2eJq9SlZ5tjI=;
- b=RY3EUMnHiQPCD+FBtSd+nJE4SP0Q9LlB4S1aojs41/avsoVioaXmKJsza2aNE784Ym
- 30P2Eb8+sduj9iWDwyWAums01dGR1Twmpr59FwNCToczacoA0jyR0JERR5SzeVODqkp+
- EHsRLQT/nod96TOGwP1rDwEUkcCJ6ALHq8Wx2OB+GhntJWbn3tQJdPowwz1tc0iMqbN7
- uBcnAamniwY6aboO7jb1I5IqeX7e9soFyPnnVDk5VtFvy1sTb3rSx0mRl8VuQl175X4y
- PXHavwZN31uPWw/ad8ErOxG7wzMU0LaaPgign3ic8Lh5UOXHLYnOtb2MiiHR5cG5Gr2r
- C9/w==
+ bh=NZyxdjwL+mbrMeb/3rcUr3ezqAjwbnjuqlUQRrJHTnw=;
+ b=VE/gAVn1ZWv9RzwHPlF++6OeDFXrywUSeSIgdYKZtVkgL9lK0CWC8S+/nPnXax3c8B
+ TxXH6O6WBr4KdYq8hE3dLmJOou1rA9M4W406njAuOzEbSxsFWnAe6En5QqSA6qqHiST/
+ mKC1NQ0klXqj527hhtYZ+JTICV1n1Xav9QVmXZ3fhpIBeHIB/oWPoc/yAODK60dCgHR2
+ Xnxy/z+usa0SWWt3qYZvuCy3cmlXs+Y0Hrh8taHkgXokzpAjHYsx201nZZZTNqLbjn8X
+ RHmVRuS54kpV5LBZGN9CQqw0Hu3PHyZVIJSrXJT9V3pxvZrlumvKs1YOFNgk8q6ElrEW
+ Tcrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=wK2nZcsHH7BdcNYfwv1Yd4778uloPga2eJq9SlZ5tjI=;
- b=kFu25sZUEub/glP5lrD8N7HxBX1r30D+VkOFxnSdbzGsDmYcScbMiWVZg9ItjFd0Jw
- +Q48kDNfGriAVc4UVyTcuC6hkjaD8qzJaR5jX1M2tJutKrp7NkCkC5wUA2AL2o//v0qR
- tbDCXWmtQxq+NiN+xlGo6fMsDNwxwyekJP0UpJs/xCtBHILBm3Js8e1KL4HBQ+2UUz45
- 6nOmg9s3mKAFr3sWOM7nJS+YJ72oJpraXcFnr3s7RxTUbhz5MCjcKwJm1gt+y9g8w7S1
- 72YfSJD9tFeE8SvS8NfM6BjEwUz0xlKuM+1DOQl+w77GlaqbW2iLCp05Dq9ipnj642Fg
- OrlA==
-X-Gm-Message-State: AOAM532i1k9jdhThda89uVx3ugYVtwHOYEUs0Jw2SbZYGK5uuEu3NSxR
- YZFzBOuwiNl3tb3oAIt/LQ0=
-X-Google-Smtp-Source: ABdhPJyHy9ughuPpPS3calOsOJ/RTfJWwggvA/HJPtdVUohQT8x2RPe+8TzX+QD2Sa34SxpFGcZ1PQ==
-X-Received: by 2002:a2e:7505:: with SMTP id q5mr9111172ljc.322.1619936492504; 
- Sat, 01 May 2021 23:21:32 -0700 (PDT)
+ bh=NZyxdjwL+mbrMeb/3rcUr3ezqAjwbnjuqlUQRrJHTnw=;
+ b=i97fQwW5CSxLca/mvfLZs1v90ktbMQzx6ajAtnpfNWc6ueg475AeTgknwoHGYG47lc
+ +LV1ZcUZkD2ozdOZOwKpj1BZvcNw8lhlRX+APuiXUCFHugLAL8WiDBYkKKecdicZNpAe
+ 5lpnqGD2i7O6mgGEpE7OtDhPWBPqSd9vmpwctv8WxINw8TsQV0GfAzgyrfazhD2Azi92
+ e879dXATnSxgRjZfcwr9nSlnvkIiE0loXbmedftDDuZzjB5A9iGd7QN2uLT3VPsO/keS
+ 6yEKyRjjdQMEs1n2Porp4a0YBtTBXSlRamwzPWYoxoKBKUJ7AWncr8NxZSSmFENHyLcI
+ BmjA==
+X-Gm-Message-State: AOAM530Qhgd+R6hmc8M98h2h6bNi4KHf2pMxAxQROSIi7owV1d21A24f
+ 8wr5uZK/wFS34t9kmTS+Z80=
+X-Google-Smtp-Source: ABdhPJx2hl71gSkaJ32MZuy48Vs4k0yrh67HFKa2QlcmINdLaPiSvoBcY0KfAn9Yi8u/fUdFlx8j8g==
+X-Received: by 2002:a19:5208:: with SMTP id m8mr8779468lfb.372.1619936557023; 
+ Sat, 01 May 2021 23:22:37 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id n7sm755867lft.65.2021.05.01.23.21.31
+ by smtp.gmail.com with ESMTPSA id k11sm752121lfg.288.2021.05.01.23.22.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 May 2021 23:21:32 -0700 (PDT)
-Date: Sun, 2 May 2021 08:21:31 +0200
+ Sat, 01 May 2021 23:22:36 -0700 (PDT)
+Date: Sun, 2 May 2021 08:22:36 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Subject: Re: [PATCH v2 1/2] hw/timer/etraxfs_timer: Convert to 3-phase reset
  (Resettable interface)
-Message-ID: <20210502062131.GB477672@toto>
+Message-ID: <20210502062236.GC477672@toto>
 References: <20210501221350.501946-1-philmd@redhat.com>
  <20210501221350.501946-2-philmd@redhat.com>
 MIME-Version: 1.0
@@ -65,8 +65,8 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20210501221350.501946-2-philmd@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x233.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,12 +103,7 @@ On Sun, May 02, 2021 at 12:13:49AM +0200, Philippe Mathieu-Daudé wrote:
 > Convert the generic reset to a enter/exit resettable ones, and
 > remove the qemu_register_reset() call.
 
-Hi Philippe,
-
-The interrupt should be updated in the reset_hold phase, otherwise
-interrupts stay asserted while the device is in reset.
-
-Otherwise this looks good to me.
+Same comment here regarding reset_exit -> reset_hold.
 
 Cheers,
 Edgar
