@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98853709CE
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 06:12:04 +0200 (CEST)
-Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231D5370A53
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 07:32:29 +0200 (CEST)
+Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ld3Sd-0003VM-UP
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 00:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
+	id 1ld4iS-0007oH-4j
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 01:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1ld3RM-000358-Np
- for qemu-devel@nongnu.org; Sun, 02 May 2021 00:10:44 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:21222
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1ld3RK-0001Ka-Ty
- for qemu-devel@nongnu.org; Sun, 02 May 2021 00:10:44 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4FXt4Q2bVGz8PbN;
- Sun,  2 May 2021 00:12:54 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=bGzloVK1H
- VKytMDtfCZmqpRMlWU=; b=f/el+IxQGVlWoK0JE2CPN/nX7MWl1r9+dow1DVvq+
- 7TjWB1H4kpSLR0c5Dho4RnNVTwjemVb7Kf2ZwrXv3EtLvI5SewJz/Mh1cpbBFK1w
- D/4FPgb7YOaFxOTI35PFm0XviwCUvw0liBBGj2/nvS36AJ8zvGoWETXa06/bUWAN
- 70=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=fIi
- DNLCxONUWZu4AvYOgvcLuhhrglknBWTYv/tvfxZNBaKn94SD57xwiOVagFM22JNb
- vuW+rtEyimzm5H18UTMRFlBK4g33OEo5VbR4gnrBVChAHEdjrJvqMIONBtq4Wx2H
- PyoBLRIMf7WkLv+TPq3iGf5g7j0yzO5opSxPMj8Q=
-Received: from [192.168.3.42]
- (bras-base-toroon2719w-grc-49-142-114-9-241.dsl.bell.ca [142.114.9.241])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4FXt4Q1wkgz8PbK;
- Sun,  2 May 2021 00:12:54 -0400 (EDT)
-Message-ID: <78602d9d-e111-05f0-c91d-debb6e78009f@comstyle.com>
-Date: Sun, 2 May 2021 00:10:43 -0400
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ld4fm-0006Dk-LZ
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 01:29:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ld4fk-00048U-FZ
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 01:29:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ld4fj-0002RD-Ah
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 05:29:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4FE9A2E815B
+ for <qemu-devel@nongnu.org>; Sun,  2 May 2021 05:29:39 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH] tap-bsd: Remove special casing for older OpenBSD releases
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <YF5y+MDiK2QInFA2@humpty.home.comstyle.com>
- <8571b8c8-f3ed-ef67-6ea3-2e6652a2e435@redhat.com>
- <1787bf01190.27f3.c0f5e3539a5acb9c2563017afaca17d6@comstyle.com>
- <35befc6a-6167-1251-75ec-35e723b7547b@redhat.com>
- <c34234c1-5221-afd3-b850-1e78e566e2b5@comstyle.com>
- <0d0e3ba7-ce55-bb63-109b-86792d3ac08a@redhat.com>
-From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <0d0e3ba7-ce55-bb63-109b-86792d3ac08a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sun, 02 May 2021 05:15:42 -0000
+From: Thomas Huth <584155@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu-kvm; component=main; 
+ status=Confirmed; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: patch
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mjt+launchpad-tls th-huth
+X-Launchpad-Bug-Reporter: Michael Tokarev (mjt+launchpad-tls)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20100522100332.32316.32430.malonedeb@wampee.canonical.com>
+Message-Id: <161993254245.11699.15264812124414401591.malone@soybean.canonical.com>
+Subject: [Bug 584155] Re: support horisontal mouse wheel
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 7faed9c9d4d5681d3a5b9056618f11b55b6e0606
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,44 +73,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 584155 <584155@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/2021 3:24 AM, Jason Wang wrote:
->
-> =E5=9C=A8 2021/3/30 =E4=B8=8A=E5=8D=884:38, Brad Smith =E5=86=99=E9=81=93=
-:
->> On 3/28/2021 11:58 PM, Jason Wang wrote:
->>
->>>
->>> =E5=9C=A8 2021/3/29 =E4=B8=8A=E5=8D=8811:03, Brad Smith =E5=86=99=E9=81=
-=93:
->>>> It very much is correct. We don't care about such releases anymore.
->>>
->>>
->>> So is there a doc/wiki to say Qemu doesn't support those OpenBSD=20
->>> release?
->>
->> The (OpenBSD itself and QEMU) project only makes a concerted effort=20
->> to support
->> two previous releases. I can't remember where in the QEMU Wiki it is=20
->> mentioned.
->>
->> Just looking at the Meson requirement alone limits us to the previous=20
->> two releases
->> never mind older. Even if that wasn't a consideration there would be=20
->> issues with
->> a few other dependencies like Gtk before going back this far to=20
->> support such old
->> OpenBSD releases.
->>
->>
->
-> Ok. So I've applied this patch.
->
-> Thanks
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
+
+ https://gitlab.com/qemu-project/qemu/-/issues/79
 
 
-I do not see where.
+** Changed in: qemu
+       Status: Confirmed =3D> Expired
 
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #79
+   https://gitlab.com/qemu-project/qemu/-/issues/79
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/584155
+
+Title:
+  support horisontal mouse wheel
+
+Status in QEMU:
+  Expired
+Status in qemu-kvm package in Debian:
+  Confirmed
+
+Bug description:
+  Brad Jorsch provided a series of patches to support horisontal mouse scro=
+lling in qemu-emulated mouse.
+  See Debian bug#579968 -- http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=
+=3D579968 and submission to qemu-devel list at http://www.mail-archive.com/=
+qemu-devel@nongnu.org/msg30991.html .
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/584155/+subscriptions
 
