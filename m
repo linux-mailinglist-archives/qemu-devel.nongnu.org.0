@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E5B370E91
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 20:40:59 +0200 (CEST)
-Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB3C370E93
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 20:43:04 +0200 (CEST)
+Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldH1V-0006Bt-M6
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 14:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55218)
+	id 1ldH3X-0000Zm-GH
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 14:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldGrw-0004Zd-Bp
+ id 1ldGrt-0004ZX-Gr
  for qemu-devel@nongnu.org; Sun, 02 May 2021 14:31:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46358)
+Received: from indium.canonical.com ([91.189.90.7]:46336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldGri-0002rB-Ur
- for qemu-devel@nongnu.org; Sun, 02 May 2021 14:31:04 -0400
+ id 1ldGri-0002qk-1v
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 14:31:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldGrh-0001Cm-8m
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 18:30:49 +0000
+ id 1ldGrg-0001El-S6
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 18:30:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 41A202E8144
- for <qemu-devel@nongnu.org>; Sun,  2 May 2021 18:30:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D3C262E815B
+ for <qemu-devel@nongnu.org>; Sun,  2 May 2021 18:30:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 May 2021 18:20:52 -0000
-From: Thomas Huth <1858461@bugs.launchpad.net>
+Date: Sun, 02 May 2021 18:21:10 -0000
+From: Thomas Huth <1858623@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user mips
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell th-huth
-X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
+X-Launchpad-Bug-Commenters: th-huth theartlav
+X-Launchpad-Bug-Reporter: Artyom (theartlav)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
-Message-Id: <161997965240.10248.15435688895442646304.malone@gac.canonical.com>
-Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+References: <157839132261.5317.2350112240462311551.malonedeb@gac.canonical.com>
+Message-Id: <161997967119.12465.3718854885867426269.malone@soybean.canonical.com>
+Subject: [Bug 1858623] Re: VNC outputs garbage in zlib mode
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 772550f11bfdec807c377ccc54c5b26cce8f7a4d
+X-Launchpad-Hash: c02405d867ddcbdfbc807861fd9ee786069907fe
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
+Reply-To: Bug 1858623 <1858623@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,41 +94,34 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858461
+https://bugs.launchpad.net/bugs/1858623
 
 Title:
-  Please refactor linux-user/mips/cpu_loop.c
+  VNC outputs garbage in zlib mode
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hello. I am working with qemu on test images. I've added a new syscall
-  (436) to qemu but received ENOSYS from mips application.
+  TL;DR: When QEMU is launched with VNC as the output and viewed with a
+  client that defaults to zlib VNC encoding, the resulting output tends
+  to accumulate artifacts.
 
-  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
-  "mips_syscall_args" the following:
+  Reproduction:
+  Launch QEMU (tried with versions 4.2.0 and 4.1.0 on Linux  64bit) with -v=
+nc 0.0.0.0:0
+  Connect to it with a VNC client that allows you to select encoding, i.e. =
+UltraVNC.
+  Set encoding to zlib (type 6), 32bit color.
+  As screen content changes it starts accumulating artifacts. Almost certai=
+n to appear if you open-close windows over a pattern.
+  Does not seem to depend on guest used, but easier to reproduce with a GUI.
 
-  ```
-  MIPS_SYS(sys_getdents64_x32, 3)
-  ```
+  Looks like this: https://orbides.org/img/vnc.png
 
-  But
-
-  ```
-  syscall_num =3D env->active_tc.gpr[2] - 4000;
-  if (syscall_num >=3D sizeof(mips_syscall_args)) {
-    ret =3D -TARGET_ENOSYS;
-  ```
-
-  returns -TARGET_ENOSYS
-
-  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
-  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
-
-  Can you please refactor mips cpu loop in the same way as arm? Thank
-  you.
+  It appears to be a deflate glitch of some sort - all of the bad pixels
+  are generated by length/distance codes. Can't narrow it down any more.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1858623/+subscriptions
 
