@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C59370FBC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:23:54 +0200 (CEST)
-Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AD6370FD6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:30:53 +0200 (CEST)
+Received: from localhost ([::1]:40186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldLRK-00058M-17
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
+	id 1ldLY4-0006tN-Le
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:30:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMT-0008Ce-NP
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:53 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:40792)
+ id 1ldLMV-0008EZ-56
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:55 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:36512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMR-0002s6-Us
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:53 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id n16so1776630plf.7
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:51 -0700 (PDT)
+ id 1ldLMT-0002tC-Gx
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:54 -0400
+Received: by mail-pl1-x630.google.com with SMTP id a11so1869772plh.3
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=sBQ1+Rv2XXbszZHsJR/EueMHmCKRSaUBKr3RPrTCguk=;
- b=LgNwLPFpZXkaGbqqFIqx9umW9JFiw78WHudW/YgDnQ/Z1YAF0w/plfuM5Q0kxFmvXm
- 5diRYWQnjGozoWHRD8gjbMFgG/IDsVpoUM/v1j0wJRKcAraswy6u3IiWHhTROZIB1ZwK
- O8DFvS9+P3uvdrl+1/t4s11lPvFas0kd0tHTggUZE9sk+/WuHO8/5oLd4Z92GEo58W1a
- 4S1Dq/uhB4u4B8lMYNT7DKKof85y3fL9SrVSWIhUpxM0WVQGhYtip3CV763K/FjaLM/C
- SM91exRRxiWdBCKpXprb6+QBI9WEv/gVIvLwS99YV6suoscxORmeNZ+lvfM5g8b0F9Qu
- IZ+g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d8CBczrHncTC7jkXzgGz+cyQf3ESCXlA91ntw2lzZG8=;
+ b=E+rva+qJrH5ryjX/w0DsX04yeyndYJamgacOvmFmRACHYpAs0grm6ePy18ilacQAsA
+ xr4WDjYfbs+tphG5T/95j8JjFoIZWoqnlIBy7bM4zmHOqh5lxHMQLWdPeIPmPLXgcy7E
+ Rfc28rHjHfuhdvSDpBDoKqfRQnI365+Fz1t8qM7vQRzXDbotddOL7cIhuDHk+p0aXw4x
+ OpXQVYLXxGki1aAaJhF+AElbz5ZX14NAYnYwFV4iWLfGWvNdy2xq/5HfG0udX395MwNm
+ /CD18DqC+6/+tbH57860V7mhuwzVI+abWLIHx7L4zS5LZ9B93TJS/06d9hmSS1tZZb5v
+ qV0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sBQ1+Rv2XXbszZHsJR/EueMHmCKRSaUBKr3RPrTCguk=;
- b=AG4Qddkkxc+XRCMCIAYn0ujyN6szc0n8wDzF5JwVjJpUG0AlPzLexq603SBsQOnSFB
- OzFWLOUSBnguG422FkFIxGQuj3O+MvZMsBzyVXM6qpLQloEBU4T8czwisRNaxKxzTtLj
- +qQJE/YnqbsfHt6xFAYY56B2IAeDYhvDZY33vr0jX3z+nPmRe4ecAIWKDDPqZCVgyGOv
- rt+oIErese6esjW8o12VuzJd7f4gBFuTtiy7nBoIWaH+paZ+2vQUZhYqKw8AHJhJskb3
- ttlePGcD0v4PqdETI4NVU5kJaa3nVWotsKbpSPFklRwu7eaT9wBSpdFj2AmfNA9qGZjQ
- LSbA==
-X-Gm-Message-State: AOAM533La4px0cYMugsmjhLfNcKbY+wH0sYivQ29xssHReDZYeym0Ow7
- bgU5O/AjHCwzsGknxlnStUoHGublczteLg==
-X-Google-Smtp-Source: ABdhPJy40L0dtq7oAaNOYC2Z/i+tG/0dwdNFopDnm41jaDElNF1+fyrHLZ0IbR1ID1nBCEbkyvj7/A==
-X-Received: by 2002:a17:90b:347:: with SMTP id
- fh7mr18204681pjb.23.1619997530725; 
- Sun, 02 May 2021 16:18:50 -0700 (PDT)
+ bh=d8CBczrHncTC7jkXzgGz+cyQf3ESCXlA91ntw2lzZG8=;
+ b=hrx+tox4vmEuide3fV88h/PC+5S7ovCJF0fpTVWDwNLa0OJZMaZwFRmEgWLGOEOmuA
+ qU6kzH/qLervf5EFp5MGybOJYKdeyFSTMV3uNVg2mJ+pAAlFDbEchInuzCpUIdquQgyP
+ zPrDZJFjukrOsLJDJ1Jj/X8FPXZ/0ZF/fU/WmfId1EcU7pztdnNouK3Z+oOCJua0aHG0
+ wHaxsJWcIpW0gjSIv7un1+9445vVu/F3j6VHhQmzBAiMxKEaJfCIzsZ77D0xZ38Q/CLD
+ MGyuwpNf/tfMTU3Ms3nOAEtqqp62mihqkslxs+ZwfLFop5OPS0xrWASp014YDrbOPm3F
+ 5+cg==
+X-Gm-Message-State: AOAM5334R2EIlxJN05BJ2VvPdAa2CBKfnK11ZbiO3C7JEtbuXKJJolMv
+ Z9a1u6Fu1Uw8SHFHSx5dkhe1IPF7Ycmo3w==
+X-Google-Smtp-Source: ABdhPJxIkpVscWH+M2KVghjjC/eW6sKgaMGpz5KucvyHG0dUzPpCjfLO3/YNSuTroBV+U9k5bYnGnw==
+X-Received: by 2002:a17:90a:d17:: with SMTP id
+ t23mr5025999pja.163.1619997532215; 
+ Sun, 02 May 2021 16:18:52 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.50
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 16:18:50 -0700 (PDT)
+ Sun, 02 May 2021 16:18:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/28] tcg: Split out tcg_region_prologue_set
-Date: Sun,  2 May 2021 16:18:22 -0700
-Message-Id: <20210502231844.1977630-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 08/28] accel/tcg: Inline cpu_gen_init
+Date: Sun,  2 May 2021 16:18:24 -0700
+Message-Id: <20210502231844.1977630-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502231844.1977630-1-richard.henderson@linaro.org>
 References: <20210502231844.1977630-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,94 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has only one user, but will make more sense after some
-code motion.
+It consists of one function call and has only one caller.
 
-Always leave the tcg_init_ctx initialized to the first region,
-in preparation for tcg_prologue_init().  This also requires
-that we don't re-allocate the region for the first cpu, lest
-we hit the assertion for total number of regions allocated .
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ accel/tcg/translate-all.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index df78c89673..ee3319e163 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -885,10 +885,26 @@ void tcg_region_init(void)
- 
-     tcg_region_trees_init();
- 
--    /* In user-mode we support only one ctx, so do the initial allocation now */
--#ifdef CONFIG_USER_ONLY
--    tcg_region_initial_alloc__locked(tcg_ctx);
--#endif
-+    /*
-+     * Leave the initial context initialized to the first region.
-+     * This will be the context into which we generate the prologue.
-+     * It is also the only context for CONFIG_USER_ONLY.
-+     */
-+    tcg_region_initial_alloc__locked(&tcg_init_ctx);
-+}
-+
-+static void tcg_region_prologue_set(TCGContext *s)
-+{
-+    /* Deduct the prologue from the first region.  */
-+    g_assert(region.start == s->code_gen_buffer);
-+    region.start = s->code_ptr;
-+
-+    /* Recompute boundaries of the first region. */
-+    tcg_region_assign(s, 0);
-+
-+    /* Register the balance of the buffer with gdb. */
-+    tcg_register_jit(tcg_splitwx_to_rx(region.start),
-+                     region.end - region.start);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 9841eb3fb6..d55ecbe195 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -245,11 +245,6 @@ static void page_table_config_init(void)
+     assert(v_l2_levels >= 0);
  }
  
- #ifdef CONFIG_DEBUG_TCG
-@@ -968,10 +984,10 @@ void tcg_register_thread(void)
- 
-     if (n > 0) {
-         alloc_tcg_plugin_context(s);
-+        tcg_region_initial_alloc(s);
-     }
- 
-     tcg_ctx = s;
--    tcg_region_initial_alloc(s);
- }
- #endif /* !CONFIG_USER_ONLY */
- 
-@@ -1211,8 +1227,6 @@ void tcg_prologue_init(TCGContext *s)
- {
-     size_t prologue_size;
- 
--    /* Put the prologue at the beginning of code_gen_buffer.  */
--    tcg_region_assign(s, 0);
-     s->code_ptr = s->code_gen_ptr;
-     s->code_buf = s->code_gen_ptr;
-     s->data_gen_ptr = NULL;
-@@ -1244,14 +1258,7 @@ void tcg_prologue_init(TCGContext *s)
-                         (uintptr_t)s->code_buf, prologue_size);
- #endif
- 
--    /* Deduct the prologue from the first region.  */
--    region.start = s->code_ptr;
+-static void cpu_gen_init(void)
+-{
+-    tcg_context_init(&tcg_init_ctx);
+-}
 -
--    /* Recompute boundaries of the first region. */
--    tcg_region_assign(s, 0);
--
--    tcg_register_jit(tcg_splitwx_to_rx(region.start),
--                     region.end - region.start);
-+    tcg_region_prologue_set(s);
+ /* Encode VAL as a signed leb128 sequence at P.
+    Return P incremented past the encoded value.  */
+ static uint8_t *encode_sleb128(uint8_t *p, target_long val)
+@@ -1331,7 +1326,7 @@ void tcg_exec_init(unsigned long tb_size, int splitwx)
+     bool ok;
  
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
+     tcg_allowed = true;
+-    cpu_gen_init();
++    tcg_context_init(&tcg_init_ctx);
+     page_init();
+     tb_htable_init();
+ 
 -- 
 2.25.1
 
