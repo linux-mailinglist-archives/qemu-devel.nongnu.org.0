@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDCF370D8E
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 17:05:44 +0200 (CEST)
-Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C00370D94
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 17:09:49 +0200 (CEST)
+Received: from localhost ([::1]:47494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldDfD-0004Yb-Ki
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 11:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51176)
+	id 1ldDjA-0000Jb-7Z
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 11:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKt-0001oq-8M
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:43 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44799)
+ id 1ldDKv-0001tR-BV
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:45 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:39912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKp-0005Is-W3
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:42 -0400
-Received: by mail-pl1-x631.google.com with SMTP id y1so1450096plg.11
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:39 -0700 (PDT)
+ id 1ldDKq-0005J4-Rd
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:45 -0400
+Received: by mail-pg1-x536.google.com with SMTP id s22so1912326pgk.6
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h8CO0R/BCPRuNJEaRYZFBabpS387zSk/CvQcLCZlvLc=;
- b=rCPtoTOhAQ+EYpqqVdlKquxAS0UwTFnZBQHSp4Prap2HnvJYhhFSqg65dddzsKMcBV
- QfHwm2/WAiA9vjuJP3+QXRbPAardtE7stDe18OuE3uRxLL0V1VIKjp65T+ZnhF1R6Pd1
- WPo6bjXGLnExMAMXGsbd4X72mshI0tl5vQ0Fkqrk8dMSbC7Dh11fsDPWyDtt1ejorv4N
- dLQyh18QPALOxKL8SAQqbiwkGM3hltX4vKfoxyRR0IEDao7G+/48AL/4uMK1/AdysGx0
- pMMw1fEgaPTfLZdfF6H92JWoMU90Z1fOtP7RAgDI2Hh8VI/4PaBGiGHB3RpU3+Knk8ZN
- tIdw==
+ bh=SvGoJU0Csf1UXlIzCISNPP3abTzZ5W9qZ7KdjTgsz9k=;
+ b=UGOV8zlgJlE4GJ5s/wQfttMVHtoGumRElarnZegFyGxV35+/UMZmRM6k49SPGZCxZB
+ sZe8z5nwMxqHRqAMiQS/kSmpWwKEXIb6tYrl36JBH44uCisnWdKf0P/gWC+MzNQcu3I2
+ EFT//YZUUuxy+LXgsvBfJASEBIQ7Obow+BrIXjdeTyCOCV06pvIDbwIuaWD1JkkSrAaZ
+ wVEItyyWV0nNtiNa3BzygVWQ7MAGT8WlKT3YI6x+i814VHrAuSNEwQSxhnE2TXnATIY7
+ 1aYLu1Pr1m1IqHayNP4YfRMY+dSPCkeoQrk+dG0nT2QkWhfqSDI205+DuokMrEtw1C0K
+ xUew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h8CO0R/BCPRuNJEaRYZFBabpS387zSk/CvQcLCZlvLc=;
- b=Fm+PD9n/BDxpjqHgzavpcHBYyejT4MPef86P2ZvOhXVI1/vZg4Gofw0432cfMKut0c
- K5GWe7aqS+ZhCpKuAHzYJYEMvVMfS0gEKPZkfzpPDOydlAPmvjuUX6sFgrCo8t/T7CIT
- HhhWMgT9859EvcfqCMNhRE1YKafXJ2xjeDhMJDWmfqrGedhZlQWi/24j2K3ajEmmgLAl
- Y/L0cWPuI632Wmr/n071S2g/B0e5dbatjIKX85+WcIsx+f1o03wIMbAMlk0PtD/qytHD
- tVpc4ZVyEieoQUljaWUKd3BGKud6eBXgcfRGXYveV8RdBpqzNCiCrQhBW1QuCNILWDb7
- 5DVg==
-X-Gm-Message-State: AOAM531cP3vh9c3upX71BhG0YYMdVxwlYwYv6FOmcT0J+9L4HWq7q+0g
- fcvTzDZk7z60gvVr4KOeRP6z9/nCC5rKkQ==
-X-Google-Smtp-Source: ABdhPJw+0LDY7wHb3qX0lXpuLMIclhlkfdG2z0dJ5coJE+r+p2jKkOduZB62QH+2sqOS5nC4M8yP9w==
-X-Received: by 2002:a17:902:cece:b029:ec:b451:5803 with SMTP id
- d14-20020a170902ceceb02900ecb4515803mr15942493plg.60.1619966678539; 
- Sun, 02 May 2021 07:44:38 -0700 (PDT)
+ bh=SvGoJU0Csf1UXlIzCISNPP3abTzZ5W9qZ7KdjTgsz9k=;
+ b=gULetqyIkhdnpjQGbThrAdvaeqCtwjGDupB4g7RQH+Hd04frtZvfIV6RFSA3n+tjVP
+ ht/RBeBa7Ti1gOplxc/EywJP36erZSCRGQIlFVAAGQ4+KiG6/2mhj8GyNVNvK66OPU7C
+ Dvj4H7LAalAVg0rRO9/HElSgR8GfCK2E6nTkyEdHbp+LYBXLx4SgecOU5nvRWxuP9JFD
+ euoXOYa+utNOjdELLxtDVatA3beluE8xhredeb5N05jX5Kf/vv5ohEURUL4ZKUcMnbJN
+ NEyuW8FCPaKmiiqh32LdvLJb9+uNxoNxWV7YbaSVMJ6sAx85vrTLdYzUJl4F2b4e8rFm
+ u3/Q==
+X-Gm-Message-State: AOAM5336Sy0OwKxRyIzBSzMzk2GRaotwyv2GTBbIFEvzLgqBYAIVZ+As
+ MKiMaNXOoNSAXtvf6bNH4LCfFogqmrv1vg==
+X-Google-Smtp-Source: ABdhPJxa7GF5NKZ+ngKgJlWXN7w/Ee0BSvH75t+65QFrg53qTb+IlSCMQU6RAaG7gQIr9gI8/NKeeA==
+X-Received: by 2002:a62:bd13:0:b029:25f:cd51:7bb5 with SMTP id
+ a19-20020a62bd130000b029025fcd517bb5mr14752539pff.74.1619966679207; 
+ Sun, 02 May 2021 07:44:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 02 May 2021 07:44:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 28/31] Hexagon (target/hexagon) bit reverse (brev) addressing
-Date: Sun,  2 May 2021 07:44:16 -0700
-Message-Id: <20210502144419.1659844-29-richard.henderson@linaro.org>
+Subject: [PULL v2 29/31] Hexagon (target/hexagon) load and unpack bytes
+ instructions
+Date: Sun,  2 May 2021 07:44:17 -0700
+Message-Id: <20210502144419.1659844-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502144419.1659844-1-richard.henderson@linaro.org>
 References: <20210502144419.1659844-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,194 +91,246 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Taylor Simpson <tsimpson@quicinc.com>
 
 The following instructions are added
-    L2_loadrub_pbr          Rd32 = memub(Rx32++Mu2:brev)
-    L2_loadrb_pbr           Rd32 = memb(Rx32++Mu2:brev)
-    L2_loadruh_pbr          Rd32 = memuh(Rx32++Mu2:brev)
-    L2_loadrh_pbr           Rd32 = memh(Rx32++Mu2:brev)
-    L2_loadri_pbr           Rd32 = memw(Rx32++Mu2:brev)
-    L2_loadrd_pbr           Rdd32 = memd(Rx32++Mu2:brev)
-    S2_storerb_pbr          memb(Rx32++Mu2:brev).=.Rt32
-    S2_storerh_pbr          memh(Rx32++Mu2:brev).=.Rt32
-    S2_storerf_pbr          memh(Rx32++Mu2:brev).=.Rt.H32
-    S2_storeri_pbr          memw(Rx32++Mu2:brev).=.Rt32
-    S2_storerd_pbr          memd(Rx32++Mu2:brev).=.Rt32
-    S2_storerinew_pbr       memw(Rx32++Mu2:brev).=.Nt8.new
-    S2_storerbnew_pbr       memw(Rx32++Mu2:brev).=.Nt8.new
-    S2_storerhnew_pbr       memw(Rx32++Mu2:brev).=.Nt8.new
+    L2_loadbzw2_io          Rd32 = memubh(Rs32+#s11:1)
+    L2_loadbzw4_io          Rdd32 = memubh(Rs32+#s11:1)
+    L2_loadbsw2_io          Rd32 = membh(Rs32+#s11:1)
+    L2_loadbsw4_io          Rdd32 = membh(Rs32+#s11:1)
 
-Test cases in tests/tcg/hexagon/brev.c
+    L4_loadbzw2_ur          Rd32 = memubh(Rt32<<#u2+#U6)
+    L4_loadbzw4_ur          Rdd32 = memubh(Rt32<<#u2+#U6)
+    L4_loadbsw2_ur          Rd32 = membh(Rt32<<#u2+#U6)
+    L4_loadbsw4_ur          Rdd32 = membh(Rt32<<#u2+#U6)
+
+    L4_loadbzw2_ap          Rd32 = memubh(Re32=#U6)
+    L4_loadbzw4_ap          Rdd32 = memubh(Re32=#U6)
+    L4_loadbsw2_ap          Rd32 = membh(Re32=#U6)
+    L4_loadbsw4_ap          Rdd32 = membh(Re32=#U6)
+
+    L2_loadbzw2_pr          Rd32 = memubh(Rx32++Mu2)
+    L2_loadbzw4_pr          Rdd32 = memubh(Rx32++Mu2)
+    L2_loadbsw2_pr          Rd32 = membh(Rx32++Mu2)
+    L2_loadbsw4_pr          Rdd32 = membh(Rx32++Mu2)
+
+    L2_loadbzw2_pbr         Rd32 = memubh(Rx32++Mu2:brev)
+    L2_loadbzw4_pbr         Rdd32 = memubh(Rx32++Mu2:brev)
+    L2_loadbsw2_pbr         Rd32 = membh(Rx32++Mu2:brev)
+    L2_loadbsw4_pbr         Rdd32 = membh(Rx32++Mu2:brev)
+
+    L2_loadbzw2_pi          Rd32 = memubh(Rx32++#s4:1)
+    L2_loadbzw4_pi          Rdd32 = memubh(Rx32++#s4:1)
+    L2_loadbsw2_pi          Rd32 = membh(Rx32++#s4:1)
+    L2_loadbsw4_pi          Rdd32 = membh(Rx32++#s4:1)
+
+    L2_loadbzw2_pci         Rd32 = memubh(Rx32++#s4:1:circ(Mu2))
+    L2_loadbzw4_pci         Rdd32 = memubh(Rx32++#s4:1:circ(Mu2))
+    L2_loadbsw2_pci         Rd32 = membh(Rx32++#s4:1:circ(Mu2))
+    L2_loadbsw4_pci         Rdd32 = membh(Rx32++#s4:1:circ(Mu2))
+
+    L2_loadbzw2_pcr         Rd32 = memubh(Rx32++I:circ(Mu2))
+    L2_loadbzw4_pcr         Rdd32 = memubh(Rx32++I:circ(Mu2))
+    L2_loadbsw2_pcr         Rd32 = membh(Rx32++I:circ(Mu2))
+    L2_loadbsw4_pcr         Rdd32 = membh(Rx32++I:circ(Mu2))
+
+Test cases in tests/tcg/hexagon/load_unpack.c
 
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-24-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-25-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/gen_tcg.h              |  28 ++++
- target/hexagon/helper.h               |   1 +
- target/hexagon/macros.h               |   1 +
- target/hexagon/op_helper.c            |   8 ++
- tests/tcg/hexagon/brev.c              | 190 ++++++++++++++++++++++++++
- target/hexagon/imported/encode_pp.def |   4 +
- target/hexagon/imported/ldst.idef     |   2 +
- target/hexagon/imported/macros.def    |   6 +
+ target/hexagon/gen_tcg.h              | 108 ++++++
+ target/hexagon/macros.h               |  16 +
+ target/hexagon/genptr.c               |  13 +
+ tests/tcg/hexagon/load_unpack.c       | 474 ++++++++++++++++++++++++++
+ target/hexagon/imported/encode_pp.def |   6 +
+ target/hexagon/imported/ldst.idef     |  43 +++
  tests/tcg/hexagon/Makefile.target     |   1 +
- 9 files changed, 241 insertions(+)
- create mode 100644 tests/tcg/hexagon/brev.c
+ 7 files changed, 661 insertions(+)
+ create mode 100644 tests/tcg/hexagon/load_unpack.c
 
 diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h
-index 25c228c112..8f0ec01f0a 100644
+index 8f0ec01f0a..1120aaed4e 100644
 --- a/target/hexagon/gen_tcg.h
 +++ b/target/hexagon/gen_tcg.h
-@@ -37,6 +37,7 @@
-  *     _sp       stack pointer relative            r0 = memw(r29+#12)
-  *     _ap       absolute set                      r0 = memw(r1=##variable)
-  *     _pr       post increment register           r0 = memw(r1++m1)
-+ *     _pbr      post increment bit reverse        r0 = memw(r1++m1:brev)
-  *     _pi       post increment immediate          r0 = memb(r1++#1)
-  *     _pci      post increment circular immediate r0 = memw(r1++#4:circ(m0))
-  *     _pcr      post increment circular register  r0 = memw(r1++I:circ(m0))
-@@ -53,6 +54,11 @@
-         fEA_REG(RxV); \
-         fPM_M(RxV, MuV); \
-     } while (0)
-+#define GET_EA_pbr \
-+    do { \
-+        gen_helper_fbrev(EA, RxV); \
-+        tcg_gen_add_tl(RxV, RxV, MuV); \
-+    } while (0)
- #define GET_EA_pi \
-     do { \
-         fEA_REG(RxV); \
-@@ -128,16 +134,22 @@
-       fGEN_TCG_LOAD_pcr(3, fLOAD(1, 8, u, EA, RddV))
- 
- #define fGEN_TCG_L2_loadrub_pr(SHORTCODE)      SHORTCODE
-+#define fGEN_TCG_L2_loadrub_pbr(SHORTCODE)     SHORTCODE
- #define fGEN_TCG_L2_loadrub_pi(SHORTCODE)      SHORTCODE
- #define fGEN_TCG_L2_loadrb_pr(SHORTCODE)       SHORTCODE
-+#define fGEN_TCG_L2_loadrb_pbr(SHORTCODE)      SHORTCODE
- #define fGEN_TCG_L2_loadrb_pi(SHORTCODE)       SHORTCODE
- #define fGEN_TCG_L2_loadruh_pr(SHORTCODE)      SHORTCODE
-+#define fGEN_TCG_L2_loadruh_pbr(SHORTCODE)     SHORTCODE
- #define fGEN_TCG_L2_loadruh_pi(SHORTCODE)      SHORTCODE
- #define fGEN_TCG_L2_loadrh_pr(SHORTCODE)       SHORTCODE
-+#define fGEN_TCG_L2_loadrh_pbr(SHORTCODE)      SHORTCODE
- #define fGEN_TCG_L2_loadrh_pi(SHORTCODE)       SHORTCODE
- #define fGEN_TCG_L2_loadri_pr(SHORTCODE)       SHORTCODE
-+#define fGEN_TCG_L2_loadri_pbr(SHORTCODE)      SHORTCODE
- #define fGEN_TCG_L2_loadri_pi(SHORTCODE)       SHORTCODE
- #define fGEN_TCG_L2_loadrd_pr(SHORTCODE)       SHORTCODE
-+#define fGEN_TCG_L2_loadrd_pbr(SHORTCODE)      SHORTCODE
+@@ -152,6 +152,114 @@
+ #define fGEN_TCG_L2_loadrd_pbr(SHORTCODE)      SHORTCODE
  #define fGEN_TCG_L2_loadrd_pi(SHORTCODE)       SHORTCODE
  
++/*
++ * These instructions load 2 bytes and places them in
++ * two halves of the destination register.
++ * The GET_EA macro determines the addressing mode.
++ * The SIGN argument determines whether to zero-extend or
++ * sign-extend.
++ */
++#define fGEN_TCG_loadbXw2(GET_EA, SIGN) \
++    do { \
++        TCGv tmp = tcg_temp_new(); \
++        TCGv byte = tcg_temp_new(); \
++        GET_EA; \
++        fLOAD(1, 2, u, EA, tmp); \
++        tcg_gen_movi_tl(RdV, 0); \
++        for (int i = 0; i < 2; i++) { \
++            gen_set_half(i, RdV, gen_get_byte(byte, i, tmp, (SIGN))); \
++        } \
++        tcg_temp_free(tmp); \
++        tcg_temp_free(byte); \
++    } while (0)
++
++#define fGEN_TCG_L2_loadbzw2_io(SHORTCODE) \
++    fGEN_TCG_loadbXw2(fEA_RI(RsV, siV), false)
++#define fGEN_TCG_L4_loadbzw2_ur(SHORTCODE) \
++    fGEN_TCG_loadbXw2(fEA_IRs(UiV, RtV, uiV), false)
++#define fGEN_TCG_L2_loadbsw2_io(SHORTCODE) \
++    fGEN_TCG_loadbXw2(fEA_RI(RsV, siV), true)
++#define fGEN_TCG_L4_loadbsw2_ur(SHORTCODE) \
++    fGEN_TCG_loadbXw2(fEA_IRs(UiV, RtV, uiV), true)
++#define fGEN_TCG_L4_loadbzw2_ap(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_ap, false)
++#define fGEN_TCG_L2_loadbzw2_pr(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pr, false)
++#define fGEN_TCG_L2_loadbzw2_pbr(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pbr, false)
++#define fGEN_TCG_L2_loadbzw2_pi(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pi, false)
++#define fGEN_TCG_L4_loadbsw2_ap(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_ap, true)
++#define fGEN_TCG_L2_loadbsw2_pr(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pr, true)
++#define fGEN_TCG_L2_loadbsw2_pbr(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pbr, true)
++#define fGEN_TCG_L2_loadbsw2_pi(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pi, true)
++#define fGEN_TCG_L2_loadbzw2_pci(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pci, false)
++#define fGEN_TCG_L2_loadbsw2_pci(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pci, true)
++#define fGEN_TCG_L2_loadbzw2_pcr(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pcr(1), false)
++#define fGEN_TCG_L2_loadbsw2_pcr(SHORTCODE) \
++    fGEN_TCG_loadbXw2(GET_EA_pcr(1), true)
++
++/*
++ * These instructions load 4 bytes and places them in
++ * four halves of the destination register pair.
++ * The GET_EA macro determines the addressing mode.
++ * The SIGN argument determines whether to zero-extend or
++ * sign-extend.
++ */
++#define fGEN_TCG_loadbXw4(GET_EA, SIGN) \
++    do { \
++        TCGv tmp = tcg_temp_new(); \
++        TCGv byte = tcg_temp_new(); \
++        GET_EA; \
++        fLOAD(1, 4, u, EA, tmp);  \
++        tcg_gen_movi_i64(RddV, 0); \
++        for (int i = 0; i < 4; i++) { \
++            gen_set_half_i64(i, RddV, gen_get_byte(byte, i, tmp, (SIGN)));  \
++        }  \
++        tcg_temp_free(tmp); \
++        tcg_temp_free(byte); \
++    } while (0)
++
++#define fGEN_TCG_L2_loadbzw4_io(SHORTCODE) \
++    fGEN_TCG_loadbXw4(fEA_RI(RsV, siV), false)
++#define fGEN_TCG_L4_loadbzw4_ur(SHORTCODE) \
++    fGEN_TCG_loadbXw4(fEA_IRs(UiV, RtV, uiV), false)
++#define fGEN_TCG_L2_loadbsw4_io(SHORTCODE) \
++    fGEN_TCG_loadbXw4(fEA_RI(RsV, siV), true)
++#define fGEN_TCG_L4_loadbsw4_ur(SHORTCODE) \
++    fGEN_TCG_loadbXw4(fEA_IRs(UiV, RtV, uiV), true)
++#define fGEN_TCG_L2_loadbzw4_pci(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pci, false)
++#define fGEN_TCG_L2_loadbsw4_pci(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pci, true)
++#define fGEN_TCG_L2_loadbzw4_pcr(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pcr(2), false)
++#define fGEN_TCG_L2_loadbsw4_pcr(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pcr(2), true)
++#define fGEN_TCG_L4_loadbzw4_ap(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_ap, false)
++#define fGEN_TCG_L2_loadbzw4_pr(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pr, false)
++#define fGEN_TCG_L2_loadbzw4_pbr(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pbr, false)
++#define fGEN_TCG_L2_loadbzw4_pi(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pi, false)
++#define fGEN_TCG_L4_loadbsw4_ap(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_ap, true)
++#define fGEN_TCG_L2_loadbsw4_pr(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pr, true)
++#define fGEN_TCG_L2_loadbsw4_pbr(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pbr, true)
++#define fGEN_TCG_L2_loadbsw4_pi(SHORTCODE) \
++    fGEN_TCG_loadbXw4(GET_EA_pi, true)
++
  /*
-@@ -265,41 +277,57 @@
-         tcg_temp_free(BYTE); \
-     } while (0)
- 
-+#define fGEN_TCG_S2_storerb_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerb_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerb_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(0, fSTORE(1, 1, EA, fGETBYTE(0, RtV)))
- 
-+#define fGEN_TCG_S2_storerh_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerh_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerh_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(1, fSTORE(1, 2, EA, fGETHALF(0, RtV)))
- 
-+#define fGEN_TCG_S2_storerf_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerf_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerf_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(1, fSTORE(1, 2, EA, fGETHALF(1, RtV)))
- 
-+#define fGEN_TCG_S2_storeri_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storeri_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storeri_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(2, fSTORE(1, 4, EA, RtV))
- 
-+#define fGEN_TCG_S2_storerd_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerd_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerd_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(3, fSTORE(1, 8, EA, RttV))
- 
-+#define fGEN_TCG_S2_storerbnew_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerbnew_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerbnew_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(0, fSTORE(1, 1, EA, fGETBYTE(0, NtN)))
- 
-+#define fGEN_TCG_S2_storerhnew_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerhnew_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerhnew_pcr(SHORTCODE) \
-     fGEN_TCG_STORE_pcr(1, fSTORE(1, 2, EA, fGETHALF(0, NtN)))
- 
-+#define fGEN_TCG_S2_storerinew_pbr(SHORTCODE) \
-+    fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerinew_pci(SHORTCODE) \
-     fGEN_TCG_STORE(SHORTCODE)
- #define fGEN_TCG_S2_storerinew_pcr(SHORTCODE) \
-diff --git a/target/hexagon/helper.h b/target/hexagon/helper.h
-index 3824ae01ea..ca201fb680 100644
---- a/target/hexagon/helper.h
-+++ b/target/hexagon/helper.h
-@@ -24,6 +24,7 @@ DEF_HELPER_FLAGS_3(debug_check_store_width, TCG_CALL_NO_WG, void, env, int, int)
- DEF_HELPER_FLAGS_3(debug_commit_end, TCG_CALL_NO_WG, void, env, int, int)
- DEF_HELPER_2(commit_store, void, env, int)
- DEF_HELPER_FLAGS_4(fcircadd, TCG_CALL_NO_RWG_SE, s32, s32, s32, s32, s32)
-+DEF_HELPER_FLAGS_1(fbrev, TCG_CALL_NO_RWG_SE, i32, i32)
- DEF_HELPER_3(sfrecipa, i64, env, f32, f32)
- DEF_HELPER_2(sfinvsqrta, i64, env, f32)
- DEF_HELPER_4(vacsh_val, s64, env, s64, s64, s64)
+  * Predicated loads
+  * Here is a primer to understand the tag names
 diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-index 494ea8dfd8..30c8951c16 100644
+index 30c8951c16..ec5bf60f5e 100644
 --- a/target/hexagon/macros.h
 +++ b/target/hexagon/macros.h
-@@ -481,6 +481,7 @@ static inline TCGv gen_read_ireg(TCGv result, TCGv val, int shift)
+@@ -465,6 +465,21 @@ static inline TCGv gen_read_ireg(TCGv result, TCGv val, int shift)
+ #define fCAST8S_16S(A) (int128_exts64(A))
+ #define fCAST16S_8S(A) (int128_getlo(A))
+ 
++#ifdef QEMU_GENERATE
++#define fEA_RI(REG, IMM) tcg_gen_addi_tl(EA, REG, IMM)
++#define fEA_RRs(REG, REG2, SCALE) \
++    do { \
++        TCGv tmp = tcg_temp_new(); \
++        tcg_gen_shli_tl(tmp, REG2, SCALE); \
++        tcg_gen_add_tl(EA, REG, tmp); \
++        tcg_temp_free(tmp); \
++    } while (0)
++#define fEA_IRs(IMM, REG, SCALE) \
++    do { \
++        tcg_gen_shli_tl(EA, REG, SCALE); \
++        tcg_gen_addi_tl(EA, EA, IMM); \
++    } while (0)
++#else
+ #define fEA_RI(REG, IMM) \
+     do { \
+         EA = REG + IMM; \
+@@ -477,6 +492,7 @@ static inline TCGv gen_read_ireg(TCGv result, TCGv val, int shift)
+     do { \
+         EA = IMM + (REG << SCALE); \
+     } while (0)
++#endif
+ 
  #ifdef QEMU_GENERATE
  #define fEA_IMM(IMM) tcg_gen_movi_tl(EA, IMM)
- #define fEA_REG(REG) tcg_gen_mov_tl(EA, REG)
-+#define fEA_BREVR(REG)      gen_helper_fbrev(EA, REG)
- #define fPM_I(REG, IMM)     tcg_gen_addi_tl(REG, REG, IMM)
- #define fPM_M(REG, MVAL)    tcg_gen_add_tl(REG, REG, MVAL)
- #define fPM_CIRI(REG, IMM, MVAL) \
-diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-index 2319b9313e..63dd685658 100644
---- a/target/hexagon/op_helper.c
-+++ b/target/hexagon/op_helper.c
-@@ -281,6 +281,14 @@ int32_t HELPER(fcircadd)(int32_t RxV, int32_t offset, int32_t M, int32_t CS)
-     return new_ptr;
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index c6928d6184..f93f8953ff 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -300,6 +300,19 @@ static inline TCGv gen_get_half(TCGv result, int N, TCGv src, bool sign)
+     return result;
  }
  
-+uint32_t HELPER(fbrev)(uint32_t addr)
++static inline void gen_set_half(int N, TCGv result, TCGv src)
 +{
-+    /*
-+     *  Bit reverse the low 16 bits of the address
-+     */
-+    return deposit32(addr, 0, 16, revbit16(addr));
++    tcg_gen_deposit_tl(result, result, src, N * 16, 16);
 +}
 +
- static float32 build_float32(uint8_t sign, uint32_t exp, uint32_t mant)
++static inline void gen_set_half_i64(int N, TCGv_i64 result, TCGv src)
++{
++    TCGv_i64 src64 = tcg_temp_new_i64();
++    tcg_gen_extu_i32_i64(src64, src);
++    tcg_gen_deposit_i64(result, result, src64, N * 16, 16);
++    tcg_temp_free_i64(src64);
++}
++
+ static void gen_set_byte_i64(int N, TCGv_i64 result, TCGv src)
  {
-     return make_float32(
-diff --git a/tests/tcg/hexagon/brev.c b/tests/tcg/hexagon/brev.c
+     TCGv_i64 src64 = tcg_temp_new_i64();
+diff --git a/tests/tcg/hexagon/load_unpack.c b/tests/tcg/hexagon/load_unpack.c
 new file mode 100644
-index 0000000000..9736a2405d
+index 0000000000..3575a37a28
 --- /dev/null
-+++ b/tests/tcg/hexagon/brev.c
-@@ -0,0 +1,190 @@
++++ b/tests/tcg/hexagon/load_unpack.c
+@@ -0,0 +1,474 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -295,261 +348,543 @@ index 0000000000..9736a2405d
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
++/*
++ * Test load unpack instructions
++ *
++ * Example
++ *     r0 = memubh(r1+#0)
++ * loads a half word from memory and zero-extends the 2 bytes to form a word
++ *
++ * For each addressing mode, there are 4 tests
++ *     bzw2          unsigned     2 elements
++ *     bsw2          signed       2 elements
++ *     bzw4          unsigned     4 elements
++ *     bsw4          signed       4 elements
++ * There are 8 addressing modes, for a total of 32 instructions to test
++ */
++
 +#include <stdio.h>
 +#include <string.h>
 +
 +int err;
 +
-+#define NBITS          8
-+#define SIZE           (1 << NBITS)
++char buf[16] __attribute__((aligned(1 << 16)));
 +
-+long long     dbuf[SIZE] __attribute__((aligned(1 << 16))) = {0};
-+int           wbuf[SIZE] __attribute__((aligned(1 << 16))) = {0};
-+short         hbuf[SIZE] __attribute__((aligned(1 << 16))) = {0};
-+unsigned char bbuf[SIZE] __attribute__((aligned(1 << 16))) = {0};
-+
-+/*
-+ * We use the C preporcessor to deal with the combinations of types
-+ */
-+
-+#define BREV_LOAD(SZ, RES, ADDR, INC) \
-+    __asm__( \
-+        "m0 = %2\n\t" \
-+        "%0 = mem" #SZ "(%1++m0:brev)\n\t" \
-+        : "=r"(RES), "+r"(ADDR) \
-+        : "r"(INC) \
-+        : "m0")
-+
-+#define BREV_LOAD_b(RES, ADDR, INC) \
-+    BREV_LOAD(b, RES, ADDR, INC)
-+#define BREV_LOAD_ub(RES, ADDR, INC) \
-+    BREV_LOAD(ub, RES, ADDR, INC)
-+#define BREV_LOAD_h(RES, ADDR, INC) \
-+    BREV_LOAD(h, RES, ADDR, INC)
-+#define BREV_LOAD_uh(RES, ADDR, INC) \
-+    BREV_LOAD(uh, RES, ADDR, INC)
-+#define BREV_LOAD_w(RES, ADDR, INC) \
-+    BREV_LOAD(w, RES, ADDR, INC)
-+#define BREV_LOAD_d(RES, ADDR, INC) \
-+    BREV_LOAD(d, RES, ADDR, INC)
-+
-+#define BREV_STORE(SZ, PART, ADDR, VAL, INC) \
-+    __asm__( \
-+        "m0 = %2\n\t" \
-+        "mem" #SZ "(%0++m0:brev) = %1" PART "\n\t" \
-+        : "+r"(ADDR) \
-+        : "r"(VAL), "r"(INC) \
-+        : "m0", "memory")
-+
-+#define BREV_STORE_b(ADDR, VAL, INC) \
-+    BREV_STORE(b, "", ADDR, VAL, INC)
-+#define BREV_STORE_h(ADDR, VAL, INC) \
-+    BREV_STORE(h, "", ADDR, VAL, INC)
-+#define BREV_STORE_f(ADDR, VAL, INC) \
-+    BREV_STORE(h, ".H", ADDR, VAL, INC)
-+#define BREV_STORE_w(ADDR, VAL, INC) \
-+    BREV_STORE(w, "", ADDR, VAL, INC)
-+#define BREV_STORE_d(ADDR, VAL, INC) \
-+    BREV_STORE(d, "", ADDR, VAL, INC)
-+
-+#define BREV_STORE_NEW(SZ, ADDR, VAL, INC) \
-+    __asm__( \
-+        "m0 = %2\n\t" \
-+        "{\n\t" \
-+        "    r5 = %1\n\t" \
-+        "    mem" #SZ "(%0++m0:brev) = r5.new\n\t" \
-+        "}\n\t" \
-+        : "+r"(ADDR) \
-+        : "r"(VAL), "r"(INC) \
-+        : "r5", "m0", "memory")
-+
-+#define BREV_STORE_bnew(ADDR, VAL, INC) \
-+    BREV_STORE_NEW(b, ADDR, VAL, INC)
-+#define BREV_STORE_hnew(ADDR, VAL, INC) \
-+    BREV_STORE_NEW(h, ADDR, VAL, INC)
-+#define BREV_STORE_wnew(ADDR, VAL, INC) \
-+    BREV_STORE_NEW(w, ADDR, VAL, INC)
-+
-+int bitreverse(int x)
++void init_buf(void)
 +{
-+    int result = 0;
 +    int i;
-+    for (i = 0; i < NBITS; i++) {
-+        result <<= 1;
-+        result |= x & 1;
-+        x >>= 1;
++    for (i = 0; i < 16; i++) {
++        int sign = i % 2 == 0 ? 0x80 : 0;
++        buf[i] = sign | (i + 1);
 +    }
-+    return result;
 +}
 +
-+int sext8(int x)
-+{
-+    return (x << 24) >> 24;
-+}
-+
-+void check(int i, long long result, long long expect)
++void __check(int line, long long result, long long expect)
 +{
 +    if (result != expect) {
-+        printf("ERROR(%d): 0x%04llx != 0x%04llx\n", i, result, expect);
++        printf("ERROR at line %d: 0x%08llx != 0x%08llx\n",
++               line, result, expect);
 +        err++;
 +    }
 +}
 +
-+#define TEST_BREV_LOAD(SZ, TYPE, BUF, SHIFT, EXP) \
-+    do { \
-+        p = BUF; \
-+        for (i = 0; i < SIZE; i++) { \
-+            TYPE result; \
-+            BREV_LOAD_##SZ(result, p, 1 << (SHIFT - NBITS)); \
-+            check(i, result, EXP); \
-+        } \
-+    } while (0)
++#define check(RES, EXP) __check(__LINE__, RES, EXP)
 +
-+#define TEST_BREV_STORE(SZ, TYPE, BUF, VAL, SHIFT) \
-+    do { \
-+        p = BUF; \
-+        memset(BUF, 0xff, sizeof(BUF)); \
-+        for (i = 0; i < SIZE; i++) { \
-+            BREV_STORE_##SZ(p, (TYPE)(VAL), 1 << (SHIFT - NBITS)); \
-+        } \
-+        for (i = 0; i < SIZE; i++) { \
-+            check(i, BUF[i], bitreverse(i)); \
-+        } \
-+    } while (0)
++void __checkp(int line, void *p, void *expect)
++{
++    if (p != expect) {
++        printf("ERROR at line %d: 0x%p != 0x%p\n", line, p, expect);
++        err++;
++    }
++}
 +
-+#define TEST_BREV_STORE_NEW(SZ, BUF, SHIFT) \
-+    do { \
-+        p = BUF; \
-+        memset(BUF, 0xff, sizeof(BUF)); \
-+        for (i = 0; i < SIZE; i++) { \
-+            BREV_STORE_##SZ(p, i, 1 << (SHIFT - NBITS)); \
-+        } \
-+        for (i = 0; i < SIZE; i++) { \
-+            check(i, BUF[i], bitreverse(i)); \
-+        } \
-+    } while (0)
++#define checkp(RES, EXP) __checkp(__LINE__, RES, EXP)
 +
 +/*
-+ * We'll set high_half[i] = i << 16 for use in the .H form of store
-+ * which stores from the high half of the word.
++ ****************************************************************************
++ * _io addressing mode (addr + offset)
 + */
-+int high_half[SIZE];
++#define BxW_LOAD_io(SZ, RES, ADDR, OFF) \
++    __asm__( \
++        "%0 = mem" #SZ "(%1+#" #OFF ")\n\t" \
++        : "=r"(RES) \
++        : "r"(ADDR))
++#define BxW_LOAD_io_Z(RES, ADDR, OFF) \
++    BxW_LOAD_io(ubh, RES, ADDR, OFF)
++#define BxW_LOAD_io_S(RES, ADDR, OFF) \
++    BxW_LOAD_io(bh, RES, ADDR, OFF)
++
++#define TEST_io(NAME, TYPE, SIGN, SIZE, EXT, EXP1, EXP2, EXP3, EXP4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    init_buf(); \
++    BxW_LOAD_io_##SIGN(result, buf, 0 * (SIZE)); \
++    check(result, (EXP1) | (EXT)); \
++    BxW_LOAD_io_##SIGN(result, buf, 1 * (SIZE)); \
++    check(result, (EXP2) | (EXT)); \
++    BxW_LOAD_io_##SIGN(result, buf, 2 * (SIZE)); \
++    check(result, (EXP3) | (EXT)); \
++    BxW_LOAD_io_##SIGN(result, buf, 3 * (SIZE)); \
++    check(result, (EXP4) | (EXT)); \
++}
++
++
++TEST_io(loadbzw2_io, int, Z, 2, 0x00000000,
++        0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_io(loadbsw2_io, int, S, 2, 0x0000ff00,
++        0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_io(loadbzw4_io, long long, Z,  4, 0x0000000000000000LL,
++        0x0004008300020081LL, 0x0008008700060085LL,
++        0x000c008b000a0089LL, 0x0010008f000e008dLL)
++TEST_io(loadbsw4_io, long long, S,  4, 0x0000ff000000ff00LL,
++        0x0004008300020081LL, 0x0008008700060085LL,
++        0x000c008b000a0089LL, 0x0010008f000e008dLL)
++
++/*
++ ****************************************************************************
++ * _ur addressing mode (index << offset + base)
++ */
++#define BxW_LOAD_ur(SZ, RES, SHIFT, IDX) \
++    __asm__( \
++        "%0 = mem" #SZ "(%1<<#" #SHIFT " + ##buf)\n\t" \
++        : "=r"(RES) \
++        : "r"(IDX))
++#define BxW_LOAD_ur_Z(RES, SHIFT, IDX) \
++    BxW_LOAD_ur(ubh, RES, SHIFT, IDX)
++#define BxW_LOAD_ur_S(RES, SHIFT, IDX) \
++    BxW_LOAD_ur(bh, RES, SHIFT, IDX)
++
++#define TEST_ur(NAME, TYPE, SIGN, SHIFT, EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    init_buf(); \
++    BxW_LOAD_ur_##SIGN(result, (SHIFT), 0); \
++    check(result, (RES1) | (EXT)); \
++    BxW_LOAD_ur_##SIGN(result, (SHIFT), 1); \
++    check(result, (RES2) | (EXT)); \
++    BxW_LOAD_ur_##SIGN(result, (SHIFT), 2); \
++    check(result, (RES3) | (EXT)); \
++    BxW_LOAD_ur_##SIGN(result, (SHIFT), 3); \
++    check(result, (RES4) | (EXT)); \
++} \
++
++TEST_ur(loadbzw2_ur, int, Z, 1, 0x00000000,
++        0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_ur(loadbsw2_ur, int, S, 1, 0x0000ff00,
++        0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_ur(loadbzw4_ur, long long, Z, 2, 0x0000000000000000LL,
++        0x0004008300020081LL, 0x0008008700060085LL,
++        0x000c008b000a0089LL, 0x0010008f000e008dLL)
++TEST_ur(loadbsw4_ur, long long, S, 2, 0x0000ff000000ff00LL,
++        0x0004008300020081LL, 0x0008008700060085LL,
++        0x000c008b000a0089LL, 0x0010008f000e008dLL)
++
++/*
++ ****************************************************************************
++ * _ap addressing mode (addr = base)
++ */
++#define BxW_LOAD_ap(SZ, RES, PTR, ADDR) \
++    __asm__( \
++        "%0 = mem" #SZ "(%1 = ##" #ADDR ")\n\t" \
++        : "=r"(RES), "=r"(PTR))
++#define BxW_LOAD_ap_Z(RES, PTR, ADDR) \
++    BxW_LOAD_ap(ubh, RES, PTR, ADDR)
++#define BxW_LOAD_ap_S(RES, PTR, ADDR) \
++    BxW_LOAD_ap(bh, RES, PTR, ADDR)
++
++#define TEST_ap(NAME, TYPE, SIGN, SIZE, EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    void *ptr; \
++    init_buf(); \
++    BxW_LOAD_ap_##SIGN(result, ptr, (buf + 0 * (SIZE))); \
++    check(result, (RES1) | (EXT)); \
++    checkp(ptr, &buf[0 * (SIZE)]); \
++    BxW_LOAD_ap_##SIGN(result, ptr, (buf + 1 * (SIZE))); \
++    check(result, (RES2) | (EXT)); \
++    checkp(ptr, &buf[1 * (SIZE)]); \
++    BxW_LOAD_ap_##SIGN(result, ptr, (buf + 2 * (SIZE))); \
++    check(result, (RES3) | (EXT)); \
++    checkp(ptr, &buf[2 * (SIZE)]); \
++    BxW_LOAD_ap_##SIGN(result, ptr, (buf + 3 * (SIZE))); \
++    check(result, (RES4) | (EXT)); \
++    checkp(ptr, &buf[3 * (SIZE)]); \
++}
++
++TEST_ap(loadbzw2_ap, int, Z, 2, 0x00000000,
++        0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_ap(loadbsw2_ap, int, S, 2, 0x0000ff00,
++        0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_ap(loadbzw4_ap, long long, Z, 4, 0x0000000000000000LL,
++        0x0004008300020081LL, 0x0008008700060085LL,
++        0x000c008b000a0089LL, 0x0010008f000e008dLL)
++TEST_ap(loadbsw4_ap, long long, S, 4, 0x0000ff000000ff00LL,
++        0x0004008300020081LL, 0x0008008700060085LL,
++        0x000c008b000a0089LL, 0x0010008f000e008dLL)
++
++/*
++ ****************************************************************************
++ * _rp addressing mode (addr ++ modifer-reg)
++ */
++#define BxW_LOAD_pr(SZ, RES, PTR, INC) \
++    __asm__( \
++        "m0 = %2\n\t" \
++        "%0 = mem" #SZ "(%1++m0)\n\t" \
++        : "=r"(RES), "+r"(PTR) \
++        : "r"(INC) \
++        : "m0")
++#define BxW_LOAD_pr_Z(RES, PTR, INC) \
++    BxW_LOAD_pr(ubh, RES, PTR, INC)
++#define BxW_LOAD_pr_S(RES, PTR, INC) \
++    BxW_LOAD_pr(bh, RES, PTR, INC)
++
++#define TEST_pr(NAME, TYPE, SIGN, SIZE, EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    void *ptr = buf; \
++    init_buf(); \
++    BxW_LOAD_pr_##SIGN(result, ptr, (SIZE)); \
++    check(result, (RES1) | (EXT)); \
++    checkp(ptr, &buf[1 * (SIZE)]); \
++    BxW_LOAD_pr_##SIGN(result, ptr, (SIZE)); \
++    check(result, (RES2) | (EXT)); \
++    checkp(ptr, &buf[2 * (SIZE)]); \
++    BxW_LOAD_pr_##SIGN(result, ptr, (SIZE)); \
++    check(result, (RES3) | (EXT)); \
++    checkp(ptr, &buf[3 * (SIZE)]); \
++    BxW_LOAD_pr_##SIGN(result, ptr, (SIZE)); \
++    check(result, (RES4) | (EXT)); \
++    checkp(ptr, &buf[4 * (SIZE)]); \
++}
++
++TEST_pr(loadbzw2_pr, int, Z, 2, 0x00000000,
++    0x00020081, 0x0040083, 0x00060085, 0x00080087)
++TEST_pr(loadbsw2_pr, int, S, 2, 0x0000ff00,
++    0x00020081, 0x0040083, 0x00060085, 0x00080087)
++TEST_pr(loadbzw4_pr, long long, Z, 4, 0x0000000000000000LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x000c008b000a0089LL, 0x0010008f000e008dLL)
++TEST_pr(loadbsw4_pr, long long, S, 4, 0x0000ff000000ff00LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x000c008b000a0089LL, 0x0010008f000e008dLL)
++
++/*
++ ****************************************************************************
++ * _pbr addressing mode (addr ++ modifer-reg:brev)
++ */
++#define BxW_LOAD_pbr(SZ, RES, PTR) \
++    __asm__( \
++        "r4 = #(1 << (16 - 3))\n\t" \
++        "m0 = r4\n\t" \
++        "%0 = mem" #SZ "(%1++m0:brev)\n\t" \
++        : "=r"(RES), "+r"(PTR) \
++        : \
++        : "r4", "m0")
++#define BxW_LOAD_pbr_Z(RES, PTR) \
++    BxW_LOAD_pbr(ubh, RES, PTR)
++#define BxW_LOAD_pbr_S(RES, PTR) \
++    BxW_LOAD_pbr(bh, RES, PTR)
++
++#define TEST_pbr(NAME, TYPE, SIGN, EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    void *ptr = buf; \
++    init_buf(); \
++    BxW_LOAD_pbr_##SIGN(result, ptr); \
++    check(result, (RES1) | (EXT)); \
++    BxW_LOAD_pbr_##SIGN(result, ptr); \
++    check(result, (RES2) | (EXT)); \
++    BxW_LOAD_pbr_##SIGN(result, ptr); \
++    check(result, (RES3) | (EXT)); \
++    BxW_LOAD_pbr_##SIGN(result, ptr); \
++    check(result, (RES4) | (EXT)); \
++}
++
++TEST_pbr(loadbzw2_pbr, int, Z, 0x00000000,
++    0x00020081, 0x00060085, 0x00040083, 0x00080087)
++TEST_pbr(loadbsw2_pbr, int, S, 0x0000ff00,
++    0x00020081, 0x00060085, 0x00040083, 0x00080087)
++TEST_pbr(loadbzw4_pbr, long long, Z, 0x0000000000000000LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x0006008500040083LL, 0x000a008900080087LL)
++TEST_pbr(loadbsw4_pbr, long long, S, 0x0000ff000000ff00LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x0006008500040083LL, 0x000a008900080087LL)
++
++/*
++ ****************************************************************************
++ * _pi addressing mode (addr ++ inc)
++ */
++#define BxW_LOAD_pi(SZ, RES, PTR, INC) \
++    __asm__( \
++        "%0 = mem" #SZ "(%1++#" #INC ")\n\t" \
++        : "=r"(RES), "+r"(PTR))
++#define BxW_LOAD_pi_Z(RES, PTR, INC) \
++    BxW_LOAD_pi(ubh, RES, PTR, INC)
++#define BxW_LOAD_pi_S(RES, PTR, INC) \
++    BxW_LOAD_pi(bh, RES, PTR, INC)
++
++#define TEST_pi(NAME, TYPE, SIGN, INC, EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    void *ptr = buf; \
++    init_buf(); \
++    BxW_LOAD_pi_##SIGN(result, ptr, (INC)); \
++    check(result, (RES1) | (EXT)); \
++    checkp(ptr, &buf[1 * (INC)]); \
++    BxW_LOAD_pi_##SIGN(result, ptr, (INC)); \
++    check(result, (RES2) | (EXT)); \
++    checkp(ptr, &buf[2 * (INC)]); \
++    BxW_LOAD_pi_##SIGN(result, ptr, (INC)); \
++    check(result, (RES3) | (EXT)); \
++    checkp(ptr, &buf[3 * (INC)]); \
++    BxW_LOAD_pi_##SIGN(result, ptr, (INC)); \
++    check(result, (RES4) | (EXT)); \
++    checkp(ptr, &buf[4 * (INC)]); \
++}
++
++TEST_pi(loadbzw2_pi, int, Z, 2, 0x00000000,
++    0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_pi(loadbsw2_pi, int, S, 2, 0x0000ff00,
++    0x00020081, 0x00040083, 0x00060085, 0x00080087)
++TEST_pi(loadbzw4_pi, long long, Z, 4, 0x0000000000000000LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x000c008b000a0089LL, 0x0010008f000e008dLL)
++TEST_pi(loadbsw4_pi, long long, S, 4, 0x0000ff000000ff00LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x000c008b000a0089LL, 0x0010008f000e008dLL)
++
++/*
++ ****************************************************************************
++ * _pci addressing mode (addr ++ inc:circ)
++ */
++#define BxW_LOAD_pci(SZ, RES, PTR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %3\n\t" \
++        "m0 = r4\n\t" \
++        "cs0 = %2\n\t" \
++        "%0 = mem" #SZ "(%1++#" #INC ":circ(m0))\n\t" \
++        : "=r"(RES), "+r"(PTR) \
++        : "r"(START), "r"(LEN) \
++        : "r4", "m0", "cs0")
++#define BxW_LOAD_pci_Z(RES, PTR, START, LEN, INC) \
++    BxW_LOAD_pci(ubh, RES, PTR, START, LEN, INC)
++#define BxW_LOAD_pci_S(RES, PTR, START, LEN, INC) \
++    BxW_LOAD_pci(bh, RES, PTR, START, LEN, INC)
++
++#define TEST_pci(NAME, TYPE, SIGN, LEN, INC, EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    void *ptr = buf; \
++    init_buf(); \
++    BxW_LOAD_pci_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES1) | (EXT)); \
++    checkp(ptr, &buf[(1 * (INC)) % (LEN)]); \
++    BxW_LOAD_pci_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES2) | (EXT)); \
++    checkp(ptr, &buf[(2 * (INC)) % (LEN)]); \
++    BxW_LOAD_pci_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES3) | (EXT)); \
++    checkp(ptr, &buf[(3 * (INC)) % (LEN)]); \
++    BxW_LOAD_pci_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES4) | (EXT)); \
++    checkp(ptr, &buf[(4 * (INC)) % (LEN)]); \
++}
++
++TEST_pci(loadbzw2_pci, int, Z, 6, 2, 0x00000000,
++    0x00020081, 0x00040083, 0x00060085, 0x00020081)
++TEST_pci(loadbsw2_pci, int, S, 6, 2, 0x0000ff00,
++    0x00020081, 0x00040083, 0x00060085, 0x00020081)
++TEST_pci(loadbzw4_pci, long long, Z, 8, 4, 0x0000000000000000LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x0004008300020081LL, 0x0008008700060085LL)
++TEST_pci(loadbsw4_pci, long long, S, 8, 4, 0x0000ff000000ff00LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x0004008300020081LL, 0x0008008700060085LL)
++
++/*
++ ****************************************************************************
++ * _pcr addressing mode (addr ++ I:circ(modifier-reg))
++ */
++#define BxW_LOAD_pcr(SZ, RES, PTR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %2\n\t" \
++        "m1 = r4\n\t" \
++        "cs1 = %3\n\t" \
++        "%0 = mem" #SZ "(%1++I:circ(m1))\n\t" \
++        : "=r"(RES), "+r"(PTR) \
++        : "r"((((INC) & 0x7f) << 17) | ((LEN) & 0x1ffff)), \
++          "r"(START) \
++        : "r4", "m1", "cs1")
++#define BxW_LOAD_pcr_Z(RES, PTR, START, LEN, INC) \
++    BxW_LOAD_pcr(ubh, RES, PTR, START, LEN, INC)
++#define BxW_LOAD_pcr_S(RES, PTR, START, LEN, INC) \
++    BxW_LOAD_pcr(bh, RES, PTR, START, LEN, INC)
++
++#define TEST_pcr(NAME, TYPE, SIGN, SIZE, LEN, INC, \
++                 EXT, RES1, RES2, RES3, RES4) \
++void test_##NAME(void) \
++{ \
++    TYPE result; \
++    void *ptr = buf; \
++    init_buf(); \
++    BxW_LOAD_pcr_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES1) | (EXT)); \
++    checkp(ptr, &buf[(1 * (INC) * (SIZE)) % (LEN)]); \
++    BxW_LOAD_pcr_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES2) | (EXT)); \
++    checkp(ptr, &buf[(2 * (INC) * (SIZE)) % (LEN)]); \
++    BxW_LOAD_pcr_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES3) | (EXT)); \
++    checkp(ptr, &buf[(3 * (INC) * (SIZE)) % (LEN)]); \
++    BxW_LOAD_pcr_##SIGN(result, ptr, buf, (LEN), (INC)); \
++    check(result, (RES4) | (EXT)); \
++    checkp(ptr, &buf[(4 * (INC) * (SIZE)) % (LEN)]); \
++}
++
++TEST_pcr(loadbzw2_pcr, int, Z, 2, 8, 2, 0x00000000,
++    0x00020081, 0x00060085, 0x00020081, 0x00060085)
++TEST_pcr(loadbsw2_pcr, int, S, 2, 8, 2, 0x0000ff00,
++    0x00020081, 0x00060085, 0x00020081, 0x00060085)
++TEST_pcr(loadbzw4_pcr, long long, Z, 4, 8, 1, 0x0000000000000000LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x0004008300020081LL, 0x0008008700060085LL)
++TEST_pcr(loadbsw4_pcr, long long, S, 4, 8, 1, 0x0000ff000000ff00LL,
++    0x0004008300020081LL, 0x0008008700060085LL,
++    0x0004008300020081LL, 0x0008008700060085LL)
 +
 +int main()
 +{
-+    void *p;
-+    int i;
++    test_loadbzw2_io();
++    test_loadbsw2_io();
++    test_loadbzw4_io();
++    test_loadbsw4_io();
 +
-+    for (i = 0; i < SIZE; i++) {
-+        bbuf[i] = bitreverse(i);
-+        hbuf[i] = bitreverse(i);
-+        wbuf[i] = bitreverse(i);
-+        dbuf[i] = bitreverse(i);
-+        high_half[i] = i << 16;
-+    }
++    test_loadbzw2_ur();
++    test_loadbsw2_ur();
++    test_loadbzw4_ur();
++    test_loadbsw4_ur();
 +
-+    TEST_BREV_LOAD(b,  int,       bbuf, 16, sext8(i));
-+    TEST_BREV_LOAD(ub, int,       bbuf, 16, i);
-+    TEST_BREV_LOAD(h,  int,       hbuf, 15, i);
-+    TEST_BREV_LOAD(uh, int,       hbuf, 15, i);
-+    TEST_BREV_LOAD(w,  int,       wbuf, 14, i);
-+    TEST_BREV_LOAD(d,  long long, dbuf, 13, i);
++    test_loadbzw2_ap();
++    test_loadbsw2_ap();
++    test_loadbzw4_ap();
++    test_loadbsw4_ap();
 +
-+    TEST_BREV_STORE(b, int,       bbuf, i,            16);
-+    TEST_BREV_STORE(h, int,       hbuf, i,            15);
-+    TEST_BREV_STORE(f, int,       hbuf, high_half[i], 15);
-+    TEST_BREV_STORE(w, int,       wbuf, i,            14);
-+    TEST_BREV_STORE(d, long long, dbuf, i,            13);
++    test_loadbzw2_pr();
++    test_loadbsw2_pr();
++    test_loadbzw4_pr();
++    test_loadbsw4_pr();
 +
-+    TEST_BREV_STORE_NEW(bnew, bbuf, 16);
-+    TEST_BREV_STORE_NEW(hnew, hbuf, 15);
-+    TEST_BREV_STORE_NEW(wnew, wbuf, 14);
++    test_loadbzw2_pbr();
++    test_loadbsw2_pbr();
++    test_loadbzw4_pbr();
++    test_loadbsw4_pbr();
++
++    test_loadbzw2_pi();
++    test_loadbsw2_pi();
++    test_loadbzw4_pi();
++    test_loadbsw4_pi();
++
++    test_loadbzw2_pci();
++    test_loadbsw2_pci();
++    test_loadbzw4_pci();
++    test_loadbsw4_pci();
++
++    test_loadbzw2_pcr();
++    test_loadbsw2_pcr();
++    test_loadbzw4_pcr();
++    test_loadbsw4_pcr();
 +
 +    puts(err ? "FAIL" : "PASS");
 +    return err ? 1 : 0;
 +}
 diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
-index 68b435ebe7..4464926634 100644
+index 4464926634..e3582ebb29 100644
 --- a/target/hexagon/imported/encode_pp.def
 +++ b/target/hexagon/imported/encode_pp.def
-@@ -301,6 +301,7 @@ DEF_CLASS32(ICLASS_LD" 101- -------- PP1----- --------",LD_ADDR_POST_IMMED_PRED_
- DEF_CLASS32(ICLASS_LD" 110- -------- PP-0---- 0-------",LD_ADDR_POST_REG)
- DEF_CLASS32(ICLASS_LD" 110- -------- PP-1---- --------",LD_ADDR_ABS_PLUS_REG_V4)
- DEF_CLASS32(ICLASS_LD" 100- -------- PP----1- --------",LD_ADDR_POST_CREG_V2)
-+DEF_CLASS32(ICLASS_LD" 111- -------- PP------ 0-------",LD_ADDR_POST_BREV_REG)
- DEF_CLASS32(ICLASS_LD" 111- -------- PP------ 1-------",LD_ADDR_PRED_ABS_V4)
- 
- DEF_FIELD32(ICLASS_LD" !!!- -------- PP------ --------",LD_Amode,"Amode")
-@@ -315,6 +316,7 @@ DEF_ENC32(L4_load##TAG##_ap,   ICLASS_LD" 1 01 "OPC"  eeeee  PP01IIII  -IIddddd"
- DEF_ENC32(L2_load##TAG##_pr,   ICLASS_LD" 1 10 "OPC"  xxxxx  PPu0----  0--ddddd")\
- DEF_ENC32(L4_load##TAG##_ur,   ICLASS_LD" 1 10 "OPC"  ttttt  PPi1IIII  iIIddddd")\
- DEF_ENC32(L2_load##TAG##_pcr,  ICLASS_LD" 1 00 "OPC"  xxxxx  PPu0--1-  0--ddddd")\
-+DEF_ENC32(L2_load##TAG##_pbr,  ICLASS_LD" 1 11 "OPC"  xxxxx  PPu0----  0--ddddd")
+@@ -342,6 +342,12 @@ DEF_ENC32(L4_pload##TAG##fnew_abs,ICLASS_LD" 1 11 "OPC"  iiiii  PP111tti  1--ddd
  
  
- #define STD_LDX_ENC(TAG,OPC) \
-@@ -412,6 +414,7 @@ DEF_CLASS32(ICLASS_ST" 1111 -------- PP------ 1-------",ST_ADDR_PRED_ABS_V4)
- DEF_CLASS32(ICLASS_ST" 1101 -------- PP------ 0-------",ST_ADDR_POST_REG)
- DEF_CLASS32(ICLASS_ST" 1101 -------- PP------ 1-------",ST_ADDR_ABS_PLUS_REG_V4)
- DEF_CLASS32(ICLASS_ST" 1001 -------- PP------ ------1-",ST_ADDR_POST_CREG_V2)
-+DEF_CLASS32(ICLASS_ST" 1111 -------- PP------ 0-------",ST_ADDR_POST_BREV_REG)
- DEF_CLASS32(ICLASS_ST" 0--0 1------- PP------ --------",ST_MISC_STORELIKE)
- DEF_CLASS32(ICLASS_ST" 1--0 0------- PP------ --------",ST_MISC_BUSOP)
- DEF_CLASS32(ICLASS_ST" 0--0 0------- PP------ --------",ST_MISC_CACHEOP)
-@@ -425,6 +428,7 @@ DEF_ENC32(S4_store##TAG##_ap,   ICLASS_ST" 1 01 "OPC"  eeeee  PP0"SRC"  1-IIIIII
- DEF_ENC32(S2_store##TAG##_pr,   ICLASS_ST" 1 10 "OPC"  xxxxx  PPu"SRC"  0-------")\
- DEF_ENC32(S4_store##TAG##_ur,   ICLASS_ST" 1 10 "OPC"  uuuuu  PPi"SRC"  1iIIIIII")\
- DEF_ENC32(S2_store##TAG##_pcr,  ICLASS_ST" 1 00 "OPC"  xxxxx  PPu"SRC"  0-----1-")\
-+DEF_ENC32(S2_store##TAG##_pbr,  ICLASS_ST" 1 11 "OPC"  xxxxx  PPu"SRC"  0-------")
- 
- 
- #define STD_PST_ENC(TAG,OPC,SRC) \
+ /*               0 000  misc: dealloc,loadw_locked,dcfetch      */
++STD_LD_ENC(bzw4,"0 101")
++STD_LD_ENC(bzw2,"0 011")
++
++STD_LD_ENC(bsw4,"0 111")
++STD_LD_ENC(bsw2,"0 001")
++
+ STD_LD_ENC(rb,  "1 000")
+ STD_LD_ENC(rub, "1 001")
+ STD_LD_ENC(rh,  "1 010")
 diff --git a/target/hexagon/imported/ldst.idef b/target/hexagon/imported/ldst.idef
-index 6ce0635e32..fe7e018cf1 100644
+index fe7e018cf1..95c0470757 100644
 --- a/target/hexagon/imported/ldst.idef
 +++ b/target/hexagon/imported/ldst.idef
-@@ -25,6 +25,7 @@ Q6INSN(L2_##TAG##_io,  OPER"(Rs32+#s11:"SHFT")",          ATTRIB,DESCR,{fIMMEXT(
- Q6INSN(L4_##TAG##_ur,  OPER"(Rt32<<#u2+#U6)",             ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IRs(UiV,RtV,uiV); SEMANTICS;})\
- Q6INSN(L4_##TAG##_ap,  OPER"(Re32=#U6)",                  ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IMM(UiV); SEMANTICS; ReV=UiV; })\
- Q6INSN(L2_##TAG##_pr,  OPER"(Rx32++Mu2)",                 ATTRIB,DESCR,{fEA_REG(RxV); fPM_M(RxV,MuV); SEMANTICS;})\
-+Q6INSN(L2_##TAG##_pbr, OPER"(Rx32++Mu2:brev)",            ATTRIB,DESCR,{fEA_BREVR(RxV); fPM_M(RxV,MuV); SEMANTICS;})\
- Q6INSN(L2_##TAG##_pi,  OPER"(Rx32++#s4:"SHFT")",          ATTRIB,DESCR,{fEA_REG(RxV); fPM_I(RxV,siV); SEMANTICS;})\
- Q6INSN(L2_##TAG##_pci, OPER"(Rx32++#s4:"SHFT":circ(Mu2))",ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRI(RxV,siV,MuV); SEMANTICS;})\
- Q6INSN(L2_##TAG##_pcr, OPER"(Rx32++I:circ(Mu2))",  ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRR(RxV,fREAD_IREG(MuV)<<SCALE,MuV); SEMANTICS;})
-@@ -44,6 +45,7 @@ Q6INSN(S2_##TAG##_pi,  OPER"(Rx32++#s4:"SHFT")="DEST,     ATTRIB,DESCR,{fEA_REG(
- Q6INSN(S4_##TAG##_ap,  OPER"(Re32=#U6)="DEST,             ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IMM(UiV); SEMANTICS; ReV=UiV; })\
- Q6INSN(S2_##TAG##_pr,  OPER"(Rx32++Mu2)="DEST,            ATTRIB,DESCR,{fEA_REG(RxV); fPM_M(RxV,MuV); SEMANTICS; })\
- Q6INSN(S4_##TAG##_ur,  OPER"(Ru32<<#u2+#U6)="DEST,            ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IRs(UiV,RuV,uiV); SEMANTICS;})\
-+Q6INSN(S2_##TAG##_pbr, OPER"(Rx32++Mu2:brev)="DEST,       ATTRIB,DESCR,{fEA_BREVR(RxV); fPM_M(RxV,MuV); SEMANTICS; })\
- Q6INSN(S2_##TAG##_pci, OPER"(Rx32++#s4:"SHFT":circ(Mu2))="DEST,  ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRI(RxV,siV,MuV); SEMANTICS;})\
- Q6INSN(S2_##TAG##_pcr, OPER"(Rx32++I:circ(Mu2))="DEST,  ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRR(RxV,fREAD_IREG(MuV)<<SCALE,MuV); SEMANTICS;})
+@@ -38,6 +38,49 @@ STD_LD_AMODES(loadrh, "Rd32=memh", "Load signed Half integer",ATTRIBS(A_LOAD),"1
+ STD_LD_AMODES(loadri, "Rd32=memw", "Load Word",ATTRIBS(A_LOAD),"2",fLOAD(1,4,u,EA,RdV),2)
+ STD_LD_AMODES(loadrd, "Rdd32=memd","Load Double integer",ATTRIBS(A_LOAD),"3",fLOAD(1,8,u,EA,RddV),3)
  
-diff --git a/target/hexagon/imported/macros.def b/target/hexagon/imported/macros.def
-index 25f57b6f19..56c99b1d64 100755
---- a/target/hexagon/imported/macros.def
-+++ b/target/hexagon/imported/macros.def
-@@ -818,6 +818,12 @@ DEF_MACRO(
-     ()
- )
- 
-+DEF_MACRO(
-+    fEA_BREVR, /* Calculate EA with bit reversed bottom of REGISTER */
-+    EA=fbrev(REG),
-+    ()
-+)
++/* These instructions do a load an unpack */
++STD_LD_AMODES(loadbzw2, "Rd32=memubh", "Load Bytes and Vector Zero-Extend (unpack)",
++ATTRIBS(A_LOAD),"1",
++{fHIDE(size2u_t tmpV; int i;)
++ fLOAD(1,2,u,EA,tmpV);
++ for (i=0;i<2;i++) {
++  fSETHALF(i,RdV,fGETUBYTE(i,tmpV));
++ }
++},1)
 +
- DEF_MACRO(
-     fEA_GPI, /* Calculate EA with Global Poitner + Immediate */
-     do { EA=fREAD_GP()+IMM; fGP_DOCHKPAGECROSS(fREAD_GP(),EA); } while (0),
++STD_LD_AMODES(loadbzw4, "Rdd32=memubh", "Load Bytes and Vector Zero-Extend (unpack)",
++ATTRIBS(A_LOAD),"2",
++{fHIDE(size4u_t tmpV; int i;)
++ fLOAD(1,4,u,EA,tmpV);
++ for (i=0;i<4;i++) {
++  fSETHALF(i,RddV,fGETUBYTE(i,tmpV));
++ }
++},2)
++
++
++
++/* These instructions do a load an unpack */
++STD_LD_AMODES(loadbsw2, "Rd32=membh", "Load Bytes and Vector Sign-Extend (unpack)",
++ATTRIBS(A_LOAD),"1",
++{fHIDE(size2u_t tmpV; int i;)
++ fLOAD(1,2,u,EA,tmpV);
++ for (i=0;i<2;i++) {
++  fSETHALF(i,RdV,fGETBYTE(i,tmpV));
++ }
++},1)
++
++STD_LD_AMODES(loadbsw4, "Rdd32=membh", "Load Bytes and Vector Sign-Extend (unpack)",
++ATTRIBS(A_LOAD),"2",
++{fHIDE(size4u_t tmpV; int i;)
++ fLOAD(1,4,u,EA,tmpV);
++ for (i=0;i<4;i++) {
++  fSETHALF(i,RddV,fGETBYTE(i,tmpV));
++ }
++},2)
++
++
++
++
+ /* The set of addressing modes standard to all Store instructions */
+ #define STD_ST_AMODES(TAG,DEST,OPER,DESCR,ATTRIB,SHFT,SEMANTICS,SCALE)\
+ Q6INSN(S2_##TAG##_io,  OPER"(Rs32+#s11:"SHFT")="DEST,     ATTRIB,DESCR,{fIMMEXT(siV); fEA_RI(RsV,siV); SEMANTICS; })\
 diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-index 15c7091db5..6e38950d23 100644
+index 6e38950d23..183f4e2efe 100644
 --- a/tests/tcg/hexagon/Makefile.target
 +++ b/tests/tcg/hexagon/Makefile.target
-@@ -43,6 +43,7 @@ HEX_TESTS += dual_stores
- HEX_TESTS += multi_result
+@@ -44,6 +44,7 @@ HEX_TESTS += multi_result
  HEX_TESTS += mem_noshuf
  HEX_TESTS += circ
-+HEX_TESTS += brev
+ HEX_TESTS += brev
++HEX_TESTS += load_unpack
  HEX_TESTS += atomics
  HEX_TESTS += fpstuff
  
