@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967A8370E2B
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 19:21:37 +0200 (CEST)
-Received: from localhost ([::1]:43918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C06370E3E
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 19:42:18 +0200 (CEST)
+Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldFmi-0005nG-MH
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 13:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
+	id 1ldG6j-0006WO-3I
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 13:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldF8A-0003l1-SC
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:39:42 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:41493)
+ id 1ldG53-0005iA-Gg
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 13:40:33 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldF89-00063p-5r
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:39:42 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- t11-20020a05600c198bb02901476e13296aso2149472wmq.0
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:39:40 -0700 (PDT)
+ id 1ldG4w-00059D-RL
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 13:40:32 -0400
+Received: by mail-wm1-x330.google.com with SMTP id i128so10153wma.5
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 10:40:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IdlZfh0jCcKdQ4dnlDtxjnnGZ8KwGepT18rEIuOb8mI=;
- b=CPlmgpWLglnkbB3An2tamHh8z3VNiaXkQtQY8M/WTFze1A949NTgfou675vY/DdLtB
- pNhOaYnsZhthBlnShNgkaZ1LCYEzeL4ZBOxuEUHPgx9c2fHw1lxcTu9yJ6HflnveIbdG
- wRznmnl7RvLaLtoB0XGWKn7Y9yw9di221cG7FN73qKV/VmXXX41txM5a3RO2QExIp2wp
- SXLUf7XGTb8LW1H9oN0QOy9EX+turuSC2ihcl8KFaWeDXw24rr1vrURbp/4TqHyCXXjM
- 0ygpg/5TSpvr4nY77e9Nn/oJqWT9CCNcBfiZj5tFH7JjW5YNqfyy2QrIoMXa+o/MUUba
- RmFw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jKXsp1NJgz8YpIGlPXw4684NXW5bx00buUxzBqKQbJQ=;
+ b=kRQsiUDgMKRyb8xGAV9Sbf6kWyod+PKMU1G+pTOqLUfjWhLVfEpb6ZanMDe87sUB4I
+ +j4UoObRaSnqrb8rWhltEkkYGx4e+5zqJRz8/tEMlXBRrxbomvS42zDFL4qdfnQ2qAaA
+ JdlQ6gGJ+nN4Qw5lRbFk5UckZBvj/anZ30+KSAgY1J0eoMvk0aPFjFm0woS8X5dN/Z/m
+ 07Q1lLUj6d5k2h81D2/Xo5wLUcVglnLkpHlkRl6U61r9A/NAvjbQwcPNjmCmKq9amd7B
+ zitlTNaaOeLnm1aBIoD+nLC8FoZNkwKxGvtMrR3kOhi/mdwU5XvO0NVrdvkNRms9vvs9
+ 0gCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IdlZfh0jCcKdQ4dnlDtxjnnGZ8KwGepT18rEIuOb8mI=;
- b=knZa23s6EhcSuV0GBSgEVlXoM4drejdyVN8N2Wx7UmNO7E+47dqr+WddCO3JJ6N08P
- 0mqs2CGkBMWX1o36rg8kO2wMIHub6lbNYYy3BOuvyJxKuhd907JYTJjQyTUSQc8YshSE
- Ujm2sq2UR6OAKxzdiQowG31aBWEsCWUhzuFtLsDgubS7MrN1pNRikaETIVSkp3k50L5G
- 71f0OwynfOKG9cdeL/F/6TcW0/Qib6E4KSWrNBcgE25PQNVQ5l2FZalJqeyKZc1PFLEY
- sZCF+oDW+hWauFH6Gh7IizSN+30w8r0cvhMu/iUigbAQu1LbVOnqjjUEym5z8LLtx0nF
- dHbA==
-X-Gm-Message-State: AOAM5308oGKDte0SzKApGrgHsQXySW5Qo+N+DhC//CkQHJkg5aaPjLIb
- TCQhYOgVuGSRv7bgAAmYFWR46x/EFFA199lV
-X-Google-Smtp-Source: ABdhPJyty6Oav8OGx7G4wOdslp2C4RyfdeDyWoWap/MLaRR+KYm7w57qNa4//s6asW/M2Z753sueBw==
-X-Received: by 2002:a1c:a481:: with SMTP id
- n123mr27528996wme.162.1619973579623; 
- Sun, 02 May 2021 09:39:39 -0700 (PDT)
-Received: from localhost.localdomain
- (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id d2sm9374052wrs.10.2021.05.02.09.39.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:39:39 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] hw/timer/etraxfs_timer: Convert to 3-phase reset
- (Resettable interface)
-Date: Sun,  2 May 2021 18:39:30 +0200
-Message-Id: <20210502163931.552675-2-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210502163931.552675-1-f4bug@amsat.org>
-References: <20210502163931.552675-1-f4bug@amsat.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jKXsp1NJgz8YpIGlPXw4684NXW5bx00buUxzBqKQbJQ=;
+ b=uABiGpcdkK957M0UBoTRcwlGBwHLu86Rbi2/WpP+C2GfXDvRlycgMT8b/CQJxgjt2z
+ p9aGGquxmgN+zFK75KETXasF8NBXJVMU5IT6e5LbDXmFVuhaQVCxWEd7dZaRFg0zj/uD
+ hDJ6KUVFi358TDxsUZsPDWJn3asZlAWAZIfsjxIzJgUTRW1pIHXtdyKXOyER/I48+U9J
+ Z3ffYDVae1+inX8pzXxv9R06Civ7BjQrxcd9PHwHQS8RUI9DKVyi+aBeXEIUnDxPbrUH
+ BN8pE7AKEGUJW/QlSVr9/FYXjlz5gusaUBrtm4aximmn9+Yek9DPrDwFDPFleK+J9RhF
+ Ywpg==
+X-Gm-Message-State: AOAM530DRppUdqi4VtWjBrszJq08R+voIMJjYEwzqyvyVgfAEHFBqbI+
+ jYCN5ggwDNGwVrwd3XIeP0U=
+X-Google-Smtp-Source: ABdhPJzoXU4tPDZbKqa3pnSY7aabddSPoMOHX3EmQCxrMX4L8/TF3WP3qIYb9fWW9lAO9khk1hr57w==
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr17365551wml.123.1619977224871; 
+ Sun, 02 May 2021 10:40:24 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id d9sm622221wrp.47.2021.05.02.10.40.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 May 2021 10:40:23 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1 0/3] hw/sparc/sun4m: Introduce Sun4mMachineClass
+ to access sun4m_hwdefs
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210407175305.1771069-1-f4bug@amsat.org>
+ <2531855e-f24e-cd38-7e67-edeae26d0dc5@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e5671047-a8b1-56dd-2d49-cad235a4fdb0@amsat.org>
+Date: Sun, 2 May 2021 19:40:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <2531855e-f24e-cd38-7e67-edeae26d0dc5@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -88,75 +90,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TYPE_ETRAX_FS_TIMER is a sysbus device, so its DeviceClass::reset()
-handler is called automatically when its qbus parent is reset
-(we don't need to register it manually).
+On 5/2/21 1:20 PM, Mark Cave-Ayland wrote:
+> On 07/04/2021 18:53, Philippe Mathieu-Daudé wrote:
+> 
+>> Hi Mark,
+>>
+>> This series QOM'ify a bit more the sun4m machines.
+>> I need it for a further memory maxsize check.
+>> It is mostly code movement (and the diff-stat is good).
+>>
+>> Philippe Mathieu-Daudé (3):
+>>    hw/sparc/sun4m: Introduce TYPE_SUN4M_MACHINE and Sun4mMachineClass
+>>    hw/sparc/sun4m: Factor out sun4m_machine_class_common_init()
+>>    hw/sparc/sun4m: Make sun4m_hwdefs a Sun4mMachineClass field
+>>
+>>   hw/sparc/sun4m.c | 178 ++++++++++++++++++-----------------------------
+>>   1 file changed, 69 insertions(+), 109 deletions(-)
+> 
+> Hi Phil,
+> 
+> Possibly it might be worth having an abstract TYPE_SUN4M_MACHINE and
+> then for each sun4m machine to have that as a parent type?
 
-Convert the generic reset to a enter/hold resettable ones, and
-remove the qemu_register_reset() call.
+This is what this series does...
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/timer/etraxfs_timer.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+> This would
+> allow you to move sun4m_machine_class_common_init() directly into the
+> abstract sun4m_machine_class_init() rather than having to call a
+> function from within each individual class init function.
 
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 5379006086f..4ba662190de 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -309,9 +309,9 @@ static const MemoryRegionOps timer_ops = {
-     }
- };
- 
--static void etraxfs_timer_reset(void *opaque)
-+static void etraxfs_timer_reset_enter(Object *obj, ResetType type)
- {
--    ETRAXTimerState *t = opaque;
-+    ETRAXTimerState *t = ETRAX_TIMER(obj);
- 
-     ptimer_transaction_begin(t->ptimer_t0);
-     ptimer_stop(t->ptimer_t0);
-@@ -325,6 +325,12 @@ static void etraxfs_timer_reset(void *opaque)
-     t->rw_wd_ctrl = 0;
-     t->r_intr = 0;
-     t->rw_intr_mask = 0;
-+}
-+
-+static void etraxfs_timer_reset_hold(Object *obj)
-+{
-+    ETRAXTimerState *t = ETRAX_TIMER(obj);
-+
-     qemu_irq_lower(t->irq);
- }
- 
-@@ -343,14 +349,16 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
-                           "etraxfs-timer", 0x5c);
-     sysbus_init_mmio(sbd, &t->mmio);
--    qemu_register_reset(etraxfs_timer_reset, t);
- }
- 
- static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
- 
-     dc->realize = etraxfs_timer_realize;
-+    rc->phases.enter = etraxfs_timer_reset_enter;
-+    rc->phases.hold = etraxfs_timer_reset_hold;
- }
- 
- static const TypeInfo etraxfs_timer_info = {
--- 
-2.26.3
+OK, can do that.
 
+Regards,
+
+Phil.
 
