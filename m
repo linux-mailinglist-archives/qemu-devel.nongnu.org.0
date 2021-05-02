@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F4F370E12
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:54:26 +0200 (CEST)
-Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18444370DF9
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:31:24 +0200 (CEST)
+Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldFMP-0003pv-2I
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36428)
+	id 1ldF07-0002Zw-1P
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEmo-0006OD-5W
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:38 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52053)
+ id 1ldEmz-0006ct-Aw
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:50 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEmm-0007sY-H0
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:37 -0400
-Received: by mail-wm1-x329.google.com with SMTP id n205so1036761wmf.1
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:17:36 -0700 (PDT)
+ id 1ldEmx-0007vk-BL
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:48 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g65so1923700wmg.2
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:17:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WVwQyksNWdrjcIF4p/5zEaubeV4UBzzGXqsE5aq1wp8=;
- b=cA2MVBQRllmo5GnPyUjN4Rrw/hLsoJPmJ9xJKtavWGnuN+/gi8g2Qrav3At1L8WxUt
- QUyw5dmnJiElMhza0VnSjcl1blw2ZM3lMZUloY5cWPfMHX5LP4Mgqml8AEcQHpMnVPGb
- ksNJUAL2xFvbO8P5Jp9JQ3C5+UFNzrnIuDoVVLEBGji144iVIEXYDHZ91pC+V5Ay4A60
- h9Z6NkM8RWLvTMqwFDmYE6ajjw1fazNyWj4zatQNmg3wPyWfhjiv4aSB3Cy3KY9aayc/
- U7jJ/+ChiTKyl0gzivq/UkaLGRJBSJM8oWtzm8nPMh5R15wELGJ8qTHCSVB9TvChxPO6
- S5Uw==
+ bh=f2/r+v8OBN50e281PkjAHi4aV1Dtg/lHhfSfC51VxTU=;
+ b=E0YAffU2QoMyXe5DrhjeFNsHHSVCVQ9a0MDo0plsjlniKipWy/a/bM6ecrZ10Jrf+d
+ uDAmxDEp0aE21VPnqNaEF7WE13AbARC1bmTrgvCsoX3Hs2uaooWahZqsat7OBGa7Xe0V
+ 9U8W2DlV+J4g+aAqTQtWb0TFh35XT3V8g2f2u3izcgZ8ck9JYH64YAVL+vPsXalGKjNa
+ tiazqqMheO0xFdEbbaGLmlpIE/jHoKWBdjAQUQoptdWXTlvExTLS2FZR5svzkCm9drgm
+ DbkqnLDkKJnUaXaJ6FdjmIyDZlYYfm/oFkc4t7F/RyMKeMcG3vmeT9LcMaCTx7Q8Sywk
+ 6w5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WVwQyksNWdrjcIF4p/5zEaubeV4UBzzGXqsE5aq1wp8=;
- b=tmr5gFNluLwX0TS2jzcU92QeiD8b5VB1wim5u2+3SVy6X2c6ZbdxhkYot4SZNJLnu5
- vPTjbDMqMO+z81v9eNn9ZYQoWvqB1U1bbvnjtoSdFtSzgV58iRihocJLXW0Rhqtv7sCE
- U+eaZXGVGYrJcIwoUgSWNqe9reo1piAykWQWVqxfAK7kzpV05JPi65Xd3V3qbFGhY8IB
- pR7qQGqecIBrkmzO1rxlk61wQIae/NDeG0cFZpOd5VNrpeU31jPahUZEVetbopT/lRNc
- 4pRTLpongNA3KtNKP3PXR2x+uEOXOMjTkS0fkGrsxHGIDVYgyY1Pmz2HrGL8ubyviOW6
- yE9w==
-X-Gm-Message-State: AOAM532DkNBKdDhXilvZLSXYoAVTr8cMJ602VQV6olA+93GA/XOTPu8h
- bE9m2uGu03GkjTvnGfYNXIUQbnywgu86LBzD
-X-Google-Smtp-Source: ABdhPJwoLdQBKsbqRVvY5uzW2cWlOTCQsV+BbvKx77L21dtdXqKCeTrQ1d9hNwJ4Lvy6+locdqg1Ew==
-X-Received: by 2002:a05:600c:4ec9:: with SMTP id
- g9mr27135746wmq.145.1619972254959; 
- Sun, 02 May 2021 09:17:34 -0700 (PDT)
+ bh=f2/r+v8OBN50e281PkjAHi4aV1Dtg/lHhfSfC51VxTU=;
+ b=cfckUGZ+8LW6bYHKD56aTr9AssD2bfDr8vP0CNjfJ2gnCSIqWUwHrfUBRcRitpJEhD
+ fZ5B/7a8G3zmv+a8e0iHgTovKNsyXiP5TjhFaVRKhAfyqmfPHHszX7/ebNovdjB15Nk/
+ zadBFEQGvICC9k8AFpyb21xfq5URXmvYxiixv8GCwCv2naC6PPn9ilN5UlAyOsccHl2c
+ 3Cdg+ukMlHB2bKiQQ8rYH32DPPtRhE0RaNCjaj2Mxu/QM4AYj3gzemMUtHtddplZ8X0v
+ 4vBto/qrJUuuIbhjJsGmlOB43OMEEXk5uNN7E6CTVFJR8gDpU5PaDkaWZoT2ED07juLp
+ hDdg==
+X-Gm-Message-State: AOAM532OupoQy1vt0th7MO6h+fGLhDQ0HL+rcqOlW2okibswlVrlSaZA
+ mrVG4XpVktFA3tqlYVPHPzfjX1Hjx+hcBZWT
+X-Google-Smtp-Source: ABdhPJyfGBn8TKFQJp39BXw9GI2XOno687c1VtT/sABYyJtkusacdjOij7FsyJe4DdBWByQkHybHFQ==
+X-Received: by 2002:a05:600c:3544:: with SMTP id
+ i4mr16724397wmq.38.1619972265430; 
+ Sun, 02 May 2021 09:17:45 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id x64sm8813903wmg.46.2021.05.02.09.17.33
+ by smtp.gmail.com with ESMTPSA id d2sm9322823wrs.10.2021.05.02.09.17.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:17:34 -0700 (PDT)
+ Sun, 02 May 2021 09:17:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/36] target/mips: Move sysemu specific files under sysemu/
- subfolder
-Date: Sun,  2 May 2021 18:15:24 +0200
-Message-Id: <20210502161538.534038-23-f4bug@amsat.org>
+Subject: [PULL 24/36] target/mips: Restrict cpu_mips_get_random() /
+ update_pagemask() to TCG
+Date: Sun,  2 May 2021 18:15:26 +0200
+Message-Id: <20210502161538.534038-25-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
@@ -95,100 +95,60 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move sysemu-specific files under the new sysemu/ subfolder
-and adapt the Meson machinery.
-Update the KVM MIPS entry in MAINTAINERS.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210428170410.479308-17-f4bug@amsat.org>
+Message-Id: <20210428170410.479308-19-f4bug@amsat.org>
 ---
- target/mips/{ => sysemu}/addr.c      |  0
- target/mips/{ => sysemu}/cp0_timer.c |  0
- target/mips/{ => sysemu}/machine.c   |  0
- MAINTAINERS                          |  3 ++-
- target/mips/meson.build              | 12 ++++++------
- target/mips/sysemu/meson.build       |  5 +++++
- 6 files changed, 13 insertions(+), 7 deletions(-)
- rename target/mips/{ => sysemu}/addr.c (100%)
- rename target/mips/{ => sysemu}/cp0_timer.c (100%)
- rename target/mips/{ => sysemu}/machine.c (100%)
- create mode 100644 target/mips/sysemu/meson.build
+ target/mips/internal.h         | 4 ----
+ target/mips/tcg/tcg-internal.h | 9 +++++++++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/addr.c b/target/mips/sysemu/addr.c
-similarity index 100%
-rename from target/mips/addr.c
-rename to target/mips/sysemu/addr.c
-diff --git a/target/mips/cp0_timer.c b/target/mips/sysemu/cp0_timer.c
-similarity index 100%
-rename from target/mips/cp0_timer.c
-rename to target/mips/sysemu/cp0_timer.c
-diff --git a/target/mips/machine.c b/target/mips/sysemu/machine.c
-similarity index 100%
-rename from target/mips/machine.c
-rename to target/mips/sysemu/machine.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4c05ff8bbab..8e4e3298104 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -404,7 +404,8 @@ F: target/arm/kvm.c
- MIPS KVM CPUs
- M: Huacai Chen <chenhuacai@kernel.org>
- S: Odd Fixes
--F: target/mips/kvm.c
-+F: target/mips/kvm*
-+F: target/mips/sysemu/
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index be32102a2ac..6bac8ef704a 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -165,7 +165,6 @@ void r4k_helper_tlbr(CPUMIPSState *env);
+ void r4k_helper_tlbinv(CPUMIPSState *env);
+ void r4k_helper_tlbinvf(CPUMIPSState *env);
+ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
+-uint32_t cpu_mips_get_random(CPUMIPSState *env);
  
- PPC KVM CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index ca3cc62cf7a..9a507937ece 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -7,6 +7,7 @@
- ]
+ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     vaddr addr, unsigned size,
+@@ -237,9 +236,6 @@ void cpu_mips_stop_count(CPUMIPSState *env);
+ /* helper.c */
+ void mmu_init(CPUMIPSState *env, const mips_def_t *def);
  
- mips_user_ss = ss.source_set()
-+mips_softmmu_ss = ss.source_set()
- mips_ss = ss.source_set()
- mips_ss.add(files(
-   'cpu.c',
-@@ -14,6 +15,11 @@
-   'gdbstub.c',
-   'msa.c',
- ))
+-/* op_helper.c */
+-void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+-
+ static inline void mips_env_set_pc(CPUMIPSState *env, target_ulong value)
+ {
+     env->active_tc.PC = value & ~(target_ulong)1;
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+index 24438667f47..b65580af211 100644
+--- a/target/mips/tcg/tcg-internal.h
++++ b/target/mips/tcg/tcg-internal.h
+@@ -11,10 +11,19 @@
+ #define MIPS_TCG_INTERNAL_H
+ 
+ #include "hw/core/cpu.h"
++#include "cpu.h"
+ 
+ void mips_cpu_do_interrupt(CPUState *cpu);
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+ 
++#if !defined(CONFIG_USER_ONLY)
 +
-+if have_system
-+  subdir('sysemu')
-+endif
++void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
 +
- mips_tcg_ss = ss.source_set()
- mips_tcg_ss.add(gen)
- mips_tcg_ss.add(files(
-@@ -41,12 +47,6 @@
- 
- mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
- 
--mips_softmmu_ss = ss.source_set()
--mips_softmmu_ss.add(files(
--  'addr.c',
--  'cp0_timer.c',
--  'machine.c',
--))
- mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'cp0_helper.c',
-   'mips-semi.c',
-diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
-new file mode 100644
-index 00000000000..f2a1ff46081
---- /dev/null
-+++ b/target/mips/sysemu/meson.build
-@@ -0,0 +1,5 @@
-+mips_softmmu_ss.add(files(
-+  'addr.c',
-+  'cp0_timer.c',
-+  'machine.c',
-+))
++uint32_t cpu_mips_get_random(CPUMIPSState *env);
++
++#endif /* !CONFIG_USER_ONLY */
++
+ #endif
 -- 
 2.26.3
 
