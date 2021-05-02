@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA8E370DE0
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:21:27 +0200 (CEST)
-Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D628C370DF5
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:28:10 +0200 (CEST)
+Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldEqU-00008F-Aj
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35980)
+	id 1ldEwz-0007ue-TS
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEl9-00058K-D7
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:15:57 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:42920)
+ id 1ldElD-00058l-Lw
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:01 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEl8-0007GJ-2o
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:15:55 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 4-20020a05600c26c4b0290146e1feccd8so2120187wmv.1
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:15:52 -0700 (PDT)
+ id 1ldElC-0007Ip-97
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:15:59 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id v12so3090836wrq.6
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:15:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P4j2gbE04oS0h94Kjd7cj3338C2131+7etp/nt6YQrQ=;
- b=c6reylfW4gomBRCjmTwnA8+dxcYEh/M6L+TJ40aIa9SWwhdhRchsBqGARcfKfPGvP1
- kyFks3kUm4AKrnJxqJua8LcmeyNsEnnfQJH5xNIPgbNObx0iDZbmzr1lfwg+ly8Bnqar
- sGBoo9ts5fSv4KMzReRhQFDVesU9nnC+sYcUnqC0y9tnsz6Bs4SbXlSKHS1YXm0zMNcX
- 2Q8gpJpcm0u12rUV2T15/dJaQIdTnuwO8mNI4vyT4hB8KJjX7y4FyQdXaiaeXnwjy0Ef
- m2h8Ig6mPohoTnzcX1WZHdKYD5uQlzzAVdaKqFFBBq7/pYsPXDw/n/rNU88md660LtSz
- r22A==
+ bh=dvzaE+vmEj53OsiqB294gBuJPIp1EJ/XIul7LLbiwhk=;
+ b=lJa5GjW/x+WJ8kxmGoCJZ75Yp5rsNfN4NqD0T9QPoa6/+pQcIOF6CPdixFGDEZ2Vj/
+ 7E4uM/sfmpyYFDi0vMKIiRspas1UO3aGXIlVcE4dIJHkYmm7xrDGLEXnsIK3mVWT2RQI
+ sZHbypRL2/Z3KrITJO5l6K4rbIVhSqNVkBbrXyAP1BPFI35ypXlzkPCuql95Fp8Gnvhf
+ pGuCHcd4SLN8RGba+ambXWCduKKAR9hVRyLrZrWIcamaq+p8i5+dytYu1q3IF/ba6GTT
+ vyABBTV3rwbsY4YjSzV1ght/MSETIlxL7D0C3UCcFcywqG+8Mypl1835+/9ZcY/AkEw+
+ qEkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=P4j2gbE04oS0h94Kjd7cj3338C2131+7etp/nt6YQrQ=;
- b=tUwzwVLCaogQ+mHyEYan1ABE90zu+zL8UTzBkdcJbZh2WUnWJK8cefhDU0ZBqfhQTo
- /uV1N2xBX+eI3yaMhNktM2S5G6OALR8bRqm3WfSnkutnL4eRNlZI1TJh/64AJXnOYlLv
- 2lKTl+HMhOwWnPP6eWbPct9R9YQJZY9GA0S2DZYovHSor24zkel0/wIGWqzthWnWyAs1
- IIUx8+W0m1uF2RxyKB8RsolBAHtISsxZLZ5wSeK62YiWDzz1RWtmbIhwoeGFQsF/h1Eh
- 9SPvXEbCDT0Ln6+QIm+1iZLmdgPQDdkYGEpAzESZLpNohkklvc96pAn1+T+bfDmd0lot
- yalw==
-X-Gm-Message-State: AOAM531aEvgXrQafRpfQiRO0ltdnoMfa7IHG7bKoCR+T1YMGh0FNcKK4
- JpIdNKm/NVNVo6040YkIR+v3nPk9+62B7D7W
-X-Google-Smtp-Source: ABdhPJwiNs9jXlEaXqfMC4+nvvay3Oi/sGUmkTriPiraFqLBkq7Cg+UKielvdRa81zHVtL6JM0omYw==
-X-Received: by 2002:a1c:7419:: with SMTP id p25mr8923380wmc.79.1619972151830; 
- Sun, 02 May 2021 09:15:51 -0700 (PDT)
+ bh=dvzaE+vmEj53OsiqB294gBuJPIp1EJ/XIul7LLbiwhk=;
+ b=sLYbeih7hoRFUf9/WhjMtyqadT/+QlEzGntzRYjoV5w3ch3GAenGt2T4BMBbo5h0Wc
+ qN2/UU1l1VUUtqDrVbwGmIbZuWo8Fnaa3kkVYq3bcrfEIwnllVbnOWb0Y3zknOcy3TaE
+ ZkZFcqOigNSfxcS69f0ktUPlHV38LgHL+iMCdzl8d4hDkT9fdvXAdDAvdVeGIROZvizv
+ YqqfjlP8JIWQiqyPtVyBlHYAflYziFCf2DVOaPmYwfWCwbdvoBeOoJP5PCH6ptWm4wKJ
+ SVNBVZkpR31qMIIgIqtL9vwNk4WJXM9v60RP+DK70m6th+k3uDzjlEEBb6f1Su4J466N
+ jnMQ==
+X-Gm-Message-State: AOAM5339fi/+swnDRa6lE3HZpRjHkZ8IYKZ+0HS85tYmcnKoc/HtkOVQ
+ RvNQ90seB0L6oR1hlZTQ0mlVWOAw5GJoG1mo
+X-Google-Smtp-Source: ABdhPJxIjCSKNmL1i+TfinhA59mJgC31NGvSwimoqJ9uXE0qCBzK3IkeBe11NDCzm0gFQ8XgpVuQMQ==
+X-Received: by 2002:adf:f152:: with SMTP id y18mr19951431wro.77.1619972156737; 
+ Sun, 02 May 2021 09:15:56 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id l5sm8959057wmh.0.2021.05.02.09.15.50
+ by smtp.gmail.com with ESMTPSA id o18sm10347944wmq.20.2021.05.02.09.15.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:15:51 -0700 (PDT)
+ Sun, 02 May 2021 09:15:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/36] target/mips: Fix CACHEE opcode (CACHE using EVA
- addressing)
-Date: Sun,  2 May 2021 18:15:04 +0200
-Message-Id: <20210502161538.534038-3-f4bug@amsat.org>
+Subject: [PULL 03/36] target/mips: Add missing CP0 check to nanoMIPS RDPGPR /
+ WRPGPR opcodes
+Date: Sun,  2 May 2021 18:15:05 +0200
+Message-Id: <20210502161538.534038-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,52 +94,36 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CACHEE opcode "requires CP0 privilege".
+Per the nanoMIPS32 Instruction Set Technical Reference Manual,
+Revision 01.01, Chapter 3. "Instruction Definitions":
 
-The pseudocode checks in the ISA manual is:
+The Read/Write Previous GPR opcodes "require CP0 privilege".
 
-    if is_eva and not C0.Config5.EVA:
-      raise exception('RI')
+Add the missing CP0 checks.
 
-    if not IsCoprocessor0Enabled():
-      raise coprocessor_exception(0)
-
-Add the missing checks.
-
-Inspired-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210420175426.1875746-1-f4bug@amsat.org>
+Message-Id: <20210421185007.2231855-1-f4bug@amsat.org>
 ---
- target/mips/translate.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/mips/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 71fa5ec1973..5dad75cdf37 100644
+index 5dad75cdf37..8a0a2197426 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -20957,6 +20957,8 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                     gen_ld(ctx, OPC_LHUE, rt, rs, s);
-                     break;
-                 case NM_CACHEE:
-+                    check_eva(ctx);
-+                    check_cp0_enabled(ctx);
-                     check_nms_dl_il_sl_tl_l2c(ctx);
-                     gen_cache_operation(ctx, rt, rs, s);
-                     break;
-@@ -24530,11 +24532,11 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-             gen_st_cond(ctx, rt, rs, imm, MO_TESL, true);
-             return;
-         case OPC_CACHEE:
-+            check_eva(ctx);
-             check_cp0_enabled(ctx);
-             if (ctx->hflags & MIPS_HFLAG_ITC_CACHE) {
-                 gen_cache_operation(ctx, rt, rs, imm);
+@@ -18969,9 +18969,11 @@ static void gen_pool32axf_nanomips_insn(CPUMIPSState *env, DisasContext *ctx)
              }
--            /* Treat as NOP. */
-             return;
-         case OPC_PREFE:
-             check_cp0_enabled(ctx);
+             break;
+         case NM_RDPGPR:
++            check_cp0_enabled(ctx);
+             gen_load_srsgpr(rs, rt);
+             break;
+         case NM_WRPGPR:
++            check_cp0_enabled(ctx);
+             gen_store_srsgpr(rs, rt);
+             break;
+         case NM_WAIT:
 -- 
 2.26.3
 
