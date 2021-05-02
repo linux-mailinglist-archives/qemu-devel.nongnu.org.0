@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A15E370EF9
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:13:58 +0200 (CEST)
-Received: from localhost ([::1]:41304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E9D370EFA
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:14:06 +0200 (CEST)
+Received: from localhost ([::1]:41818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldITV-0005qw-Kq
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:13:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
+	id 1ldITd-00063X-7F
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1ldIRw-0004nf-N6
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:12:20 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35593)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1ldIS2-0004vH-8g
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 16:12:26 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1ldIRv-0004QO-41
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:12:20 -0400
-Received: by mail-ej1-x631.google.com with SMTP id m12so4882110eja.2
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:12:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1ldIRz-0004Tj-HV
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 16:12:25 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id d14so3974478edc.12
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B7atDk5Faf5vw/+84jFmPALmt3M+9CqHKID1soFk3Qs=;
- b=EhiMk/SEGmDA+VHP36T8SX17Sz6nG9C0CKx0S9fmLXqRdjxVwYvUBwGbgMPEuDOXD2
- JiNk0B+b3T6hxIH0iyy2V+33BzabKoxP+vL5wDxie4ekX23UkcTiz4PQrsR8tpmQd8yo
- K2laZQ8D6jKxqwyduZfgH0PWiEZOromu72CdOplSOq3JC510gOmxgTRbCzjhn/eI8uEU
- N6xb+XaiBk4AYF/wLFnfQpsLlPmpHS9bpDlmOkFSAQr2/+CyvmqFNGZ34+bMLf1gZB5V
- C26+eyBFAvPraYf5CPxIR8YcJMgH693hnxU2CXy0euKalU7rp59Aoz9HGITFKVsozFEq
- QXtQ==
+ bh=DvPkMlPodIeMGSVJbeSqsYUKlELyrufruCnRQzQZfys=;
+ b=KFixWHw+VXT2IfprtXuOFsp93ToYvDJQmANCT52YGAoY61ZHE5O5+FHrQj5fSpDj8L
+ 4R9Lr38TTbVWeQlAnDgSiEiAZvCeWuVtZnYqQrI12uMi/SjM5TGT8bV75M5SVEkCozPd
+ nZlbdfMiJjeXghXDyKnjwx57xL/cm4OBgMxK/ZKYx6ZfK0KrebLEzNgsd4PUEBYGEl43
+ H0tcBv8yc8O2MBWmRCtYAnj834E898f54FntlvGLSQ8fgBucZPl0ruFQcIcVOyY8qLUe
+ T6st5BW2dwrIOm6TSzRfaIGHhH3IshAD1r44SBLLgPgLcTal5r2azdxdUqMJakyVZboz
+ i47A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B7atDk5Faf5vw/+84jFmPALmt3M+9CqHKID1soFk3Qs=;
- b=mWadehBnBVPqz65SPoSUKW7WvTxliRfuT/h+8W7ctx1jU25MVPcOkWmf2tGHdUx5c4
- 0RsC5RPHPf5Cbok6l8hexU5LYDJ+RS/E1IADPwmN4BX3nCP1n/0X+Z4U4ty753oNP8Ak
- 91nV2eS8XJ0WZiCgNGsXQ2F3y9Ie4EJBXQ23XZ4GCo/HwwGoJePRlwkbFJ63zstMJjeA
- jEXgUIq63HOmOM42eKb4UjdP2Dyb33f3rXLB5nrwl3C3Fif+Ug9c3PowBD2qW1CUGDlY
- BIUdV1LTytQT3QQ6R/dlctxEoBXQrfzteqv3r7sdXilIq5pir/HBuEEhDAt1h60v++ef
- Rd6w==
-X-Gm-Message-State: AOAM53395NbhIpcO/hyWttq62AepdmzFlTgIN7Rti9LXOH+U5bDc+31B
- TclpcpmendLNLEqG1z6Crj4naqzlyAmS6w==
-X-Google-Smtp-Source: ABdhPJxWoOF6+Hionoldj2vAms6Zw9HbjGlxeWj+MT3OiZZmr4peLzINg/N0yUl9wf6w745HvnMk2w==
-X-Received: by 2002:a17:907:6289:: with SMTP id
- nd9mr13405597ejc.384.1619986337527; 
- Sun, 02 May 2021 13:12:17 -0700 (PDT)
+ bh=DvPkMlPodIeMGSVJbeSqsYUKlELyrufruCnRQzQZfys=;
+ b=ZnCVCNZVt+re9k0w5QO9YJUZS9qiLVUmCy1hk2XonZoQ6jAtghmZDM17yPXBf7Am+J
+ ZvcmGo0ANLmQdkerPgDH8pGYv1mtMmVmdriQDWReA751WeyY6XFxbJ2FyLgbgHIEzEJ5
+ S09VlPXRO1Usb0Er76LQI/uA8FdcIRQ2T6royojstaSanf/pKY2gmv7QOBF+ZRc0nbEq
+ tninDmRDRhVgiQ9j657TZVUs0C/gnNeXgqHaJ06+9rXyTatNeT8saxPdv0vbQqdiZnWq
+ CnoIJvDPBcEdR3SZWFK7yiM6tpxtU7L5d5QLVw/MqhZHw7mVskznLTNMdFR+ZgMK0ICW
+ WE0g==
+X-Gm-Message-State: AOAM533DF+zZT1yH0cK/mTwBJamGgjLkqwG6tqRUW9y2SWYOB23HI6G8
+ rcGBtkyr1D7Y3FbembAEtEh4tvz/4kWKYg==
+X-Google-Smtp-Source: ABdhPJyW9h4Bg9jLFm5Uy/2ltHu7vgAuyH/F0Z3ppZ0nt2YmS1EDYNyTM3t8teKEoiNhL2cb0SfC8w==
+X-Received: by 2002:aa7:db0c:: with SMTP id t12mr16538562eds.72.1619986341696; 
+ Sun, 02 May 2021 13:12:21 -0700 (PDT)
 Received: from mrolnik-NUC10i7FNH.mynet
  ([2001:4df4:30e:9b00:8f7:3de1:39e4:6675])
- by smtp.gmail.com with ESMTPSA id p22sm11032255edr.4.2021.05.02.13.12.12
+ by smtp.gmail.com with ESMTPSA id p22sm11032255edr.4.2021.05.02.13.12.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 13:12:17 -0700 (PDT)
+ Sun, 02 May 2021 13:12:21 -0700 (PDT)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 0/1] Implement AVR WDT (watchdog timer)
-Date: Sun,  2 May 2021 23:10:39 +0300
-Message-Id: <20210502201040.52296-2-mrolnik@gmail.com>
+Subject: [RFC 1/1] Implement AVR watchdog timer
+Date: Sun,  2 May 2021 23:10:40 +0300
+Message-Id: <20210502201040.52296-3-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502201040.52296-1-mrolnik@gmail.com>
 References: <20210502201040.52296-1-mrolnik@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=mrolnik@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=mrolnik@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,29 +86,461 @@ Cc: Michael Rolnik <mrolnik@gmail.com>, me@xcancerberox.com.ar,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1.  Initial implementation of AVR WDT
-    There are two issues with this implementation so I need your help here
-    a. when I configure the WDT to fire an interrupt every 15ms it actually happens every 6 instructions
-    b. when I specify --icount shift=0 qemu stucks
-
-Michael Rolnik (1):
-  Implement AVR watchdog timer
-
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+---
  hw/avr/Kconfig                |   1 +
  hw/avr/atmega.c               |  15 ++-
  hw/avr/atmega.h               |   2 +
  hw/watchdog/Kconfig           |   3 +
- hw/watchdog/avr_wdt.c         | 188 ++++++++++++++++++++++++++++++++++
+ hw/watchdog/avr_wdt.c         | 190 ++++++++++++++++++++++++++++++++++
  hw/watchdog/meson.build       |   2 +
  hw/watchdog/trace-events      |   5 +
  include/hw/watchdog/avr_wdt.h |  47 +++++++++
  target/avr/cpu.c              |   3 +
  target/avr/cpu.h              |   1 +
  target/avr/helper.c           |   7 +-
- 11 files changed, 269 insertions(+), 5 deletions(-)
+ 11 files changed, 271 insertions(+), 5 deletions(-)
  create mode 100644 hw/watchdog/avr_wdt.c
  create mode 100644 include/hw/watchdog/avr_wdt.h
 
+diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+index d31298c3cc..9939e4902f 100644
+--- a/hw/avr/Kconfig
++++ b/hw/avr/Kconfig
+@@ -3,6 +3,7 @@ config AVR_ATMEGA_MCU
+     select AVR_TIMER16
+     select AVR_USART
+     select AVR_POWER
++    select AVR_WDT
+ 
+ config ARDUINO
+     select AVR_ATMEGA_MCU
+diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+index 44c6afebbb..31ceb1c21c 100644
+--- a/hw/avr/atmega.c
++++ b/hw/avr/atmega.c
+@@ -28,6 +28,7 @@ enum AtmegaPeripheral {
+     GPIOG, GPIOH, GPIOI, GPIOJ, GPIOK, GPIOL,
+     USART0, USART1, USART2, USART3,
+     TIMER0, TIMER1, TIMER2, TIMER3, TIMER4, TIMER5,
++    WDT,
+     PERIFMAX
+ };
+ 
+@@ -75,6 +76,7 @@ static const peripheral_cfg dev168_328[PERIFMAX] = {
+     [GPIOD]         = {  0x29 },
+     [GPIOC]         = {  0x26 },
+     [GPIOB]         = {  0x23 },
++    [WDT]           = {  0x60 },
+ }, dev1280_2560[PERIFMAX] = {
+     [USART3]        = { 0x130, POWER1, 2 },
+     [TIMER5]        = { 0x120, POWER1, 5, 0x73, 0x3a, true },
+@@ -99,6 +101,7 @@ static const peripheral_cfg dev168_328[PERIFMAX] = {
+     [GPIOC]         = {  0x26 },
+     [GPIOB]         = {  0x23 },
+     [GPIOA]         = {  0x20 },
++    [WDT]           = {  0x60 },
+ };
+ 
+ enum AtmegaIrq {
+@@ -118,6 +121,7 @@ enum AtmegaIrq {
+         TIMER4_COMPC_IRQ, TIMER4_OVF_IRQ,
+     TIMER5_CAPT_IRQ, TIMER5_COMPA_IRQ, TIMER5_COMPB_IRQ,
+         TIMER5_COMPC_IRQ, TIMER5_OVF_IRQ,
++    WATCHDOG_TIMER_IRQ,
+     IRQ_COUNT
+ };
+ 
+@@ -133,6 +137,7 @@ enum AtmegaIrq {
+ #define TIMER_OVF_IRQ(n)    (n * TIMER_IRQ_COUNT + TIMER0_OVF_IRQ)
+ 
+ static const uint8_t irq168_328[IRQ_COUNT] = {
++    [WATCHDOG_TIMER_IRQ]    = 7,
+     [TIMER2_COMPA_IRQ]      = 8,
+     [TIMER2_COMPB_IRQ]      = 9,
+     [TIMER2_OVF_IRQ]        = 10,
+@@ -147,6 +152,7 @@ static const uint8_t irq168_328[IRQ_COUNT] = {
+     [USART0_DRE_IRQ]        = 20,
+     [USART0_TXC_IRQ]        = 21,
+ }, irq1280_2560[IRQ_COUNT] = {
++    [WATCHDOG_TIMER_IRQ]    = 13,
+     [TIMER2_COMPA_IRQ]      = 14,
+     [TIMER2_COMPB_IRQ]      = 15,
+     [TIMER2_OVF_IRQ]        = 16,
+@@ -344,10 +350,17 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+         g_free(devname);
+     }
+ 
++    /* Watchdog Timer */
++    object_initialize_child(OBJECT(dev), "wdt", &s->wdt, TYPE_AVR_WDT);
++    sysbus_realize(SYS_BUS_DEVICE(&s->wdt), &error_abort);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt), 0,
++                    OFFSET_DATA + mc->dev[WDT].addr);
++    qdev_connect_gpio_out_named(cpudev, "wdr", 0,
++                    qdev_get_gpio_in_named(DEVICE(&s->wdt), "wdr", 0));
++
+     create_unimplemented_device("avr-twi",          OFFSET_DATA + 0x0b8, 6);
+     create_unimplemented_device("avr-adc",          OFFSET_DATA + 0x078, 8);
+     create_unimplemented_device("avr-ext-mem-ctrl", OFFSET_DATA + 0x074, 2);
+-    create_unimplemented_device("avr-watchdog",     OFFSET_DATA + 0x060, 1);
+     create_unimplemented_device("avr-spi",          OFFSET_DATA + 0x04c, 3);
+     create_unimplemented_device("avr-eeprom",       OFFSET_DATA + 0x03f, 3);
+ }
+diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+index a99ee15c7e..60bbd44bdd 100644
+--- a/hw/avr/atmega.h
++++ b/hw/avr/atmega.h
+@@ -13,6 +13,7 @@
+ 
+ #include "hw/char/avr_usart.h"
+ #include "hw/timer/avr_timer16.h"
++#include "hw/watchdog/avr_wdt.h"
+ #include "hw/misc/avr_power.h"
+ #include "target/avr/cpu.h"
+ #include "qom/object.h"
+@@ -45,6 +46,7 @@ struct AtmegaMcuState {
+     AVRMaskState pwr[POWER_MAX];
+     AVRUsartState usart[USART_MAX];
+     AVRTimer16State timer[TIMER_MAX];
++    AVRWatchdogState wdt;
+     uint64_t xtal_freq_hz;
+ };
+ 
+diff --git a/hw/watchdog/Kconfig b/hw/watchdog/Kconfig
+index 66e1d029e3..e0f89d2fe0 100644
+--- a/hw/watchdog/Kconfig
++++ b/hw/watchdog/Kconfig
+@@ -20,3 +20,6 @@ config WDT_IMX2
+ 
+ config WDT_SBSA
+     bool
++
++config AVR_WDT
++    bool
+diff --git a/hw/watchdog/avr_wdt.c b/hw/watchdog/avr_wdt.c
+new file mode 100644
+index 0000000000..4ce1029a64
+--- /dev/null
++++ b/hw/watchdog/avr_wdt.c
+@@ -0,0 +1,190 @@
++/*
++ * AVR watchdog
++ *
++ * Copyright (c) 2018 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "hw/irq.h"
++#include "hw/watchdog/avr_wdt.h"
++#include "trace.h"
++
++/* Field masks */
++#define WDTCSR_MASK_WDP0     0x01
++#define WDTCSR_MASK_WDP1     0x02
++#define WDTCSR_MASK_WDP2     0x04
++#define WDTCSR_MASK_WDE      0x08
++#define WDTCSR_MASK_WCE      0x10
++#define WDTCSR_MASK_WDP3     0x20
++#define WDTCSR_MASK_WDIE     0x40
++#define WDTCSR_MASK_WDIF     0x80
++
++#define WDTCSR_SHFT_WDP0     0x00
++#define WDTCSR_SHFT_WDP1     0x01
++#define WDTCSR_SHFT_WDP2     0x02
++#define WDTCSR_SHFT_WDE      0x03
++#define WDTCSR_SHFT_WCE      0x04
++#define WDTCSR_SHFT_WDP3     0x05
++#define WDTCSR_SHFT_WDIE     0x06
++#define WDTCSR_SHFT_WDIF     0x07
++
++/* Helper macros */
++#define WDP0(csr)       ((csr & WDTCSR_MASK_WDP0) >> WDTCSR_SHFT_WDP0)
++#define WDP1(csr)       ((csr & WDTCSR_MASK_WDP1) >> WDTCSR_SHFT_WDP1)
++#define WDP2(csr)       ((csr & WDTCSR_MASK_WDP2) >> WDTCSR_SHFT_WDP2)
++#define WDP3(csr)       ((csr & WDTCSR_MASK_WDP3) >> WDTCSR_SHFT_WDP3)
++#define WDP(csr)        ((WDP3(csr) << 3) | (WDP2(csr) << 2) | \
++                         (WDP1(csr) << 1) | (WDP0(csr) << 0))
++#define WDIE(csr)       ((csr & WDTCSR_MASK_WDIE) >> WDTCSR_SHFT_WDIE)
++#define WDE(csr)        ((csr & WDTCSR_MASK_WDE) >> WDTCSR_SHFT_WDE)
++#define WCE(csr)        ((csr & WDTCSR_MASK_WCE) >> WDTCSR_SHFT_WCE)
++
++#define DB_PRINT(fmt, args...) /* Nothing */
++
++#define MS2NS(n)        ((n) * 1000000ull)
++
++static void avr_wdt_reset_alarm(AVRWatchdogState *wdt)
++{
++    uint32_t csr = wdt->csr;
++    int wdp = WDP(csr);
++    assert(wdp <= 9);
++
++    if (WDIE(csr) == 0 && WDE(csr) == 0) {
++        /* watchdog is stopped */
++        return;
++    }
++
++    timer_mod_ns(wdt->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++            (MS2NS(15) << wdp));
++}
++
++static void avr_wdt_interrupt(void *opaque)
++{
++    AVRWatchdogState *wdt = opaque;
++    int8_t csr = wdt->csr;
++
++    if (WDE(csr) == 0 && WDIE(csr) == 0) {
++        /* Stopped */
++
++    } else if (WDE(csr) == 0 && WDIE(csr) == 1) {
++        /* Interrupt Mode */
++        wdt->csr |= WDTCSR_MASK_WDIF;
++        qemu_set_irq(wdt->irq, 1);
++        trace_avr_wdt_interrupt();
++    } else if (WDE(csr) == 1 && WDIE(csr) == 0) {
++        /* System Reset Mode */
++    } else if (WDE(csr) == 1 && WDIE(csr) == 1) {
++        /* Interrupt and System Reset Mode */
++        wdt->csr |= WDTCSR_MASK_WDIF;
++        qemu_set_irq(wdt->irq, 1);
++        trace_avr_wdt_interrupt();
++    }
++
++    avr_wdt_reset_alarm(wdt);
++}
++
++static void avr_wdt_reset(DeviceState *dev)
++{
++    AVRWatchdogState *wdt = AVR_WDT(dev);
++
++    wdt->csr = 0;
++    qemu_set_irq(wdt->irq, 0);
++    avr_wdt_reset_alarm(wdt);
++}
++
++static uint64_t avr_wdt_read(void *opaque, hwaddr offset, unsigned size)
++{
++    assert(size == 1);
++    AVRWatchdogState *wdt = opaque;
++    uint8_t retval = wdt->csr;
++
++    trace_avr_wdt_read(offset, retval);
++
++    return (uint64_t)retval;
++}
++
++static void avr_wdt_write(void *opaque, hwaddr offset,
++                              uint64_t val64, unsigned size)
++{
++    assert(size == 1);
++    AVRWatchdogState *wdt = opaque;
++    uint8_t val8 = (uint8_t)val64;
++
++    trace_avr_wdt_write(offset, val8);
++
++    wdt->csr = val8;
++    avr_wdt_reset_alarm(wdt);
++}
++
++static const MemoryRegionOps avr_wdt_ops = {
++    .read = avr_wdt_read,
++    .write = avr_wdt_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {.max_access_size = 1}
++};
++
++static void avr_wdt_wdr(void *opaque, int irq, int level)
++{
++    AVRWatchdogState *wdt = AVR_WDT(opaque);
++
++    avr_wdt_reset_alarm(wdt);
++}
++
++static void avr_wdt_init(Object *obj)
++{
++    AVRWatchdogState *s = AVR_WDT(obj);
++
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
++
++    memory_region_init_io(&s->iomem, obj, &avr_wdt_ops,
++                          s, "avr-wdt", 0xa);
++
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
++    qdev_init_gpio_in_named(DEVICE(s), avr_wdt_wdr, "wdr", 1);
++}
++
++static void avr_wdt_realize(DeviceState *dev, Error **errp)
++{
++    AVRWatchdogState *s = AVR_WDT(dev);
++
++    s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, avr_wdt_interrupt, s);
++}
++
++static void avr_wdt_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = avr_wdt_reset;
++    dc->realize = avr_wdt_realize;
++}
++
++static const TypeInfo avr_wdt_info = {
++    .name          = TYPE_AVR_WDT,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AVRWatchdogState),
++    .instance_init = avr_wdt_init,
++    .class_init    = avr_wdt_class_init,
++};
++
++static void avr_wdt_register_types(void)
++{
++    type_register_static(&avr_wdt_info);
++}
++
++type_init(avr_wdt_register_types)
+diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
+index 054c403dea..8db2be8317 100644
+--- a/hw/watchdog/meson.build
++++ b/hw/watchdog/meson.build
+@@ -6,3 +6,5 @@ softmmu_ss.add(when: 'CONFIG_WDT_DIAG288', if_true: files('wdt_diag288.c'))
+ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('wdt_aspeed.c'))
+ softmmu_ss.add(when: 'CONFIG_WDT_IMX2', if_true: files('wdt_imx2.c'))
+ softmmu_ss.add(when: 'CONFIG_WDT_SBSA', if_true: files('sbsa_gwdt.c'))
++
++specific_ss.add(when: 'CONFIG_AVR_WDT', if_true: files('avr_wdt.c'))
+diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
+index 3124ca1f1b..ac14773179 100644
+--- a/hw/watchdog/trace-events
++++ b/hw/watchdog/trace-events
+@@ -5,3 +5,8 @@ cmsdk_apb_watchdog_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK AP
+ cmsdk_apb_watchdog_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB watchdog write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ cmsdk_apb_watchdog_reset(void) "CMSDK APB watchdog: reset"
+ cmsdk_apb_watchdog_lock(uint32_t lock) "CMSDK APB watchdog: lock %" PRIu32
++
++# avr_wdt.c
++avr_wdt_read(uint8_t addr, uint8_t value) "wdt read addr:%u value:%u"
++avr_wdt_write(uint8_t addr, uint8_t value) "wdt write addr:%u value:%u"
++avr_wdt_interrupt(void) ""
+diff --git a/include/hw/watchdog/avr_wdt.h b/include/hw/watchdog/avr_wdt.h
+new file mode 100644
+index 0000000000..2679e8f2a6
+--- /dev/null
++++ b/include/hw/watchdog/avr_wdt.h
+@@ -0,0 +1,47 @@
++/*
++ * AVR 16-bit timer
++ *
++ * Copyright (c) 2021 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#ifndef HW_WATCHDOG_AVR_WDT_H
++#define HW_WATCHDOG_AVR_WDT_H
++
++#include "hw/sysbus.h"
++#include "qemu/timer.h"
++#include "hw/hw.h"
++#include "qom/object.h"
++
++#define TYPE_AVR_WDT "avr-wdt"
++OBJECT_DECLARE_SIMPLE_TYPE(AVRWatchdogState, AVR_WDT)
++
++struct AVRWatchdogState {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion iomem;
++    MemoryRegion imsk_iomem;
++    MemoryRegion ifr_iomem;
++    QEMUTimer *timer;
++    qemu_irq irq;
++
++    /* registers */
++    uint8_t csr;
++};
++
++#endif /* HW_WATCHDOG_AVR_WDT_H */
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index 0f4596932b..d5eb785833 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -131,6 +131,9 @@ static void avr_cpu_initfn(Object *obj)
+     /* Set the number of interrupts supported by the CPU. */
+     qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int,
+                       sizeof(cpu->env.intsrc) * 8);
++
++    /* register watchdog timer reset interrupt */
++    qdev_init_gpio_out_named(DEVICE(cpu), &cpu->wdr, "wdr", 1);
+ }
+ 
+ static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index d148e8c75a..f8f5641c8b 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -152,6 +152,7 @@ typedef struct AVRCPU {
+ 
+     CPUNegativeOffsetState neg;
+     CPUAVRState env;
++    qemu_irq wdr; /* reset WDT */
+ } AVRCPU;
+ 
+ extern const struct VMStateDescription vms_avr_cpu;
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 35e1019594..dd88057e5f 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -24,6 +24,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/address-spaces.h"
+ #include "exec/helper-proto.h"
++#include "hw/irq.h"
+ 
+ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+@@ -188,11 +189,9 @@ void helper_break(CPUAVRState *env)
+ 
+ void helper_wdr(CPUAVRState *env)
+ {
+-    CPUState *cs = env_cpu(env);
++    AVRCPU *cpu = env_archcpu(env);
+ 
+-    /* WD is not implemented yet, placeholder */
+-    cs->exception_index = EXCP_DEBUG;
+-    cpu_loop_exit(cs);
++    qemu_set_irq(cpu->wdr, 1);
+ }
+ 
+ /*
 -- 
 2.25.1
 
