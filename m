@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279A0370D7A
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 16:57:14 +0200 (CEST)
-Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6837C370D74
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 16:50:40 +0200 (CEST)
+Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldDWz-0005A9-5g
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 10:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
+	id 1ldDQd-0007gq-Dq
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 10:50:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKh-0001K7-Af
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:31 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42687)
+ id 1ldDKd-0001GQ-OG
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:27 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKa-00059h-4q
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:31 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id m12so1904521pgr.9
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:23 -0700 (PDT)
+ id 1ldDKb-0005AJ-1m
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:27 -0400
+Received: by mail-pl1-x632.google.com with SMTP id b21so1475525plz.0
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X8Pf8ZpwZ1pQBiqGaJFMNS/iHJ5hjxHqBDOnzStfgWc=;
- b=iSEQKrcZAr/ZNnSFYX2TVtX6nItnF6qzUca1k4YaXK6+yBm+nWIfGXDRw6rTI1gyPm
- 1Eraqy0bj6QMX+zzkspul3HyLfLuSxZT5uuIom0frZgLOF9rdQsvUxNFD/Dp67MRey5n
- fO88GNrtfKK8TL9NYDhUGDo5Dg7oMOklnWIJGXrw8vp1T1E3ZcRcNkrniO0TH2XWL1a7
- veD9emWJXexSu6sEYLXYPD/Tm26XqZHlbWxRgEi+pBAp4vlqdFix0WnkoQfmLZMiYSkW
- RN9vebXcYqRmPoQ8P/aCfr32eertUQFecdwYlLMV74L5m2Xv0LfFa6dR5fxjxqYFCmE9
- wi4w==
+ bh=Lhfa+4fc39/8zQCjA36z3jMbuqMJRs1LoYZWUgZZB5w=;
+ b=czpTRb/w+WRQAxXYxZ7IG7/QZwmZ5nTnsb7lpDCc6yuuEwAfrRtAtj3z1032DdO+ix
+ y0Yzh8RQl1RDNOpwV/i0MS0mTe754IyozZvDhw7TZLiOpsufiuo2lmYJbAbZzjsJo3gE
+ VXjV1l8y+SbnOlPuH+BfsJC8wMyI11iglrcYJMKIpOqjACkn6m547GOJJZMopTwd7xfP
+ GsGBNPrY339FtdcRvFznp7VoE3K/4HXapHHb+i/ddpDn6gii4iFguqgMkNM7N0ox0dqX
+ Mn5/zJPMPJY2wu+s4Ri3p2NJFpQrSxfARTt206qCp4mFcY1yHVyU79AcamUh9KZ4sHy0
+ ZIjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X8Pf8ZpwZ1pQBiqGaJFMNS/iHJ5hjxHqBDOnzStfgWc=;
- b=nzfDKYHyXXu94cQNYN8/gXTZ+T7LxbmBC1R+3e3ZQyG/eMhBpWJhfGkehohxGrk7ck
- DNB8bKBegM6ovFoLhOKbG/TAUllf2stgfhen1Z05+P8LVXLhzWr8kl2+zz/TsqoSUBIn
- 3mM28bYg95TGg2KcwAJE+CoHwrHfy2NC5XxJhQaB5uOew9T9ueN//HCq/6KB0JjhPFKm
- ZsQ5oC3oe6l3NRXNi/b5enAfzQYK8aRmz2wwNz8Ky7DxwX/TQceJWR9cyWj6v5bp8gom
- 18Hsv14/LQ6DkKkEiHV5kWsqIFpdCNSBeKjQNjadVYf6eIy2jFf5R4dmtzVHwvoU55QN
- tOfw==
-X-Gm-Message-State: AOAM532rgjy2444KXCxWnI8JeMtGRggZrMpbVyOsqa27VSEFHAjiCYZI
- fzzfDtaZupRXeEseWq+7iiQhPVS4Czqsog==
-X-Google-Smtp-Source: ABdhPJxYDncYHit1jS2nDeAvs/WQ+lla1u5ZfCAYvkQ6TGspIFW8M0o6t80xOzh9xsQsVQD1NBoWJA==
-X-Received: by 2002:a65:5888:: with SMTP id d8mr13601996pgu.23.1619966662902; 
- Sun, 02 May 2021 07:44:22 -0700 (PDT)
+ bh=Lhfa+4fc39/8zQCjA36z3jMbuqMJRs1LoYZWUgZZB5w=;
+ b=M2ySw/Bsak3yPCwbb5tdImkwZgCt1PMWf5WTvrqewFsjY42xIFq6yb2dX29t0PjTk8
+ DI6sVYkXctQuacoucTBT2LEdl73eOaVFwQw/GZyBErWUVQ9wcC4l8ubwj8ps3VhMAOrH
+ NylumEA3CU/SU4emeTapcPtWKzqJzVpYc710eqQhBRrhUuq8MndXkvRdXDfM66Wu//98
+ vuaYm6tkJ7DOucjz+Zz2GCeyxR71yoMP9W/Gxx28sTdEakTZYiZ5IeYwoXABy9hxXemq
+ pb6sEikxrmXoYh+rXedSlxJTfyR4WLpP9IjyGnby8bnClouACp8H5z2ia4bMYa5AV5HT
+ GZlQ==
+X-Gm-Message-State: AOAM532hJyO2Be4194mBzlyNKJOZq3sEa+Azbc5jcacFN0l7NcyNxHv7
+ Ip1npuXDyvDIUEAf6pIeXkXHvjrU+bl2mw==
+X-Google-Smtp-Source: ABdhPJyPDH69zqnEIkY4BiI1FQPzLjTPaHCzywgEyrq9jUcY4YmVTiSrHo5U19wVc9cC7ARmOoReZw==
+X-Received: by 2002:a17:902:b28b:b029:ed:19aa:5dec with SMTP id
+ u11-20020a170902b28bb02900ed19aa5decmr16152432plr.78.1619966663440; 
+ Sun, 02 May 2021 07:44:23 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.22
+ by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 07:44:22 -0700 (PDT)
+ Sun, 02 May 2021 07:44:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/31] target/hexagon: Change DECODE_MAPPED_REG operand name
- to OPNUM
-Date: Sun,  2 May 2021 07:43:51 -0700
-Message-Id: <20210502144419.1659844-4-richard.henderson@linaro.org>
+Subject: [PULL v2 04/31] target/hexagon: fix typo in comment
+Date: Sun,  2 May 2021 07:43:52 -0700
+Message-Id: <20210502144419.1659844-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502144419.1659844-1-richard.henderson@linaro.org>
 References: <20210502144419.1659844-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,35 +85,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-Reported-by: Richard Henderson <<richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-Id: <1615784049-26215-1-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1615784115-26559-1-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/decode.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/hexagon/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
-index c9bacaa1ee..1c9c07412a 100644
---- a/target/hexagon/decode.c
-+++ b/target/hexagon/decode.c
-@@ -48,8 +48,8 @@ enum {
- DEF_REGMAP(R_16,  16, 0, 1, 2, 3, 4, 5, 6, 7, 16, 17, 18, 19, 20, 21, 22, 23)
- DEF_REGMAP(R__8,  8,  0, 2, 4, 6, 16, 18, 20, 22)
+diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
+index 2c6d718579..d6b5c47500 100644
+--- a/target/hexagon/op_helper.c
++++ b/target/hexagon/op_helper.c
+@@ -298,7 +298,7 @@ int32_t HELPER(fcircadd)(int32_t RxV, int32_t offset, int32_t M, int32_t CS)
+ }
  
--#define DECODE_MAPPED_REG(REGNO, NAME) \
--    insn->regno[REGNO] = DECODE_REGISTER_##NAME[insn->regno[REGNO]];
-+#define DECODE_MAPPED_REG(OPNUM, NAME) \
-+    insn->regno[OPNUM] = DECODE_REGISTER_##NAME[insn->regno[OPNUM]];
- 
- typedef struct {
-     const struct DectreeTable *table_link;
+ /*
+- * Hexagon FP operations return ~0 insteat of NaN
++ * Hexagon FP operations return ~0 instead of NaN
+  * The hex_check_sfnan/hex_check_dfnan functions perform this check
+  */
+ static float32 hex_check_sfnan(float32 x)
 -- 
 2.25.1
 
