@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF49370FCD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:28:33 +0200 (CEST)
-Received: from localhost ([::1]:60886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202EC370FB7
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:21:22 +0200 (CEST)
+Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldLVo-0003r0-7Q
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
+	id 1ldLOr-0001kw-73
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMc-0008Ls-TC
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:19:05 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40794)
+ id 1ldLMa-0008KZ-Sq
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:19:02 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:50926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMX-0002wM-RS
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:19:02 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id n16so1776686plf.7
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:57 -0700 (PDT)
+ id 1ldLMY-0002wp-QK
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:19:00 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id md17so2066041pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mRgvCIDFvA5UlQTj7r2nU69wxLSUlzYCUC/NBBipjpc=;
- b=x453Sr/GcQsuehPBG/uN+gTmEmu8uS66nhghLnkTlSS7+87vLcAkqxPVY7BMev+Xx1
- RI2EIBuUXagRc6QHCVnP5Izf5oTBk2Y/yma2naaPmcFhT8UE3G8+Y7ZzDElHZRAg8Jxt
- hMWcvZ68yzI9FW/kGozXO98Ye4PWNiV0K+vhRLsAnbvCfvFZQE1r3Q3xmAN2OXhKDCt8
- D/8fArF2HVAIUPnLijooWp9zRgrKztD862K7gp3RBwPbQVO4FNb87r3X1ZA/xSoUwP0w
- IpSGuAmYWHNtsPgj6SwD0zykRdVjyJwWFYEfkWDJnZycBy9W4RBMOItm10RIb80tKlvq
- gdzQ==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=3t8lsfbGKLoXDpmvXxZMx3IVfaXvb/XOOzS5SgrqqOU=;
+ b=HUa+FaKAFFxqX+O2mMAhOcsqO1Gz6jdcySkRVN1/mn0qmjh50ze0TadHbLHBgPivWX
+ bRFOWrom5wbTZIM7aU+USC5dLduHgMUmby2sFE3Z1Xhq9ayFQnjFFggQIZHaw0wxwmZc
+ rL1QiB3LzGMGVZ2BcjUTv2/yAgBxYpMw2bRHKmMu21DVKeK19MjKVxkd+hOdyiDgVKc8
+ 73McT3XTZKuQjfe1UYnnslSjo8UNLj0aRY2vh1Y0ASSryHP/GngJWNiF2omreZpa9uMf
+ hje9m3Yt/ynWDtKsVP0Sbx9Hw/sfjIN0tWIHb6Un2Tg9hjSmQv6ttak6uiVnPChUGVdF
+ kmcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mRgvCIDFvA5UlQTj7r2nU69wxLSUlzYCUC/NBBipjpc=;
- b=gC9AiXPuG0N7SKiLEix09PeQ2kKqc/oSNvOkcd3BxQLfgaWAshfy9r9f/FQL0E/iII
- YQSwV1ayTPW6Rs7i6FjQ+fsIQv38t+e7tJbJ08+g8P+ptYSgGjrZ9PSiPvfUw8yxuVU6
- WaapocSHwryJNSCQTBOUPLIi0pBeGjgrfTQNF6aNzyTyoIHEhyh5sIs+xxM1o6zB0c/0
- hahYKIInOf1QsgBPUAQ1TunaN4Y7koTHTbXsha+CbTNmPFzOU1I4QVkQUbcWYqlL5tSN
- iiaXGvEBSS5vyWamVLCUKqJm/+6GzjFJyVw4QK9UTEYc45pbtUXGrgK8+n39oo0h3jS0
- f2MA==
-X-Gm-Message-State: AOAM531QfJD9hGi3mdHG6bTUn22pckGOe0QLt+Z0xofuGBf4bE00r7j8
- EK+BRCrSnTWGo26VICeQRFVM4UJ/p3nGbw==
-X-Google-Smtp-Source: ABdhPJzWqqwJbPz1QxUW954iV+dtJi0dYIro/C6Cx2lfOiFRFB5FN2b6rFGQdSb8homwf8JY5ru41w==
-X-Received: by 2002:a17:90a:e615:: with SMTP id
- j21mr27513347pjy.43.1619997536566; 
- Sun, 02 May 2021 16:18:56 -0700 (PDT)
+ bh=3t8lsfbGKLoXDpmvXxZMx3IVfaXvb/XOOzS5SgrqqOU=;
+ b=dvfp1tFbb8eM8PnsaCLsNw7BLUKonW6Z0g+Ff+OC+y+UYPz3Opm6TV6AGCZI3BKlQp
+ TspUONA31C05LQscbI1Mut6sFbYy/n2a1mz3Hn2d4bf7amz7o4pTp8Zaq9jHvOfCQnHE
+ QAKNW5dOn9ZMoutYd2O5sM0vH5dx5hz5JIN8qaLBCgijSyX3xIbEIPgA+dN4bhl5pQ9t
+ pDk5Qd4bX7UqL6NIzwHxYFRct+j1SvVHdDx/MOxuUAmkoEECQpxtVmXoy6vD4ZznYLtM
+ axb513d+Gf5+k6R4/UF7DnToifp0OoBkzH5cLgPldRgZt6ttNJMz5X+IEIVyttgRVBvK
+ glCQ==
+X-Gm-Message-State: AOAM532EU+p52CpJKzNXtMWabn1BaTW9vl28nzLqYwYrpxGRR3K/3Vqa
+ OSbsAJtz6uCqgrnOiY0xw0vW1ELjwAZvcQ==
+X-Google-Smtp-Source: ABdhPJyMKR4kr3ik6arM8XScpUpm+BDSaviWMHfYLj4BLMXgPyZHynnBe5b98JYq8ILS+IZ5NvkPuw==
+X-Received: by 2002:a17:902:ea8b:b029:ed:3b25:15f7 with SMTP id
+ x11-20020a170902ea8bb02900ed3b2515f7mr17288709plb.62.1619997537453; 
+ Sun, 02 May 2021 16:18:57 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.56
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 16:18:56 -0700 (PDT)
+ Sun, 02 May 2021 16:18:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/28] tcg: Introduce tcg_max_ctxs
-Date: Sun,  2 May 2021 16:18:30 -0700
-Message-Id: <20210502231844.1977630-15-richard.henderson@linaro.org>
+Subject: [PATCH v3 15/28] tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
+Date: Sun,  2 May 2021 16:18:31 -0700
+Message-Id: <20210502231844.1977630-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502231844.1977630-1-richard.henderson@linaro.org>
 References: <20210502231844.1977630-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,144 +84,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finish the divorce of tcg/ from hw/, and do not take
-the max cpu value from MachineState; just remember what
-we were passed in tcg_init.
+Remove the ifdef ladder and move each define into the
+appropriate header file.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/internal.h |  3 ++-
- tcg/region.c   |  6 +++---
- tcg/tcg.c      | 23 ++++++++++-------------
- 3 files changed, 15 insertions(+), 17 deletions(-)
+v2: Retain comment about M_C_G_B_S constraint (balaton)
+---
+ tcg/aarch64/tcg-target.h |  1 +
+ tcg/arm/tcg-target.h     |  1 +
+ tcg/i386/tcg-target.h    |  2 ++
+ tcg/mips/tcg-target.h    |  6 ++++++
+ tcg/ppc/tcg-target.h     |  2 ++
+ tcg/riscv/tcg-target.h   |  1 +
+ tcg/s390/tcg-target.h    |  3 +++
+ tcg/sparc/tcg-target.h   |  1 +
+ tcg/tci/tcg-target.h     |  1 +
+ tcg/region.c             | 35 +++++++++--------------------------
+ 10 files changed, 27 insertions(+), 26 deletions(-)
 
-diff --git a/tcg/internal.h b/tcg/internal.h
-index fcfeca232f..f9906523da 100644
---- a/tcg/internal.h
-+++ b/tcg/internal.h
-@@ -28,7 +28,8 @@
- #define TCG_HIGHWATER 1024
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 5ec30dba25..ef55f7c185 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -15,6 +15,7 @@
  
- extern TCGContext **tcg_ctxs;
--extern unsigned int n_tcg_ctxs;
-+extern unsigned int tcg_cur_ctxs;
-+extern unsigned int tcg_max_ctxs;
+ #define TCG_TARGET_INSN_UNIT_SIZE  4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
++#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+ #undef TCG_TARGET_STACK_GROWSUP
  
- void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus);
- bool tcg_region_alloc(TCGContext *s);
-diff --git a/tcg/region.c b/tcg/region.c
-index f9e93e85b3..142b27276b 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -347,7 +347,7 @@ void tcg_region_initial_alloc(TCGContext *s)
- /* Call from a safe-work context */
- void tcg_region_reset_all(void)
- {
--    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
-+    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
-     unsigned int i;
+ typedef enum {
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index 8d1fee6327..b9a85d0f83 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -60,6 +60,7 @@ extern int arm_arch;
+ #undef TCG_TARGET_STACK_GROWSUP
+ #define TCG_TARGET_INSN_UNIT_SIZE 4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
++#define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
  
-     qemu_mutex_lock(&region.lock);
-@@ -924,7 +924,7 @@ void tcg_region_prologue_set(TCGContext *s)
-  */
- size_t tcg_code_size(void)
- {
--    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
-+    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
-     unsigned int i;
-     size_t total;
+ typedef enum {
+     TCG_REG_R0 = 0,
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index b693d3692d..ac10066c3e 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -31,9 +31,11 @@
+ #ifdef __x86_64__
+ # define TCG_TARGET_REG_BITS  64
+ # define TCG_TARGET_NB_REGS   32
++# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+ #else
+ # define TCG_TARGET_REG_BITS  32
+ # define TCG_TARGET_NB_REGS   24
++# define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
+ #endif
  
-@@ -960,7 +960,7 @@ size_t tcg_code_capacity(void)
+ typedef enum {
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index c2c32fb38f..e81e824cab 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -39,6 +39,12 @@
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
+ #define TCG_TARGET_NB_REGS 32
  
- size_t tcg_tb_phys_invalidate_count(void)
- {
--    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
-+    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
-     unsigned int i;
-     size_t total = 0;
++/*
++ * We have a 256MB branch region, but leave room to make sure the
++ * main executable is also within that region.
++ */
++#define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
++
+ typedef enum {
+     TCG_REG_ZERO = 0,
+     TCG_REG_AT,
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index d1339afc66..c13ed5640a 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -27,8 +27,10 @@
  
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 5af51d41ee..0926454845 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -44,11 +44,6 @@
- #include "cpu.h"
+ #ifdef _ARCH_PPC64
+ # define TCG_TARGET_REG_BITS  64
++# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+ #else
+ # define TCG_TARGET_REG_BITS  32
++# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
+ #endif
  
- #include "exec/exec-all.h"
--
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/boards.h"
--#endif
--
- #include "tcg/tcg-op.h"
+ #define TCG_TARGET_NB_REGS 64
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index 727c8df418..87ea94666b 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -34,6 +34,7 @@
+ #define TCG_TARGET_INSN_UNIT_SIZE 4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 20
+ #define TCG_TARGET_NB_REGS 32
++#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
+ 
+ typedef enum {
+     TCG_REG_ZERO,
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+index 641464eea4..b04b72b7eb 100644
+--- a/tcg/s390/tcg-target.h
++++ b/tcg/s390/tcg-target.h
+@@ -28,6 +28,9 @@
+ #define TCG_TARGET_INSN_UNIT_SIZE 2
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 19
+ 
++/* We have a +- 4GB range on the branches; leave some slop.  */
++#define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
++
+ typedef enum TCGReg {
+     TCG_REG_R0 = 0,
+     TCG_REG_R1,
+diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
+index f66f5d07dc..86bb9a2d39 100644
+--- a/tcg/sparc/tcg-target.h
++++ b/tcg/sparc/tcg-target.h
+@@ -30,6 +30,7 @@
+ #define TCG_TARGET_INSN_UNIT_SIZE 4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
+ #define TCG_TARGET_NB_REGS 32
++#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+ 
+ typedef enum {
+     TCG_REG_G0 = 0,
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 52af6d8bc5..d0b5f3fa64 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -43,6 +43,7 @@
+ #define TCG_TARGET_INTERPRETER 1
+ #define TCG_TARGET_INSN_UNIT_SIZE 1
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
++#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
  
  #if UINTPTR_MAX == UINT32_MAX
-@@ -158,7 +153,8 @@ static int tcg_out_ldst_finalize(TCGContext *s);
+ # define TCG_TARGET_REG_BITS 32
+diff --git a/tcg/region.c b/tcg/region.c
+index 142b27276b..9a1e039824 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -398,34 +398,17 @@ static size_t tcg_n_regions(unsigned max_cpus)
  #endif
+ }
  
- TCGContext **tcg_ctxs;
--unsigned int n_tcg_ctxs;
-+unsigned int tcg_cur_ctxs;
-+unsigned int tcg_max_ctxs;
- TCGv_env cpu_env = 0;
- const void *tcg_code_gen_epilogue;
- uintptr_t tcg_splitwx_diff;
-@@ -478,7 +474,6 @@ void tcg_register_thread(void)
- #else
- void tcg_register_thread(void)
- {
--    MachineState *ms = MACHINE(qdev_get_machine());
-     TCGContext *s = g_malloc(sizeof(*s));
-     unsigned int i, n;
+-/* Minimum size of the code gen buffer.  This number is randomly chosen,
+-   but not so small that we can't have a fair number of TB's live.  */
++/*
++ * Minimum size of the code gen buffer.  This number is randomly chosen,
++ * but not so small that we can't have a fair number of TB's live.
++ *
++ * Maximum size, MAX_CODE_GEN_BUFFER_SIZE, is defined in tcg-target.h.
++ * Unless otherwise indicated, this is constrained by the range of
++ * direct branches on the host cpu, as used by the TCG implementation
++ * of goto_tb.
++ */
+ #define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
  
-@@ -494,8 +489,8 @@ void tcg_register_thread(void)
-     }
- 
-     /* Claim an entry in tcg_ctxs */
--    n = qatomic_fetch_inc(&n_tcg_ctxs);
--    g_assert(n < ms->smp.max_cpus);
-+    n = qatomic_fetch_inc(&tcg_cur_ctxs);
-+    g_assert(n < tcg_max_ctxs);
-     qatomic_set(&tcg_ctxs[n], s);
- 
-     if (n > 0) {
-@@ -646,9 +641,11 @@ static void tcg_context_init(unsigned max_cpus)
-      */
+-/* Maximum size of the code gen buffer we'd like to use.  Unless otherwise
+-   indicated, this is constrained by the range of direct branches on the
+-   host cpu, as used by the TCG implementation of goto_tb.  */
+-#if defined(__x86_64__)
+-# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+-#elif defined(__sparc__)
+-# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+-#elif defined(__powerpc64__)
+-# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+-#elif defined(__powerpc__)
+-# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
+-#elif defined(__aarch64__)
+-# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+-#elif defined(__s390x__)
+-  /* We have a +- 4GB range on the branches; leave some slop.  */
+-# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
+-#elif defined(__mips__)
+-  /* We have a 256MB branch region, but leave room to make sure the
+-     main executable is also within that region.  */
+-# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
+-#else
+-# define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
+-#endif
+-
+ #if TCG_TARGET_REG_BITS == 32
+ #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
  #ifdef CONFIG_USER_ONLY
-     tcg_ctxs = &tcg_ctx;
--    n_tcg_ctxs = 1;
-+    tcg_cur_ctxs = 1;
-+    tcg_max_ctxs = 1;
- #else
--    tcg_ctxs = g_new(TCGContext *, max_cpus);
-+    tcg_max_ctxs = max_cpus;
-+    tcg_ctxs = g_new0(TCGContext *, max_cpus);
- #endif
- 
-     tcg_debug_assert(!tcg_regset_test_reg(s->reserved_regs, TCG_AREG0));
-@@ -3940,7 +3937,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
- static inline
- void tcg_profile_snapshot(TCGProfile *prof, bool counters, bool table)
- {
--    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
-+    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
-     unsigned int i;
- 
-     for (i = 0; i < n_ctxs; i++) {
-@@ -4003,7 +4000,7 @@ void tcg_dump_op_count(void)
- 
- int64_t tcg_cpu_exec_time(void)
- {
--    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
-+    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
-     unsigned int i;
-     int64_t ret = 0;
- 
 -- 
 2.25.1
 
