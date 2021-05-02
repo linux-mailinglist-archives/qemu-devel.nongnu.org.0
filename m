@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E0A370EB4
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 21:04:15 +0200 (CEST)
-Received: from localhost ([::1]:39614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8F3370EBB
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 21:10:33 +0200 (CEST)
+Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldHO2-0006uw-5I
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 15:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59374)
+	id 1ldHU8-0002hh-Hs
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 15:10:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldHK8-0005EU-Fn
- for qemu-devel@nongnu.org; Sun, 02 May 2021 15:00:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldHK6-0002hg-IO
- for qemu-devel@nongnu.org; Sun, 02 May 2021 15:00:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619982009;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sDw3Zct/nwERgBdJzgS7ehM/iRppltWo+cULpCqgrNA=;
- b=cFFYAGWRSGgEx+v174llJoZZxrOshHBupqfi/+ZYxjDnoiCtAgzrOa3epQyi6L2Z2vlwS3
- FIj3kYN0r2M5j6NlkiTP1RQ/ASCW+unOWgPgTSk87eLg1L95PgQYwtMetZYxSM9zx3krrL
- 0imUo3vAO6lYCCPPJ05oh2XuyUo9iaw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-t3L52Z8OOJ-e-8lOXloZVw-1; Sun, 02 May 2021 15:00:07 -0400
-X-MC-Unique: t3L52Z8OOJ-e-8lOXloZVw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- s66-20020a1ca9450000b0290149fce15f03so479711wme.9
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 12:00:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldHSk-0002GK-Um
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 15:09:06 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldHSi-0007vf-Qd
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 15:09:06 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ b11-20020a7bc24b0000b0290148da0694ffso2086649wmj.2
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 12:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Od1APi/IikRB8BlnR55ihbRQgaqYGdqucLI4V3awYJE=;
+ b=R6uJcUg8LxZJw9TBGOVTk/1Bvy6XvEoMDdj1Lqf9T9DSVWuHSk0SRW27CDUV6y6lwP
+ BKA9qwsJwD1Ye8fBkn+dQnHFQucYqM02KbWgmxaClkSugMEF0ITiEjn4neIKfzcrNrhB
+ +d1hBquEdfUFtPoumD386bOIZ4ZDxbUp1MbMFcQQ7kWt1jnqQA+8Un4nyHW6j7BCbi4p
+ 2jC6Z2+Emv/5r32oStQpYjoypu7wp8R1lRvi7s2+nE7VNFgSt/Ve+RpQo+y6PjcY0txK
+ dQ4rwEVnjY3YDdIsjUM58oyLqAqIQIQbKzqux8DdROyMefXO1asLM+fc/InKenvtQFxb
+ V1HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sDw3Zct/nwERgBdJzgS7ehM/iRppltWo+cULpCqgrNA=;
- b=Cvk48bUKZbnedzJU+88TGJZLJAcvgAaKliCt4C8Y3O8LGouhGCaW6v77iRO17+xs6D
- qS85RKVJuYP6JKfmFWGL8WAVls63FOJOGZ1gCipgKnT6fZSNBna9klP0heEG5PZXUB5A
- SQH92CamXYE1f6faiuhNq4+SiRhYmOc+nkqPzmSxQe2D/pL6wahpaMqrd5wrGF4MEh8w
- 2x9GHUL3hvTxvcZsOuV6+iOS/mZXgeImHO0L7uJKA4y8OZ9Ef44kRqa+FPM4kOksYRZg
- 5z3Kb78jIUdR9xTpOMoXsIJdUkHXTPdw6KvEF+orZHoF9nR/u+UZOzD7tfb2xgQ8+3RM
- G4wg==
-X-Gm-Message-State: AOAM531+dRnu3h5WKJxn6cvvSht3Q49Yi9POYgjYIfrT7KQCoCoygxPR
- Pq7D8S6uycIYB9hZPeYxr9cEkSVuc7FpbSrVRrTRJdSdPRrbfYR9zaYaLu4RygyB6sEApTJC14q
- v9/8P8FWgGQgNIPH+xJTmKzppbruUWDrqyiYh1jvqtXYJbW1/B8pXkEQ7wiFFFOye
-X-Received: by 2002:adf:fd0c:: with SMTP id e12mr8535977wrr.111.1619982005362; 
- Sun, 02 May 2021 12:00:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwoqQ4tlIMYeXZCr615KO9JBe31LEjUPT2vLv6CVTUSXXKX+WlRbdS80qDTdn6mAQoNrrG0Tg==
-X-Received: by 2002:adf:fd0c:: with SMTP id e12mr8535951wrr.111.1619982005088; 
- Sun, 02 May 2021 12:00:05 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id t7sm9701816wrw.60.2021.05.02.12.00.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 May 2021 12:00:04 -0700 (PDT)
-Subject: Re: [PATCH 4/4] pc-bios/s390-ccw: Allow building with Clang, too
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>
-References: <20210502174836.838816-1-thuth@redhat.com>
- <20210502174836.838816-5-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d77a5d98-7bff-50e0-3781-75c9012130b4@redhat.com>
-Date: Sun, 2 May 2021 21:00:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Od1APi/IikRB8BlnR55ihbRQgaqYGdqucLI4V3awYJE=;
+ b=nZDtMobPgAuLilQXhoRO+3eWFChz2Wg1PFB71fVqaI+JAnMxb8acNmxZFNFvFhPIAp
+ RBwrCJGi85RlZjehwS6C18o4RYk+FwVPgkH0et84mT3VopHbkj33zUuzlvpxcLtwomEt
+ 1xwc7FpQ6xSWBbCN6JIlX+LTRhnCtQAm3noWv/OYAmfYse0uiIwRy1rgDxaDGulwogXr
+ M+LlZVgI/GAkFUU6YtAoMbvnEc6uSJaPeieSGlZWgmMmLRFyvzSgHJHIat4bkka9NyfL
+ dw5sDdpt3PjO7fQXClA2pdftKf9DuoR1DNK7S4HdyxDPnSKava09+LYwrBdp6mFRzBkh
+ u67w==
+X-Gm-Message-State: AOAM5322YuRm5r5UgeZ8j4QbQTUNfUQIfIijWb83KDOCmc5X3kvRIRH+
+ Pk5YD+jYzpyj2WKMqPGIJDMB/qL6LlH9TWCS
+X-Google-Smtp-Source: ABdhPJw6tzNIE37xDvqZNuLotYVkGOei1wEbqvP04MS/+URzHnvlTNzjR7t9qir1Y4im3Y2ibF3qcA==
+X-Received: by 2002:a1c:dc41:: with SMTP id t62mr28372388wmg.14.1619982542932; 
+ Sun, 02 May 2021 12:09:02 -0700 (PDT)
+Received: from localhost.localdomain
+ (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id y14sm9473887wrs.64.2021.05.02.12.09.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 May 2021 12:09:02 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/avr: Ignore unimplemented WDR opcode
+Date: Sun,  2 May 2021 21:09:00 +0200
+Message-Id: <20210502190900.604292-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210502174836.838816-5-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,24 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>, Fred Konrad <konrad@adacore.com>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/21 7:48 PM, Thomas Huth wrote:
-> Clang unfortunately does not support generating code for the z900
-> architecture level and starts with the z10 instead. Thus to be able
-> to support compiling with Clang, we have to check for the supported
-> compiler flags. The disadvantage is of course that the bios image
-> will only run with z10 guest CPUs upwards (which is what most people
-> use anyway), so just in case let's also emit a warning in that case.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  configure                 | 9 ++++++++-
->  pc-bios/s390-ccw/Makefile | 3 ++-
->  2 files changed, 10 insertions(+), 2 deletions(-)
+Running the WDR opcode triggers a segfault:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+  $ cat > foo.S << EOF
+  > __start:
+  >     wdr
+  > EOF
+  $ avr-gcc -nostdlib -nostartfiles -mmcu=avr6 foo.S -o foo.elf
+  $ qemu-system-avr -serial mon:stdio -nographic -no-reboot \
+    -M mega -bios foo.elf -d in_asm --singlestep
+  IN:
+  0x00000000:  WDR
+  Segmentation fault (core dumped)
+
+  (gdb) bt
+     #0  0x00005555add0b23a in gdb_get_cpu_pid (cpu=0x5555af5a4af0) at ../gdbstub.c:718
+     #1  0x00005555add0b2dd in gdb_get_cpu_process (cpu=0x5555af5a4af0) at ../gdbstub.c:743
+     #2  0x00005555add0e477 in gdb_set_stop_cpu (cpu=0x5555af5a4af0) at ../gdbstub.c:2742
+     #3  0x00005555adc99b96 in cpu_handle_guest_debug (cpu=0x5555af5a4af0) at ../softmmu/cpus.c:306
+     #4  0x00005555adcc66ab in rr_cpu_thread_fn (arg=0x5555af5a4af0) at ../accel/tcg/tcg-accel-ops-rr.c:224
+     #5  0x00005555adefaf12 in qemu_thread_start (args=0x5555af5d9870) at ../util/qemu-thread-posix.c:521
+     #6  0x00007f692d940ea5 in start_thread () from /lib64/libpthread.so.0
+     #7  0x00007f692d6699fd in clone () from /lib64/libc.so.6
+
+Since the watchdog peripheral is not implemented, simply
+log the opcode as unimplemented and keep going.
+
+Reported-by: Fred Konrad <konrad@adacore.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/avr/helper.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 35e10195940..981c29da453 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -188,11 +188,7 @@ void helper_break(CPUAVRState *env)
+ 
+ void helper_wdr(CPUAVRState *env)
+ {
+-    CPUState *cs = env_cpu(env);
+-
+-    /* WD is not implemented yet, placeholder */
+-    cs->exception_index = EXCP_DEBUG;
+-    cpu_loop_exit(cs);
++    qemu_log_mask(LOG_UNIMP, "WDG reset (not implemented)\n");
+ }
+ 
+ /*
+-- 
+2.26.3
 
 
