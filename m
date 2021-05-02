@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F267370D72
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 16:49:39 +0200 (CEST)
-Received: from localhost ([::1]:59964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279A0370D7A
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 16:57:14 +0200 (CEST)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldDPe-0006WA-81
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 10:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
+	id 1ldDWz-0005A9-5g
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 10:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKd-0001GP-Lq
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:27 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:39894)
+ id 1ldDKh-0001K7-Af
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:31 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKZ-00059d-Kg
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:26 -0400
-Received: by mail-pl1-x635.google.com with SMTP id t4so675522plc.6
+ id 1ldDKa-00059h-4q
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:31 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id m12so1904521pgr.9
  for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fqEgUgqz02Z8sn33fRQv9yX+A8s/JtIeF1usXc7oQj8=;
- b=vdUdclw+/yAcNISwosSjeSvu3hVydEj+D/xS0vsTC9UANi4W6ssur6TYRPfDkU5HZs
- IEK1j5g+9GetWVZifzoBTHcri835siuhdjSGzcv1YfNzEEQAlGesVoIMNaJiP3jFQfmH
- c8cMfF2RYBF2YglMlFBpiUqzQjKUUSamAQWBvRyMTmMLWgpkur1gf5V1X5xZUDzijlOr
- mdjJCkVNBpCeequb7nSqZ8t1GfLq1Je/dwVVRR8SjghYKcA0ZWZt6VxPZ99cUN5jHw+C
- n3Z10y0H/doVee7xMSCMhkjadkoy4bxRZeN4kTpw1ZD7VC3jL3NTjnnGS3nKH9erL1bH
- EjeQ==
+ bh=X8Pf8ZpwZ1pQBiqGaJFMNS/iHJ5hjxHqBDOnzStfgWc=;
+ b=iSEQKrcZAr/ZNnSFYX2TVtX6nItnF6qzUca1k4YaXK6+yBm+nWIfGXDRw6rTI1gyPm
+ 1Eraqy0bj6QMX+zzkspul3HyLfLuSxZT5uuIom0frZgLOF9rdQsvUxNFD/Dp67MRey5n
+ fO88GNrtfKK8TL9NYDhUGDo5Dg7oMOklnWIJGXrw8vp1T1E3ZcRcNkrniO0TH2XWL1a7
+ veD9emWJXexSu6sEYLXYPD/Tm26XqZHlbWxRgEi+pBAp4vlqdFix0WnkoQfmLZMiYSkW
+ RN9vebXcYqRmPoQ8P/aCfr32eertUQFecdwYlLMV74L5m2Xv0LfFa6dR5fxjxqYFCmE9
+ wi4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fqEgUgqz02Z8sn33fRQv9yX+A8s/JtIeF1usXc7oQj8=;
- b=W15Jzhs2NWE2bdt7iWhPcHJWvWJ2JVwPgkS/rzUpPkygJRd8IVSmaOmM+heQUK/EFv
- S9NG7odmP+6h8IO5vf1lxUEhAxOu/fI9MO7J59N2FG+RHhVqeCdeiIKT1E+3c9sSDTCJ
- +V/KkgTPB5u+bpLNPa59JBQ3cBPCWeMC6m7BFZ0HhpGA+Bd4mGgaRdUu+D1sBs0looaS
- HcJLQ9SkGp1wg6NB80nvq2hWGKtD+mo2NlJ9HzmweOcSakuJTL0498wnPNsPqYj4slUw
- vfXv+RSeqiLDpZwshYebgd02k9CnlQYi9zu1/WrDKPoMYIISqy40M6vVsyeCmCOXG7JH
- rykA==
-X-Gm-Message-State: AOAM530Rb4dlslwHQQcadnT40YIdMUeqWwZrsbdo9B0SZCHPrMlcM6eY
- EL4ThkTsxBwTI6t2Q8Efc2XWm0hSxPl6pQ==
-X-Google-Smtp-Source: ABdhPJwdLWJDHvOSDNZl5cwq2vae8Fpy6d6JowQ0kMUrOMVMJv5YGnU6OjVmvJxikL/SefTkR9CoMw==
-X-Received: by 2002:a17:902:b18c:b029:ed:631f:63ca with SMTP id
- s12-20020a170902b18cb02900ed631f63camr15806481plr.40.1619966662340; 
+ bh=X8Pf8ZpwZ1pQBiqGaJFMNS/iHJ5hjxHqBDOnzStfgWc=;
+ b=nzfDKYHyXXu94cQNYN8/gXTZ+T7LxbmBC1R+3e3ZQyG/eMhBpWJhfGkehohxGrk7ck
+ DNB8bKBegM6ovFoLhOKbG/TAUllf2stgfhen1Z05+P8LVXLhzWr8kl2+zz/TsqoSUBIn
+ 3mM28bYg95TGg2KcwAJE+CoHwrHfy2NC5XxJhQaB5uOew9T9ueN//HCq/6KB0JjhPFKm
+ ZsQ5oC3oe6l3NRXNi/b5enAfzQYK8aRmz2wwNz8Ky7DxwX/TQceJWR9cyWj6v5bp8gom
+ 18Hsv14/LQ6DkKkEiHV5kWsqIFpdCNSBeKjQNjadVYf6eIy2jFf5R4dmtzVHwvoU55QN
+ tOfw==
+X-Gm-Message-State: AOAM532rgjy2444KXCxWnI8JeMtGRggZrMpbVyOsqa27VSEFHAjiCYZI
+ fzzfDtaZupRXeEseWq+7iiQhPVS4Czqsog==
+X-Google-Smtp-Source: ABdhPJxYDncYHit1jS2nDeAvs/WQ+lla1u5ZfCAYvkQ6TGspIFW8M0o6t80xOzh9xsQsVQD1NBoWJA==
+X-Received: by 2002:a65:5888:: with SMTP id d8mr13601996pgu.23.1619966662902; 
  Sun, 02 May 2021 07:44:22 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.21
+ by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 02 May 2021 07:44:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 02/31] target/hexagon: remove unnecessary checks in
- find_iclass_slots
-Date: Sun,  2 May 2021 07:43:50 -0700
-Message-Id: <20210502144419.1659844-3-richard.henderson@linaro.org>
+Subject: [PULL v2 03/31] target/hexagon: Change DECODE_MAPPED_REG operand name
+ to OPNUM
+Date: Sun,  2 May 2021 07:43:51 -0700
+Message-Id: <20210502144419.1659844-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502144419.1659844-1-richard.henderson@linaro.org>
 References: <20210502144419.1659844-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,27 +92,27 @@ From: Taylor Simpson <tsimpson@quicinc.com>
 
 Reported-by: Richard Henderson <<richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-Id: <1615784037-26129-1-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1615784049-26215-1-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/iclass.c | 4 ----
- 1 file changed, 4 deletions(-)
+ target/hexagon/decode.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/hexagon/iclass.c b/target/hexagon/iclass.c
-index 378d8a6a75..6091286993 100644
---- a/target/hexagon/iclass.c
-+++ b/target/hexagon/iclass.c
-@@ -53,10 +53,6 @@ SlotMask find_iclass_slots(Opcode opcode, int itype)
-                (opcode == Y2_isync) ||
-                (opcode == J2_pause) || (opcode == J4_hintjumpr)) {
-         return SLOTS_2;
--    } else if ((itype == ICLASS_V2LDST) && (GET_ATTRIB(opcode, A_STORE))) {
--        return SLOTS_01;
--    } else if ((itype == ICLASS_V2LDST) && (!GET_ATTRIB(opcode, A_STORE))) {
--        return SLOTS_01;
-     } else if (GET_ATTRIB(opcode, A_CRSLOT23)) {
-         return SLOTS_23;
-     } else if (GET_ATTRIB(opcode, A_RESTRICT_PREFERSLOT0)) {
+diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
+index c9bacaa1ee..1c9c07412a 100644
+--- a/target/hexagon/decode.c
++++ b/target/hexagon/decode.c
+@@ -48,8 +48,8 @@ enum {
+ DEF_REGMAP(R_16,  16, 0, 1, 2, 3, 4, 5, 6, 7, 16, 17, 18, 19, 20, 21, 22, 23)
+ DEF_REGMAP(R__8,  8,  0, 2, 4, 6, 16, 18, 20, 22)
+ 
+-#define DECODE_MAPPED_REG(REGNO, NAME) \
+-    insn->regno[REGNO] = DECODE_REGISTER_##NAME[insn->regno[REGNO]];
++#define DECODE_MAPPED_REG(OPNUM, NAME) \
++    insn->regno[OPNUM] = DECODE_REGISTER_##NAME[insn->regno[OPNUM]];
+ 
+ typedef struct {
+     const struct DectreeTable *table_link;
 -- 
 2.25.1
 
