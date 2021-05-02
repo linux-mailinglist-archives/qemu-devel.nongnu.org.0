@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD135370E05
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:41:27 +0200 (CEST)
-Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D19C0370E0D
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:48:29 +0200 (CEST)
+Received: from localhost ([::1]:41174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldF9q-0004cp-Uu
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:41:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
+	id 1ldFGe-0005DZ-SF
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEmZ-00065v-Dl
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:27 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55949)
+ id 1ldEme-000669-6S
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:29 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:45750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEmX-0007lb-M8
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:23 -0400
-Received: by mail-wm1-x334.google.com with SMTP id n127so1916993wmb.5
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:17:21 -0700 (PDT)
+ id 1ldEmc-0007oF-K8
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:27 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ s5-20020a7bc0c50000b0290147d0c21c51so2116467wmh.4
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fPxVO8YxYE573bf/ors7hmJKmVbhQk08qkmo13FNuuU=;
- b=XPfz2xjfb9fjMJUYM/M1q7UkoqPUzVRJpzvnjbUQAvIHWdIzw1fWzsNxbgGWGon08c
- uz3Ebsw4UuSMCAqYsJ52CCrOGLB/CtgdgEVdlMHgpncidOiYMlYiNIHY0deJnBnZneRD
- vEmqDTQ1C+GloHurT4sm1ROzg4SFa56V29S+mmx5AkZV/XUCk/jjQWUFf/4LWcinavPg
- nIZQV+pj1QWwLW50yuceMHlf6c9v+EE04vYHuDXhgdsBu46Io9vC8xsikUd1Tqw3nuMT
- wD+dcPDhNprBoyFSXfIx1KOlcaYQ/qL3YDZi9RPeWJsT77s8wgmuoctOPxVsn1ncfeKz
- HQAQ==
+ bh=/fMkH6Q98B3JkGJr/ySJUTql2HNV5/mMZqqV/6nG+Ag=;
+ b=CPS1nV3CNHVwuG1Br3ug1CYOtSfQ1JkVvaNt7Mc+Pazkd/pJQn/t3PqiwyMj5uM5Ot
+ nVRS6qhfeWpejwT56I/Dr0Jn51yWh7UUzPnKLPA/AfNPoxyva5ief5kZvd5qNkX2Ir3C
+ oqIbXGyNTcACUn/zCU8rXknnL2xQ4oNBSawMJlf6H9BCCPS+dKJm+2PbJSNzrglI9/dm
+ 4WAEvxwzfNlS53Dur1x0hDDxuBRCeZMd1HEHvY/QoEW5YTWsT3gV4vRBPHRqja5Zl1W+
+ 3pyKFBYXu1jU/VSIWHVxc5t2TRoY4/fGNiGZmV4njummbS/eokY+bvjdzq3K9hjiWCdw
+ K1Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fPxVO8YxYE573bf/ors7hmJKmVbhQk08qkmo13FNuuU=;
- b=MCfTWP/t3nahubLLtyfs1i8jER/RTW5RfMaUFT46JnVtNwnJxcdr+2di2TwOHO3uAQ
- pCniqPXKqxmwryQnd3Tf0mlveNEVd4lmmeyYYiTzRzdhRkxcuYcbYmPh9yS5g75/YMBE
- RLLafy5x8cEc5Gwd2Qdc29Y49mDHE2xLWviNeydVyJpCrXHcUem5s85qmpzWKjg7q/H/
- 3tV/3QKlXkp7ucbCfF/NQsl6vjre3wMnK8+Enl5/0aHWzikgTQ17obGFnGs+dHxIJ+Hs
- nhkbX/ZOJ+XLdNtLXxLGCN/ebxWZ0Dvd8rywOEvJJxNjPbQR5BFwnes0LabqcC4d1j7Q
- jWwA==
-X-Gm-Message-State: AOAM530FzApkZDflLjJKLOs4iSuIi5mRLsdqLW8hMtAjeH24hhdPTObT
- 9WkNVOo5s7P1KW4/wk6nvB9602GsWSX5WTxs
-X-Google-Smtp-Source: ABdhPJwowWiVf+cd1CrcreLlsGFIaq45pT0EffdZkMXG1eYZt9VnAZVuXj9WQME09XUX3x7DzfYvWQ==
-X-Received: by 2002:a1c:f715:: with SMTP id v21mr17381384wmh.187.1619972240179; 
- Sun, 02 May 2021 09:17:20 -0700 (PDT)
+ bh=/fMkH6Q98B3JkGJr/ySJUTql2HNV5/mMZqqV/6nG+Ag=;
+ b=XEJ6UMV081tUps13xnXoEoG+PC4U76+K3z7ySk93weqmFrKN/6+vohD07jMud2ZkUa
+ NQx+aoqXkeJDKgtSZy4eZlCe9uQqhoUm7qKJguIHS9y45MwdqosmcFzoB9+PcUxl6JLz
+ RQcFrkkctmN3g1LSIHOvPYmpXpfEuKF9qCSTNcaHWVVVlnI+zoy/511JsECDCj6CMhOT
+ FWRhFKQqIudPKpWEBpFB6wJ6Gtg3f3s1QcXIhtznmZ7TNV0iS5rWnjxWhPwdJiD9u4Ua
+ BPjdnlCyfcv2JySgS1YfXvkyUayfrZhXHNcITcW8U1Tp6ue9xMfnZkzQ+3Bxscw5y0NF
+ UiUA==
+X-Gm-Message-State: AOAM531KOFhOkALz5b1IZVfvy3GcEdXV8vi1I3O+BF/gOSi8Qbhvm4Y0
+ 31M2PDMICc42zKpQ5lA6880FhYjGd6h9tIcJ
+X-Google-Smtp-Source: ABdhPJymbjOlwS51uImZYhTyzujVaJflRv7l0kfzh4iHMM8eO/7RCoGgJ6I8x4VaNQcRCA4UVX1oPA==
+X-Received: by 2002:a1c:4382:: with SMTP id q124mr16900765wma.63.1619972245140; 
+ Sun, 02 May 2021 09:17:25 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id v15sm12078430wmj.39.2021.05.02.09.17.19
+ by smtp.gmail.com with ESMTPSA id 61sm9880095wrm.52.2021.05.02.09.17.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:17:19 -0700 (PDT)
+ Sun, 02 May 2021 09:17:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/36] target/mips: Add simple user-mode mips_cpu_do_interrupt()
-Date: Sun,  2 May 2021 18:15:21 +0200
-Message-Id: <20210502161538.534038-20-f4bug@amsat.org>
+Subject: [PULL 20/36] target/mips: Add simple user-mode mips_cpu_tlb_fill()
+Date: Sun,  2 May 2021 18:15:22 +0200
+Message-Id: <20210502161538.534038-21-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,134 +94,128 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The #ifdef'ry hides that the user-mode implementation of
-mips_cpu_do_interrupt() simply sets exception_index = EXCP_NONE.
+tlb_helper.c's #ifdef'ry hides a quite simple user-mode
+implementation of mips_cpu_tlb_fill().
 
-Add this simple implementation to tcg/user/tlb_helper.c, and
-the corresponding Meson machinery to build this file when user
-emulation is configured.
+Copy the user-mode implementation (without #ifdef'ry) to
+tcg/user/helper.c and simplify tlb_helper.c's #ifdef'ry.
+
+This will allow us to restrict tlb_helper.c to sysemu.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210428170410.479308-14-f4bug@amsat.org>
+Message-Id: <20210428170410.479308-15-f4bug@amsat.org>
 ---
- target/mips/tcg/user/tlb_helper.c | 28 ++++++++++++++++++++++++++++
- target/mips/tlb_helper.c          |  5 -----
- target/mips/meson.build           |  5 +++++
- target/mips/tcg/meson.build       |  3 +++
- target/mips/tcg/user/meson.build  |  3 +++
- 5 files changed, 39 insertions(+), 5 deletions(-)
- create mode 100644 target/mips/tcg/user/tlb_helper.c
- create mode 100644 target/mips/tcg/meson.build
- create mode 100644 target/mips/tcg/user/meson.build
+ target/mips/tcg/user/tlb_helper.c | 36 +++++++++++++++++++++++++++++++
+ target/mips/tlb_helper.c          | 10 ---------
+ 2 files changed, 36 insertions(+), 10 deletions(-)
 
 diff --git a/target/mips/tcg/user/tlb_helper.c b/target/mips/tcg/user/tlb_helper.c
-new file mode 100644
-index 00000000000..453b9e9b930
---- /dev/null
+index 453b9e9b930..b835144b820 100644
+--- a/target/mips/tcg/user/tlb_helper.c
 +++ b/target/mips/tcg/user/tlb_helper.c
-@@ -0,0 +1,28 @@
-+/*
-+ * MIPS TLB (Translation lookaside buffer) helpers.
-+ *
-+ *  Copyright (c) 2004-2005 Jocelyn Mayer
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#include "qemu/osdep.h"
-+
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "internal.h"
-+
-+void mips_cpu_do_interrupt(CPUState *cs)
+@@ -22,6 +22,42 @@
+ #include "exec/exec-all.h"
+ #include "internal.h"
+ 
++static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
++                                MMUAccessType access_type)
 +{
-+    cs->exception_index = EXCP_NONE;
++    CPUState *cs = env_cpu(env);
++
++    env->error_code = 0;
++    if (access_type == MMU_INST_FETCH) {
++        env->error_code |= EXCP_INST_NOTAVAIL;
++    }
++
++    /* Reference to kernel address from user mode or supervisor mode */
++    /* Reference to supervisor address from user mode */
++    if (access_type == MMU_DATA_STORE) {
++        cs->exception_index = EXCP_AdES;
++    } else {
++        cs->exception_index = EXCP_AdEL;
++    }
++
++    /* Raise exception */
++    if (!(env->hflags & MIPS_HFLAG_DM)) {
++        env->CP0_BadVAddr = address;
++    }
 +}
++
++bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr)
++{
++    MIPSCPU *cpu = MIPS_CPU(cs);
++    CPUMIPSState *env = &cpu->env;
++
++    /* data access */
++    raise_mmu_exception(env, address, access_type);
++    do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
++}
++
+ void mips_cpu_do_interrupt(CPUState *cs)
+ {
+     cs->exception_index = EXCP_NONE;
 diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index 1ffdc1f8304..78720c4d20a 100644
+index 78720c4d20a..afc019c80dd 100644
 --- a/target/mips/tlb_helper.c
 +++ b/target/mips/tlb_helper.c
-@@ -965,11 +965,8 @@ static inline void set_badinstr_registers(CPUMIPSState *env)
-     }
+@@ -403,8 +403,6 @@ void cpu_mips_tlb_flush(CPUMIPSState *env)
+     env->tlb->tlb_in_use = env->tlb->nb_tlb;
  }
  
 -#endif /* !CONFIG_USER_ONLY */
 -
- void mips_cpu_do_interrupt(CPUState *cs)
+ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+                                 MMUAccessType access_type, int tlb_error)
  {
--#if !defined(CONFIG_USER_ONLY)
-     MIPSCPU *cpu = MIPS_CPU(cs);
-     CPUMIPSState *env = &cpu->env;
-     bool update_badinstr = 0;
-@@ -1272,11 +1269,9 @@ void mips_cpu_do_interrupt(CPUState *cs)
-                  env->CP0_Status, env->CP0_Cause, env->CP0_BadVAddr,
-                  env->CP0_DEPC);
-     }
--#endif
-     cs->exception_index = EXCP_NONE;
+@@ -484,8 +482,6 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+     env->error_code = error_code;
  }
  
 -#if !defined(CONFIG_USER_ONLY)
- void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
+-
+ hwaddr mips_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
  {
-     CPUState *cs = env_cpu(env);
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 15c2f835c68..ca3cc62cf7a 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -6,6 +6,7 @@
-   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
- ]
+     MIPSCPU *cpu = MIPS_CPU(cs);
+@@ -833,7 +829,6 @@ refill:
+     return true;
+ }
+ #endif
+-#endif /* !CONFIG_USER_ONLY */
  
-+mips_user_ss = ss.source_set()
- mips_ss = ss.source_set()
- mips_ss.add(files(
-   'cpu.c',
-@@ -34,6 +35,9 @@
- ), if_false: files(
-   'mxu_translate.c',
- ))
-+if 'CONFIG_TCG' in config_all
-+  subdir('tcg')
-+endif
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+@@ -841,14 +836,11 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ {
+     MIPSCPU *cpu = MIPS_CPU(cs);
+     CPUMIPSState *env = &cpu->env;
+-#if !defined(CONFIG_USER_ONLY)
+     hwaddr physical;
+     int prot;
+-#endif
+     int ret = TLBRET_BADADDR;
  
- mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+     /* data access */
+-#if !defined(CONFIG_USER_ONLY)
+     /* XXX: put correct access by using cpu_restore_state() correctly */
+     ret = get_physical_address(env, &physical, &prot, address,
+                                access_type, mmu_idx);
+@@ -896,13 +888,11 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     if (probe) {
+         return false;
+     }
+-#endif
  
-@@ -52,3 +56,4 @@
+     raise_mmu_exception(env, address, access_type, ret);
+     do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
+ }
  
- target_arch += {'mips': mips_ss}
- target_softmmu_arch += {'mips': mips_softmmu_ss}
-+target_user_arch += {'mips': mips_user_ss}
-diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
-new file mode 100644
-index 00000000000..b74fa04303e
---- /dev/null
-+++ b/target/mips/tcg/meson.build
-@@ -0,0 +1,3 @@
-+if have_user
-+  subdir('user')
-+endif
-diff --git a/target/mips/tcg/user/meson.build b/target/mips/tcg/user/meson.build
-new file mode 100644
-index 00000000000..79badcd3217
---- /dev/null
-+++ b/target/mips/tcg/user/meson.build
-@@ -0,0 +1,3 @@
-+mips_user_ss.add(files(
-+  'tlb_helper.c',
-+))
+-#ifndef CONFIG_USER_ONLY
+ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
+                                   MMUAccessType access_type, uintptr_t retaddr)
+ {
 -- 
 2.26.3
 
