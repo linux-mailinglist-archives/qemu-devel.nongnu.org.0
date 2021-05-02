@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91334370D76
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 16:52:26 +0200 (CEST)
-Received: from localhost ([::1]:40430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7CD370D71
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 16:48:32 +0200 (CEST)
+Received: from localhost ([::1]:54856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldDSK-0001dA-Mo
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 10:52:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
+	id 1ldDOZ-0004Tn-Q0
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 10:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKf-0001HR-RL
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:29 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41871)
+ id 1ldDKi-0001NF-RB
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:32 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:37834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKd-0005C3-Ez
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:29 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id v191so2376934pfc.8
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:26 -0700 (PDT)
+ id 1ldDKf-0005CN-9u
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:32 -0400
+Received: by mail-pf1-x436.google.com with SMTP id b15so2404614pfl.4
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O/pItQsQ9Y9zVqgnbFnM4eZJR/WZu0GVfOi6XxB0n7E=;
- b=TG47gQNuXHM/rMwFz9HdkzcETGzDYFRxdzb1Xc9+N2NRRr9dUmUz44oIQcKBo+g1eC
- at8U+tS7bnPheBbXe5qMu2+O+wIeu5L5pcR/ofX2RROKTpAutpzBsGN8aVUYpWh9jq8o
- QGvDK9laz17EbeMUQ0/+cemb4stZL2dV2AEh32eZ6qToP4X7WBlG0XpicCKixAuAUNE8
- +ycERMzuHVa+IhIsGV69C5lKWp+bD1kEPJksZmBsm+C6RlJoY1cULeMihvv0AT9sWb0l
- hlZ22fpVqZfCYUvQj4HPcj/INqNH8lG0XUX8WsAuflA3Ou56GFQHUpKkdDNoeyehgnzg
- n9eg==
+ bh=2LxA893QCcSE5NR8FvdeWPmP4th9kBJwNhUIEaAJdaM=;
+ b=UvdEBnlJ4GrbtgVtRvqDJnKoZO9RuxbBBlj/E6LB6lCAiZ/n7yH5B9XdKjUZS8JNfA
+ 5M4HpnsYi3KI/Bdtf7jHZjCW0wYDTRq5jLW4lVk5Iuw/eCT/iMCYOE7t8cpExJq+z9mC
+ Dkm5/YVw93c+xQYO2wDbaUGJxPbaDE/vllSwatRGdcubxx11GN308CR0/AUkphBKgR++
+ 0n/MmQDpyhPSQqHn+wMhj3XJBO87jKitBeSzZJYTCsUUOgCbA0Sl6lB99IIb/3aP3Kdz
+ 1+9lYWZFXecRYLmuj5oM+OpMFt6oj8wP5nM8q35arjZTWv+N9eM78iAyOZ2MpdwiBsWL
+ Bimw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O/pItQsQ9Y9zVqgnbFnM4eZJR/WZu0GVfOi6XxB0n7E=;
- b=ttHVBUhfKVIhL7yi/56Zx5meounZ6FBTebEcr5Z3L4yDe1qM0X2fnWpfAQIWYWdTkF
- 8ACCJgooWYXfNV4GtjRy7wC3y9OCUwBuMi8QA/mzpKO4yorqBDkYmg2PDYMMAeI6QWo+
- IiRn8ISuLIG8sUV1Gez3F7IwMs8pRXX0rbQfVW2MnUldfjPtLvtlbNv9AcgqRYwZ4alP
- 16RtdAI1sUuzbU96c0nt0mEUpUjeUHk7+r66qm4Ll3WmHoe5QhYHA8jrHagAxFvFOH4X
- yoZl1uD6ZgzbSVuUOXxaj+ovZSTf7KalmvaQWex2w3ErrFY5tD1c9K2yhy4qWMfeamAu
- Ej1A==
-X-Gm-Message-State: AOAM533/vDmyaqGPYKPMbmgOLS12aSEXUXaLCqbQ2SKc4FGUi0q/lygD
- UzMV2WckvVope4rmEBsE9ONOw9FH30KIow==
-X-Google-Smtp-Source: ABdhPJxLeD0+LSBIDPV1ndUVIAGCDuo0FqGS1jnV6cVV6YGrzcC7LpQdmPZhkH/x0laoGeFZWYMYBQ==
-X-Received: by 2002:a65:56cc:: with SMTP id w12mr14010091pgs.334.1619966666025; 
- Sun, 02 May 2021 07:44:26 -0700 (PDT)
+ bh=2LxA893QCcSE5NR8FvdeWPmP4th9kBJwNhUIEaAJdaM=;
+ b=KcN0ncaqiis5Se5Z7HdBYMGU9No/isNNHy9YNsU5JUuGSQjwat39DEDaxDa9qRn7Yy
+ dd7uUH3dxfx6ieMD4GbnRk77zEv5VzO7rLJHD4cZ9R9U6EeXaulbfgQW45PjEfTzQMZ5
+ RtXlf3kVlFisCdWjXUpmTwnPOh12OM3C44WMAOn5E7Dd6rqmWf3XeBuWiYwZT+1INwiQ
+ dTojM/yxsmLwaT5IQvhYGCqX0r7M8XGEIIVfnQ3TvGFc5PJoJbBYvAzW2p6EIvCWhCvI
+ sy2s2FRhvJ6bs/TaO71piO2+hrOTxAByviTkP3jFmdwInzKSLfRAMOqIQhNBlnqnj7U0
+ YVrQ==
+X-Gm-Message-State: AOAM531GUDzsJAFxFR4iHMkkJjWkY7hRgTEsI3r5w7yPtC5MSJMtaIFn
+ SuYlh6qvYbHetcs/mZ1ASPtyIVXzUXNBHA==
+X-Google-Smtp-Source: ABdhPJzPKGeEkUOSSqQkVVNL/Bd6IUeXxYpX5QU6umqj0CaPAJjUT3rlx0i0hHbAkbxDfdclM4tzEA==
+X-Received: by 2002:a65:5088:: with SMTP id r8mr13527326pgp.12.1619966667242; 
+ Sun, 02 May 2021 07:44:27 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.25
+ by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 07:44:25 -0700 (PDT)
+ Sun, 02 May 2021 07:44:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/31] Hexagon (target/hexagon) remove unnecessary inline
- directives
-Date: Sun,  2 May 2021 07:43:56 -0700
-Message-Id: <20210502144419.1659844-9-richard.henderson@linaro.org>
+Subject: [PULL v2 10/31] Hexagon (target/hexagon) properly generate TB end for
+ DISAS_NORETURN
+Date: Sun,  2 May 2021 07:43:58 -0700
+Message-Id: <20210502144419.1659844-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502144419.1659844-1-richard.henderson@linaro.org>
 References: <20210502144419.1659844-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,379 +89,167 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
+When exiting a TB, generate all the code before returning from
+hexagon_tr_translate_packet so that nothing needs to be done in
+hexagon_tr_tb_stop.
+
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-4-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-6-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/cpu.c       |  9 ++++-----
- target/hexagon/decode.c    |  6 +++---
- target/hexagon/fma_emu.c   | 39 +++++++++++++++++++-------------------
- target/hexagon/op_helper.c | 37 ++++++++++++++++++------------------
- target/hexagon/translate.c |  2 +-
- 5 files changed, 46 insertions(+), 47 deletions(-)
+ target/hexagon/translate.h |  3 --
+ target/hexagon/translate.c | 62 ++++++++++++++++++++------------------
+ 2 files changed, 33 insertions(+), 32 deletions(-)
 
-diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
-index b0b3040dd1..c2fe357702 100644
---- a/target/hexagon/cpu.c
-+++ b/target/hexagon/cpu.c
-@@ -69,10 +69,9 @@ const char * const hexagon_regnames[TOTAL_PER_THREAD_REGS] = {
-  * stacks at different locations.  This is used to compensate so the diff is
-  * cleaner.
-  */
--static inline target_ulong adjust_stack_ptrs(CPUHexagonState *env,
--                                             target_ulong addr)
-+static target_ulong adjust_stack_ptrs(CPUHexagonState *env, target_ulong addr)
- {
--    HexagonCPU *cpu = container_of(env, HexagonCPU, env);
-+    HexagonCPU *cpu = hexagon_env_get_cpu(env);
-     target_ulong stack_adjust = cpu->lldb_stack_adjust;
-     target_ulong stack_start = env->stack_start;
-     target_ulong stack_size = 0x10000;
-@@ -88,7 +87,7 @@ static inline target_ulong adjust_stack_ptrs(CPUHexagonState *env,
- }
+diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
+index 938f7fbb9f..12506c8caf 100644
+--- a/target/hexagon/translate.h
++++ b/target/hexagon/translate.h
+@@ -86,8 +86,5 @@ extern TCGv hex_llsc_addr;
+ extern TCGv hex_llsc_val;
+ extern TCGv_i64 hex_llsc_val_i64;
  
- /* HEX_REG_P3_0 (aka C4) is an alias for the predicate registers */
--static inline target_ulong read_p3_0(CPUHexagonState *env)
-+static target_ulong read_p3_0(CPUHexagonState *env)
- {
-     int32_t control_reg = 0;
-     int i;
-@@ -116,7 +115,7 @@ static void print_reg(FILE *f, CPUHexagonState *env, int regnum)
- 
- static void hexagon_dump(CPUHexagonState *env, FILE *f)
- {
--    HexagonCPU *cpu = container_of(env, HexagonCPU, env);
-+    HexagonCPU *cpu = hexagon_env_get_cpu(env);
- 
-     if (cpu->lldb_compat) {
-         /*
-diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
-index 1c9c07412a..65d97ce64b 100644
---- a/target/hexagon/decode.c
-+++ b/target/hexagon/decode.c
-@@ -354,7 +354,7 @@ static void decode_split_cmpjump(Packet *pkt)
-     }
- }
- 
--static inline int decode_opcode_can_jump(int opcode)
-+static int decode_opcode_can_jump(int opcode)
- {
-     if ((GET_ATTRIB(opcode, A_JUMP)) ||
-         (GET_ATTRIB(opcode, A_CALL)) ||
-@@ -370,7 +370,7 @@ static inline int decode_opcode_can_jump(int opcode)
-     return 0;
- }
- 
--static inline int decode_opcode_ends_loop(int opcode)
-+static int decode_opcode_ends_loop(int opcode)
- {
-     return GET_ATTRIB(opcode, A_HWLOOP0_END) ||
-            GET_ATTRIB(opcode, A_HWLOOP1_END);
-@@ -764,7 +764,7 @@ static void decode_add_endloop_insn(Insn *insn, int loopnum)
-     }
- }
- 
--static inline int decode_parsebits_is_loopend(uint32_t encoding32)
-+static int decode_parsebits_is_loopend(uint32_t encoding32)
- {
-     uint32_t bits = parse_bits(encoding32);
-     return bits == 0x2;
-diff --git a/target/hexagon/fma_emu.c b/target/hexagon/fma_emu.c
-index 842d903710..f324b83e3c 100644
---- a/target/hexagon/fma_emu.c
-+++ b/target/hexagon/fma_emu.c
-@@ -64,7 +64,7 @@ typedef union {
-     };
- } Float;
- 
--static inline uint64_t float64_getmant(float64 f64)
-+static uint64_t float64_getmant(float64 f64)
- {
-     Double a = { .i = f64 };
-     if (float64_is_normal(f64)) {
-@@ -91,7 +91,7 @@ int32_t float64_getexp(float64 f64)
-     return -1;
- }
- 
--static inline uint64_t float32_getmant(float32 f32)
-+static uint64_t float32_getmant(float32 f32)
- {
-     Float a = { .i = f32 };
-     if (float32_is_normal(f32)) {
-@@ -118,17 +118,17 @@ int32_t float32_getexp(float32 f32)
-     return -1;
- }
- 
--static inline uint32_t int128_getw0(Int128 x)
-+static uint32_t int128_getw0(Int128 x)
- {
-     return int128_getlo(x);
- }
- 
--static inline uint32_t int128_getw1(Int128 x)
-+static uint32_t int128_getw1(Int128 x)
- {
-     return int128_getlo(x) >> 32;
- }
- 
--static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
-+static Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
- {
-     Int128 a, b;
-     uint64_t pp0, pp1a, pp1b, pp1s, pp2;
-@@ -152,7 +152,7 @@ static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
-     return int128_make128(ret_low, pp2 + (pp1s >> 32));
- }
- 
--static inline Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
-+static Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
- {
-     Int128 ret = int128_sub(a, b);
-     if (borrow != 0) {
-@@ -170,7 +170,7 @@ typedef struct {
-     uint8_t sticky;
- } Accum;
- 
--static inline void accum_init(Accum *p)
-+static void accum_init(Accum *p)
- {
-     p->mant = int128_zero();
-     p->exp = 0;
-@@ -180,7 +180,7 @@ static inline void accum_init(Accum *p)
-     p->sticky = 0;
- }
- 
--static inline Accum accum_norm_left(Accum a)
-+static Accum accum_norm_left(Accum a)
- {
-     a.exp--;
-     a.mant = int128_lshift(a.mant, 1);
-@@ -190,6 +190,7 @@ static inline Accum accum_norm_left(Accum a)
-     return a;
- }
- 
-+/* This function is marked inline for performance reasons */
- static inline Accum accum_norm_right(Accum a, int amt)
- {
-     if (amt > 130) {
-@@ -226,7 +227,7 @@ static inline Accum accum_norm_right(Accum a, int amt)
-  */
- static Accum accum_add(Accum a, Accum b);
- 
--static inline Accum accum_sub(Accum a, Accum b, int negate)
-+static Accum accum_sub(Accum a, Accum b, int negate)
- {
-     Accum ret;
-     accum_init(&ret);
-@@ -329,7 +330,7 @@ static Accum accum_add(Accum a, Accum b)
- }
- 
- /* Return an infinity with requested sign */
--static inline float64 infinite_float64(uint8_t sign)
-+static float64 infinite_float64(uint8_t sign)
- {
-     if (sign) {
-         return make_float64(DF_MINUS_INF);
-@@ -339,7 +340,7 @@ static inline float64 infinite_float64(uint8_t sign)
- }
- 
- /* Return a maximum finite value with requested sign */
--static inline float64 maxfinite_float64(uint8_t sign)
-+static float64 maxfinite_float64(uint8_t sign)
- {
-     if (sign) {
-         return make_float64(DF_MINUS_MAXF);
-@@ -349,7 +350,7 @@ static inline float64 maxfinite_float64(uint8_t sign)
- }
- 
- /* Return a zero value with requested sign */
--static inline float64 zero_float64(uint8_t sign)
-+static float64 zero_float64(uint8_t sign)
- {
-     if (sign) {
-         return make_float64(0x8000000000000000);
-@@ -369,7 +370,7 @@ float32 infinite_float32(uint8_t sign)
- }
- 
- /* Return a maximum finite value with the requested sign */
--static inline float32 maxfinite_float32(uint8_t sign)
-+static float32 maxfinite_float32(uint8_t sign)
- {
-     if (sign) {
-         return make_float32(SF_MINUS_MAXF);
-@@ -379,7 +380,7 @@ static inline float32 maxfinite_float32(uint8_t sign)
- }
- 
- /* Return a zero value with requested sign */
--static inline float32 zero_float32(uint8_t sign)
-+static float32 zero_float32(uint8_t sign)
- {
-     if (sign) {
-         return make_float32(0x80000000);
-@@ -389,7 +390,7 @@ static inline float32 zero_float32(uint8_t sign)
- }
- 
- #define GEN_XF_ROUND(SUFFIX, MANTBITS, INF_EXP, INTERNAL_TYPE) \
--static inline SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
-+static SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
- { \
-     if ((int128_gethi(a.mant) == 0) && (int128_getlo(a.mant) == 0) \
-         && ((a.guard | a.round | a.sticky) == 0)) { \
-@@ -526,8 +527,8 @@ static bool is_inf_prod(float64 a, float64 b)
-             (float64_is_infinity(b) && is_finite(a) && (!float64_is_zero(a))));
- }
- 
--static inline float64 special_fma(float64 a, float64 b, float64 c,
--                                  float_status *fp_status)
-+static float64 special_fma(float64 a, float64 b, float64 c,
-+                           float_status *fp_status)
- {
-     float64 ret = make_float64(0);
- 
-@@ -586,8 +587,8 @@ static inline float64 special_fma(float64 a, float64 b, float64 c,
-     g_assert_not_reached();
- }
- 
--static inline float32 special_fmaf(float32 a, float32 b, float32 c,
--                                 float_status *fp_status)
-+static float32 special_fmaf(float32 a, float32 b, float32 c,
-+                            float_status *fp_status)
- {
-     float64 aa, bb, cc;
-     aa = float32_to_float64(a, fp_status);
-diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-index d6b5c47500..5d35dfc8f3 100644
---- a/target/hexagon/op_helper.c
-+++ b/target/hexagon/op_helper.c
-@@ -46,8 +46,8 @@ void QEMU_NORETURN HELPER(raise_exception)(CPUHexagonState *env, uint32_t excp)
-     do_raise_exception_err(env, excp, 0);
- }
- 
--static inline void log_reg_write(CPUHexagonState *env, int rnum,
--                                 target_ulong val, uint32_t slot)
-+static void log_reg_write(CPUHexagonState *env, int rnum,
-+                          target_ulong val, uint32_t slot)
- {
-     HEX_DEBUG_LOG("log_reg_write[%d] = " TARGET_FMT_ld " (0x" TARGET_FMT_lx ")",
-                   rnum, val, val);
-@@ -63,8 +63,7 @@ static inline void log_reg_write(CPUHexagonState *env, int rnum,
+-void gen_exception(int excp);
+-void gen_exception_debug(void);
+-
+ void process_store(DisasContext *ctx, Packet *pkt, int slot_num);
  #endif
- }
- 
--static inline void log_pred_write(CPUHexagonState *env, int pnum,
--                                  target_ulong val)
-+static void log_pred_write(CPUHexagonState *env, int pnum, target_ulong val)
- {
-     HEX_DEBUG_LOG("log_pred_write[%d] = " TARGET_FMT_ld
-                   " (0x" TARGET_FMT_lx ")\n",
-@@ -79,8 +78,8 @@ static inline void log_pred_write(CPUHexagonState *env, int pnum,
-     }
- }
- 
--static inline void log_store32(CPUHexagonState *env, target_ulong addr,
--                               target_ulong val, int width, int slot)
-+static void log_store32(CPUHexagonState *env, target_ulong addr,
-+                        target_ulong val, int width, int slot)
- {
-     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx
-                   ", %" PRId32 " [0x08%" PRIx32 "])\n",
-@@ -90,8 +89,8 @@ static inline void log_store32(CPUHexagonState *env, target_ulong addr,
-     env->mem_log_stores[slot].data32 = val;
- }
- 
--static inline void log_store64(CPUHexagonState *env, target_ulong addr,
--                               int64_t val, int width, int slot)
-+static void log_store64(CPUHexagonState *env, target_ulong addr,
-+                        int64_t val, int width, int slot)
- {
-     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx
-                   ", %" PRId64 " [0x016%" PRIx64 "])\n",
-@@ -101,7 +100,7 @@ static inline void log_store64(CPUHexagonState *env, target_ulong addr,
-     env->mem_log_stores[slot].data64 = val;
- }
- 
--static inline void write_new_pc(CPUHexagonState *env, target_ulong addr)
-+static void write_new_pc(CPUHexagonState *env, target_ulong addr)
- {
-     HEX_DEBUG_LOG("write_new_pc(0x" TARGET_FMT_lx ")\n", addr);
- 
-@@ -132,7 +131,7 @@ void HELPER(debug_start_packet)(CPUHexagonState *env)
- }
- #endif
- 
--static inline int32_t new_pred_value(CPUHexagonState *env, int pnum)
-+static int32_t new_pred_value(CPUHexagonState *env, int pnum)
- {
-     return env->new_pred_value[pnum];
- }
-@@ -332,8 +331,8 @@ static void check_noshuf(CPUHexagonState *env, uint32_t slot)
-     }
- }
- 
--static inline uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
--                                target_ulong vaddr)
-+static uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
-+                         target_ulong vaddr)
- {
-     uint8_t retval;
-     check_noshuf(env, slot);
-@@ -341,8 +340,8 @@ static inline uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
-     return retval;
- }
- 
--static inline uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
--                                 target_ulong vaddr)
-+static uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
-+                          target_ulong vaddr)
- {
-     uint16_t retval;
-     check_noshuf(env, slot);
-@@ -350,8 +349,8 @@ static inline uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
-     return retval;
- }
- 
--static inline uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
--                                 target_ulong vaddr)
-+static uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
-+                          target_ulong vaddr)
- {
-     uint32_t retval;
-     check_noshuf(env, slot);
-@@ -359,8 +358,8 @@ static inline uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
-     return retval;
- }
- 
--static inline uint64_t mem_load8(CPUHexagonState *env, uint32_t slot,
--                                 target_ulong vaddr)
-+static uint64_t mem_load8(CPUHexagonState *env, uint32_t slot,
-+                          target_ulong vaddr)
- {
-     uint64_t retval;
-     check_noshuf(env, slot);
-@@ -939,7 +938,7 @@ float32 HELPER(sffms)(CPUHexagonState *env, float32 RxV,
-     return RxV;
- }
- 
--static inline bool is_inf_prod(int32_t a, int32_t b)
-+static bool is_inf_prod(int32_t a, int32_t b)
- {
-     return (float32_is_infinity(a) && float32_is_infinity(b)) ||
-            (float32_is_infinity(a) && is_finite(b) && !float32_is_zero(b)) ||
 diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index 2317508fa5..f975d7a5a1 100644
+index e235fdb315..9f2a531969 100644
 --- a/target/hexagon/translate.c
 +++ b/target/hexagon/translate.c
-@@ -585,7 +585,7 @@ static void hexagon_tr_translate_packet(DisasContextBase *dcbase, CPUState *cpu)
-          * The CPU log is used to compare against LLDB single stepping,
-          * so end the TLB after every packet.
-          */
--        HexagonCPU *hex_cpu = container_of(env, HexagonCPU, env);
-+        HexagonCPU *hex_cpu = hexagon_env_get_cpu(env);
-         if (hex_cpu->lldb_compat && qemu_loglevel_mask(CPU_LOG_TB_CPU)) {
-             ctx->base.is_jmp = DISAS_TOO_MANY;
+@@ -54,16 +54,40 @@ static const char * const hexagon_prednames[] = {
+   "p0", "p1", "p2", "p3"
+ };
+ 
+-void gen_exception(int excp)
++static void gen_exception_raw(int excp)
+ {
+     TCGv_i32 helper_tmp = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, helper_tmp);
+     tcg_temp_free_i32(helper_tmp);
+ }
+ 
+-void gen_exception_debug(void)
++static void gen_exec_counters(DisasContext *ctx)
+ {
+-    gen_exception(EXCP_DEBUG);
++    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
++                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
++    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
++                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
++}
++
++static void gen_end_tb(DisasContext *ctx)
++{
++    gen_exec_counters(ctx);
++    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
++    if (ctx->base.singlestep_enabled) {
++        gen_exception_raw(EXCP_DEBUG);
++    } else {
++        tcg_gen_exit_tb(NULL, 0);
++    }
++    ctx->base.is_jmp = DISAS_NORETURN;
++}
++
++static void gen_exception_end_tb(DisasContext *ctx, int excp)
++{
++    gen_exec_counters(ctx);
++    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
++    gen_exception_raw(excp);
++    ctx->base.is_jmp = DISAS_NORETURN;
++
+ }
+ 
+ #if HEX_DEBUG
+@@ -225,8 +249,7 @@ static void gen_insn(CPUHexagonState *env, DisasContext *ctx,
+         mark_implicit_writes(ctx, insn);
+         insn->generate(env, ctx, insn, pkt);
+     } else {
+-        gen_exception(HEX_EXCP_INVALID_OPCODE);
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_OPCODE);
+     }
+ }
+ 
+@@ -447,14 +470,6 @@ static void update_exec_counters(DisasContext *ctx, Packet *pkt)
+     ctx->num_insns += num_real_insns;
+ }
+ 
+-static void gen_exec_counters(DisasContext *ctx)
+-{
+-    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
+-                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
+-    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
+-                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
+-}
+-
+ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
+ {
+     gen_reg_writes(ctx);
+@@ -478,7 +493,7 @@ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
+ #endif
+ 
+     if (pkt->pkt_has_cof) {
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_end_tb(ctx);
+     }
+ }
+ 
+@@ -491,8 +506,7 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
+ 
+     nwords = read_packet_words(env, ctx, words);
+     if (!nwords) {
+-        gen_exception(HEX_EXCP_INVALID_PACKET);
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_PACKET);
+         return;
+     }
+ 
+@@ -505,8 +519,7 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
+         gen_commit_packet(ctx, &pkt);
+         ctx->base.pc_next += pkt.encod_pkt_size_in_bytes;
+     } else {
+-        gen_exception(HEX_EXCP_INVALID_PACKET);
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_PACKET);
+     }
+ }
+ 
+@@ -536,9 +549,7 @@ static bool hexagon_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
+-    tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
+-    ctx->base.is_jmp = DISAS_NORETURN;
+-    gen_exception_debug();
++    gen_exception_end_tb(ctx, EXCP_DEBUG);
+     /*
+      * The address covered by the breakpoint must be included in
+      * [tb->pc, tb->pc + tb->size) in order to for it to be
+@@ -601,19 +612,12 @@ static void hexagon_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         gen_exec_counters(ctx);
+         tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
+         if (ctx->base.singlestep_enabled) {
+-            gen_exception_debug();
++            gen_exception_raw(EXCP_DEBUG);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
          }
+         break;
+     case DISAS_NORETURN:
+-        gen_exec_counters(ctx);
+-        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
+-        if (ctx->base.singlestep_enabled) {
+-            gen_exception_debug();
+-        } else {
+-            tcg_gen_exit_tb(NULL, 0);
+-        }
+         break;
+     default:
+         g_assert_not_reached();
 -- 
 2.25.1
 
