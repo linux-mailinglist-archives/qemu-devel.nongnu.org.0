@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99205370F14
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:41:38 +0200 (CEST)
-Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5801C370F20
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:48:53 +0200 (CEST)
+Received: from localhost ([::1]:37352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldIuH-0007Mz-Ns
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
+	id 1ldJ1H-00031D-UW
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldIsq-0006Xf-MI
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:40:08 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34331)
+ id 1ldIzc-0001wt-Ry
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 16:47:08 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:41612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldIso-0004d2-Jy
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:40:08 -0400
-Received: by mail-ej1-x634.google.com with SMTP id a4so4938917ejk.1
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:40:05 -0700 (PDT)
+ id 1ldIzS-0008Rd-Ij
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 16:47:08 -0400
+Received: by mail-ej1-x633.google.com with SMTP id zg3so4912195ejb.8
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=wG9xlrA9F8eC54N94UgpXONbV4nPEG5jl49T3e34djg=;
- b=sIz7+GRPgXpDDXm28PBCTEZJVs5X/kekA7FcpIOX2r5hECjJrHq/ymdB1nf2cy01Gu
- Kuzf1U1kvAHIPz6TEi2vNBTdfZ/6Sl4PwBA3UDhzk4PjplTYI8V7VuM2ef/AC1bMnXpH
- XsEcaQxThJxGTPK+/YHpt8iGBc1IbQni0wesydcrYPkNhJQQjfxXaH5ee6lt5k7f1AVV
- D9rZzCbUO7OysVip/HopTVp47dclBqt53iXZpBppcB7LNJGmBYlrZ9A3KlVJZFWRLqg5
- l0+zQ2uDLUOfSioKbhL9ZM5mfhpdhVhuIbBFViT+6ka6YTBAtzls/f8AMVzzNGr0DzHa
- vErw==
+ bh=IZpRMhYriCArTic1oG4iRqGc+5388FGmmHJoIBEzmMA=;
+ b=BEFfzu9XBymiw7DElN+jrP9/BXWaBHeTF2dCgOp4RcthLwpUXkRj2cYW0gRY65cT6u
+ QhyuiXU00Fj9s46wtsukfc9urmIoI57JWq/h5k7lX5fRsS0gU3sN5vc57fezIjqIm+xo
+ IAG5q+vruOOWT0yL7NSZubm6fy6Kfh6SKbLsIgDv5OViTbdX+pJN/jvEsH2kQk0EV56e
+ 8dyz0L5DH+LCApFEu1vz29MFyWYkI/d/nJiJYkS5wOvKSMDbGDDp6ZNmaoWFaVd2jCbL
+ hb6o9EnfUahQirl98PWmkUKKcyAJPbdUVpWLOcwgVo2avxUtSnKStn+07b9SVXCYStp5
+ rFFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=wG9xlrA9F8eC54N94UgpXONbV4nPEG5jl49T3e34djg=;
- b=kh0mczm4mNLx5m7ALGa5WTMgIeU38aeFMgr1pI6T5gFxsCx2COGZoAsbNwXJW+tdz1
- xaht60+xl/LgEBLtprWyUfS6yk3XnLHT/PSKvbOh8MkWyxGRKe9Cb29J8p5FJPPB5lBL
- Q8132I/bhZQ2Z2VrvmmVd58OOuFwaHcMsFKN/yhUuQhUZ4QJRKnYFyuuW1yoS9N7WiP4
- TCPxbjqdUHfank0A6H64h2T3e1V8h2krNYrFJ2sN8EHtaprIYfINyhghVzsy5uxzyqw1
- zZmjKWGGNuZLLS1QNMLWSMULo5XImK3VFviOgkq/GqeIt3o+WmNa8BRa974G8xALXu+w
- gmgw==
-X-Gm-Message-State: AOAM532qUE96WgBkc+73N0dJqj+IXuG6cC/l6gVq8tMZh10lJDVd2qv+
- GL1qIXPpTQbO0la6phPG/yF/3QGo1qOpTccgINRwEw==
-X-Google-Smtp-Source: ABdhPJz/6XqHM9Cyt4p9TnIVqB1SN/LydsCX8tLXJwiPtmY10xER89izCq8mL+4IQDBFvu4h4y/kUCPPvcnagXvU8bI=
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr13494082ejh.4.1619988004193; 
- Sun, 02 May 2021 13:40:04 -0700 (PDT)
+ bh=IZpRMhYriCArTic1oG4iRqGc+5388FGmmHJoIBEzmMA=;
+ b=GBSpqDUWIGKGu6ZKrTxNbLztlXiZUpa6gusj7h0iu8qG8r4lKVIbMIW6ogyylMJT/5
+ pSrbdapvxx0piBd0NDD/3Do2gVCQjhcx4vu5OHeV2HapahqBfDoFbyx5Cs193paLrrIb
+ XY9mdMD+FLL9viLrGyhGsjSjkMNiUmEfWTeWU6whl9QNuOtyhK992RB2OWMXwm8Q4R30
+ 5OoumS9bFhyaN7reRCv7SofeHtLQXUIII4hq/5vTa2lEnsYDZ2sH5ypQynzA9gPDEuk3
+ PnEwZB7ZmJS8t+g7bM0FdD6+oHE0P6qoWXKH8/SG1XnVPZfzop0pUcmBNgXM67M5xwmO
+ 6UjA==
+X-Gm-Message-State: AOAM531Ouumf3BrdNHIzqjHVmZVNPpJusyuOXc/cxHT7btwtMY71kssL
+ 46MDEhH1EIbGxJmdeXI+tHFiJ/f4o9igzQ9feP1G1A==
+X-Google-Smtp-Source: ABdhPJwmR7T2MnEzcsdBiKNhur2K5EvRQA5fQawboe8PftWpfzNrQXTHY49DFExDOzYS0kRBIQ7J8d7kTGu0XgeUFeA=
+X-Received: by 2002:a17:906:953:: with SMTP id
+ j19mr13908931ejd.56.1619988412098; 
+ Sun, 02 May 2021 13:46:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210502203121.630944-1-f4bug@amsat.org>
- <20210502203121.630944-2-f4bug@amsat.org>
-In-Reply-To: <20210502203121.630944-2-f4bug@amsat.org>
+ <20210502203121.630944-3-f4bug@amsat.org>
+In-Reply-To: <20210502203121.630944-3-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 2 May 2021 21:38:59 +0100
-Message-ID: <CAFEAcA_pCcM70-OMaPhaAiW=-V5OK6KbBWSEK8y6AVNxpAtyMA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] hw/block/nand: Register machine reset handler
+Date: Sun, 2 May 2021 21:45:47 +0100
+Message-ID: <CAFEAcA_V6bM-UtEmF1a7_7Jad88aZ2J-dGpSs=cs+smvYEaV3g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] hw/pci-host/raven: Manually reset the OR_IRQ device
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,24 +84,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
  Markus Armbruster <armbru@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc <qemu-ppc@nongnu.org>
+ qemu-ppc <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sun, 2 May 2021 at 21:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
 wrote:
 >
-> The TYPE_NAND device is bus-less, thus isn't reset automatically.
-> Register a reset handler to get reset with the machine.
+> The OR_IRQ device is bus-less, thus isn't reset automatically.
+> Add the raven_pcihost_reset() handler to manually reset the OR IRQ.
 >
-> Fixed: 7426aa72c36 ("nand: Don't inherit from Sysbus")
+> Fixes: f40b83a4e31 ("40p: use OR gate to wire up raven PCI interrupts")
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
+>  hw/pci-host/prep.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+> index 0a9162fba97..7481bbf99d4 100644
+> --- a/hw/pci-host/prep.c
+> +++ b/hw/pci-host/prep.c
+> @@ -230,6 +230,15 @@ static void raven_change_gpio(void *opaque, int n, i=
+nt level)
+>      s->contiguous_map =3D level;
+>  }
+>
+> +static void raven_pcihost_reset_enter(Object *obj, ResetType type)
+> +{
+> +    PREPPCIState *s =3D RAVEN_PCI_HOST_BRIDGE(obj);
+> +
+> +    if (!s->is_legacy_prep) {
+> +        device_cold_reset(DEVICE(&s->or_irq));
+> +    }
+> +}
+> +
+>  static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
+>  {
+>      SysBusDevice *dev =3D SYS_BUS_DEVICE(d);
+> @@ -419,11 +428,13 @@ static Property raven_pcihost_properties[] =3D {
+>  static void raven_pcihost_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
+>
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>      dc->realize =3D raven_pcihost_realizefn;
+>      device_class_set_props(dc, raven_pcihost_properties);
+>      dc->fw_name =3D "pci";
+> +    rc->phases.enter =3D raven_pcihost_reset_enter;
+>  }
 
-Personally I would just revert 7426aa72c36 rather than introduce
-a new use of qemu_register_reset()...
+Why does this device have an OR gate rather than having its
+map_irq function say "all PCI IRQs go to interrupt 0" ?
+(The PCI core code provides you the "OR" functionality for
+free, because it has to do that anyway for when multiple PCI
+cards share a PCI IRQ -- see pci_change_irq_level() and
+pci_bus_change_irq_level().
+
+Supplementary question: why does the legacy_prep setup create 4
+outbound sysbus IRQs when the map_irq function can only ever
+return 0 or 1 ?
 
 thanks
 -- PMM
