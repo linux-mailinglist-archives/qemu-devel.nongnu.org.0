@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AD6370FD6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:30:53 +0200 (CEST)
-Received: from localhost ([::1]:40186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0778C370FBB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:23:54 +0200 (CEST)
+Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldLY4-0006tN-Le
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
+	id 1ldLRJ-00057Z-3w
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMV-0008EZ-56
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:55 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:36512)
+ id 1ldLMW-0008HQ-DN
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:56 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:39652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMT-0002tC-Gx
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:54 -0400
-Received: by mail-pl1-x630.google.com with SMTP id a11so1869772plh.3
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:53 -0700 (PDT)
+ id 1ldLMU-0002uO-Nm
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:56 -0400
+Received: by mail-pg1-x530.google.com with SMTP id s22so2452477pgk.6
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d8CBczrHncTC7jkXzgGz+cyQf3ESCXlA91ntw2lzZG8=;
- b=E+rva+qJrH5ryjX/w0DsX04yeyndYJamgacOvmFmRACHYpAs0grm6ePy18ilacQAsA
- xr4WDjYfbs+tphG5T/95j8JjFoIZWoqnlIBy7bM4zmHOqh5lxHMQLWdPeIPmPLXgcy7E
- Rfc28rHjHfuhdvSDpBDoKqfRQnI365+Fz1t8qM7vQRzXDbotddOL7cIhuDHk+p0aXw4x
- OpXQVYLXxGki1aAaJhF+AElbz5ZX14NAYnYwFV4iWLfGWvNdy2xq/5HfG0udX395MwNm
- /CD18DqC+6/+tbH57860V7mhuwzVI+abWLIHx7L4zS5LZ9B93TJS/06d9hmSS1tZZb5v
- qV0g==
+ bh=M+GW/FjdFE0LjCNjl+PKpujGwHht+vUuynWRRTNqZ50=;
+ b=ynpYBzhTcxaiE3SUl1tIz4geQnWN7S21LcTW9hRgX/HtOuKvCHnyPHfF4fnrDCClmA
+ eU36oVGpjgwNvXYrE10NF2//9R8jFYJ6sSR/AQ6UPXAA+lJgjj7L5Bu7NcdCANfbQFT8
+ yjSUJbJo8y/YS4zbVmJYBusFRTcCQTXEXOva9Zgc4W2EjojvrtK1JWhhFiFY4b3k4tSH
+ mnCl4AWWd15909oiI2vZcmdJh+KDT3ft82u8kuEmcEunEJWFTsf3sGEireQ4aHNic4Vv
+ EoyEp2+03CFFOy6pr/wfVqgo2c9kNL60dRpXs+8rg/ydmUUtkXW4jFvvB/JdAMvEsAYi
+ LBaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d8CBczrHncTC7jkXzgGz+cyQf3ESCXlA91ntw2lzZG8=;
- b=hrx+tox4vmEuide3fV88h/PC+5S7ovCJF0fpTVWDwNLa0OJZMaZwFRmEgWLGOEOmuA
- qU6kzH/qLervf5EFp5MGybOJYKdeyFSTMV3uNVg2mJ+pAAlFDbEchInuzCpUIdquQgyP
- zPrDZJFjukrOsLJDJ1Jj/X8FPXZ/0ZF/fU/WmfId1EcU7pztdnNouK3Z+oOCJua0aHG0
- wHaxsJWcIpW0gjSIv7un1+9445vVu/F3j6VHhQmzBAiMxKEaJfCIzsZ77D0xZ38Q/CLD
- MGyuwpNf/tfMTU3Ms3nOAEtqqp62mihqkslxs+ZwfLFop5OPS0xrWASp014YDrbOPm3F
- 5+cg==
-X-Gm-Message-State: AOAM5334R2EIlxJN05BJ2VvPdAa2CBKfnK11ZbiO3C7JEtbuXKJJolMv
- Z9a1u6Fu1Uw8SHFHSx5dkhe1IPF7Ycmo3w==
-X-Google-Smtp-Source: ABdhPJxIkpVscWH+M2KVghjjC/eW6sKgaMGpz5KucvyHG0dUzPpCjfLO3/YNSuTroBV+U9k5bYnGnw==
-X-Received: by 2002:a17:90a:d17:: with SMTP id
- t23mr5025999pja.163.1619997532215; 
- Sun, 02 May 2021 16:18:52 -0700 (PDT)
+ bh=M+GW/FjdFE0LjCNjl+PKpujGwHht+vUuynWRRTNqZ50=;
+ b=N3G2GIbKI4tERc3s3rnrkax61mTCdY14W2UjMCGIWJvlvkXyLnvtYWGiNUoAvBBdtE
+ nJXsckdg6vvkC636rS5rhCr0740vtl97P9CZugcfWyvwcuqCk4YsVSLReqkDxQaH1M4y
+ 4L9uw8u5o1bQ8/RFJQTYx9Ei9/2tWyt2T/YmwytZj8z8M6Gb+6mOvsH06u4AnPRWohWx
+ 9/IN/b0YlLtFDBomyJ6WUinY/h1JD+p1CkGrLDKpwDp0hLVN9/C6/Rwrhq8z+rFpTJnF
+ PoklAfXbLabADYJ6zuEBAXlpwg+n44zCIBq3pOm6cl6M0g1c0RAHiSMgs6NKNosDEaKe
+ FhGg==
+X-Gm-Message-State: AOAM532hQy7gCnahWeyCNa/q5019xhTL1+tDt50TkLE5JrhJPhZTtqG+
+ jImRkpqls+EgIEUF8cGTc2O8jOwW8vqffw==
+X-Google-Smtp-Source: ABdhPJzhBvspVZ4tfrjPi2NUfVX9brjUuAO5aqhB0oPZ4r5RIMINWgPqgm0IIZ8msplJzeNS2JeMSg==
+X-Received: by 2002:a63:f90d:: with SMTP id h13mr15712450pgi.18.1619997533531; 
+ Sun, 02 May 2021 16:18:53 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.51
+ by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 16:18:51 -0700 (PDT)
+ Sun, 02 May 2021 16:18:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/28] accel/tcg: Inline cpu_gen_init
-Date: Sun,  2 May 2021 16:18:24 -0700
-Message-Id: <20210502231844.1977630-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 10/28] accel/tcg: Rename tcg_init to tcg_init_machine
+Date: Sun,  2 May 2021 16:18:26 -0700
+Message-Id: <20210502231844.1977630-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502231844.1977630-1-richard.henderson@linaro.org>
 References: <20210502231844.1977630-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,39 +87,37 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It consists of one function call and has only one caller.
+We shortly want to use tcg_init for something else.
+Since the hook is called init_machine, match that.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ accel/tcg/tcg-all.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9841eb3fb6..d55ecbe195 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -245,11 +245,6 @@ static void page_table_config_init(void)
-     assert(v_l2_levels >= 0);
- }
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index f132033999..30d81ff7f5 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -105,7 +105,7 @@ static void tcg_accel_instance_init(Object *obj)
  
--static void cpu_gen_init(void)
--{
--    tcg_context_init(&tcg_init_ctx);
--}
--
- /* Encode VAL as a signed leb128 sequence at P.
-    Return P incremented past the encoded value.  */
- static uint8_t *encode_sleb128(uint8_t *p, target_long val)
-@@ -1331,7 +1326,7 @@ void tcg_exec_init(unsigned long tb_size, int splitwx)
-     bool ok;
+ bool mttcg_enabled;
  
-     tcg_allowed = true;
--    cpu_gen_init();
-+    tcg_context_init(&tcg_init_ctx);
-     page_init();
-     tb_htable_init();
+-static int tcg_init(MachineState *ms)
++static int tcg_init_machine(MachineState *ms)
+ {
+     TCGState *s = TCG_STATE(current_accel());
  
+@@ -189,7 +189,7 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+     ac->name = "tcg";
+-    ac->init_machine = tcg_init;
++    ac->init_machine = tcg_init_machine;
+     ac->allowed = &tcg_allowed;
+ 
+     object_class_property_add_str(oc, "thread",
 -- 
 2.25.1
 
