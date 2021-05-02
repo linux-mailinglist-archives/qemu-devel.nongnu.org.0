@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCCA370E94
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 20:43:04 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3400F370E9B
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 20:45:31 +0200 (CEST)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldH3X-0000c7-Re
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 14:43:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
+	id 1ldH5u-0002bL-9i
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 14:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldGmv-0008Cy-Vy
- for qemu-devel@nongnu.org; Sun, 02 May 2021 14:25:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45566)
+ id 1ldGmz-0008DC-LR
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 14:25:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldGms-0008LT-Pk
- for qemu-devel@nongnu.org; Sun, 02 May 2021 14:25:53 -0400
+ id 1ldGmr-0008LU-F6
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 14:25:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldGmp-0000oA-DW
+ id 1ldGmp-0000pE-6o
  for <qemu-devel@nongnu.org>; Sun, 02 May 2021 18:25:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 61BDC2E8163
- for <qemu-devel@nongnu.org>; Sun,  2 May 2021 18:25:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E55F52E815F
+ for <qemu-devel@nongnu.org>; Sun,  2 May 2021 18:25:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 May 2021 18:19:09 -0000
-From: Thomas Huth <1857449@bugs.launchpad.net>
+Date: Sun, 02 May 2021 18:19:43 -0000
+From: Thomas Huth <1858046@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cirosantilli philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?Q2lybyBTYW50aWxsaSDlha3lm5vkuovku7Yg?=
- =?utf-8?b?5rOV6L2u5YqfIChjaXJvc2FudGlsbGkp?=
+X-Launchpad-Bug-Commenters: raito-bezarius th-huth
+X-Launchpad-Bug-Reporter: Ryan Lahfa (raito-bezarius)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157719032956.5393.6667899255989227451.malonedeb@gac.canonical.com>
-Message-Id: <161997954926.4732.4166105790632665138.malone@chaenomeles.canonical.com>
-Subject: [Bug 1857449] Re: QEMU x86_64 -nographic full system breaks host Bash
- terminal line wrapping state after simulation ends,
- requires reset or "tput smam" to fix it
+References: <157791695959.3198.15546015289430538780.malonedeb@soybean.canonical.com>
+Message-Id: <161997958379.12516.13999500880856736880.malone@soybean.canonical.com>
+Subject: [Bug 1858046] Re: qemu-aarch64 hangs on cptofs during a build of
+ NixOS SD card image
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 68e09def56d5706e65e1bb2bf35a25de5b179bd7
+X-Launchpad-Hash: 9881da6c978b816d6ec6b79df77706ec091c5408
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1857449 <1857449@bugs.launchpad.net>
+Reply-To: Bug 1858046 <1858046@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,51 +96,57 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1857449
+https://bugs.launchpad.net/bugs/1858046
 
 Title:
-  QEMU x86_64 -nographic full system breaks host Bash terminal line
-  wrapping state after simulation ends, requires reset or "tput smam" to
-  fix it
+  qemu-aarch64 hangs on cptofs during a build of NixOS SD card image
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  QEMU 4.2.0 compiled from source, Ubuntu 19.10, open a fresh new gnome
-  terminal.
+  First, thank you for this incredible project.
 
-  If you print 1000 =3D chars on the host terminal, then they do wrap
-  around the end of the terminal:
+  While following this guide to build my own image of NixOS:
+  https://nixos.wiki/wiki/NixOS_on_ARM#Compiling_through_QEMU on ARM
+  Aarch64.
 
-  printf "=3D%.0s" {0..1000}
+  I encountered a very strange behavior, qemu is correctly used and
+  build most of the binaries until it executes this exact line over
+  qemu: https://github.com/NixOS/nixpkgs/blob/master/nixos/lib/make-
+  ext4-fs.nix#L55
 
-  However, if you first run QEMU:
+  At this step, the qemu process goes to 100 % of CPU, hangs in a
+  certain syscall I don't know which one (according to strace & gdb
+  which has no symbols so breaking and looking the backtrace was
+  useless).
 
-  x86_64-softmmu/qemu-system-x86_64 -nographic
+  According to iotop, no I/O was done.
 
-  and then quit it in any way, e.g. with Ctrl + A, and then re-run on
-  the host terminal:
+  And it spent all its time in this syscall during more than 10 hours,
+  which looks anomalous to me.
 
-  printf "=3D%.0s" {0..1000}
+  I attach some of my CPU info:
 
-  then the signs don't wrap around anymore, they just go "off the
-  terminal to the right".
+  model		: 142
+  model name	: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz
+  stepping	: 10
+  microcode	: 0x96
+  cpu MHz		: 3107.071
+  cache size	: 8192 KB
 
-  This can be fixed with either:
+  I'm using a ThinkPad T480 to perform those builds, I'm uncertain of
+  how to debug further this issue, I discussed this with some people
+  over #nixos-aarch64 and they told me they didn't know how to debug it
+  further too.
 
-  reset
-  tpam smam
+  I tried all with this package: https://aur.archlinux.org/packages
+  /qemu-arm-static/ =E2=80=94=C2=A0I'm currently compiling qemu-git to see =
+if it
+  happens on upstream too. Will comment when it's done.
 
-  but unfortunately those don't work in tmux for some reason:
-  https://github.com/tmux/tmux/issues/969
-
-  I consider this buggy behavior, QEMU should restore the original
-  terminal state if possible.
-
-  Related: https://github.com/cirosantilli/linux-kernel-module-
-  cheat/issues/110
+  Thank you in advance!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1857449/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1858046/+subscriptions
 
