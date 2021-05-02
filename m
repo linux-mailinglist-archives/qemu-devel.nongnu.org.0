@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389D1370A69
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2C5370A6A
 	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 08:03:00 +0200 (CEST)
-Received: from localhost ([::1]:59256 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ld5Bz-00085L-8z
+	id 1ld5Bz-000854-GF
 	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 02:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44214)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ld5AA-00072h-HQ
- for qemu-devel@nongnu.org; Sun, 02 May 2021 02:01:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35758)
+ id 1ld5A8-00072D-Q5
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 02:01:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ld5A6-0008Ex-Nx
- for qemu-devel@nongnu.org; Sun, 02 May 2021 02:01:06 -0400
+ id 1ld5A5-0008Et-HS
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 02:01:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ld5A3-0004k6-2j
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 06:00:59 +0000
+ id 1ld5A2-0004jd-1R
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 06:00:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 11A7F2E8144
- for <qemu-devel@nongnu.org>; Sun,  2 May 2021 06:00:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 084082E8058
+ for <qemu-devel@nongnu.org>; Sun,  2 May 2021 06:00:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 May 2021 05:51:34 -0000
-From: Thomas Huth <1802465@bugs.launchpad.net>
+Date: Sun, 02 May 2021 05:52:03 -0000
+From: Thomas Huth <1802915@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: gtk ui
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alapha23 th-huth zcjia
-X-Launchpad-Bug-Reporter: Zhaocong (zcjia)
+X-Launchpad-Bug-Commenters: agentlecomputer cuser2 th-huth
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154174980807.2749.13752196954108515323.malonedeb@gac.canonical.com>
-Message-Id: <161993469452.14597.17884078168418555701.malone@wampee.canonical.com>
-Subject: [Bug 1802465] Re: typing string via VNC is unreliable
+References: <154202828346.10437.1411488850787353605.malonedeb@wampee.canonical.com>
+Message-Id: <161993472397.10023.17732992613607080318.malone@gac.canonical.com>
+Subject: [Bug 1802915] Re: GTK display refresh rate is throttled
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: a4f477fd1c9bffee04da3f5f7d594ad6cfa1e406
+X-Launchpad-Hash: 6de786e25b302899fb341218e8b2ff57e492dd93
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1802465 <1802465@bugs.launchpad.net>
+Reply-To: Bug 1802915 <1802915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,44 +95,26 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1802465
+https://bugs.launchpad.net/bugs/1802915
 
 Title:
-  typing string via VNC is unreliable
+  GTK display refresh rate is throttled
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  QEMU version is 3.0.0
+  Guest OS running with GL enabled GTK display shows a reduced refresh
+  rate, e.g. moving cursor around with iGVT-g DMA Buf.
 
-  # Description
+  Apparently, a default refresh interval GUI_REFRESH_INTERVAL_DEFAULT
+  (30ms) is defined in include/ui/console.h, throttling the display
+  refresh rate at 33Hz.
 
-  The problem is that, when typing string through VNC, it can be
-  unreliable -- sometimes some key strokes get skipped, sometimes get
-  swapped, sometimes get repeated.  There's no problem when typing
-  through VNC on physical hardware.
-
-  # Steps to reproduce
-
-  1. Launch virtual machine by:
-
-      qemu-kvm -display vnc=3D:1 -m 2048 opensuse-leap-15.qcow2
-
-  2. Connect to VNC by:
-
-      vncviewer -Shared :5901
-
-  3. Simulate a series of key strokes by "vncdotool" [1]:
-
-      vncdotool -s 127.0.0.1::5901 typefile strings_to_be_typed.txt
-
-  4. Usually after a few hundred keys are typed, something goes wrong.
-
-  I attached a screenshot that it mistypes " hello" to "h ello".
-
-  [1] https://github.com/sibson/vncdotool
+  To correct this throttle issue, a shorter interval (16 or 17
+  milliseconds) should be applied to display change listener or the
+  default value should be modified.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1802465/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1802915/+subscriptions
 
