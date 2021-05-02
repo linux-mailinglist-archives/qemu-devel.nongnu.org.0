@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CA3370DFE
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:35:20 +0200 (CEST)
-Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C34370E02
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:39:00 +0200 (CEST)
+Received: from localhost ([::1]:40596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldF3v-0006QE-V3
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36072)
+	id 1ldF7T-0001Zj-Rj
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldElS-0005TL-Nw
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:14 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46743)
+ id 1ldElY-0005aw-Rk
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:21 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldElR-0007Pe-1a
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:14 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x5so3066633wrv.13
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:16:12 -0700 (PDT)
+ id 1ldElX-0007S4-C7
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:20 -0400
+Received: by mail-wm1-x331.google.com with SMTP id s82so1919760wmf.3
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6i1WU64wR8pkFjcHjE2+dlBuW0U+Z2Gby3NQK6F4B3o=;
- b=pgtl+R/YycldNgLVkoGUllDsvpg1cCILyYRyQe/VAZWHlptNA/eDHBQCi68FpcJXtH
- pNu9cd8jhXJDN4iNMLuIU3wo/htNLjN8EFVIc7ts8PH7tclQswHTMyFx+LlrNQ4VFVA/
- czxCRJaupuMa75ftmWuPDkDrlvb/kd0w+fXttqjVKXsrEec0BxGG/hJGx8vnuIuLu7Oy
- 5a+dDwVv6gHHyJDWICf4xHJr1X9+ydEyYmxnCzydhhukUS0BCLb3Sty4Cnm+PjiGjgl/
- 5Azms1zlZ7bWKI2/o8JA7hiSVFjEOoyjbbj7r7r0DdElFsGCwmxu00ytBs2ygelKE2lT
- fo8w==
+ bh=pGVpj51cW5V28vRCX7GintOUgmx2bc45xybHGDvB0WI=;
+ b=LW3cXiFIoM7DuVzxWouIwiHV78U1YdhWOWrxx6r0VpPrkPHe7c/TA1RjQPxwOZEwnr
+ Vp80CFNqgIaSBMByLiG+kFH8iFmI207UNmfw84gFSaQXs1E/Liqse6dt7QKaOocYry7i
+ pykQ0AT64GvKySABbRweYY9fdvc4zBMieHJiqwN6WEnloUKMqEOzUCuKZKlbx+OlmwL4
+ Qsy3anMrc0fVKSdf032zno81BKBR9FcC3kxy7eA6d8kmuuUA1a1/1pGFEXV+FqRH9y/O
+ Z4KLoQCF5H7fuh6RQqw7n8ikbftMNpL3aL82KXw0k5zIWGRmJ1XcV3pksRHrulCt28z9
+ z12Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6i1WU64wR8pkFjcHjE2+dlBuW0U+Z2Gby3NQK6F4B3o=;
- b=dy55BP1xz4JsQMefq9dWXU3wrXDpaR7Aq2vATmRiVM8sBiGCR1Gx7ynxvtETIG7RQk
- unxvxH11F7OBr/DfstxhjWsE8aYGGCFggxohjUlzmvc88Atl5rWc21sKBywTIueb5eOE
- 4WkagZ1VaVDvF3E6YJsZy5rtmTd3qORjnVDVsgTOMXa4FTnXv/F37maoNSAO5l560weG
- V+r21l9X180zDd10/v7B5GDxg8PkuflLxxWXKcfgUWr9gres8yq3U4Y8DFdOdIM5r3tO
- jClg1Ye0CAycldAeLoLSvzG/BgH3N33m4gpZlOzqeyMsPYcFqdVf6e+QTT2rIsN7wPE7
- UYwA==
-X-Gm-Message-State: AOAM532h+F5Gs0PMPNVTVzlo9R25PLYcudB9MUyNAnZgm8mmdfZumVx+
- p0D1nCA1SZZCM5yIt/KEvgGOdmr3lRNaigw+
-X-Google-Smtp-Source: ABdhPJzWwkz+hd7uEh9zbZCablUH3Dun8zcmdKBJNW9dPx+3kmpAaZBsqd8Kpjx7OCeASK34jDckLw==
-X-Received: by 2002:adf:a119:: with SMTP id o25mr20234031wro.61.1619972171607; 
- Sun, 02 May 2021 09:16:11 -0700 (PDT)
+ bh=pGVpj51cW5V28vRCX7GintOUgmx2bc45xybHGDvB0WI=;
+ b=sFVfEv0HDhoCHWq5VAMOkljB5SgXvEHa+msI2tYE2DTnqunVWepa2FY2fwy+ZgXdQh
+ SeKRb2wbRdwIxijMtAiiueHkblE+NzE7Yin4GgMAbCzdeXOEn+pa3nw2fVJYbGiJwdFC
+ F+RM0/bTsLOEPFoqfWORQwvsvWIv47WYmqFeOQ7NsgLC/Xr1C8oxaEzHQSpiKS6FMyTm
+ x3wgRWulcV2x7t5gZ6ylg3pbbsahtGvIP94djWQj7Vnv0cL8Fr96Mv59ALgKFUlFBj5p
+ JK2TuMNxCtLTulpMB2/ZpGdP+cz0w24dHtSzwkmzP1V6pbifYaq4A5FayYGXrEOfayy3
+ mDsw==
+X-Gm-Message-State: AOAM533HAY/eaCgxGBoqDkrUA73ElvT1+JTfqqPrkXjOEUvdMDhK9k86
+ L7ibaOKBqQkjw0RO26KIOc1gNshcT/Rrscus
+X-Google-Smtp-Source: ABdhPJwdCUyFzssT0wgZqAc/+5ErYa0h/aBwhvxdk7c32XRksKHUxhGqmoR46XizeLOpr1OaKzm2BQ==
+X-Received: by 2002:a7b:c846:: with SMTP id c6mr26999235wml.75.1619972176866; 
+ Sun, 02 May 2021 09:16:16 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id z15sm9176134wrv.39.2021.05.02.09.16.10
+ by smtp.gmail.com with ESMTPSA id l5sm8960057wmh.0.2021.05.02.09.16.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:16:11 -0700 (PDT)
+ Sun, 02 May 2021 09:16:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/36] target/mips: Make check_cp0_enabled() return a boolean
-Date: Sun,  2 May 2021 18:15:08 +0200
-Message-Id: <20210502161538.534038-7-f4bug@amsat.org>
+Subject: [PULL 07/36] target/mips: Simplify meson TCG rules
+Date: Sun,  2 May 2021 18:15:09 +0200
+Message-Id: <20210502161538.534038-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,56 +93,33 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To avoid callers to emit dead code if check_cp0_enabled()
-raise an exception, let it return a boolean value, whether
-CP0 is enabled or not.
+We already have the mips_tcg_ss source set for TCG-specific files,
+use it for mxu_translate.c and tx79_translate.c to simplify a bit.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210420193453.1913810-4-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210428170410.479308-2-f4bug@amsat.org>
 ---
- target/mips/translate.h | 7 ++++++-
- target/mips/translate.c | 4 +++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ target/mips/meson.build | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/target/mips/translate.h b/target/mips/translate.h
-index 2b3c7a69ec6..61442590340 100644
---- a/target/mips/translate.h
-+++ b/target/mips/translate.h
-@@ -120,7 +120,12 @@ void gen_reserved_instruction(DisasContext *ctx);
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 3b131c4a7f6..3733d1200f7 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -26,10 +26,9 @@
+   'translate_addr_const.c',
+   'txx9_translate.c',
+ ))
+-mips_ss.add(when: ['CONFIG_TCG', 'TARGET_MIPS64'], if_true: files(
++mips_tcg_ss.add(when: 'TARGET_MIPS64', if_true: files(
+   'tx79_translate.c',
+-))
+-mips_tcg_ss.add(when: 'TARGET_MIPS64', if_false: files(
++), if_false: files(
+   'mxu_translate.c',
+ ))
  
- void check_insn(DisasContext *ctx, uint64_t flags);
- void check_mips_64(DisasContext *ctx);
--void check_cp0_enabled(DisasContext *ctx);
-+/**
-+ * check_cp0_enabled:
-+ * Return %true if CP0 is enabled, otherwise return %false
-+ * and emit a 'coprocessor unusable' exception.
-+ */
-+bool check_cp0_enabled(DisasContext *ctx);
- void check_cp1_enabled(DisasContext *ctx);
- void check_cp1_64bitmode(DisasContext *ctx);
- void check_cp1_registers(DisasContext *ctx, int regs);
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 3230b2bca3b..0e90d8cace6 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -1572,11 +1572,13 @@ void gen_move_high32(TCGv ret, TCGv_i64 arg)
- #endif
- }
- 
--void check_cp0_enabled(DisasContext *ctx)
-+bool check_cp0_enabled(DisasContext *ctx)
- {
-     if (unlikely(!(ctx->hflags & MIPS_HFLAG_CP0))) {
-         generate_exception_end(ctx, EXCP_CpU);
-+        return false;
-     }
-+    return true;
- }
- 
- void check_cp1_enabled(DisasContext *ctx)
 -- 
 2.26.3
 
