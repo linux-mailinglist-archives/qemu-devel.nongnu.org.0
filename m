@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22A9370E45
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 19:50:20 +0200 (CEST)
-Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CA1370E48
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 19:51:49 +0200 (CEST)
+Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldGEV-0001Sb-Qh
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 13:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48562)
+	id 1ldGFx-0003uL-28
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 13:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD2-00008O-4y
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD2-00008e-Sa
  for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53886)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD0-0000RR-JW
- for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD1-0000S2-En
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1619977726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cIenFbRhZMpK6YdxR8zf9g5ensesv34yiFjAOFUW3Ko=;
- b=iSG0XhMIUpbeItWEGvby7/yxDJ2zCmhy2Bs8pTwc/hdXG/6g7ktBQlHbr9Vwy63QIT4C0Y
- NMm3Qh6eLT2HI63r7Gma0HbCQqMwwbZX6fYtOqqtQ7GMPWx4lfYYyv9lg+obLs0NXzZHFl
- lwvAl4Vau6huKBEqgbxCFXUPkwgNyUs=
+ bh=LVk+fG4w5nyrUJ4lzn/Q6WMwvBj9Qk8SmhJuacim5+I=;
+ b=JA5dYp/NB5tvK2CUddXvx8VKyJOpRQCrIJKLRaKsoAIPo5wzhaMu++mJranTAL2mEcDqCD
+ 4BmXewg0EEVMVQo4tdmezjnFaIAbssMPRn1p2y1Qm9Ysb0OwIROZtt5ozAFCae0cL61VPp
+ yPtxUrjauDtbT2NCQJYopdlJpA/W+SQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-0TZ-St5IMuC_-ozLjZ6gCw-1; Sun, 02 May 2021 13:48:42 -0400
-X-MC-Unique: 0TZ-St5IMuC_-ozLjZ6gCw-1
+ us-mta-216-jODCFgMMPX2fhHBHeAY4gg-1; Sun, 02 May 2021 13:48:44 -0400
+X-MC-Unique: jODCFgMMPX2fhHBHeAY4gg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C68218397BB;
- Sun,  2 May 2021 17:48:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257DD10066E6;
+ Sun,  2 May 2021 17:48:43 +0000 (UTC)
 Received: from thuth.com (ovpn-112-16.ams2.redhat.com [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40963189B6;
- Sun,  2 May 2021 17:48:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBB3A189B6;
+ Sun,  2 May 2021 17:48:41 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-s390x@nongnu.org,
 	Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: [PATCH 1/4] pc-bios/s390-ccw: Silence warning from Clang by marking
- panic() as noreturn
-Date: Sun,  2 May 2021 19:48:33 +0200
-Message-Id: <20210502174836.838816-2-thuth@redhat.com>
+Subject: [PATCH 2/4] pc-bios/s390-ccw: Fix the cc-option macro in the Makefile
+Date: Sun,  2 May 2021 19:48:34 +0200
+Message-Id: <20210502174836.838816-3-thuth@redhat.com>
 In-Reply-To: <20210502174836.838816-1-thuth@redhat.com>
 References: <20210502174836.838816-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -82,39 +81,33 @@ Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When compiling the s390-ccw bios with Clang, the compiler emits a warning:
+The cc-option macro is not doing what it should - compared with the
+original from the rules.mak file that got removed with commit
+660f793093 ("Makefile: inline the relevant parts of rules.mak"),
+the arguments got changed and thus the macro is rather doubling
+the QEMU_CFLAGS than adding the flag that should be tested.
 
- pc-bios/s390-ccw/main.c:210:5: warning: variable 'found' is used uninitialized
-  whenever switch default is taken [-Wsometimes-uninitialized]
-     default:
-     ^~~~~~~
- pc-bios/s390-ccw/main.c:214:16: note: uninitialized use occurs here
-     IPL_assert(found, "Boot device not found\n");
-                ^~~~~
-
-It's a false positive, it only happens because Clang is not smart enough
-to see that the panic() function in the "default:" case can never return.
-
-Anyway, let's explicitely mark panic() with "noreturn" to shut up the
-warning.
-
+Fixes: 22fb2ab096 ("pc-bios/s390-ccw: do not use rules.mak")
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/s390-ccw.h | 1 +
- 1 file changed, 1 insertion(+)
+ pc-bios/s390-ccw/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index 6cd92669e9..79db69ff54 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -89,6 +89,7 @@ bool menu_is_enabled_enum(void);
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index 29fd9019b8..f0fe84c9eb 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -6,8 +6,8 @@ include ../../config-host.mak
+ CFLAGS = -O2 -g
  
- #define MAX_BOOT_ENTRIES  31
+ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+-cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null > /dev/null \
+-	      2>&1 && echo OK), $1, $2)
++cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
++			 >/dev/null 2>&1 && echo OK),$2,$3)
  
-+__attribute__ ((__noreturn__))
- static inline void panic(const char *string)
- {
-     sclp_print(string);
+ VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
+ set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
 -- 
 2.27.0
 
