@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F18370FB5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:21:10 +0200 (CEST)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C59370FBC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:23:54 +0200 (CEST)
+Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldLOf-0001d3-L3
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
+	id 1ldLRK-00058M-17
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMT-0008By-1O
+ id 1ldLMT-0008Ce-NP
  for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:53 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35386)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:40792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLMR-0002rP-8b
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:52 -0400
-Received: by mail-pf1-x429.google.com with SMTP id i13so2965587pfu.2
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:50 -0700 (PDT)
+ id 1ldLMR-0002s6-Us
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:53 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id n16so1776630plf.7
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=T+bwWhG2aXu2Jmbr5CuBFk282uxjI9dQD6yjHdIosCw=;
- b=Ev9Mj1jtE97HX4Ltzg1fVGHCDILy2H4SUI9bO1k/z5GJC+oUK7BUDQkRedHF8b4uWt
- hpBCMbQtJ0CKL7blMr3YZxhzB8G/jJ1R2I4gczBdVnO4VLiCreApO4xyHdXbrD8eK4gw
- +gIyRaCL0PBBJnCJxvimw0jC1fhlbRx5JPECLrYxalD85kwZ3yum64vKmzu7bgnh6Rr4
- hWwunu7kwEfEt5EX/3S0XgP20i320t1sN5s2t8BRw146bM6hNUE6NimJj6niyDSDkRDK
- Yx/aIy9vBQbxdTPkATLFP5Z2/HN6ZVTNANC+nWnltSu98vatoUo8BhJG/9AejYn66h/Z
- ZM6g==
+ bh=sBQ1+Rv2XXbszZHsJR/EueMHmCKRSaUBKr3RPrTCguk=;
+ b=LgNwLPFpZXkaGbqqFIqx9umW9JFiw78WHudW/YgDnQ/Z1YAF0w/plfuM5Q0kxFmvXm
+ 5diRYWQnjGozoWHRD8gjbMFgG/IDsVpoUM/v1j0wJRKcAraswy6u3IiWHhTROZIB1ZwK
+ O8DFvS9+P3uvdrl+1/t4s11lPvFas0kd0tHTggUZE9sk+/WuHO8/5oLd4Z92GEo58W1a
+ 4S1Dq/uhB4u4B8lMYNT7DKKof85y3fL9SrVSWIhUpxM0WVQGhYtip3CV763K/FjaLM/C
+ SM91exRRxiWdBCKpXprb6+QBI9WEv/gVIvLwS99YV6suoscxORmeNZ+lvfM5g8b0F9Qu
+ IZ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T+bwWhG2aXu2Jmbr5CuBFk282uxjI9dQD6yjHdIosCw=;
- b=al70vKO0/Mt/MEJf24iPtCzG+uvkPlS2D86FCzVP4urULz0w1vzlE/08Bv2bLqI0jY
- 2ai50wAxL8Kb4NIFPT619aHh0DxNVOAav5cFDuoyjLv3s2P2Mm699HUC6B06qxAYvnrV
- wm1+Z+MGjfnGc1sjPrctkYf7dpF3kQpRiSJ4F8ePKIB9C4HcW+mnUhDAGH/ybuOGQq0/
- z7dMKmy5eMtUX8QAhZV+qNqfI5KA5J1wfhqv11pvgDhqJZjy1l5AG5zSFYu4j7MshaqY
- e9LWeK1mxpno4h/i7mzEnSN+gf61ywNL1sOpNUJzBhQooufKG6FyorBS6a5DYHWqcyDz
- X68w==
-X-Gm-Message-State: AOAM530wllLvBF36akNK5zBwU0uIws0YcIUR8dt72tdTUNIQCbf9YEg/
- W0Q+a5oM+B+xC0LMrhXqywIByn1D7ULE3A==
-X-Google-Smtp-Source: ABdhPJwE2kPbFSa9PL0QZcABUt0ICTNwGXpBne+nBIxtxvZNDCnIjWmKMOx0n6y0Cye5mqqhdiauFQ==
-X-Received: by 2002:a65:4548:: with SMTP id x8mr15532509pgr.413.1619997529870; 
- Sun, 02 May 2021 16:18:49 -0700 (PDT)
+ bh=sBQ1+Rv2XXbszZHsJR/EueMHmCKRSaUBKr3RPrTCguk=;
+ b=AG4Qddkkxc+XRCMCIAYn0ujyN6szc0n8wDzF5JwVjJpUG0AlPzLexq603SBsQOnSFB
+ OzFWLOUSBnguG422FkFIxGQuj3O+MvZMsBzyVXM6qpLQloEBU4T8czwisRNaxKxzTtLj
+ +qQJE/YnqbsfHt6xFAYY56B2IAeDYhvDZY33vr0jX3z+nPmRe4ecAIWKDDPqZCVgyGOv
+ rt+oIErese6esjW8o12VuzJd7f4gBFuTtiy7nBoIWaH+paZ+2vQUZhYqKw8AHJhJskb3
+ ttlePGcD0v4PqdETI4NVU5kJaa3nVWotsKbpSPFklRwu7eaT9wBSpdFj2AmfNA9qGZjQ
+ LSbA==
+X-Gm-Message-State: AOAM533La4px0cYMugsmjhLfNcKbY+wH0sYivQ29xssHReDZYeym0Ow7
+ bgU5O/AjHCwzsGknxlnStUoHGublczteLg==
+X-Google-Smtp-Source: ABdhPJy40L0dtq7oAaNOYC2Z/i+tG/0dwdNFopDnm41jaDElNF1+fyrHLZ0IbR1ID1nBCEbkyvj7/A==
+X-Received: by 2002:a17:90b:347:: with SMTP id
+ fh7mr18204681pjb.23.1619997530725; 
+ Sun, 02 May 2021 16:18:50 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.49
+ by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 16:18:49 -0700 (PDT)
+ Sun, 02 May 2021 16:18:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/28] tcg: Split out tcg_region_initial_alloc
-Date: Sun,  2 May 2021 16:18:21 -0700
-Message-Id: <20210502231844.1977630-6-richard.henderson@linaro.org>
+Subject: [PATCH v3 06/28] tcg: Split out tcg_region_prologue_set
+Date: Sun,  2 May 2021 16:18:22 -0700
+Message-Id: <20210502231844.1977630-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502231844.1977630-1-richard.henderson@linaro.org>
 References: <20210502231844.1977630-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,45 +87,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has only one user, and currently needs an ifdef,
-but will make more sense after some code motion.
+This has only one user, but will make more sense after some
+code motion.
+
+Always leave the tcg_init_ctx initialized to the first region,
+in preparation for tcg_prologue_init().  This also requires
+that we don't re-allocate the region for the first cpu, lest
+we hit the assertion for total number of regions allocated .
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ tcg/tcg.c | 37 ++++++++++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 15 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 8b57e93ca2..df78c89673 100644
+index df78c89673..ee3319e163 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -729,6 +729,15 @@ static void tcg_region_initial_alloc__locked(TCGContext *s)
-     g_assert(!err);
+@@ -885,10 +885,26 @@ void tcg_region_init(void)
+ 
+     tcg_region_trees_init();
+ 
+-    /* In user-mode we support only one ctx, so do the initial allocation now */
+-#ifdef CONFIG_USER_ONLY
+-    tcg_region_initial_alloc__locked(tcg_ctx);
+-#endif
++    /*
++     * Leave the initial context initialized to the first region.
++     * This will be the context into which we generate the prologue.
++     * It is also the only context for CONFIG_USER_ONLY.
++     */
++    tcg_region_initial_alloc__locked(&tcg_init_ctx);
++}
++
++static void tcg_region_prologue_set(TCGContext *s)
++{
++    /* Deduct the prologue from the first region.  */
++    g_assert(region.start == s->code_gen_buffer);
++    region.start = s->code_ptr;
++
++    /* Recompute boundaries of the first region. */
++    tcg_region_assign(s, 0);
++
++    /* Register the balance of the buffer with gdb. */
++    tcg_register_jit(tcg_splitwx_to_rx(region.start),
++                     region.end - region.start);
  }
  
-+#ifndef CONFIG_USER_ONLY
-+static void tcg_region_initial_alloc(TCGContext *s)
-+{
-+    qemu_mutex_lock(&region.lock);
-+    tcg_region_initial_alloc__locked(s);
-+    qemu_mutex_unlock(&region.lock);
-+}
-+#endif
-+
- /* Call from a safe-work context */
- void tcg_region_reset_all(void)
- {
-@@ -962,9 +971,7 @@ void tcg_register_thread(void)
+ #ifdef CONFIG_DEBUG_TCG
+@@ -968,10 +984,10 @@ void tcg_register_thread(void)
+ 
+     if (n > 0) {
+         alloc_tcg_plugin_context(s);
++        tcg_region_initial_alloc(s);
      }
  
      tcg_ctx = s;
--    qemu_mutex_lock(&region.lock);
--    tcg_region_initial_alloc__locked(s);
--    qemu_mutex_unlock(&region.lock);
-+    tcg_region_initial_alloc(s);
+-    tcg_region_initial_alloc(s);
  }
  #endif /* !CONFIG_USER_ONLY */
  
+@@ -1211,8 +1227,6 @@ void tcg_prologue_init(TCGContext *s)
+ {
+     size_t prologue_size;
+ 
+-    /* Put the prologue at the beginning of code_gen_buffer.  */
+-    tcg_region_assign(s, 0);
+     s->code_ptr = s->code_gen_ptr;
+     s->code_buf = s->code_gen_ptr;
+     s->data_gen_ptr = NULL;
+@@ -1244,14 +1258,7 @@ void tcg_prologue_init(TCGContext *s)
+                         (uintptr_t)s->code_buf, prologue_size);
+ #endif
+ 
+-    /* Deduct the prologue from the first region.  */
+-    region.start = s->code_ptr;
+-
+-    /* Recompute boundaries of the first region. */
+-    tcg_region_assign(s, 0);
+-
+-    tcg_register_jit(tcg_splitwx_to_rx(region.start),
+-                     region.end - region.start);
++    tcg_region_prologue_set(s);
+ 
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
 -- 
 2.25.1
 
