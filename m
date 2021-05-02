@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540D5370E00
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:38:40 +0200 (CEST)
-Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CF4370E07
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:43:52 +0200 (CEST)
+Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldF75-0000yl-U3
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
+	id 1ldFCB-00088i-7p
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEnl-0007U9-NR
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:37 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34683)
+ id 1ldEnq-0007Z8-OX
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:42 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEnj-00087e-2n
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:36 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso2470444wmc.1
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:18:34 -0700 (PDT)
+ id 1ldEno-00089D-Jx
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:42 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l24-20020a7bc4580000b029014ac3b80020so326867wmi.1
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AI6Xo4TmMGfUY040b6yCfWtAncz9V0VwKjuBz7JTA8w=;
- b=EsX2hEQrlrW2QDHoVe6isjlwUwYip2BOTBm+3dAnhqVUwteH0V2DyVbnjeYkWP8Nqz
- gumme7RAwSPF0VFpV71w3wJEwQkb9AXU46qyDFmPF3L6D0MEoSSV9FfQJYZ4ZJZ8oDXB
- HA6/kY5REohFFmd3lWEGtcV/MzaNWzjBz2+IDbefcy09pmraMKr26ahU+Rejr3paFmFZ
- IfcTVWkpoEPwroQA89xot8ZOMSm/dl4EqTk4GneMqZc5Jt+6Hq+kEp3XE7aYR1+8om55
- E8ty8NEyJLOB6Ma/XoGqViuNl+dM+8l/1+Ua9pcTQn9ER+2kfu4Dwyx1v8CHSAMB9IIC
- WiNw==
+ bh=pnjyKRQ7/9n91PbEJLZsMKQQzRD0g231SYcwKPC7JUI=;
+ b=Gk4b2xWGMepk3oz75HT1fqnXIV74P8y8+21CRO/aBl2sCZDbASo1Wqzf6DkqPF9+0/
+ T/bdzXOs799NpGTw3kQE4cpthkYYLkMXFoAzRIRrYUyESZ4lCcORM2ARJPlON8eww70o
+ MRx5nXhsJGCEWUPOKioJNQA/RyqnElsVPTkABEt8ALwGJkFxLX08Ud+BaRyxre6O5OgD
+ 3ybfAY1pWLKfSTdG9MvSdSX2W45WUqWm1VWwaW7gkY8ql4Y/VlvO5no8SQkNPkZAHpWl
+ V/a+PfrAQ/423/W7gloXNa1a1XLb5rpuZ18vHQ8dGt3VW6dxuQxOqSpdRrgAGMJvgk+1
+ OYsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AI6Xo4TmMGfUY040b6yCfWtAncz9V0VwKjuBz7JTA8w=;
- b=NBLuCKCgkto0TRrhT/V3zHbwtv8dUcdujA9mU2tgNaP2kxk8NzIr5cDbJB1QPujPyf
- v9w42RicgPbZvlIz+sW4xMOwzMIqemaaoz6GKM8Oia8MpfueJkqMMvPQf5w3iTS796Nn
- jt/ZDFwY9eMQroyzrYB3nckKCdl9ZtMkqd33/v2ky2KE4Lyr2kLJic95Hfiq80MxzClx
- fwnttPShhU3dv+LhMZRWbU0oVLl95VCcrQG9sVb6gbixuFM1zCGK+MoOHZ9Ze+hLHpW5
- bGl1izjU4HrUhDPZmQWKmF2bQpmeQRwnWLgwPS+63Sc2veVv/Fag0TddtxBRXcl04qM7
- HNOA==
-X-Gm-Message-State: AOAM532TepyGQH1JwYm4uS2lBH/ak89EcfxiVlu+qzSHm6nJni7Cub68
- EafH/IBIE8q+lek8v72+tx0Vwdl1aPakBlVl
-X-Google-Smtp-Source: ABdhPJz54iaNygJfV/7IppaLSXTFohHZ6j/i+Jb53Y/TnBIA81yhFn6TreswV1P47QsGrD6Uy/afZQ==
-X-Received: by 2002:a1c:ed03:: with SMTP id l3mr3302594wmh.130.1619972313524; 
- Sun, 02 May 2021 09:18:33 -0700 (PDT)
+ bh=pnjyKRQ7/9n91PbEJLZsMKQQzRD0g231SYcwKPC7JUI=;
+ b=LHUnfCIK+rtHHK8YnwPsg0QqhD4U1dFyRW1yfzfroWPTk5UQYIw3l+axJJ5yrQzvFH
+ Nnk6MAowdAX7oX9cksNrdJQwSwW0xKjYoCS+nIJHQeYhxtnmDT9dJRdDUgQ2BFuPXrZl
+ 77awhd7bSuoNkVWBLUn0tFc+k/4kznsbc81JDbl1CiIffcKghzxVAHjEHshsFpdc/Wa6
+ L4k9RaMaA4jtbd3xIpcwVrHFrV46hw/NsdAFp6nmPl/PSF1dz0/ykHjUqVlDnPefsPqJ
+ Gv3uKMiXMkhQr69j6uxElMg1AQGW5LMff8N6+BBdVvj0RdKK+T4AutT+LpXkRO3jpQ3v
+ jMcg==
+X-Gm-Message-State: AOAM532CjRESY//UBaoXH040qTo7BRlELli6OG1W10/HJNhUy7sIDKfs
+ I7o+FQcyUVSntoLcMtYU9tHg2WN8cBu2Rl3v
+X-Google-Smtp-Source: ABdhPJyAwDQphK5OLBprY0/4PN2T1TR/5c3Sx4G+3hKLBKMcXOnfH6E83MFU3WivB3JA7l2UxNTSJw==
+X-Received: by 2002:a05:600c:3581:: with SMTP id
+ p1mr17164741wmq.76.1619972318722; 
+ Sun, 02 May 2021 09:18:38 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id z14sm10890103wrt.54.2021.05.02.09.18.32
+ by smtp.gmail.com with ESMTPSA id d22sm9695219wrc.50.2021.05.02.09.18.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:18:33 -0700 (PDT)
+ Sun, 02 May 2021 09:18:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/36] target/mips: Move CP0 helpers to sysemu/cp0.c
-Date: Sun,  2 May 2021 18:15:35 +0200
-Message-Id: <20210502161538.534038-34-f4bug@amsat.org>
+Subject: [PULL 34/36] target/mips: Move TCG source files under tcg/ sub
+ directory
+Date: Sun,  2 May 2021 18:15:36 +0200
+Message-Id: <20210502161538.534038-35-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,299 +96,319 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Opcodes accessing Coprocessor 0 are privileged.
-Move the CP0 helpers to sysemu/ and simplify the #ifdef'ry.
+To ease maintenance, move all TCG specific files under the tcg/
+sub-directory. Adapt the Meson machinery.
+
+The following prototypes:
+- mips_tcg_init()
+- mips_cpu_do_unaligned_access()
+- mips_cpu_do_transaction_failed()
+can now be restricted to the "tcg-internal.h" header.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210428170410.479308-28-f4bug@amsat.org>
+Message-Id: <20210428170410.479308-29-f4bug@amsat.org>
 ---
- target/mips/internal.h         |   9 +--
- target/mips/cpu.c              | 103 ---------------------------
- target/mips/sysemu/cp0.c       | 123 +++++++++++++++++++++++++++++++++
- target/mips/sysemu/meson.build |   1 +
- 4 files changed, 129 insertions(+), 107 deletions(-)
- create mode 100644 target/mips/sysemu/cp0.c
+ target/mips/helper.h                         |  2 +-
+ target/mips/internal.h                       | 11 -------
+ target/mips/tcg/tcg-internal.h               | 11 +++++++
+ target/mips/{ => tcg}/msa_helper.h.inc       |  0
+ target/mips/{ => tcg}/mips32r6.decode        |  0
+ target/mips/{ => tcg}/mips64r6.decode        |  0
+ target/mips/{ => tcg}/msa32.decode           |  0
+ target/mips/{ => tcg}/msa64.decode           |  0
+ target/mips/{ => tcg}/tx79.decode            |  0
+ target/mips/{ => tcg}/dsp_helper.c           |  0
+ target/mips/{ => tcg}/exception.c            |  0
+ target/mips/{ => tcg}/fpu_helper.c           |  0
+ target/mips/{ => tcg}/ldst_helper.c          |  0
+ target/mips/{ => tcg}/lmmi_helper.c          |  0
+ target/mips/{ => tcg}/msa_helper.c           |  0
+ target/mips/{ => tcg}/msa_translate.c        |  0
+ target/mips/{ => tcg}/mxu_translate.c        |  0
+ target/mips/{ => tcg}/op_helper.c            |  0
+ target/mips/{ => tcg}/rel6_translate.c       |  0
+ target/mips/{ => tcg}/translate.c            |  0
+ target/mips/{ => tcg}/translate_addr_const.c |  0
+ target/mips/{ => tcg}/tx79_translate.c       |  0
+ target/mips/{ => tcg}/txx9_translate.c       |  0
+ target/mips/meson.build                      | 31 --------------------
+ target/mips/tcg/meson.build                  | 29 ++++++++++++++++++
+ 25 files changed, 41 insertions(+), 43 deletions(-)
+ rename target/mips/{ => tcg}/msa_helper.h.inc (100%)
+ rename target/mips/{ => tcg}/mips32r6.decode (100%)
+ rename target/mips/{ => tcg}/mips64r6.decode (100%)
+ rename target/mips/{ => tcg}/msa32.decode (100%)
+ rename target/mips/{ => tcg}/msa64.decode (100%)
+ rename target/mips/{ => tcg}/tx79.decode (100%)
+ rename target/mips/{ => tcg}/dsp_helper.c (100%)
+ rename target/mips/{ => tcg}/exception.c (100%)
+ rename target/mips/{ => tcg}/fpu_helper.c (100%)
+ rename target/mips/{ => tcg}/ldst_helper.c (100%)
+ rename target/mips/{ => tcg}/lmmi_helper.c (100%)
+ rename target/mips/{ => tcg}/msa_helper.c (100%)
+ rename target/mips/{ => tcg}/msa_translate.c (100%)
+ rename target/mips/{ => tcg}/mxu_translate.c (100%)
+ rename target/mips/{ => tcg}/op_helper.c (100%)
+ rename target/mips/{ => tcg}/rel6_translate.c (100%)
+ rename target/mips/{ => tcg}/translate.c (100%)
+ rename target/mips/{ => tcg}/translate_addr_const.c (100%)
+ rename target/mips/{ => tcg}/tx79_translate.c (100%)
+ rename target/mips/{ => tcg}/txx9_translate.c (100%)
 
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index ba301ae160d..a9c6c7d1a31 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -608,4 +608,4 @@ DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
+ #include "tcg/sysemu_helper.h.inc"
+ #endif /* !CONFIG_USER_ONLY */
+ 
+-#include "msa_helper.h.inc"
++#include "tcg/msa_helper.h.inc"
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 07573c3e38f..dd332b4dcef 100644
+index dd332b4dcef..18d5da64a57 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -156,6 +156,11 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                     MMUAccessType access_type,
-                                     int mmu_idx, MemTxAttrs attrs,
-                                     MemTxResult response, uintptr_t retaddr);
-+
-+void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
-+void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
-+void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
-+
- extern const VMStateDescription vmstate_mips_cpu;
+@@ -82,9 +82,6 @@ extern const int mips_defs_number;
  
- #endif /* !CONFIG_USER_ONLY */
-@@ -405,8 +410,4 @@ static inline void compute_hflags(CPUMIPSState *env)
-     }
- }
+ int mips_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int mips_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                  MMUAccessType access_type,
+-                                  int mmu_idx, uintptr_t retaddr);
  
--void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
--void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
--void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
--
- #endif
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index daa9a4791ee..1ad2fe4aa33 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -42,109 +42,6 @@ const char regnames[32][4] = {
-     "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
+ #define USEG_LIMIT      ((target_ulong)(int32_t)0x7FFFFFFFUL)
+ #define KSEG0_BASE      ((target_ulong)(int32_t)0x80000000UL)
+@@ -151,12 +148,6 @@ struct CPUMIPSTLBContext {
+     } mmu;
  };
  
--#if !defined(CONFIG_USER_ONLY)
+-void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+-                                    vaddr addr, unsigned size,
+-                                    MMUAccessType access_type,
+-                                    int mmu_idx, MemTxAttrs attrs,
+-                                    MemTxResult response, uintptr_t retaddr);
 -
--/* Called for updates to CP0_Status.  */
--void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc)
--{
--    int32_t tcstatus, *tcst;
--    uint32_t v = cpu->CP0_Status;
--    uint32_t cu, mx, asid, ksu;
--    uint32_t mask = ((1 << CP0TCSt_TCU3)
--                       | (1 << CP0TCSt_TCU2)
--                       | (1 << CP0TCSt_TCU1)
--                       | (1 << CP0TCSt_TCU0)
--                       | (1 << CP0TCSt_TMX)
--                       | (3 << CP0TCSt_TKSU)
--                       | (0xff << CP0TCSt_TASID));
+ void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
+ void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
+ void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
+@@ -209,8 +200,6 @@ static inline bool cpu_mips_hw_interrupts_pending(CPUMIPSState *env)
+     return r;
+ }
+ 
+-void mips_tcg_init(void);
 -
--    cu = (v >> CP0St_CU0) & 0xf;
--    mx = (v >> CP0St_MX) & 0x1;
--    ksu = (v >> CP0St_KSU) & 0x3;
--    asid = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
--
--    tcstatus = cu << CP0TCSt_TCU0;
--    tcstatus |= mx << CP0TCSt_TMX;
--    tcstatus |= ksu << CP0TCSt_TKSU;
--    tcstatus |= asid;
--
--    if (tc == cpu->current_tc) {
--        tcst = &cpu->active_tc.CP0_TCStatus;
--    } else {
--        tcst = &cpu->tcs[tc].CP0_TCStatus;
--    }
--
--    *tcst &= ~mask;
--    *tcst |= tcstatus;
--    compute_hflags(cpu);
--}
--
--void cpu_mips_store_status(CPUMIPSState *env, target_ulong val)
--{
--    uint32_t mask = env->CP0_Status_rw_bitmask;
--    target_ulong old = env->CP0_Status;
--
--    if (env->insn_flags & ISA_MIPS_R6) {
--        bool has_supervisor = extract32(mask, CP0St_KSU, 2) == 0x3;
--#if defined(TARGET_MIPS64)
--        uint32_t ksux = (1 << CP0St_KX) & val;
--        ksux |= (ksux >> 1) & val; /* KX = 0 forces SX to be 0 */
--        ksux |= (ksux >> 1) & val; /* SX = 0 forces UX to be 0 */
--        val = (val & ~(7 << CP0St_UX)) | ksux;
--#endif
--        if (has_supervisor && extract32(val, CP0St_KSU, 2) == 0x3) {
--            mask &= ~(3 << CP0St_KSU);
--        }
--        mask &= ~(((1 << CP0St_SR) | (1 << CP0St_NMI)) & val);
--    }
--
--    env->CP0_Status = (old & ~mask) | (val & mask);
--#if defined(TARGET_MIPS64)
--    if ((env->CP0_Status ^ old) & (old & (7 << CP0St_UX))) {
--        /* Access to at least one of the 64-bit segments has been disabled */
--        tlb_flush(env_cpu(env));
--    }
--#endif
--    if (ase_mt_available(env)) {
--        sync_c0_status(env, env, env->current_tc);
--    } else {
--        compute_hflags(env);
--    }
--}
--
--void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
--{
--    uint32_t mask = 0x00C00300;
--    uint32_t old = env->CP0_Cause;
--    int i;
--
--    if (env->insn_flags & ISA_MIPS_R2) {
--        mask |= 1 << CP0Ca_DC;
--    }
--    if (env->insn_flags & ISA_MIPS_R6) {
--        mask &= ~((1 << CP0Ca_WP) & val);
--    }
--
--    env->CP0_Cause = (env->CP0_Cause & ~mask) | (val & mask);
--
--    if ((old ^ env->CP0_Cause) & (1 << CP0Ca_DC)) {
--        if (env->CP0_Cause & (1 << CP0Ca_DC)) {
--            cpu_mips_stop_count(env);
--        } else {
--            cpu_mips_start_count(env);
--        }
--    }
--
--    /* Set/reset software interrupts */
--    for (i = 0 ; i < 2 ; i++) {
--        if ((old ^ env->CP0_Cause) & (1 << (CP0Ca_IP + i))) {
--            cpu_mips_soft_irq(env, i, env->CP0_Cause & (1 << (CP0Ca_IP + i)));
--        }
--    }
--}
--
--#endif /* !CONFIG_USER_ONLY */
--
- static void fpu_dump_fpr(fpr_t *fpr, FILE *f, bool is_fpu64)
- {
-     if (is_fpu64) {
-diff --git a/target/mips/sysemu/cp0.c b/target/mips/sysemu/cp0.c
-new file mode 100644
-index 00000000000..bae37f515bf
---- /dev/null
-+++ b/target/mips/sysemu/cp0.c
-@@ -0,0 +1,123 @@
-+/*
-+ * QEMU MIPS CPU
-+ *
-+ * Copyright (c) 2012 SUSE LINUX Products GmbH
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
+ void msa_reset(CPUMIPSState *env);
+ 
+ /* cp0_timer.c */
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+index 75aa3ef98ed..81b14eb219e 100644
+--- a/target/mips/tcg/tcg-internal.h
++++ b/target/mips/tcg/tcg-internal.h
+@@ -11,15 +11,21 @@
+ #define MIPS_TCG_INTERNAL_H
+ 
+ #include "tcg/tcg.h"
++#include "exec/memattrs.h"
+ #include "hw/core/cpu.h"
+ #include "cpu.h"
+ 
++void mips_tcg_init(void);
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "exec/exec-all.h"
+ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+ void mips_cpu_do_interrupt(CPUState *cpu);
+ bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
++void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                  MMUAccessType access_type,
++                                  int mmu_idx, uintptr_t retaddr);
+ 
+ const char *mips_exception_name(int32_t exception);
+ 
+@@ -46,6 +52,11 @@ bool mips_io_recompile_replay_branch(CPUState *cs, const TranslationBlock *tb);
+ 
+ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
+                                   MMUAccessType access_type, uintptr_t retaddr);
++void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
++                                    vaddr addr, unsigned size,
++                                    MMUAccessType access_type,
++                                    int mmu_idx, MemTxAttrs attrs,
++                                    MemTxResult response, uintptr_t retaddr);
+ void cpu_mips_tlb_flush(CPUMIPSState *env);
+ 
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/mips/msa_helper.h.inc b/target/mips/tcg/msa_helper.h.inc
+similarity index 100%
+rename from target/mips/msa_helper.h.inc
+rename to target/mips/tcg/msa_helper.h.inc
+diff --git a/target/mips/mips32r6.decode b/target/mips/tcg/mips32r6.decode
+similarity index 100%
+rename from target/mips/mips32r6.decode
+rename to target/mips/tcg/mips32r6.decode
+diff --git a/target/mips/mips64r6.decode b/target/mips/tcg/mips64r6.decode
+similarity index 100%
+rename from target/mips/mips64r6.decode
+rename to target/mips/tcg/mips64r6.decode
+diff --git a/target/mips/msa32.decode b/target/mips/tcg/msa32.decode
+similarity index 100%
+rename from target/mips/msa32.decode
+rename to target/mips/tcg/msa32.decode
+diff --git a/target/mips/msa64.decode b/target/mips/tcg/msa64.decode
+similarity index 100%
+rename from target/mips/msa64.decode
+rename to target/mips/tcg/msa64.decode
+diff --git a/target/mips/tx79.decode b/target/mips/tcg/tx79.decode
+similarity index 100%
+rename from target/mips/tx79.decode
+rename to target/mips/tcg/tx79.decode
+diff --git a/target/mips/dsp_helper.c b/target/mips/tcg/dsp_helper.c
+similarity index 100%
+rename from target/mips/dsp_helper.c
+rename to target/mips/tcg/dsp_helper.c
+diff --git a/target/mips/exception.c b/target/mips/tcg/exception.c
+similarity index 100%
+rename from target/mips/exception.c
+rename to target/mips/tcg/exception.c
+diff --git a/target/mips/fpu_helper.c b/target/mips/tcg/fpu_helper.c
+similarity index 100%
+rename from target/mips/fpu_helper.c
+rename to target/mips/tcg/fpu_helper.c
+diff --git a/target/mips/ldst_helper.c b/target/mips/tcg/ldst_helper.c
+similarity index 100%
+rename from target/mips/ldst_helper.c
+rename to target/mips/tcg/ldst_helper.c
+diff --git a/target/mips/lmmi_helper.c b/target/mips/tcg/lmmi_helper.c
+similarity index 100%
+rename from target/mips/lmmi_helper.c
+rename to target/mips/tcg/lmmi_helper.c
+diff --git a/target/mips/msa_helper.c b/target/mips/tcg/msa_helper.c
+similarity index 100%
+rename from target/mips/msa_helper.c
+rename to target/mips/tcg/msa_helper.c
+diff --git a/target/mips/msa_translate.c b/target/mips/tcg/msa_translate.c
+similarity index 100%
+rename from target/mips/msa_translate.c
+rename to target/mips/tcg/msa_translate.c
+diff --git a/target/mips/mxu_translate.c b/target/mips/tcg/mxu_translate.c
+similarity index 100%
+rename from target/mips/mxu_translate.c
+rename to target/mips/tcg/mxu_translate.c
+diff --git a/target/mips/op_helper.c b/target/mips/tcg/op_helper.c
+similarity index 100%
+rename from target/mips/op_helper.c
+rename to target/mips/tcg/op_helper.c
+diff --git a/target/mips/rel6_translate.c b/target/mips/tcg/rel6_translate.c
+similarity index 100%
+rename from target/mips/rel6_translate.c
+rename to target/mips/tcg/rel6_translate.c
+diff --git a/target/mips/translate.c b/target/mips/tcg/translate.c
+similarity index 100%
+rename from target/mips/translate.c
+rename to target/mips/tcg/translate.c
+diff --git a/target/mips/translate_addr_const.c b/target/mips/tcg/translate_addr_const.c
+similarity index 100%
+rename from target/mips/translate_addr_const.c
+rename to target/mips/tcg/translate_addr_const.c
+diff --git a/target/mips/tx79_translate.c b/target/mips/tcg/tx79_translate.c
+similarity index 100%
+rename from target/mips/tx79_translate.c
+rename to target/mips/tcg/tx79_translate.c
+diff --git a/target/mips/txx9_translate.c b/target/mips/tcg/txx9_translate.c
+similarity index 100%
+rename from target/mips/txx9_translate.c
+rename to target/mips/tcg/txx9_translate.c
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index e08077bfc18..2407a05d4c0 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -1,11 +1,3 @@
+-gen = [
+-  decodetree.process('mips32r6.decode', extra_args: '--static-decode=decode_mips32r6'),
+-  decodetree.process('mips64r6.decode', extra_args: '--static-decode=decode_mips64r6'),
+-  decodetree.process('msa32.decode', extra_args: '--static-decode=decode_msa32'),
+-  decodetree.process('msa64.decode', extra_args: '--static-decode=decode_msa64'),
+-  decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
+-]
+-
+ mips_user_ss = ss.source_set()
+ mips_softmmu_ss = ss.source_set()
+ mips_ss = ss.source_set()
+@@ -20,35 +12,12 @@
+   subdir('sysemu')
+ endif
+ 
+-mips_tcg_ss = ss.source_set()
+-mips_tcg_ss.add(gen)
+-mips_tcg_ss.add(files(
+-  'dsp_helper.c',
+-  'exception.c',
+-  'fpu_helper.c',
+-  'ldst_helper.c',
+-  'lmmi_helper.c',
+-  'msa_helper.c',
+-  'msa_translate.c',
+-  'op_helper.c',
+-  'rel6_translate.c',
+-  'translate.c',
+-  'translate_addr_const.c',
+-  'txx9_translate.c',
+-))
+-mips_tcg_ss.add(when: 'TARGET_MIPS64', if_true: files(
+-  'tx79_translate.c',
+-), if_false: files(
+-  'mxu_translate.c',
+-))
+ if 'CONFIG_TCG' in config_all
+   subdir('tcg')
+ endif
+ 
+ mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+ 
+-mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
+-
+ target_arch += {'mips': mips_ss}
+ target_softmmu_arch += {'mips': mips_softmmu_ss}
+ target_user_arch += {'mips': mips_user_ss}
+diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
+index 2cffc5a5ac6..5d8acbaf0d3 100644
+--- a/target/mips/tcg/meson.build
++++ b/target/mips/tcg/meson.build
+@@ -1,3 +1,32 @@
++gen = [
++  decodetree.process('mips32r6.decode', extra_args: '--static-decode=decode_mips32r6'),
++  decodetree.process('mips64r6.decode', extra_args: '--static-decode=decode_mips64r6'),
++  decodetree.process('msa32.decode', extra_args: '--static-decode=decode_msa32'),
++  decodetree.process('msa64.decode', extra_args: '--static-decode=decode_msa64'),
++  decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
++]
 +
-+/* Called for updates to CP0_Status.  */
-+void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc)
-+{
-+    int32_t tcstatus, *tcst;
-+    uint32_t v = cpu->CP0_Status;
-+    uint32_t cu, mx, asid, ksu;
-+    uint32_t mask = ((1 << CP0TCSt_TCU3)
-+                       | (1 << CP0TCSt_TCU2)
-+                       | (1 << CP0TCSt_TCU1)
-+                       | (1 << CP0TCSt_TCU0)
-+                       | (1 << CP0TCSt_TMX)
-+                       | (3 << CP0TCSt_TKSU)
-+                       | (0xff << CP0TCSt_TASID));
++mips_ss.add(gen)
++mips_ss.add(files(
++  'dsp_helper.c',
++  'exception.c',
++  'fpu_helper.c',
++  'ldst_helper.c',
++  'lmmi_helper.c',
++  'msa_helper.c',
++  'msa_translate.c',
++  'op_helper.c',
++  'rel6_translate.c',
++  'translate.c',
++  'translate_addr_const.c',
++  'txx9_translate.c',
++))
++mips_ss.add(when: 'TARGET_MIPS64', if_true: files(
++  'tx79_translate.c',
++), if_false: files(
++  'mxu_translate.c',
++))
 +
-+    cu = (v >> CP0St_CU0) & 0xf;
-+    mx = (v >> CP0St_MX) & 0x1;
-+    ksu = (v >> CP0St_KSU) & 0x3;
-+    asid = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+
-+    tcstatus = cu << CP0TCSt_TCU0;
-+    tcstatus |= mx << CP0TCSt_TMX;
-+    tcstatus |= ksu << CP0TCSt_TKSU;
-+    tcstatus |= asid;
-+
-+    if (tc == cpu->current_tc) {
-+        tcst = &cpu->active_tc.CP0_TCStatus;
-+    } else {
-+        tcst = &cpu->tcs[tc].CP0_TCStatus;
-+    }
-+
-+    *tcst &= ~mask;
-+    *tcst |= tcstatus;
-+    compute_hflags(cpu);
-+}
-+
-+void cpu_mips_store_status(CPUMIPSState *env, target_ulong val)
-+{
-+    uint32_t mask = env->CP0_Status_rw_bitmask;
-+    target_ulong old = env->CP0_Status;
-+
-+    if (env->insn_flags & ISA_MIPS_R6) {
-+        bool has_supervisor = extract32(mask, CP0St_KSU, 2) == 0x3;
-+#if defined(TARGET_MIPS64)
-+        uint32_t ksux = (1 << CP0St_KX) & val;
-+        ksux |= (ksux >> 1) & val; /* KX = 0 forces SX to be 0 */
-+        ksux |= (ksux >> 1) & val; /* SX = 0 forces UX to be 0 */
-+        val = (val & ~(7 << CP0St_UX)) | ksux;
-+#endif
-+        if (has_supervisor && extract32(val, CP0St_KSU, 2) == 0x3) {
-+            mask &= ~(3 << CP0St_KSU);
-+        }
-+        mask &= ~(((1 << CP0St_SR) | (1 << CP0St_NMI)) & val);
-+    }
-+
-+    env->CP0_Status = (old & ~mask) | (val & mask);
-+#if defined(TARGET_MIPS64)
-+    if ((env->CP0_Status ^ old) & (old & (7 << CP0St_UX))) {
-+        /* Access to at least one of the 64-bit segments has been disabled */
-+        tlb_flush(env_cpu(env));
-+    }
-+#endif
-+    if (ase_mt_available(env)) {
-+        sync_c0_status(env, env, env->current_tc);
-+    } else {
-+        compute_hflags(env);
-+    }
-+}
-+
-+void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
-+{
-+    uint32_t mask = 0x00C00300;
-+    uint32_t old = env->CP0_Cause;
-+    int i;
-+
-+    if (env->insn_flags & ISA_MIPS_R2) {
-+        mask |= 1 << CP0Ca_DC;
-+    }
-+    if (env->insn_flags & ISA_MIPS_R6) {
-+        mask &= ~((1 << CP0Ca_WP) & val);
-+    }
-+
-+    env->CP0_Cause = (env->CP0_Cause & ~mask) | (val & mask);
-+
-+    if ((old ^ env->CP0_Cause) & (1 << CP0Ca_DC)) {
-+        if (env->CP0_Cause & (1 << CP0Ca_DC)) {
-+            cpu_mips_stop_count(env);
-+        } else {
-+            cpu_mips_start_count(env);
-+        }
-+    }
-+
-+    /* Set/reset software interrupts */
-+    for (i = 0 ; i < 2 ; i++) {
-+        if ((old ^ env->CP0_Cause) & (1 << (CP0Ca_IP + i))) {
-+            cpu_mips_soft_irq(env, i, env->CP0_Cause & (1 << (CP0Ca_IP + i)));
-+        }
-+    }
-+}
-diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
-index 925ceeaa449..cefc2275828 100644
---- a/target/mips/sysemu/meson.build
-+++ b/target/mips/sysemu/meson.build
-@@ -1,5 +1,6 @@
- mips_softmmu_ss.add(files(
-   'addr.c',
-+  'cp0.c',
-   'cp0_timer.c',
-   'machine.c',
-   'physaddr.c',
+ if have_user
+   subdir('user')
+ endif
 -- 
 2.26.3
 
