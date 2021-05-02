@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E1A370D8A
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 17:03:09 +0200 (CEST)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F95370D98
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 17:12:53 +0200 (CEST)
+Received: from localhost ([::1]:55178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldDci-0001v9-Vg
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 11:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
+	id 1ldDm8-0003Zc-Gw
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 11:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKo-0001cu-Jq
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:38 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44659)
+ id 1ldDKq-0001gm-3E
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:40 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:39907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldDKl-0005Gx-Ib
- for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:38 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id m11so2368452pfc.11
+ id 1ldDKm-0005HT-8W
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 10:44:39 -0400
+Received: by mail-pg1-x531.google.com with SMTP id s22so1912260pgk.6
  for <qemu-devel@nongnu.org>; Sun, 02 May 2021 07:44:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3ah5G1WYf1ENyHl+qVq+4a4OFQF4iQyUKFh9kb0jd6Y=;
- b=Qx9/hULYA3QR3+3xnJgBmXg9J+vGzdKX+YBOB7TRshr9ojknt/L3BOG4JEm9xGa7/U
- kS9uVJVXqIIeeuzvczzmVUBWF8Bbx8teWIQkxYVoqB5SNtQIxEjVTLWmvoNxAOTf6MXJ
- e0YgKRHx2w9L5DQwHmPDx92qgSl/aApPcl/eB3+5PFp5OUgpkQeWNqggxAYcZVEb+f+4
- A39OuMivaeNbqpXLNJj1Iz/MudLmU9a/H+sjz7R1dQswNE9lJCFgP4ETQzxgI0rbqEQn
- Oos+OMM2NC2d/2N42wQz3au32D86fZe0vhCpvtlqcRKsuBxDZ+99Sv4Vn5c3V6qZj07x
- TTxw==
+ bh=4SeN9caAs4ApLwIeYye38SRE5dxFExcRolPRumS0f5k=;
+ b=kFAGssvRn0r7E3K9ruQ5p9SS5ieO2zsVIbz3NyHRZRItlV91kjhYgzPSzhRknb091C
+ B8R0kng0dS+vldNLJJ8CTGdNU4+YMUrv1OV/38uMHrgGnYrF9RlwOpUT0OLiN8T73VAe
+ m1WC4aJsHR/4yFADKRzcLbVXmBpIwrHdh72rFEH+wtU2lv/MEsMnJ/F3ObxYY7BWwURy
+ mnvElVeizmBpcMBVxf49lX7OT/rWJrdV5eNgeBN8K6yBUyn+tna2g0uvI3BTDhXPAawu
+ vUDiztU2Vcg+dXPAggiiz4GezgiStMuwgGaO11t1zaKH5QPq4H+imw1KQh+Ua+cJYw/1
+ qAIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3ah5G1WYf1ENyHl+qVq+4a4OFQF4iQyUKFh9kb0jd6Y=;
- b=n7frh7sIGXDBGoaJCuQIvgB4L0LkGH/g/uzqoGrRna+y1al/hJLZpOzfgFfC/VAFIU
- Ytsd/5kilHukHBKoJhUOvsF/fO601yOg0lbKDvGn3e33xsGRa5RZGEEjFzG4NqC0+xcp
- n5GwkHrtoJFMmiuMICJsheLobiUzawCGQviQaSZidMFVSS0/bRvFQLFfl3oAb6mekGji
- BUV//TZr9+Pr31whFbDnjWo4Ud0iMU8YfSYh59ZaesjgsK04LURIkFZHvYYaSJRFxvHP
- 9JpCvcuVL1aVLgpUlQmOjAXoVhWCFflgD0H1h+HHR+mR3nB39/Q6oc55+Pw5n92f6j7c
- +YsA==
-X-Gm-Message-State: AOAM530XlWm3SWEU/fJsAfFbHacc7a5wIecpWYfdS4EUDBqC0BUJE29K
- qLn4Np5Rhk1/lD9mlRBKBabCk3ECmxKLEw==
-X-Google-Smtp-Source: ABdhPJwNMa3AVA2kyYZW7Ya7aNSlJISzVYHwnrHaJRqxMHfEIDJQV9zVi5PXQ8dnRpMiHvDHSeZijQ==
-X-Received: by 2002:aa7:8503:0:b029:27d:497f:1da6 with SMTP id
- v3-20020aa785030000b029027d497f1da6mr14718349pfn.28.1619966674240; 
+ bh=4SeN9caAs4ApLwIeYye38SRE5dxFExcRolPRumS0f5k=;
+ b=L/+tlSzfRqCmw3Mf/DjEYxJ+i6Ib5E+W+nUnkcN8P9NlAgOP946GmUd+EAYprIkHoA
+ WfT6mLZwormGa7sO0i85y1wV6UTlHi2+elfu5BrT5GswEqr6uUrvrhP7wt36DleFUV6k
+ YVwybvRnMN62bexrxDj7BKiI5+Z+MisjMMYdYeXDxujQZkwfELx1rxInTK4KEwPjJseQ
+ e7rrpM500s7aiVU2OJQJzYfWaZch6d6L5NeSr/LkKz/NXczZLhrKfRFWgpDQJ5yIHSc4
+ aFMdSNmM+wsSeETCuAwZa4362kM+6TZg8tdH73XnY0AjRnE7D35dat/dhl1CF5N2z1Iy
+ sTuA==
+X-Gm-Message-State: AOAM531f9Lqa8CTprXfStVycqI1brr0sylC4CdTGlYum4k73bKgMFNBj
+ N/SNe+i5bZMozhglLoxzEolw6n84Wo3NVA==
+X-Google-Smtp-Source: ABdhPJzedO3FEpy/qKYLDA34Nvl1k6Erz7MqB6AmCsDyw3IS2rqJDDuKJ6Z7a3+l0I7j5eVwteAC/A==
+X-Received: by 2002:aa7:864b:0:b029:272:947e:85d7 with SMTP id
+ a11-20020aa7864b0000b0290272947e85d7mr14237451pfo.45.1619966674818; 
  Sun, 02 May 2021 07:44:34 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.33
+ by smtp.gmail.com with ESMTPSA id w14sm6889110pff.94.2021.05.02.07.44.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 07:44:33 -0700 (PDT)
+ Sun, 02 May 2021 07:44:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 21/31] Hexagon (target/hexagon) compile all debug code
-Date: Sun,  2 May 2021 07:44:09 -0700
-Message-Id: <20210502144419.1659844-22-richard.henderson@linaro.org>
+Subject: [PULL v2 22/31] Hexagon (target/hexagon) add F2_sfrecipa instruction
+Date: Sun,  2 May 2021 07:44:10 -0700
+Message-Id: <20210502144419.1659844-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210502144419.1659844-1-richard.henderson@linaro.org>
 References: <20210502144419.1659844-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,414 +83,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-Change #if HEX_DEBUG to if (HEX_DEBUG) so the debug code doesn't bit rot
+Rd32,Pe4 = sfrecipa(Rs32, Rt32)
+    Recripocal approx
 
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Test cases in tests/tcg/hexagon/multi_result.c
+FP exception tests added to tests/tcg/hexagon/fpstuff.c
+
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1617930474-31979-17-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1617930474-31979-18-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/helper.h    |  2 --
- target/hexagon/internal.h  | 11 +++---
- target/hexagon/translate.h |  2 --
- target/hexagon/genptr.c    | 72 ++++++++++++++++++-------------------
- target/hexagon/op_helper.c | 14 +++-----
- target/hexagon/translate.c | 74 ++++++++++++++++++--------------------
- 6 files changed, 81 insertions(+), 94 deletions(-)
+ target/hexagon/arch.h                 |  2 +
+ target/hexagon/gen_tcg.h              | 21 +++++++
+ target/hexagon/helper.h               |  1 +
+ target/hexagon/arch.c                 | 26 ++++++++-
+ target/hexagon/op_helper.c            | 37 ++++++++++++
+ tests/tcg/hexagon/fpstuff.c           | 82 +++++++++++++++++++++++++++
+ tests/tcg/hexagon/multi_result.c      | 68 ++++++++++++++++++++++
+ target/hexagon/imported/encode_pp.def |  1 +
+ target/hexagon/imported/float.idef    | 16 ++++++
+ tests/tcg/hexagon/Makefile.target     |  1 +
+ 10 files changed, 252 insertions(+), 3 deletions(-)
+ create mode 100644 tests/tcg/hexagon/multi_result.c
 
+diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
+index 6e0b0d9a24..b6634e9615 100644
+--- a/target/hexagon/arch.h
++++ b/target/hexagon/arch.h
+@@ -30,4 +30,6 @@ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd,
+ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
+                           float_status *fp_status);
+ 
++extern const uint8_t recip_lookup_table[128];
++
+ #endif
+diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h
+index a30048ee57..428a670281 100644
+--- a/target/hexagon/gen_tcg.h
++++ b/target/hexagon/gen_tcg.h
+@@ -195,6 +195,27 @@
+ #define fGEN_TCG_S4_stored_locked(SHORTCODE) \
+     do { SHORTCODE; READ_PREG(PdV, PdN); } while (0)
+ 
++/*
++ * Mathematical operations with more than one definition require
++ * special handling
++ */
++
++/*
++ * Approximate reciprocal
++ * r3,p1 = sfrecipa(r0, r1)
++ *
++ * The helper packs the 2 32-bit results into a 64-bit value,
++ * so unpack them into the proper results.
++ */
++#define fGEN_TCG_F2_sfrecipa(SHORTCODE) \
++    do { \
++        TCGv_i64 tmp = tcg_temp_new_i64(); \
++        gen_helper_sfrecipa(tmp, cpu_env, RsV, RtV);  \
++        tcg_gen_extrh_i64_i32(RdV, tmp); \
++        tcg_gen_extrl_i64_i32(PeV, tmp); \
++        tcg_temp_free_i64(tmp); \
++    } while (0)
++
+ /* Floating point */
+ #define fGEN_TCG_F2_conv_sf2df(SHORTCODE) \
+     gen_helper_conv_sf2df(RddV, cpu_env, RsV)
 diff --git a/target/hexagon/helper.h b/target/hexagon/helper.h
-index 715c24662f..efe6069118 100644
+index efe6069118..b377293dd3 100644
 --- a/target/hexagon/helper.h
 +++ b/target/hexagon/helper.h
-@@ -19,11 +19,9 @@
- #include "helper_protos_generated.h.inc"
- 
- DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_RETURN, noreturn, env, i32)
--#if HEX_DEBUG
- DEF_HELPER_1(debug_start_packet, void, env)
- DEF_HELPER_FLAGS_3(debug_check_store_width, TCG_CALL_NO_WG, void, env, int, int)
+@@ -24,6 +24,7 @@ DEF_HELPER_FLAGS_3(debug_check_store_width, TCG_CALL_NO_WG, void, env, int, int)
  DEF_HELPER_FLAGS_3(debug_commit_end, TCG_CALL_NO_WG, void, env, int, int)
--#endif
  DEF_HELPER_2(commit_store, void, env, int)
  DEF_HELPER_FLAGS_4(fcircadd, TCG_CALL_NO_RWG_SE, s32, s32, s32, s32, s32)
++DEF_HELPER_3(sfrecipa, i64, env, f32, f32)
  
-diff --git a/target/hexagon/internal.h b/target/hexagon/internal.h
-index 2da85c8606..6b20affdfa 100644
---- a/target/hexagon/internal.h
-+++ b/target/hexagon/internal.h
-@@ -22,11 +22,12 @@
-  * Change HEX_DEBUG to 1 to turn on debugging output
-  */
- #define HEX_DEBUG 0
--#if HEX_DEBUG
--#define HEX_DEBUG_LOG(...) qemu_log(__VA_ARGS__)
--#else
--#define HEX_DEBUG_LOG(...) do { } while (0)
--#endif
-+#define HEX_DEBUG_LOG(...) \
-+    do { \
-+        if (HEX_DEBUG) { \
-+            qemu_log(__VA_ARGS__); \
-+        } \
-+    } while (0)
- 
- int hexagon_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int hexagon_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
-index 97b12a7d18..703fd1345f 100644
---- a/target/hexagon/translate.h
-+++ b/target/hexagon/translate.h
-@@ -41,11 +41,9 @@ typedef struct DisasContext {
- 
- static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
- {
--#if HEX_DEBUG
-     if (test_bit(rnum, ctx->regs_written)) {
-         HEX_DEBUG_LOG("WARNING: Multiple writes to r%d\n", rnum);
-     }
--#endif
-     ctx->reg_log[ctx->reg_log_idx] = rnum;
-     ctx->reg_log_idx++;
-     set_bit(rnum, ctx->regs_written);
-diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-index b87e264ccf..24d575853c 100644
---- a/target/hexagon/genptr.c
-+++ b/target/hexagon/genptr.c
-@@ -42,17 +42,17 @@ static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
-     tcg_gen_andi_tl(slot_mask, hex_slot_cancelled, 1 << slot);
-     tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum], slot_mask, zero,
-                            val, hex_new_value[rnum]);
--#if HEX_DEBUG
--    /*
--     * Do this so HELPER(debug_commit_end) will know
--     *
--     * Note that slot_mask indicates the value is not written
--     * (i.e., slot was cancelled), so we create a true/false value before
--     * or'ing with hex_reg_written[rnum].
--     */
--    tcg_gen_setcond_tl(TCG_COND_EQ, slot_mask, slot_mask, zero);
--    tcg_gen_or_tl(hex_reg_written[rnum], hex_reg_written[rnum], slot_mask);
--#endif
-+    if (HEX_DEBUG) {
-+        /*
-+         * Do this so HELPER(debug_commit_end) will know
-+         *
-+         * Note that slot_mask indicates the value is not written
-+         * (i.e., slot was cancelled), so we create a true/false value before
-+         * or'ing with hex_reg_written[rnum].
-+         */
-+        tcg_gen_setcond_tl(TCG_COND_EQ, slot_mask, slot_mask, zero);
-+        tcg_gen_or_tl(hex_reg_written[rnum], hex_reg_written[rnum], slot_mask);
-+    }
- 
-     tcg_temp_free(zero);
-     tcg_temp_free(slot_mask);
-@@ -61,10 +61,10 @@ static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
- static inline void gen_log_reg_write(int rnum, TCGv val)
- {
-     tcg_gen_mov_tl(hex_new_value[rnum], val);
--#if HEX_DEBUG
--    /* Do this so HELPER(debug_commit_end) will know */
--    tcg_gen_movi_tl(hex_reg_written[rnum], 1);
--#endif
-+    if (HEX_DEBUG) {
-+        /* Do this so HELPER(debug_commit_end) will know */
-+        tcg_gen_movi_tl(hex_reg_written[rnum], 1);
-+    }
+ /* Floating point */
+ DEF_HELPER_2(conv_sf2df, f64, env, f32)
+diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
+index 40b6e3d0c0..46edf45b13 100644
+--- a/target/hexagon/arch.c
++++ b/target/hexagon/arch.c
+@@ -181,12 +181,13 @@ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
+         /* or put Inf in num fixup? */
+         uint8_t RsV_sign = float32_is_neg(RsV);
+         uint8_t RtV_sign = float32_is_neg(RtV);
++        /* Check that RsV is NOT infinite before we overwrite it */
++        if (!float32_is_infinity(RsV)) {
++            float_raise(float_flag_divbyzero, fp_status);
++        }
+         RsV = infinite_float32(RsV_sign ^ RtV_sign);
+         RtV = float32_one;
+         RdV = float32_one;
+-        if (float32_is_infinity(RsV)) {
+-            float_raise(float_flag_divbyzero, fp_status);
+-        }
+     } else if (float32_is_infinity(RtV)) {
+         RsV = make_float32(0x80000000 & (RsV ^ RtV));
+         RtV = float32_one;
+@@ -279,3 +280,22 @@ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
+     *adjust = PeV;
+     return ret;
  }
- 
- static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val, int slot)
-@@ -84,19 +84,19 @@ static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val, int slot)
-     tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum + 1],
-                        slot_mask, zero,
-                        val32, hex_new_value[rnum + 1]);
--#if HEX_DEBUG
--    /*
--     * Do this so HELPER(debug_commit_end) will know
--     *
--     * Note that slot_mask indicates the value is not written
--     * (i.e., slot was cancelled), so we create a true/false value before
--     * or'ing with hex_reg_written[rnum].
--     */
--    tcg_gen_setcond_tl(TCG_COND_EQ, slot_mask, slot_mask, zero);
--    tcg_gen_or_tl(hex_reg_written[rnum], hex_reg_written[rnum], slot_mask);
--    tcg_gen_or_tl(hex_reg_written[rnum + 1], hex_reg_written[rnum + 1],
--                  slot_mask);
--#endif
-+    if (HEX_DEBUG) {
-+        /*
-+         * Do this so HELPER(debug_commit_end) will know
-+         *
-+         * Note that slot_mask indicates the value is not written
-+         * (i.e., slot was cancelled), so we create a true/false value before
-+         * or'ing with hex_reg_written[rnum].
-+         */
-+        tcg_gen_setcond_tl(TCG_COND_EQ, slot_mask, slot_mask, zero);
-+        tcg_gen_or_tl(hex_reg_written[rnum], hex_reg_written[rnum], slot_mask);
-+        tcg_gen_or_tl(hex_reg_written[rnum + 1], hex_reg_written[rnum + 1],
-+                      slot_mask);
-+    }
- 
-     tcg_temp_free(val32);
-     tcg_temp_free(zero);
-@@ -107,17 +107,17 @@ static void gen_log_reg_write_pair(int rnum, TCGv_i64 val)
- {
-     /* Low word */
-     tcg_gen_extrl_i64_i32(hex_new_value[rnum], val);
--#if HEX_DEBUG
--    /* Do this so HELPER(debug_commit_end) will know */
--    tcg_gen_movi_tl(hex_reg_written[rnum], 1);
--#endif
-+    if (HEX_DEBUG) {
-+        /* Do this so HELPER(debug_commit_end) will know */
-+        tcg_gen_movi_tl(hex_reg_written[rnum], 1);
-+    }
- 
-     /* High word */
-     tcg_gen_extrh_i64_i32(hex_new_value[rnum + 1], val);
--#if HEX_DEBUG
--    /* Do this so HELPER(debug_commit_end) will know */
--    tcg_gen_movi_tl(hex_reg_written[rnum + 1], 1);
--#endif
-+    if (HEX_DEBUG) {
-+        /* Do this so HELPER(debug_commit_end) will know */
-+        tcg_gen_movi_tl(hex_reg_written[rnum + 1], 1);
-+    }
- }
- 
- static inline void gen_log_pred_write(DisasContext *ctx, int pnum, TCGv val)
++
++const uint8_t recip_lookup_table[128] = {
++    0x0fe, 0x0fa, 0x0f6, 0x0f2, 0x0ef, 0x0eb, 0x0e7, 0x0e4,
++    0x0e0, 0x0dd, 0x0d9, 0x0d6, 0x0d2, 0x0cf, 0x0cc, 0x0c9,
++    0x0c6, 0x0c2, 0x0bf, 0x0bc, 0x0b9, 0x0b6, 0x0b3, 0x0b1,
++    0x0ae, 0x0ab, 0x0a8, 0x0a5, 0x0a3, 0x0a0, 0x09d, 0x09b,
++    0x098, 0x096, 0x093, 0x091, 0x08e, 0x08c, 0x08a, 0x087,
++    0x085, 0x083, 0x080, 0x07e, 0x07c, 0x07a, 0x078, 0x075,
++    0x073, 0x071, 0x06f, 0x06d, 0x06b, 0x069, 0x067, 0x065,
++    0x063, 0x061, 0x05f, 0x05e, 0x05c, 0x05a, 0x058, 0x056,
++    0x054, 0x053, 0x051, 0x04f, 0x04e, 0x04c, 0x04a, 0x049,
++    0x047, 0x045, 0x044, 0x042, 0x040, 0x03f, 0x03d, 0x03c,
++    0x03a, 0x039, 0x037, 0x036, 0x034, 0x033, 0x032, 0x030,
++    0x02f, 0x02d, 0x02c, 0x02b, 0x029, 0x028, 0x027, 0x025,
++    0x024, 0x023, 0x021, 0x020, 0x01f, 0x01e, 0x01c, 0x01b,
++    0x01a, 0x019, 0x017, 0x016, 0x015, 0x014, 0x013, 0x012,
++    0x011, 0x00f, 0x00e, 0x00d, 0x00c, 0x00b, 0x00a, 0x009,
++    0x008, 0x007, 0x006, 0x005, 0x004, 0x003, 0x002, 0x000,
++};
 diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-index b70c5d607a..33b67138ca 100644
+index 33b67138ca..75861e26c4 100644
 --- a/target/hexagon/op_helper.c
 +++ b/target/hexagon/op_helper.c
-@@ -56,10 +56,10 @@ static void log_reg_write(CPUHexagonState *env, int rnum,
-     HEX_DEBUG_LOG("\n");
+@@ -289,6 +289,43 @@ int32_t HELPER(fcircadd)(int32_t RxV, int32_t offset, int32_t M, int32_t CS)
+     return new_ptr;
+ }
  
-     env->new_value[rnum] = val;
--#if HEX_DEBUG
--    /* Do this so HELPER(debug_commit_end) will know */
--    env->reg_written[rnum] = 1;
--#endif
-+    if (HEX_DEBUG) {
-+        /* Do this so HELPER(debug_commit_end) will know */
-+        env->reg_written[rnum] = 1;
++static float32 build_float32(uint8_t sign, uint32_t exp, uint32_t mant)
++{
++    return make_float32(
++        ((sign & 1) << 31) |
++        ((exp & 0xff) << SF_MANTBITS) |
++        (mant & ((1 << SF_MANTBITS) - 1)));
++}
++
++/*
++ * sfrecipa, sfinvsqrta have two 32-bit results
++ *     r0,p0=sfrecipa(r1,r2)
++ *     r0,p0=sfinvsqrta(r1)
++ *
++ * Since helpers can only return a single value, we pack the two results
++ * into a 64-bit value.
++ */
++uint64_t HELPER(sfrecipa)(CPUHexagonState *env, float32 RsV, float32 RtV)
++{
++    int32_t PeV = 0;
++    float32 RdV;
++    int idx;
++    int adjust;
++    int mant;
++    int exp;
++
++    arch_fpop_start(env);
++    if (arch_sf_recip_common(&RsV, &RtV, &RdV, &adjust, &env->fp_status)) {
++        PeV = adjust;
++        idx = (RtV >> 16) & 0x7f;
++        mant = (recip_lookup_table[idx] << 15) | 1;
++        exp = SF_BIAS - (float32_getexp(RtV) - SF_BIAS) - 1;
++        RdV = build_float32(extract32(RtV, 31, 1), exp, mant);
 +    }
++    arch_fpop_end(env);
++    return ((uint64_t)RdV << 32) | PeV;
++}
++
+ /*
+  * mem_noshuf
+  * Section 5.5 of the Hexagon V67 Programmer's Reference Manual
+diff --git a/tests/tcg/hexagon/fpstuff.c b/tests/tcg/hexagon/fpstuff.c
+index 6b60f92d18..8e3ba780d2 100644
+--- a/tests/tcg/hexagon/fpstuff.c
++++ b/tests/tcg/hexagon/fpstuff.c
+@@ -250,6 +250,87 @@ static void check_dfminmax(void)
+     check_fpstatus(usr, FPINVF);
  }
  
- static void log_pred_write(CPUHexagonState *env, int pnum, target_ulong val)
-@@ -117,7 +117,6 @@ static void write_new_pc(CPUHexagonState *env, target_ulong addr)
-     }
- }
- 
--#if HEX_DEBUG
- /* Handy place to set a breakpoint */
- void HELPER(debug_start_packet)(CPUHexagonState *env)
++static void check_recip_exception(void)
++{
++    int result;
++    int usr;
++
++    /*
++     * Check that sfrecipa doesn't set status bits when
++     * a NaN with bit 22 non-zero is passed
++     */
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %3)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
++         : "r2", "p0", "usr");
++    check32(result, SF_HEX_NAN);
++    check_fpstatus(usr, 0);
++
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %3)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(SF_ANY), "r"(SF_NaN)
++         : "r2", "p0", "usr");
++    check32(result, SF_HEX_NAN);
++    check_fpstatus(usr, 0);
++
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %2)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(SF_NaN)
++         : "r2", "p0", "usr");
++    check32(result, SF_HEX_NAN);
++    check_fpstatus(usr, 0);
++
++    /*
++     * Check that sfrecipa doesn't set status bits when
++     * a NaN with bit 22 zero is passed
++     */
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %3)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(SF_NaN_special), "r"(SF_ANY)
++         : "r2", "p0", "usr");
++    check32(result, SF_HEX_NAN);
++    check_fpstatus(usr, FPINVF);
++
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %3)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(SF_ANY), "r"(SF_NaN_special)
++         : "r2", "p0", "usr");
++    check32(result, SF_HEX_NAN);
++    check_fpstatus(usr, FPINVF);
++
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %2)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(SF_NaN_special)
++         : "r2", "p0", "usr");
++    check32(result, SF_HEX_NAN);
++    check_fpstatus(usr, FPINVF);
++
++    /*
++     * Check that sfrecipa properly sets divid-by-zero
++     */
++        asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %3)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(0x885dc960), "r"(0x80000000)
++         : "r2", "p0", "usr");
++    check32(result, 0x3f800000);
++    check_fpstatus(usr, FPDBZF);
++
++    asm (CLEAR_FPSTATUS
++         "%0,p0 = sfrecipa(%2, %3)\n\t"
++         "%1 = usr\n\t"
++         : "=r"(result), "=r"(usr) : "r"(0x7f800000), "r"(SF_ZERO)
++         : "r2", "p0", "usr");
++    check32(result, 0x3f800000);
++    check_fpstatus(usr, 0);
++}
++
+ static void check_canonical_NaN(void)
  {
-@@ -128,14 +127,12 @@ void HELPER(debug_start_packet)(CPUHexagonState *env)
-         env->reg_written[i] = 0;
-     }
- }
--#endif
+     int sf_result;
+@@ -507,6 +588,7 @@ int main()
+     check_compare_exception();
+     check_sfminmax();
+     check_dfminmax();
++    check_recip_exception();
+     check_canonical_NaN();
+     check_float2int_convs();
  
- static int32_t new_pred_value(CPUHexagonState *env, int pnum)
- {
-     return env->new_pred_value[pnum];
- }
- 
--#if HEX_DEBUG
- /* Checks for bookkeeping errors between disassembly context and runtime */
- void HELPER(debug_check_store_width)(CPUHexagonState *env, int slot, int check)
- {
-@@ -145,7 +142,6 @@ void HELPER(debug_check_store_width)(CPUHexagonState *env, int slot, int check)
-         g_assert_not_reached();
-     }
- }
--#endif
- 
- void HELPER(commit_store)(CPUHexagonState *env, int slot_num)
- {
-@@ -171,7 +167,6 @@ void HELPER(commit_store)(CPUHexagonState *env, int slot_num)
-     }
- }
- 
--#if HEX_DEBUG
- static void print_store(CPUHexagonState *env, int slot)
- {
-     if (!(env->slot_cancelled & (1 << slot))) {
-@@ -255,7 +250,6 @@ void HELPER(debug_commit_end)(CPUHexagonState *env, int has_st0, int has_st1)
-                   env->gpr[HEX_REG_QEMU_INSN_CNT]);
- 
- }
--#endif
- 
- static int32_t fcircadd_v4(int32_t RxV, int32_t offset, int32_t M, int32_t CS)
- {
-diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index 04684221ca..9a37644182 100644
---- a/target/hexagon/translate.c
-+++ b/target/hexagon/translate.c
-@@ -35,9 +35,7 @@ TCGv hex_this_PC;
- TCGv hex_slot_cancelled;
- TCGv hex_branch_taken;
- TCGv hex_new_value[TOTAL_PER_THREAD_REGS];
--#if HEX_DEBUG
- TCGv hex_reg_written[TOTAL_PER_THREAD_REGS];
--#endif
- TCGv hex_new_pred_value[NUM_PREGS];
- TCGv hex_pred_written;
- TCGv hex_store_addr[STORES_MAX];
-@@ -90,7 +88,6 @@ static void gen_exception_end_tb(DisasContext *ctx, int excp)
- 
- }
- 
--#if HEX_DEBUG
- #define PACKET_BUFFER_LEN              1028
- static void print_pkt(Packet *pkt)
- {
-@@ -99,10 +96,12 @@ static void print_pkt(Packet *pkt)
-     HEX_DEBUG_LOG("%s", buf->str);
-     g_string_free(buf, true);
- }
--#define HEX_DEBUG_PRINT_PKT(pkt)  print_pkt(pkt)
--#else
--#define HEX_DEBUG_PRINT_PKT(pkt)  /* nothing */
--#endif
-+#define HEX_DEBUG_PRINT_PKT(pkt) \
-+    do { \
-+        if (HEX_DEBUG) { \
-+            print_pkt(pkt); \
-+        } \
-+    } while (0)
- 
- static int read_packet_words(CPUHexagonState *env, DisasContext *ctx,
-                              uint32_t words[])
-@@ -179,11 +178,11 @@ static void gen_start_packet(DisasContext *ctx, Packet *pkt)
-     tcg_gen_movi_tl(hex_pkt_has_store_s1, pkt->pkt_has_store_s1);
-     ctx->s1_store_processed = false;
- 
--#if HEX_DEBUG
--    /* Handy place to set a breakpoint before the packet executes */
--    gen_helper_debug_start_packet(cpu_env);
--    tcg_gen_movi_tl(hex_this_PC, ctx->base.pc_next);
--#endif
-+    if (HEX_DEBUG) {
-+        /* Handy place to set a breakpoint before the packet executes */
-+        gen_helper_debug_start_packet(cpu_env);
-+        tcg_gen_movi_tl(hex_this_PC, ctx->base.pc_next);
+diff --git a/tests/tcg/hexagon/multi_result.c b/tests/tcg/hexagon/multi_result.c
+new file mode 100644
+index 0000000000..cb7dd313d4
+--- /dev/null
++++ b/tests/tcg/hexagon/multi_result.c
+@@ -0,0 +1,68 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <stdio.h>
++
++static int sfrecipa(int Rs, int Rt, int *pred_result)
++{
++  int result;
++  int predval;
++
++  asm volatile("%0,p0 = sfrecipa(%2, %3)\n\t"
++               "%1 = p0\n\t"
++               : "+r"(result), "=r"(predval)
++               : "r"(Rs), "r"(Rt)
++               : "p0");
++  *pred_result = predval;
++  return result;
++}
++
++int err;
++
++static void check(int val, int expect)
++{
++    if (val != expect) {
++        printf("ERROR: 0x%08x != 0x%08x\n", val, expect);
++        err++;
 +    }
- 
-     /* Initialize the runtime state for packet semantics */
-     if (need_pc(pkt)) {
-@@ -308,10 +307,11 @@ static void gen_pred_writes(DisasContext *ctx, Packet *pkt)
-         for (i = 0; i < ctx->preg_log_idx; i++) {
-             int pred_num = ctx->preg_log[i];
-             tcg_gen_mov_tl(hex_pred[pred_num], hex_new_pred_value[pred_num]);
--#if HEX_DEBUG
--            /* Do this so HELPER(debug_commit_end) will know */
--            tcg_gen_ori_tl(hex_pred_written, hex_pred_written, 1 << pred_num);
--#endif
-+            if (HEX_DEBUG) {
-+                /* Do this so HELPER(debug_commit_end) will know */
-+                tcg_gen_ori_tl(hex_pred_written, hex_pred_written,
-+                               1 << pred_num);
-+            }
-         }
-     }
- 
-@@ -322,13 +322,13 @@ static void gen_pred_writes(DisasContext *ctx, Packet *pkt)
- 
- static void gen_check_store_width(DisasContext *ctx, int slot_num)
- {
--#if HEX_DEBUG
--    TCGv slot = tcg_const_tl(slot_num);
--    TCGv check = tcg_const_tl(ctx->store_width[slot_num]);
--    gen_helper_debug_check_store_width(cpu_env, slot, check);
--    tcg_temp_free(slot);
--    tcg_temp_free(check);
--#endif
-+    if (HEX_DEBUG) {
-+        TCGv slot = tcg_const_tl(slot_num);
-+        TCGv check = tcg_const_tl(ctx->store_width[slot_num]);
-+        gen_helper_debug_check_store_width(cpu_env, slot, check);
-+        tcg_temp_free(slot);
-+        tcg_temp_free(check);
++}
++
++static void check_p(int val, int expect)
++{
++    if (val != expect) {
++        printf("ERROR: 0x%02x != 0x%02x\n", val, expect);
++        err++;
 +    }
- }
++}
++
++static void test_sfrecipa()
++{
++    int res;
++    int pred_result;
++
++    res = sfrecipa(0x04030201, 0x05060708, &pred_result);
++    check(res, 0x59f38001);
++    check_p(pred_result, 0x00);
++}
++
++int main()
++{
++    test_sfrecipa();
++
++    puts(err ? "FAIL" : "PASS");
++    return err;
++}
+diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
+index c21cb730af..b01b4d7aa7 100644
+--- a/target/hexagon/imported/encode_pp.def
++++ b/target/hexagon/imported/encode_pp.def
+@@ -1028,6 +1028,7 @@ MPY_ENC(F2_sfmin,            "1011","ddddd","0","0","0","1","01")
+ MPY_ENC(F2_sfmpy,            "1011","ddddd","0","0","1","0","00")
+ MPY_ENC(F2_sffixupn,         "1011","ddddd","0","0","1","1","00")
+ MPY_ENC(F2_sffixupd,         "1011","ddddd","0","0","1","1","01")
++MPY_ENC(F2_sfrecipa,         "1011","ddddd","1","1","1","1","ee")
  
- static bool slot_is_predicated(Packet *pkt, int slot_num)
-@@ -482,8 +482,7 @@ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
-     process_store_log(ctx, pkt);
-     process_dczeroa(ctx, pkt);
-     update_exec_counters(ctx, pkt);
--#if HEX_DEBUG
--    {
-+    if (HEX_DEBUG) {
-         TCGv has_st0 =
-             tcg_const_tl(pkt->pkt_has_store_s0 && !pkt->pkt_has_dczeroa);
-         TCGv has_st1 =
-@@ -495,7 +494,6 @@ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
-         tcg_temp_free(has_st0);
-         tcg_temp_free(has_st1);
-     }
--#endif
+ DEF_FIELDROW_DESC32(ICLASS_M" 1100 -------- PP------ --------","[#12] Rd=(Rs,Rt)")
+ DEF_FIELD32(ICLASS_M"         1100 -------- PP------ --!-----",Mc_tH,"Rt is High") /*Rt high */
+diff --git a/target/hexagon/imported/float.idef b/target/hexagon/imported/float.idef
+index 76cecfebf5..eb5415801a 100644
+--- a/target/hexagon/imported/float.idef
++++ b/target/hexagon/imported/float.idef
+@@ -146,6 +146,22 @@ Q6INSN(F2_sfimm_n,"Rd32=sfmake(#u10):neg",ATTRIBS(),
+ })
  
-     if (pkt->pkt_has_cof) {
-         gen_end_tb(ctx);
-@@ -655,9 +653,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
  
- #define NAME_LEN               64
- static char new_value_names[TOTAL_PER_THREAD_REGS][NAME_LEN];
--#if HEX_DEBUG
- static char reg_written_names[TOTAL_PER_THREAD_REGS][NAME_LEN];
--#endif
- static char new_pred_value_names[NUM_PREGS][NAME_LEN];
- static char store_addr_names[STORES_MAX][NAME_LEN];
- static char store_width_names[STORES_MAX][NAME_LEN];
-@@ -670,11 +666,11 @@ void hexagon_translate_init(void)
- 
-     opcode_init();
- 
--#if HEX_DEBUG
--    if (!qemu_logfile) {
--        qemu_set_log(qemu_loglevel);
-+    if (HEX_DEBUG) {
-+        if (!qemu_logfile) {
-+            qemu_set_log(qemu_loglevel);
-+        }
-     }
--#endif
- 
-     for (i = 0; i < TOTAL_PER_THREAD_REGS; i++) {
-         hex_gpr[i] = tcg_global_mem_new(cpu_env,
-@@ -686,13 +682,13 @@ void hexagon_translate_init(void)
-             offsetof(CPUHexagonState, new_value[i]),
-             new_value_names[i]);
- 
--#if HEX_DEBUG
--        snprintf(reg_written_names[i], NAME_LEN, "reg_written_%s",
--                 hexagon_regnames[i]);
--        hex_reg_written[i] = tcg_global_mem_new(cpu_env,
--            offsetof(CPUHexagonState, reg_written[i]),
--            reg_written_names[i]);
--#endif
-+        if (HEX_DEBUG) {
-+            snprintf(reg_written_names[i], NAME_LEN, "reg_written_%s",
-+                     hexagon_regnames[i]);
-+            hex_reg_written[i] = tcg_global_mem_new(cpu_env,
-+                offsetof(CPUHexagonState, reg_written[i]),
-+                reg_written_names[i]);
-+        }
-     }
-     for (i = 0; i < NUM_PREGS; i++) {
-         hex_pred[i] = tcg_global_mem_new(cpu_env,
++Q6INSN(F2_sfrecipa,"Rd32,Pe4=sfrecipa(Rs32,Rt32)",ATTRIBS(),
++"Reciprocal Approximation for Division",
++{
++    fHIDE(int idx;)
++    fHIDE(int adjust;)
++    fHIDE(int mant;)
++    fHIDE(int exp;)
++    if (fSF_RECIP_COMMON(RsV,RtV,RdV,adjust)) {
++        PeV = adjust;
++        idx = (RtV >> 16) & 0x7f;
++        mant = (fSF_RECIP_LOOKUP(idx) << 15) | 1;
++        exp = fSF_BIAS() - (fSF_GETEXP(RtV) - fSF_BIAS()) - 1;
++        RdV = fMAKESF(fGETBIT(31,RtV),exp,mant);
++    }
++})
++
+ Q6INSN(F2_sffixupn,"Rd32=sffixupn(Rs32,Rt32)",ATTRIBS(),
+ "Fix Up Numerator",
+ {
+diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+index 616af697fe..18218ad05a 100644
+--- a/tests/tcg/hexagon/Makefile.target
++++ b/tests/tcg/hexagon/Makefile.target
+@@ -39,6 +39,7 @@ HEX_TESTS = first
+ HEX_TESTS += misc
+ HEX_TESTS += preg_alias
+ HEX_TESTS += dual_stores
++HEX_TESTS += multi_result
+ HEX_TESTS += mem_noshuf
+ HEX_TESTS += atomics
+ HEX_TESTS += fpstuff
 -- 
 2.25.1
 
