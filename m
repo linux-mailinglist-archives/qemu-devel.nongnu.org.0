@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B16370DA6
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 17:32:24 +0200 (CEST)
-Received: from localhost ([::1]:57648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D257A370DCB
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:07:14 +0200 (CEST)
+Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldE51-0000LC-Cu
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 11:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57242)
+	id 1ldEcf-0004ks-VK
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldE3V-0008Dc-IG
- for qemu-devel@nongnu.org; Sun, 02 May 2021 11:30:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60070)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1ldEZB-0003Q2-2r; Sun, 02 May 2021 12:03:34 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:34374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldE3R-0003an-Ky
- for qemu-devel@nongnu.org; Sun, 02 May 2021 11:30:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldE3J-00061K-Vl
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 15:30:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E2B512E815D
- for <qemu-devel@nongnu.org>; Sun,  2 May 2021 15:30:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1ldEZ9-0001wh-8z; Sun, 02 May 2021 12:03:32 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id
+ x54-20020a05683040b6b02902a527443e2fso2985764ott.1; 
+ Sun, 02 May 2021 09:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GXLZKDWHwAWGFvMF36BqtI9mjtBl2Wm+SvCo5t4JnnY=;
+ b=uWuf0ic9uOnNwPT6JBBQJmJ7yoDI2qi+ZQq46vD1vWtLVkEZBBNYDp1itEF3Arc0FR
+ sReYQR/ciDqp0FXF4o42PVHnFAVo47mpJ8bwBgP8zPOytFk4z5Xphnf8ZWHxNOykpsxb
+ 6WmOxAXXkuY1PBui7UqK3fvw+TnsTDRWExEWeuGTpMfTkL6wCUEB9lNDJscBy9loH01+
+ i6YldVIdG+6j8UD+oiRUYTpEuJbdHdPNHn4DfZdU5Pr1HBU80wzeEZaZoFm4iW5oIZzN
+ Q39NsainCpJtOaKaOUBbadJmUIZ3xhs/HCMho2ajScTuNdBymwfVSyKoOgWI5vVboqLe
+ rB1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GXLZKDWHwAWGFvMF36BqtI9mjtBl2Wm+SvCo5t4JnnY=;
+ b=h4w4uAgw4zex0Js9629ms0rLlq2nLZSSsoMVu6DMJrQ23LB1zp11Br0UCFnBQmxsB3
+ 7da3ysCvA/av+gNyXeEExTH8XMaxjF7UA5AyJ9YgECKzyo3Nn3mSTljpyu208/4K19et
+ +M5q0kO4pV+rbylNi0uqBlBD5b2uIvnU3w46T1UroBtekzRsUadSJucALAU/EaYX6FJ+
+ JpeHj1jQpeNQnYiDNezJVuM/ZbNYfbizPDQ1RG/Y2AJ3d/Uvpuf6wE0OLXEw6Aw7haK9
+ QcRt4lUNI1zUDHEtNx6i0BMhS3dMBUe1pw2Y2hrEzKxTguAEUs3+0jaE43NyOcM83RDi
+ XPEw==
+X-Gm-Message-State: AOAM531T3oC+VJFbJMX6cP0EJpz9GsEeXNxGey3pR6GFfZsTso9M3gSp
+ d+Rr/lOcMYYAPwU7ZoJhloA=
+X-Google-Smtp-Source: ABdhPJxkEcH2uMpbffzueZ19rfxF6WRZfSwassBfduqzm2jEXv4lHaXPOlUezkteaUSkYOaDFTgKqQ==
+X-Received: by 2002:a05:6830:781:: with SMTP id
+ w1mr11400345ots.300.1619971408703; 
+ Sun, 02 May 2021 09:03:28 -0700 (PDT)
+Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net.
+ [108.223.40.66])
+ by smtp.gmail.com with ESMTPSA id 88sm2230946otx.2.2021.05.02.09.03.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 May 2021 09:03:28 -0700 (PDT)
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] hw/net/imx_fec: return 0xffff when accessing non-existing PHY
+Date: Sun,  2 May 2021 09:03:26 -0700
+Message-Id: <20210502160326.1196252-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 May 2021 15:24:26 -0000
-From: Peter Maydell <1776478@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: guysoft pmaydell th-huth
-X-Launchpad-Bug-Reporter: guysoft (guysoft)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <152880770129.26761.1762643804065210181.malonedeb@gac.canonical.com>
-Message-Id: <161996906666.4685.17672668621549416637.malone@chaenomeles.canonical.com>
-Subject: [Bug 1776478] Re: Getting qemu: uncaught target signal 6 when running
- lv2 plugin cross-compilation
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: acfb0e698c1336e977715ed312e8ff9ef92d36fb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x32e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,79 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1776478 <1776478@bugs.launchpad.net>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Bin Meng <bmeng.cn@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Which QEMU version did you re-test with?
+If a PHY does not exist, attempts to read from it should return 0xffff.
+Otherwise the Linux kernel will believe that a PHY is there and select
+the non-existing PHY. This in turn will result in network errors later
+on since the real PHY is not selected or configured.
 
--- =
+Since reading from or writing to a non-existing PHY is not an emulation
+error, replace guest error messages with traces.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1776478
+Fixes: 461c51ad4275 ("Add a phy-num property to the i.MX FEC emulator")
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ hw/net/imx_fec.c    | 8 +++-----
+ hw/net/trace-events | 2 ++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Title:
-  Getting qemu: uncaught target signal 6 when running  lv2 plugin cross-
-  compilation
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index f03450c028..9c7035bc94 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -283,9 +283,8 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
+     uint32_t phy = reg / 32;
+ 
+     if (phy != s->phy_num) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
+-                      TYPE_IMX_FEC, __func__, phy);
+-        return 0;
++        trace_imx_phy_read_num(phy, s->phy_num);
++        return 0xffff;
+     }
+ 
+     reg %= 32;
+@@ -345,8 +344,7 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
+     uint32_t phy = reg / 32;
+ 
+     if (phy != s->phy_num) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
+-                      TYPE_IMX_FEC, __func__, phy);
++        trace_imx_phy_write_num(phy, s->phy_num);
+         return;
+     }
+ 
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index baf25ffa7e..ee77238d9e 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -413,8 +413,10 @@ i82596_set_multicast(uint16_t count) "Added %d multicast entries"
+ i82596_channel_attention(void *s) "%p: Received CHANNEL ATTENTION"
+ 
+ # imx_fec.c
++imx_phy_read_num(int phy, int configured) "read request from unconfigured phy %d (configured %d)"
+ imx_phy_read(uint32_t val, int phy, int reg) "0x%04"PRIx32" <= phy[%d].reg[%d]"
+ imx_phy_write(uint32_t val, int phy, int reg) "0x%04"PRIx32" => phy[%d].reg[%d]"
++imx_phy_write_num(int phy, int configured) "write request to unconfigured phy %d (configured %d)"
+ imx_phy_update_link(const char *s) "%s"
+ imx_phy_reset(void) ""
+ imx_fec_read_bd(uint64_t addr, int flags, int len, int data) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x"
+-- 
+2.25.1
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hey,
-  I am part of the Zynthian team and we use qemu-arm-static to cross compil=
-e lv2 audio plugins.
-
-  When running a compilation of DISTRHO-Ports we get:
-
-  lv2_ttl_generator: pthread_mutex_lock.c:81: __pthread_mutex_lock: Asserti=
-on `mutex->__data.__owner =3D=3D 0' failed.
-  qemu: uncaught target signal 6 (Aborted) - core dumped
-  ./scripts/generate-ttl.sh: line 27: 16524 Aborted                 $GEN ./=
-$FILE
-  Makefile:62: recipe for target 'gen_lv2' failed
-  make[1]: *** [gen_lv2] Error 134
-  make[1]: Leaving directory '/home/pi/zynthian-sw/plugins/DISTRHO-Ports'
-  Makefile:104: recipe for target 'lv2' failed
-  make: *** [lv2] Error 2
-
-  =
-
-  lv2_ttl_generator source is here:
-  https://github.com/DISTRHO/DISTRHO-Ports/tree/master/libs/lv2-ttl-generat=
-or
-
-  The command that is ruining is
-  lv2_ttl_generator ./TAL-Filter-2.so =
-
-
-  And ./TAL-Filter-2.so source is here:
-  https://github.com/DISTRHO/DISTRHO-Ports/tree/master/ports/tal-filter-2/s=
-ource
-
-
-  Is there a way to debug what is going on?
-  This runs fine on a Raspberrypi which is armv7
-
-  A workaround would also help.
-
-  =
-
-  Bug in Zynthian:
-  https://github.com/zynthian/zynthian-sys/issues/59
-  Bug in DISTRHO-Ports:
-  https://github.com/DISTRHO/DISTRHO-Ports/issues/29
-
-  Using qemu-arm-static version from master from two days ago:
-  qemu-arm version 2.12.50 (v2.12.0-1182-ga7a7309ca5-dirty), commit: a7a730=
-9ca52c327c6603d60db90ae4feeae719f7
-
-  Also saw this in qemu-arm version 2.12.0 (Debian 1:2.12+dfsg-3)
-
-  Thanks,
-  Guy
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1776478/+subscriptions
 
