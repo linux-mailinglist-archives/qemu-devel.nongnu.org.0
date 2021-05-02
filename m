@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D91370E16
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:56:20 +0200 (CEST)
-Received: from localhost ([::1]:36788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80917370E19
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:59:43 +0200 (CEST)
+Received: from localhost ([::1]:44564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldFOF-0006XY-BS
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:56:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1ldFRW-0001N2-Al
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEnA-0006dy-Db
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:00 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37580)
+ id 1ldEnD-0006jW-Sn
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:03 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEn7-0007xc-7H
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:17:59 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id z6so3100941wrm.4
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:17:56 -0700 (PDT)
+ id 1ldEnC-0007z4-5O
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:03 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t18so3111974wry.1
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8raeOnbaaLR0eMWkBaEAhhPOlsDJQegVcWQXqveM4CA=;
- b=Bgc2RmU7u1IHufQTOWtu+Od43Tjy33IXPJOIulK2o1FgpJWYNljoOdOOyXxoIK6pEq
- k6gsKq7MGiFc1+LZjfRIyAQIc3CMiNQ+dAY5F8xkdGrrF6fj7gHKOYL+kyy1kjsuhtS0
- HzWo8hCZ8WPGlBo31bdE1gTHmcqSen2+WPWlVx9gDSvOP9H0OlOLK5ZVhdKMzoIJz8DJ
- ccE9+yyJE1w24d5E+KRptOJMzrA0rVzjamXZVKOYfeLAV7gO6DCF7DIPuKnmq+3pfSaH
- 6eW9T+thrnCf3lf5NZJJE1PfDAHj6qUHei5Q/R6Iy+B+3U82uwp7nUuZa4wJHf9WiM3H
- nw1g==
+ bh=ZETGpx4nbZfkaug+OflFl89N3mWc3Om9YqwBm01M7wo=;
+ b=kaEi/DPSsdIDlQQdGBQDEHlHP28upTUjCWZE2JCjjRRvaZkxK8ErFtsHElkiv1plKm
+ xUyuJz4qrYOBXlaXjRlyoiOrLKm88yERmcIR7NlYtvCYp8cTtsUe7Xn1LWXbSa72Cz/a
+ XFxfvG5CGYV+Gs8u90FZrdfD87LtLtMUKQvyfl7Zw9Gf27xfuvY2M03yPmHbdkduEoZh
+ mNIdwMKpDuvOmWk7JpRuZb1qYY1jJ2Y6LqgczIEp1EZQ7ShQGzd1lwov4w5Epz3zoG5H
+ ng1SUrk3+S0sB4bp2yjMT213iB8sKbasga/HhxY6qQc5X+Yxdy26iOAvoJKljnd/qDd1
+ LmsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8raeOnbaaLR0eMWkBaEAhhPOlsDJQegVcWQXqveM4CA=;
- b=tEgsJwpAA0IHuBgqqO+Q7Ao4dpmMUsjgwWaIaOZCxtik8BU8JVLYLyxaA0hjdT1HPK
- QWLmNRihqudNjBWojdCejuUMlldXSYg0qagCn532H7BeUAVFx67x/gzQbV0qmq637P1V
- ttEd0hfx50RHymr/JAzk6793br9Qksoyr3+rA3idhJGuyLAHF4oWIhhadfblW1M62OJi
- A2FaKD+hYTu70mgHxM2/bUshisJ+uKcbt03LIjEl8sonRYg5u1VDAAsXAZA4nzUegv1L
- TOLLHmTMCylEEG9V8sBYtm5HDnEsCJ3d4YULcD86WLrFK86XyOdxMjGyaxTlV2+71mW4
- fwOw==
-X-Gm-Message-State: AOAM532A8PLxc6BpC6J0rEjiOoK9CtawDfABcGsh3dImzq+2Z+yAhtoR
- W++KQExOKPyBauvgb1bfrWXeFK9swJr9JOeY
-X-Google-Smtp-Source: ABdhPJx7XXC7qpiUVeb4pzWHZgAwG58R+7jJPHf4GwG58kPekd1KIj4Ql9DXzew3uCCTaCCHjGuHoQ==
-X-Received: by 2002:a5d:654c:: with SMTP id z12mr19957786wrv.12.1619972275751; 
- Sun, 02 May 2021 09:17:55 -0700 (PDT)
+ bh=ZETGpx4nbZfkaug+OflFl89N3mWc3Om9YqwBm01M7wo=;
+ b=RIm1VhdfRW3sxVSaLPnBQ53u/3ehCdGaHiKLiQceoVKt9r2a4ytbnrIUd5zIsewT2V
+ JfzA6bQATBtTl1J8qg/YT9UD9GrtWwnnESSfZfII1EdkS5KcboOw8T5Ebk3NJ2rwrWIi
+ wrOfrevha/NnvPP5dF66QKlDuPZLENQF/+3b9zq5SRwBcZ3oIIUpTg6Cnyimvd8KYKdf
+ hfCSmUyNF8foHHV4eqm16b7KR2tVduQ+z5iVtXwD8Zd1OW4yuhIxkz6CrfG+IOK4givI
+ gwmplmNq+PRMnwlB/YmeSedDq91gqdH1q8aVMhZxUfxeNS3SwEIx6Kx+uADd14FjtQGt
+ reEA==
+X-Gm-Message-State: AOAM532cBFmU23Hi9lOTr7x68euuhyVaeu34TDB7+wZ1M7r23vJeB1V9
+ 8auFVhGZLeCymG/3SJjnUm786DXyu02gYv72
+X-Google-Smtp-Source: ABdhPJwulmc+QzUi061YtUWveAy93AK4kEHrf45Vlm2IgKs5W8kcyrDlexGRfkGzdigloJvFAL62Mw==
+X-Received: by 2002:adf:f502:: with SMTP id q2mr20100401wro.171.1619972280737; 
+ Sun, 02 May 2021 09:18:00 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id a142sm19403862wmd.7.2021.05.02.09.17.54
+ by smtp.gmail.com with ESMTPSA id b6sm17735676wmj.2.2021.05.02.09.17.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:17:55 -0700 (PDT)
+ Sun, 02 May 2021 09:18:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/36] target/mips: Restrict mmu_init() to TCG
-Date: Sun,  2 May 2021 18:15:28 +0200
-Message-Id: <20210502161538.534038-27-f4bug@amsat.org>
+Subject: [PULL 27/36] target/mips: Move tlb_helper.c to tcg/sysemu/
+Date: Sun,  2 May 2021 18:15:29 +0200
+Message-Id: <20210502161538.534038-28-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,58 +93,117 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mmu_init() is only required by TCG accelerator.
-Restrict its declaration and call to TCG.
+Move tlb_helper.c to the tcg/sysemu/ subdir, along with
+the following 3 declarations to tcg-internal.h:
+- cpu_mips_tlb_flush()
+- cpu_mips_translate_address()
+- r4k_invalidate_tlb()
+
+Simplify tlb_helper.c #ifdef'ry because files in tcg/sysemu/
+are only build when sysemu mode is configured.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210428170410.479308-21-f4bug@amsat.org>
+Message-Id: <20210428170410.479308-22-f4bug@amsat.org>
 ---
- target/mips/internal.h         | 3 ---
- target/mips/tcg/tcg-internal.h | 2 ++
- target/mips/cpu.c              | 2 +-
- 3 files changed, 3 insertions(+), 4 deletions(-)
+ target/mips/internal.h                    | 5 -----
+ target/mips/tcg/tcg-internal.h            | 5 +++++
+ target/mips/{ => tcg/sysemu}/tlb_helper.c | 3 ---
+ target/mips/meson.build                   | 1 -
+ target/mips/tcg/sysemu/meson.build        | 1 +
+ 5 files changed, 6 insertions(+), 9 deletions(-)
+ rename target/mips/{ => tcg/sysemu}/tlb_helper.c (99%)
 
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 6bac8ef704a..2c9666905df 100644
+index 2c9666905df..558cdca4e84 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -233,9 +233,6 @@ void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value);
- void cpu_mips_start_count(CPUMIPSState *env);
- void cpu_mips_stop_count(CPUMIPSState *env);
+@@ -164,16 +164,12 @@ void r4k_helper_tlbp(CPUMIPSState *env);
+ void r4k_helper_tlbr(CPUMIPSState *env);
+ void r4k_helper_tlbinv(CPUMIPSState *env);
+ void r4k_helper_tlbinvf(CPUMIPSState *env);
+-void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
  
--/* helper.c */
--void mmu_init(CPUMIPSState *env, const mips_def_t *def);
+ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     vaddr addr, unsigned size,
+                                     MMUAccessType access_type,
+                                     int mmu_idx, MemTxAttrs attrs,
+                                     MemTxResult response, uintptr_t retaddr);
+-hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
+-                                  MMUAccessType access_type, uintptr_t retaddr);
 -
- static inline void mips_env_set_pc(CPUMIPSState *env, target_ulong value)
- {
-     env->active_tc.PC = value & ~(target_ulong)1;
+ extern const VMStateDescription vmstate_mips_cpu;
+ 
+ #endif /* !CONFIG_USER_ONLY */
+@@ -423,7 +419,6 @@ static inline void compute_hflags(CPUMIPSState *env)
+     }
+ }
+ 
+-void cpu_mips_tlb_flush(CPUMIPSState *env);
+ void sync_c0_status(CPUMIPSState *env, CPUMIPSState *cpu, int tc);
+ void cpu_mips_store_status(CPUMIPSState *env, target_ulong val);
+ void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val);
 diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
-index b65580af211..70655bab45c 100644
+index 70655bab45c..a39ff45d58f 100644
 --- a/target/mips/tcg/tcg-internal.h
 +++ b/target/mips/tcg/tcg-internal.h
-@@ -20,6 +20,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+@@ -24,8 +24,13 @@ void mmu_init(CPUMIPSState *env, const mips_def_t *def);
  
- #if !defined(CONFIG_USER_ONLY)
- 
-+void mmu_init(CPUMIPSState *env, const mips_def_t *def);
-+
  void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
  
++void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
  uint32_t cpu_mips_get_random(CPUMIPSState *env);
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index a751c958329..c3159e3d7f3 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -708,7 +708,7 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
  
-     env->exception_base = (int32_t)0xBFC00000;
++hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
++                                  MMUAccessType access_type, uintptr_t retaddr);
++void cpu_mips_tlb_flush(CPUMIPSState *env);
++
+ #endif /* !CONFIG_USER_ONLY */
  
--#ifndef CONFIG_USER_ONLY
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-     mmu_init(env, env->cpu_model);
  #endif
-     fpu_init(env, env->cpu_model);
+diff --git a/target/mips/tlb_helper.c b/target/mips/tcg/sysemu/tlb_helper.c
+similarity index 99%
+rename from target/mips/tlb_helper.c
+rename to target/mips/tcg/sysemu/tlb_helper.c
+index bfb08eaf506..bf242f5e65a 100644
+--- a/target/mips/tlb_helper.c
++++ b/target/mips/tcg/sysemu/tlb_helper.c
+@@ -25,8 +25,6 @@
+ #include "exec/log.h"
+ #include "hw/mips/cpudevs.h"
+ 
+-#if !defined(CONFIG_USER_ONLY)
+-
+ /* no MMU emulation */
+ int no_mmu_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
+                        target_ulong address, MMUAccessType access_type)
+@@ -1072,4 +1070,3 @@ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
+         }
+     }
+ }
+-#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index a55af1cd6cf..ff5eb210dfd 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -31,7 +31,6 @@
+   'msa_translate.c',
+   'op_helper.c',
+   'rel6_translate.c',
+-  'tlb_helper.c',
+   'translate.c',
+   'translate_addr_const.c',
+   'txx9_translate.c',
+diff --git a/target/mips/tcg/sysemu/meson.build b/target/mips/tcg/sysemu/meson.build
+index 5c3024e7760..73ab9571ba6 100644
+--- a/target/mips/tcg/sysemu/meson.build
++++ b/target/mips/tcg/sysemu/meson.build
+@@ -1,4 +1,5 @@
+ mips_softmmu_ss.add(files(
+   'cp0_helper.c',
+   'mips-semi.c',
++  'tlb_helper.c',
+ ))
 -- 
 2.26.3
 
