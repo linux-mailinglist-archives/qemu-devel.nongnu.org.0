@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4AE370E03
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:41:24 +0200 (CEST)
-Received: from localhost ([::1]:47822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548F4370E0C
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:46:00 +0200 (CEST)
+Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldF9n-0004XW-5n
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36746)
+	id 1ldFEF-0003JZ-Cn
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:45:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEnv-0007d3-6i
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:47 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37407)
+ id 1ldEo0-0007f1-Pe
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:52 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldEnt-0008Ad-Fk
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:46 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- b11-20020a7bc24b0000b0290148da0694ffso1934532wmj.2
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:18:45 -0700 (PDT)
+ id 1ldEny-0008BV-I2
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:18:51 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id x7so3090932wrw.10
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=y5rUAff0XwGga948kJnZP8LhVBDdCm+qDgTkGYYKq9k=;
- b=VxfEiX/VdyWIyItBTwT0TvGXJ7iBuBjf3nTN+BB1mvg2upyGYRpquAQPviEBVZGrzZ
- Q9AS1Zc0nnp/+Xu1x6sEVw5BQzn4rORuLmHcR7fRKxY71qeDO7XG/72qbL7lGAzU7P/X
- tJt2d6Fr+BOtpZ55jCiMhDZ3STaMz+x/0weFb3xmfkIAtgh7h4TyrHY4YEt35T9dXDoX
- vR0Pz5AdzrHTAht/1LHhlXQ1x/zoYmOYPtpGaNua6V5aTXp/LDfbCWq3sHdBq9Kyeqjj
- aFURrqNW1uInpTsrws6mOh8fOfhSZLHeEY46rOj5g/1bpjwgnS2pRZ3jcDyKMu3MiWFT
- snDw==
+ bh=SviDw4K5XBOoGF63LViAqHxpPlYyDc4wVbmHH+f6eTQ=;
+ b=iwUxN9p4qyIE3m0xWc2ZfMOQKZfXWbwyE0I/GbesUi1u0wckzXdYyvJl0By+V8uMRi
+ dqDTICAxb6dFLXX5j6Y4xg98thPrig844LtMQCshJROZbM2Z5iyoVuPx4ltOyd2Pi6oJ
+ dZ+4fcJybNAbTEUu1zOZjA9qMt+n/F6BPTXOjQxxjGWigOz5j7BU8nbLSY58S6oc8iet
+ rhNrOEuHe2MRnEE5WsGu0EIog6KYVE78/pUOTzIEpWi24cn1xbTCD1k/VYYog4h7WFku
+ KANR4BkxHWnIH0y+hY/+ciU5mlRonJi/qPnhGcJNFCiAHOFKoVMqxlno68+/VveAE2Je
+ xUoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=y5rUAff0XwGga948kJnZP8LhVBDdCm+qDgTkGYYKq9k=;
- b=nf6fQG/WaZ3WbR+fyPaKofzd6MA5HKk6fzx/RPDaMvcOmz0xo1ERrKWG+JsoQgLpCe
- RV63WQxoLQDnNofZUOrXdpLpzvmzUmVLrLjcS/53DBfZG9iL0m49uxwnAayws5hN99hL
- GPmW0mUDApl+CgdCOQkpj4MG9vmmhHnrKbLkWofbsZnQkKvc3NllURHZFA5BFmVCimyN
- Mb2b1tdTWhyORoa/TsughZK7ukQ24G1NENB65pH+1quEcXp8n+nvpRxeTCBKloq6/cf+
- 4voH4LX+noDViEYLxvPW+OclUzDydl3eqKNG4Us0Z1abbID5V0d73IeD4Cx/1psjFEOk
- dEwg==
-X-Gm-Message-State: AOAM532clXJasVbhI4kqSUk87ZuRgCcpJTLlCU6JbXsFJAgztPKT3yIW
- AhQMSs2vtdAEDw5J2sJYX4u2CvYT4Jy+aKsr
-X-Google-Smtp-Source: ABdhPJzHr+8TGy+/iFNctq6REYAIx3fBXLJWhNfOVcDMuptZYEAm4zEN+hd3mrKHaAmeZ0V4+06DOQ==
-X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr17381427wml.118.1619972323998; 
- Sun, 02 May 2021 09:18:43 -0700 (PDT)
+ bh=SviDw4K5XBOoGF63LViAqHxpPlYyDc4wVbmHH+f6eTQ=;
+ b=TIzygj+5FVs75hcRykwP0h3bJJbbmP+A/28LZjigCkIwlEUUjLaGUcKcaXzg6/rxgj
+ n2gcskebtg3e7yaFgYXFqaySsiQf5btSh30rQK61q+GcLEYAGVZwQqm5+bWk+b/ZvFG6
+ SLIMIZW1iVCSAIbgPnuCLkpCuhWZP04urEyytzARueiZJEmkuihoNvHBadd1AzFz2qKX
+ 3UB5y6gJLX8JrJtedR8hPFT2W6y53hH937IUq69xe5KU4sTWNhyRBr340Q05F/LyCgQy
+ 1OdC39W3KL+oPPPqclMnafXrTMONk7Jh8aZmJAk9io7NGezuyi/bX8P+kd6NSVbQZEAw
+ jCOg==
+X-Gm-Message-State: AOAM530VIEHbRZmcdw8LiGbi7Waylng/3JSkao2aW8wD5vS5cATCub8L
+ H6V0f74FR1UMtGK6XOLNxUdTgo/+fOYt33t0
+X-Google-Smtp-Source: ABdhPJyHLVlnVubonhG5IGpU7e50aQREXdihDEIdGsEJDhBvN/Rb6pTEK7TujcKufJ84iuVBzDofFg==
+X-Received: by 2002:a5d:4810:: with SMTP id l16mr883533wrq.44.1619972329102;
+ Sun, 02 May 2021 09:18:49 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id e10sm9391752wrw.20.2021.05.02.09.18.42
+ by smtp.gmail.com with ESMTPSA id m11sm1916641wmq.33.2021.05.02.09.18.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:18:43 -0700 (PDT)
+ Sun, 02 May 2021 09:18:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/36] hw/mips: Restrict non-virtualized machines to TCG
-Date: Sun,  2 May 2021 18:15:37 +0200
-Message-Id: <20210502161538.534038-36-f4bug@amsat.org>
+Subject: [PULL 36/36] gitlab-ci: Add KVM mips64el cross-build jobs
+Date: Sun,  2 May 2021 18:15:38 +0200
+Message-Id: <20210502161538.534038-37-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,51 +89,48 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Huacai Chen <chenhuacai@kernel.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only the malta and loongson3-virt machines support KVM.
+Add a new job to cross-build the mips64el target without
+the TCG accelerator (IOW: only KVM accelerator enabled).
 
-Restrict the other machines to TCG:
-
- - mipssim
- - magnum
- - pica61
- - fuloong2e
- - boston
+Only build the mips64el target which is known to work
+and has users.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210428170410.479308-30-f4bug@amsat.org>
+Message-Id: <20210428170410.479308-31-f4bug@amsat.org>
 ---
- hw/mips/meson.build | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index 1195716dc73..dd0101ad4d8 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -1,12 +1,15 @@
- mips_ss = ss.source_set()
- mips_ss.add(files('bootloader.c', 'mips_int.c'))
- mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
--mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
- mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
--mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
- mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
--mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
--mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
- mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 2d95784ed51..e44e4b49a25 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -176,6 +176,14 @@ cross-s390x-kvm-only:
+     IMAGE: debian-s390x-cross
+     ACCEL_CONFIGURE_OPTS: --disable-tcg
  
-+if 'CONFIG_TCG' in config_all
-+mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
-+mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
-+mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
-+mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
-+endif
++cross-mips64el-kvm-only:
++  extends: .cross_accel_build_job
++  needs:
++    job: mips64el-debian-cross-container
++  variables:
++    IMAGE: debian-mips64el-cross
++    ACCEL_CONFIGURE_OPTS: --disable-tcg --target-list=mips64el-softmmu
 +
- hw_arch += {'mips': mips_ss}
+ cross-win32-system:
+   extends: .cross_system_build_job
+   needs:
 -- 
 2.26.3
 
