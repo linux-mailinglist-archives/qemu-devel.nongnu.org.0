@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CA1370E48
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 19:51:49 +0200 (CEST)
-Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AF4370E47
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 19:51:48 +0200 (CEST)
+Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldGFx-0003uL-28
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 13:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
+	id 1ldGFv-0003rj-1M
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 13:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD2-00008e-Sa
- for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32464)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD7-0000Ie-8g
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD1-0000S2-En
- for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:48 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldGD4-0000TP-78
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 13:48:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1619977726;
+ s=mimecast20190719; t=1619977729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LVk+fG4w5nyrUJ4lzn/Q6WMwvBj9Qk8SmhJuacim5+I=;
- b=JA5dYp/NB5tvK2CUddXvx8VKyJOpRQCrIJKLRaKsoAIPo5wzhaMu++mJranTAL2mEcDqCD
- 4BmXewg0EEVMVQo4tdmezjnFaIAbssMPRn1p2y1Qm9Ysb0OwIROZtt5ozAFCae0cL61VPp
- yPtxUrjauDtbT2NCQJYopdlJpA/W+SQ=
+ bh=t65MeeZAzptBIeI41RhzkY73pzinSJ6z0ZbTAjGpghw=;
+ b=d5FW6KiebO6XYaA3ZmnS9lg2ryvO4n39G5JXYGHrhlXCctCQfpEShdf0quzo6BFKkfsdz7
+ DXgFcPrQRxmIYQd1ZF35bR5GWasYsMKVWSq7UcTmlToftae1GVM+xX/qCyxEzozLrtzJQ7
+ AlxMmdEiOar7Zb9WfP/OmlQr0ydmhZQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-jODCFgMMPX2fhHBHeAY4gg-1; Sun, 02 May 2021 13:48:44 -0400
-X-MC-Unique: jODCFgMMPX2fhHBHeAY4gg-1
+ us-mta-499-viya5MnoPjqtF2BosMzBYg-1; Sun, 02 May 2021 13:48:45 -0400
+X-MC-Unique: viya5MnoPjqtF2BosMzBYg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257DD10066E6;
- Sun,  2 May 2021 17:48:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C065250200;
+ Sun,  2 May 2021 17:48:44 +0000 (UTC)
 Received: from thuth.com (ovpn-112-16.ams2.redhat.com [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBB3A189B6;
- Sun,  2 May 2021 17:48:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8351250F70;
+ Sun,  2 May 2021 17:48:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-s390x@nongnu.org,
 	Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: [PATCH 2/4] pc-bios/s390-ccw: Fix the cc-option macro in the Makefile
-Date: Sun,  2 May 2021 19:48:34 +0200
-Message-Id: <20210502174836.838816-3-thuth@redhat.com>
+Subject: [PATCH 3/4] pc-bios/s390-ccw: Silence GCC 11 stringop-overflow warning
+Date: Sun,  2 May 2021 19:48:35 +0200
+Message-Id: <20210502174836.838816-4-thuth@redhat.com>
 In-Reply-To: <20210502174836.838816-1-thuth@redhat.com>
 References: <20210502174836.838816-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,33 +81,58 @@ Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cc-option macro is not doing what it should - compared with the
-original from the rules.mak file that got removed with commit
-660f793093 ("Makefile: inline the relevant parts of rules.mak"),
-the arguments got changed and thus the macro is rather doubling
-the QEMU_CFLAGS than adding the flag that should be tested.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fixes: 22fb2ab096 ("pc-bios/s390-ccw: do not use rules.mak")
+When building on Fedora 34 (gcc version 11.0.0 20210210) we get:
+
+  In file included from pc-bios/s390-ccw/main.c:11:
+  In function ‘memset’,
+      inlined from ‘boot_setup’ at pc-bios/s390-ccw/main.c:185:5,
+      inlined from ‘main’ at pc-bios/s390-ccw/main.c:288:5:
+  pc-bios/s390-ccw/libc.h:28:14: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+     28 |         p[i] = c;
+        |         ~~~~~^~~
+
+The offending code is:
+
+  memset((char *)S390EP, 0, 6);
+
+where S390EP is a const address:
+
+  #define S390EP 0x10008
+
+The compiler doesn't now how big that pointed area is, so assume its
+length is zero. This has been reported as BZ#99578 to GCC:
+"gcc-11 -Warray-bounds or -Wstringop-overread warning when accessing a
+pointer from integer literal"
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578
+
+As this warning does us more harm than good in the BIOS code (where
+lot of direct accesses to low memory are done), silence this warning
+for all BIOS objects.
+
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210422145911.2513980-1-philmd@redhat.com>
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+[thuth: Use the pre-existing cc-option macro instead of adding a new one]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ pc-bios/s390-ccw/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 29fd9019b8..f0fe84c9eb 100644
+index f0fe84c9eb..83fb1afb73 100644
 --- a/pc-bios/s390-ccw/Makefile
 +++ b/pc-bios/s390-ccw/Makefile
-@@ -6,8 +6,8 @@ include ../../config-host.mak
- CFLAGS = -O2 -g
+@@ -30,6 +30,7 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
+ 	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
  
- quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
--cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null > /dev/null \
--	      2>&1 && echo OK), $1, $2)
-+cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
-+			 >/dev/null 2>&1 && echo OK),$2,$3)
- 
- VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
- set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
+ QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
++QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-Wno-stringop-overflow)
+ QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
+ QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
+ QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
 -- 
 2.27.0
 
