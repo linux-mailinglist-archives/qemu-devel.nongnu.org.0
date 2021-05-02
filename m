@@ -2,51 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF51370969
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 02:27:10 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F39B370994
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 03:38:32 +0200 (CEST)
+Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lczwz-0006LR-Fm
-	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 20:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34776)
+	id 1ld143-0002FX-4U
+	for lists+qemu-devel@lfdr.de; Sat, 01 May 2021 21:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lczvQ-0005iN-9Z; Sat, 01 May 2021 20:25:34 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:35732)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1ld134-0001iH-Ea; Sat, 01 May 2021 21:37:30 -0400
+Received: from mail-oo1-xc2f.google.com ([2607:f8b0:4864:20::c2f]:43539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lczvG-0005Ky-Si; Sat, 01 May 2021 20:25:30 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id m12so2611308eja.2;
- Sat, 01 May 2021 17:25:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1ld132-0005Ct-CF; Sat, 01 May 2021 21:37:30 -0400
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ p6-20020a4adc060000b02901f9a8fc324fso481723oov.10; 
+ Sat, 01 May 2021 18:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vvqrVbMO2HYW6vq9F8x/DjKIk+zes5NwkgUttstC76s=;
- b=rdbKB81OfTt6sldmzMeE63tFRKrj9ATz6iumL5E7ReenMm8VHn507JO5k1QdJoLYCX
- OIblrX+ubwOQdb9IfVZyV0V2LeTyw3VfFwDlt/XQqi2nVJ8ysyqkpOA6day6nH6Bq/Ar
- xNAIx/rk1PFbEi0nl1T7u2T02N6mQIM2ZAI+Bj3f0apiu/adhDW5kUH+F+AJoJT18z5q
- UILiW5WUrLTepee41IjfGInPJiqHXY+ZugUDfv3YYnAneDo2pf+8bSsvYOIhlrFUvbeW
- 7bxrrm3usnNnHAfnoDEjG3HgR7UoFUiMaxZ62q/UsOn4HyA2SXeepsMrKCVOFwSvhSa6
- UHgw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=r4Bb6ht523fYKvsoJ8f1qXnQ3naMVzUj5D8CubvOgrc=;
+ b=KlwCcrQz/vKrlGDb6QtxsAbOjmpjU0ygAorvY3MRagg06V9OJvAm8+r2TadhrsVSX0
+ 40PnUs2qOwPlHbEReahrR50dhtjnbU9Kn8jke/aLVtwQdT3YdbgENGcHbS0ozFePnqH3
+ y/FWQY01vEoAEegAzBoT4gYP15D0dSCeT1KFq2l28nZzEFQw0CMmAvDMFXkt3Gh04krs
+ enbDPCHnjZkejc5257/aGIOskaq/WUZ7Q95fdD+b0zTKc6U6toErvIkR1FWwo68YTRzY
+ hcUNnjcvm9Ziy+mWrBrjJO4PJIMi6PWzutf7SfqMd8Mzs8a/jo51jspF4G+jXQ3p6VrJ
+ Hb8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vvqrVbMO2HYW6vq9F8x/DjKIk+zes5NwkgUttstC76s=;
- b=dI9L7BGvpoVvXM9Quv/M/OdRxSdNnmDBnhL5Ovs9y0T82z7f+5b+ynPvU/ldah2s69
- bPNp+yEXLBekQ4vDL39zhVPevaJCPitTr8DGa9jvEsU4Ji4MjfMIG1fj1ApiwuQixgiL
- 23lG9CrUsFQvprdQYFEvAmOYxA0xyuUaWQA9Xj1qtoupR1MiqGs+te9g3GHtc2gOi1Rc
- 5IbHsoscqFcwZ7xfCbxr3bC8nusKBEs34XyihgtZKHGrfCTXUk5Ad2+xs2RoV11jT+P2
- fr8yyQRuyf0YK8U/DOmz1Nxs52vEG6Jxx6q1FpjHwkEhLcZw7uotKN/qD35ascTte4N8
- OM4A==
-X-Gm-Message-State: AOAM530rYU7Fhh9aKXrs6Mt2L3OyENUtiQ+mWwUdFeuoMIz+Y3j+cwFq
- okV1U7zwLn4WSWeMafWYPp5teHGl7sIecQIzM0M=
-X-Google-Smtp-Source: ABdhPJz1O41NXRKOx+QbsC1ZftCx+28qOBMBlX79gH6Y00rdsPBTRj9Pcy/JET87QKSj/BKtcCY03pBuRfGHtLtrRM8=
-X-Received: by 2002:a17:906:2c55:: with SMTP id
- f21mr10927300ejh.41.1619915118795; 
- Sat, 01 May 2021 17:25:18 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=r4Bb6ht523fYKvsoJ8f1qXnQ3naMVzUj5D8CubvOgrc=;
+ b=AWfdPUlDHS3vy9uSFsZrYWiZtwjOzMP7fCE4iA4u1SKpXdVD8SJ1XIIZxH8PiVNCxv
+ HHxhA2vzQC2+vZF0Nje9Sv8IVOpiOkHcpqSyUymgkEpwr5x1Np6oxQ8T8OTduOW4dMWx
+ MHpe5b5dbhZDQKO5x2nPADDzI4PXd7wWwo1gWq7D9GHY6Qk7ydpr7yVmIqKTtcTcoOxj
+ aABZg4CRyaPwnGf4ec0CVT8IiQGih+WQ98ORqnzvOGZyrWU5YaKmktsnSZ6OUjx5rH2+
+ ccFMETdDPXVbOnLDKlmKteNsb2WGYsqbNsXgGMYM5jBE6dg7tzc2g8JNJivPQkH7VoAl
+ 1kIA==
+X-Gm-Message-State: AOAM533EmEMD96BXrRoxvsd4P+R4F3P38M48To8aSWFC+Yb5p1ZgZ3qZ
+ f5zaDJ1+Bp84GVACNY5KqFSEAv2My88=
+X-Google-Smtp-Source: ABdhPJwuAHE4L8dP724c6eCWnse+ce4pVgHXhxw3/62We91EhU3UDIG53P2I+Aed0gvcBDJqKuWqVA==
+X-Received: by 2002:a4a:5242:: with SMTP id d63mr5621608oob.93.1619919446484; 
+ Sat, 01 May 2021 18:37:26 -0700 (PDT)
+Received: from server.roeck-us.net
+ (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+ by smtp.gmail.com with ESMTPSA id j11sm1818484ooo.45.2021.05.01.18.37.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 01 May 2021 18:37:25 -0700 (PDT)
+Subject: Re: [PATCH v3 3/4] hw/arm: sabrelite: Connect the Ethernet PHY at
+ address 6
+To: Bin Meng <bmeng.cn@gmail.com>
 References: <20210106063504.10841-1-bmeng.cn@gmail.com>
  <20210106063504.10841-4-bmeng.cn@gmail.com>
  <20210430144136.GA2880420@roeck-us.net>
@@ -54,24 +62,28 @@ References: <20210106063504.10841-1-bmeng.cn@gmail.com>
  <72acebfa-be17-cca5-ce6a-443ef4d23fce@roeck-us.net>
  <6f92b247-cc78-1e26-5809-2ae4809be5c6@amsat.org>
  <b94a7a17-75bb-5b8d-adf4-ab2ff33c0553@roeck-us.net>
-In-Reply-To: <b94a7a17-75bb-5b8d-adf4-ab2ff33c0553@roeck-us.net>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 2 May 2021 08:24:32 +0800
-Message-ID: <CAEUhbmVxBiYo_=Xx4w=4d2Y+DYHuHzKFahbUG-7qFS4THFqAkg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] hw/arm: sabrelite: Connect the Ethernet PHY at
- address 6
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ <CAEUhbmVxBiYo_=Xx4w=4d2Y+DYHuHzKFahbUG-7qFS4THFqAkg@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <72bc74d2-053f-b0ab-b90d-391f777dfce3@roeck-us.net>
+Date: Sat, 1 May 2021 18:37:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <CAEUhbmVxBiYo_=Xx4w=4d2Y+DYHuHzKFahbUG-7qFS4THFqAkg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
+ envelope-from=groeck7@gmail.com; helo=mail-oo1-xc2f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,98 +99,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 2, 2021 at 7:21 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 5/1/21 2:40 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 5/1/21 10:12 PM, Guenter Roeck wrote:
-> >> On 4/30/21 9:28 PM, Bin Meng wrote:
-> >>> On Fri, Apr 30, 2021 at 10:41 PM Guenter Roeck <linux@roeck-us.net> w=
-rote:
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>> On Wed, Jan 06, 2021 at 02:35:03PM +0800, Bin Meng wrote:
-> >>>>> From: Bin Meng <bin.meng@windriver.com>
-> >>>>>
-> >>>>> At present, when booting U-Boot on QEMU sabrelite, we see:
-> >>>>>
-> >>>>>   Net:   Board Net Initialization Failed
-> >>>>>   No ethernet found.
-> >>>>>
-> >>>>> U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
-> >>>>> U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
-> >>>>> board, the Ethernet PHY is at address 6. Adjust this by updating th=
-e
-> >>>>> "fec-phy-num" property of the fsl_imx6 SoC object.
-> >>>>>
-> >>>>> With this change, U-Boot sees the PHY but complains MAC address:
-> >>>>>
-> >>>>>   Net:   using phy at 6
-> >>>>>   FEC [PRIME]
-> >>>>>   Error: FEC address not set.
-> >>>>>
-> >>>>> This is due to U-Boot tries to read the MAC address from the fuse,
-> >>>>> which QEMU does not have any valid content filled in. However this
-> >>>>> does not prevent the Ethernet from working in QEMU. We just need to
-> >>>>> set up the MAC address later in the U-Boot command shell, by:
-> >>>>>
-> >>>>>   =3D> setenv ethaddr 00:11:22:33:44:55
-> >>>>>
-> >>>>
-> >>>> With this patch in place, the standard Ethernet interface no longer =
-works when
-> >>>> booting sabrelite Linux images directly (without u-boot) using the f=
-ollowing
-> >>>> qemu command.
-> >>>>         qemu-system-arm -M sabrelite -kernel arch/arm/boot/zImage
-> >>>>         ...
-> >>>>
-> >>>> The Ethernet interface still instantiates, but packet transfer to th=
-e host
-> >>>> no longer works. Reverting this patch fixes the problem for me.
-> >>>>
-> >>>> Is there a qemu command line parameter that is now necessary to inst=
-antiate
-> >>>> the Ethernet interface when booting Linux ?
-> >>>
-> >>> Enabling "guest_errors" shows that Linux kernel fec driver is trying
-> >>> to read PHY at address 0, which is not what we want.
-> >>>
-> >>> [imx.fec.phy]imx_phy_read: Bad phy num 0
-> >>>
-> >>> The device tree blob of the sabrelite does not contain a node for the
-> >>> ethernet phy specifying phy address, so I suspect Linux kernel driver
-> >>> is using default phy address 0 instead.
-> >>>
-> >>> Could you please test on a real hardware to see what happens?
-> >>>
-> >>
-> >> The problem is that qemu returns 0 when the OS tries to read from a
-> >> non-existing PHY. Linux expects it to return 0xffff, and believes that
-> >> a PHY is there if 0 is returned.
-> >
-> > Correct.
-> >
->
-> I'll send a patch. Next question is why the Ethernet interfaces on mcimx6=
-ul-evk
-> and mcimx7d-sabre don't work. I either get no connectivity at all (simila=
-r to
-> the above) or something like
->
-> fec 2188000.ethernet eth1: Unable to connect to phy
-> ifconfig: SIOCSIFFLAGS: No such device
->
-> Any idea ?
+On 5/1/21 5:24 PM, Bin Meng wrote:
+> On Sun, May 2, 2021 at 7:21 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 5/1/21 2:40 PM, Philippe Mathieu-Daudé wrote:
+>>> On 5/1/21 10:12 PM, Guenter Roeck wrote:
+>>>> On 4/30/21 9:28 PM, Bin Meng wrote:
+>>>>> On Fri, Apr 30, 2021 at 10:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Wed, Jan 06, 2021 at 02:35:03PM +0800, Bin Meng wrote:
+>>>>>>> From: Bin Meng <bin.meng@windriver.com>
+>>>>>>>
+>>>>>>> At present, when booting U-Boot on QEMU sabrelite, we see:
+>>>>>>>
+>>>>>>>   Net:   Board Net Initialization Failed
+>>>>>>>   No ethernet found.
+>>>>>>>
+>>>>>>> U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
+>>>>>>> U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
+>>>>>>> board, the Ethernet PHY is at address 6. Adjust this by updating the
+>>>>>>> "fec-phy-num" property of the fsl_imx6 SoC object.
+>>>>>>>
+>>>>>>> With this change, U-Boot sees the PHY but complains MAC address:
+>>>>>>>
+>>>>>>>   Net:   using phy at 6
+>>>>>>>   FEC [PRIME]
+>>>>>>>   Error: FEC address not set.
+>>>>>>>
+>>>>>>> This is due to U-Boot tries to read the MAC address from the fuse,
+>>>>>>> which QEMU does not have any valid content filled in. However this
+>>>>>>> does not prevent the Ethernet from working in QEMU. We just need to
+>>>>>>> set up the MAC address later in the U-Boot command shell, by:
+>>>>>>>
+>>>>>>>   => setenv ethaddr 00:11:22:33:44:55
+>>>>>>>
+>>>>>>
+>>>>>> With this patch in place, the standard Ethernet interface no longer works when
+>>>>>> booting sabrelite Linux images directly (without u-boot) using the following
+>>>>>> qemu command.
+>>>>>>         qemu-system-arm -M sabrelite -kernel arch/arm/boot/zImage
+>>>>>>         ...
+>>>>>>
+>>>>>> The Ethernet interface still instantiates, but packet transfer to the host
+>>>>>> no longer works. Reverting this patch fixes the problem for me.
+>>>>>>
+>>>>>> Is there a qemu command line parameter that is now necessary to instantiate
+>>>>>> the Ethernet interface when booting Linux ?
+>>>>>
+>>>>> Enabling "guest_errors" shows that Linux kernel fec driver is trying
+>>>>> to read PHY at address 0, which is not what we want.
+>>>>>
+>>>>> [imx.fec.phy]imx_phy_read: Bad phy num 0
+>>>>>
+>>>>> The device tree blob of the sabrelite does not contain a node for the
+>>>>> ethernet phy specifying phy address, so I suspect Linux kernel driver
+>>>>> is using default phy address 0 instead.
+>>>>>
+>>>>> Could you please test on a real hardware to see what happens?
+>>>>>
+>>>>
+>>>> The problem is that qemu returns 0 when the OS tries to read from a
+>>>> non-existing PHY. Linux expects it to return 0xffff, and believes that
+>>>> a PHY is there if 0 is returned.
+>>>
+>>> Correct.
+>>>
+>>
+>> I'll send a patch. Next question is why the Ethernet interfaces on mcimx6ul-evk
+>> and mcimx7d-sabre don't work. I either get no connectivity at all (similar to
+>> the above) or something like
+>>
+>> fec 2188000.ethernet eth1: Unable to connect to phy
+>> ifconfig: SIOCSIFFLAGS: No such device
+>>
+>> Any idea ?
+> 
+> I don't see these 2 are supported targets of QEMU:
+> https://wiki.qemu.org/Documentation/Platforms/ARM
+> 
 
-I don't see these 2 are supported targets of QEMU:
-https://wiki.qemu.org/Documentation/Platforms/ARM
+Reality says otherwise.
 
-Regards,
-Bin
+$ qemu-system-arm --version
+QEMU emulator version 6.0.0 (v6.0.0-25-geac5bb0cc1-dirty)
+Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+$ qemu-system-arm -M ? | grep mcim
+mcimx6ul-evk         Freescale i.MX6UL Evaluation Kit (Cortex A7)
+mcimx7d-sabre        Freescale i.MX7 DUAL SABRE (Cortex A7)
+
+Guenter
 
