@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FDE370E06
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:41:45 +0200 (CEST)
-Received: from localhost ([::1]:49004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A293370DF7
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 18:31:04 +0200 (CEST)
+Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldFA8-00050i-9G
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:41:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36190)
+	id 1ldEzl-0002AE-GS
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 12:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldElt-0005gB-LF
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:45 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42981)
+ id 1ldEm8-0005rQ-WD
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:57 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldElq-0007Wj-Pa
- for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:40 -0400
-Received: by mail-wr1-x430.google.com with SMTP id l2so3086541wrm.9
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:16:38 -0700 (PDT)
+ id 1ldEm7-0007aP-Cp
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 12:16:56 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x7so3088085wrw.10
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=otaOdF2+QjBw7vCs6eJeEN+7XfrkFSt9cRlnVyMFAT8=;
- b=YzqwfsBxeZ643NXMZN6yrtEFs37/3BnfS98ZFXzsjsAJ7BGFSbbUQC72ZutQ25swS/
- HGDGfytE/dH2taG2npjICB9yhLHLkGpd4fx3KzAeLzgbfYVd0scb26qr6AqF2iAnaGBc
- fjH8ew4cbKGtKf3Gp6Eg+qtA3PX+ZF+90EkKssh3Xb+PPqW5HTx7aR9Ate60wSrUPoZw
- c73rFN7fpl9S9h/K+fb0Ac9i32I7S0QSJR0l/29hckG2+t9rzeNaTAMzmv+VIfhkOvqr
- qwnf8GS3/tZUFGUuu9GSCfuPf/H1PNVrAeWJdR/v6LpEnqVD5DWS11O5+9WiqxFTYFQ7
- HrkA==
+ bh=SAjsdRT6m+/gb9YjtjeiORJfX3lsELt6a2iqeSZGiwI=;
+ b=XjipVA66tmQ4OSa+3+g8g2YFcbKzAbSD74lHtglef11Z9zIgeZoZnbAN0rzGjK+tkL
+ +JpLtFrwryWu3QuLsVcVP5aejivVYF51wC7B91Ty2iV9xcuPsX2X0e3Tv+hW/FtP49aY
+ mNwbT6/fYSEy4BurpcpaM9/FPsBHlPEbxCF6wq+YEUnq1DDy1A8cFP83+UomODEV87GT
+ m2wFDIFvWcgRfKw7oTIE8pu2+8SN4mXK8o734kpmlNS21rgFEW3GtbWA2KjQKZNTsMEr
+ 2qk8ejPmxACdXIQDq9m/QHV5HT/e+fU/pYwRLg+AR5R7PJuTwZbjczBLgyFQ6s9Z6pHK
+ An7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=otaOdF2+QjBw7vCs6eJeEN+7XfrkFSt9cRlnVyMFAT8=;
- b=tIv5H8po/UOF2KmfgKA6yeeh+uBM4b3x7a1NfH+FQqW/4pXqNgfZR3kssvnb6ofWiD
- 1BePXE7K+VkEQ4UCK2vabySiGy3GBXm8pmE5CD4UFf2G83ZWXQWW8SVhwmihpormhyPS
- liI1wrEpzyNHHoZXivM6OihsA0ab8iXT5tbB9xnz1cL6+WH8E1gF3TRo5BHjBCF5KkiH
- ZqrpImOgyGrY+PaBdWlcvw+USAG+O15oeADSYrafA2tAC3penzpiiDfNCuqJAh8jN3Y5
- 5OjQ5mIywt/iI8d/9hBVlPUNeuFApxou2tRvIswsUFVPFquilEctEgothr+b7CeyYo7o
- HCzQ==
-X-Gm-Message-State: AOAM5336KCuSdJlOXu+CVQdx4G4pb+ZSxKJomXXEiIRV5liw3/UIQjSu
- Y8nokzNCkO/steZnEjBQzZWWAElyH5nj5dN6
-X-Google-Smtp-Source: ABdhPJzOy91Rge+I9QbC6z1HsSI2Ja21veqhliFdHuaxqdufJ2JvBOw+2yiQMJf2G6zjnK4wWR3pYA==
-X-Received: by 2002:adf:fe8e:: with SMTP id l14mr19439702wrr.305.1619972197154; 
- Sun, 02 May 2021 09:16:37 -0700 (PDT)
+ bh=SAjsdRT6m+/gb9YjtjeiORJfX3lsELt6a2iqeSZGiwI=;
+ b=OwJLg2tW4ZdRD/7aHTFoTiaHHD7FHLRBZEprBnY8qnPbS1Co1J4NtWOVRr1AAtk7wi
+ Zpuqotz2YWPIwQOHdQh+I3XXesZPzVD5LPvQerRVb9znBB12DzOb+v7gI5Ir2kVw1r3G
+ 2Q4zzTCpIVkt2biYCwQOGATwC3g2TpzsF+hy5vKGt60laMI3dt/oAtsMVYbDiHwoYn6T
+ DK1iUWsFdSk3xkyyeSm5pFhHPSOEGK1TaRf/rqTSmA8DKq1ZhbP2NVgGnmgyjHzWGB5L
+ TfDmIX0ewIAY7Dkumzu7HDYNmCz9/t1ytKe/kakBxoXc35C5FQgTki1kKKCpOXMmKEbZ
+ MI+w==
+X-Gm-Message-State: AOAM532ADG7J0lmYwts5yKXWMHgjKccEr+Sq5VnE7Pf4IWkLTh5CLUlu
+ dhA0G1FVSPwOzrrmqly9KBVaKEAgXSc4QWyb
+X-Google-Smtp-Source: ABdhPJy1Bnip6k0IG0lqwjbDm2tKdLNZQo1eYNBri2pONhyFIZSjvD9B+L2OnNEP+UM/uDFrkQbkOA==
+X-Received: by 2002:adf:f205:: with SMTP id p5mr10671095wro.170.1619972213935; 
+ Sun, 02 May 2021 09:16:53 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id s6sm21201888wms.0.2021.05.02.09.16.36
+ by smtp.gmail.com with ESMTPSA id a2sm9894505wrt.82.2021.05.02.09.16.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 09:16:36 -0700 (PDT)
+ Sun, 02 May 2021 09:16:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/36] target/mips: Optimize CPU/FPU regnames[] arrays
-Date: Sun,  2 May 2021 18:15:13 +0200
-Message-Id: <20210502161538.534038-12-f4bug@amsat.org>
+Subject: [PULL 14/36] target/mips: Declare mips_env_set_pc() inlined in
+ "internal.h"
+Date: Sun,  2 May 2021 18:15:16 +0200
+Message-Id: <20210502161538.534038-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
 References: <20210502161538.534038-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,61 +94,100 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since all entries are no more than 4 bytes (including nul
-terminator), can save space and pie runtime relocations by
-declaring regnames[] as array of 4 const char.
+Rename set_pc() as mips_env_set_pc(), declare it inlined
+and use it in cpu.c and op_helper.c.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210428170410.479308-6-f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210428170410.479308-9-f4bug@amsat.org>
 ---
- target/mips/internal.h | 4 ++--
- target/mips/cpu.c      | 2 +-
- target/mips/fpu.c      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ target/mips/internal.h  | 10 ++++++++++
+ target/mips/cpu.c       |  8 +-------
+ target/mips/op_helper.c | 16 +++-------------
+ 3 files changed, 14 insertions(+), 20 deletions(-)
 
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index a8644f754a6..37f54a8b3fc 100644
+index 57072a941e7..04f4b3d6614 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -71,8 +71,8 @@ struct mips_def_t {
-     int32_t SAARP;
- };
+@@ -219,6 +219,16 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ /* op_helper.c */
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
  
--extern const char * const regnames[32];
--extern const char * const fregnames[32];
-+extern const char regnames[32][4];
-+extern const char fregnames[32][4];
- 
- extern const struct mips_def_t mips_defs[];
- extern const int mips_defs_number;
++static inline void mips_env_set_pc(CPUMIPSState *env, target_ulong value)
++{
++    env->active_tc.PC = value & ~(target_ulong)1;
++    if (value & 1) {
++        env->hflags |= MIPS_HFLAG_M16;
++    } else {
++        env->hflags &= ~(MIPS_HFLAG_M16);
++    }
++}
++
+ static inline void restore_pamask(CPUMIPSState *env)
+ {
+     if (env->hflags & MIPS_HFLAG_ELPA) {
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index f354d18aec4..ed9552ebeb7 100644
+index 8f76f4576f4..a751c958329 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -35,7 +35,7 @@
- #include "qapi/qapi-commands-machine-target.h"
- #include "fpu_helper.h"
+@@ -327,14 +327,8 @@ void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
+ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
+ {
+     MIPSCPU *cpu = MIPS_CPU(cs);
+-    CPUMIPSState *env = &cpu->env;
  
--const char * const regnames[32] = {
-+const char regnames[32][4] = {
-     "r0", "at", "v0", "v1", "a0", "a1", "a2", "a3",
-     "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
-     "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
-diff --git a/target/mips/fpu.c b/target/mips/fpu.c
-index 1447dba3fa3..c7c487c1f9f 100644
---- a/target/mips/fpu.c
-+++ b/target/mips/fpu.c
-@@ -17,7 +17,7 @@ const FloatRoundMode ieee_rm[4] = {
-     float_round_down
- };
+-    env->active_tc.PC = value & ~(target_ulong)1;
+-    if (value & 1) {
+-        env->hflags |= MIPS_HFLAG_M16;
+-    } else {
+-        env->hflags &= ~(MIPS_HFLAG_M16);
+-    }
++    mips_env_set_pc(&cpu->env, value);
+ }
  
--const char * const fregnames[32] = {
-+const char fregnames[32][4] = {
-     "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
-     "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
-     "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
+ #ifdef CONFIG_TCG
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index b80e8f75401..222a0d7c7b3 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -993,24 +993,14 @@ static void debug_post_eret(CPUMIPSState *env)
+     }
+ }
+ 
+-static void set_pc(CPUMIPSState *env, target_ulong error_pc)
+-{
+-    env->active_tc.PC = error_pc & ~(target_ulong)1;
+-    if (error_pc & 1) {
+-        env->hflags |= MIPS_HFLAG_M16;
+-    } else {
+-        env->hflags &= ~(MIPS_HFLAG_M16);
+-    }
+-}
+-
+ static inline void exception_return(CPUMIPSState *env)
+ {
+     debug_pre_eret(env);
+     if (env->CP0_Status & (1 << CP0St_ERL)) {
+-        set_pc(env, env->CP0_ErrorEPC);
++        mips_env_set_pc(env, env->CP0_ErrorEPC);
+         env->CP0_Status &= ~(1 << CP0St_ERL);
+     } else {
+-        set_pc(env, env->CP0_EPC);
++        mips_env_set_pc(env, env->CP0_EPC);
+         env->CP0_Status &= ~(1 << CP0St_EXL);
+     }
+     compute_hflags(env);
+@@ -1036,7 +1026,7 @@ void helper_deret(CPUMIPSState *env)
+     env->hflags &= ~MIPS_HFLAG_DM;
+     compute_hflags(env);
+ 
+-    set_pc(env, env->CP0_DEPC);
++    mips_env_set_pc(env, env->CP0_DEPC);
+ 
+     debug_post_eret(env);
+ }
 -- 
 2.26.3
 
