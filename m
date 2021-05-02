@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94925370AE4
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 11:28:00 +0200 (CEST)
-Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805FD370B15
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 12:19:11 +0200 (CEST)
+Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ld8ON-0006SO-4C
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 05:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
+	id 1ld9Bu-0007Ty-2Y
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 06:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ld8M9-0005Nk-KX
- for qemu-devel@nongnu.org; Sun, 02 May 2021 05:25:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60070)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ld8M7-0007n5-Hj
- for qemu-devel@nongnu.org; Sun, 02 May 2021 05:25:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ld8M4-00070A-AL
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 09:25:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 47E7C2E8144
- for <qemu-devel@nongnu.org>; Sun,  2 May 2021 09:25:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ld97y-0006d2-Pi; Sun, 02 May 2021 06:15:06 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43366
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ld97w-0002LH-OC; Sun, 02 May 2021 06:15:06 -0400
+Received: from host109-146-177-131.range109-146.btcentralplus.com
+ ([109.146.177.131] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ld97y-0001iU-AV; Sun, 02 May 2021 11:15:09 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210428125104.358535-1-philmd@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <98dbbded-8705-8bc9-3ebb-dbfff0fdc1af@ilande.co.uk>
+Date: Sun, 2 May 2021 11:14:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 May 2021 09:17:41 -0000
-From: Christian Schoenebeck <1785902@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: metux-its schoenebeck th-huth
-X-Launchpad-Bug-Reporter: Enrico Weigelt, metux IT consult (metux-its)
-X-Launchpad-Bug-Modifier: Christian Schoenebeck (schoenebeck)
-References: <153367731299.17920.17499928996818370996.malonedeb@soybean.canonical.com>
-Message-Id: <161994706177.10342.9346433961413968232.malone@gac.canonical.com>
-Subject: [Bug 1785902] Re: local/9pfs: Too many levels of symbolic links
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: ee84d64aa601c1814ee518d6805a769d55f3a746
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210428125104.358535-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.146.177.131
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 0/8] hw/block/fdc: Allow Kconfig-selecting ISA
+ bus/SysBus floppy controllers
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,58 +63,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1785902 <1785902@bugs.launchpad.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enrico, with security_model=3Dmapped (a.k.a. security_model=3Dmapped-xattr)
-9p is not following symlinks on host. That's the expected behaviour.
+On 28/04/2021 13:50, Philippe Mathieu-Daudé wrote:
 
-There are 2 distinct models:
+> Hi,
+> 
+> The floppy disc controllers pulls in irrelevant devices (sysbus in
+> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
+> 
+> This series clean that by extracting each device in its own file,
+> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
+> 
+> Since v1:
+> - added missing "hw/block/block.h" header (jsnow)
+> - inlined hardware specific calls (Mark)
+> - added R-b/A-b tags
+> 
+> Missing review: 5-8 (1-4 can be queued meanwhile)
+> 
+> Regards,
+> 
+> Phil.
+> 
+> Philippe Mathieu-Daudé (8):
+>    hw/block/fdc: Replace disabled fprintf() by trace event
+>    hw/block/fdc: Declare shared prototypes in fdc-internal.h
+>    hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
+>    hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
+>    hw/block/fdc: Add sysbus_fdc_init_drives() method
+>    hw/sparc/sun4m: Inline sun4m_fdctrl_init()
+>    hw/block/fdc-sysbus: Add 'dma-channel' property
+>    hw/mips/jazz: Inline fdctrl_init_sysbus()
+> 
+>   hw/block/fdc-internal.h | 156 +++++++++++
+>   include/hw/block/fdc.h  |   7 +-
+>   hw/block/fdc-isa.c      | 313 +++++++++++++++++++++
+>   hw/block/fdc-sysbus.c   | 224 +++++++++++++++
+>   hw/block/fdc.c          | 608 +---------------------------------------
+>   hw/mips/jazz.c          |  16 ++
+>   hw/sparc/sun4m.c        |  16 ++
+>   MAINTAINERS             |   3 +
+>   hw/block/Kconfig        |   8 +
+>   hw/block/meson.build    |   2 +
+>   hw/block/trace-events   |   3 +
+>   hw/i386/Kconfig         |   2 +-
+>   hw/isa/Kconfig          |   6 +-
+>   hw/mips/Kconfig         |   2 +-
+>   hw/sparc/Kconfig        |   2 +-
+>   hw/sparc64/Kconfig      |   2 +-
+>   16 files changed, 758 insertions(+), 612 deletions(-)
+>   create mode 100644 hw/block/fdc-internal.h
+>   create mode 100644 hw/block/fdc-isa.c
+>   create mode 100644 hw/block/fdc-sysbus.c
 
-security_model=3Dpassthrough uses the ownership information, permissions
-and symlink info etc. directly from the host's file system. This model
-requires the qemu binary to run as high privileged user (i.e. root)
-though, because it needs to be able to change file ownership,
-permissions and so forth. For that reason this model is only appropriate
-for use cases where there is a certain trust to what the guest system is
-doing. E.g. this model is commonly used by kernel coders to build
-kernel/driver code on host and then test run it as guest.
+Thanks Phil, this version looks good to me. One day in the future it would be 
+interesting to see about removing sysbus_fdc_init_drives() completely but given there 
+is a similar pattern for IDE with ide_create_drive() then I'd say this patchset is 
+definitely an improvement.
 
-For untrusted guests (i.e. most cases) it is recommended to use
-security_model=3Dmapped-xattr instead. In this mode all ownership
-information, permissions, etc. are emulated (i.e. mapped) by storing
-them as extended attributes on top of files on host. This way the qemu
-binary can run with a regular (unprivileged) user and pretend to host it
-would have all rights to change ownership and permissions.
+For the series:
 
-You can read more details about this in the 9p developer description about =
-the 9p 'local' driver here:
-https://wiki.qemu.org/Documentation/9p#9p_Filesystem_Drivers
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1785902
+ATB,
 
-Title:
-  local/9pfs: Too many levels of symbolic links
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Version: 2.9.1
-
-  The primary symptom is resolving symlink fails w/ error "too many
-  levels of symbolic links".
-
-  My analysis showed that local_readlink() uses local_open_nofollow() to
-  open the file and then tries to read it. local_open_nofollow() then
-  tries to open the file w/ O_NOFOLLOW, which obviously fails if the
-  requested file is a symlink.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1785902/+subscriptions
+Mark.
 
