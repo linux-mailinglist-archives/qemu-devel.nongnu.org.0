@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002C0370F21
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:50:02 +0200 (CEST)
-Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8450370FB4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 01:21:05 +0200 (CEST)
+Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldJ2Q-00047J-25
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
+	id 1ldLOa-0001M9-5A
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 19:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldJ0g-000338-KH
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:48:14 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33665)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ldLMQ-0008Ag-Rm
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:50 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:42731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldJ0d-0000X6-UD
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:48:14 -0400
-Received: by mail-ej1-x632.google.com with SMTP id t4so4985612ejo.0
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:48:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ldLMO-0002pE-UH
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 19:18:50 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id v13so1856070ple.9
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8Y2JInxxq3BF5yZ61pBjPVFMuDnWB1KwokFQSejViw4=;
- b=EAaM3Ppdu6SALKim2CFiVla5hUHBi1M1QOrbCU2FwkjHHrpiabtisoHM5gjGEmxdgK
- 39Ppp8/AiYBtEewOeHuHG5gad4S7j346UYJEK1V3sJHvSDkY3z28blplynS11+sAtGqC
- 7sbHyOm0ulVd+bOV8Wuga47B3vSWrBySdtPiBOyUj6VfdPky3QLzjFBQ6GSldBhtbtrE
- +//eJkDN9IjrwByib72/+vr+dQxJQj7j9/mnP+HoM8ypF2t9joZqqO+GIAX8ju0fnS8y
- y3bItbUTgDMZlHiQ61oJtdo1RLkMZ49TX9rMZO/PH+7aeUwPfN/vEPsA1KNVjSj49z/k
- o0WA==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FnKIvYRhqbh2eE+ZT/G5+WgVP1rbStnMg2rdovvQbUc=;
+ b=hlzpxXyemqnUpFGUdmieQ059keX+5iRJY+ZQtDzHhYAF7pCmEqIhRPR6aUx8WObmIv
+ a/cNIeic5V22Ze+uL6UPWyzr+/v23Qx8XQhErUFJmipN+/f1L6hCTihSMwziIwXhZ9Kn
+ EJQ/Y6BvpSiRfe8C/gJ2lqOb5Ue+4G13Yo/SsEpj+Xi9Dsso05/M5GXfLr4OaP2MUVES
+ kd+UGLN8jfxrv1D9/b2M2/p7jO188AiDiaDISAXKBGDjUT+Lk9t8eJRfUqGLpaD4wuxd
+ GPoXOWGC2eRtSa/EqH43l43DLkKWlH3ZHcEXmmKE2B0+kSTs8uxoArkh232b4jgg7CFp
+ NZPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8Y2JInxxq3BF5yZ61pBjPVFMuDnWB1KwokFQSejViw4=;
- b=PZW/ImbA1A4qzaCOomLNka77NbybCYxZo4bKecwfqywZ/zc29mTcwEAkmRo19NYc9/
- gOz4gmkDUfZBxsMyb6B/QxFENFUcZPh6Uv1VMjo46qfS7OJgQJ7gX/1D1B2qKrvfcnfW
- Td0VvWXvPljj93rQhOQWmUcCzYq3WCvEUkzDHctZZOhKL3E9K1sgYcenyZsx9S2m8u38
- 8Yhz3kXv9C4lDTSok2ZnWvrS5zVctzengA1fgTQyp4+NCtPeFOEGw9pUfZdqhyl7Y7Jz
- hirOqZLvM5WqjqJT+jt4gzs1eQvYaQENvMFLEpphw8AKnTNgtySs94/vc62q7A4TOfTK
- tbrQ==
-X-Gm-Message-State: AOAM531kOGHHerzBrEa8FwzyEf41v4GVTxglk3HDmgBOl0u2lHfgbx72
- PwEqTdHLv8fzIiz5/9xXBVbXBh444z5sHUhgSccO9g==
-X-Google-Smtp-Source: ABdhPJzfROMnffJOlQhJqaohct7XpE6+l0wVyZ/3AIiItLdwmzc00IACeSx1crE+V19L4ivWhXHCP/1efnxWS55F1w0=
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr13510415ejh.4.1619988490527; 
- Sun, 02 May 2021 13:48:10 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FnKIvYRhqbh2eE+ZT/G5+WgVP1rbStnMg2rdovvQbUc=;
+ b=MABWtwVG1tF+gCbqGO5GdKmZRlbNoquJtt20QSMVkmitk/SVNZhuPgh9PEbMOEUu95
+ 7P4IosyIpZdMALphWFbv3x5e94ZIsIkH1CsQsvYzT0mPsL1y0ajtB1NugkG18BgW4DIY
+ EqnWvs6naGsNSMJFJn5UxuwUo+0Vtv9b69nMzFJfC7e+hZtIP6vapAK5cPicV2vJheNS
+ jFKpdkiPLA8KgFNQoF8QfVphNbuoPe0XN+MQKwmoy09wdZu21vsE2RbWxgzfW9TrhNEe
+ RvWz8ZVltO+C9fTC2YvP1cmu5wPyAOd1nv7kYsdnVKFLmELb25B8jN7pM5jR29+XCZbe
+ E5cg==
+X-Gm-Message-State: AOAM530qhxyZnKwxDBVrLQbAlO+Ny//cMYao+bve1fFVviP++ymi9WTp
+ 34fJPvPu9dRkomIA1ync6ho2+GeylTAe6g==
+X-Google-Smtp-Source: ABdhPJyxVt8ghFiKjrN3jTa5ajUbB5oRCI+AkpaL5ZvTYPAFp8Zor0pOb0JDyhoRp4KB4Fiumylu3w==
+X-Received: by 2002:a17:90a:4dc7:: with SMTP id
+ r7mr18559403pjl.174.1619997526086; 
+ Sun, 02 May 2021 16:18:46 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id k17sm7146236pfa.68.2021.05.02.16.18.45
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 May 2021 16:18:45 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/28] tcg: Clean up code_gen_buffer allocation
+Date: Sun,  2 May 2021 16:18:16 -0700
+Message-Id: <20210502231844.1977630-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210502203121.630944-1-f4bug@amsat.org>
- <20210502203121.630944-4-f4bug@amsat.org>
-In-Reply-To: <20210502203121.630944-4-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 2 May 2021 21:47:06 +0100
-Message-ID: <CAFEAcA-4i3mu2=n=kiJqixPQLcinJ3uYv7_3e10PEH+Q8vLXXg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] hw/arm/armsse: Manually reset the OR_IRQ devices
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,47 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 2 May 2021 at 21:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> The OR_IRQ device is bus-less, thus isn't reset automatically.
-> Manually reset the OR IRQs in the armsse_reset() handler.
->
-> Fixes: bb75e16d5e6 ("hw/arm/iotkit: Wire up MPC interrupt lines")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/armsse.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-> index 2e5d0679e7b..a5f8e89950e 100644
-> --- a/hw/arm/armsse.c
-> +++ b/hw/arm/armsse.c
-> @@ -1668,6 +1668,10 @@ static void armsse_reset(DeviceState *dev)
->      ARMSSE *s =3D ARM_SSE(dev);
->
->      s->nsccfg =3D 0;
-> +
-> +    device_cold_reset(DEVICE(&s->mpc_irq_orgate));
-> +    device_cold_reset(DEVICE(&s->ppc_irq_orgate));
-> +    device_cold_reset(DEVICE(&s->sec_resp_splitter));
->  }
+Supercedes: <20210314212724.1917075-1-richard.henderson@linaro.org>
+("tcg: Workaround macOS 11.2 mprotect bug")
 
-I guess we should put in this temporary fix pending figuring out
-the better more systematic one.
+Since I ran out of time at softfreeze, I put in a much smaller
+patch to workaround the macOS bug.  But I think the cleanup is
+still a good thing.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+r~
+
+
+Richard Henderson (28):
+  meson: Split out tcg/meson.build
+  meson: Split out fpu/meson.build
+  tcg: Re-order tcg_region_init vs tcg_prologue_init
+  tcg: Remove error return from tcg_region_initial_alloc__locked
+  tcg: Split out tcg_region_initial_alloc
+  tcg: Split out tcg_region_prologue_set
+  tcg: Split out region.c
+  accel/tcg: Inline cpu_gen_init
+  accel/tcg: Move alloc_code_gen_buffer to tcg/region.c
+  accel/tcg: Rename tcg_init to tcg_init_machine
+  tcg: Create tcg_init
+  accel/tcg: Merge tcg_exec_init into tcg_init_machine
+  accel/tcg: Pass down max_cpus to tcg_init
+  tcg: Introduce tcg_max_ctxs
+  tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
+  tcg: Replace region.end with region.total_size
+  tcg: Rename region.start to region.after_prologue
+  tcg: Tidy tcg_n_regions
+  tcg: Tidy split_cross_256mb
+  tcg: Move in_code_gen_buffer and tests to region.c
+  tcg: Allocate code_gen_buffer into struct tcg_region_state
+  tcg: Return the map protection from alloc_code_gen_buffer
+  tcg: Sink qemu_madvise call to common code
+  util/osdep: Add qemu_mprotect_rw
+  tcg: Round the tb_size default from qemu_get_host_physmem
+  tcg: Merge buffer protection and guard page protection
+  tcg: When allocating for !splitwx, begin with PROT_NONE
+  tcg: Move tcg_init_ctx and tcg_ctx from accel/tcg/
+
+ meson.build               |  12 +-
+ accel/tcg/internal.h      |   2 +
+ include/qemu/osdep.h      |   1 +
+ include/sysemu/tcg.h      |   2 -
+ include/tcg/tcg.h         |  15 +-
+ tcg/aarch64/tcg-target.h  |   1 +
+ tcg/arm/tcg-target.h      |   1 +
+ tcg/i386/tcg-target.h     |   2 +
+ tcg/internal.h            |  40 ++
+ tcg/mips/tcg-target.h     |   6 +
+ tcg/ppc/tcg-target.h      |   2 +
+ tcg/riscv/tcg-target.h    |   1 +
+ tcg/s390/tcg-target.h     |   3 +
+ tcg/sparc/tcg-target.h    |   1 +
+ tcg/tci/tcg-target.h      |   1 +
+ accel/tcg/tcg-all.c       |  33 +-
+ accel/tcg/translate-all.c | 439 +----------------
+ bsd-user/main.c           |   1 -
+ linux-user/main.c         |   1 -
+ tcg/region.c              | 994 ++++++++++++++++++++++++++++++++++++++
+ tcg/tcg.c                 | 636 ++----------------------
+ util/osdep.c              |   9 +
+ fpu/meson.build           |   1 +
+ tcg/meson.build           |  14 +
+ 24 files changed, 1141 insertions(+), 1077 deletions(-)
+ create mode 100644 tcg/internal.h
+ create mode 100644 tcg/region.c
+ create mode 100644 fpu/meson.build
+ create mode 100644 tcg/meson.build
+
+-- 
+2.25.1
+
 
