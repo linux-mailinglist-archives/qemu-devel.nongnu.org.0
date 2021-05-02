@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01949370F07
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:33:57 +0200 (CEST)
-Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C35370F09
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:35:40 +0200 (CEST)
+Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldImq-0002kK-3W
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42694)
+	id 1ldIoV-0005N4-KZ
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldIkc-0001FJ-AJ; Sun, 02 May 2021 16:31:38 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:46072)
+ id 1ldIke-0001Ge-5v; Sun, 02 May 2021 16:31:42 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldIkZ-0007nA-4c; Sun, 02 May 2021 16:31:37 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so2346969wmh.4; 
- Sun, 02 May 2021 13:31:30 -0700 (PDT)
+ id 1ldIkb-0007oV-6r; Sun, 02 May 2021 16:31:39 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ j3-20020a05600c4843b02901484662c4ebso2951917wmo.0; 
+ Sun, 02 May 2021 13:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CsWZi4ds50E4Jo0anUjFufYBOCfHF4O32gPt5S3V5lE=;
- b=S2a+xmaJzy34mwsn6r7cIGug3mlA6tjsje6sjwhkbMFNsvfZjTT1jKx+tdLiGKgAZW
- 9xyUAKx4/C07T+E0e7G0QVkwu0qq5pyC0bEmrTS4BwD4cfnksy+5f1WmL/Im+ZjVCYw5
- TVg06qJ+iM8G1iU7hWjcYtamwIe+jWLBG/5Avg4wjiTSWrYB015SX23XYDDUUcH7aPW3
- ys6Zi03ZwGyF0k+GIAl/wl0A9V3OXZafn5XrxhfIb01m6sOj7m9j/uUsGjVuJp8DcG6C
- hcz3R5GLilRuVbkPdHXbu5mCD+R/0bZ8y9406yfchkMoQ+eaWztR8IG6MIg7VKQmNKvg
- symg==
+ bh=mAjmyzPT3IwY2l6eFakhdO2wuhU1yMrtB6iL9Jf4M7Y=;
+ b=o3LOVQ/dXR7NqPs2/gbNNCwcI027XTM9F3Dx++RyowbKmd0xB0P442jHmJl7qKQf4Y
+ AUCWLWG5HGTAuMBhlxCWxPlj/xuqPwFAriCGkWAb/a5wmNbSphwwfL4ph7TQEEepCM2n
+ q5D1Ees1yGjoLZbrJyAWRYicW88AFNFxBc0fOx1OCG6SEqO7j+xAYTzR1sK7fGpmLore
+ /n9TUGQMWgCh5bjFtqK9rYVGfHQf6O/WnxsD5YxoP14lShs5+Y6C3i4vGmlfyQNG364j
+ RoobFFiwrrKb2paYKvNq02ggVVEfm5CHwlTghTiIRJA/7Mcjl4uJVCKVNPivqHg+7Pf6
+ 6xuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CsWZi4ds50E4Jo0anUjFufYBOCfHF4O32gPt5S3V5lE=;
- b=fsbsauEMq7V9f+sMbMUUbjdxfbdFlO3V+7W7J//ikKZgy13FaM1aF1g+d+Begpg4lF
- UeYIhNHV7O+B3MLqUuXGn+vrywoyVBTnywvx4NZtCuGOho5x2OQm639CK79WbFHQBZXL
- MUIq/QI7/OxPPbn1wTlTDr1LNbnzvGRBZTavGfMqYZOU9KCURd25xFQHRC4733fiP2qH
- QW7sHEAzrS3HtBAslXSTb7MakbvtxosKI4Cdb5GzkOIu4volEmVTjG4RJtFfTVizBY1+
- IVLJieYzUVk9vFSgvmMuHeHGwyw/M4nSTZzC/hH+Uvb8eiP6o02Ix1mq1IaiJ5z9Fd7l
- dQHA==
-X-Gm-Message-State: AOAM530jFN4q7ZtEgsNVnKss/EPKZnQeJQYcbDroea9kNWL+KEasleBG
- bUCeragrYWOyh+Dzsh3c+PDwBYiVYt900rWV
-X-Google-Smtp-Source: ABdhPJwqV5quI4JHldwGxJIb8B+bep04X/jcrD9m0HCJPtdhjeXHj8VtbJw0bNVfJ6AKU+EgfZLhJw==
-X-Received: by 2002:a1c:790f:: with SMTP id l15mr18362163wme.30.1619987488935; 
- Sun, 02 May 2021 13:31:28 -0700 (PDT)
+ bh=mAjmyzPT3IwY2l6eFakhdO2wuhU1yMrtB6iL9Jf4M7Y=;
+ b=n9da0F2vI1t5skZX1tWRBiUJX+JR+20o5gcle+eZUwGv1e8RQO09XyzyZ4mDJfKV+r
+ xzK8GNRx3x5IfvGaRR4BUfZzwYRx3u+mVdAzG8Hz+VqIvOWXZyQKWfOFXXCtvHs4Ckbi
+ YXqx2r41ZHEct8n+RUWUq415WZnLT5ERsb+JguAHDK6ho6pRNCG0XzusSmFodZWW2o8i
+ JV86MerHAB3xDnRHi3zG1eewXSom+oFuyhXPSKvzb+Es2IjTG4Q7ceuyCdesH8dn7UjB
+ O4zAwFMt/UDP5E4EYg7ctxZOHnDrR5ft8UhjzP1neiXosVXHq2vW5SSCxf8jEwNn6jBh
+ WKeA==
+X-Gm-Message-State: AOAM530TMufyin+7GvrDADf2lV3mFSJNSylLnk87phEzMS7nu834DL2/
+ fGiOr/4v7oY+BAf0WcXY64qX7dkfc5a9IYjD
+X-Google-Smtp-Source: ABdhPJxYOC8q43NUDeUgURyyxUaisqM9NaWxbdQTiPXEyl9DAfqozIxDr/hNihSBMvQaiGqBtJlMcw==
+X-Received: by 2002:a05:600c:350f:: with SMTP id
+ h15mr18171455wmq.181.1619987494214; 
+ Sun, 02 May 2021 13:31:34 -0700 (PDT)
 Received: from localhost.localdomain
  (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id d5sm10359858wrv.43.2021.05.02.13.31.27
+ by smtp.gmail.com with ESMTPSA id h8sm9067171wmq.19.2021.05.02.13.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 13:31:28 -0700 (PDT)
+ Sun, 02 May 2021 13:31:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] hw/block/nand: Register machine reset handler
-Date: Sun,  2 May 2021 22:31:19 +0200
-Message-Id: <20210502203121.630944-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/3] hw/pci-host/raven: Manually reset the OR_IRQ device
+Date: Sun,  2 May 2021 22:31:20 +0200
+Message-Id: <20210502203121.630944-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210502203121.630944-1-f4bug@amsat.org>
 References: <20210502203121.630944-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,68 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-arm@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TYPE_NAND device is bus-less, thus isn't reset automatically.
-Register a reset handler to get reset with the machine.
+The OR_IRQ device is bus-less, thus isn't reset automatically.
+Add the raven_pcihost_reset() handler to manually reset the OR IRQ.
 
-Fixed: 7426aa72c36 ("nand: Don't inherit from Sysbus")
+Fixes: f40b83a4e31 ("40p: use OR gate to wire up raven PCI interrupts")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/nand.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/pci-host/prep.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/block/nand.c b/hw/block/nand.c
-index 8bc80e35144..8ec656659f5 100644
---- a/hw/block/nand.c
-+++ b/hw/block/nand.c
-@@ -24,6 +24,7 @@
- #include "hw/qdev-properties-system.h"
- #include "hw/block/flash.h"
- #include "sysemu/block-backend.h"
-+#include "sysemu/reset.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-@@ -364,6 +365,11 @@ static const VMStateDescription vmstate_nand = {
-     }
- };
- 
-+static void nand_reset_handler(void *dev)
-+{
-+    device_cold_reset(DEVICE(dev));
-+}
-+
- static void nand_realize(DeviceState *dev, Error **errp)
- {
-     int pagesize;
-@@ -423,6 +429,13 @@ static void nand_realize(DeviceState *dev, Error **errp)
-     }
-     /* Give s->ioaddr a sane value in case we save state before it is used. */
-     s->ioaddr = s->io;
-+
-+    qemu_register_reset(nand_reset_handler, dev);
-+}
-+
-+static void nand_unrealize(DeviceState *dev)
-+{
-+    qemu_unregister_reset(nand_reset_handler, dev);
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index 0a9162fba97..7481bbf99d4 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -230,6 +230,15 @@ static void raven_change_gpio(void *opaque, int n, int level)
+     s->contiguous_map = level;
  }
  
- static Property nand_properties[] = {
-@@ -437,6 +450,7 @@ static void nand_class_init(ObjectClass *klass, void *data)
++static void raven_pcihost_reset_enter(Object *obj, ResetType type)
++{
++    PREPPCIState *s = RAVEN_PCI_HOST_BRIDGE(obj);
++
++    if (!s->is_legacy_prep) {
++        device_cold_reset(DEVICE(&s->or_irq));
++    }
++}
++
+ static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
+ {
+     SysBusDevice *dev = SYS_BUS_DEVICE(d);
+@@ -419,11 +428,13 @@ static Property raven_pcihost_properties[] = {
+ static void raven_pcihost_class_init(ObjectClass *klass, void *data)
+ {
      DeviceClass *dc = DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
  
-     dc->realize = nand_realize;
-+    dc->unrealize = nand_unrealize;
-     dc->reset = nand_reset;
-     dc->vmsd = &vmstate_nand;
-     device_class_set_props(dc, nand_properties);
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->realize = raven_pcihost_realizefn;
+     device_class_set_props(dc, raven_pcihost_properties);
+     dc->fw_name = "pci";
++    rc->phases.enter = raven_pcihost_reset_enter;
+ }
+ 
+ static const TypeInfo raven_pcihost_info = {
 -- 
 2.26.3
 
