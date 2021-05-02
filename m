@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FAE370EB3
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 21:02:14 +0200 (CEST)
-Received: from localhost ([::1]:35016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37381370EB7
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 21:07:15 +0200 (CEST)
+Received: from localhost ([::1]:44766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldHM5-0004u6-7V
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 15:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
+	id 1ldHQw-0000iS-24
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 15:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldHFO-0008SR-Rw
- for qemu-devel@nongnu.org; Sun, 02 May 2021 14:55:22 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldHFL-0008Qp-3Q
- for qemu-devel@nongnu.org; Sun, 02 May 2021 14:55:16 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id l2so3326043wrm.9
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 11:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uY3UykazvXB5u3WZ3k3UwS05J5/ZA03gCfl0GB/ty3c=;
- b=ZtUMXNG78Va7oUSxqkr3y70eTqK/VEntI9TvY1GwVZmLJuj1xAwHkZbSwr7fU/y3lm
- 3i8U9p1IvE+pWK8z+8l+IhSggmXn+UOHKGlfiHn+KG8jIY76g2+0RjSBmM9sUIPNyxUc
- k+F93jB9ZJRLUvMzn2REUX4FpzAg3Z1xXsRbSQmOBQeivI2NdPic9BpOKjWLRilYTFGk
- PchuADCS+pegPrr/cXjPfzBv7YO9KnRAgOxFoYtajvvfHGKpP4Xn7yFj6avg9Jx2JE6+
- XKP921BwAJLUh2twHCX14NxJLKMZqAOZf5xcX0QW4NBAwyghV9rTCYZQk/mnE9ufjMk9
- 7ShQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldHHE-0001mm-Gu
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 14:57:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldHHB-00015U-1v
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 14:57:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1619981827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CpHBge6e3XggRfa3jrWIO5iO4TqQSRYX7H2ipRiS/tQ=;
+ b=hJRG+agS+fdlMO/292EFsWhK7MoxOgF5QqKqEThV0V0XUZ5AKBl97/dWGcKC/PRFiRt0hB
+ CHu+Wincnv3GGV6JZYcvzpqK/LQyeLPM6K5xkbqCezUrQaHm5DTh4mLWrpI49h5uu5co0D
+ IJJIyT3pmsXsAnbppUBi+tKl7nGpgMI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-ApSnG0pwPG-D1qILwwjI8A-1; Sun, 02 May 2021 14:57:06 -0400
+X-MC-Unique: ApSnG0pwPG-D1qILwwjI8A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h128-20020a1cb7860000b0290148da43c895so229449wmf.4
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 11:57:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uY3UykazvXB5u3WZ3k3UwS05J5/ZA03gCfl0GB/ty3c=;
- b=L6kZ4yPdXBZyjSjxdgKm2UQ4CmKiy26/TUaeB0eZGjImndHLVMS4WT5hFjzuG9WcAb
- c0MeocSIS0MUb/N/3JohtLA21XqoYbENX3g7skRrEheLhIHJAZgBcwloJJ2BGzmxpX9u
- mqU2vboCsDcam0hlO+CDAtgyq2pcnoa21zsOqMVacR0MtoX2L/L13xAnUPpggWf5MLDx
- z5507R4GPIQX/0LHJzGb7xeMxNEVvaTe4vb1Z38tacdqhNEr9TyON8wFGZQx3kcd2vYH
- Qo6syCdCVMgKcQ3eHSjUFMFjG2NGq+STx0gPYkzpb/W5HO00/DR6jUYLmcQeDUAUjkAj
- NZPA==
-X-Gm-Message-State: AOAM533MhN1uuDxXAN6W3M8LQ7GMl/j77tRc85h35h1m7jxFCTwW2gSM
- VaZI36gj2kvR0T5/Tfb/W/806+B9GFPqc8cG
-X-Google-Smtp-Source: ABdhPJzH9Z5cRKlyrzu6oDhxbRN+DeQ1UcrulmnhjNA4E8gdahvO3pf0iNDTVRhpxWq8shNZNBADFQ==
-X-Received: by 2002:adf:cc8c:: with SMTP id p12mr16391782wrj.407.1619981713441; 
- Sun, 02 May 2021 11:55:13 -0700 (PDT)
-Received: from localhost.localdomain
- (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id h13sm4962088wml.26.2021.05.02.11.55.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 11:55:13 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] hw/sparc/sun4m: Move each sun4m_hwdef definition in
- its class_init
-Date: Sun,  2 May 2021 20:54:41 +0200
-Message-Id: <20210502185441.599980-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210502185441.599980-1-f4bug@amsat.org>
-References: <20210502185441.599980-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CpHBge6e3XggRfa3jrWIO5iO4TqQSRYX7H2ipRiS/tQ=;
+ b=MV5hpg4n4pOD6YD12FMoLEDBZ6HLyxeOXqza8MiW3LpU85mLniOv+RvppiWR4Xd1Gc
+ aGvicm08Rf0B61m4ZHTdplz2H0ZxUp2XVOSoGumFJz9/janp6AmfHYqVHEindtmGbfRg
+ eucNwPcfXrOi8d5Rx/RzH83A8InuZrj9sCJGRpONuAGfNrAN4HNuSl0W4NuYkiwl7w0G
+ 69/BOgcQvPFG4/MhcJimfuT0l+bobwtXjiYDJz9VDiMxD1h7XDVbgjNaJr5RFaOV7YgQ
+ qCifwoqVnnszdwmTlCagw/hYTlXVmZjTjoBwDGolQ6ghh4Cb9lwvudOsudgr5UxUUOXX
+ HuZQ==
+X-Gm-Message-State: AOAM532u467RE6jIq844T/6cDllT5ugvqhKESil+5JJvexJ1Ip5M+1yV
+ R0PYD0WWmHgmLMYAb4WBLhvM18vKAK9Pq0hQC1XKy99K5N7TH/rQT12IacJG3LnVR5Sskm1roVP
+ qhd0Ne+0ML6mPoMRuO5EUnpItfw9Wz1YH9U6nQoCarsV+iEbO162BzjXfAhnrXZex
+X-Received: by 2002:a7b:ce19:: with SMTP id m25mr17804739wmc.137.1619981824950; 
+ Sun, 02 May 2021 11:57:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsqNmexJuEG6cmk3KI0ChqOULE3qFp/dJjpcBr+A2odqIND/twEMvaOihP69G8TcuF/0gZFw==
+X-Received: by 2002:a7b:ce19:: with SMTP id m25mr17804716wmc.137.1619981824694; 
+ Sun, 02 May 2021 11:57:04 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id q12sm9627592wrx.17.2021.05.02.11.57.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 May 2021 11:57:03 -0700 (PDT)
+Subject: Re: [PATCH 1/4] pc-bios/s390-ccw: Silence warning from Clang by
+ marking panic() as noreturn
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20210502174836.838816-1-thuth@redhat.com>
+ <20210502174836.838816-2-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <04140977-282c-2579-3073-42b6bb4148ee@redhat.com>
+Date: Sun, 2 May 2021 20:57:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210502174836.838816-2-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,341 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the sun4m_hwdefs[] array by moving assigning the
-structure fields directly in each machine class_init()
-function.
+On 5/2/21 7:48 PM, Thomas Huth wrote:
+> When compiling the s390-ccw bios with Clang, the compiler emits a warning:
+> 
+>  pc-bios/s390-ccw/main.c:210:5: warning: variable 'found' is used uninitialized
+>   whenever switch default is taken [-Wsometimes-uninitialized]
+>      default:
+>      ^~~~~~~
+>  pc-bios/s390-ccw/main.c:214:16: note: uninitialized use occurs here
+>      IPL_assert(found, "Boot device not found\n");
+>                 ^~~~~
+> 
+> It's a false positive, it only happens because Clang is not smart enough
+> to see that the panic() function in the "default:" case can never return.
+> 
+> Anyway, let's explicitely mark panic() with "noreturn" to shut up the
+> warning.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sparc/sun4m.c | 245 ++++++++++++++++++++++-------------------------
- 1 file changed, 112 insertions(+), 133 deletions(-)
+Why not simply initialize the variable instead?
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 956216591b0..52eeb3ce2dd 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -1138,9 +1138,26 @@ enum {
-     ss600mp_id,
- };
- 
--static const struct sun4m_hwdef sun4m_hwdefs[] = {
--    /* SS-5 */
--    {
-+static void sun4m_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->init = sun4m_hw_init;
-+    mc->block_default_type = IF_SCSI;
-+    mc->default_boot_order = "c";
-+    mc->default_display = "tcx";
-+    mc->default_ram_id = "sun4m.ram";
-+}
-+
-+static void ss5_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCstation 5";
-+    mc->is_default = true;
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0x10000000,
-         .iommu_pad_base = 0x10004000,
-         .iommu_pad_len  = 0x0fffb000,
-@@ -1165,9 +1182,18 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = ss5_id,
-         .iommu_version = 0x05000000,
-         .max_mem = 0x10000000,
--    },
--    /* SS-10 */
--    {
-+    };
-+}
-+
-+static void ss10_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCstation 10";
-+    mc->max_cpus = 4;
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0xfe0000000ULL,
-         .tcx_base     = 0xe20000000ULL,
-         .slavio_base  = 0xff0000000ULL,
-@@ -1190,9 +1216,18 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = ss10_id,
-         .iommu_version = 0x03000000,
-         .max_mem = 0xf00000000ULL,
--    },
--    /* SS-600MP */
--    {
-+    };
-+}
-+
-+static void ss600mp_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCserver 600MP";
-+    mc->max_cpus = 4;
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0xfe0000000ULL,
-         .tcx_base     = 0xe20000000ULL,
-         .slavio_base  = 0xff0000000ULL,
-@@ -1213,9 +1248,18 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = ss600mp_id,
-         .iommu_version = 0x01000000,
-         .max_mem = 0xf00000000ULL,
--    },
--    /* SS-20 */
--    {
-+    };
-+}
-+
-+static void ss20_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCstation 20";
-+    mc->max_cpus = 4;
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0xfe0000000ULL,
-         .tcx_base     = 0xe20000000ULL,
-         .slavio_base  = 0xff0000000ULL,
-@@ -1254,9 +1298,17 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = ss20_id,
-         .iommu_version = 0x13000000,
-         .max_mem = 0xf00000000ULL,
--    },
--    /* Voyager */
--    {
-+    };
-+}
-+
-+static void voyager_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCstation Voyager";
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0x10000000,
-         .tcx_base     = 0x50000000,
-         .slavio_base  = 0x70000000,
-@@ -1277,9 +1329,17 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = vger_id,
-         .iommu_version = 0x05000000,
-         .max_mem = 0x10000000,
--    },
--    /* LX */
--    {
-+    };
-+}
-+
-+static void ss_lx_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCstation LX";
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0x10000000,
-         .iommu_pad_base = 0x10004000,
-         .iommu_pad_len  = 0x0fffb000,
-@@ -1301,9 +1361,17 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = lx_id,
-         .iommu_version = 0x04000000,
-         .max_mem = 0x10000000,
--    },
--    /* SS-4 */
--    {
-+    };
-+}
-+
-+static void ss4_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCstation 4";
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0x10000000,
-         .tcx_base     = 0x50000000,
-         .cs_base      = 0x6c000000,
-@@ -1325,9 +1393,17 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = ss4_id,
-         .iommu_version = 0x05000000,
-         .max_mem = 0x10000000,
--    },
--    /* SPARCClassic */
--    {
-+    };
-+}
-+
-+static void scls_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCClassic";
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0x10000000,
-         .tcx_base     = 0x50000000,
-         .slavio_base  = 0x70000000,
-@@ -1348,9 +1424,17 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = scls_id,
-         .iommu_version = 0x05000000,
-         .max_mem = 0x10000000,
--    },
--    /* SPARCbook */
--    {
-+    };
-+}
-+
-+static void sbook_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-+
-+    mc->desc = "Sun4m platform, SPARCbook";
-+    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
-+    smc->hwdef = &(const struct sun4m_hwdef) {
-         .iommu_base   = 0x10000000,
-         .tcx_base     = 0x50000000, /* XXX */
-         .slavio_base  = 0x70000000,
-@@ -1371,112 +1455,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .machine_id = sbook_id,
-         .iommu_version = 0x05000000,
-         .max_mem = 0x10000000,
--    },
--};
--
--static void sun4m_machine_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--
--    mc->init = sun4m_hw_init;
--    mc->block_default_type = IF_SCSI;
--    mc->default_boot_order = "c";
--    mc->default_display = "tcx";
--    mc->default_ram_id = "sun4m.ram";
--}
--
--static void ss5_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCstation 5";
--    mc->is_default = true;
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
--    smc->hwdef = &sun4m_hwdefs[0];
--}
--
--static void ss10_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCstation 10";
--    mc->max_cpus = 4;
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
--    smc->hwdef = &sun4m_hwdefs[1];
--}
--
--static void ss600mp_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCserver 600MP";
--    mc->max_cpus = 4;
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
--    smc->hwdef = &sun4m_hwdefs[2];
--}
--
--static void ss20_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCstation 20";
--    mc->max_cpus = 4;
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
--    smc->hwdef = &sun4m_hwdefs[3];
--}
--
--static void voyager_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCstation Voyager";
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
--    smc->hwdef = &sun4m_hwdefs[4];
--}
--
--static void ss_lx_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCstation LX";
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
--    smc->hwdef = &sun4m_hwdefs[5];
--}
--
--static void ss4_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCstation 4";
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
--    smc->hwdef = &sun4m_hwdefs[6];
--}
--
--static void scls_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCClassic";
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
--    smc->hwdef = &sun4m_hwdefs[7];
--}
--
--static void sbook_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
--
--    mc->desc = "Sun4m platform, SPARCbook";
--    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
--    smc->hwdef = &sun4m_hwdefs[8];
-+    };
- }
- 
- static const TypeInfo sun4m_machine_types[] = {
--- 
-2.26.3
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/s390-ccw.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+> index 6cd92669e9..79db69ff54 100644
+> --- a/pc-bios/s390-ccw/s390-ccw.h
+> +++ b/pc-bios/s390-ccw/s390-ccw.h
+> @@ -89,6 +89,7 @@ bool menu_is_enabled_enum(void);
+>  
+>  #define MAX_BOOT_ENTRIES  31
+>  
+> +__attribute__ ((__noreturn__))
+>  static inline void panic(const char *string)
+>  {
+>      sclp_print(string);
+> 
 
 
