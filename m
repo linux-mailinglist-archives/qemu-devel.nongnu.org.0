@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B46370E72
+	by mail.lfdr.de (Postfix) with ESMTPS id 936E1370E71
 	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 20:25:26 +0200 (CEST)
-Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldGmT-0006dF-Sg
+	id 1ldGmT-0006en-Kc
 	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 14:25:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldGi5-0004uA-5J
+ id 1ldGi5-0004uD-Bc
  for qemu-devel@nongnu.org; Sun, 02 May 2021 14:20:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44824)
+Received: from indium.canonical.com ([91.189.90.7]:44786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldGi1-0006B4-Fm
- for qemu-devel@nongnu.org; Sun, 02 May 2021 14:20:51 -0400
+ id 1ldGi0-0006Ay-Io
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 14:20:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldGhz-0000Ph-O4
+ id 1ldGhz-0000Pt-7U
  for <qemu-devel@nongnu.org>; Sun, 02 May 2021 18:20:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B522C2E815C
+ by loganberry.canonical.com (Postfix) with ESMTP id 378232E815D
  for <qemu-devel@nongnu.org>; Sun,  2 May 2021 18:20:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 May 2021 18:10:41 -0000
-From: Thomas Huth <1842925@bugs.launchpad.net>
+Date: Sun, 02 May 2021 18:11:51 -0000
+From: Thomas Huth <1846816@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Tags: aix ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: maratsal th-huth
-X-Launchpad-Bug-Reporter: Marat Salakhutdinov (maratsal)
+X-Launchpad-Bug-Commenters: chin21 gkurz leohori philmd th-huth
+X-Launchpad-Bug-Reporter: Leonardo (leohori)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156768994375.29003.5099707565404830326.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161997904172.4812.18049341528563948643.malone@chaenomeles.canonical.com>
-Subject: [Bug 1842925] Re: no batmap on convertion from qcow2 to vhd
+References: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161997911127.11920.15892512105892641343.malone@soybean.canonical.com>
+Subject: [Bug 1846816] Re: Booting error on AIX 6.1 "Illegal Trap Instruction
+ Interrupt in Kernel""
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 8864180c65acede49eb46f05723d1c25413714f4
+X-Launchpad-Hash: 9f25c8a8a9f74677908b69a02eb24d234fa5514c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1842925 <1842925@bugs.launchpad.net>
+Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,133 +96,144 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1842925
+https://bugs.launchpad.net/bugs/1846816
 
 Title:
-  no batmap on convertion from qcow2 to vhd
+  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
+  Kernel""
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  we run following version of qemu-img:
-  $ qemu-img --version
-  qemu-img version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.41), Copyright (c) 20=
-04-2008 Fabrice Bellard
-  $
+  # ls -ltr
+  total 8750584
+  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
+  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
+  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
+  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
 
-  Here is os version:
-  $ cat /etc/os-release =
+  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
+-serial mon:stdio \
+  > -drive file=3D/qemu/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
+  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
+disk0 \
+  > -cdrom /qemu/AIX.vol1.iso \
+  > -prom-env boot-command=3D'boot cdrom: -s verbose'
 
-  NAME=3D"Ubuntu"
-  VERSION=3D"16.04.6 LTS (Xenial Xerus)"
-  ID=3Dubuntu
-  ID_LIKE=3Ddebian
-  PRETTY_NAME=3D"Ubuntu 16.04.6 LTS"
-  VERSION_ID=3D"16.04"
-  HOME_URL=3D"http://www.ubuntu.com/"
-  SUPPORT_URL=3D"http://help.ubuntu.com/"
-  BUG_REPORT_URL=3D"http://bugs.launchpad.net/ubuntu/"
-  VERSION_CODENAME=3Dxenial
-  UBUNTU_CODENAME=3Dxenial
-  $
+  VNC server running on ::1:5900
+  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
+s=3Dworkaround
 
-  When we use qemu-img for conversion of qcow2 to vhd newly created file
-  doesnt show batmap summary when we run:
+  SLOF ********************************************************************=
+**
+  QEMU Starting
+  =C2=A0Build Date =3D Jul  3 2019 12:26:14
+  =C2=A0FW Version =3D git-ba1ab360eebe6338
+  =C2=A0Press "s" to enter Open Firmware.
 
-  # vhd-util read -p -n centos76.vhd
-  VHD Footer Summary:
-  -------------------
-  Cookie              : conectix
-  Features            : (0x00000002) <RESV>
-  File format version : Major: 1, Minor: 0
-  Data offset         : 512
-  Timestamp           : Mon Mar  4 13:21:27 2019
-  Creator Application : 'qemu'
-  Creator version     : Major: 5, Minor: 3
-  Creator OS          : Windows
-  Original disk size  : 8192 MB (8590417920 Bytes)
-  Current disk size   : 8192 MB (8590417920 Bytes)
-  Geometry            : Cyl: 16645, Hds: 16, Sctrs: 63
-                      : =3D 8192 MB (8590417920 Bytes)
-  Disk type           : Dynamic hard disk
-  Checksum            : 0xfffff119|0xfffff119 (Good!)
-  UUID                : 23772822-a66c-45a2-be37-8474604147c7
-  Saved state         : No
-  Hidden              : 0
+  Populating /vdevice methods
+  Populating /vdevice/vty@71000000
+  Populating /vdevice/nvram@71000001
+  Populating /vdevice/l-lan@71000002
+  Populating /vdevice/v-scsi@71000003
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A08200000000000=
+000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+  Populating /pci@800000020000000
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0000 (D) : 1234 11=
+11    qemu vga
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0800 (D) : 1033 01=
+94    serial bus [ usb-xhci ]
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 1000 (D) : 1af4 10=
+04    virtio [ scsi ]
+  Populating /pci@800000020000000/scsi@2
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A01000000000000=
+00 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+  Installing QEMU fb
 
-  VHD Header Summary:
-  -------------------
-  Cookie              : cxsparse
-  Data offset (unusd) : 18446744073709
-  Table offset        : 1536
-  Header version      : 0x00010000
-  Max BAT size        : 4097
-  Block size          : 2097152 (2 MB)
-  Parent name         : =
+  Scanning USB
+  =C2=A0=C2=A0XHCI: Initializing
+  =C2=A0=C2=A0=C2=A0=C2=A0USB Keyboard
+  =C2=A0=C2=A0=C2=A0=C2=A0USB mouse
+  No console specified using screen & keyboard
 
-  Parent UUID         : 00000000-0000-0000-0000-000000000000
-  Parent timestamp    : Fri Dec 31 19:00:00 1999
-  Checksum            : 0xfffff466|0xfffff466 (Good!)
+  =C2=A0=C2=A0Welcome to Open Firmware
 
-  #
+  =C2=A0=C2=A0Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  =C2=A0=C2=A0This program and the accompanying materials are made available
+  =C2=A0=C2=A0under the terms of the BSD License available at
+  =C2=A0=C2=A0http://www.opensource.org/licenses/bsd-license.php
 
-  I am not so strong in VHD format details and not exactly sure how
-  batmap is needed, but when I do conversion of qcow2 image by using
-  vhd-util at the end I get file with proper batmap summary.
+  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
+000000: ...   Successfully loaded
+  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
+  AIX
+  StarLED{814}
 
-  In our environment we use CloudStack and Citrix and we use those
-  converted from qcow2 to vhd images as templates. In general there is
-  no problems, but whenever we create snapshot out of VM created from
-  such template vhd-util read command starts giving us error like below:
+  AIX Version 6.1
+  exec(/etc/init){1,0}
 
-  #
-  -------------------
-  Cookie              : conectix
-  Features            : (0x00000002) <RESV>
-  File format version : Major: 1, Minor: 0
-  Data offset         : 512
-  Timestamp           : Thu Aug 29 16:04:30 2019
-  Creator Application : 'tap'
-  Creator version     : Major: 1, Minor: 3
-  Creator OS          : Unknown!
-  Original disk size  : 8194 MB (8592031744 Bytes)
-  Current disk size   : 8194 MB (8592031744 Bytes)
-  Geometry            : Cyl: 16648, Hds: 16, Sctrs: 63
-                      : =3D 8193 MB (8591966208 Bytes)
-  Disk type           : Dynamic hard disk
-  Checksum            : 0xfffff074|0xfffff074 (Good!)
-  UUID                : 2b3cac7d-16e1-4771-b8cd-bb8c7876c761
-  Saved state         : No
-  Hidden              : 0
+  INIT: EXECUTING /sbin/rc.boot 1
+  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
+  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
+  + PHASE=3D1
+  + + bootinfo -p
+  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
+  PLATFORM=3Dchrp
+  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
+  + [ 1 -eq 1 ]
+  + 1> /usr/lib/libc.a
+  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
+  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
+  + chramfs -t
+  exec(/usr/sbin/chramfs,-t){1179688,1114146}
+  + init -c unlink /usr/sbin/chramfs
+  + 1> /dev/null
+  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
+  + + bootinfo -t
+  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
+  BOOTYPE=3D3
+  + [ 0 -ne 0 ]
+  + [ -z 3 ]
+  + unset pdev_to_ldev undolt native_netboot_cfg
+  + unset disknet_odm_init config_ATM
+  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
+  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
+  + cfgmgr -f -v
+  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
+  cfgmgr is running in phase 1
+  ----------------
+  Time: 0 LEDS: 0x538
+  Invoking top level program -- "/etc/methods/defsys"
+  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
+  exec(/etc/methods/defsys){1245222,1179696}
+  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
+310760,1245222}
+  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
+222}
+  Time: 0 LEDS: 0x539
+  Return code =3D 0
+  ***** stdout *****
+  sys0
 
-  VHD Header Summary:
-  -------------------
-  Cookie              : cxsparse
-  Data offset (unusd) : 18446744073709
-  Table offset        : 1536
-  Header version      : 0x00010000
-  Max BAT size        : 4097
-  Block size          : 2097152 (2 MB)
-  Parent name         : =
-
-  Parent UUID         : 00000000-0000-0000-0000-000000000000
-  Parent timestamp    : Sat Jan  1 00:00:00 2000
-  Checksum            : 0xfffff466|0xfffff466 (Good!)
-
-  failed to get batmap header
-
-  #
-
-  With the templates that show correct batmap summary that are created
-  by conversion of qcow2 image by vhd-util convert we don't have such
-  problems.
-
-  So I wanted to check with community if not existence of the batmap can
-  cause (be the reason of) this behaviour later on snapshot creation
-  stage? Should we always have batmap summary on output of vhd-util read
-  command?
+  *** no stderr ****
+  ----------------
+  Attempting to configure device 'sys0'
+  Time: 0 LEDS: 0x811
+  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
+  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
+  Number of running methods: 1
+  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
+  LED{A20}
+  Illegal Trap Instruction Interrupt in Kernel
+  04151A74      tweqi    r0,0                r0=3D0
+  KDB(0)>
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1842925/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
 
