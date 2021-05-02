@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5801C370F20
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:48:53 +0200 (CEST)
-Received: from localhost ([::1]:37352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002C0370F21
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 May 2021 22:50:02 +0200 (CEST)
+Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldJ1H-00031D-UW
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
+	id 1ldJ2Q-00047J-25
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 16:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldIzc-0001wt-Ry
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:47:08 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:41612)
+ id 1ldJ0g-000338-KH
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 16:48:14 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldIzS-0008Rd-Ij
- for qemu-devel@nongnu.org; Sun, 02 May 2021 16:47:08 -0400
-Received: by mail-ej1-x633.google.com with SMTP id zg3so4912195ejb.8
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:46:53 -0700 (PDT)
+ id 1ldJ0d-0000X6-UD
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 16:48:14 -0400
+Received: by mail-ej1-x632.google.com with SMTP id t4so4985612ejo.0
+ for <qemu-devel@nongnu.org>; Sun, 02 May 2021 13:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=IZpRMhYriCArTic1oG4iRqGc+5388FGmmHJoIBEzmMA=;
- b=BEFfzu9XBymiw7DElN+jrP9/BXWaBHeTF2dCgOp4RcthLwpUXkRj2cYW0gRY65cT6u
- QhyuiXU00Fj9s46wtsukfc9urmIoI57JWq/h5k7lX5fRsS0gU3sN5vc57fezIjqIm+xo
- IAG5q+vruOOWT0yL7NSZubm6fy6Kfh6SKbLsIgDv5OViTbdX+pJN/jvEsH2kQk0EV56e
- 8dyz0L5DH+LCApFEu1vz29MFyWYkI/d/nJiJYkS5wOvKSMDbGDDp6ZNmaoWFaVd2jCbL
- hb6o9EnfUahQirl98PWmkUKKcyAJPbdUVpWLOcwgVo2avxUtSnKStn+07b9SVXCYStp5
- rFFA==
+ bh=8Y2JInxxq3BF5yZ61pBjPVFMuDnWB1KwokFQSejViw4=;
+ b=EAaM3Ppdu6SALKim2CFiVla5hUHBi1M1QOrbCU2FwkjHHrpiabtisoHM5gjGEmxdgK
+ 39Ppp8/AiYBtEewOeHuHG5gad4S7j346UYJEK1V3sJHvSDkY3z28blplynS11+sAtGqC
+ 7sbHyOm0ulVd+bOV8Wuga47B3vSWrBySdtPiBOyUj6VfdPky3QLzjFBQ6GSldBhtbtrE
+ +//eJkDN9IjrwByib72/+vr+dQxJQj7j9/mnP+HoM8ypF2t9joZqqO+GIAX8ju0fnS8y
+ y3bItbUTgDMZlHiQ61oJtdo1RLkMZ49TX9rMZO/PH+7aeUwPfN/vEPsA1KNVjSj49z/k
+ o0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=IZpRMhYriCArTic1oG4iRqGc+5388FGmmHJoIBEzmMA=;
- b=GBSpqDUWIGKGu6ZKrTxNbLztlXiZUpa6gusj7h0iu8qG8r4lKVIbMIW6ogyylMJT/5
- pSrbdapvxx0piBd0NDD/3Do2gVCQjhcx4vu5OHeV2HapahqBfDoFbyx5Cs193paLrrIb
- XY9mdMD+FLL9viLrGyhGsjSjkMNiUmEfWTeWU6whl9QNuOtyhK992RB2OWMXwm8Q4R30
- 5OoumS9bFhyaN7reRCv7SofeHtLQXUIII4hq/5vTa2lEnsYDZ2sH5ypQynzA9gPDEuk3
- PnEwZB7ZmJS8t+g7bM0FdD6+oHE0P6qoWXKH8/SG1XnVPZfzop0pUcmBNgXM67M5xwmO
- 6UjA==
-X-Gm-Message-State: AOAM531Ouumf3BrdNHIzqjHVmZVNPpJusyuOXc/cxHT7btwtMY71kssL
- 46MDEhH1EIbGxJmdeXI+tHFiJ/f4o9igzQ9feP1G1A==
-X-Google-Smtp-Source: ABdhPJwmR7T2MnEzcsdBiKNhur2K5EvRQA5fQawboe8PftWpfzNrQXTHY49DFExDOzYS0kRBIQ7J8d7kTGu0XgeUFeA=
-X-Received: by 2002:a17:906:953:: with SMTP id
- j19mr13908931ejd.56.1619988412098; 
- Sun, 02 May 2021 13:46:52 -0700 (PDT)
+ bh=8Y2JInxxq3BF5yZ61pBjPVFMuDnWB1KwokFQSejViw4=;
+ b=PZW/ImbA1A4qzaCOomLNka77NbybCYxZo4bKecwfqywZ/zc29mTcwEAkmRo19NYc9/
+ gOz4gmkDUfZBxsMyb6B/QxFENFUcZPh6Uv1VMjo46qfS7OJgQJ7gX/1D1B2qKrvfcnfW
+ Td0VvWXvPljj93rQhOQWmUcCzYq3WCvEUkzDHctZZOhKL3E9K1sgYcenyZsx9S2m8u38
+ 8Yhz3kXv9C4lDTSok2ZnWvrS5zVctzengA1fgTQyp4+NCtPeFOEGw9pUfZdqhyl7Y7Jz
+ hirOqZLvM5WqjqJT+jt4gzs1eQvYaQENvMFLEpphw8AKnTNgtySs94/vc62q7A4TOfTK
+ tbrQ==
+X-Gm-Message-State: AOAM531kOGHHerzBrEa8FwzyEf41v4GVTxglk3HDmgBOl0u2lHfgbx72
+ PwEqTdHLv8fzIiz5/9xXBVbXBh444z5sHUhgSccO9g==
+X-Google-Smtp-Source: ABdhPJzfROMnffJOlQhJqaohct7XpE6+l0wVyZ/3AIiItLdwmzc00IACeSx1crE+V19L4ivWhXHCP/1efnxWS55F1w0=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr13510415ejh.4.1619988490527; 
+ Sun, 02 May 2021 13:48:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210502203121.630944-1-f4bug@amsat.org>
- <20210502203121.630944-3-f4bug@amsat.org>
-In-Reply-To: <20210502203121.630944-3-f4bug@amsat.org>
+ <20210502203121.630944-4-f4bug@amsat.org>
+In-Reply-To: <20210502203121.630944-4-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 2 May 2021 21:45:47 +0100
-Message-ID: <CAFEAcA_V6bM-UtEmF1a7_7Jad88aZ2J-dGpSs=cs+smvYEaV3g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] hw/pci-host/raven: Manually reset the OR_IRQ device
+Date: Sun, 2 May 2021 21:47:06 +0100
+Message-ID: <CAFEAcA-4i3mu2=n=kiJqixPQLcinJ3uYv7_3e10PEH+Q8vLXXg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] hw/arm/armsse: Manually reset the OR_IRQ devices
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,9 +84,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
  Markus Armbruster <armbru@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,58 +94,32 @@ On Sun, 2 May 2021 at 21:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
 wrote:
 >
 > The OR_IRQ device is bus-less, thus isn't reset automatically.
-> Add the raven_pcihost_reset() handler to manually reset the OR IRQ.
+> Manually reset the OR IRQs in the armsse_reset() handler.
 >
-> Fixes: f40b83a4e31 ("40p: use OR gate to wire up raven PCI interrupts")
+> Fixes: bb75e16d5e6 ("hw/arm/iotkit: Wire up MPC interrupt lines")
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/pci-host/prep.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  hw/arm/armsse.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> index 0a9162fba97..7481bbf99d4 100644
-> --- a/hw/pci-host/prep.c
-> +++ b/hw/pci-host/prep.c
-> @@ -230,6 +230,15 @@ static void raven_change_gpio(void *opaque, int n, i=
-nt level)
->      s->contiguous_map =3D level;
->  }
+> diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+> index 2e5d0679e7b..a5f8e89950e 100644
+> --- a/hw/arm/armsse.c
+> +++ b/hw/arm/armsse.c
+> @@ -1668,6 +1668,10 @@ static void armsse_reset(DeviceState *dev)
+>      ARMSSE *s =3D ARM_SSE(dev);
 >
-> +static void raven_pcihost_reset_enter(Object *obj, ResetType type)
-> +{
-> +    PREPPCIState *s =3D RAVEN_PCI_HOST_BRIDGE(obj);
+>      s->nsccfg =3D 0;
 > +
-> +    if (!s->is_legacy_prep) {
-> +        device_cold_reset(DEVICE(&s->or_irq));
-> +    }
-> +}
-> +
->  static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
->  {
->      SysBusDevice *dev =3D SYS_BUS_DEVICE(d);
-> @@ -419,11 +428,13 @@ static Property raven_pcihost_properties[] =3D {
->  static void raven_pcihost_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
->
->      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->      dc->realize =3D raven_pcihost_realizefn;
->      device_class_set_props(dc, raven_pcihost_properties);
->      dc->fw_name =3D "pci";
-> +    rc->phases.enter =3D raven_pcihost_reset_enter;
+> +    device_cold_reset(DEVICE(&s->mpc_irq_orgate));
+> +    device_cold_reset(DEVICE(&s->ppc_irq_orgate));
+> +    device_cold_reset(DEVICE(&s->sec_resp_splitter));
 >  }
 
-Why does this device have an OR gate rather than having its
-map_irq function say "all PCI IRQs go to interrupt 0" ?
-(The PCI core code provides you the "OR" functionality for
-free, because it has to do that anyway for when multiple PCI
-cards share a PCI IRQ -- see pci_change_irq_level() and
-pci_bus_change_irq_level().
+I guess we should put in this temporary fix pending figuring out
+the better more systematic one.
 
-Supplementary question: why does the legacy_prep setup create 4
-outbound sysbus IRQs when the map_irq function can only ever
-return 0 or 1 ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
