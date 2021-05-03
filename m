@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C947371091
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 04:39:39 +0200 (CEST)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B1B37109F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 05:03:08 +0200 (CEST)
+Received: from localhost ([::1]:45758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldOUk-0005x7-9b
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 22:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36748)
+	id 1ldOrT-0000ib-H5
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 23:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldOTz-0005X9-22
- for qemu-devel@nongnu.org; Sun, 02 May 2021 22:38:51 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:38524)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ldOq4-0000Cr-Ne; Sun, 02 May 2021 23:01:42 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:33700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldOTx-0003Dk-DH
- for qemu-devel@nongnu.org; Sun, 02 May 2021 22:38:50 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id k19so198877pfu.5
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 19:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=G6oRFCEiuMfaLvX6I5bHKyvuEGvBTbWiJmXkEjABLFc=;
- b=b1f6tOfEkAav4xIz+8q38LTsC6EtPV9TIQ6RBesdQrdivMSlCjV0BW+kBYrEHLFmS6
- 2AwoIX5R9Na7YTLn7JBvW3//W4QbvptzAQCV5On+e4dhRYD6buLw5nmlEdtbMqDwfJhx
- 4kr08CUhS8R2n4pS2KfKCT5mjb3IUPklQo6JYLkg90Qf5mV+T2qpFK8EPqKFdCtbRnmR
- uKvjG44ThR4OFcOkdXNSK2ynagAwZ6z1o1LOGemxbIdhTO8/B6TRzXXWctbI8Gp7N5Oj
- DNQIbBCtG0aATNr92/erFLjSqN0tUwGtC6FcNvClpmifrSXprHJu0GF/yk+6S6aEnKMu
- I+Ig==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ldOps-0003qK-Of; Sun, 02 May 2021 23:01:40 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id 1so2799074qtb.0;
+ Sun, 02 May 2021 20:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iGuhw9Ku1JtZg/M1QL1En96iEWLlhiw5jHYDWwwsRLo=;
+ b=uGswomg4tRdXyj0oHNPoh8gY87atsOc46Xkra8aEqqPhSVaxAxnRADr9lKxzXJjD48
+ 1zxAQ1ynhspr0qIIfop+VlVK684ZM/lP9qED99B5VBkFLpW/L9wANgNOXq/PDh22Q6DO
+ yB0J4H2nLVaz2b+iRvo2GvnupZ/1B0jjiQt/hPmuRtGmY/c2x2VRLZ5slS4cIk6wocyw
+ YYzuJemB1F8kMqPQ+VK4i64WlH7CK/qtx4mz+AB9zbGCfiDtioQao6/MbUEjJmxvWFX8
+ LwGp1U4Ozlc/DOYoOsDkgyEnAQyqsEXSwlvhWddoQQfH6OOV2xy2U9EqD642yFRYz+Rt
+ QmVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G6oRFCEiuMfaLvX6I5bHKyvuEGvBTbWiJmXkEjABLFc=;
- b=OhmSzI08U1McWbHC4e1l/xvd0BnFWr/KrrKIq4gS9ja8lCZK17AOGXyGF7Bvfy6EmM
- Lz1CEgZiwv1HAwcnu+e5IYLuS1tDy23hp9XCjpD7duH+pItdHgWbHv5o+wR7g1ahrN2s
- MqmFqQVAos7Ed3oywc6YdQWF9JCOWxG29ocF69FnIFs8JVvVbboULLveNm+2/WY2RuB3
- FtX77XRT9H2pdiuAmz+ovGyJstx5YdKONDHoKZDujtuZPjaAJTygiyvjcAUGqloTiAf/
- WzQzBie389ibgSGcEI4hh8rvrFxmkm7YhEkt9J90cT8BVI8R/CuHsiZkfHaqAOpnkVL1
- thJQ==
-X-Gm-Message-State: AOAM533rIAkt/9WnHI6Elf3OV4RLCwPPIvfh+dLXnIGbKD+tSCC+N4KZ
- 4SUf2HyXJcxyUESga+64Rfmesg==
-X-Google-Smtp-Source: ABdhPJyzzEU0ophg152WpqINFpUYINU8OifBuOJnsh2v9Rr/j3ZAJ6xWV85QwWIssx6KSH4EQSEADw==
-X-Received: by 2002:a62:e704:0:b029:28e:5541:7e4e with SMTP id
- s4-20020a62e7040000b029028e55417e4emr8916481pfh.17.1620009527631; 
- Sun, 02 May 2021 19:38:47 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 134sm7845178pfy.117.2021.05.02.19.38.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 May 2021 19:38:47 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hw/usb: Do not build USB subsystem if not required
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210424224110.3442424-1-f4bug@amsat.org>
- <20210424224110.3442424-3-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5486d89f-d5ab-af60-d95c-151bdda93a56@linaro.org>
-Date: Sun, 2 May 2021 19:38:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iGuhw9Ku1JtZg/M1QL1En96iEWLlhiw5jHYDWwwsRLo=;
+ b=seLW/FZzmyFq3kSmrcMzgfaNGtAcjj0VtlFvPm3c+lzCvzVFmHo6xwl32zOL3pjVrb
+ uhgpiRetHor784MFG1xP5mIKG4wi9qvMgYwxLs6AN/6XLUWVrNahhRwnljU4pxC4tKnC
+ 8Z1cNzr4R4NLqvqm4NVaQBZtmdhkwiVSNDEZg2O7HbykPPVHkop1BWnGOiHXF1KlfVF6
+ j4c+68EE5abijwfx/hdQeQdGqmsmK6wNTtLHGgN4RSrmfukqKO816NtYT7XS3lapJTAI
+ ExcBM1xXSuL0EQS0wEiLIfonpef3sQH2Mrg3lbvgGileDE2G6H/AA65Xmpl38k+T20at
+ DEwQ==
+X-Gm-Message-State: AOAM533iLaR3yXzcqIi7UL8GLHnwGjiIzX3IV4Sm6Y/NoZMFtfP1ACOc
+ bBAt+dCDmkCCsyLLG/RhDzd6TkvvpG+nFrIV564=
+X-Google-Smtp-Source: ABdhPJwOiASRqgOTxsvlKWgvBMo35j2pGG9yD+5/ygkqMRZPzR6pJzau0ynsXhdFOFIGnLVxNiyfT1HyezFhjRomUKM=
+X-Received: by 2002:a05:622a:14c6:: with SMTP id
+ u6mr15106901qtx.125.1620010880323; 
+ Sun, 02 May 2021 20:01:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210424224110.3442424-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210430071302.1489082-1-bmeng.cn@gmail.com>
+ <20210430071302.1489082-5-bmeng.cn@gmail.com>
+In-Reply-To: <20210430071302.1489082-5-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 3 May 2021 13:00:53 +1000
+Message-ID: <CAKmqyKN1uW005iTR76dD=v_sZOHWtN9+00OudxQALTC9wmfcrw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] docs/system/riscv: Correct the indentation level
+ of supported devices
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=alistair23@gmail.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,27 +78,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/24/21 3:41 PM, Philippe Mathieu-Daudé wrote:
-> If the Kconfig 'USB' value is not selected, it is pointless to
-> build the USB core components. Add a stub for the HMP commands
-> and usbdevice_create() which is called by usb_device_add in
-> softmmu/vl.c.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+On Fri, Apr 30, 2021 at 5:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> The supported device bullet list has an additional space before each
+> entry, which makes a wrong indentation level. Correct it.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   stubs/usb-dev-stub.c | 25 +++++++++++++++++++++++++
->   MAINTAINERS          |  1 +
->   hw/usb/meson.build   |  9 +++------
->   stubs/meson.build    |  1 +
->   4 files changed, 30 insertions(+), 6 deletions(-)
->   create mode 100644 stubs/usb-dev-stub.c
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+>
+> (no changes since v1)
+>
+>  docs/system/riscv/microchip-icicle-kit.rst | 20 +++++++--------
+>  docs/system/riscv/sifive_u.rst             | 30 +++++++++++-----------
+>  2 files changed, 25 insertions(+), 25 deletions(-)
+>
+> diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
+> index 4fe97bce3f..e803131763 100644
+> --- a/docs/system/riscv/microchip-icicle-kit.rst
+> +++ b/docs/system/riscv/microchip-icicle-kit.rst
+> @@ -15,16 +15,16 @@ Supported devices
+>
+>  The ``microchip-icicle-kit`` machine supports the following devices:
+>
+> - * 1 E51 core
+> - * 4 U54 cores
+> - * Core Level Interruptor (CLINT)
+> - * Platform-Level Interrupt Controller (PLIC)
+> - * L2 Loosely Integrated Memory (L2-LIM)
+> - * DDR memory controller
+> - * 5 MMUARTs
+> - * 1 DMA controller
+> - * 2 GEM Ethernet controllers
+> - * 1 SDHC storage controller
+> +* 1 E51 core
+> +* 4 U54 cores
+> +* Core Level Interruptor (CLINT)
+> +* Platform-Level Interrupt Controller (PLIC)
+> +* L2 Loosely Integrated Memory (L2-LIM)
+> +* DDR memory controller
+> +* 5 MMUARTs
+> +* 1 DMA controller
+> +* 2 GEM Ethernet controllers
+> +* 1 SDHC storage controller
+>
+>  Boot options
+>  ------------
+> diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
+> index 98e7562848..dcdfbda931 100644
+> --- a/docs/system/riscv/sifive_u.rst
+> +++ b/docs/system/riscv/sifive_u.rst
+> @@ -9,21 +9,21 @@ Supported devices
+>
+>  The ``sifive_u`` machine supports the following devices:
+>
+> - * 1 E51 / E31 core
+> - * Up to 4 U54 / U34 cores
+> - * Core Level Interruptor (CLINT)
+> - * Platform-Level Interrupt Controller (PLIC)
+> - * Power, Reset, Clock, Interrupt (PRCI)
+> - * L2 Loosely Integrated Memory (L2-LIM)
+> - * DDR memory controller
+> - * 2 UARTs
+> - * 1 GEM Ethernet controller
+> - * 1 GPIO controller
+> - * 1 One-Time Programmable (OTP) memory with stored serial number
+> - * 1 DMA controller
+> - * 2 QSPI controllers
+> - * 1 ISSI 25WP256 flash
+> - * 1 SD card in SPI mode
+> +* 1 E51 / E31 core
+> +* Up to 4 U54 / U34 cores
+> +* Core Level Interruptor (CLINT)
+> +* Platform-Level Interrupt Controller (PLIC)
+> +* Power, Reset, Clock, Interrupt (PRCI)
+> +* L2 Loosely Integrated Memory (L2-LIM)
+> +* DDR memory controller
+> +* 2 UARTs
+> +* 1 GEM Ethernet controller
+> +* 1 GPIO controller
+> +* 1 One-Time Programmable (OTP) memory with stored serial number
+> +* 1 DMA controller
+> +* 2 QSPI controllers
+> +* 1 ISSI 25WP256 flash
+> +* 1 SD card in SPI mode
+>
+>  Please note the real world HiFive Unleashed board has a fixed configuration of
+>  1 E51 core and 4 U54 core combination and the RISC-V core boots in 64-bit mode.
+> --
+> 2.25.1
+>
+>
 
