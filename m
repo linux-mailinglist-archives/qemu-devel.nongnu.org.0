@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8343713C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:50:12 +0200 (CEST)
-Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317A03713C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:48:20 +0200 (CEST)
+Received: from localhost ([::1]:59970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldW9T-0000Io-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:50:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58840)
+	id 1ldW7f-0005cn-9i
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4a-0003fH-Hf
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40799)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4h-0003nQ-Lm
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4Y-0003MH-61
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4f-0003Qo-KE
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620038705;
+ s=mimecast20190719; t=1620038712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hTgrmVJ7TdO8X5uWM/1Wiki4sUr+Mf9nmk/lku0ePeM=;
- b=d48j+8WJS2WXOyUUjhZHsJZOaMdtgUTBF+3mGJ6x9O0wdYxxRmZ/VLYU/lkoMOt/gsItKw
- N/CVNFl7qTrW7y/f/vFQP0F8KnUl5XqdzizQKPCYmYlDcDDem7xVOLx3cEwE+Z5CLfb+xp
- wLi50RQmgKlazzl+19ZL+BUeuwX/ROk=
+ bh=0u+HFQE9R543mvapNT6gTSZfmmSTP9eHoQgd9lft0fU=;
+ b=OIUtz9wdSyyY6UNqf3eSEu00JjN2Xf6u8qUKxQkB+1UAZ83cSNBdRaXDM6kH+Rf9hhwa2A
+ umktvsdpEDIDV0i4oIVh/rA2fZTaIWaIXBZ4EpiVdFTcEfbMKvxfZ6R7d2130Tj6+Vaxp9
+ IUssAgE29b+sVBFuI0Utxw760H0YTv8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-nWo_K0-6PoSmAU9u42zxEQ-1; Mon, 03 May 2021 06:45:03 -0400
-X-MC-Unique: nWo_K0-6PoSmAU9u42zxEQ-1
+ us-mta-397-0H0oVdObPnGVr1UnY-67IA-1; Mon, 03 May 2021 06:45:10 -0400
+X-MC-Unique: 0H0oVdObPnGVr1UnY-67IA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83D481020C20;
- Mon,  3 May 2021 10:45:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAA28107ACC7;
+ Mon,  3 May 2021 10:45:09 +0000 (UTC)
 Received: from thuth.com (ovpn-112-122.ams2.redhat.com [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2F105D9DD;
- Mon,  3 May 2021 10:45:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D19535D9DD;
+ Mon,  3 May 2021 10:45:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/10] include/sysemu: Poison all accelerator CONFIG switches
- in common code
-Date: Mon,  3 May 2021 12:44:49 +0200
-Message-Id: <20210503104456.1036472-4-thuth@redhat.com>
+Subject: [PULL 04/10] gitlab-ci: Replace YAML anchors by extends
+ (container_job)
+Date: Mon,  3 May 2021 12:44:50 +0200
+Message-Id: <20210503104456.1036472-5-thuth@redhat.com>
 In-Reply-To: <20210503104456.1036472-1-thuth@redhat.com>
 References: <20210503104456.1036472-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,102 +78,304 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are already poisoning CONFIG_KVM since this switch is not working
-in common code. Do the same with the other accelerator switches, too
-(except for CONFIG_TCG, which is special, since it is also defined in
-config-host.h).
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Message-Id: <20210414112004.943383-2-thuth@redhat.com>
+'extends' is an alternative to using YAML anchors
+and is a little more flexible and readable. See:
+https://docs.gitlab.com/ee/ci/yaml/#extends
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210418233448.1267991-2-f4bug@amsat.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/exec/poison.h | 4 ++++
- include/sysemu/hax.h  | 4 ++++
- include/sysemu/hvf.h  | 4 ++++
- include/sysemu/whpx.h | 4 ++++
- 4 files changed, 16 insertions(+)
+ .gitlab-ci.d/containers.yml | 76 ++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 38 deletions(-)
 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index de972bfd8e..f769dcc781 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -86,8 +86,12 @@
- #pragma GCC poison CONFIG_SPARC_DIS
- #pragma GCC poison CONFIG_XTENSA_DIS
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 33e4046e23..4ef76d1f54 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -1,4 +1,4 @@
+-.container_job_template: &container_job_definition
++.container_job_template:
+   image: docker:stable
+   stage: containers
+   services:
+@@ -22,230 +22,230 @@
+     - docker logout
  
-+#pragma GCC poison CONFIG_HAX
-+#pragma GCC poison CONFIG_HVF
- #pragma GCC poison CONFIG_LINUX_USER
- #pragma GCC poison CONFIG_KVM
- #pragma GCC poison CONFIG_SOFTMMU
-+#pragma GCC poison CONFIG_WHPX
-+#pragma GCC poison CONFIG_XEN
+ amd64-alpine-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: alpine
  
- #endif
-diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
-index 12fb54f990..247f0661d1 100644
---- a/include/sysemu/hax.h
-+++ b/include/sysemu/hax.h
-@@ -24,6 +24,8 @@
+ amd64-centos7-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: centos7
  
- int hax_sync_vcpus(void);
+ amd64-centos8-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: centos8
  
-+#ifdef NEED_CPU_H
-+
- #ifdef CONFIG_HAX
+ amd64-debian10-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: debian10
  
- int hax_enabled(void);
-@@ -34,4 +36,6 @@ int hax_enabled(void);
+ amd64-debian11-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: debian11
  
- #endif /* CONFIG_HAX */
+ alpha-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-alpha-cross
  
-+#endif /* NEED_CPU_H */
-+
- #endif /* QEMU_HAX_H */
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index c98636bc81..bb70082e45 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -16,6 +16,8 @@
- #include "qemu/accel.h"
- #include "qom/object.h"
+ amd64-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-amd64-cross
  
-+#ifdef NEED_CPU_H
-+
- #ifdef CONFIG_HVF
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
-@@ -26,6 +28,8 @@ extern bool hvf_allowed;
- #define hvf_get_supported_cpuid(func, idx, reg) 0
- #endif /* !CONFIG_HVF */
+ amd64-debian-user-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-all-test-cross
  
-+#endif /* NEED_CPU_H */
-+
- #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
+ amd64-debian-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-amd64
  
- typedef struct HVFState HVFState;
-diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
-index 8ca1c1c4ac..2889fa2278 100644
---- a/include/sysemu/whpx.h
-+++ b/include/sysemu/whpx.h
-@@ -13,6 +13,8 @@
- #ifndef QEMU_WHPX_H
- #define QEMU_WHPX_H
+ arm64-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-arm64-cross
  
-+#ifdef NEED_CPU_H
-+
- #ifdef CONFIG_WHPX
+ arm64-test-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian11-container']
+   variables:
+     NAME: debian-arm64-test-cross
  
- int whpx_enabled(void);
-@@ -25,4 +27,6 @@ bool whpx_apic_in_platform(void);
+ armel-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-armel-cross
  
- #endif /* CONFIG_WHPX */
+ armhf-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-armhf-cross
  
-+#endif /* NEED_CPU_H */
-+
- #endif /* QEMU_WHPX_H */
+ hppa-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-hppa-cross
+ 
+ m68k-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-m68k-cross
+ 
+ mips64-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mips64-cross
+ 
+ mips64el-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mips64el-cross
+ 
+ mips-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mips-cross
+ 
+ mipsel-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mipsel-cross
+ 
+ powerpc-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-powerpc-cross
+ 
+ ppc64-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-ppc64-cross
+ 
+ ppc64el-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-ppc64el-cross
+ 
+ riscv64-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-riscv64-cross
+ 
+ s390x-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-s390x-cross
+ 
+ sh4-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-sh4-cross
+ 
+ sparc64-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-sparc64-cross
+ 
+ tricore-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   stage: containers-layer2
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-tricore-cross
+ 
+ xtensa-debian-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: debian-xtensa-cross
+ 
+ cris-fedora-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: fedora-cris-cross
+ 
+ amd64-fedora-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: fedora
+ 
+ i386-fedora-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: fedora-i386-cross
+ 
+ win32-fedora-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: fedora-win32-cross
+ 
+ win64-fedora-cross-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: fedora-win64-cross
+ 
+ amd64-ubuntu1804-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: ubuntu1804
+ 
+ amd64-ubuntu2004-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: ubuntu2004
+ 
+ amd64-ubuntu-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: ubuntu
+ 
+ amd64-opensuse-leap-container:
+-  <<: *container_job_definition
++  extends: .container_job_template
+   variables:
+     NAME: opensuse-leap
 -- 
 2.27.0
 
