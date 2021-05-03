@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209F63712EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:23:59 +0200 (CEST)
-Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462AD3712E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:18:12 +0200 (CEST)
+Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldUo2-00086s-5y
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60692)
+	id 1ldUiP-0000bd-LE
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfQ-0007AW-80
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfR-0007AY-RL
  for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41264)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfI-0005rF-7i
- for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:02 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfJ-0005s6-SH
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620033294;
+ s=mimecast20190719; t=1620033296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IIQWoOj7e0dsIa7hkFCElsSBHzeF9k3Da95taQOwAFU=;
- b=AP4/3GB8UQLsL7+HfdXXqcRpvI3gBWjrTbt3CjbDbRq5QXt2V4yqVDWsV3ynrZ7hZ8fyaE
- udl58UINfJd6atDnuK5rOG9/b43gvX8zIIcnMYQ+dUVhDvgKrcSuoKkYHpiH8FooxbF96n
- eFgfFr74H6a14my2ZQXGXBLJmj0uieQ=
+ bh=V+kn36yzDj2aAGJU7413F9zeXmChHR7E1UMXemfongQ=;
+ b=hQsQAG9qvDIy2hrXqLczGE7vaU96iN3mrTjyKKb2c3H91zxMGewekKZ9cT22U6CU8b4QFP
+ 4idnNVZ8c8UOoOcKKonFm1d7T8bn4gGK+GODAH5mDlCLQgO9+I2XFWm5d27F/7vhwBraO9
+ TBLvsT7fcEHFYjj28G1KOQZS0ndwqRU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-WmgRhH01PYC1cgOMc3JNWw-1; Mon, 03 May 2021 05:14:53 -0400
-X-MC-Unique: WmgRhH01PYC1cgOMc3JNWw-1
+ us-mta-169-cMpoU8uCN1iiREEkB0c6zw-1; Mon, 03 May 2021 05:14:55 -0400
+X-MC-Unique: cMpoU8uCN1iiREEkB0c6zw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C9766D241;
- Mon,  3 May 2021 09:14:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669CC801AC9;
+ Mon,  3 May 2021 09:14:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
  [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F6135D74F;
- Mon,  3 May 2021 09:14:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A58F5D736;
+ Mon,  3 May 2021 09:14:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 83E52180039E; Mon,  3 May 2021 11:14:46 +0200 (CEST)
+ id 8FE52180063D; Mon,  3 May 2021 11:14:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] usb/hid: avoid dynamic stack allocation
-Date: Mon,  3 May 2021 11:14:42 +0200
-Message-Id: <20210503091446.2137206-2-kraxel@redhat.com>
+Subject: [PATCH 2/5] usb/redir: avoid dynamic stack allocation (CVE-2021-3527)
+Date: Mon,  3 May 2021 11:14:43 +0200
+Message-Id: <20210503091446.2137206-3-kraxel@redhat.com>
 In-Reply-To: <20210503091446.2137206-1-kraxel@redhat.com>
 References: <20210503091446.2137206-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -88,36 +88,31 @@ Use autofree heap allocation instead.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-hid.c   | 2 +-
- hw/usb/dev-wacom.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/usb/redirect.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
-index fc39bab79f94..1c7ae97c3033 100644
---- a/hw/usb/dev-hid.c
-+++ b/hw/usb/dev-hid.c
-@@ -656,7 +656,7 @@ static void usb_hid_handle_data(USBDevice *dev, USBPacket *p)
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 17f06f34179a..db1a89a7cc92 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
+         usbredirparser_send_bulk_packet(dev->parser, p->id,
+                                         &bulk_packet, NULL, 0);
+     } else {
+-        uint8_t buf[size];
++        g_autofree uint8_t *buf = g_malloc(size);
+         usb_packet_copy(p, buf, size);
+         usbredir_log_data(dev, "bulk data out:", buf, size);
+         usbredirparser_send_bulk_packet(dev->parser, p->id,
+@@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRedirDevice *dev,
+                                                USBPacket *p, uint8_t ep)
  {
-     USBHIDState *us = USB_HID(dev);
-     HIDState *hs = &us->hid;
+     struct usb_redir_interrupt_packet_header interrupt_packet;
 -    uint8_t buf[p->iov.size];
 +    g_autofree uint8_t *buf = g_malloc(p->iov.size);
-     int len = 0;
  
-     switch (p->pid) {
-diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-index b59504863509..ed687bc9f1eb 100644
---- a/hw/usb/dev-wacom.c
-+++ b/hw/usb/dev-wacom.c
-@@ -301,7 +301,7 @@ static void usb_wacom_handle_control(USBDevice *dev, USBPacket *p,
- static void usb_wacom_handle_data(USBDevice *dev, USBPacket *p)
- {
-     USBWacomState *s = (USBWacomState *) dev;
--    uint8_t buf[p->iov.size];
-+    g_autofree uint8_t *buf = g_malloc(p->iov.size);
-     int len = 0;
- 
-     switch (p->pid) {
+     DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
+             p->iov.size, p->id);
 -- 
 2.30.2
 
