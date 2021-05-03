@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22233372054
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 21:23:06 +0200 (CEST)
-Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EE437205E
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 21:25:49 +0200 (CEST)
+Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lde9p-0006cY-0D
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 15:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48118)
+	id 1ldeCS-0001GH-NX
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 15:25:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lde7Z-0004o6-RW
- for qemu-devel@nongnu.org; Mon, 03 May 2021 15:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58844)
+ id 1lde7f-0004s2-Le
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 15:20:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lde7T-0008N6-U2
- for qemu-devel@nongnu.org; Mon, 03 May 2021 15:20:45 -0400
+ id 1lde7U-0008NV-Gn
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 15:20:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lde7S-0002WP-L9
+ id 1lde7S-0002Wn-VR
  for <qemu-devel@nongnu.org>; Mon, 03 May 2021 19:20:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 944312E8186
+ by loganberry.canonical.com (Postfix) with ESMTP id EC8E42E80F9
  for <qemu-devel@nongnu.org>; Mon,  3 May 2021 19:20:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 May 2021 19:10:36 -0000
+Date: Mon, 03 May 2021 19:11:29 -0000
 From: Aaron Simmons <1926996@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,14 +41,14 @@ X-Launchpad-Bug-Commenters: paleozogt
 X-Launchpad-Bug-Reporter: Aaron Simmons (paleozogt)
 X-Launchpad-Bug-Modifier: Aaron Simmons (paleozogt)
 References: <162006855194.4732.10860890446320255541.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162006903642.11793.15988836072083471442.malone@soybean.canonical.com>
+Message-Id: <162006908978.14746.11040056696117858280.malone@wampee.canonical.com>
 Subject: [Bug 1926996] Re: qemu-user clone syscall fails
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 4361824578baaa034c092e10583c3f566c36abeb
+X-Launchpad-Hash: c51f744526308ae8f4e54ff1f0e3a4037f3c9afe
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,10 +73,10 @@ Reply-To: Bug 1926996 <1926996@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-clone_test (aarch64)
+clone_test (x86_64)
 
-** Attachment added: "clone_test (aarch64)"
-   https://bugs.launchpad.net/qemu/+bug/1926996/+attachment/5494469/+files/=
+** Attachment added: "clone_test (x86_64)"
+   https://bugs.launchpad.net/qemu/+bug/1926996/+attachment/5494470/+files/=
 clone_test
 
 -- =
