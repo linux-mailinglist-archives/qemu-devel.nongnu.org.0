@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AE5371E82
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:24:21 +0200 (CEST)
-Received: from localhost ([::1]:44352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F39371E49
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:18:31 +0200 (CEST)
+Received: from localhost ([::1]:55426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldcIu-0004bQ-N0
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48652)
+	id 1ldcDG-0005ty-0u
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ldc7Q-0001Bc-L0
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:12:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ldc7H-0003cv-WB
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:12:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620061937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t5Jp5LlOqxN1gQE9tErfIiUmhEjJBaBTi45b4C6IRKQ=;
- b=MLMl3hn+V/v8N/UfA+Lr/QZAkhsc+QUWDaDkcQc8p0kts/iuelmG98IRNtTeO3RwunDKQj
- IKgR1b9YxbhAhcBLrrlTg1fnjg/LU+m+NedYYI4NRiMqdX020fWXTqmP9/TpykPljrz9Fh
- JnJELzgeH3ohiTd1tER9hpk5H6bFMp0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-qfH7AM75MEmw51O2Omkl4Q-1; Mon, 03 May 2021 13:12:14 -0400
-X-MC-Unique: qfH7AM75MEmw51O2Omkl4Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6790DA0CAB;
- Mon,  3 May 2021 17:12:13 +0000 (UTC)
-Received: from [10.3.114.144] (ovpn-114-144.phx2.redhat.com [10.3.114.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A4755C241;
- Mon,  3 May 2021 17:12:09 +0000 (UTC)
-Subject: Re: [PATCH v2 1/6] vhost-user-blk: Make sure to set Error on realize
- failure
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20210429171316.162022-1-kwolf@redhat.com>
- <20210429171316.162022-2-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <bfb6be87-430b-75bd-44f9-c20b57d22d49@redhat.com>
-Date: Mon, 3 May 2021 12:12:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldc86-0001ho-Ra
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:11 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldc85-0003te-A2
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:10 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so6175223wmy.5
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Vq/Xi8dlTbigKHadG9OmpaHZDNbMK0I5NasTNYcvABQ=;
+ b=YNfRrn5NqDT551rIA89vudrAOKoEgdnXOa4oVuMixBE3S6wbsnGgPZQAYvg2Jc7xq8
+ gaSXokv8mM4+E9fO81JaYSctLPLZHSjomBzMoGbshShFuIReOhjpbPAgXVXnqRCOGFs8
+ fPFGmHbFImFNWXPywQU48WfsBQE8CpAtkAfg248hXV1c9uA67uH7LPn1sOjg6beyDqUs
+ gKBPLcIpl26sz4NeBW5mHbMJE5tx4I1G7p4NqhawozuOFK67mMUDwTtTGjI1QCN1IKq1
+ m+2mDpeV5EMQEZ43Eo+piT2IbbkZfXVufT2r4K+yJ2bzs/iYxBDtgpfGDoycO7GU3Vyt
+ 8sCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Vq/Xi8dlTbigKHadG9OmpaHZDNbMK0I5NasTNYcvABQ=;
+ b=ph6PyZY621tdg34dHEKHclm3NPE0vL8/yn9GGNkmMaBIvpZmqj041426fifBHaSlX+
+ 0vcyEn5F6aOxiqIGWMzKxhKNTgJAlr2tKt6DeRvvPBLxDWsWtqYASVrfh6zXV4bZZUy8
+ uZIeV+tpbUwypFR3LgEGuL4cnY8Pl7cfjlRwmmsEEFgwuDmpBJfX1KW5ybJOA/3fcLb7
+ l9OF+Fg3/Tm2Qs4wZTvhI9F6ZI7j+31TmKC8xsJnX8svKDZn+gKhHq+4kiySA6ieucsP
+ IbcpdjJTsnVjfuboyC2t+BiXdFO/eclQr+iIBk/iR2HrbZbgEpuqrRSL5TNAyqsKjZ1t
+ IJOg==
+X-Gm-Message-State: AOAM5339SSo+oNeqo8wcJR3+40Ve54Nj0lnimNNLtomHWgiZJH4WTdgP
+ hgSWo1L68anawkKK+knZOLIPxvB0mu7JdA==
+X-Google-Smtp-Source: ABdhPJyav7V4EW7InSGKnwl+8jjP8SHeiq+X4AcHiUngjuAWSJFi/C0a0VD4dRlZ2pDUdpVKR5z0kA==
+X-Received: by 2002:a1c:3d05:: with SMTP id k5mr22139692wma.182.1620061985251; 
+ Mon, 03 May 2021 10:13:05 -0700 (PDT)
+Received: from x1w.redhat.com (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id b12sm13174763wro.28.2021.05.03.10.13.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 May 2021 10:13:04 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] hw/sparc/sun4m: Introduce Sun4mMachineClass to access
+ sun4m_hwdefs
+Date: Mon,  3 May 2021 19:12:57 +0200
+Message-Id: <20210503171303.822501-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210429171316.162022-2-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,27 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den-plotnikov@yandex-team.ru, raphael.norwitz@nutanix.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/21 12:13 PM, Kevin Wolf wrote:
-> We have to set errp before jumping to virtio_err, otherwise the caller
-> (virtio_device_realize()) will take this as success and crash when it
-> later tries to access things that we've already freed in the error path.
-> 
-> Fixes: 77542d431491788d1e8e79d93ce10172ef207775
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  hw/block/vhost-user-blk.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Missing review: 6=0D
+=0D
+Hi Mark,=0D
+=0D
+This series QOM'ify the sun4m machines.=0D
+I need it for a further memory maxsize check.=0D
+It is mostly code movement (and the diff-stat is good).=0D
+=0D
+Since v2:=0D
+- use static const variable for hwdef (Richard)=0D
+- added Richard's R-b tag=0D
+=0D
+Since v1:=0D
+- Full rewrite after Mark review=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  hw/sparc/sun4m: Have sun4m machines inherit new TYPE_SUN4M_MACHINE=0D
+  hw/sparc/sun4m: Introduce Sun4mMachineClass=0D
+  hw/sparc/sun4m: Factor out sun4m_machine_class_init()=0D
+  hw/sparc/sun4m: Register machine types in sun4m_machine_types[]=0D
+  hw/sparc/sun4m: Fix code style for checkpatch.pl=0D
+  hw/sparc/sun4m: Move each sun4m_hwdef definition in its class_init=0D
+=0D
+ hw/sparc/sun4m.c | 459 +++++++++++++++++++----------------------------=0D
+ 1 file changed, 186 insertions(+), 273 deletions(-)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
