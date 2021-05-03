@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B953337112F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 07:18:38 +0200 (CEST)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB71371136
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 07:28:29 +0200 (CEST)
+Received: from localhost ([::1]:39848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQyb-0003pU-QS
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 01:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56810)
+	id 1ldR88-0006cZ-5h
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 01:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldQxG-0003Mi-99
- for qemu-devel@nongnu.org; Mon, 03 May 2021 01:17:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31514)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ldR6J-0004q1-11; Mon, 03 May 2021 01:26:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29348
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldQxC-0007QW-NZ
- for qemu-devel@nongnu.org; Mon, 03 May 2021 01:17:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620019029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cgL+7qOptBe6X0eBMmZhTvHSG+CEO9aCV45UeBhj/gI=;
- b=Ci3uML+o0gAuVh6nP4CfYV/chfdztvee7AOdSWtl1wfiTJ19UKa6HRmGOEf7tUIjQDzWj2
- 80XO1ZhJGwmRAbj5sr5VvnMVwpyZCvUXexApd9R5XVQBr9zcsBpqVevjdb8i1OKvnzzJvL
- 2jv0FpNosphb+WUHldcmPuD0AT+WXVU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-TKUloOndN5Gj1vip8boZMQ-1; Mon, 03 May 2021 01:17:05 -0400
-X-MC-Unique: TKUloOndN5Gj1vip8boZMQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r12-20020adfc10c0000b029010d83323601so3225690wre.22
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 22:17:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cgL+7qOptBe6X0eBMmZhTvHSG+CEO9aCV45UeBhj/gI=;
- b=iiAdaBYDXyOgedl3kGQTmlS2Xd7CpGoUdcFhl4xoulsStCiJquykpriOp59Srv9pbF
- C5Dc9DxGK/6cfaNNjvNK5I5B5Xu46gbjKIC1L1lJOx1WeTlGxEZbR9RsRjPT4wNMis+g
- fKOQwWvg025meTQv8/ZychTfIXd9yCX68tOyA696LXpImaiYo7AxPiPiMtWHjpPS0QF5
- B5kzojFLwWPQPbmE3+QqpHFXxHe7g4uvmsnbJNn5fC0JH2NdSVAPFQmNp8L75z2vP3mv
- Oqgba2zbV3qQvUh6/vv658um+T6Y78Pv0euDjtrZP97JnOsCCrCAQ5fsT5Pn6TgRv1OR
- Mjmg==
-X-Gm-Message-State: AOAM533LeNOA/QvlMKu643xl5AWMJLkw5mZc8zbPAxJY+dQEvQfd2Oox
- L6u+XmTXIidwzaRamxtirnjSyUDGZNBoB7qh8aaJNF1Eju9AxFguqke83YmzbMv3sczz/vuhrq/
- gtgw222gCupdTUks=
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr22686666wrn.6.1620019024732; 
- Sun, 02 May 2021 22:17:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdulMoyr4Xg0aBFddClu1CCYhHiaWIXVY8REHnzEAgacvGDGpmaA4o1A6hSGu5iifTk55eig==
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr22686651wrn.6.1620019024574; 
- Sun, 02 May 2021 22:17:04 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d0bc.dip0.t-ipconnect.de.
- [87.145.208.188])
- by smtp.gmail.com with ESMTPSA id b6sm19107438wmj.2.2021.05.02.22.17.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 May 2021 22:17:04 -0700 (PDT)
-Subject: Re: [PATCH 4/4] pc-bios/s390-ccw: Allow building with Clang, too
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210502174836.838816-1-thuth@redhat.com>
- <20210502174836.838816-5-thuth@redhat.com>
- <87r1iofm61.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <15271277-98c2-3925-5937-b9f04ad376b3@redhat.com>
-Date: Mon, 3 May 2021 07:17:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ldR6F-0005ym-G4; Mon, 03 May 2021 01:26:34 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14353eSi120475; Mon, 3 May 2021 01:26:12 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38aahu0gwn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 May 2021 01:26:12 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1435H4jk022045;
+ Mon, 3 May 2021 05:26:10 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 388xm8rh6f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 May 2021 05:26:10 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1435Q8m619661108
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 May 2021 05:26:08 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 40CA8A404D;
+ Mon,  3 May 2021 05:26:08 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A320A4040;
+ Mon,  3 May 2021 05:26:08 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  3 May 2021 05:26:07 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.40.192])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 5AE2722007C;
+ Mon,  3 May 2021 07:26:07 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 01/18] aspeed/smc: Use the RAM memory region for DMAs
+Date: Mon,  3 May 2021 07:25:43 +0200
+Message-Id: <20210503052600.290483-2-clg@kaod.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210503052600.290483-1-clg@kaod.org>
+References: <20210503052600.290483-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <87r1iofm61.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: cP6Rsj7fc653UgWBm4JLynzeO-dTmraj
+X-Proofpoint-ORIG-GUID: cP6Rsj7fc653UgWBm4JLynzeO-dTmraj
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-03_02:2021-04-30,
+ 2021-05-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=539 phishscore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ bulkscore=0 priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1034
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2105030033
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,31 +95,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2021 06.58, Markus Armbruster wrote:
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> Clang unfortunately does not support generating code for the z900
->> architecture level and starts with the z10 instead. Thus to be able
->> to support compiling with Clang, we have to check for the supported
->> compiler flags. The disadvantage is of course that the bios image
->> will only run with z10 guest CPUs upwards (which is what most people
->> use anyway), so just in case let's also emit a warning in that case.
-> 
-> What happens when you try to use this bios with an old CPU anyway?
+Instead of passing the memory address space region, simply use the RAM
+memory region instead. This simplifies RAM accesses.
 
-Interesting question. I was expecting the guest to crash since it would be 
-using a CPU instruction that is not supported on the old CPU model. But I 
-just gave it a try, and there was no crash. The guest booted just fine. 
-Either Clang only emits instructions that work with the old z900 anyway, or 
-our emulation in QEMU is imprecise and we allow newer instructions to be 
-executed on old models, too.
+This patch breaks migration compatibility.
 
-  Thomas
+Fixes: c4e1f0b48322 ("aspeed/smc: Add support for DMAs")
+Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20210407171637.777743-2-clg@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/arm/aspeed.c     | 2 +-
+ hw/ssi/aspeed_smc.c | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a17b75f4940a..1cf5a15c8098 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -327,7 +327,7 @@ static void aspeed_machine_init(MachineState *machine=
+)
+     object_property_set_int(OBJECT(&bmc->soc), "num-cs", amc->num_cs,
+                             &error_abort);
+     object_property_set_link(OBJECT(&bmc->soc), "dram",
+-                             OBJECT(&bmc->ram_container), &error_abort);
++                             OBJECT(machine->ram), &error_abort);
+     if (machine->kernel_filename) {
+         /*
+          * When booting with a -kernel command line there is no u-boot
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 16addee4dc8d..6f72fb028e59 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -178,8 +178,7 @@
+  *   0: 4 bytes
+  *   0x7FFFFF: 32M bytes
+  */
+-#define DMA_DRAM_ADDR(s, val)   ((s)->sdram_base | \
+-                                 ((val) & (s)->ctrl->dma_dram_mask))
++#define DMA_DRAM_ADDR(s, val)   ((val) & (s)->ctrl->dma_dram_mask)
+ #define DMA_FLASH_ADDR(s, val)  ((s)->ctrl->flash_window_base | \
+                                 ((val) & (s)->ctrl->dma_flash_mask))
+ #define DMA_LENGTH(val)         ((val) & 0x01FFFFFC)
+--=20
+2.26.3
 
 
