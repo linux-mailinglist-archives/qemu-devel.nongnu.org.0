@@ -2,81 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64D5371947
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:30:37 +0200 (CEST)
-Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EAD7371A28
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:38:13 +0200 (CEST)
+Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbSu-00007U-S2
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:30:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1ldbaG-0003lJ-8X
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldbQ7-0006br-VT
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:27:44 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:51841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldbQ5-0000K5-V1
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:27:43 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id lp4so2000652pjb.1
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dYrEU+nipR0bNudJwCmCXvG8W4obmoeVcSZzgFtE4sg=;
- b=i8CU7PXju501v/5iCF1iXnGWMAUUVKojbZaj8qks17VAYD1Jio04g40fJJNDXcdQ/+
- zJPJcx0BNeMXzg4MF6eZaISvxOUuxOBGVYA4GbedwFUl9fbBvcUbEK8w0H3lsQsG78Ve
- VSxjY2PVxFNBLIYAiBMK8FIkYuzyWL+JdLWL2yeDv5b2UU6+gO486LnjqvAf2v3pgy12
- dspmvmGQqe7sXanL9uwHmHbZXZ8z9UEN/pSSEShCdd11qnzUikMAg8aSt8tNAYn3bIRV
- amzdLCNT8Bfm9PEk9jQ0OnRS/GwIlbJaG8ewHaWiIqZMSsjD/EeF7AsZP6L9YXH6Bg7e
- q/JA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldbVo-0001yp-My
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:33:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldbVa-0002Xr-KK
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:33:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620059600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0/v7w83apqs4Z9feQey4AfXSRxHG2joE+1aa7RyPXXQ=;
+ b=dIVTME5pEg+x3Q/cEWPr325A2pCw0Tme6kOHLh8uSZi0T0yxtwVxQpzgVPuM1bBBCfXzt9
+ 5BjvyBgO/TYYFx9mMydra+f0wIK9AtJo8HxYonYenc+s/aAYgZeOX4TC+R+CplC/wufav1
+ A3kjMVikm8/uio9LXkbg9/Io+Unk468=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-XZjrHcKQPkaKG0lT8IwVwA-1; Mon, 03 May 2021 12:33:19 -0400
+X-MC-Unique: XZjrHcKQPkaKG0lT8IwVwA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 67-20020adf81490000b029010756d109e6so4198202wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:33:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dYrEU+nipR0bNudJwCmCXvG8W4obmoeVcSZzgFtE4sg=;
- b=RccXSRQ1jngwktlRVfrfBWctF8U408y0PSAK2h2IdMr9SADM3B7iIKp1BHlOh7aC+h
- 5nqlEhYoAJeYulqOM3adFSdu1yq0cpYkWFXxJH89G88bYe7yJ6H0V1zL8jA3hpIMtLZy
- p+MamwrERBQfF7dpzD5X01LfZ7Hkl1Lo9+WpdBAm7oytQvOz7PWdX63ogN3hFWYx2BzO
- ULKlHHD9cbj1piVU3QpWghpIReEADAUg3Xmof+pzdYOcBowcsoiq/O+aBKcPuI9pRst2
- K6cuLJGZojkHI6tS2yKTG7HCao+juFmb2mYGdyZzDuOhkR/y/Nx7/si1W4LHak9wW55C
- JjZA==
-X-Gm-Message-State: AOAM532b620z2aHj/HHYRrxt4Kut2m1MTIM3nIxQPTO4BFVL5M5TzktY
- c34VDH15dpeiP388rEhNgVyDo/BW2tfG6Q==
-X-Google-Smtp-Source: ABdhPJwBi9zy+0qOJSfMQ8BZHiFhcN2v7U3LFSUQeZwhS9H4NZJMhE0Mxb2wgw6kpdKxN25/3jDsvw==
-X-Received: by 2002:a17:902:6b8c:b029:ea:f54f:c330 with SMTP id
- p12-20020a1709026b8cb02900eaf54fc330mr21160994plk.10.1620059260810; 
- Mon, 03 May 2021 09:27:40 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 31sm87444pgw.3.2021.05.03.09.27.40
+ bh=0/v7w83apqs4Z9feQey4AfXSRxHG2joE+1aa7RyPXXQ=;
+ b=g3l/+t9YQkiGu8dHZftdbMzRgvd3BmmFrQQ8YRDtZmBfwHkE/Dl6/8uFAnBuK6ux1f
+ lu1HI7KDXr+9r76/e/CoKsSdEQmHrfKkLCmPIEHVvFQ52vs1+2QVB1TA/LKexeM0ApVP
+ rqHHDbZ/FIffd5Jy89rr+OiWntT3v3DZmRH8UwGNp0P2tg7DJknFyeBacfoN432wTSgd
+ WU5jQ7PgophHyEDZRcHBOD7QpotnJEMxv+DUkA9NF3/Ai11fl/1o/FtIhOfzTDRmjfzd
+ anqR3xBpfOoxKcUoczwba7rh6pA6GqTEYjbHqkKyKWIbtYxLAyr3y4NTfyarpUXdGcRx
+ X3IA==
+X-Gm-Message-State: AOAM531SpRQKfF/OTvwnY+t5w0kHU++NHg2SYKOnF3BOTavnKb+e13Mb
+ OXIWTiXmA7puz2JZerBtRHRphY/fVigQEZiy7AnhmdmNKx5T9eIgsTbxeuPaAkeFozJnGO2lIEH
+ FiG7Tk6m2UJkBh6k=
+X-Received: by 2002:a05:6000:2c5:: with SMTP id
+ o5mr26497309wry.4.1620059598400; 
+ Mon, 03 May 2021 09:33:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTU8V+O3W35PHlJkoG4KCQ1YpBI1a3ef9EmQHlmvYg80zLePxw393zKf6UL9tGY7v7vbhKAw==
+X-Received: by 2002:a05:6000:2c5:: with SMTP id
+ o5mr26497258wry.4.1620059598048; 
+ Mon, 03 May 2021 09:33:18 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id s15sm7538509wrt.19.2021.05.03.09.33.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 09:27:40 -0700 (PDT)
-Subject: Re: [PATCH v2 6/6] hw/sparc/sun4m: Move each sun4m_hwdef definition
- in its class_init
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210502185441.599980-1-f4bug@amsat.org>
- <20210502185441.599980-7-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d29589e2-ae7b-0569-d422-e59642f2fdac@linaro.org>
-Date: Mon, 3 May 2021 09:27:38 -0700
+ Mon, 03 May 2021 09:33:17 -0700 (PDT)
+Subject: Re: [PATCH v5 08/10] qtest/bios-tables-test: Make test
+ build-independent from accelerator
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20210501223638.510712-1-philmd@redhat.com>
+ <20210501223638.510712-9-philmd@redhat.com>
+ <20210503143639.57e7c52c@redhat.com>
+ <dd561115-0586-3920-6236-32a3abd043f2@redhat.com>
+ <20210503180415.3c798f64@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ced07efc-996f-929a-44dc-993ab86ad4ab@redhat.com>
+Date: Mon, 3 May 2021 18:33:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210502185441.599980-7-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210503180415.3c798f64@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,30 +105,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Andrew Jones <drjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/21 11:54 AM, Philippe Mathieu-Daudé wrote:
-> +static void ss5_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
-> +
-> +    mc->desc = "Sun4m platform, SPARCstation 5";
-> +    mc->is_default = true;
-> +    mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
-> +    smc->hwdef = &(const struct sun4m_hwdef) {
->           .iommu_base   = 0x10000000,
->           .iommu_pad_base = 0x10004000,
->           .iommu_pad_len  = 0x0fffb000,
+On 5/3/21 6:04 PM, Igor Mammedov wrote:
+> On Mon, 3 May 2021 14:44:32 +0200
+> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> 
+>> Hi Igor,
+>>
+>> On 5/3/21 2:36 PM, Igor Mammedov wrote:
+>>> On Sun,  2 May 2021 00:36:36 +0200
+>>> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>>   
+>>>> Now than we can probe if the TCG accelerator is available
+>>>> at runtime with a QMP command, do it once at the beginning
+>>>> and only register the tests we can run.
+>>>> We can then replace the #ifdef'ry by an assertion.
+>>>>
+>>>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> ---
+>>>>  tests/qtest/bios-tables-test.c | 99 ++++++++++++++++++----------------
+>>>>  1 file changed, 52 insertions(+), 47 deletions(-)
+>>>>
+>>>> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+>>>> index 156d4174aa3..a4c7bddf6f3 100644
+>>>> --- a/tests/qtest/bios-tables-test.c
+>>>> +++ b/tests/qtest/bios-tables-test.c
+>>>> @@ -97,6 +97,7 @@ typedef struct {
+>>>>      QTestState *qts;
+>>>>  } test_data;
+>>>>  
+>>>> +static bool tcg_accel_available;
+>>>>  static char disk[] = "tests/acpi-test-disk-XXXXXX";
+>>>>  static const char *data_dir = "tests/data/acpi";
+>>>>  #ifdef CONFIG_IASL
+>>>> @@ -718,15 +719,11 @@ static void test_acpi_one(const char *params, test_data *data)
+>>>>      char *args;
+>>>>      bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
+>>>>  
+>>>> -#ifndef CONFIG_TCG
+>>>> -    if (data->tcg_only) {
+>>>> -        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
+>>>> -        return;
+>>>> -    }
+>>>> -#endif /* CONFIG_TCG */
+>>>> +    assert(!data->tcg_only || tcg_accel_available);
+>>>>  
+>>>>      args = test_acpi_create_args(data, params, use_uefi);
+>>>>      data->qts = qtest_init(args);
+>>>> +  
+>>> stray new line?  
+>>
+>> Oops.
+>>
+>>>   
+>>>>      test_acpi_load_tables(data, use_uefi);
+>>>>  
+>>>>      if (getenv(ACPI_REBUILD_EXPECTED_AML)) {
+>>>> @@ -1504,6 +1501,8 @@ int main(int argc, char *argv[])
+>>>>      const char *arch = qtest_get_arch();
+>>>>      int ret;
+>>>>  
+>>>> +    tcg_accel_available = qtest_has_accel("tcg");
+>>>> +
+>>>>      g_test_init(&argc, &argv, NULL);
+>>>>  
+>>>>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>>>> @@ -1512,56 +1511,62 @@ int main(int argc, char *argv[])
+>>>>              return ret;
+>>>>          }
+>>>>          qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
+>>>> -        qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
+>>>> -        qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+>>>>          qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
+>>>> -        qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
+>>>> +        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
+>>>>          qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
+>>>>                         test_acpi_piix4_no_root_hotplug);
+>>>>          qtest_add_func("acpi/piix4/pci-hotplug/no_bridge_hotplug",
+>>>>                         test_acpi_piix4_no_bridge_hotplug);
+>>>>          qtest_add_func("acpi/piix4/pci-hotplug/off",
+>>>>                         test_acpi_piix4_no_acpi_pci_hotplug);
+>>>> -        qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+>>>> -        qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>>>> -        qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+>>>> -        qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+>>>> -        qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
+>>>> -        qtest_add_func("acpi/piix4/cpuhp", test_acpi_piix4_tcg_cphp);
+>>>> -        qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
+>>>> -        qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
+>>>> -        qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
+>>>> -        qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
+>>>> -        qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+>>>> -        qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
+>>>> -        qtest_add_func("acpi/piix4/smm-compat",
+>>>> -                       test_acpi_piix4_tcg_smm_compat);
+>>>> -        qtest_add_func("acpi/piix4/smm-compat-nosmm",
+>>>> -                       test_acpi_piix4_tcg_smm_compat_nosmm);
+>>>> -        qtest_add_func("acpi/piix4/nohpet", test_acpi_piix4_tcg_nohpet);
+>>>> -        qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
+>>>> -        qtest_add_func("acpi/q35/smm-compat",
+>>>> -                       test_acpi_q35_tcg_smm_compat);
+>>>> -        qtest_add_func("acpi/q35/smm-compat-nosmm",
+>>>> -                       test_acpi_q35_tcg_smm_compat_nosmm);
+>>>> -        qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
+>>>> -        qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+>>>> -        qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+>>>> -        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+>>>> -        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+>>>> -        qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+>>>> -        qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+>>>> -        qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
+>>>> -        qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
+>>>> -        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
+>>>> -        if (strcmp(arch, "x86_64") == 0) {
+>>>> -            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
+>>>> +        if (tcg_accel_available) {  
+>>>
+>>> most of this can run without TCG if KVM is available, so why are you limiting it to TCG only
+>>> or am I missing something?  
+>>
+>> This patch is a simple API change, these tests are already restricted by
+>> the 'g_test_skip("TCG disabled, skipping ACPI tcg_only test");' call.
+>>
+> 
+> 
+> with current code, assume we have TCG compiled out:
+>  - test_acpi_one() will execute any test that is not marked as tcg_only
+> 
+> with this patch if tcg_accel_available == False,
+> it will not even register any test under "if (tcg_accel_available) {" branch
+> and in this patch that includes a bunch of _non_ tcg_only tests.
+> So tests won't be executed on KVM only build, where previously they were executed just fine.
 
-This is incorrect.  You're creating an anonymous object on the local stack 
-frame and saving a pointer to it.
+I guess you refer to the 'data->tcg_only' field, OK, now I understood.
 
-You need to use a static const function scope variable.
-
-
-r~
 
