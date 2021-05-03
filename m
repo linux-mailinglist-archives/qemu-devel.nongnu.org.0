@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F8D3710F8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:38:02 +0200 (CEST)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B003710FC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:39:30 +0200 (CEST)
+Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQLJ-0001GK-PH
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51712)
+	id 1ldQMj-0004Zc-Gq
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJM-0007ZH-95; Mon, 03 May 2021 00:36:00 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42467 helo=ozlabs.org)
+ id 1ldQJM-0007ZK-Db; Mon, 03 May 2021 00:36:00 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35409 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJI-0002BT-6l; Mon, 03 May 2021 00:36:00 -0400
+ id 1ldQJI-0002BV-92; Mon, 03 May 2021 00:36:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FYVXR06Vzz9sW4; Mon,  3 May 2021 14:35:50 +1000 (AEST)
+ id 4FYVXR0T6Tz9sW6; Mon,  3 May 2021 14:35:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620016551;
- bh=RAT03KtbCWwYYTeCrc/GtgEkVgsE/rHefdNYZD9Kahk=;
+ bh=i4/G8parSkImY0+u2qhh2nA0CcEFYXWjsu9Fy+g16Lk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AzYUGelfG0AA/FprUmdowcPgPJCd3H5FpCytWgxjf4nihWZCWGaofsAdHk0TLjmwn
- 7EK/HOmC5L10dMa81qcHuzQ67ByLZflElGcGXcvDsnfPMp1iu4ZEC+ctaDN2fnuaiN
- PhkhuWZ9MHR9kk9gVdXE0eUzhakbkApXO1FHF+/U=
-Date: Mon, 3 May 2021 13:48:37 +1000
+ b=lSGehoTZftYhDuiCoA2jU7ModgFL1ONmTPFWPpX9DiO9UvAY+E+IBCrGBtdlQVhfi
+ 4lMnI0c2mPLdLbjeNDOV7fYtlFx0caWfOFcaDAmX3ztRUle+XFqqNeG4KA5AHAagEB
+ dtBIwc3FPPedXbNbs2/hIHkm1gY4yPuLx4E5CX+g=
+Date: Mon, 3 May 2021 13:54:29 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 2/2] target/ppc: Reduce the size of ppc_spr_t
-Message-ID: <YI9ylakaG9PDPlav@yekko>
-References: <20210501022923.1179736-1-richard.henderson@linaro.org>
- <20210501022923.1179736-3-richard.henderson@linaro.org>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v2 3/7] target/ppc: Isolated SPR read/write callbacks
+Message-ID: <YI9z9c6P9HGNfY5i@yekko>
+References: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
+ <20210429162130.2412-4-bruno.larsen@eldorado.org.br>
+ <YIuFrMWyU/g80qfo@yekko>
+ <b863a05d-cb2b-c511-42dd-7f1d028b9968@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KRfzuLOe08m599VI"
+ protocol="application/pgp-signature"; boundary="z+7nLXxRIcKUtLc9"
 Content-Disposition: inline
-In-Reply-To: <20210501022923.1179736-3-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <b863a05d-cb2b-c511-42dd-7f1d028b9968@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,60 +60,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, luis.pires@eldorado.org.br,
- matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org,
- bruno.larsen@eldorado.org.br
+Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KRfzuLOe08m599VI
+--z+7nLXxRIcKUtLc9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 07:29:23PM -0700, Richard Henderson wrote:
-> We elide values when registering sprs, we might as well
-> save space in the array as well.
+On Fri, Apr 30, 2021 at 10:02:16AM -0300, Bruno Piazera Larsen wrote:
+> On 30/04/2021 01:21, David Gibson wrote:
+> > On Thu, Apr 29, 2021 at 01:21:26PM -0300, Bruno Larsen (billionai) wrot=
+e:
+> > > Moved all SPR read/write callback, and some related functions, to a
+> > > new file specific for it. These callbacks are TCG only, so separating
+> > > them is required to support the flag disable-tcg.
+> > >=20
+> > > Making the spr_noaccess function not static, and moving the define to
+> > > internal.h is required, as spr_tcg.c.inc has to be included after
+> > > SPR_NOACCESS has been used.
+> > >=20
+> > > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> > > ---
+> > >   target/ppc/internal.h           |    3 +
+> > >   target/ppc/spr_tcg.c.inc        | 1033 ++++++++++++++++++++++++++++=
++++
+> > >   target/ppc/translate.c          |   49 +-
+> > >   target/ppc/translate_init.c.inc |  981 -----------------------------
+> > >   4 files changed, 1039 insertions(+), 1027 deletions(-)
+> > >   create mode 100644 target/ppc/spr_tcg.c.inc
+> > >=20
+> > > diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+> > > index 184ba6d6b3..1de15acfbd 100644
+> > > --- a/target/ppc/internal.h
+> > > +++ b/target/ppc/internal.h
+> > > @@ -228,4 +228,7 @@ void destroy_ppc_opcodes(PowerPCCPU *cpu);
+> > >   void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
+> > >   gchar *ppc_gdb_arch_name(CPUState *cs);
+> > > +void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+> > > +#define SPR_NOACCESS (&spr_noaccess)
+> > > +
+> > >   #endif /* PPC_INTERNAL_H */
+> > > diff --git a/target/ppc/spr_tcg.c.inc b/target/ppc/spr_tcg.c.inc
+> > > new file mode 100644
+> > > index 0000000000..48274dd52b
+> > > --- /dev/null
+> > > +++ b/target/ppc/spr_tcg.c.inc
+> > I'm confused.  You create the new file as a .inc.c, but I don't see
+> > anything #including the new file.
+> <snip>
+> > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > > index b319d409c6..a6e677fa6d 100644
+> > > --- a/target/ppc/translate.c
+> > > +++ b/target/ppc/translate.c
+> > > @@ -36,6 +36,7 @@
+> > >   #include "exec/translator.h"
+> > >   #include "exec/log.h"
+> > >   #include "qemu/atomic128.h"
+> > > +#include "internal.h"
+> > >   #define CPU_SINGLE_STEP 0x1
+> > > @@ -4175,43 +4176,6 @@ static void gen_tdi(DisasContext *ctx)
+> > >   /***                          Processor control                    =
+        ***/
+> > > -static void gen_read_xer(DisasContext *ctx, TCGv dst)
+> > > -{
+> > > -    TCGv t0 =3D tcg_temp_new();
+> > > -    TCGv t1 =3D tcg_temp_new();
+> > > -    TCGv t2 =3D tcg_temp_new();
+> > > -    tcg_gen_mov_tl(dst, cpu_xer);
+> > > -    tcg_gen_shli_tl(t0, cpu_so, XER_SO);
+> > > -    tcg_gen_shli_tl(t1, cpu_ov, XER_OV);
+> > > -    tcg_gen_shli_tl(t2, cpu_ca, XER_CA);
+> > > -    tcg_gen_or_tl(t0, t0, t1);
+> > > -    tcg_gen_or_tl(dst, dst, t2);
+> > > -    tcg_gen_or_tl(dst, dst, t0);
+> > > -    if (is_isa300(ctx)) {
+> > > -        tcg_gen_shli_tl(t0, cpu_ov32, XER_OV32);
+> > > -        tcg_gen_or_tl(dst, dst, t0);
+> > > -        tcg_gen_shli_tl(t0, cpu_ca32, XER_CA32);
+> > > -        tcg_gen_or_tl(dst, dst, t0);
+> > > -    }
+> > > -    tcg_temp_free(t0);
+> > > -    tcg_temp_free(t1);
+> > > -    tcg_temp_free(t2);
+> > > -}
+> > > -
+> > > -static void gen_write_xer(TCGv src)
+> > > -{
+> > > -    /* Write all flags, while reading back check for isa300 */
+> > > -    tcg_gen_andi_tl(cpu_xer, src,
+> > > -                    ~((1u << XER_SO) |
+> > > -                      (1u << XER_OV) | (1u << XER_OV32) |
+> > > -                      (1u << XER_CA) | (1u << XER_CA32)));
+> > > -    tcg_gen_extract_tl(cpu_ov32, src, XER_OV32, 1);
+> > > -    tcg_gen_extract_tl(cpu_ca32, src, XER_CA32, 1);
+> > > -    tcg_gen_extract_tl(cpu_so, src, XER_SO, 1);
+> > > -    tcg_gen_extract_tl(cpu_ov, src, XER_OV, 1);
+> > > -    tcg_gen_extract_tl(cpu_ca, src, XER_CA, 1);
+> > > -}
+> > > -
+> > >   /* mcrxr */
+> > >   static void gen_mcrxr(DisasContext *ctx)
+> > >   {
+> > > @@ -4299,15 +4263,6 @@ static void gen_mfmsr(DisasContext *ctx)
+> > >       tcg_gen_mov_tl(cpu_gpr[rD(ctx->opcode)], cpu_msr);
+> > >   }
+> > > -static void spr_noaccess(DisasContext *ctx, int gprn, int sprn)
+> > > -{
+> > > -#if 0
+> > > -    sprn =3D ((sprn >> 5) & 0x1F) | ((sprn & 0x1F) << 5);
+> > > -    printf("ERROR: try to access SPR %d !\n", sprn);
+> > > -#endif
+> > > -}
+> > > -#define SPR_NOACCESS (&spr_noaccess)
+> > > -
+> > >   /* mfspr */
+> > >   static inline void gen_op_mfspr(DisasContext *ctx)
+> > >   {
+> > > @@ -7639,6 +7594,7 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E=
+, 0x1F, 0x03FFF800, \
+> > >   };
+> > >   #include "helper_regs.h"
+> > > +#include "spr_tcg.c.inc"
+> > >   #include "translate_init.c.inc"
 >=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> You probably just missed it here. Buried a bit in all the code motion,
+> unfortunately...
 
-Applied to ppc-for-6.1, thanks.
+Oops, sorry.  Thought I'd grepped for it.
 
-> ---
->  target/ppc/cpu.h | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index e73416da68..b704261b49 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -192,17 +192,21 @@ typedef struct ppc_hash_pte64 ppc_hash_pte64_t;
-> =20
->  /* SPR access micro-ops generations callbacks */
->  struct ppc_spr_t {
-> +    const char *name;
-> +    target_ulong default_value;
-> +#ifndef CONFIG_USER_ONLY
-> +    unsigned int gdb_id;
-> +#endif
-> +#ifdef CONFIG_TCG
->      void (*uea_read)(DisasContext *ctx, int gpr_num, int spr_num);
->      void (*uea_write)(DisasContext *ctx, int spr_num, int gpr_num);
-> -#if !defined(CONFIG_USER_ONLY)
-> +# ifndef CONFIG_USER_ONLY
->      void (*oea_read)(DisasContext *ctx, int gpr_num, int spr_num);
->      void (*oea_write)(DisasContext *ctx, int spr_num, int gpr_num);
->      void (*hea_read)(DisasContext *ctx, int gpr_num, int spr_num);
->      void (*hea_write)(DisasContext *ctx, int spr_num, int gpr_num);
-> -    unsigned int gdb_id;
-> +# endif
->  #endif
-> -    const char *name;
-> -    target_ulong default_value;
->  #ifdef CONFIG_KVM
->      /*
->       * We (ab)use the fact that all the SPRs will have ids for the
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -119,25 +200,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KRfzuLOe08m599VI
+--z+7nLXxRIcKUtLc9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPcpUACgkQbDjKyiDZ
-s5KDMBAAj5Oy0pwZkZKdc32JmytbmG+eNN+FSC8JZ5iMx965Tww3dUpW+YTzyKb3
-dtNoLqYFBCvftvWXg/oGypv0WkFBuEwBT4XtCUcnxiEpckKKdfgJmkM8vbuNpjKp
-RAq4pkWtFIM9KicK2epXEAMHOpgunOmkrg5f54WcdFH655f8vRB9m9MKhVVyGlso
-Not8CiACCyqOq53uB3du8uu5OZWKcunB8uwPyfVmhXbq7W9hz7h30Jm/3spD6FCq
-rRQ3B9aHfaqAQb0iGO8+TWWj3P+jZCLMmKZFuKhicYqaK+CR99SF0bR5dxG4JHLd
-+icp757dYkPPPY5QH5ZtBxt6Jxq/XIiHwg4ARIwEn2fpxIQJ+U8AS/G16SB+N0uB
-9qDwC8QUV/S+Mcqtc0iKAMw+nJcw0AtBaj7rWd1fg0Fi5xW2HZBpUXXyytrg6htc
-aMzOd73GdjFOJhcl2Fa6JHQuP+MHhCpzK4y4eDSH4Vtzq9GjMqKgClpL6GuaQY2f
-CZrEuGcZUt9ivlGwzcpxID4MTC1Si6aKelgweO9AeRb4BbUD3oPnl6Yqb57CCqyn
-GGBEZn+z5+y/PuHAB6pOeb3scHo/1Qu9n3iZqBLiBAQ2o0E2bHSibLjdi6qBfM2I
-CXkKN6Ql+JxiiC1rVyoBcJejTycfMfBbDsega4n8k3wOEixJ8DM=
-=2PRC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPc/UACgkQbDjKyiDZ
+s5JhUQ//Xfv93ycYK/34HbutiPXO2MYPjYQ0t5TUW1SHfTPONvU1GBgfmmxmu1nc
+zLBUF4igRSda78Hkq3uzWugpF0US1aSJazMur8owd/PQ8zLneARGAkj/5+Y/0YFS
+eFnzREK6UQfoaJm6szfkntqdF15c5IoB5HsW16Nb7Hy5ZJUAg733PdS9aYdfCi+0
+s9Jo6zqE/NfjSphj9qoO9GXCebPSgkNvh5IerFPMvbtbElKNDyubcqZz6gZ30ZJF
+JykzFHuHdCfySTzbZibx8cPznAC2199wu6FuSgpyYaatLOAd00UAtRT0Ol3HQYUC
+2sG+4y7D6wA3j6XEtAQxlmelldUmvE5c7pnzR7sQkRr77uu+bm4YsF8tIPKzSDPX
+IGG3/wR84+1radfiDoM80mi4B9zeOAwUyCqHHRDeObTUPOXNIm8Pc6U1MFsBDvJ6
+zl+kxjVzqIYVKqWpDMU9lSmpw36A+oq2K688Zm0B3YUGrSeaAAhOjiDZejUs5y5G
+7+pj12HGWpJwq6rmwOU2VZ806wxPZdqS+MUHYi/9UIUeVMWTz0CTBnPf3lyd+oFt
+EOxL2hOwuMRep1l9jGRL/pQgD7Jt+UsDTa/09Tmd0WjMjYHQsZXe6OCBudwd9y2g
+iuNKo7mYWPP68OTT8WkFOEet7EZUxDUlw0DM2Q8N7O/Pk7hIwcg=
+=MwMZ
 -----END PGP SIGNATURE-----
 
---KRfzuLOe08m599VI--
+--z+7nLXxRIcKUtLc9--
 
