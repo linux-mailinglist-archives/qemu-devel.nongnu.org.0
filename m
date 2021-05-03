@@ -2,96 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EE83712FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:28:41 +0200 (CEST)
-Received: from localhost ([::1]:45148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D4B371323
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:43:20 +0200 (CEST)
+Received: from localhost ([::1]:37908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldUsa-0002zx-5C
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
+	id 1ldV6m-0003dp-2k
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldUrJ-0002Bi-0S
- for qemu-devel@nongnu.org; Mon, 03 May 2021 05:27:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldUrH-0005Ch-BK
- for qemu-devel@nongnu.org; Mon, 03 May 2021 05:27:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620034038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gbtlsBz4RfkWrY968Y39vkOsGYubAvTenC4l1JflJ4A=;
- b=CkycusMnG9lt4JI6q5HqM2ic/+eYSIEA9fRwNu61iZknCaycDiXzVHXBkmOeN+eZ3OE5ZZ
- 2Ur5ghnOSMxrmYhCvXXTwV8qfXLNEEb5Y1+sCyrKnD6IQxkGZpuVzopw7ua+9VV/j1tQIG
- 60LJOGZqy5jlcujGk1PUXR6mY5GVpgw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-gmJh9BRSNQCxpRa_69HYOg-1; Mon, 03 May 2021 05:27:16 -0400
-X-MC-Unique: gmJh9BRSNQCxpRa_69HYOg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q18-20020adfc5120000b029010c2bdd72adso3578736wrf.16
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 02:27:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gbtlsBz4RfkWrY968Y39vkOsGYubAvTenC4l1JflJ4A=;
- b=YWujaXcFFUUPiY7UP/pWdE6Sy/6+x7s9X1rinEKqK+deTO7UzChw6mdQoTTbSnDF6B
- kncSlEKI6/HuRy/xCtxhHWGRi6or+CK7s4TzEgzW7vPaOPHT48PqwNRs+u3Jcl/QpkfE
- qhrAIpaZw1M4eN+UqirmTb79mSwbOEP5+nHYlt4dTz72AhVjLw0I47C3UbfLzbZadHuh
- /LmsWma6Rs33na91bg53OH8ZxTGcSxAziG01CpOZ9FVaMlNEGLCVJOYmUBEyr5S13HvN
- MLq6bqibPhjipQTS3rf5HzZFhmzb8Zl3IsLTYDFmcE7Nj78zefycHpQ/sGvwDY/roasu
- qrpA==
-X-Gm-Message-State: AOAM530Q6WyRDWgRGGVjNjzIZgGUQ792Q7/6OApPNUEreOU+5vzCEjp4
- ADQ2cbU8j4n1G6ZM3LEA7E7kenxEpOjmvpZmBpJ+kGUX/hrkIEjVOutnyFlO8zmN0eFyx/0U0QZ
- gSCwK4UkBecvHagU=
-X-Received: by 2002:adf:e845:: with SMTP id d5mr23234539wrn.96.1620034035471; 
- Mon, 03 May 2021 02:27:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqqwMrqes3QKXQpJfWyPOIbMB/lVq7IqcbHiwGUa9+l6qfoyW9pOepC6u8YceU+j/fLhtqVg==
-X-Received: by 2002:adf:e845:: with SMTP id d5mr23234527wrn.96.1620034035337; 
- Mon, 03 May 2021 02:27:15 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id b7sm3666999wri.83.2021.05.03.02.27.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 02:27:14 -0700 (PDT)
-Subject: Re: [PATCH 2/5] usb/redir: avoid dynamic stack allocation
- (CVE-2021-3527)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20210503091446.2137206-1-kraxel@redhat.com>
- <20210503091446.2137206-3-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a65a7b1b-5dff-dd0c-2e00-4eafc1639bab@redhat.com>
-Date: Mon, 3 May 2021 11:27:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldV3C-00009p-1k
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 05:39:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldV37-0003vk-F2
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 05:39:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldV35-0003te-Bq
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:39:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 589502E815A
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 09:39:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210503091446.2137206-3-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 09:28:05 -0000
+From: Thomas Huth <645662@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arno-wagner pmaydell rth th-huth wagner-tansi
+X-Launchpad-Bug-Reporter: Arno Wagner (wagner-tansi)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20100923002702.20683.97345.malonedeb@soybean.canonical.com>
+Message-Id: <162003408610.12371.6252843216029489382.malone@soybean.canonical.com>
+Subject: [Bug 645662] Re: QEMU x87 emulation of trig and other complex ops is
+ only at 64-bit precision, not 80-bit
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 8ab6c1cfc43923de449b13665778919b3d949d03
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,44 +71,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcascell@redhat.com, remy.noel@blade-group.com
+Reply-To: Bug 645662 <645662@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 11:14 AM, Gerd Hoffmann wrote:
-> Use autofree heap allocation instead.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-Fixes: 4f4321c11ff ("usb: use iovecs in USBPacket")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+ https://gitlab.com/qemu-project/qemu/-/issues/83
 
-> ---
->  hw/usb/redirect.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> index 17f06f34179a..db1a89a7cc92 100644
-> --- a/hw/usb/redirect.c
-> +++ b/hw/usb/redirect.c
-> @@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
->          usbredirparser_send_bulk_packet(dev->parser, p->id,
->                                          &bulk_packet, NULL, 0);
->      } else {
-> -        uint8_t buf[size];
-> +        g_autofree uint8_t *buf = g_malloc(size);
->          usb_packet_copy(p, buf, size);
->          usbredir_log_data(dev, "bulk data out:", buf, size);
->          usbredirparser_send_bulk_packet(dev->parser, p->id,
-> @@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRedirDevice *dev,
->                                                 USBPacket *p, uint8_t ep)
->  {
->      struct usb_redir_interrupt_packet_header interrupt_packet;
-> -    uint8_t buf[p->iov.size];
-> +    g_autofree uint8_t *buf = g_malloc(p->iov.size);
->  
->      DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
->              p->iov.size, p->id);
-> 
 
+** Changed in: qemu
+       Status: Confirmed =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #83
+   https://gitlab.com/qemu-project/qemu/-/issues/83
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/645662
+
+Title:
+  QEMU x87 emulation of trig and other complex ops is only at 64-bit
+  precision, not 80-bit
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  When doing the regression tests for Python 3.1.2 with Qemu 0.12.5, (Linux=
+ version 2.6.26-2-686 (Debian 2.6.26-25lenny1)),
+  gcc (Debian 4.3.2-1.1) 4.3.2, Python compiled from sources within qemu,
+  3 math tests fail, apparently because the floating point unit is buggy. Q=
+meu was compiled from original sources
+  on Debian Lenny with kernel  2.6.34.6 from kernel.org, gcc  (Debian 4.3.2=
+-1.1) 4.3. =
+
+
+  Regression testing errors:
+
+  test_cmath
+  test test_cmath failed -- Traceback (most recent call last):
+    File "/root/tools/python3/Python-3.1.2/Lib/test/test_cmath.py", line 36=
+4, in
+      self.fail(error_message)
+  AssertionError: acos0034: acos(complex(-1.0000000000000002, 0.0))
+  Expected: complex(3.141592653589793, -2.1073424255447014e-08)
+  Received: complex(3.141592653589793, -2.1073424338879928e-08)
+  Received value insufficiently close to expected value.
+
+  =
+
+  test_float
+  test test_float failed -- Traceback (most recent call last):
+    File "/root/tools/python3/Python-3.1.2/Lib/test/test_float.py", line 47=
+9, in
+      self.assertEqual(s, repr(float(s)))
+  AssertionError: '8.72293771110361e+25' !=3D '8.722937711103609e+25'
+
+  =
+
+  test_math
+  test test_math failed -- multiple errors occurred; run in verbose mode fo=
+r deta
+
+  =3D>
+
+  runtests.sh -v test_math
+
+  le01:~/tools/python3/Python-3.1.2# ./runtests.sh -v test_math
+  test_math BAD
+   1 BAD
+   0 GOOD
+   0 SKIPPED
+   1 total
+  le01:~/tools/python3/Python-3.1.2#
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/645662/+subscriptions
 
