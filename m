@@ -2,91 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4D43720AB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 21:43:27 +0200 (CEST)
-Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAF937211C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 22:11:34 +0200 (CEST)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldeTW-0004W8-4j
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 15:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
+	id 1ldeuj-0003az-6A
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 16:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ldeSZ-0003XK-Hr
- for qemu-devel@nongnu.org; Mon, 03 May 2021 15:42:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ldeSX-0003yF-6n
- for qemu-devel@nongnu.org; Mon, 03 May 2021 15:42:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620070943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zHmQDWImzpys+Lyu8KjEvbBgQpl6C/70CrWhc1V0a8o=;
- b=cSFqA35/oT5XwqxUMNzxAnim9dH/0aREnbeP2uJYOl41j+XJifFMyw0F4SYRYfJ9rdrqJy
- Ym5+TU/P1o5xLFL0s5l+A9mYadmzNZH6gv9RXlFca6ymgmgdPcdw0SUjl7nJXHXrmuTKNj
- MR6CJzSbkl7uPuXmpHmt65ZxLN1qoZY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-xW6OsqJ8P02vEV4Ntvwjog-1; Mon, 03 May 2021 15:42:21 -0400
-X-MC-Unique: xW6OsqJ8P02vEV4Ntvwjog-1
-Received: by mail-wm1-f71.google.com with SMTP id
- g199-20020a1c9dd00000b02901355dd71edaso2668419wme.7
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 12:42:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=zHmQDWImzpys+Lyu8KjEvbBgQpl6C/70CrWhc1V0a8o=;
- b=UlezTNrDeiCZiHwldI2bch/4Z9IU4S3HlIyCn1JPc5doj6deKf5gMkRgmSd28p1NIU
- KrHPoR071cC3Ygtw2DjbNFm5yPWyZtemOFJ+QJ6KFjRO3VbLwexyaUPz+LcDJRfD8W2F
- vxvW8ANf9T+Mstq9iOFoxd2crHNhZQSkDAz8lSHfs0ZV3cPpjtgT9dDykPU8HDl2IbHu
- EZwLd+B/+lOzmDqopI7fJkFqNLCdJ6XFi2Mmaq7WBlXUW1GT+7Y1nuyIBb026U6MXgQ5
- 3/oqRFh9Uz3wjz8AWMxh0k+dCmR6nkhyebh/XI8AyY1FNj92hBCGHBj8tlZ0ti9Fo//Q
- GIFg==
-X-Gm-Message-State: AOAM5305hdy8FpiHtcF30q+RKQnF00zVwDeNzTib/Z4Q2HlNQiTI9aEE
- kTQh7UWJPHKkiO6dJBgzPVyDAr+jTykrEKEiTCxqTsMNA1Qemak2AAxuYkK1PiTkut7q3XRex/+
- VgFWdIHA6vCh5Jyw=
-X-Received: by 2002:a05:600c:220e:: with SMTP id
- z14mr23668210wml.0.1620070940188; 
- Mon, 03 May 2021 12:42:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzX89KMLy+PyWH6pYUAc8UA/yYEf3WFVHbgEfer+HthO0ye6EFBsjv97VBp/Jo+uM2wq/CjFQ==
-X-Received: by 2002:a05:600c:220e:: with SMTP id
- z14mr23668200wml.0.1620070940033; 
- Mon, 03 May 2021 12:42:20 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-133-9.red.bezeqint.net. [79.178.133.9])
- by smtp.gmail.com with ESMTPSA id
- b8sm13581764wrx.15.2021.05.03.12.42.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 12:42:19 -0700 (PDT)
-Date: Mon, 3 May 2021 15:42:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Vincent Bernat <vincent@bernat.ch>
-Subject: Re: [PATCH v4] hw/smbios: support for type 41 (onboard devices
- extended information)
-Message-ID: <20210503154024-mutt-send-email-mst@kernel.org>
-References: <20210401171138.62970-1-vincent@bernat.ch>
- <20210503170539.5e813f89@redhat.com> <m3sg338vcd.fsf@bernat.ch>
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1ldeqc-0001xH-M8; Mon, 03 May 2021 16:07:18 -0400
+Received: from [201.28.113.2] (port=48878 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1ldeqY-0002OU-53; Mon, 03 May 2021 16:07:17 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 3 May 2021 17:07:08 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id B247380134C;
+ Mon,  3 May 2021 17:07:07 -0300 (-03)
+Subject: Re: [PATCH v3 2/7] target/ppc: Isolated SPR read/write callbacks
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
+ <20210430193533.82136-3-bruno.larsen@eldorado.org.br>
+ <f6f4a150-b64d-db68-ca8c-533b7ea7c7bc@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <37ce51b1-df0c-6848-ba53-34f47954c7c2@eldorado.org.br>
+Date: Mon, 3 May 2021 17:07:07 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <m3sg338vcd.fsf@bernat.ch>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f6f4a150-b64d-db68-ca8c-533b7ea7c7bc@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------D9592B947D17DFDD73769C74"
+Content-Language: en-US
+X-OriginalArrivalTime: 03 May 2021 20:07:08.0093 (UTC)
+ FILETIME=[E51CEED0:01D74057]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,45 +60,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 03, 2021 at 09:34:42PM +0200, Vincent Bernat wrote:
->  ❦  3 mai 2021 17:05 +02, Igor Mammedov:
-> 
-> >> +            /*
-> >> +             * We only handle the case were the device is attached to
-> >> +             * the PCI root bus. The general case is more complex as
-> >> +             * bridges are enumerated later and the table would need
-> >> +             * to be updated at this moment.
-> >> +             */
-> >> +            if (!pci_bus_is_root(pci_get_bus(pdev))) {
-> >> +                error_setg(errp,
-> >> +                           "Cannot create type 41 entry for PCI device %s: "
-> >> +                           "not attached to the root bus",
-> >> +                           t41->pcidev);
-> >> +                return;
-> >> +            }
-> > Is this limitation really necessary?
-> >
-> > As far as I see caller of this smbios_get_tables(), is called at machine_done time
-> > when all devices (including bridges) present on CLI are created.
-> 
-> I wasn't sure how to get the segment group number in this case. It seems
-> this is not exposed directly. There is a root_bus_path method returning
-> a string that would need to be parsed to extract the segment group
-> number. Looking a bit, it seems to be always 0.
-> -- 
-> Don't stop with your first draft.
->             - The Elements of Programming Style (Kernighan & Plauger)
+This is a multi-part message in MIME format.
+--------------D9592B947D17DFDD73769C74
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-and not just that. the code comments explains the motivation even
-with a single segment.
 
+On 30/04/2021 21:55, Richard Henderson wrote:
+> On 4/30/21 12:35 PM, Bruno Larsen (billionai) wrote:
+>> Moved all SPR read/write callback, and some related functions, to a
+>> new file specific for it. These callbacks are TCG only, so separating
+>> them is required to support the build flag disable-tcg.
+>>
+>> Making the spr_noaccess function not static, and moving the define to
+>> internal.h is required, otherwise the project doesn't build
+>
+> Why is that?  You're moving the code to a different file, but then 
+> including that file back into the same translation unit.  There should 
+> be no change in which symbols appear in which object file.
+>
+> I think that the spr_noaccess move might be required by patch 7, but 
+> that's something different.
+>
+ah, yes, forgot to specify why. gen_op_mfspr uses SPR_NOACCESS on line 
+4284. At some point I thought I tried to include spr_tcg.c.inc before 
+that function and the compilation failed, so I decided to include it 
+where translate_init.c.inc was included. I think it was another function 
+that was declared later, but can't remember which
+
+Testing now I verified that I can include it there, so I will do it and 
+delay the move to patch 7, no problem
+
+>
+> r~
 -- 
-MST
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
+--------------D9592B947D17DFDD73769C74
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 30/04/2021 21:55, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:f6f4a150-b64d-db68-ca8c-533b7ea7c7bc@linaro.org">On
+      4/30/21 12:35 PM, Bruno Larsen (billionai) wrote:
+      <br>
+      <blockquote type="cite">Moved all SPR read/write callback, and
+        some related functions, to a
+        <br>
+        new file specific for it. These callbacks are TCG only, so
+        separating
+        <br>
+        them is required to support the build flag disable-tcg.
+        <br>
+        <br>
+        Making the spr_noaccess function not static, and moving the
+        define to
+        <br>
+        internal.h is required, otherwise the project doesn't build
+        <br>
+      </blockquote>
+      <br>
+      Why is that?  You're moving the code to a different file, but then
+      including that file back into the same translation unit.  There
+      should be no change in which symbols appear in which object file.
+      <br>
+      <br>
+      I think that the spr_noaccess move might be required by patch 7,
+      but that's something different.
+      <br>
+      <br>
+    </blockquote>
+    <p>ah, yes, forgot to specify why. gen_op_mfspr uses SPR_NOACCESS on
+      line 4284. At some point I thought I tried to include
+      spr_tcg.c.inc before that function and the compilation failed, so
+      I decided to include it where translate_init.c.inc was included. I
+      think it was another function that was declared later, but can't
+      remember which<br>
+    </p>
+    <p> Testing now I verified that I can include it there, so I will do
+      it and delay the move to patch 7, no problem</p>
+    <blockquote type="cite"
+      cite="mid:f6f4a150-b64d-db68-ca8c-533b7ea7c7bc@linaro.org">
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen</div>
+    <div class="moz-signature">
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+    </div>
+    <div class="moz-signature">
+      Departamento Computação Embarcada<br>
+    </div>
+    <div class="moz-signature">Analista de Software Trainee</div>
+    <div class="moz-signature"><a
+        href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal -
+        Disclaimer</a></div>
+  </body>
+</html>
+
+--------------D9592B947D17DFDD73769C74--
 
