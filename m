@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4131837230D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:37:58 +0200 (CEST)
-Received: from localhost ([::1]:46410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F57372310
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:38:55 +0200 (CEST)
+Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldhCP-0002i3-7R
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:37:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53562)
+	id 1ldhDK-0003rM-IN
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgrj-00073w-PQ
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:16:35 -0400
+ id 1ldgqF-0005k5-T1
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:15:04 -0400
 Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgrd-0000Fd-9o
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:16:35 -0400
+ id 1ldgqB-0000Fd-US
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:15:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620080189; x=1651616189;
+ t=1620080099; x=1651616099;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=w0SdTRmqXHH5oPpVmfVR5fdaYUPfuZPdbmGEgavaDUo=;
- b=AjKe508wzTsTEedsRblm6CIJ1N8StnSelRNWlAF+hQVuX/YhBoQ0zK+q
- jCtyqPFUYK1mcsj3Umnb72aQF/VkTKRMhuSTw52J3Oqblv/o7fupb3x98
- uS1elbRk71akaE105HdPaiNtvKvTmNXARHOFQhzsY66D40ZExtnpIIE+p
- KrtR6iqGfLM3LgmRX+g9e0Qed3Qv1UPMdxddTOlJrqsSx+0+doljebUvW
- motBiEybkWY8w29pOjt5E3/pABa1ib/sb13UCnYxcEb2zFXIO1u3kfyOM
- FSJbJegJpPOxjfv8/LBSnP/dgA4cpcykXD1fTWVBxf8/Aq+j5VEOJZH1S g==;
-IronPort-SDR: smq13QI3w8rS831y0/jKq3WLRnQCvsTNslDSYDUU438TC+1CJQxJ2p1NpoTO1tUjuZquDC104t
- cWkGecRFjrRvKC3Z2I7efSlYHSgI2zgilP4bdIMd7vtvXrFflzeKQqx4h/G2v7EvfJJlr5/Wqp
- YCA6DtrZoJTlLtApPRcml8NHRoPdmrOHG1/Zw5+6nqIFUarY7x7dwvZIAsvXGdYFvD00YALbnI
- LR86da2GSGeIJZb7ww6/uGYphErPNmjKQDfwM/UvuDeAiXntAfBJujRugttkeh3UCqW6cK/ywG
- RRA=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114703"
+ bh=H0ei1bMRBG6Oy5NGIpqoEne41CBpqzCXYEnQdZ/sbE4=;
+ b=Q0o7Y5/7g1chlnIlRFF7k0yHbDf3P5Oylx85ep/pnZnZY8OCVzvmfYOH
+ 3D8sFFAERKugfz/aXFt4Hhu+Q8/P7UNAcajFHDWpf9CTwxLkPcb1pBGoI
+ 4zb6oaVnlvCL8273EG/a4U5WpNTSH0nRatv7mifd0etaOGE7TeoW5R68b
+ N6HEzk6Mkvlzb16VRm3pZdBBHS247spclXG4anTVnLTUkBJiXZ6FYytPw
+ Yw1H7avc9nmeTIFW9boRxLfBl9V6AufvR7OAXcdVNEGuna3yA6RbgejBF
+ K1EH4o/1qsDPfjBQV9M8sT40q5p+aJxuuEP3iPDPbyKeQUJZiKaixs7d2 A==;
+IronPort-SDR: wLBFRWPORpg08O93sNfmdF9J4ruRorf0PARXcQS9R7qBQNUaibY5nO/57lo37W7DjNzlyFgxzI
+ XOgzDGMmLpNsqilooFukdyAY4+cXADC3F+OOaACN/lJhP675i2XBCFYJDYjgtLJKLIg/WBgiUE
+ BmncU/tCNOfc4lCPVoibel+xxLfuQYcPV6NcN7z/1LW2H4QTJYnIGD1vWJ/GAGbeuVwTcxjKzj
+ iA6zVLvwYOjeVrNT/7r4+12Mm0ezZoOPDoc1pbpbUjnHPTHVWvxf+AcA1V0JkjldXqaStzzlMt
+ aWw=
+X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114661"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:15:41 +0800
-IronPort-SDR: KqyvzXtGmVVShviaf2gKE98EhapxLCnS1PjbcK++Uz9tR/sQOSqPgb0TTwavrxnjeKuyG102Is
- U+uGMIYiBHy6ycbNTvaDbAoMno/dwMG9ZXKJrCvOYUYMDPj/7qSulWdWJp/Y/aWGvafkbjV0I3
- ULqiETjxm2It9eOrkuLe6+OyquhxCGXjlvP6kLpAg6XrDto457gqrMq6Zk+p4W34X+GeAIj/18
- 5aL14UXCy7q3wHgzDFRryHLfF+7Gc/VKJ42RNKNuTC77kmZ5YUn/BD7rauJ+vlaeDSRupw1SoZ
- jGf2LpiIsrPMr0M7uCDC+s/Q
+ by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:14:42 +0800
+IronPort-SDR: Q4ZBt7Cfvyss8OhTpDk7gZzisZpwFrR6HexDyt3Hj3f9PQOXhs9oOc2oGCOS/s7psLjIXvN0MY
+ snqyPTCUMGybJ5FJBhJ062ERHmb3ru/D23MOv4goGEBKckY4HmFSjn7ANS9DtmJ0JLqIAbPXnw
+ oQa8kqyMKTYm/SwzhI6n+pgwVyWk8yoAO8nziKSqUZo7lX6Y+DS+u4rYQyNowYVZY9TSjhuwsj
+ +FqgIqVmKHo72JwUQ3MuPZ9H3nVXtxMC5SpDvqtWflD0eSmOEYKFoccMCSjIXBHLHn3vEKG7Ce
+ kOzrvO1MUvY9el14ZGeS8ymz
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 14:55:52 -0700
-IronPort-SDR: 3ZejuRDz8n0i/lhI5b7o/sVY3pkBO7husBnviZ0QpOTPBtTSQltBVsQgRIC+whVAjN23Fr8Xg6
- dBqPsLto0e73tR6t/hQdtO57ccaAWZa8Wpyk2XZvRMO5wZ4DWkayg9EOOQEUWiSsNrD8HNQXh6
- BudOfKWbITXqX9A8z/K3t7+yy9amIFtxK9Kw8DZ3tU59nPLZq7fYQh1lVpjqxbXObKwoa25kld
- D9hK3m7atyIlLUMVbGg/1pFmCCxL1Zs9/be9jMahf4KUzJsLvBD2CxMLEMTYMGrHPYRZSVw82w
- 0eU=
+ 03 May 2021 14:54:53 -0700
+IronPort-SDR: hyp+MhIcNIVI8Bgegsfd1HDFjBeJ3ylPCBd5ShzDGCewxX6qeYpebChIs6ghLfLW+lCSj+rkfm
+ xIKs2H/Fqc0OCczB+qabaaz8cLxhheGHxSN8JmHhdskiGuuniumPVPkSE6z7I1SvqvfEyfvfT0
+ oGodYO3IjlT6PyGTYSmkaZSZI+oPeXBWuEAcEVtLZOTNHTP12AwHhYE3zI437PKyGP/spmmuaJ
+ +Emkp53gMk7YJIzsgmbQ8rR2smRRIdDQka2wFI9NSZ9SYZKU8DN9zFke8T13S8RaFwonGbWEmc
+ ojU=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:15:39 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:14:40 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 37/42] target/riscv: Remove the hardcoded SATP_MODE macro
-Date: Tue,  4 May 2021 08:13:22 +1000
-Message-Id: <20210503221327.3068768-38-alistair.francis@wdc.com>
+Subject: [PULL 19/42] docs: Add documentation for shakti_c machine
+Date: Tue,  4 May 2021 08:13:04 +1000
+Message-Id: <20210503221327.3068768-20-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503221327.3068768-1-alistair.francis@wdc.com>
 References: <20210503221327.3068768-1-alistair.francis@wdc.com>
@@ -90,175 +90,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+Cc: Vijai Kumar K <vijai@behindbytes.com>, alistair23@gmail.com,
  Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 6b701769d6621f45ba1739334198e36a64fe04df.1619234854.git.alistair.francis@wdc.com
----
- target/riscv/cpu_bits.h   | 11 -----------
- target/riscv/cpu_helper.c | 32 ++++++++++++++++++++++++--------
- target/riscv/csr.c        | 19 +++++++++++++++----
- target/riscv/monitor.c    | 22 +++++++++++++++++-----
- 4 files changed, 56 insertions(+), 28 deletions(-)
+From: Vijai Kumar K <vijai@behindbytes.com>
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 6e30b312f0..d98f3bc8bc 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -432,17 +432,6 @@
- #define SATP64_ASID         0x0FFFF00000000000ULL
- #define SATP64_PPN          0x00000FFFFFFFFFFFULL
- 
--#if defined(TARGET_RISCV32)
--#define SATP_MODE           SATP32_MODE
--#define SATP_ASID           SATP32_ASID
--#define SATP_PPN            SATP32_PPN
--#endif
--#if defined(TARGET_RISCV64)
--#define SATP_MODE           SATP64_MODE
--#define SATP_ASID           SATP64_ASID
--#define SATP_PPN            SATP64_PPN
--#endif
--
- /* VM modes (mstatus.vm) privileged ISA 1.9.1 */
- #define VM_1_09_MBARE       0
- #define VM_1_09_MBB         1
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index d9defbdd34..968cb8046f 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -405,11 +405,21 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
- 
-     if (first_stage == true) {
-         if (use_background) {
--            base = (hwaddr)get_field(env->vsatp, SATP_PPN) << PGSHIFT;
--            vm = get_field(env->vsatp, SATP_MODE);
-+            if (riscv_cpu_is_32bit(env)) {
-+                base = (hwaddr)get_field(env->vsatp, SATP32_PPN) << PGSHIFT;
-+                vm = get_field(env->vsatp, SATP32_MODE);
-+            } else {
-+                base = (hwaddr)get_field(env->vsatp, SATP64_PPN) << PGSHIFT;
-+                vm = get_field(env->vsatp, SATP64_MODE);
-+            }
-         } else {
--            base = (hwaddr)get_field(env->satp, SATP_PPN) << PGSHIFT;
--            vm = get_field(env->satp, SATP_MODE);
-+            if (riscv_cpu_is_32bit(env)) {
-+                base = (hwaddr)get_field(env->satp, SATP32_PPN) << PGSHIFT;
-+                vm = get_field(env->satp, SATP32_MODE);
-+            } else {
-+                base = (hwaddr)get_field(env->satp, SATP64_PPN) << PGSHIFT;
-+                vm = get_field(env->satp, SATP64_MODE);
-+            }
-         }
-         widened = 0;
-     } else {
-@@ -624,14 +634,20 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
- {
-     CPUState *cs = env_cpu(env);
-     int page_fault_exceptions, vm;
-+    uint64_t stap_mode;
+Add documentation for Shakti C reference platform.
+
+Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210412174248.8668-1-vijai@behindbytes.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ docs/system/riscv/shakti-c.rst | 82 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 docs/system/riscv/shakti-c.rst
+
+diff --git a/docs/system/riscv/shakti-c.rst b/docs/system/riscv/shakti-c.rst
+new file mode 100644
+index 0000000000..a6035d42b0
+--- /dev/null
++++ b/docs/system/riscv/shakti-c.rst
+@@ -0,0 +1,82 @@
++Shakti C Reference Platform (``shakti_c``)
++==========================================
 +
-+    if (riscv_cpu_is_32bit(env)) {
-+        stap_mode = SATP32_MODE;
-+    } else {
-+        stap_mode = SATP64_MODE;
-+    }
- 
-     if (first_stage) {
--        vm = get_field(env->satp, SATP_MODE);
--    } else if (riscv_cpu_is_32bit(env)) {
--        vm = get_field(env->hgatp, SATP32_MODE);
-+        vm = get_field(env->satp, stap_mode);
-     } else {
--        vm = get_field(env->hgatp, SATP64_MODE);
-+        vm = get_field(env->hgatp, stap_mode);
-     }
++Shakti C Reference Platform is a reference platform based on arty a7 100t
++for the Shakti SoC.
 +
-     page_fault_exceptions = vm != VM_1_10_MBARE && !pmp_violation;
- 
-     switch (access_type) {
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index e955753441..fe5628fea6 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -997,16 +997,27 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
- static RISCVException write_satp(CPURISCVState *env, int csrno,
-                                  target_ulong val)
- {
-+    int vm, mask, asid;
++Shakti SoC is a SoC based on the Shakti C-class processor core. Shakti C
++is a 64bit RV64GCSUN processor core.
 +
-     if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
-         return RISCV_EXCP_NONE;
-     }
--    if (validate_vm(env, get_field(val, SATP_MODE)) &&
--        ((val ^ env->satp) & (SATP_MODE | SATP_ASID | SATP_PPN)))
--    {
++For more details on Shakti SoC, please see:
++https://gitlab.com/shaktiproject/cores/shakti-soc/-/blob/master/fpga/boards/artya7-100t/c-class/README.rst
 +
-+    if (riscv_cpu_is_32bit(env)) {
-+        vm = validate_vm(env, get_field(val, SATP32_MODE));
-+        mask = (val ^ env->satp) & (SATP32_MODE | SATP32_ASID | SATP32_PPN);
-+        asid = (val ^ env->satp) & SATP32_ASID;
-+    } else {
-+        vm = validate_vm(env, get_field(val, SATP64_MODE));
-+        mask = (val ^ env->satp) & (SATP64_MODE | SATP64_ASID | SATP64_PPN);
-+        asid = (val ^ env->satp) & SATP64_ASID;
-+    }
++For more info on the Shakti C-class core, please see:
++https://c-class.readthedocs.io/en/latest/
 +
-+    if (vm && mask) {
-         if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-             return RISCV_EXCP_ILLEGAL_INST;
-         } else {
--            if ((val ^ env->satp) & SATP_ASID) {
-+            if (asid) {
-                 tlb_flush(env_cpu(env));
-             }
-             env->satp = val;
-diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-index e51188f919..f7e6ea72b3 100644
---- a/target/riscv/monitor.c
-+++ b/target/riscv/monitor.c
-@@ -150,9 +150,14 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
-     target_ulong last_size;
-     int last_attr;
- 
--    base = (hwaddr)get_field(env->satp, SATP_PPN) << PGSHIFT;
-+    if (riscv_cpu_is_32bit(env)) {
-+        base = (hwaddr)get_field(env->satp, SATP32_PPN) << PGSHIFT;
-+        vm = get_field(env->satp, SATP32_MODE);
-+    } else {
-+        base = (hwaddr)get_field(env->satp, SATP64_PPN) << PGSHIFT;
-+        vm = get_field(env->satp, SATP64_MODE);
-+    }
- 
--    vm = get_field(env->satp, SATP_MODE);
-     switch (vm) {
-     case VM_1_10_SV32:
-         levels = 2;
-@@ -215,9 +220,16 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    if (!(env->satp & SATP_MODE)) {
--        monitor_printf(mon, "No translation or protection\n");
--        return;
-+    if (riscv_cpu_is_32bit(env)) {
-+        if (!(env->satp & SATP32_MODE)) {
-+            monitor_printf(mon, "No translation or protection\n");
-+            return;
-+        }
-+    } else {
-+        if (!(env->satp & SATP64_MODE)) {
-+            monitor_printf(mon, "No translation or protection\n");
-+            return;
-+        }
-     }
- 
-     mem_info_svxx(mon, env);
++Supported devices
++-----------------
++
++The ``shakti_c`` machine supports the following devices:
++
++ * 1 C-class core
++ * Core Level Interruptor (CLINT)
++ * Platform-Level Interrupt Controller (PLIC)
++ * 1 UART
++
++Boot options
++------------
++
++The ``shakti_c`` machine can start using the standard -bios
++functionality for loading the baremetal application or opensbi.
++
++Boot the machine
++----------------
++
++Shakti SDK
++~~~~~~~~~~
++Shakti SDK can be used to generate the baremetal example UART applications.
++
++.. code-block:: bash
++
++   $ git clone https://gitlab.com/behindbytes/shakti-sdk.git
++   $ cd shakti-sdk
++   $ make software PROGRAM=loopback TARGET=artix7_100t
++
++Binary would be generated in:
++  software/examples/uart_applns/loopback/output/loopback.shakti
++
++You could also download the precompiled example applicatons using below
++commands.
++
++.. code-block:: bash
++
++   $ wget -c https://gitlab.com/behindbytes/shakti-binaries/-/raw/master/sdk/shakti_sdk_qemu.zip
++   $ unzip shakti_sdk_qemu.zip
++
++Then we can run the UART example using:
++
++.. code-block:: bash
++
++   $ qemu-system-riscv64 -M shakti_c -nographic \
++      -bios path/to/shakti_sdk_qemu/loopback.shakti
++
++OpenSBI
++~~~~~~~
++We can also run OpenSBI with Test Payload.
++
++.. code-block:: bash
++
++   $ git clone https://github.com/riscv/opensbi.git -b v0.9
++   $ cd opensbi
++   $ wget -c https://gitlab.com/behindbytes/shakti-binaries/-/raw/master/dts/shakti.dtb
++   $ export CROSS_COMPILE=riscv64-unknown-elf-
++   $ export FW_FDT_PATH=./shakti.dtb
++   $ make PLATFORM=generic
++
++fw_payload.elf would be generated in build/platform/generic/firmware/fw_payload.elf.
++Boot it using the below qemu command.
++
++.. code-block:: bash
++
++   $ qemu-system-riscv64 -M shakti_c -nographic \
++      -bios path/to/fw_payload.elf
 -- 
 2.31.1
 
