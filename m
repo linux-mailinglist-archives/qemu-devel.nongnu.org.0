@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D4D371916
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:20:02 +0200 (CEST)
-Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E1E371931
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:22:59 +0200 (CEST)
+Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbIf-0005q9-DG
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:20:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35340)
+	id 1ldbLW-0000XV-R6
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldbHZ-0005Lm-0S
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:18:53 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:40737)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldbHX-0004NE-Bh
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:18:52 -0400
-Received: by mail-pg1-x529.google.com with SMTP id y30so3982017pgl.7
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FSZBIxednhUEpNvSHSiEk1tXSdyjygg+C8QIO4eVAsg=;
- b=S2pQB5Cr6GlRJJ6U/P+vKynidJSTjfQ1DZ9//GjhvKJVYigGtnZZPhZ9P8sNqNzQ40
- FbXS1DR7PkAGPdSO0cVU+y0v332IN1iNdYu4ofH2jFAtMCpm8rFqn3dT3dW+07PO1z+3
- RQkUMSWthf+W0MRlTn6ekfVWfOdF2Hz6R8FNmGKP5Xyty/hhPbv0Cj4LjCGXIfG90wBU
- AGXAHpV7Ft0F8z/YP2VZ42PEK2GdIDqV4HC9X9sQKTl4jkkOvQyP8rNBbifq64INOogR
- j1Nuz78nWItyyfgaVJFjKJij0dk8NOCTTP43SE7UsfwK45oKfHwb/RtEcRhYXUosk+ma
- lBqQ==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1ldbKa-0008Rz-Hb
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1ldbKX-0005ti-IO
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:21:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620058915;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OtN5AHZZQR9nyYGKCpu30nvBWgs2jQhI3sQUxSmAYx8=;
+ b=ATimx5vDQVm3hexo02/Im7em2J9VlnwAg+fxzDf+1bnsIM0Rr8c/oiNi/QULAeOdDSkTZ8
+ nCsFrmewxSbxWpRBWLk9F2NM3q/y7jsVGO3cVJ3vViFHBRxdZcch4VKA77IYiiFWIF3YIf
+ JWP0oZ+utY/7i5D2KKp0HpLQOiTvMIc=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-fCB2u6muOHmu5GpGzc81Kg-1; Mon, 03 May 2021 12:21:53 -0400
+X-MC-Unique: fCB2u6muOHmu5GpGzc81Kg-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ g28-20020a67d49c0000b0290226baf5716bso3018607vsj.12
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:21:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FSZBIxednhUEpNvSHSiEk1tXSdyjygg+C8QIO4eVAsg=;
- b=FlgvZmzfNJwu9yC4IiYyfghjR6CowXl9b24UfdrVHgnhC+ycFc3s/EbO5dJhwDt2/D
- ngUwYMS4WFtsAJJ2rSRBCXsRupm6aNXmgW+mInHLi9dSlsO0XBFB/PX4UL+Edsd/KPOB
- gB8TpYxphmDu5n/OwxfYRUTBMppG67E11yCwNCRCTbLX3odsRt4zLrJpYEektFxe7/Lk
- 3ULBeP5f4G6Fb5jq7HakyVUhE5ezO9JET/5KTpXSi8fwsGwjGbm49nSGEOkAPQE5nnn9
- cI/PAK65ubwYewn0ymJ+28BrxL9e4EnpT5u79/AbcujKDz3SAyf6TvwdDGZvuCgfdIzK
- //mw==
-X-Gm-Message-State: AOAM530HKkI5s3jMfX5bzwkmOUzylMRTUcaUnkTm8LkPzXNFV3AALNne
- lcITuXNY1a1ED69dP/F7LMJxAA==
-X-Google-Smtp-Source: ABdhPJy/S1qxRcwWLMUTxLqRSXA7BX5IwRdoWyAhRUekGb5wn4IBDVId3ofaSJ2Tg3AgPIZM4ma77g==
-X-Received: by 2002:aa7:8a84:0:b029:231:ff56:2c7e with SMTP id
- a4-20020aa78a840000b0290231ff562c7emr19796694pfc.50.1620058729789; 
- Mon, 03 May 2021 09:18:49 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id g18sm9527102pfb.178.2021.05.03.09.18.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 09:18:49 -0700 (PDT)
-Subject: Re: [PATCH v2 1/6] hw/sparc/sun4m: Have sun4m machines inherit new
- TYPE_SUN4M_MACHINE
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210502185441.599980-1-f4bug@amsat.org>
- <20210502185441.599980-2-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <06187430-6077-c772-ba9f-02333b48c7c1@linaro.org>
-Date: Mon, 3 May 2021 09:18:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OtN5AHZZQR9nyYGKCpu30nvBWgs2jQhI3sQUxSmAYx8=;
+ b=YrNz6viSPEvr/09C/z1Xj9foqTQ+BoWMS7du917N5Wz68El16+68EKkPtr2+pCuMUR
+ IUc7jSXKKADHC7FpZMGl+oBnDk8wGMX8p8xErhx6ck/bSz7dn047WGPvF8LFIB4lBZm7
+ z1RW5wZngOQrXtlkNY3DW4OqhJGx640ZWnQ9k0TUySDKyvJwJ+JUT6Ps5byed75Q2Kp4
+ zJG6ag+xfNfpX7GdLfvDl/y8DQNIzMIY09mRSzJwBmNeWt0AjY2xDVhQxF+251u/N67A
+ Zl/7PGyuVfjEVWi0mk+X4O2RKe6mfSRoKatExBpzVmW4kehED7qFLAvl/vdfFNdkLxyR
+ yjRw==
+X-Gm-Message-State: AOAM532qx1+Cn0L2BpmEM8TULe+JM8EYLexcHuaVSOYs2LNVChEkgeZs
+ t3GX7YxfmDG/I0G07w/N02s6jujw5ofLG+BObi5qrDUtFdWnol/vKTl8+MloFyxxJfCwjrV78wG
+ 1vQZDgpclCZTa0cpG48dgDWJWcx1bouo=
+X-Received: by 2002:a1f:9d90:: with SMTP id g138mr15449560vke.2.1620058913415; 
+ Mon, 03 May 2021 09:21:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzogWCQrwQIkNhyRBQzoU3olbj0lh/VnpgNN2oKQWehoubWSzFHEtPl9uVy3hl7V3jUqSy98Kga6HxYRbpcaas=
+X-Received: by 2002:a1f:9d90:: with SMTP id g138mr15449516vke.2.1620058913044; 
+ Mon, 03 May 2021 09:21:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210502185441.599980-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210502235727.1979457-1-richard.henderson@linaro.org>
+ <20210502235727.1979457-26-richard.henderson@linaro.org>
+In-Reply-To: <20210502235727.1979457-26-richard.henderson@linaro.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 3 May 2021 13:21:27 -0300
+Message-ID: <CAKJDGDa4aJ14FLrgGAMcGydL-=2-J4Jg7JBeLPmuRjj_sBk-2Q@mail.gmail.com>
+Subject: Re: [PATCH v6 25/26] gitlab: Rename ACCEL_CONFIGURE_OPTS to
+ EXTRA_CONFIGURE_OPTS
+To: Richard Henderson <richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,21 +90,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/21 11:54 AM, Philippe Mathieu-Daudé wrote:
-> Introduce the TYPE_SUN4M_MACHINE and have all sun4m
-> machines inherit it.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+On Sun, May 2, 2021 at 9:24 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/sparc/sun4m.c | 30 +++++++++++++++++++++---------
->   1 file changed, 21 insertions(+), 9 deletions(-)
+>  .gitlab-ci.d/crossbuilds.yml | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-r~
+> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+> index 2d95784ed5..fbf7b7a881 100644
+> --- a/.gitlab-ci.d/crossbuilds.yml
+> +++ b/.gitlab-ci.d/crossbuilds.yml
+> @@ -16,7 +16,7 @@
+>  #
+>  # Set the $ACCEL variable to select the specific accelerator (default to
+>  # KVM), and set extra options (such disabling other accelerators) via the
+> -# $ACCEL_CONFIGURE_OPTS variable.
+> +# $EXTRA_CONFIGURE_OPTS variable.
+>  .cross_accel_build_job:
+>    stage: build
+>    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+> @@ -26,7 +26,7 @@
+>      - cd build
+>      - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+>        ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+> -        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
+> +        --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
+>      - make -j$(expr $(nproc) + 1) all check-build
+>
+>  .cross_user_build_job:
+> @@ -174,7 +174,7 @@ cross-s390x-kvm-only:
+>      job: s390x-debian-cross-container
+>    variables:
+>      IMAGE: debian-s390x-cross
+> -    ACCEL_CONFIGURE_OPTS: --disable-tcg
+> +    EXTRA_CONFIGURE_OPTS: --disable-tcg
+>
+>  cross-win32-system:
+>    extends: .cross_system_build_job
+> @@ -197,7 +197,7 @@ cross-amd64-xen-only:
+>    variables:
+>      IMAGE: debian-amd64-cross
+>      ACCEL: xen
+> -    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> +    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+>
+>  cross-arm64-xen-only:
+>    extends: .cross_accel_build_job
+> @@ -206,4 +206,4 @@ cross-arm64-xen-only:
+>    variables:
+>      IMAGE: debian-arm64-cross
+>      ACCEL: xen
+> -    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> +    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+> --
+> 2.25.1
+>
+>
+
 
