@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70BD3710F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:37:39 +0200 (CEST)
-Received: from localhost ([::1]:46580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F8D3710F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:38:02 +0200 (CEST)
+Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQKv-0000sp-6G
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1ldQLJ-0001GK-PH
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJK-0007Yz-QH; Mon, 03 May 2021 00:35:58 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55179 helo=ozlabs.org)
+ id 1ldQJM-0007ZH-95; Mon, 03 May 2021 00:36:00 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:42467 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJI-0002BW-3W; Mon, 03 May 2021 00:35:58 -0400
+ id 1ldQJI-0002BT-6l; Mon, 03 May 2021 00:36:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FYVXQ6WwDz9sPf; Mon,  3 May 2021 14:35:50 +1000 (AEST)
+ id 4FYVXR06Vzz9sW4; Mon,  3 May 2021 14:35:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620016550;
- bh=NJO5+EW4kA2WAGAqt/uxq7POm/14L/camMUmNoFhY+M=;
+ d=gibson.dropbear.id.au; s=201602; t=1620016551;
+ bh=RAT03KtbCWwYYTeCrc/GtgEkVgsE/rHefdNYZD9Kahk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d4rRBDaXJ6EMUdBuzdYu2/NkPClyssQpdwu5y4WtxQ2jkzJ20iQ15+ZOCR1KsBYij
- U/ZVS2YhGLwiulNClM6e5krvg5ZQmrA2yAxkSPB8mnqMlrnKWm5MoFHCeMZi59OUbX
- piyBSAzVBRNh5AyvXz8jF9HFtGJrWOX/+Kr6RFng=
-Date: Mon, 3 May 2021 13:47:44 +1000
+ b=AzYUGelfG0AA/FprUmdowcPgPJCd3H5FpCytWgxjf4nihWZCWGaofsAdHk0TLjmwn
+ 7EK/HOmC5L10dMa81qcHuzQ67ByLZflElGcGXcvDsnfPMp1iu4ZEC+ctaDN2fnuaiN
+ PhkhuWZ9MHR9kk9gVdXE0eUzhakbkApXO1FHF+/U=
+Date: Mon, 3 May 2021 13:48:37 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/2] target/ppc: Clean up _spr_register et al
-Message-ID: <YI9yYIqx0dSLTVlB@yekko>
+Subject: Re: [PATCH 2/2] target/ppc: Reduce the size of ppc_spr_t
+Message-ID: <YI9ylakaG9PDPlav@yekko>
 References: <20210501022923.1179736-1-richard.henderson@linaro.org>
- <20210501022923.1179736-2-richard.henderson@linaro.org>
+ <20210501022923.1179736-3-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yIeHPIDA7HCuHk88"
+ protocol="application/pgp-signature"; boundary="KRfzuLOe08m599VI"
 Content-Disposition: inline
-In-Reply-To: <20210501022923.1179736-2-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210501022923.1179736-3-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,258 +65,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---yIeHPIDA7HCuHk88
+--KRfzuLOe08m599VI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 07:29:22PM -0700, Richard Henderson wrote:
-> Introduce 3 helper macros to elide arguments that we cannot supply.
-> This reduces the repetition required to get the job done.
+On Fri, Apr 30, 2021 at 07:29:23PM -0700, Richard Henderson wrote:
+> We elide values when registering sprs, we might as well
+> save space in the array as well.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/translate_init.c.inc | 154 +++++++++++++++-----------------
->  1 file changed, 74 insertions(+), 80 deletions(-)
+>  target/ppc/cpu.h | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
-c.inc
-> index c03a7c4f52..49a92b20b4 100644
-> --- a/target/ppc/translate_init.c.inc
-> +++ b/target/ppc/translate_init.c.inc
-> @@ -721,104 +721,98 @@ static inline void vscr_init(CPUPPCState *env, uin=
-t32_t val)
->      helper_mtvscr(env, val);
->  }
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index e73416da68..b704261b49 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -192,17 +192,21 @@ typedef struct ppc_hash_pte64 ppc_hash_pte64_t;
 > =20
-> -#ifdef CONFIG_USER_ONLY
-> -#define spr_register_kvm(env, num, name, uea_read, uea_write,           =
-       \
-> -                         oea_read, oea_write, one_reg_id, initial_value)=
-       \
-> -    _spr_register(env, num, name, uea_read, uea_write, initial_value)
-> -#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,        =
-       \
-> -                            oea_read, oea_write, hea_read, hea_write,   =
-       \
-> -                            one_reg_id, initial_value)                  =
-       \
-> -    _spr_register(env, num, name, uea_read, uea_write, initial_value)
-> +/**
-> + * _spr_register
-> + *
-> + * Register an SPR with all the callbacks required for tcg,
-> + * and the ID number for KVM.
-> + *
-> + * The reason for the conditional compilation is that the tcg functions
-> + * may be compiled out, and the system kvm header may not be available
-> + * for supplying the ID numbers.  This is ugly, but the best we can do.
-> + */
-> +
-> +#ifdef CONFIG_TCG
-> +# define USR_ARG(X)    X,
-> +# ifdef CONFIG_USER_ONLY
-> +#  define SYS_ARG(X)
-> +# else
-> +#  define SYS_ARG(X)   X,
-> +# endif
->  #else
-> -#if !defined(CONFIG_KVM)
-> -#define spr_register_kvm(env, num, name, uea_read, uea_write,           =
-       \
-> -                         oea_read, oea_write, one_reg_id, initial_value)=
-       \
-> -    _spr_register(env, num, name, uea_read, uea_write,                  =
-       \
-> -                  oea_read, oea_write, oea_read, oea_write, initial_valu=
-e)
-> -#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,        =
-       \
-> -                            oea_read, oea_write, hea_read, hea_write,   =
-       \
-> -                            one_reg_id, initial_value)                  =
-       \
-> -    _spr_register(env, num, name, uea_read, uea_write,                  =
-       \
-> -                  oea_read, oea_write, hea_read, hea_write, initial_valu=
-e)
-> +# define USR_ARG(X)
-> +# define SYS_ARG(X)
+>  /* SPR access micro-ops generations callbacks */
+>  struct ppc_spr_t {
+> +    const char *name;
+> +    target_ulong default_value;
+> +#ifndef CONFIG_USER_ONLY
+> +    unsigned int gdb_id;
 > +#endif
-> +#ifdef CONFIG_KVM
-> +# define KVM_ARG(X)    X,
->  #else
-> -#define spr_register_kvm(env, num, name, uea_read, uea_write,           =
-       \
-> -                         oea_read, oea_write, one_reg_id, initial_value)=
-       \
-> -    _spr_register(env, num, name, uea_read, uea_write,                  =
-       \
-> -                  oea_read, oea_write, oea_read, oea_write,             =
-       \
-> -                  one_reg_id, initial_value)
-> -#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,        =
-       \
-> -                            oea_read, oea_write, hea_read, hea_write,   =
-       \
-> -                            one_reg_id, initial_value)                  =
-       \
-> -    _spr_register(env, num, name, uea_read, uea_write,                  =
-       \
-> -                  oea_read, oea_write, hea_read, hea_write,             =
-       \
-> -                  one_reg_id, initial_value)
-> -#endif
-> +# define KVM_ARG(X)
->  #endif
-> =20
-> -#define spr_register(env, num, name, uea_read, uea_write,               =
-       \
-> -                     oea_read, oea_write, initial_value)                =
-       \
-> -    spr_register_kvm(env, num, name, uea_read, uea_write,               =
-       \
-> -                     oea_read, oea_write, 0, initial_value)
-> +typedef void spr_callback(DisasContext *, int, int);
-> =20
-> -#define spr_register_hv(env, num, name, uea_read, uea_write,            =
-       \
-> -                        oea_read, oea_write, hea_read, hea_write,       =
-       \
-> -                        initial_value)                                  =
-       \
-> -    spr_register_kvm_hv(env, num, name, uea_read, uea_write,            =
-       \
-> -                        oea_read, oea_write, hea_read, hea_write,       =
-       \
-> -                        0, initial_value)
-> -
-> -static inline void _spr_register(CPUPPCState *env, int num,
-> -                                 const char *name,
-> -                                 void (*uea_read)(DisasContext *ctx,
-> -                                                  int gprn, int sprn),
-> -                                 void (*uea_write)(DisasContext *ctx,
-> -                                                   int sprn, int gprn),
-> -#if !defined(CONFIG_USER_ONLY)
-> -
-> -                                 void (*oea_read)(DisasContext *ctx,
-> -                                                  int gprn, int sprn),
-> -                                 void (*oea_write)(DisasContext *ctx,
-> -                                                   int sprn, int gprn),
-> -                                 void (*hea_read)(DisasContext *opaque,
-> -                                                  int gprn, int sprn),
-> -                                 void (*hea_write)(DisasContext *opaque,
-> -                                                   int sprn, int gprn),
-> -#endif
-> -#if defined(CONFIG_KVM)
-> -                                 uint64_t one_reg_id,
-> -#endif
-> -                                 target_ulong initial_value)
-> +static void _spr_register(CPUPPCState *env, int num, const char *name,
-> +                          USR_ARG(spr_callback *uea_read)
-> +                          USR_ARG(spr_callback *uea_write)
-> +                          SYS_ARG(spr_callback *oea_read)
-> +                          SYS_ARG(spr_callback *oea_write)
-> +                          SYS_ARG(spr_callback *hea_read)
-> +                          SYS_ARG(spr_callback *hea_write)
-> +                          KVM_ARG(uint64_t one_reg_id)
-> +                          target_ulong initial_value)
->  {
-> -    ppc_spr_t *spr;
-> +    ppc_spr_t *spr =3D &env->spr_cb[num];
-> +
-> +    /* No SPR should be registered twice. */
-> +    assert(spr->name =3D=3D NULL);
-> +    assert(name !=3D NULL);
-> =20
-> -    spr =3D &env->spr_cb[num];
-> -    if (spr->name !=3D NULL || env->spr[num] !=3D 0x00000000 ||
-> -#if !defined(CONFIG_USER_ONLY)
-> -        spr->oea_read !=3D NULL || spr->oea_write !=3D NULL ||
-> -#endif
-> -        spr->uea_read !=3D NULL || spr->uea_write !=3D NULL) {
-> -        printf("Error: Trying to register SPR %d (%03x) twice !\n", num,=
- num);
-> -        exit(1);
-> -    }
-> -#if defined(PPC_DEBUG_SPR)
-> -    printf("*** register spr %d (%03x) %s val " TARGET_FMT_lx "\n", num,=
- num,
-> -           name, initial_value);
-> -#endif
->      spr->name =3D name;
-> +    spr->default_value =3D initial_value;
-> +    env->spr[num] =3D initial_value;
-> +
 > +#ifdef CONFIG_TCG
->      spr->uea_read =3D uea_read;
->      spr->uea_write =3D uea_write;
+>      void (*uea_read)(DisasContext *ctx, int gpr_num, int spr_num);
+>      void (*uea_write)(DisasContext *ctx, int spr_num, int gpr_num);
 > -#if !defined(CONFIG_USER_ONLY)
 > +# ifndef CONFIG_USER_ONLY
->      spr->oea_read =3D oea_read;
->      spr->oea_write =3D oea_write;
->      spr->hea_read =3D hea_read;
->      spr->hea_write =3D hea_write;
+>      void (*oea_read)(DisasContext *ctx, int gpr_num, int spr_num);
+>      void (*oea_write)(DisasContext *ctx, int spr_num, int gpr_num);
+>      void (*hea_read)(DisasContext *ctx, int gpr_num, int spr_num);
+>      void (*hea_write)(DisasContext *ctx, int spr_num, int gpr_num);
+> -    unsigned int gdb_id;
 > +# endif
 >  #endif
-> -#if defined(CONFIG_KVM)
-> -    spr->one_reg_id =3D one_reg_id,
-> +#ifdef CONFIG_KVM
-> +    spr->one_reg_id =3D one_reg_id;
->  #endif
-> -    env->spr[num] =3D spr->default_value =3D initial_value;
->  }
-> =20
-> +/* spr_register_kvm_hv passes all required arguments. */
-> +#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,        =
-     \
-> +                            oea_read, oea_write, hea_read, hea_write,   =
-     \
-> +                            one_reg_id, initial_value)                  =
-     \
-> +    _spr_register(env, num, name,                                       =
-     \
-> +                  USR_ARG(uea_read) USR_ARG(uea_write)                  =
-     \
-> +                  SYS_ARG(oea_read) SYS_ARG(oea_write)                  =
-     \
-> +                  SYS_ARG(hea_read) SYS_ARG(hea_write)                  =
-     \
-> +                  KVM_ARG(one_reg_id) initial_value)
-> +
-> +/* spr_register_kvm duplicates the oea callbacks to the hea callbacks. */
-> +#define spr_register_kvm(env, num, name, uea_read, uea_write,           =
-     \
-> +                         oea_read, oea_write, one_reg_id, ival)         =
-     \
-> +    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,  =
-     \
-> +                        oea_write, oea_read, oea_write, one_reg_id, ival)
-> +
-> +/* spr_register_hv and spr_register are similar, except there is no kvm =
-id. */
-> +#define spr_register_hv(env, num, name, uea_read, uea_write,            =
-     \
-> +                        oea_read, oea_write, hea_read, hea_write, ival) =
-     \
-> +    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,  =
-     \
-> +                        oea_write, hea_read, hea_write, 0, ival)
-> +
-> +#define spr_register(env, num, name, uea_read, uea_write,               =
-     \
-> +                     oea_read, oea_write, ival)                         =
-     \
-> +    spr_register_kvm(env, num, name, uea_read, uea_write,               =
-     \
-> +                     oea_read, oea_write, 0, ival)
-> +
->  /* Generic PowerPC SPRs */
->  static void gen_spr_generic(CPUPPCState *env)
->  {
+> -    const char *name;
+> -    target_ulong default_value;
+>  #ifdef CONFIG_KVM
+>      /*
+>       * We (ab)use the fact that all the SPRs will have ids for the
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -324,25 +119,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---yIeHPIDA7HCuHk88
+--KRfzuLOe08m599VI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPcl8ACgkQbDjKyiDZ
-s5IO8hAAkoBc0HfbiH8z4RtrCNqmivkRuOT3MDVbRsOr/cLUxUVcSN1xvCGlNYsv
-svNDi1iERErUM1Jl3KVZGUobkf+dqTRWr1PLZWEvHA8pJdaRQ8BwlkqU8qnfnru4
-kpYdrdXJ61hB0oZsc3cezoX532YhLGlseEZR5cHqHFrw93+UWDg824dvUzbWBxlE
-sNwTMyAv5Hbvyj9hT3L9QP31Xi5ylibPSLfxz6Kkqu8w4lch1/qsH+LRXfiWTrwf
-F6HupC4uzohW4S6WXxWosUWp+v7bmA2jYH5Y8qCteaoN6sxiLyIuWDCFscy72i3d
-1sOQyBg7T1bWHQ8ayKyHbjlPS+bsjk3uDDQvJP0vdQKiIwVarqCZl9A9PiXwuHxe
-Q1e5lgwfAmxarKJc/ND7GGoVpIj/LkR2LMEJi/KTytvbdRS4jTGpiW22IKUTyFsE
-+3qBaTDll3klsbVpbrzHGuWOw0tdoS4IBn/3jBCJ9BvgfJCm9tMmRfQ1K4PUrCq1
-qJ1StutU8yZYZi7iwUPw7DsKAEs3cGLnlS72e31FKqYok3WkIEOYN1wVE4zf4TpZ
-X+uXICz+70HXfnOFbbYcRcuwPlSQKuiWadpObMAChyV0iFRQ5Sd3fCAk/04Cx80v
-EQnDRwiSyeutjYcxGlnS9iGFlyADP54c41DnQIwErFRdeGyzxJc=
-=/NBJ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPcpUACgkQbDjKyiDZ
+s5KDMBAAj5Oy0pwZkZKdc32JmytbmG+eNN+FSC8JZ5iMx965Tww3dUpW+YTzyKb3
+dtNoLqYFBCvftvWXg/oGypv0WkFBuEwBT4XtCUcnxiEpckKKdfgJmkM8vbuNpjKp
+RAq4pkWtFIM9KicK2epXEAMHOpgunOmkrg5f54WcdFH655f8vRB9m9MKhVVyGlso
+Not8CiACCyqOq53uB3du8uu5OZWKcunB8uwPyfVmhXbq7W9hz7h30Jm/3spD6FCq
+rRQ3B9aHfaqAQb0iGO8+TWWj3P+jZCLMmKZFuKhicYqaK+CR99SF0bR5dxG4JHLd
++icp757dYkPPPY5QH5ZtBxt6Jxq/XIiHwg4ARIwEn2fpxIQJ+U8AS/G16SB+N0uB
+9qDwC8QUV/S+Mcqtc0iKAMw+nJcw0AtBaj7rWd1fg0Fi5xW2HZBpUXXyytrg6htc
+aMzOd73GdjFOJhcl2Fa6JHQuP+MHhCpzK4y4eDSH4Vtzq9GjMqKgClpL6GuaQY2f
+CZrEuGcZUt9ivlGwzcpxID4MTC1Si6aKelgweO9AeRb4BbUD3oPnl6Yqb57CCqyn
+GGBEZn+z5+y/PuHAB6pOeb3scHo/1Qu9n3iZqBLiBAQ2o0E2bHSibLjdi6qBfM2I
+CXkKN6Ql+JxiiC1rVyoBcJejTycfMfBbDsega4n8k3wOEixJ8DM=
+=2PRC
 -----END PGP SIGNATURE-----
 
---yIeHPIDA7HCuHk88--
+--KRfzuLOe08m599VI--
 
