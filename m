@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC7E3722EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:24:33 +0200 (CEST)
-Received: from localhost ([::1]:39802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CC73722F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:28:28 +0200 (CEST)
+Received: from localhost ([::1]:51290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldgzQ-00058T-Ay
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52830)
+	id 1ldh3D-0001TW-UE
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgpJ-0004Y7-FO
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:05 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28326)
+ id 1ldgpL-0004bR-Ah
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:07 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgpF-0008VN-Ew
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:05 -0400
+ id 1ldgpI-00008S-MH
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620080041; x=1651616041;
+ t=1620080044; x=1651616044;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=r0t0XRe0hIarwDfhub54+/rN9KJEE3oj+OYuPq3J2D0=;
- b=gTSPbTsQoKX5ywtVmN/rLsmSXhdgFVic4DsCPWu3MSQ3vi0PH+pSJb3S
- tVnPxC+0dvbT/DqSlOdUMT6GfkEKpXkv8SLLAdKZUaGpyryXv4nE308J+
- tGTa8j3VxaiThyNvJCALV115uMDvbSTmeNgp0jqZew+PiswlOuGEWitvf
- 7CAn1hOQAJPfY9C4TI89MMsPNj7zSV3K8BZCAl1HB+taCGjLtlt0IhaZz
- rD1zSD1yOrsFgj6GDjcqVidAN4fAvwmbGyl3SvH7St8+gXWxu/cslG8QA
- VNhBDEiVnAS6erKGWrIs0sqL1Y6ont4JFD4usohJBvJruUgU3uWAyy+si A==;
-IronPort-SDR: Fm+Xjnirl0XaqcpNaQlVZYEydTI+BNp04/izZY8XnyZT9Foyo7ewEbazxpKiKPUxNU9yVQgl/i
- WHiJbk3ZHaBkYtf7QsEcCmY6/ltJtwLXmR1Q0imOYy3EpD6RetmKUJ3u7vXIv+PnOkDIRRIFuo
- kobmgjv+U3ci2GpX/IcMA+i55Bh96xSDVH8X12Lw/4LrR2jmOLlERLJYI3k+Nd41WXZENzmRM7
- d+t1eGIga/+Kkyk1WngsrfWMVc/ogMJd/hy0hzYesygqw5iyINRi+hHvu45jCu7hEBu/XcVgz9
- Noo=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114602"
+ bh=+StzjlztuRLfj/ZuyyAiwFvIuh/MaI+qsivRZ24t6Qg=;
+ b=HtfOK9L+Z/IEv6s8g4L2vFgBdhVQaWpODHcMVdLXfjvs7ALPkZJchoR3
+ T0Jtd3xrr73X9PH/rBsLniZupU7CAe6qvijzfgOAsodc5ZpCkHa6Pk5wU
+ d1dVByaKfVmYLhysrAGH3+Zppg2n/8EVhUNlRnDo2dywCKblD1kxU07n6
+ jKG54GFHE73mf5RlXE+me0qytvxBQVXzVIGN3M+dc0texnXe//YdP1+ty
+ pK/4Ha0Gvc9hL2kf4spNJphdpXLw+RtjH6Aw4QwMZBkhgZQWDMTEccux6
+ 6j+k33y4OnWix3rcbEt+rEftalHU8YXVTVYOETTROO1olWAZXU3NHfrw7 w==;
+IronPort-SDR: qptQZruSw9p+nOsjpeP8VrIdWmGwn6U4xU7G5iYZDa2YJq7dv88ISS2H8HZKfGRFZr6RVVcuh0
+ UdUcGmbUfjdMg53+WgxgqB7cVbstzWyW8lfwXvatmw3ildCM6rmC5FryNQ0QKaDPdnukXGLXRY
+ kET2wKDrdY9UjM74zkCKqGVUS3pOzBvHqD7RUSJzfOZP9YLfeTG1WYX0sSVZqEYrTvICKox7kc
+ Es2GiO6+IHl1RKQRLKorlxGuWNTxWNs6vLxIQNpFhSf1O68vWXPRcacQb42A0DxOAkyCk1EC6y
+ uDs=
+X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114607"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:13:59 +0800
-IronPort-SDR: nHUTF5mAt98NOQmX8soc7dRQPq7QaggVnE+nVLMkvPS6tgV06/oQuOW8CQp1hclNn4x2c5+DHb
- mhPXPaTzWxc6VnKIgiQhEEb22iqT8RFhFRuXonGWnh6h4VKKTkOASjeSiGJtbarSfcSQObdaRU
- wZiCUH+oU0ePIIgezpj1zqlLfdFlrow6fmb/J52VlZQ5kOY9VWIXlmLyGRa4Y7sygb/tzGm8z5
- ja1RnnF52cRRLfVCTXQ9gTJ7VdSCIa4D6ZW7jpH2UAX4qIh+sZIbZbrzp/AERrzbrqxcsikZJ8
- 30EMJf4yB+t8sv+Jmr/LDi0t
+ by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:14:02 +0800
+IronPort-SDR: b486RxGmX/YhJKh3ctCSyH38w6vKBqK3aWN4VzZKe/v8AedZjfrXjdu/sHXWAgQz5xdjZ4Bt8E
+ 1K9UqFb7kSuQKWaDclJNbzpdUoQMjnXlUBxeXGO6iaO3a3m0XA7UE3YzHjkN2rCTUs+FNcxnpx
+ V8sbs2kxIDQ5y6a0lhQc9ir2ipKLo1brjz4ZB5/wKUQvDwhBT/xvBZSda4O1P2nJxBG1mCPdFO
+ mH34U0t2TIwNXq2Br2gFLowiJspKxHHwqtMyaFVQ1DYzXfvzFrAePtvOGkoKWd3asycsPOimrV
+ UJaFDYENVrkYcpnoT6dMNq45
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 14:54:10 -0700
-IronPort-SDR: 28M1EL4x1JJu1zhEdEzI8zISzWoHuTgYaMlNt3GdDWnw15R4XQkcvSY2eqJXAYSezuetDmSsOq
- 3okLOjKANQv9Y6GNmXIvu/S6QwrJezsm08QmAloxU6jxJSRqQlYLsNwjQFqfWh1FQZjCqgS7Ga
- 5Er+i9eNyUFU/d4bjAsSDkFhcyBk8sXd5aKUIpqywWipElUR+bLJzcl3zLuLW6buTW9/ShlPKK
- uOMYeI+BreLvVZUPlAEBNWzSVL1dx9vKiInhi7rvMKIZ+uekwU79ryj3ayR1RjPNKpdMgKr41f
- qQk=
+ 03 May 2021 14:54:13 -0700
+IronPort-SDR: JgrInKymPLkkGEVmXpWrjvMk8tid9vzcOWZmHELGRoA0cCYswCShsD1zm54Qtdc6I5zui6YZ7+
+ feJjUeQ4xE8PdRaQVWVEx8GF/5XqFen6d8AzD0Tc+jnqVbC96v7kFfsLuAww20+m0F5Lc01TMa
+ ACEfmssPWycoVk/t4ViDsWppo2AesHyepRlU5oLxrMm8madqah1VEcSD9wD5pJtwkYT1aXeid6
+ y3DPlejXKrZ3UlxpNqA/vDpXSpeIS1jMizxR5VXVDn5FXTqlYTzCAP7gIcijy0cTvqGecFGe3+
+ kWg=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:13:57 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:14:00 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/42] riscv: Add initial support for Shakti C machine
-Date: Tue,  4 May 2021 08:12:51 +1000
-Message-Id: <20210503221327.3068768-7-alistair.francis@wdc.com>
+Subject: [PULL 07/42] hw/char: Add Shakti UART emulation
+Date: Tue,  4 May 2021 08:12:52 +1000
+Message-Id: <20210503221327.3068768-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503221327.3068768-1-alistair.francis@wdc.com>
 References: <20210503221327.3068768-1-alistair.francis@wdc.com>
@@ -97,341 +97,334 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vijai Kumar K <vijai@behindbytes.com>
 
-Add support for emulating Shakti reference platform based on C-class
-running on arty-100T board.
-
-https://gitlab.com/shaktiproject/cores/shakti-soc/-/blob/master/README.rst
+This is the initial implementation of Shakti UART.
 
 Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210401181457.73039-3-vijai@behindbytes.com
+Message-id: 20210401181457.73039-4-vijai@behindbytes.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- default-configs/devices/riscv64-softmmu.mak |   1 +
- include/hw/riscv/shakti_c.h                 |  73 +++++++++
- hw/riscv/shakti_c.c                         | 170 ++++++++++++++++++++
- MAINTAINERS                                 |   7 +
- hw/riscv/Kconfig                            |  10 ++
- hw/riscv/meson.build                        |   1 +
- 6 files changed, 262 insertions(+)
- create mode 100644 include/hw/riscv/shakti_c.h
- create mode 100644 hw/riscv/shakti_c.c
+ include/hw/char/shakti_uart.h |  74 ++++++++++++++
+ hw/char/shakti_uart.c         | 185 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                   |   2 +
+ hw/char/meson.build           |   1 +
+ hw/char/trace-events          |   4 +
+ 5 files changed, 266 insertions(+)
+ create mode 100644 include/hw/char/shakti_uart.h
+ create mode 100644 hw/char/shakti_uart.c
 
-diff --git a/default-configs/devices/riscv64-softmmu.mak b/default-configs/devices/riscv64-softmmu.mak
-index d5eec75f05..bc69301fa4 100644
---- a/default-configs/devices/riscv64-softmmu.mak
-+++ b/default-configs/devices/riscv64-softmmu.mak
-@@ -13,3 +13,4 @@ CONFIG_SIFIVE_E=y
- CONFIG_SIFIVE_U=y
- CONFIG_RISCV_VIRT=y
- CONFIG_MICROCHIP_PFSOC=y
-+CONFIG_SHAKTI_C=y
-diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h
+diff --git a/include/hw/char/shakti_uart.h b/include/hw/char/shakti_uart.h
 new file mode 100644
-index 0000000000..8ffc2b0213
+index 0000000000..526c408233
 --- /dev/null
-+++ b/include/hw/riscv/shakti_c.h
-@@ -0,0 +1,73 @@
++++ b/include/hw/char/shakti_uart.h
+@@ -0,0 +1,74 @@
 +/*
-+ * Shakti C-class SoC emulation
++ * SHAKTI UART
 + *
 + * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com>
 + *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
 + *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
 + *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
 +
-+#ifndef HW_SHAKTI_H
-+#define HW_SHAKTI_H
++#ifndef HW_SHAKTI_UART_H
++#define HW_SHAKTI_UART_H
 +
-+#include "hw/riscv/riscv_hart.h"
-+#include "hw/boards.h"
++#include "hw/sysbus.h"
++#include "chardev/char-fe.h"
 +
-+#define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc"
-+#define RISCV_SHAKTI_SOC(obj) \
-+    OBJECT_CHECK(ShaktiCSoCState, (obj), TYPE_RISCV_SHAKTI_SOC)
++#define SHAKTI_UART_BAUD        0x00
++#define SHAKTI_UART_TX          0x04
++#define SHAKTI_UART_RX          0x08
++#define SHAKTI_UART_STATUS      0x0C
++#define SHAKTI_UART_DELAY       0x10
++#define SHAKTI_UART_CONTROL     0x14
++#define SHAKTI_UART_INT_EN      0x18
++#define SHAKTI_UART_IQ_CYCLES   0x1C
++#define SHAKTI_UART_RX_THRES    0x20
 +
-+typedef struct ShaktiCSoCState {
-+    /*< private >*/
-+    DeviceState parent_obj;
++#define SHAKTI_UART_STATUS_TX_EMPTY     (1 << 0)
++#define SHAKTI_UART_STATUS_TX_FULL      (1 << 1)
++#define SHAKTI_UART_STATUS_RX_NOT_EMPTY (1 << 2)
++#define SHAKTI_UART_STATUS_RX_FULL      (1 << 3)
++/* 9600 8N1 is the default setting */
++/* Reg value = (50000000 Hz)/(16 * 9600)*/
++#define SHAKTI_UART_BAUD_DEFAULT    0x0145
++#define SHAKTI_UART_CONTROL_DEFAULT 0x0100
 +
-+    /*< public >*/
-+    RISCVHartArrayState cpus;
-+    DeviceState *plic;
-+    MemoryRegion rom;
++#define TYPE_SHAKTI_UART "shakti-uart"
++#define SHAKTI_UART(obj) \
++    OBJECT_CHECK(ShaktiUartState, (obj), TYPE_SHAKTI_UART)
 +
-+} ShaktiCSoCState;
++typedef struct {
++    /* <private> */
++    SysBusDevice parent_obj;
 +
-+#define TYPE_RISCV_SHAKTI_MACHINE MACHINE_TYPE_NAME("shakti_c")
-+#define RISCV_SHAKTI_MACHINE(obj) \
-+    OBJECT_CHECK(ShaktiCMachineState, (obj), TYPE_RISCV_SHAKTI_MACHINE)
-+typedef struct ShaktiCMachineState {
-+    /*< private >*/
-+    MachineState parent_obj;
++    /* <public> */
++    MemoryRegion mmio;
 +
-+    /*< public >*/
-+    ShaktiCSoCState soc;
-+} ShaktiCMachineState;
++    uint32_t uart_baud;
++    uint32_t uart_tx;
++    uint32_t uart_rx;
++    uint32_t uart_status;
++    uint32_t uart_delay;
++    uint32_t uart_control;
++    uint32_t uart_interrupt;
++    uint32_t uart_iq_cycles;
++    uint32_t uart_rx_threshold;
 +
-+enum {
-+    SHAKTI_C_ROM,
-+    SHAKTI_C_RAM,
-+    SHAKTI_C_UART,
-+    SHAKTI_C_GPIO,
-+    SHAKTI_C_PLIC,
-+    SHAKTI_C_CLINT,
-+    SHAKTI_C_I2C,
-+};
++    CharBackend chr;
++} ShaktiUartState;
 +
-+#define SHAKTI_C_PLIC_HART_CONFIG "MS"
-+/* Including Interrupt ID 0 (no interrupt)*/
-+#define SHAKTI_C_PLIC_NUM_SOURCES 28
-+/* Excluding Priority 0 */
-+#define SHAKTI_C_PLIC_NUM_PRIORITIES 2
-+#define SHAKTI_C_PLIC_PRIORITY_BASE 0x04
-+#define SHAKTI_C_PLIC_PENDING_BASE 0x1000
-+#define SHAKTI_C_PLIC_ENABLE_BASE 0x2000
-+#define SHAKTI_C_PLIC_ENABLE_STRIDE 0x80
-+#define SHAKTI_C_PLIC_CONTEXT_BASE 0x200000
-+#define SHAKTI_C_PLIC_CONTEXT_STRIDE 0x1000
-+
-+#endif
-diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
++#endif /* HW_SHAKTI_UART_H */
+diff --git a/hw/char/shakti_uart.c b/hw/char/shakti_uart.c
 new file mode 100644
-index 0000000000..c8205d3f22
+index 0000000000..6870821325
 --- /dev/null
-+++ b/hw/riscv/shakti_c.c
-@@ -0,0 +1,170 @@
++++ b/hw/char/shakti_uart.c
+@@ -0,0 +1,185 @@
 +/*
-+ * Shakti C-class SoC emulation
++ * SHAKTI UART
 + *
 + * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com>
 + *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
 + *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
 + *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/boards.h"
-+#include "hw/riscv/shakti_c.h"
-+#include "qapi/error.h"
-+#include "hw/intc/sifive_plic.h"
-+#include "hw/intc/sifive_clint.h"
-+#include "sysemu/sysemu.h"
++#include "hw/char/shakti_uart.h"
 +#include "hw/qdev-properties.h"
-+#include "exec/address-spaces.h"
-+#include "hw/riscv/boot.h"
++#include "hw/qdev-properties-system.h"
++#include "qemu/log.h"
 +
-+
-+static const struct MemmapEntry {
-+    hwaddr base;
-+    hwaddr size;
-+} shakti_c_memmap[] = {
-+    [SHAKTI_C_ROM]   =  {  0x00001000,  0x2000   },
-+    [SHAKTI_C_RAM]   =  {  0x80000000,  0x0      },
-+    [SHAKTI_C_UART]  =  {  0x00011300,  0x00040  },
-+    [SHAKTI_C_GPIO]  =  {  0x020d0000,  0x00100  },
-+    [SHAKTI_C_PLIC]  =  {  0x0c000000,  0x20000  },
-+    [SHAKTI_C_CLINT] =  {  0x02000000,  0xc0000  },
-+    [SHAKTI_C_I2C]   =  {  0x20c00000,  0x00100  },
-+};
-+
-+static void shakti_c_machine_state_init(MachineState *mstate)
++static uint64_t shakti_uart_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    ShaktiCMachineState *sms = RISCV_SHAKTI_MACHINE(mstate);
-+    MemoryRegion *system_memory = get_system_memory();
-+    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
++    ShaktiUartState *s = opaque;
 +
-+    /* Allow only Shakti C CPU for this platform */
-+    if (strcmp(mstate->cpu_type, TYPE_RISCV_CPU_SHAKTI_C) != 0) {
-+        error_report("This board can only be used with Shakti C CPU");
-+        exit(1);
++    switch (addr) {
++    case SHAKTI_UART_BAUD:
++        return s->uart_baud;
++    case SHAKTI_UART_RX:
++        qemu_chr_fe_accept_input(&s->chr);
++        s->uart_status &= ~SHAKTI_UART_STATUS_RX_NOT_EMPTY;
++        return s->uart_rx;
++    case SHAKTI_UART_STATUS:
++        return s->uart_status;
++    case SHAKTI_UART_DELAY:
++        return s->uart_delay;
++    case SHAKTI_UART_CONTROL:
++        return s->uart_control;
++    case SHAKTI_UART_INT_EN:
++        return s->uart_interrupt;
++    case SHAKTI_UART_IQ_CYCLES:
++        return s->uart_iq_cycles;
++    case SHAKTI_UART_RX_THRES:
++        return s->uart_rx_threshold;
++    default:
++        /* Also handles TX REG which is write only */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr);
 +    }
 +
-+    /* Initialize SoC */
-+    object_initialize_child(OBJECT(mstate), "soc", &sms->soc,
-+                            TYPE_RISCV_SHAKTI_SOC);
-+    qdev_realize(DEVICE(&sms->soc), NULL, &error_abort);
-+
-+    /* register RAM */
-+    memory_region_init_ram(main_mem, NULL, "riscv.shakti.c.ram",
-+                           mstate->ram_size, &error_fatal);
-+    memory_region_add_subregion(system_memory,
-+                                shakti_c_memmap[SHAKTI_C_RAM].base,
-+                                main_mem);
-+
-+    /* ROM reset vector */
-+    riscv_setup_rom_reset_vec(mstate, &sms->soc.cpus,
-+                              shakti_c_memmap[SHAKTI_C_RAM].base,
-+                              shakti_c_memmap[SHAKTI_C_ROM].base,
-+                              shakti_c_memmap[SHAKTI_C_ROM].size, 0, 0,
-+                              NULL);
-+    riscv_load_firmware(mstate->firmware, shakti_c_memmap[SHAKTI_C_RAM].base,
-+                        NULL);
++    return 0;
 +}
 +
-+static void shakti_c_machine_instance_init(Object *obj)
++static void shakti_uart_write(void *opaque, hwaddr addr,
++                              uint64_t data, unsigned size)
 +{
++    ShaktiUartState *s = opaque;
++    uint32_t value = data;
++    uint8_t ch;
++
++    switch (addr) {
++    case SHAKTI_UART_BAUD:
++        s->uart_baud = value;
++        break;
++    case SHAKTI_UART_TX:
++        ch = value;
++        qemu_chr_fe_write_all(&s->chr, &ch, 1);
++        s->uart_status &= ~SHAKTI_UART_STATUS_TX_FULL;
++        break;
++    case SHAKTI_UART_STATUS:
++        s->uart_status = value;
++        break;
++    case SHAKTI_UART_DELAY:
++        s->uart_delay = value;
++        break;
++    case SHAKTI_UART_CONTROL:
++        s->uart_control = value;
++        break;
++    case SHAKTI_UART_INT_EN:
++        s->uart_interrupt = value;
++        break;
++    case SHAKTI_UART_IQ_CYCLES:
++        s->uart_iq_cycles = value;
++        break;
++    case SHAKTI_UART_RX_THRES:
++        s->uart_rx_threshold = value;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr);
++    }
 +}
 +
-+static void shakti_c_machine_class_init(ObjectClass *klass, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(klass);
-+    mc->desc = "RISC-V Board compatible with Shakti SDK";
-+    mc->init = shakti_c_machine_state_init;
-+    mc->default_cpu_type = TYPE_RISCV_CPU_SHAKTI_C;
-+}
-+
-+static const TypeInfo shakti_c_machine_type_info = {
-+    .name = TYPE_RISCV_SHAKTI_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .class_init = shakti_c_machine_class_init,
-+    .instance_init = shakti_c_machine_instance_init,
-+    .instance_size = sizeof(ShaktiCMachineState),
++static const MemoryRegionOps shakti_uart_ops = {
++    .read = shakti_uart_read,
++    .write = shakti_uart_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {.min_access_size = 1, .max_access_size = 4},
++    .valid = {.min_access_size = 1, .max_access_size = 4},
 +};
 +
-+static void shakti_c_machine_type_info_register(void)
++static void shakti_uart_reset(DeviceState *dev)
 +{
-+    type_register_static(&shakti_c_machine_type_info);
-+}
-+type_init(shakti_c_machine_type_info_register)
++    ShaktiUartState *s = SHAKTI_UART(dev);
 +
-+static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
-+{
-+    ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
-+    MemoryRegion *system_memory = get_system_memory();
-+
-+    sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
-+
-+    sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
-+        (char *)SHAKTI_C_PLIC_HART_CONFIG, 0,
-+        SHAKTI_C_PLIC_NUM_SOURCES,
-+        SHAKTI_C_PLIC_NUM_PRIORITIES,
-+        SHAKTI_C_PLIC_PRIORITY_BASE,
-+        SHAKTI_C_PLIC_PENDING_BASE,
-+        SHAKTI_C_PLIC_ENABLE_BASE,
-+        SHAKTI_C_PLIC_ENABLE_STRIDE,
-+        SHAKTI_C_PLIC_CONTEXT_BASE,
-+        SHAKTI_C_PLIC_CONTEXT_STRIDE,
-+        shakti_c_memmap[SHAKTI_C_PLIC].size);
-+
-+    sifive_clint_create(shakti_c_memmap[SHAKTI_C_CLINT].base,
-+        shakti_c_memmap[SHAKTI_C_CLINT].size, 0, 1,
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        SIFIVE_CLINT_TIMEBASE_FREQ, false);
-+
-+    /* ROM */
-+    memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
-+                           shakti_c_memmap[SHAKTI_C_ROM].size, &error_fatal);
-+    memory_region_add_subregion(system_memory,
-+        shakti_c_memmap[SHAKTI_C_ROM].base, &sss->rom);
++    s->uart_baud = SHAKTI_UART_BAUD_DEFAULT;
++    s->uart_tx = 0x0;
++    s->uart_rx = 0x0;
++    s->uart_status = 0x0000;
++    s->uart_delay = 0x0000;
++    s->uart_control = SHAKTI_UART_CONTROL_DEFAULT;
++    s->uart_interrupt = 0x0000;
++    s->uart_iq_cycles = 0x00;
++    s->uart_rx_threshold = 0x00;
 +}
 +
-+static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
++static int shakti_uart_can_receive(void *opaque)
++{
++    ShaktiUartState *s = opaque;
++
++    return !(s->uart_status & SHAKTI_UART_STATUS_RX_NOT_EMPTY);
++}
++
++static void shakti_uart_receive(void *opaque, const uint8_t *buf, int size)
++{
++    ShaktiUartState *s = opaque;
++
++    s->uart_rx = *buf;
++    s->uart_status |= SHAKTI_UART_STATUS_RX_NOT_EMPTY;
++}
++
++static void shakti_uart_realize(DeviceState *dev, Error **errp)
++{
++    ShaktiUartState *sus = SHAKTI_UART(dev);
++    qemu_chr_fe_set_handlers(&sus->chr, shakti_uart_can_receive,
++                             shakti_uart_receive, NULL, NULL, sus, NULL, true);
++}
++
++static void shakti_uart_instance_init(Object *obj)
++{
++    ShaktiUartState *sus = SHAKTI_UART(obj);
++    memory_region_init_io(&sus->mmio,
++                          obj,
++                          &shakti_uart_ops,
++                          sus,
++                          TYPE_SHAKTI_UART,
++                          0x1000);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &sus->mmio);
++}
++
++static Property shakti_uart_properties[] = {
++    DEFINE_PROP_CHR("chardev", ShaktiUartState, chr),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void shakti_uart_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->realize = shakti_c_soc_state_realize;
++    dc->reset = shakti_uart_reset;
++    dc->realize = shakti_uart_realize;
++    device_class_set_props(dc, shakti_uart_properties);
 +}
 +
-+static void shakti_c_soc_instance_init(Object *obj)
-+{
-+    ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(obj);
-+
-+    object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY);
-+
-+    /*
-+     * CPU type is fixed and we are not supporting passing from commandline yet.
-+     * So let it be in instance_init. When supported should use ms->cpu_type
-+     * instead of TYPE_RISCV_CPU_SHAKTI_C
-+     */
-+    object_property_set_str(OBJECT(&sss->cpus), "cpu-type",
-+                            TYPE_RISCV_CPU_SHAKTI_C, &error_abort);
-+    object_property_set_int(OBJECT(&sss->cpus), "num-harts", 1,
-+                            &error_abort);
-+}
-+
-+static const TypeInfo shakti_c_type_info = {
-+    .name = TYPE_RISCV_SHAKTI_SOC,
-+    .parent = TYPE_DEVICE,
-+    .class_init = shakti_c_soc_class_init,
-+    .instance_init = shakti_c_soc_instance_init,
-+    .instance_size = sizeof(ShaktiCSoCState),
++static const TypeInfo shakti_uart_info = {
++    .name = TYPE_SHAKTI_UART,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(ShaktiUartState),
++    .class_init = shakti_uart_class_init,
++    .instance_init = shakti_uart_instance_init,
 +};
 +
-+static void shakti_c_type_info_register(void)
++static void shakti_uart_register_types(void)
 +{
-+    type_register_static(&shakti_c_type_info);
++    type_register_static(&shakti_uart_info);
 +}
-+type_init(shakti_c_type_info_register)
++type_init(shakti_uart_register_types)
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4c05ff8bba..181ea0d76d 100644
+index 181ea0d76d..93830817f1 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1392,6 +1392,13 @@ F: include/hw/misc/mchp_pfsoc_dmc.h
- F: include/hw/misc/mchp_pfsoc_ioscb.h
- F: include/hw/misc/mchp_pfsoc_sysreg.h
+@@ -1397,7 +1397,9 @@ M: Vijai Kumar K <vijai@behindbytes.com>
+ L: qemu-riscv@nongnu.org
+ S: Supported
+ F: hw/riscv/shakti_c.c
++F: hw/char/shakti_uart.c
+ F: include/hw/riscv/shakti_c.h
++F: include/hw/char/shakti_uart.h
  
-+Shakti C class SoC
-+M: Vijai Kumar K <vijai@behindbytes.com>
-+L: qemu-riscv@nongnu.org
-+S: Supported
-+F: hw/riscv/shakti_c.c
-+F: include/hw/riscv/shakti_c.h
-+
  SiFive Machines
  M: Alistair Francis <Alistair.Francis@wdc.com>
- M: Bin Meng <bin.meng@windriver.com>
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 1de18cdcf1..a0225716b5 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -19,6 +19,16 @@ config OPENTITAN
-     select IBEX
-     select UNIMP
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index da5bb8b762..014833dded 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -19,6 +19,7 @@ softmmu_ss.add(when: 'CONFIG_SERIAL', if_true: files('serial.c'))
+ softmmu_ss.add(when: 'CONFIG_SERIAL_ISA', if_true: files('serial-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_SERIAL_PCI', if_true: files('serial-pci.c'))
+ softmmu_ss.add(when: 'CONFIG_SERIAL_PCI_MULTI', if_true: files('serial-pci-multi.c'))
++softmmu_ss.add(when: 'CONFIG_SHAKTI', if_true: files('shakti_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-console.c'))
+ softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_console.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'))
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 76d52938ea..c8dcade104 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -90,6 +90,10 @@ cmsdk_apb_uart_set_params(int speed) "CMSDK APB UART: params set to %d 8N1"
+ nrf51_uart_read(uint64_t addr, uint64_t r, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
+ nrf51_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
  
-+config SHAKTI
-+    bool
++# shakti_uart.c
++shakti_uart_read(uint64_t addr, uint16_t r, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx16 " size %u"
++shakti_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
 +
-+config SHAKTI_C
-+    bool
-+    select UNIMP
-+    select SHAKTI
-+    select SIFIVE_CLINT
-+    select SIFIVE_PLIC
-+
- config RISCV_VIRT
-     bool
-     imply PCI_DEVICES
-diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-index 275c0f7eb7..a97454661c 100644
---- a/hw/riscv/meson.build
-+++ b/hw/riscv/meson.build
-@@ -4,6 +4,7 @@ riscv_ss.add(files('numa.c'))
- riscv_ss.add(files('riscv_hart.c'))
- riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c'))
- riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
-+riscv_ss.add(when: 'CONFIG_SHAKTI_C', if_true: files('shakti_c.c'))
- riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
- riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
- riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
+ # exynos4210_uart.c
+ exynos_uart_dmabusy(uint32_t channel) "UART%d: DMA busy (Rx buffer empty)"
+ exynos_uart_dmaready(uint32_t channel) "UART%d: DMA ready"
 -- 
 2.31.1
 
