@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E510371EC3
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:37:51 +0200 (CEST)
-Received: from localhost ([::1]:47102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0F8371ED4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:42:34 +0200 (CEST)
+Received: from localhost ([::1]:56450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldcVx-0001cN-9P
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49206)
+	id 1ldcaX-0005a2-A8
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldc9n-0003Mr-0V
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:14:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldc9h-0004cb-Lp
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:14:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620062088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=28DBMls32/HhgQ9ByLKFjFhOMju4twJ7qKtt5PH7twk=;
- b=NRjaD/jlVOPx9bXpenE638rOsdDuHS50woe8BVwYxMiReYDrq1IMm/+6WZWQvCcQZMKq2Y
- j26bqps9pPy0A+rTLEPEnxfIZUaTz1+Fs7OmcEkbzbvSW1xhW0vi4K5Aza99KVQhWhR+HE
- PpSKsc/7b7z35bT8X6On+gV+DQ6/Ls4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-slqAM438MNWcDMGNxrT6xQ-1; Mon, 03 May 2021 13:14:46 -0400
-X-MC-Unique: slqAM438MNWcDMGNxrT6xQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- i102-20020adf90ef0000b029010dfcfc46c0so1058530wri.1
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:14:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ldcAk-000457-0D
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:15:54 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ldcAh-00056r-KL
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:15:53 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id h7so3193248plt.1
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uT2bndmM+VXxmy5KWkuOo0k1wgEeev2C5i25aQdPwRE=;
+ b=yOm2lYZSUEdfBL/Ok8wDY0J0CLCOy1Lbrj9p/XRMCFxH0cRvn4ft7SxT0TXXQG5k62
+ 8h9Ra/G1We+VIznflzUvXDbdLo+W+2PaciY3/AQjG0golqSTOjlW8qbL12Nu+AfGFew6
+ 4jgr3jiEm318rUDQdubYtz0N1c5nU/2q60ynnR7UtHQAGqEw3J5B9SAIv0C1ah3JhI36
+ Is2wLe4tm8btABhZrXt3WuCrd3H7dgbvDtujFHlxa3FrzAQ90oiB0WaHOx6QU0Fz5MKK
+ Uwt5v9RmKL7XnK+zyXfGBw7/LOKRcgE9El5z0I9GErjbImMhVkNLyA/q1dB/CaQvaNnN
+ 6b9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=28DBMls32/HhgQ9ByLKFjFhOMju4twJ7qKtt5PH7twk=;
- b=Po30DkEwNUp5YnuCMQVUFESOl6qz6QUR4kcYmMLkHFNkCUcUvyrRU01u8K/GveOujJ
- +W4+59SIEnE0792QaNwh+ZAsiORnRK9ccGYJVqI07+r8VaTVAMq/Ff7GOHD+tGuZPjYE
- h9NHrjv9l2MBjd6Y5qT8FHPs4oFMQ0eugQrmhHZ7KfUprCNP0MUnV6gV2c91jU2xGbDv
- 5P5RZCABGK4DnP2pZ5pfJDCuDHJ5Q6sjg5TgW1RRNu2esG1+66tYR/HzOKgCMgn9qmdR
- BscrF9M9L5VFdvOnBO+ONX54ZRMrjop/E4P1ILDAUb9YNP7IZB2oNsrcyzpLnpFA9UyX
- CkPg==
-X-Gm-Message-State: AOAM530WeLNaeD1scpeHr40/i1ECyFuDPklSPjVU2GiDBdzytSOGDXXs
- 7zyrkK8IZchvFS3yGcDmdzepDcDfrIDAvduFD4CrU+XlVRWlWaQ5hw8PkDAS1v1Tb7u1/+bvUNY
- Mbp/JekKV6bm1t34=
-X-Received: by 2002:a1c:9817:: with SMTP id a23mr10581869wme.171.1620062085721; 
- Mon, 03 May 2021 10:14:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2QHfd8QZZCPig0iP+6SiO5o4w3KIiB6RDA8xkHcjjEgsKyQUto3XEBcr2k3SzfFNV4xqCNQ==
-X-Received: by 2002:a1c:9817:: with SMTP id a23mr10581861wme.171.1620062085607; 
- Mon, 03 May 2021 10:14:45 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id d5sm13581268wrv.43.2021.05.03.10.14.44
+ bh=uT2bndmM+VXxmy5KWkuOo0k1wgEeev2C5i25aQdPwRE=;
+ b=QgepP3Gr3RTPwmzouY7UQlVBozdGBrPgk5B8a4+6fJjnxyvsj0sOaOM9lDNpMOQJJg
+ V/NiU1xgAlka4tMWc1uSfmAuAbZclboF6RUp6K+TH/9hlzaqO1GWFrOLHpT/pd4FlKnq
+ /JS7YlBjI/3WRhpmV1Od7DQHTpRPT6TtWLclw1PDaLAco12z81anxFetKAn8sow640oS
+ 8zdDbFb6sLyL9UHrlGojJzfj4eAwz32Hdo6hWwNbHxRFRSnx6Km9VGBY9V4vWgHR9QjK
+ u8C1Z71qwvR57Gg+uy5RpbHAhH5E05dyES9B+38GSvfArKhwmj2XDpOyVmzOHKZMZ0J/
+ Y/MQ==
+X-Gm-Message-State: AOAM532iv2qRGCEFP3DVqR4Iytj0vYB9vLYm+MCWi4wUFHdY9AhC4zc1
+ TBOKhwlYXLyrl58rpwMotc5/gw==
+X-Google-Smtp-Source: ABdhPJxLOU0jRcukHDF2zAODTHGaSBcafWKlJ5Guyy8hH22qw+lyK4Oy2dynkOg1qVO6f288voEykQ==
+X-Received: by 2002:a17:902:e807:b029:ee:c73b:9fc4 with SMTP id
+ u7-20020a170902e807b02900eec73b9fc4mr10466915plg.72.1620062147903; 
+ Mon, 03 May 2021 10:15:47 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id e20sm46682pjt.8.2021.05.03.10.15.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 10:14:45 -0700 (PDT)
-Subject: Re: [PATCH 3/3] tests: Avoid side effects inside g_assert() arguments
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210503165525.26221-1-peter.maydell@linaro.org>
- <20210503165525.26221-4-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <16b892e8-6193-31de-dd1b-7fa36e82be19@redhat.com>
-Date: Mon, 3 May 2021 19:14:44 +0200
+ Mon, 03 May 2021 10:15:47 -0700 (PDT)
+Subject: Re: QEMU tests, Coverity, and g_test_set_nonfatal_assertions()
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c1fd864a-3fdc-1bdb-04a6-9c847eeba59f@linaro.org>
+Date: Mon, 3 May 2021 10:15:45 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210503165525.26221-4-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,25 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Corey Minyard <minyard@acm.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 6:55 PM, Peter Maydell wrote:
-> For us, assertions are always enabled, but side-effect expressions
-> inside the argument to g_assert() are bad style anyway. Fix three
-> occurrences in IPMI related tests, which will silence some Coverity
-> nits.
-> 
-> Fixes: CID 1432322, CID 1432287, CID 1432291
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  tests/qtest/ipmi-bt-test.c  | 6 ++++--
->  tests/qtest/ipmi-kcs-test.c | 3 ++-
->  2 files changed, 6 insertions(+), 3 deletions(-)
+On 5/3/21 9:49 AM, Peter Maydell wrote:
+> (1) Expand "assertions always fatal" to test code, and add "panics"
+> models of the g_assertion_message* functions. Remove all the calls
+> to g_test_set_nonfatal_assertions().
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I vaguely prefer this.  To me, "assert" means can't continue.
+
+If we want tests that report and continue, we should use something else. 
+Though of course could mean quite a bit of churn.
+
+
+r~
+
+
+> 
+> (2) Aim to expand the ability to use g_test_set_nonfatal_assertions()
+> to other tests than the handful that currently use it (perhaps by
+> providing a standard place where it gets called for all tests, though
+> there isn't currently an obvious place to do that). Treat Coverity
+> issues in our test code which flag up "this would crash if the
+> assertion fired but execution continued" as bugs to be fixed (though
+> not very high-priority ones, obviously).
+> 
+> (3) Something else ?
+> 
+> I think I vaguely favour 2, though it is of course more work...
+> In any case, we need to make a decision so we can decide whether
+> the pile of coverity issues should be either dismissed as intentional
+> or gradually worked through and fixed.
+> 
+> thanks
+> -- PMM
+> 
 
 
