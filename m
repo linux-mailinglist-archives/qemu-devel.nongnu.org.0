@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E86B371600
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 15:32:04 +0200 (CEST)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0014E371609
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 15:36:14 +0200 (CEST)
+Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldYg7-0006mK-GE
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 09:32:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42778)
+	id 1ldYk9-0001Uc-Oz
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 09:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldYdg-0005La-Of
- for qemu-devel@nongnu.org; Mon, 03 May 2021 09:29:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45279)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldYdi-0005OG-7b
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 09:29:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldYdf-0000dr-44
- for qemu-devel@nongnu.org; Mon, 03 May 2021 09:29:32 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldYdf-0000dt-6T
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 09:29:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620048570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mrdxAKjUzr/byGv5e5o5W5r22e+2bwN+g67LOvTBIYs=;
- b=dUlw7kpF4J+W/q6tLLMPFHhfZNxUVkRszJK7NoNJu6t0cik/RFM4weY+T8Jutnbvb+PEAr
- ND3aDiwbCdeeP4Eemm1gG1N07BIbu9v2h7B3earOc57LSoWsA6TiJbJ1M2lKEF9IZckmDB
- 1yJaulJRob4DDXru/O9ZTVOrq2ajoXo=
+ bh=n4IuX5mGBxhSoUNBaK2iWkP/sAnynBLyfTGs307GZHs=;
+ b=KiOQJ7zHFh8bOuNVodO9qVlt4ERx3HJNiHeZ0+LOGzHXToRHRDpz3h+EAHyDXGRGIvcyEc
+ L3bFipdnhBsOj35RjfjkOryWd5qqF2aOiFqKLWNruXbWhcyIDcfFKXKddV93GrdVMe0ilH
+ IDNUeybDXJdP0C+5yp5ijR9s/jxlVog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-pI0xxGGfP4a7pPipsLP-hA-1; Mon, 03 May 2021 09:29:29 -0400
-X-MC-Unique: pI0xxGGfP4a7pPipsLP-hA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-115-fzzJx5HsMX6sMFZKHrDENw-1; Mon, 03 May 2021 09:29:27 -0400
+X-MC-Unique: fzzJx5HsMX6sMFZKHrDENw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8147F19253C0;
- Mon,  3 May 2021 13:29:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13ECA802E9F;
+ Mon,  3 May 2021 13:29:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
  [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8BDC503F0;
- Mon,  3 May 2021 13:29:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B96191001901;
+ Mon,  3 May 2021 13:29:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B39F51CEC737; Mon,  3 May 2021 15:29:15 +0200 (CEST)
+ id BE4231CEC738; Mon,  3 May 2021 15:29:15 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] usb/mtp: avoid dynamic stack allocation
-Date: Mon,  3 May 2021 15:29:13 +0200
-Message-Id: <20210503132915.2335822-4-kraxel@redhat.com>
+Subject: [PATCH v2 4/5] usb/xhci: sanity check packet size
+Date: Mon,  3 May 2021 15:29:14 +0200
+Message-Id: <20210503132915.2335822-5-kraxel@redhat.com>
 In-Reply-To: <20210503132915.2335822-1-kraxel@redhat.com>
 References: <20210503132915.2335822-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,27 +84,30 @@ Cc: mcascell@redhat.com, remy.noel@blade-group.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use autofree heap allocation instead.
+Make sure the usb packet size is within the
+bounds of the endpoint configuration.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-mtp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/usb/hcd-xhci.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index bbb827434482..2a895a73b083 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -907,7 +907,8 @@ static MTPData *usb_mtp_get_object_handles(MTPState *s, MTPControl *c,
-                                            MTPObject *o)
- {
-     MTPData *d = usb_mtp_data_alloc(c);
--    uint32_t i = 0, handles[o->nchildren];
-+    uint32_t i = 0;
-+    g_autofree uint32_t *handles = g_new(uint32_t, o->nchildren);
-     MTPObject *iter;
- 
-     trace_usb_mtp_op_get_object_handles(s->dev.addr, o->handle, o->path);
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 46212b1e695a..7acfb8137bc9 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -1568,6 +1568,11 @@ static int xhci_setup_packet(XHCITransfer *xfer)
+         qemu_sglist_destroy(&xfer->sgl);
+         return -1;
+     }
++    if (xfer->packet.iov.size > ep->max_packet_size) {
++        usb_packet_unmap(&xfer->packet, &xfer->sgl);
++        qemu_sglist_destroy(&xfer->sgl);
++        return -1;
++    }
+     DPRINTF("xhci: setup packet pid 0x%x addr %d ep %d\n",
+             xfer->packet.pid, ep->dev->addr, ep->nr);
+     return 0;
 -- 
 2.30.2
 
