@@ -2,99 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EFA37121E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 09:42:31 +0200 (CEST)
-Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B95371251
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 10:13:49 +0200 (CEST)
+Received: from localhost ([::1]:49618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldTDq-0001R9-7L
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 03:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46500)
+	id 1ldTi9-0002dp-1k
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 04:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldTCF-0000uh-LE
- for qemu-devel@nongnu.org; Mon, 03 May 2021 03:40:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45491)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldTCD-0008VT-Jq
- for qemu-devel@nongnu.org; Mon, 03 May 2021 03:40:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620027648;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m0zWfhRuA9vgh7kNdUZxT3QwLLNRTxidyxgLmPB3kTc=;
- b=PnI9T+nwBl4RGRLe3rOmXZcuWGQ6pJH8Pq2cbiJ2I+2sVlABTuoy/aJM8T5SQcK+2v5AvS
- pKxz5BgbwXIt5VZtIdtxZzZrGscG0fw6h56wLuFirkLz2YGXIeuI8XwGDbrzyxNxeWZ0lw
- 6t6/8N8g+M9uf7xEnbnh0cWadh32BeI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-Glkei18AO62t-XVmcwlTvg-1; Mon, 03 May 2021 03:40:47 -0400
-X-MC-Unique: Glkei18AO62t-XVmcwlTvg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j3-20020a1c55030000b029012e7c06101aso326710wmb.5
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 00:40:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=m0zWfhRuA9vgh7kNdUZxT3QwLLNRTxidyxgLmPB3kTc=;
- b=cWdJtJW62E23eXxrFUR1HtuVAQcMS8zVgGw/nPj/nv3hxomyumc5OxMVM5PQEQV9jw
- mN+auZRjPk4ZS0Brw3HBF0o8pzl+r8kLgN3bK5691EKOrvV1WgI62iVz25hJndPyNjSQ
- xmWiiTfS8stNQ21JLlkd6Khv0zXOVJmacrGy/upegPmSamn9trmc4ug21bIBNIwbTEq6
- tJDwsPDPNXkYga+LFK69lSd7Los2Gy7itWpn5xlgOW3I09bkE+6EcqxfpV0ceVAIekUu
- SLjHd/UzbPYhg6wvDeWH/kvW9CuyeOZWGcRsO6AlgcX7czJhzMryfSXe5MqKc29sc5hC
- C7lA==
-X-Gm-Message-State: AOAM532mu8fCrjWx65VkYupktfAQWFL9r0ztJ32zgrSdL/C70vWz8r3X
- HfYE5u6d031jLFDI+ej3kw1/a4VczS4aYRFD+xc7QaTdVB84srdgCfIQvbKSThCzthJL/Xsuei7
- SJ96gsYo2mqwxTlaFMF2E9RGqmwesVsVTI7K4ErcsNiE+souVVjcgsxpUHP9QpEM9
-X-Received: by 2002:a1c:f60a:: with SMTP id w10mr31081593wmc.5.1620027645731; 
- Mon, 03 May 2021 00:40:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGp/MpDqjZc4LnE5fdP1mV87Yx9Pig0NaS/48Sdw+zyb/zq81sFaPDgZrW5AQLscj1C/JtrQ==
-X-Received: by 2002:a1c:f60a:: with SMTP id w10mr31081576wmc.5.1620027645544; 
- Mon, 03 May 2021 00:40:45 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id r13sm12325205wrn.2.2021.05.03.00.40.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 00:40:45 -0700 (PDT)
-Subject: Re: [PATCH 1/4] pc-bios/s390-ccw: Silence warning from Clang by
- marking panic() as noreturn
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>
-References: <20210502174836.838816-1-thuth@redhat.com>
- <20210502174836.838816-2-thuth@redhat.com>
- <04140977-282c-2579-3073-42b6bb4148ee@redhat.com>
- <f2f4a4fa-9b0a-b1c7-66a1-4c83bc864a04@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <70298aa0-c3fe-030c-23d5-d535bb56f6f3@redhat.com>
-Date: Mon, 3 May 2021 09:40:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldTfS-0001VX-5w
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 04:11:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldTfP-0001mM-Dq
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 04:11:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldTfN-0003yC-B8
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 08:10:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4F1362E815D
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 08:10:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <f2f4a4fa-9b0a-b1c7-66a1-4c83bc864a04@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 08:05:09 -0000
+From: Ravishankar <1920752@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: passthrough usb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kraxel-redhat philmd rreddy78
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
+References: <161641534336.27708.1507547188965412298.malonedeb@gac.canonical.com>
+Message-Id: <162002910952.13621.16504276001301839652.malone@wampee.canonical.com>
+Subject: [Bug 1920752] Re: USB SoundCard Passthrough not working on arm64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 187c14779544cb337ff05f636e2b99073bf83c9b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,45 +70,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1920752 <1920752@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 6:53 AM, Thomas Huth wrote:
-> On 02/05/2021 20.57, Philippe Mathieu-Daudé wrote:
->> On 5/2/21 7:48 PM, Thomas Huth wrote:
->>> When compiling the s390-ccw bios with Clang, the compiler emits a
->>> warning:
->>>
->>>   pc-bios/s390-ccw/main.c:210:5: warning: variable 'found' is used
->>> uninitialized
->>>    whenever switch default is taken [-Wsometimes-uninitialized]
->>>       default:
->>>       ^~~~~~~
->>>   pc-bios/s390-ccw/main.c:214:16: note: uninitialized use occurs here
->>>       IPL_assert(found, "Boot device not found\n");
->>>                  ^~~~~
->>>
->>> It's a false positive, it only happens because Clang is not smart enough
->>> to see that the panic() function in the "default:" case can never
->>> return.
->>>
->>> Anyway, let's explicitely mark panic() with "noreturn" to shut up the
->>> warning.
->>
->> Why not simply initialize the variable instead?
-> 
-> First, it's a false positive. If you only look at the code, someone
-> might later wonder whether it's really necessary or not and try to
-> remove it again (and since there is no warning with gcc, this patch
-> would also have a good chance to get merged, bringing us back to where
-> we are right now).
-> 
-> Second, declaring panic() as noreturn is certainly more sustainable,
-> since it might prevent similar situations in other parts of the code in
-> the future.
+One more point. The solution above is not usb passthrough.
+I just noticed that qemu needs to be configured for usb passthrough. I am t=
+rying that out now
 
-Fine then:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Configure with --enable-libusb
+  libusb          libusb (for usb passthrough)
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920752
+
+Title:
+  USB SoundCard Passthrough not working on arm64
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I am virtualizing a armhf guest on a aarch64 host and was to use my
+  Sound Blaster USB Soundcard as passthrough.
+
+  armhf Guest is: Debian Buster =
+
+  aarch64 host is a jetson nano. KVM is enabled.
+
+  Latest qemu is built from sources.
+  The command I use for running is as follows:
+
+  ../qemu/build/qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host,aarch6=
+4=3Doff -enable-kvm  \
+  -kernel vmlinuz-4.19.0-14-armmp-lpae  -initrd initrd.img-4.19.0-14-armmp-=
+lpae -append 'root=3D/dev/vda2' \
+  -device nec-usb-xhci -device usb-kbd  -device usb-mouse -device usb-host,=
+hostbus=3D1,hostport=3D2.3  -serial stdio  \
+  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
+=3Don \
+  -drive if=3Dnone,file=3Dhda2.qcow2,format=3Dqcow2,id=3Dhd   -device virti=
+o-blk-device,drive=3Dhd   \
+  -netdev user,id=3Dmynet   -device virtio-net-device,netdev=3Dmynet \
+  -bios edk2-arm-code.fd -no-reboot
+
+  =
+
+  Where are my lsusb -t shows:
+
+  rreddy78@jetson-nano:~/Downloads$ lsusb -t
+  /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/4p, 5000M
+      |__ Port 1: Dev 3, If 0, Class=3DHub, Driver=3Dhub/4p, 5000M
+  /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/5p, 480M
+      |__ Port 2: Dev 6, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
+          |__ Port 1: Dev 7, If 0, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 1.5M
+          |__ Port 1: Dev 7, If 1, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 1.5M
+          |__ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 12M
+          |__ Port 3: Dev 8, If 1, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
+2M
+          |__ Port 3: Dev 8, If 2, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
+2M
+          |__ Port 3: Dev 8, If 0, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
+2M
+          |__ Port 4: Dev 9, If 0, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 1.5M
+
+  Within the VM I can see the usb as follows
+
+  rreddy78@debian:~$ lsusb -t
+  /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
+  /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
+      |__ Port 1: Dev 2, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 480M
+      |__ Port 2: Dev 3, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 480M
+
+  =
+
+  Its looks like some passthrough as but it seems like only for
+
+   _ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=3Dusbhid,
+  12M
+
+  I am not sure if passthrough  even works because this post I saw
+
+  https://community.arm.com/developer/ip-products/system/f/embedded-
+  forum/48031/usb-pass-through-in-qemu-command-line-for-arm-
+  machines/168764#168764
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920752/+subscriptions
 
