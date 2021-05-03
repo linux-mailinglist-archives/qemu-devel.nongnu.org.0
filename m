@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6661D371FC8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 20:37:33 +0200 (CEST)
-Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB92A371FCE
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 20:40:18 +0200 (CEST)
+Received: from localhost ([::1]:34172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lddRk-0007bC-F2
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 14:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39414)
+	id 1lddUP-0002dN-7g
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 14:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lddQC-0005kX-Ds
- for qemu-devel@nongnu.org; Mon, 03 May 2021 14:35:56 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44830)
+ id 1lddQE-0005mC-5E
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 14:35:58 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:46073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lddQ4-0008GC-84
- for qemu-devel@nongnu.org; Mon, 03 May 2021 14:35:56 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id m11so4804900pfc.11
+ id 1lddQ5-0008GF-FH
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 14:35:57 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id d10so4273621pgf.12
  for <qemu-devel@nongnu.org>; Mon, 03 May 2021 11:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aJnhTtyj53ZvOcv7OXdx7PvY8tzCuazmFFYZfNHSxf8=;
- b=oDKqtntZ4mmR/YeqlwWIgcvHXda9vA97GRBeAcd/jWZuQVyOJBlJhRP9FkpSGLPgZ/
- 7GVIcwZiPD8DlXzdL6y7rpfRR00pm4lYwqKIb0ODYtgnystI3elyuJvUGCnPYMCKYe4W
- pOfK55/Js1vZlqqGapkgDGJ+RgOBPN2HGPmrl/sVwsDw53jCUlyCepO3gFms5XNGsEam
- xHrd0uwXGx3ZhTsLA8E7aFqeumuLyqpYYj1kZpS+YgxPWRqDwnHP1//yO8WGvIuwlchT
- 9tPsOJfWw7IHI5kW1oWgCgZU4E5BR8E+nnFJ45eCYQM307CStt6FeqLa9Vmy+WkVfF3O
- 8I8Q==
+ bh=FgthEsMRv5FpKZZtwieDp3JqJ+n/DTOkW/OaeP0Dh2M=;
+ b=T5zcRbMnLFdxRR37VGLOtMqVQ3WDOWjnY41Cd8USOqFXHgbABTB6AZ6fecZVwgvNul
+ aQlFWz0d6HcbSAtQGgotp6cW3emq08oKSgVW0ywQmctoLhr5EzEv8g2X6bYMUcUNTDK1
+ gSoEcBSL+9urY6DIeWDsPrmA/cON/rePq2i2apISIEVGavMyr1cyzXOZ0eZobwBh94ii
+ rkBDJYmRyN+S0DkFCpHHyuzZPmAAbeYvd+Wzm3cDcGZdMu1qRTteolkfHenmE+Q9/EIp
+ iV4K13roHkf3+BrIwO4MuJDtyZfIka+vnzLcjqDwcFtayNIqDGDhQoz09C8+l3Ox9SeP
+ 3TFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aJnhTtyj53ZvOcv7OXdx7PvY8tzCuazmFFYZfNHSxf8=;
- b=BsPViDRshhHAcjgglsVI4kL+HBaBREMo2aCnS85AjDyQ2hPeRp/VWhl2PYyWx+dSf4
- UpbvDITNJoB5M3sX1hXjgqUZyuGMVbOAVnHkmzeJMXXa0YOAtyvnBun7TJYsg7BgIrQS
- LH0vFIh29UMsYzwXiAYAWGAMZqLSpw2ErrDhSZGnAgFulX5/sldsm7GejLrTThzTioTS
- SiCUavLisD3bFz5riJsvH/skSgeXl+xf5QOqTk9EeFoLcIwlbq1XJ9AqYS3IC78FA1rw
- n4Yeb39MTjssyaJZ/HEr76n3k7ImvJFLfsjQ2zeIOCy0ff5vtLl+q9m5l5cdR8fPbaPV
- SC5A==
-X-Gm-Message-State: AOAM5322DUwVSVnsCzcYi8ZnxD6lFvqHfFfAx2KySeMTs1HHyyeeiONV
- 0JoeXCY5V/LNPJrhXBDYDtQSyhC3KZ0JNw==
-X-Google-Smtp-Source: ABdhPJzGMY6Ts6O5SPMH/LZJHb6KSlg4AvvTsvFQjBLOUOOLOC7lE27VGc5T+72ldaZdqGWt0vg3/w==
-X-Received: by 2002:a17:90a:d710:: with SMTP id y16mr19389pju.86.1620066945274; 
+ bh=FgthEsMRv5FpKZZtwieDp3JqJ+n/DTOkW/OaeP0Dh2M=;
+ b=phKppBY45tcoE6+KVLZ/tAtD9VstM0v290rCyyqlfJRnz2E6IvNF4iqoKSGZk3eVPf
+ Y170Fh6LvO0J/A1DUWRlDCMm4DkN7JxjVdTyMcxtfWQ5mVugKU3iTJjEzDyeWq/tvKU5
+ FKdf+5t16Qq3SWN61EKlpgZEB4MhNLsFQ1AyxaDgw6fpS4LqcgHgIRk/cz8+VwcA7Jx7
+ 9ifk3iSWDvaEu0yET0Hw1ey14TZKn31IoQhXe9FbR0yyD6QOJffDOHa2aqPApoZRx5OZ
+ gUW9s8dwBasCRcn82xChoyCTe7lqg8nObKBjLk9VkWGbikV4rTzwse2U2HY21CAnpVDH
+ UHog==
+X-Gm-Message-State: AOAM531AVJX5D2ut+LWcyhmC6Hp0F27XjOQWgEAU5u0Ux8i/nitVRFEi
+ L7DWAnb6LyjAQaep+QIlSLMDrM0v6AW3LQ==
+X-Google-Smtp-Source: ABdhPJzMLyJ+5YZiHpvqGuxH5VDDndt221jHBfozSi/407DitlbsHcV8P7jdWL9K1UlM1/2WzDfcaA==
+X-Received: by 2002:a65:6245:: with SMTP id q5mr19364413pgv.447.1620066945852; 
  Mon, 03 May 2021 11:35:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id q27sm4251567pfl.41.2021.05.03.11.35.44
+ by smtp.gmail.com with ESMTPSA id q27sm4251567pfl.41.2021.05.03.11.35.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 03 May 2021 11:35:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/16] tcg/s390x: Add host vector framework
-Date: Mon,  3 May 2021 11:35:29 -0700
-Message-Id: <20210503183541.2014496-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 05/16] tcg/s390x: Implement tcg_out_ld/st for vector types
+Date: Mon,  3 May 2021 11:35:30 -0700
+Message-Id: <20210503183541.2014496-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210503183541.2014496-1-richard.henderson@linaro.org>
 References: <20210503183541.2014496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,348 +86,160 @@ Cc: thuth@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add registers and function stubs.  The functionality
-is disabled via squashing s390_facilities[2] to 0.
-
-We must still include results for the mandatory opcodes in
-tcg_target_op_def, as all opcodes are checked during tcg init.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target-con-set.h |   4 +
- tcg/s390x/tcg-target-con-str.h |   1 +
- tcg/s390x/tcg-target.h         |  35 ++++++++-
- tcg/s390x/tcg-target.opc.h     |  12 +++
- tcg/s390x/tcg-target.c.inc     | 137 ++++++++++++++++++++++++++++++++-
- 5 files changed, 184 insertions(+), 5 deletions(-)
- create mode 100644 tcg/s390x/tcg-target.opc.h
+ tcg/s390x/tcg-target.c.inc | 117 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 105 insertions(+), 12 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
-index 31985e4903..ce9432cfe3 100644
---- a/tcg/s390x/tcg-target-con-set.h
-+++ b/tcg/s390x/tcg-target-con-set.h
-@@ -13,13 +13,17 @@ C_O0_I1(r)
- C_O0_I2(L, L)
- C_O0_I2(r, r)
- C_O0_I2(r, ri)
-+C_O0_I2(v, r)
- C_O1_I1(r, L)
- C_O1_I1(r, r)
-+C_O1_I1(v, r)
-+C_O1_I1(v, vr)
- C_O1_I2(r, 0, ri)
- C_O1_I2(r, 0, rI)
- C_O1_I2(r, 0, rJ)
- C_O1_I2(r, r, ri)
- C_O1_I2(r, rZ, r)
-+C_O1_I2(v, v, v)
- C_O1_I4(r, r, ri, r, 0)
- C_O1_I4(r, r, ri, rI, 0)
- C_O2_I2(b, a, 0, r)
-diff --git a/tcg/s390x/tcg-target-con-str.h b/tcg/s390x/tcg-target-con-str.h
-index 892d8f8c06..8bb0358ae5 100644
---- a/tcg/s390x/tcg-target-con-str.h
-+++ b/tcg/s390x/tcg-target-con-str.h
-@@ -10,6 +10,7 @@
-  */
- REGS('r', ALL_GENERAL_REGS)
- REGS('L', ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS)
-+REGS('v', ALL_VECTOR_REGS)
- /*
-  * A (single) even/odd pair for division.
-  * TODO: Add something to the register allocator to allow
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 3a701d9256..e8659bf576 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -34,11 +34,20 @@ typedef enum TCGReg {
-     TCG_REG_R8,  TCG_REG_R9,  TCG_REG_R10, TCG_REG_R11,
-     TCG_REG_R12, TCG_REG_R13, TCG_REG_R14, TCG_REG_R15,
- 
-+    TCG_REG_V0 = 32, TCG_REG_V1,  TCG_REG_V2,  TCG_REG_V3,
-+    TCG_REG_V4,  TCG_REG_V5,  TCG_REG_V6,  TCG_REG_V7,
-+    TCG_REG_V8,  TCG_REG_V9,  TCG_REG_V10, TCG_REG_V11,
-+    TCG_REG_V12, TCG_REG_V13, TCG_REG_V14, TCG_REG_V15,
-+    TCG_REG_V16, TCG_REG_V17, TCG_REG_V18, TCG_REG_V19,
-+    TCG_REG_V20, TCG_REG_V21, TCG_REG_V22, TCG_REG_V23,
-+    TCG_REG_V24, TCG_REG_V25, TCG_REG_V26, TCG_REG_V27,
-+    TCG_REG_V28, TCG_REG_V29, TCG_REG_V30, TCG_REG_V31,
-+
-     TCG_AREG0 = TCG_REG_R10,
-     TCG_REG_CALL_STACK = TCG_REG_R15
- } TCGReg;
- 
--#define TCG_TARGET_NB_REGS 16
-+#define TCG_TARGET_NB_REGS 64
- 
- /* A list of relevant facilities used by this translator.  Some of these
-    are required for proper operation, and these are checked at startup.  */
-@@ -51,8 +60,9 @@ typedef enum TCGReg {
- #define FACILITY_FAST_BCR_SER         FACILITY_LOAD_ON_COND
- #define FACILITY_DISTINCT_OPS         FACILITY_LOAD_ON_COND
- #define FACILITY_LOAD_ON_COND2        53
-+#define FACILITY_VECTOR               129
- 
--extern uint64_t s390_facilities[1];
-+extern uint64_t s390_facilities[3];
- 
- #define HAVE_FACILITY(X) \
-     ((s390_facilities[FACILITY_##X / 64] >> (63 - FACILITY_##X % 64)) & 1)
-@@ -126,6 +136,27 @@ extern uint64_t s390_facilities[1];
- #define TCG_TARGET_HAS_muluh_i64      0
- #define TCG_TARGET_HAS_mulsh_i64      0
- 
-+#define TCG_TARGET_HAS_v64            HAVE_FACILITY(VECTOR)
-+#define TCG_TARGET_HAS_v128           HAVE_FACILITY(VECTOR)
-+#define TCG_TARGET_HAS_v256           0
-+
-+#define TCG_TARGET_HAS_andc_vec       0
-+#define TCG_TARGET_HAS_orc_vec        0
-+#define TCG_TARGET_HAS_not_vec        0
-+#define TCG_TARGET_HAS_neg_vec        0
-+#define TCG_TARGET_HAS_abs_vec        0
-+#define TCG_TARGET_HAS_roti_vec       0
-+#define TCG_TARGET_HAS_rots_vec       0
-+#define TCG_TARGET_HAS_rotv_vec       0
-+#define TCG_TARGET_HAS_shi_vec        0
-+#define TCG_TARGET_HAS_shs_vec        0
-+#define TCG_TARGET_HAS_shv_vec        0
-+#define TCG_TARGET_HAS_mul_vec        0
-+#define TCG_TARGET_HAS_sat_vec        0
-+#define TCG_TARGET_HAS_minmax_vec     0
-+#define TCG_TARGET_HAS_bitsel_vec     0
-+#define TCG_TARGET_HAS_cmpsel_vec     0
-+
- /* used for function call generation */
- #define TCG_TARGET_STACK_ALIGN		8
- #define TCG_TARGET_CALL_STACK_OFFSET	160
-diff --git a/tcg/s390x/tcg-target.opc.h b/tcg/s390x/tcg-target.opc.h
-new file mode 100644
-index 0000000000..67afc82a93
---- /dev/null
-+++ b/tcg/s390x/tcg-target.opc.h
-@@ -0,0 +1,12 @@
-+/*
-+ * Copyright (c) 2021 Linaro
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * (at your option) any later version.
-+ *
-+ * See the COPYING file in the top-level directory for details.
-+ *
-+ * Target-specific opcodes for host vector expansion.  These will be
-+ * emitted by tcg_expand_vec_op.  For those familiar with GCC internals,
-+ * consider these to be UNSPEC with names.
-+ */
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 8a4e9ce359..52df20a1ed 100644
+index 52df20a1ed..6ed9a309c1 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -43,6 +43,8 @@
- #define TCG_CT_CONST_ZERO  0x800
+@@ -265,6 +265,12 @@ typedef enum S390Opcode {
+     RX_STC      = 0x42,
+     RX_STH      = 0x40,
  
- #define ALL_GENERAL_REGS     MAKE_64BIT_MASK(0, 16)
-+#define ALL_VECTOR_REGS      MAKE_64BIT_MASK(32, 32)
++    VRX_VL      = 0xe706,
++    VRX_VLLEZ   = 0xe704,
++    VRX_VST     = 0xe70e,
++    VRX_VSTEF   = 0xe70b,
++    VRX_VSTEG   = 0xe70a,
 +
- /*
-  * For softmmu, we need to avoid conflicts with the first 3
-  * argument registers to perform the tlb lookup, and to call
-@@ -268,8 +270,13 @@ typedef enum S390Opcode {
+     NOP         = 0x0707,
+ } S390Opcode;
  
- #ifdef CONFIG_DEBUG_TCG
- static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
--    "%r0", "%r1", "%r2", "%r3", "%r4", "%r5", "%r6", "%r7",
--    "%r8", "%r9", "%r10" "%r11" "%r12" "%r13" "%r14" "%r15"
-+    "%r0",  "%r1",  "%r2",  "%r3",  "%r4",  "%r5",  "%r6",  "%r7",
-+    "%r8",  "%r9",  "%r10", "%r11", "%r12", "%r13", "%r14", "%r15",
-+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+    "%v0",  "%v1",  "%v2",  "%v3",  "%v4",  "%v5",  "%v6",  "%v7",
-+    "%v8",  "%v9",  "%v10", "%v11", "%v12", "%v13", "%v14", "%v15",
-+    "%v16", "%v17", "%v18", "%v19", "%v20", "%v21", "%v22", "%v23",
-+    "%v24", "%v25", "%v26", "%v27", "%v28", "%v29", "%v30", "%v31",
- };
- #endif
+@@ -532,6 +538,26 @@ static void tcg_out_insn_RSY(TCGContext *s, S390Opcode op, TCGReg r1,
+ #define tcg_out_insn_RX   tcg_out_insn_RS
+ #define tcg_out_insn_RXY  tcg_out_insn_RSY
  
-@@ -295,6 +302,32 @@ static const int tcg_target_reg_alloc_order[] = {
-     TCG_REG_R4,
-     TCG_REG_R3,
-     TCG_REG_R2,
++static int RXB(TCGReg v1, TCGReg v2, TCGReg v3, TCGReg v4)
++{
++    return ((v1 & 16) << (7 - 3))
++         | ((v2 & 16) << (6 - 3))
++         | ((v3 & 16) << (5 - 3))
++         | ((v4 & 16) << (4 - 3));
++}
 +
-+    /* V8-V15 are call saved, and omitted. */
-+    TCG_REG_V0,
-+    TCG_REG_V1,
-+    TCG_REG_V2,
-+    TCG_REG_V3,
-+    TCG_REG_V4,
-+    TCG_REG_V5,
-+    TCG_REG_V6,
-+    TCG_REG_V7,
-+    TCG_REG_V16,
-+    TCG_REG_V17,
-+    TCG_REG_V18,
-+    TCG_REG_V19,
-+    TCG_REG_V20,
-+    TCG_REG_V21,
-+    TCG_REG_V22,
-+    TCG_REG_V23,
-+    TCG_REG_V24,
-+    TCG_REG_V25,
-+    TCG_REG_V26,
-+    TCG_REG_V27,
-+    TCG_REG_V28,
-+    TCG_REG_V29,
-+    TCG_REG_V30,
-+    TCG_REG_V31,
- };
- 
- static const int tcg_target_call_iarg_regs[] = {
-@@ -377,7 +410,7 @@ static void * const qemu_st_helpers[16] = {
- #endif
- 
- static const tcg_insn_unit *tb_ret_addr;
--uint64_t s390_facilities[1];
-+uint64_t s390_facilities[3];
- 
- static bool patch_reloc(tcg_insn_unit *src_rw, int type,
-                         intptr_t value, intptr_t addend)
-@@ -2274,6 +2307,42 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
++static void tcg_out_insn_VRX(TCGContext *s, S390Opcode op, TCGReg v1,
++                             TCGReg b2, TCGReg x2, intptr_t d2, int m3)
++{
++    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
++    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
++    tcg_debug_assert(x2 <= TCG_REG_R15);
++    tcg_debug_assert(b2 <= TCG_REG_R15);
++    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | x2);
++    tcg_out16(s, (b2 << 12) | d2);
++    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, 0, 0) | (m3 << 12));
++}
++
+ /* Emit an opcode with "type-checking" of the format.  */
+ #define tcg_out_insn(S, FMT, OP, ...) \
+     glue(tcg_out_insn_,FMT)(S, glue(glue(FMT,_),OP), ## __VA_ARGS__)
+@@ -708,25 +734,92 @@ static void tcg_out_mem(TCGContext *s, S390Opcode opc_rx, S390Opcode opc_rxy,
      }
  }
  
-+static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
-+                            TCGReg dst, TCGReg src)
++static void tcg_out_vrx_mem(TCGContext *s, S390Opcode opc_vrx,
++                            TCGReg data, TCGReg base, TCGReg index,
++                            tcg_target_long ofs, int m3)
 +{
-+    g_assert_not_reached();
-+}
-+
-+static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-+                             TCGReg dst, TCGReg base, intptr_t offset)
-+{
-+    g_assert_not_reached();
-+}
-+
-+static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
-+                             TCGReg dst, int64_t val)
-+{
-+    g_assert_not_reached();
-+}
-+
-+static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-+                           unsigned vecl, unsigned vece,
-+                           const TCGArg *args, const int *const_args)
-+{
-+    g_assert_not_reached();
-+}
-+
-+int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-+{
-+    return 0;
-+}
-+
-+void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-+                       TCGArg a0, ...)
-+{
-+    g_assert_not_reached();
-+}
-+
- static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
- {
-     switch (op) {
-@@ -2414,11 +2483,34 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-                 ? C_O2_I4(r, r, 0, 1, rA, r)
-                 : C_O2_I4(r, r, 0, 1, r, r));
- 
-+    case INDEX_op_st_vec:
-+        return C_O0_I2(v, r);
-+    case INDEX_op_ld_vec:
-+    case INDEX_op_dupm_vec:
-+        return C_O1_I1(v, r);
-+    case INDEX_op_dup_vec:
-+        return C_O1_I1(v, vr);
-+    case INDEX_op_add_vec:
-+    case INDEX_op_sub_vec:
-+    case INDEX_op_and_vec:
-+    case INDEX_op_or_vec:
-+    case INDEX_op_xor_vec:
-+    case INDEX_op_cmp_vec:
-+        return C_O1_I2(v, v, v);
-+
-     default:
-         g_assert_not_reached();
-     }
- }
- 
-+/*
-+ * Mainline glibc added HWCAP_S390_VX before it was kernel abi.
-+ * Some distros have fixed this up locally, others have not.
-+ */
-+#ifndef HWCAP_S390_VXRS
-+#define HWCAP_S390_VXRS 2048
-+#endif
-+
- static void query_s390_facilities(void)
- {
-     unsigned long hwcap = qemu_getauxval(AT_HWCAP);
-@@ -2433,6 +2525,16 @@ static void query_s390_facilities(void)
-         asm volatile(".word 0xb2b0,0x1000"
-                      : "=r"(r0) : "r"(r0), "r"(r1) : "memory", "cc");
-     }
-+
-+    /*
-+     * Use of vector registers requires os support beyond the facility bit.
-+     * If the kernel does not advertise support, disable the facility bits.
-+     * There is nothing else we currently care about in the 3rd word, so
-+     * disable VECTOR with one store.
-+     */
-+    if (1 || !(hwcap & HWCAP_S390_VXRS)) {
-+        s390_facilities[2] = 0;
++    if (ofs < 0 || ofs >= 0x1000) {
++        if (ofs >= -0x80000 && ofs < 0x80000) {
++            tcg_out_insn(s, RXY, LAY, TCG_TMP0, base, index, ofs);
++            base = TCG_TMP0;
++            index = TCG_REG_NONE;
++            ofs = 0;
++        } else {
++            tcg_out_movi(s, TCG_TYPE_PTR, TCG_TMP0, ofs);
++            if (index != TCG_REG_NONE) {
++                tcg_out_insn(s, RRE, AGR, TCG_TMP0, index);
++            }
++            index = TCG_TMP0;
++            ofs = 0;
++        }
 +    }
++    tcg_out_insn_VRX(s, opc_vrx, data, base, index, ofs, m3);
++}
+ 
+ /* load data without address translation or endianness conversion */
+-static inline void tcg_out_ld(TCGContext *s, TCGType type, TCGReg data,
+-                              TCGReg base, intptr_t ofs)
++static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg data,
++                       TCGReg base, intptr_t ofs)
+ {
+-    if (type == TCG_TYPE_I32) {
+-        tcg_out_mem(s, RX_L, RXY_LY, data, base, TCG_REG_NONE, ofs);
+-    } else {
+-        tcg_out_mem(s, 0, RXY_LG, data, base, TCG_REG_NONE, ofs);
++    switch (type) {
++    case TCG_TYPE_I32:
++        if (likely(data < 16)) {
++            tcg_out_mem(s, RX_L, RXY_LY, data, base, TCG_REG_NONE, ofs);
++            break;
++        }
++        tcg_out_vrx_mem(s, VRX_VLLEZ, data, base, TCG_REG_NONE, ofs, MO_32);
++        break;
++
++    case TCG_TYPE_I64:
++        if (likely(data < 16)) {
++            tcg_out_mem(s, 0, RXY_LG, data, base, TCG_REG_NONE, ofs);
++            break;
++        }
++        /* fallthru */
++
++    case TCG_TYPE_V64:
++        tcg_out_vrx_mem(s, VRX_VLLEZ, data, base, TCG_REG_NONE, ofs, MO_64);
++        break;
++
++    case TCG_TYPE_V128:
++        /* Hint quadword aligned.  */
++        tcg_out_vrx_mem(s, VRX_VL, data, base, TCG_REG_NONE, ofs, 4);
++        break;
++
++    default:
++        g_assert_not_reached();
+     }
  }
  
- static void tcg_target_init(TCGContext *s)
-@@ -2441,6 +2543,10 @@ static void tcg_target_init(TCGContext *s)
- 
-     tcg_target_available_regs[TCG_TYPE_I32] = 0xffff;
-     tcg_target_available_regs[TCG_TYPE_I64] = 0xffff;
-+    if (HAVE_FACILITY(VECTOR)) {
-+        tcg_target_available_regs[TCG_TYPE_V64] = 0xffffffff00000000ull;
-+        tcg_target_available_regs[TCG_TYPE_V128] = 0xffffffff00000000ull;
-+    }
- 
-     tcg_target_call_clobber_regs = 0;
-     tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_R0);
-@@ -2455,6 +2561,31 @@ static void tcg_target_init(TCGContext *s)
-     /* The return register can be considered call-clobbered.  */
-     tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_R14);
- 
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V0);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V1);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V2);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V3);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V4);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V5);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V6);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V7);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V16);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V17);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V18);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V19);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V20);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V21);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V22);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V23);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V24);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V25);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V26);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V27);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V28);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V29);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V30);
-+    tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_V31);
+-static inline void tcg_out_st(TCGContext *s, TCGType type, TCGReg data,
+-                              TCGReg base, intptr_t ofs)
++static void tcg_out_st(TCGContext *s, TCGType type, TCGReg data,
++                       TCGReg base, intptr_t ofs)
+ {
+-    if (type == TCG_TYPE_I32) {
+-        tcg_out_mem(s, RX_ST, RXY_STY, data, base, TCG_REG_NONE, ofs);
+-    } else {
+-        tcg_out_mem(s, 0, RXY_STG, data, base, TCG_REG_NONE, ofs);
++    switch (type) {
++    case TCG_TYPE_I32:
++        if (likely(data < 16)) {
++            tcg_out_mem(s, RX_ST, RXY_STY, data, base, TCG_REG_NONE, ofs);
++        } else {
++            tcg_out_vrx_mem(s, VRX_VSTEF, data, base, TCG_REG_NONE, ofs, 1);
++        }
++        break;
 +
-     s->reserved_regs = 0;
-     tcg_regset_set_reg(s->reserved_regs, TCG_TMP0);
-     /* XXX many insns can't be used with R0, so we better avoid it for now */
++    case TCG_TYPE_I64:
++        if (likely(data < 16)) {
++            tcg_out_mem(s, 0, RXY_STG, data, base, TCG_REG_NONE, ofs);
++            break;
++        }
++        /* fallthru */
++
++    case TCG_TYPE_V64:
++        tcg_out_vrx_mem(s, VRX_VSTEG, data, base, TCG_REG_NONE, ofs, 0);
++        break;
++
++    case TCG_TYPE_V128:
++        /* Hint quadword aligned.  */
++        tcg_out_vrx_mem(s, VRX_VST, data, base, TCG_REG_NONE, ofs, 4);
++        break;
++
++    default:
++        g_assert_not_reached();
+     }
+ }
+ 
 -- 
 2.25.1
 
