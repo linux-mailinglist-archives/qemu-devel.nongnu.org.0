@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83ABF371444
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 13:28:17 +0200 (CEST)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9808371443
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 13:28:14 +0200 (CEST)
+Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldWkE-000179-R1
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 07:28:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
+	id 1ldWkH-0001DR-IR
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 07:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ldWi4-0008KK-Nd
- for qemu-devel@nongnu.org; Mon, 03 May 2021 07:25:56 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37776)
+ id 1ldWi6-0008KV-0I
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 07:25:58 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:42925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ldWi3-0003X0-7o
- for qemu-devel@nongnu.org; Mon, 03 May 2021 07:25:56 -0400
-Received: by mail-ed1-x535.google.com with SMTP id y26so5858043eds.4
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 04:25:54 -0700 (PDT)
+ id 1ldWi4-0003XB-75
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 07:25:57 -0400
+Received: by mail-ed1-x529.google.com with SMTP id j28so5823901edy.9
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 04:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GJVqL7YxAZ4sEYqWvKgnyVTzcE0p9RgiVvKoiF/1R3Q=;
- b=H75yEHN7fH+XeLepX8Qc42hirNkYR30MCw1r+m5OvRfRY+OBTQn2Tp+zs4nFKiy3SH
- 2KstRs3vuqOoPz+FGz8UWQu32Nrbtg4VddcJxhFx6ReFnPYUFFmsRd+fm1vgDXBz1QIG
- 0ivI0jn8uAdoG3LA8ID0T3IG1/KrpRSaePxzXmrFp0WBtpC8dEMRMEAXH892FsCSPXkX
- Lv7D80VUD2v1ndaQi6sPMk95b0psLV2gelbfk1YxCNnAxF+GeXAoZo7P7QbwHr3ECJMp
- kNzRxlHBrH7kqQfSzyB+ZHqy0nhr5UcUREjIirIyz5oE5kmNY5QRRpHYhofM4B15+NGX
- b8gA==
+ bh=dTX1qlMVrqn0zkYoEbmN6njTA5ZU+LQuOVOSTFV+c4o=;
+ b=WDATq7UIhzfD2OnvlG++ZnbUl+HkR0n5eHFVpHnUS64nZEAuWynqHfQHoZlMkCNmnd
+ XMW9J/ZUl824wVtePzGF5QDa55AZGXj1Cem3MMjidiEAndaRhYWenWPuYtC1GtGGjTcb
+ sVCWwE/IozbE5sb7r5RrKD36BAdqJLZ7mp7T1ShS+5/sKr7xg1UzD1EU4bEB/3mSoDC4
+ rZzzSNUSdHBsZ8LlxPXWPcHeIkm93ZRnWMZTfsV4pR13wGLEpQqR8y1SjcdjpGSgeaf1
+ GZr+6T1gyCxCCWGTXZVP65OSd1RD2+VW/lv4Rt8KGnRlluZcZXEdXh+LR8B5D56m7fnQ
+ MIfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GJVqL7YxAZ4sEYqWvKgnyVTzcE0p9RgiVvKoiF/1R3Q=;
- b=KDIAI8E5ujd9+oWon0kVomyIpiTFcbSpXwLwEr5Iy0fx6CLcEXg4+6CMVnZuOJOppp
- L6Sxb/NXWz/ycxRUnf+vAzbkdfG0RjaNaV3BHV/Wri6ZZzrvzY5QmIYZpC/SPeOZ2SUr
- YCqIYvLPWudMMv7RuqRswXceuY3Z+Sb8Lv/L+UgIO+pwQR8ll3rZVP0EN3NsHgaEpu4Q
- u1lCYEQAIBbEu9Pl14tJlW0RddXyQAOLnU3Xmm6bw7LAaXtm1jHIY1nQIfI2gSK9pKfP
- GxMY9DHiGFhwp1zH/FS0tZkX0HH4UhsdhnN4zhOM30qGlNxrJv8V9dlo8SQJxyfQbYei
- vDnw==
-X-Gm-Message-State: AOAM5302gI7xhco8UhquAEv4/1FWWsQGAlB3HZSW9E1MaNNf6pMRIGxZ
- OqYvF4JK3TstYhJgrq3sBAe1ozutM+4=
-X-Google-Smtp-Source: ABdhPJy9v/ULA2bFwUCxcmVrJCyx/bXcHO5KhimJ7ZyAw9AUbIA3+Nqx50MRFA4f6GVLoGofN9BAPA==
-X-Received: by 2002:a05:6402:11ca:: with SMTP id
- j10mr15161093edw.184.1620041153978; 
- Mon, 03 May 2021 04:25:53 -0700 (PDT)
+ bh=dTX1qlMVrqn0zkYoEbmN6njTA5ZU+LQuOVOSTFV+c4o=;
+ b=Nu7M6Tfo82hsf6hSi7kZZK//0T19gm1mxMN/GhdbLZnOO258GjKr0gvKHpcr194HZK
+ JxCCprjMAOdwwIerP8KebSDRSBiha59iyTO+YWE5ZJeAfrgOygpAGtVEQ8xGRUpwO0Iw
+ DhCskO1vE26ZXPPV6kf2mKMIZZYZ2aHh3ZLftR2Yxn0SQ/DmvzwTA+mCOtwJEiAGQKxG
+ OEicSr243VOTozizK7Jp7g2JEf4thtRu6r/yw4Gbc7czO8EddSzWTmDo7yH575pR4z0P
+ eNe3457uTzLCPrQ92NX4XUfR+OTDA55u8BwaeD3Fs5uBTqssnEzeOMRPVVXn4fwP3JfU
+ zPgg==
+X-Gm-Message-State: AOAM532dSZpxzF6FsdpOiGRgQXfFgMCFyN3Vv2esrNeZyNR1LXvqfSeI
+ TTjGibHhcBSKTyBewNpJ+XVqhFohmRo=
+X-Google-Smtp-Source: ABdhPJy0xC11js1GuAIjQ/4i7NCnKSJzQ9f3TZfBKKaU3H3jz74t52SKOxwVqnAJetcSlqXjkDLKAw==
+X-Received: by 2002:a50:fc99:: with SMTP id f25mr19484673edq.147.1620041154884; 
+ Mon, 03 May 2021 04:25:54 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id gn36sm2981317ejc.23.2021.05.03.04.25.53
+ by smtp.gmail.com with ESMTPSA id gn36sm2981317ejc.23.2021.05.03.04.25.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 04:25:53 -0700 (PDT)
+ Mon, 03 May 2021 04:25:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] coroutine-sleep: use a stack-allocated timer
-Date: Mon,  3 May 2021 13:25:45 +0200
-Message-Id: <20210503112550.478521-2-pbonzini@redhat.com>
+Subject: [PATCH 2/6] coroutine-sleep: disallow NULL QemuCoSleepState** argument
+Date: Mon,  3 May 2021 13:25:46 +0200
+Message-Id: <20210503112550.478521-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503112550.478521-1-pbonzini@redhat.com>
 References: <20210503112550.478521-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,63 +87,73 @@ Cc: eesposit@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The lifetime of the timer is well-known (it cannot outlive
-qemu_co_sleep_ns_wakeable, because it's deleted by the time the
-coroutine resumes), so it is not necessary to place it on the heap.
+Simplify the code by removing conditionals.  qemu_co_sleep_ns
+can simply use point the argument to an on-stack temporary.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-coroutine-sleep.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ include/qemu/coroutine.h    |  5 +++--
+ util/qemu-coroutine-sleep.c | 18 +++++-------------
+ 2 files changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
-index 8c4dac4fd7..eec6e81f3f 100644
---- a/util/qemu-coroutine-sleep.c
-+++ b/util/qemu-coroutine-sleep.c
-@@ -21,7 +21,7 @@ static const char *qemu_co_sleep_ns__scheduled = "qemu_co_sleep_ns";
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index ce5b9c6851..c5d7742989 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -295,7 +295,7 @@ typedef struct QemuCoSleepState QemuCoSleepState;
  
- struct QemuCoSleepState {
-     Coroutine *co;
--    QEMUTimer *ts;
-+    QEMUTimer ts;
-     QemuCoSleepState **user_state_pointer;
- };
- 
-@@ -35,7 +35,7 @@ void qemu_co_sleep_wake(QemuCoSleepState *sleep_state)
-     if (sleep_state->user_state_pointer) {
-         *sleep_state->user_state_pointer = NULL;
-     }
--    timer_del(sleep_state->ts);
-+    timer_del(&sleep_state->ts);
-     aio_co_wake(sleep_state->co);
+ /**
+  * Yield the coroutine for a given duration. During this yield, @sleep_state
+- * (if not NULL) is set to an opaque pointer, which may be used for
++ * is set to an opaque pointer, which may be used for
+  * qemu_co_sleep_wake(). Be careful, the pointer is set back to zero when the
+  * timer fires. Don't save the obtained value to other variables and don't call
+  * qemu_co_sleep_wake from another aio context.
+@@ -304,7 +304,8 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
+                                             QemuCoSleepState **sleep_state);
+ static inline void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
+ {
+-    qemu_co_sleep_ns_wakeable(type, ns, NULL);
++    QemuCoSleepState *unused = NULL;
++    qemu_co_sleep_ns_wakeable(type, ns, &unused);
  }
  
-@@ -50,7 +50,6 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
-     AioContext *ctx = qemu_get_current_aio_context();
-     QemuCoSleepState state = {
-         .co = qemu_coroutine_self(),
--        .ts = aio_timer_new(ctx, type, SCALE_NS, co_sleep_cb, &state),
-         .user_state_pointer = sleep_state,
-     };
+ /**
+diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
+index eec6e81f3f..3f6f637e81 100644
+--- a/util/qemu-coroutine-sleep.c
++++ b/util/qemu-coroutine-sleep.c
+@@ -32,9 +32,7 @@ void qemu_co_sleep_wake(QemuCoSleepState *sleep_state)
+                                            qemu_co_sleep_ns__scheduled, NULL);
  
-@@ -63,10 +62,11 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
-         abort();
+     assert(scheduled == qemu_co_sleep_ns__scheduled);
+-    if (sleep_state->user_state_pointer) {
+-        *sleep_state->user_state_pointer = NULL;
+-    }
++    *sleep_state->user_state_pointer = NULL;
+     timer_del(&sleep_state->ts);
+     aio_co_wake(sleep_state->co);
+ }
+@@ -63,16 +61,10 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
      }
  
-+    aio_timer_init(ctx, &state.ts, type, SCALE_NS, co_sleep_cb, &state);
-     if (sleep_state) {
-         *sleep_state = &state;
-     }
--    timer_mod(state.ts, qemu_clock_get_ns(type) + ns);
-+    timer_mod(&state.ts, qemu_clock_get_ns(type) + ns);
+     aio_timer_init(ctx, &state.ts, type, SCALE_NS, co_sleep_cb, &state);
+-    if (sleep_state) {
+-        *sleep_state = &state;
+-    }
++    *sleep_state = &state;
+     timer_mod(&state.ts, qemu_clock_get_ns(type) + ns);
      qemu_coroutine_yield();
-     if (sleep_state) {
-         /*
-@@ -75,5 +75,4 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
-          */
-         assert(*sleep_state == NULL);
-     }
--    timer_free(state.ts);
+-    if (sleep_state) {
+-        /*
+-         * Note that *sleep_state is cleared during qemu_co_sleep_wake
+-         * before resuming this coroutine.
+-         */
+-        assert(*sleep_state == NULL);
+-    }
++
++    /* qemu_co_sleep_wake clears *sleep_state before resuming this coroutine.  */
++    assert(*sleep_state == NULL);
  }
 -- 
 2.31.1
