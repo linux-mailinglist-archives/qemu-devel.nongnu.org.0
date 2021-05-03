@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A3B372250
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 23:16:56 +0200 (CEST)
-Received: from localhost ([::1]:42766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCC437225F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 23:19:52 +0200 (CEST)
+Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldfvz-0002ed-Ef
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 17:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
+	id 1ldfyp-0006nu-Jt
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 17:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldfqL-00051k-2O
- for qemu-devel@nongnu.org; Mon, 03 May 2021 17:11:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24759)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldfqR-0005GT-1W
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 17:11:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldfqI-0007Hv-54
- for qemu-devel@nongnu.org; Mon, 03 May 2021 17:11:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldfqP-0007Of-4k
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 17:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620076261;
+ s=mimecast20190719; t=1620076268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JLhAw7XD7qIOrjXaghuSYUyF7i2GShMvrYawRB6AMVs=;
- b=F5FXOlmPK2fgT6VLjCs1MRfWS5JKZUfiileU/oNvFT1HQj3+TCZL14mxAqkMQNeRQtqf5E
- a/wrsSDQ8eDSUgQtttlMtf4ZfKrnipmndioCtSYauo8v40Fg4thPlBARzIFHwi75ba8c1p
- 5UkVgN8yCI1F4o0lAxS+IrWw29Rv91c=
+ bh=NSr0ATvoVPT94Kw0PlP2HcPHUZbWsmv1leCf95/HD08=;
+ b=LVDWjrr6M4pA70l3kcvK3B7VbJ5ynwrgYg32551vVSlI4z7TOy/Z0YgcWoxpq9AAOuR4Ck
+ XWRpTWKJXVqsIRx9kHJjFRdNU0aML+CWv5jmSPFfKmdQ3Ff0zDBAaaSv5hl6RwnBpS/YD7
+ oGNaU5JSoEEp5BQmfqhRcjCCGruqI0U=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-PNTe8jtiNwifXvBdYdAY6A-1; Mon, 03 May 2021 17:11:00 -0400
-X-MC-Unique: PNTe8jtiNwifXvBdYdAY6A-1
+ us-mta-214-0aAWhiazOtacL3yKxaoVGQ-1; Mon, 03 May 2021 17:11:05 -0400
+X-MC-Unique: 0aAWhiazOtacL3yKxaoVGQ-1
 Received: by mail-wr1-f69.google.com with SMTP id
- i102-20020adf90ef0000b029010dfcfc46c0so1415117wri.1
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 14:11:00 -0700 (PDT)
+ u5-20020adf9e050000b029010df603f280so1704835wre.18
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 14:11:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JLhAw7XD7qIOrjXaghuSYUyF7i2GShMvrYawRB6AMVs=;
- b=Ih8gthRvq3wyF9U3QZB0hgGAVnTac/gzvUGeDxkIhPBVj+Rj6oM4U71FjET+UiPs3v
- WyQ+2KuKL+tzI78xk0qw7dixvi6ItX7rigO7Wg6MigSoxxk65aN2segsD9j7y+Kaoe66
- 9rwMP+YcQwxmCcACKdpn2N/xKz92LyAkd81+ZuBIHSO7vbwTu6x3dBXMJWN0k5a6ToRG
- dKgFE9YXcUa33vfKSfl9yCq3VufG5IGTsG1n5Ggus1ZmrViMF+DunhGb76ey10ZMHC4F
- Br2yXO0qOAdSTz7i321AYw1wo6iHiIhXRUzlba+SxfG0HqUwxVRlGnqE1FOv6XMpyG/a
- iSog==
-X-Gm-Message-State: AOAM532TNQsIhTLPziY78uFsPld6Ietv+y2Drj/ng/qIq4fBsmxLYsSE
- TXiViF2MKbP3enktVRPBvtPyB/BvOOEMSC3kBZk4U/4D+yj7A/6C9gO+huDkXrvDaMeufSe1e8u
- gf8zOKeZoWA0O5gtZmQ6JF3TskSlmv6hVDtGFhdQCWfMtkSkTrbgD/VMU2+16EQSG
-X-Received: by 2002:a05:600c:4a19:: with SMTP id
- c25mr23190389wmp.94.1620076258928; 
- Mon, 03 May 2021 14:10:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJAwBOXgq1yit/bRg+VltP7Pim7vlOp5vhcOsW+PMcjOuFA2L9Y3GNm/C1sqLVSMIAgEhFNQ==
-X-Received: by 2002:a05:600c:4a19:: with SMTP id
- c25mr23190359wmp.94.1620076258718; 
- Mon, 03 May 2021 14:10:58 -0700 (PDT)
+ bh=NSr0ATvoVPT94Kw0PlP2HcPHUZbWsmv1leCf95/HD08=;
+ b=A5Gelpj+NYSM4yVLmYnd+ox3RYGv16hirr6hlLoCD2D8Rct+7AWyK/DizquPH4TDWd
+ Pcz5fMk0RMAJgCVD/6XwOjMLqP0lpIacMIFN6J93j5SyKlyuBvOwGih5c8MuB6cR9wjG
+ 0sah8oNPpEQVZ9oaPEhYGeOXVZ+Qd3kJBiyu/IWaeCEQ/LZKW/3Gc8E+wb0GLXfru6et
+ yjUCDry6DixAq4jJRhMApPLqEthnx6NsLTE6+Vhedf+JPGWnV8t5l6Vsbu3pIyOJ9Exf
+ 5hDecJkrI8ZrlXECLYqNBPqt5Vsclt1z/jyhSSI3d3mUZXiQd6GeYllAm529kvmHjds6
+ EB4g==
+X-Gm-Message-State: AOAM531cATnpCht+wMKNSrOnydZQo2ieZZ17Dnlqw5yyd0+3oNcsPLAG
+ 8fu/MxBEg+bmaop+4/YyxdTgJK9P/XlKpn4MsWOFWhADU1/1OwjHlKVqLkliHsoZROrM3duDBFO
+ wGUmMf6pijGkJ1EEcouHsHuT+HwuSdZT+u2cuKYnQwL0bJLckHG+l+IALiY1jrF/b
+X-Received: by 2002:a5d:694c:: with SMTP id r12mr19922325wrw.224.1620076263908; 
+ Mon, 03 May 2021 14:11:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXk4Rp8nF47WJi79SR59M5qxQEDP2BRMqT6EjyDdtaDzjU4XNikQMnT5N9foAzrLq4441Ueg==
+X-Received: by 2002:a5d:694c:: with SMTP id r12mr19922293wrw.224.1620076263712; 
+ Mon, 03 May 2021 14:11:03 -0700 (PDT)
 Received: from x1w.redhat.com (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id c2sm743435wmr.22.2021.05.03.14.10.57
+ by smtp.gmail.com with ESMTPSA id f18sm549071wmg.26.2021.05.03.14.11.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 14:10:58 -0700 (PDT)
+ Mon, 03 May 2021 14:11:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 07/12] qtest/arm-cpu-features: Use generic
- qtest_has_accel() to check for TCG
-Date: Mon,  3 May 2021 23:10:15 +0200
-Message-Id: <20210503211020.894589-8-philmd@redhat.com>
+Subject: [PATCH v6 08/12] qtest/migration-test: Skip tests if KVM not builtin
+ on s390x/ppc64
+Date: Mon,  3 May 2021 23:10:16 +0200
+Message-Id: <20210503211020.894589-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210503211020.894589-1-philmd@redhat.com>
 References: <20210503211020.894589-1-philmd@redhat.com>
@@ -76,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -97,90 +95,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Andrew Jones <drjones@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now than we can probe if the TCG accelerator is available
-at runtime with a QMP command, only run these tests if TCG
-is built into the QEMU binary.
+We might have a s390x/ppc64 QEMU binary built without the KVM
+accelerator (configured with --disable-kvm).
+Checking for /dev/kvm accessibility isn't enough, also check for the
+accelerator in the binary.
 
-Suggested-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/arm-cpu-features.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ tests/qtest/migration-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index b1d406542f7..0d9145dd168 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -20,7 +20,7 @@
-  */
- #define SVE_MAX_VQ 16
- 
--#define MACHINE     "-machine virt,gic-version=max -accel tcg "
-+#define MACHINE_TCG "-machine virt,gic-version=max -accel tcg "
- #define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
- #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-                     "  'arguments': { 'type': 'full', "
-@@ -337,7 +337,7 @@ static void sve_tests_sve_max_vq_8(const void *data)
- {
-     QTestState *qts;
- 
--    qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
-+    qts = qtest_init(MACHINE_TCG "-cpu max,sve-max-vq=8");
- 
-     assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
- 
-@@ -372,7 +372,7 @@ static void sve_tests_sve_off(const void *data)
- {
-     QTestState *qts;
- 
--    qts = qtest_init(MACHINE "-cpu max,sve=off");
-+    qts = qtest_init(MACHINE_TCG "-cpu max,sve=off");
- 
-     /* SVE is off, so the map should be empty. */
-     assert_sve_vls(qts, "max", 0, NULL);
-@@ -428,7 +428,7 @@ static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
- 
--    qts = qtest_init(MACHINE "-cpu max");
-+    qts = qtest_init(MACHINE_TCG "-cpu max");
- 
-     /* Test common query-cpu-model-expansion input validation */
-     assert_type_full(qts);
-@@ -593,8 +593,10 @@ int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
- 
--    qtest_add_data_func("/arm/query-cpu-model-expansion",
--                        NULL, test_query_cpu_model_expansion);
-+    if (qtest_has_accel("tcg")) {
-+        qtest_add_data_func("/arm/query-cpu-model-expansion",
-+                            NULL, test_query_cpu_model_expansion);
-+    }
- 
-     /*
-      * For now we only run KVM specific tests with AArch64 QEMU in
-@@ -608,7 +610,7 @@ int main(int argc, char **argv)
-                             NULL, sve_tests_sve_off_kvm);
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3a711bb4929..c32a2aa30a2 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1408,7 +1408,7 @@ int main(int argc, char **argv)
+      */
+     if (g_str_equal(qtest_get_arch(), "ppc64") &&
+         (access("/sys/module/kvm_hv", F_OK) ||
+-         access("/dev/kvm", R_OK | W_OK))) {
++         access("/dev/kvm", R_OK | W_OK) || !qtest_has_accel("kvm"))) {
+         g_test_message("Skipping test: kvm_hv not available");
+         return g_test_run();
      }
- 
--    if (g_str_equal(qtest_get_arch(), "aarch64")) {
-+    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("tcg")) {
-         qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-max-vq-8",
-                             NULL, sve_tests_sve_max_vq_8);
-         qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-off",
+@@ -1419,7 +1419,7 @@ int main(int argc, char **argv)
+      */
+     if (g_str_equal(qtest_get_arch(), "s390x")) {
+ #if defined(HOST_S390X)
+-        if (access("/dev/kvm", R_OK | W_OK)) {
++        if (access("/dev/kvm", R_OK | W_OK) || !qtest_has_accel("kvm")) {
+             g_test_message("Skipping test: kvm not available");
+             return g_test_run();
+         }
 -- 
 2.26.3
 
