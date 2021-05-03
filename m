@@ -2,101 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EAD7371A28
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:38:13 +0200 (CEST)
-Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F95371BC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:48:53 +0200 (CEST)
+Received: from localhost ([::1]:47546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbaG-0003lJ-8X
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:38:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
+	id 1ldbka-0002gE-LA
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldbVo-0001yp-My
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:33:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldbVa-0002Xr-KK
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:33:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620059600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0/v7w83apqs4Z9feQey4AfXSRxHG2joE+1aa7RyPXXQ=;
- b=dIVTME5pEg+x3Q/cEWPr325A2pCw0Tme6kOHLh8uSZi0T0yxtwVxQpzgVPuM1bBBCfXzt9
- 5BjvyBgO/TYYFx9mMydra+f0wIK9AtJo8HxYonYenc+s/aAYgZeOX4TC+R+CplC/wufav1
- A3kjMVikm8/uio9LXkbg9/Io+Unk468=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-XZjrHcKQPkaKG0lT8IwVwA-1; Mon, 03 May 2021 12:33:19 -0400
-X-MC-Unique: XZjrHcKQPkaKG0lT8IwVwA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 67-20020adf81490000b029010756d109e6so4198202wrm.13
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:33:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0/v7w83apqs4Z9feQey4AfXSRxHG2joE+1aa7RyPXXQ=;
- b=g3l/+t9YQkiGu8dHZftdbMzRgvd3BmmFrQQ8YRDtZmBfwHkE/Dl6/8uFAnBuK6ux1f
- lu1HI7KDXr+9r76/e/CoKsSdEQmHrfKkLCmPIEHVvFQ52vs1+2QVB1TA/LKexeM0ApVP
- rqHHDbZ/FIffd5Jy89rr+OiWntT3v3DZmRH8UwGNp0P2tg7DJknFyeBacfoN432wTSgd
- WU5jQ7PgophHyEDZRcHBOD7QpotnJEMxv+DUkA9NF3/Ai11fl/1o/FtIhOfzTDRmjfzd
- anqR3xBpfOoxKcUoczwba7rh6pA6GqTEYjbHqkKyKWIbtYxLAyr3y4NTfyarpUXdGcRx
- X3IA==
-X-Gm-Message-State: AOAM531SpRQKfF/OTvwnY+t5w0kHU++NHg2SYKOnF3BOTavnKb+e13Mb
- OXIWTiXmA7puz2JZerBtRHRphY/fVigQEZiy7AnhmdmNKx5T9eIgsTbxeuPaAkeFozJnGO2lIEH
- FiG7Tk6m2UJkBh6k=
-X-Received: by 2002:a05:6000:2c5:: with SMTP id
- o5mr26497309wry.4.1620059598400; 
- Mon, 03 May 2021 09:33:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTU8V+O3W35PHlJkoG4KCQ1YpBI1a3ef9EmQHlmvYg80zLePxw393zKf6UL9tGY7v7vbhKAw==
-X-Received: by 2002:a05:6000:2c5:: with SMTP id
- o5mr26497258wry.4.1620059598048; 
- Mon, 03 May 2021 09:33:18 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id s15sm7538509wrt.19.2021.05.03.09.33.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 09:33:17 -0700 (PDT)
-Subject: Re: [PATCH v5 08/10] qtest/bios-tables-test: Make test
- build-independent from accelerator
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20210501223638.510712-1-philmd@redhat.com>
- <20210501223638.510712-9-philmd@redhat.com>
- <20210503143639.57e7c52c@redhat.com>
- <dd561115-0586-3920-6236-32a3abd043f2@redhat.com>
- <20210503180415.3c798f64@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ced07efc-996f-929a-44dc-993ab86ad4ab@redhat.com>
-Date: Mon, 3 May 2021 18:33:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldbhF-0000bk-Qb
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:45:25 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34914)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldbhB-0007PH-Er
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:45:25 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldbhA-00047j-76
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 16:45:20 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 27F572E8135
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 16:45:20 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210503180415.3c798f64@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 16:33:27 -0000
+From: Thomas Huth <1277433@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell sebastian-huber th-huth
+X-Launchpad-Bug-Reporter: Sebastian Huber (sebastian-huber)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20140207101533.1830.3618.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162005960772.12015.3765147444817437218.malone@soybean.canonical.com>
+Subject: [Bug 1277433] Re: GDB context is inconsistent after "monitor
+ system_reset"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: d0b56e841be5098b2cea70b782eb3c0e80859253
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,150 +71,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1277433 <1277433@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 6:04 PM, Igor Mammedov wrote:
-> On Mon, 3 May 2021 14:44:32 +0200
-> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> 
->> Hi Igor,
->>
->> On 5/3/21 2:36 PM, Igor Mammedov wrote:
->>> On Sun,  2 May 2021 00:36:36 +0200
->>> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>   
->>>> Now than we can probe if the TCG accelerator is available
->>>> at runtime with a QMP command, do it once at the beginning
->>>> and only register the tests we can run.
->>>> We can then replace the #ifdef'ry by an assertion.
->>>>
->>>> Reviewed-by: Eric Blake <eblake@redhat.com>
->>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>>  tests/qtest/bios-tables-test.c | 99 ++++++++++++++++++----------------
->>>>  1 file changed, 52 insertions(+), 47 deletions(-)
->>>>
->>>> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
->>>> index 156d4174aa3..a4c7bddf6f3 100644
->>>> --- a/tests/qtest/bios-tables-test.c
->>>> +++ b/tests/qtest/bios-tables-test.c
->>>> @@ -97,6 +97,7 @@ typedef struct {
->>>>      QTestState *qts;
->>>>  } test_data;
->>>>  
->>>> +static bool tcg_accel_available;
->>>>  static char disk[] = "tests/acpi-test-disk-XXXXXX";
->>>>  static const char *data_dir = "tests/data/acpi";
->>>>  #ifdef CONFIG_IASL
->>>> @@ -718,15 +719,11 @@ static void test_acpi_one(const char *params, test_data *data)
->>>>      char *args;
->>>>      bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
->>>>  
->>>> -#ifndef CONFIG_TCG
->>>> -    if (data->tcg_only) {
->>>> -        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
->>>> -        return;
->>>> -    }
->>>> -#endif /* CONFIG_TCG */
->>>> +    assert(!data->tcg_only || tcg_accel_available);
->>>>  
->>>>      args = test_acpi_create_args(data, params, use_uefi);
->>>>      data->qts = qtest_init(args);
->>>> +  
->>> stray new line?  
->>
->> Oops.
->>
->>>   
->>>>      test_acpi_load_tables(data, use_uefi);
->>>>  
->>>>      if (getenv(ACPI_REBUILD_EXPECTED_AML)) {
->>>> @@ -1504,6 +1501,8 @@ int main(int argc, char *argv[])
->>>>      const char *arch = qtest_get_arch();
->>>>      int ret;
->>>>  
->>>> +    tcg_accel_available = qtest_has_accel("tcg");
->>>> +
->>>>      g_test_init(&argc, &argv, NULL);
->>>>  
->>>>      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->>>> @@ -1512,56 +1511,62 @@ int main(int argc, char *argv[])
->>>>              return ret;
->>>>          }
->>>>          qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
->>>> -        qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
->>>> -        qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
->>>>          qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
->>>> -        qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
->>>> +        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
->>>>          qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
->>>>                         test_acpi_piix4_no_root_hotplug);
->>>>          qtest_add_func("acpi/piix4/pci-hotplug/no_bridge_hotplug",
->>>>                         test_acpi_piix4_no_bridge_hotplug);
->>>>          qtest_add_func("acpi/piix4/pci-hotplug/off",
->>>>                         test_acpi_piix4_no_acpi_pci_hotplug);
->>>> -        qtest_add_func("acpi/q35", test_acpi_q35_tcg);
->>>> -        qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
->>>> -        qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
->>>> -        qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
->>>> -        qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
->>>> -        qtest_add_func("acpi/piix4/cpuhp", test_acpi_piix4_tcg_cphp);
->>>> -        qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
->>>> -        qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
->>>> -        qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
->>>> -        qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
->>>> -        qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
->>>> -        qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
->>>> -        qtest_add_func("acpi/piix4/smm-compat",
->>>> -                       test_acpi_piix4_tcg_smm_compat);
->>>> -        qtest_add_func("acpi/piix4/smm-compat-nosmm",
->>>> -                       test_acpi_piix4_tcg_smm_compat_nosmm);
->>>> -        qtest_add_func("acpi/piix4/nohpet", test_acpi_piix4_tcg_nohpet);
->>>> -        qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
->>>> -        qtest_add_func("acpi/q35/smm-compat",
->>>> -                       test_acpi_q35_tcg_smm_compat);
->>>> -        qtest_add_func("acpi/q35/smm-compat-nosmm",
->>>> -                       test_acpi_q35_tcg_smm_compat_nosmm);
->>>> -        qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
->>>> -        qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
->>>> -        qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
->>>> -        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
->>>> -        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
->>>> -        qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
->>>> -        qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
->>>> -        qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
->>>> -        qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
->>>> -        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
->>>> -        if (strcmp(arch, "x86_64") == 0) {
->>>> -            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
->>>> +        if (tcg_accel_available) {  
->>>
->>> most of this can run without TCG if KVM is available, so why are you limiting it to TCG only
->>> or am I missing something?  
->>
->> This patch is a simple API change, these tests are already restricted by
->> the 'g_test_skip("TCG disabled, skipping ACPI tcg_only test");' call.
->>
-> 
-> 
-> with current code, assume we have TCG compiled out:
->  - test_acpi_one() will execute any test that is not marked as tcg_only
-> 
-> with this patch if tcg_accel_available == False,
-> it will not even register any test under "if (tcg_accel_available) {" branch
-> and in this patch that includes a bunch of _non_ tcg_only tests.
-> So tests won't be executed on KVM only build, where previously they were executed just fine.
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-I guess you refer to the 'data->tcg_only' field, OK, now I understood.
+ https://gitlab.com/qemu-project/qemu/-/issues/100
 
+
+** Changed in: qemu
+       Status: New =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #100
+   https://gitlab.com/qemu-project/qemu/-/issues/100
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1277433
+
+Title:
+  GDB context is inconsistent after "monitor system_reset"
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  After a "monitor system_reset" the GDB view to the system state
+  differs from QEMUs processor state.
+
+  Breakpoint 8, _ARMV4_Exception_interrupt () at /home/sh/rtems-4.11/c/src/=
+../../cpukit/score/cpu/arm/arm_exc_interrupt.S:74
+  74              mov     EXCHANGE_LR, lr
+  (gdb) info registers
+  r0             0x2027e8 2107368
+  r1             0x204208 2114056
+  r2             0x13     19
+  r3             0x204238 2114104
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x201480 0x201480
+  lr             0x110958 1116504
+  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
+  cpsr           0x192    402
+  (gdb) monitor info registers
+  R00=3D002027e8 R01=3D00204208 R02=3D00000013 R03=3D00204238
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00201480 R14=3D00110958 R15=3D0011073c
+  PSR=3D00000192 ---- A irq32
+  (gdb) monitor system_reset
+  (gdb) info registers
+  r0             0x2027e8 2107368
+  r1             0x204208 2114056
+  r2             0x13     19
+  r3             0x204238 2114104
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x201480 0x201480
+  lr             0x110958 1116504
+  pc             0x11073c 0x11073c <_ARMV4_Exception_interrupt+4>
+  cpsr           0x192    402
+  (gdb) monitor info registers
+  R00=3D00000000 R01=3D00000000 R02=3D00000000 R03=3D00000000
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100040
+  PSR=3D400001d3 -Z-- A svc32
+
+  Why does the second "info registers" and "monitor info registers"
+  differ?
+
+  After a single instruction step they are synchronized at least on ARM
+  (on SPARC this is different).
+
+  (gdb) si
+  bsp_start_vector_table_end () at /home/sh/rtems-4.11/c/src/lib/libbsp/arm=
+/realview-pbx-a9/../shared/start/start.S:144
+  144             msr     cpsr, r0
+  (gdb) info registers
+  r0             0xd3     211
+  r1             0x0      0
+  r2             0x0      0
+  r3             0x0      0
+  r4             0x0      0
+  r5             0x0      0
+  r6             0x0      0
+  r7             0x0      0
+  r8             0x0      0
+  r9             0x0      0
+  r10            0x0      0
+  r11            0x0      0
+  r12            0x0      0
+  sp             0x0      0x0
+  lr             0x0      0
+  pc             0x100044 0x100044 <bsp_start_vector_table_end+4>
+  cpsr           0x400001d3       1073742291
+  (gdb) monitor info registers
+  R00=3D000000d3 R01=3D00000000 R02=3D00000000 R03=3D00000000
+  R04=3D00000000 R05=3D00000000 R06=3D00000000 R07=3D00000000
+  R08=3D00000000 R09=3D00000000 R10=3D00000000 R11=3D00000000
+  R12=3D00000000 R13=3D00000000 R14=3D00000000 R15=3D00100044
+  PSR=3D400001d3 -Z-- A svc32
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1277433/+subscriptions
 
