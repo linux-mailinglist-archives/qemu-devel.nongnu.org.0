@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC103710FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:40:15 +0200 (CEST)
-Received: from localhost ([::1]:58106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EA037110C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:56:40 +0200 (CEST)
+Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQNS-0005Vk-U1
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51732)
+	id 1ldQdL-00033B-5Q
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJP-0007fv-L3; Mon, 03 May 2021 00:36:03 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50915 helo=ozlabs.org)
+ id 1ldQbg-0001RY-9s; Mon, 03 May 2021 00:54:56 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:56013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJN-0002Gu-CD; Mon, 03 May 2021 00:36:03 -0400
+ id 1ldQbc-0007zj-NL; Mon, 03 May 2021 00:54:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FYVXR1r1Vz9sWB; Mon,  3 May 2021 14:35:51 +1000 (AEST)
+ id 4FYVyH5ytDz9sW4; Mon,  3 May 2021 14:54:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620016551;
- bh=Qo7uPZb0TEmjH9+1sPEY+icucuXzjpwoLlw9y2G9bYI=;
+ d=gibson.dropbear.id.au; s=201602; t=1620017687;
+ bh=f8I/KJFYdlz7gsbklOVsM7uXt3a9KEnVOWwZDO1m8ms=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fkNu03JBFr8yFXZhvN6nUuPoTx4jYwqH2jXTeUFB3/Mw0qrilISlb18p1q7EXBuzt
- iAdet+FrN/eHABMOv6UDgnysGYWmRuFPaVjqQLNpjSkVW2uIv502PjN7e2DfGKiPuu
- jfdOptzm9HJ6zCCktE2osD9mLT8mfkPfdA96T+eQ=
-Date: Mon, 3 May 2021 14:35:37 +1000
+ b=EEmmHCubIkynIRIyL4xuJk0JREzY6XUNr8go4t7DH45sNFRAKdzUhFxTHmSnFe15y
+ wXLPkGZkpsxVtVL4SoM+KKU4LOFUlvj2MTY59at07BCxTrn+alAhFexf/L9vlw067+
+ V852nsqZLeBrmiMgsowXpgiwQmqFNdJsmNs2tVCA=
+Date: Mon, 3 May 2021 14:37:00 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [RFC PATCH v2 2/2] hw/ppc: Moved TCG code to spapr_hcall_tcg
-Message-ID: <YI99ma3RbAOPlvt7@yekko>
-References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
- <20210430184047.81653-3-lucas.araujo@eldorado.org.br>
- <87wnsj1gyq.fsf@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 1/7] target/ppc: Created !TCG SPR registration macro
+Message-ID: <YI997IKFE624Bt4D@yekko>
+References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
+ <20210430193533.82136-2-bruno.larsen@eldorado.org.br>
+ <cb40e011-cf22-1044-43b0-75401d074796@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="r2p7nVQOHB56GBQi"
+ protocol="application/pgp-signature"; boundary="llbTbod1ZdjcVJFS"
 Content-Disposition: inline
-In-Reply-To: <87wnsj1gyq.fsf@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <cb40e011-cf22-1044-43b0-75401d074796@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,122 +59,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bruno.larsen@eldorado.org.br,
- "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---r2p7nVQOHB56GBQi
+--llbTbod1ZdjcVJFS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 08:38:05PM -0300, Fabiano Rosas wrote:
-> "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br> writes:
->=20
-> > Also spapr_hcall_tcg.c only has 2 duplicated functions (valid_ptex and
-> > is_ram_address), what is the advised way to deal with these
-> > duplications?
->=20
-> valid_ptex is only needed by the TCG hcalls isn't it?
->=20
-> is_ram_address could in theory stay where it is but be exposed via
-> hw/ppc/spapr.h since spapr_hcall.c will always be present.
->=20
-> > Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org=
-=2Ebr>
+On Fri, Apr 30, 2021 at 05:27:13PM -0700, Richard Henderson wrote:
+> On 4/30/21 12:35 PM, Bruno Larsen (billionai) wrote:
+> > moved RW callback parameters of _spr_register into an ifdef, to support
+> > building without TCG in the future, and added definitions for
+> > spr_register and spr_register_kvm, to keep the same call regardless of
+> > build options
+> >=20
+> > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 > > ---
-> >  hw/ppc/meson.build       |   3 +
-> >  hw/ppc/spapr_hcall.c     | 300 ++--------------------------------
-> >  hw/ppc/spapr_hcall_tcg.c | 343 +++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 363 insertions(+), 283 deletions(-)
-> >  create mode 100644 hw/ppc/spapr_hcall_tcg.c
+> >   target/ppc/translate_init.c.inc | 26 +++++++++++++++++++++-----
+> >   1 file changed, 21 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_ini=
+t.c.inc
+> > index 6235eb7536..22b23793fd 100644
+> > --- a/target/ppc/translate_init.c.inc
+> > +++ b/target/ppc/translate_init.c.inc
+> > @@ -720,6 +720,7 @@ static inline void vscr_init(CPUPPCState *env, uint=
+32_t val)
+> >       helper_mtvscr(env, val);
+> >   }
+> > +#ifdef CONFIG_TCG
+> >   #ifdef CONFIG_USER_ONLY
+> >   #define spr_register_kvm(env, num, name, uea_read, uea_write,        =
+          \
+> >                            oea_read, oea_write, one_reg_id, initial_val=
+ue)       \
+> > @@ -728,7 +729,7 @@ static inline void vscr_init(CPUPPCState *env, uint=
+32_t val)
+> >                               oea_read, oea_write, hea_read, hea_write,=
+          \
+> >                               one_reg_id, initial_value)               =
+          \
+> >       _spr_register(env, num, name, uea_read, uea_write, initial_value)
+> > -#else
+> > +#else /* CONFIG_USER_ONLY */
+> >   #if !defined(CONFIG_KVM)
+> >   #define spr_register_kvm(env, num, name, uea_read, uea_write,        =
+          \
+> >                            oea_read, oea_write, one_reg_id, initial_val=
+ue)       \
+> > @@ -739,7 +740,7 @@ static inline void vscr_init(CPUPPCState *env, uint=
+32_t val)
+> >                               one_reg_id, initial_value)               =
+          \
+> >       _spr_register(env, num, name, uea_read, uea_write,               =
+          \
+> >                     oea_read, oea_write, hea_read, hea_write, initial_v=
+alue)
+> > -#else
+> > +#else /* CONFIG_KVM */
+> >   #define spr_register_kvm(env, num, name, uea_read, uea_write,        =
+          \
+> >                            oea_read, oea_write, one_reg_id, initial_val=
+ue)       \
+> >       _spr_register(env, num, name, uea_read, uea_write,               =
+          \
+> > @@ -751,8 +752,21 @@ static inline void vscr_init(CPUPPCState *env, uin=
+t32_t val)
+> >       _spr_register(env, num, name, uea_read, uea_write,               =
+          \
+> >                     oea_read, oea_write, hea_read, hea_write,          =
+          \
+> >                     one_reg_id, initial_value)
+> > -#endif
+> > -#endif
+> > +#endif /* CONFIG_KVM */
+> > +#endif /* CONFIG_USER_ONLY */
+> > +#else /* CONFIG_TCG */
+> > +#ifdef CONFIG_KVM /* sanity check. should always enter this */
+> > +#define spr_register_kvm(env, num, name, uea_read, uea_write,         =
+         \
+> > +                         oea_read, oea_write, one_reg_id, initial_valu=
+e)       \
+> > +    _spr_register(env, num, name, one_reg_id, initial_value)
+> > +#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,      =
+         \
+> > +                            oea_read, oea_write, hea_read, hea_write, =
+         \
+> > +                            one_reg_id, initial_value)                =
+         \
+> > +    _spr_register(env, num, name, one_reg_id, initial_value)
+> > +#else /* CONFIG_KVM */
+> > +#error "Either TCG or KVM should be configured"
+> > +#endif /* CONFIG_KVM */
+> > +#endif /* CONFIG_TCG */
 >=20
-> <snip>
->=20
-> > @@ -2021,14 +1752,17 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, t=
-arget_ulong opcode,
-> > =20
-> >  static void hypercall_register_types(void)
-> >  {
-> > +
-> > +#ifndef CONFIG_TCG
-> >      /* hcall-pft */
-> > -    spapr_register_hypercall(H_ENTER, h_enter);
-> > -    spapr_register_hypercall(H_REMOVE, h_remove);
-> > -    spapr_register_hypercall(H_PROTECT, h_protect);
-> > -    spapr_register_hypercall(H_READ, h_read);
-> > +    spapr_register_hypercall(H_ENTER, h_tcg_only);
-> > +    spapr_register_hypercall(H_REMOVE, h_tcg_only);
-> > +    spapr_register_hypercall(H_PROTECT, h_tcg_only);
-> > +    spapr_register_hypercall(H_READ, h_tcg_only);
-> > =20
-> >      /* hcall-bulk */
-> > -    spapr_register_hypercall(H_BULK_REMOVE, h_bulk_remove);
-> > +    spapr_register_hypercall(H_BULK_REMOVE, h_tcg_only);
-> > +#endif /* !CONFIG_TCG */
->=20
-> My suggestion for this was:
->=20
-> #ifndef CONFIG_TCG
-> static target_ulong h_tcg_only(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                                target_ulong opcode, target_ulong *args)
-> {
->     g_assert_not_reached();
-> }
->=20
-> static void hypercall_register_tcg(void)
-> {
->     spapr_register_hypercall(H_ENTER, h_tcg_only);
->     spapr_register_hypercall(H_REMOVE, h_tcg_only);
->     spapr_register_hypercall(H_PROTECT, h_tcg_only);
->     spapr_register_hypercall(H_READ, h_tcg_only);
->     (...)
-> }
-> #endif
->=20
-> static void hypercall_register_types(void)
-> {
->     hypercall_register_tcg();
->=20
->     <register KVM hcalls>
-> }
-> type_init(hypercall_register_types);
+> I think this ifdef tree, and the repetition, is unnecessarily confusing.
+> How about something like this?
 
-Eh, swings and roundabouts.  Either of these approaches is fine.
-
-> > +static void hypercall_register_types(void)
-> > +{
-> > +    /* hcall-pft */
-> > +    spapr_register_hypercall(H_ENTER, h_enter);
-> > +    spapr_register_hypercall(H_REMOVE, h_remove);
-> > +    spapr_register_hypercall(H_PROTECT, h_protect);
-> > +    spapr_register_hypercall(H_READ, h_read);
-> > +
-> > +    /* hcall-bulk */
-> > +    spapr_register_hypercall(H_BULK_REMOVE, h_bulk_remove);
-> > +}
-> > +
-> > +type_init(hypercall_register_types)
->=20
-> And here:
->=20
-> void hypercall_register_tcg(void)
-> {
->     /* hcall-pft */
->     spapr_register_hypercall(H_ENTER, h_enter);
->     spapr_register_hypercall(H_REMOVE, h_remove);
->     spapr_register_hypercall(H_PROTECT, h_protect);
->     spapr_register_hypercall(H_READ, h_read);
->     (...)
-> }
->=20
-> Because the TCG and KVM builds are not mutually exlusive, so you would
-> end up calling type_init twice (which I don't know much about but I
-> assume is not allowed).
->=20
+I've applied Richard's version of this to my tree now, so you might
+need to rebase the rest of the series.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -182,25 +171,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---r2p7nVQOHB56GBQi
+--llbTbod1ZdjcVJFS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPfZkACgkQbDjKyiDZ
-s5IHWxAAopDyIUp1iECLl2uI3nGC+dGCk1eGU/lTzYGpn8M1FRxFSviAKKk7/+Cr
-0k5t6HO+5/ZjdxEnrZVyLjRy7pVMTInzhiPMoV/r8Qqs11tgLRrousxU1S4WB9jZ
-0r09kZckWCzYSdXRQgyB6rV5cgRONvNnzXtURwaG942rmAyDKKFd+HFI+tJXC8C4
-HUMFH8TxncuGgE4hDXfecNiy+OBU8UE9k3B+RmYz27sBCvsJsbGq+A9i+fyxHjFY
-FZx8x98/dAGub7Vy1CaDWC1AdTWx+LKfBcTZ7223HFU9mtlJmhVXGo5/Sl2pEfDV
-1hMNz/CGfEVxxVkWhP9pP+U+FB35liNVDwuHQ5JLSJaAMMXEJcMdrNWU7y3OCvdW
-V+VrAuGYs7l7aKToV3MlzqcwBNkhlbrEZ2ZR0GK8y3DPqvBj8dEJL7z0GCHQSZWD
-R1Bm65f0+ySrSfITr6lhODJ3WUz6APnU4DcC5oHSgcE9NlwBiU5Yrp9b/hTgH2Nz
-zgsjTV+kdhiQp8tSDzPjQtpyefgKwJwh/VGOTEdklZi5BE9SIoayMT/iTvYSMxAY
-hHshOGT2yKkD6BVSdMel6zXRQjahxoAcf8T6Jj1VxJmGT2mFxIUWTEyN0ZJ3z3cI
-BA80VrJ2ZrTzvzz9+60j8ChD6gBSyWWyJOKMGsbosq6KcMyJxuc=
-=oMuY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPfewACgkQbDjKyiDZ
+s5Izeg/8CYPRCiApDHhoUTlbNWB2XzXOIX7JeXj7njn5fPyGa6Yh8pm3yu+YoBa/
+UPXoppb2CqgbHnULYzfO5kG7lFj34e9rnA559FhNWOcmGjxbN+sVDcXO6vfaCBPz
+D2XpZmiUIZOjjbVOitWEZn9b+ZBNhnIzWFLFfQ6+m9zq9A/2oZFwUjsf+v7nD5WI
+fVC6KvA+sUchXuNOhqJMYl5ZlCzFkVG2tgnnvMCgrpe85/V6z+0kF55A12P3AU9B
+ZqAB/vt6ehvzW4tLJWHRWUrDufM/aWUeKOHsAr99Maz/k9OwSbOF2DpwnzwrqNKH
+XVOt3FAD5Zzp1HRaORyMdk6b44uN6qzOdAfhymPak1hnZPaAixjQ/cOAsh68z1Pf
+2a0UPe2imMArUzrn7fvkweu4GDodtTaywQTrGnr2Y9peOJauY//OUlxOnwMYUveI
+bogfTK4d9GKNLcuSZCE/wPcCUg83EAnD4AFkwQ1cWNlzhajyb5uYsl2oI7CzZXP6
+zKPV+zxDBgH0PdOKrcmi2+qVI4+i3NNZtswGaQX0Ggc4337CTuG7xey2m5kTg/21
+9scJcz2hGedch6Vl8+1KauYtMUsLENYRtpgGUF9SkNTjqCOe+/3ykcBt561dgzg5
+82UjbqYuJT/pHo7yZ/9e8jRyLNEg2l0LwNHLx1KYoZ5Jp0E9w6M=
+=BJhS
 -----END PGP SIGNATURE-----
 
---r2p7nVQOHB56GBQi--
+--llbTbod1ZdjcVJFS--
 
