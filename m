@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EA037110C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:56:40 +0200 (CEST)
-Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D6E37110D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:56:49 +0200 (CEST)
+Received: from localhost ([::1]:43124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQdL-00033B-5Q
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53846)
+	id 1ldQdU-0003Km-44
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQbg-0001RY-9s; Mon, 03 May 2021 00:54:56 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56013)
+ id 1ldQbg-0001Ro-TO; Mon, 03 May 2021 00:54:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:47441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQbc-0007zj-NL; Mon, 03 May 2021 00:54:55 -0400
+ id 1ldQbd-000804-12; Mon, 03 May 2021 00:54:56 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FYVyH5ytDz9sW4; Mon,  3 May 2021 14:54:47 +1000 (AEST)
+ id 4FYVyJ00grz9sTD; Mon,  3 May 2021 14:54:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620017687;
- bh=f8I/KJFYdlz7gsbklOVsM7uXt3a9KEnVOWwZDO1m8ms=;
+ d=gibson.dropbear.id.au; s=201602; t=1620017688;
+ bh=1ET68Nz5Vx2bzVLMZxIOjXd7uFvgRDdthEdWJmqLc8c=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EEmmHCubIkynIRIyL4xuJk0JREzY6XUNr8go4t7DH45sNFRAKdzUhFxTHmSnFe15y
- wXLPkGZkpsxVtVL4SoM+KKU4LOFUlvj2MTY59at07BCxTrn+alAhFexf/L9vlw067+
- V852nsqZLeBrmiMgsowXpgiwQmqFNdJsmNs2tVCA=
-Date: Mon, 3 May 2021 14:37:00 +1000
+ b=hi/kSh4/Dj0PEPAZuNBjtNYj/078xbw+vaO2K2dsYTKzdMV5cBuv73QFLq0ipzam7
+ j6nLT7PFKvgmG5xZApfskviVpsHFWnYPPJNoxr9hhVuDoFIvxJTDVtcnbYOJ1s1xV7
+ jnIItZMvjbgmbWSTZBu8sms6YPlUX8vmJcrW6Y5w=
+Date: Mon, 3 May 2021 14:39:43 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 1/7] target/ppc: Created !TCG SPR registration macro
-Message-ID: <YI997IKFE624Bt4D@yekko>
+Subject: Re: [PATCH v3 3/7] target/ppc: remove unnecessary SPR functions
+Message-ID: <YI9+jxv3k/GqkVjl@yekko>
 References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
- <20210430193533.82136-2-bruno.larsen@eldorado.org.br>
- <cb40e011-cf22-1044-43b0-75401d074796@linaro.org>
+ <20210430193533.82136-4-bruno.larsen@eldorado.org.br>
+ <8d2f4db4-ebf9-cf6f-ed3a-293f271ed34e@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="llbTbod1ZdjcVJFS"
+ protocol="application/pgp-signature"; boundary="FCH1lIn8l9vrG2dr"
 Content-Disposition: inline
-In-Reply-To: <cb40e011-cf22-1044-43b0-75401d074796@linaro.org>
+In-Reply-To: <8d2f4db4-ebf9-cf6f-ed3a-293f271ed34e@linaro.org>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -67,103 +67,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---llbTbod1ZdjcVJFS
+--FCH1lIn8l9vrG2dr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 05:27:13PM -0700, Richard Henderson wrote:
+On Fri, Apr 30, 2021 at 05:58:46PM -0700, Richard Henderson wrote:
 > On 4/30/21 12:35 PM, Bruno Larsen (billionai) wrote:
-> > moved RW callback parameters of _spr_register into an ifdef, to support
-> > building without TCG in the future, and added definitions for
-> > spr_register and spr_register_kvm, to keep the same call regardless of
-> > build options
+> > Removed functions gen_read_xer and gen_write_xer, moving their logic
+> > directly into spr_read_xer and spr_write_xer, respectively.
 > >=20
 > > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 > > ---
-> >   target/ppc/translate_init.c.inc | 26 +++++++++++++++++++++-----
-> >   1 file changed, 21 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_ini=
-t.c.inc
-> > index 6235eb7536..22b23793fd 100644
-> > --- a/target/ppc/translate_init.c.inc
-> > +++ b/target/ppc/translate_init.c.inc
-> > @@ -720,6 +720,7 @@ static inline void vscr_init(CPUPPCState *env, uint=
-32_t val)
-> >       helper_mtvscr(env, val);
-> >   }
-> > +#ifdef CONFIG_TCG
-> >   #ifdef CONFIG_USER_ONLY
-> >   #define spr_register_kvm(env, num, name, uea_read, uea_write,        =
-          \
-> >                            oea_read, oea_write, one_reg_id, initial_val=
-ue)       \
-> > @@ -728,7 +729,7 @@ static inline void vscr_init(CPUPPCState *env, uint=
-32_t val)
-> >                               oea_read, oea_write, hea_read, hea_write,=
-          \
-> >                               one_reg_id, initial_value)               =
-          \
-> >       _spr_register(env, num, name, uea_read, uea_write, initial_value)
-> > -#else
-> > +#else /* CONFIG_USER_ONLY */
-> >   #if !defined(CONFIG_KVM)
-> >   #define spr_register_kvm(env, num, name, uea_read, uea_write,        =
-          \
-> >                            oea_read, oea_write, one_reg_id, initial_val=
-ue)       \
-> > @@ -739,7 +740,7 @@ static inline void vscr_init(CPUPPCState *env, uint=
-32_t val)
-> >                               one_reg_id, initial_value)               =
-          \
-> >       _spr_register(env, num, name, uea_read, uea_write,               =
-          \
-> >                     oea_read, oea_write, hea_read, hea_write, initial_v=
-alue)
-> > -#else
-> > +#else /* CONFIG_KVM */
-> >   #define spr_register_kvm(env, num, name, uea_read, uea_write,        =
-          \
-> >                            oea_read, oea_write, one_reg_id, initial_val=
-ue)       \
-> >       _spr_register(env, num, name, uea_read, uea_write,               =
-          \
-> > @@ -751,8 +752,21 @@ static inline void vscr_init(CPUPPCState *env, uin=
-t32_t val)
-> >       _spr_register(env, num, name, uea_read, uea_write,               =
-          \
-> >                     oea_read, oea_write, hea_read, hea_write,          =
-          \
-> >                     one_reg_id, initial_value)
-> > -#endif
-> > -#endif
-> > +#endif /* CONFIG_KVM */
-> > +#endif /* CONFIG_USER_ONLY */
-> > +#else /* CONFIG_TCG */
-> > +#ifdef CONFIG_KVM /* sanity check. should always enter this */
-> > +#define spr_register_kvm(env, num, name, uea_read, uea_write,         =
-         \
-> > +                         oea_read, oea_write, one_reg_id, initial_valu=
-e)       \
-> > +    _spr_register(env, num, name, one_reg_id, initial_value)
-> > +#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,      =
-         \
-> > +                            oea_read, oea_write, hea_read, hea_write, =
-         \
-> > +                            one_reg_id, initial_value)                =
-         \
-> > +    _spr_register(env, num, name, one_reg_id, initial_value)
-> > +#else /* CONFIG_KVM */
-> > +#error "Either TCG or KVM should be configured"
-> > +#endif /* CONFIG_KVM */
-> > +#endif /* CONFIG_TCG */
 >=20
-> I think this ifdef tree, and the repetition, is unnecessarily confusing.
-> How about something like this?
+> "Unnecessary" makes me believe that the code isn't used at all.
+> A better description for this patch is
+>=20
+> ---
+> target/ppc: Fold gen_{read,write}_xer into spr_{read,write}_xer
+>=20
+> Fold these functions into their single caller.
+> ---
 
-I've applied Richard's version of this to my tree now, so you might
-need to rebase the rest of the series.
+Agreed.
+=20
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+This one looks good to me now, whereas I still need to think about the
+rest of the code motion here.  So, could you move this earlier in the
+series, before the creation of spr_tcg.inc.c, so I can go ahead and
+apply it while we continue discussing the rest.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -171,25 +105,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---llbTbod1ZdjcVJFS
+--FCH1lIn8l9vrG2dr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPfewACgkQbDjKyiDZ
-s5Izeg/8CYPRCiApDHhoUTlbNWB2XzXOIX7JeXj7njn5fPyGa6Yh8pm3yu+YoBa/
-UPXoppb2CqgbHnULYzfO5kG7lFj34e9rnA559FhNWOcmGjxbN+sVDcXO6vfaCBPz
-D2XpZmiUIZOjjbVOitWEZn9b+ZBNhnIzWFLFfQ6+m9zq9A/2oZFwUjsf+v7nD5WI
-fVC6KvA+sUchXuNOhqJMYl5ZlCzFkVG2tgnnvMCgrpe85/V6z+0kF55A12P3AU9B
-ZqAB/vt6ehvzW4tLJWHRWUrDufM/aWUeKOHsAr99Maz/k9OwSbOF2DpwnzwrqNKH
-XVOt3FAD5Zzp1HRaORyMdk6b44uN6qzOdAfhymPak1hnZPaAixjQ/cOAsh68z1Pf
-2a0UPe2imMArUzrn7fvkweu4GDodtTaywQTrGnr2Y9peOJauY//OUlxOnwMYUveI
-bogfTK4d9GKNLcuSZCE/wPcCUg83EAnD4AFkwQ1cWNlzhajyb5uYsl2oI7CzZXP6
-zKPV+zxDBgH0PdOKrcmi2+qVI4+i3NNZtswGaQX0Ggc4337CTuG7xey2m5kTg/21
-9scJcz2hGedch6Vl8+1KauYtMUsLENYRtpgGUF9SkNTjqCOe+/3ykcBt561dgzg5
-82UjbqYuJT/pHo7yZ/9e8jRyLNEg2l0LwNHLx1KYoZ5Jp0E9w6M=
-=BJhS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPfo8ACgkQbDjKyiDZ
+s5J6rhAAkMeJ4aJ/RnUTEbM1Dn08O3CvUL10lBqtiFgfznwBO3n3KowmwuntpsLh
+0YW7Tm12RqFiiB8zB8N+WpktSPQgkKGTPD93AYNMy1cDSoL/VH872F9ERsmCRfSB
+tzYksQhFJAB56MddoR7ourZDXuMvMTm45Ff3pXV4mKtJ5W4RH/HuZvCIsvue0IfG
+ZmWbc/HUV5Ju5iJpJ4Tt/AxUG8eIWFVoujiaiwvK5BIvgDYCC3JgDrmJlkjexIN8
+E0zTvp5/BYESU1muUU5RqDTRMadjqxwzPdK7LVKx6ccflrnL9KHHznFgSvFK6Y4h
+jvVNCYoYC51Pn9NQFfUXTpPglJ6obx0tg3mA7XKh0L+bmiJ+eadPU8By93v9/AjZ
+XJp4Olf13Kw17Xmf9XQLBOtQDBuCtWMCj1OkRwjdlDFvC/Vrvf6s4vTqqOkabG9p
+b1yYyRGCbVprmr9hzeYjj+8FWrP80WdEVUDzrnNcYJdjaosNGvYChRPR9kapjh5f
+pzzVNjlbSMj74ollVgSFQiNsZlLq3LJ2rYW7TUVwAuLgcLpYDzAX3qjCwa7NlT88
+v+TCFXNm8bW9DVjUNqpfLRsWUcYZNeqJVQXR8ThCY3tGsp1hjT9aiAOF4aaJMPeq
+O0Bs5cAMmPNuBMhZA8BOzswd6belTdDh/Rl1Hjo4IHrQgdXyFxw=
+=0+66
 -----END PGP SIGNATURE-----
 
---llbTbod1ZdjcVJFS--
+--FCH1lIn8l9vrG2dr--
 
