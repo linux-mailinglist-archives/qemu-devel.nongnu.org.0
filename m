@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3E737179E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 17:12:06 +0200 (CEST)
-Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733C53717AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 17:14:54 +0200 (CEST)
+Received: from localhost ([::1]:34480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldaEv-0006kw-86
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 11:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43622)
+	id 1ldaHd-000090-IK
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 11:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldaDq-0005Yj-66
- for qemu-devel@nongnu.org; Mon, 03 May 2021 11:10:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44589)
+ id 1ldaG9-0007fS-1V
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 11:13:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldaDo-0005Rc-Gs
- for qemu-devel@nongnu.org; Mon, 03 May 2021 11:10:57 -0400
+ id 1ldaG7-0006bS-Gb
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 11:13:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620054655;
+ s=mimecast20190719; t=1620054798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3j7UFY0YNG2FM6OXw1BaZUKD5kIZ9Ctbnv1rQqs6AcI=;
- b=hJuwXBHhqmyLrv+UEy2d+u6gTZgaAffjdOTAOgWu+yK/5nxcUZv9v1z5C7uI0i05G1eH2p
- zz3RltBg9vQC/1vSnL+UzD45hergPDLNZ8hQ9Kv3fPP7Ut4I0BYPD4vZylwsSBvLuvV4f3
- 98FGNFl5UNCF5nfjCCHlHUrTbdpI49Y=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-4tB0tHWEN4qZVAfRZcwNHw-1; Mon, 03 May 2021 11:10:54 -0400
-X-MC-Unique: 4tB0tHWEN4qZVAfRZcwNHw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- z15-20020a170906074fb029038ca4d43d48so2181418ejb.17
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 08:10:54 -0700 (PDT)
+ bh=hUTNx+GsIgrAyG42d/hYWOCNsGoljgzTd0u91D1RDI8=;
+ b=H8pOngXrfUphnVZGq1QwMIcP7oOzIJNhZ1eau/KBBnDphg8eiMhNfjCfYq7e70JDj0yZGg
+ uz/teuhIzszLyw4liOGLoN8iUbTK8L4+DnlTmNGkjrwFiPGRG/Z8Vdmn3aUP5S4zpXDMgq
+ lIqat+AwS78623bakBK0PVqAdrcF5jk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-XL46dqK2M6iQoHp99qkhsA-1; Mon, 03 May 2021 11:13:17 -0400
+X-MC-Unique: XL46dqK2M6iQoHp99qkhsA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ i2-20020a0564020542b02903875c5e7a00so4702283edx.6
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 08:13:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3j7UFY0YNG2FM6OXw1BaZUKD5kIZ9Ctbnv1rQqs6AcI=;
- b=ZTs2yw+hJ3tgH67q1JNBVBFQ2xQsTaRPnMccbxxM13IChYndt+61VDBeirHVeYkpze
- r+pI5yxRo4ZZAntYKe9y7pRmGNhmqOwyM7neoaVqe6AS4yKFhc0TVH9EkfEzRocSQzvK
- BttwhPATJF/EuwupNEZXMldfQgERhhNHqu4T+GFCq8I6eMDpzBz+i4LShYEKllp6ze3S
- hZUQbGhZcQ+OYzUTmisyCaymDA1N9Lz1y+Fs9ZJU+Y02BNQ8VDVUGShBXfBsYxEF0hsh
- o4sM3OKos1VERcuOxWgQdlYMFU2V4JqwFhVErdhY6KYfLa0GAmrqc/+nZ+BaH/R8zXuu
- puHw==
-X-Gm-Message-State: AOAM53332eu3f8bE1aOW4uavJwiBxHngaBSoQt4TkRPNZ28RcBsJnnjR
- Jw53q9paZ9hfRQH73cygG1ln+qj3QgQ5cdqADav1DKKsNFdZqegy45S0itUTc8tn8hbrPBK3ZUn
- 8B3mp5p3Oz+7wvcU=
-X-Received: by 2002:a17:906:d978:: with SMTP id
- rp24mr17280586ejb.333.1620054653044; 
- Mon, 03 May 2021 08:10:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzb7ISTBiWl86N0HCmHy74Rvas5uMl/nr2k0RIQdE6hZmU+TUinALY66nST7TvjIvXDktTj8A==
-X-Received: by 2002:a17:906:d978:: with SMTP id
- rp24mr17280558ejb.333.1620054652875; 
- Mon, 03 May 2021 08:10:52 -0700 (PDT)
+ bh=hUTNx+GsIgrAyG42d/hYWOCNsGoljgzTd0u91D1RDI8=;
+ b=pvaVgLbS4hZmiib5U0uz/ewQt/zFvrtopypnNqYh7GaN5Xei/3vUzkG6wgYQ3B3PCC
+ LNhI8EGDADjQtf1BVvHcMHgVtkdS6poKzoJTN9A1e83oAVd2wmS1EWwSOzlJ2ErooYET
+ XJGnWWATlCfa6SeOxm6SzQB5iolYoPajMSmH6j13dyciOtlNYjLNEKXI6zZdoiHGN1eU
+ eWH8X92uAlrkxhIDYCGrFOfR3QB+2pS0uOyccz5OhY0qDW5lgFhUWoh+wNOJ2WwBukaW
+ WBXQoxMxGDpPpZXnYKR49x2vQ8kehNLSNBz8ePSXgiiC5px4dGdJ7bBgpjn4qWv/qasI
+ pj9g==
+X-Gm-Message-State: AOAM530rKvyBh+E98muxLYLRzx9kk6M2y2r80++0tthRngWyftpIvHaO
+ fCxhe2TvZVyOkpxTzIhR6yOKIh6QtUILA6sqjsgldNi1viQEuG1sb4SIoo3H3Nox6WGYj5jee+2
+ +xKfnClZFRU7Kbuc=
+X-Received: by 2002:a17:906:46d0:: with SMTP id
+ k16mr17345806ejs.105.1620054795852; 
+ Mon, 03 May 2021 08:13:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw6i99FpwJBxklVx7VbhftcavyDVQ/2bDE/WjSUkPgXx9gZraUEpxpkHaOTdetqj6nLUnCTnQ==
+X-Received: by 2002:a17:906:46d0:: with SMTP id
+ k16mr17345786ejs.105.1620054795712; 
+ Mon, 03 May 2021 08:13:15 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v23sm13017138eda.8.2021.05.03.08.10.51
+ by smtp.gmail.com with ESMTPSA id x9sm12520153edv.22.2021.05.03.08.13.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 08:10:52 -0700 (PDT)
+ Mon, 03 May 2021 08:13:15 -0700 (PDT)
 Subject: Re: Let's remove some deprecated stuff
-To: Gerd Hoffmann <kraxel@redhat.com>
+To: Alistair Francis <alistair23@gmail.com>, Thomas Huth <thuth@redhat.com>
 References: <87y2d1csxe.fsf@dusky.pond.sub.org>
- <bd90409c-14d0-2732-0056-9fec8383479a@redhat.com>
- <20210429124049.z7qtkufk2wgvvd5i@sirius.home.kraxel.org>
+ <CAKmqyKPYu1Y5EaAvVgB9U4kCh4yBJG_75r6ivdvMuZDN6F3ZcQ@mail.gmail.com>
+ <17b136e5-5811-27e2-224a-47795eb68bb5@redhat.com>
+ <CAKmqyKOtnRvXZffxc_8zZUYQxwFFO9cEocU0cRkUs3PGJnCNVQ@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ac964003-8358-dfc6-dc6e-edb830541e0f@redhat.com>
-Date: Mon, 3 May 2021 17:10:51 +0200
+Message-ID: <dad95862-e7e3-2416-6c62-c19d81dc3e3b@redhat.com>
+Date: Mon, 3 May 2021 17:13:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210429124049.z7qtkufk2wgvvd5i@sirius.home.kraxel.org>
+In-Reply-To: <CAKmqyKOtnRvXZffxc_8zZUYQxwFFO9cEocU0cRkUs3PGJnCNVQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -104,42 +105,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Robert Hoo <robert.hu@linux.intel.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/04/21 14:40, Gerd Hoffmann wrote:
->> In other words you would do something like -audiohw
->> <audiodev-args>,model=xxx and it gets desugared automatically to either
->>
->>     -audiodev <audiodev-args>,id=foo -device devname,audiodev=xxx
->>
->> or
->>
->>     -audiodev <audiodev-args>,id=foo -M propname=foo
-> Suggestions how to do that in a clean way?
-> Given that -audiodev is qapi-based I tried it this way:
+On 03/05/21 09:12, Alistair Francis wrote:
+>> deprecated.rst is mainly thought for the things that only have been marked
+>> as deprecated, but not changed yet. Once it's done, the items normally get
+>> moved to docs/system/removed-features.rst instead.
+> Too easy, I'll move it there instead.
 
-Since this is sugar, I think it's okay to make it desugar into QAPI, 
-instead of being QAPI all the way down:
-
-- use qobject_input_visitor_new_str in softmmu/vl.c
-
-- visit the "model" key
-
-- look up the "model", fail if it doesn't match a known model
-
-- pass the rest into a variant of audio_parse_option that takes a 
-Visitor and returns and Audiodev*
-
-- pass the id into a constructor function keyed by the model
+Can you move the description to docs/system/target-riscv.rst?  The 
+switch from ``bios none`` to ``-bios default`` in 5.1 can be placed in a 
+footnote if desirable, but the documentation of ``-bios`` is worth 
+keeping in a more prominent place.
 
 Paolo
 
