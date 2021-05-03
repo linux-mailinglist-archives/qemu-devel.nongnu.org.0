@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039023713DE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:54:56 +0200 (CEST)
-Received: from localhost ([::1]:53364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8AA3713E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:58:11 +0200 (CEST)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldWE3-00060a-40
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
+	id 1ldWHC-0008Ey-OD
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldWC8-0004h6-08
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:52:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24417)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldWFw-0007oE-FT
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:56:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldWC5-00089L-E9
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:52:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldWFu-0002DP-Ow
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:56:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620039172;
+ s=mimecast20190719; t=1620039409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/OwCrzQgttmr8wvWuygUit7j+teAooee3pksF0qVMw8=;
- b=W92ZxakeCMYgbo0ejlw83Llif9DjWf7CGn83Wo4lQyyFwArhfLV5yLaXcWlurmLnlOh6Pq
- fzPQfBB/7Ubbl1OioR4/Rc+HcEtKmt3dGOSGsXHPcq5qzEvzuu/kiGvcrpMXwinlaEuzRV
- zkU9bYlC2h8qr02uRiEapogcBr6f2S4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-QnI3KrazPtOcMY5nNODyGA-1; Mon, 03 May 2021 06:52:50 -0400
-X-MC-Unique: QnI3KrazPtOcMY5nNODyGA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 63-20020adf84450000b029010dd0171a96so3123159wrf.21
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 03:52:50 -0700 (PDT)
+ bh=ZHu4GTlzAheU1rSrgsBHuXeL1IjIlLXBsLBiF/wMUi0=;
+ b=SQcCpD97OQ291UucQ7rCfl2zNbYkcjFs5hSUC6H8ZcIeN2geT4csxLBJaRPX53mjzVKOS2
+ A9lcq94ait25BuCfHVyDomy0/aG+I2KsU18fKdjpsqI+luEHvsU7gpIs5Rb3QYEXyqLm0K
+ zhdRe/4Wz+6sYkGE+A5zW48MYNgAID8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-544-71O_4n0oMP2gyfmj3ELqqA-1; Mon, 03 May 2021 06:56:48 -0400
+X-MC-Unique: 71O_4n0oMP2gyfmj3ELqqA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s7-20020adfc5470000b0290106eef17cbdso3687861wrf.11
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 03:56:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/OwCrzQgttmr8wvWuygUit7j+teAooee3pksF0qVMw8=;
- b=ZrhaE5jHOhMjBni5ifE0/9ANL140X55kKxal0FRZAlLPQkOoBUH8ZfE589w3XYxwQL
- vI1s6XTGyp5mHByYZyyrBZozJHk8et3fMLxaNlhRBvhxok40BbAvNCha9Q+cuS5kLxV/
- CaM15gmnZqIh3X7dKJKZsmrrGIqaYPe37e5yGf403XngBJEvEGGXfYbU+CYtIAtFind5
- mLgQa1p9hJWnHI1ZoSE/0MecX206EcnfPxUOdV1dqNdl9nO++lUw371HbxzTJ2bVfY9Y
- VmcY+kSIbdgbCziAw5RJ0+uHQ18dCTpGvrc1w/gBkpE36RZgYNJvzxs2RnjJYbXgKvHQ
- Ak/g==
-X-Gm-Message-State: AOAM532QCYOD2bKHXwq+hCbhlZY+2mF+LsnH17PJFdaoqvSLlTYbWt0s
- K/eZawsFQHfDQa6idAp46J+njeFUDJP1sAtBw5d+tJLKEld+r+0fT2WDYpylfMCwzEfj4cHcac1
- 3thTa3S98DazNkVw=
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr24511345wrn.262.1620039169850; 
- Mon, 03 May 2021 03:52:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwfuPWtQvOStI/SgQadXtSkgi3+3C0oZLR4dq6PFHX1lq6U/6jXqk/3MyCkIHs/kaOmRttSw==
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr24511335wrn.262.1620039169655; 
- Mon, 03 May 2021 03:52:49 -0700 (PDT)
+ bh=ZHu4GTlzAheU1rSrgsBHuXeL1IjIlLXBsLBiF/wMUi0=;
+ b=GkQns14ETLWoTp+NLA7adb2HSgMMczuL7Tb8mSdBhI/FcyXVa7xwvoB/WmbTkKOSio
+ 7Z+F9yvd/dEKx9Mb1le8UmPhFlgyIJZIDqMXS2ecNm6uFBmEvrx5g7W01onTkznabil8
+ dyIdGMhsyLXeQItsQUyRMgucEm+YjKPP7rc/1+sjw9h18KXhcLWNIax2NakjZIPA3RDL
+ bAAQCDGD54bcXbVPRUhWVtekKacOH9ThfKfExiGfQj4O8SK2KhzRMoB4G1t/e318oqHq
+ hd1EMUcuf/v60jaTN20bMmJucDYEwU8QgksUI6In/VTMinZv6U/CLJNzKE9qWdojOWUW
+ a/NQ==
+X-Gm-Message-State: AOAM531qwg67WAepHOaJp3qZ97YQY5uAOraxtBnptqehTFT2KI7hAVAx
+ ccggzcmO3xlzGtcr2Q0SSScANpttLpMehYoUujkp8zEUvaEII8CzVdPK95UizpSzOpxWC56zGrZ
+ +rl1bx1QPk/k3tYc=
+X-Received: by 2002:adf:f38c:: with SMTP id m12mr18689368wro.282.1620039407153; 
+ Mon, 03 May 2021 03:56:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLNR8cRglp7p+T0TsMFFzsr7F1FrZ5dNJ2PS/5j7iUrE78gG2l1dwB06fsvc47hXdCc6sUWw==
+X-Received: by 2002:adf:f38c:: with SMTP id m12mr18689357wro.282.1620039406991; 
+ Mon, 03 May 2021 03:56:46 -0700 (PDT)
 Received: from thuth.remote.csb (p5791d0bc.dip0.t-ipconnect.de.
  [87.145.208.188])
- by smtp.gmail.com with ESMTPSA id t206sm11139017wmb.11.2021.05.03.03.52.48
+ by smtp.gmail.com with ESMTPSA id e10sm11982934wrw.20.2021.05.03.03.56.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 03:52:49 -0700 (PDT)
-Subject: Re: [PATCH 2/2] Drop the deprecated unicore32 target
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210503084034.3804963-1-armbru@redhat.com>
- <20210503084034.3804963-3-armbru@redhat.com>
+ Mon, 03 May 2021 03:56:46 -0700 (PDT)
+Subject: Re: [qemu-web PATCH] Update website to point to the new bug tracker
+ at GitLab instead of Launchpad
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20210503103007.1034171-1-thuth@redhat.com>
+ <92c95d95-dd59-4e52-ee14-a6b3925d43e0@amsat.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <7e482318-7e44-a498-c129-fdf25d24ba0c@redhat.com>
-Date: Mon, 3 May 2021 12:52:48 +0200
+Message-ID: <0cc06563-a543-fcdd-0fe3-c5a6eec4c514@redhat.com>
+Date: Mon, 3 May 2021 12:56:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210503084034.3804963-3-armbru@redhat.com>
+In-Reply-To: <92c95d95-dd59-4e52-ee14-a6b3925d43e0@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,83 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- richard.henderson@linaro.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2021 10.40, Markus Armbruster wrote:
-> Target unicore32 was deprecated in commit 8e4ff4a8d2b, v5.2.0.  See
-> there for rationale.
+On 03/05/2021 12.47, Philippe Mathieu-Daudé wrote:
+> Hi Thomas,
 > 
-> Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
-[...]
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index e914d34298..2592c4fbd5 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -198,14 +198,6 @@ from Linux upstream kernel, declare it deprecated.
->   System emulator CPUS
->   --------------------
->   
-> -``unicore32`` CPUs (since 5.2.0)
-> -''''''''''''''''''''''''''''''''
-> -
-> -The ``unicore32`` guest CPU support is deprecated and will be removed in
-> -a future version of QEMU. Support for this CPU was removed from the
-> -upstream Linux kernel, and there is no available upstream toolchain
-> -to build binaries for it.
-> -
->   ``Icelake-Client`` CPU Model (since 5.2.0)
->   ''''''''''''''''''''''''''''''''''''''''''
->   
-> diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-> index e9850e4b96..b399084438 100644
-> --- a/docs/system/removed-features.rst
-> +++ b/docs/system/removed-features.rst
-> @@ -293,12 +293,19 @@ available to make sure that the code is still working, so it has been removed
->   without replacement.
->   
->   ``lm32`` CPUs (removed in 6.1.0)
-> -'''''''''''''''''''''''''''
-> +''''''''''''''''''''''''''''''''
+> On 5/3/21 12:30 PM, Thomas Huth wrote:
+>> We've started migrating the bug tickets from Launchpad to GitLab, so
+>> it does not make too much sense anymore that users open new tickets
+>> in the old system. Let's direct them now to the GitLab tracker instead.
+> 
+> We should document the user has to request a Gitlab 'Reporter' access to
+> the project, and warn there might be a delay of some days before the
+> request to be accepted, before the user be able to fill the bug.
+>
+I think it is possible for everybody with a Gitlab account to file bugs. We 
+already have two tickets that were created by non-members:
 
-Nit: That hunk should go into the previous patch.
+  https://gitlab.com/qemu-project/qemu/-/issues/47
 
-> diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-> index 45b7bf81dc..b5b50537bf 100644
-> --- a/fpu/softfloat-specialize.c.inc
-> +++ b/fpu/softfloat-specialize.c.inc
-> @@ -103,7 +103,7 @@ static inline bool snan_bit_is_one(float_status *status)
->   {
->   #if defined(TARGET_MIPS)
->       return status->snan_bit_is_one;
-> -#elif defined(TARGET_HPPA) || defined(TARGET_UNICORE32) || defined(TARGET_SH4)
-> +#elif defined(TARGET_HPPA) || defined(TARGET_SH4)
->       return 1;
->   #else
->       return 0;
-> @@ -146,11 +146,10 @@ static FloatParts parts_default_nan(float_status *status)
->       /* snan_bit_is_one, set msb-1.  */
->       frac = 1ULL << (DECOMPOSED_BINARY_POINT - 2);
->   #else
-> -    /* This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
-> -     * S390, SH4, TriCore, and Xtensa.  I cannot find documentation
-> -     * for Unicore32; the choice from the original commit is unchanged.
-> -     * Our other supported targets, CRIS, Nios2, and Tile,
-> -     * do not have floating-point.
-> +    /*
-> +     * This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
-> +     * S390, SH4, TriCore, and Xtensa.  Our other supported targets,
-> +     * CRIS, Nios2, and Tile, do not have floating-point.
->        */
+  https://gitlab.com/qemu-project/qemu/-/issues/45
 
-I guess you'll get a conflict here with my moxie removal patch... but that 
-should be easy to solve.
+AFAIK, you just need the "Reporter" state if you want to add labels to a 
+ticket, or if you want to assign it to somebody else.
 
-FWIW:
-Acked-by: Thomas Huth <thuth@redhat.com>
+  Thomas
 
 
