@@ -2,116 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCC937137C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:14:00 +0200 (CEST)
-Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F284037138F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:22:33 +0200 (CEST)
+Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldVaR-0004IW-Me
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43104)
+	id 1ldVii-0002LO-TG
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1ldVXO-0002rW-UY; Mon, 03 May 2021 06:10:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36750
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1ldVXM-0006My-8V; Mon, 03 May 2021 06:10:50 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 143A3k8W073559; Mon, 3 May 2021 06:10:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=dAUT+z/+bm/5IgTkjci/sN/4dzZZDA4jK03LXTIO2QM=;
- b=LPLx83wwxVR+sX2qpYTbDMFxLejfuXVx6klN4v33FZXtRN1I75wgcYLb9hWvrikskLGq
- HZYcm8oM7zakF/j/MRiYGt/c8OZqh5tlcSceipeX1YsQ1kHNbUiwiAVYU6iBvgRAafHQ
- v7RGL7baHT7XMhSPxbxYsN0S3yRBeRepHomv1fZsM+xXlT65z4TaPJdnmWyYwN8bzeQw
- Xgrzl1DMmV+wxRnnaG0Cc9+NViHQr4Oztrc9ELryj3K+4uqut7JR03N0iP8fhaiy0w6J
- LsIAdgq2levYiw6NOIYchkdyiRZeNJUGpyqi4HzzE5in3+K4oC/EHrbFujPqr1mShioV Xw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38af2e0662-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 May 2021 06:10:45 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 143A4NX0075381;
- Mon, 3 May 2021 06:10:44 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38af2e064v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 May 2021 06:10:44 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 143A9OM4003046;
- Mon, 3 May 2021 10:10:43 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma01fra.de.ibm.com with ESMTP id 388xm88bx8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 May 2021 10:10:42 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 143AAe7F44368354
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 May 2021 10:10:40 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6D06CA4051;
- Mon,  3 May 2021 10:10:40 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0C845A4040;
- Mon,  3 May 2021 10:10:40 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.76.192])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  3 May 2021 10:10:39 +0000 (GMT)
-Subject: Re: [PATCH 4/4] pc-bios/s390-ccw: Allow building with Clang, too
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20210502174836.838816-1-thuth@redhat.com>
- <20210502174836.838816-5-thuth@redhat.com>
- <87r1iofm61.fsf@dusky.pond.sub.org>
- <15271277-98c2-3925-5937-b9f04ad376b3@redhat.com>
- <3808e5d4-b755-bce5-a25f-2d46ed6a59e7@redhat.com>
- <87mttcdy4n.fsf@dusky.pond.sub.org>
- <20210503111457.6f8e3597.cohuck@redhat.com>
- <9a0823a5-3782-c004-bbe6-7c5bc6830465@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <d6b6fe9a-f095-5587-6e38-8bf16157aed8@de.ibm.com>
-Date: Mon, 3 May 2021 12:10:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldVgz-0001bz-L7
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:20:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldVgx-0004Q7-La
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:20:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldVgv-0007BR-Ht
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:20:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7EFC02E815D
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 10:20:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <9a0823a5-3782-c004-bbe6-7c5bc6830465@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jJ_XFQX8NA8wN1JVOsi1_TRzzYSUoDS5
-X-Proofpoint-ORIG-GUID: 0MDReXg_vskkyauv0cFAfkEiTJ6jYp6H
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-03_06:2021-04-30,
- 2021-05-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- adultscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105030066
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 10:12:24 -0000
+From: Peter Maydell <1776478@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: guysoft paulguyot pmaydell th-huth
+X-Launchpad-Bug-Reporter: guysoft (guysoft)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <152880770129.26761.1762643804065210181.malonedeb@gac.canonical.com>
+Message-Id: <162003674483.4732.15264322156850764201.malone@chaenomeles.canonical.com>
+Subject: [Bug 1776478] Re: Getting qemu: uncaught target signal 6 when running
+ lv2 plugin cross-compilation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 689dd755c4e5775682e368c220aee1cb6e35df7d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -120,63 +71,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Reply-To: Bug 1776478 <1776478@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Well, first try with QEMU 6.0 and see if it's still present...
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1776478
+
+Title:
+  Getting qemu: uncaught target signal 6 when running  lv2 plugin cross-
+  compilation
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hey,
+  I am part of the Zynthian team and we use qemu-arm-static to cross compil=
+e lv2 audio plugins.
+
+  When running a compilation of DISTRHO-Ports we get:
+
+  lv2_ttl_generator: pthread_mutex_lock.c:81: __pthread_mutex_lock: Asserti=
+on `mutex->__data.__owner =3D=3D 0' failed.
+  qemu: uncaught target signal 6 (Aborted) - core dumped
+  ./scripts/generate-ttl.sh: line 27: 16524 Aborted                 $GEN ./=
+$FILE
+  Makefile:62: recipe for target 'gen_lv2' failed
+  make[1]: *** [gen_lv2] Error 134
+  make[1]: Leaving directory '/home/pi/zynthian-sw/plugins/DISTRHO-Ports'
+  Makefile:104: recipe for target 'lv2' failed
+  make: *** [lv2] Error 2
+
+  =
+
+  lv2_ttl_generator source is here:
+  https://github.com/DISTRHO/DISTRHO-Ports/tree/master/libs/lv2-ttl-generat=
+or
+
+  The command that is ruining is
+  lv2_ttl_generator ./TAL-Filter-2.so =
 
 
-On 03.05.21 11:31, Thomas Huth wrote:
-> On 03/05/2021 11.14, Cornelia Huck wrote:
->> On Mon, 03 May 2021 10:23:20 +0200
->> Markus Armbruster <armbru@redhat.com> wrote:
->>
->>> David Hildenbrand <david@redhat.com> writes:
->>>
->>>> On 03.05.21 07:17, Thomas Huth wrote:
->>>>> On 03/05/2021 06.58, Markus Armbruster wrote:
->>>>>> Thomas Huth <thuth@redhat.com> writes:
->>>>>>> Clang unfortunately does not support generating code for the z900
->>>>>>> architecture level and starts with the z10 instead. Thus to be able
->>>>>>> to support compiling with Clang, we have to check for the supported
->>>>>>> compiler flags. The disadvantage is of course that the bios image
->>>>>>> will only run with z10 guest CPUs upwards (which is what most people
->>>>>>> use anyway), so just in case let's also emit a warning in that case.
->>>>>>
->>>>>> What happens when you try to use this bios with an old CPU anyway?
->>>>>
->>>>> Interesting question. I was expecting the guest to crash since it would be
->>>>> using a CPU instruction that is not supported on the old CPU model. But I
->>>>> just gave it a try, and there was no crash. The guest booted just fine.
->>>>> Either Clang only emits instructions that work with the old z900 anyway, or
->>>>> our emulation in QEMU is imprecise and we allow newer instructions to be
->>>>> executed on old models, too.
->>>>
->>>> Yes, that's currently still done. We once thought about disabling that
->>>> (there was a patch from Richard), but decided against it because -- back
->>>> then -- the default QEMU model was still very basic and would have
->>>> essentially disabled all more recent instructions as default.
->>>>
->>>> We can most probably do that change soon as we have a "fairly new"
->>>> default QEMU CPU model. I can glue it to my z14 change.
->>>
->>> In case this makes the BIOS crash with old CPUs: when a guest refuses to
->>> start because the BIOS was compiled the wrong way for it, configure
->>> having told you so back then is not a nice user experience.  Can we do
->>> better, with reasonable effort?
->>
->> I fear the experience will be as bad as for any guest that is using
->> features from a newer cpu level (i.e. random crashes when the guest
->> actually tries to use that newer instruction.)
->>
->> I see two options:
->> - Just try to start and hope that it works.
->> - Deprecate any cpu model older than z10.
->>
->> Anyone have a better idea? I don't particularly like any of the two.
-> 
-> I think we should simply continue to build the default bios with GCC and -mz900. So the normal user (who does not explicitly use the freshly compiled binaries but the pre-built ones) will never experience any problem here. The Clang builds are (at least right now) rather only meant for us developers to check the sources from time to time with this compiler, to see whether it detects some additional issues compared to GCC.
+  And ./TAL-Filter-2.so source is here:
+  https://github.com/DISTRHO/DISTRHO-Ports/tree/master/ports/tal-filter-2/s=
+ource
 
-Ack.
+
+  Is there a way to debug what is going on?
+  This runs fine on a Raspberrypi which is armv7
+
+  A workaround would also help.
+
+  =
+
+  Bug in Zynthian:
+  https://github.com/zynthian/zynthian-sys/issues/59
+  Bug in DISTRHO-Ports:
+  https://github.com/DISTRHO/DISTRHO-Ports/issues/29
+
+  Using qemu-arm-static version from master from two days ago:
+  qemu-arm version 2.12.50 (v2.12.0-1182-ga7a7309ca5-dirty), commit: a7a730=
+9ca52c327c6603d60db90ae4feeae719f7
+
+  Also saw this in qemu-arm version 2.12.0 (Debian 1:2.12+dfsg-3)
+
+  Thanks,
+  Guy
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1776478/+subscriptions
 
