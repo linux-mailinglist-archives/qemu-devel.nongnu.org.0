@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF6D371ECD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:40:30 +0200 (CEST)
-Received: from localhost ([::1]:52352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE628371EDA
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:45:00 +0200 (CEST)
+Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldcYX-0003lA-KG
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:40:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
+	id 1ldcct-0007lu-QC
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldcTp-0000uh-Ky
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37636)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldcTr-0000wU-0w
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:35:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldcTl-00080N-4Y
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:35:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldcTo-000854-PP
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:35:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620063330;
+ s=mimecast20190719; t=1620063335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=D5WkpqcvBKFPoRAljVl/kj4A5CcGh0n1vJVY9xVkUT0=;
- b=GBn4VxmvLXi53lj1gHFOFUtXYV0+9E0tBnd0UbGWMPAOf/ohpB9+NZIao6iVkvJn2IhD30
- +LI/iO0fxC/kxFAfZ9JDDUJfbr2AyUMJh8bdBln4uVdHAPjZk7opO1uTGPlMdIhmN2GEc9
- mPJF/T2OmFGdvpZDLAl9BB0NDdFS+dU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-3QiS6e5CN4ib7ri93l21Tg-1; Mon, 03 May 2021 13:35:27 -0400
-X-MC-Unique: 3QiS6e5CN4ib7ri93l21Tg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v2-20020a0560001622b0290106e28f8af8so4303220wrb.9
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:35:27 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9YgWkBOpmW47z0vCe4sUC8C/PYvyTKvQToOOdtPZ8r8=;
+ b=F/DCoHhUUM+1EtNIJVy83Cm7LPL49Xa+tFrEUnPqcffvmJJtLuz1Cp0w/BpvIGQ+G5NuK5
+ 2UxOggAvvdmtqUkJAvV2LyFjKvOpktjaRvkHit0QrPFc5ZhI4Q2g3wG8ZRjvFT8FzBjvFg
+ FDe/fceXSdm4NIZJLG2zK3dr/+0knMY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-gYgSNm1YO_W_A2SGwxHNkA-1; Mon, 03 May 2021 13:35:32 -0400
+X-MC-Unique: gYgSNm1YO_W_A2SGwxHNkA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s7-20020adfc5470000b0290106eef17cbdso4305213wrf.11
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:35:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8q8cMg1Nx6zjGr+DnUeGHd4mMna/J9GPnPvZn2873uQ=;
- b=AlF7rBFBc8+E7MkusukcIQiTHdvebl4TBHxNqsrhyoe4j9haxuYrpTN4Z2qxMYZfTj
- atCnSu4JV3RayNPorqPmq+O1/aXhyqoVbH5Tf1kq/J4EU70WgJEmuNbAKwwfXwHefjLI
- 7/Ssl5nN9I4e/tbXEUSGWo6oU1LmlKqPERIFpNMm25SFmy5+9W7S6BsNM9ofZ2Qkxdbo
- LZDqY0bDiyzlnu3QklHgaBmY13WCvy5VC7srjMsT38PmLojTlsIbzNmVrbI4c1kJ2+aR
- /84vwmUilt65c9K7W++MvMtN+3c+VoJom1SH8wdhFP7pK4RfzTJL+TkhicM60iyZ/kqP
- BqHA==
-X-Gm-Message-State: AOAM530nbql+pJ73grZ9Gd3kKTWKf1C8YLMSWW76OmA9X5R+/J8MegdK
- shBdcLfPEZueNpPSMoxxAPQRC8V2LdVzSBFc30OpYxl7pJasrHLxOa5bQ7oY6iT3MXSg6xPmGu3
- IFKOV4I+mefdsJWpNN9KesVxXDwoGu5pZmLwHmBzVCNQ6c7Q8B/3+KEUhcRkxpqXN
-X-Received: by 2002:adf:f9c5:: with SMTP id w5mr18422912wrr.222.1620063326034; 
- Mon, 03 May 2021 10:35:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmmJihaaqmGwBkptbpak6T2lIE5VXYiO4Ijgbf4LsHnv33zSbXaRUV1NQeW3lrDp1rrcbqFw==
-X-Received: by 2002:adf:f9c5:: with SMTP id w5mr18422888wrr.222.1620063325847; 
- Mon, 03 May 2021 10:35:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9YgWkBOpmW47z0vCe4sUC8C/PYvyTKvQToOOdtPZ8r8=;
+ b=p0oUdYOtwoeBsBv9PcMbxzyNV2cGDhk8L5yfBH2DWm+demRmF4NOIYT9F4XQMx38DH
+ mkyfh3BS4AHCru9PnzSASi9sM9bqRSqOdW3JFX8553VGKPPCYM3vukxmXAOryEEexud5
+ qFoK1R8BKkMNpEE03m4/8NGf4zhY5sUoWuXln7P8OUPWnfht7/izH6BzRdLeSQvwhvch
+ nEzCf8UVUYI5wsHUrdvlE4nAfs0Yvbyae9wscxBQWatM7oFGgoS92iUvodZ6J2LkseYd
+ QH4Qsflrn5o8ONJczluvRB7aQ94dHzu+E711cApJLsN8sGQb12oV/NCixWEYA/yMc72e
+ 5HwQ==
+X-Gm-Message-State: AOAM530/xruX2TmDEKqXBl6Ni5y124LG9N2hvtSP0tx+XXx+iCYnKzma
+ 0r3ocgOpIY3sqVBW/m0Nc5nBGMfhJkS5GyfKcMuERXUBonNduIYyQgurydxiRX7EEAj8Z/vtl6n
+ GAHlyNhpMbLyylXIdlVi7P/SZETWPhzRgraJU0GB3kZubfG4Zyg9rG5i7u89YIg7/
+X-Received: by 2002:a5d:525c:: with SMTP id k28mr26048534wrc.158.1620063331005; 
+ Mon, 03 May 2021 10:35:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXNy6dP9AUAL5JAPfb6lk4qmRpYPVIF4Xk5j/X81wW+7xku9n976nupPNl0vx6nVTBHZpHjA==
+X-Received: by 2002:a5d:525c:: with SMTP id k28mr26048514wrc.158.1620063330847; 
+ Mon, 03 May 2021 10:35:30 -0700 (PDT)
 Received: from x1w.redhat.com (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id z18sm13038198wrh.16.2021.05.03.10.35.24
+ by smtp.gmail.com with ESMTPSA id k6sm75457wmi.42.2021.05.03.10.35.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 10:35:25 -0700 (PDT)
+ Mon, 03 May 2021 10:35:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target/i386/cpu: Constify CPUCaches and X86CPUDefinition
-Date: Mon,  3 May 2021 19:35:22 +0200
-Message-Id: <20210503173524.833052-1-philmd@redhat.com>
+Subject: [PATCH 1/2] target/i386/cpu: Constify CPUCaches
+Date: Mon,  3 May 2021 19:35:23 +0200
+Message-Id: <20210503173524.833052-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210503173524.833052-1-philmd@redhat.com>
+References: <20210503173524.833052-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,18 +101,52 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-X86CPUDefinition[] is never written, move it to .rodata section=0D
-by marking it const.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  target/i386/cpu: Constify CPUCaches=0D
-  target/i386/cpu: Constify X86CPUDefinition=0D
-=0D
- target/i386/cpu.c | 21 +++++++++++----------=0D
- 1 file changed, 11 insertions(+), 10 deletions(-)=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ target/i386/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ad99cad0e7c..c7ded968e74 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1655,7 +1655,7 @@ typedef struct X86CPUDefinition {
+     int stepping;
+     FeatureWordArray features;
+     const char *model_id;
+-    CPUCaches *cache_info;
++    const CPUCaches *const cache_info;
+     /*
+      * Definitions for alternative versions of CPU model.
+      * List is terminated by item with version == 0.
+@@ -1698,7 +1698,7 @@ static const X86CPUVersionDefinition *x86_cpu_def_get_versions(X86CPUDefinition
+     return def->versions ?: default_version_list;
+ }
+ 
+-static CPUCaches epyc_cache_info = {
++static const CPUCaches epyc_cache_info = {
+     .l1d_cache = &(CPUCacheInfo) {
+         .type = DATA_CACHE,
+         .level = 1,
+@@ -1748,7 +1748,7 @@ static CPUCaches epyc_cache_info = {
+     },
+ };
+ 
+-static CPUCaches epyc_rome_cache_info = {
++static const CPUCaches epyc_rome_cache_info = {
+     .l1d_cache = &(CPUCacheInfo) {
+         .type = DATA_CACHE,
+         .level = 1,
+@@ -1798,7 +1798,7 @@ static CPUCaches epyc_rome_cache_info = {
+     },
+ };
+ 
+-static CPUCaches epyc_milan_cache_info = {
++static const CPUCaches epyc_milan_cache_info = {
+     .l1d_cache = &(CPUCacheInfo) {
+         .type = DATA_CACHE,
+         .level = 1,
+-- 
+2.26.3
 
 
