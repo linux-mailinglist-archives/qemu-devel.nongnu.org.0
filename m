@@ -2,73 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1791837153B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 14:27:42 +0200 (CEST)
-Received: from localhost ([::1]:51536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06616371546
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 14:33:51 +0200 (CEST)
+Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldXfp-0001Z3-6q
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 08:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55974)
+	id 1ldXlm-0003rI-0V
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 08:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldXeR-0000fi-IA
- for qemu-devel@nongnu.org; Mon, 03 May 2021 08:26:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldXeF-000683-1F
- for qemu-devel@nongnu.org; Mon, 03 May 2021 08:26:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620044762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TOUQnA2gMwWnkXWzherrzp71ut71BO40hNb+lieu0/M=;
- b=X4X1KwWRHP9zkRWPS2l+mVRQNOYLCUwJW5GQbPXWGPWw55zd9fbiZdBrpfI2ih980dKrV3
- HWlqfxYklWS9wbo1DHqXUHNvQ7cNN031xWlIDu9u9C74AlJ1SU2fO7JOIeeQmExj5v6R8v
- 6u1dpz1Lv4IHQcZ4j2y/2iHTFFgIymU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-jgAzSJnJNm6kCftjnwAPRQ-1; Mon, 03 May 2021 08:26:00 -0400
-X-MC-Unique: jgAzSJnJNm6kCftjnwAPRQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FBA4107ACC7;
- Mon,  3 May 2021 12:25:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
- [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC82210013C1;
- Mon,  3 May 2021 12:25:58 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 029CB1BC0891; Mon,  3 May 2021 14:25:56 +0200 (CEST)
-Date: Mon, 3 May 2021 14:25:56 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/2] hw/usb: Do not build USB subsystem if not required
-Message-ID: <20210503122556.lxdjhgsat6pa2u7c@sirius.home.kraxel.org>
-References: <20210424224110.3442424-1-f4bug@amsat.org>
- <b435a81e-36b0-c9cc-5661-8f87f4a33fc5@amsat.org>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1ldXgG-00028A-Rx; Mon, 03 May 2021 08:28:09 -0400
+Received: from [201.28.113.2] (port=6491 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1ldXgD-0007Qg-PI; Mon, 03 May 2021 08:28:08 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 3 May 2021 09:28:01 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 471B480134C;
+ Mon,  3 May 2021 09:28:01 -0300 (-03)
+Subject: Re: [PATCH v3 27/30] target/ppc: Move D/DS/X-form integer loads to
+ decodetree
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210430011543.1017113-1-richard.henderson@linaro.org>
+ <20210430011543.1017113-28-richard.henderson@linaro.org>
+ <a954c823-55e6-d5e1-f694-3f5b06da6d80@eldorado.org.br>
+ <0f3766df-15c1-1ae7-eb40-a9fed6a89165@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <b1407eaf-81e7-7b04-3ecf-e8cdb5a02777@eldorado.org.br>
+Date: Mon, 3 May 2021 09:28:01 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <b435a81e-36b0-c9cc-5661-8f87f4a33fc5@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <0f3766df-15c1-1ae7-eb40-a9fed6a89165@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 03 May 2021 12:28:01.0670 (UTC)
+ FILETIME=[C22A5A60:01D74017]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,20 +62,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, luis.pires@eldorado.org.br, qemu-ppc@nongnu.org,
+ lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 02, 2021 at 10:13:10PM +0200, Philippe Mathieu-Daud� wrote:
-> ping?
+On 30/04/2021 21:50, Richard Henderson wrote:
+> On 4/30/21 4:54 PM, Matheus K. Ferst wrote:
+>> The only difference between those two is 
+>> tcg_gen_addi_tl/tcg_gen_movi_tl and tcg_gen_add_tl/tcg_gen_mov_tl. We 
+>> could do this in a single method if we tcg_const_tl(a->si) in 
+>> do_ldst_D. I'm not sure about the costs involved, and we'd need to 
+>> tcg_temp_free it. If you want to give it a look, I did some tests on 
+>> https://github.com/ppc64/qemu/tree/ferst-tcg-decodetree64 .
+> 
+> I guess it works, but it feels ugly with the comparison vs cpu_gpr[0].  
+> Maybe pass in rt and ra as integers, and only pass in rb/si as TCGv addend?
+> 
 
-Added to usb queue now.
+I tried that first and it looked just as weird, but if you prefer I'll 
+change it back. We could also hide the ugliness in a helper e.g. bool 
+gpr_is_zero(TCGv).
 
-(now that the 6.0 freeze is over I'm starting to collect non-bugfix
- patches again ...)
+> The upper-case argument names clash with docs/devel/style.rst.
+> 
 
-take care,
-  Gerd
+Good call, I'll fix this before push this branch again;
 
+> You can use tcg_constant_tl() to grab a hashed constant that need not be 
+> freed.
+>
+
+Then we could
+
+ > return do_ldst(ctx, cpu_gpr[a->rt], 
+a->ra?cpu->gpr[a->ra]:tcg_const_tl(0), ...
+
+At the cost of always calling tcg_gen_add_tl and repeating the RA=0 
+logic in do_ldst_X and do_ldst_D.
+
+> BTW, I thought I had a comment about PLS being used for both MLS and 
+> 8LS.  I guess that must have gotten lost at some point.  If you go with 
+> your renaming to MLS, you'll want a different comment about PLD et al.
+> 
+> 
+> r~
+
+Don't mind that, it was a bad idea, I gave up on this change while 
+rebasing v3.
+
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
