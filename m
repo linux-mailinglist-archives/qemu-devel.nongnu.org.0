@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818F8372265
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 23:22:24 +0200 (CEST)
-Received: from localhost ([::1]:59072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1091337226D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 23:30:47 +0200 (CEST)
+Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldg1H-00012n-2H
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 17:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42558)
+	id 1ldg9N-0003lY-LA
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 17:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ldfyz-00082l-0D
- for qemu-devel@nongnu.org; Mon, 03 May 2021 17:20:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ldfyx-000472-8k
- for qemu-devel@nongnu.org; Mon, 03 May 2021 17:20:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620076798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dR4CBL+r+jnt3++PiVcPHFlP8yj0Hn6hMcvOHJtftO4=;
- b=Wa/Ogd7rTKazLtvahmXTzZhTzAMmqXr1Gs7yOSNUBFU7exDSAemAjBDtni02dHCRjOHcQf
- l8CgkfgX+JnmK0lsxZAxiw+apGF8yYpzTzXXMiU+OVTmf6A7fUjQfcGc0UcMPDCUsBQN6G
- MFtSafoMuIrtAepH7DHKbfarYEA4eX8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-uFHWohuOP2OFeqk4NgTPDg-1; Mon, 03 May 2021 17:19:49 -0400
-X-MC-Unique: uFHWohuOP2OFeqk4NgTPDg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65B049126B;
- Mon,  3 May 2021 21:19:48 +0000 (UTC)
-Received: from [10.3.114.144] (ovpn-114-144.phx2.redhat.com [10.3.114.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86E6E5C1C2;
- Mon,  3 May 2021 21:19:44 +0000 (UTC)
-Subject: Re: [PATCH v6 11/12] qtest/bios-tables-test: Make test
- build-independent from accelerator
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210503211020.894589-1-philmd@redhat.com>
- <20210503211020.894589-12-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <8e675e24-fedc-c4df-22d6-b385142e0e4b@redhat.com>
-Date: Mon, 3 May 2021 16:19:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1ldg73-0003I6-MY
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 17:28:21 -0400
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:46671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1ldg70-0000eT-To
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 17:28:21 -0400
+Received: by mail-vs1-xe36.google.com with SMTP id b4so3673468vst.13
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 14:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=utLTQd09c7makxLsakeR+iYRmWcPjuqHMuQ5L+Wqv54=;
+ b=ZVPFWjCFnXpKLJLb86IUYhkLKyh1OTyebuAWmMtsritdwGsbizMID1Ff3diE0A/EjZ
+ XyiafW5b7AfkKaFh+VqgeNknCL1OR06wSI8pzRN9Mphe+sY6RACjCDoid5zPU6byjFJL
+ CxpXmeN/leeQ1zqf1RZDj3xppxx+5zriDa+ijWCj4UJhu1tZJgV3ZQ85nI9Nrc2jaZBx
+ WLJCOqt6MD+QcjVpTAKwdmAUeTNohiTZ6dQHz53oAS+nG7wPR0w1l9OPOHFaJcK2qcYr
+ V0X/e36XUph2juxNEVL53/sMg4n662knYphGsr3GqSDkiUOxIdLDmc3egh6YLrNLsO+k
+ eP5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=utLTQd09c7makxLsakeR+iYRmWcPjuqHMuQ5L+Wqv54=;
+ b=JgrIC02Ciaq0Tx1DcM92xM2bFTChcb+yxovW2WuWgiyfQH9hzpWuwjWP8LjeOdyzGl
+ IPrsHF7Kv5DIpaGroA0q/MqEvmDsRm99DwUp1Qq8WTbUgEiPl5EuJpXMGLfAxW3Cufir
+ MPTwPEtAIucH8xWOuLKMh+M8nI9nuiiCJvhe3rtk99hhWr+5ITJ/n8Nw/Ohv2ECUIuDv
+ KchfhvwliQbEKd5Rvyoi010IT52Qur3ADRSwNVJU1RaQRccy6mRuSxBRE2VdUld+j+qG
+ SUSiACajR3wIUaDyjPhEkhQ1ZGQ4Prq9FzSOWXgTknY2jrRwkncoI3jwGQyIqcKRUnwL
+ FVmQ==
+X-Gm-Message-State: AOAM533DO0NzMhUb24UGGMSBVNwZi6JT+MjWwyUn6v59TDXLn1/rjDzL
+ vxq5Q4oA/lpqIZhY5nm8mElWOULsxt7AjTCcRuB+QQ==
+X-Google-Smtp-Source: ABdhPJw4xjQlBbApZpB+42lQuutn4l1bW7sbZejdju0+Xh28DL0KocCphUj8hvgO0qNY18AKZsp2UctEgoB7D7J6c7M=
+X-Received: by 2002:a67:6184:: with SMTP id v126mr14926038vsb.52.1620077296591; 
+ Mon, 03 May 2021 14:28:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210503211020.894589-12-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+References: <CADPb22QnVowGz2oCWk8mBtjZz-4Cuzu0z=LmfvwotG_QjbuPzQ@mail.gmail.com>
+ <20210427073053.ny6fiwxdb6jkhmd2@sirius.home.kraxel.org>
+In-Reply-To: <20210427073053.ny6fiwxdb6jkhmd2@sirius.home.kraxel.org>
+From: Doug Evans <dje@google.com>
+Date: Mon, 3 May 2021 14:27:39 -0700
+Message-ID: <CADPb22Qz3E-nyvkQSaiPPpghd1bYy_+_Qm0o7DnUPXdcrv+gxw@mail.gmail.com>
+Subject: Re: Ethernet-over-usb with linux guest using USB Device Controller ?
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000c67a9205c173a364"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
+ envelope-from=dje@google.com; helo=mail-vs1-xe36.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,40 +77,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 4:10 PM, Philippe Mathieu-Daudé wrote:
-> Now than we can probe if the TCG accelerator is available
+--000000000000c67a9205c173a364
+Content-Type: text/plain; charset="UTF-8"
 
-that
+On Tue, Apr 27, 2021 at 12:31 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> at runtime with a QMP command, do it once at the beginning
-> and only register the tests we can run.
-> We can then replace the #ifdef'ry by an assertion.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v5 had:
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> v6 is simplified and keeps the same logic, however since
-> it is different, I'm not keeping the R-b tags.
-> ---
->  tests/qtest/bios-tables-test.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
-> 
+>   Hi,
+>
+> > Questions: Is this support in QEMU and if so got any pointers to source
+> for
+> > existing examples?
+> > If not, any guidance on how to proceed?
+>
+> qemu has only usb host controller emulation, not any usb device
+> controller emulation.  So you are entering new territory and there are
+> no existing code exsamples, sorry.
+>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Thanks. Any suggestions on how you would do it? Even just high level design
+points would be helpful.
 
+As far as implementation goes:
+1) Is there a "libusb" kinda thing for devices?
+  [any sort of utility library that takes the device's point of view]
+2) Would it make sense to use the usbredir protocol for speaking USB over
+sockets?
+  [where in this case QEMU is the device and not the host]
+  ref: https://www.spice-space.org/usbredir.html
+3) Would it make sense to use the parts that one can from the usbredir
+library?
+  [ibid]
+
+--000000000000c67a9205c173a364
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Tue, Apr 27, 2021 at 12:31 AM Gerd Hoffmann &lt;<a href=3D=
+"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:<br></div></div>=
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">=C2=A0 Hi,<br>
+<br>
+&gt; Questions: Is this support in QEMU and if so got any pointers to sourc=
+e for<br>
+&gt; existing examples?<br>
+&gt; If not, any guidance on how to proceed?<br>
+<br>
+qemu has only usb host controller emulation, not any usb device<br>
+controller emulation.=C2=A0 So you are entering new territory and there are=
+<br>
+no existing code exsamples, sorry.<br></blockquote><div><br></div><div><br>=
+</div><div class=3D"gmail_default" style=3D"font-size:small">Thanks. Any su=
+ggestions on how you would do it? Even just high level design points would =
+be helpful.</div><div class=3D"gmail_default" style=3D"font-size:small"><br=
+></div><div class=3D"gmail_default" style=3D"font-size:small">As far as imp=
+lementation goes:</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">1) Is there a &quot;libusb&quot; kinda thing for devices?</div><div clas=
+s=3D"gmail_default" style=3D"font-size:small">=C2=A0 [any sort of utility l=
+ibrary that takes the device&#39;s point of view]</div><div class=3D"gmail_=
+default" style=3D"font-size:small">2) Would it make sense to use the usbred=
+ir protocol for speaking USB over sockets?</div><div class=3D"gmail_default=
+" style=3D"font-size:small">=C2=A0 [where in this case QEMU is the device a=
+nd not the host]</div><div class=3D"gmail_default" style=3D"font-size:small=
+">=C2=A0 ref: <a href=3D"https://www.spice-space.org/usbredir.html">https:/=
+/www.spice-space.org/usbredir.html</a></div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">3) Would it make sense to use the parts that one ca=
+n from the usbredir library?</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small">=C2=A0 [ibid]</div><div class=3D"gmail_default" style=3D"font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">=C2=A0=C2=A0</div></div></div>
+
+--000000000000c67a9205c173a364--
 
