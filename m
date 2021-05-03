@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB3E371117
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 07:01:29 +0200 (CEST)
-Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F1337112D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 07:12:07 +0200 (CEST)
+Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQi0-0008Aq-8H
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 01:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
+	id 1ldQsH-0002Z7-Mj
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 01:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ldQfZ-0007Bc-2m
- for qemu-devel@nongnu.org; Mon, 03 May 2021 00:58:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ldQfT-0002Tf-Dw
- for qemu-devel@nongnu.org; Mon, 03 May 2021 00:58:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620017930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fbGyyeEaHR+uHtu59XwGSFnWh5t4tAz2mGJdUn+zeTA=;
- b=GWpEhpo3B+c5QrXLFLtZ2FuBOlad4RVH+7a2BCQTaC5DEceznlnCwhN4q/njFrMxSmhrn8
- 1LsvDBoV5xbZEvN0ygvw8WtP3xB5BN7wI4puFCoL2X2xpx8zyr/6xaQ4PcNbN/yPYseMZt
- J+Z14/kpx5hO17Xog9yv9bwhzGoCJzY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-6MzPy0qYPNOyYPGbr19krA-1; Mon, 03 May 2021 00:58:48 -0400
-X-MC-Unique: 6MzPy0qYPNOyYPGbr19krA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F008E8015BA;
- Mon,  3 May 2021 04:58:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C14C0687F2;
- Mon,  3 May 2021 04:58:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4726A113525D; Mon,  3 May 2021 06:58:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 4/4] pc-bios/s390-ccw: Allow building with Clang, too
-References: <20210502174836.838816-1-thuth@redhat.com>
- <20210502174836.838816-5-thuth@redhat.com>
-Date: Mon, 03 May 2021 06:58:46 +0200
-In-Reply-To: <20210502174836.838816-5-thuth@redhat.com> (Thomas Huth's message
- of "Sun, 2 May 2021 19:48:36 +0200")
-Message-ID: <87r1iofm61.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldQr2-00027j-85
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 01:10:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36558)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldQr0-0002lq-Ap
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 01:10:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldQqy-0000R4-B0
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 05:10:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5163E2E815B
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 05:10:44 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 05:04:31 -0000
+From: Paul Guyot <1776478@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: guysoft paulguyot pmaydell th-huth
+X-Launchpad-Bug-Reporter: guysoft (guysoft)
+X-Launchpad-Bug-Modifier: Paul Guyot (paulguyot)
+References: <152880770129.26761.1762643804065210181.malonedeb@gac.canonical.com>
+Message-Id: <162001827176.10196.2156262482394141521.malone@gac.canonical.com>
+Subject: [Bug 1776478] Re: Getting qemu: uncaught target signal 6 when running
+ lv2 plugin cross-compilation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 3045ff15daa066a75a488c45ba67e8e0582d392e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,20 +71,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1776478 <1776478@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+Hello,
 
-> Clang unfortunately does not support generating code for the z900
-> architecture level and starts with the z10 instead. Thus to be able
-> to support compiling with Clang, we have to check for the supported
-> compiler flags. The disadvantage is of course that the bios image
-> will only run with z10 guest CPUs upwards (which is what most people
-> use anyway), so just in case let's also emit a warning in that case.
+I believe I experienced the same bug in a similar context: using QEMU
+Linux user emulation for continuous integration on GitHub Actions. As a
+workaround, I did run the chroot script with taskset -c 0 to limit
+execution on a single CPU which has been solving the problem for more
+than 10 successive runs. @guysoft does taskset fixes your problem?
 
-What happens when you try to use this bios with an old CPU anyway?
+This was with qemu 4.2 as packaged by Ubuntu. The environment (automated
+CI) makes it difficult to plug gdb.
 
+In my case, the crash happens with PostgreSQL.
+https://www.postgresql.org/message-id/86C24765-95F7-464F-9677-B09A396A5F69%=
+40kallisys.net
+
+It may be related to the way QEMU acquires a global lock to ensure
+memory barrier semantic on ARM or to the way QEMU interprets RaspberryPi
+Zero (armv6l) memory barrier cp15 instruction which is different from
+newer cores. I have yet to find where this is implemented in qemu source
+code to investigate. @pmaydell could you please provide any pointer?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1776478
+
+Title:
+  Getting qemu: uncaught target signal 6 when running  lv2 plugin cross-
+  compilation
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hey,
+  I am part of the Zynthian team and we use qemu-arm-static to cross compil=
+e lv2 audio plugins.
+
+  When running a compilation of DISTRHO-Ports we get:
+
+  lv2_ttl_generator: pthread_mutex_lock.c:81: __pthread_mutex_lock: Asserti=
+on `mutex->__data.__owner =3D=3D 0' failed.
+  qemu: uncaught target signal 6 (Aborted) - core dumped
+  ./scripts/generate-ttl.sh: line 27: 16524 Aborted                 $GEN ./=
+$FILE
+  Makefile:62: recipe for target 'gen_lv2' failed
+  make[1]: *** [gen_lv2] Error 134
+  make[1]: Leaving directory '/home/pi/zynthian-sw/plugins/DISTRHO-Ports'
+  Makefile:104: recipe for target 'lv2' failed
+  make: *** [lv2] Error 2
+
+  =
+
+  lv2_ttl_generator source is here:
+  https://github.com/DISTRHO/DISTRHO-Ports/tree/master/libs/lv2-ttl-generat=
+or
+
+  The command that is ruining is
+  lv2_ttl_generator ./TAL-Filter-2.so =
+
+
+  And ./TAL-Filter-2.so source is here:
+  https://github.com/DISTRHO/DISTRHO-Ports/tree/master/ports/tal-filter-2/s=
+ource
+
+
+  Is there a way to debug what is going on?
+  This runs fine on a Raspberrypi which is armv7
+
+  A workaround would also help.
+
+  =
+
+  Bug in Zynthian:
+  https://github.com/zynthian/zynthian-sys/issues/59
+  Bug in DISTRHO-Ports:
+  https://github.com/DISTRHO/DISTRHO-Ports/issues/29
+
+  Using qemu-arm-static version from master from two days ago:
+  qemu-arm version 2.12.50 (v2.12.0-1182-ga7a7309ca5-dirty), commit: a7a730=
+9ca52c327c6603d60db90ae4feeae719f7
+
+  Also saw this in qemu-arm version 2.12.0 (Debian 1:2.12+dfsg-3)
+
+  Thanks,
+  Guy
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1776478/+subscriptions
 
