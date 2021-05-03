@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8390A37233B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:51:55 +0200 (CEST)
-Received: from localhost ([::1]:56580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDB3372355
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:58:26 +0200 (CEST)
+Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldhPu-0001na-I3
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
+	id 1ldhWC-0000Pt-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ldgwY-00032c-7Z; Mon, 03 May 2021 18:21:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7712)
+ (Exim 4.90_1)
+ (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
+ id 1ldh9P-0000Z0-H9; Mon, 03 May 2021 18:34:53 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ldgwR-0003gG-FP; Mon, 03 May 2021 18:21:33 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 143MF6dC105384; Mon, 3 May 2021 18:21:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=T+ySzngijlW9qrg4yJzzo+XNpbgwCvIT8dU7YLFqljI=;
- b=eoEJLiU5r02c3tJirlPYNoWTDSWoTqhLqtGD6QO4sBeixwWjbTlL/9MqoiQJit53b8Dr
- 7lfD7iQdCan8crRHCOFZB5mALDxpKZh+AzUr8sn/xrnoQoTdMEPVYS/AZG2pHem0BMOA
- R80yeE0pesF0wa0GmfGlOMWaJhStItdR2cugymEINmUrRk+leW0puQ9XVw2mhnCTKxMc
- /OX/YULLrldpYibfI/C5OvJ66BdqT9NborbUwkZMA/693KkUcbaYpo1JQSuW58rcPcXg
- Fpt1OfRZuazeeNxwW+G5u5ijkFR0csflCqYaf8933JubWnKdr76sScw4EGT4DQjxu599 DA== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38ast0g3wb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 May 2021 18:21:16 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 143M3uTL020262;
- Mon, 3 May 2021 22:21:15 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma01dal.us.ibm.com with ESMTP id 388xm9denj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 May 2021 22:21:15 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 143MLEpT35062228
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 May 2021 22:21:14 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 960D2C6059;
- Mon,  3 May 2021 22:21:14 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA3A3C6055;
- Mon,  3 May 2021 22:21:13 +0000 (GMT)
-Received: from localhost (unknown [9.211.119.245])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon,  3 May 2021 22:21:13 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [RFC PATCH v2 0/2] hw/ppc: code motion to compile without TCG
-In-Reply-To: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
-References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
-Date: Mon, 03 May 2021 19:21:11 -0300
-Message-ID: <87sg331mso.fsf@linux.ibm.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
+ id 1ldh9J-00029V-KK; Mon, 03 May 2021 18:34:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1620081285; x=1651617285;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=996xNHOaJte2Ne5Z1bf2gQTkRE6nHIOU5XBHX1YwcPI=;
+ b=HOjrypn/qPGr6onxTKcWOrQBPfY+nxu2D3WuUbleEXhTrXqPv35yOLK2
+ FxcD9b+IdwQ6MoNc1fcjwV75r0zWm0EjRO6HcpNvBbySAFnSQOB//oDKV
+ tY0ZcLdWvIePzgwPhp1zesdxA5VPsU44gAjpWinWK9CvgfcXnH5k99qRR
+ 0JlDmuDQW47+3DYUte/Wsfp3QCheeXlRegHu7tgQTWlh4THKdVuPkysaj
+ gFCfSgU3WHuBiKq2fzJpneHmkv753hKRqd26fAVuYRgtO2TjluRuGNCh1
+ Z566OoGpYsKNKQRZoHAHZ4mihfl63szNRDP5dIkBp4o6eSDVH7SyAzoEY w==;
+IronPort-SDR: x9Agqk8OCKQbz57lLHecoSuWvQNitrXi4Sej8eG0DcEzQJdO0oboO4q4Ou59g04eoPt7CWzwWy
+ QCiyM4UYZzYCYy4W6bKpGAcF2vxDPk2yYdjBk/0N8fjQA6Qh+Z7VV1BxpC+M6Q8ZlQdbEY7R/f
+ V8cIEhg9mwYd864FzBlwNt+hTLe5QoVrReYX1Hfvc9fw/mMveJ5zkuEcgLDN5bRYm65uQqW165
+ A3tDNh65vCpGZZQCAWimkFcUaFHkjfhfFBNmxNbIvDGl/jZG1MzEECDS0JC/gQK9iBMLRdqJxg
+ QPQ=
+X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278115916"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:34:43 +0800
+IronPort-SDR: Zs3o2UK2xTaqpigD7dB9EnnQghMjb3X5lOmCSIuRbecFotmEKFaFoyjMEq+n8G9wqQpl1Ck8aJ
+ GDLLdjuLUsBEOX54xPchFI4caXGhTUcPjlQfNZEvj5++kwte5A19UqfJ41qJcWvtFMHG4SuGm8
+ qK/EFEU9iYYUIb1j0R+spmXdZIDA82Tbo9vdclYobb4DecXqq2DZV9lQG0882FTNgC0/Hi5MkX
+ gOkaGodBBprHp0WTSaupHMNrtIkJRC9djAMyPcyc4K4wqFrKjZss5PqsviSHzDyZFSN7tSEz/A
+ iYUZlEkoQO++x4HN/C5mBqdu
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2021 15:13:26 -0700
+IronPort-SDR: 3z9i/FQL4vCRhrfzHPH3HxEL0djO3l0t5josBZIRzbP9A+gh+Brtpo5mDn/gdVO6huyMYwmVmM
+ qFU8/LCnKSZbvXGm5TdUZbDMTaZ9IxkQzzkn609PPlUfvi/WnRSc53O3kKXrzU+0yR5d96TDEy
+ ycy8pmr0o7O5WKYKsBY3/inz5hmeVgEhb+rDdVe5qyC/MnDGfB7wpz9ZGHQDmvVb4BBkXfXc8s
+ 3Q6gxxWdCqH35zFNl319Ip+k6VgLqbfnnqUY5fm++DsmluvmczWjpUbc634ZeXPK8KNkTDnwQs
+ J1M=
+WDCIronportException: Internal
+Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:34:39 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 1/1] docs/system: Move the RISC-V -bios information to
+ removed
+Date: Tue,  4 May 2021 08:34:32 +1000
+Message-Id: <4f1c261e7f69045ab8bb8926d85fe1d35e48ea5b.1620081256.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OdApgTp_XnAW-mBkUiY2jJY0ffo-uJ67
-X-Proofpoint-GUID: OdApgTp_XnAW-mBkUiY2jJY0ffo-uJ67
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-03_19:2021-05-03,
- 2021-05-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- mlxscore=0 suspectscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- phishscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2105030150
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=750139ea6=alistair.francis@wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,134 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bruno.larsen@eldorado.org.br,
- "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br> writes:
+QEMU 5.1 changed the behaviour of the default boot for the RISC-V virt
+and sifive_u machines. This patch moves that change from the
+deprecated.rst file to the removed-features.rst file and the
+target-riscv.rst.
 
-> After the feedback from v1 I reworked the patch with suggested ideas and
-> this version has less duplicated code and is overall simpler.
->
-> This patch series is still a WIP, there are still 2 main problems I am
-> trying to solve, I'll mention them in their respective patches.
->
-> The aim of these patches is to progress toward enabling disable-tcg on
-> PPC by solving errors in hw/ppc with that option.
->
-> As a WIP comments are welcome.
->
-> Lucas Mateus Castro (alqotel) (2):
->   target/ppc: Moved functions out of mmu-hash64
->   hw/ppc: Moved TCG code to spapr_hcall_tcg
->
->  hw/ppc/meson.build       |   3 +
->  hw/ppc/spapr.c           |   1 +
->  hw/ppc/spapr_caps.c      |   1 +
->  hw/ppc/spapr_cpu_core.c  |   1 +
->  hw/ppc/spapr_hcall.c     | 301 ++--------------------------------
->  hw/ppc/spapr_hcall_tcg.c | 343 +++++++++++++++++++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c      |   1 +
->  target/ppc/meson.build   |   1 +
->  target/ppc/mmu-hash64.c  |  81 +--------
->  target/ppc/mmu-hash64.h  |   6 -
->  target/ppc/mmu-misc.c    |  86 ++++++++++
->  target/ppc/mmu-misc.h    |  22 +++
->  12 files changed, 478 insertions(+), 369 deletions(-)
->  create mode 100644 hw/ppc/spapr_hcall_tcg.c
->  create mode 100644 target/ppc/mmu-misc.c
->  create mode 100644 target/ppc/mmu-misc.h
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ docs/system/deprecated.rst       | 19 -------------------
+ docs/system/removed-features.rst |  5 +++++
+ docs/system/target-riscv.rst     | 13 ++++++++++++-
+ 3 files changed, 17 insertions(+), 20 deletions(-)
 
-This is the list of hypercalls registered with spapr_register_hypercall
-and whether they are implemented by KVM HV, KVM PR or none. I also list
-whether the KVM hcall uses the QEMU implementation as a fallback. Maybe
-it will be helpful to this discussion.
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 80cae86252..dd83c95211 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -52,25 +52,6 @@ pcspk-audiodev=<name>``.
+ ``tty`` and ``parport`` are aliases that will be removed. Instead, the
+ actual backend names ``serial`` and ``parallel`` should be used.
+ 
+-RISC-V ``-bios`` (since 5.1)
+-''''''''''''''''''''''''''''
+-
+-QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
+-RISC-V virt machine and sifive_u machine. QEMU 4.1 had no changes to the
+-default behaviour to avoid breakages.
+-
+-QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``.
+-
+-QEMU 5.1 has three options:
+- 1. ``-bios default`` - This is the current default behavior if no -bios option
+-      is included. This option will load the default OpenSBI firmware automatically.
+-      The firmware is included with the QEMU release and no user interaction is
+-      required. All a user needs to do is specify the kernel they want to boot
+-      with the -kernel option
+- 2. ``-bios none`` - QEMU will not automatically load any firmware. It is up
+-      to the user to load all the images they need.
+- 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
+-
+ Short-form boolean options (since 6.0)
+ ''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 29e90601a5..747a763b37 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -126,6 +126,11 @@ devices.  Drives the board doesn't pick up can no longer be used with
+ This option was undocumented and not used in the field.
+ Use `-device usb-ccid`` instead.
+ 
++RISC-V firmware not booted by default (removed in 5.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``
++for the RISC-V ``virt`` machine and ``sifive_u`` machine.
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
+index 8d5946fbbb..0001c55fca 100644
+--- a/docs/system/target-riscv.rst
++++ b/docs/system/target-riscv.rst
+@@ -69,5 +69,16 @@ undocumented; you can get a complete list by running
+    riscv/microchip-icicle-kit
+    riscv/sifive_u
+ 
+-RISC-V CPU features
++RISC-V CPU firmware
+ -------------------
++
++When using the ``sifive_u`` or ``virt`` machine there are three different
++firmware boot options:
++ 1. ``-bios default`` - This is the default behaviour if no -bios option
++      is included. This option will load the default OpenSBI firmware automatically.
++      The firmware is included with the QEMU release and no user interaction is
++      required. All a user needs to do is specify the kernel they want to boot
++      with the -kernel option
++ 2. ``-bios none`` - QEMU will not automatically load any firmware. It is up
++      to the user to load all the images they need.
++ 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmware.
+-- 
+2.31.1
 
-(This is from just looking at the code, so take it with a grain of salt)
-
-H_ADD_LOGICAL_LAN_BUFFER  - not impl. by KVM
-H_CHANGE_LOGICAL_LAN_MAC  - not impl. by KVM
-H_ENABLE_CRQ              - not impl. by KVM
-H_FREE_CRQ                - not impl. by KVM
-H_FREE_LOGICAL_LAN        - not impl. by KVM
-H_GET_CPU_CHARACTERISTICS - not impl. by KVM
-H_GET_TERM_CHAR           - not impl. by KVM
-H_HOME_NODE_ASSOCIATIVITY - not impl. by KVM
-H_INT_ESB                 - not impl. by KVM
-H_INT_GET_QUEUE_INFO      - not impl. by KVM
-H_INT_GET_SOURCE_CONFIG   - not impl. by KVM
-H_INT_GET_SOURCE_INFO     - not impl. by KVM
-H_INT_RESET               - not impl. by KVM
-H_INT_SET_QUEUE_CONFIG    - not impl. by KVM
-H_INT_SET_SOURCE_CONFIG   - not impl. by KVM
-H_INT_SYNC                - not impl. by KVM
-H_JOIN                    - not impl. by KVM
-H_LOGICAL_CACHE_LOAD      - not impl. by KVM
-H_LOGICAL_CACHE_STORE     - not impl. by KVM
-H_LOGICAL_DCBF            - not impl. by KVM
-H_LOGICAL_ICBI            - not impl. by KVM
-H_MULTICAST_CTRL          - not impl. by KVM
-H_PUT_TERM_CHAR           - not impl. by KVM
-H_REGISTER_LOGICAL_LAN    - not impl. by KVM
-H_REGISTER_PROC_TBL       - not impl. by KVM
-H_REG_CRQ                 - not impl. by KVM
-H_RESIZE_HPT_COMMIT       - not impl. by KVM
-H_RESIZE_HPT_PREPARE      - not impl. by KVM
-H_SCM_BIND_MEM            - not impl. by KVM
-H_SCM_READ_METADATA       - not impl. by KVM
-H_SCM_UNBIND_ALL          - not impl. by KVM
-H_SCM_WRITE_METADATA      - not impl. by KVM
-H_SEND_CRQ                - not impl. by KVM
-H_SEND_LOGICAL_LAN        - not impl. by KVM
-H_SET_SPRG0               - not impl. by KVM
-H_SIGNAL_SYS_RESET        - not impl. by KVM
-H_VIO_SIGNAL              - not impl. by KVM
-
-H_CAS                     - not impl. by KVM | called by SLOF only
-H_LOGICAL_MEMOP           - not impl. by KVM | called by SLOF only
-H_TPM_COMM                - not impl. by KVM | called by UV only
-H_UPDATE_DT               - not impl. by KVM | called by SLOF only
-
-H_INT_GET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF/UV
-H_INT_GET_QUEUE_CONFIG      - not impl. by KVM | not called by linux/SLOF/UV
-H_INT_SET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF/UV
-H_SCM_UNBIND_MEM            - not impl. by KVM | not called by linux/SLOF/UV
-
-H_GET_TCE      - HV | not impl. by PR | QEMU fallback
-H_SET_MODE     - HV | not impl. by PR | QEMU fallback
-H_CONFER       - HV | not impl. by PR
-H_PAGE_INIT    - HV | not impl. by PR
-H_PROD         - HV | not impl. by PR
-H_RANDOM       - HV | not impl. by PR
-H_READ         - HV | not impl. by PR
-H_REGISTER_VPA - HV | not impl. by PR
-H_SET_DABR     - HV | not impl. by PR
-H_SET_XDABR    - HV | not impl. by PR
-
-H_CPPR             - HV | PR | QEMU fallback
-H_EOI              - HV | PR | QEMU fallback
-H_IPI              - HV | PR | QEMU fallback
-H_IPOLL            - HV | PR | QEMU fallback
-H_LOGICAL_CI_LOAD  - HV | PR | QEMU fallback
-H_LOGICAL_CI_STORE - HV | PR | QEMU fallback
-H_PUT_TCE          - HV | PR | QEMU fallback
-H_PUT_TCE_INDIRECT - HV | PR | QEMU fallback
-H_RTAS             - HV | PR | QEMU fallback
-H_STUFF_TCE        - HV | PR | QEMU fallback
-H_XIRR             - HV | PR | QEMU fallback
-H_XIRR_X           - HV | PR | QEMU fallback
-
-H_BULK_REMOVE      - HV | PR
-H_CEDE             - HV | PR
-H_ENTER            - HV | PR
-H_PROTECT          - HV | PR
-H_REMOVE           - HV | PR
-
-H_CLEAN_SLB      - never called/implemented, added along with H_REGISTER_PROC_TBL
-H_INVALIDATE_PID - never called/implemented, added along with H_REGISTER_PROC_TBL
-
-PS: we could perhaps use this information to annotate
-qemu/include/spapr.h. I can send a patch if people find it useful.
 
