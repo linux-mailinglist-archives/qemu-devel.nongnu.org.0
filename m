@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDB3372355
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:58:26 +0200 (CEST)
-Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E4B372338
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:50:32 +0200 (CEST)
+Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldhWC-0000Pt-3Q
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
+	id 1ldhOZ-0000bq-97
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:50:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldh9P-0000Z0-H9; Mon, 03 May 2021 18:34:53 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28723)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1ldhIQ-0002Zd-1Y
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:44:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldh9J-00029V-KK; Mon, 03 May 2021 18:34:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620081285; x=1651617285;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=996xNHOaJte2Ne5Z1bf2gQTkRE6nHIOU5XBHX1YwcPI=;
- b=HOjrypn/qPGr6onxTKcWOrQBPfY+nxu2D3WuUbleEXhTrXqPv35yOLK2
- FxcD9b+IdwQ6MoNc1fcjwV75r0zWm0EjRO6HcpNvBbySAFnSQOB//oDKV
- tY0ZcLdWvIePzgwPhp1zesdxA5VPsU44gAjpWinWK9CvgfcXnH5k99qRR
- 0JlDmuDQW47+3DYUte/Wsfp3QCheeXlRegHu7tgQTWlh4THKdVuPkysaj
- gFCfSgU3WHuBiKq2fzJpneHmkv753hKRqd26fAVuYRgtO2TjluRuGNCh1
- Z566OoGpYsKNKQRZoHAHZ4mihfl63szNRDP5dIkBp4o6eSDVH7SyAzoEY w==;
-IronPort-SDR: x9Agqk8OCKQbz57lLHecoSuWvQNitrXi4Sej8eG0DcEzQJdO0oboO4q4Ou59g04eoPt7CWzwWy
- QCiyM4UYZzYCYy4W6bKpGAcF2vxDPk2yYdjBk/0N8fjQA6Qh+Z7VV1BxpC+M6Q8ZlQdbEY7R/f
- V8cIEhg9mwYd864FzBlwNt+hTLe5QoVrReYX1Hfvc9fw/mMveJ5zkuEcgLDN5bRYm65uQqW165
- A3tDNh65vCpGZZQCAWimkFcUaFHkjfhfFBNmxNbIvDGl/jZG1MzEECDS0JC/gQK9iBMLRdqJxg
- QPQ=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278115916"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:34:43 +0800
-IronPort-SDR: Zs3o2UK2xTaqpigD7dB9EnnQghMjb3X5lOmCSIuRbecFotmEKFaFoyjMEq+n8G9wqQpl1Ck8aJ
- GDLLdjuLUsBEOX54xPchFI4caXGhTUcPjlQfNZEvj5++kwte5A19UqfJ41qJcWvtFMHG4SuGm8
- qK/EFEU9iYYUIb1j0R+spmXdZIDA82Tbo9vdclYobb4DecXqq2DZV9lQG0882FTNgC0/Hi5MkX
- gOkaGodBBprHp0WTSaupHMNrtIkJRC9djAMyPcyc4K4wqFrKjZss5PqsviSHzDyZFSN7tSEz/A
- iYUZlEkoQO++x4HN/C5mBqdu
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 15:13:26 -0700
-IronPort-SDR: 3z9i/FQL4vCRhrfzHPH3HxEL0djO3l0t5josBZIRzbP9A+gh+Brtpo5mDn/gdVO6huyMYwmVmM
- qFU8/LCnKSZbvXGm5TdUZbDMTaZ9IxkQzzkn609PPlUfvi/WnRSc53O3kKXrzU+0yR5d96TDEy
- ycy8pmr0o7O5WKYKsBY3/inz5hmeVgEhb+rDdVe5qyC/MnDGfB7wpz9ZGHQDmvVb4BBkXfXc8s
- 3Q6gxxWdCqH35zFNl319Ip+k6VgLqbfnnqUY5fm++DsmluvmczWjpUbc634ZeXPK8KNkTDnwQs
- J1M=
-WDCIronportException: Internal
-Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:34:39 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 1/1] docs/system: Move the RISC-V -bios information to
- removed
-Date: Tue,  4 May 2021 08:34:32 +1000
-Message-Id: <4f1c261e7f69045ab8bb8926d85fe1d35e48ea5b.1620081256.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1ldhIG-0007K3-Ma
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:44:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620081839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KBxptsirqWb42qHL38h+a1bt+GldxVZqVHh2gUbIJ8Y=;
+ b=hUKXp0FM3tIfqGHKzTyy90dWXVliOKap+v25LK4ZPQ2Y1hP0KwoEOKe5cdxH3L5/AfQxA4
+ R0/r+vr2cKWCL5lWueasxRmGwZePoAEXeKmzqFyz9u9HW6N9j2ioS7dX4J99H0kJAPMbro
+ pu2d+vP24EY1dCV8X87Nn6mm4+MJYW8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-kxiLUSQ1PAmh6tTiFPvzNw-1; Mon, 03 May 2021 18:43:57 -0400
+X-MC-Unique: kxiLUSQ1PAmh6tTiFPvzNw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB01C107ACCA
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 22:43:56 +0000 (UTC)
+Received: from wainer-laptop.localdomain.com (ovpn-116-131.gru2.redhat.com
+ [10.97.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B17E60937;
+ Mon,  3 May 2021 22:43:50 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 4/7] tests/acceptance: Sun4uMachine: Remove dependency to
+ LinuxKernelTest
+Date: Mon,  3 May 2021 19:43:23 -0300
+Message-Id: <20210503224326.206208-5-wainersm@redhat.com>
+In-Reply-To: <20210503224326.206208-1-wainersm@redhat.com>
+References: <20210503224326.206208-1-wainersm@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=750139ea6=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,92 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: willianr@redhat.com, philmd@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU 5.1 changed the behaviour of the default boot for the RISC-V virt
-and sifive_u machines. This patch moves that change from the
-deprecated.rst file to the removed-features.rst file and the
-target-riscv.rst.
+The Sun4uMachine class inherit from LinuxKernelTest to effectively only use
+the KERNEL_COMMON_COMMAND_LINE attribute. This change remove that unneeded
+dependency, making Sun4uMachine self-content.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+I took the occasion to delint the code: the unused os import was
+removed, imports were reordered, and the module has a docstring now.
+
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- docs/system/deprecated.rst       | 19 -------------------
- docs/system/removed-features.rst |  5 +++++
- docs/system/target-riscv.rst     | 13 ++++++++++++-
- 3 files changed, 17 insertions(+), 20 deletions(-)
+ tests/acceptance/machine_sparc64_sun4u.py | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 80cae86252..dd83c95211 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -52,25 +52,6 @@ pcspk-audiodev=<name>``.
- ``tty`` and ``parport`` are aliases that will be removed. Instead, the
- actual backend names ``serial`` and ``parallel`` should be used.
+diff --git a/tests/acceptance/machine_sparc64_sun4u.py b/tests/acceptance/machine_sparc64_sun4u.py
+index 458165500e..c7ad474bdc 100644
+--- a/tests/acceptance/machine_sparc64_sun4u.py
++++ b/tests/acceptance/machine_sparc64_sun4u.py
+@@ -1,4 +1,4 @@
+-# Functional test that boots a Linux kernel and checks the console
++"""Functional test that boots a Linux kernel and checks the console"""
+ #
+ # Copyright (c) 2020 Red Hat, Inc.
+ #
+@@ -8,16 +8,15 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later. See the COPYING file in the top-level directory.
  
--RISC-V ``-bios`` (since 5.1)
--''''''''''''''''''''''''''''
+-import os
 -
--QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
--RISC-V virt machine and sifive_u machine. QEMU 4.1 had no changes to the
--default behaviour to avoid breakages.
--
--QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``.
--
--QEMU 5.1 has three options:
-- 1. ``-bios default`` - This is the current default behavior if no -bios option
--      is included. This option will load the default OpenSBI firmware automatically.
--      The firmware is included with the QEMU release and no user interaction is
--      required. All a user needs to do is specify the kernel they want to boot
--      with the -kernel option
-- 2. ``-bios none`` - QEMU will not automatically load any firmware. It is up
--      to the user to load all the images they need.
-- 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
--
- Short-form boolean options (since 6.0)
- ''''''''''''''''''''''''''''''''''''''
+-from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import archive
+-from boot_linux_console import LinuxKernelTest
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
  
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 29e90601a5..747a763b37 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -126,6 +126,11 @@ devices.  Drives the board doesn't pick up can no longer be used with
- This option was undocumented and not used in the field.
- Use `-device usb-ccid`` instead.
+-class Sun4uMachine(LinuxKernelTest):
++class Sun4uMachine(Test):
+     """Boots the Linux kernel and checks that the console is operational"""
  
-+RISC-V firmware not booted by default (removed in 5.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``
-+for the RISC-V ``virt`` machine and ``sifive_u`` machine.
+     timeout = 90
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
  
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-index 8d5946fbbb..0001c55fca 100644
---- a/docs/system/target-riscv.rst
-+++ b/docs/system/target-riscv.rst
-@@ -69,5 +69,16 @@ undocumented; you can get a complete list by running
-    riscv/microchip-icicle-kit
-    riscv/sifive_u
- 
--RISC-V CPU features
-+RISC-V CPU firmware
- -------------------
-+
-+When using the ``sifive_u`` or ``virt`` machine there are three different
-+firmware boot options:
-+ 1. ``-bios default`` - This is the default behaviour if no -bios option
-+      is included. This option will load the default OpenSBI firmware automatically.
-+      The firmware is included with the QEMU release and no user interaction is
-+      required. All a user needs to do is specify the kernel they want to boot
-+      with the -kernel option
-+ 2. ``-bios none`` - QEMU will not automatically load any firmware. It is up
-+      to the user to load all the images they need.
-+ 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmware.
+     def test_sparc64_sun4u(self):
+         """
 -- 
-2.31.1
+2.29.2
 
 
