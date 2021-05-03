@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B696637144F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 13:33:19 +0200 (CEST)
-Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC176371496
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 13:52:20 +0200 (CEST)
+Received: from localhost ([::1]:40076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldWpC-0005nN-PG
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 07:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41050)
+	id 1ldX7b-00084R-PX
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 07:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ldWi9-0008OX-SU
- for qemu-devel@nongnu.org; Mon, 03 May 2021 07:26:01 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34533)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldWvM-0005f4-Uf
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 07:39:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ldWi8-0003aP-4A
- for qemu-devel@nongnu.org; Mon, 03 May 2021 07:26:01 -0400
-Received: by mail-ed1-x534.google.com with SMTP id i3so5865505edt.1
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 04:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TkN11ZFUhG5EwQKBzw6s1Q7HDR8GxGfhT1cjSruZpQM=;
- b=gY4MwFJnZl+kETO2gvfLrblyZ8H3muGeeRCr+mdfb5hG8j2yH6KG6rKN3wEJST64pS
- 2DJ8GZ5BSKDEbBOnGBW9pL2390ERQHh4a5FS3phkAXYueeAd/bAww17Eo0qBr1i15t3+
- Woh4N2xKWl2yQzGYEezmbfimIEUGSDgZ8tHjODDaPsjmPiQCjCtgBzoMQuTdIYsPqgiz
- QXIRuqfJcY5meV/FI23OTujjS47dmdLY14SEAZRen5UECx8kmaz3LRnx7fpQ1rZs/7Es
- RG3ZdvNXa68lvp+U3akHJthw/B2tkiW2lUl47x6N5H+4/tN+VNTq4F4KexNKzdLvdadX
- hQMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TkN11ZFUhG5EwQKBzw6s1Q7HDR8GxGfhT1cjSruZpQM=;
- b=AA1et/ocLREJdSpVXsadZXJrmC7jiiP5QllEEJmtrxfK2f3sHEqt0UbdoTmQ9oZib2
- YoCITWUKDOW0T2+RkPHbKGnVkzhEtj1Yhy7pWM6Ou+tEavqpGAwO1Y4/9kDVWf0QoTOw
- rJ78hBUQEZSFMpSIkjztc7LovmmWQsZmSbLqYqwrcLi/C8gimoBAMajCDFqETqE6G7Tk
- W+C4uGgJKRSW78ff7zzzbPTo0SKZf0rzNpD8lGgg+0LnKNeqoqSjGcOMPzOjxapLGcCB
- v56aTGKMBrQFyrFvgc7K1pz1A+Dfi4qK4iJff+0HhaxBrWOcAOhQ9frEmlVgPb3Q8bLv
- 46/g==
-X-Gm-Message-State: AOAM533xo7hfbKJw+79eeyb0zwGknSwKKlA5ZqRQ751KB1wsnoEbs/8n
- hRCHl8qG6GDbzJs7tm8T82nlaMuZo3k=
-X-Google-Smtp-Source: ABdhPJzKuQ8087hr+02KMLukTMMcxaMci4c40h3BZ3AZr7vBSoHfmtDJ/Zp3HIWfMwgMzhS/yoTs6A==
-X-Received: by 2002:a05:6402:3072:: with SMTP id
- bs18mr15021156edb.367.1620041158823; 
- Mon, 03 May 2021 04:25:58 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id gn36sm2981317ejc.23.2021.05.03.04.25.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 04:25:58 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] coroutine-sleep: introduce qemu_co_sleep
-Date: Mon,  3 May 2021 13:25:50 +0200
-Message-Id: <20210503112550.478521-7-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210503112550.478521-1-pbonzini@redhat.com>
-References: <20210503112550.478521-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldWvC-0002uz-AJ
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 07:39:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldWvA-0004N3-OC
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 11:39:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B0AB82E815F
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 11:39:28 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 11:27:03 -0000
+From: Thomas Huth <1096714@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h hramrach kraxel-redhat sven-koehler
+ th-huth
+X-Launchpad-Bug-Reporter: Sven (sven-koehler)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20130107012337.1165.80927.malonedeb@gac.canonical.com>
+Message-Id: <162004122349.4638.8731331269093468189.malone@chaenomeles.canonical.com>
+Subject: [Bug 1096714] Re: qemu 1.3.0: usb devices shouldn't have same
+ vendor/product ID and same serial
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 3bbc5fe0a6ec56795324913a67d7856e4fad99e2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,83 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eesposit@redhat.com, stefanha@redhat.com
+Reply-To: Bug 1096714 <1096714@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow using QemuCoSleep to sleep forever until woken by qemu_co_sleep_wake.
-This makes the logic of qemu_co_sleep_ns_wakeable easy to understand.
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-In the future we could introduce an API that can work even if the
-sleep and wake happen from different threads.  For now, initializing
-w->to_wake after timer_mod is fine because the timer can only fire in
-the same AioContext.
+ https://gitlab.com/qemu-project/qemu/-/issues/92
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qemu/coroutine.h    |  5 +++++
- util/qemu-coroutine-sleep.c | 20 +++++++++++++-------
- 2 files changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 77cb8ce459..b53e9632b9 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -302,6 +302,11 @@ typedef struct QemuCoSleep {
- void coroutine_fn qemu_co_sleep_ns_wakeable(QemuCoSleep *w,
-                                             QEMUClockType type, int64_t ns);
- 
-+/**
-+ * Yield the coroutine until the next call to qemu_co_sleep_wake.
-+ */
-+void coroutine_fn qemu_co_sleep(QemuCoSleep *w);
-+
- static inline void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
- {
-     QemuCoSleep w = { 0 };
-diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
-index 89c3b758c5..df6edba2e4 100644
---- a/util/qemu-coroutine-sleep.c
-+++ b/util/qemu-coroutine-sleep.c
-@@ -41,12 +41,9 @@ static void co_sleep_cb(void *opaque)
-     qemu_co_sleep_wake(w);
- }
- 
--void coroutine_fn qemu_co_sleep_ns_wakeable(QemuCoSleep *w,
--                                            QEMUClockType type, int64_t ns)
-+void coroutine_fn qemu_co_sleep(QemuCoSleep *w)
- {
-     Coroutine *co = qemu_coroutine_self();
--    AioContext *ctx = qemu_get_current_aio_context();
--    QEMUTimer ts;
- 
-     const char *scheduled = qatomic_cmpxchg(&co->scheduled, NULL,
-                                             qemu_co_sleep_ns__scheduled);
-@@ -58,11 +55,20 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QemuCoSleep *w,
-     }
- 
-     w->to_wake = co;
--    aio_timer_init(ctx, &ts, type, SCALE_NS, co_sleep_cb, w),
--    timer_mod(&ts, qemu_clock_get_ns(type) + ns);
-     qemu_coroutine_yield();
--    timer_del(&ts);
- 
-     /* w->to_wake is cleared before resuming this coroutine.  */
-     assert(w->to_wake == NULL);
- }
-+
-+void coroutine_fn qemu_co_sleep_ns_wakeable(QemuCoSleep *w,
-+                                            QEMUClockType type, int64_t ns)
-+{
-+    AioContext *ctx = qemu_get_current_aio_context();
-+    QEMUTimer ts;
-+
-+    aio_timer_init(ctx, &ts, type, SCALE_NS, co_sleep_cb, w);
-+    timer_mod(&ts, qemu_clock_get_ns(type) + ns);
-+    qemu_co_sleep(w);
-+    timer_del(&ts);
-+}
--- 
-2.31.1
+** Changed in: qemu
+       Status: New =3D> Expired
 
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #92
+   https://gitlab.com/qemu-project/qemu/-/issues/92
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1096714
+
+Title:
+  qemu 1.3.0: usb devices shouldn't have same vendor/product ID and same
+  serial
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Boot Windows XP with
+  ./qemu-system-i386 -device pci-ohci -device usb-tablet
+  and then with
+  ./qemu-system-i386 -device pci-ohci -device usb-kbd
+
+  and you will notice, that the usb keyboard is not detected. In fact,
+  Windows XP detects the usb tablet and loads the driver for the tablet
+  instead of the driver for the keyboard.
+
+  The problem seems to be, that vendor and product ID and even the
+  seriel of both the usb tablet and the usb keyboard are the same as an
+  lsusb reveiles. Hence, Windows XP doesn't detect when you replace the
+  tablet by a keyboard and vice versa. I didn't check other USB devices,
+  but it seems a bad idea to me to have devices with the same
+  vendor/product Id. I'm not aware, whether it is sufficient to change
+  the seriel numbers of the devices.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1096714/+subscriptions
 
