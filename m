@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A43722EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:20:17 +0200 (CEST)
-Received: from localhost ([::1]:59542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74343722EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:24:30 +0200 (CEST)
+Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldgvI-0001SZ-2T
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:20:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52762)
+	id 1ldgzN-0004zM-75
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgpB-0004WN-G8
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:13:58 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28338)
+ id 1ldgpE-0004Wm-1s
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:03 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgp2-00008S-ED
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:13:57 -0400
+ id 1ldgp6-0008VN-Go
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:13:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620080028; x=1651616028;
+ t=1620080032; x=1651616032;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=v9dngNOlYI6M8UvqCNI7Vz66vBQPm9MreWEGG7vUnp8=;
- b=Y7ny2e6VqZonhP2x99XZSGphVuJE1p5raXpt6ANsxGhFs2wjXSZXJFPk
- q8OCLxHXgzGspyqifdkJz493249gpjeB58PNE66IP/gWDGrjiD9b/eetS
- dHqBS4yM99FXaFxgBvW7LqESyeGF7y31LAM/coTDD+h3LcmGfW8ggUfX2
- U5kWdNi1y4ebEoBMQo2zJTZ3Wj/iNwraham4fa2YYF/nTdAY+xXPcEvS2
- MmWONFE+2A28N+m6D5rjGg/J/9IYuRw7cK5C5O5VOIOVZ3UXTiQt8cfE6
- KjQ4wk1ASxTfQTVkXmjlvnPdYlUmo0chvDbGcJ3cf2sIL8qzImxuuKpnM g==;
-IronPort-SDR: dhazBUAxyURqvyG9WrnebSa0SaGKaMXNNQ8LN1hQnOmwtngTXXmF96zdfKS1OhOhHyrrORj1Xu
- tRhjYMtawt+i0JogCgogYEsoOUsrSMBBKCpPeCG8QS8axKa4xSRsGmkwZyxXvw/kCyfeIoM3wi
- lnOXp3NIC0coFpVODM55GQCysa/8P/6et2eJFfEXI9ErAoQzjuh2075d/4P0pF45qmQKucunBY
- LsGJAml7MJ6KbN2DJFrJC8/jsmu4sKnB/yME5O4FRNs69M6VjK6SggA1HidUqjouoEjysk0sii
- FE0=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114592"
+ bh=a4yEU+4TjBk6Oe2/N0wvc5JGnBHXRW0rnny396yYmb0=;
+ b=Bj2+0KgJHK2PiH5AfAdaLG5m3ftFcBsOAWHj7pi4bw0wYxS+Qj7tQi3m
+ ROz7MouNR0SswfjMhd/LUtLZ93/CfRbsT4CFgAmWJ+4ah2erjyKIf4Vgl
+ Yw7GM+KQ/p/zH1hXOTgu6ALaN04yCyUr+jmBjOHXJZHp7EORGMXEGpkTN
+ 3O4hu6H5TClrSyw0Lg+y8LbXDGur7vjT9vigw8+fkdylI60PWnMFN5PXD
+ V5cNbj6AXf5SRyDpqdiwZ5r+xJvVIrcp9E2xCvq3z8LNPueXgtwTcB6JT
+ IqLM/6MFCPFeNk9Qj84I4wCrffya6CYQqc9mMsb4rjFpfdX8LOJJUSdaV w==;
+IronPort-SDR: TS+wAi3yjdCp/hiNDKBUJrQZbdUoUkJjEjYJldRgcVLFNgG0auJxrXdEEkuV+xfW4zMn6sSD1W
+ WSk0z+Cuzd481wLWiJ716Mx8Vag+s2YCRMpyWozhiq+06A0bQQf6gYgNhdskGaoKW0qNCGlYQ1
+ ZXT6r5WGs9AbHj5U1ns5cMfeJC71IPlQt0eqCklq0pnW3Ryhj6YaTD7F7SQMHNTf96t1Vk5IqW
+ 3k6mkXgmi9xTO3S3gWP84Sd9oz8Xd8K982sg7X/Yp5lBOQKy7v7bZQfZ4JgEccJuHL4UW7H6we
+ 8zg=
+X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114594"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:13:46 +0800
-IronPort-SDR: 4Di/J6iMiWKc+e24UYBB9BRmYJb9vp0bb8Hg1EW2lGZ6koSnP8gyrbjRFYgq99K+8lPOdBHpPo
- 52+hYN/Z+1/R/aJLtlVt8p9F3w76BMdGndqV86tWcqvqES7Mlvt1L9sjMAUb8c9k/8tfTdlnCi
- dgFbvckuMVWgjSevUZe+plmfOAW3kSf11smrz8ZgfrGMB2cVQKJAV1+5XnCOgXe3+rJNRnGKFG
- hmGtQWHU+Bw8gKvn3Ic+GXR2J6pbbNMnRB6mi22B7SaZilfnLB2jkYihES487P5Ht16fR/HNzC
- XG/iHdRnYL2FrhIabBCPXynx
+ by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:13:50 +0800
+IronPort-SDR: epvFJpRm4SSIKR2IkZfdzz7MwCkI10IW38OUOShkEDGNx3wUJ0p3S0brhV+Pa2vLo0Kv1bJWz6
+ 55AGhBFmeq5cTaLed5mHzfT0AA+szFNxTuqQtgFKBtzTP5IweZCDRPRGuQ1MdQqXGAZ/NkqOV+
+ 2sN3/BdJbyLfD3ju9q/A27xSFgeSHVuuOkQFnp3J5LPXBDfLQVDNatLIBczts5RhxbFh9v8N2U
+ Xb8K2zINZrizJBnjw1+LYFAIwdFLb9TftOrcDDmQ7QGp1HAgp+lIc/aLxQwX5XNfVL4+GwXQNx
+ KZjM+CpzaFq44IH0GTTagS8J
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 14:53:57 -0700
-IronPort-SDR: KJRpmvIUVpweNtnlM0UGNoOujj1KsfFJ9uq+exH4SETjo4LiGiM8YR5dmpCqU3T1ycQI8iFvec
- S5J2IcmSwc8k+3X5cwjaUF0DFp/eFh6E8MQGiJ7EmgA1D2yL+FR2Lf8XyVnYvLyg5BsR2bY4NM
- YNlmsdLlc9VwEx3p5kdAhsKHJpDZ+1L6c93Nb6Bu5c8U1qcHAMEQdmde2rPR/AqfQCthJdlfhv
- ZAwUVdKsC5RBFrWvUBPt/92ZZeNkDo0CNL9gcYIJ8iagISggInYZLy5PJ3GfgBhO//vMoYloYN
- l5s=
+ 03 May 2021 14:54:01 -0700
+IronPort-SDR: vi0/ThWEUi7PeNH3O0L+tMlDads4jPGwy/U2Q9MRRhw/b4cT2p2cTHWcIBclJtUBe4JgDqb13a
+ ijAuHYj9A65zBsFcwoC4EaNsak+vL1Wx7r292sHUF2BSDQyP3tkOWmJ0n/u/bRGH7B7pYeiZFq
+ JQ/RKra6Vjdn0Hw3Ty9EYgwKOkVQoxfauoMf8HSo0jcYNDakSRV4hi9adb4MjtTwhZdJk80A4D
+ nR5mszZyy7Y/NCWBbyTKbrF7cuqL3Vf6eqtkQNQ7Xv21jUfqM6ltHIUJIuP453dDFi7pYSyvHt
+ qQk=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:13:44 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:13:47 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/42] docs/system/generic-loader.rst: Fix style
-Date: Tue,  4 May 2021 08:12:47 +1000
-Message-Id: <20210503221327.3068768-3-alistair.francis@wdc.com>
+Subject: [PULL 03/42] target/riscv: Align the data type of reset vector address
+Date: Tue,  4 May 2021 08:12:48 +1000
+Message-Id: <20210503221327.3068768-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503221327.3068768-1-alistair.francis@wdc.com>
 References: <20210503221327.3068768-1-alistair.francis@wdc.com>
@@ -90,43 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Axel Heider <axelheider@gmx.de>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: Dylan Jhong <dylan@andestech.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Ruinland ChuanTzu Tsai <ruinland@andestech.com>, alistair23@gmail.com,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Axel Heider <axelheider@gmx.de>
+From: Dylan Jhong <dylan@andestech.com>
 
-Fix style to have a proper description of the parameter 'force-raw'.
+Use target_ulong to instead of uint64_t on reset vector address
+to adapt on both 32/64 machine.
 
-Signed-off-by: Axel Heider <axelheider@gmx.de>
+Signed-off-by: Dylan Jhong <dylan@andestech.com>
+Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: a7e50a64-1c7c-2d41-96d3-d8a417a659ac@gmx.de
+Message-id: 20210329034801.22667-1-dylan@andestech.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/generic-loader.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/riscv/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/system/generic-loader.rst b/docs/system/generic-loader.rst
-index 6bf8a4eb48..531ddbc8e3 100644
---- a/docs/system/generic-loader.rst
-+++ b/docs/system/generic-loader.rst
-@@ -92,9 +92,12 @@ shown below:
-   specified in the executable format header. This option should only
-   be used for the boot image. This will also cause the image to be
-   written to the specified CPU's address space. If not specified, the
--  default is CPU 0. <force-raw> - Setting force-raw=on forces the file
--  to be treated as a raw image. This can be used to load supported
--  executable formats as if they were raw.
-+  default is CPU 0.
-+
-+``<force-raw>``
-+  Setting 'force-raw=on' forces the file to be treated as a raw image.
-+  This can be used to load supported executable formats as if they
-+  were raw.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 86e7dbeb20..047d6344fe 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -137,7 +137,7 @@ static void set_feature(CPURISCVState *env, int feature)
+     env->features |= (1ULL << feature);
+ }
  
- All values are parsed using the standard QemuOpts parsing. This allows the user
- to specify any values in any format supported. By default the values
+-static void set_resetvec(CPURISCVState *env, int resetvec)
++static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
+ {
+ #ifndef CONFIG_USER_ONLY
+     env->resetvec = resetvec;
 -- 
 2.31.1
 
