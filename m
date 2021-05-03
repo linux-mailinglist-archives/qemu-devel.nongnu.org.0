@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044A03712AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 10:51:53 +0200 (CEST)
-Received: from localhost ([::1]:42544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E247D371290
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 10:44:44 +0200 (CEST)
+Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldUIy-00082V-1X
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 04:51:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
+	id 1ldUC4-0000SG-0C
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 04:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ldU4P-0003K2-Ue; Mon, 03 May 2021 04:36:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:39409)
+ id 1ldU4J-0003IE-TB; Mon, 03 May 2021 04:36:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:58577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ldU4D-0000ht-OB; Mon, 03 May 2021 04:36:49 -0400
+ id 1ldU4D-0000hu-NF; Mon, 03 May 2021 04:36:43 -0400
 Received: from quad ([82.142.20.222]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MUY9w-1m3uut2XWi-00QRbF; Mon, 03
- May 2021 10:36:31 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M4alK-1lbpNG15nS-001jTL; Mon, 03
+ May 2021 10:36:32 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/23] hw/arm: Constify VMStateDescription
-Date: Mon,  3 May 2021 10:36:07 +0200
-Message-Id: <20210503083623.139700-8-laurent@vivier.eu>
+Subject: [PULL 08/23] hw/display/qxl: Constify VMStateDescription
+Date: Mon,  3 May 2021 10:36:08 +0200
+Message-Id: <20210503083623.139700-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503083623.139700-1-laurent@vivier.eu>
 References: <20210503083623.139700-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ivi013dKKJ1uMAg2aq0pbcE/RD1n0m56RxxBSSmeN0ONBpLzmPF
- 96xDqQkSYxhK5+GLZ5TRUo/yvXCItZ5DZQ5y/k9RQlnzpKrWsSKqi1/4IiTNfKDPBIuboW3
- /J70Yll+aSw78QZtk4vDDbrWyw27LJ4wF1tAiXTITgKlpgAOpwb4eOE+5QtPM9KuFfYR8Y/
- yWSo11ERZaNgg/YnavTSw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dkFCMOX449g=:9sEP10TszZfzAWzKvudmKp
- eORSmu0qZSSmm03B+dwV/M4K05s3ffvYlbDpl9Aspi8OmqeBx/WQsBzmJIx2Le6pqxKkm36n4
- 7wubuJaF/9aai4BjwvNM26hOsCcHOxBTb5dt9xIMmhEWGNVJPPDXuK2QOCAFJuzJqL8zR8Yr2
- rW67jaHMZZ8cSDBQgmGH1hjIOluDB0B2++k5JKaNN91QJR2l0Rb9Bvk1xWi7WsrGw0b66KVlx
- Ac0GX0BL0oxrwHsBHelRNyOs7MqwC8tjzcUeF6mdthiCd6UQTaVEaMqH+OefALSPlhnkAJcMM
- 1CZS2LzJb9+LDdaI0lBX9H2n24Q965bSbTNl+QHELUwc3LiavyPzfYY9CGW5ZN8xrEU8nVn4t
- E7/YRhWtIWlv8g/6ZQioAOxUQJSPw6nTam1lXkHezWRA6/jFpxSP2zBUidgsJNifQW7TD3Uz9
- zzGJOAdOc69edReHiHEupDMb0+4u1I7RUlqHPmLxOt/DIMpXLsGTZwkliWMk+16iIjzME4OEk
- Ihdn1rbIJ8/arGkxR4Bj3g=
+X-Provags-ID: V03:K1:3SNDRugjWWZ8THMSzwhF+K6Ngpfa9XU1MtrJRIDhbXT1+1m99fu
+ wwwX/QJ9NBIoDBOMjMGPwYJWhzt4g671ozfml6x0H/12hQ4H2YrZMaxH30TQ6dMFqHhkg+n
+ Y6U4W9Mpz+5S8BcM1VIt1pzEZ8ls/J4CoMtTz27vfHHhDnDKMbrnZ5kI6dBvlSML3srGPrB
+ 9xvXv8+qlkowx6xTXq2ww==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9nDD3REuhOM=:tkgIqfyzZHxTZwTZaguQpZ
+ /1EJMAOMQbYKGF8It97VF54adEZp/9LNuXZoA3b+HiohaM0rBMLAuHF9ZB/5R7i5lfhY9NY12
+ Nzbrif+DrcdwV3j3vgf8+5jQPsk+a+XvxvWtvfK+ouxqE7UzsFTl49cbYNy6k8o5yIFgROa+d
+ 49l/H8uBoJfSImSFARPiBD9V38HtUKIOqUZlqHWF1HS2a7YpbQV8KfswZDmGnF/icFwq8t4AY
+ y/AoLS2PIe74C9RMH1zaY1FH74GFfM2AUr9sr2f4YJJIMtTXSha+6j02YJMxMNM4Mh9Z6XWtU
+ JTlNPbHPdmAA23WywNU6RHD7QFh2QIAdu3SJlerjvMjuLGVQMuZautqBoIcNNZUwPMjYeN0kI
+ sWmwKu+WM4zSeJ+t2EJ8wGSHhzTGmEPwIFuXICeMl0/JhRlTt3M3o7rKCDf8KV5NEn5X59aMg
+ zHVkCJn5BRMOEU6UHz950s3LLCvtSrBAF99t+rbmvgDBPOo9wGZrA/40oHv1wFh5Nlx8FbFL/
+ qeW0eBgWIPPVtizvpK2lKI=
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,136 +74,52 @@ From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210313171150.2122409-2-f4bug@amsat.org>
+Message-Id: <20210313171150.2122409-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/arm/highbank.c   | 2 +-
- hw/arm/pxa2xx_pic.c | 2 +-
- hw/arm/spitz.c      | 4 ++--
- hw/arm/strongarm.c  | 2 +-
- hw/arm/z2.c         | 4 ++--
- hw/dma/pxa2xx_dma.c | 4 ++--
- hw/misc/mst_fpga.c  | 2 +-
- 7 files changed, 10 insertions(+), 10 deletions(-)
+ hw/display/qxl.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index bf886268c57d..5afdd28b35c1 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -170,7 +170,7 @@ struct HighbankRegsState {
-     uint32_t regs[NUM_REGS];
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 93907e82a332..2ba75637ec30 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -2384,7 +2384,7 @@ static bool qxl_monitors_config_needed(void *opaque)
+ }
+ 
+ 
+-static VMStateDescription qxl_memslot = {
++static const VMStateDescription qxl_memslot = {
+     .name               = "qxl-memslot",
+     .version_id         = QXL_SAVE_VERSION,
+     .minimum_version_id = QXL_SAVE_VERSION,
+@@ -2396,7 +2396,7 @@ static VMStateDescription qxl_memslot = {
+     }
  };
  
--static VMStateDescription vmstate_highbank_regs = {
-+static const VMStateDescription vmstate_highbank_regs = {
-     .name = "highbank-regs",
-     .version_id = 0,
-     .minimum_version_id = 0,
-diff --git a/hw/arm/pxa2xx_pic.c b/hw/arm/pxa2xx_pic.c
-index cf6cb2a373ac..ed032fed548d 100644
---- a/hw/arm/pxa2xx_pic.c
-+++ b/hw/arm/pxa2xx_pic.c
-@@ -301,7 +301,7 @@ DeviceState *pxa2xx_pic_init(hwaddr base, ARMCPU *cpu)
-     return dev;
- }
- 
--static VMStateDescription vmstate_pxa2xx_pic_regs = {
-+static const VMStateDescription vmstate_pxa2xx_pic_regs = {
-     .name = "pxa2xx_pic",
-     .version_id = 0,
-     .minimum_version_id = 0,
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 6b3bf9828bcb..b45a929cbd9e 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -1134,7 +1134,7 @@ static bool is_version_0(void *opaque, int version_id)
-     return version_id == 0;
- }
- 
--static VMStateDescription vmstate_sl_nand_info = {
-+static const VMStateDescription vmstate_sl_nand_info = {
-     .name = "sl-nand",
-     .version_id = 0,
-     .minimum_version_id = 0,
-@@ -1170,7 +1170,7 @@ static const TypeInfo sl_nand_info = {
-     .class_init    = sl_nand_class_init,
+-static VMStateDescription qxl_surface = {
++static const VMStateDescription qxl_surface = {
+     .name               = "qxl-surface",
+     .version_id         = QXL_SAVE_VERSION,
+     .minimum_version_id = QXL_SAVE_VERSION,
+@@ -2414,7 +2414,7 @@ static VMStateDescription qxl_surface = {
+     }
  };
  
--static VMStateDescription vmstate_spitz_kbd = {
-+static const VMStateDescription vmstate_spitz_kbd = {
-     .name = "spitz-keyboard",
-     .version_id = 1,
-     .minimum_version_id = 0,
-diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
-index c7ca54bceaa4..e3e3ea61634f 100644
---- a/hw/arm/strongarm.c
-+++ b/hw/arm/strongarm.c
-@@ -207,7 +207,7 @@ static int strongarm_pic_post_load(void *opaque, int version_id)
-     return 0;
- }
- 
--static VMStateDescription vmstate_strongarm_pic_regs = {
-+static const VMStateDescription vmstate_strongarm_pic_regs = {
-     .name = "strongarm_pic",
-     .version_id = 0,
-     .minimum_version_id = 0,
-diff --git a/hw/arm/z2.c b/hw/arm/z2.c
-index 5099bd83802e..9c1e876207b3 100644
---- a/hw/arm/z2.c
-+++ b/hw/arm/z2.c
-@@ -162,7 +162,7 @@ static void zipit_lcd_realize(SSIPeripheral *dev, Error **errp)
-     z->pos = 0;
- }
- 
--static VMStateDescription vmstate_zipit_lcd_state = {
-+static const VMStateDescription vmstate_zipit_lcd_state = {
-     .name = "zipit-lcd",
-     .version_id = 2,
-     .minimum_version_id = 2,
-@@ -268,7 +268,7 @@ static uint8_t aer915_recv(I2CSlave *slave)
-     return retval;
- }
- 
--static VMStateDescription vmstate_aer915_state = {
-+static const VMStateDescription vmstate_aer915_state = {
-     .name = "aer915",
-     .version_id = 1,
+-static VMStateDescription qxl_vmstate_monitors_config = {
++static const VMStateDescription qxl_vmstate_monitors_config = {
+     .name               = "qxl/monitors-config",
+     .version_id         = 1,
      .minimum_version_id = 1,
-diff --git a/hw/dma/pxa2xx_dma.c b/hw/dma/pxa2xx_dma.c
-index b3707ff3de25..fa896f7edf77 100644
---- a/hw/dma/pxa2xx_dma.c
-+++ b/hw/dma/pxa2xx_dma.c
-@@ -525,7 +525,7 @@ static bool is_version_0(void *opaque, int version_id)
-     return version_id == 0;
- }
- 
--static VMStateDescription vmstate_pxa2xx_dma_chan = {
-+static const VMStateDescription vmstate_pxa2xx_dma_chan = {
-     .name = "pxa2xx_dma_chan",
-     .version_id = 1,
-     .minimum_version_id = 1,
-@@ -540,7 +540,7 @@ static VMStateDescription vmstate_pxa2xx_dma_chan = {
+@@ -2425,7 +2425,7 @@ static VMStateDescription qxl_vmstate_monitors_config = {
      },
  };
  
--static VMStateDescription vmstate_pxa2xx_dma = {
-+static const VMStateDescription vmstate_pxa2xx_dma = {
-     .name = "pxa2xx_dma",
-     .version_id = 1,
-     .minimum_version_id = 0,
-diff --git a/hw/misc/mst_fpga.c b/hw/misc/mst_fpga.c
-index edfc35d5f0f9..2aaadfa96681 100644
---- a/hw/misc/mst_fpga.c
-+++ b/hw/misc/mst_fpga.c
-@@ -222,7 +222,7 @@ static void mst_fpga_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->iomem);
- }
- 
--static VMStateDescription vmstate_mst_fpga_regs = {
-+static const VMStateDescription vmstate_mst_fpga_regs = {
-     .name = "mainstone_fpga",
-     .version_id = 0,
-     .minimum_version_id = 0,
+-static VMStateDescription qxl_vmstate = {
++static const VMStateDescription qxl_vmstate = {
+     .name               = "qxl",
+     .version_id         = QXL_SAVE_VERSION,
+     .minimum_version_id = QXL_SAVE_VERSION,
 -- 
 2.31.1
 
