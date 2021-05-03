@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A159A371065
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 03:42:39 +0200 (CEST)
-Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD364371076
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 03:53:21 +0200 (CEST)
+Received: from localhost ([::1]:52522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldNba-0002e8-6V
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 21:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
+	id 1ldNlw-0005QT-8B
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 21:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ldNan-0002Cd-Ro
- for qemu-devel@nongnu.org; Sun, 02 May 2021 21:41:49 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:43930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ldNam-0002eo-18
- for qemu-devel@nongnu.org; Sun, 02 May 2021 21:41:49 -0400
-Received: by mail-qt1-x833.google.com with SMTP id a18so2673172qtj.10
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 18:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zTNwBny3wLcWZ5NHEWwEEUTAadGllGCLBkr91ZDNXn8=;
- b=F/TgBYGNYGYG0bTcDQTJbpg4v18MI4C//nGM4oexB03ZYq8AWLjM12dhj7x5vTI/Oo
- NvdJokxytR6LxCk9KRthDa0S26+ecDaOhFEmj0ypAuz0rNXuHTx+PaACSflQ7by0Zw+9
- CheOzQcggF2EB5L8slfZJ+iMjhykGjV027GEOpQE4reLzNmH3V3hFJGL0xAH50VAAAbv
- Fu8tjP3gafMFPOS77s7u5OrzTO5upurohWBdP/30XgmQtLoyBi8iJV7sEcXBc7q5zKJe
- vN6jxylATQWBfFguQ3dL/6c2M2MQWKpDJFlFMFFVfFE+eo9iZDDQjp+7scASF50Y6Tlg
- NjuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zTNwBny3wLcWZ5NHEWwEEUTAadGllGCLBkr91ZDNXn8=;
- b=UtEaSozSp0u+kDC7wIAAXng1yZdMD0GNVhXjlghJ7DlLJKt0YbIMhZAtCeAsKH0+LA
- 0jZLUv/5fDw2kC/BpXQywkJqUGPR7HtXj/aNGwV2RKJ6OHU53TzP+K9Hdu7zxyUZRjiL
- Kc2U2NcOZI3u7GpVrmSyKYWum2il0JIkTjw/OE6A6PF+1+dUhXre+LJazGd1tjFOCvfG
- T/vFYwmJ20g1Ky1RrbgE/JGVSfZZnmOJE9jo4p8iiAxJCO5lQzcg9TXMoXDbrT0aPiNv
- pteVf13cvCQAB7bDEjOvfuyN399iQ3RzoDUc9XQjDxN6JXRgU0yCd55ejM6tRs3gyXaF
- nKsQ==
-X-Gm-Message-State: AOAM531iKsptClZIie2oiDB0GTUW5Sb+MdWoDdjYyee1zI21flo0aJAn
- B1m83ha5LU2Jf09CM1vJAEx9jAKbS0YfrKCWYdA=
-X-Google-Smtp-Source: ABdhPJzDyvcf7EkNzIJe8p9LLyScPuKNm9G5pPdKyTap7nEF1iwLcrQnncA8tZS2eAjzpq1lrZ4CE1mLms3GfZAmaGY=
-X-Received: by 2002:ac8:5810:: with SMTP id g16mr14675458qtg.135.1620006105531; 
- Sun, 02 May 2021 18:41:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1ldNjG-0004So-Oe
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 21:50:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43901)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1ldNjC-0007ZK-NL
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 21:50:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620006627;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vjtXabNIvlhZIJlMXjyMsDdOI5M5bkljs8hqu0EXQr8=;
+ b=HRAKYFY3KloTSJvNumtPvMNNnO/MJQe0Vm+K3f7jmnvuHmuNg9jDQX+ceQAaqgCIDzeBp4
+ VY3K/j+GHFFD0nRyuKG+xLF2pl8/6UXCkthvBMiAjrp679n4PkyaHhaCxT7nhbSy59ERyp
+ v+GoAsiXCV2Xp9P51xHn1C0sZxY+VM0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297--AOJHY32N_K79ITX4zqFBA-1; Sun, 02 May 2021 21:50:25 -0400
+X-MC-Unique: -AOJHY32N_K79ITX4zqFBA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17CBF801FD8;
+ Mon,  3 May 2021 01:50:24 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FE8719D7D;
+ Mon,  3 May 2021 01:50:24 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id CF4E45534B;
+ Mon,  3 May 2021 01:50:23 +0000 (UTC)
+Date: Sun, 2 May 2021 21:50:23 -0400 (EDT)
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <262314931.15107240.1620006623468.JavaMail.zimbra@redhat.com>
+In-Reply-To: <ec80a132-969e-1428-51b2-05c94c2447bc@redhat.com>
+References: <20210414161144.1598980-1-crosa@redhat.com>
+ <ec80a132-969e-1428-51b2-05c94c2447bc@redhat.com>
+Subject: Re: [PATCH 0/1] Acceptance Tests: bump Avocado version requirement
+ to 87.0
 MIME-Version: 1.0
-References: <87y2d1csxe.fsf@dusky.pond.sub.org>
-In-Reply-To: <87y2d1csxe.fsf@dusky.pond.sub.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 3 May 2021 11:41:18 +1000
-Message-ID: <CAKmqyKPYu1Y5EaAvVgB9U4kCh4yBJG_75r6ivdvMuZDN6F3ZcQ@mail.gmail.com>
-Subject: Re: Let's remove some deprecated stuff
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.3.112.153, 10.4.195.19]
+Thread-Topic: Acceptance Tests: bump Avocado version requirement to 87.0
+Thread-Index: Gt6+mIwxFOjNPfXsjBBQiUIJdUIVOw==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=alistair23@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,103 +86,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, dirty.ice.hu@gmail.com,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 8:00 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> If you're cc'ed, you added a section to docs/system/deprecated.rst that
-> is old enough to permit removal.  This is *not* a demand to remove, it's
-> a polite request to consider whether the time for removal has come.
-> Extra points for telling us in a reply.  "We should remove, but I can't
-> do it myself right now" is a valid answer.  Let's review the file:
->
->     System emulator command line arguments
->     --------------------------------------
->
-> K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n:
->
->     ``QEMU_AUDIO_`` environment variables and ``-audio-help`` (since 4.0)
->     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->
->     The ``-audiodev`` argument is now the preferred way to specify audio
->     backend settings instead of environment variables.  To ease migration=
- to
->     the new format, the ``-audiodev-help`` option can be used to convert
->     the current values of the environment variables to ``-audiodev`` opti=
-ons.
->
-> K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n:
->
->     Creating sound card devices and vnc without ``audiodev=3D`` property =
-(since 4.2)
->     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
-'''''''''
->
->     When not using the deprecated legacy audio config, each sound card
->     should specify an ``audiodev=3D`` property.  Additionally, when using
->     vnc, you should specify an ``audiodev=3D`` property if you plan to
->     transmit audio through the VNC protocol.
->
-> Gerd Hoffmann:
->
->     Creating sound card devices using ``-soundhw`` (since 5.1)
->     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->
->     Sound card devices should be created using ``-device`` instead.  The
->     names are the same for most devices.  The exceptions are ``hda`` whic=
-h
->     needs two devices (``-device intel-hda -device hda-duplex``) and
->     ``pcspk`` which can be activated using ``-machine
->     pcspk-audiodev=3D<name>``.
->
-> [...]
->
-> Alistair Francis:
->
->     RISC-V ``-bios`` (since 5.1)
->     ''''''''''''''''''''''''''''
->
->     QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V f=
-or the
->     RISC-V virt machine and sifive_u machine. QEMU 4.1 had no changes to =
-the
->     default behaviour to avoid breakages.
->
->     QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios=
- default``.
->
->     QEMU 5.1 has three options:
->      1. ``-bios default`` - This is the current default behavior if no -b=
-ios option
->           is included. This option will load the default OpenSBI firmware=
- automatically.
->           The firmware is included with the QEMU release and no user inte=
-raction is
->           required. All a user needs to do is specify the kernel they wan=
-t to boot
->           with the -kernel option
->      2. ``-bios none`` - QEMU will not automatically load any firmware. I=
-t is up
->           to the user to load all the images they need.
->      3. ``-bios <file>`` - Tells QEMU to load the specified file as the f=
-irmwrae.
->
 
-This has already been acted upon in the code, we now default to
-including a "bios" with RISC-V softmmu which is what this is
-describing.
 
-Do we need to take any action to indicate that it's already in effect?
+----- Original Message -----
+> From: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+> To: "Cleber Rosa" <crosa@redhat.com>, qemu-devel@nongnu.org
+> Cc: "Thomas Huth" <thuth@redhat.com>, "Beraldo Leal" <bleal@redhat.com>, =
+"Wainer dos Santos Moschetta"
+> <wainersm@redhat.com>, "Alex Benn=C3=A9e" <alex.bennee@linaro.org>, "Will=
+ian Rampazzo" <wrampazz@redhat.com>, "Eduardo
+> Habkost" <ehabkost@redhat.com>
+> Sent: Sunday, May 2, 2021 11:24:44 AM
+> Subject: Re: [PATCH 0/1] Acceptance Tests: bump Avocado version requireme=
+nt to 87.0
+>=20
+> On 4/14/21 6:11 PM, Cleber Rosa wrote:
+> > This is being proposed as a separate single patch simply to show
+> > that no known regressions have been introduced as far as the
+> > acceptance tests/jobs are related.  CI job:
+> >=20
+> >    https://gitlab.com/cleber.gnu/qemu/-/pipelines/286347312
+> >=20
+> > This version (and 86.0) contain improvements that address specific
+> > QEMU use cases, including:
+> >=20
+> >  * Fix to the error message given when downloading assets
+> >=20
+> >  * Asset listing/purging capabilities
+> >=20
+> > Cleber Rosa (1):
+> >   Acceptance Tests: bump Avocado version requirement to 87.0
+> >=20
+> >  tests/requirements.txt | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+>=20
+> Ping? This patch should fix the mainstream pipeline error:
+> https://gitlab.com/qemu-project/qemu/-/jobs/1229752162
+>=20
 
-Alistair
+Hi Phil,
+
+I'll send with my python-next (and other) patches to be queued in a day
+or two... but the bad news is: I don't think Avocado 87.0 has the fix for
+the pipeline issue above.  I looked at the test log, and the kernel boot
+hangs right after:
+
+11:43:53 DEBUG| Freeing unused kernel memory: 1176K
+11:43:53 DEBUG| This architecture does not have kernel memory protection.
+
+And then gets interrupted by Avocado some 90 seconds after that.  I'll try
+to reproduce it and debug.
+
+> (see
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg794416.html)
+>=20
+>=20
+
+Avocado 87.0 does fix the issue you referenced here though.
+
+Regards,
+- Cleber.
+
 
