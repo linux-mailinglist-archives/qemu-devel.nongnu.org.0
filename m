@@ -2,90 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EA1371660
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 16:03:49 +0200 (CEST)
-Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4F637166A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 16:08:08 +0200 (CEST)
+Received: from localhost ([::1]:41980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldZAq-0002ee-EX
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 10:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50678)
+	id 1ldZF1-0004y1-Dq
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 10:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldZ3b-0007eU-8n
- for qemu-devel@nongnu.org; Mon, 03 May 2021 09:56:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47858)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1ldZCx-0003vQ-EA; Mon, 03 May 2021 10:05:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldZ3Z-0000Er-PS
- for qemu-devel@nongnu.org; Mon, 03 May 2021 09:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620050176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AL8TeeXCKNxevWq70vL1EjWTREp8XsBRPcUgQwAh3w4=;
- b=S1bP7+02y70iOCdBQzHj65l4YsJ9CZVkK5bMNmKy/5T5y0162kgPDiCTPEXj8in8ZzHrea
- DbFGgd3NvMhf3zk00RLlHz31LhnJRJbduVEQ+XweGiGvepBq0JnB5RKXxIF+PkwdO5wPXd
- qfrGPfxCbBOUvYp3MC/EMysWn+HZSk0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-Zk-r6TyHMr-tJ1uHmAmCCA-1; Mon, 03 May 2021 09:56:15 -0400
-X-MC-Unique: Zk-r6TyHMr-tJ1uHmAmCCA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s7-20020adfc5470000b0290106eef17cbdso3958975wrf.11
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 06:56:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AL8TeeXCKNxevWq70vL1EjWTREp8XsBRPcUgQwAh3w4=;
- b=ehuWY9ZpP/1ECA/EaVENo1su8orBMjt6g32xVomsDq14WUbjdNY+KnXh/qKF3e5EMq
- BTbTGOnbUGTOa/E6gwR94Y6EbWxIwLq1aDNV5zcmaxwjaHuldsJEQJUp5K3hz2fyE9SV
- bR2Ibev5zA4HExleOI2VIPWazBinHkWL9y+tgrj4Hwo/aIcAIoxBc3dxoXT/0KsDqgTC
- EtKmRzZAvtKJgoMLydXSwaefIj4DjkTQBkrIGvU2IgpBWMgiSeq8Rh4q7nFnEUZYjZf2
- Fo8F1QEj6XJ+32/1Mc3DVxO+aCDqPqjjYFbyKdwTh89NJ11R0R0mygTPdJAXqhyaoRIL
- mtnA==
-X-Gm-Message-State: AOAM532xIutwNbvijkKZuRLn8qIr8RvLUyXeG4HKYo0yLrG/Wp17Uk/P
- +knyErE1GJFn3kDmKKOcvzvoCkjXkqp57OAd7/bV5psZRN/RgsCdfY4U69D51QDEXrD9Hl445oG
- lR8xga7biL7xHZRQ=
-X-Received: by 2002:a1c:1bc9:: with SMTP id b192mr13231758wmb.3.1620050174338; 
- Mon, 03 May 2021 06:56:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwK1CkQOtGdScPBDsGV8++ElMRT7j1ALNHfQvzTAwtMA/Ht1Na5PFyNM+C7+CYPupW0ayeCgw==
-X-Received: by 2002:a1c:1bc9:: with SMTP id b192mr13231753wmb.3.1620050174201; 
- Mon, 03 May 2021 06:56:14 -0700 (PDT)
-Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id x8sm12470022wru.70.2021.05.03.06.56.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 06:56:13 -0700 (PDT)
-Subject: Re: [PATCH v2 1/5] usb/hid: avoid dynamic stack allocation
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20210503132915.2335822-1-kraxel@redhat.com>
- <20210503132915.2335822-2-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <30970d90-44f1-0690-2997-47037ee9bfec@redhat.com>
-Date: Mon, 3 May 2021 15:56:13 +0200
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1ldZCp-0005jQ-Fn; Mon, 03 May 2021 10:05:59 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 143E4cZ1010692; Mon, 3 May 2021 10:05:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Ub82Zb+3cNGTmoNKsbzlVfaHCGXa/5g9YCQb43mnMl0=;
+ b=SM4i+xEXBBCmeeUJl4dGq/OTydqA4GWa5UTgrPqq7HakY2P4SGdW/+F/bE8uDznW90j9
+ 3lGRgkR0zoYJQzA8mXHgBe9bu1VhulCJMaKvqDoI8+MG8Tj46aggF8NHjy7wYheyw0xI
+ XwIGgqBH9bHlbbuAdCBE74BNENgWjDqB3k6cOXsWkjYoqxZSNghIGkWMaY/EuuD419pk
+ BkxAYtVb9+XiYNxYhcaVf7Vx8p2AAJTPFnJUlwW1f2BMmkSM9RRPHp7kS95ijkDwixvG
+ L82ngaoptvkLUVj92NV1h5si1nIzpyfkz16rR5FSzvmFksQDAOAupSmngNK9yAE33IRA Dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38aj1s12j9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 May 2021 10:05:33 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 143E4k8R011488;
+ Mon, 3 May 2021 10:05:33 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38aj1s12ha-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 May 2021 10:05:33 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 143E3LVA020317;
+ Mon, 3 May 2021 14:05:30 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 388xm8rrcb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 May 2021 14:05:30 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 143E5RIO22675926
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 May 2021 14:05:27 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72037AE059;
+ Mon,  3 May 2021 14:05:27 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3C43BAE058;
+ Mon,  3 May 2021 14:05:22 +0000 (GMT)
+Received: from [9.102.24.175] (unknown [9.102.24.175])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  3 May 2021 14:05:22 +0000 (GMT)
+Subject: Re: [PATCH v4 0/3] nvdimm: Enable sync-dax property for nvdimm
+To: Dan Williams <dan.j.williams@intel.com>
+References: <161966810162.652.13723419108625443430.stgit@17be908f7c1c>
+ <CAPcyv4gwkyDBG7EZOth-kcZR8Fb+RgGXY=Y9vbuHXAz3PAnLVw@mail.gmail.com>
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Message-ID: <bca3512d-5437-e8e6-68ae-0c9b887115f9@linux.ibm.com>
+Date: Mon, 3 May 2021 19:35:21 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210503132915.2335822-2-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/78.4.0
+In-Reply-To: <CAPcyv4gwkyDBG7EZOth-kcZR8Fb+RgGXY=Y9vbuHXAz3PAnLVw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: TDjsG8pL4Yzek7UVYO-MoCo6_XkVPZeK
+X-Proofpoint-ORIG-GUID: d6OOTyIyZHWDsza4bb-2GnoBTlwiTCgT
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-03_10:2021-05-03,
+ 2021-05-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015
+ malwarescore=0 priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2105030096
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,20 +113,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcascell@redhat.com, remy.noel@blade-group.com
+Cc: peter.maydell@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, bharata@linux.vnet.ibm.com,
+ Haozhong Zhang <haozhong.zhang@intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
+ Greg Kurz <groug@kaod.org>, kvm-ppc@vger.kernel.org, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ kwangwoo.lee@sk.com, David Gibson <david@gibson.dropbear.id.au>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ shameerali.kolothum.thodi@huawei.com, shivaprasadbhat@gmail.com,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 3:29 PM, Gerd Hoffmann wrote:
-> Use autofree heap allocation instead.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/usb/dev-hid.c   | 2 +-
->  hw/usb/dev-wacom.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 5/1/21 12:44 AM, Dan Williams wrote:
+> Some corrections to terminology confusion below...
+>
+>
+> On Wed, Apr 28, 2021 at 8:49 PM Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
+>> The nvdimm devices are expected to ensure write persistence during power
+>> failure kind of scenarios.
+> No, QEMU is not expected to make that guarantee. QEMU is free to lie
+> to the guest about the persistence guarantees of the guest PMEM
+> ranges. It's more accurate to say that QEMU nvdimm devices can emulate
+> persistent memory and optionally pass through host power-fail
+> persistence guarantees to the guest. The power-fail persistence domain
+> can be one of "cpu_cache", or "memory_controller" if the persistent
+> memory region is "synchronous". If the persistent range is not
+> synchronous, it really isn't "persistent memory"; it's memory mapped
+> storage that needs I/O commands to flush.
 
+Since this is virtual nvdimm(v-nvdimm) backed by a file, and the data is 
+completely
+
+in the host pagecache, and we need a way to ensure that host pagecaches
+
+are flushed to the backend. This analogous to the WPQ flush being offloaded
+
+to the hypervisor.
+
+
+Ref: https://github.com/dgibson/qemu/blob/main/docs/nvdimm.txt
+
+
+>
+>> The libpmem has architecture specific instructions like dcbf on POWER
+> Which "libpmem" is this? PMDK is a reference library not a PMEM
+> interface... maybe I'm missing what libpmem has to do with QEMU?
+
+
+I was referrering to semantics of flushing pmem cache lines as in
+
+PMDK/libpmem.
+
+
+>
+>> to flush the cache data to backend nvdimm device during normal writes
+>> followed by explicit flushes if the backend devices are not synchronous
+>> DAX capable.
+>>
+>> Qemu - virtual nvdimm devices are memory mapped. The dcbf in the guest
+>> and the subsequent flush doesn't traslate to actual flush to the backend
+> s/traslate/translate/
+>
+>> file on the host in case of file backed v-nvdimms. This is addressed by
+>> virtio-pmem in case of x86_64 by making explicit flushes translating to
+>> fsync at qemu.
+> Note that virtio-pmem was a proposal for a specific optimization of
+> allowing guests to share page cache. The virtio-pmem approach is not
+> to be confused with actual persistent memory.
+>
+>> On SPAPR, the issue is addressed by adding a new hcall to
+>> request for an explicit flush from the guest ndctl driver when the backend
+> What is an "ndctl" driver? ndctl is userspace tooling, do you mean the
+> guest pmem driver?
+
+
+oops, wrong terminologies. I was referring to guest libnvdimm and
+
+papr_scm kernel modules.
+
+
+>
+>> nvdimm cannot ensure write persistence with dcbf alone. So, the approach
+>> here is to convey when the hcall flush is required in a device tree
+>> property. The guest makes the hcall when the property is found, instead
+>> of relying on dcbf.
+>>
+>> A new device property sync-dax is added to the nvdimm device. When the
+>> sync-dax is 'writeback'(default for PPC), device property
+>> "hcall-flush-required" is set, and the guest makes hcall H_SCM_FLUSH
+>> requesting for an explicit flush.
+> I'm not sure "sync-dax" is a suitable name for the property of the
+> guest persistent memory.
+
+
+sync-dax property translates ND_REGION_ASYNC flag being set/unset
+
+for the pmem region also if the nvdimm_flush callback is provided in the
+
+papr_scm or not. As everything boils down to synchronous nature
+
+of the device, I chose sync-dax for the name.
+
+
+>   There is no requirement that the
+> memory-backend file for a guest be a dax-capable file. It's also
+> implementation specific what hypercall needs to be invoked for a given
+> occurrence of "sync-dax". What does that map to on non-PPC platforms
+> for example?
+
+
+The backend file can be dax-capable, to be hinted using "sync-dax=direct".
+
+When the backend is not dax-capable, the "sync-dax=writeback" to used,
+
+so that the guest makes the hcall. On all non-PPC archs, with the
+
+"sync-dax=writeback" qemu errors out stating the lack of support.
+
+
+>   It seems to me that an "nvdimm" device presents the
+> synchronous usage model and a whole other device type implements an
+> async-hypercall setup that the guest happens to service with its
+> nvdimm stack, but it's not an "nvdimm" anymore at that point.
+
+
+In case the file backing the v-nvdimm is not dax-capable, we need flush
+
+semantics on the guest to be mapped to pagecache flush on the host side.
+
+
+>
+>> sync-dax is "unsafe" on all other platforms(x86, ARM) and old pseries machines
+>> prior to 5.2 on PPC. sync-dax="writeback" on ARM and x86_64 is prevented
+>> now as the flush semantics are unimplemented.
+> "sync-dax" has no meaning on its own, I think this needs an explicit
+> mechanism to convey both the "not-sync" property *and* the callback
+> method, it shouldn't be inferred by arch type.
+
+
+Yes. On all platforms the "sync-dax=unsafe" meaning - with host power
+
+failure the host pagecache is lost and subsequently data written by the
+
+guest will also be gone. This is the default for non-PPC.
+
+
+On PPC, the default is "sync-dax=writeback" - so the ND_REGION_ASYNC
+
+is set for the region and the guest makes hcalls to issue fsync on the host.
+
+
+Are you suggesting me to keep it "unsafe" as default for all architectures
+
+including PPC and a user can set it to "writeback" if desired.
+
+
+>
+>> When the backend file is actually synchronous DAX capable and no explicit
+>> flushes are required, the sync-dax mode 'direct' is to be used.
+>>
+>> The below demonstration shows the map_sync behavior with sync-dax writeback &
+>> direct.
+>> (https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c)
+>>
+>> The pmem0 is from nvdimm with With sync-dax=direct, and pmem1 is from
+>> nvdimm with syn-dax=writeback, mounted as
+>> /dev/pmem0 on /mnt1 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+>> /dev/pmem1 on /mnt2 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+>>
+>> [root@atest-guest ~]# ./mapsync /mnt1/newfile ----> When sync-dax=unsafe/direct
+>> [root@atest-guest ~]# ./mapsync /mnt2/newfile ----> when sync-dax=writeback
+>> Failed to mmap  with Operation not supported
+>>
+>> The first patch does the header file cleanup necessary for the
+>> subsequent ones. Second patch implements the hcall, adds the necessary
+>> vmstate properties to spapr machine structure for carrying the hcall
+>> status during save-restore. The nature of the hcall being asynchronus,
+>> the patch uses aio utilities to offload the flush. The third patch adds
+>> the 'sync-dax' device property and enables the device tree property
+>> for the guest to utilise the hcall.
+>>
+>> The kernel changes to exploit this hcall is at
+>> https://github.com/linuxppc/linux/commit/75b7c05ebf9026.patch
+>>
+>> ---
+>> v3 - https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg07916.html
+>> Changes from v3:
+>>        - Fixed the forward declaration coding guideline violations in 1st patch.
+>>        - Removed the code waiting for the flushes to complete during migration,
+>>          instead restart the flush worker on destination qemu in post load.
+>>        - Got rid of the randomization of the flush tokens, using simple
+>>          counter.
+>>        - Got rid of the redundant flush state lock, relying on the BQL now.
+>>        - Handling the memory-backend-ram usage
+>>        - Changed the sync-dax symantics from on/off to 'unsafe','writeback' and 'direct'.
+>>          Added prevention code using 'writeback' on arm and x86_64.
+>>        - Fixed all the miscellaneous comments.
+>>
+>> v2 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg07031.html
+>> Changes from v2:
+>>        - Using the thread pool based approach as suggested
+>>        - Moved the async hcall handling code to spapr_nvdimm.c along
+>>          with some simplifications
+>>        - Added vmstate to preserve the hcall status during save-restore
+>>          along with pre_save handler code to complete all ongoning flushes.
+>>        - Added hw_compat magic for sync-dax 'on' on previous machines.
+>>        - Miscellanious minor fixes.
+>>
+>> v1 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06330.html
+>> Changes from v1
+>>        - Fixed a missed-out unlock
+>>        - using QLIST_FOREACH instead of QLIST_FOREACH_SAFE while generating token
+>>
+>> Shivaprasad G Bhat (3):
+>>        spapr: nvdimm: Forward declare and move the definitions
+>>        spapr: nvdimm: Implement H_SCM_FLUSH hcall
+>>        nvdimm: Enable sync-dax device property for nvdimm
+>>
+>>
+>>   hw/arm/virt.c                 |   28 ++++
+>>   hw/i386/pc.c                  |   28 ++++
+>>   hw/mem/nvdimm.c               |   52 +++++++
+>>   hw/ppc/spapr.c                |   16 ++
+>>   hw/ppc/spapr_nvdimm.c         |  285 +++++++++++++++++++++++++++++++++++++++++
+>>   include/hw/mem/nvdimm.h       |   11 ++
+>>   include/hw/ppc/spapr.h        |   11 +-
+>>   include/hw/ppc/spapr_nvdimm.h |   27 ++--
+>>   qapi/common.json              |   20 +++
+>>   9 files changed, 455 insertions(+), 23 deletions(-)
+>>
+>> --
+>> Signature
+>> _______________________________________________
+>> Linux-nvdimm mailing list -- linux-nvdimm@lists.01.org
+>> To unsubscribe send an email to linux-nvdimm-leave@lists.01.org
+> _______________________________________________
+> Linux-nvdimm mailing list -- linux-nvdimm@lists.01.org
+> To unsubscribe send an email to linux-nvdimm-leave@lists.01.org
 
