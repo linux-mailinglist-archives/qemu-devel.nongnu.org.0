@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B40637132A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:47:51 +0200 (CEST)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D7D37132B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:48:02 +0200 (CEST)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldVB7-000778-U0
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38788)
+	id 1ldVBJ-0007Fx-3x
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ldV8h-00069B-MR
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldV8i-00069F-VQ
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 05:45:21 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldV8f-0007MX-1S
  for qemu-devel@nongnu.org; Mon, 03 May 2021 05:45:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ldV8d-0007NM-Ck
- for qemu-devel@nongnu.org; Mon, 03 May 2021 05:45:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620035112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2y1fmYzLLad+sLUpjfTNG4f+vPZYbS5fiZD/yikpHis=;
- b=MsLVfw8k+GG0DZhZuK0lagWKGM9KF5GR24I0j/t66sWmNwql8Bo6LBZRChTtId4HJY51lv
- zzfEyLHCMv6GEDmq10By5ZKUIj0Sxa1Vtp00IobAvId1bBrinLzIck0XjkBC4HIAUBFVsc
- XwL9Irm/6mMvnAys0hE80ykMyzav2/E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-Vj5GMMwVMxC0fgrG1QEbhw-1; Mon, 03 May 2021 05:45:11 -0400
-X-MC-Unique: Vj5GMMwVMxC0fgrG1QEbhw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 522C3801106;
- Mon,  3 May 2021 09:45:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-107.ams2.redhat.com
- [10.36.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F40A19D7D;
- Mon,  3 May 2021 09:45:08 +0000 (UTC)
-Subject: Re: [PULL 37/64] block/snapshot: Fix fallback
-To: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20200907110936.261684-1-kwolf@redhat.com>
- <20200907110936.261684-38-kwolf@redhat.com>
- <CAFEAcA8wGL61unoO=zGWR8KB6AiL8TR7MZeh7R34qGhzy7VKrg@mail.gmail.com>
- <YI/E+8jNzPT6Jqfy@merkur.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <1b1f6fe6-1a0e-61f8-1197-d26667a3d6fc@redhat.com>
-Date: Mon, 3 May 2021 11:45:06 +0200
+Received: by mail-wr1-x433.google.com with SMTP id x5so4816796wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 02:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qS5/h9gW026eR4/sVCW0yQpniD2leqjqTPdZSmNRv/M=;
+ b=BIQeh7FGZ0Wn9DnoJkwbZSQgngHJNhpizCLgC3YC4noGm1eLFAqCHUeT0a0qGQbVQj
+ 7jbGAqN4Wle9XgbLL1m3dTAmIBZ+wRJVFDMI+s+EXrztwjfxXlEFXVqT2Ud7HhBcH8K3
+ RQnXsg/AOXnBo4Fmgt90dRZOUW0DxsXarTQZyxnSFzXuXkm2auV4SOc/zqu74kx+9R0k
+ sJN3hJg1jUnNA6lKST5fpuoXFbeOT4/FKaxG+HJ+s2BekGkJl/oFRwv2moev7YEWyBVj
+ pweOtkyfo3jo2DZfIrty0832kasB1sIsNdeyBaZxroTyHoEjCKPQiN17SI15zrDVKdQ0
+ jb8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qS5/h9gW026eR4/sVCW0yQpniD2leqjqTPdZSmNRv/M=;
+ b=DBs7nzjZ6kWIpafMmjXGCB+EJiSCiHmWmmDZP3AgeMYR5o+2P1iwwxRqQ/XQdQG2fI
+ Jt4UhVPX2YqDcbjrPz9AmjvD3KIFvo0WvgkzABw+bdr9kkdNLGkuaGEWRzaQA+W4U152
+ ygmvkK7BwodPQQsV1bo8jOITpvkMdCy+9x6ijINITkS0Bdv9izHXkkhzrO93jjGoGhzo
+ pD78vHdfNgTK7pdisrrFCiH6GRpHi6J3lM8qd8ETZlOZW+kcbc1M9TldotsYyCEgNJAo
+ V2pb2HZ9jU2LXtZevrMrK5Zc8RpDgZVyZQTO1TzDYJ/0uLNqg1Z1PwMntaTstRqw8u6+
+ DikQ==
+X-Gm-Message-State: AOAM530d6fgf+VstWlByfJDQnQisav7JckiXj2RQmulsvCTloxiVEdSw
+ nnOKabF0TJzjyxFlIrSd2zA=
+X-Google-Smtp-Source: ABdhPJyR4wPWJucYtN9J2IUUhV7kOEDlPh7e/becS1Dxn12y9/Fsj1g0X7QyHDpxmzh2p2mm2v+Q4A==
+X-Received: by 2002:adf:e947:: with SMTP id m7mr24883227wrn.70.1620035111647; 
+ Mon, 03 May 2021 02:45:11 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id c2sm10704125wmr.22.2021.05.03.02.45.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 May 2021 02:45:10 -0700 (PDT)
+Subject: Re: [PATCH 04/15] gitlab-ci: Replace YAML anchors by extends
+ (acceptance_test_job)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210418233448.1267991-1-f4bug@amsat.org>
+ <20210418233448.1267991-5-f4bug@amsat.org>
+ <4ade3b15-5f39-d319-0c3e-27f3c3cd39d5@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <11fdfed9-0b2a-52fc-5f7a-9a4fbd47873b@amsat.org>
+Date: Mon, 3 May 2021 11:45:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YI/E+8jNzPT6Jqfy@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <4ade3b15-5f39-d319-0c3e-27f3c3cd39d5@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,124 +91,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.05.21 11:40, Kevin Wolf wrote:
-> Am 01.05.2021 um 00:30 hat Peter Maydell geschrieben:
->> On Mon, 7 Sept 2020 at 12:11, Kevin Wolf <kwolf@redhat.com> wrote:
->>>
->>> From: Max Reitz <mreitz@redhat.com>
->>>
->>> If the top node's driver does not provide snapshot functionality and we
->>> want to fall back to a node down the chain, we need to snapshot all
->>> non-COW children.  For simplicity's sake, just do not fall back if there
->>> is more than one such child.  Furthermore, we really only can fall back
->>> to bs->file and bs->backing, because bdrv_snapshot_goto() has to modify
->>> the child link (notably, set it to NULL).
->>>
->>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+On 5/3/21 11:22 AM, Thomas Huth wrote:
+> On 19/04/2021 01.34, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 >>
->> Hi; Coverity thinks it's found a problem with this code
->> (CID 1452774):
+>> 'extends' is an alternative to using YAML anchors
+>> and is a little more flexible and readable. See:
+>> https://docs.gitlab.com/ee/ci/yaml/#extends
+>>
+>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   .gitlab-ci.yml | 20 ++++++++++----------
+>>   1 file changed, 10 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index 11bda3abf33..07e5e737685 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -48,7 +48,7 @@ include:
+>>       # Avoid recompiling by hiding ninja with NINJA=":"
+>>       - make NINJA=":" $MAKE_CHECK_ARGS
+>>   -.acceptance_template: &acceptance_definition
+>> +.acceptance_test_job_template:
+>>     cache:
+>>       key: "${CI_JOB_NAME}-cache"
+>>       paths:
+>> @@ -111,7 +111,7 @@ acceptance-system-alpine:
+>>     variables:
+>>       IMAGE: alpine
+>>       MAKE_CHECK_ARGS: check-acceptance
+>> -  <<: *acceptance_definition
+>> +  extends: .acceptance_test_job_template
 > 
-> Cc: Max as the patch author
+> FYI, I'm getting "YAML invalid" errors when adding this patch to my
+> staging branch. I guess you cannot use extends twice in a job and you
+> should extend the .acceptance_test_job_template from
+> ..native_build_job_template instead.
 
-Yes, I’m writing a patch to add a comment.
-
->>> @@ -205,39 +258,46 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
->>>           return ret;
->>>       }
->>>
->>> -    if (bs->file) {
->>> -        BlockDriverState *file;
->>> -        QDict *options = qdict_clone_shallow(bs->options);
->>> +    fallback_ptr = bdrv_snapshot_fallback_ptr(bs);
->>> +    if (fallback_ptr) {
->>> +        QDict *options;
->>>           QDict *file_options;
->>>           Error *local_err = NULL;
->>> +        BlockDriverState *fallback_bs = (*fallback_ptr)->bs;
->>> +        char *subqdict_prefix = g_strdup_printf("%s.", (*fallback_ptr)->name);
->>> +
->>> +        options = qdict_clone_shallow(bs->options);
->>>
->>> -        file = bs->file->bs;
->>>           /* Prevent it from getting deleted when detached from bs */
->>> -        bdrv_ref(file);
->>> +        bdrv_ref(fallback_bs);
->>>
->>> -        qdict_extract_subqdict(options, &file_options, "file.");
->>> +        qdict_extract_subqdict(options, &file_options, subqdict_prefix);
->>>           qobject_unref(file_options);
->>> -        qdict_put_str(options, "file", bdrv_get_node_name(file));
->>> +        g_free(subqdict_prefix);
->>> +
->>> +        qdict_put_str(options, (*fallback_ptr)->name,
->>> +                      bdrv_get_node_name(fallback_bs));
->>>
->>>           if (drv->bdrv_close) {
->>>               drv->bdrv_close(bs);
->>>           }
->>> -        bdrv_unref_child(bs, bs->file);
->>> -        bs->file = NULL;
->>>
->>> -        ret = bdrv_snapshot_goto(file, snapshot_id, errp);
->>> +        bdrv_unref_child(bs, *fallback_ptr);
->>> +        *fallback_ptr = NULL;
->>
->> Here we set *fallback_ptr to NULL...
->>
->>> +
->>> +        ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
->>>           open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
->>>           qobject_unref(options);
->>>           if (open_ret < 0) {
->>> -            bdrv_unref(file);
->>> +            bdrv_unref(fallback_bs);
->>>               bs->drv = NULL;
->>>               /* A bdrv_snapshot_goto() error takes precedence */
->>>               error_propagate(errp, local_err);
->>>               return ret < 0 ? ret : open_ret;
->>>           }
->>>
->>> -        assert(bs->file->bs == file);
->>> -        bdrv_unref(file);
->>> +        assert(fallback_bs == (*fallback_ptr)->bs);
->>
->> ...but here we dereference *fallback_ptr, and Coverity doesn't see
->> anything that it recognizes as being able to change it.
->>
->>> +        bdrv_unref(fallback_bs);
->>>           return ret;
->>>       }
->>
->> False positive, or real issue? (If a false positive, a comment
->> explaining what's going on wouldn't go amiss -- as a human reader
->> I'm kind of confused about whether there's some kind of hidden
->> magic going on here.)
-> 
-> I think it's a false positive because drv->bdrv_open() is supposed to
-> give it a non-NULL value again. Not sure if we can make the assumption
-> in every case without checking it, but it feels reasonable to require
-> that drv->bdrv_open() would return failure otherwise. Max?
-
-Yes.  I think it’s sensible to add an *fallback_ptr non-NULL check to 
-the assert condition (i.e.,
-
-assert(*fallback_ptr && fallback_bs == (*fallback_ptr)->bs);
-
-), because the intention of the condition is already to verify that 
-.bdrv_open() has opened the right node.  So we might say what’s missing 
-is to also assert that it has opened any node at all, but if we’re fine 
-with asserting that it has opened the right node (which we did since 
-7a9e51198c24), we should definitely be fine with asserting that it has 
-opened any node at all.
-
-Max
-
+I'm surprised because I tested/used that branch quite a lot.
+Maybe a job using anchors got added meanwhile and I need to
+rebase?
 
