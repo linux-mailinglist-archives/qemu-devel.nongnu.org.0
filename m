@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895C5371E2D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:13:55 +0200 (CEST)
-Received: from localhost ([::1]:44364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA41371E6C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:22:31 +0200 (CEST)
+Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldc8o-0000nA-L2
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
+	id 1ldcH9-0001lk-1z
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldbww-00010k-TL
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:01:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30092)
+ id 1ldc1e-0005Mt-Ql
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:06:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldbwt-0006kk-3i
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:01:38 -0400
+ id 1ldc1X-0000me-MP
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:06:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620061291;
+ s=mimecast20190719; t=1620061583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X/EKM8eIoIFxYH5q5AqqFPx0yEJdPnh/pW4JlVAuv2g=;
- b=ARyqMW7n3qOMf38DtqmkWW6jxGEDmhTEZlY13EJB2z+hpAIv28qOLATRLTXOzioSrL7Uzj
- RHCqehqJzODo6hA5KP+sjl2NGmHAN8vsZ6RyiVNCZArgrCgcTHGjUpmj3jmSVD01KNpZDO
- addKFq+OIV5O+Y+fQW6SSUDd4fzKWxc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-7q4jtbgfO_e7bL5TcHAR8Q-1; Mon, 03 May 2021 13:01:30 -0400
-X-MC-Unique: 7q4jtbgfO_e7bL5TcHAR8Q-1
-Received: by mail-ej1-f71.google.com with SMTP id
- p25-20020a1709061419b0290378364a6464so2322676ejc.15
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:01:30 -0700 (PDT)
+ bh=iiJotyRMwWTX619D6R4OGkdEcW07YQOSXFbELgAder0=;
+ b=dbi0j49jv+h+igTIKAOPg9G5DjGDnR67lCGFr0d6FTUDxi5jKCPghRZYEHD7b0Y7lI2gen
+ K8pdn/27L65V/Y0DbVqjz0lPLlga3e9ONCkex2A11ND0f1IW6fRU0MssGu9M5EoD3hsG8Z
+ M1FJ1ZfT2oKhfXF1ulHkdhVnL7Qw87g=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-UZ1GqrbROSS9DviQYj5skA-1; Mon, 03 May 2021 13:06:22 -0400
+X-MC-Unique: UZ1GqrbROSS9DviQYj5skA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ p25-20020a1709061419b0290378364a6464so2329572ejc.15
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:06:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=X/EKM8eIoIFxYH5q5AqqFPx0yEJdPnh/pW4JlVAuv2g=;
- b=Dqko0g8DINfA/TcMoL0gg9xFnSV5K6aJ0x1Ugj1rgty9eeWMsUwHxsBKJsai0Kj1za
- Td2tc8OcXwwSxlVorc9n4T5Fa6GCBrsPXwQ1XC5tKCuz7UW9X7tcKJqVN5yn/2tEWgKr
- b5k6TTrveAQ8oZpbLCE+lUh5BWvEm+1TD+HxTu8SykyT9jM64aS563KNEEZKg8LY11+w
- UiD1SOt3CKR98X4zmtGMxBXj6kirXczo/kUqFjYjWqwybXf/ApqKIynivkyitC6pxbKr
- Byz95dZPXsbLetbRR12bCVAgNkR2jsrvotbrn1hi9AyKUAKzQropxPR4UbBq6Fq17j+/
- PTRQ==
-X-Gm-Message-State: AOAM532szs9DOEhd9LFhkGF5UUeTCCaTPMlUzwzh7X0MQqYw1BWPYh2s
- +wTf+kxAlAxU0PRO+rA4muCDHOg3HAy+exNNd+HLRQOUd1yh8y0fiT0sSdYVphbWkRqt5Ye8TTs
- pPSeVrnk+nMmsIZs=
-X-Received: by 2002:aa7:c44b:: with SMTP id n11mr20593148edr.214.1620061288971; 
- Mon, 03 May 2021 10:01:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3ufwrC7cN8N02V+wQhibyWxhekJbdDnNV3n+FyJDSifKBYkI/VuHeaK4aQsBTChJozmvYcg==
-X-Received: by 2002:aa7:c44b:: with SMTP id n11mr20593109edr.214.1620061288673; 
- Mon, 03 May 2021 10:01:28 -0700 (PDT)
+ bh=iiJotyRMwWTX619D6R4OGkdEcW07YQOSXFbELgAder0=;
+ b=YAGrfOXkZ9G11hYgg7bgvnJt89KU+7yXsZGipEl0LS7yEREQ2iHzSu1JgpDm1/nVdp
+ fxYT+/2E7gIziovRxFvZyfWqz/nlJS0mckkPDVzMpXoKbNkjLhkcfesdrY93E2W4wpI2
+ PUq+nUoMt9hmmPpWD2d9elfT13Lz98hfEm7Xb7AgqvedvQwvMhf7h9FWWSNW8P73YfEN
+ vRstu4qOJWyfHYglNBFpyBWUboGaOthb/b5o22qi9NxMJeCPv8XK02v5W3FZOYyGsb5X
+ +AQC9/xu2DMEWT/BWAMuseNwBaxt+Ma6kAKSASX2kDUwgFB+9LPvtIc9MgpXpNVYhucv
+ HIGA==
+X-Gm-Message-State: AOAM531S4R969jfoxFXgOCKAlkVuelQr1RyXpwMPtDia+qAMmSvtiJ7Y
+ dGpTm3qMkL4fMYTzSt5HYU7+Tergh0IL46Wu72NQNU36PtM/LWFwYBw+8s6DI6gBwlCrYZuyNR0
+ J5rsONUZ6FYMPeBs=
+X-Received: by 2002:a05:6402:17d8:: with SMTP id
+ s24mr17896107edy.155.1620061580227; 
+ Mon, 03 May 2021 10:06:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyre8CVvEk+k1z6kYmgavxAPxSYBHGoZu/PZn7FJY8VZ0SrKBznq9ASKiZwP8bEkaxQKtB+wg==
+X-Received: by 2002:a05:6402:17d8:: with SMTP id
+ s24mr17896080edy.155.1620061579997; 
+ Mon, 03 May 2021 10:06:19 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q18sm1646462edd.3.2021.05.03.10.01.27
+ by smtp.gmail.com with ESMTPSA id y11sm127141ejj.55.2021.05.03.10.06.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 10:01:28 -0700 (PDT)
-Subject: Re: [RESEND PATCH 01/32] memory: Add RAM_PROTECTED flag to skip IOMMU
- mappings
+ Mon, 03 May 2021 10:06:19 -0700 (PDT)
+Subject: Re: [RESEND PATCH 05/32] vl: Add "sgx-epc" option to expose SGX EPC
+ sections to guest
 To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
 References: <20210430062455.8117-1-yang.zhong@intel.com>
- <20210430062455.8117-2-yang.zhong@intel.com>
+ <20210430062455.8117-6-yang.zhong@intel.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b216c2e4-abcb-d7bd-b461-96b731472b4d@redhat.com>
-Date: Mon, 3 May 2021 19:01:27 +0200
+Message-ID: <ad5e6653-23d0-2f90-2962-1041c5d2d038@redhat.com>
+Date: Mon, 3 May 2021 19:06:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210430062455.8117-2-yang.zhong@intel.com>
+In-Reply-To: <20210430062455.8117-6-yang.zhong@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,181 +111,284 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 30/04/21 08:24, Yang Zhong wrote:
 > From: Sean Christopherson <sean.j.christopherson@intel.com>
 > 
-> Add a new RAMBlock flag to denote "protected" memory, i.e. memory that
-> looks and acts like RAM but is inaccessible via normal mechanisms,
-> including DMA.  Use the flag to skip protected memory regions when
-> mapping RAM for DMA in VFIO.
+> Because SGX EPC is enumerated through CPUID, EPC "devices" need to be
+> realized prior to realizing the vCPUs themselves, i.e. long before
+> generic devices are parsed and realized.  From a virtualization
+> perspective, the CPUID aspect also means that EPC sections cannot be
+> hotplugged without paravirtualizing the guest kernel (hardware does
+> not support hotplugging as EPC sections must be locked down during
+> pre-boot to provide EPC's security properties).
+> 
+> So even though EPC sections could be realized through the generic
+> -devices command, they need to be created much earlier for them to
+> actually be usable by the guest.  Place all EPC sections in a
+> contiguous block, somewhat arbitrarily starting after RAM above 4g.
+> Ensuring EPC is in a contiguous region simplifies calculations, e.g.
+> device memory base, PCI hole, etc..., allows dynamic calculation of the
+> total EPC size, e.g. exposing EPC to guests does not require -maxmem,
+> and last but not least allows all of EPC to be enumerated in a single
+> ACPI entry, which is expected by some kernels, e.g. Windows 7 and 8.
 > 
 > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 
-Can you instead unify this with the "share" argument, and pass the 
-argument down to qemu_ram_alloc_from_fd?  This removes the "share ? 
-RAM_SHARED : 0" conversion.
+This will have to change, since we don't really want to add more command 
+line options.  It will become an "array of strings" machine property, like
+
+   -M sgx-epc.0=epc1,sgx-epc.1=epc2
+
+I was already planning support for this kind of compound property in 
+-machine and -accel, so I'll clean up the patches and send them (but it 
+will take a couple of weeks).
 
 Paolo
 
 > ---
->   backends/hostmem-memfd.c |  2 +-
->   hw/misc/ivshmem.c        |  2 +-
->   hw/remote/memory.c       |  2 +-
->   hw/vfio/common.c         |  1 +
->   include/exec/memory.h    | 15 +++++++++++++++
->   softmmu/memory.c         | 12 ++++++++++--
->   softmmu/physmem.c        |  2 +-
->   7 files changed, 30 insertions(+), 6 deletions(-)
+>   hw/i386/sgx-epc.c         | 104 +++++++++++++++++++++++++++++++++++++-
+>   include/hw/i386/pc.h      |   6 +++
+>   include/hw/i386/sgx-epc.h |  16 ++++++
+>   qemu-options.hx           |   8 +++
+>   softmmu/globals.c         |   1 +
+>   softmmu/vl.c              |   9 ++++
+>   6 files changed, 143 insertions(+), 1 deletion(-)
 > 
-> diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-> index 69b0ae30bb..d4267cc35c 100644
-> --- a/backends/hostmem-memfd.c
-> +++ b/backends/hostmem-memfd.c
-> @@ -55,7 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
->       name = host_memory_backend_get_name(backend);
->       memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
->                                      name, backend->size,
-> -                                   backend->share, fd, 0, errp);
-> +                                   backend->share, false, fd, 0, errp);
->       g_free(name);
->   }
->   
-> diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-> index a1fa4878be..aa3fa80774 100644
-> --- a/hw/misc/ivshmem.c
-> +++ b/hw/misc/ivshmem.c
-> @@ -494,7 +494,7 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
->   
->       /* mmap the region and map into the BAR2 */
->       memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
-> -                                   "ivshmem.bar2", size, true, fd, 0,
-> +                                   "ivshmem.bar2", size, true, false, fd, 0,
->                                      &local_err);
->       if (local_err) {
->           error_propagate(errp, local_err);
-> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
-> index 32085b1e05..5d0a213030 100644
-> --- a/hw/remote/memory.c
-> +++ b/hw/remote/memory.c
-> @@ -48,7 +48,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
->           name = g_strdup_printf("remote-mem-%u", suffix++);
->           memory_region_init_ram_from_fd(subregion, NULL,
->                                          name, sysmem_info->sizes[region],
-> -                                       true, msg->fds[region],
-> +                                       true, false, msg->fds[region],
->                                          sysmem_info->offsets[region],
->                                          errp);
->   
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ae5654fcdb..5bc5d29358 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -538,6 +538,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+> diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+> index aa487dea79..0858819a71 100644
+> --- a/hw/i386/sgx-epc.c
+> +++ b/hw/i386/sgx-epc.c
+> @@ -56,6 +56,8 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
 >   {
->       return (!memory_region_is_ram(section->mr) &&
->               !memory_region_is_iommu(section->mr)) ||
-> +           memory_region_is_protected(section->mr) ||
->              /*
->               * Sizing an enabled 64-bit BAR can cause spurious mappings to
->               * addresses in the upper part of the 64-bit address space.  These
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 5728a681b2..2816e52be3 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -155,6 +155,9 @@ typedef struct IOMMUTLBEvent {
->    */
->   #define RAM_UF_WRITEPROTECT (1 << 6)
+>       PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
+>       X86MachineState *x86ms = X86_MACHINE(pcms);
+> +    MemoryDeviceState *md = MEMORY_DEVICE(dev);
+> +    SGXEPCState *sgx_epc = pcms->sgx_epc;
+>       SGXEPCDevice *epc = SGX_EPC(dev);
+>       const char *path;
 >   
-> +/* RAM that isn't accessible through normal means. */
-> +#define RAM_PROTECTED (1 << 7)
+> @@ -74,7 +76,18 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
+>           return;
+>       }
+>   
+> -    error_setg(errp, "'" TYPE_SGX_EPC "' not supported");
+> +    epc->addr = sgx_epc->base + sgx_epc->size;
 > +
->   static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
->                                          IOMMUNotifierFlag flags,
->                                          hwaddr start, hwaddr end,
-> @@ -1021,6 +1024,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
->    * @name: the name of the region.
->    * @size: size of the region.
->    * @share: %true if memory must be mmaped with the MAP_SHARED flag
-> + * @protected: %true if memory is protected and isn't treated like normal RAM
->    * @fd: the fd to mmap.
->    * @offset: offset within the file referenced by fd
->    * @errp: pointer to Error*, to store an error if it happens.
-> @@ -1033,6 +1037,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
->                                       const char *name,
->                                       uint64_t size,
->                                       bool share,
-> +                                    bool protected,
->                                       int fd,
->                                       ram_addr_t offset,
->                                       Error **errp);
-> @@ -1321,6 +1326,16 @@ static inline bool memory_region_is_romd(MemoryRegion *mr)
->       return mr->rom_device && mr->romd_mode;
+> +    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
+> +                                host_memory_backend_get_memory(epc->hostmem));
+> +
+> +    host_memory_backend_set_mapped(epc->hostmem, true);
+> +
+> +    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
+> +                                sgx_epc->nr_sections + 1);
+> +    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
+> +
+> +    sgx_epc->size += memory_device_get_region_size(md, errp);
 >   }
 >   
-> +/**
-> + * memory_region_is_protected: check whether a memory region is protected
-> + *
-> + * Returns %true if a memory region is protected RAM and cannot be accessed
-> + * via standard mechanisms, e.g. DMA.
-> + *
-> + * @mr: the memory region being queried
-> + */
-> +bool memory_region_is_protected(MemoryRegion *mr);
-> +
->   /**
->    * memory_region_get_iommu: check whether a memory region is an iommu
->    *
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index d4493ef9e4..0c9eb335ca 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1612,18 +1612,21 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
->                                       const char *name,
->                                       uint64_t size,
->                                       bool share,
-> +                                    bool protected,
->                                       int fd,
->                                       ram_addr_t offset,
->                                       Error **errp)
->   {
-> +    uint32_t ram_flags = (share ? RAM_SHARED : 0) |
-> +                         (protected ? RAM_PROTECTED : 0);
->       Error *err = NULL;
->       memory_region_init(mr, owner, name, size);
->       mr->ram = true;
->       mr->terminates = true;
->       mr->destructor = memory_region_destructor_ram;
-> -    mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
-> -                                           share ? RAM_SHARED : 0,
-> +    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, ram_flags,
->                                              fd, offset, false, &err);
-> +
->       if (err) {
->           mr->size = int128_zero();
->           object_unparent(OBJECT(mr));
-> @@ -1810,6 +1813,11 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
->       return mr->ram_device;
+>   static void sgx_epc_unrealize(DeviceState *dev)
+> @@ -159,3 +172,92 @@ static void sgx_epc_register_types(void)
 >   }
 >   
-> +bool memory_region_is_protected(MemoryRegion *mr)
+>   type_init(sgx_epc_register_types)
+> +
+> +
+> +static int sgx_epc_set_property(void *opaque, const char *name,
+> +                                const char *value, Error **errp)
 > +{
-> +    return mr->ram && (mr->ram_block->flags & RAM_PROTECTED);
+> +    Object *obj = opaque;
+> +    Error *err = NULL;
+> +
+> +    object_property_parse(obj, name, value, &err);
+> +    if (err != NULL) {
+> +        error_propagate(errp, err);
+> +        return -1;
+> +    }
+> +    return 0;
 > +}
 > +
->   uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
->   {
->       uint8_t mask = mr->dirty_log_mask;
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 85034d9c11..ae79cbea96 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2022,7 +2022,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
->       int64_t file_size, file_align;
+> +static int sgx_epc_init_func(void *opaque, QemuOpts *opts, Error **errp)
+> +{
+> +    Error *err = NULL;
+> +    Object *obj;
+> +
+> +    obj = object_new("sgx-epc");
+> +
+> +    qdev_set_id(DEVICE(obj), qemu_opts_id(opts));
+> +
+> +    if (qemu_opt_foreach(opts, sgx_epc_set_property, obj, &err)) {
+> +        goto out;
+> +    }
+> +
+> +    object_property_set_bool(obj, "realized", true, &err);
+> +
+> +out:
+> +    if (err != NULL) {
+> +        error_propagate(errp, err);
+> +    }
+> +    object_unref(obj);
+> +    return err != NULL ? -1 : 0;
+> +}
+> +
+> +void pc_machine_init_sgx_epc(PCMachineState *pcms)
+> +{
+> +    SGXEPCState *sgx_epc;
+> +    X86MachineState *x86ms = X86_MACHINE(pcms);
+> +
+> +    sgx_epc = g_malloc0(sizeof(*sgx_epc));
+> +    pcms->sgx_epc = sgx_epc;
+> +
+> +    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
+> +
+> +    memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
+> +    memory_region_add_subregion(get_system_memory(), sgx_epc->base,
+> +                                &sgx_epc->mr);
+> +
+> +    qemu_opts_foreach(qemu_find_opts("sgx-epc"), sgx_epc_init_func, NULL,
+> +                      &error_fatal);
+> +
+> +    if ((sgx_epc->base + sgx_epc->size) < sgx_epc->base) {
+> +        error_report("Size of all 'sgx-epc' =0x%"PRIu64" causes EPC to wrap",
+> +                     sgx_epc->size);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    memory_region_set_size(&sgx_epc->mr, sgx_epc->size);
+> +}
+> +
+> +static QemuOptsList sgx_epc_opts = {
+> +    .name = "sgx-epc",
+> +    .implied_opt_name = "id",
+> +    .head = QTAILQ_HEAD_INITIALIZER(sgx_epc_opts.head),
+> +    .desc = {
+> +        {
+> +            .name = "id",
+> +            .type = QEMU_OPT_STRING,
+> +            .help = "SGX EPC section ID",
+> +        },{
+> +            .name = "memdev",
+> +            .type = QEMU_OPT_STRING,
+> +            .help = "memory object backend",
+> +        },
+> +        { /* end of list */ }
+> +    },
+> +};
+> +
+> +static void sgx_epc_register_opts(void)
+> +{
+> +    qemu_add_opts(&sgx_epc_opts);
+> +}
+> +
+> +opts_init(sgx_epc_register_opts);
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index dcf060b791..71e2fc6f26 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -12,6 +12,7 @@
+>   #include "hw/acpi/acpi_dev_interface.h"
+>   #include "hw/hotplug.h"
+>   #include "qom/object.h"
+> +#include "hw/i386/sgx-epc.h"
 >   
->       /* Just support these ram flags by now. */
-> -    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM)) == 0);
-> +    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_PROTECTED)) == 0);
+>   #define HPET_INTCAP "hpet-intcap"
 >   
->       if (xen_enabled()) {
->           error_setg(errp, "-mem-path not supported with Xen");
+> @@ -53,6 +54,8 @@ typedef struct PCMachineState {
+>   
+>       /* ACPI Memory hotplug IO base address */
+>       hwaddr memhp_io_base;
+> +
+> +    SGXEPCState *sgx_epc;
+>   } PCMachineState;
+>   
+>   #define PC_MACHINE_ACPI_DEVICE_PROP "acpi-device"
+> @@ -197,6 +200,9 @@ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
+>   void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>                          const CPUArchIdList *apic_ids, GArray *entry);
+>   
+> +/* sgx-epc.c */
+> +void pc_machine_init_sgx_epc(PCMachineState *pcms);
+> +
+>   extern GlobalProperty pc_compat_5_2[];
+>   extern const size_t pc_compat_5_2_len;
+>   
+> diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
+> index 5fd9ae2d0c..1f7dd17c17 100644
+> --- a/include/hw/i386/sgx-epc.h
+> +++ b/include/hw/i386/sgx-epc.h
+> @@ -41,4 +41,20 @@ typedef struct SGXEPCDevice {
+>       HostMemoryBackend *hostmem;
+>   } SGXEPCDevice;
+>   
+> +/*
+> + * @base: address in guest physical address space where EPC regions start
+> + * @mr: address space container for memory devices
+> + */
+> +typedef struct SGXEPCState {
+> +    uint64_t base;
+> +    uint64_t size;
+> +
+> +    MemoryRegion mr;
+> +
+> +    struct SGXEPCDevice **sections;
+> +    int nr_sections;
+> +} SGXEPCState;
+> +
+> +extern int sgx_epc_enabled;
+> +
+>   #endif
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index fd21002bd6..262c3084af 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -532,6 +532,14 @@ SRST
+>       Preallocate memory when using -mem-path.
+>   ERST
+>   
+> +DEF("sgx-epc", HAS_ARG, QEMU_OPTION_sgx_epc,
+> +    "-sgx-epc memdev=memid[,id=epcid]\n",
+> +    QEMU_ARCH_I386)
+> +SRST
+> +``-sgx-epc memdev=@var{memid}[,id=@var{epcid}]``
+> +    Define an SGX EPC section.
+> +ERST
+> +
+>   DEF("k", HAS_ARG, QEMU_OPTION_k,
+>       "-k language     use keyboard layout (for example 'fr' for French)\n",
+>       QEMU_ARCH_ALL)
+> diff --git a/softmmu/globals.c b/softmmu/globals.c
+> index 7d0fc81183..d3029953ce 100644
+> --- a/softmmu/globals.c
+> +++ b/softmmu/globals.c
+> @@ -70,3 +70,4 @@ bool qemu_uuid_set;
+>   uint32_t xen_domid;
+>   enum xen_mode xen_mode = XEN_EMULATE;
+>   bool xen_domid_restrict;
+> +int sgx_epc_enabled;
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index aadb526138..0c7e9fab78 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -74,6 +74,7 @@
+>   #include "hw/block/block.h"
+>   #include "hw/i386/x86.h"
+>   #include "hw/i386/pc.h"
+> +#include "hw/i386/sgx-epc.h"
+>   #include "migration/misc.h"
+>   #include "migration/snapshot.h"
+>   #include "sysemu/tpm.h"
+> @@ -2891,6 +2892,14 @@ void qemu_init(int argc, char **argv, char **envp)
+>               case QEMU_OPTION_mem_prealloc:
+>                   mem_prealloc = 1;
+>                   break;
+> +            case QEMU_OPTION_sgx_epc:
+> +                opts = qemu_opts_parse_noisily(qemu_find_opts("sgx-epc"),
+> +                                               optarg, false);
+> +                if (!opts) {
+> +                    exit(1);
+> +                }
+> +                sgx_epc_enabled = 1;
+> +                break;
+>               case QEMU_OPTION_d:
+>                   log_mask = optarg;
+>                   break;
 > 
 
 
