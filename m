@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901EB37101E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 02:33:30 +0200 (CEST)
-Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A23371021
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 02:41:45 +0200 (CEST)
+Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldMWf-000119-MT
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 20:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49186)
+	id 1ldMee-0003i6-D5
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 20:41:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ldMUL-0000TA-CH
- for qemu-devel@nongnu.org; Sun, 02 May 2021 20:31:05 -0400
-Resent-Date: Sun, 02 May 2021 20:31:05 -0400
-Resent-Message-Id: <E1ldMUL-0000TA-CH@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ldMUF-0002Sp-Ig
- for qemu-devel@nongnu.org; Sun, 02 May 2021 20:31:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1620001855; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aUW5gqS1j5q54uMMNpxaD4ARG1MCQDSskNAi42j5vOiiqzS9asfyxOe62BIAooUE7bs//owLUK+hzh+T0HTRQD+tQ12R1eIkN5c+kD35oDZ9UYm/H+QOZu852Cr5Dj+Pq+SLorRPqq67Huhya2bkKUmpaJR585FIC+NmPw6yELk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1620001855;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=pVKa+OPvK5LPbGGXorA9ukUcj1LUGYsExqH5HN38GyM=; 
- b=l1555NlTcQ+mmF7knHFhpWQuePKS44GQPvQgnOuI8VK6d9F3Q7Z90lJtYron6q0ENYZNv/H/RKqR2hwjbqRUB93kJpxbCp7f6HUvwZBSz1QTQ5YnYd6CUR/iCUx9pwFg4cTJ2w3qoMD1T3AcPoCoxdH8Y+YIr6FcbOzlhEOudds=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1620001854095118.84563527261662;
- Sun, 2 May 2021 17:30:54 -0700 (PDT)
-In-Reply-To: <20210502235727.1979457-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v6 00/26] TCI fixes and cleanups
-Message-ID: <162000185318.11234.3432488560923427786@d887ba82c771>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldMdj-0002ss-Gs
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 20:40:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldMdg-000809-4k
+ for qemu-devel@nongnu.org; Sun, 02 May 2021 20:40:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldMde-0000RV-6b
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 00:40:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 205C12E8031
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 00:40:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Sun, 2 May 2021 17:30:54 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 00:35:31 -0000
+From: Simon Brand <1856399@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: simonbrand1992 th-huth
+X-Launchpad-Bug-Reporter: Simon Brand (simonbrand1992)
+X-Launchpad-Bug-Modifier: Simon Brand (simonbrand1992)
+References: <157634067875.7231.7677894888746798043.malonedeb@soybean.canonical.com>
+Message-Id: <162000213111.10342.9086788211992625905.malone@gac.canonical.com>
+Subject: [Bug 1856399] Re: Intel GVT-g works in X11, segfaults in wayland
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: 0d0f5e5596dcde5a21f7c54d3fe47956fba3cb30
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,107 +69,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1856399 <1856399@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUwMjIzNTcyNy4xOTc5
-NDU3LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNTAy
-MjM1NzI3LjE5Nzk0NTctMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
-QVRDSCB2NiAwMC8yNl0gVENJIGZpeGVzIGFuZCBjbGVhbnVwcwoKPT09IFRFU1QgU0NSSVBUIEJF
-R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
-aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
-U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
-YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDUwMjIzNTcyNy4xOTc5NDU3LTEtcmlj
-aGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwNTAyMjM1NzI3LjE5Nzk0
-NTctMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5j
-aCAndGVzdCcKMDFlMDQwNSBnaXRsYWI6IEVuYWJsZSBjcm9zcy1pMzg2IGJ1aWxkcyBvZiBUQ0kK
-MTg4MjUxMCBnaXRsYWI6IFJlbmFtZSBBQ0NFTF9DT05GSUdVUkVfT1BUUyB0byBFWFRSQV9DT05G
-SUdVUkVfT1BUUwpiNTZlYWRmIHRlc3RzL3RjZzogSW5jcmVhc2UgdGltZW91dCBmb3IgVENJCmZk
-YjEwNjYgdGNnL3RjaTogU3BsaXQgb3V0IHRjaV9xZW11X2xkLCB0Y2lfcWVtdV9zdApkNjYwNWZk
-IHRjZy90Y2k6IEltcGxlbWVudCBhZGQyLCBzdWIyCmYwNGQ0ZjMgdGNnL3RjaTogSW1wbGVtZW50
-IG11bHUyLCBtdWxzMgo2OWZhZDE1IHRjZy90Y2k6IEltcGxlbWVudCBjbHosIGN0eiwgY3Rwb3AK
-MmZiZjY4NiB0Y2cvdGNpOiBJbXBsZW1lbnQgZXh0cmFjdCwgc2V4dHJhY3QKZWZhYjIxNyB0Y2cv
-dGNpOiBJbXBsZW1lbnQgYW5kYywgb3JjLCBlcXYsIG5hbmQsIG5vcgpkOWFhNDM5IHRjZy90Y2k6
-IEltcGxlbWVudCBtb3Zjb25kCjJkZTk2OWQgdGNnL3RjaTogSW1wbGVtZW50IGdvdG9fcHRyCjY0
-ZTVlNzAgdGNnL3RjaTogQ2hhbmdlIGVuY29kaW5nIHRvIHVpbnQzMl90IHVuaXRzCmIxNzk2ZTEg
-dGNnL3RjaTogUmVtb3ZlIHRjaV93cml0ZV9yZWcKMGU2NTczZSB0Y2cvdGNpOiBFbWl0IHNldGNv
-bmQgYmVmb3JlIGJyY29uZAo5NTBiYzBhIHRjZy90Y2k6IFJlc2VydmUgcjEzIGZvciBhIHRlbXBv
-cmFyeQowOGNiZTFiIHRjZy90Y2k6IFVzZSBmZmkgZm9yIGNhbGxzCjUzYzExNzkgdGNnL3RjaTog
-TW92ZSBjYWxsLXJldHVybiByZWdzIHRvIGVuZCBvZiB0Y2dfdGFyZ2V0X3JlZ19hbGxvY19vcmRl
-cgpkOTJhNGQ2IHRjZy90Y2k6IEltcHJvdmUgdGNnX3RhcmdldF9jYWxsX2Nsb2JiZXJfcmVncwpl
-ODAxMWE3IHRjZzogQnVpbGQgZmZpIGRhdGEgc3RydWN0dXJlcyBmb3IgaGVscGVycwpkOTNhMmQ5
-IHRjZzogQWRkIHRjZ19jYWxsX2Z1bmMKNTY2NzkwNyB0Y2c6IFN0b3JlIHRoZSBUQ0dIZWxwZXJJ
-bmZvIGluIHRoZSBUQ0dPcCBmb3IgY2FsbAoxZDg2MmJhIGFjY2VsL3RjZzogQWRkIHRjZyBjYWxs
-IGZsYWdzIHRvIHBsdWdpbnMgaGVscGVycwpiNDgyMzlhIHBsdWdpbnM6IERyb3AgdGNnX2ZsYWdz
-IGZyb20gc3RydWN0IHFlbXVfcGx1Z2luX2R5bl9jYgoxMmMxODA5IGFjY2VsL3RjZy9wbHVnaW4t
-Z2VuOiBEcm9wIGlubGluZSBtYXJrZXJzCjE5MzA3NmQgdGNnOiBBZGQgdGNnX2NhbGxfZmxhZ3MK
-ZmI3YmUwMCB0Y2c6IENvbWJpbmUgZGhfaXNfNjRiaXQgYW5kIGRoX2lzX3NpZ25lZCB0byBkaF90
-eXBlY29kZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yNiBDaGVja2luZyBjb21taXQgZmI3YmUw
-MDczYzExICh0Y2c6IENvbWJpbmUgZGhfaXNfNjRiaXQgYW5kIGRoX2lzX3NpZ25lZCB0byBkaF90
-eXBlY29kZSkKMi8yNiBDaGVja2luZyBjb21taXQgMTkzMDc2ZGUwODZlICh0Y2c6IEFkZCB0Y2df
-Y2FsbF9mbGFncykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVk
-IGluIHN0cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5J
-Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
-ZCB1cGRhdGluZz8KIzE5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
-MSB3YXJuaW5ncywgMTA2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMjYgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KMy8yNiBDaGVja2luZyBjb21taXQgMTJjMTgwOTNiNTk0IChhY2NlbC90Y2cv
-cGx1Z2luLWdlbjogRHJvcCBpbmxpbmUgbWFya2VycykKNC8yNiBDaGVja2luZyBjb21taXQgYjQ4
-MjM5YTE5MjdmIChwbHVnaW5zOiBEcm9wIHRjZ19mbGFncyBmcm9tIHN0cnVjdCBxZW11X3BsdWdp
-bl9keW5fY2IpCjUvMjYgQ2hlY2tpbmcgY29tbWl0IDFkODYyYmE3MWNhZiAoYWNjZWwvdGNnOiBB
-ZGQgdGNnIGNhbGwgZmxhZ3MgdG8gcGx1Z2lucyBoZWxwZXJzKQpXQVJOSU5HOiBsaW5lIG92ZXIg
-ODAgY2hhcmFjdGVycwojMjU6IEZJTEU6IGFjY2VsL3RjZy9wbHVnaW4taGVscGVycy5oOjM6CitE
-RUZfSEVMUEVSX0ZMQUdTXzQocGx1Z2luX3ZjcHVfbWVtX2NiLCBUQ0dfQ0FMTF9OT19SV0csIHZv
-aWQsIGkzMiwgaTMyLCBpNjQsIHB0cikKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNiBs
-aW5lcyBjaGVja2VkCgpQYXRjaCA1LzI2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjYvMjYg
-Q2hlY2tpbmcgY29tbWl0IDU2Njc5MDc3ZDMxMSAodGNnOiBTdG9yZSB0aGUgVENHSGVscGVySW5m
-byBpbiB0aGUgVENHT3AgZm9yIGNhbGwpCjcvMjYgQ2hlY2tpbmcgY29tbWl0IGQ5M2EyZDk4YzYy
-YyAodGNnOiBBZGQgdGNnX2NhbGxfZnVuYykKOC8yNiBDaGVja2luZyBjb21taXQgZTgwMTFhNzc5
-OTJjICh0Y2c6IEJ1aWxkIGZmaSBkYXRhIHN0cnVjdHVyZXMgZm9yIGhlbHBlcnMpCjkvMjYgQ2hl
-Y2tpbmcgY29tbWl0IGQ5MmE0ZDZmMjdlMCAodGNnL3RjaTogSW1wcm92ZSB0Y2dfdGFyZ2V0X2Nh
-bGxfY2xvYmJlcl9yZWdzKQoxMC8yNiBDaGVja2luZyBjb21taXQgNTNjMTE3OTQyODEyICh0Y2cv
-dGNpOiBNb3ZlIGNhbGwtcmV0dXJuIHJlZ3MgdG8gZW5kIG9mIHRjZ190YXJnZXRfcmVnX2FsbG9j
-X29yZGVyKQoxMS8yNiBDaGVja2luZyBjb21taXQgMDhjYmUxYmIxYmExICh0Y2cvdGNpOiBVc2Ug
-ZmZpIGZvciBjYWxscykKRVJST1I6IHN1c3BlY3QgY29kZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFs
-IHN0YXRlbWVudHMgKDgsIDExKQojNzI6IEZJTEU6IHRjZy90Y2cuYzoyMTUwOgogICAgICAgICBp
-ZiAoVENHX1RBUkdFVF9SRUdfQklUUyA8IDY0ICYmIGlzXzY0Yml0KSB7CisgICAgICAgICAgIC8q
-Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDM5MSBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-MS8yNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTIvMjYgQ2hlY2tpbmcgY29tbWl0IDk1
-MGJjMGE0MDA3YSAodGNnL3RjaTogUmVzZXJ2ZSByMTMgZm9yIGEgdGVtcG9yYXJ5KQoxMy8yNiBD
-aGVja2luZyBjb21taXQgMGU2NTczZWYwYjc1ICh0Y2cvdGNpOiBFbWl0IHNldGNvbmQgYmVmb3Jl
-IGJyY29uZCkKMTQvMjYgQ2hlY2tpbmcgY29tbWl0IGIxNzk2ZTFkYTkwNyAodGNnL3RjaTogUmVt
-b3ZlIHRjaV93cml0ZV9yZWcpCjE1LzI2IENoZWNraW5nIGNvbW1pdCA2NGU1ZTcwOTc2NGUgKHRj
-Zy90Y2k6IENoYW5nZSBlbmNvZGluZyB0byB1aW50MzJfdCB1bml0cykKMTYvMjYgQ2hlY2tpbmcg
-Y29tbWl0IDJkZTk2OWQwNjUyMSAodGNnL3RjaTogSW1wbGVtZW50IGdvdG9fcHRyKQoxNy8yNiBD
-aGVja2luZyBjb21taXQgZDlhYTQzOTMwMjRiICh0Y2cvdGNpOiBJbXBsZW1lbnQgbW92Y29uZCkK
-MTgvMjYgQ2hlY2tpbmcgY29tbWl0IGVmYWIyMTc3MmRhNSAodGNnL3RjaTogSW1wbGVtZW50IGFu
-ZGMsIG9yYywgZXF2LCBuYW5kLCBub3IpCjE5LzI2IENoZWNraW5nIGNvbW1pdCAyZmJmNjg2OGM1
-ZDMgKHRjZy90Y2k6IEltcGxlbWVudCBleHRyYWN0LCBzZXh0cmFjdCkKMjAvMjYgQ2hlY2tpbmcg
-Y29tbWl0IDY5ZmFkMTUwM2Y3NSAodGNnL3RjaTogSW1wbGVtZW50IGNseiwgY3R6LCBjdHBvcCkK
-MjEvMjYgQ2hlY2tpbmcgY29tbWl0IGYwNGQ0ZjNlOGRhNiAodGNnL3RjaTogSW1wbGVtZW50IG11
-bHUyLCBtdWxzMikKMjIvMjYgQ2hlY2tpbmcgY29tbWl0IGQ2NjA1ZmQ2YWNiOCAodGNnL3RjaTog
-SW1wbGVtZW50IGFkZDIsIHN1YjIpCjIzLzI2IENoZWNraW5nIGNvbW1pdCBmZGIxMDY2YWE4MDQg
-KHRjZy90Y2k6IFNwbGl0IG91dCB0Y2lfcWVtdV9sZCwgdGNpX3FlbXVfc3QpCjI0LzI2IENoZWNr
-aW5nIGNvbW1pdCBiNTZlYWRmOTczNzggKHRlc3RzL3RjZzogSW5jcmVhc2UgdGltZW91dCBmb3Ig
-VENJKQoyNS8yNiBDaGVja2luZyBjb21taXQgMTg4MjUxMDI3YTcwIChnaXRsYWI6IFJlbmFtZSBB
-Q0NFTF9DT05GSUdVUkVfT1BUUyB0byBFWFRSQV9DT05GSUdVUkVfT1BUUykKMjYvMjYgQ2hlY2tp
-bmcgY29tbWl0IDAxZTA0MDVhNTgxOSAoZ2l0bGFiOiBFbmFibGUgY3Jvc3MtaTM4NiBidWlsZHMg
-b2YgVENJKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2Rl
-OiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
-cy8yMDIxMDUwMjIzNTcyNy4xOTc5NDU3LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90
-ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
-bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
-eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Still present on qemu 5.2.0 and Linux 5.10
+
+** Changed in: qemu
+       Status: Incomplete =3D> New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856399
+
+Title:
+  Intel GVT-g works in X11, segfaults in wayland
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I am using an uptodate Arch Linux 64bit with qemu version 4.2.0, but the =
+problem was also present in older versions. The problem occurs with Linux 5=
+.4 and 4.19.
+  The problem also occurs with Debian as guest. I am running sway.
+  If I provide -vga std, then qemu works fine until I use the qemu window t=
+o switch to the vfio-pci device. There are no problems under X11/xwayland a=
+t all.
+
+  Commandline:
+  qemu-system-x86_64
+  =C2=A0=C2=A0=C2=A0=C2=A0-enable-kvm
+  =C2=A0=C2=A0=C2=A0=C2=A0-cpu host
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 2
+  =C2=A0=C2=A0=C2=A0=C2=A0-m 8192
+  =C2=A0=C2=A0=C2=A0=C2=A0-display gtk,gl=3Don
+  =C2=A0=C2=A0=C2=A0=C2=A0-device vfio-pci,sysfsdev=3D/sys/devices/pci0000:=
+00/0000:00:02.0/[ID]/,x-igd-opregion=3Don,display=3Don
+  =C2=A0=C2=A0=C2=A0=C2=A0-cdrom archlinux-2019.11.01-x86_64.iso
+  =C2=A0=C2=A0=C2=A0=C2=A0-vga none
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856399/+subscriptions
 
